@@ -1,4 +1,5 @@
 import { Metadata } from "./Metadata";
+import { FrameworkIntroduction } from "./FrameworkIntroduction";
 import { Section } from "./Section";
 
 /**
@@ -16,7 +17,16 @@ export interface FrameworkDocument {
     metadata: Metadata;
 
     /**
-     * Ordered Framework Sections.
+     * Read-only Framework introduction.
+     *
+     * Displayed before the interview.
+     */
+    introduction: FrameworkIntroduction;
+
+    /**
+     * Interview sections.
+     *
+     * The Overview section is excluded.
      */
     sections: Section[];
 

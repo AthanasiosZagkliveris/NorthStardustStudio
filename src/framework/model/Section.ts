@@ -3,13 +3,15 @@ import { SectionBlock } from "./SectionBlock";
 /**
  * Represents one Framework Section.
  *
- * Each Section is presented as a
- * single Interview page.
+ * A Section may be informational
+ * or interviewable.
  */
 export interface Section {
 
     /**
-     * Section number.
+     * Interview order.
+     *
+     * Starts from 1.
      */
     number: number;
 
@@ -19,10 +21,14 @@ export interface Section {
     title: string;
 
     /**
+     * True when this Section expects
+     * a user response.
+     */
+    interview: boolean;
+
+    /**
      * Read-only Framework content.
      */
     blocks: SectionBlock[];
-
-
 
 }
