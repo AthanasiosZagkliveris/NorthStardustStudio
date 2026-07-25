@@ -1,0 +1,149 @@
+/* ==========================================================
+   Overlay
+========================================================== */
+
+.confirmation-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 0, 0, 0.35);
+
+    z-index: 1000;
+
+}
+
+/* ==========================================================
+   Dialog
+========================================================== */
+
+.confirmation-dialog {
+
+    width: 460px;
+
+    background: #ffffff;
+
+    border-radius: 12px;
+
+    padding: 28px;
+
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+
+}
+
+/* ==========================================================
+   Title
+========================================================== */
+
+.confirmation-title {
+
+    margin: 0 0 16px;
+
+    text-align: center;
+
+    font-size: 24px;
+
+    font-weight: 700;
+
+    color: #000000;
+
+}
+
+/* ==========================================================
+   Message
+========================================================== */
+
+.confirmation-message {
+
+    margin: 0;
+
+    text-align: center;
+
+    font-size: 20px;
+
+    line-height: 1.5;
+
+    color: #333333;
+
+}
+
+/* ==========================================================
+   Buttons
+========================================================== */
+
+.confirmation-actions {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 16px;
+
+    margin-top: 28px;
+
+}
+
+.confirmation-button {
+
+    width: 180px;
+
+    height: 48px;
+
+    border: 2px solid #0b57d0;
+
+    border-radius: 8px;
+
+    font-size: 18px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+
+}
+
+/* ==========================================================
+   Secondary Button
+========================================================== */
+
+.confirmation-button.secondary {
+
+    background: #ffffff;
+
+    color: #0b57d0;
+
+}
+
+.confirmation-button.secondary:hover {
+
+    background: #eef4ff;
+
+}
+
+/* ==========================================================
+   Primary Button
+========================================================== */
+
+.confirmation-button.primary {
+
+    background: #0b57d0;
+
+    color: #ffffff;
+
+}
+
+.confirmation-button.primary:hover {
+
+    background: #0847ab;
+
+}

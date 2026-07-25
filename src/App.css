@@ -1,0 +1,120 @@
+/* ---------- Global ---------- */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background: #ffffff;
+  color: #111111;
+  overflow: hidden;
+}
+
+/* ---------- Layout ---------- */
+
+.app {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 4vh;
+}
+
+/* ---------- Logo ---------- */
+
+.logo-container {
+  margin-bottom: clamp(50px, 8vh, 90px);
+}
+
+.logo {
+  width: clamp(180px, 18vw, 300px);
+  height: auto;
+
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ---------- Cards ---------- */
+
+.cards {
+  display: flex;
+  gap: clamp(30px, 4vw, 70px);
+
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ---------- Card ---------- */
+
+.card {
+  width: clamp(280px, 26vw, 360px);
+  height: clamp(180px, 22vh, 240px);
+
+  background: white;
+
+  border: none;
+  border-radius: 22px;
+
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: inherit;
+
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    background .18s ease;
+}
+
+/* ---------- Text ---------- */
+
+.card h2 {
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  font-weight: 500;
+}
+
+/* ---------- Hover ---------- */
+
+.card:hover {
+
+  background:
+      linear-gradient(
+          to top,
+          #EAF4FF 0%,
+          #EAF4FF 22%,
+          white 22%,
+          white 100%
+      );
+
+  transform: translateY(-3px);
+
+  box-shadow:
+      0 10px 25px rgba(0,0,0,.08);
+}
+
+/* ---------- Press ---------- */
+
+.card:active {
+
+  transform: translateY(0);
+
+  box-shadow:
+      inset 0 3px 10px rgba(0,0,0,.18);
+}
