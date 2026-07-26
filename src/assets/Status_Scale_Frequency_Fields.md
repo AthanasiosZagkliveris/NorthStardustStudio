@@ -1,7 +1,3 @@
-# Status, Scale & Frequency Fields — Shared Reference
-
-This is the shared definition for the three field types that repeat across the North Stardust Organization Framework. Any column in any System's Answer-Structure doc tagged as one of these three types uses the exact variant list defined here — the same set every time, regardless of which values happen to appear in that particular System's Example.
-
 ## Status Field
 
 **Number of Variants:** 4
