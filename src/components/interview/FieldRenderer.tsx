@@ -1,4 +1,4 @@
-import InterviewInput from "./InterviewInput";
+import InterviewInput from "./InterviewInput.tsx";
 
 export interface FieldOption {
     value: string;

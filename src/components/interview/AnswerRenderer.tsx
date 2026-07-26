@@ -1,4 +1,4 @@
-import InterviewInput from "./InterviewInput";
+import InterviewInput from "./InterviewInput.tsx";
 import DynamicTable from "./DynamicTable";
 import FieldRenderer from "./FieldRenderer";
 

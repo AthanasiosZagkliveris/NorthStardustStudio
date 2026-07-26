@@ -1,4 +1,4 @@
-import { FieldDefinition } from "../model/FieldDefinition";
+import { FieldDefinition } from "../model/FieldDefinition.ts";
 
 /**
  * Stores every reusable Framework Field.
