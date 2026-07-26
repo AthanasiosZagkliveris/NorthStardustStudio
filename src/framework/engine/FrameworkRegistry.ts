@@ -1,6 +1,6 @@
 import { systems } from "../../data/systems";
 
-import { FrameworkInterpreter } from "./FrameworkInterpreter";
+import { FrameworkInterpreter, FrameworkSource } from "./FrameworkInterpreter";
 
 import { FrameworkDocument } from "../model/FrameworkDocument";
 
@@ -8,8 +8,9 @@ import { FrameworkDocument } from "../model/FrameworkDocument";
  * Registry containing every Framework
  * bundled with the application.
  *
- * Frameworks are loaded, interpreted
- * and cached during initialization.
+ * Frameworks are assembled from the
+ * dedicated introduction, questions,
+ * help and answer documents.
  */
 export class FrameworkRegistry {
 
@@ -27,9 +28,53 @@ export class FrameworkRegistry {
 
     constructor() {
 
-        const markdownFiles =
+        const introductionMarkdown =
+            this.firstMarkdown(
+                import.meta.glob(
+                    "../../assets/SystemsIntroduction.md",
+                    {
+                        eager: true,
+                        import: "default",
+                        query: "?raw"
+                    }
+                ) as Record<string, string>
+            );
+
+        const fieldsMarkdown =
+            this.firstMarkdown(
+                import.meta.glob(
+                    "../../assets/Status_Scale_Frequency_Fields.md",
+                    {
+                        eager: true,
+                        import: "default",
+                        query: "?raw"
+                    }
+                ) as Record<string, string>
+            );
+
+        const questionFiles =
             import.meta.glob(
-                "../../assets/OrganizationalSystems/**/*.md",
+                "../../assets/SystemQuestions/*.md",
+                {
+                    eager: true,
+                    import: "default",
+                    query: "?raw"
+                }
+            ) as Record<string, string>;
+
+        const helpFiles =
+            import.meta.glob(
+                "../../assets/SystemHelp/*.md",
+                {
+                    eager: true,
+                    import: "default",
+                    query: "?raw"
+                }
+            ) as Record<string, string>;
+
+        const answerFiles =
+            import.meta.glob(
+                "../../assets/SystemAnswers/*.md",
                 {
                     eager: true,
                     import: "default",
@@ -39,25 +84,55 @@ export class FrameworkRegistry {
 
         for (const system of systems) {
 
-            const filename =
-                this.findFilename(
-                    markdownFiles,
+            const questionFile =
+                this.findFilenameByPrefix(
+                    questionFiles,
                     system.number
                 );
 
-            if (!filename) {
+            if (!questionFile) {
 
                 console.warn(
-                    `Framework Markdown not found for "${system.id}".`
+                    `Framework Questions not found for "${system.id}".`
                 );
 
                 continue;
             }
 
-            const framework =
-                this.interpreter.interpret(
-                    markdownFiles[filename]
+            const helpFile =
+                this.findFilenameByPrefix(
+                    helpFiles,
+                    system.number
                 );
+
+            if (!helpFile) {
+                console.warn(
+                    `Framework Help not found for "${system.id}".`
+                );
+            }
+
+            const answerFile =
+                this.findFilenameByPrefix(
+                    answerFiles,
+                    system.number
+                );
+
+            if (!answerFile) {
+                console.warn(
+                    `Framework Answer not found for "${system.id}".`
+                );
+            }
+
+            const source: FrameworkSource = {
+                introductionMarkdown,
+                questionsMarkdown: questionFiles[questionFile],
+                helpMarkdown: helpFile ? helpFiles[helpFile] : "",
+                answersMarkdown: answerFile ? answerFiles[answerFile] : "",
+                fieldsMarkdown
+            };
+
+            const framework =
+                this.interpreter.interpret(source);
 
             this.frameworks.set(
                 system.id,
@@ -100,14 +175,13 @@ export class FrameworkRegistry {
     }
 
     /**
-     * Finds the Markdown file
-     * corresponding to a System.
+     * Finds the Markdown file corresponding
+     * to a System.
      *
-     * Matches the filename exactly
-     * (e.g. "01_Identity.md") instead of
-     * using a fragile substring search.
+     * Matches the filename prefix exactly
+     * (e.g. "01_").
      */
-    private findFilename(
+    private findFilenameByPrefix(
         files: Record<string, string>,
         systemNumber: number
     ): string | undefined {
@@ -123,6 +197,19 @@ export class FrameworkRegistry {
             return filename.startsWith(expectedPrefix);
 
         });
+
+    }
+
+    /**
+     * Extracts a single Markdown string
+     * from a glob result that only
+     * contains one file.
+     */
+    private firstMarkdown(
+        files: Record<string, string>
+    ): string {
+
+        return Object.values(files)[0] ?? "";
 
     }
 

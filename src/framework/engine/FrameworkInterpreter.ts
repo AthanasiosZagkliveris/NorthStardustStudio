@@ -6,6 +6,14 @@ import {
     SectionBlock
 } from "../model";
 
+export type FrameworkSource = {
+    introductionMarkdown?: string;
+    questionsMarkdown?: string;
+    helpMarkdown?: string;
+    answersMarkdown?: string;
+    fieldsMarkdown?: string;
+};
+
 type RawSection = {
     number: number;
     title: string;
@@ -16,38 +24,130 @@ type RawSection = {
  * Converts Framework Markdown into
  * a runtime FrameworkDocument.
  *
- * The Framework Markdown is the
- * single source of truth.
+ * The interpreter supports both the
+ * original single-file Framework and
+ * the new multi-file system package.
  *
- * The interpreter performs only
- * structural interpretation.
- *
- * It does not validate the Framework,
- * manage Interviews or populate
- * user responses.
+ * It performs only structural
+ * interpretation.
  */
 export class FrameworkInterpreter {
 
     /**
-     * Interprets Framework Markdown.
+     * Interprets Framework content.
      */
-    public interpret(markdown: string): FrameworkDocument {
+    public interpret(markdown: string): FrameworkDocument;
+    public interpret(source: FrameworkSource): FrameworkDocument;
+    public interpret(
+        input: string | FrameworkSource
+    ): FrameworkDocument {
 
-        const metadata = this.parseMetadata(markdown);
+        if (typeof input === "string") {
+            return this.interpretLegacy(input);
+        }
+
+        return this.interpretPackage(input);
+    }
+
+    /**
+     * Interprets the original single-file
+     * Framework Markdown document.
+     */
+    private interpretLegacy(markdown: string): FrameworkDocument {
+
+        const metadata = this.parseLegacyMetadata(markdown);
         const body = this.stripFrontMatter(markdown);
-        const rawSections = this.parseRawSections(body);
+        const rawSections = this.parseLegacySections(body);
 
         return {
             metadata,
-            introduction: this.buildIntroduction(rawSections, metadata),
-            sections: this.buildInterviewSections(rawSections)
+            introduction: this.buildLegacyIntroduction(rawSections, metadata),
+            sections: this.buildLegacyInterviewSections(rawSections)
         };
     }
 
     /**
-     * Reads the YAML metadata block.
+     * Interprets the new multi-file
+     * Framework package.
      */
-    private parseMetadata(markdown: string): Metadata {
+    private interpretPackage(source: FrameworkSource): FrameworkDocument {
+
+        const metadata =
+            this.parsePackageMetadata(
+                source.questionsMarkdown ?? ""
+            );
+
+        const questionSections =
+            this.parseQuestionSections(
+                source.questionsMarkdown ?? ""
+            );
+
+        const introductionMarkdown =
+            source.introductionMarkdown ?? "";
+
+        const helpSections =
+            this.parseSupplementarySections(
+                source.helpMarkdown ?? "",
+                "Help",
+                title => this.stripHelpSuffix(title)
+            );
+
+        const answerSections =
+            this.parseSupplementarySections(
+                source.answersMarkdown ?? "",
+                "Answer Format"
+            );
+
+        const introductionText =
+            this.findPackageIntroduction(
+                introductionMarkdown,
+                metadata
+            );
+
+        const guidingQuestion =
+            metadata.question.trim().length > 0
+                ? metadata.question
+                : this.extractFirstQuestion(questionSections);
+
+        const introduction =
+            this.buildPackageIntroduction(
+                metadata,
+                introductionText,
+                guidingQuestion
+            );
+
+        const sections = questionSections.map(section => {
+
+            const normalizedTitle =
+                this.normalizeTitle(section.title);
+
+            const blocks: SectionBlock[] = [
+                ...section.blocks,
+                ...(helpSections.get(normalizedTitle) ?? []),
+                ...(answerSections.get(normalizedTitle) ?? [])
+            ];
+
+            return {
+                ...section,
+                blocks
+            };
+        });
+
+        return {
+            metadata: {
+                ...metadata,
+                question: guidingQuestion
+            },
+            introduction,
+            sections
+        };
+    }
+
+    /**
+     * Reads the YAML metadata block from
+     * the original single-file Framework.
+     */
+    private parseLegacyMetadata(markdown: string): Metadata {
 
         const metadata: Metadata = {
             systemNumber: 0,
@@ -72,14 +172,17 @@ export class FrameworkInterpreter {
                 continue;
             }
 
-            const key = line.substring(0, separator).trim();
+            const key = this.normalizeMetadataKey(
+                line.substring(0, separator).trim()
+            );
+
             const value = line.substring(separator + 1).trim();
 
             switch (key) {
-                case "systemNumber":
+                case "systemnumber":
                     metadata.systemNumber = Number(value);
                     break;
-                case "systemName":
+                case "systemname":
                     metadata.systemName = value;
                     break;
                 case "capability":
@@ -89,6 +192,81 @@ export class FrameworkInterpreter {
                     metadata.question = value;
                     break;
                 case "scope":
+                case "systemscope":
+                    metadata.scope = value;
+                    break;
+                case "version":
+                    metadata.version = Number(value);
+                    break;
+            }
+        }
+
+        return metadata;
+    }
+
+    /**
+     * Parses metadata from the new
+     * Questions document.
+     */
+    private parsePackageMetadata(markdown: string): Metadata {
+
+        const metadata: Metadata = {
+            systemNumber: 0,
+            systemName: "",
+            capability: "",
+            question: "",
+            scope: "",
+            version: 1
+        };
+
+        const headerLines: string[] = [];
+        const lines = markdown.split(/\r?\n/);
+
+        for (const rawLine of lines) {
+
+            const line = rawLine.trim();
+
+            if (/^##\s+\d+\./.test(line)) {
+                break;
+            }
+
+            if (line.length === 0) {
+                continue;
+            }
+
+            headerLines.push(rawLine);
+        }
+
+        for (const rawLine of headerLines) {
+
+            const separator = rawLine.indexOf(":");
+
+            if (separator < 0) {
+                continue;
+            }
+
+            const key = this.normalizeMetadataKey(
+                rawLine.substring(0, separator).trim()
+            );
+
+            const value = rawLine.substring(separator + 1).trim();
+
+            switch (key) {
+                case "systemnumber":
+                    metadata.systemNumber = Number(value);
+                    break;
+                case "systemname":
+                    metadata.systemName = value;
+                    break;
+                case "capability":
+                    metadata.capability = value;
+                    break;
+                case "question":
+                case "guidingquestion":
+                    metadata.question = value;
+                    break;
+                case "scope":
+                case "systemscope":
                     metadata.scope = value;
                     break;
                 case "version":
@@ -102,7 +280,8 @@ export class FrameworkInterpreter {
 
     /**
      * Removes the YAML metadata block
-     * from the document.
+     * from the original single-file
+     * Framework document.
      */
     private stripFrontMatter(markdown: string): string {
 
@@ -113,13 +292,14 @@ export class FrameworkInterpreter {
     }
 
     /**
-     * Parses top-level sections.
+     * Parses top-level sections from the
+     * original single-file Framework.
      *
      * Only headings in the form:
      *   # 1. Section Title
      * are treated as Framework sections.
      */
-    private parseRawSections(markdown: string): RawSection[] {
+    private parseLegacySections(markdown: string): RawSection[] {
 
         const sections: RawSection[] = [];
         const lines = markdown.split(/\r?\n/);
@@ -161,14 +341,10 @@ export class FrameworkInterpreter {
     }
 
     /**
-     * Builds the document introduction.
-     *
-     * The first Framework section is the
-     * system introduction header.
-     * The Overview section is stored as a
-     * read-only introduction section.
+     * Builds the original document
+     * introduction.
      */
-    private buildIntroduction(
+    private buildLegacyIntroduction(
         rawSections: RawSection[],
         metadata: Metadata
     ): FrameworkIntroduction {
@@ -180,7 +356,7 @@ export class FrameworkInterpreter {
         );
 
         const rootBlocks = rootSection
-            ? this.parseSectionBlocks(rootSection.lines)
+            ? this.parseLegacySectionBlocks(rootSection.lines)
             : [];
 
         const prefaceContent =
@@ -241,14 +417,10 @@ export class FrameworkInterpreter {
     }
 
     /**
-     * Builds the interview sections.
-     *
-     * The first interview question is
-     * always numbered 1, even though the
-     * Markdown section numbering starts
-     * earlier.
+     * Builds the original interview
+     * sections.
      */
-    private buildInterviewSections(rawSections: RawSection[]): Section[] {
+    private buildLegacyInterviewSections(rawSections: RawSection[]): Section[] {
 
         const interviewSections: Section[] = [];
         let interviewNumber = 1;
@@ -269,11 +441,327 @@ export class FrameworkInterpreter {
             }
 
             interviewSections.push(
-                this.createRuntimeSection(rawSection, interviewNumber++, true)
+                this.createRuntimeSection(
+                    rawSection,
+                    interviewNumber++,
+                    true
+                )
             );
         }
 
         return interviewSections;
+    }
+
+    /**
+     * Parses the section list from the
+     * new Questions document.
+     */
+    private parseQuestionSections(markdown: string): Section[] {
+
+        const sections = this.parseDocumentSections(
+            markdown,
+            /^##\s+(\d+)\.\s+(.+)$/
+        );
+
+        return sections.map(section => ({
+            number: section.number,
+            title: section.title,
+            interview: true,
+            blocks: this.parseContentBlocks(section.lines, "Questions")
+        }));
+    }
+
+    /**
+     * Parses supplementary documents such
+     * as Help or Answer Format into a
+     * section lookup table.
+     */
+    private parseSupplementarySections(
+        markdown: string,
+        defaultHeading: string,
+        transformTitle: (title: string) => string = title => title
+    ): Map<string, SectionBlock[]> {
+
+        const sections = this.parseDocumentSections(
+            markdown,
+            /^##\s+(\d+)\.\s+(.+)$/
+        );
+
+        const lookup = new Map<string, SectionBlock[]>();
+
+        for (const section of sections) {
+
+            lookup.set(
+                this.normalizeTitle(
+                    transformTitle(section.title)
+                ),
+                this.parseContentBlocks(
+                    section.lines,
+                    defaultHeading
+                )
+            );
+
+        }
+
+        return lookup;
+    }
+
+    /**
+     * Parses top-level sections from a
+     * numbered Markdown document.
+     */
+    private parseDocumentSections(
+        markdown: string,
+        sectionPattern: RegExp
+    ): RawSection[] {
+
+        const sections: RawSection[] = [];
+        const lines = markdown.split(/\r?\n/);
+
+        let current: RawSection | null = null;
+
+        for (const rawLine of lines) {
+
+            const line = rawLine.trim();
+            const match = line.match(sectionPattern);
+
+            if (match) {
+
+                if (current) {
+                    sections.push(current);
+                }
+
+                current = {
+                    number: Number(match[1]),
+                    title: match[2].trim(),
+                    lines: []
+                };
+
+                continue;
+            }
+
+            if (!current) {
+                continue;
+            }
+
+            current.lines.push(rawLine);
+        }
+
+        if (current) {
+            sections.push(current);
+        }
+
+        return sections;
+    }
+
+    /**
+     * Converts a raw section body into
+     * displayable blocks.
+     *
+     * If the content uses explicit label
+     * lines such as "**Structure:**",
+     * each label becomes its own block.
+     * Otherwise the whole body is kept as
+     * a single block.
+     */
+    private parseContentBlocks(
+        lines: string[],
+        defaultHeading: string
+    ): SectionBlock[] {
+
+        const blocks: SectionBlock[] = [];
+        let currentHeading = defaultHeading;
+        let currentContent: string[] = [];
+        let sawExplicitHeading = false;
+
+        const flush = () => {
+
+            const content = this.normalizeTextBlock(
+                currentContent.join("\n")
+            );
+
+            if (!sawExplicitHeading && content.length === 0) {
+                currentContent = [];
+                return;
+            }
+
+            blocks.push({
+                heading: currentHeading,
+                content
+            });
+
+            currentHeading = defaultHeading;
+            currentContent = [];
+        };
+
+        for (const rawLine of lines) {
+
+            const trimmed = rawLine.trim();
+
+            const labelMatch = trimmed.match(
+                /^\*\*(.+?)\*\*:\s*(.*)$/
+            );
+
+            if (labelMatch) {
+
+                if (currentContent.length > 0 || sawExplicitHeading) {
+                    flush();
+                }
+
+                sawExplicitHeading = true;
+                currentHeading = this.normalizeInline(labelMatch[1]);
+                currentContent = [];
+
+                if (labelMatch[2].trim().length > 0) {
+                    currentContent.push(labelMatch[2]);
+                }
+
+                continue;
+            }
+
+            currentContent.push(rawLine);
+        }
+
+        flush();
+
+        return blocks.filter(block =>
+            block.heading.trim().length > 0 ||
+            block.content.trim().length > 0
+        );
+    }
+
+
+
+    /**
+     * Removes the trailing "Help" suffix from
+     * section titles.
+     */
+    private stripHelpSuffix(title: string): string {
+
+        return title
+            .replace(/\s+Help$/i, "")
+            .trim();
+    }
+    /**
+     * Builds the introduction for the new
+     * multi-file Framework package.
+     */
+    private buildPackageIntroduction(
+        metadata: Metadata,
+        introductionText: string,
+        guidingQuestion: string
+    ): FrameworkIntroduction {
+
+        const sections: Section[] = introductionText.trim().length > 0
+            ? [
+                {
+                    number: 0,
+                    title: "Introduction",
+                    interview: false,
+                    blocks: [
+                        {
+                            heading: "Introduction",
+                            content: this.normalizeTextBlock(
+                                introductionText
+                            )
+                        }
+                    ]
+                }
+            ]
+            : [];
+
+        return {
+            title: metadata.systemName,
+            capability: metadata.capability,
+            guidingQuestion,
+            systemScope: metadata.scope,
+            sections
+        };
+    }
+
+    /**
+     * Finds the introduction text for the
+     * current system within the shared
+     * SystemsIntroduction file.
+     */
+    private findPackageIntroduction(
+        markdown: string,
+        metadata: Metadata
+    ): string {
+
+        if (!markdown.trim()) {
+            return "";
+        }
+
+        const sections = this.parseDocumentSections(
+            markdown,
+            /^##\s+(\d+)\.\s+(.+)$/
+        );
+
+        const introByTitle = new Map<string, string>();
+
+        for (const section of sections) {
+            introByTitle.set(
+                this.normalizeTitle(section.title),
+                this.normalizeTextBlock(section.lines.join("\n"))
+            );
+        }
+
+        const preferredTitle = this.normalizeTitle(
+            metadata.systemName
+        );
+
+        const byTitle = introByTitle.get(preferredTitle);
+
+        if (byTitle) {
+            return byTitle;
+        }
+
+        if (metadata.systemNumber > 0) {
+            const expectedPrefix = metadata.systemNumber
+                .toString()
+                .padStart(2, "0");
+
+            for (const [title, content] of introByTitle.entries()) {
+
+                if (title.startsWith(expectedPrefix)) {
+                    return content;
+                }
+            }
+        }
+
+        return introByTitle.values().next().value ?? "";
+    }
+
+    /**
+     * Extracts the first question from the
+     * question sections so the Introduction
+     * has a useful guiding question.
+     */
+    private extractFirstQuestion(sections: Section[]): string {
+
+        for (const section of sections) {
+
+            for (const block of section.blocks) {
+
+                const lines = block.content
+                    .split(/\r?\n/)
+                    .map(line => line.trim());
+
+                for (const line of lines) {
+
+                    const question = line
+                        .replace(/^[•*-]\s*/, "")
+                        .trim();
+
+                    if (question.length > 0) {
+                        return question;
+                    }
+                }
+            }
+        }
+
+        return "";
     }
 
     /**
@@ -286,7 +774,7 @@ export class FrameworkInterpreter {
         interview: boolean
     ): Section {
 
-        const blocks = this.parseSectionBlocks(rawSection.lines)
+        const blocks = this.parseLegacySectionBlocks(rawSection.lines)
             .map(block => ({
                 heading: this.normalizeHeading(block.heading),
                 content: this.normalizeTextBlock(block.content)
@@ -305,13 +793,9 @@ export class FrameworkInterpreter {
 
     /**
      * Parses Markdown blocks inside a
-     * single Framework section.
-     *
-     * Content before the first "##"
-     * heading is preserved as a block
-     * with an empty heading.
+     * single original Framework section.
      */
-    private parseSectionBlocks(lines: string[]): SectionBlock[] {
+    private parseLegacySectionBlocks(lines: string[]): SectionBlock[] {
 
         const blocks: SectionBlock[] = [];
 
@@ -365,9 +849,6 @@ export class FrameworkInterpreter {
     /**
      * Extracts a labeled value from a
      * block of text.
-     *
-     * Example:
-     *   **Capability:** Foundation
      */
     private extractLabeledValue(text: string, label: string): string {
 
@@ -645,6 +1126,17 @@ export class FrameworkInterpreter {
     private normalizeTitle(text: string): string {
 
         return this.normalizeInline(text).toLowerCase();
+    }
+
+    /**
+     * Normalizes a metadata key for
+     * matching purposes.
+     */
+    private normalizeMetadataKey(text: string): string {
+
+        return this.normalizeInline(text)
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "");
     }
 
     /**
