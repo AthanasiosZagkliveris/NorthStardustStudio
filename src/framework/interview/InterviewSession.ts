@@ -1,11 +1,22 @@
 import { FrameworkDocument, Section } from "../model";
 
 /**
- * Stores the user's response for one Framework Section.
+ * Stores one answer for one interview question.
  */
-export interface SectionResponse {
-    sectionNumber: number;
+export interface QuestionResponse {
+    questionId: string;
     value: string;
+}
+
+/**
+ * Stores the interview state for one Framework Section.
+ */
+export interface SectionInterviewState {
+    sectionNumber: number;
+    sectionTitle: string;
+    questionResponses: QuestionResponse[];
+    generatedAnswer?: string;
+    completed: boolean;
 }
 
 /**
@@ -13,67 +24,70 @@ export interface SectionResponse {
  */
 export interface InterviewSessionState {
     framework: FrameworkDocument;
-    responses: SectionResponse[];
+    sections: SectionInterviewState[];
     currentSectionIndex: number;
     capability: string;
+    interviewStarted: boolean;
 }
 
 export class InterviewSession {
 
     private readonly framework: FrameworkDocument;
 
-    private readonly responses =
-        new Map<number, string>();
+    private readonly sections = new Map<number, SectionInterviewState>();
 
     private currentSectionIndex = 0;
 
     private capability = "";
 
-    constructor(
-        framework: FrameworkDocument
-    ) {
+    private interviewStarted = false;
+
+    constructor(framework: FrameworkDocument) {
         this.framework = framework;
+
+        for (const section of framework.sections) {
+            this.sections.set(section.number, {
+                sectionNumber: section.number,
+                sectionTitle: section.title,
+                questionResponses: [],
+                generatedAnswer: "",
+                completed: false
+            });
+        }
     }
 
-    /**
-     * Serializes the session while preserving Map contents.
-     */
     public toJSON(): InterviewSessionState {
-
         return {
             framework: this.framework,
-            responses: this.getResponses(),
+            sections: [...this.sections.values()],
             currentSectionIndex: this.currentSectionIndex,
-            capability: this.capability
+            capability: this.capability,
+            interviewStarted: this.interviewStarted
         };
-
     }
 
-    /**
-     * Restores a session from serialized state.
-     */
-    public static fromJSON(
-        state: InterviewSessionState
-    ): InterviewSession {
+    public static fromJSON(state: InterviewSessionState): InterviewSession {
+        const session = new InterviewSession(state.framework);
 
-        const session =
-            new InterviewSession(state.framework);
+        session.currentSectionIndex = state.currentSectionIndex ?? 0;
+        session.capability = state.capability ?? "";
+        session.interviewStarted = state.interviewStarted ?? false;
 
-        session.currentSectionIndex =
-            state.currentSectionIndex ?? 0;
+        session.sections.clear();
 
-        session.capability =
-            state.capability ?? "";
-
-        for (const response of state.responses ?? []) {
-            session.responses.set(
-                response.sectionNumber,
-                response.value
-            );
+        for (const section of state.sections ?? []) {
+            session.sections.set(section.sectionNumber, section);
         }
 
         return session;
+    }
 
+    public startInterview(): void {
+        this.interviewStarted = true;
+    }
+
+    public hasInterviewStarted(): boolean {
+        return this.interviewStarted;
     }
 
     public getFramework(): FrameworkDocument {
@@ -88,77 +102,69 @@ export class InterviewSession {
         return this.framework.sections[this.currentSectionIndex];
     }
 
-    public getCurrentSectionIndex(): number {
-        return this.currentSectionIndex;
+    public getCurrentSectionState(): SectionInterviewState {
+        return this.sections.get(this.getCurrentSection().number)!;
     }
 
-    public getCurrentSectionNumber(): number {
-        return this.getCurrentSection().number;
+    public saveQuestionResponse(questionId: string, value: string): void {
+        const state = this.getCurrentSectionState();
+        const existing = state.questionResponses.find(q => q.questionId === questionId);
+
+        if (existing) {
+            existing.value = value;
+        } else {
+            state.questionResponses.push({ questionId, value });
+        }
+    }
+
+    public getQuestionResponse(questionId: string): string {
+        return (
+            this.getCurrentSectionState()
+                .questionResponses
+                .find(q => q.questionId === questionId)
+                ?.value ?? ""
+        );
+    }
+
+    public setGeneratedAnswer(answer: string): void {
+        this.getCurrentSectionState().generatedAnswer = answer;
+    }
+
+    public getGeneratedAnswer(): string {
+        return this.getCurrentSectionState().generatedAnswer ?? "";
+    }
+
+    public markCurrentSectionCompleted(): void {
+        this.getCurrentSectionState().completed = true;
+    }
+
+    public getCurrentSectionIndex(): number {
+        return this.currentSectionIndex;
     }
 
     public getTotalSections(): number {
         return this.framework.sections.length;
     }
 
-    public getCurrentResponse(): string {
-        return this.getResponse(this.getCurrentSectionNumber());
-    }
-
-    public saveCurrentResponse(value: string): void {
-        this.saveResponse(this.getCurrentSectionNumber(), value);
-    }
-
-    public saveResponse(sectionNumber: number, value: string): void {
-        this.responses.set(sectionNumber, value);
-    }
-
-    public getResponse(sectionNumber: number): string {
-        return this.responses.get(sectionNumber) ?? "";
-    }
-
-    public getResponses(): SectionResponse[] {
-        return this.framework.sections.map(section => ({
-            sectionNumber: section.number,
-            value: this.getResponse(section.number)
-        }));
-    }
-
     public nextSection(): boolean {
-        if (this.isLastSection()) return false;
-
+        if (this.currentSectionIndex >= this.getTotalSections() - 1) return false;
         this.currentSectionIndex++;
         return true;
     }
 
     public previousSection(): boolean {
-        if (this.isFirstSection()) return false;
+        if (this.currentSectionIndex <= 0) return false;
         this.currentSectionIndex--;
         return true;
     }
 
-    public goToSection(index: number): boolean {
-        if (index < 0 || index >= this.getTotalSections()) return false;
-        this.currentSectionIndex = index;
-        return true;
-    }
-
-    public isFirstSection(): boolean {
-        return this.currentSectionIndex === 0;
-    }
-
-    public isLastSection(): boolean {
-        return this.currentSectionIndex === this.getTotalSections() - 1;
-    }
-
     public getProgress(): number {
-        const total = this.getTotalSections();
-        return total === 0 ? 0 : (this.currentSectionIndex + 1) / total;
-    }
+        const completed =
+            [...this.sections.values()].filter(s => s.completed).length;
 
-    public isComplete(): boolean {
-        return this.framework.sections.every(
-            section => this.getResponse(section.number).trim().length > 0
-        );
+        return this.getTotalSections() === 0
+            ? 0
+            : completed / this.getTotalSections();
     }
 
     public setCapability(capability: string): void {
