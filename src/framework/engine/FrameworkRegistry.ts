@@ -48,68 +48,41 @@ export class FrameworkRegistry {
             if (!filename) {
 
                 console.warn(
-
                     `Framework Markdown not found for "${system.id}".`
-
                 );
 
                 continue;
-
             }
 
             const framework =
                 this.interpreter.interpret(
-
-                    markdownFiles[
-                        filename
-                    ]
-
+                    markdownFiles[filename]
                 );
 
             this.frameworks.set(
-
                 system.id,
-
                 framework
-
             );
-
         }
-
     }
 
-    /**
-     * Returns every registered
-     * Framework.
-     */
     public getAll(): readonly FrameworkDocument[] {
 
-        return Array.from(
-
-            this.frameworks.values()
-
-        );
+        return Array.from(this.frameworks.values());
 
     }
 
-    /**
-     * Returns one Framework.
-     */
     public getFramework(
         systemId: string
     ): FrameworkDocument {
 
         const framework =
-            this.frameworks.get(
-                systemId
-            );
+            this.frameworks.get(systemId);
 
         if (!framework) {
 
             throw new Error(
-
                 `Unknown Framework "${systemId}".`
-
             );
 
         }
@@ -118,46 +91,38 @@ export class FrameworkRegistry {
 
     }
 
-    /**
-     * Determines whether a Framework
-     * exists.
-     */
     public exists(
         systemId: string
     ): boolean {
 
-        return this.frameworks.has(
-            systemId
-        );
+        return this.frameworks.has(systemId);
 
     }
 
     /**
      * Finds the Markdown file
      * corresponding to a System.
+     *
+     * Matches the filename exactly
+     * (e.g. "01_Identity.md") instead of
+     * using a fragile substring search.
      */
     private findFilename(
-
         files: Record<string, string>,
-
         systemNumber: number
-
     ): string | undefined {
 
-        const prefix =
-            systemNumber
-                .toString()
-                .padStart(2, "0") + "_";
+        const expectedPrefix =
+            `${systemNumber.toString().padStart(2, "0")}_`;
 
-        return Object.keys(files).find(
+        return Object.keys(files).find(file => {
 
-            file =>
+            const filename =
+                file.split("/").pop() ?? "";
 
-                file.includes(
-                    prefix
-                )
+            return filename.startsWith(expectedPrefix);
 
-        );
+        });
 
     }
 

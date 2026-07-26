@@ -1,52 +1,36 @@
 import {
     FrameworkDocument,
-    FrameworkIntroduction,
     Metadata,
     Section,
     SectionBlock
 } from "../model";
 
-type RawSection = {
-    number: number;
-    title: string;
-    lines: string[];
-};
-
 /**
- * Converts Framework Markdown into
- * a runtime FrameworkDocument.
+ * FrameworkInterpreter
  *
- * The Framework Markdown is the
- * single source of truth.
+ * Converts Framework Markdown into a clean, interview-ready
+ * FrameworkDocument.
  *
- * The interpreter performs only
- * structural interpretation.
- *
- * It does not validate the Framework,
- * manage Interviews or populate
- * user responses.
+ * Pipeline:
+ *  1. Parse metadata
+ *  2. Parse raw sections
+ *  3. Normalize sections
  */
 export class FrameworkInterpreter {
 
-    /**
-     * Interprets Framework Markdown.
-     */
     public interpret(markdown: string): FrameworkDocument {
 
         const metadata = this.parseMetadata(markdown);
-        const body = this.stripFrontMatter(markdown);
-        const rawSections = this.parseRawSections(body);
+        const sections = this.normalizeSections(
+            this.parseSections(markdown)
+        );
 
         return {
             metadata,
-            introduction: this.buildIntroduction(rawSections, metadata),
-            sections: this.buildInterviewSections(rawSections)
+            sections
         };
     }
 
-    /**
-     * Reads the YAML metadata block.
-     */
     private parseMetadata(markdown: string): Metadata {
 
         const metadata: Metadata = {
@@ -100,47 +84,58 @@ export class FrameworkInterpreter {
         return metadata;
     }
 
-    /**
-     * Removes the YAML metadata block
-     * from the document.
-     */
-    private stripFrontMatter(markdown: string): string {
+    private parseSections(markdown: string): Section[] {
 
-        return markdown.replace(
-            /^---\r?\n[\s\S]*?\r?\n---\r?\n?/,
-            ""
-        );
-    }
+        const sections: Section[] = [];
 
-    /**
-     * Parses top-level sections.
-     *
-     * Only headings in the form:
-     *   # 1. Section Title
-     * are treated as Framework sections.
-     */
-    private parseRawSections(markdown: string): RawSection[] {
+        const body = markdown.replace(/^---[\s\S]*?---\r?\n?/, "");
+        const lines = body.split(/\r?\n/);
 
-        const sections: RawSection[] = [];
-        const lines = markdown.split(/\r?\n/);
+        let current: Section | null = null;
+        let heading = "";
+        let content: string[] = [];
 
-        let current: RawSection | null = null;
+        const flushBlock = () => {
 
-        for (const rawLine of lines) {
+            if (!current || !heading) {
+                content = [];
+                return;
+            }
 
-            const line = rawLine.trim();
-            const match = line.match(/^#\s+(\d+)\.\s+(.+)$/);
+            current.blocks.push({
+                heading,
+                content: content.join("\n").trim()
+            });
 
-            if (match) {
+            heading = "";
+            content = [];
+        };
 
-                if (current) {
-                    sections.push(current);
-                }
+        const flushSection = () => {
+
+            if (!current) {
+                return;
+            }
+
+            flushBlock();
+            sections.push(current);
+            current = null;
+        };
+
+        for (const raw of lines) {
+
+            const line = raw.trim();
+
+            const sectionMatch = line.match(/^#\s+(\d+)\.\s+(.+)$/);
+
+            if (sectionMatch) {
+
+                flushSection();
 
                 current = {
-                    number: Number(match[1]),
-                    title: match[2].trim(),
-                    lines: []
+                    number: Number(sectionMatch[1]),
+                    title: sectionMatch[2].trim(),
+                    blocks: []
                 };
 
                 continue;
@@ -150,497 +145,59 @@ export class FrameworkInterpreter {
                 continue;
             }
 
-            current.lines.push(rawLine);
+            if (/^##\s+/.test(line)) {
+
+                flushBlock();
+
+                heading = line.replace(/^##\s+/, "").trim();
+
+                continue;
+            }
+
+            content.push(raw);
         }
 
-        if (current) {
-            sections.push(current);
-        }
+        flushSection();
 
         return sections;
     }
 
-    /**
-     * Builds the document introduction.
-     *
-     * The first Framework section is the
-     * system introduction header.
-     * The Overview section is stored as a
-     * read-only introduction section.
-     */
-    private buildIntroduction(
-        rawSections: RawSection[],
-        metadata: Metadata
-    ): FrameworkIntroduction {
+    private normalizeSections(sections: Section[]): Section[] {
 
-        const rootSection = rawSections[0];
+        const skipTitles = new Set([
+            "overview",
+            "system overview",
+            "scope",
+            "system scope",
+            "index"
+        ]);
 
-        const overviewRaw = rawSections.find(
-            section => this.normalizeTitle(section.title) === "overview"
-        );
-
-        const rootBlocks = rootSection
-            ? this.parseSectionBlocks(rootSection.lines)
-            : [];
-
-        const prefaceContent =
-            rootBlocks.find(block => !block.heading)?.content ?? "";
-
-        const capability =
-            this.extractLabeledValue(prefaceContent, "Capability") ||
-            metadata.capability;
-
-        const guidingQuestion =
-            this.extractLabeledValue(prefaceContent, "Guiding Question") ||
-            metadata.question;
-
-        const systemScope =
-            this.normalizeTextBlock(
-                rootBlocks.find(
-                    block =>
-                        this.normalizeTitle(block.heading) === "system scope" ||
-                        this.normalizeTitle(block.heading) === "scope"
-                )?.content ?? metadata.scope
-            );
-
-        const sections: Section[] = [];
-
-        const indexBlock = rootBlocks.find(
-            block => this.normalizeTitle(block.heading) === "index"
-        );
-
-        if (indexBlock) {
-
-            sections.push({
-                number: 0,
-                title: "Index",
-                interview: false,
-                blocks: [
-                    {
-                        heading: "Index",
-                        content: this.normalizeTextBlock(indexBlock.content)
-                    }
-                ]
-            });
-        }
-
-        if (overviewRaw) {
-
-            sections.push(
-                this.createRuntimeSection(overviewRaw, 1, false)
-            );
-        }
-
-        return {
-            title: rootSection?.title || metadata.systemName,
-            capability,
-            guidingQuestion,
-            systemScope,
-            sections
-        };
+        return sections
+            .filter(s => !skipTitles.has(s.title.toLowerCase()))
+            .map(section => ({
+                ...section,
+                blocks: section.blocks
+                    .map(block => ({
+                        heading: this.clean(block.heading),
+                        content: this.clean(block.content)
+                    }))
+                    .filter(block => block.heading || block.content)
+            }));
     }
 
-    /**
-     * Builds the interview sections.
-     *
-     * The first interview question is
-     * always numbered 1, even though the
-     * Markdown section numbering starts
-     * earlier.
-     */
-    private buildInterviewSections(rawSections: RawSection[]): Section[] {
-
-        const interviewSections: Section[] = [];
-        let interviewNumber = 1;
-
-        for (let i = 0; i < rawSections.length; i++) {
-
-            const rawSection = rawSections[i];
-            const normalizedTitle = this.normalizeTitle(rawSection.title);
-
-            if (
-                i === 0 ||
-                normalizedTitle === "overview" ||
-                normalizedTitle === "index" ||
-                normalizedTitle === "system scope" ||
-                normalizedTitle === "scope"
-            ) {
-                continue;
-            }
-
-            interviewSections.push(
-                this.createRuntimeSection(rawSection, interviewNumber++, true)
-            );
-        }
-
-        return interviewSections;
-    }
-
-    /**
-     * Creates a runtime Section from a
-     * parsed Markdown section.
-     */
-    private createRuntimeSection(
-        rawSection: RawSection,
-        number: number,
-        interview: boolean
-    ): Section {
-
-        const blocks = this.parseSectionBlocks(rawSection.lines)
-            .map(block => ({
-                heading: this.normalizeHeading(block.heading),
-                content: this.normalizeTextBlock(block.content)
-            }))
-            .filter(block =>
-                block.heading.length > 0 || block.content.length > 0
-            );
-
-        return {
-            number,
-            title: rawSection.title,
-            interview,
-            blocks
-        };
-    }
-
-    /**
-     * Parses Markdown blocks inside a
-     * single Framework section.
-     *
-     * Content before the first "##"
-     * heading is preserved as a block
-     * with an empty heading.
-     */
-    private parseSectionBlocks(lines: string[]): SectionBlock[] {
-
-        const blocks: SectionBlock[] = [];
-
-        let currentHeading = "";
-        let currentContent: string[] = [];
-
-        const flushBlock = () => {
-
-            const content = currentContent.join("\n").trim();
-
-            if (!currentHeading && content.length === 0) {
-                currentContent = [];
-                return;
-            }
-
-            blocks.push({
-                heading: currentHeading,
-                content
-            });
-
-            currentHeading = "";
-            currentContent = [];
-        };
-
-        for (const rawLine of lines) {
-
-            const line = rawLine.trim();
-            const match = line.match(/^##\s+(.+)$/);
-
-            if (match) {
-
-                flushBlock();
-                currentHeading = match[1].trim();
-                continue;
-            }
-
-            currentContent.push(rawLine);
-        }
-
-        flushBlock();
-
-        return blocks;
-    }
-
-    /**
-     * Extracts a labeled value from a
-     * block of text.
-     *
-     * Example:
-     *   **Capability:** Foundation
-     */
-    private extractLabeledValue(text: string, label: string): string {
-
-        const lines = text.split(/\r?\n/);
-
-        for (const rawLine of lines) {
-
-            const line = this.normalizeInline(rawLine.trim());
-
-            const match = line.match(
-                new RegExp(`^${this.escapeRegex(label)}:\\s*(.+)$`, "i")
-            );
-
-            if (match) {
-                return match[1].trim();
-            }
-        }
-
-        return "";
-    }
-
-    /**
-     * Normalizes a Section heading.
-     */
-    private normalizeHeading(text: string): string {
-
-        return this.normalizeInline(text).replace(/\s+/g, " ").trim();
-    }
-
-    /**
-     * Normalizes Markdown inline syntax.
-     */
-    private normalizeInline(text: string): string {
+    private clean(text: string): string {
 
         return text
-            .replace(/\*\*(.*?)\*\*/g, "$1")
-            .replace(/__(.*?)__/g, "$1")
-            .replace(/\*(.*?)\*/g, "$1")
-            .replace(/_(.*?)_/g, "$1")
-            .replace(/`([^`]+)`/g, "$1")
-            .replace(/\s+/g, " ")
+            .replace(/^#{1,6}\s*/gm, "")
+            .replace(/^###$/gm, "")
+            .replace(/^\|(.+)\|$/gm, (_, row) =>
+                row.split("|")
+                    .map((c: string) => c.trim())
+                    .filter((c: string) => c && !/^:?-+:?$/.test(c))
+                    .join(" : "))
+            .replace(/^\-\s+/gm, "• ")
+            .replace(/\r/g, "")
+            .replace(/\n{3,}/g, "\n\n")
             .trim();
-    }
-
-    /**
-     * Normalizes a block of Markdown text.
-     */
-    private normalizeTextBlock(text: string): string {
-
-        const lines = text.replace(/\r/g, "").split("\n");
-        const output: string[] = [];
-
-        for (let i = 0; i < lines.length; i++) {
-
-            const rawLine = lines[i];
-            const line = rawLine.trim();
-
-            if (line.length === 0) {
-                output.push("");
-                continue;
-            }
-
-            if (this.isTableRow(line)) {
-
-                const { lines: tableLines, nextIndex } =
-                    this.normalizeTableBlock(lines, i);
-
-                output.push(...tableLines);
-                i = nextIndex;
-                continue;
-            }
-
-            output.push(this.normalizeParagraphLine(rawLine));
-        }
-
-        return this.collapseBlankLines(output)
-            .join("\n")
-            .trim();
-    }
-
-    /**
-     * Normalizes one paragraph line.
-     */
-    private normalizeParagraphLine(line: string): string {
-
-        const trimmed = line.trim();
-
-        if (trimmed.length === 0) {
-            return "";
-        }
-
-        if (/^#{1,6}\s+/.test(trimmed)) {
-            return this.normalizeInline(trimmed.replace(/^#{1,6}\s+/, ""));
-        }
-
-        if (/^>\s?/.test(trimmed)) {
-            return this.normalizeInline(trimmed.replace(/^>\s?/, ""));
-        }
-
-        if (/^[-*+]\s+/.test(trimmed)) {
-            return "• " + this.normalizeInline(trimmed.replace(/^[-*+]\s+/, ""));
-        }
-
-        if (/^\d+\.\s+/.test(trimmed)) {
-            return this.normalizeInline(trimmed);
-        }
-
-        return this.normalizeInline(trimmed);
-    }
-
-    /**
-     * Normalizes a Markdown table block
-     * into readable lines.
-     */
-    private normalizeTableBlock(
-        lines: string[],
-        startIndex: number
-    ): { lines: string[]; nextIndex: number } {
-
-        const tableRows: string[] = [];
-        let i = startIndex;
-
-        while (i < lines.length) {
-
-            const line = lines[i].trim();
-
-            if (line.length === 0) {
-                break;
-            }
-
-            if (!this.isTableRow(line) && !this.isTableSeparator(line)) {
-                break;
-            }
-
-            tableRows.push(line);
-            i++;
-        }
-
-        const output: string[] = [];
-
-        if (tableRows.length === 0) {
-            return { lines: output, nextIndex: startIndex };
-        }
-
-        const firstRow = this.splitTableRow(tableRows[0]);
-        const hasHeaderSeparator =
-            tableRows.length >= 2 && this.isTableSeparator(tableRows[1]);
-
-        if (hasHeaderSeparator) {
-
-            const headers = firstRow;
-            const dataRows = tableRows.slice(2);
-
-            for (const row of dataRows) {
-
-                if (!this.isTableRow(row)) {
-                    continue;
-                }
-
-                const cells = this.splitTableRow(row);
-
-                for (let c = 0; c < cells.length; c++) {
-
-                    const header = headers[c] ?? `Column ${c + 1}`;
-                    const value = this.normalizeInline(cells[c]);
-
-                    if (value.length > 0) {
-                        output.push(`${header}: ${value}`);
-                    }
-                }
-
-                output.push("");
-            }
-
-        } else {
-
-            for (const row of tableRows) {
-
-                if (this.isTableSeparator(row)) {
-                    continue;
-                }
-
-                const cells = this.splitTableRow(row)
-                    .map(cell => this.normalizeInline(cell))
-                    .filter(cell => cell.length > 0);
-
-                if (cells.length > 0) {
-                    output.push(cells.join(" | "));
-                }
-            }
-        }
-
-        return {
-            lines: this.collapseBlankLines(output),
-            nextIndex: i - 1
-        };
-    }
-
-    /**
-     * Splits a Markdown table row into cells.
-     */
-    private splitTableRow(line: string): string[] {
-
-        return line
-            .replace(/^\|/, "")
-            .replace(/\|$/, "")
-            .split("|")
-            .map(cell => cell.trim())
-            .filter(cell => cell.length > 0);
-    }
-
-    /**
-     * Detects whether a line is a table row.
-     */
-    private isTableRow(line: string): boolean {
-
-        return /^\s*\|.*\|\s*$/.test(line);
-    }
-
-    /**
-     * Detects whether a line is a table
-     * separator row.
-     */
-    private isTableSeparator(line: string): boolean {
-
-        const cleaned = line
-            .replace(/^\|/, "")
-            .replace(/\|$/, "")
-            .trim();
-
-        if (cleaned.length === 0) {
-            return false;
-        }
-
-        return cleaned.split("|").every(cell => /^:?-{3,}:?$/.test(cell.trim()));
-    }
-
-    /**
-     * Collapses consecutive blank lines
-     * into a single blank line.
-     */
-    private collapseBlankLines(lines: string[]): string[] {
-
-        const collapsed: string[] = [];
-        let previousBlank = false;
-
-        for (const line of lines) {
-
-            const blank = line.trim().length === 0;
-
-            if (blank) {
-                if (!previousBlank) {
-                    collapsed.push("");
-                }
-                previousBlank = true;
-                continue;
-            }
-
-            collapsed.push(line.replace(/\s+$/, ""));
-            previousBlank = false;
-        }
-
-        return collapsed;
-    }
-
-    /**
-     * Normalizes a section title for
-     * matching purposes.
-     */
-    private normalizeTitle(text: string): string {
-
-        return this.normalizeInline(text).toLowerCase();
-    }
-
-    /**
-     * Escapes a string for use in RegExp.
-     */
-    private escapeRegex(text: string): string {
-
-        return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     }
 }

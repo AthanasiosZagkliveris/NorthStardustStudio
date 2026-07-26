@@ -8,7 +8,7 @@ export class StorageService {
 
         localStorage.setItem(
             INTERVIEW_KEY,
-            JSON.stringify(session)
+            JSON.stringify(session.toJSON())
         );
 
     }
@@ -17,10 +17,28 @@ export class StorageService {
 
         const data = localStorage.getItem(INTERVIEW_KEY);
 
-        if (!data)
+        if (!data) {
+            return null;
+        }
+
+        try {
+
+            return InterviewSession.fromJSON(
+                JSON.parse(data)
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Failed to restore interview session.",
+                error
+            );
+
+            this.clearInterview();
+
             return null;
 
-        return JSON.parse(data) as InterviewSession;
+        }
 
     }
 
