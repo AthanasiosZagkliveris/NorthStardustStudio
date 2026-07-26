@@ -49,15 +49,16 @@ export default function SystemSelection() {
 
     function startInterview() {
 
-        if (!selectedSystem)
+        if (!selectedSystem) {
             return;
+        }
 
-        navigate("/conversation", {
+        setConfirmationOpen(false);
+
+        navigate("/introduction", {
 
             state: {
-
                 system: selectedSystem
-
             }
 
         });
@@ -128,15 +129,10 @@ export default function SystemSelection() {
             />
 
             <SystemConfirmation
-
                 open={confirmationOpen}
-
                 systemTitle={selectedSystem?.title ?? ""}
-
                 onCancel={() => setConfirmationOpen(false)}
-
                 onStart={startInterview}
-
             />
 
         </div>
