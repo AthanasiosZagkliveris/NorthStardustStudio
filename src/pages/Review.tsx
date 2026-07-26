@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import AppHeader from "../components/AppHeader";
 import AppFooter from "../components/AppFooter";
-import InterviewHeader from "../components/InterviewHeader";
+import InterviewHeader from "../components/interview/InterviewHeader";
 import InterviewProgress from "../components/InterviewProgress";
 import { ReviewManager } from "../framework/application";
 import { StorageService } from "../services/StorageService";

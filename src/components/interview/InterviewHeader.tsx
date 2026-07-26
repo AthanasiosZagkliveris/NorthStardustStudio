@@ -1,17 +1,11 @@
 interface InterviewHeaderProps {
-
+    systemNumber: string;
     systemName: string;
-
-    capability: string;
-
 }
 
 export default function InterviewHeader({
-
-    systemName,
-
-    capability
-
+    systemNumber,
+    systemName
 }: InterviewHeaderProps) {
 
     return (
@@ -19,16 +13,10 @@ export default function InterviewHeader({
         <header className="interview-header">
 
             <h1>
-
-                {systemName}
-
+                {systemNumber}. {systemName}
             </h1>
 
-            <p>
-
-                {capability}
-
-            </p>
+            <div className="interview-divider" />
 
         </header>
 

@@ -3,10 +3,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import AppHeader from "../components/AppHeader";
 import AppFooter from "../components/AppFooter";
-import InterviewHeader from "../components/InterviewHeader";
+import InterviewHeader from "../components/interview/InterviewHeader";
 import InterviewProgress from "../components/InterviewProgress";
 import InterviewSection from "../components/InterviewSection";
-import InterviewInput from "../components/InterviewInput";
+import InterviewInput from "../components/interview/InterviewInput";
 
 import { InterviewManager } from "../framework/application";
 import { InterviewSession } from "../framework/interview";
