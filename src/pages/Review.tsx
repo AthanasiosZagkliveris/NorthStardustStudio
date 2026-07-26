@@ -14,7 +14,8 @@ export default function Review(){
  const session=StorageService.loadInterview();
 
  if(!session){
-   returimport { useMemo } from "react";
+   return
+import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 import AppHeader from "../components/AppHeader";
