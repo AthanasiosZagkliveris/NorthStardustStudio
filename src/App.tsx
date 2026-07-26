@@ -23,9 +23,15 @@ export default function App() {
             />
 
             <Route
+                path="/introduction"
+                element={<Conversation />}
+            />
+
+            <Route
                 path="/conversation"
                 element={<Conversation />}
             />
+
             <Route
                 path="/review"
                 element={<Review />}
