@@ -1,27 +1,9 @@
 import InterviewInput from "./InterviewInput.tsx";
-import DynamicTable from "./DynamicTable";
-import FieldRenderer from "./FieldRenderer";
+import DynamicTable from "./DynamicTable.tsx";
 
-export type AnswerType =
-    | "textarea"
-    | "input"
-    | "select"
-    | "table"
-    | "field";
+import { AnswerDefinition } from "../../framework/model/index.ts";
 
-export interface AnswerDefinition {
-    type: AnswerType;
-
-    placeholder?: string;
-
-    rows?: number;
-
-    options?: string[];
-
-    field?: string;
-
-    columns?: string[];
-}
+import { AnswerType } from "../../framework/enums/AnswerType.ts";
 
 interface AnswerRendererProps {
 
@@ -49,17 +31,15 @@ export default function AnswerRenderer({
 
     switch (definition.type) {
 
-        case "input":
+        case AnswerType.FreeText:
 
             return (
 
                 <InterviewInput
 
-                    mode="input"
+                    mode="textarea"
 
                     value={String(value ?? "")}
-
-                    placeholder={definition.placeholder}
 
                     disabled={disabled}
 
@@ -69,38 +49,18 @@ export default function AnswerRenderer({
 
             );
 
-        case "select":
+        case AnswerType.FixedVariantText:
 
             return (
 
                 <InterviewInput
 
-                    mode="select"
-
-                    value={String(value ?? "")}
-
-                    placeholder={definition.placeholder}
-
-                    options={definition.options ?? []}
-
-                    disabled={disabled}
-
-                    onChange={onChange}
-
-                />
-
-            );
-
-        case "field":
-
-            return (
-
-                <FieldRenderer
-
-                    field={definition.field ?? ""}
+                    mode="fixed-variant"
 
                     value={value}
 
+                    variants={definition.variants ?? []}
+
                     disabled={disabled}
 
                     onChange={onChange}
@@ -109,13 +69,13 @@ export default function AnswerRenderer({
 
             );
 
-        case "table":
+        case AnswerType.Table:
 
             return (
 
                 <DynamicTable
 
-                    columns={definition.columns ?? []}
+                    columns={definition.table?.columns ?? []}
 
                     value={Array.isArray(value) ? value : []}
 
@@ -127,29 +87,9 @@ export default function AnswerRenderer({
 
             );
 
-        case "textarea":
-
         default:
 
-            return (
-
-                <InterviewInput
-
-                    mode="textarea"
-
-                    value={String(value ?? "")}
-
-                    rows={definition.rows ?? 10}
-
-                    placeholder={definition.placeholder}
-
-                    disabled={disabled}
-
-                    onChange={onChange}
-
-                />
-
-            );
+            return null;
 
     }
 

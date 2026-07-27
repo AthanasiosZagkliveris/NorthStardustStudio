@@ -1,36 +1,9 @@
-/**
- * Supported Framework answer types.
- */
 export enum AnswerType {
 
-    /**
-     * Single-line text input.
-     */
-    Text = "text",
+    FreeText = "free-text",
 
-    /**
-     * Multi-line text input.
-     */
-    TextArea = "textarea",
+    FixedVariantText = "fixed-variant-text",
 
-    /**
-     * Numeric input.
-     */
-    Number = "number",
-
-    /**
-     * Date picker.
-     */
-    Date = "date",
-
-    /**
-     * Reusable Framework Field.
-     */
-    Field = "field",
-
-    /**
-     * Dynamic Framework Table.
-     */
     Table = "table"
 
 }

@@ -1,8 +1,6 @@
-import { TableColumnType } from "../enums/TableColumnType.ts";
-
 /**
  * Defines a single column within a
- * Framework dynamic table.
+ * Framework table.
  */
 export interface TableColumnDefinition {
 
@@ -17,18 +15,13 @@ export interface TableColumnDefinition {
     title: string;
 
     /**
-     * Column type.
-     */
-    type: TableColumnType;
-
-    /**
      * Optional reusable Framework Field.
+     *
+     * Examples:
+     * status
+     * frequency
+     * scale
      */
     fieldId?: string;
-
-    /**
-     * Required column.
-     */
-    required?: boolean;
 
 }

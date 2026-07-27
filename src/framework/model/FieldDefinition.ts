@@ -1,4 +1,4 @@
-import { FieldOption } from "./FieldOption";
+import { FieldOption } from "./FieldOption.ts";
 
 /**
  * Represents a reusable Framework Field.

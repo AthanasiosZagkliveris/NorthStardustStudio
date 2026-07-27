@@ -1,6 +1,8 @@
 import { AnswerType } from "../enums/AnswerType.ts";
-import { TableDefinition } from "./TableDefinition.ts";
-import { ValidationRule } from "./ValidationRule.ts";
+import {
+    TableDefinition,
+    VariantDefinition
+} from "./index.ts";
 
 /**
  * Defines how a Framework question
@@ -9,28 +11,24 @@ import { ValidationRule } from "./ValidationRule.ts";
 export interface AnswerDefinition {
 
     /**
-     * Answer type.
+     * Framework answer structure.
      */
     type: AnswerType;
 
     /**
-     * Reusable Framework Field identifier.
+     * Fixed variants.
      *
-     * Example:
-     * status
-     * frequency
-     * scale
+     * Used only when the answer
+     * structure is Fixed Variant Text.
      */
-    fieldId?: string;
+    variants?: VariantDefinition[];
 
     /**
      * Dynamic table definition.
+     *
+     * Used only when the answer
+     * structure is Table.
      */
     table?: TableDefinition;
-
-    /**
-     * Validation rules.
-     */
-    validation?: ValidationRule[];
 
 }

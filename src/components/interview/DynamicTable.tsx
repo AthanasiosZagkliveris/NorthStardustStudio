@@ -1,5 +1,7 @@
 import InterviewInput from "./InterviewInput";
-import FieldRenderer, { FieldDefinition } from "./FieldRenderer";
+import FieldRenderer from "./FieldRenderer";
+
+import { FieldDefinition } from "../../framework/model/FieldDefinition.ts";
 
 export interface TableColumn {
 

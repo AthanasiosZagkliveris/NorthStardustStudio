@@ -125,7 +125,7 @@ export class FieldParser {
 
             options.push({
 
-                value: this.createId(label),
+                id: this.createId(label),
 
                 label
 

@@ -1,45 +1,8 @@
 import InterviewInput from "./InterviewInput.tsx";
 
-export interface FieldOption {
-    value: string;
-    label: string;
-}
-
-export interface FieldDefinition {
-    /**
-     * Field identifier.
-     * Example:
-     * Status
-     * Frequency
-     * Scale
-     */
-    id: string;
-
-    /**
-     * Display name.
-     */
-    name: string;
-
-    /**
-     * Renderer type.
-     */
-    type:
-        | "select"
-        | "input"
-        | "textarea"
-        | "date"
-        | "number";
-
-    /**
-     * Placeholder text.
-     */
-    placeholder?: string;
-
-    /**
-     * Available options.
-     */
-    options?: FieldOption[];
-}
+import {
+    FieldDefinition,
+} from "../../framework/model/index.ts";
 
 interface FieldRendererProps {
 
@@ -87,7 +50,7 @@ export default function FieldRenderer({
                         )
                     }
 
-                    onChange={onChange}
+                    onChange={(value) => onChange(value)}
 
                 />
 
@@ -107,7 +70,7 @@ export default function FieldRenderer({
 
                     disabled={disabled}
 
-                    onChange={onChange}
+                    onChange={(value) => onChange(value)}
 
                 />
 
@@ -129,7 +92,7 @@ export default function FieldRenderer({
 
                     disabled={disabled}
 
-                    onChange={onChange}
+                    onChange={(value) => onChange(value)}
 
                 />
 
