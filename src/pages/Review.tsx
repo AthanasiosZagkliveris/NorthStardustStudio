@@ -45,11 +45,21 @@ export default function Review() {
                         current={session.getCurrentSectionIndex() + 1}
                         total={session.getTotalSections()}
                     />
+                    <h2 className="interview-section-title">Validation</h2>
                     <p>
                         {validation.valid
-                            ? "Ready for export."
-                            : `Validation issues found: ${validation.issues.length}.`}
+                            ? "All Sections are complete. Ready for export."
+                            : `${validation.issues.length} Section${validation.issues.length === 1 ? "" : "s"} still need${validation.issues.length === 1 ? "s" : ""} a response before this Interview can be exported.`}
                     </p>
+                    {!validation.valid && (
+                        <ul className="validation-issue-list">
+                            {validation.issues.map(issue => (
+                                <li key={issue.sectionNumber}>
+                                    {issue.sectionNumber}. {issue.sectionTitle}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                 </div>
             </main>
             <AppFooter

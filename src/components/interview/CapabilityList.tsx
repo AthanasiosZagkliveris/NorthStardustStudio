@@ -21,14 +21,23 @@ export default function CapabilityList({
 
                 <div
                     key={capability.id}
+                    role="button"
+                    tabIndex={0}
+                    aria-pressed={capability.id === activeCapability}
                     className={
                         capability.id === activeCapability
                             ? "capability-item active"
                             : "capability-item"
                     }
-                    onMouseEnter={() =>
+                    onClick={() =>
                         onActiveCapabilityChange(capability.id)
                     }
+                    onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                            event.preventDefault();
+                            onActiveCapabilityChange(capability.id);
+                        }
+                    }}
                 >
                     {capability.title}
                 </div>

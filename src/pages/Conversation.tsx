@@ -6,7 +6,7 @@ import AppFooter from "../components/AppFooter";
 import InterviewHeader from "../components/interview/InterviewHeader";
 import InterviewProgress from "../components/InterviewProgress";
 import InterviewSection from "../components/InterviewSection";
-import InterviewInput from "../components/interview/InterviewInput";
+import AnswerRenderer from "../components/interview/AnswerRenderer";
 
 import { InterviewManager } from "../framework/application";
 import { InterviewSession } from "../framework/interview";
@@ -37,7 +37,19 @@ export default function Conversation() {
         }
 
         try {
-            const loadedSession = interviewManager.create(system.id);
+            // Resume a previously saved Interview Session for this
+            // same System (e.g. after a page reload), rather than
+            // discarding the user's progress. A saved session for a
+            // *different* System is ignored so switching Systems
+            // always starts a fresh Interview.
+            const savedSession = StorageService.loadInterview();
+
+            const loadedSession =
+                savedSession &&
+                savedSession.getFramework().metadata.systemNumber === system.number
+                    ? savedSession
+                    : interviewManager.create(system.id);
+
             setSession(loadedSession);
         } catch (error) {
             setLoadingError(
@@ -98,7 +110,7 @@ export default function Conversation() {
 
     }
 
-    function handleAnswerChange(value: string) {
+    function handleAnswerChange(value: unknown) {
 
         if (!session) {
             return;
@@ -177,7 +189,10 @@ export default function Conversation() {
 
                             <InterviewSection section={currentSection} />
 
-                            <InterviewInput
+                            <div className="answer-divider" />
+
+                            <AnswerRenderer
+                                definition={currentSection.answer}
                                 value={session.getCurrentResponse()}
                                 onChange={handleAnswerChange}
                             />

@@ -1,4 +1,5 @@
 import { SectionBlock } from "./SectionBlock";
+import { AnswerDefinition } from "./AnswerDefinition";
 
 /**
  * Represents one Framework Section.
@@ -30,5 +31,15 @@ export interface Section {
      * Read-only Framework content.
      */
     blocks: SectionBlock[];
+
+    /**
+     * Describes how the response to
+     * this Section should be structured.
+     *
+     * Defaults to Free Text when no
+     * Answer Definition Resource entry
+     * exists for this Section.
+     */
+    answer: AnswerDefinition;
 
 }

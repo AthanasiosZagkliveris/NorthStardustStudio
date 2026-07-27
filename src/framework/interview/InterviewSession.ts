@@ -1,11 +1,18 @@
 import { FrameworkDocument, Section } from "../model";
+import { defaultAnswerValue, isAnswerEmpty } from "../engine/AnswerUtils.ts";
 
 /**
  * Stores the user's response for one Framework Section.
+ *
+ * `value`'s shape depends on the Section's Answer
+ * Structure: a string for Free Text, a
+ * Record<string, string> keyed by variant id for
+ * Fixed Variant Text, or an array of row objects
+ * for Table.
  */
 export interface SectionResponse {
     sectionNumber: number;
-    value: string;
+    value: unknown;
 }
 
 /**
@@ -36,7 +43,7 @@ export class InterviewSession {
 
     private readonly framework: FrameworkDocument;
 
-    private readonly responses = new Map<number, string>();
+    private readonly responses = new Map<number, unknown>();
 
     private readonly questionResponses = new Map<string, string>();
 
@@ -115,20 +122,35 @@ export class InterviewSession {
         return this.framework.sections.length;
     }
 
-    public getCurrentResponse(): string {
+    public getCurrentResponse(): unknown {
         return this.getResponse(this.getCurrentSectionNumber());
     }
 
-    public saveCurrentResponse(value: string): void {
+    public saveCurrentResponse(value: unknown): void {
         this.saveResponse(this.getCurrentSectionNumber(), value);
     }
 
-    public saveResponse(sectionNumber: number, value: string): void {
+    public saveResponse(sectionNumber: number, value: unknown): void {
         this.responses.set(sectionNumber, value);
     }
 
-    public getResponse(sectionNumber: number): string {
-        return this.responses.get(sectionNumber) ?? "";
+    /**
+     * Returns the stored response for a Section, or a
+     * structure-appropriate empty value when nothing has
+     * been saved yet.
+     */
+    public getResponse(sectionNumber: number): unknown {
+
+        if (this.responses.has(sectionNumber)) {
+            return this.responses.get(sectionNumber);
+        }
+
+        const section = this.framework.sections.find(
+            candidate => candidate.number === sectionNumber
+        );
+
+        return section ? defaultAnswerValue(section.answer) : "";
+
     }
 
     public getResponses(): SectionResponse[] {
@@ -221,7 +243,8 @@ export class InterviewSession {
 
     public isComplete(): boolean {
         const sectionsComplete = this.framework.sections.every(
-            section => this.getResponse(section.number).trim().length > 0
+            (section: Section) =>
+                !isAnswerEmpty(section.answer, this.getResponse(section.number))
         );
 
         if (this.questionResponses.size === 0) {

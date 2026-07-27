@@ -14,6 +14,28 @@ import { Section } from "./Section";
 export interface FrameworkIntroduction {
 
     /**
+     * Framework System title.
+     */
+    title: string;
+
+    /**
+     * Organizational capability
+     * this Framework System belongs to.
+     */
+    capability: string;
+
+    /**
+     * Primary organizational question
+     * answered by this Framework System.
+     */
+    guidingQuestion: string;
+
+    /**
+     * Official Framework System scope.
+     */
+    systemScope: string;
+
+    /**
      * Informational sections displayed
      * before the interview.
      */

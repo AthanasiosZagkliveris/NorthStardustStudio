@@ -1,4 +1,5 @@
 import { InterviewSession } from "../interview";
+import { formatAnswerAsMarkdown } from "./AnswerUtils.ts";
 
 /**
  * Exports a completed Interview Session
@@ -102,7 +103,7 @@ export class MarkdownExporter {
             lines.push("");
 
             lines.push(
-                response.trim()
+                ...formatAnswerAsMarkdown(section.answer, response)
             );
 
             lines.push("");

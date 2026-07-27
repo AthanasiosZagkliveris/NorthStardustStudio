@@ -1,3 +1,5 @@
+import { FieldDefinition } from "./FieldDefinition";
+
 /**
  * Defines a single column within a
  * Framework table.
@@ -15,7 +17,9 @@ export interface TableColumnDefinition {
     title: string;
 
     /**
-     * Optional reusable Framework Field.
+     * Optional reusable Framework Field
+     * identifier, as referenced inline
+     * in the Answer Definition Resource.
      *
      * Examples:
      * status
@@ -23,5 +27,14 @@ export interface TableColumnDefinition {
      * scale
      */
     fieldId?: string;
+
+    /**
+     * Resolved Framework Field.
+     *
+     * Populated by the Framework Runtime
+     * Engine when `fieldId` matches a
+     * registered Shared Field Resource.
+     */
+    field?: FieldDefinition;
 
 }

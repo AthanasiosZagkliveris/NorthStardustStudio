@@ -1,17 +1,18 @@
 import {
+    Section,
     ValidationIssue,
     ValidationResult
 } from "../model";
 
 import { InterviewSession } from "../interview";
+import { isAnswerEmpty } from "./AnswerUtils.ts";
 
 /**
  * Validates a completed Interview Session.
  *
- * This validator remains backward-compatible with the
- * current section-based session model, while also being
- * tolerant of future session implementations that may
- * expose section answers through alternative methods.
+ * Completeness is determined per-Section, in a way
+ * that is aware of that Section's Answer Structure
+ * (Free Text, Fixed Variant Text, or Table).
  */
 export class InterviewValidator {
 
@@ -27,7 +28,7 @@ export class InterviewValidator {
 
         for (const section of framework.sections) {
 
-            if (this.isSectionComplete(session, section.number)) {
+            if (this.isSectionComplete(session, section)) {
                 continue;
             }
 
@@ -47,53 +48,15 @@ export class InterviewValidator {
 
     /**
      * Determines whether a section has a completed answer.
-     *
-     * This method prefers the current section response API, but
-     * falls back safely if a future session shape exposes a
-     * different section-answer accessor.
      */
     private isSectionComplete(
         session: InterviewSession,
-        sectionNumber: number
+        section: Section
     ): boolean {
 
-        const response = this.getSectionResponse(session, sectionNumber);
+        const response = session.getResponse(section.number);
 
-        return response.trim().length > 0;
-
-    }
-
-    /**
-     * Reads a section response from the InterviewSession.
-     *
-     * The current implementation uses `getResponse(sectionNumber)`.
-     * The fallback branches allow the validator to remain usable
-     * while the interview runtime evolves.
-     */
-    private getSectionResponse(
-        session: InterviewSession,
-        sectionNumber: number
-    ): string {
-
-        const typedSession = session as InterviewSession & {
-            getResponse?: (sectionNumber: number) => string;
-            getSectionResponse?: (sectionNumber: number) => string;
-            getAnswerForSection?: (sectionNumber: number) => string;
-        };
-
-        if (typeof typedSession.getResponse === "function") {
-            return typedSession.getResponse(sectionNumber) ?? "";
-        }
-
-        if (typeof typedSession.getSectionResponse === "function") {
-            return typedSession.getSectionResponse(sectionNumber) ?? "";
-        }
-
-        if (typeof typedSession.getAnswerForSection === "function") {
-            return typedSession.getAnswerForSection(sectionNumber) ?? "";
-        }
-
-        return "";
+        return !isAnswerEmpty(section.answer, response);
 
     }
 

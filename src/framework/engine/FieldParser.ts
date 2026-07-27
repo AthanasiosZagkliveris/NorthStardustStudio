@@ -139,6 +139,8 @@ export class FieldParser {
 
             name,
 
+            type: "select",
+
             options
 
         };

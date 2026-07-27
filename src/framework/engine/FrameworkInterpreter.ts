@@ -1,9 +1,18 @@
 import {
+    AnswerDefinition,
+    FieldDefinition,
+    FrameworkDocument,
     FrameworkIntroduction,
     Metadata,
     Section,
-    SectionBlock
+    SectionBlock,
+    TableColumnDefinition
 } from "../model";
+
+import { AnswerType } from "../enums/AnswerType";
+import { AnswerParser } from "../parser/AnswerParser";
+import { FieldParser } from "./FieldParser";
+import { FieldRegistry } from "./FieldRegistry";
 
 export type FrameworkSource = {
     introductionMarkdown?: string;
@@ -11,6 +20,10 @@ export type FrameworkSource = {
     helpMarkdown?: string;
     answersMarkdown?: string;
     fieldsMarkdown?: string;
+};
+
+const DEFAULT_ANSWER: AnswerDefinition = {
+    type: AnswerType.FreeText
 };
 
 type RawSection = {
@@ -31,6 +44,16 @@ type RawSection = {
  * interpretation.
  */
 export class FrameworkInterpreter {
+
+    /**
+     * Parses Answer Definition Resources.
+     */
+    private readonly answerParser = new AnswerParser();
+
+    /**
+     * Parses Shared Field Resources.
+     */
+    private readonly fieldParser = new FieldParser();
 
     /**
      * Interprets Framework content.
@@ -91,10 +114,15 @@ export class FrameworkInterpreter {
                 title => this.stripHelpSuffix(title)
             );
 
-        const answerSections =
-            this.parseSupplementarySections(
+        const fieldRegistry =
+            this.buildFieldRegistry(
+                source.fieldsMarkdown ?? ""
+            );
+
+        const answerDefinitions =
+            this.parseAnswerDefinitions(
                 source.answersMarkdown ?? "",
-                "Answer Format"
+                fieldRegistry
             );
 
         const introductionText =
@@ -122,13 +150,15 @@ export class FrameworkInterpreter {
 
             const blocks: SectionBlock[] = [
                 ...section.blocks,
-                ...(helpSections.get(normalizedTitle) ?? []),
-                ...(answerSections.get(normalizedTitle) ?? [])
+                ...(helpSections.get(normalizedTitle) ?? [])
             ];
 
             return {
                 ...section,
-                blocks
+                blocks,
+                answer:
+                    answerDefinitions.get(normalizedTitle) ??
+                    DEFAULT_ANSWER
             };
         });
 
@@ -395,7 +425,8 @@ export class FrameworkInterpreter {
                         heading: "Index",
                         content: this.normalizeTextBlock(indexBlock.content)
                     }
-                ]
+                ],
+                answer: DEFAULT_ANSWER
             });
         }
 
@@ -466,8 +497,113 @@ export class FrameworkInterpreter {
             number: section.number,
             title: section.title,
             interview: true,
-            blocks: this.parseContentBlocks(section.lines, "Questions")
+            blocks: this.parseContentBlocks(section.lines, "Questions"),
+            answer: DEFAULT_ANSWER
         }));
+    }
+
+    /**
+     * Builds a Field Registry from the
+     * shared Status/Scale/Frequency
+     * Field Resource.
+     */
+    private buildFieldRegistry(markdown: string): FieldRegistry {
+
+        const registry = new FieldRegistry();
+
+        if (markdown.trim().length === 0) {
+            return registry;
+        }
+
+        registry.registerMany(
+            this.fieldParser.parse(markdown)
+        );
+
+        return registry;
+    }
+
+    /**
+     * Parses every Section's Answer
+     * Definition from the Answer
+     * Definition Resource, resolving
+     * any referenced Shared Fields.
+     */
+    private parseAnswerDefinitions(
+        markdown: string,
+        fieldRegistry: FieldRegistry
+    ): Map<string, AnswerDefinition> {
+
+        const definitions = new Map<string, AnswerDefinition>();
+
+        if (markdown.trim().length === 0) {
+            return definitions;
+        }
+
+        const rawSections = this.parseDocumentSections(
+            markdown,
+            /^##\s+(\d+)\.\s+(.+)$/
+        );
+
+        for (const section of rawSections) {
+
+            const raw = section.lines.join("\n");
+
+            let definition: AnswerDefinition;
+
+            try {
+                definition = this.answerParser.parse(raw);
+            } catch {
+                continue;
+            }
+
+            definitions.set(
+                this.normalizeTitle(section.title),
+                this.resolveFields(definition, fieldRegistry)
+            );
+        }
+
+        return definitions;
+    }
+
+    /**
+     * Attaches resolved Shared Field
+     * definitions to any Table columns
+     * that reference one.
+     */
+    private resolveFields(
+        definition: AnswerDefinition,
+        fieldRegistry: FieldRegistry
+    ): AnswerDefinition {
+
+        if (
+            definition.type !== AnswerType.Table ||
+            !definition.table
+        ) {
+            return definition;
+        }
+
+        const columns: TableColumnDefinition[] =
+            definition.table.columns.map(column => {
+
+                if (!column.fieldId) {
+                    return column;
+                }
+
+                const field: FieldDefinition | undefined =
+                    fieldRegistry.tryGet(column.fieldId);
+
+                return field
+                    ? { ...column, field }
+                    : column;
+            });
+
+        return {
+            ...definition,
+            table: {
+                ...definition.table,
+                columns
+            }
+        };
     }
 
     /**
@@ -664,7 +800,8 @@ export class FrameworkInterpreter {
                                 introductionText
                             )
                         }
-                    ]
+                    ],
+                    answer: DEFAULT_ANSWER
                 }
             ]
             : [];
@@ -786,7 +923,8 @@ export class FrameworkInterpreter {
             number,
             title: rawSection.title,
             interview,
-            blocks
+            blocks,
+            answer: DEFAULT_ANSWER
         };
     }
 

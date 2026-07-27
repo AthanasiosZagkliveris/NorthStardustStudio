@@ -14,10 +14,18 @@ export class AnswerParser {
 
     /**
      * Parses a question answer block.
+     *
+     * The Answer Definition Resource records
+     * the structure as a bold Markdown label,
+     * e.g. "**Structure:** Free Text". Older
+     * or hand-written resources may omit the
+     * bold markers, so both are accepted.
      */
     public parse(markdown: string): AnswerDefinition {
 
-        if (markdown.includes("Structure: Free Text")) {
+        const structure = this.extractStructure(markdown);
+
+        if (structure === "free text") {
 
             return {
                 type: AnswerType.FreeText
@@ -25,7 +33,7 @@ export class AnswerParser {
 
         }
 
-        if (markdown.includes("Structure: Fixed Variant Text")) {
+        if (structure === "fixed variant text") {
 
             return {
 
@@ -37,7 +45,7 @@ export class AnswerParser {
 
         }
 
-        if (markdown.includes("Structure: Table")) {
+        if (structure === "table") {
 
             return {
 
@@ -54,6 +62,25 @@ export class AnswerParser {
         }
 
         throw new Error("Unknown answer structure.");
+
+    }
+
+    /**
+     * Extracts the declared answer
+     * structure, normalized to
+     * lowercase for comparison.
+     */
+    private extractStructure(markdown: string): string | undefined {
+
+        const match = markdown.match(
+            /Structure:\*{0,2}\s*(.+)/
+        );
+
+        if (!match) {
+            return undefined;
+        }
+
+        return match[1].trim().toLowerCase();
 
     }
 

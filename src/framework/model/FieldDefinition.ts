@@ -21,6 +21,21 @@ export interface FieldDefinition {
     name: string;
 
     /**
+     * Rendering type.
+     *
+     * Every Shared Field currently
+     * defined by the Framework
+     * (Status, Scale, Frequency) is
+     * rendered as a dropdown.
+     */
+    type: "select" | "input" | "textarea" | "number" | "date";
+
+    /**
+     * Optional placeholder text.
+     */
+    placeholder?: string;
+
+    /**
      * Available selectable options.
      */
     options: FieldOption[];

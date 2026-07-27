@@ -1,5 +1,3 @@
-console.log("Landing rendered");
-
 import { useNavigate } from "react-router-dom";
 
 import logo from "../assets/logo.png";
@@ -25,7 +23,7 @@ export default function Landing() {
     className="landing-card"
     onClick={() => navigate("/assistant")}
 >
-    AI Assistant
+    System Selection
 </button>
 
 <button

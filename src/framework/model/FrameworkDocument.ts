@@ -1,17 +1,27 @@
+import { Metadata } from "./Metadata";
+import { FrameworkIntroduction } from "./FrameworkIntroduction";
 import { Section } from "./Section";
 
 /**
- * Information displayed before the interview begins.
+ * Represents one fully interpreted
+ * Framework System, ready to drive
+ * an Interview Session.
  */
-export interface FrameworkIntroduction {
+export interface FrameworkDocument {
 
     /**
-     * Framework System title.
+     * Framework System metadata.
      */
-    title: string;
+    metadata: Metadata;
 
     /**
-     * Introduction content.
+     * Read-only information displayed
+     * before the interview begins.
+     */
+    introduction: FrameworkIntroduction;
+
+    /**
+     * Interview Sections.
      */
     sections: Section[];
 
