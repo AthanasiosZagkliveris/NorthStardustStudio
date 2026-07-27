@@ -61,6 +61,23 @@ export default function InterviewSection({ section }: InterviewSectionProps) {
                 {section.number}. {section.title}
             </h2>
 
+            {visibleBlocks.map((block, index) => (
+                <div key={index} className="interview-block">
+                    {block.heading.trim().length > 0 && (
+                        <h3 className="interview-block-heading">
+                            {block.heading}
+                        </h3>
+                    )}
+
+                    <div
+                        className="interview-block-content"
+                        style={{ whiteSpace: "pre-line" }}
+                    >
+                        {block.content}
+                    </div>
+                </div>
+            ))}
+
             {hasHelp && (
                 <div className="interview-help">
                     <button
@@ -94,23 +111,6 @@ export default function InterviewSection({ section }: InterviewSectionProps) {
                     )}
                 </div>
             )}
-
-            {visibleBlocks.map((block, index) => (
-                <div key={index} className="interview-block">
-                    {block.heading.trim().length > 0 && (
-                        <h3 className="interview-block-heading">
-                            {block.heading}
-                        </h3>
-                    )}
-
-                    <div
-                        className="interview-block-content"
-                        style={{ whiteSpace: "pre-line" }}
-                    >
-                        {block.content}
-                    </div>
-                </div>
-            ))}
 
             {visibleBlocks.length === 0 && !hasHelp && (
                 <div className="interview-empty-state">

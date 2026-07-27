@@ -110,6 +110,17 @@ export default function Conversation() {
 
     }
 
+    function goToIntroduction() {
+
+        if (!session) {
+            return;
+        }
+
+        session.viewIntroduction();
+        persistAndRedraw(session);
+
+    }
+
     function handleAnswerChange(value: unknown) {
 
         if (!session) {
@@ -148,37 +159,22 @@ export default function Conversation() {
 
                     {showIntroduction ? (
                         <section className="interview-section">
-                            <h2 className="interview-section-title">
-                                {introduction.title}
-                            </h2>
+                            <div
+                                className="interview-block-content"
+                                style={{ whiteSpace: "pre-line" }}
+                            >
+                                {introduction.introductionText}
+                            </div>
 
-                            {introduction.capability && (
-                                <p className="conversation-message">
-                                    <strong>Capability:</strong>{" "}
-                                    {introduction.capability}
-                                </p>
-                            )}
-
-                            {introduction.guidingQuestion && (
-                                <p className="conversation-message">
-                                    <strong>Guiding Question:</strong>{" "}
-                                    {introduction.guidingQuestion}
-                                </p>
-                            )}
-
-                            {introduction.systemScope && (
-                                <p className="conversation-message">
-                                    <strong>Scope:</strong>{" "}
-                                    {introduction.systemScope}
-                                </p>
-                            )}
-
-                            {introduction.sections.map(section => (
-                                <InterviewSection
-                                    key={section.number}
-                                    section={section}
-                                />
-                            ))}
+                            <div className="interview-nav">
+                                <button
+                                    type="button"
+                                    className="primary-button"
+                                    onClick={startInterview}
+                                >
+                                    Start Interview
+                                </button>
+                            </div>
                         </section>
                     ) : (
                         <>
@@ -196,6 +192,28 @@ export default function Conversation() {
                                 value={session.getCurrentResponse()}
                                 onChange={handleAnswerChange}
                             />
+
+                            <div className="interview-nav">
+                                <button
+                                    type="button"
+                                    className="secondary-button"
+                                    onClick={
+                                        session.isFirstSection()
+                                            ? goToIntroduction
+                                            : previousSection
+                                    }
+                                >
+                                    {session.isFirstSection() ? "Introduction" : "Previous"}
+                                </button>
+
+                                <button
+                                    type="button"
+                                    className="primary-button"
+                                    onClick={nextSection}
+                                >
+                                    {session.isLastSection() ? "Finish" : "Next"}
+                                </button>
+                            </div>
                         </>
                     )}
                 </div>
@@ -203,25 +221,6 @@ export default function Conversation() {
 
             <AppFooter
                 onBack={() => navigate("/assistant")}
-                secondaryText={
-                    showIntroduction ? undefined : "Previous"
-                }
-                onSecondary={
-                    showIntroduction ? undefined : previousSection
-                }
-                secondaryDisabled={
-                    showIntroduction || session.isFirstSection()
-                }
-                primaryText={
-                    showIntroduction
-                        ? "Start Interview"
-                        : session.isLastSection()
-                            ? "Finish"
-                            : "Next"
-                }
-                onPrimary={
-                    showIntroduction ? startInterview : nextSection
-                }
             />
         </div>
     );

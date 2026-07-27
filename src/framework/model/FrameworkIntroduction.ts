@@ -36,8 +36,19 @@ export interface FrameworkIntroduction {
     systemScope: string;
 
     /**
+     * The Framework System's introductory
+     * text, shown before the interview
+     * begins.
+     */
+    introductionText: string;
+
+    /**
      * Informational sections displayed
      * before the interview.
+     *
+     * Retained for backward compatibility;
+     * the Interview page renders
+     * `introductionText` directly instead.
      */
     sections: Section[];
 

@@ -2,10 +2,6 @@
     margin-bottom:30px;
 }
 
-.conversation-message{
-    margin-bottom:30px;
-}
-
 .conversation-progress{
 
     width:100%;
@@ -41,7 +37,23 @@ textarea{
 
     padding:15px;
 
+    font-family:inherit;
+
     font-size:16px;
+
+    line-height:1.6;
+
+    border:1px solid #d6d6d6;
+
+    border-radius:8px;
+
+}
+
+textarea:focus{
+
+    outline:none;
+
+    border-color:#0b57d0;
 
 }
 
@@ -65,17 +77,163 @@ textarea{
 
 }
 
-.answer-divider{
+/* ==========================================================
+   Dividers
+========================================================== */
+
+.answer-divider,
+.interview-divider{
 
     height:2px;
 
-    background:#4A90E2;
+    background:#0b57d0;
 
     border:none;
 
-    margin:30px 0;
+    margin:24px 0;
 
 }
+
+/* ==========================================================
+   Interview Section
+========================================================== */
+
+.interview-section-title{
+
+    margin-bottom:20px;
+
+}
+
+.interview-block{
+
+    margin-bottom:24px;
+
+}
+
+.interview-block-heading{
+
+    margin-bottom:10px;
+
+}
+
+.interview-block-content{
+
+    line-height:1.75;
+
+    color:#333333;
+
+}
+
+.interview-block-content:empty{
+
+    display:none;
+
+}
+
+.interview-empty-state{
+
+    color:#888888;
+
+    font-style:italic;
+
+}
+
+/* ==========================================================
+   Need Help
+========================================================== */
+
+.interview-help{
+
+    margin-top:24px;
+
+}
+
+.interview-help-toggle{
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    height:44px;
+
+    padding:0 20px;
+
+    border:1px solid #d6d6d6;
+    border-radius:8px;
+
+    background:#ffffff;
+
+    color:#111827;
+
+    font:inherit;
+    font-size:16px;
+    font-weight:500;
+
+    cursor:pointer;
+
+    transition:background-color .2s ease;
+
+}
+
+.interview-help-toggle:hover{
+
+    background:#f5f5f5;
+
+}
+
+.interview-help-panel{
+
+    margin-top:16px;
+
+    padding:20px;
+
+    border:1px solid #ececec;
+    border-radius:8px;
+
+    background:#fafafa;
+
+}
+
+.interview-help-block + .interview-help-block{
+
+    margin-top:16px;
+
+}
+
+.interview-help-heading{
+
+    margin-bottom:8px;
+
+}
+
+.interview-help-content{
+
+    line-height:1.75;
+
+    color:#333333;
+
+}
+
+/* ==========================================================
+   Interview Navigation (Previous / Next)
+========================================================== */
+
+.interview-nav{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:16px;
+
+    margin-top:32px;
+
+}
+
+/* ==========================================================
+   Dynamic Table
+========================================================== */
 
 .answer-variants{
 
@@ -116,9 +274,17 @@ textarea{
 
     border:1px solid #d9d9d9;
 
-    padding:8px;
+    padding:10px;
 
     text-align:left;
+
+}
+
+.dynamic-table th{
+
+    background:#f5f7fb;
+
+    font-weight:600;
 
 }
 
@@ -134,7 +300,26 @@ textarea{
 
 .dynamic-table-delete{
 
+    height:36px;
+
+    padding:0 14px;
+
+    border:1px solid #d6d6d6;
+    border-radius:6px;
+
+    background:#ffffff;
+
+    color:#111827;
+
     cursor:pointer;
+
+    transition:background-color .2s ease;
+
+}
+
+.dynamic-table-delete:hover{
+
+    background:#f5f5f5;
 
 }
 
@@ -148,9 +333,28 @@ textarea{
 
 .dynamic-table-add{
 
+    height:44px;
+
+    padding:0 20px;
+
+    border:1px solid #d6d6d6;
+    border-radius:8px;
+
+    background:#ffffff;
+
+    color:#111827;
+
+    font-weight:500;
+
     cursor:pointer;
 
-    padding:8px 16px;
+    transition:background-color .2s ease;
+
+}
+
+.dynamic-table-add:hover{
+
+    background:#f5f5f5;
 
 }
 

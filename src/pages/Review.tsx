@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import AppHeader from "../components/AppHeader";
@@ -8,11 +8,14 @@ import InterviewProgress from "../components/InterviewProgress";
 import { ReviewManager } from "../framework/application";
 import { StorageService } from "../services/StorageService";
 
+import "../styles/system-confirmation.css";
+
 const reviewManager = new ReviewManager();
 
 export default function Review() {
     const navigate = useNavigate();
     const session = StorageService.loadInterview();
+    const [showExportWarning, setShowExportWarning] = useState(false);
 
     if (!session) {
         return (
@@ -29,8 +32,31 @@ export default function Review() {
         );
     }
 
-    const framework = session.getFramework();
-    const validation = useMemo(() => reviewManager.validate(session), [session]);
+    // Rebind to a non-null local: TypeScript does not carry the
+    // `if (!session) return` narrowing above into the nested
+    // closures below.
+    const activeSession = session;
+
+    const framework = activeSession.getFramework();
+    const validation = useMemo(() => reviewManager.validate(activeSession), [activeSession]);
+
+    function handleExportClick() {
+
+        if (!validation.valid) {
+            setShowExportWarning(true);
+            return;
+        }
+
+        reviewManager.exportMarkdown(activeSession);
+
+    }
+
+    function handleExportAnyway() {
+
+        setShowExportWarning(false);
+        reviewManager.exportMarkdown(activeSession);
+
+    }
 
     return (
         <div className="conversation-page">
@@ -67,9 +93,41 @@ export default function Review() {
                 secondaryText="Back"
                 onSecondary={() => navigate(-1)}
                 primaryText="Export"
-                onPrimary={() => reviewManager.exportMarkdown(session)}
-                primaryDisabled={!validation.valid}
+                onPrimary={handleExportClick}
             />
+
+            {showExportWarning && (
+                <div className="confirmation-overlay">
+                    <div className="confirmation-dialog">
+                        <h2 className="confirmation-title">
+                            Export with incomplete Sections?
+                        </h2>
+
+                        <p>
+                            {validation.issues.length} Section
+                            {validation.issues.length === 1 ? "" : "s"} still
+                            {" "}need{validation.issues.length === 1 ? "s" : ""} a
+                            response. You can export this Interview anyway.
+                        </p>
+
+                        <div className="confirmation-actions">
+                            <button
+                                className="confirmation-button secondary"
+                                onClick={() => setShowExportWarning(false)}
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                className="confirmation-button primary"
+                                onClick={handleExportAnyway}
+                            >
+                                Export Anyway
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

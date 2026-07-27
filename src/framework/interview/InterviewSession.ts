@@ -185,6 +185,19 @@ export class InterviewSession {
         return this.interviewStarted;
     }
 
+    /**
+     * Returns to the Introduction view without
+     * losing any saved progress.
+     *
+     * Unlike `resetInterview()`, this preserves
+     * `currentSectionIndex` and every saved
+     * response, so resuming picks up exactly
+     * where the user left off.
+     */
+    public viewIntroduction(): void {
+        this.interviewStarted = false;
+    }
+
     public resetInterview(): void {
         this.interviewStarted = false;
         this.currentSectionIndex = 0;

@@ -437,11 +437,16 @@ export class FrameworkInterpreter {
             );
         }
 
+        const introductionText = overviewRaw
+            ? this.normalizeTextBlock(overviewRaw.lines.join("\n"))
+            : this.normalizeTextBlock(prefaceContent);
+
         return {
             title: rootSection?.title || metadata.systemName,
             capability,
             guidingQuestion,
             systemScope,
+            introductionText,
             sections
         };
     }
@@ -811,6 +816,7 @@ export class FrameworkInterpreter {
             capability: metadata.capability,
             guidingQuestion,
             systemScope: metadata.scope,
+            introductionText: this.normalizeTextBlock(introductionText),
             sections
         };
     }
