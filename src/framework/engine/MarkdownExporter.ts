@@ -1,13 +1,15 @@
 import { InterviewSession } from "../interview";
-import { formatAnswerAsMarkdown } from "./AnswerUtils.ts";
+import { buildExportContent } from "./ExportContentBuilder.ts";
 
 /**
  * Exports a completed Interview Session
- * back into Markdown format.
+ * to Markdown.
  *
- * The exporter preserves the original
- * Framework structure and appends the
- * user's responses after each Section.
+ * The exported document intentionally
+ * contains only the System's identity, the
+ * chosen Capability, and each Section's
+ * number/title and answer. Help, Questions
+ * and Scope content are not included.
  */
 export class MarkdownExporter {
 
@@ -16,95 +18,31 @@ export class MarkdownExporter {
      * into Markdown.
      */
     public toMarkdown(
-        session: InterviewSession
+        session: InterviewSession,
+        capabilityLabel: string
     ): string {
 
-        const framework =
-            session.getFramework();
+        const content = buildExportContent(session, capabilityLabel);
 
         const lines: string[] = [];
 
-        //
-        // Metadata
-        //
-
-        lines.push("---");
-
-        lines.push(
-            `systemNumber: ${framework.metadata.systemNumber}`
-        );
-
-        lines.push(
-            `systemName: ${framework.metadata.systemName}`
-        );
-
-        lines.push(
-            `capability: ${framework.metadata.capability}`
-        );
-
-        lines.push(
-            `question: ${framework.metadata.question}`
-        );
-
-        lines.push(
-            `scope: ${framework.metadata.scope}`
-        );
-
-        lines.push(
-            `version: ${framework.metadata.version}`
-        );
-
-        lines.push("---");
+        lines.push(`# ${content.systemNumber}. ${content.systemName}`);
+        lines.push("");
+        lines.push(`**Capability:** ${content.capability}`);
         lines.push("");
 
-        //
-        // Sections
-        //
+        for (const section of content.sections) {
 
-        for (const section of framework.sections) {
-
-            lines.push(
-                `# ${section.number}. ${section.title}`
-            );
-
+            lines.push(`## ${section.number}. ${section.title}`);
             lines.push("");
 
-            for (const block of section.blocks) {
+            const hasContent = section.answerLines.some(line => line.trim().length > 0);
 
-                lines.push(
-                    `## ${block.heading}`
-                );
-
-                lines.push("");
-
-                if (
-                    block.content.trim().length > 0
-                ) {
-
-                    lines.push(
-                        block.content.trim()
-                    );
-
-                    lines.push("");
-
-                }
-
+            if (hasContent) {
+                lines.push(...section.answerLines);
+            } else {
+                lines.push("_No response._");
             }
-
-            const response =
-                session.getResponse(
-                    section.number
-                );
-
-            lines.push(
-                "## Response"
-            );
-
-            lines.push("");
-
-            lines.push(
-                ...formatAnswerAsMarkdown(section.answer, response)
-            );
 
             lines.push("");
             lines.push("");

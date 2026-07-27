@@ -18,6 +18,32 @@ import "../styles/conversation-layout.css";
 
 const interviewManager = new InterviewManager();
 
+/**
+ * Splits a block of introduction text into one
+ * sentence per entry, so the introduction can be
+ * rendered as one short paragraph per sentence
+ * instead of one large block of text.
+ */
+function splitIntoSentences(text: string): string[] {
+
+    const collapsed = text.replace(/\s+/g, " ").trim();
+
+    if (collapsed.length === 0) {
+        return [];
+    }
+
+    const matches = collapsed.match(/[^.!?]+[.!?]+(\s+|$)|[^.!?]+$/g);
+
+    if (!matches) {
+        return [collapsed];
+    }
+
+    return matches
+        .map(sentence => sentence.trim())
+        .filter(sentence => sentence.length > 0);
+
+}
+
 export default function Conversation() {
 
     const location = useLocation();
@@ -159,11 +185,12 @@ export default function Conversation() {
 
                     {showIntroduction ? (
                         <section className="interview-section">
-                            <div
-                                className="interview-block-content"
-                                style={{ whiteSpace: "pre-line" }}
-                            >
-                                {introduction.introductionText}
+                            <div className="interview-block-content">
+                                {splitIntoSentences(introduction.introductionText).map((sentence, index) => (
+                                    <p key={index} className="intro-sentence">
+                                        {sentence}
+                                    </p>
+                                ))}
                             </div>
 
                             <div className="interview-nav">

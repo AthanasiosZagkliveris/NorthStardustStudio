@@ -4,6 +4,7 @@ import { ValidationResult } from "../model";
 
 import { InterviewValidator } from "../engine/InterviewValidator";
 import { MarkdownExporter } from "../engine/MarkdownExporter";
+import { PdfExporter } from "../engine/PdfExporter";
 
 /**
  * Application entry point for
@@ -29,6 +30,12 @@ export class ReviewManager {
         new MarkdownExporter();
 
     /**
+     * PDF Exporter.
+     */
+    private readonly pdfExporter =
+        new PdfExporter();
+
+    /**
      * Validates an Interview Session.
      */
     public validate(
@@ -46,11 +53,13 @@ export class ReviewManager {
      * into Markdown.
      */
     public toMarkdown(
-        session: InterviewSession
+        session: InterviewSession,
+        capabilityLabel: string
     ): string {
 
         return this.exporter.toMarkdown(
-            session
+            session,
+            capabilityLabel
         );
 
     }
@@ -60,12 +69,14 @@ export class ReviewManager {
      * as a Markdown file.
      */
     public exportMarkdown(
-        session: InterviewSession
+        session: InterviewSession,
+        capabilityLabel: string
     ): void {
 
         const markdown =
             this.toMarkdown(
-                session
+                session,
+                capabilityLabel
             );
 
         const framework =
@@ -118,6 +129,23 @@ export class ReviewManager {
 
         URL.revokeObjectURL(
             url
+        );
+
+    }
+
+    /**
+     * Exports an Interview Session
+     * as a PDF file (via the platform
+     * print dialog).
+     */
+    public exportPdf(
+        session: InterviewSession,
+        capabilityLabel: string
+    ): void {
+
+        this.pdfExporter.exportPdf(
+            session,
+            capabilityLabel
         );
 
     }

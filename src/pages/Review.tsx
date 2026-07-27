@@ -10,12 +10,20 @@ import { StorageService } from "../services/StorageService";
 
 import "../styles/system-confirmation.css";
 
+type ExportStep = "none" | "warning" | "options";
+type CapabilityChoice = "original" | "other";
+
 const reviewManager = new ReviewManager();
 
 export default function Review() {
     const navigate = useNavigate();
     const session = StorageService.loadInterview();
-    const [showExportWarning, setShowExportWarning] = useState(false);
+
+    const [exportStep, setExportStep] = useState<ExportStep>("none");
+    const [capabilityChoice, setCapabilityChoice] = useState<CapabilityChoice>("original");
+    const [otherCapabilityName, setOtherCapabilityName] = useState("");
+    const [includeMd, setIncludeMd] = useState(true);
+    const [includePdf, setIncludePdf] = useState(false);
 
     if (!session) {
         return (
@@ -40,21 +48,43 @@ export default function Review() {
     const framework = activeSession.getFramework();
     const validation = useMemo(() => reviewManager.validate(activeSession), [activeSession]);
 
+    const canConfirmCapability =
+        capabilityChoice === "original" || otherCapabilityName.trim().length > 0;
+    const canExport = includeMd || includePdf;
+
     function handleExportClick() {
 
         if (!validation.valid) {
-            setShowExportWarning(true);
+            setExportStep("warning");
             return;
         }
 
-        reviewManager.exportMarkdown(activeSession);
+        setExportStep("options");
 
     }
 
-    function handleExportAnyway() {
+    function handleContinueToOptions() {
 
-        setShowExportWarning(false);
-        reviewManager.exportMarkdown(activeSession);
+        setExportStep("options");
+
+    }
+
+    function handleFinalExport() {
+
+        const capabilityLabel =
+            capabilityChoice === "original"
+                ? framework.metadata.capability
+                : otherCapabilityName;
+
+        if (includeMd) {
+            reviewManager.exportMarkdown(activeSession, capabilityLabel);
+        }
+
+        if (includePdf) {
+            reviewManager.exportPdf(activeSession, capabilityLabel);
+        }
+
+        setExportStep("none");
 
     }
 
@@ -96,33 +126,115 @@ export default function Review() {
                 onPrimary={handleExportClick}
             />
 
-            {showExportWarning && (
+            {exportStep === "warning" && (
                 <div className="confirmation-overlay">
                     <div className="confirmation-dialog">
                         <h2 className="confirmation-title">
                             Export with incomplete Sections?
                         </h2>
 
-                        <p>
+                        <p className="confirmation-warning-text">
                             {validation.issues.length} Section
                             {validation.issues.length === 1 ? "" : "s"} still
-                            {" "}need{validation.issues.length === 1 ? "s" : ""} a
-                            response. You can export this Interview anyway.
+                            {" "}need{validation.issues.length === 1 ? "s" : ""} a response.
                         </p>
 
                         <div className="confirmation-actions">
                             <button
                                 className="confirmation-button secondary"
-                                onClick={() => setShowExportWarning(false)}
+                                onClick={() => setExportStep("none")}
                             >
                                 Cancel
                             </button>
 
                             <button
                                 className="confirmation-button primary"
-                                onClick={handleExportAnyway}
+                                onClick={handleContinueToOptions}
                             >
-                                Export Anyway
+                                Continue
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {exportStep === "options" && (
+                <div className="confirmation-overlay">
+                    <div className="confirmation-dialog export-options-dialog">
+                        <h2 className="confirmation-title">
+                            Export Options
+                        </h2>
+
+                        <div className="export-options-group">
+                            <div className="export-options-label">Capability</div>
+
+                            <label className="export-options-radio">
+                                <input
+                                    type="radio"
+                                    name="capability-choice"
+                                    checked={capabilityChoice === "original"}
+                                    onChange={() => setCapabilityChoice("original")}
+                                />
+                                Original ({framework.metadata.capability})
+                            </label>
+
+                            <label className="export-options-radio">
+                                <input
+                                    type="radio"
+                                    name="capability-choice"
+                                    checked={capabilityChoice === "other"}
+                                    onChange={() => setCapabilityChoice("other")}
+                                />
+                                Another Capability
+                            </label>
+
+                            {capabilityChoice === "other" && (
+                                <input
+                                    type="text"
+                                    className="export-options-text-input"
+                                    placeholder="Capability name"
+                                    value={otherCapabilityName}
+                                    onChange={(event) => setOtherCapabilityName(event.target.value)}
+                                />
+                            )}
+                        </div>
+
+                        <div className="export-options-group">
+                            <div className="export-options-label">Format</div>
+
+                            <label className="export-options-checkbox">
+                                <input
+                                    type="checkbox"
+                                    checked={includeMd}
+                                    onChange={(event) => setIncludeMd(event.target.checked)}
+                                />
+                                Markdown (.md)
+                            </label>
+
+                            <label className="export-options-checkbox">
+                                <input
+                                    type="checkbox"
+                                    checked={includePdf}
+                                    onChange={(event) => setIncludePdf(event.target.checked)}
+                                />
+                                PDF
+                            </label>
+                        </div>
+
+                        <div className="confirmation-actions">
+                            <button
+                                className="confirmation-button secondary"
+                                onClick={() => setExportStep("none")}
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                className="confirmation-button primary"
+                                onClick={handleFinalExport}
+                                disabled={!canExport || !canConfirmCapability}
+                            >
+                                Export
                             </button>
                         </div>
                     </div>
