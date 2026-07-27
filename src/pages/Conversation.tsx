@@ -130,8 +130,8 @@ export default function Conversation() {
             <main className="conversation-content">
                 <div className="conversation-card">
                     <InterviewHeader
+                        systemNumber={String(framework.metadata.systemNumber)}
                         systemName={framework.metadata.systemName}
-                        capability={framework.metadata.capability}
                     />
 
                     {showIntroduction ? (

@@ -1,30 +1,17 @@
 import { Section } from "./Section";
 
 /**
- * Represents the information shown
+ * Read-only information displayed
  * before the interview begins.
+ *
+ * The interview introduction contains only
+ * informational content required to introduce
+ * the Framework System.
+ *
+ * System identification (number and name) is
+ * provided by the Framework Metadata.
  */
 export interface FrameworkIntroduction {
-
-    /**
-     * Framework title.
-     */
-    title: string;
-
-    /**
-     * Organizational capability.
-     */
-    capability: string;
-
-    /**
-     * Primary guiding question.
-     */
-    guidingQuestion: string;
-
-    /**
-     * Official Framework scope.
-     */
-    systemScope: string;
 
     /**
      * Informational sections displayed

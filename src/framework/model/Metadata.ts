@@ -1,6 +1,10 @@
 /**
  * Framework metadata extracted from the
- * Markdown document front matter.
+ * Framework package.
+ *
+ * This information identifies and describes
+ * the Framework System, but is not intended
+ * to be rendered directly by the Interview UI.
  */
 export interface Metadata {
 
@@ -8,7 +12,7 @@ export interface Metadata {
      * Framework System number.
      *
      * Example:
-     * 1
+     * 13
      */
     systemNumber: number;
 
@@ -16,26 +20,35 @@ export interface Metadata {
      * Framework System name.
      *
      * Example:
-     * Identity System
+     * Asset System
      */
     systemName: string;
 
     /**
      * Original organizational capability.
      *
+     * Used for Framework organization,
+     * recommendations and capability mapping.
+     *
      * Example:
-     * Foundation
+     * Deliver Value
      */
     capability: string;
 
     /**
-     * Organizational question answered
-     * by this Framework.
+     * Primary organizational question
+     * answered by this Framework.
+     *
+     * Used for Framework metadata and
+     * recommendation purposes.
      */
     question: string;
 
     /**
-     * Scope of the Framework.
+     * Official Framework System scope.
+     *
+     * Used for Framework metadata and
+     * capability matching.
      */
     scope: string;
 

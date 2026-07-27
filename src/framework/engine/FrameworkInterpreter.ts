@@ -1,5 +1,4 @@
 import {
-    FrameworkDocument,
     FrameworkIntroduction,
     Metadata,
     Section,
