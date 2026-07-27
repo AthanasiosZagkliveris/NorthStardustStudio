@@ -29,6 +29,12 @@ export default function CapabilityList({
                             ? "capability-item active"
                             : "capability-item"
                     }
+                    onMouseEnter={() =>
+                        onActiveCapabilityChange(capability.id)
+                    }
+                    onFocus={() =>
+                        onActiveCapabilityChange(capability.id)
+                    }
                     onClick={() =>
                         onActiveCapabilityChange(capability.id)
                     }

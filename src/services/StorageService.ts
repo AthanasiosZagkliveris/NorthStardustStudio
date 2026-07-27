@@ -23,9 +23,24 @@ export class StorageService {
 
         try {
 
-            return InterviewSession.fromJSON(
+            const session = InterviewSession.fromJSON(
                 JSON.parse(data)
             );
+
+            if (!this.isCompatible(session)) {
+
+                console.warn(
+                    "Saved interview session is from an older, " +
+                    "incompatible version of the Framework. Discarding it."
+                );
+
+                this.clearInterview();
+
+                return null;
+
+            }
+
+            return session;
 
         } catch (error) {
 
@@ -45,6 +60,39 @@ export class StorageService {
     static clearInterview(): void {
 
         localStorage.removeItem(INTERVIEW_KEY);
+
+    }
+
+    /**
+     * Verifies that a restored session's Framework
+     * still matches the shape the current app
+     * expects.
+     *
+     * A session saved by an older build of the app
+     * may be missing fields (such as each Section's
+     * Answer Definition) that the current renderer
+     * requires. Resuming such a session would crash
+     * the Interview page rather than displaying it,
+     * so any structurally incompatible session is
+     * treated the same as "no saved session".
+     */
+    private static isCompatible(session: InterviewSession): boolean {
+
+        try {
+
+            const framework = session.getFramework();
+
+            return framework.sections.every(
+                section =>
+                    !!section.answer &&
+                    typeof section.answer.type === "string"
+            );
+
+        } catch {
+
+            return false;
+
+        }
 
     }
 

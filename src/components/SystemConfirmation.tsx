@@ -38,12 +38,6 @@ export default function SystemConfirmation({
 
                 </h2>
 
-                <p className="confirmation-message">
-
-                    The AI Assistant will interview you to complete this Framework System.
-
-                </p>
-
                 <div className="confirmation-actions">
 
                     <button
