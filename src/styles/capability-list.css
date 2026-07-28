@@ -28,7 +28,10 @@
     font-size: 20px;
     font-weight: 500;
 
-    color: #333333;
+    /* Each Capability shows in its own colour by
+       default, not a shared neutral tone -- the
+       colour is what identifies it at a glance. */
+    color: var(--capability-color, #333333);
 
     transition:
         background-color 0.15s ease,
@@ -37,17 +40,13 @@
 }
 
 .capability-item:hover {
-    background: #eef4ff;
-
-    color: #0b57d0;
+    background: color-mix(in srgb, var(--capability-color, #0b57d0) 12%, white);
 
     font-weight: 700;
 }
 
 .capability-item.active {
-    background: #e8f0ff;
-
-    color: #0b57d0;
+    background: color-mix(in srgb, var(--capability-color, #0b57d0) 16%, white);
 
     font-weight: 700;
 }

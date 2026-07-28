@@ -1,10 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-import { capabilities } from "../data/capabilities";
+import { capabilities, getCapabilityColor } from "../data/capabilities";
 import { systems } from "../data/systems";
 
 import { FrameworkSystem } from "../types/system";
+import { Capability } from "../types/capability";
+
+import { getCapabilityDescription } from "../framework/engine/CapabilityDescriptions.ts";
 
 import AppHeader from "../components/AppHeader";
 import AppFooter from "../components/AppFooter";
@@ -12,6 +15,7 @@ import AppFooter from "../components/AppFooter";
 import CapabilityList from "../components/CapabilityList";
 import SystemList from "../components/SystemList";
 import SystemConfirmation from "../components/SystemConfirmation";
+import CapabilityDescriptionDialog from "../components/CapabilityDescriptionDialog";
 
 import "../styles/workspace.css";
 
@@ -28,6 +32,9 @@ export default function SystemSelection() {
     const [confirmationOpen, setConfirmationOpen] =
         useState(false);
 
+    const [openCapability, setOpenCapability] =
+        useState<Capability | null>(null);
+
     const filteredSystems = activeCapability
         ? systems.filter(
               system => system.capability === activeCapability
@@ -38,6 +45,8 @@ export default function SystemSelection() {
         capabilities.find(
             capability => capability.id === activeCapability
         )?.title ?? "";
+
+    const activeCapabilityColor = getCapabilityColor(activeCapability);
 
     function handleSystemSelection(system: FrameworkSystem) {
 
@@ -99,13 +108,17 @@ export default function SystemSelection() {
                                 capabilities={capabilities}
                                 activeCapability={activeCapability}
                                 onActiveCapabilityChange={setActiveCapability}
+                                onCapabilityOpen={setOpenCapability}
                             />
 
                         </aside>
 
                         <section>
 
-                            <h2 className="workspace-current-capability">
+                            <h2
+                                className="workspace-current-capability"
+                                style={{ color: activeCapability ? activeCapabilityColor : undefined }}
+                            >
 
                                 {capabilityTitle}
 
@@ -113,6 +126,7 @@ export default function SystemSelection() {
 
                             <SystemList
                                 systems={filteredSystems}
+                                color={activeCapability ? activeCapabilityColor : undefined}
                                 onSystemClick={handleSystemSelection}
                             />
 
@@ -133,6 +147,17 @@ export default function SystemSelection() {
                 systemTitle={selectedSystem?.title ?? ""}
                 onCancel={() => setConfirmationOpen(false)}
                 onStart={startInterview}
+            />
+
+            <CapabilityDescriptionDialog
+                open={openCapability !== null}
+                capability={openCapability}
+                description={
+                    openCapability
+                        ? getCapabilityDescription(openCapability.title) ?? null
+                        : null
+                }
+                onBack={() => setOpenCapability(null)}
             />
 
         </div>

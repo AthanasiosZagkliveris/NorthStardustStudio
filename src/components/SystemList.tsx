@@ -8,6 +8,8 @@ interface SystemListProps {
 
     systems: FrameworkSystem[];
 
+    color?: string;
+
     onSystemClick: (system: FrameworkSystem) => void;
 
 }
@@ -15,6 +17,8 @@ interface SystemListProps {
 export default function SystemList({
 
     systems,
+
+    color,
 
     onSystemClick
 
@@ -31,6 +35,8 @@ export default function SystemList({
                     key={system.id}
 
                     system={system}
+
+                    color={color}
 
                     onClick={() => onSystemClick(system)}
 

@@ -269,6 +269,23 @@ export default function AnswerRenderer({
 
             }
 
+            function moveItem(index: number, direction: -1 | 1) {
+
+                const targetIndex = index + direction;
+
+                if (targetIndex < 0 || targetIndex >= items.length) {
+                    return;
+                }
+
+                const next = [...items];
+
+                const [moved] = next.splice(index, 1);
+                next.splice(targetIndex, 0, moved);
+
+                updateItems(next);
+
+            }
+
             return (
 
                 <div className="answer-checklist">
@@ -279,9 +296,35 @@ export default function AnswerRenderer({
                         </div>
                     )}
 
-                    {items.map(item => (
+                    {items.map((item, index) => (
 
                         <div key={item.id} className="answer-checklist-row">
+
+                            <div className="answer-checklist-move">
+
+                                <button
+                                    type="button"
+                                    className="answer-checklist-move-up"
+                                    aria-label="Move item up"
+                                    title="Move item up"
+                                    disabled={disabled || index === 0}
+                                    onClick={() => moveItem(index, -1)}
+                                >
+                                    ▲
+                                </button>
+
+                                <button
+                                    type="button"
+                                    className="answer-checklist-move-down"
+                                    aria-label="Move item down"
+                                    title="Move item down"
+                                    disabled={disabled || index === items.length - 1}
+                                    onClick={() => moveItem(index, 1)}
+                                >
+                                    ▼
+                                </button>
+
+                            </div>
 
                             <input
                                 type="checkbox"

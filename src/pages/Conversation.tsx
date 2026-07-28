@@ -256,6 +256,7 @@ export default function Conversation() {
                     <InterviewHeader
                         systemNumber={String(framework.metadata.systemNumber)}
                         systemName={framework.metadata.systemName}
+                        capabilityId={system?.capability}
                     />
 
                     {showIntroduction ? (

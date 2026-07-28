@@ -1,5 +1,73 @@
 import { InterviewSession } from "../interview";
 import { buildExportContent, ExportContent } from "./ExportContentBuilder.ts";
+import { ExportBlock } from "./AnswerUtils.ts";
+
+function escapeHtml(value: string): string {
+
+    return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+}
+
+function renderBlockHtml(block: ExportBlock): string {
+
+    switch (block.kind) {
+
+        case "subheading":
+
+            return `<h3>${escapeHtml(block.text)}</h3>`;
+
+        case "paragraph":
+
+            return `<p>${escapeHtml(block.text)}</p>`;
+
+        case "table": {
+
+            const headHtml = block.headers
+                .map(header => `<th>${escapeHtml(header)}</th>`)
+                .join("");
+
+            const rowsHtml = block.rows.map(row => {
+
+                const cellsHtml = row
+                    .map(cell => {
+
+                        const trimmed = cell.trim();
+
+                        return `<td>${trimmed.length > 0 ? escapeHtml(trimmed).replace(/\r?\n/g, "<br>") : "&nbsp;"}</td>`;
+
+                    })
+                    .join("");
+
+                return `<tr>${cellsHtml}</tr>`;
+
+            }).join("");
+
+            return `<table class="export-table"><thead><tr>${headHtml}</tr></thead><tbody>${rowsHtml}</tbody></table>`;
+
+        }
+
+        case "checklist": {
+
+            const itemsHtml = block.items.map(item => `
+                <li class="${item.checked ? "checked" : ""}">
+                    <span class="export-checklist-mark">${item.checked ? "☑" : "☐"}</span>
+                    <span>${escapeHtml(item.text)}</span>
+                </li>
+            `).join("");
+
+            return `<ul class="export-checklist">${itemsHtml}</ul>`;
+
+        }
+
+        default:
+            return "";
+
+    }
+
+}
 
 /**
  * Exports a completed Interview Session to PDF.
@@ -15,6 +83,13 @@ import { buildExportContent, ExportContent } from "./ExportContentBuilder.ts";
  * only the System's identity, the chosen Capability,
  * and each Section's number/title and answer. Help,
  * Questions and Scope content are not included.
+ *
+ * Every Answer Structure renders with real markup --
+ * an actual <table> for Tables, a real checklist for
+ * Checklists -- rather than dumping raw Markdown-ish
+ * text into a paragraph, which used to leave pipes,
+ * asterisks and "- [ ]" syntax visibly unrendered in
+ * the printed/PDF output.
  */
 export class PdfExporter {
 
@@ -70,25 +145,15 @@ export class PdfExporter {
 
     private buildHtml(content: ExportContent): string {
 
-        const escape = (value: string): string =>
-            value
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;");
-
         const sectionsHtml = content.sections.map(section => {
 
-            const hasContent = section.answerLines.some(line => line.trim().length > 0);
-
-            const answerHtml = hasContent
-                ? section.answerLines
-                    .map(line => `<p>${line.trim().length > 0 ? escape(line) : "&nbsp;"}</p>`)
-                    .join("")
+            const bodyHtml = section.blocks.length > 0
+                ? section.blocks.map(renderBlockHtml).join("")
                 : "<p><em>No response.</em></p>";
 
             return `
-                <h2>${escape(String(section.number))}. ${escape(section.title)}</h2>
-                ${answerHtml}
+                <h2>${escapeHtml(String(section.number))}. ${escapeHtml(section.title)}</h2>
+                ${bodyHtml}
             `;
 
         }).join("");
@@ -98,7 +163,7 @@ export class PdfExporter {
             <html>
                 <head>
                     <meta charset="utf-8" />
-                    <title>${escape(content.systemNumber)}. ${escape(content.systemName)}</title>
+                    <title>${escapeHtml(content.systemNumber)}. ${escapeHtml(content.systemName)}</title>
                     <style>
                         body {
                             font-family: Arial, Helvetica, sans-serif;
@@ -115,12 +180,57 @@ export class PdfExporter {
                             padding-bottom: 4px;
                             page-break-after: avoid;
                         }
+                        h3 {
+                            font-size: 14px;
+                            margin-top: 14px;
+                            margin-bottom: 4px;
+                            page-break-after: avoid;
+                        }
                         p { font-size: 13px; line-height: 1.6; margin: 0 0 8px; }
+                        table.export-table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin: 6px 0 14px;
+                            page-break-inside: auto;
+                        }
+                        table.export-table th,
+                        table.export-table td {
+                            border: 1px solid #c7c7c7;
+                            padding: 6px 8px;
+                            font-size: 12px;
+                            line-height: 1.45;
+                            text-align: left;
+                            vertical-align: top;
+                        }
+                        table.export-table th {
+                            background: #f2f4f8;
+                            font-weight: 700;
+                        }
+                        table.export-table tr {
+                            page-break-inside: avoid;
+                        }
+                        ul.export-checklist {
+                            list-style: none;
+                            margin: 0 0 14px;
+                            padding: 0;
+                        }
+                        ul.export-checklist li {
+                            display: flex;
+                            align-items: flex-start;
+                            gap: 8px;
+                            font-size: 13px;
+                            line-height: 1.5;
+                            margin-bottom: 4px;
+                        }
+                        .export-checklist-mark {
+                            flex-shrink: 0;
+                            font-size: 14px;
+                        }
                     </style>
                 </head>
                 <body>
-                    <h1>${escape(content.systemNumber)}. ${escape(content.systemName)}</h1>
-                    <div class="capability"><strong>Capability:</strong> ${escape(content.capability)}</div>
+                    <h1>${escapeHtml(content.systemNumber)}. ${escapeHtml(content.systemName)}</h1>
+                    <div class="capability"><strong>Capability:</strong> ${escapeHtml(content.capability)}</div>
                     ${sectionsHtml}
                 </body>
             </html>

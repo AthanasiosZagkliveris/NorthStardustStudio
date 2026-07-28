@@ -24,7 +24,11 @@
     justify-content: center;
     align-items: flex-start;
 
-    padding: 40px;
+    /* Extra bottom padding clears the fixed Footer and
+       the fixed Previous/Next bar sitting above it, so
+       content scrolled all the way down is never hidden
+       underneath either of them. */
+    padding: 40px 40px 220px;
 
 }
 

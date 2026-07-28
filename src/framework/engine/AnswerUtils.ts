@@ -178,11 +178,61 @@ export function isAnswerEmpty(answer: AnswerDefinition, value: unknown): boolean
 }
 
 /**
- * Formats a Section response as Markdown lines,
- * following the shape declared by its Answer
- * Definition.
+ * A structured, format-agnostic piece of exportable
+ * Section content. Each export format (Markdown, PDF)
+ * renders these idiomatically -- a real <table> in
+ * PDF, an escaped pipe table in Markdown, and so on --
+ * instead of every format sharing one lossy plain-text
+ * shape (which is what made Tables and Checklists show
+ * up as raw, unrendered syntax in the PDF export).
  */
-export function formatAnswerAsMarkdown(answer: AnswerDefinition, value: unknown): string[] {
+export type ExportBlock =
+    | { kind: "paragraph"; text: string }
+    | { kind: "subheading"; text: string }
+    | { kind: "table"; headers: string[]; rows: string[][] }
+    | { kind: "checklist"; items: { text: string; checked: boolean }[] };
+
+/**
+ * Converts a single table cell's raw value into
+ * exportable text.
+ */
+function cellToText(cell: unknown): string {
+
+    if (Array.isArray(cell)) {
+
+        return cell
+            .filter(item => typeof item === "string" && item.trim().length > 0)
+            .map((item, index) => `${index + 1}. ${item}`)
+            .join("; ");
+
+    }
+
+    return cell === undefined || cell === null ? "" : String(cell);
+
+}
+
+/**
+ * Splits free text into paragraphs on blank lines,
+ * trimming and dropping any that are empty.
+ */
+function toParagraphs(text: string): string[] {
+
+    return text
+        .split(/\n{2,}/)
+        .map(paragraph => paragraph.trim())
+        .filter(paragraph => paragraph.length > 0);
+
+}
+
+/**
+ * Builds the exportable content of a Section response,
+ * following the shape declared by its Answer
+ * Definition. Returns an empty array when there is
+ * nothing worth exporting (blank text, an all-blank
+ * Table, an empty Checklist), so callers can show a
+ * "No response" placeholder consistently.
+ */
+export function buildAnswerBlocks(answer: AnswerDefinition, value: unknown): ExportBlock[] {
 
     switch (answer.type) {
 
@@ -190,7 +240,7 @@ export function formatAnswerAsMarkdown(answer: AnswerDefinition, value: unknown)
 
             const text = typeof value === "string" ? value.trim() : "";
 
-            return [text];
+            return toParagraphs(text).map(paragraph => ({ kind: "paragraph", text: paragraph }));
 
         }
 
@@ -201,18 +251,25 @@ export function formatAnswerAsMarkdown(answer: AnswerDefinition, value: unknown)
                     ? value as FixedVariantAnswerValue
                     : {};
 
-            const lines: string[] = [];
+            const blocks: ExportBlock[] = [];
 
             for (const variant of answer.variants ?? []) {
 
-                lines.push(`**${variant.title}:**`);
-                lines.push("");
-                lines.push(String(values[variant.id] ?? "").trim());
-                lines.push("");
+                const text = String(values[variant.id] ?? "").trim();
+
+                if (text.length === 0) {
+                    continue;
+                }
+
+                blocks.push({ kind: "subheading", text: variant.title });
+
+                toParagraphs(text).forEach(paragraph => {
+                    blocks.push({ kind: "paragraph", text: paragraph });
+                });
 
             }
 
-            return lines;
+            return blocks;
 
         }
 
@@ -225,44 +282,26 @@ export function formatAnswerAsMarkdown(answer: AnswerDefinition, value: unknown)
                 return [];
             }
 
-            const lines: string[] = [];
+            // Rows the user never touched (every cell still
+            // blank -- e.g. the single default row a fresh
+            // Table starts with) are dropped from the export
+            // rather than showing up as an empty row.
+            const filledRows = rows.filter(
+                row => columns.some(column => isCellFilled(row[column.id]))
+            );
 
-            const headerCells = ["#", ...columns.map(column => column.title)];
-
-            lines.push(`| ${headerCells.join(" | ")} |`);
-            lines.push(`| ${headerCells.map(() => "---").join(" | ")} |`);
-
-            rows.forEach((row, index) => {
-
-                const cells = [
-                    String(index + 1),
-                    ...columns.map(column => {
-
-                        const cell = row[column.id];
-
-                        if (Array.isArray(cell)) {
-
-                            return cell
-                                .filter(item => typeof item === "string" && item.trim().length > 0)
-                                .map((item, itemIndex) => `${itemIndex + 1}. ${item}`)
-                                .join("; ");
-
-                        }
-
-                        return cell === undefined || cell === null ? "" : String(cell);
-
-                    })
-                ];
-
-                lines.push(`| ${cells.join(" | ")} |`);
-
-            });
-
-            if (rows.length === 0) {
-                lines.push("| _No rows._ |" + " |".repeat(columns.length));
+            if (filledRows.length === 0) {
+                return [];
             }
 
-            return lines;
+            const headers = ["#", ...columns.map(column => column.title)];
+
+            const dataRows = filledRows.map((row, index) => [
+                String(index + 1),
+                ...columns.map(column => cellToText(row[column.id]))
+            ]);
+
+            return [{ kind: "table", headers, rows: dataRows }];
 
         }
 
@@ -280,9 +319,10 @@ export function formatAnswerAsMarkdown(answer: AnswerDefinition, value: unknown)
                 return [];
             }
 
-            return filled.map(
-                item => `- [${item.checked ? "x" : " "}] ${item.text.trim()}`
-            );
+            return [{
+                kind: "checklist",
+                items: filled.map(item => ({ text: item.text.trim(), checked: item.checked }))
+            }];
 
         }
 

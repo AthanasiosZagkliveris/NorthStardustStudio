@@ -42,10 +42,6 @@
     margin-bottom: 0;
 }
 
-.system-item:hover {
-    background-color: #eef4ff;
-}
-
 /* ==========================================================
    Number
 ========================================================== */
@@ -60,7 +56,10 @@
     font-size: 20px;
     font-weight: 500;
 
-    color: #000000;
+    /* Defaults to its parent Capability's colour --
+       every System reads as belonging to the
+       Capability it's filed under. */
+    color: var(--system-color, #000000);
 
     transition:
         color 0.15s ease,
@@ -75,7 +74,7 @@
     font-size: 20px;
     font-weight: 500;
 
-    color: #000000;
+    color: var(--system-color, #000000);
 
     transition:
         color 0.15s ease,
@@ -86,8 +85,11 @@
    Hover
 ========================================================== */
 
+.system-item:hover {
+    background-color: color-mix(in srgb, var(--system-color, #0b57d0) 10%, #eef4ff);
+}
+
 .system-item:hover .system-number,
 .system-item:hover .system-title {
-    color: #0b57d0;
     font-weight: 700;
 }

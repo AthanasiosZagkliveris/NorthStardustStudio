@@ -1,5 +1,5 @@
 import { InterviewSession } from "../interview";
-import { formatAnswerAsMarkdown } from "./AnswerUtils.ts";
+import { buildAnswerBlocks, ExportBlock } from "./AnswerUtils.ts";
 
 /**
  * The exportable content of a single Section:
@@ -10,7 +10,7 @@ import { formatAnswerAsMarkdown } from "./AnswerUtils.ts";
 export interface ExportSectionContent {
     number: number;
     title: string;
-    answerLines: string[];
+    blocks: ExportBlock[];
 }
 
 /**
@@ -45,7 +45,7 @@ export function buildExportContent(
         return {
             number: section.number,
             title: section.title,
-            answerLines: formatAnswerAsMarkdown(section.answer, response)
+            blocks: buildAnswerBlocks(section.answer, response)
         };
 
     });

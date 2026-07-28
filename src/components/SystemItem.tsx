@@ -4,6 +4,8 @@ interface SystemItemProps {
 
     system: FrameworkSystem;
 
+    color?: string;
+
     onClick: () => void;
 
 }
@@ -11,6 +13,8 @@ interface SystemItemProps {
 export default function SystemItem({
 
     system,
+
+    color,
 
     onClick
 
@@ -20,6 +24,7 @@ export default function SystemItem({
 
         <li
             className="system-item"
+            style={color ? ({ "--system-color": color } as React.CSSProperties) : undefined}
             onClick={onClick}
         >
 

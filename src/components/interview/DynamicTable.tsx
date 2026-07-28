@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import FieldRenderer from "./FieldRenderer";
 import DateCellInput from "./DateCellInput.tsx";
@@ -55,22 +55,99 @@ interface DynamicTableProps {
 }
 
 const ROW_NUMBER_COLUMN_WIDTH = 48;
-const ACTIONS_COLUMN_WIDTH = 56;
-const HEADER_CELL_PADDING = 20;
+const ACTIONS_COLUMN_WIDTH = 92;
+const HEADER_CELL_PADDING = 26;
 const MIN_COLUMN_WIDTH = 90;
 
-// Columns holding richer controls (a calendar-backed
-// date field, or a Framework Field like a dropdown)
-// need more room than their title alone to stay usable,
-// so their resize floor is never allowed below this,
-// even if the title text itself is short.
-const TYPE_MIN_WIDTH: Partial<Record<TableColumn["type"], number>> = {
+// A Field (dropdown) or Date column holds a fixed
+// control -- a select, or a text field + calendar
+// button -- that doesn't benefit from being resized
+// and looks broken if squeezed. These columns keep a
+// constant width instead of participating in manual
+// column resize at all.
+const TYPE_FIXED_WIDTH: Partial<Record<TableColumn["type"], number>> = {
 
-    date: 170,
+    date: 190,
 
-    field: 150
+    field: 170
 
 };
+
+function isFixedWidthColumn(column: TableColumn): boolean {
+    return column.type in TYPE_FIXED_WIDTH;
+}
+
+// Extra room added on top of a column's measured
+// content so text doesn't sit flush against the
+// cell's edges once resized down to its natural
+// maximum.
+const CONTENT_WIDTH_PADDING = 48;
+
+let measureCanvas: HTMLCanvasElement | null = null;
+
+/**
+ * Measures the pixel width of the longest line in
+ * some text, using the same font as a table cell's
+ * text input. Used to cap column resize at "wide
+ * enough to show the longest line with no wrapping",
+ * rather than leaving the column unbounded.
+ */
+function measureTextWidth(text: string, font: string): number {
+
+    if (!measureCanvas) {
+        measureCanvas = document.createElement("canvas");
+    }
+
+    const context = measureCanvas.getContext("2d");
+
+    if (!context) {
+        return 0;
+    }
+
+    context.font = font;
+
+    let max = 0;
+
+    for (const line of text.split("\n")) {
+
+        const width = context.measureText(line).width;
+
+        if (width > max) {
+            max = width;
+        }
+
+    }
+
+    return max;
+
+}
+
+// Matches the font declared on .dynamic-table-textarea /
+// .interview-input (font-size:15px, inherited font-family
+// "Inter", normal weight) in conversation.css.
+const CELL_FONT = "400 15px Inter, sans-serif";
+
+// Fallback used only if a header cell hasn't rendered yet
+// when this is read -- .dynamic-table th declares
+// font-weight:600 and inherits the body's default size.
+const HEADER_FONT_FALLBACK = "600 16px Inter, sans-serif";
+
+/**
+ * Reads the actual font a rendered element is using, so
+ * text measurement matches reality instead of a guessed
+ * font string.
+ */
+function computedFont(el: Element | null | undefined, fallback: string): string {
+
+    if (!el) {
+        return fallback;
+    }
+
+    const style = window.getComputedStyle(el);
+
+    return `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+
+}
 
 /**
  * A <textarea> that grows tall enough to show its
@@ -207,29 +284,79 @@ export default function DynamicTable({
     function columnMinWidth(column: TableColumn): number {
 
         const titleMin = minWidths[column.id] ?? MIN_COLUMN_WIDTH;
-        const typeMin = TYPE_MIN_WIDTH[column.type] ?? MIN_COLUMN_WIDTH;
 
-        return Math.max(MIN_COLUMN_WIDTH, titleMin, typeMin);
+        return Math.max(MIN_COLUMN_WIDTH, titleMin);
 
     }
 
-    // Measure each header's natural (un-wrapped) width once
-    // rendered, so a column can never be resized narrower
-    // than its own title (or, for date/field columns, the
-    // controls they hold -- see TYPE_MIN_WIDTH above).
+    // The widest single line currently held by each
+    // resizable (text/number) column, so a column can
+    // never be dragged wider than its own content
+    // actually needs.
+    const contentMaxWidths = useMemo(() => {
+
+        const result: Record<string, number> = {};
+
+        columns.forEach(column => {
+
+            if (isFixedWidthColumn(column)) {
+                return;
+            }
+
+            let max = 0;
+
+            value.forEach(row => {
+
+                const text = String(row[column.id] ?? "");
+
+                const width = measureTextWidth(text, CELL_FONT);
+
+                if (width > max) {
+                    max = width;
+                }
+
+            });
+
+            result[column.id] = Math.ceil(max) + CONTENT_WIDTH_PADDING;
+
+        });
+
+        return result;
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [columns, value]);
+
+    function columnMaxWidth(column: TableColumn): number {
+
+        const min = columnMinWidth(column);
+        const contentMax = contentMaxWidths[column.id] ?? min;
+
+        return Math.max(min, contentMax);
+
+    }
+
+    // Measure each header's title text width directly (via
+    // canvas, using the header's own actual font) so a
+    // column can never be resized narrower than its own
+    // title -- deliberately NOT th.scrollWidth, which
+    // reflects the column's current *rendered* width
+    // (already stretched by the table's auto layout) rather
+    // than the title text's true minimum, and used to leave
+    // a column stuck unable to shrink much below whatever
+    // width it already happened to have.
     useLayoutEffect(() => {
 
         const next: Record<string, number> = {};
 
         columns.forEach(column => {
 
-            const el = headerRefs.current[column.id];
+            const th = headerRefs.current[column.id];
+            const label = th?.querySelector(".dynamic-table-header-label");
 
-            if (el) {
+            const font = computedFont(label, HEADER_FONT_FALLBACK);
+            const textWidth = measureTextWidth(column.title, font);
 
-                next[column.id] = Math.ceil(el.scrollWidth) + HEADER_CELL_PADDING;
-
-            }
+            next[column.id] = Math.ceil(textWidth) + HEADER_CELL_PADDING;
 
         });
 
@@ -252,9 +379,16 @@ export default function DynamicTable({
 
         const column = columns.find(candidate => candidate.id === drag.columnId);
 
-        const min = column ? columnMinWidth(column) : MIN_COLUMN_WIDTH;
+        if (!column) {
+            return;
+        }
 
-        const next = Math.max(min, Math.round(drag.startWidth + (event.clientX - drag.startX)));
+        const min = columnMinWidth(column);
+        const max = columnMaxWidth(column);
+
+        const proposed = Math.round(drag.startWidth + (event.clientX - drag.startX));
+
+        const next = Math.min(max, Math.max(min, proposed));
 
         setColWidths(prev => ({
 
@@ -365,14 +499,44 @@ export default function DynamicTable({
 
     }
 
+    function clearRow(index: number) {
+
+        const rows = [...value];
+
+        rows[index] = createRow();
+
+        onChange(rows);
+
+    }
+
     function deleteRow(index: number) {
 
-        // A table always keeps at least one row.
+        // A table always keeps at least one row -- pressing
+        // the minus button on the last remaining row clears
+        // its contents back to blank instead of doing nothing.
         if (value.length <= 1) {
+            clearRow(index);
             return;
         }
 
         const rows = value.filter((_, i) => i !== index);
+
+        onChange(rows);
+
+    }
+
+    function moveRow(index: number, direction: -1 | 1) {
+
+        const targetIndex = index + direction;
+
+        if (targetIndex < 0 || targetIndex >= value.length) {
+            return;
+        }
+
+        const rows = [...value];
+
+        const [moved] = rows.splice(index, 1);
+        rows.splice(targetIndex, 0, moved);
 
         onChange(rows);
 
@@ -548,6 +712,30 @@ export default function DynamicTable({
 
     const hasCustomWidths = Object.keys(colWidths).length > 0;
 
+    function columnWidthPx(column: TableColumn): number {
+
+        const fixed = TYPE_FIXED_WIDTH[column.type];
+
+        if (fixed !== undefined) {
+            return fixed;
+        }
+
+        return colWidths[column.id] ?? minWidths[column.id] ?? MIN_COLUMN_WIDTH;
+
+    }
+
+    function fixedWidthStyle(column: TableColumn): React.CSSProperties | undefined {
+
+        const fixed = TYPE_FIXED_WIDTH[column.type];
+
+        if (fixed === undefined) {
+            return undefined;
+        }
+
+        return { width: fixed, minWidth: fixed, maxWidth: fixed };
+
+    }
+
     return (
 
         <div className="dynamic-table">
@@ -568,7 +756,7 @@ export default function DynamicTable({
 
                                 style={{
 
-                                    width: `${colWidths[column.id] ?? minWidths[column.id] ?? MIN_COLUMN_WIDTH}px`
+                                    width: `${columnWidthPx(column)}px`
 
                                 }}
 
@@ -595,6 +783,8 @@ export default function DynamicTable({
                                 key={column.id}
 
                                 ref={(el) => { headerRefs.current[column.id] = el; }}
+
+                                style={fixedWidthStyle(column)}
 
                             >
 
@@ -630,13 +820,17 @@ export default function DynamicTable({
 
                                 )}
 
-                                <span
+                                {!isFixedWidthColumn(column) && (
 
-                                    className="col-resize-handle"
+                                    <span
 
-                                    onMouseDown={(event) => startResize(column.id, event)}
+                                        className="col-resize-handle"
 
-                                />
+                                        onMouseDown={(event) => startResize(column.id, event)}
+
+                                    />
+
+                                )}
 
                             </th>
 
@@ -662,7 +856,7 @@ export default function DynamicTable({
 
                             {columns.map(column => (
 
-                                <td key={column.id}>
+                                <td key={column.id} style={fixedWidthStyle(column)}>
 
                                     {
 
@@ -686,49 +880,93 @@ export default function DynamicTable({
 
                                 <div className="dynamic-table-row-actions">
 
-                                    <button
+                                    <div className="dynamic-table-row-move">
 
-                                        type="button"
+                                        <button
 
-                                        disabled={disabled || value.length <= 1}
+                                            type="button"
 
-                                        className="dynamic-table-row-remove"
+                                            disabled={disabled || rowIndex === 0}
 
-                                        aria-label="Delete row"
+                                            className="dynamic-table-row-move-up"
 
-                                        title="Delete row"
+                                            aria-label="Move row up"
 
-                                        onClick={() =>
+                                            title="Move row up"
 
-                                            deleteRow(
+                                            onClick={() => moveRow(rowIndex, -1)}
 
-                                                rowIndex
+                                        >
+                                            ▲
+                                        </button>
 
-                                            )
+                                        <button
 
-                                        }
+                                            type="button"
 
-                                    >
-                                        −
-                                    </button>
+                                            disabled={disabled || rowIndex === value.length - 1}
 
-                                    <button
+                                            className="dynamic-table-row-move-down"
 
-                                        type="button"
+                                            aria-label="Move row down"
 
-                                        disabled={disabled}
+                                            title="Move row down"
 
-                                        className="dynamic-table-row-add"
+                                            onClick={() => moveRow(rowIndex, 1)}
 
-                                        aria-label="Add row"
+                                        >
+                                            ▼
+                                        </button>
 
-                                        title="Add row"
+                                    </div>
 
-                                        onClick={addRow}
+                                    <div className="dynamic-table-row-delete-add">
 
-                                    >
-                                        +
-                                    </button>
+                                        <button
+
+                                            type="button"
+
+                                            disabled={disabled}
+
+                                            className="dynamic-table-row-remove"
+
+                                            aria-label={value.length <= 1 ? "Clear row" : "Delete row"}
+
+                                            title={value.length <= 1 ? "Clear row" : "Delete row"}
+
+                                            onClick={() =>
+
+                                                deleteRow(
+
+                                                    rowIndex
+
+                                                )
+
+                                            }
+
+                                        >
+                                            −
+                                        </button>
+
+                                        <button
+
+                                            type="button"
+
+                                            disabled={disabled}
+
+                                            className="dynamic-table-row-add"
+
+                                            aria-label="Add row"
+
+                                            title="Add row"
+
+                                            onClick={addRow}
+
+                                        >
+                                            +
+                                        </button>
+
+                                    </div>
 
                                 </div>
 
