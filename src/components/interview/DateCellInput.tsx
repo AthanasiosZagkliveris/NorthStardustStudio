@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { DateFormat, PreferencesService } from "../../services/PreferencesService.ts";
 
@@ -62,11 +62,23 @@ function displayToIso(display: string, format: DateFormat): string | null {
 }
 
 /**
- * A date cell that displays and accepts dates in the
- * user's preferred presentation (US MM/DD/YYYY or EU
- * DD/MM/YYYY, toggled from the app header), while the
- * underlying stored value always stays ISO
- * ("YYYY-MM-DD") for consistent data/export.
+ * A date cell with:
+ *  - a text field the user can type into directly, shown
+ *    in whichever presentation is currently selected;
+ *  - a calendar button that opens the browser's own
+ *    native date picker (via a visually-hidden
+ *    <input type="date"> and its showPicker() API).
+ *
+ * The US (MM/DD/YYYY) / EU (DD/MM/YYYY) toggle itself
+ * lives once on the column's header, not repeated on
+ * every cell -- this component just reacts to it, the
+ * same way every date cell everywhere in the app does.
+ *
+ * Formatting is done in JS rather than relying on the
+ * browser's own locale handling of type="date" inputs,
+ * so the toggle is guaranteed to actually change what's
+ * displayed. The underlying stored value always stays
+ * ISO ("YYYY-MM-DD") for consistent data/export.
  */
 export default function DateCellInput({
 
@@ -80,6 +92,8 @@ export default function DateCellInput({
 
     const [format, setFormat] = useState<DateFormat>(PreferencesService.getDateFormat());
     const [text, setText] = useState<string>(() => isoToDisplay(value, format));
+
+    const pickerRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
 
@@ -114,18 +128,97 @@ export default function DateCellInput({
 
     }
 
+    function openCalendar() {
+
+        if (disabled) {
+            return;
+        }
+
+        const picker = pickerRef.current;
+
+        if (!picker) {
+            return;
+        }
+
+        if (typeof picker.showPicker === "function") {
+
+            try {
+                picker.showPicker();
+            } catch {
+                picker.focus();
+            }
+
+        } else {
+
+            picker.focus();
+
+        }
+
+    }
+
     return (
 
-        <input
-            type="text"
-            inputMode="numeric"
-            className="interview-input"
-            placeholder={format === "US" ? "MM/DD/YYYY" : "DD/MM/YYYY"}
-            disabled={disabled}
-            value={text}
-            onChange={(event) => setText(event.target.value)}
-            onBlur={commit}
-        />
+        <div className="date-cell">
+
+            <input
+
+                type="text"
+
+                inputMode="numeric"
+
+                className="date-cell-input"
+
+                placeholder={format === "US" ? "MM/DD/YYYY" : "DD/MM/YYYY"}
+
+                disabled={disabled}
+
+                value={text}
+
+                onChange={(event) => setText(event.target.value)}
+
+                onBlur={commit}
+
+            />
+
+            <button
+
+                type="button"
+
+                className="date-cell-calendar-button"
+
+                aria-label="Open calendar"
+
+                title="Open calendar"
+
+                disabled={disabled}
+
+                onClick={openCalendar}
+
+            >
+                📅
+            </button>
+
+            <input
+
+                ref={pickerRef}
+
+                type="date"
+
+                tabIndex={-1}
+
+                aria-hidden="true"
+
+                className="date-cell-native-picker"
+
+                disabled={disabled}
+
+                value={value ?? ""}
+
+                onChange={(event) => onChange(event.target.value)}
+
+            />
+
+        </div>
 
     );
 

@@ -460,25 +460,72 @@ textarea:focus{
 
     vertical-align:top;
 
+    overflow-wrap:anywhere;
+
 }
 
 .dynamic-table th{
+
+    position:relative;
 
     background:#f5f7fb;
 
     font-weight:600;
 
+    white-space:nowrap;
+
+    user-select:none;
+
 }
 
+.dynamic-table-header-label{
+
+    display:inline-block;
+
+}
+
+/* Drag handle on the right edge of each header cell --
+   dragging it resizes that column, but never narrower
+   than the column's own title (enforced in JS from the
+   title's natural rendered width). */
+.col-resize-handle{
+
+    position:absolute;
+
+    top:0;
+    right:-3px;
+    bottom:0;
+
+    width:6px;
+
+    cursor:col-resize;
+
+    z-index:2;
+
+}
+
+.col-resize-handle:hover,
+.col-resize-handle:active{
+
+    background:rgba(11,87,208,.35);
+
+}
+
+/* Cells auto-grow vertically to fit their full content --
+   no internal scrolling, no manual drag-resize. The row
+   itself becomes taller since a table row's height
+   already follows its tallest cell. */
 .dynamic-table-textarea{
+
+    display:block;
 
     width:100%;
 
-    min-height:64px;
+    min-height:40px;
 
-    max-height:320px;
+    resize:none;
 
-    resize:vertical;
+    overflow:hidden;
 
     box-sizing:border-box;
 
@@ -501,93 +548,13 @@ textarea:focus{
 
 }
 
-.dynamic-table-empty{
-
-    text-align:center;
-
-    color:#888;
-
-    padding:20px;
-
-}
-
-.dynamic-table-delete{
-
-    height:36px;
-
-    padding:0 14px;
-
-    border:1px solid #d6d6d6;
-    border-radius:6px;
-
-    background:#ffffff;
-
-    color:#111827;
-
-    cursor:pointer;
-
-    transition:background-color .2s ease;
-
-}
-
-.dynamic-table-delete:hover{
-
-    background:#f5f5f5;
-
-}
-
-.dynamic-table-actions{
-
-    display:flex;
-
-    justify-content:flex-start;
-
-}
-
-.dynamic-table-add{
-
-    height:44px;
-
-    padding:0 20px;
-
-    border:1px solid #d6d6d6;
-    border-radius:8px;
-
-    background:#ffffff;
-
-    color:#111827;
-
-    font-weight:500;
-
-    cursor:pointer;
-
-    transition:background-color .2s ease;
-
-}
-
-.dynamic-table-add:hover{
-
-    background:#f5f5f5;
-
-}
-
 /* ==========================================================
-   Table Cell -- Multi-Entry List
+   Table Cell -- Date
 ========================================================== */
 
-.table-list-cell{
+.date-cell{
 
-    display:flex;
-
-    flex-direction:column;
-
-    gap:6px;
-
-    min-width:180px;
-
-}
-
-.table-list-cell-row{
+    position:relative;
 
     display:flex;
 
@@ -597,55 +564,13 @@ textarea:focus{
 
 }
 
-.table-list-cell-index{
-
-    color:#888888;
-
-    font-size:13px;
-
-    min-width:14px;
-
-}
-
-.table-list-cell-input{
+.date-cell-input{
 
     flex:1;
 
     min-width:0;
 
-}
-
-.table-list-cell-remove{
-
-    width:26px;
-    height:26px;
-
-    border:1px solid #d6d6d6;
-    border-radius:6px;
-
-    background:#ffffff;
-
-    color:#111827;
-
-    cursor:pointer;
-
-    line-height:1;
-
-    transition:background-color .2s ease;
-
-}
-
-.table-list-cell-remove:hover{
-
-    background:#f5f5f5;
-
-}
-
-.table-list-cell-add{
-
-    align-self:flex-start;
-
-    height:28px;
+    height:40px;
 
     padding:0 10px;
 
@@ -654,19 +579,223 @@ textarea:focus{
 
     background:#ffffff;
 
+    font:inherit;
+    font-size:15px;
+
     color:#111827;
-
-    font-size:13px;
-
-    cursor:pointer;
-
-    transition:background-color .2s ease;
 
 }
 
-.table-list-cell-add:hover{
+.date-cell-input:focus{
 
-    background:#f5f5f5;
+    outline:none;
+
+    border-color:#0b57d0;
+
+}
+
+/* Visually hidden -- only exists so its native
+   showPicker() can be invoked from the calendar
+   button below, giving the cell a real browser
+   calendar without handing display formatting over
+   to the browser (which the visible text field and
+   toggle control instead). */
+.date-cell-native-picker{
+
+    position:absolute;
+
+    width:0;
+    height:0;
+
+    padding:0;
+    margin:0;
+
+    border:none;
+
+    opacity:0;
+
+    pointer-events:none;
+
+}
+
+.date-cell-calendar-button{
+
+    flex-shrink:0;
+
+    width:32px;
+    height:32px;
+
+    padding:0;
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border:1px solid #d6d6d6;
+    border-radius:6px;
+
+    background:#ffffff;
+
+    font-size:15px;
+    line-height:1;
+
+    cursor:pointer;
+
+    transition:background-color .2s ease, border-color .2s ease;
+
+}
+
+.date-cell-calendar-button:hover{
+
+    background:#eef4ff;
+
+    border-color:#0b57d0;
+
+}
+
+/* Shown once, in the "top cell" (header) of a date
+   column, rather than repeated on every row -- a
+   per-row toggle would be noisy and easy to mistake
+   for a per-row setting when it's actually the same
+   shared preference everywhere. */
+.dynamic-table-header-date-toggle{
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    margin-left:8px;
+
+    height:22px;
+
+    padding:0 7px;
+
+    border:1px solid #c7d2e0;
+    border-radius:6px;
+
+    background:#ffffff;
+
+    color:#5f6368;
+
+    font-size:11px;
+    font-weight:600;
+
+    white-space:nowrap;
+
+    cursor:pointer;
+
+    transition:background-color .2s ease, border-color .2s ease, color .2s ease;
+
+}
+
+.dynamic-table-header-date-toggle:hover{
+
+    background:#eef4ff;
+
+    border-color:#0b57d0;
+
+    color:#0b57d0;
+
+    font-weight:700;
+
+}
+
+/* ==========================================================
+   Table Row Actions -- Remove / Add
+========================================================== */
+
+/* The actions cell drops the table's grid lines/shading
+   so the row controls read as sitting outside the table
+   rather than as one more bordered column. */
+.dynamic-table-row-actions-cell{
+
+    border:none !important;
+
+    background:transparent !important;
+
+    padding:10px 0 10px 10px !important;
+
+}
+
+.dynamic-table-row-actions{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:6px;
+
+}
+
+.dynamic-table-row-remove,
+.dynamic-table-row-add{
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    width:28px;
+    height:28px;
+
+    flex-shrink:0;
+
+    border:none;
+    border-radius:50%;
+
+    color:#ffffff;
+
+    font-size:18px;
+    font-weight:700;
+    line-height:1;
+
+    cursor:pointer;
+
+    transition:filter .15s ease, opacity .15s ease;
+
+}
+
+.dynamic-table-row-remove{
+
+    background:#c0392b;
+
+}
+
+.dynamic-table-row-remove:hover:not(:disabled){
+
+    filter:brightness(1.1);
+
+}
+
+.dynamic-table-row-remove:disabled{
+
+    background:#e0a29a;
+
+    cursor:not-allowed;
+
+}
+
+.dynamic-table-row-add{
+
+    background:#1f9254;
+
+}
+
+.dynamic-table-row-add:hover:not(:disabled){
+
+    filter:brightness(1.1);
+
+}
+
+.dynamic-table-row-add:disabled{
+
+    opacity:.45;
+
+    cursor:not-allowed;
 
 }
 
@@ -842,7 +971,11 @@ textarea:focus{
     list-style:none;
 
     margin:0;
-    padding:0;
+
+    /* Inset from the dialog's edge so the list reads as
+       following the (centered) title inward, rather than
+       sitting flush against the dialog's left border. */
+    padding:0 12px 0 32px;
 
     max-height:260px;
 
@@ -860,7 +993,7 @@ textarea:focus{
 
     text-align:left;
 
-    padding:4px 0 4px 4px;
+    padding:4px 0;
 
 }
 

@@ -11,6 +11,15 @@ import { FrameworkDocument } from "../model/FrameworkDocument";
  * Frameworks are assembled from the
  * dedicated introduction, questions,
  * help and answer documents.
+ *
+ * Only the raw Markdown (cheap text the bundler
+ * already ships) is read up front. Turning that
+ * Markdown into a fully-parsed FrameworkDocument is
+ * deferred until a System is actually opened, and the
+ * result is cached from then on -- a session only ever
+ * works with one System at a time, so there is no
+ * reason to pay the parsing cost for the other 23 on
+ * every app start.
  */
 export class FrameworkRegistry {
 
@@ -21,7 +30,15 @@ export class FrameworkRegistry {
         new FrameworkInterpreter();
 
     /**
-     * Registered Frameworks.
+     * Raw source Markdown per System, keyed by System id.
+     * Cheap to hold in memory -- no parsing has happened yet.
+     */
+    private readonly sources =
+        new Map<string, FrameworkSource>();
+
+    /**
+     * Already-interpreted Frameworks, keyed by System id.
+     * Populated lazily, on first access, by getFramework().
      */
     private readonly frameworks =
         new Map<string, FrameworkDocument>();
@@ -131,17 +148,20 @@ export class FrameworkRegistry {
                 fieldsMarkdown
             };
 
-            const framework =
-                this.interpreter.interpret(source);
-
-            this.frameworks.set(
+            this.sources.set(
                 system.id,
-                framework
+                source
             );
         }
     }
 
     public getAll(): readonly FrameworkDocument[] {
+
+        for (const systemId of this.sources.keys()) {
+
+            this.getFramework(systemId);
+
+        }
 
         return Array.from(this.frameworks.values());
 
@@ -151,16 +171,29 @@ export class FrameworkRegistry {
         systemId: string
     ): FrameworkDocument {
 
-        const framework =
-            this.frameworks.get(systemId);
+        const cached = this.frameworks.get(systemId);
 
-        if (!framework) {
+        if (cached) {
+            return cached;
+        }
+
+        const source = this.sources.get(systemId);
+
+        if (!source) {
 
             throw new Error(
                 `Unknown Framework "${systemId}".`
             );
 
         }
+
+        const framework =
+            this.interpreter.interpret(source);
+
+        this.frameworks.set(
+            systemId,
+            framework
+        );
 
         return framework;
 
@@ -170,7 +203,7 @@ export class FrameworkRegistry {
         systemId: string
     ): boolean {
 
-        return this.frameworks.has(systemId);
+        return this.sources.has(systemId);
 
     }
 

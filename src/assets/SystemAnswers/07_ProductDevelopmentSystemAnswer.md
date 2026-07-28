@@ -67,15 +67,7 @@
 
 ## 06. Product Launch Checklist
 
-**Structure:** Fixed Variant Text
-
-**Number of Variants:** 4
-
-**Variants:**
-- Variant 1: Product Readiness
-- Variant 2: Marketing Readiness
-- Variant 3: Sales Readiness
-- Variant 4: Launch Approval
+**Structure:** checklist
 
 ## 07. Product Review
 

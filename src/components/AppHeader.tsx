@@ -1,22 +1,14 @@
-import { useEffect, useState } from "react";
-
 import logo from "../assets/logo.png";
-
-import { DateFormat, PreferencesService } from "../services/PreferencesService.ts";
 
 import "../styles/app-header.css";
 
+/**
+ * The app header only ever shows the logo unless
+ * explicitly asked for something more -- any other
+ * controls (e.g. the date format preference) live
+ * where they're actually used instead.
+ */
 export default function AppHeader() {
-
-    const [dateFormat, setDateFormat] = useState<DateFormat>(PreferencesService.getDateFormat());
-
-    useEffect(() => {
-
-        return PreferencesService.subscribe(() => {
-            setDateFormat(PreferencesService.getDateFormat());
-        });
-
-    }, []);
 
     return (
 
@@ -27,19 +19,6 @@ export default function AppHeader() {
                 alt="North Stardust Organization Framework"
                 className="app-logo"
             />
-
-            <div className="app-header-actions">
-
-                <button
-                    type="button"
-                    className="date-format-toggle"
-                    title="Switch between US (MM/DD/YYYY) and EU (DD/MM/YYYY) date presentation"
-                    onClick={() => PreferencesService.toggleDateFormat()}
-                >
-                    {dateFormat === "US" ? "Dates: MM/DD/YYYY" : "Dates: DD/MM/YYYY"}
-                </button>
-
-            </div>
 
         </header>
 

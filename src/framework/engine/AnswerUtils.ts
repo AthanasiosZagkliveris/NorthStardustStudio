@@ -39,59 +39,6 @@ export function isDateColumn(title: string): boolean {
 
 }
 
-/**
- * Column titles that end in "s" but are not
- * actually plural/multi-value concepts, so the
- * multi-entry list heuristic below should skip
- * them.
- */
-const SINGULAR_S_EXCEPTIONS = new Set([
-    "status",
-    "focus",
-    "process",
-    "access",
-    "address",
-    "series",
-    "analysis",
-    "progress",
-    "purpose",
-    "bias",
-    "basis",
-    "canvas",
-    "campus",
-    "success",
-    "news",
-    "species"
-]);
-
-/**
- * Determines whether a table column should let the
- * user fill in more than one value per cell (e.g.
- * "Key Deliverables"), based on its title being
- * plural.
- *
- * This is a heuristic: the column's last word must
- * end in "s" and not appear in the exceptions list
- * above (common singular nouns that happen to end
- * in "s", e.g. "Status", "Focus").
- */
-export function isMultiEntryColumn(title: string): boolean {
-
-    const words = title.trim().toLowerCase().split(/\s+/);
-    const last = words[words.length - 1] ?? "";
-
-    if (last.length < 4) {
-        return false;
-    }
-
-    if (!last.endsWith("s")) {
-        return false;
-    }
-
-    return !SINGULAR_S_EXCEPTIONS.has(last);
-
-}
-
 export type TableAnswerRow = Record<string, unknown>;
 
 /**
@@ -137,8 +84,21 @@ export function defaultAnswerValue(answer: AnswerDefinition): unknown {
         case AnswerType.FixedVariantText:
             return {};
 
-        case AnswerType.Table:
-            return [];
+        case AnswerType.Table: {
+
+            // Tables always start with one row -- an
+            // empty table with only an "Add Row" button
+            // reads as broken, not as "nothing entered
+            // yet".
+            const columns = visibleTableColumns(answer.table?.columns ?? []);
+
+            const row: TableAnswerRow = {};
+
+            columns.forEach(column => { row[column.id] = ""; });
+
+            return [row];
+
+        }
 
         case AnswerType.Checklist:
             return [];

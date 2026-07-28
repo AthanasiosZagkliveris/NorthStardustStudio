@@ -9,7 +9,6 @@ import { AnswerType } from "../../framework/enums/AnswerType.ts";
 import {
     ChecklistItemValue,
     isDateColumn,
-    isMultiEntryColumn,
     visibleTableColumns
 } from "../../framework/engine/AnswerUtils.ts";
 
@@ -60,10 +59,6 @@ function resolveColumnType(
 
     if (isDateColumn(column.title)) {
         return "date";
-    }
-
-    if (isMultiEntryColumn(column.title)) {
-        return "list";
     }
 
     return "text";
