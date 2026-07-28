@@ -55,9 +55,36 @@ interface DynamicTableProps {
 }
 
 const ROW_NUMBER_COLUMN_WIDTH = 48;
+
+// Width of the separate actions table (see the return
+// statement) -- the Up/Down controls stack in one narrow
+// column and the Remove/Add controls stack in a second,
+// slightly wider one right next to it, so this only needs to
+// fit two columns' worth of buttons side by side, not four
+// buttons in a row.
 const ACTIONS_COLUMN_WIDTH = 92;
+
+// The minimum height a body row needs to fit the stacked
+// Up/Down + Remove/Add controls: the taller of the two
+// stacks (Remove/Add: 28px button + 6px gap + 28px button =
+// 62px) plus the cell's own 10px top/bottom padding. A row
+// this short only happens with a single short line of text,
+// but the controls still need the room regardless of how
+// little text a row holds.
+const ACTIONS_MIN_ROW_HEIGHT = 82;
+
 const HEADER_CELL_PADDING = 26;
 const MIN_COLUMN_WIDTH = 90;
+
+// The width a resizable column renders at until the user
+// manually drags it -- deliberately NOT based on the
+// browser's own auto table layout, which was free to hand
+// an empty column all of a wide table's unused space (an
+// empty cell could stretch to fill hundreds of extra
+// pixels with nothing in it). A column keeps exactly this
+// width, regardless of how many rows or how many other
+// columns the table has, until it's dragged.
+const DEFAULT_COLUMN_WIDTH = 220;
 
 // A Field (dropdown) or Date column holds a fixed
 // control -- a select, or a text field + calendar
@@ -236,6 +263,20 @@ export default function DynamicTable({
 
     const headerRefs = useRef<Record<string, HTMLTableCellElement | null>>({});
 
+    // The Up/Down/Add/Remove controls render in a second,
+    // completely separate <table> outside the scrollable/
+    // resizable data table (see the return statement below)
+    // -- not as a sticky last column of it -- so that
+    // resizing or scrolling the data columns can never move
+    // or reflow them. Since the two tables lay out their row
+    // heights independently, each data row's actual rendered
+    // height is measured here and applied to its counterpart
+    // row in the actions table, keeping every row's controls
+    // level with that row no matter how tall it grows (e.g.
+    // wrapped text in an AutoGrowTextarea).
+    const dataRowRefs = useRef<Record<string, HTMLTableRowElement | null>>({});
+    const [rowHeights, setRowHeights] = useState<Record<string, number>>({});
+
     const [minWidths, setMinWidths] = useState<Record<string, number>>({});
     const [colWidths, setColWidths] = useState<Record<string, number>>({});
 
@@ -291,8 +332,13 @@ export default function DynamicTable({
 
     // The widest single line currently held by each
     // resizable (text/number) column, so a column can
-    // never be dragged wider than its own content
-    // actually needs.
+    // never be dragged wider than its own content actually
+    // needs. A column with nothing typed into it yet has no
+    // entry here at all -- with nothing to size against, its
+    // cap falls back to the column's own default width (see
+    // columnMaxWidth), not an unlimited one: an empty cell
+    // should never be draggable past its default length just
+    // because there happens to be room in the table for it.
     const contentMaxWidths = useMemo(() => {
 
         const result: Record<string, number> = {};
@@ -304,10 +350,17 @@ export default function DynamicTable({
             }
 
             let max = 0;
+            let hasContent = false;
 
             value.forEach(row => {
 
                 const text = String(row[column.id] ?? "");
+
+                if (text.trim().length === 0) {
+                    return;
+                }
+
+                hasContent = true;
 
                 const width = measureTextWidth(text, CELL_FONT);
 
@@ -317,7 +370,9 @@ export default function DynamicTable({
 
             });
 
-            result[column.id] = Math.ceil(max) + CONTENT_WIDTH_PADDING;
+            if (hasContent) {
+                result[column.id] = Math.ceil(max) + CONTENT_WIDTH_PADDING;
+            }
 
         });
 
@@ -328,10 +383,18 @@ export default function DynamicTable({
 
     function columnMaxWidth(column: TableColumn): number {
 
-        const min = columnMinWidth(column);
-        const contentMax = contentMaxWidths[column.id] ?? min;
+        const contentMax = contentMaxWidths[column.id];
 
-        return Math.max(min, contentMax);
+        // No content typed into this column anywhere in the
+        // table yet -- there's nothing to justify making it any
+        // wider than its own default width, so that default
+        // becomes the drag ceiling (it can still be dragged
+        // narrower, down to its title's own minimum).
+        if (contentMax === undefined) {
+            return Math.max(columnMinWidth(column), DEFAULT_COLUMN_WIDTH);
+        }
+
+        return Math.max(columnMinWidth(column), contentMax);
 
     }
 
@@ -368,6 +431,47 @@ export default function DynamicTable({
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [columns.map(column => column.id).join("|")]);
+
+    // Re-measure every data row's rendered height whenever
+    // anything that could change it changes -- the row's own
+    // content (typing can wrap an AutoGrowTextarea onto more
+    // lines), or a column width (narrowing a column can force
+    // the same wrap). This runs as a layout effect so it reads
+    // heights *after* AutoGrowTextarea's own layout effect has
+    // already resized its textarea in the same commit (React
+    // runs child layout effects before parent ones), and
+    // completes before the browser paints, so the actions
+    // table's rows never visibly lag a frame behind.
+    //
+    // Every body row's height is floored at
+    // ACTIONS_MIN_ROW_HEIGHT and that floored value is applied
+    // to *both* tables' rows (not just the actions table's) --
+    // a short row (e.g. a single blank line of text) would
+    // otherwise be shorter than the Up/Down/Remove/Add
+    // controls actually need, and forcing only the actions
+    // table's row taller would leave the two tables' rows out
+    // of step for every row after it.
+    useLayoutEffect(() => {
+
+        const next: Record<string, number> = {};
+
+        Object.entries(dataRowRefs.current).forEach(([key, el]) => {
+
+            if (!el) {
+                return;
+            }
+
+            const height = el.getBoundingClientRect().height;
+
+            next[key] = key === "header"
+                ? height
+                : Math.max(height, ACTIONS_MIN_ROW_HEIGHT);
+
+        });
+
+        setRowHeights(next);
+
+    }, [value, columns, colWidths, minWidths]);
 
     function handleMouseMove(event: MouseEvent) {
 
@@ -413,36 +517,17 @@ export default function DynamicTable({
 
         event.preventDefault();
 
-        // First manual resize in this table: snapshot every
-        // column's current rendered width so the layout does
-        // not jump when it switches from natural sizing to a
-        // fixed layout.
-        let baseWidths = colWidths;
+        // The table is always rendered with an explicit,
+        // deterministic width per column (see columnWidthPx) --
+        // there's no separate "natural sizing" state to jump
+        // from anymore, so the drag can simply start from
+        // whatever that column is showing right now, whether
+        // that's its default width or an earlier manual resize.
+        const column = columns.find(candidate => candidate.id === columnId);
 
-        if (Object.keys(colWidths).length === 0) {
-
-            const snapshot: Record<string, number> = {};
-
-            columns.forEach(column => {
-
-                const el = headerRefs.current[column.id];
-
-                if (el) {
-                    snapshot[column.id] = Math.round(el.getBoundingClientRect().width);
-                }
-
-            });
-
-            baseWidths = snapshot;
-
-            setColWidths(snapshot);
-
-        }
-
-        const startWidth =
-            baseWidths[columnId] ??
-            headerRefs.current[columnId]?.getBoundingClientRect().width ??
-            MIN_COLUMN_WIDTH;
+        const startWidth = column
+            ? columnWidthPx(column)
+            : MIN_COLUMN_WIDTH;
 
         dragState.current = {
 
@@ -710,8 +795,14 @@ export default function DynamicTable({
 
     }
 
-    const hasCustomWidths = Object.keys(colWidths).length > 0;
-
+    // A column's rendered width: a fixed control width for
+    // Date/Field columns, the user's own manual resize if
+    // they've dragged this column, or -- deliberately NOT
+    // "whatever the browser's auto layout feels like handing
+    // it" -- a fixed default width otherwise. An empty column
+    // therefore never balloons out to soak up a wide table's
+    // unused space; it just sits at its default width until
+    // the user actually drags it wider.
     function columnWidthPx(column: TableColumn): number {
 
         const fixed = TYPE_FIXED_WIDTH[column.type];
@@ -720,7 +811,11 @@ export default function DynamicTable({
             return fixed;
         }
 
-        return colWidths[column.id] ?? minWidths[column.id] ?? MIN_COLUMN_WIDTH;
+        if (colWidths[column.id] !== undefined) {
+            return colWidths[column.id];
+        }
+
+        return Math.max(columnMinWidth(column), DEFAULT_COLUMN_WIDTH);
 
     }
 
@@ -736,13 +831,83 @@ export default function DynamicTable({
 
     }
 
+    // The data table's own width once columns have been
+    // manually resized: the exact sum of every column's pixel
+    // width (row-number + every data column -- the row-actions
+    // column is a separate table entirely, see the return
+    // statement below), not a vague "auto". With
+    // table-layout:fixed, CSS resolves an "auto" table width
+    // against its *containing block*, and if that container is
+    // wider than the sum of the colgroup widths, the browser
+    // stretches the table to fill it -- silently distributing
+    // the leftover space across columns that were never
+    // touched. Pinning the table's width to exactly this sum
+    // makes the container width irrelevant: there is no
+    // leftover to distribute, so every column keeps precisely
+    // the width it was given.
+    function totalTableWidth(): number {
+
+        let total = ROW_NUMBER_COLUMN_WIDTH;
+
+        columns.forEach(column => {
+            total += columnWidthPx(column);
+        });
+
+        return total;
+
+    }
+
     return (
 
         <div className="dynamic-table">
 
-            <table style={{ tableLayout: hasCustomWidths ? "fixed" : "auto" }}>
+            {/* Only the data table (row-number + the actual
+                columns) lives in the horizontally-scrolling,
+                width-pinned wrapper. The Up/Down/Add/Remove
+                controls render in a second, separate <table>
+                further below that is never part of this scroll
+                area and never part of this table's <colgroup> --
+                so resizing or scrolling a data column can not
+                move, resize, or otherwise touch it. */}
+            <div className="dynamic-table-scroll">
 
-                {hasCustomWidths && (
+                {/* The table always renders with an explicit column-
+                    by-column width via <colgroup>, and its own width
+                    pinned to the exact sum of those columns (see
+                    totalTableWidth) -- never "auto" and never a
+                    browser-computed natural layout. Two browser
+                    behaviours made that unsafe: first, table-layout:
+                    auto is free to hand an empty column all of a wide
+                    table's left-over space (an empty cell could
+                    stretch to fill hundreds of pixels of nothing);
+                    second, even table-layout:fixed with an "auto"
+                    table width resolves that width against the
+                    table's *containing block*, so if the container is
+                    wider than the colgroup's own total, the browser
+                    still stretches the table and redistributes the
+                    difference across columns that were never touched
+                    -- which is what made resizing one column visibly
+                    resize columns you never dragged, and made a
+                    column next to a fixed-width Date/Field column
+                    (which can't give an inch) seem unresponsive,
+                    since it was quietly absorbing someone else's
+                    slack instead. Pinning both the table's width and
+                    every column's width removes all of that leftover
+                    space to redistribute: every column keeps exactly
+                    the width it was given (a fixed control width, a
+                    manual resize, or its own default) from the
+                    moment the table first renders, and widening one
+                    only pushes the columns after it further along
+                    the row -- with a horizontal scrollbar if the
+                    table no longer fits -- never shrinking or
+                    growing any of the others. */}
+                <table style={{
+
+                    tableLayout: "fixed",
+
+                    width: `${totalTableWidth()}px`
+
+                }}>
 
                     <colgroup>
 
@@ -764,77 +929,135 @@ export default function DynamicTable({
 
                         ))}
 
-                        <col style={{ width: `${ACTIONS_COLUMN_WIDTH}px` }} />
-
                     </colgroup>
 
-                )}
+                    <thead>
 
-                <thead>
+                        <tr ref={(el) => { dataRowRefs.current.header = el; }}>
 
-                    <tr>
+                            <th>#</th>
 
-                        <th>#</th>
+                            {columns.map(column => (
 
-                        {columns.map(column => (
+                                <th
 
-                            <th
+                                    key={column.id}
 
-                                key={column.id}
+                                    ref={(el) => { headerRefs.current[column.id] = el; }}
 
-                                ref={(el) => { headerRefs.current[column.id] = el; }}
+                                    style={fixedWidthStyle(column)}
 
-                                style={fixedWidthStyle(column)}
+                                >
+
+                                    <span className="dynamic-table-header-label">
+
+                                        {column.title}
+
+                                    </span>
+
+                                    {column.type === "date" && (
+
+                                        <button
+
+                                            type="button"
+
+                                            className="dynamic-table-header-date-toggle"
+
+                                            disabled={disabled}
+
+                                            title={
+                                                dateFormat === "US"
+                                                    ? "Showing MM/DD/YYYY -- click to switch to DD/MM/YYYY"
+                                                    : "Showing DD/MM/YYYY -- click to switch to MM/DD/YYYY"
+                                            }
+
+                                            onClick={() => PreferencesService.toggleDateFormat()}
+
+                                        >
+
+                                            {dateFormat === "US" ? "MM/DD" : "DD/MM"}
+
+                                        </button>
+
+                                    )}
+
+                                    {!isFixedWidthColumn(column) && (
+
+                                        <span
+
+                                            className="col-resize-handle"
+
+                                            onMouseDown={(event) => startResize(column.id, event)}
+
+                                        />
+
+                                    )}
+
+                                </th>
+
+                            ))}
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {value.map((row, rowIndex) => (
+
+                            <tr
+
+                                key={rowIndex}
+
+                                ref={(el) => { dataRowRefs.current[rowIndex] = el; }}
+
+                                style={{ height: rowHeights[rowIndex] }}
 
                             >
 
-                                <span className="dynamic-table-header-label">
+                                <td>
 
-                                    {column.title}
+                                    {rowIndex + 1}
 
-                                </span>
+                                </td>
 
-                                {column.type === "date" && (
+                                {columns.map(column => (
 
-                                    <button
+                                    <td key={column.id} style={fixedWidthStyle(column)}>
 
-                                        type="button"
+                                        {
 
-                                        className="dynamic-table-header-date-toggle"
+                                            renderCell(
 
-                                        disabled={disabled}
+                                                row,
 
-                                        title={
-                                            dateFormat === "US"
-                                                ? "Showing MM/DD/YYYY -- click to switch to DD/MM/YYYY"
-                                                : "Showing DD/MM/YYYY -- click to switch to MM/DD/YYYY"
+                                                rowIndex,
+
+                                                column
+
+                                            )
+
                                         }
 
-                                        onClick={() => PreferencesService.toggleDateFormat()}
+                                    </td>
 
-                                    >
+                                ))}
 
-                                        {dateFormat === "US" ? "MM/DD" : "DD/MM"}
-
-                                    </button>
-
-                                )}
-
-                                {!isFixedWidthColumn(column) && (
-
-                                    <span
-
-                                        className="col-resize-handle"
-
-                                        onMouseDown={(event) => startResize(column.id, event)}
-
-                                    />
-
-                                )}
-
-                            </th>
+                            </tr>
 
                         ))}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <table className="dynamic-table-actions-table" style={{ width: `${ACTIONS_COLUMN_WIDTH}px` }}>
+
+                <thead>
+
+                    <tr style={{ height: rowHeights.header }}>
 
                         <th className="dynamic-table-row-actions-cell"></th>
 
@@ -846,35 +1069,7 @@ export default function DynamicTable({
 
                     {value.map((row, rowIndex) => (
 
-                        <tr key={rowIndex}>
-
-                            <td>
-
-                                {rowIndex + 1}
-
-                            </td>
-
-                            {columns.map(column => (
-
-                                <td key={column.id} style={fixedWidthStyle(column)}>
-
-                                    {
-
-                                        renderCell(
-
-                                            row,
-
-                                            rowIndex,
-
-                                            column
-
-                                        )
-
-                                    }
-
-                                </td>
-
-                            ))}
+                        <tr key={rowIndex} style={{ height: rowHeights[rowIndex] }}>
 
                             <td className="dynamic-table-row-actions-cell">
 

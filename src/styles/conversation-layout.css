@@ -24,11 +24,14 @@
     justify-content: center;
     align-items: flex-start;
 
-    /* Extra bottom padding clears the fixed Footer and
-       the fixed Previous/Next bar sitting above it, so
-       content scrolled all the way down is never hidden
-       underneath either of them. */
-    padding: 40px 40px 220px;
+    /* Top padding clears the fixed app header (120px) plus
+       the page's own original 40px breathing room. Bottom
+       padding clears the fixed Footer and the fixed
+       Previous/Next bar sitting flush above it (84px each),
+       plus a little breathing room, so content scrolled all
+       the way down can still get fully clear of both instead
+       of stopping underneath their frosted blur. */
+    padding: 160px 40px 200px;
 
 }
 

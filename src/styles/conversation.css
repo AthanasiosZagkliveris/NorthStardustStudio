@@ -316,10 +316,18 @@ textarea:focus{
 
     padding:16px 0;
 
-    background:#ffffff;
+    /* Frosted-glass rather than solid: content that scrolls
+       up underneath this fixed bar (everything except the
+       Footer, which sits below it and is never covered) stays
+       faintly visible through it, blurred, instead of being
+       hidden behind a flat white block. */
+    background:rgba(255,255,255,.55);
 
-    /* Always fixed at the same exact distance above the
-       Footer -- regardless of how long the Question/Table
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+
+    /* Always fixed directly above the Footer -- flush against
+       it, no gap -- regardless of how long the Question/Table
        above it is, or how far the page is scrolled. This is
        deliberately position:fixed rather than sticky/in-flow,
        so the buttons never drift closer to (or further from)
@@ -329,7 +337,9 @@ textarea:focus{
     left:0;
     right:0;
 
-    bottom:104px;
+    /* Matches .workspace-footer's own height exactly, so the
+       nav's bottom edge sits flush on the footer's top edge. */
+    bottom:84px;
 
     z-index:20;
 
@@ -483,13 +493,45 @@ textarea:focus{
 
 }
 
+/* The data table and the Up/Down/Add/Remove actions table sit
+   side by side as independent flex children -- only the data
+   table scrolls (see .dynamic-table-scroll below); the actions
+   table is a completely separate element next to it, so nothing
+   that happens inside the data table (resizing a column,
+   scrolling it horizontally) can move, resize, or otherwise
+   touch the row controls. */
 .dynamic-table{
+
+    display:flex;
+
+    align-items:flex-start;
 
     width:100%;
 
 }
 
-.dynamic-table table{
+.dynamic-table-scroll{
+
+    flex:1 1 auto;
+
+    /* Without this a flex item's default min-width:auto stops
+       it from ever shrinking below its content's intrinsic
+       width -- which, for a very wide table, would push the
+       whole card wider than the page instead of scrolling
+       internally. */
+    min-width:0;
+
+    /* Once columns have been manually resized the table's own
+       width becomes the exact sum of its columns (see
+       DynamicTable.tsx) rather than always 100% -- if that sum
+       is wider than the available space, this scrolls
+       horizontally instead of squeezing every column back down
+       to fit. */
+    overflow-x:auto;
+
+}
+
+.dynamic-table-scroll table{
 
     width:100%;
 
@@ -499,8 +541,8 @@ textarea:focus{
 
 }
 
-.dynamic-table th,
-.dynamic-table td{
+.dynamic-table-scroll th,
+.dynamic-table-scroll td{
 
     border:1px solid #d9d9d9;
 
@@ -514,7 +556,7 @@ textarea:focus{
 
 }
 
-.dynamic-table th{
+.dynamic-table-scroll th{
 
     position:relative;
 
@@ -595,6 +637,52 @@ textarea:focus{
     outline:none;
 
     border-color:#0b57d0;
+
+}
+
+/* ==========================================================
+   Table Cell -- Field (dropdown) / Number
+========================================================== */
+
+/* .interview-input is deliberately unstyled by InterviewInput.tsx
+   itself (so the same component still works, unstyled, outside a
+   table -- see AnswerRenderer.tsx). Inside a table cell that meant
+   the <select>/<input> rendered at its browser-default intrinsic
+   width instead of filling the fixed-width column, leaving visible
+   dead space next to it. Scoping the fill/border/padding to table
+   cells only fixes that without touching its non-table usage. */
+.dynamic-table-scroll .interview-input{
+
+    display:block;
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    padding:8px 10px;
+
+    font:inherit;
+    font-size:15px;
+    line-height:1.5;
+
+    border:1px solid #d6d6d6;
+    border-radius:6px;
+
+    background:#ffffff;
+
+}
+
+.dynamic-table-scroll .interview-input:focus{
+
+    outline:none;
+
+    border-color:#0b57d0;
+
+}
+
+.dynamic-table-scroll select.interview-input{
+
+    cursor:pointer;
 
 }
 
@@ -756,9 +844,26 @@ textarea:focus{
    Table Row Actions -- Remove / Add
 ========================================================== */
 
-/* The actions cell drops the table's grid lines/shading
-   so the row controls read as sitting outside the table
-   rather than as one more bordered column. */
+/* This is a second, completely separate <table> next to the
+   scrollable data table (see .dynamic-table-scroll above and
+   DynamicTable.tsx) -- not a column inside it -- so the row
+   controls never look like "one more cell" of the data grid:
+   no shared grid lines, no header shading, nothing that ties
+   its position to any data column's width. Each row's height
+   is set inline from JS to match its counterpart data row
+   exactly (see DynamicTable.tsx), which is what keeps a row's
+   controls level with that row without the two tables sharing
+   any markup. */
+.dynamic-table-actions-table{
+
+    flex:0 0 auto;
+
+    border-collapse:collapse;
+
+    margin-bottom:15px;
+
+}
+
 .dynamic-table-row-actions-cell{
 
     border:none !important;
@@ -766,6 +871,8 @@ textarea:focus{
     background:transparent !important;
 
     padding:10px 0 10px 10px !important;
+
+    vertical-align:middle;
 
 }
 

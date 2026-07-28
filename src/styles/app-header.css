@@ -14,6 +14,23 @@
 
     flex-shrink: 0;
 
+    /* Fixed to the top of the viewport so the logo stays
+       visible no matter how far the page below it is
+       scrolled -- every page that renders <AppHeader />
+       adds matching top padding to its own content wrapper
+       (workspace.css, conversation-layout.css,
+       capability-generator.css) so nothing is hidden
+       underneath it on first paint. */
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    /* Above the fixed footer (30) and the fixed Previous/
+       Next nav (20), below modal overlays (1000). */
+    z-index: 40;
+
 }
 
 .app-logo {

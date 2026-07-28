@@ -20,10 +20,12 @@
     justify-content: center;
     align-items: flex-start;
 
-    /* Extra bottom padding clears the fixed footer
-       below, so content is never hidden behind it
-       regardless of how tall the page is. */
-    padding: 72px 40px 124px;
+    /* Top padding clears the fixed app header (120px) plus
+       the page's own original 72px breathing room; bottom
+       padding clears the fixed footer below -- so content is
+       never hidden behind either regardless of how tall the
+       page is. */
+    padding: 192px 40px 124px;
 
 }
 

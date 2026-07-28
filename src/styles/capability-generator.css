@@ -34,7 +34,9 @@
 
     justify-content: center;
 
-    padding-top: 110px;
+    /* Clears the fixed app header (120px) plus the page's
+       own original 110px breathing room. */
+    padding-top: 230px;
     padding-bottom: 80px;
 
 }
