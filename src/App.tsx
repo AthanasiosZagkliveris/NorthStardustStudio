@@ -1,42 +1,55 @@
+import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 
-import Landing from "./pages/Landing";
-import SystemSelection from "./pages/SystemSelection";
-import Conversation from "./pages/Conversation";
-import CapabilityGenerator from "./pages/CapabilityGenerator";
+// Loaded lazily, one chunk per page, instead of all four being
+// bundled and evaluated together up front. This matters most for
+// Conversation -- importing it also runs FrameworkRegistry's
+// module-level setup, which eagerly reads the raw Markdown for
+// every one of the 24 Systems (~470KB of text) into memory. Before
+// this change that happened at app startup even for someone who
+// only ever looks at the Landing page; now it only happens once
+// the user actually opens an interview.
+const Landing = lazy(() => import("./pages/Landing"));
+const SystemSelection = lazy(() => import("./pages/SystemSelection"));
+const Conversation = lazy(() => import("./pages/Conversation"));
+const CapabilityGenerator = lazy(() => import("./pages/CapabilityGenerator"));
 
 export default function App() {
 
     return (
 
-        <Routes>
+        <Suspense fallback={null}>
 
-            <Route
-                path="/"
-                element={<Landing />}
-            />
+            <Routes>
 
-            <Route
-                path="/assistant"
-                element={<SystemSelection />}
-            />
+                <Route
+                    path="/"
+                    element={<Landing />}
+                />
 
-            <Route
-                path="/introduction"
-                element={<Conversation />}
-            />
+                <Route
+                    path="/assistant"
+                    element={<SystemSelection />}
+                />
 
-            <Route
-                path="/conversation"
-                element={<Conversation />}
-            />
+                <Route
+                    path="/introduction"
+                    element={<Conversation />}
+                />
 
-            <Route
-                path="/generator"
-                element={<CapabilityGenerator />}
-            />
+                <Route
+                    path="/conversation"
+                    element={<Conversation />}
+                />
 
-        </Routes>
+                <Route
+                    path="/generator"
+                    element={<CapabilityGenerator />}
+                />
+
+            </Routes>
+
+        </Suspense>
 
     );
 
