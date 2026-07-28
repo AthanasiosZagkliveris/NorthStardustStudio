@@ -1067,7 +1067,7 @@ export default function DynamicTable({
 
                 <tbody>
 
-                    {value.map((row, rowIndex) => (
+                    {value.map((_row, rowIndex) => (
 
                         <tr key={rowIndex} style={{ height: rowHeights[rowIndex] }}>
 
