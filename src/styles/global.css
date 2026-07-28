@@ -4,6 +4,18 @@
   box-sizing: border-box;
 }
 
+/* Always reserve the vertical scrollbar's width, whether or not the
+   current page actually needs to scroll. Without this, a page short
+   enough to fit the viewport has no scrollbar and its centered
+   content (including position:fixed elements like the app header and
+   the interview Previous/Next band, which center against the full
+   window width) sits a few pixels further right than a taller page
+   that does need a scrollbar -- the exact same "centered" band then
+   visibly jumps left/right as you move between interview steps. */
+html {
+  scrollbar-gutter: stable;
+}
+
 html,
 body,
 #root {
@@ -27,7 +39,13 @@ h1, h2, h3 {
 }
 
 h1 {
-  font-size: 48px;
+  /* Scales smoothly with the window's width instead of staying a
+     fixed 48px -- shrinks down to 28px as the window narrows, grows
+     back up to 48px as it widens, and never goes past either end.
+     .workspace-title (workspace.css) and .capability-title
+     (capability-generator.css) use the same clamp() so every h1-style
+     heading in the app resizes together. */
+  font-size: clamp(28px, 2vw + 20px, 48px);
   font-weight: 700;
   line-height: 1.2;
 }

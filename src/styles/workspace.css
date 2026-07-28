@@ -84,7 +84,10 @@
 
     margin: 0;
 
-    font-size: 48px;
+    /* Same responsive scale as the bare h1 rule in global.css --
+       shrinks toward 28px on a narrow window, grows back to 48px
+       on a wide one. */
+    font-size: clamp(28px, 2vw + 20px, 48px);
     font-weight: 700;
     line-height: 1.2;
 
