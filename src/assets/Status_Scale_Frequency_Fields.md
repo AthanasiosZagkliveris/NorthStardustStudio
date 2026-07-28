@@ -28,3 +28,12 @@
 - Variant 3: Monthly
 - Variant 4: Quarterly
 - Variant 5: Annually
+
+## Category Field
+
+**Number of Variants:** 3
+
+**Variants:**
+- Variant 1: Primary
+- Variant 2: Secondary
+- Variant 3: Neutral

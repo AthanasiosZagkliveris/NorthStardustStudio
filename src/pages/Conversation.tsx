@@ -8,15 +8,21 @@ import InterviewProgress from "../components/InterviewProgress";
 import InterviewSection from "../components/InterviewSection";
 import AnswerRenderer from "../components/interview/AnswerRenderer";
 
-import { InterviewManager } from "../framework/application";
+import { InterviewManager, ReviewManager } from "../framework/application";
 import { InterviewSession } from "../framework/interview";
+import { ValidationIssue } from "../framework/model";
 
 import { StorageService } from "../services/StorageService";
 
 import "../styles/conversation.css";
 import "../styles/conversation-layout.css";
+import "../styles/system-confirmation.css";
 
 const interviewManager = new InterviewManager();
+const reviewManager = new ReviewManager();
+
+type ExportStep = "none" | "warning" | "options";
+type CapabilityChoice = "original" | "other";
 
 /**
  * Splits a block of introduction text into one
@@ -54,6 +60,17 @@ export default function Conversation() {
     const [session, setSession] = useState<InterviewSession | null>(null);
     const [loadingError, setLoadingError] = useState<string | null>(null);
     const [, refresh] = useState(0);
+
+    // Export flow -- replaces the old, separate Review/Validation
+    // page. Pressing "Finish" on the last Section validates the
+    // Interview inline and opens one of these popups instead of
+    // navigating away.
+    const [exportStep, setExportStep] = useState<ExportStep>("none");
+    const [validationIssues, setValidationIssues] = useState<ValidationIssue[]>([]);
+    const [capabilityChoice, setCapabilityChoice] = useState<CapabilityChoice>("original");
+    const [otherCapabilityName, setOtherCapabilityName] = useState("");
+    const [includeMd, setIncludeMd] = useState(true);
+    const [includePdf, setIncludePdf] = useState(false);
 
     useEffect(() => {
 
@@ -114,9 +131,20 @@ export default function Conversation() {
         }
 
         if (session.isLastSection()) {
+
             StorageService.saveInterview(session);
-            navigate("/review");
+
+            const validation = reviewManager.validate(session);
+
+            if (!validation.valid) {
+                setValidationIssues(validation.issues);
+                setExportStep("warning");
+            } else {
+                setExportStep("options");
+            }
+
             return;
+
         }
 
         session.nextSection();
@@ -158,6 +186,37 @@ export default function Conversation() {
 
     }
 
+    function handleContinueToOptions() {
+
+        setExportStep("options");
+
+    }
+
+    function handleFinalExport() {
+
+        if (!session) {
+            return;
+        }
+
+        const framework = session.getFramework();
+
+        const capabilityLabel =
+            capabilityChoice === "original"
+                ? framework.metadata.capability
+                : otherCapabilityName;
+
+        if (includeMd) {
+            reviewManager.exportMarkdown(session, capabilityLabel);
+        }
+
+        if (includePdf) {
+            reviewManager.exportPdf(session, capabilityLabel);
+        }
+
+        setExportStep("none");
+
+    }
+
     if (loadingError) {
         return <div>{loadingError}</div>;
     }
@@ -171,6 +230,10 @@ export default function Conversation() {
     const currentSection = session.getCurrentSection();
 
     const showIntroduction = !session.hasStartedInterview();
+
+    const canConfirmCapability =
+        capabilityChoice === "original" || otherCapabilityName.trim().length > 0;
+    const canExport = includeMd || includePdf;
 
     return (
         <div className="conversation-page">
@@ -205,14 +268,12 @@ export default function Conversation() {
                         </section>
                     ) : (
                         <>
+                            <InterviewSection section={currentSection} />
+
                             <InterviewProgress
                                 current={session.getCurrentSectionIndex() + 1}
                                 total={session.getTotalSections()}
                             />
-
-                            <InterviewSection section={currentSection} />
-
-                            <div className="answer-divider" />
 
                             <AnswerRenderer
                                 definition={currentSection.answer}
@@ -249,6 +310,123 @@ export default function Conversation() {
             <AppFooter
                 onBack={() => navigate("/assistant")}
             />
+
+            {exportStep === "warning" && (
+                <div className="confirmation-overlay">
+                    <div className="confirmation-dialog">
+                        <h2 className="confirmation-title">
+                            Sections Incomplete
+                        </h2>
+
+                        <ul className="confirmation-warning-list">
+                            {validationIssues.map(issue => (
+                                <li key={issue.sectionNumber}>
+                                    {issue.sectionNumber}. {issue.sectionTitle}
+                                </li>
+                            ))}
+                        </ul>
+
+                        <div className="confirmation-actions">
+                            <button
+                                className="confirmation-button secondary"
+                                onClick={() => setExportStep("none")}
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                className="confirmation-button primary"
+                                onClick={handleContinueToOptions}
+                            >
+                                Continue
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {exportStep === "options" && (
+                <div className="confirmation-overlay">
+                    <div className="confirmation-dialog export-options-dialog">
+                        <h2 className="confirmation-title">
+                            Export Options
+                        </h2>
+
+                        <div className="export-options-group">
+                            <div className="export-options-label">Capability</div>
+
+                            <label className="export-options-radio">
+                                <input
+                                    type="radio"
+                                    name="capability-choice"
+                                    checked={capabilityChoice === "original"}
+                                    onChange={() => setCapabilityChoice("original")}
+                                />
+                                Original ({framework.metadata.capability})
+                            </label>
+
+                            <label className="export-options-radio">
+                                <input
+                                    type="radio"
+                                    name="capability-choice"
+                                    checked={capabilityChoice === "other"}
+                                    onChange={() => setCapabilityChoice("other")}
+                                />
+                                Another Capability
+                            </label>
+
+                            {capabilityChoice === "other" && (
+                                <input
+                                    type="text"
+                                    className="export-options-text-input"
+                                    placeholder="Capability name"
+                                    value={otherCapabilityName}
+                                    onChange={(event) => setOtherCapabilityName(event.target.value)}
+                                />
+                            )}
+                        </div>
+
+                        <div className="export-options-group">
+                            <div className="export-options-label">Format</div>
+
+                            <label className="export-options-checkbox">
+                                <input
+                                    type="checkbox"
+                                    checked={includeMd}
+                                    onChange={(event) => setIncludeMd(event.target.checked)}
+                                />
+                                Markdown (.md)
+                            </label>
+
+                            <label className="export-options-checkbox">
+                                <input
+                                    type="checkbox"
+                                    checked={includePdf}
+                                    onChange={(event) => setIncludePdf(event.target.checked)}
+                                />
+                                PDF
+                            </label>
+                        </div>
+
+                        <div className="confirmation-actions">
+                            <button
+                                className="confirmation-button secondary"
+                                onClick={() => setExportStep("none")}
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                className="confirmation-button primary"
+                                onClick={handleFinalExport}
+                                disabled={!canExport || !canConfirmCapability}
+                            >
+                                Export
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

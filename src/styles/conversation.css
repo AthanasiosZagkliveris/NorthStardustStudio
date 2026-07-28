@@ -28,8 +28,7 @@
 
     overflow:hidden;
 
-    margin-top:-20px;
-    margin-bottom:0;
+    margin:24px 0;
 
 }
 
@@ -434,6 +433,31 @@ textarea:focus{
     font-weight:700;
 
     text-align:center;
+
+}
+
+.confirmation-warning-list{
+
+    list-style:none;
+
+    margin:0;
+    padding:0;
+
+    max-height:260px;
+
+    overflow-y:auto;
+
+}
+
+.confirmation-warning-list li{
+
+    color:#b00020;
+
+    font-weight:700;
+
+    text-align:center;
+
+    padding:4px 0;
 
 }
 

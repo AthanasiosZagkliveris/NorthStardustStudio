@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 import Landing from "./pages/Landing";
 import SystemSelection from "./pages/SystemSelection";
 import Conversation from "./pages/Conversation";
-import Review from "./pages/Review";
 import CapabilityGenerator from "./pages/CapabilityGenerator";
 
 export default function App() {
@@ -30,11 +29,6 @@ export default function App() {
             <Route
                 path="/conversation"
                 element={<Conversation />}
-            />
-
-            <Route
-                path="/review"
-                element={<Review />}
             />
 
             <Route

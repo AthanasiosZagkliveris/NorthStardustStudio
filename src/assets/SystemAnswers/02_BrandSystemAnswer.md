@@ -29,31 +29,16 @@
 
 **Structure:** Table
 
-**Number of Tables:** 3
+**Number of Tables:** 1
 
-**Table 1: Primary Colors**
-Number of Columns: 4
+**Table 1: Colors**
+Number of Columns: 5
 Columns:
 - Column 1: #
 - Column 2: Name
 - Column 3: HEX
 - Column 4: Usage
-
-**Table 2: Secondary Colors**
-Number of Columns: 4
-Columns:
-- Column 1: #
-- Column 2: Name
-- Column 3: HEX
-- Column 4: Usage
-
-**Table 3: Neutral Colors**
-Number of Columns: 4
-Columns:
-- Column 1: #
-- Column 2: Name
-- Column 3: HEX
-- Column 4: Usage
+- Column 5: Category - Category Field
 
 **Color Usage Guidelines**
 
