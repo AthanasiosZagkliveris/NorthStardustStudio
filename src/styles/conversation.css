@@ -28,7 +28,7 @@
 
     overflow:hidden;
 
-    margin:24px 0;
+    margin:0;
 
 }
 
@@ -110,17 +110,15 @@ textarea:focus{
 
 }
 
-/* Halves the gap between the System Title block
-   and whatever follows it (Section title / progress
-   bar), without affecting the Question/Answer divider
-   which reuses the same base class above. The
-   negative margins on .interview-progress below pull
-   it in from both sides to counteract the parent
-   flex "gap", since that gap is otherwise applied
-   uniformly to every card child. */
+/* The System Title's blue divider carries no margin
+   of its own -- the parent .conversation-card's flex
+   "gap" (30px) is the single source of spacing between
+   every direct child, so this gap stays visually
+   identical to the Help-button-to-Progress-bar gap and
+   the Progress-bar-to-Answer gap below it. */
 .interview-header .interview-divider{
 
-    margin-bottom:6px;
+    margin-bottom:0;
 
 }
 
@@ -228,7 +226,13 @@ textarea:focus{
 
 .interview-help-toggle:hover{
 
-    background:#f5f5f5;
+    background:#eef4ff;
+
+    border-color:#0b57d0;
+
+    color:#0b57d0;
+
+    font-weight:700;
 
 }
 
@@ -285,7 +289,19 @@ textarea:focus{
    Dynamic Table
 ========================================================== */
 
-.answer-variants{
+.answer-variant-title{
+
+    font-weight:600;
+
+    margin-bottom:8px;
+
+}
+
+/* ==========================================================
+   Fixed Variant Text -- Cards
+========================================================== */
+
+.answer-variant-cards-wrapper{
 
     display:flex;
 
@@ -295,11 +311,125 @@ textarea:focus{
 
 }
 
-.answer-variant-title{
+/* Rendered as a single row of overlapping "stacked
+   file" tabs -- each card sits partially behind the
+   one before it, and lifts to the front on hover /
+   when active, like flipping through a folder of
+   files. flex-wrap stays "nowrap" so the whole stack
+   is always on one line; if there are more cards than
+   fit the available width, the row scrolls
+   horizontally rather than wrapping. */
+.answer-variant-cards{
+
+    display:flex;
+
+    flex-wrap:nowrap;
+
+    align-items:flex-end;
+
+    overflow-x:auto;
+
+    padding:6px 6px 10px 2px;
+
+}
+
+.answer-variant-card{
+
+    position:relative;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    flex-shrink:0;
+
+    margin-left:-16px;
+
+    padding:12px 20px;
+
+    border:1px solid #d6d6d6;
+    border-radius:8px;
+
+    background:#ffffff;
+
+    color:#111827;
+
+    font:inherit;
+    font-size:15px;
+    font-weight:500;
+
+    cursor:pointer;
+
+    box-shadow:0 1px 3px rgba(17,24,39,.12);
+
+    transition:background-color .2s ease, border-color .2s ease,
+        color .2s ease, box-shadow .2s ease, transform .2s ease;
+
+}
+
+.answer-variant-card:first-child{
+
+    margin-left:0;
+
+}
+
+.answer-variant-card:hover{
+
+    z-index:5;
+
+    background:#f5f5f5;
+
+    transform:translateY(-4px);
+
+    box-shadow:0 4px 10px rgba(17,24,39,.16);
+
+}
+
+.answer-variant-card.filled{
+
+    border-color:#8ab4f8;
+
+}
+
+.answer-variant-card.active{
+
+    z-index:10;
+
+    border-color:#0b57d0;
+
+    background:#eef4ff;
+
+    color:#0b57d0;
 
     font-weight:600;
 
-    margin-bottom:8px;
+    transform:translateY(-6px);
+
+    box-shadow:0 6px 14px rgba(11,87,208,.22);
+
+}
+
+.answer-variant-card-check{
+
+    color:#0b57d0;
+
+    font-weight:700;
+
+}
+
+.answer-variant-card.active .answer-variant-card-check{
+
+    color:#0b57d0;
+
+}
+
+.answer-variant-editor{
+
+    display:flex;
+
+    flex-direction:column;
 
 }
 
@@ -328,6 +458,8 @@ textarea:focus{
 
     text-align:left;
 
+    vertical-align:top;
+
 }
 
 .dynamic-table th{
@@ -335,6 +467,37 @@ textarea:focus{
     background:#f5f7fb;
 
     font-weight:600;
+
+}
+
+.dynamic-table-textarea{
+
+    width:100%;
+
+    min-height:64px;
+
+    max-height:320px;
+
+    resize:vertical;
+
+    box-sizing:border-box;
+
+    padding:8px 10px;
+
+    font:inherit;
+    font-size:15px;
+    line-height:1.5;
+
+    border:1px solid #d6d6d6;
+    border-radius:6px;
+
+}
+
+.dynamic-table-textarea:focus{
+
+    outline:none;
+
+    border-color:#0b57d0;
 
 }
 
@@ -408,6 +571,244 @@ textarea:focus{
 
 }
 
+/* ==========================================================
+   Table Cell -- Multi-Entry List
+========================================================== */
+
+.table-list-cell{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
+    min-width:180px;
+
+}
+
+.table-list-cell-row{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+}
+
+.table-list-cell-index{
+
+    color:#888888;
+
+    font-size:13px;
+
+    min-width:14px;
+
+}
+
+.table-list-cell-input{
+
+    flex:1;
+
+    min-width:0;
+
+}
+
+.table-list-cell-remove{
+
+    width:26px;
+    height:26px;
+
+    border:1px solid #d6d6d6;
+    border-radius:6px;
+
+    background:#ffffff;
+
+    color:#111827;
+
+    cursor:pointer;
+
+    line-height:1;
+
+    transition:background-color .2s ease;
+
+}
+
+.table-list-cell-remove:hover{
+
+    background:#f5f5f5;
+
+}
+
+.table-list-cell-add{
+
+    align-self:flex-start;
+
+    height:28px;
+
+    padding:0 10px;
+
+    border:1px solid #d6d6d6;
+    border-radius:6px;
+
+    background:#ffffff;
+
+    color:#111827;
+
+    font-size:13px;
+
+    cursor:pointer;
+
+    transition:background-color .2s ease;
+
+}
+
+.table-list-cell-add:hover{
+
+    background:#f5f5f5;
+
+}
+
+/* ==========================================================
+   Checklist
+========================================================== */
+
+.answer-checklist{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+.answer-checklist-empty{
+
+    color:#5f6368;
+
+    font-style:italic;
+
+}
+
+.answer-checklist-row{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.answer-checklist-checkbox{
+
+    width:20px;
+    height:20px;
+
+    flex-shrink:0;
+
+    accent-color:#0b57d0;
+
+    cursor:pointer;
+
+}
+
+.answer-checklist-input{
+
+    flex:1;
+
+    min-width:0;
+
+    height:44px;
+
+    padding:0 14px;
+
+    border:1px solid #d6d6d6;
+    border-radius:8px;
+
+    font:inherit;
+    font-size:16px;
+
+}
+
+.answer-checklist-input:focus{
+
+    outline:none;
+
+    border-color:#0b57d0;
+
+}
+
+.answer-checklist-remove{
+
+    width:32px;
+    height:32px;
+
+    flex-shrink:0;
+
+    border:1px solid #d6d6d6;
+    border-radius:6px;
+
+    background:#ffffff;
+
+    color:#111827;
+
+    font-size:16px;
+    line-height:1;
+
+    cursor:pointer;
+
+    transition:background-color .2s ease, border-color .2s ease, color .2s ease;
+
+}
+
+.answer-checklist-remove:hover{
+
+    background:#fdecea;
+
+    border-color:#b00020;
+
+    color:#b00020;
+
+}
+
+.answer-checklist-add{
+
+    align-self:flex-start;
+
+    height:40px;
+
+    padding:0 18px;
+
+    border:1px solid #d6d6d6;
+    border-radius:8px;
+
+    background:#ffffff;
+
+    color:#111827;
+
+    font-weight:500;
+
+    cursor:pointer;
+
+    transition:background-color .2s ease, border-color .2s ease, color .2s ease;
+
+}
+
+.answer-checklist-add:hover{
+
+    background:#eef4ff;
+
+    border-color:#0b57d0;
+
+    color:#0b57d0;
+
+    font-weight:700;
+
+}
+
 .validation-issue-list{
 
     margin-top:15px;
@@ -447,6 +848,8 @@ textarea:focus{
 
     overflow-y:auto;
 
+    text-align:left;
+
 }
 
 .confirmation-warning-list li{
@@ -455,9 +858,9 @@ textarea:focus{
 
     font-weight:700;
 
-    text-align:center;
+    text-align:left;
 
-    padding:4px 0;
+    padding:4px 0 4px 4px;
 
 }
 

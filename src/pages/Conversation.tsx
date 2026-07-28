@@ -113,6 +113,14 @@ export default function Conversation() {
         redraw();
     }
 
+    // Every Section/Introduction change should present the new
+    // page starting at its top, rather than keeping whatever
+    // scroll position the previous (possibly taller) Section left
+    // the window at.
+    function scrollToTop() {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    }
+
     function startInterview() {
 
         if (!session) {
@@ -121,6 +129,7 @@ export default function Conversation() {
 
         session.startInterview();
         persistAndRedraw(session);
+        scrollToTop();
 
     }
 
@@ -149,6 +158,7 @@ export default function Conversation() {
 
         session.nextSection();
         persistAndRedraw(session);
+        scrollToTop();
 
     }
 
@@ -160,6 +170,7 @@ export default function Conversation() {
 
         if (session.previousSection()) {
             persistAndRedraw(session);
+            scrollToTop();
         }
 
     }
@@ -172,6 +183,7 @@ export default function Conversation() {
 
         session.viewIntroduction();
         persistAndRedraw(session);
+        scrollToTop();
 
     }
 
@@ -276,6 +288,7 @@ export default function Conversation() {
                             />
 
                             <AnswerRenderer
+                                key={currentSection.number}
                                 definition={currentSection.answer}
                                 value={session.getCurrentResponse()}
                                 onChange={handleAnswerChange}

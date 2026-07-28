@@ -237,6 +237,8 @@
 
     color: #0b57d0;
 
+    font-weight: 700;
+
     text-decoration: none;
 
 }
@@ -327,7 +329,13 @@
 
 .secondary-button:hover:not(:disabled) {
 
-    background: #f5f5f5;
+    background: #eef4ff;
+
+    border-color: #0b57d0;
+
+    color: #0b57d0;
+
+    font-weight: 700;
 
 }
 

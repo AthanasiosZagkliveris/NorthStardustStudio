@@ -28,7 +28,100 @@ export function visibleTableColumns(
 
 }
 
+/**
+ * Determines whether a table column is a date,
+ * so it can be rendered with a native date picker
+ * instead of a plain text input.
+ */
+export function isDateColumn(title: string): boolean {
+
+    return /\bdate\b/i.test(title);
+
+}
+
+/**
+ * Column titles that end in "s" but are not
+ * actually plural/multi-value concepts, so the
+ * multi-entry list heuristic below should skip
+ * them.
+ */
+const SINGULAR_S_EXCEPTIONS = new Set([
+    "status",
+    "focus",
+    "process",
+    "access",
+    "address",
+    "series",
+    "analysis",
+    "progress",
+    "purpose",
+    "bias",
+    "basis",
+    "canvas",
+    "campus",
+    "success",
+    "news",
+    "species"
+]);
+
+/**
+ * Determines whether a table column should let the
+ * user fill in more than one value per cell (e.g.
+ * "Key Deliverables"), based on its title being
+ * plural.
+ *
+ * This is a heuristic: the column's last word must
+ * end in "s" and not appear in the exceptions list
+ * above (common singular nouns that happen to end
+ * in "s", e.g. "Status", "Focus").
+ */
+export function isMultiEntryColumn(title: string): boolean {
+
+    const words = title.trim().toLowerCase().split(/\s+/);
+    const last = words[words.length - 1] ?? "";
+
+    if (last.length < 4) {
+        return false;
+    }
+
+    if (!last.endsWith("s")) {
+        return false;
+    }
+
+    return !SINGULAR_S_EXCEPTIONS.has(last);
+
+}
+
 export type TableAnswerRow = Record<string, unknown>;
+
+/**
+ * A single user-authored Checklist item.
+ */
+export interface ChecklistItemValue {
+    id: string;
+    text: string;
+    checked: boolean;
+}
+
+/**
+ * Determines whether a single table cell has been
+ * filled in, aware of the multi-entry ("list") cell
+ * shape (an array of strings) as well as plain
+ * text/date/field cells (a single string).
+ */
+function isCellFilled(cell: unknown): boolean {
+
+    if (Array.isArray(cell)) {
+
+        return cell.some(
+            item => typeof item === "string" && item.trim().length > 0
+        );
+
+    }
+
+    return typeof cell === "string" && cell.trim().length > 0;
+
+}
 
 /**
  * Returns the empty/default value appropriate
@@ -45,6 +138,9 @@ export function defaultAnswerValue(answer: AnswerDefinition): unknown {
             return {};
 
         case AnswerType.Table:
+            return [];
+
+        case AnswerType.Checklist:
             return [];
 
         case AnswerType.FreeText:
@@ -81,8 +177,38 @@ export function isAnswerEmpty(answer: AnswerDefinition, value: unknown): boolean
 
         }
 
-        case AnswerType.Table:
-            return !Array.isArray(value) || value.length === 0;
+        case AnswerType.Table: {
+
+            if (!Array.isArray(value) || value.length === 0) {
+                return true;
+            }
+
+            // A row a user has added via "+ Add Row" but left
+            // blank should NOT count as a completed answer --
+            // every visible column of every row must be filled
+            // for the Section to be considered complete.
+            const columns = visibleTableColumns(answer.table?.columns ?? []);
+            const rows = value as TableAnswerRow[];
+
+            return rows.some(row =>
+                columns.some(column => !isCellFilled(row[column.id]))
+            );
+
+        }
+
+        case AnswerType.Checklist: {
+
+            if (!Array.isArray(value) || value.length === 0) {
+                return true;
+            }
+
+            const items = value as ChecklistItemValue[];
+
+            return !items.some(
+                item => typeof item.text === "string" && item.text.trim().length > 0
+            );
+
+        }
 
         default:
             return true;
@@ -151,8 +277,20 @@ export function formatAnswerAsMarkdown(answer: AnswerDefinition, value: unknown)
                 const cells = [
                     String(index + 1),
                     ...columns.map(column => {
+
                         const cell = row[column.id];
+
+                        if (Array.isArray(cell)) {
+
+                            return cell
+                                .filter(item => typeof item === "string" && item.trim().length > 0)
+                                .map((item, itemIndex) => `${itemIndex + 1}. ${item}`)
+                                .join("; ");
+
+                        }
+
                         return cell === undefined || cell === null ? "" : String(cell);
+
                     })
                 ];
 
@@ -165,6 +303,26 @@ export function formatAnswerAsMarkdown(answer: AnswerDefinition, value: unknown)
             }
 
             return lines;
+
+        }
+
+        case AnswerType.Checklist: {
+
+            const items: ChecklistItemValue[] = Array.isArray(value)
+                ? value as ChecklistItemValue[]
+                : [];
+
+            const filled = items.filter(
+                item => typeof item.text === "string" && item.text.trim().length > 0
+            );
+
+            if (filled.length === 0) {
+                return [];
+            }
+
+            return filled.map(
+                item => `- [${item.checked ? "x" : " "}] ${item.text.trim()}`
+            );
 
         }
 

@@ -4,6 +4,8 @@ export enum AnswerType {
 
     FixedVariantText = "fixed-variant-text",
 
-    Table = "table"
+    Table = "table",
+
+    Checklist = "checklist"
 
 }

@@ -6,6 +6,8 @@
 
     align-items: center;
 
+    justify-content: space-between;
+
     padding: 0 28px;
 
     border-bottom: 1px solid #ececec;
@@ -25,5 +27,48 @@
     user-select: none;
 
     pointer-events: none;
+
+}
+
+.app-header-actions {
+
+    display: flex;
+
+    align-items: center;
+
+}
+
+.date-format-toggle {
+
+    height: 40px;
+
+    padding: 0 16px;
+
+    border: 1px solid #d6d6d6;
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    font: inherit;
+    font-size: 14px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+
+}
+
+.date-format-toggle:hover {
+
+    background: #eef4ff;
+
+    border-color: #0b57d0;
+
+    color: #0b57d0;
+
+    font-weight: 700;
 
 }

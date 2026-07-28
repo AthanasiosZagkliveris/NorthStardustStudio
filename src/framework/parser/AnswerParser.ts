@@ -61,6 +61,14 @@ export class AnswerParser {
 
         }
 
+        if (structure === "checklist") {
+
+            return {
+                type: AnswerType.Checklist
+            };
+
+        }
+
         throw new Error("Unknown answer structure.");
 
     }

@@ -1,5 +1,5 @@
-import InterviewInput from "./InterviewInput";
 import FieldRenderer from "./FieldRenderer";
+import DateCellInput from "./DateCellInput.tsx";
 
 import { FieldDefinition } from "../../framework/model/FieldDefinition.ts";
 
@@ -21,7 +21,9 @@ export interface TableColumn {
     type:
         | "text"
         | "number"
-        | "field";
+        | "field"
+        | "date"
+        | "list";
 
     /**
      * Optional Framework Field.
@@ -68,7 +70,7 @@ export default function DynamicTable({
 
         columns.forEach(column => {
 
-            row[column.id] = "";
+            row[column.id] = column.type === "list" ? [] : "";
 
         });
 
@@ -170,6 +172,141 @@ export default function DynamicTable({
 
                 );
 
+            case "date":
+
+                return (
+
+                    <DateCellInput
+
+                        disabled={disabled}
+
+                        value={String(cellValue ?? "")}
+
+                        onChange={(next) =>
+
+                            updateCell(
+
+                                rowIndex,
+
+                                column.id,
+
+                                next
+
+                            )
+
+                        }
+
+                    />
+
+                );
+
+            case "list": {
+
+                const items: string[] =
+                    Array.isArray(cellValue)
+                        ? cellValue as string[]
+                        : [];
+
+                function updateItems(nextItems: string[]) {
+
+                    updateCell(
+
+                        rowIndex,
+
+                        column.id,
+
+                        nextItems
+
+                    );
+
+                }
+
+                return (
+
+                    <div className="table-list-cell">
+
+                        {items.map((item, itemIndex) => (
+
+                            <div key={itemIndex} className="table-list-cell-row">
+
+                                <span className="table-list-cell-index">
+
+                                    {itemIndex + 1}.
+
+                                </span>
+
+                                <input
+
+                                    type="text"
+
+                                    className="table-list-cell-input"
+
+                                    disabled={disabled}
+
+                                    value={item}
+
+                                    onChange={(event) => {
+
+                                        const nextItems = [...items];
+
+                                        nextItems[itemIndex] = event.target.value;
+
+                                        updateItems(nextItems);
+
+                                    }}
+
+                                />
+
+                                <button
+
+                                    type="button"
+
+                                    className="table-list-cell-remove"
+
+                                    disabled={disabled}
+
+                                    onClick={() =>
+
+                                        updateItems(
+
+                                            items.filter((_, i) => i !== itemIndex)
+
+                                        )
+
+                                    }
+
+                                >
+
+                                    ×
+
+                                </button>
+
+                            </div>
+
+                        ))}
+
+                        <button
+
+                            type="button"
+
+                            className="table-list-cell-add"
+
+                            disabled={disabled}
+
+                            onClick={() => updateItems([...items, ""])}
+
+                        >
+
+                            + Add
+
+                        </button>
+
+                    </div>
+
+                );
+
+            }
+
             case "number":
 
                 return (
@@ -208,15 +345,17 @@ export default function DynamicTable({
 
                 return (
 
-                    <InterviewInput
+                    <textarea
 
-                        mode="input"
+                        className="dynamic-table-textarea"
+
+                        rows={2}
 
                         disabled={disabled}
 
                         value={String(cellValue ?? "")}
 
-                        onChange={(value) =>
+                        onChange={(event) =>
 
                             updateCell(
 
@@ -224,7 +363,7 @@ export default function DynamicTable({
 
                                 column.id,
 
-                                value
+                                event.target.value
 
                             )
 
