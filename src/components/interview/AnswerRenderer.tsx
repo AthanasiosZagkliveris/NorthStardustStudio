@@ -146,111 +146,23 @@ function AutoGrowTextarea({
 }
 
 /**
- * Wraps a Profile Card's content and scales it down
- * (uniformly, preserving proportions) whenever it would
- * otherwise overflow the card's fixed height -- so a
- * card with a lot of text shrinks as a whole instead of
- * clipping or scrolling internally. Runs its own
- * measurement effect (rather than living in the
- * ProfileCards case above) purely so each card gets its
- * own ref/state without violating the rules of hooks
- * inside a .map() loop.
+ * Wraps a Profile Card's content. Cards sit in a
+ * horizontal, non-wrapping row (see .profile-cards-row)
+ * but deliberately do NOT scale their content down or
+ * clip it: a card with a lot of text simply grows taller
+ * instead (its subtitle textareas are AutoGrowTextarea,
+ * so they grow with their own content), and every card in
+ * the row stretches to match the tallest one via
+ * .profile-cards-row's align-items:stretch. This is just
+ * a thin, named wrapper for the padding/layout styling in
+ * .profile-card-inner -- no measurement or scaling logic
+ * needed.
  */
-function ProfileCardInner({
-
-    children,
-
-    disableScale = false,
-
-    measureKey
-
-}: {
-
-    children: ReactNode;
-
-    disableScale?: boolean;
-
-    /**
-     * A string that changes whenever this card's actual
-     * text content changes (title + every subtitle's
-     * text) -- the effect's dependency, so it only
-     * remeasures when there's actually something new to
-     * measure.
-     */
-    measureKey?: string;
-
-}) {
-
-    const ref = useRef<HTMLDivElement | null>(null);
-
-    // Deliberately imperative, not React state: the scale
-    // this effect computes is applied directly to the DOM
-    // node within the very same invocation, rather than via
-    // setState + a follow-up render. Going through state was
-    // tried first and had a subtle bug -- whenever two
-    // different content changes happened to compute the same
-    // scale (a very ordinary occurrence, e.g. editing a
-    // short subtitle while a long one elsewhere still
-    // dominates the card's height), React's setState bails
-    // out of re-rendering for an unchanged value. But the
-    // measurement step just above it had already reset the
-    // node's transform/width to their unscaled values on the
-    // DOM directly (needed so the *next* measurement isn't
-    // measuring an already-shrunk box) -- with no re-render
-    // to follow, that reset was never replaced by the real
-    // scale, permanently leaving the card unscaled. Setting
-    // the final style imperatively, right here, removes the
-    // dependency on a follow-up render entirely.
-    useLayoutEffect(() => {
-
-        const el = ref.current;
-        const parent = el?.parentElement;
-
-        if (!el || !parent) {
-            return;
-        }
-
-        if (disableScale) {
-            el.style.transform = "";
-            el.style.width = "";
-            return;
-        }
-
-        // Reset to the unscaled size before measuring, so
-        // this measurement reflects the content's true
-        // natural height, not whatever scale a previous
-        // measurement left it at.
-        el.style.transform = "none";
-        el.style.width = "100%";
-
-        const naturalHeight = el.scrollHeight;
-        const availableHeight = parent.clientHeight;
-
-        const scale =
-            naturalHeight > 0 && naturalHeight > availableHeight
-                ? availableHeight / naturalHeight
-                : 1;
-
-        if (scale < 1) {
-            el.style.transform = `scale(${scale})`;
-            el.style.width = `${100 / scale}%`;
-        } else {
-            el.style.transform = "";
-            el.style.width = "";
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [measureKey, disableScale]);
+function ProfileCardInner({ children }: { children: ReactNode }) {
 
     return (
 
-        <div
-
-            ref={ref}
-
-            className="profile-card-inner"
-
-        >
+        <div className="profile-card-inner">
 
             {children}
 
@@ -986,10 +898,22 @@ export default function AnswerRenderer({
             function removeCard(cardId: string) {
 
                 // At least one card always stays -- mirrors the
-                // "always at least one row/item" convention used
-                // by DynamicTable and the Checklist above.
+                // global "always at least one row/item" convention
+                // used by DynamicTable, Checklist, and Card List
+                // above: pressing remove on the last remaining
+                // card clears it back to blank instead of doing
+                // nothing (and instead of actually removing it,
+                // which would leave the Section with zero cards).
                 if (cards.length <= 1) {
+
+                    updateCards(cards.map(card =>
+                        card.id === cardId
+                            ? { ...card, title: "", sections: {} }
+                            : card
+                    ));
+
                     return;
+
                 }
 
                 updateCards(cards.filter(card => card.id !== cardId));
@@ -1024,29 +948,22 @@ export default function AnswerRenderer({
 
                             <div key={card.id} className="profile-card">
 
-                                {cards.length > 1 && (
-
-                                    <button
-                                        type="button"
-                                        className="profile-card-remove"
-                                        aria-label={`Remove ${cardLabel} ${index + 1}`}
-                                        title="Remove"
-                                        disabled={disabled}
-                                        onClick={() => removeCard(card.id)}
-                                    >
-                                        ×
-                                    </button>
-
-                                )}
-
-                                <ProfileCardInner
-
-                                    measureKey={
-                                        `${card.title}|` +
-                                        subtitles.map(subtitle => card.sections?.[subtitle.id] ?? "").join("|")
+                                <button
+                                    type="button"
+                                    className="profile-card-remove"
+                                    aria-label={
+                                        cards.length <= 1
+                                            ? `Clear ${cardLabel} ${index + 1}`
+                                            : `Remove ${cardLabel} ${index + 1}`
                                     }
-
+                                    title={cards.length <= 1 ? "Clear" : "Remove"}
+                                    disabled={disabled}
+                                    onClick={() => removeCard(card.id)}
                                 >
+                                    ×
+                                </button>
+
+                                <ProfileCardInner>
 
                                     <input
                                         type="text"
@@ -1102,7 +1019,7 @@ export default function AnswerRenderer({
 
                         <div className="profile-card profile-card-trailing">
 
-                            <ProfileCardInner disableScale>
+                            <ProfileCardInner>
 
                                 <div className="profile-card-subtitle">
                                     {trailing.title}

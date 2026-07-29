@@ -1477,13 +1477,14 @@ textarea:focus{
 
 }
 
-/* Each card keeps a fixed footprint (width and height)
-   regardless of how much text it holds -- content that
-   would otherwise overflow is scaled down to fit instead
-   of scrolling (see .profile-card-inner and the scale-to-
-   fit effect in AnswerRenderer.tsx), so every card in the
-   row reads at a glance without the user needing to
-   scroll inside any one of them. */
+/* Each card keeps a fixed width so the row lines up
+   neatly, but its height is deliberately NOT fixed --
+   a card with a lot of text simply grows taller (its
+   subtitle textareas auto-grow, see AutoGrowTextarea in
+   AnswerRenderer.tsx) rather than scaling its content
+   down or clipping/scrolling it. .profile-cards-row's
+   align-items:stretch then matches every other card in
+   the row to that same taller height. */
 .profile-card{
 
     position:relative;
@@ -1491,7 +1492,6 @@ textarea:focus{
     flex:0 0 280px;
 
     width:280px;
-    height:380px;
 
     border:1px solid #d6d6d6;
     border-radius:10px;
@@ -1500,18 +1500,9 @@ textarea:focus{
 
     box-shadow:0 1px 3px rgba(17,24,39,.08);
 
-    overflow:hidden;
-
 }
 
-/* Holds the card's actual content (title + subtitles).
-   Sized and positioned by AnswerRenderer.tsx's scale-to-
-   fit effect: while the content fits the card's fixed
-   height at 100%, this sits untouched; once it would
-   overflow, it's scaled down (transform-origin top left)
-   and widened back out to fill the card's width, so the
-   whole card visually shrinks together rather than
-   clipping or scrolling. */
+/* Holds the card's actual content (title + subtitles). */
 .profile-card-inner{
 
     display:flex;
@@ -1523,10 +1514,9 @@ textarea:focus{
     box-sizing:border-box;
 
     width:100%;
+    height:100%;
 
     padding:16px;
-
-    transform-origin:top left;
 
 }
 
@@ -1627,7 +1617,7 @@ textarea:focus{
     flex:0 0 180px;
 
     width:180px;
-    height:380px;
+    min-height:120px;
 
     border:1px dashed #b7c3d0;
     border-radius:10px;
@@ -1656,31 +1646,18 @@ textarea:focus{
 }
 
 /* The trailing card (e.g. "Market Position") sits below
-   the horizontal row, not in it -- it keeps the fixed-
-   size cards' rounded/bordered look but expands to the
-   full row width and grows tall enough to fit its own
-   text, so it's never subject to the row cards' scale-
-   to-fit treatment. */
+   the horizontal row, not in it -- it keeps the same
+   rounded/bordered look but expands to the full row
+   width instead of the row cards' fixed width. */
 .profile-card-trailing{
 
     flex:none;
 
     width:100%;
-    height:auto;
-
-    overflow:visible;
 
     border-color:#8ab4f8;
 
     background:#f7faff;
-
-}
-
-.profile-card-trailing .profile-card-inner{
-
-    width:100%;
-
-    transform:none;
 
 }
 
