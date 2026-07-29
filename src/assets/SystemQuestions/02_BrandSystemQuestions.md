@@ -27,8 +27,7 @@ System Scope: Defines how the organization expresses its identity consistently a
 
 ## 4. Typography System
 
-- Define the primary and secondary typefaces, including name, purpose, and examples of use.
-- Define an optional typeface, including name, purpose, and examples of use.
+- Define the typefaces used, including name, purpose, and examples of use.
 - Define the text hierarchy for Heading 1, Heading 2, Heading 3, and Body Text.
 
 ## 5. Visual Language

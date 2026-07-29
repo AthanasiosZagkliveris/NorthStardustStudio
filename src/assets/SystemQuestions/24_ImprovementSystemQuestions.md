@@ -25,9 +25,9 @@ System Scope: Defines how organizational improvements are identified, prioritize
 ## 4. Improvement Implementation
 
 - Document the improvement.
-- Document the implementation status.
 - Document the responsible role.
 - Document the target completion.
+- Document the implementation status.
 
 ## 5. Improvement Review
 

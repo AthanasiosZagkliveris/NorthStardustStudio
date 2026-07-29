@@ -30,4 +30,15 @@ export interface TableDefinition {
      */
     allowRemoveRows?: boolean;
 
+    /**
+     * Overrides the header label shown
+     * above the automatic row-number
+     * column (normally "#").
+     *
+     * Populated when the Answer Definition
+     * Resource's Column 1 placeholder uses
+     * a title other than "#" (e.g. "Phase").
+     */
+    rowNumberLabel?: string;
+
 }

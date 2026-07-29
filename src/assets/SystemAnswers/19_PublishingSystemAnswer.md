@@ -22,8 +22,8 @@
 - Column 1: #
 - Column 2: Title
 - Column 3: Category
-- Column 4: Status - Status Field
-- Column 5: Notes
+- Column 4: Notes
+- Column 5: Status - Status Field
 
 ## 03. Editorial Calendar
 

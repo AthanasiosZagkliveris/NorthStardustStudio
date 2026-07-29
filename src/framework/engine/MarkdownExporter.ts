@@ -56,6 +56,13 @@ function renderBlock(block: ExportBlock): string[] {
                 ""
             ];
 
+        case "list":
+
+            return [
+                ...block.items.map(item => `- ${item}`),
+                ""
+            ];
+
         default:
             return [];
 

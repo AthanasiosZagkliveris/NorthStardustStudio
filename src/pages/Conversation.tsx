@@ -11,6 +11,8 @@ import AnswerRenderer from "../components/interview/AnswerRenderer";
 import { InterviewManager, ReviewManager } from "../framework/application";
 import { InterviewSession } from "../framework/interview";
 import { ValidationIssue } from "../framework/model";
+import { AnswerType } from "../framework/enums/AnswerType";
+import { CardListAnswerValue } from "../framework/engine/AnswerUtils.ts";
 
 import { StorageService } from "../services/StorageService";
 
@@ -241,6 +243,54 @@ export default function Conversation() {
     const introduction = framework.introduction;
     const currentSection = session.getCurrentSection();
 
+    // Captured separately from `session` itself: TypeScript's
+    // null-narrowing above doesn't persist into the nested
+    // closure below, since the value could in principle change
+    // between render and the closure actually running.
+    const activeSession = session;
+
+    // Resolves a Table column's live dropdown options from
+    // another Section's Card List response (see
+    // TableColumnDefinition.dynamicSource) -- e.g. a "Revenue
+    // Stream" column whose choices should always match
+    // whatever the user has entered under the Revenue Model
+    // Section's "Revenue Stream" card. Matched by normalized
+    // title text, the same way Questions/Answers Sections are
+    // matched to each other.
+    function resolveDynamicOptions(sectionTitle: string, cardTitle: string): string[] {
+
+        const normalize = (text: string) => text.trim().toLowerCase();
+
+        const sourceSection = framework.sections.find(
+            candidate => normalize(candidate.title) === normalize(sectionTitle)
+        );
+
+        if (!sourceSection || sourceSection.answer.type !== AnswerType.CardList) {
+            return [];
+        }
+
+        const card = sourceSection.answer.cards?.find(
+            candidate => normalize(candidate.title) === normalize(cardTitle)
+        );
+
+        if (!card) {
+            return [];
+        }
+
+        const response = activeSession.getResponse(sourceSection.number);
+
+        if (!response || typeof response !== "object" || Array.isArray(response)) {
+            return [];
+        }
+
+        const items = (response as CardListAnswerValue)[card.id] ?? [];
+
+        return items
+            .map(item => item.text.trim())
+            .filter(text => text.length > 0);
+
+    }
+
     const showIntroduction = !session.hasStartedInterview();
 
     const canConfirmCapability =
@@ -293,6 +343,7 @@ export default function Conversation() {
                                 definition={currentSection.answer}
                                 value={session.getCurrentResponse()}
                                 onChange={handleAnswerChange}
+                                resolveDynamicOptions={resolveDynamicOptions}
                             />
 
                             <div className="interview-nav">

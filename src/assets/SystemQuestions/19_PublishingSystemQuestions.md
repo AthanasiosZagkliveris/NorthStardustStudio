@@ -12,7 +12,7 @@ System Scope: Defines how organizational information is prepared, published, mai
 
 ## 2. Content Ideas
 
-- For each idea, record title, category, status, and notes.
+- For each idea, record title, category, notes, and status.
 
 ## 3. Editorial Calendar
 

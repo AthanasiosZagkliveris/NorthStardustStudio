@@ -33,7 +33,7 @@ System Scope: Defines the long-term direction, priorities, objectives, and strat
 
 ## 6. Objectives
 
-- Define the objectives, including related goal, description, and target date.
+- Describe the objectives, including how each relates to a goal, what it involves, and its target date.
 
 ## 7. Key Initiatives
 

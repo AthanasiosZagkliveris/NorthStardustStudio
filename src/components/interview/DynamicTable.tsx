@@ -25,12 +25,22 @@ export interface TableColumn {
         | "text"
         | "number"
         | "field"
-        | "date";
+        | "date"
+        | "dynamic-select"
+        | "autofill";
 
     /**
      * Optional Framework Field.
      */
     field?: FieldDefinition;
+
+    /**
+     * Live dropdown options for a
+     * "dynamic-select" column, resolved
+     * from another Section's Card List
+     * response.
+     */
+    options?: string[];
 
     /**
      * Optional width.
@@ -51,6 +61,13 @@ interface DynamicTableProps {
     onChange: (rows: TableRow[]) => void;
 
     disabled?: boolean;
+
+    /**
+     * Overrides the header label shown
+     * above the automatic row-number
+     * column. Defaults to "#".
+     */
+    rowNumberLabel?: string;
 
 }
 
@@ -96,7 +113,9 @@ const TYPE_FIXED_WIDTH: Partial<Record<TableColumn["type"], number>> = {
 
     date: 190,
 
-    field: 170
+    field: 170,
+
+    "dynamic-select": 190
 
 };
 
@@ -257,7 +276,9 @@ export default function DynamicTable({
 
     onChange,
 
-    disabled = false
+    disabled = false,
+
+    rowNumberLabel = "#"
 
 }: DynamicTableProps) {
 
@@ -761,6 +782,128 @@ export default function DynamicTable({
 
                 );
 
+            case "dynamic-select": {
+
+                const options = column.options ?? [];
+
+                return (
+
+                    <select
+
+                        className="interview-input"
+
+                        disabled={disabled}
+
+                        value={String(cellValue ?? "")}
+
+                        onChange={(event) =>
+
+                            updateCell(
+
+                                rowIndex,
+
+                                column.id,
+
+                                event.target.value
+
+                            )
+
+                        }
+
+                    >
+
+                        <option value="">
+
+                            {options.length > 0 ? "Select..." : "No options entered yet"}
+
+                        </option>
+
+                        {options.map(option => (
+
+                            <option key={option} value={option}>
+
+                                {option}
+
+                            </option>
+
+                        ))}
+
+                    </select>
+
+                );
+
+            }
+
+            case "autofill": {
+
+                // Excel-style autofill: every distinct value
+                // already entered anywhere else in this same
+                // column becomes a suggestion, so a repeated
+                // Category (or similar) can be picked instead
+                // of retyped. Each row gets its own <datalist>
+                // (same suggestion set, row-scoped id) rather
+                // than one shared element, so ids stay unique
+                // per row without any extra plumbing.
+                const columnId = column.id;
+
+                const suggestions = Array.from(new Set(
+
+                    value
+
+                        .map(candidateRow => String(candidateRow[columnId] ?? "").trim())
+
+                        .filter(text => text.length > 0)
+
+                ));
+
+                const datalistId = `autofill-${columnId}-${rowIndex}`;
+
+                return (
+
+                    <>
+
+                        <input
+
+                            type="text"
+
+                            list={datalistId}
+
+                            className="interview-input"
+
+                            disabled={disabled}
+
+                            value={String(cellValue ?? "")}
+
+                            onChange={(event) =>
+
+                                updateCell(
+
+                                    rowIndex,
+
+                                    column.id,
+
+                                    event.target.value
+
+                                )
+
+                            }
+
+                        />
+
+                        <datalist id={datalistId}>
+
+                            {suggestions.map(option => (
+                                <option key={option} value={option} />
+                            ))}
+
+                        </datalist>
+
+                    </>
+
+                );
+
+            }
+
             case "text":
 
             default:
@@ -935,7 +1078,7 @@ export default function DynamicTable({
 
                         <tr ref={(el) => { dataRowRefs.current.header = el; }}>
 
-                            <th>#</th>
+                            <th>{rowNumberLabel}</th>
 
                             {columns.map(column => (
 

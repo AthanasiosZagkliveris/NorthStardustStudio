@@ -1378,3 +1378,191 @@ textarea:focus{
     border-color:#0b57d0;
 
 }
+
+/* ==========================================================
+   Profile Cards
+========================================================== */
+
+.profile-cards-wrapper{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:16px;
+
+}
+
+.profile-cards-row{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:stretch;
+
+    gap:16px;
+
+}
+
+.profile-card{
+
+    position:relative;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+    flex:1 1 260px;
+
+    min-width:240px;
+    max-width:360px;
+
+    padding:16px;
+
+    border:1px solid #d6d6d6;
+    border-radius:10px;
+
+    background:#ffffff;
+
+    box-shadow:0 1px 3px rgba(17,24,39,.08);
+
+}
+
+.profile-card-remove{
+
+    position:absolute;
+
+    top:10px;
+    right:10px;
+
+    width:26px;
+    height:26px;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    border:1px solid #d6d6d6;
+    border-radius:6px;
+
+    background:#ffffff;
+
+    color:#111827;
+
+    font-size:14px;
+    line-height:1;
+
+    cursor:pointer;
+
+    transition:background-color .2s ease, border-color .2s ease, color .2s ease;
+
+}
+
+.profile-card-remove:hover:not(:disabled){
+
+    background:#fdecea;
+
+    border-color:#b00020;
+
+    color:#b00020;
+
+}
+
+.profile-card-title-input{
+
+    padding-right:38px;
+
+    font-weight:600;
+
+}
+
+.profile-card-section{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
+}
+
+.profile-card-subtitle{
+
+    font-size:12px;
+    font-weight:700;
+
+    letter-spacing:.04em;
+    text-transform:uppercase;
+
+    color:#5f6368;
+
+}
+
+.profile-card-subtitle-textarea{
+
+    min-height:90px;
+
+}
+
+.profile-card-add-tile{
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    flex:1 1 200px;
+
+    min-width:180px;
+    max-width:220px;
+
+    min-height:120px;
+
+    border:1px dashed #b7c3d0;
+    border-radius:10px;
+
+    background:#fafbfc;
+
+    color:#5f6368;
+
+    font-size:28px;
+    line-height:1;
+
+    cursor:pointer;
+
+    transition:background-color .2s ease, border-color .2s ease, color .2s ease;
+
+}
+
+.profile-card-add-tile:hover:not(:disabled){
+
+    background:#eef4ff;
+
+    border-color:#0b57d0;
+
+    color:#0b57d0;
+
+}
+
+.profile-card-trailing{
+
+    max-width:none;
+
+    border-color:#8ab4f8;
+
+    background:#f7faff;
+
+}
+
+.profile-card-trailing-description{
+
+    margin:-4px 0 0;
+
+    font-size:13px;
+
+    color:#5f6368;
+
+}

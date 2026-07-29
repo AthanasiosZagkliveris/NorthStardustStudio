@@ -1,5 +1,6 @@
 import { AnswerType } from "../enums/AnswerType.ts";
 import {
+    ProfileCardsDefinition,
     TableDefinition,
     VariantDefinition
 } from "./index.ts";
@@ -30,5 +31,23 @@ export interface AnswerDefinition {
      * structure is Table.
      */
     table?: TableDefinition;
+
+    /**
+     * Named cards, each holding its own
+     * reorderable list of free-text
+     * entries.
+     *
+     * Used only when the answer
+     * structure is Card List.
+     */
+    cards?: VariantDefinition[];
+
+    /**
+     * Profile Cards definition.
+     *
+     * Used only when the answer
+     * structure is Profile Cards.
+     */
+    profile?: ProfileCardsDefinition;
 
 }

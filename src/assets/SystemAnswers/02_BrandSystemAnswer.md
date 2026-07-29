@@ -48,16 +48,11 @@ Columns:
 
 **Structure:** Fixed Variant Text
 
-**Number of Variants:** 7
+**Number of Variants:** 2
 
 **Variants:**
-- Variant 1: Primary Typeface
-- Variant 2: Secondary Typeface
-- Variant 3: Optional Typeface
-- Variant 4: Heading 1
-- Variant 5: Heading 2
-- Variant 6: Heading 3
-- Variant 7: Body Text
+- Variant 1: Typeface
+- Variant 2: Text Hierarchy
 
 ## 05. Visual Language
 

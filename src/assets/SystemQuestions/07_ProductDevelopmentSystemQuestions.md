@@ -5,7 +5,7 @@ System Scope: Defines how products and services are designed, developed, maintai
 
 ## 1. Product Register
 
-- For each product, record product name, category, status, and launch date.
+- For each product, record product name, category, launch date, and status.
 
 ## 2. Product Validation
 

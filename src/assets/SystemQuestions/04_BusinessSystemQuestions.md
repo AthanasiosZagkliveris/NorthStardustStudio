@@ -22,24 +22,24 @@ System Scope: Defines how the organization creates, delivers, and sustains value
 
 ## 3. Revenue Model
 
-- Identify the primary revenue methods.
-- Estimate the revenue mix contribution of each method.
+- List each revenue stream the organization has.
+- List each revenue method used to generate that revenue.
 
-## 4. Revenue Streams
+## 4. Revenue Matrix
 
-- Describe each revenue stream.
+- For each revenue stream and revenue method combination, record its share of total revenue, its share within the stream, and its categorization (Primary, Secondary, or Supporting).
 
 ## 5. Product Register
 
-- For each product, record name, category, status, target customer, and revenue stream.
+- For each product, record name, category, target customer, revenue stream, and status.
 
 ## 6. Customer Profiles
 
-- Define each customer group, including description, needs, challenges, and goals.
+- For each customer group, provide a title and describe its needs, challenges, and goals.
 
 ## 7. Competitor Analysis
 
-- Define each competitor, including description, strengths, weaknesses, and differentiators.
+- For each competitor, provide a name and describe its strengths, weaknesses, and differentiators.
 - Describe how the organization differs from competitors.
 
 ## 8. Pricing Strategy

@@ -37,3 +37,12 @@
 - Variant 1: Primary
 - Variant 2: Secondary
 - Variant 3: Neutral
+
+## Resources Field
+
+**Number of Variants:** 3
+
+**Variants:**
+- Variant 1: Primary
+- Variant 2: Secondary
+- Variant 3: Supporting

@@ -29,18 +29,27 @@
 
 ## 03. Revenue Model
 
-**Structure:** Fixed Variant Text
+**Structure:** Card List
 
-**Number of Variants:** 3
+**Number of Cards:** 2
 
-**Variants:**
-- Variant 1: Revenue Methods
-- Variant 2: Preferred Revenue Methods
-- Variant 3: Revenue Mix
+**Cards:**
+- Card 1: Revenue Stream
+- Card 2: Revenue Method
 
-## 04. Revenue Streams
+## 04. Revenue Matrix
 
-**Structure:** Free Text
+**Structure:** Table
+
+**Number of Columns:** 6
+
+**Columns:**
+- Column 1: #
+- Column 2: Revenue Stream (The Source) - Dynamic Field (Revenue Model: Revenue Stream)
+- Column 3: Stream Mix (% of Total Revenue)
+- Column 4: Revenue Method (The Mechanism) - Dynamic Field (Revenue Model: Revenue Method)
+- Column 5: Method Mix (% Within Stream)
+- Column 6: Categorization - Resources Field
 
 ## 05. Product Register
 
@@ -51,42 +60,39 @@
 **Columns:**
 - Column 1: #
 - Column 2: Product
-- Column 3: Category
-- Column 4: Status - Status Field
-- Column 5: Target Customer
-- Column 6: Revenue Stream
+- Column 3: Category - Autofill
+- Column 4: Target Customer
+- Column 5: Revenue Stream - Dynamic Field (Revenue Model: Revenue Stream)
+- Column 6: Status - Status Field
 
 ## 06. Customer Profiles
 
-**Structure:** Table
+**Structure:** Profile Cards
 
-**Number of Columns:** 5
+**Card Label:** Customer Group
 
-**Columns:**
-- Column 1: #
-- Column 2: Customer Group
-- Column 3: Needs
-- Column 4: Challenges
-- Column 5: Goals
+**Initial Cards:** 3
+
+**Subtitles:**
+- Subtitle 1: Needs
+- Subtitle 2: Challenges
+- Subtitle 3: Goals
 
 ## 07. Competitor Analysis
 
-**Competitors**
+**Structure:** Profile Cards
 
-**Structure:** Table
+**Card Label:** Competitor
 
-**Number of Columns:** 5
+**Initial Cards:** 2
 
-**Columns:**
-- Column 1: #
-- Column 2: Competitor
-- Column 3: Strengths
-- Column 4: Weaknesses
-- Column 5: Differentiators
+**Subtitles:**
+- Subtitle 1: Strengths
+- Subtitle 2: Weaknesses
+- Subtitle 3: Differentiators
 
-**Market Position**
-
-**Structure:** Free Text
+**Trailing Card:** Market Position
+**Trailing Card Placeholder:** Describe how the organization differs from competitors.
 
 ## 08. Pricing Strategy
 
@@ -106,7 +112,7 @@
 **Number of Columns:** 4
 
 **Columns:**
-- Column 1: #
+- Column 1: Phase
 - Column 2: Time Period
 - Column 3: Focus
 - Column 4: Expected Revenue Sources

@@ -45,15 +45,7 @@
 
 ## 06. Objectives
 
-**Structure:** Table
-
-**Number of Columns:** 4
-
-**Columns:**
-- Column 1: #
-- Column 2: Related Goal
-- Column 3: Description
-- Column 4: Target Date
+**Structure:** Free Text
 
 ## 07. Key Initiatives
 

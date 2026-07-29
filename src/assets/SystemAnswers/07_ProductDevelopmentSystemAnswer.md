@@ -10,8 +10,8 @@
 - Column 1: #
 - Column 2: Product Name
 - Column 3: Category
-- Column 4: Status - Status Field
-- Column 5: Launch Date
+- Column 4: Launch Date
+- Column 5: Status - Status Field
 
 ## 02. Product Validation
 

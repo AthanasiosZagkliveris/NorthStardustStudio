@@ -21,8 +21,8 @@
 - Column 1: #
 - Column 2: Process Name
 - Column 3: Purpose
-- Column 4: Status - Status Field
-- Column 5: Related SOP
+- Column 4: Related SOP
+- Column 5: Status - Status Field
 
 ## 03. SOP Library
 

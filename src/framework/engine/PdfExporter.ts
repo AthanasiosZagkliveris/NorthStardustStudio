@@ -62,6 +62,14 @@ function renderBlockHtml(block: ExportBlock): string {
 
         }
 
+        case "list": {
+
+            const itemsHtml = block.items.map(item => `<li>${escapeHtml(item)}</li>`).join("");
+
+            return `<ul class="export-list">${itemsHtml}</ul>`;
+
+        }
+
         default:
             return "";
 
@@ -225,6 +233,15 @@ export class PdfExporter {
                         .export-checklist-mark {
                             flex-shrink: 0;
                             font-size: 14px;
+                        }
+                        ul.export-list {
+                            margin: 0 0 14px 20px;
+                            padding: 0;
+                        }
+                        ul.export-list li {
+                            font-size: 13px;
+                            line-height: 1.5;
+                            margin-bottom: 4px;
                         }
                     </style>
                 </head>

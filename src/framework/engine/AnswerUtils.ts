@@ -51,6 +51,40 @@ export interface ChecklistItemValue {
 }
 
 /**
+ * A single user-authored Card List
+ * entry (used within one card's list).
+ */
+export interface CardListItemValue {
+    id: string;
+    text: string;
+}
+
+/**
+ * Runtime value shape for a Card List
+ * answer: each card's own reorderable
+ * list of entries, keyed by card id.
+ */
+export type CardListAnswerValue = Record<string, CardListItemValue[]>;
+
+/**
+ * A single user-authored Profile Card.
+ */
+export interface ProfileCardValue {
+    id: string;
+    title: string;
+    sections: Record<string, string>;
+}
+
+/**
+ * Runtime value shape for a Profile
+ * Cards answer.
+ */
+export interface ProfileCardsAnswerValue {
+    cards: ProfileCardValue[];
+    trailing?: string;
+}
+
+/**
  * Determines whether a single table cell has been
  * filled in, aware of the multi-entry ("list") cell
  * shape (an array of strings) as well as plain
@@ -102,6 +136,33 @@ export function defaultAnswerValue(answer: AnswerDefinition): unknown {
 
         case AnswerType.Checklist:
             return [];
+
+        case AnswerType.CardList:
+            return {};
+
+        case AnswerType.ProfileCards: {
+
+            const profile = answer.profile;
+            const count = Math.max(0, profile?.initialCount ?? 1);
+
+            const cards: ProfileCardValue[] = Array.from(
+                { length: count },
+                (_, index) => ({
+                    id: `card-${index + 1}`,
+                    title: "",
+                    sections: {}
+                })
+            );
+
+            const value: ProfileCardsAnswerValue = { cards };
+
+            if (profile?.trailingCard) {
+                value.trailing = "";
+            }
+
+            return value;
+
+        }
 
         case AnswerType.FreeText:
         default:
@@ -170,6 +231,46 @@ export function isAnswerEmpty(answer: AnswerDefinition, value: unknown): boolean
 
         }
 
+        case AnswerType.CardList: {
+
+            if (!value || typeof value !== "object" || Array.isArray(value)) {
+                return true;
+            }
+
+            const values = value as CardListAnswerValue;
+
+            return !Object.values(values).some(items =>
+                Array.isArray(items) && items.some(
+                    item => typeof item.text === "string" && item.text.trim().length > 0
+                )
+            );
+
+        }
+
+        case AnswerType.ProfileCards: {
+
+            if (!value || typeof value !== "object" || Array.isArray(value)) {
+                return true;
+            }
+
+            const profileValue = value as ProfileCardsAnswerValue;
+            const cards = Array.isArray(profileValue.cards) ? profileValue.cards : [];
+
+            const cardsFilled = cards.some(card =>
+                (typeof card.title === "string" && card.title.trim().length > 0) ||
+                Object.values(card.sections ?? {}).some(
+                    text => typeof text === "string" && text.trim().length > 0
+                )
+            );
+
+            const trailingFilled =
+                typeof profileValue.trailing === "string" &&
+                profileValue.trailing.trim().length > 0;
+
+            return !cardsFilled && !trailingFilled;
+
+        }
+
         default:
             return true;
 
@@ -190,7 +291,8 @@ export type ExportBlock =
     | { kind: "paragraph"; text: string }
     | { kind: "subheading"; text: string }
     | { kind: "table"; headers: string[]; rows: string[][] }
-    | { kind: "checklist"; items: { text: string; checked: boolean }[] };
+    | { kind: "checklist"; items: { text: string; checked: boolean }[] }
+    | { kind: "list"; items: string[] };
 
 /**
  * Converts a single table cell's raw value into
@@ -323,6 +425,103 @@ export function buildAnswerBlocks(answer: AnswerDefinition, value: unknown): Exp
                 kind: "checklist",
                 items: filled.map(item => ({ text: item.text.trim(), checked: item.checked }))
             }];
+
+        }
+
+        case AnswerType.CardList: {
+
+            const values: CardListAnswerValue =
+                value && typeof value === "object" && !Array.isArray(value)
+                    ? value as CardListAnswerValue
+                    : {};
+
+            const blocks: ExportBlock[] = [];
+
+            for (const card of answer.cards ?? []) {
+
+                const items = (values[card.id] ?? []).filter(
+                    item => typeof item.text === "string" && item.text.trim().length > 0
+                );
+
+                if (items.length === 0) {
+                    continue;
+                }
+
+                blocks.push({ kind: "subheading", text: card.title });
+                blocks.push({ kind: "list", items: items.map(item => item.text.trim()) });
+
+            }
+
+            return blocks;
+
+        }
+
+        case AnswerType.ProfileCards: {
+
+            const profileValue: ProfileCardsAnswerValue =
+                value && typeof value === "object" && !Array.isArray(value)
+                    ? value as ProfileCardsAnswerValue
+                    : { cards: [] };
+
+            const cards = Array.isArray(profileValue.cards) ? profileValue.cards : [];
+            const blocks: ExportBlock[] = [];
+
+            cards.forEach((card, index) => {
+
+                const sections = card.sections ?? {};
+
+                const hasContent =
+                    (typeof card.title === "string" && card.title.trim().length > 0) ||
+                    Object.values(sections).some(
+                        text => typeof text === "string" && text.trim().length > 0
+                    );
+
+                if (!hasContent) {
+                    return;
+                }
+
+                blocks.push({
+                    kind: "subheading",
+                    text: card.title?.trim().length > 0
+                        ? card.title.trim()
+                        : `${answer.profile?.cardLabel ?? "Card"} ${index + 1}`
+                });
+
+                for (const subtitle of answer.profile?.subtitles ?? []) {
+
+                    const text = String(sections[subtitle.id] ?? "").trim();
+
+                    if (text.length === 0) {
+                        continue;
+                    }
+
+                    toParagraphs(text).forEach((paragraph, paragraphIndex) => {
+                        blocks.push({
+                            kind: "paragraph",
+                            text: paragraphIndex === 0
+                                ? `${subtitle.title}: ${paragraph}`
+                                : paragraph
+                        });
+                    });
+
+                }
+
+            });
+
+            const trailing = answer.profile?.trailingCard;
+            const trailingText = String(profileValue.trailing ?? "").trim();
+
+            if (trailing && trailingText.length > 0) {
+
+                blocks.push({ kind: "subheading", text: trailing.title });
+
+                toParagraphs(trailingText).forEach(paragraph => {
+                    blocks.push({ kind: "paragraph", text: paragraph });
+                });
+
+            }
+
+            return blocks;
 
         }
 

@@ -11,7 +11,7 @@ System Scope: Defines how everyday activities are organized, executed, and impro
 
 ## 2. Processes
 
-- For each process, record process name, purpose, status, and related SOP.
+- For each process, record process name, purpose, related SOP, and status.
 
 ## 3. SOP Library
 

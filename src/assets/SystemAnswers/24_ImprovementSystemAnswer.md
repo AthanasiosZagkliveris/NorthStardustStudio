@@ -39,9 +39,9 @@
 **Columns:**
 - Column 1: #
 - Column 2: Improvement
-- Column 3: Implementation Status - Status Field
-- Column 4: Responsible Role
-- Column 5: Target Completion
+- Column 3: Responsible Role
+- Column 4: Target Completion
+- Column 5: Implementation Status - Status Field
 
 ## 05. Improvement Review
 
