@@ -1,3 +1,5 @@
+import { useListAutoFormat } from "../../hooks/useListAutoFormat.ts";
+
 interface InterviewInputProps {
     value: string;
     onChange: (value: string) => void;
@@ -19,6 +21,12 @@ export default function InterviewInput({
     mode = "textarea",
     options = []
 }: InterviewInputProps) {
+
+    // Called unconditionally (mode can switch, and the "input"/"select"
+    // branches below return early) -- the hook itself is a no-op for
+    // those, since only the textarea JSX further down attaches its
+    // ref/handlers.
+    const listAutoFormat = useListAutoFormat(value, onChange);
 
     if (mode === "input") {
         return (
@@ -55,12 +63,14 @@ export default function InterviewInput({
 
     return (
         <textarea
+            ref={listAutoFormat.textareaRef}
             className={className}
             value={value}
             rows={rows}
             placeholder={placeholder}
             disabled={disabled}
-            onChange={(event) => onChange(event.target.value)}
+            onChange={listAutoFormat.onChange}
+            onKeyDown={listAutoFormat.onKeyDown}
         />
     );
 }

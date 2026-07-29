@@ -64,9 +64,16 @@ function renderBlockHtml(block: ExportBlock): string {
 
         case "list": {
 
+            // Free text authored with the "1. "/"2. " numbered-list
+            // auto-format (see useListAutoFormat.ts) renders as a
+            // real <ol> so the browser/PDF's own numbering takes
+            // over; plain "• " bullets render as a <ul>, same as
+            // every other unordered list block (Card List answers,
+            // etc).
+            const tag = block.ordered ? "ol" : "ul";
             const itemsHtml = block.items.map(item => `<li>${escapeHtml(item)}</li>`).join("");
 
-            return `<ul class="export-list">${itemsHtml}</ul>`;
+            return `<${tag} class="export-list">${itemsHtml}</${tag}>`;
 
         }
 
@@ -234,11 +241,13 @@ export class PdfExporter {
                             flex-shrink: 0;
                             font-size: 14px;
                         }
-                        ul.export-list {
+                        ul.export-list,
+                        ol.export-list {
                             margin: 0 0 14px 20px;
                             padding: 0;
                         }
-                        ul.export-list li {
+                        ul.export-list li,
+                        ol.export-list li {
                             font-size: 13px;
                             line-height: 1.5;
                             margin-bottom: 4px;

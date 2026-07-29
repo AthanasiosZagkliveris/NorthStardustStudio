@@ -5,6 +5,8 @@ import DateCellInput from "./DateCellInput.tsx";
 
 import { FieldDefinition } from "../../framework/model/FieldDefinition.ts";
 import { DateFormat, PreferencesService } from "../../services/PreferencesService.ts";
+import { useDragToScroll } from "../../hooks/useDragToScroll.ts";
+import { useListAutoFormat } from "../../hooks/useListAutoFormat.ts";
 
 export interface TableColumn {
 
@@ -49,21 +51,46 @@ export interface TableColumn {
 
     /**
      * Marks this column as repeatable: each
-     * row gets a small inline "+" next to
-     * this column's cell that inserts a new
-     * row directly below, copying over every
-     * `groupAnchor` column's value from the
-     * row it was inserted from.
+     * row's cell for this column holds a
+     * LIST of values rather than a single
+     * value, rendered as a vertical list of
+     * entries with its own per-entry remove
+     * control and one "add another" control
+     * for the row.
      */
     repeatable?: boolean;
 
     /**
-     * Marks this column's value as one that
-     * should carry over into a new row
-     * inserted via a `repeatable` column's
-     * inline "+" (see above).
+     * Marks this column's value as a list of
+     * values kept in lock-step with the
+     * nearest preceding `repeatable` column
+     * on the same row -- one entry per entry
+     * of that column, added/removed
+     * automatically alongside it, with no
+     * add/remove controls of its own.
      */
-    groupAnchor?: boolean;
+    repeatableValue?: boolean;
+
+    /**
+     * Marks this numeric column as one whose
+     * values should sum to 100 across the
+     * whole table -- the table renders a
+     * totals row summing every row's value
+     * and flags whether it reaches 100.
+     */
+    sumCheck?: boolean;
+
+    /**
+     * Marks this `repeatable`/`repeatableValue`
+     * numeric column as one whose own list of
+     * values, within a single row, should sum
+     * to 100 -- e.g. one Revenue Stream's
+     * Method Mix % entries should add up to
+     * 100, independently of every other
+     * Stream. A small check appears once per
+     * row.
+     */
+    groupSumCheck?: boolean;
 
 }
 
@@ -96,11 +123,11 @@ interface DynamicTableProps {
 // below), so the label is never clipped.
 const ROW_NUMBER_COLUMN_MIN_WIDTH = 48;
 
-// A small inline "+" sits next to a repeatable column's
-// cell content (see the "dynamic-select" case in
-// renderCell) -- this is its fixed footprint, added on
-// top of that column's own width so the button never
-// squeezes the select control itself.
+// A small inline "-" sits next to each entry in a repeatable
+// column's own list of values (see renderRepeatableList) --
+// this is its fixed footprint, added on top of that column's
+// own width so the button never squeezes the select control
+// itself.
 const REPEATABLE_BUTTON_WIDTH = 30;
 
 // Width of the separate actions table (see the return
@@ -252,6 +279,10 @@ function AutoGrowTextarea({
 
     const ref = useRef<HTMLTextAreaElement | null>(null);
 
+    // "* "/"- " -> bullet, "1. " -> numbered list, Enter continues
+    // or exits the current list line -- see useListAutoFormat.ts.
+    const listAutoFormat = useListAutoFormat(value, onChange);
+
     function resize(el: HTMLTextAreaElement | null) {
 
         if (!el) {
@@ -274,7 +305,10 @@ function AutoGrowTextarea({
 
         <textarea
 
-            ref={ref}
+            ref={(el) => {
+                ref.current = el;
+                listAutoFormat.textareaRef.current = el;
+            }}
 
             className="dynamic-table-textarea"
 
@@ -286,11 +320,13 @@ function AutoGrowTextarea({
 
             onChange={(event) => {
 
-                onChange(event.target.value);
+                listAutoFormat.onChange(event);
 
                 resize(event.target);
 
             }}
+
+            onKeyDown={listAutoFormat.onKeyDown}
 
         />
 
@@ -313,6 +349,14 @@ export default function DynamicTable({
 }: DynamicTableProps) {
 
     const headerRefs = useRef<Record<string, HTMLTableCellElement | null>>({});
+
+    // Lets the user press anywhere on the scrollable data table's
+    // own background (cell padding, the row-number column, header
+    // background, ...) and drag left/right to scroll it, the same
+    // as dragging a scrollbar thumb -- see useDragToScroll for the
+    // full behavior (a click still works normally, and dragging
+    // never hijacks an actual input/select/button/resize-handle).
+    const scrollRef = useDragToScroll<HTMLDivElement>();
 
     // The Up/Down/Add/Remove controls render in a second,
     // completely separate <table> outside the scrollable/
@@ -384,9 +428,144 @@ export default function DynamicTable({
 
         const textWidth = measureTextWidth(rowNumberLabel, HEADER_FONT_FALLBACK);
 
-        return Math.max(ROW_NUMBER_COLUMN_MIN_WIDTH, Math.ceil(textWidth) + HEADER_CELL_PADDING);
+        let width = Math.max(ROW_NUMBER_COLUMN_MIN_WIDTH, Math.ceil(textWidth) + HEADER_CELL_PADDING);
 
-    }, [rowNumberLabel]);
+        // When this table renders a totals row (see sumCheckColumns
+        // below), its first cell holds the word "Total" -- uppercase
+        // and letter-spaced (see .dynamic-table-totals-label) --
+        // which is usually wider than this column's own "#" label.
+        // Sized only for "#", that cell would wrap onto two cramped
+        // lines ("TOT" / "AL") instead of fitting on one, so widen
+        // the whole column to fit it whenever a totals row exists.
+        if (columns.some(column => column.sumCheck)) {
+
+            // Measuring the visible "TOTAL" text (not "Total")
+            // accounts for the label's CSS text-transform; the
+            // small addition covers the letter-spacing canvas
+            // measurement doesn't apply on its own.
+            const totalsLabelWidth = measureTextWidth('TOTAL', HEADER_FONT_FALLBACK) + 8;
+
+            width = Math.max(width, Math.ceil(totalsLabelWidth) + HEADER_CELL_PADDING);
+
+        }
+
+        return width;
+
+    }, [rowNumberLabel, columns]);
+
+    // Every `repeatableValue` column is kept in lock-step with the
+    // nearest PRECEDING `repeatable` column on the same row (e.g.
+    // Method Mix % pairs with Revenue Method) -- this maps each
+    // `repeatable` driver column's id to the list of
+    // `repeatableValue` columns that ride along with it, so removing
+    // an entry from the driver (see `removeMethodEntry` below) can
+    // splice the matching entry out of every paired column's own
+    // list in the same go.
+    const pairedValueColumnsByDriver = useMemo(() => {
+
+        const result: Record<string, TableColumn[]> = {};
+
+        let currentDriverId: string | null = null;
+
+        columns.forEach(column => {
+
+            if (column.repeatable) {
+
+                currentDriverId = column.id;
+                result[currentDriverId] = [];
+
+            } else if (column.repeatableValue && currentDriverId) {
+
+                result[currentDriverId].push(column);
+
+            }
+
+        });
+
+        return result;
+
+    }, [columns]);
+
+    // The reverse of the map above: a `repeatableValue` column's own
+    // id to its paired `repeatable` driver column's id -- used by
+    // `getRowList` (below) so a `repeatableValue` column's list is
+    // always READ at exactly its driver's own current length,
+    // regardless of what its own raw stored value happens to be.
+    // This is what keeps Method Mix's own list of entries visually
+    // in step with Revenue Method's, even for a row whose data
+    // predates this pairing (a legacy/stale saved response, or one
+    // edited mid-session while the app was reloading) -- rather than
+    // relying solely on `addMethodEntry`/`removeMethodEntry` to keep
+    // the two arrays physically the same length at all times, which
+    // silently stops working the moment anything else touches the
+    // row's data out of step with them.
+    const driverIdForValueColumn = useMemo(() => {
+
+        const result: Record<string, string> = {};
+
+        Object.entries(pairedValueColumnsByDriver).forEach(([driverId, pairedColumns]) => {
+
+            pairedColumns.forEach(pairedColumn => {
+                result[pairedColumn.id] = driverId;
+            });
+
+        });
+
+        return result;
+
+    }, [pairedValueColumnsByDriver]);
+
+    // Every column marked `sumCheck` gets a totals row beneath
+    // the data, summing every row's value and flagging whether
+    // that sum reaches 100.
+    const sumCheckColumns = useMemo(
+        () => columns.filter(column => column.sumCheck),
+        [columns]
+    );
+
+    function columnTotal(column: TableColumn): number {
+
+        let total = 0;
+
+        value.forEach(row => {
+
+            const raw = row[column.id];
+            const parsed = parseFloat(String(raw ?? "").replace(/[^0-9.-]/g, ""));
+
+            if (!Number.isNaN(parsed)) {
+                total += parsed;
+            }
+
+        });
+
+        return Math.round(total * 100) / 100;
+
+    }
+
+    // For a `groupSumCheck` column (e.g. Method Mix %), sums just
+    // this ONE row's own list of values -- every Revenue Stream is
+    // now a single row, so its Methods' Mix % needs to add up to
+    // 100 entirely on its own, independent of every other Stream's
+    // row.
+    function rowListTotal(column: TableColumn, row: TableRow): number {
+
+        const list = getRowList(row, column.id);
+
+        let total = 0;
+
+        list.forEach(entry => {
+
+            const parsed = parseFloat(String(entry ?? "").replace(/[^0-9.-]/g, ""));
+
+            if (!Number.isNaN(parsed)) {
+                total += parsed;
+            }
+
+        });
+
+        return Math.round(total * 100) / 100;
+
+    }
 
     function columnMinWidth(column: TableColumn): number {
 
@@ -420,19 +599,31 @@ export default function DynamicTable({
 
             value.forEach(row => {
 
-                const text = String(row[column.id] ?? "");
+                // A `repeatable`/`repeatableValue` column holds a
+                // LIST of values on each row (see getRowList) --
+                // measure every one of that row's own entries
+                // individually, rather than the array itself, so
+                // resize caps reflect the longest single entry
+                // actually typed, not "[object Object]"-style noise.
+                const texts = column.repeatable || column.repeatableValue
+                    ? getRowList(row, column.id)
+                    : [String(row[column.id] ?? "")];
 
-                if (text.trim().length === 0) {
-                    return;
-                }
+                texts.forEach(text => {
 
-                hasContent = true;
+                    if (text.trim().length === 0) {
+                        return;
+                    }
 
-                const width = measureTextWidth(text, CELL_FONT);
+                    hasContent = true;
 
-                if (width > max) {
-                    max = width;
-                }
+                    const width = measureTextWidth(text, CELL_FONT);
+
+                    if (width > max) {
+                        max = width;
+                    }
+
+                });
 
             });
 
@@ -630,7 +821,13 @@ export default function DynamicTable({
 
         columns.forEach(column => {
 
-            row[column.id] = "";
+            // A `repeatable`/`repeatableValue` column's cell holds
+            // a LIST of values (rendered as a vertical list within
+            // that one row's own cell -- see renderRepeatableList /
+            // renderRepeatableValueList) -- it starts with exactly
+            // one blank entry, same as every other column starts
+            // with one blank value.
+            row[column.id] = (column.repeatable || column.repeatableValue) ? [""] : "";
 
         });
 
@@ -638,22 +835,68 @@ export default function DynamicTable({
 
     }
 
-    // Inserts a new row directly after `afterIndex` (each row's
-    // own "+" calls this with its own index), rather than always
-    // appending to the very end of the table -- a "+" pressed next
-    // to row 2 of 6 should add a row near row 2, not somewhere the
-    // user has to scroll down to find. Omitting afterIndex appends
-    // a blank row to the end, used only as a fallback.
+    // Reads a `repeatable`/`repeatableValue` column's list of
+    // values for one row -- tolerant of a legacy saved response
+    // that still has a plain scalar there (wraps it as a single-
+    // entry list) or nothing at all (falls back to one blank
+    // entry), so an older saved Table never renders broken.
     //
-    // Every `groupAnchor` column's value is copied from the row at
-    // `afterIndex` into the new row -- e.g. a Revenue Stream that
-    // uses more than one Revenue Method can add another Method row
-    // for the SAME stream, without re-picking the stream each time
-    // and without a blank row breaking the group up. This applies
-    // regardless of which "+" the user presses: the small inline
-    // one next to a `repeatable` column's own select, or this
-    // table's own row-actions "+" -- both call this same function,
-    // so both behave identically.
+    // For a `repeatableValue` column specifically, the returned list
+    // is always padded (with blank entries) or trimmed to exactly
+    // match its paired `repeatable` driver column's OWN current
+    // length on this same row -- e.g. Method Mix always shows one
+    // entry per Revenue Method, even for a row whose two arrays
+    // happen to have drifted to different lengths (a legacy/stale
+    // saved response, or a driver add/remove that ran before this
+    // reconciliation existed) -- so the two lists can never visibly
+    // disagree on how many entries this row has, no matter how the
+    // underlying data got into that state.
+    function getRowList(row: TableRow, columnId: string): string[] {
+
+        const raw = row[columnId];
+
+        let list: string[];
+
+        if (Array.isArray(raw)) {
+            list = raw.length > 0 ? raw.map(entry => String(entry ?? "")) : [""];
+        } else if (raw === undefined || raw === null || raw === "") {
+            list = [""];
+        } else {
+            list = [String(raw)];
+        }
+
+        const driverColumnId = driverIdForValueColumn[columnId];
+
+        if (driverColumnId) {
+
+            const driverLength = getRowList(row, driverColumnId).length;
+
+            if (list.length < driverLength) {
+                list = [...list, ...new Array(driverLength - list.length).fill("")];
+            } else if (list.length > driverLength) {
+                list = list.slice(0, driverLength);
+            }
+
+        }
+
+        return list;
+
+    }
+
+    // Inserts a fully blank new row directly after `afterIndex`
+    // (this table's own row-actions "+" -- the one outside the
+    // scrollable data table, next to Up/Down/Remove -- calls this
+    // with its own row's index), rather than always appending to
+    // the very end of the table -- a "+" pressed next to row 2 of
+    // 6 should add a row near row 2, not somewhere the user has to
+    // scroll down to find. Omitting afterIndex appends to the end,
+    // used only as a fallback.
+    //
+    // This is the "add a whole new Revenue Stream" action -- one
+    // row is always exactly one Stream now, so this is also the
+    // ONLY way a new Stream gets added; adding another Method for
+    // an EXISTING Stream never touches table rows at all, see
+    // `addMethodEntry` below.
     function addRow(afterIndex?: number) {
 
         const newRow = createRow();
@@ -665,16 +908,6 @@ export default function DynamicTable({
             return;
 
         }
-
-        const sourceRow = value[afterIndex];
-
-        columns.forEach(column => {
-
-            if (column.groupAnchor) {
-                newRow[column.id] = sourceRow[column.id];
-            }
-
-        });
 
         const rows = [...value];
 
@@ -751,17 +984,121 @@ export default function DynamicTable({
 
     }
 
-    function renderCell(
+    // Adds another entry to a `repeatable` driver column's own list
+    // on this ONE row (e.g. another Revenue Method for this same
+    // Stream) -- only the driver's own list needs to grow here.
+    // Every paired `repeatableValue` column (e.g. Method Mix %)
+    // automatically renders (and, once typed into, saves) one more
+    // blank entry to match, via `getRowList`'s own driver-length
+    // reconciliation above -- so there's nothing to keep in step by
+    // hand here.
+    function addMethodEntry(rowIndex: number, driverColumnId: string) {
 
-        row: TableRow,
+        const rows = [...value];
 
-        rowIndex: number,
+        const row = { ...rows[rowIndex] };
 
-        column: TableColumn
+        row[driverColumnId] = [...getRowList(row, driverColumnId), ""];
+
+        rows[rowIndex] = row;
+
+        onChange(rows);
+
+    }
+
+    // Removes one entry (by its position within the list) from a
+    // `repeatable` driver column's own list on this row, and the
+    // matching entry from every paired `repeatableValue` column's
+    // list -- EXCEPT when it's the only entry left, in which case
+    // removing it outright would leave the row with no Method at
+    // all. In that one case, this clears the entry's value(s) back
+    // to blank instead, keeping exactly one (empty) entry, so the
+    // row always has somewhere to type a replacement Method into.
+    function removeMethodEntry(rowIndex: number, driverColumnId: string, entryIndex: number) {
+
+        const rows = [...value];
+
+        const row = { ...rows[rowIndex] };
+
+        const driverList = getRowList(row, driverColumnId);
+
+        const pairedColumns = pairedValueColumnsByDriver[driverColumnId] ?? [];
+
+        if (driverList.length <= 1) {
+
+            row[driverColumnId] = [""];
+
+            pairedColumns.forEach(pairedColumn => {
+                row[pairedColumn.id] = [""];
+            });
+
+        } else {
+
+            // Read each paired column's own list -- padded/trimmed
+            // to the driver's CURRENT (pre-removal) length, so entry
+            // `entryIndex` of the paired list still lines up with
+            // the driver entry actually being removed -- BEFORE
+            // shrinking the driver itself. Reading it after would
+            // have `getRowList` pad/trim against the already-
+            // shortened driver instead, silently dropping the wrong
+            // entry off the end rather than the one the user clicked
+            // "-" next to.
+            const pairedListsBeforeRemove = pairedColumns.map(pairedColumn => getRowList(row, pairedColumn.id));
+
+            row[driverColumnId] = driverList.filter((_entry, i) => i !== entryIndex);
+
+            pairedColumns.forEach((pairedColumn, index) => {
+                row[pairedColumn.id] = pairedListsBeforeRemove[index].filter((_entry, i) => i !== entryIndex);
+            });
+
+        }
+
+        rows[rowIndex] = row;
+
+        onChange(rows);
+
+    }
+
+    // Updates a single entry (by its position within the list)
+    // of a `repeatable` or `repeatableValue` column's own list on
+    // one row -- used for every keystroke/selection inside that
+    // column's per-entry list items.
+    function updateMethodEntry(rowIndex: number, columnId: string, entryIndex: number, entryValue: string) {
+
+        const rows = [...value];
+
+        const row = { ...rows[rowIndex] };
+
+        const list = [...getRowList(row, columnId)];
+
+        list[entryIndex] = entryValue;
+
+        row[columnId] = list;
+
+        rows[rowIndex] = row;
+
+        onChange(rows);
+
+    }
+
+    // Renders a single value control (whatever `column.type` calls
+    // for) against one raw value and one change handler -- used
+    // both for an ordinary (non-list) cell, via `renderCell` below,
+    // and for each individual entry inside a `repeatable`/
+    // `repeatableValue` column's own list, via `renderRepeatableList`
+    // / `renderRepeatableValueList`. `idSuffix` keeps generated ids
+    // (e.g. an autofill <datalist>'s id) unique per control.
+    function renderValueControl(
+
+        column: TableColumn,
+
+        cellValue: unknown,
+
+        onValueChange: (value: unknown) => void,
+
+        idSuffix: string
 
     ) {
-
-        const cellValue = row[column.id];
 
         switch (column.type) {
 
@@ -783,19 +1120,7 @@ export default function DynamicTable({
 
                         disabled={disabled}
 
-                        onChange={(value) =>
-
-                            updateCell(
-
-                                rowIndex,
-
-                                column.id,
-
-                                value
-
-                            )
-
-                        }
+                        onChange={onValueChange}
 
                     />
 
@@ -811,19 +1136,7 @@ export default function DynamicTable({
 
                         value={String(cellValue ?? "")}
 
-                        onChange={(next) =>
-
-                            updateCell(
-
-                                rowIndex,
-
-                                column.id,
-
-                                next
-
-                            )
-
-                        }
+                        onChange={onValueChange}
 
                     />
 
@@ -843,19 +1156,7 @@ export default function DynamicTable({
 
                         value={String(cellValue ?? "")}
 
-                        onChange={(event) =>
-
-                            updateCell(
-
-                                rowIndex,
-
-                                column.id,
-
-                                event.target.value
-
-                            )
-
-                        }
+                        onChange={(event) => onValueChange(event.target.value)}
 
                     />
 
@@ -865,7 +1166,7 @@ export default function DynamicTable({
 
                 const options = column.options ?? [];
 
-                const select = (
+                return (
 
                     <select
 
@@ -875,19 +1176,7 @@ export default function DynamicTable({
 
                         value={String(cellValue ?? "")}
 
-                        onChange={(event) =>
-
-                            updateCell(
-
-                                rowIndex,
-
-                                column.id,
-
-                                event.target.value
-
-                            )
-
-                        }
+                        onChange={(event) => onValueChange(event.target.value)}
 
                     >
 
@@ -911,45 +1200,6 @@ export default function DynamicTable({
 
                 );
 
-                if (!column.repeatable) {
-                    return select;
-                }
-
-                // A repeatable column gets a small inline "+"
-                // next to its own select -- e.g. a Revenue
-                // Stream that uses more than one Revenue
-                // Method can add another row for it right
-                // here, without re-picking the stream (that
-                // value carries over automatically via this
-                // Table's `groupAnchor` column(s)).
-                return (
-
-                    <div className="dynamic-table-repeatable-cell">
-
-                        {select}
-
-                        <button
-
-                            type="button"
-
-                            disabled={disabled}
-
-                            className="dynamic-table-repeatable-add"
-
-                            aria-label={`Add another ${column.title}`}
-
-                            title={`Add another ${column.title}`}
-
-                            onClick={() => addRow(rowIndex)}
-
-                        >
-                            +
-                        </button>
-
-                    </div>
-
-                );
-
             }
 
             case "autofill": {
@@ -958,10 +1208,10 @@ export default function DynamicTable({
                 // already entered anywhere else in this same
                 // column becomes a suggestion, so a repeated
                 // Category (or similar) can be picked instead
-                // of retyped. Each row gets its own <datalist>
-                // (same suggestion set, row-scoped id) rather
-                // than one shared element, so ids stay unique
-                // per row without any extra plumbing.
+                // of retyped. Each control gets its own
+                // <datalist> (same suggestion set, uniquely-
+                // scoped id) rather than one shared element, so
+                // ids stay unique without any extra plumbing.
                 const columnId = column.id;
 
                 const suggestions = Array.from(new Set(
@@ -974,7 +1224,7 @@ export default function DynamicTable({
 
                 ));
 
-                const datalistId = `autofill-${columnId}-${rowIndex}`;
+                const datalistId = `autofill-${columnId}-${idSuffix}`;
 
                 return (
 
@@ -992,19 +1242,7 @@ export default function DynamicTable({
 
                             value={String(cellValue ?? "")}
 
-                            onChange={(event) =>
-
-                                updateCell(
-
-                                    rowIndex,
-
-                                    column.id,
-
-                                    event.target.value
-
-                                )
-
-                            }
+                            onChange={(event) => onValueChange(event.target.value)}
 
                         />
 
@@ -1034,25 +1272,180 @@ export default function DynamicTable({
 
                         value={String(cellValue ?? "")}
 
-                        onChange={(next) =>
-
-                            updateCell(
-
-                                rowIndex,
-
-                                column.id,
-
-                                next
-
-                            )
-
-                        }
+                        onChange={onValueChange}
 
                     />
 
                 );
 
         }
+
+    }
+
+    // A `repeatable` driver column (e.g. Revenue Method) renders as
+    // a vertical list of entries within its own cell, each with its
+    // own inline "-" remove control, plus one trailing "add
+    // another" control for the row -- since a Revenue Stream now
+    // always lives on exactly one table row, this list (not new
+    // table rows) is how it holds more than one Method.
+    function renderRepeatableList(
+
+        row: TableRow,
+
+        rowIndex: number,
+
+        column: TableColumn
+
+    ) {
+
+        const list = getRowList(row, column.id);
+
+        return (
+
+            <div className="dynamic-table-repeatable-list">
+
+                {list.map((entryValue, entryIndex) => (
+
+                    <div className="dynamic-table-repeatable-item" key={entryIndex}>
+
+                        <div className="dynamic-table-repeatable-item-control">
+
+                            {renderValueControl(
+
+                                column,
+
+                                entryValue,
+
+                                (next) => updateMethodEntry(rowIndex, column.id, entryIndex, String(next ?? "")),
+
+                                `${rowIndex}-${entryIndex}`
+
+                            )}
+
+                        </div>
+
+                        <button
+
+                            type="button"
+
+                            disabled={disabled}
+
+                            className="dynamic-table-repeatable-remove"
+
+                            aria-label={`Remove this ${column.title}`}
+
+                            title={`Remove this ${column.title}`}
+
+                            onClick={() => removeMethodEntry(rowIndex, column.id, entryIndex)}
+
+                        >
+                            −
+                        </button>
+
+                    </div>
+
+                ))}
+
+                <button
+
+                    type="button"
+
+                    disabled={disabled}
+
+                    className="dynamic-table-repeatable-add"
+
+                    aria-label={`Add another ${column.title}`}
+
+                    title={`Add another ${column.title}`}
+
+                    onClick={() => addMethodEntry(rowIndex, column.id)}
+
+                >
+                    + Add {column.title}
+                </button>
+
+            </div>
+
+        );
+
+    }
+
+    // A `repeatableValue` column (e.g. Method Mix %) renders a
+    // matching vertical list of entries, one per entry of its
+    // paired `repeatable` driver column on the same row -- values
+    // only, no controls of its own, since its list length always
+    // follows the driver's (see addMethodEntry/removeMethodEntry).
+    function renderRepeatableValueList(
+
+        row: TableRow,
+
+        rowIndex: number,
+
+        column: TableColumn
+
+    ) {
+
+        const list = getRowList(row, column.id);
+
+        return (
+
+            <div className="dynamic-table-repeatable-value-list">
+
+                {list.map((entryValue, entryIndex) => (
+
+                    <div className="dynamic-table-repeatable-value-item" key={entryIndex}>
+
+                        {renderValueControl(
+
+                            column,
+
+                            entryValue,
+
+                            (next) => updateMethodEntry(rowIndex, column.id, entryIndex, String(next ?? "")),
+
+                            `${rowIndex}-${entryIndex}`
+
+                        )}
+
+                    </div>
+
+                ))}
+
+            </div>
+
+        );
+
+    }
+
+    function renderCell(
+
+        row: TableRow,
+
+        rowIndex: number,
+
+        column: TableColumn
+
+    ) {
+
+        if (column.repeatable) {
+            return renderRepeatableList(row, rowIndex, column);
+        }
+
+        if (column.repeatableValue) {
+            return renderRepeatableValueList(row, rowIndex, column);
+        }
+
+        return renderValueControl(
+
+            column,
+
+            row[column.id],
+
+            (next) => updateCell(rowIndex, column.id, next),
+
+            String(rowIndex)
+
+        );
 
     }
 
@@ -1134,7 +1527,7 @@ export default function DynamicTable({
                 area and never part of this table's <colgroup> --
                 so resizing or scrolling a data column can not
                 move, resize, or otherwise touch it. */}
-            <div className="dynamic-table-scroll">
+            <div className="dynamic-table-scroll" ref={scrollRef}>
 
                 {/* The table always renders with an explicit column-
                     by-column width via <colgroup>, and its own width
@@ -1286,31 +1679,116 @@ export default function DynamicTable({
 
                                 </td>
 
-                                {columns.map(column => (
+                                {columns.map(column => {
 
-                                    <td key={column.id} style={fixedWidthStyle(column)}>
+                                    // A `groupSumCheck` column (e.g. Method
+                                    // Mix %) gets a small ✓/⚠ badge under its
+                                    // own list, summing just THIS row's own
+                                    // entries -- every Revenue Stream is a
+                                    // single row now, so each one is checked
+                                    // entirely independently of every other
+                                    // Stream, unlike `sumCheck`'s single
+                                    // whole-table totals row.
+                                    const showGroupCheck = column.groupSumCheck;
 
-                                        {
+                                    return (
 
-                                            renderCell(
+                                        <td
+                                            key={column.id}
+                                            style={fixedWidthStyle(column)}
+                                        >
 
-                                                row,
+                                            {
 
-                                                rowIndex,
+                                                renderCell(
 
-                                                column
+                                                    row,
 
-                                            )
+                                                    rowIndex,
 
-                                        }
+                                                    column
 
-                                    </td>
+                                                )
 
-                                ))}
+                                            }
+
+                                            {showGroupCheck && (() => {
+
+                                                const groupTotal = rowListTotal(column, row);
+                                                const isBalanced = Math.abs(groupTotal - 100) < 0.5;
+
+                                                return (
+
+                                                    <span
+                                                        className={
+                                                            "dynamic-table-group-check " +
+                                                            (isBalanced ? "dynamic-table-totals-ok" : "dynamic-table-totals-warn")
+                                                        }
+                                                        title={
+                                                            isBalanced
+                                                                ? "This Stream's Methods add up to 100%"
+                                                                : `This Stream's Methods should add up to 100% -- currently ${groupTotal}%`
+                                                        }
+                                                    >
+                                                        {isBalanced ? "✓" : "⚠"} {groupTotal}%
+                                                    </span>
+
+                                                );
+
+                                            })()}
+
+                                        </td>
+
+                                    );
+
+                                })}
 
                             </tr>
 
                         ))}
+
+                        {sumCheckColumns.length > 0 && (
+
+                            <tr className="dynamic-table-totals-row">
+
+                                <td className="dynamic-table-totals-label">Total</td>
+
+                                {columns.map(column => {
+
+                                    if (!column.sumCheck) {
+                                        return <td key={column.id} />;
+                                    }
+
+                                    const total = columnTotal(column);
+                                    const isBalanced = Math.abs(total - 100) < 0.5;
+
+                                    return (
+
+                                        <td key={column.id} className="dynamic-table-totals-value-cell">
+
+                                            <span
+                                                className={
+                                                    "dynamic-table-totals-value " +
+                                                    (isBalanced ? "dynamic-table-totals-ok" : "dynamic-table-totals-warn")
+                                                }
+                                                title={
+                                                    isBalanced
+                                                        ? "Adds up to 100%"
+                                                        : `Should add up to 100% -- currently ${total}%`
+                                                }
+                                            >
+                                                {isBalanced ? "✓" : "⚠"} {total}%
+                                            </span>
+
+                                        </td>
+
+                                    );
+
+                                })}
+
+                            </tr>
+
+                        )}
 
                     </tbody>
 

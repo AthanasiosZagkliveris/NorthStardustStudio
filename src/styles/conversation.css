@@ -493,6 +493,34 @@ textarea:focus{
 
 }
 
+/* Every horizontally-scrollable container in the app (the variant/
+   card selector tabs, the Customer Profile / Competitor Analysis
+   card row, and the data table below) supports press-and-drag
+   scrolling via useDragToScroll -- a plain hand/grab cursor invites
+   that, and swaps to a "grabbing" fist plus disabled text selection
+   for the duration of an actual drag (see the .drag-scrolling class
+   the hook toggles). Child controls (inputs, selects, buttons,
+   links) keep their own normal cursors regardless, since the
+   browser resolves their default `cursor:auto` independently of
+   this ancestor's `cursor:grab`. */
+.answer-variant-cards,
+.profile-cards-row,
+.dynamic-table-scroll{
+
+    cursor:grab;
+
+}
+
+.answer-variant-cards.drag-scrolling,
+.profile-cards-row.drag-scrolling,
+.dynamic-table-scroll.drag-scrolling{
+
+    cursor:grabbing;
+
+    user-select:none;
+
+}
+
 /* The data table and the Up/Down/Add/Remove actions table sit
    side by side as independent flex children -- only the data
    table scrolls (see .dynamic-table-scroll below); the actions
@@ -686,12 +714,36 @@ textarea:focus{
 
 }
 
-/* A "repeatable" column's cell (see DynamicTable's
-   `column.repeatable`) pairs its normal dropdown with a
-   small inline "+" that inserts a copy-anchored row right
-   below it -- e.g. adding another Revenue Method row for
-   the same Revenue Stream without re-picking the stream. */
-.dynamic-table-repeatable-cell{
+/* A `repeatable` column's cell (see DynamicTable's
+   `column.repeatable`, e.g. Revenue Method) renders its own
+   vertical list of entries -- one Revenue Stream now always lives
+   on exactly one table row, so this list (rather than extra table
+   rows) is how it holds more than one Method. */
+.dynamic-table-repeatable-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+/* A `repeatableValue` column's cell (e.g. Method Mix %) renders a
+   matching vertical list, kept the same length -- and each item
+   the same height -- as its paired `repeatable` driver column's
+   own list, so the two line up entry-for-entry side by side. */
+.dynamic-table-repeatable-value-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+.dynamic-table-repeatable-item{
 
     display:flex;
 
@@ -701,7 +753,7 @@ textarea:focus{
 
 }
 
-.dynamic-table-repeatable-cell .interview-input{
+.dynamic-table-repeatable-item-control{
 
     flex:1;
 
@@ -709,25 +761,33 @@ textarea:focus{
 
 }
 
-.dynamic-table-repeatable-add{
+.dynamic-table-repeatable-value-item{
+
+    display:flex;
+
+    align-items:stretch;
+
+}
+
+.dynamic-table-repeatable-value-item .interview-input,
+.dynamic-table-repeatable-value-item .dynamic-table-textarea{
+
+    width:100%;
+
+}
+
+.dynamic-table-repeatable-add,
+.dynamic-table-repeatable-remove{
 
     flex:0 0 auto;
-
-    width:24px;
-    height:24px;
 
     display:flex;
     align-items:center;
     justify-content:center;
 
     border:none;
-    border-radius:50%;
 
-    background:#1f9254;
     color:#ffffff;
-
-    font-size:15px;
-    line-height:1;
 
     cursor:pointer;
 
@@ -735,17 +795,143 @@ textarea:focus{
 
 }
 
-.dynamic-table-repeatable-add:hover:not(:disabled){
+/* The per-entry "-" sits right next to that entry's own control,
+   sized to match a single line of it. The trailing "add another"
+   control spans the full width of the list, below the last entry,
+   so it reads as "add one more" rather than as another entry of
+   its own. */
+.dynamic-table-repeatable-remove{
+
+    width:28px;
+    height:28px;
+
+    border-radius:50%;
+
+    font-size:15px;
+    line-height:1;
+
+    background:#c0392b;
+
+}
+
+.dynamic-table-repeatable-add{
+
+    width:100%;
+
+    padding:6px 10px;
+
+    border-radius:6px;
+
+    font-size:13px;
+    font-weight:600;
+
+    background:#1f9254;
+
+}
+
+.dynamic-table-repeatable-add:hover:not(:disabled),
+.dynamic-table-repeatable-remove:hover:not(:disabled){
 
     filter:brightness(1.1);
 
 }
 
-.dynamic-table-repeatable-add:disabled{
+.dynamic-table-repeatable-add:disabled,
+.dynamic-table-repeatable-remove:disabled{
 
     opacity:0.5;
 
     cursor:default;
+
+}
+
+/* The totals row sits beneath a table's data rows (only
+   rendered when at least one column is marked `sumCheck`,
+   currently just the Revenue Matrix's Stream Mix %) and sums
+   every row's value, flagging whether that sum reaches 100. */
+.dynamic-table-totals-row td{
+
+    background:#f5f7fb;
+
+    font-weight:600;
+
+    border-top:2px solid #c7cddb;
+
+}
+
+.dynamic-table-totals-label{
+
+    color:#5f6368;
+
+    text-transform:uppercase;
+
+    font-size:12px;
+
+    letter-spacing:.04em;
+
+    white-space:nowrap;
+
+}
+
+.dynamic-table-totals-value-cell{
+
+    white-space:nowrap;
+
+}
+
+.dynamic-table-totals-value{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    padding:4px 10px;
+
+    border-radius:6px;
+
+    font-size:14px;
+
+}
+
+.dynamic-table-totals-ok{
+
+    color:#0d652d;
+
+    background:#e6f4ea;
+
+}
+
+.dynamic-table-totals-warn{
+
+    color:#b00020;
+
+    background:#fce8e6;
+
+}
+
+/* A `groupSumCheck` column's per-row badge (e.g. Method Mix %
+   under each Stream's own list of Methods) -- sits right under
+   that row's own list, reusing the same ok/warn colors as the
+   whole-table totals row above. */
+.dynamic-table-group-check{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:4px;
+
+    margin-top:6px;
+
+    padding:2px 8px;
+
+    border-radius:6px;
+
+    font-size:12px;
+
+    white-space:nowrap;
 
 }
 

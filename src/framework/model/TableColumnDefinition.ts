@@ -80,25 +80,55 @@ export interface TableColumnDefinition {
 
     /**
      * Marks this column as repeatable: each
-     * row gets a small inline "+" next to
-     * this column's cell that inserts a new
-     * row directly below, copying over every
-     * `groupAnchor` column's value from the
-     * row it was inserted from.
+     * row's cell for this column holds a
+     * *list* of values (rather than a single
+     * value), rendered as a vertical list of
+     * entries with a per-entry remove control
+     * and a single "add another" control for
+     * the row.
      *
-     * Example: a "Revenue Method" column,
-     * so a Revenue Stream that uses more
-     * than one method can add another row
-     * for it without re-picking the stream.
+     * Example: a "Revenue Method" column, so
+     * a single Revenue Stream row can list
+     * more than one method without needing
+     * an extra table row per method.
      */
     repeatable?: boolean;
 
     /**
-     * Marks this column's value as one that
-     * should carry over into a new row
-     * inserted via a `repeatable` column's
-     * "+" (see above).
+     * Marks this column's value as a list of
+     * values kept in lock-step with the
+     * nearest preceding `repeatable` column
+     * on the same row -- one entry per entry
+     * of that column, with no add/remove
+     * controls of its own (its entries are
+     * added/removed automatically alongside
+     * the driving `repeatable` column's).
+     *
+     * Example: "Method Mix (%)" paired with
+     * the "Revenue Method" repeatable column.
      */
-    groupAnchor?: boolean;
+    repeatableValue?: boolean;
+
+    /**
+     * Marks this numeric column as one whose
+     * values should sum to 100 across the
+     * whole table -- the table renders a
+     * totals row beneath the data summing
+     * every row's value, flagging whether the
+     * sum actually reaches 100.
+     */
+    sumCheck?: boolean;
+
+    /**
+     * Marks this `repeatable`/`repeatableValue`
+     * numeric column as one whose *own list of
+     * values, within a single row,* should sum
+     * to 100 -- e.g. a Revenue Stream's Method
+     * Mix % entries should add up to 100,
+     * entirely independently of every other
+     * Stream's own methods. A small check
+     * appears once per row.
+     */
+    groupSumCheck?: boolean;
 
 }

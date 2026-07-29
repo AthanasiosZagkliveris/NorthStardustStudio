@@ -128,7 +128,15 @@ export function defaultAnswerValue(answer: AnswerDefinition): unknown {
 
             const row: TableAnswerRow = {};
 
-            columns.forEach(column => { row[column.id] = ""; });
+            // A `repeatable`/`repeatableValue` column's cell holds a
+            // LIST of values (see DynamicTable's own `createRow`) --
+            // seeded here the same way, so the very first row a
+            // fresh Table starts with already has the right shape
+            // instead of relying on DynamicTable to paper over a
+            // lone scalar default the first time it renders.
+            columns.forEach(column => {
+                row[column.id] = (column.repeatable || column.repeatableValue) ? [""] : "";
+            });
 
             return [row];
 
@@ -306,11 +314,23 @@ export type ExportBlock =
     | { kind: "subheading"; text: string }
     | { kind: "table"; headers: string[]; rows: string[][] }
     | { kind: "checklist"; items: { text: string; checked: boolean }[] }
-    | { kind: "list"; items: string[] };
+    | { kind: "list"; items: string[]; ordered?: boolean };
 
 /**
  * Converts a single table cell's raw value into
  * exportable text.
+ *
+ * A `repeatable`/`repeatableValue` cell's entries are
+ * joined with a real newline, one per line, rather than
+ * "; " on a single line -- both exporters' own table-
+ * cell escaping (MarkdownExporter's `escapeTableCell`,
+ * PdfExporter's `renderBlockHtml`) already convert a
+ * newline into "<br>", and an ordinary HTML/PDF table
+ * cell grows to fit however many lines that produces, so
+ * a Revenue Stream with several Revenue Methods (and
+ * their paired Method Mix % entries, line-for-line) reads
+ * as a short vertical list in its own cell instead of one
+ * cramped "1. X; 2. Y; 3. Z" line.
  */
 function cellToText(cell: unknown): string {
 
@@ -319,7 +339,7 @@ function cellToText(cell: unknown): string {
         return cell
             .filter(item => typeof item === "string" && item.trim().length > 0)
             .map((item, index) => `${index + 1}. ${item}`)
-            .join("; ");
+            .join("\n");
 
     }
 
@@ -340,6 +360,115 @@ function toParagraphs(text: string): string[] {
 
 }
 
+// A line already converted to a bullet by useListAutoFormat.ts's
+// live-typing trigger ("• " at the start of the line, exactly what
+// gets stored in the raw answer text).
+const EXPORT_BULLET_LINE = /^• (.*)$/;
+
+// A line already recognized as a numbered list item by
+// useListAutoFormat.ts (digits, a period, one space, then content).
+const EXPORT_NUMBERED_LINE = /^\d+\.\s(.*)$/;
+
+/**
+ * Converts one paragraph's worth of free text (no blank
+ * lines inside it -- those are already paragraph
+ * boundaries, see `toParagraphs`) into export blocks,
+ * recognizing runs of consecutive "• " bullet lines or
+ * "N. " numbered lines (as produced by the textarea's
+ * list auto-format feature, see useListAutoFormat.ts) as
+ * real list blocks instead of losing their structure --
+ * both exporters previously rendered a `paragraph` block
+ * as one continuous line, which silently collapsed a
+ * hand-typed list down to its bare markers ("• •",
+ * "1. 2. 3.") with the line breaks (and so the separation
+ * between items) discarded.
+ *
+ * Any other, non-list lines in the paragraph are kept
+ * together as a single `paragraph` block, exactly as
+ * before.
+ */
+function paragraphToBlocks(paragraph: string): ExportBlock[] {
+
+    const blocks: ExportBlock[] = [];
+    const lines = paragraph.split(/\r?\n/).map(line => line.trim()).filter(line => line.length > 0);
+
+    let listMode: "bullet" | "numbered" | null = null;
+    let listItems: string[] = [];
+    let proseLines: string[] = [];
+
+    function flushProse() {
+
+        if (proseLines.length > 0) {
+            blocks.push({ kind: "paragraph", text: proseLines.join("\n") });
+            proseLines = [];
+        }
+
+    }
+
+    function flushList() {
+
+        if (listItems.length > 0) {
+            blocks.push({ kind: "list", items: listItems, ordered: listMode === "numbered" });
+            listItems = [];
+        }
+
+        listMode = null;
+
+    }
+
+    for (const line of lines) {
+
+        const bulletMatch = line.match(EXPORT_BULLET_LINE);
+        const numberedMatch = line.match(EXPORT_NUMBERED_LINE);
+
+        if (bulletMatch) {
+
+            if (listMode === "numbered") {
+                flushList();
+            }
+
+            flushProse();
+            listMode = "bullet";
+            listItems.push(bulletMatch[1]);
+
+        } else if (numberedMatch) {
+
+            if (listMode === "bullet") {
+                flushList();
+            }
+
+            flushProse();
+            listMode = "numbered";
+            listItems.push(numberedMatch[1]);
+
+        } else {
+
+            flushList();
+            proseLines.push(line);
+
+        }
+
+    }
+
+    flushList();
+    flushProse();
+
+    return blocks;
+
+}
+
+/**
+ * Converts free text (already known to be non-blank) into
+ * export blocks, splitting on blank-line paragraph
+ * boundaries and recognizing bullet/numbered list lines
+ * within each paragraph -- see `paragraphToBlocks`.
+ */
+function toContentBlocks(text: string): ExportBlock[] {
+
+    return toParagraphs(text).flatMap(paragraphToBlocks);
+
+}
+
 /**
  * Builds the exportable content of a Section response,
  * following the shape declared by its Answer
@@ -356,7 +485,7 @@ export function buildAnswerBlocks(answer: AnswerDefinition, value: unknown): Exp
 
             const text = typeof value === "string" ? value.trim() : "";
 
-            return toParagraphs(text).map(paragraph => ({ kind: "paragraph", text: paragraph }));
+            return toContentBlocks(text);
 
         }
 
@@ -379,9 +508,7 @@ export function buildAnswerBlocks(answer: AnswerDefinition, value: unknown): Exp
 
                 blocks.push({ kind: "subheading", text: variant.title });
 
-                toParagraphs(text).forEach(paragraph => {
-                    blocks.push({ kind: "paragraph", text: paragraph });
-                });
+                blocks.push(...toContentBlocks(text));
 
             }
 
@@ -509,14 +636,17 @@ export function buildAnswerBlocks(answer: AnswerDefinition, value: unknown): Exp
                         continue;
                     }
 
-                    toParagraphs(text).forEach((paragraph, paragraphIndex) => {
-                        blocks.push({
-                            kind: "paragraph",
-                            text: paragraphIndex === 0
-                                ? `${subtitle.title}: ${paragraph}`
-                                : paragraph
-                        });
-                    });
+                    // Bold subsection label ("Strengths", "Needs", ...)
+                    // on its own line, with the written text
+                    // underneath it -- the same subheading-then-
+                    // paragraph(s) pattern already used for the
+                    // trailing "Market Position" card below and for
+                    // Fixed Variant Text's own variant titles --
+                    // rather than inlining "Label: text" onto one
+                    // line.
+                    blocks.push({ kind: "subheading", text: subtitle.title });
+
+                    blocks.push(...toContentBlocks(text));
 
                 }
 
@@ -529,9 +659,7 @@ export function buildAnswerBlocks(answer: AnswerDefinition, value: unknown): Exp
 
                 blocks.push({ kind: "subheading", text: trailing.title });
 
-                toParagraphs(trailingText).forEach(paragraph => {
-                    blocks.push({ kind: "paragraph", text: paragraph });
-                });
+                blocks.push(...toContentBlocks(trailingText));
 
             }
 

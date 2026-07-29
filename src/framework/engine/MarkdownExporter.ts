@@ -58,8 +58,15 @@ function renderBlock(block: ExportBlock): string[] {
 
         case "list":
 
+            // Free text authored with the "1. "/"2. " numbered-list
+            // auto-format (see useListAutoFormat.ts) exports as a
+            // real Markdown ordered list, so it still numbers
+            // correctly when rendered; plain "• " bullets export as
+            // a "- " unordered list, same as every other list block.
             return [
-                ...block.items.map(item => `- ${item}`),
+                ...(block.ordered
+                    ? block.items.map((item, index) => `${index + 1}. ${item}`)
+                    : block.items.map(item => `- ${item}`)),
                 ""
             ];
 

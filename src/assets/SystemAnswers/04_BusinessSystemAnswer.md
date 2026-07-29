@@ -45,11 +45,11 @@
 
 **Columns:**
 - Column 1: #
-- Column 2: Revenue Stream - Dynamic Field (Revenue Model: Revenue Stream) [Group Anchor]
-- Column 3: Stream Mix (%)
+- Column 2: Revenue Stream - Dynamic Field (Revenue Model: Revenue Stream)
+- Column 3: Stream Mix (%) [Sum Check]
 - Column 4: Revenue Method - Dynamic Field (Revenue Model: Revenue Method) [Repeatable]
-- Column 5: Method Mix (%)
-- Column 6: Categorization - Resources Field
+- Column 5: Method Mix (%) [Repeatable Value] [Group Sum Check]
+- Column 6: Category - Resources Field
 
 ## 05. Product Register
 

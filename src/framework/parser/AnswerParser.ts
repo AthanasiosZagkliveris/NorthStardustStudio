@@ -205,27 +205,43 @@ export class AnswerParser {
             let dynamicSource: TableColumnDefinition["dynamicSource"];
             let autofill: boolean | undefined;
             let repeatable: boolean | undefined;
-            let groupAnchor: boolean | undefined;
+            let repeatableValue: boolean | undefined;
+            let sumCheck: boolean | undefined;
+            let groupSumCheck: boolean | undefined;
 
-            // A trailing "[Tag]" (checked before every other
-            // annotation, and stripped from `raw` so the
-            // Dynamic Field / Autofill / Field regexes below --
+            // One or more trailing "[Tag]" markers (checked before
+            // every other annotation, and stripped from `raw` so
+            // the Dynamic Field / Autofill / Field regexes below --
             // which all anchor on the end of the string -- still
-            // match normally) marks a column as either the row-
-            // group's repeatable trigger or the value that
-            // carries over into a newly inserted row.
-            const tagMatch = raw.match(/^(.*?)\s*\[(.+?)\]\s*$/);
+            // match normally) mark a column as list-valued (and, for
+            // a paired column, kept in lock-step with the nearest
+            // preceding list-valued column), and/or a value that
+            // should sum to 100. A column can carry more than one at
+            // once, e.g. "Method Mix (%) [Repeatable Value]
+            // [Group Sum Check]".
+            const tagsMatch = raw.match(/^(.*?)((?:\s*\[[^[\]]+\])+)\s*$/);
 
-            if (tagMatch) {
+            if (tagsMatch) {
 
-                raw = tagMatch[1].trim();
+                raw = tagsMatch[1].trim();
 
-                const tag = tagMatch[2].trim().toLowerCase();
+                const tags = [...tagsMatch[2].matchAll(/\[([^[\]]+)\]/g)]
+                    .map(tagGroup => tagGroup[1].trim().toLowerCase());
 
-                if (tag === "repeatable") {
+                if (tags.includes("repeatable")) {
                     repeatable = true;
-                } else if (tag === "group anchor") {
-                    groupAnchor = true;
+                }
+
+                if (tags.includes("repeatable value")) {
+                    repeatableValue = true;
+                }
+
+                if (tags.includes("sum check")) {
+                    sumCheck = true;
+                }
+
+                if (tags.includes("group sum check")) {
+                    groupSumCheck = true;
                 }
 
             }
@@ -279,7 +295,11 @@ export class AnswerParser {
 
                 repeatable,
 
-                groupAnchor
+                repeatableValue,
+
+                sumCheck,
+
+                groupSumCheck
 
             });
 

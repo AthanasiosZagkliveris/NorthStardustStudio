@@ -15,6 +15,8 @@ import {
     isDateColumn,
     visibleTableColumns
 } from "../../framework/engine/AnswerUtils.ts";
+import { useDragToScroll } from "../../hooks/useDragToScroll.ts";
+import { useListAutoFormat } from "../../hooks/useListAutoFormat.ts";
 
 let checklistItemCounter = 0;
 
@@ -97,6 +99,10 @@ function AutoGrowTextarea({
 
     const ref = useRef<HTMLTextAreaElement | null>(null);
 
+    // "* "/"- " -> bullet, "1. " -> numbered list, Enter continues
+    // or exits the current list line -- see useListAutoFormat.ts.
+    const listAutoFormat = useListAutoFormat(value, onChange);
+
     function resize(el: HTMLTextAreaElement | null) {
 
         if (!el) {
@@ -119,7 +125,10 @@ function AutoGrowTextarea({
 
         <textarea
 
-            ref={ref}
+            ref={(el) => {
+                ref.current = el;
+                listAutoFormat.textareaRef.current = el;
+            }}
 
             className={className}
 
@@ -133,11 +142,13 @@ function AutoGrowTextarea({
 
             onChange={(event) => {
 
-                onChange(event.target.value);
+                listAutoFormat.onChange(event);
 
                 resize(event.target);
 
             }}
+
+            onKeyDown={listAutoFormat.onKeyDown}
 
         />
 
@@ -256,7 +267,11 @@ function toTableColumns(
 
             repeatable: column.repeatable,
 
-            groupAnchor: column.groupAnchor
+            repeatableValue: column.repeatableValue,
+
+            sumCheck: column.sumCheck,
+
+            groupSumCheck: column.groupSumCheck
 
         }));
 
@@ -297,6 +312,16 @@ export default function AnswerRenderer({
     const [activeCardId, setActiveCardId] = useState<string | undefined>(
         cardListOptions[0]?.id
     );
+
+    // Lets the user press anywhere on these rows' own background
+    // and drag left/right to scroll them, same as DynamicTable's
+    // own data table -- see useDragToScroll. `variantCardsScrollRef`
+    // covers both the Fixed Variant Text and Card List variant-tab
+    // rows below (only one of the two ever mounts per Section, so
+    // sharing one ref between them is safe); `profileCardsScrollRef`
+    // covers the Profile Cards row.
+    const variantCardsScrollRef = useDragToScroll<HTMLDivElement>();
+    const profileCardsScrollRef = useDragToScroll<HTMLDivElement>();
 
     // Self-healing safety net for sessions saved before Checklist/
     // Card List always seeded a first entry (see defaultAnswerValue):
@@ -384,7 +409,7 @@ export default function AnswerRenderer({
 
                 <div className="answer-variant-cards-wrapper">
 
-                    <div className="answer-variant-cards">
+                    <div className="answer-variant-cards" ref={variantCardsScrollRef}>
 
                         {variants.map(variant => {
 
@@ -734,7 +759,7 @@ export default function AnswerRenderer({
 
                 <div className="answer-variant-cards-wrapper">
 
-                    <div className="answer-variant-cards">
+                    <div className="answer-variant-cards" ref={variantCardsScrollRef}>
 
                         {cards.map(card => {
 
@@ -958,7 +983,7 @@ export default function AnswerRenderer({
 
                 <div className="profile-cards-wrapper">
 
-                    <div className="profile-cards-row">
+                    <div className="profile-cards-row" ref={profileCardsScrollRef}>
 
                         {cards.map((card, index) => (
 
