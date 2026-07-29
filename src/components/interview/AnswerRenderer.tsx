@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import InterviewInput from "./InterviewInput.tsx";
 import DynamicTable, { TableColumn, TableRow } from "./DynamicTable.tsx";
@@ -58,6 +58,205 @@ function createProfileCardId(): string {
     profileCardCounter += 1;
 
     return `profile-card-${Date.now()}-${profileCardCounter}`;
+
+}
+
+/**
+ * A Profile Card's textarea that grows tall enough to
+ * show its entire value with no internal scrolling --
+ * matches DynamicTable's AutoGrowTextarea, so a long
+ * answer stretches the card's *natural* content height
+ * (which ProfileCardInner then measures) instead of
+ * scrolling inside a fixed-size box.
+ */
+function AutoGrowTextarea({
+
+    className,
+
+    value,
+
+    placeholder,
+
+    disabled,
+
+    onChange
+
+}: {
+
+    className: string;
+
+    value: string;
+
+    placeholder?: string;
+
+    disabled?: boolean;
+
+    onChange: (value: string) => void;
+
+}) {
+
+    const ref = useRef<HTMLTextAreaElement | null>(null);
+
+    function resize(el: HTMLTextAreaElement | null) {
+
+        if (!el) {
+            return;
+        }
+
+        el.style.height = "auto";
+
+        el.style.height = `${el.scrollHeight}px`;
+
+    }
+
+    useLayoutEffect(() => {
+
+        resize(ref.current);
+
+    }, [value]);
+
+    return (
+
+        <textarea
+
+            ref={ref}
+
+            className={className}
+
+            rows={1}
+
+            placeholder={placeholder}
+
+            disabled={disabled}
+
+            value={value}
+
+            onChange={(event) => {
+
+                onChange(event.target.value);
+
+                resize(event.target);
+
+            }}
+
+        />
+
+    );
+
+}
+
+/**
+ * Wraps a Profile Card's content and scales it down
+ * (uniformly, preserving proportions) whenever it would
+ * otherwise overflow the card's fixed height -- so a
+ * card with a lot of text shrinks as a whole instead of
+ * clipping or scrolling internally. Runs its own
+ * measurement effect (rather than living in the
+ * ProfileCards case above) purely so each card gets its
+ * own ref/state without violating the rules of hooks
+ * inside a .map() loop.
+ */
+function ProfileCardInner({
+
+    children,
+
+    disableScale = false,
+
+    measureKey
+
+}: {
+
+    children: ReactNode;
+
+    disableScale?: boolean;
+
+    /**
+     * A string that changes whenever this card's actual
+     * text content changes (title + every subtitle's
+     * text) -- the effect's dependency, so it only
+     * remeasures when there's actually something new to
+     * measure.
+     */
+    measureKey?: string;
+
+}) {
+
+    const ref = useRef<HTMLDivElement | null>(null);
+
+    // Deliberately imperative, not React state: the scale
+    // this effect computes is applied directly to the DOM
+    // node within the very same invocation, rather than via
+    // setState + a follow-up render. Going through state was
+    // tried first and had a subtle bug -- whenever two
+    // different content changes happened to compute the same
+    // scale (a very ordinary occurrence, e.g. editing a
+    // short subtitle while a long one elsewhere still
+    // dominates the card's height), React's setState bails
+    // out of re-rendering for an unchanged value. But the
+    // measurement step just above it had already reset the
+    // node's transform/width to their unscaled values on the
+    // DOM directly (needed so the *next* measurement isn't
+    // measuring an already-shrunk box) -- with no re-render
+    // to follow, that reset was never replaced by the real
+    // scale, permanently leaving the card unscaled. Setting
+    // the final style imperatively, right here, removes the
+    // dependency on a follow-up render entirely.
+    useLayoutEffect(() => {
+
+        const el = ref.current;
+        const parent = el?.parentElement;
+
+        if (!el || !parent) {
+            return;
+        }
+
+        if (disableScale) {
+            el.style.transform = "";
+            el.style.width = "";
+            return;
+        }
+
+        // Reset to the unscaled size before measuring, so
+        // this measurement reflects the content's true
+        // natural height, not whatever scale a previous
+        // measurement left it at.
+        el.style.transform = "none";
+        el.style.width = "100%";
+
+        const naturalHeight = el.scrollHeight;
+        const availableHeight = parent.clientHeight;
+
+        const scale =
+            naturalHeight > 0 && naturalHeight > availableHeight
+                ? availableHeight / naturalHeight
+                : 1;
+
+        if (scale < 1) {
+            el.style.transform = `scale(${scale})`;
+            el.style.width = `${100 / scale}%`;
+        } else {
+            el.style.transform = "";
+            el.style.width = "";
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [measureKey, disableScale]);
+
+    return (
+
+        <div
+
+            ref={ref}
+
+            className="profile-card-inner"
+
+        >
+
+            {children}
+
+        </div>
+
+    );
 
 }
 
@@ -141,7 +340,11 @@ function toTableColumns(
                         column.dynamicSource.sectionTitle,
                         column.dynamicSource.cardTitle
                     )
-                    : undefined
+                    : undefined,
+
+            repeatable: column.repeatable,
+
+            groupAnchor: column.groupAnchor
 
         }));
 
@@ -182,6 +385,55 @@ export default function AnswerRenderer({
     const [activeCardId, setActiveCardId] = useState<string | undefined>(
         cardListOptions[0]?.id
     );
+
+    // Self-healing safety net for sessions saved before Checklist/
+    // Card List always seeded a first entry (see defaultAnswerValue):
+    // if a saved response somehow has zero items, add one back --
+    // mirrors DynamicTable's own "always at least one row" effect.
+    useEffect(() => {
+
+        if (definition.type !== AnswerType.Checklist) {
+            return;
+        }
+
+        const items = Array.isArray(value) ? value as ChecklistItemValue[] : [];
+
+        if (items.length === 0) {
+            onChange([{ id: createChecklistItemId(), text: "", checked: false }]);
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [definition.type, Array.isArray(value) ? value.length : -1]);
+
+    useEffect(() => {
+
+        if (definition.type !== AnswerType.CardList) {
+            return;
+        }
+
+        const cardsDef = definition.cards ?? [];
+
+        const values: CardListAnswerValue =
+            value && typeof value === "object" && !Array.isArray(value)
+                ? value as CardListAnswerValue
+                : {};
+
+        const missing = cardsDef.filter(card => !(values[card.id]?.length));
+
+        if (missing.length > 0) {
+
+            const next = { ...values };
+
+            missing.forEach(card => {
+                next[card.id] = [{ id: createCardListItemId(), text: "" }];
+            });
+
+            onChange(next);
+
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [definition.type, definition.cards, value]);
 
     switch (definition.type) {
 
@@ -347,6 +599,28 @@ export default function AnswerRenderer({
 
             }
 
+            function removeItem(itemId: string) {
+
+                // At least one item always stays -- clear it back
+                // to blank instead of removing the last row, the
+                // same convention DynamicTable uses for its last
+                // remaining row.
+                if (items.length <= 1) {
+
+                    updateItems(items.map(candidate =>
+                        candidate.id === itemId
+                            ? { ...candidate, text: "", checked: false }
+                            : candidate
+                    ));
+
+                    return;
+
+                }
+
+                updateItems(items.filter(candidate => candidate.id !== itemId));
+
+            }
+
             function moveItem(index: number, direction: -1 | 1) {
 
                 const targetIndex = index + direction;
@@ -368,21 +642,15 @@ export default function AnswerRenderer({
 
                 <div className="answer-checklist">
 
-                    {items.length === 0 && (
-                        <div className="answer-checklist-empty">
-                            No checklist items yet.
-                        </div>
-                    )}
-
                     {items.map((item, index) => (
 
                         <div key={item.id} className="answer-checklist-row">
 
-                            <div className="answer-checklist-move">
+                            <div className="dynamic-table-row-move">
 
                                 <button
                                     type="button"
-                                    className="answer-checklist-move-up"
+                                    className="dynamic-table-row-move-up"
                                     aria-label="Move item up"
                                     title="Move item up"
                                     disabled={disabled || index === 0}
@@ -393,7 +661,7 @@ export default function AnswerRenderer({
 
                                 <button
                                     type="button"
-                                    className="answer-checklist-move-down"
+                                    className="dynamic-table-row-move-down"
                                     aria-label="Move item down"
                                     title="Move item down"
                                     disabled={disabled || index === items.length - 1}
@@ -437,31 +705,35 @@ export default function AnswerRenderer({
                                 }
                             />
 
-                            <button
-                                type="button"
-                                className="answer-checklist-remove"
-                                disabled={disabled}
-                                onClick={() =>
+                            <div className="dynamic-table-row-delete-add">
 
-                                    updateItems(items.filter(candidate => candidate.id !== item.id))
+                                <button
+                                    type="button"
+                                    className="dynamic-table-row-remove"
+                                    aria-label={items.length <= 1 ? "Clear item" : "Remove item"}
+                                    title={items.length <= 1 ? "Clear item" : "Remove item"}
+                                    disabled={disabled}
+                                    onClick={() => removeItem(item.id)}
+                                >
+                                    −
+                                </button>
 
-                                }
-                            >
-                                ×
-                            </button>
+                                <button
+                                    type="button"
+                                    className="dynamic-table-row-add"
+                                    aria-label="Add item"
+                                    title="Add item"
+                                    disabled={disabled}
+                                    onClick={addItem}
+                                >
+                                    +
+                                </button>
+
+                            </div>
 
                         </div>
 
                     ))}
-
-                    <button
-                        type="button"
-                        className="answer-checklist-add"
-                        disabled={disabled}
-                        onClick={addItem}
-                    >
-                        + Add Item
-                    </button>
 
                 </div>
 
@@ -496,6 +768,26 @@ export default function AnswerRenderer({
                     ...items,
                     { id: createCardListItemId(), text: "" }
                 ]);
+
+            }
+
+            function removeCardItem(cardId: string, itemId: string) {
+
+                const items = values[cardId] ?? [];
+
+                // At least one entry always stays per card -- clear
+                // it back to blank instead of removing the last row.
+                if (items.length <= 1) {
+
+                    updateCardItems(cardId, items.map(candidate =>
+                        candidate.id === itemId ? { ...candidate, text: "" } : candidate
+                    ));
+
+                    return;
+
+                }
+
+                updateCardItems(cardId, items.filter(candidate => candidate.id !== itemId));
 
             }
 
@@ -571,21 +863,15 @@ export default function AnswerRenderer({
 
                         <div className="answer-checklist">
 
-                            {activeItems.length === 0 && (
-                                <div className="answer-checklist-empty">
-                                    No {activeCard.title.toLowerCase()} entries yet.
-                                </div>
-                            )}
-
                             {activeItems.map((item, index) => (
 
                                 <div key={item.id} className="answer-checklist-row">
 
-                                    <div className="answer-checklist-move">
+                                    <div className="dynamic-table-row-move">
 
                                         <button
                                             type="button"
-                                            className="answer-checklist-move-up"
+                                            className="dynamic-table-row-move-up"
                                             aria-label="Move entry up"
                                             title="Move entry up"
                                             disabled={disabled || index === 0}
@@ -596,7 +882,7 @@ export default function AnswerRenderer({
 
                                         <button
                                             type="button"
-                                            className="answer-checklist-move-down"
+                                            className="dynamic-table-row-move-down"
                                             aria-label="Move entry down"
                                             title="Move entry down"
                                             disabled={disabled || index === activeItems.length - 1}
@@ -624,34 +910,35 @@ export default function AnswerRenderer({
                                         }
                                     />
 
-                                    <button
-                                        type="button"
-                                        className="answer-checklist-remove"
-                                        disabled={disabled}
-                                        onClick={() =>
+                                    <div className="dynamic-table-row-delete-add">
 
-                                            updateCardItems(
-                                                activeCard.id,
-                                                activeItems.filter(candidate => candidate.id !== item.id)
-                                            )
+                                        <button
+                                            type="button"
+                                            className="dynamic-table-row-remove"
+                                            aria-label={activeItems.length <= 1 ? "Clear entry" : "Remove entry"}
+                                            title={activeItems.length <= 1 ? "Clear entry" : "Remove entry"}
+                                            disabled={disabled}
+                                            onClick={() => removeCardItem(activeCard.id, item.id)}
+                                        >
+                                            −
+                                        </button>
 
-                                        }
-                                    >
-                                        ×
-                                    </button>
+                                        <button
+                                            type="button"
+                                            className="dynamic-table-row-add"
+                                            aria-label="Add entry"
+                                            title="Add entry"
+                                            disabled={disabled}
+                                            onClick={() => addCardItem(activeCard.id)}
+                                        >
+                                            +
+                                        </button>
+
+                                    </div>
 
                                 </div>
 
                             ))}
-
-                            <button
-                                type="button"
-                                className="answer-checklist-add"
-                                disabled={disabled}
-                                onClick={() => addCardItem(activeCard.id)}
-                            >
-                                + Add {activeCard.title}
-                            </button>
 
                         </div>
 
@@ -752,36 +1039,47 @@ export default function AnswerRenderer({
 
                                 )}
 
-                                <input
-                                    type="text"
-                                    className="answer-checklist-input profile-card-title-input"
-                                    placeholder={`${cardLabel} ${index + 1} Title`}
-                                    disabled={disabled}
-                                    value={card.title}
-                                    onChange={(event) => updateCardTitle(card.id, event.target.value)}
-                                />
+                                <ProfileCardInner
 
-                                {subtitles.map(subtitle => (
+                                    measureKey={
+                                        `${card.title}|` +
+                                        subtitles.map(subtitle => card.sections?.[subtitle.id] ?? "").join("|")
+                                    }
 
-                                    <div key={subtitle.id} className="profile-card-section">
+                                >
 
-                                        <div className="profile-card-subtitle">
-                                            {subtitle.title}
+                                    <input
+                                        type="text"
+                                        className="answer-checklist-input profile-card-title-input"
+                                        placeholder={`${cardLabel} ${index + 1} Title`}
+                                        disabled={disabled}
+                                        value={card.title}
+                                        onChange={(event) => updateCardTitle(card.id, event.target.value)}
+                                    />
+
+                                    {subtitles.map(subtitle => (
+
+                                        <div key={subtitle.id} className="profile-card-section">
+
+                                            <div className="profile-card-subtitle">
+                                                {subtitle.title}
+                                            </div>
+
+                                            <AutoGrowTextarea
+                                                className="profile-card-subtitle-textarea"
+                                                placeholder={`Describe ${subtitle.title.toLowerCase()}...`}
+                                                disabled={disabled}
+                                                value={card.sections?.[subtitle.id] ?? ""}
+                                                onChange={(next) =>
+                                                    updateCardSection(card.id, subtitle.id, next)
+                                                }
+                                            />
+
                                         </div>
 
-                                        <textarea
-                                            className="profile-card-subtitle-textarea"
-                                            placeholder={`Describe ${subtitle.title.toLowerCase()}...`}
-                                            disabled={disabled}
-                                            value={card.sections?.[subtitle.id] ?? ""}
-                                            onChange={(event) =>
-                                                updateCardSection(card.id, subtitle.id, event.target.value)
-                                            }
-                                        />
+                                    ))}
 
-                                    </div>
-
-                                ))}
+                                </ProfileCardInner>
 
                             </div>
 
@@ -804,23 +1102,27 @@ export default function AnswerRenderer({
 
                         <div className="profile-card profile-card-trailing">
 
-                            <div className="profile-card-subtitle">
-                                {trailing.title}
-                            </div>
+                            <ProfileCardInner disableScale>
 
-                            {trailing.placeholder && (
-                                <p className="profile-card-trailing-description">
-                                    {trailing.placeholder}
-                                </p>
-                            )}
+                                <div className="profile-card-subtitle">
+                                    {trailing.title}
+                                </div>
 
-                            <textarea
-                                className="profile-card-subtitle-textarea"
-                                placeholder={trailing.placeholder}
-                                disabled={disabled}
-                                value={profileValue.trailing ?? ""}
-                                onChange={(event) => updateTrailing(event.target.value)}
-                            />
+                                {trailing.placeholder && (
+                                    <p className="profile-card-trailing-description">
+                                        {trailing.placeholder}
+                                    </p>
+                                )}
+
+                                <AutoGrowTextarea
+                                    className="profile-card-subtitle-textarea"
+                                    placeholder={trailing.placeholder}
+                                    disabled={disabled}
+                                    value={profileValue.trailing ?? ""}
+                                    onChange={updateTrailing}
+                                />
+
+                            </ProfileCardInner>
 
                         </div>
 

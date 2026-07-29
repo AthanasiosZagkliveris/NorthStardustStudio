@@ -47,6 +47,24 @@ export interface TableColumn {
      */
     width?: string;
 
+    /**
+     * Marks this column as repeatable: each
+     * row gets a small inline "+" next to
+     * this column's cell that inserts a new
+     * row directly below, copying over every
+     * `groupAnchor` column's value from the
+     * row it was inserted from.
+     */
+    repeatable?: boolean;
+
+    /**
+     * Marks this column's value as one that
+     * should carry over into a new row
+     * inserted via a `repeatable` column's
+     * inline "+" (see above).
+     */
+    groupAnchor?: boolean;
+
 }
 
 export type TableRow =
@@ -71,7 +89,19 @@ interface DynamicTableProps {
 
 }
 
-const ROW_NUMBER_COLUMN_WIDTH = 48;
+// Fallback/minimum width for the automatic row-number
+// column when its label is the default "#" -- a Table
+// declaring a longer label (e.g. "Phase") measures its
+// actual text width instead (see rowNumberColumnWidth
+// below), so the label is never clipped.
+const ROW_NUMBER_COLUMN_MIN_WIDTH = 48;
+
+// A small inline "+" sits next to a repeatable column's
+// cell content (see the "dynamic-select" case in
+// renderCell) -- this is its fixed footprint, added on
+// top of that column's own width so the button never
+// squeezes the select control itself.
+const REPEATABLE_BUTTON_WIDTH = 30;
 
 // Width of the separate actions table (see the return
 // statement) -- the Up/Down controls stack in one narrow
@@ -342,6 +372,21 @@ export default function DynamicTable({
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value.length]);
+
+    // The automatic row-number column's rendered width: wide
+    // enough to fit its own label text (normally just "#",
+    // but a Table may relabel it, e.g. "Phase"), never
+    // narrower than the historical default. Measured the same
+    // way header titles are (see the minWidths layout effect
+    // below), just computed eagerly here since this column
+    // isn't part of `columns` and has no header ref of its own.
+    const rowNumberColumnWidth = useMemo(() => {
+
+        const textWidth = measureTextWidth(rowNumberLabel, HEADER_FONT_FALLBACK);
+
+        return Math.max(ROW_NUMBER_COLUMN_MIN_WIDTH, Math.ceil(textWidth) + HEADER_CELL_PADDING);
+
+    }, [rowNumberLabel]);
 
     function columnMinWidth(column: TableColumn): number {
 
@@ -631,6 +676,34 @@ export default function DynamicTable({
 
     }
 
+    // Inserts a new row directly below `index`, pre-filling
+    // every `groupAnchor` column with that row's own value --
+    // used by a `repeatable` column's inline "+" so, e.g., a
+    // Revenue Stream that uses more than one Revenue Method
+    // can add another row for it without re-picking the
+    // stream each time.
+    function insertRowAfterWithCopy(index: number) {
+
+        const sourceRow = value[index];
+
+        const newRow = createRow();
+
+        columns.forEach(column => {
+
+            if (column.groupAnchor) {
+                newRow[column.id] = sourceRow[column.id];
+            }
+
+        });
+
+        const rows = [...value];
+
+        rows.splice(index + 1, 0, newRow);
+
+        onChange(rows);
+
+    }
+
     function moveRow(index: number, direction: -1 | 1) {
 
         const targetIndex = index + direction;
@@ -786,7 +859,7 @@ export default function DynamicTable({
 
                 const options = column.options ?? [];
 
-                return (
+                const select = (
 
                     <select
 
@@ -829,6 +902,45 @@ export default function DynamicTable({
                         ))}
 
                     </select>
+
+                );
+
+                if (!column.repeatable) {
+                    return select;
+                }
+
+                // A repeatable column gets a small inline "+"
+                // next to its own select -- e.g. a Revenue
+                // Stream that uses more than one Revenue
+                // Method can add another row for it right
+                // here, without re-picking the stream (that
+                // value carries over automatically via this
+                // Table's `groupAnchor` column(s)).
+                return (
+
+                    <div className="dynamic-table-repeatable-cell">
+
+                        {select}
+
+                        <button
+
+                            type="button"
+
+                            disabled={disabled}
+
+                            className="dynamic-table-repeatable-add"
+
+                            aria-label={`Add another ${column.title}`}
+
+                            title={`Add another ${column.title}`}
+
+                            onClick={() => insertRowAfterWithCopy(rowIndex)}
+
+                        >
+                            +
+                        </button>
+
+                    </div>
 
                 );
 
@@ -948,17 +1060,19 @@ export default function DynamicTable({
     // the user actually drags it wider.
     function columnWidthPx(column: TableColumn): number {
 
+        const extra = column.repeatable ? REPEATABLE_BUTTON_WIDTH : 0;
+
         const fixed = TYPE_FIXED_WIDTH[column.type];
 
         if (fixed !== undefined) {
-            return fixed;
+            return fixed + extra;
         }
 
         if (colWidths[column.id] !== undefined) {
-            return colWidths[column.id];
+            return colWidths[column.id] + extra;
         }
 
-        return Math.max(columnMinWidth(column), DEFAULT_COLUMN_WIDTH);
+        return Math.max(columnMinWidth(column), DEFAULT_COLUMN_WIDTH) + extra;
 
     }
 
@@ -970,7 +1084,9 @@ export default function DynamicTable({
             return undefined;
         }
 
-        return { width: fixed, minWidth: fixed, maxWidth: fixed };
+        const width = fixed + (column.repeatable ? REPEATABLE_BUTTON_WIDTH : 0);
+
+        return { width, minWidth: width, maxWidth: width };
 
     }
 
@@ -990,7 +1106,7 @@ export default function DynamicTable({
     // the width it was given.
     function totalTableWidth(): number {
 
-        let total = ROW_NUMBER_COLUMN_WIDTH;
+        let total = rowNumberColumnWidth;
 
         columns.forEach(column => {
             total += columnWidthPx(column);
@@ -1054,7 +1170,7 @@ export default function DynamicTable({
 
                     <colgroup>
 
-                        <col style={{ width: `${ROW_NUMBER_COLUMN_WIDTH}px` }} />
+                        <col style={{ width: `${rowNumberColumnWidth}px` }} />
 
                         {columns.map(column => (
 

@@ -135,10 +135,24 @@ export function defaultAnswerValue(answer: AnswerDefinition): unknown {
         }
 
         case AnswerType.Checklist:
-            return [];
 
-        case AnswerType.CardList:
-            return {};
+            // A Checklist always starts with one blank item --
+            // matches Table's "always at least one row" and
+            // avoids an empty state where the only thing on
+            // screen is an "Add Item" button.
+            return [{ id: "checklist-item-default-1", text: "", checked: false }];
+
+        case AnswerType.CardList: {
+
+            const values: CardListAnswerValue = {};
+
+            for (const card of answer.cards ?? []) {
+                values[card.id] = [{ id: `${card.id}-default-1`, text: "" }];
+            }
+
+            return values;
+
+        }
 
         case AnswerType.ProfileCards: {
 

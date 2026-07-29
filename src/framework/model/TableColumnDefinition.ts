@@ -78,4 +78,27 @@ export interface TableColumnDefinition {
      */
     autofill?: boolean;
 
+    /**
+     * Marks this column as repeatable: each
+     * row gets a small inline "+" next to
+     * this column's cell that inserts a new
+     * row directly below, copying over every
+     * `groupAnchor` column's value from the
+     * row it was inserted from.
+     *
+     * Example: a "Revenue Method" column,
+     * so a Revenue Stream that uses more
+     * than one method can add another row
+     * for it without re-picking the stream.
+     */
+    repeatable?: boolean;
+
+    /**
+     * Marks this column's value as one that
+     * should carry over into a new row
+     * inserted via a `repeatable` column's
+     * "+" (see above).
+     */
+    groupAnchor?: boolean;
+
 }

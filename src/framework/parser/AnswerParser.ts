@@ -197,13 +197,40 @@ export class AnswerParser {
 
         while ((match = regex.exec(markdown)) !== null) {
 
-            const raw = match[1].trim();
+            let raw = match[1].trim();
 
             let title = raw;
 
             let fieldId: string | undefined;
             let dynamicSource: TableColumnDefinition["dynamicSource"];
             let autofill: boolean | undefined;
+            let repeatable: boolean | undefined;
+            let groupAnchor: boolean | undefined;
+
+            // A trailing "[Tag]" (checked before every other
+            // annotation, and stripped from `raw` so the
+            // Dynamic Field / Autofill / Field regexes below --
+            // which all anchor on the end of the string -- still
+            // match normally) marks a column as either the row-
+            // group's repeatable trigger or the value that
+            // carries over into a newly inserted row.
+            const tagMatch = raw.match(/^(.*?)\s*\[(.+?)\]\s*$/);
+
+            if (tagMatch) {
+
+                raw = tagMatch[1].trim();
+
+                const tag = tagMatch[2].trim().toLowerCase();
+
+                if (tag === "repeatable") {
+                    repeatable = true;
+                } else if (tag === "group anchor") {
+                    groupAnchor = true;
+                }
+
+            }
+
+            title = raw;
 
             const dynamicMatch = raw.match(
                 /(.+?)\s*-\s*Dynamic Field\s*\(\s*(.+?)\s*:\s*(.+?)\s*\)\s*$/i
@@ -248,7 +275,11 @@ export class AnswerParser {
 
                 dynamicSource,
 
-                autofill
+                autofill,
+
+                repeatable,
+
+                groupAnchor
 
             });
 
