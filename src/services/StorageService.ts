@@ -1,8 +1,20 @@
 import { InterviewSession } from "../framework/interview";
+import { FrameworkRegistry } from "../framework/engine/FrameworkRegistry";
+import { systems } from "../data/systems";
 
 const INTERVIEW_KEY = "northstardust-interview";
 
 export class StorageService {
+
+    /**
+     * Resolves the CURRENT Framework structure for a
+     * restored session -- constructed fresh here (not
+     * reused from any long-lived singleton) so every call
+     * reflects whatever Questions/Answers/Help content and
+     * Table/Card structure is presently bundled, never a
+     * snapshot from whenever a session was first saved.
+     */
+    private static readonly registry = new FrameworkRegistry();
 
     static saveInterview(session: InterviewSession): void {
 
@@ -23,9 +35,38 @@ export class StorageService {
 
         try {
 
-            const session = InterviewSession.fromJSON(
-                JSON.parse(data)
+            const raw = JSON.parse(data);
+
+            // Older saved sessions persisted the entire parsed
+            // Framework (`raw.framework`) instead of just
+            // `systemNumber` -- fall back to reading it out of
+            // that legacy shape so an in-progress session isn't
+            // discarded outright just because the storage format
+            // changed. Either way, only the *number* is trusted;
+            // the structure itself is always re-resolved below.
+            const systemNumber: number | undefined =
+                raw.systemNumber ?? raw.framework?.metadata?.systemNumber;
+
+            const system = systems.find(
+                candidate => candidate.number === systemNumber
             );
+
+            if (!system) {
+
+                console.warn(
+                    "Saved interview session does not reference a " +
+                    "known Framework System. Discarding it."
+                );
+
+                this.clearInterview();
+
+                return null;
+
+            }
+
+            const framework = this.registry.getFramework(system.id);
+
+            const session = InterviewSession.fromJSON(raw, framework);
 
             if (!this.isCompatible(session)) {
 

@@ -29,9 +29,24 @@ export interface QuestionResponse {
 
 /**
  * Serializable InterviewSession state.
+ *
+ * Deliberately does NOT include the full FrameworkDocument
+ * (Questions/Answers/Help text, table columns, card
+ * definitions, and so on) -- only `systemNumber`, which
+ * identifies *which* System this session belongs to.
+ * Persisting the whole parsed framework used to mean a
+ * session saved before a content or structure change (e.g.
+ * a Table's columns being edited) would keep replaying that
+ * stale structure from localStorage forever, even after the
+ * app itself was updated: every reload re-read the same
+ * frozen snapshot instead of the current Framework source.
+ * Restoring a session now always re-resolves the *current*
+ * framework for `systemNumber` (see StorageService.
+ * loadInterview) and replays only the user's own responses
+ * and progress on top of it.
  */
 export interface InterviewSessionState {
-    framework: FrameworkDocument;
+    systemNumber: number;
     responses: SectionResponse[];
     questionResponses: QuestionResponse[];
     currentSectionIndex: number;
@@ -62,7 +77,7 @@ export class InterviewSession {
      */
     public toJSON(): InterviewSessionState {
         return {
-            framework: this.framework,
+            systemNumber: this.framework.metadata.systemNumber,
             responses: this.getResponses(),
             questionResponses: this.getQuestionResponses(),
             currentSectionIndex: this.currentSectionIndex,
@@ -73,9 +88,21 @@ export class InterviewSession {
 
     /**
      * Restores a session from serialized state.
+     *
+     * `framework` is supplied by the caller (see
+     * StorageService.loadInterview) as the CURRENT, freshly
+     * resolved Framework for `state.systemNumber` -- never
+     * read from the serialized state itself, so a saved
+     * session always picks up whatever the Framework's
+     * Questions/Answers/Help content and structure currently
+     * are, rather than replaying a frozen structure from
+     * whenever the session was first saved.
      */
-    public static fromJSON(state: InterviewSessionState): InterviewSession {
-        const session = new InterviewSession(state.framework);
+    public static fromJSON(
+        state: InterviewSessionState,
+        framework: FrameworkDocument
+    ): InterviewSession {
+        const session = new InterviewSession(framework);
 
         session.currentSectionIndex = state.currentSectionIndex ?? 0;
         session.capability = state.capability ?? "";

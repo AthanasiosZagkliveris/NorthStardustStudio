@@ -558,32 +558,6 @@ export default function AnswerRenderer({
 
                         <div key={item.id} className="answer-checklist-row">
 
-                            <div className="dynamic-table-row-move">
-
-                                <button
-                                    type="button"
-                                    className="dynamic-table-row-move-up"
-                                    aria-label="Move item up"
-                                    title="Move item up"
-                                    disabled={disabled || index === 0}
-                                    onClick={() => moveItem(index, -1)}
-                                >
-                                    ▲
-                                </button>
-
-                                <button
-                                    type="button"
-                                    className="dynamic-table-row-move-down"
-                                    aria-label="Move item down"
-                                    title="Move item down"
-                                    disabled={disabled || index === items.length - 1}
-                                    onClick={() => moveItem(index, 1)}
-                                >
-                                    ▼
-                                </button>
-
-                            </div>
-
                             <input
                                 type="checkbox"
                                 className="answer-checklist-checkbox"
@@ -617,29 +591,64 @@ export default function AnswerRenderer({
                                 }
                             />
 
-                            <div className="dynamic-table-row-delete-add">
+                            {/* All four row controls grouped together on
+                                one side, matching DynamicTable's single
+                                combined actions cluster (rather than
+                                splitting move to one end and remove/add
+                                to the other). */}
+                            <div className="dynamic-table-row-actions">
 
-                                <button
-                                    type="button"
-                                    className="dynamic-table-row-remove"
-                                    aria-label={items.length <= 1 ? "Clear item" : "Remove item"}
-                                    title={items.length <= 1 ? "Clear item" : "Remove item"}
-                                    disabled={disabled}
-                                    onClick={() => removeItem(item.id)}
-                                >
-                                    −
-                                </button>
+                                <div className="dynamic-table-row-move">
 
-                                <button
-                                    type="button"
-                                    className="dynamic-table-row-add"
-                                    aria-label="Add item"
-                                    title="Add item"
-                                    disabled={disabled}
-                                    onClick={addItem}
-                                >
-                                    +
-                                </button>
+                                    <button
+                                        type="button"
+                                        className="dynamic-table-row-move-up"
+                                        aria-label="Move item up"
+                                        title="Move item up"
+                                        disabled={disabled || index === 0}
+                                        onClick={() => moveItem(index, -1)}
+                                    >
+                                        ▲
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        className="dynamic-table-row-move-down"
+                                        aria-label="Move item down"
+                                        title="Move item down"
+                                        disabled={disabled || index === items.length - 1}
+                                        onClick={() => moveItem(index, 1)}
+                                    >
+                                        ▼
+                                    </button>
+
+                                </div>
+
+                                <div className="dynamic-table-row-delete-add">
+
+                                    <button
+                                        type="button"
+                                        className="dynamic-table-row-remove"
+                                        aria-label={items.length <= 1 ? "Clear item" : "Remove item"}
+                                        title={items.length <= 1 ? "Clear item" : "Remove item"}
+                                        disabled={disabled}
+                                        onClick={() => removeItem(item.id)}
+                                    >
+                                        −
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        className="dynamic-table-row-add"
+                                        aria-label="Add item"
+                                        title="Add item"
+                                        disabled={disabled}
+                                        onClick={addItem}
+                                    >
+                                        +
+                                    </button>
+
+                                </div>
 
                             </div>
 
@@ -779,32 +788,6 @@ export default function AnswerRenderer({
 
                                 <div key={item.id} className="answer-checklist-row">
 
-                                    <div className="dynamic-table-row-move">
-
-                                        <button
-                                            type="button"
-                                            className="dynamic-table-row-move-up"
-                                            aria-label="Move entry up"
-                                            title="Move entry up"
-                                            disabled={disabled || index === 0}
-                                            onClick={() => moveCardItem(activeCard.id, index, -1)}
-                                        >
-                                            ▲
-                                        </button>
-
-                                        <button
-                                            type="button"
-                                            className="dynamic-table-row-move-down"
-                                            aria-label="Move entry down"
-                                            title="Move entry down"
-                                            disabled={disabled || index === activeItems.length - 1}
-                                            onClick={() => moveCardItem(activeCard.id, index, 1)}
-                                        >
-                                            ▼
-                                        </button>
-
-                                    </div>
-
                                     <input
                                         type="text"
                                         className="answer-checklist-input"
@@ -822,29 +805,62 @@ export default function AnswerRenderer({
                                         }
                                     />
 
-                                    <div className="dynamic-table-row-delete-add">
+                                    {/* All four row controls grouped together
+                                        on one side, matching DynamicTable's
+                                        single combined actions cluster. */}
+                                    <div className="dynamic-table-row-actions">
 
-                                        <button
-                                            type="button"
-                                            className="dynamic-table-row-remove"
-                                            aria-label={activeItems.length <= 1 ? "Clear entry" : "Remove entry"}
-                                            title={activeItems.length <= 1 ? "Clear entry" : "Remove entry"}
-                                            disabled={disabled}
-                                            onClick={() => removeCardItem(activeCard.id, item.id)}
-                                        >
-                                            −
-                                        </button>
+                                        <div className="dynamic-table-row-move">
 
-                                        <button
-                                            type="button"
-                                            className="dynamic-table-row-add"
-                                            aria-label="Add entry"
-                                            title="Add entry"
-                                            disabled={disabled}
-                                            onClick={() => addCardItem(activeCard.id)}
-                                        >
-                                            +
-                                        </button>
+                                            <button
+                                                type="button"
+                                                className="dynamic-table-row-move-up"
+                                                aria-label="Move entry up"
+                                                title="Move entry up"
+                                                disabled={disabled || index === 0}
+                                                onClick={() => moveCardItem(activeCard.id, index, -1)}
+                                            >
+                                                ▲
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                className="dynamic-table-row-move-down"
+                                                aria-label="Move entry down"
+                                                title="Move entry down"
+                                                disabled={disabled || index === activeItems.length - 1}
+                                                onClick={() => moveCardItem(activeCard.id, index, 1)}
+                                            >
+                                                ▼
+                                            </button>
+
+                                        </div>
+
+                                        <div className="dynamic-table-row-delete-add">
+
+                                            <button
+                                                type="button"
+                                                className="dynamic-table-row-remove"
+                                                aria-label={activeItems.length <= 1 ? "Clear entry" : "Remove entry"}
+                                                title={activeItems.length <= 1 ? "Clear entry" : "Remove entry"}
+                                                disabled={disabled}
+                                                onClick={() => removeCardItem(activeCard.id, item.id)}
+                                            >
+                                                −
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                className="dynamic-table-row-add"
+                                                aria-label="Add entry"
+                                                title="Add entry"
+                                                disabled={disabled}
+                                                onClick={() => addCardItem(activeCard.id)}
+                                            >
+                                                +
+                                            </button>
+
+                                        </div>
 
                                     </div>
 
@@ -965,10 +981,21 @@ export default function AnswerRenderer({
 
                                 <ProfileCardInner>
 
+                                    {/* Fixed, non-editable label -- always
+                                        reads "Customer Group 1", "Competitor
+                                        2", etc. -- kept separate from the
+                                        title input below it (an optional
+                                        custom name/nickname for the card)
+                                        so the card's identity stays visible
+                                        even once a custom title is typed. */}
+                                    <div className="profile-card-fixed-label">
+                                        {cardLabel} {index + 1}
+                                    </div>
+
                                     <input
                                         type="text"
                                         className="answer-checklist-input profile-card-title-input"
-                                        placeholder={`${cardLabel} ${index + 1} Title`}
+                                        placeholder="Add a title..."
                                         disabled={disabled}
                                         value={card.title}
                                         onChange={(event) => updateCardTitle(card.id, event.target.value)}

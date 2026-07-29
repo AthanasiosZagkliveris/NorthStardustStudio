@@ -71,7 +71,7 @@
 
 **Card Label:** Customer Group
 
-**Initial Cards:** 3
+**Initial Cards:** 2
 
 **Subtitles:**
 - Subtitle 1: Needs

@@ -1460,31 +1460,49 @@ textarea:focus{
    the other -- flex-wrap stays "nowrap" so they never
    drop to a second line; if there are more cards than
    fit the available width, the row scrolls horizontally
-   instead (same convention as .answer-variant-cards). */
+   instead (same convention as .answer-variant-cards).
+   align-items:flex-start (rather than stretch) keeps
+   every card's height fully independent -- a card with
+   a lot of text grows taller on its own, without forcing
+   its shorter neighbors to match it. */
 .profile-cards-row{
 
     display:flex;
 
     flex-wrap:nowrap;
 
-    align-items:stretch;
+    align-items:flex-start;
 
     gap:16px;
 
     overflow-x:auto;
 
-    padding-bottom:8px;
+    /* A card scales up and grows a glow on hover/focus (see
+       .profile-card:hover / :focus-within below). transform:scale()
+       and box-shadow both paint outside the card's own layout box
+       without changing it, so without this the row's own edges --
+       and, per the CSS overflow spec, setting overflow-x to
+       anything but "visible" forces the browser to clip overflow-y
+       too, even though it's never set here -- would cut that glow
+       off on whichever side it grows into. The negative margin
+       cancels the padding's visual shift so the row still lines up
+       exactly where it did before; the padding itself just gives
+       the scaled/glowing card breathing room to paint into, on
+       every side, before the scrollable box's own edge clips it. */
+    margin:-20px;
+
+    padding:20px;
 
 }
 
 /* Each card keeps a fixed width so the row lines up
    neatly, but its height is deliberately NOT fixed --
-   a card with a lot of text simply grows taller (its
-   subtitle textareas auto-grow, see AutoGrowTextarea in
-   AnswerRenderer.tsx) rather than scaling its content
-   down or clipping/scrolling it. .profile-cards-row's
-   align-items:stretch then matches every other card in
-   the row to that same taller height. */
+   a card with a lot of text simply grows taller on its
+   own (its subtitle textareas auto-grow, see
+   AutoGrowTextarea in AnswerRenderer.tsx) rather than
+   scaling its content down or clipping/scrolling it, and
+   independently of how tall any other card in the row is
+   (see .profile-cards-row's align-items:flex-start). */
 .profile-card{
 
     position:relative;
@@ -1499,6 +1517,45 @@ textarea:focus{
     background:#ffffff;
 
     box-shadow:0 1px 3px rgba(17,24,39,.08);
+
+    transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+
+}
+
+/* Hovering a card -- no need to click into a field first --
+   is enough to "select" it: it grows slightly and gets a
+   light-blue glow, so it's obvious which card responds if the
+   user starts typing. z-index lifts it above its neighbors so
+   the enlarged card is never clipped underneath them.
+   :not(:focus-within) keeps this rule from fighting the
+   focus-within rule below once the user actually clicks/types
+   in it -- at that point the card shrinks back down (see next
+   rule) even while still being hovered. */
+.profile-card:hover:not(:focus-within){
+
+    transform:scale(1.04);
+
+    border-color:#0b57d0;
+
+    box-shadow:0 0 0 4px rgba(11,87,208,.18), 0 10px 24px rgba(17,24,39,.16);
+
+    z-index:2;
+
+}
+
+/* Once the user actually presses into (or starts typing in) a
+   field on the card, it drops back to its normal size -- easier
+   to read/type in -- but keeps the same light-blue glow, so it
+   stays unmistakable which card is "live" even at normal size. */
+.profile-card:focus-within{
+
+    transform:scale(1);
+
+    border-color:#0b57d0;
+
+    box-shadow:0 0 0 4px rgba(11,87,208,.18), 0 10px 24px rgba(17,24,39,.16);
+
+    z-index:2;
 
 }
 
@@ -1560,11 +1617,40 @@ textarea:focus{
 
 }
 
+/* Always shows the card's identity ("Customer Group 1",
+   "Competitor 2", ...) regardless of whether the user has
+   typed a custom title below it. */
+.profile-card-fixed-label{
+
+    padding-right:38px;
+
+    font-size:12px;
+    font-weight:700;
+
+    letter-spacing:.04em;
+    text-transform:uppercase;
+
+    color:#5f6368;
+
+}
+
 .profile-card-title-input{
 
     padding-right:38px;
 
     font-weight:600;
+
+    transition:background-color .15s ease;
+
+}
+
+/* The specific field currently being typed into gets a
+   light-blue background, pinpointing exactly which part of
+   the (now-glowing) card the user is working in. */
+.profile-card-title-input:focus,
+.profile-card-subtitle-textarea:focus{
+
+    background:#eaf2ff;
 
 }
 

@@ -638,15 +638,49 @@ export default function DynamicTable({
 
     }
 
-    function addRow() {
+    // Inserts a new row directly after `afterIndex` (each row's
+    // own "+" calls this with its own index), rather than always
+    // appending to the very end of the table -- a "+" pressed next
+    // to row 2 of 6 should add a row near row 2, not somewhere the
+    // user has to scroll down to find. Omitting afterIndex appends
+    // a blank row to the end, used only as a fallback.
+    //
+    // Every `groupAnchor` column's value is copied from the row at
+    // `afterIndex` into the new row -- e.g. a Revenue Stream that
+    // uses more than one Revenue Method can add another Method row
+    // for the SAME stream, without re-picking the stream each time
+    // and without a blank row breaking the group up. This applies
+    // regardless of which "+" the user presses: the small inline
+    // one next to a `repeatable` column's own select, or this
+    // table's own row-actions "+" -- both call this same function,
+    // so both behave identically.
+    function addRow(afterIndex?: number) {
 
-        onChange([
+        const newRow = createRow();
 
-            ...value,
+        if (afterIndex === undefined) {
 
-            createRow()
+            onChange([...value, newRow]);
 
-        ]);
+            return;
+
+        }
+
+        const sourceRow = value[afterIndex];
+
+        columns.forEach(column => {
+
+            if (column.groupAnchor) {
+                newRow[column.id] = sourceRow[column.id];
+            }
+
+        });
+
+        const rows = [...value];
+
+        rows.splice(afterIndex + 1, 0, newRow);
+
+        onChange(rows);
 
     }
 
@@ -671,34 +705,6 @@ export default function DynamicTable({
         }
 
         const rows = value.filter((_, i) => i !== index);
-
-        onChange(rows);
-
-    }
-
-    // Inserts a new row directly below `index`, pre-filling
-    // every `groupAnchor` column with that row's own value --
-    // used by a `repeatable` column's inline "+" so, e.g., a
-    // Revenue Stream that uses more than one Revenue Method
-    // can add another row for it without re-picking the
-    // stream each time.
-    function insertRowAfterWithCopy(index: number) {
-
-        const sourceRow = value[index];
-
-        const newRow = createRow();
-
-        columns.forEach(column => {
-
-            if (column.groupAnchor) {
-                newRow[column.id] = sourceRow[column.id];
-            }
-
-        });
-
-        const rows = [...value];
-
-        rows.splice(index + 1, 0, newRow);
 
         onChange(rows);
 
@@ -934,7 +940,7 @@ export default function DynamicTable({
 
                             title={`Add another ${column.title}`}
 
-                            onClick={() => insertRowAfterWithCopy(rowIndex)}
+                            onClick={() => addRow(rowIndex)}
 
                         >
                             +
@@ -1414,7 +1420,7 @@ export default function DynamicTable({
 
                                             title="Add row"
 
-                                            onClick={addRow}
+                                            onClick={() => addRow(rowIndex)}
 
                                         >
                                             +
