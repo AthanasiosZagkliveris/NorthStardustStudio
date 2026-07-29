@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { ReactNode, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import InterviewInput from "./InterviewInput.tsx";
 import DynamicTable, { TableColumn, TableRow } from "./DynamicTable.tsx";
@@ -103,6 +103,19 @@ function AutoGrowTextarea({
     // or exits the current list line -- see useListAutoFormat.ts.
     const listAutoFormat = useListAutoFormat(value, onChange);
 
+    // A stable merged-ref callback (not a fresh arrow function every
+    // render) -- both `ref` and `listAutoFormat.textareaRef` are
+    // themselves stable (useRef's own object identity never
+    // changes), so this only needs to be created once. Without this,
+    // React would call the old ref callback with `null` and the new
+    // one with the element on every single keystroke (a fresh
+    // function reference each render reads as "a different ref" to
+    // React), which is harmless here but pure churn.
+    const setRefs = useCallback((el: HTMLTextAreaElement | null) => {
+        ref.current = el;
+        listAutoFormat.textareaRef.current = el;
+    }, [listAutoFormat.textareaRef]);
+
     function resize(el: HTMLTextAreaElement | null) {
 
         if (!el) {
@@ -125,10 +138,7 @@ function AutoGrowTextarea({
 
         <textarea
 
-            ref={(el) => {
-                ref.current = el;
-                listAutoFormat.textareaRef.current = el;
-            }}
+            ref={setRefs}
 
             className={className}
 
