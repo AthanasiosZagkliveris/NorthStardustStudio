@@ -11,6 +11,76 @@ function escapeHtml(value: string): string {
 
 }
 
+/**
+ * Renders a flat, indent-leveled list of items (see
+ * ExportBlock's "list" kind in AnswerUtils.ts) as real
+ * nested <ul> markup -- a Tab-indented sub-point (see
+ * useListAutoFormat.ts) becomes an actual nested list
+ * rather than a same-level sibling, so a printed/PDF
+ * export visually preserves the hierarchy the user typed.
+ *
+ * Deliberately renders EVERY list (bullet or numbered) as
+ * a <ul> with a manually-written marker span, rather than
+ * a real <ol> for numbered ones: a native <ol> restarts its
+ * own numbering at 1 inside each nested level, which would
+ * make the PDF disagree with the Markdown export (which
+ * keeps one flat, always-incrementing count regardless of
+ * indent, matching the textarea's own Enter-continuation
+ * behavior -- see useListAutoFormat.ts). Writing the number
+ * out as text keeps both exports showing the same sequence.
+ */
+function buildNestedListHtml(items: { text: string; indent: number }[], ordered: boolean): string {
+
+    let html = "";
+    const openLevels: number[] = [];
+    let counter = 0;
+
+    items.forEach(item => {
+
+        const level = item.indent;
+
+        // Close any list(s) at this level or deeper before placing
+        // this item -- it belongs either as a new sibling at an
+        // already-open level, or nested one level deeper.
+        while (openLevels.length > 0 && level < openLevels[openLevels.length - 1]) {
+            html += "</li></ul>";
+            openLevels.pop();
+        }
+
+        if (openLevels.length === 0 || level > openLevels[openLevels.length - 1]) {
+
+            // A brand-new (possibly nested) level -- opened INSIDE
+            // whatever <li> is currently still open (if any), so it
+            // renders as that item's sub-list rather than a sibling.
+            html += `<ul class="export-list">`;
+            openLevels.push(level);
+
+        } else {
+
+            // Same level as the previous item -- close its <li>
+            // before starting this one.
+            html += "</li>";
+
+        }
+
+        counter += 1;
+
+        const marker = ordered ? `${counter}.` : "•";
+
+        html +=
+            `<li><span class="export-list-item">` +
+            `<span class="export-list-marker">${escapeHtml(marker)}</span>` +
+            `<span>${escapeHtml(item.text)}</span>` +
+            `</span>`;
+
+    });
+
+    html += "</li></ul>".repeat(openLevels.length);
+
+    return html;
+
+}
+
 function renderBlockHtml(block: ExportBlock): string {
 
     switch (block.kind) {
@@ -62,20 +132,12 @@ function renderBlockHtml(block: ExportBlock): string {
 
         }
 
-        case "list": {
+        case "list":
 
-            // Free text authored with the "1. "/"2. " numbered-list
-            // auto-format (see useListAutoFormat.ts) renders as a
-            // real <ol> so the browser/PDF's own numbering takes
-            // over; plain "• " bullets render as a <ul>, same as
-            // every other unordered list block (Card List answers,
-            // etc).
-            const tag = block.ordered ? "ol" : "ul";
-            const itemsHtml = block.items.map(item => `<li>${escapeHtml(item)}</li>`).join("");
-
-            return `<${tag} class="export-list">${itemsHtml}</${tag}>`;
-
-        }
+            // See buildNestedListHtml for why numbered lists still
+            // render as <ul> with a written-out "N." marker instead
+            // of a real <ol>.
+            return buildNestedListHtml(block.items, block.ordered ?? false);
 
         default:
             return "";
@@ -241,16 +303,28 @@ export class PdfExporter {
                             flex-shrink: 0;
                             font-size: 14px;
                         }
-                        ul.export-list,
-                        ol.export-list {
-                            margin: 0 0 14px 20px;
+                        ul.export-list {
+                            list-style: none;
+                            margin: 0 0 14px 4px;
                             padding: 0;
                         }
-                        ul.export-list li,
-                        ol.export-list li {
+                        ul.export-list li {
                             font-size: 13px;
                             line-height: 1.5;
                             margin-bottom: 4px;
+                        }
+                        .export-list-item {
+                            display: flex;
+                            align-items: flex-start;
+                            gap: 6px;
+                        }
+                        .export-list-marker {
+                            flex-shrink: 0;
+                            font-weight: 600;
+                            min-width: 14px;
+                        }
+                        ul.export-list ul.export-list {
+                            margin: 4px 0 0 20px;
                         }
                     </style>
                 </head>

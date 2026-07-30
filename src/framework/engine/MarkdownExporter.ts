@@ -63,10 +63,25 @@ function renderBlock(block: ExportBlock): string[] {
             // real Markdown ordered list, so it still numbers
             // correctly when rendered; plain "• " bullets export as
             // a "- " unordered list, same as every other list block.
+            // A Tab-indented item (item.indent > 0) renders nested,
+            // via 2 leading spaces per indent level -- enough for
+            // common Markdown renderers to read it as a sub-list
+            // rather than a sibling at the same level. Numbering
+            // stays one flat, always-incrementing sequence regardless
+            // of indent (the textarea itself doesn't restart
+            // numbering per indent level either -- see
+            // useListAutoFormat.ts), so a nested numbered item keeps
+            // counting from its parent's sequence rather than
+            // starting back at "1.".
             return [
-                ...(block.ordered
-                    ? block.items.map((item, index) => `${index + 1}. ${item}`)
-                    : block.items.map(item => `- ${item}`)),
+                ...block.items.map((item, index) => {
+
+                    const indent = "  ".repeat(item.indent);
+                    const marker = block.ordered ? `${index + 1}.` : "-";
+
+                    return `${indent}${marker} ${item.text}`;
+
+                }),
                 ""
             ];
 

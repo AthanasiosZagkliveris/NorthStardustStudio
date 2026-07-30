@@ -314,7 +314,7 @@ export type ExportBlock =
     | { kind: "subheading"; text: string }
     | { kind: "table"; headers: string[]; rows: string[][] }
     | { kind: "checklist"; items: { text: string; checked: boolean }[] }
-    | { kind: "list"; items: string[]; ordered?: boolean };
+    | { kind: "list"; items: { text: string; indent: number }[]; ordered?: boolean };
 
 /**
  * Converts a single table cell's raw value into
@@ -361,13 +361,31 @@ function toParagraphs(text: string): string[] {
 }
 
 // A line already converted to a bullet by useListAutoFormat.ts's
-// live-typing trigger ("• " at the start of the line, exactly what
-// gets stored in the raw answer text).
-const EXPORT_BULLET_LINE = /^• (.*)$/;
+// live-typing/paste trigger ("• " at the start of the line, exactly
+// what gets stored in the raw answer text), OR a plain "- "/"* "
+// line that somehow never got converted -- a safety net so a list
+// still exports as a real list even if a raw markdown-style marker
+// slips through the live editor untouched. Leading whitespace is
+// captured (group 1) as the line's indent, added via Tab in the
+// textarea -- see TAB_INDENT_UNIT in useListAutoFormat.ts.
+const EXPORT_BULLET_LINE = /^(\s*)(?:•|[*-]) (.*)$/;
 
 // A line already recognized as a numbered list item by
-// useListAutoFormat.ts (digits, a period, one space, then content).
-const EXPORT_NUMBERED_LINE = /^\d+\.\s(.*)$/;
+// useListAutoFormat.ts (optional indent, digits, a period, one
+// space, then content).
+const EXPORT_NUMBERED_LINE = /^(\s*)\d+\.\s(.*)$/;
+
+// How many leading-whitespace characters make up one indent step --
+// matches TAB_INDENT_UNIT's length in useListAutoFormat.ts (that
+// hook is the only thing that ever writes indented list lines, via
+// Tab/Shift+Tab). Kept as a separate constant here rather than a
+// shared import so this file -- plain export/formatting logic --
+// doesn't take on a dependency on a React hook module.
+const EXPORT_INDENT_UNIT_LENGTH = 2;
+
+function indentLevel(whitespace: string): number {
+    return Math.floor(whitespace.length / EXPORT_INDENT_UNIT_LENGTH);
+}
 
 /**
  * Converts one paragraph's worth of free text (no blank
@@ -381,7 +399,10 @@ const EXPORT_NUMBERED_LINE = /^\d+\.\s(.*)$/;
  * as one continuous line, which silently collapsed a
  * hand-typed list down to its bare markers ("• •",
  * "1. 2. 3.") with the line breaks (and so the separation
- * between items) discarded.
+ * between items) discarded. Each item keeps its own indent
+ * level, so a Tab-indented sub-point still renders nested
+ * (not flattened to the same level as its parent) in both
+ * the Markdown and PDF export.
  *
  * Any other, non-list lines in the paragraph are kept
  * together as a single `paragraph` block, exactly as
@@ -390,10 +411,13 @@ const EXPORT_NUMBERED_LINE = /^\d+\.\s(.*)$/;
 function paragraphToBlocks(paragraph: string): ExportBlock[] {
 
     const blocks: ExportBlock[] = [];
-    const lines = paragraph.split(/\r?\n/).map(line => line.trim()).filter(line => line.length > 0);
+    const lines = paragraph
+        .split(/\r?\n/)
+        .map(line => line.replace(/\s+$/, ""))
+        .filter(line => line.trim().length > 0);
 
     let listMode: "bullet" | "numbered" | null = null;
-    let listItems: string[] = [];
+    let listItems: { text: string; indent: number }[] = [];
     let proseLines: string[] = [];
 
     function flushProse() {
@@ -429,7 +453,7 @@ function paragraphToBlocks(paragraph: string): ExportBlock[] {
 
             flushProse();
             listMode = "bullet";
-            listItems.push(bulletMatch[1]);
+            listItems.push({ text: bulletMatch[2], indent: indentLevel(bulletMatch[1]) });
 
         } else if (numberedMatch) {
 
@@ -439,12 +463,12 @@ function paragraphToBlocks(paragraph: string): ExportBlock[] {
 
             flushProse();
             listMode = "numbered";
-            listItems.push(numberedMatch[1]);
+            listItems.push({ text: numberedMatch[2], indent: indentLevel(numberedMatch[1]) });
 
         } else {
 
             flushList();
-            proseLines.push(line);
+            proseLines.push(line.trim());
 
         }
 
@@ -589,7 +613,7 @@ export function buildAnswerBlocks(answer: AnswerDefinition, value: unknown): Exp
                 }
 
                 blocks.push({ kind: "subheading", text: card.title });
-                blocks.push({ kind: "list", items: items.map(item => item.text.trim()) });
+                blocks.push({ kind: "list", items: items.map(item => ({ text: item.text.trim(), indent: 0 })) });
 
             }
 
