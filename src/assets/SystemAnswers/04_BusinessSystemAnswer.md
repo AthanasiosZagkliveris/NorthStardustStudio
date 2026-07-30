@@ -49,7 +49,7 @@
 - Column 3: Stream Mix (%) [Sum Check]
 - Column 4: Revenue Method - Dynamic Field (Revenue Model: Revenue Method) [Repeatable]
 - Column 5: Method Mix (%) [Repeatable Value] [Group Sum Check]
-- Column 6: Category - Resources Field
+- Column 6: Category - Category Field
 
 ## 05. Product Register
 

@@ -1,7 +1,7 @@
 .landing {
 
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
 
     display: flex;
     flex-direction: column;
@@ -9,7 +9,10 @@
     justify-content: center;
     align-items: center;
 
-    padding: 4vh;
+    /* Top padding clears the fixed AppHeader (120px) now that
+       this page renders one too (item 3), same pattern every
+       other page follows (see app-header.css). */
+    padding: 152px 4vh 4vh;
 }
 
 .landing-logo {
@@ -80,4 +83,246 @@
 
     box-shadow:
         inset 0 4px 12px rgba(0, 0, 0, .18);
+}
+
+/* Disabled while no Organization is selected yet (item 3) --
+   navigating to System Selection / Capability Generator only
+   makes sense once it's clear which Organization's data is
+   being worked on. */
+.landing-card:disabled {
+
+    opacity: .45;
+
+    cursor: not-allowed;
+
+    color: #000;
+    font-weight: 500;
+
+    transform: none;
+
+    box-shadow: none;
+}
+
+/* ==========================================================
+   Organizations List (item 3)
+========================================================== */
+
+.organization-section {
+
+    width: min(640px, 90vw);
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: stretch;
+
+    margin-bottom: 5vh;
+}
+
+.organization-list {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+
+    margin-bottom: 16px;
+}
+
+.organization-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.organization-row-main {
+
+    flex: 1;
+
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    padding: 14px 22px;
+
+    border: 1px solid #d6d6d6;
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    cursor: pointer;
+
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease,
+        border-color .15s ease,
+        background-color .15s ease;
+}
+
+/* Hovering makes the row more prominent -- slightly larger,
+   glowing light blue -- exactly like AnswerRenderer's Profile
+   Cards, so the interaction pattern feels consistent across
+   the app. Suppressed while actually typing in the row (see
+   :focus-within below) so it doesn't fight that state. */
+.organization-row-main:hover:not(:focus-within) {
+
+    transform: scale(1.03);
+
+    border-color: #0b57d0;
+
+    box-shadow:
+        0 0 0 4px rgba(11, 87, 208, .18),
+        0 10px 24px rgba(17, 24, 39, .16);
+
+    z-index: 2;
+}
+
+.organization-row-main:focus-within {
+
+    border-color: #0b57d0;
+
+    box-shadow: 0 0 0 4px rgba(11, 87, 208, .18);
+
+    z-index: 2;
+}
+
+/* Selected is a flat, solid light-blue fill -- deliberately
+   simpler than the hover glow, so the two states stay visually
+   distinct (selected = "this is the one", hover = "this one
+   would respond"). */
+.organization-row.organization-row-selected .organization-row-main {
+
+    background: #eaf2ff;
+
+    border-color: #0b57d0;
+}
+
+.organization-name {
+
+    margin: 0;
+
+    width: 100%;
+
+    display: flex;
+    align-items: baseline;
+
+    gap: 10px;
+
+    font-size: 1.6rem;
+    font-weight: 700;
+
+    color: #111827;
+}
+
+.organization-number {
+
+    flex-shrink: 0;
+
+    color: #0b57d0;
+}
+
+.organization-name-input {
+
+    flex: 1;
+
+    min-width: 0;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font: inherit;
+    font-weight: inherit;
+    color: inherit;
+
+    padding: 4px 8px;
+
+    border-radius: 6px;
+
+    transition: background-color .15s ease;
+}
+
+/* The text holder itself turns light blue while being typed
+   in, matching Profile Cards' title-input focus treatment. */
+.organization-name-input:focus {
+
+    background: #eaf2ff;
+}
+
+.organization-remove {
+
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #d6d6d6;
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    font-size: 16px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background-color .2s ease,
+        border-color .2s ease,
+        color .2s ease;
+}
+
+.organization-remove:hover {
+
+    background: #fdecea;
+
+    border-color: #b00020;
+
+    color: #b00020;
+}
+
+.organization-add-button {
+
+    align-self: flex-start;
+
+    padding: 10px 20px;
+
+    border: 2px dashed #0b57d0;
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    color: #0b57d0;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: background-color .15s ease;
+}
+
+.organization-add-button:hover {
+
+    background: #eef4ff;
+}
+
+.organization-hint {
+
+    margin: 10px 0 0;
+
+    font-size: .95rem;
+
+    color: #6b7280;
 }

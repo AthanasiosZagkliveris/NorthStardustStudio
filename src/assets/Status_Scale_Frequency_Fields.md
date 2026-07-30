@@ -1,12 +1,15 @@
 ## Status Field
 
-**Number of Variants:** 4
+**Number of Variants:** 7
 
 **Variants:**
 - Variant 1: Planned
 - Variant 2: In Progress
-- Variant 3: Ongoing
-- Variant 4: Completed
+- Variant 3: Active
+- Variant 4: Ongoing
+- Variant 5: On Hold
+- Variant 6: Completed
+- Variant 7: Cancelled
 
 ## Scale Field
 
@@ -31,18 +34,10 @@
 
 ## Category Field
 
-**Number of Variants:** 3
+**Number of Variants:** 4
 
 **Variants:**
 - Variant 1: Primary
 - Variant 2: Secondary
 - Variant 3: Neutral
-
-## Resources Field
-
-**Number of Variants:** 3
-
-**Variants:**
-- Variant 1: Primary
-- Variant 2: Secondary
-- Variant 3: Supporting
+- Variant 4: Supporting

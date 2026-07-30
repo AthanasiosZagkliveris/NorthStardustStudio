@@ -165,6 +165,23 @@ textarea:focus{
 
 }
 
+/* The selected Product's name (item 7) -- rendered as its own
+   direct child of .conversation-card, between the System title
+   (InterviewHeader) and the Section title (InterviewSection),
+   at the requested 36px. No manual margin needed: it's just
+   another item in .conversation-card's flex column, so the
+   existing 30px "gap" (see the .interview-header .interview-
+   divider comment above) already spaces it correctly on both
+   sides. */
+.product-name-banner{
+
+    font-size:36px;
+    font-weight:600;
+
+    color:#111827;
+
+}
+
 .interview-block{
 
     margin-bottom:24px;
@@ -595,6 +612,103 @@ textarea:focus{
     white-space:nowrap;
 
     user-select:none;
+
+}
+
+/*
+   Row-selection support (Product Development System's Product
+   Register acting as a Product picker -- see DynamicTable's
+   `rowSelection` prop). Deliberately background-color based
+   rather than transform:scale(), since scaling a <tr> risks
+   clipping/overlap inside .dynamic-table-scroll's overflow
+   container and against the pinned .dynamic-table-actions-table
+   sibling.
+*/
+.dynamic-table-row-selectable{
+
+    cursor:pointer;
+
+    transition:background-color .15s ease;
+
+}
+
+.dynamic-table-row-selectable:hover td{
+
+    background:#eaf2ff;
+
+}
+
+.dynamic-table-row-selected td{
+
+    background:#dbe9ff;
+
+}
+
+.dynamic-table-row-selectable.dynamic-table-row-selected:hover td{
+
+    background:#cfe1ff;
+
+}
+
+.dynamic-table-row-number-cell{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    white-space:nowrap;
+
+}
+
+.dynamic-table-row-select-bullet{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    width:20px;
+
+    height:20px;
+
+    padding:0;
+
+    border:1.5px solid #94a3b8;
+
+    border-radius:50%;
+
+    background:#ffffff;
+
+    color:#0b57d0;
+
+    font-size:11px;
+
+    line-height:1;
+
+    cursor:pointer;
+
+    transition:border-color .15s ease, background-color .15s ease, color .15s ease;
+
+}
+
+.dynamic-table-row-select-bullet:hover{
+
+    border-color:#0b57d0;
+
+    background:#eaf2ff;
+
+}
+
+.dynamic-table-row-select-bullet-selected{
+
+    border-color:#0b57d0;
+
+    background:#0b57d0;
+
+    color:#ffffff;
 
 }
 

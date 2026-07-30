@@ -1,5 +1,5 @@
 import { InterviewSession } from "../interview";
-import { buildExportContent } from "./ExportContentBuilder.ts";
+import { buildExportContent, ExportContent, ExportSectionContent } from "./ExportContentBuilder.ts";
 import { ExportBlock } from "./AnswerUtils.ts";
 
 /**
@@ -93,6 +93,31 @@ function renderBlock(block: ExportBlock): string[] {
 }
 
 /**
+ * Renders one Section's heading (at the given Markdown heading
+ * depth, e.g. "##" for a top-level Section or "###" for a Section
+ * nested under a Product group) followed by its answer.
+ */
+function renderSection(section: ExportSectionContent, headingMarker: string): string[] {
+
+    const lines: string[] = [];
+
+    lines.push(`${headingMarker} ${section.number}. ${section.title}`);
+    lines.push("");
+
+    if (section.blocks.length === 0) {
+        lines.push("_No response._");
+    } else {
+        section.blocks.forEach(block => lines.push(...renderBlock(block)));
+    }
+
+    lines.push("");
+    lines.push("");
+
+    return lines;
+
+}
+
+/**
  * Exports a completed Interview Session
  * to Markdown.
  *
@@ -107,13 +132,21 @@ export class MarkdownExporter {
     /**
      * Converts an Interview Session
      * into Markdown.
+     *
+     * `contentOverride` lets a caller supply already-built
+     * `ExportContent` instead of the single-response-per-Section
+     * default (see ExportContentBuilder.buildMultiProductExportContent,
+     * used by the Product Development System so its export includes
+     * every Product's own Sections 2-7, not just whichever Product
+     * happens to be selected right now).
      */
     public toMarkdown(
         session: InterviewSession,
-        capabilityLabel: string
+        capabilityLabel: string,
+        contentOverride?: ExportContent
     ): string {
 
-        const content = buildExportContent(session, capabilityLabel);
+        const content = contentOverride ?? buildExportContent(session, capabilityLabel);
 
         const lines: string[] = [];
 
@@ -123,18 +156,21 @@ export class MarkdownExporter {
         lines.push("");
 
         for (const section of content.sections) {
+            lines.push(...renderSection(section, "##"));
+        }
 
-            lines.push(`## ${section.number}. ${section.title}`);
+        // Per-Product Sections (see buildMultiProductExportContent):
+        // one heading per Product, with that Product's OWN Sections
+        // all together underneath it -- Product 1's Sections in full,
+        // then Product 2's, and so on.
+        for (const group of content.productGroups ?? []) {
+
+            lines.push(`## ${group.productName}`);
             lines.push("");
 
-            if (section.blocks.length === 0) {
-                lines.push("_No response._");
-            } else {
-                section.blocks.forEach(block => lines.push(...renderBlock(block)));
+            for (const section of group.sections) {
+                lines.push(...renderSection(section, "###"));
             }
-
-            lines.push("");
-            lines.push("");
 
         }
 

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { capabilities, getCapabilityColor } from "../data/capabilities";
 import { systems } from "../data/systems";
@@ -17,11 +17,33 @@ import SystemList from "../components/SystemList";
 import SystemConfirmation from "../components/SystemConfirmation";
 import CapabilityDescriptionDialog from "../components/CapabilityDescriptionDialog";
 
+import { OrganizationService } from "../services/OrganizationService";
+import { StorageService } from "../services/StorageService";
+
 import "../styles/workspace.css";
 
 export default function SystemSelection() {
 
     const navigate = useNavigate();
+
+    // The Landing page is the only place an Organization gets
+    // selected (item 3) -- this page just trusts that selection
+    // and bounces back to Landing if, for whatever reason
+    // (direct URL, cleared storage), none is set.
+    const [organizationName, setOrganizationName] = useState("");
+
+    useEffect(() => {
+
+        const organizationId = OrganizationService.getSelected();
+
+        if (!organizationId) {
+            navigate("/");
+            return;
+        }
+
+        setOrganizationName(OrganizationService.getSummary(organizationId)?.name ?? "");
+
+    }, [navigate]);
 
     const [activeCapability, setActiveCapability] =
         useState<string | null>(null);
@@ -64,6 +86,27 @@ export default function SystemSelection() {
 
         setConfirmationOpen(false);
 
+        // After the very first time working through a System, every
+        // later "Forward" here should land back on Section 1 -- not
+        // wherever the user happened to leave off last time. This
+        // only resets the CURRENT position; every Section's saved
+        // answer is left exactly as it was. (A plain page reload
+        // while already inside the interview does not go through
+        // this function, so it still resumes exactly where the user
+        // left off -- see Conversation.tsx's loading effect.)
+        const organizationId = OrganizationService.getSelected();
+
+        if (organizationId) {
+
+            const existing = StorageService.loadInterview(organizationId, selectedSystem.number);
+
+            if (existing && existing.hasStartedInterview()) {
+                existing.goToSection(0);
+                StorageService.saveInterview(organizationId, existing);
+            }
+
+        }
+
         navigate("/introduction", {
 
             state: {
@@ -78,7 +121,7 @@ export default function SystemSelection() {
 
         <div className="workspace">
 
-            <AppHeader />
+            <AppHeader organizationName={organizationName} />
 
             <div className="workspace-main">
 
@@ -144,6 +187,7 @@ export default function SystemSelection() {
 
             <SystemConfirmation
                 open={confirmationOpen}
+                organizationName={organizationName}
                 systemTitle={selectedSystem?.title ?? ""}
                 onCancel={() => setConfirmationOpen(false)}
                 onStart={startInterview}

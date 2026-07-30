@@ -90,7 +90,7 @@ export interface ProfileCardsAnswerValue {
  * shape (an array of strings) as well as plain
  * text/date/field cells (a single string).
  */
-function isCellFilled(cell: unknown): boolean {
+export function isCellFilled(cell: unknown): boolean {
 
     if (Array.isArray(cell)) {
 
@@ -101,6 +101,28 @@ function isCellFilled(cell: unknown): boolean {
     }
 
     return typeof cell === "string" && cell.trim().length > 0;
+
+}
+
+/**
+ * Determines whether a SINGLE Table row has every one
+ * of its visible columns filled in -- the same rule
+ * `isAnswerEmpty` applies across every row of a whole
+ * Table, but scoped to just one row.
+ *
+ * Used by the Product Development System's "Finish"
+ * validation (see Conversation.tsx): the shared Product
+ * Register (Section 1) holds every Product's row, but
+ * finishing one Product's interview should only require
+ * THAT Product's own row to be complete, not every other
+ * Product's row too.
+ */
+export function isTableRowComplete(
+    columns: TableColumnDefinition[],
+    row: TableAnswerRow
+): boolean {
+
+    return columns.every(column => isCellFilled(row[column.id]));
 
 }
 

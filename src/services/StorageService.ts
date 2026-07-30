@@ -1,41 +1,53 @@
 import { InterviewSession } from "../framework/interview";
-import { FrameworkRegistry } from "../framework/engine/FrameworkRegistry";
+import { frameworkRegistry } from "../framework/engine/FrameworkRegistry";
 import { systems } from "../data/systems";
-
-const INTERVIEW_KEY = "northstardust-interview";
+import { OrganizationService } from "./OrganizationService";
 
 export class StorageService {
 
     /**
-     * Resolves the CURRENT Framework structure for a
-     * restored session -- constructed fresh here (not
-     * reused from any long-lived singleton) so every call
-     * reflects whatever Questions/Answers/Help content and
-     * Table/Card structure is presently bundled, never a
-     * snapshot from whenever a session was first saved.
+     * Resolves the CURRENT Framework structure for a restored
+     * session, from the one app-wide `FrameworkRegistry` (shared
+     * with `InterviewManager` -- see FrameworkRegistry.ts) so a
+     * System already opened via either path is only ever parsed
+     * once per app session, not once per registry instance. Every
+     * call still reflects whatever Questions/Answers/Help content
+     * and Table/Card structure is presently bundled, never a
+     * snapshot from whenever a session was first saved -- the
+     * registry resolves Frameworks fresh from source, it just
+     * caches the parse itself.
      */
-    private static readonly registry = new FrameworkRegistry();
+    private static readonly registry = frameworkRegistry;
 
-    static saveInterview(session: InterviewSession): void {
+    /**
+     * Interview state is now stored per-Organization AND
+     * per-System (see OrganizationService), rather than in one
+     * single global slot -- so working on the Business System
+     * for "Acme Inc" no longer overwrites (or gets overwritten
+     * by) progress on the Identity System for "Acme Inc", or
+     * on any System for a different Organization entirely.
+     */
+    static saveInterview(organizationId: string, session: InterviewSession): void {
 
-        localStorage.setItem(
-            INTERVIEW_KEY,
-            JSON.stringify(session.toJSON())
+        const state = session.toJSON();
+
+        OrganizationService.saveSystemState(
+            organizationId,
+            state.systemNumber,
+            state
         );
 
     }
 
-    static loadInterview(): InterviewSession | null {
+    static loadInterview(organizationId: string, systemNumber: number): InterviewSession | null {
 
-        const data = localStorage.getItem(INTERVIEW_KEY);
+        const raw = OrganizationService.loadSystemState(organizationId, systemNumber);
 
-        if (!data) {
+        if (!raw) {
             return null;
         }
 
         try {
-
-            const raw = JSON.parse(data);
 
             // Older saved sessions persisted the entire parsed
             // Framework (`raw.framework`) instead of just
@@ -44,11 +56,16 @@ export class StorageService {
             // discarded outright just because the storage format
             // changed. Either way, only the *number* is trusted;
             // the structure itself is always re-resolved below.
-            const systemNumber: number | undefined =
-                raw.systemNumber ?? raw.framework?.metadata?.systemNumber;
+            const state = raw as {
+                systemNumber?: number;
+                framework?: { metadata?: { systemNumber?: number } };
+            };
+
+            const resolvedSystemNumber: number | undefined =
+                state.systemNumber ?? state.framework?.metadata?.systemNumber;
 
             const system = systems.find(
-                candidate => candidate.number === systemNumber
+                candidate => candidate.number === resolvedSystemNumber
             );
 
             if (!system) {
@@ -58,7 +75,7 @@ export class StorageService {
                     "known Framework System. Discarding it."
                 );
 
-                this.clearInterview();
+                this.clearInterview(organizationId, systemNumber);
 
                 return null;
 
@@ -66,7 +83,10 @@ export class StorageService {
 
             const framework = this.registry.getFramework(system.id);
 
-            const session = InterviewSession.fromJSON(raw, framework);
+            const session = InterviewSession.fromJSON(
+                raw as Parameters<typeof InterviewSession.fromJSON>[0],
+                framework
+            );
 
             if (!this.isCompatible(session)) {
 
@@ -75,7 +95,7 @@ export class StorageService {
                     "incompatible version of the Framework. Discarding it."
                 );
 
-                this.clearInterview();
+                this.clearInterview(organizationId, systemNumber);
 
                 return null;
 
@@ -90,7 +110,7 @@ export class StorageService {
                 error
             );
 
-            this.clearInterview();
+            this.clearInterview(organizationId, systemNumber);
 
             return null;
 
@@ -98,9 +118,9 @@ export class StorageService {
 
     }
 
-    static clearInterview(): void {
+    static clearInterview(organizationId: string, systemNumber: number): void {
 
-        localStorage.removeItem(INTERVIEW_KEY);
+        OrganizationService.saveSystemState(organizationId, systemNumber, null);
 
     }
 

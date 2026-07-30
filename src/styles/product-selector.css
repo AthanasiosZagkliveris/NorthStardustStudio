@@ -1,0 +1,87 @@
+/* ==========================================================
+   Product Selector (item 7)
+========================================================== */
+
+.product-selector {
+
+    margin: 28px 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.product-selector-label {
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    color: #374151;
+}
+
+.product-selector-hint {
+
+    font-size: .95rem;
+
+    color: #6b7280;
+}
+
+.product-selector-list {
+
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 14px;
+}
+
+.product-selector-row {
+
+    padding: 14px 22px;
+
+    border: 1px solid #d6d6d6;
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    font: inherit;
+    font-size: 1.15rem;
+    font-weight: 700;
+
+    color: #111827;
+
+    cursor: pointer;
+
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease,
+        border-color .15s ease,
+        background-color .15s ease;
+}
+
+/* Same hover-enlarge-glow / solid-selected language as the
+   Organizations list on the Landing page, so picking a
+   Product to work on feels like the same interaction. */
+.product-selector-row:hover {
+
+    transform: scale(1.03);
+
+    border-color: #0b57d0;
+
+    box-shadow:
+        0 0 0 4px rgba(11, 87, 208, .18),
+        0 10px 24px rgba(17, 24, 39, .16);
+
+    z-index: 2;
+}
+
+.product-selector-row.product-selector-row-selected {
+
+    background: #eaf2ff;
+
+    border-color: #0b57d0;
+
+    transform: none;
+
+    box-shadow: none;
+}

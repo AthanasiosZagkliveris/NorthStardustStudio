@@ -55,6 +55,22 @@
 
 }
 
+/* Shown under the title (item 4) whenever the dialog also
+   carries an Organization name -- e.g. "Acme Inc" as the
+   title, "Begin Business System?" as this question. */
+.confirmation-question {
+
+    margin: -8px 0 16px;
+
+    text-align: center;
+
+    font-size: 17px;
+    font-weight: 500;
+
+    color: #374151;
+
+}
+
 /* ==========================================================
    Buttons
 ========================================================== */
@@ -127,5 +143,26 @@
 .confirmation-button.primary:hover {
 
     background: #0847ab;
+
+}
+
+/* ==========================================================
+   Danger Button (destructive confirmations, e.g. deleting
+   an Organization on the Landing page)
+========================================================== */
+
+.confirmation-button.danger {
+
+    border-color: #d92d20;
+
+    background: #ffffff;
+
+    color: #d92d20;
+
+}
+
+.confirmation-button.danger:hover {
+
+    background: #fef2f2;
 
 }

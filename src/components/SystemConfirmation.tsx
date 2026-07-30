@@ -4,6 +4,8 @@ interface SystemConfirmationProps {
 
     open: boolean;
 
+    organizationName?: string;
+
     systemTitle: string;
 
     onCancel: () => void;
@@ -15,6 +17,8 @@ interface SystemConfirmationProps {
 export default function SystemConfirmation({
 
     open,
+
+    organizationName,
 
     systemTitle,
 
@@ -32,11 +36,25 @@ export default function SystemConfirmation({
 
             <div className="confirmation-dialog">
 
-                <h2 className="confirmation-title">
+                {organizationName ? (
 
-                    Begin {systemTitle}?
+                    <>
+                        <h2 className="confirmation-title">
+                            {organizationName}
+                        </h2>
 
-                </h2>
+                        <p className="confirmation-question">
+                            Begin {systemTitle}?
+                        </p>
+                    </>
+
+                ) : (
+
+                    <h2 className="confirmation-title">
+                        Begin {systemTitle}?
+                    </h2>
+
+                )}
 
                 <div className="confirmation-actions">
 
@@ -51,7 +69,7 @@ export default function SystemConfirmation({
                         className="confirmation-button primary"
                         onClick={onStart}
                     >
-                        Begin Interview
+                        Forward
                     </button>
 
                 </div>

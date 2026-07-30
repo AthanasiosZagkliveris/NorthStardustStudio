@@ -8,8 +8,8 @@
 
 **Columns:**
 - Column 1: #
-- Column 2: Product Name
-- Column 3: Category
+- Column 2: Product
+- Column 3: Category - Autofill
 - Column 4: Launch Date
 - Column 5: Status - Status Field
 

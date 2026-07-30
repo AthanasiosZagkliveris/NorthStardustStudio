@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import FieldRenderer from "./FieldRenderer";
 import DateCellInput from "./DateCellInput.tsx";
@@ -114,6 +114,21 @@ interface DynamicTableProps {
      */
     rowNumberLabel?: string;
 
+    /**
+     * Turns each row into a single-select picker: a small bullet
+     * appears under the row-number column, and clicking anywhere
+     * on the row (not just the bullet) selects it. Used by the
+     * Product Development System's Product Register (item 7) so
+     * picking which Product to work on happens directly in the
+     * table instead of a separate list underneath it. Omitted for
+     * every other Table in the app, which renders exactly as
+     * before.
+     */
+    rowSelection?: {
+        isSelected: (row: TableRow, index: number) => boolean;
+        onSelect: (row: TableRow, index: number) => void;
+    };
+
 }
 
 // Fallback/minimum width for the automatic row-number
@@ -188,6 +203,20 @@ const CONTENT_WIDTH_PADDING = 48;
 
 let measureCanvas: HTMLCanvasElement | null = null;
 
+// Memoizes measureTextWidth by its exact (font, text) input. Every
+// Table's contentMaxWidths recomputes over EVERY cell on EVERY
+// keystroke anywhere in that Table (see the useMemo below) -- with
+// this cache, only the cell whose text actually changed since the
+// last measurement pays for a real canvas `measureText` call; every
+// other cell's unchanged text is a plain Map lookup instead. Shared
+// across every Table on the page (keyed by the exact text, so
+// identical content in different Tables/columns reuses the same
+// entry too) since they all measure against the same handful of
+// fonts. Left unbounded: a session's worth of distinct strings typed
+// into form fields is a tiny amount of memory to hold as `string ->
+// number`, nowhere near worth adding eviction complexity for.
+const textWidthCache = new Map<string, number>();
+
 /**
  * Measures the pixel width of the longest line in
  * some text, using the same font as a table cell's
@@ -196,6 +225,13 @@ let measureCanvas: HTMLCanvasElement | null = null;
  * rather than leaving the column unbounded.
  */
 function measureTextWidth(text: string, font: string): number {
+
+    const cacheKey = font + " " + text;
+    const cached = textWidthCache.get(cacheKey);
+
+    if (cached !== undefined) {
+        return cached;
+    }
 
     if (!measureCanvas) {
         measureCanvas = document.createElement("canvas");
@@ -220,6 +256,8 @@ function measureTextWidth(text: string, font: string): number {
         }
 
     }
+
+    textWidthCache.set(cacheKey, max);
 
     return max;
 
@@ -344,7 +382,7 @@ function AutoGrowTextarea({
 
 }
 
-export default function DynamicTable({
+function DynamicTable({
 
     columns,
 
@@ -354,7 +392,9 @@ export default function DynamicTable({
 
     disabled = false,
 
-    rowNumberLabel = "#"
+    rowNumberLabel = "#",
+
+    rowSelection
 
 }: DynamicTableProps) {
 
@@ -699,16 +739,27 @@ export default function DynamicTable({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [columns.map(column => column.id).join("|")]);
 
-    // Re-measure every data row's rendered height whenever
-    // anything that could change it changes -- the row's own
-    // content (typing can wrap an AutoGrowTextarea onto more
-    // lines), or a column width (narrowing a column can force
-    // the same wrap). This runs as a layout effect so it reads
-    // heights *after* AutoGrowTextarea's own layout effect has
-    // already resized its textarea in the same commit (React
-    // runs child layout effects before parent ones), and
-    // completes before the browser paints, so the actions
-    // table's rows never visibly lag a frame behind.
+    // Remembers what the row-height effect below last measured
+    // against, so it can tell "just typing in one cell" (the
+    // overwhelmingly common case, and the one worth optimizing)
+    // apart from anything structural (a row added/removed/moved, or
+    // a column definition/width changing) -- see the effect itself.
+    const previousMeasureDepsRef = useRef<{
+        value: TableRow[];
+        columnsKey: string;
+        colWidths: Record<string, number>;
+        minWidths: Record<string, number>;
+    } | null>(null);
+
+    // Re-measure data row heights whenever anything that could
+    // change them changes -- a row's own content (typing can wrap an
+    // AutoGrowTextarea onto more lines), or a column width (narrowing
+    // a column can force the same wrap). This runs as a layout effect
+    // so it reads heights *after* AutoGrowTextarea's own layout
+    // effect has already resized its textarea in the same commit
+    // (React runs child layout effects before parent ones), and
+    // completes before the browser paints, so the actions table's
+    // rows never visibly lag a frame behind.
     //
     // Every body row's height is floored at
     // ACTIONS_MIN_ROW_HEIGHT and that floored value is applied
@@ -718,7 +769,78 @@ export default function DynamicTable({
     // controls actually need, and forcing only the actions
     // table's row taller would leave the two tables' rows out
     // of step for every row after it.
+    //
+    // Typing in one cell re-renders this whole component (see
+    // Conversation.tsx's redraw()), which gives `columns` a brand
+    // new array/object reference on every keystroke regardless of
+    // whether the Section's actual columns changed -- comparing it
+    // by identity would defeat this almost every time, so it's
+    // compared by its column ids instead (same idiom the min-width
+    // effect above already uses). `colWidths`/`minWidths` are plain
+    // `useState` values that only get a new reference when actually
+    // changed (a resize drag, or a Section switch resetting them),
+    // so comparing THOSE by identity is reliable.
+    //
+    // When row count, columns, and both width maps are exactly what
+    // they were last time this ran, every mutator in this file (see
+    // updateCell/addMethodEntry/etc.) replaces only the row
+    // object(s) it actually edited and leaves every other row's
+    // object reference untouched -- so only rows whose reference
+    // changed can possibly have a new rendered height, and only
+    // those need a fresh `getBoundingClientRect()`. Anything
+    // structural (a row added/removed/reordered, or a column
+    // definition/width change) instead falls back to the exact
+    // original full remeasure, unchanged, so this can only ever
+    // remeasure a superset of what actually needs it -- never less.
     useLayoutEffect(() => {
+
+        const columnsKey = columns.map(column => column.id).join("|");
+        const previous = previousMeasureDepsRef.current;
+
+        const canMeasureIncrementally =
+            previous !== null &&
+            previous.value.length === value.length &&
+            previous.columnsKey === columnsKey &&
+            previous.colWidths === colWidths &&
+            previous.minWidths === minWidths;
+
+        previousMeasureDepsRef.current = { value, columnsKey, colWidths, minWidths };
+
+        if (canMeasureIncrementally) {
+
+            const previousValue = previous.value;
+
+            setRowHeights(previousHeights => {
+
+                let next: Record<string, number> | null = null;
+
+                value.forEach((row, rowIndex) => {
+
+                    if (row === previousValue[rowIndex]) {
+                        return;
+                    }
+
+                    const el = dataRowRefs.current[rowIndex];
+
+                    if (!el) {
+                        return;
+                    }
+
+                    if (!next) {
+                        next = { ...previousHeights };
+                    }
+
+                    next[rowIndex] = Math.max(el.getBoundingClientRect().height, ACTIONS_MIN_ROW_HEIGHT);
+
+                });
+
+                return next ?? previousHeights;
+
+            });
+
+            return;
+
+        }
 
         const next: Record<string, number> = {};
 
@@ -1681,11 +1803,46 @@ export default function DynamicTable({
 
                                 style={{ height: rowHeights[rowIndex] }}
 
+                                className={
+                                    rowSelection
+                                        ? "dynamic-table-row-selectable" +
+                                            (rowSelection.isSelected(row, rowIndex) ? " dynamic-table-row-selected" : "")
+                                        : undefined
+                                }
+
+                                onClick={
+                                    rowSelection
+                                        ? () => rowSelection.onSelect(row, rowIndex)
+                                        : undefined
+                                }
+
                             >
 
-                                <td>
+                                <td className={rowSelection ? "dynamic-table-row-number-cell" : undefined}>
 
                                     {rowIndex + 1}
+
+                                    {rowSelection && (
+                                        <button
+                                            type="button"
+                                            className={
+                                                "dynamic-table-row-select-bullet" +
+                                                    (rowSelection.isSelected(row, rowIndex) ? " dynamic-table-row-select-bullet-selected" : "")
+                                            }
+                                            aria-label={
+                                                rowSelection.isSelected(row, rowIndex)
+                                                    ? `Row ${rowIndex + 1} selected`
+                                                    : `Select row ${rowIndex + 1}`
+                                            }
+                                            title="Select this row"
+                                            onClick={(event) => {
+                                                event.stopPropagation();
+                                                rowSelection.onSelect(row, rowIndex);
+                                            }}
+                                        >
+                                            {rowSelection.isSelected(row, rowIndex) ? "●" : "○"}
+                                        </button>
+                                    )}
 
                                 </td>
 
@@ -1933,3 +2090,19 @@ export default function DynamicTable({
     );
 
 }
+
+// Wrapped in React.memo: DynamicTable is used by nearly every
+// interview Section (~15 Tables across the app), and without this a
+// keystroke in ANY field on the page re-renders every mounted Table,
+// including its full row/column measurement work. React.memo's
+// default shallow prop comparison only pays off because every prop
+// that actually varies is now kept referentially stable across an
+// unrelated re-render: `columns` (memoized in AnswerRenderer.tsx),
+// `onChange`/`resolveDynamicOptions`-derived callbacks (memoized in
+// Conversation.tsx), and `value`/`disabled`/`rowNumberLabel` (either
+// primitives or, for `value`, the same array reference unless this
+// exact Table's own data changed). `rowSelection` is the one
+// intentional exception -- see productRegisterRowSelection's comment
+// in Conversation.tsx for why leaving it unmemoized there is an
+// accepted, low-risk tradeoff for the single Product Register table.
+export default memo(DynamicTable);

@@ -7,6 +7,7 @@ import InterviewHeader from "../components/interview/InterviewHeader";
 import InterviewProgress from "../components/InterviewProgress";
 import { ReviewManager } from "../framework/application";
 import { StorageService } from "../services/StorageService";
+import { OrganizationService } from "../services/OrganizationService";
 
 import "../styles/system-confirmation.css";
 
@@ -17,7 +18,20 @@ const reviewManager = new ReviewManager();
 
 export default function Review() {
     const navigate = useNavigate();
-    const session = StorageService.loadInterview();
+
+    // This page isn't currently reachable from any route, but is
+    // kept compiling: it now needs an Organization + System pair
+    // (see OrganizationService / item 6) rather than one single
+    // global saved session, so it falls back to the selected
+    // Organization's first saved System, if any.
+    const organizationId = OrganizationService.getSelected();
+    const [firstSystemNumber] = organizationId
+        ? OrganizationService.listSystemNumbers(organizationId)
+        : [];
+    const session =
+        organizationId && firstSystemNumber !== undefined
+            ? StorageService.loadInterview(organizationId, firstSystemNumber)
+            : null;
 
     const [exportStep, setExportStep] = useState<ExportStep>("none");
     const [capabilityChoice, setCapabilityChoice] = useState<CapabilityChoice>("original");

@@ -1,5 +1,5 @@
 import { InterviewSession } from "../interview";
-import { buildExportContent, ExportContent } from "./ExportContentBuilder.ts";
+import { buildExportContent, ExportContent, ExportSectionContent } from "./ExportContentBuilder.ts";
 import { ExportBlock } from "./AnswerUtils.ts";
 
 function escapeHtml(value: string): string {
@@ -172,10 +172,11 @@ export class PdfExporter {
 
     public exportPdf(
         session: InterviewSession,
-        capabilityLabel: string
+        capabilityLabel: string,
+        contentOverride?: ExportContent
     ): void {
 
-        const content = buildExportContent(session, capabilityLabel);
+        const content = contentOverride ?? buildExportContent(session, capabilityLabel);
         const html = this.buildHtml(content);
 
         const iframe = document.createElement("iframe");
@@ -222,15 +223,36 @@ export class PdfExporter {
 
     private buildHtml(content: ExportContent): string {
 
-        const sectionsHtml = content.sections.map(section => {
+        const renderSectionHtml = (section: ExportSectionContent, headingTag: "h2" | "h3"): string => {
 
             const bodyHtml = section.blocks.length > 0
                 ? section.blocks.map(renderBlockHtml).join("")
                 : "<p><em>No response.</em></p>";
 
             return `
-                <h2>${escapeHtml(String(section.number))}. ${escapeHtml(section.title)}</h2>
+                <${headingTag}>${escapeHtml(String(section.number))}. ${escapeHtml(section.title)}</${headingTag}>
                 ${bodyHtml}
+            `;
+
+        };
+
+        const sectionsHtml = content.sections
+            .map(section => renderSectionHtml(section, "h2"))
+            .join("");
+
+        // Per-Product Sections (see buildMultiProductExportContent):
+        // one heading per Product, with that Product's OWN Sections
+        // all together underneath it -- Product 1's Sections in
+        // full, then Product 2's, and so on.
+        const productGroupsHtml = (content.productGroups ?? []).map(group => {
+
+            const groupSectionsHtml = group.sections
+                .map(section => renderSectionHtml(section, "h3"))
+                .join("");
+
+            return `
+                <h2 class="export-product-group-title">${escapeHtml(group.productName)}</h2>
+                ${groupSectionsHtml}
             `;
 
         }).join("");
@@ -332,6 +354,7 @@ export class PdfExporter {
                     <h1>${escapeHtml(content.systemNumber)}. ${escapeHtml(content.systemName)}</h1>
                     <div class="capability"><strong>Capability:</strong> ${escapeHtml(content.capability)}</div>
                     ${sectionsHtml}
+                    ${productGroupsHtml}
                 </body>
             </html>
         `;

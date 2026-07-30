@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import InterviewInput from "./InterviewInput.tsx";
 import DynamicTable, { TableColumn, TableRow } from "./DynamicTable.tsx";
@@ -214,6 +214,21 @@ interface AnswerRendererProps {
      */
     resolveDynamicOptions?: (sectionTitle: string, cardTitle: string) => string[];
 
+    /**
+     * When provided, this Section's Table (there is at most
+     * one Table per Section) becomes a row-picker in addition
+     * to an editable table -- each row is clickable/highlighted
+     * per `isSelected`, and a selection bullet is rendered under
+     * the "#" column. Used by the Product Development System's
+     * Product Register step so the user can pick which Product
+     * to work on directly from the table, instead of a separate
+     * picker list underneath it.
+     */
+    rowSelection?: {
+        isSelected: (row: TableRow, index: number) => boolean;
+        onSelect: (row: TableRow, index: number) => void;
+    };
+
 }
 
 /**
@@ -297,7 +312,9 @@ export default function AnswerRenderer({
 
     disabled = false,
 
-    resolveDynamicOptions
+    resolveDynamicOptions,
+
+    rowSelection
 
 }: AnswerRendererProps) {
 
@@ -381,6 +398,25 @@ export default function AnswerRenderer({
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [definition.type, definition.cards, value]);
+
+    // Built unconditionally (Table is only one of the possible Answer
+    // Structures, same reasoning as the other hooks above) and
+    // memoized so a Table Section's <DynamicTable> (see the Table
+    // case below) gets the SAME `columns` array reference across a
+    // keystroke-driven re-render, not a freshly rebuilt one every
+    // time -- letting `DynamicTable`'s own `React.memo` (see
+    // DynamicTable.tsx) actually skip re-rendering the rest of the
+    // Table when only some OTHER Section on the page changed, rather
+    // than always seeing "columns changed" and re-rendering anyway.
+    // `definition` is referentially stable for the lifetime of one
+    // Section (Conversation.tsx keys <AnswerRenderer> by Section
+    // number, so switching Sections remounts this component instead
+    // of just changing the prop), so this only recomputes when it
+    // actually needs to.
+    const tableColumns = useMemo(
+        () => toTableColumns(definition.table?.columns ?? [], resolveDynamicOptions),
+        [definition, resolveDynamicOptions]
+    );
 
     switch (definition.type) {
 
@@ -501,18 +537,13 @@ export default function AnswerRenderer({
 
         case AnswerType.Table: {
 
-            const columns = toTableColumns(
-                definition.table?.columns ?? [],
-                resolveDynamicOptions
-            );
-
             const rows: TableRow[] = Array.isArray(value) ? value as TableRow[] : [];
 
             return (
 
                 <DynamicTable
 
-                    columns={columns}
+                    columns={tableColumns}
 
                     value={rows}
 
@@ -521,6 +552,8 @@ export default function AnswerRenderer({
                     onChange={onChange}
 
                     rowNumberLabel={definition.table?.rowNumberLabel}
+
+                    rowSelection={rowSelection}
 
                 />
 

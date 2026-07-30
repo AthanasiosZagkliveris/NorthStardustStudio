@@ -2,13 +2,20 @@ import logo from "../assets/logo.png";
 
 import "../styles/app-header.css";
 
-/**
- * The app header only ever shows the logo unless
- * explicitly asked for something more -- any other
- * controls (e.g. the date format preference) live
- * where they're actually used instead.
- */
-export default function AppHeader() {
+interface AppHeaderProps {
+    /**
+     * The active Organization's name -- shown on the
+     * opposite side of the header from the logo, on every
+     * page that has one selected (System Selection,
+     * Introduction, Interview). Omitted entirely (e.g. on
+     * the Landing page, where there may be several
+     * Organizations and none is "the" one yet) the header
+     * renders exactly as before, logo only.
+     */
+    organizationName?: string;
+}
+
+export default function AppHeader({ organizationName }: AppHeaderProps) {
 
     return (
 
@@ -19,6 +26,12 @@ export default function AppHeader() {
                 alt="North Stardust Organization Framework"
                 className="app-logo"
             />
+
+            {organizationName && (
+                <h1 className="app-header-organization-name">
+                    {organizationName}
+                </h1>
+            )}
 
         </header>
 

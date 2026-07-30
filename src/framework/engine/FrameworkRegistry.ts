@@ -247,3 +247,14 @@ export class FrameworkRegistry {
     }
 
 }
+
+/**
+ * One shared `FrameworkRegistry` for the whole app, rather than
+ * every caller constructing (and separately caching) its own --
+ * `StorageService` and `InterviewManager` used to each hold a
+ * private instance, so opening a System for the very first time
+ * (parsed via one registry's cache) and then reopening it once a
+ * session existed for it (read via the other registry's cache)
+ * paid the Markdown-interpretation cost twice instead of once.
+ */
+export const frameworkRegistry = new FrameworkRegistry();

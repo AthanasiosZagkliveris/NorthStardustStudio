@@ -1,4 +1,4 @@
-import { FrameworkRegistry } from "../engine/FrameworkRegistry";
+import { frameworkRegistry } from "../engine/FrameworkRegistry";
 
 import { InterviewSession } from "../interview/InterviewSession";
 
@@ -8,8 +8,11 @@ import { InterviewSession } from "../interview/InterviewSession";
  */
 export class InterviewManager {
 
+    // Shared with StorageService (see FrameworkRegistry.ts) so a
+    // System is parsed at most once per app session, however it's
+    // first opened.
     private readonly registry =
-        new FrameworkRegistry();
+        frameworkRegistry;
 
     /**
      * Creates a new Interview Session.

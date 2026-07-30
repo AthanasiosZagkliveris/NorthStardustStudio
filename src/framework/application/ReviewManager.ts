@@ -5,6 +5,7 @@ import { ValidationResult } from "../model";
 import { InterviewValidator } from "../engine/InterviewValidator";
 import { MarkdownExporter } from "../engine/MarkdownExporter";
 import { PdfExporter } from "../engine/PdfExporter";
+import { ExportContent } from "../engine/ExportContentBuilder.ts";
 
 /**
  * Application entry point for
@@ -51,15 +52,20 @@ export class ReviewManager {
     /**
      * Converts an Interview Session
      * into Markdown.
+     *
+     * `contentOverride` is passed straight through to the
+     * exporter -- see MarkdownExporter.toMarkdown.
      */
     public toMarkdown(
         session: InterviewSession,
-        capabilityLabel: string
+        capabilityLabel: string,
+        contentOverride?: ExportContent
     ): string {
 
         return this.exporter.toMarkdown(
             session,
-            capabilityLabel
+            capabilityLabel,
+            contentOverride
         );
 
     }
@@ -70,20 +76,32 @@ export class ReviewManager {
      */
     public exportMarkdown(
         session: InterviewSession,
-        capabilityLabel: string
+        capabilityLabel: string,
+        contentOverride?: ExportContent
     ): void {
 
         const markdown =
             this.toMarkdown(
                 session,
-                capabilityLabel
+                capabilityLabel,
+                contentOverride
             );
 
         const framework =
             session.getFramework();
 
+        // Prefer the (possibly Product-specific, see
+        // ExportContentBuilder.buildSingleProductExportContent)
+        // name baked into the override over the System's own bare
+        // name, so exporting "this Product only" twice for two
+        // different Products doesn't silently overwrite the same
+        // downloaded filename.
+        const filenameSource =
+            contentOverride?.systemName ??
+            framework.metadata.systemName;
+
         const filename =
-            framework.metadata.systemName
+            filenameSource
                 .replace(/\s+/g, "-")
                 .toLowerCase() + ".md";
 
@@ -140,12 +158,14 @@ export class ReviewManager {
      */
     public exportPdf(
         session: InterviewSession,
-        capabilityLabel: string
+        capabilityLabel: string,
+        contentOverride?: ExportContent
     ): void {
 
         this.pdfExporter.exportPdf(
             session,
-            capabilityLabel
+            capabilityLabel,
+            contentOverride
         );
 
     }

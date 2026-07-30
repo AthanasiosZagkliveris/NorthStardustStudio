@@ -44,3 +44,22 @@
     pointer-events: none;
 
 }
+
+/* The active Organization's name, on the opposite side of
+   the header from the logo (item: "on the Header, on the
+   right side, the other side of the logo"). margin-left:auto
+   pushes it to the far right within the header's flex row. */
+.app-header-organization-name {
+
+    margin: 0 0 0 auto;
+
+    font-size: 1.5rem;
+    font-weight: 700;
+
+    color: #111827;
+
+    text-align: right;
+
+    white-space: nowrap;
+
+}
