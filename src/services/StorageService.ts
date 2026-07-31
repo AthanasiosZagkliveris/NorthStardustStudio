@@ -4,10 +4,19 @@ import { frameworkRegistry } from "../framework/engine/FrameworkRegistry";
 import { systems } from "../data/systems";
 import { OrganizationService } from "./OrganizationService";
 import {
+    OperationalLogRowValue,
     ProcessRecordValue,
     ProcessSopValue,
+    ProcessStepValue,
+    RolesResponsibilitiesAnswerValue,
     createBlankProcess,
-    createBlankProcessSop
+    createBlankProcessSop,
+    createOperationalLogRowKey,
+    createProcessKey,
+    createProcessSopKey,
+    createProcessStepKey,
+    seedProcessSnapshots,
+    sortOperationalLogRows
 } from "../framework/engine/AnswerUtils.ts";
 
 export class StorageService {
@@ -102,7 +111,9 @@ export class StorageService {
             const restoredState = raw as Parameters<typeof InterviewSession.fromJSON>[0];
 
             const migratedState = system.number === this.OPERATIONS_SYSTEM_NUMBER
-                ? this.migrateLegacyOperationsData(restoredState)
+                ? this.normalizeOperationsSectionsForCurrentSchema(
+                    this.migrateLegacyOperationsData(restoredState)
+                )
                 : restoredState;
 
             const session = InterviewSession.fromJSON(
@@ -222,9 +233,11 @@ export class StorageService {
 
             const sops: ProcessSopValue[] = matchedSops.length > 0
                 ? matchedSops.map(oldSop => ({
+                    key: createProcessSopKey(),
                     name: asText(oldSop["sop-name"]),
                     purpose: "",
                     steps: [{
+                        key: createProcessStepKey(),
                         action: asText(oldSop["instructions"]),
                         done: false
                     }]
@@ -232,6 +245,7 @@ export class StorageService {
                 : [createBlankProcessSop()];
 
             return {
+                key: createProcessKey(),
                 name: processName,
                 purpose: asText(oldProcess["purpose"]),
                 who: "",
@@ -268,6 +282,202 @@ export class StorageService {
         return {
             ...state,
             responses: migratedResponses
+        };
+
+    }
+
+    /**
+     * Brings an Operations System session's Sections 2-4 into the
+     * CURRENT schema, unconditionally, on every load -- unlike
+     * migrateLegacyOperationsData above (which only ever fires once,
+     * on a session from before the 5-Section-to-4-Section rebuild),
+     * this always runs, because it's fixing up field-level shape
+     * drift rather than a one-time structural rebuild:
+     *
+     * - Every Process (Section 2) gets a stable `key` backfilled if
+     *   it's missing one (any session saved before that field
+     *   existed), and likewise every SOP's and every Step's own
+     *   `key` -- Operational Log now diffs a Process against its own
+     *   `lastLoggedSnapshot` by matching SOPs/Steps BY these keys
+     *   (see diffProcessAgainstSnapshot), so they all have to exist
+     *   before a Process can be through that cycle even once. Once
+     *   every key is in place, `seedProcessSnapshots` silently
+     *   captures a baseline `lastLoggedSnapshot` for any Process that
+     *   doesn't have one yet -- WITHOUT generating a Log entry (see
+     *   its own doc comment) -- so a session's pre-existing Processes
+     *   never all look "newly added" the moment the user next leaves
+     *   Process Library.
+     * - Every Operational Log entry (Section 3) is reshaped into the
+     *   current OperationalLogRowValue fields: `key`/`date`/
+     *   `processKey`/`ownerOfChange`/`description` are kept as-is
+     *   (an entry generated under the OLD manual-entry shape keeps
+     *   its own original Description text rather than having it
+     *   retroactively regenerated -- there's nothing to diff against
+     *   for an edit that already happened before this rebuild). The
+     *   OLD `type` field is dropped outright (that categorization is
+     *   now folded directly into auto-generated Description text
+     *   going forward -- see formatProcessChangeDescription). The OLD
+     *   `outcome` field becomes the new `notes` field (a straight
+     *   rename, per the user's own request), with any OLD `reason`
+     *   text prepended onto it (labeled, so it isn't silently merged
+     *   in unmarked) rather than discarded outright, since Reason no
+     *   longer has a column of its own but was still user-authored
+     *   content. Then re-sorted chronologically, since that's still
+     *   a standing invariant.
+     * - Roles & Responsibilities (Section 4) is reset to an empty
+     *   Notes map if it isn't already in that shape -- unlike the
+     *   Log, its old content (free-text Activity / Responsible
+     *   Person or Team rows) has no reliable mapping onto "Notes
+     *   keyed by Process", so this always starts fresh rather than
+     *   guessing wrong. (Owner/Responsibility themselves were never
+     *   independently-authored data to begin with -- the whole
+     *   point of this rebuild is that they're derived from Process
+     *   Library.)
+     *
+     * Idempotent either way: a session already fully on the current
+     * schema is unaffected (every Process/SOP/Step already has a
+     * `key`, every Process already has a `lastLoggedSnapshot`, every
+     * Log row is already in the current shape, and re-sorting/
+     * re-shaping already-correct data is a no-op).
+     */
+    private static normalizeOperationsSectionsForCurrentSchema(
+        state: Parameters<typeof InterviewSession.fromJSON>[0]
+    ): Parameters<typeof InterviewSession.fromJSON>[0] {
+
+        const responses: SectionResponse[] = state.responses ?? [];
+
+        const findResponse = (sectionNumber: number) =>
+            responses.find(response => response.sectionNumber === sectionNumber);
+
+        const asRowArray = (value: unknown): Array<Record<string, unknown>> =>
+            Array.isArray(value)
+                ? value.filter(
+                    (row): row is Record<string, unknown> =>
+                        !!row && typeof row === "object"
+                )
+                : [];
+
+        const asText = (value: unknown): string =>
+            typeof value === "string" ? value : "";
+
+        // Section 2: backfill any missing Process/SOP/Step `key`,
+        // then seed `lastLoggedSnapshot` for any Process still
+        // missing one (silently -- no Log entries generated here).
+        const rawProcesses = asRowArray(findResponse(2)?.value) as unknown as ProcessRecordValue[];
+
+        const keyedProcesses: ProcessRecordValue[] = rawProcesses.map(process => {
+
+            const sops = (Array.isArray(process.sops) ? process.sops : []).map(sop => {
+
+                const steps = (Array.isArray(sop.steps) ? sop.steps : []).map(step => ({
+
+                    ...step,
+
+                    key: typeof step.key === "string" && step.key.trim().length > 0
+                        ? step.key
+                        : createProcessStepKey()
+
+                } as ProcessStepValue));
+
+                return {
+
+                    ...sop,
+
+                    key: typeof sop.key === "string" && sop.key.trim().length > 0
+                        ? sop.key
+                        : createProcessSopKey(),
+
+                    steps
+
+                } as ProcessSopValue;
+
+            });
+
+            return {
+
+                ...process,
+
+                key: typeof process.key === "string" && process.key.trim().length > 0
+                    ? process.key
+                    : createProcessKey(),
+
+                sops
+
+            } as ProcessRecordValue;
+
+        });
+
+        const normalizedProcesses: ProcessRecordValue[] = seedProcessSnapshots(keyedProcesses);
+
+        // Section 3: reshape every entry into the current
+        // OperationalLogRowValue fields, then re-sort.
+        const rawLogRows = asRowArray(findResponse(3)?.value);
+
+        const normalizedLogRows: OperationalLogRowValue[] = sortOperationalLogRows(
+            rawLogRows.map(row => {
+
+                // The OLD `outcome` field becomes `notes` outright
+                // (a rename); OLD `reason` text, which no longer has
+                // a column of its own, is prepended onto it labeled
+                // rather than silently dropped.
+                const legacyReason = asText(row.reason).trim();
+                const legacyOutcome = asText(row.outcome).trim();
+
+                const notes = typeof row.notes === "string"
+                    ? row.notes
+                    : [
+                        legacyReason.length > 0 ? `Reason: ${legacyReason}` : "",
+                        legacyOutcome
+                    ].filter(part => part.length > 0).join("\n");
+
+                return {
+
+                    key: typeof row.key === "string" && row.key.trim().length > 0
+                        ? row.key
+                        : createOperationalLogRowKey(),
+
+                    date: asText(row.date),
+
+                    processKey: asText(row.processKey),
+
+                    ownerOfChange: asText(row.ownerOfChange),
+
+                    description: asText(row.description),
+
+                    notes
+
+                };
+
+            })
+        );
+
+        // Section 4: reset to an empty Notes map unless it's
+        // already a plain object (not an array) -- see this
+        // method's own doc comment for why old free-text content
+        // isn't carried forward.
+        const rawRoles = findResponse(4)?.value;
+
+        const normalizedRoles: RolesResponsibilitiesAnswerValue =
+            rawRoles && typeof rawRoles === "object" && !Array.isArray(rawRoles)
+                ? rawRoles as RolesResponsibilitiesAnswerValue
+                : {};
+
+        const normalizedResponses: SectionResponse[] = responses.filter(
+            response => ![2, 3, 4].includes(response.sectionNumber)
+        );
+
+        normalizedResponses.push({
+            sectionNumber: 2,
+            value: normalizedProcesses.length > 0 ? normalizedProcesses : [createBlankProcess()]
+        });
+
+        normalizedResponses.push({ sectionNumber: 3, value: normalizedLogRows });
+
+        normalizedResponses.push({ sectionNumber: 4, value: normalizedRoles });
+
+        return {
+            ...state,
+            responses: normalizedResponses
         };
 
     }

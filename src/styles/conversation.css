@@ -1,22 +1,3 @@
-.conversation-header{
-    margin-bottom:30px;
-}
-
-.conversation-progress{
-
-    width:100%;
-    height:8px;
-
-    background:#e2e2e2;
-
-    border-radius:10px;
-
-    overflow:hidden;
-
-    margin-bottom:24px;
-
-}
-
 .interview-progress{
 
     width:100%;
@@ -32,7 +13,6 @@
 
 }
 
-.conversation-progress-bar,
 .interview-progress-bar{
 
     height:100%;
@@ -73,31 +53,10 @@ textarea:focus{
 
 }
 
-.conversation-buttons{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    margin-top:30px;
-
-}
-
-.conversation-buttons button{
-
-    min-width:120px;
-
-    padding:12px 24px;
-
-    cursor:pointer;
-
-}
-
 /* ==========================================================
    Dividers
 ========================================================== */
 
-.answer-divider,
 .interview-divider{
 
     height:2px;
@@ -365,14 +324,6 @@ textarea:focus{
 /* ==========================================================
    Dynamic Table
 ========================================================== */
-
-.answer-variant-title{
-
-    font-weight:600;
-
-    margin-bottom:8px;
-
-}
 
 /* ==========================================================
    Fixed Variant Text -- Cards
@@ -1395,14 +1346,6 @@ textarea:focus{
 
 }
 
-.answer-checklist-empty{
-
-    color:#5f6368;
-
-    font-style:italic;
-
-}
-
 .answer-checklist-row{
 
     display:flex;
@@ -1410,67 +1353,6 @@ textarea:focus{
     align-items:center;
 
     gap:12px;
-
-}
-
-.answer-checklist-move{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:3px;
-
-    flex-shrink:0;
-
-}
-
-.answer-checklist-move-up,
-.answer-checklist-move-down{
-
-    display:inline-flex;
-
-    align-items:center;
-    justify-content:center;
-
-    width:20px;
-    height:18px;
-
-    flex-shrink:0;
-
-    border:1px solid #d6d6d6;
-    border-radius:4px;
-
-    background:#ffffff;
-
-    color:#5f6368;
-
-    font-size:9px;
-    line-height:1;
-
-    cursor:pointer;
-
-    transition:background-color .15s ease, border-color .15s ease, color .15s ease, opacity .15s ease;
-
-}
-
-.answer-checklist-move-up:hover:not(:disabled),
-.answer-checklist-move-down:hover:not(:disabled){
-
-    background:#eef4ff;
-
-    border-color:#0b57d0;
-
-    color:#0b57d0;
-
-}
-
-.answer-checklist-move-up:disabled,
-.answer-checklist-move-down:disabled{
-
-    opacity:.35;
-
-    cursor:not-allowed;
 
 }
 
@@ -1513,101 +1395,9 @@ textarea:focus{
 
 }
 
-.answer-checklist-remove{
-
-    width:32px;
-    height:32px;
-
-    flex-shrink:0;
-
-    border:1px solid #d6d6d6;
-    border-radius:6px;
-
-    background:#ffffff;
-
-    color:#111827;
-
-    font-size:16px;
-    line-height:1;
-
-    cursor:pointer;
-
-    transition:background-color .2s ease, border-color .2s ease, color .2s ease;
-
-}
-
-.answer-checklist-remove:hover{
-
-    background:#fdecea;
-
-    border-color:#b00020;
-
-    color:#b00020;
-
-}
-
-.answer-checklist-add{
-
-    align-self:flex-start;
-
-    height:40px;
-
-    padding:0 18px;
-
-    border:1px solid #d6d6d6;
-    border-radius:8px;
-
-    background:#ffffff;
-
-    color:#111827;
-
-    font-weight:500;
-
-    cursor:pointer;
-
-    transition:background-color .2s ease, border-color .2s ease, color .2s ease;
-
-}
-
-.answer-checklist-add:hover{
-
-    background:#eef4ff;
-
-    border-color:#0b57d0;
-
-    color:#0b57d0;
-
-    font-weight:700;
-
-}
-
-.validation-issue-list{
-
-    margin-top:15px;
-
-    padding-left:20px;
-
-}
-
-.validation-issue-list li{
-
-    margin-bottom:8px;
-
-}
-
 /* ==========================================================
    Export Warning / Options
 ========================================================== */
-
-.confirmation-warning-text{
-
-    color:#b00020;
-
-    font-weight:700;
-
-    text-align:center;
-
-}
 
 .confirmation-warning-list{
 
@@ -2421,75 +2211,6 @@ textarea:focus{
 
 }
 
-/* "Last reviewed" lives inside the expanded card (not a top-level
-   table column -- see the .process-library-card-heading comment
-   history) so it gets its own small label+field row above the
-   Steps/SOPs heading, rather than a table column's fixed width. */
-.process-library-card-meta{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    margin:0 0 14px;
-
-}
-
-.process-library-card-meta-label{
-
-    font-size:13px;
-    font-weight:600;
-
-    color:#555b66;
-
-}
-
-.process-library-remove-button{
-
-    display:inline-flex;
-
-    align-items:center;
-    justify-content:center;
-
-    width:26px;
-    height:26px;
-
-    flex-shrink:0;
-
-    border:none;
-    border-radius:50%;
-
-    background:#c0392b;
-
-    color:#ffffff;
-
-    font-size:16px;
-    font-weight:700;
-    line-height:1;
-
-    cursor:pointer;
-
-    transition:filter .15s ease, opacity .15s ease;
-
-}
-
-.process-library-remove-button:hover:not(:disabled){
-
-    filter:brightness(1.1);
-
-}
-
-.process-library-remove-button:disabled{
-
-    background:#e0a29a;
-
-    cursor:not-allowed;
-
-}
-
-.process-library-add-process,
 .process-library-add-link{
 
     display:inline-flex;
@@ -2517,14 +2238,12 @@ textarea:focus{
 
 }
 
-.process-library-add-process:hover:not(:disabled),
 .process-library-add-link:hover:not(:disabled){
 
     background:#eafaf1;
 
 }
 
-.process-library-add-process:disabled,
 .process-library-add-link:disabled{
 
     opacity:.45;
@@ -2536,6 +2255,379 @@ textarea:focus{
 .process-library-add-sop-link{
 
     margin-top:10px;
+
+}
+
+/* ==========================================================
+   Operational Log (Operations System, Section 3) -- a bespoke
+   editor (see OperationalLogEditor.tsx), styled to match the
+   generic `.dynamic-table-scroll` look (border/padding/font on
+   `.interview-input`, same row-action circles) rather than the
+   Process Library's own look, since this is a flat one-row-per-
+   entry table much closer in shape to DynamicTable's own tables.
+========================================================== */
+
+.operational-log{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+/* Whole-Section empty state -- shown instead of the filters/table
+   entirely when there are no Log entries yet at all (as opposed to
+   `.operational-log-empty-filtered`, a single row shown INSIDE the
+   table when a filter matches nothing). */
+.operational-log-empty{
+
+    color:#5f6368;
+    font-style:italic;
+
+}
+
+.operational-log-filters{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:flex-end;
+
+    gap:14px;
+
+}
+
+.operational-log-filter{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:4px;
+
+}
+
+.operational-log-filter-label{
+
+    font-size:12px;
+    font-weight:600;
+
+    color:#5f6368;
+
+}
+
+.operational-log-filter .interview-input{
+
+    min-width:200px;
+
+}
+
+.operational-log-clear-filters{
+
+    border:1px solid #d6d6d6;
+    border-radius:6px;
+
+    background:#ffffff;
+
+    color:#5f6368;
+
+    font:inherit;
+    font-size:13px;
+    font-weight:600;
+
+    padding:8px 12px;
+
+    height:38px;
+
+    cursor:pointer;
+
+    transition:background-color .15s ease, border-color .15s ease, color .15s ease;
+
+}
+
+.operational-log-clear-filters:hover{
+
+    background:#eef4ff;
+
+    border-color:#0b57d0;
+
+    color:#0b57d0;
+
+}
+
+.operational-log-scroll{
+
+    overflow-x:auto;
+
+}
+
+.operational-log-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-bottom:0;
+
+}
+
+.operational-log-table th,
+.operational-log-table td{
+
+    border:1px solid #d9d9d9;
+
+    padding:10px;
+
+    text-align:left;
+
+    vertical-align:top;
+
+    overflow-wrap:anywhere;
+
+}
+
+.operational-log-table th{
+
+    background:#f5f7fb;
+
+    font-weight:600;
+
+    white-space:nowrap;
+
+}
+
+/* Same base look as `.dynamic-table-scroll .interview-input` /
+   `.process-library .interview-input` (see those rules above) --
+   redeclared here since this editor lives outside both of those
+   scopes. */
+.operational-log-table .interview-input,
+.operational-log-filters .interview-input{
+
+    display:block;
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    padding:8px 10px;
+
+    font:inherit;
+    font-size:15px;
+    line-height:1.5;
+
+    border:1px solid #d6d6d6;
+    border-radius:6px;
+
+    background:#ffffff;
+
+}
+
+.operational-log-table .interview-input:focus,
+.operational-log-filters .interview-input:focus{
+
+    outline:none;
+
+    border-color:#0b57d0;
+
+}
+
+.operational-log-table select.interview-input,
+.operational-log-filters select.interview-input{
+
+    cursor:pointer;
+
+}
+
+.operational-log-autogrow-field{
+
+    resize:none;
+    overflow:hidden;
+
+    min-height:38px;
+
+}
+
+.operational-log-col-date{
+
+    width:1%;
+
+    white-space:nowrap;
+
+}
+
+.operational-log-col-process,
+.operational-log-col-owner{
+
+    width:180px;
+    min-width:180px;
+
+}
+
+/* Date/Process ID/Owner of Change are all read-only text now --
+   auto-written by generateOperationalLogEntriesFromProcessLibrary,
+   never typed here (see OperationalLogEditor.tsx's own doc
+   comment). A quieter background is what actually reads as
+   "display value", distinguishing these from the one editable
+   column (Notes). */
+.operational-log-col-readonly{
+
+    background:#fafafa;
+
+    color:#3c4043;
+
+}
+
+/* The auto-generated Description text is deliberately multi-line
+   (one "Updates:"/"Addition:"/"Removal:" section per change kind,
+   one line per change -- see formatProcessChangeDescription) --
+   `white-space:pre-wrap` is what actually preserves those line
+   breaks when rendered as plain text instead of collapsing them
+   the way normal HTML text flow would. */
+.operational-log-description{
+
+    white-space:pre-wrap;
+
+}
+
+.operational-log-empty-filtered{
+
+    text-align:center;
+
+    color:#5f6368;
+
+    font-style:italic;
+
+}
+
+/* ==========================================================
+   Roles & Responsibilities (Operations System, Section 4) --
+   a read-only "collector" derived entirely from the Process
+   Library (see RolesResponsibilitiesEditor.tsx and
+   groupRolesResponsibilities in AnswerUtils.ts): the only
+   editable field in this whole table is a per-Responsibility
+   Note, so unlike Operational Log/DynamicTable this reuses the
+   Process Library's own quieter look rather than the row-
+   action-heavy DynamicTable look, since there are no row
+   actions here at all.
+========================================================== */
+
+.roles-responsibilities-empty{
+
+    color:#5f6368;
+    font-style:italic;
+
+}
+
+.roles-responsibilities-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-bottom:12px;
+
+}
+
+.roles-responsibilities-table th,
+.roles-responsibilities-table td{
+
+    border:1px solid #d9d9d9;
+
+    padding:10px;
+
+    text-align:left;
+
+    vertical-align:top;
+
+    overflow-wrap:anywhere;
+
+}
+
+.roles-responsibilities-table th{
+
+    background:#f5f7fb;
+
+    font-weight:600;
+
+    white-space:nowrap;
+
+}
+
+/* The Owner cell spans every Responsibility row in its group
+   (see the JSX's `rowSpan`) -- vertically centering its text
+   against that taller merged cell, instead of pinning it to
+   the top like a normal single-row cell, is what actually
+   reads as "one Owner, grouping several Responsibility rows"
+   rather than looking like a mis-aligned label. */
+.roles-responsibilities-col-owner{
+
+    vertical-align:middle;
+
+    font-weight:600;
+
+    width:220px;
+
+}
+
+/* Sits between Owner and Responsibility -- a short, non-wrapping
+   id (e.g. "PRC-001"), so a narrow fixed width (rather than
+   Owner's/Responsibility's own flexible `width` hints) is what
+   keeps it from crowding either of its neighbors. */
+.roles-responsibilities-col-process-id{
+
+    width:110px;
+
+    white-space:nowrap;
+
+}
+
+.roles-responsibilities-col-responsibility{
+
+    width:260px;
+
+}
+
+/* Same base look as `.process-library .interview-input` (see
+   that rule above) -- redeclared here since this editor lives
+   outside that scope. */
+.roles-responsibilities-table .interview-input{
+
+    display:block;
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    padding:8px 10px;
+
+    font:inherit;
+    font-size:15px;
+    line-height:1.5;
+
+    border:1px solid #d6d6d6;
+    border-radius:6px;
+
+    background:#ffffff;
+
+}
+
+.roles-responsibilities-table .interview-input:focus{
+
+    outline:none;
+
+    border-color:#0b57d0;
+
+}
+
+.roles-responsibilities-autogrow-field{
+
+    resize:none;
+    overflow:hidden;
+
+    min-height:38px;
 
 }
 

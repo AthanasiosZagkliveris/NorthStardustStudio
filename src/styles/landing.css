@@ -15,19 +15,6 @@
     padding: 152px 4vh 4vh;
 }
 
-.landing-logo {
-
-    width: min(65vw, 900px);
-
-    height: auto;
-
-    margin-bottom: 8vh;
-
-    user-select: none;
-
-    pointer-events: none;
-}
-
 .landing-cards {
 
     display: flex;

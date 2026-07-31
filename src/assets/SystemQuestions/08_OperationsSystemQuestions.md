@@ -17,8 +17,17 @@ System Scope: Defines how everyday activities are organized, executed, and impro
 
 ## 3. Operational Log
 
-- For each log entry, record date, type, description, reason, and outcome.
+- Generated automatically from the Process Library: leaving a Process Library edit adds one entry
+  per changed Process, dated the day it was edited, cross-referencing that Process and its Owner.
+- The Description states only what actually changed -- updates, additions, or removals of a
+  Process's own fields, SOPs, or Steps.
+- Date, Process, Owner of Change, and Description can only be changed by editing the Process
+  Library itself -- only the Notes column is written here.
+- Entries are always kept in chronological order, and can be filtered by Process or by Owner.
 
 ## 4. Roles & Responsibilities
 
-- For each responsibility, record activity, responsible person or team, and notes.
+- Collected automatically from the Process Library: one group per Process Owner, listing each of
+  their Processes as a Responsibility.
+- Owner and Responsibility can only be changed by editing the Process Library itself -- only the
+  Notes column is written here.

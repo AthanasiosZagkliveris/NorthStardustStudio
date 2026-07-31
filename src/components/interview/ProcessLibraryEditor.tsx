@@ -1,7 +1,5 @@
 import { Fragment, MouseEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
-import DateCellInput from "./DateCellInput.tsx";
-
 import {
     ProcessLibraryAnswerValue,
     ProcessRecordValue,
@@ -649,23 +647,6 @@ function ProcessCard({
     const rawSops = Array.isArray(process.sops) ? process.sops : [];
     const sops = rawSops.length > 0 ? rawSops : [createBlankProcessSop()];
 
-    // Lives inside the expanded card rather than as a top-level
-    // table column -- the Process Library table is already tight
-    // against the interview page's max-width, and a 9th fixed-width
-    // column there crushes the flexible textarea columns (ID/Purpose
-    // collapse to unreadable slivers). The expanded card has no such
-    // constraint, so this is the same field, just relocated.
-    const lastReviewedField = (
-        <div className="process-library-card-meta">
-            <span className="process-library-card-meta-label">Last reviewed</span>
-            <DateCellInput
-                value={process.lastReviewed ?? ""}
-                disabled={disabled}
-                onChange={(next) => onChange({ ...process, lastReviewed: next })}
-            />
-        </div>
-    );
-
     if (sops.length <= 1) {
 
         const sop = sops[0];
@@ -674,8 +655,6 @@ function ProcessCard({
         return (
 
             <div className="process-library-card">
-
-                {lastReviewedField}
 
                 <div className="process-library-card-heading">Steps</div>
 
@@ -703,8 +682,6 @@ function ProcessCard({
     return (
 
         <div className="process-library-card">
-
-            {lastReviewedField}
 
             <div className="process-library-card-heading">SOPs</div>
 

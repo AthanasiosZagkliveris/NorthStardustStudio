@@ -142,6 +142,31 @@ export class AnswerParser {
 
         }
 
+        if (structure === "operational log") {
+
+            // Same reasoning as Process Library above -- a fixed,
+            // purpose-built field set (Date / Process ID / Owner of
+            // Change / Type / Description / Reason / Outcome) and
+            // always-chronological ordering, built into the runtime
+            // editor itself rather than declared per-System.
+            return {
+                type: AnswerType.OperationalLog
+            };
+
+        }
+
+        if (structure === "roles responsibilities") {
+
+            // Same reasoning again -- this Structure's whole point
+            // is that its content is DERIVED from a Process Library
+            // elsewhere in the same System, so there is no column/
+            // variant/card set to declare here at all.
+            return {
+                type: AnswerType.RolesResponsibilities
+            };
+
+        }
+
         throw new Error("Unknown answer structure.");
 
     }

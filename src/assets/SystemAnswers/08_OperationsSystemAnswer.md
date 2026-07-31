@@ -17,26 +17,8 @@
 
 ## 03. Operational Log
 
-**Structure:** Table
-
-**Number of Columns:** 6
-
-**Columns:**
-- Column 1: #
-- Column 2: Date
-- Column 3: Type
-- Column 4: Description
-- Column 5: Reason
-- Column 6: Outcome
+**Structure:** Operational Log
 
 ## 04. Roles & Responsibilities
 
-**Structure:** Table
-
-**Number of Columns:** 4
-
-**Columns:**
-- Column 1: #
-- Column 2: Activity
-- Column 3: Responsible Person or Team
-- Column 4: Notes
+**Structure:** Roles Responsibilities

@@ -23,9 +23,6 @@ export default function CapabilityGenerator() {
 
         if (!requestedCapability.trim()) return;
 
-        // Temporary
-        console.log("Requested Capability:", requestedCapability);
-
         // Next phase:
         // navigate("/generator/analysis");
 

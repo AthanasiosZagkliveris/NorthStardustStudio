@@ -15,8 +15,10 @@ import { AnswerType } from "../framework/enums/AnswerType";
 import {
     CardListAnswerValue,
     defaultAnswerValue,
+    generateOperationalLogEntriesFromProcessLibrary,
     isAnswerEmpty,
     isTableRowComplete,
+    OperationalLogRowValue,
     processDisplayId,
     ProcessRecordValue,
     sopDisplayId,
@@ -71,15 +73,17 @@ type OperationsExportScope = "all" | "selected-processes" | "selected-sops";
 const OPERATIONS_PROCESS_LIBRARY_SECTION = 2;
 
 /**
- * The Operations System's Roles & Responsibilities Section --
- * its "Responsible Person or Team" column feeds the Process
- * Library's own Owner field autofill suggestions (see
- * operationsRoleSuggestions below) and the "Owner required once a
- * Process has 2+ SOPs" validation rule (see
- * validateOperationsProcessOwnership).
+ * The Operations System's Operational Log and Roles &
+ * Responsibilities Sections -- both now read the Process Library
+ * (Section 2) response directly (an entry's optional Process
+ * link, and every Responsibility grouping, respectively -- see
+ * OperationalLogEditor.tsx / RolesResponsibilitiesEditor.tsx), so
+ * both Section numbers are needed when wiring that cross-Section
+ * read into export (see handleFinalExport's own sectionBlockOptions
+ * below).
  */
+const OPERATIONS_OPERATIONAL_LOG_SECTION = 3;
 const OPERATIONS_ROLES_SECTION = 4;
-const OPERATIONS_ROLES_RESPONSIBLE_COLUMN = "responsible-person-or-team";
 
 /**
  * The Business System's Product Register (Section 5) and the
@@ -510,11 +514,54 @@ export default function Conversation() {
 
     }
 
+    // The Operations System's Operational Log (Section 3) is no
+    // longer independently authored -- it's auto-written FROM
+    // Process Library (Section 2) itself, one entry per Process
+    // that actually changed since the last time the Log was
+    // updated (see generateOperationalLogEntriesFromProcessLibrary
+    // in AnswerUtils.ts). The only two ways to leave Process
+    // Library are clicking Next or Previous (session.goToSection
+    // is never called anywhere, and goToIntroduction is only ever
+    // reachable FROM Section 1) -- so this runs at the top of both
+    // handlers below, BEFORE the actual section change, comparing
+    // Process Library's current response against each Process's
+    // own lastLoggedSnapshot and appending any newly-generated Log
+    // rows. It's a no-op (same object identity in, effectively)
+    // whenever there's nothing new to log, so calling it
+    // unconditionally on every Next/Previous click while already
+    // past Process Library, or while on a different System
+    // entirely, is intentionally cheap and harmless.
+    function commitProcessLibraryChangesToOperationalLog() {
+
+        if (!session || !organizationId || system?.id !== "operations") {
+            return;
+        }
+
+        if (session.getCurrentSectionNumber() !== OPERATIONS_PROCESS_LIBRARY_SECTION) {
+            return;
+        }
+
+        const currentProcesses =
+            (session.getResponse(OPERATIONS_PROCESS_LIBRARY_SECTION) as ProcessRecordValue[] | undefined) ?? [];
+
+        const currentLogRows =
+            (session.getResponse(OPERATIONS_OPERATIONAL_LOG_SECTION) as OperationalLogRowValue[] | undefined) ?? [];
+
+        const { processes: updatedProcesses, logRows: updatedLogRows } =
+            generateOperationalLogEntriesFromProcessLibrary(currentProcesses, currentLogRows);
+
+        session.saveResponse(OPERATIONS_PROCESS_LIBRARY_SECTION, updatedProcesses);
+        session.saveResponse(OPERATIONS_OPERATIONAL_LOG_SECTION, updatedLogRows);
+
+    }
+
     function nextSection() {
 
         if (!session) {
             return;
         }
+
+        commitProcessLibraryChangesToOperationalLog();
 
         if (session.isLastSection()) {
 
@@ -565,6 +612,8 @@ export default function Conversation() {
         if (!session) {
             return;
         }
+
+        commitProcessLibraryChangesToOperationalLog();
 
         if (session.previousSection()) {
             persistAndRedraw(session);
@@ -845,55 +894,82 @@ export default function Conversation() {
                       );
 
                   })()
-                : system?.id === "operations" && operationsExportScope !== "all"
-                ? buildExportContent(
-                      session,
-                      capabilityLabel,
-                      (sectionNumber, response) => {
+                : system?.id === "operations"
+                ? (() => {
 
-                          if (sectionNumber !== OPERATIONS_PROCESS_LIBRARY_SECTION || !Array.isArray(response)) {
-                              return response;
+                      // The FULL, unfiltered Process Library, with every
+                      // Process/SOP's already-displayed ID (custom or
+                      // auto-generated from its ORIGINAL position) stamped
+                      // on -- shared by Section 2's own scope-filtered
+                      // export below AND, unfiltered, by Sections 3/4's
+                      // cross-reference (see BuildAnswerBlocksOptions.
+                      // processLibrary): an Operational Log entry or a
+                      // Roles & Responsibilities grouping should resolve
+                      // against every actual Process, regardless of which
+                      // subset the user chose to show under Section 2
+                      // itself -- choosing "Selected Processes" narrows
+                      // what Section 2 lists, it doesn't mean a Log entry
+                      // pointing at an excluded Process should go blank.
+                      const allProcessesRaw =
+                          (session.getResponse(OPERATIONS_PROCESS_LIBRARY_SECTION) as ProcessRecordValue[] | undefined) ?? [];
+
+                      const stampedAllProcesses = allProcessesRaw.map((process, processIndex) => ({
+                          ...process,
+                          id: processDisplayId(process, processIndex),
+                          sops: process.sops.map((sop, sopIndex) => ({
+                              ...sop,
+                              id: sopDisplayId(sop, processIndex, sopIndex)
+                          }))
+                      }));
+
+                      return buildExportContent(
+                          session,
+                          capabilityLabel,
+                          (sectionNumber, response) => {
+
+                              if (sectionNumber !== OPERATIONS_PROCESS_LIBRARY_SECTION || !Array.isArray(response)) {
+                                  return response;
+                              }
+
+                              if (operationsExportScope === "selected-processes") {
+                                  return stampedAllProcesses.filter((_, processIndex) => selectedProcessIndexes.has(processIndex));
+                              }
+
+                              if (operationsExportScope === "selected-sops") {
+
+                                  // Keep only the Processes with at least 1
+                                  // selected SOP, and within those, only the
+                                  // SOPs the user actually ticked.
+                                  return stampedAllProcesses
+                                      .map((process, processIndex) => ({
+                                          ...process,
+                                          sops: process.sops.filter((_sop, sopIndex) =>
+                                              selectedSopKeys.has(`${processIndex}:${sopIndex}`)
+                                          )
+                                      }))
+                                      .filter(process => process.sops.length > 0);
+
+                              }
+
+                              return stampedAllProcesses;
+
+                          },
+                          (sectionNumber) => {
+
+                              if (sectionNumber === OPERATIONS_PROCESS_LIBRARY_SECTION && operationsExportScope === "selected-sops") {
+                                  return { forceExpandProcessSops: true };
+                              }
+
+                              if (sectionNumber === OPERATIONS_OPERATIONAL_LOG_SECTION || sectionNumber === OPERATIONS_ROLES_SECTION) {
+                                  return { processLibrary: stampedAllProcesses };
+                              }
+
+                              return undefined;
+
                           }
+                      );
 
-                          const processes = response as ProcessRecordValue[];
-
-                          // Stamp each Process/SOP's already-displayed ID (custom
-                          // or auto-generated from its ORIGINAL position) onto a
-                          // shallow copy before filtering, so a Process/SOP's ID
-                          // in the export always matches what the user saw in the
-                          // editor -- it never shifts to reflect a new position
-                          // within the filtered/exported subset.
-                          const stamped = processes.map((process, processIndex) => ({
-                              ...process,
-                              id: processDisplayId(process, processIndex),
-                              sops: process.sops.map((sop, sopIndex) => ({
-                                  ...sop,
-                                  id: sopDisplayId(sop, processIndex, sopIndex)
-                              }))
-                          }));
-
-                          if (operationsExportScope === "selected-processes") {
-                              return stamped.filter((_, processIndex) => selectedProcessIndexes.has(processIndex));
-                          }
-
-                          // "selected-sops": keep only the Processes with at
-                          // least 1 selected SOP, and within those, only the
-                          // SOPs the user actually ticked.
-                          return stamped
-                              .map((process, processIndex) => ({
-                                  ...process,
-                                  sops: process.sops.filter((_sop, sopIndex) =>
-                                      selectedSopKeys.has(`${processIndex}:${sopIndex}`)
-                                  )
-                              }))
-                              .filter(process => process.sops.length > 0);
-
-                      },
-                      (sectionNumber) =>
-                          sectionNumber === OPERATIONS_PROCESS_LIBRARY_SECTION && operationsExportScope === "selected-sops"
-                              ? { forceExpandProcessSops: true }
-                              : undefined
-                  )
+                  })()
                 : undefined;
 
         if (includeMd) {
@@ -972,20 +1048,19 @@ export default function Conversation() {
 
     // Owner autofill suggestions for the Process Library (see
     // ProcessLibraryEditor's own `ownerSuggestions` prop): every
-    // distinct, already-entered "Responsible Person or Team" name
-    // from Roles & Responsibilities (Section 4), read fresh every
-    // render the same way operationsProcesses is above. Roles &
-    // Responsibilities comes AFTER Process Library in the Section
-    // order, so on a fresh Organization this is simply empty --
-    // suggestions only start appearing once the user has gone
-    // through Roles & Responsibilities at least once, same as any
-    // other "suggest what's already been typed elsewhere" field.
-    const operationsRoleSuggestions: string[] = isOperationsSystem
+    // distinct Owner name ALREADY typed on some other Process --
+    // the same Excel-style "suggest what's already been typed
+    // elsewhere in this same column" pattern DynamicTable's own
+    // "autofill" column type uses, just computed here since
+    // Process Library is a bespoke editor, not a DynamicTable.
+    // Roles & Responsibilities is no longer a source for this --
+    // that Section is now itself DERIVED from Process Library's
+    // Owner field (see RolesResponsibilitiesEditor.tsx), so
+    // sourcing suggestions from it would be circular.
+    const operationsOwnerSuggestions: string[] = isOperationsSystem
         ? Array.from(new Set(
-              (
-                  (session.getResponse(OPERATIONS_ROLES_SECTION) as TableAnswerRow[] | undefined) ?? []
-              )
-                  .map(row => String(row[OPERATIONS_ROLES_RESPONSIBLE_COLUMN] ?? "").trim())
+              operationsProcesses
+                  .map(process => process.who.trim())
                   .filter(name => name.length > 0)
           ))
         : [];
@@ -1063,7 +1138,8 @@ export default function Conversation() {
                                 onChange={handleAnswerChange}
                                 resolveDynamicOptions={resolveDynamicOptions}
                                 rowSelection={productRegisterRowSelection}
-                                ownerSuggestions={operationsRoleSuggestions}
+                                ownerSuggestions={operationsOwnerSuggestions}
+                                processLibraryProcesses={operationsProcesses}
                             />
 
                             <div className="interview-nav">

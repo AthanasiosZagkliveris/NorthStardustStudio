@@ -75,6 +75,34 @@ export enum AnswerType {
      * Example: the Operations System's Process
      * Library.
      */
-    ProcessLibrary = "process-library"
+    ProcessLibrary = "process-library",
+
+    /**
+     * A log of dated entries, always kept sorted
+     * chronologically (oldest first) rather than
+     * by insertion/manual order, with an optional
+     * live reference back to a Process Library
+     * entry and a fixed set of change-type choices.
+     *
+     * Example: the Operations System's Operational
+     * Log.
+     */
+    OperationalLog = "operational-log",
+
+    /**
+     * A read-mostly view DERIVED from a Process
+     * Library elsewhere in the same System: one
+     * group per distinct Process Owner (sorted
+     * alphabetically), listing each of their
+     * Processes (in Process Library order) as a
+     * "Responsibility", with only a per-Process
+     * Notes field actually editable here. Owner and
+     * Responsibility can only change by editing the
+     * Process Library itself.
+     *
+     * Example: the Operations System's Roles &
+     * Responsibilities.
+     */
+    RolesResponsibilities = "roles-responsibilities"
 
 }

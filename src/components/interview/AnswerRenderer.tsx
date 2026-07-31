@@ -3,6 +3,8 @@ import { ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useRef, us
 import InterviewInput from "./InterviewInput.tsx";
 import DynamicTable, { TableColumn, TableRow } from "./DynamicTable.tsx";
 import ProcessLibraryEditor from "./ProcessLibraryEditor.tsx";
+import OperationalLogEditor from "./OperationalLogEditor.tsx";
+import RolesResponsibilitiesEditor from "./RolesResponsibilitiesEditor.tsx";
 
 import { AnswerDefinition, TableColumnDefinition } from "../../framework/model/index.ts";
 
@@ -11,9 +13,12 @@ import {
     CardListAnswerValue,
     CardListItemValue,
     ChecklistItemValue,
+    OperationalLogAnswerValue,
     ProcessLibraryAnswerValue,
+    ProcessRecordValue,
     ProfileCardValue,
     ProfileCardsAnswerValue,
+    RolesResponsibilitiesAnswerValue,
     isDateColumn,
     visibleTableColumns
 } from "../../framework/engine/AnswerUtils.ts";
@@ -238,6 +243,16 @@ interface AnswerRendererProps {
      */
     ownerSuggestions?: string[];
 
+    /**
+     * The SAME Operations System session's current Process
+     * Library (Section 2) response -- passed straight through to
+     * OperationalLogEditor's and RolesResponsibilitiesEditor's own
+     * `processes` prop (see their doc comments for what each does
+     * with it). Ignored by every other Answer Structure. Omitted
+     * (or empty) elsewhere.
+     */
+    processLibraryProcesses?: ProcessRecordValue[];
+
 }
 
 /**
@@ -325,7 +340,9 @@ export default function AnswerRenderer({
 
     rowSelection,
 
-    ownerSuggestions
+    ownerSuggestions,
+
+    processLibraryProcesses
 
 }: AnswerRendererProps) {
 
@@ -1278,6 +1295,44 @@ export default function AnswerRenderer({
                     onChange={onChange}
                     disabled={disabled}
                     ownerSuggestions={ownerSuggestions}
+                />
+
+            );
+
+        }
+
+        case AnswerType.OperationalLog: {
+
+            const rows: OperationalLogAnswerValue =
+                Array.isArray(value) ? value as OperationalLogAnswerValue : [];
+
+            return (
+
+                <OperationalLogEditor
+                    value={rows}
+                    onChange={onChange}
+                    disabled={disabled}
+                    processes={processLibraryProcesses ?? []}
+                />
+
+            );
+
+        }
+
+        case AnswerType.RolesResponsibilities: {
+
+            const notes: RolesResponsibilitiesAnswerValue =
+                value && typeof value === "object" && !Array.isArray(value)
+                    ? value as RolesResponsibilitiesAnswerValue
+                    : {};
+
+            return (
+
+                <RolesResponsibilitiesEditor
+                    value={notes}
+                    onChange={onChange}
+                    disabled={disabled}
+                    processes={processLibraryProcesses ?? []}
                 />
 
             );
