@@ -104,6 +104,71 @@ function normalizeBulletLines(text: string): string {
 }
 
 /**
+ * Keeps every numbered-list line in a block of text sequential,
+ * the way Notion/Obsidian both do live as you type -- inserting a
+ * new item in the MIDDLE of an existing "1. / 2. / 3." run (or
+ * removing one) used to leave a stale, duplicated, or gapped
+ * sequence behind (e.g. "1. / 2. / 2. / 3." after inserting a new
+ * item after "1."), which read as the whole numbered-list feature
+ * being broken. Called after every edit that could touch a
+ * numbered line -- Enter (continue or exit), and a multi-line
+ * paste -- rather than only ever bumping the ONE line that was
+ * just typed.
+ *
+ * Each contiguous run of numbered lines at the SAME indent depth
+ * is renumbered sequentially from that run's own FIRST line -- so
+ * a deliberate custom starting point (typing "5. " to begin a new
+ * run) is preserved, only what comes AFTER it is kept in step. A
+ * blank line, a non-numbered line, or a shallower indent breaks a
+ * run (starts a fresh count); a DEEPER indent is treated as its
+ * own independent nested run and left alone, exactly like a nested
+ * sub-list numbering independently of its parent in both apps.
+ * Bullet-only text is untouched (no line matches NUMBERED_LINE, so
+ * every line falls through unchanged).
+ */
+function renumberNumberedBlocks(text: string): string {
+
+    const lines = text.split("\n");
+    const nextNumberByIndent = new Map<number, number>();
+
+    for (let i = 0; i < lines.length; i++) {
+
+        const match = lines[i].match(NUMBERED_LINE);
+
+        if (!match) {
+            // Any non-numbered line (including a blank one) ends
+            // every currently-running count -- the next numbered
+            // line encountered after this, at any depth, starts a
+            // fresh run.
+            nextNumberByIndent.clear();
+            continue;
+        }
+
+        const [, indent, numberText, content] = match;
+        const indentLength = indent.length;
+
+        // A run at a DEEPER indent than this line just ended (this
+        // line dedented back out of it) -- its counter is stale,
+        // drop it so a later re-indent to that depth starts fresh
+        // rather than resuming a now-unrelated count.
+        for (const trackedIndent of [...nextNumberByIndent.keys()]) {
+            if (trackedIndent > indentLength) {
+                nextNumberByIndent.delete(trackedIndent);
+            }
+        }
+
+        const expected = nextNumberByIndent.get(indentLength) ?? parseInt(numberText, 10);
+
+        lines[i] = `${indent}${expected}. ${content}`;
+        nextNumberByIndent.set(indentLength, expected + 1);
+
+    }
+
+    return lines.join("\n");
+
+}
+
+/**
  * Adds lightweight "Markdown-style" list authoring to a controlled
  * `<textarea>`:
  *
@@ -116,20 +181,31 @@ function normalizeBulletLines(text: string): string {
  *   the start of a line is recognized as a numbered list item.
  * - Pressing Enter (or Ctrl+Enter) inside a bullet or numbered line
  *   continues the list onto the next line (repeating the bullet, or
- *   incrementing the number) -- pressing plain Enter on an EMPTY
- *   list item instead removes its marker and exits the list, rather
- *   than adding yet another empty bullet/number underneath it.
- *   Ctrl+Enter skips that "exit if empty" check and always inserts
- *   the next bullet/number, even from an empty item.
+ *   incrementing the number). A numbered list stays fully sequential
+ *   no matter WHERE the new line lands -- inserting a new item in
+ *   the middle of an existing "1. / 2. / 3." run renumbers every
+ *   item after it too (see renumberNumberedBlocks), matching Notion/
+ *   Obsidian, instead of leaving a stale/duplicated run behind.
+ * - Pressing plain Enter on an EMPTY, top-level (non-indented) list
+ *   item removes its marker and exits the list -- confirmed against
+ *   Notion's own documented behavior -- rather than adding yet
+ *   another empty bullet/number underneath it. If that empty item is
+ *   INDENTED, Enter un-indents it by one step first (same as
+ *   Shift+Tab) and only fully exits once it's back at the top level
+ *   -- Notion's own stated "give Shift+Tab a rest" behavior. Ctrl+
+ *   Enter skips both the exit and the un-indent step and always
+ *   inserts the next bullet/number immediately, even from an empty
+ *   item.
  * - Tab/Shift+Tab on a bullet or numbered line adds/removes one
  *   fixed-width indent step (TAB_INDENT_UNIT) at the start of that
  *   line -- a plain visual indent, not a tracked hierarchy: this
  *   stays true to the hook's whole design (a plain string, not a
- *   node tree), so a numbered list's numbering does NOT reset or
- *   resume per indent level, it just keeps counting straight down
- *   the lines it's typed on, indented or not. Tab on a line that
- *   ISN'T a list line is left alone, so it still moves focus to the
- *   next field as normal everywhere else in the interview.
+ *   node tree). A numbered list's OWN indent depth numbers
+ *   independently of its parent/sibling depths (see
+ *   renumberNumberedBlocks) the same way a nested sub-list does in
+ *   Notion/Obsidian. Tab on a line that ISN'T a list line is left
+ *   alone, so it still moves focus to the next field as normal
+ *   everywhere else in the interview.
  *
  * Usage: spread the returned `onChange`/`onKeyDown` onto the
  * `<textarea>` (composing with any other onKeyDown the caller
@@ -189,7 +265,11 @@ export function useListAutoFormat(
         // just one anchored right at the cursor -- otherwise a
         // pasted list (e.g. copied from another app) would silently
         // keep its raw "- " markers instead of becoming real
-        // bullets.
+        // bullets. The renumberNumberedBlocks pass runs on the whole
+        // resulting value (not just the pasted chunk), so a pasted
+        // numbered list also falls in line with whatever numbered
+        // content already surrounds it, instead of arriving with its
+        // own independent, possibly-clashing numbering.
         const prefixLength = commonPrefixLength(value, nextValue);
         const suffixLength = commonSuffixLength(value, nextValue, prefixLength);
         const insertedText = nextValue.slice(prefixLength, nextValue.length - suffixLength);
@@ -198,12 +278,14 @@ export function useListAutoFormat(
 
             const normalizedInserted = normalizeBulletLines(insertedText);
 
-            if (normalizedInserted !== insertedText) {
+            const candidateValue =
+                nextValue.slice(0, prefixLength) +
+                normalizedInserted +
+                nextValue.slice(nextValue.length - suffixLength);
 
-                const rewritten =
-                    nextValue.slice(0, prefixLength) +
-                    normalizedInserted +
-                    nextValue.slice(nextValue.length - suffixLength);
+            const rewritten = renumberNumberedBlocks(candidateValue);
+
+            if (rewritten !== nextValue) {
 
                 pendingSelection.current = cursor + (normalizedInserted.length - insertedText.length);
 
@@ -361,9 +443,30 @@ export function useListAutoFormat(
 
             if (!forceNext && content.trim().length === 0) {
 
-                // Enter on an empty bullet exits the list: strip
-                // the marker, leave the cursor on that same (now
-                // plain) line rather than starting a new one.
+                if (indent.length > 0) {
+
+                    // Notion's own documented behavior ("give
+                    // Shift+Tab a rest -- pressing return in an
+                    // empty bullet will un-indent it"): an empty
+                    // INDENTED item un-indents one step first,
+                    // keeping its marker, rather than exiting
+                    // straight away. Only a top-level empty item
+                    // exits on this same press (below).
+                    const outdentedIndent = indent.slice(0, Math.max(0, indent.length - TAB_INDENT_UNIT.length));
+                    const rewritten = value.slice(0, start) + outdentedIndent + "• " + value.slice(end);
+
+                    pendingSelection.current = start + outdentedIndent.length + 2;
+
+                    onChange(rewritten);
+
+                    return;
+
+                }
+
+                // Enter on an empty, top-level bullet exits the
+                // list: strip the marker, leave the cursor on that
+                // same (now plain) line rather than starting a new
+                // one.
                 const rewritten = value.slice(0, start) + indent + value.slice(end);
 
                 pendingSelection.current = start + indent.length;
@@ -391,7 +494,40 @@ export function useListAutoFormat(
 
             if (!forceNext && content.trim().length === 0) {
 
-                const rewritten = value.slice(0, start) + indent + value.slice(end);
+                if (indent.length > 0) {
+
+                    // Same un-indent-first step as an empty bullet
+                    // above, then renumber so this item's number
+                    // matches whatever run it just landed in at its
+                    // new, shallower depth (it may no longer be
+                    // "next" there).
+                    const outdentedIndent = indent.slice(0, Math.max(0, indent.length - TAB_INDENT_UNIT.length));
+                    const candidate = value.slice(0, start) + outdentedIndent + numberText + ". " + value.slice(end);
+                    const rewritten = renumberNumberedBlocks(candidate);
+
+                    pendingSelection.current = start + outdentedIndent.length + numberText.length + 2;
+
+                    onChange(rewritten);
+
+                    return;
+
+                }
+
+                // Enter on an empty, top-level numbered item exits
+                // the list: strip the marker, leaving this line as
+                // an ordinary blank line in place (not removed) --
+                // same as the LAST item of a run ending normally.
+                // Renumbering here mostly matters for the item ABOVE
+                // this one (its own count may need to reflect this
+                // line disappearing from the run); anything BELOW
+                // this now-blank line was already a separate run as
+                // far as numbering is concerned (a blank/non-list
+                // line always breaks a run -- see
+                // renumberNumberedBlocks), so it keeps whatever
+                // number it already had rather than being pulled
+                // down to "close a gap".
+                const candidate = value.slice(0, start) + indent + value.slice(end);
+                const rewritten = renumberNumberedBlocks(candidate);
 
                 pendingSelection.current = start + indent.length;
 
@@ -401,9 +537,17 @@ export function useListAutoFormat(
 
             }
 
+            // Insert the next number right after this line, THEN
+            // renumber the whole value -- inserting mid-list (not
+            // just at the very end) used to leave every item below
+            // this point stale/duplicated (e.g. "1. / 2. / 2. / 3."
+            // instead of "1. / 2. / 3. / 4."); renumberNumberedBlocks
+            // re-walks the whole run so it stays sequential end to
+            // end no matter where the new item lands.
             const nextNumber = parseInt(numberText, 10) + 1;
             const insertion = `\n${indent}${nextNumber}. `;
-            const rewritten = value.slice(0, cursor) + insertion + value.slice(cursor);
+            const candidate = value.slice(0, cursor) + insertion + value.slice(cursor);
+            const rewritten = renumberNumberedBlocks(candidate);
 
             pendingSelection.current = cursor + insertion.length;
 

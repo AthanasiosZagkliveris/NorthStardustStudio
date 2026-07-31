@@ -7,28 +7,24 @@ Explain why you operate the way you do, describe how work is structured across t
 Make your rules non-negotiable and specific, like "safety is the highest operational priority," not general encouragement.
 This sets the operational foundation that your Processes and SOPs will build on in more detail.
 
-## 02. Processes Help
+## 02. Process Library Help
 
-Processes records every recurring activity your organization performs regularly, at a summary level.
-For each one, name it, state its purpose, note its status (active, under review, retired), and link it to its related SOP.
-Break operations into distinct, sequential steps, like Receiving, Storage, Picking, Packing, and Dispatch, rather than one vague "fulfillment" process.
-Breaking work down this way is what makes each part easy to monitor, train for, and improve on its own.
+The Process Library records every recurring activity your organization performs regularly, and how to actually do it.
+Start with the Process itself: name it, state its purpose, note who does it, how often it happens, and its status (active, draft, retired).
+A simple Process can stay one level -- just add its Steps directly, like Receive, Inspect, Log, Shelve for a basic intake process.
+Once a Process genuinely has more than one distinct procedure -- like separate SOPs for Domestic Shipping and International Shipping under one
+"Fulfil Orders" Process -- add a second SOP and the SOP breakdown appears automatically, each with its own name, purpose, and ordered Steps.
+Break each SOP's Steps into distinct, sequential actions, like "verify shipment documentation, inspect products for damage, confirm quantities,"
+rather than one vague instruction -- specific, sequential Steps are what let the same task be performed the same way by anyone, anywhere.
 
-## 03. SOP Library Help
-
-The SOP Library holds the actual step-by-step instructions for how each process gets performed, in enough detail that someone new could follow them.
-For each SOP, name it, link it to its related process, and write out the instructions clearly and in order.
-Make instructions specific and sequential, like "verify shipment documentation, inspect products for damage, confirm quantities" — vague instructions won't produce consistent results.
-This is what lets the same task be performed the same way by anyone, anywhere.
-
-## 04. Operational Log Help
+## 03. Operational Log Help
 
 The Operational Log is a running record of important operational events — decisions, changes, improvements, and issues — as they happen.
 For each entry, record the date, its type, what happened, why it happened, and the outcome.
 Log both successes and problems honestly, like a hardware failure alongside a process improvement, rather than only recording good news.
 Keeping this current preserves the operational history that helps you avoid repeating past mistakes.
 
-## 05. Roles & Responsibilities Help
+## 04. Roles & Responsibilities Help
 
 Roles & Responsibilities makes ownership explicit for every operational activity, so nothing depends on assumption.
 For each activity, name who or which team is responsible, and add any notes about what that responsibility actually involves.

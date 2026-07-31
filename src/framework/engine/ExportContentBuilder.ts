@@ -1,5 +1,5 @@
 import { InterviewSession } from "../interview";
-import { buildAnswerBlocks, defaultAnswerValue, ExportBlock } from "./AnswerUtils.ts";
+import { buildAnswerBlocks, BuildAnswerBlocksOptions, defaultAnswerValue, ExportBlock } from "./AnswerUtils.ts";
 
 /**
  * The exportable content of a single Section:
@@ -51,22 +51,40 @@ export interface ExportContent {
  * export format. Only the System's identity, the
  * chosen Capability, and each Section's number,
  * title and answer are included.
+ *
+ * `filterSectionResponse` and `sectionBlockOptions` are both
+ * optional, per-Section hooks -- used by the Operations
+ * System's own "All Processes / Selected Processes / Selected
+ * SOPs" export scope (see Conversation.tsx) to narrow the
+ * Process Library Section's response down to just the chosen
+ * Processes/SOPs before building its blocks, and to force
+ * each surviving SOP's own heading to show even when only 1
+ * remains after filtering (see BuildAnswerBlocksOptions.
+ * forceExpandProcessSops). Every other caller simply omits
+ * them, in which case every Section exports exactly what's
+ * currently saved, unchanged.
  */
 export function buildExportContent(
     session: InterviewSession,
-    capabilityLabel: string
+    capabilityLabel: string,
+    filterSectionResponse?: (sectionNumber: number, response: unknown) => unknown,
+    sectionBlockOptions?: (sectionNumber: number) => BuildAnswerBlocksOptions | undefined
 ): ExportContent {
 
     const framework = session.getFramework();
 
     const sections: ExportSectionContent[] = framework.sections.map(section => {
 
-        const response = session.getResponse(section.number);
+        const rawResponse = session.getResponse(section.number);
+
+        const response = filterSectionResponse
+            ? filterSectionResponse(section.number, rawResponse)
+            : rawResponse;
 
         return {
             number: section.number,
             title: section.title,
-            blocks: buildAnswerBlocks(section.answer, response)
+            blocks: buildAnswerBlocks(section.answer, response, sectionBlockOptions?.(section.number))
         };
 
     });

@@ -85,6 +85,146 @@ export interface ProfileCardsAnswerValue {
 }
 
 /**
+ * A single Step within an SOP.
+ */
+export interface ProcessStepValue {
+    action: string;
+    done: boolean;
+}
+
+/**
+ * A single SOP within a Process. Always holds at least
+ * one Step (mirroring every other "always at least one
+ * row" default in this file) -- an SOP with zero Steps
+ * would read as broken rather than "not written yet".
+ *
+ * `id` is an OPTIONAL, user-editable reference tag (e.g.
+ * "SOP-01.1", or a custom scheme the user prefers, like
+ * "SHIP-DOM"). Left blank, the editor and export both fall
+ * back to the auto-generated position-based default (see
+ * sopDisplayId) -- so an ID always makes sense out of the
+ * box, but a user who wants their own naming convention
+ * (and one that survives reordering, unlike the auto
+ * default) can simply type over it.
+ */
+export interface ProcessSopValue {
+    id?: string;
+    name: string;
+    purpose: string;
+    steps: ProcessStepValue[];
+}
+
+/**
+ * A single Process. Always holds at least one SOP -- see
+ * ProcessLibraryEditor.tsx's own comments for the collapse
+ * rule this enables: a Process with exactly one SOP shows
+ * that SOP's Steps directly on the Process card, with the
+ * SOP's own Name/Purpose (and the SOPs table itself) simply
+ * not rendered, rather than the data model having a
+ * genuinely different shape for the 1-SOP case.
+ *
+ * `id` is the same optional, user-editable reference tag as
+ * ProcessSopValue.id -- see processDisplayId for the
+ * auto-generated default it falls back to when blank.
+ *
+ * `lastReviewed` is an optional ISO ("YYYY-MM-DD") date --
+ * separate from `status`, since a Process can sit at "Active"
+ * indefinitely without anyone actually re-checking it's still
+ * accurate. Blank/undefined means never recorded.
+ */
+export interface ProcessRecordValue {
+    id?: string;
+    name: string;
+    purpose: string;
+    who: string;
+    howOften: string;
+    status: string;
+    lastReviewed?: string;
+    sops: ProcessSopValue[];
+}
+
+/**
+ * A Process's display ID -- the user's own custom `id` if
+ * they've set one, otherwise the auto-generated "PRC-001"-
+ * style default computed from its current position. Shared
+ * by the live editor (ProcessLibraryEditor.tsx) and export
+ * (buildAnswerBlocks below) so the two never disagree.
+ */
+export function processDisplayId(process: ProcessRecordValue, processIndex: number): string {
+
+    const custom = process.id?.trim();
+
+    return custom && custom.length > 0
+        ? custom
+        : `PRC-${String(processIndex + 1).padStart(3, "0")}`;
+
+}
+
+/**
+ * An SOP's display ID -- the user's own custom `id` if
+ * they've set one, otherwise the auto-generated
+ * "SOP-001.2"-style default computed from its Process's and
+ * its own current position (the 2nd SOP under the 1st
+ * Process). Shared by the live editor and export, same as
+ * processDisplayId above.
+ */
+export function sopDisplayId(sop: ProcessSopValue, processIndex: number, sopIndex: number): string {
+
+    const custom = sop.id?.trim();
+
+    return custom && custom.length > 0
+        ? custom
+        : `SOP-${String(processIndex + 1).padStart(3, "0")}.${sopIndex + 1}`;
+
+}
+
+/**
+ * Runtime value shape for a Process Library answer: every
+ * Process the Organization has documented, in the order
+ * they were added.
+ */
+export type ProcessLibraryAnswerValue = ProcessRecordValue[];
+
+/**
+ * Builds a single blank Step -- the seed every new SOP
+ * starts with, and what "+ Add Step" appends.
+ */
+export function createBlankProcessStep(): ProcessStepValue {
+
+    return { action: "", done: false };
+
+}
+
+/**
+ * Builds a single blank SOP, seeded with one blank Step --
+ * the seed every new Process starts with (as its lone,
+ * initially-hidden SOP), and what "+ Add SOP" appends.
+ */
+export function createBlankProcessSop(): ProcessSopValue {
+
+    return { name: "", purpose: "", steps: [createBlankProcessStep()] };
+
+}
+
+/**
+ * Builds a single blank Process, seeded with one blank SOP
+ * -- what "+ Add Process" appends, and what a fresh Process
+ * Library Section starts with (see defaultAnswerValue).
+ */
+export function createBlankProcess(): ProcessRecordValue {
+
+    return {
+        name: "",
+        purpose: "",
+        who: "",
+        howOften: "",
+        status: "",
+        sops: [createBlankProcessSop()]
+    };
+
+}
+
+/**
  * Determines whether a single table cell has been
  * filled in, aware of the multi-entry ("list") cell
  * shape (an array of strings) as well as plain
@@ -138,6 +278,7 @@ export function defaultAnswerValue(answer: AnswerDefinition): unknown {
     switch (answer.type) {
 
         case AnswerType.FixedVariantText:
+        case AnswerType.TLayoutText:
             return {};
 
         case AnswerType.Table: {
@@ -208,6 +349,15 @@ export function defaultAnswerValue(answer: AnswerDefinition): unknown {
 
         }
 
+        case AnswerType.ProcessLibrary:
+
+            // One blank Process (itself seeded with one blank,
+            // initially-hidden SOP holding one blank Step) -- an
+            // empty Process Library with only an "Add Process"
+            // button reads as broken, matching every other
+            // "always at least one row/item" default above.
+            return [createBlankProcess()];
+
         case AnswerType.FreeText:
         default:
             return "";
@@ -228,7 +378,8 @@ export function isAnswerEmpty(answer: AnswerDefinition, value: unknown): boolean
         case AnswerType.FreeText:
             return typeof value !== "string" || value.trim().length === 0;
 
-        case AnswerType.FixedVariantText: {
+        case AnswerType.FixedVariantText:
+        case AnswerType.TLayoutText: {
 
             if (!value || typeof value !== "object" || Array.isArray(value)) {
                 return true;
@@ -315,6 +466,28 @@ export function isAnswerEmpty(answer: AnswerDefinition, value: unknown): boolean
 
         }
 
+        case AnswerType.ProcessLibrary: {
+
+            // Complete once at least one Process has a name --
+            // the same "at least one populated entry" bar as
+            // Checklist/CardList above, rather than Table's
+            // strict "every row, every column" rule. A Process
+            // Library is a growing reference the user adds to
+            // over time, not a fixed-shape form, so requiring
+            // every Process to already have full SOPs/Steps
+            // filled in would be far too strict.
+            if (!Array.isArray(value)) {
+                return true;
+            }
+
+            const processes = value as ProcessRecordValue[];
+
+            return !processes.some(
+                process => typeof process.name === "string" && process.name.trim().length > 0
+            );
+
+        }
+
         default:
             return true;
 
@@ -337,6 +510,33 @@ export type ExportBlock =
     | { kind: "table"; headers: string[]; rows: string[][] }
     | { kind: "checklist"; items: { text: string; checked: boolean }[] }
     | { kind: "list"; items: { text: string; indent: number }[]; ordered?: boolean };
+
+/**
+ * Per-call rendering tweaks for buildAnswerBlocks, read only by
+ * the Answer Structures that need them (currently just Process
+ * Library) -- every other Structure ignores this parameter
+ * entirely, so it stays optional rather than growing every
+ * Structure's own signature.
+ */
+export interface BuildAnswerBlocksOptions {
+
+    /**
+     * Process Library only: normally a Process with exactly 1 SOP
+     * collapses that SOP's own heading away (see the collapse rule
+     * on ProcessLibraryEditor.tsx) and shows its Steps directly
+     * under the Process. When exporting a caller-filtered set of
+     * SOPs (e.g. the "Selected SOPs" export scope in Conversation.
+     * tsx), a Process can end up with just 1 SOP in the filtered
+     * data purely because the others were filtered OUT -- not
+     * because the Process itself only ever had 1. Collapsing that
+     * away would silently hide which specific SOP the user chose
+     * to export. Setting this to true always shows each SOP's own
+     * "SOP-01.2 · Name" heading, regardless of how many SOPs
+     * remain after filtering.
+     */
+    forceExpandProcessSops?: boolean;
+
+}
 
 /**
  * Converts a single table cell's raw value into
@@ -523,7 +723,11 @@ function toContentBlocks(text: string): ExportBlock[] {
  * Table, an empty Checklist), so callers can show a
  * "No response" placeholder consistently.
  */
-export function buildAnswerBlocks(answer: AnswerDefinition, value: unknown): ExportBlock[] {
+export function buildAnswerBlocks(
+    answer: AnswerDefinition,
+    value: unknown,
+    options?: BuildAnswerBlocksOptions
+): ExportBlock[] {
 
     switch (answer.type) {
 
@@ -535,7 +739,8 @@ export function buildAnswerBlocks(answer: AnswerDefinition, value: unknown): Exp
 
         }
 
-        case AnswerType.FixedVariantText: {
+        case AnswerType.FixedVariantText:
+        case AnswerType.TLayoutText: {
 
             const values: FixedVariantAnswerValue =
                 value && typeof value === "object" && !Array.isArray(value)
@@ -708,6 +913,159 @@ export function buildAnswerBlocks(answer: AnswerDefinition, value: unknown): Exp
                 blocks.push(...toContentBlocks(trailingText));
 
             }
+
+            return blocks;
+
+        }
+
+        case AnswerType.ProcessLibrary: {
+
+            const processes: ProcessRecordValue[] = Array.isArray(value) ? value as ProcessRecordValue[] : [];
+            const blocks: ExportBlock[] = [];
+            const forceExpandSops = options?.forceExpandProcessSops === true;
+
+            const hasStepContent = (steps: ProcessStepValue[]) =>
+                steps.some(step => typeof step.action === "string" && step.action.trim().length > 0);
+
+            // A printable checklist (real "- [ ]" Markdown syntax /
+            // an empty checkbox glyph in PDF -- see MarkdownExporter
+            // and PdfExporter's own "checklist" block rendering)
+            // rather than a plain table: the live editor no longer
+            // offers a way to tick a Step off inside the app itself
+            // (see ProcessLibraryEditor.tsx), but a printed or
+            // exported SOP is exactly the kind of document someone
+            // DOES want to physically check items off while
+            // following it. `checked` reads whatever `done` value
+            // is already stored (forward-compatible with any
+            // already-saved data), but nothing in the current editor
+            // can set it true anymore, so a fresh Step always starts
+            // unchecked here.
+            const stepsChecklistBlock = (steps: ProcessStepValue[]): ExportBlock | undefined => {
+
+                const filled = steps.filter(
+                    step => typeof step.action === "string" && step.action.trim().length > 0
+                );
+
+                if (filled.length === 0) {
+                    return undefined;
+                }
+
+                return {
+                    kind: "checklist",
+                    items: filled.map(step => ({
+                        text: step.action.trim(),
+                        checked: step.done === true
+                    }))
+                };
+
+            };
+
+            processes.forEach((process, processIndex) => {
+
+                const sops = Array.isArray(process.sops) ? process.sops : [];
+
+                const hasContent =
+                    (typeof process.name === "string" && process.name.trim().length > 0) ||
+                    (typeof process.purpose === "string" && process.purpose.trim().length > 0) ||
+                    sops.some(sop =>
+                        (typeof sop.name === "string" && sop.name.trim().length > 0) ||
+                        (typeof sop.purpose === "string" && sop.purpose.trim().length > 0) ||
+                        hasStepContent(Array.isArray(sop.steps) ? sop.steps : [])
+                    );
+
+                if (!hasContent) {
+                    return;
+                }
+
+                const processId = processDisplayId(process, processIndex);
+                const processName = typeof process.name === "string" ? process.name.trim() : "";
+
+                blocks.push({
+                    kind: "subheading",
+                    text: processName.length > 0 ? `${processId} · ${processName}` : processId
+                });
+
+                if (typeof process.purpose === "string" && process.purpose.trim().length > 0) {
+                    blocks.push(...toContentBlocks(process.purpose.trim()));
+                }
+
+                const metaParts: string[] = [];
+
+                if (typeof process.who === "string" && process.who.trim().length > 0) {
+                    metaParts.push(`Owner: ${process.who.trim()}`);
+                }
+
+                if (typeof process.howOften === "string" && process.howOften.trim().length > 0) {
+                    metaParts.push(`How often: ${process.howOften.trim()}`);
+                }
+
+                if (typeof process.status === "string" && process.status.trim().length > 0) {
+                    metaParts.push(`Status: ${process.status.trim()}`);
+                }
+
+                if (typeof process.lastReviewed === "string" && process.lastReviewed.trim().length > 0) {
+                    metaParts.push(`Last reviewed: ${process.lastReviewed.trim()}`);
+                }
+
+                if (metaParts.length > 0) {
+                    blocks.push({ kind: "paragraph", text: metaParts.join(" · ") });
+                }
+
+                // Collapse rule (see ProcessLibraryEditor.tsx): 0 or 1
+                // SOP renders that SOP's Steps directly under the
+                // Process, with no SOP-level heading of its own --
+                // UNLESS the caller explicitly asked to always show
+                // SOP headings (see forceExpandSops's own doc
+                // comment above), because a single remaining SOP
+                // here is the result of export-time filtering, not
+                // because the Process only ever had one.
+                if (sops.length <= 1 && !forceExpandSops) {
+
+                    const steps = Array.isArray(sops[0]?.steps) ? sops[0].steps : [];
+                    const checklist = stepsChecklistBlock(steps);
+
+                    if (checklist) {
+                        blocks.push(checklist);
+                    }
+
+                } else {
+
+                    sops.forEach((sop, sopIndex) => {
+
+                        const steps = Array.isArray(sop.steps) ? sop.steps : [];
+
+                        const sopHasContent =
+                            (typeof sop.name === "string" && sop.name.trim().length > 0) ||
+                            (typeof sop.purpose === "string" && sop.purpose.trim().length > 0) ||
+                            hasStepContent(steps);
+
+                        if (!sopHasContent) {
+                            return;
+                        }
+
+                        const sopId = sopDisplayId(sop, processIndex, sopIndex);
+                        const sopName = typeof sop.name === "string" ? sop.name.trim() : "";
+
+                        blocks.push({
+                            kind: "subheading",
+                            text: sopName.length > 0 ? `${sopId} · ${sopName}` : sopId
+                        });
+
+                        if (typeof sop.purpose === "string" && sop.purpose.trim().length > 0) {
+                            blocks.push(...toContentBlocks(sop.purpose.trim()));
+                        }
+
+                        const checklist = stepsChecklistBlock(steps);
+
+                        if (checklist) {
+                            blocks.push(checklist);
+                        }
+
+                    });
+
+                }
+
+            });
 
             return blocks;
 

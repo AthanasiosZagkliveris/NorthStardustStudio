@@ -2,6 +2,7 @@ import { ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useRef, us
 
 import InterviewInput from "./InterviewInput.tsx";
 import DynamicTable, { TableColumn, TableRow } from "./DynamicTable.tsx";
+import ProcessLibraryEditor from "./ProcessLibraryEditor.tsx";
 
 import { AnswerDefinition, TableColumnDefinition } from "../../framework/model/index.ts";
 
@@ -10,6 +11,7 @@ import {
     CardListAnswerValue,
     CardListItemValue,
     ChecklistItemValue,
+    ProcessLibraryAnswerValue,
     ProfileCardValue,
     ProfileCardsAnswerValue,
     isDateColumn,
@@ -229,6 +231,13 @@ interface AnswerRendererProps {
         onSelect: (row: TableRow, index: number) => void;
     };
 
+    /**
+     * Passed straight through to ProcessLibraryEditor's own
+     * `ownerSuggestions` prop (see its doc comment) -- ignored by
+     * every other Answer Structure. Omitted (or empty) elsewhere.
+     */
+    ownerSuggestions?: string[];
+
 }
 
 /**
@@ -314,7 +323,9 @@ export default function AnswerRenderer({
 
     resolveDynamicOptions,
 
-    rowSelection
+    rowSelection,
+
+    ownerSuggestions
 
 }: AnswerRendererProps) {
 
@@ -526,6 +537,115 @@ export default function AnswerRenderer({
                             />
 
                         </div>
+
+                    )}
+
+                </div>
+
+            );
+
+        }
+
+        case AnswerType.TLayoutText: {
+
+            // Same value shape as Fixed Variant Text (see
+            // AnswerType.TLayoutText's own doc comment) -- just
+            // rendered as one always-all-visible card instead of
+            // tab-switched panels. The 1st declared variant spans
+            // the top, the 2nd and 3rd sit side by side underneath
+            // it. A Section that (mis)declares a variant count other
+            // than 3 still renders sensibly: 1 variant is just the
+            // top field alone, 2 is top + a single full-width bottom
+            // field (no vertical divider, nothing to divide), and
+            // anything past the 3rd is simply not shown, since this
+            // Structure only has room for 3 -- a 4th field belongs
+            // in a Fixed Variant Text or Card List Section instead.
+            const variants = definition.variants ?? [];
+
+            const values: Record<string, string> =
+                value && typeof value === "object" && !Array.isArray(value)
+                    ? (value as Record<string, string>)
+                    : {};
+
+            const [topVariant, leftVariant, rightVariant] = variants;
+
+            function updateVariant(variantId: string, text: string) {
+                onChange({ ...values, [variantId]: text });
+            }
+
+            return (
+
+                <div className="handbook-t-card">
+
+                    {topVariant && (
+
+                        <div className="handbook-t-card-top">
+
+                            <div className="handbook-t-card-label">{topVariant.title}</div>
+
+                            <AutoGrowTextarea
+                                className="handbook-t-card-textarea handbook-t-card-textarea-top"
+                                placeholder={`Write ${topVariant.title.toLowerCase()}...`}
+                                disabled={disabled}
+                                value={values[topVariant.id] ?? ""}
+                                onChange={(next) => updateVariant(topVariant.id, next)}
+                            />
+
+                        </div>
+
+                    )}
+
+                    {(leftVariant || rightVariant) && (
+
+                        <>
+
+                            <div className="handbook-t-card-divider-horizontal" />
+
+                            <div className="handbook-t-card-bottom">
+
+                                {leftVariant && (
+
+                                    <div className="handbook-t-card-column">
+
+                                        <div className="handbook-t-card-label">{leftVariant.title}</div>
+
+                                        <AutoGrowTextarea
+                                            className="handbook-t-card-textarea"
+                                            placeholder={`Write ${leftVariant.title.toLowerCase()}...`}
+                                            disabled={disabled}
+                                            value={values[leftVariant.id] ?? ""}
+                                            onChange={(next) => updateVariant(leftVariant.id, next)}
+                                        />
+
+                                    </div>
+
+                                )}
+
+                                {leftVariant && rightVariant && (
+                                    <div className="handbook-t-card-divider-vertical" />
+                                )}
+
+                                {rightVariant && (
+
+                                    <div className="handbook-t-card-column">
+
+                                        <div className="handbook-t-card-label">{rightVariant.title}</div>
+
+                                        <AutoGrowTextarea
+                                            className="handbook-t-card-textarea"
+                                            placeholder={`Write ${rightVariant.title.toLowerCase()}...`}
+                                            disabled={disabled}
+                                            value={values[rightVariant.id] ?? ""}
+                                            onChange={(next) => updateVariant(rightVariant.id, next)}
+                                        />
+
+                                    </div>
+
+                                )}
+
+                            </div>
+
+                        </>
 
                     )}
 
@@ -1141,6 +1261,24 @@ export default function AnswerRenderer({
                     )}
 
                 </div>
+
+            );
+
+        }
+
+        case AnswerType.ProcessLibrary: {
+
+            const processes: ProcessLibraryAnswerValue =
+                Array.isArray(value) ? value as ProcessLibraryAnswerValue : [];
+
+            return (
+
+                <ProcessLibraryEditor
+                    value={processes}
+                    onChange={onChange}
+                    disabled={disabled}
+                    ownerSuggestions={ownerSuggestions}
+                />
 
             );
 

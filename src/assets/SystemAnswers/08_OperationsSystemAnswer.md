@@ -2,7 +2,7 @@
 
 ## 01. Handbook
 
-**Structure:** Fixed Variant Text
+**Structure:** T-Layout Text
 
 **Number of Variants:** 3
 
@@ -11,32 +11,11 @@
 - Variant 2: Operational Structure
 - Variant 3: Key Rules
 
-## 02. Processes
+## 02. Process Library
 
-**Structure:** Table
+**Structure:** Process Library
 
-**Number of Columns:** 5
-
-**Columns:**
-- Column 1: #
-- Column 2: Process Name
-- Column 3: Purpose
-- Column 4: Related SOP
-- Column 5: Status - Status Field
-
-## 03. SOP Library
-
-**Structure:** Table
-
-**Number of Columns:** 4
-
-**Columns:**
-- Column 1: #
-- Column 2: SOP Name
-- Column 3: Related Process
-- Column 4: Instructions
-
-## 04. Operational Log
+## 03. Operational Log
 
 **Structure:** Table
 
@@ -50,7 +29,7 @@
 - Column 5: Reason
 - Column 6: Outcome
 
-## 05. Roles & Responsibilities
+## 04. Roles & Responsibilities
 
 **Structure:** Table
 

@@ -46,6 +46,23 @@ export class AnswerParser {
 
         }
 
+        if (structure === "t-layout text") {
+
+            // Same "Number of Variants:" / "Variant N: Title" markup
+            // as Fixed Variant Text -- see AnswerType.TLayoutText's
+            // own doc comment for why this reuses that parsing and
+            // value shape wholesale rather than declaring a separate
+            // one.
+            return {
+
+                type: AnswerType.TLayoutText,
+
+                variants: this.parseVariants(markdown)
+
+            };
+
+        }
+
         if (structure === "table") {
 
             const allColumns = this.parseColumns(markdown);
@@ -108,6 +125,19 @@ export class AnswerParser {
 
                 profile: this.parseProfileCards(markdown)
 
+            };
+
+        }
+
+        if (structure === "process library") {
+
+            // No further metadata to parse from Markdown -- unlike
+            // Table/CardList/ProfileCards, a Process Library's shape
+            // (Process -> SOPs -> Steps, with a fixed field set at
+            // each level) is built into the runtime editor itself
+            // rather than declared per-System.
+            return {
+                type: AnswerType.ProcessLibrary
             };
 
         }

@@ -1742,6 +1742,82 @@ textarea:focus{
 
 }
 
+.export-options-picker{
+
+    margin-top:6px;
+
+    margin-bottom:4px;
+
+    max-height:220px;
+
+    overflow-y:auto;
+
+    border:1px solid #d9d9d9;
+
+    border-radius:8px;
+
+    padding:8px 12px;
+
+    background:#f5f7fb;
+
+}
+
+.export-options-picker-empty{
+
+    font-size:14px;
+
+    color:#5f6368;
+
+    padding:4px 0;
+
+}
+
+.export-options-picker-process{
+
+    padding:6px 0;
+
+}
+
+.export-options-picker-process + .export-options-picker-process{
+
+    border-top:1px solid #e3e6ea;
+
+}
+
+.export-options-picker-process-name{
+
+    font-weight:600;
+
+    font-size:14px;
+
+    color:#111827;
+
+    padding:4px 0;
+
+}
+
+.export-options-picker-row{
+
+    font-size:14px;
+
+    padding:4px 0;
+
+}
+
+.export-options-picker-row input{
+
+    width:16px;
+
+    height:16px;
+
+}
+
+.export-options-picker-row-nested{
+
+    padding-left:20px;
+
+}
+
 /* ==========================================================
    Profile Cards
 ========================================================== */
@@ -2054,5 +2130,552 @@ textarea:focus{
     font-size:13px;
 
     color:#5f6368;
+
+}
+
+/* ==========================================================
+   Process Library (Process -> SOPs -> Steps)
+
+   `.interview-input`'s base look is normally scoped under
+   `.dynamic-table-scroll` (see that rule above) -- these
+   tables live outside any DynamicTable, so the same look is
+   redeclared here under `.process-library` instead, rather
+   than reusing/widening the DynamicTable-scoped rule (which
+   also carries DynamicTable-only behavior, like drag-to-
+   scroll, that has no place here).
+========================================================== */
+
+.process-library .interview-input{
+
+    display:block;
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    padding:8px 10px;
+
+    font:inherit;
+    font-size:15px;
+    line-height:1.5;
+
+    border:1px solid #d6d6d6;
+    border-radius:6px;
+
+    background:#ffffff;
+
+}
+
+.process-library .interview-input:focus{
+
+    outline:none;
+
+    border-color:#0b57d0;
+
+}
+
+.process-library select.interview-input{
+
+    cursor:pointer;
+
+}
+
+/* Process/SOP/Step name, purpose, "who", "how often", and Step
+   action fields all auto-grow to fit their content (see
+   AutoGrowField in ProcessLibraryEditor.tsx) instead of clipping
+   long text -- textarea-specific overrides on top of the shared
+   `.interview-input` look above. */
+.process-library-autogrow-field{
+
+    resize:none;
+    overflow:hidden;
+
+    min-height:38px;
+
+}
+
+.process-library-table,
+.process-library-sops-table,
+.process-library-steps-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-bottom:12px;
+
+}
+
+.process-library-table th,
+.process-library-table td,
+.process-library-sops-table th,
+.process-library-sops-table td,
+.process-library-steps-table th,
+.process-library-steps-table td{
+
+    border:1px solid #d9d9d9;
+
+    padding:10px;
+
+    text-align:left;
+
+    vertical-align:top;
+
+}
+
+.process-library-table th,
+.process-library-sops-table th,
+.process-library-steps-table th{
+
+    font-weight:600;
+
+    white-space:nowrap;
+
+}
+
+/* Each nesting level gets its own background tint, so the depth
+   of a row (Process, SOP, or Step) is visible at a glance without
+   reading its position in the page: Process stays plain white
+   (the outermost, "home base" level), SOPs get a pale 50%-tinted
+   blue, and Steps -- the innermost, most zoomed-in level -- get a
+   fuller light blue. Header and body cells share the same tint
+   per table; the header's own bold weight (above) is what
+   distinguishes it from the body, not a separate color. */
+.process-library-table th,
+.process-library-table td{
+
+    background:#ffffff;
+
+}
+
+.process-library-sops-table th,
+.process-library-sops-table td{
+
+    background:#edf4ff;
+
+}
+
+.process-library-steps-table th,
+.process-library-steps-table td{
+
+    background:#dbe9ff;
+
+}
+
+.process-library-col-number{
+
+    width:1%;
+
+    white-space:nowrap;
+
+}
+
+/* The Steps table's own first column -- same role as
+   `.process-library-col-number` above (shows the Step's
+   position), but its header reads "Steps" instead of a bare
+   "#" (more descriptive, since this table's rows -- unlike
+   Process/SOP rows -- have no name of their own to label the
+   table by). "Steps" is the longest thing this column ever
+   needs to fit, so it gets an explicit min-width rather than
+   the bare `width:1%` hint the number-only columns use --
+   `white-space:nowrap` alone stops it wrapping, but a
+   generous min-width is what actually guarantees the header
+   word is never visually cramped against its neighboring
+   column. */
+.process-library-col-step-number{
+
+    width:1%;
+    min-width:52px;
+
+    white-space:nowrap;
+
+}
+
+.process-library-col-id{
+
+    /* A fixed width (not the `width:1%` auto-sizing hint the
+       plain "#" columns use) -- an auto-grow textarea filling
+       a `width:1%` cell has no natural content-based size of
+       its own to size the column BY, so without a fixed width
+       here the browser's table layout has nothing sensible to
+       shrink it down to and the column ends up far wider than
+       an ID tag ever needs, stealing space from Name/Purpose. Wide
+    enough for the longest auto-generated default ("SOP-001.10",
+    the 3-digit Process ID format with a double-digit SOP count)
+    to sit on one line rather than wrapping mid-tag. */
+    width:132px;
+
+    color:#5f6368;
+
+    font-variant-numeric:tabular-nums;
+
+}
+
+.process-library-id-field{
+
+    padding:8px !important;
+
+    font-size:13px;
+
+}
+
+.process-library-col-steps{
+
+    width:1%;
+
+    white-space:nowrap;
+
+    text-align:center;
+
+}
+
+.process-library-col-actions{
+
+    width:1%;
+
+    white-space:nowrap;
+
+    text-align:center;
+
+}
+
+/* The chevron+number toggle doubling as the "#" cell -- a
+   real <button> (not a row-wide onClick) so clicking any of
+   the editable fields in the same row never accidentally
+   expands/collapses it. */
+.process-library-expand-toggle{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:4px;
+
+    border:none;
+
+    background:transparent;
+
+    padding:2px 4px;
+
+    font:inherit;
+    font-size:14px;
+    font-weight:600;
+
+    color:#0b57d0;
+
+    cursor:pointer;
+
+    white-space:nowrap;
+
+}
+
+.process-library-expand-toggle:hover{
+
+    text-decoration:underline;
+
+}
+
+/* The expansion panel spans the full row width, directly
+   under the Process/SOP row it belongs to -- "expands in
+   place", rather than navigating anywhere else. Scoped to the
+   DIRECT child `<td>` only (not just any descendant `td`) --
+   the expansion row's own single wrapping cell always is one,
+   but so is every cell of whatever nested table it wraps (the
+   Steps table, or the SOPs table), and a plain descendant `td`
+   selector here would win the cascade over those nested
+   tables' own per-level background colors (see .process-
+   library-sops-table / .process-library-steps-table above),
+   painting every nesting level the same flat color. */
+.process-library-expansion-row > td{
+
+    background:#fafbfd;
+
+    padding:16px;
+
+}
+
+.process-library-expansion-row-process > td{
+
+    /* Stays plain white, matching the Process table's own "White"
+       color grade -- the nested SOPs/Steps tables inside carry
+       their own tint (see .process-library-sops-table / .process-
+       library-steps-table above) once they render. */
+    background:#ffffff;
+
+}
+
+.process-library-card-heading{
+
+    margin:0 0 10px;
+
+    font-size:14px;
+    font-weight:600;
+
+    color:#1a1a1a;
+
+}
+
+.process-library-sops{
+
+    margin-top:4px;
+
+}
+
+/* "Last reviewed" lives inside the expanded card (not a top-level
+   table column -- see the .process-library-card-heading comment
+   history) so it gets its own small label+field row above the
+   Steps/SOPs heading, rather than a table column's fixed width. */
+.process-library-card-meta{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin:0 0 14px;
+
+}
+
+.process-library-card-meta-label{
+
+    font-size:13px;
+    font-weight:600;
+
+    color:#555b66;
+
+}
+
+.process-library-remove-button{
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    width:26px;
+    height:26px;
+
+    flex-shrink:0;
+
+    border:none;
+    border-radius:50%;
+
+    background:#c0392b;
+
+    color:#ffffff;
+
+    font-size:16px;
+    font-weight:700;
+    line-height:1;
+
+    cursor:pointer;
+
+    transition:filter .15s ease, opacity .15s ease;
+
+}
+
+.process-library-remove-button:hover:not(:disabled){
+
+    filter:brightness(1.1);
+
+}
+
+.process-library-remove-button:disabled{
+
+    background:#e0a29a;
+
+    cursor:not-allowed;
+
+}
+
+.process-library-add-process,
+.process-library-add-link{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    border:1px solid #1f9254;
+    border-radius:6px;
+
+    background:#ffffff;
+
+    color:#1f9254;
+
+    font:inherit;
+    font-size:14px;
+    font-weight:600;
+
+    padding:8px 14px;
+
+    cursor:pointer;
+
+    transition:background-color .15s ease;
+
+}
+
+.process-library-add-process:hover:not(:disabled),
+.process-library-add-link:hover:not(:disabled){
+
+    background:#eafaf1;
+
+}
+
+.process-library-add-process:disabled,
+.process-library-add-link:disabled{
+
+    opacity:.45;
+
+    cursor:not-allowed;
+
+}
+
+.process-library-add-sop-link{
+
+    margin-top:10px;
+
+}
+
+/* ==========================================================
+   T-Layout Text (single "T"-shaped card, e.g. the Operations
+   System's Handbook) -- one always-visible variant across the
+   top, a divider, then the other two variants side by side
+   underneath with a divider between them. Every field auto-
+   grows to fit its own content (see AutoGrowTextarea in
+   AnswerRenderer.tsx); the card itself is just a normal block,
+   so it grows to fit whichever field ends up tallest.
+========================================================== */
+
+.handbook-t-card{
+
+    display:flex;
+
+    flex-direction:column;
+
+    border:1px solid #d9d9d9;
+    border-radius:10px;
+
+    background:#ffffff;
+
+    padding:20px;
+
+    box-shadow:0 1px 3px rgba(17,24,39,.08);
+
+}
+
+.handbook-t-card-label{
+
+    margin:0 0 8px;
+
+    font-size:13px;
+    font-weight:600;
+
+    color:#5f6368;
+
+    text-transform:uppercase;
+    letter-spacing:.02em;
+
+}
+
+.handbook-t-card-top{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.handbook-t-card-divider-horizontal{
+
+    height:1px;
+
+    margin:20px 0;
+
+    background:#d9d9d9;
+
+    flex-shrink:0;
+
+}
+
+.handbook-t-card-bottom{
+
+    display:flex;
+
+    align-items:stretch;
+
+    gap:20px;
+
+}
+
+.handbook-t-card-column{
+
+    flex:1 1 0;
+
+    min-width:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.handbook-t-card-divider-vertical{
+
+    width:1px;
+
+    flex-shrink:0;
+
+    background:#d9d9d9;
+
+}
+
+.handbook-t-card-textarea{
+
+    display:block;
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    resize:none;
+    overflow:hidden;
+
+    padding:10px 12px;
+
+    font:inherit;
+    font-size:15px;
+    line-height:1.5;
+
+    border:1px solid #d6d6d6;
+    border-radius:8px;
+
+    background:#ffffff;
+
+    /* 2 lines of 15px/1.5 text (~22.5px each) plus the
+       10px top+bottom padding and 1px+1px border -- the
+       field's default height before any content is typed;
+       AutoGrowTextarea's own scrollHeight measurement only
+       ever grows it taller than this, never shorter. */
+    min-height:69px;
+
+}
+
+.handbook-t-card-textarea:focus{
+
+    outline:none;
+
+    border-color:#0b57d0;
+
+}
+
+.handbook-t-card-textarea-top{
+
+    /* The top field is the Handbook's headline "why we operate
+       this way" statement -- give it a little more breathing
+       room than the two narrower bottom columns by default. */
+    min-height:69px;
 
 }

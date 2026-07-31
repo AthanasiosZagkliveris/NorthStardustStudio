@@ -17,10 +17,14 @@ import {
     defaultAnswerValue,
     isAnswerEmpty,
     isTableRowComplete,
+    processDisplayId,
+    ProcessRecordValue,
+    sopDisplayId,
     TableAnswerRow,
     visibleTableColumns
 } from "../framework/engine/AnswerUtils.ts";
 import {
+    buildExportContent,
     buildMultiProductExportContent,
     buildSingleProductExportContent
 } from "../framework/engine/ExportContentBuilder.ts";
@@ -47,6 +51,35 @@ type CapabilityChoice = "original" | "other";
  * free document it always has).
  */
 type ExportScope = "product" | "system";
+
+/**
+ * The Operations System's own Export Options offer a similar,
+ * but structurally different, choice (item 7 of the same round
+ * of feedback as the Process Library row-actions/ID/Shift+Click
+ * work): export every Process, just a hand-picked subset of
+ * Processes (each with all of its own SOPs), or a hand-picked
+ * subset of individual SOPs across any Processes. Irrelevant to
+ * every other System.
+ */
+type OperationsExportScope = "all" | "selected-processes" | "selected-sops";
+
+/**
+ * The Operations System's Process Library is always its own
+ * Section 2 (Handbook is 1, Operational Log 3, Roles &
+ * Responsibilities 4 -- see 08_OperationsSystemAnswer.md).
+ */
+const OPERATIONS_PROCESS_LIBRARY_SECTION = 2;
+
+/**
+ * The Operations System's Roles & Responsibilities Section --
+ * its "Responsible Person or Team" column feeds the Process
+ * Library's own Owner field autofill suggestions (see
+ * operationsRoleSuggestions below) and the "Owner required once a
+ * Process has 2+ SOPs" validation rule (see
+ * validateOperationsProcessOwnership).
+ */
+const OPERATIONS_ROLES_SECTION = 4;
+const OPERATIONS_ROLES_RESPONSIBLE_COLUMN = "responsible-person-or-team";
 
 /**
  * The Business System's Product Register (Section 5) and the
@@ -188,6 +221,76 @@ function validateProductDevelopmentForProduct(
 }
 
 /**
+ * Validates an Operations System Interview Session the same way
+ * `reviewManager.validate` (InterviewValidator) does -- every
+ * Section has SOME content -- plus one extra, Operations-specific
+ * rule: once a Process has grown to 2+ SOPs, its Owner can no
+ * longer be blank.
+ *
+ * A single-SOP Process is still simple enough that "whoever wrote
+ * it down" is usually obvious; once a second SOP exists, the
+ * Process is being run by more than one procedure (very often more
+ * than one person too), and an unset Owner is exactly the kind of
+ * silent gap that only becomes a problem once someone else actually
+ * needs to know who to ask. Doesn't block a Process with 0/1 SOP
+ * from having a blank Owner -- that's still a legitimate, simple
+ * "not assigned yet" state for a Process that hasn't grown into
+ * needing one.
+ */
+function validateOperationsProcessOwnership(
+    session: InterviewSession
+): ValidationResult {
+
+    const baseline = reviewManager.validate(session);
+
+    const alreadyFlagged = baseline.issues.some(
+        issue => issue.sectionNumber === OPERATIONS_PROCESS_LIBRARY_SECTION
+    );
+
+    if (alreadyFlagged) {
+        // Section 2 is already flagged incomplete for a more basic
+        // reason (e.g. no content at all) -- no need for a second,
+        // more specific issue for the same Section.
+        return baseline;
+    }
+
+    const framework = session.getFramework();
+
+    const processLibrarySection = framework.sections.find(
+        candidate => candidate.number === OPERATIONS_PROCESS_LIBRARY_SECTION
+    );
+
+    if (!processLibrarySection) {
+        return baseline;
+    }
+
+    const processes =
+        (session.getResponse(OPERATIONS_PROCESS_LIBRARY_SECTION) as ProcessRecordValue[] | undefined) ?? [];
+
+    const hasUnownedMultiSopProcess = processes.some(process => {
+
+        const sopCount = Array.isArray(process.sops) ? process.sops.length : 0;
+        const owned = typeof process.who === "string" && process.who.trim().length > 0;
+
+        return sopCount >= 2 && !owned;
+
+    });
+
+    if (!hasUnownedMultiSopProcess) {
+        return baseline;
+    }
+
+    return {
+        valid: false,
+        issues: [
+            ...baseline.issues,
+            { sectionNumber: OPERATIONS_PROCESS_LIBRARY_SECTION, sectionTitle: processLibrarySection.title }
+        ]
+    };
+
+}
+
+/**
  * Splits a block of introduction text into one
  * sentence per entry, so the introduction can be
  * rendered as one short paragraph per sentence
@@ -249,6 +352,17 @@ export default function Conversation() {
     // choice -- that was the ONLY export shape the Product
     // Development System produced before this option existed.
     const [exportScope, setExportScope] = useState<ExportScope>("system");
+
+    // Defaults to "all" (every Process, exactly as before this
+    // option existed) -- the picker below only appears once a
+    // narrower scope is chosen. Both selection Sets are ephemeral
+    // (index-keyed, not persisted into the saved Process Library
+    // answer) and reset every time the Export Options dialog is
+    // reopened, so a stale pick from a previous export can't
+    // silently narrow a later one.
+    const [operationsExportScope, setOperationsExportScope] = useState<OperationsExportScope>("all");
+    const [selectedProcessIndexes, setSelectedProcessIndexes] = useState<Set<number>>(new Set());
+    const [selectedSopKeys, setSelectedSopKeys] = useState<Set<string>>(new Set());
 
     useEffect(() => {
 
@@ -425,13 +539,15 @@ export default function Conversation() {
             const validation =
                 selectedProductForValidation && organizationId
                     ? validateProductDevelopmentForProduct(session, organizationId, selectedProductForValidation)
-                    : reviewManager.validate(session);
+                    : system?.id === "operations"
+                        ? validateOperationsProcessOwnership(session)
+                        : reviewManager.validate(session);
 
             if (!validation.valid) {
                 setValidationIssues(validation.issues);
                 setExportStep("warning");
             } else {
-                setExportStep("options");
+                openExportOptions();
             }
 
             return;
@@ -600,9 +716,54 @@ export default function Conversation() {
 
     }, [organizationId]);
 
-    function handleContinueToOptions() {
+    function openExportOptions() {
+
+        // Reset the Operations System's own picker every time the
+        // dialog opens, rather than only on mount -- otherwise a
+        // scope/selection left over from a previous export (of a
+        // since-edited Process Library) could silently narrow a
+        // later "export everything" attempt.
+        setOperationsExportScope("all");
+        setSelectedProcessIndexes(new Set());
+        setSelectedSopKeys(new Set());
 
         setExportStep("options");
+
+    }
+
+    function handleContinueToOptions() {
+
+        openExportOptions();
+
+    }
+
+    function toggleSelectedProcess(processIndex: number) {
+
+        setSelectedProcessIndexes(current => {
+            const next = new Set(current);
+            if (next.has(processIndex)) {
+                next.delete(processIndex);
+            } else {
+                next.add(processIndex);
+            }
+            return next;
+        });
+
+    }
+
+    function toggleSelectedSop(processIndex: number, sopIndex: number) {
+
+        const key = `${processIndex}:${sopIndex}`;
+
+        setSelectedSopKeys(current => {
+            const next = new Set(current);
+            if (next.has(key)) {
+                next.delete(key);
+            } else {
+                next.add(key);
+            }
+            return next;
+        });
 
     }
 
@@ -684,6 +845,55 @@ export default function Conversation() {
                       );
 
                   })()
+                : system?.id === "operations" && operationsExportScope !== "all"
+                ? buildExportContent(
+                      session,
+                      capabilityLabel,
+                      (sectionNumber, response) => {
+
+                          if (sectionNumber !== OPERATIONS_PROCESS_LIBRARY_SECTION || !Array.isArray(response)) {
+                              return response;
+                          }
+
+                          const processes = response as ProcessRecordValue[];
+
+                          // Stamp each Process/SOP's already-displayed ID (custom
+                          // or auto-generated from its ORIGINAL position) onto a
+                          // shallow copy before filtering, so a Process/SOP's ID
+                          // in the export always matches what the user saw in the
+                          // editor -- it never shifts to reflect a new position
+                          // within the filtered/exported subset.
+                          const stamped = processes.map((process, processIndex) => ({
+                              ...process,
+                              id: processDisplayId(process, processIndex),
+                              sops: process.sops.map((sop, sopIndex) => ({
+                                  ...sop,
+                                  id: sopDisplayId(sop, processIndex, sopIndex)
+                              }))
+                          }));
+
+                          if (operationsExportScope === "selected-processes") {
+                              return stamped.filter((_, processIndex) => selectedProcessIndexes.has(processIndex));
+                          }
+
+                          // "selected-sops": keep only the Processes with at
+                          // least 1 selected SOP, and within those, only the
+                          // SOPs the user actually ticked.
+                          return stamped
+                              .map((process, processIndex) => ({
+                                  ...process,
+                                  sops: process.sops.filter((_sop, sopIndex) =>
+                                      selectedSopKeys.has(`${processIndex}:${sopIndex}`)
+                                  )
+                              }))
+                              .filter(process => process.sops.length > 0);
+
+                      },
+                      (sectionNumber) =>
+                          sectionNumber === OPERATIONS_PROCESS_LIBRARY_SECTION && operationsExportScope === "selected-sops"
+                              ? { forceExpandProcessSops: true }
+                              : undefined
+                  )
                 : undefined;
 
         if (includeMd) {
@@ -714,7 +924,16 @@ export default function Conversation() {
 
     const canConfirmCapability =
         capabilityChoice === "original" || otherCapabilityName.trim().length > 0;
-    const canExport = includeMd || includePdf;
+
+    // A narrowed Operations export scope needs at least 1 picked
+    // Process/SOP to actually produce anything -- otherwise "Export"
+    // would silently hand back an empty document.
+    const hasValidOperationsSelection =
+        operationsExportScope === "all" ||
+        (operationsExportScope === "selected-processes" && selectedProcessIndexes.size > 0) ||
+        (operationsExportScope === "selected-sops" && selectedSopKeys.size > 0);
+
+    const canExport = (includeMd || includePdf) && hasValidOperationsSelection;
 
     // Product Development System product picker (item 7): Section
     // 1 (Product Register) requires picking one of its own rows
@@ -740,6 +959,36 @@ export default function Conversation() {
         isProductDevelopmentSystem && currentSection.number >= 2 && !!selectedProductName;
 
     const nextDisabled = isProductRegisterStep && !selectedProductName;
+
+    // Operations System export scope picker (item 7): the Process
+    // Library's own saved Processes/SOPs, read fresh every render
+    // so the Export Options dialog always reflects whatever was
+    // last saved -- not a stale snapshot from when the dialog first
+    // opened.
+    const isOperationsSystem = system?.id === "operations";
+    const operationsProcesses: ProcessRecordValue[] = isOperationsSystem
+        ? ((session.getResponse(OPERATIONS_PROCESS_LIBRARY_SECTION) as ProcessRecordValue[] | undefined) ?? [])
+        : [];
+
+    // Owner autofill suggestions for the Process Library (see
+    // ProcessLibraryEditor's own `ownerSuggestions` prop): every
+    // distinct, already-entered "Responsible Person or Team" name
+    // from Roles & Responsibilities (Section 4), read fresh every
+    // render the same way operationsProcesses is above. Roles &
+    // Responsibilities comes AFTER Process Library in the Section
+    // order, so on a fresh Organization this is simply empty --
+    // suggestions only start appearing once the user has gone
+    // through Roles & Responsibilities at least once, same as any
+    // other "suggest what's already been typed elsewhere" field.
+    const operationsRoleSuggestions: string[] = isOperationsSystem
+        ? Array.from(new Set(
+              (
+                  (session.getResponse(OPERATIONS_ROLES_SECTION) as TableAnswerRow[] | undefined) ?? []
+              )
+                  .map(row => String(row[OPERATIONS_ROLES_RESPONSIBLE_COLUMN] ?? "").trim())
+                  .filter(name => name.length > 0)
+          ))
+        : [];
 
     // Lets the Product Register table (Section 1) double as the
     // Product picker: clicking a row, or its selection bullet under
@@ -814,6 +1063,7 @@ export default function Conversation() {
                                 onChange={handleAnswerChange}
                                 resolveDynamicOptions={resolveDynamicOptions}
                                 rowSelection={productRegisterRowSelection}
+                                ownerSuggestions={operationsRoleSuggestions}
                             />
 
                             <div className="interview-nav">
@@ -912,6 +1162,101 @@ export default function Conversation() {
                                     />
                                     Whole System (all Products)
                                 </label>
+                            </div>
+                        )}
+
+                        {isOperationsSystem && (
+                            <div className="export-options-group">
+                                <div className="export-options-label">Include</div>
+
+                                <label className="export-options-radio">
+                                    <input
+                                        type="radio"
+                                        name="operations-export-scope"
+                                        checked={operationsExportScope === "all"}
+                                        onChange={() => setOperationsExportScope("all")}
+                                    />
+                                    All Processes
+                                </label>
+
+                                <label className="export-options-radio">
+                                    <input
+                                        type="radio"
+                                        name="operations-export-scope"
+                                        checked={operationsExportScope === "selected-processes"}
+                                        onChange={() => setOperationsExportScope("selected-processes")}
+                                    />
+                                    Selected Processes
+                                </label>
+
+                                <label className="export-options-radio">
+                                    <input
+                                        type="radio"
+                                        name="operations-export-scope"
+                                        checked={operationsExportScope === "selected-sops"}
+                                        onChange={() => setOperationsExportScope("selected-sops")}
+                                    />
+                                    Selected SOPs
+                                </label>
+
+                                {operationsExportScope === "selected-processes" && (
+                                    <div className="export-options-picker">
+                                        {operationsProcesses.length === 0 && (
+                                            <div className="export-options-picker-empty">
+                                                No Processes yet.
+                                            </div>
+                                        )}
+                                        {operationsProcesses.map((process, processIndex) => (
+                                            <label
+                                                key={processIndex}
+                                                className="export-options-checkbox export-options-picker-row"
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedProcessIndexes.has(processIndex)}
+                                                    onChange={() => toggleSelectedProcess(processIndex)}
+                                                />
+                                                {processDisplayId(process, processIndex)}
+                                                {" - "}
+                                                {process.name?.trim() || "Untitled Process"}
+                                            </label>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {operationsExportScope === "selected-sops" && (
+                                    <div className="export-options-picker">
+                                        {operationsProcesses.length === 0 && (
+                                            <div className="export-options-picker-empty">
+                                                No Processes yet.
+                                            </div>
+                                        )}
+                                        {operationsProcesses.map((process, processIndex) => (
+                                            <div key={processIndex} className="export-options-picker-process">
+                                                <div className="export-options-picker-process-name">
+                                                    {processDisplayId(process, processIndex)}
+                                                    {" - "}
+                                                    {process.name?.trim() || "Untitled Process"}
+                                                </div>
+                                                {process.sops.map((sop, sopIndex) => (
+                                                    <label
+                                                        key={sopIndex}
+                                                        className="export-options-checkbox export-options-picker-row export-options-picker-row-nested"
+                                                    >
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={selectedSopKeys.has(`${processIndex}:${sopIndex}`)}
+                                                            onChange={() => toggleSelectedSop(processIndex, sopIndex)}
+                                                        />
+                                                        {sopDisplayId(sop, processIndex, sopIndex)}
+                                                        {" - "}
+                                                        {sop.name?.trim() || "Untitled SOP"}
+                                                    </label>
+                                                ))}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         )}
 
