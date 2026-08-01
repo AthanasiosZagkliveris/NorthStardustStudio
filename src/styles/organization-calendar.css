@@ -426,7 +426,57 @@
 
 .org-calendar-day{
 
-    aspect-ratio:1;
+    /* Explicit height instead of `aspect-ratio:1` -- see the long
+       comment below for why. Derived from the exact same box-model
+       chain that determines this cell's own WIDTH (so the two stay
+       equal, i.e. the cell stays square), computed by hand instead
+       of via `aspect-ratio` so it doesn't depend on a browser engine
+       correctly reconciling `aspect-ratio` with `1fr` grid-track
+       sizing:
+         .org-calendar-content content-box width: 460px - (20px
+           padding * 2) = 420px (see `.org-calendar-content` above)
+         minus this grid's own 6 inter-column gaps: 420px - (4px *
+           6) = 396px (see `.org-calendar-grid`'s `gap:4px` above)
+         divided across the 7 equal `1fr` columns: 396px / 7 =
+           56.5714...px -- this cell's width, and (via this rule)
+           its height too.
+       If `.org-calendar-content`'s width/padding or this grid's gap
+       ever change, update this calc() to match, or the day cells
+       will stop being perfectly square (off by at most a pixel or
+       two -- harmless on its own, just no longer worth having a
+       formula for).
+
+       Why not `aspect-ratio:1`: a user reported the day-grid
+       rendering with an entire weekday column (e.g. every Saturday
+       in a 31-day, Saturday-starting month like August 2026) simply
+       missing -- no cell, no border, no number -- while the
+       weekday-label row above it (`.org-calendar-weekday-row`,
+       which reuses this same `.org-calendar-grid` class but whose
+       `.org-calendar-weekday` cells carry no `aspect-ratio`) stayed
+       fully intact and correctly spaced. That is: the ONE rule
+       difference between a definitely-working row (the header) and
+       the sometimes-broken one (the day cells) was `aspect-ratio`.
+       Measuring the user's own screenshot confirmed the day cells
+       were rendering as if the grid had only 6 columns (evenly
+       spread across the full width) instead of 7 -- not simply "one
+       column squeezed a little", which rules out an ordinary
+       scrollbar-width change as the cause. This could not be
+       reproduced in this project's own Chromium-based test
+       environment across a range of viewport sizes and device pixel
+       ratios, which points at a rendering difference specific to the
+       browser engine actually hosting the Tauri window (see
+       `getSystemIcon`-style cross-environment caveats elsewhere in
+       this app for the general pattern) -- `aspect-ratio` interacting
+       with `1fr` grid-track sizing is a real, previously-documented
+       edge case across browser engines/versions (the sizing
+       algorithm has to resolve each item's cross-axis size from its
+       aspect-ratio before the fr distribution is final, and
+       implementations have disagreed on the details). Removing
+       `aspect-ratio` entirely from this grid -- replacing it with a
+       plain, engine-independent arithmetic height -- removes that
+       whole class of risk regardless of which specific engine/
+       version was actually responsible. */
+    height:calc((460px - 40px - 24px) / 7);
 
     display:flex;
 
@@ -687,6 +737,22 @@
     align-self:flex-start;
 
     min-width:120px;
+
+}
+
+/* The SAME cascade problem `.notes-field{font-weight:400 !important}`
+   (global.css) documents and fixes for the Notes textarea also
+   applies here, one selector over: this label's own bold "TIME"
+   caption styling (`font-weight:700` above) is meant for the caption
+   text, but `.org-calendar-panel .interview-input{font:inherit}`
+   (further down this file) lets it cascade into the wrapped
+   `<input type="time">` too, since the input carries no class of its
+   own to opt back out. Notes got a shared, reusable `.notes-field`
+   class to hang its own override on; the time input has no such
+   class, so this overrides it directly by its parent + type instead. */
+.org-calendar-task-annotation-time input[type="time"]{
+
+    font-weight:400 !important;
 
 }
 

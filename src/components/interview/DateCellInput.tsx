@@ -57,7 +57,27 @@ function displayToIso(display: string, format: DateFormat): string | null {
     const mm = month.padStart(2, "0");
     const dd = day.padStart(2, "0");
 
-    if (Number(mm) < 1 || Number(mm) > 12 || Number(dd) < 1 || Number(dd) > 31) {
+    const monthNum = Number(mm);
+    const dayNum = Number(dd);
+
+    if (monthNum < 1 || monthNum > 12) {
+        return null;
+    }
+
+    // Real days-in-month, not a flat "1-31" -- catches things like
+    // 04/31 (April only has 30 days) or 02/30 (never a real day),
+    // and correctly allows/rejects Feb 29 depending on whether
+    // `year` is actually a leap year. `new Date(year, monthNum, 0)`
+    // is the standard trick for this: the Date constructor's own
+    // month argument is 0-indexed, so passing `monthNum` (already
+    // 1-indexed here) names the NEXT month, and day 0 of that next
+    // month rolls back to the last real day of the month the user
+    // actually typed -- leap years fall out of this for free since
+    // it's the same `Date` engine every other date computation in
+    // this app already relies on.
+    const daysInMonth = new Date(Number(year), monthNum, 0).getDate();
+
+    if (dayNum < 1 || dayNum > daysInMonth) {
         return null;
     }
 

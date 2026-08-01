@@ -249,8 +249,41 @@ export function useListAutoFormat(
 
     function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
 
-        const nextValue = event.target.value;
-        const cursor = event.target.selectionStart;
+        // Every regex in this file (BULLET_LINE, NUMBERED_LINE,
+        // BULLET_TRIGGER, BULLET_LINE_PREFIX) is anchored with a
+        // trailing `$`, tested one line at a time after splitting the
+        // whole value on plain "\n" (see normalizeBulletLines/
+        // renumberNumberedBlocks below). A lone "\n" is what every
+        // line in this hook's OWN stored value already uses -- but
+        // pasted text arriving from elsewhere (e.g. anything copied
+        // on Windows) commonly uses "\r\n" instead, which leaves a
+        // trailing "\r" on every split line except the last. `$`
+        // (without the `m` flag) only matches at the true end of the
+        // string, or immediately before a trailing "\n" -- never
+        // before a "\r" -- so every one of those regexes silently
+        // fails to match on a line with a leftover "\r", and a
+        // pasted "- Item 1\r\n- Item 2\r\n..." list keeps its raw
+        // "- " markers instead of becoming real bullets (same failure
+        // for a pasted numbered list and renumberNumberedBlocks).
+        // Stripping "\r" here, right where text first enters this
+        // hook, keeps it out of the stored value entirely, so every
+        // downstream regex only ever sees the plain "\n"-separated
+        // lines it was written for.
+        //
+        // The raw DOM `selectionStart` is an index into the
+        // UN-normalized value (the actual "\r\n"-containing text the
+        // browser just committed) -- normalizing the prefix up to
+        // that index separately, and using ITS length as `cursor`,
+        // keeps the cursor pointing at the same logical spot in the
+        // now-normalized `nextValue` regardless of how many "\r"
+        // characters sat before or after it (a flat
+        // `event.target.selectionStart` would drift out of sync by
+        // one position per stripped "\r" before the cursor).
+        const rawValue = event.target.value;
+        const rawCursor = event.target.selectionStart;
+        const normalizedPrefix = rawValue.slice(0, rawCursor).replace(/\r\n?/g, "\n");
+        const cursor = normalizedPrefix.length;
+        const nextValue = normalizedPrefix + rawValue.slice(rawCursor).replace(/\r\n?/g, "\n");
 
         // Isolate exactly what this onChange just inserted (typing
         // OR paste both land here as one plain onChange -- there's

@@ -914,6 +914,33 @@ function SopsTable({
 
         onChange(sops.filter((_, candidateIndex) => candidateIndex !== index));
 
+        // `expanded` is keyed by array index (see addSop's own
+        // insertion-shift above) -- removing a SOP shifts every
+        // later SOP's index down by one, so its recorded expand
+        // state has to shift the same way, or the SOP that inherits
+        // a lower index ends up rendered expanded/collapsed based on
+        // a DIFFERENT SOP's leftover state (e.g. expand SOP #2, then
+        // delete SOP #1 -- SOP #2, now at index 0, collapses, while
+        // whatever SOP is now at index 1 renders expanded even
+        // though it was never opened).
+        setExpanded(previous => {
+
+            const next = new Set<number>();
+
+            previous.forEach(existingIndex => {
+
+                if (existingIndex === index) {
+                    return;
+                }
+
+                next.add(existingIndex > index ? existingIndex - 1 : existingIndex);
+
+            });
+
+            return next;
+
+        });
+
     }
 
     function moveSop(index: number, direction: -1 | 1) {
@@ -928,6 +955,34 @@ function SopsTable({
         const [moved] = next.splice(index, 1);
         next.splice(targetIndex, 0, moved);
         onChange(next);
+
+        // The SOP at `index` and the one at `targetIndex` just
+        // swapped places -- swap their recorded expand state too, so
+        // each SOP's own "expanded" flag keeps following that SAME
+        // SOP instead of staying pinned to whichever row position it
+        // used to occupy.
+        setExpanded(previous => {
+
+            const hadIndex = previous.has(index);
+            const hadTarget = previous.has(targetIndex);
+
+            if (hadIndex === hadTarget) {
+                return previous;
+            }
+
+            const swapped = new Set(previous);
+
+            if (hadIndex) {
+                swapped.delete(index);
+                swapped.add(targetIndex);
+            } else {
+                swapped.delete(targetIndex);
+                swapped.add(index);
+            }
+
+            return swapped;
+
+        });
 
     }
 
@@ -1551,6 +1606,24 @@ export default function ProcessLibraryEditor({
 
         });
 
+        // `expandWithSteps` is keyed by the SAME Process index as
+        // `expanded` above -- it needs the SAME insertion-shift, or
+        // a Process that was previously opened with Shift+Click
+        // could end up describing a completely different Process
+        // after this insert (this shift was previously missing here
+        // even though `expanded` itself already got it).
+        setExpandWithSteps(previous => {
+
+            const shifted = new Set<number>();
+
+            previous.forEach(existingIndex => {
+                shifted.add(existingIndex > afterIndex ? existingIndex + 1 : existingIndex);
+            });
+
+            return shifted;
+
+        });
+
     }
 
     function removeProcess(index: number) {
@@ -1559,7 +1632,10 @@ export default function ProcessLibraryEditor({
         // Process back to blank (a fresh, single blank SOP/Step)
         // instead of doing nothing -- same "clear instead of
         // disable" convention as Steps above, so the control never
-        // looks permanently dead.
+        // looks permanently dead. Index stays the same here (only
+        // the content is blanked, nothing is inserted/removed from
+        // the array), so `expanded`/`expandWithSteps` need no
+        // reindexing in this branch.
         if (processes.length <= 1) {
 
             onChange(processes.map((process, candidateIndex) =>
@@ -1571,6 +1647,36 @@ export default function ProcessLibraryEditor({
         }
 
         onChange(processes.filter((_, candidateIndex) => candidateIndex !== index));
+
+        // Same reasoning as SopsTable's own removeSop above: dropping
+        // a Process shifts every later Process's index down by one,
+        // so `expanded`/`expandWithSteps` -- both keyed by index --
+        // have to shift the same way, or the Process that inherits a
+        // lower index renders expanded/collapsed based on a
+        // DIFFERENT Process's leftover state (this was the original,
+        // user-visible symptom: expand Process #2, delete Process
+        // #1, and the Process now at index 1 -- never actually
+        // opened -- renders expanded instead).
+        function reindexAfterRemoval(previous: Set<number>): Set<number> {
+
+            const next = new Set<number>();
+
+            previous.forEach(existingIndex => {
+
+                if (existingIndex === index) {
+                    return;
+                }
+
+                next.add(existingIndex > index ? existingIndex - 1 : existingIndex);
+
+            });
+
+            return next;
+
+        }
+
+        setExpanded(reindexAfterRemoval);
+        setExpandWithSteps(reindexAfterRemoval);
 
     }
 
@@ -1586,6 +1692,37 @@ export default function ProcessLibraryEditor({
         const [moved] = next.splice(index, 1);
         next.splice(targetIndex, 0, moved);
         onChange(next);
+
+        // The Process at `index` and the one at `targetIndex` just
+        // swapped places -- swap their recorded expand state (both
+        // Sets) too, so each flag keeps following the SAME Process
+        // instead of staying pinned to a row position that now holds
+        // a different Process.
+        function swapAfterMove(previous: Set<number>): Set<number> {
+
+            const hadIndex = previous.has(index);
+            const hadTarget = previous.has(targetIndex);
+
+            if (hadIndex === hadTarget) {
+                return previous;
+            }
+
+            const swapped = new Set(previous);
+
+            if (hadIndex) {
+                swapped.delete(index);
+                swapped.add(targetIndex);
+            } else {
+                swapped.delete(targetIndex);
+                swapped.add(index);
+            }
+
+            return swapped;
+
+        }
+
+        setExpanded(swapAfterMove);
+        setExpandWithSteps(swapAfterMove);
 
     }
 
