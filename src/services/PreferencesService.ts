@@ -1,4 +1,5 @@
 const DATE_FORMAT_KEY = "northstardust-date-format";
+const USER_NAME_KEY = "northstardust-user-name";
 
 export type DateFormat = "US" | "EU";
 
@@ -12,9 +13,16 @@ function readDateFormat(): DateFormat {
 
 }
 
+function readUserName(): string {
+
+    return localStorage.getItem(USER_NAME_KEY) ?? "";
+
+}
+
 /**
- * Stores small, app-wide user preferences (currently
- * just the preferred date presentation) in
+ * Stores small, app-wide user preferences (the
+ * preferred date presentation, and the single User
+ * Name -- one user per App, see Landing.tsx) in
  * localStorage, and notifies subscribers whenever a
  * preference changes so every open Date field --
  * regardless of which Section/Table it lives in --
@@ -53,6 +61,28 @@ export const PreferencesService = {
         PreferencesService.setDateFormat(next);
 
         return next;
+
+    },
+
+    /**
+     * Returns the App's single User Name (there is only
+     * ever one -- see Landing.tsx), or "" if none has
+     * been entered yet.
+     */
+    getUserName(): string {
+
+        return readUserName();
+
+    },
+
+    /**
+     * Sets the App's single User Name.
+     */
+    setUserName(name: string): void {
+
+        localStorage.setItem(USER_NAME_KEY, name);
+
+        listeners.forEach(listener => listener());
 
     },
 

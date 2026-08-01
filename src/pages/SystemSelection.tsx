@@ -11,6 +11,7 @@ import { getCapabilityDescription } from "../framework/engine/CapabilityDescript
 
 import AppHeader from "../components/AppHeader";
 import AppFooter from "../components/AppFooter";
+import OrganizationCalendarPanel from "../components/OrganizationCalendarPanel";
 
 import CapabilityList from "../components/CapabilityList";
 import SystemList from "../components/SystemList";
@@ -31,17 +32,19 @@ export default function SystemSelection() {
     // and bounces back to Landing if, for whatever reason
     // (direct URL, cleared storage), none is set.
     const [organizationName, setOrganizationName] = useState("");
+    const [organizationId, setOrganizationId] = useState<string | null>(null);
 
     useEffect(() => {
 
-        const organizationId = OrganizationService.getSelected();
+        const selectedOrganizationId = OrganizationService.getSelected();
 
-        if (!organizationId) {
+        if (!selectedOrganizationId) {
             navigate("/");
             return;
         }
 
-        setOrganizationName(OrganizationService.getSummary(organizationId)?.name ?? "");
+        setOrganizationId(selectedOrganizationId);
+        setOrganizationName(OrganizationService.getSummary(selectedOrganizationId)?.name ?? "");
 
     }, [navigate]);
 
@@ -57,6 +60,17 @@ export default function SystemSelection() {
     const [openCapability, setOpenCapability] =
         useState<Capability | null>(null);
 
+    // The Framework Navigator rail (Calendar/Capabilities/System)
+    // reports its own open/closed state up here so Escape can fold
+    // "close the rail" into the same precedence chain as the two
+    // dialogs below, without the rail needing to know anything
+    // about Escape/Back itself -- see the keydown effect further
+    // down. `railCloseSignal` is a counter (not a boolean) bumped
+    // to force the rail closed from here; the rail's own effect
+    // reacts to it changing, not to any particular value.
+    const [railOpen, setRailOpen] = useState(false);
+    const [railCloseSignal, setRailCloseSignal] = useState(0);
+
     const filteredSystems = activeCapability
         ? systems.filter(
               system => system.capability === activeCapability
@@ -69,6 +83,45 @@ export default function SystemSelection() {
         )?.title ?? "";
 
     const activeCapabilityColor = getCapabilityColor(activeCapability);
+
+    // Escape acts as "Back" everywhere in the app: close whichever
+    // popup/sliding window is currently open first (the "Start
+    // Interview" confirmation, then the Capability description,
+    // then the Navigator rail itself), and only once nothing is
+    // open anymore does it fall through to the same navigation the
+    // footer's own "Back" link performs.
+    useEffect(() => {
+
+        function handleKeyDown(event: KeyboardEvent) {
+
+            if (event.key !== "Escape") {
+                return;
+            }
+
+            if (confirmationOpen) {
+                setConfirmationOpen(false);
+                return;
+            }
+
+            if (openCapability) {
+                setOpenCapability(null);
+                return;
+            }
+
+            if (railOpen) {
+                setRailCloseSignal(previous => previous + 1);
+                return;
+            }
+
+            navigate("/");
+
+        }
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => window.removeEventListener("keydown", handleKeyDown);
+
+    }, [confirmationOpen, openCapability, railOpen, navigate]);
 
     function handleSystemSelection(system: FrameworkSystem) {
 
@@ -117,11 +170,54 @@ export default function SystemSelection() {
 
     }
 
+    // The Calendar's own "Open →" link on a task (see
+    // OrganizationCalendarPanel.tsx / CalendarTaskService.ts) --
+    // jumps straight into that System's already-existing interview
+    // session, landed on the specific Section the task actually
+    // came from. Deliberately NOT the same path as `startInterview`
+    // above: this must resume the existing session in place (so
+    // every other Section's saved answer, and the current position
+    // once the person navigates away again, is left untouched) --
+    // `startInterview` resets to Section 1 on purpose, which would
+    // be wrong here. `targetSectionNumber` is read by Conversation.
+    // tsx's own loading effect.
+    function openTask(systemNumber: number, sectionNumber: number) {
+
+        const system = systems.find(candidate => candidate.number === systemNumber);
+
+        if (!system) {
+            return;
+        }
+
+        navigate("/introduction", {
+
+            state: {
+                system,
+                targetSectionNumber: sectionNumber
+            }
+
+        });
+
+    }
+
     return (
 
         <div className="workspace">
 
             <AppHeader organizationName={organizationName} />
+
+            <OrganizationCalendarPanel
+                organizationId={organizationId}
+                capabilities={capabilities}
+                systems={systems}
+                onCapabilityOpen={setOpenCapability}
+                onCapabilitySelect={setActiveCapability}
+                onSystemOpen={handleSystemSelection}
+                onOpenTask={openTask}
+                onOpenChange={setRailOpen}
+                closeSignal={railCloseSignal}
+                suppressClose={confirmationOpen || openCapability !== null}
+            />
 
             <div className="workspace-main">
 

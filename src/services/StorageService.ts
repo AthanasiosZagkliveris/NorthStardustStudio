@@ -236,6 +236,8 @@ export class StorageService {
                     key: createProcessSopKey(),
                     name: asText(oldSop["sop-name"]),
                     purpose: "",
+                    who: "",
+                    howOften: "",
                     steps: [{
                         key: createProcessStepKey(),
                         action: asText(oldSop["instructions"]),
@@ -386,6 +388,13 @@ export class StorageService {
                     key: typeof sop.key === "string" && sop.key.trim().length > 0
                         ? sop.key
                         : createProcessSopKey(),
+
+                    // Backfilled the same way `key` is above -- any
+                    // session saved before Owner/How Often existed on
+                    // an SOP (see ProcessSopValue's own doc comment)
+                    // simply won't have these fields at all yet.
+                    who: typeof sop.who === "string" ? sop.who : "",
+                    howOften: typeof sop.howOften === "string" ? sop.howOften : "",
 
                     steps
 

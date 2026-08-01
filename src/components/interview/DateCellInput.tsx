@@ -15,9 +15,13 @@ interface DateCellInputProps {
 /**
  * Converts an ISO date ("YYYY-MM-DD", the value the
  * Framework always stores) into the user's preferred
- * on-screen presentation.
+ * on-screen presentation. Exported for read-only date
+ * displays elsewhere (OperationalLogEditor.tsx's own
+ * read-only Date column, OrganizationCalendarPanel.tsx)
+ * that need the same US/EU formatting but not this
+ * component's editable text field.
  */
-function isoToDisplay(iso: string, format: DateFormat): string {
+export function isoToDisplay(iso: string, format: DateFormat): string {
 
     const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso.trim());
 

@@ -191,7 +191,7 @@ export default function RolesResponsibilitiesEditor({
                                     )}
 
                                     <td className="roles-responsibilities-col-process-id">
-                                        {processDisplayId(entry.process, entry.processIndex)}
+                                        {processDisplayId(processes, entry.processIndex)}
                                     </td>
 
                                     <td className="roles-responsibilities-col-responsibility">

@@ -313,3 +313,98 @@
 
     color: #6b7280;
 }
+
+/* ==========================================================
+   User Name -- one text holder, one User per App (unlike
+   Organizations above, there is no list here). Editable at any
+   time; only the very FIRST time it goes from empty to non-empty
+   (Enter) does it also pop the first-run Preferences dialog --
+   see Landing.tsx's `commitUserName`.
+========================================================== */
+
+.user-name-section {
+
+    width: min(640px, 90vw);
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 6px;
+
+    margin-bottom: 3vh;
+}
+
+.user-name-label {
+
+    font-size: .8rem;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: .4px;
+
+    color: #6b7280;
+}
+
+.user-name-input {
+
+    box-sizing: border-box;
+
+    padding: 12px 18px;
+
+    border: 1px solid #d6d6d6;
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    font: inherit;
+    font-size: 1.1rem;
+    font-weight: 600;
+
+    color: #111827;
+
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.user-name-input:focus {
+
+    outline: none;
+
+    border-color: #0b57d0;
+
+    box-shadow: 0 0 0 4px rgba(11, 87, 208, .18);
+}
+
+/* ==========================================================
+   First-run Preferences dialog (UserPreferencesDialog.tsx) --
+   reuses the shared `.confirmation-overlay`/`.confirmation-dialog`
+   look (system-confirmation.css), these rules only add the
+   Preferences-specific bits inside it.
+========================================================== */
+
+.user-preferences-dialog {
+
+    text-align: left;
+}
+
+.user-preferences-field {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+
+    margin: 18px 0 4px;
+}
+
+.user-preferences-label {
+
+    font-size: .8rem;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: .4px;
+
+    color: #6b7280;
+}

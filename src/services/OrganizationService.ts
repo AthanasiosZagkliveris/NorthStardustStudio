@@ -40,6 +40,29 @@ export interface OrganizationDocument {
      * shared register itself is), then by Section number.
      */
     productAnswers?: Record<string, Record<string, unknown>>;
+    /**
+     * Per-task annotations for the Organization Calendar (see
+     * OrganizationCalendarPanel.tsx / CalendarTaskService.ts) --
+     * the Calendar itself is read-only, auto-discovering its
+     * dates straight out of every System's own saved data; this
+     * is the ONE thing a person can actually add on top of a
+     * discovered task, a time-of-day + a free-text note, keyed by
+     * that task's own `taskId` so it survives independently of
+     * which date/Section happened to produce it.
+     */
+    taskAnnotations?: Record<string, CalendarTaskAnnotation>;
+}
+
+/**
+ * A person-entered time + note layered on top of one auto-
+ * discovered Calendar task (see CalendarTaskService.ts) -- never
+ * created independently of a task, and removed automatically once
+ * both fields are cleared (see `setTaskAnnotation`).
+ */
+export interface CalendarTaskAnnotation {
+    /** "HH:MM", 24-hour. */
+    time?: string;
+    notes?: string;
 }
 
 const ORGANIZATIONS_INDEX_KEY = "northstardust-organizations";
@@ -451,6 +474,55 @@ export class OrganizationService {
     ): Record<string, Record<string, unknown>> {
 
         return this.loadDocument(organizationId)?.productAnswers ?? {};
+
+    }
+
+    // -- Organization Calendar task annotations (see
+    // OrganizationCalendarPanel.tsx / CalendarTaskService.ts) --
+
+    static getTaskAnnotations(organizationId: string): Record<string, CalendarTaskAnnotation> {
+        return this.loadDocument(organizationId)?.taskAnnotations ?? {};
+    }
+
+    static getTaskAnnotation(organizationId: string, taskId: string): CalendarTaskAnnotation | null {
+        return this.getTaskAnnotations(organizationId)[taskId] ?? null;
+    }
+
+    /**
+     * Sets (or clears) one task's annotation. An annotation with
+     * both fields blank is removed outright rather than kept
+     * around as an empty entry -- so a task a person opened,
+     * looked at, and left untouched never shows up as "annotated"
+     * anywhere.
+     */
+    static setTaskAnnotation(
+        organizationId: string,
+        taskId: string,
+        annotation: { time?: string; notes?: string }
+    ): void {
+
+        const document = this.loadDocument(organizationId);
+
+        if (!document) {
+            return;
+        }
+
+        const time = (annotation.time ?? "").trim();
+        const notes = (annotation.notes ?? "").trim();
+
+        const next = { ...(document.taskAnnotations ?? {}) };
+
+        if (time.length === 0 && notes.length === 0) {
+            delete next[taskId];
+        } else {
+            next[taskId] = {
+                time: time.length > 0 ? time : undefined,
+                notes: notes.length > 0 ? notes : undefined
+            };
+        }
+
+        document.taskAnnotations = next;
+        this.saveDocument(document);
 
     }
 

@@ -1,0 +1,904 @@
+/* ==========================================================
+   Organization navigation rail -- a slide-in panel docked to the
+   left edge of the window (see OrganizationCalendarPanel.tsx),
+   positioned between the fixed AppHeader (120px) and AppFooter
+   (84px) so it never covers either one. System Selection page
+   only. Collapsed, only its three stacked "tab" handles
+   (`.org-rail-handle`: Calendar / Capabilities / System) are
+   visible; hovering any one of them widens the panel, sliding in
+   that handle's own flyout (`.org-calendar-content`, shared by
+   all three -- only its inner content differs per handle) from
+   the left. Leaving the whole rail closes it again.
+========================================================== */
+
+.org-calendar-panel{
+
+    position:fixed;
+
+    left:0;
+
+    /* Matches AppHeader's own fixed height (see app-header.css)
+       and AppFooter's own fixed height (see workspace.css'
+       `.workspace-footer`) exactly, so the panel's own visible
+       band sits precisely between them, never overlapping. */
+    top:120px;
+    bottom:84px;
+
+    /* Below the header (40) and footer (30)... except those two
+       don't actually overlap this panel spatially at all (the
+       top/bottom offsets above already guarantee that) -- this
+       is just a conservative safety margin in case of any
+       transient layout shift, and still comfortably above
+       ordinary page content (which sets no z-index of its own). */
+    z-index:25;
+
+    width:44px;
+
+    overflow:hidden;
+
+    transition:width .25s ease;
+
+}
+
+.org-calendar-panel-open{
+
+    width:400px;
+
+}
+
+.org-calendar-inner{
+
+    position:relative;
+
+    display:flex;
+
+    flex-direction:row;
+
+    height:100%;
+
+    width:400px;
+
+}
+
+/* Each handle sits in its own group together with its OWN copy of
+   the (conditionally rendered) flyout pane -- see
+   OrganizationCalendarPanel.tsx. This is what lets Tab reach a
+   flyout's own items right after its handle, instead of skipping
+   past the remaining handles first (DOM/tab order follows source
+   order; a single flyout pane shared as one sibling AFTER all 3
+   handles would always make Tab visit every handle before ever
+   reaching any flyout content). The flyout itself is positioned
+   absolutely (see `.org-calendar-content` below) so which group it
+   happens to be nested under never affects where it visually
+   appears. */
+.org-rail-handle-group{
+
+    flex-shrink:0;
+
+}
+
+/* The column of three stacked handles -- deliberately NOT
+   `height:100%` split three ways (that would leave each handle
+   fighting for a cramped sliver of vertical space); instead each
+   handle keeps its own comfortable fixed height (see
+   `.org-rail-handle` below) and the column just stacks them from
+   the top, leaving the rest of the rail's vertical span
+   transparent (nothing else needs to render there). */
+.org-rail-handles{
+
+    flex-shrink:0;
+
+    width:44px;
+
+    height:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding-top:24px;
+
+}
+
+.org-rail-name{
+
+    flex-shrink:0;
+
+    writing-mode:vertical-rl;
+
+    text-orientation:mixed;
+
+    font-size:10px;
+    font-weight:700;
+
+    letter-spacing:0.6px;
+
+    text-transform:uppercase;
+
+    color:#5f6368;
+
+    margin-bottom:4px;
+
+}
+
+/* The rail's 3 handles share this base -- only their background
+   differs, and that difference is deliberate, not decorative: the
+   Calendar handle is the "main"/parent window (`.org-calendar-
+   handle`, the pale 50%-tinted blue also used for the Process
+   Library's SOPs table -- see conversation.css), while Capabilities
+   and System are its "children" (`.org-rail-handle-capabilities`/
+   `-systems`, the fuller light blue also used for that table's own
+   Steps level) -- same light-blue family, one shade lighter for the
+   parent than its children, exactly like that existing nesting-tint
+   convention elsewhere in the app. */
+.org-rail-handle{
+
+    flex-shrink:0;
+
+    width:44px;
+    height:160px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    color:#0b3d91;
+
+    border-radius:0 12px 12px 0;
+
+    cursor:pointer;
+
+    box-shadow:0 8px 20px rgba(11, 87, 208, 0.18);
+
+    transition:background-color .15s ease, box-shadow .15s ease;
+
+}
+
+.org-calendar-handle{
+
+    background:#edf4ff;
+
+}
+
+.org-rail-handle-capabilities,
+.org-rail-handle-systems{
+
+    background:#dbe9ff;
+
+}
+
+/* The handle whose flyout is currently open in the shared content
+   pane -- an inset accent ring is the only visual difference (the
+   light-blue background itself already tells the handle's "family"
+   apart, see above), just enough to show which of the three is
+   active. */
+.org-rail-handle-active{
+
+    box-shadow:0 8px 20px rgba(11, 87, 208, 0.18), inset 0 0 0 2px #0b57d0;
+
+}
+
+/* No per-handle icon anymore (removed per the user's own request --
+   every handle's label now carries the whole handle on its own) --
+   this rule intentionally deleted alongside the JSX `<span
+   className="org-rail-handle-icon">` elements it used to style. */
+
+/* Same font-size/weight/letter-spacing/case as `.org-rail-name`
+   below (the vertical "FRAMEWORK NAVIGATOR" label) -- every label on
+   the rail, the standing one and each of the 3 handles' own, now
+   reads as one consistent family instead of the handles' own labels
+   being visually heavier/larger than the rail's own name. */
+.org-rail-handle-label{
+
+    writing-mode:vertical-rl;
+
+    text-orientation:mixed;
+
+    font-size:10px;
+    font-weight:700;
+
+    letter-spacing:0.6px;
+
+    text-transform:uppercase;
+
+}
+
+/* Absolutely positioned (relative to `.org-calendar-inner` above)
+   rather than a normal-flow flex sibling -- always appears at the
+   same spot, right of the 44px handle column, no matter which of
+   the 3 `.org-rail-handle-group`s it's actually nested inside of
+   at any given moment (see the comment on that class). */
+.org-calendar-content{
+
+    position:absolute;
+
+    left:44px;
+    top:0;
+
+    width:356px;
+
+    height:100%;
+
+    box-sizing:border-box;
+
+    padding:20px;
+
+    overflow-y:auto;
+
+    background:#edf4ff;
+
+    border-radius:0 12px 12px 0;
+
+    box-shadow:0 16px 40px rgba(0, 0, 0, 0.18);
+
+    transition:background-color .15s ease;
+
+}
+
+/* The flyout pane itself picks up the same "main" vs "children"
+   light-blue tint as its handle (see `.org-rail-handle` above) --
+   the whole sliding window reads as one light-blue piece, not just
+   its tab. Hovering ANY of the 3 sliding cards lightens it toward
+   white (a 50/50 mix with white -- "50% more white") -- a gentle
+   whole-card highlight that shows which one the mouse is actually
+   over, on top of the plain background it starts from. */
+.org-calendar-content-main{
+
+    background:#edf4ff;
+
+}
+
+.org-calendar-content-child{
+
+    background:#dbe9ff;
+
+}
+
+.org-calendar-content-main:hover{
+
+    background:color-mix(in srgb, #edf4ff 50%, white);
+
+}
+
+.org-calendar-content-child:hover{
+
+    background:color-mix(in srgb, #dbe9ff 50%, white);
+
+}
+
+.org-calendar-header{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+    margin-bottom:14px;
+
+}
+
+.org-calendar-title{
+
+    margin:0;
+
+    font-size:24px;
+    font-weight:700;
+
+    color:#111827;
+
+}
+
+/* The date-presentation control's own full-width row -- see the
+   "Make the mm/dd or dd/mm choice more visible" request; the
+   `.date-format-toggle-group` segmented control itself is defined
+   once, shared with the Landing page's first-run Preferences
+   dialog, in date-format-toggle.css. */
+.org-calendar-date-format-row{
+
+    margin-bottom:16px;
+
+}
+
+.org-calendar-date-format-label{
+
+    display:block;
+
+    margin-bottom:6px;
+
+    font-size:11px;
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    letter-spacing:0.4px;
+
+    color:#5f6368;
+
+}
+
+/* A small section heading -- NOT a real heading element (see the
+   `.org-calendar-title` comment above re: DOM heading order) --
+   marking where the Calendar itself begins, underneath the date-
+   presentation row above it ("place the calendar under a calendar
+   section"). */
+.org-rail-section-label{
+
+    margin:0 0 10px;
+
+    font-size:12px;
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    letter-spacing:0.4px;
+
+    color:#0b57d0;
+
+}
+
+.org-calendar-month-nav{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:14px;
+
+    margin-bottom:10px;
+
+}
+
+.org-calendar-month-nav-button{
+
+    width:26px;
+    height:26px;
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border:1px solid #d6d6d6;
+    border-radius:6px;
+
+    background:#ffffff;
+
+    font-size:15px;
+    line-height:1;
+
+    cursor:pointer;
+
+    transition:background-color .15s ease, border-color .15s ease;
+
+}
+
+.org-calendar-month-nav-button:hover{
+
+    background:#eef4ff;
+
+    border-color:#0b57d0;
+
+}
+
+.org-calendar-month-label{
+
+    min-width:120px;
+
+    text-align:center;
+
+    font-size:14px;
+    font-weight:700;
+
+    color:#111827;
+
+}
+
+.org-calendar-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(7, 1fr);
+
+    gap:4px;
+
+}
+
+.org-calendar-weekday-row{
+
+    margin-bottom:4px;
+
+}
+
+.org-calendar-weekday{
+
+    text-align:center;
+
+    font-size:10px;
+    font-weight:700;
+
+    color:#5f6368;
+
+    text-transform:uppercase;
+
+}
+
+.org-calendar-day{
+
+    aspect-ratio:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:flex-start;
+
+    gap:2px;
+
+    padding:4px 2px;
+
+    border:1px solid #e4e4e4;
+    border-radius:6px;
+
+    background:#ffffff;
+
+    font:inherit;
+
+    cursor:pointer;
+
+    transition:background-color .15s ease, border-color .15s ease;
+
+}
+
+.org-calendar-day:hover{
+
+    background:#f5f7fb;
+
+}
+
+.org-calendar-day-blank{
+
+    border:none;
+
+    background:transparent;
+
+    cursor:default;
+
+}
+
+.org-calendar-day-today{
+
+    border-color:#0b57d0;
+
+    font-weight:700;
+
+}
+
+.org-calendar-day-selected{
+
+    background:#eef4ff;
+
+    border-color:#0b57d0;
+
+}
+
+.org-calendar-day-number{
+
+    font-size:12px;
+
+    color:#111827;
+
+}
+
+.org-calendar-day-dots{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:2px;
+
+}
+
+.org-calendar-day-dot{
+
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    background:#0b57d0;
+
+}
+
+.org-calendar-day-dot-overflow{
+
+    font-size:8px;
+    font-weight:700;
+
+    color:#0b57d0;
+
+}
+
+.org-calendar-selected{
+
+    margin-top:18px;
+
+    padding-top:14px;
+
+    border-top:1px solid #ececec;
+
+}
+
+.org-calendar-selected-title{
+
+    margin:0 0 8px;
+
+    font-size:13px;
+    font-weight:700;
+
+    color:#111827;
+
+}
+
+.org-calendar-selected-empty{
+
+    margin:0 0 10px;
+
+    font-size:13px;
+
+    color:#5f6368;
+
+    font-style:italic;
+
+}
+
+/* One auto-discovered task on the selected date (see
+   CalendarTaskService.ts) -- entirely read-only apart from the
+   Time/Notes annotation fields at the bottom (`.org-calendar-task-
+   annotation`); there is no "remove" control here on purpose, since
+   a task itself was never something the person added and so isn't
+   something they can take away -- only its own Table row/Operational
+   Log entry, edited from its own System, can make it disappear. */
+.org-calendar-task{
+
+    padding:10px 12px;
+
+    margin-bottom:10px;
+
+    border:1px solid #e4e4e4;
+    border-radius:6px;
+
+    background:#fafafa;
+
+}
+
+.org-calendar-task-header{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    justify-content:space-between;
+
+    gap:8px;
+
+    margin-bottom:4px;
+
+}
+
+/* Colored via the task's own System's Capability color (inline
+   `style`, see OrganizationCalendarPanel.tsx) -- the same color the
+   day-cell's own dot for this task uses, so the two visibly match
+   up. */
+.org-calendar-task-origin{
+
+    font-size:20px;
+    font-weight:700;
+
+    letter-spacing:0.2px;
+
+}
+
+.org-calendar-task-open{
+
+    flex-shrink:0;
+
+    border:none;
+
+    background:transparent;
+
+    color:#0b57d0;
+
+    font:inherit;
+    font-size:12px;
+    font-weight:700;
+
+    padding:0;
+
+    cursor:pointer;
+
+}
+
+.org-calendar-task-open:hover{
+
+    text-decoration:underline;
+
+}
+
+.org-calendar-task-description{
+
+    font-size:20px;
+
+    color:#111827;
+
+    line-height:1.4;
+
+    word-break:break-word;
+
+    margin-bottom:8px;
+
+}
+
+.org-calendar-task-annotation{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+    padding-top:8px;
+
+    border-top:1px solid #ececec;
+
+}
+
+.org-calendar-task-annotation-time,
+.org-calendar-task-annotation-notes{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:4px;
+
+    font-size:11px;
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    letter-spacing:0.4px;
+
+    color:#5f6368;
+
+}
+
+.org-calendar-task-annotation-time{
+
+    /* The time picker itself doesn't need the full flyout width a
+       Notes textarea does -- keeps it from stretching edge to edge
+       and looking like it belongs to the row below instead. */
+    align-self:flex-start;
+
+    min-width:120px;
+
+}
+
+/* Overrides the generic `textarea{ min-height:180px; resize:vertical; }`
+   rule (conversation.css) that would otherwise force EVERY Notes
+   field open at a fixed 180px tall regardless of content, silently
+   swallowing `AutoGrowNotesField`'s own auto-grow-with-content resize
+   (see OrganizationCalendarPanel.tsx) since `el.scrollHeight` reads
+   back at least that clamped 180px however little text is actually
+   in the box. `resize:none` + `overflow:hidden` matches the same
+   auto-grow convention every other AutoGrow field in the app already
+   follows (see `.process-library-autogrow-field`) -- the box's own
+   height is entirely computed in JS, not left to the user to drag or
+   to natural textarea scrolling. */
+.org-calendar-task-annotation-notes textarea{
+
+    min-height:54px;
+
+    resize:none;
+    overflow:hidden;
+
+}
+
+/* No descriptive hint paragraph under either flyout title anymore
+   ("no other text" -- see the user's own request); this rule is
+   intentionally deleted alongside the JSX `<p className=
+   "org-rail-flyout-hint">` elements it used to style. */
+
+.org-rail-capability-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+/* Matches `.capability-item` (capability-list.css, the SAME sidebar
+   this rail is a second entry point to) as closely as this narrower
+   flyout column allows: the Capability's own colour by default,
+   regular weight, no border/background box -- only on hover does it
+   pick up a colour-tinted background and go bold, exactly like the
+   sidebar. Deliberately NOT a flat/literal blue on hover -- the
+   Capability keeps reading as itself, just emphasized. */
+.org-rail-capability-item{
+
+    display:block;
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    padding:10px 12px;
+
+    text-align:left;
+
+    border:none;
+    border-radius:6px;
+
+    background:none;
+
+    color:var(--capability-color, #333333);
+
+    font:inherit;
+    font-size:20px;
+    font-weight:500;
+
+    cursor:pointer;
+
+    transition:background-color .15s ease, font-weight .15s ease;
+
+}
+
+.org-rail-capability-item:hover{
+
+    background:color-mix(in srgb, var(--capability-color, #0b57d0) 12%, white);
+
+    font-weight:700;
+
+}
+
+.org-rail-system-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
+}
+
+/* Same "own colour, regular weight, bold-on-hover" convention as
+   `.org-rail-capability-item` above, matching `.system-item`
+   (system-list.css) -- but every System shown here spans every
+   Capability at once (unlike the sidebar's own filtered System
+   list), so `--system-color` is set PER ITEM from that System's own
+   parent Capability (see the component), not once for the whole
+   list. */
+.org-rail-system-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    padding:8px 12px;
+
+    text-align:left;
+
+    border:none;
+    border-radius:6px;
+
+    background:none;
+
+    font:inherit;
+
+    cursor:pointer;
+
+    transition:background-color .15s ease;
+
+}
+
+.org-rail-system-item:hover{
+
+    background:color-mix(in srgb, var(--system-color, #0b57d0) 10%, #eef4ff);
+
+}
+
+.org-rail-system-item:hover .org-rail-system-number,
+.org-rail-system-item:hover .org-rail-system-title{
+
+    font-weight:700;
+
+}
+
+.org-rail-system-number{
+
+    flex-shrink:0;
+
+    min-width:26px;
+
+    font-size:20px;
+    font-weight:500;
+
+    font-variant-numeric:tabular-nums;
+
+    color:var(--system-color, #000000);
+
+    transition:font-weight .15s ease;
+
+}
+
+.org-rail-system-title{
+
+    font-size:20px;
+    font-weight:500;
+
+    color:var(--system-color, #000000);
+
+    transition:font-weight .15s ease;
+
+}
+
+/* Base `.interview-input` look, matching the same convention
+   every other editor in the app repeats in its own scope (see
+   `.process-library .interview-input`, `.operational-log-table
+   .interview-input`, etc.) -- redeclared here since this panel
+   lives outside all of those. */
+.org-calendar-panel .interview-input{
+
+    display:block;
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    padding:8px 10px;
+
+    font:inherit;
+    font-size:14px;
+    line-height:1.5;
+
+    border:1px solid #d6d6d6;
+    border-radius:6px;
+
+    background:#ffffff;
+
+}
+
+.org-calendar-panel .interview-input:focus{
+
+    outline:none;
+
+    border-color:#0b57d0;
+
+}

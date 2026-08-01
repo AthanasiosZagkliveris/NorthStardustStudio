@@ -3,6 +3,7 @@ import { Fragment, MouseEvent, useCallback, useEffect, useLayoutEffect, useRef, 
 import {
     ProcessLibraryAnswerValue,
     ProcessRecordValue,
+    ProcessScheduleValue,
     ProcessSopValue,
     ProcessStepValue,
     createBlankProcess,
@@ -11,13 +12,16 @@ import {
     processDisplayId,
     sopDisplayId
 } from "../../framework/engine/AnswerUtils.ts";
+import DateCellInput from "./DateCellInput.tsx";
 
-// A shared, page-unique id: the Owner autofill <datalist> is
-// rendered ONCE for the whole table (its own suggestion set is the
-// same regardless of which row's Owner field is focused), rather
-// than one per row -- there's only ever one Process Library editor
-// mounted at a time, so a fixed id is safe.
+// Shared, page-unique ids: each of these <datalist>s is rendered
+// ONCE for the whole table (its own suggestion set is the same
+// regardless of which row's field is focused), rather than one per
+// row -- there's only ever one Process Library editor mounted at a
+// time, so a fixed id is safe.
 const OWNER_SUGGESTIONS_DATALIST_ID = "process-library-owner-suggestions";
+const PROCESS_ID_SUGGESTIONS_DATALIST_ID = "process-library-process-id-suggestions";
+const SOP_ID_SUGGESTIONS_DATALIST_ID = "process-library-sop-id-suggestions";
 
 interface ProcessLibraryEditorProps {
 
@@ -43,6 +47,187 @@ interface ProcessLibraryEditorProps {
 }
 
 const PROCESS_STATUS_OPTIONS = ["Active", "Draft", "Retired"];
+
+// The How Often column's preset choices -- "Custom" (formerly
+// "Other") is just a regular preset value now, same as any other
+// entry here; picking it no longer reveals a free-text field, only
+// its own date picker (see DATE_PICKER_FREQUENCIES below).
+const FREQUENCY_PRESET_OPTIONS = [
+    "Daily",
+    "Weekly",
+    "Bi-Weekly",
+    "Monthly",
+    "Quarterly",
+    "Semi-Annually",
+    "Annually",
+    "As Needed",
+    "Custom"
+];
+
+// Frequencies whose follow-up control is a weekday picker rather
+// than a date picker -- "which day of the week this recurs on" is
+// all Weekly/Bi-Weekly ever need; the specific starting date is
+// computed automatically (see nextIsoForWeekday below), never typed.
+const WEEKDAY_FREQUENCIES = ["Weekly", "Bi-Weekly"];
+
+// Frequencies whose follow-up control is a specific-date picker --
+// every occurrence then steps forward from that date at the
+// matching cadence (see CalendarTaskService's own
+// expandScheduleOccurrences, which is what actually turns this
+// into dots on the Organization Calendar). "Custom" belongs here
+// too -- it has no defined interval to repeat by, so its one picked
+// date just shows once.
+const DATE_PICKER_FREQUENCIES = ["Monthly", "Quarterly", "Semi-Annually", "Annually", "Custom"];
+
+// Monday-first, matching the order requested for the picker --
+// `value` is JS's own Date.getDay() convention (0 = Sunday) so it
+// plugs straight into isoWeekday/nextIsoForWeekday below with no
+// translation.
+const WEEKDAY_OPTIONS = [
+    { label: "Monday", value: 1 },
+    { label: "Tuesday", value: 2 },
+    { label: "Wednesday", value: 3 },
+    { label: "Thursday", value: 4 },
+    { label: "Friday", value: 5 },
+    { label: "Saturday", value: 6 },
+    { label: "Sunday", value: 0 }
+];
+
+/** 0 (Sunday) - 6 (Saturday) for a given ISO date, or null if it isn't a complete date yet. */
+function isoWeekday(iso: string): number | null {
+
+    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso.trim());
+
+    if (!match) {
+        return null;
+    }
+
+    const [, year, month, day] = match;
+
+    return new Date(Number(year), Number(month) - 1, Number(day)).getDay();
+
+}
+
+/** The nearest date on/after today that falls on the given weekday -- today itself counts. */
+function nextIsoForWeekday(weekday: number): string {
+
+    const now = new Date();
+    const delta = (weekday - now.getDay() + 7) % 7;
+    const target = new Date(now.getFullYear(), now.getMonth(), now.getDate() + delta);
+
+    return `${target.getFullYear()}-${String(target.getMonth() + 1).padStart(2, "0")}-${String(target.getDate()).padStart(2, "0")}`;
+
+}
+
+/**
+ * The How Often cell shared by both the Process table and the
+ * SOPs table -- the preset dropdown, plus whichever follow-up
+ * control (if any) that preset needs: a weekday picker for Weekly/
+ * Bi-Weekly, a date picker for Monthly/Quarterly/Semi-Annually/
+ * Annually/Custom, or nothing at all for Daily/As Needed (Daily
+ * recurs every day with nothing to pick; As Needed is explicitly
+ * irregular). "Custom" is just its own plain preset value -- no
+ * free-text field alongside it anymore, only its date picker.
+ *
+ * Mounted with `key={ownerKey}` (the Process's or SOP's own stable
+ * `key`) by both callers, same as before -- there's no more local
+ * "showing custom-text mode" state to reset on row identity change,
+ * since "Custom" is just a plain preset value now (see the module
+ * comment above FREQUENCY_PRESET_OPTIONS).
+ */
+function FrequencyCell({
+
+    howOften,
+
+    schedule,
+
+    disabled,
+
+    onChange
+
+}: {
+
+    howOften: string;
+
+    schedule?: ProcessScheduleValue;
+
+    disabled: boolean;
+
+    /**
+     * A SINGLE combined patch per change -- deliberately not two
+     * separate "change How Often" / "change schedule" callbacks.
+     * Both the frequency <select> and the weekday/date picker
+     * sometimes need to update How Often AND the schedule together
+     * in the same interaction (e.g. picking "Daily" both sets
+     * `howOften` and clears any leftover `schedule`); two separate
+     * calls to the caller's own updateProcess/updateSop in the same
+     * synchronous handler would each compute their patch against
+     * the SAME stale `process`/`sop` closure, so the second call
+     * would silently overwrite the first's change instead of
+     * combining with it.
+     */
+    onChange: (patch: { howOften: string; schedule?: ProcessScheduleValue }) => void;
+
+}) {
+
+    const needsWeekdayPicker = WEEKDAY_FREQUENCIES.includes(howOften);
+    const needsDatePicker = DATE_PICKER_FREQUENCIES.includes(howOften);
+
+    return (
+
+        <td className="process-library-col-frequency">
+
+            <select
+                className="interview-input"
+                value={howOften}
+                disabled={disabled}
+                onChange={(event) => {
+
+                    const next = event.target.value;
+
+                    const keepsSchedule = WEEKDAY_FREQUENCIES.includes(next) || DATE_PICKER_FREQUENCIES.includes(next);
+
+                    onChange({ howOften: next, schedule: keepsSchedule ? schedule : undefined });
+
+                }}
+            >
+                <option value="" disabled>Select frequency</option>
+                {FREQUENCY_PRESET_OPTIONS.map(option => (
+                    <option key={option} value={option}>{option}</option>
+                ))}
+            </select>
+
+            {needsWeekdayPicker && (
+                <select
+                    className="interview-input process-library-frequency-schedule-field"
+                    value={schedule?.anchorDate ? String(isoWeekday(schedule.anchorDate) ?? "") : ""}
+                    disabled={disabled}
+                    onChange={(event) => {
+                        onChange({ howOften, schedule: { anchorDate: nextIsoForWeekday(Number(event.target.value)) } });
+                    }}
+                >
+                    <option value="" disabled>Select a weekday</option>
+                    {WEEKDAY_OPTIONS.map(option => (
+                        <option key={option.value} value={option.value}>{option.label}</option>
+                    ))}
+                </select>
+            )}
+
+            {needsDatePicker && (
+                <div className="process-library-frequency-schedule-field">
+                    <DateCellInput
+                        value={schedule?.anchorDate ?? ""}
+                        disabled={disabled}
+                        onChange={(iso) => onChange({ howOften, schedule: iso.trim().length > 0 ? { anchorDate: iso } : undefined })}
+                    />
+                </div>
+            )}
+
+        </td>
+
+    );
+
+}
 
 /**
  * A single-line-by-default text field that grows taller to fit
@@ -399,13 +584,11 @@ function StepsTable({
  */
 function SopsTable({
     sops,
-    processIndex,
     disabled,
     initiallyExpandSteps,
     onChange
 }: {
     sops: ProcessSopValue[];
-    processIndex: number;
     disabled: boolean;
     initiallyExpandSteps: boolean;
     onChange: (sops: ProcessSopValue[]) => void;
@@ -528,6 +711,8 @@ function SopsTable({
                         <th className="process-library-col-id">ID</th>
                         <th>SOP Name</th>
                         <th>Purpose</th>
+                        <th>Owner</th>
+                        <th className="process-library-col-frequency">How Often</th>
                         <th className="process-library-col-steps">Steps</th>
                         <th className="process-library-col-actions" />
                     </tr>
@@ -548,13 +733,23 @@ function SopsTable({
                                     </button>
                                 </td>
                                 <td className="process-library-col-id">
-                                    <AutoGrowField
-                                        className="process-library-id-field"
-                                        placeholder={sopDisplayId(sop, processIndex, index)}
-                                        value={sop.id ?? ""}
-                                        disabled={disabled}
-                                        onChange={(next) => updateSop(index, { id: next })}
-                                    />
+                                    <div className="process-library-id-field-wrap">
+                                        <input
+                                            type="text"
+                                            className="interview-input process-library-id-field"
+                                            list={SOP_ID_SUGGESTIONS_DATALIST_ID}
+                                            placeholder={sopDisplayId(sops, index)}
+                                            value={sop.id ?? ""}
+                                            disabled={disabled}
+                                            onChange={(event) => updateSop(index, { id: event.target.value })}
+                                        />
+                                        {/* Read-only preview of the auto-generated ID (initials +
+                                            position-based number) -- the input itself only ever
+                                            holds the user's typed initials, so without this the
+                                            generated number is never actually visible once the
+                                            field has a value (the placeholder disappears). */}
+                                        <span className="process-library-id-computed">{sopDisplayId(sops, index)}</span>
+                                    </div>
                                 </td>
                                 <td>
                                     <AutoGrowField
@@ -572,6 +767,24 @@ function SopsTable({
                                         onChange={(next) => updateSop(index, { purpose: next })}
                                     />
                                 </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        className="interview-input"
+                                        list={OWNER_SUGGESTIONS_DATALIST_ID}
+                                        placeholder="Who owns this"
+                                        value={sop.who}
+                                        disabled={disabled}
+                                        onChange={(event) => updateSop(index, { who: event.target.value })}
+                                    />
+                                </td>
+                                <FrequencyCell
+                                    key={sop.key}
+                                    howOften={sop.howOften}
+                                    schedule={sop.schedule}
+                                    disabled={disabled}
+                                    onChange={(patch) => updateSop(index, patch)}
+                                />
                                 <td className="process-library-col-steps">
                                     {(Array.isArray(sop.steps) ? sop.steps : []).filter(step => step.action.trim().length > 0).length}
                                 </td>
@@ -592,7 +805,7 @@ function SopsTable({
 
                             {expanded.has(index) && (
                                 <tr className="process-library-expansion-row">
-                                    <td colSpan={6}>
+                                    <td colSpan={8}>
                                         <StepsTable
                                             steps={Array.isArray(sop.steps) ? sop.steps : []}
                                             disabled={disabled}
@@ -605,6 +818,12 @@ function SopsTable({
                     ))}
                 </tbody>
             </table>
+
+            <datalist id={SOP_ID_SUGGESTIONS_DATALIST_ID}>
+                {Array.from(new Set(sops.map(sop => (sop.id ?? "").trim()).filter(text => text.length > 0))).map(id => (
+                    <option key={id} value={id} />
+                ))}
+            </datalist>
 
         </div>
 
@@ -625,13 +844,11 @@ function SopsTable({
  */
 function ProcessCard({
     process,
-    processIndex,
     disabled,
     initiallyExpandSteps,
     onChange
 }: {
     process: ProcessRecordValue;
-    processIndex: number;
     disabled: boolean;
     initiallyExpandSteps: boolean;
     onChange: (process: ProcessRecordValue) => void;
@@ -687,7 +904,6 @@ function ProcessCard({
 
             <SopsTable
                 sops={sops}
-                processIndex={processIndex}
                 disabled={disabled}
                 initiallyExpandSteps={initiallyExpandSteps}
                 onChange={(nextSops) => onChange({ ...process, sops: nextSops })}
@@ -696,6 +912,49 @@ function ProcessCard({
         </div>
 
     );
+
+}
+
+/**
+ * Regroups a list of ID-bearing rows (every Process, or the SOPs
+ * within one Process) so rows sharing the same initials sit
+ * together, in alphabetical order of those initials -- see the
+ * mount-time effect below for why. `processDisplayId`/`sopDisplayId`
+ * only ever compute a NUMBER from a row's position among its own
+ * initials group; they never reorder the rows themselves, so
+ * without this, a newly-inserted "ORD" row landing in between two
+ * "PRC" rows would split what should read as one alphabetically-
+ * grouped, cleanly numbered sequence in two. `Array.prototype.sort`
+ * is guaranteed stable (ECMA-262 2019+), so rows that already share
+ * the same initials keep their existing relative order -- which is
+ * exactly the "number hierarchy" (001 before 002 before 003) the
+ * display ID's own counting depends on.
+ */
+function sortRowsByInitials<T extends { id?: string }>(rows: T[], fallbackInitials: string): T[] {
+
+    return [...rows].sort((a, b) => {
+
+        const aInitials = (a.id ?? "").trim().toUpperCase() || fallbackInitials;
+        const bInitials = (b.id ?? "").trim().toUpperCase() || fallbackInitials;
+
+        return aInitials.localeCompare(bInitials);
+
+    });
+
+}
+
+/**
+ * True when `rows` is already in the "grouped alphabetically by
+ * initials" order `sortRowsByInitials` would produce -- lets the
+ * mount-time effect below skip its own `onChange` call (and the
+ * extra render that would cause) on the very common case where
+ * nothing would actually move.
+ */
+function isAlreadySortedByInitials<T extends { id?: string }>(rows: T[], fallbackInitials: string): boolean {
+
+    const sorted = sortRowsByInitials(rows, fallbackInitials);
+
+    return rows.every((row, index) => row === sorted[index]);
 
 }
 
@@ -719,6 +978,35 @@ export default function ProcessLibraryEditor({
     }, [value.length]);
 
     const processes = value.length > 0 ? value : [createBlankProcess()];
+
+    // "When the user revisits the same page, the order should be
+    // shaped alphabetically, and with number hierarchy" -- regroup
+    // every Process (and every Process's own SOPs) by initials once,
+    // the moment this editor mounts, i.e. whenever the person
+    // actually revisits this Section. Deliberately mount-only (empty
+    // dependency array) rather than re-running on every edit --
+    // reordering rows out from under someone mid-keystroke every
+    // time they change an ID would be disorienting, so a freshly
+    // typed ID only settles into its alphabetical slot the NEXT time
+    // this page is opened. `isAlreadySortedByInitials` makes the
+    // very common "nothing to do" case a no-op, so opening an
+    // already-tidy Process Library doesn't cause an extra render.
+    useEffect(() => {
+
+        const needsProcessResort = !isAlreadySortedByInitials(processes, "PRC");
+        const needsSopResort = processes.some(process => !isAlreadySortedByInitials(process.sops, "SOP"));
+
+        if (!needsProcessResort && !needsSopResort) {
+            return;
+        }
+
+        onChange(sortRowsByInitials(processes, "PRC").map(process => ({
+            ...process,
+            sops: sortRowsByInitials(process.sops, "SOP")
+        })));
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const [expanded, setExpanded] = useState<Set<number>>(() => new Set([0]));
 
@@ -858,10 +1146,10 @@ export default function ProcessLibraryEditor({
                     <tr>
                         <th className="process-library-col-number">#</th>
                         <th className="process-library-col-id">ID</th>
-                        <th>Process Name</th>
-                        <th>Purpose</th>
+                        <th className="process-library-col-name">Process Name</th>
+                        <th className="process-library-col-purpose">Purpose</th>
                         <th>Owner</th>
-                        <th>How Often</th>
+                        <th className="process-library-col-frequency">How Often</th>
                         <th>Status</th>
                         <th className="process-library-col-actions" />
                     </tr>
@@ -897,15 +1185,22 @@ export default function ProcessLibraryEditor({
                                         </button>
                                     </td>
                                     <td className="process-library-col-id">
-                                        <AutoGrowField
-                                            className="process-library-id-field"
-                                            placeholder={processDisplayId(process, index)}
-                                            value={process.id ?? ""}
-                                            disabled={disabled}
-                                            onChange={(next) => updateProcess(index, { id: next })}
-                                        />
+                                        <div className="process-library-id-field-wrap">
+                                            <input
+                                                type="text"
+                                                className="interview-input process-library-id-field"
+                                                list={PROCESS_ID_SUGGESTIONS_DATALIST_ID}
+                                                placeholder={processDisplayId(processes, index)}
+                                                value={process.id ?? ""}
+                                                disabled={disabled}
+                                                onChange={(event) => updateProcess(index, { id: event.target.value })}
+                                            />
+                                            {/* Same read-only computed-ID preview as the SOP ID
+                                                field above -- see the comment there. */}
+                                            <span className="process-library-id-computed">{processDisplayId(processes, index)}</span>
+                                        </div>
                                     </td>
-                                    <td>
+                                    <td className="process-library-col-name">
                                         <AutoGrowField
                                             placeholder="e.g. Fulfil Orders"
                                             value={process.name}
@@ -913,7 +1208,7 @@ export default function ProcessLibraryEditor({
                                             onChange={(next) => updateProcess(index, { name: next })}
                                         />
                                     </td>
-                                    <td>
+                                    <td className="process-library-col-purpose">
                                         <AutoGrowField
                                             placeholder="One line"
                                             value={process.purpose}
@@ -932,14 +1227,13 @@ export default function ProcessLibraryEditor({
                                             onChange={(event) => updateProcess(index, { who: event.target.value })}
                                         />
                                     </td>
-                                    <td>
-                                        <AutoGrowField
-                                            placeholder="e.g. Daily"
-                                            value={process.howOften}
-                                            disabled={disabled}
-                                            onChange={(next) => updateProcess(index, { howOften: next })}
-                                        />
-                                    </td>
+                                    <FrequencyCell
+                                        key={process.key}
+                                        howOften={process.howOften}
+                                        schedule={process.schedule}
+                                        disabled={disabled}
+                                        onChange={(patch) => updateProcess(index, patch)}
+                                    />
                                     <td>
                                         <select
                                             className="interview-input"
@@ -973,7 +1267,6 @@ export default function ProcessLibraryEditor({
                                         <td colSpan={8}>
                                             <ProcessCard
                                                 process={process}
-                                                processIndex={index}
                                                 disabled={disabled}
                                                 initiallyExpandSteps={expandWithSteps.has(index)}
                                                 onChange={(next) => updateProcess(index, next)}
@@ -992,6 +1285,12 @@ export default function ProcessLibraryEditor({
             <datalist id={OWNER_SUGGESTIONS_DATALIST_ID}>
                 {ownerSuggestions.map(name => (
                     <option key={name} value={name} />
+                ))}
+            </datalist>
+
+            <datalist id={PROCESS_ID_SUGGESTIONS_DATALIST_ID}>
+                {Array.from(new Set(processes.map(process => (process.id ?? "").trim()).filter(text => text.length > 0))).map(id => (
+                    <option key={id} value={id} />
                 ))}
             </datalist>
 

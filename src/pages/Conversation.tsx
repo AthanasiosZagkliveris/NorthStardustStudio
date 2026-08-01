@@ -327,6 +327,16 @@ export default function Conversation() {
 
     const system = location.state?.system;
 
+    // Set only by the Organization Calendar's own "Open →" link on
+    // a task (see OrganizationCalendarPanel.tsx / SystemSelection.
+    // tsx's `openTask`) -- jumps the freshly (re)loaded session
+    // straight to this Section instead of wherever it was last
+    // left, without disturbing any other Section's saved answer.
+    // Sections are numbered from 1 (matches the "N. Section Title"
+    // heading and the Calendar's own "8.2"-style origin label);
+    // `goToSection` itself is 0-based.
+    const targetSectionNumber: number | undefined = location.state?.targetSectionNumber;
+
     // Every Interview Session now belongs to a specific
     // Organization (see OrganizationService / item 6) -- read
     // once on mount since the Landing page is the only place
@@ -368,6 +378,34 @@ export default function Conversation() {
     const [selectedProcessIndexes, setSelectedProcessIndexes] = useState<Set<number>>(new Set());
     const [selectedSopKeys, setSelectedSopKeys] = useState<Set<string>>(new Set());
 
+    // Escape acts as "Back" everywhere in the app: first close
+    // whichever popup is currently open (here, the Export flow's
+    // own two-step dialog), and only once nothing is open anymore
+    // does it fall through to the same navigation the footer's own
+    // "Back" link performs.
+    useEffect(() => {
+
+        function handleKeyDown(event: KeyboardEvent) {
+
+            if (event.key !== "Escape") {
+                return;
+            }
+
+            if (exportStep !== "none") {
+                setExportStep("none");
+                return;
+            }
+
+            navigate("/assistant");
+
+        }
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => window.removeEventListener("keydown", handleKeyDown);
+
+    }, [exportStep, navigate]);
+
     useEffect(() => {
 
         if (!organizationId) {
@@ -392,6 +430,11 @@ export default function Conversation() {
 
             const loadedSession = savedSession ?? interviewManager.create(system.id);
 
+            if (targetSectionNumber !== undefined) {
+                loadedSession.goToSection(targetSectionNumber - 1);
+                StorageService.saveInterview(organizationId, loadedSession);
+            }
+
             setSession(loadedSession);
         } catch (error) {
             setLoadingError(
@@ -413,7 +456,7 @@ export default function Conversation() {
             OrganizationService.flushPendingWrites();
         };
 
-    }, [system, organizationId]);
+    }, [system, organizationId, targetSectionNumber]);
 
     // The Business System's Product Register (Section 5) and the
     // Product Development System's Product Register (Section 1)
@@ -915,10 +958,10 @@ export default function Conversation() {
 
                       const stampedAllProcesses = allProcessesRaw.map((process, processIndex) => ({
                           ...process,
-                          id: processDisplayId(process, processIndex),
+                          id: processDisplayId(allProcessesRaw, processIndex),
                           sops: process.sops.map((sop, sopIndex) => ({
                               ...sop,
-                              id: sopDisplayId(sop, processIndex, sopIndex)
+                              id: sopDisplayId(process.sops, sopIndex)
                           }))
                       }));
 
@@ -956,12 +999,37 @@ export default function Conversation() {
                           },
                           (sectionNumber) => {
 
-                              if (sectionNumber === OPERATIONS_PROCESS_LIBRARY_SECTION && operationsExportScope === "selected-sops") {
-                                  return { forceExpandProcessSops: true };
+                              if (sectionNumber === OPERATIONS_PROCESS_LIBRARY_SECTION) {
+
+                                  // The response this Section exports (see
+                                  // above) is always `stampedAllProcesses`
+                                  // (or a filtered subset of it), whose
+                                  // `.id` fields already hold the FINAL
+                                  // computed display ID, not raw initials
+                                  // -- idsPreResolved tells the export
+                                  // block to use them as-is rather than
+                                  // recomputing (see its own doc comment
+                                  // on BuildAnswerBlocksOptions).
+                                  return {
+                                      idsPreResolved: true,
+                                      forceExpandProcessSops: operationsExportScope === "selected-sops"
+                                  };
+
                               }
 
                               if (sectionNumber === OPERATIONS_OPERATIONAL_LOG_SECTION || sectionNumber === OPERATIONS_ROLES_SECTION) {
-                                  return { processLibrary: stampedAllProcesses };
+
+                                  // Unlike the Process Library Section's own
+                                  // export above, resolveProcessLogLabel/
+                                  // resolveProcessId (used to cross-
+                                  // reference a Process from here) compute
+                                  // the display ID themselves from raw
+                                  // initials -- so this needs the RAW,
+                                  // unstamped list, not `stampedAllProcesses`
+                                  // (which would double-append a suffix on
+                                  // top of the already-final one).
+                                  return { processLibrary: allProcessesRaw };
+
                               }
 
                               return undefined;
@@ -1086,6 +1154,12 @@ export default function Conversation() {
 
     return (
         <div className="conversation-page">
+            {/*
+                No Organization Calendar / Capabilities / System rail
+                here -- that slide-in panel now lives only on the
+                System Selection page (see SystemSelection.tsx), not
+                inside the interview itself.
+            */}
             <AppHeader organizationName={organizationName} />
 
             <main className="conversation-content">
@@ -1174,8 +1248,8 @@ export default function Conversation() {
             />
 
             {exportStep === "warning" && (
-                <div className="confirmation-overlay">
-                    <div className="confirmation-dialog">
+                <div className="confirmation-overlay" onClick={() => setExportStep("none")}>
+                    <div className="confirmation-dialog" onClick={(event) => event.stopPropagation()}>
                         <h2 className="confirmation-title">
                             Sections Incomplete
                         </h2>
@@ -1208,8 +1282,8 @@ export default function Conversation() {
             )}
 
             {exportStep === "options" && (
-                <div className="confirmation-overlay">
-                    <div className="confirmation-dialog export-options-dialog">
+                <div className="confirmation-overlay" onClick={() => setExportStep("none")}>
+                    <div className="confirmation-dialog export-options-dialog" onClick={(event) => event.stopPropagation()}>
                         <h2 className="confirmation-title">
                             Export Options
                         </h2>
@@ -1292,7 +1366,7 @@ export default function Conversation() {
                                                     checked={selectedProcessIndexes.has(processIndex)}
                                                     onChange={() => toggleSelectedProcess(processIndex)}
                                                 />
-                                                {processDisplayId(process, processIndex)}
+                                                {processDisplayId(operationsProcesses, processIndex)}
                                                 {" - "}
                                                 {process.name?.trim() || "Untitled Process"}
                                             </label>
@@ -1310,7 +1384,7 @@ export default function Conversation() {
                                         {operationsProcesses.map((process, processIndex) => (
                                             <div key={processIndex} className="export-options-picker-process">
                                                 <div className="export-options-picker-process-name">
-                                                    {processDisplayId(process, processIndex)}
+                                                    {processDisplayId(operationsProcesses, processIndex)}
                                                     {" - "}
                                                     {process.name?.trim() || "Untitled Process"}
                                                 </div>
@@ -1324,7 +1398,7 @@ export default function Conversation() {
                                                             checked={selectedSopKeys.has(`${processIndex}:${sopIndex}`)}
                                                             onChange={() => toggleSelectedSop(processIndex, sopIndex)}
                                                         />
-                                                        {sopDisplayId(sop, processIndex, sopIndex)}
+                                                        {sopDisplayId(process.sops, sopIndex)}
                                                         {" - "}
                                                         {sop.name?.trim() || "Untitled SOP"}
                                                     </label>

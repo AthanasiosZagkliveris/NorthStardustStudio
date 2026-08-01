@@ -32,9 +32,13 @@ export default function SystemConfirmation({
 
     return (
 
-        <div className="confirmation-overlay">
+        // Clicking the dimmed backdrop (anywhere outside the dialog
+        // box itself) closes this the same way "Back" does -- the
+        // dialog box below stops the click from ever reaching here
+        // when the click actually landed inside it.
+        <div className="confirmation-overlay" onClick={onCancel}>
 
-            <div className="confirmation-dialog">
+            <div className="confirmation-dialog" onClick={(event) => event.stopPropagation()}>
 
                 {organizationName ? (
 

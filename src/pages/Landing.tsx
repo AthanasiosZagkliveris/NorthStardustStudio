@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import AppHeader from "../components/AppHeader";
+import UserPreferencesDialog from "../components/UserPreferencesDialog";
 
 import { OrganizationService, OrganizationSummary } from "../services/OrganizationService";
+import { PreferencesService } from "../services/PreferencesService.ts";
 
 import "../styles/global.css";
 import "../styles/landing.css";
@@ -21,6 +23,32 @@ export default function Landing() {
     // instead of removing immediately -- set to the pending Organization's
     // id while the dialog is open, null otherwise.
     const [pendingRemoveId, setPendingRemoveId] = useState<string | null>(null);
+
+    // The App's single User Name (one per App, not per
+    // Organization) -- freely editable at any time; only the
+    // very first time it goes from empty to non-empty does
+    // committing it also open the first-run Preferences popup
+    // (see `commitUserName`).
+    const [userName, setUserName] = useState(() => PreferencesService.getUserName());
+    const [preferencesOpen, setPreferencesOpen] = useState(false);
+
+    function commitUserName() {
+
+        const trimmed = userName.trim();
+
+        if (trimmed.length === 0) {
+            return;
+        }
+
+        const hadNameAlready = PreferencesService.getUserName().trim().length > 0;
+
+        PreferencesService.setUserName(trimmed);
+
+        if (!hadNameAlready) {
+            setPreferencesOpen(true);
+        }
+
+    }
 
     // Loads every saved Organization once on mount, and resolves
     // which one (if any) should already be treated as "selected":
@@ -56,6 +84,35 @@ export default function Landing() {
         setSelectedId(selected);
 
     }, []);
+
+    // Escape closes whichever popup is open here (Landing is the
+    // root page -- there's no "Back" destination to fall through
+    // to, so unlike every other page's own Escape handler this one
+    // only ever closes things, never navigates).
+    useEffect(() => {
+
+        function handleKeyDown(event: KeyboardEvent) {
+
+            if (event.key !== "Escape") {
+                return;
+            }
+
+            if (preferencesOpen) {
+                setPreferencesOpen(false);
+                return;
+            }
+
+            if (pendingRemoveId) {
+                setPendingRemoveId(null);
+            }
+
+        }
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => window.removeEventListener("keydown", handleKeyDown);
+
+    }, [preferencesOpen, pendingRemoveId]);
 
     function addOrganization() {
 
@@ -158,6 +215,29 @@ export default function Landing() {
 
       <AppHeader />
 
+      <section className="user-name-section">
+
+          <label className="user-name-label" htmlFor="user-name-input">
+              User Name
+          </label>
+
+          <input
+              id="user-name-input"
+              type="text"
+              className="user-name-input"
+              placeholder="Enter your name"
+              value={userName}
+              onChange={(event) => setUserName(event.target.value)}
+              onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                      commitUserName();
+                  }
+              }}
+              onBlur={commitUserName}
+          />
+
+      </section>
+
       <section className="organization-section">
 
         <div className="organization-list">
@@ -257,9 +337,9 @@ export default function Landing() {
 
       {pendingRemoveId && (
 
-        <div className="confirmation-overlay">
+        <div className="confirmation-overlay" onClick={cancelRemoveOrganization}>
 
-            <div className="confirmation-dialog">
+            <div className="confirmation-dialog" onClick={(event) => event.stopPropagation()}>
 
                 <h2 className="confirmation-title">
                     Remove Organization?
@@ -293,6 +373,11 @@ export default function Landing() {
         </div>
 
       )}
+
+      <UserPreferencesDialog
+          open={preferencesOpen}
+          onClose={() => setPreferencesOpen(false)}
+      />
 
     </main>
   );

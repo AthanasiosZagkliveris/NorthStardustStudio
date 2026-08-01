@@ -114,6 +114,17 @@
 
 }
 
+/* The static "Capabilities" sidebar heading only -- NOT
+   `.workspace-current-capability` (the dynamic active-Capability
+   name on the right, e.g. "Deliver Value"), which keeps its own
+   normal casing since it's naming a specific Capability, not
+   labeling a section. */
+.workspace-subtitle {
+
+    text-transform: uppercase;
+
+}
+
 .workspace-current-capability {
 
     color: #0b57d0;

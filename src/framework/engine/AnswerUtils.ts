@@ -103,19 +103,53 @@ export interface ProcessStepValue {
 }
 
 /**
+ * A recurring (or one-off) schedule attached to a Process or
+ * SOP's own How Often field -- only ever present once the user
+ * has actually picked something in the follow-up control that
+ * appears under the How Often dropdown (see ProcessLibraryEditor.
+ * tsx's own FrequencyCell): a weekday for Weekly/Bi-Weekly, or a
+ * calendar date for Monthly/Quarterly/Semi-Annually/Annually/
+ * Other. Daily and As Needed never carry one -- Daily recurs
+ * every single day with nothing to anchor, and As Needed is
+ * explicitly irregular (see CalendarTaskService.ts's own
+ * `expandScheduleOccurrences`, which is what actually turns this
+ * into dots on the Organization Calendar).
+ *
+ * `anchorDate` alone is enough to represent every supported
+ * cadence: for Weekly/Bi-Weekly it's the first matching weekday
+ * on/after the moment it was picked (its own day-of-week IS the
+ * chosen weekday, so there's no need to separately store which
+ * weekday was picked); for Monthly/Quarterly/Semi-Annually/
+ * Annually it's the date every later occurrence steps forward
+ * from (same day-of-month, stepping by 1/3/6/12 months); for
+ * Other it's simply the one date picked (no defined interval to
+ * repeat by, so it shows once).
+ */
+export interface ProcessScheduleValue {
+    anchorDate: string;
+}
+
+/**
  * A single SOP within a Process. Always holds at least
  * one Step (mirroring every other "always at least one
  * row" default in this file) -- an SOP with zero Steps
  * would read as broken rather than "not written yet".
  *
- * `id` is an OPTIONAL, user-editable reference tag (e.g.
- * "SOP-01.1", or a custom scheme the user prefers, like
- * "SHIP-DOM"). Left blank, the editor and export both fall
- * back to the auto-generated position-based default (see
- * sopDisplayId) -- so an ID always makes sense out of the
- * box, but a user who wants their own naming convention
- * (and one that survives reordering, unlike the auto
- * default) can simply type over it.
+ * `id` is an OPTIONAL reference tag holding just the SOP's own
+ * INITIALS (e.g. "SHIP") -- the numeric suffix is always
+ * computed automatically from those initials and this SOP's own
+ * position among every other SOP (in this same Process) sharing
+ * them (see sopDisplayId). Left blank, it falls back to the
+ * generic "SOP" initials, so an ID always makes sense out of the
+ * box.
+ *
+ * `who`/`howOften` mirror the SAME fields on ProcessRecordValue
+ * below, one level down -- an SOP can have its own Owner and its
+ * own How Often independent of its parent Process's (e.g. a
+ * Process done "As Needed" overall might still have one SOP
+ * that's actually done Weekly). `schedule` is that SOP's own
+ * follow-up pick (see ProcessScheduleValue above), same as the
+ * Process-level one.
  *
  * `key` is the same stable, never-user-facing identifier as
  * ProcessStepValue.key above -- see that field's own doc
@@ -126,6 +160,9 @@ export interface ProcessSopValue {
     key: string;
     name: string;
     purpose: string;
+    who: string;
+    howOften: string;
+    schedule?: ProcessScheduleValue;
     steps: ProcessStepValue[];
 }
 
@@ -138,9 +175,12 @@ export interface ProcessSopValue {
  * not rendered, rather than the data model having a
  * genuinely different shape for the 1-SOP case.
  *
- * `id` is the same optional, user-editable reference tag as
- * ProcessSopValue.id -- see processDisplayId for the
- * auto-generated default it falls back to when blank.
+ * `id` is the same INITIALS-only reference tag as
+ * ProcessSopValue.id -- see processDisplayId for how its numeric
+ * suffix is computed.
+ *
+ * `schedule` is this Process's own follow-up pick under How
+ * Often -- see ProcessScheduleValue above.
  *
  * `key` is a SEPARATE, non-optional, never-user-facing
  * identifier (unlike `id`, which the user can freely edit or
@@ -160,6 +200,7 @@ export interface ProcessRecordValue {
     purpose: string;
     who: string;
     howOften: string;
+    schedule?: ProcessScheduleValue;
     status: string;
     sops: ProcessSopValue[];
 
@@ -183,37 +224,73 @@ export interface ProcessRecordValue {
 }
 
 /**
- * A Process's display ID -- the user's own custom `id` if
- * they've set one, otherwise the auto-generated "PRC-001"-
- * style default computed from its current position. Shared
- * by the live editor (ProcessLibraryEditor.tsx) and export
- * (buildAnswerBlocks below) so the two never disagree.
+ * A Process's display ID -- always "{INITIALS}-{seq}", e.g.
+ * "ORD-002". The initials are whatever the user typed into the
+ * ID field (uppercased; "PRC" when left blank); the numeric
+ * suffix is NEVER typed, it's always computed automatically from
+ * how many Processes AT OR BEFORE this one in the table (in
+ * whatever order they're currently arranged) share those same
+ * initials -- so entering "ORD" on three different rows numbers
+ * them ORD-001/ORD-002/ORD-003 in the order they appear, and
+ * every other set of initials keeps its own separate count.
+ *
+ * Takes the full `processes` list (not just this one Process)
+ * because that count can only be computed by looking at every
+ * row up to this one -- shared by the live editor
+ * (ProcessLibraryEditor.tsx) and export (buildAnswerBlocks
+ * below) so the two never disagree. Typed as a plain
+ * `{ id?: string }` array (not the full ProcessRecordValue[])
+ * so the SAME function also works against a Process's own
+ * ProcessChangeSnapshot list (see diffProcessAgainstSnapshot's
+ * `removedSopPlaceholder` case's own sopDisplayId call below,
+ * which needs the exact same grouping logic against a historical
+ * snapshot that's no longer part of the live data at all).
  */
-export function processDisplayId(process: ProcessRecordValue, processIndex: number): string {
+export function processDisplayId(processes: Array<{ id?: string }>, processIndex: number): string {
 
-    const custom = process.id?.trim();
+    const initials = (processes[processIndex]?.id ?? "").trim().toUpperCase() || "PRC";
 
-    return custom && custom.length > 0
-        ? custom
-        : `PRC-${String(processIndex + 1).padStart(3, "0")}`;
+    let sequence = 0;
+
+    for (let index = 0; index <= processIndex; index++) {
+
+        const candidateInitials = (processes[index]?.id ?? "").trim().toUpperCase() || "PRC";
+
+        if (candidateInitials === initials) {
+            sequence += 1;
+        }
+
+    }
+
+    return `${initials}-${String(sequence).padStart(3, "0")}`;
 
 }
 
 /**
- * An SOP's display ID -- the user's own custom `id` if
- * they've set one, otherwise the auto-generated
- * "SOP-001.2"-style default computed from its Process's and
- * its own current position (the 2nd SOP under the 1st
- * Process). Shared by the live editor and export, same as
- * processDisplayId above.
+ * An SOP's display ID -- same "{INITIALS}-{seq}" scheme as
+ * processDisplayId above, one level down: the count is scoped to
+ * this SOP's OWN Process (every SOP within the same Process
+ * sharing these initials), matching the existing ".2"-style
+ * nesting-under-its-Process convention this ID replaces. "SOP"
+ * is the default initials when left blank.
  */
-export function sopDisplayId(sop: ProcessSopValue, processIndex: number, sopIndex: number): string {
+export function sopDisplayId(sops: Array<{ id?: string }>, sopIndex: number): string {
 
-    const custom = sop.id?.trim();
+    const initials = (sops[sopIndex]?.id ?? "").trim().toUpperCase() || "SOP";
 
-    return custom && custom.length > 0
-        ? custom
-        : `SOP-${String(processIndex + 1).padStart(3, "0")}.${sopIndex + 1}`;
+    let sequence = 0;
+
+    for (let index = 0; index <= sopIndex; index++) {
+
+        const candidateInitials = (sops[index]?.id ?? "").trim().toUpperCase() || "SOP";
+
+        if (candidateInitials === initials) {
+            sequence += 1;
+        }
+
+    }
+
+    return `${initials}-${String(sequence).padStart(3, "0")}`;
 
 }
 
@@ -290,7 +367,14 @@ export function createBlankProcessStep(): ProcessStepValue {
  */
 export function createBlankProcessSop(): ProcessSopValue {
 
-    return { key: createProcessSopKey(), name: "", purpose: "", steps: [createBlankProcessStep()] };
+    return {
+        key: createProcessSopKey(),
+        name: "",
+        purpose: "",
+        who: "",
+        howOften: "",
+        steps: [createBlankProcessStep()]
+    };
 
 }
 
@@ -432,7 +516,7 @@ export function resolveProcessLogLabel(processKey: string, processes: ProcessRec
 
     const namePart = process.name.trim().length > 0 ? process.name.trim() : "Untitled Process";
 
-    return `${processDisplayId(process, processIndex)} · ${namePart}`;
+    return `${processDisplayId(processes, processIndex)} · ${namePart}`;
 
 }
 
@@ -456,7 +540,7 @@ export function resolveProcessId(processKey: string, processes: ProcessRecordVal
         return "";
     }
 
-    return processDisplayId(processes[processIndex], processIndex);
+    return processDisplayId(processes, processIndex);
 
 }
 
@@ -489,6 +573,8 @@ export interface ProcessSopSnapshot {
     id?: string;
     name: string;
     purpose: string;
+    who: string;
+    howOften: string;
     steps: ProcessStepSnapshot[];
 }
 
@@ -527,6 +613,8 @@ export function captureProcessSnapshot(process: ProcessRecordValue): ProcessChan
             id: sop.id,
             name: sop.name,
             purpose: sop.purpose,
+            who: sop.who,
+            howOften: sop.howOften,
             steps: (Array.isArray(sop.steps) ? sop.steps : []).map(step => ({
                 key: step.key,
                 action: step.action
@@ -559,6 +647,13 @@ const PROCESS_FIELD_LABELS: Array<{ key: "name" | "purpose" | "who" | "howOften"
     { key: "status", label: "Status" }
 ];
 
+const SOP_FIELD_LABELS: Array<{ key: "name" | "purpose" | "who" | "howOften"; label: string }> = [
+    { key: "name", label: "Name" },
+    { key: "purpose", label: "Purpose" },
+    { key: "who", label: "Owner" },
+    { key: "howOften", label: "How Often" }
+];
+
 /**
  * Compares a Process's CURRENT field values against a snapshot
  * of what they were as of the last Operational Log update for
@@ -579,9 +674,14 @@ const PROCESS_FIELD_LABELS: Array<{ key: "name" | "purpose" | "who" | "howOften"
  * non-blank Process is reported as one single Addition line, or
  * it's still entirely blank (just added, nothing typed into it
  * yet), in which case nothing is reported at all.
+ *
+ * Takes the full `processes` list (not just this one Process),
+ * same reason as processDisplayId above -- its own ID label
+ * (and every one of its SOPs' own ID labels) needs to see every
+ * OTHER row to count correctly.
  */
 export function diffProcessAgainstSnapshot(
-    process: ProcessRecordValue,
+    processes: ProcessRecordValue[],
     processIndex: number,
     oldSnapshot: ProcessChangeSnapshot | undefined
 ): ProcessChangeSummary {
@@ -590,7 +690,8 @@ export function diffProcessAgainstSnapshot(
     const additions: string[] = [];
     const removals: string[] = [];
 
-    const processLabel = processDisplayId(process, processIndex);
+    const process = processes[processIndex];
+    const processLabel = processDisplayId(processes, processIndex);
     const sops = Array.isArray(process.sops) ? process.sops : [];
 
     if (!oldSnapshot) {
@@ -629,7 +730,7 @@ export function diffProcessAgainstSnapshot(
 
     sops.forEach((sop, sopIndex) => {
 
-        const sopLabel = sopDisplayId(sop, processIndex, sopIndex);
+        const sopLabel = sopDisplayId(sops, sopIndex);
         const oldSop = oldSopsByKey.get(sop.key);
         const steps = Array.isArray(sop.steps) ? sop.steps : [];
 
@@ -650,13 +751,13 @@ export function diffProcessAgainstSnapshot(
 
         }
 
-        if (oldSop.name.trim() !== sop.name.trim()) {
-            updates.push(`${sopLabel} / Name`);
-        }
+        SOP_FIELD_LABELS.forEach(({ key, label }) => {
 
-        if (oldSop.purpose.trim() !== sop.purpose.trim()) {
-            updates.push(`${sopLabel} / Purpose`);
-        }
+            if ((oldSop[key] ?? "").trim() !== (sop[key] ?? "").trim()) {
+                updates.push(`${sopLabel} / ${label}`);
+            }
+
+        });
 
         const oldStepsByKey = new Map(oldSop.steps.map(step => [step.key, step]));
         const newStepKeys = new Set(steps.map(step => step.key));
@@ -713,15 +814,11 @@ export function diffProcessAgainstSnapshot(
             return;
         }
 
-        const removedSopPlaceholder: ProcessSopValue = {
-            id: oldSop.id,
-            key: oldSop.key,
-            name: oldSop.name,
-            purpose: oldSop.purpose,
-            steps: []
-        };
-
-        removals.push(sopDisplayId(removedSopPlaceholder, processIndex, oldSopIndex));
+        // `oldSnapshot.sops` -- not the live `sops` above, which no
+        // longer contains this one -- is the exact historical list
+        // sopDisplayId needs to recompute the SAME label this SOP
+        // showed the last time it was actually on screen.
+        removals.push(sopDisplayId(oldSnapshot.sops, oldSopIndex));
 
     });
 
@@ -806,7 +903,7 @@ export function generateOperationalLogEntriesFromProcessLibrary(
 
         if (!process.lastLoggedSnapshot) {
 
-            const summary = diffProcessAgainstSnapshot(process, processIndex, undefined);
+            const summary = diffProcessAgainstSnapshot(processes, processIndex, undefined);
             const description = formatProcessChangeDescription(summary);
 
             if (description.length > 0) {
@@ -824,7 +921,7 @@ export function generateOperationalLogEntriesFromProcessLibrary(
 
         }
 
-        const summary = diffProcessAgainstSnapshot(process, processIndex, process.lastLoggedSnapshot);
+        const summary = diffProcessAgainstSnapshot(processes, processIndex, process.lastLoggedSnapshot);
         const description = formatProcessChangeDescription(summary);
 
         if (description.length === 0) {
@@ -1334,6 +1431,30 @@ export interface BuildAnswerBlocksOptions {
      */
     processLibrary?: ProcessRecordValue[];
 
+    /**
+     * Process Library only: when true, every Process/SOP's `.id` in
+     * the data being exported is ALREADY the final computed display
+     * ID ("PRC-001", not just typed initials like "PRC") -- so this
+     * block should use `process.id`/`sop.id` directly rather than
+     * running it back through processDisplayId/sopDisplayId.
+     *
+     * Why this exists: Conversation.tsx's own export flow needs a
+     * Process's display ID to reflect its ORIGINAL position in the
+     * FULL Process Library, even when the user chose to export only
+     * a filtered subset (e.g. "Selected Processes") -- otherwise a
+     * Process that was originally 6th would export as "PRC-001"
+     * just because it's 1st in the filtered subset. To get that, it
+     * pre-computes each ID against the full unfiltered list BEFORE
+     * filtering, and sets this flag so this block won't recompute
+     * against the (now positionally-meaningless) filtered list's
+     * own indices -- recomputing there would both get the number
+     * wrong AND double-append a second "-001" on top of the
+     * already-final one, since processDisplayId always treats
+     * whatever's in `.id` as bare initials to number, never as an
+     * already-numbered ID to leave alone.
+     */
+    idsPreResolved?: boolean;
+
 }
 
 /**
@@ -1791,7 +1912,16 @@ export function buildAnswerBlocks(
                     return;
                 }
 
-                const processId = processDisplayId(process, processIndex);
+                // See BuildAnswerBlocksOptions.idsPreResolved's own
+                // doc comment -- when the caller already stamped the
+                // final computed ID onto `process.id` (to preserve
+                // original-position numbering through export-scope
+                // filtering), use it as-is instead of recomputing,
+                // which would both get the number wrong and
+                // double-append a second suffix on top.
+                const processId = options?.idsPreResolved
+                    ? (typeof process.id === "string" && process.id.trim().length > 0 ? process.id.trim() : processDisplayId(processes, processIndex))
+                    : processDisplayId(processes, processIndex);
                 const processName = typeof process.name === "string" ? process.name.trim() : "";
 
                 blocks.push({
@@ -1853,7 +1983,9 @@ export function buildAnswerBlocks(
                             return;
                         }
 
-                        const sopId = sopDisplayId(sop, processIndex, sopIndex);
+                        const sopId = options?.idsPreResolved
+                            ? (typeof sop.id === "string" && sop.id.trim().length > 0 ? sop.id.trim() : sopDisplayId(sops, sopIndex))
+                            : sopDisplayId(sops, sopIndex);
                         const sopName = typeof sop.name === "string" ? sop.name.trim() : "";
 
                         blocks.push({
@@ -1863,6 +1995,20 @@ export function buildAnswerBlocks(
 
                         if (typeof sop.purpose === "string" && sop.purpose.trim().length > 0) {
                             blocks.push(...toContentBlocks(sop.purpose.trim()));
+                        }
+
+                        const sopMetaParts: string[] = [];
+
+                        if (typeof sop.who === "string" && sop.who.trim().length > 0) {
+                            sopMetaParts.push(`Owner: ${sop.who.trim()}`);
+                        }
+
+                        if (typeof sop.howOften === "string" && sop.howOften.trim().length > 0) {
+                            sopMetaParts.push(`How often: ${sop.howOften.trim()}`);
+                        }
+
+                        if (sopMetaParts.length > 0) {
+                            blocks.push({ kind: "paragraph", text: sopMetaParts.join(" · ") });
                         }
 
                         const checklist = stepsChecklistBlock(steps);
@@ -1897,7 +2043,7 @@ export function buildAnswerBlocks(
 
             const sorted = sortOperationalLogRows(filled);
 
-            const headers = ["#", "Date", "Process", "Owner of Change", "Description", "Notes"];
+            const headers = ["#", "Date", "Process", "Owner", "Description", "Notes"];
 
             const dataRows = sorted.map((row, index) => [
                 String(index + 1),
@@ -1933,7 +2079,7 @@ export function buildAnswerBlocks(
                     kind: "table",
                     headers: ["Process ID", "Responsibility", "Notes"],
                     rows: group.entries.map(entry => [
-                        processDisplayId(entry.process, entry.processIndex),
+                        processDisplayId(processes, entry.processIndex),
                         entry.process.name.trim().length > 0 ? entry.process.name.trim() : "Untitled Process",
                         entry.notes.trim()
                     ])

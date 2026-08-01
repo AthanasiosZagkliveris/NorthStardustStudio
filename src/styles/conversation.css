@@ -1996,6 +1996,20 @@ textarea:focus{
 
 }
 
+/* Fixed layout (percentage widths on every column, summing to
+   100%) ONLY for the top-level Process table -- this is what
+   actually makes Process Name and Purpose come out equal (see
+   `.process-library-col-name`/`-purpose` below) instead of the
+   browser's normal auto layout re-shrinking them the moment
+   Owner/How Often/Status need more room. The nested SOPs/Steps
+   tables above keep their own default auto layout (unaffected,
+   out of scope for this round). */
+.process-library-table{
+
+    table-layout:fixed;
+
+}
+
 .process-library-table th,
 .process-library-table td,
 .process-library-sops-table th,
@@ -2055,8 +2069,35 @@ textarea:focus{
 .process-library-col-number{
 
     width:1%;
+    min-width:58px;
 
     white-space:nowrap;
+
+}
+
+/* `.process-library-col-number` / `.process-library-col-actions`
+   are shared with the nested SOPs/Steps tables (still plain auto
+   layout, where their own `width:1%` above is just a shrink-to-
+   content HINT). The top-level Process table is `table-layout:
+   fixed` now though (see above), where a percent/px width is
+   taken LITERALLY, not as a hint -- `1%` there would clip the #
+   and RowActions cells down to almost nothing. `>` child
+   combinators all the way down from `.process-library-table`
+   keep this override from ever reaching the nested tables' own
+   cells (which sit several elements deeper, inside another
+   table's own tbody > tr > td, never a direct child chain
+   matching this selector). */
+.process-library-table > thead > tr > th.process-library-col-number,
+.process-library-table > tbody > tr.process-library-row > td.process-library-col-number{
+
+    width:58px;
+
+}
+
+.process-library-table > thead > tr > th.process-library-col-actions,
+.process-library-table > tbody > tr.process-library-row > td.process-library-col-actions{
+
+    width:70px;
 
 }
 
@@ -2106,6 +2147,65 @@ textarea:focus{
     padding:8px !important;
 
     font-size:13px;
+
+}
+
+/* Wraps the ID input together with its read-only computed-ID
+   preview (see the comment beside `.process-library-id-computed`
+   below) so the two stack in the same fixed-width column. */
+.process-library-id-field-wrap{
+
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+
+}
+
+/* Shows the auto-generated ID (initials + position-based number,
+   e.g. "ORD-002") beneath the input. The input itself only ever
+   holds the initials the user typed -- this is the only place the
+   full generated ID is actually visible while editing. */
+.process-library-id-computed{
+
+    padding-left:2px;
+
+    font-size:11px;
+    color:#5f6368;
+    font-variant-numeric:tabular-nums;
+    white-space:nowrap;
+
+}
+
+/* Process Name and Purpose deliberately carry the SAME width
+   value (rather than each auto-sizing to its own content, which
+   would leave Purpose -- usually the longer text -- crowding
+   Name) so the two columns always line up evenly regardless of
+   what's typed into either one. Kept modest (not a generous
+   fixed width like the ID column's own) so Owner/How Often/
+   Status still have enough of the table's fairly narrow overall
+   width (the interview card tops out at 850px) left to size
+   themselves sensibly -- long Name/Purpose text still wraps and
+   grows the row taller instead of being clipped, the same
+   AutoGrowField behavior every field in this table already has. */
+.process-library-col-name,
+.process-library-col-purpose{
+
+    width:130px;
+
+}
+
+/* The Weekly/Bi-Weekly weekday picker, or the Monthly/Quarterly/
+   Semi-Annually/Annually/Custom date picker (see FrequencyCell in
+   ProcessLibraryEditor.tsx) -- stacks under the frequency dropdown
+   with a little breathing room; deliberately NOT `display:flex` on
+   the <td> itself, since overriding a <td>'s display away from
+   `table-cell` breaks its participation in the table's column grid,
+   and both elements already render as block-level (see
+   `.process-library select.interview-input` / `.interview-input`
+   above) so they naturally stack with no extra layout needed. */
+.process-library-frequency-schedule-field{
+
+    margin-top:6px;
 
 }
 

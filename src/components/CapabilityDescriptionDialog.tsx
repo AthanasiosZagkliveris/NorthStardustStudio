@@ -39,11 +39,12 @@ export default function CapabilityDescriptionDialog({
 
     return (
 
-        <div className="capability-description-overlay">
+        <div className="capability-description-overlay" onClick={onBack}>
 
             <div
                 className="capability-description-dialog"
                 style={{ "--capability-color": capability.color } as React.CSSProperties}
+                onClick={(event) => event.stopPropagation()}
             >
 
                 <div className="capability-description-heading">

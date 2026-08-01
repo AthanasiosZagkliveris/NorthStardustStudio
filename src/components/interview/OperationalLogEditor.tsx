@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import {
     OperationalLogAnswerValue,
@@ -7,6 +7,8 @@ import {
     resolveProcessId,
     resolveProcessLogLabel
 } from "../../framework/engine/AnswerUtils.ts";
+import { isoToDisplay } from "./DateCellInput.tsx";
+import { DateFormat, PreferencesService } from "../../services/PreferencesService.ts";
 
 interface OperationalLogEditorProps {
 
@@ -158,6 +160,22 @@ export default function OperationalLogEditor({
     const [filterProcessKey, setFilterProcessKey] = useState<string>(NO_FILTER);
     const [filterOwner, setFilterOwner] = useState<string>(NO_FILTER);
 
+    // The Date column's own US (MM/DD/YYYY) / EU (DD/MM/YYYY)
+    // presentation toggle -- same shared, app-wide preference
+    // (PreferencesService) DynamicTable's own Date columns and
+    // the Organization Calendar toggle too, so switching it
+    // anywhere updates every open Date display at once. The
+    // underlying stored `row.date` always stays ISO.
+    const [dateFormat, setDateFormat] = useState<DateFormat>(PreferencesService.getDateFormat());
+
+    useEffect(() => {
+
+        return PreferencesService.subscribe(() => {
+            setDateFormat(PreferencesService.getDateFormat());
+        });
+
+    }, []);
+
     function updateNotes(key: string, notes: string) {
 
         onChange(rows.map(row => (row.key === key ? { ...row, notes } : row)));
@@ -225,7 +243,7 @@ export default function OperationalLogEditor({
 
                             return (
                                 <option key={process.key} value={process.key}>
-                                    {resolveProcessLogLabel(process.key, processes) || processDisplayId(process, processIndex)}
+                                    {resolveProcessLogLabel(process.key, processes) || processDisplayId(processes, processIndex)}
                                 </option>
                             );
 
@@ -273,9 +291,21 @@ export default function OperationalLogEditor({
                     <thead>
 
                         <tr>
-                            <th className="operational-log-col-date">Date</th>
+                            <th className="operational-log-col-date">
+                                {/*
+                                    No in-table US/DD toggle here anymore --
+                                    the Organization Calendar panel (System
+                                    Selection page) now owns the single,
+                                    app-wide control for this same shared
+                                    PreferencesService setting, so this cell
+                                    just renders the Date per whatever that
+                                    setting currently is (see `dateFormat`
+                                    below).
+                                */}
+                                Date
+                            </th>
                             <th className="operational-log-col-process">Process ID</th>
-                            <th className="operational-log-col-owner">Owner of Change</th>
+                            <th className="operational-log-col-owner">Owner</th>
                             <th>Description</th>
                             <th>Notes</th>
                         </tr>
@@ -297,7 +327,7 @@ export default function OperationalLogEditor({
                             <tr key={row.key}>
 
                                 <td className="operational-log-col-date operational-log-col-readonly">
-                                    {row.date.trim()}
+                                    {isoToDisplay(row.date, dateFormat) || row.date.trim()}
                                 </td>
 
                                 <td className="operational-log-col-process operational-log-col-readonly">
