@@ -2135,11 +2135,42 @@ textarea:focus{
    needed in normal use; the background tint per nesting level (see
    above) is what actually distinguishes Process/SOP/Step, not extra
    width. */
+/* 56px, matching NUMBER_COLUMN_WIDTH in ProcessLibraryEditor.tsx --
+   this column never gets a per-render inline `style={{width:...}}`
+   override the way Name/Purpose/Owner/Status do (its width never
+   actually needs to change), so this plain CSS value IS the real,
+   only source of its width, not just a pre-hydration fallback. Must
+   stay in sync with NUMBER_COLUMN_WIDTH by hand: table-layout:fixed
+   sizes each column from its own first-row cell's own width, so
+   bumping the JS constant alone (which only fed into the TABLE's
+   own total declared width, not this column's own CSS) previously
+   left a mismatch -- the table claimed 16px more total width than
+   its columns actually summed to, and the "#" column itself stayed
+   at the old, now too-narrow 40px, spilling its own toggle button
+   into the ID column next to it. */
 .process-library-col-number{
 
-    width:40px;
+    width:56px;
 
     white-space:nowrap;
+
+}
+
+/* A little extra breathing room specifically on this, the very
+   first (leftmost) column -- the shared `padding:10px` every other
+   cell gets (see the th/td rule above, `.process-library-table th,
+   .process-library-table td{padding:10px}`) still left the "#"
+   itself sitting visually flush against the table's own left edge/
+   border, with none of the other columns' relative "room to
+   breathe" around their own content. Needs the extra `td`/`th` type
+   selector (not just `.process-library-col-number` alone) to
+   out-specify that shared shorthand `padding:10px` rule -- a lone
+   class selector here would lose that specificity fight and this
+   would silently do nothing. */
+th.process-library-col-number,
+td.process-library-col-number{
+
+    padding-left:16px;
 
 }
 
@@ -2398,6 +2429,23 @@ textarea:focus{
 
 }
 
+/* Marks the first row of a new "initials group" -- i.e. a Process
+   (or SOP) row whose own ID initials differ from the row directly
+   above it, e.g. where a run of "COS-01/-02" rows gives way to a
+   "NOC-01" row. A plain, thin `border-top` between every row already
+   exists (see the shared th/td border rule above); this widens and
+   darkens JUST that top border on a group's first row, so the eye
+   catches the transition between differently-prefixed ID groups at a
+   glance, without needing to actually read every initials tag. Set
+   in JS (see `process-library-row-group-start` in
+   ProcessLibraryEditor.tsx), not detected here in CSS, since only
+   the component actually knows each row's neighbor. */
+.process-library-row-group-start > td{
+
+    border-top:3px solid #9aa0a6;
+
+}
+
 /* The chevron+number toggle doubling as the "#" cell -- a
    real <button> (not a row-wide onClick) so clicking any of
    the editable fields in the same row never accidentally
@@ -2449,15 +2497,20 @@ textarea:focus{
 
     background:#fafbfd;
 
-    /* Vertical breathing room only -- NO horizontal padding. Any
-       left inset here would push the nested SOPs/Steps table's own
-       left edge in from the outer Process table's left edge,
-       throwing every shared column (#, ID, Name, Purpose, Owner,
-       How Often) out of alignment with the row it belongs to even
-       though both tables use the exact same column-width classes
-       (see the unscoped `.process-library-col-*` rules above) --
-       flush left is what actually makes them line up. */
-    padding:16px 0;
+    /* No padding at all -- "remove the gaps between tables and
+       nested tables". The nested table's own top/bottom borders
+       (see .process-library-sops-table/.process-library-steps-table
+       above) already give a clean, thin seam against the row it
+       expands from; there's no horizontal padding either, same
+       reasoning as before -- any left inset here would push the
+       nested SOPs/Steps table's own left edge in from the outer
+       Process table's left edge, throwing every shared column (#,
+       ID, Name, Purpose, Owner, How Often) out of alignment with the
+       row it belongs to even though both tables use the exact same
+       column-width classes (see the unscoped `.process-library-col-*`
+       rules above) -- flush left/top/bottom is what actually makes
+       everything line up with no visible gap. */
+    padding:0;
 
 }
 
@@ -2484,7 +2537,7 @@ textarea:focus{
 
 .process-library-sops{
 
-    margin-top:4px;
+    margin-top:0;
 
 }
 
@@ -2715,6 +2768,121 @@ textarea:focus{
 .operational-log-filter .interview-input{
 
     min-width:200px;
+
+}
+
+/* The "Latest change per Process only" checkbox filter -- laid out
+   as a row (checkbox + label text) rather than the stacked label-
+   above-control shape every other `.operational-log-filter` uses,
+   since there's no separate label caption needed above a checkbox.
+   `align-items:flex-end` on the shared `.operational-log-filters`
+   parent would otherwise sink this to the bottom oddly next to the
+   taller <select>s -- `align-self:center` keeps the checkbox+text
+   vertically centered against its own row instead. */
+.operational-log-filter-checkbox{
+
+    flex-direction:row;
+
+    align-items:center;
+    align-self:center;
+
+    gap:6px;
+
+    font-size:14px;
+    color:#1a1a1a;
+
+    cursor:pointer;
+
+}
+
+.operational-log-filter-checkbox input{
+
+    cursor:pointer;
+
+}
+
+/* The age-based bulk-delete bar -- sits below the Process/Owner/
+   latest-only filters, above the table itself. Deliberately its
+   own row (not folded into `.operational-log-filters`) since it
+   acts on the whole stored Log rather than just changing what the
+   table currently shows. */
+.operational-log-retention{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:flex-end;
+
+    gap:14px;
+
+    padding:10px 14px;
+
+    background:#fff8f0;
+    border:1px solid #f0dfc8;
+    border-radius:8px;
+
+}
+
+.operational-log-delete-old{
+
+    border:1px solid #d6d6d6;
+    border-radius:6px;
+
+    background:#ffffff;
+
+    color:#b3261e;
+
+    font:inherit;
+    font-size:13px;
+    font-weight:600;
+
+    padding:8px 12px;
+
+    height:38px;
+
+    cursor:pointer;
+
+    transition:background-color .15s ease, border-color .15s ease;
+
+}
+
+.operational-log-delete-old:hover:not(:disabled){
+
+    background:#fdecea;
+
+    border-color:#b3261e;
+
+}
+
+.operational-log-delete-old:disabled{
+
+    opacity:.45;
+
+    cursor:not-allowed;
+
+}
+
+.operational-log-delete-old-confirming{
+
+    background:#b3261e;
+    border-color:#b3261e;
+
+    color:#ffffff;
+
+}
+
+.operational-log-delete-old-confirming:hover:not(:disabled){
+
+    background:#932019;
+
+}
+
+.operational-log-retention-hint{
+
+    font-size:13px;
+    font-style:italic;
+    color:#5f6368;
 
 }
 

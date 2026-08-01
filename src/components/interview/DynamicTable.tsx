@@ -1314,7 +1314,7 @@ function DynamicTable({
 
                         <option value="">
 
-                            {options.length > 0 ? "Select..." : "No options entered yet"}
+                            {options.length > 0 ? "Select" : "No options entered yet"}
 
                         </option>
 

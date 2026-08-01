@@ -47,18 +47,107 @@ interface ProcessLibraryEditorProps {
 
 const PROCESS_STATUS_OPTIONS = ["Active", "Draft", "Retired"];
 
+// A single offscreen canvas, created lazily and reused for every
+// measurement rather than one per call -- same idiom as
+// getOwnerMeasureContext below, just with the header's own BOLD
+// weight (see `.process-library-table th{font-weight:600}` in
+// conversation.css) rather than a field's normal weight, since it's
+// header text this one measures.
+let headerMeasureContext: CanvasRenderingContext2D | null | undefined;
+
+function getHeaderMeasureContext(): CanvasRenderingContext2D | null {
+
+    if (headerMeasureContext !== undefined) {
+        return headerMeasureContext;
+    }
+
+    if (typeof document === "undefined") {
+        headerMeasureContext = null;
+        return headerMeasureContext;
+    }
+
+    const context = document.createElement("canvas").getContext("2d");
+
+    if (context) {
+        // Bold, matching every <th>'s own rendered weight -- if
+        // "Inter" isn't loaded yet this silently falls back to a
+        // generic sans-serif, which only ever measures WIDER than
+        // Inter actually renders (erring toward extra width, never
+        // toward a column coming out narrower than its own heading).
+        context.font = "600 14px Inter, sans-serif";
+    }
+
+    headerMeasureContext = context;
+
+    return headerMeasureContext;
+
+}
+
+// Cell padding is 10px on each side (see `.process-library-table
+// th, td{padding:10px}` in conversation.css) plus a few extra
+// pixels so the heading text never sits pixel-flush against its own
+// column's border.
+const HEADER_TEXT_PADDING = 26;
+
+/**
+ * "Set as a general rule the columns cannot get smaller than their
+ * Headings' text" -- the minimum pixel width a column needs for its
+ * OWN header text to render on one line without clipping or
+ * spilling into a neighboring column, measured against the header's
+ * actual bold font rather than guessed at. Every fixed column width
+ * below is `Math.max`'d against this so a heading's own text is
+ * always the FLOOR that width can never fall under, no matter what
+ * hand-picked pixel value was chosen for other reasons (fitting a
+ * `<select>`'s longest option, an icon cluster, etc). Falls back to
+ * a generous per-character estimate when no canvas is available
+ * (e.g. a non-browser test runner) -- same reasoning as
+ * measureOwnerTextWidth below, erring toward extra width rather
+ * than a clipped heading.
+ */
+function headerMinWidth(text: string): number {
+
+    const context = getHeaderMeasureContext();
+    const textWidth = context ? context.measureText(text).width : text.length * 9;
+
+    return Math.ceil(textWidth) + HEADER_TEXT_PADDING;
+
+}
+
 // -----------------------------------------------------------------
 // Column widths -- the Process table and the SOPs table share every
 // one of these EXCEPT Status (Process-only) and Steps (SOPs-only),
 // via the unscoped `.process-library-col-*` classes in
 // conversation.css. Name/Purpose are the two the user can drag wider
 // (see ColumnResizeHandle below); every other width here is fixed.
+// Each is `Math.max`'d against its own heading's `headerMinWidth`
+// (see above) -- the general "never smaller than the heading" rule
+// -- computed once at module load since header text is static, never
+// per-render.
 // -----------------------------------------------------------------
-const NUMBER_COLUMN_WIDTH = 40;
-const ID_COLUMN_WIDTH = 104;
+// 56, not 40 -- this column now also carries its own extra left
+// padding (see `th.process-library-col-number, td.process-library-
+// col-number{padding-left:16px}` in conversation.css, added so the
+// "#" itself isn't flush against the table's edge). Every box here
+// is `box-sizing:border-box` (see the app-wide `*{box-sizing:
+// border-box}` reset in global.css), so a column's own declared
+// `width` already INCLUDES its padding -- widening the left padding
+// without also widening this constant left less room for the actual
+// chevron+number toggle than before, and it visibly spilled out of
+// its own cell. 56px restores (and slightly improves on) the
+// original ~20px of actual content room once the extra 6px of left
+// padding and the shared 10px right padding are subtracted back out.
+const NUMBER_COLUMN_WIDTH = Math.max(56, headerMinWidth("#"));
+// The Process table's own heading reads "Process ID", the SOPs
+// table's reads "SOP ID" (see the two tables' own <thead> below) --
+// both share this ONE column width (same reasoning as every other
+// shared column), so the floor has to fit whichever heading is
+// longer.
+const ID_COLUMN_WIDTH = Math.max(104, headerMinWidth("Process ID"), headerMinWidth("SOP ID"));
 const DEFAULT_NAME_COLUMN_WIDTH = 122;
 const DEFAULT_PURPOSE_COLUMN_WIDTH = 122;
-const OWNER_COLUMN_MIN_WIDTH = 110;
+// Also shared across "Process Owner" (Process table) / "SOP Owner"
+// (SOPs table) -- see ID_COLUMN_WIDTH's own comment just above.
+const OWNER_COLUMN_MIN_WIDTH = Math.max(110, headerMinWidth("Process Owner"), headerMinWidth("SOP Owner"));
 // Generous enough that even a long "Regional Operations Lead"-style
 // title/team name fits with no clipping -- the horizontal-scroll
 // fallback on `.process-library-table-scroll` (see conversation.css)
@@ -66,12 +155,17 @@ const OWNER_COLUMN_MIN_WIDTH = 110;
 // exactly the same fallback the user's own manual Name/Purpose
 // resize already relies on.
 const OWNER_COLUMN_MAX_WIDTH = 420;
-const FREQUENCY_COLUMN_WIDTH = 140;
+const FREQUENCY_COLUMN_WIDTH = Math.max(140, headerMinWidth("How Often"));
 // Wide enough that "Retired" -- the longest of PROCESS_STATUS_OPTIONS
 // -- never clips inside the native <select>, arrow icon included.
-const STATUS_COLUMN_WIDTH = 130;
+const STATUS_COLUMN_WIDTH = Math.max(130, headerMinWidth("Status"));
 const ACTIONS_COLUMN_WIDTH = 90;
-const MIN_RESIZABLE_COLUMN_WIDTH = 90;
+// The floor a dragged Name/Purpose column can never go below --
+// shared by "Process Name"/"SOP Name" (Name column, both tables)
+// and "Purpose" (both tables), so it has to fit the longest of all
+// three headings even though that means Purpose's own floor ends up
+// a little more generous than its own heading strictly needs.
+const MIN_RESIZABLE_COLUMN_WIDTH = Math.max(90, headerMinWidth("Process Name"), headerMinWidth("SOP Name"), headerMinWidth("Purpose"));
 const MAX_RESIZABLE_COLUMN_WIDTH = 360;
 
 function clampResizableColumnWidth(width: number): number {
@@ -108,7 +202,7 @@ function computeProcessLibraryTableWidth(nameColumnWidth: number, purposeColumnW
 // exact same total width as the Process table (see
 // computeProcessLibraryTableWidth above) without changing what the
 // Steps column visually looks like.
-const SOPS_STEPS_COLUMN_WIDTH = 60;
+const SOPS_STEPS_COLUMN_WIDTH = Math.max(60, headerMinWidth("Steps"));
 const SOPS_SPACER_COLUMN_WIDTH = STATUS_COLUMN_WIDTH - SOPS_STEPS_COLUMN_WIDTH;
 
 /**
@@ -318,7 +412,7 @@ function FrequencyCell({
 
                 }}
             >
-                <option value="" disabled>Select frequency</option>
+                <option value="" disabled>Select</option>
                 {FREQUENCY_PRESET_OPTIONS.map(option => (
                     <option key={option} value={option}>{option}</option>
                 ))}
@@ -333,7 +427,7 @@ function FrequencyCell({
                         onChange({ howOften, schedule: { anchorDate: nextIsoForWeekday(Number(event.target.value)) } });
                     }}
                 >
-                    <option value="" disabled>Select a weekday</option>
+                    <option value="" disabled>Select</option>
                     {WEEKDAY_OPTIONS.map(option => (
                         <option key={option.value} value={option.value}>{option.label}</option>
                     ))}
@@ -848,7 +942,7 @@ function SopsTable({
                 <thead>
                     <tr>
                         <th className="process-library-col-number">#</th>
-                        <th className="process-library-col-id">ID</th>
+                        <th className="process-library-col-id">SOP ID</th>
                         <th className="process-library-col-name process-library-col-resizable" style={{ width: nameColumnWidth }}>
                             SOP Name
                             <ColumnResizeHandle onResize={onResizeName} label="SOP Name" />
@@ -857,7 +951,7 @@ function SopsTable({
                             Purpose
                             <ColumnResizeHandle onResize={onResizePurpose} label="Purpose" />
                         </th>
-                        <th className="process-library-col-owner" style={{ width: ownerColumnWidth }}>Owner</th>
+                        <th className="process-library-col-owner" style={{ width: ownerColumnWidth }}>SOP Owner</th>
                         <th className="process-library-col-frequency">How Often</th>
                         <th className="process-library-col-steps" style={{ width: SOPS_STEPS_COLUMN_WIDTH }}>Steps</th>
                         {/* Blank spacer -- makes up the width difference
@@ -874,10 +968,13 @@ function SopsTable({
                     {sops.map((sop, index) => {
 
                         const sopIdSuffix = `-${sopDisplaySequence(sops, index)}`;
+                        const rowClassName = isNewInitialsGroup(sops, index, "SOP")
+                            ? "process-library-row process-library-row-group-start"
+                            : "process-library-row";
 
                         return (
                         <Fragment key={index}>
-                            <tr className="process-library-row" data-sop-row={index}>
+                            <tr className={rowClassName} data-sop-row={index}>
                                 <td className="process-library-col-number">
                                     <button
                                         type="button"
@@ -1033,8 +1130,6 @@ function ProcessCard({
 
             <div className="process-library-card">
 
-                <div className="process-library-card-heading">Steps</div>
-
                 <StepsTable
                     steps={steps}
                     disabled={disabled}
@@ -1059,8 +1154,6 @@ function ProcessCard({
     return (
 
         <div className="process-library-card">
-
-            <div className="process-library-card-heading">SOPs</div>
 
             <SopsTable
                 sops={sops}
@@ -1184,16 +1277,44 @@ function computeOwnerColumnWidth(processes: ProcessRecordValue[]): number {
 
 }
 
+/** An ID-bearing row's own initials, uppercased, falling back to `fallbackInitials` when blank -- the same normalization `sortRowsByInitials` sorts by, factored out so the "did the initials group change?" check below can use the exact same notion of a row's initials. */
+function rowInitials(id: string | undefined, fallbackInitials: string): string {
+    return (id ?? "").trim().toUpperCase() || fallbackInitials;
+}
+
 function sortRowsByInitials<T extends { id?: string }>(rows: T[], fallbackInitials: string): T[] {
 
     return [...rows].sort((a, b) => {
 
-        const aInitials = (a.id ?? "").trim().toUpperCase() || fallbackInitials;
-        const bInitials = (b.id ?? "").trim().toUpperCase() || fallbackInitials;
+        const aInitials = rowInitials(a.id, fallbackInitials);
+        const bInitials = rowInitials(b.id, fallbackInitials);
 
         return aInitials.localeCompare(bInitials);
 
     });
+
+}
+
+/**
+ * "Add a distinction line or a gap, between different processes ID
+ * names (the initials.)" -- true for every row EXCEPT the very
+ * first, whose own initials differ from the row directly above it
+ * (both normalized the same way `sortRowsByInitials` already groups
+ * by), so a visibly different border can mark where one ID-initials
+ * group ends and the next begins (see `.process-library-row-group-
+ * start` in conversation.css). Rows are expected to already be
+ * grouped by initials (the mount-time resort effect below, and the
+ * on-blur resort in handleProcessLibraryBlur, both guarantee this)
+ * -- this only ever needs to compare each row to its immediate
+ * predecessor, never search for the group's actual start.
+ */
+function isNewInitialsGroup<T extends { id?: string }>(rows: T[], index: number, fallbackInitials: string): boolean {
+
+    if (index === 0) {
+        return false;
+    }
+
+    return rowInitials(rows[index].id, fallbackInitials) !== rowInitials(rows[index - 1].id, fallbackInitials);
 
 }
 
@@ -1623,7 +1744,7 @@ export default function ProcessLibraryEditor({
                 <thead>
                     <tr>
                         <th className="process-library-col-number">#</th>
-                        <th className="process-library-col-id">ID</th>
+                        <th className="process-library-col-id">Process ID</th>
                         <th className="process-library-col-name process-library-col-resizable" style={{ width: nameColumnWidth }}>
                             Process Name
                             <ColumnResizeHandle onResize={handleResizeName} label="Process Name" />
@@ -1632,7 +1753,7 @@ export default function ProcessLibraryEditor({
                             Purpose
                             <ColumnResizeHandle onResize={handleResizePurpose} label="Purpose" />
                         </th>
-                        <th className="process-library-col-owner" style={{ width: ownerColumnWidth }}>Owner</th>
+                        <th className="process-library-col-owner" style={{ width: ownerColumnWidth }}>Process Owner</th>
                         <th className="process-library-col-frequency">How Often</th>
                         <th className="process-library-col-status" style={{ width: STATUS_COLUMN_WIDTH }}>Status</th>
                         <th className="process-library-col-actions" />
@@ -1645,11 +1766,14 @@ export default function ProcessLibraryEditor({
                         const hasMultipleSops = sopsCount >= 2;
                         const isExpanded = expanded.has(index);
                         const processIdSuffix = `-${processDisplaySequence(processes, index)}`;
+                        const rowClassName = isNewInitialsGroup(processes, index, "PRC")
+                            ? "process-library-row process-library-row-group-start"
+                            : "process-library-row";
 
                         return (
 
                             <Fragment key={index}>
-                                <tr className="process-library-row" data-process-row={index}>
+                                <tr className={rowClassName} data-process-row={index}>
                                     <td className="process-library-col-number">
                                         <button
                                             type="button"
@@ -1730,7 +1854,7 @@ export default function ProcessLibraryEditor({
                                             disabled={disabled}
                                             onChange={(event) => updateProcess(index, { status: event.target.value })}
                                         >
-                                            <option value="" disabled>Select an option</option>
+                                            <option value="" disabled>Select</option>
                                             {PROCESS_STATUS_OPTIONS.map(option => (
                                                 <option key={option} value={option}>{option}</option>
                                             ))}

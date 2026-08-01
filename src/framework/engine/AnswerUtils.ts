@@ -460,10 +460,10 @@ export function createBlankProcess(): ProcessRecordValue {
  * `key` is the same kind of stable, never-user-facing
  * identifier as ProcessRecordValue.key -- needed here
  * specifically because the table is always kept sorted by
- * `date` (see sortOperationalLogRows), so a row's ARRAY INDEX
- * changes the moment its date does; editing (its Notes) by
- * index alone would silently touch the wrong entry the instant
- * a re-sort moved it.
+ * `date`, most recent first (see sortOperationalLogRows), so a
+ * row's ARRAY INDEX changes the moment its date does; editing
+ * (its Notes) by index alone would silently touch the wrong
+ * entry the instant a re-sort moved it.
  *
  * `processKey` links this entry back to the Process in the
  * same System's Process Library (Section 2) whose edit it
@@ -488,8 +488,8 @@ export interface OperationalLogRowValue {
 
 /**
  * Runtime value shape for an Operational Log answer -- always
- * kept sorted by `date` (see sortOperationalLogRows), oldest
- * first, blank dates last.
+ * kept sorted by `date` (see sortOperationalLogRows), MOST
+ * RECENT first, blank dates last.
  */
 export type OperationalLogAnswerValue = OperationalLogRowValue[];
 
@@ -508,11 +508,12 @@ export function createOperationalLogRowKey(): string {
 }
 
 /**
- * Sorts Operational Log entries chronologically (oldest
- * first) by their `date` (ISO "YYYY-MM-DD", so a plain string
+ * Sorts Operational Log entries chronologically, MOST RECENT
+ * first, by their `date` (ISO "YYYY-MM-DD", so a plain string
  * comparison already sorts correctly) -- entries with no date
  * yet sort after every dated entry, in their existing relative
- * order (a stable sort), rather than jumping to the top. Used
+ * order (a stable sort), rather than jumping to the top (an
+ * entry with no date isn't "recent", it's incomplete). Used
  * both by the live editor (every add/edit re-sorts immediately)
  * and defensively by export, so the two can never disagree.
  */
@@ -535,7 +536,7 @@ export function sortOperationalLogRows(rows: OperationalLogRowValue[]): Operatio
             return -1;
         }
 
-        return aDate < bDate ? -1 : aDate > bDate ? 1 : 0;
+        return aDate < bDate ? 1 : aDate > bDate ? -1 : 0;
 
     });
 

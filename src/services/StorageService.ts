@@ -419,8 +419,31 @@ export class StorageService {
         const normalizedProcesses: ProcessRecordValue[] = seedProcessSnapshots(keyedProcesses);
 
         // Section 3: reshape every entry into the current
-        // OperationalLogRowValue fields, then re-sort.
-        const rawLogRows = asRowArray(findResponse(3)?.value);
+        // OperationalLogRowValue fields, then re-sort. Rows left
+        // over from the OLD manual-entry days (before the Log
+        // became fully auto-generated) that were added via an
+        // "Add row" click but never actually filled in -- no
+        // date, no Process link, no description, no notes -- carry
+        // zero information and are dropped outright here rather
+        // than carried forward forever: they'd otherwise sort to
+        // the very bottom (see sortOperationalLogRows) and render
+        // as a permanent, unexplained blank row with nothing but
+        // an empty Notes box, since nothing in the CURRENT app
+        // ever creates or cleans up a manually-added row anymore.
+        // A row with ANY real content (a date, a Process link, a
+        // description, or user-written notes) is always kept.
+        const rawLogRows = asRowArray(findResponse(3)?.value).filter(row => {
+
+            const hasDate = asText(row.date).trim().length > 0;
+            const hasProcessKey = asText(row.processKey).trim().length > 0;
+            const hasDescription = asText(row.description).trim().length > 0;
+            const hasNotes = asText(row.notes).trim().length > 0;
+            const hasLegacyReason = asText(row.reason).trim().length > 0;
+            const hasLegacyOutcome = asText(row.outcome).trim().length > 0;
+
+            return hasDate || hasProcessKey || hasDescription || hasNotes || hasLegacyReason || hasLegacyOutcome;
+
+        });
 
         const normalizedLogRows: OperationalLogRowValue[] = sortOperationalLogRows(
             rawLogRows.map(row => {

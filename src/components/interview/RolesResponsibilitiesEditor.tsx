@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useLayoutEffect, useRef } from "react";
+import { Fragment } from "react";
 
 import {
     ProcessRecordValue,
@@ -6,6 +6,7 @@ import {
     groupRolesResponsibilities,
     processDisplayId
 } from "../../framework/engine/AnswerUtils.ts";
+import NotesField from "./NotesField.tsx";
 
 interface RolesResponsibilitiesEditorProps {
 
@@ -22,83 +23,6 @@ interface RolesResponsibilitiesEditorProps {
      * This Section itself only ever stores the per-Process Notes.
      */
     processes: ProcessRecordValue[];
-
-}
-
-/**
- * A <textarea> that grows tall enough to show its entire value
- * with no internal scrolling -- same local pattern as
- * ProcessLibraryEditor's/OperationalLogEditor's own AutoGrowField.
- */
-function AutoGrowField({
-
-    value,
-
-    disabled,
-
-    onChange
-
-}: {
-
-    value: string;
-
-    disabled?: boolean;
-
-    onChange: (value: string) => void;
-
-}) {
-
-    const ref = useRef<HTMLTextAreaElement | null>(null);
-
-    function resize(el: HTMLTextAreaElement | null) {
-
-        if (!el) {
-            return;
-        }
-
-        el.style.height = "auto";
-
-        el.style.height = `${el.scrollHeight}px`;
-
-    }
-
-    const setRef = useCallback((el: HTMLTextAreaElement | null) => {
-        ref.current = el;
-    }, []);
-
-    useLayoutEffect(() => {
-
-        resize(ref.current);
-
-    }, [value]);
-
-    return (
-
-        <textarea
-
-            ref={setRef}
-
-            className="interview-input roles-responsibilities-autogrow-field"
-
-            rows={1}
-
-            placeholder="Add a brief note (optional)"
-
-            disabled={disabled}
-
-            value={value}
-
-            onChange={(event) => {
-
-                onChange(event.target.value);
-
-                resize(event.target);
-
-            }}
-
-        />
-
-    );
 
 }
 
@@ -201,7 +125,8 @@ export default function RolesResponsibilitiesEditor({
                                     </td>
 
                                     <td>
-                                        <AutoGrowField
+                                        <NotesField
+                                            className="roles-responsibilities-autogrow-field"
                                             value={entry.notes}
                                             disabled={disabled}
                                             onChange={(next) => updateNotes(entry.process.key, next)}

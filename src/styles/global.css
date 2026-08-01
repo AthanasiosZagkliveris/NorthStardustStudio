@@ -107,3 +107,52 @@ h3 {
 .error-boundary-actions button:hover {
   background: #eef4ff;
 }
+
+/* ==========================================================
+   Shared "Notes" field convention -- see NotesField.tsx (the ONE
+   shared component every actual Notes-purpose column/window in the
+   app renders through: Operational Log's Notes column, Roles &
+   Responsibilities' Notes column, and the Organization Calendar's
+   per-task Note). Declared here in the app-wide stylesheet (loaded
+   unconditionally from main.tsx), rather than in any one page's own
+   scoped stylesheet, specifically so it applies identically no
+   matter which page/CSS bundle happens to be loaded first -- a
+   Notes field rendered from the Organization Calendar (System
+   Selection page, organization-calendar.css) needs the exact same
+   base rule as one rendered from the Operations System's interview
+   flow (conversation.css), and neither page's own CSS is guaranteed
+   to have loaded before the other's.
+
+   `font-weight:400 !important` (regular) is the actual fix for
+   "should be regular not bold" -- the Calendar's own "Notes"
+   CAPTION label wraps its textarea in one shared element for layout
+   purposes (`.org-calendar-task-annotation-notes`, in organization-
+   calendar.css), and that label's own bold caption styling cascaded
+   straight down into the typed note text too, since every scope's
+   own `.interview-input` rule sets `font:inherit`. The `!important`
+   here is deliberate, not a shortcut: every per-scope
+   `.<scope> .interview-input{font:inherit; ...}` rule already
+   carries TWO classes' worth of specificity (conversation.css,
+   organization-calendar.css, etc each redeclare their own copy --
+   see those files' own comments on why), which otherwise beats a
+   plain `.notes-field{font-weight:400}` outright regardless of
+   source order, silently undoing this fix in exactly the one scope
+   (an ancestor that itself happens to be bold) where it actually
+   matters. This is the ONE property this rule needs to unconditionally
+   win on, in every scope, forever -- "regular not bold" is the whole
+   point of the rule existing. `resize:none`/`overflow:hidden`/
+   `min-height:38px` match every pre-existing per-scope "autogrow"
+   rule this consolidates (see `.operational-log-autogrow-field`/
+   `.roles-responsibilities-autogrow-field` in conversation.css) --
+   NotesField computes its own height in JS on every keystroke, so
+   the box is never meant to be manually resized or to scroll
+   internally; these don't need `!important` since nothing else in
+   the app currently declares them for a `.notes-field` element, but
+   they're grouped with the property that does need it since they're
+   all part of the same one shared convention. */
+.notes-field {
+  resize: none;
+  overflow: hidden;
+  min-height: 38px;
+  font-weight: 400 !important;
+}

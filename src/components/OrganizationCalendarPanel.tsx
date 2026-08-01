@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { CalendarTaskAnnotation, OrganizationService } from "../services/OrganizationService";
 import { CalendarTask, getCalendarTasks } from "../services/CalendarTaskService";
 import { DateFormat, PreferencesService } from "../services/PreferencesService.ts";
 import { isoToDisplay } from "./interview/DateCellInput.tsx";
+import NotesField from "./interview/NotesField.tsx";
 
 import { Capability } from "../types/capability";
 import { FrameworkSystem } from "../types/system";
@@ -174,72 +175,6 @@ function recurringSeriesPrefix(taskId: string): string {
 // Quarterly/Annually/Custom recurring tasks keep their own
 // independent per-occurrence Time instead.
 const RECURRING_TIME_PROMPT_FREQUENCIES = ["Daily", "Monthly", "Semi-Annually"];
-
-/**
- * A <textarea> that grows tall enough to show its entire value with
- * no internal scrolling -- same "measure scrollHeight, set it as
- * the explicit height" approach as ProcessLibraryEditor's own local
- * AutoGrowField, reused here so a longer Note visibly makes its own
- * task card taller instead of clipping/scrolling internally.
- */
-function AutoGrowNotesField({
-
-    value,
-
-    placeholder,
-
-    onChange
-
-}: {
-
-    value: string;
-
-    placeholder?: string;
-
-    onChange: (value: string) => void;
-
-}) {
-
-    const ref = useRef<HTMLTextAreaElement | null>(null);
-
-    function resize(el: HTMLTextAreaElement | null) {
-
-        if (!el) {
-            return;
-        }
-
-        el.style.height = "auto";
-
-        el.style.height = `${el.scrollHeight}px`;
-
-    }
-
-    const setRef = useCallback((el: HTMLTextAreaElement | null) => {
-        ref.current = el;
-        resize(el);
-    }, []);
-
-    useLayoutEffect(() => {
-
-        resize(ref.current);
-
-    }, [value]);
-
-    return (
-
-        <textarea
-            ref={setRef}
-            className="interview-input"
-            rows={2}
-            placeholder={placeholder}
-            value={value}
-            onChange={(event) => onChange(event.target.value)}
-            onInput={(event) => resize(event.currentTarget)}
-        />
-
-    );
-
-}
 
 /**
  * A slide-in navigation rail docked to the left edge of the
@@ -848,8 +783,7 @@ export default function OrganizationCalendarPanel({
 
                                             <label className="org-calendar-task-annotation-notes">
                                                 <span>Notes</span>
-                                                <AutoGrowNotesField
-                                                    placeholder="Add a note for this task"
+                                                <NotesField
                                                     value={annotation.notes ?? ""}
                                                     onChange={(next) =>
                                                         updateAnnotation(task.taskId, { notes: next })
