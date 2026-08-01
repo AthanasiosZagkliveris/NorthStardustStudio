@@ -285,6 +285,23 @@ function resolveColumnType(
         return "date";
     }
 
+    // A plain, no-suffix column literally titled "Notes" (e.g.
+    // "- Column 4: Notes" in a System's markdown, with none of the
+    // " - <Type> Field" / "Dynamic Field" / "Autofill" suffixes
+    // handled above) is a genuine free-text Notes column, not just
+    // incidental text -- "wherever there is a note column or window,
+    // it should always have the free text features (bullet points
+    // and numbered lists features), and should be regular not bold.
+    // Standarise it" / "I meant Notes column or card." Route it
+    // through the SAME shared "notes" rendering every other
+    // Notes-purpose field in the app uses (see NotesField.tsx and
+    // DynamicTable's own "notes" case) instead of the generic "text"
+    // column type, which has no placeholder and no guaranteed
+    // regular weight.
+    if (column.title.trim().toLowerCase() === "notes") {
+        return "notes";
+    }
+
     return "text";
 
 }

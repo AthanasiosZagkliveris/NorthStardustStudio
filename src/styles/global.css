@@ -112,16 +112,22 @@ h3 {
    Shared "Notes" field convention -- see NotesField.tsx (the ONE
    shared component every actual Notes-purpose column/window in the
    app renders through: Operational Log's Notes column, Roles &
-   Responsibilities' Notes column, and the Organization Calendar's
-   per-task Note). Declared here in the app-wide stylesheet (loaded
-   unconditionally from main.tsx), rather than in any one page's own
-   scoped stylesheet, specifically so it applies identically no
-   matter which page/CSS bundle happens to be loaded first -- a
-   Notes field rendered from the Organization Calendar (System
-   Selection page, organization-calendar.css) needs the exact same
-   base rule as one rendered from the Operations System's interview
-   flow (conversation.css), and neither page's own CSS is guaranteed
-   to have loaded before the other's.
+   Responsibilities' Notes column, the Organization Calendar's
+   per-task Note, and -- "I meant Notes column or card." -- every
+   plain, no-type-suffix Table column literally titled "Notes" that
+   a System's own markdown declares (see resolveColumnType in
+   AnswerRenderer.tsx and the "notes" case in DynamicTable.tsx),
+   e.g. the Client System's Relationships table, and the Publishing,
+   Research, and Asset Systems' own Tables). Declared here in the
+   app-wide stylesheet (loaded unconditionally from main.tsx), rather
+   than in any one page's own scoped stylesheet, specifically so it
+   applies identically no matter which page/CSS bundle happens to be
+   loaded first -- a Notes field rendered from the Organization
+   Calendar (System Selection page, organization-calendar.css) needs
+   the exact same base rule as one rendered from the Operations
+   System's interview flow or a Framework-authored Table's own Notes
+   column (both conversation.css), and neither page's own CSS is
+   guaranteed to have loaded before the other's.
 
    `font-weight:400 !important` (regular) is the actual fix for
    "should be regular not bold" -- the Calendar's own "Notes"

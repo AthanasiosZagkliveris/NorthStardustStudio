@@ -2,6 +2,7 @@ import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useStat
 
 import FieldRenderer from "./FieldRenderer";
 import DateCellInput from "./DateCellInput.tsx";
+import NotesField from "./NotesField.tsx";
 
 import { FieldDefinition } from "../../framework/model/FieldDefinition.ts";
 import { DateFormat, PreferencesService } from "../../services/PreferencesService.ts";
@@ -25,6 +26,7 @@ export interface TableColumn {
      */
     type:
         | "text"
+        | "notes"
         | "number"
         | "field"
         | "date"
@@ -1391,6 +1393,36 @@ function DynamicTable({
                 );
 
             }
+
+            case "notes":
+
+                // A column literally titled "Notes" (see
+                // resolveColumnType in AnswerRenderer.tsx) -- routed
+                // through the SAME shared NotesField component every
+                // other Notes-purpose field in the app uses
+                // (Operational Log, Roles & Responsibilities, the
+                // Organization Calendar's per-task Note), so the
+                // bullet/numbered-list authoring, guaranteed regular
+                // font-weight, and "Add a note (optional)" default
+                // placeholder are all identical here too, instead of
+                // this table growing its own slightly-different
+                // fourth copy. `.dynamic-table-scroll .interview-input`
+                // (conversation.css) already styles width/padding/
+                // border/focus for any `.interview-input` in this
+                // table, so NotesField needs no extra className here.
+                return (
+
+                    <NotesField
+
+                        disabled={disabled}
+
+                        value={String(cellValue ?? "")}
+
+                        onChange={onValueChange}
+
+                    />
+
+                );
 
             case "text":
 
