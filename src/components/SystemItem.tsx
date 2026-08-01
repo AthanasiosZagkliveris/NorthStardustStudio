@@ -30,7 +30,7 @@ export default function SystemItem({
 
             <span className="system-number">
 
-                {system.number}.
+                {String(system.number).padStart(2, "0")}.
 
             </span>
 

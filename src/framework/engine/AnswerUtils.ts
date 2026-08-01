@@ -224,14 +224,33 @@ export interface ProcessRecordValue {
 }
 
 /**
+ * Normalizes a typed (or stored) Process/SOP ID down to what the
+ * field is actually allowed to hold -- letters only, capitalized,
+ * and capped at 3 characters -- the numeric position is always
+ * computed automatically (see processDisplayId/sopDisplayId below),
+ * never typed. Used both live, on every keystroke
+ * (ProcessLibraryEditor.tsx, so someone typing "PRC - 01" trying to
+ * spell out their own number by hand simply can't, and someone
+ * typing "process" ends up with just "PRO"), and defensively here on
+ * every stored `id` this module reads -- a value saved before this
+ * restriction existed could still hold digits/dashes/spaces/lower-
+ * case letters/more than 3 characters baked right into the initials,
+ * which would otherwise put an extra "-" into the "{initials}-{seq}"
+ * display id below (or an oversized tag) and corrupt it.
+ */
+export function sanitizeIdInitials(value: string): string {
+    return value.replace(/[^A-Za-z]/g, "").toUpperCase().slice(0, 3);
+}
+
+/**
  * A Process's display ID -- always "{INITIALS}-{seq}", e.g.
- * "ORD-002". The initials are whatever the user typed into the
+ * "ORD-02". The initials are whatever the user typed into the
  * ID field (uppercased; "PRC" when left blank); the numeric
  * suffix is NEVER typed, it's always computed automatically from
  * how many Processes AT OR BEFORE this one in the table (in
  * whatever order they're currently arranged) share those same
  * initials -- so entering "ORD" on three different rows numbers
- * them ORD-001/ORD-002/ORD-003 in the order they appear, and
+ * them ORD-01/ORD-02/ORD-03 in the order they appear, and
  * every other set of initials keeps its own separate count.
  *
  * Takes the full `processes` list (not just this one Process)
@@ -248,13 +267,35 @@ export interface ProcessRecordValue {
  */
 export function processDisplayId(processes: Array<{ id?: string }>, processIndex: number): string {
 
-    const initials = (processes[processIndex]?.id ?? "").trim().toUpperCase() || "PRC";
+    const initials = sanitizeIdInitials((processes[processIndex]?.id ?? "").trim()).toUpperCase() || "PRC";
+
+    return `${initials}-${processDisplaySequence(processes, processIndex)}`;
+
+}
+
+/**
+ * Just the auto-generated NUMBER half of `processDisplayId` above
+ * (e.g. "02", no initials, no dash) -- used by the live editor
+ * (ProcessLibraryEditor.tsx) to render that number inline right next
+ * to the initials input without ever having to slice it back out of
+ * the combined "{INITIALS}-{seq}" string, which broke the moment an
+ * initials value itself contained a "-" (e.g. a pre-existing/legacy
+ * id saved before `sanitizeIdInitials` was enforced on typing) --
+ * `"PRC-01".indexOf("-")` finds THAT dash, not the one separating
+ * initials from sequence, producing a garbled "-01-02"-style result.
+ * Computing the number on its own here sidesteps that entirely.
+ * Two digits (not three) -- a Process Library rarely has anywhere
+ * close to 100 Processes sharing the same initials.
+ */
+export function processDisplaySequence(processes: Array<{ id?: string }>, processIndex: number): string {
+
+    const initials = sanitizeIdInitials((processes[processIndex]?.id ?? "").trim()).toUpperCase() || "PRC";
 
     let sequence = 0;
 
     for (let index = 0; index <= processIndex; index++) {
 
-        const candidateInitials = (processes[index]?.id ?? "").trim().toUpperCase() || "PRC";
+        const candidateInitials = sanitizeIdInitials((processes[index]?.id ?? "").trim()).toUpperCase() || "PRC";
 
         if (candidateInitials === initials) {
             sequence += 1;
@@ -262,7 +303,7 @@ export function processDisplayId(processes: Array<{ id?: string }>, processIndex
 
     }
 
-    return `${initials}-${String(sequence).padStart(3, "0")}`;
+    return String(sequence).padStart(2, "0");
 
 }
 
@@ -276,13 +317,22 @@ export function processDisplayId(processes: Array<{ id?: string }>, processIndex
  */
 export function sopDisplayId(sops: Array<{ id?: string }>, sopIndex: number): string {
 
-    const initials = (sops[sopIndex]?.id ?? "").trim().toUpperCase() || "SOP";
+    const initials = sanitizeIdInitials((sops[sopIndex]?.id ?? "").trim()).toUpperCase() || "SOP";
+
+    return `${initials}-${sopDisplaySequence(sops, sopIndex)}`;
+
+}
+
+/** Same idea as `processDisplaySequence` above, one level down -- see its own doc comment. */
+export function sopDisplaySequence(sops: Array<{ id?: string }>, sopIndex: number): string {
+
+    const initials = sanitizeIdInitials((sops[sopIndex]?.id ?? "").trim()).toUpperCase() || "SOP";
 
     let sequence = 0;
 
     for (let index = 0; index <= sopIndex; index++) {
 
-        const candidateInitials = (sops[index]?.id ?? "").trim().toUpperCase() || "SOP";
+        const candidateInitials = sanitizeIdInitials((sops[index]?.id ?? "").trim()).toUpperCase() || "SOP";
 
         if (candidateInitials === initials) {
             sequence += 1;
@@ -290,7 +340,7 @@ export function sopDisplayId(sops: Array<{ id?: string }>, sopIndex: number): st
 
     }
 
-    return `${initials}-${String(sequence).padStart(3, "0")}`;
+    return String(sequence).padStart(2, "0");
 
 }
 

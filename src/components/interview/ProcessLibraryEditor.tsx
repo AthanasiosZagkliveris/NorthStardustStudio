@@ -1,4 +1,4 @@
-import { Fragment, MouseEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Fragment, FocusEvent, MouseEvent, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import {
     ProcessLibraryAnswerValue,
@@ -9,8 +9,9 @@ import {
     createBlankProcess,
     createBlankProcessSop,
     createBlankProcessStep,
-    processDisplayId,
-    sopDisplayId
+    processDisplaySequence,
+    sanitizeIdInitials,
+    sopDisplaySequence
 } from "../../framework/engine/AnswerUtils.ts";
 import DateCellInput from "./DateCellInput.tsx";
 
@@ -20,8 +21,6 @@ import DateCellInput from "./DateCellInput.tsx";
 // row -- there's only ever one Process Library editor mounted at a
 // time, so a fixed id is safe.
 const OWNER_SUGGESTIONS_DATALIST_ID = "process-library-owner-suggestions";
-const PROCESS_ID_SUGGESTIONS_DATALIST_ID = "process-library-process-id-suggestions";
-const SOP_ID_SUGGESTIONS_DATALIST_ID = "process-library-sop-id-suggestions";
 
 interface ProcessLibraryEditorProps {
 
@@ -47,6 +46,134 @@ interface ProcessLibraryEditorProps {
 }
 
 const PROCESS_STATUS_OPTIONS = ["Active", "Draft", "Retired"];
+
+// -----------------------------------------------------------------
+// Column widths -- the Process table and the SOPs table share every
+// one of these EXCEPT Status (Process-only) and Steps (SOPs-only),
+// via the unscoped `.process-library-col-*` classes in
+// conversation.css. Name/Purpose are the two the user can drag wider
+// (see ColumnResizeHandle below); every other width here is fixed.
+// -----------------------------------------------------------------
+const NUMBER_COLUMN_WIDTH = 40;
+const ID_COLUMN_WIDTH = 104;
+const DEFAULT_NAME_COLUMN_WIDTH = 122;
+const DEFAULT_PURPOSE_COLUMN_WIDTH = 122;
+const OWNER_COLUMN_MIN_WIDTH = 110;
+// Generous enough that even a long "Regional Operations Lead"-style
+// title/team name fits with no clipping -- the horizontal-scroll
+// fallback on `.process-library-table-scroll` (see conversation.css)
+// is what keeps a truly extreme value from breaking the layout,
+// exactly the same fallback the user's own manual Name/Purpose
+// resize already relies on.
+const OWNER_COLUMN_MAX_WIDTH = 420;
+const FREQUENCY_COLUMN_WIDTH = 140;
+// Wide enough that "Retired" -- the longest of PROCESS_STATUS_OPTIONS
+// -- never clips inside the native <select>, arrow icon included.
+const STATUS_COLUMN_WIDTH = 130;
+const ACTIONS_COLUMN_WIDTH = 90;
+const MIN_RESIZABLE_COLUMN_WIDTH = 90;
+const MAX_RESIZABLE_COLUMN_WIDTH = 360;
+
+function clampResizableColumnWidth(width: number): number {
+    return Math.min(MAX_RESIZABLE_COLUMN_WIDTH, Math.max(MIN_RESIZABLE_COLUMN_WIDTH, width));
+}
+
+/**
+ * The Process table and the SOPs table are given an EXPLICIT total
+ * `width` (rather than `width:100%`) so `table-layout:fixed` renders
+ * every shared column at exactly its declared px width in both
+ * tables, with nothing left over for the browser to stretch one
+ * table's columns by a different factor than the other's (see the
+ * comment on the `.process-library-table`/`.process-library-sops-
+ * table` CSS rules for the full story). The two tables' non-shared
+ * columns (Status vs Steps) are deliberately given the SAME width
+ * (see STATUS_COLUMN_WIDTH/SOPS_STEPS_COLUMN_WIDTH+SOPS_SPACER_
+ * COLUMN_WIDTH below) so this one formula produces the correct
+ * total for BOTH tables -- which is also exactly what keeps the
+ * trailing Actions column (move/remove/add) lined up at the same
+ * horizontal position in both.
+ */
+function computeProcessLibraryTableWidth(nameColumnWidth: number, purposeColumnWidth: number, ownerColumnWidth: number): number {
+
+    return NUMBER_COLUMN_WIDTH + ID_COLUMN_WIDTH + nameColumnWidth + purposeColumnWidth
+        + ownerColumnWidth + FREQUENCY_COLUMN_WIDTH + STATUS_COLUMN_WIDTH + ACTIONS_COLUMN_WIDTH;
+
+}
+
+// The SOPs table has no Status column of its own -- Steps takes its
+// place, but only ever needs to show a 1-2 digit count, nowhere near
+// STATUS_COLUMN_WIDTH. Rather than wasting all that width inside the
+// Steps column itself, Steps stays compact and a blank spacer column
+// picks up the rest of the difference, landing the SOPs table at the
+// exact same total width as the Process table (see
+// computeProcessLibraryTableWidth above) without changing what the
+// Steps column visually looks like.
+const SOPS_STEPS_COLUMN_WIDTH = 60;
+const SOPS_SPACER_COLUMN_WIDTH = STATUS_COLUMN_WIDTH - SOPS_STEPS_COLUMN_WIDTH;
+
+/**
+ * A thin, draggable strip pinned to a resizable column header's
+ * right edge (`.process-library-col-resizable` gives the header
+ * `position:relative` so this can be `position:absolute` within
+ * it) -- dragging it left/right calls `onResize` with how far the
+ * pointer moved since the last event, letting the caller grow or
+ * shrink its own width state by that amount. Tracks the drag via
+ * plain `document`-level listeners (not React state) so dragging
+ * stays smooth even when the pointer briefly leaves the handle's own
+ * few-pixel hit area mid-drag.
+ */
+function ColumnResizeHandle({
+
+    onResize,
+
+    label
+
+}: {
+
+    onResize: (deltaX: number) => void;
+
+    label: string;
+
+}) {
+
+    function handleMouseDown(event: MouseEvent<HTMLDivElement>) {
+
+        event.preventDefault();
+
+        let lastClientX = event.clientX;
+
+        function handleMouseMove(moveEvent: globalThis.MouseEvent) {
+
+            const deltaX = moveEvent.clientX - lastClientX;
+            lastClientX = moveEvent.clientX;
+
+            onResize(deltaX);
+
+        }
+
+        function handleMouseUp() {
+            document.removeEventListener("mousemove", handleMouseMove);
+            document.removeEventListener("mouseup", handleMouseUp);
+        }
+
+        document.addEventListener("mousemove", handleMouseMove);
+        document.addEventListener("mouseup", handleMouseUp);
+
+    }
+
+    return (
+
+        <div
+            className="process-library-col-resize-handle"
+            onMouseDown={handleMouseDown}
+            role="separator"
+            aria-orientation="vertical"
+            aria-label={`Resize ${label} column`}
+        />
+
+    );
+
+}
 
 // The How Often column's preset choices -- "Custom" (formerly
 // "Other") is just a regular preset value now, same as any other
@@ -534,13 +661,13 @@ function StepsTable({
                 <thead>
                     <tr>
                         <th className="process-library-col-step-number">Steps</th>
-                        <th>Action</th>
+                        <th>Actions</th>
                         <th className="process-library-col-actions" />
                     </tr>
                 </thead>
                 <tbody>
                     {safeSteps.map((step, index) => (
-                        <tr key={index}>
+                        <tr key={index} data-step-row={index}>
                             <td className="process-library-col-step-number">{index + 1}</td>
                             <td>
                                 <AutoGrowField
@@ -586,11 +713,21 @@ function SopsTable({
     sops,
     disabled,
     initiallyExpandSteps,
+    nameColumnWidth,
+    purposeColumnWidth,
+    ownerColumnWidth,
+    onResizeName,
+    onResizePurpose,
     onChange
 }: {
     sops: ProcessSopValue[];
     disabled: boolean;
     initiallyExpandSteps: boolean;
+    nameColumnWidth: number;
+    purposeColumnWidth: number;
+    ownerColumnWidth: number;
+    onResizeName: (deltaX: number) => void;
+    onResizePurpose: (deltaX: number) => void;
     onChange: (sops: ProcessSopValue[]) => void;
 }) {
 
@@ -704,23 +841,43 @@ function SopsTable({
 
         <div className="process-library-sops">
 
-            <table className="process-library-sops-table">
+            <table
+                className="process-library-sops-table"
+                style={{ width: computeProcessLibraryTableWidth(nameColumnWidth, purposeColumnWidth, ownerColumnWidth) }}
+            >
                 <thead>
                     <tr>
                         <th className="process-library-col-number">#</th>
                         <th className="process-library-col-id">ID</th>
-                        <th>SOP Name</th>
-                        <th>Purpose</th>
-                        <th>Owner</th>
+                        <th className="process-library-col-name process-library-col-resizable" style={{ width: nameColumnWidth }}>
+                            SOP Name
+                            <ColumnResizeHandle onResize={onResizeName} label="SOP Name" />
+                        </th>
+                        <th className="process-library-col-purpose process-library-col-resizable" style={{ width: purposeColumnWidth }}>
+                            Purpose
+                            <ColumnResizeHandle onResize={onResizePurpose} label="Purpose" />
+                        </th>
+                        <th className="process-library-col-owner" style={{ width: ownerColumnWidth }}>Owner</th>
                         <th className="process-library-col-frequency">How Often</th>
-                        <th className="process-library-col-steps">Steps</th>
+                        <th className="process-library-col-steps" style={{ width: SOPS_STEPS_COLUMN_WIDTH }}>Steps</th>
+                        {/* Blank spacer -- makes up the width difference
+                            between this table's Steps column and the
+                            Process table's own Status column, so the two
+                            tables land at the exact same total width and
+                            their Actions columns stay lined up. See
+                            SOPS_SPACER_COLUMN_WIDTH's own comment above. */}
+                        <th className="process-library-col-spacer" style={{ width: SOPS_SPACER_COLUMN_WIDTH }} />
                         <th className="process-library-col-actions" />
                     </tr>
                 </thead>
                 <tbody>
-                    {sops.map((sop, index) => (
+                    {sops.map((sop, index) => {
+
+                        const sopIdSuffix = `-${sopDisplaySequence(sops, index)}`;
+
+                        return (
                         <Fragment key={index}>
-                            <tr className="process-library-row">
+                            <tr className="process-library-row" data-sop-row={index}>
                                 <td className="process-library-col-number">
                                     <button
                                         type="button"
@@ -733,33 +890,29 @@ function SopsTable({
                                     </button>
                                 </td>
                                 <td className="process-library-col-id">
-                                    <div className="process-library-id-field-wrap">
+                                    <div className="process-library-id-field-inline">
                                         <input
                                             type="text"
                                             className="interview-input process-library-id-field"
-                                            list={SOP_ID_SUGGESTIONS_DATALIST_ID}
-                                            placeholder={sopDisplayId(sops, index)}
+                                            placeholder="SOP"
                                             value={sop.id ?? ""}
                                             disabled={disabled}
-                                            onChange={(event) => updateSop(index, { id: event.target.value })}
+                                            onChange={(event) => updateSop(index, { id: sanitizeIdInitials(event.target.value) })}
                                         />
-                                        {/* Read-only preview of the auto-generated ID (initials +
-                                            position-based number) -- the input itself only ever
-                                            holds the user's typed initials, so without this the
-                                            generated number is never actually visible once the
-                                            field has a value (the placeholder disappears). */}
-                                        <span className="process-library-id-computed">{sopDisplayId(sops, index)}</span>
+                                        {/* Same inline, single-line auto-generated number as the
+                                            Process ID field above -- see the comment there. */}
+                                        <span className="process-library-id-number">{sopIdSuffix}</span>
                                     </div>
                                 </td>
-                                <td>
+                                <td className="process-library-col-name">
                                     <AutoGrowField
-                                        placeholder="e.g. Domestic Shipping"
+                                        placeholder="SOP Name"
                                         value={sop.name}
                                         disabled={disabled}
                                         onChange={(next) => updateSop(index, { name: next })}
                                     />
                                 </td>
-                                <td>
+                                <td className="process-library-col-purpose">
                                     <AutoGrowField
                                         placeholder="What this SOP is for"
                                         value={sop.purpose}
@@ -767,7 +920,7 @@ function SopsTable({
                                         onChange={(next) => updateSop(index, { purpose: next })}
                                     />
                                 </td>
-                                <td>
+                                <td className="process-library-col-owner">
                                     <input
                                         type="text"
                                         className="interview-input"
@@ -788,6 +941,7 @@ function SopsTable({
                                 <td className="process-library-col-steps">
                                     {(Array.isArray(sop.steps) ? sop.steps : []).filter(step => step.action.trim().length > 0).length}
                                 </td>
+                                <td className="process-library-col-spacer" />
                                 <td className="process-library-col-actions">
                                     <RowActions
                                         disabled={disabled}
@@ -804,8 +958,8 @@ function SopsTable({
                             </tr>
 
                             {expanded.has(index) && (
-                                <tr className="process-library-expansion-row">
-                                    <td colSpan={8}>
+                                <tr className="process-library-expansion-row" data-sop-row={index}>
+                                    <td colSpan={9}>
                                         <StepsTable
                                             steps={Array.isArray(sop.steps) ? sop.steps : []}
                                             disabled={disabled}
@@ -815,15 +969,11 @@ function SopsTable({
                                 </tr>
                             )}
                         </Fragment>
-                    ))}
+                        );
+
+                    })}
                 </tbody>
             </table>
-
-            <datalist id={SOP_ID_SUGGESTIONS_DATALIST_ID}>
-                {Array.from(new Set(sops.map(sop => (sop.id ?? "").trim()).filter(text => text.length > 0))).map(id => (
-                    <option key={id} value={id} />
-                ))}
-            </datalist>
 
         </div>
 
@@ -846,11 +996,21 @@ function ProcessCard({
     process,
     disabled,
     initiallyExpandSteps,
+    nameColumnWidth,
+    purposeColumnWidth,
+    ownerColumnWidth,
+    onResizeName,
+    onResizePurpose,
     onChange
 }: {
     process: ProcessRecordValue;
     disabled: boolean;
     initiallyExpandSteps: boolean;
+    nameColumnWidth: number;
+    purposeColumnWidth: number;
+    ownerColumnWidth: number;
+    onResizeName: (deltaX: number) => void;
+    onResizePurpose: (deltaX: number) => void;
     onChange: (process: ProcessRecordValue) => void;
 }) {
 
@@ -906,6 +1066,11 @@ function ProcessCard({
                 sops={sops}
                 disabled={disabled}
                 initiallyExpandSteps={initiallyExpandSteps}
+                nameColumnWidth={nameColumnWidth}
+                purposeColumnWidth={purposeColumnWidth}
+                ownerColumnWidth={ownerColumnWidth}
+                onResizeName={onResizeName}
+                onResizePurpose={onResizePurpose}
                 onChange={(nextSops) => onChange({ ...process, sops: nextSops })}
             />
 
@@ -930,6 +1095,95 @@ function ProcessCard({
  * exactly the "number hierarchy" (001 before 002 before 003) the
  * display ID's own counting depends on.
  */
+// A single offscreen canvas, created lazily and reused for every
+// measurement rather than one per call -- `measureText` doesn't
+// touch the DOM tree at all (the canvas is never appended anywhere),
+// so this costs nothing to keep around for the component's whole
+// lifetime.
+let ownerMeasureContext: CanvasRenderingContext2D | null | undefined;
+
+function getOwnerMeasureContext(): CanvasRenderingContext2D | null {
+
+    if (ownerMeasureContext !== undefined) {
+        return ownerMeasureContext;
+    }
+
+    if (typeof document === "undefined") {
+        ownerMeasureContext = null;
+        return ownerMeasureContext;
+    }
+
+    const context = document.createElement("canvas").getContext("2d");
+
+    if (context) {
+        // Matches the Owner field's own actual rendered font (see
+        // `.process-library .interview-input` in conversation.css --
+        // 15px, and global.css's app-wide "Inter" font-family). If
+        // "Inter" isn't loaded yet, the canvas silently falls back to
+        // a generic sans-serif, which only ever measures WIDER than
+        // Inter actually renders -- erring toward extra width, never
+        // toward clipping.
+        context.font = "15px Inter, sans-serif";
+    }
+
+    ownerMeasureContext = context;
+
+    return ownerMeasureContext;
+
+}
+
+function measureOwnerTextWidth(text: string): number {
+
+    const context = getOwnerMeasureContext();
+
+    // No canvas available at all (e.g. a non-browser test runner) --
+    // fall back to a per-character estimate generous enough to only
+    // ever over-allocate, never clip.
+    return context ? context.measureText(text).width : text.length * 9;
+
+}
+
+/**
+ * The Owner column's width is never dragged by hand (contrast
+ * Name/Purpose, see ColumnResizeHandle above) -- it "automatically
+ * adjusts to fit the whole text", recomputed from every Owner value
+ * currently typed anywhere in the Process Library (every Process's
+ * own Owner AND every one of its SOPs' Owners, not just whichever
+ * table happens to be on screen -- both tables share this one width,
+ * same as every other shared column, so they stay aligned). Measures
+ * actual rendered text width via a canvas (see measureOwnerTextWidth
+ * above) rather than guessing from character count, since a run of
+ * "W"s and a run of "i"s need very different amounts of room at the
+ * same length. `+70` on top of the longest measured value covers the
+ * cell's own padding, the input's own padding/border, and the native
+ * `<list>` datalist dropdown's arrow indicator -- comfortably bounded
+ * (OWNER_COLUMN_MIN_WIDTH/MAX_WIDTH) so one unusually long entry
+ * can't blow the column out to an unreasonable size.
+ */
+function computeOwnerColumnWidth(processes: ProcessRecordValue[]): number {
+
+    let longestTextWidth = 0;
+
+    processes.forEach(process => {
+
+        longestTextWidth = Math.max(longestTextWidth, measureOwnerTextWidth(process.who.trim()));
+
+        const sops = Array.isArray(process.sops) ? process.sops : [];
+
+        sops.forEach(sop => {
+            longestTextWidth = Math.max(longestTextWidth, measureOwnerTextWidth(sop.who.trim()));
+        });
+
+    });
+
+    if (longestTextWidth === 0) {
+        return OWNER_COLUMN_MIN_WIDTH;
+    }
+
+    return Math.min(OWNER_COLUMN_MAX_WIDTH, Math.max(OWNER_COLUMN_MIN_WIDTH, longestTextWidth + 70));
+
+}
+
 function sortRowsByInitials<T extends { id?: string }>(rows: T[], fallbackInitials: string): T[] {
 
     return [...rows].sort((a, b) => {
@@ -958,6 +1212,50 @@ function isAlreadySortedByInitials<T extends { id?: string }>(rows: T[], fallbac
 
 }
 
+/** True once a Process/SOP's How Often has an actual picked date/weekday attached (see ProcessScheduleValue). */
+function hasScheduleValue(schedule: ProcessScheduleValue | undefined): boolean {
+    return Boolean(schedule && schedule.anchorDate.trim().length > 0);
+}
+
+/** True when a Step has never actually been filled in -- exactly what `createBlankProcessStep` produces. */
+function isBlankStep(step: ProcessStepValue): boolean {
+    return step.action.trim().length === 0 && !step.done;
+}
+
+/**
+ * True when a SOP -- and every Step inside it -- is still exactly
+ * what `createBlankProcessSop` produces, i.e. the user added it
+ * (via "+ Add SOP") but never actually typed or picked anything
+ * into it. Used by the "leaving a row" cleanup below to quietly
+ * drop rows nobody ever filled in, so a Process Library never
+ * accumulates empty clutter.
+ */
+function isBlankSop(sop: ProcessSopValue): boolean {
+
+    return (sop.id ?? "").trim().length === 0
+        && sop.name.trim().length === 0
+        && sop.purpose.trim().length === 0
+        && sop.who.trim().length === 0
+        && sop.howOften.trim().length === 0
+        && !hasScheduleValue(sop.schedule)
+        && (Array.isArray(sop.steps) ? sop.steps : []).every(isBlankStep);
+
+}
+
+/** Same idea as `isBlankSop` above, one level up: a Process nobody has touched since "+ Add Process". */
+function isBlankProcess(process: ProcessRecordValue): boolean {
+
+    return (process.id ?? "").trim().length === 0
+        && process.name.trim().length === 0
+        && process.purpose.trim().length === 0
+        && process.who.trim().length === 0
+        && process.howOften.trim().length === 0
+        && process.status.trim().length === 0
+        && !hasScheduleValue(process.schedule)
+        && (Array.isArray(process.sops) ? process.sops : []).every(isBlankSop);
+
+}
+
 export default function ProcessLibraryEditor({
     value,
     onChange,
@@ -978,6 +1276,39 @@ export default function ProcessLibraryEditor({
     }, [value.length]);
 
     const processes = value.length > 0 ? value : [createBlankProcess()];
+
+    // Name/Purpose: the user drags these wider or narrower by hand
+    // (see ColumnResizeHandle) -- one shared width per column across
+    // BOTH the Process table and every Process's own SOPs table, so
+    // dragging either table's handle keeps them aligned rather than
+    // letting the two tables' Name columns drift to different widths.
+    const [nameColumnWidth, setNameColumnWidth] = useState(DEFAULT_NAME_COLUMN_WIDTH);
+    const [purposeColumnWidth, setPurposeColumnWidth] = useState(DEFAULT_PURPOSE_COLUMN_WIDTH);
+
+    const handleResizeName = useCallback((deltaX: number) => {
+        setNameColumnWidth(previous => clampResizableColumnWidth(previous + deltaX));
+    }, []);
+
+    const handleResizePurpose = useCallback((deltaX: number) => {
+        setPurposeColumnWidth(previous => clampResizableColumnWidth(previous + deltaX));
+    }, []);
+
+    // Owner: NOT manually resized -- automatically sized to fit
+    // whatever's currently typed into any Owner field, Process-level
+    // or SOP-level, across the whole Process Library (see
+    // computeOwnerColumnWidth above). Recomputed only when an Owner
+    // value actually changes (not on every unrelated keystroke
+    // elsewhere in the table) by keying the memo off a cheap string
+    // built from just those values.
+    const ownerTextsKey = processes
+        .map(process => `${process.who}|${(Array.isArray(process.sops) ? process.sops : []).map(sop => sop.who).join("|")}`)
+        .join("||");
+
+    const ownerColumnWidth = useMemo(
+        () => computeOwnerColumnWidth(processes),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [ownerTextsKey]
+    );
 
     // "When the user revisits the same page, the order should be
     // shaped alphabetically, and with number hierarchy" -- regroup
@@ -1137,20 +1468,173 @@ export default function ProcessLibraryEditor({
 
     }
 
+    /**
+     * "When I stop working on a row, it moves accordingly, based on
+     * its alphabetical and numerical order" -- and, per the cleanup
+     * request, a row nobody ever filled in quietly disappears
+     * instead. Fires on every focus change anywhere inside the
+     * table (a single listener here, rather than one per row,
+     * because a Process's own `<tr>` and its expansion `<tr>`
+     * holding the SOPs/Steps tables are DOM SIBLINGS, not nested --
+     * focusout only bubbles through actual ancestors, so a listener
+     * on just the summary row would never see blur events from
+     * anything nested inside the expansion). `data-process-row` /
+     * `data-sop-row` / `data-step-row` (set on both the summary and
+     * expansion `<tr>`s at each level) plus `closest()` on both the
+     * event's target and relatedTarget is what lets a single
+     * handler here work out exactly which row (if any) is actually
+     * being left at each of the three levels, all in one pass so
+     * the three levels' worth of edits land in a single `onChange`
+     * call instead of racing each other.
+     */
+    function handleProcessLibraryBlur(event: FocusEvent<HTMLTableElement>) {
+
+        if (disabled) {
+            return;
+        }
+
+        const target = event.target as HTMLElement;
+        const related = event.relatedTarget as HTMLElement | null;
+
+        const leftProcessRow = target.closest<HTMLElement>("tr[data-process-row]");
+
+        if (!leftProcessRow) {
+            return;
+        }
+
+        const leftProcessIndex = Number(leftProcessRow.dataset.processRow);
+        const enteredProcessRow = related?.closest<HTMLElement>("tr[data-process-row]") ?? null;
+        const enteredProcessIndex = enteredProcessRow ? Number(enteredProcessRow.dataset.processRow) : -1;
+
+        const leftSopRow = target.closest<HTMLElement>("tr[data-sop-row]");
+        const leftSopIndex = leftSopRow ? Number(leftSopRow.dataset.sopRow) : -1;
+        const enteredSopRow = related?.closest<HTMLElement>("tr[data-sop-row]") ?? null;
+        const enteredSopIndex = enteredSopRow ? Number(enteredSopRow.dataset.sopRow) : -1;
+
+        const leftStepRow = target.closest<HTMLElement>("tr[data-step-row]");
+        const leftStepIndex = leftStepRow ? Number(leftStepRow.dataset.stepRow) : -1;
+        const enteredStepRow = related?.closest<HTMLElement>("tr[data-step-row]") ?? null;
+        const enteredStepIndex = enteredStepRow ? Number(enteredStepRow.dataset.stepRow) : -1;
+
+        const process = processes[leftProcessIndex];
+
+        if (!process) {
+            return;
+        }
+
+        let sops = Array.isArray(process.sops) && process.sops.length > 0 ? process.sops : [createBlankProcessSop()];
+        let sopsChanged = false;
+
+        // Step-level cleanup -- only once focus actually leaves the Step row it was in.
+        if (leftStepRow && leftStepIndex !== enteredStepIndex) {
+
+            const sopIndexForSteps = leftSopRow ? leftSopIndex : 0;
+            const sopForSteps = sops[sopIndexForSteps];
+
+            if (sopForSteps) {
+
+                const steps = Array.isArray(sopForSteps.steps) && sopForSteps.steps.length > 0
+                    ? sopForSteps.steps
+                    : [createBlankProcessStep()];
+                const step = steps[leftStepIndex];
+
+                if (step && isBlankStep(step) && steps.length > 1) {
+
+                    const nextSteps = steps.filter((_, stepIndex) => stepIndex !== leftStepIndex);
+                    sops = sops.map((sop, sopIndex) => (sopIndex === sopIndexForSteps ? { ...sop, steps: nextSteps } : sop));
+                    sopsChanged = true;
+
+                }
+
+            }
+
+        }
+
+        // SOP-level cleanup/resort -- only once focus leaves that SOP's own row+Steps entirely
+        // (a different SOP, or out of the SOPs table/this Process altogether).
+        if (leftSopRow && (leftSopIndex !== enteredSopIndex || leftProcessIndex !== enteredProcessIndex)) {
+
+            const sop = sops[leftSopIndex];
+
+            if (sop) {
+
+                if (isBlankSop(sop) && sops.length > 1) {
+                    sops = sops.filter((_, sopIndex) => sopIndex !== leftSopIndex);
+                    sopsChanged = true;
+                } else if (!isAlreadySortedByInitials(sops, "SOP")) {
+                    sops = sortRowsByInitials(sops, "SOP");
+                    sopsChanged = true;
+                }
+
+            }
+
+        }
+
+        let nextProcesses = processes;
+
+        if (sopsChanged) {
+            nextProcesses = processes.map((candidate, processIndex) =>
+                processIndex === leftProcessIndex ? { ...candidate, sops } : candidate
+            );
+        }
+
+        let processesChanged = sopsChanged;
+
+        // Process-level cleanup/resort -- only once focus leaves this Process's row+expansion entirely.
+        if (leftProcessIndex !== enteredProcessIndex) {
+
+            const currentProcess = nextProcesses[leftProcessIndex];
+
+            if (currentProcess) {
+
+                if (isBlankProcess(currentProcess) && nextProcesses.length > 1) {
+                    nextProcesses = nextProcesses.filter((_, processIndex) => processIndex !== leftProcessIndex);
+                    processesChanged = true;
+                } else if (!isAlreadySortedByInitials(nextProcesses, "PRC")) {
+                    nextProcesses = sortRowsByInitials(nextProcesses, "PRC");
+                    processesChanged = true;
+                }
+
+            }
+
+        }
+
+        if (processesChanged) {
+            onChange(nextProcesses);
+        }
+
+    }
+
     return (
 
         <div className="process-library">
 
-            <table className="process-library-table">
+            {/* Lets the table's own generous, readable column widths (see
+                conversation.css) exceed the interview card's 850px cap and
+                scroll horizontally instead of ever clipping a column's text
+                -- the same `.dynamic-table-scroll` convention DynamicTable
+                already uses elsewhere in this app. */}
+            <div className="process-library-table-scroll">
+            <table
+                className="process-library-table"
+                onBlur={handleProcessLibraryBlur}
+                style={{ width: computeProcessLibraryTableWidth(nameColumnWidth, purposeColumnWidth, ownerColumnWidth) }}
+            >
                 <thead>
                     <tr>
                         <th className="process-library-col-number">#</th>
                         <th className="process-library-col-id">ID</th>
-                        <th className="process-library-col-name">Process Name</th>
-                        <th className="process-library-col-purpose">Purpose</th>
-                        <th>Owner</th>
+                        <th className="process-library-col-name process-library-col-resizable" style={{ width: nameColumnWidth }}>
+                            Process Name
+                            <ColumnResizeHandle onResize={handleResizeName} label="Process Name" />
+                        </th>
+                        <th className="process-library-col-purpose process-library-col-resizable" style={{ width: purposeColumnWidth }}>
+                            Purpose
+                            <ColumnResizeHandle onResize={handleResizePurpose} label="Purpose" />
+                        </th>
+                        <th className="process-library-col-owner" style={{ width: ownerColumnWidth }}>Owner</th>
                         <th className="process-library-col-frequency">How Often</th>
-                        <th>Status</th>
+                        <th className="process-library-col-status" style={{ width: STATUS_COLUMN_WIDTH }}>Status</th>
                         <th className="process-library-col-actions" />
                     </tr>
                 </thead>
@@ -1160,11 +1644,12 @@ export default function ProcessLibraryEditor({
                         const sopsCount = Array.isArray(process.sops) ? process.sops.length : 0;
                         const hasMultipleSops = sopsCount >= 2;
                         const isExpanded = expanded.has(index);
+                        const processIdSuffix = `-${processDisplaySequence(processes, index)}`;
 
                         return (
 
                             <Fragment key={index}>
-                                <tr className="process-library-row">
+                                <tr className="process-library-row" data-process-row={index}>
                                     <td className="process-library-col-number">
                                         <button
                                             type="button"
@@ -1185,24 +1670,28 @@ export default function ProcessLibraryEditor({
                                         </button>
                                     </td>
                                     <td className="process-library-col-id">
-                                        <div className="process-library-id-field-wrap">
+                                        <div className="process-library-id-field-inline">
                                             <input
                                                 type="text"
                                                 className="interview-input process-library-id-field"
-                                                list={PROCESS_ID_SUGGESTIONS_DATALIST_ID}
-                                                placeholder={processDisplayId(processes, index)}
+                                                placeholder="PRC"
                                                 value={process.id ?? ""}
                                                 disabled={disabled}
-                                                onChange={(event) => updateProcess(index, { id: event.target.value })}
+                                                onChange={(event) => updateProcess(index, { id: sanitizeIdInitials(event.target.value) })}
                                             />
-                                            {/* Same read-only computed-ID preview as the SOP ID
-                                                field above -- see the comment there. */}
-                                            <span className="process-library-id-computed">{processDisplayId(processes, index)}</span>
+                                            {/* The auto-generated number, inline on the SAME line as
+                                                the initials input -- never a second stacked line (see
+                                                the module comment above sanitizeIdInitials). The input
+                                                only ever holds the user's typed initials; this span is
+                                                the only place the "-001"-style count is shown, recomputed
+                                                fresh every render from this row's position among every
+                                                other row sharing the same initials. */}
+                                            <span className="process-library-id-number">{processIdSuffix}</span>
                                         </div>
                                     </td>
                                     <td className="process-library-col-name">
                                         <AutoGrowField
-                                            placeholder="e.g. Fulfil Orders"
+                                            placeholder="Process Name"
                                             value={process.name}
                                             disabled={disabled}
                                             onChange={(next) => updateProcess(index, { name: next })}
@@ -1216,7 +1705,7 @@ export default function ProcessLibraryEditor({
                                             onChange={(next) => updateProcess(index, { purpose: next })}
                                         />
                                     </td>
-                                    <td>
+                                    <td className="process-library-col-owner">
                                         <input
                                             type="text"
                                             className="interview-input"
@@ -1234,7 +1723,7 @@ export default function ProcessLibraryEditor({
                                         disabled={disabled}
                                         onChange={(patch) => updateProcess(index, patch)}
                                     />
-                                    <td>
+                                    <td className="process-library-col-status">
                                         <select
                                             className="interview-input"
                                             value={process.status}
@@ -1263,12 +1752,17 @@ export default function ProcessLibraryEditor({
                                 </tr>
 
                                 {isExpanded && (
-                                    <tr className="process-library-expansion-row process-library-expansion-row-process">
+                                    <tr className="process-library-expansion-row process-library-expansion-row-process" data-process-row={index}>
                                         <td colSpan={8}>
                                             <ProcessCard
                                                 process={process}
                                                 disabled={disabled}
                                                 initiallyExpandSteps={expandWithSteps.has(index)}
+                                                nameColumnWidth={nameColumnWidth}
+                                                purposeColumnWidth={purposeColumnWidth}
+                                                ownerColumnWidth={ownerColumnWidth}
+                                                onResizeName={handleResizeName}
+                                                onResizePurpose={handleResizePurpose}
                                                 onChange={(next) => updateProcess(index, next)}
                                             />
                                         </td>
@@ -1281,16 +1775,11 @@ export default function ProcessLibraryEditor({
                     })}
                 </tbody>
             </table>
+            </div>
 
             <datalist id={OWNER_SUGGESTIONS_DATALIST_ID}>
                 {ownerSuggestions.map(name => (
                     <option key={name} value={name} />
-                ))}
-            </datalist>
-
-            <datalist id={PROCESS_ID_SUGGESTIONS_DATALIST_ID}>
-                {Array.from(new Set(processes.map(process => (process.id ?? "").trim()).filter(text => text.length > 0))).map(id => (
-                    <option key={id} value={id} />
                 ))}
             </datalist>
 

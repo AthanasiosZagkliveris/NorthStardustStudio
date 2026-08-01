@@ -11,6 +11,7 @@ import { getCapabilityColor } from "../data/capabilities";
 
 import "../styles/organization-calendar.css";
 import "../styles/date-format-toggle.css";
+import "../styles/system-confirmation.css";
 
 interface OrganizationCalendarPanelProps {
 
@@ -303,18 +304,98 @@ export default function OrganizationCalendarPanel({
 
     const panelRef = useRef<HTMLDivElement | null>(null);
 
+    /**
+     * Holds the "apply to every other occurrence?" question while
+     * it's showing -- which sibling task ids it would apply `time`
+     * to on confirmation. `null` means the dialog is closed. A
+     * custom in-app dialog (rendered further down, styled like
+     * every other popup in the app -- see `.confirmation-overlay`/
+     * `.confirmation-dialog` in system-confirmation.css) instead of
+     * the browser's own `window.confirm`, which renders as a
+     * generic OS dialog bearing the dev server's own address
+     * ("localhost:1420 says") -- jarringly out of place next to the
+     * app's own styled pop-ups. See `handleTimeChange` below for
+     * where this gets set.
+     */
+    const [timeConfirmPrompt, setTimeConfirmPrompt] = useState<{ time: string; siblingTaskIds: string[]; howOften: string } | null>(null);
+
+    // The Calendar flyout's own title reads "{Organization name}
+    // Calendar" rather than the generic "Organization Calendar" --
+    // re-read whenever `organizationId` changes (switching
+    // Organizations, or a rename elsewhere finishing before this
+    // panel next mounts fresh for that Organization).
+    const [organizationName, setOrganizationName] = useState<string>("");
+
+    useEffect(() => {
+
+        if (!organizationId) {
+            setOrganizationName("");
+            return;
+        }
+
+        setOrganizationName(OrganizationService.getSummary(organizationId)?.name ?? "");
+
+    }, [organizationId]);
+
+    // While the "apply to every occurrence?" dialog is open, none of
+    // the rail's usual close triggers (mouse leaving, focus leaving,
+    // clicking outside) should fire -- same reasoning as the existing
+    // `suppressClose` prop (see its own doc comment above): the
+    // dialog renders centered on the whole viewport (`.confirmation-
+    // overlay` is `position:fixed; inset:0`), so reaching its own
+    // buttons routinely means moving the pointer OFF of the rail's
+    // own on-screen box, which would otherwise read as "the mouse
+    // left the rail" and close it out from under the dialog it just
+    // opened.
+    const suppressCloseForFlyout = suppressClose || timeConfirmPrompt !== null;
+
+    /**
+     * True for the duration of a mousedown -- cleared on the very
+     * next tick. Lets the panel's own `onBlur` below (see its doc
+     * comment) tell "focus just shifted because of a click that's
+     * ALSO being handled by the mousedown listener below" apart from
+     * "focus shifted because of Tab/Shift+Tab, with no click
+     * involved at all" -- the only case `onBlur` itself actually
+     * needs to react to.
+     */
+    const mouseDownInProgressRef = useRef(false);
+
+    useEffect(() => {
+
+        function markMouseDown() {
+
+            mouseDownInProgressRef.current = true;
+
+            // Any blur/focusout this mousedown itself triggers (by
+            // shifting focus away from whatever was previously
+            // focused, e.g. clicking a plain <div> that can't take
+            // focus) fires synchronously, within this same tick --
+            // clearing the flag on the next tick keeps it from ever
+            // masking a LATER, genuinely separate blur (e.g. a Tab
+            // press with no click involved).
+            setTimeout(() => {
+                mouseDownInProgressRef.current = false;
+            }, 0);
+
+        }
+
+        document.addEventListener("mousedown", markMouseDown, true);
+
+        return () => document.removeEventListener("mousedown", markMouseDown, true);
+
+    }, []);
+
     // Clicking anywhere outside the rail closes its flyout, same as
     // clicking outside any other popup/sliding window in the app --
-    // except while `suppressClose` is true (a child dialog this
-    // rail itself opened is still showing -- see that prop's own
-    // doc comment above). The Calendar flyout specifically goes
-    // further: while IT is open, clicking anywhere inside it that
-    // isn't an actual control (a day, the month arrows, the date-
-    // presentation toggle, or the Time/Notes fields themselves) ALSO
-    // closes it, the same as clicking truly outside -- only clicking
-    // one of those controls, or typing into Time/Notes, keeps it
-    // open. The Capabilities/Systems flyouts keep their existing
-    // "only a truly outside click closes it" behavior unchanged.
+    // except while `suppressCloseForFlyout` is true (a child dialog
+    // this rail itself opened -- either the caller's own `suppressClose`
+    // prop, or this component's own Time-confirm dialog above -- is
+    // still showing). Pressing INSIDE any of the 3 sliding cards --
+    // Calendar, Capabilities, or Systems -- never closes it, no
+    // matter what's clicked (a day, blank space, plain text, it
+    // doesn't matter); only a genuinely outside click, Escape (see
+    // `closeSignal` above), or the cursor actually leaving the rail
+    // (see the panel's own `onMouseLeave` below) closes it.
     useEffect(() => {
 
         if (activeTab === null) {
@@ -323,7 +404,7 @@ export default function OrganizationCalendarPanel({
 
         function handlePointerDown(event: MouseEvent) {
 
-            if (suppressClose) {
+            if (suppressCloseForFlyout) {
                 return;
             }
 
@@ -335,18 +416,6 @@ export default function OrganizationCalendarPanel({
 
             const outsidePanel = !(panelRef.current && panelRef.current.contains(target));
 
-            if (!outsidePanel && activeTab === "calendar") {
-
-                if (target.closest("input, textarea, label, button")) {
-                    return;
-                }
-
-                setActiveTab(null);
-
-                return;
-
-            }
-
             if (outsidePanel) {
                 setActiveTab(null);
             }
@@ -357,7 +426,7 @@ export default function OrganizationCalendarPanel({
 
         return () => document.removeEventListener("mousedown", handlePointerDown);
 
-    }, [activeTab, suppressClose]);
+    }, [activeTab, suppressCloseForFlyout]);
 
     useEffect(() => {
 
@@ -444,7 +513,9 @@ export default function OrganizationCalendarPanel({
      * Time) offers to copy that SAME time onto every other
      * occurrence of that same recurring Process/SOP -- most people
      * setting "9:00 AM" on one occurrence mean the whole series, not
-     * just that one date.
+     * just that one date. The clicked task's own Time always applies
+     * immediately either way; only the SIBLINGS' Time waits on the
+     * dialog's answer (see `timeConfirmPrompt` above).
      */
     function handleTimeChange(task: CalendarTask, time: string): void {
 
@@ -464,15 +535,20 @@ export default function OrganizationCalendarPanel({
             return;
         }
 
-        const applyToAll = window.confirm(
-            "Keep this same time for every other occurrence of this recurring task too?"
-        );
+        setTimeConfirmPrompt({ time, siblingTaskIds, howOften: task.howOften });
 
-        if (!applyToAll) {
+    }
+
+    /** Applies the pending `timeConfirmPrompt`'s time to every sibling occurrence, then closes the dialog. */
+    function confirmApplyTimeToSiblings(): void {
+
+        if (!timeConfirmPrompt) {
             return;
         }
 
-        siblingTaskIds.forEach(siblingTaskId => updateAnnotation(siblingTaskId, { time }));
+        timeConfirmPrompt.siblingTaskIds.forEach(siblingTaskId => updateAnnotation(siblingTaskId, { time: timeConfirmPrompt.time }));
+
+        setTimeConfirmPrompt(null);
 
     }
 
@@ -521,6 +597,22 @@ export default function OrganizationCalendarPanel({
         cells.push(null);
     }
 
+    // Always pad out to a full 6-row grid (42 cells), not just the
+    // nearest multiple of 7 -- most months only need 5 rows (or 4),
+    // but a handful (any 31-day month starting on a Friday or
+    // Saturday, e.g. August 2026) need 6. Leaving the grid at
+    // whatever row count each month actually needs made the whole
+    // Calendar flyout visibly grow/shrink height as you navigated
+    // between months, and made a 6-row "today" month look
+    // noticeably bigger than its 5-row neighbors right when the
+    // panel first opens. Padding every month out to the same fixed
+    // 6 rows (with the extra trailing cells rendered blank, same as
+    // the leading ones) keeps the grid -- and the whole panel -- an
+    // identical size no matter which month is showing.
+    while (cells.length < 42) {
+        cells.push(null);
+    }
+
     const selectedDateTasks = selectedDate ? tasksOnDate(tasks, selectedDate) : [];
 
     const orderedSystems = [...systems].sort((a, b) => a.number - b.number);
@@ -561,7 +653,9 @@ export default function OrganizationCalendarPanel({
                             tech, or any test/tool that greps
                             the page's first <h2>).
                         */}
-                        <div className="org-calendar-title">Organization Calendar</div>
+                        <div className="org-calendar-title">
+                            {organizationName ? `${organizationName} Calendar` : "Organization Calendar"}
+                        </div>
 
                     </div>
 
@@ -603,16 +697,6 @@ export default function OrganizationCalendarPanel({
                         </div>
 
                     </div>
-
-                    {/*
-                        The Calendar itself sits under its own
-                        clearly-labeled section, below the date-
-                        presentation control -- makes the flyout
-                        read as "Organization Calendar > Date
-                        presentation, then Calendar", not one
-                        undifferentiated block.
-                    */}
-                    <div className="org-rail-section-label">Calendar</div>
 
                     <div className="org-calendar-month-nav">
 
@@ -858,7 +942,7 @@ export default function OrganizationCalendarPanel({
                                 style={{ "--system-color": getCapabilityColor(system.capability) } as React.CSSProperties}
                                 onClick={() => onSystemOpen(system)}
                             >
-                                <span className="org-rail-system-number">{pad2(system.number)}</span>
+                                <span className="org-rail-system-number">{pad2(system.number)}.</span>
                                 <span className="org-rail-system-title">{system.title}</span>
                             </button>
 
@@ -881,7 +965,7 @@ export default function OrganizationCalendarPanel({
             className={`org-calendar-panel${activeTab ? " org-calendar-panel-open" : ""}`}
             onMouseLeave={() => {
 
-                if (!suppressClose) {
+                if (!suppressCloseForFlyout) {
                     setActiveTab(null);
                 }
 
@@ -896,7 +980,22 @@ export default function OrganizationCalendarPanel({
                 // `relatedTarget` is the element gaining focus;
                 // null (e.g. clicking outside the document) also
                 // counts as "left".
-                if (suppressClose) {
+                if (suppressCloseForFlyout) {
+                    return;
+                }
+
+                // A blur caused by a mousedown (e.g. clicking a plain
+                // <div> -- blank space inside a flyout card -- shifts
+                // focus away from whatever control was previously
+                // focused, since a <div> can't itself take focus) is
+                // NOT "the person tabbed/clicked away" -- the
+                // mousedown-based outside-click handler above is the
+                // one that decides whether THAT click should close
+                // the rail, and pressing anywhere INSIDE any of the 3
+                // sliding cards should never close it. Only react to
+                // a blur that happened with no mousedown involved at
+                // all (a Tab/Shift+Tab key press).
+                if (mouseDownInProgressRef.current) {
                     return;
                 }
 
@@ -996,6 +1095,57 @@ export default function OrganizationCalendarPanel({
                 </div>
 
             </div>
+
+            {/*
+                The "apply to every occurrence?" dialog (see
+                `handleTimeChange`/`timeConfirmPrompt` above) --
+                deliberately nested INSIDE this ref'd panel div (not
+                rendered as a page-level sibling) so the outside-click
+                check above (`panelRef.current.contains(target)`)
+                still treats a click anywhere on it, including the
+                dimmed backdrop, as "inside the rail", never as the
+                outside click that would close the whole rail out
+                from under it.
+            */}
+            {timeConfirmPrompt && (
+
+                <div className="confirmation-overlay" onClick={() => setTimeConfirmPrompt(null)}>
+
+                    <div className="confirmation-dialog" onClick={(event) => event.stopPropagation()}>
+
+                        <h2 className="confirmation-title">
+                            This is a {timeConfirmPrompt.howOften.toLowerCase()} reminder.
+                        </h2>
+
+                        <p className="confirmation-question">
+                            Apply this timing to all?
+                        </p>
+
+                        <div className="confirmation-actions">
+
+                            <button
+                                type="button"
+                                className="confirmation-button secondary"
+                                onClick={() => setTimeConfirmPrompt(null)}
+                            >
+                                No, just this one
+                            </button>
+
+                            <button
+                                type="button"
+                                className="confirmation-button primary"
+                                onClick={confirmApplyTimeToSiblings}
+                            >
+                                Yes, apply to all
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            )}
 
         </div>
 

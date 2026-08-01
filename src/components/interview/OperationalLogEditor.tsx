@@ -182,11 +182,28 @@ export default function OperationalLogEditor({
 
     }
 
-    const loggedProcessKeys = Array.from(new Set(
-        rows.map(row => row.processKey).filter(key => key.trim().length > 0)
-    ));
+    // Every Process that has anything worth showing -- not just the
+    // ones a Log entry already references (`row.processKey`). This
+    // dropdown used to be scoped to only logged Processes, with a
+    // separate, purely-decorative "View all Processes & SOPs" panel
+    // above the table for browsing the rest -- but that panel sat in
+    // the normal page flow, so scrolling down to work through the
+    // table scrolled it away too, right when it would've been most
+    // useful. Folding "browse everything" into this SAME control
+    // instead -- it already shows each option as "PRC-01 · Name" via
+    // resolveProcessLogLabel below, exactly the ID+Name lookup the
+    // old panel offered -- means there's only one place to look, and
+    // it's an actual filter, not a list that goes stale the moment
+    // you scroll. Picking a Process with no entries yet just shows
+    // "No entries match the current filter", which is itself useful
+    // information (nothing's been logged for it yet).
+    const filterableProcesses = processes.filter(process => {
 
-    const filterableProcesses = processes.filter(process => loggedProcessKeys.includes(process.key));
+        const sops = Array.isArray(process.sops) ? process.sops : [];
+
+        return process.name.trim().length > 0 || sops.some(sop => sop.name.trim().length > 0);
+
+    });
 
     const ownerSuggestions = Array.from(new Set(
         rows.map(row => row.ownerOfChange.trim()).filter(text => text.length > 0)
@@ -208,23 +225,18 @@ export default function OperationalLogEditor({
 
     });
 
-    if (rows.length === 0) {
-
-        return (
-
-            <div className="operational-log-empty">
-                No changes logged yet -- editing a Process in Process Library
-                and moving on will automatically add an entry here.
-            </div>
-
-        );
-
-    }
-
     return (
 
         <div className="operational-log">
 
+            {/* Always rendered, even before any Log entry exists yet
+                (unlike the table below) -- the Process picker lists
+                EVERY Process that has a name or a named SOP (see
+                `filterableProcesses` above), not just ones already
+                referenced by a Log entry, so it doubles as a way to
+                look up any Process's ID -- "PRC-01 · Fulfil Orders",
+                same label the picker always showed -- without needing
+                anything logged for it yet. */}
             <div className="operational-log-filters">
 
                 <label className="operational-log-filter">
@@ -284,82 +296,93 @@ export default function OperationalLogEditor({
 
             </div>
 
-            <div className="operational-log-scroll">
+            {rows.length === 0 ? (
 
-                <table className="operational-log-table">
+                <div className="operational-log-empty">
+                    No changes logged yet -- editing a Process in Process Library
+                    and moving on will automatically add an entry here.
+                </div>
 
-                    <thead>
+            ) : (
 
-                        <tr>
-                            <th className="operational-log-col-date">
-                                {/*
-                                    No in-table US/DD toggle here anymore --
-                                    the Organization Calendar panel (System
-                                    Selection page) now owns the single,
-                                    app-wide control for this same shared
-                                    PreferencesService setting, so this cell
-                                    just renders the Date per whatever that
-                                    setting currently is (see `dateFormat`
-                                    below).
-                                */}
-                                Date
-                            </th>
-                            <th className="operational-log-col-process">Process ID</th>
-                            <th className="operational-log-col-owner">Owner</th>
-                            <th>Description</th>
-                            <th>Notes</th>
-                        </tr>
+                <div className="operational-log-scroll">
 
-                    </thead>
+                    <table className="operational-log-table">
 
-                    <tbody>
+                        <thead>
 
-                        {visibleRows.length === 0 && (
                             <tr>
-                                <td colSpan={5} className="operational-log-empty-filtered">
-                                    No entries match the current filter.
-                                </td>
-                            </tr>
-                        )}
-
-                        {visibleRows.map(row => (
-
-                            <tr key={row.key}>
-
-                                <td className="operational-log-col-date operational-log-col-readonly">
-                                    {isoToDisplay(row.date, dateFormat) || row.date.trim()}
-                                </td>
-
-                                <td className="operational-log-col-process operational-log-col-readonly">
-                                    {resolveProcessId(row.processKey, processes)}
-                                </td>
-
-                                <td className="operational-log-col-owner operational-log-col-readonly">
-                                    {row.ownerOfChange.trim()}
-                                </td>
-
-                                <td className="operational-log-col-readonly operational-log-description">
-                                    {row.description}
-                                </td>
-
-                                <td>
-                                    <AutoGrowField
-                                        value={row.notes}
-                                        disabled={disabled}
-                                        placeholder="Add a relevant note (optional)"
-                                        onChange={(next) => updateNotes(row.key, next)}
-                                    />
-                                </td>
-
+                                <th className="operational-log-col-date">
+                                    {/*
+                                        No in-table US/DD toggle here anymore --
+                                        the Organization Calendar panel (System
+                                        Selection page) now owns the single,
+                                        app-wide control for this same shared
+                                        PreferencesService setting, so this cell
+                                        just renders the Date per whatever that
+                                        setting currently is (see `dateFormat`
+                                        below).
+                                    */}
+                                    Date
+                                </th>
+                                <th className="operational-log-col-process">Process ID</th>
+                                <th className="operational-log-col-owner">Owner</th>
+                                <th>Description</th>
+                                <th>Notes</th>
                             </tr>
 
-                        ))}
+                        </thead>
 
-                    </tbody>
+                        <tbody>
 
-                </table>
+                            {visibleRows.length === 0 && (
+                                <tr>
+                                    <td colSpan={5} className="operational-log-empty-filtered">
+                                        No entries match the current filter.
+                                    </td>
+                                </tr>
+                            )}
 
-            </div>
+                            {visibleRows.map(row => (
+
+                                <tr key={row.key}>
+
+                                    <td className="operational-log-col-date operational-log-col-readonly">
+                                        {isoToDisplay(row.date, dateFormat) || row.date.trim()}
+                                    </td>
+
+                                    <td className="operational-log-col-process operational-log-col-readonly">
+                                        {resolveProcessId(row.processKey, processes)}
+                                    </td>
+
+                                    <td className="operational-log-col-owner operational-log-col-readonly">
+                                        {row.ownerOfChange.trim()}
+                                    </td>
+
+                                    <td className="operational-log-col-readonly operational-log-description">
+                                        {row.description}
+                                    </td>
+
+                                    <td>
+                                        <AutoGrowField
+                                            value={row.notes}
+                                            disabled={disabled}
+                                            placeholder="Add a relevant note (optional)"
+                                            onChange={(next) => updateNotes(row.key, next)}
+                                        />
+                                    </td>
+
+                                </tr>
+
+                            ))}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            )}
 
         </div>
 

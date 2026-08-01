@@ -42,7 +42,12 @@
 
 .org-calendar-panel-open{
 
-    width:400px;
+    /* 44px handle column + 460px content card (see `.org-calendar-
+       content` below) -- wide enough that even the longest System
+       title ("Product Development System") stays on one line at
+       this card's 20px type size, in BOTH its regular and hover
+       (bold) weights, with room to spare. */
+    width:504px;
 
 }
 
@@ -56,7 +61,7 @@
 
     height:100%;
 
-    width:400px;
+    width:504px;
 
 }
 
@@ -125,16 +130,12 @@
 
 }
 
-/* The rail's 3 handles share this base -- only their background
-   differs, and that difference is deliberate, not decorative: the
-   Calendar handle is the "main"/parent window (`.org-calendar-
-   handle`, the pale 50%-tinted blue also used for the Process
-   Library's SOPs table -- see conversation.css), while Capabilities
-   and System are its "children" (`.org-rail-handle-capabilities`/
-   `-systems`, the fuller light blue also used for that table's own
-   Steps level) -- same light-blue family, one shade lighter for the
-   parent than its children, exactly like that existing nesting-tint
-   convention elsewhere in the app. */
+/* The rail's 3 handles share this base -- including their
+   background, which is now the SAME light blue for all 3 ("the
+   colours of the sliding windows should be the same" -- they
+   previously differed, the Calendar handle one shade paler than
+   Capabilities/System, which read as an inconsistency rather than a
+   deliberate distinction). */
 .org-rail-handle{
 
     flex-shrink:0;
@@ -164,12 +165,7 @@
 
 }
 
-.org-calendar-handle{
-
-    background:#edf4ff;
-
-}
-
+.org-calendar-handle,
 .org-rail-handle-capabilities,
 .org-rail-handle-systems{
 
@@ -225,7 +221,13 @@
     left:44px;
     top:0;
 
-    width:356px;
+    /* Wide enough that the longest System title ("Product
+       Development System") fits on a single line, in its bold
+       hover weight too, with room to spare -- see `.org-calendar-
+       panel-open` above for the matching total-panel-width math.
+       Shared by all 3 sliding cards (Calendar/Capabilities/
+       Systems -- one class, one width, always in sync). */
+    width:460px;
 
     height:100%;
 
@@ -235,7 +237,17 @@
 
     overflow-y:auto;
 
-    background:#edf4ff;
+    /* Reserves the scrollbar's own width up front, whether or not
+       content actually needs to scroll -- without this, selecting a
+       date/task (which adds the `.org-calendar-selected` block
+       below the grid) can push this panel's content tall enough to
+       trigger `overflow-y:auto`'s scrollbar, which then eats into
+       the available width and visibly shrinks the Calendar grid
+       itself. Reserving the gutter unconditionally means picking a
+       date never changes how wide anything above it renders. */
+    scrollbar-gutter:stable;
+
+    background:#dbe9ff;
 
     border-radius:0 12px 12px 0;
 
@@ -245,31 +257,26 @@
 
 }
 
-/* The flyout pane itself picks up the same "main" vs "children"
-   light-blue tint as its handle (see `.org-rail-handle` above) --
-   the whole sliding window reads as one light-blue piece, not just
-   its tab. Hovering ANY of the 3 sliding cards lightens it toward
-   white (a 50/50 mix with white -- "50% more white") -- a gentle
-   whole-card highlight that shows which one the mouse is actually
-   over, on top of the plain background it starts from. */
-.org-calendar-content-main{
-
-    background:#edf4ff;
-
-}
-
+/* The flyout pane itself picks up the SAME light-blue tint as its
+   handle (see `.org-rail-handle` above), and that tint is now
+   identical across all 3 sliding cards -- Calendar, Capabilities,
+   and Systems -- rather than one shade paler for Calendar (see the
+   comment on `.org-rail-handle` above for why that changed).
+   Hovering ANY of the 3 sliding cards lightens it toward white (a
+   50/50 mix with white -- "50% more white") -- a gentle whole-card
+   highlight that shows which one the mouse is actually over, on top
+   of the plain background it starts from. `.org-calendar-content-
+   main`/`-child` stay as separate classNames (still handy hooks for
+   anything that needs to tell the Calendar card apart from the
+   other two), they just no longer carry a different colour. */
+.org-calendar-content-main,
 .org-calendar-content-child{
 
     background:#dbe9ff;
 
 }
 
-.org-calendar-content-main:hover{
-
-    background:color-mix(in srgb, #edf4ff 50%, white);
-
-}
-
+.org-calendar-content-main:hover,
 .org-calendar-content-child:hover{
 
     background:color-mix(in srgb, #dbe9ff 50%, white);
@@ -326,26 +333,6 @@
     letter-spacing:0.4px;
 
     color:#5f6368;
-
-}
-
-/* A small section heading -- NOT a real heading element (see the
-   `.org-calendar-title` comment above re: DOM heading order) --
-   marking where the Calendar itself begins, underneath the date-
-   presentation row above it ("place the calendar under a calendar
-   section"). */
-.org-rail-section-label{
-
-    margin:0 0 10px;
-
-    font-size:12px;
-    font-weight:700;
-
-    text-transform:uppercase;
-
-    letter-spacing:0.4px;
-
-    color:#0b57d0;
 
 }
 
@@ -739,26 +726,31 @@
 }
 
 /* Matches `.capability-item` (capability-list.css, the SAME sidebar
-   this rail is a second entry point to) as closely as this narrower
-   flyout column allows: the Capability's own colour by default,
-   regular weight, no border/background box -- only on hover does it
-   pick up a colour-tinted background and go bold, exactly like the
-   sidebar. Deliberately NOT a flat/literal blue on hover -- the
-   Capability keeps reading as itself, just emphasized. */
+   this rail is a second entry point to) EXACTLY -- same padding,
+   minimum height, corner radius, and type size, not just an
+   approximation "as closely as this narrower flyout column allows":
+   the Capability's own colour by default, regular weight, no
+   border/background box -- only on hover does it pick up a colour-
+   tinted background and go bold, exactly like the sidebar.
+   Deliberately NOT a flat/literal blue on hover -- the Capability
+   keeps reading as itself, just emphasized. */
 .org-rail-capability-item{
 
-    display:block;
+    display:flex;
+    align-items:center;
+
+    min-height:48px;
 
     width:100%;
 
     box-sizing:border-box;
 
-    padding:10px 12px;
+    padding:12px 16px;
 
     text-align:left;
 
     border:none;
-    border-radius:6px;
+    border-radius:8px;
 
     background:none;
 
@@ -767,6 +759,10 @@
     font:inherit;
     font-size:20px;
     font-weight:500;
+    line-height:1.3;
+
+    white-space:normal;
+    word-break:break-word;
 
     cursor:pointer;
 
@@ -794,29 +790,30 @@
 
 /* Same "own colour, regular weight, bold-on-hover" convention as
    `.org-rail-capability-item` above, matching `.system-item`
-   (system-list.css) -- but every System shown here spans every
-   Capability at once (unlike the sidebar's own filtered System
-   list), so `--system-color` is set PER ITEM from that System's own
-   parent Capability (see the component), not once for the whole
-   list. */
+   (system-list.css) EXACTLY -- same padding, minimum height, and
+   corner radius as the sidebar's own System row -- but every System
+   shown here spans every Capability at once (unlike the sidebar's
+   own filtered System list), so `--system-color` is set PER ITEM
+   from that System's own parent Capability (see the component), not
+   once for the whole list. */
 .org-rail-system-item{
 
     display:flex;
 
     align-items:center;
 
-    gap:10px;
+    min-height:48px;
 
     width:100%;
 
     box-sizing:border-box;
 
-    padding:8px 12px;
+    padding:12px 16px;
 
     text-align:left;
 
     border:none;
-    border-radius:6px;
+    border-radius:8px;
 
     background:none;
 
@@ -843,14 +840,13 @@
 
 .org-rail-system-number{
 
+    width:34px;
     flex-shrink:0;
 
-    min-width:26px;
+    text-align:left;
 
     font-size:20px;
     font-weight:500;
-
-    font-variant-numeric:tabular-nums;
 
     color:var(--system-color, #000000);
 
@@ -860,8 +856,15 @@
 
 .org-rail-system-title{
 
+    min-width:0;
+    flex:1;
+
     font-size:20px;
     font-weight:500;
+    line-height:1.3;
+
+    white-space:normal;
+    word-break:break-word;
 
     color:var(--system-color, #000000);
 
