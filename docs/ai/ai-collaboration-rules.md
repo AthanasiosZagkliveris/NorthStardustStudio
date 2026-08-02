@@ -5,7 +5,7 @@ Standing rules for any AI assistant working on this project. These come from exp
 ## Always
 
 - **Push finished changes automatically, without being asked.** Once a change is verified (see Verification & Regression Playbook), deliver it and write it back to the developer's project files in the same turn it's finished. Don't wait for a separate "go ahead."
-- **"Push" means committed, not just written to disk.** Writing a file back to the developer's project folder is not the end state — an uncommitted working-tree change has no history, isn't on the GitHub remote, and can be silently discarded by an unrelated later git operation (a checkout, a stash, a discard-changes click) with no warning that it happened. Confirmed happening once already: a fully-verified, already-delivered `package.json` change was lost this way, and nothing caught it until an unrelated audit checked the live file byte-for-byte. No tool in this environment can run `git commit` directly — so every turn that pushes a real project-file change must end by explicitly asking the developer to commit (and, ideally, push to the remote) before treating that change as durably done, not just delivered.
+- **"Push" means committed, not just written to disk.** Writing a file back to the developer's project folder is not the end state — an uncommitted working-tree change has no history, isn't on the GitHub remote, and can be silently discarded by an unrelated later git operation (a checkout, a stash, a discard-changes click) with no warning that it happened. Confirmed happening once already: a fully-verified, already-delivered `package.json` change was lost this way, and nothing caught it until an unrelated audit checked the live file byte-for-byte. So no turn that makes a real project-file change is finished while that change is still only in the working tree: either commit it (Claude Code can run `git commit` and `git push` directly — an assistant without shell access must instead end the turn by explicitly asking the developer to do it), or state plainly that the change is delivered but not yet durable. Never leave it ambiguous.
 
 ## Never
 
@@ -15,7 +15,7 @@ Standing rules for any AI assistant working on this project. These come from exp
 
 - **Ask, don't guess, on decisions that are expensive to reverse or ambiguous by nature** — e.g. a structural choice with more than one reasonable reading, a priority call between two pieces of pending work. Use a small number of concrete options rather than an open-ended question.
 - **Don't ask about decisions that are cheap to reverse or where one option is clearly better** — e.g. which of two internally-consistent test assertions to trust when one is provably based on a stale assumption. Resolve it, note the reasoning, keep moving.
-- Log the resolution of any genuinely ambiguous decision in the Decision Log so the same question doesn't need to be re-asked in a future session.
+- Record the resolution of any genuinely ambiguous decision in whichever `docs/ai/` reference already owns that area (a new pattern in the conventions reference, a triaged failure in the verification playbook, an unfixed problem in `outstanding-findings.md`), so the same question doesn't need to be re-asked in a future session. There is deliberately no separate decision-log file — the knowledge belongs next to the subject it concerns, not in a parallel history.
 
 ## On verification
 

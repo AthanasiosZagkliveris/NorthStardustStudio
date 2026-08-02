@@ -21,7 +21,7 @@ List the revenue methods available to you (one-time purchase, subscription, serv
 Make the mix concrete with percentages, like 85% from product sales and 7% from repair services, rather than a vague list of possibilities.
 This shows at a glance how dependent your business is on any single revenue method.
 
-## 04. Revenue Streams Help
+## 04. Revenue Matrix Help
 
 Revenue Streams identify the actual sources your money comes from — where the Revenue Model's payment methods get applied.
 List each distinct stream with a short description of what it covers.

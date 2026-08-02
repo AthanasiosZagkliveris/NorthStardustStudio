@@ -1,9 +1,8 @@
 # Runs the same three fast, deterministic checks the Environment &
 # Toolchain Playbook (docs/ai/environment-and-toolchain-playbook.md)
-# already establishes as steps 2-4 of verifying any change: typecheck,
-# unit tests, build. Deliberately does NOT run the Playwright
-# verify_*.mjs regression suite here -- that needs a live preview
-# server and a provisioned browser, is comparatively slow, and stays
+# already establishes as steps 1-3 of verifying any change: typecheck,
+# unit tests, build. Deliberately does NOT cover the playbook's step 4
+# (running the app): that step is inherently interactive, so it stays
 # a manual/AI-assisted step (the regression-verifier Skill) rather
 # than something that has to pass on every single push. See that
 # playbook's "Continuous integration" section for the full reasoning.

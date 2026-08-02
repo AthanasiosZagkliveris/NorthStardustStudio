@@ -27,7 +27,7 @@ System Scope: Defines how reusable organizational assets are organized, maintain
 - When was the update completed?
 - What is the status?
 
-## 4. Assets Summary
+## 4. Summary
 
 - What are the most important assets?
 - Which assets are currently in use?
