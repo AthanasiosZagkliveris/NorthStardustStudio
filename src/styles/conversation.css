@@ -326,6 +326,37 @@ textarea:focus{
 ========================================================== */
 
 /* ==========================================================
+   Multi-Part Answers (see AnswerType.MultiPart) -- an ordered
+   sequence of otherwise-independent parts (Table, Free Text,
+   ...) rendered one after another under the same Section, each
+   with its own small label heading. Example: the Finance
+   System's Financial Risk, which is a Description table, an
+   Evaluation table, a Mitigation Measures table, and a
+   Contingency Plan table, one after another.
+========================================================== */
+
+.answer-multi-part{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:28px;
+
+}
+
+.answer-part-label{
+
+    margin:0 0 10px;
+
+    font-size:15px;
+    font-weight:600;
+
+    color:#1f2937;
+
+}
+
+/* ==========================================================
    Fixed Variant Text -- Cards
 ========================================================== */
 
@@ -779,6 +810,23 @@ textarea:focus{
 
 }
 
+/* A `field.allowCustom` Field (currently just the Platform Field --
+   see FieldRenderer.tsx's SelectFieldWithCustom) stacks its select
+   and, once "Other" is picked, a free-text input directly beneath
+   it -- same vertical stacking idea as a `repeatable` column's own
+   list of entries just below. */
+.field-select-with-custom{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
+    width:100%;
+
+}
+
 /* A `repeatable` column's cell (see DynamicTable's
    `column.repeatable`, e.g. Revenue Method) renders its own
    vertical list of entries -- one Revenue Stream now always lives
@@ -1103,54 +1151,6 @@ textarea:focus{
     background:#eef4ff;
 
     border-color:#0b57d0;
-
-}
-
-/* Shown once, in the "top cell" (header) of a date
-   column, rather than repeated on every row -- a
-   per-row toggle would be noisy and easy to mistake
-   for a per-row setting when it's actually the same
-   shared preference everywhere. */
-.dynamic-table-header-date-toggle{
-
-    display:inline-flex;
-
-    align-items:center;
-    justify-content:center;
-
-    margin-left:8px;
-
-    height:22px;
-
-    padding:0 7px;
-
-    border:1px solid #c7d2e0;
-    border-radius:6px;
-
-    background:#ffffff;
-
-    color:#5f6368;
-
-    font-size:11px;
-    font-weight:600;
-
-    white-space:nowrap;
-
-    cursor:pointer;
-
-    transition:background-color .2s ease, border-color .2s ease, color .2s ease;
-
-}
-
-.dynamic-table-header-date-toggle:hover{
-
-    background:#eef4ff;
-
-    border-color:#0b57d0;
-
-    color:#0b57d0;
-
-    font-weight:700;
 
 }
 

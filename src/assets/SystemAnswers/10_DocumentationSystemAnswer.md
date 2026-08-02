@@ -66,7 +66,7 @@
 - Column 3: Purpose
 - Column 4: Usage
 - Column 5: Owner
-- Column 6: Review Frequency - Frequency Field
+- Column 6: Frequency - Frequency Field
 
 ## 07. Documentation Rules
 

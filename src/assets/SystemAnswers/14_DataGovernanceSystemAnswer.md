@@ -20,11 +20,11 @@
 
 **Columns:**
 - Column 1: #
-- Column 2: Data Asset
+- Column 2: Data Asset - Dynamic Field (Data Inventory: Data Asset)
 - Column 3: Owner
 - Column 4: Custodian
 - Column 5: Access Permissions
-- Column 6: Review Frequency - Frequency Field
+- Column 6: Frequency - Frequency Field
 
 ## 03. Data Quality
 

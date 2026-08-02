@@ -41,6 +41,21 @@ export interface OrganizationDocument {
      */
     productAnswers?: Record<string, Record<string, unknown>>;
     /**
+     * The Publishing System's Content Strategy (Section 1),
+     * Website System's Website Specification (Section 1), and
+     * Social Media System's Audience Profiles (Section 1) all
+     * read/write the SAME underlying Target Audience row list per
+     * Organization, the same "fully shared, edit anywhere" way
+     * `products` already works for the Product Register (see
+     * `SHARED_TARGET_AUDIENCE_BINDINGS` in Conversation.tsx) --
+     * editing a row from any one of the three updates it in all
+     * three immediately. Rows are `{ id, name, description }`;
+     * Social Media's own Audience Profiles table additionally
+     * carries Interests/Goals/Challenges columns that stay
+     * Social-Media-specific and are NOT part of this shared list.
+     */
+    targetAudiences?: unknown[];
+    /**
      * Per-task annotations for the Organization Calendar (see
      * OrganizationCalendarPanel.tsx / CalendarTaskService.ts) --
      * the Calendar itself is read-only, auto-discovering its
@@ -398,6 +413,25 @@ export class OrganizationService {
         }
 
         document.products = products;
+        this.saveDocument(document);
+
+    }
+
+    // -- Shared Target Audience list --
+
+    static getTargetAudiences(organizationId: string): unknown[] {
+        return this.loadDocument(organizationId)?.targetAudiences ?? [];
+    }
+
+    static saveTargetAudiences(organizationId: string, targetAudiences: unknown[]): void {
+
+        const document = this.loadDocument(organizationId);
+
+        if (!document) {
+            return;
+        }
+
+        document.targetAudiences = targetAudiences;
         this.saveDocument(document);
 
     }

@@ -2,15 +2,27 @@
 
 ## 01. Website Specification
 
+**Target Audience**
+
+**Structure:** Table
+
+**Number of Columns:** 3
+
+**Columns:**
+- Column 1: #
+- Column 2: Name
+- Column 3: Description
+
+**Other Website Specification Elements**
+
 **Structure:** Fixed Variant Text
 
-**Number of Variants:** 4
+**Number of Variants:** 3
 
 **Variants:**
 - Variant 1: Website Purpose
-- Variant 2: Target Audience
-- Variant 3: Website Goals
-- Variant 4: Website Scope
+- Variant 2: Website Goals
+- Variant 3: Website Scope
 
 ## 02. Content Architecture
 

@@ -155,7 +155,7 @@ const OWNER_COLUMN_MIN_WIDTH = Math.max(110, headerMinWidth("Process Owner"), he
 // exactly the same fallback the user's own manual Name/Purpose
 // resize already relies on.
 const OWNER_COLUMN_MAX_WIDTH = 420;
-const FREQUENCY_COLUMN_WIDTH = Math.max(140, headerMinWidth("How Often"));
+const FREQUENCY_COLUMN_WIDTH = Math.max(140, headerMinWidth("Frequency"));
 // Wide enough that "Retired" -- the longest of PROCESS_STATUS_OPTIONS
 // -- never clips inside the native <select>, arrow icon included.
 const STATUS_COLUMN_WIDTH = Math.max(130, headerMinWidth("Status"));
@@ -1007,7 +1007,7 @@ function SopsTable({
                             <ColumnResizeHandle onResize={onResizePurpose} label="Purpose" />
                         </th>
                         <th className="process-library-col-owner" style={{ width: ownerColumnWidth }}>SOP Owner</th>
-                        <th className="process-library-col-frequency">How Often</th>
+                        <th className="process-library-col-frequency">Frequency</th>
                         <th className="process-library-col-steps" style={{ width: SOPS_STEPS_COLUMN_WIDTH }}>Steps</th>
                         {/* Blank spacer -- makes up the width difference
                             between this table's Steps column and the
@@ -1891,7 +1891,7 @@ export default function ProcessLibraryEditor({
                             <ColumnResizeHandle onResize={handleResizePurpose} label="Purpose" />
                         </th>
                         <th className="process-library-col-owner" style={{ width: ownerColumnWidth }}>Process Owner</th>
-                        <th className="process-library-col-frequency">How Often</th>
+                        <th className="process-library-col-frequency">Frequency</th>
                         <th className="process-library-col-status" style={{ width: STATUS_COLUMN_WIDTH }}>Status</th>
                         <th className="process-library-col-actions" />
                     </tr>

@@ -22,9 +22,9 @@
 
 **Columns:**
 - Column 1: #
-- Column 2: Platform Name
+- Column 2: Platform Name - Platform Field
 - Column 3: Purpose
-- Column 4: Primary Audience
+- Column 4: Primary Audience - Dynamic Field (Audience Profiles: Name)
 - Column 5: Content Focus
 
 ## 03. Content Types
@@ -46,7 +46,7 @@
 **Columns:**
 - Column 1: #
 - Column 2: Date
-- Column 3: Platform
+- Column 3: Platform - Platform Field
 - Column 4: Content Type
 - Column 5: Status - Status Field
 
@@ -71,7 +71,7 @@
 - Column 1: #
 - Column 2: Campaign Name
 - Column 3: Goal
-- Column 4: Platforms
+- Column 4: Platforms - Platform Field [Repeatable]
 - Column 5: Start Date
 - Column 6: End Date
 - Column 7: Status - Status Field

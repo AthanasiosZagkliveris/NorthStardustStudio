@@ -694,7 +694,7 @@ const PROCESS_FIELD_LABELS: Array<{ key: "name" | "purpose" | "who" | "howOften"
     { key: "name", label: "Name" },
     { key: "purpose", label: "Purpose" },
     { key: "who", label: "Owner" },
-    { key: "howOften", label: "How Often" },
+    { key: "howOften", label: "Frequency" },
     { key: "status", label: "Status" }
 ];
 
@@ -702,7 +702,7 @@ const SOP_FIELD_LABELS: Array<{ key: "name" | "purpose" | "who" | "howOften"; la
     { key: "name", label: "Name" },
     { key: "purpose", label: "Purpose" },
     { key: "who", label: "Owner" },
-    { key: "howOften", label: "How Often" }
+    { key: "howOften", label: "Frequency" }
 ];
 
 /**
@@ -1263,6 +1263,24 @@ export function defaultAnswerValue(answer: AnswerDefinition): unknown {
             // point, not "nothing entered yet".
             return {};
 
+        case AnswerType.MultiPart: {
+
+            // One entry per part, each seeded with THAT part's own
+            // default value (recursively -- a part can itself be
+            // anything a whole Section could be) -- e.g. Financial
+            // Risk's Description/Evaluation/Mitigation Measures/
+            // Contingency Plan each start with their own one blank
+            // Table row, exactly as if each were its own Section.
+            const value: Record<string, unknown> = {};
+
+            for (const part of answer.parts ?? []) {
+                value[part.id] = defaultAnswerValue(part.answer);
+            }
+
+            return value;
+
+        }
+
         case AnswerType.FreeText:
         default:
             return "";
@@ -1414,6 +1432,23 @@ export function isAnswerEmpty(answer: AnswerDefinition, value: unknown): boolean
             // required. There is nothing this Section asks the user
             // to fill in directly.
             return false;
+
+        case AnswerType.MultiPart: {
+
+            // Complete once EVERY part has something in it -- same
+            // "every visible column/every part filled" strictness
+            // Table already applies to its own columns, extended
+            // across parts instead of columns.
+            const values: Record<string, unknown> =
+                value && typeof value === "object" && !Array.isArray(value)
+                    ? value as Record<string, unknown>
+                    : {};
+
+            return (answer.parts ?? []).some(
+                part => isAnswerEmpty(part.answer, values[part.id])
+            );
+
+        }
 
         default:
             return true;
@@ -1991,7 +2026,7 @@ export function buildAnswerBlocks(
                 }
 
                 if (typeof process.howOften === "string" && process.howOften.trim().length > 0) {
-                    metaParts.push(`How often: ${process.howOften.trim()}`);
+                    metaParts.push(`Frequency: ${process.howOften.trim()}`);
                 }
 
                 if (typeof process.status === "string" && process.status.trim().length > 0) {
@@ -2055,7 +2090,7 @@ export function buildAnswerBlocks(
                         }
 
                         if (typeof sop.howOften === "string" && sop.howOften.trim().length > 0) {
-                            sopMetaParts.push(`How often: ${sop.howOften.trim()}`);
+                            sopMetaParts.push(`Frequency: ${sop.howOften.trim()}`);
                         }
 
                         if (sopMetaParts.length > 0) {
@@ -2137,6 +2172,35 @@ export function buildAnswerBlocks(
                 });
 
             });
+
+            return blocks;
+
+        }
+
+        case AnswerType.MultiPart: {
+
+            const values: Record<string, unknown> =
+                value && typeof value === "object" && !Array.isArray(value)
+                    ? value as Record<string, unknown>
+                    : {};
+
+            const blocks: ExportBlock[] = [];
+
+            for (const part of answer.parts ?? []) {
+
+                const partBlocks = buildAnswerBlocks(part.answer, values[part.id], options);
+
+                if (partBlocks.length === 0) {
+                    continue;
+                }
+
+                if (part.label.length > 0) {
+                    blocks.push({ kind: "subheading", text: part.label });
+                }
+
+                blocks.push(...partBlocks);
+
+            }
 
             return blocks;
 

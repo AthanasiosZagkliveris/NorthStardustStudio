@@ -20,17 +20,17 @@
 
 **Columns:**
 - Column 1: #
-- Column 2: Performance Area
+- Column 2: Performance Area - Dynamic Field (Performance Areas: Performance Area)
 - Column 3: KPI
 - Column 4: Target
-- Column 5: Measurement Frequency - Frequency Field
+- Column 5: Frequency - Frequency Field
 - Column 6: Responsible Role
 
-## 03. Reporting Framework
+## 03. Reporting
 
 **Structure:** Table
 
-**Number of Columns:** 5
+**Number of Columns:** 7
 
 **Columns:**
 - Column 1: #
@@ -38,20 +38,10 @@
 - Column 3: Purpose
 - Column 4: Audience
 - Column 5: Prepared By
+- Column 6: Distribution Method
+- Column 7: Frequency - Frequency Field
 
-## 04. Reporting Schedule
-
-**Structure:** Table
-
-**Number of Columns:** 4
-
-**Columns:**
-- Column 1: #
-- Column 2: Report
-- Column 3: Frequency - Frequency Field
-- Column 4: Distribution Method
-
-## 05. Performance Review
+## 04. Performance Review
 
 **Structure:** Fixed Variant Text
 
@@ -62,7 +52,7 @@
 - Variant 2: Review Areas
 - Variant 3: Key Findings
 
-## 06. Improvement Actions
+## 05. Improvement Actions
 
 **Structure:** Table
 

@@ -41,8 +41,19 @@
 
 .conversation-card {
 
+    /* Widened from the original 850px so the Answer area (tables
+       especially -- Financial Risk's now-8-column table, the wider
+       Audience Profiles table, and so on) can actually use the
+       available screen space instead of cramming into a narrow
+       column, while `.conversation-content`'s own
+       `justify-content: center` keeps it centered on wide screens
+       exactly as before -- "make the Answer part wide to use all
+       the usable screen space, centered". `min()` keeps this from
+       ever touching the viewport edges on a narrower window: the
+       94vw side gives way to the fixed 1400px cap once the window
+       is wide enough for it. */
     width: 100%;
-    max-width: 850px;
+    max-width: min(1400px, 94vw);
 
     display: flex;
     flex-direction: column;

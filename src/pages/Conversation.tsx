@@ -10,7 +10,8 @@ import AnswerRenderer from "../components/interview/AnswerRenderer";
 
 import { InterviewManager, ReviewManager } from "../framework/application";
 import { InterviewSession } from "../framework/interview";
-import { ValidationIssue, ValidationResult } from "../framework/model";
+import { frameworkRegistry } from "../framework/engine/FrameworkRegistry";
+import { AnswerDefinition, ValidationIssue, ValidationResult } from "../framework/model";
 import { AnswerType } from "../framework/enums/AnswerType";
 import {
     CardListAnswerValue,
@@ -33,6 +34,7 @@ import {
 
 import { StorageService } from "../services/StorageService";
 import { OrganizationService } from "../services/OrganizationService";
+import { systems } from "../data/systems";
 
 import "../styles/conversation.css";
 import "../styles/conversation-layout.css";
@@ -106,6 +108,147 @@ function isSharedProductRegisterSection(systemId: string | undefined, sectionNum
 }
 
 /**
+ * The Publishing System's Content Strategy (Section 1) and the
+ * Website System's Website Specification (Section 1) each carry a
+ * dedicated "Target Audience" Multi-Part part (see 19_
+ * PublishingSystemAnswer.md / 20_WebsiteSystemAnswer.md) that
+ * shares ONE row list per Organization -- "fully shared, edit
+ * anywhere": editing a row from either Section (or from the Social
+ * Media System's own Audience Profiles, see
+ * SOCIAL_MEDIA_AUDIENCE_PROFILES_BINDING below) updates it
+ * everywhere immediately, the same "one shared table" idea as
+ * SHARED_PRODUCT_REGISTER_BINDINGS above, just scoped to one part
+ * of a Multi-Part Section instead of a whole Section.
+ */
+const SHARED_TARGET_AUDIENCE_PART_BINDINGS: { systemId: string; sectionNumber: number; partId: string }[] = [
+    { systemId: "publishing", sectionNumber: 1, partId: "target-audience" },
+    { systemId: "website", sectionNumber: 1, partId: "target-audience" }
+];
+
+function findSharedTargetAudiencePartBinding(
+    systemId: string | undefined,
+    sectionNumber: number
+): { systemId: string; sectionNumber: number; partId: string } | undefined {
+    return SHARED_TARGET_AUDIENCE_PART_BINDINGS.find(
+        binding => binding.systemId === systemId && binding.sectionNumber === sectionNumber
+    );
+}
+
+/**
+ * The Social Media System's Audience Profiles (Section 1) shares
+ * the SAME underlying Target Audience row list as the two bindings
+ * above, but its own Table is WIDER -- only its first two data
+ * columns (Name, Description) are shared; Interests/Goals/
+ * Challenges stay Social-Media-specific per row. Rows are matched
+ * across the shared list and this wider table by their Name text
+ * (trimmed, case-insensitive) rather than a synthetic row id, the
+ * same way SHARED_PRODUCT_REGISTER_BINDINGS's own Product rows are
+ * matched by Product name text (see extractProductNames above) --
+ * this whole codebase deliberately avoids synthetic row ids.
+ */
+const SOCIAL_MEDIA_AUDIENCE_PROFILES_BINDING = { systemId: "social-media", sectionNumber: 1 };
+
+function isSocialMediaAudienceProfilesSection(systemId: string | undefined, sectionNumber: number): boolean {
+    return systemId === SOCIAL_MEDIA_AUDIENCE_PROFILES_BINDING.systemId
+        && sectionNumber === SOCIAL_MEDIA_AUDIENCE_PROFILES_BINDING.sectionNumber;
+}
+
+function normalizeAudienceName(value: unknown): string {
+    return typeof value === "string" ? value.trim().toLowerCase() : "";
+}
+
+/**
+ * Extracts just the shared { name, description } shape out of a
+ * Target Audience Table's own rows (used both for the Publishing/
+ * Website Multi-Part part, whose rows already only ever hold these
+ * two columns, and for pushing Social Media's wider table's own
+ * first two columns back into the shared store).
+ */
+function extractSharedAudienceRows(rows: unknown): TableAnswerRow[] {
+
+    if (!Array.isArray(rows)) {
+        return [];
+    }
+
+    return (rows as TableAnswerRow[]).map(row => ({
+        name: typeof row?.name === "string" ? row.name : "",
+        description: typeof row?.description === "string" ? row.description : ""
+    }));
+
+}
+
+/**
+ * Reconciles the Social Media System's own wider Audience Profiles
+ * rows against the shared Target Audience list -- every shared
+ * audience appears, in the shared list's own order, with its Name/
+ * Description kept in sync; each row's own Interests/Goals/
+ * Challenges are carried over from whichever LOCAL row already had
+ * that same Name (case-insensitive), or start blank for an audience
+ * newly added elsewhere. Any local row whose Name doesn't (yet)
+ * appear in the shared list at all is appended as-is, rather than
+ * silently discarded, so typing a brand new audience directly into
+ * Social Media never loses data even before its first save round-
+ * trips it into the shared store (see handleAnswerChange). Falls
+ * back to the local rows unchanged when the shared list is empty
+ * (a brand new Organization nobody has entered a Target Audience
+ * for yet) so this Table still starts with its usual "at least one
+ * row" default instead of an empty table.
+ */
+function mergeSharedAudienceIntoSocialMediaRows(sharedRows: unknown, localRows: unknown): TableAnswerRow[] {
+
+    const shared = Array.isArray(sharedRows) ? sharedRows as TableAnswerRow[] : [];
+    const local = Array.isArray(localRows) ? localRows as TableAnswerRow[] : [];
+
+    if (shared.length === 0) {
+        return local;
+    }
+
+    const usedLocalIndexes = new Set<number>();
+
+    const merged: TableAnswerRow[] = shared.map(sharedRow => {
+
+        const sharedName = typeof sharedRow.name === "string" ? sharedRow.name : "";
+
+        const matchIndex = local.findIndex(
+            (candidate, index) =>
+                !usedLocalIndexes.has(index) && normalizeAudienceName(candidate.name) === normalizeAudienceName(sharedName)
+        );
+
+        const matched = matchIndex >= 0 ? local[matchIndex] : undefined;
+
+        if (matchIndex >= 0) {
+            usedLocalIndexes.add(matchIndex);
+        }
+
+        return {
+            name: sharedName,
+            description: typeof sharedRow.description === "string" ? sharedRow.description : "",
+            interests: matched?.interests ?? "",
+            goals: matched?.goals ?? "",
+            challenges: matched?.challenges ?? ""
+        };
+
+    });
+
+    local.forEach((row, index) => {
+
+        if (usedLocalIndexes.has(index)) {
+            return;
+        }
+
+        if (normalizeAudienceName(row.name).length === 0) {
+            return;
+        }
+
+        merged.push(row);
+
+    });
+
+    return merged;
+
+}
+
+/**
  * The Product Development System's Sections 2-7 (Product
  * Validation through Product Review) are answered once PER
  * Product, not once per System (see OrganizationService.
@@ -140,6 +283,110 @@ function extractProductNames(rows: unknown): string[] {
         .filter(name => name.length > 0);
 
     return Array.from(new Set(names));
+
+}
+
+/**
+ * Resolves a `TableColumnDefinition.dynamicSource`'s live option
+ * list against a source Section's own Answer Definition + current
+ * response, regardless of which underlying answer structure that
+ * Section actually uses (item's "3rd column Revenue Stream" /
+ * Financial Risk "Risk" column follow-up).
+ *
+ * Supports three shapes, matched by the source Section's own
+ * `answer.type`:
+ *
+ * - Card List: the original, pre-existing behaviour -- finds the
+ *   named card (by normalized title) and returns its items' non-
+ *   blank text, de-duplicated. (E.g. Business System's Revenue
+ *   Model, Section 3, "Revenue Stream" card.)
+ * - Table: finds the named column (by normalized title) and
+ *   returns that column's own non-blank cell values across every
+ *   row, de-duplicated. (E.g. Stakeholder Register pulling from
+ *   Stakeholder Categories' "Category" column.)
+ * - Multi-Part: recurses into each part's own answer/value in
+ *   turn, returning the first part that yields any options. This
+ *   is what lets Financial Risk's Evaluation/Mitigation Measures/
+ *   Contingency Plan parts each source their shared "Risk" column
+ *   from their own sibling Description part, all four parts living
+ *   inside the very same Section.
+ *
+ * Any other answer type (or a card/column/part title that doesn't
+ * match) yields no options -- callers already treat an empty list
+ * as "nothing entered yet" rather than an error.
+ */
+function extractDynamicOptions(
+    answer: AnswerDefinition,
+    value: unknown,
+    cardTitle: string,
+    normalize: (text: string) => string
+): string[] {
+
+    switch (answer.type) {
+
+        case AnswerType.CardList: {
+
+            const card = (answer.cards ?? []).find(
+                candidate => normalize(candidate.title) === normalize(cardTitle)
+            );
+
+            if (!card) {
+                return [];
+            }
+
+            const values = (value ?? {}) as CardListAnswerValue;
+            const items = values[card.id] ?? [];
+
+            const texts = items
+                .map(item => (typeof item.text === "string" ? item.text.trim() : ""))
+                .filter(text => text.length > 0);
+
+            return Array.from(new Set(texts));
+
+        }
+
+        case AnswerType.Table: {
+
+            const column = (answer.table?.columns ?? []).find(
+                candidate => normalize(candidate.title) === normalize(cardTitle)
+            );
+
+            if (!column) {
+                return [];
+            }
+
+            const rows = Array.isArray(value) ? (value as TableAnswerRow[]) : [];
+
+            const texts = rows
+                .map(row => {
+                    const cell = row[column.id];
+                    return typeof cell === "string" ? cell.trim() : "";
+                })
+                .filter(text => text.length > 0);
+
+            return Array.from(new Set(texts));
+
+        }
+
+        case AnswerType.MultiPart: {
+
+            const values = (value ?? {}) as Record<string, unknown>;
+
+            for (const part of answer.parts ?? []) {
+                const options = extractDynamicOptions(part.answer, values[part.id], cardTitle, normalize);
+                if (options.length > 0) {
+                    return options;
+                }
+            }
+
+            return [];
+
+        }
+
+        default:
+            return [];
+
+    }
 
 }
 
@@ -493,6 +740,64 @@ export default function Conversation() {
 
         }
 
+        // Publishing System's Content Strategy / Website System's
+        // Website Specification -- swap in the shared Target
+        // Audience rows for just this Section's own "target-
+        // audience" Multi-Part part, leaving every other part of
+        // the Section (Content Goals, Website Purpose, etc.) as
+        // this Session already had it.
+        const targetAudiencePartBinding = findSharedTargetAudiencePartBinding(system.id, sectionNumber);
+
+        if (targetAudiencePartBinding) {
+
+            const sharedAudiences = OrganizationService.getTargetAudiences(organizationId);
+
+            const currentValue = session.getResponse(sectionNumber);
+
+            const currentParts: Record<string, unknown> =
+                currentValue && typeof currentValue === "object" && !Array.isArray(currentValue)
+                    ? currentValue as Record<string, unknown>
+                    : {};
+
+            session.saveResponse(sectionNumber, {
+                ...currentParts,
+                [targetAudiencePartBinding.partId]: sharedAudiences
+            });
+
+            StorageService.saveInterview(organizationId, session);
+            redraw();
+
+            return;
+
+        }
+
+        // Social Media System's own Audience Profiles -- same
+        // shared Target Audience list, reconciled into this
+        // Section's own WIDER table (see
+        // mergeSharedAudienceIntoSocialMediaRows above).
+        if (isSocialMediaAudienceProfilesSection(system.id, sectionNumber)) {
+
+            const sharedAudiences = OrganizationService.getTargetAudiences(organizationId);
+            const currentRows = session.getResponse(sectionNumber);
+
+            const merged = mergeSharedAudienceIntoSocialMediaRows(sharedAudiences, currentRows);
+
+            session.saveResponse(sectionNumber, merged);
+            StorageService.saveInterview(organizationId, session);
+
+            // Any locally-only audience (typed directly into Social
+            // Media, not yet reflected in the shared store) round-
+            // trips into the shared store right away too, so
+            // Publishing/Website see it without waiting for a
+            // further edit here.
+            OrganizationService.saveTargetAudiences(organizationId, extractSharedAudienceRows(merged));
+
+            redraw();
+
+            return;
+
+        }
+
         if (system.id === "product-development" && sectionNumber >= 2) {
 
             const selected = OrganizationService.getSelectedProductId(organizationId);
@@ -702,9 +1007,30 @@ export default function Conversation() {
 
             const sectionNumber = session.getCurrentSectionNumber();
 
+            const targetAudiencePartBinding = findSharedTargetAudiencePartBinding(system.id, sectionNumber);
+
             if (isSharedProductRegisterSection(system.id, sectionNumber)) {
 
                 OrganizationService.saveProducts(organizationId, Array.isArray(value) ? value : []);
+
+            } else if (targetAudiencePartBinding) {
+
+                const parts: Record<string, unknown> =
+                    value && typeof value === "object" && !Array.isArray(value)
+                        ? value as Record<string, unknown>
+                        : {};
+
+                OrganizationService.saveTargetAudiences(
+                    organizationId,
+                    extractSharedAudienceRows(parts[targetAudiencePartBinding.partId])
+                );
+
+            } else if (isSocialMediaAudienceProfilesSection(system.id, sectionNumber)) {
+
+                OrganizationService.saveTargetAudiences(
+                    organizationId,
+                    extractSharedAudienceRows(value)
+                );
 
             } else if (system.id === "product-development" && sectionNumber >= 2) {
 
@@ -728,12 +1054,31 @@ export default function Conversation() {
     }, [session, organizationId, system]);
 
     // Resolves a Table column's live dropdown options from another
-    // Section's Card List response (see TableColumnDefinition.
-    // dynamicSource) -- e.g. a "Revenue Stream" column whose choices
-    // should always match whatever the user has entered under the
-    // Revenue Model Section's "Revenue Stream" card. Matched by
-    // normalized title text, the same way Questions/Answers Sections
-    // are matched to each other.
+    // Section's response (see TableColumnDefinition.dynamicSource) --
+    // e.g. a "Revenue Stream" column whose choices should always
+    // match whatever the user has entered under the Revenue Model
+    // Section's "Revenue Stream" card, or a "Stakeholder" column
+    // whose choices should always match the Stakeholder Register
+    // Table's own "Stakeholder" column. Matched by normalized title
+    // text, the same way Questions/Answers Sections are matched to
+    // each other -- and the same "Section: Card" markdown syntax
+    // works whether the source is a Card List's card, a Table's
+    // column, or (recursing one level) a named part of a Multi-Part
+    // Section's own Table/Card List part, so a System's Answer
+    // Definition never needs to say which kind of source it's
+    // pointing at.
+    //
+    // `systemTitle`, when present, points at a Section of a
+    // DIFFERENT System than the one this session is currently
+    // interviewing (e.g. Finance System's Revenue Streams column
+    // sourcing its options from the Business System's Revenue
+    // Model). That other System's own saved Interview state is
+    // read directly through StorageService/OrganizationService --
+    // never through `session`, which only ever holds the CURRENT
+    // System's Sections/responses -- falling back to that System's
+    // freshly-parsed (still response-free) Framework when it has
+    // never been opened for this Organization yet, so a not-yet-
+    // started System just yields no options rather than an error.
     //
     // Declared here (alongside handleAnswerChange, BEFORE the
     // loadingError/!session early returns below) rather than closer
@@ -743,52 +1088,71 @@ export default function Conversation() {
     // and a hook placed after an early `return` would only run on
     // SOME renders. Guards on `session` itself instead, mirroring
     // handleAnswerChange's own internal check just above. Stabilized
-    // on `session` alone (a session's Framework, and therefore its
-    // Sections, are the same object reference for the session's whole
-    // lifetime) so this is <AnswerRenderer>'s `resolveDynamicOptions`
-    // prop stays a stable reference across a keystroke-driven
-    // re-render too -- both for the `tableColumns` memo inside
-    // AnswerRenderer.tsx and, through it, <DynamicTable>'s own
-    // `React.memo`.
-    const resolveDynamicOptions = useCallback((sectionTitle: string, cardTitle: string): string[] => {
+    // on `session`/`organizationId` (a session's Framework, and
+    // therefore its Sections, are the same object reference for the
+    // session's whole lifetime) so this is <AnswerRenderer>'s
+    // `resolveDynamicOptions` prop stays a stable reference across a
+    // keystroke-driven re-render too -- both for the `tableColumns`
+    // memo inside AnswerRenderer.tsx and, through it, <DynamicTable>'s
+    // own `React.memo`.
+    const resolveDynamicOptions = useCallback((
+        systemTitle: string | undefined,
+        sectionTitle: string,
+        cardTitle: string
+    ): string[] => {
 
         if (!session) {
             return [];
         }
 
-        const framework = session.getFramework();
-
         const normalize = (text: string) => text.trim().toLowerCase();
 
-        const sourceSection = framework.sections.find(
+        const currentFramework = session.getFramework();
+
+        const isCrossSystem = systemTitle
+            && normalize(systemTitle) !== normalize(currentFramework.metadata.systemName ?? "");
+
+        if (!isCrossSystem) {
+
+            const sourceSection = currentFramework.sections.find(
+                candidate => normalize(candidate.title) === normalize(sectionTitle)
+            );
+
+            if (!sourceSection) {
+                return [];
+            }
+
+            const response = session.getResponse(sourceSection.number);
+
+            return extractDynamicOptions(sourceSection.answer, response, cardTitle, normalize);
+
+        }
+
+        const otherSystem = systems.find(candidate => normalize(candidate.title) === normalize(systemTitle ?? ""));
+
+        if (!otherSystem) {
+            return [];
+        }
+
+        const otherFramework = frameworkRegistry.getFramework(otherSystem.id);
+
+        const sourceSection = otherFramework.sections.find(
             candidate => normalize(candidate.title) === normalize(sectionTitle)
         );
 
-        if (!sourceSection || sourceSection.answer.type !== AnswerType.CardList) {
+        if (!sourceSection) {
             return [];
         }
 
-        const card = sourceSection.answer.cards?.find(
-            candidate => normalize(candidate.title) === normalize(cardTitle)
-        );
+        const otherSession = organizationId
+            ? StorageService.loadInterview(organizationId, otherSystem.number)
+            : null;
 
-        if (!card) {
-            return [];
-        }
+        const response = otherSession ? otherSession.getResponse(sourceSection.number) : undefined;
 
-        const response = session.getResponse(sourceSection.number);
+        return extractDynamicOptions(sourceSection.answer, response, cardTitle, normalize);
 
-        if (!response || typeof response !== "object" || Array.isArray(response)) {
-            return [];
-        }
-
-        const items = (response as CardListAnswerValue)[card.id] ?? [];
-
-        return items
-            .map(item => item.text.trim())
-            .filter(text => text.length > 0);
-
-    }, [session]);
+    }, [session, organizationId]);
 
     // Stabilized (rather than a plain function redeclared every
     // render) for the same reason as resolveDynamicOptions above --

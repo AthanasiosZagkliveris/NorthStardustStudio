@@ -20,7 +20,7 @@
 
 **Columns:**
 - Column 1: #
-- Column 2: Quality Area
+- Column 2: Quality Area - Dynamic Field (Quality Standards: Quality Area)
 - Column 3: Quality Objective
 - Column 4: Success Criteria
 
@@ -32,7 +32,7 @@
 
 **Columns:**
 - Column 1: #
-- Column 2: Quality Area
+- Column 2: Quality Area - Dynamic Field (Quality Standards: Quality Area)
 - Column 3: Control Activity
 - Column 4: Frequency - Frequency Field
 - Column 5: Responsible Role

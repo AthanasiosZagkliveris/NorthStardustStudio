@@ -5,7 +5,6 @@ import DateCellInput from "./DateCellInput.tsx";
 import NotesField from "./NotesField.tsx";
 
 import { FieldDefinition } from "../../framework/model/FieldDefinition.ts";
-import { DateFormat, PreferencesService } from "../../services/PreferencesService.ts";
 import { useDragToScroll } from "../../hooks/useDragToScroll.ts";
 import { useListAutoFormat } from "../../hooks/useListAutoFormat.ts";
 
@@ -427,14 +426,6 @@ function DynamicTable({
     const [minWidths, setMinWidths] = useState<Record<string, number>>({});
     const [colWidths, setColWidths] = useState<Record<string, number>>({});
 
-    // The date format preference (US/EU) is shown and
-    // toggled once, on the column header -- repeating it
-    // on every row would be noisy and confusing. All date
-    // cells in the table (and every date cell anywhere
-    // else in the app) still update together, since this
-    // is the same shared preference.
-    const [dateFormat, setDateFormat] = useState<DateFormat>(PreferencesService.getDateFormat());
-
     const dragState = useRef<{
 
         columnId: string;
@@ -444,14 +435,6 @@ function DynamicTable({
         startWidth: number;
 
     } | null>(null);
-
-    useEffect(() => {
-
-        return PreferencesService.subscribe(() => {
-            setDateFormat(PreferencesService.getDateFormat());
-        });
-
-    }, []);
 
     // A table always shows at least one row -- an empty
     // table with nothing but an "Add" button reads as
@@ -1396,20 +1379,24 @@ function DynamicTable({
 
             case "notes":
 
-                // A column literally titled "Notes" (see
-                // resolveColumnType in AnswerRenderer.tsx) -- routed
-                // through the SAME shared NotesField component every
-                // other Notes-purpose field in the app uses
+                // A column literally titled "Notes" OR "Description"
+                // (see resolveColumnType in AnswerRenderer.tsx) --
+                // routed through the SAME shared NotesField component
+                // every other Notes-purpose field in the app uses
                 // (Operational Log, Roles & Responsibilities, the
                 // Organization Calendar's per-task Note), so the
-                // bullet/numbered-list authoring, guaranteed regular
-                // font-weight, and "Add a note (optional)" default
-                // placeholder are all identical here too, instead of
-                // this table growing its own slightly-different
+                // bullet/numbered-list authoring and guaranteed
+                // regular font-weight are identical here too, instead
+                // of this table growing its own slightly-different
                 // fourth copy. `.dynamic-table-scroll .interview-input`
                 // (conversation.css) already styles width/padding/
                 // border/focus for any `.interview-input` in this
                 // table, so NotesField needs no extra className here.
+                //
+                // The placeholder itself still tells the two apart --
+                // "Add a description" for a Description column, only
+                // NotesField's own default ("Add a note") for an
+                // actual Notes column.
                 return (
 
                     <NotesField
@@ -1419,6 +1406,12 @@ function DynamicTable({
                         value={String(cellValue ?? "")}
 
                         onChange={onValueChange}
+
+                        placeholder={
+                            column.title.trim().toLowerCase() === "description"
+                                ? "Add a description"
+                                : undefined
+                        }
 
                     />
 
@@ -1621,11 +1614,33 @@ function DynamicTable({
     // therefore never balloons out to soak up a wide table's
     // unused space; it just sits at its default width until
     // the user actually drags it wider.
+    // A Field/Date/Dynamic-Select column's own fixed control
+    // width (TYPE_FIXED_WIDTH), widened up to that column's own
+    // title's measured minimum when the title itself is longer
+    // than the control needs -- a common rule so a column's
+    // header text can never overflow its own column, no matter
+    // which control type that column renders (item: "Make a
+    // common rule, so the columns should always cover completely
+    // their headers", filed against "Communication Frequency"'s
+    // Frequency Field column, whose fixed 170px control width
+    // was narrower than its own header text).
+    function fixedColumnWidth(column: TableColumn): number | undefined {
+
+        const fixed = TYPE_FIXED_WIDTH[column.type];
+
+        if (fixed === undefined) {
+            return undefined;
+        }
+
+        return Math.max(fixed, columnMinWidth(column));
+
+    }
+
     function columnWidthPx(column: TableColumn): number {
 
         const extra = column.repeatable ? REPEATABLE_BUTTON_WIDTH : 0;
 
-        const fixed = TYPE_FIXED_WIDTH[column.type];
+        const fixed = fixedColumnWidth(column);
 
         if (fixed !== undefined) {
             return fixed + extra;
@@ -1641,7 +1656,7 @@ function DynamicTable({
 
     function fixedWidthStyle(column: TableColumn): React.CSSProperties | undefined {
 
-        const fixed = TYPE_FIXED_WIDTH[column.type];
+        const fixed = fixedColumnWidth(column);
 
         if (fixed === undefined) {
             return undefined;
@@ -1776,32 +1791,6 @@ function DynamicTable({
                                         {column.title}
 
                                     </span>
-
-                                    {column.type === "date" && (
-
-                                        <button
-
-                                            type="button"
-
-                                            className="dynamic-table-header-date-toggle"
-
-                                            disabled={disabled}
-
-                                            title={
-                                                dateFormat === "US"
-                                                    ? "Showing MM/DD/YYYY -- click to switch to DD/MM/YYYY"
-                                                    : "Showing DD/MM/YYYY -- click to switch to MM/DD/YYYY"
-                                            }
-
-                                            onClick={() => PreferencesService.toggleDateFormat()}
-
-                                        >
-
-                                            {dateFormat === "US" ? "MM/DD" : "DD/MM"}
-
-                                        </button>
-
-                                    )}
 
                                     {!isFixedWidthColumn(column) && (
 

@@ -17,26 +17,22 @@ System Scope: Defines how organizational performance is measured, monitored, ana
 - Document the measurement frequency.
 - Document the responsible role.
 
-## 3. Reporting Framework
+## 3. Reporting
 
 - Document the report name.
 - Document the purpose.
 - Document the audience.
 - Document who prepares the report.
-
-## 4. Reporting Schedule
-
-- Document the report.
-- Document the frequency.
 - Document the distribution method.
+- Document the frequency.
 
-## 5. Performance Review
+## 4. Performance Review
 
 - Document the review schedule.
 - Document the review areas.
 - Document the key findings.
 
-## 6. Improvement Actions
+## 5. Improvement Actions
 
 - Document the improvement action.
 - Document the responsible role.

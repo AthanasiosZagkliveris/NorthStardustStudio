@@ -2,15 +2,30 @@
 
 ## 01. Financial Model
 
-**Structure:** Fixed Variant Text
+**Tab Group:** Yes
 
-**Number of Variants:** 4
+**Revenue Streams**
 
-**Variants:**
-- Variant 1: Revenue Streams
-- Variant 2: Funding Sources
-- Variant 3: Financial Objectives
-- Variant 4: Financial Principles
+**Structure:** Table
+
+**Number of Columns:** 3
+
+**Columns:**
+- Column 1: #
+- Column 2: Revenue Stream - Dynamic Field (Business System / Revenue Model: Revenue Stream)
+- Column 3: Description
+
+**Funding Sources**
+
+**Structure:** Free Text
+
+**Financial Objectives**
+
+**Structure:** Free Text
+
+**Financial Principles**
+
+**Structure:** Free Text
 
 ## 02. Financial Resources
 
@@ -64,30 +79,19 @@
 
 ## 06. Financial Risk
 
-**Financial Risks**
-
-**Structure:** Free Text
-
-**Risk Evaluation**
-
 **Structure:** Table
 
-**Number of Columns:** 5
+**Number of Columns:** 8
 
 **Columns:**
 - Column 1: #
 - Column 2: Risk
-- Column 3: Likelihood - Scale Field
-- Column 4: Impact - Scale Field
-- Column 5: Priority - Scale Field
-
-**Mitigation Measures**
-
-**Structure:** Free Text
-
-**Contingency Plans**
-
-**Structure:** Free Text
+- Column 3: Description
+- Column 4: Mitigation Measures
+- Column 5: Contingency Plan
+- Column 6: Likelihood - Scale Field
+- Column 7: Impact - Scale Field
+- Column 8: Priority - Scale Field
 
 ## 07. Financial Review
 

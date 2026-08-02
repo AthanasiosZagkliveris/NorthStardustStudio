@@ -19,6 +19,7 @@ import {
     ProfileCardValue,
     ProfileCardsAnswerValue,
     RolesResponsibilitiesAnswerValue,
+    isAnswerEmpty,
     isDateColumn,
     visibleTableColumns
 } from "../../framework/engine/AnswerUtils.ts";
@@ -219,7 +220,7 @@ interface AnswerRendererProps {
      * column that declares a `dynamicSource`;
      * omitted (or returning []) elsewhere.
      */
-    resolveDynamicOptions?: (sectionTitle: string, cardTitle: string) => string[];
+    resolveDynamicOptions?: (systemTitle: string | undefined, sectionTitle: string, cardTitle: string) => string[];
 
     /**
      * When provided, this Section's Table (there is at most
@@ -252,6 +253,22 @@ interface AnswerRendererProps {
      * (or empty) elsewhere.
      */
     processLibraryProcesses?: ProcessRecordValue[];
+
+    /**
+     * A value to watch, purely for `tableColumns`'s own memoization
+     * (see below) -- when omitted, defaults to this instance's own
+     * `value`. Multi-Part passes down the WHOLE Section's combined
+     * `Record<string, unknown>` (every part's value, not just this
+     * part's own slice) instead, so a Table column whose
+     * `dynamicSource` self-references a SIBLING part of the same
+     * Multi-Part Section (e.g. Financial Risk's Evaluation/
+     * Mitigation Measures/Contingency Plan tables sourcing their
+     * "Risk" dropdown from the Description table, all four living
+     * in the same Section) sees its options refresh live as the
+     * user types into that sibling part, instead of staying frozen
+     * at whatever was on screen when this part first mounted.
+     */
+    dynamicOptionsDependency?: unknown;
 
 }
 
@@ -298,7 +315,16 @@ function resolveColumnType(
     // DynamicTable's own "notes" case) instead of the generic "text"
     // column type, which has no placeholder and no guaranteed
     // regular weight.
-    if (column.title.trim().toLowerCase() === "notes") {
+    // Any column literally titled "Description" gets the exact
+    // same Notes-style treatment as "Notes" itself (item: "Whenever
+    // there is a Description column table, it should behave as the
+    // Notes, its text could be long, and the user could add bullet
+    // points or numbers, so each row/card should get longer
+    // accordingly") -- Description columns are used throughout the
+    // new Financial Model/Financial Risk/Stakeholder Categories/
+    // Target Audience tables specifically because free-running notes
+    // text is what they're for.
+    if (["notes", "description"].includes(column.title.trim().toLowerCase())) {
         return "notes";
     }
 
@@ -308,7 +334,7 @@ function resolveColumnType(
 
 function toTableColumns(
     columns: TableColumnDefinition[],
-    resolveDynamicOptions?: (sectionTitle: string, cardTitle: string) => string[]
+    resolveDynamicOptions?: (systemTitle: string | undefined, sectionTitle: string, cardTitle: string) => string[]
 ): TableColumn[] {
 
     return visibleTableColumns(columns)
@@ -326,6 +352,7 @@ function toTableColumns(
             options:
                 column.dynamicSource && resolveDynamicOptions
                     ? resolveDynamicOptions(
+                        column.dynamicSource.systemTitle,
                         column.dynamicSource.sectionTitle,
                         column.dynamicSource.cardTitle
                     )
@@ -343,7 +370,213 @@ function toTableColumns(
 
 }
 
-export default function AnswerRenderer({
+/**
+ * Renders a Multi-Part answer (see AnswerType.MultiPart) as one
+ * part after another, each with its own optional label heading,
+ * each delegating its own rendering to `SingleAnswerRenderer` --
+ * so a Table/Free Text/etc. part behaves exactly as it would if
+ * it were a whole Section's own answer. The composite value is a
+ * Record<string, unknown> keyed by each part's own `id`; updating
+ * one part's value replaces just that key and leaves every other
+ * part's own value untouched.
+ *
+ * When `definition.tabbed` is set (see its own doc comment), this
+ * renders as one flat tab bar instead -- the SAME card-style tab
+ * look Fixed Variant Text's own tabs use, reusing its
+ * `.answer-variant-card`/`.answer-variant-cards-wrapper` classes,
+ * even though here each tab can hold a DIFFERENT Answer Structure
+ * (e.g. Financial Model's "Revenue Streams" tab is a Table, while
+ * "Funding Sources"/"Financial Objectives"/"Financial Principles"
+ * are Free Text) rather than every tab sharing one Structure. The
+ * `useState` below is called unconditionally regardless of
+ * `tabbed` -- this component is only ever mounted for a MultiPart
+ * Section, whose `tabbed`-ness is fixed for that mount's whole
+ * lifetime (structural, from the Framework), so calling it
+ * unconditionally here is always safe and simply goes unused in
+ * the (default) stacked layout.
+ */
+function MultiPartAnswerRenderer({
+
+    definition,
+
+    value,
+
+    onChange,
+
+    disabled,
+
+    resolveDynamicOptions,
+
+    rowSelection,
+
+    ownerSuggestions,
+
+    processLibraryProcesses
+
+}: AnswerRendererProps) {
+
+    const values: Record<string, unknown> =
+        value && typeof value === "object" && !Array.isArray(value)
+            ? value as Record<string, unknown>
+            : {};
+
+    const parts = definition.parts ?? [];
+
+    const [activePartId, setActivePartId] = useState<string | undefined>(parts[0]?.id);
+
+    const tabScrollRef = useDragToScroll<HTMLDivElement>();
+
+    if (definition.tabbed) {
+
+        const activePart =
+            parts.find(part => part.id === activePartId) ?? parts[0];
+
+        return (
+
+            <div className="answer-variant-cards-wrapper">
+
+                <div className="answer-variant-cards" ref={tabScrollRef}>
+
+                    {parts.map(part => {
+
+                        const filled = !isAnswerEmpty(part.answer, values[part.id]);
+
+                        const isActive = part.id === activePart?.id;
+
+                        return (
+
+                            <button
+
+                                type="button"
+
+                                key={part.id}
+
+                                className={
+                                    "answer-variant-card" +
+                                    (isActive ? " active" : "") +
+                                    (filled ? " filled" : "")
+                                }
+
+                                onClick={() => setActivePartId(part.id)}
+
+                            >
+
+                                {part.label}
+
+                                {filled && (
+                                    <span className="answer-variant-card-check">
+                                        ✓
+                                    </span>
+                                )}
+
+                            </button>
+
+                        );
+
+                    })}
+
+                </div>
+
+                {activePart && (
+
+                    <div className="answer-variant-editor">
+
+                        <SingleAnswerRenderer
+
+                            definition={activePart.answer}
+
+                            value={values[activePart.id]}
+
+                            onChange={(next) => onChange({ ...values, [activePart.id]: next })}
+
+                            disabled={disabled}
+
+                            resolveDynamicOptions={resolveDynamicOptions}
+
+                            rowSelection={rowSelection}
+
+                            ownerSuggestions={ownerSuggestions}
+
+                            processLibraryProcesses={processLibraryProcesses}
+
+                            dynamicOptionsDependency={values}
+
+                        />
+
+                    </div>
+
+                )}
+
+            </div>
+
+        );
+
+    }
+
+    return (
+
+        <div className="answer-multi-part">
+
+            {parts.map(part => (
+
+                <div key={part.id} className="answer-part">
+
+                    {part.label.length > 0 && (
+                        <h3 className="answer-part-label">{part.label}</h3>
+                    )}
+
+                    <SingleAnswerRenderer
+
+                        definition={part.answer}
+
+                        value={values[part.id]}
+
+                        onChange={(next) => onChange({ ...values, [part.id]: next })}
+
+                        disabled={disabled}
+
+                        resolveDynamicOptions={resolveDynamicOptions}
+
+                        rowSelection={rowSelection}
+
+                        ownerSuggestions={ownerSuggestions}
+
+                        processLibraryProcesses={processLibraryProcesses}
+
+                        dynamicOptionsDependency={values}
+
+                    />
+
+                </div>
+
+            ))}
+
+        </div>
+
+    );
+
+}
+
+export default function AnswerRenderer(props: AnswerRendererProps) {
+
+    if (props.definition.type === AnswerType.MultiPart) {
+        return <MultiPartAnswerRenderer {...props} />;
+    }
+
+    return <SingleAnswerRenderer {...props} />;
+
+}
+
+/**
+ * Renders every Answer Structure EXCEPT Multi-Part, which wraps
+ * this component once per part (see MultiPartAnswerRenderer
+ * above) -- kept as its own component (rather than a branch
+ * inside AnswerRenderer itself) specifically so its hooks below
+ * stay unconditional for whichever single, concrete `definition.
+ * type` it's mounted with, the same Rules-of-Hooks reasoning
+ * that already applied before Multi-Part existed.
+ */
+function SingleAnswerRenderer({
 
     definition,
 
@@ -359,7 +592,9 @@ export default function AnswerRenderer({
 
     ownerSuggestions,
 
-    processLibraryProcesses
+    processLibraryProcesses,
+
+    dynamicOptionsDependency
 
 }: AnswerRendererProps) {
 
@@ -457,10 +692,20 @@ export default function AnswerRenderer({
     // Section (Conversation.tsx keys <AnswerRenderer> by Section
     // number, so switching Sections remounts this component instead
     // of just changing the prop), so this only recomputes when it
-    // actually needs to.
+    // actually needs to -- PLUS whenever `dynamicOptionsDependency`
+    // changes (defaulting to this instance's own `value`, so a
+    // plain, non-Multi-Part Table still only recomputes on its own
+    // edits exactly as before). A Multi-Part Section's sibling parts
+    // instead all share the WHOLE Section's combined value as this
+    // dependency (see MultiPartAnswerRenderer), so a self-
+    // referencing `dynamicSource` (e.g. Financial Risk's Evaluation
+    // table sourcing its "Risk" dropdown from the Description
+    // table's own "Risk" column, both parts of the same Section)
+    // re-resolves its live options as the user types into the
+    // SOURCE part, not just once at mount.
     const tableColumns = useMemo(
         () => toTableColumns(definition.table?.columns ?? [], resolveDynamicOptions),
-        [definition, resolveDynamicOptions]
+        [definition, resolveDynamicOptions, dynamicOptionsDependency ?? value]
     );
 
     switch (definition.type) {

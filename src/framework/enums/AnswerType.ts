@@ -103,6 +103,27 @@ export enum AnswerType {
      * Example: the Operations System's Roles &
      * Responsibilities.
      */
-    RolesResponsibilities = "roles-responsibilities"
+    RolesResponsibilities = "roles-responsibilities",
+
+    /**
+     * An ordered sequence of independent sub-answers, each
+     * with its own optional label, each its own Answer
+     * Structure (Free Text, Table, Fixed Variant Text, ...).
+     *
+     * Declared in the Answer Definition Resource as more than
+     * one "**Label**" / "Structure: ..." block inside the same
+     * Section (see AnswerParser.parse) -- e.g. the Finance
+     * System's Financial Risk, which is a Description table, an
+     * Evaluation table, a Mitigation Measures table, and a
+     * Contingency Plan table, one after another, all under the
+     * same Section.
+     *
+     * A response value here is a Record<string, unknown> keyed
+     * by each part's own `id`, holding that part's own native
+     * value shape -- so an individual part is persisted/
+     * exported/validated exactly the way it would be if it were
+     * a whole Section on its own.
+     */
+    MultiPart = "multi-part"
 
 }

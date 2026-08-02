@@ -2,15 +2,27 @@
 
 ## 01. Content Strategy
 
+**Target Audience**
+
+**Structure:** Table
+
+**Number of Columns:** 3
+
+**Columns:**
+- Column 1: #
+- Column 2: Name
+- Column 3: Description
+
+**Other Content Strategy Elements**
+
 **Structure:** Fixed Variant Text
 
-**Number of Variants:** 4
+**Number of Variants:** 3
 
 **Variants:**
 - Variant 1: Content Goals
 - Variant 2: Content Categories
-- Variant 3: Target Audience
-- Variant 4: Success Indicators
+- Variant 3: Success Indicators
 
 ## 02. Content Ideas
 
@@ -36,7 +48,7 @@
 - Column 2: Title
 - Column 3: Publication Date
 - Column 4: Category
-- Column 5: Platform
+- Column 5: Platform - Platform Field
 - Column 6: Status - Status Field
 
 ## 04. Article Template

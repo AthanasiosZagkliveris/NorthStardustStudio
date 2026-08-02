@@ -101,6 +101,15 @@ export class FieldParser {
                 .trim();
 
         //
+        // Allow Custom (optional -- "**Allow Custom:** Yes",
+        // see FieldDefinition.allowCustom's own doc comment)
+        //
+
+        const allowCustom = lines.some(
+            line => /^\*{0,2}Allow Custom:\*{0,2}\s*Yes\s*$/i.test(line)
+        );
+
+        //
         // Parse Variants
         //
 
@@ -141,7 +150,9 @@ export class FieldParser {
 
             type: "select",
 
-            options
+            options,
+
+            allowCustom: allowCustom || undefined
 
         };
 

@@ -51,6 +51,23 @@ export interface TableColumnDefinition {
     dynamicSource?: {
 
         /**
+         * Title of the System the source Section
+         * belongs to, when it's a DIFFERENT System
+         * than the one this column's own Section
+         * lives in (matched the same normalized-
+         * text way as `sectionTitle`/`cardTitle`).
+         *
+         * Omitted when the source Section is
+         * another Section of the SAME System (the
+         * original, most common case).
+         *
+         * Example: Finance System's Revenue Streams
+         * column sourcing its options from the
+         * Business System's Revenue Model Section.
+         */
+        systemTitle?: string;
+
+        /**
          * Title of the Section whose
          * response supplies the options
          * (matched the same way Questions/
@@ -60,10 +77,12 @@ export interface TableColumnDefinition {
         sectionTitle: string;
 
         /**
-         * Title of the Card List card
-         * within that Section whose
-         * entries become this column's
-         * options.
+         * Title of the Card List card, or Table
+         * column, within that Section whose
+         * entries become this column's options
+         * (or, for a Multi-Part Section, the same
+         * title matched recursively across every
+         * part until one yields options).
          */
         cardTitle: string;
 

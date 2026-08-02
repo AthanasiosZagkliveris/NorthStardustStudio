@@ -574,11 +574,37 @@ export class FrameworkInterpreter {
      * Attaches resolved Shared Field
      * definitions to any Table columns
      * that reference one.
+     *
+     * Recurses into every part of a Multi-Part
+     * answer -- a Table nested inside one part
+     * (e.g. Financial Risk's Evaluation table,
+     * whose Likelihood/Impact/Priority columns
+     * each reference the shared Scale Field)
+     * needs the exact same field resolution a
+     * top-level Table Section would get.
      */
     private resolveFields(
         definition: AnswerDefinition,
         fieldRegistry: FieldRegistry
     ): AnswerDefinition {
+
+        if (definition.type === AnswerType.MultiPart) {
+
+            return {
+
+                ...definition,
+
+                parts: (definition.parts ?? []).map(part => ({
+
+                    ...part,
+
+                    answer: this.resolveFields(part.answer, fieldRegistry)
+
+                }))
+
+            };
+
+        }
 
         if (
             definition.type !== AnswerType.Table ||

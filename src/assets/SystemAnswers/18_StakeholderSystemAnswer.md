@@ -2,7 +2,14 @@
 
 ## 01. Stakeholder Categories
 
-**Structure:** Free Text
+**Structure:** Table
+
+**Number of Columns:** 3
+
+**Columns:**
+- Column 1: #
+- Column 2: Category
+- Column 3: Description
 
 ## 02. Stakeholder Register
 
@@ -13,7 +20,7 @@
 **Columns:**
 - Column 1: #
 - Column 2: Stakeholder
-- Column 3: Stakeholder Category
+- Column 3: Stakeholder Category - Dynamic Field (Stakeholder Categories: Category)
 - Column 4: Relationship Type
 - Column 5: Responsible Role
 
@@ -25,7 +32,7 @@
 
 **Columns:**
 - Column 1: #
-- Column 2: Stakeholder
+- Column 2: Stakeholder - Dynamic Field (Stakeholder Register: Stakeholder)
 - Column 3: Expectations
 - Column 4: Organizational Commitment
 
@@ -37,9 +44,9 @@
 
 **Columns:**
 - Column 1: #
-- Column 2: Stakeholder
+- Column 2: Stakeholder - Dynamic Field (Stakeholder Register: Stakeholder)
 - Column 3: Engagement Method
-- Column 4: Engagement Frequency - Frequency Field
+- Column 4: Frequency - Frequency Field
 
 ## 05. Stakeholder Communication
 
@@ -49,10 +56,10 @@
 
 **Columns:**
 - Column 1: #
-- Column 2: Stakeholder
+- Column 2: Stakeholder - Dynamic Field (Stakeholder Register: Stakeholder)
 - Column 3: Communication Purpose
 - Column 4: Communication Method
-- Column 5: Communication Frequency - Frequency Field
+- Column 5: Frequency - Frequency Field
 
 ## 06. Stakeholder Review
 

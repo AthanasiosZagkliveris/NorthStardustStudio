@@ -1,5 +1,6 @@
 import {
     AnswerDefinition,
+    AnswerPartDefinition,
     ProfileCardsDefinition,
     TableColumnDefinition,
     VariantDefinition,
@@ -14,6 +15,52 @@ import { AnswerType } from "../enums/AnswerType.ts";
 export class AnswerParser {
 
     /**
+     * The relative order every "ordered" Shared Field column
+     * settles into once moved to the end of its Table (see
+     * `reorderFieldColumnsToEnd` below) -- "If there are more
+     * that 1 field columns then (1. Scale, 2. Category, 3.
+     * Frequency, 4. Status.)". The Platform Field is
+     * deliberately NOT one of these -- it stays wherever its
+     * own column was declared, since a Platform is usually the
+     * subject of a row (e.g. Campaign Tracker's own "Platforms"
+     * column) rather than a trailing classification like Status.
+     */
+    private static readonly ORDERED_FIELD_PRIORITY = ["scale", "category", "frequency", "status"];
+
+    /**
+     * Moves every Scale/Category/Frequency/Status Field column
+     * (see ORDERED_FIELD_PRIORITY above) to the end of a Table's
+     * own column list, in that fixed relative order, while every
+     * other column (plain text, Notes, Dynamic Field, Autofill,
+     * the Platform Field, ...) keeps its original relative order
+     * ahead of them -- "The Field columns should always be at the
+     * end, of the table (except the platform)". Applied once, right
+     * after a Table's columns are parsed (see `parseSingle`'s Table
+     * branch below), so it's automatic for every Table across the
+     * whole Framework, including each Table nested inside a Multi-
+     * Part Section's own parts (parsed the same way, one part at a
+     * time) -- no System content file needs to hand-order its own
+     * columns to get this.
+     */
+    private reorderFieldColumnsToEnd(columns: TableColumnDefinition[]): TableColumnDefinition[] {
+
+        const orderIndex = (column: TableColumnDefinition): number =>
+            column.fieldId !== undefined
+                ? AnswerParser.ORDERED_FIELD_PRIORITY.indexOf(column.fieldId)
+                : -1;
+
+        const regular = columns.filter(column => orderIndex(column) < 0);
+
+        const ordered = columns
+            .filter(column => orderIndex(column) >= 0)
+            .slice()
+            .sort((a, b) => orderIndex(a) - orderIndex(b));
+
+        return [...regular, ...ordered];
+
+    }
+
+    /**
      * Parses a question answer block.
      *
      * The Answer Definition Resource records
@@ -21,8 +68,171 @@ export class AnswerParser {
      * e.g. "**Structure:** Free Text". Older
      * or hand-written resources may omit the
      * bold markers, so both are accepted.
+     *
+     * A Section's block may declare MORE THAN
+     * ONE Structure -- e.g. Finance's Financial
+     * Risk, written as four separate
+     * "**Label**" / "Structure: ..." blocks one
+     * after another under the same Section. Each
+     * such labeled block (plus, optionally, one
+     * UNLABELED block first, if the very first
+     * "Structure:" in the markdown isn't preceded
+     * by its own "**Label**" line -- see Brand's
+     * Color System) becomes one part of a
+     * MultiPart answer. A Section with only one
+     * Structure declared (the overwhelming
+     * majority) parses exactly as it always has --
+     * this is purely additive.
      */
     public parse(markdown: string): AnswerDefinition {
+
+        const parts = this.splitParts(markdown);
+
+        if (parts.length > 1) {
+
+            return {
+
+                type: AnswerType.MultiPart,
+
+                tabbed: this.isTabbedMultiPart(markdown) || undefined,
+
+                parts: parts.map((part): AnswerPartDefinition => ({
+
+                    id: part.label.length > 0 ? this.slug(part.label) : "primary",
+
+                    label: part.label,
+
+                    answer: this.parseSingle(part.body)
+
+                }))
+
+            };
+
+        }
+
+        return this.parseSingle(parts[0]?.body ?? markdown);
+
+    }
+
+    /**
+     * Detects a Section-level "**Tab Group:** Yes" declaration (see
+     * AnswerDefinition.tabbed's own doc comment) -- written on its
+     * own line ANYWHERE before the first labeled part starts (it has
+     * no "Structure:" of its own, so `splitParts` already drops it
+     * as unattributed leading content; this only needs to notice it
+     * was there).
+     */
+    private isTabbedMultiPart(markdown: string): boolean {
+
+        return /^\s*\*{0,2}Tab Group:\*{0,2}\s*Yes\s*$/im.test(markdown);
+
+    }
+
+    /**
+     * Splits a Section's raw Answer Definition
+     * markdown into one or more parts, each its
+     * own independently-parseable Structure
+     * block (see `parse`'s own doc comment for
+     * why this is needed at all).
+     *
+     * A "**Some Title**" line, entirely on its
+     * own, immediately followed (skipping only
+     * blank lines) by a "Structure:" line marks
+     * the START of a new labeled part -- this is
+     * exactly the markup pattern every multi-part
+     * Answer Definition Resource entry already
+     * uses. Any content before the FIRST such
+     * marker is kept as an unlabeled leading part
+     * ONLY if it itself contains a "Structure:"
+     * declaration (i.e. the Section's very first
+     * Structure has no "**Label**" of its own);
+     * otherwise there's nothing to parse there and
+     * it's dropped.
+     */
+    private splitParts(markdown: string): { label: string; body: string }[] {
+
+        const lines = markdown.split("\n");
+
+        const markers: { label: string; lineIndex: number }[] = [];
+
+        for (let i = 0; i < lines.length; i++) {
+
+            const boldOnlyMatch = lines[i].match(/^\s*\*\*(.+?)\*\*\s*$/);
+
+            if (!boldOnlyMatch) {
+                continue;
+            }
+
+            let followedByStructure = false;
+
+            for (let j = i + 1; j < Math.min(i + 4, lines.length); j++) {
+
+                const candidate = lines[j].trim();
+
+                if (candidate.length === 0) {
+                    continue;
+                }
+
+                // A bold "**Structure:**" form (Finance/Brand's own
+                // style) needs the same leading `\*{0,2}` allowance
+                // as the un-bolded "Structure:" form (Governance's) --
+                // matching extractStructure's own unanchored version
+                // of this same pattern below.
+                followedByStructure = /^\*{0,2}Structure:\*{0,2}/.test(candidate);
+
+                break;
+
+            }
+
+            if (followedByStructure) {
+                markers.push({ label: boldOnlyMatch[1].trim(), lineIndex: i });
+            }
+
+        }
+
+        if (markers.length === 0) {
+            return [{ label: "", body: markdown }];
+        }
+
+        const parts: { label: string; body: string }[] = [];
+
+        const leading = lines.slice(0, markers[0].lineIndex).join("\n");
+
+        if (/Structure:\*{0,2}/.test(leading)) {
+            parts.push({ label: "", body: leading });
+        }
+
+        for (let i = 0; i < markers.length; i++) {
+
+            const start = markers[i].lineIndex;
+            const end = i + 1 < markers.length ? markers[i + 1].lineIndex : lines.length;
+
+            parts.push({
+
+                label: markers[i].label,
+
+                body: lines.slice(start, end).join("\n")
+
+            });
+
+        }
+
+        return parts;
+
+    }
+
+    /**
+     * Parses a single Structure block -- the
+     * whole of what `parse` itself used to do
+     * before Multi-Part support was added above.
+     * Every part of a MultiPart answer is parsed
+     * through this same method, one part's own
+     * markdown at a time, so a Table/Free Text/
+     * etc. part behaves identically whether it's
+     * the whole Section's answer or one part of
+     * several.
+     */
+    private parseSingle(markdown: string): AnswerDefinition {
 
         const structure = this.extractStructure(markdown);
 
@@ -87,7 +297,7 @@ export class AnswerParser {
 
                 table: {
 
-                    columns: allColumns.slice(1),
+                    columns: this.reorderFieldColumnsToEnd(allColumns.slice(1)),
 
                     rowNumberLabel
 
@@ -319,10 +529,24 @@ export class AnswerParser {
 
                 title = dynamicMatch[1].trim();
 
-                dynamicSource = {
-                    sectionTitle: dynamicMatch[2].trim(),
-                    cardTitle: dynamicMatch[3].trim()
-                };
+                // The Section part may itself be qualified with a
+                // leading "System Title / " to point at a Section
+                // belonging to a DIFFERENT System (e.g. "Business
+                // System / Revenue Model") -- unqualified stays
+                // scoped to the current System, exactly as before.
+                const sectionPart = dynamicMatch[2].trim();
+                const systemQualifiedMatch = sectionPart.match(/^(.+?)\s*\/\s*(.+)$/);
+
+                dynamicSource = systemQualifiedMatch
+                    ? {
+                        systemTitle: systemQualifiedMatch[1].trim(),
+                        sectionTitle: systemQualifiedMatch[2].trim(),
+                        cardTitle: dynamicMatch[3].trim()
+                    }
+                    : {
+                        sectionTitle: sectionPart,
+                        cardTitle: dynamicMatch[3].trim()
+                    };
 
             } else if (autofillMatch) {
 
