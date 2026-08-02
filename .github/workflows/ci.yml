@@ -1,0 +1,55 @@
+# Runs the same three fast, deterministic checks the Environment &
+# Toolchain Playbook (docs/ai/environment-and-toolchain-playbook.md)
+# already establishes as steps 2-4 of verifying any change: typecheck,
+# unit tests, build. Deliberately does NOT run the Playwright
+# verify_*.mjs regression suite here -- that needs a live preview
+# server and a provisioned browser, is comparatively slow, and stays
+# a manual/AI-assisted step (the regression-verifier Skill) rather
+# than something that has to pass on every single push. See that
+# playbook's "Continuous integration" section for the full reasoning.
+name: CI
+
+# Quoted "on" rather than bare `on:` -- functionally identical to
+# GitHub's own parser (which special-cases this key regardless), but
+# avoids the well-known YAML 1.1 quirk where a bare `on`/`off`/`yes`/
+# `no` key is read as the boolean true/false by strict YAML 1.1
+# parsers (confirmed locally: PyYAML parses a bare `on:` here as
+# `true`). Quoting removes the ambiguity for every tool, not just
+# GitHub's.
+"on":
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # npm ci (not npm install) -- CI should install exactly what
+      # package-lock.json pins, and fail loudly if the lockfile and
+      # package.json have drifted apart, rather than silently
+      # resolving something slightly different.
+      - run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      # Must exit 0. The one currently-known, currently-open bug
+      # (see docs/ai/outstanding-findings.md) is encoded as an
+      # `it.fails` test, not an ordinary failing one, specifically so
+      # this step stays a hard gate with no standing exception to
+      # remember -- see the Verification & Regression Playbook.
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
