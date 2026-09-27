@@ -1,8 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 
+import { openUrl } from "@tauri-apps/plugin-opener";
+
 import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
 
 import { consumeKey } from "./consumeKey.ts";
+
+/**
+ * Opens a source link in the reader's own browser, never inside the
+ * app window: a citation is somewhere to leave to, not a page to
+ * navigate the app away from. `openUrl` is the Tauri opener plugin,
+ * already a dependency; outside Tauri (a plain browser tab in
+ * development, or a test) its `invoke` call rejects, and the anchor's
+ * own browser-default handling of `window.open` below stands in.
+ */
+function openExternal(href: string) {
+    openUrl(href).catch(() => window.open(href, "_blank", "noreferrer"));
+}
 
 /**
  * One point of a note.
@@ -17,9 +31,12 @@ import { consumeKey } from "./consumeKey.ts";
  */
 /**
  * One entry: a sentence, or a title and its text. With `onOpen`, the
- * title is a link that opens the page it names.
+ * title is a link that opens the page it names. With `href` instead,
+ * the TEXT is the link -- a source citation ("Source:" / "Based on:"
+ * followed by the publication's name) -- and it opens in the
+ * reader's own browser rather than inside the app (see openExternal).
  */
-export type InfoPoint = string | { title: string; text: string; onOpen?: () => void };
+export type InfoPoint = string | { title: string; text: string; onOpen?: () => void; href?: string };
 
 interface InfoNoteProps {
 
@@ -237,6 +254,34 @@ export default function InfoNote({
                                                     {point.title}
                                                 </button>
                                                 {point.text ? " " + point.text : ""}
+                                            </li>
+                                        )
+                                        : point.href
+                                        ? (
+                                            /* A citation: the title names
+                                               what it is ("Source",
+                                               "Based on"), the text is
+                                               the publication, and the
+                                               text itself is the link,
+                                               opened in the reader's own
+                                               browser, never the app's. */
+                                            <li key={point.title}>
+                                                <strong className="info-note-point-title">
+                                                    {point.title + ":"}
+                                                </strong>
+                                                {" "}
+                                                <a
+                                                    className="business-engagement-link info-note-link"
+                                                    href={point.href}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    onClick={(event) => {
+                                                        event.preventDefault();
+                                                        openExternal(point.href!);
+                                                    }}
+                                                >
+                                                    {point.text}
+                                                </a>
                                             </li>
                                         )
                                         : (
