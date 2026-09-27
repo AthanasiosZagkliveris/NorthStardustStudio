@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, render, screen, fireEvent } from "@testing-library/react";
 
-import { scrollToRailSection, useActiveRailSection } from "./useActiveRailSection";
+import { RAIL_TOP_CLEARANCE, scrollToRailSection, useActiveRailSection } from "./useActiveRailSection";
 
 function Probe({ ids }: { ids: string[] }) {
     const active = useActiveRailSection(ids, "page-1");
@@ -59,6 +59,33 @@ describe("scrollToRailSection", () => {
         scrollToRailSection("x");
 
         expect(onClick).toHaveBeenCalledTimes(1);
+    });
+
+    // Chrome cancels an in-progress smooth scroll on a programmatic
+    // focus, so the field must be focused BEFORE the scroll starts.
+    it("focuses the first field before scrolling it under the header", () => {
+        const scrollTo = vi.fn();
+        window.scrollTo = scrollTo as unknown as typeof window.scrollTo;
+        Object.defineProperty(window, "scrollY", { value: 2100, configurable: true });
+        const raf = vi.spyOn(window, "requestAnimationFrame").mockImplementation(callback => {
+            callback(0);
+            return 0;
+        });
+        const focus = vi.spyOn(HTMLElement.prototype, "focus");
+
+        document.body.innerHTML = '<div data-rail="x"><input aria-label="first" /></div>';
+        const section = document.querySelector<HTMLElement>('[data-rail="x"]')!;
+        section.getBoundingClientRect = () => ({ top: -634, bottom: 0, left: 0, right: 0, width: 0, height: 634, x: 0, y: -634, toJSON() {} });
+
+        scrollToRailSection("x");
+
+        expect(focus).toHaveBeenCalledTimes(1);
+        expect(focus.mock.contexts[0]).toBe(document.querySelector("input"));
+        expect(scrollTo).toHaveBeenCalledWith({ top: -634 + 2100 - RAIL_TOP_CLEARANCE, behavior: "smooth" });
+        expect(focus.mock.invocationCallOrder[0]).toBeLessThan(scrollTo.mock.invocationCallOrder[0]);
+
+        focus.mockRestore();
+        raf.mockRestore();
     });
 
 });

@@ -88,11 +88,14 @@ export function scrollToRailSection(id: string): void {
     const toggle = target.querySelector<HTMLButtonElement>(':scope > * > .strategy-box-toggle[aria-expanded="false"], :scope > .strategy-box-toggle[aria-expanded="false"]');
     toggle?.click();
 
+    // Focus first, then scroll: Chrome cancels an in-progress smooth
+    // scroll on a programmatic focus, even with `preventScroll`.
     window.requestAnimationFrame(() => {
-        const top = target.getBoundingClientRect().top + window.scrollY - RAIL_TOP_CLEARANCE;
-        window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
         target.querySelector<HTMLElement>("input:not([disabled]), textarea:not([disabled]), select:not([disabled])")
             ?.focus({ preventScroll: true });
+        const top = target.getBoundingClientRect().top + window.scrollY - RAIL_TOP_CLEARANCE;
+        const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+        window.scrollTo({ top: Math.max(0, top), behavior: reduceMotion ? "auto" : "smooth" });
     });
 
 }

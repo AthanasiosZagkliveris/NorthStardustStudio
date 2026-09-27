@@ -1046,16 +1046,16 @@ export default function Conversation() {
     // Process Library (Section 2) itself, one entry per Process
     // that actually changed since the last time the Log was
     // updated (see generateOperationalLogEntriesFromProcessLibrary
-    // in AnswerUtils.ts). The only two ways to leave Process
-    // Library are clicking Next or Previous (session.goToSection
-    // is never called anywhere, and goToIntroduction is only ever
-    // reachable FROM Section 1) -- so this runs at the top of both
-    // handlers below, BEFORE the actual section change, comparing
+    // in AnswerUtils.ts). The ways to leave Process Library are
+    // clicking Next or Previous, or a page on the left bullet rail
+    // (goToPage); goToIntroduction is only ever reachable FROM
+    // Section 1 -- so this runs at the top of all three handlers
+    // below, BEFORE the actual section change, comparing
     // Process Library's current response against each Process's
     // own lastLoggedSnapshot and appending any newly-generated Log
     // rows. It's a no-op (same object identity in, effectively)
     // whenever there's nothing new to log, so calling it
-    // unconditionally on every Next/Previous click while already
+    // unconditionally on every page change while already
     // past Process Library, or while on a different System
     // entirely, is intentionally cheap and harmless.
     function commitProcessLibraryChangesToOperationalLog() {
@@ -1708,10 +1708,14 @@ export default function Conversation() {
     }
 
     // Resolved before the early returns below so the section rail's
-    // hook can use it; the page reads the same value further down.
+    // hook can use them; the page reads the same values further down.
     const sharedSource = session
         ? resolveSharedAnswer(session.getCurrentSection()?.answer)
         : null;
+
+    const strategyFoundationValue = session
+        ? resolveStrategyFoundationValue(session)
+        : undefined;
 
     // The two bullet rails. Computed before the early returns below
     // (hooks), and simply empty while nothing is loaded.
@@ -1720,7 +1724,7 @@ export default function Conversation() {
     const railSections = session
         ? sectionRailItems(
             resolveEffectiveAnswer(session.getCurrentSection(), sharedSource),
-            resolveStrategyFoundationValue(session)?.themes ?? []
+            strategyFoundationValue?.themes ?? []
         )
         : [];
     const activeRailSection = useActiveRailSection(railSections.map(item => item.id), railSectionIndex);
@@ -2080,7 +2084,8 @@ export default function Conversation() {
         candidate => candidate.answer?.type === AnswerType.StrategicPeriod
     );
 
-    const strategyFoundationValue = resolveStrategyFoundationValue(session);
+    // strategyFoundationValue itself is resolved above the early
+    // returns (resolveStrategyFoundationValue), for the section rail.
 
     const strategicPeriodValue = strategicPeriodSection
         ? asStrategicPeriodValue(session.getResponse(strategicPeriodSection.number))
