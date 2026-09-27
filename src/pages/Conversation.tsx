@@ -54,6 +54,9 @@ import { OrganizationService } from "../services/OrganizationService";
 import { PreferencesService } from "../services/PreferencesService";
 import { systems } from "../data/systems";
 import { jumpTo, type OpenPage } from "../components/interview/jumpTo.ts";
+import BulletRail from "../components/interview/rails/BulletRail";
+import { pageIndexFromRailId, pageRailItems, sectionRailItems } from "../components/interview/rails/railItems";
+import { scrollToRailSection, useActiveRailSection } from "../components/interview/rails/useActiveRailSection";
 
 import "../styles/conversation.css";
 
@@ -1149,6 +1152,24 @@ export default function Conversation() {
 
     }
 
+    // The page rail's own jump: the same bookkeeping Next and
+    // Previous do (commit the Process Library, save, redraw, back
+    // to the top), to any page at once.
+    function goToPage(index: number) {
+
+        if (!session || index === session.getCurrentSectionIndex()) {
+            return;
+        }
+
+        commitProcessLibraryChangesToOperationalLog();
+
+        if (session.goToSection(index)) {
+            persistAndRedraw(session);
+            scrollToTop();
+        }
+
+    }
+
     function goToIntroduction() {
 
         if (!session) {
@@ -1606,20 +1627,6 @@ export default function Conversation() {
 
     }
 
-    if (loadingError) {
-        return <div>{loadingError}</div>;
-    }
-
-    if (!session) {
-        return <div>Loading...</div>;
-    }
-
-    const framework = session.getFramework();
-    const introduction = framework.introduction;
-    const currentSection = session.getCurrentSection();
-
-    const showIntroduction = !session.hasStartedInterview();
-
     // A Shared Answer Section (see AnswerType.SharedAnswer) holds no
     // data of its own: it renders ANOTHER System's Section and reads
     // and writes that System's saved response, so the two are one
@@ -1665,13 +1672,74 @@ export default function Conversation() {
 
     }
 
-    const sharedSource = resolveSharedAnswer(currentSection?.answer);
-
     // What actually renders: the mirrored Section's own definition
     // when this is a Shared Answer, otherwise this Section's own.
-    const effectiveAnswer = sharedSource
-        ? sharedSource.section.answer
-        : currentSection?.answer;
+    // Shared by the page and the section rail so the rail always
+    // lists the sections of the editor actually on screen.
+    function resolveEffectiveAnswer(
+        section: Section | undefined,
+        shared: ReturnType<typeof resolveSharedAnswer>
+    ): AnswerDefinition | undefined {
+
+        return shared ? shared.section.answer : section?.answer;
+
+    }
+
+    // The Strategy System's Foundation page (by Answer Structure, not
+    // number) and its saved value. Shared by the Strategy pages below
+    // and the section rail, which lists the Foundation's Themes on the
+    // Strategic Period and Roadmap pages.
+    function findStrategyFoundationSection(currentSession: InterviewSession) {
+
+        return currentSession.getFramework().sections.find(
+            candidate => candidate.answer?.type === AnswerType.StrategyFoundation
+        );
+
+    }
+
+    function resolveStrategyFoundationValue(currentSession: InterviewSession) {
+
+        const foundationSection = findStrategyFoundationSection(currentSession);
+
+        return foundationSection
+            ? asStrategyFoundationValue(currentSession.getResponse(foundationSection.number))
+            : undefined;
+
+    }
+
+    // Resolved before the early returns below so the section rail's
+    // hook can use it; the page reads the same value further down.
+    const sharedSource = session
+        ? resolveSharedAnswer(session.getCurrentSection()?.answer)
+        : null;
+
+    // The two bullet rails. Computed before the early returns below
+    // (hooks), and simply empty while nothing is loaded.
+    const railPages = session ? pageRailItems(session.getSections()) : [];
+    const railSectionIndex = session?.getCurrentSectionIndex() ?? 0;
+    const railSections = session
+        ? sectionRailItems(
+            resolveEffectiveAnswer(session.getCurrentSection(), sharedSource),
+            resolveStrategyFoundationValue(session)?.themes ?? []
+        )
+        : [];
+    const activeRailSection = useActiveRailSection(railSections.map(item => item.id), railSectionIndex);
+
+    if (loadingError) {
+        return <div>{loadingError}</div>;
+    }
+
+    if (!session) {
+        return <div>Loading...</div>;
+    }
+
+    const framework = session.getFramework();
+    const introduction = framework.introduction;
+    const currentSection = session.getCurrentSection();
+
+    const showIntroduction = !session.hasStartedInterview();
+
+    const effectiveAnswer = resolveEffectiveAnswer(currentSection, sharedSource);
 
     // The value shown, and where an edit goes. A Shared Answer reads
     // and writes the SOURCE System's stored response, so editing here
@@ -2006,17 +2074,13 @@ export default function Conversation() {
         Resolved by Answer Structure rather than by System number, so
         this stays correct if the Strategy pages are ever reordered.
     */
-    const strategyFoundationSection = framework.sections.find(
-        candidate => candidate.answer?.type === AnswerType.StrategyFoundation
-    );
+    const strategyFoundationSection = findStrategyFoundationSection(session);
 
     const strategicPeriodSection = framework.sections.find(
         candidate => candidate.answer?.type === AnswerType.StrategicPeriod
     );
 
-    const strategyFoundationValue = strategyFoundationSection
-        ? asStrategyFoundationValue(session.getResponse(strategyFoundationSection.number))
-        : undefined;
+    const strategyFoundationValue = resolveStrategyFoundationValue(session);
 
     const strategicPeriodValue = strategicPeriodSection
         ? asStrategicPeriodValue(session.getResponse(strategicPeriodSection.number))
@@ -2301,12 +2365,33 @@ export default function Conversation() {
     return (
         <div className="conversation-page">
             {/*
-                No Organization Calendar / Capabilities / System rail
-                here -- that slide-in panel now lives only on the
-                System Selection page (see SystemSelection.tsx), not
-                inside the interview itself.
+                Two bullet rails flank the card once the interview has
+                started: the left one lists the System's pages and
+                jumps between them; the right one lists the current
+                page's sections and scrolls to them. (The Organization
+                Calendar / Capabilities / System slide-in panel lives
+                only on the System Selection page.)
             */}
             <AppHeader organizationName={organizationName} />
+
+            {!showIntroduction && (
+                <>
+                    <BulletRail
+                        side="left"
+                        label="Pages"
+                        items={railPages}
+                        activeId={"page-" + currentSection.number}
+                        onSelect={id => goToPage(pageIndexFromRailId(id))}
+                    />
+                    <BulletRail
+                        side="right"
+                        label="Sections"
+                        items={railSections}
+                        activeId={activeRailSection}
+                        onSelect={scrollToRailSection}
+                    />
+                </>
+            )}
 
             <main className="conversation-content">
                 <div className="conversation-card">

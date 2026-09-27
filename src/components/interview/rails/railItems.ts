@@ -47,6 +47,13 @@ export function pageRailItems(sections: readonly { number: number; title: string
 
 }
 
+/** The 0-based page index a page rail id ("page-N") points at. */
+export function pageIndexFromRailId(id: string): number {
+
+    return Number(id.replace("page-", "")) - 1;
+
+}
+
 const FIXED_SECTIONS: Partial<Record<AnswerType, readonly string[]>> = {
     [AnswerType.LegalEntity]: LEGAL_ENTITY_SECTIONS,
     [AnswerType.BrandStyle]: BRAND_STYLE_SECTIONS,

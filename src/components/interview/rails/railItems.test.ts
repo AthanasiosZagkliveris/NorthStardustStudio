@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { pageRailItems, pickActiveRail, railId, sectionRailItems } from "./railItems";
+import { pageIndexFromRailId, pageRailItems, pickActiveRail, railId, sectionRailItems } from "./railItems";
 import { AnswerType } from "../../../framework/enums/AnswerType";
 import type { AnswerDefinition } from "../../../framework/model/AnswerDefinition";
 
@@ -20,6 +20,13 @@ describe("pageRailItems", () => {
             { id: "page-1", label: "1. Situation & Direction" },
             { id: "page-2", label: "2. Goals & Objectives" }
         ]);
+    });
+});
+
+describe("pageIndexFromRailId", () => {
+    it("turns a page rail id back into the 0-based page index", () => {
+        expect(pageIndexFromRailId("page-1")).toBe(0);
+        expect(pageIndexFromRailId("page-14")).toBe(13);
     });
 });
 
