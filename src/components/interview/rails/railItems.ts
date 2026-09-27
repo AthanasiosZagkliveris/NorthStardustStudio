@@ -76,8 +76,20 @@ export function sectionRailItems(
         return [];
     }
 
-    if (answer.type === AnswerType.MultiPart && answer.parts) {
-        return answer.parts.map(part => ({ id: part.id, label: part.label }));
+    if (answer.type === AnswerType.MultiPart) {
+
+        // Only the columns layout marks its parts with `data-rail`
+        // (AnswerRenderer checks `tabbed` first, so a Section that
+        // declares both renders as tabs and has no markers). An
+        // unlabeled part has nothing to show on a bullet.
+        if (!answer.columns || answer.tabbed || !answer.parts) {
+            return [];
+        }
+
+        return answer.parts
+            .filter(part => part.label.trim().length > 0)
+            .map(part => ({ id: part.id, label: part.label }));
+
     }
 
     if (answer.type === AnswerType.StrategicPeriod || answer.type === AnswerType.StrategicRoadmap) {

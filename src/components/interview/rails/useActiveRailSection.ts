@@ -38,7 +38,27 @@ export function useActiveRailSection(ids: readonly string[], resetKey: unknown):
 
         setActive(ids[0] ?? null);
 
+        /** The id of the on-screen section holding the focused field, if any. */
+        function focusedRail(): string | null {
+            const holder = (document.activeElement as HTMLElement | null)?.closest<HTMLElement>("[data-rail]");
+            const id = holder?.dataset.rail;
+            if (!holder || !id || !ids.includes(id)) {
+                return null;
+            }
+            const rect = holder.getBoundingClientRect();
+            return rect.bottom > RAIL_TOP_CLEARANCE && rect.top < window.innerHeight ? id : null;
+        }
+
         function fromScroll() {
+            // A focused field outranks the scroll position while its
+            // section is still on screen -- otherwise the smooth scroll
+            // after a rail jump (or a nudge of the wheel while typing)
+            // would hand the bullet to the first section of a shared row.
+            const focused = focusedRail();
+            if (focused) {
+                setActive(focused);
+                return;
+            }
             const elements = railElements(ids);
             if (elements.length === 0) {
                 return;

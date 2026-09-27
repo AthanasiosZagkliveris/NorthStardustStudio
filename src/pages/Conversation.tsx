@@ -2370,33 +2370,10 @@ export default function Conversation() {
     return (
         <div className="conversation-page">
             {/*
-                Two bullet rails flank the card once the interview has
-                started: the left one lists the System's pages and
-                jumps between them; the right one lists the current
-                page's sections and scrolls to them. (The Organization
-                Calendar / Capabilities / System slide-in panel lives
-                only on the System Selection page.)
+                (The Organization Calendar / Capabilities / System
+                slide-in panel lives only on the System Selection page.)
             */}
             <AppHeader organizationName={organizationName} />
-
-            {!showIntroduction && (
-                <>
-                    <BulletRail
-                        side="left"
-                        label="Pages"
-                        items={railPages}
-                        activeId={"page-" + currentSection.number}
-                        onSelect={id => goToPage(pageIndexFromRailId(id))}
-                    />
-                    <BulletRail
-                        side="right"
-                        label="Sections"
-                        items={railSections}
-                        activeId={activeRailSection}
-                        onSelect={scrollToRailSection}
-                    />
-                </>
-            )}
 
             <main className="conversation-content">
                 <div className="conversation-card">
@@ -2554,6 +2531,34 @@ export default function Conversation() {
                     )}
                 </div>
             </main>
+
+            {/*
+                Two bullet rails flank the card once the interview has
+                started: the left one lists the System's pages and
+                jumps between them; the right one lists the current
+                page's sections and scrolls to them. Rendered after
+                <main> so the card's own fields come first in the tab
+                order -- the rails are position: fixed, so where they
+                sit in the DOM does not move them on screen.
+            */}
+            {!showIntroduction && (
+                <>
+                    <BulletRail
+                        side="left"
+                        label="Pages"
+                        items={railPages}
+                        activeId={"page-" + currentSection.number}
+                        onSelect={id => goToPage(pageIndexFromRailId(id))}
+                    />
+                    <BulletRail
+                        side="right"
+                        label="Sections"
+                        items={railSections}
+                        activeId={activeRailSection}
+                        onSelect={scrollToRailSection}
+                    />
+                </>
+            )}
 
             <AppFooter
                 onBack={() => navigate("/assistant", { state: { capability: system?.capability } })}

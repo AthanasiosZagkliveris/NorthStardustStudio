@@ -43,6 +43,34 @@ describe("sectionRailItems", () => {
         ]);
     });
 
+    it("is empty for a stacked Multi-Part page", () => {
+        const answer = {
+            type: AnswerType.MultiPart,
+            columns: false,
+            parts: [{ id: "a", label: "A" }, { id: "b", label: "B" }]
+        } as unknown as AnswerDefinition;
+        expect(sectionRailItems(answer)).toEqual([]);
+    });
+
+    it("is empty for a tabbed Multi-Part page", () => {
+        const answer = {
+            type: AnswerType.MultiPart,
+            tabbed: true,
+            columns: true,
+            parts: [{ id: "a", label: "A" }, { id: "b", label: "B" }]
+        } as unknown as AnswerDefinition;
+        expect(sectionRailItems(answer)).toEqual([]);
+    });
+
+    it("omits unlabeled parts of a columns page", () => {
+        const answer = {
+            type: AnswerType.MultiPart,
+            columns: true,
+            parts: [{ id: "primary", label: "" }, { id: "blank", label: "  " }, { id: "vision", label: "Vision" }]
+        } as unknown as AnswerDefinition;
+        expect(sectionRailItems(answer)).toEqual([{ id: "vision", label: "Vision" }]);
+    });
+
     it("uses the fixed sub-sections of a bespoke page", () => {
         const answer = { type: AnswerType.BusinessCapability } as unknown as AnswerDefinition;
         expect(sectionRailItems(answer)).toEqual([

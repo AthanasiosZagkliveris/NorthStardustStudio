@@ -27,9 +27,9 @@
 
 }
 
-.bullet-rail-left { left: 0; justify-content: flex-start; padding-left: 16px; }
+.bullet-rail-left { left: 0; justify-content: flex-start; padding-left: 20px; }
 
-.bullet-rail-right { right: 0; justify-content: flex-end; padding-right: 16px; }
+.bullet-rail-right { right: 0; justify-content: flex-end; padding-right: 20px; }
 
 .bullet-rail-list {
 
@@ -50,7 +50,7 @@
 
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 
     padding: 2px 0;
 
@@ -130,6 +130,21 @@
 @media (min-width: 1700px) {
 
     :root { --rail-gutter: 220px; }
+
+    /* Many Themes on a short window scroll instead of clipping. Only
+       here, where the labels sit inline: a scrolling list clips on
+       both axes, which would cut off the narrow layout's tooltip
+       labels. The padding (cancelled by the margin, so nothing
+       moves) keeps the active bullet's bloom ring inside the clip. */
+    .bullet-rail-list {
+
+        max-height: 100%;
+        overflow-y: auto;
+
+        margin: -10px;
+        padding: 10px;
+
+    }
 
     .bullet-rail-label {
 

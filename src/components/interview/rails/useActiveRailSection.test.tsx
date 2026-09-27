@@ -44,6 +44,29 @@ describe("useActiveRailSection", () => {
         expect(screen.getByTestId("active").textContent).toBe("c");
     });
 
+    // The spec: the bullet follows the focused field, otherwise the
+    // scroll position -- a scroll must not steal it from a visible
+    // focused field (e.g. the second column of a shared row).
+    it("keeps the focused section on scroll while it is on screen", () => {
+        render(<Probe ids={["a", "b", "c"]} />);
+        act(() => { screen.getByLabelText("field c").focus(); });
+        placeTops({ a: 150, b: 400, c: 500 });
+        act(() => { window.dispatchEvent(new Event("scroll")); });
+        expect(screen.getByTestId("active").textContent).toBe("c");
+
+        act(() => { screen.getByLabelText("field c").blur(); });
+        act(() => { window.dispatchEvent(new Event("scroll")); });
+        expect(screen.getByTestId("active").textContent).toBe("a");
+    });
+
+    it("lets the scroll position win once the focused section is off screen", () => {
+        render(<Probe ids={["a", "b", "c"]} />);
+        act(() => { screen.getByLabelText("field c").focus(); });
+        placeTops({ a: 150, b: 400, c: window.innerHeight + 50 });
+        act(() => { window.dispatchEvent(new Event("scroll")); });
+        expect(screen.getByTestId("active").textContent).toBe("a");
+    });
+
 });
 
 describe("scrollToRailSection", () => {
