@@ -567,9 +567,9 @@ export default function BusinessEngagementEditor({
     const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
 
     /**
-     * Which Offering reference entries, Channel Categories,
-     * per-Offering relationship blocks and Demand & Conversion
-     * blocks are open. These four start CLOSED -- see useItemFolds
+     * Which reference headers, Offering reference entries, Channel
+     * Categories, per-Offering relationship blocks and Demand &
+     * Conversion blocks are open. These five start CLOSED -- see useItemFolds
      * -- unlike the structural sections and per-type/per-stage
      * folds around them, which stay on `collapsed` and so start
      * open.
@@ -610,12 +610,13 @@ export default function BusinessEngagementEditor({
 
     }
 
-    /** One Segment's reference header, folded with the rest. */
+    /** One Segment's reference header. Hidden until asked for, so
+     *  it is kept with the item folds, which start closed. */
     const referencesFoldKey = (segmentId: string) =>
         "reference-header-" + segmentId;
 
     const referencesOpen = (segmentId: string) =>
-        !collapsed.has(referencesFoldKey(segmentId));
+        folds.isOpen(referencesFoldKey(segmentId));
 
     function toggle(key: string) {
         setCollapsed(current => {
@@ -3630,7 +3631,7 @@ export default function BusinessEngagementEditor({
                                         type="button"
                                         className="interview-help-toggle business-engagement-reference-toggle"
                                         aria-expanded={referencesOpen(segment.id)}
-                                        onClick={() => toggle(
+                                        onClick={() => folds.toggle(
                                             referencesFoldKey(segment.id)
                                         )}
                                     >

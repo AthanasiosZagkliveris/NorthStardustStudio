@@ -136,6 +136,21 @@ describe("BusinessEngagementEditor folding", () => {
 
     });
 
+    it("hides the References until asked for", () => {
+
+        const { container } = render(<Harness />);
+
+        const toggle = screen.getByRole("button", { name: "Show References" });
+        expect(toggle.getAttribute("aria-expanded")).toBe("false");
+        expect(container.querySelector<HTMLElement>(".business-engagement-reference-columns")?.hidden).toBe(true);
+
+        fireEvent.click(toggle);
+
+        expect(screen.getByRole("button", { name: "Hide References" }).getAttribute("aria-expanded")).toBe("true");
+        expect(container.querySelector<HTMLElement>(".business-engagement-reference-columns")?.hidden).toBe(false);
+
+    });
+
     it("opens a newly added Channel Category", () => {
 
         render(<Harness />);
