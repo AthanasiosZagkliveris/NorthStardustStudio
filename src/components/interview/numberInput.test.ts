@@ -54,7 +54,20 @@ describe("limitedNumberText", () => {
 
     it("lets a value saved before the limits be deleted a character at a time", () => {
         expect(limitedNumberText("1,20", "1,200", NUMBER_LIMITS.money)).toBe("1,20");
+        expect(limitedNumberText("1200", "1,200", NUMBER_LIMITS.money)).toBe("1200");
         expect(limitedNumberText("1,2000", "1,200", NUMBER_LIMITS.money)).toBe("1,200");
+    });
+
+    it("refuses anything else in place of a value saved before the limits", () => {
+        expect(limitedNumberText("-5", "1,200", NUMBER_LIMITS.money)).toBe("1,200");
+        expect(limitedNumberText("ab", "150", percent)).toBe("150");
+    });
+
+    it("takes averages to two decimals for monthly counts and items per order", () => {
+        expect(limitedNumberText("1.5", "1.", NUMBER_LIMITS.perMonth)).toBe("1.5");
+        expect(limitedNumberText("1.4", "1.", NUMBER_LIMITS.itemsPerOrder)).toBe("1.4");
+        expect(limitedNumberText("1.", "1", NUMBER_LIMITS.perItem)).toBe("1");
+        expect(limitedNumberText("1.", "1", NUMBER_LIMITS.bidsPerYear)).toBe("1");
     });
 
     it("asks for the keypad that suits the box", () => {

@@ -21,11 +21,13 @@ export const NUMBER_LIMITS = {
     cancelPercent: { max: 99.9, decimals: 2 },
     /** Three decimals, so three equal owners can hold 33.333% each. */
     ownership: { max: 100, decimals: 3 },
-    /** Prospects, referrals or visitors a month. */
-    perMonth: { max: 1_000_000, decimals: 0 },
+    /** Prospects, referrals or visitors a month: an average, so 1.5 is fine. */
+    perMonth: { max: 1_000_000, decimals: 2 },
     bidsPerYear: { max: 10_000, decimals: 0 },
-    /** Times each, units per contract, items per order. */
+    /** Times each, units per contract. */
     perItem: { max: 10_000, decimals: 0 },
+    /** Items in an average order. */
+    itemsPerOrder: { max: 10_000, decimals: 2 },
     /** Sales, clients or units a month. */
     volume: { max: 1_000_000, decimals: 2 },
     money: { max: 1_000_000_000, decimals: 2 },
@@ -56,13 +58,27 @@ function fits(text: string, limits: NumberLimit): boolean {
  * point, too many decimals or too large a value.
  *
  * A value saved before the limits existed ("1,200") can still be
- * shortened a character at a time, so it can be corrected.
+ * shortened, so it can be corrected: by deleting characters from it,
+ * or to digits, separators and spaces alone.
  */
 export function limitedNumberText(next: string, previous: string, limits: NumberLimit): string {
     if (next === "" || fits(next, limits)) {
         return next;
     }
-    return !fits(previous, limits) && next.length < previous.length ? next : previous;
+    const shortening = !fits(previous, limits) && next.length < previous.length &&
+        (deletedFrom(next, previous) || /^[0-9.,\s]*$/.test(next));
+    return shortening ? next : previous;
+}
+
+/** Whether `shorter` is `longer` with some of its characters deleted. */
+function deletedFrom(shorter: string, longer: string): boolean {
+    let position = 0;
+    for (const character of longer) {
+        if (position < shorter.length && shorter[position] === character) {
+            position++;
+        }
+    }
+    return position === shorter.length;
 }
 
 /** The keypad a box asks for: whole numbers or decimals. */

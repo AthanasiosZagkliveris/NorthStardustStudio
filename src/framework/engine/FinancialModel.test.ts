@@ -967,6 +967,11 @@ describe("guards for figures saved before the limits", () => {
         expect(legalEntityTotalOwnership(entity)).toBe(100);
     });
 
+    test("items per order below 1 count as 1", () => {
+        const stream = { ...createRevenueStream(), price: "10", itemsPerOrder: "0.5", deliveryCharge: "4" };
+        expect(monthlyPrice(stream)).toBe(14);
+    });
+
     test("items per order and months to normal stop at their limits", () => {
         const stream = { ...createRevenueStream(), price: "10", itemsPerOrder: "999999", deliveryCharge: "100000" };
         // 100,000 shared by at most 10,000 items: 10 each.

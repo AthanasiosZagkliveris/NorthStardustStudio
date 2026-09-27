@@ -900,7 +900,7 @@ export default function FinancialSustainabilityEditor({
                                 ["How many " + plural(unit, 2) + " an average order holds. A cost per order, " + format(perOrder) +
                                     " here, is shared by them."],
                                 true,
-                                NUMBER_LIMITS.perItem
+                                NUMBER_LIMITS.itemsPerOrder
                             )}
                             {moneyInput(
                                 "Delivery Charge",

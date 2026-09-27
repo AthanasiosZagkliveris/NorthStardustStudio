@@ -2658,7 +2658,8 @@ export function normalVolume(stream: RevenueStreamValue): number {
 /** Units in an average order: 1 unless said otherwise. */
 export function itemsPerOrder(stream: RevenueStreamValue): number {
     const items = parseDecimal(stream.itemsPerOrder);
-    return items !== null && items > 0 ? Math.min(MAX_ITEMS, items) : 1;
+    // An order holds at least one: fewer counts as 1.
+    return items !== null && items >= 1 ? Math.min(MAX_ITEMS, items) : 1;
 }
 
 /**
