@@ -99,10 +99,12 @@ export class FrameworkInterpreter {
                 source.questionsMarkdown ?? ""
             );
 
-        const questionSections =
-            this.parseQuestionSections(
+        const questionDocument =
+            this.parseQuestionDocument(
                 source.questionsMarkdown ?? ""
             );
+
+        const questionSections = questionDocument.sections;
 
         const introductionMarkdown =
             source.introductionMarkdown ?? "";
@@ -156,9 +158,11 @@ export class FrameworkInterpreter {
             return {
                 ...section,
                 blocks,
-                answer:
+                answer: this.attachPartQuestions(
                     answerDefinitions.get(normalizedTitle) ??
-                    DEFAULT_ANSWER
+                        DEFAULT_ANSWER,
+                    questionDocument.partQuestions.get(section.number)
+                )
             };
         });
 
@@ -491,20 +495,137 @@ export class FrameworkInterpreter {
      * Parses the section list from the
      * new Questions document.
      */
-    private parseQuestionSections(markdown: string): Section[] {
+    private parseQuestionDocument(markdown: string): {
+        sections: Section[];
+        partQuestions: Map<number, Map<string, string>>;
+    } {
 
-        const sections = this.parseDocumentSections(
+        const rawSections = this.parseDocumentSections(
             markdown,
             /^##\s+(\d+)\.\s+(.+)$/
         );
 
-        return sections.map(section => ({
-            number: section.number,
-            title: section.title,
-            interview: true,
-            blocks: this.parseContentBlocks(section.lines, "Questions"),
-            answer: DEFAULT_ANSWER
-        }));
+        const partQuestions = new Map<number, Map<string, string>>();
+
+        const sections = rawSections.map(section => {
+
+            const split = this.splitPartQuestions(section.lines);
+
+            if (split.parts.size > 0) {
+                partQuestions.set(section.number, split.parts);
+            }
+
+            return {
+                number: section.number,
+                title: section.title,
+                interview: true,
+                // Only the lines ABOVE the first "### <Part Label>"
+                // become the Section-level question block; everything
+                // below belongs to an individual part and is rendered
+                // inside that part's own column instead. A Section
+                // with no "###" sub-headings (i.e. every Section that
+                // hasn't opted in) yields all of its lines here, so
+                // this is a no-op for them.
+                blocks: this.parseContentBlocks(split.lead, "Questions"),
+                answer: DEFAULT_ANSWER
+            };
+
+        });
+
+        return { sections, partQuestions };
+    }
+
+    /**
+     * Splits one Questions Section's lines into the Section-level
+     * lead (everything before the first "### <Part Label>") and one
+     * entry per "###" sub-heading, keyed by normalized label.
+     */
+    private splitPartQuestions(lines: string[]): {
+        lead: string[];
+        parts: Map<string, string>;
+    } {
+
+        const headingPattern = /^###\s+(.+?)\s*$/;
+
+        const lead: string[] = [];
+        const parts = new Map<string, string>();
+
+        let currentLabel: string | undefined;
+        let currentLines: string[] = [];
+
+        const flush = () => {
+
+            if (currentLabel === undefined) {
+                return;
+            }
+
+            parts.set(
+                this.normalizeTitle(currentLabel),
+                this.normalizeTextBlock(currentLines.join("\n"))
+            );
+
+        };
+
+        for (const line of lines) {
+
+            const match = line.match(headingPattern);
+
+            if (match) {
+                flush();
+                currentLabel = match[1];
+                currentLines = [];
+                continue;
+            }
+
+            if (currentLabel === undefined) {
+                lead.push(line);
+            } else {
+                currentLines.push(line);
+            }
+
+        }
+
+        flush();
+
+        return { lead, parts };
+    }
+
+    /**
+     * Copies each Multi-Part part's own question text onto it, so a
+     * column-layout Section can render its questions beside their
+     * editor instead of all together above the progress line.
+     *
+     * Returns the answer UNCHANGED (same object) whenever there are
+     * no per-part questions or the answer isn't Multi-Part -- which
+     * is every Section in every System that hasn't opted in.
+     */
+    private attachPartQuestions(
+        answer: AnswerDefinition,
+        questions: Map<string, string> | undefined
+    ): AnswerDefinition {
+
+        if (!questions || questions.size === 0) {
+            return answer;
+        }
+
+        if (answer.type !== AnswerType.MultiPart || !answer.parts) {
+            return answer;
+        }
+
+        return {
+            ...answer,
+            parts: answer.parts.map(part => {
+
+                const text = questions.get(
+                    this.normalizeTitle(part.label)
+                );
+
+                return text && text.length > 0
+                    ? { ...part, questions: text }
+                    : part;
+
+            })
+        };
     }
 
     /**

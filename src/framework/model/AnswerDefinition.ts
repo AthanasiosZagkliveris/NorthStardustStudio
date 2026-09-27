@@ -77,4 +77,52 @@ export interface AnswerDefinition {
      */
     tabbed?: boolean;
 
+    /**
+     * When true, a Multi-Part answer renders its parts SIDE BY SIDE
+     * as equal-width columns (every part visible at once, each in
+     * its own column under its own label) instead of the default
+     * stacked layout or the `tabbed` tab bar. Every column is given
+     * exactly the same width regardless of how much its own editor
+     * or question text needs. Used only when the answer structure is
+     * Multi-Part, and mutually exclusive with `tabbed` in practice --
+     * `tabbed` is checked first, so a Section declaring both renders
+     * as tabs.
+     *
+     * Example: Identity System's three pages (Definition, Expression,
+     * Ethics), each holding four Free Text parts meant to be read and
+     * filled in together rather than one at a time.
+     */
+    columns?: boolean;
+
+    /**
+     * When true, this Section's own units number themselves UNDER
+     * its Section number -- 1.1, 1.2, 1.3 -- instead of continuing
+     * one running count across the whole System.
+     *
+     * Declared as "**Numbering:** Nested" beside the Section's
+     * Layout line. The two conventions answer different questions:
+     * a running count says how far through the System a column is,
+     * a nested one says which Section it belongs to. A System picks
+     * one and every Section in it declares the same thing.
+     *
+     * Example: the Identity System, whose Definition, Ethics and
+     * Legal Entity pages read 1.1-1.4, 2.1-2.4 and 3.1-3.6 rather
+     * than 1-4, 5-8 and 9.
+     */
+    nestedNumbering?: boolean;
+
+    /**
+     * Which System's Section this one mirrors. Used only when the
+     * answer structure is Shared Answer -- see
+     * AnswerType.SharedAnswer.
+     *
+     * Undefined when the `Source:` line was missing or malformed,
+     * which the renderer surfaces rather than rendering an empty
+     * page that looks like a Section with nothing in it.
+     */
+    sharedSource?: {
+        systemTitle: string;
+        sectionTitle: string;
+    };
+
 }

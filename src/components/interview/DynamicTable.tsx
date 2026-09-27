@@ -300,6 +300,8 @@ function computedFont(el: Element | null | undefined, fallback: string): string 
  */
 function AutoGrowTextarea({
 
+    ariaLabel,
+
     value,
 
     disabled,
@@ -313,6 +315,8 @@ function AutoGrowTextarea({
     disabled?: boolean;
 
     onChange: (value: string) => void;
+
+    ariaLabel?: string;
 
 }) {
 
@@ -360,6 +364,8 @@ function AutoGrowTextarea({
             ref={setRefs}
 
             className="dynamic-table-textarea"
+
+            aria-label={ariaLabel}
 
             rows={1}
 
@@ -1217,6 +1223,15 @@ function DynamicTable({
 
     ) {
 
+        // Every control this funnel renders is a bare field with no
+        // visible <label> -- the only thing naming it is its column
+        // header, which a screen reader never associates automatically.
+        // The column title becomes the control's accessible name, so
+        // focusing a cell announces "Revenue Stream" rather than an
+        // anonymous "edit text". Every Table in every System renders
+        // through here, so naming it once covers all of them.
+        const cellLabel = column.title;
+
         switch (column.type) {
 
             case "field":
@@ -1230,6 +1245,8 @@ function DynamicTable({
                 return (
 
                     <FieldRenderer
+
+                        ariaLabel={cellLabel}
 
                         field={column.field}
 
@@ -1248,6 +1265,8 @@ function DynamicTable({
                 return (
 
                     <DateCellInput
+
+                        ariaLabel={cellLabel}
 
                         disabled={disabled}
 
@@ -1268,6 +1287,7 @@ function DynamicTable({
                         type="number"
 
                         className="interview-input"
+                        aria-label={cellLabel}
 
                         disabled={disabled}
 
@@ -1288,6 +1308,7 @@ function DynamicTable({
                     <select
 
                         className="interview-input"
+                        aria-label={cellLabel}
 
                         disabled={disabled}
 
@@ -1401,6 +1422,8 @@ function DynamicTable({
 
                     <NotesField
 
+                        ariaLabel={cellLabel}
+
                         disabled={disabled}
 
                         value={String(cellValue ?? "")}
@@ -1424,6 +1447,8 @@ function DynamicTable({
                 return (
 
                     <AutoGrowTextarea
+
+                        ariaLabel={cellLabel}
 
                         disabled={disabled}
 

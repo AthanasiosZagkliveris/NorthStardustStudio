@@ -269,6 +269,22 @@ export default function SystemSelection() {
                                 onSystemClick={handleSystemSelection}
                             />
 
+                            {/* What the four Foundation Systems add up to. */}
+                            {activeCapability === "foundation" && (
+                                <div className="workspace-documents">
+                                    <p className="workspace-documents-text">
+                                        Turn the Foundation answers into a Business Plan, a Business Model Canvas and a Financial Forecast.
+                                    </p>
+                                    <button
+                                        type="button"
+                                        className="workspace-documents-button"
+                                        onClick={() => navigate("/documents")}
+                                    >
+                                        Business Documents
+                                    </button>
+                                </div>
+                            )}
+
                         </section>
 
                     </div>

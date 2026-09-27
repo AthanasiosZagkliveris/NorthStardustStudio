@@ -1,54 +1,51 @@
 # 01. Identity System
 
-## 01. Mission
+## 01. Definition
+
+**Layout:** Columns
+
+**Numbering:** Nested
+
+**Description**
 
 **Structure:** Free Text
 
-## 02. Vision
+**Mission**
 
 **Structure:** Free Text
 
-## 03. Values
+**Positioning**
 
 **Structure:** Free Text
 
-## 04. Philosophy
+**Vision**
 
 **Structure:** Free Text
 
-## 05. Principles
+## 02. Ethics
+
+**Layout:** Columns
+
+**Numbering:** Nested
+
+**Philosophy**
 
 **Structure:** Free Text
 
-## 06. Manifesto
+**Values**
 
 **Structure:** Free Text
 
-## 07. Brand Personality
+**Principles**
 
 **Structure:** Free Text
 
-## 08. Voice Guide
-
-**Structure:** Fixed Variant Text
-
-**Number of Variants:** 2
-
-**Variants:**
-- Variant 1: Voice Characteristics
-- Variant 2: Avoid
-
-## 09. Positioning Statement
+**Manifesto**
 
 **Structure:** Free Text
 
-## 10. Organization Description
+## 03. Legal Entity
 
-**Structure:** Fixed Variant Text
+**Structure:** Legal Entity
 
-**Number of Variants:** 3
-
-**Variants:**
-- Variant 1: Short
-- Variant 2: Standard
-- Variant 3: Extended
+**Numbering:** Nested

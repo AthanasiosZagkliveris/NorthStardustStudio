@@ -1,5 +1,43 @@
 import { InterviewSession } from "../interview";
-import { buildAnswerBlocks, BuildAnswerBlocksOptions, defaultAnswerValue, ExportBlock } from "./AnswerUtils.ts";
+import { AnswerType } from "../enums/AnswerType.ts";
+import {
+    asStrategyFoundationValue,
+    buildAnswerBlocks,
+    BuildAnswerBlocksOptions,
+    defaultAnswerValue,
+    ExportBlock,
+    ExportContext,
+    titleWithPeriod
+} from "./AnswerUtils.ts";
+import { bespokeAnswerBlocks } from "./ExportRenderers.ts";
+
+/**
+ * A title as the page shows it: the Strategy pages carry a literal
+ * "MM/YY - MM/YY" that stands for the Strategic Period (see
+ * Conversation.tsx's resolvedSectionTitle).
+ */
+function resolvedTitle(title: string, context: ExportContext): string {
+    const foundation = context.responseOf?.(AnswerType.StrategyFoundation);
+    return titleWithPeriod(title, asStrategyFoundationValue(foundation).period);
+}
+
+/**
+ * The context a page answered against its own System's other pages
+ * exports with: those pages, looked up by Answer Structure, plus
+ * whatever the caller knows of the Identity System.
+ */
+export function sessionExportContext(
+    session: InterviewSession,
+    identity?: Omit<ExportContext, "responseOf">
+): ExportContext {
+    return {
+        ...identity,
+        responseOf: (type: AnswerType) => {
+            const section = session.getFramework().sections.find(candidate => candidate.answer?.type === type);
+            return section ? session.getResponse(section.number) : undefined;
+        }
+    };
+}
 
 /**
  * The exportable content of a single Section:
@@ -42,6 +80,13 @@ export interface ExportContent {
     systemNumber: string;
     systemName: string;
     capability: string;
+    /**
+     * A document rather than a System -- the Business Plan, the
+     * Business Model Canvas: its own title, and a line under it, in
+     * place of "3. Business System" and "Capability: …".
+     */
+    documentTitle?: string;
+    documentSubtitle?: string;
     sections: ExportSectionContent[];
     productGroups?: ExportProductGroup[];
 }
@@ -68,10 +113,14 @@ export function buildExportContent(
     session: InterviewSession,
     capabilityLabel: string,
     filterSectionResponse?: (sectionNumber: number, response: unknown) => unknown,
-    sectionBlockOptions?: (sectionNumber: number) => BuildAnswerBlocksOptions | undefined
+    sectionBlockOptions?: (sectionNumber: number) => BuildAnswerBlocksOptions | undefined,
+    /** The Identity System facts some pages are answered against. */
+    identity?: Omit<ExportContext, "responseOf">
 ): ExportContent {
 
     const framework = session.getFramework();
+
+    const context = sessionExportContext(session, identity);
 
     const sections: ExportSectionContent[] = framework.sections.map(section => {
 
@@ -83,8 +132,11 @@ export function buildExportContent(
 
         return {
             number: section.number,
-            title: section.title,
-            blocks: buildAnswerBlocks(section.answer, response, sectionBlockOptions?.(section.number))
+            title: resolvedTitle(section.title, context),
+            blocks: section.answer
+                ? bespokeAnswerBlocks(section.answer, response, context) ??
+                    buildAnswerBlocks(section.answer, response, sectionBlockOptions?.(section.number))
+                : []
         };
 
     });
@@ -246,7 +298,7 @@ export function buildSingleProductExportContent(
 
     return {
         systemNumber: String(framework.metadata.systemNumber),
-        systemName: `${framework.metadata.systemName} - ${productName}`,
+        systemName: `${framework.metadata.systemName} (${productName})`,
         capability: capabilityLabel.trim().length > 0
             ? capabilityLabel.trim()
             : framework.metadata.capability,

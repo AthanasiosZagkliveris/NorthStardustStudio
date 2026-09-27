@@ -2,19 +2,19 @@
 
 ## 01. Identity System
 
-The Identity System asks the most basic question your organization can answer: who are we, and why do we exist? Working through it, you will define your purpose, the future you are aiming for, what you believe, and how you make decisions, communicate, and present yourself to the world. Because so much else depends on these answers, a clear and consistent identity keeps your branding, strategy, marketing, and communication pointed in the same direction. Think of this as the foundation the rest of the Framework is built on, so it is worth getting right before you move on to anything else.
+The Identity System answers the most basic question: who are you, and why do you exist? First, Definition sets out what your organization does, its mission, where it stands in the market, and the future it is working towards. Then Ethics records your philosophy, your values, the principles you follow, and your manifesto. Finally, Legal Entity records your legal form, founders and ownership, registration, tax, and running costs, even if you have not registered yet. Everything else in the Foundation builds on these answers, so this is the place to start.
 
 ## 02. Brand System
 
-Once you know who you are, the Brand System is where that identity becomes something people can actually see and recognize. It covers your visual identity, logo rules, colors, typography, and the practical guidelines that keep every piece of design consistent. A brand built this carefully earns trust faster, because customers and partners experience the same look and feel everywhere they encounter you. By the end, you will have a full set of standards and a catalog of assets that anyone on your team, or working with you, can pick up and apply correctly.
+The Brand System turns your identity into something people can see, hear, and recognize. First, you imagine your brand as a person, your Ambassador: how the Ambassador looks, behaves, and sounds, and the impression the Ambassador leaves. Then Style sets your colours, your typefaces and what each is for, and the size of each text level. Finally, Inventory gathers your icon, your logo, and the images that show your brand's character. The result is a set of brand standards that anyone working with you can apply the same way.
 
-## 03. Strategy System
+## 03. Business System
 
-The Strategy System is where you step back from day-to-day work and figure out where your organization is actually headed. It walks you through understanding your current situation, spotting real opportunities, and turning both into priorities and a practical plan you can act on. This is not a one-time exercise either, since the System is meant to be revisited and updated as circumstances change. When you are done, you will have a clear picture of your strengths and weaknesses, concrete goals, and a roadmap with indicators that tell you whether you are actually making progress.
+The Business System describes how your organization creates value and pays for itself. Foundation sets out your customer segments and profiles, your competitors, your value propositions, and your offerings. Customer Engagement records how customers find you, the relationships you keep with them, and how many sales to expect from each source. Infrastructure & Capability lists the founders, resources, activities, and partners you need, and checks that there are enough hours to deliver what you sell. Financial Foundation gathers your costs and works out how much funding you need. Financial Sustainability turns expected sales into revenue, finds your break-even point, and stress-tests the plan. From your answers, the app writes a Business Plan, a Business Model Canvas, and a Financial Forecast.
 
-## 04. Business System
+## 04. Strategy System
 
-The Business System documents the commercial engine behind your organization: how you create value, who you serve, and how that turns into revenue. It is useful any time you are building a business model, planning new commercial activity, or deciding where growth should come from next. Working through it forces you to be specific about your customers, your pricing, and which revenue streams actually matter most. What you end up with is a documented business model and a clear roadmap for revenue, so decisions about where to invest your time stop being guesswork.
+The Strategy System sets your direction for the next few years. Situation & Direction looks at where you are today, your strengths, weaknesses, opportunities, and threats, and your Strategic Compass: the way you will move towards your Vision. It also sets the Strategic Period and the Strategic Themes that frame the plan. Goals & Objectives turns each Theme into Goals, and each Goal into Objectives, each with dates, an owner, the Initiatives that deliver it, and the Metrics that show progress. Finally, the Roadmap lays every Objective across the Strategic Period, so you can see what happens when and review the plan as things change.
 
 ## 05. Client System
 

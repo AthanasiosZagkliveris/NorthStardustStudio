@@ -201,6 +201,14 @@
 
     color: var(--capability-color, #0b57d0);
 
-    font-weight: 700;
+    text-shadow: var(--hover-bold);
+
+}
+
+/* "CORE PRINCIPLE" -- bold, and the app's floor for bold text is
+   5%. It carried 4%, chosen before that rule existed. */
+.capability-description-principle-label {
+
+    letter-spacing: 0.05em;
 
 }

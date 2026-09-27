@@ -13,6 +13,7 @@ const Landing = lazy(() => import("./pages/Landing"));
 const SystemSelection = lazy(() => import("./pages/SystemSelection"));
 const Conversation = lazy(() => import("./pages/Conversation"));
 const CapabilityGenerator = lazy(() => import("./pages/CapabilityGenerator"));
+const BusinessDocuments = lazy(() => import("./pages/BusinessDocuments"));
 
 export default function App() {
 
@@ -40,6 +41,11 @@ export default function App() {
                 <Route
                     path="/conversation"
                     element={<Conversation />}
+                />
+
+                <Route
+                    path="/documents"
+                    element={<BusinessDocuments />}
                 />
 
                 <Route

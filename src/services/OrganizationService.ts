@@ -31,6 +31,65 @@ export interface OrganizationDocument {
     products: unknown[];
     selectedProductId?: string;
     /**
+     * Set once the Business and Strategy Systems' saved state has
+     * traded places, after the Business System became System 3 and
+     * the Strategy System System 4. See
+     * StorageService.swapBusinessAndStrategySequence -- which needs
+     * a flag rather than a structural test, since re-running the
+     * swap would undo it.
+     */
+    businessStrategySequenceSwapped?: boolean;
+    /**
+     * Set once the Business System's nine original Sections have
+     * been shifted from 1-9 to 2-10, making room for Foundation as
+     * Section 1. See
+     * StorageService.makeRoomForBusinessFoundationPage -- which must
+     * run exactly once, since shifting twice would move every answer
+     * two Sections away from its own page.
+     */
+    businessFoundationPageInserted?: boolean;
+    /**
+     * Set once the Business System's Sections 2-10 have been
+     * shifted to 3-11, making room for Customer Engagement as
+     * Section 2. See
+     * StorageService.makeRoomForCustomerEngagementPage -- which must
+     * run exactly once, for the same reason the Foundation shift
+     * above must.
+     */
+    customerEngagementPageInserted?: boolean;
+    /**
+     * Set once the Business System's Sections 3-11 have been
+     * shifted to 4-12, making room for Infrastructure & Capability
+     * as Section 3. See
+     * StorageService.insertBusinessSection, which performs all three
+     * of these insertions and explains why each needs a flag.
+     */
+    capabilityPageInserted?: boolean;
+    /**
+     * Set once Sections 4-12 have been shifted to 5-13, making room
+     * for Financial Foundation as Section 4.
+     */
+    financialFoundationPageInserted?: boolean;
+    /**
+     * Set once Sections 5-13 have been shifted to 6-14, making room
+     * for Financial Sustainability as Section 5.
+     */
+    financialSustainabilityPageInserted?: boolean;
+    /**
+     * Set once the Business System's nine original pages (Business
+     * Plan to Revenue Roadmap, Sections 6-14) have been retired,
+     * leaving the five-page structure. See
+     * StorageService.retireLegacyBusinessPages.
+     */
+    legacyBusinessPagesRetired?: boolean;
+    /**
+     * What was answered on those nine pages, set aside rather than
+     * deleted: out of the Business System's own responses, so a page
+     * later given one of their numbers never opens showing them, but
+     * still in the Organization's document.
+     */
+    retiredBusinessResponses?: unknown[];
+    /**
      * The Product Development System's Sections 2-7 (Product
      * Validation through Product Review) are answered separately
      * for EACH Product in the shared register, not once per
@@ -258,6 +317,56 @@ export class OrganizationService {
         };
 
         this.saveDocument(document);
+
+        return organization;
+
+    }
+
+    /**
+     * Adds an Organization from a document saved elsewhere -- another
+     * install, the browser preview, or an example file -- and returns
+     * its summary, or null when the file is not an Organization.
+     *
+     * It always arrives under a NEW id, so importing the same file
+     * twice gives two Organizations rather than one silently
+     * overwriting the other. Everything else is kept as it was,
+     * including the migration flags: an import saved after a
+     * migration must not be migrated a second time.
+     */
+    static importDocument(source: unknown): OrganizationSummary | null {
+
+        if (!source || typeof source !== "object" || Array.isArray(source)) {
+            return null;
+        }
+
+        const imported = source as Partial<OrganizationDocument>;
+
+        if (!imported.systems || typeof imported.systems !== "object") {
+            return null;
+        }
+
+        const name = typeof imported.name === "string" && imported.name.trim().length > 0
+            ? imported.name.trim()
+            : "Imported Organization";
+
+        const organization: OrganizationSummary = {
+            id: createOrganizationId(),
+            name,
+            createdAt: Date.now()
+        };
+
+        this.saveList([...this.list(), organization]);
+
+        this.saveDocument({
+            ...imported,
+            id: organization.id,
+            name,
+            createdAt: organization.createdAt,
+            systems: imported.systems,
+            products: Array.isArray(imported.products) ? imported.products : []
+        } as OrganizationDocument);
+
+        this.flushPendingWrites();
 
         return organization;
 

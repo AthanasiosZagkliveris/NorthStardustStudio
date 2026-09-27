@@ -5,12 +5,23 @@ interface InterviewHeaderProps {
     systemNumber: string;
     systemName: string;
     capabilityId?: string;
+
+    /**
+     * The current page's own title, joined onto the System title
+     * with a middle dot -- "1. Identity System · Definition: Who are
+     * you?". Passed only for a page that has moved its title up
+     * here (a column-layout Section; see Conversation.tsx), which
+     * then renders no separate heading of its own below. Omitted
+     * everywhere else, leaving the System title exactly as it was.
+     */
+    pageTitle?: string;
 }
 
 export default function InterviewHeader({
     systemNumber,
     systemName,
-    capabilityId
+    capabilityId,
+    pageTitle
 }: InterviewHeaderProps) {
 
     const color = getCapabilityColor(capabilityId);
@@ -35,6 +46,11 @@ export default function InterviewHeader({
 
                 <h1>
                     {systemNumber}. {systemName}
+                    {pageTitle && (
+                        <span className="interview-header-page-title">
+                            {` · ${pageTitle}`}
+                        </span>
+                    )}
                 </h1>
 
             </div>

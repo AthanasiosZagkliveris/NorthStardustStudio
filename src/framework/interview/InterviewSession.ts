@@ -104,7 +104,14 @@ export class InterviewSession {
     ): InterviewSession {
         const session = new InterviewSession(framework);
 
-        session.currentSectionIndex = state.currentSectionIndex ?? 0;
+        // Held inside the Framework as it is NOW: a session saved on a
+        // page that has since been removed opens on the last page,
+        // rather than on one that cannot be drawn. (-1, the
+        // Introduction, is left alone.)
+        session.currentSectionIndex = Math.min(
+            state.currentSectionIndex ?? 0,
+            Math.max(0, framework.sections.length - 1)
+        );
         session.capability = state.capability ?? "";
         session.interviewStarted = state.interviewStarted ?? false;
 

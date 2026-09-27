@@ -61,9 +61,11 @@
        Capability it's filed under. */
     color: var(--system-color, #000000);
 
-    transition:
-        color 0.15s ease,
-        font-weight 0.15s ease;
+    /* `font-weight` is deliberately NOT transitioned -- a
+       browser cannot interpolate between two static faces and
+       snaps part-way through, which showed as the label
+       shimmering under the pointer. */
+    transition: color 0.15s ease;
 }
 
 /* ==========================================================
@@ -76,9 +78,11 @@
 
     color: var(--system-color, #000000);
 
-    transition:
-        color 0.15s ease,
-        font-weight 0.15s ease;
+    /* `font-weight` is deliberately NOT transitioned -- a
+       browser cannot interpolate between two static faces and
+       snaps part-way through, which showed as the label
+       shimmering under the pointer. */
+    transition: color 0.15s ease;
 }
 
 /* ==========================================================
@@ -91,5 +95,24 @@
 
 .system-item:hover .system-number,
 .system-item:hover .system-title {
-    font-weight: 700;
+    text-shadow: var(--hover-bold);
+}
+/* ==========================================================
+   Tracking follows weight
+
+   Regular at rest, bold and 5% once hovered -- and held on one
+   line, because bold is wider and a title that re-wraps under
+   the pointer moves the thing being pointed at.
+========================================================== */
+
+.system-title,
+.system-number {
+    letter-spacing: 0;
+
+    white-space: nowrap;
+}
+
+.system-item:hover .system-number,
+.system-item:hover .system-title {
+    letter-spacing: 0.05em;
 }

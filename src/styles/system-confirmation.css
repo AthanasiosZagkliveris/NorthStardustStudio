@@ -97,9 +97,12 @@
 
     border-radius: 8px;
 
-    font-size: 18px;
+    font-size: 16px;
 
-    font-weight: 600;
+    font-weight: 500;
+
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 
     cursor: pointer;
 
@@ -126,6 +129,22 @@
 
     background: #eef4ff;
 
+    /* Bolds on hover, matching every other outlined "step back"
+       control in the app -- .secondary-button (workspace.css, the
+       interview's Previous/Introduction) and .back-link (the
+       Footer's Back). Without this, a dialog's Back/Cancel was the
+       only one of that family that stayed at its resting weight.
+       Drawn as a thickening rather than a weight change (see
+       --hover-bold in global.css), so the label does not shift
+       inside the button.
+
+       Deliberately NOT applied to .primary or .danger below:
+       those are the ACTION buttons (Forward / Continue / Delete),
+       and their counterpart .primary-button doesn't change weight
+       on hover either -- they signal hover with a background
+       shift instead. */
+    text-shadow: var(--hover-bold);
+
 }
 
 /* ==========================================================
@@ -144,6 +163,14 @@
 
     background: #0847ab;
 
+    /* Same reasoning as .primary-button:hover (workspace.css): the
+       background shift is perceptible on its own, but it was the
+       only cue, and a colour-only cue is the one that fails first
+       for reduced contrast sensitivity. Drawn as a thickening
+       rather than a weight change (see --hover-bold in
+       global.css), so the label does not move. */
+    text-shadow: var(--hover-bold);
+
 }
 
 /* ==========================================================
@@ -151,13 +178,24 @@
    an Organization on the Landing page)
 ========================================================== */
 
+/* #b00020 rather than the #d92d20 this rule used to carry. Two
+   reasons, and the first is a real failure: #d92d20 on this
+   button's own #fef2f2 hover tint measures 4.42:1, under the 4.5:1
+   AA needs for 16px text -- so the Delete button's label failed
+   contrast in exactly the state a user is in when about to click
+   it. (It only just cleared the bar at rest, 4.83:1, so any tint
+   pushed it under.) #b00020 measures 7.33:1 at rest and 6.70:1 on
+   the tint. Second, #b00020 is already this app's danger colour
+   everywhere else (conversation.css, landing.css); #d92d20 was a
+   one-off here, so this consolidates rather than inventing a
+   shade. */
 .confirmation-button.danger {
 
-    border-color: #d92d20;
+    border-color: #b00020;
 
     background: #ffffff;
 
-    color: #d92d20;
+    color: #b00020;
 
 }
 
@@ -165,4 +203,24 @@
 
     background: #fef2f2;
 
+    /* Non-colour hover cue, as on every other button. This one
+       needed it most: white -> #fef2f2 is a 1.09:1 shift, the
+       faintest hover in the app, on its most destructive action. */
+    text-shadow: var(--hover-bold);
+
+}
+/* ==========================================================
+   Wired buttons -- a doubled stroke on hover
+
+   The dialog's outlined buttons answer the pointer the way
+   every other wired button in the app does (see "Wired buttons"
+   in conversation.css): the 2px outline doubles to 4px, drawn
+   INSIDE as an inset shadow so the button keeps its 180x48 box
+   and the dialog's button row does not shift.
+========================================================== */
+
+.confirmation-button.secondary:hover,
+.confirmation-button.danger:hover {
+
+    box-shadow: inset 0 0 0 2px currentColor;
 }

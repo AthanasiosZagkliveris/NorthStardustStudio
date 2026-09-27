@@ -1,9 +1,11 @@
 .app-header {
 
-    height: 120px;
+    height: 80px;
 
     display: flex;
 
+    /* Centres the 60px logo inside the 80px band, leaving an
+       equal 10px above and below it. */
     align-items: center;
 
     padding: 0 28px;
@@ -35,7 +37,7 @@
 
 .app-logo {
 
-    height: 82px;
+    height: 60px;
 
     width: auto;
 
@@ -55,6 +57,11 @@
 
     font-size: 1.5rem;
     font-weight: 700;
+
+    /* Same all-caps + 10% tracking treatment the action buttons
+       and Back link use. */
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 
     color: #111827;
 

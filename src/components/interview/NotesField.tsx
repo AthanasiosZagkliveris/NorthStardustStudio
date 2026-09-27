@@ -10,6 +10,13 @@ interface NotesFieldProps {
 
     placeholder?: string;
 
+    /**
+     * Accessible name for the notes field -- see
+     * InterviewInput.ariaLabel. Its placeholder ("Add a note")
+     * says what to do, not which column it belongs to.
+     */
+    ariaLabel?: string;
+
     disabled?: boolean;
 
     /**
@@ -76,7 +83,9 @@ export default function NotesField({
 
     disabled = false,
 
-    className = ""
+    className = "",
+
+    ariaLabel
 
 }: NotesFieldProps) {
 
@@ -122,6 +131,8 @@ export default function NotesField({
             ref={setRef}
 
             className={`interview-input notes-field${className ? ` ${className}` : ""}`}
+
+            aria-label={ariaLabel}
 
             rows={1}
 

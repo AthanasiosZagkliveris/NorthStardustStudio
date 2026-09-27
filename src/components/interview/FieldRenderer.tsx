@@ -16,6 +16,12 @@ interface FieldRendererProps {
 
     disabled?: boolean;
 
+
+    /** Accessible name for the rendered control -- see
+     *  InterviewInput.ariaLabel. Sourced from the Table column
+     *  title by DynamicTable. */
+    ariaLabel?: string;
+
 }
 
 /**
@@ -56,7 +62,9 @@ function SelectFieldWithCustom({
 
     onChange,
 
-    disabled = false
+    disabled = false,
+
+    ariaLabel
 
 }: FieldRendererProps) {
 
@@ -85,6 +93,8 @@ function SelectFieldWithCustom({
 
             <InterviewInput
 
+                ariaLabel={ariaLabel}
+
                 mode="select"
 
                 value={customMode ? OTHER_OPTION_LABEL : currentValue}
@@ -112,6 +122,8 @@ function SelectFieldWithCustom({
             {customMode && (
 
                 <InterviewInput
+
+                ariaLabel={ariaLabel}
 
                     mode="input"
 
@@ -143,7 +155,9 @@ export default function FieldRenderer({
 
     onChange,
 
-    disabled = false
+    disabled = false,
+
+    ariaLabel
 
 }: FieldRendererProps) {
 
@@ -165,6 +179,8 @@ export default function FieldRenderer({
 
                         disabled={disabled}
 
+                        ariaLabel={ariaLabel}
+
                     />
 
                 );
@@ -174,6 +190,8 @@ export default function FieldRenderer({
             return (
 
                 <InterviewInput
+
+                ariaLabel={ariaLabel}
 
                     mode="select"
 
@@ -201,6 +219,8 @@ export default function FieldRenderer({
 
                 <InterviewInput
 
+                ariaLabel={ariaLabel}
+
                     mode="input"
 
                     value={String(value ?? "")}
@@ -220,6 +240,8 @@ export default function FieldRenderer({
             return (
 
                 <InterviewInput
+
+                ariaLabel={ariaLabel}
 
                     mode="textarea"
 

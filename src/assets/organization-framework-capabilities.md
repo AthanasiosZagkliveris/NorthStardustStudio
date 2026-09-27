@@ -9,7 +9,7 @@ The framework is built on six capabilities. Each covers a part of running an org
 
 Every organization runs on a handful of core decisions. Who we are, what we stand for, where we are heading, and how we create value. Most companies never write them down, so they live in the heads of two or three people. That works until the team grows and the founders are no longer in every conversation. Then two people describe the company two different ways, priorities shift for reasons nobody can explain, and the work slowly drifts from the intent behind it.
 
-Foundation is where those decisions get made on purpose and put in writing. It is built from four connected systems. Identity sets your core principles, Brand expresses them consistently, Strategy points your long term direction at them, and Business applies them to how you make money. Together they give the team a shared reference to check decisions against, so people can act independently without pulling in different directions.
+Foundation is where those decisions get made on purpose and put in writing. It is built from four connected systems. Identity sets your core principles, Brand expresses them consistently, Business applies them to how you make money, and Strategy points your long-term direction at them. Together they give the team a shared reference to check decisions against, so people can act independently without pulling in different directions.
 
 **Core principle:** Every organization has a foundation. The difference is whether it has been intentionally designed or unintentionally inherited.
 

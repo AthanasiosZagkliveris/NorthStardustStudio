@@ -34,9 +34,9 @@
 
     justify-content: center;
 
-    /* Clears the fixed app header (120px) plus the page's
+    /* Clears the fixed app header (80px) plus the page's
        own original 110px breathing room. */
-    padding-top: 230px;
+    padding-top: 190px;
     padding-bottom: 80px;
 
 }
@@ -65,9 +65,9 @@
     text-align: center;
 
     /* Same responsive scale as the bare h1 rule in global.css --
-       shrinks toward 28px on a narrow window, grows back to 48px
-       on a wide one. */
-    font-size: clamp(28px, 2vw + 20px, 48px);
+       shrinks toward 28px on a narrow window, grows back to 36px
+       on a wide one (36px being the app's largest type size). */
+    font-size: clamp(28px, 2vw + 20px, 36px);
     font-weight: 700;
     line-height: 1.2;
 
@@ -125,7 +125,7 @@
 
     border-color: #0b57d0;
 
-    box-shadow: 0 0 0 3px rgba(11,87,208,.10);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
 
 }
 
@@ -211,6 +211,6 @@
 
     border-color: #0b57d0;
 
-    box-shadow: 0 0 0 3px rgba(11,87,208,.10);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
 
 }

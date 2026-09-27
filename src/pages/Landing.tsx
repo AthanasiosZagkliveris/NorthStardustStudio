@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import AppHeader from "../components/AppHeader";
@@ -127,6 +127,76 @@ export default function Landing() {
 
     }
 
+    const importInputRef = useRef<HTMLInputElement | null>(null);
+
+    // Says why a chosen file could not be imported, until the next try.
+    const [importError, setImportError] = useState<string | null>(null);
+
+    /**
+     * Adds an Organization from a JSON file -- one saved from another
+     * install or the browser preview. It arrives as a new
+     * Organization and is selected, ready to open.
+     */
+    async function importOrganization(file: File) {
+
+        setImportError(null);
+
+        try {
+
+            const imported = OrganizationService.importDocument(JSON.parse(await file.text()));
+
+            if (!imported) {
+                setImportError("That file is not a North Stardust organization.");
+                return;
+            }
+
+            setOrganizations(OrganizationService.list());
+
+            OrganizationService.setSelected(imported.id);
+            setSelectedId(imported.id);
+
+        } catch {
+            setImportError("That file could not be read as an organization.");
+        }
+
+    }
+
+    /**
+     * Saves the selected Organization -- every System's answers -- as
+     * a JSON file: a backup, or a copy to Import on another install.
+     */
+    function exportOrganization() {
+
+        if (!selectedId) {
+            return;
+        }
+
+        OrganizationService.flushPendingWrites();
+
+        const document = OrganizationService.loadDocument(selectedId);
+
+        if (!document) {
+            return;
+        }
+
+        const slug = (document.name || "organization")
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "") || "organization";
+
+        const url = URL.createObjectURL(
+            new Blob([JSON.stringify(document, null, 2)], { type: "application/json" })
+        );
+
+        const link = window.document.createElement("a");
+        link.href = url;
+        link.download = slug + ".json";
+        link.click();
+
+        URL.revokeObjectURL(url);
+
+    }
+
     function renameOrganization(id: string, name: string) {
 
         OrganizationService.rename(id, name);
@@ -252,9 +322,38 @@ export default function Landing() {
                     }
                 >
 
+                    {/*
+                        role/tabIndex/onKeyDown mirror SystemItem and
+                        CapabilityList: selecting an Organization was
+                        mouse-only, so a keyboard user could reach this
+                        row's name field and Remove button but had no
+                        way to actually switch which Organization is
+                        selected.
+
+                        The `target === currentTarget` guard is what
+                        those two don't need: this row CONTAINS a text
+                        input, and keydown bubbles. Without the guard,
+                        typing a space into an Organization's name
+                        would both select the row and -- because of
+                        preventDefault below -- swallow the space, so
+                        names could never contain one. Restricting the
+                        handler to keys pressed on the row ITSELF keeps
+                        the field behaving normally.
+                    */}
                     <div
                         className="organization-row-main"
+                        role="button"
+                        tabIndex={0}
                         onClick={() => selectOrganization(organization.id)}
+                        onKeyDown={(event) => {
+                            if (event.target !== event.currentTarget) {
+                                return;
+                            }
+                            if (event.key === "Enter" || event.key === " ") {
+                                event.preventDefault();
+                                selectOrganization(organization.id);
+                            }
+                        }}
                     >
 
                         <h1 className="organization-name">
@@ -266,6 +365,7 @@ export default function Landing() {
                             <input
                                 type="text"
                                 className="organization-name-input"
+                                aria-label={`Organization ${index + 1} name`}
                                 placeholder="Organization name"
                                 value={organization.name}
                                 onChange={(event) =>
@@ -281,10 +381,14 @@ export default function Landing() {
                         type="button"
                         className="organization-remove"
                         aria-label={`Remove ${organization.name || "organization"}`}
-                        title="Remove organization"
+                        title="Remove Organization"
                         onClick={() => requestRemoveOrganization(organization.id)}
                     >
-                        &minus;
+                        {/* A fallback only -- the X actually shown
+                            is drawn in CSS so it sits dead centre
+                            at any size. See "Delete controls" in
+                            conversation.css. */}
+                        ×
                     </button>
 
                 </div>
@@ -300,6 +404,43 @@ export default function Landing() {
         >
             + Add Organization
         </button>
+
+        <button
+            type="button"
+            className="organization-add-button"
+            onClick={() => importInputRef.current?.click()}
+        >
+            Import Organization
+        </button>
+
+        <button
+            type="button"
+            className="organization-add-button"
+            disabled={!selectedId}
+            title={selectedId ? undefined : "Select an Organization to export"}
+            onClick={exportOrganization}
+        >
+            Export Organization
+        </button>
+
+        <input
+            ref={importInputRef}
+            type="file"
+            accept="application/json,.json"
+            hidden
+            aria-label="Organization file to import"
+            onChange={(event) => {
+                const file = event.target.files?.[0];
+                event.target.value = "";
+                if (file) {
+                    void importOrganization(file);
+                }
+            }}
+        />
+
+        {importError && (
+            <p className="organization-hint" role="alert">{importError}</p>
+        )}
 
         {organizations.length === 0 && (
             <p className="organization-hint">

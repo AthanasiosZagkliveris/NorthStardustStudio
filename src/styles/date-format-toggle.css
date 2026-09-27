@@ -34,7 +34,9 @@
     color:#0b57d0;
 
     font:inherit;
-    font-size:13px;
+    /* The app's button tier (Headings 36 / Subheadings 24 / Text
+       18 / Buttons 16). */
+    font-size:16px;
     font-weight:700;
 
     cursor:pointer;

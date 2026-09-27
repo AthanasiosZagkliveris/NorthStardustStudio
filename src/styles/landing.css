@@ -9,10 +9,11 @@
     justify-content: center;
     align-items: center;
 
-    /* Top padding clears the fixed AppHeader (120px) now that
+    /* Top padding clears the fixed AppHeader (80px) now that
        this page renders one too (item 3), same pattern every
-       other page follows (see app-header.css). */
-    padding: 152px 4vh 4vh;
+       other page follows (see app-header.css), plus the page's
+       own original 32px breathing room. */
+    padding: 112px 4vh 4vh;
 }
 
 .landing-cards {
@@ -57,7 +58,7 @@
 .landing-card:hover {
 
     color: #0b57d0;
-    font-weight: 700;
+    text-shadow: var(--hover-bold);
 
     transform: translateY(-3px);
 
@@ -136,7 +137,7 @@
 
     padding: 14px 22px;
 
-    border: 1px solid #d6d6d6;
+    border: 1px solid #767676;
     border-radius: 12px;
 
     background: #ffffff;
@@ -162,7 +163,7 @@
     border-color: #0b57d0;
 
     box-shadow:
-        0 0 0 4px rgba(11, 87, 208, .18),
+        0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent),
         0 10px 24px rgba(17, 24, 39, .16);
 
     z-index: 2;
@@ -172,7 +173,7 @@
 
     border-color: #0b57d0;
 
-    box-shadow: 0 0 0 4px rgba(11, 87, 208, .18);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
 
     z-index: 2;
 }
@@ -239,12 +240,30 @@
 .organization-name-input:focus {
 
     background: #eaf2ff;
+
+    /* The background tint alone is #eaf2ff -- the SAME colour the
+       selected row already uses (see
+       .organization-row-selected .organization-row-main above), so
+       on the selected row (the normal case) focusing this field
+       produced no visible change at all, and on an empty field
+       there wasn't even a text-selection highlight to fall back
+       on. The ring is independent of both backgrounds. */
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
 }
 
+/* The app's one card/box delete control -- same size, drawn X,
+   border and hover as `.profile-card-remove` /
+   `.brand-holder-clear` / `.strategy-box-remove`, which are
+   defined together under "Delete controls" in conversation.css
+   (see there for why the X is two rotated bars rather than a
+   typed character). Kept in step by hand: this page does not
+   load that stylesheet. */
 .organization-remove {
 
-    width: 36px;
-    height: 36px;
+    position: relative;
+
+    width: 32px;
+    height: 32px;
 
     flex-shrink: 0;
 
@@ -252,31 +271,71 @@
     align-items: center;
     justify-content: center;
 
-    border: 1px solid #d6d6d6;
-    border-radius: 8px;
+    padding: 0;
+
+    border: 1px solid #767676;
+    border-radius: 6px;
 
     background: #ffffff;
 
     color: #111827;
 
-    font-size: 16px;
+    font: inherit;
+    font-size: 0;
     line-height: 1;
 
     cursor: pointer;
 
     transition:
-        background-color .2s ease,
-        border-color .2s ease,
-        color .2s ease;
+        background-color .15s ease,
+        border-color .15s ease,
+        color .15s ease;
+}
+
+.organization-remove::before,
+.organization-remove::after {
+
+    content: "";
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 14px;
+    height: 2px;
+
+    margin: -1px 0 0 -7px;
+
+    border-radius: 1px;
+
+    background: currentColor;
+}
+
+.organization-remove::before {
+    transform: rotate(45deg);
+}
+
+.organization-remove::after {
+    transform: rotate(-45deg);
 }
 
 .organization-remove:hover {
 
-    background: #fdecea;
+    background: #d01818;
 
-    border-color: #b00020;
+    border-color: #d01818;
 
-    color: #b00020;
+    color: #ffffff;
+}
+
+.organization-remove:focus-visible {
+
+    outline: none;
+
+    border-color: #0b57d0;
+
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
 }
 
 .organization-add-button {
@@ -353,7 +412,7 @@
 
     padding: 12px 18px;
 
-    border: 1px solid #d6d6d6;
+    border: 1px solid #767676;
     border-radius: 12px;
 
     background: #ffffff;
@@ -373,7 +432,7 @@
 
     border-color: #0b57d0;
 
-    box-shadow: 0 0 0 4px rgba(11, 87, 208, .18);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
 }
 
 /* ==========================================================
@@ -407,4 +466,23 @@
     letter-spacing: .4px;
 
     color: #6b7280;
+}
+/* The Organization titles on the landing page. 5% tracking, the
+   same every bold title in the app carries -- bold sets tighter
+   than regular at the same size, and these are what a reader
+   scans the list by. */
+.organization-name {
+
+    letter-spacing: 0.05em;
+
+}
+
+/* Bold labels on the landing page, brought up to the app's 5%
+   floor for bold text from the 0.4px (~3%) they carried. */
+.user-name-label,
+.user-name-input,
+.user-preferences-label {
+
+    letter-spacing: 0.05em;
+
 }

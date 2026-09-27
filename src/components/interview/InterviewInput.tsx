@@ -9,6 +9,23 @@ interface InterviewInputProps {
     className?: string;
     mode?: "textarea" | "input" | "select";
     options?: string[];
+
+    /**
+     * The control's accessible name -- what a screen reader
+     * announces when focus lands on it.
+     *
+     * Needed because these controls carry no visible <label>: the
+     * thing naming them is a Table column header, a Multi-Part
+     * column title, or a Section heading elsewhere in the DOM. A
+     * `placeholder` is NOT a substitute -- it disappears as soon as
+     * the field has content, and is announced inconsistently -- so
+     * without this every field announced only as "edit text", with
+     * no way to tell one from another.
+     *
+     * Optional so existing call sites are unaffected; supplied
+     * wherever the caller knows the field's own title.
+     */
+    ariaLabel?: string;
 }
 
 export default function InterviewInput({
@@ -19,7 +36,8 @@ export default function InterviewInput({
     disabled = false,
     className = "interview-input",
     mode = "textarea",
-    options = []
+    options = [],
+    ariaLabel
 }: InterviewInputProps) {
 
     // Called unconditionally (mode can switch, and the "input"/"select"
@@ -32,6 +50,7 @@ export default function InterviewInput({
         return (
             <input
                 className={className}
+                aria-label={ariaLabel}
                 type="text"
                 value={value}
                 placeholder={placeholder}
@@ -45,6 +64,7 @@ export default function InterviewInput({
         return (
             <select
                 className={className}
+                aria-label={ariaLabel}
                 value={value}
                 disabled={disabled}
                 onChange={(event) => onChange(event.target.value)}
@@ -74,6 +94,7 @@ export default function InterviewInput({
         <textarea
             ref={listAutoFormat.textareaRef}
             className={className}
+            aria-label={ariaLabel}
             value={value}
             rows={rows}
             placeholder={placeholder}

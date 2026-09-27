@@ -20,12 +20,12 @@
     justify-content: center;
     align-items: flex-start;
 
-    /* Top padding clears the fixed app header (120px) plus
+    /* Top padding clears the fixed app header (80px) plus
        the page's own original 72px breathing room; bottom
        padding clears the fixed footer below -- so content is
        never hidden behind either regardless of how tall the
        page is. */
-    padding: 192px 40px 124px;
+    padding: 152px 40px 124px;
 
 }
 
@@ -75,9 +75,9 @@
     margin: 0;
 
     /* Same responsive scale as the bare h1 rule in global.css --
-       shrinks toward 28px on a narrow window, grows back to 48px
-       on a wide one. */
-    font-size: clamp(28px, 2vw + 20px, 48px);
+       shrinks toward 28px on a narrow window, grows back to 36px
+       on a wide one (36px being the app's largest type size). */
+    font-size: clamp(28px, 2vw + 20px, 36px);
     font-weight: 700;
     line-height: 1.2;
 
@@ -155,8 +155,12 @@
     display: flex;
     flex-direction: column;
 
-    width: 280px;
-    min-width: 280px;
+    /* 300, not 280. "Manage the Organization" measures 261px
+       bold at 5% tracking, and 280 left only 248 inside the
+       row's padding -- so the label re-wrapped the instant it
+       went bold on hover. */
+    width: 300px;
+    min-width: 300px;
 
     margin-left: 50px;
 
@@ -167,8 +171,12 @@
     display: flex;
     flex-direction: column;
 
-    width: 350px;
-    min-width: 350px;
+    /* 380, not 350. "Product Development System" measures 307px
+       bold at 5% tracking, and 350 left only 284 beside the
+       number and inside the row padding -- so it ran out of room
+       the moment it went bold on hover. */
+    width: 380px;
+    min-width: 380px;
 
 }
 
@@ -189,7 +197,7 @@
     right: 0;
     bottom: 0;
 
-    height: 84px;
+    height: 64px;
 
     background: #ffffff;
 
@@ -204,7 +212,16 @@
     position: absolute;
 
     right: 48px;
-    bottom: 32px;
+
+    /* Vertically centred in the footer band rather than pinned a
+       fixed distance from its bottom edge, so it stays centred if
+       the footer's height changes again. */
+    top: 0;
+    bottom: 0;
+
+    height: fit-content;
+
+    margin: auto 0;
 
     display: flex;
 
@@ -221,7 +238,15 @@
     position: absolute;
 
     left: 48px;
-    bottom: 32px;
+
+    /* Vertically centred in the footer band -- same reasoning as
+       .workspace-footer-actions above. */
+    top: 0;
+    bottom: 0;
+
+    height: fit-content;
+
+    margin: auto 0;
 
     display: inline-flex;
 
@@ -239,8 +264,11 @@
 
     font: inherit;
 
-    font-size: 18px;
-    font-weight: 400;
+    font-size: 16px;
+    font-weight: 500;
+
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 
     color: #111827;
 
@@ -259,7 +287,9 @@
 
     color: #0b57d0;
 
-    font-weight: 700;
+    /* See --hover-bold in global.css: thickened, not re-weighted,
+       so the link does not change width under the pointer. */
+    text-shadow: var(--hover-bold);
 
     text-decoration: none;
 
@@ -289,8 +319,13 @@
     color: #ffffff;
 
     font: inherit;
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 500;
+
+    /* All-caps with 10% tracking -- the shared treatment for every
+       action button and the Back link. */
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 
     cursor: pointer;
 
@@ -303,6 +338,20 @@
 .primary-button:hover:not(:disabled) {
 
     background: #0847b5;
+
+    /* A second, non-colour hover cue, matching .secondary-button
+       and .back-link. The background shift alone is perceptible
+       (measured dE2000 5.94, and it survives all three types of
+       colour blindness because it's a lightness change rather than
+       a hue change) -- but the two states differ by only 1.28:1 in
+       contrast, which is weak for reduced contrast sensitivity
+       (cataracts, glaucoma, age-related loss), and colour was the
+       ONLY thing distinguishing them. Weight doesn't depend on
+       either colour perception or contrast sensitivity.
+       Drawn as a thickening rather than a weight change (see
+       --hover-bold in global.css), so the label does not shift
+       inside the button either. */
+    text-shadow: var(--hover-bold);
 
 }
 
@@ -330,7 +379,7 @@
 
     padding: 0 28px;
 
-    border: 1px solid #d6d6d6;
+    border: 1px solid #767676;
     border-radius: 8px;
 
     background: #ffffff;
@@ -338,8 +387,11 @@
     color: #111827;
 
     font: inherit;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
+
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 
     cursor: pointer;
 
@@ -357,7 +409,7 @@
 
     color: #0b57d0;
 
-    font-weight: 700;
+    text-shadow: var(--hover-bold);
 
 }
 
@@ -367,4 +419,78 @@
 
     cursor: not-allowed;
 
+}
+/* The System Selection page's titles. 5% tracking, matching every
+   other bold title in the app -- bold sets tighter than regular at
+   the same size, and these are the headings a reader scans the
+   page by.
+
+   Not applied to the small caps-style labels around them
+   (.org-rail-name, .capability-description-principle-label and the
+   like): those already carry their own tracking chosen for their
+   size, and they are labels rather than titles. */
+.workspace-title,
+.workspace-subtitle,
+.workspace-current-capability,
+.capability-description-title {
+
+    letter-spacing: 0.05em;
+
+}
+
+/* The way to the Business Plan and Canvas, under the Foundation Systems. */
+.workspace-documents{
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+
+    margin-top: 28px;
+    padding: 16px 20px;
+
+    border: 1px solid #d6d3cc;
+    border-radius: 10px;
+
+    background: #faf9f6;
+
+}
+
+.workspace-documents-text{
+
+    margin: 0;
+    flex: 1 1 280px;
+
+    font-size: 16px;
+    line-height: 1.5;
+    color: #374151;
+
+}
+
+.workspace-documents-button{
+
+    padding: 10px 20px;
+
+    border: 1px solid #0f172a;
+    border-radius: 8px;
+
+    background: #0f172a;
+
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+}
+
+.workspace-documents-button:hover{
+    background: #1e293b;
+}
+
+.workspace-documents-button:focus-visible{
+    outline: 2px solid #0b57d0;
+    outline-offset: 2px;
 }

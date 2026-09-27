@@ -1,0 +1,178 @@
+/* ==========================================================
+   Delivery and capacity (Business System, Page 3)
+
+   The founders' hours on each Founder card, and 4. Delivery under
+   Offering's Capability: one card per Offering, and the capacity
+   line above them. Built on the page's own card, field and
+   inline-label styles (conversation.css); only what is new here.
+========================================================== */
+
+/* Working and delivery hours side by side while the card has room
+   for both, one under the other when it does not. */
+.delivery-founder-hours,
+.delivery-inline-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit, minmax(190px, 1fr));
+
+    gap:8px 16px;
+
+    align-items:start;
+
+    min-width:0;
+
+}
+
+/* A narrower label column than the page's 7.5rem: these labels are
+   short, and the box beside them holds a few digits. */
+/* A few digits: no need for the full width. */
+.delivery-number.interview-input{
+
+    max-width:8rem;
+
+}
+
+/* The hours worked out, and the note on where they are used. */
+.delivery-muted{
+
+    margin:4px 0 0;
+
+    font-size:16px;
+
+    color:#4b5563;
+
+}
+
+.delivery-capacity{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:2px;
+
+    margin:0 0 12px;
+
+}
+
+.delivery-capacity-line{
+
+    margin:0;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    color:#374151;
+
+}
+
+/* One founder's delivery hours a line, under the total. */
+.delivery-capacity-breakdown{
+
+    margin:0;
+
+    padding-left:1.1rem;
+
+    font-size:16px;
+
+    color:#374151;
+
+}
+
+/* Effort by person: one line each, the name, a few digits, "h". */
+.delivery-people{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:4px;
+
+    min-width:0;
+
+}
+
+.delivery-person{
+
+    display:grid;
+
+    grid-template-columns:minmax(0, 1fr) 4.5rem auto;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+.delivery-person-name{
+
+    min-width:0;
+
+    overflow-wrap:anywhere;
+
+    font-size:16px;
+
+    color:#374151;
+
+}
+
+.delivery-person-kind{
+
+    color:#4b5563;
+
+    font-size:16px;
+
+}
+
+.delivery-person-hours.interview-input{
+
+    max-width:4.5rem;
+
+    text-align:right;
+
+}
+
+.delivery-person-unit{
+
+    font-size:16px;
+
+    color:#4b5563;
+
+}
+
+/* Total per unit, with the "i" on what a unit is. */
+.delivery-total{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    margin:6px 0 0;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    color:#374151;
+
+}
+
+/* Pace and monthly load on each Offering card. */
+.delivery-pace{ margin:8px 0; padding:8px 12px; border-left:3px solid #c7d2fe; background:#f8fafc; border-radius:4px; }
+.delivery-pace p{ margin:4px 0; font-size:16px; color:#374151; }
+
+/* Each founder's month, as a budget. */
+.delivery-budget{ margin:12px 0; max-width:560px; }
+.delivery-budget-table{ width:100%; border-collapse:collapse; font-size:16px; }
+.delivery-budget-table caption{ text-align:left; font-weight:600; margin-bottom:4px; color:#1f2937; }
+.delivery-budget-table th{ text-align:left; font-weight:400; padding:3px 8px 3px 0; color:#374151; overflow-wrap:break-word; }
+.delivery-budget-table td{ text-align:right; padding:3px 0; white-space:nowrap; color:#1f2937; }
+.delivery-budget-left th, .delivery-budget-left td{ font-weight:600; border-top:1px solid #d1d5db; padding-top:5px; }
+.delivery-budget-short th, .delivery-budget-short td{ color:#b91c1c; }
+.delivery-budget-bar{ height:8px; margin-top:6px; background:#e5e7eb; border-radius:4px; overflow:hidden; }
+.delivery-budget-fill{ display:block; height:100%; background:#4f46e5; border-radius:4px; }
+.delivery-budget-fill-short{ background:#b91c1c; }

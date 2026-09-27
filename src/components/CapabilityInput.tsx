@@ -48,6 +48,8 @@ export default function CapabilityInput({
 
                     className="capability-input"
 
+                    aria-label="Capability to create"
+
                     type="text"
 
                     value={value}

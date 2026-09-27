@@ -33,22 +33,38 @@
        colour is what identifies it at a glance. */
     color: var(--capability-color, #333333);
 
+    /* Tracking follows weight: none while regular, 5% once bold.
+       Stated here rather than left to inherit, so the label is
+       set the same way whatever wraps it. */
+    letter-spacing: 0;
+
+    /* One line, always. Bold text is wider, and re-wrapping a
+       label the moment the pointer touches it is the jump this
+       avoids -- the row is sized for the bold width below. */
+    white-space: nowrap;
+
+    /* `font-weight` is deliberately NOT transitioned. A browser
+       cannot interpolate between two static faces, so it snaps
+       part-way through -- which is the flicker between the
+       regular and bold widths that showed while hovering. */
     transition:
         background-color 0.15s ease,
-        color 0.15s ease,
-        font-weight 0.15s ease;
+        color 0.15s ease;
+}
+
+.capability-item:hover,
+.capability-item.active {
+    text-shadow: var(--hover-bold);
+
+    letter-spacing: 0.05em;
 }
 
 .capability-item:hover {
     background: color-mix(in srgb, var(--capability-color, #0b57d0) 12%, white);
-
-    font-weight: 700;
 }
 
 .capability-item.active {
     background: color-mix(in srgb, var(--capability-color, #0b57d0) 16%, white);
-
-    font-weight: 700;
 }
 
 .capability-item:last-child {

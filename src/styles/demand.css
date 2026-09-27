@@ -1,0 +1,400 @@
+/* ==========================================================
+   Demand & Conversion (Business System, Page 2)
+
+   One group at the foot of each Offering's relationship card: how
+   the Offering is bought, the sources its customers come from (each
+   a small card), and the Expected Sales they add up to. Compact and optional, drawn in
+   the Segment's own hue like everything else on the page.
+========================================================== */
+
+.business-demand-cell{
+
+    padding:12px 16px 14px;
+
+}
+
+.business-demand{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+.business-demand-head{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:2px;
+
+}
+
+.business-demand-title{
+
+
+}
+
+.business-demand-title-row{
+
+    display:flex;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:6px 10px;
+
+}
+
+.business-demand-folded-result{
+
+    margin-left:auto;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    color:#111827;
+
+}
+
+.business-demand-purpose{
+
+    margin:0;
+
+    font-size:16px;
+
+    line-height:1.4;
+
+    color:#4b5563;
+
+}
+
+/* The model picker: label beside it, no wider than its labels need. */
+.business-demand-model .business-field-inline{
+
+    grid-template-columns:auto minmax(0, 20rem);
+
+}
+
+/* SEVERAL FIGURES TO A LINE, each label beside its box: the same idea
+   as the Financial Sustainability inline grid, sized for short numbers. */
+.business-demand-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+
+    gap:8px 20px;
+
+    align-items:start;
+
+}
+
+.business-demand-grid .business-field-inline{
+
+    grid-template-columns:8.5rem minmax(0, 1fr);
+
+}
+
+.business-demand-number{
+
+    max-width:9rem;
+
+}
+
+/* CUSTOMER SOURCES: one small card each. Its head names the source
+   and what it gives; beneath, four columns with labels above (the
+   source, how it is estimated, then its figure or calculation), as
+   on the Revenue Stream cards; then its basis. */
+.business-demand-sources{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+.business-demand-source{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+    padding:10px 14px 12px;
+
+    border:1px solid hsl(var(--strategy-theme-hue, 0) 30% 84%);
+
+    border-radius:6px;
+
+    background:rgba(255, 255, 255, 0.6);
+
+}
+
+.business-demand-source-head{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.business-demand-source-title{
+
+    font-size:18px;
+
+    font-weight:700;
+
+
+
+    color:#374151;
+
+}
+
+.business-demand-source-result{
+
+    margin-left:auto;
+
+    padding:2px 10px;
+
+    border-radius:999px;
+
+    background:hsl(var(--strategy-theme-hue, 0) 62% 93%);
+
+    font-size:16px;
+
+    font-weight:700;
+
+    color:#111827;
+
+    white-space:nowrap;
+
+}
+
+.business-demand-source-pending{
+
+    background:#f3f4f6;
+
+    font-weight:600;
+
+    color:#6b7280;
+
+}
+
+/* With no result shown, the remove button still sits on the right. */
+.business-demand-source-head > :last-child{
+
+    margin-left:auto;
+
+}
+
+.business-demand-source-result + :last-child{
+
+    margin-left:0;
+
+}
+
+.business-demand-fields{
+
+    display:grid;
+
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+
+    gap:10px 20px;
+
+    align-items:start;
+
+}
+
+.business-demand-fields .business-foundation-field{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:4px;
+
+    min-width:0;
+
+}
+
+.business-demand-fields .business-foundation-label-info,
+.business-demand-fields > .business-foundation-field > .business-foundation-label{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    min-height:28px;
+
+    white-space:nowrap;
+
+}
+
+.business-demand-fields .business-demand-number{
+
+    max-width:none;
+
+    width:100%;
+
+}
+
+/* A calculation's inputs start a new row. */
+.business-demand-break{
+
+    grid-column:1 / -1;
+
+    height:0;
+
+}
+
+.business-demand-source-note{
+
+    margin:0;
+
+    font-size:16px;
+
+    line-height:1.4;
+
+    color:#4b5563;
+
+}
+
+.business-demand-basis{
+
+    min-height:0;
+
+}
+
+.business-demand-working{
+
+    margin:4px 0 0;
+
+    padding-left:18px;
+
+}
+
+.business-demand-working li + li{
+
+    margin-top:2px;
+
+}
+
+@media (max-width:1000px){
+
+    .business-demand-fields{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+
+}
+
+@media (max-width:560px){
+
+    .business-demand-fields{ grid-template-columns:minmax(0, 1fr); }
+
+}
+
+/* THE ANSWER, set apart in the Segment's tint so it reads as what
+   the figures above give rather than another thing to fill in. */
+.business-demand-result{
+
+    padding:8px 12px;
+
+    border-left:4px solid hsl(var(--strategy-theme-hue, 0) 40% 44%);
+
+    border-radius:4px;
+
+    background:hsl(var(--strategy-theme-hue, 0) 62% 95%);
+
+}
+
+.business-demand-result p{
+
+    margin:0;
+
+}
+
+.business-demand-result-main{
+
+    font-size:18px;
+
+    font-weight:700;
+
+    line-height:1.4;
+
+    color:#111827;
+
+}
+
+.business-demand-working,
+.business-demand-result-empty,
+.business-demand-footnote{
+
+    font-size:16px;
+
+    line-height:1.4;
+
+    color:#4b5563;
+
+}
+
+.business-demand-channels{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:4px;
+
+}
+
+.business-demand-ticks{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:4px 16px;
+
+}
+
+.business-demand-ticks > .business-foundation-tick{
+
+    flex:0 0 auto;
+
+}
+
+.business-demand-footnote{
+
+    margin:0;
+
+
+}
+
+@media (max-width:640px){
+
+    .business-demand-grid .business-field-inline,
+    .business-demand-model .business-field-inline{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+    .business-demand-grid .business-field-inline > :not(:first-child),
+    .business-demand-model .business-field-inline > :not(:first-child){
+
+        grid-column:1;
+
+    }
+
+}

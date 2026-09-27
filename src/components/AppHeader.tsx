@@ -1,4 +1,4 @@
-import logo from "../assets/logo.png";
+import logo from "../assets/NORTH STARDUST Organization Framework.svg";
 
 import "../styles/app-header.css";
 

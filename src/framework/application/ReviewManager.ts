@@ -1,6 +1,6 @@
 import { InterviewSession } from "../interview";
 
-import { ValidationResult } from "../model";
+import { AnswerDefinition, ValidationResult } from "../model";
 
 import { InterviewValidator } from "../engine/InterviewValidator";
 import { MarkdownExporter } from "../engine/MarkdownExporter";
@@ -40,11 +40,13 @@ export class ReviewManager {
      * Validates an Interview Session.
      */
     public validate(
-        session: InterviewSession
+        session: InterviewSession,
+        resolveSharedValue?: (answer: AnswerDefinition) => unknown
     ): ValidationResult {
 
         return this.validator.validate(
-            session
+            session,
+            resolveSharedValue
         );
 
     }

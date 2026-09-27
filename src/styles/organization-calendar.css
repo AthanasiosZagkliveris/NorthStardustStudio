@@ -1,8 +1,8 @@
 /* ==========================================================
    Organization navigation rail -- a slide-in panel docked to the
    left edge of the window (see OrganizationCalendarPanel.tsx),
-   positioned between the fixed AppHeader (120px) and AppFooter
-   (84px) so it never covers either one. System Selection page
+   positioned between the fixed AppHeader (80px) and AppFooter
+   (64px) so it never covers either one. System Selection page
    only. Collapsed, only its three stacked "tab" handles
    (`.org-rail-handle`: Calendar / Capabilities / System) are
    visible; hovering any one of them widens the panel, sliding in
@@ -21,8 +21,8 @@
        and AppFooter's own fixed height (see workspace.css'
        `.workspace-footer`) exactly, so the panel's own visible
        band sits precisely between them, never overlapping. */
-    top:120px;
-    bottom:84px;
+    top:80px;
+    bottom:64px;
 
     /* Below the header (40) and footer (30)... except those two
        don't actually overlap this panel spatially at all (the
@@ -45,8 +45,8 @@
     /* 44px handle column + 460px content card (see `.org-calendar-
        content` below) -- wide enough that even the longest System
        title ("Product Development System") stays on one line at
-       this card's 20px type size, in BOTH its regular and hover
-       (bold) weights, with room to spare. */
+       this card's type size, in BOTH its regular and hover (bold)
+       weights, with room to spare. */
     width:504px;
 
 }
@@ -117,10 +117,10 @@
 
     text-orientation:mixed;
 
-    font-size:10px;
+    font-size:16px;
     font-weight:700;
 
-    letter-spacing:0.6px;
+    letter-spacing:0.05em;
 
     text-transform:uppercase;
 
@@ -200,10 +200,10 @@
 
     text-orientation:mixed;
 
-    font-size:10px;
+    font-size:16px;
     font-weight:700;
 
-    letter-spacing:0.6px;
+    letter-spacing:0.05em;
 
     text-transform:uppercase;
 
@@ -325,7 +325,8 @@
 
     margin-bottom:6px;
 
-    font-size:11px;
+    /* Text tier. */
+    font-size:18px;
     font-weight:700;
 
     text-transform:uppercase;
@@ -352,20 +353,21 @@
 
 .org-calendar-month-nav-button{
 
-    width:26px;
-    height:26px;
+    width:30px;
+    height:30px;
 
     display:inline-flex;
 
     align-items:center;
     justify-content:center;
 
-    border:1px solid #d6d6d6;
+    border:1px solid #767676;
     border-radius:6px;
 
     background:#ffffff;
 
-    font-size:15px;
+    /* Button tier. */
+    font-size:16px;
     line-height:1;
 
     cursor:pointer;
@@ -388,7 +390,7 @@
 
     text-align:center;
 
-    font-size:14px;
+    font-size:18px;
     font-weight:700;
 
     color:#111827;
@@ -415,7 +417,8 @@
 
     text-align:center;
 
-    font-size:10px;
+    /* Text tier. */
+    font-size:18px;
     font-weight:700;
 
     color:#5f6368;
@@ -535,23 +538,39 @@
 
 }
 
+/* Text tier, at a line box no taller than the digits need: the
+   cell is a fixed 56.57px square (see `.org-calendar-day` above)
+   and the body's 1.5 line-height would spend 27px of it on one
+   number. */
 .org-calendar-day-number{
 
-    font-size:12px;
+    font-size:18px;
+    line-height:1.15;
 
     color:#111827;
 
 }
 
+/* Laid across rather than down. A column of up to four 6px dots
+   is 30px tall, which fit under a 12px number and does not fit
+   under an 18px one -- the cell cannot grow, since its height is
+   derived from its own width to keep it square. Side by side the
+   whole row is 6px tall and the dots read as one group belonging
+   to the date above them. */
 .org-calendar-day-dots{
 
     display:flex;
 
-    flex-direction:column;
+    flex-direction:row;
 
     align-items:center;
+    justify-content:center;
 
+    /* 2px, not 3: three 6px dots plus the "+N" badge beside them
+       have to stay inside the cell's own 50.5px of content. */
     gap:2px;
+
+    max-width:100%;
 
 }
 
@@ -568,8 +587,9 @@
 
 .org-calendar-day-dot-overflow{
 
-    font-size:8px;
+    font-size:18px;
     font-weight:700;
+    line-height:1;
 
     color:#0b57d0;
 
@@ -589,7 +609,7 @@
 
     margin:0 0 8px;
 
-    font-size:13px;
+    font-size:18px;
     font-weight:700;
 
     color:#111827;
@@ -600,7 +620,8 @@
 
     margin:0 0 10px;
 
-    font-size:13px;
+    /* Text tier. */
+    font-size:18px;
 
     color:#5f6368;
 
@@ -648,10 +669,9 @@
    up. */
 .org-calendar-task-origin{
 
-    font-size:20px;
+    /* Text tier. */
+    font-size:18px;
     font-weight:700;
-
-    letter-spacing:0.2px;
 
 }
 
@@ -666,7 +686,8 @@
     color:#0b57d0;
 
     font:inherit;
-    font-size:12px;
+    /* Button tier. */
+    font-size:16px;
     font-weight:700;
 
     padding:0;
@@ -683,7 +704,8 @@
 
 .org-calendar-task-description{
 
-    font-size:20px;
+    /* Text tier. */
+    font-size:18px;
 
     color:#111827;
 
@@ -718,12 +740,11 @@
 
     gap:4px;
 
-    font-size:11px;
+    /* Text tier. */
+    font-size:18px;
     font-weight:700;
 
     text-transform:uppercase;
-
-    letter-spacing:0.4px;
 
     color:#5f6368;
 
@@ -823,7 +844,8 @@
     color:var(--capability-color, #333333);
 
     font:inherit;
-    font-size:20px;
+    /* Text tier. */
+    font-size:18px;
     font-weight:500;
     line-height:1.3;
 
@@ -832,7 +854,11 @@
 
     cursor:pointer;
 
-    transition:background-color .15s ease, font-weight .15s ease;
+    /* `font-weight` is deliberately NOT transitioned -- a browser
+       cannot interpolate between two static faces and snaps
+       part-way through, which showed as the label shimmering
+       under the pointer. */
+    transition:background-color .15s ease;
 
 }
 
@@ -840,7 +866,7 @@
 
     background:color-mix(in srgb, var(--capability-color, #0b57d0) 12%, white);
 
-    font-weight:700;
+    text-shadow:var(--hover-bold);
 
 }
 
@@ -900,7 +926,7 @@
 .org-rail-system-item:hover .org-rail-system-number,
 .org-rail-system-item:hover .org-rail-system-title{
 
-    font-weight:700;
+    text-shadow:var(--hover-bold);
 
 }
 
@@ -911,7 +937,8 @@
 
     text-align:left;
 
-    font-size:20px;
+    /* Text tier. */
+    font-size:18px;
     font-weight:500;
 
     color:var(--system-color, #000000);
@@ -925,7 +952,8 @@
     min-width:0;
     flex:1;
 
-    font-size:20px;
+    /* Text tier. */
+    font-size:18px;
     font-weight:500;
     line-height:1.3;
 
@@ -954,10 +982,11 @@
     padding:8px 10px;
 
     font:inherit;
-    font-size:14px;
+    /* Text tier, like every other input scope in the app. */
+    font-size:18px;
     line-height:1.5;
 
-    border:1px solid #d6d6d6;
+    border:1px solid #767676;
     border-radius:6px;
 
     background:#ffffff;
@@ -969,5 +998,100 @@
     outline:none;
 
     border-color:#0b57d0;
+
+    /* Focus ring, not just a border-colour swap. The unfocused
+       border is #767676 and the focused one #0b57d0 -- only 1.97:1
+       apart, so colour alone was a weak focus cue (WCAG 2.2 SC
+       2.4.11 wants 3:1 against the unfocused state). The ring is
+       independent of the border colour, adds no layout (box-shadow
+       does not affect flow), and matches the ring .user-name-input
+       and the Free Text textarea already use. */
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+
+}
+
+/* ==========================================================
+   Bold tracking
+
+   Every bold run in the Calendar brought up to the app's 5%
+   minimum. These were between 0% and 3.6% -- the panel was
+   written before that rule existed, and it is bold in a lot of
+   small places (the title, the month, the weekday initials, the
+   date on today, the task labels), so it was the largest group
+   still short of it.
+
+   `.org-rail-name` and `.org-rail-handle-label` carry the same
+   5% in their own rules, set on the vertical rail rather than
+   here.
+========================================================== */
+
+.org-calendar-title,
+.org-calendar-date-format-label,
+.org-calendar-month-label,
+.org-calendar-weekday,
+.org-calendar-day-today,
+.org-calendar-day-dot-overflow,
+.org-calendar-selected-title,
+.org-calendar-task-origin,
+.org-calendar-task-open,
+.org-calendar-task-annotation-notes,
+.org-calendar-task-annotation-time{
+
+    letter-spacing:0.05em;
+
+}
+
+/* ==========================================================
+   Framework Navigator lists -- tracking follows weight
+
+   A Capability or System in the rail reads as regular text at
+   rest and bold once hovered, so its tracking goes 0% -> 5%
+   rather than the other way round. These are <button>s, which
+   the app tracks at 10% by default; that rule is for buttons
+   with button LABELS, and a navigation row of prose is not one.
+
+   Held on one line for the same reason the Capability list is:
+   bold is wider, and a row that re-wraps under the pointer
+   moves the thing being pointed at.
+========================================================== */
+
+.org-rail-capability-item,
+.org-rail-system-item,
+.org-rail-system-number,
+.org-rail-system-title{
+
+    letter-spacing:0;
+
+    white-space:nowrap;
+
+}
+
+.org-rail-capability-item:hover,
+.org-rail-system-item:hover .org-rail-system-number,
+.org-rail-system-item:hover .org-rail-system-title{
+
+    letter-spacing:0.05em;
+
+}
+
+/* ==========================================================
+   Calendar text
+
+   The month reads as a heading for the grid under it, so it is
+   set in capitals like every other section label in the rail,
+   and the date-format control and its options take the same 5%
+   as the rest of the app's bold text.
+========================================================== */
+
+.org-calendar-month-label{
+
+    text-transform:uppercase;
+
+}
+
+.org-calendar-date-format-label,
+.date-format-toggle-option{
+
+    letter-spacing:0.05em;
 
 }

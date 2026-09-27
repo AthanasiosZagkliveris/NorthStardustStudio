@@ -1,0 +1,592 @@
+/* ==========================================================
+   Business Documents -- the Business Plan and the Business
+   Model Canvas, previewed (pages/BusinessDocuments.tsx)
+========================================================== */
+
+.business-documents-main{
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+    width:100%;
+    max-width:1180px;
+
+    margin:0 auto;
+
+    /* Clears the fixed header above and footer below, as
+       .workspace-main does. */
+    padding:152px 40px 124px;
+
+    box-sizing:border-box;
+
+}
+
+/* Centred like the other workspace pages. The title's rule hangs
+   18px below it (.workspace-title::after), so the line under it
+   starts well clear of that. */
+.business-documents-head{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:36px;
+
+    text-align:center;
+
+}
+
+.business-documents-lead{
+
+    margin:0;
+
+    font-size:18px;
+    line-height:1.5;
+
+    color:#374151;
+
+}
+
+.business-documents-note{
+
+    margin:0;
+
+    padding:12px 16px;
+
+    border:1px solid #e0c98a;
+    border-left-width:6px;
+    border-radius:8px;
+
+    background:#fdf8ea;
+
+    font-size:16px;
+    line-height:1.5;
+
+    color:#5c4a12;
+
+}
+
+.business-documents-tabs{
+
+    display:flex;
+
+    gap:8px;
+
+    border-bottom:1px solid #d6d3cc;
+
+}
+
+.business-documents-tab{
+
+    padding:10px 18px;
+
+    border:1px solid transparent;
+    border-bottom:none;
+    border-radius:8px 8px 0 0;
+
+    background:none;
+
+    font-family:inherit;
+    font-size:16px;
+    font-weight:600;
+
+    color:#4b5563;
+
+    cursor:pointer;
+
+}
+
+.business-documents-tab-active{
+
+    border-color:#d6d3cc;
+
+    background:#ffffff;
+
+    color:#111827;
+
+    margin-bottom:-1px;
+
+}
+
+.business-documents-tab:focus-visible,
+.business-documents-button:focus-visible{
+
+    outline:2px solid #0b57d0;
+    outline-offset:2px;
+
+}
+
+.business-documents-actions{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+}
+
+.business-documents-button{
+
+    padding:10px 20px;
+
+    border:1px solid #0b57d0;
+    border-radius:8px;
+
+    background:#ffffff;
+
+    font-family:inherit;
+    font-size:15px;
+    font-weight:600;
+
+    color:#0b57d0;
+
+    cursor:pointer;
+
+}
+
+.business-documents-button:hover:not(:disabled){
+
+    background:#eef4ff;
+
+}
+
+.business-documents-button:disabled{
+
+    opacity:0.5;
+
+    cursor:not-allowed;
+
+}
+
+/* ---------- The plan, as a page ---------- */
+
+.business-document{
+
+    padding:32px 40px;
+
+    border:1px solid #d6d3cc;
+    border-radius:8px;
+
+    background:#ffffff;
+
+    font-size:16px;
+    line-height:1.6;
+
+    color:#1f2937;
+
+    /* A long word or link may break, but never an ordinary word:
+       "anywhere" let a narrow column split "Amount" into "Amo unt".
+       A table too wide for the page scrolls inside it instead. */
+    overflow-wrap:break-word;
+
+    overflow-x:auto;
+
+}
+
+.business-document h1{
+
+    margin:0 0 4px;
+
+    font-size:28px;
+
+}
+
+.business-document-subtitle{
+
+    margin:0 0 24px;
+
+    color:#4b5563;
+
+}
+
+.business-document h2{
+
+    margin:28px 0 8px;
+
+    padding-bottom:4px;
+
+    border-bottom:1px solid #d6d6d6;
+
+    font-size:20px;
+
+}
+
+.business-document h3{
+
+    margin:18px 0 6px;
+
+    font-size:17px;
+
+}
+
+.business-document h4{
+
+    margin:14px 0 4px;
+
+    font-size:16px;
+
+    color:#374151;
+
+}
+
+.business-document p{
+
+    margin:0 0 10px;
+
+}
+
+.business-document table{
+
+    width:100%;
+
+    margin:6px 0 16px;
+
+    border-collapse:collapse;
+
+    font-size:14px;
+
+}
+
+.business-document th,
+.business-document td{
+
+    padding:6px 8px;
+
+    border:1px solid #d1d5db;
+
+    text-align:left;
+
+    vertical-align:top;
+
+}
+
+.business-document th{
+
+    background:#f3f4f6;
+
+    /* Headings stay on one line: "Frequency", not "Freque ncy". */
+    white-space:nowrap;
+
+}
+
+.business-document ul,
+.business-document ol{
+
+    margin:0 0 12px;
+
+    padding-left:22px;
+
+}
+
+/* ---------- The canvas, as it is drawn on a wall ---------- */
+
+/* Five columns: partners | activities over resources | the offer |
+   relationships over channels | segments, with costs and revenue
+   side by side along the bottom. */
+.business-canvas{
+
+    display:grid;
+
+    grid-template-columns:repeat(10, minmax(0, 1fr));
+    grid-template-areas:
+        "partners partners activities activities propositions propositions relationships relationships segments segments"
+        "partners partners resources  resources  propositions propositions channels      channels      segments segments"
+        "costs    costs    costs      costs      costs        revenue      revenue       revenue       revenue  revenue";
+
+    gap:2px;
+
+    padding:2px;
+
+    border-radius:10px;
+
+    background:#1f2937;
+
+}
+
+.business-canvas-box{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+    min-width:0;
+    min-height:160px;
+
+    padding:14px 16px;
+
+    background:#ffffff;
+
+    font-size:14px;
+    line-height:1.45;
+
+    color:#1f2937;
+
+    overflow-wrap:break-word;
+
+}
+
+.business-canvas-box h2{
+
+    margin:0;
+
+    font-size:14px;
+    font-weight:700;
+
+    letter-spacing:0.05em;
+
+    text-transform:uppercase;
+
+    color:#0f172a;
+
+}
+
+.business-canvas-box ul{
+
+    margin:0;
+
+    padding-left:18px;
+
+}
+
+.business-canvas-box li + li{
+
+    margin-top:4px;
+
+}
+
+.business-canvas-empty{
+
+    margin:0;
+
+    color:#6b7280;
+
+}
+
+.business-canvas-partners{ grid-area:partners; }
+.business-canvas-activities{ grid-area:activities; }
+.business-canvas-resources{ grid-area:resources; }
+.business-canvas-propositions{ grid-area:propositions; background:#f7f5ee; }
+.business-canvas-relationships{ grid-area:relationships; }
+.business-canvas-channels{ grid-area:channels; }
+.business-canvas-segments{ grid-area:segments; }
+.business-canvas-costs{ grid-area:costs; }
+.business-canvas-revenue{ grid-area:revenue; }
+
+.business-canvas-partners{ border-radius:8px 0 0 0; }
+.business-canvas-segments{ border-radius:0 8px 0 0; }
+.business-canvas-costs{ border-radius:0 0 0 8px; }
+.business-canvas-revenue{ border-radius:0 0 8px 0; }
+
+/* Narrow windows: one box a row, in reading order. */
+@media (max-width: 900px){
+
+    .business-canvas{
+
+        grid-template-columns:minmax(0, 1fr);
+        grid-template-areas:
+            "segments" "propositions" "channels" "relationships"
+            "revenue" "resources" "activities" "partners" "costs";
+
+    }
+
+    .business-canvas-box{
+
+        border-radius:0 !important;
+
+    }
+
+    .business-documents-main{
+
+        padding-left:16px;
+        padding-right:16px;
+
+    }
+
+    .business-document{
+
+        padding:20px 16px;
+
+    }
+
+}
+
+/* ---------- The financial forecast ---------- */
+
+.business-documents-options{
+
+    align-items:flex-end;
+
+}
+
+.business-documents-option{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
+    min-width:220px;
+
+    font-size:15px;
+    font-weight:600;
+
+    color:#374151;
+
+}
+
+.business-forecast{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+/* A monthly forecast is wide: it scrolls sideways, inside its card. */
+.business-forecast-table-wrap{
+
+    overflow-x:auto;
+
+    border:1px solid #d6d3cc;
+    border-radius:8px;
+
+    background:#ffffff;
+
+}
+
+.business-forecast-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    font-size:14px;
+
+    font-variant-numeric:tabular-nums;
+
+}
+
+.business-forecast-table caption{
+
+    padding:14px 16px 8px;
+
+    font-size:18px;
+    font-weight:700;
+
+    text-align:left;
+
+    color:#111827;
+
+}
+
+.business-forecast-table th,
+.business-forecast-table td{
+
+    padding:6px 12px;
+
+    border-top:1px solid #e5e7eb;
+
+    white-space:nowrap;
+
+}
+
+.business-forecast-table td{
+
+    text-align:right;
+
+}
+
+.business-forecast-table thead th{
+
+    background:#f3f4f6;
+
+    text-align:right;
+
+    color:#374151;
+
+}
+
+/* The row labels stay in view while the months scroll. */
+.business-forecast-table th[scope="row"],
+.business-forecast-table thead th:first-child{
+
+    position:sticky;
+
+    left:0;
+
+    background:#ffffff;
+
+    text-align:left;
+
+    font-weight:500;
+
+}
+
+.business-forecast-table thead th:first-child{
+
+    background:#f3f4f6;
+
+}
+
+.business-forecast-total th,
+.business-forecast-total td{
+
+    font-weight:700;
+
+    background:#f9fafb;
+
+}
+
+.business-forecast-total th[scope="row"]{
+
+    background:#f9fafb;
+
+}
+
+.business-forecast-notes{
+
+    margin:0;
+
+    padding-left:20px;
+
+    font-size:14px;
+
+    color:#4b5563;
+
+}
+
+.business-forecast-table-wrap{
+
+    scrollbar-width:thin;
+    scrollbar-color:#9ca3af transparent;
+
+}
+
+.business-forecast-table-wrap::-webkit-scrollbar{
+
+    display:block;
+
+    height:8px;
+
+}
+
+.business-forecast-table-wrap::-webkit-scrollbar-thumb{
+
+    border-radius:4px;
+
+    background:#9ca3af;
+
+}

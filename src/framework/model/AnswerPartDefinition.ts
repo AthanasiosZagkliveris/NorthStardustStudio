@@ -23,4 +23,19 @@ export interface AnswerPartDefinition {
 
     answer: AnswerDefinition;
 
+    /**
+     * This part's OWN question text, shown directly above its
+     * editor rather than with the rest of the Section's questions
+     * above the progress line.
+     *
+     * Sourced from a "### <Part Label>" sub-heading inside the
+     * Section's own block in the Questions Resource, matched to
+     * this part by label (see FrameworkInterpreter's
+     * attachPartQuestions). Undefined for every part whose Section
+     * declares no such sub-heading -- which is every Section in
+     * every System that hasn't opted into it, so the Section-level
+     * question block keeps behaving exactly as before.
+     */
+    questions?: string;
+
 }

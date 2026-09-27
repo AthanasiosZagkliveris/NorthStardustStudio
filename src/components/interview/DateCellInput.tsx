@@ -10,6 +10,14 @@ interface DateCellInputProps {
 
     disabled?: boolean;
 
+    /**
+     * Accessible name for the date text field -- see
+     * InterviewInput.ariaLabel. Sourced from the Table column
+     * title by DynamicTable; the field's own placeholder only
+     * states the expected format, never which date it is.
+     */
+    ariaLabel?: string;
+
 }
 
 /**
@@ -110,7 +118,9 @@ export default function DateCellInput({
 
     onChange,
 
-    disabled = false
+    disabled = false,
+
+    ariaLabel
 
 }: DateCellInputProps) {
 
@@ -191,6 +201,8 @@ export default function DateCellInput({
                 inputMode="numeric"
 
                 className="date-cell-input"
+
+                aria-label={ariaLabel}
 
                 placeholder={format === "US" ? "MM/DD/YYYY" : "DD/MM/YYYY"}
 

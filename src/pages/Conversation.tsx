@@ -10,20 +10,36 @@ import AnswerRenderer from "../components/interview/AnswerRenderer";
 
 import { InterviewManager, ReviewManager } from "../framework/application";
 import { InterviewSession } from "../framework/interview";
+import {
+    currentSituationDraft,
+    financialPlanRange,
+    businessModelCanvas } from "../framework/engine/BusinessDocuments.ts";
 import { frameworkRegistry } from "../framework/engine/FrameworkRegistry";
-import { AnswerDefinition, ValidationIssue, ValidationResult } from "../framework/model";
+import { AnswerDefinition, Section, ValidationIssue, ValidationResult } from "../framework/model";
 import { AnswerType } from "../framework/enums/AnswerType";
 import {
     CardListAnswerValue,
     defaultAnswerValue,
     generateOperationalLogEntriesFromProcessLibrary,
     isAnswerEmpty,
+    numberedUnitCount,
     isTableRowComplete,
     OperationalLogRowValue,
     processDisplayId,
     ProcessRecordValue,
     sopDisplayId,
+    StrategyRangeValue,
+    StrategyThemeValue,
     TableAnswerRow,
+    asLegalEntityValue,
+    asStrategicPeriodValue,
+    asStrategyFoundationValue,
+    formatRangeShort,
+    titleWithPeriod,
+    isRangeSet,
+    monthIndex,
+    strategyGoalsForTheme,
+    strategyThemeHasContent,
     visibleTableColumns
 } from "../framework/engine/AnswerUtils.ts";
 import {
@@ -31,17 +47,77 @@ import {
     buildMultiProductExportContent,
     buildSingleProductExportContent
 } from "../framework/engine/ExportContentBuilder.ts";
+import { countryCurrency } from "../framework/engine/LegalEntityJurisdictions.ts";
 
 import { StorageService } from "../services/StorageService";
 import { OrganizationService } from "../services/OrganizationService";
+import { PreferencesService } from "../services/PreferencesService";
 import { systems } from "../data/systems";
+import { jumpTo, type OpenPage } from "../components/interview/jumpTo.ts";
 
 import "../styles/conversation.css";
+
+/**
+ * Where the Target Audience is answered: the Identity System, on
+ * its Definition page, in the Positioning column. Read by the
+ * Business System's Foundation page (see targetAudience below).
+ */
+const IDENTITY_SYSTEM_NUMBER = 1;
+
+/** The Business System: answered before Strategy, which drafts from it. */
+const BUSINESS_SYSTEM_NUMBER = 3;
+const IDENTITY_DEFINITION_SECTION = 1;
 import "../styles/conversation-layout.css";
 import "../styles/system-confirmation.css";
 
 const interviewManager = new InterviewManager();
 const reviewManager = new ReviewManager();
+
+/**
+ * Reads the value behind a Shared Answer -- which lives in the
+ * MIRRORED System's own saved session, not this one's (see
+ * AnswerType.SharedAnswer).
+ *
+ * Module-level rather than a method on the component so the
+ * "Finish" callback can use it too: that callback is declared
+ * before the render body's own early returns (Rules of Hooks), so
+ * anything defined further down is out of its scope.
+ */
+function resolveSharedAnswerValue(
+    organizationId: string | null,
+    answer: AnswerDefinition
+): unknown {
+
+    const reference = answer.sharedSource;
+
+    if (!reference || !organizationId) {
+        return undefined;
+    }
+
+    const normalize = (text: string) => text.trim().toLowerCase();
+
+    const sourceSystem = systems.find(
+        candidate => normalize(candidate.title) === normalize(reference.systemTitle)
+    );
+
+    if (!sourceSystem) {
+        return undefined;
+    }
+
+    const sourceSection = frameworkRegistry
+        .getFramework(sourceSystem.id)
+        .sections
+        .find(candidate => normalize(candidate.title) === normalize(reference.sectionTitle));
+
+    if (!sourceSection) {
+        return undefined;
+    }
+
+    return StorageService
+        .loadInterview(organizationId, sourceSystem.number)
+        ?.getResponse(sourceSection.number);
+
+}
 
 type ExportStep = "none" | "warning" | "options";
 type CapabilityChoice = "original" | "other";
@@ -88,22 +164,34 @@ const OPERATIONS_OPERATIONAL_LOG_SECTION = 3;
 const OPERATIONS_ROLES_SECTION = 4;
 
 /**
- * The Business System's Product Register (Section 5) and the
- * Product Development System's Product Register (Section 1)
- * are the SAME table per Organization (item 7): adding,
- * editing, or removing a row in either one shows up in the
- * other. Everything else about each System's own Sections
- * stays completely separate (see OrganizationService /
- * item 6) -- this is the one deliberate exception.
+ * The Product Development System's Product Register is kept in the
+ * Organization's shared product list (OrganizationService.products),
+ * so the list outlives any one System's answers. The Business System
+ * had a Product Register sharing the same list until its nine
+ * original pages were retired.
+ *
+ * Matched by the Section's TITLE, not its number: the Business
+ * System's Register moved every time a page was inserted ahead of it,
+ * and a number written here went stale with the first move --
+ * copying the product list over whichever page had taken its old
+ * number.
  */
-const SHARED_PRODUCT_REGISTER_BINDINGS: { systemId: string; sectionNumber: number }[] = [
-    { systemId: "business", sectionNumber: 5 },
-    { systemId: "product-development", sectionNumber: 1 }
+const SHARED_PRODUCT_REGISTER_BINDINGS: { systemId: string; sectionTitle: string }[] = [
+    { systemId: "product-development", sectionTitle: "Product Register" }
 ];
 
-function isSharedProductRegisterSection(systemId: string | undefined, sectionNumber: number): boolean {
+/** A Section's title, by its number in the current Session. */
+function sectionTitleOf(session: InterviewSession, sectionNumber: number): string | undefined {
+    return session.getSections().find(section => section.number === sectionNumber)?.title;
+}
+
+function isSharedProductRegisterSection(
+    systemId: string | undefined,
+    sectionTitle: string | undefined
+): boolean {
+    const title = sectionTitle?.trim().toLowerCase();
     return SHARED_PRODUCT_REGISTER_BINDINGS.some(
-        binding => binding.systemId === systemId && binding.sectionNumber === sectionNumber
+        binding => binding.systemId === systemId && binding.sectionTitle.toLowerCase() === title
     );
 }
 
@@ -408,6 +496,72 @@ function extractDynamicOptions(
  * which Sections the Session happens to have visited for this
  * Product) rather than from `session.getResponse`.
  */
+/**
+ * The incomplete list, gathered into the pages it points at.
+ *
+ * A validation issue names a unit, not a page: on a Section that
+ * numbers its units (see AnswerDefinition.nestedNumbering) eleven
+ * issues can come from three pages, and a flat list of eleven
+ * names never says so. Grouping turns "go and find these" into
+ * "go back to these three pages".
+ *
+ * A Section reported as a whole carries no `label`, so it becomes
+ * a heading with nothing under it -- the page IS the answer that
+ * is missing, and there is no smaller thing to name.
+ */
+function groupValidationIssues(
+    issues: ValidationIssue[],
+    sections: Section[]
+): Array<{
+    number: number;
+    title: string;
+    units: Array<{ label: string; title: string }>;
+}> {
+
+    const groups: Array<{
+        number: number;
+        title: string;
+        units: Array<{ label: string; title: string }>;
+    }> = [];
+
+    for (const issue of issues) {
+
+        // Which page the issue is on. NOT `sectionNumber`, which on
+        // a Section reporting its own units is a running count of
+        // units across the whole System ("9" for the ninth column,
+        // whatever page it sits on). The page is the first segment
+        // of the label the page itself shows: "3.1" and "4.1.1.1"
+        // are both on page 3 and page 4 respectively.
+        // A label named in words ("Theme 1, Goal 2") is on its own
+        // Section's page.
+        const number = issue.label && /^\d/.test(issue.label)
+            ? Number(issue.label.split(".")[0])
+            : issue.sectionNumber;
+
+        let group = groups.find(candidate => candidate.number === number);
+
+        if (!group) {
+            group = {
+                number,
+                // The page's own title, which an issue does not
+                // carry: its `sectionTitle` is the unit's.
+                title: sections.find(section => section.number === number)?.title
+                    ?? issue.sectionTitle,
+                units: []
+            };
+            groups.push(group);
+        }
+
+        if (issue.label) {
+            group.units.push({ label: issue.label, title: issue.sectionTitle });
+        }
+
+    }
+
+    return groups;
+
+}
+
 function validateProductDevelopmentForProduct(
     session: InterviewSession,
     organizationId: string,
@@ -602,9 +756,30 @@ export default function Conversation() {
     // Interview inline and opens one of these popups instead of
     // navigating away.
     const [exportStep, setExportStep] = useState<ExportStep>("none");
+
+    // Whether the guidance above the progress line is showing.
+    // Starts open: the instructions are what a page is for the first
+    // time it is opened, and hiding them by default would leave a
+    // new user looking at unexplained boxes.
+    const [instructionsOpen, setInstructionsOpen] = useState(true);
+
+    // A held-back Strategy System change and what it would cost --
+    // removing a Theme that has work under it, or narrowing the
+    // Strategic Period past an Objective. `apply` runs it; dismissing
+    // the dialog drops it. Rendered as the app's own dialog rather
+    // than window.confirm, which the rest of the app avoids too.
+    const [strategyPrompt, setStrategyPrompt] = useState<{
+        title: string;
+        message: string;
+        apply: () => void;
+    } | null>(null);
     const [validationIssues, setValidationIssues] = useState<ValidationIssue[]>([]);
     const [capabilityChoice, setCapabilityChoice] = useState<CapabilityChoice>("original");
     const [otherCapabilityName, setOtherCapabilityName] = useState("");
+
+    // The Business System can export its answers, or the Business
+    // Model Canvas they add up to (see BusinessDocuments.ts).
+    const [documentChoice, setDocumentChoice] = useState<"answers" | "canvas">("answers");
     const [includeMd, setIncludeMd] = useState(true);
     const [includePdf, setIncludePdf] = useState(false);
 
@@ -705,9 +880,9 @@ export default function Conversation() {
 
     }, [system, organizationId, targetSectionNumber]);
 
-    // The Business System's Product Register (Section 5) and the
-    // Product Development System's Product Register (Section 1)
-    // share one row list per Organization (see
+    // The Business System's Product Register and the Product
+    // Development System's Product Register share one row list
+    // per Organization (see
     // SHARED_PRODUCT_REGISTER_BINDINGS above). Landing on either
     // one pulls in the latest shared rows -- in case the OTHER
     // System changed them since this Session was last saved --
@@ -728,7 +903,7 @@ export default function Conversation() {
 
         const sectionNumber = session.getCurrentSectionNumber();
 
-        if (isSharedProductRegisterSection(system.id, sectionNumber)) {
+        if (isSharedProductRegisterSection(system.id, sectionTitleOf(session, sectionNumber))) {
 
             const sharedProducts = OrganizationService.getProducts(organizationId);
 
@@ -830,6 +1005,7 @@ export default function Conversation() {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [session, organizationId, system, session?.getCurrentSectionIndex()]);
+
 
     function redraw() {
         refresh(value => value + 1);
@@ -936,7 +1112,10 @@ export default function Conversation() {
                     ? validateProductDevelopmentForProduct(session, organizationId, selectedProductForValidation)
                     : system?.id === "operations"
                         ? validateOperationsProcessOwnership(session)
-                        : reviewManager.validate(session);
+                        : reviewManager.validate(
+                            session,
+                            (answer) => resolveSharedAnswerValue(organizationId, answer)
+                        );
 
             if (!validation.valid) {
                 setValidationIssues(validation.issues);
@@ -1009,7 +1188,7 @@ export default function Conversation() {
 
             const targetAudiencePartBinding = findSharedTargetAudiencePartBinding(system.id, sectionNumber);
 
-            if (isSharedProductRegisterSection(system.id, sectionNumber)) {
+            if (isSharedProductRegisterSection(system.id, sectionTitleOf(session, sectionNumber))) {
 
                 OrganizationService.saveProducts(organizationId, Array.isArray(value) ? value : []);
 
@@ -1237,7 +1416,13 @@ export default function Conversation() {
                 : otherCapabilityName;
 
         const exportContent =
-            system?.id === "product-development" && organizationId
+            system?.id === "business" && documentChoice === "canvas"
+                ? businessModelCanvas({
+                      identity: organizationId ? StorageService.loadInterview(organizationId, IDENTITY_SYSTEM_NUMBER) : null,
+                      business: session,
+                      organisationName: organizationId ? OrganizationService.getSummary(organizationId)?.name ?? "" : ""
+                  })
+            : system?.id === "product-development" && organizationId
                 ? (() => {
 
                       // One document load for the whole export, rather than
@@ -1402,7 +1587,12 @@ export default function Conversation() {
                       );
 
                   })()
-                : undefined;
+                // Every other System: what is saved, with the Identity
+                // System facts the Business pages are answered against.
+                : buildExportContent(session, capabilityLabel, undefined, undefined, {
+                      legalEntity,
+                      currency: organisationCurrency
+                  });
 
         if (includeMd) {
             reviewManager.exportMarkdown(session, capabilityLabel, exportContent);
@@ -1429,6 +1619,598 @@ export default function Conversation() {
     const currentSection = session.getCurrentSection();
 
     const showIntroduction = !session.hasStartedInterview();
+
+    // A Shared Answer Section (see AnswerType.SharedAnswer) holds no
+    // data of its own: it renders ANOTHER System's Section and reads
+    // and writes that System's saved response, so the two are one
+    // piece of data edited from two places. Resolved here, once, into
+    // the source System, its Section, and its live session.
+    function resolveSharedAnswer(answer: AnswerDefinition | undefined) {
+
+        const reference = answer?.sharedSource;
+
+        if (!reference || !organizationId) {
+            return null;
+        }
+
+        const normalize = (text: string) => text.trim().toLowerCase();
+
+        const sourceSystem = systems.find(
+            candidate => normalize(candidate.title) === normalize(reference.systemTitle)
+        );
+
+        if (!sourceSystem) {
+            return null;
+        }
+
+        const sourceFramework = frameworkRegistry.getFramework(sourceSystem.id);
+
+        const sourceSection = sourceFramework.sections.find(
+            candidate => normalize(candidate.title) === normalize(reference.sectionTitle)
+        );
+
+        if (!sourceSection) {
+            return null;
+        }
+
+        // A session only exists once that System has been opened at
+        // least once. Falling back to a fresh one means the shared
+        // page still works before the source System has ever been
+        // visited -- and saving it there is what creates it.
+        const sourceSession =
+            StorageService.loadInterview(organizationId, sourceSystem.number)
+            ?? interviewManager.create(sourceSystem.id);
+
+        return { system: sourceSystem, section: sourceSection, session: sourceSession };
+
+    }
+
+    const sharedSource = resolveSharedAnswer(currentSection?.answer);
+
+    // What actually renders: the mirrored Section's own definition
+    // when this is a Shared Answer, otherwise this Section's own.
+    const effectiveAnswer = sharedSource
+        ? sharedSource.section.answer
+        : currentSection?.answer;
+
+    // The value shown, and where an edit goes. A Shared Answer reads
+    // and writes the SOURCE System's stored response, so editing here
+    // is editing that System -- there is deliberately no second copy
+    // to keep in step.
+    const effectiveValue = sharedSource
+        ? sharedSource.session.getResponse(sharedSource.section.number)
+        : session.getCurrentResponse();
+
+    function handleSharedAnswerChange(value: unknown) {
+
+        if (!sharedSource || !organizationId) {
+            return;
+        }
+
+        sharedSource.session.saveResponse(sharedSource.section.number, value);
+
+        StorageService.saveInterview(organizationId, sharedSource.session);
+
+        redraw();
+
+    }
+
+    // A column-layout page (see AnswerDefinition.columns) lays its
+    // Section out as side-by-side columns, and moves its own title up
+    // into the Interview Header. Read from the EFFECTIVE answer so a
+    // Shared Answer mirroring a column page lays out as one too.
+    const isColumnsPage = effectiveAnswer?.columns === true;
+
+    // Pages whose editor owns the full width and carries its own
+    // internal headings move their Section title up into the
+    // Interview Header, rather than repeating it as a separate
+    // heading directly above their own first heading. Column pages
+    // do this already; the Brand System's Style and Inventory
+    // editors are laid out the same way and read the same.
+    const mergesTitleIntoHeader =
+        isColumnsPage ||
+        effectiveAnswer?.type === AnswerType.BusinessFoundation ||
+        effectiveAnswer?.type === AnswerType.BusinessEngagement ||
+        effectiveAnswer?.type === AnswerType.BusinessCapability ||
+        effectiveAnswer?.type === AnswerType.FinancialFoundation ||
+        effectiveAnswer?.type === AnswerType.FinancialSustainability ||
+        effectiveAnswer?.type === AnswerType.LegalEntity ||
+        effectiveAnswer?.type === AnswerType.BrandStyle ||
+        effectiveAnswer?.type === AnswerType.BrandInventory ||
+        effectiveAnswer?.type === AnswerType.StrategyFoundation ||
+        effectiveAnswer?.type === AnswerType.StrategicPeriod ||
+        effectiveAnswer?.type === AnswerType.StrategicRoadmap;
+
+    // Columns are numbered continuously across the whole System
+    // rather than restarting on each page, so this counts every
+    // column on the column-layout Sections BEFORE the current one
+    // (Identity's three pages of four therefore run 1-4, 5-8, 9-12).
+    // Counted against THIS System's own pages, not the mirrored
+    // System's -- a shared page belongs to the System you are
+    // currently in, so the Brand System's four shared columns read
+    // 1-4 there even though the same four read 5-8 in the Identity
+    // System they come from. The answers are identical either way;
+    // only the positional index differs.
+    const columnNumberOffset = framework.sections
+        .filter(candidate => candidate.number < (currentSection?.number ?? 0))
+        .reduce(
+            (total, candidate) => total + numberedUnitCount(
+                candidate.answer,
+                // A Shared Answer counts as whatever it mirrors, so
+                // the Brand System's four shared Brand Foundation
+                // columns are counted before its Style page and that
+                // page numbers from 5 rather than 1.
+                (answer: AnswerDefinition) => resolveSharedAnswer(answer)?.section.answer
+            ),
+            0
+        );
+
+    // What the Legal Entity page can answer for the user without
+    // asking: the Organization's name and the User's own, both
+    // given when the app was set up. Read here because the page
+    // itself has no access to either.
+    const legalEntityPrefill = {
+        organisationName:
+            (organizationId && OrganizationService.getSummary(organizationId)?.name) || "",
+        founderName: PreferencesService.getUserName()
+    };
+
+    /*
+        The Target Audience the Business System's Foundation page
+        asks the founder to divide into Segments.
+
+        It was answered two Systems earlier, under the Identity
+        System's Positioning column ("Who is your target
+        audience?"), so the Foundation page shows it rather than
+        asking again -- the same reason the Legal Entity page
+        prefills the organization's own name above.
+
+        Read straight from storage rather than through a Session:
+        this is another System's saved answer, and opening a
+        Session for it would run that System's migrations as a
+        side effect of drawing a note.
+    */
+    const targetAudience = (() => {
+
+        if (!organizationId) {
+            return "";
+        }
+
+        const state = OrganizationService.loadSystemState(
+            organizationId,
+            IDENTITY_SYSTEM_NUMBER
+        ) as { responses?: Array<{ sectionNumber: number; value?: unknown }> } | null;
+
+        const definition = state?.responses?.find(
+            response => response.sectionNumber === IDENTITY_DEFINITION_SECTION
+        )?.value;
+
+        const positioning = definition &&
+            typeof definition === "object" &&
+            !Array.isArray(definition)
+            ? (definition as Record<string, unknown>).positioning
+            : undefined;
+
+        return typeof positioning === "string" ? positioning : "";
+
+    })();
+
+    /* The Vision, from the same Identity answer: shown beside the
+       Strategy System's Strategic Compass, which follows from it. */
+    const identityVision = (() => {
+
+        if (!organizationId) {
+            return "";
+        }
+
+        const state = OrganizationService.loadSystemState(
+            organizationId,
+            IDENTITY_SYSTEM_NUMBER
+        ) as { responses?: Array<{ sectionNumber: number; value?: unknown }> } | null;
+
+        const definition = state?.responses?.find(
+            response => response.sectionNumber === IDENTITY_DEFINITION_SECTION
+        )?.value;
+
+        const vision = definition && typeof definition === "object" && !Array.isArray(definition)
+            ? (definition as Record<string, unknown>).vision
+            : undefined;
+
+        return typeof vision === "string" ? vision : "";
+
+    })();
+
+    /*
+        The currency the organisation is registered in: the country
+        chosen on the Identity System's Legal Entity page, through
+        the same countryCurrency that page shows beside its own
+        amounts. The Business System's Infrastructure & Capability
+        page puts it beside every Price, so a founder names the
+        currency once, by saying where they are registered.
+
+        Read straight from storage, for the reason targetAudience
+        gives, and resolved by Answer Structure rather than by
+        Section number. "" when no country has been chosen yet.
+
+        The same page's 3.2 Founders & Ownership are that page's
+        founders too: they are who Infrastructure & Capability lists
+        under 1. Founders and names in every Responsibility.
+    */
+    const legalEntity = (() => {
+
+        if (!organizationId) {
+            return asLegalEntityValue(undefined);
+        }
+
+        const identity = systems.find(
+            candidate => candidate.number === IDENTITY_SYSTEM_NUMBER
+        );
+
+        const legalEntitySection = identity
+            ? frameworkRegistry.getFramework(identity.id).sections.find(
+                candidate => candidate.answer?.type === AnswerType.LegalEntity
+            )
+            : undefined;
+
+        if (!legalEntitySection) {
+            return asLegalEntityValue(undefined);
+        }
+
+        const state = OrganizationService.loadSystemState(
+            organizationId,
+            IDENTITY_SYSTEM_NUMBER
+        ) as { responses?: Array<{ sectionNumber: number; value?: unknown }> } | null;
+
+        return asLegalEntityValue(state?.responses?.find(
+            response => response.sectionNumber === legalEntitySection.number
+        )?.value);
+
+    })();
+
+    const organisationCurrency = countryCurrency(legalEntity.organisation.country);
+
+    /*
+        The Business System's first two pages read the same way the
+        Strategy System's three do: Customer Engagement (Page 2) is
+        answered entirely against the Segments, Profiles and
+        Offerings the Foundation page (Page 1) defines, and refers
+        to them rather than asking for them again.
+
+        A Section can only see its own response, so the Foundation's
+        is resolved here, once, and handed down -- and so is the way
+        back to it, for the links Page 2 draws on the names it
+        borrows.
+
+        Resolved by Answer Structure rather than by Section number,
+        so this stays correct if the Business pages are reordered.
+    */
+    const businessFoundationSection = framework.sections.find(
+        candidate => candidate.answer?.type === AnswerType.BusinessFoundation
+    );
+
+    const businessFoundationValue = businessFoundationSection
+        ? session.getResponse(businessFoundationSection.number)
+        : undefined;
+
+    const openBusinessFoundation: OpenPage | undefined = businessFoundationSection
+        ? (path) => {
+
+            // Sections are numbered from 1; goToSection is 0-based.
+            session.goToSection(businessFoundationSection.number - 1);
+
+            persistAndRedraw(session);
+
+            // At the card the link names, or at the top.
+            if (path && path.length > 0) {
+                jumpTo(path);
+            } else {
+                scrollToTop();
+            }
+
+        }
+        : undefined;
+
+    /*
+        The two Financial pages read the pages before them: Page 4
+        consolidates the costs recorded on Page 3 (and on the Legal
+        Entity, resolved above), and Page 5 measures revenue against
+        everything Page 4 establishes. Resolved by Answer Structure,
+        as Page 1 is.
+    */
+    const sectionOfType = (type: AnswerType) => framework.sections.find(
+        candidate => candidate.answer?.type === type
+    );
+
+    const capabilitySection = sectionOfType(AnswerType.BusinessCapability);
+    const financialFoundationSection = sectionOfType(AnswerType.FinancialFoundation);
+    const financialSustainabilitySection = sectionOfType(AnswerType.FinancialSustainability);
+    const businessEngagementSection = sectionOfType(AnswerType.BusinessEngagement);
+
+    const businessCapabilityValue = capabilitySection
+        ? session.getResponse(capabilitySection.number)
+        : undefined;
+
+    const financialFoundationValue = financialFoundationSection
+        ? session.getResponse(financialFoundationSection.number)
+        : undefined;
+
+    // Its Demand & Conversion gives the expected sales both Financial pages use.
+    const businessEngagementValue = businessEngagementSection
+        ? session.getResponse(businessEngagementSection.number)
+        : undefined;
+
+    // Its revenue is what Financial Foundation's operating need is net of.
+    const financialSustainabilityValue = financialSustainabilitySection
+        ? session.getResponse(financialSustainabilitySection.number)
+        : undefined;
+
+    const openBusinessSection = (type: AnswerType): OpenPage | undefined => {
+
+        const target = sectionOfType(type);
+
+        if (!target) {
+            return undefined;
+        }
+
+        return (path) => {
+            session.goToSection(target.number - 1);
+            persistAndRedraw(session);
+            if (path && path.length > 0) {
+                jumpTo(path);
+            } else {
+                scrollToTop();
+            }
+        };
+
+    };
+
+    /*
+        The Legal Entity is another System's page (1. Identity System),
+        so it is opened as the Calendar opens a task: the Identity
+        System, at its Legal Entity Section. The browser's Back, and the
+        app's, return here.
+    */
+    const identitySystem = systems.find(candidate => candidate.id === "identity");
+    const legalEntitySection = identitySystem
+        ? frameworkRegistry.getFramework(identitySystem.id).sections
+            .find(candidate => candidate.answer?.type === AnswerType.LegalEntity)
+        : undefined;
+    const openLegalEntity: OpenPage | undefined = identitySystem && legalEntitySection
+        ? (path) => {
+            if (organizationId) {
+                persistAndRedraw(session);
+            }
+            navigate("/introduction", {
+                state: { system: identitySystem, targetSectionNumber: legalEntitySection.number }
+            });
+            if (path && path.length > 0) {
+                jumpTo(path);
+            }
+        }
+        : undefined;
+
+    // A Section that numbers its units under its own number (see
+    // AnswerDefinition.nestedNumbering) hands that number down; the
+    // running count above goes unused for such a page.
+    const columnNumberPrefix = effectiveAnswer?.nestedNumbering
+        ? String(currentSection?.number ?? 0)
+        : undefined;
+
+    /*
+        The Strategy System's three pages read forward: the Strategic
+        Period page develops the Themes the Foundation page defines,
+        and the Roadmap draws both. A Section can only see its own
+        response, so the other pages' answers are resolved here, once,
+        and handed down.
+
+        Resolved by Answer Structure rather than by System number, so
+        this stays correct if the Strategy pages are ever reordered.
+    */
+    const strategyFoundationSection = framework.sections.find(
+        candidate => candidate.answer?.type === AnswerType.StrategyFoundation
+    );
+
+    const strategicPeriodSection = framework.sections.find(
+        candidate => candidate.answer?.type === AnswerType.StrategicPeriod
+    );
+
+    const strategyFoundationValue = strategyFoundationSection
+        ? asStrategyFoundationValue(session.getResponse(strategyFoundationSection.number))
+        : undefined;
+
+    const strategicPeriodValue = strategicPeriodSection
+        ? asStrategicPeriodValue(session.getResponse(strategicPeriodSection.number))
+        : undefined;
+
+    /*
+        Every number on the Strategic Period page hangs off the
+        Strategic Period's own number, which is the LAST of the
+        Foundation page's four columns -- not the Foundation
+        Section's number, which is 1.
+    */
+    const strategyThemeNumberPrefix = String(
+        numberedUnitCount(strategyFoundationSection?.answer)
+    );
+
+    /**
+     * Removing a Theme takes everything written under it on the
+     * Strategic Period page with it, so this asks first -- but only
+     * when there is something to lose. A Theme with nothing recorded
+     * against it goes without a dialog, because confirming an
+     * inconsequential action just teaches people to dismiss dialogs.
+     */
+    function guardThemeRemoval(theme: StrategyThemeValue, apply: () => void) {
+
+        if (!strategicPeriodValue || !strategyThemeHasContent(strategicPeriodValue, theme.id)) {
+            apply();
+            return;
+        }
+
+        setStrategyPrompt({
+            title: "Remove this Theme?",
+            message:
+                `"${theme.name.trim() || "Untitled Theme"}" has Goals, Objectives and ` +
+                "Initiatives recorded against it on the Strategic Period page. Removing " +
+                "the Theme removes all of them, and this cannot be undone.",
+            apply
+        });
+
+    }
+
+    /**
+     * An Objective can only be placed inside the Strategic Period,
+     * so narrowing the Period can strand one that was planned in the
+     * part being cut away. Rather than silently leaving it outside
+     * (where the Roadmap could not draw it), this names the
+     * Objectives that would be stranded so the user knows exactly
+     * which ones to move.
+     */
+    function guardPeriodChange(period: StrategyRangeValue, apply: () => void) {
+
+        if (!strategyFoundationValue || !strategicPeriodValue || !isRangeSet(period)) {
+            apply();
+            return;
+        }
+
+        const first = monthIndex(period.start);
+        const last = monthIndex(period.end);
+
+        const stranded: string[] = [];
+
+        strategyFoundationValue.themes.forEach((theme, themeIndex) => {
+
+            strategyGoalsForTheme(strategicPeriodValue, theme.id).forEach((goal, goalIndex) => {
+
+                goal.objectives.forEach((objective, objectiveIndex) => {
+
+                    if (!isRangeSet(objective.period)) {
+                        return;
+                    }
+
+                    const start = monthIndex(objective.period.start);
+                    const end = monthIndex(objective.period.end);
+
+                    if (start >= first && end <= last) {
+                        return;
+                    }
+
+                    // Named as the page shows it, in words, so the
+                    // user can find it: "Theme 1, Goal 2, Objective 1".
+                    const number =
+                        `Theme ${themeIndex + 1}, Goal ${goalIndex + 1}, Objective ${objectiveIndex + 1}:`;
+
+                    stranded.push(
+                        `${number} ${objective.name.trim() || "Untitled Objective"} ` +
+                        `(${formatRangeShort(objective.period)})`
+                    );
+
+                });
+
+            });
+
+        });
+
+        if (stranded.length === 0) {
+            apply();
+            return;
+        }
+
+        setStrategyPrompt({
+            title: "Objectives fall outside this period",
+            message:
+                `${formatRangeShort(period)} no longer covers ` +
+                `${stranded.length === 1 ? "this Objective" : "these Objectives"}: ` +
+                `${stranded.join("; ")}. Change ` +
+                `${stranded.length === 1 ? "its period" : "their periods"} on the ` +
+                "Strategic Period page first, or continue and set " +
+                `${stranded.length === 1 ? "it" : "them"} again.`,
+            apply
+        });
+
+    }
+
+    /*
+        The Current Situation drafted from the Business System, which
+        is answered before Strategy: read from what is saved, on the
+        Strategy System only.
+    */
+    const businessSessions = system?.id === "strategy" && organizationId
+        ? {
+            identity: StorageService.loadInterview(organizationId, IDENTITY_SYSTEM_NUMBER),
+            business: StorageService.loadInterview(organizationId, BUSINESS_SYSTEM_NUMBER),
+            organisationName: OrganizationService.getSummary(organizationId)?.name ?? ""
+        }
+        : null;
+    const situationDraft = businessSessions ? currentSituationDraft(businessSessions) : "";
+
+    /* The financial plan's dates, for the Strategic Period to be compared with. */
+    const financialPlan = businessSessions ? financialPlanRange(businessSessions) : null;
+
+    /** Refreshing replaces the founder's own words: asked first. */
+    function guardSituationRefresh(apply: () => void) {
+        setStrategyPrompt({
+            title: "Replace your Current Situation?",
+            message: "Refresh replaces the text with a new draft from the Business System. " +
+                "The changes you made to it will be lost.",
+            apply
+        });
+    }
+
+    /*
+        A Business System page, opened from the Strategy System as the
+        Legal Entity is opened from Business: that System, at that
+        Section. The browser's Back, and the app's, return here.
+    */
+    const businessSystem = systems.find(candidate => candidate.id === "business");
+    const openBusinessPage = (type: AnswerType) => {
+        const target = businessSystem
+            ? frameworkRegistry.getFramework(businessSystem.id).sections.find(candidate => candidate.answer?.type === type)
+            : undefined;
+        if (!businessSystem || !target) {
+            return;
+        }
+        if (organizationId) {
+            persistAndRedraw(session);
+        }
+        navigate("/introduction", { state: { system: businessSystem, targetSectionNumber: target.number } });
+    };
+
+    const strategyContext =
+        strategyFoundationValue && strategicPeriodValue
+            ? {
+                foundation: strategyFoundationValue,
+                period: strategicPeriodValue,
+                themeNumberPrefix: strategyThemeNumberPrefix,
+                guardThemeRemoval,
+                guardPeriodChange,
+                situationDraft,
+                guardSituationRefresh,
+                openBusinessPage,
+                financialPlan
+            }
+            : undefined;
+
+    /*
+        The last two Strategy page titles are written with a literal
+        "MM/YY - MM/YY" placeholder: it becomes the Strategic Period
+        (" · Jan 2027 – Dec 2029") once one is set, and disappears
+        until then (see titleWithPeriod).
+    */
+    const resolvedSectionTitle: string | undefined = currentSection
+        ? titleWithPeriod(
+            currentSection.title,
+            strategyFoundationValue?.period ?? { start: { month: "", year: "" }, end: { month: "", year: "" } }
+        )
+        : undefined;
+
+    // A Section whose units number under it is itself numbered in
+    // the title, so "1. Definition" and its "1.1" columns read as
+    // one thing. Where the numbering runs across the System instead,
+    // the columns already carry that count and a Section number in
+    // the title would be a second, unrelated one.
+    const pageTitle = columnNumberPrefix && resolvedSectionTitle
+        ? columnNumberPrefix + ". " + resolvedSectionTitle
+        : resolvedSectionTitle;
 
     const canConfirmCapability =
         capabilityChoice === "original" || otherCapabilityName.trim().length > 0;
@@ -1532,6 +2314,11 @@ export default function Conversation() {
                         systemNumber={String(framework.metadata.systemNumber)}
                         systemName={framework.metadata.systemName}
                         capabilityId={system?.capability}
+                        pageTitle={
+                            !showIntroduction && mergesTitleIntoHeader
+                                ? pageTitle
+                                : undefined
+                        }
                     />
 
                     {showIntroduction ? (
@@ -1562,22 +2349,93 @@ export default function Conversation() {
                                 </div>
                             )}
 
-                            <InterviewSection section={currentSection} />
-
-                            <InterviewProgress
-                                current={session.getCurrentSectionIndex() + 1}
-                                total={session.getTotalSections()}
+                            <InterviewSection
+                                section={currentSection}
+                                hideTitle={mergesTitleIntoHeader}
                             />
+
+                            {/*
+                                A column-layout page hands its progress
+                                line to AnswerRenderer instead, so it can
+                                sit between the column questions and the
+                                answer boxes -- which are interleaved
+                                inside that component, out of reach of a
+                                sibling rendered here.
+                            */}
+                            {!mergesTitleIntoHeader && (
+                                <InterviewProgress
+                                    current={session.getCurrentSectionIndex() + 1}
+                                    total={session.getTotalSections()}
+                                />
+                            )}
 
                             <AnswerRenderer
                                 key={currentSection.number}
-                                definition={currentSection.answer}
-                                value={session.getCurrentResponse()}
-                                onChange={handleAnswerChange}
+                                definition={effectiveAnswer ?? currentSection.answer}
+                                value={effectiveValue}
+                                onChange={
+                                    sharedSource
+                                        ? handleSharedAnswerChange
+                                        : handleAnswerChange
+                                }
                                 resolveDynamicOptions={resolveDynamicOptions}
                                 rowSelection={productRegisterRowSelection}
                                 ownerSuggestions={operationsOwnerSuggestions}
                                 processLibraryProcesses={operationsProcesses}
+                                columnNumberOffset={columnNumberOffset}
+                                columnNumberPrefix={columnNumberPrefix}
+                                legalEntityPrefill={legalEntityPrefill}
+                                targetAudience={targetAudience}
+                                identityVision={identityVision}
+                                businessFoundation={businessFoundationValue}
+                                onOpenBusinessFoundation={openBusinessFoundation}
+                                organisationCurrency={organisationCurrency}
+                                legalEntityFounders={legalEntity.founders}
+                                legalEntity={legalEntity}
+                                businessCapability={businessCapabilityValue}
+                                financialFoundation={financialFoundationValue}
+                                financialSustainability={financialSustainabilityValue}
+                                businessEngagement={businessEngagementValue}
+                                onOpenBusinessEngagement={openBusinessSection(AnswerType.BusinessEngagement)}
+                                onOpenBusinessCapability={openBusinessSection(AnswerType.BusinessCapability)}
+                                onOpenFinancialFoundation={openBusinessSection(AnswerType.FinancialFoundation)}
+                                onOpenLegalEntity={openLegalEntity}
+                                strategy={strategyContext}
+                                showInstructions={instructionsOpen}
+                                columnsDivider={
+                                    mergesTitleIntoHeader
+                                        ? (
+                                            <>
+                                                {/*
+                                                    Sits directly above
+                                                    the progress line,
+                                                    below the guidance
+                                                    it hides -- so the
+                                                    control is where
+                                                    the thing it acts
+                                                    on ends, and the
+                                                    line stays the
+                                                    boundary between
+                                                    reading and
+                                                    answering.
+                                                */}
+                                                <button
+                                                    type="button"
+                                                    className="interview-help-toggle interview-instructions-toggle"
+                                                    aria-expanded={instructionsOpen}
+                                                    onClick={() => setInstructionsOpen(open => !open)}
+                                                >
+                                                    {instructionsOpen ? "Hide Help" : "Need Help?"}
+                                                </button>
+
+                                                <InterviewProgress
+                                                    current={session.getCurrentSectionIndex() + 1}
+                                                    total={session.getTotalSections()}
+                                                />
+                                            </>
+                                        )
+                                        : undefined
+                                }
                             />
 
                             <div className="interview-nav">
@@ -1611,6 +2469,39 @@ export default function Conversation() {
                 onBack={() => navigate("/assistant")}
             />
 
+            {strategyPrompt && (
+                <div className="confirmation-overlay" onClick={() => setStrategyPrompt(null)}>
+                    <div className="confirmation-dialog" onClick={(event) => event.stopPropagation()}>
+
+                        <h2 className="confirmation-title">{strategyPrompt.title}</h2>
+
+                        <p className="confirmation-message">{strategyPrompt.message}</p>
+
+                        <div className="confirmation-actions">
+
+                            <button
+                                className="confirmation-button secondary"
+                                onClick={() => setStrategyPrompt(null)}
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                className="confirmation-button primary confirmation-button-danger"
+                                onClick={() => {
+                                    strategyPrompt.apply();
+                                    setStrategyPrompt(null);
+                                }}
+                            >
+                                Continue
+                            </button>
+
+                        </div>
+
+                    </div>
+                </div>
+            )}
+
             {exportStep === "warning" && (
                 <div className="confirmation-overlay" onClick={() => setExportStep("none")}>
                     <div className="confirmation-dialog" onClick={(event) => event.stopPropagation()}>
@@ -1618,10 +2509,43 @@ export default function Conversation() {
                             Sections Incomplete
                         </h2>
 
+                        {/*
+                            What the list is and what the two buttons
+                            do, before the list rather than after it.
+                            A page of red names on their own reads as
+                            a refusal; nothing here refuses anything.
+                        */}
+                        <p className="confirmation-lead">
+                            These answers are still empty. Go back and fill them in, or
+                            continue and export the System as it stands.
+                        </p>
+
+                        {/*
+                            Grouped by the page each one is on, so the
+                            reader sees three pages to return to
+                            rather than eleven names in a column. A
+                            page whose whole Section is incomplete is
+                            its own heading and has nothing under it,
+                            which is what the empty `units` means.
+                        */}
                         <ul className="confirmation-warning-list">
-                            {validationIssues.map(issue => (
-                                <li key={issue.sectionNumber}>
-                                    {issue.sectionNumber}. {issue.sectionTitle}
+                            {groupValidationIssues(validationIssues, framework.sections).map(group => (
+                                <li key={group.number} className="confirmation-warning-group">
+
+                                    <span className="confirmation-warning-page">
+                                        {group.number}. {group.title}
+                                    </span>
+
+                                    {group.units.length > 0 && (
+                                        <ul className="confirmation-warning-units">
+                                            {group.units.map(unit => (
+                                                <li key={unit.label}>
+                                                    {unit.label} {unit.title}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+
                                 </li>
                             ))}
                         </ul>
@@ -1771,6 +2695,32 @@ export default function Conversation() {
                                         ))}
                                     </div>
                                 )}
+                            </div>
+                        )}
+
+                        {system?.id === "business" && (
+                            <div className="export-options-group">
+                                <div className="export-options-label">Document</div>
+
+                                <label className="export-options-radio">
+                                    <input
+                                        type="radio"
+                                        name="document-choice"
+                                        checked={documentChoice === "answers"}
+                                        onChange={() => setDocumentChoice("answers")}
+                                    />
+                                    The Business System's answers
+                                </label>
+
+                                <label className="export-options-radio">
+                                    <input
+                                        type="radio"
+                                        name="document-choice"
+                                        checked={documentChoice === "canvas"}
+                                        onChange={() => setDocumentChoice("canvas")}
+                                    />
+                                    Business Model Canvas
+                                </label>
                             </div>
                         )}
 

@@ -87,7 +87,9 @@ function renderBlockHtml(block: ExportBlock): string {
 
         case "subheading":
 
-            return `<h3>${escapeHtml(block.text)}</h3>`;
+            return block.level === 2
+                ? `<h4>${escapeHtml(block.text)}</h4>`
+                : `<h3>${escapeHtml(block.text)}</h3>`;
 
         case "paragraph":
 
@@ -168,6 +170,29 @@ function renderBlockHtml(block: ExportBlock): string {
  * asterisks and "- [ ]" syntax visibly unrendered in
  * the printed/PDF output.
  */
+function renderSectionHtml(section: ExportSectionContent, headingTag: "h2" | "h3"): string {
+
+    const bodyHtml = section.blocks.length > 0
+        ? section.blocks.map(renderBlockHtml).join("")
+        : "<p><em>No response.</em></p>";
+
+    return `
+        <${headingTag}>${escapeHtml(String(section.number))}. ${escapeHtml(section.title)}</${headingTag}>
+        ${bodyHtml}
+    `;
+
+}
+
+/**
+ * The sections of a document as HTML, every value escaped -- what the
+ * PDF prints, and what the Business Documents page previews.
+ */
+export function contentSectionsHtml(content: ExportContent): string {
+    return content.sections
+        .map(section => renderSectionHtml(section, "h2"))
+        .join("");
+}
+
 export class PdfExporter {
 
     public exportPdf(
@@ -223,22 +248,7 @@ export class PdfExporter {
 
     private buildHtml(content: ExportContent): string {
 
-        const renderSectionHtml = (section: ExportSectionContent, headingTag: "h2" | "h3"): string => {
-
-            const bodyHtml = section.blocks.length > 0
-                ? section.blocks.map(renderBlockHtml).join("")
-                : "<p><em>No response.</em></p>";
-
-            return `
-                <${headingTag}>${escapeHtml(String(section.number))}. ${escapeHtml(section.title)}</${headingTag}>
-                ${bodyHtml}
-            `;
-
-        };
-
-        const sectionsHtml = content.sections
-            .map(section => renderSectionHtml(section, "h2"))
-            .join("");
+        const sectionsHtml = contentSectionsHtml(content);
 
         // Per-Product Sections (see buildMultiProductExportContent):
         // one heading per Product, with that Product's OWN Sections
@@ -262,7 +272,7 @@ export class PdfExporter {
             <html>
                 <head>
                     <meta charset="utf-8" />
-                    <title>${escapeHtml(content.systemNumber)}. ${escapeHtml(content.systemName)}</title>
+                    <title>${escapeHtml(content.documentTitle ?? content.systemNumber + ". " + content.systemName)}</title>
                     <style>
                         body {
                             font-family: Arial, Helvetica, sans-serif;
@@ -285,6 +295,13 @@ export class PdfExporter {
                             margin-bottom: 4px;
                             page-break-after: avoid;
                         }
+                        h4 {
+                            font-size: 13px;
+                            margin-top: 10px;
+                            margin-bottom: 4px;
+                            color: #333333;
+                            page-break-after: avoid;
+                        }
                         p { font-size: 13px; line-height: 1.6; margin: 0 0 8px; }
                         table.export-table {
                             width: 100%;
@@ -304,6 +321,12 @@ export class PdfExporter {
                         table.export-table th {
                             background: #f2f4f8;
                             font-weight: 700;
+                            /* A heading on one line: never "Freque / ncy". */
+                            white-space: nowrap;
+                        }
+                        table.export-table td {
+                            /* Break only a word too long for its column (a link). */
+                            overflow-wrap: break-word;
                         }
                         table.export-table tr {
                             page-break-inside: avoid;
@@ -351,8 +374,11 @@ export class PdfExporter {
                     </style>
                 </head>
                 <body>
-                    <h1>${escapeHtml(content.systemNumber)}. ${escapeHtml(content.systemName)}</h1>
-                    <div class="capability"><strong>Capability:</strong> ${escapeHtml(content.capability)}</div>
+                    ${content.documentTitle
+                        ? `<h1>${escapeHtml(content.documentTitle)}</h1>` +
+                            (content.documentSubtitle ? `<div class="capability">${escapeHtml(content.documentSubtitle)}</div>` : "")
+                        : `<h1>${escapeHtml(content.systemNumber)}. ${escapeHtml(content.systemName)}</h1>
+                    <div class="capability"><strong>Capability:</strong> ${escapeHtml(content.capability)}</div>`}
                     ${sectionsHtml}
                     ${productGroupsHtml}
                 </body>

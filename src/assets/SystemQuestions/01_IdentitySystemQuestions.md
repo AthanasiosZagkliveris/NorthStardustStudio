@@ -3,63 +3,56 @@ System Name: Identity System
 Capability: Foundation
 System Scope: Defines the organization's identity, purpose, guiding beliefs, and the principles that shape every decision.
 
-## 1. Mission
+## 1. Definition
 
-- What do we do?
-- Who do we serve?
-- Why does our work matter?
+### Description
 
-## 2. Vision
+- Who are you, and what do you do?
+- What do you create or provide?
+- Name and legal details go in 3. Legal Entity.
 
-- What change do we want to see?
-- What does success look like in 10 years?
-- What impact do we hope to have?
+### Mission
 
-## 3. Values
+- What is your purpose?
+- What problem are you trying to solve?
+- Why does solving it matter?
 
-- What do we prioritize?
-- What behaviors do we encourage?
-- What do we refuse to compromise on?
+### Positioning
 
-## 4. Philosophy
+- Who is your target audience?
+- Which market or category do you belong to?
+- How are you different from competitors?
 
-- What beliefs shape our work?
-- What ideas influence our decisions?
-- How do we approach challenges and opportunities?
+### Vision
 
-## 5. Principles
+- What future are you working towards?
+- What would success look like?
+- Think ten years or more ahead.
 
-- How do we make decisions?
-- How do we evaluate opportunities?
-- What standards do we follow?
+## 2. Ethics
 
-## 6. Manifesto
+### Philosophy
 
-- What do we believe?
-- What do we reject?
-- What future are we trying to build?
-- Why does our work matter?
+- How do you understand the work you do?
+- How do you see the world around it?
+- Which beliefs shape your choices?
 
-## 7. Brand Personality
+### Values
 
-- If the brand were a person, what would it be like?
-- How should people describe us?
-- What impression should we leave?
+- What matters most to you?
+- What will you never compromise on?
+- List 3 to 5 values, one per line.
 
-## 8. Voice Guide
+### Principles
 
-- How should we sound?
-- How should we not sound?
-- What communication style reflects our identity?
+- Which rules guide your decisions?
+- How do you behave and treat people?
+- Which standards do you always keep?
 
-## 9. Positioning Statement
+### Manifesto
 
-- Who is our audience?
-- What do we provide?
-- What differentiates us?
+- What do you stand for, and against?
+- What purpose drives your products?
+- It should inspire your people and attract like-minded customers.
 
-## 10. Organization Description
-
-- Provide a short description of the organization (10–25 words).
-- Provide a standard description of the organization (40–100 words).
-- Provide an extended description of the organization (150–300 words).
+## 3. Legal Entity

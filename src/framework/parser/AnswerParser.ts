@@ -96,6 +96,10 @@ export class AnswerParser {
 
                 tabbed: this.isTabbedMultiPart(markdown) || undefined,
 
+                columns: this.isColumnLayoutMultiPart(markdown) || undefined,
+
+                nestedNumbering: this.isNestedNumbering(markdown) || undefined,
+
                 parts: parts.map((part): AnswerPartDefinition => ({
 
                     id: part.label.length > 0 ? this.slug(part.label) : "primary",
@@ -110,7 +114,15 @@ export class AnswerParser {
 
         }
 
-        return this.parseSingle(parts[0]?.body ?? markdown);
+        const single = this.parseSingle(parts[0]?.body ?? markdown);
+
+        // A Section declaring its own numbering carries that however
+        // it is structured -- the Identity System's Legal Entity page
+        // is one Structure rather than a set of columns, and still
+        // numbers its six subsections 3.1 to 3.6.
+        return this.isNestedNumbering(markdown)
+            ? { ...single, nestedNumbering: true }
+            : single;
 
     }
 
@@ -125,6 +137,67 @@ export class AnswerParser {
     private isTabbedMultiPart(markdown: string): boolean {
 
         return /^\s*\*{0,2}Tab Group:\*{0,2}\s*Yes\s*$/im.test(markdown);
+
+    }
+
+    /**
+     * Detects a Section-level "**Layout:** Columns" declaration (see
+     * AnswerDefinition.columns's own doc comment) -- written on its
+     * own line ANYWHERE before the first labeled part, exactly like
+     * the "Tab Group: Yes" marker above, and dropped by `splitParts`
+     * as unattributed leading content for the same reason.
+     *
+     * Deliberately spelled "Layout: Columns" rather than
+     * "Columns: Yes" -- "**Columns:**" is already the Table
+     * structure's own keyword for its column list, and reusing it
+     * here would make a Multi-Part Section holding a Table
+     * ambiguous to read (and to grep).
+     */
+    /**
+     * Reads a Shared Answer's `**Source:** <System> / <Section>`
+     * line -- which System's Section this one mirrors (see
+     * AnswerType.SharedAnswer).
+     *
+     * The same "System / Section" shape a cross-System
+     * `Dynamic Field` reference already uses, so content authors
+     * meet one convention for "point at another System", not two.
+     * Returns undefined when the line is missing or malformed;
+     * the renderer then has nothing to mirror and says so rather
+     * than rendering a silently empty page.
+     */
+    private parseSharedSource(
+        markdown: string
+    ): { systemTitle: string; sectionTitle: string } | undefined {
+
+        const match = markdown.match(
+            /^\s*\*{0,2}Source:\*{0,2}\s*(.+?)\s*\/\s*(.+?)\s*$/im
+        );
+
+        if (!match) {
+            return undefined;
+        }
+
+        return {
+            systemTitle: match[1].trim(),
+            sectionTitle: match[2].trim()
+        };
+
+    }
+
+    private isColumnLayoutMultiPart(markdown: string): boolean {
+
+        return /^\s*\*{0,2}Layout:\*{0,2}\s*Columns\s*$/im.test(markdown);
+
+    }
+
+    /**
+     * Detects a Section-level "**Numbering:** Nested" declaration
+     * (see AnswerDefinition.nestedNumbering) -- written on its own
+     * line beside the Layout line it goes with.
+     */
+    private isNestedNumbering(markdown: string): boolean {
+
+        return /^\s*\*{0,2}Numbering:\*{0,2}\s*Nested\s*$/im.test(markdown);
 
     }
 
@@ -240,6 +313,118 @@ export class AnswerParser {
 
             return {
                 type: AnswerType.FreeText
+            };
+
+        }
+
+        if (structure === "shared answer") {
+
+            return {
+
+                type: AnswerType.SharedAnswer,
+
+                sharedSource: this.parseSharedSource(markdown)
+
+            };
+
+        }
+
+        if (structure === "business foundation") {
+
+            // Four fixed columns, each a different shape, all
+            // declared by the editor rather than by the content --
+            // so there is nothing to read out of the Markdown here
+            // (the same as "legal entity" below).
+            return {
+                type: AnswerType.BusinessFoundation
+            };
+
+        }
+
+        if (structure === "business engagement") {
+
+            // Two fixed sections, both answered against Page 1's
+            // own answer -- so, like "business foundation" above,
+            // there is nothing for the content to declare.
+            return {
+                type: AnswerType.BusinessEngagement
+            };
+
+        }
+
+        if (structure === "business capability") {
+
+            // Two fixed sections of three fixed subsections, all
+            // declared by the editor -- nothing for the content to
+            // read out here, as with the two Business pages above.
+            return {
+                type: AnswerType.BusinessCapability
+            };
+
+        }
+
+        if (structure === "financial foundation") {
+
+            // Four fixed sections, declared by the editor, like the
+            // three Business pages before it.
+            return {
+                type: AnswerType.FinancialFoundation
+            };
+
+        }
+
+        if (structure === "financial sustainability") {
+
+            return {
+                type: AnswerType.FinancialSustainability
+            };
+
+        }
+
+        if (structure === "legal entity") {
+
+            return {
+                type: AnswerType.LegalEntity
+            };
+
+        }
+
+        if (structure === "brand style") {
+
+            return {
+                type: AnswerType.BrandStyle
+            };
+
+        }
+
+        if (structure === "brand inventory") {
+
+            return {
+                type: AnswerType.BrandInventory
+            };
+
+        }
+
+        if (structure === "strategy foundation") {
+
+            return {
+                type: AnswerType.StrategyFoundation
+            };
+
+        }
+
+        if (structure === "strategic period") {
+
+            return {
+                type: AnswerType.StrategicPeriod
+            };
+
+        }
+
+        if (structure === "strategic roadmap") {
+
+            return {
+                type: AnswerType.StrategicRoadmap
             };
 
         }

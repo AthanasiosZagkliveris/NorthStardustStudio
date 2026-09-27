@@ -16,6 +16,45 @@ html {
   scrollbar-gutter: stable;
 }
 
+/* ==========================================================
+   Scrollbars
+========================================================== */
+
+/* No visible scrollbar anywhere in the app -- not on the page
+   itself, and not in any of the containers that scroll inside it
+   (the Organization rail and its flyout, the Capability
+   description dialog, the export options list, every
+   horizontally-scrolling table and tab strip).
+
+   Scrolling itself is deliberately untouched: wheel, trackpad,
+   keyboard, and the drag-to-scroll handler (useDragToScroll) all
+   behave exactly as before -- this removes only the bar drawn on
+   top of the content, never the ability to reach it. Declared on
+   `*` rather than on the handful of containers that scroll today
+   so that a scroll area added later is covered by default instead
+   of quietly reintroducing a bar. */
+* {
+
+  /* Standard property (Firefox, and modern Chromium). */
+  scrollbar-width: none;
+
+  /* Legacy Edge / IE. */
+  -ms-overflow-style: none;
+
+}
+
+/* Chromium/WebKit, which is what Tauri's WebView2 actually
+   renders with -- the standard property above is not honoured by
+   every version, so the pseudo-element is set too. */
+*::-webkit-scrollbar {
+
+  width: 0;
+  height: 0;
+
+  display: none;
+
+}
+
 html,
 body,
 #root {
@@ -40,12 +79,18 @@ h1, h2, h3 {
 
 h1 {
   /* Scales smoothly with the window's width instead of staying a
-     fixed 48px -- shrinks down to 28px as the window narrows, grows
-     back up to 48px as it widens, and never goes past either end.
+     fixed size -- shrinks down to 28px as the window narrows, grows
+     back up to 36px as it widens, and never goes past either end.
      .workspace-title (workspace.css) and .capability-title
      (capability-generator.css) use the same clamp() so every h1-style
-     heading in the app resizes together. */
-  font-size: clamp(28px, 2vw + 20px, 48px);
+     heading in the app resizes together.
+
+     36px is deliberately the LARGEST type size anywhere in the app:
+     it matches the Interview Page's own System title
+     (`.interview-header h1`, conversation.css), and nothing else --
+     including every rem-based size on the Landing page -- goes
+     above it. Raising this cap would break that. */
+  font-size: clamp(28px, 2vw + 20px, 36px);
   font-weight: 700;
   line-height: 1.2;
 }
@@ -161,4 +206,88 @@ h3 {
   overflow: hidden;
   min-height: 38px;
   font-weight: 400 !important;
+}
+/* ==========================================================
+   Button tracking
+
+   ONE rule rather than a declaration on each button's own
+   class. Every button in the app is set at 10%, and that is now
+   true by default: a button added later gets it without anyone
+   having to remember, and there is a single place to change it.
+
+   Set on the element rather than on a class so it reaches
+   every button whatever it is called, and left at a low
+   specificity so a component that genuinely needs its own
+   tracking can still say so.
+========================================================== */
+button {
+  letter-spacing: 0.1em;
+}
+
+/* ==========================================================
+   Bold text tracking
+
+   Bold sets tighter than regular at the same size, so anything
+   bold gets at least 5% to open it back up. CSS cannot select
+   "whatever computes to weight 600+", so this covers the cases
+   that are bold BY CONSTRUCTION -- every heading level, and the
+   bold tags -- which is what makes it a rule rather than a list
+   of class names to keep extending.
+
+   Buttons are the deliberate exception at 10% (see the `button`
+   rule below), and a component that needs its own tracking can
+   still override this: it is set at the lowest specificity there
+   is.
+
+   Text that only turns bold on HOVER is handled at each of those
+   rules, since the element is not bold the rest of the time and
+   there is nothing here to select.
+========================================================== */
+h1, h2, h3, h4, h5, h6,
+b, strong {
+  letter-spacing: 0.05em;
+}
+
+/* ==========================================================
+   Bold on hover, without the resize
+
+   A control that swaps to font-weight:700 under the pointer is
+   re-measured with the heavier face: every glyph is wider, so
+   the button grows, and a row of them shuffles sideways as the
+   pointer crosses it. Where the button had a min-width the text
+   still shifted inside it; where it did not, the whole control
+   changed size.
+
+   This draws the SAME text twice, a third of a pixel either
+   side of itself, which thickens the strokes without touching
+   a single metric -- the box, the line, and the glyph
+   positions are all exactly what they were at rest. Every
+   hover-bold in the app uses it in place of a weight change.
+
+   `currentColor` so it follows whatever colour the hover state
+   also sets.
+========================================================== */
+:root {
+  --hover-bold: 0.03em 0 0 currentColor, -0.03em 0 0 currentColor;
+}
+
+/* ==========================================================
+   The glow
+
+   Every hover and focus ring in the app is drawn in this one
+   colour, as `color-mix(in srgb, var(--glow-color) N%,
+   transparent)`. It is the accent blue, as it always was -- but
+   it used to be written out long-hand in fifty places.
+
+   Naming it does two things. Changing it is one line. And
+   because a custom property INHERITS, a subtree can hand its
+   own descendants a different glow just by redeclaring it --
+   which is how everything inside a Strategic Theme glows in
+   that Theme's own generated colour without a single ring
+   rule knowing Themes exist (see .strategy-theme-panel /
+   .strategy-theme-box / .roadmap-theme-box in
+   conversation.css).
+========================================================== */
+:root {
+  --glow-color: #0b57d0;
 }

@@ -400,6 +400,7 @@ function FrequencyCell({
 
             <select
                 className="interview-input"
+                aria-label="How often"
                 value={howOften}
                 disabled={disabled}
                 onChange={(event) => {
@@ -421,6 +422,7 @@ function FrequencyCell({
             {needsWeekdayPicker && (
                 <select
                     className="interview-input process-library-frequency-schedule-field"
+                    aria-label="Day of week"
                     value={schedule?.anchorDate ? String(isoWeekday(schedule.anchorDate) ?? "") : ""}
                     disabled={disabled}
                     onChange={(event) => {
@@ -464,6 +466,8 @@ function FrequencyCell({
  */
 function AutoGrowField({
 
+    ariaLabel,
+
     value,
 
     placeholder,
@@ -477,6 +481,8 @@ function AutoGrowField({
 }: {
 
     value: string;
+
+    ariaLabel?: string;
 
     placeholder?: string;
 
@@ -519,6 +525,8 @@ function AutoGrowField({
             ref={setRef}
 
             className={`interview-input process-library-autogrow-field${className ? ` ${className}` : ""}`}
+
+            aria-label={ariaLabel}
 
             rows={1}
 
@@ -765,7 +773,8 @@ function StepsTable({
                             <td className="process-library-col-step-number">{index + 1}</td>
                             <td>
                                 <AutoGrowField
-                                    placeholder="What happens in this step"
+                                    ariaLabel="Step action"
+                                            placeholder="What happens in this step"
                                     value={step.action}
                                     disabled={disabled}
                                     onChange={(next) => updateStep(index, { action: next })}
@@ -1077,7 +1086,8 @@ function SopsTable({
                                         type="text"
                                         className="interview-input"
                                         list={OWNER_SUGGESTIONS_DATALIST_ID}
-                                        placeholder="Who owns this"
+                                        aria-label="Owner"
+                                            placeholder="Who owns this"
                                         value={sop.who}
                                         disabled={disabled}
                                         onChange={(event) => updateSop(index, { who: event.target.value })}
@@ -1935,7 +1945,8 @@ export default function ProcessLibraryEditor({
                                             <input
                                                 type="text"
                                                 className="interview-input process-library-id-field"
-                                                placeholder="PRC"
+                                                aria-label="Process ID prefix"
+                                            placeholder="PRC"
                                                 value={process.id ?? ""}
                                                 disabled={disabled}
                                                 onChange={(event) => updateProcess(index, { id: sanitizeIdInitials(event.target.value) })}
@@ -1952,6 +1963,7 @@ export default function ProcessLibraryEditor({
                                     </td>
                                     <td className="process-library-col-name">
                                         <AutoGrowField
+                                            ariaLabel="Process name"
                                             placeholder="Process Name"
                                             value={process.name}
                                             disabled={disabled}
@@ -1960,6 +1972,7 @@ export default function ProcessLibraryEditor({
                                     </td>
                                     <td className="process-library-col-purpose">
                                         <AutoGrowField
+                                            ariaLabel="Process purpose"
                                             placeholder="One line"
                                             value={process.purpose}
                                             disabled={disabled}
@@ -1971,6 +1984,7 @@ export default function ProcessLibraryEditor({
                                             type="text"
                                             className="interview-input"
                                             list={OWNER_SUGGESTIONS_DATALIST_ID}
+                                            aria-label="Owner"
                                             placeholder="Who owns this"
                                             value={process.who}
                                             disabled={disabled}
@@ -1987,6 +2001,7 @@ export default function ProcessLibraryEditor({
                                     <td className="process-library-col-status">
                                         <select
                                             className="interview-input"
+                                            aria-label="Status"
                                             value={process.status}
                                             disabled={disabled}
                                             onChange={(event) => updateProcess(index, { status: event.target.value })}

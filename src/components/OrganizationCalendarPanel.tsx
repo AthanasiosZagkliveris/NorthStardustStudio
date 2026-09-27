@@ -129,11 +129,16 @@ const MONTH_LABELS = [
     "July", "August", "September", "October", "November", "December"
 ];
 
-// A day cell only has room for so many stacked indicator dots
-// before it starts fighting the day number for space -- beyond
-// this many tasks on one date, the rest collapse into a small
-// "+N" badge instead (still counted, never silently dropped).
-const MAX_VISIBLE_DOTS = 4;
+// A day cell only has room for so many indicator dots before it
+// starts fighting the day number for space -- beyond this many
+// tasks on one date, the rest collapse into a small "+N" badge
+// instead (still counted, never silently dropped).
+//
+// Three rather than four: the dots now sit in a row beside each
+// other rather than stacked (see `.org-calendar-day-dots`), so
+// what limits them is the cell's WIDTH, shared with the "+N"
+// badge that appears the moment they are limited at all.
+const MAX_VISIBLE_DOTS = 3;
 
 // Which of the rail's flyouts (if any) is currently showing in
 // the shared content pane -- `null` means the rail is fully

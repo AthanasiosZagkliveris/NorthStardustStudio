@@ -1,10 +1,22 @@
-import { ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import type { OpenPage } from "./jumpTo.ts";
 
 import InterviewInput from "./InterviewInput.tsx";
 import DynamicTable, { TableColumn, TableRow } from "./DynamicTable.tsx";
 import ProcessLibraryEditor from "./ProcessLibraryEditor.tsx";
 import OperationalLogEditor from "./OperationalLogEditor.tsx";
 import RolesResponsibilitiesEditor from "./RolesResponsibilitiesEditor.tsx";
+import BrandStyleEditor from "./BrandStyleEditor.tsx";
+import BusinessCapabilityEditor from "./BusinessCapabilityEditor.tsx";
+import BusinessEngagementEditor from "./BusinessEngagementEditor.tsx";
+import BusinessFoundationEditor from "./BusinessFoundationEditor.tsx";
+import FinancialFoundationEditor from "./FinancialFoundationEditor.tsx";
+import FinancialSustainabilityEditor from "./FinancialSustainabilityEditor.tsx";
+import LegalEntityEditor from "./LegalEntityEditor.tsx";
+import BrandInventoryEditor from "./BrandInventoryEditor.tsx";
+import StrategyFoundationEditor from "./StrategyFoundationEditor.tsx";
+import StrategicPeriodEditor from "./StrategicPeriodEditor.tsx";
+import StrategicRoadmapEditor from "./StrategicRoadmapEditor.tsx";
 
 import { AnswerDefinition, TableColumnDefinition } from "../../framework/model/index.ts";
 
@@ -13,12 +25,18 @@ import {
     CardListAnswerValue,
     CardListItemValue,
     ChecklistItemValue,
+    LegalEntityFounderValue,
+    LegalEntityValue,
     OperationalLogAnswerValue,
     ProcessLibraryAnswerValue,
     ProcessRecordValue,
     ProfileCardValue,
     ProfileCardsAnswerValue,
     RolesResponsibilitiesAnswerValue,
+    StrategicPeriodValue,
+    StrategyFoundationValue,
+    StrategyRangeValue,
+    StrategyThemeValue,
     isAnswerEmpty,
     isDateColumn,
     visibleTableColumns
@@ -270,6 +288,188 @@ interface AnswerRendererProps {
      */
     dynamicOptionsDependency?: unknown;
 
+    /**
+     * Rendered as one full-width row of a COLUMN-LAYOUT Multi-Part
+     * answer (see AnswerDefinition.columns), between the row of
+     * column labels/questions and the row of editors below them --
+     * i.e. a continuous horizontal band spanning every column.
+     *
+     * This exists so the interview's progress line can sit between
+     * the question text and the answer boxes: in a column layout
+     * those two things are interleaved inside this component, so a
+     * sibling rendered before or after it can't land between them.
+     * Ignored by every other Answer Structure and layout.
+     */
+    columnsDivider?: ReactNode;
+
+    /**
+     * How many column-layout columns precede this Section's own, so
+     * a Section's columns can be numbered continuously across the
+     * whole System rather than restarting at 1 on each page (the
+     * Identity System's twelve columns run 1-12 across its three
+     * pages). Defaults to 0, i.e. numbering from 1.
+     */
+    columnNumberOffset?: number;
+
+    /**
+     * Set when this Section numbers its own units UNDER its Section
+     * number rather than continuing a running count across the
+     * System (see AnswerDefinition.nestedNumbering). Holds the
+     * Section number itself, so a column reads "1.3" rather than
+     * "3".
+     */
+    columnNumberPrefix?: string;
+
+    /**
+     * Handed to the Legal Entity page so it can answer its first
+     * fields from what the app already knows (see
+     * LegalEntityEditorProps.prefill). Ignored by every other
+     * Answer Structure.
+     */
+    legalEntityPrefill?: { organisationName: string; founderName: string };
+
+    /**
+     * The Identity System's Positioning answer, shown by the
+     * Business System's Foundation page beside the instruction that
+     * asks the founder to divide it into Segments.
+     */
+    targetAudience?: string;
+
+    /** The Identity System's Vision: shown beside the Strategic Compass. */
+    identityVision?: string;
+
+    /**
+     * The Business System's Foundation answer (Page 1), handed to
+     * the Customer Engagement page (Page 2) -- which is answered
+     * entirely against it: its Segments, their Profiles and their
+     * Offerings are what that page refers to rather than re-asks.
+     * Ignored by every other Answer Structure.
+     */
+    businessFoundation?: unknown;
+
+    /**
+     * Opens the Business System's Foundation page, for the
+     * reference links Page 2 draws on the names it borrows from it.
+     * Absent when there is nowhere to go, and the names are then
+     * drawn as plain text rather than as links that do nothing.
+     */
+    onOpenBusinessFoundation?: OpenPage;
+
+    /**
+     * The currency the organisation is registered in, from the
+     * Identity System's Legal Entity page -- "" until a country is
+     * chosen there. The Business System's Infrastructure &
+     * Capability page offers it beside every Price. Ignored by
+     * every other Answer Structure.
+     */
+    organisationCurrency?: string;
+
+    /**
+     * The founders answered under the Identity System's Legal
+     * Entity, 3.2 Founders & Ownership. The Business System's
+     * Infrastructure & Capability page lists them under
+     * 1. Founders. Ignored by every other Answer Structure.
+     */
+    legalEntityFounders?: readonly LegalEntityFounderValue[];
+
+    /**
+     * The whole Legal Entity answer, and the Business System's
+     * Page 3 and Page 4 answers, for the two Financial pages: Page 4
+     * consolidates costs from the Legal Entity and Page 3, and Page 5
+     * reads Page 4. Ignored by every other Answer Structure.
+     */
+    legalEntity?: LegalEntityValue;
+    businessCapability?: unknown;
+    financialFoundation?: unknown;
+    /** Financial Sustainability's saved value, for Financial Foundation's operating need. */
+    financialSustainability?: unknown;
+    /** Customer Engagement's saved value: its Demand & Conversion gives expected sales. */
+    businessEngagement?: unknown;
+    onOpenBusinessEngagement?: OpenPage;
+    onOpenBusinessCapability?: OpenPage;
+    onOpenFinancialFoundation?: OpenPage;
+    /** 1. Identity System → 3. Legal Entity, from Financial Foundation's costs. */
+    onOpenLegalEntity?: OpenPage;
+
+    /**
+     * Accessible name for the control this Answer renders, when
+     * the caller knows its title -- e.g. a column-layout part
+     * passes its own column title, so the Identity System's twelve
+     * text boxes announce "Mission", "Vision" and so on instead of
+     * twelve identical unnamed fields. See InterviewInput.ariaLabel.
+     */
+    ariaLabel?: string;
+
+    /**
+     * Whether a page that carries its own instructions above the
+     * progress line should show them.
+     *
+     * Toggled by the Help button the page renders just above that
+     * line (see Conversation.tsx). Hiding them leaves the headings
+     * and the answers in place -- what goes away is the guidance,
+     * which is what takes up the room once it has been read.
+     *
+     * Defaults to shown, so anything that does not pass it behaves
+     * exactly as it did before.
+     */
+    showInstructions?: boolean;
+
+    /**
+     * Everything the Strategy System's pages need from EACH OTHER.
+     *
+     * Its three pages read forward -- the Strategic Period page
+     * develops the Themes defined on the Foundation page, and the
+     * Roadmap draws both -- and a Section can only see its own
+     * response. So the page (Conversation.tsx) resolves the other
+     * Sections' answers and hands them down here.
+     *
+     * Ignored by every other Answer Structure, and omitted outside
+     * the Strategy System.
+     */
+    strategy?: {
+
+        /** The Foundation page's answer (Period + Themes). */
+        foundation: StrategyFoundationValue;
+
+        /** The Strategic Period page's answer (Goals downward). */
+        period: StrategicPeriodValue;
+
+        /**
+         * The number the Strategic Period section carries on the
+         * Foundation page, which every nested number on page 2
+         * hangs off ("4" gives Theme 1 as 4.1).
+         */
+        themeNumberPrefix: string;
+
+        /**
+         * Returns false to abandon removing a Theme -- asked when
+         * that Theme already has Goals recorded against it on the
+         * Strategic Period page, which removing it would take with
+         * it.
+         */
+        guardThemeRemoval: (theme: StrategyThemeValue, apply: () => void) => void;
+
+        /** The Current Situation drafted from the Business System; "" when it records nothing yet. */
+        situationDraft?: string;
+
+        /** Asks before a Refresh replaces the founder's own words. */
+        guardSituationRefresh?: (apply: () => void) => void;
+
+        /** Opens a Business System page, by its Answer Structure. */
+        openBusinessPage?: (type: AnswerType) => void;
+
+        /** The financial plan's first and last month; null when it has none. */
+        financialPlan?: StrategyRangeValue | null;
+
+        /**
+         * Returns false to abandon a change to the Strategic
+         * Period -- asked when narrowing it would leave an
+         * Objective's own period outside it.
+         */
+        guardPeriodChange: (period: StrategyRangeValue, apply: () => void) => void;
+
+    };
+
 }
 
 /**
@@ -394,7 +594,71 @@ function toTableColumns(
  * lifetime (structural, from the Framework), so calling it
  * unconditionally here is always safe and simply goes unused in
  * the (default) stacked layout.
+ *
+ * When `definition.columns` is set instead (see its own doc
+ * comment), every part renders at once SIDE BY SIDE in equal-width
+ * columns, each column carrying its own label and -- unlike either
+ * other layout -- its own question text directly above its editor
+ * (see AnswerPartDefinition.questions). `tabbed` is checked first,
+ * so a Section that somehow declared both still renders as tabs.
  */
+/**
+ * Picks the wrapping style for one authored question/explanation
+ * line.
+ *
+ * A bullet line (the interpreter emits a literal "• " prefix -- see
+ * FrameworkInterpreter's normalizeParagraphLine) hangs its wrapped
+ * text under its own words. An explanation line has no bullet to
+ * align to, so it stays flush to the margin instead of being
+ * indented to a bullet it doesn't have.
+ *
+ * Exported for reuse by InterviewSection, which renders the same
+ * authored lines for every non-column Section.
+ */
+/**
+ * Controls WHERE a two-part "A & B" column title is allowed to
+ * break, so it wraps after the "&" rather than wherever the column
+ * width happens to run out.
+ *
+ * "Attitude & Body Language" has three breakable spaces, and the
+ * browser picks the last one that fits -- giving "Attitude & Body /
+ * Language". Binding "Attitude" to the "&" and binding "Body" to
+ * "Language" with non-breaking spaces leaves exactly one breakable
+ * space, the one after the "&", so it can only wrap as
+ * "Attitude & / Body Language".
+ *
+ * Non-breaking spaces rather than `white-space:nowrap` on purpose:
+ * nowrap would let a long trailing part overflow a narrow column
+ * outright, whereas the label's own `overflow-wrap:break-word` can
+ * still break a nbsp-joined run as a last resort.
+ *
+ * A title with no "&" is returned unchanged.
+ */
+export function bindLabelAroundAmpersand(label: string): string {
+
+    const match = label.match(/^(.*?\S)\s*&\s*(\S.*)$/);
+
+    if (!match) {
+        return label;
+    }
+
+    const NBSP = " ";
+
+    const before = match[1].replace(/\s+/g, NBSP);
+    const after = match[2].replace(/\s+/g, NBSP);
+
+    return `${before}${NBSP}& ${after}`;
+
+}
+
+export function questionLineClass(line: string): string {
+
+    return line.trimStart().startsWith("•")
+        ? "answer-question-line answer-question-line-bullet"
+        : "answer-question-line";
+
+}
+
 function MultiPartAnswerRenderer({
 
     definition,
@@ -411,7 +675,15 @@ function MultiPartAnswerRenderer({
 
     ownerSuggestions,
 
-    processLibraryProcesses
+    processLibraryProcesses,
+
+    columnsDivider,
+
+    columnNumberOffset,
+
+    columnNumberPrefix,
+
+    showInstructions = true
 
 }: AnswerRendererProps) {
 
@@ -485,6 +757,8 @@ function MultiPartAnswerRenderer({
 
                             definition={activePart.answer}
 
+                            ariaLabel={activePart.label}
+
                             value={values[activePart.id]}
 
                             onChange={(next) => onChange({ ...values, [activePart.id]: next })}
@@ -513,6 +787,160 @@ function MultiPartAnswerRenderer({
 
     }
 
+    if (definition.columns) {
+
+        return (
+
+            <div
+                className="answer-columns"
+                style={
+                    {
+                        "--answer-column-count": parts.length
+                    } as CSSProperties
+                }
+            >
+
+                {/*
+                    Labels and questions are separate grid ROWS rather
+                    than one stacked block per column. A grid row sizes
+                    to its tallest item, so every column's question text
+                    begins on the same line even when one title wraps to
+                    two lines and its neighbour doesn't.
+                */}
+                {parts.map((part, index) => (
+
+                    <h3
+                        key={`label-${part.id}`}
+                        className="answer-column-label"
+                        id={`answer-column-label-${part.id}`}
+                    >
+
+                        {part.label.length > 0 && (
+                            <>
+                                {/*
+                                    Number and title are separate boxes
+                                    (not one "N. Title" string) so a
+                                    title that wraps starts its second
+                                    line under its own text rather than
+                                    under the number -- and so that
+                                    stays exact whether the number is
+                                    one digit or two.
+                                */}
+                                <span className="answer-column-label-number">
+                                    {columnNumberPrefix
+                                        ? columnNumberPrefix + "." + (index + 1)
+                                        : (columnNumberOffset ?? 0) + index + 1 + "."}
+                                </span>
+
+                                <span className="answer-column-label-text">
+                                    {bindLabelAroundAmpersand(part.label)}
+                                </span>
+                            </>
+                        )}
+
+                    </h3>
+
+                ))}
+
+                {/*
+                    The whole guidance row goes when the Help button
+                    hides it, rather than each block being emptied:
+                    an empty row would still take a grid track and a
+                    gap, leaving a band of nothing between the titles
+                    and the line.
+                */}
+                {showInstructions && parts.map(part => (
+
+                    <div key={`questions-${part.id}`} className="answer-column-questions">
+
+                        {/*
+                            Split per line rather than left as one
+                            "pre-line" run so each line is its own
+                            block -- a bullet hangs its wrap under its
+                            own text, while an explanation line (no
+                            bullet) stays flush to the margin. See
+                            .answer-question-line in conversation.css.
+                        */}
+                        {(part.questions ?? "").split("\n").map((line, lineIndex) => (
+
+                            <span
+                                key={lineIndex}
+                                className={questionLineClass(line)}
+                            >
+                                {line}
+                            </span>
+
+                        ))}
+
+                    </div>
+
+                ))}
+
+                {columnsDivider && (
+
+                    <div className="answer-columns-divider">
+                        {columnsDivider}
+                    </div>
+
+                )}
+
+                {parts.map(part => (
+
+                    /*
+                        Labelled as a group by its own column heading.
+                        The editor inside is a bare <textarea> with no
+                        label of its own (see InterviewInput), so
+                        without this a screen reader announces twelve
+                        identical, unnamed text areas on an Identity
+                        page with no way to tell Mission from Vision.
+                        `role="group"` + `aria-labelledby` makes each
+                        one announce its column name on entry.
+                    */
+                    <div
+                        key={`editor-${part.id}`}
+                        className="answer-column-editor"
+                        role={part.label.length > 0 ? "group" : undefined}
+                        aria-labelledby={
+                            part.label.length > 0
+                                ? `answer-column-label-${part.id}`
+                                : undefined
+                        }
+                    >
+
+                        <SingleAnswerRenderer
+
+                            definition={part.answer}
+
+                            ariaLabel={part.label}
+
+                            value={values[part.id]}
+
+                            onChange={(next) => onChange({ ...values, [part.id]: next })}
+
+                            disabled={disabled}
+
+                            resolveDynamicOptions={resolveDynamicOptions}
+
+                            rowSelection={rowSelection}
+
+                            ownerSuggestions={ownerSuggestions}
+
+                            processLibraryProcesses={processLibraryProcesses}
+
+                            dynamicOptionsDependency={values}
+
+                        />
+
+                    </div>
+
+                ))}
+
+            </div>
+
+        );
+
+    }
+
     return (
 
         <div className="answer-multi-part">
@@ -528,6 +956,8 @@ function MultiPartAnswerRenderer({
                     <SingleAnswerRenderer
 
                         definition={part.answer}
+
+                            ariaLabel={part.label}
 
                         value={values[part.id]}
 
@@ -594,7 +1024,53 @@ function SingleAnswerRenderer({
 
     processLibraryProcesses,
 
-    dynamicOptionsDependency
+    dynamicOptionsDependency,
+
+    ariaLabel,
+
+    // Used by the Brand System's own editors, which number their
+    // sections continuously with the rest of their System and host
+    // the progress line inside their own grid -- see
+    // BrandStyleEditor. Ignored by every other Answer Structure.
+    columnNumberOffset,
+
+    columnNumberPrefix,
+
+    legalEntityPrefill,
+    targetAudience,
+
+    identityVision,
+
+    // What the Business System's Customer Engagement page needs
+    // from its Foundation page, resolved by the page (see
+    // AnswerRendererProps.businessFoundation). Ignored by every
+    // other Answer Structure.
+    businessFoundation,
+    onOpenBusinessFoundation,
+    organisationCurrency = "",
+    legalEntityFounders,
+    legalEntity,
+    businessCapability,
+    financialFoundation,
+
+    financialSustainability,
+
+    businessEngagement,
+
+    onOpenBusinessEngagement,
+    onOpenBusinessCapability,
+    onOpenFinancialFoundation,
+
+    onOpenLegalEntity,
+
+    columnsDivider,
+
+    showInstructions = true,
+
+    // What the Strategy System's three pages need from each other,
+    // resolved by the page (see AnswerRendererProps.strategy).
+    // Ignored by every other Answer Structure.
+    strategy
 
 }: AnswerRendererProps) {
 
@@ -717,6 +1193,8 @@ function SingleAnswerRenderer({
                 <InterviewInput
 
                     mode="textarea"
+
+                    ariaLabel={ariaLabel}
 
                     value={String(value ?? "")}
 
@@ -1580,6 +2058,218 @@ function SingleAnswerRenderer({
             );
 
         }
+
+        case AnswerType.BusinessFoundation:
+
+            return (
+
+                <BusinessFoundationEditor
+                    value={value}
+                    showInstructions={showInstructions}
+                    columnsDivider={columnsDivider}
+                    targetAudience={targetAudience}
+                    onChange={onChange}
+                    disabled={disabled}
+                />
+
+            );
+
+        case AnswerType.BusinessEngagement:
+
+            return (
+
+                <BusinessEngagementEditor
+                    value={value}
+                    showInstructions={showInstructions}
+                    columnsDivider={columnsDivider}
+                    foundation={businessFoundation}
+                    onOpenFoundation={onOpenBusinessFoundation}
+                    onChange={onChange}
+                    disabled={disabled}
+                />
+
+            );
+
+        case AnswerType.BusinessCapability:
+
+            return (
+
+                <BusinessCapabilityEditor
+                    value={value}
+                    showInstructions={showInstructions}
+                    columnsDivider={columnsDivider}
+                    foundation={businessFoundation}
+                    onOpenFoundation={onOpenBusinessFoundation}
+                    organisationCurrency={organisationCurrency}
+                    legalEntityFounders={legalEntityFounders}
+                    engagement={businessEngagement}
+                    onChange={onChange}
+                    disabled={disabled}
+                />
+
+            );
+
+        case AnswerType.FinancialFoundation:
+
+            return (
+
+                <FinancialFoundationEditor
+                    value={value}
+                    showInstructions={showInstructions}
+                    columnsDivider={columnsDivider}
+                    foundation={businessFoundation}
+                    capability={businessCapability}
+                    legalEntity={legalEntity}
+                    sustainability={financialSustainability}
+                    engagement={businessEngagement}
+                    currency={organisationCurrency}
+                    onOpenFoundation={onOpenBusinessFoundation}
+                    onOpenCapability={onOpenBusinessCapability}
+                    onOpenLegalEntity={onOpenLegalEntity}
+                    onChange={onChange}
+                    disabled={disabled}
+                />
+
+            );
+
+        case AnswerType.FinancialSustainability:
+
+            return (
+
+                <FinancialSustainabilityEditor
+                    value={value}
+                    showInstructions={showInstructions}
+                    columnsDivider={columnsDivider}
+                    foundation={businessFoundation}
+                    capability={businessCapability}
+                    financialFoundation={financialFoundation}
+                    engagement={businessEngagement}
+                    legalEntity={legalEntity}
+                    currency={organisationCurrency}
+                    onOpenFoundation={onOpenBusinessFoundation}
+                    onOpenFinancialFoundation={onOpenFinancialFoundation}
+                    onOpenEngagement={onOpenBusinessEngagement}
+                    onOpenCapability={onOpenBusinessCapability}
+                    onChange={onChange}
+                    disabled={disabled}
+                />
+
+            );
+
+        case AnswerType.LegalEntity:
+
+            return (
+
+                <LegalEntityEditor
+                    value={value}
+                    // The page's own number in its System, which its
+                    // six subsections number themselves from.
+                    numberPrefix={columnNumberPrefix ?? String((columnNumberOffset ?? 0) + 1)}
+                    prefill={legalEntityPrefill}
+                    columnsDivider={columnsDivider}
+                    showInstructions={showInstructions}
+                    onChange={onChange}
+                    disabled={disabled}
+                />
+
+            );
+
+        case AnswerType.BrandStyle:
+
+            return (
+
+                <BrandStyleEditor
+                    value={value}
+                    startNumber={(columnNumberOffset ?? 0) + 1}
+                    numberPrefix={columnNumberPrefix}
+                    columnsDivider={columnsDivider}
+                    showInstructions={showInstructions}
+                    onChange={onChange}
+                    disabled={disabled}
+                />
+
+            );
+
+        case AnswerType.BrandInventory:
+
+            return (
+
+                <BrandInventoryEditor
+                    value={value}
+                    startNumber={(columnNumberOffset ?? 0) + 1}
+                    numberPrefix={columnNumberPrefix}
+                    columnsDivider={columnsDivider}
+                    showInstructions={showInstructions}
+                    onChange={onChange}
+                    disabled={disabled}
+                />
+
+            );
+
+        case AnswerType.StrategyFoundation:
+
+            return (
+
+                <StrategyFoundationEditor
+                    value={value}
+                    startNumber={(columnNumberOffset ?? 0) + 1}
+                    numberPrefix={columnNumberPrefix}
+                    columnsDivider={columnsDivider}
+                    showInstructions={showInstructions}
+                    onChange={onChange}
+                    disabled={disabled}
+                    guardThemeRemoval={strategy?.guardThemeRemoval}
+                    guardPeriodChange={strategy?.guardPeriodChange}
+                    vision={identityVision}
+                    situationDraft={strategy?.situationDraft ?? ""}
+                    guardSituationRefresh={strategy?.guardSituationRefresh}
+                    openBusinessPage={strategy?.openBusinessPage}
+                    financialPlan={strategy?.financialPlan ?? null}
+                />
+
+            );
+
+        // Both of the remaining Strategy pages are drawn from the
+        // Foundation page's answer, which lives in ANOTHER Section --
+        // so it is handed in rather than read here. Without it there
+        // is nothing to develop or draw, and the page says so.
+        case AnswerType.StrategicPeriod:
+
+            if (!strategy) {
+                return null;
+            }
+
+            return (
+
+                <StrategicPeriodEditor
+                    value={value}
+                    foundation={strategy.foundation}
+                    founders={(legalEntityFounders ?? []).filter(founder => founder.name.trim().length > 0)}
+                    organisationCurrency={organisationCurrency}
+                    columnsDivider={columnsDivider}
+                    showInstructions={showInstructions}
+                    onChange={onChange}
+                    disabled={disabled}
+                />
+
+            );
+
+        case AnswerType.StrategicRoadmap:
+
+            if (!strategy) {
+                return null;
+            }
+
+            return (
+
+                <StrategicRoadmapEditor
+                    foundation={strategy.foundation}
+                    period={strategy.period}
+                    columnsDivider={columnsDivider}
+                    showInstructions={showInstructions}
+                />
+
+            );
 
         case AnswerType.RolesResponsibilities: {
 

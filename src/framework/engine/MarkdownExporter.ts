@@ -26,8 +26,9 @@ function renderBlock(block: ExportBlock): string[] {
 
     switch (block.kind) {
 
+        // Level 1 under the Section's own "##" heading, level 2 under that.
         case "subheading":
-            return [`**${block.text}**`, ""];
+            return [(block.level === 2 ? "#### " : "### ") + block.text, ""];
 
         case "paragraph":
             return [block.text, ""];
@@ -150,10 +151,19 @@ export class MarkdownExporter {
 
         const lines: string[] = [];
 
-        lines.push(`# ${content.systemNumber}. ${content.systemName}`);
-        lines.push("");
-        lines.push(`**Capability:** ${content.capability}`);
-        lines.push("");
+        if (content.documentTitle) {
+            lines.push(`# ${content.documentTitle}`);
+            lines.push("");
+            if (content.documentSubtitle) {
+                lines.push(`**${content.documentSubtitle}**`);
+                lines.push("");
+            }
+        } else {
+            lines.push(`# ${content.systemNumber}. ${content.systemName}`);
+            lines.push("");
+            lines.push(`**Capability:** ${content.capability}`);
+            lines.push("");
+        }
 
         for (const section of content.sections) {
             lines.push(...renderSection(section, "##"));
