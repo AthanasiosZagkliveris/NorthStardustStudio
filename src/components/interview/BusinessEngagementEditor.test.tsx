@@ -205,3 +205,49 @@ describe("BusinessEngagementEditor number limits", () => {
     });
 
 });
+
+describe("BusinessEngagementEditor formula references", () => {
+
+    it("shows the sales funnel formula beside a counted result", () => {
+
+        function DemandHarness() {
+            const [{ foundation, engagement }] = useState(() => {
+                const scenario = engagementScenario();
+                const audit = scenario.foundation.segments[0].offerings[0];
+                return {
+                    ...scenario,
+                    engagement: {
+                        ...scenario.engagement,
+                        demand: {
+                            [audit.id]: {
+                                sources: [{
+                                    id: "s1",
+                                    type: "funnel",
+                                    calculate: true,
+                                    estimate: "",
+                                    inputs: { prospects: "40", qualified: "15", buy: "25" },
+                                    basis: ""
+                                }]
+                            }
+                        }
+                    }
+                };
+            });
+            const [value, setValue] = useState<unknown>(engagement);
+            return <BusinessEngagementEditor value={value} onChange={setValue} foundation={foundation} />;
+        }
+
+        render(<DemandHarness />);
+
+        fireEvent.click(screen.getByRole("button", { name: "Expand all offerings" }));
+        fireEvent.click(screen.getByRole("button", { name: "Maximize Demand & Conversion for Audit" }));
+
+        fireEvent.click(screen.getByRole("button", { name: "Sales funnel result: what this means" }));
+
+        expect(screen.getByText("Formula:")).toBeTruthy();
+        expect(screen.getByText("Sales / month = Prospects × Qualified% × Buy%")).toBeTruthy();
+        expect(screen.getByRole("link", { name: "CFI, “Lead-to-Customer Conversion Rate”" })).toBeTruthy();
+
+    });
+
+});

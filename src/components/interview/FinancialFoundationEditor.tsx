@@ -110,6 +110,53 @@ const DEFINITIONS = {
     runway: { title: "Financial Runway", text: "The estimated period for which available financial resources can support the organization under current assumptions." }
 };
 
+/** The loan payment formula, the "i" beside the repayment figure. */
+const LOAN_PAYMENT_HELP: InfoPoint[] = [
+    {
+        title: "Formula",
+        text: "Payment = P × r ÷ (1 − (1 + r)^−n) (annuity); equal-principal: P ÷ n plus interest"
+    },
+    "A fixed payment that covers interest and repays the loan over n periods; r is the rate per period (annual ÷ 12 for monthly).",
+    {
+        title: "Source",
+        text: "Wikipedia, “Amortization calculator”",
+        href: "https://en.wikipedia.org/wiki/Amortization_calculator"
+    }
+];
+
+/** The interest-only months before the first repayment, its "i". */
+const LOAN_PRE_INTEREST_HELP: InfoPoint[] = [
+    { title: "Formula", text: "Interest = Principal × Rate × Time" },
+    "Interest on the amount borrowed only, without compounding.",
+    {
+        title: "Source",
+        text: "CFI, “Simple Interest”",
+        href: "https://corporatefinanceinstitute.com/resources/commercial-lending/simple-interest/"
+    }
+];
+
+/** The funding gap formula, added to that figure's own info. */
+const FUNDING_GAP_FORMULA: InfoPoint = {
+    title: "Formula",
+    text: "Funding gap = Funding needed − Funding available and confirmed"
+};
+const FUNDING_GAP_SOURCE: InfoPoint = {
+    title: "Source",
+    text: "WallStreetMojo, “Funding Gap”",
+    href: "https://www.wallstreetmojo.com/funding-gap/"
+};
+
+/** The runway formula, added to that figure's own info. */
+const RUNWAY_FORMULA: InfoPoint = {
+    title: "Formula",
+    text: "Runway = Cash ÷ Monthly net burn (here: the first month the projected balance goes below zero)"
+};
+const RUNWAY_SOURCE: InfoPoint = {
+    title: "Source",
+    text: "CFI, “Cash Runway Explained”",
+    href: "https://corporatefinanceinstitute.com/resources/valuation/cash-runway-explained/"
+};
+
 const SECTIONS = {
     costs: {
         title: "Costs",
@@ -1246,6 +1293,7 @@ export default function FinancialFoundationEditor({
                         <div className="financial-loan-summary">
                             <p>
                                 <strong>{format(schedule.firstPayment)}</strong> {frequency}
+                                <InfoNote label="Loan repayment" points={LOAN_PAYMENT_HELP} />
                                 {" · "}Principal {format((schedule.firstRepayment ?? schedule.payments[0]).principal)} + interest {format((schedule.firstRepayment ?? schedule.payments[0]).interest)}
                                 {" · "}Total interest {format(schedule.totalInterest)}
                                 {" · "}Last payment {planMonthLabel(start, schedule.payments[schedule.payments.length - 1].month)}
@@ -1253,6 +1301,12 @@ export default function FinancialFoundationEditor({
                             <p className="financial-muted">
                                 Principal repayments are a financing outflow, not an operating cost; the interest is the cost of borrowing.
                             </p>
+                            {schedule.payments.some(payment => payment.principal === 0) && (
+                                <p className="financial-muted">
+                                    Interest accrues on the whole principal from the month it is drawn until repayments begin.
+                                    <InfoNote label="Interest before repayment starts" points={LOAN_PRE_INTEREST_HELP} />
+                                </p>
+                            )}
                             <button
                                 type="button"
                                 className="business-engagement-link"
@@ -1550,13 +1604,18 @@ export default function FinancialFoundationEditor({
                         label: "Funding Gap",
                         value: format(position.gap),
                         tone: position.gap > 0.005 ? "risk" : covered ? "good" : "neutral",
-                        info: [DEFINITIONS.gap]
+                        info: [DEFINITIONS.gap, FUNDING_GAP_FORMULA, FUNDING_GAP_SOURCE]
                     },
                     {
                         label: "Financial Runway",
                         value: runway,
                         tone: position.runwayMonths !== null && position.runwayMonths < 6 ? "risk" : "neutral",
-                        info: [DEFINITIONS.runway, "Counts money available now and confirmed money as it is scheduled to arrive, against every scheduled cost and loan repayment, with the revenue expected on Financial Sustainability as it is received."]
+                        info: [
+                            DEFINITIONS.runway,
+                            "Counts money available now and confirmed money as it is scheduled to arrive, against every scheduled cost and loan repayment, with the revenue expected on Financial Sustainability as it is received.",
+                            RUNWAY_FORMULA,
+                            RUNWAY_SOURCE
+                        ]
                     }
                 ]} />
 

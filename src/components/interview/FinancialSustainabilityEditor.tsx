@@ -98,6 +98,39 @@ const TAKE_INFO: InfoPoint[] = [
     "Where the plan already holds, it says how far sales, the start of revenue or costs could go against it instead."
 ];
 
+/** The units formula behind Break Even Alone, added to the block's own info. */
+const BREAK_EVEN_UNITS_FORMULA: InfoPoint = {
+    title: "Formula",
+    text: "Break-even units = Fixed costs ÷ (Price − Variable cost per unit)"
+};
+const BREAK_EVEN_UNITS_SOURCE: InfoPoint = {
+    title: "Source",
+    text: "U.S. SBA, “Break-even point”",
+    href: "https://www.sba.gov/business-guide/plan-your-business/calculate-your-startup-costs/break-even-point"
+};
+
+/** The revenue formula behind Break-Even Revenue, added to its tile's own info. */
+const BREAK_EVEN_REVENUE_FORMULA: InfoPoint = {
+    title: "Formula",
+    text: "Break-even revenue = Fixed costs ÷ Contribution margin ratio"
+};
+const BREAK_EVEN_REVENUE_SOURCE: InfoPoint = {
+    title: "Source",
+    text: "OpenStax, “Calculate a Break-Even Point in Units and Dollars”",
+    href: "https://biz.libretexts.org/Bookshelves/Accounting/Managerial_Accounting_(OpenStax)/03:_Cost-Volume-Profit_Analysis/3.03:_Calculate_a_Break-Even_Point_in_Units_and_Dollars"
+};
+
+/** Contribution's own formula, the "i" beside its figure on each Offering's card. */
+const CONTRIBUTION_HELP: InfoPoint[] = [
+    { title: "Formula", text: "Contribution = Price − Variable costs; ratio = Contribution ÷ Price" },
+    "What each sale leaves to pay fixed costs and profit.",
+    {
+        title: "Source",
+        text: "CFI, “Contribution Margin”",
+        href: "https://corporatefinanceinstitute.com/resources/accounting/contribution-margin-overview/"
+    }
+];
+
 const SECTIONS = {
     revenue: {
         title: "Revenue",
@@ -476,7 +509,7 @@ export default function FinancialSustainabilityEditor({
                                     </li>
                                     {entry.contribution !== null && entry.price !== null && entry.price > 0 && (
                                         <li className="financial-cost-inputs-total">
-                                            <span>Contribution</span>
+                                            <span>Contribution<InfoNote label="Contribution" points={CONTRIBUTION_HELP} /></span>
                                             <span>{format(entry.contribution)} ({Math.round(entry.contribution / entry.price * 100)}% of the price)</span>
                                         </li>
                                     )}
@@ -1364,7 +1397,11 @@ export default function FinancialSustainabilityEditor({
                         label: "Break-Even Revenue",
                         value: result.breakEvenRevenue === null ? "n/a" : format(result.breakEvenRevenue),
                         detail: "a month",
-                        info: ["Fixed costs divided by the contribution margin of the expected revenue mix."]
+                        info: [
+                            "Fixed costs divided by the contribution margin of the expected revenue mix.",
+                            BREAK_EVEN_REVENUE_FORMULA,
+                            BREAK_EVEN_REVENUE_SOURCE
+                        ]
                     },
                     { label: "Expected Break Even", value: breakEven, detail: breakEvenDetail, tone: result.breakEvenMonth === null ? "risk" : "good" },
                     {
@@ -1417,7 +1454,9 @@ export default function FinancialSustainabilityEditor({
                     <FinancialBlock title="Break-Even Point" info={[
                         "Contribution per unit = price − variable cost per unit.",
                         "Offering break even: the units this Offering alone would need to sell to cover all fixed costs.",
-                        "Organization break even: the expected revenue mix, scaled until its contribution covers the fixed costs, not the Offerings' figures added together."
+                        "Organization break even: the expected revenue mix, scaled until its contribution covers the fixed costs, not the Offerings' figures added together.",
+                        BREAK_EVEN_UNITS_FORMULA,
+                        BREAK_EVEN_UNITS_SOURCE
                     ]}>
                         <div className="financial-table-scroll">
                             <table className="financial-table">

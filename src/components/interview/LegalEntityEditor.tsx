@@ -38,7 +38,7 @@ import { moneyText } from "../../framework/engine/ExportRenderers.ts";
 import { railId } from "./rails/railItems.ts";
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
-import InfoNote from "./InfoNote.tsx";
+import InfoNote, { InfoPoint } from "./InfoNote.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
 import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
@@ -55,6 +55,19 @@ const LEGAL_FORM_OTHER = "Other (not listed)";
 
 /** The key the second address line is opened and closed under. */
 const ADDRESS_LINE_2 = "address-line-2";
+
+/** Why ownership must total 100%, the "i" beside the running total. */
+const TOTAL_OWNERSHIP_HELP: InfoPoint[] = [
+    {
+        title: "Formula",
+        text: "Each owner's % = their shares ÷ total shares, so the total must be 100%"
+    },
+    {
+        title: "Source",
+        text: "Wikipedia, “Capitalization table”",
+        href: "https://en.wikipedia.org/wiki/Capitalization_table"
+    }
+];
 
 /**
  * The six answers on this page a founder cannot be expected to
@@ -1580,6 +1593,7 @@ export default function LegalEntityEditor({
                                             />
                                         )}
                                         Total Ownership: {percent(totalOwnership)}%
+                                        <InfoNote label="Total ownership" points={TOTAL_OWNERSHIP_HELP} />
                                         {ownershipShort && (
                                             <span className="legal-entity-total-said">
                                                 {percent(100 - totalOwnership)}% still to allocate

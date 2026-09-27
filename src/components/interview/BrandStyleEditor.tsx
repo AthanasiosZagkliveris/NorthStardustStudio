@@ -91,6 +91,17 @@ export function contrastRatio(one: string, other: string): number {
  * -- the same ratio either way -- and the same against black. Said in
  * words, so the colour of the note never carries the meaning.
  */
+/** The contrast ratio's own formula, the "i" beside the AA/AAA line. */
+const CONTRAST_HELP: InfoPoint[] = [
+    { title: "Formula", text: "Contrast = (L_lighter + 0.05) ÷ (L_darker + 0.05)" },
+    "How readable text in this colour is against white or black. AA needs 4.5:1 for body text (3:1 large), AAA 7:1.",
+    {
+        title: "Source",
+        text: "W3C, WCAG 2.1 “contrast ratio”",
+        href: "https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio"
+    }
+];
+
 function contrastNote(hex: string): string {
     const verdict = (ratio: number) =>
         ratio >= 7 ? "AAA" : ratio >= 4.5 ? "AA" : ratio >= 3 ? "large text only" : "not for text";
@@ -524,6 +535,7 @@ export default function BrandStyleEditor({
                                     {normalizeHex(colour.hex) && (
                                         <span className="brand-style-contrast">
                                             {contrastNote(normalizeHex(colour.hex)!)}
+                                            <InfoNote label="Contrast ratio" points={CONTRAST_HELP} />
                                         </span>
                                     )}
 

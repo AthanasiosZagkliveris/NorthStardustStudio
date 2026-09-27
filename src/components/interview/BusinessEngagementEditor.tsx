@@ -254,6 +254,81 @@ const DEMAND_CALCULATION_HELP: InfoPoint[] = [
 const DEMAND_ASSUMPTIONS_PLACEHOLDER =
     "e.g. slower in the first months while the website launches";
 
+/**
+ * The formula behind one source's calculated result, its "i" beside
+ * the figure once it counts. Keyed by the DEMAND_SOURCES id; "other"
+ * has no fixed formula, so it carries none.
+ */
+const DEMAND_SOURCE_FORMULA_HELP: Record<string, InfoPoint[]> = {
+    funnel: [
+        { title: "Formula", text: "Sales / month = Prospects × Qualified% × Buy%" },
+        "Not every prospect is a real buyer. Multiply prospects by the share who qualify, then by the share of those you close.",
+        {
+            title: "Based on",
+            text: "CFI, “Lead-to-Customer Conversion Rate”",
+            href: "https://corporatefinanceinstitute.com/resources/valuation/lead-to-customer-conversion-rate/"
+        }
+    ],
+    referrals: [
+        { title: "Formula", text: "Referrals × Buy%" },
+        "Of the people referred to you, only some buy. Referred leads often convert better than cold ones.",
+        {
+            title: "Source",
+            text: "Umbrex, “Referral Conversion Rate Analysis”",
+            href: "https://umbrex.com/resources/ultimate-guide-to-company-analysis/ultimate-guide-to-marketing-analysis/referral-conversion-rate-analysis/"
+        }
+    ],
+    marketplace: [
+        { title: "Formula", text: "Visitors × Buy%" },
+        "Conversion rate is the share of visitors who buy: 5 purchases from 100 visitors is 5%.",
+        {
+            title: "Source",
+            text: "CFI, “Customer Conversion Rate”",
+            href: "https://corporatefinanceinstitute.com/resources/valuation/customer-conversion-rate/"
+        }
+    ],
+    contracts: [
+        { title: "Formula", text: "Bids per year × Won% × Units per contract ÷ 12" },
+        "Win rate is the share of bids you win (25–35% is typical in professional services and construction). Dividing by 12 gives contracts a month.",
+        {
+            title: "Source",
+            text: "Klipfolio, “Tender Win Rate”",
+            href: "https://www.klipfolio.com/resources/kpi-examples/sales/successful-unsuccessful-tenders"
+        }
+    ],
+    repeat: [
+        { title: "Formula", text: "Sales from other sources × Buy again% × Times each" },
+        "Repeat rate is the share of customers who buy again; only their extra purchases are counted, never the customers twice.",
+        {
+            title: "Source",
+            text: "Wall Street Prep, “Repeat Purchase Rate”",
+            href: "https://www.wallstreetprep.com/knowledge/repeat-purchase-rate/"
+        }
+    ]
+};
+
+/** The steady-level active clients, its "i" beside "active clients". */
+const DEMAND_ACTIVE_CLIENTS_HELP: InfoPoint[] = [
+    { title: "Formula", text: "Active clients = New clients a month ÷ Cancel%" },
+    "At the steady level, clients joining each month equal clients leaving. Average client lifetime ≈ 1 ÷ Cancel%.",
+    {
+        title: "Based on",
+        text: "Wall Street Prep, “Churn Rate”",
+        href: "https://www.wallstreetprep.com/knowledge/churn-rate/"
+    }
+];
+
+/** The months to reach that steady level, its "i" beside "months". */
+const DEMAND_MONTHS_TO_NORMAL_HELP: InfoPoint[] = [
+    { title: "Formula", text: "Months to 90% = ln(10) ÷ −ln(1 − Cancel%)" },
+    "The gap to the steady level shrinks by the same share every month, so growth slows as you approach it.",
+    {
+        title: "Based on",
+        text: "geometric series (fraction reached after n months = 1 − (1 − c)ⁿ)",
+        href: "https://en.wikipedia.org/wiki/Geometric_series"
+    }
+];
+
 function capitalized(text: string): string {
     return text.charAt(0).toUpperCase() + text.slice(1);
 }
@@ -3157,6 +3232,15 @@ export default function BusinessEngagementEditor({
                                 {counted ? "About " + part!.expected + perMonth : "Not counted yet"}
                             </span>
                         )}
+                        {/* The formula behind a CALCULATED result, once
+                            it counts: an entered figure has none to
+                            show. */}
+                        {counted && calculated && DEMAND_SOURCE_FORMULA_HELP[type!.id] && (
+                            <InfoNote
+                                label={type!.label + " result"}
+                                points={DEMAND_SOURCE_FORMULA_HELP[type!.id]}
+                            />
+                        )}
                         <BusinessRemove
                             what={capitalized(what)}
                             disabled={disabled}
@@ -3363,11 +3447,19 @@ export default function BusinessEngagementEditor({
                                 <>
                                     <p className="business-demand-result-main">
                                         {result.recurring
-                                            ? "Expected Sales: about " + result.expected + " active clients" +
-                                                (result.monthsToNormal === null
-                                                    ? ""
-                                                    : ", reached in about " + result.monthsToNormal +
-                                                        (result.monthsToNormal === 1 ? " month" : " months"))
+                                            ? (
+                                                <>
+                                                    {"Expected Sales: about " + result.expected + " active clients"}
+                                                    <InfoNote label="Active clients" points={DEMAND_ACTIVE_CLIENTS_HELP} />
+                                                    {result.monthsToNormal !== null && (
+                                                        <>
+                                                            {", reached in about " + result.monthsToNormal +
+                                                                (result.monthsToNormal === 1 ? " month" : " months")}
+                                                            <InfoNote label="Months to level" points={DEMAND_MONTHS_TO_NORMAL_HELP} />
+                                                        </>
+                                                    )}
+                                                </>
+                                            )
                                             : "Expected Sales: about " + result.expected + " a month"}
                                     </p>
                                     <ul className="business-demand-working">

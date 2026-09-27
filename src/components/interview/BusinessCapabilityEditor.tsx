@@ -160,6 +160,24 @@ const DELIVERY_HELP = {
     constraints: ["Limits such as equipment, availability or lead times."]
 };
 
+/** The weekly-to-monthly hours conversion, its "i" beside "a month". */
+const HOURS_PER_MONTH_HELP: InfoPoint[] = [
+    { title: "Formula", text: "Monthly hours = Weekly hours × 52 ÷ 12" },
+    "A year has 52 weeks and 12 months, so an average month has about 4.33 weeks.",
+    { title: "Source", text: "U.S. 29 CFR § 778.113", href: "https://www.law.cornell.edu/cfr/text/29/778.113" }
+];
+
+/** Utilisation -- demand hours against capacity -- its "i" beside the percent. */
+const CAPACITY_UTILISATION_HELP: InfoPoint[] = [
+    { title: "Formula", text: "Utilisation = Demand hours ÷ Available hours" },
+    "How much of the available time the planned work needs. Above 100% means more work than capacity.",
+    {
+        title: "Source",
+        text: "CFI, “Capacity Utilization”",
+        href: "https://corporatefinanceinstitute.com/resources/economics/capacity-utilization/"
+    }
+];
+
 /** Hours as the capacity lines give them: whole, or to one decimal. */
 function formatHours(hours: number): string {
     return hours.toLocaleString("en-GB", { maximumFractionDigits: hours < 10 ? 1 : 0 });
@@ -1597,6 +1615,11 @@ export default function BusinessCapabilityEditor({
                             (workingHours !== null && workingHours > 0
                                 ? " (" + formatHours(Math.round(founderDelivery / workingHours * 100)) + "% of working hours)."
                                 : ".")}
+                        {/* The weekly-to-monthly conversion just shown,
+                            when that is the one given. */}
+                        {!legacyShare && weekly && (
+                            <InfoNote label="Hours a month" points={HOURS_PER_MONTH_HELP} />
+                        )}
                     </p>
                 )}
 
@@ -2833,6 +2856,7 @@ export default function BusinessCapabilityEditor({
                                 </div>
                                 <p className="delivery-muted">
                                     {Math.round(used / Math.max(1, available) * 100)}% of {label}'s delivery hours, at the normal level of sales.
+                                    <InfoNote label="Capacity used" points={CAPACITY_UTILISATION_HELP} />
                                     {left < 0 ? " More delivery capacity may be needed: more hours, an external professional for part of the work, or a hire." : ""}
                                 </p>
                             </div>
