@@ -41,4 +41,13 @@ describe("parseAmount", () => {
         expect(parseAmount("30 per 12")).toBeNull();
         expect(parseAmount("12 - 15")).toBeNull();
     });
+
+    test("reads spaces between groups of three digits as thousands", () => {
+        expect(parseAmount("1 200")).toBe(1200);
+        expect(parseAmount("1 200 000")).toBe(1200000);
+        expect(parseAmount("1 200,50")).toBe(1200.5);
+        expect(parseAmount("€ 1 200")).toBe(1200);
+        expect(parseAmount("12 34")).toBeNull();
+        expect(parseAmount("1 2000")).toBeNull();
+    });
 });

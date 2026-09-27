@@ -1005,13 +1005,10 @@ export function consolidateCosts(
         quantity: number | null = null,
         /** When the source already says when it was paid. */
         knownMonth: StrategyMonthValue | null = null,
-        sourcePath: string[] = [],
-        /* A box that keeps one "." is read as decimals; the Legal
-           Entity's expenses may hold thousands separators. */
-        parse: (text: string) => number | null = parseDecimal
+        sourcePath: string[] = []
     ) => {
 
-        const unitAmount = notNegative(parse(amountText));
+        const unitAmount = notNegative(parseAmount(amountText));
         const total = quantity !== null && unitAmount !== null
             ? Math.round(unitAmount * quantity * 100) / 100
             : unitAmount;
@@ -1084,7 +1081,7 @@ export function consolidateCosts(
         quantity = "",
         sourcePath: string[] = []
     ) => {
-        if (parseDecimal(cost.price) === null) {
+        if (parseAmount(cost.price) === null) {
             return;
         }
         read(
@@ -1116,8 +1113,7 @@ export function consolidateCosts(
             [],
             null,
             expense.frequency === "One time" ? formationMonth : null,
-            ["legal-expense-" + expense.id, "legal-section-5"],
-            parseAmount
+            ["legal-expense-" + expense.id, "legal-section-5"]
         );
     });
 
@@ -1126,7 +1122,7 @@ export function consolidateCosts(
     /* Founders' salaries -- per month, as Page 3 asks for them. */
     if (sources.foundersLinked) {
         capability.founders.forEach(founder => {
-            if (parseDecimal(founder.salary) === null) {
+            if (parseAmount(founder.salary) === null) {
                 return;
             }
             read(
@@ -1230,7 +1226,7 @@ export function consolidateCosts(
             offeringIds: cost.offeringId ? [cost.offeringId] : [],
             offeringId: cost.offeringId,
             amountText: cost.amount,
-            amount: notNegative(parseDecimal(cost.amount)),
+            amount: notNegative(parseAmount(cost.amount)),
             quantity: null,
             unitAmount: null,
             sourcePath: [],
@@ -1567,10 +1563,16 @@ export function fundingStanding(
     const scheduled = future.reduce((sum, entry) => sum + entry.amount, 0);
     const outstanding = total - received;
     if (outstanding - scheduled > 0.005) {
-        future.push({
-            month: future.length > 0 ? future[future.length - 1].month : 1,
-            amount: outstanding - scheduled
-        });
+        // At the most arrivals a schedule can have, the rest comes
+        // with the last of them rather than as one more.
+        if (future.length >= MAX_PERIODS) {
+            future[future.length - 1].amount += outstanding - scheduled;
+        } else {
+            future.push({
+                month: future.length > 0 ? future[future.length - 1].month : 1,
+                amount: outstanding - scheduled
+            });
+        }
     }
 
     const remaining = total - received;
@@ -2620,12 +2622,12 @@ export function financialSustainabilitySectionsEmpty(value: unknown): boolean[] 
 
 /** A stream's price for one unit, as a monthly equivalent. */
 export function monthlyPrice(stream: RevenueStreamValue): number | null {
-    const price = parseDecimal(stream.price);
+    const price = parseAmount(stream.price);
     if (price === null) {
         return null;
     }
     // What the customer pays for delivery, shared by the order's items.
-    const delivery = (parseDecimal(stream.deliveryCharge) ?? 0) / itemsPerOrder(stream);
+    const delivery = (parseAmount(stream.deliveryCharge) ?? 0) / itemsPerOrder(stream);
     return (price + delivery) * chargeFactor(stream);
 }
 
@@ -2814,15 +2816,16 @@ export function withWhatIf(
     start: StrategyMonthValue
 ): FinancialSustainabilityValue {
 
-    const scale = (value: string, percent: number) => {
-        const amount = parseDecimal(value);
+    // A price is money, a volume a count: each read as its page reads it.
+    const scale = (value: string, percent: number, parse = parseDecimal) => {
+        const amount = parse(value);
         return amount === null || percent === 0 ? value : numberAsText(amount * (1 + percent / 100));
     };
 
     return {
         streams: page.streams.map(stream => ({
             ...stream,
-            price: scale(stream.price, change.price),
+            price: scale(stream.price, change.price, parseAmount),
             volume: scale(stream.volume, change.volume),
             initialVolume: scale(stream.initialVolume, change.volume),
             start: shiftMonth(stream.start, change.delay, start),

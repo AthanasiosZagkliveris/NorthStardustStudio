@@ -100,8 +100,11 @@ describe("percentages, counts and decimal-only boxes read as decimals", () => {
         expect(legalEntityTotalOwnership(entity)).toBeCloseTo(100, 6);
     });
 
-    test("a price of 0.500 from its one-point box is half a unit", () => {
-        expect(monthlyPrice({ ...createRevenueStream(), price: "12.500" })).toBe(12.5);
+    test("money saved as 1.200 or 12.500 keeps its thousands reading", () => {
+        expect(monthlyPrice({ ...createRevenueStream(), price: "1.200" })).toBe(1200);
+        expect(monthlyPrice({ ...createRevenueStream(), price: "12.500" })).toBe(12500);
+        const value = foundation({ costs: [{ ...createOwnCost("operating"), name: "Rent", amount: "1.200", frequency: "monthly" }] });
+        expect(consolidateCosts(value, sources()).find(entry => entry.name === "Rent")!.amount).toBe(1200);
     });
 });
 
@@ -927,8 +930,10 @@ describe("guards for figures saved before the limits", () => {
 
     test("periodic funding arrives at most 600 times", () => {
         expect(fundingStanding(periodic({ periods: "999999" }), START).future.length).toBeLessThanOrEqual(600);
-        // 600 periods of 0.01, and what they leave of the total as one undated rest.
-        expect(fundingStanding(periodic({ periodAmount: "0.01" }), START).future.length).toBe(601);
+        // 600 periods of 0.01, the rest of the total folded into the last.
+        const future = fundingStanding(periodic({ periodAmount: "0.01" }), START).future;
+        expect(future.length).toBe(600);
+        expect(future.reduce((sum, arrival) => sum + arrival.amount, 0)).toBeCloseTo(1000000, 2);
     });
 
     test("a negative milestone, cost or capital counts as nothing", () => {

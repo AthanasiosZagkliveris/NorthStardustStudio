@@ -81,7 +81,6 @@ import {
     statusStanding,
     monthlyEquivalent,
     parseAmount,
-    parseDecimal,
     moneyFormatter,
     planMonthLabel,
     sustainability,
@@ -132,7 +131,7 @@ export function currentSituationDraft(sessions: FoundationSessions): string {
     /* What is sold, and to whom: each Segment with its Offerings and prices. */
     const priced = (offeringId: string, name: string) => {
         const stream = f.revenuePage.streams.find(entry => entry.offeringId === offeringId);
-        const price = stream ? parseDecimal(stream.price) : null;
+        const price = stream ? parseAmount(stream.price) : null;
         if (!stream || price === null) {
             return name;
         }
@@ -582,7 +581,7 @@ function marketingBlocks(f: Foundation): ExportBlock[] {
 function isEngaged(person: BusinessPartnerValue): boolean {
     return person.name.trim().length > 0 && (
         text(person.description).length > 0 ||
-        parseDecimal(person.cost.price) !== null ||
+        parseAmount(person.cost.price) !== null ||
         person.offeringIds.length > 0
     );
 }
@@ -620,7 +619,7 @@ function teamBlocks(f: Foundation): ExportBlock[] {
         .map(founder => {
             const salary = capability.founders.find(entry => entry.id === founder.id)?.salary ?? "";
             return [
-                founder.name + (parseDecimal(salary) !== null ? " (" + format(parseDecimal(salary) ?? 0) + " a month)" : ""),
+                founder.name + (parseAmount(salary) !== null ? " (" + format(parseAmount(salary) ?? 0) + " a month)" : ""),
                 founder.ownership ? founder.ownership + "%" : "",
                 founder.roles.filter(Boolean).join(", "),
                 businessFounderResponsibilities(capability, founder.id)

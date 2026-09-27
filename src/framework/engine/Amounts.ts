@@ -14,10 +14,10 @@
  * ("12,5"). Where both appear, whichever comes last is the decimal
  * point.
  *
- * For money typed where thousands separators could be: a percentage,
- * a rate, hours, a count, or an amount from a box that only ever
- * keeps one "." is read by parseDecimal, where "12.500" is twelve
- * and a half.
+ * For money: a percentage, a rate, hours, a count or a quantity is
+ * read by parseDecimal, where "12.500" is twelve and a half. A money
+ * box takes two decimals at most, so "12.500" there can only be an
+ * amount saved with a thousands separator.
  */
 export function parseAmount(text: string): number | null {
     return readNumber(text, false);
@@ -35,12 +35,19 @@ export function parseDecimal(text: string): number | null {
 
 function readNumber(text: string, decimal: boolean): number | null {
 
+    // "1 200" and "1 200 000" space their thousands: every group after
+    // the first is three digits. "12 34" is not a number written so.
+    const spaced = text.replace(/[0-9]+(?:\s+[0-9]+)+/g, run => {
+        const groups = run.split(/\s+/);
+        return groups.slice(1).every(group => group.length === 3) ? groups.join("") : run;
+    });
+
     // "2x 30" or "30 per 12" is two numbers, not 230 or 3012.
-    if (/[0-9][^0-9.,]+[0-9]/.test(text)) {
+    if (/[0-9][^0-9.,]+[0-9]/.test(spaced)) {
         return null;
     }
 
-    const cleaned = text.replace(/[^0-9.,-]/g, "");
+    const cleaned = spaced.replace(/[^0-9.,-]/g, "");
 
     if (!/[0-9]/.test(cleaned)) {
         return null;
