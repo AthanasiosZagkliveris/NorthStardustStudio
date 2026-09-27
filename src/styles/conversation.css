@@ -9895,9 +9895,9 @@ td.process-library-col-number{
 
 }
 
-/* The capital tick and the "i" that explains it, on one line. */
-/* The switch and its "i", 8px apart by the "i"'s own rule (see
-   .info-note), not a gap of the row's. */
+/* The capital tick and the "i" that explains it, on one line, 8px
+   apart by the "i"'s own rule (see .info-note), not a gap of the
+   row's. */
 .legal-entity-switch-row{
 
     display:flex;
