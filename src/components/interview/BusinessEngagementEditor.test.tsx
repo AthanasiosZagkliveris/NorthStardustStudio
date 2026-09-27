@@ -114,6 +114,12 @@ describe("BusinessEngagementEditor folding", () => {
         expect(screen.getByText("1 channel")).toBeTruthy();
         expect(screen.getByText("2 channels")).toBeTruthy();
 
+        // On its own line below the category select, not squeezed
+        // into the row beside it.
+        const count = screen.getByText("2 channels");
+        expect(count.closest(".business-channel-category")).toBeNull();
+        expect(count.previousElementSibling?.classList.contains("business-channel-category")).toBe(true);
+
     });
 
     it("opens every Channel Category with Expand all channel categories", () => {

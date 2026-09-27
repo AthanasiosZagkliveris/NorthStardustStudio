@@ -1337,17 +1337,6 @@ export default function BusinessEngagementEditor({
                                                 }}
                                             />
 
-                                            {/* Folded, the category still
-                                                says how much it holds. */}
-                                            {group.label.trim().length > 0 && !categoryOpen && (
-                                                <span className="business-card-summary">
-                                                    {group.channels.length +
-                                                        (group.channels.length === 1
-                                                            ? " channel"
-                                                            : " channels")}
-                                                </span>
-                                            )}
-
                                             {/* THE WHOLE GROUP, CHANNELS AND
                                                 ALL. A category is not a label
                                                 on top of the channels under it
@@ -1391,6 +1380,20 @@ export default function BusinessEngagementEditor({
                                             />
 
                                         </div>
+
+                                        {/* Folded, the category still
+                                            says how much it holds -- on
+                                            its own line under the select,
+                                            so the select keeps its width. */}
+                                        {group.label.trim().length > 0 && !categoryOpen && (
+                                            <div className="business-card-summary business-channel-category-summary">
+                                                {group.channels.length +
+                                                    (group.channels.length === 1
+                                                        ? " channel"
+                                                        : " channels")}
+                                            </div>
+                                        )}
+
                                     </th>
                                     <td colSpan={3} />
                                 </tr>

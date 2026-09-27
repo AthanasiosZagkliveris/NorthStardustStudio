@@ -71,3 +71,17 @@
     justify-content: flex-end;
 
 }
+
+/* Customer Engagement: a folded Channel Category's channel count, on
+   its own line under the category select (so the select keeps its
+   width), lined up with the select past the 36px arrow and 4px gap.
+   Plain text, not the header cell's bold centred type. */
+.business-channel-category-summary {
+
+    margin-top: 4px;
+    padding-left: 40px;
+
+    font-weight: 400;
+    text-align: left;
+
+}
