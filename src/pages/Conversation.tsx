@@ -1727,7 +1727,7 @@ export default function Conversation() {
             strategyFoundationValue?.themes ?? []
         )
         : [];
-    const activeRailSection = useActiveRailSection(railSections.map(item => item.id), railSectionIndex);
+    const [activeRailSection, selectRailSection] = useActiveRailSection(railSections.map(item => item.id), railSectionIndex);
 
     if (loadingError) {
         return <div>{loadingError}</div>;
@@ -2555,7 +2555,11 @@ export default function Conversation() {
                         label="Sections"
                         items={railSections}
                         activeId={activeRailSection}
-                        onSelect={scrollToRailSection}
+                        onSelect={id => {
+                            // Pinned first, so the jump's own scroll keeps it.
+                            selectRailSection(id);
+                            scrollToRailSection(id);
+                        }}
                     />
                 </>
             )}

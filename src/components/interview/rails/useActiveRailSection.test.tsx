@@ -1,13 +1,16 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, render, screen, fireEvent } from "@testing-library/react";
 
 import { RAIL_TOP_CLEARANCE, scrollToRailSection, useActiveRailSection } from "./useActiveRailSection";
 
 function Probe({ ids }: { ids: string[] }) {
-    const active = useActiveRailSection(ids, "page-1");
+    const [active, select] = useActiveRailSection(ids, "page-1");
     return (
         <>
             <p data-testid="active">{active}</p>
+            {ids.map(id => (
+                <button key={id} type="button" onClick={() => select(id)}>{"select " + id}</button>
+            ))}
             {ids.map(id => (
                 <div key={id} data-rail={id}><input aria-label={"field " + id} /></div>
             ))}
@@ -22,7 +25,16 @@ function placeTops(tops: Record<string, number>) {
     });
 }
 
-afterEach(cleanup);
+// jsdom lays nothing out, so every page would count as scrolled to
+// its bottom: give it a tall one unless a test says otherwise.
+beforeEach(() => {
+    Object.defineProperty(document.documentElement, "scrollHeight", { value: 10000, configurable: true });
+});
+
+afterEach(() => {
+    cleanup();
+    delete (document.documentElement as { scrollHeight?: number }).scrollHeight;
+});
 
 describe("useActiveRailSection", () => {
 
@@ -65,6 +77,68 @@ describe("useActiveRailSection", () => {
         placeTops({ a: 150, b: 400, c: window.innerHeight + 50 });
         act(() => { window.dispatchEvent(new Event("scroll")); });
         expect(screen.getByTestId("active").textContent).toBe("a");
+    });
+
+    // A rail click pins its bullet through the scroll it starts --
+    // otherwise a section sharing a row, or one the page cannot
+    // scroll far enough to reach, could never turn green.
+    it("keeps a clicked bullet active through the scroll that follows", () => {
+        render(<Probe ids={["a", "b", "c"]} />);
+        fireEvent.click(screen.getByText("select b"));
+        expect(screen.getByTestId("active").textContent).toBe("b");
+
+        placeTops({ a: 150, b: 150, c: 600 });
+        act(() => { window.dispatchEvent(new Event("scroll")); });
+        expect(screen.getByTestId("active").textContent).toBe("b");
+    });
+
+    it("releases the pin on a user scroll", () => {
+        render(<Probe ids={["a", "b", "c"]} />);
+        fireEvent.click(screen.getByText("select b"));
+
+        placeTops({ a: 150, b: 150, c: 600 });
+        act(() => { window.dispatchEvent(new Event("wheel")); });
+        act(() => { window.dispatchEvent(new Event("scroll")); });
+        expect(screen.getByTestId("active").textContent).toBe("a");
+    });
+
+    it("releases the pin when focus moves into another section", () => {
+        render(<Probe ids={["a", "b", "c"]} />);
+        fireEvent.click(screen.getByText("select b"));
+        fireEvent.focusIn(screen.getByLabelText("field c"));
+        expect(screen.getByTestId("active").textContent).toBe("c");
+    });
+
+    it("keeps the pin on a scroll key typed into a field", () => {
+        render(<Probe ids={["a", "b", "c"]} />);
+        fireEvent.click(screen.getByText("select b"));
+        fireEvent.keyDown(screen.getByLabelText("field b"), { key: "ArrowDown" });
+
+        placeTops({ a: 150, b: 150, c: 600 });
+        act(() => { window.dispatchEvent(new Event("scroll")); });
+        expect(screen.getByTestId("active").textContent).toBe("b");
+
+        fireEvent.keyDown(document.body, { key: "PageDown" });
+        act(() => { window.dispatchEvent(new Event("scroll")); });
+        expect(screen.getByTestId("active").textContent).toBe("a");
+    });
+
+    // At the very bottom the last sections may never climb into the
+    // band under the header, so the last one showing its top wins.
+    it("hands the bullet to the last visible section at the bottom of the page", () => {
+        render(<Probe ids={["a", "b", "c"]} />);
+        placeTops({ a: -300, b: 300, c: 500 });
+        Object.defineProperty(window, "scrollY", { value: 1000, configurable: true });
+        Object.defineProperty(document.documentElement, "scrollHeight", { value: 1000 + window.innerHeight, configurable: true });
+        act(() => { window.dispatchEvent(new Event("scroll")); });
+        expect(screen.getByTestId("active").textContent).toBe("c");
+
+        // Short of the bottom, the usual band under the header rules.
+        Object.defineProperty(window, "scrollY", { value: 500, configurable: true });
+        act(() => { window.dispatchEvent(new Event("scroll")); });
+        expect(screen.getByTestId("active").textContent).toBe("b");
+
+        Object.defineProperty(window, "scrollY", { value: 0, configurable: true });
     });
 
 });
