@@ -50,7 +50,7 @@ import {
 } from "./BusinessCardFields.tsx";
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
-import InfoNote, { InfoPoint } from "./InfoNote.tsx";
+import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
 import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
@@ -1013,14 +1013,17 @@ export default function BusinessEngagementEditor({
             <div className="business-engagement-reference-column">
 
                 <span className="business-foundation-label-info">
-                    <span className="business-foundation-subhead">{title}</span>
-                    <InfoNote
-                        label={title}
-                        points={relativeInformation(
-                            questionsFor(sources[0]?.description ?? {})
-                        )}
-                        fullList
-                    />
+                    <span className="business-foundation-subhead">
+                        <InfoText text={title}>
+                            <InfoNote
+                                label={title}
+                                points={relativeInformation(
+                                    questionsFor(sources[0]?.description ?? {})
+                                )}
+                                fullList
+                            />
+                        </InfoText>
+                    </span>
                 </span>
 
                 {sources.length === 0
@@ -1253,22 +1256,28 @@ export default function BusinessEngagementEditor({
                                 <th scope="col">Offerings</th>
                                 <th scope="col">
                                     <span className="business-foundation-label-info">
-                                        <span>Journey Stage</span>
-                                        <InfoNote
-                                            label="Journey Stage"
-                                            points={SECTIONS.channels.stages}
-                                            fullList
-                                        />
+                                        <span>
+                                            <InfoText text="Journey Stage">
+                                                <InfoNote
+                                                    label="Journey Stage"
+                                                    points={SECTIONS.channels.stages}
+                                                    fullList
+                                                />
+                                            </InfoText>
+                                        </span>
                                     </span>
                                 </th>
                                 <th scope="col">
                                     <span className="business-foundation-label-info">
-                                        <span>Action</span>
-                                        <InfoNote
-                                            label="Action"
-                                            points={SECTIONS.channels.actions}
-                                            fullList
-                                        />
+                                        <span>
+                                            <InfoText text="Action">
+                                                <InfoNote
+                                                    label="Action"
+                                                    points={SECTIONS.channels.actions}
+                                                    fullList
+                                                />
+                                            </InfoText>
+                                        </span>
                                     </span>
                                 </th>
                             </tr>
@@ -2296,19 +2305,20 @@ export default function BusinessEngagementEditor({
                                                 {(offeringIndex + 1) + ". Offering -"}
                                             </span>
                                             <span className="business-engagement-derived">
-                                                {offeringName(offeringId)}
+                                                <InfoText text={offeringName(offeringId)}>
+                                                    {offeringFacts.length > 0 && (
+                                                        <InfoNote
+                                                            label={offeringName(offeringId)}
+                                                            points={offeringFacts.map(section => ({
+                                                                title: section.label,
+                                                                text: section.text
+                                                            }))}
+                                                            fullList
+                                                            asReference
+                                                        />
+                                                    )}
+                                                </InfoText>
                                             </span>
-                                            {offeringFacts.length > 0 && (
-                                                <InfoNote
-                                                    label={offeringName(offeringId)}
-                                                    points={offeringFacts.map(section => ({
-                                                        title: section.label,
-                                                        text: section.text
-                                                    }))}
-                                                    fullList
-                                                    asReference
-                                                />
-                                            )}
                                             {!offeringShown && (
                                                 <span className="business-card-summary">
                                                     {summaryText(
@@ -2380,21 +2390,26 @@ export default function BusinessEngagementEditor({
 
                                                                 return (
                                                                     <li key={profile.id}>
+                                                                        {/* The link and its "i" as one run, so the
+                                                                            row's own gap stays out of the "i"'s
+                                                                            8px (see .info-note). */}
                                                                         <span className="business-engagement-reference-name-row">
-                                                                            {foundationLink(
-                                                                                profile.name, "Profile", profile.id
-                                                                            )}
-                                                                            {facts.length > 0 && (
-                                                                                <InfoNote
-                                                                                    label={shown}
-                                                                                    points={facts.map(section => ({
-                                                                                        title: section.label,
-                                                                                        text: section.text
-                                                                                    }))}
-                                                                                    fullList
-                                                                                    asReference
-                                                                                />
-                                                                            )}
+                                                                            <span>
+                                                                                {foundationLink(
+                                                                                    profile.name, "Profile", profile.id
+                                                                                )}
+                                                                                {facts.length > 0 && (
+                                                                                    <InfoNote
+                                                                                        label={shown}
+                                                                                        points={facts.map(section => ({
+                                                                                            title: section.label,
+                                                                                            text: section.text
+                                                                                        }))}
+                                                                                        fullList
+                                                                                        asReference
+                                                                                    />
+                                                                                )}
+                                                                            </span>
                                                                         </span>
                                                                     </li>
                                                                 );
@@ -2427,12 +2442,15 @@ export default function BusinessEngagementEditor({
                                                 className="business-channel-cell business-relationship-heading"
                                             >
                                                 <span className="business-foundation-label-info">
-                                                    <span>Relationship Type and Purpose</span>
-                                                    <InfoNote
-                                                        label="Relationship Type"
-                                                        points={SECTIONS.relationships.types}
-                                                        fullList
-                                                    />
+                                                    <span>
+                                                        <InfoText text="Relationship Type and Purpose">
+                                                            <InfoNote
+                                                                label="Relationship Type"
+                                                                points={SECTIONS.relationships.types}
+                                                                fullList
+                                                            />
+                                                        </InfoText>
+                                                    </span>
                                                 </span>
                                             </th>
                                             <th
@@ -2998,13 +3016,14 @@ export default function BusinessEngagementEditor({
 
                                                                                             <span className="business-foundation-label-info">
                                                                                                 <span className="business-engagement-reference-label">
-                                                                                                    Goal
+                                                                                                    <InfoText text="Goal">
+                                                                                                        <InfoNote
+                                                                                                            label="Goal"
+                                                                                                            points={SECTIONS.relationships.goals}
+                                                                                                            fullList
+                                                                                                        />
+                                                                                                    </InfoText>
                                                                                                 </span>
-                                                                                                <InfoNote
-                                                                                                    label="Goal"
-                                                                                                    points={SECTIONS.relationships.goals}
-                                                                                                    fullList
-                                                                                                />
                                                                                             </span>
 
                                                                                             <div className="business-engagement-goal-ticks">
@@ -3036,13 +3055,14 @@ export default function BusinessEngagementEditor({
                                                                                             for its label. */}
                                                                                         <span className="business-foundation-label-info">
                                                                                             <span className="business-engagement-reference-label">
-                                                                                                Approach
+                                                                                                <InfoText text="Approach">
+                                                                                                    <InfoNote
+                                                                                                        label="Approach"
+                                                                                                        points={SECTIONS.relationships.approach}
+                                                                                                        fullList
+                                                                                                    />
+                                                                                                </InfoText>
                                                                                             </span>
-                                                                                            <InfoNote
-                                                                                                label="Approach"
-                                                                                                points={SECTIONS.relationships.approach}
-                                                                                                fullList
-                                                                                            />
                                                                                         </span>
 
                                                                                         <StrategyTextArea
@@ -3449,14 +3469,16 @@ export default function BusinessEngagementEditor({
                                         {result.recurring
                                             ? (
                                                 <>
-                                                    {"Expected Sales: about " + result.expected + " active clients"}
-                                                    <InfoNote label="Active clients" points={DEMAND_ACTIVE_CLIENTS_HELP} />
+                                                    <InfoText text={"Expected Sales: about " + result.expected + " active clients"}>
+                                                        <InfoNote label="Active clients" points={DEMAND_ACTIVE_CLIENTS_HELP} />
+                                                    </InfoText>
                                                     {result.monthsToNormal !== null && (
-                                                        <>
-                                                            {", reached in about " + result.monthsToNormal +
+                                                        <InfoText
+                                                            text={", reached in about " + result.monthsToNormal +
                                                                 (result.monthsToNormal === 1 ? " month" : " months")}
+                                                        >
                                                             <InfoNote label="Months to level" points={DEMAND_MONTHS_TO_NORMAL_HELP} />
-                                                        </>
+                                                        </InfoText>
                                                     )}
                                                 </>
                                             )

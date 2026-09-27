@@ -38,7 +38,7 @@ import { moneyText } from "../../framework/engine/ExportRenderers.ts";
 import { railId } from "./rails/railItems.ts";
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
-import InfoNote, { InfoPoint } from "./InfoNote.tsx";
+import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
 import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
@@ -766,8 +766,11 @@ export default function LegalEntityEditor({
                                     (nested ? " legal-entity-label-nested" : "")
                                 }
                             >
-                                <span className="legal-entity-label">{label}</span>
-                                <InfoNote label={label} points={info} />
+                                <span className="legal-entity-label">
+                                    <InfoText text={label}>
+                                        <InfoNote label={label} points={info} />
+                                    </InfoText>
+                                </span>
                             </span>
                         )
                         : (
@@ -925,8 +928,11 @@ export default function LegalEntityEditor({
                     : info
                         ? (
                             <span className="legal-entity-label-info">
-                                <span className="legal-entity-label">{label}</span>
-                                <InfoNote label={label} points={info} />
+                                <span className="legal-entity-label">
+                                    <InfoText text={label}>
+                                        <InfoNote label={label} points={info} />
+                                    </InfoText>
+                                </span>
                             </span>
                         )
                         : <span className="legal-entity-label">{label}</span>}
@@ -1592,8 +1598,9 @@ export default function LegalEntityEditor({
                                                 aria-hidden="true"
                                             />
                                         )}
-                                        Total Ownership: {percent(totalOwnership)}%
-                                        <InfoNote label="Total ownership" points={TOTAL_OWNERSHIP_HELP} />
+                                        <InfoText text={"Total Ownership: " + percent(totalOwnership) + "%"}>
+                                            <InfoNote label="Total ownership" points={TOTAL_OWNERSHIP_HELP} />
+                                        </InfoText>
                                         {ownershipShort && (
                                             <span className="legal-entity-total-said">
                                                 {percent(100 - totalOwnership)}% still to allocate
@@ -2245,8 +2252,11 @@ export default function LegalEntityEditor({
                                     <div className="legal-entity-field-wide">
 
                                         <span className="legal-entity-label-info">
-                                            <span className="legal-entity-label">Links</span>
-                                            <InfoNote label="Links" points={INFO.links} />
+                                            <span className="legal-entity-label">
+                                                <InfoText text="Links">
+                                                    <InfoNote label="Links" points={INFO.links} />
+                                                </InfoText>
+                                            </span>
                                         </span>
 
                                         {linkTargets.length === 0 && (

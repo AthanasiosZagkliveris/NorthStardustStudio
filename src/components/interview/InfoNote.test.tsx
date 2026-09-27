@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import InfoNote from "./InfoNote";
+import InfoNote, { InfoText } from "./InfoNote";
 
 afterEach(cleanup);
 
@@ -35,6 +35,39 @@ describe("InfoNote", () => {
         );
         expect(link.getAttribute("target")).toBe("_blank");
         expect(link.getAttribute("rel")).toBe("noreferrer");
+
+    });
+
+
+    it("glues the i to the last word of its label", () => {
+
+        const { container } = render(
+            <span>
+                <InfoText text="Working Hours per Client">
+                    <InfoNote label="Working hours" points={["Hours a month."]} />
+                </InfoText>
+            </span>
+        );
+
+        const glue = container.querySelector(".info-note-glue");
+
+        expect(glue).toBeTruthy();
+        expect(glue!.firstChild!.textContent).toBe("Client");
+        expect(glue!.querySelector(".info-note")).toBeTruthy();
+        expect(container.firstElementChild!.firstChild!.textContent).toBe("Working Hours per ");
+
+    });
+
+    it("leaves a label without a note as plain text", () => {
+
+        const { container } = render(
+            <span>
+                <InfoText text="Price">{false}</InfoText>
+            </span>
+        );
+
+        expect(container.querySelector(".info-note-glue")).toBeNull();
+        expect(container.textContent).toBe("Price");
 
     });
 

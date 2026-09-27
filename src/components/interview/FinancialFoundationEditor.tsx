@@ -82,7 +82,7 @@ import {
 } from "./FinancialParts.tsx";
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
-import InfoNote, { InfoPoint } from "./InfoNote.tsx";
+import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import MonthYearPicker from "./MonthYearPicker.tsx";
 import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
@@ -486,9 +486,11 @@ export default function FinancialFoundationEditor({
 
                     <span className="strategy-box-number">{number + "."}</span>
 
-                    <span className="strategy-name-static">{section.title}</span>
-
-                    <InfoNote label={section.title} points={section.info} fullList />
+                    <span className="strategy-name-static">
+                        <InfoText text={section.title}>
+                            <InfoNote label={section.title} points={section.info} fullList />
+                        </InfoText>
+                    </span>
 
                 </div>
 
@@ -924,8 +926,11 @@ export default function FinancialFoundationEditor({
                                     >
                                         {open ? "▾" : "▸"}
                                     </button>
-                                    <span className="business-capability-subhead">{group.label}</span>
-                                    <InfoNote label={group.label} points={[group.explanation]} fullList />
+                                    <span className="business-capability-subhead">
+                                        <InfoText text={group.label}>
+                                            <InfoNote label={group.label} points={[group.explanation]} fullList />
+                                        </InfoText>
+                                    </span>
                                 </span>
                                 {totals && <span className="financial-subtotal">{totals}</span>}
                             </div>
@@ -947,8 +952,9 @@ export default function FinancialFoundationEditor({
                                             <span role="columnheader">When</span>
                                             {forOffering && (
                                                 <span role="columnheader" className="business-foundation-label-info">
-                                                    Behaviour
-                                                    <InfoNote label="Behaviour" points={explain(COST_BEHAVIOURS)} fullList />
+                                                    <InfoText text="Behaviour">
+                                                        <InfoNote label="Behaviour" points={explain(COST_BEHAVIOURS)} fullList />
+                                                    </InfoText>
                                                 </span>
                                             )}
                                             {forOffering && <span role="columnheader">Offering</span>}
@@ -1041,8 +1047,11 @@ export default function FinancialFoundationEditor({
                             >
 
                                 <span className="business-foundation-label-info">
-                                    <strong className="financial-need-name">{need.label}</strong>
-                                    {category && <InfoNote label={need.label} points={[category.explanation]} fullList />}
+                                    <strong className="financial-need-name">
+                                        <InfoText text={need.label}>
+                                            {category && <InfoNote label={need.label} points={[category.explanation]} fullList />}
+                                        </InfoText>
+                                    </strong>
                                 </span>
 
                                 <span className="financial-need-amount">{format(need.amount)}</span>
@@ -1292,8 +1301,10 @@ export default function FinancialFoundationEditor({
                     ? (
                         <div className="financial-loan-summary">
                             <p>
-                                <strong>{format(schedule.firstPayment)}</strong> {frequency}
-                                <InfoNote label="Loan repayment" points={LOAN_PAYMENT_HELP} />
+                                <strong>{format(schedule.firstPayment)}</strong>{" "}
+                                <InfoText text={frequency}>
+                                    <InfoNote label="Loan repayment" points={LOAN_PAYMENT_HELP} />
+                                </InfoText>
                                 {" · "}Principal {format((schedule.firstRepayment ?? schedule.payments[0]).principal)} + interest {format((schedule.firstRepayment ?? schedule.payments[0]).interest)}
                                 {" · "}Total interest {format(schedule.totalInterest)}
                                 {" · "}Last payment {planMonthLabel(start, schedule.payments[schedule.payments.length - 1].month)}
@@ -1303,8 +1314,9 @@ export default function FinancialFoundationEditor({
                             </p>
                             {schedule.payments.some(payment => payment.principal === 0) && (
                                 <p className="financial-muted">
-                                    Interest accrues on the whole principal from the month it is drawn until repayments begin.
-                                    <InfoNote label="Interest before repayment starts" points={LOAN_PRE_INTEREST_HELP} />
+                                    <InfoText text="Interest accrues on the whole principal from the month it is drawn until repayments begin.">
+                                        <InfoNote label="Interest before repayment starts" points={LOAN_PRE_INTEREST_HELP} />
+                                    </InfoText>
                                 </p>
                             )}
                             <button
@@ -1520,8 +1532,11 @@ export default function FinancialFoundationEditor({
 
                                 <div className="fold-group-head">
                                     <span className="business-foundation-label-info">
-                                        <span className="business-capability-subhead">{category.label}</span>
-                                        <InfoNote label={category.label} points={CATEGORY_INFO[category.id]} fullList />
+                                        <span className="business-capability-subhead">
+                                            <InfoText text={category.label}>
+                                                <InfoNote label={category.label} points={CATEGORY_INFO[category.id]} fullList />
+                                            </InfoText>
+                                        </span>
                                     </span>
 
                                     <FoldAllToggle

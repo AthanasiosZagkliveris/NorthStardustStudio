@@ -63,7 +63,7 @@ import {
 } from "./FinancialParts.tsx";
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
-import InfoNote, { InfoPoint } from "./InfoNote.tsx";
+import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import MonthYearPicker from "./MonthYearPicker.tsx";
 import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
@@ -531,7 +531,11 @@ export default function FinancialSustainabilityEditor({
                                     </li>
                                     {entry.contribution !== null && entry.price !== null && entry.price > 0 && (
                                         <li className="financial-cost-inputs-total">
-                                            <span>Contribution<InfoNote label="Contribution" points={CONTRIBUTION_HELP} /></span>
+                                            <span>
+                                                <InfoText text="Contribution">
+                                                    <InfoNote label="Contribution" points={CONTRIBUTION_HELP} />
+                                                </InfoText>
+                                            </span>
                                             <span>{format(entry.contribution)} ({Math.round(entry.contribution / entry.price * 100)}% of the price)</span>
                                         </li>
                                     )}
@@ -632,8 +636,11 @@ export default function FinancialSustainabilityEditor({
                         {open ? "▾" : "▸"}
                     </button>
                     <span className="strategy-box-number">{number + "."}</span>
-                    <span className="strategy-name-static">{section.title}</span>
-                    <InfoNote label={section.title} points={section.info} fullList />
+                    <span className="strategy-name-static">
+                        <InfoText text={section.title}>
+                            <InfoNote label={section.title} points={section.info} fullList />
+                        </InfoText>
+                    </span>
                     {/* The section's own "Expand all", at the far end
                         of its title row. */}
                     {titleExtra}
@@ -652,8 +659,11 @@ export default function FinancialSustainabilityEditor({
     function groupHead(title: string, info?: InfoPoint[]) {
         return (
             <div className="financial-stream-subhead-row">
-                <h4 className="financial-stream-subhead">{title}</h4>
-                {info && <InfoNote label={title} points={info} fullList />}
+                <h4 className="financial-stream-subhead">
+                    <InfoText text={title}>
+                        {info && <InfoNote label={title} points={info} fullList />}
+                    </InfoText>
+                </h4>
             </div>
         );
     }
@@ -1049,8 +1059,12 @@ export default function FinancialSustainabilityEditor({
                             More delivery capacity may be needed: more founder hours, an external professional for part of the work, or a hire.
                             The sales forecast is not changed.</>
                         : <>The expected sales fit the founders' capacity: at the busiest ({month(capacity.peakIndex)}), about {hours(capacity.peak)} of {hours(capacity.available)} a month
-                            ({Math.round(capacity.peak / Math.max(1, capacity.available) * 100)}%)
-                            <InfoNote label="Capacity used" points={CAPACITY_UTILISATION_HELP} />.</>}
+                            {" "}
+                            {/* Glued: "(80%)", its "i" and the full stop
+                                never part (see InfoText). */}
+                            <InfoText text={"(" + Math.round(capacity.peak / Math.max(1, capacity.available) * 100) + "%)"}>
+                                <InfoNote label="Capacity used" points={CAPACITY_UTILISATION_HELP} />.
+                            </InfoText></>}
                 </p>
 
                 {capacity.external.length > 0 && (

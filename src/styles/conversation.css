@@ -9604,19 +9604,12 @@ td.process-library-col-number{
 
 }
 
-/* The icon, on the text's own baseline-ish middle, with the same
-   gap the instruction notes use. */
-.legal-entity-label-info > .info-note,
-.business-foundation-label-info > .info-note{
-
-    display:inline-flex;
-
-    vertical-align:middle;
-
-    margin-left:8px;
-
-}
-
+/* ONE GAP FOR EVERY "i": 8px from the word it explains, whatever
+   holds it -- a label, a subhead, a sentence, a tile, a result pill.
+   On the note itself, so no container's own gap or spacing decides
+   it; containers leave the "i" to this rule (see InfoText, which
+   glues it to its last word). On the text's own middle when it sits
+   in a line of words. */
 .info-note{
 
     position:relative;
@@ -9624,6 +9617,18 @@ td.process-library-col-number{
     display:inline-flex;
 
     flex:0 0 auto;
+
+    vertical-align:middle;
+
+    margin-left:8px;
+
+}
+
+/* The last word of a label and its "i", which never part (see
+   InfoText). */
+.info-note-glue{
+
+    white-space:nowrap;
 
 }
 
@@ -9655,6 +9660,10 @@ td.process-library-col-number{
     /* The app's buttons track at 10%; a single letter in a disc
        would sit off-centre under it. */
     letter-spacing:normal;
+
+    /* It sits inside its label now (see InfoText), and some labels
+       are set in capitals: the letter stays an "i". */
+    text-transform:none;
 
     cursor:pointer;
 
@@ -9815,19 +9824,6 @@ td.process-library-col-number{
    so five of them can be scanned rather than read, and tracked at
    5% like every other bold run in the app -- bold sets tighter
    than regular at the same size. */
-/* The "i" at the end of an instruction, on the same line as the
-   words it belongs to -- so the sentence and the thing that
-   explains it read as one. */
-.answer-question-note{
-
-    display:inline-flex;
-
-    vertical-align:middle;
-
-    margin-left:6px;
-
-}
-
 .info-note-point-title{
 
     font-weight:700;
@@ -9910,13 +9906,13 @@ td.process-library-col-number{
 }
 
 /* The capital tick and the "i" that explains it, on one line. */
+/* The switch and its "i", 8px apart by the "i"'s own rule (see
+   .info-note), not a gap of the row's. */
 .legal-entity-switch-row{
 
     display:flex;
 
     align-items:center;
-
-    gap:8px;
 
 }
 
@@ -10377,8 +10373,6 @@ td.process-library-col-number{
     align-items:center;
 
     justify-content:center;
-
-    gap:8px;
 
     min-height:44px;
 
@@ -12905,8 +12899,9 @@ td.process-library-col-number{
 
 }
 
-/* A cost group's arrow, title and "i" on one line, as every folding
-   group on Pages 1 to 3 has them. */
+/* A cost group's arrow and title (its "i" inside the title, see
+   .info-note) on one line, as every folding group on Pages 1 to 3
+   has them. */
 .financial-cost-group-head > .business-foundation-label-info{
 
     display:flex;
@@ -13575,13 +13570,9 @@ td.process-library-col-number{
 
 }
 
+/* A block of words, the "i" at the end of the last line (see
+   .info-note, InfoText), not a flex row that set it apart. */
 .financial-tile-label{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:6px;
 
     font-size:var(--font-body);
     font-weight:600;
@@ -14708,8 +14699,6 @@ td.process-library-col-number{
 
     align-items:center;
 
-    gap:6px;
-
 }
 
 /* A figure taken from another page sits at the height of an input. */
@@ -14787,8 +14776,6 @@ td.process-library-col-number{
     display:flex;
 
     align-items:center;
-
-    gap:8px;
 
 }
 

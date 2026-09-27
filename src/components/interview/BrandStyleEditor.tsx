@@ -8,7 +8,7 @@ import {
     BrandStyleAnswerValue,
     asBrandStyleValue
 } from "../../framework/engine/AnswerUtils.ts";
-import InfoNote, { InfoPoint } from "./InfoNote.tsx";
+import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { NUMBER_LIMITS, limitedHexText, limitedNumberText } from "./numberInput.ts";
 import { railId } from "./rails/railItems.ts";
 
@@ -380,14 +380,22 @@ export default function BrandStyleEditor({
                     name on the box above is still the whole string,
                     so nothing changes for a screen reader.
                 */}
+                {/* The "i" ends the LAST line, glued to its last
+                    word (see InfoText) -- not after the block, where
+                    it sat between the two lines. */}
                 <span className="brand-slot-label">
                     {label.split(" / ").map((part, index, parts) => (
                         <span className="brand-slot-label-line" key={index}>
-                            {index < parts.length - 1 ? `${part} /` : part}
+                            {index < parts.length - 1
+                                ? `${part} /`
+                                : (
+                                    <InfoText text={part}>
+                                        {help && <InfoNote label={label} points={[help]} />}
+                                    </InfoText>
+                                )}
                         </span>
                     ))}
                 </span>
-                {help && <InfoNote label={label} points={[help]} />}
             </span>
         );
     }
@@ -404,12 +412,14 @@ export default function BrandStyleEditor({
                 {heading(0)}
                 {bullets([
                     <>
-                        Choose colours that support the character and purpose of your organisation.{" "}
-                        <InfoNote label="Common colour associations" points={COLOUR_ASSOCIATIONS} fullList />
+                        <InfoText text="Choose colours that support the character and purpose of your organisation.">
+                            <InfoNote label="Common colour associations" points={COLOUR_ASSOCIATIONS} fullList />
+                        </InfoText>
                     </>,
                     <>
-                        As a starting point, consider a 60 / 30 / 10 distribution guide.{" "}
-                        <InfoNote label="Common colour combinations" points={COLOUR_COMBINATIONS} fullList />
+                        <InfoText text="As a starting point, consider a 60 / 30 / 10 distribution guide.">
+                            <InfoNote label="Common colour combinations" points={COLOUR_COMBINATIONS} fullList />
+                        </InfoText>
                     </>,
                     "Accessibility: check text/background contrast before assigning a colour to text or essential interface elements."
                 ])}
@@ -419,12 +429,14 @@ export default function BrandStyleEditor({
                 {heading(1)}
                 {bullets([
                     <>
-                        Choose typefaces that support your brand's character while remaining appropriate for their intended use.{" "}
-                        <InfoNote label="Typeface styles & examples" points={TYPEFACE_STYLES} fullList />
+                        <InfoText text="Choose typefaces that support your brand's character while remaining appropriate for their intended use.">
+                            <InfoNote label="Typeface styles & examples" points={TYPEFACE_STYLES} fullList />
+                        </InfoText>
                     </>,
                     <>
-                        Use complementary typefaces and prioritise readability over personality.{" "}
-                        <InfoNote label="Common pairings & examples" points={TYPEFACE_PAIRINGS} fullList />
+                        <InfoText text="Use complementary typefaces and prioritise readability over personality.">
+                            <InfoNote label="Common pairings & examples" points={TYPEFACE_PAIRINGS} fullList />
+                        </InfoText>
                     </>,
                     "Recommended: use 1–2 typefaces for most brands; use 3 only when each has a clearly defined purpose."
                 ])}
@@ -435,8 +447,9 @@ export default function BrandStyleEditor({
                 {bullets([
                     "Use larger sizes for more important headings, and smaller sizes for longer text to keep it comfortable to read.",
                     <>
-                        Maintain a clear and consistent relationship between text levels.{" "}
-                        <InfoNote label="Text levels" points={HIERARCHY_RELATIONSHIP} />
+                        <InfoText text="Maintain a clear and consistent relationship between text levels.">
+                            <InfoNote label="Text levels" points={HIERARCHY_RELATIONSHIP} />
+                        </InfoText>
                     </>
                 ])}
             </div>
@@ -534,8 +547,9 @@ export default function BrandStyleEditor({
 
                                     {normalizeHex(colour.hex) && (
                                         <span className="brand-style-contrast">
-                                            {contrastNote(normalizeHex(colour.hex)!)}
-                                            <InfoNote label="Contrast ratio" points={CONTRAST_HELP} />
+                                            <InfoText text={contrastNote(normalizeHex(colour.hex)!)}>
+                                                <InfoNote label="Contrast ratio" points={CONTRAST_HELP} />
+                                            </InfoText>
                                         </span>
                                     )}
 

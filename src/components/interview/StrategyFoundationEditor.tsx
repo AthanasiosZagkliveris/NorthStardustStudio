@@ -16,7 +16,7 @@ import {
 import { railId } from "./rails/railItems.ts";
 
 import BoxActions, { useMovableBox } from "./ReorderControls.tsx";
-import InfoNote, { InfoPoint } from "./InfoNote.tsx";
+import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import AddThemeMenu from "./AddThemeMenu.tsx";
 import { AnswerType } from "../../framework/enums/AnswerType.ts";
 import MonthYearPicker from "./MonthYearPicker.tsx";
@@ -341,16 +341,16 @@ export default function StrategyFoundationEditor({
             <div className="brand-style-head">
                 {heading(0)}
                 {bullets([
-                    <>What do you sell, and who uses it?{" "}{answeredIn("What you sell", [
+                    <><InfoText text="What do you sell, and who uses it?">{answeredIn("What you sell", [
                         ["Offerings and Customer Segments", "3. Business System → 1. Foundation", AnswerType.BusinessFoundation]
-                    ])}</>,
-                    <>How do people discover and reach you?{" "}{answeredIn("How customers reach you", [
+                    ])}</InfoText></>,
+                    <><InfoText text="How do people discover and reach you?">{answeredIn("How customers reach you", [
                         ["Customer Channels", "3. Business System → 2. Customer Engagement", AnswerType.BusinessEngagement]
-                    ])}</>,
-                    <>How are you supported financially today?{" "}{answeredIn("How you are funded", [
+                    ])}</InfoText></>,
+                    <><InfoText text="How are you supported financially today?">{answeredIn("How you are funded", [
                         ["Costs and funding", "3. Business System → 4. Financial Foundation", AnswerType.FinancialFoundation],
                         ["Revenue and break even", "3. Business System → 5. Financial Sustainability", AnswerType.FinancialSustainability]
-                    ])}</>
+                    ])}</InfoText></>
                 ])}
             </div>
 
@@ -369,14 +369,15 @@ export default function StrategyFoundationEditor({
                     "Where do you want your organization to be heading, and what do you want it to build, become, or achieve over the long term?",
                     "Choose a time horizon far enough ahead to give your strategy direction, yet close enough for your organization to make meaningful decisions about.",
                     <>
-                        The Vision is the goal; the Compass is the route.{" "}
                         {/* The Vision the line names, one click away. */}
-                        <InfoNote
-                            label="Your Vision"
-                            points={[vision.trim()
-                                ? vision.trim()
-                                : "Not written yet. Write it under 1. Identity System → 1. Definition → 1.4 Vision."]}
-                        />
+                        <InfoText text="The Vision is the goal; the Compass is the route.">
+                            <InfoNote
+                                label="Your Vision"
+                                points={[vision.trim()
+                                    ? vision.trim()
+                                    : "Not written yet. Write it under 1. Identity System → 1. Definition → 1.4 Vision."]}
+                            />
+                        </InfoText>
                     </>
                 ])}
             </div>
@@ -386,8 +387,9 @@ export default function StrategyFoundationEditor({
                 {bullets([
                     "Choose a start and an end: three to five years.",
                     <>
-                        Name 3 to 5 Strategic Themes: broad areas the organisation intends to develop during the strategic period.{" "}
-                        <InfoNote label="Common Strategic Themes" fullList points={THEME_SUGGESTIONS} />
+                        <InfoText text="Name 3 to 5 Strategic Themes: broad areas the organisation intends to develop during the strategic period.">
+                            <InfoNote label="Common Strategic Themes" fullList points={THEME_SUGGESTIONS} />
+                        </InfoText>
                     </>,
                     "Say briefly why each Theme matters."
                 ])}

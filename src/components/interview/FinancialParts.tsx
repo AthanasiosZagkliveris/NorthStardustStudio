@@ -8,7 +8,7 @@ import {
 } from "../../framework/engine/FinancialModel.ts";
 
 import { BusinessField } from "./BusinessCardFields.tsx";
-import InfoNote, { InfoPoint } from "./InfoNote.tsx";
+import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import MonthYearPicker from "./MonthYearPicker.tsx";
 
 /*
@@ -89,8 +89,9 @@ export function FigureTiles({ tiles }: { tiles: FigureTile[] }) {
                     key={tile.label}
                 >
                     <span className="financial-tile-label">
-                        {tile.label}
-                        {tile.info && <InfoNote label={tile.label} points={tile.info} fullList />}
+                        <InfoText text={tile.label}>
+                            {tile.info && <InfoNote label={tile.label} points={tile.info} fullList />}
+                        </InfoText>
                     </span>
                     <span className="financial-tile-value">{tile.value}</span>
                     {tile.detail && <span className="financial-tile-detail">{tile.detail}</span>}
@@ -154,8 +155,11 @@ export function FinancialBlock({
     return (
         <div className="financial-block">
             <span className="business-foundation-label-info">
-                <span className="business-capability-subhead">{title}</span>
-                {info && <InfoNote label={title} points={info} fullList />}
+                <span className="business-capability-subhead">
+                    <InfoText text={title}>
+                        {info && <InfoNote label={title} points={info} fullList />}
+                    </InfoText>
+                </span>
             </span>
             {children}
         </div>

@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import InfoNote, { InfoPoint } from "./InfoNote.tsx";
+import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 
 import "../../styles/card-folding.css";
@@ -60,8 +60,11 @@ export function BusinessField({
             {info
                 ? (
                     <span className="business-foundation-label-info">
-                        <span className="business-foundation-label">{label}</span>
-                        <InfoNote label={label} points={info} fullList />
+                        <span className="business-foundation-label">
+                            <InfoText text={label}>
+                                <InfoNote label={label} points={info} fullList />
+                            </InfoText>
+                        </span>
                     </span>
                 )
                 : <span className="business-foundation-label">{label}</span>}
@@ -104,8 +107,11 @@ export function BusinessGroup({
     const heading = info
         ? (
             <span className="business-foundation-label-info">
-                <span className="business-foundation-subhead">{title}</span>
-                <InfoNote label={title} points={info} fullList />
+                <span className="business-foundation-subhead">
+                    <InfoText text={title}>
+                        <InfoNote label={title} points={info} fullList />
+                    </InfoText>
+                </span>
             </span>
         )
         : <span className="business-foundation-subhead">{title}</span>;

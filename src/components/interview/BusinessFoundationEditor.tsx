@@ -31,7 +31,7 @@ import {
 } from "./BusinessCardFields.tsx";
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
-import InfoNote, { InfoPoint } from "./InfoNote.tsx";
+import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import { railId } from "./rails/railItems.ts";
@@ -969,13 +969,14 @@ export default function BusinessFoundationEditor({
 
                                 <span className="business-foundation-label-info">
                                     <span className="business-foundation-label">
-                                        {kind.title}
+                                        <InfoText text={kind.title}>
+                                            <InfoNote
+                                                label={kind.title}
+                                                points={[kind.text]}
+                                                fullList
+                                            />
+                                        </InfoText>
                                     </span>
-                                    <InfoNote
-                                        label={kind.title}
-                                        points={[kind.text]}
-                                        fullList
-                                    />
                                 </span>
 
                                 <NumberedListInput
@@ -1480,21 +1481,20 @@ export default function BusinessFoundationEditor({
                             className="answer-question-line answer-question-line-bullet"
                             key={line}
                         >
-                            {"• " + line}
                             {/* The note sits at the end of the
                                 instruction it belongs to, inline,
                                 so it reads as part of the sentence
                                 rather than as a control beside
                                 it. */}
-                            {head.note && index === 0 && (
-                                <span className="answer-question-note">
+                            <InfoText text={"• " + line}>
+                                {head.note && index === 0 && (
                                     <InfoNote
                                         label={head.note.label}
                                         points={head.note.points}
                                         fullList
                                     />
-                                </span>
-                            )}
+                                )}
+                            </InfoText>
                         </span>
                     ))}
                 </div>

@@ -1,5 +1,5 @@
 import { CSSProperties, DragEvent, ReactNode, useRef, useState } from "react";
-import InfoNote, { InfoPoint } from "./InfoNote.tsx";
+import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 
 import {
     BRAND_IMAGE_MAX,
@@ -393,8 +393,9 @@ export default function BrandInventoryEditor({
                 {bullets([
                     `Upload your icon and logo in both PNG and SVG formats, with a maximum file size of ${MAX_MARK_BYTES / 1024} KB each.`,
                     <>
-                        Choose an icon and logo that represent your organisation clearly and consistently.{" "}
-                        <InfoNote label="Shape characteristics & common associations" points={SHAPE_ASSOCIATIONS} fullList />
+                        <InfoText text="Choose an icon and logo that represent your organisation clearly and consistently.">
+                            <InfoNote label="Shape characteristics & common associations" points={SHAPE_ASSOCIATIONS} fullList />
+                        </InfoText>
                     </>,
                     "Icon vs Logo: the icon should remain recognisable at small sizes, while the logo can combine the icon with the organisation name."
                 ])}
@@ -405,8 +406,9 @@ export default function BrandInventoryEditor({
                 {bullets([
                     `Upload ${BRAND_IMAGE_MIN}–${BRAND_IMAGE_MAX} images that represent the visual character of your brand, with a maximum file size of ${MAX_BRAND_IMAGE_BYTES / 1024} KB each.`,
                     <>
-                        Choose images that consistently communicate your brand's visual character, atmosphere and subject matter.{" "}
-                        <InfoNote label="Image types & common purposes" points={IMAGE_TYPES} fullList />
+                        <InfoText text="Choose images that consistently communicate your brand's visual character, atmosphere and subject matter.">
+                            <InfoNote label="Image types & common purposes" points={IMAGE_TYPES} fullList />
+                        </InfoText>
                     </>,
                     "Image selection: choose images with a recognisable visual character through subject matter, composition, lighting, colour, texture or atmosphere.",
                     "Variety: use different subjects or perspectives while maintaining enough consistency for the collection to feel like one brand."

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { Children, ReactNode, useEffect, useRef, useState } from "react";
 
 import { openUrl } from "@tauri-apps/plugin-opener";
 
@@ -97,6 +97,41 @@ interface InfoNoteProps {
      * reads as one sentence wrapping to the panel.
      */
     asReference?: boolean;
+
+}
+
+/**
+ * A label's words with its "i" GLUED TO THE LAST ONE.
+ *
+ * The "i" is an inline box after the text, and a line may break on
+ * either side of an inline box -- so a label that wrapped could leave
+ * the "i" alone on a line of its own, or a narrow one put it under
+ * the label instead of after it. The last word and the "i" go in one
+ * `white-space: nowrap` span (.info-note-glue): the label still wraps
+ * wherever it likes, and the "i" always ends its last line.
+ *
+ * Every label renderer that draws an "i" after words uses this, so the
+ * rule is the same wherever an "i" appears. Without a note (`children`
+ * empty) the text is returned as it is.
+ */
+export function InfoText({ text, children }: { text: string; children?: ReactNode }) {
+
+    if (Children.toArray(children).length === 0) {
+        return <>{text}</>;
+    }
+
+    const trimmed = text.trimEnd();
+    const at = trimmed.lastIndexOf(" ") + 1;
+
+    return (
+        <>
+            {trimmed.slice(0, at)}
+            <span className="info-note-glue">
+                {trimmed.slice(at)}
+                {children}
+            </span>
+        </>
+    );
 
 }
 

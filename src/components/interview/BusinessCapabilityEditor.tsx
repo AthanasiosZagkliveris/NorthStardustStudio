@@ -59,7 +59,7 @@ import { railId } from "./rails/railItems.ts";
 
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
-import InfoNote, { InfoPoint } from "./InfoNote.tsx";
+import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { NUMBER_LIMITS, limitedNumberText } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
 import type { OpenPage } from "./jumpTo.ts";
@@ -669,8 +669,11 @@ export default function BusinessCapabilityEditor({
                     {info
                         ? (
                             <span className="business-foundation-label-info">
-                                <span className="business-foundation-subhead">{title}</span>
-                                <InfoNote label={title} points={info} fullList />
+                                <span className="business-foundation-subhead">
+                                    <InfoText text={title}>
+                                        <InfoNote label={title} points={info} fullList />
+                                    </InfoText>
+                                </span>
                             </span>
                         )
                         : <span className="business-foundation-subhead">{title}</span>}
@@ -1293,10 +1296,13 @@ export default function BusinessCapabilityEditor({
                         )
                         : (
                             <span className="business-foundation-label-info">
-                                <span className="business-capability-subhead">{title}</span>
-                                {help.length > 0 && (
-                                    <InfoNote label={title} points={[help]} fullList />
-                                )}
+                                <span className="business-capability-subhead">
+                                    <InfoText text={title}>
+                                        {help.length > 0 && (
+                                            <InfoNote label={title} points={[help]} fullList />
+                                        )}
+                                    </InfoText>
+                                </span>
                             </span>
                         )}
 
@@ -1606,20 +1612,23 @@ export default function BusinessCapabilityEditor({
 
                 {founderDelivery !== null && (
                     <p className="delivery-muted">
-                        {(legacyShare
-                            ? "About " + formatHours(founderDelivery) + " hours a month for delivery"
-                            : weekly
-                                ? "Delivery hours: " + formatHours(founderDelivery / WEEKS_PER_MONTH) + " a week, about " +
-                                    formatHours(founderDelivery) + " a month"
-                                : "Delivery hours: " + formatHours(founderDelivery) + " a month") +
-                            (workingHours !== null && workingHours > 0
-                                ? " (" + formatHours(Math.round(founderDelivery / workingHours * 100)) + "% of working hours)."
-                                : ".")}
-                        {/* The weekly-to-monthly conversion just shown,
-                            when that is the one given. */}
-                        {!legacyShare && weekly && (
-                            <InfoNote label="Hours a month" points={HOURS_PER_MONTH_HELP} />
-                        )}
+                        <InfoText
+                            text={(legacyShare
+                                ? "About " + formatHours(founderDelivery) + " hours a month for delivery"
+                                : weekly
+                                    ? "Delivery hours: " + formatHours(founderDelivery / WEEKS_PER_MONTH) + " a week, about " +
+                                        formatHours(founderDelivery) + " a month"
+                                    : "Delivery hours: " + formatHours(founderDelivery) + " a month") +
+                                (workingHours !== null && workingHours > 0
+                                    ? " (" + formatHours(Math.round(founderDelivery / workingHours * 100)) + "% of working hours)."
+                                    : ".")}
+                        >
+                            {/* The weekly-to-monthly conversion just shown,
+                                when that is the one given. */}
+                            {!legacyShare && weekly && (
+                                <InfoNote label="Hours a month" points={HOURS_PER_MONTH_HELP} />
+                            )}
+                        </InfoText>
                     </p>
                 )}
 
@@ -2713,14 +2722,17 @@ export default function BusinessCapabilityEditor({
                     {total > 0 && (
                         <p className="delivery-total">
                             <span>
-                                {"Total: " + formatHours(total) + " h" + perUnit +
-                                    (externalTotal > 0
-                                        ? ": founders " + formatHours(foundersTotal) +
-                                            " h, external " + formatHours(externalTotal) + " h"
-                                        : "") +
-                                    (weekly ? " (about " + formatHours(total * WEEKS_PER_MONTH) + " h a month)" : "")}
+                                <InfoText
+                                    text={"Total: " + formatHours(total) + " h" + perUnit +
+                                        (externalTotal > 0
+                                            ? ": founders " + formatHours(foundersTotal) +
+                                                " h, external " + formatHours(externalTotal) + " h"
+                                            : "") +
+                                        (weekly ? " (about " + formatHours(total * WEEKS_PER_MONTH) + " h a month)" : "")}
+                                >
+                                    <InfoNote label={offering.label + " unit"} points={DELIVERY_HELP.unit} fullList />
+                                </InfoText>
                             </span>
-                            <InfoNote label={offering.label + " unit"} points={DELIVERY_HELP.unit} fullList />
                         </p>
                     )}
 
@@ -2855,8 +2867,12 @@ export default function BusinessCapabilityEditor({
                                     />
                                 </div>
                                 <p className="delivery-muted">
-                                    {Math.round(used / Math.max(1, available) * 100)}% of {label}'s delivery hours, at the normal level of sales.
-                                    <InfoNote label="Capacity used" points={CAPACITY_UTILISATION_HELP} />
+                                    <InfoText
+                                        text={Math.round(used / Math.max(1, available) * 100) + "% of " + label +
+                                            "'s delivery hours, at the normal level of sales."}
+                                    >
+                                        <InfoNote label="Capacity used" points={CAPACITY_UTILISATION_HELP} />
+                                    </InfoText>
                                     {left < 0 ? " More delivery capacity may be needed: more hours, an external professional for part of the work, or a hire." : ""}
                                 </p>
                             </div>
@@ -3090,14 +3106,14 @@ export default function BusinessCapabilityEditor({
                             </span>
 
                             <span className="strategy-name-static">
-                                {card.title}
+                                <InfoText text={card.title}>
+                                    <InfoNote
+                                        label={card.title}
+                                        points={card.note}
+                                        fullList
+                                    />
+                                </InfoText>
                             </span>
-
-                            <InfoNote
-                                label={card.title}
-                                points={card.note}
-                                fullList
-                            />
 
                         </div>
 
