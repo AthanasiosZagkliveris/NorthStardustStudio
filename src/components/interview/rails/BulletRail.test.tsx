@@ -22,6 +22,20 @@ describe("BulletRail", () => {
         expect(onSelect).toHaveBeenCalledWith("b");
     });
 
+    it("puts the bullet on the side nearest the card", () => {
+
+        const partClasses = (button: HTMLElement) => Array.from(button.children).map(child => child.className);
+
+        render(<BulletRail items={items} activeId="a" onSelect={() => {}} side="left" label="Pages" />);
+        expect(partClasses(screen.getByRole("button", { name: "1. Definition" }))).toEqual(["bullet-rail-label", "bullet-rail-dot"]);
+
+        cleanup();
+
+        render(<BulletRail items={items} activeId="a" onSelect={() => {}} side="right" label="Sections" />);
+        expect(partClasses(screen.getByRole("button", { name: "1. Definition" }))).toEqual(["bullet-rail-dot", "bullet-rail-label"]);
+
+    });
+
     it("renders nothing for a single item", () => {
         const { container } = render(<BulletRail items={[items[0]]} activeId="a" onSelect={() => {}} side="right" label="Sections" />);
         expect(container.firstChild).toBeNull();

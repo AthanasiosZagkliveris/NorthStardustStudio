@@ -1,7 +1,9 @@
 /* ==========================================================
    Bullet rails -- pages (left) and sections (right), fixed in
    the gutters beside the interview card, between the fixed
-   header (80px) and the fixed Previous/Next bar + footer.
+   header (80px) and the fixed Previous/Next bar + footer. Each
+   rail is placed from the card's edge, not the screen's: its
+   bullets sit 20px outside the card, labels further out.
 ========================================================== */
 
 :root {
@@ -10,6 +12,10 @@
     --rail-dot-active: #639922;   /* green: where the user is */
     --rail-bloom: #C0DD97;        /* the bloom ring around it */
     --rail-gutter: 56px;          /* dots-only width */
+
+    /* The interview card's width -- the same value as
+       .conversation-card's max-width (conversation-layout.css). */
+    --card-width: min(1400px, calc(100vw - 2 * var(--rail-gutter)));
 
 }
 
@@ -23,13 +29,30 @@
     display: flex;
     align-items: center;
 
-    width: var(--rail-gutter);
+    /* The rail spans the whole gutter; only its list takes clicks. */
+    pointer-events: none;
 
 }
 
-.bullet-rail-left { left: 0; justify-content: flex-start; padding-left: 20px; }
+/* From the screen edge to 20px short of the card, so the rail's
+   inner end (where the bullets are) is 20px from the card. */
+.bullet-rail-left {
 
-.bullet-rail-right { right: 0; justify-content: flex-end; padding-right: 20px; }
+    left: 0;
+    right: calc(50% + var(--card-width) / 2 + 20px);
+
+    justify-content: flex-end;
+
+}
+
+.bullet-rail-right {
+
+    left: calc(50% + var(--card-width) / 2 + 20px);
+    right: 0;
+
+    justify-content: flex-start;
+
+}
 
 .bullet-rail-list {
 
@@ -37,13 +60,25 @@
     flex-direction: column;
     gap: 18px;
 
+    min-width: 0;
+    max-width: 100%;
     margin: 0;
     padding: 0;
 
     list-style: none;
 
+    pointer-events: auto;
+
 }
 
+.bullet-rail-left .bullet-rail-list { align-items: flex-end; }
+
+.bullet-rail-right .bullet-rail-list { align-items: flex-start; }
+
+.bullet-rail-list > li { max-width: 100%; }
+
+/* Left rail: label, then bullet. Right rail: bullet, then label.
+   Either way the bullet is on the side nearest the card. */
 .bullet-rail-item {
 
     position: relative;
@@ -52,6 +87,7 @@
     align-items: center;
     gap: 12px;
 
+    max-width: 100%;
     padding: 2px 0;
 
     border: none;
@@ -59,13 +95,13 @@
     cursor: pointer;
 
     font: inherit;
-    font-size: 13px;
+    font-size: 15px;
     color: #5f6368;
     text-align: left;
 
 }
 
-.bullet-rail-right .bullet-rail-item { flex-direction: row-reverse; text-align: right; }
+.bullet-rail-left .bullet-rail-item { text-align: right; }
 
 .bullet-rail-dot {
 
@@ -98,7 +134,9 @@
 .bullet-rail-item:focus-visible { outline: 2px solid #0b57d0; outline-offset: 4px; border-radius: 4px; }
 
 /* Narrow windows: dots only; the label appears beside the dot on
-   hover/focus, over the page, like a tooltip. */
+   hover/focus, like a tooltip -- on the outer side, or over the
+   card (`.tooltip-inside`, set by BulletRail when the outer side
+   has no room), so the screen edge never cuts it off. */
 .bullet-rail-label {
 
     position: absolute;
@@ -119,14 +157,20 @@
 
 }
 
-.bullet-rail-left .bullet-rail-label { left: 24px; }
+.bullet-rail-left .bullet-rail-label { right: 24px; }
 
-.bullet-rail-right .bullet-rail-label { right: 24px; }
+.bullet-rail-right .bullet-rail-label { left: 24px; }
+
+.bullet-rail-left .tooltip-inside .bullet-rail-label { right: auto; left: 24px; }
+
+.bullet-rail-right .tooltip-inside .bullet-rail-label { left: auto; right: 24px; }
 
 .bullet-rail-item:hover .bullet-rail-label,
 .bullet-rail-item:focus-visible .bullet-rail-label { opacity: 1; }
 
-/* Wide windows: the gutters have room, so labels sit inline. */
+/* Wide windows: the gutters have room, so labels sit inline, on the
+   outer side of the bullet, cut short with an ellipsis where the
+   gutter ends. */
 @media (min-width: 1700px) {
 
     :root { --rail-gutter: 220px; }
@@ -139,6 +183,7 @@
     .bullet-rail-list {
 
         max-height: 100%;
+        max-width: calc(100% + 20px);
         overflow-y: auto;
 
         margin: -10px;
@@ -150,7 +195,7 @@
 
         position: static;
 
-        max-width: 180px;
+        min-width: 0;
         padding: 0;
 
         overflow: hidden;
