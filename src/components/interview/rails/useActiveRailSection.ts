@@ -91,9 +91,9 @@ export function useActiveRailSection(
                 return;
             }
             // A focused field outranks the scroll position while its
-            // section is still on screen -- otherwise the smooth scroll
-            // after a rail jump (or a nudge of the wheel while typing)
-            // would hand the bullet to the first section of a shared row.
+            // section is still on screen -- otherwise a nudge of the
+            // wheel while typing would hand the bullet to the first
+            // section of a shared row.
             const focused = focusedRail();
             if (focused) {
                 setActive(focused);
@@ -163,8 +163,9 @@ export function useActiveRailSection(
 
 /**
  * Takes the user to a section: opens it if it is folded (the same
- * `aria-expanded="false"` toggle jumpTo.ts relies on), scrolls it
- * just under the header, and puts the cursor in its first field.
+ * `aria-expanded="false"` toggle jumpTo.ts relies on) and scrolls it
+ * just under the header. Scroll only -- keyboard focus stays where it
+ * is, so a click never drops the cursor into a field.
  */
 export function scrollToRailSection(id: string): void {
 
@@ -177,11 +178,8 @@ export function scrollToRailSection(id: string): void {
     const toggle = target.querySelector<HTMLButtonElement>(':scope > * > .strategy-box-toggle[aria-expanded="false"], :scope > .strategy-box-toggle[aria-expanded="false"]');
     toggle?.click();
 
-    // Focus first, then scroll: Chrome cancels an in-progress smooth
-    // scroll on a programmatic focus, even with `preventScroll`.
+    // Next frame, so a section just opened above has its full height.
     window.requestAnimationFrame(() => {
-        target.querySelector<HTMLElement>("input:not([disabled]), textarea:not([disabled]), select:not([disabled])")
-            ?.focus({ preventScroll: true });
         const top = target.getBoundingClientRect().top + window.scrollY - RAIL_TOP_CLEARANCE;
         const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
         window.scrollTo({ top: Math.max(0, top), behavior: reduceMotion ? "auto" : "smooth" });

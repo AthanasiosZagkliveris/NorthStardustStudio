@@ -158,9 +158,10 @@ describe("scrollToRailSection", () => {
         expect(onClick).toHaveBeenCalledTimes(1);
     });
 
-    // Chrome cancels an in-progress smooth scroll on a programmatic
-    // focus, so the field must be focused BEFORE the scroll starts.
-    it("focuses the first field before scrolling it under the header", () => {
+    // A rail click only scrolls: the cursor never lands in a field,
+    // so every click behaves the same whether or not the section has
+    // one.
+    it("scrolls the section under the header without focusing any field", () => {
         const scrollTo = vi.fn();
         window.scrollTo = scrollTo as unknown as typeof window.scrollTo;
         Object.defineProperty(window, "scrollY", { value: 2100, configurable: true });
@@ -170,19 +171,23 @@ describe("scrollToRailSection", () => {
         });
         const focus = vi.spyOn(HTMLElement.prototype, "focus");
 
-        document.body.innerHTML = '<div data-rail="x"><input aria-label="first" /></div>';
+        document.body.innerHTML = '<button type="button">rail</button><div data-rail="x"><input aria-label="first" /></div>';
+        const rail = document.querySelector<HTMLButtonElement>("button")!;
+        rail.focus();
+        focus.mockClear();
+
         const section = document.querySelector<HTMLElement>('[data-rail="x"]')!;
         section.getBoundingClientRect = () => ({ top: -634, bottom: 0, left: 0, right: 0, width: 0, height: 634, x: 0, y: -634, toJSON() {} });
 
         scrollToRailSection("x");
 
-        expect(focus).toHaveBeenCalledTimes(1);
-        expect(focus.mock.contexts[0]).toBe(document.querySelector("input"));
         expect(scrollTo).toHaveBeenCalledWith({ top: -634 + 2100 - RAIL_TOP_CLEARANCE, behavior: "smooth" });
-        expect(focus.mock.invocationCallOrder[0]).toBeLessThan(scrollTo.mock.invocationCallOrder[0]);
+        expect(focus).not.toHaveBeenCalled();
+        expect(document.activeElement).toBe(rail);
 
         focus.mockRestore();
         raf.mockRestore();
+        Object.defineProperty(window, "scrollY", { value: 0, configurable: true });
     });
 
 });
