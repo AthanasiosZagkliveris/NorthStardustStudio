@@ -28,6 +28,7 @@ import {
     stableHue,
     withLegalEntityFounders
 } from "../../framework/engine/AnswerUtils.ts";
+import { costText } from "../../framework/engine/ExportRenderers.ts";
 
 import {
     BusinessAddButton,
@@ -54,10 +55,13 @@ import {
 import { moneyFormatter } from "../../framework/engine/FinancialModel.ts";
 import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../framework/engine/Currencies.ts";
 
+import { summaryText } from "./cardSummary.ts";
+import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote, { InfoPoint } from "./InfoNote.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import type { OpenPage } from "./jumpTo.ts";
 import { useListDrag } from "./ReorderControls.tsx";
+import { useItemFolds, type ItemFolds } from "./useItemFolds.ts";
 
 import "../../styles/delivery.css";
 
@@ -440,6 +444,14 @@ export default function BusinessCapabilityEditor({
     const founders = hasLegalFounders ? capability.founders : [];
 
     const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
+
+    /**
+     * Which Resource, Founder, Activity and Partner cards are open.
+     * These four item kinds start CLOSED -- see useItemFolds --
+     * unlike the structural sections, groups and subsections around
+     * them, which stay on `collapsed` and so start open.
+     */
+    const folds = useItemFolds();
 
     /** Completed lists start folded away: they are what is DONE. */
     const [completedOpen, setCompletedOpen] = useState<ReadonlySet<string>>(new Set());
@@ -1063,9 +1075,13 @@ export default function BusinessCapabilityEditor({
                 number={number}
                 name={slot.name}
                 onName={(next) => onSlot({ name: next })}
-                open={!collapsed.has(slot.id)}
-                onToggle={() => toggle(slot.id)}
+                open={folds.isOpen(slot.id)}
+                onToggle={() => folds.toggle(slot.id)}
                 disabled={disabled}
+                summary={summaryText(
+                    BUSINESS_RESOURCE_STATUSES.find(status => status.id === slot.status)?.label,
+                    costText(slot.cost, organisationCurrency ?? "")
+                )}
                 actions={
                     <BusinessRemove
                         what={"Resource " + number}
@@ -1263,6 +1279,12 @@ export default function BusinessCapabilityEditor({
                             </span>
                         )}
 
+                    <FoldAllToggle
+                        ids={slots.map(slot => slot.id)}
+                        folds={folds}
+                        label="resources"
+                    />
+
                     {own && (
                         <BusinessRemove
                             what={title.trim() || "this unnamed subsection"}
@@ -1287,7 +1309,11 @@ export default function BusinessCapabilityEditor({
                     <BusinessAddButton
                         label="Resource"
                         disabled={disabled}
-                        onAdd={() => setSlots([...slots, createBusinessResourceSlot()])}
+                        onAdd={() => {
+                            const slot = createBusinessResourceSlot();
+                            setSlots([...slots, slot]);
+                            folds.expand(slot.id);
+                        }}
                     />
                 )}
 
@@ -1416,9 +1442,10 @@ export default function BusinessCapabilityEditor({
                 kind="Founder"
                 number={index + 1}
                 name={founder.name}
-                open={!collapsed.has(founder.id)}
-                onToggle={() => toggle(founder.id)}
+                open={folds.isOpen(founder.id)}
+                onToggle={() => folds.toggle(founder.id)}
                 disabled={disabled}
+                summary={summaryText(founder.roles[0])}
             >
 
                 <div className="business-capability-stack">
@@ -1825,7 +1852,22 @@ export default function BusinessCapabilityEditor({
         // overwriting the other.
         const { className: dropTarget, ...dragProps } = drag.itemProps(index);
 
-        const open = !collapsed.has(activity.id);
+        const open = folds.isOpen(activity.id);
+
+        /* Who is responsible, resolved the same way responsibilityField
+           shows it: the automatic rule when one applies, else the
+           founder chosen -- always among founderChoices, never a
+           partner (see responsibilityField). */
+        const resolvedResponsibleId =
+            businessAutoResponsibleId(founderIds, activity.performerIds) ||
+            activity.responsibleId;
+
+        const responsibleName = founderChoices.find(
+            choice => choice.id === resolvedResponsibleId
+        )?.label ?? "";
+
+        const summary = responsibleName ||
+            activity.description.split("\n")[0]?.trim() || "";
 
         return (
             <div
@@ -1841,7 +1883,7 @@ export default function BusinessCapabilityEditor({
                         className="strategy-box-toggle"
                         aria-expanded={open}
                         aria-label={(open ? "Minimize " : "Maximize ") + "Activity " + number}
-                        onClick={() => toggle(activity.id)}
+                        onClick={() => folds.toggle(activity.id)}
                     >
                         {open ? "▾" : "▸"}
                     </button>
@@ -1868,6 +1910,10 @@ export default function BusinessCapabilityEditor({
                         disabled={disabled}
                         onRemove={onRemove}
                     />
+
+                    {!open && summary && (
+                        <span className="business-card-summary">{summary}</span>
+                    )}
 
                 </div>
 
@@ -1970,6 +2016,8 @@ export default function BusinessCapabilityEditor({
                 renderRow={activityRow}
                 columns={columns}
                 disabled={disabled}
+                folds={folds}
+                onAdded={folds.expand}
             />
         );
 
@@ -2000,9 +2048,13 @@ export default function BusinessCapabilityEditor({
                 number={number}
                 name={partner.name}
                 onName={(next) => change({ name: next })}
-                open={!collapsed.has(partner.id)}
-                onToggle={() => toggle(partner.id)}
+                open={folds.isOpen(partner.id)}
+                onToggle={() => folds.toggle(partner.id)}
                 disabled={disabled}
+                summary={summaryText(
+                    costText(partner.cost, organisationCurrency ?? ""),
+                    partner.description
+                )}
                 actions={
                     <BusinessRemove
                         what={partner.name.trim() || "entry " + number}
@@ -2068,6 +2120,12 @@ export default function BusinessCapabilityEditor({
 
                 <BusinessGroup title={title} info={note}>
 
+                    <FoldAllToggle
+                        ids={list.map(partner => partner.id)}
+                        folds={folds}
+                        label={kind}
+                    />
+
                     {list.map((partner, index) => partnerCard(
                         scope, kind, partner, index + 1
                     ))}
@@ -2075,10 +2133,11 @@ export default function BusinessCapabilityEditor({
                     <BusinessAddButton
                         label={kind === "professionals" ? "Professional" : "Provider"}
                         disabled={disabled}
-                        onAdd={() => setPartners(scope, kind, [
-                            ...list,
-                            createBusinessPartner()
-                        ])}
+                        onAdd={() => {
+                            const partner = createBusinessPartner();
+                            setPartners(scope, kind, [...list, partner]);
+                            folds.expand(partner.id);
+                        }}
                     />
 
                 </BusinessGroup>
@@ -2840,15 +2899,16 @@ export default function BusinessCapabilityEditor({
                         <BusinessAddButton
                             label="Resource"
                             disabled={disabled}
-                            onAdd={() => update({
-                                offering: {
-                                    ...capability.offering,
-                                    resources: [
-                                        ...offeringResources,
-                                        createBusinessResourceSlot()
-                                    ]
-                                }
-                            })}
+                            onAdd={() => {
+                                const slot = createBusinessResourceSlot();
+                                update({
+                                    offering: {
+                                        ...capability.offering,
+                                        resources: [...offeringResources, slot]
+                                    }
+                                });
+                                folds.expand(slot.id);
+                            }}
                         />
 
                     </>
@@ -3059,7 +3119,11 @@ function ActivityList({
 
     columns,
 
-    disabled
+    disabled,
+
+    folds,
+
+    onAdded
 
 }: {
 
@@ -3082,6 +3146,9 @@ function ActivityList({
     ) => ReactNode;
     columns: number;
     disabled: boolean;
+    folds: ItemFolds;
+    /** Called with a newly created activity's id, to open its card. */
+    onAdded?: (id: string) => void;
 
 }) {
 
@@ -3128,6 +3195,12 @@ function ActivityList({
                 {"Active " + active.length}
             </span>
 
+            <FoldAllToggle
+                ids={activities.map(activity => activity.id)}
+                folds={folds}
+                label="activities"
+            />
+
             {rows(active.map((activity, index) => renderRow(
                 scope, activity, index + 1, drag, index,
                 change(activity), remove(activity)
@@ -3136,7 +3209,11 @@ function ActivityList({
             <BusinessAddButton
                 label="Activity"
                 disabled={disabled}
-                onAdd={() => setActivities([...activities, createBusinessActivity()])}
+                onAdd={() => {
+                    const activity = createBusinessActivity();
+                    setActivities([...activities, activity]);
+                    onAdded?.(activity.id);
+                }}
             />
 
             {done.length > 0 && (
