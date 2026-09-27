@@ -2072,7 +2072,7 @@ export default function BusinessEngagementEditor({
                     <FoldAllToggle
                         ids={offeringIds.map(offeringId => "demand-" + offeringId)}
                         folds={folds}
-                        label="offerings"
+                        label="demand and conversion blocks"
                     />
                 </div>
 
@@ -2186,7 +2186,10 @@ export default function BusinessEngagementEditor({
                                                 <span className="business-card-summary">
                                                     {summaryText(
                                                         kept.types.length
-                                                            ? kept.types.length + " relationship types"
+                                                            ? kept.types.length +
+                                                                (kept.types.length === 1
+                                                                    ? " relationship type"
+                                                                    : " relationship types")
                                                             : ""
                                                     )}
                                                 </span>

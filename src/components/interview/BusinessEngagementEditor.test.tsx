@@ -78,4 +78,16 @@ describe("BusinessEngagementEditor folding", () => {
 
     });
 
+    // Two "Expand all" controls sit on this page -- one over the
+    // relationship blocks, one over the Demand & Conversion blocks --
+    // and each needs its own accessible name.
+    it("names the two Expand all controls apart", () => {
+
+        render(<Harness />);
+
+        expect(screen.getAllByRole("button", { name: "Expand all offerings" })).toHaveLength(1);
+        expect(screen.getAllByRole("button", { name: "Expand all demand and conversion blocks" })).toHaveLength(1);
+
+    });
+
 });

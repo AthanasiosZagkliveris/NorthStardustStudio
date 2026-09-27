@@ -3,7 +3,7 @@ import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import BusinessCapabilityEditor from "./BusinessCapabilityEditor";
-import { asBusinessCapabilityValue } from "../../framework/engine/AnswerUtils";
+import { BUSINESS_ACTIVITY_CATEGORIES, asBusinessCapabilityValue, createBusinessActivity } from "../../framework/engine/AnswerUtils";
 
 function Harness() {
     const [value, setValue] = useState<unknown>(asBusinessCapabilityValue(undefined));
@@ -35,6 +35,35 @@ describe("BusinessCapabilityEditor folding", () => {
         render(<Harness />);
 
         toggles(/Resources$|Activities$/).forEach(t => expect(t.getAttribute("aria-expanded")).toBe("true"));
+
+    });
+
+    // Completed activities live in their own folded list, so "Expand
+    // all" counts only the active ones -- and one active activity is
+    // too few for the control to show at all.
+    it("counts only active activities for Expand all", () => {
+
+        const initial = {
+            ...asBusinessCapabilityValue(undefined),
+            activities: [{
+                id: BUSINESS_ACTIVITY_CATEGORIES[0].id,
+                name: "",
+                activities: [
+                    { ...createBusinessActivity(), name: "Open" },
+                    { ...createBusinessActivity(), name: "Done", completed: true }
+                ]
+            }]
+        };
+
+        function ValueHarness() {
+            const [value, setValue] = useState<unknown>(initial);
+            return <BusinessCapabilityEditor value={value} onChange={setValue} />;
+        }
+
+        render(<ValueHarness />);
+
+        expect(screen.getByText("Active 1")).toBeTruthy();
+        expect(screen.queryByRole("button", { name: "Expand all activities" })).toBeNull();
 
     });
 

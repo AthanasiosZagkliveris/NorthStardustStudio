@@ -85,8 +85,31 @@ describe("FinancialSustainabilityEditor folding", () => {
             />
         );
 
-        expect(screen.getByText(/1200 \/ Client · Monthly/)).toBeTruthy();
+        expect(screen.getByText(/1\D?200 \/ Client · Monthly/)).toBeTruthy();
         expect(screen.queryByText(/· monthly$/)).toBeNull();
+
+    });
+
+    it("formats a folded stream's price as money and drops an empty unit", () => {
+
+        const value = asFinancialSustainabilityValue({
+            streams: [
+                { offeringId: "offering-1", price: "1200", unit: "Client", frequency: "monthly" },
+                { offeringId: "offering-2", price: "80", unit: "", frequency: "monthly" }
+            ]
+        });
+
+        render(
+            <FinancialSustainabilityEditor
+                value={value}
+                foundation={foundation}
+                currency="GBP"
+                onChange={() => {}}
+            />
+        );
+
+        expect(screen.getByText("£1,200 / Client · Monthly")).toBeTruthy();
+        expect(screen.getByText("£80 · Monthly")).toBeTruthy();
 
     });
 

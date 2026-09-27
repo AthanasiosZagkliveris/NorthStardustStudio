@@ -1324,7 +1324,8 @@ export default function BusinessFoundationEditor({
                                     ? offering.categoryOther
                                     : offering.category,
                                 offering.needsAddressed.length
-                                    ? offering.needsAddressed.length + " needs"
+                                    ? offering.needsAddressed.length +
+                                        (offering.needsAddressed.length === 1 ? " need" : " needs")
                                     : ""
                             ),
                             actions: segment.offerings.length > 1 &&

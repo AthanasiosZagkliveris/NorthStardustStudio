@@ -3198,8 +3198,10 @@ function ActivityList({
                 {"Active " + active.length}
             </span>
 
+            {/* The active cards only: the completed ones sit in
+                their own folded list below. */}
             <FoldAllToggle
-                ids={activities.map(activity => activity.id)}
+                ids={active.map(activity => activity.id)}
                 folds={folds}
                 label="activities"
             />

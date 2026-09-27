@@ -403,6 +403,18 @@ export default function FinancialSustainabilityEditor({
     }
 
     /**
+     * The price on a folded card's summary line: "£1,200 / Client",
+     * or just "£80" while no unit is chosen. A price that does not
+     * parse is shown as typed.
+     */
+    function summaryPrice(stream: RevenueStreamValue): string {
+        const price = parseAmount(stream.price);
+        const unit = (stream.unit === "Other" ? stream.unitOther : stream.unit).trim();
+        const amount = price === null ? stream.price.trim() : format(price);
+        return amount && (unit ? amount + " / " + unit : amount);
+    }
+
+    /**
      * Each Offering's own costs beside its price: what one sale costs,
      * what is left of the price, and what the Offering costs every
      * month whatever it sells. Read from its lines on Financial
@@ -613,7 +625,7 @@ export default function FinancialSustainabilityEditor({
                 disabled={disabled}
                 anchor={"stream-" + stream.offeringId}
                 summary={summaryText(
-                    stream.price && (stream.price + " / " + (stream.unit === "Other" ? stream.unitOther : stream.unit)),
+                    summaryPrice(stream),
                     REVENUE_CHARGES.find(item => item.id === stream.frequency)?.label ?? stream.frequency
                 )}
                 actions={orphan && (

@@ -426,13 +426,12 @@
    page by.
 
    Not applied to the small caps-style labels around them
-   (.org-rail-name, .capability-description-principle-label and the
-   like): those already carry their own tracking chosen for their
-   size, and they are labels rather than titles. */
+   (.org-rail-name and the like): those already carry their own
+   tracking chosen for their size, and they are labels rather than
+   titles. */
 .workspace-title,
 .workspace-subtitle,
-.workspace-current-capability,
-.capability-description-title {
+.workspace-current-capability {
 
     letter-spacing: 0.05em;
 
