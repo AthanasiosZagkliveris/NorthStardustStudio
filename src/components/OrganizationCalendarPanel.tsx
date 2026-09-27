@@ -48,27 +48,34 @@ interface OrganizationCalendarPanelProps {
     systems: FrameworkSystem[];
 
     /**
-     * Opens the SAME Capability description window System
-     * Selection's own sidebar opens on a click -- this rail is a
-     * second entry point to that one dialog, not a second dialog.
+     * Optional hook for a caller that still wants to react to a
+     * Capability being opened from this rail specifically (e.g.
+     * showing its own description somewhere). System Selection no
+     * longer supplies this -- picking a Capability here just marks
+     * it active via `onCapabilitySelect` below, the same as clicking
+     * it in the sidebar's own `CapabilityList`, which shows the
+     * Capability's description inline rather than in a dialog.
      */
     onCapabilityOpen?: (capability: Capability) => void;
 
     /**
      * Marks a Capability "active" -- the SAME thing the sidebar's
-     * own click does alongside opening the dialog (see
-     * CapabilityList.tsx's onClick, which fires both). Without
-     * this, picking a Capability from the rail would open its
-     * dialog but leave the main page's own System list showing
-     * whatever Capability (if any) was already active, which
-     * isn't "as it does now when we press on the capability".
+     * own click does (see CapabilityList.tsx's onClick). Without
+     * this, picking a Capability from the rail would leave the main
+     * page's own System list showing whatever Capability (if any)
+     * was already active, which isn't "as it does now when we press
+     * on the capability".
      */
     onCapabilitySelect: (capabilityId: string) => void;
 
     /**
-     * Opens the SAME "Start Interview" confirmation System
-     * Selection's own System tiles open on a click -- again, a
-     * second entry point to the one dialog, not a duplicate.
+     * Opens the chosen System immediately -- the SAME thing a
+     * System tile's own click does on System Selection's main page
+     * (see SystemSelection.tsx's `handleSystemSelection`): navigates
+     * straight into its interview, resuming wherever it was last
+     * left. There is no confirmation step to open a second entry
+     * point to anymore; this rail is just another way to trigger
+     * the same immediate navigation.
      */
     onSystemOpen: (system: FrameworkSystem) => void;
 
@@ -206,15 +213,15 @@ const RECURRING_TIME_PROMPT_FREQUENCIES = ["Daily", "Monthly", "Semi-Annually"];
  *     same shared, app-wide setting (PreferencesService) every
  *     other Date field in the app reads.
  *   - Capabilities: every Capability, in the same order System
- *     Selection's own sidebar presents them. Clicking one opens
- *     the same Capability description dialog the sidebar's own
- *     click already opens, AND marks that Capability active on the
- *     main page too -- full parity with the sidebar's own click,
- *     not just a shortcut to the dialog.
+ *     Selection's own sidebar presents them. Clicking one marks
+ *     that Capability active on the main page, the same thing the
+ *     sidebar's own click does -- full parity with the sidebar,
+ *     not a separate mechanism.
  *   - Systems: every System across every Capability, in flat
- *     numerical order. Clicking one opens the same "Start
- *     Interview" confirmation a System tile's own click already
- *     opens -- again, a second way to reach it, not a duplicate.
+ *     numerical order. Clicking one opens that System immediately,
+ *     the same thing a System tile's own click does on the main
+ *     page -- again, a second way to reach the same action, not a
+ *     duplicate.
  *
  * Each handle's own flyout is rendered as its own DOM sibling
  * (`.org-calendar-content`, absolutely positioned so it always
