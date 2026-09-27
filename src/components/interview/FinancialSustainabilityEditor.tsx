@@ -114,11 +114,33 @@ const BREAK_EVEN_REVENUE_FORMULA: InfoPoint = {
     title: "Formula",
     text: "Break-even revenue = Fixed costs ÷ Contribution margin ratio"
 };
+/* Same primary source as the units formula, so the two agree; OpenStax
+   follows as the second reference the spec asks for. */
 const BREAK_EVEN_REVENUE_SOURCE: InfoPoint = {
     title: "Source",
+    text: "U.S. SBA, “Break-even point”",
+    href: "https://www.sba.gov/business-guide/plan-your-business/calculate-your-startup-costs/break-even-point"
+};
+const BREAK_EVEN_REVENUE_SECOND_SOURCE: InfoPoint = {
+    title: "Also",
     text: "OpenStax, “Calculate a Break-Even Point in Units and Dollars”",
     href: "https://biz.libretexts.org/Bookshelves/Accounting/Managerial_Accounting_(OpenStax)/03:_Cost-Volume-Profit_Analysis/3.03:_Calculate_a_Break-Even_Point_in_Units_and_Dollars"
 };
+
+/**
+ * Utilisation -- demand hours against capacity -- its "i" beside the
+ * percent here and (the same content) on Infrastructure &
+ * Capability's own budget lines.
+ */
+const CAPACITY_UTILISATION_HELP: InfoPoint[] = [
+    { title: "Formula", text: "Utilisation = Demand hours ÷ Available hours" },
+    "How much of the available time the planned work needs. Above 100% means more work than capacity.",
+    {
+        title: "Source",
+        text: "CFI, “Capacity Utilization”",
+        href: "https://corporatefinanceinstitute.com/resources/economics/capacity-utilization/"
+    }
+];
 
 /** Contribution's own formula, the "i" beside its figure on each Offering's card. */
 const CONTRIBUTION_HELP: InfoPoint[] = [
@@ -1027,7 +1049,8 @@ export default function FinancialSustainabilityEditor({
                             More delivery capacity may be needed: more founder hours, an external professional for part of the work, or a hire.
                             The sales forecast is not changed.</>
                         : <>The expected sales fit the founders' capacity: at the busiest ({month(capacity.peakIndex)}), about {hours(capacity.peak)} of {hours(capacity.available)} a month
-                            ({Math.round(capacity.peak / Math.max(1, capacity.available) * 100)}%).</>}
+                            ({Math.round(capacity.peak / Math.max(1, capacity.available) * 100)}%)
+                            <InfoNote label="Capacity used" points={CAPACITY_UTILISATION_HELP} />.</>}
                 </p>
 
                 {capacity.external.length > 0 && (
@@ -1400,7 +1423,8 @@ export default function FinancialSustainabilityEditor({
                         info: [
                             "Fixed costs divided by the contribution margin of the expected revenue mix.",
                             BREAK_EVEN_REVENUE_FORMULA,
-                            BREAK_EVEN_REVENUE_SOURCE
+                            BREAK_EVEN_REVENUE_SOURCE,
+                            BREAK_EVEN_REVENUE_SECOND_SOURCE
                         ]
                     },
                     { label: "Expected Break Even", value: breakEven, detail: breakEvenDetail, tone: result.breakEvenMonth === null ? "risk" : "good" },

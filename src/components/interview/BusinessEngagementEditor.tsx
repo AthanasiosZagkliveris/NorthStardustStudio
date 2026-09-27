@@ -291,7 +291,7 @@ const DEMAND_SOURCE_FORMULA_HELP: Record<string, InfoPoint[]> = {
         { title: "Formula", text: "Bids per year × Won% × Units per contract ÷ 12" },
         "Win rate is the share of bids you win (25–35% is typical in professional services and construction). Dividing by 12 gives contracts a month.",
         {
-            title: "Source",
+            title: "Based on",
             text: "Klipfolio, “Tender Win Rate”",
             href: "https://www.klipfolio.com/resources/kpi-examples/sales/successful-unsuccessful-tenders"
         }
@@ -300,7 +300,7 @@ const DEMAND_SOURCE_FORMULA_HELP: Record<string, InfoPoint[]> = {
         { title: "Formula", text: "Sales from other sources × Buy again% × Times each" },
         "Repeat rate is the share of customers who buy again; only their extra purchases are counted, never the customers twice.",
         {
-            title: "Source",
+            title: "Based on",
             text: "Wall Street Prep, “Repeat Purchase Rate”",
             href: "https://www.wallstreetprep.com/knowledge/repeat-purchase-rate/"
         }
