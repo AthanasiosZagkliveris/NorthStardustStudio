@@ -78,6 +78,7 @@ import {
     loanSchedule,
     moneyFormatter,
     parseAmount,
+    parseDecimal,
     planMonthLabel,
     sustainability,
     withPlanStart,
@@ -201,7 +202,7 @@ export function costText(cost: BusinessCostValue, currency: string): string {
     if (!price) {
         return "";
     }
-    const amount = parseAmount(price);
+    const amount = parseDecimal(price);
     const code = cost.currency || currency;
     const frequency = cost.frequency === "other"
         ? text(cost.frequencyOther)
@@ -793,7 +794,7 @@ export function financialSustainabilityBlocks(value: unknown, context: ExportCon
             offeringName(foundation, entry.stream.offeringId) || "Unlinked stream",
             revenueModelLabel(entry.stream),
             entry.stream.price
-                ? format(parseAmount(entry.stream.price) ?? 0) + " / " + (entry.stream.unit === "Other" ? entry.stream.unitOther : entry.stream.unit || "unit").toLowerCase() +
+                ? format(parseDecimal(entry.stream.price) ?? 0) + " / " + (entry.stream.unit === "Other" ? entry.stream.unitOther : entry.stream.unit || "unit").toLowerCase() +
                     (REVENUE_FREQUENCIES.find(f => f.id === entry.stream.frequency && f.factor !== 1) ? ", " + entry.stream.frequency : "")
                 : "",
             formatUnits(entry.volume),

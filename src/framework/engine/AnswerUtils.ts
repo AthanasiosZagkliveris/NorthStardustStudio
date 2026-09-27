@@ -1,4 +1,4 @@
-import { parseAmount } from "./Amounts.ts";
+import { parseAmount, parseDecimal } from "./Amounts.ts";
 import { AnswerDefinition, TableColumnDefinition } from "../model/index.ts";
 import {
     type DeliveryValue,
@@ -3773,7 +3773,7 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
 export function legalEntityTotalOwnership(value: LegalEntityValue): number {
 
     return value.founders.reduce((total, founder) => {
-        return total + (parseAmount(founder.ownership.replace("%", "")) ?? 0);
+        return total + (parseDecimal(founder.ownership.replace("%", "")) ?? 0);
     }, 0);
 
 }

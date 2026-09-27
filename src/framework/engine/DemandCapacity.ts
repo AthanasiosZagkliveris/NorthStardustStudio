@@ -21,6 +21,8 @@
     one that enters no hours simply sees no capacity check.
 */
 
+import { parseDecimal } from "./Amounts.ts";
+
 /* ==========================================================
    Small readers
 ========================================================== */
@@ -35,17 +37,12 @@ function asText(value: unknown): string {
     return typeof value === "string" ? value : "";
 }
 
-/** A number as typed: "40", "12.5", "1,200"; null when there is none. */
+/** A number as typed: "40", "12.5", "12,5"; null when there is none. */
 function readNumber(text: string | undefined): number | null {
     if (/[-−]/.test(text ?? "")) {
         return null;
     }
-    const cleaned = (text ?? "").replace(/[^0-9.]/g, "");
-    if (cleaned === "" || cleaned === ".") {
-        return null;
-    }
-    const value = Number(cleaned);
-    return Number.isFinite(value) ? value : null;
+    return parseDecimal(text ?? "");
 }
 
 /* ==========================================================

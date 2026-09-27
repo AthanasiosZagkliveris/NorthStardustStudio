@@ -28,7 +28,7 @@ import {
     isRecurringRevenue,
     moneyFormatter,
     offeringCosts,
-    parseAmount,
+    parseDecimal,
     planMonthLabel,
     sustainability,
     withPlanStart,
@@ -393,7 +393,7 @@ export default function FinancialSustainabilityEditor({
 
     /** The price as entered: "€800 / project", "€30 / subscription, monthly". */
     function priceLabel(stream: RevenueStreamValue): string {
-        const price = parseAmount(stream.price);
+        const price = parseDecimal(stream.price);
         if (price === null) {
             return "Not set";
         }
@@ -408,7 +408,7 @@ export default function FinancialSustainabilityEditor({
      * parse is shown as typed.
      */
     function summaryPrice(stream: RevenueStreamValue): string {
-        const price = parseAmount(stream.price);
+        const price = parseDecimal(stream.price);
         const unit = (stream.unit === "Other" ? stream.unitOther : stream.unit).trim();
         const amount = price === null ? stream.price.trim() : format(price);
         return amount && (unit ? amount + " / " + unit : amount);
@@ -448,10 +448,10 @@ export default function FinancialSustainabilityEditor({
 
                                 <ul className="financial-cost-inputs">
                                     <li><span>Price</span><span>{priceLabel(entry.stream)}</span></li>
-                                    {(parseAmount(entry.stream.deliveryCharge) ?? 0) > 0 && (
+                                    {(parseDecimal(entry.stream.deliveryCharge) ?? 0) > 0 && (
                                         <li>
                                             <span>Delivery charged to the customer</span>
-                                            <span>{format(parseAmount(entry.stream.deliveryCharge) ?? 0)} / order</span>
+                                            <span>{format(parseDecimal(entry.stream.deliveryCharge) ?? 0)} / order</span>
                                         </li>
                                     )}
                                 </ul>

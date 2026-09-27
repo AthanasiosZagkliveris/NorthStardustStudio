@@ -13,8 +13,32 @@
  * follow it ("1,200", "1.200") and a decimal point otherwise
  * ("12,5"). Where both appear, whichever comes last is the decimal
  * point.
+ *
+ * For money typed where thousands separators could be: a percentage,
+ * a rate, hours, a count, or an amount from a box that only ever
+ * keeps one "." is read by parseDecimal, where "12.500" is twelve
+ * and a half.
  */
 export function parseAmount(text: string): number | null {
+    return readNumber(text, false);
+}
+
+/**
+ * A percentage, rate, number of hours, count or quantity as typed --
+ * "33.333", "12,5" -- as a number, or null when there is none. A
+ * single separator is always the decimal point; where both appear,
+ * whichever comes last is, as in parseAmount.
+ */
+export function parseDecimal(text: string): number | null {
+    return readNumber(text, true);
+}
+
+function readNumber(text: string, decimal: boolean): number | null {
+
+    // "2x 30" or "30 per 12" is two numbers, not 230 or 3012.
+    if (/[0-9][^0-9.,]+[0-9]/.test(text)) {
+        return null;
+    }
 
     const cleaned = text.replace(/[^0-9.,-]/g, "");
 
@@ -38,7 +62,7 @@ export function parseAmount(text: string): number | null {
         // is half a unit: a number never starts its thousands with 0.
         const leadingZero = /^-?0$/.test(parts[0]);
         const thousands = parts.length > 2 ||
-            (parts.length === 2 && parts[1].length === 3 && !leadingZero);
+            (!decimal && parts.length === 2 && parts[1].length === 3 && !leadingZero);
         normalised = thousands
             ? parts.join("")
             : parts.join(".");

@@ -30,7 +30,7 @@
        there are no exchange rates here to convert it with.
 */
 
-import { parseAmount } from "./Amounts.ts";
+import { parseAmount, parseDecimal } from "./Amounts.ts";
 import type {
     BusinessCapabilityValue,
     BusinessCostValue,
@@ -104,11 +104,11 @@ function oneOf<T extends string>(value: unknown, allowed: readonly T[], fallback
 
 /* How a typed amount is read lives in Amounts.ts, so the Identity
    pages can use it too (this engine imports theirs). */
-export { parseAmount };
+export { parseAmount, parseDecimal };
 
 /** A percentage as typed ("5", "5%", "4,5") as a number, or null. */
 export function parsePercent(text: string): number | null {
-    return parseAmount(text.replace("%", ""));
+    return parseDecimal(text.replace("%", ""));
 }
 
 /* ==========================================================
@@ -991,10 +991,13 @@ export function consolidateCosts(
         quantity: number | null = null,
         /** When the source already says when it was paid. */
         knownMonth: StrategyMonthValue | null = null,
-        sourcePath: string[] = []
+        sourcePath: string[] = [],
+        /* A box that keeps one "." is read as decimals; the Legal
+           Entity's expenses may hold thousands separators. */
+        parse: (text: string) => number | null = parseDecimal
     ) => {
 
-        const unitAmount = parseAmount(amountText);
+        const unitAmount = parse(amountText);
         const total = quantity !== null && unitAmount !== null
             ? Math.round(unitAmount * quantity * 100) / 100
             : unitAmount;
@@ -1067,7 +1070,7 @@ export function consolidateCosts(
         quantity = "",
         sourcePath: string[] = []
     ) => {
-        if (parseAmount(cost.price) === null) {
+        if (parseDecimal(cost.price) === null) {
             return;
         }
         read(
@@ -1099,7 +1102,8 @@ export function consolidateCosts(
             [],
             null,
             expense.frequency === "One time" ? formationMonth : null,
-            ["legal-expense-" + expense.id, "legal-section-5"]
+            ["legal-expense-" + expense.id, "legal-section-5"],
+            parseAmount
         );
     });
 
@@ -1108,7 +1112,7 @@ export function consolidateCosts(
     /* Founders' salaries -- per month, as Page 3 asks for them. */
     if (sources.foundersLinked) {
         capability.founders.forEach(founder => {
-            if (parseAmount(founder.salary) === null) {
+            if (parseDecimal(founder.salary) === null) {
                 return;
             }
             read(
@@ -1212,7 +1216,7 @@ export function consolidateCosts(
             offeringIds: cost.offeringId ? [cost.offeringId] : [],
             offeringId: cost.offeringId,
             amountText: cost.amount,
-            amount: parseAmount(cost.amount),
+            amount: parseDecimal(cost.amount),
             quantity: null,
             unitAmount: null,
             sourcePath: [],
@@ -1383,7 +1387,7 @@ export function loanSchedule(
 ): LoanSchedule | null {
 
     const principal = parseAmount(source.amount);
-    const count = Math.floor(parseAmount(source.loan.payments) ?? 0);
+    const count = Math.floor(parseDecimal(source.loan.payments) ?? 0);
     const firstMonth = planMonth(start, source.loan.repaymentStart);
 
     if (principal === null || principal <= 0 || count <= 0 || firstMonth === null) {
@@ -1476,7 +1480,7 @@ function fundingArrivals(
         case "periodic": {
             const first = planMonth(start, schedule.start) ?? 1;
             const step = periodMonths(schedule.frequency);
-            const periods = Math.floor(parseAmount(schedule.periods) ?? 0);
+            const periods = Math.floor(parseDecimal(schedule.periods) ?? 0);
             const each = parseAmount(schedule.periodAmount) ??
                 (periods > 0 ? total / periods : 0);
             const count = periods > 0 ? periods : (each > 0 ? Math.ceil(total / each) : 0);
@@ -2601,12 +2605,12 @@ export function financialSustainabilitySectionsEmpty(value: unknown): boolean[] 
 
 /** A stream's price for one unit, as a monthly equivalent. */
 export function monthlyPrice(stream: RevenueStreamValue): number | null {
-    const price = parseAmount(stream.price);
+    const price = parseDecimal(stream.price);
     if (price === null) {
         return null;
     }
     // What the customer pays for delivery, shared by the order's items.
-    const delivery = (parseAmount(stream.deliveryCharge) ?? 0) / itemsPerOrder(stream);
+    const delivery = (parseDecimal(stream.deliveryCharge) ?? 0) / itemsPerOrder(stream);
     return (price + delivery) * chargeFactor(stream);
 }
 
@@ -2629,14 +2633,14 @@ export function normalVolume(stream: RevenueStreamValue): number {
             .filter(entry => monthOrdinal(entry.month) !== null)
             .sort((a, b) => (monthOrdinal(a.month) ?? 0) - (monthOrdinal(b.month) ?? 0))
             .pop();
-        return Math.max(0, parseAmount(last?.volume ?? "") ?? 0);
+        return Math.max(0, parseDecimal(last?.volume ?? "") ?? 0);
     }
-    return Math.max(0, parseAmount(stream.volume) ?? 0);
+    return Math.max(0, parseDecimal(stream.volume) ?? 0);
 }
 
 /** Units in an average order: 1 unless said otherwise. */
 export function itemsPerOrder(stream: RevenueStreamValue): number {
-    const items = parseAmount(stream.itemsPerOrder);
+    const items = parseDecimal(stream.itemsPerOrder);
     return items !== null && items > 0 ? items : 1;
 }
 
@@ -2654,7 +2658,7 @@ export function streamVariableCost(stream: RevenueStreamValue, inputs: BreakEven
 export function streamVolumes(stream: RevenueStreamValue, start: StrategyMonthValue): number[] {
 
     const volumes = new Array<number>(MODEL_MONTHS).fill(0);
-    const normal = Math.max(0, parseAmount(stream.volume) ?? 0);
+    const normal = Math.max(0, parseDecimal(stream.volume) ?? 0);
     const first = (planMonth(start, stream.start) ?? 1) - 1;
 
     if (stream.development === "detailed") {
@@ -2664,7 +2668,7 @@ export function streamVolumes(stream: RevenueStreamValue, start: StrategyMonthVa
         const points = stream.detailed
             .map(entry => ({
                 index: (planMonth(start, entry.month) ?? 1) - 1,
-                volume: Math.max(0, parseAmount(entry.volume) ?? 0)
+                volume: Math.max(0, parseDecimal(entry.volume) ?? 0)
             }))
             .sort((a, b) => a.index - b.index);
 
@@ -2683,8 +2687,8 @@ export function streamVolumes(stream: RevenueStreamValue, start: StrategyMonthVa
 
     }
 
-    const initial = Math.max(0, parseAmount(stream.initialVolume) ?? 0);
-    const ramp = Math.max(1, Math.floor(parseAmount(stream.rampMonths) ?? 1));
+    const initial = Math.max(0, parseDecimal(stream.initialVolume) ?? 0);
+    const ramp = Math.max(1, Math.floor(parseDecimal(stream.rampMonths) ?? 1));
 
     for (let index = first; index < MODEL_MONTHS; index++) {
         const since = index - first;
@@ -2710,7 +2714,7 @@ export function streamRevenue(
     const earned = streamVolumes(stream, start).map(volume => volume * price);
     const received = new Array<number>(MODEL_MONTHS).fill(0);
 
-    const delay = Math.max(0, Math.floor(parseAmount(stream.paymentDelay) ?? 0));
+    const delay = Math.max(0, Math.floor(parseDecimal(stream.paymentDelay) ?? 0));
     const firstShare = Math.min(100, Math.max(0, parsePercent(stream.firstPercent) ?? 50)) / 100;
 
     const add = (index: number, amount: number) => {
@@ -2796,7 +2800,7 @@ export function withWhatIf(
 ): FinancialSustainabilityValue {
 
     const scale = (value: string, percent: number) => {
-        const amount = parseAmount(value);
+        const amount = parseDecimal(value);
         return amount === null || percent === 0 ? value : numberAsText(amount * (1 + percent / 100));
     };
 

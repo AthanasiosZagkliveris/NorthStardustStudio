@@ -7,6 +7,7 @@ import {
     strategyFoundationSectionsEmpty,
     legalEntitySectionsEmpty,
     legalEntityTotalCapital,
+    legalEntityTotalOwnership,
     resourceUnitCount
 } from "./AnswerUtils.ts";
 
@@ -25,7 +26,9 @@ import {
     financialPosition,
     fundingStanding,
     loanSchedule,
+    monthlyPrice,
     numberAsText,
+    parsePercent,
     parseAmount,
     planMonth,
     streamRevenue,
@@ -79,6 +82,26 @@ describe("parseAmount", () => {
         expect(parseAmount("€ 30")).toBe(30);
         expect(parseAmount("")).toBeNull();
         expect(parseAmount("abc")).toBeNull();
+    });
+});
+
+describe("percentages, counts and decimal-only boxes read as decimals", () => {
+    test("12.500% is twelve and a half, 33.333% a third", () => {
+        expect(parsePercent("12.500")).toBe(12.5);
+        expect(parsePercent("33.333")).toBe(33.333);
+    });
+
+    test("three owners of 33.333%, 33.333% and 33.334% own it all", () => {
+        const entity = asLegalEntityValue({ founders: [
+            { id: "a", name: "A", ownership: "33.333" },
+            { id: "b", name: "B", ownership: "33.333" },
+            { id: "c", name: "C", ownership: "33.334" }
+        ] });
+        expect(legalEntityTotalOwnership(entity)).toBeCloseTo(100, 6);
+    });
+
+    test("a price of 0.500 from its one-point box is half a unit", () => {
+        expect(monthlyPrice({ ...createRevenueStream(), price: "12.500" })).toBe(12.5);
     });
 });
 

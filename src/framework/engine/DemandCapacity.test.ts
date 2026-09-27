@@ -213,3 +213,18 @@ describe("hours a week or a month", () => {
     });
 
 });
+
+describe("numbers as typed", () => {
+
+    it("reads a single comma or point as the decimal separator", () => {
+        const funnel = (buy: string) => demandResult(demand("funnel", { prospects: "100", qualified: "10", buy })).expected;
+        expect(funnel("12,5")).toBe(1.25);
+        expect(funnel("12.5")).toBe(1.25);
+        expect(funnel("12.500")).toBe(1.25);
+    });
+
+    it("reads numbers glued together by other characters as nothing", () => {
+        expect(demandResult(demand("referrals", { referrals: "2x 30", buy: "50" })).expected).toBeNull();
+    });
+
+});
