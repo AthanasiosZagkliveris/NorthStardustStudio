@@ -124,7 +124,9 @@ describe("BusinessCapabilityEditor folding", () => {
 
     });
 
-    it("puts the activity list's Expand all on the Active row", () => {
+    // On the group's own title row, as every Expand all is -- not on
+    // the "Active N" line under it.
+    it("puts the activity list's Expand all on its category's title row", () => {
 
         const initial = {
             ...asBusinessCapabilityValue(undefined),
@@ -148,7 +150,8 @@ describe("BusinessCapabilityEditor folding", () => {
         const head = screen.getByRole("button", { name: "Expand all activities" }).parentElement!;
 
         expect(head.classList.contains("fold-group-head")).toBe(true);
-        expect(head.textContent).toMatch(/Active 2/);
+        expect(head.textContent).toMatch(new RegExp("^1\\. " + BUSINESS_ACTIVITY_CATEGORIES[0].label));
+        expect(head.textContent).not.toMatch(/Active/);
 
     });
 

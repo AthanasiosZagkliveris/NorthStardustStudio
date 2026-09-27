@@ -194,8 +194,8 @@ describe("BusinessEngagementEditor number limits", () => {
 
         render(<DemandHarness />);
 
+        // Expand all cascades into the Demand & Conversion blocks.
         fireEvent.click(screen.getByRole("button", { name: "Expand all offerings" }));
-        fireEvent.click(screen.getByRole("button", { name: "Maximize Demand & Conversion for Audit" }));
 
         const buy = screen.getByLabelText("Buy (%), customer source 1 for Audit") as HTMLInputElement;
         ["1", "15", "150"].forEach(value => fireEvent.change(buy, { target: { value } }));
@@ -239,8 +239,8 @@ describe("BusinessEngagementEditor formula references", () => {
 
         render(<DemandHarness />);
 
+        // Expand all cascades into the Demand & Conversion blocks.
         fireEvent.click(screen.getByRole("button", { name: "Expand all offerings" }));
-        fireEvent.click(screen.getByRole("button", { name: "Maximize Demand & Conversion for Audit" }));
 
         fireEvent.click(screen.getByRole("button", { name: "Sales funnel result: what this means" }));
 

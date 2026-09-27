@@ -3828,6 +3828,11 @@ export default function BusinessEngagementEditor({
                                         ids={engagedOfferingIds(segment).map(
                                             offeringId => "relationship-offering-" + offeringId
                                         )}
+                                        /* Cascades into each Offering's
+                                           Demand & Conversion block. */
+                                        nested={engagedOfferingIds(segment).map(
+                                            offeringId => "demand-" + offeringId
+                                        )}
                                         folds={folds}
                                         label="offerings"
                                     />

@@ -64,7 +64,7 @@ import { NUMBER_LIMITS, limitedNumberText } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
 import type { OpenPage } from "./jumpTo.ts";
 import { useListDrag } from "./ReorderControls.tsx";
-import { useItemFolds, type ItemFolds } from "./useItemFolds.ts";
+import { useItemFolds } from "./useItemFolds.ts";
 
 import "../../styles/delivery.css";
 
@@ -644,7 +644,12 @@ export default function BusinessCapabilityEditor({
         body: () => ReactNode,
         foldable = true,
         /** What a link calls it (see jumpTo.ts). */
-        anchor?: string
+        anchor?: string,
+        /**
+         * Drawn at the far end of the title's own row: the group's
+         * "Expand all" (see .fold-group-head).
+         */
+        titleExtra?: ReactNode
     ) {
 
         const open = !foldable || !collapsed.has(key);
@@ -652,7 +657,7 @@ export default function BusinessCapabilityEditor({
         return (
             <div className={className} key={key} data-anchor={anchor}>
 
-                <div className="business-engagement-section-head">
+                <div className={"business-engagement-section-head" + (titleExtra ? " fold-group-head" : "")}>
 
                     {foldable && (
                         <button
@@ -677,6 +682,8 @@ export default function BusinessCapabilityEditor({
                             </span>
                         )
                         : <span className="business-foundation-subhead">{title}</span>}
+
+                    {titleExtra}
 
                 </div>
 
@@ -2070,7 +2077,6 @@ export default function BusinessCapabilityEditor({
                 renderRow={activityRow}
                 columns={columns}
                 disabled={disabled}
-                folds={folds}
                 onAdded={folds.expand}
             />
         );
@@ -2246,7 +2252,8 @@ export default function BusinessCapabilityEditor({
         scope: Scope,
         title: string,
         info: InfoPoint[] | undefined,
-        body: () => ReactNode
+        body: () => ReactNode,
+        titleExtra?: ReactNode
     ) {
         const part = /Resources/.test(title) ? "resources"
             : /Activities/.test(title) ? "activities"
@@ -2261,7 +2268,8 @@ export default function BusinessCapabilityEditor({
             "business-capability-section",
             body,
             true,
-            "section-" + scope + "-" + part
+            "section-" + scope + "-" + part,
+            titleExtra
         );
     }
 
@@ -2363,6 +2371,28 @@ export default function BusinessCapabilityEditor({
 
     }
 
+    /** One activity category's activities, as stored (none until written). */
+    function categoryActivityList(categoryId: string): BusinessActivityValue[] {
+        return capability.activities.find(
+            entry => entry.id === categoryId
+        )?.activities ?? [];
+    }
+
+    /**
+     * An activity group's "Expand all", for its TITLE ROW (the category
+     * column's, or the Offering's 2. Activities): the active cards only,
+     * as the completed ones sit in their own folded list.
+     */
+    function activityFoldAll(activities: readonly BusinessActivityValue[]) {
+        return (
+            <FoldAllToggle
+                ids={activities.filter(activity => !activity.completed).map(activity => activity.id)}
+                folds={folds}
+                label="activities"
+            />
+        );
+    }
+
     function infrastructureSection() {
         return (
             <>
@@ -2425,7 +2455,9 @@ export default function BusinessCapabilityEditor({
                                             category ? [category.note] : undefined,
                                             "business-capability-column",
                                             () => categoryActivities(id),
-                                            false
+                                            false,
+                                            undefined,
+                                            activityFoldAll(categoryActivityList(id))
                                         );
 
                                     })}
@@ -2453,7 +2485,10 @@ export default function BusinessCapabilityEditor({
                             "2. Activities → " + category.label,
                             undefined,
                             "business-capability-group",
-                            () => categoryActivities(category.id)
+                            () => categoryActivities(category.id),
+                            true,
+                            undefined,
+                            activityFoldAll(categoryActivityList(category.id))
                         ))}
 
                     </>
@@ -2978,6 +3013,12 @@ export default function BusinessCapabilityEditor({
                         />
 
                     </>
+                ), (
+                    <FoldAllToggle
+                        ids={offeringResources.map(slot => slot.id)}
+                        folds={folds}
+                        label="resources"
+                    />
                 ))}
 
                 {cardSection("offering", "2. Activities", SECTIONS.infrastructure.activities, () => (
@@ -2992,7 +3033,7 @@ export default function BusinessCapabilityEditor({
                             2
                         )}
                     </>
-                ))}
+                ), activityFoldAll(capability.offering.activities))}
 
                 {cardSection("offering", "3. Partnerships & Providers", undefined, () => (
                     <>
@@ -3188,8 +3229,6 @@ function ActivityList({
 
     disabled,
 
-    folds,
-
     onAdded
 
 }: {
@@ -3213,7 +3252,6 @@ function ActivityList({
     ) => ReactNode;
     columns: number;
     disabled: boolean;
-    folds: ItemFolds;
     /** Called with a newly created activity's id, to open its card. */
     onAdded?: (id: string) => void;
 
@@ -3257,19 +3295,11 @@ function ActivityList({
         <>
 
             {/* What is left to do, which is the number that
-                matters -- and, on the same row, "Expand all" for
-                the active cards only: the completed ones sit in
-                their own folded list below. */}
-            <div className="fold-group-head">
-                <span className="business-capability-active" aria-live="polite">
-                    {"Active " + active.length}
-                </span>
-                <FoldAllToggle
-                    ids={active.map(activity => activity.id)}
-                    folds={folds}
-                    label="activities"
-                />
-            </div>
+                matters. The group's "Expand all" is on its title
+                row above (see activityFoldAll), as every group's is. */}
+            <span className="business-capability-active" aria-live="polite">
+                {"Active " + active.length}
+            </span>
 
             {rows(active.map((activity, index) => renderRow(
                 scope, activity, index + 1, drag, index,
