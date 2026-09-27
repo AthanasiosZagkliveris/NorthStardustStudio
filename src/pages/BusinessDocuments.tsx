@@ -306,7 +306,7 @@ export default function BusinessDocuments() {
 
             </main>
 
-            <AppFooter onBack={() => navigate("/assistant")} />
+            <AppFooter onBack={() => navigate("/assistant", { state: { capability: "foundation" } })} />
 
         </div>
     );

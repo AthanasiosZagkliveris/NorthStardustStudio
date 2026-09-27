@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { capabilities, getCapabilityColor } from "../data/capabilities";
@@ -22,6 +22,7 @@ import "../styles/workspace.css";
 export default function SystemSelection() {
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     // The Landing page is the only place an Organization gets
     // selected (item 3) -- this page just trusts that selection
@@ -44,8 +45,11 @@ export default function SystemSelection() {
 
     }, [navigate]);
 
+    // Coming Back from a System (or the Business Documents page)
+    // passes the Capability it belonged to, so the list reopens on
+    // that Capability instead of making the user pick it again.
     const [activeCapability, setActiveCapability] =
-        useState<string | null>(null);
+        useState<string | null>(() => location.state?.capability ?? null);
 
     // The Framework Navigator rail (Calendar/Capabilities/System)
     // reports its own open/closed state up here so Escape can close

@@ -69,3 +69,24 @@ describe("SystemSelection without popups", () => {
     });
 
 });
+
+describe("SystemSelection capability memory", () => {
+
+    it("starts with the capability passed back in router state", () => {
+
+        renderAt({ capability: "foundation" });
+
+        expect(screen.getByRole("button", { name: /Identity System/ })).toBeTruthy();
+        expect(screen.getByText("Developing organizational alignment")).toBeTruthy();
+
+    });
+
+    it("starts with nothing selected when no capability is passed", () => {
+
+        renderAt();
+
+        expect(screen.queryByRole("button", { name: /Identity System/ })).toBeNull();
+
+    });
+
+});

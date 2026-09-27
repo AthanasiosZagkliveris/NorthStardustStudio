@@ -818,7 +818,7 @@ export default function Conversation() {
                 return;
             }
 
-            navigate("/assistant");
+            navigate("/assistant", { state: { capability: system?.capability } });
 
         }
 
@@ -2466,7 +2466,7 @@ export default function Conversation() {
             </main>
 
             <AppFooter
-                onBack={() => navigate("/assistant")}
+                onBack={() => navigate("/assistant", { state: { capability: system?.capability } })}
             />
 
             {strategyPrompt && (
