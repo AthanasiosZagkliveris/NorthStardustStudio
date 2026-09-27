@@ -3189,6 +3189,28 @@ export default function BusinessEngagementEditor({
 
         const perMonth = demand.recurring ? " new a month" : " a month";
 
+        /* The folded figure's "i": the one the same figure carries
+           open -- the steady level of active clients for a
+           subscription, or the formula of the one CALCULATED source
+           the sales come from. A sum of several sources, or an
+           entered figure, has no single formula to show. */
+        const countedSources = demand.sources.filter(source => {
+            const type = DEMAND_SOURCES.find(entry => entry.id === source.type);
+            const part = result.sources.find(entry => entry.id === source.id);
+            return type !== undefined &&
+                !(demand.recurring && type.oneOffOnly) &&
+                part?.expected !== null && part?.expected !== undefined;
+        });
+        const onlySource = countedSources.length === 1 ? countedSources[0] : null;
+        const onlyType = onlySource
+            ? DEMAND_SOURCES.find(entry => entry.id === onlySource.type)
+            : undefined;
+        const foldedInfo: InfoPoint[] | undefined = result.recurring
+            ? DEMAND_ACTIVE_CLIENTS_HELP
+            : onlySource?.calculate && onlyType && onlyType.fields.length > 0
+                ? DEMAND_SOURCE_FORMULA_HELP[onlyType.id]
+                : undefined;
+
         function changeSource(sourceId: string, patch: Partial<DemandSource>) {
             updateDemand(offeringId, {
                 sources: demand.sources.map(source =>
@@ -3247,19 +3269,25 @@ export default function BusinessEngagementEditor({
                         <span className="business-demand-source-title">
                             {"Source " + (index + 1)}
                         </span>
+                        {/* The figure and its "i" as ONE unit at the far
+                            end, 12px before the × (see
+                            .business-demand-figure) -- the "i" never
+                            splits the space between them. */}
                         {type && (
-                            <span className={"business-demand-source-result" + (counted ? "" : " business-demand-source-pending")}>
-                                {counted ? "About " + part!.expected + perMonth : "Not counted yet"}
+                            <span className="business-demand-figure">
+                                <span className={"business-demand-pill" + (counted ? "" : " business-demand-pill-pending")}>
+                                    {counted ? "About " + part!.expected + perMonth : "Not counted yet"}
+                                </span>
+                                {/* The formula behind a CALCULATED result,
+                                    once it counts: an entered figure has
+                                    none to show. */}
+                                {counted && calculated && DEMAND_SOURCE_FORMULA_HELP[type.id] && (
+                                    <InfoNote
+                                        label={type.label + " result"}
+                                        points={DEMAND_SOURCE_FORMULA_HELP[type.id]}
+                                    />
+                                )}
                             </span>
-                        )}
-                        {/* The formula behind a CALCULATED result, once
-                            it counts: an entered figure has none to
-                            show. */}
-                        {counted && calculated && DEMAND_SOURCE_FORMULA_HELP[type!.id] && (
-                            <InfoNote
-                                label={type!.label + " result"}
-                                points={DEMAND_SOURCE_FORMULA_HELP[type!.id]}
-                            />
                         )}
                         <BusinessRemove
                             what={capitalized(what)}
@@ -3386,10 +3414,15 @@ export default function BusinessEngagementEditor({
                             Demand &amp; Conversion
                         </span>
                         {!open && result.expected !== null && (
-                            <span className="business-demand-folded-result">
-                                {result.recurring
-                                    ? "Expected Sales: about " + result.expected + " active clients"
-                                    : "Expected Sales: about " + result.expected + " a month"}
+                            <span className="business-demand-figure">
+                                <span className="business-demand-pill">
+                                    {result.recurring
+                                        ? "Expected Sales: about " + result.expected + " active clients"
+                                        : "Expected Sales: about " + result.expected + " a month"}
+                                </span>
+                                {foldedInfo && (
+                                    <InfoNote label="Expected Sales" points={foldedInfo} />
+                                )}
                             </span>
                         )}
                     </div>

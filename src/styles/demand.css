@@ -50,17 +50,6 @@
 
 }
 
-.business-demand-folded-result{
-
-    margin-left:auto;
-
-    font-size:var(--font-body);
-
-    font-weight:700;
-
-    color:#111827;
-
-}
 
 .business-demand-purpose{
 
@@ -161,9 +150,25 @@
 
 }
 
-.business-demand-source-result{
+/* A demand figure and its "i" as ONE unit: the only thing in a head
+   that carries margin-left:auto, so the unit sits at the far end
+   whole -- 12px before the × (the head's gap) in a source's head, at
+   the row's end in a folded block's -- and the "i" keeps its own 8px
+   after the pill (see .info-note). */
+.business-demand-figure{
+
+    display:inline-flex;
+
+    align-items:center;
 
     margin-left:auto;
+
+}
+
+/* The figure itself, drawn the same wherever a demand result is
+   shown: a source's own result and the folded block's Expected
+   Sales. */
+.business-demand-pill{
 
     padding:2px 10px;
 
@@ -181,7 +186,7 @@
 
 }
 
-.business-demand-source-pending{
+.business-demand-pill-pending{
 
     background:#f3f4f6;
 
@@ -192,15 +197,9 @@
 }
 
 /* With no result shown, the remove button still sits on the right. */
-.business-demand-source-head > :last-child{
+.business-demand-source-title + .strategy-box-remove{
 
     margin-left:auto;
-
-}
-
-.business-demand-source-result + :last-child{
-
-    margin-left:0;
 
 }
 
