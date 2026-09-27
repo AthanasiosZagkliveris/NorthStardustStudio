@@ -302,6 +302,16 @@ export interface DemandResult {
     working: string;
 }
 
+/** The most each of Demand's counts can be, as the page limits them. */
+const COUNT_LIMITS: Record<string, number> = {
+    prospects: 1_000_000,
+    referrals: 1_000_000,
+    visitors: 1_000_000,
+    bids: 10_000,
+    times: 10_000,
+    units: 10_000
+};
+
 /* Two decimals: a quarter of a project a month is a real figure. */
 const round = (value: number) => Math.round(value * 100) / 100;
 
@@ -327,10 +337,21 @@ function sourceResult(source: DemandSource, recurring: boolean, base: number | n
         return done(estimate, "estimated at " + estimate + per);
     }
 
-    const n = (key: string) => readNumber(source.inputs[key]);
+    // Within the limits the page types them in, for answers saved
+    // before it had any: a count stops at its maximum, a percentage
+    // at 0 and 100.
+    const n = (key: string) => {
+        const value = readNumber(source.inputs[key]);
+        return value === null ? null : Math.min(value, COUNT_LIMITS[key] ?? value);
+    };
     const pct = (key: string) => {
+        const value = readNumber(source.inputs[key]);
+        return value === null ? null : Math.min(100, Math.max(0, value)) / 100;
+    };
+    // Times Each and Units per Contract count from 1: less is not entered.
+    const atLeastOne = (key: string) => {
         const value = n(key);
-        return value === null ? null : value / 100;
+        return value !== null && value >= 1 ? value : 1;
     };
     const all = (...values: (number | null)[]) => values.every(value => value !== null);
 
@@ -349,7 +370,7 @@ function sourceResult(source: DemandSource, recurring: boolean, base: number | n
         }
         case "repeat": {
             const again = pct("again");
-            const times = n("times") ?? 1;
+            const times = atLeastOne("times");
             if (again === null || base === null || base <= 0) return done(null, "");
             const expected = round(base * again * times);
             return done(expected, "of the " + round(base) + " a month won through the other sources, " + round(again * 100) + "% buy again" +
@@ -357,7 +378,7 @@ function sourceResult(source: DemandSource, recurring: boolean, base: number | n
         }
         case "contracts": {
             const [bids, win] = [n("bids"), pct("win")];
-            const units = n("units") ?? 1;
+            const units = atLeastOne("units");
             if (!all(bids, win)) return done(null, "");
             const expected = round(bids! * win! * units / 12);
             return done(expected, bids + " bids a year, " + round(win! * 100) + "% won, " + units + " per contract: about " + expected + per);
@@ -580,10 +601,11 @@ export interface FounderHours {
 export function founderDeliveryHours(founder: FounderHours): number | null {
     const period = founder.hoursPeriod ?? "";
     const direct = readNumber(founder.deliveryHours);
-    if (direct !== null) {
-        return monthlyHours(direct, period);
-    }
     const hours = readNumber(founder.hours);
+    if (direct !== null) {
+        // Never more than the working hours, if they were lowered after.
+        return monthlyHours(hours !== null ? Math.min(direct, hours) : direct, period);
+    }
     const share = readNumber(founder.deliveryShare);
     return hours !== null && share !== null ? monthlyHours(hours * Math.min(100, share) / 100, period) : null;
 }

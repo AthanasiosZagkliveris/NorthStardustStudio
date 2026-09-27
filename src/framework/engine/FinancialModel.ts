@@ -106,6 +106,20 @@ function oneOf<T extends string>(value: unknown, allowed: readonly T[], fallback
    pages can use it too (this engine imports theirs). */
 export { parseAmount, parseDecimal };
 
+/*
+    GUARDS for answers saved before the pages limited what could be
+    typed: the most payments, periods, items in an order and months
+    a figure can be, as the pages limit them.
+*/
+const MAX_PERIODS = 600;
+const MAX_ITEMS = 10_000;
+const MAX_MONTHS = 60;
+
+/** An amount below 0 counts as 0; nothing stays nothing. */
+function notNegative(amount: number | null): number | null {
+    return amount === null ? null : Math.max(0, amount);
+}
+
 /** A percentage as typed ("5", "5%", "4,5") as a number, or null. */
 export function parsePercent(text: string): number | null {
     return parseDecimal(text.replace("%", ""));
@@ -997,7 +1011,7 @@ export function consolidateCosts(
         parse: (text: string) => number | null = parseDecimal
     ) => {
 
-        const unitAmount = parse(amountText);
+        const unitAmount = notNegative(parse(amountText));
         const total = quantity !== null && unitAmount !== null
             ? Math.round(unitAmount * quantity * 100) / 100
             : unitAmount;
@@ -1050,8 +1064,8 @@ export function consolidateCosts(
             frequencyOther,
             sourceFrequency: frequency,
             month: override.month ?? (knownMonth ? { ...knownMonth } : { ...EMPTY_MONTH }),
-            fixedPart: parseAmount(override.fixedPart ?? ""),
-            variablePerUnit: parseAmount(override.variablePerUnit ?? ""),
+            fixedPart: notNegative(parseAmount(override.fixedPart ?? "")),
+            variablePerUnit: notNegative(parseAmount(override.variablePerUnit ?? "")),
             asset: override.asset ?? "",
             own: null,
             sourcePath
@@ -1216,7 +1230,7 @@ export function consolidateCosts(
             offeringIds: cost.offeringId ? [cost.offeringId] : [],
             offeringId: cost.offeringId,
             amountText: cost.amount,
-            amount: parseDecimal(cost.amount),
+            amount: notNegative(parseDecimal(cost.amount)),
             quantity: null,
             unitAmount: null,
             sourcePath: [],
@@ -1226,8 +1240,8 @@ export function consolidateCosts(
             sourceFrequency: cost.frequency || "one-time",
             frequencyOther: cost.frequencyOther,
             month: cost.month,
-            fixedPart: parseAmount(cost.fixedPart),
-            variablePerUnit: parseAmount(cost.variablePerUnit),
+            fixedPart: notNegative(parseAmount(cost.fixedPart)),
+            variablePerUnit: notNegative(parseAmount(cost.variablePerUnit)),
             asset: cost.asset,
             own: cost
         });
@@ -1387,7 +1401,7 @@ export function loanSchedule(
 ): LoanSchedule | null {
 
     const principal = parseAmount(source.amount);
-    const count = Math.floor(parseDecimal(source.loan.payments) ?? 0);
+    const count = Math.min(MAX_PERIODS, Math.floor(parseDecimal(source.loan.payments) ?? 0));
     const firstMonth = planMonth(start, source.loan.repaymentStart);
 
     if (principal === null || principal <= 0 || count <= 0 || firstMonth === null) {
@@ -1395,7 +1409,8 @@ export function loanSchedule(
     }
 
     const step = periodMonths(source.loan.frequency);
-    const annualRate = (parsePercent(source.loan.rate) ?? 0) / 100;
+    // A negative rate charges nothing, never less than nothing.
+    const annualRate = Math.min(100, Math.max(0, parsePercent(source.loan.rate) ?? 0)) / 100;
     const rate = annualRate * step / 12;
 
     const payments: LoanPayment[] = [];
@@ -1480,10 +1495,10 @@ function fundingArrivals(
         case "periodic": {
             const first = planMonth(start, schedule.start) ?? 1;
             const step = periodMonths(schedule.frequency);
-            const periods = Math.floor(parseDecimal(schedule.periods) ?? 0);
-            const each = parseAmount(schedule.periodAmount) ??
+            const periods = Math.min(MAX_PERIODS, Math.floor(parseDecimal(schedule.periods) ?? 0));
+            const each = notNegative(parseAmount(schedule.periodAmount)) ??
                 (periods > 0 ? total / periods : 0);
-            const count = periods > 0 ? periods : (each > 0 ? Math.ceil(total / each) : 0);
+            const count = Math.min(MAX_PERIODS, periods > 0 ? periods : (each > 0 ? Math.ceil(total / each) : 0));
             // What arrives stops at the agreed total: the last period
             // is trimmed, and any after it bring nothing.
             let left = total > 0 ? total : each * count;
@@ -1497,7 +1512,7 @@ function fundingArrivals(
         case "milestone":
             return schedule.milestones.map(milestone => ({
                 month: planMonth(start, milestone.month) ?? 1,
-                amount: parseAmount(milestone.amount) ?? 0
+                amount: Math.max(0, parseAmount(milestone.amount) ?? 0)
             }));
 
         default:
@@ -2641,7 +2656,7 @@ export function normalVolume(stream: RevenueStreamValue): number {
 /** Units in an average order: 1 unless said otherwise. */
 export function itemsPerOrder(stream: RevenueStreamValue): number {
     const items = parseDecimal(stream.itemsPerOrder);
-    return items !== null && items > 0 ? items : 1;
+    return items !== null && items > 0 ? Math.min(MAX_ITEMS, items) : 1;
 }
 
 /**
@@ -2688,7 +2703,7 @@ export function streamVolumes(stream: RevenueStreamValue, start: StrategyMonthVa
     }
 
     const initial = Math.max(0, parseDecimal(stream.initialVolume) ?? 0);
-    const ramp = Math.max(1, Math.floor(parseDecimal(stream.rampMonths) ?? 1));
+    const ramp = Math.min(MAX_MONTHS, Math.max(1, Math.floor(parseDecimal(stream.rampMonths) ?? 1)));
 
     for (let index = first; index < MODEL_MONTHS; index++) {
         const since = index - first;
@@ -2714,7 +2729,7 @@ export function streamRevenue(
     const earned = streamVolumes(stream, start).map(volume => volume * price);
     const received = new Array<number>(MODEL_MONTHS).fill(0);
 
-    const delay = Math.max(0, Math.floor(parseDecimal(stream.paymentDelay) ?? 0));
+    const delay = Math.min(MAX_MONTHS, Math.max(0, Math.floor(parseDecimal(stream.paymentDelay) ?? 0)));
     const firstShare = Math.min(100, Math.max(0, parsePercent(stream.firstPercent) ?? 50)) / 100;
 
     const add = (index: number, amount: number) => {

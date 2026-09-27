@@ -228,3 +228,23 @@ describe("numbers as typed", () => {
     });
 
 });
+
+describe("guards for figures saved before the limits", () => {
+
+    it("reads a percentage within 0 to 100", () => {
+        expect(demandResult(demand("referrals", { referrals: "10", buy: "150" })).expected).toBe(10);
+    });
+
+    it("stops a count at its maximum", () => {
+        expect(demandResult(demand("marketplace", { visitors: "5000000", buy: "1" })).expected).toBe(10000);
+    });
+
+    it("counts Times Each and Units per Contract of 0 as not entered: 1", () => {
+        expect(demandResult(demand("contracts", { bids: "12", win: "50", units: "0" })).expected).toBe(0.5);
+    });
+
+    it("never gives more delivery hours than working hours", () => {
+        expect(founderDeliveryHours({ name: "F", hours: "100", deliveryHours: "150", deliveryShare: "" })).toBe(100);
+    });
+
+});

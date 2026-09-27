@@ -879,3 +879,98 @@ describe("Strategic Themes are optional", () => {
         expect(strategyFoundationSectionsEmpty({ themes: [] })[3]).toBe(true);
     });
 });
+
+describe("guards for figures saved before the limits", () => {
+
+    const loan = (patch: Record<string, string>) => ({
+        ...createFundingSource("external"),
+        type: "bank-loan",
+        amount: "10000",
+        status: "received" as const,
+        loan: {
+            ...createFundingSource("external").loan,
+            rate: "6",
+            repaymentStart: month(7),
+            payments: "24",
+            frequency: "monthly" as const,
+            method: "annuity" as const,
+            ...patch
+        }
+    });
+
+    const periodic = (patch: Record<string, string>) => ({
+        ...createFundingSource("external"),
+        type: "grant",
+        amount: "1000000",
+        status: "approved" as const,
+        schedule: {
+            ...createFundingSource("external").schedule,
+            kind: "periodic" as const,
+            start: month(1),
+            frequency: "monthly" as const,
+            periodAmount: "",
+            periods: "",
+            ...patch
+        }
+    });
+
+    test("a loan of 999999 payments is repaid in at most 600", () => {
+        const schedule = loanSchedule(loan({ payments: "999999" }), START)!;
+        expect(schedule.payments.length).toBeLessThanOrEqual(600);
+    });
+
+    test("a negative interest rate charges no interest, never a negative one", () => {
+        const schedule = loanSchedule(loan({ rate: "-5" }), START)!;
+        expect(schedule.totalInterest).toBe(0);
+        schedule.payments.forEach(payment => expect(payment.interest).toBeGreaterThanOrEqual(0));
+    });
+
+    test("periodic funding arrives at most 600 times", () => {
+        expect(fundingStanding(periodic({ periods: "999999" }), START).future.length).toBeLessThanOrEqual(600);
+        // 600 periods of 0.01, and what they leave of the total as one undated rest.
+        expect(fundingStanding(periodic({ periodAmount: "0.01" }), START).future.length).toBe(601);
+    });
+
+    test("a negative milestone, cost or capital counts as nothing", () => {
+        const grant = {
+            ...periodic({}),
+            amount: "1000",
+            schedule: {
+                ...createFundingSource("external").schedule,
+                kind: "milestone" as const,
+                milestones: [
+                    { id: "m1", condition: "", month: month(2), amount: "-500" },
+                    { id: "m2", condition: "", month: month(3), amount: "1000" }
+                ]
+            }
+        };
+        const future = fundingStanding(grant, START).future;
+        future.forEach(arrival => expect(arrival.amount).toBeGreaterThan(0));
+        expect(future.find(arrival => arrival.month === 2)).toBeUndefined();
+        expect(future.find(arrival => arrival.month === 3)?.amount).toBe(1000);
+
+        const value = foundation({ costs: [{ ...createOwnCost("operating"), name: "Refund", amount: "-50", frequency: "monthly" }] });
+        const line = consolidateCosts(value, sources()).find(entry => entry.name === "Refund")!;
+        expect(line.amount ?? 0).toBeGreaterThanOrEqual(0);
+
+        const entity = asLegalEntityValue({ founders: [{ id: "a", name: "A", capital: "-100" }, { id: "b", name: "B", capital: "200" }] });
+        expect(legalEntityTotalCapital(entity)).toBe(200);
+    });
+
+    test("an ownership share is read within 0 to 100%", () => {
+        const entity = asLegalEntityValue({ founders: [{ id: "a", name: "A", ownership: "150" }] });
+        expect(legalEntityTotalOwnership(entity)).toBe(100);
+    });
+
+    test("items per order and months to normal stop at their limits", () => {
+        const stream = { ...createRevenueStream(), price: "10", itemsPerOrder: "999999", deliveryCharge: "100000" };
+        // 100,000 shared by at most 10,000 items: 10 each.
+        expect(monthlyPrice(stream)).toBe(20);
+
+        const gradual = { ...createRevenueStream(), volume: "100", development: "gradual" as const,
+            initialVolume: "0", rampMonths: "1000", start: month(1) };
+        // Normal by Month 60 at the latest.
+        expect(streamVolumes(gradual, START)[59]).toBe(100);
+    });
+
+});

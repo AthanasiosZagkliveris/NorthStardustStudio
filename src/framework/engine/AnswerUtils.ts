@@ -3778,7 +3778,8 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
 export function legalEntityTotalOwnership(value: LegalEntityValue): number {
 
     return value.founders.reduce((total, founder) => {
-        return total + (parseDecimal(founder.ownership.replace("%", "")) ?? 0);
+        // Each share within 0 to 100%, for answers saved before the limit.
+        return total + Math.min(100, Math.max(0, parseDecimal(founder.ownership.replace("%", "")) ?? 0));
     }, 0);
 
 }
@@ -3788,7 +3789,8 @@ export function legalEntityTotalCapital(value: LegalEntityValue): number {
 
     return value.founders.reduce((total, founder) => {
         // Read as the financial pages read it: "10,000" is ten thousand.
-        return total + (parseAmount(founder.capital) ?? 0);
+        // A negative contribution counts as none.
+        return total + Math.max(0, parseAmount(founder.capital) ?? 0);
     }, 0);
 
 }
