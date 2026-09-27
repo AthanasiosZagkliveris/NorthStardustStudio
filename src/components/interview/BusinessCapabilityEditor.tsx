@@ -60,6 +60,7 @@ import { railId } from "./rails/railItems.ts";
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote, { InfoPoint } from "./InfoNote.tsx";
+import { NUMBER_LIMITS, limitedNumberText } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
 import type { OpenPage } from "./jumpTo.ts";
 import { useListDrag } from "./ReorderControls.tsx";
@@ -777,7 +778,7 @@ export default function BusinessCapabilityEditor({
                             disabled={disabled}
                             value={cost.price}
                             onChange={(event) => onNext({
-                                ...cost, price: businessDecimalText(event.target.value)
+                                ...cost, price: limitedNumberText(event.target.value, cost.price, NUMBER_LIMITS.money)
                             })}
                         />
 
@@ -1110,7 +1111,7 @@ export default function BusinessCapabilityEditor({
                             disabled={disabled}
                             value={slot.quantity}
                             onChange={(event) => onSlot({
-                                quantity: businessDecimalText(event.target.value)
+                                quantity: limitedNumberText(event.target.value, slot.quantity, NUMBER_LIMITS.quantity)
                             })}
                         />
                         {slot.quantity.trim() !== "" && Number(slot.quantity) === 0 && (
@@ -1431,6 +1432,14 @@ export default function BusinessCapabilityEditor({
         const weekly = founder.hoursPeriod === "week";
         const per = weekly ? "a week" : "a month";
 
+        /* Hours in the period chosen; delivery hours never more
+           than the working hours typed beside them. */
+        const hoursLimit = weekly ? NUMBER_LIMITS.hoursWeek : NUMBER_LIMITS.hoursMonth;
+        const typedWorking = founder.hours.trim() === "" ? NaN : Number(founder.hours);
+        const deliveryLimit = Number.isFinite(typedWorking)
+            ? { ...hoursLimit, max: Math.min(hoursLimit.max, typedWorking) }
+            : hoursLimit;
+
         /* Saved as a percent before delivery hours were asked for. */
         const legacyShare = founder.deliveryShare.trim() !== "" &&
             founder.deliveryHours.trim() === "";
@@ -1486,7 +1495,7 @@ export default function BusinessCapabilityEditor({
                                 disabled={disabled}
                                 value={founder.salary}
                                 onChange={(event) => change({
-                                    salary: businessDecimalText(event.target.value)
+                                    salary: limitedNumberText(event.target.value, founder.salary, NUMBER_LIMITS.money)
                                 })}
                             />
 
@@ -1530,7 +1539,7 @@ export default function BusinessCapabilityEditor({
                             disabled={disabled}
                             value={founder.hours}
                             onChange={(event) => change({
-                                hours: businessDecimalText(event.target.value)
+                                hours: limitedNumberText(event.target.value, founder.hours, hoursLimit)
                             })}
                         />
                     </BusinessField>
@@ -1545,7 +1554,7 @@ export default function BusinessCapabilityEditor({
                             disabled={disabled}
                             value={founder.deliveryHours}
                             onChange={(event) => {
-                                const next = businessDecimalText(event.target.value);
+                                const next = limitedNumberText(event.target.value, founder.deliveryHours, deliveryLimit);
                                 /* Hours given directly replace the
                                    older percent: one answer, not two. */
                                 change(next.trim() !== ""
@@ -2660,7 +2669,7 @@ export default function BusinessCapabilityEditor({
                                             disabled={disabled}
                                             value={shownHours[row.id] ?? ""}
                                             onChange={(event) => setHours(
-                                                row.id, businessDecimalText(event.target.value)
+                                                row.id, limitedNumberText(event.target.value, shownHours[row.id] ?? "", NUMBER_LIMITS.unitHours)
                                             )}
                                         />
                                         <span className="delivery-person-unit">h</span>
@@ -2721,7 +2730,7 @@ export default function BusinessCapabilityEditor({
                             disabled={disabled}
                             value={delivery.duration}
                             onChange={(event) => changeDelivery(offering.id, {
-                                duration: businessDecimalText(event.target.value)
+                                duration: limitedNumberText(event.target.value, delivery.duration, NUMBER_LIMITS.weeks)
                             })}
                         />
                     </BusinessField>

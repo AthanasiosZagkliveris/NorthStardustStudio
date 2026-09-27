@@ -9,6 +9,7 @@ import {
     asBrandStyleValue
 } from "../../framework/engine/AnswerUtils.ts";
 import InfoNote, { InfoPoint } from "./InfoNote.tsx";
+import { NUMBER_LIMITS, limitedHexText, limitedNumberText } from "./numberInput.ts";
 import { railId } from "./rails/railItems.ts";
 
 interface BrandStyleEditorProps {
@@ -272,9 +273,12 @@ export default function BrandStyleEditor({
     function updateLevelSize(id: string, size: string) {
         onChange({
             ...style,
-            // Digits only -- "px" is printed beside the field, so a
-            // typed "24px" must not become "24pxpx".
-            hierarchy: { ...style.hierarchy, [id]: { ...style.hierarchy[id], size: size.replace(/[^0-9]/g, "") } }
+            // Whole pixels up to 120 -- "px" is printed beside the
+            // field, so a typed "24px" is refused, not doubled.
+            hierarchy: {
+                ...style.hierarchy,
+                [id]: { ...style.hierarchy[id], size: limitedNumberText(size, style.hierarchy[id].size, NUMBER_LIMITS.pixels) }
+            }
         });
     }
 
@@ -492,7 +496,7 @@ export default function BrandStyleEditor({
                                             placeholder="#000000"
                                             disabled={disabled}
                                             value={colour.hex}
-                                            onChange={(event) => updateColour(index, { hex: event.target.value })}
+                                            onChange={(event) => updateColour(index, { hex: limitedHexText(event.target.value, colour.hex) })}
                                         />
 
                                     </div>

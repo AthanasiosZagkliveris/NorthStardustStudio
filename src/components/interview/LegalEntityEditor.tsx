@@ -40,6 +40,7 @@ import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote from "./InfoNote.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
+import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
@@ -143,6 +144,14 @@ interface LegalEntityEditorProps {
         founderName: string;
     };
 
+}
+
+/** Today, `years` from now, as a date input's "YYYY-MM-DD". */
+function yearsAhead(years: number): string {
+    const today = new Date();
+    const date = new Date(today.getFullYear() + years, today.getMonth(), today.getDate());
+    return date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0") + "-" +
+        String(date.getDate()).padStart(2, "0");
 }
 
 /**
@@ -921,18 +930,23 @@ export default function LegalEntityEditor({
         wide = false,
         info?: string[],
         /** When several fields share a label: which one this is. */
-        ariaLabel?: string
+        ariaLabel?: string,
+        /** A number box: what it accepts. */
+        limits?: NumberLimit
     ) {
         return field(
             label,
             <input
                 type="text"
+                inputMode={limits ? numberInputMode(limits) : undefined}
                 className="interview-input"
                 aria-label={ariaLabel ?? label}
                 placeholder={placeholder}
                 disabled={disabled}
                 value={current}
-                onChange={(event) => onNext(event.target.value)}
+                onChange={(event) => onNext(limits
+                    ? limitedNumberText(event.target.value, current, limits)
+                    : event.target.value)}
             />,
             wide,
             undefined,
@@ -1411,7 +1425,7 @@ export default function LegalEntityEditor({
                                                 disabled={disabled}
                                                 value={founder.ownership}
                                                 onChange={(event) => updateFounder(index, {
-                                                    ownership: event.target.value
+                                                    ownership: limitedNumberText(event.target.value, founder.ownership, NUMBER_LIMITS.ownership)
                                                 })}
                                             />
                                         </>
@@ -1430,7 +1444,7 @@ export default function LegalEntityEditor({
                                                 disabled={disabled}
                                                 value={founder.capital}
                                                 onChange={(event) => updateFounder(index, {
-                                                    capital: event.target.value
+                                                    capital: limitedNumberText(event.target.value, founder.capital, NUMBER_LIMITS.money)
                                                 })}
                                             />
                                         </>
@@ -1652,6 +1666,7 @@ export default function LegalEntityEditor({
                                 type="date"
                                 className="interview-input"
                                 aria-label="Formation Date"
+                                max={yearsAhead(5)}
                                 disabled={disabled}
                                 value={entity.formation.date}
                                 onChange={(event) => updateFormation({ date: event.target.value })}
@@ -2184,7 +2199,8 @@ export default function LegalEntityEditor({
                                         currency || "Amount",
                                         false,
                                         undefined,
-                                        "Expense " + (index + 1) + " cost"
+                                        "Expense " + (index + 1) + " cost",
+                                        NUMBER_LIMITS.money
                                     )}
 
                                     {field(

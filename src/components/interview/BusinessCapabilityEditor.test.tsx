@@ -182,3 +182,39 @@ describe("BusinessCapabilityEditor folding", () => {
     });
 
 });
+
+describe("BusinessCapabilityEditor number limits", () => {
+
+    it("refuses Delivery Hours above the founder's Working Hours", () => {
+
+        function FounderHarness() {
+            const [value, setValue] = useState<unknown>(asBusinessCapabilityValue(undefined));
+            return (
+                <BusinessCapabilityEditor
+                    value={value}
+                    onChange={setValue}
+                    legalEntityFounders={[{ id: "f1", name: "Ann", ownership: "100", capital: "", roles: [""] }]}
+                />
+            );
+        }
+
+        render(<FounderHarness />);
+
+        const card = toggles(/(Founder 1|Ann)$/)[0];
+        if (card.getAttribute("aria-expanded") === "false") {
+            fireEvent.click(card);
+        }
+
+        const working = screen.getByLabelText(/^Ann working hours/) as HTMLInputElement;
+        ["1", "16", "160", "1600"].forEach(value => fireEvent.change(working, { target: { value } }));
+        expect(working.value).toBe("160");
+
+        const delivery = screen.getByLabelText(/^Ann delivery hours/) as HTMLInputElement;
+        ["1", "16", "160", "1601"].forEach(value => fireEvent.change(delivery, { target: { value } }));
+        expect(delivery.value).toBe("160");
+        ["16", "161"].forEach(value => fireEvent.change(delivery, { target: { value } }));
+        expect(delivery.value).toBe("16");
+
+    });
+
+});

@@ -1810,10 +1810,15 @@ export function brandStyleSectionsEmpty(value: unknown): boolean[] {
         .map(level => style.hierarchy[level.id])
         .filter(level => level.enabled);
 
+    // A whole HEX, as BrandStyleEditor's normalizeHex accepts it
+    // (#RGB or #RRGGBB, the # optional), and a size of 8 px or more.
+    const wholeHex = (hex: string) => /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.test(hex.trim());
+    const readableSize = (size: string) => /^\d+$/.test(size.trim()) && Number(size.trim()) >= 8;
+
     return [
-        colours.length === 0 || colours.some(colour => colour.hex.trim().length === 0),
+        colours.length === 0 || colours.some(colour => !wholeHex(colour.hex)),
         typefaces.length === 0 || typefaces.some(typeface => typeface.font.trim().length === 0),
-        levels.length === 0 || levels.some(level => level.size.trim().length === 0)
+        levels.length === 0 || levels.some(level => !readableSize(level.size))
     ];
 
 }

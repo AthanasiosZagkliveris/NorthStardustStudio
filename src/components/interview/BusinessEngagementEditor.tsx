@@ -17,7 +17,6 @@ import {
     BusinessSegmentEngagementValue,
     asBusinessEngagementValue,
     businessChannelNamePlaceholder,
-    businessDecimalText,
     businessFoundationSegments,
     businessProfileOfferings,
     businessRelationshipInteractions,
@@ -53,6 +52,7 @@ import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote, { InfoPoint } from "./InfoNote.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
+import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
 import { railId } from "./rails/railItems.ts";
 import type { OpenPage } from "./jumpTo.ts";
@@ -61,6 +61,16 @@ import SuggestedInput from "./SuggestedInput.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
 
 import "../../styles/demand.css";
+
+/** How high each of Demand's counts can go; its percentages stop at 100. */
+const DEMAND_COUNT_LIMITS: Record<string, NumberLimit> = {
+    prospects: NUMBER_LIMITS.perMonth,
+    referrals: NUMBER_LIMITS.perMonth,
+    visitors: NUMBER_LIMITS.perMonth,
+    bids: NUMBER_LIMITS.bidsPerYear,
+    times: NUMBER_LIMITS.perItem,
+    units: NUMBER_LIMITS.perItem
+};
 
 /**
  * The questions this page asks, and the help behind its "i"s.
@@ -3098,19 +3108,20 @@ export default function BusinessEngagementEditor({
             ariaLabel: string,
             placeholder: string,
             value: string,
-            onValue: (next: string) => void
+            onValue: (next: string) => void,
+            limits: NumberLimit
         ) {
             return (
                 <BusinessField key={label} label={label} info={[help]}>
                     <input
                         type="text"
-                        inputMode="decimal"
+                        inputMode={numberInputMode(limits)}
                         className="interview-input business-demand-number"
                         aria-label={ariaLabel}
                         placeholder={placeholder}
                         disabled={disabled}
                         value={value}
-                        onChange={(event) => onValue(businessDecimalText(event.target.value))}
+                        onChange={(event) => onValue(limitedNumberText(event.target.value, value, limits))}
                     />
                 </BusinessField>
             );
@@ -3206,7 +3217,8 @@ export default function BusinessEngagementEditor({
                                         source.inputs[field.key] ?? "",
                                         (next) => changeSource(source.id, {
                                             inputs: { ...source.inputs, [field.key]: next }
-                                        })
+                                        }),
+                                        field.kind === "percent" ? NUMBER_LIMITS.percent : DEMAND_COUNT_LIMITS[field.key] ?? NUMBER_LIMITS.volume
                                     ))
                                     : numberField(
                                         type.id === "repeat"
@@ -3218,7 +3230,8 @@ export default function BusinessEngagementEditor({
                                         "Expected" + perMonth + ", " + what,
                                         "e.g. 1",
                                         source.estimate,
-                                        (next) => changeSource(source.id, { estimate: next })
+                                        (next) => changeSource(source.id, { estimate: next }),
+                                        NUMBER_LIMITS.volume
                                     )}
                             </>
                         )}
@@ -3326,7 +3339,8 @@ export default function BusinessEngagementEditor({
                             "Share of clients cancelling a month, " + offeringLabel,
                             "e.g. 5",
                             demand.cancel,
-                            (next) => updateDemand(offeringId, { cancel: next })
+                            (next) => updateDemand(offeringId, { cancel: next }),
+                            NUMBER_LIMITS.cancelPercent
                         )}
                     </div>
                 )}

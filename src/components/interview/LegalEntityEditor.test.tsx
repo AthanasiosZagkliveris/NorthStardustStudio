@@ -48,3 +48,53 @@ describe("LegalEntityEditor folding", () => {
     });
 
 });
+
+describe("LegalEntityEditor number limits", () => {
+
+    function typeInto(input: HTMLInputElement, text: string) {
+        for (let length = 1; length <= text.length; length++) {
+            fireEvent.change(input, { target: { value: text.slice(0, length) } });
+        }
+    }
+
+    function FoundersHarness() {
+        const [value, setValue] = useState<unknown>({
+            ...asLegalEntityValue(undefined),
+            capitalApplies: true,
+            formation: { status: "registered", date: "", authority: "", registrationNumber: "" },
+            founders: [
+                { id: "a", name: "A", ownership: "", capital: "", roles: [""] },
+                { id: "b", name: "B", ownership: "", capital: "", roles: [""] }
+            ]
+        });
+        return <LegalEntityEditor value={value} onChange={setValue} />;
+    }
+
+    it("takes ownership to three decimals, and no minus sign in capital", () => {
+
+        render(<FoundersHarness />);
+
+        const ownership = screen.getByLabelText("Founder 1 ownership percentage") as HTMLInputElement;
+        typeInto(ownership, "33.3333");
+        expect(ownership.value).toBe("33.333");
+
+        const capital = screen.getByLabelText(/^Founder 1 .*capital/i) as HTMLInputElement;
+        typeInto(capital, "-100");
+        expect(capital.value).toBe("");
+
+    });
+
+    it("allows a Formation Date up to five years ahead", () => {
+
+        render(<FoundersHarness />);
+
+        const today = new Date();
+        const limit = new Date(today.getFullYear() + 5, today.getMonth(), today.getDate());
+        const iso = limit.getFullYear() + "-" + String(limit.getMonth() + 1).padStart(2, "0") + "-" +
+            String(limit.getDate()).padStart(2, "0");
+
+        expect(screen.getByLabelText("Formation Date").getAttribute("max")).toBe(iso);
+
+    });
+
+});

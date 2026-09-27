@@ -7,7 +7,6 @@ import {
     asBusinessCapabilityValue,
     asBusinessEngagementValue,
     asLegalEntityValue,
-    businessDecimalText,
     businessFoundationSegments,
     withLegalEntityFounders
 } from "../../framework/engine/AnswerUtils.ts";
@@ -85,6 +84,7 @@ import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote, { InfoPoint } from "./InfoNote.tsx";
 import MonthYearPicker from "./MonthYearPicker.tsx";
+import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
 import { jurisdictionProfile } from "../../framework/engine/LegalEntityJurisdictions.ts";
 import type { OpenPage } from "./jumpTo.ts";
@@ -362,18 +362,23 @@ export default function FinancialFoundationEditor({
         current: string,
         onNext: (next: string) => void,
         placeholder?: string,
-        info?: InfoPoint[]
+        info?: InfoPoint[],
+        /** A number box: what it accepts. */
+        limits?: NumberLimit
     ) {
         return (
             <BusinessField label={label} info={info}>
                 <input
                     type="text"
+                    inputMode={limits ? numberInputMode(limits) : undefined}
                     className="interview-input"
                     aria-label={ariaLabel}
                     placeholder={placeholder}
                     disabled={disabled}
                     value={current}
-                    onChange={(event) => onNext(event.target.value)}
+                    onChange={(event) => onNext(limits
+                        ? limitedNumberText(event.target.value, current, limits)
+                        : event.target.value)}
                 />
             </BusinessField>
         );
@@ -562,7 +567,7 @@ export default function FinancialFoundationEditor({
                                 placeholder={amountPlaceholder}
                                 disabled={disabled}
                                 value={own.amount}
-                                onChange={(event) => changeOwnCost(own.id, { amount: businessDecimalText(event.target.value) })}
+                                onChange={(event) => changeOwnCost(own.id, { amount: limitedNumberText(event.target.value, own.amount, NUMBER_LIMITS.money) })}
                             />
                         )
                         : (
@@ -788,14 +793,18 @@ export default function FinancialFoundationEditor({
                                     what + " fixed part",
                                     stored.classified[line.id]?.fixedPart ?? own?.fixedPart ?? "",
                                     (next) => classify(line, { fixedPart: next }),
-                                    amountPlaceholder + " per " + (frequencyLabel(line).toLowerCase() || "period")
+                                    amountPlaceholder + " per " + (frequencyLabel(line).toLowerCase() || "period"),
+                                    undefined,
+                                    NUMBER_LIMITS.money
                                 )}
                                 {textInput(
                                     "Variable Part per Unit",
                                     what + " variable part per unit",
                                     stored.classified[line.id]?.variablePerUnit ?? own?.variablePerUnit ?? "",
                                     (next) => classify(line, { variablePerUnit: next }),
-                                    amountPlaceholder + " per unit of the Offering"
+                                    amountPlaceholder + " per unit of the Offering",
+                                    undefined,
+                                    NUMBER_LIMITS.money
                                 )}
                             </>
                         )}
@@ -1108,13 +1117,13 @@ export default function FinancialFoundationEditor({
                 {schedule.kind === "periodic" && (
                     <div className="business-capability-row">
                         {textInput("Amount per Period", what + " amount per period", schedule.periodAmount,
-                            (next) => setSchedule({ periodAmount: next }), amountPlaceholder)}
+                            (next) => setSchedule({ periodAmount: next }), amountPlaceholder, undefined, NUMBER_LIMITS.money)}
                         {picker("Frequency", what + " frequency", PERIOD_FREQUENCIES, schedule.frequency,
                             (next) => setSchedule({ frequency: (next || "monthly") as FundingSourceValue["schedule"]["frequency"] }),
                             "Select")}
                         {monthField("Starts", schedule.start, (next) => setSchedule({ start: next }))}
                         {textInput("Number of Periods", what + " number of periods", schedule.periods,
-                            (next) => setSchedule({ periods: next }), "e.g. 12")}
+                            (next) => setSchedule({ periods: next }), "e.g. 12", undefined, NUMBER_LIMITS.payments)}
                     </div>
                 )}
 
@@ -1145,7 +1154,7 @@ export default function FinancialFoundationEditor({
                                         value={milestone.amount}
                                         onChange={(event) => setSchedule({
                                             milestones: schedule.milestones.map(entry => entry.id === milestone.id
-                                                ? { ...entry, amount: event.target.value } : entry)
+                                                ? { ...entry, amount: limitedNumberText(event.target.value, milestone.amount, NUMBER_LIMITS.money) } : entry)
                                         })}
                                     />
                                     <MonthYearPicker
@@ -1207,7 +1216,7 @@ export default function FinancialFoundationEditor({
                 <div className="financial-funding-grid">
                 <div className="business-capability-row">
                     {textInput("Interest Rate (% a year)", what + " interest rate", loan.rate,
-                        (next) => setLoan({ rate: next }), "e.g. 6")}
+                        (next) => setLoan({ rate: next }), "e.g. 6", undefined, NUMBER_LIMITS.percent)}
                     {picker("Interest Type", what + " interest type",
                         [{ id: "fixed", label: "Fixed" }, { id: "variable", label: "Variable" }],
                         loan.interestType,
@@ -1225,7 +1234,7 @@ export default function FinancialFoundationEditor({
                         (next) => setLoan({ frequency: (next || "monthly") as FundingSourceValue["loan"]["frequency"] }),
                         "Select")}
                     {textInput("Number of Payments", what + " number of payments", loan.payments,
-                        (next) => setLoan({ payments: next }), "e.g. 24")}
+                        (next) => setLoan({ payments: next }), "e.g. 24", undefined, NUMBER_LIMITS.payments)}
                     {picker("Repayment Method", what + " repayment method", LOAN_METHODS, loan.method,
                         (next) => setLoan({ method: (next || "annuity") as FundingSourceValue["loan"]["method"] }),
                         "Select", explain(LOAN_METHODS))}
@@ -1352,7 +1361,8 @@ export default function FinancialFoundationEditor({
 
                 <div className="business-capability-row">
                     {textInput(nature === "debt" ? "Principal Amount" : "Total Amount", what + " amount",
-                        source.amount, (next) => changeSource(source.id, { amount: next }), amountPlaceholder)}
+                        source.amount, (next) => changeSource(source.id, { amount: next }), amountPlaceholder,
+                        undefined, NUMBER_LIMITS.money)}
                     {picker("Status", what + " status", FUNDING_STATUSES, source.status,
                         (next) => changeSource(source.id, { status: next as FundingSourceValue["status"] }),
                         "Select a status", explain(FUNDING_STATUSES))}
@@ -1360,7 +1370,8 @@ export default function FinancialFoundationEditor({
                         "Received So Far", what + " received so far", source.received,
                         (next) => changeSource(source.id, { received: next }),
                         source.status === "approved" ? amountPlaceholder : "All of it, unless less",
-                        ["How much has actually arrived. The rest counts as confirmed future money."]
+                        ["How much has actually arrived. The rest counts as confirmed future money."],
+                        NUMBER_LIMITS.money
                     )}
                 </div>
                 </div>
@@ -1372,7 +1383,8 @@ export default function FinancialFoundationEditor({
                 {nature === "equity" && textInput(
                     "Ownership / Equity (%)", what + " equity", source.equity,
                     (next) => changeSource(source.id, { equity: next }), "e.g. 10",
-                    ["The share given in exchange. The Legal Entity remains where legal ownership is recorded."]
+                    ["The share given in exchange. The Legal Entity remains where legal ownership is recorded."],
+                    NUMBER_LIMITS.percent
                 )}
 
                 {textInput("Purpose", what + " purpose", source.purpose,

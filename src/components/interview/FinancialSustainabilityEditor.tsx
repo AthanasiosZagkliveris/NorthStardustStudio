@@ -6,7 +6,6 @@ import {
     asBusinessCapabilityValue,
     asBusinessEngagementValue,
     asLegalEntityValue,
-    businessDecimalText,
     businessFoundationSegments,
     withLegalEntityFounders
 } from "../../framework/engine/AnswerUtils.ts";
@@ -66,6 +65,7 @@ import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote, { InfoPoint } from "./InfoNote.tsx";
 import MonthYearPicker from "./MonthYearPicker.tsx";
+import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
 import type { OpenPage } from "./jumpTo.ts";
 import { railId } from "./rails/railItems.ts";
@@ -335,18 +335,23 @@ export default function FinancialSustainabilityEditor({
         onNext: (next: string) => void,
         placeholder?: string,
         info?: InfoPoint[],
-        inline = false
+        inline = false,
+        /** A number box: what it accepts. */
+        limits?: NumberLimit
     ) {
         return (
             <BusinessField label={label} info={info} inline={inline}>
                 <input
                     type="text"
+                    inputMode={limits ? numberInputMode(limits) : undefined}
                     className="interview-input"
                     aria-label={ariaLabel}
                     placeholder={placeholder}
                     disabled={disabled}
                     value={current}
-                    onChange={(event) => onNext(event.target.value)}
+                    onChange={(event) => onNext(limits
+                        ? limitedNumberText(event.target.value, current, limits)
+                        : event.target.value)}
                 />
             </BusinessField>
         );
@@ -372,7 +377,7 @@ export default function FinancialSustainabilityEditor({
                         placeholder={placeholder}
                         disabled={disabled}
                         value={current}
-                        onChange={(event) => onNext(businessDecimalText(event.target.value))}
+                        onChange={(event) => onNext(limitedNumberText(event.target.value, current, NUMBER_LIMITS.money))}
                     />
                     {currency && (
                         <span className="interview-input business-capability-currency" aria-hidden="true">{currency}</span>
@@ -717,7 +722,7 @@ export default function FinancialSustainabilityEditor({
                         : textInput(
                             recurring ? "Active " + capitalized(plural(unit, 2)) : "Expected Sales",
                             what + " expected volume", stream.volume,
-                            (next) => changeStream(stream.id, { volume: businessDecimalText(next) }),
+                            (next) => changeStream(stream.id, { volume: next }),
                             "a month",
                             [
                                 recurring
@@ -725,7 +730,8 @@ export default function FinancialSustainabilityEditor({
                                     : "How many " + plural(unit, 2) + " are sold in a month at the normal operating level.",
                                 "To work it out from where customers come from (referrals, a sales funnel, repeat customers and more), fill in Demand & Conversion for this Offering on Customer Engagement: it then fills this in."
                             ],
-                            true
+                            true,
+                            NUMBER_LIMITS.volume
                         )}
                     {listPicker("Build-up", what + " revenue development",
                         REVENUE_DEVELOPMENTS.map(item => item.label),
@@ -740,11 +746,11 @@ export default function FinancialSustainabilityEditor({
                     {stream.development === "gradual" && (
                         <>
                             {textInput("First Month", what + " first month volume", stream.initialVolume,
-                                (next) => changeStream(stream.id, { initialVolume: businessDecimalText(next) }), "e.g. 1",
-                                ["How many " + plural(unit, 2) + " in the month revenue begins."], true)}
+                                (next) => changeStream(stream.id, { initialVolume: next }), "e.g. 1",
+                                ["How many " + plural(unit, 2) + " in the month revenue begins."], true, NUMBER_LIMITS.volume)}
                             {textInput("Months to Normal", what + " months to reach normal", stream.rampMonths,
-                                (next) => changeStream(stream.id, { rampMonths: businessDecimalText(next) }), "e.g. 6",
-                                ["How many months it takes to grow evenly to the normal level."], true)}
+                                (next) => changeStream(stream.id, { rampMonths: next }), "e.g. 6",
+                                ["How many months it takes to grow evenly to the normal level."], true, NUMBER_LIMITS.months)}
                         </>
                     )}
 
@@ -781,7 +787,7 @@ export default function FinancialSustainabilityEditor({
                                         value={item.volume}
                                         onChange={(event) => changeStream(stream.id, {
                                             detailed: stream.detailed.map(other => other.id === item.id
-                                                ? { ...other, volume: businessDecimalText(event.target.value) } : other)
+                                                ? { ...other, volume: limitedNumberText(event.target.value, item.volume, NUMBER_LIMITS.volume) } : other)
                                         })}
                                     />
                                     <BusinessRemove
@@ -837,12 +843,12 @@ export default function FinancialSustainabilityEditor({
                         true)}
 
                     {splitPayment && textInput("Upfront (%)", what + " percent paid at start", stream.firstPercent,
-                        (next) => changeStream(stream.id, { firstPercent: businessDecimalText(next) }), "e.g. 50", undefined, true)}
+                        (next) => changeStream(stream.id, { firstPercent: next }), "e.g. 50", undefined, true, NUMBER_LIMITS.percent)}
                     {delayedPayment && textInput(
                         stream.paymentTiming === "completion" ? "Paid After" : "Rest After",
                         what + " payment delay", stream.paymentDelay,
-                        (next) => changeStream(stream.id, { paymentDelay: businessDecimalText(next) }), "months",
-                        ["Months after the sale."], true)}
+                        (next) => changeStream(stream.id, { paymentDelay: next }), "months",
+                        ["Months after the sale."], true, NUMBER_LIMITS.months)}
 
                 </div>
                 </section>
@@ -856,11 +862,12 @@ export default function FinancialSustainabilityEditor({
                                 "Items per Order",
                                 what + " items per order",
                                 stream.itemsPerOrder,
-                                (next) => changeStream(stream.id, { itemsPerOrder: businessDecimalText(next) }),
+                                (next) => changeStream(stream.id, { itemsPerOrder: next }),
                                 "1",
                                 ["How many " + plural(unit, 2) + " an average order holds. A cost per order, " + format(perOrder) +
                                     " here, is shared by them."],
-                                true
+                                true,
+                                NUMBER_LIMITS.perItem
                             )}
                             {moneyInput(
                                 "Delivery Charge",

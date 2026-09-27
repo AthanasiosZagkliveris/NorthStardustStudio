@@ -114,3 +114,75 @@ describe("FinancialSustainabilityEditor folding", () => {
     });
 
 });
+
+/** Types into a box one keystroke at a time. */
+function typeInto(input: HTMLInputElement, text: string) {
+    for (let length = 1; length <= text.length; length++) {
+        fireEvent.change(input, { target: { value: text.slice(0, length) } });
+    }
+}
+
+describe("FinancialFoundationEditor number limits", () => {
+
+    it("refuses an interest rate over 100%, a minus sign and more than 600 payments", () => {
+
+        const initial = {
+            ...asFinancialFoundationValue(undefined),
+            funding: [{ ...createFundingSource("external"), type: "bank-loan" }]
+        };
+
+        render(<Harness initial={initial} />);
+
+        const card = toggles(/Source 1$/)[0];
+        if (card.getAttribute("aria-expanded") === "false") {
+            fireEvent.click(card);
+        }
+
+        const rate = screen.getByLabelText("Bank Loan interest rate") as HTMLInputElement;
+        typeInto(rate, "150");
+        expect(rate.value).toBe("15");
+
+        const amount = screen.getByLabelText("Bank Loan amount") as HTMLInputElement;
+        typeInto(amount, "-5");
+        expect(amount.value).toBe("");
+
+        const payments = screen.getByLabelText("Bank Loan number of payments") as HTMLInputElement;
+        typeInto(payments, "6001");
+        expect(payments.value).toBe("600");
+
+    });
+
+});
+
+describe("FinancialSustainabilityEditor number limits", () => {
+
+    it("refuses an Upfront share over 100% and letters in a price", () => {
+
+        function StreamHarness() {
+            const [value, setValue] = useState<unknown>(asFinancialSustainabilityValue({
+                streams: [{ offeringId: "offering-1", paymentTiming: "split" }]
+            }));
+            return (
+                <FinancialSustainabilityEditor
+                    value={value}
+                    foundation={{ segments: [{ offerings: [{ id: "offering-1", name: "Offering One" }] }] }}
+                    onChange={setValue}
+                />
+            );
+        }
+
+        render(<StreamHarness />);
+
+        fireEvent.click(toggles(/Revenue Stream 1$/)[0]);
+
+        const upfront = screen.getByLabelText(/percent paid at start$/) as HTMLInputElement;
+        typeInto(upfront, "101");
+        expect(upfront.value).toBe("10");
+
+        const price = screen.getByLabelText(/ price$/) as HTMLInputElement;
+        typeInto(price, "30x");
+        expect(price.value).toBe("30");
+
+    });
+
+});
