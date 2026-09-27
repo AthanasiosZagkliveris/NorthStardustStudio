@@ -1641,7 +1641,7 @@ export default function BusinessFoundationEditor({
                                         className="business-foundation-profiles"
                                         data-rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[0])}
                                     >
-                                        <span className="business-foundation-subhead business-foundation-column-title">
+                                        <span className="business-foundation-subhead business-foundation-column-title fold-group-head">
                                             Profiles
                                             <FoldAllToggle
                                                 ids={segment.profiles.map(p => p.id)}
@@ -1656,7 +1656,7 @@ export default function BusinessFoundationEditor({
                                         className="business-foundation-competitors"
                                         data-rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[1])}
                                     >
-                                        <span className="business-foundation-subhead business-foundation-column-title">
+                                        <span className="business-foundation-subhead business-foundation-column-title fold-group-head">
                                             Competitors
                                             <FoldAllToggle
                                                 ids={segment.competitors.map(c => c.id)}
@@ -1686,7 +1686,7 @@ export default function BusinessFoundationEditor({
                                         className="business-foundation-offerings"
                                         data-rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[3])}
                                     >
-                                        <span className="business-foundation-subhead business-foundation-column-title">
+                                        <span className="business-foundation-subhead business-foundation-column-title fold-group-head">
                                             Offerings
                                             <FoldAllToggle
                                                 ids={segment.offerings.map(o => o.id)}

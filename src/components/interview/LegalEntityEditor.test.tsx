@@ -20,6 +20,17 @@ afterEach(cleanup);
 
 describe("LegalEntityEditor folding", () => {
 
+    it("puts Expand all on the subsection's heading row", () => {
+
+        render(<Harness />);
+
+        const head = screen.getByRole("button", { name: "Expand all legal requirements" }).parentElement!;
+
+        expect(head.classList.contains("fold-group-head")).toBe(true);
+        expect(head.querySelector("h3")?.textContent).toMatch(/Additional Legal Requirements/);
+
+    });
+
     it("starts requirement cards folded and opens a new one", () => {
 
         render(<Harness />);

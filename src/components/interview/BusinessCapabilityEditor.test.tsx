@@ -95,6 +95,58 @@ describe("BusinessCapabilityEditor folding", () => {
 
     });
 
+    // "Expand all" sits on its group's own title row, never on a line
+    // of its own -- so the Professionals column's cards start level
+    // with the Providers column beside it, toggle or not.
+    it("puts a partner group's Expand all on its title row", () => {
+
+        render(<Harness />);
+
+        const add = () => fireEvent.click(screen.getAllByRole("button", { name: "+ Add Professional" })[0]);
+        add();
+        add();
+
+        const toggle = screen.getAllByRole("button", { name: /^(Expand|Collapse) all professionals$/ })[0];
+        const head = toggle.parentElement!;
+
+        expect(head.classList.contains("fold-group-head")).toBe(true);
+        expect(head.firstElementChild).not.toBe(toggle);
+        expect(head.textContent).toMatch(/Professionals/);
+
+        // The Providers column, with no toggle, has the same title row.
+        const providersColumn = screen.getAllByRole("button", { name: "+ Add Provider" })[0].closest(".business-capability-column")!;
+        expect(providersColumn.querySelector(":scope > .fold-group-head")).not.toBeNull();
+
+    });
+
+    it("puts the activity list's Expand all on the Active row", () => {
+
+        const initial = {
+            ...asBusinessCapabilityValue(undefined),
+            activities: [{
+                id: BUSINESS_ACTIVITY_CATEGORIES[0].id,
+                name: "",
+                activities: [
+                    { ...createBusinessActivity(), name: "One" },
+                    { ...createBusinessActivity(), name: "Two" }
+                ]
+            }]
+        };
+
+        function ValueHarness() {
+            const [value, setValue] = useState<unknown>(initial);
+            return <BusinessCapabilityEditor value={value} onChange={setValue} />;
+        }
+
+        render(<ValueHarness />);
+
+        const head = screen.getByRole("button", { name: "Expand all activities" }).parentElement!;
+
+        expect(head.classList.contains("fold-group-head")).toBe(true);
+        expect(head.textContent).toMatch(/Active 2/);
+
+    });
+
     it("folds Resource cards again on reload, once they are no longer newly added", () => {
 
         let latest: unknown = asBusinessCapabilityValue(undefined);

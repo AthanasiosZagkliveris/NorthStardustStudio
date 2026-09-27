@@ -547,7 +547,8 @@ export default function FinancialSustainabilityEditor({
         number: number,
         section: { title: string; instructions: string[]; info: InfoPoint[] },
         body: () => ReactNode,
-        sectionIndex: number
+        sectionIndex: number,
+        titleExtra?: ReactNode
     ) {
 
         const open = !collapsed.has(id);
@@ -560,7 +561,7 @@ export default function FinancialSustainabilityEditor({
                 style={{ "--strategy-theme-hue": SECTION_HUES[id] ?? 0 } as CSSProperties}
             >
 
-                <div className="strategy-box-head business-foundation-input-head business-capability-card-head">
+                <div className="strategy-box-head business-foundation-input-head business-capability-card-head fold-group-head">
                     <button
                         type="button"
                         className="strategy-box-toggle"
@@ -573,6 +574,9 @@ export default function FinancialSustainabilityEditor({
                     <span className="strategy-box-number">{number + "."}</span>
                     <span className="strategy-name-static">{section.title}</span>
                     <InfoNote label={section.title} points={section.info} fullList />
+                    {/* The section's own "Expand all", at the far end
+                        of its title row. */}
+                    {titleExtra}
                 </div>
 
                 {open && body()}
@@ -1034,15 +1038,9 @@ export default function FinancialSustainabilityEditor({
                         </BusinessEmpty>
                     )
                     : (<>
-                        <div className="financial-stream-list-head">
-                            <FoldAllToggle
-                                ids={shownStreams.map(entry => entry.stream.id)}
-                                folds={folds}
-                                label="revenue streams"
-                            />
-                        </div>
-
-                        {/* One stream a row, its answers three to a line. */}
+                        {/* One stream a row, its answers three to a line.
+                            Their "Expand all" sits in the section's title
+                            row (see sectionCard). */}
                         <div className="financial-stream-list">
                             {shownStreams.map(streamCard)}
                         </div>
@@ -1594,7 +1592,16 @@ export default function FinancialSustainabilityEditor({
                 )}
             </div>
 
-            {sectionCard("sustainability-revenue", 1, SECTIONS.revenue, revenueSection, 0)}
+            {sectionCard(
+                "sustainability-revenue", 1, SECTIONS.revenue, revenueSection, 0,
+                offerings.length > 0 && (
+                    <FoldAllToggle
+                        ids={shownStreams.map(entry => entry.stream.id)}
+                        folds={folds}
+                        label="revenue streams"
+                    />
+                )
+            )}
 
             <span className="financial-flow-arrow" aria-hidden="true">↓</span>
 

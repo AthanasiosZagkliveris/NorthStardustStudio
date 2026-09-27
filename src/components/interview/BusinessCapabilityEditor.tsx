@@ -1238,7 +1238,7 @@ export default function BusinessCapabilityEditor({
                 data-anchor={"subsection-" + groupId + "-" + subsectionId}
             >
 
-                <div className="business-capability-subsection-head">
+                <div className="business-capability-subsection-head fold-group-head">
 
                     <button
                         type="button"
@@ -2121,13 +2121,17 @@ export default function BusinessCapabilityEditor({
         return (
             <div className="business-capability-column" key={kind} data-anchor={"partners-" + scope + "-" + kind}>
 
-                <BusinessGroup title={title} info={note}>
-
-                    <FoldAllToggle
-                        ids={list.map(partner => partner.id)}
-                        folds={folds}
-                        label={kind}
-                    />
+                <BusinessGroup
+                    title={title}
+                    info={note}
+                    titleExtra={
+                        <FoldAllToggle
+                            ids={list.map(partner => partner.id)}
+                            folds={folds}
+                            label={kind}
+                        />
+                    }
+                >
 
                     {list.map((partner, index) => partnerCard(
                         scope, kind, partner, index + 1
@@ -3194,18 +3198,19 @@ function ActivityList({
         <>
 
             {/* What is left to do, which is the number that
-                matters. */}
-            <span className="business-capability-active" aria-live="polite">
-                {"Active " + active.length}
-            </span>
-
-            {/* The active cards only: the completed ones sit in
+                matters -- and, on the same row, "Expand all" for
+                the active cards only: the completed ones sit in
                 their own folded list below. */}
-            <FoldAllToggle
-                ids={active.map(activity => activity.id)}
-                folds={folds}
-                label="activities"
-            />
+            <div className="fold-group-head">
+                <span className="business-capability-active" aria-live="polite">
+                    {"Active " + active.length}
+                </span>
+                <FoldAllToggle
+                    ids={active.map(activity => activity.id)}
+                    folds={folds}
+                    label="activities"
+                />
+            </div>
 
             {rows(active.map((activity, index) => renderRow(
                 scope, activity, index + 1, drag, index,

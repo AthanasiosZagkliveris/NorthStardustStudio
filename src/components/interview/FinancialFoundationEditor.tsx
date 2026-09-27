@@ -1452,7 +1452,7 @@ export default function FinancialFoundationEditor({
                         return (
                             <div className="financial-funding-category" key={category.id}>
 
-                                <div className="financial-funding-category-head">
+                                <div className="fold-group-head">
                                     <span className="business-foundation-label-info">
                                         <span className="business-capability-subhead">{category.label}</span>
                                         <InfoNote label={category.label} points={CATEGORY_INFO[category.id]} fullList />

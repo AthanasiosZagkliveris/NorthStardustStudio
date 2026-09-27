@@ -84,27 +84,43 @@ export function BusinessGroup({
 
     info,
 
+    titleExtra,
+
     children
 
 }: {
 
     title: string;
     info?: InfoPoint[];
+    /**
+     * Drawn at the far end of the title's own row -- the group's
+     * "Expand all" (see .fold-group-head), so it never adds a line.
+     */
+    titleExtra?: ReactNode;
     children: ReactNode;
 
 }) {
 
+    const heading = info
+        ? (
+            <span className="business-foundation-label-info">
+                <span className="business-foundation-subhead">{title}</span>
+                <InfoNote label={title} points={info} fullList />
+            </span>
+        )
+        : <span className="business-foundation-subhead">{title}</span>;
+
     return (
         <>
 
-            {info
+            {titleExtra
                 ? (
-                    <span className="business-foundation-label-info">
-                        <span className="business-foundation-subhead">{title}</span>
-                        <InfoNote label={title} points={info} fullList />
-                    </span>
+                    <div className="fold-group-head">
+                        {heading}
+                        {titleExtra}
+                    </div>
                 )
-                : <span className="business-foundation-subhead">{title}</span>}
+                : heading}
 
             {children}
 

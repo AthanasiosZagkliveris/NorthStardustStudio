@@ -50,25 +50,27 @@
 
 }
 
-/* Financial Foundation: a funding category's label and its
-   "Expand all / Collapse all", on one line, the toggle pushed to
-   the far end. */
-.financial-funding-category-head {
+/* A card group's title row: the title (and its "i") on the left,
+   "Expand all / Collapse all" pushed to the far end of the SAME row
+   (.fold-all-toggle's margin-left: auto), so the toggle never adds a
+   line and cards in side-by-side columns start level whether or not
+   it shows. Used wherever FoldAllToggle is. Stretched so the far end
+   is the group's own edge even in a column that aligns its items to
+   the start. */
+.fold-group-head {
 
     display: flex;
     align-items: center;
     gap: 8px;
-    width: 100%;
+    align-self: stretch;
 
 }
 
-/* Financial Sustainability: "Expand all / Collapse all" for the
-   revenue streams below, pushed to the far end since there is no
-   other title on this row. */
-.financial-stream-list-head {
+/* One line, always: in a narrow column the title wraps instead. */
+.fold-group-head > .fold-all-toggle {
 
-    display: flex;
-    justify-content: flex-end;
+    flex: none;
+    white-space: nowrap;
 
 }
 

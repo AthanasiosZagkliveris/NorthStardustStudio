@@ -1042,7 +1042,7 @@ export default function BusinessEngagementEditor({
                 data-rail={railId(BUSINESS_ENGAGEMENT_SECTIONS[sectionIndex])}
             >
 
-                <div className="business-engagement-section-head">
+                <div className="business-engagement-section-head fold-group-head">
 
                     <button
                         type="button"

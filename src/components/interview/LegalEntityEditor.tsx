@@ -667,8 +667,22 @@ export default function LegalEntityEditor({
      * its subject depending on the legal form. The constant itself
      * stays put: the completeness dialog and the stored value are
      * keyed to it.
+     *
+     * `titleExtra` sits at the far end of the heading's own row --
+     * the subsection's "Expand all" (see .fold-group-head).
      */
-    function subsection(index: number, children: ReactNode, title?: string) {
+    function subsection(index: number, children: ReactNode, title?: string, titleExtra?: ReactNode) {
+
+        const heading = (
+            <h3 className="legal-entity-section-head">
+                <span className="legal-entity-section-number">
+                    {subsectionNumber(index)}
+                </span>
+                <span className="legal-entity-section-title">
+                    {title ?? LEGAL_ENTITY_SECTIONS[index]}
+                </span>
+            </h3>
+        );
 
         return (
             <section
@@ -677,14 +691,14 @@ export default function LegalEntityEditor({
                 data-rail={railId(LEGAL_ENTITY_SECTIONS[index])}
             >
 
-                <h3 className="legal-entity-section-head">
-                    <span className="legal-entity-section-number">
-                        {subsectionNumber(index)}
-                    </span>
-                    <span className="legal-entity-section-title">
-                        {title ?? LEGAL_ENTITY_SECTIONS[index]}
-                    </span>
-                </h3>
+                {titleExtra
+                    ? (
+                        <div className="fold-group-head">
+                            {heading}
+                            {titleExtra}
+                        </div>
+                    )
+                    : heading}
 
                 {children}
 
@@ -1830,12 +1844,6 @@ export default function LegalEntityEditor({
                 {subsection(4, (
                     <>
 
-                        <FoldAllToggle
-                            ids={entity.requirements.map(requirement => requirement.id)}
-                            folds={folds}
-                            label="legal requirements"
-                        />
-
                         {entity.requirements.length === 0 && (
                             <p className="legal-entity-empty-note">
                                 Nothing recorded. Add a requirement if one applies to your
@@ -2023,18 +2031,18 @@ export default function LegalEntityEditor({
                         </button>
 
                     </>
+                ), undefined, (
+                    <FoldAllToggle
+                        ids={entity.requirements.map(requirement => requirement.id)}
+                        folds={folds}
+                        label="legal requirements"
+                    />
                 ))}
 
                 {/* ---------- 9.6 Legal Entity Expenses ---------- */}
 
                 {subsection(5, (
                     <>
-
-                        <FoldAllToggle
-                            ids={entity.expenses.map(expense => expense.id)}
-                            folds={folds}
-                            label="legal entity expenses"
-                        />
 
                         {entity.expenses.length === 0 && (
                             <p className="legal-entity-empty-note">
@@ -2289,6 +2297,12 @@ export default function LegalEntityEditor({
                         </button>
 
                     </>
+                ), undefined, (
+                    <FoldAllToggle
+                        ids={entity.expenses.map(expense => expense.id)}
+                        folds={folds}
+                        label="legal entity expenses"
+                    />
                 ))}
 
                 </div>
