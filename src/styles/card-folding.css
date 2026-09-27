@@ -8,7 +8,7 @@
     white-space: nowrap;
     text-overflow: ellipsis;
 
-    font-size: 14px;
+    font-size: var(--font-small);
     color: #5f6368;
 
 }
@@ -32,7 +32,7 @@
     background: none;
     cursor: pointer;
 
-    font-size: 14px;
+    font-size: var(--font-small);
     color: #0b57d0;
 
 }

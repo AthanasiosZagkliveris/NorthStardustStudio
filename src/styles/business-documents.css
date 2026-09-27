@@ -47,7 +47,7 @@
 
     margin:0;
 
-    font-size:18px;
+    font-size:var(--font-body);
     line-height:1.5;
 
     color:#374151;
@@ -66,7 +66,7 @@
 
     background:#fdf8ea;
 
-    font-size:16px;
+    font-size:var(--font-body);
     line-height:1.5;
 
     color:#5c4a12;
@@ -94,7 +94,7 @@
     background:none;
 
     font-family:inherit;
-    font-size:16px;
+    font-size:var(--font-body);
     font-weight:600;
 
     color:#4b5563;
@@ -143,7 +143,7 @@
     background:#ffffff;
 
     font-family:inherit;
-    font-size:15px;
+    font-size:var(--font-small);
     font-weight:600;
 
     color:#0b57d0;
@@ -177,7 +177,7 @@
 
     background:#ffffff;
 
-    font-size:16px;
+    font-size:var(--font-body);
     line-height:1.6;
 
     color:#1f2937;
@@ -195,7 +195,7 @@
 
     margin:0 0 4px;
 
-    font-size:28px;
+    font-size:var(--font-h2);
 
 }
 
@@ -215,7 +215,7 @@
 
     border-bottom:1px solid #d6d6d6;
 
-    font-size:20px;
+    font-size:var(--font-h3);
 
 }
 
@@ -223,7 +223,7 @@
 
     margin:18px 0 6px;
 
-    font-size:17px;
+    font-size:var(--font-body);
 
 }
 
@@ -231,7 +231,7 @@
 
     margin:14px 0 4px;
 
-    font-size:16px;
+    font-size:var(--font-body);
 
     color:#374151;
 
@@ -251,7 +251,7 @@
 
     border-collapse:collapse;
 
-    font-size:14px;
+    font-size:var(--font-small);
 
 }
 
@@ -326,7 +326,7 @@
 
     background:#ffffff;
 
-    font-size:14px;
+    font-size:var(--font-small);
     line-height:1.45;
 
     color:#1f2937;
@@ -339,7 +339,7 @@
 
     margin:0;
 
-    font-size:14px;
+    font-size:var(--font-small);
     font-weight:700;
 
     letter-spacing:0.05em;
@@ -438,7 +438,7 @@
 
     min-width:220px;
 
-    font-size:15px;
+    font-size:var(--font-small);
     font-weight:600;
 
     color:#374151;
@@ -473,7 +473,7 @@
 
     border-collapse:collapse;
 
-    font-size:14px;
+    font-size:var(--font-small);
 
     font-variant-numeric:tabular-nums;
 
@@ -483,7 +483,7 @@
 
     padding:14px 16px 8px;
 
-    font-size:18px;
+    font-size:var(--font-body);
     font-weight:700;
 
     text-align:left;
@@ -562,7 +562,7 @@
 
     padding-left:20px;
 
-    font-size:14px;
+    font-size:var(--font-small);
 
     color:#4b5563;
 

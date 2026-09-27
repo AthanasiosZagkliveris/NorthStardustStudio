@@ -39,7 +39,7 @@
 
     background: white;
 
-    font-size: 1.8rem;
+    font-size: var(--font-h2);
     font-weight: 500;
 
     font-family: inherit;
@@ -200,7 +200,7 @@
 
     gap: 10px;
 
-    font-size: 1.6rem;
+    font-size: var(--font-h3);
     font-weight: 700;
 
     color: #111827;
@@ -351,7 +351,7 @@
 
     color: #0b57d0;
 
-    font-size: 1rem;
+    font-size: var(--font-body);
     font-weight: 600;
 
     cursor: pointer;
@@ -368,7 +368,7 @@
 
     margin: 10px 0 0;
 
-    font-size: .95rem;
+    font-size: var(--font-small);
 
     color: #6b7280;
 }
@@ -397,7 +397,7 @@
 
 .user-name-label {
 
-    font-size: .8rem;
+    font-size: var(--font-small);
     font-weight: 700;
 
     text-transform: uppercase;
@@ -418,7 +418,7 @@
     background: #ffffff;
 
     font: inherit;
-    font-size: 1.1rem;
+    font-size: var(--font-body);
     font-weight: 600;
 
     color: #111827;
@@ -459,7 +459,7 @@
 
 .user-preferences-label {
 
-    font-size: .8rem;
+    font-size: var(--font-small);
     font-weight: 700;
 
     text-transform: uppercase;

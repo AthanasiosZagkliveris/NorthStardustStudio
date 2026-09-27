@@ -53,7 +53,7 @@
 
     text-align: left;
 
-    font-size: 20px;
+    font-size: var(--font-h3);
     font-weight: 500;
 
     /* Defaults to its parent Capability's colour --
@@ -73,7 +73,7 @@
 ========================================================== */
 
 .system-title {
-    font-size: 20px;
+    font-size: var(--font-h3);
     font-weight: 500;
 
     color: var(--system-color, #000000);

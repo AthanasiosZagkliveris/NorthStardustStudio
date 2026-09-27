@@ -117,7 +117,7 @@
 
     text-orientation:mixed;
 
-    font-size:16px;
+    font-size:var(--font-body);
     font-weight:700;
 
     letter-spacing:0.05em;
@@ -200,7 +200,7 @@
 
     text-orientation:mixed;
 
-    font-size:16px;
+    font-size:var(--font-body);
     font-weight:700;
 
     letter-spacing:0.05em;
@@ -301,7 +301,7 @@
 
     margin:0;
 
-    font-size:24px;
+    font-size:var(--font-h3);
     font-weight:700;
 
     color:#111827;
@@ -326,7 +326,7 @@
     margin-bottom:6px;
 
     /* Text tier. */
-    font-size:18px;
+    font-size:var(--font-body);
     font-weight:700;
 
     text-transform:uppercase;
@@ -367,7 +367,7 @@
     background:#ffffff;
 
     /* Button tier. */
-    font-size:16px;
+    font-size:var(--font-body);
     line-height:1;
 
     cursor:pointer;
@@ -390,7 +390,7 @@
 
     text-align:center;
 
-    font-size:18px;
+    font-size:var(--font-body);
     font-weight:700;
 
     color:#111827;
@@ -418,7 +418,7 @@
     text-align:center;
 
     /* Text tier. */
-    font-size:18px;
+    font-size:var(--font-body);
     font-weight:700;
 
     color:#5f6368;
@@ -544,7 +544,7 @@
    number. */
 .org-calendar-day-number{
 
-    font-size:18px;
+    font-size:var(--font-body);
     line-height:1.15;
 
     color:#111827;
@@ -587,7 +587,7 @@
 
 .org-calendar-day-dot-overflow{
 
-    font-size:18px;
+    font-size:var(--font-body);
     font-weight:700;
     line-height:1;
 
@@ -609,7 +609,7 @@
 
     margin:0 0 8px;
 
-    font-size:18px;
+    font-size:var(--font-body);
     font-weight:700;
 
     color:#111827;
@@ -621,7 +621,7 @@
     margin:0 0 10px;
 
     /* Text tier. */
-    font-size:18px;
+    font-size:var(--font-body);
 
     color:#5f6368;
 
@@ -670,7 +670,7 @@
 .org-calendar-task-origin{
 
     /* Text tier. */
-    font-size:18px;
+    font-size:var(--font-body);
     font-weight:700;
 
 }
@@ -687,7 +687,7 @@
 
     font:inherit;
     /* Button tier. */
-    font-size:16px;
+    font-size:var(--font-body);
     font-weight:700;
 
     padding:0;
@@ -705,7 +705,7 @@
 .org-calendar-task-description{
 
     /* Text tier. */
-    font-size:18px;
+    font-size:var(--font-body);
 
     color:#111827;
 
@@ -741,7 +741,7 @@
     gap:4px;
 
     /* Text tier. */
-    font-size:18px;
+    font-size:var(--font-body);
     font-weight:700;
 
     text-transform:uppercase;
@@ -845,7 +845,7 @@
 
     font:inherit;
     /* Text tier. */
-    font-size:18px;
+    font-size:var(--font-body);
     font-weight:500;
     line-height:1.3;
 
@@ -938,7 +938,7 @@
     text-align:left;
 
     /* Text tier. */
-    font-size:18px;
+    font-size:var(--font-body);
     font-weight:500;
 
     color:var(--system-color, #000000);
@@ -953,7 +953,7 @@
     flex:1;
 
     /* Text tier. */
-    font-size:18px;
+    font-size:var(--font-body);
     font-weight:500;
     line-height:1.3;
 
@@ -983,7 +983,7 @@
 
     font:inherit;
     /* Text tier, like every other input scope in the app. */
-    font-size:18px;
+    font-size:var(--font-body);
     line-height:1.5;
 
     border:1px solid #767676;

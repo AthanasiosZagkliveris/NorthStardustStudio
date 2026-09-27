@@ -67,7 +67,7 @@
     /* Same responsive scale as the bare h1 rule in global.css --
        shrinks toward 28px on a narrow window, grows back to 36px
        on a wide one (36px being the app's largest type size). */
-    font-size: clamp(28px, 2vw + 20px, 36px);
+    font-size: var(--font-h1);
     font-weight: 700;
     line-height: 1.2;
 
@@ -105,7 +105,7 @@
     border-radius: 8px;
 
     font: inherit;
-    font-size: 20px;
+    font-size: var(--font-h3);
 
     transition:
         border-color .2s ease,
@@ -175,7 +175,7 @@
     border-radius: 8px;
 
     font: inherit;
-    font-size: 16px;
+    font-size: var(--font-body);
 
     color: #374151;
 

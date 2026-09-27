@@ -36,7 +36,7 @@
     font:inherit;
     /* The app's button tier (Headings 36 / Subheadings 24 / Text
        18 / Buttons 16). */
-    font-size:16px;
+    font-size:var(--font-body);
     font-weight:700;
 
     cursor:pointer;

@@ -55,7 +55,7 @@
 
     margin: 0 0 0 auto;
 
-    font-size: 1.5rem;
+    font-size: var(--font-h3);
     font-weight: 700;
 
     /* Same all-caps + 10% tracking treatment the action buttons

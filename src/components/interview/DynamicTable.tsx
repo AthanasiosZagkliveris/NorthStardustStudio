@@ -265,9 +265,9 @@ function measureTextWidth(text: string, font: string): number {
 }
 
 // Matches the font declared on .dynamic-table-textarea /
-// .interview-input (font-size:15px, inherited font-family
-// "Inter", normal weight) in conversation.css.
-const CELL_FONT = "400 15px Inter, sans-serif";
+// .interview-input (font-size:var(--font-small), 14px,
+// inherited font-family "Inter", normal weight) in conversation.css.
+const CELL_FONT = "400 14px Inter, sans-serif";
 
 // Fallback used only if a header cell hasn't rendered yet
 // when this is read -- .dynamic-table th declares
