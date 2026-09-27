@@ -62,3 +62,14 @@
     justify-content: flex-end;
 
 }
+
+/* Customer Engagement: "Expand all / Collapse all" for every
+   Offering's Demand & Conversion block, above the Customer
+   Relationship table that holds them -- pushed to the far end since
+   there is no other title on this row. */
+.business-engagement-demand-toggle-row {
+
+    display: flex;
+    justify-content: flex-end;
+
+}

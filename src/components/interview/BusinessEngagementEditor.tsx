@@ -48,12 +48,15 @@ import {
     BusinessTicks,
     uniqueChoices
 } from "./BusinessCardFields.tsx";
+import { summaryText } from "./cardSummary.ts";
+import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote, { InfoPoint } from "./InfoNote.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import type { OpenPage } from "./jumpTo.ts";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import SuggestedInput from "./SuggestedInput.tsx";
+import { useItemFolds } from "./useItemFolds.ts";
 
 import "../../styles/demand.css";
 
@@ -561,6 +564,15 @@ export default function BusinessEngagementEditor({
      *  the page, not part of what they have said. */
     const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
 
+    /**
+     * Which Offering reference entries, per-Offering relationship
+     * blocks and Demand & Conversion blocks are open. These three
+     * start CLOSED -- see useItemFolds -- unlike the structural
+     * sections, categories and per-type/per-stage folds around
+     * them, which stay on `collapsed` and so start open.
+     */
+    const folds = useItemFolds();
+
     /** One Segment's reference header, folded with the rest. */
     const referencesFoldKey = (segmentId: string) =>
         "reference-header-" + segmentId;
@@ -902,7 +914,7 @@ export default function BusinessEngagementEditor({
 
                         const foldKey = "reference-" + source.key;
 
-                        const open = !foldable || !collapsed.has(foldKey);
+                        const open = !foldable || folds.isOpen(foldKey);
 
                         return (
                             <div
@@ -921,7 +933,7 @@ export default function BusinessEngagementEditor({
                                                 (open ? "Minimize " : "Maximize ") +
                                                 (source.name.trim() || what)
                                             }
-                                            onClick={() => toggle(foldKey)}
+                                            onClick={() => folds.toggle(foldKey)}
                                         >
                                             {open ? "▾" : "▸"}
                                         </button>
@@ -969,11 +981,17 @@ export default function BusinessEngagementEditor({
      * The body is a function, not markup, so a folded section costs
      * nothing to draw: a Segment's whole Channels table is not
      * built to be hidden.
+     *
+     * `titleExtra` is drawn at the far end of the title row -- the
+     * section's own "Expand all", for the item cards its body
+     * holds. Given here rather than inside `body` so it still shows
+     * while the section itself is folded shut.
      */
     function foldingSection(
         key: string,
         title: string,
-        body: () => ReactNode
+        body: () => ReactNode,
+        titleExtra?: ReactNode
     ) {
 
         const open = !collapsed.has(key);
@@ -994,6 +1012,8 @@ export default function BusinessEngagementEditor({
                     </button>
 
                     <span className="business-foundation-subhead">{title}</span>
+
+                    {titleExtra}
 
                 </div>
 
@@ -1850,6 +1870,32 @@ export default function BusinessEngagementEditor({
     /* ---------- B. Customer Relationship ---------- */
 
     /**
+     * The Offerings this Segment's Channels table records ANY
+     * interaction for -- see relationshipsFor's own `offeringIds`,
+     * which this is factored out of. Read independently of whether
+     * "B. Customer Relationship" is open, so the section head's
+     * "Expand all" can be given the right ids whether or not its
+     * body is currently drawn.
+     */
+    function engagedOfferingIds(segment: BusinessCustomerSegmentValue): string[] {
+
+        const interactions = businessRelationshipInteractions(
+            segmentOf(segment.id).channels, segment.offerings, segment.offerings
+        );
+
+        const ids: string[] = [];
+
+        for (const interaction of interactions) {
+            if (!ids.includes(interaction.offeringId)) {
+                ids.push(interaction.offeringId);
+            }
+        }
+
+        return ids;
+
+    }
+
+    /**
      * The Customer Relationships table.
      *
      * FIVE COLUMNS, the shape the worked example draws:
@@ -1931,13 +1977,7 @@ export default function BusinessEngagementEditor({
         /* The Offerings with any interaction at all, in the order
            the interaction list gives -- which is Page 1's own
            Offering order. */
-        const offeringIds: string[] = [];
-
-        for (const interaction of interactions) {
-            if (!offeringIds.includes(interaction.offeringId)) {
-                offeringIds.push(interaction.offeringId);
-            }
-        }
+        const offeringIds = engagedOfferingIds(segment);
 
         if (segment.offerings.length === 0) {
             return (
@@ -1976,7 +2016,7 @@ export default function BusinessEngagementEditor({
             "relationship-offering-" + offeringId;
 
         const offeringOpen = (offeringId: string) =>
-            !collapsed.has(offeringFoldKey(offeringId));
+            folds.isOpen(offeringFoldKey(offeringId));
 
         const typeFoldKey = (offeringId: string, typeId: string) =>
             "relationship-type-" + offeringId + "-" + (typeId || "unchosen");
@@ -2015,6 +2055,19 @@ export default function BusinessEngagementEditor({
 
         return (
             <div className="business-channel-table-wrap">
+
+                {/* "Expand all / Collapse all" for the Demand &
+                    Conversion block under every Offering below --
+                    each is its own arrow, folded by default, and
+                    this is the one control that opens or closes all
+                    of them at once. */}
+                <div className="business-engagement-demand-toggle-row">
+                    <FoldAllToggle
+                        ids={offeringIds.map(offeringId => "demand-" + offeringId)}
+                        folds={folds}
+                        label="offerings"
+                    />
+                </div>
 
                 <table className="business-channel-table business-relationship-table">
 
@@ -2099,7 +2152,7 @@ export default function BusinessEngagementEditor({
                                                         : "Maximize ") +
                                                     offeringName(offeringId)
                                                 }
-                                                onClick={() => toggle(
+                                                onClick={() => folds.toggle(
                                                     offeringFoldKey(offeringId)
                                                 )}
                                             >
@@ -2121,6 +2174,15 @@ export default function BusinessEngagementEditor({
                                                     fullList
                                                     asReference
                                                 />
+                                            )}
+                                            {!offeringShown && (
+                                                <span className="business-card-summary">
+                                                    {summaryText(
+                                                        kept.types.length
+                                                            ? kept.types.length + " relationship types"
+                                                            : ""
+                                                    )}
+                                                </span>
                                             )}
                                         </span>
                                     );
@@ -2953,9 +3015,10 @@ export default function BusinessEngagementEditor({
         const result = demandResult(demand);
 
         /* Folded with the same arrow as the page's sections; folded,
-           its head still says what it gives. */
+           its head still says what it gives. Unlike the structural
+           sections, this starts CLOSED -- see useItemFolds. */
         const foldKey = "demand-" + offeringId;
-        const open = !collapsed.has(foldKey);
+        const open = folds.isOpen(foldKey);
 
         const channelOptions: BusinessTickOption[] = channelChoices(
             segmentOf(segment.id).channels
@@ -3146,7 +3209,7 @@ export default function BusinessEngagementEditor({
                             className="strategy-box-toggle"
                             aria-expanded={open}
                             aria-label={(open ? "Minimize " : "Maximize ") + "Demand & Conversion for " + offeringLabel}
-                            onClick={() => toggle(foldKey)}
+                            onClick={() => folds.toggle(foldKey)}
                         >
                             {open ? "▾" : "▸"}
                         </button>
@@ -3540,7 +3603,14 @@ export default function BusinessEngagementEditor({
                                 {foldingSection(
                                     segment.id + "-relationships",
                                     "B. Customer Relationship",
-                                    () => relationshipsFor(segment)
+                                    () => relationshipsFor(segment),
+                                    <FoldAllToggle
+                                        ids={engagedOfferingIds(segment).map(
+                                            offeringId => "relationship-offering-" + offeringId
+                                        )}
+                                        folds={folds}
+                                        label="offerings"
+                                    />
                                 )}
 
                             </>
