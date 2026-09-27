@@ -47,9 +47,17 @@
 ========================================================== */
 
 .system-number {
-    width: 34px;
+    /* Sized in em from its own text, so it keeps fitting whatever
+       the type scale sets: "00." in tabular figures, with the 5%
+       hover tracking, is about 1.72em. Every number takes the same
+       box, so the titles align, and the margin is the one gap
+       between the full stop and the title. */
+    width: 1.75em;
+    margin-right: 0.5em;
 
     flex-shrink: 0;
+
+    font-variant-numeric: tabular-nums;
 
     text-align: left;
 

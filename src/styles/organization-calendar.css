@@ -932,8 +932,13 @@
 
 .org-rail-system-number{
 
-    width:34px;
+    /* Sized in em, as on System Selection (system-list.css): the
+       same box for every "00.", and one gap before the title. */
+    width:1.75em;
+    margin-right:0.5em;
     flex-shrink:0;
+
+    font-variant-numeric:tabular-nums;
 
     text-align:left;
 
