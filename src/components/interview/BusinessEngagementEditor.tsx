@@ -567,13 +567,48 @@ export default function BusinessEngagementEditor({
     const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
 
     /**
-     * Which Offering reference entries, per-Offering relationship
-     * blocks and Demand & Conversion blocks are open. These three
-     * start CLOSED -- see useItemFolds -- unlike the structural
-     * sections, categories and per-type/per-stage folds around
-     * them, which stay on `collapsed` and so start open.
+     * Which Offering reference entries, Channel Categories,
+     * per-Offering relationship blocks and Demand & Conversion
+     * blocks are open. These four start CLOSED -- see useItemFolds
+     * -- unlike the structural sections and per-type/per-stage
+     * folds around them, which stay on `collapsed` and so start
+     * open.
      */
     const folds = useItemFolds();
+
+    /* A CATEGORY FOLDS ITS CHANNELS AWAY. Keyed by the group's first
+       channel, for the same reason the group itself is (see
+       channelsFor): a key made from the category would change with
+       every keystroke typed into it, and the group would fold and
+       unfold as it was named. */
+    const channelCategoryFoldKey = (segmentId: string, groupKey: string) =>
+        "channel-category-" + segmentId + "-" + groupKey;
+
+    /** One Segment's named Channel Categories' fold keys, grouped
+     *  exactly as channelsFor groups them -- for "Expand all". */
+    function channelCategoryFoldKeys(segmentId: string): string[] {
+
+        const seen = new Set<string>();
+
+        const keys: string[] = [];
+
+        for (const channel of segmentOf(segmentId).channels) {
+
+            if (seen.has(channel.category)) {
+                continue;
+            }
+
+            seen.add(channel.category);
+
+            if (channel.category.trim().length > 0) {
+                keys.push(channelCategoryFoldKey(segmentId, channel.id));
+            }
+
+        }
+
+        return keys;
+
+    }
 
     /** One Segment's reference header, folded with the rest. */
     const referencesFoldKey = (segmentId: string) =>
@@ -1179,16 +1214,12 @@ export default function BusinessEngagementEditor({
 
                         {groups.map(group => {
 
-                          /* A CATEGORY FOLDS ITS CHANNELS AWAY. Keyed
-                             by the group's first channel, for the same
-                             reason the group itself is: a key made from
-                             the category would change with every
-                             keystroke typed into it, and the group
-                             would fold and unfold as it was named. */
+                          /* Folded by default, like the relationship
+                             blocks -- see channelCategoryFoldKey. */
                           const categoryFoldKey =
-                              "channel-category-" + segment.id + "-" + group.key;
+                              channelCategoryFoldKey(segment.id, group.key);
 
-                          const categoryOpen = !collapsed.has(categoryFoldKey);
+                          const categoryOpen = folds.isOpen(categoryFoldKey);
 
                           return (
 
@@ -1244,7 +1275,7 @@ export default function BusinessEngagementEditor({
                                                             : "Maximize ") +
                                                         group.label
                                                     }
-                                                    onClick={() => toggle(categoryFoldKey)}
+                                                    onClick={() => folds.toggle(categoryFoldKey)}
                                                 >
                                                     {categoryOpen ? "▾" : "▸"}
                                                 </button>
@@ -1305,6 +1336,17 @@ export default function BusinessEngagementEditor({
 
                                                 }}
                                             />
+
+                                            {/* Folded, the category still
+                                                says how much it holds. */}
+                                            {group.label.trim().length > 0 && !categoryOpen && (
+                                                <span className="business-card-summary">
+                                                    {group.channels.length +
+                                                        (group.channels.length === 1
+                                                            ? " channel"
+                                                            : " channels")}
+                                                </span>
+                                            )}
 
                                             {/* THE WHOLE GROUP, CHANNELS AND
                                                 ALL. A category is not a label
@@ -1864,9 +1906,18 @@ export default function BusinessEngagementEditor({
                 <BusinessAddButton
                     label="Channel Category"
                     disabled={disabled}
-                    onAdd={() => updateSegment(segment.id, {
-                        channels: [...answers.channels, createBusinessChannel()]
-                    })}
+                    onAdd={() => {
+
+                        const channel = createBusinessChannel();
+
+                        updateSegment(segment.id, {
+                            channels: [...answers.channels, channel]
+                        });
+
+                        // Opened, so it can be filled in straight away.
+                        folds.expand(channelCategoryFoldKey(segment.id, channel.id));
+
+                    }}
                 />
 
             </>
@@ -2062,19 +2113,6 @@ export default function BusinessEngagementEditor({
 
         return (
             <div className="business-channel-table-wrap">
-
-                {/* "Expand all / Collapse all" for the Demand &
-                    Conversion block under every Offering below --
-                    each is its own arrow, folded by default, and
-                    this is the one control that opens or closes all
-                    of them at once. */}
-                <div className="business-engagement-demand-toggle-row">
-                    <FoldAllToggle
-                        ids={offeringIds.map(offeringId => "demand-" + offeringId)}
-                        folds={folds}
-                        label="demand and conversion blocks"
-                    />
-                </div>
 
                 <table className="business-channel-table business-relationship-table">
 
@@ -3608,7 +3646,12 @@ export default function BusinessEngagementEditor({
                                     segment.id + "-channels",
                                     "A. Customer Channel",
                                     () => channelsFor(segment),
-                                    0
+                                    0,
+                                    <FoldAllToggle
+                                        ids={channelCategoryFoldKeys(segment.id)}
+                                        folds={folds}
+                                        label="channel categories"
+                                    />
                                 )}
 
                                 {foldingSection(

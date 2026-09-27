@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import BusinessEngagementEditor from "./BusinessEngagementEditor";
 import {
@@ -46,6 +46,14 @@ function engagementScenario() {
                 category: "Website",
                 offerings: [audit.id, retainer.id],
                 stages: [BUSINESS_JOURNEY_STAGES[0].id]
+            }, {
+                ...createBusinessChannel(),
+                id: segment.id + "-email",
+                category: "Email"
+            }, {
+                ...createBusinessChannel(),
+                id: segment.id + "-email-2",
+                category: "Email"
             }]
         }]
     };
@@ -55,7 +63,9 @@ function engagementScenario() {
 }
 
 function Harness() {
-    const { foundation, engagement } = engagementScenario();
+    // Built once: the scenario's ids are random, and a Foundation
+    // rebuilt on every render would no longer match the answer.
+    const [{ foundation, engagement }] = useState(engagementScenario);
     const [value, setValue] = useState<unknown>(engagement);
     return <BusinessEngagementEditor value={value} onChange={setValue} foundation={foundation} />;
 }
@@ -78,15 +88,64 @@ describe("BusinessEngagementEditor folding", () => {
 
     });
 
-    // Two "Expand all" controls sit on this page -- one over the
-    // relationship blocks, one over the Demand & Conversion blocks --
-    // and each needs its own accessible name.
-    it("names the two Expand all controls apart", () => {
+    // "B. Customer Relationship" has one Expand all, in its head --
+    // the second one over the relationship table is gone.
+    it("has a single Expand all for Customer Relationship", () => {
 
         render(<Harness />);
 
         expect(screen.getAllByRole("button", { name: "Expand all offerings" })).toHaveLength(1);
-        expect(screen.getAllByRole("button", { name: "Expand all demand and conversion blocks" })).toHaveLength(1);
+        expect(screen.queryByRole("button", { name: /demand and conversion blocks/ })).toBeNull();
+
+    });
+
+    it("starts Channel Categories collapsed, with a channel count", () => {
+
+        render(<Harness />);
+
+        const categories = screen.getAllByRole("button", { name: /^(Maximize|Minimize) (Website|Email)$/ });
+
+        expect(categories).toHaveLength(2);
+        categories.forEach(b => {
+            expect(b.classList.contains("strategy-box-toggle")).toBe(true);
+            expect(b.getAttribute("aria-expanded")).toBe("false");
+        });
+
+        expect(screen.getByText("1 channel")).toBeTruthy();
+        expect(screen.getByText("2 channels")).toBeTruthy();
+
+    });
+
+    it("opens every Channel Category with Expand all channel categories", () => {
+
+        render(<Harness />);
+
+        fireEvent.click(screen.getByRole("button", { name: "Expand all channel categories" }));
+
+        screen.getAllByRole("button", { name: /^(Maximize|Minimize) (Website|Email)$/ })
+            .forEach(b => expect(b.getAttribute("aria-expanded")).toBe("true"));
+
+        expect(screen.queryByText("2 channels")).toBeNull();
+        expect(screen.getByRole("button", { name: "Collapse all channel categories" })).toBeTruthy();
+
+    });
+
+    it("opens a newly added Channel Category", () => {
+
+        render(<Harness />);
+
+        const before = new Set(screen.queryAllByRole("combobox").concat(screen.queryAllByRole("textbox")));
+
+        fireEvent.click(screen.getByRole("button", { name: /Add Channel Category/ }));
+
+        const added = screen.queryAllByRole("combobox").concat(screen.queryAllByRole("textbox"))
+            .find(el => !before.has(el) && /Channel Category for an unnamed channel/.test(el.getAttribute("aria-label") ?? ""));
+
+        expect(added).toBeTruthy();
+
+        fireEvent.change(added!, { target: { value: "Podcast" } });
+
+        expect(screen.getByRole("button", { name: "Minimize Podcast" }).getAttribute("aria-expanded")).toBe("true");
 
     });
 
