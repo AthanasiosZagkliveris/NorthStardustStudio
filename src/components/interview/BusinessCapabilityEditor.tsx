@@ -1919,7 +1919,10 @@ export default function BusinessCapabilityEditor({
                 {...dragProps}
             >
 
-                <div className="business-capability-activity-head">
+                {/* The head every folding card shares (see
+                    .fold-card-head): folded, the name is text and the
+                    summary a row of its own under it. */}
+                <div className="business-capability-activity-head fold-card-head">
 
                     <button
                         type="button"
@@ -1938,15 +1941,23 @@ export default function BusinessCapabilityEditor({
                         {number + "."}
                     </span>
 
-                    <input
-                        type="text"
-                        className="interview-input strategy-name-input"
-                        aria-label={"Activity " + number + " name"}
-                        placeholder="Activity name"
-                        disabled={disabled}
-                        value={activity.name}
-                        onChange={(event) => onActivity({ name: event.target.value })}
-                    />
+                    {open
+                        ? (
+                            <input
+                                type="text"
+                                className="interview-input strategy-name-input"
+                                aria-label={"Activity " + number + " name"}
+                                placeholder="Activity name"
+                                disabled={disabled}
+                                value={activity.name}
+                                onChange={(event) => onActivity({ name: event.target.value })}
+                            />
+                        )
+                        : (
+                            <span className="strategy-name-static">
+                                {activity.name.trim() || "Unnamed activity"}
+                            </span>
+                        )}
 
                     <BusinessRemove
                         what={"Activity " + number}
@@ -1954,12 +1965,11 @@ export default function BusinessCapabilityEditor({
                         onRemove={onRemove}
                     />
 
-                </div>
+                    {!open && summary && (
+                        <div className="business-card-summary">{summary}</div>
+                    )}
 
-                {/* Under the head, not in it, so the name keeps its width. */}
-                {!open && summary && (
-                    <div className="business-card-summary business-card-summary-line">{summary}</div>
-                )}
+                </div>
 
                 {open && (<>
 

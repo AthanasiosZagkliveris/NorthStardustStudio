@@ -1893,8 +1893,9 @@ export default function LegalEntityEditor({
 
                             const open = folds.isOpen(requirement.id);
 
+                            /* The name leads the folded head; the
+                               summary under it says the rest. */
                             const summary = summaryText(
-                                requirement.name,
                                 LEGAL_REQUIREMENT_TYPES.find(
                                     type => type.id === requirement.type
                                 )?.label ?? requirement.reference
@@ -1904,7 +1905,7 @@ export default function LegalEntityEditor({
 
                             <div className="legal-entity-card" key={requirement.id}>
 
-                                <div className="legal-entity-card-head">
+                                <div className="legal-entity-card-head fold-card-head">
 
                                     <button
                                         type="button"
@@ -1920,8 +1921,13 @@ export default function LegalEntityEditor({
                                         {(numberPrefix ? numberPrefix + ".5." : "5.") + (index + 1)}
                                     </span>
 
-                                    {!open && summary && (
-                                        <span className="business-card-summary">{summary}</span>
+                                    {/* Folded, the name is read here, as on
+                                        every folding card; open, it is
+                                        edited in its own field below. */}
+                                    {!open && (
+                                        <span className="strategy-name-static">
+                                            {requirement.name.trim() || "Unnamed requirement"}
+                                        </span>
                                     )}
 
                                     <button
@@ -1938,6 +1944,12 @@ export default function LegalEntityEditor({
                                     >
                                         ×
                                     </button>
+
+                                    {/* The rest, on a row of its own under
+                                        the name (see .fold-card-head). */}
+                                    {!open && summary && (
+                                        <span className="business-card-summary">{summary}</span>
+                                    )}
 
                                 </div>
 
@@ -2092,7 +2104,6 @@ export default function LegalEntityEditor({
                             const open = folds.isOpen(expense.id);
 
                             const summary = summaryText(
-                                expense.name,
                                 expense.cost ? moneyText(expense.cost, currency) : undefined,
                                 expense.frequency
                             );
@@ -2101,7 +2112,7 @@ export default function LegalEntityEditor({
 
                             <div className="legal-entity-card" key={expense.id} data-anchor={"legal-expense-" + expense.id}>
 
-                                <div className="legal-entity-card-head">
+                                <div className="legal-entity-card-head fold-card-head">
 
                                     <button
                                         type="button"
@@ -2117,8 +2128,13 @@ export default function LegalEntityEditor({
                                         {(numberPrefix ? numberPrefix + ".6." : "6.") + (index + 1)}
                                     </span>
 
-                                    {!open && summary && (
-                                        <span className="business-card-summary">{summary}</span>
+                                    {/* Folded, the name is read here, as on
+                                        every folding card; open, it is
+                                        edited in its own field below. */}
+                                    {!open && (
+                                        <span className="strategy-name-static">
+                                            {expense.name.trim() || "Unnamed expense"}
+                                        </span>
                                     )}
 
                                     <button
@@ -2135,6 +2151,12 @@ export default function LegalEntityEditor({
                                     >
                                         ×
                                     </button>
+
+                                    {/* The rest, on a row of its own under
+                                        the name (see .fold-card-head). */}
+                                    {!open && summary && (
+                                        <span className="business-card-summary">{summary}</span>
+                                    )}
 
                                 </div>
 

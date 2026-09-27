@@ -13,12 +13,71 @@
 
 }
 
-/* Item cards (BusinessCard) and Activity rows: on its own line
-   directly below the head, full width, so the name input in the
-   head keeps its width. Pulled up into the card's 12px gap. */
-.business-card-summary-line {
+/* EVERY FOLDING CARD'S HEAD, ONE LAYOUT: Item cards (BusinessCard),
+   Activity rows and the Legal Entity's requirement and expense cards.
 
-    margin-top: -6px;
+     ▸ · number · name · ×
+
+   The number takes only its own width, the name the rest, and the ×
+   is a fixed 32px square that never shrinks (it was squeezed to 25px
+   in an Activity row and 29px on a Legal card). While the card is
+   FOLDED its one-line summary sits on a row of its own under the
+   head, starting where the NAME starts -- not under the number, and
+   not beside the name, where it squeezed it.
+
+   Named with .strategy-box-head too, so it wins over that rule's flex
+   row whichever stylesheet loads last. */
+.fold-card-head,
+.strategy-box-head.fold-card-head {
+
+    display: grid;
+
+    grid-template-columns: auto auto minmax(0, 1fr) auto;
+
+    align-items: center;
+
+    gap: 6px 8px;
+
+}
+
+.fold-card-head > .strategy-box-toggle {
+
+    grid-column: 1;
+
+}
+
+.fold-card-head > .strategy-box-number,
+.fold-card-head > .legal-entity-card-number {
+
+    grid-column: 2;
+
+    flex: none;
+
+}
+
+.fold-card-head > .strategy-name-input,
+.fold-card-head > .strategy-name-static {
+
+    grid-column: 3;
+
+    min-width: 0;
+
+}
+
+.fold-card-head > .strategy-box-remove {
+
+    grid-column: 4;
+
+    flex-shrink: 0;
+
+    width: 32px;
+
+}
+
+.fold-card-head > .business-card-summary {
+
+    grid-column: 3 / -1;
+    grid-row: 2;
 
 }
 

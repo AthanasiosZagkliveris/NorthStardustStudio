@@ -47,6 +47,30 @@ describe("LegalEntityEditor folding", () => {
 
     });
 
+    // The head every folding card shares (.fold-card-head): the name
+    // as text after the number, the rest on a row of its own under it.
+    it("shows a folded requirement's name in its head and the rest under it", () => {
+
+        function NamedHarness() {
+            const [value, setValue] = useState<unknown>({
+                ...asLegalEntityValue(undefined),
+                requirements: [{ ...createLegalEntityRequirement(), name: "Publication", reference: "NY LLC Law 206" }]
+            });
+            return <LegalEntityEditor value={value} onChange={setValue} />;
+        }
+
+        render(<NamedHarness />);
+
+        const name = screen.getByText("Publication");
+        const summary = screen.getByText("NY LLC Law 206");
+
+        expect(name.classList.contains("strategy-name-static")).toBe(true);
+        expect(name.parentElement!.classList.contains("fold-card-head")).toBe(true);
+        expect(summary.parentElement).toBe(name.parentElement);
+        expect(name.parentElement!.lastElementChild).toBe(summary);
+
+    });
+
 });
 
 describe("LegalEntityEditor number limits", () => {

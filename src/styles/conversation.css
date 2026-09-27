@@ -9017,19 +9017,9 @@ td.process-library-col-number{
 
 }
 
-.legal-entity-card-head{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-}
-
+/* The head is laid out by .fold-card-head, the head every folding
+   card shares: the number takes its own width, not the row's. */
 .legal-entity-card-number{
-
-    flex:1 1 auto;
 
     font-size:var(--font-body);
     font-weight:700;
@@ -12627,13 +12617,8 @@ td.process-library-col-number{
 
 }
 
+/* Laid out by .fold-card-head, the head every folding card shares. */
 .business-capability-activity-head{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:8px;
 
     min-width:0;
 

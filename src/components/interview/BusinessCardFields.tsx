@@ -576,6 +576,11 @@ export function BusinessCard({
 
     const who = (ariaPrefix ? ariaPrefix + ", " : "") + kind + " " + number;
 
+    /* Folded, a card is read rather than edited: its name is text,
+       as the Founder card's always is, and becomes a box once the
+       card is opened. A card that cannot fold keeps its box. */
+    const editable = onName !== undefined && (open || !onToggle);
+
     return (
         <div
             className={
@@ -585,7 +590,11 @@ export function BusinessCard({
             data-anchor={anchor}
         >
 
-            <div className="strategy-box-head">
+            {/* A foldable card's head is the one every folding card
+                shares (.fold-card-head): arrow, number, name, remove,
+                and the folded summary on a row of its own under the
+                name. */}
+            <div className={"strategy-box-head" + (onToggle ? " fold-card-head" : "")}>
 
                 {onToggle && (
                     <button
@@ -605,7 +614,7 @@ export function BusinessCard({
                     {onName ? number + "." : number + ". " + kind}
                 </span>
 
-                {onName
+                {editable
                     ? (
                         <input
                             type="text"
@@ -630,11 +639,11 @@ export function BusinessCard({
 
                 {actions}
 
-            </div>
+                {!open && summary && (
+                    <div className="business-card-summary">{summary}</div>
+                )}
 
-            {!open && summary && (
-                <div className="business-card-summary business-card-summary-line">{summary}</div>
-            )}
+            </div>
 
             {open && children}
 

@@ -67,7 +67,9 @@ describe("BusinessCapabilityEditor folding", () => {
 
     });
 
-    it("puts a folded activity's summary on its own line below its head", () => {
+    // The shared folding-card head (.fold-card-head): the summary on a
+    // row of its own, the head's last child, and the name as text.
+    it("puts a folded activity's summary on its own row under its name", () => {
 
         const initial = {
             ...asBusinessCapabilityValue(undefined),
@@ -89,9 +91,12 @@ describe("BusinessCapabilityEditor folding", () => {
         render(<ValueHarness />);
 
         const summary = screen.getByText("Weekly numbers review");
+        const head = summary.parentElement!;
 
-        expect(summary.closest(".business-capability-activity-head")).toBeNull();
-        expect(summary.previousElementSibling?.classList.contains("business-capability-activity-head")).toBe(true);
+        expect(head.classList.contains("fold-card-head")).toBe(true);
+        expect(head.lastElementChild).toBe(summary);
+        expect(screen.queryByRole("textbox", { name: "Activity 1 name" })).toBeNull();
+        expect(screen.getByText("Review").classList.contains("strategy-name-static")).toBe(true);
 
     });
 

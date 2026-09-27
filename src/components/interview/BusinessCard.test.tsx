@@ -29,8 +29,10 @@ describe("BusinessCard summary", () => {
 
     });
 
-    // Inline in the head it squeezed the name input to a few letters.
-    it("puts the summary on its own line below the head", () => {
+    // Inline beside the name it squeezed the name input to a few
+    // letters: it has a row of its own, the head's second, under the
+    // name (see .fold-card-head).
+    it("puts the summary on its own row under the name", () => {
 
         render(
             <BusinessCard kind="Resource" number={1} name="Notion" onName={() => {}} open={false} onToggle={() => {}} summary="Costs · $10 monthly">
@@ -39,9 +41,50 @@ describe("BusinessCard summary", () => {
         );
 
         const summary = screen.getByText("Costs · $10 monthly");
+        const head = summary.parentElement!;
 
-        expect(summary.closest(".strategy-box-head")).toBeNull();
-        expect(summary.previousElementSibling?.classList.contains("strategy-box-head")).toBe(true);
+        expect(head.classList.contains("fold-card-head")).toBe(true);
+        expect(head.lastElementChild).toBe(summary);
+        expect(summary.classList.contains("business-card-summary")).toBe(true);
+
+    });
+
+});
+
+describe("BusinessCard name", () => {
+
+    // Folded, a card is read, not edited: its name is text, as the
+    // Founder card's is, and becomes a box once the card is opened.
+    it("shows the name as text while folded and as a box once open", () => {
+
+        const { rerender } = render(
+            <BusinessCard kind="Resource" number={1} name="Notion" onName={() => {}} open={false} onToggle={() => {}}>
+                <p>body</p>
+            </BusinessCard>
+        );
+
+        expect(screen.queryByRole("textbox", { name: "Resource 1 name" })).toBeNull();
+        expect(screen.getByText("Notion").classList.contains("strategy-name-static")).toBe(true);
+
+        rerender(
+            <BusinessCard kind="Resource" number={1} name="Notion" onName={() => {}} open={true} onToggle={() => {}}>
+                <p>body</p>
+            </BusinessCard>
+        );
+
+        expect((screen.getByRole("textbox", { name: "Resource 1 name" }) as HTMLInputElement).value).toBe("Notion");
+
+    });
+
+    it("names an unnamed folded card by its kind", () => {
+
+        render(
+            <BusinessCard kind="Resource" number={2} name="  " onName={() => {}} open={false} onToggle={() => {}}>
+                <p>body</p>
+            </BusinessCard>
+        );
+
+        expect(screen.getByText("Unnamed resource")).toBeTruthy();
 
     });
 
