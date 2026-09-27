@@ -3326,7 +3326,10 @@ function ActivityList({
                         aria-controls={listKey + "-completed"}
                         onClick={onToggleCompleted}
                     >
-                        {(completedOpen ? "▾ " : "▸ ") + "Completed " + done.length}
+                        {/* The arrow is drawn, the same size as every
+                            other fold's (see
+                            .business-capability-completed-head). */}
+                        {"Completed " + done.length}
                     </button>
 
                     {completedOpen && (

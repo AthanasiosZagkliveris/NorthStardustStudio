@@ -419,7 +419,7 @@ export function BusinessRemove({
 }
 
 /**
- * The small "+" or "−" beside a value that is one of several.
+ * The small "+", or the ×, beside a value that is one of several.
  *
  * Where a whole section grows by one card, the wide "+ Add Channel"
  * button is right -- it is a heading for what it makes. Where a
@@ -455,13 +455,16 @@ export function BusinessStep({
     return (
         <button
             type="button"
-            className={"business-step business-step-" + kind}
+            /* The remove is the app's one remove control, the 32px ×
+               every card carries (.strategy-box-remove), not a small
+               minus of its own. */
+            className={adding ? "business-step business-step-add" : "strategy-box-remove business-step-remove"}
             aria-label={(adding ? "Add another " : "Remove this ") + what}
             title={(adding ? "Add another " : "Remove this ") + what}
             disabled={disabled}
             onClick={onClick}
         >
-            {adding ? "+" : "−"}
+            {adding ? "+" : "×"}
         </button>
     );
 

@@ -8000,6 +8000,11 @@ td.process-library-col-number{
     width:32px;
     height:32px;
 
+    /* The same square in every row: a flex row never squeezes it
+       (an Activity's performer × and a cost's × beside "Change"
+       were narrowed to 29px and 19px). */
+    flex:none;
+
     display:inline-flex;
     align-items:center;
     justify-content:center;
@@ -8034,7 +8039,7 @@ td.process-library-col-number{
 
 }
 
-/* The two strokes of the X, and the single one of the minus.
+/* The two strokes of the X.
    `currentColor` so they follow the button's own colour through
    rest, hover and disabled. */
 .profile-card-remove::before,
@@ -8042,6 +8047,7 @@ td.process-library-col-number{
 .brand-holder-clear::before,
 .brand-holder-clear::after,
 .legal-entity-field-remove::before,
+.legal-entity-field-remove::after,
 .strategy-box-remove::before,
 .strategy-box-remove::after{
 
@@ -8065,6 +8071,7 @@ td.process-library-col-number{
 
 .profile-card-remove::before,
 .brand-holder-clear::before,
+.legal-entity-field-remove::before,
 .strategy-box-remove::before{
 
     transform:rotate(45deg);
@@ -8073,6 +8080,7 @@ td.process-library-col-number{
 
 .profile-card-remove::after,
 .brand-holder-clear::after,
+.legal-entity-field-remove::after,
 .strategy-box-remove::after{
 
     transform:rotate(-45deg);
@@ -9206,9 +9214,11 @@ td.process-library-col-number{
 
 }
 
-.legal-entity-founder-role > .strategy-box-remove{
+/* ...CENTRED on that first line, as every × is on its row: the list's
+   first line is the 44px of the inputs beside it, (44 - 32) / 2. */
+.legal-entity-founder-role:has(.numbered-list) > .strategy-box-remove{
 
-    flex:0 0 auto;
+    margin-top:6px;
 
 }
 
@@ -9557,7 +9567,7 @@ td.process-library-col-number{
 
    A label, and the button that explains it sitting immediately
    after the words rather than at the far edge -- the opposite of
-   the remove minus below, which belongs to the FIELD and lines up
+   the remove × below, which belongs to the FIELD and lines up
    with its right-hand end. This belongs to the label, so it stays
    attached to it.
 ========================================================== */
@@ -9907,7 +9917,7 @@ td.process-library-col-number{
 }
 
 /* An optional field the user opened: its label, and at the end of
-   the same line the minus that sends it away again. Pushed to the
+   the same line the × that sends it away again. Pushed to the
    far edge rather than sitting beside the words, so it lines up
    with the right edge of the field under it and with the delete
    buttons on the cards -- which is where this page has taught the
@@ -9925,14 +9935,12 @@ td.process-library-col-number{
 
 }
 
-/* The box, hover, focus and disabled states are the app's delete
-   button (see "Delete buttons"); this positions the single bar of
-   the minus, and is why it is not in the rotation rules there. */
+/* The box, glyph, hover, focus and disabled states are the app's
+   delete button (see "Delete controls"): the same × as every other
+   remove. This positions its two strokes. */
 .legal-entity-field-remove{
 
     position:relative;
-
-    flex:0 0 auto;
 
 }
 
@@ -10410,20 +10418,6 @@ td.process-library-col-number{
 }
 
 /* ---------- Cards ---------- */
-
-/* A card's delete is a SQUARE, like every other delete in the
-   app (32x32, see .strategy-box-remove).
-
-   It shares a flex row with the name field, and a flex item
-   shrinks by default -- so the name took the room and the delete
-   was squeezed to 26px wide against its own 32px height, a
-   flattened X. The Strategy pages never saw it because theirs
-   sits in a .strategy-box-actions group, which pins itself. */
-.business-foundation .strategy-box-head > .strategy-box-remove{
-
-    flex:0 0 auto;
-
-}
 
 /* Every card indents its contents to start where its NUMBER
    starts, not where its arrow does -- so a card reads as one
@@ -12175,17 +12169,31 @@ td.process-library-col-number{
 
     flex-direction:column;
 
+    align-items:center;
+
     gap:4px;
 
     flex:0 0 auto;
 
+    /* The × is the app's one remove control (.strategy-box-remove,
+       32px), CENTRED on the 44px dropdown beside it as every × is on
+       its row: (44 - 32) / 2. */
+    margin-top:6px;
+
 }
 
-/* The + and the − themselves.
+/* A "+" with no × above it centres the same way: (44 - 24) / 2. */
+.business-channel-steps > .business-step:first-child{
+
+    margin-top:4px;
+
+}
+
+/* The + itself.
 
    24px square, which is exactly what the target-size rule asks
-   for -- the two are stacked now, and a larger pair would make
-   every row taller than the control it belongs to. Drawn in the
+   for -- it stacks under the ×, and a larger one would make every
+   row taller than the control it belongs to. Drawn in the
    card's own control colour like every other control on a tinted
    card, and filled with the ground the cell stands on so they read
    as part of the field rather than as two more buttons. */
@@ -12784,6 +12792,8 @@ td.process-library-col-number{
 
     align-items:center;
 
+    gap:8px;
+
     align-self:flex-start;
 
     min-height:28px;
@@ -12803,6 +12813,41 @@ td.process-library-col-number{
     color:#1b3a63;
 
     cursor:pointer;
+
+}
+
+/* Its arrow, DRAWN at the size of every other fold's (see
+   .strategy-box-toggle): an 11x18 triangle closed, 18x11 open, in
+   the same 36px slot, so "Completed" folds with the arrow the
+   cards above it use rather than a small typed one. */
+.business-capability-completed-head::before{
+
+    content:"";
+
+    flex:none;
+
+    width:0;
+    height:0;
+
+    border-style:solid;
+
+}
+
+.business-capability-completed-head[aria-expanded="false"]::before{
+
+    border-width:9px 0 9px 11px;
+    border-color:transparent transparent transparent currentColor;
+
+    margin-inline:12.5px;
+
+}
+
+.business-capability-completed-head[aria-expanded="true"]::before{
+
+    border-width:11px 9px 0 9px;
+    border-color:currentColor transparent transparent transparent;
+
+    margin-inline:9px;
 
 }
 

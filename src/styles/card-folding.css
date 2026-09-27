@@ -64,13 +64,10 @@
 
 }
 
+/* Its size is the app's one remove square (.strategy-box-remove). */
 .fold-card-head > .strategy-box-remove {
 
     grid-column: 4;
-
-    flex-shrink: 0;
-
-    width: 32px;
 
 }
 

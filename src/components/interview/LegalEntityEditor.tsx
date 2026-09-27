@@ -248,7 +248,7 @@ export default function LegalEntityEditor({
      * A field is on show when it has been opened here OR when it
      * already holds something -- which is what carries a filled-in
      * field across a later visit, without a stored flag to keep in
-     * step with it. The minus beside it clears the value and drops
+     * step with it. The × beside it clears the value and drops
      * the key, and the "+ Add" button comes back.
      */
     const [opened, setOpened] = useState<ReadonlySet<string>>(new Set());
@@ -734,7 +734,7 @@ export default function LegalEntityEditor({
      * them. `nested` adds the space that tells one pair from the
      * next -- the first pair in a column does not need it.
      *
-     * `onRemove` puts a minus at the end of the label's line, for a
+     * `onRemove` puts a × at the end of the label's line, for a
      * field the user asked for and can send away again.
      */
     function labelled(
@@ -790,9 +790,8 @@ export default function LegalEntityEditor({
 
     /**
      * The button that sends an optional field away again: the same
-     * box, hover and focus as the delete buttons on the cards, with
-     * one bar rather than two crossed ones. A minus, because this
-     * takes a field off the form rather than deleting a record.
+     * ×, box, hover and focus as every other remove in the app, so
+     * one action has one look.
      *
      * The glyph is drawn in CSS, so the character here is only what
      * the DOM holds (see `.legal-entity-field-remove`).
@@ -807,7 +806,7 @@ export default function LegalEntityEditor({
                 disabled={disabled}
                 onClick={onRemove}
             >
-                &minus;
+                ×
             </button>
         );
     }
@@ -817,8 +816,8 @@ export default function LegalEntityEditor({
      * card, which most of them never carry.
      *
      * Out of the way until it is asked for: the "+ Add" button
-     * stands in its place, and once open a minus on its label sends
-     * it away again. The minus clears what is in it, because a
+     * stands in its place, and once open a × on its label sends
+     * it away again. The × clears what is in it, because a
      * value left behind would open the field on its own at the next
      * visit and the button would never come back.
      */
@@ -906,7 +905,7 @@ export default function LegalEntityEditor({
 
     /**
      * One labelled control, as a cell of the grid. `onRemove` puts a
-     * minus at the end of the label's line, for an optional field
+     * × at the end of the label's line, for an optional field
      * the user opened and can close again.
      */
     function field(
