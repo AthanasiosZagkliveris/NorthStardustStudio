@@ -899,6 +899,7 @@ function MultiPartAnswerRenderer({
                     <div
                         key={`editor-${part.id}`}
                         className="answer-column-editor"
+                        data-rail={part.id}
                         role={part.label.length > 0 ? "group" : undefined}
                         aria-labelledby={
                             part.label.length > 0

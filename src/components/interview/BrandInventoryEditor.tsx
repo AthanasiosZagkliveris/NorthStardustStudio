@@ -9,6 +9,7 @@ import {
     BrandInventoryAnswerValue,
     asBrandInventoryValue
 } from "../../framework/engine/AnswerUtils.ts";
+import { railId } from "./rails/railItems.ts";
 
 interface BrandInventoryEditorProps {
 
@@ -422,7 +423,7 @@ export default function BrandInventoryEditor({
                 <p className="brand-inventory-error" role="alert">{error}</p>
             )}
 
-            <div className="brand-style-body">
+            <div className="brand-style-body" data-rail={railId(BRAND_INVENTORY_SECTIONS[0])}>
 
                 {/*
                     Two sub-columns: ICON on the left at 150px
@@ -447,7 +448,7 @@ export default function BrandInventoryEditor({
 
             </div>
 
-            <div className="brand-style-body">
+            <div className="brand-style-body" data-rail={railId(BRAND_INVENTORY_SECTIONS[1])}>
 
                 {/*
                     Rendered through the SAME DropZone the Icon and

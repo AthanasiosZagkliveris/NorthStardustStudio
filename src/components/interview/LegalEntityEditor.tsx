@@ -35,6 +35,7 @@ import {
 
 import { moneyText } from "../../framework/engine/ExportRenderers.ts";
 
+import { railId } from "./rails/railItems.ts";
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote from "./InfoNote.tsx";
@@ -670,7 +671,11 @@ export default function LegalEntityEditor({
     function subsection(index: number, children: ReactNode, title?: string) {
 
         return (
-            <section className="legal-entity-section" data-anchor={"legal-section-" + index}>
+            <section
+                className="legal-entity-section"
+                data-anchor={"legal-section-" + index}
+                data-rail={railId(LEGAL_ENTITY_SECTIONS[index])}
+            >
 
                 <h3 className="legal-entity-section-head">
                     <span className="legal-entity-section-number">

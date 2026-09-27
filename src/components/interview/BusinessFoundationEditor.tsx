@@ -2,6 +2,7 @@ import { CSSProperties, ReactNode, useState } from "react";
 
 import {
     BUSINESS_COMPETITOR_TYPES,
+    BUSINESS_FOUNDATION_SUBSECTIONS,
     BUSINESS_OFFERING_CATEGORIES,
     BusinessCompetitorValue,
     BusinessCustomerProfileValue,
@@ -33,6 +34,7 @@ import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote, { InfoPoint } from "./InfoNote.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
 import OptionPicker from "./OptionPicker.tsx";
+import { railId } from "./rails/railItems.ts";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
 
@@ -1618,7 +1620,10 @@ export default function BusinessFoundationEditor({
                                         is described in terms of it,
                                         and it has the width for its
                                         parameters to sit two abreast. */}
-                                    <div className="business-foundation-description">
+                                    <div
+                                        className="business-foundation-description"
+                                        data-rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[0])}
+                                    >
                                         {parts.segmentDescription}
                                     </div>
 
@@ -1631,7 +1636,10 @@ export default function BusinessFoundationEditor({
                                     {/* Each list titled, as the
                                         Description and the Value
                                         Proposition are. */}
-                                    <div className="business-foundation-profiles">
+                                    <div
+                                        className="business-foundation-profiles"
+                                        data-rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[0])}
+                                    >
                                         <span className="business-foundation-subhead business-foundation-column-title">
                                             Profiles
                                             <FoldAllToggle
@@ -1643,7 +1651,10 @@ export default function BusinessFoundationEditor({
                                         {parts.profiles}
                                     </div>
 
-                                    <div className="business-foundation-competitors">
+                                    <div
+                                        className="business-foundation-competitors"
+                                        data-rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[1])}
+                                    >
                                         <span className="business-foundation-subhead business-foundation-column-title">
                                             Competitors
                                             <FoldAllToggle
@@ -1663,11 +1674,17 @@ export default function BusinessFoundationEditor({
                                         keep that promise, level with
                                         the Profile and Competitor
                                         cards. */}
-                                    <div className="business-foundation-proposition">
+                                    <div
+                                        className="business-foundation-proposition"
+                                        data-rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[2])}
+                                    >
                                         {parts.valueProposition}
                                     </div>
 
-                                    <div className="business-foundation-offerings">
+                                    <div
+                                        className="business-foundation-offerings"
+                                        data-rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[3])}
+                                    >
                                         <span className="business-foundation-subhead business-foundation-column-title">
                                             Offerings
                                             <FoldAllToggle

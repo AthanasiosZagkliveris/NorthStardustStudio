@@ -4,6 +4,7 @@ import {
     BUSINESS_CHANNEL_ALL_OFFERINGS,
     BUSINESS_CHANNEL_CATEGORIES,
     BUSINESS_CHANNEL_OTHER,
+    BUSINESS_ENGAGEMENT_SECTIONS,
     BUSINESS_JOURNEY_STAGES,
     BUSINESS_RELATIONSHIP_GOALS,
     BUSINESS_RELATIONSHIP_TYPES,
@@ -53,6 +54,7 @@ import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote, { InfoPoint } from "./InfoNote.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
 import OptionPicker from "./OptionPicker.tsx";
+import { railId } from "./rails/railItems.ts";
 import type { OpenPage } from "./jumpTo.ts";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import SuggestedInput from "./SuggestedInput.tsx";
@@ -991,13 +993,18 @@ export default function BusinessEngagementEditor({
         key: string,
         title: string,
         body: () => ReactNode,
+        sectionIndex: number,
         titleExtra?: ReactNode
     ) {
 
         const open = !collapsed.has(key);
 
         return (
-            <div className="business-engagement-section" data-anchor={"engagement-section-" + key}>
+            <div
+                className="business-engagement-section"
+                data-anchor={"engagement-section-" + key}
+                data-rail={railId(BUSINESS_ENGAGEMENT_SECTIONS[sectionIndex])}
+            >
 
                 <div className="business-engagement-section-head">
 
@@ -3597,13 +3604,15 @@ export default function BusinessEngagementEditor({
                                 {foldingSection(
                                     segment.id + "-channels",
                                     "A. Customer Channel",
-                                    () => channelsFor(segment)
+                                    () => channelsFor(segment),
+                                    0
                                 )}
 
                                 {foldingSection(
                                     segment.id + "-relationships",
                                     "B. Customer Relationship",
                                     () => relationshipsFor(segment),
+                                    1,
                                     <FoldAllToggle
                                         ids={engagedOfferingIds(segment).map(
                                             offeringId => "relationship-offering-" + offeringId

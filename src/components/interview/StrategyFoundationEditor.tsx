@@ -13,6 +13,7 @@ import {
     strategyThemeHues,
     monthIndex
 } from "../../framework/engine/AnswerUtils.ts";
+import { railId } from "./rails/railItems.ts";
 
 import BoxActions, { useMovableBox } from "./ReorderControls.tsx";
 import InfoNote, { InfoPoint } from "./InfoNote.tsx";
@@ -398,7 +399,7 @@ export default function StrategyFoundationEditor({
             )}
 
             {/* Row 3 -- the inputs, below the line */}
-            <div className="brand-style-body">
+            <div className="brand-style-body" data-rail={railId(STRATEGY_FOUNDATION_SECTIONS[0])}>
 
                 <StrategyTextArea
                     className="interview-input strategy-prose"
@@ -430,7 +431,7 @@ export default function StrategyFoundationEditor({
 
             </div>
 
-            <div className="brand-style-body">
+            <div className="brand-style-body" data-rail={railId(STRATEGY_FOUNDATION_SECTIONS[1])}>
 
                 {STRATEGY_SWOT_QUADRANTS.map(quadrant => (
 
@@ -453,7 +454,7 @@ export default function StrategyFoundationEditor({
 
             </div>
 
-            <div className="brand-style-body">
+            <div className="brand-style-body" data-rail={railId(STRATEGY_FOUNDATION_SECTIONS[2])}>
 
                 <StrategyTextArea
                     className="interview-input strategy-prose"
@@ -466,7 +467,7 @@ export default function StrategyFoundationEditor({
 
             </div>
 
-            <div className="brand-style-body">
+            <div className="brand-style-body" data-rail={railId(STRATEGY_FOUNDATION_SECTIONS[3])}>
 
                 {/*
                     No title above these two: the column heading

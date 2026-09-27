@@ -289,7 +289,7 @@ function ThemeBox({
 
 }: {
 
-    theme: { name: string; description: string };
+    theme: { id: string; name: string; description: string };
 
     /**
      * This Theme's own hue. Every ground inside the panel is that
@@ -311,6 +311,7 @@ function ThemeBox({
 
         <section
             className="strategy-theme-panel"
+            data-rail={theme.id}
             style={{ "--strategy-theme-hue": hue } as CSSProperties}
         >
 

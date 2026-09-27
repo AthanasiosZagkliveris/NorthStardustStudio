@@ -331,6 +331,7 @@ export default function StrategicRoadmapEditor({
                 <div
                     className="roadmap-theme-box"
                     key={theme.id}
+                    data-rail={theme.id}
                     style={{
                         "--strategy-theme-hue": themeHues[theme.id],
                         // Solved per hue rather than pinned: see

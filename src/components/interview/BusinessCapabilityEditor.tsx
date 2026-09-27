@@ -2,6 +2,7 @@ import { CSSProperties, Fragment, ReactNode, useEffect, useState } from "react";
 
 import {
     BUSINESS_ACTIVITY_CATEGORIES,
+    BUSINESS_CAPABILITY_SECTIONS,
     BUSINESS_COST_FREQUENCIES,
     BUSINESS_DERIVED_ACTIVITY_CATEGORY,
     BUSINESS_RESOURCE_GROUPS,
@@ -54,6 +55,7 @@ import {
 } from "../../framework/engine/DemandCapacity.ts";
 import { moneyFormatter } from "../../framework/engine/FinancialModel.ts";
 import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../framework/engine/Currencies.ts";
+import { railId } from "./rails/railItems.ts";
 
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
@@ -3016,7 +3018,7 @@ export default function BusinessCapabilityEditor({
             {/* One card per section, each in its own colour -- the
                 same card Pages 1 and 2 use, holding the three
                 subsections this page asks of both. */}
-            {cards.map(card => {
+            {cards.map((card, cardIndex) => {
 
                 const open = !collapsed.has(card.id);
 
@@ -3025,6 +3027,7 @@ export default function BusinessCapabilityEditor({
                         className="business-foundation-input business-foundation-card business-engagement-input"
                         key={card.id}
                         data-anchor={"capability-" + card.id}
+                        data-rail={railId(BUSINESS_CAPABILITY_SECTIONS[cardIndex])}
                         style={{
                             "--strategy-theme-hue": stableHue(card.id)
                         } as CSSProperties}

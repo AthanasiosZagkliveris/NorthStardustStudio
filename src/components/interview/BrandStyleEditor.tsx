@@ -9,6 +9,7 @@ import {
     asBrandStyleValue
 } from "../../framework/engine/AnswerUtils.ts";
 import InfoNote, { InfoPoint } from "./InfoNote.tsx";
+import { railId } from "./rails/railItems.ts";
 
 interface BrandStyleEditorProps {
 
@@ -431,7 +432,7 @@ export default function BrandStyleEditor({
             )}
 
             {/* Row 3 -- the inputs, below the line */}
-            <div className="brand-style-body">
+            <div className="brand-style-body" data-rail={railId(BRAND_STYLE_SECTIONS[0])}>
 
                 {BRAND_COLOUR_SLOTS.map((slot, index) => {
 
@@ -534,7 +535,7 @@ export default function BrandStyleEditor({
 
             </div>
 
-            <div className="brand-style-body">
+            <div className="brand-style-body" data-rail={railId(BRAND_STYLE_SECTIONS[1])}>
 
                 {BRAND_TYPEFACE_SLOTS.map((slot, index) => {
 
@@ -607,7 +608,10 @@ export default function BrandStyleEditor({
                 number holders, and it matches the 6px Colours and
                 Typography use between the fields inside a slot.
             */}
-            <div className="brand-style-body brand-hierarchy-body">
+            <div
+                className="brand-style-body brand-hierarchy-body"
+                data-rail={railId(BRAND_STYLE_SECTIONS[2])}
+            >
 
                 {BRAND_HIERARCHY_LEVELS.map(level => {
 

@@ -16,6 +16,7 @@ import {
     COST_BEHAVIOURS,
     COST_FREQUENCIES,
     COST_GROUPS,
+    FINANCIAL_FOUNDATION_SECTIONS,
     FUNDING_CATEGORIES,
     FUNDING_NEED_CATEGORIES,
     FUNDING_SCHEDULES,
@@ -87,6 +88,7 @@ import MonthYearPicker from "./MonthYearPicker.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import { jurisdictionProfile } from "../../framework/engine/LegalEntityJurisdictions.ts";
 import type { OpenPage } from "./jumpTo.ts";
+import { railId } from "./rails/railItems.ts";
 import { useItemFolds } from "./useItemFolds.ts";
 
 /* ==========================================================
@@ -403,7 +405,8 @@ export default function FinancialFoundationEditor({
         id: string,
         number: number,
         section: { title: string; instructions: string[]; info: InfoPoint[] },
-        body: () => ReactNode
+        body: () => ReactNode,
+        sectionIndex: number
     ) {
 
         const open = !collapsed.has(id);
@@ -413,6 +416,7 @@ export default function FinancialFoundationEditor({
                 className="business-foundation-input business-foundation-card business-engagement-input financial-section"
                 key={id}
                 data-anchor={id}
+                data-rail={railId(FINANCIAL_FOUNDATION_SECTIONS[sectionIndex])}
                 style={{ "--strategy-theme-hue": SECTION_HUES[id] ?? 0 } as CSSProperties}
             >
 
@@ -1750,7 +1754,7 @@ export default function FinancialFoundationEditor({
             {sections.map((entry, index) => (
                 <div className="financial-flow-step" key={entry.id}>
                     {index > 0 && <span className="financial-flow-arrow" aria-hidden="true">↓</span>}
-                    {sectionCard(entry.id, index + 1, entry.section, entry.body)}
+                    {sectionCard(entry.id, index + 1, entry.section, entry.body, index)}
                 </div>
             ))}
 

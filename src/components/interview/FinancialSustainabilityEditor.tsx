@@ -12,6 +12,7 @@ import {
 } from "../../framework/engine/AnswerUtils.ts";
 
 import {
+    FINANCIAL_SUSTAINABILITY_SECTIONS,
     PAYMENT_TIMINGS,
     planLength,
     REVENUE_DEVELOPMENTS,
@@ -67,6 +68,7 @@ import InfoNote, { InfoPoint } from "./InfoNote.tsx";
 import MonthYearPicker from "./MonthYearPicker.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import type { OpenPage } from "./jumpTo.ts";
+import { railId } from "./rails/railItems.ts";
 import { useItemFolds } from "./useItemFolds.ts";
 
 /** How to estimate each group of a revenue stream: the "i" beside its title. */
@@ -532,7 +534,8 @@ export default function FinancialSustainabilityEditor({
         id: string,
         number: number,
         section: { title: string; instructions: string[]; info: InfoPoint[] },
-        body: () => ReactNode
+        body: () => ReactNode,
+        sectionIndex: number
     ) {
 
         const open = !collapsed.has(id);
@@ -541,6 +544,7 @@ export default function FinancialSustainabilityEditor({
             <div
                 className="business-foundation-input business-foundation-card business-engagement-input financial-section"
                 key={id}
+                data-rail={railId(FINANCIAL_SUSTAINABILITY_SECTIONS[sectionIndex])}
                 style={{ "--strategy-theme-hue": SECTION_HUES[id] ?? 0 } as CSSProperties}
             >
 
@@ -1578,11 +1582,11 @@ export default function FinancialSustainabilityEditor({
                 )}
             </div>
 
-            {sectionCard("sustainability-revenue", 1, SECTIONS.revenue, revenueSection)}
+            {sectionCard("sustainability-revenue", 1, SECTIONS.revenue, revenueSection, 0)}
 
             <span className="financial-flow-arrow" aria-hidden="true">↓</span>
 
-            {sectionCard("sustainability-break-even", 2, SECTIONS.breakEven, breakEvenSection)}
+            {sectionCard("sustainability-break-even", 2, SECTIONS.breakEven, breakEvenSection, 1)}
 
         </div>
     );
