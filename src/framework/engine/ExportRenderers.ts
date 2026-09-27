@@ -209,7 +209,7 @@ export function costText(cost: BusinessCostValue, currency: string): string {
     return [amount === null ? price : moneyFormatter(code)(amount), frequency].filter(Boolean).join(" ");
 }
 
-function moneyText(value: string, currency: string): string {
+export function moneyText(value: string, currency: string): string {
     const amount = parseAmount(value);
     return amount === null ? text(value) : moneyFormatter(currency)(amount);
 }

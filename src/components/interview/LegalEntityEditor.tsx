@@ -33,10 +33,15 @@ import {
     subdivisionSearchAliases
 } from "../../framework/engine/LegalEntityJurisdictions.ts";
 
+import { moneyText } from "../../framework/engine/ExportRenderers.ts";
+
+import { summaryText } from "./cardSummary.ts";
+import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote from "./InfoNote.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
+import { useItemFolds } from "./useItemFolds.ts";
 
 /**
  * The last entry in every Legal Form list. The brief forbids
@@ -224,6 +229,9 @@ export default function LegalEntityEditor({
      * the key, and the "+ Add" button comes back.
      */
     const [opened, setOpened] = useState<ReadonlySet<string>>(new Set());
+
+    /** Which Requirement and Expense cards are open -- see useItemFolds. */
+    const folds = useItemFolds();
 
     function openField(key: string) {
         setOpened(current => new Set(current).add(key));
@@ -1817,6 +1825,12 @@ export default function LegalEntityEditor({
                 {subsection(4, (
                     <>
 
+                        <FoldAllToggle
+                            ids={entity.requirements.map(requirement => requirement.id)}
+                            folds={folds}
+                            label="legal requirements"
+                        />
+
                         {entity.requirements.length === 0 && (
                             <p className="legal-entity-empty-note">
                                 Nothing recorded. Add a requirement if one applies to your
@@ -1826,15 +1840,40 @@ export default function LegalEntityEditor({
                             </p>
                         )}
 
-                        {entity.requirements.map((requirement, index) => (
+                        {entity.requirements.map((requirement, index) => {
+
+                            const open = folds.isOpen(requirement.id);
+
+                            const summary = summaryText(
+                                requirement.name,
+                                LEGAL_REQUIREMENT_TYPES.find(
+                                    type => type.id === requirement.type
+                                )?.label ?? requirement.reference
+                            );
+
+                            return (
 
                             <div className="legal-entity-card" key={requirement.id}>
 
                                 <div className="legal-entity-card-head">
 
+                                    <button
+                                        type="button"
+                                        className="strategy-box-toggle"
+                                        aria-expanded={open}
+                                        aria-label={(open ? "Minimize " : "Maximize ") + "Requirement " + (index + 1)}
+                                        onClick={() => folds.toggle(requirement.id)}
+                                    >
+                                        {open ? "▾" : "▸"}
+                                    </button>
+
                                     <span className="legal-entity-card-number">
                                         {(numberPrefix ? numberPrefix + ".5." : "5.") + (index + 1)}
                                     </span>
+
+                                    {!open && summary && (
+                                        <span className="business-card-summary">{summary}</span>
+                                    )}
 
                                     <button
                                         type="button"
@@ -1853,6 +1892,7 @@ export default function LegalEntityEditor({
 
                                 </div>
 
+                                {open && (
                                 <div className="legal-entity-grid legal-entity-grid-pairs">
 
                                     {/* First, because it is what the
@@ -1951,21 +1991,28 @@ export default function LegalEntityEditor({
                                     )}
 
                                 </div>
+                                )}
 
                             </div>
 
-                        ))}
+                            );
+
+                        })}
 
                         <button
                             type="button"
                             className="strategy-add-button"
                             disabled={disabled}
-                            onClick={() => update({
-                                requirements: [
-                                    ...entity.requirements,
-                                    createLegalEntityRequirement()
-                                ]
-                            })}
+                            onClick={() => {
+                                const requirement = createLegalEntityRequirement();
+                                update({
+                                    requirements: [
+                                        ...entity.requirements,
+                                        requirement
+                                    ]
+                                });
+                                folds.expand(requirement.id);
+                            }}
                         >
                             + Add legal requirement
                         </button>
@@ -1978,6 +2025,12 @@ export default function LegalEntityEditor({
                 {subsection(5, (
                     <>
 
+                        <FoldAllToggle
+                            ids={entity.expenses.map(expense => expense.id)}
+                            folds={folds}
+                            label="legal entity expenses"
+                        />
+
                         {entity.expenses.length === 0 && (
                             <p className="legal-entity-empty-note">
                                 Nothing recorded. Add what it costs to establish, register
@@ -1985,15 +2038,39 @@ export default function LegalEntityEditor({
                             </p>
                         )}
 
-                        {entity.expenses.map((expense, index) => (
+                        {entity.expenses.map((expense, index) => {
+
+                            const open = folds.isOpen(expense.id);
+
+                            const summary = summaryText(
+                                expense.name,
+                                expense.cost ? moneyText(expense.cost, currency) : undefined,
+                                expense.frequency
+                            );
+
+                            return (
 
                             <div className="legal-entity-card" key={expense.id} data-anchor={"legal-expense-" + expense.id}>
 
                                 <div className="legal-entity-card-head">
 
+                                    <button
+                                        type="button"
+                                        className="strategy-box-toggle"
+                                        aria-expanded={open}
+                                        aria-label={(open ? "Minimize " : "Maximize ") + "Expense " + (index + 1)}
+                                        onClick={() => folds.toggle(expense.id)}
+                                    >
+                                        {open ? "▾" : "▸"}
+                                    </button>
+
                                     <span className="legal-entity-card-number">
                                         {(numberPrefix ? numberPrefix + ".6." : "6.") + (index + 1)}
                                     </span>
+
+                                    {!open && summary && (
+                                        <span className="business-card-summary">{summary}</span>
+                                    )}
 
                                     <button
                                         type="button"
@@ -2012,6 +2089,7 @@ export default function LegalEntityEditor({
 
                                 </div>
 
+                                {open && (
                                 <div className="legal-entity-grid legal-entity-grid-pairs">
 
                                     {/*
@@ -2182,18 +2260,25 @@ export default function LegalEntityEditor({
                                     )}
 
                                 </div>
+                                )}
 
                             </div>
 
-                        ))}
+                            );
+
+                        })}
 
                         <button
                             type="button"
                             className="strategy-add-button"
                             disabled={disabled}
-                            onClick={() => update({
-                                expenses: [...entity.expenses, createLegalEntityExpense()]
-                            })}
+                            onClick={() => {
+                                const expense = createLegalEntityExpense();
+                                update({
+                                    expenses: [...entity.expenses, expense]
+                                });
+                                folds.expand(expense.id);
+                            }}
                         >
                             + Add expense
                         </button>
