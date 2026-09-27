@@ -1,4 +1,5 @@
 import { useListAutoFormat } from "../../hooks/useListAutoFormat.ts";
+import { useAutoGrow } from "../../hooks/useAutoGrow.ts";
 
 interface InterviewInputProps {
     value: string;
@@ -26,6 +27,13 @@ interface InterviewInputProps {
      * wherever the caller knows the field's own title.
      */
     ariaLabel?: string;
+
+    /**
+     * Textarea mode only: grow the box to fit its content instead
+     * of scrolling inside it (see useAutoGrow.ts). Its normal
+     * height stays the minimum.
+     */
+    autoGrow?: boolean;
 }
 
 export default function InterviewInput({
@@ -37,7 +45,8 @@ export default function InterviewInput({
     className = "interview-input",
     mode = "textarea",
     options = [],
-    ariaLabel
+    ariaLabel,
+    autoGrow = false
 }: InterviewInputProps) {
 
     // Called unconditionally (mode can switch, and the "input"/"select"
@@ -45,6 +54,9 @@ export default function InterviewInput({
     // those, since only the textarea JSX further down attaches its
     // ref/handlers.
     const listAutoFormat = useListAutoFormat(value, onChange);
+
+    // Same ref, same reasoning: only the textarea attaches it.
+    useAutoGrow(listAutoFormat.textareaRef, value, autoGrow && mode === "textarea");
 
     if (mode === "input") {
         return (

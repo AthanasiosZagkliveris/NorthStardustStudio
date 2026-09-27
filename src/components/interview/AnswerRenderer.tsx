@@ -401,6 +401,14 @@ interface AnswerRendererProps {
     ariaLabel?: string;
 
     /**
+     * Free Text only: the text box grows to fit its content rather
+     * than scrolling inside itself. Set by the column layout (see
+     * MultiPartAnswerRenderer), whose boxes sit side by side. See
+     * InterviewInput.autoGrow.
+     */
+    autoGrow?: boolean;
+
+    /**
      * Whether a page that carries its own instructions above the
      * progress line should show them.
      *
@@ -914,6 +922,8 @@ function MultiPartAnswerRenderer({
 
                             ariaLabel={part.label}
 
+                            autoGrow
+
                             value={values[part.id]}
 
                             onChange={(next) => onChange({ ...values, [part.id]: next })}
@@ -1028,6 +1038,8 @@ function SingleAnswerRenderer({
     dynamicOptionsDependency,
 
     ariaLabel,
+
+    autoGrow,
 
     // Used by the Brand System's own editors, which number their
     // sections continuously with the rest of their System and host
@@ -1202,6 +1214,8 @@ function SingleAnswerRenderer({
                     disabled={disabled}
 
                     onChange={onChange}
+
+                    autoGrow={autoGrow}
 
                 />
 
