@@ -81,7 +81,7 @@ describe("useActiveRailSection", () => {
 
     // A rail click pins its bullet through the scroll it starts --
     // otherwise a section sharing a row, or one the page cannot
-    // scroll far enough to reach, could never turn green.
+    // scroll far enough to reach, could never turn active.
     it("keeps a clicked bullet active through the scroll that follows", () => {
         render(<Probe ids={["a", "b", "c"]} />);
         fireEvent.click(screen.getByText("select b"));

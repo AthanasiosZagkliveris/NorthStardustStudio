@@ -12,7 +12,7 @@ const TOOLTIP_EDGE_MARGIN = 8;
 /**
  * A fixed column of bullets beside the interview card: pages on the
  * left, the current page's sections on the right. The current bullet
- * "blooms" green and grows; the rest stay ice blue. Its label turns
+ * "blooms" blue and grows; the rest stay ice blue. Its label turns
  * bold too, and it carries aria-current, so the state never rests on
  * colour alone. The bullet is always on the side nearest the card:
  * label then bullet on the left, bullet then label on the right.
