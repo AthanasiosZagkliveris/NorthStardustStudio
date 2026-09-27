@@ -28,10 +28,13 @@ import {
     BusinessRemove,
     BusinessText
 } from "./BusinessCardFields.tsx";
+import { summaryText } from "./cardSummary.ts";
+import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote, { InfoPoint } from "./InfoNote.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
+import { useItemFolds } from "./useItemFolds.ts";
 
 /**
  * The instruction bullets for each subsection, and the parameter
@@ -333,6 +336,38 @@ function otherProfileNeeds(
 
 }
 
+/**
+ * The first non-empty string among a Profile's Goals, Challenges
+ * and Description -- whichever of those a founder happened to fill
+ * in first -- for its folded-card summary.
+ *
+ * A plain string (Goals, Challenges) counts as itself; a
+ * BusinessDescriptionValue (Description) counts as its first
+ * non-empty entry, in whatever order Object.values gives them.
+ */
+function firstFilled(...values: (string | BusinessDescriptionValue)[]): string {
+
+    for (const value of values) {
+
+        if (typeof value === "string") {
+            if (value.trim().length > 0) {
+                return value.trim();
+            }
+            continue;
+        }
+
+        for (const entry of Object.values(value)) {
+            if (entry.trim().length > 0) {
+                return entry.trim();
+            }
+        }
+
+    }
+
+    return "";
+
+}
+
 /** The last entry of the Category/Format list. */
 const CATEGORY_OTHER = "Other";
 
@@ -402,6 +437,14 @@ export default function BusinessFoundationEditor({
      * have said. Everything starts open.
      */
     const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
+
+    /**
+     * Which Profile, Competitor and Offering cards are open. These
+     * three item kinds start CLOSED -- see useItemFolds -- unlike
+     * the Segment above them, which stays on `collapsed` and so
+     * starts open.
+     */
+    const folds = useItemFolds();
 
     function update(patch: Partial<BusinessFoundationValue>) {
         onChange({ ...foundation, ...patch });
@@ -690,7 +733,8 @@ export default function BusinessFoundationEditor({
             onName,
             key,
             actions = null,
-            ariaPrefix
+            ariaPrefix,
+            summary
         }: {
             kind: string;
             number: number;
@@ -700,10 +744,17 @@ export default function BusinessFoundationEditor({
             actions?: ReactNode;
             /** "Segment 2": which Segment the card belongs to. */
             ariaPrefix?: string;
+            /** The one line shown in the head while the card is folded. */
+            summary?: string;
         },
         children: ReactNode
     ) {
 
+        // Every card this helper builds is a Profile, Competitor or
+        // Offering -- the three item kinds -- so all three fold
+        // through the shared `folds` state (see useItemFolds). The
+        // Segment card that holds them is built inline below and
+        // stays on `collapsed`.
         return (
             <BusinessCard
                 key={key}
@@ -713,18 +764,11 @@ export default function BusinessFoundationEditor({
                 name={name}
                 onName={onName}
                 ariaPrefix={ariaPrefix}
-                open={!collapsed.has(key)}
-                onToggle={() => setCollapsed(current => {
-                    const next = new Set(current);
-                    if (next.has(key)) {
-                        next.delete(key);
-                    } else {
-                        next.add(key);
-                    }
-                    return next;
-                })}
+                open={folds.isOpen(key)}
+                onToggle={() => folds.toggle(key)}
                 actions={actions}
                 disabled={disabled}
+                summary={summary}
             >
                 {children}
             </BusinessCard>
@@ -831,6 +875,9 @@ export default function BusinessFoundationEditor({
                             segmentIndex, profileIndex, { name: next }
                         ),
                         key: profile.id,
+                        summary: summaryText(firstFilled(
+                            profile.goals, profile.challenges, profile.description
+                        )),
                         // One Profile card must always exist.
                         actions: segment.profiles.length > 1 &&
                             remove(
@@ -972,12 +1019,13 @@ export default function BusinessFoundationEditor({
                     above the line -- a founder with a fourth Profile
                     to describe is not served by the button quietly
                     going away. */}
-                {addButton("Profile", () => updateSegment(segmentIndex, {
-                    profiles: [
-                        ...segment.profiles,
-                        createBusinessCustomerProfile()
-                    ]
-                }))}
+                {addButton("Profile", () => {
+                    const profile = createBusinessCustomerProfile();
+                    updateSegment(segmentIndex, {
+                        profiles: [...segment.profiles, profile]
+                    });
+                    folds.expand(profile.id);
+                })}
 
             </>
         );
@@ -1015,6 +1063,9 @@ export default function BusinessFoundationEditor({
                             name: competitor.name,
                             onName: (next) => change({ name: next }),
                             key: competitor.id,
+                            summary: summaryText(
+                                chosen?.label
+                            ),
                             actions: segment.competitors.length > 1 &&
                                 remove(
                                     "Competitor " + (index + 1),
@@ -1122,12 +1173,13 @@ export default function BusinessFoundationEditor({
 
                 })}
 
-                {addButton("Competitor", () => updateSegment(segmentIndex, {
-                    competitors: [
-                        ...segment.competitors,
-                        createBusinessCompetitor()
-                    ]
-                }))}
+                {addButton("Competitor", () => {
+                    const competitor = createBusinessCompetitor();
+                    updateSegment(segmentIndex, {
+                        competitors: [...segment.competitors, competitor]
+                    });
+                    folds.expand(competitor.id);
+                })}
 
             </>
         );
@@ -1265,6 +1317,14 @@ export default function BusinessFoundationEditor({
                             name: offering.name,
                             onName: (next) => change({ name: next }),
                             key: offering.id,
+                            summary: summaryText(
+                                offering.category === CATEGORY_OTHER
+                                    ? offering.categoryOther
+                                    : offering.category,
+                                offering.needsAddressed.length
+                                    ? offering.needsAddressed.length + " needs"
+                                    : ""
+                            ),
                             actions: segment.offerings.length > 1 &&
                                 remove(
                                     "Offering " + (index + 1),
@@ -1368,12 +1428,13 @@ export default function BusinessFoundationEditor({
 
                 })}
 
-                {addButton("Offering", () => updateSegment(segmentIndex, {
-                    offerings: [
-                        ...segment.offerings,
-                        createBusinessOffering()
-                    ]
-                }))}
+                {addButton("Offering", () => {
+                    const offering = createBusinessOffering();
+                    updateSegment(segmentIndex, {
+                        offerings: [...segment.offerings, offering]
+                    });
+                    folds.expand(offering.id);
+                })}
 
             </>
         );
@@ -1571,12 +1632,26 @@ export default function BusinessFoundationEditor({
                                         Description and the Value
                                         Proposition are. */}
                                     <div className="business-foundation-profiles">
-                                        <span className="business-foundation-subhead business-foundation-column-title">Profiles</span>
+                                        <span className="business-foundation-subhead business-foundation-column-title">
+                                            Profiles
+                                            <FoldAllToggle
+                                                ids={segment.profiles.map(p => p.id)}
+                                                folds={folds}
+                                                label="profiles"
+                                            />
+                                        </span>
                                         {parts.profiles}
                                     </div>
 
                                     <div className="business-foundation-competitors">
-                                        <span className="business-foundation-subhead business-foundation-column-title">Competitors</span>
+                                        <span className="business-foundation-subhead business-foundation-column-title">
+                                            Competitors
+                                            <FoldAllToggle
+                                                ids={segment.competitors.map(c => c.id)}
+                                                folds={folds}
+                                                label="competitors"
+                                            />
+                                        </span>
                                         {parts.competitors}
                                     </div>
 
@@ -1593,7 +1668,14 @@ export default function BusinessFoundationEditor({
                                     </div>
 
                                     <div className="business-foundation-offerings">
-                                        <span className="business-foundation-subhead business-foundation-column-title">Offerings</span>
+                                        <span className="business-foundation-subhead business-foundation-column-title">
+                                            Offerings
+                                            <FoldAllToggle
+                                                ids={segment.offerings.map(o => o.id)}
+                                                folds={folds}
+                                                label="offerings"
+                                            />
+                                        </span>
                                         {parts.offerings}
                                     </div>
 
