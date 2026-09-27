@@ -49,7 +49,9 @@ export default function SystemItem({
 
             </span>
 
-            <span className="system-title">
+            {/* data-title feeds the invisible copy that reserves the
+                title's hover width (system-list.css). */}
+            <span className="system-title" data-title={system.title}>
 
                 {system.title}
 

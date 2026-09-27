@@ -2,8 +2,14 @@
    System List
 ========================================================== */
 
+/* One column as wide as its widest row -- never narrower than the
+   section -- so every row's highlight lines up and still encloses
+   a long title like "Product Development System". */
 .system-list {
-    width: 100%;
+    display: grid;
+
+    width: max-content;
+    min-width: 100%;
 
     list-style: none;
 
@@ -91,6 +97,26 @@
        snaps part-way through, which showed as the label
        shimmering under the pointer. */
     transition: color 0.15s ease;
+}
+
+/* Reserves the hover width: an invisible, zero-height copy of the
+   title at the hover tracking, so the title (and with it the row
+   and the list) is already as wide as it gets and nothing shifts
+   or resizes when it goes bold. Hidden from assistive technology
+   by visibility. */
+.system-title {
+    display: inline-grid;
+}
+
+.system-title::after {
+    content: attr(data-title);
+
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+
+    letter-spacing: 0.05em;
+    white-space: nowrap;
 }
 
 /* ==========================================================
