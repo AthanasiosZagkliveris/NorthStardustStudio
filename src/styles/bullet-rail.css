@@ -169,8 +169,7 @@
 .bullet-rail-item:focus-visible .bullet-rail-label { opacity: 1; }
 
 /* Wide windows: the gutters have room, so labels sit inline, on the
-   outer side of the bullet, cut short with an ellipsis where the
-   gutter ends. */
+   outer side of the bullet, wrapping where the gutter ends. */
 @media (min-width: 1700px) {
 
     :root { --rail-gutter: 220px; }
@@ -191,15 +190,26 @@
 
     }
 
+    /* A 16px margin from the screen edge, so a label never touches it. */
+    .bullet-rail-left { padding-left: 16px; }
+
+    .bullet-rail-right { padding-right: 16px; }
+
+    /* All the room between the screen margin and the bullet: half the
+       space beside the card, less the bullet's 20px offset, the dot
+       and its gap (24px) and the 16px margin. A label longer than
+       that wraps onto another line rather than being cut; the
+       bullet stays centred on the item. */
     .bullet-rail-label {
 
         position: static;
 
         min-width: 0;
+        max-width: calc((100vw - var(--card-width)) / 2 - 20px - 24px - 16px);
         padding: 0;
 
-        overflow: hidden;
-        text-overflow: ellipsis;
+        white-space: normal;
+        overflow-wrap: break-word;
 
         background: none;
         color: inherit;
