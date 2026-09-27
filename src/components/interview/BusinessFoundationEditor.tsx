@@ -647,16 +647,26 @@ export default function BusinessFoundationEditor({
                                 </span>
                             </label>
                         ) : (
+                            /* Glued to the name's last word, as every
+                               label's "i" is (see InfoText). */
                             <span className="business-foundation-label">
-                                {part.title}
+                                <InfoText text={part.title}>
+                                    <InfoNote
+                                        label={part.title}
+                                        points={[part.text]}
+                                        fullList
+                                    />
+                                </InfoText>
                             </span>
                         )}
 
-                        <InfoNote
-                            label={part.title}
-                            points={[part.text]}
-                            fullList
-                        />
+                        {optional && (
+                            <InfoNote
+                                label={part.title}
+                                points={[part.text]}
+                                fullList
+                            />
+                        )}
 
                     </span>
 
