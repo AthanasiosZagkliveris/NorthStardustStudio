@@ -610,7 +610,7 @@ export default function FinancialSustainabilityEditor({
                 anchor={"stream-" + stream.offeringId}
                 summary={summaryText(
                     stream.price && (stream.price + " / " + (stream.unit === "Other" ? stream.unitOther : stream.unit)),
-                    stream.frequency
+                    REVENUE_CHARGES.find(item => item.id === stream.frequency)?.label ?? stream.frequency
                 )}
                 actions={orphan && (
                     <BusinessRemove

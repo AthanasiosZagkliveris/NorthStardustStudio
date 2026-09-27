@@ -40,3 +40,25 @@
     outline-offset: 2px;
 
 }
+
+/* Financial Foundation: a funding category's label and its
+   "Expand all / Collapse all", on one line, the toggle pushed to
+   the far end. */
+.financial-funding-category-head {
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+
+}
+
+/* Financial Sustainability: "Expand all / Collapse all" for the
+   revenue streams below, pushed to the far end since there is no
+   other title on this row. */
+.financial-stream-list-head {
+
+    display: flex;
+    justify-content: flex-end;
+
+}

@@ -40,20 +40,20 @@ describe("FinancialFoundationEditor folding", () => {
 
 describe("FinancialSustainabilityEditor folding", () => {
 
-    it("starts revenue streams collapsed", () => {
+    // One Offering per stream, no add button on this page: streams
+    // are derived from the Foundation page's Offerings, so folding
+    // is only meaningful as "do they start closed", not "does
+    // adding one open it".
+    const foundation = {
+        segments: [{
+            offerings: [
+                { id: "offering-1", name: "Offering One" },
+                { id: "offering-2", name: "Offering Two" }
+            ]
+        }]
+    };
 
-        // One Offering per stream, no add button on this page: streams
-        // are derived from the Foundation page's Offerings, so folding
-        // is only meaningful as "do they start closed", not "does
-        // adding one open it".
-        const foundation = {
-            segments: [{
-                offerings: [
-                    { id: "offering-1", name: "Offering One" },
-                    { id: "offering-2", name: "Offering Two" }
-                ]
-            }]
-        };
+    it("starts revenue streams collapsed", () => {
 
         render(
             <FinancialSustainabilityEditor
@@ -66,6 +66,27 @@ describe("FinancialSustainabilityEditor folding", () => {
         const streams = toggles(/Revenue Stream \d+$/);
         expect(streams.length).toBe(2);
         streams.forEach(t => expect(t.getAttribute("aria-expanded")).toBe("false"));
+
+    });
+
+    it("shows the frequency's label in a folded stream's summary, not its raw id", () => {
+
+        const value = asFinancialSustainabilityValue({
+            streams: [
+                { offeringId: "offering-1", price: "1200", unit: "Client", frequency: "monthly" }
+            ]
+        });
+
+        render(
+            <FinancialSustainabilityEditor
+                value={value}
+                foundation={foundation}
+                onChange={() => {}}
+            />
+        );
+
+        expect(screen.getByText(/1200 \/ Client · Monthly/)).toBeTruthy();
+        expect(screen.queryByText(/· monthly$/)).toBeNull();
 
     });
 
