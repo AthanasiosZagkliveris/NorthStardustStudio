@@ -52,7 +52,7 @@ interface OrganizationCalendarPanelProps {
      * Selection's own sidebar opens on a click -- this rail is a
      * second entry point to that one dialog, not a second dialog.
      */
-    onCapabilityOpen: (capability: Capability) => void;
+    onCapabilityOpen?: (capability: Capability) => void;
 
     /**
      * Marks a Capability "active" -- the SAME thing the sidebar's
@@ -838,7 +838,7 @@ export default function OrganizationCalendarPanel({
                                 style={{ "--capability-color": capability.color } as React.CSSProperties}
                                 onClick={() => {
                                     onCapabilitySelect(capability.id);
-                                    onCapabilityOpen(capability);
+                                    onCapabilityOpen?.(capability);
                                 }}
                             >
                                 {capability.title}

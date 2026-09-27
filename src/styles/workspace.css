@@ -494,3 +494,44 @@
     outline: 2px solid #0b57d0;
     outline-offset: 2px;
 }
+
+/* The active Capability's description, shown inline under its name. */
+.workspace-capability-description {
+
+    margin: -12px 0 20px;
+
+    max-width: 44ch;
+
+}
+
+.workspace-capability-tagline {
+
+    margin: 0 0 6px;
+
+    font-style: italic;
+    color: #5f6368;
+
+}
+
+.workspace-capability-details summary {
+
+    cursor: pointer;
+
+    font-size: 13px;
+    color: #0b57d0;
+
+}
+
+.workspace-capability-details p {
+
+    font-size: 14px;
+    line-height: 1.55;
+
+}
+
+.workspace-capability-principle {
+
+    padding-left: 12px;
+    border-left: 3px solid #1f2937;
+
+}

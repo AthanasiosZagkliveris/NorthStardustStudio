@@ -5,7 +5,6 @@ import { capabilities, getCapabilityColor } from "../data/capabilities";
 import { systems } from "../data/systems";
 
 import { FrameworkSystem } from "../types/system";
-import { Capability } from "../types/capability";
 
 import { getCapabilityDescription } from "../framework/engine/CapabilityDescriptions.ts";
 
@@ -15,11 +14,8 @@ import OrganizationCalendarPanel from "../components/OrganizationCalendarPanel";
 
 import CapabilityList from "../components/CapabilityList";
 import SystemList from "../components/SystemList";
-import SystemConfirmation from "../components/SystemConfirmation";
-import CapabilityDescriptionDialog from "../components/CapabilityDescriptionDialog";
 
 import { OrganizationService } from "../services/OrganizationService";
-import { StorageService } from "../services/StorageService";
 
 import "../styles/workspace.css";
 
@@ -51,21 +47,10 @@ export default function SystemSelection() {
     const [activeCapability, setActiveCapability] =
         useState<string | null>(null);
 
-    const [selectedSystem, setSelectedSystem] =
-        useState<FrameworkSystem | null>(null);
-
-    const [confirmationOpen, setConfirmationOpen] =
-        useState(false);
-
-    const [openCapability, setOpenCapability] =
-        useState<Capability | null>(null);
-
     // The Framework Navigator rail (Calendar/Capabilities/System)
-    // reports its own open/closed state up here so Escape can fold
-    // "close the rail" into the same precedence chain as the two
-    // dialogs below, without the rail needing to know anything
-    // about Escape/Back itself -- see the keydown effect further
-    // down. `railCloseSignal` is a counter (not a boolean) bumped
+    // reports its own open/closed state up here so Escape can close
+    // it before falling through to Back -- see the keydown effect
+    // further down. `railCloseSignal` is a counter (not a boolean) bumped
     // to force the rail closed from here; the rail's own effect
     // reacts to it changing, not to any particular value.
     const [railOpen, setRailOpen] = useState(false);
@@ -82,29 +67,21 @@ export default function SystemSelection() {
             capability => capability.id === activeCapability
         )?.title ?? "";
 
+    const activeDescription = capabilityTitle
+        ? getCapabilityDescription(capabilityTitle) ?? null
+        : null;
+
     const activeCapabilityColor = getCapabilityColor(activeCapability);
 
-    // Escape acts as "Back" everywhere in the app: close whichever
-    // popup/sliding window is currently open first (the "Start
-    // Interview" confirmation, then the Capability description,
-    // then the Navigator rail itself), and only once nothing is
-    // open anymore does it fall through to the same navigation the
-    // footer's own "Back" link performs.
+    // Escape acts as "Back" everywhere in the app: close the
+    // Navigator rail first, then act as Back -- only once the rail
+    // isn't open anymore does it fall through to the same
+    // navigation the footer's own "Back" link performs.
     useEffect(() => {
 
         function handleKeyDown(event: KeyboardEvent) {
 
             if (event.key !== "Escape") {
-                return;
-            }
-
-            if (confirmationOpen) {
-                setConfirmationOpen(false);
-                return;
-            }
-
-            if (openCapability) {
-                setOpenCapability(null);
                 return;
             }
 
@@ -121,49 +98,20 @@ export default function SystemSelection() {
 
         return () => window.removeEventListener("keydown", handleKeyDown);
 
-    }, [confirmationOpen, openCapability, railOpen, navigate]);
+    }, [railOpen, navigate]);
 
+    // Opens the System straight away and resumes wherever the user
+    // last left it (Conversation.tsx's loading effect restores the
+    // saved position). There used to be a "Begin …?" confirmation
+    // here that also reset the position to Section 1; without the
+    // dialog a reset would silently lose the user's place, so the
+    // saved position is simply kept.
     function handleSystemSelection(system: FrameworkSystem) {
-
-        setSelectedSystem(system);
-
-        setConfirmationOpen(true);
-
-    }
-
-    function startInterview() {
-
-        if (!selectedSystem) {
-            return;
-        }
-
-        setConfirmationOpen(false);
-
-        // After the very first time working through a System, every
-        // later "Forward" here should land back on Section 1 -- not
-        // wherever the user happened to leave off last time. This
-        // only resets the CURRENT position; every Section's saved
-        // answer is left exactly as it was. (A plain page reload
-        // while already inside the interview does not go through
-        // this function, so it still resumes exactly where the user
-        // left off -- see Conversation.tsx's loading effect.)
-        const organizationId = OrganizationService.getSelected();
-
-        if (organizationId) {
-
-            const existing = StorageService.loadInterview(organizationId, selectedSystem.number);
-
-            if (existing && existing.hasStartedInterview()) {
-                existing.goToSection(0);
-                StorageService.saveInterview(organizationId, existing);
-            }
-
-        }
 
         navigate("/introduction", {
 
             state: {
-                system: selectedSystem
+                system
             }
 
         });
@@ -174,13 +122,10 @@ export default function SystemSelection() {
     // OrganizationCalendarPanel.tsx / CalendarTaskService.ts) --
     // jumps straight into that System's already-existing interview
     // session, landed on the specific Section the task actually
-    // came from. Deliberately NOT the same path as `startInterview`
-    // above: this must resume the existing session in place (so
-    // every other Section's saved answer, and the current position
-    // once the person navigates away again, is left untouched) --
-    // `startInterview` resets to Section 1 on purpose, which would
-    // be wrong here. `targetSectionNumber` is read by Conversation.
-    // tsx's own loading effect.
+    // came from, unlike `handleSystemSelection` above which just
+    // resumes wherever the interview was last left.
+    // `targetSectionNumber` is read by Conversation.tsx's own
+    // loading effect.
     function openTask(systemNumber: number, sectionNumber: number) {
 
         const system = systems.find(candidate => candidate.number === systemNumber);
@@ -210,13 +155,11 @@ export default function SystemSelection() {
                 organizationId={organizationId}
                 capabilities={capabilities}
                 systems={systems}
-                onCapabilityOpen={setOpenCapability}
                 onCapabilitySelect={setActiveCapability}
                 onSystemOpen={handleSystemSelection}
                 onOpenTask={openTask}
                 onOpenChange={setRailOpen}
                 closeSignal={railCloseSignal}
-                suppressClose={confirmationOpen || openCapability !== null}
             />
 
             <div className="workspace-main">
@@ -247,7 +190,6 @@ export default function SystemSelection() {
                                 capabilities={capabilities}
                                 activeCapability={activeCapability}
                                 onActiveCapabilityChange={setActiveCapability}
-                                onCapabilityOpen={setOpenCapability}
                             />
 
                         </aside>
@@ -262,6 +204,29 @@ export default function SystemSelection() {
                                 {capabilityTitle}
 
                             </h2>
+
+                            {/* The Capability's description, inline rather than
+                                in a popup that opened on every click. The
+                                tagline is always visible; the full text is
+                                one native disclosure away. */}
+                            {activeDescription && (
+                                <div className="workspace-capability-description">
+                                    <p className="workspace-capability-tagline">
+                                        {activeDescription.tagline}
+                                    </p>
+                                    <details className="workspace-capability-details">
+                                        <summary>About {capabilityTitle}</summary>
+                                        {activeDescription.paragraphs.map((paragraph, index) => (
+                                            <p key={index}>{paragraph}</p>
+                                        ))}
+                                        {activeDescription.corePrinciple && (
+                                            <p className="workspace-capability-principle">
+                                                {activeDescription.corePrinciple}
+                                            </p>
+                                        )}
+                                    </details>
+                                </div>
+                            )}
 
                             <SystemList
                                 systems={filteredSystems}
@@ -295,25 +260,6 @@ export default function SystemSelection() {
 
             <AppFooter
                 onBack={() => navigate("/")}
-            />
-
-            <SystemConfirmation
-                open={confirmationOpen}
-                organizationName={organizationName}
-                systemTitle={selectedSystem?.title ?? ""}
-                onCancel={() => setConfirmationOpen(false)}
-                onStart={startInterview}
-            />
-
-            <CapabilityDescriptionDialog
-                open={openCapability !== null}
-                capability={openCapability}
-                description={
-                    openCapability
-                        ? getCapabilityDescription(openCapability.title) ?? null
-                        : null
-                }
-                onBack={() => setOpenCapability(null)}
             />
 
         </div>
