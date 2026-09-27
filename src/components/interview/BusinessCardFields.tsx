@@ -3,6 +3,8 @@ import { ReactNode } from "react";
 import InfoNote, { InfoPoint } from "./InfoNote.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 
+import "../../styles/card-folding.css";
+
 /**
  * The pieces every Business System page is built out of.
  *
@@ -515,6 +517,8 @@ export function BusinessCard({
 
     anchor,
 
+    summary,
+
     children
 
 }: {
@@ -538,6 +542,11 @@ export function BusinessCard({
     ariaPrefix?: string;
     /** Its name for a link that opens it (see jumpTo.ts). */
     anchor?: string;
+    /**
+     * One line shown in the head while the card is folded, so a
+     * folded list can still be read ("Costs · $35 monthly").
+     */
+    summary?: ReactNode;
     children: ReactNode;
 
 }) {
@@ -595,6 +604,10 @@ export function BusinessCard({
                                 : "Unnamed " + kind.toLocaleLowerCase()}
                         </span>
                     )}
+
+                {!open && summary && (
+                    <span className="business-card-summary">{summary}</span>
+                )}
 
                 {actions}
 

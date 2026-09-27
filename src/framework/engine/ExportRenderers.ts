@@ -196,7 +196,7 @@ export function capabilityOf(value: unknown, context: ExportContext): BusinessCa
 }
 
 /** "£1,250 monthly", in the price's own currency. */
-function costText(cost: BusinessCostValue, currency: string): string {
+export function costText(cost: BusinessCostValue, currency: string): string {
     const price = text(cost.price);
     if (!price) {
         return "";
