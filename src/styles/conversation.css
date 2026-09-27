@@ -14370,6 +14370,20 @@ td.process-library-col-number{
 
 }
 
+/* The category's label and "Expand all / Collapse all", on one
+   line, the toggle pushed to the far end. */
+.financial-funding-category-head{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    width:100%;
+
+}
+
 .financial-funding-cards{
 
     display:grid;
@@ -14754,6 +14768,16 @@ td.process-library-col-number{
     flex-direction:column;
 
     gap:16px;
+
+}
+
+/* "Expand all / Collapse all" for the streams below, pushed to
+   the far end since there is no other title on this row. */
+.financial-stream-list-head{
+
+    display:flex;
+
+    justify-content:flex-end;
 
 }
 

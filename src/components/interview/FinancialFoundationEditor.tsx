@@ -80,11 +80,14 @@ import {
     PlanMonthField,
     SignalList
 } from "./FinancialParts.tsx";
+import { summaryText } from "./cardSummary.ts";
+import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote, { InfoPoint } from "./InfoNote.tsx";
 import MonthYearPicker from "./MonthYearPicker.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import { jurisdictionProfile } from "../../framework/engine/LegalEntityJurisdictions.ts";
 import type { OpenPage } from "./jumpTo.ts";
+import { useItemFolds } from "./useItemFolds.ts";
 
 /* ==========================================================
    What the page says
@@ -295,6 +298,15 @@ export default function FinancialFoundationEditor({
     );
 
     const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
+
+    /**
+     * Which Funding Source cards are open. Funding sources start
+     * CLOSED -- see useItemFolds -- unlike the structural sections
+     * and categories around them, which stay on `collapsed` and so
+     * start open.
+     */
+    const folds = useItemFolds();
+
     const [schedulesOpen, setSchedulesOpen] = useState<ReadonlySet<string>>(new Set());
     /* Read costs whose classification is open for changing. Closed,
        a row reads as plain text: most costs need no decision here. */
@@ -1297,6 +1309,8 @@ export default function FinancialFoundationEditor({
                 label: entry.family ? entry.label + " (" + entry.family + ")" : entry.label
             }));
 
+        const formattedAmount = source.amount.trim() ? format(fundingStanding(source, start).total) : "";
+
         return (
             <BusinessCard
                 key={source.id}
@@ -1305,9 +1319,14 @@ export default function FinancialFoundationEditor({
                 number={index + 1}
                 name={source.name}
                 onName={(next) => changeSource(source.id, { name: next })}
-                open={!collapsed.has(source.id)}
-                onToggle={() => toggle(source.id)}
+                open={folds.isOpen(source.id)}
+                onToggle={() => folds.toggle(source.id)}
                 disabled={disabled}
+                summary={summaryText(
+                    FUNDING_TYPES.find(t => t.id === source.type)?.label,
+                    formattedAmount,
+                    FUNDING_STATUSES.find(s => s.id === source.status)?.label
+                )}
                 actions={
                     <BusinessRemove
                         what={what}
@@ -1429,10 +1448,18 @@ export default function FinancialFoundationEditor({
                         return (
                             <div className="financial-funding-category" key={category.id}>
 
-                                <span className="business-foundation-label-info">
-                                    <span className="business-capability-subhead">{category.label}</span>
-                                    <InfoNote label={category.label} points={CATEGORY_INFO[category.id]} fullList />
-                                </span>
+                                <div className="financial-funding-category-head">
+                                    <span className="business-foundation-label-info">
+                                        <span className="business-capability-subhead">{category.label}</span>
+                                        <InfoNote label={category.label} points={CATEGORY_INFO[category.id]} fullList />
+                                    </span>
+
+                                    <FoldAllToggle
+                                        ids={of.map(source => source.id)}
+                                        folds={folds}
+                                        label="funding sources"
+                                    />
+                                </div>
 
                                 {((category.id === "internal" && capital.length > 0) || of.length > 0) && (
                                     <div className="financial-funding-cards">
@@ -1444,9 +1471,11 @@ export default function FinancialFoundationEditor({
                                 <BusinessAddButton
                                     label="Funding Source"
                                     disabled={disabled}
-                                    onAdd={() => update({
-                                        funding: [...stored.funding, createFundingSource(category.id)]
-                                    })}
+                                    onAdd={() => {
+                                        const source = createFundingSource(category.id);
+                                        update({ funding: [...stored.funding, source] });
+                                        folds.expand(source.id);
+                                    }}
                                 />
 
                             </div>

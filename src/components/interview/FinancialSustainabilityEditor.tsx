@@ -61,10 +61,13 @@ import {
     SignalList,
     type TimelineMarker
 } from "./FinancialParts.tsx";
+import { summaryText } from "./cardSummary.ts";
+import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote, { InfoPoint } from "./InfoNote.tsx";
 import MonthYearPicker from "./MonthYearPicker.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import type { OpenPage } from "./jumpTo.ts";
+import { useItemFolds } from "./useItemFolds.ts";
 
 /** How to estimate each group of a revenue stream: the "i" beside its title. */
 const STREAM_HELP: Record<"price" | "volume" | "timing", InfoPoint[]> = {
@@ -245,6 +248,13 @@ export default function FinancialSustainabilityEditor({
     );
 
     const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
+
+    /**
+     * Which Revenue Stream cards are open. Revenue streams start
+     * CLOSED -- see useItemFolds -- unlike the structural sections
+     * around them, which stay on `collapsed` and so start open.
+     */
+    const folds = useItemFolds();
 
 
     function toggle(key: string) {
@@ -594,10 +604,14 @@ export default function FinancialSustainabilityEditor({
                 kind="Revenue Stream"
                 number={index + 1}
                 name={orphan ? "Offering no longer on the Foundation page" : offeringName(stream)}
-                open={!collapsed.has(stream.id)}
-                onToggle={() => toggle(stream.id)}
+                open={folds.isOpen(stream.id)}
+                onToggle={() => folds.toggle(stream.id)}
                 disabled={disabled}
                 anchor={"stream-" + stream.offeringId}
+                summary={summaryText(
+                    stream.price && (stream.price + " / " + (stream.unit === "Other" ? stream.unitOther : stream.unit)),
+                    stream.frequency
+                )}
                 actions={orphan && (
                     <BusinessRemove
                         what={what}
@@ -1003,12 +1017,20 @@ export default function FinancialSustainabilityEditor({
                             .
                         </BusinessEmpty>
                     )
-                    : (
-                        /* One stream a row, its answers three to a line. */
+                    : (<>
+                        <div className="financial-stream-list-head">
+                            <FoldAllToggle
+                                ids={shownStreams.map(entry => entry.stream.id)}
+                                folds={folds}
+                                label="revenue streams"
+                            />
+                        </div>
+
+                        {/* One stream a row, its answers three to a line. */}
                         <div className="financial-stream-list">
                             {shownStreams.map(streamCard)}
                         </div>
-                    )}
+                    </>)}
 
                 <FinancialBlock title="Revenue Summary" info={["Expected revenue at the normal operating level, a month."]}>
                     {result.streams.length === 0
