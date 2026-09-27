@@ -48,23 +48,20 @@ interface OrganizationCalendarPanelProps {
     systems: FrameworkSystem[];
 
     /**
-     * Optional hook for a caller that still wants to react to a
-     * Capability being opened from this rail specifically (e.g.
-     * showing its own description somewhere). System Selection no
-     * longer supplies this -- picking a Capability here just marks
-     * it active via `onCapabilitySelect` below, the same as clicking
-     * it in the sidebar's own `CapabilityList`, which shows the
-     * Capability's description inline rather than in a dialog.
+     * Opens the SAME Capability description window System
+     * Selection's own sidebar opens on a click -- this rail is a
+     * second entry point to that one dialog, not a second dialog.
      */
-    onCapabilityOpen?: (capability: Capability) => void;
+    onCapabilityOpen: (capability: Capability) => void;
 
     /**
      * Marks a Capability "active" -- the SAME thing the sidebar's
-     * own click does (see CapabilityList.tsx's onClick). Without
-     * this, picking a Capability from the rail would leave the main
-     * page's own System list showing whatever Capability (if any)
-     * was already active, which isn't "as it does now when we press
-     * on the capability".
+     * own click does alongside opening the dialog (see
+     * CapabilityList.tsx's onClick, which fires both). Without
+     * this, picking a Capability from the rail would open its
+     * dialog but leave the main page's own System list showing
+     * whatever Capability (if any) was already active, which
+     * isn't "as it does now when we press on the capability".
      */
     onCapabilitySelect: (capabilityId: string) => void;
 
@@ -213,10 +210,11 @@ const RECURRING_TIME_PROMPT_FREQUENCIES = ["Daily", "Monthly", "Semi-Annually"];
  *     same shared, app-wide setting (PreferencesService) every
  *     other Date field in the app reads.
  *   - Capabilities: every Capability, in the same order System
- *     Selection's own sidebar presents them. Clicking one marks
- *     that Capability active on the main page, the same thing the
- *     sidebar's own click does -- full parity with the sidebar,
- *     not a separate mechanism.
+ *     Selection's own sidebar presents them. Clicking one opens
+ *     the same Capability description dialog the sidebar's own
+ *     click already opens, AND marks that Capability active on the
+ *     main page too -- full parity with the sidebar's own click,
+ *     not just a shortcut to the dialog.
  *   - Systems: every System across every Capability, in flat
  *     numerical order. Clicking one opens that System immediately,
  *     the same thing a System tile's own click does on the main
@@ -845,7 +843,7 @@ export default function OrganizationCalendarPanel({
                                 style={{ "--capability-color": capability.color } as React.CSSProperties}
                                 onClick={() => {
                                     onCapabilitySelect(capability.id);
-                                    onCapabilityOpen?.(capability);
+                                    onCapabilityOpen(capability);
                                 }}
                             >
                                 {capability.title}

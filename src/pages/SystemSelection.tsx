@@ -5,6 +5,7 @@ import { capabilities, getCapabilityColor } from "../data/capabilities";
 import { systems } from "../data/systems";
 
 import { FrameworkSystem } from "../types/system";
+import { Capability } from "../types/capability";
 
 import { getCapabilityDescription } from "../framework/engine/CapabilityDescriptions.ts";
 
@@ -14,6 +15,7 @@ import OrganizationCalendarPanel from "../components/OrganizationCalendarPanel";
 
 import CapabilityList from "../components/CapabilityList";
 import SystemList from "../components/SystemList";
+import CapabilityDescriptionDialog from "../components/CapabilityDescriptionDialog";
 
 import { OrganizationService } from "../services/OrganizationService";
 
@@ -51,10 +53,15 @@ export default function SystemSelection() {
     const [activeCapability, setActiveCapability] =
         useState<string | null>(() => location.state?.capability ?? null);
 
+    const [openCapability, setOpenCapability] =
+        useState<Capability | null>(null);
+
     // The Framework Navigator rail (Calendar/Capabilities/System)
-    // reports its own open/closed state up here so Escape can close
-    // it before falling through to Back -- see the keydown effect
-    // further down. `railCloseSignal` is a counter (not a boolean) bumped
+    // reports its own open/closed state up here so Escape can fold
+    // "close the rail" into the same precedence chain as the
+    // Capability description dialog below, without the rail needing
+    // to know anything about Escape/Back itself -- see the keydown
+    // effect further down. `railCloseSignal` is a counter (not a boolean) bumped
     // to force the rail closed from here; the rail's own effect
     // reacts to it changing, not to any particular value.
     const [railOpen, setRailOpen] = useState(false);
@@ -71,21 +78,23 @@ export default function SystemSelection() {
             capability => capability.id === activeCapability
         )?.title ?? "";
 
-    const activeDescription = capabilityTitle
-        ? getCapabilityDescription(capabilityTitle) ?? null
-        : null;
-
     const activeCapabilityColor = getCapabilityColor(activeCapability);
 
-    // Escape acts as "Back" everywhere in the app: close the
-    // Navigator rail first, then act as Back -- only once the rail
-    // isn't open anymore does it fall through to the same
+    // Escape acts as "Back" everywhere in the app: close whichever
+    // popup/sliding window is currently open first (the Capability
+    // description, then the Navigator rail itself), and only once
+    // nothing is open anymore does it fall through to the same
     // navigation the footer's own "Back" link performs.
     useEffect(() => {
 
         function handleKeyDown(event: KeyboardEvent) {
 
             if (event.key !== "Escape") {
+                return;
+            }
+
+            if (openCapability) {
+                setOpenCapability(null);
                 return;
             }
 
@@ -102,7 +111,7 @@ export default function SystemSelection() {
 
         return () => window.removeEventListener("keydown", handleKeyDown);
 
-    }, [railOpen, navigate]);
+    }, [openCapability, railOpen, navigate]);
 
     // Opens the System straight away and resumes wherever the user
     // last left it (Conversation.tsx's loading effect restores the
@@ -159,11 +168,13 @@ export default function SystemSelection() {
                 organizationId={organizationId}
                 capabilities={capabilities}
                 systems={systems}
+                onCapabilityOpen={setOpenCapability}
                 onCapabilitySelect={setActiveCapability}
                 onSystemOpen={handleSystemSelection}
                 onOpenTask={openTask}
                 onOpenChange={setRailOpen}
                 closeSignal={railCloseSignal}
+                suppressClose={openCapability !== null}
             />
 
             <div className="workspace-main">
@@ -194,6 +205,7 @@ export default function SystemSelection() {
                                 capabilities={capabilities}
                                 activeCapability={activeCapability}
                                 onActiveCapabilityChange={setActiveCapability}
+                                onCapabilityOpen={setOpenCapability}
                             />
 
                         </aside>
@@ -208,29 +220,6 @@ export default function SystemSelection() {
                                 {capabilityTitle}
 
                             </h2>
-
-                            {/* The Capability's description, inline rather than
-                                in a popup that opened on every click. The
-                                tagline is always visible; the full text is
-                                one native disclosure away. */}
-                            {activeDescription && (
-                                <div className="workspace-capability-description">
-                                    <p className="workspace-capability-tagline">
-                                        {activeDescription.tagline}
-                                    </p>
-                                    <details className="workspace-capability-details">
-                                        <summary>About {capabilityTitle}</summary>
-                                        {activeDescription.paragraphs.map((paragraph, index) => (
-                                            <p key={index}>{paragraph}</p>
-                                        ))}
-                                        {activeDescription.corePrinciple && (
-                                            <p className="workspace-capability-principle">
-                                                {activeDescription.corePrinciple}
-                                            </p>
-                                        )}
-                                    </details>
-                                </div>
-                            )}
 
                             <SystemList
                                 systems={filteredSystems}
@@ -264,6 +253,17 @@ export default function SystemSelection() {
 
             <AppFooter
                 onBack={() => navigate("/")}
+            />
+
+            <CapabilityDescriptionDialog
+                open={openCapability !== null}
+                capability={openCapability}
+                description={
+                    openCapability
+                        ? getCapabilityDescription(openCapability.title) ?? null
+                        : null
+                }
+                onBack={() => setOpenCapability(null)}
             />
 
         </div>

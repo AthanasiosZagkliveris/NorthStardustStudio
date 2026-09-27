@@ -1,0 +1,214 @@
+/* ==========================================================
+   Overlay
+========================================================== */
+
+.capability-description-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 0, 0, 0.35);
+
+    padding: 40px;
+
+    z-index: 1000;
+
+}
+
+/* ==========================================================
+   Dialog
+========================================================== */
+
+.capability-description-dialog {
+
+    width: 100%;
+    max-width: 640px;
+    max-height: 100%;
+
+    overflow-y: auto;
+
+    background: #ffffff;
+
+    border-radius: 12px;
+    border-top: 6px solid var(--capability-color, #0b57d0);
+
+    padding: 36px 40px;
+
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+
+}
+
+/* ==========================================================
+   Heading
+========================================================== */
+
+.capability-description-heading {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    margin-bottom: 6px;
+
+}
+
+.capability-description-icon {
+
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    object-fit: contain;
+
+}
+
+.capability-description-title {
+
+    margin: 0;
+
+    font-size: 28px;
+    font-weight: 700;
+
+    color: var(--capability-color, #111827);
+
+}
+
+.capability-description-tagline {
+
+    margin: 0 0 20px;
+
+    font-size: 17px;
+    font-style: italic;
+
+    color: #5f6368;
+
+}
+
+/* ==========================================================
+   Body
+========================================================== */
+
+.capability-description-body {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+
+    font-size: 16px;
+    line-height: 1.65;
+
+    color: #333333;
+
+}
+
+/* ==========================================================
+   Core Principle
+========================================================== */
+
+.capability-description-principle {
+
+    margin-top: 20px;
+
+    padding: 16px 20px;
+
+    border-radius: 8px;
+
+    background: color-mix(in srgb, var(--capability-color, #0b57d0) 8%, white);
+
+    border-left: 4px solid var(--capability-color, #0b57d0);
+
+}
+
+.capability-description-principle-label {
+
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: .04em;
+
+    color: var(--capability-color, #0b57d0);
+
+}
+
+.capability-description-principle p {
+
+    margin: 0;
+
+    font-size: 15px;
+    line-height: 1.6;
+
+    color: #333333;
+
+}
+
+/* ==========================================================
+   Actions
+========================================================== */
+
+.capability-description-actions {
+
+    display: flex;
+
+    justify-content: flex-start;
+
+    margin-top: 28px;
+
+}
+
+.capability-description-back {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    background: transparent;
+
+    border: none;
+
+    padding: 0;
+
+    cursor: pointer;
+
+    font: inherit;
+    font-size: 17px;
+    font-weight: 400;
+
+    color: #111827;
+
+    transition: color .15s ease, font-weight .15s ease;
+
+}
+
+.capability-description-back:hover,
+.capability-description-back:focus {
+
+    color: var(--capability-color, #0b57d0);
+
+    text-shadow: var(--hover-bold);
+
+}
+
+/* "CORE PRINCIPLE" -- bold, and the app's floor for bold text is
+   5%. It carried 4%, chosen before that rule existed. */
+.capability-description-principle-label {
+
+    letter-spacing: 0.05em;
+
+}

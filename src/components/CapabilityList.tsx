@@ -7,12 +7,21 @@ interface CapabilityListProps {
     activeCapability: string | null;
 
     onActiveCapabilityChange: (id: string) => void;
+
+    /**
+     * Opens the Capability's description window.
+     * Triggered by a click/Enter/Space, distinct from
+     * hover/focus (which only preview the Capability's
+     * Systems in the right-hand panel).
+     */
+    onCapabilityOpen: (capability: Capability) => void;
 }
 
 export default function CapabilityList({
     capabilities,
     activeCapability,
     onActiveCapabilityChange,
+    onCapabilityOpen,
 }: CapabilityListProps) {
     return (
         <div className="capability-list">
@@ -36,13 +45,15 @@ export default function CapabilityList({
                     onFocus={() =>
                         onActiveCapabilityChange(capability.id)
                     }
-                    onClick={() =>
-                        onActiveCapabilityChange(capability.id)
-                    }
+                    onClick={() => {
+                        onActiveCapabilityChange(capability.id);
+                        onCapabilityOpen(capability);
+                    }}
                     onKeyDown={(event) => {
                         if (event.key === "Enter" || event.key === " ") {
                             event.preventDefault();
                             onActiveCapabilityChange(capability.id);
+                            onCapabilityOpen(capability);
                         }
                     }}
                 >

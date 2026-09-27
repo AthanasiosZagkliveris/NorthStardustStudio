@@ -43,17 +43,23 @@ function renderAt(state?: unknown) {
 
 afterEach(cleanup);
 
-describe("SystemSelection without popups", () => {
+describe("SystemSelection capability description and System opening", () => {
 
-    it("selects a capability on click without opening a dialog, and shows its description inline", () => {
+    it("selects a capability on click and opens its description dialog, which Escape closes first", () => {
 
         renderAt();
 
         fireEvent.click(screen.getByRole("button", { name: "Foundation" }));
 
-        expect(screen.queryByRole("dialog")).toBeNull();
         expect(screen.getByText("Developing organizational alignment")).toBeTruthy();
-        expect(screen.getByText("About Foundation")).toBeTruthy();
+        expect(screen.getByText("Core principle")).toBeTruthy();
+        expect(screen.queryByText("About Foundation")).toBeNull();
+        expect(screen.getByRole("button", { name: /Identity System/ })).toBeTruthy();
+
+        fireEvent.keyDown(window, { key: "Escape" });
+
+        expect(screen.queryByText("Developing organizational alignment")).toBeNull();
+        expect(screen.getByRole("button", { name: /Identity System/ })).toBeTruthy();
 
     });
 
@@ -77,7 +83,8 @@ describe("SystemSelection capability memory", () => {
         renderAt({ capability: "foundation" });
 
         expect(screen.getByRole("button", { name: /Identity System/ })).toBeTruthy();
-        expect(screen.getByText("Developing organizational alignment")).toBeTruthy();
+        expect(screen.getByRole("heading", { name: "Foundation" })).toBeTruthy();
+        expect(screen.queryByText("Developing organizational alignment")).toBeNull();
 
     });
 
