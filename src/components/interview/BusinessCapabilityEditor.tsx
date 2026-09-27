@@ -1913,11 +1913,12 @@ export default function BusinessCapabilityEditor({
                         onRemove={onRemove}
                     />
 
-                    {!open && summary && (
-                        <span className="business-card-summary">{summary}</span>
-                    )}
-
                 </div>
+
+                {/* Under the head, not in it, so the name keeps its width. */}
+                {!open && summary && (
+                    <div className="business-card-summary business-card-summary-line">{summary}</div>
+                )}
 
                 {open && (<>
 

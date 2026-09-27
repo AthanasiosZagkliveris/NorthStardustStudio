@@ -29,4 +29,20 @@ describe("BusinessCard summary", () => {
 
     });
 
+    // Inline in the head it squeezed the name input to a few letters.
+    it("puts the summary on its own line below the head", () => {
+
+        render(
+            <BusinessCard kind="Resource" number={1} name="Notion" onName={() => {}} open={false} onToggle={() => {}} summary="Costs · $10 monthly">
+                <p>body</p>
+            </BusinessCard>
+        );
+
+        const summary = screen.getByText("Costs · $10 monthly");
+
+        expect(summary.closest(".strategy-box-head")).toBeNull();
+        expect(summary.previousElementSibling?.classList.contains("strategy-box-head")).toBe(true);
+
+    });
+
 });

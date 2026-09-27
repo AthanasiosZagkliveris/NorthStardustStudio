@@ -67,6 +67,34 @@ describe("BusinessCapabilityEditor folding", () => {
 
     });
 
+    it("puts a folded activity's summary on its own line below its head", () => {
+
+        const initial = {
+            ...asBusinessCapabilityValue(undefined),
+            activities: [{
+                id: BUSINESS_ACTIVITY_CATEGORIES[0].id,
+                name: "",
+                activities: [
+                    { ...createBusinessActivity(), name: "Review", description: "Weekly numbers review" },
+                    { ...createBusinessActivity(), name: "Plan" }
+                ]
+            }]
+        };
+
+        function ValueHarness() {
+            const [value, setValue] = useState<unknown>(initial);
+            return <BusinessCapabilityEditor value={value} onChange={setValue} />;
+        }
+
+        render(<ValueHarness />);
+
+        const summary = screen.getByText("Weekly numbers review");
+
+        expect(summary.closest(".business-capability-activity-head")).toBeNull();
+        expect(summary.previousElementSibling?.classList.contains("business-capability-activity-head")).toBe(true);
+
+    });
+
     it("folds Resource cards again on reload, once they are no longer newly added", () => {
 
         let latest: unknown = asBusinessCapabilityValue(undefined);

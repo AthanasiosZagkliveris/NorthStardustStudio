@@ -543,8 +543,9 @@ export function BusinessCard({
     /** Its name for a link that opens it (see jumpTo.ts). */
     anchor?: string;
     /**
-     * One line shown in the head while the card is folded, so a
-     * folded list can still be read ("Costs · $35 monthly").
+     * One line shown under the head while the card is folded, so a
+     * folded list can still be read ("Costs · $35 monthly"). On its
+     * own line, so it never squeezes the name beside it.
      */
     summary?: ReactNode;
     children: ReactNode;
@@ -605,13 +606,13 @@ export function BusinessCard({
                         </span>
                     )}
 
-                {!open && summary && (
-                    <span className="business-card-summary">{summary}</span>
-                )}
-
                 {actions}
 
             </div>
+
+            {!open && summary && (
+                <div className="business-card-summary business-card-summary-line">{summary}</div>
+            )}
 
             {open && children}
 

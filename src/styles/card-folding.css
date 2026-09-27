@@ -1,4 +1,4 @@
-/* A folded item card's one-line summary, beside its name. */
+/* A folded item card's one-line summary. */
 .business-card-summary {
 
     flex: 0 1 auto;
@@ -10,6 +10,15 @@
 
     font-size: 14px;
     color: #5f6368;
+
+}
+
+/* Item cards (BusinessCard) and Activity rows: on its own line
+   directly below the head, full width, so the name input in the
+   head keeps its width. Pulled up into the card's 12px gap. */
+.business-card-summary-line {
+
+    margin-top: -6px;
 
 }
 
