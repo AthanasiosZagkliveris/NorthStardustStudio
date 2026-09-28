@@ -271,12 +271,17 @@ export default function BusinessDocuments() {
                        who it is for on the right, money along the bottom. */
                     <div className="business-canvas" aria-label={"Business Model Canvas: " + loaded.canvasData.name}>
                         {CANVAS_BLOCKS.map(block => (
-                            <section className={"business-canvas-box business-canvas-" + block.id} key={block.id}>
-                                <h3>{block.title}</h3>
+                            <section
+                                className={"business-canvas-box business-canvas-" + block.id}
+                                key={block.id}
+                                aria-labelledby={"canvas-" + block.id}
+                            >
+                                {/* A label, not a heading: see .business-canvas-label. */}
+                                <p className="business-canvas-label" id={"canvas-" + block.id}>{block.title}</p>
                                 {loaded.canvasData.blocks[block.id].length === 0
                                     ? <p className="business-canvas-empty">Not answered yet.</p>
                                     : (
-                                        <ul>
+                                        <ul className="business-hanging-list">
                                             {loaded.canvasData.blocks[block.id].map((entry, index) => (
                                                 <li key={entry + index}>{entry}</li>
                                             ))}
@@ -295,8 +300,8 @@ export default function BusinessDocuments() {
                         </p>
                         {view.tables.map(table => (
                             <div className="business-forecast-table-wrap" key={table.title}>
-                                {/* Stays in view while a monthly table scrolls sideways. */}
-                                <h2 className="business-forecast-caption" id={"forecast-" + table.title.replace(/[^A-Za-z0-9]+/g, "-")}>{table.title}</h2>
+                                {/* The table's caption: stays in view while a monthly table scrolls sideways. */}
+                                <p className="business-forecast-caption" id={"forecast-" + table.title.replace(/[^A-Za-z0-9]+/g, "-")}>{table.title}</p>
                                 {table.note && <p className="business-forecast-table-note">{table.note}</p>}
                                 <table
                                     className={"business-forecast-table" + (period === "annual" ? " business-forecast-annual" : "")}
@@ -359,7 +364,7 @@ export default function BusinessDocuments() {
                                 </table>
                             </div>
                         ))}
-                        <ul className="business-forecast-notes">
+                        <ul className="business-forecast-notes business-hanging-list">
                             {loaded.forecast.forecast.notes.map(note => <li key={note}>{note}</li>)}
                         </ul>
                     </div>
@@ -370,8 +375,8 @@ export default function BusinessDocuments() {
                         {/* The page's own title is its one h1. */}
                         <h2 className="business-document-title">{content.documentTitle}</h2>
                         {content.documentSubtitle && <p className="business-document-subtitle">{content.documentSubtitle}</p>}
-                        {/* The same escaped HTML the PDF prints. */}
-                        <div dangerouslySetInnerHTML={{ __html: documentMetaHtml(content) + contentSectionsHtml(content) }} />
+                        {/* The same escaped HTML the PDF prints, its sections h3s under this h2. */}
+                        <div dangerouslySetInnerHTML={{ __html: documentMetaHtml(content) + contentSectionsHtml(content, 3) }} />
                     </article>
                 )}
 
