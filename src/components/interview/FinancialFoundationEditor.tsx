@@ -332,7 +332,10 @@ export default function FinancialFoundationEditor({
         )
     });
 
-    const format = moneyFormatter(currency);
+    // Whole units everywhere on this read-only page: an amount
+    // someone can edit shows the string they typed, never this
+    // formatter, so nobody's own pence are ever hidden by it.
+    const format = moneyFormatter(currency, { wholeOnly: true });
 
     /** The other half of a likely duplicate, if this cost is one. */
     const duplicates = possibleDuplicates(lines);

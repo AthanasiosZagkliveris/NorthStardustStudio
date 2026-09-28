@@ -3253,10 +3253,24 @@ const CURRENCY_LOCALES: Record<string, string> = {
     USD: "en-US", GBP: "en-GB", EUR: "en-IE", CAD: "en-CA", AUD: "en-AU", NZD: "en-NZ"
 };
 
-export function moneyFormatter(currency: string): (amount: number) => string {
+export function moneyFormatter(
+    currency: string,
+    options?: {
+        /**
+         * Always whole units, even under 1000 with pence -- for a
+         * read-only table where several rows sit side by side and a
+         * mix of "$496.55" and "$5,263" reads as two different
+         * conventions rather than one table. An amount someone can
+         * still edit is never drawn from this formatter (it shows
+         * the typed text itself), so this never hides pence anyone
+         * is actively entering.
+         */
+        wholeOnly?: boolean;
+    }
+): (amount: number) => string {
 
     /* Whole amounts in whole units; an amount with pence keeps them,
-       so a £2.20 card is not shown as £2. */
+       so a £2.20 card is not shown as £2 -- unless `wholeOnly`. */
     const locale = CURRENCY_LOCALES[currency];
 
     const make = (digits: number) => {
@@ -3283,7 +3297,8 @@ export function moneyFormatter(currency: string): (amount: number) => string {
     return (amount: number) => {
         const rounded = Math.abs(amount) < 0.005 ? 0 : amount;
         // Pence matter only on small amounts; large ones read as whole.
-        const withPence = Math.abs(rounded) < 1000 && Math.abs(rounded - Math.round(rounded)) >= 0.005;
+        const withPence = !options?.wholeOnly &&
+            Math.abs(rounded) < 1000 && Math.abs(rounded - Math.round(rounded)) >= 0.005;
         const format = withPence ? exact : whole;
         return format
             ? format.format(rounded)

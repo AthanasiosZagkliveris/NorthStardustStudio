@@ -127,6 +127,21 @@ const BREAK_EVEN_REVENUE_SECOND_SOURCE: InfoPoint = {
     href: "https://biz.libretexts.org/Bookshelves/Accounting/Managerial_Accounting_(OpenStax)/03:_Cost-Volume-Profit_Analysis/3.03:_Calculate_a_Break-Even_Point_in_Units_and_Dollars"
 };
 
+/** Expected Monthly Revenue's own tile "i" -- the only headline tile
+    that had none, sitting beside figures that all carry one. Nothing
+    to cite: it is added up from the Offerings' own prices and sales,
+    not read from outside the plan. */
+const EXPECTED_REVENUE_HELP: InfoPoint[] = [
+    { title: "Formula", text: "Σ price × expected sales per month, for each Offering" },
+    "The revenue the expected sales bring in a normal month.",
+    "Calculated from your Offerings' prices and expected sales."
+];
+
+/** Expected Break Even's own tile "i", the same gap as above. */
+const EXPECTED_BREAK_EVEN_HELP: InfoPoint[] = [
+    "The first month revenue covers costs, based on the build-up of sales you entered."
+];
+
 /**
  * Utilisation -- demand hours against capacity -- its "i" beside the
  * percent here and (the same content) on Infrastructure &
@@ -285,7 +300,10 @@ export default function FinancialSustainabilityEditor({
         )
     });
 
-    const format = moneyFormatter(currency);
+    // Whole units everywhere on this read-only page: an amount
+    // someone can edit shows the string they typed, never this
+    // formatter, so nobody's own pence are ever hidden by it.
+    const format = moneyFormatter(currency, { wholeOnly: true });
 
     /* Where an Offering's Demand & Conversion gives expected sales,
        every figure uses them (withDemand); the page shows them, and
@@ -770,7 +788,7 @@ export default function FinancialSustainabilityEditor({
                                 inline
                             >
                                 <span className="financial-derived">
-                                    <strong>{formatUnits(fromDemand.expected)}</strong>
+                                    <strong className="business-demand-pill">{formatUnits(fromDemand.expected)}</strong>
                                     {recurring ? "" : " a month"}
                                     {onOpenEngagement && (
                                         <button
@@ -1429,7 +1447,12 @@ export default function FinancialSustainabilityEditor({
                 </div>
 
                 <FigureTiles tiles={[
-                    { label: "Expected Monthly Revenue", value: format(result.expectedRevenue), detail: "at the normal level" },
+                    {
+                        label: "Expected Monthly Revenue",
+                        value: format(result.expectedRevenue),
+                        detail: "at the normal level",
+                        info: EXPECTED_REVENUE_HELP
+                    },
                     {
                         label: "Break-Even Revenue",
                         value: result.breakEvenRevenue === null ? "n/a" : format(result.breakEvenRevenue),
@@ -1441,7 +1464,13 @@ export default function FinancialSustainabilityEditor({
                             BREAK_EVEN_REVENUE_SECOND_SOURCE
                         ]
                     },
-                    { label: "Expected Break Even", value: breakEven, detail: breakEvenDetail, tone: result.breakEvenMonth === null ? "risk" : "good" },
+                    {
+                        label: "Expected Break Even",
+                        value: breakEven,
+                        detail: breakEvenDetail,
+                        tone: result.breakEvenMonth === null ? "risk" : "good",
+                        info: EXPECTED_BREAK_EVEN_HELP
+                    },
                     {
                         label: "Financial Exhaustion",
                         value: exhaustion,
