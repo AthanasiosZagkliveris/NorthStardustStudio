@@ -3646,6 +3646,53 @@ td.process-library-col-number{
 
 }
 
+/* A PAGE OF ANSWER COLUMNS TOO NARROW FOR THEM STACKS, rather than
+   squeezing four columns into a tablet's width until a Theme box's
+   grip, label and × run out of it. Under 700px of card, one column:
+   each column's heading directly above its own answers. The markup
+   lists the headings first and the answers after (so a row of
+   headings shares a baseline), so the stacked order is set here,
+   heading 1, answers 1, heading 2, answers 2... */
+@container page-card (max-width: 699px){
+
+    .brand-style,
+    .brand-inventory{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+    .brand-style-span-2{
+
+        grid-column:auto;
+
+    }
+
+    /* The Strategy pages' headings share two row tracks across the
+       columns (subgrid); stacked, each is a plain block again. (Three
+       classes: the subgrid rule comes later in this file.) */
+    .brand-style.strategy-foundation > .brand-style-head,
+    .brand-style.strategic-period > .brand-style-head{
+
+        display:flex;
+
+        flex-direction:column;
+
+        grid-row:auto;
+
+    }
+
+    :is(.brand-style, .brand-inventory) > :nth-child(1 of .brand-style-head){ order:1; }
+    :is(.brand-style, .brand-inventory) > :nth-child(1 of .brand-style-body){ order:2; }
+    :is(.brand-style, .brand-inventory) > :nth-child(2 of .brand-style-head){ order:3; }
+    :is(.brand-style, .brand-inventory) > :nth-child(2 of .brand-style-body){ order:4; }
+    :is(.brand-style, .brand-inventory) > :nth-child(3 of .brand-style-head){ order:5; }
+    :is(.brand-style, .brand-inventory) > :nth-child(3 of .brand-style-body){ order:6; }
+    :is(.brand-style, .brand-inventory) > :nth-child(4 of .brand-style-head){ order:7; }
+    :is(.brand-style, .brand-inventory) > :nth-child(4 of .brand-style-body){ order:8; }
+
+}
+
 .brand-style-head,
 .brand-style-body{
 
@@ -5685,7 +5732,7 @@ td.process-library-col-number{
 .strategy-theme-box .strategy-name-input,
 .strategy-goal-box > .strategy-box-head .strategy-name-input{
 
-    min-width:320px;
+    min-width:min(320px, 100%);
 
 }
 
@@ -11277,6 +11324,67 @@ td.process-library-col-number{
 
 }
 
+/* THE CHANNEL AND RELATIONSHIP TABLES REFLOW rather than overflow.
+   Their dropdown columns need 273px each (the 210px dropdown, 6px,
+   the 32px × and + beside it, and the cell's own padding), which a
+   fifth of the table gives only from 1365px up. Narrower, every row
+   becomes two columns -- Channel and Offerings over Journey Stage
+   and Action, the column heads laid out the same way above them --
+   and anything spanning columns (a category, a band, a Relationship
+   Type) takes the whole width. Under 600px, one column. Read on the
+   table's own width (the wrap is the container), so the same table
+   lays out the same way wherever it sits. */
+.business-channel-table-wrap{
+
+    container:channel-table / inline-size;
+
+}
+
+@container channel-table (max-width: 1364px){
+
+    .business-channel-table,
+    .business-channel-table > thead,
+    .business-channel-table > tbody{
+
+        display:block;
+
+    }
+
+    .business-channel-table tr{
+
+        display:grid;
+
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    }
+
+    .business-channel-table tr > :nth-child(n){
+
+        display:block;
+
+        width:auto;
+
+    }
+
+    .business-channel-table tr > [colspan]:not([colspan="1"]),
+    .business-channel-table tr > .business-relationship-type-cell{
+
+        grid-column:1 / -1;
+
+    }
+
+}
+
+@container channel-table (max-width: 599px){
+
+    .business-channel-table tr{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+}
+
 /* A name shown rather than asked: Page 2's Segment and Profile
    heads, whose names belong to Page 1. Sized and placed exactly
    where the name input sits in every other head, so a referring
@@ -12079,6 +12187,10 @@ td.process-library-col-number{
 
     min-width:0;
 
+    /* Its rows reflow on the TABLE's width (see "The cost table's
+       rows stack"), not the window's. */
+    container:cost-table / inline-size;
+
 }
 
 .financial-cost-row{
@@ -12086,10 +12198,10 @@ td.process-library-col-number{
     display:grid;
 
     grid-template-columns:
-        minmax(240px, 2.6fr)
-        minmax(120px, 1fr)
-        minmax(120px, 1fr)
-        minmax(150px, 1.1fr)
+        minmax(0, 2.6fr)
+        minmax(0, 1fr)
+        minmax(0, 1fr)
+        minmax(0, 1.1fr)
         var(--row-actions-width);
 
     align-items:baseline;
@@ -12111,12 +12223,12 @@ td.process-library-col-number{
 .financial-cost-table-offering .financial-cost-row{
 
     grid-template-columns:
-        minmax(220px, 2.4fr)
-        minmax(110px, 1fr)
-        minmax(110px, 1fr)
-        minmax(140px, 1.1fr)
-        minmax(130px, 1fr)
-        minmax(160px, 1.4fr)
+        minmax(0, 2.4fr)
+        minmax(0, 1fr)
+        minmax(0, 1fr)
+        minmax(0, 1.1fr)
+        minmax(0, 1fr)
+        minmax(0, 1.4fr)
         var(--row-actions-width);
 
 }
@@ -12125,9 +12237,9 @@ td.process-library-col-number{
 .financial-cost-table-one-time .financial-cost-row{
 
     grid-template-columns:
-        minmax(240px, 2.6fr)
-        minmax(120px, 1fr)
-        minmax(150px, 1.2fr)
+        minmax(0, 2.6fr)
+        minmax(0, 1fr)
+        minmax(0, 1.2fr)
         var(--row-actions-width);
 
 }
@@ -13053,25 +13165,82 @@ td.process-library-col-number{
 
 }
 
-/* Narrow windows: the cost table's rows become stacked blocks. */
-@media (max-width: 1100px){
+/* The cost table's rows stack: once the TABLE is too narrow for its
+   columns -- 1100px for the Offering group's seven, 800px for the
+   others' four or five -- each row becomes a block of two columns,
+   its name across the top, and the column heads go (every cell says
+   what it is). Under 480px, one column. Read on the table's own
+   width, so the rule holds whatever holds the table; the Offering
+   group used to keep its seven columns at every width, since its
+   own template out-ranked the window rule, and "Change" ran out of
+   the row. */
+@container cost-table (max-width: 1099px){
 
-    .financial-cost-row{
+    .financial-cost-table-offering .financial-cost-row{
 
         grid-template-columns:repeat(2, minmax(0, 1fr));
 
     }
 
-    .financial-cost-header{
+    .financial-cost-table-offering .financial-cost-header{
 
         display:none;
 
     }
 
-    .financial-cost-name,
-    .financial-cost-detail{
+    .financial-cost-table-offering .financial-cost-name,
+    .financial-cost-table-offering .financial-cost-detail{
 
         grid-column:1 / -1;
+
+    }
+
+    /* "Change" and the × on a line of their own, at the right. */
+    .financial-cost-table-offering .financial-cost-remove{
+
+        grid-column:1 / -1;
+
+        justify-self:end;
+
+    }
+
+}
+
+@container cost-table (max-width: 799px){
+
+    .financial-cost-table .financial-cost-row{
+
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    }
+
+    .financial-cost-table .financial-cost-header{
+
+        display:none;
+
+    }
+
+    .financial-cost-table .financial-cost-name,
+    .financial-cost-table .financial-cost-detail,
+    .financial-cost-table .financial-cost-remove{
+
+        grid-column:1 / -1;
+
+    }
+
+    .financial-cost-table .financial-cost-remove{
+
+        justify-self:end;
+
+    }
+
+}
+
+@container cost-table (max-width: 479px){
+
+    .financial-cost-table .financial-cost-row{
+
+        grid-template-columns:minmax(0, 1fr);
 
     }
 
@@ -13452,9 +13621,12 @@ td.process-library-col-number{
 
 }
 
+/* The figure takes what it needs and wraps, rather than pushing
+   past the card's edge ("$2,460 (98% of the price)" beside its
+   label in a narrow card). */
 .financial-offering-cost-card .financial-cost-inputs > li > span:last-child{
 
-    flex-shrink:0;
+    min-width:0;
 
     text-align:right;
 

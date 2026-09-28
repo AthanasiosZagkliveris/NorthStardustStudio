@@ -173,6 +173,13 @@ body {
    360 (hue 60), on the grounds labels sit on:
      the card at 96%  5.02:1     the inner card at 92%  4.82:1
      a third level at 88%  4.62:1      #4b5563 on white  7.56:1 */
+.business-foundation-input,
+.strategy-theme-panel,
+.strategy-theme-box,
+.roadmap-theme-box {
+  --label-color: hsl(var(--strategy-theme-hue, 0) 28% 34%);
+}
+
 /* A NARROW CARD PUTS EVERY LABEL ABOVE ITS FIELD. Measured on the
    card's own width, so the same card is laid out the same way
    wherever it sits and however wide the window is. Under 600px a
@@ -186,7 +193,6 @@ body {
 .legal-entity-card,
 .business-capability-activity,
 .business-capability-column,
-.strategy-theme-panel,
 .strategy-goal-box,
 .strategy-objective-box,
 .strategy-metric-box {
@@ -195,13 +201,6 @@ body {
 
 /* (The layout itself is with .business-field-inline, conversation.css,
    so it comes after the side-by-side rules it replaces.) */
-
-.business-foundation-input,
-.strategy-theme-panel,
-.strategy-theme-box,
-.roadmap-theme-box {
-  --label-color: hsl(var(--strategy-theme-hue, 0) 28% 34%);
-}
 
 .field-group-title {
   margin: 0;
@@ -454,4 +453,31 @@ b, strong {
 ========================================================== */
 :root {
   --glow-color: #0b57d0;
+}
+
+/* ==========================================================
+   Nothing leaves its frame
+
+   A card, a row or a box holds what is in it, at every width.
+   Three rules make that true everywhere rather than table by table:
+
+   - A grid or flex child may shrink below its content (min-width:
+     0) -- otherwise one long value holds its column open and
+     pushes the next past the frame. Every row and card grid in the
+     interview sizes its columns minmax(0, ...) or in fr for the
+     same reason; only an action column ("Change", the ×) has a
+     fixed width (--row-actions-width), so it always fits.
+   - Text in a cell wraps, even inside a long word or a link.
+   - A layout that cannot fit its columns REFLOWS instead: a card
+     puts its labels above its fields (the card container rule), a
+     table of rows or a multi-column table stacks its columns (see
+     the cost-table and channel-table container rules,
+     conversation.css) -- all read on the container's own width.
+========================================================== */
+.financial-cost-row > *,
+.financial-cost-inputs > li > *,
+.business-channel-cell,
+.fold-card-head > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }

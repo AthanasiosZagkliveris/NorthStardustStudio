@@ -57,6 +57,10 @@
     width: 100%;
     max-width: min(1400px, calc(100vw - 2 * var(--rail-gutter, 56px)));
 
+    /* The page's columns reflow on the card's own width (see the
+       answer-column rule, conversation.css). */
+    container: page-card / inline-size;
+
     display: flex;
     flex-direction: column;
 
