@@ -1,7 +1,9 @@
-import { KeyboardEvent, useLayoutEffect, useRef, useState } from "react";
+import { KeyboardEvent, ReactNode, useLayoutEffect, useRef, useState } from "react";
 
 import { consumeKey } from "./consumeKey.ts";
 import { useListDrag } from "./ReorderControls.tsx";
+
+import "../../styles/numbered-list.css";
 
 /**
  * One line of the list.
@@ -103,11 +105,37 @@ interface NumberedListInputProps {
 
     items: string[];
 
-    onChange: (items: string[]) => void;
+    /**
+     * The lines as they now are -- and, for a caller that keeps
+     * something of its own beside each line, where each came from:
+     * `origins[i]` is the index line i had before this change, or -1
+     * for a line just opened. Lines move when one is opened above
+     * them, removed, or dragged, and whatever belongs to a line has
+     * to move with it. Callers with nothing beside their lines
+     * ignore it.
+     */
+    onChange: (items: string[], origins: number[]) => void;
 
     disabled?: boolean;
 
+    /** Shown in the first line while it is empty. */
     placeholder?: string;
+
+    /**
+     * Each line's own placeholder, for a list whose lines ask
+     * different things (see `lineEnd`). Where it is given it
+     * decides every line's, the first included; omitted, only the
+     * first line has one -- `placeholder`.
+     */
+    placeholderFor?: (index: number) => string | undefined;
+
+    /**
+     * Drawn at the end of each line, inside the list's box -- a
+     * control that belongs to that one line, such as the kind of
+     * entry it is. It follows its line through `origins`. Omitted,
+     * a line is its number and its text, as everywhere else.
+     */
+    lineEnd?: (index: number) => ReactNode;
 
     /**
      * Entries already recorded elsewhere that this list could
@@ -158,11 +186,18 @@ export default function NumberedListInput({
 
     placeholder,
 
+    placeholderFor,
+
+    lineEnd,
+
     suggestions = [],
 
     maxItems
 
 }: NumberedListInputProps) {
+
+    /** Every line where it was: nothing opened, removed or moved. */
+    const unmoved = () => items.map((_entry, position) => position);
 
     /**
      * The line whose suggestions are open, and which of them the
@@ -217,7 +252,7 @@ export default function NumberedListInput({
 
         setOpenLine(-1);
 
-        onChange(values);
+        onChange(values, unmoved());
 
     }
 
@@ -228,9 +263,12 @@ export default function NumberedListInput({
 
     const drag = useListDrag((from, to) => {
         const next = [...items];
+        const origins = unmoved();
         const [moved] = next.splice(from, 1);
+        const [movedFrom] = origins.splice(from, 1);
         next.splice(to, 0, moved);
-        onChange(next);
+        origins.splice(to, 0, movedFrom);
+        onChange(next, origins);
     });
 
     function keyDown(event: KeyboardEvent<HTMLTextAreaElement>, index: number) {
@@ -290,9 +328,12 @@ export default function NumberedListInput({
             const next = [...items];
             next.splice(index + 1, 0, "");
 
+            const origins = unmoved();
+            origins.splice(index + 1, 0, -1);
+
             pendingFocus.current = index + 1;
 
-            onChange(next);
+            onChange(next, origins);
 
             return;
 
@@ -304,7 +345,10 @@ export default function NumberedListInput({
 
             pendingFocus.current = Math.max(0, index - 1);
 
-            onChange(items.filter((_entry, position) => position !== index));
+            onChange(
+                items.filter((_entry, position) => position !== index),
+                unmoved().filter(position => position !== index)
+            );
 
         }
 
@@ -350,7 +394,9 @@ export default function NumberedListInput({
                         <ListLine
                             value={item}
                             ariaLabel={`${label} ${index + 1}`}
-                            placeholder={index === 0 ? placeholder : undefined}
+                            placeholder={placeholderFor
+                                ? placeholderFor(index)
+                                : index === 0 ? placeholder : undefined}
                             disabled={disabled}
                             autoFocus={pendingFocus.current === index}
                             onFocused={() => { pendingFocus.current = -1; }}
@@ -363,13 +409,19 @@ export default function NumberedListInput({
                                 // the narrowed list at all.
                                 setOpenLine(index);
                                 setActiveSuggestion(0);
-                                onChange(values);
+                                onChange(values, unmoved());
                             }}
                             onKeyDown={(event) => keyDown(event, index)}
                             onBlur={() => setOpenLine(
                                 current => current === index ? -1 : current
                             )}
                         />
+
+                        {lineEnd && (
+                            <span className="numbered-list-line-end">
+                                {lineEnd(index)}
+                            </span>
+                        )}
 
                         {/* What other Profiles have already called
                             this. Built from the same pieces as the

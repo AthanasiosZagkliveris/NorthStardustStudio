@@ -1,0 +1,101 @@
+/* ==========================================================
+   The numbered list's own additions (see NumberedListInput.tsx).
+   Its base styles -- the box, the rows, the numbers, the lines --
+   live with the rest of the interview pages' in conversation.css.
+========================================================== */
+
+/* A line's own control, at the end of the line inside the box (see
+   NumberedListInput's `lineEnd`). It keeps its width however long
+   the text beside it runs, and stays on the first line of a line
+   that wraps, as the number does. */
+.numbered-list-line-end{
+
+    flex:0 0 auto;
+
+    display:flex;
+
+    align-items:flex-start;
+
+    min-width:0;
+
+    padding-right:6px;
+
+}
+
+/* The number on the same line as its text: the same size AND the same
+   line height as the line beside it (.numbered-list-input's 1.5), so
+   with the same 8px above both their baselines meet. At the
+   inherited `normal` line height the number's line was 22px against
+   the text's 27px, and it sat 2.5px above the words it numbers.
+   Two classes, so it holds whichever stylesheet loads last. */
+.numbered-list .numbered-list-number{
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+}
+
+/* A select at the end of a line -- the kind of entry it is, say.
+   Compact: the line's own text with 2px of padding and a hairline
+   border, centred on the line's first row (8px padding + 27px line
+   = 43px; 43 - 31 = 12, so 6px above), so a line with one is no
+   taller than a line without. As wide as its longest option, which
+   is how a native select sizes itself -- so every line's select in
+   a list is the same width and they stand in a column. The chevron
+   is the one every other select in the app draws (see
+   `.brand-style select.interview-input`). */
+.numbered-list-line-end select{
+
+    appearance:none;
+    -webkit-appearance:none;
+
+    box-sizing:border-box;
+
+    max-width:50vw;
+
+    margin-top:6px;
+
+    padding:1px 32px 1px 8px;
+
+    font:inherit;
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:#111827;
+
+    border:1px solid #c9c9c9;
+    border-radius:6px;
+
+    background-color:#ffffff;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23111827' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 12px center;
+    background-size:12px 8px;
+
+    cursor:pointer;
+
+}
+
+.numbered-list-line-end select:hover:not(:disabled){
+
+    border-color:#0b57d0;
+
+}
+
+.numbered-list-line-end select:focus-visible{
+
+    outline:none;
+
+    border-color:#0b57d0;
+
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+
+}
+
+.numbered-list-line-end select:disabled{
+
+    color:#6b7280;
+
+    cursor:not-allowed;
+
+}
