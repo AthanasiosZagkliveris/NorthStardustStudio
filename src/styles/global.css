@@ -74,6 +74,10 @@ body {
    The strict 5-step type scale used everywhere in the app.
    Every font-size declaration in every stylesheet and component
    resolves to one of these five tokens.
+
+   One hard-coded copy: AXIS_TICK_FONT in FinancialParts.tsx
+   measures chart tick labels on a canvas at --font-small's 14px,
+   so a change to --font-small has to be made there as well.
 ========================================================== */
 :root {
   --font-h1: 36px;
