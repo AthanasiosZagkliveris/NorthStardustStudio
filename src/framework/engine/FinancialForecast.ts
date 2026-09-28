@@ -10,7 +10,9 @@
     4, 5 and 7):
     - the profit and loss analyses its expenses by nature, down to an
       operating profit, then other income and finance costs, to a
-      profit before tax; tax is not estimated;
+      profit before tax; income tax is estimated only where the
+      Financial Foundation page gives a rate on profit (see
+      incomeTaxRate), and a pass-through business pays none;
     - the balance sheet is classified: current and non-current assets
       and liabilities, the part of a loan due within 12 months current;
     - the cash flow is grouped into operating, investing and financing
@@ -34,9 +36,12 @@
       cost: never a line of the profit and loss, but set against its
       profit in a reconciliation below it (Profit Kept in the
       Business), which is Financial Sustainability's result;
-    - tax on profit, and VAT or sales tax, are not calculated, and
-      every cost is paid when due (no trade payables): the answers
-      hold no tax rate and no supplier terms.
+    - income tax at a rate is a flat rate on each plan year's profit
+      before tax (none on a loss, no loss carried forward), accrued
+      month by month and paid in the first month of the next plan
+      year; the Financial pages' own results stay before tax;
+    - VAT or sales tax is not calculated, and every cost is paid when
+      due (no trade payables): the answers hold no supplier terms.
 
     The balance sheet balances by construction: every flow above lands
     on exactly one line of it.
@@ -54,6 +59,7 @@ import {
     allFunding,
     costSchedule,
     fundingStanding,
+    incomeTaxRate,
     fundingType,
     isNonCash,
     loanSchedule,
@@ -383,6 +389,40 @@ export function financialForecast(
     const interest = cut(loanInterest);
     const profit = operating.map((amount, index) => amount + grants[index] - interest[index]);
 
+    /* Income tax, where a rate on profit is given: the rate on each
+       plan year's profit before tax, and nothing on a loss (no loss
+       is carried forward). Accrued month by month in proportion to
+       each month's profit, so each year's months add up to exactly
+       its tax; owed until paid in the first month of the next plan
+       year, and the last year's still owed at the plan's end. */
+    const taxRate = incomeTaxRate(foundation);
+    const passThrough = taxRate === null && foundation.incomeTax === "pass-through";
+    const tax = profit.map(() => 0);
+    const taxPaid = profit.map(() => 0);
+    if (taxRate !== null) {
+        for (let from = 0; from < length; from += 12) {
+            const year = profit.slice(from, from + 12);
+            const due = Math.max(0, year.reduce((total, amount) => total + amount, 0)) * taxRate;
+            const gains = year.reduce((total, amount) => total + Math.max(0, amount), 0);
+            year.forEach((amount, offset) => {
+                tax[from + offset] = gains > 0 ? due * Math.max(0, amount) / gains : 0;
+            });
+            if (from + 12 < length) {
+                taxPaid[from + 12] = due;
+            }
+        }
+    }
+    const netProfit = profit.map((amount, index) => amount - tax[index]);
+    // "25%", "21.12%": the rate as it was typed.
+    const ratePercent = taxRate === null ? "" : String(Math.round(taxRate * 10000) / 100) + "%";
+    const taxRows: ForecastRow[] = taxRate !== null
+        ? [flow("Income tax", tax), { ...flow("Net profit", netProfit), total: true }]
+        : [
+            // Without a rate: said, never guessed.
+            { label: "Income tax", kind: "flow", text: passThrough ? "None at business level" : "Not estimated", values: [] },
+            ...(passThrough ? [{ ...flow("Net profit", profit), total: true }] : [])
+        ];
+
     const profitAndLoss: ForecastTable = {
         title: "Profit and Loss Forecast",
         rows: [
@@ -396,21 +436,20 @@ export function financialForecast(
             ...(some(grants) ? [flow("Other income (grants)", grants)] : []),
             ...(some(interest) ? [flow("Finance costs (loan interest)", interest)] : []),
             { ...flow("Profit before tax", profit), total: true },
-            // No tax rate is asked for: said, never guessed.
-            { label: "Income tax", kind: "flow", text: "Not estimated", values: [] }
+            ...taxRows
         ]
     };
 
     /* The owners' drawings, set against the profit: what the business
        keeps, which Financial Sustainability shows as revenue less
        costs (its costs count the founder's pay). */
-    const kept = profit.map((amount, index) => amount - drawings[index]);
+    const kept = netProfit.map((amount, index) => amount - drawings[index]);
     const profitKept: ForecastTable | null = drawingsTaken && some(drawings)
         ? {
             title: "Profit Kept in the Business",
             note: "Profit for the period less the owner's drawings: the result Financial Sustainability shows as revenue less costs, where the founder's pay is a cost.",
             rows: [
-                flow("Profit for the period (before tax)", profit),
+                flow(taxRate !== null ? "Profit for the period (after tax)" : "Profit for the period (before tax)", netProfit),
                 flow("Less: owner's drawings", negative(drawings)),
                 { ...flow("Profit kept in the business", kept), total: true }
             ]
@@ -424,7 +463,8 @@ export function financialForecast(
         flow("Grants received", cut(grantsIn)),
         ...EXPENSE_NATURES.map(nature => flow(nature, negative(paidByNature[nature]))),
         flow("Variable costs of sales", negative(variable)),
-        flow("Interest paid", negative(loanInterest))
+        flow("Interest paid", negative(loanInterest)),
+        flow("Income tax paid", negative(taxPaid))
     ].filter(row => some(row.values) || row.label === "Receipts from customers");
     const investingRows = [
         flow("Purchase of equipment", negative(assetsBought)),
@@ -493,7 +533,8 @@ export function financialForecast(
     const loansLater = loansOwed.map((owed, index) => owed - loansCurrent[index]);
     const openingLoansCurrent = dueWithinYear(0, openingLoans);
     const capital = running(cut(capitalIn), openingCapital);
-    const profitToDate = running(profit, openingRetained);
+    const profitToDate = running(netProfit, openingRetained);
+    const taxOwed = running(tax.map((amount, index) => amount - taxPaid[index]));
     const drawingsToDate = running(negative(drawings));
 
     /* At the plan's start: the money in hand (or short), what is owed
@@ -530,7 +571,8 @@ export function financialForecast(
     ], "Total non-current assets");
     const currentLiabilities = group("Current liabilities", [
         { label: "Cash shortfall (unfunded)", values: shortfall, opening: openingShortfall },
-        { label: "Loans: due within 12 months", values: loansCurrent, opening: openingLoansCurrent }
+        { label: "Loans: due within 12 months", values: loansCurrent, opening: openingLoansCurrent },
+        { label: "Income tax payable", values: taxOwed, opening: 0 }
     ], "Total current liabilities");
     const nonCurrentLiabilities = group("Non-current liabilities", [
         { label: "Loans: due after 12 months", values: loansLater, opening: openingLoans - openingLoansCurrent }
@@ -579,13 +621,25 @@ export function financialForecast(
                     "It is not a line of the profit and loss: it is set against the profit below it, is a financing payment in the cash flow, and reduces equity on the balance sheet."]
                 : []),
             ...(drawingsTaken
-                ? ["Profit kept in the business matches Financial Sustainability's revenue less costs, month by month, except where the profit and loss also counts one-time costs, depreciation, grants or loan interest as they fall."]
+                ? [taxRate !== null
+                    ? "Profit kept in the business is the profit after tax less the drawings. It matches Financial Sustainability's revenue less costs, month by month, except where the profit and loss also counts one-time costs, depreciation, grants, loan interest or income tax as they fall."
+                    : "Profit kept in the business matches Financial Sustainability's revenue less costs, month by month, except where the profit and loss also counts one-time costs, depreciation, grants or loan interest as they fall."]
                 : []),
             "The cash flow is grouped into operating, investing and financing activities (direct method); interest paid is an operating payment.",
             "Cash below zero is shown as a current liability, Cash shortfall (unfunded): money the plan has not found yet, not an arranged overdraft.",
             "The part of a loan repaid within the next 12 months is a current liability; the rest is non-current.",
-            "Income tax, and VAT or sales tax, are not estimated: the Foundation answers hold no tax rate. " +
-                "There are no trade payables: every cost is taken as paid when due, as no supplier payment terms are recorded."
+            ...(taxRate !== null
+                ? ["Income tax is estimated at a flat " + ratePercent + " of each plan year's profit before tax: none on a loss, and no loss carried forward to a later year. " +
+                    "It is accrued month by month in proportion to each month's profit, is a current liability (Income tax payable) until paid, and is paid in the first month of the following plan year; the final plan year's tax is still owed at the plan's end.",
+                "Break even, runway and the funding gap on the Financial Foundation and Financial Sustainability pages are before income tax.",
+                "VAT or sales tax is not estimated. " +
+                    "There are no trade payables: every cost is taken as paid when due, as no supplier payment terms are recorded."]
+                : passThrough
+                    ? ["There is no income tax at business level: as a pass-through business, its profit is taxed as the owners' personal income, which is not estimated here. " +
+                        "VAT or sales tax is not estimated. " +
+                        "There are no trade payables: every cost is taken as paid when due, as no supplier payment terms are recorded."]
+                    : ["Income tax, and VAT or sales tax, are not estimated: the Foundation answers hold no tax rate. " +
+                        "There are no trade payables: every cost is taken as paid when due, as no supplier payment terms are recorded."])
         ]
     };
 

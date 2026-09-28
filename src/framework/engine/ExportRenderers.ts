@@ -85,6 +85,7 @@ import {
     allFunding,
     spentBeforePlan,
     effectiveVatBasis,
+    incomeTaxRate,
     vatBases,
     type CostLine,
     type CostSources,
@@ -732,6 +733,14 @@ export interface FinancialDocumentOptions {
     omitCosts?: boolean;
 }
 
+/** " Income tax is estimated at 21% …": the forecast's tax basis, where one is chosen. */
+function incomeTaxText(page: FinancialFoundationValue): string {
+    const rate = incomeTaxRate(page);
+    return rate !== null
+        ? " Income tax is estimated at " + Math.round(rate * 10000) / 100 + "% of each plan year's profit."
+        : page.incomeTax === "pass-through" ? " No income tax at business level (pass-through)." : "";
+}
+
 export function financialFoundationBlocks(value: unknown, context: ExportContext, document?: FinancialDocumentOptions): ExportBlock[] {
 
     const page = withPlanStart(asFinancialFoundationValue(value));
@@ -756,7 +765,8 @@ export function financialFoundationBlocks(value: unknown, context: ExportContext
     return [
         ...paragraph("The plan starts in " + planMonthLabel(start, 1) + " and runs for " + planLength(page) + " months, to " +
             planMonthLabel(start, planLength(page)) + "." + (currency ? " Amounts are in " + currency + ", " : " Amounts are ") +
-            lowerWords(labelOf(vatBases(jurisdictionProfile(legalEntity.organisation.country).consumptionTax), effectiveVatBasis(page, legalEntity))) + "."),
+            lowerWords(labelOf(vatBases(jurisdictionProfile(legalEntity.organisation.country).consumptionTax), effectiveVatBasis(page, legalEntity))) + "." +
+            incomeTaxText(page)),
 
         ...(document?.omitCosts ? [] : [
         numbered("Costs"),

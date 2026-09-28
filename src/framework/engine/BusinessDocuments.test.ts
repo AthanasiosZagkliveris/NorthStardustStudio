@@ -849,3 +849,126 @@ describe("the industry outlook in the documents", () => {
     });
 
 });
+
+/* Income tax: not estimated, none at business level, or a rate on profit. */
+import { asFinancialFoundationValue, financialFoundationSectionsEmpty } from "./FinancialModel.ts";
+
+describe("income tax in the forecast", () => {
+
+    const quill = JSON.parse(quillfieldText) as typeof example;
+    const loadQuill = (number: number, id: string) =>
+        InterviewSession.fromJSON(quill.systems[String(number)], frameworkRegistry.getFramework(id));
+    /** An example's sessions with the Financial Foundation's income tax set. */
+    const taxed = (which: "Lumen" | "Quillfield", incomeTax: string, incomeTaxRate = "") => {
+        const business = which === "Lumen"
+            ? InterviewSession.fromJSON(example.systems["3"], frameworkRegistry.getFramework("business"))
+            : loadQuill(3, "business");
+        const section = business.getFramework().sections.find(candidate => candidate.answer?.type === AnswerType.FinancialFoundation)!;
+        business.saveResponse(section.number, { ...(business.getResponse(section.number) as object), incomeTax, incomeTaxRate });
+        return which === "Lumen"
+            ? { ...sessions, business }
+            : { ...sessions, identity: loadQuill(1, "identity"), business, organisationName: "Quillfield Automation" };
+    };
+    type Row = { label: string; values: number[]; text?: string; opening?: number };
+    const rowOf = (rows: Row[], label: string) => rows.find(entry => entry.label === label);
+    const yearTotals = (values: number[]) =>
+        Array.from({ length: Math.ceil(values.length / 12) }, (_, year) =>
+            values.slice(year * 12, year * 12 + 12).reduce((a, b) => a + b, 0));
+    const added = (values: number[]) => values.reduce((a, b) => a + b, 0);
+
+    test("saved answers without it load as Not estimated, and it is never missing", () => {
+        const value = asFinancialFoundationValue({ planYears: "3" });
+        expect(value.incomeTax).toBe("");
+        expect(value.incomeTaxRate).toBe("");
+        expect(asFinancialFoundationValue({ incomeTax: "bogus" }).incomeTax).toBe("");
+        const section = sessions.business.getFramework().sections.find(candidate => candidate.answer?.type === AnswerType.FinancialFoundation)!;
+        const saved = sessions.business.getResponse(section.number) as object;
+        expect(financialFoundationSectionsEmpty({ ...saved, incomeTax: "rate", incomeTaxRate: "" }))
+            .toEqual(financialFoundationSectionsEmpty(saved));
+    });
+
+    test("not estimated: the statements are as before", () => {
+        const before = businessForecast(sessions).forecast;
+        const after = businessForecast(taxed("Lumen", "")).forecast;
+        expect(after.profitAndLoss).toEqual(before.profitAndLoss);
+        expect(after.balanceSheet).toEqual(before.balanceSheet);
+        expect(after.cashFlow).toEqual(before.cashFlow);
+        expect(after.notes).toEqual(before.notes);
+    });
+
+    test("pass-through: no tax at business level, net profit is the profit before tax", () => {
+        const { forecast } = businessForecast(taxed("Quillfield", "pass-through"));
+        const rows = forecast.profitAndLoss.rows;
+        expect(rowOf(rows, "Income tax")).toMatchObject({ text: "None at business level" });
+        expect(rowOf(rows, "Net profit")!.values).toEqual(rowOf(rows, "Profit before tax")!.values);
+        expect(rowOf(forecast.balanceSheet.rows, "Income tax payable")).toBeUndefined();
+        expect(forecast.notes.join(" ")).toContain("pass-through");
+    });
+
+    test.each(["Lumen", "Quillfield"] as const)("%s at 25 percent: tax on each year's profit, accrued, and paid the next year", (which) => {
+        const { forecast } = businessForecast(taxed(which, "rate", "25"));
+        const pl = forecast.profitAndLoss.rows;
+        const before = rowOf(pl, "Profit before tax")!.values;
+        const tax = rowOf(pl, "Income tax")!.values;
+        const net = rowOf(pl, "Net profit")!.values;
+        expect(rowOf(pl, "Income tax")!.text).toBeUndefined();
+
+        // Per plan year: max(0, profit before tax) x 25%, no loss carried forward.
+        const expected = yearTotals(before).map(amount => Math.max(0, amount) * 0.25);
+        yearTotals(tax).forEach((amount, year) => expect(amount).toBeCloseTo(expected[year], 6));
+        expect(expected.some(amount => amount > 0), "a year with profit to tax").toBe(true);
+        tax.forEach((amount, month) => {
+            expect(amount).toBeGreaterThanOrEqual(0);
+            expect(net[month]).toBeCloseTo(before[month] - amount, 6);
+        });
+
+        // Paid in cash in the first month of the next plan year; the last year's is still owed.
+        const paid = rowOf(forecast.cashFlow.rows, "Income tax paid")?.values ?? forecast.months.map(() => 0);
+        const payable = rowOf(forecast.balanceSheet.rows, "Income tax payable")!.values;
+        paid.forEach((amount, month) => {
+            const due = month % 12 === 0 && month > 0 ? expected[month / 12 - 1] : 0;
+            expect(amount).toBeCloseTo(-due, 6);
+        });
+        expected.forEach((amount, year) => expect(payable[year * 12 + 11]).toBeCloseTo(amount, 6));
+
+        // The balance sheet still balances.
+        const sheet = (label: string) => rowOf(forecast.balanceSheet.rows, label)!;
+        forecast.months.forEach((_month, index) =>
+            expect(sheet("Total assets").values[index]).toBeCloseTo(sheet("Total liabilities and equity").values[index], 6));
+        expect(sheet("Total assets").opening).toBeCloseTo(sheet("Total liabilities and equity").opening!, 6);
+
+        // The cash flow still reconciles: activities add up, and cash rolls forward.
+        const cash = forecast.cashFlow.rows;
+        const change = rowOf(cash, "Net change in cash")!.values;
+        const totals = cash.filter(entry => /^Net cash/.test(entry.label));
+        forecast.months.forEach((_month, index) => {
+            expect(change[index]).toBeCloseTo(totals.reduce((sum, entry) => sum + entry.values[index], 0), 6);
+            expect(rowOf(cash, "Cash at end of period")!.values[index])
+                .toBeCloseTo(rowOf(cash, "Cash at start of period")!.values[index] + change[index], 6);
+        });
+        const untaxed = businessForecast(taxed(which, "")).forecast.cashFlow.rows;
+        expect(added(rowOf(cash, "Net cash from operating activities")!.values))
+            .toBeCloseTo(added(rowOf(untaxed, "Net cash from operating activities")!.values) + added(paid), 6);
+
+        // What is kept in the business is after tax.
+        if (forecast.profitKept) {
+            expect(rowOf(forecast.profitKept.rows, "Profit for the period (after tax)")!.values).toEqual(net);
+        }
+
+        const notes = forecast.notes.join(" ");
+        expect(notes).toContain("25%");
+        expect(notes).toContain("no loss carried forward");
+        expect(notes).toContain("paid in the first month of the following plan year");
+        expect(notes).toContain("before income tax");
+    });
+
+    test("the Business System export says which basis is used", () => {
+        const all = taxed("Quillfield", "rate", "21");
+        const md = new MarkdownExporter().toMarkdown(all.business, "Foundation", buildExportContent(all.business, "Foundation"));
+        expect(md).toContain("Income tax is estimated at 21% of each plan year's profit.");
+        const through = taxed("Quillfield", "pass-through");
+        expect(new MarkdownExporter().toMarkdown(through.business, "Foundation", buildExportContent(through.business, "Foundation")))
+            .toContain("No income tax at business level (pass-through).");
+    });
+
+});

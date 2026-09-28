@@ -180,3 +180,36 @@ describe("FinancialSustainabilityEditor number limits", () => {
     });
 
 });
+
+describe("FinancialFoundationEditor income tax", () => {
+
+    it("offers Not estimated by default, and a rate from 0 to 100 with two decimals", () => {
+
+        let saved: unknown;
+        function TaxHarness() {
+            const [value, setValue] = useState<unknown>(asFinancialFoundationValue(undefined));
+            return <FinancialFoundationEditor value={value} onChange={(next) => { saved = next; setValue(next); }} />;
+        }
+
+        render(<TaxHarness />);
+
+        expect(screen.getByRole("button", { name: "Income Tax: what this means" })).toBeTruthy();
+        expect(screen.queryByLabelText("Tax Rate (%)")).toBeNull();
+
+        fireEvent.click(screen.getByRole("button", { name: "Income tax: Not estimated" }));
+        expect(screen.getAllByRole("option").map(option => option.textContent))
+            .toEqual(["Not estimated", "No tax at business level (pass-through)", "Rate on profit"]);
+        fireEvent.click(screen.getByRole("option", { name: "Rate on profit" }));
+        expect(asFinancialFoundationValue(saved).incomeTax).toBe("rate");
+
+        const rate = screen.getByLabelText("Tax Rate (%)") as HTMLInputElement;
+        // The keystroke that would take it past 100 is refused.
+        typeInto(rate, "120");
+        expect(rate.value).toBe("12");
+        typeInto(rate, "21.125");
+        expect(rate.value).toBe("21.12");
+        expect(asFinancialFoundationValue(saved).incomeTaxRate).toBe("21.12");
+
+    });
+
+});

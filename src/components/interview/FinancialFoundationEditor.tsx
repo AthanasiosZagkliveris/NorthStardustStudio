@@ -41,6 +41,7 @@ import {
     paidBeforePlan,
     scheduledAmount,
     possibleDuplicates,
+    INCOME_TAX_BASES,
     vatBases,
     isScheduled,
     loanSchedule,
@@ -1747,6 +1748,32 @@ export default function FinancialFoundationEditor({
                         })}
                     />
                 </BusinessField>
+                {/* How the forecast treats tax on profit. Not
+                    estimated until chosen, as before it was asked. */}
+                <BusinessField
+                    label="Income Tax"
+                    info={["Income tax on profit. Pass-through businesses (e.g. most sole traders and single-member LLCs) pay it personally, not at business level. For a company, enter the corporate rate; ask your accountant."]}
+                >
+                    <OptionPicker
+                        label="Income tax"
+                        placeholder="Select"
+                        options={INCOME_TAX_BASES.map(entry => entry.label)}
+                        disabled={disabled}
+                        value={INCOME_TAX_BASES.find(entry => entry.id === stored.incomeTax)?.label ?? ""}
+                        onChange={(next) => update({
+                            incomeTax: INCOME_TAX_BASES.find(entry => entry.label === next)?.id ?? ""
+                        })}
+                    />
+                </BusinessField>
+                {stored.incomeTax === "rate" && textInput(
+                    "Tax Rate (%)",
+                    "Tax Rate (%)",
+                    stored.incomeTaxRate,
+                    (next) => update({ incomeTaxRate: next }),
+                    "e.g. 25",
+                    undefined,
+                    NUMBER_LIMITS.percent
+                )}
                 <span className="financial-plan-meta">
                     Currency: {currency || "not set"}
                     {!currency && " (choose a country on 1. Identity System → 3. Legal Entity)"}

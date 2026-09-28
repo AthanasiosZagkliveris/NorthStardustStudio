@@ -547,6 +547,25 @@ const VAT_BASES = [
 
 type VatBasis = typeof VAT_BASES[number]["id"];
 
+/** How income tax is estimated: the picker beside the VAT basis. */
+export const INCOME_TAX_BASES = [
+    { id: "", label: "Not estimated" },
+    { id: "pass-through", label: "No tax at business level (pass-through)" },
+    { id: "rate", label: "Rate on profit" }
+] as const;
+
+export type IncomeTaxBasis = typeof INCOME_TAX_BASES[number]["id"];
+
+/**
+ * The income tax rate in force, as a fraction: null unless a rate on
+ * profit is chosen AND a rate is given. A rate chosen and left blank
+ * is not estimated, rather than taxed at nothing.
+ */
+export function incomeTaxRate(value: FinancialFoundationValue): number | null {
+    const rate = value.incomeTax === "rate" ? parseAmount(value.incomeTaxRate) : null;
+    return rate === null ? null : Math.min(100, Math.max(0, rate)) / 100;
+}
+
 /**
  * The three bases in the words of the country's own tax: "Excluding
  * VAT" in the UK, "Not registered for Sales Tax" in the US. Sales tax
@@ -581,6 +600,14 @@ export interface FinancialFoundationValue {
     planYears: string;
     /** "" until chosen: follow the Legal Entity's VAT registration. */
     vatBasis: VatBasis | "";
+    /**
+     * Income tax on profit, for the forecast: "" is not estimated,
+     * "pass-through" is none at business level (the owners pay it
+     * personally), "rate" is incomeTaxRate percent of the profit.
+     */
+    incomeTax: IncomeTaxBasis;
+    /** Percent, as typed; read only where incomeTax is "rate". */
+    incomeTaxRate: string;
     /** Classification of the costs recorded elsewhere, by their id. */
     classified: Record<string, Partial<CostClassification>>;
     costs: OwnCostValue[];
@@ -733,6 +760,10 @@ function parseFinancialFoundation(value: unknown): FinancialFoundationValue {
         planYears: PLAN_YEAR_CHOICES.map(String).includes(asText(source.planYears)) ? asText(source.planYears) : "",
 
         vatBasis: oneOf(source.vatBasis, ["excluding", "including", "not-registered", ""] as const, ""),
+
+        // Asked for later: an answer saved before it is not estimated.
+        incomeTax: oneOf(source.incomeTax, ["pass-through", "rate", ""] as const, ""),
+        incomeTaxRate: asText(source.incomeTaxRate),
 
         classified,
 
