@@ -1858,7 +1858,8 @@ export default function BusinessCapabilityEditor({
         scope: Scope,
         activity: BusinessActivityValue,
         number: number,
-        drag: ReturnType<typeof useListDrag>,
+        /** null for a completed row, which cannot be reordered. */
+        drag: ReturnType<typeof useListDrag> | null,
         index: number,
         onActivity: (patch: Partial<BusinessActivityValue>) => void,
         onRemove: () => void
@@ -1869,7 +1870,7 @@ export default function BusinessCapabilityEditor({
         // The drag hook supplies a class of its own while a row is
         // being dragged over, so the two are merged rather than one
         // overwriting the other.
-        const { className: dropTarget, ...dragProps } = drag.itemProps(index);
+        const { className: dropTarget, ...dragProps } = drag ? drag.itemProps(index) : { className: "" };
 
         const open = folds.isOpen(activity.id);
 
@@ -1903,8 +1904,8 @@ export default function BusinessCapabilityEditor({
                     <FoldArrow open={open} label={"Activity " + number} onToggle={() => folds.toggle(activity.id)} />
 
                     <span
-                        className="strategy-box-number business-capability-handle"
-                        {...drag.handleProps}
+                        className={"strategy-box-number" + (drag ? " business-capability-handle" : "")}
+                        {...drag?.handleProps}
                     >
                         {number + "."}
                     </span>
@@ -3188,7 +3189,7 @@ function ActivityList({
         scope: Scope,
         activity: BusinessActivityValue,
         number: number,
-        drag: ReturnType<typeof useListDrag>,
+        drag: ReturnType<typeof useListDrag> | null,
         index: number,
         onActivity: (patch: Partial<BusinessActivityValue>) => void,
         onRemove: () => void
@@ -3277,9 +3278,12 @@ function ActivityList({
 
                     {completedOpen && (
                         <div id={listKey + "-completed"}>
+                            {/* No drag: the reorder acts on the active
+                                list, and a completed row has no place
+                                in it. */}
                             {rows(done.map((activity, index) => renderRow(
                                 scope, activity, active.length + index + 1,
-                                drag, index,
+                                null, index,
                                 change(activity), remove(activity)
                             )))}
                         </div>

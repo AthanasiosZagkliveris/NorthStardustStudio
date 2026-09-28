@@ -225,3 +225,63 @@ describe("BusinessCapabilityEditor number limits", () => {
     });
 
 });
+
+describe("BusinessCapabilityEditor completed activities", () => {
+
+    // Completed rows cannot be reordered, so they offer no drag: a
+    // drag begun on one must never move an active row instead.
+    it("does not let a completed row be dragged onto the active list", () => {
+
+        const initial = {
+            ...asBusinessCapabilityValue(undefined),
+            activities: [{
+                id: BUSINESS_ACTIVITY_CATEGORIES[0].id,
+                name: "",
+                activities: [
+                    { ...createBusinessActivity(), name: "Alpha" },
+                    { ...createBusinessActivity(), name: "Beta" },
+                    { ...createBusinessActivity(), name: "Done", completed: true }
+                ]
+            }]
+        };
+
+        let saved: unknown = initial;
+
+        function ValueHarness() {
+            const [value, setValue] = useState<unknown>(initial);
+            return (
+                <BusinessCapabilityEditor
+                    value={value}
+                    onChange={(next) => { saved = next; setValue(next); }}
+                />
+            );
+        }
+
+        const { container } = render(<ValueHarness />);
+
+        fireEvent.click(screen.getByRole("button", { name: "Completed 1" }));
+
+        const row = (name: string) =>
+            screen.getByText(name).closest(".business-capability-activity") as HTMLElement;
+
+        const done = row("Done");
+        const beta = row("Beta");
+        const dataTransfer = { setData: () => {}, effectAllowed: "", dropEffect: "" };
+
+        expect(done.querySelector(".business-capability-handle")).toBeNull();
+
+        const handle = done.querySelector(".strategy-box-number");
+        if (handle) {
+            fireEvent.mouseDown(handle);
+        }
+        fireEvent.dragStart(done, { dataTransfer });
+        fireEvent.dragOver(beta, { dataTransfer });
+        fireEvent.drop(beta, { dataTransfer });
+
+        const names = asBusinessCapabilityValue(saved).activities[0].activities.map(entry => entry.name);
+        expect(names).toEqual(["Alpha", "Beta", "Done"]);
+        expect(container.querySelector(".strategy-drop-target")).toBeNull();
+
+    });
+
+});
