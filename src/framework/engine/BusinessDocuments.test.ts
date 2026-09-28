@@ -64,17 +64,17 @@ describe("business documents", () => {
         expect(forecast.months[0]).toBe("Oct 2026");
 
         const row = (label: string) => forecast.cashFlow.rows.find(entry => entry.label === label)!;
-        const closing = row("Closing balance").values;
+        const closing = row("Cash at end of period").values;
         // Each month opens where the last one closed.
-        row("Opening balance").values.slice(1).forEach((amount, index) => expect(amount).toBeCloseTo(closing[index], 6));
+        row("Cash at start of period").values.slice(1).forEach((amount, index) => expect(amount).toBeCloseTo(closing[index], 6));
 
         const annual = forecastView(forecast, "annual", 2);
         expect(annual.columns).toEqual(["Year 1 (Oct 2026 – Sep 2027)", "Year 2 (Oct 2027 – Sep 2028)"]);
-        const cash = annual.tables[0];
-        const yearClosing = cash.rows.find(entry => entry.label === "Closing balance")!.values;
+        const cash = annual.tables.find(table => table.title === "Cash-Flow Forecast")!;
+        const yearClosing = cash.rows.find(entry => entry.label === "Cash at end of period")!.values;
         expect(yearClosing[1]).toBeCloseTo(closing[23], 6);
-        const receipts = cash.rows.find(entry => entry.label === "Total receipts")!.values;
-        expect(receipts[0]).toBeCloseTo(row("Total receipts").values.slice(0, 12).reduce((a, b) => a + b, 0), 6);
+        const net = cash.rows.find(entry => entry.label === "Net change in cash")!.values;
+        expect(net[0]).toBeCloseTo(row("Net change in cash").values.slice(0, 12).reduce((a, b) => a + b, 0), 6);
 
         // The balance sheet balances, every month.
         const sheet = (label: string) => forecast.balanceSheet.rows.find(entry => entry.label === label)!.values;
@@ -82,8 +82,8 @@ describe("business documents", () => {
             expect(amount).toBeCloseTo(sheet("Total liabilities and equity")[index], 6));
         expect(sheet("Cash")[35]).toBeCloseTo(closing[35], 6);
         // The looms and furniture are assets, spread over three years.
-        expect(sheet("Equipment, after depreciation")[0]).toBeGreaterThan(8000);
-        expect(forecast.profitAndLoss.rows.some(entry => entry.label === "Grant income")).toBe(true);
+        expect(sheet("Equipment (net of depreciation)")[0]).toBeGreaterThan(8000);
+        expect(forecast.profitAndLoss.rows.some(entry => entry.label === "Other income (grants)")).toBe(true);
 
         const csv = forecastCsv(forecastView(forecast, "monthly", 1), { organization: "Lumen & Loom", currency: "GBP", notes: forecast.notes });
         const lines = csv.slice(1).split(String.fromCharCode(13, 10));
@@ -115,21 +115,28 @@ describe("the forecast's accounting conventions", () => {
         const { forecast } = businessForecast(quillSessions);
         const pl = (label: string) => forecast.profitAndLoss.rows.find(entry => entry.label === label);
         const sheet = (label: string) => forecast.balanceSheet.rows.find(entry => entry.label === label)!.values;
-        expect(pl("Owner's drawings (not a cost)")?.values[0]).toBeCloseTo(4500, 6);
-        expect(forecast.cashFlow.rows.find(entry => entry.label === "Owner's drawings")?.values[0]).toBeCloseTo(4500, 6);
+        // Never a line of the profit and loss: a financing payment, and less equity.
+        expect(forecast.profitAndLoss.rows.some(entry => /drawings/i.test(entry.label))).toBe(false);
+        expect(pl("Salaries")).toBeUndefined();
+        expect(forecast.cashFlow.rows.find(entry => entry.label === "Owner's drawings")?.values[0]).toBeCloseTo(-4500, 6);
+        expect(sheet("Less: owner's drawings")[0]).toBeCloseTo(-4500, 6);
         sheet("Total assets").forEach((amount, index) =>
             expect(amount).toBeCloseTo(sheet("Total liabilities and equity")[index], 6));
         // The annual insurance and fees are a twelfth a month; what is paid ahead is prepaid.
-        expect(sheet("Prepaid costs")[0]).toBeGreaterThan(0);
+        expect(sheet("Prepaid expenses")[0]).toBeGreaterThan(0);
         // $1,350 of formation fees were paid before the plan: out of the opening cash.
-        expect(forecast.cashFlow.rows.find(entry => entry.label === "Opening balance")!.values[0]).toBeCloseTo(10650, 6);
+        expect(forecast.cashFlow.rows.find(entry => entry.label === "Cash at start of period")!.values[0]).toBeCloseTo(10650, 6);
     });
 
     test("a company's founders are paid a salary; a grant is never capital", () => {
         const { forecast } = businessForecast(sessions);
-        expect(forecast.profitAndLoss.rows.some(entry => entry.label.startsWith("Owner's drawings"))).toBe(false);
+        expect(forecast.profitAndLoss.rows.some(entry => /drawings/i.test(entry.label))).toBe(false);
+        expect(forecast.profitKept).toBeNull();
+        // Their salaries are a cost, analysed by nature.
+        expect(forecast.profitAndLoss.rows.find(entry => entry.label === "Salaries")!.values[0]).toBeCloseTo(5400, 6);
         // Lumen's founders put in £13,000; the Hackney grant is income, not capital.
-        expect(forecast.balanceSheet.rows.find(entry => entry.label === "Capital put in")!.values[0]).toBeCloseTo(13000, 6);
+        expect(forecast.balanceSheet.rows.find(entry => entry.label === "Share capital")!.values[0]).toBeCloseTo(13000, 6);
+        expect(forecast.balanceSheet.rows.some(entry => entry.label === "Retained earnings")).toBe(true);
     });
 
 });
@@ -247,24 +254,26 @@ describe("Quillfield: the documents tie together", () => {
     test("negative cash is funding still to be found, and the balance sheet still balances", () => {
         const { forecast } = businessForecast(all);
         const sheet = (label: string) => forecast.balanceSheet.rows.find(entry => entry.label === label)!;
-        const closing = forecast.cashFlow.rows.find(entry => entry.label === "Closing balance")!.values;
+        const closing = forecast.cashFlow.rows.find(entry => entry.label === "Cash at end of period")!.values;
         // Quillfield's cash runs below zero in 2027.
         expect(Math.min(...closing)).toBeLessThan(0);
         closing.forEach((amount, index) => {
             expect(sheet("Cash").values[index]).toBeCloseTo(Math.max(0, amount), 6);
-            expect(sheet("Funding still to be found").values[index]).toBeCloseTo(Math.max(0, -amount), 6);
+            expect(sheet("Cash shortfall (unfunded)").values[index]).toBeCloseTo(Math.max(0, -amount), 6);
             expect(sheet("Total assets").values[index]).toBeCloseTo(sheet("Total liabilities and equity").values[index], 6);
         });
         // The opening column balances too.
         expect(sheet("Total assets").opening).toBeCloseTo(sheet("Total liabilities and equity").opening!, 6);
         expect(sheet("Cash").opening).toBeCloseTo(10650, 6);
-        expect(forecast.balanceSheet.rows.filter(row => row.heading).map(row => row.label)).toEqual(["Assets", "Liabilities", "Equity"]);
+        expect(forecast.balanceSheet.rows.filter(row => row.heading).map(row => row.label))
+            .toEqual(["Current assets", "Non-current assets", "Current liabilities", "Equity"]);
         const view = forecastView(forecast, "annual", 3);
-        expect(view.tables[2].columns[0]).toBe("Opening (Jan 2027)");
-        expect(view.tables[2].columns).toHaveLength(4);
+        const balance = view.tables.find(table => table.title === "Balance Sheet")!;
+        expect(balance.columns[0]).toBe("Opening (Jan 2027)");
+        expect(balance.columns).toHaveLength(4);
     });
 
-    test("profit after owner's drawings is Financial Sustainability's monthly result", () => {
+    test("profit kept in the business is Financial Sustainability's monthly result", () => {
         // Without the one-time costs (which the profit and loss counts
         // when paid, and Financial Sustainability leaves to the funding),
         // the two agree month by month.
@@ -272,11 +281,11 @@ describe("Quillfield: the documents tie together", () => {
         const lines = onlyRecurring.lines.filter(line => line.frequency !== "one-time");
         const forecast = financialForecast(onlyRecurring.financial, onlyRecurring.revenuePage, lines, onlyRecurring.legalEntity, onlyRecurring.format);
         const outlook = sustainability(onlyRecurring.revenuePage, onlyRecurring.financial, lines, onlyRecurring.legalEntity, onlyRecurring.format);
-        const after = forecast.profitAndLoss.rows.find(row => row.label === "Profit after owner's drawings")!.values;
+        const after = forecast.profitKept!.rows.find(row => row.label === "Profit kept in the business")!.values;
         outlook.months.forEach((month, index) => expect(after[index]).toBeCloseTo(month.revenue - month.costs, 6));
 
         // With them, break even still falls in the same month: Jul 2027.
-        const full = businessForecast(all).forecast.profitAndLoss.rows.find(row => row.label === "Profit after owner's drawings")!.values;
+        const full = businessForecast(all).forecast.profitKept!.rows.find(row => row.label === "Profit kept in the business")!.values;
         expect(full.findIndex(amount => amount >= 0) + 1).toBe(f.outlook.breakEvenMonth);
         expect(f.outlook.breakEvenMonth).toBe(7);
     });
@@ -305,7 +314,8 @@ describe("Quillfield: the documents tie together", () => {
         expect(planMd).toContain("Website: quillfieldautomation.com");
         // Financial Projections, with the drawings line.
         expect(at("Financial Projections")).toContain("### Profit and Loss");
-        expect(at("Financial Projections")).toContain("| Profit after owner's drawings |");
+        expect(at("Financial Projections")).toContain("### Profit Kept in the Business");
+        expect(at("Financial Projections")).toContain("| Profit kept in the business |");
         expect(at("Financial Projections")).toContain("### Balance Sheet");
         // Strategy.
         expect(planMd).toContain("| Internal | • Founder with hands-on automation");
@@ -335,9 +345,12 @@ describe("Quillfield: the documents tie together", () => {
     test("the forecast exports as a document", () => {
         const md = new MarkdownExporter().toMarkdown(all.business, "Foundation", businessForecastContent(all, "annual", 3));
         expect(md).toContain("# Financial Forecast: Quillfield Automation LLC");
-        expect(md).toContain("## 1. Cash-Flow Forecast");
-        expect(md).toContain("| Profit after owner's drawings |");
-        expect(md).toContain("| Funding still to be found |");
+        expect(md).toContain("## 1. Profit and Loss Forecast");
+        expect(md).toContain("## 2. Profit Kept in the Business");
+        expect(md).toContain("| Profit kept in the business |");
+        expect(md).toContain("| Cash shortfall (unfunded) |");
+        expect(md).toContain("| Income tax | Not estimated |");
+        expect(md).not.toContain("-$0");
     });
 
     test("the canvas: ongoing work, kept resources, prices times volumes", () => {
@@ -396,15 +409,18 @@ describe("Quillfield: the documents tie together", () => {
         const { forecast } = businessForecast(all);
         const annual = forecastView(forecast, "annual", 3);
         annual.tables.forEach(table => table.rows
-            .filter(row => !row.heading && !row.total)
+            .filter(row => !row.heading && !row.total && row.text === undefined)
             .forEach(row => expect(row.values.some(amount => Math.abs(amount) > 0.005), row.label).toBe(true)));
-        expect(annual.tables[0].rows.some(row => row.label === "Loan interest")).toBe(false);
+        expect(annual.tables.map(table => table.title))
+            .toEqual(["Profit and Loss Forecast", "Profit Kept in the Business", "Balance Sheet", "Cash-Flow Forecast"]);
+        const byTitle = (view: typeof annual, title: string) => view.tables.find(table => table.title === title)!;
+        expect(byTitle(annual, "Cash-Flow Forecast").rows.some(row => row.label === "Interest paid")).toBe(false);
         const monthly = forecastView(forecast, "monthly", 2);
         expect(monthly.columns).toHaveLength(26);
         expect(monthly.columns[12]).toBe("Year 1");
-        expect(monthly.tables[0].subtotalColumns).toEqual([12, 25]);
-        expect(monthly.tables[2].subtotalColumns).toEqual([13, 26]);
-        const receipts = monthly.tables[0].rows.find(row => row.label === "Total receipts")!.values;
+        expect(byTitle(monthly, "Cash-Flow Forecast").subtotalColumns).toEqual([12, 25]);
+        expect(byTitle(monthly, "Balance Sheet").subtotalColumns).toEqual([13, 26]);
+        const receipts = byTitle(monthly, "Cash-Flow Forecast").rows.find(row => row.label === "Receipts from customers")!.values;
         expect(receipts[12]).toBeCloseTo(receipts.slice(0, 12).reduce((a, b) => a + b, 0), 6);
     });
 
@@ -435,9 +451,10 @@ describe("Quillfield: the documents tie together", () => {
         const monthly = businessForecastContent(all, "monthly", 3);
         expect(monthly.landscape).toBe(true);
         expect(monthly.sections.map(entry => entry.title)).toEqual([
-            "Cash-Flow Forecast: Year 1", "Cash-Flow Forecast: Year 2", "Cash-Flow Forecast: Year 3",
             "Profit and Loss Forecast: Year 1", "Profit and Loss Forecast: Year 2", "Profit and Loss Forecast: Year 3",
+            "Profit Kept in the Business: Year 1", "Profit Kept in the Business: Year 2", "Profit Kept in the Business: Year 3",
             "Balance Sheet: Year 1", "Balance Sheet: Year 2", "Balance Sheet: Year 3",
+            "Cash-Flow Forecast: Year 1", "Cash-Flow Forecast: Year 2", "Cash-Flow Forecast: Year 3",
             "Notes"
         ]);
         // Every split table's own table block has one column per month
@@ -452,21 +469,22 @@ describe("Quillfield: the documents tie together", () => {
         // A single plan year is already narrow enough: left as one table.
         const oneYear = businessForecastContent(all, "monthly", 1);
         expect(oneYear.sections.map(entry => entry.title)).toEqual([
-            "Cash-Flow Forecast", "Profit and Loss Forecast", "Balance Sheet", "Notes"
+            "Profit and Loss Forecast", "Profit Kept in the Business", "Balance Sheet", "Cash-Flow Forecast", "Notes"
         ]);
 
         // The annual view is narrow regardless of plan length: never split.
         const annual = businessForecastContent(all, "annual", 3);
         expect(annual.landscape).toBe(true);
         expect(annual.sections.map(entry => entry.title)).toEqual([
-            "Cash-Flow Forecast", "Profit and Loss Forecast", "Balance Sheet", "Notes"
+            "Profit and Loss Forecast", "Profit Kept in the Business", "Balance Sheet", "Cash-Flow Forecast", "Notes"
         ]);
     });
 
     test("splitMonthlyTableByYear keeps the Opening column with Year 1 only, and each year's own subtotal", () => {
         const { forecast } = businessForecast(all);
         const view = forecastView(forecast, "monthly", 2);
-        const [cashFlow, , balanceSheet] = view.tables;
+        const cashFlow = view.tables.find(table => table.title === "Cash-Flow Forecast")!;
+        const balanceSheet = view.tables.find(table => table.title === "Balance Sheet")!;
 
         const cashParts = splitMonthlyTableByYear(cashFlow);
         expect(cashParts).toHaveLength(2);
@@ -474,8 +492,8 @@ describe("Quillfield: the documents tie together", () => {
         expect(cashParts[0].subtotalColumns).toEqual([12]);
         expect(cashParts[1].columns).toEqual(cashFlow.columns.slice(13, 26));
         expect(cashParts[1].subtotalColumns).toEqual([12]);
-        const receiptsYear1 = cashParts[0].rows.find(row => row.label === "Total receipts")!.values;
-        const receiptsYear1FromFull = cashFlow.rows.find(row => row.label === "Total receipts")!.values.slice(0, 13);
+        const receiptsYear1 = cashParts[0].rows.find(row => row.label === "Receipts from customers")!.values;
+        const receiptsYear1FromFull = cashFlow.rows.find(row => row.label === "Receipts from customers")!.values.slice(0, 13);
         expect(receiptsYear1).toEqual(receiptsYear1FromFull);
 
         const sheetParts = splitMonthlyTableByYear(balanceSheet);
@@ -484,6 +502,173 @@ describe("Quillfield: the documents tie together", () => {
 
         // A table already one plan year comes back unchanged.
         expect(splitMonthlyTableByYear(forecastView(forecast, "monthly", 1).tables[0])).toEqual([forecastView(forecast, "monthly", 1).tables[0]]);
+    });
+
+});
+
+/*
+    The statements' structure, as the standards lay them out (IFRS for
+    SMEs Sections 4, 5 and 7): checked on both examples -- Lumen, a
+    company with a loan, a grant and a deposit; Quillfield, an LLC
+    whose owner takes drawings and whose cash runs short.
+*/
+describe("the forecast statements' structure", () => {
+
+    const quill = JSON.parse(quillfieldText) as typeof example;
+    const loadQuill = (number: number, id: string) =>
+        InterviewSession.fromJSON(quill.systems[String(number)], frameworkRegistry.getFramework(id));
+    const quillSessions = {
+        ...sessions,
+        identity: loadQuill(1, "identity"),
+        business: loadQuill(3, "business"),
+        organisationName: "Quillfield Automation"
+    };
+    const examples: [string, typeof sessions][] = [["Lumen", sessions], ["Quillfield", quillSessions]];
+
+    type Row = { label: string; total?: boolean; heading?: boolean; values: number[]; opening?: number };
+    /** The rows under each heading, and the total that closes them. */
+    const sections = (rows: Row[]) => {
+        const found: { title: string; lines: Row[]; total: Row }[] = [];
+        rows.forEach((row, index) => {
+            if (!row.heading) {
+                return;
+            }
+            const rest = rows.slice(index + 1);
+            const end = rest.findIndex(entry => entry.total || entry.heading);
+            found.push({ title: row.label, lines: rest.slice(0, end), total: rest[end] });
+        });
+        return found;
+    };
+    const added = (rows: Row[], index: number) => rows.reduce((sum, row) => sum + row.values[index], 0);
+
+    test.each(examples)("%s: the cash flow's activities each add up, and together make the net change in cash", (_, which) => {
+        const { forecast } = businessForecast(which);
+        const rows = forecast.cashFlow.rows;
+        const row = (label: string) => rows.find(entry => entry.label === label)!;
+        const activities = sections(rows);
+        expect(activities[0].title).toBe("Operating activities");
+        expect(activities.every(entry => /^(Operating|Investing|Financing) activities$/.test(entry.title))).toBe(true);
+        forecast.months.forEach((_month, index) => {
+            activities.forEach(activity => expect(activity.total.values[index], activity.title)
+                .toBeCloseTo(added(activity.lines, index), 6));
+            expect(row("Net change in cash").values[index]).toBeCloseTo(added(activities.map(entry => entry.total), index), 6);
+            expect(row("Cash at end of period").values[index])
+                .toBeCloseTo(row("Cash at start of period").values[index] + row("Net change in cash").values[index], 6);
+        });
+        // Money out is negative: the drawings, repayments and equipment.
+        rows.filter(entry => /^(Owner's drawings|Loan repayments|Purchase of equipment|Deposits paid|Interest paid)$/.test(entry.label))
+            .forEach(entry => entry.values.forEach(amount => expect(amount, entry.label).toBeLessThanOrEqual(0)));
+    });
+
+    test("equipment and deposits are investing; capital, loans and drawings financing", () => {
+        const lumen = businessForecast(sessions).forecast.cashFlow.rows.map(row => row.label);
+        const under = (rows: string[], heading: string, label: string) => {
+            const from = rows.indexOf(heading);
+            const to = rows.findIndex((entry, index) => index > from && entry.startsWith("Net cash"));
+            return rows.indexOf(label) > from && rows.indexOf(label) < to;
+        };
+        expect(under(lumen, "Investing activities", "Purchase of equipment")).toBe(true);
+        expect(under(lumen, "Investing activities", "Deposits paid")).toBe(true);
+        expect(under(lumen, "Financing activities", "Loan repayments")).toBe(true);
+        expect(under(lumen, "Operating activities", "Grants received")).toBe(true);
+        expect(under(lumen, "Operating activities", "Interest paid")).toBe(true);
+        const quillCash = businessForecast(quillSessions).forecast.cashFlow.rows;
+        expect(under(quillCash.map(row => row.label), "Financing activities", "Owner's drawings")).toBe(true);
+        // The $450 video kit is investing, not an operating payment.
+        expect(quillCash.find(row => row.label === "Purchase of equipment")!.values.reduce((a, b) => a + b, 0)).toBeCloseTo(-450, 6);
+    });
+
+    test.each(examples)("%s: the balance sheet is classified, its groups add up, and it balances", (_, which) => {
+        const { forecast } = businessForecast(which);
+        const rows = forecast.balanceSheet.rows;
+        const row = (label: string) => rows.find(entry => entry.label === label);
+        const groups = sections(rows);
+        const total = (label: string) => groups.find(entry => entry.total.label === label)?.total;
+        // Every month, and the Opening column (-1).
+        const columns = [...forecast.months.map((_month, index) => index), -1];
+        const at = (entry: Row | undefined, index: number) => !entry ? 0 : index < 0 ? entry.opening ?? 0 : entry.values[index];
+        columns.forEach(index => {
+            groups.forEach(group => expect(at(group.total, index), group.title)
+                .toBeCloseTo(group.lines.reduce((sum, line) => sum + at(line, index), 0), 6));
+            expect(at(row("Total assets"), index))
+                .toBeCloseTo(at(total("Total current assets"), index) + at(total("Total non-current assets"), index), 6);
+            expect(at(row("Total liabilities"), index))
+                .toBeCloseTo(at(total("Total current liabilities"), index) + at(total("Total non-current liabilities"), index), 6);
+            expect(at(row("Total liabilities and equity"), index))
+                .toBeCloseTo(at(row("Total liabilities"), index) + at(total("Total equity"), index), 6);
+            expect(at(row("Total assets"), index)).toBeCloseTo(at(row("Total liabilities and equity"), index), 6);
+        });
+    });
+
+    test("a loan's next 12 months of repayments are current, the rest non-current", () => {
+        const { forecast } = businessForecast(sessions);
+        const sheet = (label: string) => forecast.balanceSheet.rows.find(entry => entry.label === label)!;
+        const repaid = forecast.cashFlow.rows.find(entry => entry.label === "Loan repayments")!.values.map(amount => -amount);
+        // Lumen's £15,000 Start Up Loan runs 60 months: both parts show.
+        expect(sheet("Loans: due within 12 months").values[0]).toBeCloseTo(repaid.slice(1, 13).reduce((a, b) => a + b, 0), 6);
+        expect(sheet("Loans: due after 12 months").values[0]).toBeGreaterThan(0);
+        expect(sheet("Loans: due within 12 months").opening! + sheet("Loans: due after 12 months").opening!).toBeCloseTo(15000, 6);
+    });
+
+    test.each(examples)("%s: the profit and loss runs by nature down to profit before tax, tax not estimated", (_, which) => {
+        const { forecast } = businessForecast(which);
+        const rows = forecast.profitAndLoss.rows;
+        const row = (label: string) => rows.find(entry => entry.label === label);
+        const expenses = sections(rows).find(entry => entry.title === "Operating expenses")!;
+        expect(expenses.total.label).toBe("Total operating expenses");
+        expect(expenses.lines.some(line => /Establishment|Operating costs|Offering costs/.test(line.label))).toBe(false);
+        forecast.months.forEach((_month, index) => {
+            expect(expenses.total.values[index]).toBeCloseTo(added(expenses.lines, index), 6);
+            expect(row("Operating profit")!.values[index])
+                .toBeCloseTo(row("Gross profit")!.values[index] - expenses.total.values[index], 6);
+            expect(row("Profit before tax")!.values[index]).toBeCloseTo(row("Operating profit")!.values[index] +
+                (row("Other income (grants)")?.values[index] ?? 0) - (row("Finance costs (loan interest)")?.values[index] ?? 0), 6);
+        });
+        expect(rows[rows.length - 1]).toMatchObject({ label: "Income tax", text: "Not estimated" });
+    });
+
+    test("Quillfield: profit, less the owner's drawings, is the profit kept in the business", () => {
+        const { forecast } = businessForecast(quillSessions);
+        const kept = forecast.profitKept!;
+        const line = (label: string) => kept.rows.find(entry => entry.label === label)!.values;
+        const profit = forecast.profitAndLoss.rows.find(entry => entry.label === "Profit before tax")!.values;
+        forecast.months.forEach((_month, index) => {
+            expect(line("Profit for the period (before tax)")[index]).toBeCloseTo(profit[index], 6);
+            expect(line("Less: owner's drawings")[index]).toBeCloseTo(-4500, 6);
+            expect(line("Profit kept in the business")[index]).toBeCloseTo(profit[index] - 4500, 6);
+        });
+        // By plan year too, directly below the profit and loss.
+        const annual = forecastView(forecast, "annual", 3);
+        expect(annual.tables[1].title).toBe("Profit Kept in the Business");
+        expect(annual.tables[1].rows.find(entry => entry.label === "Less: owner's drawings")!.values).toEqual([-54000, -54000, -54000]);
+    });
+
+    test("the quarterly view: four quarters and the year, adding up to the annual figures", () => {
+        const { forecast } = businessForecast(quillSessions);
+        const quarterly = forecastView(forecast, "quarterly", 3);
+        const annual = forecastView(forecast, "annual", 3);
+        expect(quarterly.columns.slice(0, 5)).toEqual(["Q1 (Jan – Mar 2027)", "Q2 (Apr – Jun 2027)", "Q3 (Jul – Sep 2027)", "Q4 (Oct – Dec 2027)", "Year 1"]);
+        expect(quarterly.columns).toHaveLength(15);
+        const pl = (view: typeof annual) => view.tables[0].rows.find(row => row.label === "Revenue")!.values;
+        expect(pl(quarterly)[4]).toBeCloseTo(pl(quarterly).slice(0, 4).reduce((a, b) => a + b, 0), 6);
+        expect(pl(quarterly)[9]).toBeCloseTo(pl(annual)[1], 6);
+        const sheet = (view: typeof annual) => view.tables.find(table => table.title === "Balance Sheet")!
+            .rows.find(row => row.label === "Total assets")!.values;
+        // A balance takes the quarter's last month: Q4 is the year's end.
+        expect(sheet(quarterly)[4]).toBeCloseTo(sheet(quarterly)[5], 6);
+        expect(sheet(quarterly)[5]).toBeCloseTo(sheet(annual)[1], 6);
+
+        // The plan's view: Year 1 by quarter, then by year.
+        const plan = forecastView(forecast, "quarterly", 3, { quarterlyYears: 1 });
+        expect(plan.columns).toEqual(["Q1 (Jan – Mar 2027)", "Q2 (Apr – Jun 2027)", "Q3 (Jul – Sep 2027)", "Q4 (Oct – Dec 2027)", "Year 1",
+            "Year 2 (Jan 2028 – Dec 2028)", "Year 3 (Jan 2029 – Dec 2029)"]);
+        expect(plan.tables[0].subtotalColumns).toEqual([4]);
+        expect(pl(plan).slice(4)).toEqual(pl(annual));
+
+        // Its document splits by year, like the monthly one.
+        const content = businessForecastContent(quillSessions, "quarterly", 2);
+        expect(content.sections[0].title).toBe("Profit and Loss Forecast: Year 1");
+        expect(content.systemName).toContain("quarterly");
     });
 
 });

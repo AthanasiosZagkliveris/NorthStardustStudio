@@ -1012,26 +1012,25 @@ export function forecastTableBlocks(table: ForecastViewTable, format: (amount: n
         headers: [currency || "Amount", ...table.columns],
         rows: table.rows.map(row => row.heading
             ? [row.label, ...table.columns.map(() => "")]
-            : [row.label, ...row.values.map(format)])
+            : row.text !== undefined
+                // Words in place of figures: said once, in the first column.
+                ? [row.label, row.text, ...table.columns.slice(1).map(() => "")]
+                : [row.label, ...row.values.map(format)])
     }];
 }
 
-/** The plan's financial projections: the forecast by plan year. */
+/** The plan's financial projections: the forecast by plan year, in the order the statements are read. */
 function projectionBlocks(f: Foundation): ExportBlock[] {
     const forecast = financialForecast(f.financial, f.revenuePage, f.lines, f.legalEntity, f.format);
     const view = forecastView(forecast, "annual", planYears(f.financial));
     const whole = moneyFormatter(f.currency, { wholeOnly: true });
     const titles: Record<string, string> = {
         "Profit and Loss Forecast": "Profit and Loss",
-        "Cash-Flow Forecast": "Cash Flow",
-        "Balance Sheet": "Balance Sheet"
+        "Cash-Flow Forecast": "Cash Flow"
     };
-    const ordered = ["Profit and Loss Forecast", "Cash-Flow Forecast", "Balance Sheet"]
-        .map(title => view.tables.find(entry => entry.title === title))
-        .filter((entry): entry is ForecastViewTable => !!entry);
     return [
         ...paragraph("By plan year, from the Financial Forecast. Amounts are estimates" + (f.currency ? ", in " + f.currency : "") + "."),
-        ...ordered.flatMap(entry => [heading(titles[entry.title] ?? entry.title), ...forecastTableBlocks(entry, whole, f.currency)])
+        ...view.tables.flatMap(entry => [heading(titles[entry.title] ?? entry.title), ...forecastTableBlocks(entry, whole, f.currency)])
     ];
 }
 
@@ -1185,18 +1184,20 @@ export function businessForecastContent(
     const forecast = financialForecast(f.financial, f.revenuePage, f.lines, f.legalEntity, f.format);
     const view = forecastView(forecast, period, untilYear);
     const whole = moneyFormatter(f.currency, { wholeOnly: true });
-    // A monthly forecast beyond one plan year is too wide for one
-    // page -- every month of every year, side by side -- so it is
-    // one table per plan year here, each with its own year subtotal,
-    // rather than shrinking the text to fit (see splitMonthlyTableByYear).
-    const tables = period === "monthly" ? view.tables.flatMap(splitMonthlyTableByYear) : view.tables;
+    // A monthly or quarterly forecast beyond one plan year is too wide
+    // for one page -- every month or quarter of every year, side by
+    // side -- so it is one table per plan year here, each with its own
+    // year subtotal, rather than shrinking the text to fit (see
+    // splitMonthlyTableByYear).
+    const tables = period === "annual" ? view.tables : view.tables.flatMap(splitMonthlyTableByYear);
     return {
         systemNumber: "",
         // Also the download's file name, so no colon.
-        systemName: "Financial Forecast " + f.name + " " + (period === "monthly" ? "monthly" : "annual"),
+        systemName: "Financial Forecast " + f.name + " " + period,
         capability,
         documentTitle: "Financial Forecast: " + f.name,
-        documentSubtitle: (period === "monthly" ? "Month by month" : "By plan year") + ", from " + forecast.months[0] +
+        documentSubtitle: (period === "monthly" ? "Month by month" : period === "quarterly" ? "Quarter by quarter" : "By plan year") +
+            ", from " + forecast.months[0] +
             (f.currency ? ". Amounts in " + f.currency + "." : "."),
         documentMeta: coverLines(f),
         // Wide tables: printed sideways, in the PDF.

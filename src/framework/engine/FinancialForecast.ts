@@ -1,12 +1,22 @@
 /*
     The financial forecast a lender asks for, drawn from the two
-    Financial pages: a cash-flow statement, a profit and loss forecast
-    and a balance sheet, month by month over the plan, and added up by
-    plan year.
+    Financial pages: a profit and loss forecast, a balance sheet and a
+    cash-flow statement, month by month over the plan, and added up by
+    quarter or plan year.
 
     The cash figures are the ones cashTimeline and sustainability
-    calculate, so the spreadsheet agrees with the pages. The profit and
-    loss and the balance sheet follow the usual conventions on top:
+    calculate, so the spreadsheet agrees with the pages. The statements
+    are laid out as an accountant expects them (IFRS for SMEs, Sections
+    4, 5 and 7):
+    - the profit and loss analyses its expenses by nature, down to an
+      operating profit, then other income and finance costs, to a
+      profit before tax; tax is not estimated;
+    - the balance sheet is classified: current and non-current assets
+      and liabilities, the part of a loan due within 12 months current;
+    - the cash flow is grouped into operating, investing and financing
+      activities (direct method): equipment and deposits are
+      investing, capital, loans and the owners' drawings financing.
+    The figures follow the usual conventions:
     - equipment (Page 3's Workstation and Equipment groups, or a
       one-time cost marked Equipment) is an asset, spread over
       DEPRECIATION_MONTHS rather than counted as a cost when paid; a
@@ -21,8 +31,12 @@
       before the plan starts;
     - where the owners take drawings rather than a salary (a sole
       trader, a partnership, an LLC), founders' pay is drawings, not a
-      cost;
-    - tax on profit, and VAT or sales tax, are not calculated.
+      cost: never a line of the profit and loss, but set against its
+      profit in a reconciliation below it (Profit Kept in the
+      Business), which is Financial Sustainability's result;
+    - tax on profit, and VAT or sales tax, are not calculated, and
+      every cost is paid when due (no trade payables): the answers
+      hold no tax rate and no supplier terms.
 
     The balance sheet balances by construction: every flow above lands
     on exactly one line of it.
@@ -30,11 +44,9 @@
 
 import type { LegalEntityValue } from "./AnswerUtils.ts";
 import {
-    COST_GROUPS,
     monthlyEquivalent,
     scheduledAmount,
     spentBeforePlan,
-    type CostGroup,
     type CostLine,
     type FinancialFoundationValue,
     type FinancialSustainabilityValue,
@@ -53,7 +65,7 @@ import {
     sustainability
 } from "./FinancialModel.ts";
 
-export type ForecastPeriod = "monthly" | "annual";
+export type ForecastPeriod = "monthly" | "quarterly" | "annual";
 
 /** "flow" adds up over a period; "opening"/"closing" take its first/last month. */
 type RowKind = "flow" | "opening" | "closing";
@@ -63,14 +75,16 @@ interface ForecastRow {
     kind: RowKind;
     /** A subtotal or total, set apart in a table. */
     total?: boolean;
-    /** A label over the rows below it ("Assets"), with no figures. */
+    /** A label over the rows below it ("Current assets"), with no figures. */
     heading?: boolean;
+    /** Words in place of figures ("Not estimated"), in every column. */
+    text?: string;
     values: number[];
     /** The balance sheet's figure at the plan's start, before its first month. */
     opening?: number;
 }
 
-interface ForecastTable {
+export interface ForecastTable {
     title: string;
     rows: ForecastRow[];
     /** Whether the table has an Opening column (the balance sheet). */
@@ -80,10 +94,28 @@ interface ForecastTable {
 export interface Forecast {
     /** "Oct 2026", one per plan month. */
     months: string[];
-    cashFlow: ForecastTable;
     profitAndLoss: ForecastTable;
+    /**
+     * Where the owners take drawings: the profit for the period less
+     * the drawings, which is Financial Sustainability's result. Null
+     * where founders are paid a salary (a cost already).
+     */
+    profitKept: ForecastTable | null;
     balanceSheet: ForecastTable;
+    cashFlow: ForecastTable;
+    /** Equipment bought and deposits paid: the capital-expenditure budget. */
+    capitalExpenditure: ForecastTable;
     notes: string[];
+}
+
+/** The statements, in the order they are read: profit, what is kept of it, position, cash. */
+export function forecastTables(forecast: Forecast): ForecastTable[] {
+    return [
+        forecast.profitAndLoss,
+        ...(forecast.profitKept ? [forecast.profitKept] : []),
+        forecast.balanceSheet,
+        forecast.cashFlow
+    ];
 }
 
 /** Three years: a common life for computers, furniture and small equipment. */
@@ -116,12 +148,72 @@ function assetOf(line: CostLine): "equipment" | "deposit" | "" {
     return line.sourcePath.some(token => ASSET_GROUPS.includes(token)) ? "equipment" : "";
 }
 
-const GROUP_PAYMENT_LABELS: Record<CostGroup, string> = {
-    establishment: "Establishment costs",
-    operating: "Operating costs",
-    offering: "Offering costs (fixed)",
-    other: "Other costs"
-};
+/**
+ * The expense lines, by nature (IFRS for SMEs 5.11): what a cost is,
+ * not which page recorded it. In the order they are listed.
+ */
+export const EXPENSE_NATURES = [
+    "Salaries",
+    "Premises",
+    "Utilities",
+    "Software and digital services",
+    "Marketing and sales",
+    "Professional fees",
+    "Insurance",
+    "Registration and licence fees",
+    "Equipment hire and maintenance",
+    "Delivery tools and supplies",
+    "Outsourced services",
+    "Other expenses"
+] as const;
+
+export type ExpenseNature = typeof EXPENSE_NATURES[number];
+
+/**
+ * A cost's nature, from where it was recorded (its sourcePath) and,
+ * for a cost the path cannot tell (a Legal Entity expense, a cost
+ * added on the Financial Foundation page), from its name.
+ */
+export function expenseNature(line: CostLine): ExpenseNature {
+    const path = (token: string) => line.sourcePath.some(entry => entry === token || entry.startsWith(token));
+    const name = line.name;
+    if (path(FOUNDER_PAY)) {
+        return "Salaries";
+    }
+    if (/insur/i.test(name)) {
+        return "Insurance";
+    }
+    if (path("partners-infrastructure-professionals") || path("partners-offering-professionals") ||
+        /accountan|bookkeep|lawyer|solicitor|attorney|legal advice|consultan|tutor|freelanc/i.test(name)) {
+        return "Professional fees";
+    }
+    if (path("resource-group-digital")) {
+        return "Software and digital services";
+    }
+    if (path("resource-group-utilities")) {
+        return "Utilities";
+    }
+    if (path("resource-group-workspace") || /cowork|\brent\b|premises|office|\bdesk\b|fit-?out|studio space/i.test(name)) {
+        return "Premises";
+    }
+    if (path("resource-group-marketing") || path("resource-group-sales") ||
+        /market|advertis|promot|\bstand\b|\bfair\b|\bstall\b|network|meetup|linkedin|copywrit|web design|signage|\bads?\b/i.test(name)) {
+        return "Marketing and sales";
+    }
+    if (path("legal-section") || /filing|registration|licen[cs]e|\bfees?\b|publication|incorporation|trade ?mark|confirmation statement/i.test(name)) {
+        return "Registration and licence fees";
+    }
+    if (ASSET_GROUPS.some(group => path(group))) {
+        return "Equipment hire and maintenance";
+    }
+    if (path("section-offering-resources") || path("resource-group-operational") || path("resource-group-production")) {
+        return "Delivery tools and supplies";
+    }
+    if (path("partners-infrastructure-providers") || path("partners-offering-providers")) {
+        return "Outsourced services";
+    }
+    return "Other expenses";
+}
 
 function zeros(): number[] {
     return new Array<number>(MODEL_MONTHS).fill(0);
@@ -156,10 +248,6 @@ export function financialForecast(
         add(variable, streamVolumes(entry.stream, start).map(units => units * entry.variable));
     });
 
-    /* Costs paid, by group. */
-    const byGroup = Object.fromEntries(COST_GROUPS.map(group => [group.id, zeros()])) as Record<CostGroup, number[]>;
-    lines.forEach(line => add(byGroup[line.group], costSchedule(line, start)));
-
     /* Funding: what is in hand at the start, what arrives, what is repaid.
        Kept apart by what it is, for the balance sheet: a loan is owed,
        a grant received during the plan is income, the rest is capital. */
@@ -176,6 +264,9 @@ export function financialForecast(
     const capitalIn = zeros();
     const loanPrincipal = zeros();
     const loanInterest = zeros();
+    // The principal repaid a year past the model too, for the part
+    // of a loan due within 12 months of its last month.
+    const principalAhead = new Array<number>(MODEL_MONTHS + 12).fill(0);
 
     allFunding(foundation, legalEntity).forEach(source => {
 
@@ -209,6 +300,9 @@ export function financialForecast(
         if (fundingType(source.type)?.nature === "debt" &&
             statusStanding(source.status || "planned") === "confirmed") {
             loanSchedule(source, start)?.payments.forEach(payment => {
+                if (payment.month >= 1 && payment.month <= MODEL_MONTHS + 12) {
+                    principalAhead[payment.month - 1] += payment.principal;
+                }
                 if (payment.month <= MODEL_MONTHS) {
                     loanPrincipal[payment.month - 1] += payment.principal;
                     loanInterest[payment.month - 1] += payment.interest;
@@ -218,29 +312,130 @@ export function financialForecast(
 
     });
 
-    /* Founders' pay, where it is the owners' drawings. */
+    /* Every cost paid, sorted by what it is: equipment and deposits
+       (investing: assets, not costs), the owners' drawings (financing:
+       taken from profit, not a cost), and every other cost by its
+       nature -- paid in the cash flow, and in the profit and loss with
+       an annual or quarterly cost spread a month at a time from its
+       first payment (what is paid ahead is a prepaid cost). */
     const drawingsTaken = ownersTakeDrawings(legalEntity.organisation.legalForm);
     const drawings = zeros();
-    const drawingsByGroup = Object.fromEntries(COST_GROUPS.map(group => [group.id, zeros()])) as Record<CostGroup, number[]>;
-    if (drawingsTaken) {
-        lines.filter(line => line.sourcePath.includes(FOUNDER_PAY)).forEach(line => {
-            const paid = costSchedule(line, start);
+    const assetsBought = zeros();
+    const depositsPaid = zeros();
+    const prepaidChange = zeros();
+    const paidByNature = Object.fromEntries(EXPENSE_NATURES.map(nature => [nature, zeros()])) as Record<ExpenseNature, number[]>;
+    const expensedByNature = Object.fromEntries(EXPENSE_NATURES.map(nature => [nature, zeros()])) as Record<ExpenseNature, number[]>;
+    lines.forEach(line => {
+        const paid = costSchedule(line, start);
+        const kind = assetOf(line);
+        if (kind) {
+            add(kind === "equipment" ? assetsBought : depositsPaid, paid);
+            return;
+        }
+        if (drawingsTaken && line.sourcePath.includes(FOUNDER_PAY)) {
             add(drawings, paid);
-            add(drawingsByGroup[line.group], paid);
-        });
-    }
+            return;
+        }
+        const nature = expenseNature(line);
+        add(paidByNature[nature], paid);
+        const first = paid.findIndex(amount => amount > 0);
+        if ((line.frequency === "annually" || line.frequency === "quarterly") && first >= 0) {
+            const monthly = monthlyEquivalent(scheduledAmount(line), line.frequency);
+            paid.forEach((amount, index) => {
+                const spread = index >= first ? monthly : 0;
+                expensedByNature[nature][index] += spread;
+                prepaidChange[index] += amount - spread;
+            });
+        } else {
+            add(expensedByNature[nature], paid);
+        }
+    });
 
-    /* The cash-flow statement. */
-    const groupRows = COST_GROUPS.map(group => ({
-        label: GROUP_PAYMENT_LABELS[group.id],
-        values: cut(byGroup[group.id].map((amount, index) => amount - drawingsByGroup[group.id][index]))
-    })).filter(row => row.values.some(amount => Math.abs(amount) > 0.005));
+    const depreciation = zeros();
+    assetsBought.forEach((amount, month) => {
+        for (let index = month; index < Math.min(MODEL_MONTHS, month + DEPRECIATION_MONTHS); index++) {
+            depreciation[index] += amount / DEPRECIATION_MONTHS;
+        }
+    });
 
-    const receiptsTotal = cut(received).map((amount, index) => amount + fundingIn[index]);
-    const paymentsTotal = cut(variable).map((amount, index) =>
-        amount + loanPrincipal[index] + loanInterest[index] +
-        COST_GROUPS.reduce((sum, group) => sum + byGroup[group.id][index], 0));
-    const net = receiptsTotal.map((amount, index) => amount - paymentsTotal[index]);
+    const negative = (values: number[]) => cut(values).map(amount => -amount);
+    const some = (values: number[]) => values.some(amount => Math.abs(amount) > 0.005);
+    const sum = (rows: { values: number[] }[]) =>
+        Array.from({ length }, (_, index) => rows.reduce((total, row) => total + row.values[index], 0));
+    const heading = (label: string): ForecastRow => ({ label, kind: "closing", heading: true, values: [] });
+    const flow = (label: string, values: number[]): ForecastRow => ({ label, kind: "flow", values });
+
+    /* The profit and loss: revenue when earned, not when paid;
+       expenses by nature, down to the operating profit; then other
+       income and finance costs. */
+    const revenue = cut(earned);
+    const costOfSales = cut(variable);
+    const gross = revenue.map((amount, index) => amount - costOfSales[index]);
+    const expenseRows = [
+        ...EXPENSE_NATURES.map(nature => flow(nature, cut(expensedByNature[nature]))),
+        flow("Depreciation of equipment", cut(depreciation))
+    ].filter(row => some(row.values));
+    const expenses = sum(expenseRows);
+    const operating = gross.map((amount, index) => amount - expenses[index]);
+    const grants = cut(grantsIn);
+    const interest = cut(loanInterest);
+    const profit = operating.map((amount, index) => amount + grants[index] - interest[index]);
+
+    const profitAndLoss: ForecastTable = {
+        title: "Profit and Loss Forecast",
+        rows: [
+            flow("Revenue", revenue),
+            flow("Cost of sales (variable costs)", costOfSales),
+            { ...flow("Gross profit", gross), total: true },
+            heading("Operating expenses"),
+            ...expenseRows,
+            { ...flow("Total operating expenses", expenses), total: true },
+            { ...flow("Operating profit", operating), total: true },
+            ...(some(grants) ? [flow("Other income (grants)", grants)] : []),
+            ...(some(interest) ? [flow("Finance costs (loan interest)", interest)] : []),
+            { ...flow("Profit before tax", profit), total: true },
+            // No tax rate is asked for: said, never guessed.
+            { label: "Income tax", kind: "flow", text: "Not estimated", values: [] }
+        ]
+    };
+
+    /* The owners' drawings, set against the profit: what the business
+       keeps, which Financial Sustainability shows as revenue less
+       costs (its costs count the founder's pay). */
+    const kept = profit.map((amount, index) => amount - drawings[index]);
+    const profitKept: ForecastTable | null = drawingsTaken && some(drawings)
+        ? {
+            title: "Profit Kept in the Business",
+            rows: [
+                flow("Profit for the period (before tax)", profit),
+                flow("Less: owner's drawings", negative(drawings)),
+                { ...flow("Profit kept in the business", kept), total: true }
+            ]
+        }
+        : null;
+
+    /* The cash flow, by activity (direct method). Money in is positive,
+       money out negative; each activity nets to its own total. */
+    const operatingRows = [
+        flow("Receipts from customers", cut(received)),
+        flow("Grants received", cut(grantsIn)),
+        ...EXPENSE_NATURES.map(nature => flow(nature, negative(paidByNature[nature]))),
+        flow("Variable costs of sales", negative(variable)),
+        flow("Interest paid", negative(loanInterest))
+    ].filter(row => some(row.values) || row.label === "Receipts from customers");
+    const investingRows = [
+        flow("Purchase of equipment", negative(assetsBought)),
+        flow("Deposits paid", negative(depositsPaid))
+    ].filter(row => some(row.values));
+    const financingRows = [
+        flow("Capital introduced", cut(capitalIn)),
+        flow("Loans received", cut(loansIn)),
+        flow("Loan repayments", negative(loanPrincipal)),
+        flow("Owner's drawings", negative(drawings))
+    ].filter(row => some(row.values));
+    const activity = (title: string, rows: ForecastRow[], totalLabel: string): ForecastRow[] =>
+        rows.length === 0 ? [] : [heading(title), ...rows, { ...flow(totalLabel, sum(rows)), total: true }];
+    const net = sum([...operatingRows, ...investingRows, ...financingRows]);
 
     const openings: number[] = [];
     const closings: number[] = [];
@@ -254,109 +449,27 @@ export function financialForecast(
     const cashFlow: ForecastTable = {
         title: "Cash-Flow Forecast",
         rows: [
-            { label: "Opening balance", kind: "opening", values: openings },
-            { label: "Revenue received", kind: "flow", values: cut(received) },
-            { label: "Funding received", kind: "flow", values: cut(fundingIn) },
-            { label: "Total receipts", kind: "flow", total: true, values: receiptsTotal },
-            ...groupRows.map(row => ({ ...row, kind: "flow" as const })),
-            ...(drawingsTaken && drawings.some(amount => amount > 0.005)
-                ? [{ label: "Owner's drawings", kind: "flow" as const, values: cut(drawings) }] : []),
-            { label: "Variable costs of sales", kind: "flow", values: cut(variable) },
-            { label: "Loan repayments (capital)", kind: "flow", values: cut(loanPrincipal) },
-            { label: "Loan interest", kind: "flow", values: cut(loanInterest) },
-            { label: "Total payments", kind: "flow", total: true, values: paymentsTotal },
-            { label: "Net cash flow", kind: "flow", total: true, values: net },
-            { label: "Closing balance", kind: "closing", total: true, values: closings }
+            ...activity("Operating activities", operatingRows, "Net cash from operating activities"),
+            ...activity("Investing activities", investingRows, "Net cash used in investing activities"),
+            ...activity("Financing activities", financingRows, "Net cash from financing activities"),
+            { ...flow("Net change in cash", net), total: true },
+            { label: "Cash at start of period", kind: "opening", values: openings },
+            { label: "Cash at end of period", kind: "closing", total: true, values: closings }
         ]
     };
 
-    /* Equipment bought: an asset, used up over DEPRECIATION_MONTHS.
-       A deposit: an asset, never used up. Neither is a cost when paid. */
-    const assetsBought = zeros();
-    const depositsPaid = zeros();
-    const keptByGroup = Object.fromEntries(COST_GROUPS.map(group => [group.id, zeros()])) as Record<CostGroup, number[]>;
-    lines.forEach(line => {
-        const kind = assetOf(line);
-        if (!kind) {
-            return;
-        }
-        const paid = costSchedule(line, start);
-        add(kind === "equipment" ? assetsBought : depositsPaid, paid);
-        add(keptByGroup[line.group], paid);
-    });
-
-    /* An annual or quarterly cost: a cost a month at a time, from its
-       first payment; what is paid ahead is a prepaid cost. */
-    const spreadByGroup = Object.fromEntries(COST_GROUPS.map(group => [group.id, zeros()])) as Record<CostGroup, number[]>;
-    const prepaidChange = zeros();
-    lines
-        .filter(line => line.frequency === "annually" || line.frequency === "quarterly")
-        .forEach(line => {
-            const paid = costSchedule(line, start);
-            const first = paid.findIndex(amount => amount > 0);
-            if (first < 0) {
-                return;
-            }
-            const monthly = monthlyEquivalent(scheduledAmount(line), line.frequency);
-            paid.forEach((amount, index) => {
-                const spread = index >= first ? monthly : 0;
-                spreadByGroup[line.group][index] += spread - amount;
-                prepaidChange[index] += amount - spread;
-            });
-        });
-    const depreciation = zeros();
-    assetsBought.forEach((amount, month) => {
-        for (let index = month; index < Math.min(MODEL_MONTHS, month + DEPRECIATION_MONTHS); index++) {
-            depreciation[index] += amount / DEPRECIATION_MONTHS;
-        }
-    });
-
-    /* The profit and loss forecast: revenue when earned, not when paid. */
-    const revenue = cut(earned);
-    const costOfSales = cut(variable);
-    const gross = revenue.map((amount, index) => amount - costOfSales[index]);
-    // What each group costs in the profit and loss: what it paid, less
-    // equipment and deposits, with annual costs spread, and without the
-    // owners' drawings.
-    const expensed = (group: CostGroup) => byGroup[group].map((amount, index) =>
-        amount - keptByGroup[group][index] + spreadByGroup[group][index] - drawingsByGroup[group][index]);
-    const overheads = COST_GROUPS.map(group => ({
-        label: GROUP_PAYMENT_LABELS[group.id],
-        values: cut(expensed(group.id))
-    })).filter(row => row.values.some(amount => Math.abs(amount) > 0.005));
-    const interest = cut(loanInterest);
-    const spread = cut(depreciation);
-    const grants = cut(grantsIn);
-    const profit = gross.map((amount, index) =>
-        amount - interest[index] - spread[index] + grants[index] -
-        overheads.reduce((sum, row) => sum + row.values[index], 0));
-
-    const profitAndLoss: ForecastTable = {
-        title: "Profit and Loss Forecast",
+    /* The capital-expenditure budget: what is bought to keep. */
+    const capitalExpenditure: ForecastTable = {
+        title: "Capital Expenditure",
         rows: [
-            { label: "Revenue", kind: "flow", values: revenue },
-            { label: "Cost of sales (variable costs)", kind: "flow", values: costOfSales },
-            { label: "Gross profit", kind: "flow", total: true, values: gross },
-            ...overheads.map(row => ({ ...row, kind: "flow" as const })),
-            ...(spread.some(amount => amount > 0.005)
-                ? [{ label: "Depreciation of equipment", kind: "flow" as const, values: spread }] : []),
-            { label: "Loan interest", kind: "flow", values: interest },
-            ...(grants.some(amount => amount > 0.005)
-                ? [{ label: "Grant income", kind: "flow" as const, values: grants }] : []),
-            { label: "Profit before tax", kind: "flow", total: true, values: profit },
-            ...(drawingsTaken && drawings.some(amount => amount > 0.005)
-                ? [
-                    { label: "Owner's drawings (not a cost)", kind: "flow" as const, values: cut(drawings) },
-                    // What Financial Sustainability's months show as revenue
-                    // less costs, where the owner's drawings are a cost.
-                    { label: "Profit after owner's drawings", kind: "flow" as const, total: true,
-                        values: profit.map((amount, index) => amount - drawings[index]) }
-                ]
-                : [])
+            flow("Equipment", cut(assetsBought)),
+            flow("Deposits", cut(depositsPaid)),
+            { ...flow("Total capital expenditure", cut(assetsBought).map((amount, index) => amount + depositsPaid[index])), total: true }
         ]
     };
 
-    /* The balance sheet, at the end of each month. */
+    /* The balance sheet, at the end of each month: current, then
+       non-current, as IFRS for SMEs 4.4 classifies it. */
     const running = (values: number[], from = 0) => {
         let total = from;
         return values.map(amount => (total += amount));
@@ -364,87 +477,124 @@ export function financialForecast(
     // Cash below zero is money the plan has not found yet: owed, in
     // effect, rather than an asset of less than nothing.
     const cash = closings.map(amount => Math.max(0, amount));
-    const stillToFind = closings.map(amount => Math.max(0, -amount));
-    const owedByCustomers = running(cut(earned).map((amount, index) => amount - received[index]));
+    const shortfall = closings.map(amount => Math.max(0, -amount));
+    const receivables = running(cut(earned).map((amount, index) => amount - received[index]));
     const equipment = running(cut(assetsBought).map((amount, index) => amount - depreciation[index]));
     const deposits = running(cut(depositsPaid));
     const prepaid = running(cut(prepaidChange));
-    const assets = cash.map((amount, index) =>
-        amount + owedByCustomers[index] + prepaid[index] + equipment[index] + deposits[index]);
     const loansOwed = running(cut(loansIn).map((amount, index) => amount - loanPrincipal[index]), openingLoans);
-    const liabilities = loansOwed.map((amount, index) => amount + stillToFind[index]);
+    // The part of a loan repaid within the next 12 months is current.
+    const dueWithinYear = (index: number, owed: number) =>
+        Math.min(owed, principalAhead.slice(index, index + 12).reduce((total, amount) => total + amount, 0));
+    const loansCurrent = loansOwed.map((owed, index) => dueWithinYear(index + 1, owed));
+    const loansLater = loansOwed.map((owed, index) => owed - loansCurrent[index]);
+    const openingLoansCurrent = dueWithinYear(0, openingLoans);
     const capital = running(cut(capitalIn), openingCapital);
     const profitToDate = running(profit, openingRetained);
-    const drawingsToDate = running(cut(drawings).map(amount => -amount));
-    const equity = capital.map((amount, index) => amount + profitToDate[index] + drawingsToDate[index]);
-    const liabilitiesAndEquity = liabilities.map((amount, index) => amount + equity[index]);
+    const drawingsToDate = running(negative(drawings));
 
     /* At the plan's start: the money in hand (or short), what is owed
        on loans already taken, and the owners' part of the rest. */
-    const openingStillToFind = Math.max(0, -opening);
-    const openingEquity = openingCapital + openingRetained;
-    const heading = (label: string): ForecastRow => ({ label, kind: "closing", heading: true, values: [] });
+    const openingShortfall = Math.max(0, -opening);
+
+    type Line = { label: string; values: number[]; opening: number };
+    const shows = (line: Line) => some(line.values) || Math.abs(line.opening) > 0.005;
+    const lineRow = (line: Line): ForecastRow => ({ label: line.label, kind: "closing", values: line.values, opening: line.opening });
+    const totalOf = (label: string, parts: Line[]): Line => ({
+        label,
+        values: Array.from({ length }, (_, index) => parts.reduce((total, part) => total + part.values[index], 0)),
+        opening: parts.reduce((total, part) => total + part.opening, 0)
+    });
+    const totalRow = (line: Line): ForecastRow => ({ ...lineRow(line), total: true });
+    // A group of lines under its heading, with its total; nothing when
+    // every line in it is empty. Cash always shows.
+    const group = (title: string, parts: Line[], totalLabel: string, keep: string[] = []) => {
+        const shown = parts.filter(part => shows(part) || keep.includes(part.label));
+        return {
+            total: totalOf(totalLabel, parts),
+            rows: shown.length === 0 ? [] : [heading(title), ...shown.map(lineRow), totalRow(totalOf(totalLabel, parts))]
+        };
+    };
+
+    const currentAssets = group("Current assets", [
+        { label: "Cash", values: cash, opening: Math.max(0, opening) },
+        { label: "Trade receivables", values: receivables, opening: 0 },
+        { label: "Prepaid expenses", values: prepaid, opening: 0 }
+    ], "Total current assets", ["Cash"]);
+    const nonCurrentAssets = group("Non-current assets", [
+        { label: "Equipment (net of depreciation)", values: equipment, opening: 0 },
+        { label: "Deposits", values: deposits, opening: 0 }
+    ], "Total non-current assets");
+    const currentLiabilities = group("Current liabilities", [
+        { label: "Cash shortfall (unfunded)", values: shortfall, opening: openingShortfall },
+        { label: "Loans: due within 12 months", values: loansCurrent, opening: openingLoansCurrent }
+    ], "Total current liabilities");
+    const nonCurrentLiabilities = group("Non-current liabilities", [
+        { label: "Loans: due after 12 months", values: loansLater, opening: openingLoans - openingLoansCurrent }
+    ], "Total non-current liabilities");
+    const equityGroup = group("Equity", [
+        { label: drawingsTaken ? "Owner's capital" : "Share capital", values: capital, opening: openingCapital },
+        { label: drawingsTaken ? "Accumulated profit" : "Retained earnings", values: profitToDate, opening: openingRetained },
+        ...(drawingsTaken ? [{ label: "Less: owner's drawings", values: drawingsToDate, opening: 0 }] : [])
+    ], "Total equity", [drawingsTaken ? "Owner's capital" : "Share capital", drawingsTaken ? "Accumulated profit" : "Retained earnings"]);
+
+    const assets = totalOf("Total assets", [currentAssets.total, nonCurrentAssets.total]);
+    const liabilities = totalOf("Total liabilities", [currentLiabilities.total, nonCurrentLiabilities.total]);
 
     const balanceSheet: ForecastTable = {
         title: "Balance Sheet",
         opening: true,
         rows: [
-            heading("Assets"),
-            { label: "Cash", kind: "closing", values: cash, opening: Math.max(0, opening) },
-            { label: "Money owed by customers", kind: "closing", values: owedByCustomers, opening: 0 },
-            ...(prepaid.some(amount => Math.abs(amount) > 0.005)
-                ? [{ label: "Prepaid costs", kind: "closing" as const, values: prepaid, opening: 0 }] : []),
-            { label: "Equipment, after depreciation", kind: "closing", values: equipment, opening: 0 },
-            ...(deposits.some(amount => amount > 0.005)
-                ? [{ label: "Deposits paid", kind: "closing" as const, values: deposits, opening: 0 }] : []),
-            { label: "Total assets", kind: "closing", total: true, values: assets, opening: Math.max(0, opening) },
-            heading("Liabilities"),
-            { label: "Loans outstanding", kind: "closing", values: loansOwed, opening: openingLoans },
-            ...(stillToFind.some(amount => amount > 0.005) || openingStillToFind > 0.005
-                ? [{ label: "Funding still to be found", kind: "closing" as const, values: stillToFind, opening: openingStillToFind }]
-                : []),
-            { label: "Total liabilities", kind: "closing", total: true, values: liabilities, opening: openingLoans + openingStillToFind },
-            heading("Equity"),
-            { label: "Capital put in", kind: "closing", values: capital, opening: openingCapital },
-            { label: "Profit to date", kind: "closing", values: profitToDate, opening: openingRetained },
-            ...(drawingsTaken && drawings.some(amount => amount > 0.005)
-                ? [{ label: "Owner's drawings to date", kind: "closing" as const, values: drawingsToDate, opening: 0 }] : []),
-            { label: "Total equity", kind: "closing", total: true, values: equity, opening: openingEquity },
-            { label: "Total liabilities and equity", kind: "closing", total: true, values: liabilitiesAndEquity,
-                opening: openingLoans + openingStillToFind + openingEquity }
+            ...currentAssets.rows,
+            ...nonCurrentAssets.rows,
+            totalRow(assets),
+            ...currentLiabilities.rows,
+            ...nonCurrentLiabilities.rows,
+            totalRow(liabilities),
+            ...equityGroup.rows,
+            totalRow(totalOf("Total liabilities and equity", [liabilities, equityGroup.total]))
         ]
     };
 
     return {
         months: Array.from({ length }, (_, index) => planMonthLabel(start, index + 1)),
-        cashFlow,
         profitAndLoss,
+        profitKept,
         balanceSheet,
+        cashFlow,
+        capitalExpenditure,
         notes: [
             "Figures are estimates from the Business System's Financial Foundation and Financial Sustainability pages.",
-            "The opening balance is funding already received, less one-time costs paid before the plan (a loss before it starts); confirmed funding is counted when it arrives, and pending funding is not counted.",
+            "Cash at the start of the plan is funding already received, less one-time costs paid before the plan (a loss before it starts); confirmed funding is counted when it arrives, and pending funding is not counted.",
             "Equipment is an asset, depreciated evenly over " + DEPRECIATION_MONTHS / 12 +
                 " years; a deposit is an asset and never a cost; other one-time costs count when they are paid.",
-            "Annual and quarterly costs count a month at a time in the profit and loss; what is paid ahead is a prepaid cost.",
-            "A grant is income, whenever it arrives; capital put in is the owners' equity.",
+            "Annual and quarterly costs count a month at a time in the profit and loss; what is paid ahead is a prepaid expense.",
+            "Operating expenses are analysed by nature, from where each cost was recorded.",
+            "A grant is other income, whenever it arrives; capital put in is the owners' equity.",
             ...(drawingsTaken
-                ? ["As a " + legalEntity.organisation.legalForm + ", founders' pay is the owners' drawings, taken from profit, not a cost."]
+                ? ["As a " + legalEntity.organisation.legalForm + ", founders' pay is the owner's drawings: taken from profit, not a cost. " +
+                    "It is not a line of the profit and loss: it is set against the profit below it, is a financing payment in the cash flow, and reduces equity on the balance sheet."]
                 : []),
-            "Cash never shows below zero on the balance sheet: money still to be found is a liability, the funding gap.",
             ...(drawingsTaken
-                ? ["Profit after owner's drawings matches Financial Sustainability's revenue less costs, month by month, except where the profit and loss also counts one-time costs, depreciation, grants or loan interest as they fall."]
+                ? ["Profit kept in the business matches Financial Sustainability's revenue less costs, month by month, except where the profit and loss also counts one-time costs, depreciation, grants or loan interest as they fall."]
                 : []),
-            "Tax on profit, and VAT or sales tax, are not calculated."
+            "The cash flow is grouped into operating, investing and financing activities (direct method); interest paid is an operating payment.",
+            "Cash below zero is shown as a current liability, Cash shortfall (unfunded): money the plan has not found yet, not an arranged overdraft.",
+            "The part of a loan repaid within the next 12 months is a current liability; the rest is non-current.",
+            "Income tax, and VAT or sales tax, are not estimated: the Foundation answers hold no tax rate. " +
+                "There are no trade payables: every cost is taken as paid when due, as no supplier payment terms are recorded."
         ]
     };
 
 }
 
-/** One row of a view: a heading has no figures. */
+/** One row of a view: a heading has no figures; a text row has words instead. */
 export interface ForecastViewRow {
     label: string;
     total?: boolean;
     heading?: boolean;
+    /** Words in place of figures ("Not estimated"). */
+    text?: string;
     values: number[];
 }
 
@@ -452,7 +602,7 @@ export interface ForecastViewRow {
 export interface ForecastViewTable {
     title: string;
     columns: string[];
-    /** Which columns are a plan year's subtotal (the monthly view's "Year 1"). */
+    /** Which columns are a plan year's subtotal (the monthly or quarterly view's "Year 1"). */
     subtotalColumns: number[];
     rows: ForecastViewRow[];
 }
@@ -469,47 +619,91 @@ function openingColumn(forecast: Forecast): string {
     return "Opening" + (forecast.months[0] ? " (" + forecast.months[0] + ")" : "");
 }
 
+/** One column: plan months [from, to), and whether it is a year's subtotal. */
+interface Span {
+    label: string;
+    from: number;
+    to: number;
+    subtotal: boolean;
+}
+
+/** "Jan – Mar 2027", or "Nov 2026 – Jan 2027" across a year's end. */
+function monthRange(forecast: Forecast, from: number, to: number): string {
+    const first = forecast.months[from] ?? "";
+    const last = forecast.months[to - 1] ?? "";
+    const [firstMonth, firstYear] = first.split(" ");
+    return firstYear && last.endsWith(" " + firstYear) ? firstMonth + " – " + last : first + " – " + last;
+}
+
 /**
- * The forecast as columns: every month, or every plan year, up to and
- * including plan year `untilYear` (1 = the plan's first twelve months).
+ * The forecast as columns, up to and including plan year `untilYear`
+ * (1 = the plan's first twelve months):
+ * - "monthly": every month, each plan year followed by its subtotal;
+ * - "quarterly": every quarter of the plan, each plan year followed by
+ *   its subtotal -- or, with `quarterlyYears`, only the first that many
+ *   years by quarter and the rest by year (the plan's Year 1 detail);
+ * - "annual": every plan year.
+ * The statements come in the order they are read (forecastTables),
+ * unless `tables` names others.
  */
-export function forecastView(forecast: Forecast, period: ForecastPeriod, untilYear: number): ForecastView {
+export function forecastView(
+    forecast: Forecast,
+    period: ForecastPeriod,
+    untilYear: number,
+    options: { quarterlyYears?: number; tables?: ForecastTable[] } = {}
+): ForecastView {
 
     const months = Math.min(forecast.months.length, Math.max(1, untilYear) * 12);
-    const tables = [forecast.cashFlow, forecast.profitAndLoss, forecast.balanceSheet];
-
+    const tables = options.tables ?? forecastTables(forecast);
     const years = Math.ceil(months / 12);
-    const yearOf = (row: ForecastRow, year: number): number => {
-        const slice = row.values.slice(year * 12, Math.min(months, year * 12 + 12));
-        return row.kind === "opening" ? slice[0]
-            : row.kind === "closing" ? slice[slice.length - 1]
-                : slice.reduce((sum, amount) => sum + amount, 0);
+
+    const yearSpan = (year: number): Span => ({
+        label: "Year " + (year + 1) + " (" + forecast.months[year * 12] + " – " + forecast.months[Math.min(months, year * 12 + 12) - 1] + ")",
+        from: year * 12,
+        to: Math.min(months, year * 12 + 12),
+        subtotal: false
+    });
+    const subtotalSpan = (year: number): Span => ({ ...yearSpan(year), label: "Year " + (year + 1), subtotal: true });
+    const stepped = (year: number, step: number, name: (index: number, from: number, to: number) => string): Span[] => {
+        const spans: Span[] = [];
+        for (let from = year * 12, index = 0; from < Math.min(months, year * 12 + 12); from += step, index++) {
+            const to = Math.min(months, from + step, year * 12 + 12);
+            spans.push({ label: name(index, from, to), from, to, subtotal: false });
+        }
+        return spans;
     };
-    const yearLabel = (year: number) =>
-        "Year " + (year + 1) + " (" + forecast.months[year * 12] + " – " + forecast.months[Math.min(months, year * 12 + 12) - 1] + ")";
 
-    /* Each row's figures over the chosen columns: by year; or month by
-       month, each plan year followed by its subtotal. */
-    const cells = (row: ForecastRow): number[] => period === "monthly"
-        ? Array.from({ length: years }, (_, year) => [
-            ...row.values.slice(year * 12, Math.min(months, year * 12 + 12)),
-            yearOf(row, year)
-        ]).flat()
-        : Array.from({ length: years }, (_, year) => yearOf(row, year));
+    const spans: Span[] = Array.from({ length: years }, (_, year) => {
+        if (period === "monthly") {
+            return [...stepped(year, 1, (_index, from) => forecast.months[from]), subtotalSpan(year)];
+        }
+        if (period === "quarterly" && year < (options.quarterlyYears ?? years)) {
+            return [
+                ...stepped(year, 3, (index, from, to) => "Q" + (index + 1) + " (" + monthRange(forecast, from, to) + ")"),
+                subtotalSpan(year)
+            ];
+        }
+        return [yearSpan(year)];
+    }).flat();
 
-    const columns = period === "monthly"
-        ? Array.from({ length: years }, (_, year) => [
-            ...forecast.months.slice(year * 12, Math.min(months, year * 12 + 12)),
-            "Year " + (year + 1)
-        ]).flat()
-        : Array.from({ length: years }, (_, year) => yearLabel(year));
-    const subtotals = period === "monthly"
-        ? columns.map((column, index) => /^Year [0-9]+$/.test(column) ? index : -1).filter(index => index >= 0)
-        : [];
+    /* A row's figure over a span: a flow adds up; an opening takes the
+       first month, a closing the last. A figure under half a cent is
+       nothing, never "-$0". */
+    const cell = (row: ForecastRow, span: Span): number => {
+        const slice = row.values.slice(span.from, span.to);
+        const amount = row.kind === "opening" ? slice[0]
+            : row.kind === "closing" ? slice[slice.length - 1]
+                : slice.reduce((total, value) => total + value, 0);
+        return Math.abs(amount ?? 0) < 0.005 ? 0 : amount;
+    };
+
+    const columns = spans.map(span => span.label);
+    const subtotals = spans.map((span, index) => span.subtotal ? index : -1).filter(index => index >= 0);
 
     // A line with nothing in it, in any column shown, says nothing:
-    // left out, in every table alike. Totals and headings stay.
-    const says = (row: ForecastViewRow) => row.heading || row.total || row.values.some(amount => Math.abs(amount) > 0.005);
+    // left out, in every table alike. Totals, headings and words stay.
+    const says = (row: ForecastViewRow) => row.heading || row.total || row.text !== undefined ||
+        row.values.some(amount => Math.abs(amount) > 0.005);
 
     return {
         columns,
@@ -521,7 +715,11 @@ export function forecastView(forecast: Forecast, period: ForecastPeriod, untilYe
                 label: row.label,
                 total: row.total,
                 heading: row.heading,
-                values: row.heading ? [] : [...(table.opening ? [row.opening ?? 0] : []), ...cells(row)]
+                ...(row.text !== undefined ? { text: row.text } : {}),
+                values: row.heading || row.text !== undefined
+                    ? []
+                    : [...(table.opening ? [Math.abs(row.opening ?? 0) < 0.005 ? 0 : row.opening ?? 0] : []),
+                        ...spans.map(span => cell(row, span))]
             })).filter(says)
         }))
     };
@@ -529,7 +727,7 @@ export function forecastView(forecast: Forecast, period: ForecastPeriod, untilYe
 }
 
 /**
- * A monthly forecast table split into one table per plan year, each
+ * A monthly or quarterly forecast table split into one table per plan year, each
  * with its own year subtotal -- so a document never has to lay twelve
  * months of every plan year side by side on one page. A table already
  * covering one plan year (or none) comes back unchanged.
@@ -585,7 +783,7 @@ export function forecastCsv(
 
     view.tables.forEach(table => {
         row([table.title, ...table.columns]);
-        table.rows.forEach(entry => row([entry.label, ...entry.values]));
+        table.rows.forEach(entry => row([entry.label, ...(entry.text !== undefined ? [entry.text] : entry.values)]));
         lines.push("");
     });
 

@@ -688,7 +688,16 @@
 
 }
 
-/* "Assets", "Liabilities", "Equity": a label over the rows below it. */
+/* "Income tax: Not estimated": words where a figure would be. */
+.business-forecast-text td{
+
+    color:#6b7280;
+
+    font-style:italic;
+
+}
+
+/* "Current assets", "Operating activities": a label over the rows below it. */
 .business-forecast-heading th,
 .business-forecast-heading td{
 

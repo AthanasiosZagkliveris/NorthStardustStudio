@@ -39,6 +39,7 @@ type DocumentId = "plan" | "canvas" | "forecast";
 
 const PERIODS: { id: ForecastPeriod; label: string }[] = [
     { id: "annual", label: "Annually" },
+    { id: "quarterly", label: "Quarterly" },
     { id: "monthly", label: "Monthly" }
 ];
 
@@ -140,7 +141,7 @@ export default function BusinessDocuments() {
             currency: loaded.forecast.currency,
             notes: loaded.forecast.forecast.notes
         }),
-        (loaded.forecast.name + " financial forecast " + (period === "monthly" ? "monthly" : "annual"))
+        (loaded.forecast.name + " financial forecast " + period)
             .replace(/[^A-Za-z0-9]+/g, "-").replace(/^-|-$/g, "").toLowerCase() + ".csv",
         "text/csv;charset=utf-8"
     );
@@ -326,6 +327,19 @@ export default function BusinessDocuments() {
                                             <tr key={row.label} className="business-forecast-heading">
                                                 <th scope="rowgroup">{row.label}</th>
                                                 <td colSpan={table.columns.length} />
+                                            </tr>
+                                        ) : row.text !== undefined ? (
+                                            /* Words in place of figures: "Income tax: Not estimated". */
+                                            <tr key={row.label} className="business-forecast-text">
+                                                <th scope="row">{row.label}</th>
+                                                {table.columns.map((column, index) => (
+                                                    <td
+                                                        key={column}
+                                                        className={table.subtotalColumns.includes(index) ? "business-forecast-subtotal" : undefined}
+                                                    >
+                                                        {index === 0 ? row.text : ""}
+                                                    </td>
+                                                ))}
                                             </tr>
                                         ) : (
                                             <tr key={row.label} className={row.total ? "business-forecast-total" : undefined}>
