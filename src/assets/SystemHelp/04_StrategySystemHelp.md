@@ -14,5 +14,5 @@ With no "## NN. <Section Title> Help" heading in this file,
 FrameworkInterpreter finds no help blocks for any Strategy Section, so
 the Interview Page's "Need Help?" button stays hidden. Add one heading
 per Section here (matching the Section titles in
-03_StrategySystemAnswer.md) to bring it back.
+04_StrategySystemAnswer.md) to bring it back.
 -->
