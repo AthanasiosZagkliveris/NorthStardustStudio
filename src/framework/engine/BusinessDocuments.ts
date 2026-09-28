@@ -63,7 +63,7 @@ import {
     financialFoundationBlocks,
     financialSustainabilityBlocks,
     heading,
-    industryExperienceText,
+    industryYearsText,
     labelled,
     labelledList,
     list,
@@ -899,7 +899,8 @@ function teamBlocks(f: Foundation): ExportBlock[] {
         ...(profiled.length > 0
             ? titled("Experience and Skills", profiled.flatMap(founder => [
                 heading(founder.name, 2),
-                ...labelled("Industry experience", industryExperienceText(founder.years, founder.industryExperience)),
+                ...labelled("Years in the industry", industryYearsText(founder.years)),
+                ...labelled("Industry experience", text(founder.industryExperience)),
                 ...labelled("Management experience", founder.managementExperience),
                 ...labelledList("Key achievements", founder.achievements),
                 ...labelledList("Skills and qualifications", founder.skills)

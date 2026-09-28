@@ -805,7 +805,8 @@ describe("the optional answers in the documents", () => {
         expect(given).toContain("| Founder | Ownership | Capital | Roles | Responsible for |");
         expect(given).toContain("Founder & Automation Consultant, Solutions Architect");
         expect(given).toContain("### Experience and Skills\n\n#### Jordan Ellis");
-        expect(given).toContain("**Industry experience:** 9 years in the industry. IT and automation");
+        expect(given).toContain("**Years in the industry:** 9 years");
+        expect(given).toContain("**Industry experience:** IT and automation");
         expect(given).toContain("**Management experience:** Led a team of four implementation consultants");
         expect(given).toContain("**Key achievements:** \n\n- Designed an invoice-intake automation");
         expect(given).toContain("**Skills and qualifications:** \n\n- BS in Information Systems");
@@ -834,7 +835,8 @@ describe("the optional answers in the documents", () => {
         const profile = md.slice(md.indexOf("## 4. Founders Profile"));
         expect(profile).toContain("### Founders\n\n#### Jordan Ellis");
         expect(profile).toContain("**Roles:** Founder & Automation Consultant, Solutions Architect");
-        expect(profile).toContain("**Industry Experience:** 9 years in the industry. IT and automation");
+        expect(profile).toContain("**Years in the Industry:** 9 years");
+        expect(profile).toContain("**Industry Experience:** IT and automation");
         expect(profile).toContain("**Management Experience:** Led a team of four");
         expect(profile).toContain("**Key Achievements:** \n\n- Designed an invoice-intake automation");
         expect(profile).toContain("**Skills & Qualifications:** \n\n- BS in Information Systems");

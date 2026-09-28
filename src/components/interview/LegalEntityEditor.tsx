@@ -1496,8 +1496,8 @@ export default function LegalEntityEditor({
 
                                     {/*
                                         The row's delete, alone in the
-                                        last, flexible cell, at its far
-                                        end. The cell is where Role
+                                        last, flexible cell, at its
+                                        start, next to Capital. The cell is where Role
                                         used to be (roles are asked on
                                         4. Founders Profile now), and
                                         keeping it is what keeps the

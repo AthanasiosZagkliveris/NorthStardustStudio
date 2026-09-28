@@ -281,11 +281,10 @@ export function labelledList(label: string, items: string[]): ExportBlock[] {
     return blocks.length === 0 ? [] : [{ kind: "paragraph", text: "", label }, ...blocks];
 }
 
-/** "12 years. Textile designer at …": the years, then where and in what. */
-export function industryExperienceText(years: string, experience: string): string {
+/** "12 years", "1 year", or nothing: the years in the industry, on a line of their own. */
+export function industryYearsText(years: string): string {
     const count = text(years);
-    const said = count ? count + (count === "1" ? " year" : " years") + " in the industry." : "";
-    return [said, text(experience)].filter(Boolean).join(" ");
+    return count ? count + (count === "1" ? " year" : " years") : "";
 }
 
 function foundersProfileBlocks(value: unknown, context: ExportContext): ExportBlock[] {
@@ -298,7 +297,8 @@ function foundersProfileBlocks(value: unknown, context: ExportContext): ExportBl
         ...titled("Founders", founderProfiles(entity.founders, value).flatMap(founder => {
             const said = [
                 ...labelled("Roles", founder.roles.filter(role => text(role)).join(", ")),
-                ...labelled("Industry Experience", industryExperienceText(founder.years, founder.industryExperience)),
+                ...labelled("Years in the Industry", industryYearsText(founder.years)),
+                ...labelled("Industry Experience", text(founder.industryExperience)),
                 ...labelled("Management Experience", founder.managementExperience),
                 ...labelledList("Key Achievements", founder.achievements),
                 ...labelledList("Skills & Qualifications", founder.skills)

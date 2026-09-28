@@ -8406,8 +8406,8 @@ td.process-library-col-number{
    the line between 3.3 and 3.4 below.
 
    The last cell held Role until roles moved to 4. Founders
-   Profile; it now holds only the row's delete button, at its far
-   end (see `.legal-entity-founder-end`). It is kept rather than
+   Profile; it now holds only the row's delete button, at its
+   start, next to the last number (see `.legal-entity-founder-end`). It is kept rather than
    dropped, because a column of its own for the button used to
    hang off the right-hand end and carry the numbers 28px left of
    centre with it. */
@@ -8450,12 +8450,13 @@ td.process-library-col-number{
 }
 
 /* The last cell of a founder's row: the button that removes the
-   row, at the far end of it. */
+   row, at its start, next to the last number (Capital, or
+   Ownership where capital is off). */
 .legal-entity-founder-end{
 
     display:flex;
 
-    justify-content:flex-end;
+    justify-content:flex-start;
 
     align-items:center;
 

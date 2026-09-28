@@ -300,7 +300,6 @@ export default function FoundersProfileEditor({
                                         inputMode={numberInputMode(NUMBER_LIMITS.years)}
                                         className="interview-input"
                                         aria-label={who + " years in the industry"}
-                                        placeholder="0"
                                         disabled={disabled}
                                         value={founder.years}
                                         onChange={(event) => updateFounder(founder.id, {
