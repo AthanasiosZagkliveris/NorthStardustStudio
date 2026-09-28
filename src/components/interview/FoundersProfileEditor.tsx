@@ -19,11 +19,9 @@ import FoldArrow from "./FoldArrow.tsx";
 import InfoNote, { InfoText } from "./InfoNote.tsx";
 import type { OpenPage } from "./jumpTo.ts";
 import NumberedListInput from "./NumberedListInput.tsx";
-import OptionPicker from "./OptionPicker.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
 
-import "../../styles/founders-profile.css";
 
 /**
  * What each question is for, the "i" beside it (see InfoNote): what
@@ -252,81 +250,46 @@ export default function FoundersProfileEditor({
     }
 
     /**
-     * A founder's Skills, Expertise & Qualifications: a row an entry
-     * -- its number, what it is, its type, and × -- then "+ Add". There
-     * is always a row to write in: × on the last one empties it
-     * rather than taking it away.
+     * A founder's Skills, Expertise & Qualifications: the same
+     * numbered list as Roles and Key Achievements -- Enter opens the
+     * next line, Backspace on an empty one takes it away, a line is
+     * dragged by its number -- with each line's type chosen at its
+     * end. A line's type moves with it (see NumberedListInput's
+     * `origins`), and its placeholder asks for that type.
      */
-    function skillRows(founder: FounderProfileValue, who: string) {
+    function skillList(founder: FounderProfileValue, who: string) {
 
         const entries = founder.skills.length > 0 ? founder.skills : [EMPTY_SKILL];
 
         const save = (next: FounderSkillValue[]) =>
             updateFounder(founder.id, { skills: next.length > 0 ? next : [EMPTY_SKILL] });
 
-        const change = (index: number, patch: Partial<FounderSkillValue>) =>
-            save(entries.map((entry, at) => at === index ? { ...entry, ...patch } : entry));
-
         return (
-            <div className="founders-profile-skills">
-
-                {entries.map((entry, index) => {
-
-                    const name = who + " skills entry " + (index + 1);
-
-                    return (
-                        <div className="founders-profile-skill" key={index}>
-
-                            <span className="founders-profile-skill-number">
-                                {(index + 1) + "."}
-                            </span>
-
-                            <StrategyTextArea
-                                className="interview-input legal-entity-note founders-profile-skill-text"
-                                ariaLabel={name + " text"}
-                                placeholder={SKILL_PLACEHOLDERS[entry.type] ?? SKILL_PLACEHOLDERS[""]}
-                                disabled={disabled}
-                                value={entry.text}
-                                onChange={(next) => change(index, { text: next })}
-                            />
-
-                            <OptionPicker
-                                label={name + " type"}
-                                placeholder="Type"
-                                options={FOUNDER_CREDENTIAL_TYPES.map(kind => kind.label)}
-                                disabled={disabled}
-                                value={FOUNDER_CREDENTIAL_TYPES.find(kind => kind.id === entry.type)?.label ?? ""}
-                                onChange={(next) => change(index, {
-                                    type: FOUNDER_CREDENTIAL_TYPES.find(kind => kind.label === next)?.id ?? ""
-                                })}
-                            />
-
-                            <button
-                                type="button"
-                                className="strategy-box-remove"
-                                aria-label={"Remove " + name}
-                                title={"Remove " + name}
-                                disabled={disabled}
-                                onClick={() => save(entries.filter((_, at) => at !== index))}
-                            >
-                                ×
-                            </button>
-
-                        </div>
-                    );
-
-                })}
-
-                <button
-                    type="button"
-                    className="strategy-add-button"
-                    disabled={disabled}
-                    onClick={() => save([...entries, EMPTY_SKILL])}
-                >
-                    + Add
-                </button>
-
-            </div>
+            <NumberedListInput
+                label={who + " skills entry"}
+                items={entries.map(entry => entry.text)}
+                disabled={disabled}
+                placeholderFor={(index) => SKILL_PLACEHOLDERS[entries[index]?.type ?? ""] ?? SKILL_PLACEHOLDERS[""]}
+                onChange={(items, origins) => save(items.map((text, index) => ({
+                    type: origins[index] >= 0 ? entries[origins[index]]?.type ?? "" : "",
+                    text
+                })))}
+                lineEnd={(index) => (
+                    <select
+                        aria-label={who + " skills entry " + (index + 1) + " type"}
+                        disabled={disabled}
+                        value={entries[index]?.type ?? ""}
+                        onChange={(event) => save(entries.map((entry, at) => at === index
+                            ? { ...entry, type: event.target.value }
+                            : entry))}
+                    >
+                        <option value="">Type</option>
+                        {FOUNDER_CREDENTIAL_TYPES.map(kind => (
+                            <option key={kind.id} value={kind.id}>{kind.label}</option>
+                        ))}
+                    </select>
+                )}
+            />
         );
 
     }
@@ -392,7 +355,7 @@ export default function FoundersProfileEditor({
 
                         {/* The two experience questions side by side,
                             under a title of their own. */}
-                        <div className="founders-profile-group">
+                        <div className="legal-entity-field-wide">
                             <span className="business-foundation-subhead">Relevant Experience</span>
                         </div>
 
@@ -428,7 +391,7 @@ export default function FoundersProfileEditor({
                             />
                         ), true)}
 
-                        {field("Skills, Expertise & Qualifications", INFO.skills, skillRows(founder, who), true)}
+                        {field("Skills, Expertise & Qualifications", INFO.skills, skillList(founder, who), true)}
 
                     </div>
                 )}

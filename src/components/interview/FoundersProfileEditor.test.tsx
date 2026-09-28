@@ -135,57 +135,90 @@ describe("FoundersProfileEditor founders", () => {
 
     });
 
-    it("asks Skills, Expertise & Qualifications a typed row at a time", () => {
+    it("asks Skills, Expertise & Qualifications as a numbered list, each line typed at its end", () => {
 
         render(<Harness founders={[ann]} />);
         open(/Founder 1$/);
 
-        const text = (n: number) => screen.queryByLabelText("Founder 1 skills entry " + n + " text") as HTMLTextAreaElement | null;
-        const type = (n: number) => screen.getAllByRole("button", { name: new RegExp("^Founder 1 skills entry " + n + " type") })
-            .find(button => button.classList.contains("option-picker-trigger"))!;
-        const choose = (n: number, label: string) => {
-            fireEvent.click(type(n));
-            fireEvent.click(screen.getByRole("option", { name: label }));
-        };
+        const text = (n: number) => screen.queryByLabelText("Founder 1 skills entry " + n) as HTMLTextAreaElement | null;
+        const type = (n: number) => screen.getByLabelText("Founder 1 skills entry " + n + " type") as HTMLSelectElement;
+        const stored = () => asFoundersProfileValue(saved).founders[0].skills;
 
-        // One row to start, untyped, asking for any kind.
-        expect(type(1).textContent).toContain("Type");
-        expect(text(1)!.getAttribute("placeholder")).toBe("Skill, expertise, qualification, certification, licence or membership");
-        expect(text(2)).toBeNull();
-
-        // The row reads: number, text, type, ×.
-        const row = text(1)!.closest(".founders-profile-skill")!;
-        expect([...row.children].map(child => child.className.split(" ").pop())).toEqual([
-            "founders-profile-skill-number", "founders-profile-skill-text", "option-picker", "strategy-box-remove"
+        // The same list as Roles: one box, no add button, no ×.
+        const list = text(1)!.closest(".numbered-list")!;
+        expect(list.querySelectorAll(".numbered-list-row")).toHaveLength(1);
+        expect(screen.queryByRole("button", { name: /^\+ Add$/ })).toBeNull();
+        expect(screen.queryByRole("button", { name: /^Remove Founder 1 skills/ })).toBeNull();
+        // The type at the end of the line, inside the box.
+        const row = text(1)!.closest(".numbered-list-row")!;
+        expect(row.lastElementChild!.contains(type(1))).toBe(true);
+        expect([...type(1).options].map(option => option.textContent)).toEqual([
+            "Type", "Skill", "Professional / Technical Expertise", "Degree / Qualification",
+            "Certification", "Licence", "Membership / Other Credential"
         ]);
 
-        // Its placeholder follows the type chosen.
-        choose(1, "Certification");
-        expect(text(1)!.getAttribute("placeholder")).toBe("Name and issuing body");
-        choose(1, "Skill");
-        expect(text(1)!.getAttribute("placeholder")).toBe("e.g. Negotiation");
+        // Untyped, it asks for any kind; typed, for that kind.
+        expect(text(1)!.placeholder).toBe("Skill, expertise, qualification, certification, licence or membership");
+        fireEvent.change(type(1), { target: { value: "certification" } });
+        expect(text(1)!.placeholder).toBe("Name and issuing body");
+        fireEvent.change(type(1), { target: { value: "skill" } });
+        expect(text(1)!.placeholder).toBe("e.g. Negotiation");
         fireEvent.change(text(1)!, { target: { value: "Negotiation" } });
 
-        // "+ Add" adds a row; its type is its own.
-        fireEvent.click(screen.getByRole("button", { name: "+ Add" }));
-        expect(text(2)).toBeTruthy();
-        choose(2, "Licence");
-        expect(text(2)!.getAttribute("placeholder")).toBe("Licence and where it applies");
+        // Enter opens the next line, untyped, with a placeholder of its own.
+        fireEvent.keyDown(text(1)!, { key: "Enter" });
+        expect(type(2).value).toBe("");
+        expect(text(2)!.placeholder).toBe("Skill, expertise, qualification, certification, licence or membership");
+        fireEvent.change(type(2), { target: { value: "licence" } });
+        expect(text(2)!.placeholder).toBe("Licence and where it applies");
         fireEvent.change(text(2)!, { target: { value: "NY notary" } });
-        expect(asFoundersProfileValue(saved).founders[0].skills).toEqual([
+        expect(stored()).toEqual([
             { type: "skill", text: "Negotiation" },
             { type: "licence", text: "NY notary" }
         ]);
 
-        // × takes a row away...
-        fireEvent.click(screen.getByRole("button", { name: "Remove Founder 1 skills entry 1" }));
-        expect(asFoundersProfileValue(saved).founders[0].skills).toEqual([{ type: "licence", text: "NY notary" }]);
-        expect(text(2)).toBeNull();
+        // A line opened between them leaves each type with its line.
+        fireEvent.keyDown(text(1)!, { key: "Enter" });
+        expect(stored()).toEqual([
+            { type: "skill", text: "Negotiation" },
+            { type: "", text: "" },
+            { type: "licence", text: "NY notary" }
+        ]);
+        expect(type(3).value).toBe("licence");
 
-        // ...but the last one is only emptied.
-        fireEvent.click(screen.getByRole("button", { name: "Remove Founder 1 skills entry 1" }));
-        expect(asFoundersProfileValue(saved).founders[0].skills).toEqual([{ type: "", text: "" }]);
-        expect(text(1)!.value).toBe("");
+        // Backspace on the empty one takes it away, and the types follow.
+        fireEvent.keyDown(text(2)!, { key: "Backspace" });
+        expect(stored()).toEqual([
+            { type: "skill", text: "Negotiation" },
+            { type: "licence", text: "NY notary" }
+        ]);
+        expect(type(2).value).toBe("licence");
+
+    });
+
+    it("moves a line's type with it when the line is dragged", () => {
+
+        render(<Harness founders={[ann]} initial={{ founders: [{ id: "a", roles: [""], skills: [
+            { type: "skill", text: "Negotiation" },
+            { type: "certification", text: "PRINCE2" },
+            { type: "", text: "Untyped" }
+        ] }] }} />);
+        open(/Founder 1$/);
+
+        const rows = [...screen.getByLabelText("Founder 1 skills entry 1").closest(".numbered-list")!
+            .querySelectorAll(".numbered-list-row")] as HTMLElement[];
+        const dataTransfer = { setData: () => {}, effectAllowed: "", dropEffect: "" };
+        fireEvent.mouseDown(rows[0].querySelector(".numbered-list-number")!);
+        fireEvent.dragStart(rows[0], { dataTransfer });
+        fireEvent.dragOver(rows[2], { dataTransfer });
+        fireEvent.drop(rows[2], { dataTransfer });
+
+        expect(asFoundersProfileValue(saved).founders[0].skills).toEqual([
+            { type: "certification", text: "PRINCE2" },
+            { type: "", text: "Untyped" },
+            { type: "skill", text: "Negotiation" }
+        ]);
+        expect((screen.getByLabelText("Founder 1 skills entry 3 type") as HTMLSelectElement).value).toBe("skill");
 
     });
 
@@ -194,10 +227,9 @@ describe("FoundersProfileEditor founders", () => {
         render(<Harness founders={[ann]} initial={{ founders: [{ id: "a", roles: [""], skills: ["BA (Hons)", "Negotiation"] }] }} />);
         open(/Founder 1$/);
 
-        expect((screen.getByLabelText("Founder 1 skills entry 1 text") as HTMLTextAreaElement).value).toBe("BA (Hons)");
-        expect((screen.getByLabelText("Founder 1 skills entry 2 text") as HTMLTextAreaElement).value).toBe("Negotiation");
-        expect(screen.getAllByRole("button", { name: /^Founder 1 skills entry 2 type/ })
-            .find(button => button.classList.contains("option-picker-trigger"))!.textContent).toContain("Type");
+        expect((screen.getByLabelText("Founder 1 skills entry 1") as HTMLTextAreaElement).value).toBe("BA (Hons)");
+        expect((screen.getByLabelText("Founder 1 skills entry 2") as HTMLTextAreaElement).value).toBe("Negotiation");
+        expect((screen.getByLabelText("Founder 1 skills entry 2 type") as HTMLSelectElement).value).toBe("");
 
     });
 
