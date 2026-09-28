@@ -31,6 +31,10 @@ function escapeHtml(value: string): string {
  */
 function buildNestedListHtml(items: { text: string; indent: number }[], ordered: boolean): string {
 
+    // "export-list-ordered" lets a stylesheet give a numbered list's
+    // markers a wider, right-aligned column, so "1." lines up with "10.".
+    const listClass = ordered ? "export-list export-list-ordered" : "export-list";
+
     let html = "";
     const openLevels: number[] = [];
     let counter = 0;
@@ -52,7 +56,7 @@ function buildNestedListHtml(items: { text: string; indent: number }[], ordered:
             // A brand-new (possibly nested) level -- opened INSIDE
             // whatever <li> is currently still open (if any), so it
             // renders as that item's sub-list rather than a sibling.
-            html += `<ul class="export-list">`;
+            html += `<ul class="${listClass}">`;
             openLevels.push(level);
 
         } else {
@@ -81,15 +85,22 @@ function buildNestedListHtml(items: { text: string; indent: number }[], ordered:
 
 }
 
-function renderBlockHtml(block: ExportBlock): string {
+/**
+ * One block as HTML. `subheadingLevel` is the heading level of a
+ * level-1 subheading (a level-2 one is one below it): 3 under a
+ * Section's own h2, 4 where the Section itself is an h3.
+ */
+function renderBlockHtml(block: ExportBlock, subheadingLevel = 3): string {
 
     switch (block.kind) {
 
-        case "subheading":
+        case "subheading": {
 
-            return block.level === 2
-                ? `<h4>${escapeHtml(block.text)}</h4>`
-                : `<h3>${escapeHtml(block.text)}</h3>`;
+            const tag = "h" + (block.level === 2 ? subheadingLevel + 1 : subheadingLevel);
+
+            return `<${tag}>${escapeHtml(block.text)}</${tag}>`;
+
+        }
 
         case "paragraph":
 
@@ -172,10 +183,10 @@ function renderBlockHtml(block: ExportBlock): string {
  * asterisks and "- [ ]" syntax visibly unrendered in
  * the printed/PDF output.
  */
-function renderSectionHtml(section: ExportSectionContent, headingTag: "h2" | "h3"): string {
+function renderSectionHtml(section: ExportSectionContent, headingTag: "h2" | "h3", subheadingLevel = 3): string {
 
     const bodyHtml = section.blocks.length > 0
-        ? section.blocks.map(renderBlockHtml).join("")
+        ? section.blocks.map(block => renderBlockHtml(block, subheadingLevel)).join("")
         : "<p><em>No response.</em></p>";
 
     return `
@@ -188,10 +199,15 @@ function renderSectionHtml(section: ExportSectionContent, headingTag: "h2" | "h3
 /**
  * The sections of a document as HTML, every value escaped -- what the
  * PDF prints, and what the Business Documents page previews.
+ *
+ * The PDF's title is its h1, so its sections are h2s. The page that
+ * previews it has its own h1 and the document's title as an h2, so it
+ * asks for `sectionLevel` 3: the sections one level down, and their
+ * subheadings with them, leaving no heading level skipped.
  */
-export function contentSectionsHtml(content: ExportContent): string {
+export function contentSectionsHtml(content: ExportContent, sectionLevel: 2 | 3 = 2): string {
     return content.sections
-        .map(section => renderSectionHtml(section, "h2"))
+        .map(section => renderSectionHtml(section, sectionLevel === 3 ? "h3" : "h2", sectionLevel + 1))
         .join("");
 }
 
@@ -213,15 +229,33 @@ export function documentMetaHtml(content: ExportContent): string {
 /**
  * The Business Documents on the app's type scale: 28 the title, 24 a
  * section, 18 the text and the subheadings, 14 tables and small print.
+ * The same rhythm as the page that previews them
+ * (business-documents.css): more room above a heading than below it,
+ * one paragraph gap, one gap around a table, and lists with a hanging
+ * marker 0.5em from the text -- numbered ones right-aligned so "1."
+ * and "10." line up, and wrapped lines under the first line's text.
  * After the rules it overrides, so it wins on source order.
  */
 const DOCUMENT_CSS = `
-    h1 { font-size: 28px; }
-    h2 { font-size: 24px; }
-    h3, h4 { font-size: 18px; }
-    p, ul.export-list li, ul.export-checklist li { font-size: 18px; }
-    table.export-table th, table.export-table td { font-size: 14px; }
-    .capability, .document-meta p { font-size: 14px; }
+    h1 { font-size: 28px; line-height: 1.25; margin: 0 0 4px; }
+    .capability { font-size: 18px; line-height: 1.5; margin: 0 0 8px; }
+    .document-meta { margin: 0 0 24px; }
+    .document-meta p { font-size: 14px; line-height: 1.5; margin: 0; }
+    h2 { font-size: 24px; line-height: 1.25; margin: 36px 0 12px; }
+    h3, h4 { font-size: 18px; line-height: 1.3; font-weight: 700; }
+    h3 { margin: 24px 0 8px; }
+    h4 { margin: 18px 0 6px; color: #374151; }
+    p { font-size: 18px; line-height: 1.5; margin: 0 0 12px; }
+    table.export-table { margin: 16px 0; }
+    table.export-table th, table.export-table td { font-size: 14px; line-height: 1.35; }
+    ul.export-list, ul.export-checklist { font-size: 18px; margin: 0 0 12px; padding: 0; }
+    ul.export-list li, ul.export-checklist li { font-size: 18px; line-height: 1.5; margin: 0; }
+    ul.export-list li + li, ul.export-checklist li + li { margin-top: 6px; }
+    .export-list-item, ul.export-checklist li { display: flex; align-items: baseline; gap: 0.5em; }
+    .export-list-marker { flex: none; width: 0.75em; min-width: 0; text-align: right; }
+    ul.export-list-ordered > li > .export-list-item > .export-list-marker { width: 1.5em; }
+    ul.export-list ul.export-list { margin: 6px 0 0 1.25em; }
+    ul.export-list-ordered ul.export-list { margin-left: 2em; }
 `;
 
 const CANVAS_CSS = `
