@@ -11,30 +11,26 @@ import { consumeKey } from "./consumeKey.ts";
  * app window: a citation is somewhere to leave to, not a page to
  * navigate the app away from. `openUrl` is the Tauri opener plugin,
  * already a dependency; outside Tauri (a plain browser tab in
- * development, or a test) its `invoke` call rejects, and the anchor's
- * own browser-default handling of `window.open` below stands in.
+ * development, or a test) its `invoke` call rejects, and the
+ * `window.open` in the `.catch` stands in. The anchor's own default
+ * navigation is always prevented.
  */
 function openExternal(href: string) {
     openUrl(href).catch(() => window.open(href, "_blank", "noreferrer"));
 }
 
 /**
- * One point of a note.
+ * One point of a note: a sentence, or a title and its text
+ * ("Demographics: What are their age range..."). The title is drawn
+ * bold so a list of five can be scanned rather than read, and the
+ * separator is supplied here rather than typed into the content, so
+ * every list punctuates the same way.
  *
- * A plain string is a sentence. The object form is a named
- * parameter -- the shape the Business System's Foundation page
- * uses, where each point is a heading and the question behind it
- * ("Demographics: What are their age range..."). The title is
- * drawn bold so a list of five can be scanned rather than read,
- * and the separator is supplied here rather than typed into the
- * content, so every list on the page punctuates the same way.
- */
-/**
- * One entry: a sentence, or a title and its text. With `onOpen`, the
- * title is a link that opens the page it names. With `href` instead,
- * the TEXT is the link -- a source citation ("Source:" / "Based on:"
- * followed by the publication's name) -- and it opens in the
- * reader's own browser rather than inside the app (see openExternal).
+ * With `onOpen`, the title is a link that opens the page it names.
+ * With `href` instead, the TEXT is the link -- a source citation
+ * ("Source:" / "Based on:" followed by the publication's name) --
+ * and it opens in the reader's own browser rather than inside the
+ * app (see openExternal).
  */
 export type InfoPoint = string | { title: string; text: string; onOpen?: () => void; href?: string };
 
@@ -138,11 +134,12 @@ export function InfoText({ text, children }: { text: string; children?: ReactNod
 /**
  * The "i" beside a field, and the short note it opens.
  *
- * For the handful of answers on the Legal Entity page that a
- * founder cannot be expected to know cold -- what a legal form
- * decides, what counts as capital, what this page means by a link
- * -- where the alternative was either a label nobody understands
- * or a paragraph of help everybody scrolls past.
+ * For the answers a founder cannot be expected to know cold -- what
+ * a legal form decides, how a figure is worked out, where a number
+ * comes from -- on the Business, Financial, Brand and Strategy pages
+ * as well as the Legal Entity, where the alternative was either a
+ * label nobody understands or a paragraph of help everybody scrolls
+ * past.
  *
  * Deliberately NOT a tooltip: it opens on click and stays open, so
  * it is reachable by keyboard and by touch, and can be read at the
