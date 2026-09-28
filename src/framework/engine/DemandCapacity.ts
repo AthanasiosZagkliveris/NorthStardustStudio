@@ -22,20 +22,11 @@
 */
 
 import { parseDecimal } from "./Amounts.ts";
+import { asObject, asText, randomId } from "./Readers.ts";
 
 /* ==========================================================
    Small readers
 ========================================================== */
-
-function asObject(value: unknown): Record<string, unknown> {
-    return value && typeof value === "object" && !Array.isArray(value)
-        ? value as Record<string, unknown>
-        : {};
-}
-
-function asText(value: unknown): string {
-    return typeof value === "string" ? value : "";
-}
 
 /** A number as typed: "40", "12.5", "12,5"; null when there is none. */
 function readNumber(text: string | undefined): number | null {
@@ -175,7 +166,7 @@ export function createDemand(): DemandValue {
 
 export function createDemandSource(type = ""): DemandSource {
     return {
-        id: "source-" + Math.random().toString(36).slice(2, 10),
+        id: randomId("source"),
         type,
         calculate: false,
         estimate: "",

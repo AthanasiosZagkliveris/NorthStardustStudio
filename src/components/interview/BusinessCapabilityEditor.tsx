@@ -55,6 +55,7 @@ import {
 } from "../../framework/engine/DemandCapacity.ts";
 import { moneyFormatter } from "../../framework/engine/FinancialModel.ts";
 import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../framework/engine/Currencies.ts";
+import { randomId } from "../../framework/engine/Readers.ts";
 import { railId } from "./rails/railItems.ts";
 
 import { summaryText } from "./cardSummary.ts";
@@ -1423,8 +1424,7 @@ export default function BusinessCapabilityEditor({
                             [group.id]: [
                                 ...stored,
                                 {
-                                    id: "subsection-" +
-                                        Math.random().toString(36).slice(2, 10),
+                                    id: randomId("subsection"),
                                     name: "",
                                     slots: []
                                 }

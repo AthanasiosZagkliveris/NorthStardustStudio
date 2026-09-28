@@ -1,4 +1,5 @@
 import { parseAmount, parseDecimal } from "./Amounts.ts";
+import { asObject, asText, randomId } from "./Readers.ts";
 import { AnswerDefinition, TableColumnDefinition } from "../model/index.ts";
 import {
     type DeliveryValue,
@@ -2804,18 +2805,10 @@ export interface StrategicPeriodValue {
     goalsByTheme: Record<string, StrategyGoalValue[]>;
 }
 
-/** Ids only have to be unique within one stored answer. */
-function strategyId(prefix: string): string {
-    return prefix + "-" + Math.random().toString(36).slice(2, 10);
-}
-
-function strategyText(value: unknown): string {
-    return typeof value === "string" ? value : "";
-}
 
 function strategyStringList(value: unknown, minimum: number): string[] {
 
-    const list = Array.isArray(value) ? value.map(strategyText) : [];
+    const list = Array.isArray(value) ? value.map(asText) : [];
 
     while (list.length < minimum) {
         list.push("");
@@ -2831,7 +2824,7 @@ function strategyMonth(value: unknown): StrategyMonthValue {
         ? value as Record<string, unknown>
         : {};
 
-    return { month: strategyText(source.month), year: strategyText(source.year) };
+    return { month: asText(source.month), year: asText(source.year) };
 
 }
 
@@ -2945,20 +2938,20 @@ export function asStrategyFoundationValue(value: unknown): StrategyFoundationVal
             : {};
 
         return {
-            id: strategyText(theme.id) || strategyId("theme"),
-            name: strategyText(theme.name),
-            description: strategyText(theme.description)
+            id: asText(theme.id) || randomId("theme"),
+            name: asText(theme.name),
+            description: asText(theme.description)
         };
 
     });
 
     return {
-        situation: strategyText(source.situation),
+        situation: asText(source.situation),
         situationSource: source.situationSource === "auto" || source.situationSource === "edited"
             ? source.situationSource
             : "",
         swot,
-        compass: strategyText(source.compass),
+        compass: asText(source.compass),
         period: strategyRange(source.period),
         themes
     };
@@ -2972,15 +2965,15 @@ function strategyMetric(value: unknown): StrategyMetricValue {
         : {};
 
     return {
-        id: strategyText(source.id) || strategyId("metric"),
-        name: strategyText(source.name),
-        description: strategyText(source.description),
-        baseline: strategyText(source.baseline),
-        target: strategyText(source.target),
-        frequency: strategyText(source.frequency),
-        unit: strategyText(source.unit),
-        customUnit: strategyText(source.customUnit),
-        currency: strategyText(source.currency)
+        id: asText(source.id) || randomId("metric"),
+        name: asText(source.name),
+        description: asText(source.description),
+        baseline: asText(source.baseline),
+        target: asText(source.target),
+        frequency: asText(source.frequency),
+        unit: asText(source.unit),
+        customUnit: asText(source.customUnit),
+        currency: asText(source.currency)
     };
 
 }
@@ -2994,13 +2987,13 @@ function strategyObjective(value: unknown): StrategyObjectiveValue {
     const metrics = (Array.isArray(source.metrics) ? source.metrics : []).map(strategyMetric);
 
     return {
-        id: strategyText(source.id) || strategyId("objective"),
-        name: strategyText(source.name),
-        description: strategyText(source.description),
+        id: asText(source.id) || randomId("objective"),
+        name: asText(source.name),
+        description: asText(source.description),
         period: strategyRange(source.period),
         initiatives: strategyStringList(source.initiatives, 1),
         metrics: metrics.length > 0 ? metrics : [strategyMetric(undefined)],
-        ownerId: strategyText(source.ownerId)
+        ownerId: asText(source.ownerId)
     };
 
 }
@@ -3014,9 +3007,9 @@ function strategyGoal(value: unknown): StrategyGoalValue {
     const objectives = (Array.isArray(source.objectives) ? source.objectives : []).map(strategyObjective);
 
     return {
-        id: strategyText(source.id) || strategyId("goal"),
-        name: strategyText(source.name),
-        description: strategyText(source.description),
+        id: asText(source.id) || randomId("goal"),
+        name: asText(source.name),
+        description: asText(source.description),
         objectives: objectives.length > 0 ? objectives : [strategyObjective(undefined)]
     };
 
@@ -3035,7 +3028,7 @@ export function createStrategyMetric(): StrategyMetricValue {
 }
 
 export function createStrategyTheme(name = "", description = ""): StrategyThemeValue {
-    return { id: strategyId("theme"), name, description };
+    return { id: randomId("theme"), name, description };
 }
 
 /**
@@ -3591,25 +3584,22 @@ export interface LegalEntityValue {
     expenses: LegalEntityExpenseValue[];
 }
 
-function legalEntityId(prefix: string): string {
-    return prefix + "-" + Math.random().toString(36).slice(2, 10);
-}
 
 export function createLegalEntityFounder(): LegalEntityFounderValue {
-    return { id: legalEntityId("founder"), name: "", ownership: "", capital: "", roles: [""] };
+    return { id: randomId("founder"), name: "", ownership: "", capital: "", roles: [""] };
 }
 
 export function createLegalEntityNumber(): LegalEntityNumberValue {
-    return { id: legalEntityId("number"), label: "", number: "" };
+    return { id: randomId("number"), label: "", number: "" };
 }
 
 export function createLegalEntityRequirement(): LegalEntityRequirementValue {
-    return { id: legalEntityId("requirement"), type: "", name: "", reference: "", notes: "" };
+    return { id: randomId("requirement"), type: "", name: "", reference: "", notes: "" };
 }
 
 export function createLegalEntityExpense(): LegalEntityExpenseValue {
     return {
-        id: legalEntityId("expense"),
+        id: randomId("expense"),
         name: "",
         responsibility: "",
         cost: "",
@@ -3628,9 +3618,9 @@ function legalEntityNumberList(value: unknown): LegalEntityNumberValue[] {
             : {};
 
         return {
-            id: strategyText(row.id) || legalEntityId("number"),
-            label: strategyText(row.label),
-            number: strategyText(row.number)
+            id: asText(row.id) || randomId("number"),
+            label: asText(row.label),
+            number: asText(row.number)
         };
 
     });
@@ -3665,15 +3655,15 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
             : {};
 
         return {
-            id: strategyText(row.id) || legalEntityId("founder"),
-            name: strategyText(row.name),
-            ownership: strategyText(row.ownership),
-            capital: strategyText(row.capital),
+            id: asText(row.id) || randomId("founder"),
+            name: asText(row.name),
+            ownership: asText(row.ownership),
+            capital: asText(row.capital),
             /* A list now; one line of text before. What was typed
                into the single box is kept, as the first role. */
             roles: Array.isArray(row.roles) && row.roles.length > 0
-                ? row.roles.map(strategyText)
-                : [strategyText(row.role)]
+                ? row.roles.map(asText)
+                : [asText(row.role)]
         };
 
     });
@@ -3685,11 +3675,11 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
             : {};
 
         return {
-            id: strategyText(row.id) || legalEntityId("requirement"),
-            type: strategyText(row.type),
-            name: strategyText(row.name),
-            reference: strategyText(row.reference),
-            notes: strategyText(row.notes)
+            id: asText(row.id) || randomId("requirement"),
+            type: asText(row.type),
+            name: asText(row.name),
+            reference: asText(row.reference),
+            notes: asText(row.notes)
         };
 
     });
@@ -3701,39 +3691,39 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
             : {};
 
         return {
-            id: strategyText(row.id) || legalEntityId("expense"),
-            name: strategyText(row.name),
-            responsibility: strategyText(row.responsibility),
-            cost: strategyText(row.cost),
-            frequency: strategyText(row.frequency),
-            links: (Array.isArray(row.links) ? row.links : []).map(strategyText).filter(Boolean),
-            description: strategyText(row.description)
+            id: asText(row.id) || randomId("expense"),
+            name: asText(row.name),
+            responsibility: asText(row.responsibility),
+            cost: asText(row.cost),
+            frequency: asText(row.frequency),
+            links: (Array.isArray(row.links) ? row.links : []).map(asText).filter(Boolean),
+            description: asText(row.description)
         };
 
     });
 
-    const status = strategyText(taxSource.consumptionTaxStatus);
+    const status = asText(taxSource.consumptionTaxStatus);
 
     return {
 
         organisation: {
-            name: strategyText(organisationSource.name),
-            country: strategyText(organisationSource.country),
-            subdivision: strategyText(organisationSource.subdivision),
-            legalForm: strategyText(organisationSource.legalForm),
-            legalFormOther: strategyText(organisationSource.legalFormOther),
-            mainActivity: strategyText(organisationSource.mainActivity),
-            activityCode: strategyText(organisationSource.activityCode),
+            name: asText(organisationSource.name),
+            country: asText(organisationSource.country),
+            subdivision: asText(organisationSource.subdivision),
+            legalForm: asText(organisationSource.legalForm),
+            legalFormOther: asText(organisationSource.legalFormOther),
+            mainActivity: asText(organisationSource.mainActivity),
+            activityCode: asText(organisationSource.activityCode),
 
             // A page saved while the address was one field keeps
             // what was written in it: the whole thing lands on the
             // first line, which is the only part of it we can know
             // is right.
-            addressLine1: strategyText(organisationSource.addressLine1) ||
-                strategyText(organisationSource.address),
-            addressLine2: strategyText(organisationSource.addressLine2),
-            city: strategyText(organisationSource.city),
-            postalCode: strategyText(organisationSource.postalCode)
+            addressLine1: asText(organisationSource.addressLine1) ||
+                asText(organisationSource.address),
+            addressLine2: asText(organisationSource.addressLine2),
+            city: asText(organisationSource.city),
+            postalCode: asText(organisationSource.postalCode)
         },
 
         capitalApplies: source.capitalApplies === true,
@@ -3747,19 +3737,19 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
             status: formationSource.status === "planned" || formationSource.status === "registered"
                 ? formationSource.status
                 : "",
-            date: strategyText(formationSource.date),
-            authority: strategyText(formationSource.authority),
-            registrationNumber: strategyText(formationSource.registrationNumber),
+            date: asText(formationSource.date),
+            authority: asText(formationSource.authority),
+            registrationNumber: asText(formationSource.registrationNumber),
             additionalNumbers: legalEntityNumberList(formationSource.additionalNumbers)
         },
 
         tax: {
-            identificationNumber: strategyText(taxSource.identificationNumber),
+            identificationNumber: asText(taxSource.identificationNumber),
             consumptionTaxStatus:
                 status === "yes" || status === "no" || status === "not-applicable"
                     ? status
                     : "",
-            consumptionTaxNumber: strategyText(taxSource.consumptionTaxNumber),
+            consumptionTaxNumber: asText(taxSource.consumptionTaxNumber),
             additionalRegistrations: legalEntityNumberList(taxSource.additionalRegistrations)
         },
 
@@ -4030,13 +4020,10 @@ export interface BusinessFoundationValue {
     segments: BusinessCustomerSegmentValue[];
 }
 
-function businessId(prefix: string): string {
-    return prefix + "-" + Math.random().toString(36).slice(2, 10);
-}
 
 export function createBusinessCustomerProfile(): BusinessCustomerProfileValue {
     return {
-        id: businessId("profile"),
+        id: randomId("profile"),
         name: "",
         description: {},
         goals: "",
@@ -4056,7 +4043,7 @@ export function createBusinessCustomerSegment(
     taken: number[] = []
 ): BusinessCustomerSegmentValue {
 
-    const id = businessId("segment");
+    const id = randomId("segment");
 
     return {
         id,
@@ -4076,7 +4063,7 @@ export function createBusinessCustomerSegment(
 
 export function createBusinessCompetitor(): BusinessCompetitorValue {
     return {
-        id: businessId("competitor"),
+        id: randomId("competitor"),
         name: "",
         type: "",
         description: {},
@@ -4090,7 +4077,7 @@ export function createBusinessCompetitor(): BusinessCompetitorValue {
 
 export function createBusinessOffering(): BusinessOfferingValue {
     return {
-        id: businessId("offering"),
+        id: randomId("offering"),
         name: "",
         needsAddressed: [],
         category: "",
@@ -4099,9 +4086,6 @@ export function createBusinessOffering(): BusinessOfferingValue {
     };
 }
 
-function businessTextValue(value: unknown): string {
-    return typeof value === "string" ? value : "";
-}
 
 function businessNeedList(value: unknown, minimum = 0): string[] {
 
@@ -4193,43 +4177,38 @@ function asBusinessNeeds(value: unknown): BusinessProfileNeedsValue {
 
 }
 
-function asBusinessObject(value: unknown): Record<string, unknown> {
-    return value && typeof value === "object" && !Array.isArray(value)
-        ? value as Record<string, unknown>
-        : {};
-}
 
 function asBusinessCompetitor(entry: unknown): BusinessCompetitorValue {
 
-    const competitor = asBusinessObject(entry);
+    const competitor = asObject(entry);
 
     return {
-        id: businessTextValue(competitor.id) || businessId("competitor"),
-        name: businessTextValue(competitor.name),
-        type: businessTextValue(competitor.type),
+        id: asText(competitor.id) || randomId("competitor"),
+        name: asText(competitor.name),
+        type: asText(competitor.type),
         description: asBusinessDescription(
             competitor.description,
             BUSINESS_FIRST_DESCRIPTION_PART.competitor
         ),
-        strengths: businessTextValue(competitor.strengths),
-        weaknesses: businessTextValue(competitor.weaknesses),
-        opportunities: businessTextValue(competitor.opportunities),
-        threats: businessTextValue(competitor.threats),
-        insights: businessTextValue(competitor.insights)
+        strengths: asText(competitor.strengths),
+        weaknesses: asText(competitor.weaknesses),
+        opportunities: asText(competitor.opportunities),
+        threats: asText(competitor.threats),
+        insights: asText(competitor.insights)
     };
 
 }
 
 function asBusinessOffering(entry: unknown): BusinessOfferingValue {
 
-    const offering = asBusinessObject(entry);
+    const offering = asObject(entry);
 
     return {
-        id: businessTextValue(offering.id) || businessId("offering"),
-        name: businessTextValue(offering.name),
+        id: asText(offering.id) || randomId("offering"),
+        name: asText(offering.name),
         needsAddressed: businessNeedList(offering.needsAddressed),
-        category: businessTextValue(offering.category),
-        categoryOther: businessTextValue(offering.categoryOther),
+        category: asText(offering.category),
+        categoryOther: asText(offering.categoryOther),
         description: asBusinessDescription(
             offering.description,
             BUSINESS_FIRST_DESCRIPTION_PART.offering
@@ -4255,7 +4234,7 @@ function asBusinessOffering(entry: unknown): BusinessOfferingValue {
  */
 export function asBusinessFoundationValue(value: unknown): BusinessFoundationValue {
 
-    const source = asBusinessObject(value);
+    const source = asObject(value);
 
     const pageCompetitors = (Array.isArray(source.competitors) ? source.competitors : [])
         .map(asBusinessCompetitor);
@@ -4266,23 +4245,23 @@ export function asBusinessFoundationValue(value: unknown): BusinessFoundationVal
     const segments = (Array.isArray(source.segments) ? source.segments : [])
         .map((entry, index) => {
 
-            const segment = asBusinessObject(entry);
+            const segment = asObject(entry);
 
             const profiles = (Array.isArray(segment.profiles) ? segment.profiles : [])
                 .map(candidate => {
 
-                    const profile = asBusinessObject(candidate);
+                    const profile = asObject(candidate);
 
                     return {
-                        id: businessTextValue(profile.id) || businessId("profile"),
-                        name: businessTextValue(profile.name),
+                        id: asText(profile.id) || randomId("profile"),
+                        name: asText(profile.name),
                         description: asBusinessDescription(
                             profile.description,
                             BUSINESS_FIRST_DESCRIPTION_PART.profile
                         ),
-                        goals: businessTextValue(profile.goals),
-                        challenges: businessTextValue(profile.challenges),
-                        objections: businessTextValue(profile.objections),
+                        goals: asText(profile.goals),
+                        challenges: asText(profile.challenges),
+                        objections: asText(profile.objections),
                         needs: asBusinessNeeds(profile.needs)
                     };
 
@@ -4309,11 +4288,11 @@ export function asBusinessFoundationValue(value: unknown): BusinessFoundationVal
                 : (inherited ? pageOfferings : []);
 
             return {
-                id: businessTextValue(segment.id) || businessId("segment"),
+                id: asText(segment.id) || randomId("segment"),
                 hue: typeof segment.hue === "number" && Number.isFinite(segment.hue)
                     ? segment.hue
                     : undefined,
-                name: businessTextValue(segment.name),
+                name: asText(segment.name),
                 description: asBusinessDescription(
                     segment.description,
                     BUSINESS_FIRST_DESCRIPTION_PART.segment
@@ -4321,7 +4300,7 @@ export function asBusinessFoundationValue(value: unknown): BusinessFoundationVal
                 profiles: profiles.length > 0
                     ? profiles
                     : [createBusinessCustomerProfile()],
-                valueProposition: businessTextValue(segment.valueProposition),
+                valueProposition: asText(segment.valueProposition),
                 competitors: ownCompetitors.length > 0
                     ? ownCompetitors
                     : [createBusinessCompetitor()],
@@ -4856,7 +4835,7 @@ export interface BusinessOfferingRelationshipsValue {
  * "all" as Page 1 gains Offerings -- a channel that carries
  * everything today carries whatever is added tomorrow -- and so a
  * channel that does carry everything stays one line rather than
- * five. Chosen not to collide with an id, which businessId always
+ * five. Chosen not to collide with an id, which randomId always
  * gives a "kind-" prefix.
  */
 export const BUSINESS_CHANNEL_ALL_OFFERINGS = "*";
@@ -5141,7 +5120,7 @@ export interface BusinessEngagementValue {
 
 export function createBusinessChannel(): BusinessChannelValue {
     return {
-        id: businessId("channel"),
+        id: randomId("channel"),
         category: "",
         name: "",
         links: [""],
@@ -5207,7 +5186,7 @@ export function businessFoundationSegments(
     value: unknown
 ): BusinessCustomerSegmentValue[] {
 
-    const source = asBusinessObject(value);
+    const source = asObject(value);
 
     const recorded = Array.isArray(source.segments) && source.segments.length > 0;
 
@@ -5236,18 +5215,18 @@ const BUSINESS_RELATIONSHIP_GOAL_IDS: ReadonlySet<string> =
 
 function asBusinessChannel(entry: unknown): BusinessChannelValue {
 
-    const channel = asBusinessObject(entry);
+    const channel = asObject(entry);
 
     const actions: Record<string, string[]> = {};
 
-    for (const [stage, list] of Object.entries(asBusinessObject(channel.actions))) {
+    for (const [stage, list] of Object.entries(asObject(channel.actions))) {
         if (BUSINESS_JOURNEY_STAGE_IDS.has(stage)) {
             actions[stage] = businessNeedList(list);
         }
     }
 
     return {
-        id: businessTextValue(channel.id) || businessId("channel"),
+        id: asText(channel.id) || randomId("channel"),
         /* Held as the LABEL, because a category can now be one the
            founder named themselves and there is no id for that.
            Anything saved as one of the seven ids becomes its label
@@ -5255,9 +5234,9 @@ function asBusinessChannel(entry: unknown): BusinessChannelValue {
            after group together instead of reading as two
            categories with the same name. */
         category: businessChannelCategoryLabel(
-            businessTextValue(channel.category)
+            asText(channel.category)
         ),
-        name: businessTextValue(channel.name),
+        name: asText(channel.name),
         links: businessNeedList(channel.links, 1),
         offerings: businessIdList(channel.offerings),
         stages: businessIdList(channel.stages, BUSINESS_JOURNEY_STAGE_IDS),
@@ -5270,10 +5249,10 @@ function asBusinessRelationshipInteraction(
     entry: unknown
 ): BusinessRelationshipInteractionValue {
 
-    const interaction = asBusinessObject(entry);
+    const interaction = asObject(entry);
 
     return {
-        approach: businessTextValue(interaction.approach),
+        approach: asText(interaction.approach),
         goals: businessIdList(interaction.goals, BUSINESS_RELATIONSHIP_GOAL_IDS)
     };
 
@@ -5281,11 +5260,11 @@ function asBusinessRelationshipInteraction(
 
 function asBusinessRelationshipType(entry: unknown): BusinessRelationshipTypeValue {
 
-    const type = asBusinessObject(entry);
+    const type = asObject(entry);
 
     const interactions: Record<string, BusinessRelationshipInteractionValue> = {};
 
-    for (const [key, detail] of Object.entries(asBusinessObject(type.interactions))) {
+    for (const [key, detail] of Object.entries(asObject(type.interactions))) {
         interactions[key] = asBusinessRelationshipInteraction(detail);
     }
 
@@ -5299,13 +5278,13 @@ function asBusinessRelationshipType(entry: unknown): BusinessRelationshipTypeVal
         the same interaction now looks for it.
     */
     for (const [offeringId, offering] of Object.entries(
-        asBusinessObject(type.offeringDetail)
+        asObject(type.offeringDetail)
     )) {
         for (const [stageId, stage] of Object.entries(
-            asBusinessObject(asBusinessObject(offering).stageDetail)
+            asObject(asObject(offering).stageDetail)
         )) {
 
-            const detail = asBusinessObject(stage);
+            const detail = asObject(stage);
 
             /* Filed under the Offering and the stage, which is
                where the interaction looks. The channel it named is
@@ -5321,7 +5300,7 @@ function asBusinessRelationshipType(entry: unknown): BusinessRelationshipTypeVal
     }
 
     return {
-        purpose: businessTextValue(type.purpose),
+        purpose: asText(type.purpose),
         interactions
     };
 
@@ -5338,34 +5317,34 @@ function asBusinessRelationshipType(entry: unknown): BusinessRelationshipTypeVal
  */
 export function asBusinessEngagementValue(value: unknown): BusinessEngagementValue {
 
-    const source = asBusinessObject(value);
+    const source = asObject(value);
 
     const segments = (Array.isArray(source.segments) ? source.segments : [])
         .map(entry => {
 
-            const segment = asBusinessObject(entry);
+            const segment = asObject(entry);
 
             const profiles = (Array.isArray(segment.profiles) ? segment.profiles : [])
                 .map(candidate => {
 
-                    const profile = asBusinessObject(candidate);
+                    const profile = asObject(candidate);
 
                     const offerings: Record<
                         string, BusinessOfferingRelationshipsValue
                     > = {};
 
                     for (const [offeringId, detail] of Object.entries(
-                        asBusinessObject(profile.offerings)
+                        asObject(profile.offerings)
                     )) {
 
-                        const entryValue = asBusinessObject(detail);
+                        const entryValue = asObject(detail);
 
                         const typeDetail: Record<
                             string, BusinessRelationshipTypeValue
                         > = {};
 
                         for (const [type, typeValue] of Object.entries(
-                            asBusinessObject(entryValue.typeDetail)
+                            asObject(entryValue.typeDetail)
                         )) {
                             if (BUSINESS_RELATIONSHIP_TYPE_IDS.has(type)) {
                                 typeDetail[type] = asBusinessRelationshipType(typeValue);
@@ -5399,7 +5378,7 @@ export function asBusinessEngagementValue(value: unknown): BusinessEngagementVal
                         not survive -- there is nothing in it to lose.
                     */
                     for (const [type, typeValue] of Object.entries(
-                        asBusinessObject(profile.typeDetail)
+                        asObject(profile.typeDetail)
                     )) {
 
                         if (!BUSINESS_RELATIONSHIP_TYPE_IDS.has(type)) {
@@ -5441,7 +5420,7 @@ export function asBusinessEngagementValue(value: unknown): BusinessEngagementVal
                     }
 
                     return {
-                        profileId: businessTextValue(profile.profileId),
+                        profileId: asText(profile.profileId),
                         offerings
                     };
 
@@ -5476,8 +5455,8 @@ export function asBusinessEngagementValue(value: unknown): BusinessEngagementVal
 
             for (const candidate of storedOfferings) {
 
-                const entry = asBusinessObject(candidate);
-                const offeringId = businessTextValue(entry.offeringId);
+                const entry = asObject(candidate);
+                const offeringId = asText(entry.offeringId);
 
                 if (offeringId.length === 0) {
                     continue;
@@ -5486,7 +5465,7 @@ export function asBusinessEngagementValue(value: unknown): BusinessEngagementVal
                 const typeDetail: Record<string, BusinessRelationshipTypeValue> = {};
 
                 for (const [type, typeValue] of Object.entries(
-                    asBusinessObject(entry.typeDetail)
+                    asObject(entry.typeDetail)
                 )) {
                     if (BUSINESS_RELATIONSHIP_TYPE_IDS.has(type)) {
                         typeDetail[type] = asBusinessRelationshipType(typeValue);
@@ -5553,7 +5532,7 @@ export function asBusinessEngagementValue(value: unknown): BusinessEngagementVal
             }
 
             return {
-                segmentId: businessTextValue(segment.segmentId),
+                segmentId: asText(segment.segmentId),
                 channels: (Array.isArray(segment.channels) ? segment.channels : [])
                     .map(asBusinessChannel),
                 offerings: merged,
@@ -5888,7 +5867,7 @@ export function resourceUnitCount(quantity: string, frequency: string): number |
  * so reading a value twice changes nothing.
  */
 function businessAmountText(value: unknown): string {
-    const text = businessTextValue(value).trim();
+    const text = asText(value).trim();
     if (text === "" || BUSINESS_PLAIN_NUMBER.test(text)) {
         return text;
     }
@@ -6077,12 +6056,12 @@ function createBusinessCost(): BusinessCostValue {
 }
 
 function createBusinessFounder(): BusinessFounderValue {
-    return { id: businessId("founder"), name: "", roles: [""], salary: "", hours: "", deliveryHours: "", deliveryShare: "", hoursPeriod: "" };
+    return { id: randomId("founder"), name: "", roles: [""], salary: "", hours: "", deliveryHours: "", deliveryShare: "", hoursPeriod: "" };
 }
 
 export function createBusinessResourceSlot(): BusinessResourceSlotValue {
     return {
-        id: businessId("resource"),
+        id: randomId("resource"),
         name: "",
         quantity: "",
         description: "",
@@ -6095,7 +6074,7 @@ export function createBusinessResourceSlot(): BusinessResourceSlotValue {
 
 export function createBusinessActivity(): BusinessActivityValue {
     return {
-        id: businessId("activity"),
+        id: randomId("activity"),
         name: "",
         description: "",
         performerIds: [],
@@ -6108,7 +6087,7 @@ export function createBusinessActivity(): BusinessActivityValue {
 
 export function createBusinessPartner(name = ""): BusinessPartnerValue {
     return {
-        id: businessId("partner"),
+        id: randomId("partner"),
         name,
         description: "",
         responsibleId: "",
@@ -6141,20 +6120,20 @@ function seededProfessionals(): BusinessPartnerValue[] {
 
 function asBusinessCost(value: unknown): BusinessCostValue {
 
-    const cost = asBusinessObject(value);
+    const cost = asObject(value);
 
     return {
         price: businessAmountText(cost.price),
-        frequency: businessTextValue(cost.frequency),
-        frequencyOther: businessTextValue(cost.frequencyOther),
-        currency: businessTextValue(cost.currency)
+        frequency: asText(cost.frequency),
+        frequencyOther: asText(cost.frequencyOther),
+        currency: asText(cost.currency)
     };
 
 }
 
 function asBusinessResourceSlot(entry: unknown): BusinessResourceSlotValue {
 
-    const slot = asBusinessObject(entry);
+    const slot = asObject(entry);
 
     /* Quantity took any text before it took only a number. What is
        not a plain number -- "3 tables, 6 shelving units", "6 lamps",
@@ -6163,22 +6142,22 @@ function asBusinessResourceSlot(entry: unknown): BusinessResourceSlotValue {
        keeps no 6: a Quantity that was not a number meant the price
        was the total, and a 6 here would multiply it. Once moved,
        the Quantity is "", so reading it again moves nothing. */
-    const quantity = businessTextValue(slot.quantity).trim();
-    const description = businessTextValue(slot.description);
+    const quantity = asText(slot.quantity).trim();
+    const description = asText(slot.description);
     /* Digits and one "." are a number, or one being typed: "3." and
        "." are on their way to one and stay. */
     const moved = !/^\d*\.?\d*$/.test(quantity);
 
     return {
-        id: businessTextValue(slot.id) || businessId("resource"),
-        name: businessTextValue(slot.name),
+        id: asText(slot.id) || randomId("resource"),
+        name: asText(slot.name),
         quantity: moved ? "" : quantity,
         description: moved
             ? ("Quantity: " + quantity.replace(/\.$/, "") + ". " + description).trim()
             : description,
-        status: businessTextValue(slot.status),
+        status: asText(slot.status),
         cost: asBusinessCost(slot.cost),
-        providerId: businessTextValue(slot.providerId),
+        providerId: asText(slot.providerId),
         offeringIds: offeringIdsOf(slot)
     };
 
@@ -6187,42 +6166,42 @@ function asBusinessResourceSlot(entry: unknown): BusinessResourceSlotValue {
 /** A list now; one Offering before, which is kept as the list's first. */
 function offeringIdsOf(entry: Record<string, unknown>): string[] {
     const list = Array.isArray(entry.offeringIds)
-        ? entry.offeringIds.map(businessTextValue)
-        : [businessTextValue(entry.offeringId)];
+        ? entry.offeringIds.map(asText)
+        : [asText(entry.offeringId)];
     return [...new Set(list.filter(id => id.length > 0))];
 }
 
 function asBusinessActivity(entry: unknown): BusinessActivityValue {
 
-    const activity = asBusinessObject(entry);
+    const activity = asObject(entry);
 
     return {
-        id: businessTextValue(activity.id) || businessId("activity"),
-        name: businessTextValue(activity.name),
-        description: businessTextValue(activity.description),
+        id: asText(activity.id) || randomId("activity"),
+        name: asText(activity.name),
+        description: asText(activity.description),
         /* A list now; one id before. The one chosen is kept. An
            empty entry is a picker added and not yet chosen, and
            stays while it is on screen. */
         performerIds: Array.isArray(activity.performerIds)
-            ? activity.performerIds.map(businessTextValue)
-            : [businessTextValue(activity.performerId)].filter(id => id.length > 0),
-        responsibleId: businessTextValue(activity.responsibleId),
+            ? activity.performerIds.map(asText)
+            : [asText(activity.performerId)].filter(id => id.length > 0),
+        responsibleId: asText(activity.responsibleId),
         completed: activity.completed === true,
         offeringIds: offeringIdsOf(activity),
-        sourceId: businessTextValue(activity.sourceId)
+        sourceId: asText(activity.sourceId)
     };
 
 }
 
 function asBusinessPartner(entry: unknown): BusinessPartnerValue {
 
-    const partner = asBusinessObject(entry);
+    const partner = asObject(entry);
 
     return {
-        id: businessTextValue(partner.id) || businessId("partner"),
-        name: businessTextValue(partner.name),
-        description: businessTextValue(partner.description),
-        responsibleId: businessTextValue(partner.responsibleId),
+        id: asText(partner.id) || randomId("partner"),
+        name: asText(partner.name),
+        description: asText(partner.description),
+        responsibleId: asText(partner.responsibleId),
         cost: asBusinessCost(partner.cost),
         offeringIds: offeringIdsOf(partner)
     };
@@ -6244,21 +6223,21 @@ function asBusinessPartnerList(value: unknown): BusinessPartnerValue[] {
  */
 export function asBusinessCapabilityValue(value: unknown): BusinessCapabilityValue {
 
-    const source = asBusinessObject(value);
+    const source = asObject(value);
 
-    const workspace = asBusinessObject(source.workspace);
+    const workspace = asObject(source.workspace);
 
     const resources: Record<string, BusinessResourceSubsectionValue[]> = {};
 
-    for (const [group, entries] of Object.entries(asBusinessObject(source.resources))) {
+    for (const [group, entries] of Object.entries(asObject(source.resources))) {
 
         resources[group] = (Array.isArray(entries) ? entries : []).map(entry => {
 
-            const subsection = asBusinessObject(entry);
+            const subsection = asObject(entry);
 
             return {
-                id: businessTextValue(subsection.id),
-                name: businessTextValue(subsection.name),
+                id: asText(subsection.id),
+                name: asText(subsection.name),
                 slots: (Array.isArray(subsection.slots) ? subsection.slots : [])
                     .map(asBusinessResourceSlot)
             };
@@ -6267,7 +6246,7 @@ export function asBusinessCapabilityValue(value: unknown): BusinessCapabilityVal
 
     }
 
-    const offering = asBusinessObject(source.offering);
+    const offering = asObject(source.offering);
 
     return {
 
@@ -6285,11 +6264,11 @@ export function asBusinessCapabilityValue(value: unknown): BusinessCapabilityVal
             : (Array.isArray(source.founders) ? source.founders : [])
             .map(entry => {
 
-                const founder = asBusinessObject(entry);
+                const founder = asObject(entry);
 
                 return {
-                    id: businessTextValue(founder.id) || businessId("founder"),
-                    name: businessTextValue(founder.name),
+                    id: asText(founder.id) || randomId("founder"),
+                    name: asText(founder.name),
                     /* A list now; one line of text before. What
                        was typed into the single box is kept, as
                        the first role, rather than dropped. */
@@ -6297,20 +6276,20 @@ export function asBusinessCapabilityValue(value: unknown): BusinessCapabilityVal
                         ? [founder.roles]
                         : businessNeedList(founder.roles, 1),
                     salary: businessAmountText(founder.salary),
-                    hours: businessDecimalText(businessTextValue(founder.hours)),
-                    deliveryHours: businessDecimalText(businessTextValue(founder.deliveryHours)),
+                    hours: businessDecimalText(asText(founder.hours)),
+                    deliveryHours: businessDecimalText(asText(founder.deliveryHours)),
                     hoursPeriod: asHoursPeriod(founder.hoursPeriod),
-                    deliveryShare: businessDecimalText(businessTextValue(founder.deliveryShare))
+                    deliveryShare: businessDecimalText(asText(founder.deliveryShare))
                 };
 
             }),
 
         workspace: {
-            kind: businessTextValue(workspace.kind),
-            kindOther: businessTextValue(workspace.kindOther),
-            status: businessTextValue(workspace.status),
+            kind: asText(workspace.kind),
+            kindOther: asText(workspace.kindOther),
+            status: asText(workspace.status),
             cost: asBusinessCost(workspace.cost),
-            providerId: businessTextValue(workspace.providerId)
+            providerId: asText(workspace.providerId)
         },
 
         resources,
@@ -6318,11 +6297,11 @@ export function asBusinessCapabilityValue(value: unknown): BusinessCapabilityVal
         activities: (Array.isArray(source.activities) ? source.activities : [])
             .map(entry => {
 
-                const category = asBusinessObject(entry);
+                const category = asObject(entry);
 
                 return {
-                    id: businessTextValue(category.id),
-                    name: businessTextValue(category.name),
+                    id: asText(category.id),
+                    name: asText(category.name),
                     activities: (Array.isArray(category.activities)
                         ? category.activities
                         : []).map(asBusinessActivity)

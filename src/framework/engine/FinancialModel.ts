@@ -31,6 +31,7 @@
 */
 
 import { parseAmount, parseDecimal } from "./Amounts.ts";
+import { asObject, asText, randomId } from "./Readers.ts";
 import type {
     BusinessCapabilityValue,
     BusinessCostValue,
@@ -71,16 +72,6 @@ export function planLength(value: { planYears?: string }): number {
    Small readers
 ========================================================== */
 
-function asObject(value: unknown): Record<string, unknown> {
-    return value && typeof value === "object" && !Array.isArray(value)
-        ? value as Record<string, unknown>
-        : {};
-}
-
-function asText(value: unknown): string {
-    return typeof value === "string" ? value : "";
-}
-
 function asList(value: unknown): unknown[] {
     return Array.isArray(value) ? value : [];
 }
@@ -89,9 +80,6 @@ function asTextList(value: unknown): string[] {
     return asList(value).map(asText).filter(entry => entry.length > 0);
 }
 
-function financeId(prefix: string): string {
-    return prefix + "-" + Math.random().toString(36).slice(2, 10);
-}
 
 function asMonth(value: unknown): StrategyMonthValue {
     const source = asObject(value);
@@ -606,7 +594,7 @@ const EMPTY_MONTH: StrategyMonthValue = { month: "", year: "" };
 
 export function createOwnCost(group: CostGroup | "" = ""): OwnCostValue {
     return {
-        id: financeId("cost"),
+        id: randomId("cost"),
         name: "",
         amount: "",
         frequency: "",
@@ -623,12 +611,12 @@ export function createOwnCost(group: CostGroup | "" = ""): OwnCostValue {
 }
 
 export function createMilestone() {
-    return { id: financeId("milestone"), amount: "", month: { ...EMPTY_MONTH }, condition: "" };
+    return { id: randomId("milestone"), amount: "", month: { ...EMPTY_MONTH }, condition: "" };
 }
 
 export function createFundingSource(category: FundingCategory): FundingSourceValue {
     return {
-        id: financeId("funding"),
+        id: randomId("funding"),
         name: "",
         category,
         type: "",
@@ -751,7 +739,7 @@ function parseFinancialFoundation(value: unknown): FinancialFoundationValue {
         costs: asList(source.costs).map(entry => {
             const row = asObject(entry);
             return {
-                id: asText(row.id) || financeId("cost"),
+                id: asText(row.id) || randomId("cost"),
                 name: asText(row.name),
                 amount: asText(row.amount),
                 frequency: FREQUENCY_IDS.includes(row.frequency as CostFrequency)
@@ -774,7 +762,7 @@ function parseFinancialFoundation(value: unknown): FinancialFoundationValue {
         needs: asList(source.needs).map(entry => {
             const row = asObject(entry);
             return {
-                id: asText(row.id) || financeId("need"),
+                id: asText(row.id) || randomId("need"),
                 name: asText(row.name),
                 category: NEED_IDS.includes(row.category as FundingNeedCategory)
                     ? row.category as FundingNeedCategory
@@ -785,7 +773,7 @@ function parseFinancialFoundation(value: unknown): FinancialFoundationValue {
                 schedule: asList(row.schedule).map(item => {
                     const part = asObject(item);
                     return {
-                        id: asText(part.id) || financeId("when"),
+                        id: asText(part.id) || randomId("when"),
                         month: asMonth(part.month),
                         amount: asText(part.amount)
                     };
@@ -802,7 +790,7 @@ function parseFinancialFoundation(value: unknown): FinancialFoundationValue {
             const loan = asObject(row.loan);
 
             return {
-                id: asText(row.id) || financeId("funding"),
+                id: asText(row.id) || randomId("funding"),
                 name: asText(row.name),
                 category: oneOf(row.category, CATEGORY_IDS, "external"),
                 type: asText(row.type),
@@ -822,7 +810,7 @@ function parseFinancialFoundation(value: unknown): FinancialFoundationValue {
                     milestones: asList(schedule.milestones).map(item => {
                         const milestone = asObject(item);
                         return {
-                            id: asText(milestone.id) || financeId("milestone"),
+                            id: asText(milestone.id) || randomId("milestone"),
                             amount: asText(milestone.amount),
                             month: asMonth(milestone.month),
                             condition: asText(milestone.condition)
@@ -2506,7 +2494,7 @@ export interface FinancialSustainabilityValue {
 
 export function createRevenueStream(): RevenueStreamValue {
     return {
-        id: financeId("stream"),
+        id: randomId("stream"),
         offeringId: "",
         model: "",
         modelOther: "",
@@ -2531,7 +2519,7 @@ export function createRevenueStream(): RevenueStreamValue {
 }
 
 export function createDetailedVolume() {
-    return { id: financeId("volume"), month: { ...EMPTY_MONTH }, volume: "" };
+    return { id: randomId("volume"), month: { ...EMPTY_MONTH }, volume: "" };
 }
 
 const DEVELOPMENT_IDS = REVENUE_DEVELOPMENTS.map(entry => entry.id);
@@ -2545,7 +2533,7 @@ export function asFinancialSustainabilityValue(value: unknown): FinancialSustain
         streams: asList(source.streams).map(entry => {
             const row = asObject(entry);
             return {
-                id: asText(row.id) || financeId("stream"),
+                id: asText(row.id) || randomId("stream"),
                 offeringId: asText(row.offeringId),
                 model: asText(row.model),
                 modelOther: asText(row.modelOther),
@@ -2561,7 +2549,7 @@ export function asFinancialSustainabilityValue(value: unknown): FinancialSustain
                 detailed: asList(row.detailed).map(item => {
                     const part = asObject(item);
                     return {
-                        id: asText(part.id) || financeId("volume"),
+                        id: asText(part.id) || randomId("volume"),
                         month: asMonth(part.month),
                         volume: asText(part.volume)
                     };
