@@ -3287,6 +3287,11 @@ export function stableHue(id: string): number {
 
 }
 
+/** A Segment's colour: the hue it was given, else its stable one. */
+export function segmentHue(segment: { id: string; hue?: number }): number {
+    return segment.hue ?? stableHue(segment.id);
+}
+
 /** How far apart two hues are, going the short way round. */
 function hueDistance(one: number, other: number): number {
 

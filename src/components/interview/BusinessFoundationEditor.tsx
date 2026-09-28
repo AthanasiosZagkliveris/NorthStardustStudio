@@ -17,7 +17,7 @@ import {
     createBusinessCustomerProfile,
     createBusinessCustomerSegment,
     createBusinessOffering,
-    stableHue
+    segmentHue
 } from "../../framework/engine/AnswerUtils.ts";
 
 import {
@@ -183,10 +183,6 @@ interface DescriptionPart {
  * under it -- including under a question the new type hides.
  */
 interface CompetitorTypeQuestions {
-    /** The Description group's own title, when it changes. */
-    descriptionTitle?: string;
-    /** A note on that title, which it otherwise has none of. */
-    descriptionNote?: string;
     /** By part id: a new title and/or question, or null to hide. */
     parts?: Record<string, { title?: string; text?: string } | null>;
     /** A new question behind Insights & Differentiation. */
@@ -538,15 +534,6 @@ export default function BusinessFoundationEditor({
         );
     }
 
-    /*
-        A notePlaceholder() here listed a note's parameter names in
-        its field's placeholder, for the one-box Description. Every
-        parameter now has a box of its own (see description below),
-        which is that list made answerable, so the remaining note()
-        fields -- each a single question, already behind their "i"
-        -- have nothing for it to list.
-    */
-
     /**
      * A named group of fields inside a card -- the treatment
      * "Competitors SWOT Analysis" already had. Its title is a
@@ -585,14 +572,7 @@ export default function BusinessFoundationEditor({
         parts: DescriptionPart[],
         current: BusinessDescriptionValue,
         onNext: (next: BusinessDescriptionValue) => void,
-        split = false,
-        /* A Description is titled "Description" unless its own
-           subject calls it something else -- the status quo is a
-           situation rather than a solution, so it is titled as
-           one, and a retitled group carries the note that says
-           what it now asks for. */
-        title = "Description",
-        note?: string
+        split = false
     ) {
 
         const box = (part: DescriptionPart) => {
@@ -696,7 +676,7 @@ export default function BusinessFoundationEditor({
         const half = Math.ceil(parts.length / 2);
 
         return group(
-            title,
+            "Description",
             split
                 ? (
                     <div className="business-foundation-description-split">
@@ -708,8 +688,7 @@ export default function BusinessFoundationEditor({
                         </div>
                     </div>
                 )
-                : parts.map(box),
-            note === undefined ? undefined : [note]
+                : parts.map(box)
         );
 
     }
@@ -730,10 +709,8 @@ export default function BusinessFoundationEditor({
      * INPUT in the head itself (.strategy-name-input), then the
      * card's controls.
      *
-     * The name is asked once, in the one place it is also read.
-     * It used to be a Name field inside the card with a copy of it
-     * echoed in the head -- the same answer twice, and invisible
-     * while the card was folded shut.
+     * The name is asked once, in the one place it is also read, and
+     * stays legible while the card is folded shut.
      *
      * The Segment's own card is built inline in the render below --
      * it is a grid rather than a stack, because it holds the four
@@ -1123,10 +1100,7 @@ export default function BusinessFoundationEditor({
                                 segmentPath + ", Competitor " + (index + 1),
                                 competitorParts(competitor.type),
                                 competitor.description,
-                                (next) => change({ description: next }),
-                                false,
-                                asked.descriptionTitle,
-                                asked.descriptionNote
+                                (next) => change({ description: next })
                             )}
 
                             <span className="business-foundation-subhead">
@@ -1557,7 +1531,7 @@ export default function BusinessFoundationEditor({
                            to, which is what it has always been drawn
                            in. */
                         style={{
-                            "--strategy-theme-hue": segment.hue ?? stableHue(segment.id)
+                            "--strategy-theme-hue": segmentHue(segment)
                         } as CSSProperties}
                     >
 
@@ -1722,9 +1696,7 @@ export default function BusinessFoundationEditor({
                            the new card cannot arrive in one of
                            them. */
                         createBusinessCustomerSegment(
-                            foundation.segments.map(
-                                other => other.hue ?? stableHue(other.id)
-                            )
+                            foundation.segments.map(segmentHue)
                         )
                     ]
                 }))}

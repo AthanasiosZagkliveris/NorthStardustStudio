@@ -25,7 +25,7 @@ import {
     createBusinessRelationshipInteraction,
     createBusinessRelationshipType,
     createBusinessSegmentEngagement,
-    stableHue
+    segmentHue
 } from "../../framework/engine/AnswerUtils.ts";
 
 import {
@@ -100,11 +100,6 @@ const SECTIONS = {
             "Describe what is done through the channel at each of those stages, and what it is for."
         ],
         // "Help text for the top information icon."
-        /* The specification's "Visit the Foundation (Page 1) to fill
-           the below information" was the note on an "Information /
-           References" heading. Both are gone: every name in that
-           area is already a link to Page 1, which says the same
-           thing by being clickable. */
         /* The three "Relative Information" lists, verbatim, each
            paired with the Page 1 parameters that answer it -- and
            with the PAGE 1 HEADING those parameters are written
@@ -148,11 +143,6 @@ const SECTIONS = {
                 parts: ["support"]
             }
         ],
-        // The specification's own list of what a link is.
-        /* A list of what a link is -- "Social profile URL",
-           "Payment URL", "Email address" -- sat behind an "i" on the
-           Links column. A column called Links holds links, and the
-           note said so eight times. */
         stages: [
             "Journey Stage determines where in the customer journey the channel is relevant.",
             "Do not combine Purchase and Delivery. Payment and delivery may happen through completely different channels."
@@ -201,11 +191,6 @@ const SECTIONS = {
 
 };
 
-/* Tick lists of the journey stages and the relationship types were
-   here. Both are dropdowns in a table cell now -- one row is one
-   interaction, so each of those is chosen once per row rather than
-   ticked in a column. Only the goals are still a tick list: three
-   of them, optional, in the cell they belong to. */
 
 /**
  * Get, Keep and Grow -- THE NAMES ONLY, on one line.
@@ -338,24 +323,6 @@ function capitalized(text: string): string {
 /** What a reference note says when the page it refers to is blank. */
 const NOTHING_RECORDED = "Nothing recorded yet.";
 
-/**
- * One "Relative Information" note: the specification's questions,
- * each carrying what has actually been answered against it on
- * Page 1.
- *
- * "When the user selects the information icon, show: [the
- * questions]... The actual relevant information should be displayed
- * underneath the title where appropriate." So the question is the
- * title and the answer is the text -- which is also what keeps this
- * reference area a header rather than a second copy of Page 1 laid
- * out down the side of the card.
- *
- * `sources` is one entry per thing named in the column: a Segment
- * has one, Profiles and Offerings have as many as Page 1 defines.
- * The name is written in front of each answer only when there is
- * more than one, since "Founder: ..." beside a single Profile says
- * nothing its own heading has not.
- */
 /** One thing a reference column asks about, and where Page 1
  *  answers it. */
 interface RelativeQuestion {
@@ -435,10 +402,6 @@ function relativeInformation(
  *
  * It is drawn DIRECTLY UNDER THE NAME IT BELONGS TO, so Maria's
  * answers sit under Maria and nothing has to be matched up by eye.
- * Everything that thing answers across all three questions runs
- * together on one line: three Profiles times three questions would
- * be nine separate lines down the side of the card, which is Page 1
- * copied rather than referenced.
  *
  * The questions themselves stay behind the "i", where they say
  * which answer is which.
@@ -1631,7 +1594,7 @@ export default function BusinessEngagementEditor({
                                             </td>
 
                                             {/* ONE DROPDOWN PER OFFERING, with
-                                                the small + and − that add and
+                                                the small + and × that add and
                                                 take one away. A cell that holds
                                                 several values grows a line at a
                                                 time, and every line is the same
@@ -3613,10 +3576,7 @@ export default function BusinessEngagementEditor({
                            same colour on both pages, which is most
                            of what makes this read as the next page
                            rather than a different feature. */
-                        style={{
-                            "--strategy-theme-hue":
-                                segment.hue ?? stableHue(segment.id)
-                        } as CSSProperties}
+                        style={{ "--strategy-theme-hue": segmentHue(segment) } as CSSProperties}
                     >
 
                         <div className="strategy-box-head business-foundation-input-head">
