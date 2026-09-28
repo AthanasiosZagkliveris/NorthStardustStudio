@@ -14,10 +14,22 @@ const REACHED_BAND = 240;
 // Keys that scroll the page when pressed outside a field.
 const SCROLL_KEYS = new Set(["PageUp", "PageDown", "ArrowUp", "ArrowDown", "Home", "End", " "]);
 
+/** The selector for a section's element, by its rail id. */
+function railSelector(id: string): string {
+    return '[data-rail="' + CSS.escape(id) + '"]';
+}
+
+/** The closest section around `element` whose rail id is one of `ids`, if any. */
+function railHolder(element: HTMLElement | null, ids: readonly string[]): HTMLElement | null {
+    const holder = element?.closest<HTMLElement>("[data-rail]");
+    const id = holder?.dataset.rail;
+    return holder && id && ids.includes(id) ? holder : null;
+}
+
 function railElements(ids: readonly string[]): HTMLElement[] {
 
     return ids
-        .map(id => document.querySelector<HTMLElement>('[data-rail="' + CSS.escape(id) + '"]'))
+        .map(id => document.querySelector<HTMLElement>(railSelector(id)))
         .filter((element): element is HTMLElement => element !== null);
 
 }
@@ -61,13 +73,14 @@ export function useActiveRailSection(
 
         /** The id of the on-screen section holding the focused field, if any. */
         function focusedRail(): string | null {
-            const holder = (document.activeElement as HTMLElement | null)?.closest<HTMLElement>("[data-rail]");
-            const id = holder?.dataset.rail;
-            if (!holder || !id || !ids.includes(id)) {
+            const holder = railHolder(document.activeElement as HTMLElement | null, ids);
+            if (!holder) {
                 return null;
             }
             const rect = holder.getBoundingClientRect();
-            return rect.bottom > RAIL_TOP_CLEARANCE && rect.top < window.innerHeight ? id : null;
+            return rect.bottom > RAIL_TOP_CLEARANCE && rect.top < window.innerHeight
+                ? holder.dataset.rail ?? null
+                : null;
         }
 
         /** The last section whose top shows, when the page is scrolled to its bottom. */
@@ -117,9 +130,8 @@ export function useActiveRailSection(
         }
 
         function fromFocus(event: FocusEvent) {
-            const holder = (event.target as HTMLElement | null)?.closest<HTMLElement>("[data-rail]");
-            const id = holder?.dataset.rail;
-            if (id && ids.includes(id)) {
+            const id = railHolder(event.target as HTMLElement | null, ids)?.dataset.rail;
+            if (id) {
                 if (pinned.current && pinned.current !== id) {
                     pinned.current = null;
                 }
@@ -170,7 +182,7 @@ export function useActiveRailSection(
  */
 export function scrollToRailSection(id: string): void {
 
-    const target = document.querySelector<HTMLElement>('[data-rail="' + CSS.escape(id) + '"]');
+    const target = document.querySelector<HTMLElement>(railSelector(id));
 
     if (!target) {
         return;
