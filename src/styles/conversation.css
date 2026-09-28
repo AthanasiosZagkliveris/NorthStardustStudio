@@ -3935,6 +3935,11 @@ td.process-library-col-number{
 
     background:#ffffff;
 
+    /* The control shows no text of its own, but browsers still
+       give a form control a font-size (their 13.333px default)
+       with nothing here to say otherwise. */
+    font-size:var(--font-small);
+
     cursor:pointer;
 
 }
@@ -4169,6 +4174,11 @@ td.process-library-col-number{
     white-space:nowrap;
 
     border:0;
+
+    /* Clipped out of sight either way, but a form control still
+       gets a computed font-size (the browser's 13.333px default)
+       with nothing here to say otherwise. */
+    font-size:var(--font-small);
 
 }
 
@@ -5449,14 +5459,21 @@ td.process-library-col-number{
        attempts at this width both missed. Plus the 12px inset on
        each side and the 1px borders: 195. So the button never
        resizes as the date changes, and two of them side by side
-       always match. */
+       always match. Left over now that letter-spacing is normal
+       (below), so the button stays at least as wide as it needs
+       to be rather than exactly it. */
     width:195px;
 
     white-space:nowrap;
 
     padding:8px 12px;
 
-    text-align:center;
+    /* This shows a date, the same job an `.interview-input` does --
+       so it reads left-aligned, at normal letter-spacing, like
+       every other field beside it, rather than centred and
+       tracked-out the way the app's action buttons are. */
+    text-align:left;
+    letter-spacing:normal;
 
     font:inherit;
     font-size:var(--font-body);
@@ -5790,12 +5807,19 @@ td.process-library-col-number{
 /* Doubles as the drag grip. Hidden from assistive technology --
    it is a grip, not a control, and the line is already reachable
    through its own field. */
+/* A fixed column, not content width: at content width "1." and
+   "10." are different widths, so every entry past the ninth
+   started its text a few pixels further right than the rest of
+   the list. Right-aligned within it so the numbers themselves
+   still read as a column of their own, digit-aligned like a
+   printed list. */
 .numbered-list-number{
 
-    flex:0 0 auto;
+    flex:0 0 40px;
 
     display:flex;
     align-items:center;
+    justify-content:flex-end;
 
     padding:0 10px;
 
@@ -6402,11 +6426,24 @@ td.process-library-col-number{
 
     cursor:pointer;
 
+    transition:background-color .15s ease, box-shadow .15s ease;
+
+}
+
+/* The name itself, a nested block rather than the flex row's own
+   text: text-overflow:ellipsis on a flex container does not
+   truncate an anonymous flex item (the plain text child), so the
+   name used to be cut off with no "..." wherever the bar was
+   narrower than its label. min-width:0 lets this child actually
+   shrink below its content width inside the row. Shared with
+   `.roadmap-initiative`, the same shape of control. */
+.roadmap-bar-label{
+
+    min-width:0;
+
     overflow:hidden;
     white-space:nowrap;
     text-overflow:ellipsis;
-
-    transition:background-color .15s ease, box-shadow .15s ease;
 
 }
 
@@ -6483,10 +6520,6 @@ td.process-library-col-number{
     background:#fafafa;
 
     min-width:0;
-
-    overflow:hidden;
-    white-space:nowrap;
-    text-overflow:ellipsis;
 
 }
 
@@ -6824,8 +6857,11 @@ td.process-library-col-number{
 
 /* The date reads from the right, so two buttons stacked above
    each other end on the same character rather than starting on
-   one. */
-.month-picker-trigger{
+   one -- the Strategic Period box's own Start/End pair. Scoped
+   there: written as a bare `.month-picker-trigger` this quietly
+   right-aligned every month picker in the app, unlike the
+   `.interview-input` fields beside them everywhere else. */
+.strategy-period-box .month-picker-trigger{
 
     text-align:right;
 
@@ -12151,11 +12187,17 @@ td.process-library-col-number{
 
 }
 
+/* Floored at the longest option any of these dropdowns holds --
+   "Support & Follow Up" measures 178px at its own padding, and the
+   32px × beside it (once the app's one remove control, item 10,
+   replaced the narrower "-") left this only 170px to shrink into,
+   truncating it to "Support & Follow …". The cell grows to fit
+   this floor rather than the dropdown clipping under it. */
 .business-channel-pick > .option-picker{
 
     flex:1 1 auto;
 
-    min-width:0;
+    min-width:210px;
 
 }
 
@@ -12735,6 +12777,10 @@ td.process-library-col-number{
 
     align-self:flex-end;
 
+    /* Otherwise the "Completed" text sits at the browser's own
+       16px default -- nothing else here sets it. */
+    font-size:var(--font-body);
+
     cursor:pointer;
 
 }
@@ -13249,17 +13295,27 @@ td.process-library-col-number{
 
 }
 
+/* The × slot is reserved whether or not this row has one (only an
+   added cost does): a fixed 32px second column, present or empty,
+   so "Change" ends at the same x on every row instead of hopping
+   left by the ×'s own width on the rows that have one. */
 .financial-cost-remove{
 
-    display:flex;
+    display:grid;
+
+    grid-template-columns:1fr 32px;
 
     align-items:center;
-
-    justify-content:flex-end;
 
     gap:8px;
 
     min-height:40px;
+
+}
+
+.financial-cost-remove > .financial-cost-change{
+
+    justify-self:end;
 
 }
 
@@ -13601,13 +13657,20 @@ td.process-library-col-number{
 }
 
 /* A block of words, the "i" at the end of the last line (see
-   .info-note, InfoText), not a flex row that set it apart. */
+   .info-note, InfoText), not a flex row that set it apart. Held to
+   a fixed two-line height so a label that wraps ("Expected Monthly
+   Revenue", "Offering Development / Launch") does not push its own
+   tile's figure down past where the one-line labels beside it sit
+   theirs -- every tile's value lands on the same row. */
 .financial-tile-label{
+
+    display:block;
+
+    min-height:2.6em;
 
     font-size:var(--font-body);
     font-weight:600;
-
-
+    line-height:1.3;
 
     color:#4b5563;
 
@@ -13634,15 +13697,19 @@ td.process-library-col-number{
 
 }
 
+/* An inset shadow, not a thicker top border: a real 4px border
+   pushed every tile's own content down 3px past the 1px-bordered
+   tiles beside it. A shadow draws inside the same 1px box without
+   adding to it, so the row of tiles keeps one shared baseline. */
 .financial-tile-risk{
 
-    border-top:4px solid var(--financial-risk);
+    box-shadow:inset 0 4px 0 0 var(--financial-risk);
 
 }
 
 .financial-tile-good{
 
-    border-top:4px solid var(--financial-good);
+    box-shadow:inset 0 4px 0 0 var(--financial-good);
 
 }
 
@@ -13679,7 +13746,15 @@ td.process-library-col-number{
 
 }
 
-.financial-coverage > li{
+/* ONE shared grid across every row, not each row its own: the third
+   column's width (the "$x of $y" figure) varies line to line, and
+   with each `<li>` sizing its own 1.5fr/2fr split independently, a
+   shorter figure left more room for the first two columns, so the
+   meters started and ended at a different x on every row.
+   `display:contents` on the row is what lets its three cells become
+   items of THIS grid rather than of a row-sized grid of their own,
+   so one set of column widths governs every row. */
+.financial-coverage{
 
     display:grid;
 
@@ -13687,7 +13762,14 @@ td.process-library-col-number{
 
     align-items:center;
 
-    gap:12px;
+    column-gap:12px;
+    row-gap:6px;
+
+}
+
+.financial-coverage > li{
+
+    display:contents;
 
 }
 
@@ -14731,10 +14813,11 @@ td.process-library-col-number{
 
 }
 
-/* A figure taken from another page sits at the height of an input. */
+/* A figure taken from another page sits at the height of an input
+   (44px, see .financial-derived below). */
 .financial-stream-grid .financial-derived{
 
-    min-height:42px;
+    min-height:44px;
 
     display:flex;
 
@@ -14930,20 +15013,19 @@ td.process-library-col-number{
 
 /* ---------- Expected sales from Demand & Conversion; the capacity check ---------- */
 
-/* A figure taken from another page: shown, with the link to where it is set. */
+/* A figure taken from another page: shown, with the link to where
+   it is set, at the 44px height of the input row it stands in for. */
 .financial-derived{
 
     display:inline-flex;
 
     flex-wrap:wrap;
 
-    align-items:baseline;
+    align-items:center;
 
     gap:4px 14px;
 
-    min-height:40px;
-
-    line-height:40px;
+    min-height:44px;
 
 }
 

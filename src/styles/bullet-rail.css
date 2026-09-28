@@ -117,7 +117,12 @@
 
 }
 
-.bullet-rail-item.active { color: #1f2937; font-weight: 600; }
+/* Thickened by text-shadow rather than font-weight, like every
+   other active/hover bold cue in the app (see --hover-bold in
+   global.css): a real weight change widens the label, which at
+   the wide-window inline layout below overflowed the rail's own
+   reserved max-width by a few pixels. */
+.bullet-rail-item.active { color: #1f2937; text-shadow: var(--hover-bold); }
 
 .bullet-rail-item.active .bullet-rail-dot {
 
