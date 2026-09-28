@@ -743,3 +743,64 @@ describe("the Quillfield example is complete", () => {
         expect(result.valid, JSON.stringify((result as { issues?: unknown }).issues ?? result)).toBe(true);
     });
 });
+
+/* The optional answers: shown where given, "not covered" where not. */
+import { AnswerType } from "../enums/AnswerType.ts";
+import { buildExportContent } from "./ExportContentBuilder.ts";
+
+describe("the optional answers in the documents", () => {
+
+    const quill = JSON.parse(quillfieldText) as typeof example;
+    /** Quillfield, freshly loaded, with one page's answer changed. */
+    const withAnswer = (number: number, id: string, type: AnswerType, change: (value: Record<string, unknown>) => Record<string, unknown>) => {
+        const session = InterviewSession.fromJSON(quill.systems[String(number)], frameworkRegistry.getFramework(id));
+        const section = session.getFramework().sections.find(candidate => candidate.answer?.type === type)!;
+        session.saveResponse(section.number, change(session.getResponse(section.number) as Record<string, unknown>));
+        return session;
+    };
+    const loadQuill = (number: number, id: string) =>
+        InterviewSession.fromJSON(quill.systems[String(number)], frameworkRegistry.getFramework(id));
+    const base = () => ({
+        identity: loadQuill(1, "identity"),
+        brand: loadQuill(2, "brand"),
+        business: loadQuill(3, "business"),
+        strategy: loadQuill(4, "strategy"),
+        organisationName: "Quillfield Automation"
+    });
+    const planOf = (all: ReturnType<typeof base>) =>
+        new MarkdownExporter().toMarkdown(all.business, "Foundation", businessPlan(all));
+    const partOf = (md: string, title: string) => {
+        const from = md.indexOf(title);
+        const next = md.slice(from + 1).search(/^## [0-9]+\. /m);
+        return md.slice(from, next < 0 ? undefined : from + 1 + next);
+    };
+
+    const withExperience = () => withAnswer(1, "identity", AnswerType.LegalEntity, value => ({
+        ...value,
+        founders: (value.founders as Record<string, unknown>[]).map(founder => ({
+            ...founder,
+            experience: "Eight years building workflow automation for accounting firms."
+        }))
+    }));
+
+    test("the founders' experience replaces the \"not covered\" line under Management", () => {
+        const plain = partOf(planOf(base()), "## 7. Management and Organization");
+        expect(plain).toContain("### Experience and CVs\n\nNot covered by the Foundation answers.");
+
+        const given = partOf(planOf({ ...base(), identity: withExperience() }), "## 7. Management and Organization");
+        expect(given).not.toContain("Not covered by the Foundation answers.");
+        expect(given).toContain("### Experience and Skills");
+        expect(given).toContain("**Jordan Ellis:** Eight years building workflow automation for accounting firms.");
+    });
+
+    test("the Identity System's export carries each founder's experience", () => {
+        const identity = withExperience();
+        const md = new MarkdownExporter().toMarkdown(identity, "Foundation", buildExportContent(identity, "Foundation"));
+        expect(md).toContain("Experience & Skills");
+        expect(md).toContain("**Jordan Ellis:** Eight years building workflow automation for accounting firms.");
+        const plain = loadQuill(1, "identity");
+        expect(new MarkdownExporter().toMarkdown(plain, "Foundation", buildExportContent(plain, "Foundation")))
+            .not.toContain("Experience & Skills");
+    });
+
+});

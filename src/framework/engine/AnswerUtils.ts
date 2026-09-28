@@ -3543,6 +3543,11 @@ export interface LegalEntityFounderValue {
     capital: string;
     /** One line per role: a founder is often several things. */
     roles: string[];
+    /**
+     * Optional: a short bio -- relevant background, skills, track
+     * record -- for the Business Plan's Management section.
+     */
+    experience: string;
 }
 
 /** A registration or tax number beyond the first. */
@@ -3624,7 +3629,7 @@ export interface LegalEntityValue {
 
 
 export function createLegalEntityFounder(): LegalEntityFounderValue {
-    return { id: randomId("founder"), name: "", ownership: "", capital: "", roles: [""] };
+    return { id: randomId("founder"), name: "", ownership: "", capital: "", roles: [""], experience: "" };
 }
 
 export function createLegalEntityNumber(): LegalEntityNumberValue {
@@ -3701,7 +3706,9 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
                into the single box is kept, as the first role. */
             roles: Array.isArray(row.roles) && row.roles.length > 0
                 ? row.roles.map(asText)
-                : [asText(row.role)]
+                : [asText(row.role)],
+            // Asked for later: a founder saved before it has none.
+            experience: asText(row.experience)
         };
 
     });

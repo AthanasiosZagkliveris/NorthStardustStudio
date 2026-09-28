@@ -120,6 +120,10 @@ const INFO = {
     links: [
         "Says which registration or requirement this expense pays for.",
         "Lists what you have already recorded further up the page."
+    ],
+
+    experience: [
+        "Lenders and investors read this first: a few lines on each founder's relevant experience, skills and achievements."
     ]
 
 };
@@ -534,7 +538,8 @@ export default function LegalEntityEditor({
     function founderIsEmpty(founder: LegalEntityFounderValue): boolean {
         return founder.name.trim().length === 0 &&
             founder.roles.every(role => role.trim().length === 0) &&
-            founder.capital.trim().length === 0;
+            founder.capital.trim().length === 0 &&
+            founder.experience.trim().length === 0;
     }
 
     /**
@@ -814,19 +819,24 @@ export default function LegalEntityEditor({
      * it away again. The × clears what is in it, because a
      * value left behind would open the field on its own at the next
      * visit and the button would never come back.
+     *
+     * `info` puts a note on the label; `addText` words the button
+     * where the label's own wording would not read as one.
      */
     function optionalNote(
         label: string,
         key: string,
         ariaLabel: string,
         current: string,
-        onNext: (next: string) => void
+        onNext: (next: string) => void,
+        info?: string[],
+        addText?: string
     ) {
 
         if (!fieldShown(key, current)) {
             return (
                 <div className="legal-entity-field-wide">
-                    {addFieldButton(label, key)}
+                    {addFieldButton(addText ?? label, key)}
                 </div>
             );
         }
@@ -844,7 +854,8 @@ export default function LegalEntityEditor({
             () => {
                 closeField(key);
                 onNext("");
-            }
+            },
+            info
         );
 
     }
@@ -914,7 +925,18 @@ export default function LegalEntityEditor({
                 {onRemove
                     ? (
                         <span className="legal-entity-label-row">
-                            <span className="legal-entity-label">{label}</span>
+                            {/* An optional field can carry a note too. */}
+                            {info
+                                ? (
+                                    <span className="legal-entity-label-info">
+                                        <span className="legal-entity-label">
+                                            <InfoText text={label}>
+                                                <InfoNote label={label} points={info} fullList />
+                                            </InfoText>
+                                        </span>
+                                    </span>
+                                )
+                                : <span className="legal-entity-label">{label}</span>}
                             {removeFieldButton(label, onRemove)}
                         </span>
                     )
@@ -1513,6 +1535,20 @@ export default function LegalEntityEditor({
                                         )}
 
                                     </div>
+
+                                    {/* Optional, under the founder's
+                                        row and across all of it: a
+                                        few lines of bio for the
+                                        Business Plan. */}
+                                    {optionalNote(
+                                        "Experience & Skills",
+                                        founder.id + ":experience",
+                                        "Founder " + (index + 1) + " experience & skills",
+                                        founder.experience,
+                                        (next) => updateFounder(index, { experience: next }),
+                                        INFO.experience,
+                                        "experience & skills"
+                                    )}
 
                                 </div>
 

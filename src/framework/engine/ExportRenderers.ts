@@ -318,6 +318,11 @@ function legalEntityBlocks(value: unknown, context: ExportContext): ExportBlock[
                 ? [founder.name, founder.ownership ? founder.ownership + "%" : "", moneyText(founder.capital, currency), founder.roles.filter(Boolean).join(", ")]
                 : [founder.name, founder.ownership ? founder.ownership + "%" : "", founder.roles.filter(Boolean).join(", ")])
         )),
+        // Each founder's bio, where one is written: prose, so under the table.
+        ...(entity.founders.some(founder => text(founder.experience))
+            ? [heading("Experience & Skills", 2), ...entity.founders.flatMap((founder, index) =>
+                labelled(text(founder.name) || "Founder " + (index + 1), founder.experience))]
+            : []),
 
         ...titled("Formation & Registration", details([
             ["Status", entity.formation.status === "planned" ? "Not yet registered" : ""],

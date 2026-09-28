@@ -200,7 +200,7 @@ describe("BusinessCapabilityEditor number limits", () => {
                 <BusinessCapabilityEditor
                     value={value}
                     onChange={setValue}
-                    legalEntityFounders={[{ id: "f1", name: "Ann", ownership: "100", capital: "", roles: [""] }]}
+                    legalEntityFounders={[{ id: "f1", name: "Ann", ownership: "100", capital: "", roles: [""], experience: "" }]}
                 />
             );
         }
@@ -288,7 +288,7 @@ describe("BusinessCapabilityEditor completed activities", () => {
 
 describe("BusinessCapabilityEditor legacy numbers", () => {
 
-    const ann = { id: "f1", name: "Ann", ownership: "100", capital: "", roles: [""] };
+    const ann = { id: "f1", name: "Ann", ownership: "100", capital: "", roles: [""], experience: "" };
 
     const cost = (price: string) => ({ price, frequency: "monthly", frequencyOther: "", currency: "EUR" });
 

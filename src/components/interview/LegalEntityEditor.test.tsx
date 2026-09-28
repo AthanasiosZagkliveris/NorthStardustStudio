@@ -4,7 +4,7 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import LegalEntityEditor from "./LegalEntityEditor";
 import { typeInto } from "../../test/interviewTestUtils";
-import { asLegalEntityValue, createLegalEntityRequirement } from "../../framework/engine/AnswerUtils";
+import { asLegalEntityValue, createLegalEntityFounder, createLegalEntityRequirement, legalEntitySectionsEmpty } from "../../framework/engine/AnswerUtils";
 
 function Harness() {
     const [value, setValue] = useState<unknown>({
@@ -114,6 +114,51 @@ describe("LegalEntityEditor number limits", () => {
             String(limit.getDate()).padStart(2, "0");
 
         expect(screen.getByLabelText("Formation Date").getAttribute("max")).toBe(iso);
+
+    });
+
+});
+
+describe("LegalEntityEditor founders' experience & skills", () => {
+
+    it("defaults a founder saved without it to empty, and never counts it as missing", () => {
+
+        const entity = asLegalEntityValue({ founders: [{ id: "a", name: "A", ownership: "100", capital: "", roles: ["Director"] }] });
+        expect(entity.founders[0].experience).toBe("");
+        expect(createLegalEntityFounder().experience).toBe("");
+
+        // The founders' subsection is answered by a name alone.
+        expect(legalEntitySectionsEmpty(entity)[1]).toBe(false);
+
+    });
+
+    it("hides the field behind an add button, and keeps it shown once it holds text", () => {
+
+        function ExperienceHarness() {
+            const [value, setValue] = useState<unknown>({
+                ...asLegalEntityValue(undefined),
+                founders: [{ id: "a", name: "A", ownership: "100", capital: "", roles: [""] }]
+            });
+            return <LegalEntityEditor value={value} onChange={setValue} />;
+        }
+
+        const { unmount } = render(<ExperienceHarness />);
+
+        expect(screen.queryByLabelText("Founder 1 experience & skills")).toBeNull();
+        fireEvent.click(screen.getByRole("button", { name: "+ Add experience & skills" }));
+
+        const field = screen.getByLabelText("Founder 1 experience & skills") as HTMLTextAreaElement;
+        expect(field.tagName).toBe("TEXTAREA");
+        fireEvent.change(field, { target: { value: "Ten years in automation." } });
+        expect(screen.getByRole("button", { name: "Experience & Skills: what this means" })).toBeTruthy();
+        unmount();
+
+        // Saved with text: shown from the start.
+        render(<LegalEntityEditor
+            value={{ founders: [{ id: "a", name: "A", ownership: "100", capital: "", roles: [""], experience: "Ten years." }] }}
+            onChange={() => undefined}
+        />);
+        expect((screen.getByLabelText("Founder 1 experience & skills") as HTMLTextAreaElement).value).toBe("Ten years.");
 
     });
 

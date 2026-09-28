@@ -860,6 +860,7 @@ function operationsBlocks(f: Foundation): ExportBlock[] {
  */
 function teamBlocks(f: Foundation): ExportBlock[] {
     const organisation = f.legalEntity.organisation;
+    const experienced = f.legalEntity.founders.filter(founder => founder.name.trim() && text(founder.experience));
     return [
         ...titled("Legal Structure", details([
             ["Legal name", organisation.name],
@@ -877,8 +878,11 @@ function teamBlocks(f: Foundation): ExportBlock[] {
             ["Main activity", organisation.mainActivity]
         ])),
         ...titled("Founders", founderTable(f)),
-        // Each founder's experience, and CVs: not asked for.
-        ...notCovered("Experience and CVs")
+        // Each named founder's bio, where the Legal Entity page has
+        // one; said to be missing only when none has.
+        ...(experienced.length > 0
+            ? titled("Experience and Skills", experienced.flatMap(founder => labelled(founder.name.trim(), founder.experience)))
+            : notCovered("Experience and CVs"))
     ];
 }
 
