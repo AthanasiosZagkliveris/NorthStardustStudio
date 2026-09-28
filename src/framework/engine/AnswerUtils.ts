@@ -3056,6 +3056,11 @@ export function createStrategyMetric(): StrategyMetricValue {
     return strategyMetric(undefined);
 }
 
+/** A Theme's name as shown: "Untitled Theme" until it has one. */
+export function strategyThemeName(theme: StrategyThemeValue): string {
+    return theme.name.trim().length > 0 ? theme.name : "Untitled Theme";
+}
+
 export function createStrategyTheme(name = "", description = ""): StrategyThemeValue {
     return { id: randomId("theme"), name, description };
 }
@@ -3212,7 +3217,6 @@ export function strategyObjectiveIncomplete(objective: StrategyObjectiveValue): 
         !objective.metrics.some(metric => metric.name.trim().length > 0);
 
 }
-
 
 /**
  * A pale background tint for each Strategic Theme, keyed by id.

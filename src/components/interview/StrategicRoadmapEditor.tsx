@@ -9,7 +9,8 @@ import {
     monthIndex,
     strategyGoalsForTheme,
     strategyThemeBarLightness,
-    strategyThemeHues
+    strategyThemeHues,
+    strategyThemeName
 } from "../../framework/engine/AnswerUtils.ts";
 
 interface StrategicRoadmapEditorProps {
@@ -190,7 +191,7 @@ export default function StrategicRoadmapEditor({
 
         number: themeIndex + 1,
 
-        name: theme.name.trim().length > 0 ? theme.name : "Untitled Theme",
+        name: strategyThemeName(theme),
 
         objectives: strategyGoalsForTheme(period, theme.id).flatMap((goal, goalIndex) =>
 

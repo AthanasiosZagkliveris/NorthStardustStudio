@@ -18,10 +18,11 @@ import {
     isRangeSet,
     monthIndex,
     strategyGoalsForTheme,
-    strategyThemeHues
+    strategyThemeHues,
+    strategyThemeName
 } from "../../framework/engine/AnswerUtils.ts";
 
-import BoxActions, { useMovableBox } from "./ReorderControls.tsx";
+import BoxActions, { reorder, useMovableBox } from "./ReorderControls.tsx";
 import MonthYearPicker from "./MonthYearPicker.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../framework/engine/Currencies.ts";
@@ -80,12 +81,6 @@ interface FocusPath {
     objectiveId: string;
 }
 
-function reorder<T>(list: T[], from: number, to: number): T[] {
-    const next = [...list];
-    const [moved] = next.splice(from, 1);
-    next.splice(to, 0, moved);
-    return next;
-}
 
 /**
  * The Strategy System's Strategic Period page (see
@@ -328,7 +323,7 @@ function ThemeBox({
                 <span className="strategy-box-number">{number}. Theme</span>
 
                 <h4 className="strategy-theme-name">
-                    {theme.name.trim().length > 0 ? theme.name : "Untitled Theme"}
+                    {strategyThemeName(theme)}
                 </h4>
 
             </div>
@@ -1015,13 +1010,6 @@ function MetricList({
                             </div>
 
                             {/*
-                                "Custom" is only a useful choice if
-                                the unit can then be named --
-                                otherwise two metrics measured in
-                                different things would both read
-                                "Custom".
-                            */}
-                            {/*
                                 A money Metric names its currency, as a
                                 Business price does: the organization's
                                 own by default, changeable for this
@@ -1047,6 +1035,13 @@ function MetricList({
                                 </div>
                             )}
 
+                            {/*
+                                "Custom" is only a useful choice if
+                                the unit can then be named --
+                                otherwise two metrics measured in
+                                different things would both read
+                                "Custom".
+                            */}
                             {metric.unit === STRATEGY_METRIC_CUSTOM_UNIT && (
                                 <div className="strategy-metric-field">
                                     <span className="strategy-field-label">Custom Unit</span>

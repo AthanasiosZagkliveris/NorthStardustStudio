@@ -16,7 +16,7 @@ import {
 } from "../../framework/engine/AnswerUtils.ts";
 import { railId } from "./rails/railItems.ts";
 
-import BoxActions, { useMovableBox } from "./ReorderControls.tsx";
+import BoxActions, { reorder, useMovableBox } from "./ReorderControls.tsx";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import AddThemeMenu from "./AddThemeMenu.tsx";
 import { AnswerType } from "../../framework/enums/AnswerType.ts";
@@ -307,12 +307,7 @@ export default function StrategyFoundationEditor({
     // Goals hung off it on the Strategic Period page follow it rather
     // than staying behind with the position.
     const themeBox = useMovableBox(
-        (from, to) => {
-            const themes = [...foundation.themes];
-            const [moved] = themes.splice(from, 1);
-            themes.splice(to, 0, moved);
-            update({ themes });
-        },
+        (from, to) => update({ themes: reorder(foundation.themes, from, to) }),
         removeTheme
     );
 

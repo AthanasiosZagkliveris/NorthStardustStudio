@@ -186,6 +186,14 @@ export default function BoxActions({
 
 }
 
+/** A copy of `list` with the entry at `from` moved to `to`: what an onReorder applies. */
+export function reorder<T>(list: T[], from: number, to: number): T[] {
+    const next = [...list];
+    const [moved] = next.splice(from, 1);
+    next.splice(to, 0, moved);
+    return next;
+}
+
 /**
  * Makes one list of boxes movable: select a box and press the up or
  * down arrow to move it, or drag it onto another.
