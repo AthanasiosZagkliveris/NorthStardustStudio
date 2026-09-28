@@ -32,3 +32,8 @@ pnpm-debug.log*
 # Windows
 Thumbs.db
 Desktop.ini
+
+# Local tooling: TypeScript build info, Claude Code and Playwright scratch files
+*.tsbuildinfo
+.claude/
+.playwright-mcp/
