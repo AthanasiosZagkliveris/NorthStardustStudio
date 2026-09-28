@@ -22,16 +22,19 @@
 
 }
 
-/* The number on the same line as its text: the same size AND the same
-   line height as the line beside it (.numbered-list-input's 1.5), so
-   with the same 8px above both their baselines meet. At the
-   inherited `normal` line height the number's line was 22px against
-   the text's 27px, and it sat 2.5px above the words it numbers.
-   Two classes, so it holds whichever stylesheet loads last. */
+/* The number on the same line as its text: the same size, the same
+   colour AND the same line height as the line beside it
+   (.numbered-list-input's 1.5), so with the same 8px above both their
+   baselines meet. At the inherited `normal` line height the number's
+   line was 22px against the text's 27px, and it sat 2.5px above the
+   words it numbers; in a grey of its own it read as lighter than
+   them. Two classes, so it holds whichever stylesheet loads last. */
 .numbered-list .numbered-list-number{
 
     font-size:var(--font-body);
     line-height:1.5;
+
+    color:var(--text-color);
 
 }
 
@@ -95,5 +98,77 @@
     color:#6b7280;
 
     cursor:not-allowed;
+
+}
+
+/* ==========================================================
+   A numbered list that is SHOWN, not asked (NumberedListStatic):
+   the numbered list's own form without its box. The number the
+   same size and colour as its text and on the text's first line,
+   right-aligned in the same 40px column with the same 20px to the
+   text, so the text of every line starts at the same x -- and
+   level with the text of an editable list beside it. Anything a
+   line carries (a "Completed" badge) sits at the END of its first
+   line, not on a line of its own; a long text wraps in its own
+   column instead.
+========================================================== */
+.numbered-list-static{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-row);
+
+    margin:0;
+
+    padding:0;
+
+    list-style:none;
+
+    counter-reset:numbered-list-static;
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:var(--text-color);
+
+}
+
+.numbered-list-static > li{
+
+    display:grid;
+
+    grid-template-columns:40px minmax(0, 1fr) auto;
+
+    align-items:baseline;
+
+    counter-increment:numbered-list-static;
+
+}
+
+.numbered-list-static > li::before{
+
+    content:counter(numbered-list-static) ".";
+
+    padding-right:10px;
+
+    text-align:right;
+
+}
+
+.numbered-list-static-text{
+
+    min-width:0;
+
+    padding-left:10px;
+
+    overflow-wrap:break-word;
+
+}
+
+.numbered-list-static-end{
+
+    margin-left:8px;
 
 }

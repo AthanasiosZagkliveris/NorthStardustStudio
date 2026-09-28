@@ -69,6 +69,7 @@ import { useListDrag } from "./ReorderControls.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
 import FoldArrow from "./FoldArrow.tsx";
 import CardNameInput from "./CardNameInput.tsx";
+import NumberedListStatic from "./NumberedListStatic.tsx";
 import { CAPACITY_UTILISATION_HELP } from "./FinancialParts.tsx";
 import { toggledIn } from "./toggledIn.ts";
 
@@ -1479,11 +1480,12 @@ export default function BusinessCapabilityEditor({
                                 </BusinessEmpty>
                             )
                             : (
-                                <ol className="business-engagement-recall-list">
-                                    {founder.roles.map((role, position) => (
-                                        <li key={role + position}>{role}</li>
-                                    ))}
-                                </ol>
+                                <NumberedListStatic
+                                    lines={founder.roles.map((role, position) => ({
+                                        key: role + position,
+                                        text: role
+                                    }))}
+                                />
                             )}
                     </BusinessField>
 
@@ -1630,26 +1632,24 @@ export default function BusinessCapabilityEditor({
                             </BusinessEmpty>
                         )
                         : (
-                            <ol className="business-engagement-recall-list">
-                                {/* A completed one stays, marked done
-                                    in the blue the Completed fold under
-                                    2. Activities is drawn in. */}
-                                {responsibilities.map((entry, position) => (
-                                    <li
-                                        key={entry.name + position}
-                                        className={entry.completed
-                                            ? "business-capability-responsibility-done"
-                                            : undefined}
-                                    >
-                                        {entry.name}
-                                        {entry.completed && (
-                                            <span className="business-capability-done-tag">
-                                                Completed
-                                            </span>
-                                        )}
-                                    </li>
-                                ))}
-                            </ol>
+                            /* A completed one stays, marked done in the
+                               blue the Completed fold under 2. Activities
+                               is drawn in, the mark at the end of its
+                               line. */
+                            <NumberedListStatic
+                                lines={responsibilities.map((entry, position) => ({
+                                    key: entry.name + position,
+                                    text: entry.name,
+                                    className: entry.completed
+                                        ? "business-capability-responsibility-done"
+                                        : undefined,
+                                    end: entry.completed && (
+                                        <span className="business-capability-done-tag">
+                                            Completed
+                                        </span>
+                                    )
+                                }))}
+                            />
                         )}
                 </BusinessField>
 

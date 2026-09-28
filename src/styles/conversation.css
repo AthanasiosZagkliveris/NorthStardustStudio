@@ -5521,8 +5521,6 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
 
-    color:#4b5563;
-
     cursor:grab;
 
     user-select:none;
@@ -6577,8 +6575,7 @@ td.process-library-col-number{
    4.63:1, but a Theme box draws it on a tint, which took it to
    4.27:1 -- under the 4.5:1 minimum. #4b5563 clears it on every
    tint the palette can produce. */
-.strategy-drag-handle,
-.numbered-list-number{
+.strategy-drag-handle{
 
     color:#4b5563;
 
@@ -9844,27 +9841,6 @@ td.process-library-col-number{
    height either way, so the one distance that has to hold -- box to
    first list title -- holds however long the lists get. */
 
-/* An ordinary numbered list, so the numbers come from the list
-   itself and a screen reader announces how many there are. */
-.business-foundation-needs-recall-list{
-
-    margin:0;
-
-    padding:0 0 0 24px;
-
-    font-size:var(--font-body);
-    line-height:1.5;
-
-    color:#111827;
-
-}
-
-.business-foundation-needs-recall-list li + li{
-
-    margin-top:4px;
-
-}
-
 /* ---------- Fields ---------- */
 
 .business-foundation-field{
@@ -11325,30 +11301,6 @@ td.process-library-col-number{
 
 }
 
-/* An Action recalled from the Customer Channel section, under the
-   Channel it was recorded against. Read-only, like Page 1's
-   recalled needs and for the same reason: it is answered in one
-   place, and a second editable copy is two answers waiting to
-   disagree. */
-.business-engagement-recall-list{
-
-    margin:0;
-
-    padding:0 0 0 24px;
-
-    font-size:var(--font-body);
-    line-height:1.5;
-
-    color:#111827;
-
-}
-
-.business-engagement-recall-list li + li{
-
-    margin-top:4px;
-
-}
-
 /* What the page says when Page 1 has not been started. */
 .business-engagement-page-empty{
 
@@ -11723,10 +11675,16 @@ td.process-library-col-number{
 
 /* A founder's responsibility that is done: struck through, with a
    tag in the Completed fold's blue saying so in words -- strike-
-   through alone reads as "cancelled". */
+   through alone reads as "cancelled". The line (number and text)
+   greys; only the text is struck, the tag at the end of the line
+   (see .numbered-list-static) is not. */
 .business-capability-responsibility-done{
 
     color:#4b5563;
+
+}
+
+.business-capability-responsibility-done > .numbered-list-static-text{
 
     text-decoration:line-through;
 
@@ -11735,8 +11693,6 @@ td.process-library-col-number{
 .business-capability-done-tag{
 
     display:inline-block;
-
-    margin-left:8px;
 
     padding:0 8px;
 
@@ -11751,11 +11707,6 @@ td.process-library-col-number{
     line-height:22px;
 
     color:#1b3a63;
-
-    /* The tag is not part of the name, so it is not struck through. */
-    text-decoration:none;
-
-    vertical-align:middle;
 
 }
 

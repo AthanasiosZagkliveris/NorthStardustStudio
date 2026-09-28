@@ -406,7 +406,7 @@ describe("BusinessCapabilityEditor founders' roles", () => {
 
         const saved = renderWith({ founders: [{ id: "f1", roles: ["Director", "Designer"] }] });
 
-        const roles = [...document.querySelectorAll(".business-engagement-recall-list li")].map(item => item.textContent);
+        const roles = [...document.querySelectorAll(".numbered-list-static li")].map(item => item.textContent);
         expect(roles).toEqual(["Director", "Designer"]);
         expect(screen.queryByLabelText(/roles/i)).toBeNull();
         expect(saved().founders[0].roles).toEqual(["Director", "Designer"]);
@@ -417,7 +417,7 @@ describe("BusinessCapabilityEditor founders' roles", () => {
 
         renderWith(undefined);
 
-        const roles = [...document.querySelectorAll(".business-engagement-recall-list li")].map(item => item.textContent);
+        const roles = [...document.querySelectorAll(".numbered-list-static li")].map(item => item.textContent);
         expect(roles).toEqual(["Old role"]);
 
     });

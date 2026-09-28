@@ -40,6 +40,7 @@ import { useItemFolds } from "./useItemFolds.ts";
 import { toggledIn } from "./toggledIn.ts";
 import FoldArrow from "./FoldArrow.tsx";
 import CardNameInput from "./CardNameInput.tsx";
+import NumberedListStatic from "./NumberedListStatic.tsx";
 
 /**
  * The instruction bullets for each subsection, and the parameter
@@ -1232,11 +1233,9 @@ export default function BusinessFoundationEditor({
 
                     const entriesOf = (entries: string[]) => (
                         entries.length > 0 ? (
-                            <ol className="business-foundation-needs-recall-list">
-                                {entries.map(entry => (
-                                    <li key={entry}>{entry}</li>
-                                ))}
-                            </ol>
+                            <NumberedListStatic
+                                lines={entries.map(entry => ({ key: entry, text: entry }))}
+                            />
                         ) : (
                             <p className="business-foundation-empty">
                                 None recorded.
