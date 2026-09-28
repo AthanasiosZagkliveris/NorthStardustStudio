@@ -291,9 +291,9 @@ describe("Quillfield: the documents tie together", () => {
     });
 
     test("founders' pay is the owner's drawings in the plan and the canvas", () => {
-        expect(planMd).toContain("Owner's drawings: Jordan Ellis");
+        expect(planMd).toContain("Founder pay (owner's drawings): Jordan Ellis");
         expect(planMd).not.toContain("Salary: Jordan Ellis");
-        expect(businessModelCanvasData(all).blocks.costs.join(" | ")).toContain("Owner's drawings: Jordan Ellis");
+        expect(businessModelCanvasData(all).blocks.costs.join(" | ")).toContain("Founder pay (owner's drawings): Jordan Ellis");
     });
 
     test("the funding request reconciles", () => {
@@ -418,7 +418,7 @@ describe("Quillfield: the documents tie together", () => {
         expect(resources).toContain("Intellectual: the Quillfield Automation LLC brand; the website quillfieldautomation.com");
         expect(resources).toContain("Financial: $10,650 in hand; $15,000 sought (SBA Microloan)");
         expect(resources).not.toMatch(/Electricity|AI model and API usage|Coworking Space/);
-        expect(blocks.costs).toContain("Owner's drawings: Jordan Ellis ($4,500 a month)");
+        expect(blocks.costs).toContain("Founder pay (owner's drawings): Jordan Ellis ($4,500 a month)");
         expect(blocks.costs).toContain("Variable costs: $45 per client a month (Automation Care Retainer)");
         expect(blocks.costs.join(" ")).not.toMatch(/[.][0-9][0-9]/);
         expect(blocks.revenue).toContain("AI Workflow Audit (Small professional-services firms in New York City): $2,500 per project, one-time");

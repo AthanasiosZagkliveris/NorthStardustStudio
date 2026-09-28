@@ -290,10 +290,15 @@ function payWord(f: Foundation): string {
     return f.drawings ? "Owner's drawings" : "Salary";
 }
 
-/** A cost line's name, with founders' pay named as the forecast counts it. */
+/**
+ * A cost line's name, with founders' pay named as the forecast counts
+ * it: "Founder pay (owner's drawings)" -- a cost of running the model
+ * on the canvas and in the costs, the owner's drawings in the
+ * statements, and the one wording says both.
+ */
 function costName(f: Foundation, line: CostLine): string {
     return f.drawings && line.sourcePath.includes("resource-group-founders")
-        ? line.name.replace(/^Salary: /, "Owner's drawings: ")
+        ? line.name.replace(/^Salary: /, "Founder pay (owner's drawings): ")
         : line.name;
 }
 
