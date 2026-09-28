@@ -342,8 +342,8 @@ interface RelativeQuestion {
  * "Nothing recorded yet." against a question that does not apply.
  *
  * So when it is off, the column asks what it can usefully ask
- * about a Segment of people instead -- Market Size, and Page 1's
- * own question for it. The tick is the presence of the key, the
+ * about a Segment of people instead -- Market Size & Industry
+ * Outlook, and a short form of Page 1's question for it. The tick is the presence of the key, the
  * same test Page 1 makes.
  */
 function segmentQuestions(
@@ -368,8 +368,8 @@ function segmentQuestions(
                 parts: ["business-data"]
             }
             : {
-                label: "Market Size",
-                question: "How large is this group?",
+                label: "Market Size & Industry Outlook",
+                question: "How large is this group, and where is its market heading?",
                 parts: ["market-size"]
             }
     ];
