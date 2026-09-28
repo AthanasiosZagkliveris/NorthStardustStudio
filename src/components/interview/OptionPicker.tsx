@@ -4,6 +4,8 @@ import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
 
 import { consumeKey } from "./consumeKey.ts";
 
+import "../../styles/option-picker.css";
+
 /**
  * One option's height: 18px text at 1.5, plus 8px of padding above
  * and below. Kept here because the list's own height is measured in

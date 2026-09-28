@@ -44,7 +44,7 @@ import {
 } from "./AnswerUtils.ts";
 import type { ExportContent, ExportSectionContent } from "./ExportContentBuilder.ts";
 import { sessionExportContext } from "./ExportContentBuilder.ts";
-import { financialForecast } from "./FinancialForecast.ts";
+import { financialForecast, ownersTakeDrawings } from "./FinancialForecast.ts";
 import {
     capabilityOf,
     costLines,
@@ -83,8 +83,10 @@ import {
     parseAmount,
     moneyFormatter,
     planMonthLabel,
+    spentBeforePlan,
     sustainability,
-    withPlanStart
+    withPlanStart,
+    type CostLine
 } from "./FinancialModel.ts";
 import { COUNTRIES, countryCurrency } from "./LegalEntityJurisdictions.ts";
 
@@ -229,8 +231,12 @@ export function readFoundation(sessions: FoundationSessions) {
 
     const name = text(legalEntity.organisation.name) || text(sessions.organisationName) || "The organization";
 
+    // Where the owners take drawings rather than a salary, as the
+    // forecast counts them (see FinancialForecast.ts).
+    const drawings = ownersTakeDrawings(legalEntity.organisation.legalForm);
+
     return {
-        legalEntity, currency, format, business, strategy, foundationValue, segments,
+        legalEntity, currency, format, drawings, business, strategy, foundationValue, segments,
         capability, engagement, financial, lines, position, revenuePage, outlook, name,
         definition: responseByTitle(sessions.identity, /^definition$/i),
         ethics: responseByTitle(sessions.identity, /^ethics$/i),
@@ -243,6 +249,18 @@ export function readFoundation(sessions: FoundationSessions) {
 }
 
 type Foundation = ReturnType<typeof readFoundation>;
+
+/** Founders' pay, as the documents name it: drawings for an owner who takes them. */
+function payWord(f: Foundation): string {
+    return f.drawings ? "Owner's drawings" : "Salary";
+}
+
+/** A cost line's name, with founders' pay named as the forecast counts it. */
+function costName(f: Foundation, line: CostLine): string {
+    return f.drawings && line.sourcePath.includes("resource-group-founders")
+        ? line.name.replace(/^Salary: /, "Owner's drawings: ")
+        : line.name;
+}
 
 function monthName(value: StrategyMonthValue): string {
     const m = Number(value.month);
@@ -356,7 +374,7 @@ export function businessModelCanvasData(sessions: FoundationSessions): {
     const costs = [
         "Fixed costs: " + format(f.outlook.inputs.fixed) + " a month",
         ...(oneTime > 0 ? ["One-time costs in the plan: " + format(oneTime)] : []),
-        ...largest.map(entry => entry.line.name + " (" + format(entry.monthly) + " a month)"),
+        ...largest.map(entry => costName(f, entry.line) + " (" + format(entry.monthly) + " a month)"),
         ...f.outlook.streams.filter(entry => entry.variable > 0.005)
             .map(entry => "Variable costs: " + format(entry.variable) + " per unit (" + (offeringName(f.foundationValue, entry.stream.offeringId) || "an Offering") + ")")
     ];
@@ -589,7 +607,8 @@ function isEngaged(person: BusinessPartnerValue): boolean {
 function operationsBlocks(f: Foundation): ExportBlock[] {
     const { capability } = f;
     const people = [...capability.professionals, ...capability.providers, ...capability.offering.professionals, ...capability.offering.providers];
-    const capacity = capacityBlocks(salesCapacity(f.revenuePage, f.financial, capability), f.financial.planStart);
+    // Once, here: the Financial Plan leaves it out.
+    const capacity = capacityBlocks(salesCapacity(f.revenuePage, f.financial, capability), f.financial.planStart, 1);
     return [
         ...titled("Workspace", paragraph(withNote(
             BUSINESS_WORKSPACE_KINDS.find(kind => kind.id === capability.workspace.kind)?.label ?? "",
@@ -619,7 +638,9 @@ function teamBlocks(f: Foundation): ExportBlock[] {
         .map(founder => {
             const salary = capability.founders.find(entry => entry.id === founder.id)?.salary ?? "";
             return [
-                founder.name + (parseAmount(salary) !== null ? " (" + format(parseAmount(salary) ?? 0) + " a month)" : ""),
+                founder.name + (parseAmount(salary) !== null
+                    ? " (" + payWord(f).toLowerCase() + " " + format(parseAmount(salary) ?? 0) + " a month)"
+                    : ""),
                 founder.ownership ? founder.ownership + "%" : "",
                 founder.roles.filter(Boolean).join(", "),
                 businessFounderResponsibilities(capability, founder.id)
@@ -645,31 +666,71 @@ function strategyBlocks(f: Foundation): ExportBlock[] {
 }
 
 function riskBlocks(f: Foundation): ExportBlock[] {
-    const signals = [...f.position.signals, ...f.outlook.signals]
-        .filter(signal => signal.tone === "risk" || signal.tone === "caution");
+    // Both Financial pages raise some of the same signals ("Funding
+    // Dependency"): each is said once, here.
+    const byTitle = new Map<string, { title: string; text: string }>();
+    [...f.position.signals, ...f.outlook.signals]
+        .filter(signal => signal.tone === "risk" || signal.tone === "caution")
+        .forEach(signal => {
+            if (!byTitle.has(signal.title)) {
+                byTitle.set(signal.title, signal);
+            }
+        });
+    const signals = [...byTitle.values()];
     return [
         ...titled("External Threats", list(f.strategyFoundation.swot.threats ?? [])),
         ...titled("Internal Weaknesses", list(f.strategyFoundation.swot.weaknesses ?? [])),
-        ...titled("Financial Signals", list([...new Set(signals.map(signal => signal.title + ": " + signal.text))]))
+        ...titled("Financial Signals", list(signals.map(signal => signal.title + ": " + signal.text)))
     ];
 }
 
+/**
+ * The Funding Request, as one account: what the plan needs and has,
+ * the gap, what is being sought and what would still be short once it
+ * is repaid; then what the money is for, and where it comes from.
+ */
 function fundingRequestBlocks(f: Foundation): ExportBlock[] {
     const { format, position } = f;
-    const sought = allFunding(f.financial, f.legalEntity)
+    const start = f.financial.planStart;
+    const cash = allFunding(f.financial, f.legalEntity)
         .filter(source => !isNonCash(source))
-        .map(source => ({ source, standing: fundingStanding(source, f.financial.planStart) }))
-        .filter(entry => entry.standing.pending > 0);
+        .map(source => ({ source, standing: fundingStanding(source, start) }));
+    const received = cash.reduce((sum, entry) => sum + entry.standing.received, 0);
+    const spentBefore = spentBeforePlan(f.lines, start);
+    const sought = cash.filter(entry => entry.standing.pending > 0.005);
+    const soughtNames = joinNames(sought.map(entry => entry.source.name.trim() || fundingType(entry.source.type)?.label || "funding"));
+
     return [
         ...paragraph(position.gap > 0.005
-            ? f.name + " is seeking " + format(position.gap) + " of additional funding to cover its identified requirement of " + format(position.need) + "."
+            ? f.name + " is seeking " + format(position.pending > 0.005 ? position.pending : position.gap) +
+                " of additional funding towards a funding gap of " + format(position.gap) + "."
             : "The identified funding requirement of " + format(position.need) + " is covered by available and confirmed funding."),
-        ...table(["Source being pursued", "Type", "Amount", "Status"], sought.map(entry => [
+        ...details([
+            ["Funding need", format(position.need)],
+            ["Available now", format(position.availableNow) + (spentBefore > 0.005
+                ? " (" + format(received) + " received, less " + format(spentBefore) + " of costs paid before the plan)"
+                : "")],
+            ["Confirmed, still to arrive", position.confirmedFuture > 0.005 ? format(position.confirmedFuture) : ""],
+            ["Funding gap", format(position.gap)],
+            ["Amount sought", position.pending > 0.005 ? format(position.pending) + (soughtNames ? " (" + soughtNames + ")" : "") : ""],
+            ["Still short after repayments", position.sought && position.gap > 0.005
+                ? position.sought.shortfall > 0.005
+                    ? format(position.sought.shortfall) + " at the lowest point, in " + position.sought.lowestLabel +
+                        ", once the funding sought is repaid"
+                    : "Nothing: with the funding sought, cash stays above zero, its repayments included"
+                : ""]
+        ]),
+        ...titled("Use of Funds", table(["Need", "Amount", "When"], [
+            ...position.needs.map(need => [need.label, format(need.amount), need.when]),
+            ["Total", format(position.need), ""]
+        ])),
+        ...titled("Sources of Funds", table(["Source", "Type", "Amount", "Status", "Received"], cash.map(entry => [
             entry.source.name || entry.source.provider,
             fundingType(entry.source.type)?.label ?? "",
-            format(entry.standing.pending),
-            FUNDING_STATUSES.find(status => status.id === entry.source.status)?.label ?? entry.source.status
-        ]))
+            format(entry.standing.total),
+            FUNDING_STATUSES.find(status => status.id === entry.source.status)?.label ?? entry.source.status,
+            format(entry.standing.received)
+        ])))
     ];
 }
 
@@ -713,7 +774,8 @@ export function businessPlan(sessions: FoundationSessions): ExportContent {
 
     const f = readFoundation(sessions);
 
-    const financialFoundation = financialFoundationBlocks(f.business.responseOf?.(AnswerType.FinancialFoundation), f.business);
+    const asDocument = { costName: (line: CostLine) => costName(f, line) };
+    const financialFoundation = financialFoundationBlocks(f.business.responseOf?.(AnswerType.FinancialFoundation), f.business, asDocument);
 
     const parts: [string, ExportBlock[]][] = [
         ["Executive Summary", executiveSummary(f)],
@@ -726,7 +788,7 @@ export function businessPlan(sessions: FoundationSessions): ExportContent {
         ["Financial Plan", [
             ...financialFoundation,
             ...continueNumbering(
-                financialSustainabilityBlocks(f.business.responseOf?.(AnswerType.FinancialSustainability), f.business),
+                financialSustainabilityBlocks(f.business.responseOf?.(AnswerType.FinancialSustainability), f.business, asDocument),
                 financialFoundation)
         ]],
         ["Funding Request", fundingRequestBlocks(f)],

@@ -63,12 +63,18 @@ interface ForecastRow {
     kind: RowKind;
     /** A subtotal or total, set apart in a table. */
     total?: boolean;
+    /** A label over the rows below it ("Assets"), with no figures. */
+    heading?: boolean;
     values: number[];
+    /** The balance sheet's figure at the plan's start, before its first month. */
+    opening?: number;
 }
 
 interface ForecastTable {
     title: string;
     rows: ForecastRow[];
+    /** Whether the table has an Opening column (the balance sheet). */
+    opening?: boolean;
 }
 
 export interface Forecast {
@@ -94,7 +100,7 @@ const FOUNDER_PAY = "resource-group-founders";
  * or sole proprietor, a partnership, or an LLC (taxed as its owners
  * unless it elects otherwise). A company pays its founders a salary.
  */
-function ownersTakeDrawings(legalForm: string): boolean {
+export function ownersTakeDrawings(legalForm: string): boolean {
     return /sole|trader|proprietor|individu|einzel|enkeltmand|toiminimi|autónomo|ατομική|microempreendedor|partnership|partnerschaft|\bLLP\b|\bLLC\b|eenmanszaak|micro-entreprise/i
         .test(legalForm);
 }
@@ -341,7 +347,9 @@ export function financialForecast(
             ...(drawingsTaken && drawings.some(amount => amount > 0.005)
                 ? [
                     { label: "Owner's drawings (not a cost)", kind: "flow" as const, values: cut(drawings) },
-                    { label: "Profit kept in the business", kind: "flow" as const, total: true,
+                    // What Financial Sustainability's months show as revenue
+                    // less costs, where the owner's drawings are a cost.
+                    { label: "Profit after owner's drawings", kind: "flow" as const, total: true,
                         values: profit.map((amount, index) => amount - drawings[index]) }
                 ]
                 : [])
@@ -353,7 +361,10 @@ export function financialForecast(
         let total = from;
         return values.map(amount => (total += amount));
     };
-    const cash = closings;
+    // Cash below zero is money the plan has not found yet: owed, in
+    // effect, rather than an asset of less than nothing.
+    const cash = closings.map(amount => Math.max(0, amount));
+    const stillToFind = closings.map(amount => Math.max(0, -amount));
     const owedByCustomers = running(cut(earned).map((amount, index) => amount - received[index]));
     const equipment = running(cut(assetsBought).map((amount, index) => amount - depreciation[index]));
     const deposits = running(cut(depositsPaid));
@@ -361,31 +372,46 @@ export function financialForecast(
     const assets = cash.map((amount, index) =>
         amount + owedByCustomers[index] + prepaid[index] + equipment[index] + deposits[index]);
     const loansOwed = running(cut(loansIn).map((amount, index) => amount - loanPrincipal[index]), openingLoans);
+    const liabilities = loansOwed.map((amount, index) => amount + stillToFind[index]);
     const capital = running(cut(capitalIn), openingCapital);
     const profitToDate = running(profit, openingRetained);
     const drawingsToDate = running(cut(drawings).map(amount => -amount));
     const equity = capital.map((amount, index) => amount + profitToDate[index] + drawingsToDate[index]);
-    const liabilitiesAndEquity = loansOwed.map((amount, index) => amount + equity[index]);
+    const liabilitiesAndEquity = liabilities.map((amount, index) => amount + equity[index]);
+
+    /* At the plan's start: the money in hand (or short), what is owed
+       on loans already taken, and the owners' part of the rest. */
+    const openingStillToFind = Math.max(0, -opening);
+    const openingEquity = openingCapital + openingRetained;
+    const heading = (label: string): ForecastRow => ({ label, kind: "closing", heading: true, values: [] });
 
     const balanceSheet: ForecastTable = {
         title: "Balance Sheet",
+        opening: true,
         rows: [
-            { label: "Cash", kind: "closing", values: cash },
-            { label: "Money owed by customers", kind: "closing", values: owedByCustomers },
+            heading("Assets"),
+            { label: "Cash", kind: "closing", values: cash, opening: Math.max(0, opening) },
+            { label: "Money owed by customers", kind: "closing", values: owedByCustomers, opening: 0 },
             ...(prepaid.some(amount => Math.abs(amount) > 0.005)
-                ? [{ label: "Prepaid costs", kind: "closing" as const, values: prepaid }] : []),
-            { label: "Equipment, after depreciation", kind: "closing", values: equipment },
+                ? [{ label: "Prepaid costs", kind: "closing" as const, values: prepaid, opening: 0 }] : []),
+            { label: "Equipment, after depreciation", kind: "closing", values: equipment, opening: 0 },
             ...(deposits.some(amount => amount > 0.005)
-                ? [{ label: "Deposits paid", kind: "closing" as const, values: deposits }] : []),
-            { label: "Total assets", kind: "closing", total: true, values: assets },
-            { label: "Loans outstanding", kind: "closing", values: loansOwed },
-            { label: "Total liabilities", kind: "closing", total: true, values: loansOwed },
-            { label: "Capital put in", kind: "closing", values: capital },
-            { label: "Profit to date", kind: "closing", values: profitToDate },
+                ? [{ label: "Deposits paid", kind: "closing" as const, values: deposits, opening: 0 }] : []),
+            { label: "Total assets", kind: "closing", total: true, values: assets, opening: Math.max(0, opening) },
+            heading("Liabilities"),
+            { label: "Loans outstanding", kind: "closing", values: loansOwed, opening: openingLoans },
+            ...(stillToFind.some(amount => amount > 0.005) || openingStillToFind > 0.005
+                ? [{ label: "Funding still to be found", kind: "closing" as const, values: stillToFind, opening: openingStillToFind }]
+                : []),
+            { label: "Total liabilities", kind: "closing", total: true, values: liabilities, opening: openingLoans + openingStillToFind },
+            heading("Equity"),
+            { label: "Capital put in", kind: "closing", values: capital, opening: openingCapital },
+            { label: "Profit to date", kind: "closing", values: profitToDate, opening: openingRetained },
             ...(drawingsTaken && drawings.some(amount => amount > 0.005)
-                ? [{ label: "Owner's drawings to date", kind: "closing" as const, values: drawingsToDate }] : []),
-            { label: "Total equity", kind: "closing", total: true, values: equity },
-            { label: "Total liabilities and equity", kind: "closing", total: true, values: liabilitiesAndEquity }
+                ? [{ label: "Owner's drawings to date", kind: "closing" as const, values: drawingsToDate, opening: 0 }] : []),
+            { label: "Total equity", kind: "closing", total: true, values: equity, opening: openingEquity },
+            { label: "Total liabilities and equity", kind: "closing", total: true, values: liabilitiesAndEquity,
+                opening: openingLoans + openingStillToFind + openingEquity }
         ]
     };
 
@@ -404,17 +430,41 @@ export function financialForecast(
             ...(drawingsTaken
                 ? ["As a " + legalEntity.organisation.legalForm + ", founders' pay is the owners' drawings, taken from profit, not a cost."]
                 : []),
-            "A negative cash figure is money still to be found: the funding gap.",
+            "Cash never shows below zero on the balance sheet: money still to be found is a liability, the funding gap.",
+            ...(drawingsTaken
+                ? ["Profit after owner's drawings matches Financial Sustainability's revenue less costs, month by month, except where the profit and loss also counts one-time costs, depreciation, grants or loan interest as they fall."]
+                : []),
             "Tax on profit, and VAT or sales tax, are not calculated."
         ]
     };
 
 }
 
-/** A table cut to a period and a last plan year. */
-interface ForecastView {
+/** One row of a view: a heading has no figures. */
+export interface ForecastViewRow {
+    label: string;
+    total?: boolean;
+    heading?: boolean;
+    values: number[];
+}
+
+/** One table of a view, with its own columns: the balance sheet opens with its Opening one. */
+export interface ForecastViewTable {
+    title: string;
     columns: string[];
-    tables: { title: string; rows: { label: string; total?: boolean; values: number[] }[] }[];
+    rows: ForecastViewRow[];
+}
+
+/** A table cut to a period and a last plan year. */
+export interface ForecastView {
+    /** The period columns every table shares. */
+    columns: string[];
+    tables: ForecastViewTable[];
+}
+
+/** "Opening (Jan 2027)": the balance sheet before the plan's first month. */
+function openingColumn(forecast: Forecast): string {
+    return "Opening" + (forecast.months[0] ? " (" + forecast.months[0] + ")" : "");
 }
 
 /**
@@ -424,37 +474,36 @@ interface ForecastView {
 export function forecastView(forecast: Forecast, period: ForecastPeriod, untilYear: number): ForecastView {
 
     const months = Math.min(forecast.months.length, Math.max(1, untilYear) * 12);
+    const tables = [forecast.cashFlow, forecast.profitAndLoss, forecast.balanceSheet];
 
-    if (period === "monthly") {
-        return {
-            columns: forecast.months.slice(0, months),
-            tables: [forecast.cashFlow, forecast.profitAndLoss, forecast.balanceSheet].map(table => ({
-                title: table.title,
-                rows: table.rows.map(row => ({ label: row.label, total: row.total, values: row.values.slice(0, months) }))
-            }))
-        };
-    }
+    /* Each row's figures over the chosen columns. */
+    const cells = (row: ForecastRow): number[] => {
+        if (period === "monthly") {
+            return row.values.slice(0, months);
+        }
+        return Array.from({ length: Math.ceil(months / 12) }, (_, year) => {
+            const slice = row.values.slice(year * 12, Math.min(months, year * 12 + 12));
+            return row.kind === "opening" ? slice[0]
+                : row.kind === "closing" ? slice[slice.length - 1]
+                    : slice.reduce((sum, amount) => sum + amount, 0);
+        });
+    };
 
-    const years = Math.ceil(months / 12);
-    const yearRange = (year: number) => [year * 12, Math.min(months, year * 12 + 12)] as const;
+    const columns = period === "monthly"
+        ? forecast.months.slice(0, months)
+        : Array.from({ length: Math.ceil(months / 12) }, (_, year) =>
+            "Year " + (year + 1) + " (" + forecast.months[year * 12] + " – " + forecast.months[Math.min(months, year * 12 + 12) - 1] + ")");
 
     return {
-        columns: Array.from({ length: years }, (_, year) => {
-            const [from, to] = yearRange(year);
-            return "Year " + (year + 1) + " (" + forecast.months[from] + " – " + forecast.months[to - 1] + ")";
-        }),
-        tables: [forecast.cashFlow, forecast.profitAndLoss, forecast.balanceSheet].map(table => ({
+        columns,
+        tables: tables.map(table => ({
             title: table.title,
+            columns: table.opening ? [openingColumn(forecast), ...columns] : columns,
             rows: table.rows.map(row => ({
                 label: row.label,
                 total: row.total,
-                values: Array.from({ length: years }, (_, year) => {
-                    const [from, to] = yearRange(year);
-                    const slice = row.values.slice(from, to);
-                    return row.kind === "opening" ? slice[0]
-                        : row.kind === "closing" ? slice[slice.length - 1]
-                            : slice.reduce((sum, amount) => sum + amount, 0);
-                })
+                heading: row.heading,
+                values: row.heading ? [] : [...(table.opening ? [row.opening ?? 0] : []), ...cells(row)]
             }))
         }))
     };
@@ -483,7 +532,7 @@ export function forecastCsv(
     lines.push("");
 
     view.tables.forEach(table => {
-        row([table.title, ...view.columns]);
+        row([table.title, ...table.columns]);
         table.rows.forEach(entry => row([entry.label, ...entry.values]));
         lines.push("");
     });

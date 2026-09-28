@@ -2,8 +2,8 @@ import { describe, expect, test } from "vitest";
 
 import { InterviewSession } from "../interview";
 import { businessForecast, businessModelCanvas, businessModelCanvasData, businessPlan, currentSituationDraft, financialPlanRange, readFoundation } from "./BusinessDocuments.ts";
-import { financialPosition, stressTest, whatItWouldTake, withWhatIf } from "./FinancialModel.ts";
-import { forecastCsv, forecastView } from "./FinancialForecast.ts";
+import { financialPosition, stressTest, sustainability, whatItWouldTake, withWhatIf } from "./FinancialModel.ts";
+import { financialForecast, forecastCsv, forecastView } from "./FinancialForecast.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
 import { MarkdownExporter } from "./MarkdownExporter.ts";
 import exampleText from "../../../docs/examples/lumen-and-loom-studio.json?raw";
@@ -54,7 +54,7 @@ describe("business documents", () => {
         // Financial Sustainability numbers on from Financial Foundation's four headings.
         expect(md).toContain("### 5. Revenue");
         expect(md).toContain("Lumen & Loom Studio Ltd, a private company limited by shares, based in London, United Kingdom, was founded by");
-        expect(md).toContain("is seeking £10,670");
+        expect(md).toContain("is seeking £26,000 of additional funding towards a funding gap of £10,670");
     });
 
     test("the financial forecast adds up, month by month and by year", () => {
@@ -224,6 +224,86 @@ describe("Quillfield: an unresolved funding gap", () => {
 
 /* The Quillfield example answers every section of all four Foundation Systems. */
 import { InterviewValidator } from "./InterviewValidator.ts";
+
+/* The fixes the Business Documents review asked for. */
+describe("Quillfield: the documents tie together", () => {
+
+    const quill = JSON.parse(quillfieldText) as typeof example;
+    const loadQuill = (number: number, id: string) =>
+        InterviewSession.fromJSON(quill.systems[String(number)], frameworkRegistry.getFramework(id));
+    const all = {
+        identity: loadQuill(1, "identity"),
+        brand: loadQuill(2, "brand"),
+        business: loadQuill(3, "business"),
+        strategy: loadQuill(4, "strategy"),
+        organisationName: "Quillfield Automation"
+    };
+    const f = readFoundation(all);
+    const planMd = new MarkdownExporter().toMarkdown(all.business, "Foundation", businessPlan(all));
+    const count = (text: string, part: string) => text.split(part).length - 1;
+
+    test("negative cash is funding still to be found, and the balance sheet still balances", () => {
+        const { forecast } = businessForecast(all);
+        const sheet = (label: string) => forecast.balanceSheet.rows.find(entry => entry.label === label)!;
+        const closing = forecast.cashFlow.rows.find(entry => entry.label === "Closing balance")!.values;
+        // Quillfield's cash runs below zero in 2027.
+        expect(Math.min(...closing)).toBeLessThan(0);
+        closing.forEach((amount, index) => {
+            expect(sheet("Cash").values[index]).toBeCloseTo(Math.max(0, amount), 6);
+            expect(sheet("Funding still to be found").values[index]).toBeCloseTo(Math.max(0, -amount), 6);
+            expect(sheet("Total assets").values[index]).toBeCloseTo(sheet("Total liabilities and equity").values[index], 6);
+        });
+        // The opening column balances too.
+        expect(sheet("Total assets").opening).toBeCloseTo(sheet("Total liabilities and equity").opening!, 6);
+        expect(sheet("Cash").opening).toBeCloseTo(10650, 6);
+        expect(forecast.balanceSheet.rows.filter(row => row.heading).map(row => row.label)).toEqual(["Assets", "Liabilities", "Equity"]);
+        const view = forecastView(forecast, "annual", 3);
+        expect(view.tables[2].columns[0]).toBe("Opening (Jan 2027)");
+        expect(view.tables[2].columns).toHaveLength(4);
+    });
+
+    test("profit after owner's drawings is Financial Sustainability's monthly result", () => {
+        // Without the one-time costs (which the profit and loss counts
+        // when paid, and Financial Sustainability leaves to the funding),
+        // the two agree month by month.
+        const onlyRecurring = readFoundation(all);
+        const lines = onlyRecurring.lines.filter(line => line.frequency !== "one-time");
+        const forecast = financialForecast(onlyRecurring.financial, onlyRecurring.revenuePage, lines, onlyRecurring.legalEntity, onlyRecurring.format);
+        const outlook = sustainability(onlyRecurring.revenuePage, onlyRecurring.financial, lines, onlyRecurring.legalEntity, onlyRecurring.format);
+        const after = forecast.profitAndLoss.rows.find(row => row.label === "Profit after owner's drawings")!.values;
+        outlook.months.forEach((month, index) => expect(after[index]).toBeCloseTo(month.revenue - month.costs, 6));
+
+        // With them, break even still falls in the same month: Jul 2027.
+        const full = businessForecast(all).forecast.profitAndLoss.rows.find(row => row.label === "Profit after owner's drawings")!.values;
+        expect(full.findIndex(amount => amount >= 0) + 1).toBe(f.outlook.breakEvenMonth);
+        expect(f.outlook.breakEvenMonth).toBe(7);
+    });
+
+    test("founders' pay is the owner's drawings in the plan and the canvas", () => {
+        expect(planMd).toContain("Owner's drawings: Jordan Ellis");
+        expect(planMd).not.toContain("Salary: Jordan Ellis");
+        expect(businessModelCanvasData(all).blocks.costs.join(" | ")).toContain("Owner's drawings: Jordan Ellis");
+    });
+
+    test("the funding request reconciles", () => {
+        expect(f.position.need - f.position.availableNow - f.position.confirmedFuture).toBeCloseTo(f.position.gap, 1);
+        const request = planMd.slice(planMd.indexOf("Funding Request"));
+        expect(request).toContain("Funding need: $25,965");
+        expect(request).toContain("Available now: $10,650 ($12,000 received, less $1,350 of costs paid before the plan)");
+        expect(request).toContain("Funding gap: $15,315");
+        expect(request).toContain("Amount sought: $15,000 (SBA Microloan)");
+        expect(request).toContain("Still short after repayments: $2,400 at the lowest point, in Jul 2027");
+        expect(request).toContain("| Total | $25,965 |");
+    });
+
+    test("each financial signal is said once, and capacity once", () => {
+        expect(count(planMd, "Funding Dependency:")).toBe(1);
+        expect(count(planMd, "Financial Risk:")).toBeLessThanOrEqual(2);
+        expect(count(planMd, "Capacity is the founders' delivery hours")).toBe(1);
+        expect(planMd).toContain("### Capacity");
+    });
+
+});
 
 describe("the Quillfield example is complete", () => {
     const quill = JSON.parse(quillfieldText) as typeof example;

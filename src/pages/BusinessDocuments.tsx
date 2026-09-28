@@ -273,11 +273,16 @@ export default function BusinessDocuments() {
                                     <thead>
                                         <tr>
                                             <th scope="col">{loaded.forecast.currency || "Amount"}</th>
-                                            {view.columns.map(column => <th scope="col" key={column}>{column}</th>)}
+                                            {table.columns.map(column => <th scope="col" key={column}>{column}</th>)}
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {table.rows.map(row => (
+                                        {table.rows.map(row => row.heading ? (
+                                            <tr key={row.label} className="business-forecast-heading">
+                                                <th scope="rowgroup">{row.label}</th>
+                                                <td colSpan={table.columns.length} />
+                                            </tr>
+                                        ) : (
                                             <tr key={row.label} className={row.total ? "business-forecast-total" : undefined}>
                                                 <th scope="row">{row.label}</th>
                                                 {row.values.map((amount, index) => (

@@ -1,0 +1,219 @@
+/* ==========================================================
+   The option picker's own styles (see OptionPicker.tsx), imported
+   by the component so it is styled on every page that uses it --
+   the Business Documents page as well as the interview pages.
+========================================================== */
+
+/* ==========================================================
+   Option picker
+
+   The Metric box's two dropdowns (see OptionPicker.tsx). A
+   native <select>'s open list is drawn by the platform, in the
+   platform's own highlight colour, which no amount of
+   `accent-color` or `option:checked` reliably reaches -- so this
+   list is markup, and the Theme's colour reaches it the same way
+   it reaches everything else.
+
+   The trigger keeps `.interview-input`, so it is the same box,
+   the same height and the same 18px as the fields beside it, and
+   it inherits their hover and focus rings for free. The chevron
+   is the same drawn one the <select>s used, in the same place.
+========================================================== */
+
+.option-picker{
+
+    position:relative;
+
+    min-width:0;
+
+}
+
+/* Three classes, to outrank `.brand-style .interview-input` -- the
+   trigger wears that class on purpose, for its box and its rings,
+   but has to take back `display` and `width`. Three rather than two
+   since this file loads before conversation.css, where those rules
+   live: source order no longer decides it. */
+.option-picker .option-picker-trigger.interview-input{
+
+    /* One cell, holding the value and a hidden copy of every
+       option (see OptionPicker.tsx) -- the cell is as wide as the
+       widest of them, so the button never resizes as the value
+       changes. A native <select> sized itself this way; this is
+       what replaces it.
+
+       INLINE-grid, because a block-level box with `width:auto`
+       fills its container instead of fitting its content. */
+    display:inline-grid;
+    grid-template-columns:minmax(0, auto);
+
+    align-items:center;
+
+    width:auto;
+
+    /* Tighter than a field's 10px, and only 24px on the chevron
+       side (6px inset + its 12px + 6px clear of the value): the
+       Metric row gives this control 132px, and "Percentage" needs
+       97 of them. */
+    padding:8px 24px 8px 8px;
+
+    /* A value, not a button label. Buttons carry 10% tracking
+       app-wide, which on a <select>'s own text is both wrong to
+       look at and 20% of the width this control does not have. */
+    letter-spacing:normal;
+
+    text-align:left;
+
+    cursor:pointer;
+
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23111827' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 6px center;
+    background-size:12px 8px;
+
+}
+
+.option-picker .option-picker-trigger.interview-input:disabled{
+
+    color:#6b7280;
+    border-color:#c9c9c9;
+
+    cursor:not-allowed;
+
+}
+
+.option-picker-value,
+.option-picker-sizer{
+
+    grid-area:1 / 1;
+
+    overflow:hidden;
+
+    white-space:nowrap;
+    text-overflow:ellipsis;
+
+}
+
+/* Measured, never seen. `visibility` rather than `display:none`
+   because a box that is not generated has no width to give. */
+.option-picker-sizer{
+
+    height:0;
+
+    visibility:hidden;
+
+}
+
+/* Floated over the page rather than pushing it around, for the
+   same reason the month picker's panel is (see
+   `.month-picker-panel`): the Metric box is already laid out, and
+   opening a list should not move what is under it. */
+.option-picker-list{
+
+    position:absolute;
+
+    top:100%;
+    left:0;
+
+    z-index:20;
+
+    min-width:100%;
+
+    margin-top:6px;
+
+    padding:4px;
+
+    border:1px solid #767676;
+    border-radius:8px;
+
+    background:#ffffff;
+
+    box-shadow:0 12px 28px rgba(17, 24, 39, .18);
+
+    /* The list holds the keyboard while it is open, and it is a
+       listbox rather than a field -- so no focus ring of its own;
+       the highlighted row is what says where the keyboard is. */
+    outline:none;
+
+}
+
+.option-picker-option{
+
+    padding:8px 10px;
+
+    border-radius:6px;
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:#111827;
+
+    white-space:nowrap;
+
+    cursor:pointer;
+
+}
+
+/* Where the pointer or the arrow keys are. Deliberately quieter
+   than the chosen row: this one moves as you look, the other one
+   is a decision. */
+.option-picker-option-active{
+
+    background:color-mix(in srgb, var(--glow-color) 18%, transparent);
+
+}
+
+/* The chosen row. Bold as well as coloured, and it also carries
+   aria-selected, so the state does not rest on colour alone. */
+.option-picker-option-chosen{
+
+    font-weight:700;
+
+    color:var(--glow-color);
+
+}
+
+.option-picker-option-chosen.option-picker-option-active{
+
+    background:color-mix(in srgb, var(--glow-color) 28%, transparent);
+
+}
+
+/* The filter box at the top of a long list (see OptionPicker's
+   `searchable`). Sticky, so it stays reachable while scrolling a
+   list of 195 countries. */
+.option-picker-search{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:1;
+
+    width:100%;
+
+    margin-bottom:4px;
+
+    box-sizing:border-box;
+
+}
+
+.option-picker-empty{
+
+    margin:0;
+
+    padding:8px 10px;
+
+    font-size:var(--font-body);
+
+    color:#4b5563;
+
+}
+
+/* Above the fixed navigation bar, as the month picker's panel and the
+   sort menu are (see "Floating panels sit above the furniture" in
+   conversation.css). */
+.option-picker-list{
+
+    z-index:30;
+
+}

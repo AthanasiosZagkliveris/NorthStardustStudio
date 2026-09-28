@@ -702,12 +702,24 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
    3. Business -- Financial Foundation
 ========================================================== */
 
-export function financialFoundationBlocks(value: unknown, context: ExportContext): ExportBlock[] {
+/**
+ * How the Business Plan reads the two Financial pages, where they
+ * differ from the System's own export: whole amounts, founders' pay
+ * named as the plan names it, and what the plan says elsewhere left
+ * out (the costs in its Appendix, the signals under Risks, the
+ * capacity under Operations).
+ */
+export interface FinancialDocumentOptions {
+    costName?: (line: CostLine) => string;
+    omitCosts?: boolean;
+}
+
+export function financialFoundationBlocks(value: unknown, context: ExportContext, document?: FinancialDocumentOptions): ExportBlock[] {
 
     const page = withPlanStart(asFinancialFoundationValue(value));
     const start = page.planStart;
     const currency = context.currency ?? "";
-    const format = moneyFormatter(currency);
+    const format = moneyFormatter(currency, document ? { wholeOnly: true } : undefined);
     const legalEntity = context.legalEntity ?? asLegalEntityValue(undefined);
     const foundation = context.responseOf?.(AnswerType.BusinessFoundation);
     const lines = costLines(page, context);
@@ -719,23 +731,29 @@ export function financialFoundationBlocks(value: unknown, context: ExportContext
         ? (line.frequencyOther ? line.frequencyOther.charAt(0).toUpperCase() + line.frequencyOther.slice(1) : "Other")
         : labelOf(COST_FREQUENCIES, line.frequency);
 
+    // Numbered in order, so leaving the costs out numbers on from 1.
+    let number = 0;
+    const numbered = (title: string) => heading((++number) + ". " + title);
+
     return [
         ...paragraph("The plan starts in " + planMonthLabel(start, 1) + " and runs for " + planLength(page) + " months, to " +
             planMonthLabel(start, planLength(page)) + "." + (currency ? " Amounts are in " + currency + ", " : " Amounts are ") +
             lowerWords(labelOf(vatBases(jurisdictionProfile(legalEntity.organisation.country).consumptionTax), effectiveVatBasis(page, legalEntity))) + "."),
 
-        heading("1. Costs"),
+        ...(document?.omitCosts ? [] : [
+        numbered("Costs"),
         ...table(["Group", "Cost", "Source", "Amount", "Frequency", "Behaviour", "Offering"], lines.map(line => [
             labelOf(COST_GROUPS, line.group),
-            line.name,
+            document?.costName ? document.costName(line) : line.name,
             line.sourceLabel,
             line.amount === null ? line.amountText : (line.counted ? format(line.amount) : line.amountText + " " + line.currency + " (not counted)"),
             frequencyOf(line),
             labelOf(COST_BEHAVIOURS, line.behaviour),
             offeringNames(foundation, line.offeringIds)
-        ])),
+        ]))
+        ]),
 
-        heading("2. Funding Need"),
+        numbered("Funding Need"),
         ...paragraph("Calculated from the recorded costs and the expected revenue."),
         ...table(["Need", "Amount", "When", "Made of"], position.needs.map(need => [
             need.label,
@@ -759,7 +777,7 @@ export function financialFoundationBlocks(value: unknown, context: ExportContext
         ]),
         ...paragraph("Total Funding Need: " + format(position.need)),
 
-        heading("3. Capital & Funding"),
+        numbered("Capital & Funding"),
         ...table(["Category", "Source", "Type", "Provider", "Amount", "Status", "Received"], funding.map(source => {
             const standing = fundingStanding(source, start);
             return [
@@ -782,7 +800,7 @@ export function financialFoundationBlocks(value: unknown, context: ExportContext
             ) : [];
         }),
 
-        heading("4. Financial Position"),
+        numbered("Financial Position"),
         ...details([
             ["Funding Need", format(position.need)],
             ["Available Now", format(position.availableNow)],
@@ -792,7 +810,8 @@ export function financialFoundationBlocks(value: unknown, context: ExportContext
             ["Financial Runway", !position.hasOutflows ? "n/a"
                 : position.runwayMonths === null ? planLength(page) + "+ months" : monthCount(position.runwayMonths)]
         ]),
-        ...list(position.signals.map(signal => signal.title + ": " + signal.text))
+        // The plan gathers the signals under its Risks.
+        ...(document ? [] : list(position.signals.map(signal => signal.title + ": " + signal.text)))
     ];
 
 }
@@ -801,11 +820,11 @@ export function financialFoundationBlocks(value: unknown, context: ExportContext
    3. Business -- Financial Sustainability
 ========================================================== */
 
-export function financialSustainabilityBlocks(value: unknown, context: ExportContext): ExportBlock[] {
+export function financialSustainabilityBlocks(value: unknown, context: ExportContext, document?: FinancialDocumentOptions): ExportBlock[] {
 
     const foundationPage = withPlanStart(asFinancialFoundationValue(context.responseOf?.(AnswerType.FinancialFoundation)));
     const currency = context.currency ?? "";
-    const format = moneyFormatter(currency);
+    const format = moneyFormatter(currency, document ? { wholeOnly: true } : undefined);
     const legalEntity = context.legalEntity ?? asLegalEntityValue(undefined);
     const foundation = context.responseOf?.(AnswerType.BusinessFoundation);
     const lines = costLines(foundationPage, context);
@@ -845,25 +864,26 @@ export function financialSustainabilityBlocks(value: unknown, context: ExportCon
             entry.breakEvenAlone === null ? "" : formatUnits(entry.breakEvenAlone) + " a month"
         ])),
         ...list(result.inputs.caveats.map(caveat => "Estimate: " + caveat)),
-        ...list(result.signals.map(signal => signal.title + ": " + signal.text)),
-        ...capacityBlocks(
+        // The plan gathers the signals under its Risks, and the capacity under its Operations.
+        ...(document ? [] : list(result.signals.map(signal => signal.title + ": " + signal.text))),
+        ...(document ? [] : capacityBlocks(
             salesCapacity(withDemand(asFinancialSustainabilityValue(value), demandOf(context)), foundationPage,
                 capabilityOf(context.responseOf?.(AnswerType.BusinessCapability), context)),
             foundationPage.planStart
-        )
+        ))
     ];
 
 }
 
 /** Expected sales against deliverable capacity, in words; nothing when there is no check. */
-export function capacityBlocks(capacity: CapacityCheck | null, start: StrategyMonthValue): ExportBlock[] {
+export function capacityBlocks(capacity: CapacityCheck | null, start: StrategyMonthValue, level: 1 | 2 = 2): ExportBlock[] {
     if (!capacity) {
         return [];
     }
     const hours = (amount: number) => Math.round(amount) + " hours";
     const month = (index: number) => planMonthLabel(start, index + 1);
     return [
-        heading("Capacity", 2),
+        heading("Capacity", level),
         ...paragraph("Capacity is the founders' delivery hours: " + hours(capacity.available) + " a month. " +
             "Recurring work is served first; what remains is flexible capacity for the other Offerings."),
         ...table(["Founder", "Delivery Hours", "Recurring Work", "Remaining", "Other Offerings", "Busiest Month"],
