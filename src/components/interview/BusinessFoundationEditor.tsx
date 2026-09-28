@@ -1535,7 +1535,7 @@ export default function BusinessFoundationEditor({
                         } as CSSProperties}
                     >
 
-                        <div className="strategy-box-head business-foundation-input-head">
+                        <div className="strategy-box-head business-foundation-input-head fold-card-head">
 
                             <FoldArrow
                                 open={open}
@@ -1544,7 +1544,7 @@ export default function BusinessFoundationEditor({
                             />
 
                             <span className="strategy-box-number">
-                                {(segmentIndex + 1) + ". Segment"}
+                                {(segmentIndex + 1) + "."}
                             </span>
 
                             {/* The Segment's name, asked in its own

@@ -14,16 +14,27 @@
 }
 
 /* EVERY FOLDING CARD'S HEAD, ONE LAYOUT: Item cards (BusinessCard),
-   Activity rows and the Legal Entity's requirement and expense cards.
+   Activity rows, the Legal Entity's requirement and expense cards, the
+   Founders Profile card, the Segment cards on Pages 1 and 2, the
+   section cards of Pages 3 to 5, and the Strategic Period's Theme,
+   Goal and Objective boxes.
 
      ▸ · number · name · ×
 
-   The number takes only its own width, the name the rest, and the ×
-   is a fixed 32px square that never shrinks (it was squeezed to 25px
-   in an Activity row and 29px on a Legal card). While the card is
-   FOLDED its one-line summary sits on a row of its own under the
-   head, starting where the NAME starts -- not under the number, and
-   not beside the name, where it squeezed it.
+   The arrow, the number and the name stand in the same places on
+   every card, 8px apart: the number takes only its own width, so the
+   gap after it is the same 8px after "1." as after "12.", and the
+   name takes the rest. Nothing else is written in the head -- "1.
+   Jordan Ellis", not "1. Founder Jordan Ellis": what kind of card it
+   is, the page and its group already say. The × is a fixed 32px
+   square that never shrinks. Everything sits on the name's FIRST
+   line (baselines), so a name that wraps grows downwards and the
+   arrow, number and × stay level with its first line. While the card
+   is FOLDED its one-line summary sits on a row of its own under the
+   head, starting where the NAME starts.
+
+   A box that can be dragged puts its grip first
+   (.fold-card-head-grip), and everything else moves one column on.
 
    Named with .strategy-box-head too, so it wins over that rule's flex
    row whichever stylesheet loads last. */
@@ -34,9 +45,21 @@
 
     grid-template-columns: auto auto minmax(0, 1fr) auto;
 
-    align-items: center;
+    align-items: baseline;
 
     gap: 6px 8px;
+
+}
+
+.fold-card-head.fold-card-head-grip {
+
+    grid-template-columns: auto auto auto minmax(0, 1fr) auto;
+
+}
+
+.fold-card-head > .strategy-drag-handle {
+
+    grid-column: 1;
 
 }
 
@@ -46,6 +69,23 @@
 
 }
 
+/* The arrow and the × are drawn, not written (font-size 0), which
+   leaves them no line of text to sit on the name's baseline by. Each
+   gets back the body size, its fallback glyph made invisible, so its
+   centred line gives it a baseline exactly at its middle -- the same
+   place a line of the name has one -- and it stays level with the
+   name's first line however many lines the name runs to. */
+.fold-card-head > .strategy-box-toggle,
+.fold-card-head > .strategy-box-remove {
+
+    font-size: var(--font-body);
+
+    -webkit-text-fill-color: transparent;
+
+}
+
+/* The card's number: one size, weight and colour on every card, and
+   no minimum width, so the name is always 8px after it. */
 .fold-card-head > .strategy-box-number,
 .fold-card-head > .legal-entity-card-number {
 
@@ -53,10 +93,20 @@
 
     flex: none;
 
+    min-width: 0;
+
+    font-size: var(--font-body);
+    font-weight: 600;
+
+    letter-spacing: 0.05em;
+
+    color: #4b5563;
+
 }
 
 .fold-card-head > .strategy-name-input,
-.fold-card-head > .strategy-name-static {
+.fold-card-head > .strategy-name-static,
+.fold-card-head > .strategy-theme-name {
 
     grid-column: 3;
 
@@ -64,10 +114,40 @@
 
 }
 
-/* Its size is the app's one remove square (.strategy-box-remove). */
-.fold-card-head > .strategy-box-remove {
+/* Its size is the app's one remove square (.strategy-box-remove);
+   a box's move and remove controls, or a group's "Expand all", take
+   the same last column. */
+.fold-card-head > .strategy-box-remove,
+.fold-card-head > .strategy-box-actions,
+.fold-card-head > .fold-all-toggle {
 
     grid-column: 4;
+
+}
+
+.fold-card-head-grip > .strategy-box-toggle {
+
+    grid-column: 2;
+
+}
+
+.fold-card-head-grip > .strategy-box-number {
+
+    grid-column: 3;
+
+}
+
+.fold-card-head-grip > .strategy-name-input,
+.fold-card-head-grip > .strategy-name-static {
+
+    grid-column: 4;
+
+}
+
+.fold-card-head-grip > .strategy-box-remove,
+.fold-card-head-grip > .strategy-box-actions {
+
+    grid-column: 5;
 
 }
 
@@ -75,6 +155,12 @@
 
     grid-column: 3 / -1;
     grid-row: 2;
+
+}
+
+.fold-card-head-grip > .business-card-summary {
+
+    grid-column: 4 / -1;
 
 }
 

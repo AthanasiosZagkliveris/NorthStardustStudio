@@ -124,8 +124,9 @@ body {
    --side-label-width column, wide enough for "Working Hours /
    Month" and its "i" on one line at 18px (198 + 8 + 26 = 232px),
    and sits on the control's FIRST line of text, never centred
-   on a tall control. In a narrow card the column gives way (at
-   most half the card) and the label wraps.
+   on a tall control. In a narrow card the column gives way --
+   the control keeps at least 9rem, and the label half the field --
+   and the label wraps.
 
    A group of fields inside a card is named by .field-group-title:
    the same size, bold, in the text colour.
@@ -135,7 +136,14 @@ body {
   --label-line: 28px;
   --side-label-width: 232px;
   --side-label-gap: 12px;
-  --side-label-column: min(var(--side-label-width), 60%);
+  /* The column itself: the full width while the control keeps 9rem,
+     then giving way down to half the field, never less. */
+  --side-label-column: min(var(--side-label-width), max(50%, 100% - var(--side-label-gap) - 9rem));
+  /* The least a grid of side-labelled fields gives each one: the
+     label column, its gap and 9rem for a few digits or a short
+     choice -- so the grid wraps to fewer columns before a label
+     has to. */
+  --side-label-row: calc(var(--side-label-width) + var(--side-label-gap) + 9rem);
   --text-color: #111827;
 }
 

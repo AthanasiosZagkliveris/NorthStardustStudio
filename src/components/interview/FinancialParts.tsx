@@ -593,7 +593,7 @@ export function FinancialSectionCard({
 
             <div
                 className={
-                    "strategy-box-head business-foundation-input-head business-capability-card-head" +
+                    "strategy-box-head business-foundation-input-head business-capability-card-head fold-card-head" +
                     (headClass ? " " + headClass : "")
                 }
             >

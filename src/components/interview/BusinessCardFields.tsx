@@ -603,7 +603,7 @@ export function BusinessCard({
                 )}
 
                 <span className="strategy-box-number">
-                    {onName ? number + "." : number + ". " + kind}
+                    {number + "."}
                 </span>
 
                 {editable

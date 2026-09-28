@@ -311,16 +311,13 @@ function ThemeBox({
             style={{ "--strategy-theme-hue": hue } as CSSProperties}
         >
 
-            <div className="strategy-box-head">
+            <div className="strategy-box-head fold-card-head">
 
                 <FoldArrow open={open} label={"Theme " + number} onToggle={() => onToggle(!open)} />
 
-                {/*
-                    Number, then what kind of box this is, then its
-                    own name -- "1. Theme" reads as a label for the
-                    title beside it, which a bare "1." did not.
-                */}
-                <span className="strategy-box-number">{number}. Theme</span>
+                {/* Number, then the Theme's own name: the head every
+                    folding card shares (.fold-card-head). */}
+                <span className="strategy-box-number">{number}.</span>
 
                 <h4 className="strategy-theme-name">
                     {strategyThemeName(theme)}
@@ -437,7 +434,7 @@ function GoalList({
                         className={`strategy-goal-box ${props.className}`}
                     >
 
-                        <div className="strategy-box-head">
+                        <div className="strategy-box-head fold-card-head fold-card-head-grip">
 
                             <span className="strategy-drag-handle" {...box.handleProps}>⠿</span>
 
@@ -447,7 +444,7 @@ function GoalList({
                                 onToggle={() => onFocusGoal(open ? CLOSED : goal.id)}
                             />
 
-                            <span className="strategy-box-number">{goalIndex + 1}. Goal</span>
+                            <span className="strategy-box-number">{goalIndex + 1}.</span>
 
                             <input
                                 type="text"
@@ -653,7 +650,7 @@ function ObjectiveList({
                         className={`strategy-objective-box ${props.className}`}
                     >
 
-                        <div className="strategy-box-head">
+                        <div className="strategy-box-head fold-card-head fold-card-head-grip">
 
                             <span className="strategy-drag-handle" {...box.handleProps}>⠿</span>
 
@@ -664,7 +661,7 @@ function ObjectiveList({
                             />
 
                             <span className="strategy-box-number">
-                                {objectiveIndex + 1}. Objective
+                                {objectiveIndex + 1}.
                             </span>
 
                             <input

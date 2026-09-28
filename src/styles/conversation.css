@@ -5808,32 +5808,11 @@ td.process-library-col-number{
    Nesting
 
    A box's own contents -- its description, and any child box --
-   start where its NUMBER ends, not at its frame. That single
-   inset is what makes the nesting legible: a Goal sits under its
-   Theme's label, an Objective under its Goal's.
+   start at the box's own padding, level with its fold arrow: the
+   one card body every card in the app has (see "ONE CARD BODY FOR
+   EVERY CARD"). The nesting reads from the boxes' own frames and
+   grounds.
 ========================================================== */
-
-.strategy-box-body{
-
-    padding-left:var(--strategy-indent, 0px);
-
-}
-
-/* Every box on the Strategic Period page opens with a toggle
-   (36px) and the 8px gap after it, so its contents start past
-   both -- putting a description, and any child box, under the
-   box's own label rather than under its frame.
-
-   Not applied to the Foundation page's Theme boxes: those have no
-   toggle and no children, and their label sits alone on its own
-   row, so an inset there would only push the fields sideways. */
-.strategy-theme-panel,
-.strategy-goal-box,
-.strategy-objective-box{
-
-    --strategy-indent:44px;
-
-}
 
 /* ==========================================================
    Roadmap -- one Gantt chart per Strategic Theme
@@ -6131,25 +6110,6 @@ td.process-library-col-number{
     padding:0;
 
     text-align:center;
-
-}
-
-/* The inset that puts a box's contents under its own label.
-   Measured, not estimated: grip (24) + gap (8) + toggle (36) +
-   gap (8) where a box has a grip, and just toggle + gap where it
-   does not. A description and a child box therefore both start
-   exactly where the parent's number starts, with nothing sitting
-   to the left of it. */
-.strategy-theme-panel{
-
-    --strategy-indent:44px;
-
-}
-
-.strategy-goal-box,
-.strategy-objective-box{
-
-    --strategy-indent:76px;
 
 }
 
@@ -8276,19 +8236,6 @@ td.process-library-col-number{
 
 }
 
-/* The head is laid out by .fold-card-head, the head every folding
-   card shares: the number takes its own width, not the row's. */
-.legal-entity-card-number{
-
-    font-size:var(--font-body);
-    font-weight:700;
-
-    letter-spacing:0.05em;
-
-    color:#4b5563;
-
-}
-
 .legal-entity-links{
 
     display:flex;
@@ -9603,24 +9550,12 @@ td.process-library-col-number{
 
 /* ---------- Cards ---------- */
 
-/* Every card indents its contents to start where its NUMBER
-   starts, not where its arrow does -- so a card reads as one
-   column of content with "1. Segment" at the head of it, rather
-   than a head that is offset from everything under it.
-
-   Done by padding the card and pulling the head back out by the
-   same amount: the arrow keeps the card's own left edge, and the
-   number lands exactly on the content below. One number for both,
-   so they cannot drift.
-
-   36px is the toggle (see .strategy-box-toggle) and 8px the head's
-   own gap. */
-.business-foundation{
-
-    --bf-card-indent:44px;
-
-}
-
+/* ONE CARD BODY FOR EVERY CARD: its contents start at the card's
+   own padding, level with the fold arrow, as the Legal Entity,
+   Founders Profile, Activity and Strategy cards have them. (These
+   cards used to indent theirs 44px, to the number; in a card a third
+   of the page wide that left no room for a side label and its
+   control on one line.) */
 .business-foundation-card{
 
     display:flex;
@@ -9631,20 +9566,12 @@ td.process-library-col-number{
 
     padding:var(--card-padding);
 
-    padding-left:calc(var(--card-padding) + var(--bf-card-indent));
-
     border:1px solid #c9c9c9;
     border-radius:8px;
 
     background:#ffffff;
 
     min-width:0;
-
-}
-
-.business-foundation .strategy-box-head{
-
-    margin-left:calc(-1 * var(--bf-card-indent));
 
 }
 
@@ -11476,22 +11403,6 @@ td.process-library-col-number{
     align-items:center;
 
     gap:8px;
-
-}
-
-/* 1. Infrastructure and 2. Offering's Capability: the number, the
-   title and its "i" side by side, the way every heading inside them
-   reads -- not the number held to a column and the "i" pushed to
-   the far edge. */
-.business-capability-card-head > .strategy-box-number{
-
-    min-width:0;
-
-}
-
-.business-capability-card-head > .strategy-name-static{
-
-    flex:0 1 auto;
 
 }
 
@@ -13726,7 +13637,7 @@ td.process-library-col-number{
 
     display:grid;
 
-    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns:repeat(auto-fit, minmax(min(var(--side-label-row), 100%), 1fr));
 
     gap:12px 20px;
 

@@ -3585,7 +3585,7 @@ export default function BusinessEngagementEditor({
                         style={{ "--strategy-theme-hue": segmentHue(segment) } as CSSProperties}
                     >
 
-                        <div className="strategy-box-head business-foundation-input-head">
+                        <div className="strategy-box-head business-foundation-input-head fold-card-head">
 
                             <FoldArrow
                                 open={open}
@@ -3594,7 +3594,7 @@ export default function BusinessEngagementEditor({
                             />
 
                             <span className="strategy-box-number">
-                                {(segmentIndex + 1) + ". Segment"}
+                                {(segmentIndex + 1) + "."}
                             </span>
 
                             {/* Page 1's name, shown. This page adds

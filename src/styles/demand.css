@@ -76,7 +76,7 @@
 
     display:grid;
 
-    grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns:repeat(auto-fit, minmax(min(var(--side-label-row), 100%), 1fr));
 
     gap:8px 20px;
 

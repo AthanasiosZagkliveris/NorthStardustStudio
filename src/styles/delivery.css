@@ -8,13 +8,14 @@
 ========================================================== */
 
 /* Working and delivery hours side by side while the card has room
-   for both, one under the other when it does not. */
+   for both -- each a whole side-label row (--side-label-row) -- one
+   under the other when it does not. */
 .delivery-founder-hours,
 .delivery-inline-grid{
 
     display:grid;
 
-    grid-template-columns:repeat(auto-fit, minmax(190px, 1fr));
+    grid-template-columns:repeat(auto-fit, minmax(min(var(--side-label-row), 100%), 1fr));
 
     gap:8px 16px;
 
@@ -24,8 +25,6 @@
 
 }
 
-/* A narrower label column than the page's 7.5rem: these labels are
-   short, and the box beside them holds a few digits. */
 /* A few digits: no need for the full width. */
 .delivery-number.interview-input{
 

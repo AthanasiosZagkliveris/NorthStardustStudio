@@ -3103,7 +3103,7 @@ export default function BusinessCapabilityEditor({
                         } as CSSProperties}
                     >
 
-                        <div className="strategy-box-head business-foundation-input-head business-capability-card-head">
+                        <div className="strategy-box-head business-foundation-input-head business-capability-card-head fold-card-head">
 
                             <FoldArrow open={open} label={card.title} onToggle={() => toggle(card.id)} />
 
