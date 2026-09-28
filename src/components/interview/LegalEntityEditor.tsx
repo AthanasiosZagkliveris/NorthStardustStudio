@@ -68,8 +68,12 @@ const TOTAL_OWNERSHIP_HELP: InfoPoint[] = [
     }
 ];
 
+/* Registration status choices. */
+const REGISTERED = "Registered";
+const NOT_YET_REGISTERED = "Not yet registered";
+
 /**
- * The six answers on this page a founder cannot be expected to
+ * The seven answers on this page a founder cannot be expected to
  * know cold, and the most anyone needs to be told about each (see
  * InfoNote). Three points is the cap, and most take fewer: this is
  * a footnote, not a manual.
@@ -79,10 +83,6 @@ const TOTAL_OWNERSHIP_HELP: InfoPoint[] = [
  * reader's wrong guess rather than on the answer -- and not which
  * answer to give, which is theirs and their jurisdiction's.
  */
-/* Registration status choices. */
-const REGISTERED = "Registered";
-const NOT_YET_REGISTERED = "Not yet registered";
-
 const INFO = {
 
     mainActivity: [
@@ -133,9 +133,9 @@ interface LegalEntityEditorProps {
     disabled?: boolean;
 
     /**
-     * The number this page carries in its System -- "9" for the
+     * The number this page carries in its System -- "3" for the
      * Identity System, where two four-column pages come before it.
-     * Its subsections number themselves from it: 9.1, 9.2, ...
+     * Its subsections number themselves from it: 3.1, 3.2, ...
      */
     numberPrefix?: string;
 
@@ -623,7 +623,7 @@ export default function LegalEntityEditor({
      */
     const ownershipShort = 100 - totalOwnership > 0.01;
 
-    /** A percentage, to as many decimals as it actually has. */
+    /** A percentage (or the capital total), to as many decimals as it actually has. */
     function percent(value: number): string {
         return value.toFixed(value % 1 === 0 ? 0 : 2);
     }
@@ -971,13 +971,13 @@ export default function LegalEntityEditor({
         );
     }
 
-    /** The "+ Add …" lists of extra numbers, shared by 9.3 and 9.4. */
+    /** The "+ Add …" lists of extra numbers, shared by 3.3 and 3.4. */
     function numberList(
         entries: LegalEntityNumberValue[],
         labelPlaceholder: string,
         onNext: (next: LegalEntityNumberValue[]) => void,
         /** "Registration number" or "Tax registration": the two lists are otherwise alike. */
-        noun = "Additional number"
+        noun: string
     ) {
 
         return entries.map((entry, index) => (
@@ -1065,7 +1065,7 @@ export default function LegalEntityEditor({
 
             <div className="legal-entity-body">
 
-                {/* ---------- 9.1 Organisation ---------- */}
+                {/* ---------- 3.1 Organisation ---------- */}
 
                 {subsection(0, (
                     <div className="legal-entity-grid legal-entity-grid-three">
@@ -1300,7 +1300,7 @@ export default function LegalEntityEditor({
                     </div>
                 ))}
 
-                {/* ---------- 9.2 Founders & Ownership ---------- */}
+                {/* ---------- 3.2 Founders & Ownership ---------- */}
 
                 {subsection(1, (
                     <>
@@ -1620,7 +1620,7 @@ export default function LegalEntityEditor({
                                 {entity.capitalApplies && (
                                     <span className="legal-entity-total">
                                         {amountLabel("Total Capital")}
-                                        : {totalCapital.toFixed(totalCapital % 1 === 0 ? 0 : 2)}
+                                        : {percent(totalCapital)}
                                     </span>
                                 )}
 
@@ -1645,7 +1645,7 @@ export default function LegalEntityEditor({
                 */}
                 <div className="legal-entity-row">
 
-                {/* ---------- 9.3 Formation & Registration ---------- */}
+                {/* ---------- 3.3 Formation & Registration ---------- */}
 
                 {subsection(2, (
                     <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-formation">
@@ -1745,7 +1745,7 @@ export default function LegalEntityEditor({
                     </div>
                 ))}
 
-                {/* ---------- 9.4 Tax & Business Registration ---------- */}
+                {/* ---------- 3.4 Tax & Business Registration ---------- */}
 
                 {subsection(3, (
                     <div className="legal-entity-grid">
@@ -1873,7 +1873,7 @@ export default function LegalEntityEditor({
                 */}
                 <div className="legal-entity-row">
 
-                {/* ---------- 9.5 Additional Legal Requirements ---------- */}
+                {/* ---------- 3.5 Additional Legal Requirements ---------- */}
 
                 {subsection(4, (
                     <>
@@ -1912,7 +1912,7 @@ export default function LegalEntityEditor({
                                     />
 
                                     <span className="legal-entity-card-number">
-                                        {(numberPrefix ? numberPrefix + ".5." : "5.") + (index + 1)}
+                                        {subsectionNumber(4) + "." + (index + 1)}
                                     </span>
 
                                     {/* Folded, the name is read here, as on
@@ -2081,7 +2081,7 @@ export default function LegalEntityEditor({
                     />
                 ))}
 
-                {/* ---------- 9.6 Legal Entity Expenses ---------- */}
+                {/* ---------- 3.6 Legal Entity Expenses ---------- */}
 
                 {subsection(5, (
                     <>
@@ -2115,7 +2115,7 @@ export default function LegalEntityEditor({
                                     />
 
                                     <span className="legal-entity-card-number">
-                                        {(numberPrefix ? numberPrefix + ".6." : "6.") + (index + 1)}
+                                        {subsectionNumber(5) + "." + (index + 1)}
                                     </span>
 
                                     {/* Folded, the name is read here, as on
@@ -2179,7 +2179,7 @@ export default function LegalEntityEditor({
                                     )}
 
                                     {/*
-                                        The founders named in 9.2, by
+                                        The founders named in 3.2, by
                                         id -- so renaming a founder
                                         renames them here too, and an
                                         expense can never name someone
