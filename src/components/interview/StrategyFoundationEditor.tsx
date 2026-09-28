@@ -18,6 +18,7 @@ import { railId } from "./rails/railItems.ts";
 
 import BoxActions, { reorder, useMovableBox } from "./ReorderControls.tsx";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
+import { ColumnHeading, GuidanceBullets } from "./ColumnHeads.tsx";
 import AddThemeMenu from "./AddThemeMenu.tsx";
 import { AnswerType } from "../../framework/enums/AnswerType.ts";
 import MonthYearPicker from "./MonthYearPicker.tsx";
@@ -206,34 +207,17 @@ export default function StrategyFoundationEditor({
 
     function heading(offset: number) {
         return (
-            <h3 className="answer-column-label brand-section-heading">
-                <span className="answer-column-label-number">
-                    {numberPrefix ? numberPrefix + "." + (offset + 1) : (startNumber + offset) + "."}
-                </span>
-                <span className="answer-column-label-text">
-                    {STRATEGY_FOUNDATION_SECTIONS[offset]}
-                </span>
-            </h3>
+            <ColumnHeading
+                offset={offset}
+                title={STRATEGY_FOUNDATION_SECTIONS[offset]}
+                numberPrefix={numberPrefix}
+                startNumber={startNumber}
+            />
         );
     }
 
     function bullets(lines: ReactNode[]) {
-        // Nothing at all when the page's Help button has hidden
-        // the guidance -- an empty block would still take a grid
-        // track and its gap.
-        if (!showInstructions) {
-            return null;
-        }
-
-        return (
-            <div className="answer-column-questions">
-                {lines.map((line, index) => (
-                    <span key={index} className="answer-question-line answer-question-line-bullet">
-                        {"• "}{line}
-                    </span>
-                ))}
-            </div>
-        );
+        return <GuidanceBullets lines={lines} show={showInstructions} />;
     }
 
     /* ---------- Strategic Period ---------- */
