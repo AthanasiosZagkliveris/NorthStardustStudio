@@ -195,6 +195,12 @@
 
     margin:0 0 4px;
 
+    /* An h2 since the page's own title is the h1, but not drawn as
+       one of the document's sections. */
+    padding-bottom:0;
+
+    border-bottom:none;
+
     font-size:var(--font-h2);
 
 }
