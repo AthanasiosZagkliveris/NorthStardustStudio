@@ -17,16 +17,23 @@
 
 /* ---------- Skills, Expertise & Qualifications ----------
 
-   A row an entry: its number, its type, what it is, and x. The type
-   picker is as wide as its longest option in every row, so the text
-   boxes start on one line. */
+   A row an entry: its number, what it is, its type, and x. The type
+   picker is as wide as its longest option in every row, so the
+   pickers, and the x after them, line up.
+
+   Measured against the numbered lists above it (Roles, Key
+   Achievements), so the three read as one kind of list: the same
+   row height (one line of text, 8px above and below, a 1px border),
+   the number in the same 40px column ending on the same line, and
+   the text starting where theirs does. Rows are 6px apart, as the
+   Legal Entity's founder rows are. */
 .founders-profile-skills{
 
     display:flex;
 
     flex-direction:column;
 
-    gap:8px;
+    gap:6px;
 
     min-width:0;
 
@@ -45,25 +52,33 @@
 }
 
 /* Right-aligned in a fixed column, as a numbered list's are, so
-   "9." and "10." end on the same line. */
+   "9." and "10." end on the same line. The list draws its number
+   inside its 1px border, so this column is 1px wider to end where
+   theirs do; the text box follows it with no gap, as a list's line
+   follows its number. */
 .founders-profile-skill-number{
 
-    flex:0 0 32px;
+    flex:0 0 41px;
+
+    box-sizing:border-box;
 
     display:flex;
     justify-content:flex-end;
 
-    padding-top:8px;
+    margin-right:-12px;
+    padding:9px 10px 0 0;
 
     font-size:var(--font-body);
     line-height:1.5;
 
     color:#4b5563;
 
+    user-select:none;
+
 }
 
-/* One line to start, the height of the picker beside it; it grows
-   with what is written (see StrategyTextArea). */
+/* One line to start, a list row's height; it grows with what is
+   written (see StrategyTextArea). */
 .founders-profile .founders-profile-skill-text.interview-input{
 
     flex:1 1 auto;
@@ -76,18 +91,27 @@
 
 }
 
-.founders-profile-skill > .strategy-box-remove{
-
-    flex:0 0 auto;
-
-    margin-top:5px;
-
-}
-
 /* Never squeezed by the text box beside it: the picker keeps the
    width of its longest type, so no type is cut short. */
 .founders-profile-skill > .option-picker{
 
     flex:0 0 auto;
+
+}
+
+/* The same height as the text box beside it. Four classes, to
+   outrank option-picker.css's own three. */
+.founders-profile .founders-profile-skill .option-picker-trigger.interview-input{
+
+    min-height:calc(1.5em + 18px);
+
+}
+
+/* Centred on the first line's row: (45px - 32px) / 2. */
+.founders-profile-skill > .strategy-box-remove{
+
+    flex:0 0 auto;
+
+    margin-top:calc((var(--font-body) * 1.5 + 18px - 32px) / 2);
 
 }
