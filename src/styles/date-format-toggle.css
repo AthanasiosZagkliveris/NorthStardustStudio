@@ -14,7 +14,7 @@
 
     display:flex;
 
-    border:1px solid #0b57d0;
+    border:1px solid var(--line-primary);
     border-radius:8px;
 
     overflow:hidden;
@@ -29,9 +29,9 @@
 
     border:none;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
-    color:#0b57d0;
+    color:var(--text-primary);
 
     font:inherit;
     /* The app's button tier (Headings 36 / Subheadings 24 / Text
@@ -47,21 +47,21 @@
 
 .date-format-toggle-option + .date-format-toggle-option{
 
-    border-left:1px solid #0b57d0;
+    border-left:1px solid var(--line-primary);
 
 }
 
 .date-format-toggle-option:hover{
 
-    background:#eef4ff;
+    background:var(--bg-primary-tint);
 
 }
 
 .date-format-toggle-option-active,
 .date-format-toggle-option-active:hover{
 
-    background:#0b57d0;
+    background:var(--bg-primary);
 
-    color:#ffffff;
+    color:var(--text-on-fill);
 
 }

@@ -64,8 +64,8 @@ body,
 
 body {
   font-family: "Inter", sans-serif;
-  background: white;
-  color: #111;
+  background: var(--bg-page);
+  color: var(--text-body);
 }
 
 /* ==========================================================
@@ -139,7 +139,7 @@ body {
    the same size, bold, in the text colour.
 ========================================================== */
 :root {
-  --label-color: #4b5563;
+  --label-color: var(--text-muted);
   --label-line: 28px;
   --side-label-width: 232px;
   --side-label-gap: 12px;
@@ -151,7 +151,7 @@ body {
      choice -- so the grid wraps to fewer columns before a label
      has to. */
   --side-label-row: calc(var(--side-label-width) + var(--side-label-gap) + 9rem);
-  --text-color: #111827;
+  --text-color: var(--text-default);
 }
 
 .field-label {
@@ -177,7 +177,7 @@ body {
 .strategy-theme-panel,
 .strategy-theme-box,
 .roadmap-theme-box {
-  --label-color: hsl(var(--strategy-theme-hue, 0) 28% 34%);
+  --label-color: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 }
 
 /* A NARROW CARD PUTS EVERY LABEL ABOVE ITS FIELD. Measured on the
@@ -227,7 +227,7 @@ body {
    12px + 6px clear of the value).
 ========================================================== */
 :root {
-  --box-border: #767676;
+  --box-border: var(--line-box);
   --box-radius: 6px;
   --select-padding-left: 8px;
   --select-padding-right: 24px;
@@ -237,7 +237,7 @@ body {
 
 h1, h2, h3 {
   font-family: "Inter", sans-serif;
-  color: #111827;
+  color: var(--text-default);
 }
 
 h1 {
@@ -283,7 +283,7 @@ h3 {
 }
 
 .error-boundary p {
-  color: #444;
+  color: var(--text-error);
   margin-bottom: 12px;
   line-height: 1.5;
 }
@@ -291,7 +291,7 @@ h3 {
 .error-boundary-detail {
   font-family: monospace;
   font-size: var(--font-small);
-  color: #999;
+  color: var(--text-error-detail);
   word-break: break-word;
 }
 
@@ -305,15 +305,15 @@ h3 {
 .error-boundary-actions button {
   padding: 10px 20px;
   border-radius: 8px;
-  border: 2px solid #0b57d0;
-  background: white;
-  color: #0b57d0;
+  border: 2px solid var(--line-primary);
+  background: var(--bg-surface);
+  color: var(--text-primary);
   font-weight: 600;
   cursor: pointer;
 }
 
 .error-boundary-actions button:hover {
-  background: #eef4ff;
+  background: var(--bg-primary-tint);
 }
 
 /* ==========================================================
@@ -452,7 +452,7 @@ b, strong {
    conversation.css).
 ========================================================== */
 :root {
-  --glow-color: #0b57d0;
+  --glow-color: var(--line-primary);
 }
 
 /* ==========================================================
@@ -500,8 +500,8 @@ b, strong {
   padding: 4px 8px;
 
   border-radius: 6px;
-  background: #1f2937;
-  color: #ffffff;
+  background: var(--bg-strong);
+  color: var(--text-on-fill);
 
   font-size: var(--font-body);
   font-weight: 500;

@@ -1,0 +1,251 @@
+/* ==========================================================
+   Colours
+
+   Every colour the stylesheets draw with is one of these tokens;
+   no rule names a colour of its own. A token is named for its role
+   and what it colours:
+
+     --text-*   text           --line-*    borders, rules, rings
+     --bg-*     backgrounds    --shadow-*  shadows
+
+   A colour used both as text and as a line (the blue #0b57d0 is a
+   link, a border and a fill) has one token per role, so dark mode
+   can lighten the text and keep the fill.
+
+   --theme-*-* are the System colour families: "saturation
+   lightness" pairs that a rule completes with the hue of the card,
+   Segment or Theme it sits in:
+     hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground))
+
+   The same values are declared again on the Business Documents
+   "paper" (the Plan, the Canvas and the Forecast tables): a
+   document stays a document, on white, in either theme.
+========================================================== */
+:root,
+.business-document,
+.business-canvas,
+.business-forecast-table-wrap {
+
+    /* Text: body copy, labels, links and coloured words. */
+    --text-add: #1f9254;
+    --text-added: #166534;
+    --text-black: #000;
+    --text-body: #111;
+    --text-caution-ink: #78350f;
+    --text-danger: #b00020;
+    --text-danger-alt: #b3261e;
+    --text-danger-deep: #b91c1c;
+    --text-deep: #1a1a1a;
+    --text-default: #111827;
+    --text-done-ink: #1b3a63;
+    --text-error: #444;
+    --text-error-detail: #999;
+    --text-faint: #6b7280;
+    --text-flag: #9a3412;
+    --text-good: #0a7d0a;
+    --text-holds: #15803d;
+    --text-met-ink: #14532d;
+    --text-muted: #4b5563;
+    --text-navy: #0f172a;
+    --text-note: #5c4a12;
+    --text-on-fill: #ffffff;
+    --text-over: #8a0016;
+    --text-primary: #0b57d0;
+    --text-primary-deep: #0b3f96;
+    --text-primary-ink: #0b3d91;
+    --text-quiet: #9ca3af;
+    --text-readonly: #3c4043;
+    --text-secondary: #374151;
+    --text-short-ink: #7c2d12;
+    --text-soft: #333333;
+    --text-strong: #1f2937;
+    --text-subtle: #5f6368;
+    --text-totals-ok: #0d652d;
+    --text-warn: #7a2e00;
+
+    /* Backgrounds: the page, surfaces and cards, tints, fills and chart series. */
+    --bg-add: #1f9254;
+    --bg-add-tile: #fafbfc;
+    --bg-add-tint: #eafaf1;
+    --bg-budget: #4f46e5;
+    --bg-canvas-highlight: #f7f5ee;
+    --bg-capacity-ok: #f1f8f4;
+    --bg-capacity-short: #fdf6e7;
+    --bg-caution: #b45309;
+    --bg-caution-tint: #fffbeb;
+    --bg-chart: #fcfcfb;
+    --bg-danger: #b00020;
+    --bg-danger-alt: #b3261e;
+    --bg-danger-deep: #b91c1c;
+    --bg-danger-pressed: #932019;
+    --bg-danger-strong: #d01818;
+    --bg-danger-tint: #fef2f2;
+    --bg-danger-tint-alt: #fdecea;
+    --bg-done-faint: #f5f9ff;
+    --bg-done-tint: #e8f0fe;
+    --bg-faint: #6b7280;
+    --bg-financial-good: #0ca30c;
+    --bg-financial-grid: #e5e4e0;
+    --bg-financial-in: #2a78d6;
+    --bg-financial-out: #eb6834;
+    --bg-financial-risk: #d03b3b;
+    --bg-frost: rgba(255,255,255,.55);
+    --bg-frost-60: rgba(255, 255, 255, 0.6);
+    --bg-good: #0a7d0a;
+    --bg-hairline: #e5e7eb;
+    --bg-help: #fdf9ed;
+    --bg-highlight: #ecfdf3;
+    --bg-holds: #f0fdf4;
+    --bg-hover: #f5f5f5;
+    --bg-info: #226bc2;
+    --bg-met: #1f6b3a;
+    --bg-met-tint: #e7f6ec;
+    --bg-navy: #0f172a;
+    --bg-navy-hover: #1e293b;
+    --bg-neutral: #f3f4f6;
+    --bg-note: #fdf8ea;
+    --bg-over: #fdecee;
+    --bg-overlay: rgba(0, 0, 0, 0.35);
+    --bg-pace: #f8fafc;
+    --bg-page: #ffffff;
+    --bg-panel: #fafafa;
+    --bg-primary: #0b57d0;
+    --bg-primary-a35: rgba(11,87,208,.35);
+    --bg-primary-faint: #f7faff;
+    --bg-primary-hover: #0847ab;
+    --bg-primary-hover-alt: #0847b5;
+    --bg-primary-selected: #dbe9ff;
+    --bg-primary-selected-hover: #cfe1ff;
+    --bg-primary-tint: #eef4ff;
+    --bg-primary-tint-head: #edf4ff;
+    --bg-primary-tint-hover: #eaf2ff;
+    --bg-quiet: #9ca3af;
+    --bg-rail-bloom: #c9ddf8;
+    --bg-rail-dot: #b5d4f4;
+    --bg-remove: #c0392b;
+    --bg-remove-disabled: #e0a29a;
+    --bg-retention: #fff8f0;
+    --bg-series-3: #1baf7a;
+    --bg-series-4: #eda100;
+    --bg-series-5: #e87ba4;
+    --bg-short-tint: #fff1ea;
+    --bg-strong: #1f2937;
+    --bg-surface: #ffffff;
+    --bg-table: #d9d9d9;
+    --bg-table-expansion: #fafbfd;
+    --bg-table-head: #f5f7fb;
+    --bg-total: #f9fafb;
+    --bg-totals-ok: #e6f4ea;
+    --bg-totals-warn: #fce8e6;
+    --bg-track: #e2e2e2;
+    --bg-warm: #faf9f6;
+    --bg-warn: #fdf1e7;
+
+    /* Lines: card and box borders, rules, grid lines and focus rings. */
+    --line-add: #1f9254;
+    --line-add-tile: #b7c3d0;
+    --line-box: #767676;
+    --line-calendar: #e4e4e4;
+    --line-capacity-ok: #2e7d4f;
+    --line-capacity-short: #b7791f;
+    --line-card: #c9c9c9;
+    --line-caution: #b45309;
+    --line-chart: #fcfcfb;
+    --line-danger: #b00020;
+    --line-danger-a18: rgba(176, 0, 32, .18);
+    --line-danger-alt: #b3261e;
+    --line-danger-deep: #b91c1c;
+    --line-danger-strong: #d01818;
+    --line-disabled: #9aa3ae;
+    --line-divider: #d1d5db;
+    --line-done: #7a9cc6;
+    --line-done-ink: #1b3a63;
+    --line-faint: #6b7280;
+    --line-financial-balance: #3f3f3c;
+    --line-financial-grid: #e5e4e0;
+    --line-good: #0a7d0a;
+    --line-grid: #d7d7d7;
+    --line-group: #9aa0a6;
+    --line-hairline: #e5e7eb;
+    --line-heading-rule: #d6d6d6;
+    --line-holds: #15803d;
+    --line-input-soft: #8a8f98;
+    --line-met: #1f6b3a;
+    --line-navy: #0f172a;
+    --line-note: #e0c98a;
+    --line-pace: #c7d2fe;
+    --line-picker: #e3e6ea;
+    --line-primary: #0b57d0;
+    --line-primary-a18: rgba(11, 87, 208, 0.18);
+    --line-primary-a22: rgba(11,87,208,.22);
+    --line-primary-a25: rgba(11, 87, 208, 0.25);
+    --line-primary-soft: #8ab4f8;
+    --line-quiet: #9ca3af;
+    --line-retention: #f0dfc8;
+    --line-rule: #ececec;
+    --line-sheet: #d6d3cc;
+    --line-short: #c2410c;
+    --line-slate: #94a3b8;
+    --line-table: #d9d9d9;
+    --line-totals: #c7cddb;
+    --line-warn: #e8b48f;
+    --line-warning-units: #f0c4cb;
+
+    /* Shadows and their tints. */
+    --shadow-08: rgba(0, 0, 0, .08);
+    --shadow-12: rgb(0 0 0 / 0.12);
+    --shadow-18: rgba(0, 0, 0, 0.18);
+    --shadow-ink-08: rgba(17,24,39,.08);
+    --shadow-ink-12: rgba(17,24,39,.12);
+    --shadow-ink-16: rgba(17,24,39,.16);
+    --shadow-ink-18: rgba(17, 24, 39, .18);
+
+    /* A System colour family, as "saturation lightness" for
+       hsl(var(--strategy-theme-hue) ...): the hue comes from the
+       card or Theme it is used in. Text. */
+    --theme-text-accent-deeper: 45% 26%;
+    --theme-text-bar-ink: 90% 20%;
+    --theme-text-ink: 28% 34%;
+    --theme-text-ink-deep: 28% 30%;
+
+    /* Backgrounds, tints and bar fills. */
+    --theme-bg-accent-deep: 45% 30%;
+    --theme-bg-bar: 62% 84%;
+    --theme-bg-bar-hover: 62% 76%;
+    --theme-bg-bar-open: 62% 20%;
+    --theme-bg-card-wash: 40% 98%;
+    --theme-bg-edge: 24% 44%;
+    --theme-bg-ground: 62% 96%;
+    --theme-bg-ground-alt: 62% 95%;
+    --theme-bg-hover: 62% 88%;
+    --theme-bg-initiative: 55% 82%;
+    --theme-bg-ink: 28% 34%;
+    --theme-bg-inner: 62% 92%;
+    --theme-bg-meter: 30% 84%;
+    --theme-bg-pill: 62% 93%;
+    --theme-bg-raised: 62% 94%;
+    --theme-bg-result-wash: 40% 97%;
+    --theme-bg-wash: 62% 98%;
+
+    /* Borders, rules and rings. */
+    --theme-line-accent: 45% 34%;
+    --theme-line-accent-deep: 45% 30%;
+    --theme-line-accent-deeper: 45% 26%;
+    --theme-line-bar-edge: 40% 34%;
+    --theme-line-bar-open: 62% 20%;
+    --theme-line-edge: 24% 44%;
+    --theme-line-edge-light: 24% 70%;
+    --theme-line-edge-soft: 24% 62%;
+    --theme-line-ink: 28% 34%;
+    --theme-line-meter: 30% 84%;
+    --theme-line-result-edge: 40% 44%;
+    --theme-line-rule: 24% 80%;
+    --theme-line-rule-light: 24% 84%;
+
+    /* A Capability or System colour used as text or a thin line is
+       mixed toward the base by this much: all of it in light mode,
+       so the colour is drawn as it is. */
+    --capability-ink-weight: 100%;
+    --capability-ink-base: #ffffff;
+
+}

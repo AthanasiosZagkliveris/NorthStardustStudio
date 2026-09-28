@@ -3,7 +3,7 @@
     width:100%;
     height:8px;
 
-    background:#e2e2e2;
+    background:var(--bg-track);
 
     border-radius:10px;
 
@@ -17,7 +17,7 @@
 
     height:100%;
 
-    background:#0b57d0;
+    background:var(--bg-primary);
 
     transition:0.3s;
 
@@ -52,7 +52,7 @@ textarea{
    hover never fights the focus state. */
 textarea:hover:not(:focus):not(:disabled){
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
 
@@ -62,7 +62,7 @@ textarea:focus{
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     /* Focus gets its own, stronger ring -- `outline:none` above
        removes the browser default, so without this a keyboard user
@@ -80,7 +80,7 @@ textarea:focus{
 
     height:2px;
 
-    background:#0b57d0;
+    background:var(--bg-primary);
 
     border:none;
 
@@ -100,7 +100,7 @@ textarea:focus{
 
     /* Tinted to the System's Capability colour, same
        as the title text next to it. */
-    background:var(--capability-color, #0b57d0);
+    background:var(--capability-color, var(--bg-primary));
 
 }
 
@@ -129,7 +129,7 @@ textarea:focus{
 
     margin:0;
 
-    color:var(--capability-color, #111827);
+    color:color-mix(in srgb, var(--capability-color, var(--text-default)) var(--capability-ink-weight), var(--capability-ink-base));
 
     /* A fixed 36px rather than global.css's clamp(28px, 2vw + 20px,
        48px) -- the Interview Page's System title is deliberately
@@ -174,7 +174,7 @@ textarea:focus{
     font-size:var(--font-h1);
     font-weight:600;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -195,7 +195,7 @@ textarea:focus{
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#333333;
+    color:var(--text-soft);
 
 }
 
@@ -207,7 +207,7 @@ textarea:focus{
 
 .interview-empty-state{
 
-    color:#5f6368;
+    color:var(--text-subtle);
 
     font-style:italic;
 
@@ -223,7 +223,7 @@ textarea:focus{
 
     line-height:1.75;
 
-    color:#333333;
+    color:var(--text-soft);
 
 }
 
@@ -257,9 +257,9 @@ textarea:focus{
     border:1px solid var(--box-border);
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
-    color:#111827;
+    color:var(--text-default);
 
     font:inherit;
     font-size:var(--font-body);
@@ -273,11 +273,11 @@ textarea:focus{
 
 .interview-help-toggle:hover{
 
-    background:#eef4ff;
+    background:var(--bg-primary-tint);
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
-    color:#0b57d0;
+    color:var(--text-primary);
 
     text-shadow:var(--hover-bold);
 
@@ -289,10 +289,10 @@ textarea:focus{
 
     padding:20px;
 
-    border:1px solid #ececec;
+    border:1px solid var(--line-rule);
     border-radius:8px;
 
-    background:#fafafa;
+    background:var(--bg-panel);
 
 }
 
@@ -312,7 +312,7 @@ textarea:focus{
 
     line-height:1.75;
 
-    color:#333333;
+    color:var(--text-soft);
 
 }
 
@@ -339,7 +339,7 @@ textarea:focus{
        Footer, which sits below it and is never covered) stays
        faintly visible through it, blurred, instead of being
        hidden behind a flat white block. */
-    background:rgba(255,255,255,.55);
+    background:var(--bg-frost);
 
     backdrop-filter:blur(10px);
     -webkit-backdrop-filter:blur(10px);
@@ -412,7 +412,7 @@ textarea:focus{
     font-size:var(--font-h3);
     font-weight:600;
 
-    color:#1f2937;
+    color:var(--text-strong);
 
 }
 
@@ -513,7 +513,7 @@ textarea:focus{
     text-transform:uppercase;
     letter-spacing:0.05em;
 
-    color:#1f2937;
+    color:var(--text-strong);
 
 }
 
@@ -559,7 +559,7 @@ textarea:focus{
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -671,9 +671,9 @@ textarea:focus{
     border:1px solid var(--box-border);
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
-    color:#111827;
+    color:var(--text-default);
 
     font:inherit;
     font-size:var(--font-body);
@@ -681,7 +681,7 @@ textarea:focus{
 
     cursor:pointer;
 
-    box-shadow:0 1px 3px rgba(17,24,39,.12);
+    box-shadow:0 1px 3px var(--shadow-ink-12);
 
     transition:background-color .2s ease, border-color .2s ease,
         color .2s ease, box-shadow .2s ease, transform .2s ease;
@@ -698,17 +698,17 @@ textarea:focus{
 
     z-index:5;
 
-    background:#f5f5f5;
+    background:var(--bg-hover);
 
     transform:translateY(-4px);
 
-    box-shadow:0 4px 10px rgba(17,24,39,.16);
+    box-shadow:0 4px 10px var(--shadow-ink-16);
 
 }
 
 .answer-variant-card.filled{
 
-    border-color:#8ab4f8;
+    border-color:var(--line-primary-soft);
 
 }
 
@@ -716,23 +716,23 @@ textarea:focus{
 
     z-index:10;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
-    background:#eef4ff;
+    background:var(--bg-primary-tint);
 
-    color:#0b57d0;
+    color:var(--text-primary);
 
     font-weight:600;
 
     transform:translateY(-6px);
 
-    box-shadow:0 6px 14px rgba(11,87,208,.22);
+    box-shadow:0 6px 14px var(--line-primary-a22);
 
 }
 
 .answer-variant-card-check{
 
-    color:#0b57d0;
+    color:var(--text-primary);
 
     font-weight:700;
 
@@ -740,7 +740,7 @@ textarea:focus{
 
 .answer-variant-card.active .answer-variant-card-check{
 
-    color:#0b57d0;
+    color:var(--text-primary);
 
 }
 
@@ -831,7 +831,7 @@ textarea:focus{
 .dynamic-table-scroll th,
 .dynamic-table-scroll td{
 
-    border:1px solid #d9d9d9;
+    border:1px solid var(--line-table);
 
     padding:10px;
 
@@ -847,7 +847,7 @@ textarea:focus{
 
     position:relative;
 
-    background:#f5f7fb;
+    background:var(--bg-table-head);
 
     font-weight:600;
 
@@ -876,19 +876,19 @@ textarea:focus{
 
 .dynamic-table-row-selectable:hover td{
 
-    background:#eaf2ff;
+    background:var(--bg-primary-tint-hover);
 
 }
 
 .dynamic-table-row-selected td{
 
-    background:#dbe9ff;
+    background:var(--bg-primary-selected);
 
 }
 
 .dynamic-table-row-selectable.dynamic-table-row-selected:hover td{
 
-    background:#cfe1ff;
+    background:var(--bg-primary-selected-hover);
 
 }
 
@@ -918,13 +918,13 @@ textarea:focus{
 
     padding:0;
 
-    border:1.5px solid #94a3b8;
+    border:1.5px solid var(--line-slate);
 
     border-radius:50%;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
-    color:#0b57d0;
+    color:var(--text-primary);
 
     font-size:var(--font-small);
 
@@ -938,19 +938,19 @@ textarea:focus{
 
 .dynamic-table-row-select-bullet:hover{
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
-    background:#eaf2ff;
+    background:var(--bg-primary-tint-hover);
 
 }
 
 .dynamic-table-row-select-bullet-selected{
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
-    background:#0b57d0;
+    background:var(--bg-primary);
 
-    color:#ffffff;
+    color:var(--text-on-fill);
 
 }
 
@@ -983,7 +983,7 @@ textarea:focus{
 .col-resize-handle:hover,
 .col-resize-handle:active{
 
-    background:rgba(11,87,208,.35);
+    background:var(--bg-primary-a35);
 
 }
 
@@ -1020,7 +1020,7 @@ textarea:focus{
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     /* Focus ring, not just a border-colour swap. The unfocused
        border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
@@ -1061,7 +1061,7 @@ textarea:focus{
     border:1px solid var(--box-border);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
 }
 
@@ -1069,7 +1069,7 @@ textarea:focus{
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     /* Focus ring, not just a border-colour swap. The unfocused
        border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
@@ -1178,7 +1178,7 @@ textarea:focus{
 
     border:none;
 
-    color:#ffffff;
+    color:var(--text-on-fill);
 
     cursor:pointer;
 
@@ -1201,7 +1201,7 @@ textarea:focus{
     font-size:var(--font-small);
     line-height:1;
 
-    background:#c0392b;
+    background:var(--bg-remove);
 
 }
 
@@ -1216,7 +1216,7 @@ textarea:focus{
     font-size:var(--font-small);
     font-weight:600;
 
-    background:#1f9254;
+    background:var(--bg-add);
 
 }
 
@@ -1242,17 +1242,17 @@ textarea:focus{
    every row's value, flagging whether that sum reaches 100. */
 .dynamic-table-totals-row td{
 
-    background:#f5f7fb;
+    background:var(--bg-table-head);
 
     font-weight:600;
 
-    border-top:2px solid #c7cddb;
+    border-top:2px solid var(--line-totals);
 
 }
 
 .dynamic-table-totals-label{
 
-    color:#5f6368;
+    color:var(--text-subtle);
 
     text-transform:uppercase;
 
@@ -1288,17 +1288,17 @@ textarea:focus{
 
 .dynamic-table-totals-ok{
 
-    color:#0d652d;
+    color:var(--text-totals-ok);
 
-    background:#e6f4ea;
+    background:var(--bg-totals-ok);
 
 }
 
 .dynamic-table-totals-warn{
 
-    color:#b00020;
+    color:var(--text-danger);
 
-    background:#fce8e6;
+    background:var(--bg-totals-warn);
 
 }
 
@@ -1355,12 +1355,12 @@ textarea:focus{
     border:1px solid var(--box-border);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     font:inherit;
     font-size:var(--font-small);
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -1368,7 +1368,7 @@ textarea:focus{
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     /* Focus ring, not just a border-colour swap. The unfocused
        border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
@@ -1422,7 +1422,7 @@ textarea:focus{
     border:1px solid var(--box-border);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     font-size:var(--font-small);
     line-height:1;
@@ -1435,9 +1435,9 @@ textarea:focus{
 
 .date-cell-calendar-button:hover{
 
-    background:#eef4ff;
+    background:var(--bg-primary-tint);
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
 }
 
@@ -1518,9 +1518,9 @@ textarea:focus{
     border:1px solid var(--box-border);
     border-radius:50%;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
-    color:#5f6368;
+    color:var(--text-subtle);
 
     font-size:var(--font-small);
     line-height:1;
@@ -1534,11 +1534,11 @@ textarea:focus{
 .dynamic-table-row-move-up:hover:not(:disabled),
 .dynamic-table-row-move-down:hover:not(:disabled){
 
-    background:#eef4ff;
+    background:var(--bg-primary-tint);
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
-    color:#0b57d0;
+    color:var(--text-primary);
 
 }
 
@@ -1567,7 +1567,7 @@ textarea:focus{
     border:none;
     border-radius:50%;
 
-    color:#ffffff;
+    color:var(--text-on-fill);
 
     font-size:var(--font-body);
     font-weight:700;
@@ -1581,7 +1581,7 @@ textarea:focus{
 
 .dynamic-table-row-remove{
 
-    background:#c0392b;
+    background:var(--bg-remove);
 
 }
 
@@ -1593,7 +1593,7 @@ textarea:focus{
 
 .dynamic-table-row-remove:disabled{
 
-    background:#e0a29a;
+    background:var(--bg-remove-disabled);
 
     cursor:not-allowed;
 
@@ -1601,7 +1601,7 @@ textarea:focus{
 
 .dynamic-table-row-add{
 
-    background:#1f9254;
+    background:var(--bg-add);
 
 }
 
@@ -1650,7 +1650,7 @@ textarea:focus{
 
     flex-shrink:0;
 
-    accent-color:#0b57d0;
+    accent-color:var(--bg-primary);
 
     cursor:pointer;
 
@@ -1678,7 +1678,7 @@ textarea:focus{
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     /* Focus ring, not just a border-colour swap. The unfocused
        border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
@@ -1706,7 +1706,7 @@ textarea:focus{
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#374151;
+    color:var(--text-secondary);
 
     text-align:left;
 
@@ -1756,7 +1756,7 @@ textarea:focus{
 
     display:block;
 
-    color:#b00020;
+    color:var(--text-danger);
 
     font-weight:700;
 
@@ -1771,7 +1771,7 @@ textarea:focus{
     margin:6px 0 0;
     padding:0 0 0 14px;
 
-    border-left:2px solid #f0c4cb;
+    border-left:2px solid var(--line-warning-units);
 
 }
 
@@ -1779,7 +1779,7 @@ textarea:focus{
 
     /* #374151 on the dialog's white is 10.3:1, and the red above
        it stays the one thing the eye is pulled to. */
-    color:#374151;
+    color:var(--text-secondary);
 
     font-weight:500;
 
@@ -1826,7 +1826,7 @@ textarea:focus{
 
     font-weight:700;
 
-    color:#111827;
+    color:var(--text-default);
 
     margin-bottom:10px;
 
@@ -1843,7 +1843,7 @@ textarea:focus{
 
     font-size:var(--font-body);
 
-    color:#111827;
+    color:var(--text-default);
 
     padding:6px 0;
 
@@ -1858,7 +1858,7 @@ textarea:focus{
 
     height:18px;
 
-    accent-color:#0b57d0;
+    accent-color:var(--bg-primary);
 
     cursor:pointer;
 
@@ -1874,7 +1874,7 @@ textarea:focus{
 
     margin-top:8px;
 
-    border:1px solid #8a8f98;
+    border:1px solid var(--line-input-soft);
 
     border-radius:8px;
 
@@ -1887,7 +1887,7 @@ textarea:focus{
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     /* Focus ring, not just a border-colour swap. The unfocused
        border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
@@ -1910,13 +1910,13 @@ textarea:focus{
 
     overflow-y:auto;
 
-    border:1px solid #d9d9d9;
+    border:1px solid var(--line-table);
 
     border-radius:8px;
 
     padding:8px 12px;
 
-    background:#f5f7fb;
+    background:var(--bg-table-head);
 
 }
 
@@ -1924,7 +1924,7 @@ textarea:focus{
 
     font-size:var(--font-small);
 
-    color:#5f6368;
+    color:var(--text-subtle);
 
     padding:4px 0;
 
@@ -1938,7 +1938,7 @@ textarea:focus{
 
 .export-options-picker-process + .export-options-picker-process{
 
-    border-top:1px solid #e3e6ea;
+    border-top:1px solid var(--line-picker);
 
 }
 
@@ -1948,7 +1948,7 @@ textarea:focus{
 
     font-size:var(--font-small);
 
-    color:#111827;
+    color:var(--text-default);
 
     padding:4px 0;
 
@@ -2048,9 +2048,9 @@ textarea:focus{
     border:1px solid var(--box-border);
     border-radius:10px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
-    box-shadow:0 1px 3px rgba(17,24,39,.08);
+    box-shadow:0 1px 3px var(--shadow-ink-08);
 
     transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
 
@@ -2069,9 +2069,9 @@ textarea:focus{
 
     transform:scale(1.04);
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
-    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent), 0 10px 24px rgba(17,24,39,.16);
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent), 0 10px 24px var(--shadow-ink-16);
 
     z-index:2;
 
@@ -2085,9 +2085,9 @@ textarea:focus{
 
     transform:scale(1);
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
-    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent), 0 10px 24px rgba(17,24,39,.16);
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent), 0 10px 24px var(--shadow-ink-16);
 
     z-index:2;
 
@@ -2128,9 +2128,9 @@ textarea:focus{
     border:1px solid var(--box-border);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
-    color:#111827;
+    color:var(--text-default);
 
     font-size:var(--font-small);
     line-height:1;
@@ -2143,11 +2143,11 @@ textarea:focus{
 
 .profile-card-remove:hover:not(:disabled){
 
-    background:#fdecea;
+    background:var(--bg-danger-tint-alt);
 
-    border-color:#b00020;
+    border-color:var(--line-danger);
 
-    color:#b00020;
+    color:var(--text-danger);
 
 }
 
@@ -2164,7 +2164,7 @@ textarea:focus{
     letter-spacing:.04em;
     text-transform:uppercase;
 
-    color:#5f6368;
+    color:var(--text-subtle);
 
 }
 
@@ -2184,7 +2184,7 @@ textarea:focus{
 .profile-card-title-input:focus,
 .profile-card-subtitle-textarea:focus{
 
-    background:#eaf2ff;
+    background:var(--bg-primary-tint-hover);
 
 }
 
@@ -2206,7 +2206,7 @@ textarea:focus{
     letter-spacing:.04em;
     text-transform:uppercase;
 
-    color:#5f6368;
+    color:var(--text-subtle);
 
 }
 
@@ -2239,12 +2239,12 @@ textarea:focus{
     width:180px;
     min-height:120px;
 
-    border:1px dashed #b7c3d0;
+    border:1px dashed var(--line-add-tile);
     border-radius:10px;
 
-    background:#fafbfc;
+    background:var(--bg-add-tile);
 
-    color:#5f6368;
+    color:var(--text-subtle);
 
     font-size:var(--font-h2);
     line-height:1;
@@ -2257,11 +2257,11 @@ textarea:focus{
 
 .profile-card-add-tile:hover:not(:disabled){
 
-    background:#eef4ff;
+    background:var(--bg-primary-tint);
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
-    color:#0b57d0;
+    color:var(--text-primary);
 
 }
 
@@ -2275,9 +2275,9 @@ textarea:focus{
 
     width:100%;
 
-    border-color:#8ab4f8;
+    border-color:var(--line-primary-soft);
 
-    background:#f7faff;
+    background:var(--bg-primary-faint);
 
 }
 
@@ -2287,7 +2287,7 @@ textarea:focus{
 
     font-size:var(--font-small);
 
-    color:#5f6368;
+    color:var(--text-subtle);
 
 }
 
@@ -2320,7 +2320,7 @@ textarea:focus{
     border:1px solid var(--box-border);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
 }
 
@@ -2328,7 +2328,7 @@ textarea:focus{
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     /* Focus ring, not just a border-colour swap. The unfocused
        border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
@@ -2452,7 +2452,7 @@ textarea:focus{
 .process-library-steps-table th,
 .process-library-steps-table td{
 
-    border:1px solid #d9d9d9;
+    border:1px solid var(--line-table);
 
     padding:10px;
 
@@ -2483,21 +2483,21 @@ textarea:focus{
 .process-library-table th,
 .process-library-table td{
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
 }
 
 .process-library-sops-table th,
 .process-library-sops-table td{
 
-    background:#edf4ff;
+    background:var(--bg-primary-tint-head);
 
 }
 
 .process-library-steps-table th,
 .process-library-steps-table td{
 
-    background:#dbe9ff;
+    background:var(--bg-primary-selected);
 
 }
 
@@ -2662,7 +2662,7 @@ td.process-library-col-number{
 .process-library-col-resize-handle:hover,
 .process-library-col-resize-handle:active{
 
-    background:#0b57d0;
+    background:var(--bg-primary);
     opacity:.35;
 
 }
@@ -2703,7 +2703,7 @@ td.process-library-col-number{
     second line and not 3 digits. */
     width:104px;
 
-    color:#5f6368;
+    color:var(--text-subtle);
 
     font-variant-numeric:tabular-nums;
 
@@ -2756,7 +2756,7 @@ td.process-library-col-number{
     padding-left:1px;
 
     font-size:var(--font-small);
-    color:#5f6368;
+    color:var(--text-subtle);
     font-variant-numeric:tabular-nums;
     white-space:nowrap;
 
@@ -2819,7 +2819,7 @@ td.process-library-col-number{
    the component actually knows each row's neighbor. */
 .process-library-row-group-start > td{
 
-    border-top:3px solid #9aa0a6;
+    border-top:3px solid var(--line-group);
 
 }
 
@@ -2845,7 +2845,7 @@ td.process-library-col-number{
     font-size:var(--font-small);
     font-weight:600;
 
-    color:#0b57d0;
+    color:var(--text-primary);
 
     cursor:pointer;
 
@@ -2872,7 +2872,7 @@ td.process-library-col-number{
    painting every nesting level the same flat color. */
 .process-library-expansion-row > td{
 
-    background:#fafbfd;
+    background:var(--bg-table-expansion);
 
     /* No padding at all -- "remove the gaps between tables and
        nested tables". The nested table's own top/bottom borders
@@ -2897,7 +2897,7 @@ td.process-library-col-number{
        color grade -- the nested SOPs/Steps tables inside carry
        their own tint (see .process-library-sops-table / .process-
        library-steps-table above) once they render. */
-    background:#ffffff;
+    background:var(--bg-surface);
 
 }
 
@@ -2915,12 +2915,12 @@ td.process-library-col-number{
 
     gap:6px;
 
-    border:1px solid #1f9254;
+    border:1px solid var(--line-add);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
-    color:#1f9254;
+    color:var(--text-add);
 
     font:inherit;
     font-size:var(--font-small);
@@ -2936,7 +2936,7 @@ td.process-library-col-number{
 
 .process-library-add-link:hover:not(:disabled){
 
-    background:#eafaf1;
+    background:var(--bg-add-tint);
 
 }
 
@@ -2979,7 +2979,7 @@ td.process-library-col-number{
    table when a filter matches nothing). */
 .operational-log-empty{
 
-    color:#5f6368;
+    color:var(--text-subtle);
     font-style:italic;
 
 }
@@ -3011,7 +3011,7 @@ td.process-library-col-number{
     font-size:var(--font-small);
     font-weight:600;
 
-    color:#5f6368;
+    color:var(--text-subtle);
 
 }
 
@@ -3039,7 +3039,7 @@ td.process-library-col-number{
     gap:6px;
 
     font-size:var(--font-small);
-    color:#1a1a1a;
+    color:var(--text-deep);
 
     cursor:pointer;
 
@@ -3068,8 +3068,8 @@ td.process-library-col-number{
 
     padding:10px 14px;
 
-    background:#fff8f0;
-    border:1px solid #f0dfc8;
+    background:var(--bg-retention);
+    border:1px solid var(--line-retention);
     border-radius:8px;
 
 }
@@ -3079,9 +3079,9 @@ td.process-library-col-number{
     border:1px solid var(--box-border);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
-    color:#b3261e;
+    color:var(--text-danger-alt);
 
     font:inherit;
     font-size:var(--font-small);
@@ -3099,9 +3099,9 @@ td.process-library-col-number{
 
 .operational-log-delete-old:hover:not(:disabled){
 
-    background:#fdecea;
+    background:var(--bg-danger-tint-alt);
 
-    border-color:#b3261e;
+    border-color:var(--line-danger-alt);
 
 }
 
@@ -3115,16 +3115,16 @@ td.process-library-col-number{
 
 .operational-log-delete-old-confirming{
 
-    background:#b3261e;
-    border-color:#b3261e;
+    background:var(--bg-danger-alt);
+    border-color:var(--line-danger-alt);
 
-    color:#ffffff;
+    color:var(--text-on-fill);
 
 }
 
 .operational-log-delete-old-confirming:hover:not(:disabled){
 
-    background:#932019;
+    background:var(--bg-danger-pressed);
 
 }
 
@@ -3132,7 +3132,7 @@ td.process-library-col-number{
 
     font-size:var(--font-small);
     font-style:italic;
-    color:#5f6368;
+    color:var(--text-subtle);
 
 }
 
@@ -3141,9 +3141,9 @@ td.process-library-col-number{
     border:1px solid var(--box-border);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
-    color:#5f6368;
+    color:var(--text-subtle);
 
     font:inherit;
     font-size:var(--font-small);
@@ -3161,11 +3161,11 @@ td.process-library-col-number{
 
 .operational-log-clear-filters:hover{
 
-    background:#eef4ff;
+    background:var(--bg-primary-tint);
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
-    color:#0b57d0;
+    color:var(--text-primary);
 
 }
 
@@ -3188,7 +3188,7 @@ td.process-library-col-number{
 .operational-log-table th,
 .operational-log-table td{
 
-    border:1px solid #d9d9d9;
+    border:1px solid var(--line-table);
 
     padding:10px;
 
@@ -3202,7 +3202,7 @@ td.process-library-col-number{
 
 .operational-log-table th{
 
-    background:#f5f7fb;
+    background:var(--bg-table-head);
 
     font-weight:600;
 
@@ -3232,7 +3232,7 @@ td.process-library-col-number{
     border:1px solid var(--box-border);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
 }
 
@@ -3241,7 +3241,7 @@ td.process-library-col-number{
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     /* Focus ring, not just a border-colour swap. The unfocused
        border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
@@ -3294,9 +3294,9 @@ td.process-library-col-number{
    column (Notes). */
 .operational-log-col-readonly{
 
-    background:#fafafa;
+    background:var(--bg-panel);
 
-    color:#3c4043;
+    color:var(--text-readonly);
 
 }
 
@@ -3316,7 +3316,7 @@ td.process-library-col-number{
 
     text-align:center;
 
-    color:#5f6368;
+    color:var(--text-subtle);
 
     font-style:italic;
 
@@ -3336,7 +3336,7 @@ td.process-library-col-number{
 
 .roles-responsibilities-empty{
 
-    color:#5f6368;
+    color:var(--text-subtle);
     font-style:italic;
 
 }
@@ -3354,7 +3354,7 @@ td.process-library-col-number{
 .roles-responsibilities-table th,
 .roles-responsibilities-table td{
 
-    border:1px solid #d9d9d9;
+    border:1px solid var(--line-table);
 
     padding:10px;
 
@@ -3368,7 +3368,7 @@ td.process-library-col-number{
 
 .roles-responsibilities-table th{
 
-    background:#f5f7fb;
+    background:var(--bg-table-head);
 
     font-weight:600;
 
@@ -3430,7 +3430,7 @@ td.process-library-col-number{
     border:1px solid var(--box-border);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
 }
 
@@ -3438,7 +3438,7 @@ td.process-library-col-number{
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     /* Focus ring, not just a border-colour swap. The unfocused
        border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
@@ -3476,14 +3476,14 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    border:1px solid #d9d9d9;
+    border:1px solid var(--line-table);
     border-radius:10px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     padding:20px;
 
-    box-shadow:0 1px 3px rgba(17,24,39,.08);
+    box-shadow:0 1px 3px var(--shadow-ink-08);
 
 }
 
@@ -3494,7 +3494,7 @@ td.process-library-col-number{
     font-size:var(--font-small);
     font-weight:600;
 
-    color:#5f6368;
+    color:var(--text-subtle);
 
     text-transform:uppercase;
     letter-spacing:.02em;
@@ -3515,7 +3515,7 @@ td.process-library-col-number{
 
     margin:20px 0;
 
-    background:#d9d9d9;
+    background:var(--bg-table);
 
     flex-shrink:0;
 
@@ -3549,7 +3549,7 @@ td.process-library-col-number{
 
     flex-shrink:0;
 
-    background:#d9d9d9;
+    background:var(--bg-table);
 
 }
 
@@ -3573,7 +3573,7 @@ td.process-library-col-number{
     border:1px solid var(--box-border);
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     /* 2 lines of 15px/1.5 text (~22.5px each) plus the
        10px top+bottom padding and 1px+1px border -- the
@@ -3588,7 +3588,7 @@ td.process-library-col-number{
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     /* Focus ring, not just a border-colour swap. The unfocused
        border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
@@ -3782,7 +3782,7 @@ td.process-library-col-number{
     width:18px;
     height:18px;
 
-    accent-color:#0b57d0;
+    accent-color:var(--bg-primary);
 
     cursor:pointer;
 
@@ -3793,7 +3793,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     font-weight:600;
 
-    color:#1f2937;
+    color:var(--text-strong);
 
     min-width:0;
 
@@ -3814,7 +3814,7 @@ td.process-library-col-number{
 .brand-slot-off .brand-slot-label,
 .brand-slot-off .brand-hierarchy-unit{
 
-    color:#6b7280;
+    color:var(--text-faint);
 
 }
 
@@ -3853,7 +3853,7 @@ td.process-library-col-number{
     border:1px solid var(--box-border);
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     /* The control shows no text of its own, but browsers still
        give a form control a font-size (their 13.333px default)
@@ -3922,7 +3922,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -3940,15 +3940,15 @@ td.process-library-col-number{
 
     padding:10px 14px;
 
-    border:1px solid #b00020;
+    border:1px solid var(--line-danger);
     border-radius:8px;
 
-    background:#fef2f2;
+    background:var(--bg-danger-tint);
 
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#b00020;
+    color:var(--text-danger);
 
 }
 
@@ -3988,7 +3988,7 @@ td.process-library-col-number{
     border:1px solid var(--box-border);
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     overflow:hidden;
 
@@ -4026,9 +4026,9 @@ td.process-library-col-number{
 .brand-dropzone-active{
 
     border-style:solid;
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
-    background:#eef4ff;
+    background:var(--bg-primary-tint);
 
 }
 
@@ -4036,7 +4036,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -4091,9 +4091,9 @@ td.process-library-col-number{
     border:1px solid var(--box-border);
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
-    color:#111827;
+    color:var(--text-default);
 
     font:inherit;
     font-size:var(--font-body);
@@ -4110,11 +4110,11 @@ td.process-library-col-number{
 
 .brand-file-button:hover:not(:disabled){
 
-    background:#eef4ff;
+    background:var(--bg-primary-tint);
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
-    color:#0b57d0;
+    color:var(--text-primary);
 
     text-shadow:var(--hover-bold);
 
@@ -4122,11 +4122,11 @@ td.process-library-col-number{
 
 .brand-remove-button:hover:not(:disabled){
 
-    background:#fef2f2;
+    background:var(--bg-danger-tint);
 
-    border-color:#b00020;
+    border-color:var(--line-danger);
 
-    color:#b00020;
+    color:var(--text-danger);
 
     text-shadow:var(--hover-bold);
 
@@ -4147,7 +4147,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
 
-    color:#4b5563;
+    color:var(--text-muted);
 
     overflow:hidden;
     text-overflow:ellipsis;
@@ -4187,12 +4187,12 @@ td.process-library-col-number{
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#111827;
+    color:var(--text-default);
 
     border:1px solid var(--box-border);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
 }
 
@@ -4202,7 +4202,7 @@ td.process-library-col-number{
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     /* Same focus ring every other input scope uses -- independent
        of the border colour, which on its own is only 1.5:1 away
@@ -4217,7 +4217,7 @@ td.process-library-col-number{
 .brand-inventory .interview-input:disabled,
 .business-foundation .interview-input:disabled{
 
-    background:#f9fafb;
+    background:var(--bg-total);
 
     cursor:not-allowed;
 
@@ -4302,7 +4302,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     font-weight:600;
 
-    color:#1f2937;
+    color:var(--text-strong);
 
 }
 
@@ -4417,7 +4417,7 @@ td.process-library-col-number{
 .brand-inventory .interview-input:hover:not(:focus):not(:disabled),
 .business-foundation .interview-input:hover:not(:focus):not(:disabled){
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
 
@@ -4447,7 +4447,7 @@ td.process-library-col-number{
 
 .brand-tick-blocked .brand-slot-label{
 
-    color:#6b7280;
+    color:var(--text-faint);
 
 }
 
@@ -4602,7 +4602,7 @@ td.process-library-col-number{
 
     margin:0;
 
-    accent-color:#0b57d0;
+    accent-color:var(--bg-primary);
 
 }
 
@@ -4650,7 +4650,7 @@ td.process-library-col-number{
 .brand-holder-button:hover:not(:disabled){
 
     border-style:solid;
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
 
@@ -4661,7 +4661,7 @@ td.process-library-col-number{
     outline:none;
 
     border-style:solid;
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
 
@@ -4694,12 +4694,12 @@ td.process-library-col-number{
 
     padding:0;
 
-    border:1px solid #b00020;
+    border:1px solid var(--line-danger);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
-    color:#b00020;
+    color:var(--text-danger);
 
     font:inherit;
     font-size:var(--font-body);
@@ -4713,7 +4713,7 @@ td.process-library-col-number{
 
 .brand-holder-clear:hover:not(:disabled){
 
-    background:#fef2f2;
+    background:var(--bg-danger-tint);
 
 }
 
@@ -4790,7 +4790,7 @@ td.process-library-col-number{
     border:1px solid var(--box-border);
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
 }
 
@@ -4813,7 +4813,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     font-weight:600;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
     /* Numbers are derived from position, so they change length
        as boxes are added. A minimum stops the name beside them
@@ -4855,12 +4855,12 @@ td.process-library-col-number{
 
     font-size:var(--font-small);
 
-    color:#111827;
+    color:var(--text-default);
 
     border:1px solid var(--box-border);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     cursor:pointer;
 
@@ -4878,7 +4878,7 @@ td.process-library-col-number{
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
 
@@ -4889,8 +4889,8 @@ td.process-library-col-number{
     /* Colour rather than opacity: a dimmed glyph drops below
        4.5:1, whereas #6b7280 on white is 4.8:1 and still reads
        as unavailable next to the #111827 of a live one. */
-    color:#6b7280;
-    border-color:#c9c9c9;
+    color:var(--text-faint);
+    border-color:var(--line-card);
 
     cursor:not-allowed;
 
@@ -4898,9 +4898,9 @@ td.process-library-col-number{
 
 .strategy-box-remove:hover:not(:disabled){
 
-    border-color:#b00020;
+    border-color:var(--line-danger);
 
-    box-shadow:0 0 0 4px rgba(176, 0, 32, .18);
+    box-shadow:0 0 0 4px var(--line-danger-a18);
 
 }
 
@@ -4913,7 +4913,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
 
-    color:#6b7280;
+    color:var(--text-faint);
 
     cursor:grab;
 
@@ -4923,7 +4923,7 @@ td.process-library-col-number{
 
 .strategy-drop-target{
 
-    outline:2px dashed #0b57d0;
+    outline:2px dashed var(--line-primary);
 
     outline-offset:2px;
 
@@ -4942,12 +4942,12 @@ td.process-library-col-number{
     letter-spacing:0.1em;
     text-transform:uppercase;
 
-    color:#0b57d0;
+    color:var(--text-primary);
 
-    border:1px solid #0b57d0;
+    border:1px solid var(--line-primary);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     cursor:pointer;
 
@@ -4957,7 +4957,7 @@ td.process-library-col-number{
 
 .strategy-add-button:hover:not(:disabled){
 
-    background:#eaf2ff;
+    background:var(--bg-primary-tint-hover);
 
     box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
 
@@ -4973,8 +4973,8 @@ td.process-library-col-number{
 
 .strategy-add-button:disabled{
 
-    color:#6b7280;
-    border-color:#c9c9c9;
+    color:var(--text-faint);
+    border-color:var(--line-card);
 
     cursor:not-allowed;
 
@@ -5036,10 +5036,10 @@ td.process-library-col-number{
 
     padding:var(--card-padding);
 
-    border:1px solid #c9c9c9;
+    border:1px solid var(--line-card);
     border-radius:8px;
 
-    background:#fafafa;
+    background:var(--bg-panel);
 
 }
 
@@ -5053,10 +5053,10 @@ td.process-library-col-number{
 
     padding:var(--card-padding);
 
-    border:1px solid #c9c9c9;
+    border:1px solid var(--line-card);
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
 }
 
@@ -5070,10 +5070,10 @@ td.process-library-col-number{
 
     padding:12px;
 
-    border:1px solid #c9c9c9;
+    border:1px solid var(--line-card);
     border-radius:8px;
 
-    background:#fafafa;
+    background:var(--bg-panel);
 
 }
 
@@ -5095,7 +5095,7 @@ td.process-library-col-number{
     align-items:center;
     justify-content:center;
 
-    color:#111827;
+    color:var(--text-default);
 
     border:1px solid transparent;
     border-radius:6px;
@@ -5110,7 +5110,7 @@ td.process-library-col-number{
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
 
@@ -5123,7 +5123,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     font-weight:600;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -5137,7 +5137,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -5160,7 +5160,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -5225,12 +5225,12 @@ td.process-library-col-number{
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#111827;
+    color:var(--text-default);
 
     border:1px solid var(--box-border);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     cursor:pointer;
 
@@ -5252,7 +5252,7 @@ td.process-library-col-number{
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
 
@@ -5260,8 +5260,8 @@ td.process-library-col-number{
 
 .month-picker-trigger:disabled{
 
-    color:#6b7280;
-    border-color:#c9c9c9;
+    color:var(--text-faint);
+    border-color:var(--line-card);
 
     cursor:not-allowed;
 
@@ -5293,9 +5293,9 @@ td.process-library-col-number{
     border:1px solid var(--box-border);
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
-    box-shadow:0 8px 24px rgba(17, 24, 39, .18);
+    box-shadow:0 8px 24px var(--shadow-ink-18);
 
 }
 
@@ -5318,12 +5318,12 @@ td.process-library-col-number{
     letter-spacing:0.1em;
     text-transform:uppercase;
 
-    color:#111827;
+    color:var(--text-default);
 
     border:1px solid var(--box-border);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     cursor:pointer;
 
@@ -5331,8 +5331,8 @@ td.process-library-col-number{
 
 .month-picker-step:disabled{
 
-    color:#6b7280;
-    border-color:#c9c9c9;
+    color:var(--text-faint);
+    border-color:var(--line-card);
 
     cursor:not-allowed;
 
@@ -5342,7 +5342,7 @@ td.process-library-col-number{
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
 
@@ -5353,11 +5353,11 @@ td.process-library-col-number{
    by colour alone. */
 .month-picker-step-active{
 
-    color:#ffffff;
+    color:var(--text-on-fill);
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
-    background:#0b57d0;
+    background:var(--bg-primary);
 
 }
 
@@ -5389,12 +5389,12 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
 
-    color:#111827;
+    color:var(--text-default);
 
     border:1px solid var(--box-border);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     cursor:pointer;
 
@@ -5402,9 +5402,9 @@ td.process-library-col-number{
 
 .month-picker-cell:hover:not(:disabled){
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
-    background:#eaf2ff;
+    background:var(--bg-primary-tint-hover);
 
 }
 
@@ -5412,7 +5412,7 @@ td.process-library-col-number{
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
 
@@ -5420,13 +5420,13 @@ td.process-library-col-number{
 
 .month-picker-cell:disabled{
 
-    color:#6b7280;
-    border-color:#e5e7eb;
+    color:var(--text-faint);
+    border-color:var(--line-hairline);
 
     /* Explicitly white, because the cell holding the CURRENT
        value can also be the one now out of range. On that tint
        the grey fell to 4.29:1; on white it is 4.83:1. */
-    background:#ffffff;
+    background:var(--bg-surface);
 
     cursor:not-allowed;
 
@@ -5438,12 +5438,12 @@ td.process-library-col-number{
 
     font-weight:600;
 
-    color:#0b3f96;
+    color:var(--text-primary-deep);
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
     border-width:2px;
 
-    background:#eaf2ff;
+    background:var(--bg-primary-tint-hover);
 
 }
 
@@ -5468,7 +5468,7 @@ td.process-library-col-number{
     border:1px solid var(--box-border);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     /* Keeps the first and last rows inside the rounded corners.
        Dropped while a suggestion list is open (see
@@ -5488,7 +5488,7 @@ td.process-library-col-number{
 
 .numbered-list:hover{
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
 
@@ -5497,7 +5497,7 @@ td.process-library-col-number{
 /* The ring belongs to the box, because the box is the control. */
 .numbered-list:focus-within{
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
 
@@ -5544,7 +5544,7 @@ td.process-library-col-number{
    enough to tell them apart inside the one box. */
 .numbered-list-row + .numbered-list-row{
 
-    border-top:1px solid #ececec;
+    border-top:1px solid var(--line-rule);
 
 }
 
@@ -5586,7 +5586,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#111827;
+    color:var(--text-default);
 
     border:none;
 
@@ -5604,7 +5604,7 @@ td.process-library-col-number{
 
 .numbered-list-input:disabled{
 
-    color:#6b7280;
+    color:var(--text-faint);
 
     cursor:not-allowed;
 
@@ -5702,7 +5702,7 @@ td.process-library-col-number{
 .strategy-goal-box:hover,
 .strategy-objective-box:hover{
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
 
@@ -5717,7 +5717,7 @@ td.process-library-col-number{
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 32%, transparent);
 
@@ -5825,10 +5825,10 @@ td.process-library-col-number{
 
     padding:16px 12px;
 
-    border:1px solid #ececec;
+    border:1px solid var(--line-rule);
     border-radius:8px;
 
-    background:#fafafa;
+    background:var(--bg-panel);
 
 }
 
@@ -5894,7 +5894,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     font-weight:600;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -5903,7 +5903,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     font-weight:600;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -5977,9 +5977,9 @@ td.process-library-col-number{
     font-weight:600;
     text-align:center;
 
-    color:#111827;
+    color:var(--text-default);
 
-    border-left:1px solid #d7d7d7;
+    border-left:1px solid var(--line-grid);
 
 }
 
@@ -5996,10 +5996,10 @@ td.process-library-col-number{
     font-size:var(--font-body);
     text-align:center;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
-    border-left:1px solid #ececec;
-    border-bottom:1px solid #d7d7d7;
+    border-left:1px solid var(--line-rule);
+    border-bottom:1px solid var(--line-grid);
 
 }
 
@@ -6035,7 +6035,7 @@ td.process-library-col-number{
 
     min-width:0;
 
-    border-left:1px solid #ececec;
+    border-left:1px solid var(--line-rule);
 
 }
 
@@ -6062,7 +6062,7 @@ td.process-library-col-number{
     font-weight:600;
     text-align:left;
 
-    border:1px solid #0b57d0;
+    border:1px solid var(--line-primary);
     border-radius:6px;
 
     cursor:pointer;
@@ -6166,7 +6166,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -6229,9 +6229,9 @@ td.process-library-col-number{
     border:1px solid var(--box-border);
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
-    box-shadow:0 8px 24px rgba(17, 24, 39, .18);
+    box-shadow:0 8px 24px var(--shadow-ink-18);
 
 }
 
@@ -6243,7 +6243,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     text-align:left;
 
-    color:#111827;
+    color:var(--text-default);
 
     border:none;
     border-radius:6px;
@@ -6258,7 +6258,7 @@ td.process-library-col-number{
 
 .strategy-sort-option:hover{
 
-    background:#eaf2ff;
+    background:var(--bg-primary-tint-hover);
 
 }
 
@@ -6427,7 +6427,7 @@ td.process-library-col-number{
    so they show the same ring when they hold the selection. */
 .strategy-metric-box:hover{
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
 
@@ -6437,7 +6437,7 @@ td.process-library-col-number{
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 32%, transparent);
 
@@ -6596,7 +6596,7 @@ td.process-library-col-number{
 .roadmap-year,
 .roadmap-quarter-year-start{
 
-    border-left:2px solid #6b7280;
+    border-left:2px solid var(--line-faint);
 
 }
 
@@ -6624,7 +6624,7 @@ td.process-library-col-number{
    tint the palette can produce. */
 .strategy-drag-handle{
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -6676,7 +6676,7 @@ td.process-library-col-number{
 .strategy-subsection > .strategy-add-button,
 .strategy-theme-panel > .strategy-box-body > .strategy-add-button{
 
-    background:#fafafa;
+    background:var(--bg-panel);
 
 }
 
@@ -6688,7 +6688,7 @@ td.process-library-col-number{
    stack rather than a control sitting on the Goal box. */
 .strategy-theme-panel .strategy-goal-box > .strategy-box-body > .strategy-add-button{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 98%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash));
 
 }
 
@@ -6751,44 +6751,44 @@ td.process-library-col-number{
 
 .strategy-theme-panel{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 96%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground));
 
 }
 
 .strategy-theme-panel .strategy-goal-box{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 92%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
 }
 
 .strategy-theme-panel .strategy-objective-box{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 98%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash));
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
 }
 
 .strategy-theme-panel .strategy-metric-box{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 94%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-raised));
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
 }
 
 /* An add button keeps taking the ground of the thing it adds. */
 .strategy-theme-panel .strategy-subsection > .strategy-add-button{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 94%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-raised));
 
 }
 
 .strategy-theme-panel > .strategy-box-body > .strategy-add-button{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 92%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
 
 }
 
@@ -7157,7 +7157,7 @@ td.process-library-col-number{
        own warm ground without competing with the answers beside
        it. No stroke: the ground alone is what marks the panel out,
        and an outline around it only competed with the answers. */
-    background:#FDF9ED;
+    background:var(--bg-help);
 
     border:none;
 
@@ -7237,7 +7237,7 @@ td.process-library-col-number{
 
     border-color:transparent;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
 }
 
@@ -7246,10 +7246,10 @@ td.process-library-col-number{
    they are worth noticing before they are pressed. */
 .strategy-box-action:hover:not(:disabled){
 
-    color:#ffffff;
+    color:var(--text-on-fill);
 
-    border-color:#0b57d0;
-    background:#0b57d0;
+    border-color:var(--line-primary);
+    background:var(--bg-primary);
 
 }
 
@@ -7303,28 +7303,28 @@ td.process-library-col-number{
 
 .roadmap-theme-box{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 96%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground));
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
 }
 
 .roadmap-bar{
 
-    color:hsl(var(--strategy-theme-hue, 0) 90% 20%);
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-bar-ink));
 
     /* 34%, not 40%: a bar's edge separates it from both the
        Theme ground and its own fill, and at 40% the worse of
        those measured 2.88:1 -- under the 3:1 a non-text
        boundary needs. At 34% the worst hue is 3.58:1. */
-    border-color:hsl(var(--strategy-theme-hue, 0) 40% 34%);
-    background:hsl(var(--strategy-theme-hue, 0) 62% 84%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-bar-edge));
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-bar));
 
 }
 
 .roadmap-bar:hover{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 76%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-bar-hover));
 
 }
 
@@ -7334,10 +7334,10 @@ td.process-library-col-number{
 .roadmap-bar-open,
 .roadmap-bar-open:hover{
 
-    color:#ffffff;
+    color:var(--text-on-fill);
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 62% 20%);
-    background:hsl(var(--strategy-theme-hue, 0) 62% 20%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-bar-open));
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-bar-open));
 
 }
 
@@ -7368,10 +7368,10 @@ td.process-library-col-number{
 
 .roadmap-initiative{
 
-    color:#111827;
+    color:var(--text-default);
 
-    border:1px solid hsl(var(--strategy-theme-hue, 0) 40% 34%);
-    background:hsl(var(--strategy-theme-hue, 0) 55% 82%);
+    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-bar-edge));
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-initiative));
 
 }
 
@@ -7403,13 +7403,13 @@ td.process-library-col-number{
 .roadmap-bar.roadmap-bar-open,
 .roadmap-bar.roadmap-bar-open:hover{
 
-    color:#ffffff;
+    color:var(--text-on-fill);
 
     font-weight:700;
 
     /* The closed bar's own stroke, unchanged -- see
        `.roadmap-bar` above. */
-    border-color:hsl(var(--strategy-theme-hue, 0) 40% 34%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-bar-edge));
     background:hsl(
         var(--strategy-theme-hue, 0) 36% var(--strategy-bar-lightness, 34%)
     );
@@ -7480,12 +7480,12 @@ td.process-library-col-number{
 
     padding:0;
 
-    color:#111827;
+    color:var(--text-default);
 
     border:1px solid var(--box-border);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     font:inherit;
     font-size:0;
@@ -7561,10 +7561,10 @@ td.process-library-col-number{
 .legal-entity-field-remove:hover:not(:disabled),
 .strategy-box-remove:hover:not(:disabled){
 
-    color:#ffffff;
+    color:var(--text-on-fill);
 
-    border-color:#d01818;
-    background:#d01818;
+    border-color:var(--line-danger-strong);
+    background:var(--bg-danger-strong);
 
     /* No ring: the fill IS the reaction, and the box these sit
        on already glows on its own hover. */
@@ -7579,7 +7579,7 @@ td.process-library-col-number{
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
 
@@ -7594,10 +7594,10 @@ td.process-library-col-number{
        the same choice `.strategy-box-action:disabled` documents. */
     opacity:1;
 
-    color:#6b7280;
-    border-color:#c9c9c9;
+    color:var(--text-faint);
+    border-color:var(--line-card);
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     cursor:not-allowed;
 
@@ -7637,15 +7637,15 @@ td.process-library-col-number{
 .strategy-theme-panel .strategy-objective-box,
 .strategy-theme-panel .strategy-metric-box{
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
 
 }
 
 .strategy-theme-panel .strategy-add-button{
 
-    color:hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
 
 }
 
@@ -7654,7 +7654,7 @@ td.process-library-col-number{
    the worst hue. */
 .strategy-theme-panel .strategy-add-button:hover:not(:disabled){
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 88%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover));
 
 }
 
@@ -7684,7 +7684,7 @@ td.process-library-col-number{
 .strategy-theme-box,
 .roadmap-theme-box{
 
-    --glow-color:hsl(var(--strategy-theme-hue, 0) 45% 34%);
+    --glow-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
 
 }
 
@@ -7693,7 +7693,7 @@ td.process-library-col-number{
    The same 96% every Theme panel uses on the page after it. */
 .strategy-theme-box{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 96%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground));
 
 }
 
@@ -7711,7 +7711,7 @@ td.process-library-col-number{
 .strategy-theme-box:hover,
 .strategy-theme-box:focus{
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 45% 26%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent-deeper));
 
 }
 
@@ -7720,9 +7720,9 @@ td.process-library-col-number{
    drawn in, so the button reads as belonging to its own box. */
 .strategy-theme-panel .strategy-box-toggle:hover{
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
 }
 
@@ -7824,7 +7824,7 @@ td.process-library-col-number{
 
     /* The resting border, restated -- the shared hover rule
        darkens it, and that is a reaction too. */
-    border-color:hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
 
     box-shadow:none;
 
@@ -7854,24 +7854,24 @@ td.process-library-col-number{
 
 .strategy-theme-panel{
 
-    accent-color:hsl(var(--strategy-theme-hue, 0) 45% 30%);
+    accent-color:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-accent-deep));
 
 }
 
 .strategy-theme-panel select.interview-input option:checked{
 
-    color:hsl(var(--strategy-theme-hue, 0) 45% 26%);
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-accent-deeper));
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 92%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
 
 }
 
 .strategy-theme-panel .month-picker-step-active{
 
-    color:#ffffff;
+    color:var(--text-on-fill);
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 45% 30%);
-    background:hsl(var(--strategy-theme-hue, 0) 45% 30%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent-deep));
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-accent-deep));
 
 }
 
@@ -7881,24 +7881,24 @@ td.process-library-col-number{
    it to stay legible. */
 .strategy-theme-panel .month-picker-cell-current:not(:disabled){
 
-    color:hsl(var(--strategy-theme-hue, 0) 45% 26%);
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-accent-deeper));
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 45% 34%);
-    background:hsl(var(--strategy-theme-hue, 0) 62% 92%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
 
 }
 
 .strategy-theme-panel .month-picker-cell:hover:not(:disabled){
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 45% 34%);
-    background:hsl(var(--strategy-theme-hue, 0) 62% 92%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
 
 }
 
 .strategy-theme-panel .month-picker-step:focus-visible,
 .strategy-theme-panel .month-picker-cell:focus-visible{
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 45% 34%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
 
 }
 /* ==========================================================
@@ -7965,7 +7965,7 @@ td.process-library-col-number{
     border:1px solid var(--box-border);
     border-radius:8px;
 
-    background:#fafafa;
+    background:var(--bg-panel);
 
 }
 
@@ -7998,7 +7998,7 @@ td.process-library-col-number{
     text-transform:uppercase;
     letter-spacing:0.05em;
 
-    color:#1f2937;
+    color:var(--text-strong);
 
 }
 
@@ -8090,7 +8090,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -8114,7 +8114,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -8139,7 +8139,7 @@ td.process-library-col-number{
 
     letter-spacing:0.05em;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -8177,13 +8177,13 @@ td.process-library-col-number{
 
     padding:12px 14px;
 
-    border:1px solid #e8b48f;
+    border:1px solid var(--line-warn);
     border-left-width:4px;
     border-radius:8px;
 
-    background:#fdf1e7;
+    background:var(--bg-warn);
 
-    color:#7a2e00;
+    color:var(--text-warn);
 
     font-weight:500;
 
@@ -8210,10 +8210,10 @@ td.process-library-col-number{
 
     border-radius:50%;
 
-    background:#b45309;
+    background:var(--bg-caution);
 
     /* White on #b45309 is 4.6:1. */
-    color:#ffffff;
+    color:var(--text-on-fill);
 
     font-size:var(--font-small);
     font-weight:700;
@@ -8245,7 +8245,7 @@ td.process-library-col-number{
 
     letter-spacing:0.05em;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -8273,10 +8273,10 @@ td.process-library-col-number{
 
     padding:var(--card-padding);
 
-    border:1px solid #c9c9c9;
+    border:1px solid var(--line-card);
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
 }
 
@@ -8308,7 +8308,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -8434,22 +8434,22 @@ td.process-library-col-number{
    "!" there. #7c2d12 on #fff1ea is 9.3:1. */
 .legal-entity-total-short{
 
-    border-color:#c2410c;
+    border-color:var(--line-short);
 
-    color:#7c2d12;
+    color:var(--text-short-ink);
 
-    background:#fff1ea;
+    background:var(--bg-short-tint);
 
 }
 
 .legal-entity-total-met{
 
-    border-color:#1f6b3a;
+    border-color:var(--line-met);
 
     /* #14532d on this ground is 8.6:1. */
-    color:#14532d;
+    color:var(--text-met-ink);
 
-    background:#e7f6ec;
+    background:var(--bg-met-tint);
 
 }
 
@@ -8462,7 +8462,7 @@ td.process-library-col-number{
     width:16px;
     height:16px;
 
-    border:2px solid #c2410c;
+    border:2px solid var(--line-short);
     border-radius:50%;
 
 }
@@ -8475,11 +8475,11 @@ td.process-library-col-number{
    #8a0016 on #fdecee is 9.1:1. */
 .legal-entity-total-over{
 
-    border-color:#b00020;
+    border-color:var(--line-danger);
 
-    color:#8a0016;
+    color:var(--text-over);
 
-    background:#fdecee;
+    background:var(--bg-over);
 
 }
 
@@ -8494,7 +8494,7 @@ td.process-library-col-number{
 
     border-radius:50%;
 
-    background:#b00020;
+    background:var(--bg-danger);
 
 }
 
@@ -8512,7 +8512,7 @@ td.process-library-col-number{
 
     border-radius:1px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     transform:translateX(-50%);
 
@@ -8556,7 +8556,7 @@ td.process-library-col-number{
 
     border-radius:1px;
 
-    background:#1f6b3a;
+    background:var(--bg-met);
 
 }
 
@@ -8818,13 +8818,13 @@ td.process-library-col-number{
 
     padding:0;
 
-    border:1px solid #0b57d0;
+    border:1px solid var(--line-primary);
     border-radius:50%;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     /* #0b57d0 on white is 6.4:1. */
-    color:#0b57d0;
+    color:var(--text-primary);
 
     font:inherit;
     font-size:var(--font-small);
@@ -8867,9 +8867,9 @@ td.process-library-col-number{
 
 .info-note-button:hover{
 
-    background:#0b57d0;
+    background:var(--bg-primary);
 
-    color:#ffffff;
+    color:var(--text-on-fill);
 
 }
 
@@ -8938,9 +8938,9 @@ td.process-library-col-number{
     border:1px solid var(--box-border);
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
-    box-shadow:0 8px 24px rgba(17, 24, 39, .16);
+    box-shadow:0 8px 24px var(--shadow-ink-16);
 
 
     /* Its text always wraps inside it, even where the label it belongs
@@ -8953,7 +8953,7 @@ td.process-library-col-number{
 
     outline:none;
 
-    box-shadow:0 8px 24px rgba(17, 24, 39, .16),
+    box-shadow:0 8px 24px var(--shadow-ink-16),
         0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
 
 }
@@ -8989,7 +8989,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     line-height:1.45;
 
-    color:#374151;
+    color:var(--text-secondary);
 
     letter-spacing:normal;
 
@@ -9005,7 +9005,7 @@ td.process-library-col-number{
 
     letter-spacing:0.05em;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -9015,7 +9015,7 @@ td.process-library-col-number{
     line-height:1.45;
 
     /* #374151 on white is 10.3:1. */
-    color:#374151;
+    color:var(--text-secondary);
 
     letter-spacing:normal;
 
@@ -9054,7 +9054,7 @@ td.process-library-col-number{
 
     line-height:24px;
 
-    color:hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
     text-decoration:underline;
     text-underline-offset:3px;
@@ -9074,7 +9074,7 @@ td.process-library-col-number{
     line-height:1.45;
 
     /* #374151 on white is 10.3:1. */
-    color:#374151;
+    color:var(--text-secondary);
 
     letter-spacing:normal;
 
@@ -9191,10 +9191,10 @@ td.process-library-col-number{
 
         padding:12px;
 
-        border:1px solid #c9c9c9;
+        border:1px solid var(--line-card);
         border-radius:8px;
 
-        background:#ffffff;
+        background:var(--bg-surface);
 
     }
 
@@ -9207,7 +9207,7 @@ td.process-library-col-number{
 
         letter-spacing:0.05em;
 
-        color:#4b5563;
+        color:var(--text-muted);
 
     }
 
@@ -9523,10 +9523,10 @@ td.process-library-col-number{
         45px + 12px + 28px + 28px + 6px + 72px + 12px + 28px + 6px + 72px
     );
 
-    border:1px solid hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
     border-radius:8px;
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 92%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
 
 }
 
@@ -9607,10 +9607,10 @@ td.process-library-col-number{
 
     padding:var(--card-padding);
 
-    border:1px solid #c9c9c9;
+    border:1px solid var(--line-card);
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     min-width:0;
 
@@ -9651,13 +9651,13 @@ td.process-library-col-number{
    level is a level in the markup and not a count of ancestors. */
 .business-foundation > .business-foundation-input{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 96%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground));
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
     /* And one focus ring per Segment, from the same hue -- the
        line the Strategy pages set on .strategy-theme-box. */
-    --glow-color:hsl(var(--strategy-theme-hue, 0) 45% 34%);
+    --glow-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
 
 }
 
@@ -9665,9 +9665,9 @@ td.process-library-col-number{
    step further on. */
 .business-foundation-card .business-foundation-card{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 92%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
 }
 
@@ -9698,9 +9698,9 @@ td.process-library-col-number{
 .business-foundation-input .strategy-add-button,
 .business-foundation-input .info-note-button{
 
-    color:hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
 
 }
 
@@ -9714,7 +9714,7 @@ td.process-library-col-number{
    Segment. */
 .business-foundation-input .strategy-add-button{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 92%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
 
 }
 
@@ -9723,7 +9723,7 @@ td.process-library-col-number{
    white is what tells it apart from the add buttons at a glance. */
 .business-foundation-input .info-note-button{
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
 }
 
@@ -9737,7 +9737,7 @@ td.process-library-col-number{
    ground it rests on -- again Strategy's own value. */
 .business-foundation-input .strategy-add-button:hover:not(:disabled){
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 88%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover));
 
 }
 
@@ -9748,9 +9748,9 @@ td.process-library-col-number{
    contrast holds either way round. */
 .business-foundation-input .info-note-button:hover{
 
-    color:#ffffff;
+    color:var(--text-on-fill);
 
-    background:hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ink));
 
 }
 
@@ -9762,9 +9762,9 @@ td.process-library-col-number{
    stroke at all. */
 .business-foundation-input .strategy-box-toggle:hover{
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
 }
 
@@ -9874,7 +9874,7 @@ td.process-library-col-number{
 
     margin:6px 0 8px;
 
-    background:hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-edge));
 
 }
 
@@ -9954,7 +9954,7 @@ td.process-library-col-number{
        this box 4px taller than its neighbours and break the very
        alignment above. An inset shadow is drawn inside the box
        and costs no layout at all. */
-    box-shadow:inset 0 0 0 3px hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    box-shadow:inset 0 0 0 3px hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
 
 }
 
@@ -9963,7 +9963,7 @@ td.process-library-col-number{
 .business-foundation .business-foundation-proposition-input:focus{
 
     box-shadow:
-        inset 0 0 0 3px hsl(var(--strategy-theme-hue, 0) 28% 34%),
+        inset 0 0 0 3px hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink)),
         0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
 
 }
@@ -9994,7 +9994,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -10039,7 +10039,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#111827;
+    color:var(--text-default);
 
     /* A flex item will not shrink below its own content unless it
        is told it may. Without this, a long tick label -- "Keep —
@@ -10122,10 +10122,10 @@ td.process-library-col-number{
 
     padding:12px;
 
-    border:1px solid hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
     border-radius:8px;
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 92%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
 
 }
 
@@ -10177,12 +10177,12 @@ td.process-library-col-number{
    transition; only the colour follows the card it sits in. */
 .business-engagement-reference-toggle:hover{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 96%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground));
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
 
     /* hsl(h 28% 34%) on hsl(h 62% 96%) is 7.4:1. */
-    color:hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
 }
 
@@ -10227,7 +10227,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     line-height:28px;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -10258,7 +10258,7 @@ td.process-library-col-number{
 
     padding-left:12px;
 
-    border-left:2px solid hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    border-left:2px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
 }
 
@@ -10300,7 +10300,7 @@ td.process-library-col-number{
     /* THE ONE LABEL COLOUR on this page: the Segment's own, which
        every control here already borders and draws its arrows in.
        hsl(h 28% 34%) is 7.4:1 on the card. */
-    color:hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
     text-decoration:underline;
     text-underline-offset:3px;
@@ -10322,7 +10322,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -10346,7 +10346,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -10375,7 +10375,7 @@ td.process-library-col-number{
 
     text-align:left;
 
-    color:hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
     text-decoration:underline;
     text-underline-offset:3px;
@@ -10394,7 +10394,7 @@ td.process-library-col-number{
 
 .business-engagement-link:focus-visible{
 
-    outline:2px solid hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    outline:2px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
     outline-offset:2px;
 
     border-radius:4px;
@@ -10467,7 +10467,7 @@ td.process-library-col-number{
 
     line-height:28px;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -10484,7 +10484,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     line-height:28px;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -10500,7 +10500,7 @@ td.process-library-col-number{
     line-height:28px;
 
     /* #4b5563 on the derived ground is 7.2:1. */
-    color:#4b5563;
+    color:var(--text-muted);
 
     /* UNDERLINED, the way every other heading over a list on this
        page is: the category names the channels under it, and the
@@ -10600,8 +10600,8 @@ td.process-library-col-number{
     border-collapse:separate;
     border-spacing:0;
 
-    border-top:1px solid hsl(var(--strategy-theme-hue, 0) 24% 44%);
-    border-left:1px solid hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    border-top:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+    border-left:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
     border-radius:8px;
 
@@ -10638,9 +10638,9 @@ td.process-library-col-number{
 
     padding:8px 12px;
 
-    border:1px solid hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 88%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover));
 
     font-size:var(--font-body);
     font-weight:700;
@@ -10649,7 +10649,7 @@ td.process-library-col-number{
 
     line-height:28px;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -10661,9 +10661,9 @@ td.process-library-col-number{
 
     padding:8px 12px;
 
-    border:1px solid hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 92%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
 
     font-size:var(--font-body);
     font-weight:700;
@@ -10672,7 +10672,7 @@ td.process-library-col-number{
 
     line-height:28px;
 
-    color:hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
 }
 
@@ -10708,9 +10708,9 @@ td.process-library-col-number{
    row's own ground and nothing else. */
 .business-channel-category-row td{
 
-    border:1px solid hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 92%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
 
 }
 
@@ -10718,7 +10718,7 @@ td.process-library-col-number{
 
     padding:8px 12px;
 
-    border:1px solid hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
     /* THE CARD'S OWN GROUND, ONE STEP OFF WHITE. White cells the
        width of a table read as holes in it; tinted, the table is
@@ -10729,7 +10729,7 @@ td.process-library-col-number{
        its border, so what can be typed into is as plain as it was;
        a cell that only shows something (see -derived) is a step
        darker again. */
-    background:hsl(var(--strategy-theme-hue, 0) 62% 98%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash));
 
     /* A COLUMN IS AS NARROW AS ITS SHARE OF THE TABLE, and what is
        written in it has to fit that. Without these, one long word
@@ -10762,7 +10762,7 @@ td.process-library-col-number{
    is worth more than any label saying the same thing. */
 .business-channel-cell-derived{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 96%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground));
 
 }
 
@@ -10774,7 +10774,7 @@ td.process-library-col-number{
 .business-channel-table td{
 
     border-style:solid;
-    border-color:hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
     border-width:0 1px 1px 0;
 
 }
@@ -10835,7 +10835,7 @@ td.process-library-col-number{
    word-breaking and its own ground. */
 .business-engagement-band{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 92%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
 
     font-size:var(--font-body);
     font-weight:700;
@@ -10844,7 +10844,7 @@ td.process-library-col-number{
 
     line-height:28px;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -10871,7 +10871,7 @@ td.process-library-col-number{
    between its head and its category rows. */
 .business-engagement-band-offering{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 88%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover));
 
 }
 
@@ -10949,7 +10949,7 @@ td.process-library-col-number{
 
     padding-left:36px;
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 98%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash));
 
 }
 
@@ -10968,7 +10968,7 @@ td.process-library-col-number{
    columns and starts at the first of them. */
 .business-relationship-heading{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 96%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground));
 
     font-size:var(--font-body);
     font-weight:700;
@@ -10977,7 +10977,7 @@ td.process-library-col-number{
 
     line-height:28px;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -11031,7 +11031,7 @@ td.process-library-col-number{
 
     flex:0 0 auto;
 
-    color:hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
 }
 
@@ -11152,7 +11152,7 @@ td.process-library-col-number{
        visibly smaller than the chevrons in the columns beside it
        and changed size with whatever font was resolved. */
     background-color:transparent;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23111827' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-image:var(--select-chevron);
     background-repeat:no-repeat;
     background-position:center;
     background-size:12px 8px;
@@ -11161,13 +11161,13 @@ td.process-library-col-number{
 
 .suggested-input-toggle:hover:not(:disabled){
 
-    background-color:hsl(var(--strategy-theme-hue, 0) 62% 88%);
+    background-color:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover));
 
 }
 
 .suggested-input-toggle:focus-visible{
 
-    outline:2px solid hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    outline:2px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
     outline-offset:1px;
 
 }
@@ -11183,7 +11183,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     line-height:28px;
 
-    color:hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
 }
 
@@ -11281,17 +11281,17 @@ td.process-library-col-number{
 
     padding:0;
 
-    border:1px solid hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
     border-radius:6px;
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 96%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground));
 
     font-family:inherit;
     font-size:var(--font-body);
     font-weight:700;
     line-height:1;
 
-    color:hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
     cursor:pointer;
 
@@ -11299,13 +11299,13 @@ td.process-library-col-number{
 
 .business-step:hover:not(:disabled){
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 88%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover));
 
 }
 
 .business-step:focus-visible{
 
-    outline:2px solid hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    outline:2px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
     outline-offset:2px;
 
 }
@@ -11314,11 +11314,11 @@ td.process-library-col-number{
    4.5:1 so the reason it is there is still legible. */
 .business-step:disabled{
 
-    border-color:#9aa3ae;
+    border-color:var(--line-disabled);
 
-    background:#f3f4f6;
+    background:var(--bg-neutral);
 
-    color:#6b7280;
+    color:var(--text-faint);
 
     cursor:not-allowed;
 
@@ -11403,7 +11403,7 @@ td.process-library-col-number{
 
     line-height:28px;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -11485,7 +11485,7 @@ td.process-library-col-number{
 
     padding-left:16px;
 
-    border-left:2px solid hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    border-left:2px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
 }
 
@@ -11590,7 +11590,7 @@ td.process-library-col-number{
 
     line-height:28px;
 
-    color:hsl(var(--strategy-theme-hue, 0) 28% 34%);
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
 }
 
@@ -11628,7 +11628,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -11672,9 +11672,9 @@ td.process-library-col-number{
 
     letter-spacing:normal;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
-    background-color:#f3f4f6;
+    background-color:var(--bg-neutral);
 
     cursor:default;
 
@@ -11709,10 +11709,10 @@ td.process-library-col-number{
 
     padding:12px;
 
-    border:1px solid hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
     border-radius:8px;
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 92%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
 
     min-width:0;
 
@@ -11775,7 +11775,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -11786,7 +11786,7 @@ td.process-library-col-number{
    (see .numbered-list-static) is not. */
 .business-capability-responsibility-done{
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -11802,17 +11802,17 @@ td.process-library-col-number{
 
     padding:0 8px;
 
-    border:1px solid #7a9cc6;
+    border:1px solid var(--line-done);
     border-radius:999px;
 
-    background:#e8f0fe;
+    background:var(--bg-done-tint);
 
     font-size:var(--font-body);
     font-weight:600;
 
     line-height:22px;
 
-    color:#1b3a63;
+    color:var(--text-done-ink);
 
 }
 
@@ -11858,7 +11858,7 @@ td.process-library-col-number{
 
     line-height:28px;
 
-    color:#b3261e;
+    color:var(--text-danger-alt);
 
 }
 
@@ -11875,10 +11875,10 @@ td.process-library-col-number{
 
     padding:12px;
 
-    border:1px solid #7a9cc6;
+    border:1px solid var(--line-done);
     border-radius:8px;
 
-    background:#e8f0fe;
+    background:var(--bg-done-tint);
 
 }
 
@@ -11906,7 +11906,7 @@ td.process-library-col-number{
 
     letter-spacing:0.05em;
 
-    color:#1b3a63;
+    color:var(--text-done-ink);
 
     cursor:pointer;
 
@@ -11949,7 +11949,7 @@ td.process-library-col-number{
 
 .business-capability-completed-head:focus-visible{
 
-    outline:2px solid #1b3a63;
+    outline:2px solid var(--line-done-ink);
     outline-offset:2px;
 
     border-radius:4px;
@@ -11960,9 +11960,9 @@ td.process-library-col-number{
    colour, so the fold reads as one block of finished work. */
 .business-capability-completed .business-capability-activity{
 
-    border-color:#7a9cc6;
+    border-color:var(--line-done);
 
-    background:#f5f9ff;
+    background:var(--bg-done-faint);
 
 }
 
@@ -11999,12 +11999,12 @@ td.process-library-col-number{
 
     /* The chart's two series and the balance line: slots 1 and 2 of
        the validated categorical palette, and ink for the line. */
-    --financial-in:#2a78d6;
-    --financial-out:#eb6834;
-    --financial-balance:#3f3f3c;
-    --financial-grid:#e5e4e0;
-    --financial-good:#0ca30c;
-    --financial-risk:#d03b3b;
+    --financial-in:var(--bg-financial-in);
+    --financial-out:var(--bg-financial-out);
+    --financial-balance:var(--line-financial-balance);
+    --financial-grid:var(--line-financial-grid);
+    --financial-good:var(--bg-financial-good);
+    --financial-risk:var(--bg-financial-risk);
 
 }
 
@@ -12051,10 +12051,10 @@ td.process-library-col-number{
 
     padding:12px 16px;
 
-    border:1px solid #d6d3cc;
+    border:1px solid var(--line-sheet);
     border-radius:8px;
 
-    background:#faf9f6;
+    background:var(--bg-warm);
 
 }
 
@@ -12069,7 +12069,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     line-height:40px;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -12090,7 +12090,7 @@ td.process-library-col-number{
     font-size:var(--font-h3);
     line-height:1;
 
-    color:#6b7280;
+    color:var(--text-faint);
 
 }
 
@@ -12114,7 +12114,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -12126,7 +12126,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     font-weight:600;
 
-    color:#374151;
+    color:var(--text-secondary);
 
 }
 
@@ -12138,7 +12138,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -12211,10 +12211,10 @@ td.process-library-col-number{
 
     padding:var(--card-padding);
 
-    border:1px solid hsl(var(--strategy-theme-hue, 0) 24% 70%);
+    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-light));
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     font-size:var(--font-body);
 
@@ -12264,7 +12264,7 @@ td.process-library-col-number{
 
 
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -12282,7 +12282,7 @@ td.process-library-col-number{
 
     line-height:1.5;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -12291,7 +12291,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     line-height:1.3;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -12388,7 +12388,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     font-weight:600;
 
-    color:#9a3412;
+    color:var(--text-flag);
 
 }
 
@@ -12443,7 +12443,7 @@ td.process-library-col-number{
 
     padding-top:8px;
 
-    border-top:1px solid hsl(var(--strategy-theme-hue, 0) 24% 80%);
+    border-top:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-rule));
 
 }
 
@@ -12486,7 +12486,7 @@ td.process-library-col-number{
 
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
 }
 
@@ -12518,7 +12518,7 @@ td.process-library-col-number{
     font-size:var(--font-body);
     font-variant-numeric:tabular-nums;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
 }
 
@@ -12527,7 +12527,7 @@ td.process-library-col-number{
 
     padding:6px 10px;
 
-    border-bottom:1px solid #e5e4e0;
+    border-bottom:1px solid var(--line-financial-grid);
 
     text-align:right;
 
@@ -12550,7 +12550,7 @@ td.process-library-col-number{
 
 
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -12559,7 +12559,7 @@ td.process-library-col-number{
 
     border-bottom:0;
 
-    border-top:2px solid #c9c9c9;
+    border-top:2px solid var(--line-card);
 
 }
 
@@ -12573,7 +12573,7 @@ td.process-library-col-number{
 
 .financial-row-highlight{
 
-    background:#ecfdf3;
+    background:var(--bg-highlight);
 
 }
 
@@ -12595,11 +12595,11 @@ td.process-library-col-number{
 
     padding:14px 16px;
 
-    border:1px solid #d6d3cc;
+    border:1px solid var(--line-sheet);
     border-left-width:6px;
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     font-size:var(--font-body);
     line-height:1.5;
@@ -12644,10 +12644,10 @@ td.process-library-col-number{
 
     padding:12px 14px;
 
-    border:1px solid #d6d3cc;
+    border:1px solid var(--line-sheet);
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
 }
 
@@ -12667,7 +12667,7 @@ td.process-library-col-number{
     font-weight:600;
     line-height:1.3;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -12678,7 +12678,7 @@ td.process-library-col-number{
 
     font-variant-numeric:tabular-nums;
 
-    color:#111827;
+    color:var(--text-default);
 
     white-space:nowrap;
 
@@ -12688,7 +12688,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -12776,7 +12776,7 @@ td.process-library-col-number{
 
     border-radius:4px;
 
-    background:#e5e4e0;
+    background:var(--bg-financial-grid);
 
     overflow:hidden;
 
@@ -12827,11 +12827,11 @@ td.process-library-col-number{
 
 }
 
-.financial-series-1{ background:#2a78d6; }
-.financial-series-2{ background:#eb6834; }
-.financial-series-3{ background:#1baf7a; }
-.financial-series-4{ background:#eda100; }
-.financial-series-5{ background:#e87ba4; }
+.financial-series-1{ background:var(--bg-financial-in); }
+.financial-series-2{ background:var(--bg-financial-out); }
+.financial-series-3{ background:var(--bg-series-3); }
+.financial-series-4{ background:var(--bg-series-4); }
+.financial-series-5{ background:var(--bg-series-5); }
 
 .financial-swatch{
 
@@ -12873,7 +12873,7 @@ td.process-library-col-number{
 
     padding:6px 0;
 
-    border-bottom:1px solid #e5e4e0;
+    border-bottom:1px solid var(--line-financial-grid);
 
 }
 
@@ -12908,7 +12908,7 @@ td.process-library-col-number{
 
     padding-top:6px;
 
-    border-top:1px solid #c9c9c9;
+    border-top:1px solid var(--line-card);
 
     font-weight:700;
 
@@ -12944,7 +12944,7 @@ td.process-library-col-number{
 
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     font-size:var(--font-body);
     line-height:1.5;
@@ -12968,16 +12968,16 @@ td.process-library-col-number{
     font-size:var(--font-small);
     font-weight:700;
 
-    color:#ffffff;
+    color:var(--text-on-fill);
 
-    background:#6b7280;
+    background:var(--bg-faint);
 
 }
 
 .financial-signal-risk .financial-signal-icon{ background:var(--financial-risk); }
-.financial-signal-caution .financial-signal-icon{ background:#b45309; }
-.financial-signal-good .financial-signal-icon{ background:#0a7d0a; }
-.financial-signal-info .financial-signal-icon{ background:#226bc2; font-style:italic; }
+.financial-signal-caution .financial-signal-icon{ background:var(--bg-caution); }
+.financial-signal-good .financial-signal-icon{ background:var(--bg-good); }
+.financial-signal-info .financial-signal-icon{ background:var(--bg-info); font-style:italic; }
 
 /* ---------- The cash timeline ---------- */
 
@@ -12993,7 +12993,7 @@ td.process-library-col-number{
 
     border-radius:8px;
 
-    background:#fcfcfb;
+    background:var(--bg-chart);
 
 }
 
@@ -13027,7 +13027,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
 
-    color:#374151;
+    color:var(--text-secondary);
 
 }
 
@@ -13056,7 +13056,7 @@ td.process-library-col-number{
 
 .financial-axis-zero{
 
-    stroke:#9ca3af;
+    stroke:var(--line-quiet);
     stroke-width:1;
 
 }
@@ -13065,7 +13065,7 @@ td.process-library-col-number{
 
     font-size:var(--font-small);
 
-    fill:#4b5563;
+    fill:var(--text-muted);
 
 }
 
@@ -13087,7 +13087,7 @@ td.process-library-col-number{
 
     fill:var(--financial-risk);
 
-    stroke:#fcfcfb;
+    stroke:var(--line-chart);
     stroke-width:2;
 
 }
@@ -13107,14 +13107,14 @@ td.process-library-col-number{
 
 }
 
-.financial-marker-good line{ stroke:#0a7d0a; }
-.financial-marker-good text{ fill:#0a7d0a; }
+.financial-marker-good line{ stroke:var(--line-good); }
+.financial-marker-good text{ fill:var(--text-good); }
 .financial-marker-risk line{ stroke:var(--financial-risk); }
 .financial-marker-risk text{ fill:var(--financial-risk); }
 
 .financial-hover{
 
-    fill:#111827;
+    fill:var(--text-default);
 
     opacity:0.05;
 
@@ -13140,12 +13140,12 @@ td.process-library-col-number{
 
     padding:8px 10px;
 
-    border:1px solid #d6d3cc;
+    border:1px solid var(--line-sheet);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
-    box-shadow:0 4px 12px rgb(0 0 0 / 0.12);
+    box-shadow:0 4px 12px var(--shadow-12);
 
     font-size:var(--font-small);
     font-variant-numeric:tabular-nums;
@@ -13162,7 +13162,7 @@ td.process-library-col-number{
 
     font-size:var(--font-small);
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -13271,11 +13271,11 @@ td.process-library-col-number{
    them. */
 .financial-page .financial-section{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 96%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground));
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
-    --glow-color:hsl(var(--strategy-theme-hue, 0) 45% 34%);
+    --glow-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
 
 }
 
@@ -13283,19 +13283,19 @@ td.process-library-col-number{
 .financial-section .financial-tile,
 .financial-section .financial-signal{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 92%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
 
-    border-color:hsl(var(--strategy-theme-hue, 0) 24% 62%);
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-soft));
 
 }
 
 .financial-section .financial-headline{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 92%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
 
-    border-top-color:hsl(var(--strategy-theme-hue, 0) 24% 62%);
-    border-right-color:hsl(var(--strategy-theme-hue, 0) 24% 62%);
-    border-bottom-color:hsl(var(--strategy-theme-hue, 0) 24% 62%);
+    border-top-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-soft));
+    border-right-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-soft));
+    border-bottom-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-soft));
 
 }
 
@@ -13303,7 +13303,7 @@ td.process-library-col-number{
    the section's own colour. */
 .financial-section .financial-headline-neutral{
 
-    border-left-color:hsl(var(--strategy-theme-hue, 0) 24% 44%);
+    border-left-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
 }
 
@@ -13311,7 +13311,7 @@ td.process-library-col-number{
 .financial-section .financial-chart,
 .financial-section .financial-loan-summary{
 
-    background:hsl(var(--strategy-theme-hue, 0) 62% 98%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash));
 
 }
 
@@ -13319,13 +13319,13 @@ td.process-library-col-number{
 .financial-section .financial-table td,
 .financial-section .financial-obligations > li{
 
-    border-bottom-color:hsl(var(--strategy-theme-hue, 0) 24% 84%);
+    border-bottom-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-rule-light));
 
 }
 
 .financial-section .financial-meter{
 
-    background:hsl(var(--strategy-theme-hue, 0) 30% 84%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-meter));
 
 }
 
@@ -13335,7 +13335,7 @@ td.process-library-col-number{
 .financial-section .financial-table thead th,
 .financial-section .financial-cost-header{
 
-    color:hsl(var(--strategy-theme-hue, 0) 28% 30%);
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink-deep));
 
 }
 
@@ -13399,7 +13399,7 @@ td.process-library-col-number{
 
     line-height:1.4;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -13597,10 +13597,10 @@ td.process-library-col-number{
 
     padding:14px 16px;
 
-    border:1px solid hsl(var(--strategy-theme-hue, 0) 24% 70%);
+    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-light));
     border-radius:8px;
 
-    background:hsl(var(--strategy-theme-hue, 0) 40% 98%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-card-wash));
 
 }
 
@@ -13665,10 +13665,10 @@ td.process-library-col-number{
 
     padding:14px 16px;
 
-    border:1px solid hsl(var(--strategy-theme-hue, 0) 24% 70%);
+    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-light));
     border-radius:8px;
 
-    background:hsl(var(--strategy-theme-hue, 0) 40% 98%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-card-wash));
 
 }
 
@@ -13683,7 +13683,7 @@ td.process-library-col-number{
     font-size:var(--font-h3);
     font-weight:700;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -13739,7 +13739,7 @@ td.process-library-col-number{
 .financial-need-months tfoot th,
 .financial-need-months tfoot td{
 
-    border-top:2px solid #9ca3af;
+    border-top:2px solid var(--line-quiet);
 
 }
 
@@ -13755,7 +13755,7 @@ td.process-library-col-number{
 
 @keyframes jump-highlight{
 
-    0%, 35%{ box-shadow:0 0 0 3px #0b57d0, 0 0 0 7px rgba(11, 87, 208, 0.25); }
+    0%, 35%{ box-shadow:0 0 0 3px var(--line-primary), 0 0 0 7px var(--line-primary-a25); }
 
     100%{ box-shadow:0 0 0 0 transparent; }
 
@@ -13767,7 +13767,7 @@ td.process-library-col-number{
 
         animation:none;
 
-        outline:3px solid #0b57d0;
+        outline:3px solid var(--line-primary);
         outline-offset:2px;
 
     }
@@ -13895,7 +13895,7 @@ td.process-library-col-number{
 
     padding-top:12px;
 
-    border-top:1px solid hsl(var(--strategy-theme-hue, 0) 24% 84%);
+    border-top:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-rule-light));
 
 }
 
@@ -13929,7 +13929,7 @@ td.process-library-col-number{
 
     border-radius:8px;
 
-    background:hsl(var(--strategy-theme-hue, 0) 40% 97%);
+    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-result-wash));
 
     font-size:var(--font-body);
 
@@ -13969,10 +13969,10 @@ td.process-library-col-number{
 
     padding:10px 14px;
 
-    border-left:4px solid #2e7d4f;
+    border-left:4px solid var(--line-capacity-ok);
     border-radius:6px;
 
-    background:#f1f8f4;
+    background:var(--bg-capacity-ok);
 
     font-size:var(--font-body);
     line-height:1.5;
@@ -13982,9 +13982,9 @@ td.process-library-col-number{
 /* A shortfall is a caution to act on, not an error in the plan. */
 .financial-capacity-short{
 
-    border-left-color:#b7791f;
+    border-left-color:var(--line-capacity-short);
 
-    background:#fdf6e7;
+    background:var(--bg-capacity-short);
 
 }
 
@@ -13999,7 +13999,7 @@ td.process-library-col-number{
 .financial-capacity-over th,
 .financial-capacity-over td{
 
-    background:#fdf6e7;
+    background:var(--bg-capacity-short);
 
 }
 
@@ -14011,11 +14011,11 @@ td.process-library-col-number{
 
     padding:6px 10px;
 
-    border-left:3px solid #b45309;
+    border-left:3px solid var(--line-caution);
 
-    background:#fffbeb;
+    background:var(--bg-caution-tint);
 
-    color:#78350f;
+    color:var(--text-caution-ink);
 
 }
 
@@ -14041,11 +14041,11 @@ td.process-library-col-number{
 
     padding:10px 14px;
 
-    border-left:4px solid #6b7280;
+    border-left:4px solid var(--line-faint);
 
     border-radius:4px;
 
-    background:#f3f4f6;
+    background:var(--bg-neutral);
 
     font-size:var(--font-body);
 
@@ -14053,19 +14053,19 @@ td.process-library-col-number{
 
     line-height:1.45;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
-.financial-stress-verdict.financial-stress-risk{ border-left-color:#b91c1c; background:#fef2f2; }
+.financial-stress-verdict.financial-stress-risk{ border-left-color:var(--line-danger-deep); background:var(--bg-danger-tint); }
 
-.financial-stress-verdict.financial-stress-caution{ border-left-color:#b45309; background:#fffbeb; }
+.financial-stress-verdict.financial-stress-caution{ border-left-color:var(--line-caution); background:var(--bg-caution-tint); }
 
-.financial-stress-verdict.financial-stress-good{ border-left-color:#15803d; background:#f0fdf4; }
+.financial-stress-verdict.financial-stress-good{ border-left-color:var(--line-holds); background:var(--bg-holds); }
 
-.financial-stress-short{ color:#b91c1c; font-weight:600; }
+.financial-stress-short{ color:var(--text-danger-deep); font-weight:600; }
 
-.financial-stress-holds{ color:#15803d; font-weight:600; }
+.financial-stress-holds{ color:var(--text-holds); font-weight:600; }
 
 /* What it would take: one change a line. */
 .financial-take-list{
@@ -14078,7 +14078,7 @@ td.process-library-col-number{
 
     line-height:1.6;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -14104,7 +14104,7 @@ td.process-library-col-number{
 
     line-height:1.4;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -14125,7 +14125,7 @@ td.process-library-col-number{
 
     line-height:1.4;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -14133,11 +14133,11 @@ td.process-library-col-number{
 
     padding:6px 10px;
 
-    border-left:3px solid #b45309;
+    border-left:3px solid var(--line-caution);
 
-    background:#fffbeb;
+    background:var(--bg-caution-tint);
 
-    color:#78350f;
+    color:var(--text-caution-ink);
 
 }
 
@@ -14212,7 +14212,7 @@ td.process-library-col-number{
 
     font-weight:500;
 
-    color:#0b57d0;
+    color:var(--text-primary);
 
 }
 
@@ -14231,14 +14231,14 @@ td.process-library-col-number{
     margin:6px 12px 2px;
     padding-top:10px;
 
-    border-top:1px solid #d1d5db;
+    border-top:1px solid var(--line-divider);
 
     font-size:var(--font-body);
     font-weight:400;
     line-height:1.4;
     letter-spacing:normal;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -14246,13 +14246,13 @@ td.process-library-col-number{
 
     font-weight:500;
 
-    color:#0b57d0;
+    color:var(--text-primary);
 
 }
 
 .strategy-sort-option:disabled{
 
-    color:#4b5563;
+    color:var(--text-muted);
 
     cursor:default;
 
@@ -14262,7 +14262,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
 
-    color:#166534;
+    color:var(--text-added);
 
 }
 
@@ -14272,7 +14272,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
 
-    color:#78350f;
+    color:var(--text-caution-ink);
 
 }
 
@@ -14372,7 +14372,7 @@ td.process-library-col-number{
    own white, from the top of the timeline down to the first box. */
 .roadmap-zoomed .roadmap-head-spacer{
 
-    background-color:#ffffff;
+    background-color:var(--bg-surface);
 
 }
 
@@ -14397,7 +14397,7 @@ td.process-library-col-number{
    its own heavier rule. */
 .roadmap-zoomed .roadmap-quarter-start{
 
-    border-left-color:#d7d7d7;
+    border-left-color:var(--line-grid);
 
 }
 

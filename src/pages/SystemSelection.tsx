@@ -214,7 +214,7 @@ export default function SystemSelection() {
 
                             <h2
                                 className="workspace-current-capability"
-                                style={{ color: activeCapability ? activeCapabilityColor : undefined }}
+                                style={activeCapability ? ({ "--capability-color": activeCapabilityColor } as React.CSSProperties) : undefined}
                             >
 
                                 {capabilityTitle}

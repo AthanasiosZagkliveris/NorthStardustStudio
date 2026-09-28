@@ -9,7 +9,7 @@
     text-overflow: ellipsis;
 
     font-size: var(--font-small);
-    color: #5f6368;
+    color: var(--text-subtle);
 
 }
 
@@ -103,7 +103,7 @@
 
     letter-spacing: 0.05em;
 
-    color: #4b5563;
+    color: var(--text-muted);
 
 }
 
@@ -178,7 +178,7 @@
     cursor: pointer;
 
     font-size: var(--font-small);
-    color: #0b57d0;
+    color: var(--text-primary);
 
 }
 
@@ -190,7 +190,7 @@
 
 .fold-all-toggle:focus-visible {
 
-    outline: 2px solid #0b57d0;
+    outline: 2px solid var(--line-primary);
     outline-offset: 2px;
 
 }

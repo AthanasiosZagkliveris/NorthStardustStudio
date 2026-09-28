@@ -73,7 +73,7 @@
     /* Defaults to its parent Capability's colour --
        every System reads as belonging to the
        Capability it's filed under. */
-    color: var(--system-color, #000000);
+    color: color-mix(in srgb, var(--system-color, var(--text-black)) var(--capability-ink-weight), var(--capability-ink-base));
 
     /* `font-weight` is deliberately NOT transitioned -- a
        browser cannot interpolate between two static faces and
@@ -90,7 +90,7 @@
     font-size: var(--font-h3);
     font-weight: 500;
 
-    color: var(--system-color, #000000);
+    color: color-mix(in srgb, var(--system-color, var(--text-black)) var(--capability-ink-weight), var(--capability-ink-base));
 
     /* `font-weight` is deliberately NOT transitioned -- a
        browser cannot interpolate between two static faces and
@@ -124,7 +124,7 @@
 ========================================================== */
 
 .system-item:hover {
-    background-color: color-mix(in srgb, var(--system-color, #0b57d0) 10%, #eef4ff);
+    background-color: color-mix(in srgb, var(--system-color, var(--bg-primary)) 10%, var(--bg-primary-tint));
 }
 
 .system-item:hover .system-number,

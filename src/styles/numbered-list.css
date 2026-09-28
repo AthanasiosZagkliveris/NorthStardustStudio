@@ -65,12 +65,12 @@
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#111827;
+    color:var(--text-default);
 
     border:1px solid var(--box-border);
     border-radius:var(--box-radius);
 
-    background-color:#ffffff;
+    background-color:var(--bg-surface);
     background-image:var(--select-chevron);
     background-repeat:no-repeat;
     background-position:right var(--select-chevron-inset) center;
@@ -82,7 +82,7 @@
 
 .numbered-list-line-end select:hover:not(:disabled){
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
 }
 
@@ -90,7 +90,7 @@
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
 
@@ -98,7 +98,7 @@
 
 .numbered-list-line-end select:disabled{
 
-    color:#6b7280;
+    color:var(--text-faint);
 
     cursor:not-allowed;
 

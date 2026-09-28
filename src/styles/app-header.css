@@ -10,9 +10,9 @@
 
     padding: 0 28px;
 
-    border-bottom: 1px solid #ececec;
+    border-bottom: 1px solid var(--line-rule);
 
-    background: white;
+    background: var(--bg-surface);
 
     flex-shrink: 0;
 
@@ -63,7 +63,7 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
 
-    color: #111827;
+    color: var(--text-default);
 
     text-align: right;
 

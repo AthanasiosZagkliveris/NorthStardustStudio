@@ -124,7 +124,7 @@
 
     text-transform:uppercase;
 
-    color:#5f6368;
+    color:var(--text-subtle);
 
     margin-bottom:4px;
 
@@ -153,13 +153,13 @@
 
     gap:10px;
 
-    color:#0b3d91;
+    color:var(--text-primary-ink);
 
     border-radius:0 12px 12px 0;
 
     cursor:pointer;
 
-    box-shadow:0 8px 20px rgba(11, 87, 208, 0.18);
+    box-shadow:0 8px 20px var(--line-primary-a18);
 
     transition:background-color .15s ease, box-shadow .15s ease;
 
@@ -169,7 +169,7 @@
 .org-rail-handle-capabilities,
 .org-rail-handle-systems{
 
-    background:#dbe9ff;
+    background:var(--bg-primary-selected);
 
 }
 
@@ -180,7 +180,7 @@
    active. */
 .org-rail-handle-active{
 
-    box-shadow:0 8px 20px rgba(11, 87, 208, 0.18), inset 0 0 0 2px #0b57d0;
+    box-shadow:0 8px 20px var(--line-primary-a18), inset 0 0 0 2px var(--line-primary);
 
 }
 
@@ -247,11 +247,11 @@
        date never changes how wide anything above it renders. */
     scrollbar-gutter:stable;
 
-    background:#dbe9ff;
+    background:var(--bg-primary-selected);
 
     border-radius:0 12px 12px 0;
 
-    box-shadow:0 16px 40px rgba(0, 0, 0, 0.18);
+    box-shadow:0 16px 40px var(--shadow-18);
 
     transition:background-color .15s ease;
 
@@ -272,14 +272,14 @@
 .org-calendar-content-main,
 .org-calendar-content-child{
 
-    background:#dbe9ff;
+    background:var(--bg-primary-selected);
 
 }
 
 .org-calendar-content-main:hover,
 .org-calendar-content-child:hover{
 
-    background:color-mix(in srgb, #dbe9ff 50%, white);
+    background:color-mix(in srgb, var(--bg-primary-selected) 50%, var(--bg-surface));
 
 }
 
@@ -304,7 +304,7 @@
     font-size:var(--font-h3);
     font-weight:700;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -333,7 +333,7 @@
 
     letter-spacing:0.4px;
 
-    color:#5f6368;
+    color:var(--text-subtle);
 
 }
 
@@ -361,10 +361,10 @@
     align-items:center;
     justify-content:center;
 
-    border:1px solid #767676;
+    border:1px solid var(--line-box);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     /* Button tier. */
     font-size:var(--font-body);
@@ -378,9 +378,9 @@
 
 .org-calendar-month-nav-button:hover{
 
-    background:#eef4ff;
+    background:var(--bg-primary-tint);
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
 }
 
@@ -393,7 +393,7 @@
     font-size:var(--font-body);
     font-weight:700;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -421,7 +421,7 @@
     font-size:var(--font-body);
     font-weight:700;
 
-    color:#5f6368;
+    color:var(--text-subtle);
 
     text-transform:uppercase;
 
@@ -493,10 +493,10 @@
 
     padding:4px 2px;
 
-    border:1px solid #e4e4e4;
+    border:1px solid var(--line-calendar);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     font:inherit;
 
@@ -508,7 +508,7 @@
 
 .org-calendar-day:hover{
 
-    background:#f5f7fb;
+    background:var(--bg-table-head);
 
 }
 
@@ -524,7 +524,7 @@
 
 .org-calendar-day-today{
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     font-weight:700;
 
@@ -532,9 +532,9 @@
 
 .org-calendar-day-selected{
 
-    background:#eef4ff;
+    background:var(--bg-primary-tint);
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
 }
 
@@ -547,7 +547,7 @@
     font-size:var(--font-body);
     line-height:1.15;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -581,7 +581,7 @@
 
     border-radius:50%;
 
-    background:#0b57d0;
+    background:var(--bg-primary);
 
 }
 
@@ -591,7 +591,7 @@
     font-weight:700;
     line-height:1;
 
-    color:#0b57d0;
+    color:var(--text-primary);
 
 }
 
@@ -601,7 +601,7 @@
 
     padding-top:14px;
 
-    border-top:1px solid #ececec;
+    border-top:1px solid var(--line-rule);
 
 }
 
@@ -612,7 +612,7 @@
     font-size:var(--font-body);
     font-weight:700;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -623,7 +623,7 @@
     /* Text tier. */
     font-size:var(--font-body);
 
-    color:#5f6368;
+    color:var(--text-subtle);
 
     font-style:italic;
 
@@ -642,10 +642,10 @@
 
     margin-bottom:10px;
 
-    border:1px solid #e4e4e4;
+    border:1px solid var(--line-calendar);
     border-radius:6px;
 
-    background:#fafafa;
+    background:var(--bg-panel);
 
 }
 
@@ -669,6 +669,9 @@
    up. */
 .org-calendar-task-origin{
 
+    /* The task's Capability colour (set on the element). */
+    color:color-mix(in srgb, var(--capability-color, currentColor) var(--capability-ink-weight), var(--capability-ink-base));
+
     /* Text tier. */
     font-size:var(--font-body);
     font-weight:700;
@@ -683,7 +686,7 @@
 
     background:transparent;
 
-    color:#0b57d0;
+    color:var(--text-primary);
 
     font:inherit;
     /* Button tier. */
@@ -707,7 +710,7 @@
     /* Text tier. */
     font-size:var(--font-body);
 
-    color:#111827;
+    color:var(--text-default);
 
     line-height:1.4;
 
@@ -727,7 +730,7 @@
 
     padding-top:8px;
 
-    border-top:1px solid #ececec;
+    border-top:1px solid var(--line-rule);
 
 }
 
@@ -746,7 +749,7 @@
 
     text-transform:uppercase;
 
-    color:#5f6368;
+    color:var(--text-subtle);
 
 }
 
@@ -841,7 +844,7 @@
 
     background:none;
 
-    color:var(--capability-color, #333333);
+    color:color-mix(in srgb, var(--capability-color, var(--text-soft)) var(--capability-ink-weight), var(--capability-ink-base));
 
     font:inherit;
     /* Text tier. */
@@ -864,7 +867,7 @@
 
 .org-rail-capability-item:hover{
 
-    background:color-mix(in srgb, var(--capability-color, #0b57d0) 12%, white);
+    background:color-mix(in srgb, var(--capability-color, var(--bg-primary)) 12%, var(--bg-surface));
 
     text-shadow:var(--hover-bold);
 
@@ -919,7 +922,7 @@
 
 .org-rail-system-item:hover{
 
-    background:color-mix(in srgb, var(--system-color, #0b57d0) 10%, #eef4ff);
+    background:color-mix(in srgb, var(--system-color, var(--bg-primary)) 10%, var(--bg-primary-tint));
 
 }
 
@@ -946,7 +949,7 @@
     font-size:var(--font-body);
     font-weight:500;
 
-    color:var(--system-color, #000000);
+    color:color-mix(in srgb, var(--system-color, var(--text-black)) var(--capability-ink-weight), var(--capability-ink-base));
 
     transition:font-weight .15s ease;
 
@@ -965,7 +968,7 @@
     white-space:normal;
     word-break:break-word;
 
-    color:var(--system-color, #000000);
+    color:color-mix(in srgb, var(--system-color, var(--text-black)) var(--capability-ink-weight), var(--capability-ink-base));
 
     transition:font-weight .15s ease;
 
@@ -991,10 +994,10 @@
     font-size:var(--font-body);
     line-height:1.5;
 
-    border:1px solid #767676;
+    border:1px solid var(--line-box);
     border-radius:6px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
 }
 
@@ -1002,7 +1005,7 @@
 
     outline:none;
 
-    border-color:#0b57d0;
+    border-color:var(--line-primary);
 
     /* Focus ring, not just a border-colour swap. The unfocused
        border is #767676 and the focused one #0b57d0 -- only 1.97:1

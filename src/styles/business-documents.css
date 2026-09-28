@@ -50,7 +50,7 @@
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#374151;
+    color:var(--text-secondary);
 
 }
 
@@ -60,16 +60,16 @@
 
     padding:12px 16px;
 
-    border:1px solid #e0c98a;
+    border:1px solid var(--line-note);
     border-left-width:6px;
     border-radius:8px;
 
-    background:#fdf8ea;
+    background:var(--bg-note);
 
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#5c4a12;
+    color:var(--text-note);
 
 }
 
@@ -79,7 +79,7 @@
 
     gap:8px;
 
-    border-bottom:1px solid #d6d3cc;
+    border-bottom:1px solid var(--line-sheet);
 
 }
 
@@ -97,7 +97,7 @@
     font-size:var(--font-body);
     font-weight:600;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
     cursor:pointer;
 
@@ -105,11 +105,11 @@
 
 .business-documents-tab-active{
 
-    border-color:#d6d3cc;
+    border-color:var(--line-sheet);
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
-    color:#111827;
+    color:var(--text-default);
 
     margin-bottom:-1px;
 
@@ -118,7 +118,7 @@
 .business-documents-tab:focus-visible,
 .business-documents-button:focus-visible{
 
-    outline:2px solid #0b57d0;
+    outline:2px solid var(--line-primary);
     outline-offset:2px;
 
 }
@@ -137,16 +137,16 @@
 
     padding:10px 20px;
 
-    border:1px solid #0b57d0;
+    border:1px solid var(--line-primary);
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     font-family:inherit;
     font-size:var(--font-small);
     font-weight:600;
 
-    color:#0b57d0;
+    color:var(--text-primary);
 
     cursor:pointer;
 
@@ -154,7 +154,7 @@
 
 .business-documents-button:hover:not(:disabled){
 
-    background:#eef4ff;
+    background:var(--bg-primary-tint);
 
 }
 
@@ -172,15 +172,15 @@
 
     padding:32px 40px;
 
-    border:1px solid #d6d3cc;
+    border:1px solid var(--line-sheet);
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#1f2937;
+    color:var(--text-strong);
 
     /* A long word or link may break, but never an ordinary word:
        "anywhere" let a narrow column split "Amount" into "Amo unt".
@@ -202,7 +202,7 @@
 
     font-weight:700;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -219,7 +219,7 @@
 
     margin:0 0 8px;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -229,7 +229,7 @@
 
     padding-bottom:4px;
 
-    border-bottom:1px solid #d6d6d6;
+    border-bottom:1px solid var(--line-heading-rule);
 
     font-size:var(--font-h3);
     line-height:1.25;
@@ -254,7 +254,7 @@
 
     margin:18px 0 6px;
 
-    color:#374151;
+    color:var(--text-secondary);
 
 }
 
@@ -283,7 +283,7 @@
 
     padding:6px 8px;
 
-    border:1px solid #d1d5db;
+    border:1px solid var(--line-divider);
 
     text-align:left;
 
@@ -293,7 +293,7 @@
 
 .business-document th{
 
-    background:#f3f4f6;
+    background:var(--bg-neutral);
 
     /* Headings stay on one line: "Frequency", not "Freque ncy". */
     white-space:nowrap;
@@ -385,7 +385,7 @@
     font-size:var(--font-h2);
     line-height:1.25;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -396,7 +396,7 @@
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
@@ -419,7 +419,7 @@
 
     border-radius:10px;
 
-    background:#1f2937;
+    background:var(--bg-strong);
 
 }
 
@@ -436,12 +436,12 @@
 
     padding:14px 16px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     font-size:var(--font-small);
     line-height:1.35;
 
-    color:#1f2937;
+    color:var(--text-strong);
 
     overflow-wrap:break-word;
 
@@ -460,7 +460,7 @@
 
     text-transform:uppercase;
 
-    color:#0f172a;
+    color:var(--text-navy);
 
 }
 
@@ -476,14 +476,14 @@
 
     margin:0;
 
-    color:#6b7280;
+    color:var(--text-faint);
 
 }
 
 .business-canvas-partners{ grid-area:partners; }
 .business-canvas-activities{ grid-area:activities; }
 .business-canvas-resources{ grid-area:resources; }
-.business-canvas-propositions{ grid-area:propositions; background:#f7f5ee; }
+.business-canvas-propositions{ grid-area:propositions; background:var(--bg-canvas-highlight); }
 .business-canvas-relationships{ grid-area:relationships; }
 .business-canvas-channels{ grid-area:channels; }
 .business-canvas-segments{ grid-area:segments; }
@@ -549,7 +549,7 @@
     font-size:var(--font-small);
     font-weight:600;
 
-    color:#374151;
+    color:var(--text-secondary);
 
 }
 
@@ -564,18 +564,18 @@
     font-weight:400;
     line-height:1.5;
 
-    color:#111827;
+    color:var(--text-default);
 
-    border:1px solid #767676;
+    border:1px solid var(--line-box);
     border-radius:6px;
 
-    background-color:#ffffff;
+    background-color:var(--bg-surface);
 
 }
 
 .business-documents-option .interview-input:focus-visible{
 
-    outline:2px solid #0b57d0;
+    outline:2px solid var(--line-primary);
     outline-offset:2px;
 
 }
@@ -595,10 +595,10 @@
 
     overflow-x:auto;
 
-    border:1px solid #d6d3cc;
+    border:1px solid var(--line-sheet);
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
 }
 
@@ -636,7 +636,7 @@
 
     text-align:left;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -673,9 +673,9 @@
 
     font-weight:700;
 
-    background:#f3f4f6;
+    background:var(--bg-neutral);
 
-    border-left:1px solid #d1d5db;
+    border-left:1px solid var(--line-divider);
 
 }
 
@@ -684,7 +684,7 @@
 
     padding:6px 12px;
 
-    border-top:1px solid #e5e7eb;
+    border-top:1px solid var(--line-hairline);
 
     white-space:nowrap;
 
@@ -698,11 +698,11 @@
 
 .business-forecast-table thead th{
 
-    background:#f3f4f6;
+    background:var(--bg-neutral);
 
     text-align:right;
 
-    color:#374151;
+    color:var(--text-secondary);
 
 }
 
@@ -714,7 +714,7 @@
 
     left:0;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     text-align:left;
 
@@ -724,7 +724,7 @@
 
 .business-forecast-table thead th:first-child{
 
-    background:#f3f4f6;
+    background:var(--bg-neutral);
 
 }
 
@@ -733,13 +733,13 @@
 
     font-weight:700;
 
-    background:#f9fafb;
+    background:var(--bg-total);
 
 }
 
 .business-forecast-total th[scope="row"]{
 
-    background:#f9fafb;
+    background:var(--bg-total);
 
 }
 
@@ -759,14 +759,14 @@
     font-size:var(--font-small);
     line-height:1.5;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
 /* "Income tax: Not estimated": words where a figure would be. */
 .business-forecast-text td{
 
-    color:#6b7280;
+    color:var(--text-faint);
 
     font-style:italic;
 
@@ -780,7 +780,7 @@
 
     font-weight:700;
 
-    color:#111827;
+    color:var(--text-default);
 
 }
 
@@ -790,7 +790,7 @@
 
     left:0;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
     text-align:left;
 
@@ -805,14 +805,14 @@
     font-size:var(--font-small);
     line-height:1.5;
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 
 .business-forecast-table-wrap{
 
     scrollbar-width:thin;
-    scrollbar-color:#9ca3af transparent;
+    scrollbar-color:var(--line-quiet) transparent;
 
 }
 
@@ -828,7 +828,7 @@
 
     border-radius:4px;
 
-    background:#9ca3af;
+    background:var(--bg-quiet);
 
 }
 
@@ -846,7 +846,7 @@
     font-size:var(--font-small);
     line-height:1.5;
 
-    color:#374151;
+    color:var(--text-secondary);
 
 }
 

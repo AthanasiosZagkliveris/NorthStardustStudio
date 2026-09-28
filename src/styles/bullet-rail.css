@@ -8,9 +8,9 @@
 
 :root {
 
-    --rail-dot: #B5D4F4;          /* ice blue: every other bullet */
-    --rail-dot-active: #0b57d0;   /* the app's blue: where the user is */
-    --rail-bloom: #C9DDF8;        /* the light-blue bloom ring around it */
+    --rail-dot: var(--bg-rail-dot);          /* ice blue: every other bullet */
+    --rail-dot-active: var(--bg-primary);   /* the app's blue: where the user is */
+    --rail-bloom: var(--bg-rail-bloom);        /* the light-blue bloom ring around it */
     --rail-gutter: 56px;          /* dots-only width */
 
     /* The interview card's width -- the same value as
@@ -104,7 +104,7 @@
     font-weight: 700;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: #5f6368;
+    color: var(--text-subtle);
     text-decoration: underline;
     text-decoration-color: currentColor;
     text-underline-offset: 0.2em;
@@ -157,7 +157,7 @@
 
     font: inherit;
     font-size: var(--font-body);
-    color: #5f6368;
+    color: var(--text-subtle);
     text-align: left;
 
 }
@@ -183,7 +183,7 @@
    global.css): a real weight change widens the label, which at
    the wide-window inline layout below overflowed the rail's own
    reserved max-width by a few pixels. */
-.bullet-rail-item.active { color: #1f2937; text-shadow: var(--hover-bold); }
+.bullet-rail-item.active { color: var(--text-strong); text-shadow: var(--hover-bold); }
 
 .bullet-rail-item.active .bullet-rail-dot {
 
@@ -197,7 +197,7 @@
 
 .bullet-rail-item.active:hover .bullet-rail-dot { transform: scale(1.45); }
 
-.bullet-rail-item:focus-visible { outline: 2px solid #0b57d0; outline-offset: 4px; border-radius: 4px; }
+.bullet-rail-item:focus-visible { outline: 2px solid var(--line-primary); outline-offset: 4px; border-radius: 4px; }
 
 /* Narrow windows: dots only; the label appears beside the dot on
    hover/focus, like a tooltip -- on the outer side, or over the
@@ -211,8 +211,8 @@
     padding: 4px 8px;
 
     border-radius: 6px;
-    background: #1f2937;
-    color: #ffffff;
+    background: var(--bg-strong);
+    color: var(--text-on-fill);
 
     white-space: nowrap;
     font-weight: 500;

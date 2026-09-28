@@ -31,7 +31,7 @@
     /* Each Capability shows in its own colour by
        default, not a shared neutral tone -- the
        colour is what identifies it at a glance. */
-    color: var(--capability-color, #333333);
+    color: color-mix(in srgb, var(--capability-color, var(--text-soft)) var(--capability-ink-weight), var(--capability-ink-base));
 
     /* Tracking follows weight: none while regular, 5% once bold.
        Stated here rather than left to inherit, so the label is
@@ -60,11 +60,11 @@
 }
 
 .capability-item:hover {
-    background: color-mix(in srgb, var(--capability-color, #0b57d0) 12%, white);
+    background: color-mix(in srgb, var(--capability-color, var(--bg-primary)) 12%, var(--bg-surface));
 }
 
 .capability-item.active {
-    background: color-mix(in srgb, var(--capability-color, #0b57d0) 16%, white);
+    background: color-mix(in srgb, var(--capability-color, var(--bg-primary)) 16%, var(--bg-surface));
 }
 
 .capability-item:last-child {

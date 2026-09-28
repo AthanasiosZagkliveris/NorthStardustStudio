@@ -71,7 +71,7 @@
     font-weight: 700;
     line-height: 1.2;
 
-    color: #111827;
+    color: var(--text-default);
 
 }
 
@@ -86,7 +86,7 @@
 
     margin-top: 16px;
 
-    background: #0b57d0;
+    background: var(--bg-primary);
 
 }
 
@@ -101,7 +101,7 @@
 
     padding: 0 20px;
 
-    border: 1px solid #d1d5db;
+    border: 1px solid var(--line-divider);
     border-radius: 8px;
 
     font: inherit;
@@ -115,7 +115,7 @@
 
 .capability-input::placeholder {
 
-    color: #9ca3af;
+    color: var(--text-quiet);
 
 }
 
@@ -123,7 +123,7 @@
 
     outline: none;
 
-    border-color: #0b57d0;
+    border-color: var(--line-primary);
 
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
 
@@ -169,15 +169,15 @@
 
     padding: 0 18px;
 
-    background: #ffffff;
+    background: var(--bg-surface);
 
-    border: 1px solid #d1d5db;
+    border: 1px solid var(--line-divider);
     border-radius: 8px;
 
     font: inherit;
     font-size: var(--font-body);
 
-    color: #374151;
+    color: var(--text-secondary);
 
     cursor: pointer;
 
@@ -191,11 +191,11 @@
 
 .capability-chip:hover {
 
-    background: #eef4ff;
+    background: var(--bg-primary-tint);
 
-    border-color: #0b57d0;
+    border-color: var(--line-primary);
 
-    color: #0b57d0;
+    color: var(--text-primary);
 
 }
 
@@ -209,7 +209,7 @@
 
     outline: none;
 
-    border-color: #0b57d0;
+    border-color: var(--line-primary);
 
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
 

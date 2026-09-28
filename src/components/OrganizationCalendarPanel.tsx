@@ -754,7 +754,7 @@ export default function OrganizationCalendarPanel({
 
                                             <span
                                                 className="org-calendar-task-origin"
-                                                style={{ color: task.color }}
+                                                style={{ "--capability-color": task.color } as React.CSSProperties}
                                             >
                                                 {task.originLabel} {task.sectionTitle}
                                             </span>

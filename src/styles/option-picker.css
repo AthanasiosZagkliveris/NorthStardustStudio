@@ -72,8 +72,8 @@
 
 .option-picker .option-picker-trigger.interview-input:disabled{
 
-    color:#6b7280;
-    border-color:#c9c9c9;
+    color:var(--text-faint);
+    border-color:var(--line-card);
 
     cursor:not-allowed;
 
@@ -123,9 +123,9 @@
     border:1px solid var(--box-border);
     border-radius:8px;
 
-    background:#ffffff;
+    background:var(--bg-surface);
 
-    box-shadow:0 12px 28px rgba(17, 24, 39, .18);
+    box-shadow:0 12px 28px var(--shadow-ink-18);
 
     /* The list holds the keyboard while it is open, and it is a
        listbox rather than a field -- so no focus ring of its own;
@@ -143,7 +143,7 @@
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:#111827;
+    color:var(--text-default);
 
     white-space:nowrap;
 
@@ -203,7 +203,7 @@
 
     font-size:var(--font-body);
 
-    color:#4b5563;
+    color:var(--text-muted);
 
 }
 

@@ -13,7 +13,7 @@
     justify-content: center;
     align-items: center;
 
-    background: rgba(0, 0, 0, 0.35);
+    background: var(--bg-overlay);
 
     padding: 40px;
 
@@ -33,14 +33,14 @@
 
     overflow-y: auto;
 
-    background: #ffffff;
+    background: var(--bg-surface);
 
     border-radius: 12px;
-    border-top: 6px solid var(--capability-color, #0b57d0);
+    border-top: 6px solid color-mix(in srgb, var(--capability-color, var(--line-primary)) var(--capability-ink-weight), var(--capability-ink-base));
 
     padding: 36px 40px;
 
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 16px 40px var(--shadow-18);
 
 }
 
@@ -78,7 +78,7 @@
     font-size: var(--font-h2);
     font-weight: 700;
 
-    color: var(--capability-color, #111827);
+    color: color-mix(in srgb, var(--capability-color, var(--text-default)) var(--capability-ink-weight), var(--capability-ink-base));
 
 }
 
@@ -89,7 +89,7 @@
     font-size: var(--font-body);
     font-style: italic;
 
-    color: #5f6368;
+    color: var(--text-subtle);
 
 }
 
@@ -107,7 +107,7 @@
     font-size: var(--font-body);
     line-height: 1.65;
 
-    color: #333333;
+    color: var(--text-soft);
 
 }
 
@@ -123,9 +123,9 @@
 
     border-radius: 8px;
 
-    background: color-mix(in srgb, var(--capability-color, #0b57d0) 8%, white);
+    background: color-mix(in srgb, var(--capability-color, var(--bg-primary)) 8%, var(--bg-surface));
 
-    border-left: 4px solid var(--capability-color, #0b57d0);
+    border-left: 4px solid color-mix(in srgb, var(--capability-color, var(--line-primary)) var(--capability-ink-weight), var(--capability-ink-base));
 
 }
 
@@ -140,7 +140,7 @@
 
     text-transform: uppercase;
 
-    color: var(--capability-color, #0b57d0);
+    color: color-mix(in srgb, var(--capability-color, var(--text-primary)) var(--capability-ink-weight), var(--capability-ink-base));
 
 }
 
@@ -151,7 +151,7 @@
     font-size: var(--font-small);
     line-height: 1.6;
 
-    color: #333333;
+    color: var(--text-soft);
 
 }
 
@@ -189,7 +189,7 @@
     font-size: var(--font-body);
     font-weight: 400;
 
-    color: #111827;
+    color: var(--text-default);
 
     transition: color .15s ease, font-weight .15s ease;
 
@@ -198,7 +198,7 @@
 .capability-description-back:hover,
 .capability-description-back:focus {
 
-    color: var(--capability-color, #0b57d0);
+    color: color-mix(in srgb, var(--capability-color, var(--text-primary)) var(--capability-ink-weight), var(--capability-ink-base));
 
     text-shadow: var(--hover-bold);
 
