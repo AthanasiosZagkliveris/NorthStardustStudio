@@ -23,10 +23,12 @@ interface BrandStyleEditorProps {
 
     disabled?: boolean;
 
-    /** A page numbered under its own number ("2" gives 2.1, 2.2): see AnswerDefinition.nestedNumbering. */
-    numberPrefix?: string;
-
-    /** The number this page's FIRST section carries when there is no numberPrefix. */
+    /**
+     * The number this page's FIRST section carries: 1 on a page
+     * that numbers its own sections (see
+     * AnswerDefinition.nestedNumbering), otherwise where the
+     * System's running count has got to.
+     */
     startNumber?: number;
 
     /**
@@ -158,8 +160,6 @@ export default function BrandStyleEditor({
 
     startNumber = 1,
 
-    numberPrefix,
-
     columnsDivider,
 
     showInstructions = true
@@ -269,7 +269,6 @@ export default function BrandStyleEditor({
             <ColumnHeading
                 offset={offset}
                 title={BRAND_STYLE_SECTIONS[offset]}
-                numberPrefix={numberPrefix}
                 startNumber={startNumber}
             />
         );

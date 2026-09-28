@@ -1672,7 +1672,7 @@ export const BRAND_IMAGE_MAX = 5;
 
 /**
  * The titles of the Brand Style and Brand Inventory pages' sections
- * (2.1-2.3 and 3.1-3.2 under the System's nested numbering), used
+ * (1-3 and 1-2, each page counting its own), used
  * both to head each section and to name it in the completeness
  * dialog.
  */
@@ -1720,7 +1720,7 @@ export function numberedUnitCount(
     // ONE, not six. The Legal Entity page takes a single number of
     // its own in a running count -- 9 after the Identity System's
     // two four-column pages -- and its six subsections number
-    // themselves from inside it (3.1 to 3.6 under the nested
+    // themselves from inside it (1 to 6 under the page-by-page
     // numbering the Identity System uses), the way a Strategic
     // Theme numbers its Goals.
     if (answer.type === AnswerType.LegalEntity) {
@@ -6454,7 +6454,7 @@ export function businessResponsibleId(
 
 /**
  * The page's founders, taken from the Identity System's Legal
- * Entity -- 3.2 Founders & Ownership -- where they are answered.
+ * Entity -- 2. Founders & Ownership -- where they are answered.
  *
  * Each named Legal Entity founder becomes one founder here, under
  * that founder's own id, so every Responsibility on this page points

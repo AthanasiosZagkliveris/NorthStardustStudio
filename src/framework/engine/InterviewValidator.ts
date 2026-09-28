@@ -105,9 +105,8 @@ export class InterviewValidator {
                             // The running count still advances, so a
                             // System mixing the two conventions stays
                             // correct either way.
-                            label: nested
-                                ? section.number + "." + (index + 1)
-                                : undefined
+                            pageNumber: nested ? section.number : undefined,
+                            label: nested ? (index + 1) + "." : undefined
                         });
 
                     }
@@ -119,13 +118,16 @@ export class InterviewValidator {
             }
 
             // The Brand System's Style and Inventory pages each hold
-            // several named sections of their own, numbered
-            // continuously with that System's column pages (1-4
-            // Brand Foundation, 5-7 Style, 8-9 Inventory). Reporting
-            // the page as one line would name it "Style" and leave
-            // the user hunting for which of its three parts is
-            // actually unfinished.
+            // several named sections of their own, counted in the
+            // System's running count (1-4 Brand Foundation, 5-7
+            // Style, 8-9 Inventory) and, on a Section that numbers
+            // its own units, reported under the page as it shows
+            // them (1-3, 1-2). Reporting the page as one line would
+            // name it "Style" and leave the user hunting for which
+            // of its three parts is actually unfinished.
             if (section.answer?.type === AnswerType.BrandStyle) {
+
+                const nested = section.answer.nestedNumbering;
 
                 brandStyleSectionsEmpty(session.getResponse(section.number))
                     .forEach((empty, index) => {
@@ -133,7 +135,9 @@ export class InterviewValidator {
                         if (empty) {
                             issues.push({
                                 sectionNumber: columnNumber,
-                                sectionTitle: BRAND_STYLE_SECTIONS[index]
+                                sectionTitle: BRAND_STYLE_SECTIONS[index],
+                                pageNumber: nested ? section.number : undefined,
+                                label: nested ? (index + 1) + "." : undefined
                             });
                         }
                     });
@@ -142,14 +146,11 @@ export class InterviewValidator {
 
             }
 
-            // The Legal Entity page takes ONE number of its own and
-            // numbers its six subsections from inside it (9.1, 9.2,
-            // ...), so an unfinished part is reported by its own
-            // nested number rather than by the page's.
             // The Foundation section reports its four SUBSECTIONS,
             // not itself, so the dialog names the subsection the user
-            // has to go back to. Numbered from the page, the way the
-            // Definition and Ethics pages number theirs.
+            // has to go back to, under the page it is on. Numbered
+            // 1-4 as the page shows them, the way the Definition and
+            // Ethics pages number theirs.
             if (section.answer?.type === AnswerType.BusinessFoundation) {
 
                 columnNumber++;
@@ -162,7 +163,8 @@ export class InterviewValidator {
                             issues.push({
                                 sectionNumber: pageNumber,
                                 sectionTitle: BUSINESS_FOUNDATION_SUBSECTIONS[index],
-                                label: section.number + "." + (index + 1)
+                                pageNumber: section.number,
+                                label: (index + 1) + "."
                             });
                         }
                     });
@@ -172,9 +174,8 @@ export class InterviewValidator {
             }
 
             // The Customer Engagement page reports its TWO sections
-            // the same way, and numbers them from the page for the
-            // same reason: "2.1 Customer Channel" is where the user
-            // has to go back to, not "2".
+            // the same way, for the same reason: "1. Customer Channel"
+            // on page 2 is where the user has to go back to, not "2".
             if (section.answer?.type === AnswerType.BusinessEngagement) {
 
                 columnNumber++;
@@ -187,7 +188,8 @@ export class InterviewValidator {
                             issues.push({
                                 sectionNumber: pageNumber,
                                 sectionTitle: BUSINESS_ENGAGEMENT_SECTIONS[index],
-                                label: section.number + "." + (index + 1)
+                                pageNumber: section.number,
+                                label: (index + 1) + "."
                             });
                         }
                     });
@@ -210,7 +212,8 @@ export class InterviewValidator {
                             issues.push({
                                 sectionNumber: pageNumber,
                                 sectionTitle: BUSINESS_CAPABILITY_SECTIONS[index],
-                                label: section.number + "." + (index + 1)
+                                pageNumber: section.number,
+                                label: (index + 1) + "."
                             });
                         }
                     });
@@ -243,7 +246,8 @@ export class InterviewValidator {
                             issues.push({
                                 sectionNumber: pageNumber,
                                 sectionTitle: titles[index],
-                                label: section.number + "." + (index + 1)
+                                pageNumber: section.number,
+                                label: (index + 1) + "."
                             });
                         }
                     });
@@ -252,13 +256,17 @@ export class InterviewValidator {
 
             }
 
+            // The Legal Entity page takes ONE number of its own and
+            // numbers its six subsections 1-6 inside it, so an
+            // unfinished part is reported by its own number, under
+            // the page, rather than by the page's.
             if (section.answer?.type === AnswerType.LegalEntity) {
 
                 columnNumber++;
 
                 const pageNumber = columnNumber;
 
-                const prefix = section.answer.nestedNumbering
+                const page = section.answer.nestedNumbering
                     ? section.number
                     : pageNumber;
 
@@ -268,7 +276,8 @@ export class InterviewValidator {
                             issues.push({
                                 sectionNumber: pageNumber,
                                 sectionTitle: LEGAL_ENTITY_SECTIONS[index],
-                                label: prefix + "." + (index + 1)
+                                pageNumber: page,
+                                label: (index + 1) + "."
                             });
                         }
                     });
@@ -279,13 +288,17 @@ export class InterviewValidator {
 
             if (section.answer?.type === AnswerType.BrandInventory) {
 
+                const nested = section.answer.nestedNumbering;
+
                 brandInventorySectionsEmpty(session.getResponse(section.number))
                     .forEach((empty, index) => {
                         columnNumber++;
                         if (empty) {
                             issues.push({
                                 sectionNumber: columnNumber,
-                                sectionTitle: BRAND_INVENTORY_SECTIONS[index]
+                                sectionTitle: BRAND_INVENTORY_SECTIONS[index],
+                                pageNumber: nested ? section.number : undefined,
+                                label: nested ? (index + 1) + "." : undefined
                             });
                         }
                     });
@@ -299,13 +312,17 @@ export class InterviewValidator {
             // page.
             if (section.answer?.type === AnswerType.StrategyFoundation) {
 
+                const nested = section.answer.nestedNumbering;
+
                 strategyFoundationSectionsEmpty(session.getResponse(section.number))
                     .forEach((empty, index) => {
                         columnNumber++;
                         if (empty) {
                             issues.push({
                                 sectionNumber: columnNumber,
-                                sectionTitle: STRATEGY_FOUNDATION_SECTIONS[index]
+                                sectionTitle: STRATEGY_FOUNDATION_SECTIONS[index],
+                                pageNumber: nested ? section.number : undefined,
+                                label: nested ? (index + 1) + "." : undefined
                             });
                         }
                     });

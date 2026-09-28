@@ -792,14 +792,12 @@ export default function BusinessFoundationEditor({
     const heads = [
         {
             number: 1,
-            letter: "A",
             title: "Customer Segment and Profile",
             instructions: SUBSECTIONS.segments.instructions,
             note: { label: "Your Positioning (Identity)", points: targetAudienceNote }
         },
         {
             number: 2,
-            letter: "B",
             title: "Competitor and Alternative",
             instructions: SUBSECTIONS.competitors.instructions,
             // Who you are compared with follows from where you stand.
@@ -807,14 +805,12 @@ export default function BusinessFoundationEditor({
         },
         {
             number: 3,
-            letter: "C",
             title: "Value Proposition",
             instructions: SUBSECTIONS.valueProposition.instructions,
             note: null
         },
         {
             number: 4,
-            letter: "D",
             title: "Offering",
             instructions: SUBSECTIONS.offerings.instructions,
             note: null
@@ -1443,17 +1439,16 @@ export default function BusinessFoundationEditor({
             {/* Row 1: the four subsection titles, which a grid row
                 sizes together so they share a baseline however long
                 one of them runs. */}
-            {/* Lettered A to D, which is the order they are meant
+            {/* Numbered 1 to 4, which is the order they are meant
                 to be worked in: who you serve, who else serves
                 them, what you promise them, what you sell them.
-                Letters rather than the 1.1-1.4 numbers these
-                carried before -- a letter reads as a step in a
-                sequence where a decimal read as a clause
-                reference. */}
+                Plain numbers counted on this page, not decimals
+                under the page's own number: every level of the
+                Foundation pages counts on its own. */}
             {heads.map(head => (
                 <h3 className="answer-column-label" key={"title-" + head.number}>
                     <span className="answer-column-label-number">
-                        {head.letter + "."}
+                        {head.number + "."}
                     </span>
                     <span className="answer-column-label-text">{head.title}</span>
                 </h3>

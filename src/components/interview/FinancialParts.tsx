@@ -489,7 +489,7 @@ export interface FinancialSection {
 }
 
 /**
- * THE PAGE'S HEAD, as on Pages 1 to 3: a lettered title for each
+ * THE PAGE'S HEAD, as on Pages 1 to 3: a numbered title for each
  * section, its instructions beneath (hidden with the help), then the
  * progress line.
  */
@@ -517,7 +517,7 @@ export function FinancialPageHead({
             {sections.map((section, position) => (
                 <h3 className="answer-column-label" key={"title-" + section.title}>
                     <span className="answer-column-label-number">
-                        {String.fromCharCode(65 + position) + "."}
+                        {(position + 1) + "."}
                     </span>
                     <span className="answer-column-label-text">{section.title}</span>
                 </h3>

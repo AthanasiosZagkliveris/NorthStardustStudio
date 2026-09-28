@@ -175,7 +175,7 @@ const SECTIONS = {
             "When in the customer journey does the interaction take place? Each stage chosen is answered separately, because the Approach is individual to each."
         ],
         channelAction: [
-            "Recorded against that Channel in A. Customer Channel, and shown here so the Approach can build on it rather than repeat it."
+            "Recorded against that Channel in 1. Customer Channel, and shown here so the Approach can build on it rather than repeat it."
         ],
         approach: [
             "How will you use this interaction to maintain the relationship with the customer?"
@@ -1097,7 +1097,7 @@ export default function BusinessEngagementEditor({
 
     }
 
-    /* ---------- A. Customer Channel ---------- */
+    /* ---------- 1. Customer Channel ---------- */
     /**
      * The Channels table.
      *
@@ -1962,13 +1962,13 @@ export default function BusinessEngagementEditor({
 
     }
 
-    /* ---------- B. Customer Relationship ---------- */
+    /* ---------- 2. Customer Relationship ---------- */
 
     /**
      * The Offerings this Segment's Channels table records ANY
      * interaction for -- see relationshipsFor's own `offeringIds`,
      * which this is factored out of. Read independently of whether
-     * "B. Customer Relationship" is open, so the section head's
+     * "2. Customer Relationship" is open, so the section head's
      * "Expand all" can be given the right ids whether or not its
      * body is currently drawn.
      */
@@ -1998,7 +1998,7 @@ export default function BusinessEngagementEditor({
      *   Profile | Relationship Type / Purpose | Offering
      *           | Journey Stage / Channel | Approach
      *
-     * ITS ROWS ARE NOT CHOSEN -- THEY ARE READ OFF A. CUSTOMER
+     * ITS ROWS ARE NOT CHOSEN -- THEY ARE READ OFF 1. CUSTOMER
      * CHANNEL. That table already says which Offerings each channel
      * carries and at which stages it is used, and every one of
      * those is an interaction the organisation has. Choosing them
@@ -2086,7 +2086,7 @@ export default function BusinessEngagementEditor({
         if (offeringIds.length === 0) {
             return (
                 <BusinessEmpty>
-                    Give a Channel in A. Customer Channel one of this Segment&rsquo;s
+                    Give a Channel in 1. Customer Channel one of this Segment&rsquo;s
                     Offerings and a Journey Stage, and the interactions appear here.
                 </BusinessEmpty>
             );
@@ -3492,19 +3492,19 @@ export default function BusinessEngagementEditor({
      * every Segment, which is why they sit above the process line
      * and outside the input cards.
      *
-     * Lettered A and B, as Page 1's four subsections are lettered A
-     * to D: a letter reads as a step in a sequence, and these two
-     * are worked in order -- where you reach the customer, then how
-     * you keep the relationship going there.
+     * Numbered 1 and 2 on this page, as Page 1's four subsections
+     * are numbered 1 to 4: these two are worked in order -- where
+     * you reach the customer, then how you keep the relationship
+     * going there.
      */
     const heads = [
         {
-            letter: "A",
+            number: 1,
             title: "Customer Channel",
             instructions: SECTIONS.channels.instructions
         },
         {
-            letter: "B",
+            number: 2,
             title: "Customer Relationship",
             instructions: SECTIONS.relationships.instructions
         }
@@ -3519,9 +3519,9 @@ export default function BusinessEngagementEditor({
 
             {/* Row 1: the two section titles. */}
             {heads.map(head => (
-                <h3 className="answer-column-label" key={"title-" + head.letter}>
+                <h3 className="answer-column-label" key={"title-" + head.number}>
                     <span className="answer-column-label-number">
-                        {head.letter + "."}
+                        {head.number + "."}
                     </span>
                     <span className="answer-column-label-text">{head.title}</span>
                 </h3>
@@ -3531,7 +3531,7 @@ export default function BusinessEngagementEditor({
             {showInstructions && heads.map(head => (
                 <div
                     className="answer-column-questions"
-                    key={"questions-" + head.letter}
+                    key={"questions-" + head.number}
                 >
                     {head.instructions.map(line => (
                         <span
@@ -3694,7 +3694,7 @@ export default function BusinessEngagementEditor({
                                     other underfoot. */}
                                 {foldingSection(
                                     segment.id + "-channels",
-                                    "A. Customer Channel",
+                                    "1. Customer Channel",
                                     () => channelsFor(segment),
                                     0,
                                     <FoldAllToggle
@@ -3706,7 +3706,7 @@ export default function BusinessEngagementEditor({
 
                                 {foldingSection(
                                     segment.id + "-relationships",
-                                    "B. Customer Relationship",
+                                    "2. Customer Relationship",
                                     () => relationshipsFor(segment),
                                     1,
                                     <FoldAllToggle

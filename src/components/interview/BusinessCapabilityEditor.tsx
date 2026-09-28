@@ -382,7 +382,7 @@ interface BusinessCapabilityEditorProps {
 
     /**
      * The founders answered under 1. Identity System — 3. Legal
-     * Entity, 3.2 Founders & Ownership. They ARE this page's
+     * Entity, 2. Founders & Ownership. They ARE this page's
      * founders: named there, given Roles and a Salary here.
      */
     legalEntityFounders?: readonly LegalEntityFounderValue[];
@@ -1468,7 +1468,7 @@ export default function BusinessCapabilityEditor({
                             ? (
                                 <BusinessEmpty>
                                     None yet. Add them under 1. Identity System
-                                    → 3. Legal Entity → 3.2 Founders & Ownership.
+                                    → 3. Legal Entity → 2. Founders & Ownership.
                                 </BusinessEmpty>
                             )
                             : (
@@ -1846,7 +1846,7 @@ export default function BusinessCapabilityEditor({
             current,
             onNext,
             "Select a founder",
-            "Add a founder under 1. Identity System → 3. Legal Entity → 3.2 Founders & Ownership.",
+            "Add a founder under 1. Identity System → 3. Legal Entity → 2. Founders & Ownership.",
             info,
             what ? what + " responsibility" : undefined,
             true
@@ -2166,7 +2166,7 @@ export default function BusinessCapabilityEditor({
     }
 
     /**
-     * A. External Professionals & Partners BESIDE B. Providers, in
+     * 1. External Professionals & Partners BESIDE 2. Providers, in
      * the grid 1. Resources lays its sections out on: two kinds of
      * somebody the organisation engages, read across rather than one
      * long list after the other.
@@ -2177,13 +2177,13 @@ export default function BusinessCapabilityEditor({
 
                 {partnerGroup(
                     scope, "professionals",
-                    "A. External Professionals & Partners",
+                    "1. External Professionals & Partners",
                     SECTIONS.infrastructure.professionals
                 )}
 
                 {partnerGroup(
                     scope, "providers",
-                    "B. Providers",
+                    "2. Providers",
                     SECTIONS.infrastructure.providers
                 )}
 
@@ -2257,7 +2257,7 @@ export default function BusinessCapabilityEditor({
                         {founders.length === 0 && (
                             <BusinessEmpty>
                                 Add founders under 1. Identity System → 3. Legal
-                                Entity → 3.2 Founders & Ownership and they appear
+                                Entity → 2. Founders & Ownership and they appear
                                 here.
                             </BusinessEmpty>
                         )}
@@ -2676,7 +2676,7 @@ export default function BusinessCapabilityEditor({
                     {rows.length === 0
                         ? (
                             <BusinessEmpty>
-                                Nobody yet. Add founders under 1. Identity System → 3. Legal Entity → 3.2 Founders &amp; Ownership,
+                                Nobody yet. Add founders under 1. Identity System → 3. Legal Entity → 2. Founders &amp; Ownership,
                                 or an external professional under 3. Partnerships &amp; Providers.
                             </BusinessEmpty>
                         )
@@ -3008,12 +3008,12 @@ export default function BusinessCapabilityEditor({
 
     const heads = [
         {
-            letter: "A",
+            number: 1,
             title: "Infrastructure",
             instructions: SECTIONS.infrastructure.instructions
         },
         {
-            letter: "B",
+            number: 2,
             title: "Offering's Capability",
             instructions: SECTIONS.offering.instructions
         }
@@ -3044,9 +3044,9 @@ export default function BusinessCapabilityEditor({
         >
 
             {heads.map(head => (
-                <h3 className="answer-column-label" key={"title-" + head.letter}>
+                <h3 className="answer-column-label" key={"title-" + head.number}>
                     <span className="answer-column-label-number">
-                        {head.letter + "."}
+                        {head.number + "."}
                     </span>
                     <span className="answer-column-label-text">{head.title}</span>
                 </h3>
@@ -3055,7 +3055,7 @@ export default function BusinessCapabilityEditor({
             {showInstructions && heads.map(head => (
                 <div
                     className="answer-column-questions"
-                    key={"questions-" + head.letter}
+                    key={"questions-" + head.number}
                 >
                     {head.instructions.map(line => (
                         <span

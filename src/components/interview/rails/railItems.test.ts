@@ -38,8 +38,8 @@ describe("sectionRailItems", () => {
             parts: [{ id: "mission", label: "Mission" }, { id: "vision", label: "Vision" }]
         } as unknown as AnswerDefinition;
         expect(sectionRailItems(answer)).toEqual([
-            { id: "mission", label: "Mission" },
-            { id: "vision", label: "Vision" }
+            { id: "mission", label: "1. Mission" },
+            { id: "vision", label: "2. Vision" }
         ]);
     });
 
@@ -68,14 +68,14 @@ describe("sectionRailItems", () => {
             columns: true,
             parts: [{ id: "primary", label: "" }, { id: "blank", label: "  " }, { id: "vision", label: "Vision" }]
         } as unknown as AnswerDefinition;
-        expect(sectionRailItems(answer)).toEqual([{ id: "vision", label: "Vision" }]);
+        expect(sectionRailItems(answer)).toEqual([{ id: "vision", label: "3. Vision" }]);
     });
 
     it("uses the fixed sub-sections of a bespoke page", () => {
         const answer = { type: AnswerType.BusinessCapability } as unknown as AnswerDefinition;
         expect(sectionRailItems(answer)).toEqual([
-            { id: "infrastructure", label: "Infrastructure" },
-            { id: "offering-s-capability", label: "Offering's Capability" }
+            { id: "infrastructure", label: "1. Infrastructure" },
+            { id: "offering-s-capability", label: "2. Offering's Capability" }
         ]);
     });
 
@@ -85,9 +85,33 @@ describe("sectionRailItems", () => {
             { id: "t1", name: "Financial Stability", description: "" },
             { id: "t2", name: "", description: "" }
         ])).toEqual([
-            { id: "t1", label: "Financial Stability" },
-            { id: "t2", label: "Theme 2" }
+            { id: "t1", label: "1. Financial Stability" },
+            { id: "t2", label: "2. Theme 2" }
         ]);
+    });
+
+    it("numbers the Legal Entity page's sections on their own", () => {
+        const answer = { type: AnswerType.LegalEntity, nestedNumbering: true } as unknown as AnswerDefinition;
+        const labels = sectionRailItems(answer).map(item => item.label);
+        expect(labels[0]).toBe("1. Organization");
+        expect(labels[1]).toBe("2. Founders & Ownership");
+        expect(labels[5]).toBe("6. Legal Entity Expenses");
+    });
+
+    it("carries on a running count where the page does", () => {
+        const columns = {
+            type: AnswerType.MultiPart,
+            columns: true,
+            parts: [{ id: "mission", label: "Mission" }, { id: "vision", label: "Vision" }]
+        } as unknown as AnswerDefinition;
+        expect(sectionRailItems(columns, [], 5).map(item => item.label)).toEqual(["5. Mission", "6. Vision"]);
+
+        const style = { type: AnswerType.BrandStyle } as unknown as AnswerDefinition;
+        expect(sectionRailItems(style, [], 5)[0].label).toBe("5. Colours");
+
+        // A page that never continues the count starts from 1 regardless.
+        const capability = { type: AnswerType.BusinessCapability } as unknown as AnswerDefinition;
+        expect(sectionRailItems(capability, [], 5)[0].label).toBe("1. Infrastructure");
     });
 
     it("is empty for pages without sub-sections", () => {

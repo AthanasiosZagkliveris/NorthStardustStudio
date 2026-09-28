@@ -20,9 +20,6 @@ interface BrandInventoryEditorProps {
 
     disabled?: boolean;
 
-    /** A page numbered under its own number ("2" gives 2.1, 2.2): see AnswerDefinition.nestedNumbering. */
-    numberPrefix?: string;
-
     /** See BrandStyleEditor.startNumber. */
     startNumber?: number;
 
@@ -195,8 +192,6 @@ export default function BrandInventoryEditor({
 
     startNumber = 1,
 
-    numberPrefix,
-
     columnsDivider,
 
     showInstructions = true
@@ -324,7 +319,6 @@ export default function BrandInventoryEditor({
             <ColumnHeading
                 offset={offset}
                 title={BRAND_INVENTORY_SECTIONS[offset]}
-                numberPrefix={numberPrefix}
                 startNumber={startNumber}
             />
         );

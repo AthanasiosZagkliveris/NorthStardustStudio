@@ -66,10 +66,28 @@ const FIXED_SECTIONS: Partial<Record<AnswerType, readonly string[]>> = {
     [AnswerType.StrategyFoundation]: STRATEGY_FOUNDATION_SECTIONS
 };
 
-/** The right rail: the current page's sub-sections. */
+/**
+ * The bespoke pages that, like a columns page, can carry on a
+ * System's running count (see BrandStyleEditor.startNumber). Every
+ * other bespoke page numbers its sections from 1.
+ */
+const CONTINUES_COUNT: ReadonlySet<AnswerType> = new Set([
+    AnswerType.BrandStyle,
+    AnswerType.BrandInventory,
+    AnswerType.StrategyFoundation
+]);
+
+/**
+ * The right rail: the current page's sub-sections, "N. Title", with
+ * the number the page itself gives each one. `firstNumber` is what
+ * the page's first section carries: 1 on a page that numbers its
+ * own sections (see AnswerDefinition.nestedNumbering), otherwise
+ * where the System's running count has got to.
+ */
 export function sectionRailItems(
     answer: AnswerDefinition | undefined,
-    themes: readonly StrategyThemeValue[] = []
+    themes: readonly StrategyThemeValue[] = [],
+    firstNumber = 1
 ): RailItem[] {
 
     if (!answer) {
@@ -81,25 +99,34 @@ export function sectionRailItems(
         // Only the columns layout marks its parts with `data-rail`
         // (AnswerRenderer checks `tabbed` first, so a Section that
         // declares both renders as tabs and has no markers). An
-        // unlabeled part has nothing to show on a bullet.
+        // unlabeled part has nothing to show on a bullet, but still
+        // takes its number on the page, so it is counted first.
         if (!answer.columns || answer.tabbed || !answer.parts) {
             return [];
         }
 
         return answer.parts
+            .map((part, index) => ({ id: part.id, label: part.label, number: firstNumber + index }))
             .filter(part => part.label.trim().length > 0)
-            .map(part => ({ id: part.id, label: part.label }));
+            .map(part => ({ id: part.id, label: part.number + ". " + part.label }));
 
     }
 
+    // Numbered by Theme order, whatever the Themes' own pages number
+    // them.
     if (answer.type === AnswerType.StrategicPeriod || answer.type === AnswerType.StrategicRoadmap) {
         return themes.map((theme, index) => ({
             id: theme.id,
-            label: theme.name.trim() || "Theme " + (index + 1)
+            label: (index + 1) + ". " + (theme.name.trim() || "Theme " + (index + 1))
         }));
     }
 
-    return (FIXED_SECTIONS[answer.type] ?? []).map(label => ({ id: railId(label), label }));
+    const first = CONTINUES_COUNT.has(answer.type) ? firstNumber : 1;
+
+    return (FIXED_SECTIONS[answer.type] ?? []).map((label, index) => ({
+        id: railId(label),
+        label: (first + index) + ". " + label
+    }));
 
 }
 

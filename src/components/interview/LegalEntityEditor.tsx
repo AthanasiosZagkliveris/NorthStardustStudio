@@ -132,13 +132,6 @@ interface LegalEntityEditorProps {
 
     disabled?: boolean;
 
-    /**
-     * The number this page carries in its System -- "3" for the
-     * Identity System, where two four-column pages come before it.
-     * Its subsections number themselves from it: 3.1, 3.2, ...
-     */
-    numberPrefix?: string;
-
     /** See BrandStyleEditor.columnsDivider. */
     columnsDivider?: ReactNode;
 
@@ -196,8 +189,6 @@ export default function LegalEntityEditor({
     onChange,
 
     disabled = false,
-
-    numberPrefix = "",
 
     columnsDivider,
 
@@ -677,9 +668,13 @@ export default function LegalEntityEditor({
 
     /* ---------- Building blocks ---------- */
 
-    /** The number this page gives one of its subsections: "3.1". */
+    /**
+     * The number this page gives one of its subsections: "1.". Its
+     * own count, not one under the page's number, like every level
+     * of the Foundation pages.
+     */
     function subsectionNumber(index: number): string {
-        return numberPrefix ? numberPrefix + "." + (index + 1) : String(index + 1);
+        return (index + 1) + ".";
     }
 
     /**
@@ -971,7 +966,7 @@ export default function LegalEntityEditor({
         );
     }
 
-    /** The "+ Add …" lists of extra numbers, shared by 3.3 and 3.4. */
+    /** The "+ Add …" lists of extra numbers, shared by subsections 3 and 4. */
     function numberList(
         entries: LegalEntityNumberValue[],
         labelPlaceholder: string,
@@ -1065,7 +1060,7 @@ export default function LegalEntityEditor({
 
             <div className="legal-entity-body">
 
-                {/* ---------- 3.1 Organisation ---------- */}
+                {/* ---------- 1. Organisation ---------- */}
 
                 {subsection(0, (
                     <div className="legal-entity-grid legal-entity-grid-three">
@@ -1300,7 +1295,7 @@ export default function LegalEntityEditor({
                     </div>
                 ))}
 
-                {/* ---------- 3.2 Founders & Ownership ---------- */}
+                {/* ---------- 2. Founders & Ownership ---------- */}
 
                 {subsection(1, (
                     <>
@@ -1323,7 +1318,7 @@ export default function LegalEntityEditor({
                                 {entity.organisation.legalForm} has one owner in law, and more
                                 than one founder is listed below. Remove the founders who are
                                 not the owner, or choose a different legal form in
-                                {" " + subsectionNumber(0)}.
+                                {" " + subsectionNumber(0) + " " + LEGAL_ENTITY_SECTIONS[0]}.
                             </p>
                         )}
 
@@ -1482,7 +1477,7 @@ export default function LegalEntityEditor({
                                         [flexible] [numbers] [flexible]
                                         and the numbers land on the
                                         same axis as the line between
-                                        3.3 and 3.4.
+                                        subsections 3 and 4.
                                     */}
                                     <div className="legal-entity-founder-role">
 
@@ -1636,7 +1631,7 @@ export default function LegalEntityEditor({
                 )}
 
                 {/*
-                    3.3 and 3.4 side by side: how the organisation is
+                    Subsections 3 and 4 side by side: how the organisation is
                     registered, and how it is identified for tax, are
                     the two halves of the same page of paperwork. In
                     the nine countries where one number does both
@@ -1645,7 +1640,7 @@ export default function LegalEntityEditor({
                 */}
                 <div className="legal-entity-row">
 
-                {/* ---------- 3.3 Formation & Registration ---------- */}
+                {/* ---------- 3. Formation & Registration ---------- */}
 
                 {subsection(2, (
                     <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-formation">
@@ -1705,7 +1700,7 @@ export default function LegalEntityEditor({
 
                         {/* Nothing left to pair with, so it spans --
                             the same way an unpaired field does in
-                            3.5 and 3.6. */}
+                            subsections 5 and 6. */}
                         {entity.formation.status !== "planned" && text(
                             "Registration Number",
                             entity.formation.registrationNumber,
@@ -1745,7 +1740,7 @@ export default function LegalEntityEditor({
                     </div>
                 ))}
 
-                {/* ---------- 3.4 Tax & Business Registration ---------- */}
+                {/* ---------- 4. Tax & Business Registration ---------- */}
 
                 {subsection(3, (
                     <div className="legal-entity-grid">
@@ -1873,7 +1868,7 @@ export default function LegalEntityEditor({
                 */}
                 <div className="legal-entity-row">
 
-                {/* ---------- 3.5 Additional Legal Requirements ---------- */}
+                {/* ---------- 5. Additional Legal Requirements ---------- */}
 
                 {subsection(4, (
                     <>
@@ -1912,7 +1907,7 @@ export default function LegalEntityEditor({
                                     />
 
                                     <span className="legal-entity-card-number">
-                                        {subsectionNumber(4) + "." + (index + 1)}
+                                        {(index + 1) + "."}
                                     </span>
 
                                     {/* Folded, the name is read here, as on
@@ -2081,7 +2076,7 @@ export default function LegalEntityEditor({
                     />
                 ))}
 
-                {/* ---------- 3.6 Legal Entity Expenses ---------- */}
+                {/* ---------- 6. Legal Entity Expenses ---------- */}
 
                 {subsection(5, (
                     <>
@@ -2115,7 +2110,7 @@ export default function LegalEntityEditor({
                                     />
 
                                     <span className="legal-entity-card-number">
-                                        {subsectionNumber(5) + "." + (index + 1)}
+                                        {(index + 1) + "."}
                                     </span>
 
                                     {/* Folded, the name is read here, as on
@@ -2179,7 +2174,7 @@ export default function LegalEntityEditor({
                                     )}
 
                                     {/*
-                                        The founders named in 3.2, by
+                                        The founders named in 2. Founders & Ownership, by
                                         id -- so renaming a founder
                                         renames them here too, and an
                                         expense can never name someone

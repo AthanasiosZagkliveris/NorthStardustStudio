@@ -119,7 +119,7 @@ export class AnswerParser {
         // A Section declaring its own numbering carries that however
         // it is structured -- the Identity System's Legal Entity page
         // is one Structure rather than a set of columns, and still
-        // numbers its six subsections 3.1 to 3.6.
+        // numbers its six subsections 1 to 6 on their own.
         return this.isNestedNumbering(markdown)
             ? { ...single, nestedNumbering: true }
             : single;

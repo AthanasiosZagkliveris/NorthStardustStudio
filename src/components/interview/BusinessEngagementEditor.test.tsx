@@ -88,7 +88,7 @@ describe("BusinessEngagementEditor folding", () => {
 
     });
 
-    // "B. Customer Relationship" has one Expand all, in its head --
+    // "2. Customer Relationship" has one Expand all, in its head --
     // the second one over the relationship table is gone.
     it("has a single Expand all for Customer Relationship", () => {
 

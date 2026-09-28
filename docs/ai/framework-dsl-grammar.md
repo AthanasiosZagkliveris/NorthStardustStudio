@@ -63,7 +63,7 @@ A Section with more than one labeled sub-part (each its own `**Label**` followed
 
 **`**Layout:** Columns`** — placed on its own line before the first labeled part, the same way as `Tab Group: Yes` — lays the parts out side by side as equal-width columns, each under its own label, instead of stacked (see `AnswerDefinition.columns`). Deliberately not spelled `Columns:`, which is the Table structure's own keyword. If a Section declares both, `Tab Group` wins. Used by Identity's Definition and Ethics pages and Brand's Ambassador page.
 
-**`**Numbering:** Nested`** — on its own line beside the Layout line (or under a page-level Structure) — numbers the Section's units under the Section's own number (1.1-1.4, 2.1-2.4, 3.1-3.6) instead of one running count across the System (see `AnswerDefinition.nestedNumbering`). A System picks one convention and every Section in it declares the same thing; all four Foundation Systems use Nested.
+**`**Numbering:** Nested`** — on its own line beside the Layout line (or under a page-level Structure) — numbers the Section's units on their own (1-4, 1-4, 1-6, under a page title carrying the Section's number) instead of one running count across the System (see `AnswerDefinition.nestedNumbering`). A System picks one convention and every Section in it declares the same thing; all four Foundation Systems use Nested.
 
 ## Foundation page structures
 

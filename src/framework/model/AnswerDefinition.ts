@@ -95,19 +95,20 @@ export interface AnswerDefinition {
     columns?: boolean;
 
     /**
-     * When true, this Section's own units number themselves UNDER
-     * its Section number -- 1.1, 1.2, 1.3 -- instead of continuing
+     * When true, this Section's own units count on their own --
+     * 1, 2, 3 on every page, under a page title that carries the
+     * Section's number ("1. Definition") -- instead of continuing
      * one running count across the whole System.
      *
      * Declared as "**Numbering:** Nested" beside the Section's
      * Layout line. The two conventions answer different questions:
      * a running count says how far through the System a column is,
-     * a nested one says which Section it belongs to. A System picks
+     * a nested one says where on its page it is. A System picks
      * one and every Section in it declares the same thing.
      *
      * Example: the Identity System, whose Definition, Ethics and
-     * Legal Entity pages read 1.1-1.4, 2.1-2.4 and 3.1-3.6 rather
-     * than 1-4, 5-8 and 9.
+     * Legal Entity pages read 1-4, 1-4 and 1-6 rather than 1-4,
+     * 5-8 and 9.
      */
     nestedNumbering?: boolean;
 

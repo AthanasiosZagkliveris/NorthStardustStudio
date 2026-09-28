@@ -305,20 +305,12 @@ interface AnswerRendererProps {
     /**
      * How many column-layout columns precede this Section's own, so
      * a Section's columns can be numbered continuously across the
-     * whole System rather than restarting at 1 on each page (the
-     * Identity System's twelve columns run 1-12 across its three
-     * pages). Defaults to 0, i.e. numbering from 1.
+     * whole System rather than restarting at 1 on each page. 0 on a
+     * Section that numbers its own units (see
+     * AnswerDefinition.nestedNumbering), whose columns read 1, 2, 3
+     * on every page. Defaults to 0, i.e. numbering from 1.
      */
     columnNumberOffset?: number;
-
-    /**
-     * Set when this Section numbers its own units UNDER its Section
-     * number rather than continuing a running count across the
-     * System (see AnswerDefinition.nestedNumbering). Holds the
-     * Section number itself, so a column reads "1.3" rather than
-     * "3".
-     */
-    columnNumberPrefix?: string;
 
     /**
      * Handed to the Legal Entity page so it can answer its first
@@ -366,7 +358,7 @@ interface AnswerRendererProps {
 
     /**
      * The founders answered under the Identity System's Legal
-     * Entity, 3.2 Founders & Ownership. The Business System's
+     * Entity, 2. Founders & Ownership. The Business System's
      * Infrastructure & Capability page lists them under
      * 1. Founders. Ignored by every other Answer Structure.
      */
@@ -689,8 +681,6 @@ function MultiPartAnswerRenderer({
 
     columnNumberOffset,
 
-    columnNumberPrefix,
-
     showInstructions = true
 
 }: AnswerRendererProps) {
@@ -835,9 +825,7 @@ function MultiPartAnswerRenderer({
                                     one digit or two.
                                 */}
                                 <span className="answer-column-label-number">
-                                    {columnNumberPrefix
-                                        ? columnNumberPrefix + "." + (index + 1)
-                                        : (columnNumberOffset ?? 0) + index + 1 + "."}
+                                    {(columnNumberOffset ?? 0) + index + 1 + "."}
                                 </span>
 
                                 <span className="answer-column-label-text">
@@ -1046,8 +1034,6 @@ function SingleAnswerRenderer({
     // the progress line inside their own grid -- see
     // BrandStyleEditor. Ignored by every other Answer Structure.
     columnNumberOffset,
-
-    columnNumberPrefix,
 
     legalEntityPrefill,
     targetAudience,
@@ -2177,9 +2163,6 @@ function SingleAnswerRenderer({
 
                 <LegalEntityEditor
                     value={value}
-                    // The page's own number in its System, which its
-                    // six subsections number themselves from.
-                    numberPrefix={columnNumberPrefix ?? String((columnNumberOffset ?? 0) + 1)}
                     prefill={legalEntityPrefill}
                     columnsDivider={columnsDivider}
                     showInstructions={showInstructions}
@@ -2196,7 +2179,6 @@ function SingleAnswerRenderer({
                 <BrandStyleEditor
                     value={value}
                     startNumber={(columnNumberOffset ?? 0) + 1}
-                    numberPrefix={columnNumberPrefix}
                     columnsDivider={columnsDivider}
                     showInstructions={showInstructions}
                     onChange={onChange}
@@ -2212,7 +2194,6 @@ function SingleAnswerRenderer({
                 <BrandInventoryEditor
                     value={value}
                     startNumber={(columnNumberOffset ?? 0) + 1}
-                    numberPrefix={columnNumberPrefix}
                     columnsDivider={columnsDivider}
                     showInstructions={showInstructions}
                     onChange={onChange}
@@ -2228,7 +2209,6 @@ function SingleAnswerRenderer({
                 <StrategyFoundationEditor
                     value={value}
                     startNumber={(columnNumberOffset ?? 0) + 1}
-                    numberPrefix={columnNumberPrefix}
                     columnsDivider={columnsDivider}
                     showInstructions={showInstructions}
                     onChange={onChange}

@@ -6,14 +6,12 @@ import { ReactNode } from "react";
     under it (hidden with the page's Help).
 */
 
-/** One section's numbered heading ("2.1 Colours", or "5. Colours" when numbered continuously). */
+/** One section's numbered heading ("1. Colours", or "5. Colours" when numbered continuously). */
 export function ColumnHeading({
 
     offset,
 
     title,
-
-    numberPrefix,
 
     startNumber
 
@@ -22,9 +20,7 @@ export function ColumnHeading({
     /** The section's place on its page, from 0. */
     offset: number;
     title: string;
-    /** A page numbered under its own number: see AnswerDefinition.nestedNumbering. */
-    numberPrefix?: string;
-    /** The number the page's first section carries when there is no numberPrefix. */
+    /** The number the page's first section carries. */
     startNumber: number;
 
 }) {
@@ -32,7 +28,7 @@ export function ColumnHeading({
     return (
         <h3 className="answer-column-label brand-section-heading">
             <span className="answer-column-label-number">
-                {numberPrefix ? numberPrefix + "." + (offset + 1) : (startNumber + offset) + "."}
+                {(startNumber + offset) + "."}
             </span>
             <span className="answer-column-label-text">{title}</span>
         </h3>

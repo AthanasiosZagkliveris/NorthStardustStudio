@@ -86,8 +86,8 @@ corrected where they named the page itself — "Infrastruction" became
   use. **Each column parses its own `Structure:`**, so columns can
   mix Free Text, Card List, Table and bespoke types.
 - **`**Numbering:** Nested`** — makes a page's sections number
-  `4.1`, `4.2` … instead of a running count across the System. What
-  the Legal Entity page uses for 3.1–3.6.
+  `1.`, `2.` … on their own instead of a running count across the
+  System. What the Legal Entity page uses for its 1.–6.
 - **`ProfileCards`** — an addable set of cards, each a one-line title
   plus a fixed set of named **text** fields. No select fields, no
   nesting, no maximum count.
@@ -236,7 +236,7 @@ product owner:
 ### Page 4 — Financial Foundation
 
 One page, four sections stacked in the order the specification's
-logic runs, numbered **4.1–4.4** via `**Numbering:** Nested`.
+logic runs, numbered **1–4** via `**Numbering:** Nested`.
 
 | Section | Required structure | How it is built |
 |---|---|---|

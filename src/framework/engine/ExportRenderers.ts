@@ -475,7 +475,7 @@ function businessEngagementBlocks(value: unknown, context: ExportContext): Expor
         return [
             heading("Segment " + (index + 1) + ": " + (segment?.name.trim() || "Unnamed segment")),
 
-            heading("A. Customer Channel", 2),
+            heading("1. Customer Channel", 2),
             ...table(["Category", "Channel", "Offerings", "Journey Stage", "Actions"], channels.flatMap(channel => {
                 const carried = channel.offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS)
                     ? "All Offerings"
@@ -490,7 +490,7 @@ function businessEngagementBlocks(value: unknown, context: ExportContext): Expor
                 ]);
             })),
 
-            heading("B. Customer Relationship", 2),
+            heading("2. Customer Relationship", 2),
             ...entry.offerings.flatMap(relationship => {
                 const name = offering(relationship.offeringId);
                 if (!name || relationship.types.length === 0) {
@@ -625,7 +625,7 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
     ];
 
     return [
-        heading("A. Infrastructure"),
+        heading("1. Infrastructure"),
 
         heading("Founders", 2),
         ...table(["Founder", "Roles", "Salary / month", "Working Hours / month", "Delivery Hours / month", "Responsibilities"], capability.founders.map(founder => [
@@ -664,7 +664,7 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
             ...partnerRows(capability.providers, "Provider", people, currency, foundation, false)
         ]),
 
-        heading("B. Offering's Capability"),
+        heading("2. Offering's Capability"),
         ...table(["Offering", "Resource", "Quantity", "Status", "Cost / Provider"],
             capability.offering.resources.map(slot => {
                 const row = slotRow(slot, "", people, currency);

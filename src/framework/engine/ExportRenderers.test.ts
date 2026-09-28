@@ -41,7 +41,7 @@ describe("exporting the Foundation capability", () => {
         expect(outputs.brand).toContain("Loom Indigo");
         expect(outputs.brand).toContain("herringbone-throw.png");
         expect(outputs.business).toContain("Segment 1: Conscious London Homemakers");
-        expect(outputs.business).toContain("A. Customer Channel");
+        expect(outputs.business).toContain("1. Customer Channel");
         expect(outputs.business).toContain("8-shaft floor looms");
         expect(outputs.business).toContain("Total Funding Need: £46,400");
         expect(outputs.business).toContain("Break-even revenue");

@@ -526,14 +526,10 @@ function groupValidationIssues(
         // Which page the issue is on. NOT `sectionNumber`, which on
         // a Section reporting its own units is a running count of
         // units across the whole System ("9" for the ninth column,
-        // whatever page it sits on). The page is the first segment
-        // of the label the page itself shows: "3.1" and "4.1.1.1"
-        // are both on page 3 and page 4 respectively.
-        // A label named in words ("Theme 1, Goal 2") is on its own
-        // Section's page.
-        const number = issue.label && /^\d/.test(issue.label)
-            ? Number(issue.label.split(".")[0])
-            : issue.sectionNumber;
+        // whatever page it sits on); such an issue names its page
+        // in `pageNumber`. A label named in words ("Theme 1, Goal
+        // 2") is on its own Section's page.
+        const number = issue.pageNumber ?? issue.sectionNumber;
 
         let group = groups.find(candidate => candidate.number === number);
 
@@ -1696,8 +1692,34 @@ export default function Conversation() {
         ? resolveEffectiveAnswer(session.getCurrentSection(), sharedSource)
         : undefined;
 
+    // Columns are numbered continuously across the whole System
+    // rather than restarting on each page, so this counts every
+    // column on the column-layout Sections BEFORE the current one
+    // (a System of three four-column pages therefore runs 1-4, 5-8,
+    // 9-12). Counted against THIS System's own pages, not the
+    // mirrored System's -- a shared page belongs to the System you
+    // are currently in. The answers are identical either way; only
+    // the positional index differs.
+    // A Section that numbers its own units (see
+    // AnswerDefinition.nestedNumbering) starts again from 1 instead,
+    // as every Foundation page does. Resolved before the early
+    // returns below because the section rail numbers its bullets
+    // the same way.
+    const columnNumberOffset = !session || effectiveAnswer?.nestedNumbering
+        ? 0
+        : session.getFramework().sections
+            .filter(candidate => candidate.number < (session.getCurrentSection()?.number ?? 0))
+            .reduce(
+                (total, candidate) => total + numberedUnitCount(
+                    candidate.answer,
+                    // A Shared Answer counts as whatever it mirrors.
+                    (answer: AnswerDefinition) => resolveSharedAnswer(answer)?.section.answer
+                ),
+                0
+            );
+
     const railSections = session
-        ? sectionRailItems(effectiveAnswer, strategyFoundationValue?.themes ?? [])
+        ? sectionRailItems(effectiveAnswer, strategyFoundationValue?.themes ?? [], columnNumberOffset + 1)
         : [];
     const [activeRailSection, selectRailSection] = useActiveRailSection(railSections.map(item => item.id), railSectionIndex);
 
@@ -1762,30 +1784,6 @@ export default function Conversation() {
         effectiveAnswer?.type === AnswerType.StrategyFoundation ||
         effectiveAnswer?.type === AnswerType.StrategicPeriod ||
         effectiveAnswer?.type === AnswerType.StrategicRoadmap;
-
-    // Columns are numbered continuously across the whole System
-    // rather than restarting on each page, so this counts every
-    // column on the column-layout Sections BEFORE the current one
-    // (Identity's three pages of four therefore run 1-4, 5-8, 9-12).
-    // Counted against THIS System's own pages, not the mirrored
-    // System's -- a shared page belongs to the System you are
-    // currently in, so the Brand System's four shared columns read
-    // 1-4 there even though the same four read 5-8 in the Identity
-    // System they come from. The answers are identical either way;
-    // only the positional index differs.
-    const columnNumberOffset = framework.sections
-        .filter(candidate => candidate.number < (currentSection?.number ?? 0))
-        .reduce(
-            (total, candidate) => total + numberedUnitCount(
-                candidate.answer,
-                // A Shared Answer counts as whatever it mirrors, so
-                // the Brand System's four shared Brand Foundation
-                // columns are counted before its Style page and that
-                // page numbers from 5 rather than 1.
-                (answer: AnswerDefinition) => resolveSharedAnswer(answer)?.section.answer
-            ),
-            0
-        );
 
     // What the Legal Entity page can answer for the user without
     // asking: the Organization's name and the User's own, both
@@ -1874,7 +1872,7 @@ export default function Conversation() {
         gives, and resolved by Answer Structure rather than by
         Section number. "" when no country has been chosen yet.
 
-        The same page's 3.2 Founders & Ownership are that page's
+        The same page's 2. Founders & Ownership are that page's
         founders too: they are who Infrastructure & Capability lists
         under 1. Founders and names in every Responsibility.
     */
@@ -2031,12 +2029,6 @@ export default function Conversation() {
         }
         : undefined;
 
-    // A Section that numbers its units under its own number (see
-    // AnswerDefinition.nestedNumbering) hands that number down; the
-    // running count above goes unused for such a page.
-    const columnNumberPrefix = effectiveAnswer?.nestedNumbering
-        ? String(currentSection?.number ?? 0)
-        : undefined;
 
     /*
         The Strategy System's three pages read forward: the Strategic
@@ -2242,13 +2234,14 @@ export default function Conversation() {
         )
         : undefined;
 
-    // A Section whose units number under it is itself numbered in
-    // the title, so "1. Definition" and its "1.1" columns read as
-    // one thing. Where the numbering runs across the System instead,
-    // the columns already carry that count and a Section number in
-    // the title would be a second, unrelated one.
-    const pageTitle = columnNumberPrefix && resolvedSectionTitle
-        ? columnNumberPrefix + ". " + resolvedSectionTitle
+    // A Section that numbers its own units (see
+    // AnswerDefinition.nestedNumbering) is itself numbered in the
+    // title, so "1. Definition" says which page its "1." to "4."
+    // columns are on. Where the numbering runs across the System
+    // instead, the columns already carry that count and a Section
+    // number in the title would be a second, unrelated one.
+    const pageTitle = effectiveAnswer?.nestedNumbering && resolvedSectionTitle
+        ? currentSection.number + ". " + resolvedSectionTitle
         : resolvedSectionTitle;
 
     const canConfirmCapability =
@@ -2420,7 +2413,6 @@ export default function Conversation() {
                                 ownerSuggestions={operationsOwnerSuggestions}
                                 processLibraryProcesses={operationsProcesses}
                                 columnNumberOffset={columnNumberOffset}
-                                columnNumberPrefix={columnNumberPrefix}
                                 legalEntityPrefill={legalEntityPrefill}
                                 targetAudience={targetAudience}
                                 identityVision={identityVision}

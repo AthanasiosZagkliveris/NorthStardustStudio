@@ -42,14 +42,11 @@ interface StrategyFoundationEditorProps {
     /** Asks before a Refresh replaces the founder's own words. */
     guardSituationRefresh?: (apply: () => void) => void;
 
-    /** Opens a Business System page: the "i" on 1.1 links to where each answer comes from. */
+    /** Opens a Business System page: the "i" on 1. Current Situation Analysis links to where each answer comes from. */
     openBusinessPage?: (type: AnswerType) => void;
 
     /** The financial plan's first and last month (Business System), to compare the Period with. */
     financialPlan?: StrategyRangeValue | null;
-
-    /** A page numbered under its own number ("2" gives 2.1, 2.2): see AnswerDefinition.nestedNumbering. */
-    numberPrefix?: string;
 
     /** See BrandStyleEditor.startNumber. */
     startNumber?: number;
@@ -91,7 +88,7 @@ function currentMonthIndex(): number {
     return now.getFullYear() * 12 + now.getMonth();
 }
 
-/** The common Strategic Themes: the "i" at the end of 1.4's Themes line. */
+/** The common Strategic Themes: the "i" at the end of 4. Strategic Period's Themes line. */
 const THEME_SUGGESTIONS: InfoPoint[] = STRATEGY_THEME_SUGGESTIONS.map(suggestion => ({
     title: suggestion.name,
     text: suggestion.description
@@ -120,8 +117,6 @@ export default function StrategyFoundationEditor({
     disabled = false,
 
     startNumber = 1,
-
-    numberPrefix,
 
     columnsDivider,
 
@@ -165,7 +160,7 @@ export default function StrategyFoundationEditor({
         }
     }, [disabled, situationDraft, followsDraft, foundation, onChange]);
 
-    /* ---------- 1.4 and the financial plan ---------- */
+    /* ---------- 4. Strategic Period and the financial plan ---------- */
 
     const periodDiffers = financialPlan !== null && (
         monthIndex(foundation.period.start) !== monthIndex(financialPlan.start) ||
@@ -210,7 +205,6 @@ export default function StrategyFoundationEditor({
             <ColumnHeading
                 offset={offset}
                 title={STRATEGY_FOUNDATION_SECTIONS[offset]}
-                numberPrefix={numberPrefix}
                 startNumber={startNumber}
             />
         );
@@ -350,7 +344,7 @@ export default function StrategyFoundationEditor({
                                 label="Your Vision"
                                 points={[vision.trim()
                                     ? vision.trim()
-                                    : "Not written yet. Write it under 1. Identity System → 1. Definition → 1.4 Vision."]}
+                                    : "Not written yet. Write it under 1. Identity System → 1. Definition → 4. Vision."]}
                             />
                         </InfoText>
                     </>
