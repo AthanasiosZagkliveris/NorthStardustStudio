@@ -323,7 +323,6 @@ describe("Quillfield: the documents tie together", () => {
         expect(part("## 6. Operations")).toContain("### Licences and Registrations");
         expect(part("## 2. Company Description")).not.toContain("Legal Structure");
         // What the answers do not collect is said, not made up.
-        expect(part("## 3. Market Analysis")).toContain("### Industry Outlook\n\nNot covered by the Foundation answers.");
         expect(part("## 4. Products and Services")).toContain("### Intellectual Property and Product Lifecycle\n\nNot covered by the Foundation answers.");
         expect(part("## 7. Management and Organization")).toContain("### Experience and CVs\n\nNot covered by the Foundation answers.");
     });
@@ -817,7 +816,7 @@ describe("the industry outlook in the documents", () => {
         session.saveResponse(section.number, {
             ...value,
             segments: value.segments.map((segment, index) => index === 0
-                ? { ...segment, description: { ...segment.description, "industry-outlook": outlook } }
+                ? { ...segment, description: { ...segment.description, "market-size": outlook } }
                 : segment)
         });
         return session;
@@ -835,17 +834,17 @@ describe("the industry outlook in the documents", () => {
     };
     const trend = "AI tools are moving into everyday office software, and firms now expect them.";
 
-    test("the plan's Market Analysis gives each segment's outlook, or says it is not covered", () => {
-        expect(market(withOutlook(""))).toContain("### Industry Outlook\n\nNot covered by the Foundation answers.");
+    test("the plan's Market Analysis gives each segment's market size and outlook, or says it is not covered", () => {
+        expect(market(withOutlook(""))).toContain("### Market Size and Industry Outlook\n\nNot covered by the Foundation answers.");
         const given = market(withOutlook(trend));
         expect(given).not.toContain("Not covered by the Foundation answers.");
-        expect(given).toContain("**Industry outlook:** " + trend);
+        expect(given).toContain("**Market size and outlook:** " + trend);
     });
 
     test("the Business System's export carries it", () => {
         const business = withOutlook(trend);
         const md = new MarkdownExporter().toMarkdown(business, "Foundation", buildExportContent(business, "Foundation"));
-        expect(md).toContain("Industry Outlook & Trends: " + trend);
+        expect(md).toContain("Market Size & Industry Outlook: " + trend);
     });
 
 });

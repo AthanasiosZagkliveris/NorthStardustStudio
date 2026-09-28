@@ -64,11 +64,12 @@ const SUBSECTIONS = {
             { id: "geographics", title: "Geographics", text: "Where do they live, work or operate?" },
             { id: "business-data", title: "Business Data", text: "If you sell to companies, what is their company type, size and industry?" },
             { id: "purchasing", title: "Purchasing Power & Behaviour", text: "What influences how much they spend, when they buy, and whether it is worthwhile?" },
-            { id: "market-size", title: "Market Size", text: "How large is this group?" },
-            // Not the specification's: added at the product owner's
-            // request, for the Business Plan's Market Analysis.
-            // Optional, like every Description parameter.
-            { id: "industry-outlook", title: "Industry Outlook & Trends", text: "Where this market is heading: growth, key trends, changes in technology or regulation, and what they mean for your customers." }
+            // The specification's Market Size, with Industry Outlook &
+            // Trends asked in the same box: not the specification's,
+            // added at the product owner's request for the Business
+            // Plan's Market Analysis. Optional, like every Description
+            // parameter.
+            { id: "market-size", title: "Market Size & Industry Outlook", text: "How large is this group? Where this market is heading: growth, key trends, changes in technology or regulation, and what they mean for your customers." }
         ],
         profileDescription: [
             { id: "personal", title: "Specific Personal Information", text: "What are their exact age, gender, marital status, education and job title?" },

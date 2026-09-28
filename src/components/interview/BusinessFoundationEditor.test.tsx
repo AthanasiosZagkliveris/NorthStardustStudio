@@ -64,18 +64,25 @@ describe("BusinessFoundationEditor folding", () => {
 
 describe("BusinessFoundationEditor industry outlook", () => {
 
-    it("asks it in the Segment's Description, after Market Size, with its note", () => {
+    it("asks it with Market Size, in one box with one note", () => {
 
         render(<Harness initial={twoProfiles()} />);
 
-        const outlook = screen.getByLabelText("Segment 1 description: Industry Outlook & Trends") as HTMLTextAreaElement;
-        const size = screen.getByLabelText("Segment 1 description: Market Size");
-        expect(outlook.tagName).toBe("TEXTAREA");
-        expect(outlook.value).toBe("");
-        // In the same column, straight after Market Size.
-        expect(size.closest(".business-foundation-field")!.nextElementSibling)
-            .toBe(outlook.closest(".business-foundation-field"));
-        expect(screen.getByRole("button", { name: "Industry Outlook & Trends: what this means" })).toBeTruthy();
+        const merged = screen.getByLabelText("Segment 1 description: Market Size & Industry Outlook") as HTMLTextAreaElement;
+        expect(merged.tagName).toBe("TEXTAREA");
+        expect(screen.queryByLabelText("Segment 1 description: Industry Outlook & Trends")).toBeNull();
+        expect(screen.getByRole("button", { name: "Market Size & Industry Outlook: what this means" })).toBeTruthy();
+
+    });
+
+    it("moves an outlook saved in its own box into the Market Size box", () => {
+
+        const saved = (description: Record<string, string>) =>
+            asBusinessFoundationValue({ segments: [{ id: "s", name: "Firms", description }] }).segments[0].description;
+        expect(saved({ "market-size": "1,200 firms", "industry-outlook": "Growing." }))
+            .toEqual({ "market-size": "1,200 firms\n\nGrowing." });
+        expect(saved({ "industry-outlook": "Growing." })).toEqual({ "market-size": "Growing." });
+        expect(saved({ "market-size": "1,200 firms", "industry-outlook": "" })).toEqual({ "market-size": "1,200 firms" });
 
     });
 
@@ -84,7 +91,6 @@ describe("BusinessFoundationEditor industry outlook", () => {
         const saved = { segments: [{ id: "s", name: "Firms", description: { "market-size": "1,200 firms" } }] };
         const segment = asBusinessFoundationValue(saved).segments[0];
         expect(segment.description).toEqual({ "market-size": "1,200 firms" });
-        expect(segment.description["industry-outlook"] ?? "").toBe("");
 
         const answered = {
             segments: [{

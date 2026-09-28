@@ -4178,6 +4178,29 @@ function asBusinessDescription(
 
 }
 
+/**
+ * Market Size and Industry Outlook & Trends share one box. An
+ * outlook saved in its own box before they merged is appended to
+ * the Market Size text, after a blank line, so nothing is lost.
+ */
+function withMarketOutlook(parts: BusinessDescriptionValue): BusinessDescriptionValue {
+
+    const { "industry-outlook": outlook, ...rest } = parts;
+
+    if (outlook === undefined) {
+        return parts;
+    }
+
+    const size = rest["market-size"] ?? "";
+
+    if (outlook.trim().length > 0) {
+        rest["market-size"] = size.trim().length > 0 ? size.trimEnd() + "\n\n" + outlook : outlook;
+    }
+
+    return rest;
+
+}
+
 /*
  * The first parameter of each Description, named here so a
  * legacy one-block answer lands in a box the founder actually
@@ -4338,10 +4361,10 @@ export function asBusinessFoundationValue(value: unknown): BusinessFoundationVal
                     ? segment.hue
                     : undefined,
                 name: asText(segment.name),
-                description: asBusinessDescription(
+                description: withMarketOutlook(asBusinessDescription(
                     segment.description,
                     BUSINESS_FIRST_DESCRIPTION_PART.segment
-                ),
+                )),
                 profiles: profiles.length > 0
                     ? profiles
                     : [createBusinessCustomerProfile()],
