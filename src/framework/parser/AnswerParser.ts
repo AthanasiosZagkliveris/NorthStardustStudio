@@ -141,19 +141,6 @@ export class AnswerParser {
     }
 
     /**
-     * Detects a Section-level "**Layout:** Columns" declaration (see
-     * AnswerDefinition.columns's own doc comment) -- written on its
-     * own line ANYWHERE before the first labeled part, exactly like
-     * the "Tab Group: Yes" marker above, and dropped by `splitParts`
-     * as unattributed leading content for the same reason.
-     *
-     * Deliberately spelled "Layout: Columns" rather than
-     * "Columns: Yes" -- "**Columns:**" is already the Table
-     * structure's own keyword for its column list, and reusing it
-     * here would make a Multi-Part Section holding a Table
-     * ambiguous to read (and to grep).
-     */
-    /**
      * Reads a Shared Answer's `**Source:** <System> / <Section>`
      * line -- which System's Section this one mirrors (see
      * AnswerType.SharedAnswer).
@@ -184,6 +171,19 @@ export class AnswerParser {
 
     }
 
+    /**
+     * Detects a Section-level "**Layout:** Columns" declaration (see
+     * AnswerDefinition.columns's own doc comment) -- written on its
+     * own line ANYWHERE before the first labeled part, exactly like
+     * the "Tab Group: Yes" marker above, and dropped by `splitParts`
+     * as unattributed leading content for the same reason.
+     *
+     * Deliberately spelled "Layout: Columns" rather than
+     * "Columns: Yes" -- "**Columns:**" is already the Table
+     * structure's own keyword for its column list, and reusing it
+     * here would make a Multi-Part Section holding a Table
+     * ambiguous to read (and to grep).
+     */
     private isColumnLayoutMultiPart(markdown: string): boolean {
 
         return /^\s*\*{0,2}Layout:\*{0,2}\s*Columns\s*$/im.test(markdown);

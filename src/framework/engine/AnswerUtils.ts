@@ -1671,12 +1671,10 @@ export const BRAND_IMAGE_MIN = 2;
 export const BRAND_IMAGE_MAX = 5;
 
 /**
- * The Brand System numbers its parts continuously across all three
- * pages, the way the Identity System numbers its twelve columns:
- * 1-4 are the shared Brand Foundation columns, 5-7 the Style
- * sections, 8-9 the Inventory sections. These are the titles behind
- * 5-7 and 8-9, used both to head each section and to name it in the
- * completeness dialog.
+ * The titles of the Brand Style and Brand Inventory pages' sections
+ * (2.1-2.3 and 3.1-3.2 under the System's nested numbering), used
+ * both to head each section and to name it in the completeness
+ * dialog.
  */
 export const BRAND_STYLE_SECTIONS = ["Colours", "Typography", "Text Hierarchy"] as const;
 
@@ -1720,10 +1718,11 @@ export function numberedUnitCount(
     }
 
     // ONE, not six. The Legal Entity page takes a single number of
-    // its own -- Section 9 after the Identity System's two
-    // four-column pages -- and its six subsections number themselves
-    // from inside it as 9.1 to 9.6, the way a Strategic Theme
-    // numbers its Goals.
+    // its own in a running count -- 9 after the Identity System's
+    // two four-column pages -- and its six subsections number
+    // themselves from inside it (3.1 to 3.6 under the nested
+    // numbering the Identity System uses), the way a Strategic
+    // Theme numbers its Goals.
     if (answer.type === AnswerType.LegalEntity) {
         return 1;
     }
