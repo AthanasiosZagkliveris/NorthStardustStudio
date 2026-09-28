@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import FoldArrow from "./FoldArrow.tsx";
+import CardNameInput from "./CardNameInput.tsx";
 
 import "../../styles/card-folding.css";
 
@@ -608,14 +609,12 @@ export function BusinessCard({
 
                 {editable
                     ? (
-                        <input
-                            type="text"
-                            className="interview-input strategy-name-input"
-                            aria-label={who + " name"}
+                        <CardNameInput
+                            ariaLabel={who + " name"}
                             placeholder={kind + " name"}
                             disabled={disabled}
                             value={name}
-                            onChange={(event) => onName(event.target.value)}
+                            onChange={(name) => onName(name)}
                         />
                     )
                     : (

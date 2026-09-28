@@ -29,6 +29,7 @@ import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../framework/engine/
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
 import FoldArrow from "./FoldArrow.tsx";
+import CardNameInput from "./CardNameInput.tsx";
 
 interface StrategicPeriodEditorProps {
 
@@ -446,14 +447,12 @@ function GoalList({
 
                             <span className="strategy-box-number">{goalIndex + 1}.</span>
 
-                            <input
-                                type="text"
-                                className="interview-input strategy-name-input"
-                                aria-label={`Goal ${goalIndex + 1} name`}
+                            <CardNameInput
+                                ariaLabel={`Goal ${goalIndex + 1} name`}
                                 placeholder="Goal name"
                                 disabled={disabled}
                                 value={goal.name}
-                                onChange={(event) => updateGoal(goalIndex, { name: event.target.value })}
+                                onChange={(name) => updateGoal(goalIndex, { name })}
                             />
 
                             <BoxActions
@@ -664,16 +663,12 @@ function ObjectiveList({
                                 {objectiveIndex + 1}.
                             </span>
 
-                            <input
-                                type="text"
-                                className="interview-input strategy-name-input"
-                                aria-label={`Objective ${objectiveIndex + 1} name`}
+                            <CardNameInput
+                                ariaLabel={`Objective ${objectiveIndex + 1} name`}
                                 placeholder="Objective name"
                                 disabled={disabled}
                                 value={objective.name}
-                                onChange={(event) => updateObjective(objectiveIndex, {
-                                    name: event.target.value
-                                })}
+                                onChange={(name) => updateObjective(objectiveIndex, { name })}
                             />
 
                             <BoxActions
@@ -915,14 +910,12 @@ function MetricList({
 
                             <span className="strategy-box-number">{metricIndex + 1}. Metric</span>
 
-                            <input
-                                type="text"
-                                className="interview-input strategy-name-input"
-                                aria-label={`Objective ${objectiveNumber} metric ${metricIndex + 1} name`}
+                            <CardNameInput
+                                ariaLabel={`Objective ${objectiveNumber} metric ${metricIndex + 1} name`}
                                 placeholder="Metric name"
                                 disabled={disabled}
                                 value={metric.name}
-                                onChange={(event) => updateMetric(metricIndex, { name: event.target.value })}
+                                onChange={(name) => updateMetric(metricIndex, { name })}
                             />
 
                             <BoxActions

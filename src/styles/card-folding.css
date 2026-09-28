@@ -229,3 +229,22 @@
     text-align: left;
 
 }
+
+/* A card's name in its head (CardNameInput): a textarea one line
+   high that grows as the name wraps, rather than a text input that
+   clipped a long name at its edge. The app's textarea floor (180px,
+   for long notes), its resize handle and its scrollbar are for
+   notes, not names. */
+.card-name-input {
+
+    display: block;
+
+    min-height: 0;
+
+    resize: none;
+
+    overflow: hidden;
+
+    overflow-wrap: break-word;
+
+}

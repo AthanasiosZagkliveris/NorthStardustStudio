@@ -68,6 +68,7 @@ import type { OpenPage } from "./jumpTo.ts";
 import { useListDrag } from "./ReorderControls.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
 import FoldArrow from "./FoldArrow.tsx";
+import CardNameInput from "./CardNameInput.tsx";
 import { CAPACITY_UTILISATION_HELP } from "./FinancialParts.tsx";
 import { toggledIn } from "./toggledIn.ts";
 
@@ -1923,14 +1924,12 @@ export default function BusinessCapabilityEditor({
 
                     {open
                         ? (
-                            <input
-                                type="text"
-                                className="interview-input strategy-name-input"
-                                aria-label={"Activity " + number + " name"}
+                            <CardNameInput
+                                ariaLabel={"Activity " + number + " name"}
                                 placeholder="Activity name"
                                 disabled={disabled}
                                 value={activity.name}
-                                onChange={(event) => onActivity({ name: event.target.value })}
+                                onChange={(name) => onActivity({ name })}
                             />
                         )
                         : (

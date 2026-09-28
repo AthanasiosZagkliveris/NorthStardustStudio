@@ -95,6 +95,7 @@ import type { OpenPage } from "./jumpTo.ts";
 import { railId } from "./rails/railItems.ts";
 import { useItemFolds } from "./useItemFolds.ts";
 import FoldArrow from "./FoldArrow.tsx";
+import CardNameInput from "./CardNameInput.tsx";
 import { toggledIn } from "./toggledIn.ts";
 
 /* ==========================================================
@@ -534,14 +535,12 @@ export default function FinancialFoundationEditor({
                 <div className="financial-cost-name" role="cell">
                     {own
                         ? (
-                            <input
-                                type="text"
-                                className="interview-input"
-                                aria-label={"Added cost " + (stored.costs.indexOf(own) + 1) + " name"}
+                            <CardNameInput
+                                ariaLabel={"Added cost " + (stored.costs.indexOf(own) + 1) + " name"}
                                 placeholder="Cost name"
                                 disabled={disabled}
                                 value={own.name}
-                                onChange={(event) => changeOwnCost(own.id, { name: event.target.value })}
+                                onChange={(name) => changeOwnCost(own.id, { name })}
                             />
                         )
                         : <span className="financial-cost-title">{line.name}</span>}

@@ -39,6 +39,7 @@ import StrategyTextArea from "./StrategyTextArea.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
 import { toggledIn } from "./toggledIn.ts";
 import FoldArrow from "./FoldArrow.tsx";
+import CardNameInput from "./CardNameInput.tsx";
 
 /**
  * The instruction bullets for each subsection, and the parameter
@@ -709,10 +710,9 @@ export default function BusinessFoundationEditor({
      * One input card: its head, and its fields when it is open.
      *
      * Built the way the Strategic Period page builds its Theme,
-     * Goal and Objective boxes: the toggle, the number and kind
-     * ("1. Profile") in a .strategy-box-number, THE NAME AS AN
-     * INPUT in the head itself (.strategy-name-input), then the
-     * card's controls.
+     * Goal and Objective boxes: the toggle, the number ("1.") in a
+     * .strategy-box-number, THE NAME ASKED in the head itself
+     * (CardNameInput), then the card's controls.
      *
      * The name is asked once, in the one place it is also read, and
      * stays legible while the card is folded shut.
@@ -1549,18 +1549,12 @@ export default function BusinessFoundationEditor({
 
                             {/* The Segment's name, asked in its own
                                 head like every other card's. */}
-                            <input
-                                type="text"
-                                className="interview-input strategy-name-input"
-                                aria-label={
-                                    "Segment " + (segmentIndex + 1) + " name"
-                                }
+                            <CardNameInput
+                                ariaLabel={"Segment " + (segmentIndex + 1) + " name"}
                                 placeholder="Segment name"
                                 disabled={disabled}
                                 value={segment.name}
-                                onChange={(event) => updateSegment(segmentIndex, {
-                                    name: event.target.value
-                                })}
+                                onChange={(name) => updateSegment(segmentIndex, { name })}
                             />
 
                             {/* One Segment card must always
