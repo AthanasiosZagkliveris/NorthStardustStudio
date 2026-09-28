@@ -153,6 +153,12 @@ describe("FoundersProfileEditor founders", () => {
         expect(text(1)!.getAttribute("placeholder")).toBe("Skill, expertise, qualification, certification, licence or membership");
         expect(text(2)).toBeNull();
 
+        // The row reads: number, text, type, ×.
+        const row = text(1)!.closest(".founders-profile-skill")!;
+        expect([...row.children].map(child => child.className.split(" ").pop())).toEqual([
+            "founders-profile-skill-number", "founders-profile-skill-text", "option-picker", "strategy-box-remove"
+        ]);
+
         // Its placeholder follows the type chosen.
         choose(1, "Certification");
         expect(text(1)!.getAttribute("placeholder")).toBe("Name and issuing body");

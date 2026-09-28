@@ -253,7 +253,7 @@ export default function FoundersProfileEditor({
 
     /**
      * A founder's Skills, Expertise & Qualifications: a row an entry
-     * -- its number, its type, what it is, and × -- then "+ Add". There
+     * -- its number, what it is, its type, and × -- then "+ Add". There
      * is always a row to write in: × on the last one empties it
      * rather than taking it away.
      */
@@ -281,6 +281,15 @@ export default function FoundersProfileEditor({
                                 {(index + 1) + "."}
                             </span>
 
+                            <StrategyTextArea
+                                className="interview-input legal-entity-note founders-profile-skill-text"
+                                ariaLabel={name + " text"}
+                                placeholder={SKILL_PLACEHOLDERS[entry.type] ?? SKILL_PLACEHOLDERS[""]}
+                                disabled={disabled}
+                                value={entry.text}
+                                onChange={(next) => change(index, { text: next })}
+                            />
+
                             <OptionPicker
                                 label={name + " type"}
                                 placeholder="Type"
@@ -290,15 +299,6 @@ export default function FoundersProfileEditor({
                                 onChange={(next) => change(index, {
                                     type: FOUNDER_CREDENTIAL_TYPES.find(kind => kind.label === next)?.id ?? ""
                                 })}
-                            />
-
-                            <StrategyTextArea
-                                className="interview-input legal-entity-note founders-profile-skill-text"
-                                ariaLabel={name + " text"}
-                                placeholder={SKILL_PLACEHOLDERS[entry.type] ?? SKILL_PLACEHOLDERS[""]}
-                                disabled={disabled}
-                                value={entry.text}
-                                onChange={(next) => change(index, { text: next })}
                             />
 
                             <button
