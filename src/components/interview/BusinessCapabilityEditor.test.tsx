@@ -285,3 +285,94 @@ describe("BusinessCapabilityEditor completed activities", () => {
     });
 
 });
+
+describe("BusinessCapabilityEditor legacy numbers", () => {
+
+    const ann = { id: "f1", name: "Ann", ownership: "100", capital: "", roles: [""] };
+
+    const cost = (price: string) => ({ price, frequency: "monthly", frequencyOther: "", currency: "EUR" });
+
+    function renderWith(initial: unknown, foundation?: unknown) {
+        function ValueHarness() {
+            const [value, setValue] = useState<unknown>(initial);
+            return (
+                <BusinessCapabilityEditor
+                    value={value}
+                    onChange={setValue}
+                    foundation={foundation}
+                    legalEntityFounders={[ann]}
+                />
+            );
+        }
+        return render(<ValueHarness />);
+    }
+
+    const totals = (container: HTMLElement) =>
+        [...container.querySelectorAll(".business-capability-total")].map(line => line.textContent ?? "");
+
+    // Delivery hours are kept as typed, so "2,5" saved before the
+    // box took only digits must read as the engine reads it: 2.5.
+    it("reads a delivery's hours as the engine does", () => {
+
+        const { container } = renderWith(
+            {
+                ...asBusinessCapabilityValue(undefined),
+                delivery: { "offering-1": { hours: { f1: "2,5" }, mode: "unit" } }
+            },
+            { segments: [{ offerings: [{ id: "offering-1", name: "Offering One" }] }] }
+        );
+
+        const line = container.querySelector(".delivery-total")?.textContent ?? "";
+        expect(line).toContain("Total: 2.5 h per unit");
+
+    });
+
+    it("reads a resource's price as the engine does for its total", () => {
+
+        const { container } = renderWith({
+            ...asBusinessCapabilityValue(undefined),
+            resources: {
+                utilities: [{
+                    id: "electricity",
+                    name: "",
+                    slots: [{
+                        id: "slot-1", name: "Power", quantity: "2", description: "",
+                        status: "costs", cost: cost("12,5"), providerId: "", offeringIds: []
+                    }]
+                }]
+            }
+        });
+
+        fireEvent.click(toggles(/(Resource 1|Power)$/)[0]);
+
+        expect(totals(container).some(line => /^Total: 2 × \D*12\.50 = \D*25$/.test(line))).toBe(true);
+
+    });
+
+    it("reads a chosen provider's price as the engine does", () => {
+
+        const { container } = renderWith({
+            ...asBusinessCapabilityValue(undefined),
+            providers: [{
+                id: "p1", name: "PowerCo", description: "", responsibleId: "",
+                cost: cost("12,5"), offeringIds: []
+            }],
+            resources: {
+                utilities: [{
+                    id: "electricity",
+                    name: "",
+                    slots: [{
+                        id: "slot-1", name: "Power", quantity: "", description: "",
+                        status: "provided", cost: cost(""), providerId: "p1", offeringIds: []
+                    }]
+                }]
+            }
+        });
+
+        fireEvent.click(toggles(/(Resource 1|Power)$/)[0]);
+
+        expect(totals(container).some(line => /12\.50 monthly, priced on its card/.test(line))).toBe(true);
+
+    });
+
+});

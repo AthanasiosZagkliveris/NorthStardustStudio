@@ -54,6 +54,7 @@ import {
     founderWorkingHours
 } from "../../framework/engine/DemandCapacity.ts";
 import { moneyFormatter } from "../../framework/engine/FinancialModel.ts";
+import { parseAmount, parseDecimal } from "../../framework/engine/Amounts.ts";
 import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../framework/engine/Currencies.ts";
 import { randomId } from "../../framework/engine/Readers.ts";
 import { railId } from "./rails/railItems.ts";
@@ -177,14 +178,13 @@ function formatHours(hours: number): string {
     return hours.toLocaleString("en-GB", { maximumFractionDigits: hours < 10 ? 1 : 0 });
 }
 
-/** A number of hours as typed; null when there is none. */
+/**
+ * A number of hours as typed; null when there is none. Read as the
+ * engine reads it (see DemandCapacity.ts), so "12,5" saved before the
+ * box took only digits is 12.5 here too.
+ */
 function readHours(text: string | undefined): number | null {
-    const cleaned = (text ?? "").replace(/[^0-9.]/g, "");
-    if (cleaned === "" || cleaned === ".") {
-        return null;
-    }
-    const value = Number(cleaned);
-    return Number.isFinite(value) ? value : null;
+    return parseDecimal(text ?? "");
 }
 
 /** Whether a Delivery holds nothing typed, and need not be stored. */
@@ -762,8 +762,8 @@ export default function BusinessCapabilityEditor({
         quantity = ""
     ) {
         const count = resourceUnitCount(quantity, cost.frequency);
-        const unitPrice = Number(cost.price.trim());
-        const total = count !== null && cost.price.trim() !== "" && Number.isFinite(unitPrice)
+        const unitPrice = parseAmount(cost.price) ?? NaN;
+        const total = count !== null && Number.isFinite(unitPrice)
             ? Math.round(unitPrice * count * 100) / 100
             : null;
         return (
@@ -1031,7 +1031,7 @@ export default function BusinessCapabilityEditor({
                     provider serving several needs is paid for once. */}
                 {chosen && chosen.cost.price.trim() !== "" && (
                     <p className="business-capability-total">
-                        {moneyFormatter(chosen.cost.currency || organisationCurrency)(Number(chosen.cost.price) || 0)}
+                        {moneyFormatter(chosen.cost.currency || organisationCurrency)(parseAmount(chosen.cost.price) ?? 0)}
                         {" "}
                         {(BUSINESS_COST_FREQUENCIES.find(entry => entry.id === chosen.cost.frequency)?.label ?? "").toLowerCase()}
                         , priced on its card under 3. Partnerships & Providers.
@@ -1120,7 +1120,7 @@ export default function BusinessCapabilityEditor({
                                 quantity: limitedNumberText(event.target.value, slot.quantity, NUMBER_LIMITS.quantity)
                             })}
                         />
-                        {slot.quantity.trim() !== "" && Number(slot.quantity) === 0 && (
+                        {parseDecimal(slot.quantity) === 0 && (
                             <p className="business-capability-total">
                                 A quantity must be more than 0. It is counted as 1.
                             </p>
@@ -1435,8 +1435,8 @@ export default function BusinessCapabilityEditor({
         /* Hours in the period chosen; delivery hours never more
            than the working hours typed beside them. */
         const hoursLimit = weekly ? NUMBER_LIMITS.hoursWeek : NUMBER_LIMITS.hoursMonth;
-        const typedWorking = founder.hours.trim() === "" ? NaN : Number(founder.hours);
-        const deliveryLimit = Number.isFinite(typedWorking)
+        const typedWorking = parseDecimal(founder.hours);
+        const deliveryLimit = typedWorking !== null
             ? { ...hoursLimit, max: Math.min(hoursLimit.max, typedWorking) }
             : hoursLimit;
 
