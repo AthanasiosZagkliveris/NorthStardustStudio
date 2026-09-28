@@ -931,19 +931,21 @@ function founderCommitment(hoursAMonth: number | null): string {
 function founderTable(f: Foundation): ExportBlock[] {
     const { capability, format } = f;
     const withCapital = f.legalEntity.founders.some(founder => parseAmount(founder.capital) !== null);
-    return table(["Founder", "Ownership", ...(withCapital ? ["Capital"] : []), "Roles", "Commitment"], f.legalEntity.founders
+    const payOf = (id: string) => parseAmount(capability.founders.find(entry => entry.id === id)?.salary ?? "");
+    const withPay = f.legalEntity.founders.some(founder => payOf(founder.id) !== null);
+    return table(["Founder", "Ownership", ...(withCapital ? ["Capital"] : []), "Roles", "Commitment", ...(withPay ? ["Pay"] : [])], f.legalEntity.founders
         .filter(founder => founder.name.trim())
         .map(founder => {
             const working = capability.founders.find(entry => entry.id === founder.id);
-            const salary = working?.salary ?? "";
+            const pay = payOf(founder.id);
             return [
-                founder.name + (parseAmount(salary) !== null
-                    ? " (" + payWord(f).toLowerCase() + " " + format(parseAmount(salary) ?? 0) + " a month)"
-                    : ""),
+                founder.name,
                 founder.ownership ? founder.ownership + "%" : "",
                 ...(withCapital ? [parseAmount(founder.capital) !== null ? format(parseAmount(founder.capital) ?? 0) : ""] : []),
                 founderProfileOf(founder, f.foundersProfile).roles.filter(Boolean).join(", "),
-                founderCommitment(working ? founderWorkingHours(working) : null)
+                founderCommitment(working ? founderWorkingHours(working) : null),
+                // "$4,500 a month (owner's drawings)": the pay, then what the forecast counts it as.
+                ...(withPay ? [pay !== null ? format(pay) + " a month (" + payWord(f).toLowerCase() + ")" : ""] : [])
             ];
         }));
 }

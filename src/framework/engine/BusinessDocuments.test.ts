@@ -377,7 +377,8 @@ describe("Quillfield: the documents tie together", () => {
         expect(planMd).toContain("Tax identification number (EIN): 93-4567812");
         expect(planMd).toContain("Formation date: Aug 2026");
         expect(planMd).toContain("Brooklyn, New York 11201, United States of America");
-        expect(planMd).toContain("| Jordan Ellis (owner's drawings $4,500 a month) | 100% | $12,000 |");
+        expect(planMd).toContain("| Jordan Ellis | 100% | $12,000 |");
+        expect(planMd).toContain("| Full-time (about 37 hours a week) | $4,500 a month (owner's drawings) |");
         // Brand & Voice under Marketing and Sales; the style guide in the Appendix.
         const marketing = planMd.slice(planMd.indexOf("## 5. Marketing and Sales"), planMd.indexOf("## 6. Operations"));
         expect(marketing).toContain("### Brand & Voice");
@@ -804,7 +805,7 @@ describe("the optional answers in the documents", () => {
 
         const given = partOf(planOf(base()), "## 7. Management and Organization");
         expect(given).not.toContain("Not covered by the Foundation answers.");
-        expect(given).toContain("| Founder | Ownership | Capital | Roles | Commitment |");
+        expect(given).toContain("| Founder | Ownership | Capital | Roles | Commitment | Pay |");
         expect(given).toContain("| Founder & Automation Consultant, Solutions Architect | Full-time (about 37 hours a week) |");
         expect(given).toContain("Founder & Automation Consultant, Solutions Architect");
         expect(given).toContain("### Founder Profiles\n\n#### Jordan Ellis");
