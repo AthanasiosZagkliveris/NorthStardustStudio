@@ -1796,6 +1796,32 @@ export function asBrandStyleValue(value: unknown): BrandStyleAnswerValue {
 }
 
 /**
+ * Normalizes whatever the user typed into a HEX value the colour
+ * sample and the colour picker can both use.
+ *
+ * Accepts "#1a2b3c", "1a2b3c", "#abc" and "abc" -- people paste HEX
+ * with and without the hash, and 3-digit shorthand is common in
+ * brand guidelines. Anything that isn't a complete 3- or 6-digit
+ * HEX returns undefined, so a half-typed value shows as "nothing
+ * chosen" rather than flashing through wrong colours per keystroke.
+ */
+export function normalizeHex(input: string): string | undefined {
+
+    const raw = input.trim().replace(/^#/, "");
+
+    if (!/^[0-9a-f]{3}$/i.test(raw) && !/^[0-9a-f]{6}$/i.test(raw)) {
+        return undefined;
+    }
+
+    const full = raw.length === 3
+        ? raw.split("").map(character => character + character).join("")
+        : raw;
+
+    return `#${full.toLowerCase()}`;
+
+}
+
+/**
  * Whether each of the Style page's three sections (Colours,
  * Typography, Text Hierarchy) still needs attention. Only ACTIVATED
  * slots count -- an unticked slot is a deliberate "this brand
@@ -1811,9 +1837,9 @@ export function brandStyleSectionsEmpty(value: unknown): boolean[] {
         .map(level => style.hierarchy[level.id])
         .filter(level => level.enabled);
 
-    // A whole HEX, as BrandStyleEditor's normalizeHex accepts it
-    // (#RGB or #RRGGBB, the # optional), and a size of 8 px or more.
-    const wholeHex = (hex: string) => /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.test(hex.trim());
+    // A whole HEX, as normalizeHex accepts it (#RGB or #RRGGBB, the
+    // # optional), and a size of 8 px or more.
+    const wholeHex = (hex: string) => normalizeHex(hex) !== undefined;
     const readableSize = (size: string) => /^\d+$/.test(size.trim()) && Number(size.trim()) >= 8;
 
     return [
@@ -2890,12 +2916,15 @@ export function formatMonthShort(month: StrategyMonthValue): string {
  * is set, and nothing until then.
  */
 export function titleWithPeriod(title: string, range: StrategyRangeValue): string {
+    const period = isRangeSet(range) ? " · " + formatRangeAbbrev(range) : "";
+    return title.replace(/\s*MM\/YY - MM\/YY/, period);
+}
+
+/** A period as "Jan 2027 – Dec 2029". */
+export function formatRangeAbbrev(range: StrategyRangeValue): string {
     const names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const label = (month: StrategyMonthValue) => names[Number(month.month) - 1] + " " + month.year;
-    const period = isMonthSet(range.start) && isMonthSet(range.end)
-        ? " · " + label(range.start) + " – " + label(range.end)
-        : "";
-    return title.replace(/\s*MM\/YY - MM\/YY/, period);
+    return label(range.start) + " – " + label(range.end);
 }
 
 export function formatRangeShort(range: StrategyRangeValue): string {
@@ -3368,8 +3397,8 @@ function hslChannels(hue: number, saturation: number, lightness: number): [numbe
 
 }
 
-/** WCAG relative luminance (SC 1.4.3's own definition). */
-function relativeLuminance(channels: [number, number, number]): number {
+/** WCAG relative luminance (SC 1.4.3's own definition), from channels in 0-1. */
+export function relativeLuminance(channels: [number, number, number]): number {
 
     const [red, green, blue] = channels.map(channel =>
         channel <= 0.03928 ? channel / 12.92 : Math.pow((channel + 0.055) / 1.055, 2.4)

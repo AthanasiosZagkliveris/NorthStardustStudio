@@ -6,7 +6,9 @@ import {
     BRAND_STYLE_SECTIONS,
     BRAND_TYPEFACE_SLOTS,
     BrandStyleAnswerValue,
-    asBrandStyleValue
+    asBrandStyleValue,
+    normalizeHex,
+    relativeLuminance
 } from "../../framework/engine/AnswerUtils.ts";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { NUMBER_LIMITS, limitedHexText, limitedNumberText } from "./numberInput.ts";
@@ -20,15 +22,10 @@ interface BrandStyleEditorProps {
 
     disabled?: boolean;
 
-    /**
-     * The number this page's FIRST section carries. The Brand
-     * System numbers its parts continuously across all three pages
-     * (1-4 Brand Foundation, 5-7 Style, 8-9 Inventory), so this
-     * page starts at 5 rather than restarting at 1.
-     */
     /** A page numbered under its own number ("2" gives 2.1, 2.2): see AnswerDefinition.nestedNumbering. */
     numberPrefix?: string;
 
+    /** The number this page's FIRST section carries when there is no numberPrefix. */
     startNumber?: number;
 
     /**
@@ -47,37 +44,10 @@ interface BrandStyleEditorProps {
 
 }
 
-/**
- * Normalizes whatever the user typed into a HEX value the colour
- * sample and the colour picker can both use.
- *
- * Accepts "#1a2b3c", "1a2b3c", "#abc" and "abc" -- people paste HEX
- * with and without the hash, and 3-digit shorthand is common in
- * brand guidelines. Anything that isn't a complete 3- or 6-digit
- * HEX returns undefined, so a half-typed value shows as "nothing
- * chosen" rather than flashing through wrong colours per keystroke.
- */
-export function normalizeHex(input: string): string | undefined {
-
-    const raw = input.trim().replace(/^#/, "");
-
-    if (!/^[0-9a-f]{3}$/i.test(raw) && !/^[0-9a-f]{6}$/i.test(raw)) {
-        return undefined;
-    }
-
-    const full = raw.length === 3
-        ? raw.split("").map(character => character + character).join("")
-        : raw;
-
-    return `#${full.toLowerCase()}`;
-
-}
-
 /** WCAG relative luminance of a normalised HEX. */
 function luminance(hex: string): number {
-    const channels = [1, 3, 5].map(start => parseInt(hex.slice(start, start + 2), 16) / 255)
-        .map(value => value <= 0.03928 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4));
-    return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+    const [red, green, blue] = [1, 3, 5].map(start => parseInt(hex.slice(start, start + 2), 16) / 255);
+    return relativeLuminance([red, green, blue]);
 }
 
 /** WCAG contrast ratio between two HEX colours, 1 to 21. */
@@ -86,11 +56,6 @@ function contrastRatio(one: string, other: string): number {
     return (light + 0.05) / (dark + 0.05);
 }
 
-/**
- * How readable text is in this colour on white, and white text on it
- * -- the same ratio either way -- and the same against black. Said in
- * words, so the colour of the note never carries the meaning.
- */
 /** The contrast ratio's own formula, the "i" beside the AA/AAA line. */
 const CONTRAST_HELP: InfoPoint[] = [
     { title: "Formula", text: "Contrast = (L_lighter + 0.05) ÷ (L_darker + 0.05)" },
@@ -102,6 +67,11 @@ const CONTRAST_HELP: InfoPoint[] = [
     }
 ];
 
+/**
+ * How readable text is in this colour on white, and white text on it
+ * -- the same ratio either way -- and the same against black. Said in
+ * words, so the colour of the note never carries the meaning.
+ */
 function contrastNote(hex: string): string {
     const verdict = (ratio: number) =>
         ratio >= 7 ? "AAA" : ratio >= 4.5 ? "AA" : ratio >= 3 ? "large text only" : "not for text";
@@ -111,23 +81,6 @@ function contrastNote(hex: string): string {
         black.toFixed(1) + ":1 (" + verdict(black) + ")";
 }
 
-/**
- * The Brand System's Style page (see AnswerType.BrandStyle).
- *
- * Laid out as the Identity System's column pages are: every
- * section's heading and bullet guidance sit ABOVE the progress
- * line, every input below it. Three equal columns -- Colours,
- * Typography, Text Hierarchy.
- *
- * Every slot is progressively disclosed. Deactivated, a slot shows
- * only its tick and its title; ticking it drops the rest of its
- * fields open. Slots also chain: a B colour can only be switched on
- * once its A partner is, the optional typeface needs the secondary
- * first, and H3 needs H2 -- so the palette can only be built in an
- * order that makes sense, and switching a prerequisite back off
- * takes its dependents with it rather than leaving an orphan
- * active.
- */
 /* ---------- Help: how to choose and combine (the column "i"s) ---------- */
 
 const COLOUR_ASSOCIATIONS: InfoPoint[] = [
@@ -177,6 +130,23 @@ const TYPEFACE_PAIRINGS: InfoPoint[] = [
     { title: "Readability", text: "use highly expressive typefaces selectively and prioritise clear, comfortable reading for body text and interface content." }
 ];
 
+/**
+ * The Brand System's Style page (see AnswerType.BrandStyle).
+ *
+ * Laid out as the Identity System's column pages are: every
+ * section's heading and bullet guidance sit ABOVE the progress
+ * line, every input below it. Three equal columns -- Colours,
+ * Typography, Text Hierarchy.
+ *
+ * Every slot is progressively disclosed. Deactivated, a slot shows
+ * only its tick and its title; ticking it drops the rest of its
+ * fields open. Slots also chain: a B colour can only be switched on
+ * once its A partner is, the optional typeface needs the secondary
+ * first, and H3 needs H2 -- so the palette can only be built in an
+ * order that makes sense, and switching a prerequisite back off
+ * takes its dependents with it rather than leaving an orphan
+ * active.
+ */
 export default function BrandStyleEditor({
 
     value,
@@ -545,9 +515,9 @@ export default function BrandStyleEditor({
                                         onChange={(event) => updateColour(index, { usage: event.target.value })}
                                     />
 
-                                    {normalizeHex(colour.hex) && (
+                                    {swatch && (
                                         <span className="brand-style-contrast">
-                                            <InfoText text={contrastNote(normalizeHex(colour.hex)!)}>
+                                            <InfoText text={contrastNote(swatch)}>
                                                 <InfoNote label="Contrast ratio" points={CONTRAST_HELP} />
                                             </InfoText>
                                         </span>
@@ -631,17 +601,7 @@ export default function BrandStyleEditor({
 
             </div>
 
-            {/*
-                Its own class because this section stacks at a
-                tighter 6px: a hierarchy level is one line, so the
-                gap between two slots here IS the gap between two
-                number holders, and it matches the 6px Colours and
-                Typography use between the fields inside a slot.
-            */}
-            <div
-                className="brand-style-body brand-hierarchy-body"
-                data-rail={railId(BRAND_STYLE_SECTIONS[2])}
-            >
+            <div className="brand-style-body" data-rail={railId(BRAND_STYLE_SECTIONS[2])}>
 
                 {BRAND_HIERARCHY_LEVELS.map(level => {
 

@@ -8,6 +8,7 @@ import {
     StrategyThemeValue,
     asStrategyFoundationValue,
     createStrategyTheme,
+    formatRangeAbbrev,
     isRangeSet,
     STRATEGY_THEME_SUGGESTIONS,
     strategyThemeHues,
@@ -31,7 +32,6 @@ interface StrategyFoundationEditorProps {
 
     disabled?: boolean;
 
-    /** See BrandStyleEditor.startNumber -- this page starts at 1. */
     /** The Identity System's Vision, shown beside the Strategic Compass. */
     vision?: string;
 
@@ -50,6 +50,7 @@ interface StrategyFoundationEditorProps {
     /** A page numbered under its own number ("2" gives 2.1, 2.2): see AnswerDefinition.nestedNumbering. */
     numberPrefix?: string;
 
+    /** See BrandStyleEditor.startNumber. */
     startNumber?: number;
 
     /** See BrandStyleEditor.columnsDivider. */
@@ -89,6 +90,12 @@ function currentMonthIndex(): number {
     return now.getFullYear() * 12 + now.getMonth();
 }
 
+/** The common Strategic Themes: the "i" at the end of 1.4's Themes line. */
+const THEME_SUGGESTIONS: InfoPoint[] = STRATEGY_THEME_SUGGESTIONS.map(suggestion => ({
+    title: suggestion.name,
+    text: suggestion.description
+}));
+
 /**
  * The Strategy System's Foundation page (see
  * AnswerType.StrategyFoundation).
@@ -103,12 +110,6 @@ function currentMonthIndex(): number {
  * This page is the only place the Strategic Period and the Strategic
  * Themes are stored. The other two Strategy pages read them here.
  */
-/** The common Strategic Themes: the "i" at the end of 1.4's Themes line. */
-const THEME_SUGGESTIONS: InfoPoint[] = STRATEGY_THEME_SUGGESTIONS.map(suggestion => ({
-    title: suggestion.name,
-    text: suggestion.description
-}));
-
 export default function StrategyFoundationEditor({
 
     value,
@@ -169,26 +170,14 @@ export default function StrategyFoundationEditor({
         monthIndex(foundation.period.start) !== monthIndex(financialPlan.start) ||
         monthIndex(foundation.period.end) !== monthIndex(financialPlan.end));
 
-    function rangeLabel(range: StrategyRangeValue): string {
-        const names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        const label = (month: { month: string; year: string }) => names[Number(month.month) - 1] + " " + month.year;
-        return label(range.start) + " – " + label(range.end);
-    }
 
     /** The Strategic Period set to the financial plan's, through the same guard as the pickers. */
-    function usePlanPeriod() {
+    function applyPlanPeriod() {
         if (!financialPlan) {
             return;
         }
-        const period: StrategyRangeValue = { start: { ...financialPlan.start }, end: { ...financialPlan.end } };
-        const apply = () => update({ period });
-        if (guardPeriodChange) {
-            guardPeriodChange(period, apply);
-            return;
-        }
-        apply();
+        commitPeriod({ start: { ...financialPlan.start }, end: { ...financialPlan.end } });
     }
-
 
     /** An "i" naming where a question is answered, each a link to that page. */
     function answeredIn(label: string, pages: [string, string, AnswerType][]) {
@@ -261,6 +250,12 @@ export default function StrategyFoundationEditor({
             period.end = { month: "", year: "" };
         }
 
+        commitPeriod(period);
+
+    }
+
+    function commitPeriod(period: StrategyRangeValue) {
+
         const apply = () => update({ period });
 
         // Narrowing the period can strand an Objective planned inside
@@ -329,6 +324,7 @@ export default function StrategyFoundationEditor({
     const themeHues = strategyThemeHues(foundation.themes.map(theme => theme.id));
 
     const currentYear = new Date().getFullYear();
+    const thisMonth = currentMonthIndex();
 
     return (
 
@@ -487,7 +483,7 @@ export default function StrategyFoundationEditor({
                         // it may have started up to two years ago. It
                         // cannot end before this month (see End).
                         isAllowed={(month, year) =>
-                            year * 12 + (month - 1) >= currentMonthIndex() - 24}
+                            year * 12 + (month - 1) >= thisMonth - 24}
                         onChange={(next) => setPeriodEdge("start", next)}
                     />
 
@@ -503,7 +499,7 @@ export default function StrategyFoundationEditor({
                         // And never earlier than the start.
                         isAllowed={(month, year) =>
                             year * 12 + (month - 1) >= Math.max(
-                                currentMonthIndex(),
+                                thisMonth,
                                 monthIndex(foundation.period.start)
                             )}
                         onChange={(next) => setPeriodEdge("end", next)}
@@ -516,7 +512,7 @@ export default function StrategyFoundationEditor({
                 {financialPlan && (
                     <div className={"strategy-plan-dates" + (periodDiffers ? " strategy-plan-dates-differ" : "")} role="note">
                         <span>
-                            Your financial plan runs {rangeLabel(financialPlan)}.
+                            Your financial plan runs {formatRangeAbbrev(financialPlan)}.
                             {periodDiffers && isRangeSet(foundation.period)
                                 ? " The Strategic Period differs, so the Business Plan will show two time frames."
                                 : ""}
@@ -526,7 +522,7 @@ export default function StrategyFoundationEditor({
                                 type="button"
                                 className="business-engagement-link"
                                 disabled={disabled}
-                                onClick={usePlanPeriod}
+                                onClick={applyPlanPeriod}
                             >
                                 Use the same period
                             </button>

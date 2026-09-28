@@ -19,10 +19,10 @@ interface BrandInventoryEditorProps {
 
     disabled?: boolean;
 
-    /** See BrandStyleEditor.startNumber -- this page starts at 8. */
     /** A page numbered under its own number ("2" gives 2.1, 2.2): see AnswerDefinition.nestedNumbering. */
     numberPrefix?: string;
 
+    /** See BrandStyleEditor.startNumber. */
     startNumber?: number;
 
     /** See BrandStyleEditor.columnsDivider. */
@@ -39,7 +39,7 @@ interface BrandInventoryEditorProps {
 
 // Everything this app saves goes into localStorage as JSON, and an
 // image embedded as a data URL costs ~33% more than its raw bytes
-// (base64). Measured headroom is around 12MB for the WHOLE origin --
+// (base64). Measured headroom is around 12.8MB for the WHOLE origin --
 // every Organization, all 24 Systems -- so an Inventory page holding
 // up to 9 images needs a hard per-image ceiling, or one photo
 // straight off a phone would exhaust the quota and break saving for
@@ -100,7 +100,7 @@ function approximateBytes(dataUrl: string): number {
  * already small, and rasterizing a vector logo would defeat the
  * point of uploading one.
  */
-async function prepareImage(file: File, rasterize: boolean): Promise<string> {
+async function prepareImage(file: File, downscale: boolean): Promise<string> {
 
     const dataUrl = await readAsDataUrl(file);
 
@@ -109,11 +109,11 @@ async function prepareImage(file: File, rasterize: boolean): Promise<string> {
     }
 
     // An icon or logo is stored byte-for-byte. Two reasons: it is
-    // already capped at 10kB so there is nothing to save, and
+    // already capped at 50KB so there is nothing to save, and
     // re-encoding a PNG as JPEG would flatten its transparency onto
     // black -- which is exactly wrong for a mark meant to sit on any
     // background.
-    if (!rasterize) {
+    if (!downscale) {
         return dataUrl;
     }
 
@@ -147,19 +147,6 @@ async function prepareImage(file: File, rasterize: boolean): Promise<string> {
 
 }
 
-/**
- * The Brand System's Inventory page (see AnswerType.BrandInventory).
- *
- * Same above/below-the-line arrangement as the Style page and the
- * Identity System's columns: headings and bullet guidance sit above
- * the progress line, the upload controls below it.
- *
- * Uploads are downscaled and embedded as data URLs rather than
- * written to disk, because this app has no filesystem access. An
- * upload that would still be too large after downscaling is REFUSED
- * with a message rather than stored, so a single oversized file can
- * never exhaust the quota and silently break saving across the app.
- */
 /* ---------- Help: how to choose (the column "i"s) ---------- */
 
 const SHAPE_ASSOCIATIONS: InfoPoint[] = [
@@ -184,6 +171,19 @@ const IMAGE_TYPES: InfoPoint[] = [
     { title: "Editorial", text: "creates a considered and distinctive visual direction." }
 ];
 
+/**
+ * The Brand System's Inventory page (see AnswerType.BrandInventory).
+ *
+ * Same above/below-the-line arrangement as the Style page and the
+ * Identity System's columns: headings and bullet guidance sit above
+ * the progress line, the upload controls below it.
+ *
+ * Uploads are downscaled and embedded as data URLs rather than
+ * written to disk, because this app has no filesystem access. An
+ * upload that would still be too large after downscaling is REFUSED
+ * with a message rather than stored, so a single oversized file can
+ * never exhaust the quota and silently break saving across the app.
+ */
 export default function BrandInventoryEditor({
 
     value,
@@ -428,8 +428,8 @@ export default function BrandInventoryEditor({
             <div className="brand-style-body" data-rail={railId(BRAND_INVENTORY_SECTIONS[0])}>
 
                 {/*
-                    Two sub-columns: ICON on the left at 150px
-                    wide, LOGO on the right at 600px, each with
+                    Two sub-columns: ICON on the left, LOGO on the
+                    right at three times its width, each with
                     SVG above PNG. The two share one row grid so
                     the SVG holders sit level with each other and
                     the PNG holders below them do too.
@@ -455,8 +455,8 @@ export default function BrandInventoryEditor({
                 {/*
                     Rendered through the SAME DropZone the Icon and
                     Logo slots use, so an image's label, holder and
-                    Replace/Remove buttons sit exactly where theirs
-                    do. Its `aside` carries the Name and Short
+                    remove control sit exactly where theirs do. Its
+                    `aside` carries the Name and Short
                     Description fields, which sit beside the holder
                     and are on screen from the start -- an empty slot
                     shows them just as a filled one does, so nothing
@@ -539,10 +539,10 @@ export default function BrandInventoryEditor({
 }
 
 /**
- * One upload slot: a preview that doubles as a drop target, plus a
- * button that opens the file dialog.
+ * One upload slot: a preview holder that is both the drop target and
+ * the button that opens the file dialog.
  *
- * The whole slot accepts a drag-and-drop, but the BUTTON is what
+ * The holder accepts a drag-and-drop, but being a BUTTON is what
  * carries the accessible name and keyboard operation -- a drop
  * target alone is unreachable without a pointer, so the button is
  * the equivalent path rather than a nicety.
@@ -690,8 +690,7 @@ function DropZone({
             {/*
                 Anything beside the holder -- the Brand Images
                 section's Name and Short Description fields. Absent
-                for Icon and Logo, whose slot is holder-and-buttons
-                only.
+                for Icon and Logo, whose slot is the holder only.
             */}
             {aside && (
                 <div className="brand-image-fields">{aside}</div>
