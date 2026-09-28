@@ -52,6 +52,7 @@ import {
     financialFoundationBlocks,
     financialSustainabilityBlocks,
     heading,
+    labelled,
     list,
     offeringName,
     offeringNames,
@@ -63,6 +64,8 @@ import {
     titled
 } from "./ExportRenderers.ts";
 import {
+    COST_FREQUENCIES,
+    COST_GROUPS,
     FUNDING_STATUSES,
     planLength,
     revenueModelLabel,
@@ -204,11 +207,12 @@ export function financialPlanRange(sessions: FoundationSessions): { start: Strat
 }
 
 /** Everything the documents read, calculated once: also used by tests. */
-export function readFoundation(sessions: FoundationSessions) {
+export function readFoundation(sessions: FoundationSessions, options?: { wholeOnly?: boolean }) {
 
     const legalEntity: LegalEntityValue = asLegalEntityValue(responseByType(sessions.identity, AnswerType.LegalEntity));
     const currency = countryCurrency(legalEntity.organisation.country);
-    const format = moneyFormatter(currency);
+    // The documents are in whole amounts throughout.
+    const format = moneyFormatter(currency, options);
 
     const business: ExportContext = sessions.business
         ? sessionExportContext(sessions.business, { legalEntity, currency })
@@ -359,7 +363,7 @@ export function businessModelCanvasData(sessions: FoundationSessions): {
     blocks: Record<CanvasBlockId, string[]>;
 } {
 
-    const f = readFoundation(sessions);
+    const f = readFoundation(sessions, { wholeOnly: true });
     const { capability } = f;
     const format = moneyFormatter(f.currency, { wholeOnly: true });
     const offeringsFor = (ids: string[]) => offeringNames(f.foundationValue, ids) || "an Offering";
@@ -537,7 +541,7 @@ function executiveSummary(f: Foundation): ExportBlock[] {
             : "";
 
     const offer = offerings.length
-        ? (opening ? "It" : f.name) + " offers " + joinNames(offerings) + (segments.length ? " to " + joinNames(segments) : "") + "."
+        ? (opening ? "It" : f.name) + " offers " + joinNames(offerings) + (segments.length ? " to " + joinNames(segments.map(midSentence)) : "") + "."
         : "";
 
     const money = position.need > 0
@@ -553,11 +557,11 @@ function executiveSummary(f: Foundation): ExportBlock[] {
 
     return [
         ...paragraph([opening, offer].filter(Boolean).join(" ")),
-        ...paragraph(text(f.definition.mission), "Mission"),
-        ...paragraph(text(f.definition.vision), "Vision"),
-        ...paragraph([money, revenue].filter(Boolean).join(" "), "Financial outlook"),
-        ...paragraph(outlook.signals[0] ? outlook.signals[0].text : "", outlook.signals[0]?.title),
-        ...paragraph(f.strategyFoundation.compass, "Direction")
+        ...labelled("Mission", text(f.definition.mission)),
+        ...labelled("Vision", text(f.definition.vision)),
+        ...labelled("Financial outlook", [money, revenue].filter(Boolean).join(" ")),
+        ...(outlook.signals[0] ? labelled(outlook.signals[0].title, outlook.signals[0].text) : []),
+        ...labelled("Direction", f.strategyFoundation.compass)
     ];
 
 }
@@ -589,6 +593,26 @@ function legalFormPhrase(legalForm: string): string {
 
 function joinNames(names: string[]): string {
     return names.length <= 1 ? names.join("") : names.slice(0, -1).join(", ") + " and " + names[names.length - 1];
+}
+
+/** Several items in one table cell: one a line, each with its bullet. */
+function bulletCell(items: string[] | undefined): string {
+    return (items ?? []).map(text).filter(Boolean).map(item => "• " + item).join("\n");
+}
+
+/** A level-2 heading and what is under it, or nothing when nothing is. */
+function titled2(title: string, blocks: ExportBlock[]): ExportBlock[] {
+    return blocks.length === 0 ? [] : [heading(title, 2), ...blocks];
+}
+
+/**
+ * A name as it reads mid-sentence: "Small professional-services firms"
+ * becomes "small professional-services firms"; a word in capitals
+ * (NYC, UK) or a proper name after the first word keeps them.
+ */
+function midSentence(name: string): string {
+    const trimmed = name.trim();
+    return /^[A-Z][a-z]/.test(trimmed) ? trimmed.charAt(0).toLowerCase() + trimmed.slice(1) : trimmed;
 }
 
 /** Prose that may run to several paragraphs, one block each. */
@@ -657,42 +681,42 @@ function companyBlocks(f: Foundation): ExportBlock[] {
         ])),
         ...titled("Licences and Registrations", list(licenceItems(f))),
         ...titled("Values and Principles", [
-            ...paragraph(text(f.ethics.philosophy), "Philosophy"),
-            ...list(listItems(f.ethics.values)),
-            ...list(listItems(f.ethics.principles), true)
+            ...labelled("Philosophy", text(f.ethics.philosophy)),
+            ...titled2("Values", list(listItems(f.ethics.values))),
+            ...titled2("Principles", list(listItems(f.ethics.principles), true))
         ])
     ];
 }
 
 function marketBlocks(f: Foundation): ExportBlock[] {
     return [
-        ...paragraph(text(f.definition.positioning), "Positioning"),
+        ...labelled("Positioning", text(f.definition.positioning)),
         ...f.segments.flatMap((segment, index) => [
             heading("Segment " + (index + 1) + ": " + (segment.name.trim() || "Unnamed segment")),
-            ...paragraph(segment.description.demographics ?? "", "Who"),
-            ...paragraph(segment.description.geographics ?? "", "Where"),
-            ...paragraph(segment.description["market-size"] ?? "", "Market size"),
-            ...table(["Profile", "Goals", "Challenges", "Needs"], segment.profiles.map(profile => [
+            ...labelled("Who", segment.description.demographics ?? ""),
+            ...labelled("Where", segment.description.geographics ?? ""),
+            ...labelled("Market size", segment.description["market-size"] ?? ""),
+            ...titled2("Customer Profiles", table(["Profile", "Goals", "Challenges", "Needs"], segment.profiles.map(profile => [
                 profile.name,
                 profile.goals,
                 profile.challenges,
-                profile.needs.functional.filter(Boolean).join("; ")
-            ])),
-            ...table(["Competitor", "Type", "Strengths", "Weaknesses"], segment.competitors.map(competitor => [
+                bulletCell(profile.needs.functional)
+            ]))),
+            ...titled2("Competitors", table(["Competitor", "Type", "Strengths", "Weaknesses", "Insights"], segment.competitors.map(competitor => [
                 competitor.name,
                 BUSINESS_COMPETITOR_TYPES.find(type => type.id === competitor.type)?.label ?? "",
                 competitor.strengths,
-                competitor.weaknesses
-            ])),
-            ...list(segment.competitors.map(competitor => text(competitor.insights)))
+                competitor.weaknesses,
+                competitor.insights
+            ])))
         ])
     ];
 }
 
 function offeringBlocks(f: Foundation): ExportBlock[] {
     return f.segments.flatMap(segment => [
-        heading("For " + (segment.name.trim() || "Unnamed segment")),
-        ...paragraph(segment.valueProposition, "Value proposition"),
+        heading("For " + (midSentence(segment.name) || "an unnamed segment")),
+        ...labelled("Value proposition", segment.valueProposition),
         ...table(["Offering", "Type", "What it does", "Customer benefit", "Price", "Pricing model"], segment.offerings.map(offering => {
             const stream = f.revenuePage.streams.find(entry => entry.offeringId === offering.id);
             return [
@@ -844,7 +868,7 @@ function strategyBlocks(f: Foundation): ExportBlock[] {
     const owner = (id: string) => f.legalEntity.founders.find(founder => founder.id === id)?.name ?? "";
     const range = (value: { start: StrategyMonthValue; end: StrategyMonthValue }) =>
         [monthName(value.start), monthName(value.end)].filter(Boolean).join(" – ");
-    const bullets = (items: string[] | undefined) => (items ?? []).map(text).filter(Boolean).map(item => "• " + item).join("\n");
+    const bullets = bulletCell;
 
     /* Every Objective, numbered as the Strategy System numbers them. */
     const objectives = foundation.themes.flatMap((theme, themeIndex) =>
@@ -853,25 +877,10 @@ function strategyBlocks(f: Foundation): ExportBlock[] {
             number: (themeIndex + 1) + "." + (goalIndex + 1) + "." + (objectiveIndex + 1)
         }))));
 
-    /* The Roadmap: Objectives by the quarter they start in. */
-    const quarters = new Map<string, { order: number; items: string[] }>();
-    objectives.forEach(({ objective, number }) => {
-        const m = Number(objective.period.start.month);
-        const y = Number(objective.period.start.year);
-        if (!(m >= 1 && m <= 12 && y)) {
-            return;
-        }
-        const q = Math.floor((m - 1) / 3);
-        const key = shortMonth(q * 3 + 1) + " – " + shortMonth(q * 3 + 3) + " " + y;
-        const entry = quarters.get(key) ?? { order: y * 4 + q, items: [] };
-        entry.items.push(number + " " + objective.name + (monthName(objective.period.end) ? " (to " + monthName(objective.period.end) + ")" : ""));
-        quarters.set(key, entry);
-    });
-
     return [
         ...titled("Current Situation", paragraphs(foundation.situation)),
-        ...paragraph(range(period), "Strategic period"),
-        ...paragraph(foundation.compass, "Strategic compass"),
+        ...labelled("Strategic period", range(period)),
+        ...labelled("Strategic compass", foundation.compass),
         ...titled("SWOT Analysis", table(["", "Helpful", "Harmful"], [
             ["Internal", bullets(foundation.swot.strengths), bullets(foundation.swot.weaknesses)],
             ["External", bullets(foundation.swot.opportunities), bullets(foundation.swot.threats)]
@@ -885,7 +894,7 @@ function strategyBlocks(f: Foundation): ExportBlock[] {
                 heading((themeIndex + 1) + ". " + (theme.name || "Unnamed theme"), 2),
                 ...goals.flatMap((goal, goalIndex) => [
                     ...(text(goal.description)
-                        ? paragraph(goal.description, (themeIndex + 1) + "." + (goalIndex + 1) + " " + (goal.name || "Unnamed goal"))
+                        ? labelled((themeIndex + 1) + "." + (goalIndex + 1) + " " + (goal.name || "Unnamed goal"), goal.description)
                         : paragraph((themeIndex + 1) + "." + (goalIndex + 1) + " " + (goal.name || "Unnamed goal"))),
                     ...table(["Objective", "When", "Owner", "Description", "Initiatives"], goal.objectives.map((objective, objectiveIndex) => [
                         (themeIndex + 1) + "." + (goalIndex + 1) + "." + (objectiveIndex + 1) + " " + objective.name,
@@ -905,9 +914,15 @@ function strategyBlocks(f: Foundation): ExportBlock[] {
                 metric.frequency,
                 owner(objective.ownerId)
             ])))),
-        ...titled("Roadmap", table(["Starting", "Objectives"], [...quarters.entries()]
-            .sort((a, b) => a[1].order - b[1].order)
-            .map(([key, entry]) => [key, entry.items.join("\n")])))
+        // Each Theme's Objectives, numbered from 1 in each Theme as the
+        // Roadmap page numbers them, with when each runs.
+        ...titled("Roadmap", table(["Theme", "Objectives"], foundation.themes.map((theme, themeIndex) => [
+            (themeIndex + 1) + ". " + theme.name,
+            objectives.filter(entry => entry.theme.id === theme.id)
+                .map((entry, index) => (index + 1) + ". " + entry.objective.name +
+                    (range(entry.objective.period) ? " (" + range(entry.objective.period) + ")" : ""))
+                .join("\n")
+        ])))
     ];
 }
 
@@ -1014,20 +1029,53 @@ function projectionBlocks(f: Foundation): ExportBlock[] {
 function appendixBlocks(f: Foundation): ExportBlock[] {
     const frequencyOf = (line: CostLine) => line.frequency === "other"
         ? (line.frequencyOther || "Other")
-        : line.frequency.charAt(0).toUpperCase() + line.frequency.slice(1).replace(/-/g, " ");
+        : COST_FREQUENCIES.find(entry => entry.id === line.frequency)?.label ?? line.frequency;
     const demote = (blocks: ExportBlock[]) => blocks.map(block => block.kind === "subheading" ? { ...block, level: 2 as const } : block);
     const style = [...demote(brandStyleBlocks(f.brandStyleValue)), ...demote(brandInventoryBlocks(f.brandInventoryValue))];
     return [
-        ...titled("Costs", table(["Group", "Cost", "Source", "Amount", "Frequency", "Offering"], f.lines.map(line => [
-            line.group.charAt(0).toUpperCase() + line.group.slice(1),
-            costName(f, line),
-            line.sourceLabel,
-            line.amount === null ? line.amountText : f.format(line.amount),
-            frequencyOf(line),
-            offeringNames(f.foundationValue, line.offeringIds)
-        ]))),
+        ...titled("Costs", [
+            ...paragraph("Subtotals count one-time costs once and recurring costs a month at a time; costs paid per unit or per project are in each Offering's cost of sales, not the totals."),
+            ...COST_GROUPS.flatMap(group => {
+                const lines = f.lines.filter(line => line.group === group.id);
+                if (lines.length === 0) {
+                    return [];
+                }
+                const sums = costSums(lines);
+                return [
+                    heading(group.label, 2),
+                    ...table(["Cost", "Amount", "Frequency", "Offering"], [
+                        ...lines.map(line => [
+                            costName(f, line),
+                            line.amount === null ? line.amountText : line.counted ? f.format(line.amount) : line.amountText + " " + line.currency + " (not counted)",
+                            frequencyOf(line),
+                            offeringNames(f.foundationValue, line.offeringIds)
+                        ]),
+                        ["Subtotal", sumText(f, sums), "", ""]
+                    ])
+                ];
+            }),
+            ...labelled("Total", sumText(f, costSums(f.lines)))
+        ]),
         ...titled("Brand Style Guide", style)
     ];
+}
+
+/** What some costs add up to: once, and a month. */
+function costSums(lines: CostLine[]): { oneTime: number; monthly: number } {
+    const counted = lines.filter(line => line.counted && line.amount !== null && isScheduled(line));
+    return {
+        oneTime: counted.filter(line => line.frequency === "one-time").reduce((sum, line) => sum + (line.amount ?? 0), 0),
+        monthly: counted.filter(line => line.frequency !== "one-time")
+            .reduce((sum, line) => sum + monthlyEquivalent(line.amount ?? 0, line.frequency), 0)
+    };
+}
+
+/** "$3,150 one-time; $5,396 a month". */
+function sumText(f: Foundation, sums: { oneTime: number; monthly: number }): string {
+    return [
+        sums.oneTime > 0.005 ? f.format(sums.oneTime) + " one-time" : "",
+        sums.monthly > 0.005 ? f.format(sums.monthly) + " a month" : ""
+    ].filter(Boolean).join("; ") || f.format(0);
 }
 
 /** Where the organization can be found online: its website channel, if it has one. */
@@ -1058,7 +1106,7 @@ function continueNumbering(blocks: ExportBlock[], before: ExportBlock[]): Export
 
 export function businessPlan(sessions: FoundationSessions): ExportContent {
 
-    const f = readFoundation(sessions);
+    const f = readFoundation(sessions, { wholeOnly: true });
 
     // The costs are in the Appendix.
     const asDocument = { costName: (line: CostLine) => costName(f, line), omitCosts: true };
@@ -1106,7 +1154,7 @@ export function businessPlan(sessions: FoundationSessions): ExportContent {
 
 /** The cash-flow and profit and loss forecast, and what labels it. */
 export function businessForecast(sessions: FoundationSessions) {
-    const f = readFoundation(sessions);
+    const f = readFoundation(sessions, { wholeOnly: true });
     return {
         forecast: financialForecast(f.financial, f.revenuePage, f.lines, f.legalEntity, f.format),
         years: planYears(f.financial),
@@ -1123,7 +1171,7 @@ export function businessForecastContent(
     untilYear: number,
     capability = "Foundation"
 ): ExportContent {
-    const f = readFoundation(sessions);
+    const f = readFoundation(sessions, { wholeOnly: true });
     const forecast = financialForecast(f.financial, f.revenuePage, f.lines, f.legalEntity, f.format);
     const view = forecastView(forecast, period, untilYear);
     const whole = moneyFormatter(f.currency, { wholeOnly: true });

@@ -88,7 +88,9 @@ describe("business documents", () => {
         const csv = forecastCsv(forecastView(forecast, "monthly", 1), { organization: "Lumen & Loom", currency: "GBP", notes: forecast.notes });
         const lines = csv.slice(1).split(String.fromCharCode(13, 10));
         expect(lines[0]).toBe("Lumen & Loom: Financial Forecast");
-        expect(lines[3].split(",")).toHaveLength(13);
+        // Twelve months and the year's subtotal.
+        expect(lines[3].split(",")).toHaveLength(14);
+        expect(lines[3].split(",")[13]).toBe("Year 1");
     });
 
 });
@@ -360,6 +362,50 @@ describe("Quillfield: the documents tie together", () => {
         const md = new MarkdownExporter().toMarkdown(all.business, "Deliver Value", content);
         expect(md).toContain("| Key Partners | Key Activities | Value Propositions | Customer Relationships | Customer Segments |");
         expect(md).toContain("| Cost Structure | Revenue Streams |");
+    });
+
+    test("the documents' formatting: whole amounts, one date format, bold labels", () => {
+        // Whole amounts: no cents anywhere in the plan.
+        expect(planMd).not.toMatch(/\$[0-9,]+\.[0-9]{2}/);
+        // "Jan 2027", never "January 2027".
+        expect(planMd).not.toMatch(/(January|February|March|April|June|July|August|September|October|November|December) 20[0-9]{2}/);
+        expect(planMd).toContain("**Mission:**");
+        expect(planMd).toContain("#### Values");
+        expect(planMd).toContain("#### Principles");
+        expect(planMd).toContain("#### Customer Profiles");
+        expect(planMd).toContain("#### Competitors");
+        expect(planMd).toContain("| Competitor | Type | Strengths | Weaknesses | Insights |");
+        // Funds run out before break even: no buffer, said so.
+        expect(planMd).toContain("Sustainability buffer: None");
+        expect(planMd).toContain("$1,200 / client a month");
+        expect(planMd).toContain("Available Now: $10,650 ($12,000 received, less $1,350 of costs paid before the plan)");
+        // Segment names lower-case mid-sentence.
+        expect(planMd).toContain("to small professional-services firms in New York City.");
+        expect(planMd).toContain("### For small professional-services firms in New York City");
+        // The costs, by group, with subtotals and a total, without their source.
+        const appendix = planMd.slice(planMd.indexOf("## 13. Appendix"));
+        expect(appendix).toContain("#### Establishment");
+        expect(appendix).toContain("| Subtotal | $4,500 one-time |");
+        expect(appendix).toContain("**Total:** $4,500 one-time; $5,396 a month");
+        expect(appendix).not.toContain("| Source |");
+        // The Roadmap numbers each Theme's Objectives from 1.
+        expect(planMd).toContain("| 1. Financial Stability | 1. Close the funding gap (Jan 2027 – Jun 2027)<br>2. Reach monthly break even");
+    });
+
+    test("the forecast tables: no all-zero lines, year subtotals by month", () => {
+        const { forecast } = businessForecast(all);
+        const annual = forecastView(forecast, "annual", 3);
+        annual.tables.forEach(table => table.rows
+            .filter(row => !row.heading && !row.total)
+            .forEach(row => expect(row.values.some(amount => Math.abs(amount) > 0.005), row.label).toBe(true)));
+        expect(annual.tables[0].rows.some(row => row.label === "Loan interest")).toBe(false);
+        const monthly = forecastView(forecast, "monthly", 2);
+        expect(monthly.columns).toHaveLength(26);
+        expect(monthly.columns[12]).toBe("Year 1");
+        expect(monthly.tables[0].subtotalColumns).toEqual([12, 25]);
+        expect(monthly.tables[2].subtotalColumns).toEqual([13, 26]);
+        const receipts = monthly.tables[0].rows.find(row => row.label === "Total receipts")!.values;
+        expect(receipts[12]).toBeCloseTo(receipts.slice(0, 12).reduce((a, b) => a + b, 0), 6);
     });
 
     test("each financial signal is said once, and capacity once", () => {

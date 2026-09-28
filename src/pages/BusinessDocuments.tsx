@@ -294,12 +294,31 @@ export default function BusinessDocuments() {
                         </p>
                         {view.tables.map(table => (
                             <div className="business-forecast-table-wrap" key={table.title}>
-                                <table className="business-forecast-table">
-                                    <caption>{table.title}</caption>
+                                {/* Stays in view while a monthly table scrolls sideways. */}
+                                <h2 className="business-forecast-caption" id={"forecast-" + table.title.replace(/[^A-Za-z0-9]+/g, "-")}>{table.title}</h2>
+                                <table
+                                    className={"business-forecast-table" + (period === "annual" ? " business-forecast-annual" : "")}
+                                    aria-labelledby={"forecast-" + table.title.replace(/[^A-Za-z0-9]+/g, "-")}
+                                >
+                                    {period === "annual" && (
+                                        /* The same widths in all three tables. */
+                                        <colgroup>
+                                            <col className="business-forecast-label-col" />
+                                            {table.columns.map(column => <col className="business-forecast-value-col" key={column} />)}
+                                        </colgroup>
+                                    )}
                                     <thead>
                                         <tr>
                                             <th scope="col">{loaded.forecast.currency || "Amount"}</th>
-                                            {table.columns.map(column => <th scope="col" key={column}>{column}</th>)}
+                                            {table.columns.map((column, index) => (
+                                                <th
+                                                    scope="col"
+                                                    key={column}
+                                                    className={table.subtotalColumns.includes(index) ? "business-forecast-subtotal" : undefined}
+                                                >
+                                                    {column}
+                                                </th>
+                                            ))}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -312,7 +331,12 @@ export default function BusinessDocuments() {
                                             <tr key={row.label} className={row.total ? "business-forecast-total" : undefined}>
                                                 <th scope="row">{row.label}</th>
                                                 {row.values.map((amount, index) => (
-                                                    <td key={index}>{loaded.forecast.format(amount)}</td>
+                                                    <td
+                                                        key={index}
+                                                        className={table.subtotalColumns.includes(index) ? "business-forecast-subtotal" : undefined}
+                                                    >
+                                                        {loaded.forecast.format(amount)}
+                                                    </td>
                                                 ))}
                                             </tr>
                                         ))}
@@ -328,7 +352,8 @@ export default function BusinessDocuments() {
 
                 {documentId === "plan" && (
                     <article className="business-document">
-                        <h1>{content.documentTitle}</h1>
+                        {/* The page's own title is its one h1. */}
+                        <h2 className="business-document-title">{content.documentTitle}</h2>
                         {content.documentSubtitle && <p className="business-document-subtitle">{content.documentSubtitle}</p>}
                         {/* The same escaped HTML the PDF prints. */}
                         <div dangerouslySetInnerHTML={{ __html: documentMetaHtml(content) + contentSectionsHtml(content) }} />

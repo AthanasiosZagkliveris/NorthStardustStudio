@@ -452,6 +452,8 @@ export interface ForecastViewRow {
 export interface ForecastViewTable {
     title: string;
     columns: string[];
+    /** Which columns are a plan year's subtotal (the monthly view's "Year 1"). */
+    subtotalColumns: number[];
     rows: ForecastViewRow[];
 }
 
@@ -476,35 +478,51 @@ export function forecastView(forecast: Forecast, period: ForecastPeriod, untilYe
     const months = Math.min(forecast.months.length, Math.max(1, untilYear) * 12);
     const tables = [forecast.cashFlow, forecast.profitAndLoss, forecast.balanceSheet];
 
-    /* Each row's figures over the chosen columns. */
-    const cells = (row: ForecastRow): number[] => {
-        if (period === "monthly") {
-            return row.values.slice(0, months);
-        }
-        return Array.from({ length: Math.ceil(months / 12) }, (_, year) => {
-            const slice = row.values.slice(year * 12, Math.min(months, year * 12 + 12));
-            return row.kind === "opening" ? slice[0]
-                : row.kind === "closing" ? slice[slice.length - 1]
-                    : slice.reduce((sum, amount) => sum + amount, 0);
-        });
+    const years = Math.ceil(months / 12);
+    const yearOf = (row: ForecastRow, year: number): number => {
+        const slice = row.values.slice(year * 12, Math.min(months, year * 12 + 12));
+        return row.kind === "opening" ? slice[0]
+            : row.kind === "closing" ? slice[slice.length - 1]
+                : slice.reduce((sum, amount) => sum + amount, 0);
     };
+    const yearLabel = (year: number) =>
+        "Year " + (year + 1) + " (" + forecast.months[year * 12] + " – " + forecast.months[Math.min(months, year * 12 + 12) - 1] + ")";
+
+    /* Each row's figures over the chosen columns: by year; or month by
+       month, each plan year followed by its subtotal. */
+    const cells = (row: ForecastRow): number[] => period === "monthly"
+        ? Array.from({ length: years }, (_, year) => [
+            ...row.values.slice(year * 12, Math.min(months, year * 12 + 12)),
+            yearOf(row, year)
+        ]).flat()
+        : Array.from({ length: years }, (_, year) => yearOf(row, year));
 
     const columns = period === "monthly"
-        ? forecast.months.slice(0, months)
-        : Array.from({ length: Math.ceil(months / 12) }, (_, year) =>
-            "Year " + (year + 1) + " (" + forecast.months[year * 12] + " – " + forecast.months[Math.min(months, year * 12 + 12) - 1] + ")");
+        ? Array.from({ length: years }, (_, year) => [
+            ...forecast.months.slice(year * 12, Math.min(months, year * 12 + 12)),
+            "Year " + (year + 1)
+        ]).flat()
+        : Array.from({ length: years }, (_, year) => yearLabel(year));
+    const subtotals = period === "monthly"
+        ? columns.map((column, index) => /^Year [0-9]+$/.test(column) ? index : -1).filter(index => index >= 0)
+        : [];
+
+    // A line with nothing in it, in any column shown, says nothing:
+    // left out, in every table alike. Totals and headings stay.
+    const says = (row: ForecastViewRow) => row.heading || row.total || row.values.some(amount => Math.abs(amount) > 0.005);
 
     return {
         columns,
         tables: tables.map(table => ({
             title: table.title,
             columns: table.opening ? [openingColumn(forecast), ...columns] : columns,
+            subtotalColumns: subtotals.map(index => index + (table.opening ? 1 : 0)),
             rows: table.rows.map(row => ({
                 label: row.label,
                 total: row.total,
                 heading: row.heading,
                 values: row.heading ? [] : [...(table.opening ? [row.opening ?? 0] : []), ...cells(row)]
-            }))
+            })).filter(says)
         }))
     };
 

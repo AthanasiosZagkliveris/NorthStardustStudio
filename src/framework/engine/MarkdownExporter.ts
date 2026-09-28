@@ -31,7 +31,7 @@ function renderBlock(block: ExportBlock): string[] {
             return [(block.level === 2 ? "#### " : "### ") + block.text, ""];
 
         case "paragraph":
-            return [block.text, ""];
+            return [(block.label ? "**" + block.label + ":** " : "") + block.text, ""];
 
         case "table": {
 

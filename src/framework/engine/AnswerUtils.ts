@@ -1929,7 +1929,8 @@ export function brandInventorySectionsEmpty(value: unknown): boolean[] {
  * up as raw, unrendered syntax in the PDF export).
  */
 export type ExportBlock =
-    | { kind: "paragraph"; text: string }
+    /** `label`, where there is one, is set in bold before the text: "Mission: …". */
+    | { kind: "paragraph"; text: string; label?: string }
     /** Level 2 sits under level 1: a Profile under its Segment. */
     | { kind: "subheading"; text: string; level?: 1 | 2 }
     | { kind: "table"; headers: string[]; rows: string[][] }

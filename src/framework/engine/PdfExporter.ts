@@ -93,7 +93,9 @@ function renderBlockHtml(block: ExportBlock): string {
 
         case "paragraph":
 
-            return `<p>${escapeHtml(block.text)}</p>`;
+            return block.label
+                ? `<p><strong>${escapeHtml(block.label)}:</strong> ${escapeHtml(block.text)}</p>`
+                : `<p>${escapeHtml(block.text)}</p>`;
 
         case "table": {
 
@@ -208,6 +210,20 @@ export function documentMetaHtml(content: ExportContent): string {
  * offer in the middle, what makes it on the left, who it is for on the
  * right, money along the bottom. On a landscape page (see buildHtml).
  */
+/**
+ * The Business Documents on the app's type scale: 28 the title, 24 a
+ * section, 18 the text and the subheadings, 14 tables and small print.
+ * After the rules it overrides, so it wins on source order.
+ */
+const DOCUMENT_CSS = `
+    h1 { font-size: 28px; }
+    h2 { font-size: 24px; }
+    h3, h4 { font-size: 18px; }
+    p, ul.export-list li, ul.export-checklist li { font-size: 18px; }
+    table.export-table th, table.export-table td { font-size: 14px; }
+    .capability, .document-meta p { font-size: 14px; }
+`;
+
 const CANVAS_CSS = `
     @page { size: landscape; margin: 10mm; }
     body { padding: 0; }
@@ -327,7 +343,6 @@ export class PdfExporter {
                     <meta charset="utf-8" />
                     <title>${escapeHtml(content.documentTitle ?? content.systemNumber + ". " + content.systemName)}</title>
                     <style>
-                        ${content.canvas ? CANVAS_CSS : ""}
                         body {
                             font-family: Arial, Helvetica, sans-serif;
                             color: #111827;
@@ -427,6 +442,8 @@ export class PdfExporter {
                         ul.export-list ul.export-list {
                             margin: 4px 0 0 20px;
                         }
+                        ${content.documentTitle ? DOCUMENT_CSS : ""}
+                        ${content.canvas ? CANVAS_CSS : ""}
                     </style>
                 </head>
                 <body>

@@ -83,6 +83,7 @@ import {
     sustainability,
     withPlanStart,
     allFunding,
+    spentBeforePlan,
     effectiveVatBasis,
     vatBases,
     type CostLine,
@@ -108,6 +109,12 @@ export function paragraph(value: string, label?: string): ExportBlock[] {
         return [];
     }
     return [{ kind: "paragraph", text: label ? label + ": " + body : body }];
+}
+
+/** A paragraph with its label in bold ("Mission: …"), or nothing when there is nothing to say. */
+export function labelled(label: string, value: string): ExportBlock[] {
+    const body = text(value);
+    return body ? [{ kind: "paragraph", text: body, label }] : [];
 }
 
 /** A heading and what is under it, or nothing when nothing is. */
@@ -138,6 +145,11 @@ export function list(items: string[], ordered = false): ExportBlock[] {
     return kept.length === 0
         ? []
         : [{ kind: "list", items: kept.map(item => ({ text: item, indent: 0 })), ordered }];
+}
+
+/** "Jan 2027", as the Business Documents write every date. */
+function shortMonth(value: StrategyMonthValue): string {
+    return month(value).replace(/^([A-Z][a-z]{2})[a-z]+/, "$1");
 }
 
 function month(value: StrategyMonthValue): string {
@@ -803,7 +815,10 @@ export function financialFoundationBlocks(value: unknown, context: ExportContext
         numbered("Financial Position"),
         ...details([
             ["Funding Need", format(position.need)],
-            ["Available Now", format(position.availableNow)],
+            ["Available Now", format(position.availableNow) + (document && spentBeforePlan(lines, start) > 0.005
+                ? " (" + format(position.availableNow + spentBeforePlan(lines, start)) + " received, less " +
+                    format(spentBeforePlan(lines, start)) + " of costs paid before the plan)"
+                : "")],
             ["Confirmed Future", format(position.confirmedFuture)],
             ["Pending", format(position.pending)],
             ["Funding Gap", format(position.gap)],
@@ -840,11 +855,15 @@ export function financialSustainabilityBlocks(value: unknown, context: ExportCon
             revenueModelLabel(entry.stream),
             entry.stream.price
                 ? format(parseAmount(entry.stream.price) ?? 0) + " / " + (entry.stream.unit === "Other" ? entry.stream.unitOther : entry.stream.unit || "unit").toLowerCase() +
-                    (REVENUE_FREQUENCIES.find(f => f.id === entry.stream.frequency && f.factor !== 1) ? ", " + entry.stream.frequency : "")
+                    (document
+                        // "$1,200 / client a month", as the plan says it elsewhere.
+                        ? (entry.stream.frequency === "monthly" ? " a month" : entry.stream.frequency === "quarterly" ? " a quarter"
+                            : entry.stream.frequency === "annually" ? " a year" : "")
+                        : (REVENUE_FREQUENCIES.find(f => f.id === entry.stream.frequency && f.factor !== 1) ? ", " + entry.stream.frequency : ""))
                 : "",
             formatUnits(entry.volume),
             format(entry.revenue),
-            month(entry.stream.start) || planMonthLabel(start, 1)
+            (document ? shortMonth(entry.stream.start) : month(entry.stream.start)) || planMonthLabel(start, 1)
         ])),
         ...paragraph("Expected revenue at the normal level: " + format(result.expectedRevenue) + " a month."),
 
@@ -856,7 +875,9 @@ export function financialSustainabilityBlocks(value: unknown, context: ExportCon
             ["Financial exhaustion", result.exhaustionMonth === null ? "Beyond the " + planLength(foundationPage) + "-month plan" : monthText(result.exhaustionMonth)],
             ["Sustainability buffer", result.buffer !== null
                 ? monthCount(result.buffer)
-                : result.breakEvenMonth !== null && result.exhaustionMonth === null ? planLength(foundationPage) + "+ months" : "n/a"]
+                : result.breakEvenMonth !== null && result.exhaustionMonth === null ? planLength(foundationPage) + "+ months"
+                    // Funds run out first: there is no buffer, and the plan says so.
+                    : document ? "None" : "n/a"]
         ]),
         ...table(["Offering", "Contribution / unit", "Break even alone"], result.streams.map(entry => [
             offeringName(foundation, entry.stream.offeringId) || "Unlinked stream",

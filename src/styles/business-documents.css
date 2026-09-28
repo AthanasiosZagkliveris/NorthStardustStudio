@@ -191,7 +191,7 @@
 
 }
 
-.business-document h1{
+.business-document .business-document-title{
 
     margin:0 0 4px;
 
@@ -537,7 +537,17 @@
 
 }
 
-.business-forecast-table caption{
+/* The table's title: stays at the left while a monthly table
+   scrolls sideways under it. */
+.business-forecast-caption{
+
+    position:sticky;
+
+    left:0;
+
+    width:fit-content;
+
+    margin:0;
 
     padding:14px 16px 8px;
 
@@ -547,6 +557,45 @@
     text-align:left;
 
     color:#111827;
+
+}
+
+/* By year: the same column widths in all three tables, whatever
+   their number of columns. */
+.business-forecast-annual{
+
+    width:auto;
+
+    table-layout:fixed;
+
+}
+
+.business-forecast-label-col{
+
+    width:300px;
+
+}
+
+.business-forecast-value-col{
+
+    width:190px;
+
+}
+
+.business-forecast-annual thead th{
+
+    white-space:normal;
+
+}
+
+/* A plan year's subtotal, among its months. */
+.business-forecast-table .business-forecast-subtotal{
+
+    font-weight:700;
+
+    background:#f3f4f6;
+
+    border-left:1px solid #d1d5db;
 
 }
 
