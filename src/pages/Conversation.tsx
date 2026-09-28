@@ -2501,29 +2501,33 @@ export default function Conversation() {
                 page's sections and scrolls to them. Rendered after
                 <main> so the card's own fields come first in the tab
                 order -- the rails are position: fixed, so where they
-                sit in the DOM does not move them on screen.
+                sit in the DOM does not move them on screen. One
+                wrapper holds both, so they start at one height and
+                move up together (see bullet-rail.css).
             */}
             {!showIntroduction && (
-                <>
-                    <BulletRail
-                        side="left"
-                        label="Pages"
-                        items={railPages}
-                        activeId={"page-" + currentSection.number}
-                        onSelect={id => goToPage(pageIndexFromRailId(id))}
-                    />
-                    <BulletRail
-                        side="right"
-                        label="Sections"
-                        items={railSections}
-                        activeId={activeRailSection}
-                        onSelect={id => {
-                            // Pinned first, so the jump's own scroll keeps it.
-                            selectRailSection(id);
-                            scrollToRailSection(id);
-                        }}
-                    />
-                </>
+                <div className="bullet-rails">
+                    <div className="bullet-rails-row">
+                        <BulletRail
+                            side="left"
+                            label="Pages"
+                            items={railPages}
+                            activeId={"page-" + currentSection.number}
+                            onSelect={id => goToPage(pageIndexFromRailId(id))}
+                        />
+                        <BulletRail
+                            side="right"
+                            label="Sections"
+                            items={railSections}
+                            activeId={activeRailSection}
+                            onSelect={id => {
+                                // Pinned first, so the jump's own scroll keeps it.
+                                selectRailSection(id);
+                                scrollToRailSection(id);
+                            }}
+                        />
+                    </div>
+                </div>
             )}
 
             <AppFooter

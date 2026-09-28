@@ -19,40 +19,98 @@
 
 }
 
-.bullet-rail {
+/* Both rails, in one fixed band between the header and the
+   Previous/Next bar. They start at the middle of the window -- the
+   spacer (::before) holds the row down to 50vh -- and run down from
+   there. A row too long for the room below shrinks the spacer
+   instead, so the rails move up TOGETHER, sharing one top (their
+   titles stay level), and stop at the header. */
+.bullet-rails {
 
     position: fixed;
     top: 104px;
     bottom: 160px;
+    left: 0;
+    right: 0;
     z-index: 25;
 
     display: flex;
-    align-items: center;
+    flex-direction: column;
 
-    /* The rail spans the whole gutter; only its list takes clicks. */
+    /* Spans the whole screen; only the rails' lists take clicks. */
     pointer-events: none;
+
+}
+
+.bullet-rails::before {
+
+    content: "";
+
+    flex: 0 1 max(0px, calc(50vh - 104px));
+
+}
+
+/* No taller than the band (as a flex item of a definite-height
+   band, its height is definite, so a rail's max-height resolves). */
+.bullet-rails-row {
+
+    flex: none;
+
+    display: flex;
+    align-items: flex-start;
+
+    max-height: 100%;
 
 }
 
 /* From the screen edge to 20px short of the card, so the rail's
    inner end (where the bullets are) is 20px from the card. */
-.bullet-rail-left {
+.bullet-rail {
 
-    left: 0;
-    right: calc(50% + var(--card-width) / 2 + 20px);
+    display: flex;
+    flex-direction: column;
 
-    justify-content: flex-end;
+    flex: none;
+    width: calc(50% - var(--card-width) / 2 - 20px);
+    max-height: 100%;
 
 }
+
+.bullet-rail-left { align-items: flex-end; }
 
 .bullet-rail-right {
 
-    left: calc(50% + var(--card-width) / 2 + 20px);
-    right: 0;
+    align-items: flex-start;
 
-    justify-content: flex-start;
+    margin-left: auto;
 
 }
+
+/* The rail's name, as the app's other uppercase labels are set
+   (e.g. the Capabilities handle, organization-calendar.css), and
+   lined up with its labels -- past the dot and its gap (24px), to
+   the right on the left rail, to the left on the right one. Shown
+   only where the labels are (wide windows, below): a dots-only
+   gutter has no room for a word. */
+.bullet-rail-title {
+
+    display: none;
+    flex: none;
+
+    max-width: 100%;
+    margin-bottom: 18px;
+
+    font-size: var(--font-body);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #5f6368;
+
+}
+
+.bullet-rail-left .bullet-rail-title { padding-right: 24px; text-align: right; }
+
+.bullet-rail-right .bullet-rail-title { padding-left: 24px; text-align: left; }
 
 .bullet-rail-list {
 
@@ -179,6 +237,8 @@
 
     :root { --rail-gutter: 220px; }
 
+    .bullet-rail-title { display: block; }
+
     /* Many Themes on a short window scroll instead of clipping. Only
        here, where the labels sit inline: a scrolling list clips on
        both axes, which would cut off the narrow layout's tooltip
@@ -186,7 +246,8 @@
        moves) keeps the active bullet's bloom ring inside the clip. */
     .bullet-rail-list {
 
-        max-height: 100%;
+        flex: 0 1 auto;
+        min-height: 0;
         max-width: calc(100% + 20px);
         overflow-y: auto;
 

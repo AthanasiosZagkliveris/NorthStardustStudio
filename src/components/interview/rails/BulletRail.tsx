@@ -10,11 +10,12 @@ const TOOLTIP_GAP = 12;
 const TOOLTIP_EDGE_MARGIN = 8;
 
 /**
- * A fixed column of bullets beside the interview card: pages on the
- * left, the current page's sections on the right. The current bullet
- * "blooms" blue and grows; the rest stay ice blue. Its label turns
- * bold too, and it carries aria-current, so the state never rests on
- * colour alone. The bullet is always on the side nearest the card:
+ * A column of bullets beside the interview card, under its name:
+ * pages on the left, the current page's sections on the right (both
+ * held in place by a `.bullet-rails` wrapper, see bullet-rail.css).
+ * The current bullet "blooms" blue and grows; the rest stay ice
+ * blue. Its label turns bold too, and it carries aria-current, so
+ * the state never rests on colour alone. The bullet is always on the side nearest the card:
  * label then bullet on the left, bullet then label on the right.
  */
 export default function BulletRail({
@@ -73,6 +74,11 @@ export default function BulletRail({
 
     return (
         <nav className={"bullet-rail bullet-rail-" + side} aria-label={label}>
+
+            {/* The rail's name, shown above it ("PAGES", "SECTIONS").
+                Hidden from assistive technology: the nav's own
+                label already says it. */}
+            <span className="bullet-rail-title" aria-hidden="true">{label}</span>
 
             <ol className="bullet-rail-list">
 

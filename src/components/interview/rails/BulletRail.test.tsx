@@ -36,6 +36,21 @@ describe("BulletRail", () => {
 
     });
 
+    it("puts its name above the bullets, once for assistive technology", () => {
+
+        render(<BulletRail items={items} activeId="a" onSelect={() => {}} side="right" label="Sections" />);
+
+        const nav = screen.getByRole("navigation", { name: "Sections" });
+        const title = nav.firstElementChild as HTMLElement;
+
+        expect(title.className).toBe("bullet-rail-title");
+        expect(title.textContent).toBe("Sections");
+        // The nav's label already names it; the title is not read twice.
+        expect(title.getAttribute("aria-hidden")).toBe("true");
+        expect(title.nextElementSibling?.className).toBe("bullet-rail-list");
+
+    });
+
     it("renders nothing for a single item", () => {
         const { container } = render(<BulletRail items={[items[0]]} activeId="a" onSelect={() => {}} side="right" label="Sections" />);
         expect(container.firstChild).toBeNull();
