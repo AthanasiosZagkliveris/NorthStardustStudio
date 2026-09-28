@@ -23,4 +23,12 @@ describe("CardNumber", () => {
 
     });
 
+    it("stands the number alone in the list-number column, the kind after it", () => {
+
+        const { container } = render(<CardNumber number={10} kind="Goal" />);
+
+        expect(container.querySelector(".strategy-box-number > .list-number")?.textContent).toBe("10.");
+
+    });
+
 });

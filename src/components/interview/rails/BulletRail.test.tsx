@@ -51,6 +51,20 @@ describe("BulletRail", () => {
 
     });
 
+    it("stands each label's number in the list-number column, from 1. to 12.", () => {
+
+        const twelve = Array.from({ length: 12 }, (_, index) => ({ id: "s" + index, label: (index + 1) + ". Section " + (index + 1) }));
+
+        render(<BulletRail items={twelve} activeId="s0" onSelect={() => {}} side="right" label="Sections" />);
+
+        const numbers = Array.from(document.querySelectorAll(".bullet-rail-label > .list-number")).map(number => number.textContent);
+        expect(numbers).toEqual(twelve.map((_, index) => (index + 1) + "."));
+        expect(document.querySelectorAll(".bullet-rail-label > .bullet-rail-label-text")[11].textContent).toBe("Section 12");
+        // The button's name is the label as written.
+        expect(screen.getByRole("button", { name: "10. Section 10" })).toBeTruthy();
+
+    });
+
     it("renders nothing for a single item", () => {
         const { container } = render(<BulletRail items={[items[0]]} activeId="a" onSelect={() => {}} side="right" label="Sections" />);
         expect(container.firstChild).toBeNull();

@@ -210,6 +210,11 @@
 
     flex-shrink: 0;
 
+    /* The list-number column (global.css). */
+    min-width: var(--list-number-width);
+
+    text-align: right;
+
     color: var(--text-primary);
 }
 

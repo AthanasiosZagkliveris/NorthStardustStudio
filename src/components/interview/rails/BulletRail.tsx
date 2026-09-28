@@ -88,7 +88,16 @@ export default function BulletRail({
 
                     const dot = <span className="bullet-rail-dot" aria-hidden="true" />;
 
-                    const text = <span className="bullet-rail-label">{item.label}</span>;
+                    // A leading "1." stands in the list-number column
+                    // (global.css), so the labels' text lines up.
+                    const numbered = /^(\d+\.)\s+(.*)$/s.exec(item.label);
+                    const text = (
+                        <span className="bullet-rail-label">
+                            {numbered
+                                ? <><span className="list-number">{numbered[1]}</span> <span className="bullet-rail-label-text">{numbered[2]}</span></>
+                                : item.label}
+                        </span>
+                    );
 
                     return (
                         <li key={item.id}>

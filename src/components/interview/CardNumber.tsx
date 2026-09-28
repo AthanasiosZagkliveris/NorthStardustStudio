@@ -28,7 +28,9 @@ export default function CardNumber({
 
     return (
         <span className="strategy-box-number">
-            {number + "." + (kind ? " " + kind : "")}
+            {/* The number in the list-number column (global.css). */}
+            <span className="list-number">{number + "."}</span>
+            {kind ? " " + kind : ""}
         </span>
     );
 

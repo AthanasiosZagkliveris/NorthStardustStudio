@@ -348,7 +348,9 @@
 
 .business-document ul.export-list-ordered > li > .export-list-item > .export-list-marker{
 
-    width:1.5em;
+    /* The list-number column (global.css): "10." fits, and the full
+       stops stand in one column. */
+    width:var(--list-number-width);
 
 }
 

@@ -483,6 +483,45 @@ b, strong {
 }
 
 /* ==========================================================
+   List numbers
+
+   ONE rule for every number that counts the lines of a list or the
+   cards of a stack: the numbered lists (NumberedListInput and
+   NumberedListStatic), the cards' heads, the navigation rails, the
+   Organizations on the landing page and the ordered lists of the
+   Business Plan preview. Its digits are tabular -- every digit the
+   same width, so a 1 is as wide as a 2 -- and it stands right-aligned
+   in a column wide enough for two digits and the full stop ("10."),
+   so the full stops of a list make one column and the text after
+   them starts at one x, from 1. to 99.
+
+   The column is --list-number-width: "10." in tabular figures is
+   widest in the rails, regular with their 0.1em tracking, at 2.96ch
+   (ch is Inter's own, narrower, 0), so 3.1ch holds it in every
+   list. The
+   numbered lists keep the 40px column they already had (it holds
+   "10." at the body size), and take the tabular digits.
+========================================================== */
+:root {
+  --list-number-width: 3.1ch;
+}
+
+.list-number {
+  display: inline-block;
+  min-width: var(--list-number-width);
+  text-align: right;
+}
+
+.list-number,
+.numbered-list-number,
+.numbered-list-static > li::before,
+.legal-entity-card-number,
+.organization-number,
+.export-list-marker {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================
    Tooltip
 
    The one tooltip look: the dark label the navigation rails show

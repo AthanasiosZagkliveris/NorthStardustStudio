@@ -5556,7 +5556,10 @@ td.process-library-col-number{
    started its text a few pixels further right than the rest of
    the list. Right-aligned within it so the numbers themselves
    still read as a column of their own, digit-aligned like a
-   printed list. */
+   printed list (tabular figures, the list-number rule in
+   global.css). Its 10px is on the right only, so "10." (28px at
+   the body size) fits the 30px inside the column instead of
+   widening it and pushing its line's text right. */
 .numbered-list-number{
 
     flex:0 0 40px;
@@ -5564,7 +5567,7 @@ td.process-library-col-number{
     display:flex;
     justify-content:flex-end;
 
-    padding:0 10px;
+    padding:0 10px 0 0;
 
     font-size:var(--font-body);
 

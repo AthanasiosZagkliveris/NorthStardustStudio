@@ -1920,7 +1920,7 @@ export default function BusinessCapabilityEditor({
                         className={"strategy-box-number" + (drag ? " business-capability-handle" : "")}
                         {...drag?.handleProps}
                     >
-                        {number + "."}
+                        <span className="list-number">{number + "."}</span>
                     </span>
 
                     {open

@@ -87,8 +87,9 @@
 
 }
 
-/* The card's number: one size, weight and colour on every card, and
-   no minimum width, so the name is always 8px after it. */
+/* The card's number: one size, weight and colour on every card. The
+   number itself stands in the list-number column (global.css), so
+   the names of a stack of cards start at one x from 1. to 99. */
 .fold-card-head > .strategy-box-number,
 .fold-card-head > .legal-entity-card-number {
 
@@ -104,6 +105,14 @@
     letter-spacing: 0.05em;
 
     color: var(--text-muted);
+
+}
+
+.fold-card-head > .legal-entity-card-number {
+
+    min-width: var(--list-number-width);
+
+    text-align: right;
 
 }
 
