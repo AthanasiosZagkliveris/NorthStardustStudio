@@ -86,6 +86,7 @@ import {
     planMonthLabel,
     spentBeforePlan,
     sustainability,
+    formatUnits,
     withPlanStart,
     type CostLine,
     type RevenueStreamValue
@@ -334,6 +335,24 @@ export const CANVAS_BLOCKS = [
 
 type CanvasBlockId = typeof CANVAS_BLOCKS[number]["id"];
 
+/**
+ * A name with a note in brackets, as one pair of brackets: "Freelance
+ * developer (overflow)" and "for Automation Build" make "Freelance
+ * developer (overflow, for Automation Build)".
+ */
+function withBrackets(name: string, note: string): string {
+    const base = name.trim();
+    if (!note) {
+        return base;
+    }
+    return /\)$/.test(base) ? base.slice(0, -1) + ", " + note + ")" : base + " (" + note + ")";
+}
+
+/** A cost paid per unit sold: part of the cost of sales, not a resource the business keeps. */
+function isPerUse(frequency: string): boolean {
+    return frequency === "per-unit" || frequency === "per-order" || frequency === "per-project";
+}
+
 /** The canvas as its nine lists -- for the page's own nine-box drawing. */
 export function businessModelCanvasData(sessions: FoundationSessions): {
     name: string;
@@ -341,45 +360,74 @@ export function businessModelCanvasData(sessions: FoundationSessions): {
 } {
 
     const f = readFoundation(sessions);
-    const { capability, format } = f;
+    const { capability } = f;
+    const format = moneyFormatter(f.currency, { wholeOnly: true });
+    const offeringsFor = (ids: string[]) => offeringNames(f.foundationValue, ids) || "an Offering";
 
+    const engaged = [...capability.professionals, ...capability.providers].filter(isEngaged);
     const partners = [
-        ...capability.professionals.filter(isEngaged).map(partner => partner.name + " (professional)"),
-        ...capability.providers.filter(isEngaged).map(partner => partner.name + " (provider)"),
-        ...capability.offering.professionals.map(partner =>
-            partner.name + " (for " + (offeringNames(f.foundationValue, partner.offeringIds) || "an Offering") + ")"),
-        ...capability.offering.providers.map(partner =>
-            partner.name + " (for " + (offeringNames(f.foundationValue, partner.offeringIds) || "an Offering") + ")")
-    ].filter(entry => !entry.startsWith(" "));
+        ...capability.professionals.filter(isEngaged).map(partner => withBrackets(partner.name, "professional")),
+        ...capability.providers.filter(isEngaged).map(partner => withBrackets(partner.name, "provider")),
+        ...capability.offering.professionals.map(partner => withBrackets(partner.name, "for " + offeringsFor(partner.offeringIds))),
+        ...capability.offering.providers.map(partner => withBrackets(partner.name, "for " + offeringsFor(partner.offeringIds)))
+    ].filter(entry => entry && !entry.startsWith("("));
+    const partnerIds = new Set([...engaged, ...capability.offering.professionals, ...capability.offering.providers].map(partner => partner.id));
+    const partnerNames = [...engaged, ...capability.offering.professionals, ...capability.offering.providers]
+        .map(partner => partner.name.trim().toLowerCase()).filter(Boolean);
+    // Already under Key Partners: provided by one, or named as one.
+    const isPartner = (name: string, providerId: string) => partnerIds.has(providerId) ||
+        partnerNames.some(partner => partner === name.trim().toLowerCase());
 
+    /* Key Activities: the work that goes on -- delivering each Offering,
+       running each channel, keeping up each relationship. One-off
+       setup tasks are the plan's (Operations: Launch and Setup Tasks). */
+    const offerings = f.segments.flatMap(segment => segment.offerings).filter(offering => offering.name.trim());
+    const channels = [...new Set(f.engagement.segments.flatMap(entry => entry.channels)
+        .filter(channel => channel.name.trim())
+        .map(channel => "Run " + withBrackets(channel.name, /^other$/i.test(channel.category) ? "" : channel.category.toLowerCase())))];
+    const relationships = [...new Set(f.engagement.segments.flatMap(entry => {
+        const segment = f.segments.find(candidate => candidate.id === entry.segmentId);
+        return entry.offerings.flatMap(relationship => {
+            const offering = segment?.offerings.find(candidate => candidate.id === relationship.offeringId)?.name.trim() ?? "";
+            return offering ? relationship.types.map(typeId =>
+                (BUSINESS_RELATIONSHIP_TYPES.find(candidate => candidate.id === typeId)?.label ?? typeId) + " for " + offering + " clients") : [];
+        });
+    }))];
     const activities = [
-        ...capability.activities.flatMap(category => category.activities
-            .filter(activity => !activity.completed && activity.name.trim())
-            .map(activity => activity.name.trim() + " (" +
-                (BUSINESS_ACTIVITY_CATEGORIES.find(entry => entry.id === category.id)?.label ?? "Other") + ")")),
-        ...capability.offering.activities
-            .filter(activity => !activity.completed && activity.name.trim())
-            .map(activity => activity.name.trim())
+        ...offerings.map(offering => "Deliver " + offering.name.trim()),
+        ...channels,
+        ...relationships
     ];
 
-    const resourceNames = BUSINESS_RESOURCE_GROUPS.flatMap(group => (capability.resources[group.id] ?? [])
-        .flatMap(subsection => subsection.slots.map(slot => slot.name.trim())).filter(Boolean));
-
+    /* Key Resources, by group: what the business keeps and relies on. */
+    const kept = (group: string, slot: { name: string; status: string; providerId: string; cost: { frequency: string } }) =>
+        !!slot.name.trim() &&
+        !(group === "utilities" && (slot.status === "provided" || slot.status === "exists")) &&
+        !isPerUse(slot.cost.frequency) &&
+        !isPartner(slot.name, slot.providerId);
+    const workspace = capability.workspace.kind && !(capability.workspace.status === "provided" && partnerIds.has(capability.workspace.providerId))
+        ? BUSINESS_WORKSPACE_KINDS.find(kind => kind.id === capability.workspace.kind)?.label ?? capability.workspace.kindOther
+        : "";
     const resources = [
-        ...capability.founders.map(founder =>
-            founder.name + (founder.roles.filter(Boolean).length ? " (" + founder.roles.filter(Boolean).join(", ") + ")" : "")),
-        ...(capability.workspace.kind
-            ? [BUSINESS_WORKSPACE_KINDS.find(kind => kind.id === capability.workspace.kind)?.label ?? capability.workspace.kindOther]
-            : []),
-        ...resourceNames,
-        ...capability.offering.resources.map(slot => slot.name.trim()).filter(Boolean)
+        ...(capability.founders.length > 0 ? ["Founders: " + capability.founders.map(founder =>
+            withBrackets(founder.name, founder.roles.filter(Boolean).join(", "))).join("; ")] : []),
+        ...(workspace ? ["Workspace: " + workspace] : []),
+        ...BUSINESS_RESOURCE_GROUPS.flatMap(group => {
+            const names = (capability.resources[group.id] ?? [])
+                .flatMap(subsection => subsection.slots.filter(slot => kept(group.id, slot)).map(slot => slot.name.trim()));
+            return names.length > 0 ? [group.label + ": " + names.join(", ")] : [];
+        }),
+        ...(() => {
+            const names = capability.offering.resources.filter(slot => kept("offering", slot)).map(slot => slot.name.trim());
+            return names.length > 0 ? ["For the Offerings: " + names.join(", ")] : [];
+        })()
     ];
 
     const propositions = f.segments
         .filter(segment => text(segment.valueProposition))
         .map(segment => (f.segments.length > 1 ? segment.name.trim() + ": " : "") + text(segment.valueProposition));
 
-    const relationships = f.engagement.segments.flatMap(entry => {
+    const relationshipLines = f.engagement.segments.flatMap(entry => {
         const segment = f.segments.find(candidate => candidate.id === entry.segmentId);
         return entry.offerings.flatMap(relationship => relationship.types.map(typeId => {
             const offering = segment?.offerings.find(candidate => candidate.id === relationship.offeringId)?.name.trim() ?? "";
@@ -388,8 +436,8 @@ export function businessModelCanvasData(sessions: FoundationSessions): {
         })).filter(line => !line.startsWith(": "));
     });
 
-    const channels = [...new Set(f.engagement.segments.flatMap(entry =>
-        entry.channels.filter(channel => channel.name.trim()).map(channel => channel.name.trim() + " (" + channel.category + ")")))];
+    const channelLines = [...new Set(f.engagement.segments.flatMap(entry =>
+        entry.channels.filter(channel => channel.name.trim()).map(channel => withBrackets(channel.name, channel.category))))];
 
     const segments = f.segments.map(segment =>
         segment.name.trim() + (segment.profiles.some(profile => profile.name.trim())
@@ -412,40 +460,51 @@ export function businessModelCanvasData(sessions: FoundationSessions): {
     const costs = [
         "Fixed costs: " + format(f.outlook.inputs.fixed) + " a month",
         ...(oneTime > 0 ? ["One-time costs in the plan: " + format(oneTime)] : []),
-        ...largest.map(entry => costName(f, entry.line) + " (" + format(entry.monthly) + " a month)"),
+        ...largest.map(entry => withBrackets(costName(f, entry.line), format(entry.monthly) + " a month")),
         ...f.outlook.streams.filter(entry => entry.variable > 0.005)
-            .map(entry => "Variable costs: " + format(entry.variable) + " per unit (" + (offeringName(f.foundationValue, entry.stream.offeringId) || "an Offering") + ")")
+            .map(entry => "Variable costs: " + format(entry.variable) + " " + perUnit(entry.stream) +
+                " (" + (offeringName(f.foundationValue, entry.stream.offeringId) || "an Offering") + ")")
     ];
 
+    /* Revenue: price times volume, stream by stream. */
     const revenue = [
-        ...f.outlook.streams.map(entry =>
-            (offeringName(f.foundationValue, entry.stream.offeringId) || "Revenue stream") + ": " +
-            (revenueModelLabel(entry.stream) || "model not set") +
-            ", " + format(entry.revenue) + " a month"),
+        ...f.outlook.streams.map(entry => {
+            const name = offeringName(f.foundationValue, entry.stream.offeringId) || "Revenue stream";
+            const price = parseAmount(entry.stream.price);
+            const recurring = entry.stream.frequency === "monthly" || entry.stream.frequency === "quarterly" || entry.stream.frequency === "annually";
+            const volume = formatUnits(entry.volume) + (recurring
+                ? " " + streamUnit(entry.stream) + (Math.abs(entry.volume - 1) < 0.05 ? "" : "s")
+                : " a month");
+            return name + ": " + (price === null
+                ? format(entry.revenue) + " a month"
+                : format(price) + " " + perUnit(entry.stream) + " × " + volume + " = " + format(entry.revenue) + " a month");
+        }),
         ...(f.outlook.streams.length > 0 ? ["Expected revenue: " + format(f.outlook.expectedRevenue) + " a month at the normal level"] : [])
     ];
 
     return {
         name: f.name,
         blocks: {
-            partners, activities, resources, propositions, relationships,
-            channels, segments, costs, revenue
+            partners, activities, resources, propositions, relationships: relationshipLines,
+            channels: channelLines, segments, costs, revenue
         }
     };
 
 }
 
-export function businessModelCanvas(sessions: FoundationSessions): ExportContent {
+export function businessModelCanvas(sessions: FoundationSessions, capability = "Foundation"): ExportContent {
 
     const data = businessModelCanvasData(sessions);
 
     return {
-        systemNumber: "3",
+        systemNumber: "",
         // Also the download's file name, so no colon.
         systemName: "Business Model Canvas " + data.name,
-        capability: "Foundation",
+        capability,
         documentTitle: "Business Model Canvas: " + data.name,
         documentSubtitle: "Drawn from the Business System: Foundation, Customer Engagement, Infrastructure & Capability, Financial Foundation and Financial Sustainability.",
+        // Drawn as the nine-block grid by the PDF and the Markdown.
+        canvas: CANVAS_BLOCKS.map(block => ({ id: block.id, title: block.title, items: data.blocks[block.id] })),
         sections: CANVAS_BLOCKS.map((block, index) => section(index + 1, block.title,
             data.blocks[block.id].length > 0 ? list(data.blocks[block.id]) : paragraph("Not answered yet.")))
     };
@@ -721,13 +780,22 @@ function operationsBlocks(f: Foundation): ExportBlock[] {
             .flatMap(subsection => subsection.slots.filter(slot => slot.name.trim()).map(slot =>
                 slot.name.trim() + (slot.quantity ? " × " + slot.quantity : "") + " (" +
                 (BUSINESS_RESOURCE_STATUSES.find(status => status.id === slot.status)?.label ?? "status not set") + ")"))))),
-        ...titled("Key Activities", table(["Activity", "Category", "State"], capability.activities.flatMap(category => category.activities
-            .filter(activity => activity.name.trim())
-            .map(activity => [
-                activity.name,
-                BUSINESS_ACTIVITY_CATEGORIES.find(entry => entry.id === category.id)?.label ?? "Other",
-                activity.completed ? "Completed" : "Planned"
-            ])))),
+        ...titled("Launch and Setup Tasks", table(["Task", "Category", "State"], [
+            ...capability.activities.flatMap(category => category.activities
+                .filter(activity => activity.name.trim())
+                .map(activity => [
+                    activity.name,
+                    BUSINESS_ACTIVITY_CATEGORIES.find(entry => entry.id === category.id)?.label ?? "Other",
+                    activity.completed ? "Completed" : "Planned"
+                ])),
+            ...capability.offering.activities
+                .filter(activity => activity.name.trim())
+                .map(activity => [
+                    activity.name,
+                    "For " + (offeringNames(f.foundationValue, activity.offeringIds) || "an Offering"),
+                    activity.completed ? "Completed" : "Planned"
+                ])
+        ])),
         ...titled("Partners and Providers", list(people.filter(isEngaged)
             .map(person => person.name.trim() + (text(person.description) ? ": " + text(person.description) : "")))),
         ...capacity

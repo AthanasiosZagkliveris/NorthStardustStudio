@@ -338,6 +338,30 @@ describe("Quillfield: the documents tie together", () => {
         expect(md).toContain("| Funding still to be found |");
     });
 
+    test("the canvas: ongoing work, kept resources, prices times volumes", () => {
+        const { blocks } = businessModelCanvasData(all);
+        const everything = Object.values(blocks).flat();
+        everything.forEach(entry => expect(entry, entry).not.toContain(") ("));
+        expect(blocks.partners).toContain("Freelance developer (overflow, for Automation Build)");
+        expect(blocks.activities).toContain("Deliver AI Workflow Audit");
+        expect(blocks.activities.join(" ")).not.toContain("Set up bookkeeping");
+        expect(planMd).toContain("### Launch and Setup Tasks");
+        expect(planMd).toContain("Set up bookkeeping");
+        const resources = blocks.resources.join(" ");
+        expect(resources).toContain("Digital Infrastructure: Google Workspace Business Starter");
+        expect(resources).not.toMatch(/Electricity|AI model and API usage|Coworking Space/);
+        expect(blocks.costs).toContain("Owner's drawings: Jordan Ellis ($4,500 a month)");
+        expect(blocks.costs).toContain("Variable costs: $45 per client a month (Automation Care Retainer)");
+        expect(blocks.costs.join(" ")).not.toMatch(/[.][0-9][0-9]/);
+        expect(blocks.revenue).toContain("AI Workflow Audit: $2,500 per project × 1.5 a month = $3,750 a month");
+        const content = businessModelCanvas(all, "Deliver Value");
+        expect(content.capability).toBe("Deliver Value");
+        expect(content.canvas).toHaveLength(9);
+        const md = new MarkdownExporter().toMarkdown(all.business, "Deliver Value", content);
+        expect(md).toContain("| Key Partners | Key Activities | Value Propositions | Customer Relationships | Customer Segments |");
+        expect(md).toContain("| Cost Structure | Revenue Streams |");
+    });
+
     test("each financial signal is said once, and capacity once", () => {
         expect(count(planMd, "Funding Dependency:")).toBe(1);
         expect(count(planMd, "Financial Risk:")).toBeLessThanOrEqual(2);

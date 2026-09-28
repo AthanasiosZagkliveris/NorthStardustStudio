@@ -119,6 +119,39 @@ function renderSection(section: ExportSectionContent, headingMarker: string): st
 }
 
 /**
+ * The Business Model Canvas as its grid: the five columns (Key
+ * Resources under Key Activities, Channels under Customer
+ * Relationships), then Cost Structure beside Revenue Streams.
+ */
+function renderCanvas(blocks: NonNullable<ExportContent["canvas"]>): string[] {
+
+    const byId = (id: string) => blocks.find(block => block.id === id);
+    const cell = (id: string, withTitle = false) => {
+        const block = byId(id);
+        if (!block) {
+            return "";
+        }
+        const items = block.items.length > 0 ? block.items.map(item => "• " + item).join("\n") : "_Not answered yet._";
+        return escapeTableCell((withTitle ? "**" + block.title + "**\n" : "") + items);
+    };
+    const row = (cells: string[]) => `| ${cells.join(" | ")} |`;
+    const top = ["partners", "activities", "propositions", "relationships", "segments"];
+
+    return [
+        row(top.map(id => byId(id)?.title ?? "")),
+        row(top.map(() => "---")),
+        row(top.map(id => cell(id))),
+        row(["", cell("resources", true), "", cell("channels", true), ""]),
+        "",
+        row([byId("costs")?.title ?? "", byId("revenue")?.title ?? ""]),
+        row(["---", "---"]),
+        row([cell("costs"), cell("revenue")]),
+        ""
+    ];
+
+}
+
+/**
  * Exports a completed Interview Session
  * to Markdown.
  *
@@ -171,8 +204,12 @@ export class MarkdownExporter {
             lines.push("");
         }
 
-        for (const section of content.sections) {
-            lines.push(...renderSection(section, "##"));
+        if (content.canvas) {
+            lines.push(...renderCanvas(content.canvas));
+        } else {
+            for (const section of content.sections) {
+                lines.push(...renderSection(section, "##"));
+            }
         }
 
         // Per-Product Sections (see buildMultiProductExportContent):

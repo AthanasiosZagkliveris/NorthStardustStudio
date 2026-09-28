@@ -258,13 +258,20 @@ export default function BusinessDocuments() {
                 )}
 
                 {documentId === "canvas" && (
+                    <div className="business-canvas-head">
+                        <h2 className="business-canvas-title">Business Model Canvas</h2>
+                        <p className="business-canvas-organization">{loaded.canvasData.name}</p>
+                    </div>
+                )}
+
+                {documentId === "canvas" && (
                     /* The canvas as it is drawn on a wall: nine boxes,
                        the offer in the middle, what makes it on the left,
                        who it is for on the right, money along the bottom. */
                     <div className="business-canvas" aria-label={"Business Model Canvas: " + loaded.canvasData.name}>
                         {CANVAS_BLOCKS.map(block => (
                             <section className={"business-canvas-box business-canvas-" + block.id} key={block.id}>
-                                <h2>{block.title}</h2>
+                                <h3>{block.title}</h3>
                                 {loaded.canvasData.blocks[block.id].length === 0
                                     ? <p className="business-canvas-empty">Not answered yet.</p>
                                     : (

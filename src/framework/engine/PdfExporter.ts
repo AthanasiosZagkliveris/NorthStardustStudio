@@ -203,6 +203,49 @@ export function documentMetaHtml(content: ExportContent): string {
     }).join("")}</div>`;
 }
 
+/**
+ * The Business Model Canvas as it is drawn on a wall: nine boxes, the
+ * offer in the middle, what makes it on the left, who it is for on the
+ * right, money along the bottom. On a landscape page (see buildHtml).
+ */
+const CANVAS_CSS = `
+    @page { size: landscape; margin: 10mm; }
+    body { padding: 0; }
+    .export-canvas {
+        display: grid;
+        grid-template-columns: repeat(10, minmax(0, 1fr));
+        grid-template-areas:
+            "partners partners activities activities propositions propositions relationships relationships segments segments"
+            "partners partners resources  resources  propositions propositions channels      channels      segments segments"
+            "costs    costs    costs      costs      costs        revenue      revenue       revenue       revenue  revenue";
+        border: 2px solid #1f2937;
+        break-inside: avoid;
+    }
+    .export-canvas-box { border: 1px solid #1f2937; padding: 6px 8px; min-width: 0; overflow-wrap: break-word; }
+    .export-canvas-box h3 { margin: 0 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .export-canvas-box ul { margin: 0; padding-left: 14px; }
+    .export-canvas-box li, .export-canvas-box p { font-size: 10px; line-height: 1.35; margin: 0 0 2px; }
+    .export-canvas-partners { grid-area: partners; }
+    .export-canvas-activities { grid-area: activities; }
+    .export-canvas-resources { grid-area: resources; }
+    .export-canvas-propositions { grid-area: propositions; }
+    .export-canvas-relationships { grid-area: relationships; }
+    .export-canvas-channels { grid-area: channels; }
+    .export-canvas-segments { grid-area: segments; }
+    .export-canvas-costs { grid-area: costs; }
+    .export-canvas-revenue { grid-area: revenue; }
+`;
+
+function canvasHtml(blocks: NonNullable<ExportContent["canvas"]>): string {
+    return `<div class="export-canvas">${blocks.map(block => `
+        <section class="export-canvas-box export-canvas-${escapeHtml(block.id)}">
+            <h3>${escapeHtml(block.title)}</h3>
+            ${block.items.length === 0
+                ? "<p><em>Not answered yet.</em></p>"
+                : `<ul>${block.items.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`}
+        </section>`).join("")}</div>`;
+}
+
 export class PdfExporter {
 
     public exportPdf(
@@ -258,7 +301,7 @@ export class PdfExporter {
 
     private buildHtml(content: ExportContent): string {
 
-        const sectionsHtml = contentSectionsHtml(content);
+        const sectionsHtml = content.canvas ? canvasHtml(content.canvas) : contentSectionsHtml(content);
 
         // Per-Product Sections (see buildMultiProductExportContent):
         // one heading per Product, with that Product's OWN Sections
@@ -284,6 +327,7 @@ export class PdfExporter {
                     <meta charset="utf-8" />
                     <title>${escapeHtml(content.documentTitle ?? content.systemNumber + ". " + content.systemName)}</title>
                     <style>
+                        ${content.canvas ? CANVAS_CSS : ""}
                         body {
                             font-family: Arial, Helvetica, sans-serif;
                             color: #111827;

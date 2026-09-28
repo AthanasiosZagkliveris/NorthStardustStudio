@@ -288,6 +288,37 @@
 
 /* ---------- The canvas, as it is drawn on a wall ---------- */
 
+/* Its title, and whose canvas it is. */
+.business-canvas-head{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:4px;
+
+}
+
+.business-canvas-title{
+
+    margin:0;
+
+    font-size:var(--font-h3);
+
+    color:#111827;
+
+}
+
+.business-canvas-organization{
+
+    margin:0;
+
+    font-size:var(--font-body);
+
+    color:#4b5563;
+
+}
+
 /* Five columns: partners | activities over resources | the offer |
    relationships over channels | segments, with costs and revenue
    side by side along the bottom. */
@@ -335,7 +366,7 @@
 
 }
 
-.business-canvas-box h2{
+.business-canvas-box h3{
 
     margin:0;
 

@@ -1420,7 +1420,7 @@ export default function Conversation() {
                       identity: organizationId ? StorageService.loadInterview(organizationId, IDENTITY_SYSTEM_NUMBER) : null,
                       business: session,
                       organisationName: organizationName
-                  })
+                  }, capabilityLabel)
             : system?.id === "product-development" && organizationId
                 ? (() => {
 
