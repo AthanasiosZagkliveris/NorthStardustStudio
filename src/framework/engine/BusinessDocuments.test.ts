@@ -341,7 +341,8 @@ describe("Quillfield: the documents tie together", () => {
         const projections = planMd.slice(planMd.indexOf("## 12. Financial Projections"), planMd.indexOf("## 13. Appendix"));
         const headings = [...projections.matchAll(/^### (.+)$/gm)].map(match => match[1]);
         expect(headings).toEqual(["Profit and Loss", "Profit Kept in the Business", "Balance Sheet", "Cash Flow", "Capital Expenditure", "Assumptions"]);
-        expect(projections).toContain("| USD | Q1 (Jan – Mar 2027) | Q2 (Apr – Jun 2027) | Q3 (Jul – Sep 2027) | Q4 (Oct – Dec 2027) | Year 1 | Year 2 (Jan 2028 – Dec 2028) | Year 3 (Jan 2029 – Dec 2029) |");
+        expect(projections).toContain("| USD | Q1 | Q2 | Q3 | Q4 | Year 1 | Year 2 | Year 3 |");
+        expect(projections).toContain("**Periods:** Q1: Jan – Mar 2027; Q2: Apr – Jun 2027; Q3: Jul – Sep 2027; Q4: Oct – Dec 2027; Year 2: Jan 2028 – Dec 2028; Year 3: Jan 2029 – Dec 2029.");
         expect(projections).toContain("they are not extended to five years");
         // The drawings are not in the profit and loss; the reconciliation below it ties to Page 5.
         const pl = projections.slice(projections.indexOf("### Profit and Loss"), projections.indexOf("### Profit Kept"));

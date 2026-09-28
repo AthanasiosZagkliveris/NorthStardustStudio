@@ -1146,17 +1146,26 @@ export function forecastTableBlocks(table: ForecastViewTable, format: (amount: n
 function projectionBlocks(f: Foundation): ExportBlock[] {
     const forecast = financialForecast(f.financial, f.revenuePage, f.lines, f.legalEntity, f.format);
     const years = planYears(f.financial);
-    const view = forecastView(forecast, "quarterly", years, { quarterlyYears: 1 });
+    const full = forecastView(forecast, "quarterly", years, { quarterlyYears: 1 });
+    // Short column heads ("Q1", "Year 2") so the tables fit a page's
+    // width; the months each covers are said once, above them.
+    const periodOf = /^((?:Q[0-9]+)|(?:Year [0-9]+)) \((.+)\)$/;
+    const periods = full.columns.map(column => periodOf.exec(column)).filter((match): match is RegExpExecArray => !!match)
+        .map(match => match[1] + ": " + match[2]);
+    const short = (table: ForecastViewTable): ForecastViewTable =>
+        ({ ...table, columns: table.columns.map(column => column.replace(periodOf, "$1")) });
+    const view = { ...full, tables: full.tables.map(short) };
     const whole = moneyFormatter(f.currency, { wholeOnly: true });
     const titles: Record<string, string> = {
         "Profit and Loss Forecast": "Profit and Loss",
         "Cash-Flow Forecast": "Cash Flow"
     };
-    const capex = forecastView(forecast, "quarterly", years, { quarterlyYears: 1, tables: [forecast.capitalExpenditure] }).tables[0];
+    const capex = short(forecastView(forecast, "quarterly", years, { quarterlyYears: 1, tables: [forecast.capitalExpenditure] }).tables[0]);
     const anyCapex = capex.rows.some(row => !row.total && row.values.some(amount => Math.abs(amount) > 0.005));
     return [
         ...paragraph("Year 1 by quarter, then by plan year, from the Financial Forecast. Amounts are estimates" +
             (f.currency ? ", in " + f.currency : "") + "."),
+        ...labelled("Periods", periods.join("; ") + "."),
         // Only the plan's own length: never extended beyond what was planned.
         ...(years < 5
             ? paragraph("The projections cover the plan's " + years + (years === 1 ? " year" : " years") +
