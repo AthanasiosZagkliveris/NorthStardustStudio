@@ -112,3 +112,15 @@ export function anchoredScrollLeft(
 ): number {
     return trackOffset + fraction * trackWidth - pointerOffset;
 }
+
+/**
+ * How far a bar's name moves right so it stays readable while the
+ * bar's start is scrolled under the pinned Theme names: by as much
+ * as the bar is hidden (pinX is where the visible timeline begins,
+ * barLeft the bar's own left edge), but never beyond the room the
+ * bar has (its width less its padding) -- so the name stays inside
+ * its own bar and is cut off, with its ellipsis, at the bar's end.
+ */
+export function pinnedLabelShift(barLeft: number, barWidth: number, pinX: number, padding: number): number {
+    return Math.min(Math.max(0, pinX - barLeft), Math.max(0, barWidth - padding * 2));
+}

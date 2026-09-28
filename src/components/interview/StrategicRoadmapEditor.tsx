@@ -19,6 +19,7 @@ import {
     ROADMAP_WHEEL_STEP,
     RoadmapZoom,
     anchoredScrollLeft,
+    pinnedLabelShift,
     trackFraction,
     wheelPixels,
     wheelZoomTarget
@@ -114,6 +115,41 @@ function monthsFor(quarters: Quarter[]): Quarter[] {
         };
 
     }));
+
+}
+
+/** A bar's own padding either side of its name (see `.roadmap-bar`). */
+const BAR_PADDING = 10;
+
+/**
+ * Keeps each bar's name in view while the months are scrolled: a bar
+ * whose start has gone under the pinned Theme names moves its name
+ * right by as much (see pinnedLabelShift), through the custom
+ * property `--roadmap-bar-pin` that only the month view reads. Set
+ * on the elements directly rather than through React, since it
+ * follows every scroll event.
+ */
+function pinBarNames(roadmap: HTMLElement) {
+
+    roadmap.querySelectorAll<HTMLElement>(".roadmap-bar").forEach(bar => {
+
+        const track = bar.closest(".roadmap-track");
+
+        if (!track) {
+            return;
+        }
+
+        // Where the visible timeline begins: the track's left edge as
+        // it sits with nothing scrolled.
+        const pinX = track.getBoundingClientRect().left + roadmap.scrollLeft;
+        const box = bar.getBoundingClientRect();
+
+        bar.style.setProperty(
+            "--roadmap-bar-pin",
+            `${pinnedLabelShift(box.left, box.width, pinX, BAR_PADDING)}px`
+        );
+
+    });
 
 }
 
@@ -284,9 +320,22 @@ export default function StrategicRoadmapEditor({
 
         }
 
-        roadmap.addEventListener("wheel", onWheel, { passive: false });
+        // Bar names follow the sideways scroll (see pinBarNames).
+        function onScroll() {
+            if (roadmap) {
+                pinBarNames(roadmap);
+            }
+        }
 
-        return () => roadmap.removeEventListener("wheel", onWheel);
+        roadmap.addEventListener("wheel", onWheel, { passive: false });
+        roadmap.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll);
+
+        return () => {
+            roadmap.removeEventListener("wheel", onWheel);
+            roadmap.removeEventListener("scroll", onScroll);
+            window.removeEventListener("resize", onScroll);
+        };
 
     }, [periodSet]);
 
@@ -332,6 +381,15 @@ export default function StrategicRoadmapEditor({
         );
 
     }, [zoom]);
+
+    // After every render -- a zoom, a scroll set above, a bar opened
+    // or added -- so no bar's name is left where an earlier layout
+    // put it. Read only by the month view's CSS.
+    useLayoutEffect(() => {
+        if (roadmapRef.current) {
+            pinBarNames(roadmapRef.current);
+        }
+    });
 
     // One pass over the whole list, so no two Themes can land on
     // the same hue. The hue goes down to the box, and its bars and
@@ -541,7 +599,10 @@ export default function StrategicRoadmapEditor({
                                     key={entry.year}
                                     style={{ "--roadmap-year-span": entry.count } as CSSProperties}
                                 >
-                                    {entry.year}
+                                    {/* Its own box, so the month view can
+                                        pin it while its year is part
+                                        scrolled away. */}
+                                    <span className="roadmap-year-label">{entry.year}</span>
                                 </div>
                             ))}
                         </div>

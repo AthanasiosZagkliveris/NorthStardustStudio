@@ -6,6 +6,7 @@ import {
     ROADMAP_MONTH_WIDTH,
     anchoredScrollLeft,
     monthX,
+    pinnedLabelShift,
     trackFraction,
     wheelZoomTarget
 } from "./roadmapZoom";
@@ -69,6 +70,21 @@ describe("roadmap zoom arithmetic", () => {
         expect(monthX(start, spanStart, 36, zoomed)).toBe(3 * ROADMAP_MONTH_WIDTH);
         expect(monthX(end, spanStart, 36, zoomed) - monthX(start, spanStart, 36, zoomed))
             .toBe(6 * ROADMAP_MONTH_WIDTH);
+
+    });
+
+
+    it("moves a bar's name in by as much as the bar is hidden, never past the bar's end", () => {
+
+        // Wholly in view: the name stays put.
+        expect(pinnedLabelShift(600, 300, 500, 10)).toBe(0);
+
+        // 120px hidden under the Theme names: the name moves 120px in.
+        expect(pinnedLabelShift(380, 300, 500, 10)).toBe(120);
+
+        // Mostly hidden: capped at the bar's width less its padding,
+        // so the name never leaves its own bar.
+        expect(pinnedLabelShift(100, 300, 500, 10)).toBe(280);
 
     });
 
@@ -191,6 +207,19 @@ describe("StrategicRoadmapEditor wheel zoom", () => {
             .toBe(true);
 
         expect(container.querySelector(".roadmap-zoomed")).toBeNull();
+
+    });
+
+    it("gives every year heading its own box and every bar a pin offset", () => {
+
+        const { container } = render(<StrategicRoadmapEditor foundation={foundation} period={period} />);
+
+        wheel(container, -100);
+
+        expect([...container.querySelectorAll(".roadmap-year > .roadmap-year-label")].map(year => year.textContent))
+            .toEqual(["2027", "2028", "2029"]);
+        expect(container.querySelector<HTMLElement>(".roadmap-bar")!.style.getPropertyValue("--roadmap-bar-pin"))
+            .toBe("0px");
 
     });
 
