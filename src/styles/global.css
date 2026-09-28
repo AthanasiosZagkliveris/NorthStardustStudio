@@ -129,9 +129,11 @@ body {
    --side-label-width column, wide enough for "Working Hours /
    Month" and its "i" on one line at 18px (198 + 8 + 26 = 232px),
    and sits on the control's FIRST line of text, never centred
-   on a tall control. In a narrow card the column gives way --
-   the control keeps at least 9rem, and the label half the field --
-   and the label wraps.
+   on a tall control. In a NARROW CARD -- one without room for the
+   indent, that column and a readable choice -- the label goes
+   above its field instead (the container rule below). Outside a
+   card the column gives way -- the control keeps at least 9rem,
+   and the label half the field -- and the label wraps.
 
    A group of fields inside a card is named by .field-group-title:
    the same size, bold, in the text colour.
@@ -171,6 +173,29 @@ body {
    360 (hue 60), on the grounds labels sit on:
      the card at 96%  5.02:1     the inner card at 92%  4.82:1
      a third level at 88%  4.62:1      #4b5563 on white  7.56:1 */
+/* A NARROW CARD PUTS EVERY LABEL ABOVE ITS FIELD. Measured on the
+   card's own width, so the same card is laid out the same way
+   wherever it sits and however wide the window is. Under 600px a
+   card cannot hold its body's 44px indent, the 232px label column,
+   the 12px gap and a choice such as "Already Exists / Free" or
+   "Needs Investigation" (about 230px) beside it, and its choices
+   were cut off ("Needs Inv…", "Direct compet…") and "Working Hours
+   / Month" wrapped. A column of a section's fields counts as a card
+   here too. */
+.business-foundation-card,
+.legal-entity-card,
+.business-capability-activity,
+.business-capability-column,
+.strategy-theme-panel,
+.strategy-goal-box,
+.strategy-objective-box,
+.strategy-metric-box {
+  container: card / inline-size;
+}
+
+/* (The layout itself is with .business-field-inline, conversation.css,
+   so it comes after the side-by-side rules it replaces.) */
+
 .business-foundation-input,
 .strategy-theme-panel,
 .strategy-theme-box,

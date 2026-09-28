@@ -13286,6 +13286,28 @@ td.process-library-col-number{
 
 }
 
+/* In a narrow card (under 600px, see "A NARROW CARD" in global.css)
+   every label goes above its field. */
+@container card (max-width: 599px){
+
+    .business-field-inline,
+    .strategy-metric-field{
+
+        grid-template-columns:minmax(0, 1fr);
+
+        row-gap:var(--space-label);
+
+    }
+
+    .business-field-inline > :not(:first-child),
+    .strategy-metric-field > :not(:first-child){
+
+        grid-column:1;
+
+    }
+
+}
+
 /*
     CAPITAL & FUNDING (Financial Foundation): Internal, External and
     Other each across the section, their sources side by side. A
