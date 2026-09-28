@@ -116,7 +116,8 @@ body {
    Field labels
 
    ONE label for every field in the interview: body size,
-   regular, one grey, on a 28px line (which holds the 26px "i"
+   regular, in the page's label colour (--label-color, below), on
+   a 28px line (which holds the 26px "i"
    that some labels carry, so a label with a note is no taller
    than one without). The "i" follows the label's last word at
    the one 8px gap every "i" has (.info-note).
@@ -156,6 +157,25 @@ body {
   font-weight: 400;
   line-height: var(--label-line);
   color: var(--label-color);
+}
+
+/* The label colour follows the colour of what it sits in. Every
+   part of a page drawn in a colour of its own -- a Business
+   Segment or section card, a Strategic Theme -- carries its hue as
+   --strategy-theme-hue, and inside it the label takes that hue at
+   28% 34%, as the Business pages always drew theirs. A page with no
+   colour of its own (the Identity System's pages, the Strategy
+   pages outside a Theme) keeps the neutral #4b5563.
+
+   Contrast, 18px regular text (AA needs 4.5:1), worst hue of the
+   360 (hue 60), on the grounds labels sit on:
+     the card at 96%  5.02:1     the inner card at 92%  4.82:1
+     a third level at 88%  4.62:1      #4b5563 on white  7.56:1 */
+.business-foundation-input,
+.strategy-theme-panel,
+.strategy-theme-box,
+.roadmap-theme-box {
+  --label-color: hsl(var(--strategy-theme-hue, 0) 28% 34%);
 }
 
 .field-group-title {
