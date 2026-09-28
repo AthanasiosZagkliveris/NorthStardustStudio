@@ -393,7 +393,7 @@
                   "demographics": "Decision-makers aged 30 to 60: managing partners, firm founders and operations or office managers, usually college-educated, with annual firm revenue of about $1 million to $10 million.",
                   "geographics": "New York City first, especially Brooklyn and Manhattan, then the wider tri-state area, served remotely with occasional on-site workshops.",
                   "purchasing": "Buy on trust and referrals; spend $5,000 to $30,000 a year on software and outside help; need a clear return in saved hours before committing; prefer a small fixed-price first step and monthly billing for ongoing work.",
-                  "market-size": "Rough estimate: around 12,000 to 15,000 firms of this size in these four professions across the five boroughs. A reachable niche of perhaps 1,000 firms that already use cloud tools and are curious about AI; 20 to 30 clients a year is enough for a solo practice."
+                  "market-size": "Rough estimate: around 12,000 to 15,000 firms of this size in these four professions across the five boroughs. A reachable niche of perhaps 1,000 firms that already use cloud tools and are curious about AI; 20 to 30 clients a year is enough for a solo practice.\n\nOutlook: AI features are moving into the everyday office software these firms already use, and small firms now expect automation to come with it; client-data and AI-use rules are tightening (New York SHIELD Act, bar and CPA guidance), so firms want help that is documented and privacy-reviewed."
                 },
                 "profiles": [
                   {
@@ -1714,6 +1714,8 @@
               "year": "2027"
             },
             "planYears": "3",
+            "incomeTax": "pass-through",
+            "incomeTaxRate": "",
             "vatBasis": "",
             "classified": {},
             "costs": [

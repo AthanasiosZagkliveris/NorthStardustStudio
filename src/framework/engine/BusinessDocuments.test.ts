@@ -352,7 +352,7 @@ describe("Quillfield: the documents tie together", () => {
         expect(projections).toContain("the result Financial Sustainability shows as revenue less costs");
         expect(projections).toContain("| Purchase of equipment | -$450 |");
         expect(projections).toContain("| Total capital expenditure | $450 |");
-        expect(projections).toContain("- Income tax, and VAT or sales tax, are not estimated");
+        expect(projections).toContain("- There is no income tax at business level: as a pass-through business");
     });
 
     test("the plan carries every saved answer the review asked for", () => {
@@ -397,7 +397,7 @@ describe("Quillfield: the documents tie together", () => {
         expect(md).toContain("## 2. Profit Kept in the Business");
         expect(md).toContain("| Profit kept in the business |");
         expect(md).toContain("| Cash shortfall (unfunded) |");
-        expect(md).toContain("| Income tax | Not estimated |");
+        expect(md).toContain("| Income tax | None at business level |");
         expect(md).not.toContain("-$0");
     });
 
@@ -672,7 +672,7 @@ describe("the forecast statements' structure", () => {
         expect(sheet("Loans: due within 12 months").opening! + sheet("Loans: due after 12 months").opening!).toBeCloseTo(15000, 6);
     });
 
-    test.each(examples)("%s: the profit and loss runs by nature down to profit before tax, tax not estimated", (_, which) => {
+    test.each(examples)("%s: the profit and loss runs by nature down to profit before tax, then its income tax", (name, which) => {
         const { forecast } = businessForecast(which);
         const rows = forecast.profitAndLoss.rows;
         const row = (label: string) => rows.find(entry => entry.label === label);
@@ -686,7 +686,9 @@ describe("the forecast statements' structure", () => {
             expect(row("Profit before tax")!.values[index]).toBeCloseTo(row("Operating profit")!.values[index] +
                 (row("Other income (grants)")?.values[index] ?? 0) - (row("Finance costs (loan interest)")?.values[index] ?? 0), 6);
         });
-        expect(rows[rows.length - 1]).toMatchObject({ label: "Income tax", text: "Not estimated" });
+        // Lumen (a UK Ltd) at a 19% rate on profit; Quillfield (a single-member LLC) pass-through.
+        expect(rows.slice(-2).map(entry => entry.label)).toEqual(["Income tax", "Net profit"]);
+        expect(row("Income tax")!.text).toBe(name === "Lumen" ? undefined : "None at business level");
     });
 
     test("Quillfield: profit, less the owner's drawings, is the profit kept in the business", () => {
@@ -952,8 +954,13 @@ describe("income tax in the forecast", () => {
             .toEqual(financialFoundationSectionsEmpty(saved));
     });
 
-    test("not estimated: the statements are as before", () => {
-        const before = businessForecast(sessions).forecast;
+    test("not estimated: the statements are as they were before income tax was asked", () => {
+        // Lumen's answers as saved before the question existed: no incomeTax keys at all.
+        const legacy = taxed("Lumen", "");
+        const section = legacy.business.getFramework().sections.find(candidate => candidate.answer?.type === AnswerType.FinancialFoundation)!;
+        const { incomeTax: _tax, incomeTaxRate: _rate, ...saved } = legacy.business.getResponse(section.number) as Record<string, unknown>;
+        legacy.business.saveResponse(section.number, saved);
+        const before = businessForecast(legacy).forecast;
         const after = businessForecast(taxed("Lumen", "")).forecast;
         expect(after.profitAndLoss).toEqual(before.profitAndLoss);
         expect(after.balanceSheet).toEqual(before.balanceSheet);
