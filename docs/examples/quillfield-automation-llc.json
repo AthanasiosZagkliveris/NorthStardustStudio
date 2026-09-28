@@ -46,11 +46,7 @@
                 "id": "founder-q7m2x4ke",
                 "name": "Jordan Ellis",
                 "ownership": "100",
-                "capital": "12000",
-                "roles": [
-                  "Founder & Automation Consultant",
-                  "Solutions Architect"
-                ]
+                "capital": "12000"
               }
             ],
             "formation": {
@@ -185,6 +181,35 @@
                 "description": "Annual premium, paid upfront. Approximate quote."
               }
             ]
+          }
+        },
+        {
+          "sectionNumber": 4,
+          "value": {
+            "founders": [
+              {
+                "id": "founder-q7m2x4ke",
+                "roles": [
+                  "Founder & Automation Consultant",
+                  "Solutions Architect"
+                ],
+                "years": "9",
+                "industryExperience": "IT and automation for professional-services firms: IT consultant at a New York managed-services provider serving law and accounting firms, then solutions architect at a workflow-software company, designing integrations for its small-business customers.",
+                "managementExperience": "Led a team of four implementation consultants at the workflow-software company for three years, owning a $600,000 annual services budget and around 40 customer rollouts a year.",
+                "achievements": [
+                  "Designed an invoice-intake automation that cut a 30-person accounting firm's processing time by 70% (from 12 to 3.5 hours a week) in 2024",
+                  "Delivered 120 customer integrations at the workflow-software company, 96% of them on time, 2022–2025"
+                ],
+                "skills": [
+                  "BS in Information Systems",
+                  "Certified in Microsoft Power Platform and Zapier",
+                  "Workflow mapping and process design",
+                  "Python and API integration",
+                  "Data security and access control for client records"
+                ]
+              }
+            ],
+            "teamGaps": "As a one-person LLC, Quillfield has no one with a sales and marketing background, no in-house bookkeeping or legal expertise, and no cover for holidays or illness. Bookkeeping and taxes are covered by our Brooklyn CPA practice and contracts by a small-business attorney. A freelance automation specialist, trained on our templates, will cover urgent Care Retainer work when Jordan is away, and Jordan meets a SCORE mentor monthly on sales and marketing."
           }
         }
       ],

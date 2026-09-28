@@ -46,31 +46,19 @@
                 "id": "founder-3aux8uyh",
                 "name": "Maya Chen",
                 "ownership": "40",
-                "capital": "5000",
-                "roles": [
-                  "Creative Director",
-                  "Lead Weaver"
-                ]
+                "capital": "5000"
               },
               {
                 "id": "founder-z2jgpf8v",
                 "name": "Oliver Grant",
                 "ownership": "30",
-                "capital": "4000",
-                "roles": [
-                  "Commercial Director",
-                  "Sales & Partnerships"
-                ]
+                "capital": "4000"
               },
               {
                 "id": "founder-3fhkh0cm",
                 "name": "Priya Shah",
                 "ownership": "30",
-                "capital": "4000",
-                "roles": [
-                  "Operations & Finance Director",
-                  "Company Secretary"
-                ]
+                "capital": "4000"
               }
             ],
             "formation": {
@@ -195,6 +183,77 @@
                 "description": ""
               }
             ]
+          }
+        },
+        {
+          "sectionNumber": 4,
+          "value": {
+            "founders": [
+              {
+                "id": "founder-3aux8uyh",
+                "roles": [
+                  "Creative Director",
+                  "Lead Weaver"
+                ],
+                "years": "11",
+                "industryExperience": "Eight years as a woven textile designer at a London interiors fabric house, designing jacquard and handwoven collections for upholstery and curtains; then three years as a freelance weaver making commissions for interior designers.",
+                "managementExperience": "Led the fabric house's four-person design studio for three years, owning a £120,000 sampling and development budget and taking two collections a year from brief to launch.",
+                "achievements": [
+                  "Designed the fabric house's best-selling jacquard collection: £380,000 of sales in its first two years (2021–2023)",
+                  "Delivered 40 handwoven commissions for interior designers and two boutique hotels as a freelancer, 2023–2025",
+                  "Taught 30 beginners' weaving workshops in 2025, most of them sold out"
+                ],
+                "skills": [
+                  "BA (Hons) Textile Design",
+                  "Handweaving and jacquard design",
+                  "Colour and yarn development with British mills",
+                  "Level 3 Award in Education and Training (workshop teaching)"
+                ]
+              },
+              {
+                "id": "founder-z2jgpf8v",
+                "roles": [
+                  "Commercial Director",
+                  "Sales & Partnerships"
+                ],
+                "years": "9",
+                "industryExperience": "Homeware sales: wholesale account manager for a UK homeware brand selling to independent retailers and department stores, then head of trade sales at a sustainable furniture company.",
+                "managementExperience": "Head of trade sales for four years: led a team of three account managers, held a £1.2 million annual sales target and ran the trade marketing budget.",
+                "achievements": [
+                  "Grew trade sales from £450,000 to £1.2 million a year in four years (2021–2025)",
+                  "Opened 60 new independent retail stockists across the UK in 2023",
+                  "Co-founded a seasonal makers' market in 2019 that broke even in its first season and ran for three"
+                ],
+                "skills": [
+                  "BA (Hons) Business Management",
+                  "Wholesale and trade sales",
+                  "Relationships with retail buyers and interior designers",
+                  "Pricing and trade terms negotiation"
+                ]
+              },
+              {
+                "id": "founder-3fhkh0cm",
+                "roles": [
+                  "Operations & Finance Director",
+                  "Company Secretary"
+                ],
+                "years": "10",
+                "industryExperience": "Finance and operations for small creative businesses: management accountant at a London design agency, then finance and operations manager at an independent fashion label.",
+                "managementExperience": "Finance and operations manager for five years: ran bookkeeping, payroll for 25 staff, supplier contracts and a £3 million annual budget, with a team of two.",
+                "achievements": [
+                  "Cut the fashion label's stock write-offs by 40% in 2022 by introducing monthly stock counts and reorder levels",
+                  "Secured a £50,000 bank loan and a £15,000 grant for the label in 2023",
+                  "Closed the label's year-end accounts on time five years running, with no adjustments from its accountants"
+                ],
+                "skills": [
+                  "ACCA-qualified accountant",
+                  "Management accounts, cash-flow forecasting and budgeting",
+                  "Payroll, VAT and Companies House filings",
+                  "Supplier management and stock control"
+                ]
+              }
+            ],
+            "teamGaps": "No one on the team has run e-commerce and digital marketing at scale, or managed textile production beyond our own looms. A freelance e-commerce specialist covers the online shop and digital marketing for the first year while Oliver completes a digital marketing course. A retired mill production manager mentors us on sourcing and small-batch production. Hale & Co Accountants and our lawyer cover year-end accounts and legal work, and we plan to hire and train an apprentice weaver to add studio production capacity."
           }
         }
       ],
