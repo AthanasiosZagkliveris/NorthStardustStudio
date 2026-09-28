@@ -1,9 +1,22 @@
-import { CSSProperties, ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+    CSSProperties,
+    KeyboardEvent as ReactKeyboardEvent,
+    ReactNode,
+    useEffect,
+    useId,
+    useLayoutEffect,
+    useRef,
+    useState
+} from "react";
+import { createPortal } from "react-dom";
+
+import { consumeKey } from "./consumeKey.ts";
 
 import {
     StrategicPeriodValue,
     StrategyFoundationValue,
     formatMonthLong,
+    formatRangeAbbrev,
     isRangeSet,
     monthFromIndex,
     monthIndex,
@@ -24,6 +37,8 @@ import {
     wheelPixels,
     wheelZoomTarget
 } from "./roadmapZoom.ts";
+
+import { placeTooltip } from "./roadmapTooltip.ts";
 
 interface StrategicRoadmapEditorProps {
 
@@ -382,6 +397,96 @@ export default function StrategicRoadmapEditor({
 
     }, [zoom]);
 
+    /*
+        The hover tooltip: a bar's or chip's full name and dates, for
+        whenever the element is too narrow to show them. It appears at
+        once on hover or keyboard focus -- no delay, so nothing
+        flickers moving from one bar to the next -- and goes on leave,
+        blur or Escape. It takes no pointer events, so the wheel and
+        clicks go straight through to the timeline beneath.
+
+        One tooltip for the whole roadmap, drawn on document.body
+        rather than inside the roadmap, so the month view's scrolling
+        box cannot clip it.
+    */
+    const [tip, setTip] = useState<{ key: string; text: string; anchor: HTMLElement } | null>(null);
+    const [tipPosition, setTipPosition] = useState<{ left: number; top: number } | null>(null);
+    const tipRef = useRef<HTMLDivElement>(null);
+    const tipId = useId();
+
+    function tipProps(key: string, text: string) {
+
+        const show = (event: { currentTarget: HTMLElement }) =>
+            setTip({ key, text, anchor: event.currentTarget });
+
+        const hide = () => setTip(current => (current?.key === key ? null : current));
+
+        return {
+            onMouseEnter: show,
+            onFocus: show,
+            onMouseLeave: hide,
+            onBlur: hide,
+            onKeyDown: (event: ReactKeyboardEvent<HTMLElement>) => {
+                // Consumed, or it also takes the page Back (see
+                // consumeKey). Only while a tooltip is showing.
+                if (event.key === "Escape" && tip?.key === key) {
+                    consumeKey(event);
+                    setTip(null);
+                }
+            },
+            "aria-describedby": tip?.key === key ? tipId : undefined
+        };
+
+    }
+
+    // Placed once it has been drawn and can be measured, before
+    // paint -- and again whenever what it points at moves: a zoom,
+    // a sideways scroll, the page scrolling, the window resizing.
+    useLayoutEffect(() => {
+
+        if (!tip) {
+            setTipPosition(null);
+            return;
+        }
+
+        function place() {
+
+            const element = tipRef.current;
+
+            if (!tip || !element || !tip.anchor.isConnected) {
+                return;
+            }
+
+            const track = tip.anchor.closest(".roadmap-track");
+            const scroller = roadmapRef.current;
+
+            // Where the visible timeline begins, right of the Theme
+            // names (see pinBarNames).
+            const visibleLeft = track && scroller
+                ? track.getBoundingClientRect().left + scroller.scrollLeft
+                : 0;
+
+            setTipPosition(placeTooltip(
+                tip.anchor.getBoundingClientRect(),
+                { width: element.offsetWidth, height: element.offsetHeight },
+                { width: window.innerWidth, height: window.innerHeight },
+                visibleLeft
+            ));
+
+        }
+
+        place();
+
+        window.addEventListener("scroll", place, true);
+        window.addEventListener("resize", place);
+
+        return () => {
+            window.removeEventListener("scroll", place, true);
+            window.removeEventListener("resize", place);
+        };
+
+    }, [tip, zoom]);
+
     // After every render -- a zoom, a scroll set above, a bar opened
     // or added -- so no bar's name is left where an earlier layout
     // put it. Read only by the month view's CSS.
@@ -483,6 +588,9 @@ export default function StrategicRoadmapEditor({
                 end: monthIndex(objective.period.end),
 
                 range: `${formatMonthLong(objective.period.start)} – ${formatMonthLong(objective.period.end)}`,
+
+                // "Jan 2027 – Jun 2027", for the hover tooltip.
+                shortRange: formatRangeAbbrev(objective.period),
 
                 complete: isRangeSet(objective.period),
 
@@ -729,7 +837,10 @@ export default function StrategicRoadmapEditor({
                                                           `${objective.initiatives.length} initiative${objective.initiatives.length === 1 ? "" : "s"}.`
                                                         : "No initiatives.")
                                                 }
-                                                title={`${objective.name} (${objective.range})`}
+                                                {...tipProps(
+                                                    objective.id,
+                                                    `${objective.number}. ${objective.name} · ${objective.shortRange}`
+                                                )}
                                                 onClick={() => toggleObjective(objective.id)}
                                             >
                                                 <span className="roadmap-bar-label">
@@ -760,7 +871,18 @@ export default function StrategicRoadmapEditor({
                                                         <span
                                                             className="roadmap-initiative"
                                                             key={index}
-                                                            title={initiative}
+                                                            // Focusable, so the full name
+                                                            // a narrow chip cuts off can
+                                                            // be reached from the keyboard
+                                                            // as well as the pointer.
+                                                            tabIndex={0}
+                                                            // An Initiative has no dates
+                                                            // of its own: it runs over its
+                                                            // Objective's period.
+                                                            {...tipProps(
+                                                                `${objective.id}/${index}`,
+                                                                `${index + 1}. ${initiative} · ${objective.shortRange}`
+                                                            )}
                                                         >
                                                             <span className="roadmap-bar-label">
                                                                 {`${index + 1}. ${initiative}`}
@@ -789,6 +911,23 @@ export default function StrategicRoadmapEditor({
 
             </section>
 
+            )}
+
+            {tip && createPortal(
+                <div
+                    className="app-tooltip"
+                    id={tipId}
+                    role="tooltip"
+                    ref={tipRef}
+                    // Hidden until measured and placed, so it never
+                    // shows for a frame in the wrong spot.
+                    style={tipPosition
+                        ? { left: tipPosition.left, top: tipPosition.top }
+                        : { visibility: "hidden" }}
+                >
+                    {tip.text}
+                </div>,
+                document.body
             )}
 
         </div>

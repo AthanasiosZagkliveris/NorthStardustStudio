@@ -481,3 +481,31 @@ b, strong {
   min-width: 0;
   overflow-wrap: anywhere;
 }
+
+/* ==========================================================
+   Tooltip
+
+   The one tooltip look: the dark label the navigation rails show
+   beside a bullet in a narrow window (.bullet-rail-label in
+   bullet-rail.css -- the same ground, text colour, padding,
+   corners and weight). Placed in window coordinates by whoever
+   shows it, kept inside the window's edges, and never in the way
+   of the pointer.
+========================================================== */
+.app-tooltip {
+  position: fixed;
+  z-index: 1000;
+
+  max-width: calc(100vw - 16px);
+  padding: 4px 8px;
+
+  border-radius: 6px;
+  background: #1f2937;
+  color: #ffffff;
+
+  font-size: var(--font-body);
+  font-weight: 500;
+  overflow-wrap: anywhere;
+
+  pointer-events: none;
+}
