@@ -12112,7 +12112,15 @@ td.process-library-col-number{
 }
 
 /* A table of costs, drawn as a grid so every row shares the same
-   columns and a row's details can span all of them. */
+   columns and a row's details can span all of them.
+
+   ONE LINE OF TEXT ACROSS A ROW: every cell sits on the row's first
+   baseline, so a name or an amount SHOWN (a cost read from another
+   page) is on the same line as the text typed in the boxes beside it,
+   and a shown name has the weight of a typed one. The last column
+   holds "Change" and the × (--row-actions-width), with the card's
+   own padding to its right, so the × is inside the row, never on its
+   edge. */
 .financial-cost-table{
 
     display:flex;
@@ -12134,13 +12142,13 @@ td.process-library-col-number{
         minmax(120px, 1fr)
         minmax(120px, 1fr)
         minmax(150px, 1.1fr)
-        104px;
+        var(--row-actions-width);
 
-    align-items:start;
+    align-items:baseline;
 
     gap:8px 10px;
 
-    padding:10px;
+    padding:var(--card-padding);
 
     border:1px solid hsl(var(--strategy-theme-hue, 0) 24% 70%);
     border-radius:8px;
@@ -12161,7 +12169,7 @@ td.process-library-col-number{
         minmax(140px, 1.1fr)
         minmax(130px, 1fr)
         minmax(160px, 1.4fr)
-        104px;
+        var(--row-actions-width);
 
 }
 
@@ -12172,7 +12180,7 @@ td.process-library-col-number{
         minmax(240px, 2.6fr)
         minmax(120px, 1fr)
         minmax(150px, 1.2fr)
-        104px;
+        var(--row-actions-width);
 
 }
 
@@ -12211,9 +12219,7 @@ td.process-library-col-number{
 
 .financial-cost-title{
 
-    font-weight:600;
-
-    line-height:40px;
+    line-height:1.5;
 
     color:#111827;
 
@@ -12232,16 +12238,17 @@ td.process-library-col-number{
 
     display:inline-block;
 
-    line-height:40px;
+    line-height:1.5;
 
     font-weight:600;
 
 }
 
-/* Plain text in a cell sits on the same line as the pickers. */
+/* Plain text in a cell: the body's own line, so the row's baselines
+   put it on the text line of the boxes beside it. */
 .financial-cost-row [role="cell"]:not(.financial-cost-name) > span:not(.financial-flag){
 
-    line-height:40px;
+    line-height:1.5;
 
 }
 
@@ -12250,15 +12257,13 @@ td.process-library-col-number{
 
     display:block;
 
-    margin-top:-6px;
-
     line-height:1.3;
 
 }
 
 .financial-cost-change{
 
-    line-height:40px;
+    line-height:1.5;
 
     font-size:var(--font-body);
 
@@ -12272,13 +12277,11 @@ td.process-library-col-number{
 
     display:grid;
 
-    grid-template-columns:1fr 32px;
+    grid-template-columns:auto 32px;
 
-    align-items:center;
+    align-items:baseline;
 
     gap:8px;
-
-    min-height:40px;
 
 }
 

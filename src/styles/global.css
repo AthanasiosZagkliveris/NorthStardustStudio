@@ -106,6 +106,10 @@ body {
   --space-card: 12px;
   --card-padding: 12px;
   --space-row: 6px;
+  /* The end of a row of a table: a text control ("Change", "Done",
+     5em holds either at the body size), 8px, and the 32px × --
+     reserved on every row, so the columns before it stay put. */
+  --row-actions-width: calc(5em + 8px + 32px);
 }
 
 /* ==========================================================

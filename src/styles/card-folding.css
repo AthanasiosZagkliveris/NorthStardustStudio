@@ -74,9 +74,12 @@
    gets back the body size, its fallback glyph made invisible, so its
    centred line gives it a baseline exactly at its middle -- the same
    place a line of the name has one -- and it stays level with the
-   name's first line however many lines the name runs to. */
+   name's first line however many lines the name runs to. The same
+   for the × at the end of a row of a table, which sits on the
+   row's line of text. */
 .fold-card-head > .strategy-box-toggle,
-.fold-card-head > .strategy-box-remove {
+.fold-card-head > .strategy-box-remove,
+.financial-cost-remove > .strategy-box-remove {
 
     font-size: var(--font-body);
 
