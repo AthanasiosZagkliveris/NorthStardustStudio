@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 
 import { InterviewSession } from "../interview";
-import { businessForecast, businessModelCanvas, businessModelCanvasData, businessPlan, currentSituationDraft, financialPlanRange, readFoundation } from "./BusinessDocuments.ts";
+import { businessForecast, businessForecastContent, businessModelCanvas, businessModelCanvasData, businessPlan, currentSituationDraft, financialPlanRange, readFoundation } from "./BusinessDocuments.ts";
 import { financialPosition, stressTest, sustainability, whatItWouldTake, withWhatIf } from "./FinancialModel.ts";
 import { financialForecast, forecastCsv, forecastView } from "./FinancialForecast.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
@@ -46,13 +46,13 @@ describe("business documents", () => {
         const md = markdown(businessPlan(sessions));
         for (const title of ["Executive Summary", "Company Description", "Market Analysis", "Products and Services",
             "Marketing and Sales", "Operations", "Management and Team", "Financial Plan", "Funding Request",
-            "Strategy and Milestones", "Risks", "Brand"]) {
+            "Financial Projections", "Strategy and Milestones", "Risks", "Appendix"]) {
             expect(md).toContain(title);
         }
         expect(md).not.toContain("Not answered yet");
         expect(md).toContain("# Business Plan: Lumen & Loom Studio Ltd");
-        // Financial Sustainability numbers on from Financial Foundation's four headings.
-        expect(md).toContain("### 5. Revenue");
+        // Financial Sustainability numbers on from Financial Foundation's three headings (its costs are in the Appendix).
+        expect(md).toContain("### 4. Revenue");
         expect(md).toContain("Lumen & Loom Studio Ltd, a private company limited by shares, based in London, United Kingdom, was founded by");
         expect(md).toContain("is seeking £26,000 of additional funding towards a funding gap of £10,670");
     });
@@ -294,6 +294,48 @@ describe("Quillfield: the documents tie together", () => {
         expect(request).toContain("Amount sought: $15,000 (SBA Microloan)");
         expect(request).toContain("Still short after repayments: $2,400 at the lowest point, in Jul 2027");
         expect(request).toContain("| Total | $25,965 |");
+    });
+
+    test("the plan carries every saved answer the review asked for", () => {
+        const at = (title: string) => planMd.slice(planMd.indexOf(title));
+        // The cover.
+        expect(planMd).toMatch(/Prepared: [A-Z][a-z]{2} [0-9]{4}/);
+        expect(planMd).toContain("Website: quillfieldautomation.com");
+        // Financial Projections, with the drawings line.
+        expect(at("Financial Projections")).toContain("### Profit and Loss");
+        expect(at("Financial Projections")).toContain("| Profit after owner's drawings |");
+        expect(at("Financial Projections")).toContain("### Balance Sheet");
+        // Strategy.
+        expect(planMd).toContain("| Internal | • Founder with hands-on automation");
+        expect(planMd).toContain("### Key Performance Indicators");
+        expect(planMd).toContain("| Confirmed funding | $0 | $15,000 | Monthly | Jordan Ellis |");
+        expect(planMd).toContain("### Roadmap");
+        expect(planMd).toContain("| 1. Financial Stability | Close the funding gap");
+        expect(planMd).toContain("### Current Situation");
+        // Identity and legal.
+        expect(planMd).toContain("### Manifesto");
+        expect(planMd).toContain("Tax identification number (EIN): 93-4567812");
+        expect(planMd).toContain("Formation date: Aug 2026");
+        expect(planMd).toContain("Brooklyn, New York 11201, United States of America");
+        expect(planMd).toContain("| Jordan Ellis (owner's drawings $4,500 a month) | 100% | $12,000 |");
+        // Brand & Voice under Marketing and Sales; the style guide in the Appendix.
+        const marketing = planMd.slice(planMd.indexOf("## 5. Marketing and Sales"), planMd.indexOf("## 6. Operations"));
+        expect(marketing).toContain("### Brand & Voice");
+        expect(marketing).toContain("#### Attitude & Body Language");
+        expect(planMd).not.toMatch(/^## [0-9]+[.] Brand$/m);
+        expect(at("## 13. Appendix")).toContain("### Brand Style Guide");
+        expect(at("## 13. Appendix")).toContain("### Costs");
+        // Products with their prices.
+        expect(planMd).toContain("| $2,500 per project | Sale |");
+        expect(planMd).toContain("| $1,200 per client a month | Subscription / Retainer |");
+    });
+
+    test("the forecast exports as a document", () => {
+        const md = new MarkdownExporter().toMarkdown(all.business, "Foundation", businessForecastContent(all, "annual", 3));
+        expect(md).toContain("# Financial Forecast: Quillfield Automation LLC");
+        expect(md).toContain("## 1. Cash-Flow Forecast");
+        expect(md).toContain("| Profit after owner's drawings |");
+        expect(md).toContain("| Funding still to be found |");
     });
 
     test("each financial signal is said once, and capacity once", () => {

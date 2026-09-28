@@ -342,7 +342,7 @@ function legalEntityBlocks(value: unknown, context: ExportContext): ExportBlock[
    2. Brand -- Style and Inventory
 ========================================================== */
 
-function brandStyleBlocks(value: unknown): ExportBlock[] {
+export function brandStyleBlocks(value: unknown): ExportBlock[] {
 
     const style = asBrandStyleValue(value);
 
@@ -364,7 +364,7 @@ function brandStyleBlocks(value: unknown): ExportBlock[] {
 
 }
 
-function brandInventoryBlocks(value: unknown): ExportBlock[] {
+export function brandInventoryBlocks(value: unknown): ExportBlock[] {
 
     const inventory = asBrandInventoryValue(value);
     const file = (asset?: { fileName: string }) => asset?.fileName ?? "";

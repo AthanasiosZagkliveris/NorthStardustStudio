@@ -38,13 +38,12 @@ import {
     asStrategicPeriodValue,
     asStrategyFoundationValue,
     businessFoundationSegments,
-    businessFounderResponsibilities,
-    BRAND_COLOUR_SLOTS,
-    BRAND_TYPEFACE_SLOTS
+    type StrategyMetricValue,
+    businessFounderResponsibilities
 } from "./AnswerUtils.ts";
 import type { ExportContent, ExportSectionContent } from "./ExportContentBuilder.ts";
 import { sessionExportContext } from "./ExportContentBuilder.ts";
-import { financialForecast, ownersTakeDrawings } from "./FinancialForecast.ts";
+import { financialForecast, forecastView, ownersTakeDrawings, type ForecastPeriod, type ForecastViewTable } from "./FinancialForecast.ts";
 import {
     capabilityOf,
     costLines,
@@ -57,6 +56,8 @@ import {
     offeringName,
     offeringNames,
     capacityBlocks,
+    brandInventoryBlocks,
+    brandStyleBlocks,
     paragraph,
     table,
     titled
@@ -86,9 +87,10 @@ import {
     spentBeforePlan,
     sustainability,
     withPlanStart,
-    type CostLine
+    type CostLine,
+    type RevenueStreamValue
 } from "./FinancialModel.ts";
-import { COUNTRIES, countryCurrency } from "./LegalEntityJurisdictions.ts";
+import { COUNTRIES, countryCurrency, jurisdictionProfile } from "./LegalEntityJurisdictions.ts";
 
 /** The four Foundation Systems as saved -- any may be missing. */
 export interface FoundationSessions {
@@ -242,6 +244,8 @@ export function readFoundation(sessions: FoundationSessions) {
         ethics: responseByTitle(sessions.identity, /^ethics$/i),
         ambassador: responseByTitle(sessions.brand, /ambassador/i),
         brandStyle: asBrandStyleValue(responseByType(sessions.brand, AnswerType.BrandStyle)),
+        brandStyleValue: responseByType(sessions.brand, AnswerType.BrandStyle),
+        brandInventoryValue: responseByType(sessions.brand, AnswerType.BrandInventory),
         strategyFoundation: asStrategyFoundationValue(strategy.responseOf?.(AnswerType.StrategyFoundation)),
         strategicPeriod: asStrategicPeriodValue(strategy.responseOf?.(AnswerType.StrategicPeriod))
     };
@@ -249,6 +253,25 @@ export function readFoundation(sessions: FoundationSessions) {
 }
 
 type Foundation = ReturnType<typeof readFoundation>;
+
+/** What one unit of a stream is: "project", "client". */
+function streamUnit(stream: RevenueStreamValue): string {
+    return (text(stream.unit === "Other" ? stream.unitOther : stream.unit) || "unit").toLowerCase();
+}
+
+/** "per project", "per client a month": how a stream is charged. */
+function perUnit(stream: RevenueStreamValue): string {
+    const every = stream.frequency === "monthly" ? " a month"
+        : stream.frequency === "quarterly" ? " a quarter"
+            : stream.frequency === "annually" ? " a year" : "";
+    return "per " + streamUnit(stream) + every;
+}
+
+/** "$2,500 per project"; "" without a price. */
+function priceText(stream: RevenueStreamValue | undefined, format: (amount: number) => string): string {
+    const price = stream ? parseAmount(stream.price) : null;
+    return stream && price !== null ? format(price) + " " + perUnit(stream) : "";
+}
 
 /** Founders' pay, as the documents name it: drawings for an owner who takes them. */
 function payWord(f: Foundation): string {
@@ -262,9 +285,24 @@ function costName(f: Foundation, line: CostLine): string {
         : line.name;
 }
 
+/** "Jan": every date in the documents is written "Jan 2027". */
+function shortMonth(month: number): string {
+    return (STRATEGY_MONTH_NAMES[month - 1] ?? "").slice(0, 3);
+}
+
 function monthName(value: StrategyMonthValue): string {
     const m = Number(value.month);
-    return m >= 1 && m <= 12 && value.year ? STRATEGY_MONTH_NAMES[m - 1] + " " + value.year : "";
+    return m >= 1 && m <= 12 && value.year ? shortMonth(m) + " " + value.year : "";
+}
+
+/** The cover: who the document is for, when it was prepared, and where to find them. */
+function coverLines(f: Foundation): string[] {
+    const website = websiteOf(f);
+    return [
+        "Organization: " + f.name,
+        "Prepared: " + preparedMonth(),
+        ...(website ? ["Website: " + website] : [])
+    ];
 }
 
 function section(number: number, title: string, blocks: ExportBlock[]): ExportSectionContent {
@@ -494,13 +532,59 @@ function joinNames(names: string[]): string {
     return names.length <= 1 ? names.join("") : names.slice(0, -1).join(", ") + " and " + names[names.length - 1];
 }
 
+/** Prose that may run to several paragraphs, one block each. */
+function paragraphs(value: unknown): ExportBlock[] {
+    return text(value).split(/\r?\n\s*\n?/).flatMap(part => paragraph(part));
+}
+
+/** The whole address, state and country included. */
+function fullAddress(f: Foundation): string {
+    const organisation = f.legalEntity.organisation;
+    const country = COUNTRIES.find(entry => entry.code === organisation.country)?.name ?? organisation.country;
+    return [organisation.addressLine1, organisation.addressLine2, organisation.city,
+        [organisation.subdivision, organisation.postalCode].map(text).filter(Boolean).join(" "), country]
+        .map(text).filter(Boolean).join(", ");
+}
+
+/** "2026-08-17" as "Aug 2026", as every date in the documents is written. */
+function isoMonth(value: string): string {
+    const match = /^(\d{4})-(\d{2})/.exec(text(value));
+    return match ? shortMonth(Number(match[2])) + " " + match[1] : text(value);
+}
+
+/** The licences and registrations the Legal Entity records: tax, sales tax, registration, requirements. */
+function licenceItems(f: Foundation): string[] {
+    const entity = f.legalEntity;
+    const profile = jurisdictionProfile(entity.organisation.country);
+    const taxName = profile.consumptionTax || "Consumption tax";
+    return [
+        text(entity.tax.identificationNumber)
+            ? "Tax identification number" + (profile.taxIdName ? " (" + profile.taxIdName + ")" : "") + ": " + text(entity.tax.identificationNumber)
+            : "",
+        entity.tax.consumptionTaxStatus === "yes"
+            ? taxName + ": registered" + (text(entity.tax.consumptionTaxNumber) ? " (" + text(entity.tax.consumptionTaxNumber) + ")" : "")
+            : entity.tax.consumptionTaxStatus === "no" ? taxName + ": not registered" : "",
+        text(entity.formation.registrationNumber)
+            ? "Registration number: " + text(entity.formation.registrationNumber) +
+                (text(entity.formation.authority) ? " (" + text(entity.formation.authority) + ")" : "")
+            : "",
+        ...entity.formation.additionalNumbers.map(entry => text(entry.number) ? (text(entry.label) || "Number") + ": " + text(entry.number) : ""),
+        ...entity.tax.additionalRegistrations.map(entry => text(entry.number) ? (text(entry.label) || "Registration") + ": " + text(entry.number) : ""),
+        ...entity.requirements.map(requirement => text(requirement.name)
+            ? text(requirement.name) + (text(requirement.reference) ? ": " + text(requirement.reference) : "")
+            : "")
+    ].filter(Boolean);
+}
+
 function companyBlocks(f: Foundation): ExportBlock[] {
     const organisation = f.legalEntity.organisation;
     return [
         ...paragraph(text(f.definition.description)),
+        ...titled("Manifesto", paragraphs(f.ethics.manifesto)),
         ...titled("Legal Structure", details([
             ["Legal name", organisation.name],
             ["Legal form", legalFormOf(f.legalEntity)],
+            ["Formation date", isoMonth(f.legalEntity.formation.date)],
             // Registered once a number or a date says so; the authority
             // alone is only where it would be registered.
             ["Registered", text(f.legalEntity.formation.registrationNumber) || text(f.legalEntity.formation.date)
@@ -509,9 +593,10 @@ function companyBlocks(f: Foundation): ExportBlock[] {
             ["Registration", f.legalEntity.formation.status === "planned"
                 ? "Not yet registered" + (text(f.legalEntity.formation.authority) ? "; to be registered with " + text(f.legalEntity.formation.authority) : "")
                 : ""],
-            ["Address", [organisation.addressLine1, organisation.addressLine2, organisation.city, organisation.postalCode].map(text).filter(Boolean).join(", ")],
+            ["Address", fullAddress(f)],
             ["Main activity", organisation.mainActivity]
         ])),
+        ...titled("Licences and Registrations", list(licenceItems(f))),
         ...titled("Values and Principles", [
             ...paragraph(text(f.ethics.philosophy), "Philosophy"),
             ...list(listItems(f.ethics.values)),
@@ -549,9 +634,13 @@ function offeringBlocks(f: Foundation): ExportBlock[] {
     return f.segments.flatMap(segment => [
         heading("For " + (segment.name.trim() || "Unnamed segment")),
         ...paragraph(segment.valueProposition, "Value proposition"),
-        ...table(["Offering", "Type", "What it does", "Customer benefit"], segment.offerings.map(offering => [
-            offering.name, offering.category, offering.description.function ?? "", offering.description.benefit ?? ""
-        ]))
+        ...table(["Offering", "Type", "What it does", "Customer benefit", "Price", "Pricing model"], segment.offerings.map(offering => {
+            const stream = f.revenuePage.streams.find(entry => entry.offeringId === offering.id);
+            return [
+                offering.name, offering.category, offering.description.function ?? "", offering.description.benefit ?? "",
+                priceText(stream, f.format), stream ? revenueModelLabel(stream) : ""
+            ];
+        }))
     ]);
 }
 
@@ -587,8 +676,22 @@ function marketingBlocks(f: Foundation): ExportBlock[] {
     });
     return [
         ...bySegment,
-        ...(forecast.length > 0 ? [heading("Expected Sales"), ...list(forecast)] : [])
+        ...(forecast.length > 0 ? [heading("Expected Sales"), ...list(forecast)] : []),
+        ...brandVoiceBlocks(f)
     ];
+}
+
+/** The Brand Ambassador: how the brand looks, carries itself and speaks, and what it leaves behind. */
+function brandVoiceBlocks(f: Foundation): ExportBlock[] {
+    // The answers are free text that may carry labels of their own
+    // ("First impression: …"), so each goes under a heading.
+    const parts = ([
+        ["Aesthetics", f.ambassador.aesthetics],
+        ["Attitude & Body Language", f.ambassador["attitude-body-language"]],
+        ["Communication & Voice", f.ambassador["communication-voice"]],
+        ["Imprint", f.ambassador.imprint]
+    ] as [string, unknown][]).flatMap(([title, value]) => text(value) ? [heading(title, 2), ...paragraphs(value)] : []);
+    return parts.length > 0 ? [heading("Brand & Voice"), ...parts] : [];
 }
 
 /**
@@ -633,7 +736,8 @@ function operationsBlocks(f: Foundation): ExportBlock[] {
 
 function teamBlocks(f: Foundation): ExportBlock[] {
     const { capability, format } = f;
-    return table(["Founder", "Ownership", "Roles", "Responsible for"], f.legalEntity.founders
+    const withCapital = f.legalEntity.founders.some(founder => parseAmount(founder.capital) !== null);
+    return table(["Founder", "Ownership", ...(withCapital ? ["Capital"] : []), "Roles", "Responsible for"], f.legalEntity.founders
         .filter(founder => founder.name.trim())
         .map(founder => {
             const salary = capability.founders.find(entry => entry.id === founder.id)?.salary ?? "";
@@ -642,6 +746,7 @@ function teamBlocks(f: Foundation): ExportBlock[] {
                     ? " (" + payWord(f).toLowerCase() + " " + format(parseAmount(salary) ?? 0) + " a month)"
                     : ""),
                 founder.ownership ? founder.ownership + "%" : "",
+                ...(withCapital ? [parseAmount(founder.capital) !== null ? format(parseAmount(founder.capital) ?? 0) : ""] : []),
                 founder.roles.filter(Boolean).join(", "),
                 businessFounderResponsibilities(capability, founder.id)
                     .filter(entry => !entry.completed).map(entry => entry.name).join("; ")
@@ -649,19 +754,92 @@ function teamBlocks(f: Foundation): ExportBlock[] {
         }));
 }
 
+/** A Metric's figure in its unit: "$15,000", "40%", "12 clients". */
+function metricValue(metric: StrategyMetricValue, value: string, format: (amount: number) => string): string {
+    const amount = parseAmount(value);
+    if (!text(value)) {
+        return "";
+    }
+    if (metric.unit === "Currency" && amount !== null) {
+        return format(amount);
+    }
+    if (metric.unit === "Percentage") {
+        return text(value) + "%";
+    }
+    const unit = metric.unit === "Custom" ? text(metric.customUnit) : "";
+    return text(value) + (unit ? " " + unit : "");
+}
+
 function strategyBlocks(f: Foundation): ExportBlock[] {
-    const period = f.strategyFoundation.period;
-    const owners = (id: string) => f.legalEntity.founders.find(founder => founder.id === id)?.name ?? "";
+    const foundation = f.strategyFoundation;
+    const period = foundation.period;
+    const owner = (id: string) => f.legalEntity.founders.find(founder => founder.id === id)?.name ?? "";
+    const range = (value: { start: StrategyMonthValue; end: StrategyMonthValue }) =>
+        [monthName(value.start), monthName(value.end)].filter(Boolean).join(" – ");
+    const bullets = (items: string[] | undefined) => (items ?? []).map(text).filter(Boolean).map(item => "• " + item).join("\n");
+
+    /* Every Objective, numbered as the Strategy System numbers them. */
+    const objectives = foundation.themes.flatMap((theme, themeIndex) =>
+        (f.strategicPeriod.goalsByTheme[theme.id] ?? []).flatMap((goal, goalIndex) => goal.objectives.map((objective, objectiveIndex) => ({
+            theme, goal, objective,
+            number: (themeIndex + 1) + "." + (goalIndex + 1) + "." + (objectiveIndex + 1)
+        }))));
+
+    /* The Roadmap: Objectives by the quarter they start in. */
+    const quarters = new Map<string, { order: number; items: string[] }>();
+    objectives.forEach(({ objective, number }) => {
+        const m = Number(objective.period.start.month);
+        const y = Number(objective.period.start.year);
+        if (!(m >= 1 && m <= 12 && y)) {
+            return;
+        }
+        const q = Math.floor((m - 1) / 3);
+        const key = shortMonth(q * 3 + 1) + " – " + shortMonth(q * 3 + 3) + " " + y;
+        const entry = quarters.get(key) ?? { order: y * 4 + q, items: [] };
+        entry.items.push(number + " " + objective.name + (monthName(objective.period.end) ? " (to " + monthName(objective.period.end) + ")" : ""));
+        quarters.set(key, entry);
+    });
+
     return [
-        ...paragraph([monthName(period.start), monthName(period.end)].filter(Boolean).join(" – "), "Strategic period"),
-        ...paragraph(f.strategyFoundation.compass, "Strategic compass"),
-        ...table(["Theme", "Objective", "When", "Owner"], f.strategyFoundation.themes.flatMap((theme, themeIndex) =>
-            (f.strategicPeriod.goalsByTheme[theme.id] ?? []).flatMap((goal, goalIndex) => goal.objectives.map((objective, objectiveIndex) => [
-                (themeIndex + 1) + ". " + theme.name,
-                (themeIndex + 1) + "." + (goalIndex + 1) + "." + (objectiveIndex + 1) + " " + objective.name,
-                [monthName(objective.period.start), monthName(objective.period.end)].filter(Boolean).join(" – "),
-                owners(objective.ownerId)
-            ]))))
+        ...titled("Current Situation", paragraphs(foundation.situation)),
+        ...paragraph(range(period), "Strategic period"),
+        ...paragraph(foundation.compass, "Strategic compass"),
+        ...titled("SWOT Analysis", table(["", "Helpful", "Harmful"], [
+            ["Internal", bullets(foundation.swot.strengths), bullets(foundation.swot.weaknesses)],
+            ["External", bullets(foundation.swot.opportunities), bullets(foundation.swot.threats)]
+        ].filter(row => row[1] || row[2]))),
+        ...titled("Strategic Themes", table(["Theme", "Description"], foundation.themes.map((theme, index) => [
+            (index + 1) + ". " + theme.name, theme.description
+        ]))),
+        ...titled("Goals and Objectives", foundation.themes.flatMap((theme, themeIndex) => {
+            const goals = f.strategicPeriod.goalsByTheme[theme.id] ?? [];
+            return goals.length === 0 ? [] : [
+                heading((themeIndex + 1) + ". " + (theme.name || "Unnamed theme"), 2),
+                ...goals.flatMap((goal, goalIndex) => [
+                    ...(text(goal.description)
+                        ? paragraph(goal.description, (themeIndex + 1) + "." + (goalIndex + 1) + " " + (goal.name || "Unnamed goal"))
+                        : paragraph((themeIndex + 1) + "." + (goalIndex + 1) + " " + (goal.name || "Unnamed goal"))),
+                    ...table(["Objective", "When", "Owner", "Description", "Initiatives"], goal.objectives.map((objective, objectiveIndex) => [
+                        (themeIndex + 1) + "." + (goalIndex + 1) + "." + (objectiveIndex + 1) + " " + objective.name,
+                        range(objective.period),
+                        owner(objective.ownerId),
+                        objective.description,
+                        bullets(objective.initiatives)
+                    ]))
+                ])
+            ];
+        })),
+        ...titled("Key Performance Indicators", table(["Metric", "Baseline", "Target", "Frequency", "Owner"],
+            objectives.flatMap(({ objective }) => objective.metrics.map(metric => [
+                metric.name,
+                metricValue(metric, metric.baseline, f.format),
+                metricValue(metric, metric.target, f.format),
+                metric.frequency,
+                owner(objective.ownerId)
+            ])))),
+        ...titled("Roadmap", table(["Starting", "Objectives"], [...quarters.entries()]
+            .sort((a, b) => a[1].order - b[1].order)
+            .map(([key, entry]) => [key, entry.items.join("\n")])))
     ];
 }
 
@@ -734,27 +912,67 @@ function fundingRequestBlocks(f: Foundation): ExportBlock[] {
     ];
 }
 
-function brandBlocks(f: Foundation): ExportBlock[] {
-    const imprint = text(f.ambassador.imprint);
-    const voice = text(f.ambassador["communication-voice"]);
+/** The forecast's tables as document tables, in whole amounts. */
+export function forecastTableBlocks(table: ForecastViewTable, format: (amount: number) => string, currency: string): ExportBlock[] {
+    return [{
+        kind: "table",
+        headers: [currency || "Amount", ...table.columns],
+        rows: table.rows.map(row => row.heading
+            ? [row.label, ...table.columns.map(() => "")]
+            : [row.label, ...row.values.map(format)])
+    }];
+}
+
+/** The plan's financial projections: the forecast by plan year. */
+function projectionBlocks(f: Foundation): ExportBlock[] {
+    const forecast = financialForecast(f.financial, f.revenuePage, f.lines, f.legalEntity, f.format);
+    const view = forecastView(forecast, "annual", planYears(f.financial));
+    const whole = moneyFormatter(f.currency, { wholeOnly: true });
+    const titles: Record<string, string> = {
+        "Profit and Loss Forecast": "Profit and Loss",
+        "Cash-Flow Forecast": "Cash Flow",
+        "Balance Sheet": "Balance Sheet"
+    };
+    const ordered = ["Profit and Loss Forecast", "Cash-Flow Forecast", "Balance Sheet"]
+        .map(title => view.tables.find(entry => entry.title === title))
+        .filter((entry): entry is ForecastViewTable => !!entry);
     return [
-        // The answers are free text that may carry labels of their own
-        // ("First impression: …"), so each goes under a heading.
-        ...(imprint ? [heading("Brand Impression")] : []),
-        ...paragraph(imprint),
-        ...(voice ? [heading("Voice")] : []),
-        ...paragraph(voice),
-        ...(f.brandStyle.colours.some(colour => colour.enabled && colour.hex) ||
-            f.brandStyle.typefaces.some(typeface => typeface.enabled && typeface.font) ? [heading("Style")] : []),
-        ...list(f.brandStyle.colours
-            .map((colour, index) => ({ colour, slot: BRAND_COLOUR_SLOTS[index]?.label ?? "" }))
-            .filter(entry => entry.colour.enabled && entry.colour.hex)
-            .map(({ colour, slot }) => slot + ": " + colour.name + " " + colour.hex)),
-        ...list(f.brandStyle.typefaces
-            .map((typeface, index) => ({ typeface, slot: BRAND_TYPEFACE_SLOTS[index]?.label ?? "" }))
-            .filter(entry => entry.typeface.enabled && entry.typeface.font)
-            .map(({ typeface, slot }) => slot + " typeface: " + typeface.font))
+        ...paragraph("By plan year, from the Financial Forecast. Amounts are estimates" + (f.currency ? ", in " + f.currency : "") + "."),
+        ...ordered.flatMap(entry => [heading(titles[entry.title] ?? entry.title), ...forecastTableBlocks(entry, whole, f.currency)])
     ];
+}
+
+/** The Appendix: the costs in full, and the brand's style guide. */
+function appendixBlocks(f: Foundation): ExportBlock[] {
+    const frequencyOf = (line: CostLine) => line.frequency === "other"
+        ? (line.frequencyOther || "Other")
+        : line.frequency.charAt(0).toUpperCase() + line.frequency.slice(1).replace(/-/g, " ");
+    const demote = (blocks: ExportBlock[]) => blocks.map(block => block.kind === "subheading" ? { ...block, level: 2 as const } : block);
+    const style = [...demote(brandStyleBlocks(f.brandStyleValue)), ...demote(brandInventoryBlocks(f.brandInventoryValue))];
+    return [
+        ...titled("Costs", table(["Group", "Cost", "Source", "Amount", "Frequency", "Offering"], f.lines.map(line => [
+            line.group.charAt(0).toUpperCase() + line.group.slice(1),
+            costName(f, line),
+            line.sourceLabel,
+            line.amount === null ? line.amountText : f.format(line.amount),
+            frequencyOf(line),
+            offeringNames(f.foundationValue, line.offeringIds)
+        ]))),
+        ...titled("Brand Style Guide", style)
+    ];
+}
+
+/** Where the organization can be found online: its website channel, if it has one. */
+function websiteOf(f: Foundation): string {
+    const channels = f.engagement.segments.flatMap(entry => entry.channels);
+    const site = channels.find(channel => /website/i.test(channel.category));
+    const link = site?.links.map(text).find(Boolean) ?? "";
+    return link.replace(/^https?:\/\//, "").replace(/\/$/, "");
+}
+
+/** Today, as the documents write a month: "Sep 2026". */
+function preparedMonth(today: Date = new Date()): string {
+    return shortMonth(today.getMonth() + 1) + " " + today.getFullYear();
 }
 
 /**
@@ -774,7 +992,8 @@ export function businessPlan(sessions: FoundationSessions): ExportContent {
 
     const f = readFoundation(sessions);
 
-    const asDocument = { costName: (line: CostLine) => costName(f, line) };
+    // The costs are in the Appendix.
+    const asDocument = { costName: (line: CostLine) => costName(f, line), omitCosts: true };
     const financialFoundation = financialFoundationBlocks(f.business.responseOf?.(AnswerType.FinancialFoundation), f.business, asDocument);
 
     const parts: [string, ExportBlock[]][] = [
@@ -791,10 +1010,11 @@ export function businessPlan(sessions: FoundationSessions): ExportContent {
                 financialSustainabilityBlocks(f.business.responseOf?.(AnswerType.FinancialSustainability), f.business, asDocument),
                 financialFoundation)
         ]],
+        ["Financial Projections", projectionBlocks(f)],
         ["Funding Request", fundingRequestBlocks(f)],
         ["Strategy and Milestones", strategyBlocks(f)],
         ["Risks", riskBlocks(f)],
-        ["Brand", brandBlocks(f)]
+        ["Appendix", appendixBlocks(f)]
     ];
 
     return {
@@ -805,6 +1025,7 @@ export function businessPlan(sessions: FoundationSessions): ExportContent {
         documentTitle: "Business Plan: " + f.name,
         documentSubtitle: "Drawn from the Foundation capability: Identity, Brand, Business and Strategy. " +
             "Figures are estimates over a " + planLength(f.financial) + "-month plan from " + planMonthLabel(f.financial.planStart, 1) + ".",
+        documentMeta: coverLines(f),
         sections: parts.map(([title, blocks], index) => section(index + 1, title,
             blocks.length > 0 ? blocks : paragraph("Not answered yet.")))
     };
@@ -824,5 +1045,32 @@ export function businessForecast(sessions: FoundationSessions) {
         currency: f.currency,
         format: f.format,
         name: f.name
+    };
+}
+
+/** The Financial Forecast as a document, for Markdown and PDF: the same tables the page shows. */
+export function businessForecastContent(
+    sessions: FoundationSessions,
+    period: ForecastPeriod,
+    untilYear: number,
+    capability = "Foundation"
+): ExportContent {
+    const f = readFoundation(sessions);
+    const forecast = financialForecast(f.financial, f.revenuePage, f.lines, f.legalEntity, f.format);
+    const view = forecastView(forecast, period, untilYear);
+    const whole = moneyFormatter(f.currency, { wholeOnly: true });
+    return {
+        systemNumber: "",
+        // Also the download's file name, so no colon.
+        systemName: "Financial Forecast " + f.name + " " + (period === "monthly" ? "monthly" : "annual"),
+        capability,
+        documentTitle: "Financial Forecast: " + f.name,
+        documentSubtitle: (period === "monthly" ? "Month by month" : "By plan year") + ", from " + forecast.months[0] +
+            (f.currency ? ". Amounts in " + f.currency + "." : "."),
+        documentMeta: coverLines(f),
+        sections: [
+            ...view.tables.map((entry, index) => section(index + 1, entry.title, forecastTableBlocks(entry, whole, f.currency))),
+            section(view.tables.length + 1, "Notes", list(forecast.notes))
+        ]
     };
 }

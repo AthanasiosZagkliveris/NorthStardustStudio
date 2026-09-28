@@ -643,3 +643,20 @@
     background:#9ca3af;
 
 }
+
+/* The cover lines under the plan's title: organization, date, website. */
+.business-document .document-meta{
+
+    margin:0 0 24px;
+
+}
+
+.business-document .document-meta p{
+
+    margin:0 0 2px;
+
+    font-size:var(--font-small);
+
+    color:#374151;
+
+}

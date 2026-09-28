@@ -87,6 +87,8 @@ export interface ExportContent {
      */
     documentTitle?: string;
     documentSubtitle?: string;
+    /** A document's cover lines under its title: "Prepared: Sep 2026". */
+    documentMeta?: string[];
     sections: ExportSectionContent[];
     productGroups?: ExportProductGroup[];
 }

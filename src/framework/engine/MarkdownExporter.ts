@@ -158,6 +158,12 @@ export class MarkdownExporter {
                 lines.push(`**${content.documentSubtitle}**`);
                 lines.push("");
             }
+            for (const line of content.documentMeta ?? []) {
+                lines.push(line + "  ");
+            }
+            if ((content.documentMeta ?? []).length > 0) {
+                lines.push("");
+            }
         } else {
             lines.push(`# ${content.systemNumber}. ${content.systemName}`);
             lines.push("");

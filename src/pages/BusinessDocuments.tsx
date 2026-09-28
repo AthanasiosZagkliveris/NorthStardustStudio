@@ -9,6 +9,7 @@ import {
     CANVAS_BLOCKS,
     businessModelCanvas,
     businessForecast,
+    businessForecastContent,
     businessModelCanvasData,
     businessPlan,
     type FoundationSessions
@@ -20,7 +21,7 @@ import {
     forecastView
 } from "../framework/engine/FinancialForecast.ts";
 import OptionPicker from "../components/interview/OptionPicker.tsx";
-import { contentSectionsHtml } from "../framework/engine/PdfExporter.ts";
+import { contentSectionsHtml, documentMetaHtml } from "../framework/engine/PdfExporter.ts";
 import { OrganizationService } from "../services/OrganizationService";
 import { StorageService } from "../services/StorageService.ts";
 import { systems } from "../data/systems.ts";
@@ -214,6 +215,24 @@ export default function BusinessDocuments() {
                         >
                             Export CSV
                         </button>
+                        <button
+                            type="button"
+                            className="business-documents-button"
+                            disabled={!anySession}
+                            onClick={() => anySession && reviewManager.exportMarkdown(anySession, "Foundation",
+                                businessForecastContent(loaded.sessions, period, lastYear))}
+                        >
+                            Export Markdown
+                        </button>
+                        <button
+                            type="button"
+                            className="business-documents-button"
+                            disabled={!anySession}
+                            onClick={() => anySession && reviewManager.exportPdf(anySession, "Foundation",
+                                businessForecastContent(loaded.sessions, period, lastYear))}
+                        >
+                            Export PDF
+                        </button>
                     </div>
                 )}
 
@@ -305,7 +324,7 @@ export default function BusinessDocuments() {
                         <h1>{content.documentTitle}</h1>
                         {content.documentSubtitle && <p className="business-document-subtitle">{content.documentSubtitle}</p>}
                         {/* The same escaped HTML the PDF prints. */}
-                        <div dangerouslySetInnerHTML={{ __html: contentSectionsHtml(content) }} />
+                        <div dangerouslySetInnerHTML={{ __html: documentMetaHtml(content) + contentSectionsHtml(content) }} />
                     </article>
                 )}
 

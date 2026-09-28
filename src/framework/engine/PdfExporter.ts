@@ -193,6 +193,16 @@ export function contentSectionsHtml(content: ExportContent): string {
         .join("");
 }
 
+/** A document's cover lines, the label before the first colon in bold. */
+export function documentMetaHtml(content: ExportContent): string {
+    const lines = content.documentMeta ?? [];
+    return lines.length === 0 ? "" : `<div class="document-meta">${lines.map(line => {
+        const at = line.indexOf(": ");
+        return at < 0 ? `<p>${escapeHtml(line)}</p>`
+            : `<p><strong>${escapeHtml(line.slice(0, at + 1))}</strong> ${escapeHtml(line.slice(at + 2))}</p>`;
+    }).join("")}</div>`;
+}
+
 export class PdfExporter {
 
     public exportPdf(
@@ -281,6 +291,8 @@ export class PdfExporter {
                         }
                         h1 { font-size: 26px; margin: 0 0 4px; }
                         .capability { font-size: 14px; color: #444444; margin-bottom: 24px; }
+                        .document-meta { margin: -12px 0 24px; }
+                        .document-meta p { font-size: 13px; margin: 0 0 2px; color: #374151; }
                         h2 {
                             font-size: 18px;
                             margin-top: 24px;
@@ -376,7 +388,8 @@ export class PdfExporter {
                 <body>
                     ${content.documentTitle
                         ? `<h1>${escapeHtml(content.documentTitle)}</h1>` +
-                            (content.documentSubtitle ? `<div class="capability">${escapeHtml(content.documentSubtitle)}</div>` : "")
+                            (content.documentSubtitle ? `<div class="capability">${escapeHtml(content.documentSubtitle)}</div>` : "") +
+                            documentMetaHtml(content)
                         : `<h1>${escapeHtml(content.systemNumber)}. ${escapeHtml(content.systemName)}</h1>
                     <div class="capability"><strong>Capability:</strong> ${escapeHtml(content.capability)}</div>`}
                     ${sectionsHtml}
