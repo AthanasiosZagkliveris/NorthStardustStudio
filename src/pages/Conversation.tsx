@@ -816,15 +816,20 @@ export default function Conversation() {
     const [selectedSopKeys, setSelectedSopKeys] = useState<Set<string>>(new Set());
 
     // Escape acts as "Back" everywhere in the app: first close
-    // whichever popup is currently open (here, the Export flow's
-    // own two-step dialog), and only once nothing is open anymore
-    // does it fall through to the same navigation the footer's own
-    // "Back" link performs.
+    // whichever popup is currently open (here, the Strategy
+    // confirmation or the Export flow's own two-step dialog), and
+    // only once nothing is open anymore does it fall through to the
+    // same navigation the footer's own "Back" link performs.
     useEffect(() => {
 
         function handleKeyDown(event: KeyboardEvent) {
 
             if (event.key !== "Escape") {
+                return;
+            }
+
+            if (strategyPrompt) {
+                setStrategyPrompt(null);
                 return;
             }
 
@@ -841,7 +846,7 @@ export default function Conversation() {
 
         return () => window.removeEventListener("keydown", handleKeyDown);
 
-    }, [exportStep, navigate]);
+    }, [strategyPrompt, exportStep, navigate, system]);
 
     useEffect(() => {
 
