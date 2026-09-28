@@ -3,6 +3,7 @@ import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import BusinessFoundationEditor from "./BusinessFoundationEditor";
+import { toggles } from "../../test/interviewTestUtils";
 import {
     asBusinessFoundationValue,
     createBusinessCustomerProfile,
@@ -14,8 +15,6 @@ function Harness({ initial }: { initial: unknown }) {
     return <BusinessFoundationEditor value={value} onChange={setValue} />;
 }
 
-const toggles = (pattern: RegExp) =>
-    screen.getAllByRole("button", { name: pattern }).filter(b => b.classList.contains("strategy-box-toggle"));
 
 function twoProfiles() {
     const segment = createBusinessCustomerSegment([]);

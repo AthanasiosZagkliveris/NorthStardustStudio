@@ -4,6 +4,7 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import FinancialFoundationEditor from "./FinancialFoundationEditor";
 import FinancialSustainabilityEditor from "./FinancialSustainabilityEditor";
+import { toggles, typeInto } from "../../test/interviewTestUtils";
 import { asFinancialFoundationValue, asFinancialSustainabilityValue, createFundingSource } from "../../framework/engine/FinancialModel";
 
 function Harness({ initial }: { initial: unknown }) {
@@ -11,8 +12,6 @@ function Harness({ initial }: { initial: unknown }) {
     return <FinancialFoundationEditor value={value} onChange={setValue} />;
 }
 
-const toggles = (pattern: RegExp) =>
-    screen.getAllByRole("button", { name: pattern }).filter(b => b.classList.contains("strategy-box-toggle"));
 
 afterEach(cleanup);
 
@@ -116,11 +115,6 @@ describe("FinancialSustainabilityEditor folding", () => {
 });
 
 /** Types into a box one keystroke at a time. */
-function typeInto(input: HTMLInputElement, text: string) {
-    for (let length = 1; length <= text.length; length++) {
-        fireEvent.change(input, { target: { value: text.slice(0, length) } });
-    }
-}
 
 describe("FinancialFoundationEditor number limits", () => {
 

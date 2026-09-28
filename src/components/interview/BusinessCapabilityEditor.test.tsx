@@ -3,6 +3,7 @@ import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import BusinessCapabilityEditor from "./BusinessCapabilityEditor";
+import { toggles } from "../../test/interviewTestUtils";
 import { BUSINESS_ACTIVITY_CATEGORIES, asBusinessCapabilityValue, createBusinessActivity } from "../../framework/engine/AnswerUtils";
 
 function Harness() {
@@ -10,8 +11,6 @@ function Harness() {
     return <BusinessCapabilityEditor value={value} onChange={setValue} />;
 }
 
-const toggles = (pattern: RegExp) =>
-    screen.getAllByRole("button", { name: pattern }).filter(b => b.classList.contains("strategy-box-toggle"));
 
 afterEach(cleanup);
 

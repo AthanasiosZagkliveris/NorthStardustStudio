@@ -1,17 +1,13 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 
 import BrandStyleEditor from "./BrandStyleEditor";
+import { typeInto } from "../../test/interviewTestUtils";
 import { asBrandStyleValue, brandStyleSectionsEmpty } from "../../framework/engine/AnswerUtils";
 
 afterEach(cleanup);
 
-function typeInto(input: HTMLInputElement, text: string) {
-    for (let length = 1; length <= text.length; length++) {
-        fireEvent.change(input, { target: { value: text.slice(0, length) } });
-    }
-}
 
 function Harness() {
     const [value, setValue] = useState<unknown>(() => {

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import LegalEntityEditor from "./LegalEntityEditor";
+import { typeInto } from "../../test/interviewTestUtils";
 import { asLegalEntityValue, createLegalEntityRequirement } from "../../framework/engine/AnswerUtils";
 
 function Harness() {
@@ -75,11 +76,6 @@ describe("LegalEntityEditor folding", () => {
 
 describe("LegalEntityEditor number limits", () => {
 
-    function typeInto(input: HTMLInputElement, text: string) {
-        for (let length = 1; length <= text.length; length++) {
-            fireEvent.change(input, { target: { value: text.slice(0, length) } });
-        }
-    }
 
     function FoundersHarness() {
         const [value, setValue] = useState<unknown>({
