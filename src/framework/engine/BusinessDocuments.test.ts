@@ -804,7 +804,8 @@ describe("the optional answers in the documents", () => {
 
         const given = partOf(planOf(base()), "## 7. Management and Organization");
         expect(given).not.toContain("Not covered by the Foundation answers.");
-        expect(given).toContain("| Founder | Ownership | Capital | Roles | Responsible for |");
+        expect(given).toContain("| Founder | Ownership | Capital | Roles | Commitment |");
+        expect(given).toContain("| Founder & Automation Consultant, Solutions Architect | Full-time (about 37 hours a week) |");
         expect(given).toContain("Founder & Automation Consultant, Solutions Architect");
         expect(given).toContain("### Founder Profiles\n\n#### Jordan Ellis");
         expect(given).not.toContain("Years in the industry");

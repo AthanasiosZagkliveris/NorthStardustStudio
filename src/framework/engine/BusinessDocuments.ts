@@ -16,7 +16,7 @@
 */
 
 import { AnswerType } from "../enums/AnswerType.ts";
-import { demandResult, hasDemand } from "./DemandCapacity.ts";
+import { WEEKS_PER_MONTH, demandResult, founderWorkingHours, hasDemand } from "./DemandCapacity.ts";
 import type { InterviewSession } from "../interview";
 import {
     BUSINESS_ACTIVITY_CATEGORIES,
@@ -40,7 +40,6 @@ import {
     asStrategyFoundationValue,
     businessFoundationSegments,
     type StrategyMetricValue,
-    businessFounderResponsibilities,
     founderProfileHasText,
     founderProfileOf,
     founderProfiles,
@@ -912,13 +911,31 @@ function teamBlocks(f: Foundation): ExportBlock[] {
     ];
 }
 
+/*
+ * How much of their working time a founder gives, from the working
+ * hours on Business › Infrastructure & Capability › Founders: "Full-time
+ * (about 37 hours a week)" from 35 hours a week, "Part-time (about 20
+ * hours a week)" below it, or nothing where no hours are given.
+ */
+const FULL_TIME_HOURS_A_WEEK = 35;
+
+function founderCommitment(hoursAMonth: number | null): string {
+    if (hoursAMonth === null || hoursAMonth <= 0) {
+        return "";
+    }
+    const week = Math.max(1, Math.round(hoursAMonth / WEEKS_PER_MONTH));
+    return (week >= FULL_TIME_HOURS_A_WEEK ? "Full-time" : "Part-time") +
+        " (about " + week + (week === 1 ? " hour" : " hours") + " a week)";
+}
+
 function founderTable(f: Foundation): ExportBlock[] {
     const { capability, format } = f;
     const withCapital = f.legalEntity.founders.some(founder => parseAmount(founder.capital) !== null);
-    return table(["Founder", "Ownership", ...(withCapital ? ["Capital"] : []), "Roles", "Responsible for"], f.legalEntity.founders
+    return table(["Founder", "Ownership", ...(withCapital ? ["Capital"] : []), "Roles", "Commitment"], f.legalEntity.founders
         .filter(founder => founder.name.trim())
         .map(founder => {
-            const salary = capability.founders.find(entry => entry.id === founder.id)?.salary ?? "";
+            const working = capability.founders.find(entry => entry.id === founder.id);
+            const salary = working?.salary ?? "";
             return [
                 founder.name + (parseAmount(salary) !== null
                     ? " (" + payWord(f).toLowerCase() + " " + format(parseAmount(salary) ?? 0) + " a month)"
@@ -926,8 +943,7 @@ function founderTable(f: Foundation): ExportBlock[] {
                 founder.ownership ? founder.ownership + "%" : "",
                 ...(withCapital ? [parseAmount(founder.capital) !== null ? format(parseAmount(founder.capital) ?? 0) : ""] : []),
                 founderProfileOf(founder, f.foundersProfile).roles.filter(Boolean).join(", "),
-                businessFounderResponsibilities(capability, founder.id)
-                    .filter(entry => !entry.completed).map(entry => entry.name).join("; ")
+                founderCommitment(working ? founderWorkingHours(working) : null)
             ];
         }));
 }
