@@ -60,6 +60,8 @@ import { scrollToRailSection, useActiveRailSection } from "../components/intervi
 import { toggledIn } from "../components/interview/toggledIn";
 
 import "../styles/conversation.css";
+import "../styles/conversation-layout.css";
+import "../styles/system-confirmation.css";
 
 /**
  * Where the Target Audience is answered: the Identity System, on
@@ -67,15 +69,37 @@ import "../styles/conversation.css";
  * Business System's Foundation page (see targetAudience below).
  */
 const IDENTITY_SYSTEM_NUMBER = 1;
+const IDENTITY_DEFINITION_SECTION = 1;
 
 /** The Business System: answered before Strategy, which drafts from it. */
 const BUSINESS_SYSTEM_NUMBER = 3;
-const IDENTITY_DEFINITION_SECTION = 1;
-import "../styles/conversation-layout.css";
-import "../styles/system-confirmation.css";
 
 const interviewManager = new InterviewManager();
 const reviewManager = new ReviewManager();
+
+/** Titles are matched loosely: trimmed and case-insensitive. */
+const normalize = (text: string) => text.trim().toLowerCase();
+
+/**
+ * A System, found by its title, and one of its Sections, found by
+ * its title; null when either is missing.
+ */
+function findSystemSection(systemTitle: string, sectionTitle: string) {
+
+    const system = systems.find(candidate => normalize(candidate.title) === normalize(systemTitle));
+
+    if (!system) {
+        return null;
+    }
+
+    const section = frameworkRegistry
+        .getFramework(system.id)
+        .sections
+        .find(candidate => normalize(candidate.title) === normalize(sectionTitle));
+
+    return section ? { system, section } : null;
+
+}
 
 /**
  * Reads the value behind a Shared Answer -- which lives in the
@@ -98,28 +122,15 @@ function resolveSharedAnswerValue(
         return undefined;
     }
 
-    const normalize = (text: string) => text.trim().toLowerCase();
+    const source = findSystemSection(reference.systemTitle, reference.sectionTitle);
 
-    const sourceSystem = systems.find(
-        candidate => normalize(candidate.title) === normalize(reference.systemTitle)
-    );
-
-    if (!sourceSystem) {
-        return undefined;
-    }
-
-    const sourceSection = frameworkRegistry
-        .getFramework(sourceSystem.id)
-        .sections
-        .find(candidate => normalize(candidate.title) === normalize(reference.sectionTitle));
-
-    if (!sourceSection) {
+    if (!source) {
         return undefined;
     }
 
     return StorageService
-        .loadInterview(organizationId, sourceSystem.number)
-        ?.getResponse(sourceSection.number);
+        .loadInterview(organizationId, source.system.number)
+        ?.getResponse(source.section.number);
 
 }
 
@@ -235,7 +246,7 @@ function findSharedTargetAudiencePartBinding(
  * across the shared list and this wider table by their Name text
  * (trimmed, case-insensitive) rather than a synthetic row id, the
  * same way SHARED_PRODUCT_REGISTER_BINDINGS's own Product rows are
- * matched by Product name text (see extractProductNames above) --
+ * matched by Product name text (see extractProductNames below) --
  * this whole codebase deliberately avoids synthetic row ids.
  */
 const SOCIAL_MEDIA_AUDIENCE_PROFILES_BINDING = { systemId: "social-media", sectionNumber: 1 };
@@ -483,24 +494,6 @@ function extractDynamicOptions(
 }
 
 /**
- * Validates a Product Development System Interview Session scoped
- * to a single, currently-selected Product -- rather than
- * `reviewManager.validate` (InterviewValidator), which checks the
- * shared Product Register (Section 1) as a WHOLE Table (every row,
- * every column, of every Product) and Sections 2-7 via whatever the
- * Session's own `responses` happen to hold (only reliable for
- * whichever Product was selected the last time each Section was
- * visited -- see the loading effect above).
- *
- * Section 1 only requires THIS Product's own row to be complete
- * (every visible column filled) -- some OTHER Product's row being
- * unfinished shouldn't block finishing THIS Product's interview.
- * Sections 2-7 are read straight from OrganizationService's
- * per-Product storage (the authoritative source, regardless of
- * which Sections the Session happens to have visited for this
- * Product) rather than from `session.getResponse`.
- */
-/**
  * The incomplete list, gathered into the pages it points at.
  *
  * A validation issue names a unit, not a page: on a Section that
@@ -566,6 +559,24 @@ function groupValidationIssues(
 
 }
 
+/**
+ * Validates a Product Development System Interview Session scoped
+ * to a single, currently-selected Product -- rather than
+ * `reviewManager.validate` (InterviewValidator), which checks the
+ * shared Product Register (Section 1) as a WHOLE Table (every row,
+ * every column, of every Product) and Sections 2-7 via whatever the
+ * Session's own `responses` happen to hold (only reliable for
+ * whichever Product was selected the last time each Section was
+ * visited -- see the Conversation component's loading effect).
+ *
+ * Section 1 only requires THIS Product's own row to be complete
+ * (every visible column filled) -- some OTHER Product's row being
+ * unfinished shouldn't block finishing THIS Product's interview.
+ * Sections 2-7 are read straight from OrganizationService's
+ * per-Product storage (the authoritative source, regardless of
+ * which Sections the Session happens to have visited for this
+ * Product) rather than from `session.getResponse`.
+ */
 function validateProductDevelopmentForProduct(
     session: InterviewSession,
     organizationId: string,
@@ -884,14 +895,12 @@ export default function Conversation() {
 
     }, [system, organizationId, targetSectionNumber]);
 
-    // The Business System's Product Register and the Product
-    // Development System's Product Register share one row list
-    // per Organization (see
-    // SHARED_PRODUCT_REGISTER_BINDINGS above). Landing on either
-    // one pulls in the latest shared rows -- in case the OTHER
-    // System changed them since this Session was last saved --
-    // before anything renders, rather than showing a possibly
-    // stale copy from this Session's own last save.
+    // The Product Development System's Product Register is kept in
+    // the Organization's shared product list (see
+    // SHARED_PRODUCT_REGISTER_BINDINGS above). Landing on it pulls
+    // in the latest shared rows before anything renders, rather
+    // than showing a possibly stale copy from this Session's own
+    // last save.
     //
     // Separately, the Product Development System's Sections 2-7
     // (Product Validation through Product Review) each have their
@@ -1306,8 +1315,6 @@ export default function Conversation() {
             return [];
         }
 
-        const normalize = (text: string) => text.trim().toLowerCase();
-
         const currentFramework = session.getFramework();
 
         const isCrossSystem = systemTitle
@@ -1329,29 +1336,19 @@ export default function Conversation() {
 
         }
 
-        const otherSystem = systems.find(candidate => normalize(candidate.title) === normalize(systemTitle ?? ""));
+        const source = findSystemSection(systemTitle ?? "", sectionTitle);
 
-        if (!otherSystem) {
-            return [];
-        }
-
-        const otherFramework = frameworkRegistry.getFramework(otherSystem.id);
-
-        const sourceSection = otherFramework.sections.find(
-            candidate => normalize(candidate.title) === normalize(sectionTitle)
-        );
-
-        if (!sourceSection) {
+        if (!source) {
             return [];
         }
 
         const otherSession = organizationId
-            ? StorageService.loadInterview(organizationId, otherSystem.number)
+            ? StorageService.loadInterview(organizationId, source.system.number)
             : null;
 
-        const response = otherSession ? otherSession.getResponse(sourceSection.number) : undefined;
+        const response = otherSession ? otherSession.getResponse(source.section.number) : undefined;
 
-        return extractDynamicOptions(sourceSection.answer, response, cardTitle, normalize);
+        return extractDynamicOptions(source.section.answer, response, cardTitle, normalize);
 
     }, [session, organizationId]);
 
@@ -1388,11 +1385,6 @@ export default function Conversation() {
 
     }
 
-    function handleContinueToOptions() {
-
-        openExportOptions();
-
-    }
 
     function toggleSelectedProcess(processIndex: number) {
 
@@ -1426,7 +1418,7 @@ export default function Conversation() {
                 ? businessModelCanvas({
                       identity: organizationId ? StorageService.loadInterview(organizationId, IDENTITY_SYSTEM_NUMBER) : null,
                       business: session,
-                      organisationName: organizationId ? OrganizationService.getSummary(organizationId)?.name ?? "" : ""
+                      organisationName: organizationName
                   })
             : system?.id === "product-development" && organizationId
                 ? (() => {
@@ -1625,25 +1617,13 @@ export default function Conversation() {
             return null;
         }
 
-        const normalize = (text: string) => text.trim().toLowerCase();
+        const source = findSystemSection(reference.systemTitle, reference.sectionTitle);
 
-        const sourceSystem = systems.find(
-            candidate => normalize(candidate.title) === normalize(reference.systemTitle)
-        );
-
-        if (!sourceSystem) {
+        if (!source) {
             return null;
         }
 
-        const sourceFramework = frameworkRegistry.getFramework(sourceSystem.id);
-
-        const sourceSection = sourceFramework.sections.find(
-            candidate => normalize(candidate.title) === normalize(reference.sectionTitle)
-        );
-
-        if (!sourceSection) {
-            return null;
-        }
+        const { system: sourceSystem, section: sourceSection } = source;
 
         // A session only exists once that System has been opened at
         // least once. Falling back to a fresh one means the shared
@@ -1706,11 +1686,13 @@ export default function Conversation() {
     // (hooks), and simply empty while nothing is loaded.
     const railPages = session ? pageRailItems(session.getSections()) : [];
     const railSectionIndex = session?.getCurrentSectionIndex() ?? 0;
+    // What renders on this page; also read by the page further down.
+    const effectiveAnswer = session
+        ? resolveEffectiveAnswer(session.getCurrentSection(), sharedSource)
+        : undefined;
+
     const railSections = session
-        ? sectionRailItems(
-            resolveEffectiveAnswer(session.getCurrentSection(), sharedSource),
-            strategyFoundationValue?.themes ?? []
-        )
+        ? sectionRailItems(effectiveAnswer, strategyFoundationValue?.themes ?? [])
         : [];
     const [activeRailSection, selectRailSection] = useActiveRailSection(railSections.map(item => item.id), railSectionIndex);
 
@@ -1727,8 +1709,6 @@ export default function Conversation() {
     const currentSection = session.getCurrentSection();
 
     const showIntroduction = !session.hasStartedInterview();
-
-    const effectiveAnswer = resolveEffectiveAnswer(currentSection, sharedSource);
 
     // The value shown, and where an edit goes. A Shared Answer reads
     // and writes the SOURCE System's stored response, so editing here
@@ -2192,7 +2172,7 @@ export default function Conversation() {
         ? {
             identity: StorageService.loadInterview(organizationId, IDENTITY_SYSTEM_NUMBER),
             business: StorageService.loadInterview(organizationId, BUSINESS_SYSTEM_NUMBER),
-            organisationName: OrganizationService.getSummary(organizationId)?.name ?? ""
+            organisationName: organizationName
         }
         : null;
     const situationDraft = businessSessions ? currentSituationDraft(businessSessions) : "";
@@ -2644,7 +2624,7 @@ export default function Conversation() {
 
                             <button
                                 className="confirmation-button primary"
-                                onClick={handleContinueToOptions}
+                                onClick={() => openExportOptions()}
                             >
                                 Continue
                             </button>
