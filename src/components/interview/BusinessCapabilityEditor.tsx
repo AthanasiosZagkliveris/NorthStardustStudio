@@ -383,9 +383,12 @@ interface BusinessCapabilityEditorProps {
     /**
      * The founders answered under 1. Identity System — 3. Legal
      * Entity, 2. Founders & Ownership. They ARE this page's
-     * founders: named there, given Roles and a Salary here.
+     * founders: named there, given Roles on 4. Founders Profile,
+     * and a Salary here.
      */
     legalEntityFounders?: readonly LegalEntityFounderValue[];
+    /** 1. Identity System — 4. Founders Profile, as saved: each founder's Roles. */
+    foundersProfile?: unknown;
     /** Customer Engagement: its Demand & Conversion gives each Offering's expected sales. */
     engagement?: unknown;
 
@@ -426,16 +429,19 @@ export default function BusinessCapabilityEditor({
 
     legalEntityFounders = [],
 
+    foundersProfile,
+
     engagement
 
 }: BusinessCapabilityEditorProps) {
 
     const stored = asBusinessCapabilityValue(value);
 
-    /* The founders as the Legal Entity names them, drawn from the
-       first render -- and written back (below), so what is saved
-       says the same as what is shown. */
-    const capability = withLegalEntityFounders(stored, legalEntityFounders);
+    /* The founders as the Legal Entity names them, with the Roles
+       their Founders Profile gives them, drawn from the first render
+       -- and written back (below), so what is saved says the same as
+       what is shown. */
+    const capability = withLegalEntityFounders(stored, legalEntityFounders, foundersProfile);
 
     const storedJson = JSON.stringify(stored);
     const syncedJson = JSON.stringify(capability);
@@ -1461,14 +1467,14 @@ export default function BusinessCapabilityEditor({
 
                 <div className="business-capability-stack">
 
-                    {/* Answered on the Legal Entity page, beside the
-                        founder's name -- shown here, not asked. */}
+                    {/* Answered on the Founders Profile page, on the
+                        founder's own card -- shown here, not asked. */}
                     <BusinessField label="Roles" inline>
                         {founder.roles.length === 0
                             ? (
                                 <BusinessEmpty>
                                     None yet. Add them under 1. Identity System
-                                    → 3. Legal Entity → 2. Founders & Ownership.
+                                    → 4. Founders Profile → 1. Founders.
                                 </BusinessEmpty>
                             )
                             : (

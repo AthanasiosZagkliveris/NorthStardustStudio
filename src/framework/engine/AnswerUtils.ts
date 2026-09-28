@@ -1199,6 +1199,9 @@ export function defaultAnswerValue(answer: AnswerDefinition): unknown {
         case AnswerType.LegalEntity:
             return asLegalEntityValue(undefined);
 
+        case AnswerType.FoundersProfile:
+            return asFoundersProfileValue(undefined);
+
         // A Shared Answer stores nothing of its own -- the Section
         // it mirrors owns the value. Null rather than "" so it is
         // never mistaken for a real, string-shaped answer.
@@ -1513,6 +1516,12 @@ export function isAnswerEmpty(answer: AnswerDefinition, value: unknown): boolean
         case AnswerType.LegalEntity:
             return legalEntitySectionsEmpty(value).some(Boolean);
 
+        // Every question on it is optional -- a founder's profile
+        // strengthens a plan, but no page is left unfinished for
+        // the want of one.
+        case AnswerType.FoundersProfile:
+            return false;
+
         case AnswerType.BusinessFoundation:
             return businessFoundationSubsectionsEmpty(value).some(Boolean);
 
@@ -1724,6 +1733,12 @@ export function numberedUnitCount(
     // numbering the Identity System uses), the way a Strategic
     // Theme numbers its Goals.
     if (answer.type === AnswerType.LegalEntity) {
+        return 1;
+    }
+
+    // One, for the same reason: its two subsections number
+    // themselves from inside it.
+    if (answer.type === AnswerType.FoundersProfile) {
         return 1;
     }
 
@@ -1946,12 +1961,14 @@ export type ExportBlock =
  */
 /**
  * What a page answered against other pages needs to export: the
- * other Sections of its own System, by Answer Structure, and the two
+ * other Sections of its own System, by Answer Structure, and the
  * facts read from the Identity System. See ExportRenderers.ts.
  */
 export interface ExportContext {
     responseOf?: (type: AnswerType) => unknown;
     legalEntity?: LegalEntityValue;
+    /** The Identity System's Founders Profile, as saved (see founderProfiles). */
+    foundersProfile?: unknown;
     currency?: string;
 }
 
@@ -3541,11 +3558,15 @@ export interface LegalEntityFounderValue {
     /** Percent, as typed. */
     ownership: string;
     capital: string;
-    /** One line per role: a founder is often several things. */
+    /**
+     * LEGACY: asked here before the Founders Profile page asked it.
+     * Read only to seed that page (see founderProfileOf); the Legal
+     * Entity page no longer shows or writes it.
+     */
     roles: string[];
     /**
-     * Optional: a short bio -- relevant background, skills, track
-     * record -- for the Business Plan's Management section.
+     * LEGACY, as `roles`: a short bio, which seeds the Founders
+     * Profile's Industry Experience.
      */
     experience: string;
 }
@@ -3702,8 +3723,10 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
             name: asText(row.name),
             ownership: asText(row.ownership),
             capital: asText(row.capital),
-            /* A list now; one line of text before. What was typed
-               into the single box is kept, as the first role. */
+            /* Legacy, kept for the Founders Profile to seed from (see
+               founderProfileOf). A list, and one line of text before
+               that: what was typed into the single box is kept, as
+               the first role. */
             roles: Array.isArray(row.roles) && row.roles.length > 0
                 ? row.roles.map(asText)
                 : [asText(row.role)],
@@ -3874,6 +3897,185 @@ export function legalEntitySectionsEmpty(value: unknown): boolean[] {
 
     return [organisationEmpty, foundersEmpty, formationEmpty, taxEmpty, false, false];
 
+}
+
+/* ==========================================================
+   Founders Profile (see AnswerType.FoundersProfile)
+
+   One card per founder the Legal Entity names, keyed by that
+   founder's id, so a rename or a reorder there is followed here.
+   Roles and a short bio used to be asked on the Legal Entity
+   itself; a founder saved then carries them on its Legal Entity
+   row, and founderProfiles reads them from there until this page
+   holds an entry of its own for that founder.
+========================================================== */
+
+/** The two subsections, in the order the page asks them. */
+export const FOUNDERS_PROFILE_SECTIONS = [
+    "Founders",
+    "Team Gaps & Cover"
+] as const;
+
+/** The most Key Achievements a founder is asked for. */
+export const FOUNDER_ACHIEVEMENTS_MAX = 3;
+
+export interface FounderProfileValue {
+    /** The Legal Entity founder's id. */
+    id: string;
+    /** One line per role: a founder is often several things. */
+    roles: string[];
+    /** Years in the industry, a whole number as typed. */
+    years: string;
+    /** Where, and in what: companies, sectors, positions. */
+    industryExperience: string;
+    /** Teams led, budgets or P&L owned, businesses run. */
+    managementExperience: string;
+    /** Up to FOUNDER_ACHIEVEMENTS_MAX. */
+    achievements: string[];
+    /** Degrees, certifications, licences, key skills. */
+    skills: string[];
+}
+
+export interface FoundersProfileValue {
+    founders: FounderProfileValue[];
+    /** Which skills the team lacks, and how they are covered. */
+    teamGaps: string;
+}
+
+/** A founder's profile, named as the Legal Entity names them. */
+export interface NamedFounderProfile extends FounderProfileValue {
+    name: string;
+}
+
+export function createFounderProfile(id: string): FounderProfileValue {
+    return {
+        id,
+        roles: [""],
+        years: "",
+        industryExperience: "",
+        managementExperience: "",
+        achievements: [""],
+        skills: [""]
+    };
+}
+
+/** A list line by line, never empty: a list input always shows one line. */
+function profileList(value: unknown, max?: number): string[] {
+    const items = (Array.isArray(value) ? value : []).map(asText);
+    const kept = max === undefined ? items : items.slice(0, max);
+    return kept.length > 0 ? kept : [""];
+}
+
+export function asFoundersProfileValue(value: unknown): FoundersProfileValue {
+
+    const source = value && typeof value === "object" && !Array.isArray(value)
+        ? value as Record<string, unknown>
+        : {};
+
+    const founders = (Array.isArray(source.founders) ? source.founders : [])
+        .map(entry => entry && typeof entry === "object" && !Array.isArray(entry)
+            ? entry as Record<string, unknown>
+            : {})
+        // An entry means nothing without the founder it describes.
+        .filter(row => asText(row.id).length > 0)
+        .map(row => ({
+            id: asText(row.id),
+            roles: profileList(row.roles),
+            years: asText(row.years),
+            industryExperience: asText(row.industryExperience),
+            managementExperience: asText(row.managementExperience),
+            achievements: profileList(row.achievements, FOUNDER_ACHIEVEMENTS_MAX),
+            skills: profileList(row.skills)
+        }));
+
+    return {
+        founders,
+        teamGaps: asText(source.teamGaps)
+    };
+
+}
+
+/**
+ * One Legal Entity founder's profile: this page's own entry for
+ * them, or -- until there is one -- what the Legal Entity row saved
+ * before this page existed carries: its Roles, and its Experience &
+ * Skills as the Industry Experience.
+ */
+export function founderProfileOf(
+    founder: LegalEntityFounderValue,
+    profile: unknown
+): FounderProfileValue {
+
+    const own = asFoundersProfileValue(profile).founders.find(entry => entry.id === founder.id);
+
+    if (own) {
+        return own;
+    }
+
+    return {
+        ...createFounderProfile(founder.id),
+        roles: founder.roles.length > 0 ? [...founder.roles] : [""],
+        industryExperience: founder.experience
+    };
+
+}
+
+/**
+ * Every NAMED Legal Entity founder's profile, in the Legal Entity's
+ * order -- the one place anything reads roles or experience from,
+ * so the documents, the exports and the Business System see the
+ * same answer whether or not this page has been opened.
+ */
+export function founderProfiles(
+    legalFounders: readonly LegalEntityFounderValue[],
+    profile: unknown
+): NamedFounderProfile[] {
+
+    return legalFounders
+        .filter(founder => founder.name.trim().length > 0)
+        .map(founder => ({ ...founderProfileOf(founder, profile), name: founder.name.trim() }));
+
+}
+
+/**
+ * The page's value with an entry for every named Legal Entity
+ * founder -- seeded from the Legal Entity row where it has none (see
+ * founderProfileOf) -- which is what the page writes back, once, so
+ * the seeded answers become its own.
+ *
+ * Entries for founders the Legal Entity no longer names are KEPT:
+ * clearing a name and typing it again should not cost the profile.
+ */
+export function withFounderProfiles(
+    profile: unknown,
+    legalFounders: readonly LegalEntityFounderValue[]
+): FoundersProfileValue {
+
+    const value = asFoundersProfileValue(profile);
+
+    const missing = legalFounders
+        .filter(founder => founder.name.trim().length > 0)
+        .filter(founder => !value.founders.some(entry => entry.id === founder.id))
+        .map(founder => founderProfileOf(founder, value));
+
+    return missing.length === 0
+        ? value
+        : { ...value, founders: [...value.founders, ...missing] };
+
+}
+
+/** Whether a profile says anything beyond the founder's roles. */
+export function founderProfileHasText(entry: FounderProfileValue): boolean {
+    return entry.years.trim().length > 0 ||
+        entry.industryExperience.trim().length > 0 ||
+        entry.managementExperience.trim().length > 0 ||
+        entry.achievements.some(item => item.trim().length > 0) ||
+        entry.skills.some(item => item.trim().length > 0);
+}
+
+/** Whether a profile holds anything at all, its roles included. */
+export function founderProfileHasContent(entry: FounderProfileValue): boolean {
+    return entry.roles.some(role => role.trim().length > 0) || founderProfileHasText(entry);
 }
 
 /* ==================================================================
@@ -6490,8 +6692,9 @@ export function businessResponsibleId(
  * Each named Legal Entity founder becomes one founder here, under
  * that founder's own id, so every Responsibility on this page points
  * at the same person the Legal Entity does and follows a rename
- * there. The name and Roles are the Legal Entity's; the Salary
- * asked on this page is kept, found by id or, for founders recorded here
+ * there. The name is the Legal Entity's and the Roles are the
+ * Founders Profile's (see founderProfiles -- `profile` is that page's
+ * saved value); the Salary asked on this page is kept, found by id or, for founders recorded here
  * before this link existed, by name -- and anything that named such
  * a founder by the old id is moved onto the new one.
  *
@@ -6500,7 +6703,8 @@ export function businessResponsibleId(
  */
 export function withLegalEntityFounders(
     capability: BusinessCapabilityValue,
-    legalFounders: readonly LegalEntityFounderValue[]
+    legalFounders: readonly LegalEntityFounderValue[],
+    profile?: unknown
 ): BusinessCapabilityValue {
 
     const named = legalFounders.filter(founder => founder.name.trim().length > 0);
@@ -6537,8 +6741,8 @@ export function withLegalEntityFounders(
         return {
             id: legal.id,
             name: legal.name,
-            // The Legal Entity's roles, as answered there.
-            roles: legal.roles.filter(role => role.trim().length > 0),
+            // The Founders Profile's roles, as answered there.
+            roles: founderProfileOf(legal, profile).roles.filter(role => role.trim().length > 0),
             salary: match?.salary ?? "",
             hours: match?.hours ?? "",
             deliveryHours: match?.deliveryHours ?? "",

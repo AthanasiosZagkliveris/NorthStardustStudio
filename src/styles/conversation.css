@@ -8399,21 +8399,18 @@ td.process-library-col-number{
 
 /* Wide enough to hold "Ownership %" on one line at 18px, which
    is what the head above now insists on. */
-/* Name and Role take the same flexible width, one either side of
-   the fixed number columns. Equal, because the row is then
+/* Name and the last cell take the same flexible width, one either
+   side of the fixed number columns. Equal, because the row is then
    symmetric -- [flexible] [numbers] [flexible] -- and the numbers
    sit on the exact middle of the box, which is the same axis as
    the line between 3.3 and 3.4 below.
 
-   That symmetry is why the row's delete button lives INSIDE the
-   Role cell (see `.legal-entity-founder-role`) rather than in a
-   column of its own on the right. Its 32px column plus a gap used
-   to hang off the right-hand end and carry the numbers 28px left
-   of centre with it.
-
-   Role's field therefore ends up narrower than Name by the button
-   it shares its cell with, which suits their content: a job title
-   is shorter than a person's full name. */
+   The last cell held Role until roles moved to 4. Founders
+   Profile; it now holds only the row's delete button, at its far
+   end (see `.legal-entity-founder-end`). It is kept rather than
+   dropped, because a column of its own for the button used to
+   hang off the right-hand end and carry the numbers 28px left of
+   centre with it. */
 .legal-entity-founders{
 
     grid-template-columns:minmax(0, 1fr) 150px minmax(0, 1fr);
@@ -8452,51 +8449,17 @@ td.process-library-col-number{
 
 }
 
-/* The last cell of a founder's row: the Role field, and the
-   button that removes the row, kept together at the end of it.
-   12px between them rather than the grid's 24px -- the button
-   belongs to the row, not to a column of its own. */
-.legal-entity-founder-role{
+/* The last cell of a founder's row: the button that removes the
+   row, at the far end of it. */
+.legal-entity-founder-end{
 
     display:flex;
 
+    justify-content:flex-end;
+
     align-items:center;
 
-    gap:12px;
-
     min-width:0;
-
-}
-
-.legal-entity-founder-role > .interview-input,
-.legal-entity-founder-role > .numbered-list{
-
-    flex:1 1 0;
-
-    min-width:0;
-
-}
-
-/* Roles are a list and can run to several lines: the row's other
-   cells stay on its first line rather than floating to its middle,
-   and so does the ×. */
-.legal-entity-founder-row:has(.numbered-list){
-
-    align-items:start;
-
-}
-
-.legal-entity-founder-role:has(.numbered-list){
-
-    align-items:flex-start;
-
-}
-
-/* ...CENTRED on that first line, as every × is on its row: the list's
-   first line is the 44px of the inputs beside it, (44 - 32) / 2. */
-.legal-entity-founder-role:has(.numbered-list) > .strategy-box-remove{
-
-    margin-top:6px;
 
 }
 
@@ -9314,11 +9277,11 @@ td.process-library-col-number{
 
     }
 
-    /* Role and its delete button stop being one cell here: the
-       wrapper steps out of the way so both become items of the
-       row's own grid again, and the rules below can place each
-       where a stack wants it rather than where a table did. */
-    .legal-entity-founder-role{
+    /* The delete button's cell steps out of the way here, so the
+       button becomes an item of the row's own grid again, and the
+       rules below can place it where a stack wants it rather than
+       where a table did. */
+    .legal-entity-founder-end{
 
         display:contents;
 

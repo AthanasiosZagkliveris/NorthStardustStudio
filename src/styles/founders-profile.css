@@ -1,0 +1,31 @@
+/* ==========================================================
+   Identity System -- Founders Profile
+
+   Built from the Legal Entity page's own pieces (its subsection
+   boxes, cards, labels and notes), so the two pages read as one
+   System. Only what the Legal Entity page has no piece for is here.
+========================================================== */
+
+/* Years in the industry: a short whole number, read as a phrase
+   with the words after it ("12 years in the industry"). The box is
+   only wide enough for two digits, so it reads as a figure rather
+   than as a field to write in. */
+.founders-profile-years{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.founders-profile-years > .interview-input{
+
+    flex:0 0 96px;
+
+    width:96px;
+
+    text-align:center;
+
+}

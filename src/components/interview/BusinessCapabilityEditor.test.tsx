@@ -376,3 +376,58 @@ describe("BusinessCapabilityEditor legacy numbers", () => {
     });
 
 });
+
+describe("BusinessCapabilityEditor founders' roles", () => {
+
+    const ann = { id: "f1", name: "Ann", ownership: "100", capital: "", roles: ["Old role"], experience: "" };
+
+    function renderWith(foundersProfile?: unknown) {
+        let saved: unknown;
+        function ValueHarness() {
+            const [value, setValue] = useState<unknown>(asBusinessCapabilityValue(undefined));
+            return (
+                <BusinessCapabilityEditor
+                    value={value}
+                    onChange={(next) => { saved = next; setValue(next); }}
+                    legalEntityFounders={[ann]}
+                    foundersProfile={foundersProfile}
+                />
+            );
+        }
+        render(<ValueHarness />);
+        const card = toggles(/(Founder 1|Ann)$/)[0];
+        if (card.getAttribute("aria-expanded") === "false") {
+            fireEvent.click(card);
+        }
+        return () => asBusinessCapabilityValue(saved);
+    }
+
+    it("shows each founder's roles from the Founders Profile, read-only", () => {
+
+        const saved = renderWith({ founders: [{ id: "f1", roles: ["Director", "Designer"] }] });
+
+        const roles = [...document.querySelectorAll(".business-engagement-recall-list li")].map(item => item.textContent);
+        expect(roles).toEqual(["Director", "Designer"]);
+        expect(screen.queryByLabelText(/roles/i)).toBeNull();
+        expect(saved().founders[0].roles).toEqual(["Director", "Designer"]);
+
+    });
+
+    it("reads the roles a Legal Entity saved before the Founders Profile existed", () => {
+
+        renderWith(undefined);
+
+        const roles = [...document.querySelectorAll(".business-engagement-recall-list li")].map(item => item.textContent);
+        expect(roles).toEqual(["Old role"]);
+
+    });
+
+    it("points to the Founders Profile when a founder has none", () => {
+
+        renderWith({ founders: [{ id: "f1", roles: [""] }] });
+
+        expect(screen.getByText(/Add them under 1\. Identity System → 4\. Founders Profile → 1\. Founders\./)).toBeTruthy();
+
+    });
+
+});

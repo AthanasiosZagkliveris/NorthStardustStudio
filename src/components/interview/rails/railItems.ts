@@ -6,6 +6,7 @@ import {
     BUSINESS_CAPABILITY_SECTIONS,
     BUSINESS_ENGAGEMENT_SECTIONS,
     BUSINESS_FOUNDATION_SUBSECTIONS,
+    FOUNDERS_PROFILE_SECTIONS,
     LEGAL_ENTITY_SECTIONS,
     STRATEGY_FOUNDATION_SECTIONS,
     titleWithPeriod,
@@ -56,6 +57,7 @@ export function pageIndexFromRailId(id: string): number {
 
 const FIXED_SECTIONS: Partial<Record<AnswerType, readonly string[]>> = {
     [AnswerType.LegalEntity]: LEGAL_ENTITY_SECTIONS,
+    [AnswerType.FoundersProfile]: FOUNDERS_PROFILE_SECTIONS,
     [AnswerType.BrandStyle]: BRAND_STYLE_SECTIONS,
     [AnswerType.BrandInventory]: BRAND_INVENTORY_SECTIONS,
     [AnswerType.BusinessFoundation]: BUSINESS_FOUNDATION_SUBSECTIONS,

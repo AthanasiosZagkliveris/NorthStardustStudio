@@ -8,8 +8,11 @@ correspond to the ten Sections the previous help text was written for.
 Rather than remap that text onto columns it no longer describes, it was
 removed outright.
 
-The System now holds Definition (columns 1-4), Ethics (5-8) and Legal
-Entity (Section 9, with its own six subsections). The Expression
+The System now holds Definition (columns 1-4), Ethics (5-8), Legal
+Entity (Section 9, with its own six subsections) and Founders Profile
+(Section 10, with its own two). Like Legal Entity, Founders Profile
+carries its guidance inside its own editor, shown and hidden by the
+page's "Need Help?" button. The Expression
 ("Imagine your best Ambassador.") page it also used to hold now belongs
 to the Brand System.
 

@@ -1590,6 +1590,7 @@ export default function Conversation() {
                 // System facts the Business pages are answered against.
                 : buildExportContent(session, capabilityLabel, undefined, undefined, {
                       legalEntity,
+                      foundersProfile,
                       currency: organisationCurrency
                   });
 
@@ -1779,6 +1780,7 @@ export default function Conversation() {
         effectiveAnswer?.type === AnswerType.FinancialFoundation ||
         effectiveAnswer?.type === AnswerType.FinancialSustainability ||
         effectiveAnswer?.type === AnswerType.LegalEntity ||
+        effectiveAnswer?.type === AnswerType.FoundersProfile ||
         effectiveAnswer?.type === AnswerType.BrandStyle ||
         effectiveAnswer?.type === AnswerType.BrandInventory ||
         effectiveAnswer?.type === AnswerType.StrategyFoundation ||
@@ -1874,26 +1876,27 @@ export default function Conversation() {
 
         The same page's 2. Founders & Ownership are that page's
         founders too: they are who Infrastructure & Capability lists
-        under 1. Founders and names in every Responsibility.
+        under 1. Founders and names in every Responsibility, and who
+        the Founders Profile page draws a card for.
     */
-    const legalEntity = (() => {
+    function identityResponse(type: AnswerType): unknown {
 
         if (!organizationId) {
-            return asLegalEntityValue(undefined);
+            return undefined;
         }
 
         const identity = systems.find(
             candidate => candidate.number === IDENTITY_SYSTEM_NUMBER
         );
 
-        const legalEntitySection = identity
+        const section = identity
             ? frameworkRegistry.getFramework(identity.id).sections.find(
-                candidate => candidate.answer?.type === AnswerType.LegalEntity
+                candidate => candidate.answer?.type === type
             )
             : undefined;
 
-        if (!legalEntitySection) {
-            return asLegalEntityValue(undefined);
+        if (!section) {
+            return undefined;
         }
 
         const state = OrganizationService.loadSystemState(
@@ -1901,11 +1904,21 @@ export default function Conversation() {
             IDENTITY_SYSTEM_NUMBER
         ) as { responses?: Array<{ sectionNumber: number; value?: unknown }> } | null;
 
-        return asLegalEntityValue(state?.responses?.find(
-            response => response.sectionNumber === legalEntitySection.number
-        )?.value);
+        return state?.responses?.find(
+            response => response.sectionNumber === section.number
+        )?.value;
 
-    })();
+    }
+
+    const legalEntity = asLegalEntityValue(identityResponse(AnswerType.LegalEntity));
+
+    /*
+        The Identity System's Founders Profile, as saved: each
+        founder's Roles, which Infrastructure & Capability shows
+        under 1. Founders, and the profiles the Legal Entity page
+        will not drop a founder's row from (see founderProfiles).
+    */
+    const foundersProfile = identityResponse(AnswerType.FoundersProfile);
 
     const organisationCurrency = countryCurrency(legalEntity.organisation.country);
 
@@ -2420,6 +2433,7 @@ export default function Conversation() {
                                 onOpenBusinessFoundation={openBusinessFoundation}
                                 organisationCurrency={organisationCurrency}
                                 legalEntityFounders={legalEntity.founders}
+                                foundersProfile={foundersProfile}
                                 legalEntity={legalEntity}
                                 businessCapability={businessCapabilityValue}
                                 financialFoundation={financialFoundationValue}

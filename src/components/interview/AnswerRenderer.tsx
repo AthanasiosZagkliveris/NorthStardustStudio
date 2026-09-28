@@ -13,6 +13,7 @@ import BusinessFoundationEditor from "./BusinessFoundationEditor.tsx";
 import FinancialFoundationEditor from "./FinancialFoundationEditor.tsx";
 import FinancialSustainabilityEditor from "./FinancialSustainabilityEditor.tsx";
 import LegalEntityEditor from "./LegalEntityEditor.tsx";
+import FoundersProfileEditor from "./FoundersProfileEditor.tsx";
 import BrandInventoryEditor from "./BrandInventoryEditor.tsx";
 import StrategyFoundationEditor from "./StrategyFoundationEditor.tsx";
 import StrategicPeriodEditor from "./StrategicPeriodEditor.tsx";
@@ -360,9 +361,19 @@ interface AnswerRendererProps {
      * The founders answered under the Identity System's Legal
      * Entity, 2. Founders & Ownership. The Business System's
      * Infrastructure & Capability page lists them under
-     * 1. Founders. Ignored by every other Answer Structure.
+     * 1. Founders, and the Founders Profile page draws a card for
+     * each. Ignored by every other Answer Structure.
      */
     legalEntityFounders?: readonly LegalEntityFounderValue[];
+
+    /**
+     * The Identity System's Founders Profile, as saved: each
+     * founder's Roles for the Business System's Infrastructure &
+     * Capability page, and what keeps a profiled founder's row on
+     * the Legal Entity page (see LegalEntityEditorProps.foundersProfile).
+     * Ignored by every other Answer Structure.
+     */
+    foundersProfile?: unknown;
 
     /**
      * The whole Legal Entity answer, and the Business System's
@@ -380,7 +391,7 @@ interface AnswerRendererProps {
     onOpenBusinessEngagement?: OpenPage;
     onOpenBusinessCapability?: OpenPage;
     onOpenFinancialFoundation?: OpenPage;
-    /** 1. Identity System → 3. Legal Entity, from Financial Foundation's costs. */
+    /** 1. Identity System → 3. Legal Entity, from Financial Foundation's costs and the Founders Profile. */
     onOpenLegalEntity?: OpenPage;
 
     /**
@@ -1048,6 +1059,7 @@ function SingleAnswerRenderer({
     onOpenBusinessFoundation,
     organisationCurrency = "",
     legalEntityFounders,
+    foundersProfile,
     legalEntity,
     businessCapability,
     financialFoundation,
@@ -2103,6 +2115,7 @@ function SingleAnswerRenderer({
                     onOpenFoundation={onOpenBusinessFoundation}
                     organisationCurrency={organisationCurrency}
                     legalEntityFounders={legalEntityFounders}
+                    foundersProfile={foundersProfile}
                     engagement={businessEngagement}
                     onChange={onChange}
                     disabled={disabled}
@@ -2164,6 +2177,23 @@ function SingleAnswerRenderer({
                 <LegalEntityEditor
                     value={value}
                     prefill={legalEntityPrefill}
+                    foundersProfile={foundersProfile}
+                    columnsDivider={columnsDivider}
+                    showInstructions={showInstructions}
+                    onChange={onChange}
+                    disabled={disabled}
+                />
+
+            );
+
+        case AnswerType.FoundersProfile:
+
+            return (
+
+                <FoundersProfileEditor
+                    value={value}
+                    legalEntityFounders={legalEntityFounders}
+                    onOpenLegalEntity={onOpenLegalEntity}
                     columnsDivider={columnsDivider}
                     showInstructions={showInstructions}
                     onChange={onChange}

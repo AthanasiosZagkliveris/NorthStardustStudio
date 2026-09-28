@@ -389,6 +389,16 @@ export class AnswerParser {
 
         }
 
+        if (structure === "founders profile") {
+
+            // One card per Legal Entity founder, declared by the
+            // editor -- nothing for the content to read out here.
+            return {
+                type: AnswerType.FoundersProfile
+            };
+
+        }
+
         if (structure === "brand style") {
 
             return {

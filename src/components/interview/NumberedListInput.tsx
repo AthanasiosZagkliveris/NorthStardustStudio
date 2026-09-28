@@ -126,6 +126,12 @@ interface NumberedListInputProps {
      */
     suggestions?: string[];
 
+    /**
+     * The most lines the list takes: Enter on the last one opens no
+     * further line once it holds this many. Omitted, it has no cap.
+     */
+    maxItems?: number;
+
 }
 
 /**
@@ -152,7 +158,9 @@ export default function NumberedListInput({
 
     placeholder,
 
-    suggestions = []
+    suggestions = [],
+
+    maxItems
 
 }: NumberedListInputProps) {
 
@@ -274,6 +282,10 @@ export default function NumberedListInput({
         if (event.key === "Enter") {
 
             event.preventDefault();
+
+            if (maxItems !== undefined && items.length >= maxItems) {
+                return;
+            }
 
             const next = [...items];
             next.splice(index + 1, 0, "");

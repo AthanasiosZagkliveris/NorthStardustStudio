@@ -56,3 +56,5 @@ System Scope: Defines the organization's identity, purpose, guiding beliefs, and
 - It should inspire your people and attract like-minded customers.
 
 ## 3. Legal Entity
+
+## 4. Founders Profile

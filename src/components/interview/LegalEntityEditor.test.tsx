@@ -4,7 +4,7 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import LegalEntityEditor from "./LegalEntityEditor";
 import { typeInto } from "../../test/interviewTestUtils";
-import { asLegalEntityValue, createLegalEntityFounder, createLegalEntityRequirement, legalEntitySectionsEmpty } from "../../framework/engine/AnswerUtils";
+import { asLegalEntityValue, createLegalEntityRequirement, legalEntitySectionsEmpty } from "../../framework/engine/AnswerUtils";
 
 function Harness() {
     const [value, setValue] = useState<unknown>({
@@ -119,46 +119,83 @@ describe("LegalEntityEditor number limits", () => {
 
 });
 
-describe("LegalEntityEditor founders' experience & skills", () => {
+describe("LegalEntityEditor founders & ownership", () => {
 
-    it("defaults a founder saved without it to empty, and never counts it as missing", () => {
+    function FoundersHarness() {
+        const [value, setValue] = useState<unknown>({
+            ...asLegalEntityValue(undefined),
+            capitalApplies: true,
+            founders: [
+                { id: "a", name: "A", ownership: "60", capital: "100", roles: ["Director"], experience: "Ten years." },
+                { id: "b", name: "B", ownership: "40", capital: "", roles: [""] }
+            ]
+        });
+        return <LegalEntityEditor value={value} onChange={setValue} />;
+    }
 
-        const entity = asLegalEntityValue({ founders: [{ id: "a", name: "A", ownership: "100", capital: "", roles: ["Director"] }] });
-        expect(entity.founders[0].experience).toBe("");
-        expect(createLegalEntityFounder().experience).toBe("");
+    it("asks each founder's name, ownership and capital, and no longer roles or experience", () => {
 
-        // The founders' subsection is answered by a name alone.
-        expect(legalEntitySectionsEmpty(entity)[1]).toBe(false);
+        render(<FoundersHarness />);
+
+        const heads = [...document.querySelectorAll(".legal-entity-founders > .legal-entity-column-head")].map(node => node.textContent?.trim());
+        expect(heads).toEqual(["Name", "Ownership %", expect.stringMatching(/^Capital/)]);
+
+        expect((screen.getByLabelText("Founder 1 name") as HTMLInputElement).value).toBe("A");
+        expect((screen.getByLabelText("Founder 1 ownership percentage") as HTMLInputElement).value).toBe("60");
+        expect((screen.getByLabelText(/^Founder 1 .*capital/i) as HTMLInputElement).value).toBe("100");
+        expect(screen.getByRole("button", { name: "Remove founder 2" })).toBeTruthy();
+        expect(screen.getByRole("button", { name: "+ Add founder" })).toBeTruthy();
+
+        expect(screen.queryByLabelText(/Founder \d roles/)).toBeNull();
+        expect(screen.queryByLabelText(/experience/i)).toBeNull();
+        expect(screen.queryByRole("button", { name: /experience/i })).toBeNull();
 
     });
 
-    it("hides the field behind an add button, and keeps it shown once it holds text", () => {
+    it("keeps roles and experience saved before, for the Founders Profile to take", () => {
 
-        function ExperienceHarness() {
+        const entity = asLegalEntityValue({ founders: [{ id: "a", name: "A", ownership: "100", capital: "", roles: ["Director"], experience: "Ten years." }] });
+        expect(entity.founders[0].roles).toEqual(["Director"]);
+        expect(entity.founders[0].experience).toBe("Ten years.");
+
+        // The founders' subsection is answered by a name alone.
+        expect(legalEntitySectionsEmpty(entity)[1]).toBe(false);
+        expect(legalEntitySectionsEmpty(asLegalEntityValue({ founders: [{ id: "a", name: "", roles: ["Director"] }] }))[1]).toBe(true);
+
+    });
+
+    // A one-owner form clears the rows nobody answered -- never one
+    // holding a profile, or the roles a row saved before still carries.
+    it("never clears a founder with a profile when a one-owner form is chosen", () => {
+
+        let saved: unknown;
+
+        function SoleHarness() {
             const [value, setValue] = useState<unknown>({
                 ...asLegalEntityValue(undefined),
-                founders: [{ id: "a", name: "A", ownership: "100", capital: "", roles: [""] }]
+                organisation: { ...asLegalEntityValue(undefined).organisation, country: "AU" },
+                founders: [
+                    { id: "a", name: "A", ownership: "", capital: "", roles: [""] },
+                    { id: "legacy", name: "", ownership: "", capital: "", roles: ["Director"] },
+                    { id: "empty", name: "", ownership: "", capital: "", roles: [""] },
+                    { id: "profiled", name: "", ownership: "", capital: "", roles: [""] }
+                ]
             });
-            return <LegalEntityEditor value={value} onChange={setValue} />;
+            return (
+                <LegalEntityEditor
+                    value={value}
+                    onChange={(next) => { saved = next; setValue(next); }}
+                    foundersProfile={{ founders: [{ id: "profiled", roles: [""], skills: ["Accounting"] }] }}
+                />
+            );
         }
 
-        const { unmount } = render(<ExperienceHarness />);
+        render(<SoleHarness />);
 
-        expect(screen.queryByLabelText("Founder 1 experience & skills")).toBeNull();
-        fireEvent.click(screen.getByRole("button", { name: "+ Add experience & skills" }));
+        fireEvent.click(screen.getAllByRole("button", { name: /^Legal Form/ }).find(button => button.classList.contains("option-picker-trigger"))!);
+        fireEvent.click(screen.getByRole("option", { name: "Sole Trader" }));
 
-        const field = screen.getByLabelText("Founder 1 experience & skills") as HTMLTextAreaElement;
-        expect(field.tagName).toBe("TEXTAREA");
-        fireEvent.change(field, { target: { value: "Ten years in automation." } });
-        expect(screen.getByRole("button", { name: "Experience & Skills: what this means" })).toBeTruthy();
-        unmount();
-
-        // Saved with text: shown from the start.
-        render(<LegalEntityEditor
-            value={{ founders: [{ id: "a", name: "A", ownership: "100", capital: "", roles: [""], experience: "Ten years." }] }}
-            onChange={() => undefined}
-        />);
-        expect((screen.getByLabelText("Founder 1 experience & skills") as HTMLTextAreaElement).value).toBe("Ten years.");
+        expect(asLegalEntityValue(saved).founders.map(founder => founder.id)).toEqual(["a", "legacy", "profiled"]);
 
     });
 

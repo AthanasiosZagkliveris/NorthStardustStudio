@@ -11,6 +11,8 @@ import {
     createLegalEntityFounder,
     createLegalEntityNumber,
     createLegalEntityRequirement,
+    founderProfileHasContent,
+    founderProfileOf,
     legalEntityTotalCapital,
     legalEntityTotalOwnership
 } from "../../framework/engine/AnswerUtils.ts";
@@ -37,7 +39,6 @@ import { railId } from "./rails/railItems.ts";
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
-import NumberedListInput from "./NumberedListInput.tsx";
 import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
@@ -120,10 +121,6 @@ const INFO = {
     links: [
         "Says which registration or requirement this expense pays for.",
         "Lists what you have already recorded further up the page."
-    ],
-
-    experience: [
-        "Lenders and investors read this first: a few lines on each founder's relevant experience, skills and achievements."
     ]
 
 };
@@ -152,6 +149,13 @@ interface LegalEntityEditorProps {
         organisationName: string;
         founderName: string;
     };
+
+    /**
+     * 4. Founders Profile, as saved. A founder with a profile there
+     * is never one of the empty rows a one-owner legal form clears
+     * away (see founderIsEmpty).
+     */
+    foundersProfile?: unknown;
 
 }
 
@@ -198,7 +202,9 @@ export default function LegalEntityEditor({
 
     showInstructions = true,
 
-    prefill
+    prefill,
+
+    foundersProfile
 
 }: LegalEntityEditorProps) {
 
@@ -534,12 +540,19 @@ export default function LegalEntityEditor({
 
     }
 
-    /** A row nobody has answered: a percentage alone is not a founder. */
+    /**
+     * A row nobody has answered: a percentage alone is not a founder.
+     *
+     * Roles and experience are asked on 4. Founders Profile now, so a
+     * row is also answered when that page holds anything for it --
+     * including the Roles and Experience & Skills a row saved before
+     * that page existed still carries (see founderProfileOf). Either
+     * way, clearing the row would lose them.
+     */
     function founderIsEmpty(founder: LegalEntityFounderValue): boolean {
         return founder.name.trim().length === 0 &&
-            founder.roles.every(role => role.trim().length === 0) &&
             founder.capital.trim().length === 0 &&
-            founder.experience.trim().length === 0;
+            !founderProfileHasContent(founderProfileOf(founder, foundersProfile));
     }
 
     /**
@@ -1409,8 +1422,6 @@ export default function LegalEntityEditor({
                                     {amountLabel("Capital")}
                                 </span>
                             )}
-                            <span className="legal-entity-column-head">Role</span>
-
                             {entity.founders.map((founder, index) => (
 
                                 <div className="legal-entity-founder-row" key={founder.id}>
@@ -1424,8 +1435,7 @@ export default function LegalEntityEditor({
                                         `.legal-entity-founder-label`).
                                         Not generated at all above
                                         that width, so the row keeps
-                                        its four cells and its
-                                        subgrid. Hidden from screen
+                                        its cells and its subgrid. Hidden from screen
                                         readers either way: every
                                         field already carries its own
                                         name.
@@ -1484,44 +1494,25 @@ export default function LegalEntityEditor({
                                         </>
                                     )}
 
-                                    {founderLabel("Role")}
-
                                     {/*
-                                        Role and the row's delete share
-                                        ONE cell, which is what puts
-                                        the number columns on the
-                                        page's middle line: a column of
-                                        its own for the delete button
-                                        sat on the right and nowhere
-                                        else, and carried the numbers
-                                        28px left of centre with it.
-                                        In one cell the row reads
-                                        [flexible] [numbers] [flexible]
-                                        and the numbers land on the
-                                        same axis as the line between
-                                        subsections 3 and 4.
+                                        The row's delete, alone in the
+                                        last, flexible cell, at its far
+                                        end. The cell is where Role
+                                        used to be (roles are asked on
+                                        4. Founders Profile now), and
+                                        keeping it is what keeps the
+                                        row reading [flexible]
+                                        [numbers] [flexible], with the
+                                        numbers on the page's middle
+                                        line -- the same axis as the
+                                        line between subsections 3
+                                        and 4.
+
+                                        Nothing to remove where the law
+                                        leaves exactly one row.
                                     */}
-                                    <div className="legal-entity-founder-role">
-
-                                        {/* A NUMBERED LIST, one role a
-                                            line: a founder is often
-                                            several things at once. The
-                                            Business System's
-                                            Infrastructure page lists
-                                            them under the founder. */}
-                                        <NumberedListInput
-                                            label={"Founder " + (index + 1) + " roles"}
-                                            placeholder="Role"
-                                            items={founder.roles}
-                                            disabled={disabled}
-                                            onChange={(items) => updateFounder(index, {
-                                                roles: items
-                                            })}
-                                        />
-
-                                        {/* Nothing to remove where the law
-                                            leaves exactly one row. */}
-                                        {!soleFounderSettled && (
+                                    {!soleFounderSettled && (
+                                        <div className="legal-entity-founder-end">
                                             <button
                                                 type="button"
                                                 className="strategy-box-remove"
@@ -1532,22 +1523,7 @@ export default function LegalEntityEditor({
                                             >
                                                 ×
                                             </button>
-                                        )}
-
-                                    </div>
-
-                                    {/* Optional, under the founder's
-                                        row and across all of it: a
-                                        few lines of bio for the
-                                        Business Plan. */}
-                                    {optionalNote(
-                                        "Experience & Skills",
-                                        founder.id + ":experience",
-                                        "Founder " + (index + 1) + " experience & skills",
-                                        founder.experience,
-                                        (next) => updateFounder(index, { experience: next }),
-                                        INFO.experience,
-                                        "experience & skills"
+                                        </div>
                                     )}
 
                                 </div>

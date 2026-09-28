@@ -286,6 +286,17 @@ export class InterviewValidator {
 
             }
 
+            // The Founders Profile takes one number of its own, like
+            // the Legal Entity page before it, and asks nothing
+            // required: it is counted, and never reported.
+            if (section.answer?.type === AnswerType.FoundersProfile) {
+
+                columnNumber++;
+
+                continue;
+
+            }
+
             if (section.answer?.type === AnswerType.BrandInventory) {
 
                 const nested = section.answer.nestedNumbering;

@@ -242,6 +242,23 @@ export enum AnswerType {
     LegalEntity = "legal-entity",
 
     /**
+     * The Identity System's Founders Profile page: one card per
+     * founder the Legal Entity page names, asking what lenders and
+     * investors read to judge whether this team can carry out the
+     * plan -- each founder's roles, industry and management
+     * experience, key achievements and skills & qualifications --
+     * then which skills the team lacks and how they are covered.
+     *
+     * The founders themselves (who they are, in what order) belong
+     * to Legal Entity › 2. Founders & Ownership; this page only
+     * describes them, keyed by the Legal Entity founder's id (see
+     * founderProfiles in AnswerUtils). Its own Structure for the
+     * same reason Legal Entity is: its cards are drawn from another
+     * page's answer, which no Table or Columns layout can do.
+     */
+    FoundersProfile = "founders-profile",
+
+    /**
      * The Business System's Foundation page (Page 1 of 5): who the
      * organization serves, who else serves them, what it promises,
      * and what it actually sells.
