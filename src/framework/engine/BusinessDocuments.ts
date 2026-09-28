@@ -43,7 +43,14 @@ import {
 } from "./AnswerUtils.ts";
 import type { ExportContent, ExportSectionContent } from "./ExportContentBuilder.ts";
 import { sessionExportContext } from "./ExportContentBuilder.ts";
-import { financialForecast, forecastView, ownersTakeDrawings, type ForecastPeriod, type ForecastViewTable } from "./FinancialForecast.ts";
+import {
+    financialForecast,
+    forecastView,
+    ownersTakeDrawings,
+    splitMonthlyTableByYear,
+    type ForecastPeriod,
+    type ForecastViewTable
+} from "./FinancialForecast.ts";
 import {
     capabilityOf,
     costLines,
@@ -938,9 +945,12 @@ function riskBlocks(f: Foundation): ExportBlock[] {
             }
         });
     const signals = [...byTitle.values()];
+    // The External Threats and Internal Weaknesses already read under
+    // the SWOT table (Strategy and Milestones): pointed to, not repeated.
+    const hasSwot = (f.strategyFoundation.swot.threats?.length ?? 0) > 0 ||
+        (f.strategyFoundation.swot.weaknesses?.length ?? 0) > 0;
     return [
-        ...titled("External Threats", list(f.strategyFoundation.swot.threats ?? [])),
-        ...titled("Internal Weaknesses", list(f.strategyFoundation.swot.weaknesses ?? [])),
+        ...(hasSwot ? paragraph("See SWOT: Weaknesses and Threats, under Strategy and Milestones.") : []),
         ...titled("Financial Signals", list(signals.map(signal => signal.title + ": " + signal.text)))
     ];
 }
@@ -1175,6 +1185,11 @@ export function businessForecastContent(
     const forecast = financialForecast(f.financial, f.revenuePage, f.lines, f.legalEntity, f.format);
     const view = forecastView(forecast, period, untilYear);
     const whole = moneyFormatter(f.currency, { wholeOnly: true });
+    // A monthly forecast beyond one plan year is too wide for one
+    // page -- every month of every year, side by side -- so it is
+    // one table per plan year here, each with its own year subtotal,
+    // rather than shrinking the text to fit (see splitMonthlyTableByYear).
+    const tables = period === "monthly" ? view.tables.flatMap(splitMonthlyTableByYear) : view.tables;
     return {
         systemNumber: "",
         // Also the download's file name, so no colon.
@@ -1184,9 +1199,11 @@ export function businessForecastContent(
         documentSubtitle: (period === "monthly" ? "Month by month" : "By plan year") + ", from " + forecast.months[0] +
             (f.currency ? ". Amounts in " + f.currency + "." : "."),
         documentMeta: coverLines(f),
+        // Wide tables: printed sideways, in the PDF.
+        landscape: true,
         sections: [
-            ...view.tables.map((entry, index) => section(index + 1, entry.title, forecastTableBlocks(entry, whole, f.currency))),
-            section(view.tables.length + 1, "Notes", list(forecast.notes))
+            ...tables.map((entry, index) => section(index + 1, entry.title, forecastTableBlocks(entry, whole, f.currency))),
+            section(tables.length + 1, "Notes", list(forecast.notes))
         ]
     };
 }

@@ -252,6 +252,12 @@ const CANVAS_CSS = `
     .export-canvas-revenue { grid-area: revenue; }
 `;
 
+/** The Financial Forecast: wide tables (every month, or every plan
+    year), printed sideways rather than shrinking their text. */
+const LANDSCAPE_CSS = `
+    @page { size: landscape; margin: 10mm; }
+`;
+
 function canvasHtml(blocks: NonNullable<ExportContent["canvas"]>): string {
     return `<div class="export-canvas">${blocks.map(block => `
         <section class="export-canvas-box export-canvas-${escapeHtml(block.id)}">
@@ -443,7 +449,7 @@ export class PdfExporter {
                             margin: 4px 0 0 20px;
                         }
                         ${content.documentTitle ? DOCUMENT_CSS : ""}
-                        ${content.canvas ? CANVAS_CSS : ""}
+                        ${content.canvas ? CANVAS_CSS : content.landscape ? LANDSCAPE_CSS : ""}
                     </style>
                 </head>
                 <body>

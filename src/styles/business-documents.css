@@ -292,6 +292,25 @@
 
 }
 
+/* The PDF/Markdown renderer's own list markup (see contentSectionsHtml
+   in PdfExporter.ts) already writes its own bullet or "N." marker as
+   text -- list-style:none here keeps the browser from adding a second
+   one on top of it. */
+.business-document ul.export-list,
+.business-document ul.export-checklist{
+
+    padding-left:0;
+
+    list-style:none;
+
+}
+
+.business-document ul.export-list ul.export-list{
+
+    padding-left:20px;
+
+}
+
 /* ---------- The canvas, as it is drawn on a wall ---------- */
 
 /* Its title, and whose canvas it is. */

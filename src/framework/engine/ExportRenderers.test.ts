@@ -3,6 +3,7 @@ import { describe, expect, test } from "vitest";
 import { InterviewSession } from "../interview";
 import { asLegalEntityValue } from "./AnswerUtils.ts";
 import { buildExportContent } from "./ExportContentBuilder.ts";
+import { financialFoundationBlocks } from "./ExportRenderers.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
 import { MarkdownExporter } from "./MarkdownExporter.ts";
 import exampleText from "../../../docs/examples/lumen-and-loom-studio.json?raw";
@@ -49,6 +50,15 @@ describe("exporting the Foundation capability", () => {
         expect(outputs.strategy).toContain("2.1.1 Launch the Trade Collection");
         expect(outputs.strategy).toContain("Goals & Objectives · Oct 2026 – Sep 2029");
         expect(outputs.identity).toContain("Formation Date: 2 March 2026");
+    });
+
+    test("the Funding Need table uses an em dash, not \"n/a\", for a $0 need's When", () => {
+        const blocks = financialFoundationBlocks(undefined, { legalEntity: asLegalEntityValue(undefined), currency: "USD" });
+        const table = blocks.find((block): block is Extract<typeof block, { kind: "table" }> =>
+            block.kind === "table" && block.headers.includes("When"));
+        expect(table).toBeTruthy();
+        expect(table!.rows.some(row => row[2] === "—")).toBe(true);
+        expect(table!.rows.some(row => row[2] === "n/a")).toBe(false);
     });
 
 });

@@ -528,6 +528,40 @@ export function forecastView(forecast: Forecast, period: ForecastPeriod, untilYe
 
 }
 
+/**
+ * A monthly forecast table split into one table per plan year, each
+ * with its own year subtotal -- so a document never has to lay twelve
+ * months of every plan year side by side on one page. A table already
+ * covering one plan year (or none) comes back unchanged.
+ *
+ * Uses the table's own subtotalColumns to find each year's boundary,
+ * so the Opening column of a table like the Balance Sheet (present
+ * once, before the first year) stays with Year 1 and is not repeated.
+ */
+export function splitMonthlyTableByYear(table: ForecastViewTable): ForecastViewTable[] {
+
+    if (table.subtotalColumns.length <= 1) {
+        return [table];
+    }
+
+    let start = 0;
+
+    return table.subtotalColumns.map((end, index) => {
+        const slice: ForecastViewTable = {
+            title: table.title + ": Year " + (index + 1),
+            columns: table.columns.slice(start, end + 1),
+            subtotalColumns: [end - start],
+            rows: table.rows.map(row => ({
+                ...row,
+                values: row.heading ? [] : row.values.slice(start, end + 1)
+            }))
+        };
+        start = end + 1;
+        return slice;
+    });
+
+}
+
 function csvCell(value: string | number): string {
     const text = typeof value === "number" ? (Math.round(value * 100) / 100).toFixed(2) : value;
     return /[",\n]/.test(text) ? "\"" + text.replace(/"/g, "\"\"") + "\"" : text;

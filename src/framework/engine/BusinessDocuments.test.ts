@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 import { InterviewSession } from "../interview";
 import { businessForecast, businessForecastContent, businessModelCanvas, businessModelCanvasData, businessPlan, currentSituationDraft, financialPlanRange, readFoundation } from "./BusinessDocuments.ts";
 import { financialPosition, stressTest, sustainability, whatItWouldTake, withWhatIf } from "./FinancialModel.ts";
-import { financialForecast, forecastCsv, forecastView } from "./FinancialForecast.ts";
+import { financialForecast, forecastCsv, forecastView, splitMonthlyTableByYear } from "./FinancialForecast.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
 import { MarkdownExporter } from "./MarkdownExporter.ts";
 import exampleText from "../../../docs/examples/lumen-and-loom-studio.json?raw";
@@ -413,6 +413,77 @@ describe("Quillfield: the documents tie together", () => {
         expect(count(planMd, "Financial Risk:")).toBeLessThanOrEqual(2);
         expect(count(planMd, "Capacity is the founders' delivery hours")).toBe(1);
         expect(planMd).toContain("### Capacity");
+    });
+
+    test("Risks does not repeat the SWOT's threats and weaknesses, and points to it", () => {
+        const swot = planMd.slice(planMd.indexOf("### SWOT Analysis"), planMd.indexOf("### Strategic Themes"));
+        expect(swot).toContain("Larger agencies packaging low-cost automation offers for small firms");
+        expect(swot).toContain("A single founder's capacity limits how many builds can run at once");
+
+        const risks = planMd.slice(planMd.indexOf("## 12. Risks"), planMd.indexOf("## 13. Appendix"));
+        expect(risks).toContain("See SWOT: Weaknesses and Threats");
+        expect(risks).not.toContain("Larger agencies packaging low-cost automation offers for small firms");
+        expect(risks).not.toContain("A single founder's capacity limits how many builds can run at once");
+        expect(risks).not.toContain("### External Threats");
+        expect(risks).not.toContain("### Internal Weaknesses");
+        // What is not in the SWOT stays: the financial signals.
+        expect(risks).toContain("### Financial Signals");
+        expect(risks).toContain("Funding Dependency:");
+    });
+
+    test("the Financial Forecast PDF/Markdown is landscape, and a wide monthly forecast is one table per year", () => {
+        const monthly = businessForecastContent(all, "monthly", 3);
+        expect(monthly.landscape).toBe(true);
+        expect(monthly.sections.map(entry => entry.title)).toEqual([
+            "Cash-Flow Forecast: Year 1", "Cash-Flow Forecast: Year 2", "Cash-Flow Forecast: Year 3",
+            "Profit and Loss Forecast: Year 1", "Profit and Loss Forecast: Year 2", "Profit and Loss Forecast: Year 3",
+            "Balance Sheet: Year 1", "Balance Sheet: Year 2", "Balance Sheet: Year 3",
+            "Notes"
+        ]);
+        // Every split table's own table block has one column per month
+        // plus its year subtotal (the Balance Sheet's Year 1 also
+        // carries the Opening column, once).
+        const table = (title: string) => monthly.sections.find(entry => entry.title === title)!.blocks[0] as { kind: "table"; headers: string[] };
+        expect(table("Cash-Flow Forecast: Year 1").headers).toHaveLength(1 + 13);
+        expect(table("Cash-Flow Forecast: Year 2").headers).toHaveLength(1 + 13);
+        expect(table("Balance Sheet: Year 1").headers).toHaveLength(1 + 14);
+        expect(table("Balance Sheet: Year 2").headers).toHaveLength(1 + 13);
+
+        // A single plan year is already narrow enough: left as one table.
+        const oneYear = businessForecastContent(all, "monthly", 1);
+        expect(oneYear.sections.map(entry => entry.title)).toEqual([
+            "Cash-Flow Forecast", "Profit and Loss Forecast", "Balance Sheet", "Notes"
+        ]);
+
+        // The annual view is narrow regardless of plan length: never split.
+        const annual = businessForecastContent(all, "annual", 3);
+        expect(annual.landscape).toBe(true);
+        expect(annual.sections.map(entry => entry.title)).toEqual([
+            "Cash-Flow Forecast", "Profit and Loss Forecast", "Balance Sheet", "Notes"
+        ]);
+    });
+
+    test("splitMonthlyTableByYear keeps the Opening column with Year 1 only, and each year's own subtotal", () => {
+        const { forecast } = businessForecast(all);
+        const view = forecastView(forecast, "monthly", 2);
+        const [cashFlow, , balanceSheet] = view.tables;
+
+        const cashParts = splitMonthlyTableByYear(cashFlow);
+        expect(cashParts).toHaveLength(2);
+        expect(cashParts[0].columns).toEqual(cashFlow.columns.slice(0, 13));
+        expect(cashParts[0].subtotalColumns).toEqual([12]);
+        expect(cashParts[1].columns).toEqual(cashFlow.columns.slice(13, 26));
+        expect(cashParts[1].subtotalColumns).toEqual([12]);
+        const receiptsYear1 = cashParts[0].rows.find(row => row.label === "Total receipts")!.values;
+        const receiptsYear1FromFull = cashFlow.rows.find(row => row.label === "Total receipts")!.values.slice(0, 13);
+        expect(receiptsYear1).toEqual(receiptsYear1FromFull);
+
+        const sheetParts = splitMonthlyTableByYear(balanceSheet);
+        expect(sheetParts[0].columns[0]).toBe("Opening (Jan 2027)");
+        expect(sheetParts[1].columns[0]).not.toBe("Opening (Jan 2027)");
+
+        // A table already one plan year comes back unchanged.
+        expect(splitMonthlyTableByYear(forecastView(forecast, "monthly", 1).tables[0])).toEqual([forecastView(forecast, "monthly", 1).tables[0]]);
     });
 
 });

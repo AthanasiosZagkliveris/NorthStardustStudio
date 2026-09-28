@@ -89,6 +89,8 @@ export interface ExportContent {
     documentSubtitle?: string;
     /** A document's cover lines under its title: "Prepared: Sep 2026". */
     documentMeta?: string[];
+    /** The Financial Forecast: wide tables, printed on a landscape page. */
+    landscape?: boolean;
     /**
      * The Business Model Canvas: its nine blocks, drawn as the grid
      * (landscape in the PDF) rather than as sections one after another.

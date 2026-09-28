@@ -770,7 +770,7 @@ export function financialFoundationBlocks(value: unknown, context: ExportContext
         ...table(["Need", "Amount", "When", "Made of"], position.needs.map(need => [
             need.label,
             format(need.amount),
-            need.when || "n/a",
+            need.when || "—",
             need.months
                 ? "The first year, month by month, below"
                 : need.parts.length === 0
