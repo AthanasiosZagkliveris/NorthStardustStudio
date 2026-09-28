@@ -66,6 +66,8 @@ import OptionPicker from "./OptionPicker.tsx";
 import type { OpenPage } from "./jumpTo.ts";
 import { useListDrag } from "./ReorderControls.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
+import FoldArrow from "./FoldArrow.tsx";
+import { toggledIn } from "./toggledIn.ts";
 
 import "../../styles/delivery.css";
 
@@ -485,15 +487,7 @@ export default function BusinessCapabilityEditor({
     const [naming, setNaming] = useState<ReadonlySet<string>>(new Set());
 
     function toggle(key: string) {
-        setCollapsed(current => {
-            const next = new Set(current);
-            if (next.has(key)) {
-                next.delete(key);
-            } else {
-                next.add(key);
-            }
-            return next;
-        });
+        setCollapsed(current => toggledIn(current, key));
     }
 
     function update(patch: Partial<BusinessCapabilityValue>) {
@@ -661,15 +655,7 @@ export default function BusinessCapabilityEditor({
                 <div className={"business-engagement-section-head" + (titleExtra ? " fold-group-head" : "")}>
 
                     {foldable && (
-                        <button
-                            type="button"
-                            className="strategy-box-toggle"
-                            aria-expanded={open}
-                            aria-label={(open ? "Minimize " : "Maximize ") + path}
-                            onClick={() => toggle(key)}
-                        >
-                            {open ? "▾" : "▸"}
-                        </button>
+                        <FoldArrow open={open} label={path} onToggle={() => toggle(key)} />
                     )}
 
                     {info
@@ -1270,19 +1256,11 @@ export default function BusinessCapabilityEditor({
 
                 <div className="business-capability-subsection-head fold-group-head">
 
-                    <button
-                        type="button"
-                        className="strategy-box-toggle"
-                        aria-expanded={open}
-                        aria-label={
-                            (open ? "Minimize " : "Maximize ") +
-                            (groupLabel ? groupLabel + " → " : "") +
-                            (title.trim() || "unnamed subsection")
-                        }
-                        onClick={() => toggle(foldKey)}
-                    >
-                        {open ? "▾" : "▸"}
-                    </button>
+                    <FoldArrow
+                        open={open}
+                        label={(groupLabel ? groupLabel + " → " : "") + (title.trim() || "unnamed subsection")}
+                        onToggle={() => toggle(foldKey)}
+                    />
 
                     {own
                         ? (
@@ -1931,15 +1909,7 @@ export default function BusinessCapabilityEditor({
                     summary a row of its own under it. */}
                 <div className="business-capability-activity-head fold-card-head">
 
-                    <button
-                        type="button"
-                        className="strategy-box-toggle"
-                        aria-expanded={open}
-                        aria-label={(open ? "Minimize " : "Maximize ") + "Activity " + number}
-                        onClick={() => folds.toggle(activity.id)}
-                    >
-                        {open ? "▾" : "▸"}
-                    </button>
+                    <FoldArrow open={open} label={"Activity " + number} onToggle={() => folds.toggle(activity.id)} />
 
                     <span
                         className="strategy-box-number business-capability-handle"
@@ -2065,15 +2035,7 @@ export default function BusinessCapabilityEditor({
                 activities={activities}
                 setActivities={setActivities}
                 completedOpen={completedOpen.has(key)}
-                onToggleCompleted={() => setCompletedOpen(current => {
-                    const next = new Set(current);
-                    if (next.has(key)) {
-                        next.delete(key);
-                    } else {
-                        next.add(key);
-                    }
-                    return next;
-                })}
+                onToggleCompleted={() => setCompletedOpen(current => toggledIn(current, key))}
                 renderRow={activityRow}
                 columns={columns}
                 disabled={disabled}
@@ -3140,17 +3102,7 @@ export default function BusinessCapabilityEditor({
 
                         <div className="strategy-box-head business-foundation-input-head business-capability-card-head">
 
-                            <button
-                                type="button"
-                                className="strategy-box-toggle"
-                                aria-expanded={open}
-                                aria-label={
-                                    (open ? "Minimize " : "Maximize ") + card.title
-                                }
-                                onClick={() => toggle(card.id)}
-                            >
-                                {open ? "▾" : "▸"}
-                            </button>
+                            <FoldArrow open={open} label={card.title} onToggle={() => toggle(card.id)} />
 
                             <span className="strategy-box-number">
                                 {card.number + "."}

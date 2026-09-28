@@ -37,6 +37,8 @@ import OptionPicker from "./OptionPicker.tsx";
 import { railId } from "./rails/railItems.ts";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
+import { toggledIn } from "./toggledIn.ts";
+import FoldArrow from "./FoldArrow.tsx";
 
 /**
  * The instruction bullets for each subsection, and the parameter
@@ -1561,26 +1563,11 @@ export default function BusinessFoundationEditor({
 
                         <div className="strategy-box-head business-foundation-input-head">
 
-                            <button
-                                type="button"
-                                className="strategy-box-toggle"
-                                aria-expanded={open}
-                                aria-label={
-                                    (open ? "Minimize " : "Maximize ") +
-                                    "Segment " + (segmentIndex + 1)
-                                }
-                                onClick={() => setCollapsed(current => {
-                                    const next = new Set(current);
-                                    if (next.has(segment.id)) {
-                                        next.delete(segment.id);
-                                    } else {
-                                        next.add(segment.id);
-                                    }
-                                    return next;
-                                })}
-                            >
-                                {open ? "▾" : "▸"}
-                            </button>
+                            <FoldArrow
+                                open={open}
+                                label={"Segment " + (segmentIndex + 1)}
+                                onToggle={() => setCollapsed(current => toggledIn(current, segment.id))}
+                            />
 
                             <span className="strategy-box-number">
                                 {(segmentIndex + 1) + ". Segment"}

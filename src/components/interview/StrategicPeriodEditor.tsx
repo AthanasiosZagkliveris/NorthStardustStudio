@@ -27,6 +27,7 @@ import OptionPicker from "./OptionPicker.tsx";
 import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../framework/engine/Currencies.ts";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
+import FoldArrow from "./FoldArrow.tsx";
 
 interface StrategicPeriodEditorProps {
 
@@ -317,15 +318,7 @@ function ThemeBox({
 
             <div className="strategy-box-head">
 
-                <button
-                    type="button"
-                    className="strategy-box-toggle"
-                    aria-expanded={open}
-                    aria-label={`${open ? "Minimize" : "Maximize"} Theme ${number}`}
-                    onClick={() => onToggle(!open)}
-                >
-                    {open ? "▾" : "▸"}
-                </button>
+                <FoldArrow open={open} label={"Theme " + number} onToggle={() => onToggle(!open)} />
 
                 {/*
                     Number, then what kind of box this is, then its
@@ -453,15 +446,11 @@ function GoalList({
 
                             <span className="strategy-drag-handle" {...box.handleProps}>⠿</span>
 
-                            <button
-                                type="button"
-                                className="strategy-box-toggle"
-                                aria-expanded={open}
-                                aria-label={`${open ? "Minimize" : "Maximize"} Goal ${goalIndex + 1}`}
-                                onClick={() => onFocusGoal(open ? CLOSED : goal.id)}
-                            >
-                                {open ? "▾" : "▸"}
-                            </button>
+                            <FoldArrow
+                                open={open}
+                                label={"Goal " + (goalIndex + 1)}
+                                onToggle={() => onFocusGoal(open ? CLOSED : goal.id)}
+                            />
 
                             <span className="strategy-box-number">{goalIndex + 1}. Goal</span>
 
@@ -673,17 +662,11 @@ function ObjectiveList({
 
                             <span className="strategy-drag-handle" {...box.handleProps}>⠿</span>
 
-                            <button
-                                type="button"
-                                className="strategy-box-toggle"
-                                aria-expanded={open}
-                                aria-label={
-                                    `${open ? "Minimize" : "Maximize"} Objective ${objectiveIndex + 1}`
-                                }
-                                onClick={() => onFocusObjective(open ? CLOSED : objective.id)}
-                            >
-                                {open ? "▾" : "▸"}
-                            </button>
+                            <FoldArrow
+                                open={open}
+                                label={"Objective " + (objectiveIndex + 1)}
+                                onToggle={() => onFocusObjective(open ? CLOSED : objective.id)}
+                            />
 
                             <span className="strategy-box-number">
                                 {objectiveIndex + 1}. Objective

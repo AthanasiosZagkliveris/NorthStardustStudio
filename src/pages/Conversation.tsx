@@ -57,6 +57,7 @@ import { jumpTo, type OpenPage } from "../components/interview/jumpTo.ts";
 import BulletRail from "../components/interview/rails/BulletRail";
 import { pageIndexFromRailId, pageRailItems, sectionRailItems } from "../components/interview/rails/railItems";
 import { scrollToRailSection, useActiveRailSection } from "../components/interview/rails/useActiveRailSection";
+import { toggledIn } from "../components/interview/toggledIn";
 
 import "../styles/conversation.css";
 
@@ -1395,15 +1396,7 @@ export default function Conversation() {
 
     function toggleSelectedProcess(processIndex: number) {
 
-        setSelectedProcessIndexes(current => {
-            const next = new Set(current);
-            if (next.has(processIndex)) {
-                next.delete(processIndex);
-            } else {
-                next.add(processIndex);
-            }
-            return next;
-        });
+        setSelectedProcessIndexes(current => toggledIn(current, processIndex));
 
     }
 
@@ -1411,15 +1404,7 @@ export default function Conversation() {
 
         const key = `${processIndex}:${sopIndex}`;
 
-        setSelectedSopKeys(current => {
-            const next = new Set(current);
-            if (next.has(key)) {
-                next.delete(key);
-            } else {
-                next.add(key);
-            }
-            return next;
-        });
+        setSelectedSopKeys(current => toggledIn(current, key));
 
     }
 

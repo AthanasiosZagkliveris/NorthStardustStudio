@@ -14,6 +14,7 @@ import {
     sopDisplaySequence
 } from "../../framework/engine/AnswerUtils.ts";
 import DateCellInput from "./DateCellInput.tsx";
+import { toggledIn } from "./toggledIn.ts";
 
 // Shared, page-unique ids: each of these <datalist>s is rendered
 // ONCE for the whole table (its own suggestion set is the same
@@ -848,19 +849,7 @@ function SopsTable({
 
     function toggleExpanded(index: number) {
 
-        setExpanded(previous => {
-
-            const next = new Set(previous);
-
-            if (next.has(index)) {
-                next.delete(index);
-            } else {
-                next.add(index);
-            }
-
-            return next;
-
-        });
+        setExpanded(previous => toggledIn(previous, index));
 
     }
 
@@ -1539,19 +1528,7 @@ export default function ProcessLibraryEditor({
 
         const isCurrentlyExpanded = expanded.has(index);
 
-        setExpanded(previous => {
-
-            const next = new Set(previous);
-
-            if (next.has(index)) {
-                next.delete(index);
-            } else {
-                next.add(index);
-            }
-
-            return next;
-
-        });
+        setExpanded(previous => toggledIn(previous, index));
 
         // Only worth recording when OPENING (a collapse doesn't
         // need a "how was it opened" flag) -- and re-evaluated

@@ -1,5 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 
+import { toggledIn } from "./toggledIn.ts";
+
 /**
  * Which repeatable item cards (Profiles, Resources, Funding Sources…)
  * are open. The inverse of each editor's own `collapsed` set: items
@@ -22,11 +24,7 @@ export function useItemFolds(): ItemFolds {
     const [expanded, setExpanded] = useState<ReadonlySet<string>>(new Set());
 
     const toggle = useCallback((id: string) => {
-        setExpanded(current => {
-            const next = new Set(current);
-            if (next.has(id)) next.delete(id); else next.add(id);
-            return next;
-        });
+        setExpanded(current => toggledIn(current, id));
     }, []);
 
     const expand = useCallback((id: string) => {

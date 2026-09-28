@@ -90,6 +90,8 @@ import { jurisdictionProfile } from "../../framework/engine/LegalEntityJurisdict
 import type { OpenPage } from "./jumpTo.ts";
 import { railId } from "./rails/railItems.ts";
 import { useItemFolds } from "./useItemFolds.ts";
+import FoldArrow from "./FoldArrow.tsx";
+import { toggledIn } from "./toggledIn.ts";
 
 /* ==========================================================
    What the page says
@@ -365,15 +367,7 @@ export default function FinancialFoundationEditor({
     const [editingCosts, setEditingCosts] = useState<ReadonlySet<string>>(new Set());
 
     function toggle(key: string) {
-        setCollapsed(current => {
-            const next = new Set(current);
-            if (next.has(key)) {
-                next.delete(key);
-            } else {
-                next.add(key);
-            }
-            return next;
-        });
+        setCollapsed(current => toggledIn(current, key));
     }
 
     /* Writes go to what is STORED, so an unchosen plan start stays unchosen. */
@@ -477,15 +471,7 @@ export default function FinancialFoundationEditor({
 
                 <div className="strategy-box-head business-foundation-input-head business-capability-card-head">
 
-                    <button
-                        type="button"
-                        className="strategy-box-toggle"
-                        aria-expanded={open}
-                        aria-label={(open ? "Minimize " : "Maximize ") + section.title}
-                        onClick={() => toggle(id)}
-                    >
-                        {open ? "▾" : "▸"}
-                    </button>
+                    <FoldArrow open={open} label={section.title} onToggle={() => toggle(id)} />
 
                     <span className="strategy-box-number">{number + "."}</span>
 
@@ -533,15 +519,7 @@ export default function FinancialFoundationEditor({
     }
 
     function toggleEditing(id: string) {
-        setEditingCosts(current => {
-            const next = new Set(current);
-            if (next.has(id)) {
-                next.delete(id);
-            } else {
-                next.add(id);
-            }
-            return next;
-        });
+        setEditingCosts(current => toggledIn(current, id));
     }
 
     function whenText(line: CostLine): string {
@@ -920,15 +898,11 @@ export default function FinancialFoundationEditor({
 
                             <div className="financial-cost-group-head">
                                 <span className="business-foundation-label-info">
-                                    <button
-                                        type="button"
-                                        className="strategy-box-toggle"
-                                        aria-expanded={open}
-                                        aria-label={(open ? "Minimize " : "Maximize ") + group.label + " costs"}
-                                        onClick={() => toggle(foldId)}
-                                    >
-                                        {open ? "▾" : "▸"}
-                                    </button>
+                                    <FoldArrow
+                                        open={open}
+                                        label={group.label + " costs"}
+                                        onToggle={() => toggle(foldId)}
+                                    />
                                     <span className="business-capability-subhead">
                                         <InfoText text={group.label}>
                                             <InfoNote label={group.label} points={[group.explanation]} fullList />
@@ -1326,15 +1300,7 @@ export default function FinancialFoundationEditor({
                                 type="button"
                                 className="business-engagement-link"
                                 aria-expanded={showing}
-                                onClick={() => setSchedulesOpen(current => {
-                                    const next = new Set(current);
-                                    if (next.has(source.id)) {
-                                        next.delete(source.id);
-                                    } else {
-                                        next.add(source.id);
-                                    }
-                                    return next;
-                                })}
+                                onClick={() => setSchedulesOpen(current => toggledIn(current, source.id))}
                             >
                                 {showing ? "Hide repayment schedule" : "Show repayment schedule"}
                             </button>

@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
+import FoldArrow from "./FoldArrow.tsx";
 
 import "../../styles/card-folding.css";
 
@@ -15,10 +16,11 @@ import "../../styles/card-folding.css";
  * add and delete controls -- and a second page is the point at
  * which a copy becomes two things free to drift apart.
  *
- * So they live here, once, and both pages import them. Page 1's own
- * helpers now delegate to these, which is why not one of its call
- * sites changed: the markup and the class names here are its
- * markup and its class names, moved rather than rewritten.
+ * So they live here, once, and every Business page imports them --
+ * Foundation, Customer Engagement, Infrastructure & Capability and
+ * the two Financial pages. Page 1's own helpers delegate to these:
+ * the markup and the class names here are its markup and its class
+ * names, moved rather than rewritten.
  *
  * Everything is a component rather than a function returning
  * markup, because that is what lets them be shared: the originals
@@ -259,9 +261,9 @@ export interface BusinessTickOption {
  * them are "one or more of these", and a dropdown that has to be
  * opened once per choice is the wrong shape for that.
  *
- * `meaning` is drawn beside the name for the one list that needs
- * it -- Get, Keep and Grow, whose names say nothing on their own to
- * anyone who has not met the model before.
+ * `meaning` is drawn beside the name for a list whose names need
+ * it -- today the Financial Foundation's Funding Needs, each shown
+ * with its amount.
  */
 export function BusinessTicks({
 
@@ -427,8 +429,9 @@ export function BusinessRemove({
  * it adds to reads as the more important of the two, and a column
  * of them reads as the page's main business.
  *
- * 28px square, which clears the 24 the target-size rule asks for
- * and matches the line the labels are set on.
+ * The "+" is 24px square, which meets the 24 the target-size rule
+ * asks for and matches the line the labels are set on; the × is the
+ * 32px remove every card carries.
  */
 export function BusinessStep({
 
@@ -458,7 +461,7 @@ export function BusinessStep({
             /* The remove is the app's one remove control, the 32px ×
                every card carries (.strategy-box-remove), not a small
                minus of its own. */
-            className={adding ? "business-step business-step-add" : "strategy-box-remove business-step-remove"}
+            className={adding ? "business-step" : "strategy-box-remove"}
             aria-label={(adding ? "Add another " : "Remove this ") + what}
             title={(adding ? "Add another " : "Remove this ") + what}
             disabled={disabled}
@@ -510,11 +513,11 @@ export function BusinessAddButton({
  * The name is asked once, in the one place it is also read -- and
  * stays legible when the card is folded shut.
  *
- * `onName` is omitted for a card that REFERS to something answered
- * on another page. Page 2's Segment and Profile cards are the
- * whole of that case: they are Page 1's Segments and Profiles, so
- * the name is shown rather than asked, and answering it here would
- * be the duplication both specifications forbid.
+ * `onName` is omitted for a card whose name is answered elsewhere
+ * -- the Founder (Legal Entity), the Delivery Offering (Page 1) and
+ * the Revenue Stream (its Offering) -- so the name is shown rather
+ * than asked, and answering it here would be the duplication the
+ * specifications forbid.
  */
 export function BusinessCard({
 
@@ -533,8 +536,6 @@ export function BusinessCard({
     actions = null,
 
     className,
-
-    style,
 
     disabled = false,
 
@@ -558,7 +559,6 @@ export function BusinessCard({
     onToggle?: () => void;
     actions?: ReactNode;
     className?: string;
-    style?: React.CSSProperties;
     disabled?: boolean;
     /**
      * What the card sits inside, for assistive technology: "Segment 2"
@@ -589,7 +589,6 @@ export function BusinessCard({
             className={
                 "business-foundation-card" + (className ? " " + className : "")
             }
-            style={style}
             data-anchor={anchor}
         >
 
@@ -600,17 +599,7 @@ export function BusinessCard({
             <div className={"strategy-box-head" + (onToggle ? " fold-card-head" : "")}>
 
                 {onToggle && (
-                    <button
-                        type="button"
-                        className="strategy-box-toggle"
-                        aria-expanded={open}
-                        aria-label={
-                            (open ? "Minimize " : "Maximize ") + who
-                        }
-                        onClick={onToggle}
-                    >
-                        {open ? "▾" : "▸"}
-                    </button>
+                    <FoldArrow open={open} label={who} onToggle={onToggle} />
                 )}
 
                 <span className="strategy-box-number">

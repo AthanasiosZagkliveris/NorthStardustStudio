@@ -42,6 +42,7 @@ import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "
 import OptionPicker from "./OptionPicker.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
+import FoldArrow from "./FoldArrow.tsx";
 
 /**
  * The last entry in every Legal Form list. The brief forbids
@@ -1904,15 +1905,11 @@ export default function LegalEntityEditor({
 
                                 <div className="legal-entity-card-head fold-card-head">
 
-                                    <button
-                                        type="button"
-                                        className="strategy-box-toggle"
-                                        aria-expanded={open}
-                                        aria-label={(open ? "Minimize " : "Maximize ") + "Requirement " + (index + 1)}
-                                        onClick={() => folds.toggle(requirement.id)}
-                                    >
-                                        {open ? "▾" : "▸"}
-                                    </button>
+                                    <FoldArrow
+                                        open={open}
+                                        label={"Requirement " + (index + 1)}
+                                        onToggle={() => folds.toggle(requirement.id)}
+                                    />
 
                                     <span className="legal-entity-card-number">
                                         {(numberPrefix ? numberPrefix + ".5." : "5.") + (index + 1)}
@@ -2111,15 +2108,11 @@ export default function LegalEntityEditor({
 
                                 <div className="legal-entity-card-head fold-card-head">
 
-                                    <button
-                                        type="button"
-                                        className="strategy-box-toggle"
-                                        aria-expanded={open}
-                                        aria-label={(open ? "Minimize " : "Maximize ") + "Expense " + (index + 1)}
-                                        onClick={() => folds.toggle(expense.id)}
-                                    >
-                                        {open ? "▾" : "▸"}
-                                    </button>
+                                    <FoldArrow
+                                        open={open}
+                                        label={"Expense " + (index + 1)}
+                                        onToggle={() => folds.toggle(expense.id)}
+                                    />
 
                                     <span className="legal-entity-card-number">
                                         {(numberPrefix ? numberPrefix + ".6." : "6.") + (index + 1)}

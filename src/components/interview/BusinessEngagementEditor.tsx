@@ -59,6 +59,8 @@ import type { OpenPage } from "./jumpTo.ts";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import SuggestedInput from "./SuggestedInput.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
+import FoldArrow from "./FoldArrow.tsx";
+import { toggledIn } from "./toggledIn.ts";
 
 import "../../styles/demand.css";
 
@@ -704,15 +706,7 @@ export default function BusinessEngagementEditor({
         folds.isOpen(referencesFoldKey(segmentId));
 
     function toggle(key: string) {
-        setCollapsed(current => {
-            const next = new Set(current);
-            if (next.has(key)) {
-                next.delete(key);
-            } else {
-                next.add(key);
-            }
-            return next;
-        });
+        setCollapsed(current => toggledIn(current, key));
     }
 
     /* ---------- Reading and writing one Segment's answer ---------- */
@@ -1051,18 +1045,11 @@ export default function BusinessEngagementEditor({
                                 <div className="business-engagement-reference-name-row">
 
                                     {foldable && sections.length > 0 && (
-                                        <button
-                                            type="button"
-                                            className="strategy-box-toggle"
-                                            aria-expanded={open}
-                                            aria-label={
-                                                (open ? "Minimize " : "Maximize ") +
-                                                (source.name.trim() || what)
-                                            }
-                                            onClick={() => folds.toggle(foldKey)}
-                                        >
-                                            {open ? "▾" : "▸"}
-                                        </button>
+                                        <FoldArrow
+                                            open={open}
+                                            label={source.name.trim() || what}
+                                            onToggle={() => folds.toggle(foldKey)}
+                                        />
                                     )}
 
                                     {foundationLink(source.name, what, source.key)}
@@ -1132,15 +1119,7 @@ export default function BusinessEngagementEditor({
 
                 <div className="business-engagement-section-head fold-group-head">
 
-                    <button
-                        type="button"
-                        className="strategy-box-toggle"
-                        aria-expanded={open}
-                        aria-label={(open ? "Minimize " : "Maximize ") + title}
-                        onClick={() => toggle(key)}
-                    >
-                        {open ? "▾" : "▸"}
-                    </button>
+                    <FoldArrow open={open} label={title} onToggle={() => toggle(key)} />
 
                     <span className="business-foundation-subhead">{title}</span>
 
@@ -1360,20 +1339,11 @@ export default function BusinessEngagementEditor({
                                                 channels drawn to
                                                 fold. */}
                                             {group.label.trim().length > 0 && (
-                                                <button
-                                                    type="button"
-                                                    className="strategy-box-toggle"
-                                                    aria-expanded={categoryOpen}
-                                                    aria-label={
-                                                        (categoryOpen
-                                                            ? "Minimize "
-                                                            : "Maximize ") +
-                                                        group.label
-                                                    }
-                                                    onClick={() => folds.toggle(categoryFoldKey)}
-                                                >
-                                                    {categoryOpen ? "▾" : "▸"}
-                                                </button>
+                                                <FoldArrow
+                                                    open={categoryOpen}
+                                                    label={group.label}
+                                                    onToggle={() => folds.toggle(categoryFoldKey)}
+                                                />
                                             )}
 
                                             {/* The seven, and "Other" --
@@ -2285,22 +2255,11 @@ export default function BusinessEngagementEditor({
                                        of its own. */
                                     const offeringHead = (
                                         <span className="business-engagement-reference-name-row">
-                                            <button
-                                                type="button"
-                                                className="strategy-box-toggle"
-                                                aria-expanded={offeringShown}
-                                                aria-label={
-                                                    (offeringShown
-                                                        ? "Minimize "
-                                                        : "Maximize ") +
-                                                    offeringName(offeringId)
-                                                }
-                                                onClick={() => folds.toggle(
-                                                    offeringFoldKey(offeringId)
-                                                )}
-                                            >
-                                                {offeringShown ? "▾" : "▸"}
-                                            </button>
+                                            <FoldArrow
+                                                open={offeringShown}
+                                                label={offeringName(offeringId)}
+                                                onToggle={() => folds.toggle(offeringFoldKey(offeringId))}
+                                            />
                                             <span className="business-engagement-band-kind">
                                                 {(offeringIndex + 1) + ". Offering -"}
                                             </span>
@@ -2592,26 +2551,11 @@ export default function BusinessEngagementEditor({
                                                                 kept under it. One type can
                                                                 run to five stages and a
                                                                 dozen channels. */}
-                                                            <button
-                                                                type="button"
-                                                                className="strategy-box-toggle"
-                                                                aria-expanded={typeShown}
-                                                                aria-label={
-                                                                    (typeShown
-                                                                        ? "Minimize "
-                                                                        : "Maximize ") +
-                                                                    (typeId.length > 0
-                                                                        ? TYPE_LABELS[typeId]
-                                                                        : "this relationship type") +
-                                                                    " for " +
-                                                                    offeringName(offeringId)
-                                                                }
-                                                                onClick={() => toggle(
-                                                                    typeFoldKey(offeringId, typeId)
-                                                                )}
-                                                            >
-                                                                {typeShown ? "▾" : "▸"}
-                                                            </button>
+                                                            <FoldArrow
+                                                                open={typeShown}
+                                                                label={(typeId.length > 0 ? TYPE_LABELS[typeId] : "this relationship type") + " for " + offeringName(offeringId)}
+                                                                onToggle={() => toggle(typeFoldKey(offeringId, typeId))}
+                                                            />
 
                                                             <OptionPicker
                                                                 label={
@@ -2912,25 +2856,11 @@ export default function BusinessEngagementEditor({
                                                                                     others
                                                                                     underfoot. */}
                                                                                 <span className="business-engagement-reference-name-row">
-                                                                                    <button
-                                                                                        type="button"
-                                                                                        className="strategy-box-toggle"
-                                                                                        aria-expanded={stageShown}
-                                                                                        aria-label={
-                                                                                            (stageShown
-                                                                                                ? "Minimize "
-                                                                                                : "Maximize ") +
-                                                                                            about
-                                                                                        }
-                                                                                        onClick={() => toggle(
-                                                                                            stageFoldKey(
-                                                                                                offeringId, typeId,
-                                                                                                interaction.stageId
-                                                                                            )
-                                                                                        )}
-                                                                                    >
-                                                                                        {stageShown ? "▾" : "▸"}
-                                                                                    </button>
+                                                                                    <FoldArrow
+                                                                                        open={stageShown}
+                                                                                        label={about}
+                                                                                        onToggle={() => toggle(stageFoldKey(offeringId, typeId, interaction.stageId))}
+                                                                                    />
                                                                                     <span>
                                                                                         {STAGE_LABELS[interaction.stageId]}
                                                                                     </span>
@@ -3401,15 +3331,11 @@ export default function BusinessEngagementEditor({
 
                 <div className="business-demand-head">
                     <div className="business-demand-title-row">
-                        <button
-                            type="button"
-                            className="strategy-box-toggle"
-                            aria-expanded={open}
-                            aria-label={(open ? "Minimize " : "Maximize ") + "Demand & Conversion for " + offeringLabel}
-                            onClick={() => folds.toggle(foldKey)}
-                        >
-                            {open ? "▾" : "▸"}
-                        </button>
+                        <FoldArrow
+                            open={open}
+                            label={"Demand & Conversion for " + offeringLabel}
+                            onToggle={() => folds.toggle(foldKey)}
+                        />
                         <span className="business-foundation-subhead business-demand-title">
                             Demand &amp; Conversion
                         </span>
@@ -3695,18 +3621,11 @@ export default function BusinessEngagementEditor({
 
                         <div className="strategy-box-head business-foundation-input-head">
 
-                            <button
-                                type="button"
-                                className="strategy-box-toggle"
-                                aria-expanded={open}
-                                aria-label={
-                                    (open ? "Minimize " : "Maximize ") +
-                                    "Segment " + (segmentIndex + 1)
-                                }
-                                onClick={() => toggle(key)}
-                            >
-                                {open ? "▾" : "▸"}
-                            </button>
+                            <FoldArrow
+                                open={open}
+                                label={"Segment " + (segmentIndex + 1)}
+                                onToggle={() => toggle(key)}
+                            />
 
                             <span className="strategy-box-number">
                                 {(segmentIndex + 1) + ". Segment"}

@@ -70,6 +70,8 @@ import OptionPicker from "./OptionPicker.tsx";
 import type { OpenPage } from "./jumpTo.ts";
 import { railId } from "./rails/railItems.ts";
 import { useItemFolds } from "./useItemFolds.ts";
+import FoldArrow from "./FoldArrow.tsx";
+import { toggledIn } from "./toggledIn.ts";
 
 /** How to estimate each group of a revenue stream: the "i" beside its title. */
 const STREAM_HELP: Record<"price" | "volume" | "timing", InfoPoint[]> = {
@@ -333,15 +335,7 @@ export default function FinancialSustainabilityEditor({
 
 
     function toggle(key: string) {
-        setCollapsed(current => {
-            const next = new Set(current);
-            if (next.has(key)) {
-                next.delete(key);
-            } else {
-                next.add(key);
-            }
-            return next;
-        });
+        setCollapsed(current => toggledIn(current, key));
     }
 
     /*
@@ -644,15 +638,7 @@ export default function FinancialSustainabilityEditor({
             >
 
                 <div className="strategy-box-head business-foundation-input-head business-capability-card-head fold-group-head">
-                    <button
-                        type="button"
-                        className="strategy-box-toggle"
-                        aria-expanded={open}
-                        aria-label={(open ? "Minimize " : "Maximize ") + section.title}
-                        onClick={() => toggle(id)}
-                    >
-                        {open ? "▾" : "▸"}
-                    </button>
+                    <FoldArrow open={open} label={section.title} onToggle={() => toggle(id)} />
                     <span className="strategy-box-number">{number + "."}</span>
                     <span className="strategy-name-static">
                         <InfoText text={section.title}>
