@@ -37,8 +37,8 @@
       profit in a reconciliation below it (Profit Kept in the
       Business), which is Financial Sustainability's result;
     - income tax at a rate is a flat rate on each plan year's profit
-      before tax (none on a loss, no loss carried forward), accrued
-      month by month and paid in the first month of the next plan
+      before tax (none on a loss, no loss carried forward), accrued on
+      the year-to-date profit and paid in the first month of the next plan
       year; the Financial pages' own results stay before tax;
     - VAT or sales tax is not calculated, and every cost is paid when
       due (no trade payables): the answers hold no supplier terms.
@@ -391,24 +391,29 @@ export function financialForecast(
 
     /* Income tax, where a rate on profit is given: the rate on each
        plan year's profit before tax, and nothing on a loss (no loss
-       is carried forward). Accrued month by month in proportion to
-       each month's profit, so each year's months add up to exactly
-       its tax; owed until paid in the first month of the next plan
-       year, and the last year's still owed at the plan's end. */
+       is carried forward). Accrued on the year-to-date profit: each
+       month's tax is the rate on the profit so far this year, less
+       the tax already accrued, so a month or quarter that is still
+       at a loss for the year shows none, a later loss month reverses
+       some, and each year's months add up to exactly its tax; owed
+       until paid in the first month of the next plan year, and the
+       last year's still owed at the plan's end. */
     const taxRate = incomeTaxRate(foundation);
     const passThrough = taxRate === null && foundation.incomeTax === "pass-through";
     const tax = profit.map(() => 0);
     const taxPaid = profit.map(() => 0);
     if (taxRate !== null) {
         for (let from = 0; from < length; from += 12) {
-            const year = profit.slice(from, from + 12);
-            const due = Math.max(0, year.reduce((total, amount) => total + amount, 0)) * taxRate;
-            const gains = year.reduce((total, amount) => total + Math.max(0, amount), 0);
-            year.forEach((amount, offset) => {
-                tax[from + offset] = gains > 0 ? due * Math.max(0, amount) / gains : 0;
-            });
+            let toDate = 0;
+            let accrued = 0;
+            for (let index = from; index < Math.min(from + 12, length); index++) {
+                toDate += profit[index];
+                const due = Math.max(0, toDate) * taxRate;
+                tax[index] = due - accrued;
+                accrued = due;
+            }
             if (from + 12 < length) {
-                taxPaid[from + 12] = due;
+                taxPaid[from + 12] = accrued;
             }
         }
     }
@@ -630,7 +635,7 @@ export function financialForecast(
             "The part of a loan repaid within the next 12 months is a current liability; the rest is non-current.",
             ...(taxRate !== null
                 ? ["Income tax is estimated at a flat " + ratePercent + " of each plan year's profit before tax: none on a loss, and no loss carried forward to a later year. " +
-                    "It is accrued month by month in proportion to each month's profit, is a current liability (Income tax payable) until paid, and is paid in the first month of the following plan year; the final plan year's tax is still owed at the plan's end.",
+                    "It is accrued month by month on the profit so far that year, so a month or quarter still at a loss for the year shows none and a later loss month reverses some; it is a current liability (Income tax payable) until paid, and is paid in the first month of the following plan year; the final plan year's tax is still owed at the plan's end.",
                 "Break even, runway and the funding gap on the Financial Foundation and Financial Sustainability pages are before income tax.",
                 "VAT or sales tax is not estimated. " +
                     "There are no trade payables: every cost is taken as paid when due, as no supplier payment terms are recorded."]

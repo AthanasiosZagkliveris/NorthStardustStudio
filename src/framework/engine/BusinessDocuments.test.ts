@@ -917,8 +917,17 @@ describe("income tax in the forecast", () => {
         const expected = yearTotals(before).map(amount => Math.max(0, amount) * 0.25);
         yearTotals(tax).forEach((amount, year) => expect(amount).toBeCloseTo(expected[year], 6));
         expect(expected.some(amount => amount > 0), "a year with profit to tax").toBe(true);
+        // Accrued on the year-to-date profit: none while the year is still at a loss.
+        let toDate = 0;
+        let taxToDate = 0;
         tax.forEach((amount, month) => {
-            expect(amount).toBeGreaterThanOrEqual(0);
+            if (month % 12 === 0) {
+                toDate = 0;
+                taxToDate = 0;
+            }
+            toDate += before[month];
+            taxToDate += amount;
+            expect(taxToDate).toBeCloseTo(Math.max(0, toDate) * 0.25, 6);
             expect(net[month]).toBeCloseTo(before[month] - amount, 6);
         });
 
