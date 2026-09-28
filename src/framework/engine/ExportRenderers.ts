@@ -406,7 +406,8 @@ export function brandInventoryBlocks(value: unknown): ExportBlock[] {
 
 const SEGMENT_FIELDS: [string, string][] = [
     ["demographics", "Demographics"], ["geographics", "Geographics"], ["business-data", "Business Data"],
-    ["purchasing", "Purchasing Power & Behaviour"], ["market-size", "Market Size"]
+    ["purchasing", "Purchasing Power & Behaviour"], ["market-size", "Market Size"],
+    ["industry-outlook", "Industry Outlook & Trends"]
 ];
 const PROFILE_FIELDS: [string, string][] = [
     ["personal", "Specific Personal Information"], ["psychographics", "Psychographics"],

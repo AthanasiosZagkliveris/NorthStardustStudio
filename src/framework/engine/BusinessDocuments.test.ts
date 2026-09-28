@@ -804,3 +804,48 @@ describe("the optional answers in the documents", () => {
     });
 
 });
+
+describe("the industry outlook in the documents", () => {
+
+    const quill = JSON.parse(quillfieldText) as typeof example;
+    const loadQuill = (number: number, id: string) =>
+        InterviewSession.fromJSON(quill.systems[String(number)], frameworkRegistry.getFramework(id));
+    const withOutlook = (outlook: string) => {
+        const session = loadQuill(3, "business");
+        const section = session.getFramework().sections.find(candidate => candidate.answer?.type === AnswerType.BusinessFoundation)!;
+        const value = session.getResponse(section.number) as { segments: { description: Record<string, string> }[] };
+        session.saveResponse(section.number, {
+            ...value,
+            segments: value.segments.map((segment, index) => index === 0
+                ? { ...segment, description: { ...segment.description, "industry-outlook": outlook } }
+                : segment)
+        });
+        return session;
+    };
+    const all = (business: InterviewSession) => ({
+        identity: loadQuill(1, "identity"),
+        brand: loadQuill(2, "brand"),
+        business,
+        strategy: loadQuill(4, "strategy"),
+        organisationName: "Quillfield Automation"
+    });
+    const market = (business: InterviewSession) => {
+        const md = new MarkdownExporter().toMarkdown(business, "Foundation", businessPlan(all(business)));
+        return md.slice(md.indexOf("## 3. Market Analysis"), md.indexOf("## 4. Products and Services"));
+    };
+    const trend = "AI tools are moving into everyday office software, and firms now expect them.";
+
+    test("the plan's Market Analysis gives each segment's outlook, or says it is not covered", () => {
+        expect(market(withOutlook(""))).toContain("### Industry Outlook\n\nNot covered by the Foundation answers.");
+        const given = market(withOutlook(trend));
+        expect(given).not.toContain("Not covered by the Foundation answers.");
+        expect(given).toContain("**Industry outlook:** " + trend);
+    });
+
+    test("the Business System's export carries it", () => {
+        const business = withOutlook(trend);
+        const md = new MarkdownExporter().toMarkdown(business, "Foundation", buildExportContent(business, "Foundation"));
+        expect(md).toContain("Industry Outlook & Trends: " + trend);
+    });
+
+});

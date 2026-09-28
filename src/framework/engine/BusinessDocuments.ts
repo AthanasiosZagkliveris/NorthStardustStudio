@@ -716,6 +716,7 @@ function marketBlocks(f: Foundation): ExportBlock[] {
             ...labelled("Who", segment.description.demographics ?? ""),
             ...labelled("Where", segment.description.geographics ?? ""),
             ...labelled("Market size", segment.description["market-size"] ?? ""),
+            ...labelled("Industry outlook", segment.description["industry-outlook"] ?? ""),
             ...titled2("Customer Profiles", table(["Profile", "Goals", "Challenges", "Needs"], segment.profiles.map(profile => [
                 profile.name,
                 profile.goals,
@@ -730,8 +731,11 @@ function marketBlocks(f: Foundation): ExportBlock[] {
                 competitor.insights
             ])))
         ]),
-        // Industry-wide outlook and trends: not asked for (only each segment's size).
-        ...notCovered("Industry Outlook")
+        // Each segment's outlook is under it; said to be missing only
+        // when no segment has one.
+        ...(f.segments.some(segment => text(segment.description["industry-outlook"]))
+            ? []
+            : notCovered("Industry Outlook"))
     ];
 }
 

@@ -6,6 +6,7 @@ import BusinessFoundationEditor from "./BusinessFoundationEditor";
 import { toggles } from "../../test/interviewTestUtils";
 import {
     asBusinessFoundationValue,
+    businessFoundationSubsectionsEmpty,
     createBusinessCustomerProfile,
     createBusinessCustomerSegment
 } from "../../framework/engine/AnswerUtils";
@@ -56,6 +57,44 @@ describe("BusinessFoundationEditor folding", () => {
         fireEvent.click(screen.getByRole("button", { name: "Expand all profiles" }));
 
         toggles(/Profile \d+$/).forEach(t => expect(t.getAttribute("aria-expanded")).toBe("true"));
+
+    });
+
+});
+
+describe("BusinessFoundationEditor industry outlook", () => {
+
+    it("asks it in the Segment's Description, after Market Size, with its note", () => {
+
+        render(<Harness initial={twoProfiles()} />);
+
+        const outlook = screen.getByLabelText("Segment 1 description: Industry Outlook & Trends") as HTMLTextAreaElement;
+        const size = screen.getByLabelText("Segment 1 description: Market Size");
+        expect(outlook.tagName).toBe("TEXTAREA");
+        expect(outlook.value).toBe("");
+        // In the same column, straight after Market Size.
+        expect(size.closest(".business-foundation-field")!.nextElementSibling)
+            .toBe(outlook.closest(".business-foundation-field"));
+        expect(screen.getByRole("button", { name: "Industry Outlook & Trends: what this means" })).toBeTruthy();
+
+    });
+
+    it("loads a Segment saved without it unchanged, and never counts it as missing", () => {
+
+        const saved = { segments: [{ id: "s", name: "Firms", description: { "market-size": "1,200 firms" } }] };
+        const segment = asBusinessFoundationValue(saved).segments[0];
+        expect(segment.description).toEqual({ "market-size": "1,200 firms" });
+        expect(segment.description["industry-outlook"] ?? "").toBe("");
+
+        const answered = {
+            segments: [{
+                id: "s", name: "Firms", description: {}, valueProposition: "We save time.",
+                profiles: [{ ...createBusinessCustomerProfile(), name: "Office manager" }],
+                competitors: [{ id: "c", name: "Zapier" }],
+                offerings: [{ id: "o", name: "Audit" }]
+            }]
+        };
+        expect(businessFoundationSubsectionsEmpty(answered)).toEqual([false, false, false, false]);
 
     });
 
