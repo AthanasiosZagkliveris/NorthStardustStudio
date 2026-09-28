@@ -426,7 +426,9 @@ export default function StrategicRoadmapEditor({
                                                 title={`${objective.name} (${objective.range})`}
                                                 onClick={() => toggleObjective(objective.id)}
                                             >
-                                                {`${objective.number} ${objective.name}`}
+                                                <span className="roadmap-bar-label">
+                                                    {`${objective.number} ${objective.name}`}
+                                                </span>
                                             </button>
 
                                         </div>
@@ -460,7 +462,9 @@ export default function StrategicRoadmapEditor({
                                                             key={index}
                                                             title={initiative}
                                                         >
-                                                            {`${index + 1}. ${initiative}`}
+                                                            <span className="roadmap-bar-label">
+                                                                {`${index + 1}. ${initiative}`}
+                                                            </span>
                                                         </span>
                                                     ))}
                                                 </div>

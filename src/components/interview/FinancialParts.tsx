@@ -180,11 +180,43 @@ export interface TimelineMarker {
 const CHART = {
     width: 960,
     height: 280,
-    left: 64,
     right: 16,
     top: 16,
     bottom: 36
 };
+
+/* The font .financial-axis-text draws the tick labels in (see
+   conversation.css): 400 weight, --font-small (14px), Inter. Kept
+   as one literal string, the same way DynamicTable.tsx measures
+   its own cell text, rather than reading the class's computed
+   style -- the SVG has not been laid out yet the first time this
+   runs. */
+const AXIS_TICK_FONT = "400 14px Inter, sans-serif";
+
+let axisMeasureCanvas: HTMLCanvasElement | null = null;
+
+/** The pixel width of the widest formatted tick label, so the
+    chart can reserve exactly enough left margin for it -- a
+    currency with six-figure amounts ("$100,000") needs more room
+    than one with three, and a fixed margin sized for the smaller
+    case clipped the larger one against the SVG's own left edge. */
+function widestLabel(labels: string[]): number {
+
+    if (!axisMeasureCanvas) {
+        axisMeasureCanvas = document.createElement("canvas");
+    }
+
+    const context = axisMeasureCanvas.getContext("2d");
+
+    if (!context) {
+        return 0;
+    }
+
+    context.font = AXIS_TICK_FONT;
+
+    return labels.reduce((max, label) => Math.max(max, context.measureText(label).width), 0);
+
+}
 
 /**
  * Money in and money out, month by month, and the balance they leave.
@@ -223,21 +255,10 @@ export function CashTimelineChart({
     const [hovered, setHovered] = useState<number | null>(null);
     const [asTable, setAsTable] = useState(false);
 
-    const plotWidth = CHART.width - CHART.left - CHART.right;
     const plotHeight = CHART.height - CHART.top - CHART.bottom;
 
     const high = Math.max(1, ...timeline.map(month => Math.max(month.inflow, month.balance)));
     const low = Math.min(0, ...timeline.map(month => Math.min(-month.outflow, month.balance)));
-
-    const y = (amount: number) => CHART.top + (high - amount) / (high - low) * plotHeight;
-    const count = Math.max(1, timeline.length);
-    const slot = plotWidth / count;
-    // A label every quarter, or every half year on a long plan; the
-    // last month always, and the regular one before it only when
-    // there is room for both.
-    const labelStep = count > 36 ? 6 : 3;
-    const x = (index: number) => CHART.left + index * slot;
-    const barWidth = Math.max(4, Math.min(14, slot / 2 - 3));
 
     // Gridlines at round amounts.
     const range = high - low;
@@ -249,6 +270,25 @@ export function CashTimelineChart({
     for (let tick = Math.ceil(low / step) * step; tick <= high + 1e-9; tick += step) {
         ticks.push(Math.abs(tick) < 1e-9 ? 0 : tick);
     }
+
+    // The left margin reserves exactly what the widest tick label
+    // needs (8px from the axis line, the gap the text already sat
+    // at, plus a few px of breathing room), rather than a fixed
+    // guess that clipped a six-figure amount ("$100,000") against
+    // the SVG's own left edge.
+    const chartLeft = Math.max(40, Math.ceil(widestLabel(ticks.map(format))) + 16);
+
+    const plotWidth = CHART.width - chartLeft - CHART.right;
+
+    const y = (amount: number) => CHART.top + (high - amount) / (high - low) * plotHeight;
+    const count = Math.max(1, timeline.length);
+    const slot = plotWidth / count;
+    // A label every quarter, or every half year on a long plan; the
+    // last month always, and the regular one before it only when
+    // there is room for both.
+    const labelStep = count > 36 ? 6 : 3;
+    const x = (index: number) => chartLeft + index * slot;
+    const barWidth = Math.max(4, Math.min(14, slot / 2 - 3));
 
     const balancePath = timeline
         .map((month, index) =>
@@ -314,10 +354,10 @@ export function CashTimelineChart({
                                 <g key={tick}>
                                     <line
                                         className={tick === 0 ? "financial-axis-zero" : "financial-grid"}
-                                        x1={CHART.left} x2={CHART.width - CHART.right}
+                                        x1={chartLeft} x2={CHART.width - CHART.right}
                                         y1={y(tick)} y2={y(tick)}
                                     />
-                                    <text className="financial-axis-text" x={CHART.left - 8} y={y(tick) + 4} textAnchor="end">
+                                    <text className="financial-axis-text" x={chartLeft - 8} y={y(tick) + 4} textAnchor="end">
                                         {format(tick)}
                                     </text>
                                 </g>
