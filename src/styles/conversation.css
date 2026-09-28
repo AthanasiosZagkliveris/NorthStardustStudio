@@ -2984,13 +2984,6 @@ td.process-library-col-number{
 
 }
 
-/* The "View all Processes & SOPs" browse panel -- a read-only
-   lookup over the same Process Library data the Process ID filter/
-   column already resolve against (see resolveProcessLogLabel/
-   resolveProcessId), so someone working in the Operational Log can
-   see what already exists without switching Sections. Collapsed by
-   default (see `showProcessBrowser` in OperationalLogEditor.tsx),
-   and shown even before any Log entry exists. */
 .operational-log-filters{
 
     display:flex;
@@ -4944,7 +4937,7 @@ td.process-library-col-number{
 
 }
 
-/* ---------- Add / sort buttons ---------- */
+/* ---------- Add buttons ---------- */
 
 .strategy-add-button{
 
@@ -8091,7 +8084,6 @@ td.process-library-col-number{
 ):is(:hover, :focus, :focus-visible, :focus-within):not(:disabled),
 .brand-style .strategy-theme-panel :is(
     .strategy-add-button,
-    .strategy-sort-button,
     .strategy-box-action,
     .strategy-box-toggle,
     .strategy-box-remove,
@@ -11076,8 +11068,6 @@ td.process-library-col-number{
 
 }
 
-/* The same link in a card's head, beside the name it belongs to.
-   A flex item shrinks by default, and this one must not. */
 /* ---------- The two sections ---------- */
 
 .business-engagement-section{
@@ -11188,9 +11178,6 @@ td.process-library-col-number{
 
 }
 
-/* What the chosen channel already records for this same stage.
-   Read-only: it is answered in A. Customer Channel, and a second
-   editable copy is two answers waiting to disagree. */
 /* The goals, under the Approach they belong to. */
 /* THE GOAL AND ITS THREE WORDS ON ONE LINE. "Goal: Get Keep
    Grow" is a label and its answer, not a heading over a block --
@@ -13130,11 +13117,6 @@ td.process-library-col-number{
 
 }
 
-/* A long list of costs to tick, kept to a box that scrolls. */
-/* In a column of fixed height, a flex item may shrink below its own
-   text -- and a label running to two lines was squeezed into one
-   line's height, its second line printed over the next item. The
-   box scrolls instead; nothing inside it gives way. */
 .financial-loan-summary{
 
     display:flex;
@@ -14557,8 +14539,6 @@ td.process-library-col-number{
     font-size:var(--font-body);
 
 }
-
-/* ---------- Estimate the volume ---------- */
 
 /* ---------- Expected sales from Demand & Conversion; the capacity check ---------- */
 
