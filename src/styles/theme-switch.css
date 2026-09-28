@@ -1,0 +1,138 @@
+/* ==========================================================
+   The Light / Dark / Auto switch (ThemeSwitch.tsx), in the app
+   header just before the Organization's name. Three segments of
+   one box, at the small type size; the chosen one is filled in
+   the app's blue. The radio buttons themselves are hidden but
+   still take focus and the arrow keys.
+========================================================== */
+.theme-switch {
+
+    display: flex;
+
+    flex-shrink: 0;
+
+    /* Pushes the switch, and the name after it, to the right. */
+    margin: 0 0 0 auto;
+
+    padding: 0;
+
+    border: 1px solid var(--line-box);
+    border-radius: var(--box-radius);
+
+    background: var(--bg-surface);
+
+    overflow: hidden;
+
+}
+
+/* Named for assistive technology only; each option says what it is. */
+.theme-switch-legend,
+.theme-switch-input {
+
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    margin: -1px;
+    padding: 0;
+
+    overflow: hidden;
+
+    clip-path: inset(50%);
+
+    white-space: nowrap;
+
+    border: 0;
+
+}
+
+.theme-switch-option {
+
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 4px 10px;
+
+    font-size: var(--font-small);
+    font-weight: 500;
+    line-height: 1.4;
+
+    color: var(--text-muted);
+
+    cursor: pointer;
+
+    user-select: none;
+
+}
+
+.theme-switch-option + .theme-switch-option {
+
+    border-left: 1px solid var(--line-box);
+
+}
+
+.theme-switch-option:hover {
+
+    background: var(--bg-primary-tint);
+
+    color: var(--text-primary);
+
+}
+
+.theme-switch-option-checked,
+.theme-switch-option-checked:hover {
+
+    background: var(--bg-primary);
+
+    color: var(--text-on-fill);
+
+}
+
+/* The keyboard's place: a ring inside the segment, so the box's
+   rounded clip does not cut it. */
+.theme-switch-option:has(.theme-switch-input:focus-visible) {
+
+    box-shadow: inset 0 0 0 2px var(--line-primary);
+
+}
+
+.theme-switch-option-checked:has(.theme-switch-input:focus-visible) {
+
+    box-shadow: inset 0 0 0 2px var(--text-on-fill);
+
+}
+
+.theme-switch-icon {
+
+    flex: none;
+
+}
+
+/* A narrow window: the icons alone, each still named by its label
+   (visually hidden) and its title. */
+@media (max-width: 1023px) {
+
+    .theme-switch-option {
+
+        padding: 4px 8px;
+
+    }
+
+    .theme-switch-text {
+
+        position: absolute;
+
+        width: 1px;
+        height: 1px;
+
+        overflow: hidden;
+
+        clip-path: inset(50%);
+
+        white-space: nowrap;
+
+    }
+
+}

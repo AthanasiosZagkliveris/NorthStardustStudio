@@ -1,5 +1,7 @@
 import logo from "../assets/NORTH STARDUST Organization Framework.svg";
 
+import ThemeSwitch from "./ThemeSwitch";
+
 import "../styles/app-header.css";
 
 interface AppHeaderProps {
@@ -27,8 +29,10 @@ export default function AppHeader({ organizationName }: AppHeaderProps) {
                 className="app-logo"
             />
 
+            <ThemeSwitch />
+
             {organizationName && (
-                <h1 className="app-header-organization-name">
+                <h1 className="app-header-organization-name" title={organizationName}>
                     {organizationName}
                 </h1>
             )}

@@ -17,6 +17,11 @@ import "./styles/global.css";
 
 import App from "./App";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import { ThemeService } from "./services/ThemeService";
+
+// The theme is already on <html> (index.html); from here Auto also
+// follows the system's setting while the app is open.
+ThemeService.start();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>

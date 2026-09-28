@@ -249,3 +249,277 @@
     --capability-ink-base: #ffffff;
 
 }
+
+/* ==========================================================
+   Dark
+
+   The same tokens for the dark theme, set when <html> carries
+   data-theme="dark" (ThemeService: the user's choice, or the
+   system's under Auto). Dark neutrals, not black: the page at
+   #121417 and cards a step lighter; text light enough for 4.5:1 on
+   the grounds it sits on. Every System colour keeps its hue: its
+   grounds and tints go dark, its text and lines go light, and a
+   filled bar or button keeps the fill that carries white text.
+   color-scheme makes the native parts -- selects, date pickers,
+   checkboxes -- dark too.
+========================================================== */
+:root[data-theme="dark"] {
+
+    color-scheme: dark;
+
+    /* Text: body copy, labels, links and coloured words. */
+    --text-add: #60c284;
+    --text-added: #8ad49c;
+    --text-black: #e8e8e8;
+    --text-body: #e3e5e8;
+    --text-caution-ink: #feb08b;
+    --text-danger: #ff9b96;
+    --text-danger-alt: #fe9688;
+    --text-danger-deep: #ff9588;
+    --text-deep: #e5e5e5;
+    --text-default: #e6e8eb;
+    --text-done-ink: #b2d2fe;
+    --text-error: #c9c9c9;
+    --text-error-detail: #9b9b9b;
+    --text-faint: #acafb5;
+    --text-flag: #ffa084;
+    --text-good: #82cb7d;
+    --text-holds: #71ca86;
+    --text-met-ink: #9cdaad;
+    --text-muted: #bcc0c7;
+    --text-navy: #e1e7f2;
+    --text-note: #d7c38c;
+    --text-on-fill: #ffffff;
+    --text-over: #ffb0aa;
+    --text-primary: #8ab4f8;
+    --text-primary-deep: #aac9fe;
+    --text-primary-ink: #accbfe;
+    --text-quiet: #93969b;
+    --text-readonly: #cbccce;
+    --text-secondary: #c7ccd4;
+    --text-short-ink: #feb097;
+    --text-soft: #d4d4d4;
+    --text-strong: #d6dbe3;
+    --text-subtle: #b6b8ba;
+    --text-totals-ok: #87d697;
+    --text-warn: #feb190;
+
+    /* Backgrounds: the page, surfaces and cards, tints, fills and chart series. */
+    --bg-add: #1f9254;
+    --bg-add-tile: #202021;
+    --bg-add-tint: #202522;
+    --bg-budget: #4f46e5;
+    --bg-canvas-highlight: #242321;
+    --bg-capacity-ok: #212322;
+    --bg-capacity-short: #24221e;
+    --bg-caution: #b45309;
+    --bg-caution-tint: #22201c;
+    --bg-chart: #1d2023;
+    --bg-danger: #b00020;
+    --bg-danger-alt: #b3261e;
+    --bg-danger-deep: #b91c1c;
+    --bg-danger-pressed: #932019;
+    --bg-danger-strong: #d01818;
+    --bg-danger-tint: #262222;
+    --bg-danger-tint-alt: #2a2524;
+    --bg-done-faint: #202223;
+    --bg-done-tint: #24272b;
+    --bg-faint: #6f7277;
+    --bg-financial-good: #019c03;
+    --bg-financial-grid: #2d2d2c;
+    --bg-financial-in: #2a78d6;
+    --bg-financial-out: #d25117;
+    --bg-financial-risk: #d03b3b;
+    --bg-frost: rgba(18, 20, 23, 0.72);
+    --bg-frost-60: rgba(26, 29, 33, 0.6);
+    --bg-good: #0a7d0a;
+    --bg-hairline: #2a2b2c;
+    --bg-help: #22211e;
+    --bg-highlight: #1e2320;
+    --bg-holds: #1f2220;
+    --bg-hover: #232323;
+    --bg-info: #226bc2;
+    --bg-met: #1f6b3a;
+    --bg-met-tint: #222724;
+    --bg-navy: #444851;
+    --bg-navy-hover: #434850;
+    --bg-neutral: #242424;
+    --bg-note: #23221e;
+    --bg-over: #292425;
+    --bg-overlay: rgba(0, 0, 0, 0.6);
+    --bg-pace: #202121;
+    --bg-page: #121417;
+    --bg-panel: #212121;
+    --bg-primary: #2563d8;
+    --bg-primary-a35: rgba(11, 87, 208, 0.35);
+    --bg-primary-faint: #202122;
+    --bg-primary-hover: #3b74e0;
+    --bg-primary-hover-alt: #3b74e0;
+    --bg-primary-selected: #272b31;
+    --bg-primary-selected-hover: #202f48;
+    --bg-primary-tint: #222427;
+    --bg-primary-tint-head: #222428;
+    --bg-primary-tint-hover: #232629;
+    --bg-quiet: #7e8085;
+    --bg-rail-bloom: #22334a;
+    --bg-rail-dot: #233a51;
+    --bg-remove: #c0392b;
+    --bg-remove-disabled: #a96f68;
+    --bg-retention: #23211f;
+    --bg-series-3: #039868;
+    --bg-series-4: #ab7305;
+    --bg-series-5: #c05781;
+    --bg-short-tint: #272321;
+    --bg-strong: #3a414c;
+    --bg-surface: #1a1d21;
+    --bg-table: #333333;
+    --bg-table-expansion: #202021;
+    --bg-table-head: #222223;
+    --bg-total: #202121;
+    --bg-totals-ok: #232725;
+    --bg-totals-warn: #2c2625;
+    --bg-track: #2e2e2e;
+    --bg-warm: #212120;
+    --bg-warn: #272421;
+
+    /* Lines: card and box borders, rules, grid lines and focus rings. */
+    --line-add: #42ad6d;
+    --line-add-tile: #4d5156;
+    --line-box: #80868f;
+    --line-calendar: #414141;
+    --line-capacity-ok: #63b17f;
+    --line-capacity-short: #be7f28;
+    --line-card: #4d4d4d;
+    --line-caution: #dd7c43;
+    --line-chart: #1d2023;
+    --line-danger: #f07f7a;
+    --line-danger-a18: rgba(240, 127, 122, 0.18);
+    --line-danger-alt: #ec7c6e;
+    --line-danger-deep: #eb7b6f;
+    --line-danger-strong: #e47568;
+    --line-disabled: #83868b;
+    --line-divider: #686d75;
+    --line-done: #6789b2;
+    --line-done-ink: #98bced;
+    --line-faint: #979aa0;
+    --line-financial-balance: #b6b6b5;
+    --line-financial-grid: #414140;
+    --line-good: #68b562;
+    --line-grid: #474747;
+    --line-group: #848689;
+    --line-hairline: #3f4041;
+    --line-heading-rule: #474747;
+    --line-holds: #55b56e;
+    --line-input-soft: #898b8e;
+    --line-met: #71ba84;
+    --line-navy: #cbd0db;
+    --line-note: #574b2c;
+    --line-pace: #404663;
+    --line-picker: #3f4042;
+    --line-primary: #7aa7f5;
+    --line-primary-a18: rgba(110, 161, 249, 0.18);
+    --line-primary-a22: rgba(110, 161, 249, 0.22);
+    --line-primary-a25: rgba(110, 161, 249, 0.25);
+    --line-primary-soft: #475874;
+    --line-quiet: #84868b;
+    --line-retention: #47413a;
+    --line-rule: #3d3d3d;
+    --line-sheet: #494846;
+    --line-short: #e17756;
+    --line-slate: #81878f;
+    --line-table: #464646;
+    --line-totals: #494b50;
+    --line-warn: #674a36;
+    --line-warning-units: #613e44;
+
+    /* Shadows and their tints. */
+    --shadow-08: rgba(0, 0, 0, 0.2);
+    --shadow-12: rgba(0, 0, 0, 0.3);
+    --shadow-18: rgba(0, 0, 0, 0.45);
+    --shadow-ink-08: rgba(0, 0, 0, 0.2);
+    --shadow-ink-12: rgba(0, 0, 0, 0.3);
+    --shadow-ink-16: rgba(0, 0, 0, 0.4);
+    --shadow-ink-18: rgba(0, 0, 0, 0.45);
+
+    /* A System colour family, as "saturation lightness" for
+       hsl(var(--strategy-theme-hue) ...): the hue comes from the
+       card or Theme it is used in. Text. */
+    --theme-text-accent-deeper: 45% 83.1%;
+    --theme-text-bar-ink: 45% 87%;
+    --theme-text-ink: 28% 77.9%;
+    --theme-text-ink-deep: 28% 80.5%;
+
+    /* Backgrounds, tints and bar fills. */
+    --theme-bg-accent-deep: 45% 30%;
+    --theme-bg-bar: 28% 23.8%;
+    --theme-bg-bar-hover: 28% 28.2%;
+    --theme-bg-bar-open: 62% 20%;
+    --theme-bg-card-wash: 18% 16.1%;
+    --theme-bg-edge: 24% 44%;
+    --theme-bg-ground: 28% 17.2%;
+    --theme-bg-ground-alt: 28% 17.8%;
+    --theme-bg-hover: 28% 21.6%;
+    --theme-bg-initiative: 25% 24.9%;
+    --theme-bg-ink: 28% 34%;
+    --theme-bg-inner: 28% 19.4%;
+    --theme-bg-meter: 14% 23.8%;
+    --theme-bg-pill: 28% 18.9%;
+    --theme-bg-raised: 28% 18.3%;
+    --theme-bg-result-wash: 18% 16.6%;
+    --theme-bg-wash: 28% 16.1%;
+
+    /* Borders, rules and rings. */
+    --theme-line-accent: 40% 67.6%;
+    --theme-line-accent-deep: 40% 70%;
+    --theme-line-accent-deeper: 40% 72.4%;
+    --theme-line-bar-edge: 40% 67.6%;
+    --theme-line-bar-open: 40% 76%;
+    --theme-line-edge: 24% 61.6%;
+    --theme-line-edge-light: 14% 42%;
+    --theme-line-edge-soft: 24% 50.8%;
+    --theme-line-ink: 28% 67.6%;
+    --theme-line-meter: 18% 33.6%;
+    --theme-line-result-edge: 40% 61.6%;
+    --theme-line-rule: 14% 36%;
+    --theme-line-rule-light: 14% 33.6%;
+
+    /* A Capability's colour (navy, green, brown, blue, orange,
+       purple) is dark: as text or a line it is mixed halfway to
+       white, so it reads on the dark ground and keeps its hue. */
+    --capability-ink-weight: 45%;
+    --capability-ink-base: #ffffff;
+
+    --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23e6e8eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+}
+
+/* The documents stay on paper: the Business Plan, the Canvas and
+   the Forecast tables keep the light tokens (declared on them at
+   the top of this file) and light native parts. */
+:root[data-theme="dark"] .business-document,
+:root[data-theme="dark"] .business-canvas,
+:root[data-theme="dark"] .business-forecast-table-wrap {
+
+    color-scheme: light;
+
+}
+
+/* The Canvas and the Forecast tables set no text colour of their own:
+   they take the light page's, not the dark page's around them. */
+:root[data-theme="dark"] .business-canvas,
+:root[data-theme="dark"] .business-forecast-table-wrap {
+
+    color: var(--text-body);
+
+}
+
+/* The Capability and System icons are drawn in their dark colour
+   on white. In the dark theme they are inverted and turned back to
+   their hue: the colour reads light on the dark ground, and the
+   white cut-outs go dark, as holes should. */
+:root[data-theme="dark"] .interview-header-icon,
+:root[data-theme="dark"] .capability-description-icon {
+
+    filter: invert(1) hue-rotate(180deg);
+
+}

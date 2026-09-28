@@ -37,6 +37,8 @@
 
 .app-logo {
 
+    flex-shrink: 0;
+
     height: 60px;
 
     width: auto;
@@ -47,13 +49,30 @@
 
 }
 
+/* In the dark theme the gold star stays; the lettering, navy on
+   white, is drawn light instead. */
+:root[data-theme="dark"] .app-logo {
+
+    content: url("../assets/NORTH STARDUST Organization Framework - dark.svg");
+
+}
+
 /* The active Organization's name, on the opposite side of
    the header from the logo (item: "on the Header, on the
-   right side, the other side of the logo"). margin-left:auto
-   pushes it to the far right within the header's flex row. */
+   right side, the other side of the logo"). The theme switch
+   before it (theme-switch.css) pushes both to the far right;
+   the name keeps 24px from it, and in a window too narrow for
+   the logo, the switch and the whole name, the name ends in
+   "..." rather than running out of the header. */
 .app-header-organization-name {
 
-    margin: 0 0 0 auto;
+    min-width: 0;
+
+    margin: 0 0 0 24px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
 
     font-size: var(--font-h3);
     font-weight: 700;

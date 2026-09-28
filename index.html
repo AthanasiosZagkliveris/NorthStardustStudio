@@ -5,6 +5,21 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tauri + React + Typescript</title>
+    <script>
+      // The light or dark theme, set before the first paint so the app
+      // never flashes the wrong one. The same choice and rule as
+      // ThemeService.ts (key "northstardust-theme"; Auto, the default,
+      // follows the system), which takes over once React starts.
+      (function () {
+        var choice = "auto";
+        try {
+          var stored = localStorage.getItem("northstardust-theme");
+          if (stored === "light" || stored === "dark" || stored === "auto") choice = stored;
+        } catch (error) {}
+        var dark = choice === "dark" || (choice === "auto" && !!window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+      })();
+    </script>
   </head>
 
   <body>
