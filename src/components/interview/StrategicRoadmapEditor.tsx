@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useState } from "react";
+import { CSSProperties, ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import {
     StrategicPeriodValue,
@@ -12,6 +12,17 @@ import {
     strategyThemeHues,
     strategyThemeName
 } from "../../framework/engine/AnswerUtils.ts";
+
+import {
+    ROADMAP_MONTH_LABELS,
+    ROADMAP_WHEEL_GESTURE_GAP,
+    ROADMAP_WHEEL_STEP,
+    RoadmapZoom,
+    anchoredScrollLeft,
+    trackFraction,
+    wheelPixels,
+    wheelZoomTarget
+} from "./roadmapZoom.ts";
 
 interface StrategicRoadmapEditorProps {
 
@@ -34,17 +45,19 @@ interface StrategicRoadmapEditorProps {
 }
 
 /**
- * One column of the timeline. A quarter rather than a month: a
- * Strategic Period runs for years, and one column per month stops
- * being readable long before it ends.
+ * One column of the timeline. A quarter by default: a Strategic
+ * Period runs for years, and one column per month stops fitting the
+ * card long before it ends. Zoomed in, a month (see monthsFor).
  */
 interface Quarter {
     key: string;
-    /** "Q1" .. "Q4". */
+    /** "Q1" .. "Q4", or "Jan" .. "Dec" once zoomed. */
     label: string;
     year: string;
-    /** Calendar month index of the quarter's first month. */
+    /** Calendar month index of the column's first month. */
     start: number;
+    /** Zoomed only: a quarter's first month, drawn a shade stronger. */
+    quarterStart?: boolean;
 }
 
 /**
@@ -82,6 +95,29 @@ function quartersFor(first: number, last: number): Quarter[] {
 }
 
 /**
+ * The same span one month to a column -- each quarter split into its
+ * three months, so the zoomed timeline starts and ends exactly where
+ * the quarter one does and every bar keeps its place in time.
+ */
+function monthsFor(quarters: Quarter[]): Quarter[] {
+
+    return quarters.flatMap(quarter => [0, 1, 2].map(offset => {
+
+        const month = monthFromIndex(quarter.start + offset);
+
+        return {
+            key: `${month.year}-${month.month}`,
+            label: ROADMAP_MONTH_LABELS[Number(month.month) - 1],
+            year: month.year,
+            start: quarter.start + offset,
+            quarterStart: offset === 0
+        };
+
+    }));
+
+}
+
+/**
  * The Strategy System's Roadmap page (see
  * AnswerType.StrategicRoadmap).
  *
@@ -90,6 +126,10 @@ function quartersFor(first: number, last: number): Quarter[] {
  * number and name on the left, its Objectives as bars across that
  * same timeline. Clicking a bar opens a second row beneath it
  * holding that Objective's Initiatives, laid across the same span.
+ *
+ * The mouse wheel over the timeline zooms it from quarters to months
+ * and back. Zoomed in, the whole timeline widens and scrolls
+ * sideways inside the roadmap, with the Theme names held in place.
  *
  * Nothing here is editable and nothing is stored -- the page takes
  * no value and writes none. Every name, date and Initiative is read
@@ -130,14 +170,175 @@ export default function StrategicRoadmapEditor({
 
     }
 
+    // Quarters or months. Held here only -- never written to the
+    // answers -- so leaving the page returns it to quarters.
+    const [zoom, setZoom] = useState<RoadmapZoom>("quarters");
+
+    // Read by the wheel listener, which is bound once rather than on
+    // every change of level.
+    const zoomRef = useRef<RoadmapZoom>(zoom);
+    zoomRef.current = zoom;
+
+    const roadmapRef = useRef<HTMLElement>(null);
+
+    // The moment under the pointer when zooming in, as a share of the
+    // track it was over (by its place among the roadmap's tracks), and
+    // the pointer's distance from the roadmap's left edge -- put back
+    // under the pointer once the months are laid out.
+    const anchorRef = useRef<{ track: number; fraction: number; pointerOffset: number } | null>(null);
+
+    // One wheel gesture: how far it has travelled towards a step, and
+    // whether it has already made one.
+    const gestureRef = useRef({ last: 0, travel: 0, stepped: false });
+
+    const periodSet = isRangeSet(foundation.period);
+
+    /*
+        The plain wheel over the timeline zooms: up to months, down
+        back to quarters. It is taken from the page only when it can
+        change the level -- at quarters, down scrolls the page as
+        always, and at months so does up -- so the reader is never
+        stuck on the chart. A pinch arrives as ctrl+wheel and is
+        treated the same. A sideways movement (Shift+wheel, a
+        trackpad swipe) is left alone to scroll the months.
+
+        Bound by hand because React's own wheel listener is passive
+        and cannot preventDefault.
+    */
+    useEffect(() => {
+
+        const roadmap = roadmapRef.current;
+
+        if (!roadmap) {
+            return;
+        }
+
+        function onWheel(event: WheelEvent) {
+
+            const target = event.target instanceof Element ? event.target : null;
+            const track = target?.closest(".roadmap-track");
+
+            if (!roadmap || !track || !roadmap.contains(track)) {
+                return;
+            }
+
+            if (event.shiftKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+                return;
+            }
+
+            const gesture = gestureRef.current;
+            const now = Date.now();
+
+            if (now - gesture.last > ROADMAP_WHEEL_GESTURE_GAP) {
+                gesture.travel = 0;
+                gesture.stepped = false;
+            }
+
+            gesture.last = now;
+
+            // The rest of a gesture that has already stepped -- a
+            // trackpad's inertia, a second event from one notch --
+            // makes no second step and does not scroll the page
+            // out from under the pointer either.
+            if (gesture.stepped) {
+                event.preventDefault();
+                return;
+            }
+
+            const next = wheelZoomTarget(zoomRef.current, event.deltaY);
+
+            if (next === null) {
+                gesture.travel = 0;
+                return;
+            }
+
+            event.preventDefault();
+
+            const travel = wheelPixels(event.deltaY, event.deltaMode);
+
+            // A change of direction starts the count again.
+            gesture.travel = Math.sign(travel) === Math.sign(gesture.travel)
+                ? gesture.travel + travel
+                : travel;
+
+            if (Math.abs(gesture.travel) < ROADMAP_WHEEL_STEP) {
+                return;
+            }
+
+            gesture.travel = 0;
+            gesture.stepped = true;
+
+            if (next === "months") {
+
+                const trackBox = track.getBoundingClientRect();
+
+                anchorRef.current = {
+                    track: [...roadmap.querySelectorAll(".roadmap-track")].indexOf(track),
+                    fraction: trackFraction(event.clientX, trackBox.left, trackBox.width),
+                    pointerOffset: event.clientX - roadmap.getBoundingClientRect().left
+                };
+
+            }
+
+            setZoom(next);
+
+        }
+
+        roadmap.addEventListener("wheel", onWheel, { passive: false });
+
+        return () => roadmap.removeEventListener("wheel", onWheel);
+
+    }, [periodSet]);
+
+    /*
+        Once the months are laid out, scroll them so the moment that
+        was under the pointer is under it again. Before paint, so the
+        reader never sees the timeline land anywhere else first.
+        Zooming out needs nothing: the quarters fit, and the roadmap
+        stops scrolling at all.
+    */
+    useLayoutEffect(() => {
+
+        const roadmap = roadmapRef.current;
+        const anchor = anchorRef.current;
+
+        anchorRef.current = null;
+
+        if (!roadmap) {
+            return;
+        }
+
+        if (zoom !== "months" || !anchor) {
+            roadmap.scrollLeft = 0;
+            return;
+        }
+
+        // The same track the pointer was over: the heading row's and
+        // a Theme's can sit a fraction of a pixel apart.
+        const track = roadmap.querySelectorAll(".roadmap-track")[anchor.track];
+
+        if (!track) {
+            return;
+        }
+
+        const trackBox = track.getBoundingClientRect();
+        const trackOffset = trackBox.left - roadmap.getBoundingClientRect().left + roadmap.scrollLeft;
+
+        roadmap.scrollLeft = anchoredScrollLeft(
+            trackOffset,
+            trackBox.width,
+            anchor.fraction,
+            anchor.pointerOffset
+        );
+
+    }, [zoom]);
+
     // One pass over the whole list, so no two Themes can land on
     // the same hue. The hue goes down to the box, and its bars and
     // initiatives are drawn from it at deeper tones -- so a bar
     // reads as belonging to its Theme, and still stands out
     // against the Theme's own pale ground.
     const themeHues = strategyThemeHues(foundation.themes.map(theme => theme.id));
-
-    const periodSet = isRangeSet(foundation.period);
 
     const first = monthIndex(foundation.period.start);
     const last = monthIndex(foundation.period.end);
@@ -150,10 +351,15 @@ export default function StrategicRoadmapEditor({
     const spanEnd = (quarters[quarters.length - 1]?.start ?? 0) + 3;
     const spanMonths = spanEnd - spanStart;
 
-    /** Years across the top, each spanning its own quarters. */
+    // The columns actually drawn: the quarters, or once zoomed in the
+    // same span's months. The span itself does not change, so every
+    // bar keeps the same proportion of the track at both levels.
+    const columns = zoom === "months" ? monthsFor(quarters) : quarters;
+
+    /** Years across the top, each spanning its own columns. */
     const years: { year: string; count: number }[] = [];
 
-    for (const quarter of quarters) {
+    for (const quarter of columns) {
 
         const previous = years[years.length - 1];
 
@@ -172,10 +378,25 @@ export default function StrategicRoadmapEditor({
         every Theme, so a bar can be read against the year it
         falls in rather than counted back to the top of the chart.
     */
-    const yearBoundaries = quarters
+    const yearBoundaries = columns
         .map((quarter, index) => ({ quarter, index }))
-        .filter(entry => entry.index > 0 && entry.quarter.year !== quarters[entry.index - 1].year)
-        .map(entry => (entry.index / quarters.length) * 100);
+        .filter(entry => entry.index > 0 && entry.quarter.year !== columns[entry.index - 1].year)
+        .map(entry => (entry.index / columns.length) * 100);
+
+    /**
+     * The column grid drawn behind a row's bars. Zoomed in, a
+     * quarter's first month carries the quarter's divider, so the
+     * quarters still read among the months.
+     */
+    function gridCells() {
+        return columns.map(column => (
+            <div
+                className={"roadmap-cell" + (column.quarterStart ? " roadmap-quarter-start" : "")}
+                key={column.key}
+                aria-hidden="true"
+            />
+        ));
+    }
 
     /** A bar as a percentage offset and width of the whole span. */
     function barStyle(start: number, end: number): CSSProperties {
@@ -287,7 +508,10 @@ export default function StrategicRoadmapEditor({
 
             {periodSet && (
 
-            <section className="roadmap">
+            <section
+                className={"roadmap" + (zoom === "months" ? " roadmap-zoomed" : "")}
+                ref={roadmapRef}
+            >
 
                 {/*
                     ONE timeline for the whole strategy. The years and
@@ -301,7 +525,7 @@ export default function StrategicRoadmapEditor({
 
                     <div className="roadmap-theme roadmap-head-spacer" aria-hidden="true" />
 
-                    <div className="roadmap-track" style={{ "--roadmap-columns": quarters.length } as CSSProperties}>
+                    <div className="roadmap-track" style={{ "--roadmap-columns": columns.length } as CSSProperties}>
 
                         {/*
                             Years across the top, their quarters
@@ -323,7 +547,7 @@ export default function StrategicRoadmapEditor({
                         </div>
 
                         <div className="roadmap-quarters">
-                            {quarters.map((quarter, index) => (
+                            {columns.map((quarter, index) => (
                                 <div
                                     className={
                                         "roadmap-quarter" +
@@ -333,9 +557,12 @@ export default function StrategicRoadmapEditor({
                                         // the first boundary after one quarter,
                                         // not four. Marked from the data rather
                                         // than counted in CSS.
-                                        (index > 0 && quarter.year !== quarters[index - 1].year
+                                        (index > 0 && quarter.year !== columns[index - 1].year
                                             ? " roadmap-quarter-year-start"
-                                            : "")
+                                            : quarter.quarterStart && index > 0
+                                                ? " roadmap-quarter-start"
+                                                : "") +
+                                        (zoom === "months" ? " roadmap-month" : "")
                                     }
                                     key={quarter.key}
                                 >
@@ -395,7 +622,7 @@ export default function StrategicRoadmapEditor({
                         ))}
                     </div>
 
-                    <div className="roadmap-track" style={{ "--roadmap-columns": quarters.length } as CSSProperties}>
+                    <div className="roadmap-track" style={{ "--roadmap-columns": columns.length } as CSSProperties}>
 
                         <div className="roadmap-rows">
 
@@ -423,13 +650,7 @@ export default function StrategicRoadmapEditor({
 
                                         <div className="roadmap-row">
 
-                                            {quarters.map(quarter => (
-                                                <div
-                                                    className="roadmap-cell"
-                                                    key={quarter.key}
-                                                    aria-hidden="true"
-                                                />
-                                            ))}
+                                            {gridCells()}
 
                                             <button
                                                 type="button"
@@ -468,13 +689,7 @@ export default function StrategicRoadmapEditor({
 
                                             <div className="roadmap-row roadmap-row-initiatives">
 
-                                                {quarters.map(quarter => (
-                                                    <div
-                                                        className="roadmap-cell"
-                                                        key={quarter.key}
-                                                        aria-hidden="true"
-                                                    />
-                                                ))}
+                                                {gridCells()}
 
                                                 <div
                                                     className="roadmap-initiatives"
