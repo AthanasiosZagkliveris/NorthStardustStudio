@@ -58,7 +58,7 @@ export interface ExportSectionContent {
  * grouped together and in that order, rather than scattered
  * one Product at a time inside each Section.
  */
-export interface ExportProductGroup {
+interface ExportProductGroup {
     productName: string;
     sections: ExportSectionContent[];
 }

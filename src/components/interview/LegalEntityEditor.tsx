@@ -2,10 +2,8 @@ import { CSSProperties, ReactNode, useEffect, useRef, useState } from "react";
 
 import {
     LEGAL_ENTITY_SECTIONS,
-    LegalEntityExpenseValue,
     LegalEntityFounderValue,
     LegalEntityNumberValue,
-    LegalEntityRequirementValue,
     LegalEntityTaxStatus,
     LegalEntityValue,
     asLegalEntityValue,
@@ -2375,5 +2373,3 @@ export default function LegalEntityEditor({
     );
 
 }
-
-export type { LegalEntityExpenseValue, LegalEntityRequirementValue };

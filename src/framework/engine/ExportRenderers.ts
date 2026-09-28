@@ -380,7 +380,7 @@ function describe(description: Record<string, string>, fields: [string, string][
     return fields.flatMap(([id, label]) => paragraph(description[id] ?? "", label));
 }
 
-export function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number): ExportBlock[] {
+function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number): ExportBlock[] {
     return [
         heading("Segment " + (index + 1) + ": " + (segment.name.trim() || "Unnamed segment")),
         ...describe(segment.description, SEGMENT_FIELDS),
@@ -872,7 +872,7 @@ function range(value: { start: StrategyMonthValue; end: StrategyMonthValue }): s
     return [month(value.start), month(value.end)].filter(Boolean).join(" – ");
 }
 
-export function strategyFoundationBlocks(value: unknown): ExportBlock[] {
+function strategyFoundationBlocks(value: unknown): ExportBlock[] {
 
     const foundation = asStrategyFoundationValue(value);
 
@@ -895,7 +895,7 @@ export function strategyFoundationBlocks(value: unknown): ExportBlock[] {
 
 }
 
-export function strategicPeriodBlocks(value: unknown, context: ExportContext): ExportBlock[] {
+function strategicPeriodBlocks(value: unknown, context: ExportContext): ExportBlock[] {
 
     const foundation = asStrategyFoundationValue(context.responseOf?.(AnswerType.StrategyFoundation));
     const period = asStrategicPeriodValue(value);

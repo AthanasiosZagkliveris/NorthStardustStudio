@@ -54,7 +54,7 @@ export const PLAN_YEAR_CHOICES = [1, 2, 3, 4, 5] as const;
  * Three years unless chosen: a lender asks for a first year month by
  * month and a profit and loss forecast for three.
  */
-export const DEFAULT_PLAN_YEARS = 3;
+const DEFAULT_PLAN_YEARS = 3;
 
 /** The plan's length in years, as chosen or by default. */
 export function planYears(value: { planYears?: string }): number {
@@ -130,7 +130,7 @@ export function parsePercent(text: string): number | null {
 ========================================================== */
 
 /** The plan's first month, as the month picker stores it. */
-export function currentMonth(today: Date = new Date()): StrategyMonthValue {
+function currentMonth(today: Date = new Date()): StrategyMonthValue {
     return {
         month: String(today.getMonth() + 1).padStart(2, "0"),
         year: String(today.getFullYear())
@@ -305,7 +305,7 @@ export const FUNDING_NEED_CATEGORIES = [
     }
 ] as const;
 
-export type FundingNeedCategory = typeof FUNDING_NEED_CATEGORIES[number]["id"];
+type FundingNeedCategory = typeof FUNDING_NEED_CATEGORIES[number]["id"];
 
 export const FUNDING_CATEGORIES = [
     { id: "internal", label: "Internal" },
@@ -319,7 +319,7 @@ export type FundingCategory = typeof FUNDING_CATEGORIES[number]["id"];
  * What kind of money a funding type is -- what it OBLIGES. The
  * mix, the loan fields and the equity field all turn on this.
  */
-export type FundingNature = "capital" | "non-repayable" | "equity" | "debt" | "other";
+type FundingNature = "capital" | "non-repayable" | "equity" | "debt" | "other";
 
 export const FUNDING_TYPES: readonly {
     id: string;
@@ -368,7 +368,7 @@ export const FUNDING_STATUSES = [
     { id: "closed", label: "Completed / Closed", explanation: "Fully received; nothing more to come." }
 ] as const;
 
-export type FundingStatus = typeof FUNDING_STATUSES[number]["id"];
+type FundingStatus = typeof FUNDING_STATUSES[number]["id"];
 
 /** Expected ≠ Confirmed ≠ Available. */
 export function statusStanding(status: FundingStatus): "pending" | "confirmed" {
@@ -384,7 +384,7 @@ export const FUNDING_SCHEDULES = [
     { id: "other", label: "Other", explanation: "An arrangement that fits none of the above." }
 ] as const;
 
-export type FundingScheduleKind = typeof FUNDING_SCHEDULES[number]["id"];
+type FundingScheduleKind = typeof FUNDING_SCHEDULES[number]["id"];
 
 export const PERIOD_FREQUENCIES = [
     { id: "monthly", label: "Monthly", months: 1 },
@@ -392,7 +392,7 @@ export const PERIOD_FREQUENCIES = [
     { id: "annually", label: "Annually", months: 12 }
 ] as const;
 
-export type PeriodFrequency = typeof PERIOD_FREQUENCIES[number]["id"];
+type PeriodFrequency = typeof PERIOD_FREQUENCIES[number]["id"];
 
 function periodMonths(frequency: PeriodFrequency): number {
     return PERIOD_FREQUENCIES.find(entry => entry.id === frequency)?.months ?? 1;
@@ -411,7 +411,7 @@ export const LOAN_METHODS = [
     }
 ] as const;
 
-export type LoanMethod = typeof LOAN_METHODS[number]["id"];
+type LoanMethod = typeof LOAN_METHODS[number]["id"];
 
 /* ==========================================================
    Page 4 -- what is stored
@@ -430,7 +430,7 @@ export type LoanMethod = typeof LOAN_METHODS[number]["id"];
  * the business owns and uses up over time (depreciated), or a DEPOSIT it
  * gets back (an asset, never an expense).
  */
-export type CostAsset = "equipment" | "deposit";
+type CostAsset = "equipment" | "deposit";
 
 export const COST_ASSETS: { id: CostAsset | ""; label: string; explanation: string }[] = [
     { id: "", label: "Expense", explanation: "Used up when it is paid: a fee, a service, a campaign." },
@@ -472,7 +472,7 @@ export interface OwnCostValue extends CostClassification {
     description: string;
 }
 
-export interface FundingNeedValue {
+interface FundingNeedValue {
     id: string;
     name: string;
     category: FundingNeedCategory | "";
@@ -486,7 +486,7 @@ export interface FundingNeedValue {
     description: string;
 }
 
-export interface LoanTermsValue {
+interface LoanTermsValue {
     /** Annual interest rate, percent, as typed. */
     rate: string;
     interestType: "fixed" | "variable" | "";
@@ -540,7 +540,7 @@ export interface FundingSourceValue {
  * answered there; only where it stands, and when it arrives, is
  * answered here.
  */
-export interface FounderCapitalStanding {
+interface FounderCapitalStanding {
     status: FundingStatus | "";
     month: StrategyMonthValue;
 }
@@ -551,13 +551,13 @@ export interface FounderCapitalStanding {
  * the tax it charges is not its revenue, and the tax it pays is
  * reclaimed -- while one that is not registered pays it as a cost.
  */
-export const VAT_BASES = [
+const VAT_BASES = [
     { id: "excluding", label: "Excluding VAT", explanation: "Registered for VAT: amounts are net. VAT charged is not revenue, and VAT paid is reclaimed." },
     { id: "including", label: "Including VAT", explanation: "Amounts are gross, as paid and charged." },
     { id: "not-registered", label: "Not VAT registered", explanation: "No VAT is charged; VAT paid on purchases is part of their cost." }
 ] as const;
 
-export type VatBasis = typeof VAT_BASES[number]["id"];
+type VatBasis = typeof VAT_BASES[number]["id"];
 
 /**
  * The three bases in the words of the country's own tax: "Excluding
@@ -620,24 +620,6 @@ export function createOwnCost(group: CostGroup | "" = ""): OwnCostValue {
         variablePerUnit: "",
         asset: ""
     };
-}
-
-export function createFundingNeed(): FundingNeedValue {
-    return {
-        id: financeId("need"),
-        name: "",
-        category: "",
-        timing: "one-time",
-        amount: "",
-        month: { ...EMPTY_MONTH },
-        schedule: [],
-        costIds: [],
-        description: ""
-    };
-}
-
-export function createScheduleEntry() {
-    return { id: financeId("when"), month: { ...EMPTY_MONTH }, amount: "" };
 }
 
 export function createMilestone() {
@@ -878,7 +860,7 @@ function parseFinancialFoundation(value: unknown): FinancialFoundationValue {
 ========================================================== */
 
 /** Where a cost was recorded, for its Source column and its link. */
-export type CostOrigin =
+type CostOrigin =
     | "legal-entity"
     | "founders"
     | "infrastructure"
@@ -1287,7 +1269,7 @@ export function isScheduled(line: CostLine): boolean {
 }
 
 /** Whether a cost is paid per unit of activity. */
-export function isPerUnit(line: CostLine): boolean {
+function isPerUnit(line: CostLine): boolean {
     return PER_UNIT_FREQUENCIES.includes(line.frequency);
 }
 
@@ -1359,15 +1341,8 @@ export function monthlyEquivalent(amount: number, frequency: CostFrequency): num
    Page 4 -- funding
 ========================================================== */
 
-/** Total of a Funding Need: its amount, or its schedule added up. */
-export function fundingNeedTotal(need: FundingNeedValue): number {
-    return need.timing === "scheduled"
-        ? need.schedule.reduce((sum, part) => sum + (parseAmount(part.amount) ?? 0), 0)
-        : parseAmount(need.amount) ?? 0;
-}
-
 /** One loan repayment. */
-export interface LoanPayment {
+interface LoanPayment {
     /** Plan month, 1-based; may run past the plan's end. */
     month: number;
     payment: number;
@@ -1376,7 +1351,7 @@ export interface LoanPayment {
     remaining: number;
 }
 
-export interface LoanSchedule {
+interface LoanSchedule {
     payments: LoanPayment[];
     totalInterest: number;
     /** The first payment that repays principal. */
@@ -1519,7 +1494,7 @@ function fundingArrivals(
 }
 
 /** How much of a source has arrived, is confirmed to come, or is hoped for. */
-export interface FundingStanding {
+interface FundingStanding {
     total: number;
     received: number;
     confirmedFuture: number;
@@ -1631,7 +1606,7 @@ export interface CashMonth {
     balance: number;
 }
 
-export interface Obligation {
+interface Obligation {
     month: number;
     label: string;
     what: string;
@@ -1645,7 +1620,7 @@ export interface Signal {
     text: string;
 }
 
-export interface FinancialPosition {
+interface FinancialPosition {
     currency: string;
     need: number;
     availableNow: number;
@@ -1822,7 +1797,7 @@ export function isNonCash(source: FundingSourceValue): boolean {
 }
 
 /** Months until the balance first falls below zero; null if it never does. */
-export function runwayOf(timeline: CashMonth[]): number | null {
+function runwayOf(timeline: CashMonth[]): number | null {
     const index = timeline.findIndex(month => month.balance < -0.005);
     return index < 0 ? null : index;
 }
@@ -1836,7 +1811,7 @@ export function effectiveVatBasis(value: FinancialFoundationValue, legalEntity: 
  * One Funding Need, calculated: never typed. Its id is its category's,
  * so a funding source can say which need it is for.
  */
-export interface CalculatedNeed {
+interface CalculatedNeed {
     id: FundingNeedCategory;
     label: string;
     amount: number;
@@ -1849,7 +1824,7 @@ export interface CalculatedNeed {
     months?: OperatingMonth[];
 }
 
-export interface OperatingMonth {
+interface OperatingMonth {
     label: string;
     /** Running costs: every recurring cost paid this month. */
     costs: number;
@@ -2035,7 +2010,7 @@ export function fundingNeeds(
  * the units sold cost: Financial Sustainability's streams, in the
  * shape cashTimeline adds to its own months. Zero without a page.
  */
-export function revenueFlows(
+function revenueFlows(
     value: FinancialFoundationValue,
     lines: CostLine[],
     funding: FundingSourceValue[],
@@ -2414,11 +2389,6 @@ export const FINANCIAL_FOUNDATION_SECTIONS = [
    Page 5 -- what is stored
 ========================================================== */
 
-export const REVENUE_MODELS = [
-    "Product Sale", "Service Fee", "Subscription", "Licence",
-    "Commission", "Usage-based", "Project / Contract", "Other"
-] as const;
-
 export const REVENUE_UNITS = [
     "Product", "Project", "Session", "Participant", "Hour", "Day",
     "Client", "Licence", "Subscription", "Other"
@@ -2465,7 +2435,7 @@ export const REVENUE_FREQUENCIES = [
     { id: "other", label: "Other", factor: 1 }
 ] as const;
 
-export type RevenueFrequency = typeof REVENUE_FREQUENCIES[number]["id"];
+type RevenueFrequency = typeof REVENUE_FREQUENCIES[number]["id"];
 
 /** A recurring charge: its volume is how many are ACTIVE, not sold. */
 export function isRecurringRevenue(frequency: string): boolean {
@@ -2478,7 +2448,7 @@ export const REVENUE_DEVELOPMENTS = [
     { id: "detailed", label: "Month by month", explanation: "Enter the volume for the months that differ." }
 ] as const;
 
-export type RevenueDevelopment = typeof REVENUE_DEVELOPMENTS[number]["id"];
+type RevenueDevelopment = typeof REVENUE_DEVELOPMENTS[number]["id"];
 
 export const PAYMENT_TIMINGS = [
     { id: "", label: "When earned" },
@@ -2489,7 +2459,7 @@ export const PAYMENT_TIMINGS = [
     { id: "other", label: "Other" }
 ] as const;
 
-export type PaymentTiming = typeof PAYMENT_TIMINGS[number]["id"];
+type PaymentTiming = typeof PAYMENT_TIMINGS[number]["id"];
 
 export interface RevenueStreamValue {
     /**
@@ -2636,7 +2606,7 @@ export function monthlyPrice(stream: RevenueStreamValue): number | null {
  * one-off charge, a third for a quarterly one, a twelfth for an annual
  * one. A charge's costs per unit are spread the same way.
  */
-export function chargeFactor(stream: RevenueStreamValue): number {
+function chargeFactor(stream: RevenueStreamValue): number {
     return REVENUE_FREQUENCIES.find(entry => entry.id === stream.frequency)?.factor ?? 1;
 }
 
@@ -2644,7 +2614,7 @@ export function chargeFactor(stream: RevenueStreamValue): number {
  * The volume at the normal level: as entered, or, for a stream given
  * month by month, the volume of the last month listed.
  */
-export function normalVolume(stream: RevenueStreamValue): number {
+function normalVolume(stream: RevenueStreamValue): number {
     if (stream.development === "detailed") {
         const last = stream.detailed
             .filter(entry => monthOrdinal(entry.month) !== null)
@@ -2667,7 +2637,7 @@ export function itemsPerOrder(stream: RevenueStreamValue): number {
  * unit, recorded on Page 3, and its costs per order shared by the
  * items in an order.
  */
-export function streamVariableCost(stream: RevenueStreamValue, inputs: BreakEvenInputs): number {
+function streamVariableCost(stream: RevenueStreamValue, inputs: BreakEvenInputs): number {
     return ((inputs.variableByOffering[stream.offeringId] ?? 0) +
         (inputs.perOrderByOffering[stream.offeringId] ?? 0) / itemsPerOrder(stream)) * chargeFactor(stream);
 }
@@ -2797,7 +2767,7 @@ function shiftMonth(month: StrategyMonthValue, by: number, start: StrategyMonthV
     return { month: String(moved % 12 + 1).padStart(2, "0"), year: String(Math.floor(moved / 12)) };
 }
 
-export interface WhatIf {
+interface WhatIf {
     /** Percent change in every price. */
     price: number;
     /** Percent change in every volume. */
@@ -2844,7 +2814,7 @@ export function withWhatIf(
    Page 5 -- break even
 ========================================================== */
 
-export interface BreakEvenInputs {
+interface BreakEvenInputs {
     /** Monthly fixed costs, the sum of the parts below. */
     fixed: number;
     parts: { label: string; amount: number }[];
@@ -3018,7 +2988,7 @@ export interface StreamAnalysis {
     breakEvenAlone: number | null;
 }
 
-export interface SustainabilityResult {
+interface SustainabilityResult {
     inputs: BreakEvenInputs;
     streams: StreamAnalysis[];
     /** At the normal level. */
@@ -3318,7 +3288,7 @@ export function formatUnits(value: number): string {
    One Offering's costs
 ========================================================== */
 
-export interface OfferingCosts {
+interface OfferingCosts {
     /** Paid for each unit or project sold. */
     perUnit: { name: string; amount: number; basis: "unit" | "order" | "project" | "variable part" }[];
     /** Paid every period, whatever is sold. */
@@ -3472,7 +3442,7 @@ export function salesCapacity(
     asks is whether the plan holds WITH the money requested.
 */
 
-export interface StressScenario {
+interface StressScenario {
     id: string;
     label: string;
     breakEvenMonth: number | null;
@@ -3485,7 +3455,7 @@ export interface StressScenario {
     shortfall: number;
 }
 
-export interface StressTest {
+interface StressTest {
     /** The funding being sought, counted in every scenario. */
     sought: number;
     scenarios: StressScenario[];
@@ -3601,7 +3571,7 @@ export function stressTest(
     so the smallest change that works is where it starts to.
 */
 
-export interface WhatItWouldTake {
+interface WhatItWouldTake {
     sought: number;
     /** The plan as it stands holds: no change is needed. */
     holds: boolean;

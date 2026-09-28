@@ -64,7 +64,7 @@ function readNumber(text: string | undefined): number | null {
     them into the active clients served at the normal level.
 */
 
-export interface DemandField {
+interface DemandField {
     key: string;
     label: string;
     /** "number" as typed; "percent" of 100. */
@@ -73,7 +73,7 @@ export interface DemandField {
     help: string;
 }
 
-export interface DemandSourceType {
+interface DemandSourceType {
     id: string;
     label: string;
     /** When to choose it. */
@@ -278,7 +278,7 @@ export function hasDemand(demand: DemandValue | undefined): boolean {
     return (demand?.sources.length ?? 0) > 0;
 }
 
-export interface DemandSourceResult {
+interface DemandSourceResult {
     id: string;
     label: string;
     /** Sales (or new clients) a month from this source; null until complete. */
@@ -468,7 +468,7 @@ export function asHoursPeriod(value: unknown): HoursPeriod {
 }
 
 /** Hours given for a period, as hours a month. */
-export function monthlyHours(hours: number, period: HoursPeriod): number {
+function monthlyHours(hours: number, period: HoursPeriod): number {
     return period === "week" ? hours * WEEKS_PER_MONTH : hours;
 }
 
@@ -581,7 +581,7 @@ export function deliveryEffort(delivery: DeliveryValue | undefined): number | nu
 }
 
 /** What a founder gives to delivery. */
-export interface FounderHours {
+interface FounderHours {
     id?: string;
     name: string;
     /** Working hours, a month or a week (hoursPeriod). */
@@ -622,7 +622,7 @@ export function deliveryHours(founders: readonly FounderHours[]): number | null 
     return known.length > 0 ? known.reduce((sum, hours) => sum + hours, 0) : null;
 }
 
-export interface FounderLoad {
+interface FounderLoad {
     id: string;
     name: string;
     /** Delivery hours a month. */
@@ -636,7 +636,7 @@ export interface FounderLoad {
     peakIndex: number;
 }
 
-export interface ExternalLoad {
+interface ExternalLoad {
     id: string;
     name: string;
     /** Hours a month the expected sales need from this professional. */

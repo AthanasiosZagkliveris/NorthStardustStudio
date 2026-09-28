@@ -2351,7 +2351,7 @@ export default function Conversation() {
     // Lets the Product Register table (Section 1) double as the
     // Product picker: clicking a row, or its selection bullet under
     // the "#" column, selects that row's Product -- replacing the
-    // separate ProductSelector list that used to sit below the table.
+    // separate Product picker list that used to sit below the table.
     const productRegisterRowSelection = isProductRegisterStep
         ? {
               isSelected: (row: Record<string, unknown>) => {

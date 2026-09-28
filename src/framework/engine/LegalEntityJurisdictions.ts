@@ -161,7 +161,7 @@ export interface SubdivisionSpec {
 
 }
 
-export interface SubdivisionOption {
+interface SubdivisionOption {
 
     name: string;
 
@@ -219,7 +219,7 @@ export const LEGAL_ENTITY_EXPENSE_FREQUENCIES = [
  * variants beside it saves the user working out which one they are
  * being asked about.
  */
-export const NEUTRAL_PROFILE: JurisdictionProfile = {
+const NEUTRAL_PROFILE: JurisdictionProfile = {
     consumptionTax: "Consumption tax (VAT / GST / Sales Tax)",
     forms: [],
     commonRequirements: []
@@ -232,7 +232,7 @@ const EU_COMPANY_REQUIREMENTS = ["beneficial-owner", "officer"];
  * The curated set. Keyed by ISO 3166-1 alpha-2, so the country list
  * and the profiles cannot drift apart.
  */
-export const JURISDICTIONS: Record<string, JurisdictionProfile> = {
+const JURISDICTIONS: Record<string, JurisdictionProfile> = {
 
     AT: {
         postalCodeName: "PLZ",
@@ -1000,43 +1000,6 @@ export function registrationAuthorityFor(
 
 }
 
-/**
- * The country the app will start from, read off the browser's own
- * locale. A starting point only: the user changes it in one click,
- * and a locale carrying no region (plain "en") yields nothing
- * rather than a guess.
- */
-export function detectCountryCode(): string {
-
-    if (typeof navigator === "undefined") {
-        return "";
-    }
-
-    const tags = [navigator.language, ...(navigator.languages ?? [])];
-
-    for (const tag of tags) {
-
-        if (!tag) {
-            continue;
-        }
-
-        try {
-
-            const region = new Intl.Locale(tag).region ?? "";
-
-            if (region && COUNTRIES.some(country => country.code === region)) {
-                return region;
-            }
-
-        } catch {
-            // A malformed tag is simply not a guess worth making.
-        }
-
-    }
-
-    return "";
-
-}
 
 /**
  * Names a country is looked for by, beyond its own. Everything

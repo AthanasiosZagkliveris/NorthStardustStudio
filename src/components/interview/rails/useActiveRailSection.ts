@@ -2,7 +2,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { pickActiveRail } from "./railItems";
 
-/** Where content starts below the fixed header (80px + 24px). */
+/** Where content starts below the fixed header (80px + 24px).
+ *  Exported only for its test. */
 export const RAIL_TOP_CLEARANCE = 104;
 
 // A section counts as "reached" once its top is within this band

@@ -276,7 +276,7 @@ export const CANVAS_BLOCKS = [
     { id: "revenue", title: "Revenue Streams" }
 ] as const;
 
-export type CanvasBlockId = typeof CANVAS_BLOCKS[number]["id"];
+type CanvasBlockId = typeof CANVAS_BLOCKS[number]["id"];
 
 /** The canvas as its nine lists -- for the page's own nine-box drawing. */
 export function businessModelCanvasData(sessions: FoundationSessions): {

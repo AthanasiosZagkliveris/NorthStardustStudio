@@ -2901,17 +2901,6 @@ td.process-library-col-number{
 
 }
 
-.process-library-card-heading{
-
-    margin:0 0 10px;
-
-    font-size:var(--font-small);
-    font-weight:600;
-
-    color:#1a1a1a;
-
-}
-
 .process-library-sops{
 
     margin-top:0;
@@ -3002,115 +2991,6 @@ td.process-library-col-number{
    see what already exists without switching Sections. Collapsed by
    default (see `showProcessBrowser` in OperationalLogEditor.tsx),
    and shown even before any Log entry exists. */
-.operational-log-browse{
-
-    border:1px solid #d9d9d9;
-    border-radius:8px;
-
-}
-
-.operational-log-browse-toggle{
-
-    display:flex;
-    align-items:center;
-    gap:6px;
-
-    width:100%;
-
-    padding:10px 14px;
-
-    background:#f5f8ff;
-    border:none;
-    border-radius:8px;
-
-    font-size:var(--font-small);
-    font-weight:600;
-    color:#1a1a1a;
-    text-align:left;
-    cursor:pointer;
-
-}
-
-.operational-log-browse-toggle:hover{
-
-    background:#eaf1ff;
-
-}
-
-.operational-log-browse-panel{
-
-    max-height:320px;
-    overflow-y:auto;
-
-    padding:10px 14px 14px;
-    border-top:1px solid #d9d9d9;
-
-}
-
-.operational-log-browse-empty{
-
-    color:#5f6368;
-    font-style:italic;
-
-}
-
-.operational-log-browse-list,
-.operational-log-browse-sops{
-
-    list-style:none;
-    margin:0;
-    padding:0;
-
-}
-
-.operational-log-browse-process + .operational-log-browse-process{
-
-    margin-top:10px;
-
-}
-
-.operational-log-browse-row{
-
-    display:flex;
-    align-items:baseline;
-    gap:8px;
-
-    padding:2px 0;
-
-}
-
-.operational-log-browse-sops{
-
-    margin-top:2px;
-    padding-left:22px;
-    border-left:2px solid #dbe9ff;
-
-}
-
-.operational-log-browse-id{
-
-    flex:0 0 auto;
-
-    font-size:var(--font-small);
-    font-weight:600;
-    color:#5f6368;
-    font-variant-numeric:tabular-nums;
-
-}
-
-.operational-log-browse-name{
-
-    font-size:var(--font-small);
-    color:#1a1a1a;
-
-}
-
-.operational-log-browse-sop .operational-log-browse-name{
-
-    font-size:var(--font-small);
-
-}
-
 .operational-log-filters{
 
     display:flex;
@@ -4893,18 +4773,6 @@ td.process-library-col-number{
 
 }
 
-.strategy-inline-field{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:6px;
-
-    min-width:0;
-
-}
-
 /* ---------- SWOT ---------- */
 
 .strategy-swot-quadrant{
@@ -4914,30 +4782,6 @@ td.process-library-col-number{
     flex-direction:column;
 
     gap:6px;
-
-}
-
-.strategy-list-row{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:8px;
-
-    min-width:0;
-
-}
-
-.strategy-list-number{
-
-    flex:0 0 auto;
-
-    min-width:24px;
-
-    font-size:var(--font-body);
-
-    color:#4b5563;
 
 }
 
@@ -4958,43 +4802,6 @@ td.process-library-col-number{
     border-radius:8px;
 
     background:#ffffff;
-
-}
-
-.strategy-period-selects{
-
-    display:flex;
-
-    gap:8px;
-
-}
-
-.strategy-period-edge{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:6px;
-
-}
-
-.strategy-period-row{
-
-    display:flex;
-
-    gap:12px;
-
-    flex-wrap:wrap;
-
-}
-
-.strategy-box-title{
-
-    font-size:var(--font-body);
-    font-weight:600;
-
-    color:#111827;
 
 }
 
@@ -5139,8 +4946,7 @@ td.process-library-col-number{
 
 /* ---------- Add / sort buttons ---------- */
 
-.strategy-add-button,
-.strategy-sort-button{
+.strategy-add-button{
 
     align-self:flex-start;
 
@@ -5164,8 +4970,7 @@ td.process-library-col-number{
 
 }
 
-.strategy-add-button:hover:not(:disabled),
-.strategy-sort-button:hover:not(:disabled){
+.strategy-add-button:hover:not(:disabled){
 
     background:#eaf2ff;
 
@@ -5173,8 +4978,7 @@ td.process-library-col-number{
 
 }
 
-.strategy-add-button:focus-visible,
-.strategy-sort-button:focus-visible{
+.strategy-add-button:focus-visible{
 
     outline:none;
 
@@ -5182,23 +4986,12 @@ td.process-library-col-number{
 
 }
 
-.strategy-add-button:disabled,
-.strategy-sort-button:disabled{
+.strategy-add-button:disabled{
 
     color:#6b7280;
     border-color:#c9c9c9;
 
     cursor:not-allowed;
-
-}
-
-.strategy-box-buttons{
-
-    display:flex;
-
-    gap:12px;
-
-    flex-wrap:wrap;
 
 }
 
@@ -5385,21 +5178,6 @@ td.process-library-col-number{
     flex-direction:column;
 
     gap:6px;
-
-}
-
-.strategy-subsection-title{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:8px;
-
-    font-size:var(--font-body);
-    font-weight:600;
-
-    color:#111827;
 
 }
 
@@ -6203,21 +5981,6 @@ td.process-library-col-number{
    inside a quarter while still lining up with the headings.
 ========================================================== */
 
-.roadmap-chart{
-
-    display:flex;
-
-    gap:24px;
-
-    padding:12px;
-
-    border:1px solid #767676;
-    border-radius:8px;
-
-    background:#ffffff;
-
-}
-
 .roadmap-theme{
 
     /* Named so the year-line overlay can be inset by exactly this
@@ -6576,18 +6339,7 @@ td.process-library-col-number{
    Roadmap -- one timeline, a band per Theme
 ========================================================== */
 
-.roadmap-chart{
-
-    flex-direction:column;
-
-    gap:0;
-
-    overflow:hidden;
-
-}
-
-.roadmap-head,
-.roadmap-theme-band{
+.roadmap-head{
 
     display:flex;
 
@@ -6600,20 +6352,6 @@ td.process-library-col-number{
 .roadmap-head-spacer{
 
     flex:0 0 220px;
-
-}
-
-.roadmap-theme-band{
-
-    padding:8px 0;
-
-    border-top:1px solid #ececec;
-
-}
-
-.roadmap-theme-band:first-of-type{
-
-    border-top:none;
 
 }
 
@@ -7356,9 +7094,7 @@ td.process-library-col-number{
 ========================================================== */
 
 .strategy-box-number,
-.strategy-box-title,
 .strategy-theme-name,
-.strategy-subsection-title,
 .roadmap-theme-number,
 .roadmap-theme-name,
 .roadmap-year,
@@ -7575,9 +7311,7 @@ td.process-library-col-number{
 .process-library-table th,
 .process-library-sops-table th,
 .process-library-steps-table th,
-.process-library-card-heading,
 .operational-log-table th,
-.operational-log-browse-id,
 .operational-log-filter-label,
 .roles-responsibilities-table th,
 .roles-responsibilities-col-owner,
@@ -7588,9 +7322,7 @@ td.process-library-col-number{
 .profile-card-subtitle,
 .handbook-t-card-label,
 .brand-mark-column-title,
-.month-picker-cell-current,
-.product-selector-label,
-.product-selector-row{
+.month-picker-cell-current{
 
     letter-spacing:0.05em;
 
@@ -8312,7 +8044,6 @@ td.process-library-col-number{
 .brand-file-button:hover:not(:disabled),
 .brand-remove-button:hover:not(:disabled),
 .strategy-add-button:hover:not(:disabled),
-.strategy-sort-button:hover:not(:disabled),
 .operational-log-delete-old:hover:not(:disabled),
 .interview-nav .secondary-button:hover:not(:disabled){
 
@@ -11347,12 +11078,6 @@ td.process-library-col-number{
 
 /* The same link in a card's head, beside the name it belongs to.
    A flex item shrinks by default, and this one must not. */
-.business-engagement-card-link{
-
-    flex:0 0 auto;
-
-}
-
 /* ---------- The two sections ---------- */
 
 .business-engagement-section{
@@ -11466,16 +11191,6 @@ td.process-library-col-number{
 /* What the chosen channel already records for this same stage.
    Read-only: it is answered in A. Customer Channel, and a second
    editable copy is two answers waiting to disagree. */
-.business-engagement-channel-action{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:2px;
-
-}
-
 /* The goals, under the Approach they belong to. */
 /* THE GOAL AND ITS THREE WORDS ON ONE LINE. "Goal: Get Keep
    Grow" is a label and its answer, not a heading over a block --
@@ -12988,17 +12703,6 @@ td.process-library-col-number{
 
 }
 
-.financial-intro{
-
-    margin:0;
-
-    font-size:var(--font-body);
-    line-height:1.5;
-
-    color:#374151;
-
-}
-
 /* The plan's start, its span and its currency, once for the page. */
 .financial-plan-bar{
 
@@ -13052,19 +12756,6 @@ td.process-library-col-number{
     line-height:1;
 
     color:#6b7280;
-
-}
-
-.financial-instructions{
-
-    margin:0;
-
-    padding-left:20px;
-
-    font-size:var(--font-body);
-    line-height:1.5;
-
-    color:#4b5563;
 
 }
 
@@ -13440,43 +13131,10 @@ td.process-library-col-number{
 }
 
 /* A long list of costs to tick, kept to a box that scrolls. */
-.financial-ticks{
-
-    /* The one list here that must show it scrolls: the app hides
-       scrollbars everywhere (global.css), and a list cut off at its
-       box edge looks finished. */
-    scrollbar-width:thin;
-    scrollbar-color:hsl(var(--strategy-theme-hue, 0) 20% 62%) transparent;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:4px;
-
-    max-height:220px;
-
-    overflow-y:auto;
-
-    padding:8px;
-
-}
-
 /* In a column of fixed height, a flex item may shrink below its own
    text -- and a label running to two lines was squeezed into one
    line's height, its second line printed over the next item. The
    box scrolls instead; nothing inside it gives way. */
-.financial-ticks > *{
-
-    flex-shrink:0;
-
-    border:1px solid #d6d3cc;
-    border-radius:6px;
-
-    background:#ffffff;
-
-}
-
 .financial-loan-summary{
 
     display:flex;
@@ -14257,16 +13915,9 @@ td.process-library-col-number{
 
 .financial-section .financial-table,
 .financial-section .financial-chart,
-.financial-section .financial-loan-summary,
-.financial-section .financial-ticks{
+.financial-section .financial-loan-summary{
 
     background:hsl(var(--strategy-theme-hue, 0) 62% 98%);
-
-}
-
-.financial-section .financial-ticks{
-
-    border-color:hsl(var(--strategy-theme-hue, 0) 24% 62%);
 
 }
 
@@ -14355,23 +14006,6 @@ td.process-library-col-number{
     line-height:1.4;
 
     color:#4b5563;
-
-}
-
-.financial-ticks::-webkit-scrollbar{
-
-    display:block;
-
-    width:8px;
-    height:8px;
-
-}
-
-.financial-ticks::-webkit-scrollbar-thumb{
-
-    border-radius:4px;
-
-    background:hsl(var(--strategy-theme-hue, 0) 20% 62%);
 
 }
 
@@ -14925,91 +14559,6 @@ td.process-library-col-number{
 }
 
 /* ---------- Estimate the volume ---------- */
-
-.financial-estimator{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit, minmax(420px, 1fr));
-
-    gap:12px 20px;
-
-    padding:14px 16px;
-
-    border:1px dashed hsl(var(--strategy-theme-hue, 0) 24% 70%);
-    border-radius:8px;
-
-    background:#ffffff;
-
-}
-
-.financial-estimator-part{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:10px;
-
-    min-width:0;
-
-}
-
-.financial-estimator-part .financial-inline-grid{
-
-    grid-template-columns:minmax(0, 1fr);
-
-}
-
-.financial-estimator-part .business-field-inline{
-
-    grid-template-columns:9rem minmax(0, 1fr);
-
-}
-
-.financial-estimator-result{
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    align-items:baseline;
-
-    gap:6px 14px;
-
-    margin:0;
-
-}
-
-.financial-estimator-note,
-.financial-estimator-verdict{
-
-    margin:0;
-
-    font-size:var(--font-body);
-
-}
-
-.financial-estimator-verdict{
-
-    grid-column:1 / -1;
-
-    padding-top:10px;
-
-    border-top:1px solid #e5e7eb;
-
-}
-
-
-
-
-
-
-
-
-
-
-
 
 /* ---------- Expected sales from Demand & Conversion; the capacity check ---------- */
 

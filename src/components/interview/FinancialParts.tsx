@@ -71,7 +71,7 @@ export function PlanMonthField({
 }
 
 /** One headline figure, with what it means. */
-export interface FigureTile {
+interface FigureTile {
     label: string;
     value: string;
     /** A second line under the value. */

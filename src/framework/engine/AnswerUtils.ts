@@ -19,7 +19,7 @@ import {
  * Runtime value shapes produced by AnswerRenderer
  * for each Answer Structure.
  */
-export type FixedVariantAnswerValue = Record<string, string>;
+type FixedVariantAnswerValue = Record<string, string>;
 
 /**
  * Filters a raw Table's declared columns down
@@ -622,7 +622,7 @@ export function resolveProcessId(processKey: string, processes: ProcessRecordVal
  * A single Step's own field values, as of the last time the Log
  * was updated for its Process -- see ProcessChangeSnapshot below.
  */
-export interface ProcessStepSnapshot {
+interface ProcessStepSnapshot {
     key: string;
     action: string;
 }
@@ -632,7 +632,7 @@ export interface ProcessStepSnapshot {
  * key-matched snapshots), as of the last time the Log was
  * updated for its Process.
  */
-export interface ProcessSopSnapshot {
+interface ProcessSopSnapshot {
     key: string;
     id?: string;
     name: string;
@@ -648,7 +648,7 @@ export interface ProcessSopSnapshot {
  * Log was updated for it -- see ProcessRecordValue.
  * lastLoggedSnapshot.
  */
-export interface ProcessChangeSnapshot {
+interface ProcessChangeSnapshot {
     name: string;
     purpose: string;
     who: string;
@@ -664,7 +664,7 @@ export interface ProcessChangeSnapshot {
  * refresh it after generating a Log entry for real changes (see
  * generateOperationalLogEntriesFromProcessLibrary).
  */
-export function captureProcessSnapshot(process: ProcessRecordValue): ProcessChangeSnapshot {
+function captureProcessSnapshot(process: ProcessRecordValue): ProcessChangeSnapshot {
 
     return {
         name: process.name,
@@ -697,7 +697,7 @@ export function captureProcessSnapshot(process: ProcessRecordValue): ProcessChan
  * a whole new SOP, "<SOP id> / Step <numbers>") -- ready to join
  * one per line under its section.
  */
-export interface ProcessChangeSummary {
+interface ProcessChangeSummary {
     updates: string[];
     additions: string[];
     removals: string[];
@@ -1063,7 +1063,7 @@ export type RolesResponsibilitiesAnswerValue = Record<string, string>;
  * (buildAnswerBlocks below), so the two can never disagree on
  * grouping/ordering.
  */
-export interface RolesResponsibilityEntry {
+interface RolesResponsibilityEntry {
     process: ProcessRecordValue;
     processIndex: number;
     notes: string;
@@ -1073,7 +1073,7 @@ export interface RolesResponsibilityEntry {
  * One Owner's group of Responsibilities, in Process Library
  * order.
  */
-export interface RolesResponsibilityGroup {
+interface RolesResponsibilityGroup {
     owner: string;
     entries: RolesResponsibilityEntry[];
 }
@@ -1130,7 +1130,7 @@ export function groupRolesResponsibilities(
  * shape (an array of strings) as well as plain
  * text/date/field cells (a single string).
  */
-export function isCellFilled(cell: unknown): boolean {
+function isCellFilled(cell: unknown): boolean {
 
     if (Array.isArray(cell)) {
 
@@ -1566,20 +1566,20 @@ export function isAnswerEmpty(answer: AnswerDefinition, value: unknown): boolean
  * park a candidate colour without it counting as part of the
  * palette.
  */
-export interface BrandColourValue {
+interface BrandColourValue {
     enabled: boolean;
     name: string;
     hex: string;
     usage: string;
 }
 
-export interface BrandTypefaceValue {
+interface BrandTypefaceValue {
     enabled: boolean;
     font: string;
     purpose: string;
 }
 
-export interface BrandHierarchyValue {
+interface BrandHierarchyValue {
     enabled: boolean;
     size: string;
 }
@@ -1595,7 +1595,7 @@ export interface BrandAssetValue {
     fileName: string;
 }
 
-export interface BrandImageValue extends BrandAssetValue {
+interface BrandImageValue extends BrandAssetValue {
     name: string;
     description: string;
 }
@@ -3191,9 +3191,6 @@ export function strategyObjectiveIncomplete(objective: StrategyObjectiveValue): 
 
 }
 
-export function strategyGoalIncomplete(goal: StrategyGoalValue): boolean {
-    return goal.name.trim().length === 0 || goal.objectives.some(strategyObjectiveIncomplete);
-}
 
 /**
  * A pale background tint for each Strategic Theme, keyed by id.
@@ -3455,7 +3452,7 @@ export const LEGAL_ENTITY_SECTIONS = [
 ] as const;
 
 /** What the organization legally is, and where. */
-export interface LegalEntityOrganisationValue {
+interface LegalEntityOrganisationValue {
     name: string;
     /** ISO 3166-1 alpha-2, or "" -- see LegalEntityJurisdictions. */
     country: string;
@@ -3528,7 +3525,7 @@ export interface LegalEntityNumberValue {
     number: string;
 }
 
-export interface LegalEntityFormationValue {
+interface LegalEntityFormationValue {
     /**
      * "planned": not registered yet, the form and place chosen but no
      * date or numbers to give. "" (or "registered"): registered.
@@ -3544,7 +3541,7 @@ export interface LegalEntityFormationValue {
 /** Whether the organization is registered for the consumption tax. */
 export type LegalEntityTaxStatus = "" | "yes" | "no" | "not-applicable";
 
-export interface LegalEntityTaxValue {
+interface LegalEntityTaxValue {
     identificationNumber: string;
     consumptionTaxStatus: LegalEntityTaxStatus;
     consumptionTaxNumber: string;
@@ -4640,7 +4637,7 @@ export function businessChannelNamePlaceholder(category: string): string {
 
 /** A category's label, whether it is one of the seven or a name
  *  the founder gave it themselves. */
-export function businessChannelCategoryLabel(category: string): string {
+function businessChannelCategoryLabel(category: string): string {
     return BUSINESS_CHANNEL_CATEGORIES.find(
         entry => entry.id === category
     )?.label ?? category;
@@ -4866,7 +4863,7 @@ export const BUSINESS_CHANNEL_ALL_OFFERINGS = "*";
 
 /** Which Offerings a channel actually carries, with the "all"
  *  mark resolved against the Segment's own list. */
-export function businessChannelOfferings(
+function businessChannelOfferings(
     channel: BusinessChannelValue,
     offerings: readonly { id: string }[]
 ): string[] {
@@ -4923,7 +4920,7 @@ export function businessProfileOfferings(
  * own: the Approach and the Goal are written once for the stage
  * these all belong to.
  */
-export interface BusinessInteractionChannelsValue {
+interface BusinessInteractionChannelsValue {
     /** A channel category's label, or "" for channels with none. */
     category: string;
     channelIds: string[];
@@ -4939,7 +4936,7 @@ export interface BusinessInteractionChannelsValue {
  * approach to being discovered. The kinds of channel are where
  * that happens, listed under the stage, not separate answers.
  */
-export interface BusinessInteractionValue {
+interface BusinessInteractionValue {
     key: string;
     offeringId: string;
     stageId: string;
@@ -5092,7 +5089,7 @@ export function businessRelationshipInteractions(
  * Offering are not three relationships with it -- see
  * BusinessOfferingRelationshipEntryValue.
  */
-export interface BusinessProfileRelationshipsValue {
+interface BusinessProfileRelationshipsValue {
     /** The Page 1 Profile this belonged to. */
     profileId: string;
     /** By Offering id. */
@@ -5100,7 +5097,7 @@ export interface BusinessProfileRelationshipsValue {
 }
 
 /** What is kept about ONE Offering, whoever it is sold to. */
-export interface BusinessOfferingRelationshipEntryValue
+interface BusinessOfferingRelationshipEntryValue
     extends BusinessOfferingRelationshipsValue {
     /** The Page 1 Offering this belongs to. */
     offeringId: string;
@@ -5187,13 +5184,6 @@ export function createBusinessSegmentEngagement(
     };
 }
 
-/** A Profile's empty relationships, built the same way and for the
- *  same reason -- it holds no generated id at all. */
-export function createBusinessProfileRelationships(
-    profileId: string
-): BusinessProfileRelationshipsValue {
-    return { profileId, offerings: {} };
-}
 
 export function createBusinessOfferingRelationships(): BusinessOfferingRelationshipsValue {
     return { types: [], typeDetail: {} };
@@ -5823,7 +5813,7 @@ export const BUSINESS_DERIVED_ACTIVITY_CATEGORY = "operational";
  * Professionals & Partners with -- "a default list with 3 inputs,
  * that they can edited, or removed".
  */
-export const BUSINESS_DEFAULT_PROFESSIONALS = [
+const BUSINESS_DEFAULT_PROFESSIONALS = [
     "Accountant",
     "Lawyer",
     "Insurance Professional"
@@ -5970,7 +5960,7 @@ export interface BusinessResourceSlotValue {
  * generated id would be a new id on every render -- which is a new
  * card, losing the caret out of whatever was being typed into.
  */
-export interface BusinessResourceSubsectionValue {
+interface BusinessResourceSubsectionValue {
     id: string;
     /** Only an addition carries one; a fixed kind has its own. */
     name: string;
@@ -6008,7 +5998,7 @@ export interface BusinessActivityValue {
     sourceId: string;
 }
 
-export interface BusinessActivityCategoryValue {
+interface BusinessActivityCategoryValue {
     id: string;
     /** Only an added category carries one. */
     name: string;
@@ -6082,11 +6072,11 @@ export interface BusinessCapabilityValue {
 
 }
 
-export function createBusinessCost(): BusinessCostValue {
+function createBusinessCost(): BusinessCostValue {
     return { price: "", frequency: "", frequencyOther: "", currency: "" };
 }
 
-export function createBusinessFounder(): BusinessFounderValue {
+function createBusinessFounder(): BusinessFounderValue {
     return { id: businessId("founder"), name: "", roles: [""], salary: "", hours: "", deliveryHours: "", deliveryShare: "", hoursPeriod: "" };
 }
 
@@ -6364,7 +6354,7 @@ export function asBusinessCapabilityValue(value: unknown): BusinessCapabilityVal
 
 /** Every activity on the page, whichever section or category it is
  *  filed under -- for the lookups that do not care. */
-export function businessAllActivities(
+function businessAllActivities(
     capability: BusinessCapabilityValue
 ): BusinessActivityValue[] {
     return [

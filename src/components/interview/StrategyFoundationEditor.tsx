@@ -84,7 +84,7 @@ interface StrategyFoundationEditorProps {
 }
 
 /** The first month a Strategic Period may start in: this one. */
-export function currentMonthIndex(): number {
+function currentMonthIndex(): number {
     const now = new Date();
     return now.getFullYear() * 12 + now.getMonth();
 }

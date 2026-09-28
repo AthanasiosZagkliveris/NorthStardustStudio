@@ -642,7 +642,7 @@ function toTableColumns(
  *
  * A title with no "&" is returned unchanged.
  */
-export function bindLabelAroundAmpersand(label: string): string {
+function bindLabelAroundAmpersand(label: string): string {
 
     const match = label.match(/^(.*?\S)\s*&\s*(\S.*)$/);
 

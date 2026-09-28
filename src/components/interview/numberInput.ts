@@ -10,8 +10,7 @@ export interface NumberLimit {
     max: number;
     /** Digits after the point; 0 for a whole number. Default 2. */
     decimals?: number;
-    /** Never: no box takes a minus sign. */
-    allowNegative?: false;
+    // No box takes a minus sign.
 }
 
 /** The limits each kind of figure is typed within. */

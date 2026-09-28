@@ -106,8 +106,3 @@ export function jumpTo(path: readonly string[]) {
     window.setTimeout(attempt, STEP_MS);
 
 }
-
-/** The data-anchor value for an element that answers to several names. */
-export function anchors(...tokens: (string | false | null | undefined)[]): string {
-    return tokens.filter((token): token is string => Boolean(token)).join(" ");
-}

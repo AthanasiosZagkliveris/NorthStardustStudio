@@ -58,7 +58,7 @@ export type ForecastPeriod = "monthly" | "annual";
 /** "flow" adds up over a period; "opening"/"closing" take its first/last month. */
 type RowKind = "flow" | "opening" | "closing";
 
-export interface ForecastRow {
+interface ForecastRow {
     label: string;
     kind: RowKind;
     /** A subtotal or total, set apart in a table. */
@@ -66,7 +66,7 @@ export interface ForecastRow {
     values: number[];
 }
 
-export interface ForecastTable {
+interface ForecastTable {
     title: string;
     rows: ForecastRow[];
 }
@@ -81,7 +81,7 @@ export interface Forecast {
 }
 
 /** Three years: a common life for computers, furniture and small equipment. */
-export const DEPRECIATION_MONTHS = 36;
+const DEPRECIATION_MONTHS = 36;
 
 /** Page 3's groups whose one-time purchases are things the business owns. */
 const ASSET_GROUPS = ["resource-group-workstation", "resource-group-equipment"];
@@ -94,7 +94,7 @@ const FOUNDER_PAY = "resource-group-founders";
  * or sole proprietor, a partnership, or an LLC (taxed as its owners
  * unless it elects otherwise). A company pays its founders a salary.
  */
-export function ownersTakeDrawings(legalForm: string): boolean {
+function ownersTakeDrawings(legalForm: string): boolean {
     return /sole|trader|proprietor|individu|einzel|enkeltmand|toiminimi|autónomo|ατομική|microempreendedor|partnership|partnerschaft|\bLLP\b|\bLLC\b|eenmanszaak|micro-entreprise/i
         .test(legalForm);
 }
@@ -412,7 +412,7 @@ export function financialForecast(
 }
 
 /** A table cut to a period and a last plan year. */
-export interface ForecastView {
+interface ForecastView {
     columns: string[];
     tables: { title: string; rows: { label: string; total?: boolean; values: number[] }[] }[];
 }
