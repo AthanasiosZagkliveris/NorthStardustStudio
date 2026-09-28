@@ -970,7 +970,7 @@ export default function BusinessEngagementEditor({
             <div className="business-engagement-reference-column">
 
                 <span className="business-foundation-label-info">
-                    <span className="business-foundation-subhead">
+                    <span className="field-group-title business-foundation-subhead">
                         <InfoText text={title}>
                             <InfoNote
                                 label={title}
@@ -1084,7 +1084,7 @@ export default function BusinessEngagementEditor({
 
                     <FoldArrow open={open} label={title} onToggle={() => toggle(key)} />
 
-                    <span className="business-foundation-subhead">{title}</span>
+                    <span className="field-group-title business-foundation-subhead">{title}</span>
 
                     {titleExtra}
 
@@ -3305,7 +3305,7 @@ export default function BusinessEngagementEditor({
                             label={"Demand & Conversion for " + offeringLabel}
                             onToggle={() => folds.toggle(foldKey)}
                         />
-                        <span className="business-foundation-subhead business-demand-title">
+                        <span className="field-group-title business-foundation-subhead business-demand-title">
                             Demand &amp; Conversion
                         </span>
                         {!open && result.expected !== null && (
@@ -3428,7 +3428,7 @@ export default function BusinessEngagementEditor({
                 )}
 
                 <div className="business-demand-channels">
-                    <span className="business-foundation-label">
+                    <span className="field-label business-foundation-label">
                         Channels That Bring Them
                     </span>
                     {channelOptions.length === 0

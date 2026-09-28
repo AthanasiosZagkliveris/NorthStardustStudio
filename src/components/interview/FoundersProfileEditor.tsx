@@ -231,7 +231,7 @@ export default function FoundersProfileEditor({
     function label(text: string, info: string[]) {
         return (
             <span className="legal-entity-label-info">
-                <span className="legal-entity-label">
+                <span className="field-label legal-entity-label">
                     <InfoText text={text}>
                         <InfoNote label={text} points={info} />
                     </InfoText>
@@ -356,7 +356,7 @@ export default function FoundersProfileEditor({
                         {/* The two experience questions side by side,
                             under a title of their own. */}
                         <div className="legal-entity-field-wide">
-                            <span className="business-foundation-subhead">Relevant Experience</span>
+                            <span className="field-group-title business-foundation-subhead">Relevant Experience</span>
                         </div>
 
                         {field("Relevant Industry Experience", INFO.industryExperience, (

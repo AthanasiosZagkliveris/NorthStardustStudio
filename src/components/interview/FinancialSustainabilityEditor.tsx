@@ -502,7 +502,7 @@ export default function FinancialSustainabilityEditor({
                                     )}
                                 </ul>
 
-                                <span className="financial-offering-cost-subhead">Per {unit} sold</span>
+                                <span className="field-group-title financial-offering-cost-subhead">Per {unit} sold</span>
                                 <ul className="financial-cost-inputs">
                                     {costs.perUnit.length === 0
                                         ? <li><span className="financial-muted">No costs per sale recorded</span></li>
@@ -534,7 +534,7 @@ export default function FinancialSustainabilityEditor({
 
                                 {(costs.recurring.length > 0 || costs.oneTime.length > 0) && (
                                     <>
-                                        <span className="financial-offering-cost-subhead">Whatever is sold</span>
+                                        <span className="field-group-title financial-offering-cost-subhead">Whatever is sold</span>
                                         <ul className="financial-cost-inputs">
                                             {costs.recurring.map(item => (
                                                 <li key={item.name}><span>{item.name}</span><span>{format(item.monthly)} / month</span></li>
@@ -622,7 +622,7 @@ export default function FinancialSustainabilityEditor({
     function groupHead(title: string, info?: InfoPoint[]) {
         return (
             <div className="financial-stream-subhead-row">
-                <h4 className="financial-stream-subhead">
+                <h4 className="field-group-title financial-stream-subhead">
                     <InfoText text={title}>
                         {info && <InfoNote label={title} points={info} fullList />}
                     </InfoText>

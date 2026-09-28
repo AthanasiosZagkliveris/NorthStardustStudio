@@ -108,6 +108,77 @@ body {
   --space-row: 6px;
 }
 
+/* ==========================================================
+   Field labels
+
+   ONE label for every field in the interview: body size,
+   regular, one grey, on a 28px line (which holds the 26px "i"
+   that some labels carry, so a label with a note is no taller
+   than one without). The "i" follows the label's last word at
+   the one 8px gap every "i" has (.info-note).
+
+   A label sits ABOVE its field, --space-label from it. A short
+   single-value row -- a number, an amount, one choice, a shown
+   value -- may put it BESIDE the control instead
+   (.business-field-inline): then every such label takes the one
+   --side-label-width column, wide enough for "Working Hours /
+   Month" and its "i" on one line at 18px (198 + 8 + 26 = 232px),
+   and sits on the control's FIRST line of text, never centred
+   on a tall control. In a narrow card the column gives way (at
+   most half the card) and the label wraps.
+
+   A group of fields inside a card is named by .field-group-title:
+   the same size, bold, in the text colour.
+========================================================== */
+:root {
+  --label-color: #4b5563;
+  --label-line: 28px;
+  --side-label-width: 232px;
+  --side-label-gap: 12px;
+  --side-label-column: min(var(--side-label-width), 60%);
+  --text-color: #111827;
+}
+
+.field-label {
+  font-size: var(--font-body);
+  font-weight: 400;
+  line-height: var(--label-line);
+  color: var(--label-color);
+}
+
+.field-group-title {
+  margin: 0;
+  font-size: var(--font-body);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: var(--label-line);
+  color: var(--text-color);
+}
+
+/* ==========================================================
+   Boxes and selects
+
+   Every box a value is typed or chosen in -- an input, a
+   textarea, a numbered list's box, a select, the option
+   picker's trigger -- is drawn with the one border colour.
+   (A card's border is its own, lighter colour.)
+
+   A select, native or the option picker, is one control: the
+   same border, radius, side padding and chevron, the chevron
+   --select-chevron-inset in from the right edge. The option
+   picker set these, being most of the selects in the app: 8px
+   before the value, 24px on the chevron side (6px inset + its
+   12px + 6px clear of the value).
+========================================================== */
+:root {
+  --box-border: #767676;
+  --box-radius: 6px;
+  --select-padding-left: 8px;
+  --select-padding-right: 24px;
+  --select-chevron-inset: 6px;
+  --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23111827' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
 h1, h2, h3 {
   font-family: "Inter", sans-serif;
   color: #111827;

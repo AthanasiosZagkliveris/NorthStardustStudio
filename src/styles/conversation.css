@@ -39,7 +39,7 @@ textarea{
 
     line-height:1.6;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
 
     border-radius:8px;
 
@@ -254,7 +254,7 @@ textarea:focus{
 
     padding:0 20px;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:8px;
 
     background:#ffffff;
@@ -668,7 +668,7 @@ textarea:focus{
 
     padding:12px 20px;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:8px;
 
     background:#ffffff;
@@ -1011,7 +1011,7 @@ textarea:focus{
     font-size:var(--font-small);
     line-height:1.5;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:6px;
 
 }
@@ -1023,7 +1023,7 @@ textarea:focus{
     border-color:#0b57d0;
 
     /* Focus ring, not just a border-colour swap. The unfocused
-       border is #767676 and the focused one #0b57d0 -- only 1.5:1
+       border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
        apart, so colour alone was a weak focus cue (WCAG 2.2 SC
        2.4.11 wants 3:1 against the unfocused state). The ring is
        independent of the border colour, adds no layout (box-shadow
@@ -1058,7 +1058,7 @@ textarea:focus{
     font-size:var(--font-small);
     line-height:1.5;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:6px;
 
     background:#ffffff;
@@ -1072,7 +1072,7 @@ textarea:focus{
     border-color:#0b57d0;
 
     /* Focus ring, not just a border-colour swap. The unfocused
-       border is #767676 and the focused one #0b57d0 -- only 1.5:1
+       border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
        apart, so colour alone was a weak focus cue (WCAG 2.2 SC
        2.4.11 wants 3:1 against the unfocused state). The ring is
        independent of the border colour, adds no layout (box-shadow
@@ -1352,7 +1352,7 @@ textarea:focus{
 
     padding:0 10px;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:6px;
 
     background:#ffffff;
@@ -1371,7 +1371,7 @@ textarea:focus{
     border-color:#0b57d0;
 
     /* Focus ring, not just a border-colour swap. The unfocused
-       border is #767676 and the focused one #0b57d0 -- only 1.5:1
+       border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
        apart, so colour alone was a weak focus cue (WCAG 2.2 SC
        2.4.11 wants 3:1 against the unfocused state). The ring is
        independent of the border colour, adds no layout (box-shadow
@@ -1419,7 +1419,7 @@ textarea:focus{
     align-items:center;
     justify-content:center;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:6px;
 
     background:#ffffff;
@@ -1515,7 +1515,7 @@ textarea:focus{
 
     flex-shrink:0;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:50%;
 
     background:#ffffff;
@@ -1666,7 +1666,7 @@ textarea:focus{
 
     padding:0 14px;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:8px;
 
     font:inherit;
@@ -1681,7 +1681,7 @@ textarea:focus{
     border-color:#0b57d0;
 
     /* Focus ring, not just a border-colour swap. The unfocused
-       border is #767676 and the focused one #0b57d0 -- only 1.5:1
+       border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
        apart, so colour alone was a weak focus cue (WCAG 2.2 SC
        2.4.11 wants 3:1 against the unfocused state). The ring is
        independent of the border colour, adds no layout (box-shadow
@@ -1890,7 +1890,7 @@ textarea:focus{
     border-color:#0b57d0;
 
     /* Focus ring, not just a border-colour swap. The unfocused
-       border is #767676 and the focused one #0b57d0 -- only 1.5:1
+       border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
        apart, so colour alone was a weak focus cue (WCAG 2.2 SC
        2.4.11 wants 3:1 against the unfocused state). The ring is
        independent of the border colour, adds no layout (box-shadow
@@ -2045,7 +2045,7 @@ textarea:focus{
 
     width:280px;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:10px;
 
     background:#ffffff;
@@ -2125,7 +2125,7 @@ textarea:focus{
     align-items:center;
     justify-content:center;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:6px;
 
     background:#ffffff;
@@ -2317,7 +2317,7 @@ textarea:focus{
     font-size:var(--font-small);
     line-height:1.5;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:6px;
 
     background:#ffffff;
@@ -2331,7 +2331,7 @@ textarea:focus{
     border-color:#0b57d0;
 
     /* Focus ring, not just a border-colour swap. The unfocused
-       border is #767676 and the focused one #0b57d0 -- only 1.5:1
+       border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
        apart, so colour alone was a weak focus cue (WCAG 2.2 SC
        2.4.11 wants 3:1 against the unfocused state). The ring is
        independent of the border colour, adds no layout (box-shadow
@@ -3076,7 +3076,7 @@ td.process-library-col-number{
 
 .operational-log-delete-old{
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:6px;
 
     background:#ffffff;
@@ -3138,7 +3138,7 @@ td.process-library-col-number{
 
 .operational-log-clear-filters{
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:6px;
 
     background:#ffffff;
@@ -3229,7 +3229,7 @@ td.process-library-col-number{
     font-size:var(--font-small);
     line-height:1.5;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:6px;
 
     background:#ffffff;
@@ -3244,7 +3244,7 @@ td.process-library-col-number{
     border-color:#0b57d0;
 
     /* Focus ring, not just a border-colour swap. The unfocused
-       border is #767676 and the focused one #0b57d0 -- only 1.5:1
+       border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
        apart, so colour alone was a weak focus cue (WCAG 2.2 SC
        2.4.11 wants 3:1 against the unfocused state). The ring is
        independent of the border colour, adds no layout (box-shadow
@@ -3427,7 +3427,7 @@ td.process-library-col-number{
     font-size:var(--font-small);
     line-height:1.5;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:6px;
 
     background:#ffffff;
@@ -3441,7 +3441,7 @@ td.process-library-col-number{
     border-color:#0b57d0;
 
     /* Focus ring, not just a border-colour swap. The unfocused
-       border is #767676 and the focused one #0b57d0 -- only 1.5:1
+       border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
        apart, so colour alone was a weak focus cue (WCAG 2.2 SC
        2.4.11 wants 3:1 against the unfocused state). The ring is
        independent of the border colour, adds no layout (box-shadow
@@ -3570,7 +3570,7 @@ td.process-library-col-number{
     font-size:var(--font-small);
     line-height:1.5;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:8px;
 
     background:#ffffff;
@@ -3591,7 +3591,7 @@ td.process-library-col-number{
     border-color:#0b57d0;
 
     /* Focus ring, not just a border-colour swap. The unfocused
-       border is #767676 and the focused one #0b57d0 -- only 1.5:1
+       border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
        apart, so colour alone was a weak focus cue (WCAG 2.2 SC
        2.4.11 wants 3:1 against the unfocused state). The ring is
        independent of the border colour, adds no layout (box-shadow
@@ -3803,7 +3803,7 @@ td.process-library-col-number{
 
     padding:2px;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:8px;
 
     background:#ffffff;
@@ -3938,7 +3938,7 @@ td.process-library-col-number{
 
     padding:8px;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:8px;
 
     background:#ffffff;
@@ -4041,7 +4041,7 @@ td.process-library-col-number{
 
     padding:8px 16px;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:8px;
 
     background:#ffffff;
@@ -4142,7 +4142,7 @@ td.process-library-col-number{
 
     color:#111827;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:6px;
 
     background:#ffffff;
@@ -4690,7 +4690,7 @@ td.process-library-col-number{
 
    Every colour below is one already used elsewhere in the app:
    #111827 body text, #4b5563 secondary text (7.0:1 on white),
-   #6b7280 for deactivated text (4.8:1), #767676 borders,
+   #6b7280 for deactivated text (4.8:1), var(--box-border) borders,
    #0b57d0 for focus and accent, #b00020 for a destructive
    action.
 ========================================================== */
@@ -4712,17 +4712,6 @@ td.process-library-col-number{
     min-height:calc(3em + 18px);
 
     resize:vertical;
-
-}
-
-.strategy-field-label{
-
-    font-size:var(--font-body);
-    font-weight:500;
-
-    /* 7.0:1 on white -- a label is small and secondary, so it
-       is held well above the 4.5:1 minimum rather than at it. */
-    color:#4b5563;
 
 }
 
@@ -4751,7 +4740,7 @@ td.process-library-col-number{
 
     padding:var(--card-padding);
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:8px;
 
     background:#ffffff;
@@ -4821,7 +4810,7 @@ td.process-library-col-number{
 
     color:#111827;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:6px;
 
     background:#ffffff;
@@ -4985,7 +4974,7 @@ td.process-library-col-number{
 
     padding:12px;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:8px;
 
 }
@@ -5191,7 +5180,7 @@ td.process-library-col-number{
 
     color:#111827;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:6px;
 
     background:#ffffff;
@@ -5254,7 +5243,7 @@ td.process-library-col-number{
 
     gap:12px;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:8px;
 
     background:#ffffff;
@@ -5284,7 +5273,7 @@ td.process-library-col-number{
 
     color:#111827;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:6px;
 
     background:#ffffff;
@@ -5355,7 +5344,7 @@ td.process-library-col-number{
 
     color:#111827;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:6px;
 
     background:#ffffff;
@@ -5429,7 +5418,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:6px;
 
     background:#ffffff;
@@ -5633,17 +5622,6 @@ td.process-library-col-number{
 .strategy-metric-field .interview-input{
 
     flex:1 1 auto;
-
-}
-
-/* "Measurement Frequency" is too long for the label column at
-   one line, so it wraps there instead of widening the column for
-   every other label. */
-.strategy-field-label-wrap{
-
-    white-space:normal;
-
-    line-height:1.3;
 
 }
 
@@ -5955,7 +5933,7 @@ td.process-library-col-number{
     /* Solid, and the same grey as the timeline's own year rules
        -- dashed at a lighter tone, this read as a texture rather
        than a division. */
-    border-left:1px solid #767676;
+    border-left:1px solid var(--box-border);
 
 }
 
@@ -6243,7 +6221,7 @@ td.process-library-col-number{
 
     padding:4px;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:8px;
 
     background:#ffffff;
@@ -6353,7 +6331,7 @@ td.process-library-col-number{
 
     padding:12px;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:8px;
 
 }
@@ -6398,16 +6376,6 @@ td.process-library-col-number{
    field, not above a box.
 ========================================================== */
 
-.strategy-swot-quadrant > .strategy-field-label,
-.strategy-period-box .month-picker-label{
-
-    font-size:var(--font-body);
-    font-weight:600;
-
-    color:#111827;
-
-}
-
 /* Lined up with the "Theme" label below them, so the column
    reads down one edge. That is the grip (24) plus its 8px gap
    plus a Theme box's own 12px padding and 1px border. */
@@ -6447,8 +6415,6 @@ td.process-library-col-number{
        Frequency" is far longer than the others and would set the
        width for all of them. */
     white-space:normal;
-
-    line-height:1.3;
 
 }
 
@@ -6684,14 +6650,13 @@ td.process-library-col-number{
 
     display:grid;
 
-    /* "Measurement" cannot break and measures 104px -- the floor
-       for the label column, and what the other labels are held to
-       so every pair lines up. */
-    grid-template-columns:104px minmax(0, 1fr);
+    /* The app's one side-label column (global.css), on the
+       control's first line of text. */
+    grid-template-columns:var(--side-label-column) minmax(0, 1fr);
 
-    align-items:center;
+    align-items:baseline;
 
-    gap:8px;
+    gap:var(--side-label-gap);
 
 }
 
@@ -6867,9 +6832,7 @@ td.process-library-col-number{
 .strategy-theme-name,
 .roadmap-theme-number,
 .roadmap-theme-name,
-.roadmap-year,
-.strategy-swot-quadrant > .strategy-field-label,
-.strategy-period-box .month-picker-label{
+.roadmap-year{
 
     letter-spacing:0.05em;
 
@@ -7307,13 +7270,15 @@ td.process-library-col-number{
     appearance:none;
     -webkit-appearance:none;
 
-    /* 16px in, plus the glyph's own 12px, plus a 8px gap before
-       the value -- so the text never runs into the chevron. */
-    padding-right:36px;
+    /* The app's one select (global.css): the option picker's
+       padding and chevron, so a native select and a picker side by
+       side are the same control. */
+    padding-left:var(--select-padding-left);
+    padding-right:var(--select-padding-right);
 
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23111827' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-image:var(--select-chevron);
     background-repeat:no-repeat;
-    background-position:right 16px center;
+    background-position:right var(--select-chevron-inset) center;
     background-size:12px 8px;
 
 }
@@ -7488,7 +7453,7 @@ td.process-library-col-number{
    Hover fills solid #d01818 rather than tinting: this is the
    one destructive control on a card, and white on that red is
    5.5:1. At rest it stays neutral (#111827 on white, 17:1,
-   inside a #767676 border at 3.0:1) so a page full of cards is
+   inside a var(--box-border) border at 3.0:1) so a page full of cards is
    not a page full of red.
 ========================================================== */
 
@@ -7513,7 +7478,7 @@ td.process-library-col-number{
 
     color:#111827;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:6px;
 
     background:#ffffff;
@@ -7993,7 +7958,7 @@ td.process-library-col-number{
 
     padding:16px;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:8px;
 
     background:#fafafa;
@@ -8098,29 +8063,6 @@ td.process-library-col-number{
     gap:6px;
 
     min-width:0;
-
-}
-
-.legal-entity-label{
-
-    font-size:var(--font-body);
-
-    /* 28px, the same as the Business System's field labels.
-
-       This was 22px, meaning to be the height of the "i" button
-       some of these labels carry -- the aim being that a label
-       WITH a note sits on the same line as one without, so columns
-       of fields start together. The button is 22px of disc inside
-       a 1px border, so its box is 24px and a 22px line still grew
-       to fit it: a label with a note measured 23.6px against a
-       plain 22px, and the field under it started 1.6px lower.
-
-       28px contains the box outright, so every row is 28px either
-       way -- and it is above the 1.5 line spacing dyslexia
-       guidance asks of text this size, which 22px was under. */
-    line-height:28px;
-
-    color:#4b5563;
 
 }
 
@@ -9002,7 +8944,7 @@ td.process-library-col-number{
 
     padding:12px 14px;
 
-    border:1px solid #767676;
+    border:1px solid var(--box-border);
     border-radius:8px;
 
     background:#ffffff;
@@ -9858,7 +9800,9 @@ td.process-library-col-number{
 
 }
 
-
+/* Field labels and the titles of groups inside a card take the
+   app's one label and group title (.field-label and
+   .field-group-title, global.css). */
 
 /* The card number and the card name once had rules of their own
    here (.business-foundation-card-number / -card-name). Both are
@@ -9866,24 +9810,6 @@ td.process-library-col-number{
    number is a .strategy-box-number and the name an input
    (.strategy-name-input) rather than an echo of a field inside
    the card. Same text colour, same size, one definition. */
-
-/* "Competitors SWOT Analysis" and the like: a heading inside a
-   card, above the group of fields it names. */
-.business-foundation-subhead{
-
-    font-size:var(--font-body);
-    font-weight:700;
-
-    letter-spacing:0.05em;
-
-    /* The same 28px, and for the same reason: some of these titles
-       carry an "i" and some do not, and the ones that do must not
-       push everything under them down. */
-    line-height:28px;
-
-    color:#111827;
-
-}
 
 /* The Segment's Description, across the full width of its card.
    Five boxes in one stack would be a very long line, so they
@@ -10023,29 +9949,6 @@ td.process-library-col-number{
     gap:var(--space-label);
 
     min-width:0;
-
-}
-
-.business-foundation-label{
-
-    font-size:var(--font-body);
-
-    /* 28px: above the 1.5 (27px) dyslexia guidance asks for, and
-       these labels do wrap ("Purchasing Power & Behavior",
-       "Specific Personal Information").
-
-       28 rather than 27 so the row exactly CONTAINS its "i". The
-       icon is a 26px box, and at 27px it still overhung the line
-       by half a pixel -- enough to make a row carrying a note
-       taller than one without, and to leave everything measured
-       from those rows half a pixel out. At 28 the icon sits
-       inside the line instead of setting it, and every row on the
-       page is 28px whether it carries a note or not. */
-    line-height:28px;
-
-    /* The same label colour the rest of the page uses, rather than
-       a grey of its own -- see .business-engagement-reference-label. */
-    color:hsl(var(--strategy-theme-hue, 0) 28% 34%);
 
 }
 
@@ -13495,46 +13398,29 @@ td.process-library-col-number{
 
 /* ---------- A label beside its control ----------
 
-   In a narrow card, a short answer (a quantity, a price, a choice)
-   reads better on one line with its label than stacked under it.
-   One label column for every such field in the card, so the
-   controls line up; anything after the control (a total, a note)
-   stays in the control's column. */
+   A short single-value answer (a quantity, a price, one choice, a
+   shown value) reads better on one line with its label than
+   stacked under it. Every such label takes the app's one side-label
+   column (--side-label-column, global.css), so the controls line
+   up, and sits on the control's FIRST line of text: baselines, not
+   centres, so a label beside a tall control stays on its first
+   line. Anything after the control (a total, a note) stays in the
+   control's column. */
 .business-field-inline{
 
     display:grid;
 
-    grid-template-columns:7.5rem minmax(0, 1fr);
+    grid-template-columns:var(--side-label-column) minmax(0, 1fr);
 
-    align-items:center;
+    align-items:baseline;
 
-    gap:6px 12px;
+    gap:var(--space-label) var(--side-label-gap);
 
 }
 
 .business-field-inline > :not(:first-child){
 
     grid-column:2;
-
-}
-
-/* A long label ("Price per Unit") wraps inside its column. */
-.business-field-inline > .business-foundation-label,
-.business-field-inline > .business-foundation-label-info{
-
-    line-height:1.2;
-
-}
-
-/*
-    EVERY CARD ON THE BUSINESS PAGES, ONE STRUCTURE: its head
-    (arrow, number, name, remove), then one field a line with the label
-    beside it in the same column width, then its Description beneath.
-    The column fits "Delivery Hours / Month" on two lines at most.
-*/
-.answer-columns.business-foundation .business-field-inline{
-
-    grid-template-columns:8.5rem minmax(0, 1fr);
 
 }
 
@@ -13673,13 +13559,6 @@ td.process-library-col-number{
 .financial-offering-cost-subhead{
 
     margin-top:4px;
-
-    font-size:var(--font-body);
-    font-weight:700;
-
-
-
-    color:#4b5563;
 
 }
 
@@ -13855,12 +13734,6 @@ td.process-library-col-number{
 
 }
 
-.financial-inline-grid .business-field-inline{
-
-    grid-template-columns:6.5rem minmax(0, 1fr);
-
-}
-
 /*
     A REVENUE STREAM CARD: every group (Price, Sales Volume, Begins
     and Payment, Orders & Delivery) on the same four columns, each
@@ -13982,18 +13855,6 @@ td.process-library-col-number{
     display:flex;
 
     align-items:center;
-
-}
-
-.financial-stream-subhead{
-
-    margin:0;
-
-    font-size:var(--font-body);
-
-    font-weight:700;
-
-    color:hsl(var(--strategy-theme-hue, 0) 25% 32%);
 
 }
 

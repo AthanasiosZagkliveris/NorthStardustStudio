@@ -62,14 +62,14 @@ export function BusinessField({
             {info
                 ? (
                     <span className="business-foundation-label-info">
-                        <span className="business-foundation-label">
+                        <span className="field-label business-foundation-label">
                             <InfoText text={label}>
                                 <InfoNote label={label} points={info} fullList />
                             </InfoText>
                         </span>
                     </span>
                 )
-                : <span className="business-foundation-label">{label}</span>}
+                : <span className="field-label business-foundation-label">{label}</span>}
 
             {children}
 
@@ -109,14 +109,14 @@ export function BusinessGroup({
     const heading = info
         ? (
             <span className="business-foundation-label-info">
-                <span className="business-foundation-subhead">
+                <span className="field-group-title business-foundation-subhead">
                     <InfoText text={title}>
                         <InfoNote label={title} points={info} fullList />
                     </InfoText>
                 </span>
             </span>
         )
-        : <span className="business-foundation-subhead">{title}</span>;
+        : <span className="field-group-title business-foundation-subhead">{title}</span>;
 
     return (
         <>

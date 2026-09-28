@@ -658,14 +658,14 @@ export default function BusinessCapabilityEditor({
                     {info
                         ? (
                             <span className="business-foundation-label-info">
-                                <span className="business-foundation-subhead">
+                                <span className="field-group-title business-foundation-subhead">
                                     <InfoText text={title}>
                                         <InfoNote label={title} points={info} fullList />
                                     </InfoText>
                                 </span>
                             </span>
                         )
-                        : <span className="business-foundation-subhead">{title}</span>}
+                        : <span className="field-group-title business-foundation-subhead">{title}</span>}
 
                     {titleExtra}
 
@@ -731,7 +731,7 @@ export default function BusinessCapabilityEditor({
         empty: ReactNode
     ) {
         return (
-            <BusinessField label="Linked to" inline>
+            <BusinessField label="Linked to">
                 {offeringChoices.length === 0
                     ? <BusinessEmpty>{empty}</BusinessEmpty>
                     : (
@@ -1469,7 +1469,7 @@ export default function BusinessCapabilityEditor({
 
                     {/* Answered on the Founders Profile page, on the
                         founder's own card -- shown here, not asked. */}
-                    <BusinessField label="Roles" inline>
+                    <BusinessField label="Roles">
                         {founder.roles.length === 0
                             ? (
                                 <BusinessEmpty>
@@ -1760,8 +1760,13 @@ export default function BusinessCapabilityEditor({
         // Always one picker, even before anybody is chosen.
         const rows = performerIds.length > 0 ? performerIds : [""];
 
+        const canAdd = rows.every(id => id.length > 0) && rows.length < who.length;
+
+        /* One picker and nothing under it is a single value, labelled
+           beside it; with a second picker or "+ Add Performer" under
+           it, the label goes above, as every multi-line field's does. */
         return (
-            <BusinessField label="Performer" inline>
+            <BusinessField label="Performer" inline={rows.length === 1 && !canAdd}>
                 {who.length === 0
                     ? (
                         <BusinessEmpty>
@@ -1806,7 +1811,7 @@ export default function BusinessCapabilityEditor({
                                 </div>
                             ))}
 
-                            {rows.every(id => id.length > 0) && rows.length < who.length && (
+                            {canAdd && (
                                 <BusinessAddButton
                                     label="Performer"
                                     disabled={disabled}

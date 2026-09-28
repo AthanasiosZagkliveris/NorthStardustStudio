@@ -408,7 +408,7 @@ export default function StrategyFoundationEditor({
 
                     <div className="strategy-swot-quadrant" key={quadrant.id}>
 
-                        <span className="strategy-field-label">{quadrant.label}</span>
+                        <span className="field-label strategy-field-label">{quadrant.label}</span>
 
                         <NumberedListInput
                             label={quadrant.label}

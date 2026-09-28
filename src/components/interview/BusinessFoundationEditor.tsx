@@ -629,14 +629,14 @@ export default function BusinessFoundationEditor({
                                         onNext(next);
                                     }}
                                 />
-                                <span className="business-foundation-label">
+                                <span className="field-label business-foundation-label">
                                     {part.title}
                                 </span>
                             </label>
                         ) : (
                             /* Glued to the name's last word, as every
                                label's "i" is (see InfoText). */
-                            <span className="business-foundation-label">
+                            <span className="field-label business-foundation-label">
                                 <InfoText text={part.title}>
                                     <InfoNote
                                         label={part.title}
@@ -904,7 +904,7 @@ export default function BusinessFoundationEditor({
                             below, and a section called "... and
                             Needs" containing a section called "Needs"
                             says it twice. */}
-                        <span className="business-foundation-subhead">
+                        <span className="field-group-title business-foundation-subhead">
                             Motivations
                         </span>
 
@@ -947,7 +947,7 @@ export default function BusinessFoundationEditor({
                             NumberedListInput) -- and a numbered
                             line is what the Offerings subsection
                             picks from. */}
-                        <span className="business-foundation-subhead">
+                        <span className="field-group-title business-foundation-subhead">
                             Needs
                         </span>
 
@@ -958,7 +958,7 @@ export default function BusinessFoundationEditor({
                             >
 
                                 <span className="business-foundation-label-info">
-                                    <span className="business-foundation-label">
+                                    <span className="field-label business-foundation-label">
                                         <InfoText text={kind.title}>
                                             <InfoNote
                                                 label={kind.title}
@@ -1104,7 +1104,7 @@ export default function BusinessFoundationEditor({
                                 (next) => change({ description: next })
                             )}
 
-                            <span className="business-foundation-subhead">
+                            <span className="field-group-title business-foundation-subhead">
                                 Competitors SWOT Analysis
                             </span>
 
@@ -1255,11 +1255,11 @@ export default function BusinessFoundationEditor({
                     return (
                         <div className="business-foundation-needs-recall">
 
-                            <span className="business-foundation-label">
+                            <span className="field-label business-foundation-label">
                                 Emotional Needs
                             </span>
 
-                            <span className="business-foundation-label">
+                            <span className="field-label business-foundation-label">
                                 Social Needs
                             </span>
 
@@ -1370,7 +1370,7 @@ export default function BusinessFoundationEditor({
                                 two are shown there, beneath it. */}
                             <div className="business-foundation-field">
 
-                                <span className="business-foundation-label">
+                                <span className="field-label business-foundation-label">
                                     Functional Needs Addressed
                                 </span>
 
@@ -1612,7 +1612,7 @@ export default function BusinessFoundationEditor({
                                         className="business-foundation-profiles"
                                         data-rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[0])}
                                     >
-                                        <span className="business-foundation-subhead business-foundation-column-title fold-group-head">
+                                        <span className="field-group-title business-foundation-subhead business-foundation-column-title fold-group-head">
                                             Profiles
                                             <FoldAllToggle
                                                 ids={segment.profiles.map(p => p.id)}
@@ -1627,7 +1627,7 @@ export default function BusinessFoundationEditor({
                                         className="business-foundation-competitors"
                                         data-rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[1])}
                                     >
-                                        <span className="business-foundation-subhead business-foundation-column-title fold-group-head">
+                                        <span className="field-group-title business-foundation-subhead business-foundation-column-title fold-group-head">
                                             Competitors
                                             <FoldAllToggle
                                                 ids={segment.competitors.map(c => c.id)}
@@ -1657,7 +1657,7 @@ export default function BusinessFoundationEditor({
                                         className="business-foundation-offerings"
                                         data-rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[3])}
                                     >
-                                        <span className="business-foundation-subhead business-foundation-column-title fold-group-head">
+                                        <span className="field-group-title business-foundation-subhead business-foundation-column-title fold-group-head">
                                             Offerings
                                             <FoldAllToggle
                                                 ids={segment.offerings.map(o => o.id)}

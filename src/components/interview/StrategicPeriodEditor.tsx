@@ -769,7 +769,7 @@ function ObjectiveList({
                                     way every Activity names one. */}
                                 {founders.length > 0 && (
                                     <div className="strategy-objective-owner">
-                                        <span className="strategy-field-label">Owner</span>
+                                        <span className="field-label strategy-field-label">Owner</span>
                                         <OptionPicker
                                             label={"Objective " + (objectiveIndex + 1) + " owner"}
                                             placeholder="Select a founder"
@@ -959,7 +959,7 @@ function MetricList({
                         <div className="strategy-metric-fields">
 
                             <div className="strategy-metric-field">
-                                <span className="strategy-field-label">
+                                <span className="field-label strategy-field-label">
                                     {`Baseline (${formatMonthShort(objective.period.start)})`}
                                 </span>
                                 <input
@@ -976,7 +976,7 @@ function MetricList({
                             </div>
 
                             <div className="strategy-metric-field">
-                                <span className="strategy-field-label">
+                                <span className="field-label strategy-field-label">
                                     {`Target (${formatMonthShort(objective.period.end)})`}
                                 </span>
                                 <input
@@ -993,7 +993,7 @@ function MetricList({
                             </div>
 
                             <div className="strategy-metric-field">
-                                <span className="strategy-field-label strategy-field-label-wrap">
+                                <span className="field-label strategy-field-label strategy-field-label-wrap">
                                     Measurement Frequency
                                 </span>
                                 <OptionPicker
@@ -1008,7 +1008,7 @@ function MetricList({
                             </div>
 
                             <div className="strategy-metric-field">
-                                <span className="strategy-field-label">Unit</span>
+                                <span className="field-label strategy-field-label">Unit</span>
                                 <OptionPicker
                                     label={`Metric ${metricIndex + 1} unit`}
                                     options={STRATEGY_METRIC_UNITS}
@@ -1028,7 +1028,7 @@ function MetricList({
                             */}
                             {metric.unit === STRATEGY_METRIC_CURRENCY_UNIT && (
                                 <div className="strategy-metric-field">
-                                    <span className="strategy-field-label">Currency</span>
+                                    <span className="field-label strategy-field-label">Currency</span>
                                     <OptionPicker
                                         label={`Metric ${metricIndex + 1} currency`}
                                         placeholder="Code"
@@ -1053,7 +1053,7 @@ function MetricList({
                             */}
                             {metric.unit === STRATEGY_METRIC_CUSTOM_UNIT && (
                                 <div className="strategy-metric-field">
-                                    <span className="strategy-field-label">Custom Unit</span>
+                                    <span className="field-label strategy-field-label">Custom Unit</span>
                                     <input
                                         type="text"
                                         className="interview-input"

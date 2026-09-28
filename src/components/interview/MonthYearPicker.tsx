@@ -187,7 +187,7 @@ export default function MonthYearPicker({
             {/* Beside the button, not above it: the pair reads as one
                 phrase -- "Start October 2026". */}
             {!hideLabel && (
-                <span className="strategy-field-label month-picker-label">{label}</span>
+                <span className="field-label strategy-field-label month-picker-label">{label}</span>
             )}
 
             <button

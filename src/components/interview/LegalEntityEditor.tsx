@@ -766,7 +766,7 @@ export default function LegalEntityEditor({
                                 (nested ? " legal-entity-label-nested" : "")
                             }
                         >
-                            <span className="legal-entity-label">{label}</span>
+                            <span className="field-label legal-entity-label">{label}</span>
                             {removeFieldButton(label, onRemove)}
                         </span>
                     )
@@ -778,7 +778,7 @@ export default function LegalEntityEditor({
                                     (nested ? " legal-entity-label-nested" : "")
                                 }
                             >
-                                <span className="legal-entity-label">
+                                <span className="field-label legal-entity-label">
                                     <InfoText text={label}>
                                         <InfoNote label={label} points={info} />
                                     </InfoText>
@@ -788,7 +788,7 @@ export default function LegalEntityEditor({
                         : (
                             <span
                                 className={
-                                    "legal-entity-label" +
+                                    "field-label legal-entity-label" +
                                     (nested ? " legal-entity-label-nested" : "")
                                 }
                             >
@@ -942,28 +942,28 @@ export default function LegalEntityEditor({
                             {info
                                 ? (
                                     <span className="legal-entity-label-info">
-                                        <span className="legal-entity-label">
+                                        <span className="field-label legal-entity-label">
                                             <InfoText text={label}>
                                                 <InfoNote label={label} points={info} fullList />
                                             </InfoText>
                                         </span>
                                     </span>
                                 )
-                                : <span className="legal-entity-label">{label}</span>}
+                                : <span className="field-label legal-entity-label">{label}</span>}
                             {removeFieldButton(label, onRemove)}
                         </span>
                     )
                     : info
                         ? (
                             <span className="legal-entity-label-info">
-                                <span className="legal-entity-label">
+                                <span className="field-label legal-entity-label">
                                     <InfoText text={label}>
                                         <InfoNote label={label} points={info} />
                                     </InfoText>
                                 </span>
                             </span>
                         )
-                        : <span className="legal-entity-label">{label}</span>}
+                        : <span className="field-label legal-entity-label">{label}</span>}
                 {control}
             </div>
         );
@@ -1820,7 +1820,7 @@ export default function LegalEntityEditor({
                                 {/* Only once there is a registration to number. */}
                                 {entity.tax.consumptionTaxStatus === "yes" && (
                                     <>
-                                        <span className="legal-entity-label legal-entity-label-nested">
+                                        <span className="field-label legal-entity-label legal-entity-label-nested">
                                             {profile.consumptionTax + " Number"}
                                         </span>
                                         <input
@@ -2271,7 +2271,7 @@ export default function LegalEntityEditor({
                                     <div className="legal-entity-field-wide">
 
                                         <span className="legal-entity-label-info">
-                                            <span className="legal-entity-label">
+                                            <span className="field-label legal-entity-label">
                                                 <InfoText text="Links">
                                                     <InfoNote label="Links" points={INFO.links} />
                                                 </InfoText>
