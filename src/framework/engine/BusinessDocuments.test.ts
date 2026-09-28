@@ -324,7 +324,9 @@ describe("Quillfield: the documents tie together", () => {
         expect(part("## 2. Company Description")).not.toContain("Legal Structure");
         // What the answers do not collect is said, not made up.
         expect(part("## 4. Products and Services")).toContain("### Intellectual Property and Product Lifecycle\n\nNot covered by the Foundation answers.");
-        expect(part("## 7. Management and Organization")).toContain("### Experience and CVs\n\nNot covered by the Foundation answers.");
+        // Each founder's profile is, from the Founders Profile.
+        expect(part("## 7. Management and Organization")).toContain("### Experience and Skills");
+        expect(part("## 7. Management and Organization")).not.toContain("Experience and CVs");
     });
 
     test("the funding request states its terms, debt and equity, period and repayment", () => {
@@ -774,32 +776,73 @@ describe("the optional answers in the documents", () => {
         return md.slice(from, next < 0 ? undefined : from + 1 + next);
     };
 
-    const withExperience = () => withAnswer(1, "identity", AnswerType.LegalEntity, value => ({
-        ...value,
-        founders: (value.founders as Record<string, unknown>[]).map(founder => ({
-            ...founder,
-            experience: "Eight years building workflow automation for accounting firms."
-        }))
-    }));
+    const withoutProfile = () => withAnswer(1, "identity", AnswerType.FoundersProfile, () => ({ founders: [], teamGaps: "" }));
 
-    test("the founders' experience replaces the \"not covered\" line under Management", () => {
-        const plain = partOf(planOf(base()), "## 7. Management and Organization");
+    /* A Legal Entity saved before the Founders Profile existed: its
+       row carries the roles and a bio, and there is no page 4 answer. */
+    const legacyIdentity = () => {
+        const session = withAnswer(1, "identity", AnswerType.LegalEntity, value => ({
+            ...value,
+            founders: (value.founders as Record<string, unknown>[]).map(founder => ({
+                ...founder,
+                roles: ["Principal Consultant"],
+                experience: "Eight years building workflow automation for accounting firms."
+            }))
+        }));
+        const section = session.getFramework().sections.find(candidate => candidate.answer?.type === AnswerType.FoundersProfile)!;
+        session.saveResponse(section.number, undefined);
+        return session;
+    };
+
+    test("the founders' profiles replace the \"not covered\" lines under Management", () => {
+        const plain = partOf(planOf({ ...base(), identity: withoutProfile() }), "## 7. Management and Organization");
         expect(plain).toContain("### Experience and CVs\n\nNot covered by the Foundation answers.");
+        expect(plain).toContain("### Team Gaps and Cover\n\nNot covered by the Foundation answers.");
+        expect(plain).not.toContain("### Experience and Skills");
 
-        const given = partOf(planOf({ ...base(), identity: withExperience() }), "## 7. Management and Organization");
+        const given = partOf(planOf(base()), "## 7. Management and Organization");
         expect(given).not.toContain("Not covered by the Foundation answers.");
-        expect(given).toContain("### Experience and Skills");
-        expect(given).toContain("**Jordan Ellis:** Eight years building workflow automation for accounting firms.");
+        expect(given).toContain("| Founder | Ownership | Capital | Roles | Responsible for |");
+        expect(given).toContain("Founder & Automation Consultant, Solutions Architect");
+        expect(given).toContain("### Experience and Skills\n\n#### Jordan Ellis");
+        expect(given).toContain("**Industry experience:** 9 years in the industry. IT and automation");
+        expect(given).toContain("**Management experience:** Led a team of four implementation consultants");
+        expect(given).toContain("**Key achievements:** \n\n- Designed an invoice-intake automation");
+        expect(given).toContain("**Skills and qualifications:** \n\n- BS in Information Systems");
+        expect(given).toContain("### Team Gaps and Cover\n\nAs a one-person LLC");
     });
 
-    test("the Identity System's export carries each founder's experience", () => {
-        const identity = withExperience();
+    test("a Legal Entity's roles and experience saved before the Founders Profile reach the plan unopened", () => {
+        const md = planOf({ ...base(), identity: legacyIdentity() });
+        const team = partOf(md, "## 7. Management and Organization");
+        expect(team).toContain("Principal Consultant");
+        expect(team).toContain("**Industry experience:** Eight years building workflow automation for accounting firms.");
+        // And under the canvas's Key Resources.
+        const all = { ...base(), identity: legacyIdentity() };
+        expect(new MarkdownExporter().toMarkdown(all.business, "Foundation", businessModelCanvas(all)))
+            .toContain("Human: Jordan Ellis (Principal Consultant)");
+    });
+
+    test("the Identity System's export: the Legal Entity's owners, then each founder's profile", () => {
+        const identity = loadQuill(1, "identity");
         const md = new MarkdownExporter().toMarkdown(identity, "Foundation", buildExportContent(identity, "Foundation"));
-        expect(md).toContain("Experience & Skills");
-        expect(md).toContain("**Jordan Ellis:** Eight years building workflow automation for accounting firms.");
-        const plain = loadQuill(1, "identity");
-        expect(new MarkdownExporter().toMarkdown(plain, "Foundation", buildExportContent(plain, "Foundation")))
-            .not.toContain("Experience & Skills");
+        const legal = md.slice(md.indexOf("## 3. Legal Entity"), md.indexOf("## 4. Founders Profile"));
+        expect(legal).toContain("| Founder | Ownership | Capital |\n");
+        expect(legal).not.toContain("Roles");
+        expect(legal).not.toContain("Experience & Skills");
+
+        const profile = md.slice(md.indexOf("## 4. Founders Profile"));
+        expect(profile).toContain("### Founders\n\n#### Jordan Ellis");
+        expect(profile).toContain("**Roles:** Founder & Automation Consultant, Solutions Architect");
+        expect(profile).toContain("**Industry Experience:** 9 years in the industry. IT and automation");
+        expect(profile).toContain("**Management Experience:** Led a team of four");
+        expect(profile).toContain("**Key Achievements:** \n\n- Designed an invoice-intake automation");
+        expect(profile).toContain("**Skills & Qualifications:** \n\n- BS in Information Systems");
+        expect(profile).toContain("### Team Gaps & Cover\n\nAs a one-person LLC");
+
+        const legacy = legacyIdentity();
+        expect(new MarkdownExporter().toMarkdown(legacy, "Foundation", buildExportContent(legacy, "Foundation")))
+            .toContain("**Industry Experience:** Eight years building workflow automation for accounting firms.");
     });
 
 });

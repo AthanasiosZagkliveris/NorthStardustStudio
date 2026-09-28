@@ -34,12 +34,16 @@ import {
     type StrategyMonthValue,
     asBrandStyleValue,
     asBusinessEngagementValue,
+    asFoundersProfileValue,
     asLegalEntityValue,
     asStrategicPeriodValue,
     asStrategyFoundationValue,
     businessFoundationSegments,
     type StrategyMetricValue,
-    businessFounderResponsibilities
+    businessFounderResponsibilities,
+    founderProfileHasText,
+    founderProfileOf,
+    founderProfiles
 } from "./AnswerUtils.ts";
 import type { ExportContent, ExportSectionContent } from "./ExportContentBuilder.ts";
 import { sessionExportContext } from "./ExportContentBuilder.ts";
@@ -59,7 +63,9 @@ import {
     financialFoundationBlocks,
     financialSustainabilityBlocks,
     heading,
+    industryExperienceText,
     labelled,
+    labelledList,
     list,
     offeringName,
     offeringNames,
@@ -217,17 +223,21 @@ export function financialPlanRange(sessions: FoundationSessions): { start: Strat
 export function readFoundation(sessions: FoundationSessions, options?: { wholeOnly?: boolean }) {
 
     const legalEntity: LegalEntityValue = asLegalEntityValue(responseByType(sessions.identity, AnswerType.LegalEntity));
+    // Each founder's roles and profile: read through founderProfiles,
+    // so a Legal Entity saved before the Founders Profile page existed
+    // still gives its roles and experience.
+    const foundersProfile = responseByType(sessions.identity, AnswerType.FoundersProfile);
     const currency = countryCurrency(legalEntity.organisation.country);
     // The documents are in whole amounts throughout.
     const format = moneyFormatter(currency, options);
 
     const business: ExportContext = sessions.business
-        ? sessionExportContext(sessions.business, { legalEntity, currency })
-        : { legalEntity, currency };
+        ? sessionExportContext(sessions.business, { legalEntity, foundersProfile, currency })
+        : { legalEntity, foundersProfile, currency };
 
     const strategy: ExportContext = sessions.strategy
-        ? sessionExportContext(sessions.strategy, { legalEntity, currency })
-        : { legalEntity, currency };
+        ? sessionExportContext(sessions.strategy, { legalEntity, foundersProfile, currency })
+        : { legalEntity, foundersProfile, currency };
 
     const foundationValue = business.responseOf?.(AnswerType.BusinessFoundation);
     const segments = businessFoundationSegments(foundationValue);
@@ -250,7 +260,7 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
     const drawings = ownersTakeDrawings(legalEntity.organisation.legalForm);
 
     return {
-        legalEntity, currency, format, drawings, business, strategy, foundationValue, segments,
+        legalEntity, foundersProfile, currency, format, drawings, business, strategy, foundationValue, segments,
         capability, engagement, financial, lines, position, revenuePage, outlook, name,
         definition: responseByTitle(sessions.identity, /^definition$/i),
         ethics: responseByTitle(sessions.identity, /^ethics$/i),
@@ -859,11 +869,14 @@ function operationsBlocks(f: Foundation): ExportBlock[] {
 
 /**
  * Management and Organization: the legal structure (SBA puts it here),
- * the founders and what each is responsible for.
+ * the founders and what each is responsible for, and each founder's
+ * profile -- experience, management, achievements, skills -- with the
+ * skills the team lacks and how they are covered.
  */
 function teamBlocks(f: Foundation): ExportBlock[] {
     const organisation = f.legalEntity.organisation;
-    const experienced = f.legalEntity.founders.filter(founder => founder.name.trim() && text(founder.experience));
+    const profiled = founderProfiles(f.legalEntity.founders, f.foundersProfile).filter(founderProfileHasText);
+    const teamGaps = asFoundersProfileValue(f.foundersProfile).teamGaps;
     return [
         ...titled("Legal Structure", details([
             ["Legal name", organisation.name],
@@ -881,11 +894,20 @@ function teamBlocks(f: Foundation): ExportBlock[] {
             ["Main activity", organisation.mainActivity]
         ])),
         ...titled("Founders", founderTable(f)),
-        // Each named founder's bio, where the Legal Entity page has
-        // one; said to be missing only when none has.
-        ...(experienced.length > 0
-            ? titled("Experience and Skills", experienced.flatMap(founder => labelled(founder.name.trim(), founder.experience)))
-            : notCovered("Experience and CVs"))
+        // Each founder's profile, where the Founders Profile page has
+        // one; said to be missing only when no founder has.
+        ...(profiled.length > 0
+            ? titled("Experience and Skills", profiled.flatMap(founder => [
+                heading(founder.name, 2),
+                ...labelled("Industry experience", industryExperienceText(founder.years, founder.industryExperience)),
+                ...labelled("Management experience", founder.managementExperience),
+                ...labelledList("Key achievements", founder.achievements),
+                ...labelledList("Skills and qualifications", founder.skills)
+            ]))
+            : notCovered("Experience and CVs")),
+        ...(text(teamGaps)
+            ? titled("Team Gaps and Cover", paragraph(teamGaps))
+            : notCovered("Team Gaps and Cover"))
     ];
 }
 
@@ -902,7 +924,7 @@ function founderTable(f: Foundation): ExportBlock[] {
                     : ""),
                 founder.ownership ? founder.ownership + "%" : "",
                 ...(withCapital ? [parseAmount(founder.capital) !== null ? format(parseAmount(founder.capital) ?? 0) : ""] : []),
-                founder.roles.filter(Boolean).join(", "),
+                founderProfileOf(founder, f.foundersProfile).roles.filter(Boolean).join(", "),
                 businessFounderResponsibilities(capability, founder.id)
                     .filter(entry => !entry.completed).map(entry => entry.name).join("; ")
             ];

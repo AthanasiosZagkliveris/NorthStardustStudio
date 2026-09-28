@@ -50,12 +50,14 @@ import {
     asBusinessCapabilityValue,
     asBusinessEngagementValue,
     asBusinessFoundationValue,
+    asFoundersProfileValue,
     asLegalEntityValue,
     asStrategicPeriodValue,
     asStrategyFoundationValue,
     businessFoundationSegments,
     businessFounderResponsibilities,
     businessResponsibleId,
+    founderProfiles,
     withLegalEntityFounders
 } from "./AnswerUtils.ts";
 import {
@@ -202,11 +204,11 @@ export function offeringNames(foundation: unknown, ids: readonly string[]): stri
     return ids.map(id => offeringName(foundation, id)).filter(Boolean).join(", ");
 }
 
-/** Page 3's value with the Legal Entity's founders laid over it, as Page 3 shows it. */
+/** Page 3's value with the Legal Entity's founders, and their Founders Profile roles, laid over it, as Page 3 shows it. */
 export function capabilityOf(value: unknown, context: ExportContext): BusinessCapabilityValue {
     const capability = asBusinessCapabilityValue(value);
     return context.legalEntity
-        ? withLegalEntityFounders(capability, context.legalEntity.founders)
+        ? withLegalEntityFounders(capability, context.legalEntity.founders, context.foundersProfile)
         : capability;
 }
 
@@ -270,6 +272,45 @@ export function costLines(page: FinancialFoundationValue, context: ExportContext
 }
 
 /* ==========================================================
+   1. Identity -- Founders Profile
+========================================================== */
+
+/** A bold label on a line of its own and its list under it, or nothing when the list is empty. */
+export function labelledList(label: string, items: string[]): ExportBlock[] {
+    const blocks = list(items);
+    return blocks.length === 0 ? [] : [{ kind: "paragraph", text: "", label }, ...blocks];
+}
+
+/** "12 years. Textile designer at …": the years, then where and in what. */
+export function industryExperienceText(years: string, experience: string): string {
+    const count = text(years);
+    const said = count ? count + (count === "1" ? " year" : " years") + " in the industry." : "";
+    return [said, text(experience)].filter(Boolean).join(" ");
+}
+
+function foundersProfileBlocks(value: unknown, context: ExportContext): ExportBlock[] {
+
+    // The founders are the Legal Entity's, on this System's own page.
+    const entity = asLegalEntityValue(context.responseOf?.(AnswerType.LegalEntity) ?? context.legalEntity);
+    const profile = asFoundersProfileValue(value);
+
+    return [
+        ...titled("Founders", founderProfiles(entity.founders, value).flatMap(founder => {
+            const said = [
+                ...labelled("Roles", founder.roles.filter(role => text(role)).join(", ")),
+                ...labelled("Industry Experience", industryExperienceText(founder.years, founder.industryExperience)),
+                ...labelled("Management Experience", founder.managementExperience),
+                ...labelledList("Key Achievements", founder.achievements),
+                ...labelledList("Skills & Qualifications", founder.skills)
+            ];
+            return said.length === 0 ? [] : [heading(founder.name, 2), ...said];
+        })),
+        ...titled("Team Gaps & Cover", paragraph(profile.teamGaps))
+    ];
+
+}
+
+/* ==========================================================
    1. Identity -- Legal Entity
 ========================================================== */
 
@@ -311,19 +352,15 @@ function legalEntityBlocks(value: unknown, context: ExportContext): ExportBlock[
                 .map(text).filter(Boolean).join(", ")]
         ])),
 
+        // Roles and experience are the Founders Profile's, exported with it.
         ...titled("Founders & Ownership", table(
             entity.capitalApplies
-                ? ["Founder", "Ownership", "Capital", "Roles"]
-                : ["Founder", "Ownership", "Roles"],
+                ? ["Founder", "Ownership", "Capital"]
+                : ["Founder", "Ownership"],
             entity.founders.map(founder => entity.capitalApplies
-                ? [founder.name, founder.ownership ? founder.ownership + "%" : "", moneyText(founder.capital, currency), founder.roles.filter(Boolean).join(", ")]
-                : [founder.name, founder.ownership ? founder.ownership + "%" : "", founder.roles.filter(Boolean).join(", ")])
+                ? [founder.name, founder.ownership ? founder.ownership + "%" : "", moneyText(founder.capital, currency)]
+                : [founder.name, founder.ownership ? founder.ownership + "%" : ""])
         )),
-        // Each founder's bio, where one is written: prose, so under the table.
-        ...(entity.founders.some(founder => text(founder.experience))
-            ? [heading("Experience & Skills", 2), ...entity.founders.flatMap((founder, index) =>
-                labelled(text(founder.name) || "Founder " + (index + 1), founder.experience))]
-            : []),
 
         ...titled("Formation & Registration", details([
             ["Status", entity.formation.status === "planned" ? "Not yet registered" : ""],
@@ -1047,6 +1084,7 @@ export function bespokeAnswerBlocks(
 
     switch (answer.type) {
         case AnswerType.LegalEntity: return legalEntityBlocks(value, context);
+        case AnswerType.FoundersProfile: return foundersProfileBlocks(value, context);
         case AnswerType.BrandStyle: return brandStyleBlocks(value);
         case AnswerType.BrandInventory: return brandInventoryBlocks(value);
         case AnswerType.BusinessFoundation: return businessFoundationBlocks(value);
