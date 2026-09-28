@@ -189,13 +189,11 @@ export default function StrategicRoadmapEditor({
 
         // Only a complete period that runs forwards is dated: a start
         // with no end, or an end before the start, has no bar to draw.
-        const dated = strategyGoalsForTheme(period, theme.id).flatMap((goal, goalIndex) =>
+        const dated = strategyGoalsForTheme(period, theme.id).flatMap(goal =>
 
-            goal.objectives.map((objective, objectiveIndex) => ({
+            goal.objectives.map(objective => ({
 
                 id: objective.id,
-
-                number: `${themeIndex + 1}.${goalIndex + 1}.${objectiveIndex + 1}`,
 
                 name: objective.name.trim().length > 0
                     ? objective.name
@@ -225,9 +223,15 @@ export default function StrategicRoadmapEditor({
 
             datedCount: dated.length,
 
-            objectives: dated.filter(objective =>
-                objective.start >= spanStart && objective.end < spanEnd
-            )
+            // Numbered by their own order in this Theme's row -- not
+            // the Theme.Goal.Objective path -- since the row's order,
+            // colour and name already say where an Objective belongs.
+            objectives: dated
+                .filter(objective => objective.start >= spanStart && objective.end < spanEnd)
+                .map((objective, objectiveIndex) => ({
+                    ...objective,
+                    number: objectiveIndex + 1
+                }))
 
         };
 
@@ -436,7 +440,7 @@ export default function StrategicRoadmapEditor({
                                                 style={barStyle(objective.start, objective.end)}
                                                 aria-expanded={open}
                                                 aria-label={
-                                                    `${objective.number} ${objective.name}, ` +
+                                                    `${objective.number}. ${objective.name}, ` +
                                                     `${objective.range}. ` +
                                                     (objective.initiatives.length > 0
                                                         ? `${open ? "Hide" : "Show"} ` +
@@ -447,7 +451,7 @@ export default function StrategicRoadmapEditor({
                                                 onClick={() => toggleObjective(objective.id)}
                                             >
                                                 <span className="roadmap-bar-label">
-                                                    {`${objective.number} ${objective.name}`}
+                                                    {`${objective.number}. ${objective.name}`}
                                                 </span>
                                             </button>
 

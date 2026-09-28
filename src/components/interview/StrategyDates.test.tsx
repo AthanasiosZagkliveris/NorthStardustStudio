@@ -115,7 +115,23 @@ describe("StrategicRoadmapEditor Objective bars", () => {
             />
         );
 
-        expect(bars(container)).toEqual(["1.1.1 Objective 1"]);
+        expect(bars(container)).toEqual(["1. Objective 1"]);
+
+    });
+
+    it("numbers bars by their own order in the Theme, not the Theme.Goal.Objective path", () => {
+
+        const { container } = render(
+            <StrategicRoadmapEditor
+                foundation={foundation}
+                period={periodWith(
+                    range(["03", "2027"], ["06", "2027"]),
+                    range(["07", "2027"], ["09", "2027"])
+                )}
+            />
+        );
+
+        expect(bars(container)).toEqual(["1. Objective 1", "2. Objective 2"]);
 
     });
 
