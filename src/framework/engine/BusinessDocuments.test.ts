@@ -399,22 +399,36 @@ describe("Quillfield: the documents tie together", () => {
         expect(md).not.toContain("-$0");
     });
 
-    test("the canvas: ongoing work, kept resources, prices times volumes", () => {
+    test("the canvas: crucial work, resources by kind, streams by segment", () => {
         const { blocks } = businessModelCanvasData(all);
         const everything = Object.values(blocks).flat();
         everything.forEach(entry => expect(entry, entry).not.toContain(") ("));
         expect(blocks.partners).toContain("Freelance developer (overflow, for Automation Build)");
-        expect(blocks.activities).toContain("Deliver AI Workflow Audit");
+        expect(blocks.activities).toEqual(["Deliver AI Workflow Audit", "Deliver Automation Build", "Deliver Automation Care Retainer",
+            "Marketing and sales through social media, website, email and in person"]);
+        // The relationships are their own block, not repeated as activities.
+        expect(blocks.activities.join(" ")).not.toMatch(/Support|Assistance|^Run /);
         expect(blocks.activities.join(" ")).not.toContain("Set up bookkeeping");
         expect(planMd).toContain("### Launch and Setup Tasks");
         expect(planMd).toContain("Set up bookkeeping");
         const resources = blocks.resources.join(" ");
-        expect(resources).toContain("Digital Infrastructure: Google Workspace Business Starter");
+        // Strategyzer's four kinds, with the software as its essentials.
+        expect(blocks.resources.map(entry => entry.split(":")[0])).toEqual(["Human", "Physical", "Physical (systems)", "Intellectual", "Financial"]);
+        expect(resources).toContain("Physical (systems): Google Workspace Business Starter; Make.com Core plan; Zapier Professional and 6 more");
+        expect(resources).toContain("Intellectual: the Quillfield Automation LLC brand; the website quillfieldautomation.com");
+        expect(resources).toContain("Financial: $10,650 in hand; $15,000 sought (SBA Microloan)");
         expect(resources).not.toMatch(/Electricity|AI model and API usage|Coworking Space/);
         expect(blocks.costs).toContain("Owner's drawings: Jordan Ellis ($4,500 a month)");
         expect(blocks.costs).toContain("Variable costs: $45 per client a month (Automation Care Retainer)");
         expect(blocks.costs.join(" ")).not.toMatch(/[.][0-9][0-9]/);
-        expect(blocks.revenue).toContain("AI Workflow Audit: $2,500 per project × 1.5 a month = $3,750 a month");
+        expect(blocks.revenue).toContain("AI Workflow Audit (Small professional-services firms in New York City): $2,500 per project, one-time");
+        expect(blocks.revenue).toContain("Automation Care Retainer (Small professional-services firms in New York City): $1,200 per client a month, recurring");
+        expect(blocks.revenue.join(" ")).not.toContain("×");
+        // One segment: the relationships need not name it.
+        expect(blocks.relationships).toContain("AI Workflow Audit: Personal Assistance");
+        // Two segments (Lumen): each relationship names its segment.
+        expect(businessModelCanvasData(sessions).blocks.relationships)
+            .toContain("Weaving Workshops (Conscious London Homemakers): Community");
         const content = businessModelCanvas(all, "Deliver Value");
         expect(content.capability).toBe("Deliver Value");
         expect(content.canvas).toHaveLength(9);

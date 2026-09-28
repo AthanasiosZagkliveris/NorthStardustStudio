@@ -97,7 +97,6 @@ import {
     planMonthLabel,
     spentBeforePlan,
     sustainability,
-    formatUnits,
     withPlanStart,
     type CostLine,
     type RevenueStreamValue
@@ -390,28 +389,30 @@ export function businessModelCanvasData(sessions: FoundationSessions): {
     const isPartner = (name: string, providerId: string) => partnerIds.has(providerId) ||
         partnerNames.some(partner => partner === name.trim().toLowerCase());
 
-    /* Key Activities: the work that goes on -- delivering each Offering,
-       running each channel, keeping up each relationship. One-off
-       setup tasks are the plan's (Operations: Launch and Setup Tasks). */
+    /* Key Activities: the crucial work that goes on -- delivering each
+       Offering, and marketing and selling it through the channels.
+       How customers are kept is the Customer Relationships block, and
+       one-off setup tasks are the plan's (Operations: Launch and Setup
+       Tasks). */
     const offerings = f.segments.flatMap(segment => segment.offerings).filter(offering => offering.name.trim());
-    const channels = [...new Set(f.engagement.segments.flatMap(entry => entry.channels)
+    // By kind of channel, as the Channels block names each one; a
+    // payment channel is how a sale is taken, not how it is made.
+    const channelKinds = [...new Set(f.engagement.segments.flatMap(entry => entry.channels)
         .filter(channel => channel.name.trim())
-        .map(channel => "Run " + withBrackets(channel.name, /^other$/i.test(channel.category) ? "" : channel.category.toLowerCase())))];
-    const relationships = [...new Set(f.engagement.segments.flatMap(entry => {
-        const segment = f.segments.find(candidate => candidate.id === entry.segmentId);
-        return entry.offerings.flatMap(relationship => {
-            const offering = segment?.offerings.find(candidate => candidate.id === relationship.offeringId)?.name.trim() ?? "";
-            return offering ? relationship.types.map(typeId =>
-                (BUSINESS_RELATIONSHIP_TYPES.find(candidate => candidate.id === typeId)?.label ?? typeId) + " for " + offering + " clients") : [];
-        });
-    }))];
+        .map(channel => channel.category.trim().toLowerCase())
+        .filter(category => category && category !== "other" && !/payment/.test(category)))];
+    const hasChannels = f.engagement.segments.some(entry => entry.channels.some(channel => channel.name.trim()));
     const activities = [
         ...offerings.map(offering => "Deliver " + offering.name.trim()),
-        ...channels,
-        ...relationships
+        ...(hasChannels
+            ? ["Marketing and sales" + (channelKinds.length > 0 ? " through " + joinNames(channelKinds) : "")]
+            : [])
     ];
 
-    /* Key Resources, by group: what the business keeps and relies on. */
+    /* Key Resources, by Strategyzer's four kinds: human, physical,
+       intellectual and financial. What the business keeps and relies
+       on, not a partner's, not a utility it is simply provided with,
+       nor a per-use cost of sales. */
     const kept = (group: string, slot: { name: string; status: string; providerId: string; cost: { frequency: string } }) =>
         !!slot.name.trim() &&
         !(group === "utilities" && (slot.status === "provided" || slot.status === "exists")) &&
@@ -420,32 +421,58 @@ export function businessModelCanvasData(sessions: FoundationSessions): {
     const workspace = capability.workspace.kind && !(capability.workspace.status === "provided" && partnerIds.has(capability.workspace.providerId))
         ? BUSINESS_WORKSPACE_KINDS.find(kind => kind.id === capability.workspace.kind)?.label ?? capability.workspace.kindOther
         : "";
+    const namesIn = (groups: string[]) => BUSINESS_RESOURCE_GROUPS.filter(group => groups.includes(group.id))
+        .flatMap(group => (capability.resources[group.id] ?? [])
+            .flatMap(subsection => subsection.slots.filter(slot => kept(group.id, slot)).map(slot => slot.name.trim())));
+    const physical = [
+        ...(workspace ? [workspace] : []),
+        ...namesIn(BUSINESS_RESOURCE_GROUPS.map(group => group.id).filter(id => id !== "digital")),
+        ...capability.offering.resources.filter(slot => kept("offering", slot)).map(slot => slot.name.trim())
+    ];
+    // The software, as its essentials: the first few, and how many more.
+    const systems = namesIn(["digital"]);
+    const website = websiteOf(f);
+    const trademark = [...f.lines.map(line => line.name), ...f.legalEntity.requirements.map(requirement => requirement.name)]
+        .some(name => /trade ?mark/i.test(name));
+    const intellectual = [
+        "the " + f.name + " brand" + (trademark ? " (trade mark)" : ""),
+        ...(website ? ["the website " + website] : [])
+    ];
+    const sought = allFunding(f.financial, f.legalEntity)
+        .filter(source => !isNonCash(source) && statusStanding(source.status || "planned") !== "confirmed")
+        .filter(source => (parseAmount(source.amount) ?? 0) > 0);
+    const financial = [
+        ...(f.position.availableNow > 0.5 ? [format(f.position.availableNow) + " in hand"] : []),
+        ...(f.position.confirmedFuture > 0.5 ? [format(f.position.confirmedFuture) + " confirmed, still to arrive"] : []),
+        ...(f.position.pending > 0.5
+            ? [format(f.position.pending) + " sought" + (sought.length > 0
+                ? " (" + joinNames(sought.map(source => source.name.trim() || fundingType(source.type)?.label || "funding")) + ")"
+                : "")]
+            : [])
+    ];
     const resources = [
-        ...(capability.founders.length > 0 ? ["Founders: " + capability.founders.map(founder =>
+        ...(capability.founders.length > 0 ? ["Human: " + capability.founders.map(founder =>
             withBrackets(founder.name, founder.roles.filter(Boolean).join(", "))).join("; ")] : []),
-        ...(workspace ? ["Workspace: " + workspace] : []),
-        ...BUSINESS_RESOURCE_GROUPS.flatMap(group => {
-            const names = (capability.resources[group.id] ?? [])
-                .flatMap(subsection => subsection.slots.filter(slot => kept(group.id, slot)).map(slot => slot.name.trim()));
-            return names.length > 0 ? [group.label + ": " + names.join(", ")] : [];
-        }),
-        ...(() => {
-            const names = capability.offering.resources.filter(slot => kept("offering", slot)).map(slot => slot.name.trim());
-            return names.length > 0 ? ["For the Offerings: " + names.join(", ")] : [];
-        })()
+        ...(physical.length > 0 ? ["Physical: " + physical.join("; ")] : []),
+        ...(systems.length > 0
+            ? ["Physical (systems): " + systems.slice(0, 3).join("; ") + (systems.length > 3 ? " and " + (systems.length - 3) + " more" : "")]
+            : []),
+        "Intellectual: " + intellectual.join("; "),
+        ...(financial.length > 0 ? ["Financial: " + financial.join("; ")] : [])
     ];
 
     const propositions = f.segments
         .filter(segment => text(segment.valueProposition))
         .map(segment => (f.segments.length > 1 ? segment.name.trim() + ": " : "") + text(segment.valueProposition));
 
+    // With more than one segment, each relationship names the segment it is with.
     const relationshipLines = f.engagement.segments.flatMap(entry => {
         const segment = f.segments.find(candidate => candidate.id === entry.segmentId);
         return entry.offerings.flatMap(relationship => relationship.types.map(typeId => {
             const offering = segment?.offerings.find(candidate => candidate.id === relationship.offeringId)?.name.trim() ?? "";
             const type = BUSINESS_RELATIONSHIP_TYPES.find(candidate => candidate.id === typeId)?.label ?? typeId;
-            return offering + ": " + type;
-        })).filter(line => !line.startsWith(": "));
+            return offering ? withBrackets(offering, f.segments.length > 1 ? segment?.name.trim() ?? "" : "") + ": " + type : "";
+        })).filter(Boolean);
     });
 
     const channelLines = [...new Set(f.engagement.segments.flatMap(entry =>
@@ -478,18 +505,15 @@ export function businessModelCanvasData(sessions: FoundationSessions): {
                 " (" + (offeringName(f.foundationValue, entry.stream.offeringId) || "an Offering") + ")")
     ];
 
-    /* Revenue: price times volume, stream by stream. */
+    /* Revenue: each stream, from the segment it comes from, as it is
+       charged. The working (price times volume) is the plan's. */
     const revenue = [
         ...f.outlook.streams.map(entry => {
             const name = offeringName(f.foundationValue, entry.stream.offeringId) || "Revenue stream";
-            const price = parseAmount(entry.stream.price);
+            const segment = f.segments.find(candidate => candidate.offerings.some(offering => offering.id === entry.stream.offeringId));
+            const price = priceText(entry.stream, format);
             const recurring = entry.stream.frequency === "monthly" || entry.stream.frequency === "quarterly" || entry.stream.frequency === "annually";
-            const volume = formatUnits(entry.volume) + (recurring
-                ? " " + streamUnit(entry.stream) + (Math.abs(entry.volume - 1) < 0.05 ? "" : "s")
-                : " a month");
-            return name + ": " + (price === null
-                ? format(entry.revenue) + " a month"
-                : format(price) + " " + perUnit(entry.stream) + " × " + volume + " = " + format(entry.revenue) + " a month");
+            return withBrackets(name, segment?.name.trim() ?? "") + ": " + (price || "price not set") + ", " + (recurring ? "recurring" : "one-time");
         }),
         ...(f.outlook.streams.length > 0 ? ["Expected revenue: " + format(f.outlook.expectedRevenue) + " a month at the normal level"] : [])
     ];
