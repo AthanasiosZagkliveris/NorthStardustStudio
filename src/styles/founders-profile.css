@@ -6,26 +6,88 @@
    System. Only what the Legal Entity page has no piece for is here.
 ========================================================== */
 
-/* Years in the industry: a short whole number, read as a phrase
-   with the words after it ("12 years in the industry"). The box is
-   only wide enough for two digits, so it reads as a figure rather
-   than as a field to write in. */
-.founders-profile-years{
+/* "Relevant Experience": a title across the card, over the two
+   questions it groups. The title itself is the Business System's
+   own group title (.business-foundation-subhead). */
+.founders-profile-group{
 
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
+    grid-column:1 / -1;
 
 }
 
-.founders-profile-years > .interview-input{
+/* ---------- Skills, Expertise & Qualifications ----------
 
-    flex:0 0 96px;
+   A row an entry: its number, its type, what it is, and x. The type
+   picker is as wide as its longest option in every row, so the text
+   boxes start on one line. */
+.founders-profile-skills{
 
-    width:96px;
+    display:flex;
 
-    text-align:center;
+    flex-direction:column;
+
+    gap:8px;
+
+    min-width:0;
+
+}
+
+.founders-profile-skill{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:12px;
+
+    min-width:0;
+
+}
+
+/* Right-aligned in a fixed column, as a numbered list's are, so
+   "9." and "10." end on the same line. */
+.founders-profile-skill-number{
+
+    flex:0 0 32px;
+
+    display:flex;
+    justify-content:flex-end;
+
+    padding-top:8px;
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:#4b5563;
+
+}
+
+/* One line to start, the height of the picker beside it; it grows
+   with what is written (see StrategyTextArea). */
+.founders-profile .founders-profile-skill-text.interview-input{
+
+    flex:1 1 auto;
+
+    min-width:0;
+
+    height:calc(1.5em + 18px);
+
+    resize:none;
+
+}
+
+.founders-profile-skill > .strategy-box-remove{
+
+    flex:0 0 auto;
+
+    margin-top:5px;
+
+}
+
+/* Never squeezed by the text box beside it: the picker keeps the
+   width of its longest type, so no type is cut short. */
+.founders-profile-skill > .option-picker{
+
+    flex:0 0 auto;
 
 }

@@ -3566,7 +3566,7 @@ export interface LegalEntityFounderValue {
     roles: string[];
     /**
      * LEGACY, as `roles`: a short bio, which seeds the Founders
-     * Profile's Industry Experience.
+     * Profile's Relevant Industry Experience.
      */
     experience: string;
 }
@@ -3913,32 +3913,47 @@ export function legalEntitySectionsEmpty(value: unknown): boolean[] {
 /** The two subsections, in the order the page asks them. */
 export const FOUNDERS_PROFILE_SECTIONS = [
     "Founders",
-    "Team Gaps & Cover"
+    "Team Capability Gaps & Cover"
 ] as const;
 
-/** The most Key Achievements a founder is asked for. */
-export const FOUNDER_ACHIEVEMENTS_MAX = 3;
+/**
+ * What a Skills, Expertise & Qualifications entry is, in the order
+ * the page offers them and the documents list them.
+ */
+export const FOUNDER_CREDENTIAL_TYPES = [
+    { id: "skill", label: "Skill" },
+    { id: "expertise", label: "Professional / Technical Expertise" },
+    { id: "qualification", label: "Degree / Qualification" },
+    { id: "certification", label: "Certification" },
+    { id: "licence", label: "Licence" },
+    { id: "membership", label: "Membership / Other Credential" }
+] as const;
+
+/** One Skills, Expertise & Qualifications entry. */
+export interface FounderSkillValue {
+    /** A FOUNDER_CREDENTIAL_TYPES id, or "" while none is chosen. */
+    type: string;
+    text: string;
+}
 
 export interface FounderProfileValue {
     /** The Legal Entity founder's id. */
     id: string;
     /** One line per role: a founder is often several things. */
     roles: string[];
-    /** Years in the industry, a whole number as typed. */
-    years: string;
-    /** Where, and in what: companies, sectors, positions. */
+    /** Where, in what, and for how long: companies, sectors, positions, projects, markets. */
     industryExperience: string;
     /** Teams led, budgets or P&L owned, businesses run. */
     managementExperience: string;
-    /** Up to FOUNDER_ACHIEVEMENTS_MAX. */
+    /** As many as they have: what, their part in it, the result. */
     achievements: string[];
-    /** Degrees, certifications, licences, key skills. */
-    skills: string[];
+    /** Skills, expertise, degrees, certifications, licences, memberships -- each typed. */
+    skills: FounderSkillValue[];
 }
 
 export interface FoundersProfileValue {
     founders: FounderProfileValue[];
-    /** Which skills the team lacks, and how they are covered. */
+    /** Which capabilities the team lacks, and how they are covered. */
     teamGaps: string;
 }
 
@@ -3951,19 +3966,84 @@ export function createFounderProfile(id: string): FounderProfileValue {
     return {
         id,
         roles: [""],
-        years: "",
         industryExperience: "",
         managementExperience: "",
         achievements: [""],
-        skills: [""]
+        skills: [{ type: "", text: "" }]
     };
 }
 
 /** A list line by line, never empty: a list input always shows one line. */
-function profileList(value: unknown, max?: number): string[] {
+function profileList(value: unknown): string[] {
     const items = (Array.isArray(value) ? value : []).map(asText);
-    const kept = max === undefined ? items : items.slice(0, max);
-    return kept.length > 0 ? kept : [""];
+    return items.length > 0 ? items : [""];
+}
+
+/**
+ * The typed entries, never empty: the page always shows one row.
+ * Saved before entries had a type, an entry is a plain string -- it
+ * is kept, untyped; a type the page does not offer is read as none.
+ */
+function profileSkills(value: unknown): FounderSkillValue[] {
+
+    const items = (Array.isArray(value) ? value : []).map(item => {
+
+        if (item && typeof item === "object" && !Array.isArray(item)) {
+            const row = item as Record<string, unknown>;
+            const type = asText(row.type);
+            return {
+                type: FOUNDER_CREDENTIAL_TYPES.some(entry => entry.id === type) ? type : "",
+                text: asText(row.text)
+            };
+        }
+
+        return { type: "", text: asText(item) };
+
+    });
+
+    return items.length > 0 ? items : [{ type: "", text: "" }];
+
+}
+
+/**
+ * The Relevant Industry Experience, with the years in the industry an
+ * entry saved them in -- a box of their own until the text took them
+ * over -- put back at its start ("12 years in the industry. ..."),
+ * unless the text already starts with them. Nothing saved is lost.
+ */
+function experienceWithYears(years: string, experience: string): string {
+
+    const count = years.trim();
+
+    if (count.length === 0 || experience.trimStart().startsWith(count)) {
+        return experience;
+    }
+
+    const said = count + (count === "1" ? " year" : " years") + " in the industry.";
+
+    return experience.trim().length > 0 ? said + " " + experience : said;
+
+}
+
+/**
+ * A founder's Skills, Expertise & Qualifications as the documents
+ * list them: in FOUNDER_CREDENTIAL_TYPES' order, each after its
+ * type ("Certification: Microsoft Power Platform"), and the untyped
+ * last, as written. Entries with no text are left out.
+ */
+export function founderSkillLines(skills: readonly FounderSkillValue[]): string[] {
+
+    const written = skills.filter(entry => entry.text.trim().length > 0);
+
+    return [
+        ...FOUNDER_CREDENTIAL_TYPES.flatMap(kind => written
+            .filter(entry => entry.type === kind.id)
+            .map(entry => kind.label + ": " + entry.text.trim())),
+        ...written
+            .filter(entry => !FOUNDER_CREDENTIAL_TYPES.some(kind => kind.id === entry.type))
+            .map(entry => entry.text.trim())
+    ];
+
 }
 
 export function asFoundersProfileValue(value: unknown): FoundersProfileValue {
@@ -3981,11 +4061,10 @@ export function asFoundersProfileValue(value: unknown): FoundersProfileValue {
         .map(row => ({
             id: asText(row.id),
             roles: profileList(row.roles),
-            years: asText(row.years),
-            industryExperience: asText(row.industryExperience),
+            industryExperience: experienceWithYears(asText(row.years), asText(row.industryExperience)),
             managementExperience: asText(row.managementExperience),
-            achievements: profileList(row.achievements, FOUNDER_ACHIEVEMENTS_MAX),
-            skills: profileList(row.skills)
+            achievements: profileList(row.achievements),
+            skills: profileSkills(row.skills)
         }));
 
     return {
@@ -3999,7 +4078,7 @@ export function asFoundersProfileValue(value: unknown): FoundersProfileValue {
  * One Legal Entity founder's profile: this page's own entry for
  * them, or -- until there is one -- what the Legal Entity row saved
  * before this page existed carries: its Roles, and its Experience &
- * Skills as the Industry Experience.
+ * Skills as the Relevant Industry Experience.
  */
 export function founderProfileOf(
     founder: LegalEntityFounderValue,
@@ -4066,11 +4145,10 @@ export function withFounderProfiles(
 
 /** Whether a profile says anything beyond the founder's roles. */
 export function founderProfileHasText(entry: FounderProfileValue): boolean {
-    return entry.years.trim().length > 0 ||
-        entry.industryExperience.trim().length > 0 ||
+    return entry.industryExperience.trim().length > 0 ||
         entry.managementExperience.trim().length > 0 ||
         entry.achievements.some(item => item.trim().length > 0) ||
-        entry.skills.some(item => item.trim().length > 0);
+        entry.skills.some(item => item.text.trim().length > 0);
 }
 
 /** Whether a profile holds anything at all, its roles included. */

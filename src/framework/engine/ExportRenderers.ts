@@ -58,6 +58,7 @@ import {
     businessFounderResponsibilities,
     businessResponsibleId,
     founderProfiles,
+    founderSkillLines,
     withLegalEntityFounders
 } from "./AnswerUtils.ts";
 import {
@@ -281,12 +282,6 @@ export function labelledList(label: string, items: string[]): ExportBlock[] {
     return blocks.length === 0 ? [] : [{ kind: "paragraph", text: "", label }, ...blocks];
 }
 
-/** "12 years", "1 year", or nothing: the years in the industry, on a line of their own. */
-export function industryYearsText(years: string): string {
-    const count = text(years);
-    return count ? count + (count === "1" ? " year" : " years") : "";
-}
-
 function foundersProfileBlocks(value: unknown, context: ExportContext): ExportBlock[] {
 
     // The founders are the Legal Entity's, on this System's own page.
@@ -297,15 +292,14 @@ function foundersProfileBlocks(value: unknown, context: ExportContext): ExportBl
         ...titled("Founders", founderProfiles(entity.founders, value).flatMap(founder => {
             const said = [
                 ...labelled("Roles", founder.roles.filter(role => text(role)).join(", ")),
-                ...labelled("Years in the Industry", industryYearsText(founder.years)),
-                ...labelled("Industry Experience", text(founder.industryExperience)),
+                ...labelled("Relevant Industry Experience", text(founder.industryExperience)),
                 ...labelled("Management Experience", founder.managementExperience),
                 ...labelledList("Key Achievements", founder.achievements),
-                ...labelledList("Skills & Qualifications", founder.skills)
+                ...labelledList("Skills, Expertise & Qualifications", founderSkillLines(founder.skills))
             ];
             return said.length === 0 ? [] : [heading(founder.name, 2), ...said];
         })),
-        ...titled("Team Gaps & Cover", paragraph(profile.teamGaps))
+        ...titled("Team Capability Gaps & Cover", paragraph(profile.teamGaps))
     ];
 
 }

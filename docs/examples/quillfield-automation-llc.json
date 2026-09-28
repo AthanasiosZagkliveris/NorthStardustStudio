@@ -193,19 +193,33 @@
                   "Founder & Automation Consultant",
                   "Solutions Architect"
                 ],
-                "years": "9",
-                "industryExperience": "IT and automation for professional-services firms: IT consultant at a New York managed-services provider serving law and accounting firms, then solutions architect at a workflow-software company, designing integrations for its small-business customers.",
+                "industryExperience": "Nine years in IT and automation for professional-services firms: IT consultant at a New York managed-services provider serving law and accounting firms, then solutions architect at a workflow-software company, designing integrations for its small-business customers.",
                 "managementExperience": "Led a team of four implementation consultants at the workflow-software company for three years, owning a $600,000 annual services budget and around 40 customer rollouts a year.",
                 "achievements": [
                   "Designed an invoice-intake automation that cut a 30-person accounting firm's processing time by 70% (from 12 to 3.5 hours a week) in 2024",
                   "Delivered 120 customer integrations at the workflow-software company, 96% of them on time, 2022–2025"
                 ],
                 "skills": [
-                  "BS in Information Systems",
-                  "Certified in Microsoft Power Platform and Zapier",
-                  "Workflow mapping and process design",
-                  "Python and API integration",
-                  "Data security and access control for client records"
+                  {
+                    "type": "qualification",
+                    "text": "BS in Information Systems"
+                  },
+                  {
+                    "type": "certification",
+                    "text": "Certified in Microsoft Power Platform and Zapier"
+                  },
+                  {
+                    "type": "expertise",
+                    "text": "Workflow mapping and process design"
+                  },
+                  {
+                    "type": "skill",
+                    "text": "Python and API integration"
+                  },
+                  {
+                    "type": "expertise",
+                    "text": "Data security and access control for client records"
+                  }
                 ]
               }
             ],

@@ -325,7 +325,7 @@ describe("Quillfield: the documents tie together", () => {
         // What the answers do not collect is said, not made up.
         expect(part("## 4. Products and Services")).toContain("### Intellectual Property and Product Lifecycle\n\nNot covered by the Foundation answers.");
         // Each founder's profile is, from the Founders Profile.
-        expect(part("## 7. Management and Organization")).toContain("### Experience and Skills");
+        expect(part("## 7. Management and Organization")).toContain("### Founder Profiles");
         expect(part("## 7. Management and Organization")).not.toContain("Experience and CVs");
     });
 
@@ -797,27 +797,47 @@ describe("the optional answers in the documents", () => {
     test("the founders' profiles replace the \"not covered\" lines under Management", () => {
         const plain = partOf(planOf({ ...base(), identity: withoutProfile() }), "## 7. Management and Organization");
         expect(plain).toContain("### Experience and CVs\n\nNot covered by the Foundation answers.");
-        expect(plain).toContain("### Team Gaps and Cover\n\nNot covered by the Foundation answers.");
-        expect(plain).not.toContain("### Experience and Skills");
+        expect(plain).toContain("### Team Capability Gaps and Cover\n\nNot covered by the Foundation answers.");
+        expect(plain).not.toContain("### Founder Profiles");
 
         const given = partOf(planOf(base()), "## 7. Management and Organization");
         expect(given).not.toContain("Not covered by the Foundation answers.");
         expect(given).toContain("| Founder | Ownership | Capital | Roles | Responsible for |");
         expect(given).toContain("Founder & Automation Consultant, Solutions Architect");
-        expect(given).toContain("### Experience and Skills\n\n#### Jordan Ellis");
-        expect(given).toContain("**Years in the industry:** 9 years");
-        expect(given).toContain("**Industry experience:** IT and automation");
+        expect(given).toContain("### Founder Profiles\n\n#### Jordan Ellis");
+        expect(given).not.toContain("Years in the industry");
+        expect(given).toContain("**Relevant industry experience:** Nine years in IT and automation");
         expect(given).toContain("**Management experience:** Led a team of four implementation consultants");
         expect(given).toContain("**Key achievements:** \n\n- Designed an invoice-intake automation");
-        expect(given).toContain("**Skills and qualifications:** \n\n- BS in Information Systems");
-        expect(given).toContain("### Team Gaps and Cover\n\nAs a one-person LLC");
+        // By type, in the page's order, each after its type.
+        expect(given).toContain("**Skills, expertise and qualifications:** \n\n" +
+            "- Skill: Python and API integration\n" +
+            "- Professional / Technical Expertise: Workflow mapping and process design\n" +
+            "- Professional / Technical Expertise: Data security and access control for client records\n" +
+            "- Degree / Qualification: BS in Information Systems\n" +
+            "- Certification: Certified in Microsoft Power Platform and Zapier\n");
+        expect(given).toContain("### Team Capability Gaps and Cover\n\nAs a one-person LLC");
+    });
+
+    test("every achievement reaches the plan, and untyped skills come last, as written", () => {
+        const identity = withAnswer(1, "identity", AnswerType.FoundersProfile, value => ({
+            ...value,
+            founders: (value.founders as Record<string, unknown>[]).map(founder => ({
+                ...founder,
+                achievements: ["One", "Two", "Three", "Four", "Five"],
+                skills: ["Saved before types", { type: "licence", text: "NY notary" }, { type: "skill", text: "Negotiation" }]
+            }))
+        }));
+        const team = partOf(planOf({ ...base(), identity }), "## 7. Management and Organization");
+        expect(team).toContain("**Key achievements:** \n\n- One\n- Two\n- Three\n- Four\n- Five");
+        expect(team).toContain("**Skills, expertise and qualifications:** \n\n- Skill: Negotiation\n- Licence: NY notary\n- Saved before types");
     });
 
     test("a Legal Entity's roles and experience saved before the Founders Profile reach the plan unopened", () => {
         const md = planOf({ ...base(), identity: legacyIdentity() });
         const team = partOf(md, "## 7. Management and Organization");
         expect(team).toContain("Principal Consultant");
-        expect(team).toContain("**Industry experience:** Eight years building workflow automation for accounting firms.");
+        expect(team).toContain("**Relevant industry experience:** Eight years building workflow automation for accounting firms.");
         // And under the canvas's Key Resources.
         const all = { ...base(), identity: legacyIdentity() };
         expect(new MarkdownExporter().toMarkdown(all.business, "Foundation", businessModelCanvas(all)))
@@ -835,16 +855,17 @@ describe("the optional answers in the documents", () => {
         const profile = md.slice(md.indexOf("## 4. Founders Profile"));
         expect(profile).toContain("### Founders\n\n#### Jordan Ellis");
         expect(profile).toContain("**Roles:** Founder & Automation Consultant, Solutions Architect");
-        expect(profile).toContain("**Years in the Industry:** 9 years");
-        expect(profile).toContain("**Industry Experience:** IT and automation");
+        expect(profile).not.toContain("Years in the Industry");
+        expect(profile).toContain("**Relevant Industry Experience:** Nine years in IT and automation");
         expect(profile).toContain("**Management Experience:** Led a team of four");
         expect(profile).toContain("**Key Achievements:** \n\n- Designed an invoice-intake automation");
-        expect(profile).toContain("**Skills & Qualifications:** \n\n- BS in Information Systems");
-        expect(profile).toContain("### Team Gaps & Cover\n\nAs a one-person LLC");
+        expect(profile).toContain("**Skills, Expertise & Qualifications:** \n\n- Skill: Python and API integration\n");
+        expect(profile).toContain("- Certification: Certified in Microsoft Power Platform and Zapier");
+        expect(profile).toContain("### Team Capability Gaps & Cover\n\nAs a one-person LLC");
 
         const legacy = legacyIdentity();
         expect(new MarkdownExporter().toMarkdown(legacy, "Foundation", buildExportContent(legacy, "Foundation")))
-            .toContain("**Industry Experience:** Eight years building workflow automation for accounting firms.");
+            .toContain("**Relevant Industry Experience:** Eight years building workflow automation for accounting firms.");
     });
 
 });

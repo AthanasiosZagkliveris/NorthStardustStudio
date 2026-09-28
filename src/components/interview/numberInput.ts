@@ -37,8 +37,6 @@ export const NUMBER_LIMITS = {
     /** Number of payments or periods. */
     payments: { max: 600, decimals: 0 },
     months: { max: 60, decimals: 0 },
-    /** A founder's years in their industry: a working life. */
-    years: { max: 70, decimals: 0 },
     weeks: { max: 520, decimals: 1 },
     quantity: { max: 1_000_000, decimals: 2 },
     pixels: { max: 120, decimals: 0 }

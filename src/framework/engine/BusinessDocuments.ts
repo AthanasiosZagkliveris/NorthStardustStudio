@@ -43,7 +43,8 @@ import {
     businessFounderResponsibilities,
     founderProfileHasText,
     founderProfileOf,
-    founderProfiles
+    founderProfiles,
+    founderSkillLines
 } from "./AnswerUtils.ts";
 import type { ExportContent, ExportSectionContent } from "./ExportContentBuilder.ts";
 import { sessionExportContext } from "./ExportContentBuilder.ts";
@@ -63,7 +64,6 @@ import {
     financialFoundationBlocks,
     financialSustainabilityBlocks,
     heading,
-    industryYearsText,
     labelled,
     labelledList,
     list,
@@ -870,8 +870,9 @@ function operationsBlocks(f: Foundation): ExportBlock[] {
 /**
  * Management and Organization: the legal structure (SBA puts it here),
  * the founders and what each is responsible for, and each founder's
- * profile -- experience, management, achievements, skills -- with the
- * skills the team lacks and how they are covered.
+ * profile -- experience, management, achievements, skills, expertise
+ * and qualifications -- with the capabilities the team lacks and how
+ * they are covered.
  */
 function teamBlocks(f: Foundation): ExportBlock[] {
     const organisation = f.legalEntity.organisation;
@@ -897,18 +898,17 @@ function teamBlocks(f: Foundation): ExportBlock[] {
         // Each founder's profile, where the Founders Profile page has
         // one; said to be missing only when no founder has.
         ...(profiled.length > 0
-            ? titled("Experience and Skills", profiled.flatMap(founder => [
+            ? titled("Founder Profiles", profiled.flatMap(founder => [
                 heading(founder.name, 2),
-                ...labelled("Years in the industry", industryYearsText(founder.years)),
-                ...labelled("Industry experience", text(founder.industryExperience)),
+                ...labelled("Relevant industry experience", text(founder.industryExperience)),
                 ...labelled("Management experience", founder.managementExperience),
                 ...labelledList("Key achievements", founder.achievements),
-                ...labelledList("Skills and qualifications", founder.skills)
+                ...labelledList("Skills, expertise and qualifications", founderSkillLines(founder.skills))
             ]))
             : notCovered("Experience and CVs")),
         ...(text(teamGaps)
-            ? titled("Team Gaps and Cover", paragraph(teamGaps))
-            : notCovered("Team Gaps and Cover"))
+            ? titled("Team Capability Gaps and Cover", paragraph(teamGaps))
+            : notCovered("Team Capability Gaps and Cover"))
     ];
 }
 

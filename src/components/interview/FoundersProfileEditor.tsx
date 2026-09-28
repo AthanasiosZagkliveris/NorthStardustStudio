@@ -1,9 +1,10 @@
 import { CSSProperties, ReactNode, useEffect } from "react";
 
 import {
-    FOUNDER_ACHIEVEMENTS_MAX,
+    FOUNDER_CREDENTIAL_TYPES,
     FOUNDERS_PROFILE_SECTIONS,
     FounderProfileValue,
+    FounderSkillValue,
     FoundersProfileValue,
     LegalEntityFounderValue,
     asFoundersProfileValue,
@@ -18,7 +19,7 @@ import FoldArrow from "./FoldArrow.tsx";
 import InfoNote, { InfoText } from "./InfoNote.tsx";
 import type { OpenPage } from "./jumpTo.ts";
 import NumberedListInput from "./NumberedListInput.tsx";
-import { NUMBER_LIMITS, limitedNumberText, numberInputMode } from "./numberInput.ts";
+import OptionPicker from "./OptionPicker.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
 
@@ -39,36 +40,53 @@ const INFO = {
     ],
 
     industryExperience: [
-        "How many years have they worked in this industry?",
-        "Where, and in what: the companies, the sectors and the positions they held.",
+        "Which relevant companies, sectors, positions, projects or markets have they worked in?",
+        "Say how long, where it helps.",
         "Lenders and investors look for a team that already knows the market it is entering."
     ],
 
     managementExperience: [
-        "Have they led a team, owned a budget or a P&L, or run a business?",
+        "Experience leading people, projects, budgets, businesses, or operations.",
         "Say how big: how many people, how much money.",
         "It shows they can run the organization as it grows."
     ],
 
     achievements: [
-        "What have they achieved that can be measured: what, how much, by when?",
+        "What was achieved, what was your contribution, and what was the measurable result?",
         "Any business they started before, and how it turned out.",
-        "Results are what make a track record believable. Up to three."
+        "Results are what make a track record believable."
     ],
 
     skills: [
-        "Which degrees, certifications or licences do they hold?",
-        "Which key skills does the plan rely on them for: sales, finance, operations, technical?",
-        "Lenders and investors check that every skill the plan needs is covered by someone."
+        "Add one entry for each, and choose its type: a skill, professional or technical expertise, a degree or qualification, a certification, a licence, or a professional membership or other credential.",
+        "Name what the plan relies on them for: sales, finance, operations, technical.",
+        "Lenders and investors check that every capability the plan needs is covered by someone."
     ],
 
     teamGaps: [
-        "Which skills does the team lack?",
-        "How are they covered: advisors, mentors, planned hires, outsourced partners, a board?",
+        "What important capabilities does the team currently lack, and how will they be covered?",
+        "For example: planned hires, advisors, mentors, partners, contractors or external specialists, training.",
         "A gap that is named and covered reads as a strength; one left unnamed reads as a risk."
     ]
 
 };
+
+/**
+ * What a Skills, Expertise & Qualifications entry's box asks for,
+ * by its type -- and, before a type is chosen, every kind it can be.
+ */
+const SKILL_PLACEHOLDERS: Record<string, string> = {
+    skill: "e.g. Negotiation",
+    expertise: "Area of professional or technical expertise",
+    qualification: "Degree or qualification, and where",
+    certification: "Name and issuing body",
+    licence: "Licence and where it applies",
+    membership: "Body or credential",
+    "": "Skill, expertise, qualification, certification, licence or membership"
+};
+
+/** An entry with nothing in it: the row the list always shows. */
+const EMPTY_SKILL: FounderSkillValue = { type: "", text: "" };
 
 interface FoundersProfileEditorProps {
 
@@ -101,8 +119,8 @@ interface FoundersProfileEditorProps {
  *
  * One card per founder the Legal Entity names, in its order, under
  * the name given there -- this page describes the founders, it never
- * adds, removes or renames one. Then one box for the skills the team
- * as a whole lacks, and how they are covered.
+ * adds, removes or renames one. Then one box for the capabilities the
+ * team as a whole lacks, and how they are covered.
  *
  * Every question is optional: the page strengthens a Business Plan's
  * Management section, and is never what keeps a System unfinished.
@@ -233,6 +251,86 @@ export default function FoundersProfileEditor({
         );
     }
 
+    /**
+     * A founder's Skills, Expertise & Qualifications: a row an entry
+     * -- its number, its type, what it is, and × -- then "+ Add". There
+     * is always a row to write in: × on the last one empties it
+     * rather than taking it away.
+     */
+    function skillRows(founder: FounderProfileValue, who: string) {
+
+        const entries = founder.skills.length > 0 ? founder.skills : [EMPTY_SKILL];
+
+        const save = (next: FounderSkillValue[]) =>
+            updateFounder(founder.id, { skills: next.length > 0 ? next : [EMPTY_SKILL] });
+
+        const change = (index: number, patch: Partial<FounderSkillValue>) =>
+            save(entries.map((entry, at) => at === index ? { ...entry, ...patch } : entry));
+
+        return (
+            <div className="founders-profile-skills">
+
+                {entries.map((entry, index) => {
+
+                    const name = who + " skills entry " + (index + 1);
+
+                    return (
+                        <div className="founders-profile-skill" key={index}>
+
+                            <span className="founders-profile-skill-number">
+                                {(index + 1) + "."}
+                            </span>
+
+                            <OptionPicker
+                                label={name + " type"}
+                                placeholder="Type"
+                                options={FOUNDER_CREDENTIAL_TYPES.map(kind => kind.label)}
+                                disabled={disabled}
+                                value={FOUNDER_CREDENTIAL_TYPES.find(kind => kind.id === entry.type)?.label ?? ""}
+                                onChange={(next) => change(index, {
+                                    type: FOUNDER_CREDENTIAL_TYPES.find(kind => kind.label === next)?.id ?? ""
+                                })}
+                            />
+
+                            <StrategyTextArea
+                                className="interview-input legal-entity-note founders-profile-skill-text"
+                                ariaLabel={name + " text"}
+                                placeholder={SKILL_PLACEHOLDERS[entry.type] ?? SKILL_PLACEHOLDERS[""]}
+                                disabled={disabled}
+                                value={entry.text}
+                                onChange={(next) => change(index, { text: next })}
+                            />
+
+                            <button
+                                type="button"
+                                className="strategy-box-remove"
+                                aria-label={"Remove " + name}
+                                title={"Remove " + name}
+                                disabled={disabled}
+                                onClick={() => save(entries.filter((_, at) => at !== index))}
+                            >
+                                ×
+                            </button>
+
+                        </div>
+                    );
+
+                })}
+
+                <button
+                    type="button"
+                    className="strategy-add-button"
+                    disabled={disabled}
+                    onClick={() => save([...entries, EMPTY_SKILL])}
+                >
+                    + Add
+                </button>
+
+            </div>
+        );
+
+    }
+
     /* ---------- A founder ---------- */
 
     function founderCard(founder: FounderProfileValue & { name: string }, index: number) {
@@ -290,40 +388,30 @@ export default function FoundersProfileEditor({
                                 disabled={disabled}
                                 onChange={(items) => updateFounder(founder.id, { roles: items })}
                             />
-                        ))}
+                        ), true)}
 
-                        {field("Industry Experience", INFO.industryExperience, (
-                            <>
-                                <span className="founders-profile-years">
-                                    <input
-                                        type="text"
-                                        inputMode={numberInputMode(NUMBER_LIMITS.years)}
-                                        className="interview-input"
-                                        aria-label={who + " years in the industry"}
-                                        disabled={disabled}
-                                        value={founder.years}
-                                        onChange={(event) => updateFounder(founder.id, {
-                                            years: limitedNumberText(event.target.value, founder.years, NUMBER_LIMITS.years)
-                                        })}
-                                    />
-                                    <span className="legal-entity-label">years in the industry</span>
-                                </span>
-                                <StrategyTextArea
-                                    className="interview-input legal-entity-note"
-                                    ariaLabel={who + " industry experience"}
-                                    placeholder="Where, and in what: companies, sectors, positions"
-                                    disabled={disabled}
-                                    value={founder.industryExperience}
-                                    onChange={(next) => updateFounder(founder.id, { industryExperience: next })}
-                                />
-                            </>
+                        {/* The two experience questions side by side,
+                            under a title of their own. */}
+                        <div className="founders-profile-group">
+                            <span className="business-foundation-subhead">Relevant Experience</span>
+                        </div>
+
+                        {field("Relevant Industry Experience", INFO.industryExperience, (
+                            <StrategyTextArea
+                                className="interview-input legal-entity-note"
+                                ariaLabel={who + " relevant industry experience"}
+                                placeholder="Relevant companies, sectors, positions, projects, markets or professional experience"
+                                disabled={disabled}
+                                value={founder.industryExperience}
+                                onChange={(next) => updateFounder(founder.id, { industryExperience: next })}
+                            />
                         ))}
 
                         {field("Management Experience", INFO.managementExperience, (
                             <StrategyTextArea
                                 className="interview-input legal-entity-note"
                                 ariaLabel={who + " management experience"}
-                                placeholder="Teams led (size), budgets or P&L owned, businesses run"
+                                placeholder="Leading people, projects, budgets, businesses or operations"
                                 disabled={disabled}
                                 value={founder.managementExperience}
                                 onChange={(next) => updateFounder(founder.id, { managementExperience: next })}
@@ -333,25 +421,14 @@ export default function FoundersProfileEditor({
                         {field("Key Achievements", INFO.achievements, (
                             <NumberedListInput
                                 label={who + " key achievements"}
-                                placeholder="What, how much, by when"
+                                placeholder="What was achieved, your contribution, the measurable result"
                                 items={founder.achievements}
-                                maxItems={FOUNDER_ACHIEVEMENTS_MAX}
                                 disabled={disabled}
-                                onChange={(items) => updateFounder(founder.id, {
-                                    achievements: items.slice(0, FOUNDER_ACHIEVEMENTS_MAX)
-                                })}
-                            />
-                        ))}
-
-                        {field("Skills & Qualifications", INFO.skills, (
-                            <NumberedListInput
-                                label={who + " skills & qualifications"}
-                                placeholder="A degree, certification, licence or key skill"
-                                items={founder.skills}
-                                disabled={disabled}
-                                onChange={(items) => updateFounder(founder.id, { skills: items })}
+                                onChange={(items) => updateFounder(founder.id, { achievements: items })}
                             />
                         ), true)}
+
+                        {field("Skills, Expertise & Qualifications", INFO.skills, skillRows(founder, who), true)}
 
                     </div>
                 )}
@@ -383,7 +460,7 @@ export default function FoundersProfileEditor({
                         </span>
                         <span className="answer-question-line answer-question-line-bullet">
                             • Every question is optional. Answer what applies, and name the
-                            skills the team still lacks.
+                            capabilities the team still lacks.
                         </span>
                     </div>
                 )}
@@ -426,13 +503,13 @@ export default function FoundersProfileEditor({
                     />
                 ))}
 
-                {/* ---------- 2. Team Gaps & Cover ---------- */}
+                {/* ---------- 2. Team Capability Gaps & Cover ---------- */}
 
                 {subsection(1, (
                     <StrategyTextArea
                         className="interview-input legal-entity-note"
-                        ariaLabel="Team Gaps & Cover"
-                        placeholder="Skills the team lacks, and who covers them: advisors, mentors, planned hires, partners, a board"
+                        ariaLabel="Team Capability Gaps & Cover"
+                        placeholder="The capabilities the team lacks, and how each will be covered: planned hires, advisors, mentors, partners, contractors, training"
                         disabled={disabled}
                         value={profile.teamGaps}
                         onChange={(next) => update({ teamGaps: next })}

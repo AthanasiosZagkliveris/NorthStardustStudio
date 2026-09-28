@@ -3,7 +3,7 @@ import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import FoundersProfileEditor from "./FoundersProfileEditor";
-import { toggles, typeInto } from "../../test/interviewTestUtils";
+import { toggles } from "../../test/interviewTestUtils";
 import {
     asFoundersProfileValue,
     type LegalEntityFounderValue
@@ -96,55 +96,102 @@ describe("FoundersProfileEditor founders", () => {
         render(<Harness founders={[ann]} />);
         open(/Founder 1$/);
 
-        for (const label of ["Roles", "Industry Experience", "Management Experience", "Key Achievements", "Skills & Qualifications", "Team Gaps & Cover"]) {
+        for (const label of ["Roles", "Relevant Industry Experience", "Management Experience", "Key Achievements", "Skills, Expertise & Qualifications", "Team Capability Gaps & Cover"]) {
             expect(screen.getByRole("button", { name: label + ": what this means" })).toBeTruthy();
         }
+        expect(screen.getByText("Relevant Experience").classList.contains("business-foundation-subhead")).toBe(true);
         expect(screen.getByLabelText("Founder 1 roles 1")).toBeTruthy();
-        expect(screen.getByLabelText("Founder 1 industry experience").tagName).toBe("TEXTAREA");
+        expect(screen.getByLabelText("Founder 1 relevant industry experience").tagName).toBe("TEXTAREA");
+        expect(screen.getByLabelText("Founder 1 relevant industry experience").getAttribute("placeholder"))
+            .toBe("Relevant companies, sectors, positions, projects, markets or professional experience");
+        // Years are said in the text, where they help: no box of their own.
+        expect(screen.queryByLabelText(/years in the industry/)).toBeNull();
+        expect(screen.queryByText(/years in the industry/)).toBeNull();
         expect(screen.getByLabelText("Founder 1 management experience").tagName).toBe("TEXTAREA");
-        expect(screen.getByLabelText("Team Gaps & Cover").tagName).toBe("TEXTAREA");
+        expect(screen.getByLabelText("Team Capability Gaps & Cover").tagName).toBe("TEXTAREA");
+        // The subsection, and so its rail item, follows the new name.
+        expect(document.querySelector("[data-rail='team-capability-gaps-cover'] h3")?.textContent).toMatch(/Team Capability Gaps & Cover/);
 
     });
 
-    it("takes the years as a whole number up to 70", () => {
-
-        render(<Harness founders={[ann]} />);
-        open(/Founder 1$/);
-
-        const years = screen.getByLabelText("Founder 1 years in the industry") as HTMLInputElement;
-        typeInto(years, "71");
-        expect(years.value).toBe("7");
-        fireEvent.change(years, { target: { value: "70" } });
-        expect(years.value).toBe("70");
-        fireEvent.change(years, { target: { value: "70.5" } });
-        expect(years.value).toBe("70");
-        fireEvent.change(years, { target: { value: "-1" } });
-        expect(years.value).toBe("70");
-
-    });
-
-    it("adds and removes list lines, and stops Key Achievements at three", () => {
+    it("takes as many Key Achievements as there are, and takes an empty line away", () => {
 
         render(<Harness founders={[ann]} />);
         open(/Founder 1$/);
 
         const achievement = (n: number) => screen.queryByLabelText("Founder 1 key achievements " + n) as HTMLTextAreaElement | null;
 
-        fireEvent.change(achievement(1)!, { target: { value: "First" } });
-        fireEvent.keyDown(achievement(1)!, { key: "Enter" });
-        fireEvent.change(achievement(2)!, { target: { value: "Second" } });
-        fireEvent.keyDown(achievement(2)!, { key: "Enter" });
-        fireEvent.change(achievement(3)!, { target: { value: "Third" } });
-        fireEvent.keyDown(achievement(3)!, { key: "Enter" });
-        expect(achievement(4)).toBeNull();
-        expect(asFoundersProfileValue(saved).founders[0].achievements).toEqual(["First", "Second", "Third"]);
+        for (const [n, text] of ["First", "Second", "Third", "Fourth"].entries()) {
+            fireEvent.change(achievement(n + 1)!, { target: { value: text } });
+            fireEvent.keyDown(achievement(n + 1)!, { key: "Enter" });
+        }
+        expect(achievement(5)).toBeTruthy();
+        expect(achievement(1)!.getAttribute("placeholder")).toBe("What was achieved, your contribution, the measurable result");
 
         // Backspace on an empty line takes it away.
-        const skill = (n: number) => screen.queryByLabelText("Founder 1 skills & qualifications " + n) as HTMLTextAreaElement | null;
-        fireEvent.keyDown(skill(1)!, { key: "Enter" });
-        expect(skill(2)).toBeTruthy();
-        fireEvent.keyDown(skill(2)!, { key: "Backspace" });
-        expect(skill(2)).toBeNull();
+        fireEvent.keyDown(achievement(5)!, { key: "Backspace" });
+        expect(achievement(5)).toBeNull();
+        expect(asFoundersProfileValue(saved).founders[0].achievements).toEqual(["First", "Second", "Third", "Fourth"]);
+
+    });
+
+    it("asks Skills, Expertise & Qualifications a typed row at a time", () => {
+
+        render(<Harness founders={[ann]} />);
+        open(/Founder 1$/);
+
+        const text = (n: number) => screen.queryByLabelText("Founder 1 skills entry " + n + " text") as HTMLTextAreaElement | null;
+        const type = (n: number) => screen.getAllByRole("button", { name: new RegExp("^Founder 1 skills entry " + n + " type") })
+            .find(button => button.classList.contains("option-picker-trigger"))!;
+        const choose = (n: number, label: string) => {
+            fireEvent.click(type(n));
+            fireEvent.click(screen.getByRole("option", { name: label }));
+        };
+
+        // One row to start, untyped, asking for any kind.
+        expect(type(1).textContent).toContain("Type");
+        expect(text(1)!.getAttribute("placeholder")).toBe("Skill, expertise, qualification, certification, licence or membership");
+        expect(text(2)).toBeNull();
+
+        // Its placeholder follows the type chosen.
+        choose(1, "Certification");
+        expect(text(1)!.getAttribute("placeholder")).toBe("Name and issuing body");
+        choose(1, "Skill");
+        expect(text(1)!.getAttribute("placeholder")).toBe("e.g. Negotiation");
+        fireEvent.change(text(1)!, { target: { value: "Negotiation" } });
+
+        // "+ Add" adds a row; its type is its own.
+        fireEvent.click(screen.getByRole("button", { name: "+ Add" }));
+        expect(text(2)).toBeTruthy();
+        choose(2, "Licence");
+        expect(text(2)!.getAttribute("placeholder")).toBe("Licence and where it applies");
+        fireEvent.change(text(2)!, { target: { value: "NY notary" } });
+        expect(asFoundersProfileValue(saved).founders[0].skills).toEqual([
+            { type: "skill", text: "Negotiation" },
+            { type: "licence", text: "NY notary" }
+        ]);
+
+        // × takes a row away...
+        fireEvent.click(screen.getByRole("button", { name: "Remove Founder 1 skills entry 1" }));
+        expect(asFoundersProfileValue(saved).founders[0].skills).toEqual([{ type: "licence", text: "NY notary" }]);
+        expect(text(2)).toBeNull();
+
+        // ...but the last one is only emptied.
+        fireEvent.click(screen.getByRole("button", { name: "Remove Founder 1 skills entry 1" }));
+        expect(asFoundersProfileValue(saved).founders[0].skills).toEqual([{ type: "", text: "" }]);
+        expect(text(1)!.value).toBe("");
+
+    });
+
+    it("shows skills saved as plain lines, untyped, with nothing lost", () => {
+
+        render(<Harness founders={[ann]} initial={{ founders: [{ id: "a", roles: [""], skills: ["BA (Hons)", "Negotiation"] }] }} />);
+        open(/Founder 1$/);
+
+        expect((screen.getByLabelText("Founder 1 skills entry 1 text") as HTMLTextAreaElement).value).toBe("BA (Hons)");
+        expect((screen.getByLabelText("Founder 1 skills entry 2 text") as HTMLTextAreaElement).value).toBe("Negotiation");
+        expect(screen.getAllByRole("button", { name: /^Founder 1 skills entry 2 type/ })
+            .find(button => button.classList.contains("option-picker-trigger"))!.textContent).toContain("Type");
 
     });
 
@@ -161,7 +208,7 @@ describe("FoundersProfileEditor founders", () => {
 
         open(/Founder 1$/);
         expect((screen.getByLabelText("Founder 1 roles 1") as HTMLTextAreaElement).value).toBe("Director");
-        expect((screen.getByLabelText("Founder 1 industry experience") as HTMLTextAreaElement).value).toBe("Ten years in retail.");
+        expect((screen.getByLabelText("Founder 1 relevant industry experience") as HTMLTextAreaElement).value).toBe("Ten years in retail.");
 
     });
 
