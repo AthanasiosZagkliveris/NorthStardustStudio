@@ -1,7 +1,6 @@
-import { CSSProperties, ReactNode, useState } from "react";
+import { ReactNode, useState } from "react";
 
 import {
-    BUSINESS_RESOURCE_GROUPS,
     LegalEntityValue,
     asBusinessCapabilityValue,
     asBusinessEngagementValue,
@@ -39,6 +38,7 @@ import {
     type RevenueStreamValue,
     type StreamAnalysis
 } from "../../framework/engine/FinancialModel.ts";
+import { costSourcesFor } from "../../framework/engine/ExportRenderers.ts";
 import {
     deliveryAllocation,
     demandResult
@@ -54,9 +54,13 @@ import {
     uniqueChoices
 } from "./BusinessCardFields.tsx";
 import {
+    CAPACITY_UTILISATION_HELP,
     CashTimelineChart,
     FigureTiles,
     FinancialBlock,
+    FinancialPageHead,
+    FinancialSectionCard,
+    type FinancialSection,
     PlanMonthField,
     SignalList,
     type TimelineMarker
@@ -70,7 +74,6 @@ import OptionPicker from "./OptionPicker.tsx";
 import type { OpenPage } from "./jumpTo.ts";
 import { railId } from "./rails/railItems.ts";
 import { useItemFolds } from "./useItemFolds.ts";
-import FoldArrow from "./FoldArrow.tsx";
 import { toggledIn } from "./toggledIn.ts";
 
 /** How to estimate each group of a revenue stream: the "i" beside its title. */
@@ -105,7 +108,8 @@ const BREAK_EVEN_UNITS_FORMULA: InfoPoint = {
     title: "Formula",
     text: "Break-even units = Fixed costs ÷ (Price − Variable cost per unit)"
 };
-const BREAK_EVEN_UNITS_SOURCE: InfoPoint = {
+/* One primary source for both break-even formulas, so the two agree. */
+const BREAK_EVEN_SOURCE: InfoPoint = {
     title: "Source",
     text: "U.S. SBA, “Break-even point”",
     href: "https://www.sba.gov/business-guide/plan-your-business/calculate-your-startup-costs/break-even-point"
@@ -116,13 +120,7 @@ const BREAK_EVEN_REVENUE_FORMULA: InfoPoint = {
     title: "Formula",
     text: "Break-even revenue = Fixed costs ÷ Contribution margin ratio"
 };
-/* Same primary source as the units formula, so the two agree; OpenStax
-   follows as the second reference the spec asks for. */
-const BREAK_EVEN_REVENUE_SOURCE: InfoPoint = {
-    title: "Source",
-    text: "U.S. SBA, “Break-even point”",
-    href: "https://www.sba.gov/business-guide/plan-your-business/calculate-your-startup-costs/break-even-point"
-};
+/* OpenStax follows BREAK_EVEN_SOURCE as the second reference the spec asks for. */
 const BREAK_EVEN_REVENUE_SECOND_SOURCE: InfoPoint = {
     title: "Also",
     text: "OpenStax, “Calculate a Break-Even Point in Units and Dollars”",
@@ -144,20 +142,6 @@ const EXPECTED_BREAK_EVEN_HELP: InfoPoint[] = [
     "The first month revenue covers costs, based on the build-up of sales you entered."
 ];
 
-/**
- * Utilisation -- demand hours against capacity -- its "i" beside the
- * percent here and (the same content) on Infrastructure &
- * Capability's own budget lines.
- */
-const CAPACITY_UTILISATION_HELP: InfoPoint[] = [
-    { title: "Formula", text: "Utilisation = Demand hours ÷ Available hours" },
-    "How much of the available time the planned work needs. Above 100% means more work than capacity.",
-    {
-        title: "Source",
-        text: "CFI, “Capacity Utilization”",
-        href: "https://corporatefinanceinstitute.com/resources/economics/capacity-utilization/"
-    }
-];
 
 /** Contribution's own formula, the "i" beside its figure on each Offering's card. */
 const CONTRIBUTION_HELP: InfoPoint[] = [
@@ -289,18 +273,9 @@ export default function FinancialSustainabilityEditor({
 
     const legalEntity = legalEntityValue ?? asLegalEntityValue(undefined);
 
-    const lines = consolidateCosts(financial, {
-        legalEntity,
-        capability: withLegalEntityFounders(asBusinessCapabilityValue(capabilityValue), legalEntity.founders),
-        currency,
-        foundersLinked: legalEntity.founders.some(founder => founder.name.trim().length > 0),
-        resourceGroupLabels: Object.fromEntries(
-            BUSINESS_RESOURCE_GROUPS.map(group => [group.id, group.label])
-        ),
-        subsectionLabels: Object.fromEntries(
-            BUSINESS_RESOURCE_GROUPS.flatMap(group => group.kinds.map(kind => [kind.id, kind.label]))
-        )
-    });
+    const capability = withLegalEntityFounders(asBusinessCapabilityValue(capabilityValue), legalEntity.founders);
+
+    const lines = consolidateCosts(financial, costSourcesFor(legalEntity, capability, currency));
 
     // Whole units everywhere on this read-only page: an amount
     // someone can edit shows the string they typed, never this
@@ -316,7 +291,6 @@ export default function FinancialSustainabilityEditor({
     const result = sustainability(effective, financial, lines, legalEntity, format);
 
     /* Capacity: the founders' delivery hours, and each Offering's effort. */
-    const capability = withLegalEntityFounders(asBusinessCapabilityValue(capabilityValue), legalEntity.founders);
     const capacity = salesCapacity(effective, financial, capability);
 
     const offerings = uniqueChoices(
@@ -620,41 +594,26 @@ export default function FinancialSustainabilityEditor({
 
     function sectionCard(
         id: string,
-        number: number,
-        section: { title: string; instructions: string[]; info: InfoPoint[] },
+        section: FinancialSection,
         body: () => ReactNode,
         sectionIndex: number,
         titleExtra?: ReactNode
     ) {
-
-        const open = !collapsed.has(id);
-
         return (
-            <div
-                className="business-foundation-input business-foundation-card business-engagement-input financial-section"
+            <FinancialSectionCard
                 key={id}
-                data-rail={railId(FINANCIAL_SUSTAINABILITY_SECTIONS[sectionIndex])}
-                style={{ "--strategy-theme-hue": SECTION_HUES[id] ?? 0 } as CSSProperties}
-            >
-
-                <div className="strategy-box-head business-foundation-input-head business-capability-card-head fold-group-head">
-                    <FoldArrow open={open} label={section.title} onToggle={() => toggle(id)} />
-                    <span className="strategy-box-number">{number + "."}</span>
-                    <span className="strategy-name-static">
-                        <InfoText text={section.title}>
-                            <InfoNote label={section.title} points={section.info} fullList />
-                        </InfoText>
-                    </span>
-                    {/* The section's own "Expand all", at the far end
-                        of its title row. */}
-                    {titleExtra}
-                </div>
-
-                {open && body()}
-
-            </div>
+                rail={railId(FINANCIAL_SUSTAINABILITY_SECTIONS[sectionIndex])}
+                number={sectionIndex + 1}
+                section={section}
+                hue={SECTION_HUES[id] ?? 0}
+                open={!collapsed.has(id)}
+                onToggle={() => toggle(id)}
+                body={body}
+                // The section's own "Expand all", at the far end of its title row.
+                headClass="fold-group-head"
+                titleExtra={titleExtra}
+            />
         );
-
     }
 
     /* ---------- 1. Revenue ---------- */
@@ -1446,7 +1405,7 @@ export default function FinancialSustainabilityEditor({
                         info: [
                             "Fixed costs divided by the contribution margin of the expected revenue mix.",
                             BREAK_EVEN_REVENUE_FORMULA,
-                            BREAK_EVEN_REVENUE_SOURCE,
+                            BREAK_EVEN_SOURCE,
                             BREAK_EVEN_REVENUE_SECOND_SOURCE
                         ]
                     },
@@ -1509,7 +1468,7 @@ export default function FinancialSustainabilityEditor({
                         "Offering break even: the units this Offering alone would need to sell to cover all fixed costs.",
                         "Organization break even: the expected revenue mix, scaled until its contribution covers the fixed costs, not the Offerings' figures added together.",
                         BREAK_EVEN_UNITS_FORMULA,
-                        BREAK_EVEN_UNITS_SOURCE
+                        BREAK_EVEN_SOURCE
                     ]}>
                         <div className="financial-table-scroll">
                             <table className="financial-table">
@@ -1649,32 +1608,11 @@ export default function FinancialSustainabilityEditor({
     return (
         <div className="financial-page business-foundation business-engagement business-capability">
 
-            {/* THE PAGE'S HEAD, as on Pages 1 to 3: a lettered title
-                for each section, its instructions beneath (hidden with
-                the help), then the progress line. */}
-            <div
-                className="answer-columns financial-page-head"
-                style={{ "--answer-column-count": [SECTIONS.revenue, SECTIONS.breakEven].length } as CSSProperties}
-            >
-                {[SECTIONS.revenue, SECTIONS.breakEven].map((section, position) => (
-                    <h3 className="answer-column-label" key={"title-" + section.title}>
-                        <span className="answer-column-label-number">
-                            {String.fromCharCode(65 + position) + "."}
-                        </span>
-                        <span className="answer-column-label-text">{section.title}</span>
-                    </h3>
-                ))}
-                {showInstructions && [SECTIONS.revenue, SECTIONS.breakEven].map(section => (
-                    <div className="answer-column-questions" key={"questions-" + section.title}>
-                        {section.instructions.map(line => (
-                            <span className="answer-question-line answer-question-line-bullet" key={line}>
-                                {"• " + line}
-                            </span>
-                        ))}
-                    </div>
-                ))}
-                {columnsDivider && <div className="answer-columns-divider">{columnsDivider}</div>}
-            </div>
+            <FinancialPageHead
+                sections={[SECTIONS.revenue, SECTIONS.breakEven]}
+                showInstructions={showInstructions}
+                columnsDivider={columnsDivider}
+            />
 
             <div className="financial-plan-bar">
                 <span className="financial-plan-meta">
@@ -1692,7 +1630,7 @@ export default function FinancialSustainabilityEditor({
             </div>
 
             {sectionCard(
-                "sustainability-revenue", 1, SECTIONS.revenue, revenueSection, 0,
+                "sustainability-revenue", SECTIONS.revenue, revenueSection, 0,
                 offerings.length > 0 && (
                     <FoldAllToggle
                         ids={shownStreams.map(entry => entry.stream.id)}
@@ -1704,7 +1642,7 @@ export default function FinancialSustainabilityEditor({
 
             <span className="financial-flow-arrow" aria-hidden="true">↓</span>
 
-            {sectionCard("sustainability-break-even", 2, SECTIONS.breakEven, breakEvenSection, 1)}
+            {sectionCard("sustainability-break-even", SECTIONS.breakEven, breakEvenSection, 1)}
 
         </div>
     );

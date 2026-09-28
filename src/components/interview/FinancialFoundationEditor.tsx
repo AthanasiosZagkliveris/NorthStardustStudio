@@ -1,7 +1,6 @@
-import { CSSProperties, ReactNode, useState } from "react";
+import { ReactNode, useState } from "react";
 
 import {
-    BUSINESS_RESOURCE_GROUPS,
     LegalEntityValue,
     StrategyMonthValue,
     asBusinessCapabilityValue,
@@ -62,6 +61,7 @@ import {
     type FundingSourceValue,
     type OwnCostValue
 } from "../../framework/engine/FinancialModel.ts";
+import { costSourcesFor } from "../../framework/engine/ExportRenderers.ts";
 
 import {
     BusinessAddButton,
@@ -77,8 +77,11 @@ import {
     CashTimelineChart,
     FigureTiles,
     FinancialBlock,
+    FinancialPageHead,
+    FinancialSectionCard,
     PlanMonthField,
-    SignalList
+    SignalList,
+    type FinancialSection
 } from "./FinancialParts.tsx";
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
@@ -314,30 +317,22 @@ export default function FinancialFoundationEditor({
 
     const legalEntity = legalEntityValue ?? asLegalEntityValue(undefined);
 
-    const foundersLinked = legalEntity.founders.some(founder => founder.name.trim().length > 0);
 
     const capability = withLegalEntityFounders(
         asBusinessCapabilityValue(capabilityValue),
         legalEntity.founders
     );
 
-    const lines = consolidateCosts(page, {
-        legalEntity,
-        capability,
-        currency,
-        foundersLinked,
-        resourceGroupLabels: Object.fromEntries(
-            BUSINESS_RESOURCE_GROUPS.map(group => [group.id, group.label])
-        ),
-        subsectionLabels: Object.fromEntries(
-            BUSINESS_RESOURCE_GROUPS.flatMap(group => group.kinds.map(kind => [kind.id, kind.label]))
-        )
-    });
+    const lines = consolidateCosts(page, costSourcesFor(legalEntity, capability, currency));
 
     // Whole units everywhere on this read-only page: an amount
     // someone can edit shows the string they typed, never this
     // formatter, so nobody's own pence are ever hidden by it.
     const format = moneyFormatter(currency, { wholeOnly: true });
+
+    /* The Funding Need, calculated once: its section and every
+       funding card's "Linked Funding Need" read the same list. */
+    const calculatedNeeds = fundingNeeds(page, lines, legalEntity, revenuePage, format);
 
     /** The other half of a likely duplicate, if this cost is one. */
     const duplicates = possibleDuplicates(lines);
@@ -452,42 +447,23 @@ export default function FinancialFoundationEditor({
 
     function sectionCard(
         id: string,
-        number: number,
-        section: { title: string; instructions: string[]; info: InfoPoint[] },
+        section: FinancialSection,
         body: () => ReactNode,
         sectionIndex: number
     ) {
-
-        const open = !collapsed.has(id);
-
         return (
-            <div
-                className="business-foundation-input business-foundation-card business-engagement-input financial-section"
+            <FinancialSectionCard
                 key={id}
-                data-anchor={id}
-                data-rail={railId(FINANCIAL_FOUNDATION_SECTIONS[sectionIndex])}
-                style={{ "--strategy-theme-hue": SECTION_HUES[id] ?? 0 } as CSSProperties}
-            >
-
-                <div className="strategy-box-head business-foundation-input-head business-capability-card-head">
-
-                    <FoldArrow open={open} label={section.title} onToggle={() => toggle(id)} />
-
-                    <span className="strategy-box-number">{number + "."}</span>
-
-                    <span className="strategy-name-static">
-                        <InfoText text={section.title}>
-                            <InfoNote label={section.title} points={section.info} fullList />
-                        </InfoText>
-                    </span>
-
-                </div>
-
-                {open && body()}
-
-            </div>
+                anchor={id}
+                rail={railId(FINANCIAL_FOUNDATION_SECTIONS[sectionIndex])}
+                number={sectionIndex + 1}
+                section={section}
+                hue={SECTION_HUES[id] ?? 0}
+                open={!collapsed.has(id)}
+                onToggle={() => toggle(id)}
+                body={body}
+            />
         );
-
     }
 
     /* ---------- 1. Costs ---------- */
@@ -1000,7 +976,7 @@ export default function FinancialFoundationEditor({
     */
     function needSection() {
 
-        const needs = fundingNeeds(page, lines, legalEntity, revenuePage, format);
+        const needs = calculatedNeeds;
         const total = needs.reduce((sum, need) => sum + need.amount, 0);
 
         return (
@@ -1426,12 +1402,12 @@ export default function FinancialFoundationEditor({
                     (next) => changeSource(source.id, { purpose: next }), "What it supports")}
 
                 <BusinessField label="Linked Funding Need">
-                    {fundingNeeds(page, lines, legalEntity, revenuePage, format).every(need => need.amount <= 0.005)
+                    {calculatedNeeds.every(need => need.amount <= 0.005)
                         ? <BusinessEmpty>No Funding Need yet: it is calculated from the costs.</BusinessEmpty>
                         : (
                             <BusinessTicks
                                 name={what + " funding needs"}
-                                options={fundingNeeds(page, lines, legalEntity, revenuePage, format)
+                                options={calculatedNeeds
                                     .filter(need => need.amount > 0.005 || source.needIds.includes(need.id))
                                     .map(need => ({ id: need.id, label: need.label, meaning: format(need.amount) }))}
                                 chosen={source.needIds}
@@ -1722,32 +1698,11 @@ export default function FinancialFoundationEditor({
     return (
         <div className="financial-page business-foundation business-engagement business-capability">
 
-            {/* THE PAGE'S HEAD, as on Pages 1 to 3: a lettered title
-                for each section, its instructions beneath (hidden with
-                the help), then the progress line. */}
-            <div
-                className="answer-columns financial-page-head"
-                style={{ "--answer-column-count": [SECTIONS.costs, SECTIONS.need, SECTIONS.funding, SECTIONS.position].length } as CSSProperties}
-            >
-                {[SECTIONS.costs, SECTIONS.need, SECTIONS.funding, SECTIONS.position].map((section, position) => (
-                    <h3 className="answer-column-label" key={"title-" + section.title}>
-                        <span className="answer-column-label-number">
-                            {String.fromCharCode(65 + position) + "."}
-                        </span>
-                        <span className="answer-column-label-text">{section.title}</span>
-                    </h3>
-                ))}
-                {showInstructions && [SECTIONS.costs, SECTIONS.need, SECTIONS.funding, SECTIONS.position].map(section => (
-                    <div className="answer-column-questions" key={"questions-" + section.title}>
-                        {section.instructions.map(line => (
-                            <span className="answer-question-line answer-question-line-bullet" key={line}>
-                                {"• " + line}
-                            </span>
-                        ))}
-                    </div>
-                ))}
-                {columnsDivider && <div className="answer-columns-divider">{columnsDivider}</div>}
-            </div>
+            <FinancialPageHead
+                sections={[SECTIONS.costs, SECTIONS.need, SECTIONS.funding, SECTIONS.position]}
+                showInstructions={showInstructions}
+                columnsDivider={columnsDivider}
+            />
 
             <div className="financial-plan-bar">
                 <PlanMonthField
@@ -1809,7 +1764,7 @@ export default function FinancialFoundationEditor({
             {sections.map((entry, index) => (
                 <div className="financial-flow-step" key={entry.id}>
                     {index > 0 && <span className="financial-flow-arrow" aria-hidden="true">↓</span>}
-                    {sectionCard(entry.id, index + 1, entry.section, entry.body, index)}
+                    {sectionCard(entry.id, entry.section, entry.body, index)}
                 </div>
             ))}
 

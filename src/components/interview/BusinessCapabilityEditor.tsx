@@ -67,6 +67,7 @@ import type { OpenPage } from "./jumpTo.ts";
 import { useListDrag } from "./ReorderControls.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
 import FoldArrow from "./FoldArrow.tsx";
+import { CAPACITY_UTILISATION_HELP } from "./FinancialParts.tsx";
 import { toggledIn } from "./toggledIn.ts";
 
 import "../../styles/delivery.css";
@@ -170,16 +171,6 @@ const HOURS_PER_MONTH_HELP: InfoPoint[] = [
     { title: "Source", text: "U.S. 29 CFR § 778.113", href: "https://www.law.cornell.edu/cfr/text/29/778.113" }
 ];
 
-/** Utilisation -- demand hours against capacity -- its "i" beside the percent. */
-const CAPACITY_UTILISATION_HELP: InfoPoint[] = [
-    { title: "Formula", text: "Utilisation = Demand hours ÷ Available hours" },
-    "How much of the available time the planned work needs. Above 100% means more work than capacity.",
-    {
-        title: "Source",
-        text: "CFI, “Capacity Utilization”",
-        href: "https://corporatefinanceinstitute.com/resources/economics/capacity-utilization/"
-    }
-];
 
 /** Hours as the capacity lines give them: whole, or to one decimal. */
 function formatHours(hours: number): string {

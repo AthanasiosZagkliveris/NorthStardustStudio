@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { CSSProperties, ReactNode, useState } from "react";
 
 import type { StrategyMonthValue } from "../../framework/engine/AnswerUtils.ts";
 import {
@@ -10,6 +10,7 @@ import {
 import { BusinessField } from "./BusinessCardFields.tsx";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import MonthYearPicker from "./MonthYearPicker.tsx";
+import FoldArrow from "./FoldArrow.tsx";
 
 /*
     The pieces the two Financial pages share: a month within the
@@ -69,6 +70,21 @@ export function PlanMonthField({
     );
 
 }
+
+/**
+ * Utilisation -- demand hours against capacity -- its "i" beside the
+ * percent on Financial Sustainability and (the same content) on
+ * Infrastructure & Capability's own budget lines.
+ */
+export const CAPACITY_UTILISATION_HELP: InfoPoint[] = [
+    { title: "Formula", text: "Utilisation = Demand hours ÷ Available hours" },
+    "How much of the available time the planned work needs. Above 100% means more work than capacity.",
+    {
+        title: "Source",
+        text: "CFI, “Capacity Utilization”",
+        href: "https://corporatefinanceinstitute.com/resources/economics/capacity-utilization/"
+    }
+];
 
 /** One headline figure, with what it means. */
 interface FigureTile {
@@ -459,6 +475,139 @@ export function CashTimelineChart({
 
                     </div>
                 )}
+
+        </div>
+    );
+
+}
+
+/** What each Financial page says about one of its sections. */
+export interface FinancialSection {
+    title: string;
+    instructions: string[];
+    info: InfoPoint[];
+}
+
+/**
+ * THE PAGE'S HEAD, as on Pages 1 to 3: a lettered title for each
+ * section, its instructions beneath (hidden with the help), then the
+ * progress line.
+ */
+export function FinancialPageHead({
+
+    sections,
+
+    showInstructions,
+
+    columnsDivider
+
+}: {
+
+    sections: FinancialSection[];
+    showInstructions?: boolean;
+    columnsDivider?: ReactNode;
+
+}) {
+
+    return (
+        <div
+            className="answer-columns financial-page-head"
+            style={{ "--answer-column-count": sections.length } as CSSProperties}
+        >
+            {sections.map((section, position) => (
+                <h3 className="answer-column-label" key={"title-" + section.title}>
+                    <span className="answer-column-label-number">
+                        {String.fromCharCode(65 + position) + "."}
+                    </span>
+                    <span className="answer-column-label-text">{section.title}</span>
+                </h3>
+            ))}
+            {showInstructions && sections.map(section => (
+                <div className="answer-column-questions" key={"questions-" + section.title}>
+                    {section.instructions.map(line => (
+                        <span className="answer-question-line answer-question-line-bullet" key={line}>
+                            {"• " + line}
+                        </span>
+                    ))}
+                </div>
+            ))}
+            {columnsDivider && <div className="answer-columns-divider">{columnsDivider}</div>}
+        </div>
+    );
+
+}
+
+/**
+ * One section of a Financial page: a folding card whose head is the
+ * section's number and title (its "i" beside it), tinted by `hue`.
+ */
+export function FinancialSectionCard({
+
+    rail,
+
+    number,
+
+    section,
+
+    hue,
+
+    open,
+
+    onToggle,
+
+    body,
+
+    anchor,
+
+    headClass,
+
+    titleExtra
+
+}: {
+
+    /** The section's name for the rail (see railId). */
+    rail: string;
+    number: number;
+    section: FinancialSection;
+    hue: number;
+    open: boolean;
+    onToggle: () => void;
+    /** Drawn only while the card is open. */
+    body: () => ReactNode;
+    /** Its name for a link that opens it (see jumpTo.ts). */
+    anchor?: string;
+    /** A class added to the head, e.g. fold-group-head for a head with an "Expand all". */
+    headClass?: string;
+    /** Anything at the far end of the title row. */
+    titleExtra?: ReactNode;
+
+}) {
+
+    return (
+        <div
+            className="business-foundation-input business-foundation-card business-engagement-input financial-section"
+            data-anchor={anchor}
+            data-rail={rail}
+            style={{ "--strategy-theme-hue": hue } as CSSProperties}
+        >
+
+            <div
+                className={
+                    "strategy-box-head business-foundation-input-head business-capability-card-head" +
+                    (headClass ? " " + headClass : "")
+                }
+            >
+                <FoldArrow open={open} label={section.title} onToggle={onToggle} />
+                <span className="strategy-box-number">{number + "."}</span>
+                <span className="strategy-name-static">
+                    <InfoText text={section.title}>
+                        <InfoNote label={section.title} points={section.info} fullList />
+                    </InfoText>
+                </span>
+                {titleExtra}
+            </div>
+
+            {open && body()}
 
         </div>
     );

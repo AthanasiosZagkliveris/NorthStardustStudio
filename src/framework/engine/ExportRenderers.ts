@@ -36,6 +36,7 @@ import {
     BUSINESS_WORKSPACE_KINDS,
     type BusinessActivityValue,
     type BusinessCapabilityValue,
+    type LegalEntityValue,
     type BusinessCostValue,
     type BusinessCustomerSegmentValue,
     type BusinessPartnerValue,
@@ -85,6 +86,7 @@ import {
     effectiveVatBasis,
     vatBases,
     type CostLine,
+    type CostSources,
     type FinancialFoundationValue
 } from "./FinancialModel.ts";
 import { jurisdictionProfile, COUNTRIES, LEGAL_REQUIREMENT_TYPES } from "./LegalEntityJurisdictions.ts";
@@ -214,19 +216,44 @@ export function moneyText(value: string, currency: string): string {
     return amount === null ? text(value) : moneyFormatter(currency)(amount);
 }
 
+/** Resource group ids to their labels (Utilities, Workstation…). */
+const RESOURCE_GROUP_LABELS: Record<string, string> = Object.fromEntries(
+    BUSINESS_RESOURCE_GROUPS.map(group => [group.id, group.label])
+);
+
+/** Fixed subsection ids to their labels (Internet, Furniture…). */
+const SUBSECTION_LABELS: Record<string, string> = Object.fromEntries(
+    BUSINESS_RESOURCE_GROUPS.flatMap(group => group.kinds.map(kind => [kind.id, kind.label]))
+);
+
+/**
+ * Everything consolidateCosts reads besides Page 4 itself -- the one
+ * place the two Financial pages and the export build it, so all three
+ * consolidate the same costs.
+ */
+export function costSourcesFor(
+    legalEntity: LegalEntityValue,
+    capability: BusinessCapabilityValue,
+    currency: string
+): CostSources {
+    return {
+        legalEntity,
+        capability,
+        currency,
+        foundersLinked: legalEntity.founders.some(founder => founder.name.trim().length > 0),
+        resourceGroupLabels: RESOURCE_GROUP_LABELS,
+        subsectionLabels: SUBSECTION_LABELS
+    };
+}
+
 /** Page 4's costs, consolidated exactly as Page 4 shows them. */
 export function costLines(page: FinancialFoundationValue, context: ExportContext): CostLine[] {
     const legalEntity = context.legalEntity ?? asLegalEntityValue(undefined);
-    return consolidateCosts(page, {
+    return consolidateCosts(page, costSourcesFor(
         legalEntity,
-        capability: capabilityOf(context.responseOf?.(AnswerType.BusinessCapability), context),
-        currency: context.currency ?? "",
-        foundersLinked: legalEntity.founders.some(founder => founder.name.trim().length > 0),
-        resourceGroupLabels: Object.fromEntries(BUSINESS_RESOURCE_GROUPS.map(group => [group.id, group.label])),
-        subsectionLabels: Object.fromEntries(
-            BUSINESS_RESOURCE_GROUPS.flatMap(group => group.kinds.map(kind => [kind.id, kind.label]))
-        )
-    });
+        capabilityOf(context.responseOf?.(AnswerType.BusinessCapability), context),
+        context.currency ?? ""
+    ));
 }
 
 /* ==========================================================
