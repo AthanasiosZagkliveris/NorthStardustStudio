@@ -68,6 +68,7 @@ import type { OpenPage } from "./jumpTo.ts";
 import { useListDrag } from "./ReorderControls.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
 import FoldArrow from "./FoldArrow.tsx";
+import CardNumber from "./CardNumber.tsx";
 import CardNameInput from "./CardNameInput.tsx";
 import NumberedListStatic from "./NumberedListStatic.tsx";
 import { CAPACITY_UTILISATION_HELP } from "./FinancialParts.tsx";
@@ -3106,9 +3107,7 @@ export default function BusinessCapabilityEditor({
 
                             <FoldArrow open={open} label={card.title} onToggle={() => toggle(card.id)} />
 
-                            <span className="strategy-box-number">
-                                {card.number + "."}
-                            </span>
+                            <CardNumber number={card.number} />
 
                             <span className="strategy-name-static">
                                 <InfoText text={card.title}>

@@ -11,6 +11,7 @@ import { BusinessField } from "./BusinessCardFields.tsx";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import MonthYearPicker from "./MonthYearPicker.tsx";
 import FoldArrow from "./FoldArrow.tsx";
+import CardNumber from "./CardNumber.tsx";
 
 /*
     The pieces the two Financial pages share: a month within the
@@ -598,7 +599,7 @@ export function FinancialSectionCard({
                 }
             >
                 <FoldArrow open={open} label={section.title} onToggle={onToggle} />
-                <span className="strategy-box-number">{number + "."}</span>
+                <CardNumber number={number} />
                 <span className="strategy-name-static">
                     <InfoText text={section.title}>
                         <InfoNote label={section.title} points={section.info} fullList />

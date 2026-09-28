@@ -24,9 +24,9 @@
    The arrow, the number and the name stand in the same places on
    every card, 8px apart: the number takes only its own width, so the
    gap after it is the same 8px after "1." as after "12.", and the
-   name takes the rest. Nothing else is written in the head -- "1.
-   Jordan Ellis", not "1. Founder Jordan Ellis": what kind of card it
-   is, the page and its group already say. The × is a fixed 32px
+   name takes the rest. The kind is written only where kinds nest
+   (CardNumber): "1. Goal" inside "1. Theme", but "1. Jordan Ellis",
+   not "1. Founder Jordan Ellis", under "1. Founders". The × is a fixed 32px
    square that never shrinks. Everything sits on the name's FIRST
    line (baselines), so a name that wraps grows downwards and the
    arrow, number and × stay level with its first line. While the card

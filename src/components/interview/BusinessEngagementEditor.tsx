@@ -60,6 +60,7 @@ import StrategyTextArea from "./StrategyTextArea.tsx";
 import SuggestedInput from "./SuggestedInput.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
 import FoldArrow from "./FoldArrow.tsx";
+import CardNumber from "./CardNumber.tsx";
 import { toggledIn } from "./toggledIn.ts";
 
 import "../../styles/demand.css";
@@ -3593,9 +3594,9 @@ export default function BusinessEngagementEditor({
                                 onToggle={() => toggle(key)}
                             />
 
-                            <span className="strategy-box-number">
-                                {(segmentIndex + 1) + "."}
-                            </span>
+                            {/* A Segment holds cards of other kinds, so it
+                                says what it is (see CardNumber). */}
+                            <CardNumber number={segmentIndex + 1} kind="Segment" />
 
                             {/* Page 1's name, shown. This page adds
                                 no Segments and renames none. */}

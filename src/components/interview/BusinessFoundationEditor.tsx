@@ -39,6 +39,7 @@ import StrategyTextArea from "./StrategyTextArea.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
 import { toggledIn } from "./toggledIn.ts";
 import FoldArrow from "./FoldArrow.tsx";
+import CardNumber from "./CardNumber.tsx";
 import CardNameInput from "./CardNameInput.tsx";
 import NumberedListStatic from "./NumberedListStatic.tsx";
 
@@ -1542,9 +1543,9 @@ export default function BusinessFoundationEditor({
                                 onToggle={() => setCollapsed(current => toggledIn(current, segment.id))}
                             />
 
-                            <span className="strategy-box-number">
-                                {(segmentIndex + 1) + "."}
-                            </span>
+                            {/* A Segment holds cards of other kinds, so it
+                                says what it is (see CardNumber). */}
+                            <CardNumber number={segmentIndex + 1} kind="Segment" />
 
                             {/* The Segment's name, asked in its own
                                 head like every other card's. */}

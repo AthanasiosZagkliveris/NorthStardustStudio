@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import FoldArrow from "./FoldArrow.tsx";
+import CardNumber from "./CardNumber.tsx";
 import CardNameInput from "./CardNameInput.tsx";
 
 import "../../styles/card-folding.css";
@@ -507,9 +508,9 @@ export function BusinessAddButton({
  * One input card: its head, and its fields when it is open.
  *
  * Built the way the Strategic Period page builds its Theme, Goal
- * and Objective boxes: the toggle, the number and kind ("1.
- * Profile") in a .strategy-box-number, THE NAME AS AN INPUT in the
- * head itself, then the card's controls.
+ * and Objective boxes: the toggle, the number (CardNumber -- no kind
+ * word: the list's own title names these cards), THE NAME ASKED in
+ * the head itself, then the card's controls.
  *
  * The name is asked once, in the one place it is also read -- and
  * stays legible when the card is folded shut.
@@ -603,9 +604,7 @@ export function BusinessCard({
                     <FoldArrow open={open} label={who} onToggle={onToggle} />
                 )}
 
-                <span className="strategy-box-number">
-                    {number + "."}
-                </span>
+                <CardNumber number={number} />
 
                 {editable
                     ? (

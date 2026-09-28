@@ -29,6 +29,7 @@ import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../framework/engine/
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
 import FoldArrow from "./FoldArrow.tsx";
+import CardNumber from "./CardNumber.tsx";
 import CardNameInput from "./CardNameInput.tsx";
 
 interface StrategicPeriodEditorProps {
@@ -316,9 +317,10 @@ function ThemeBox({
 
                 <FoldArrow open={open} label={"Theme " + number} onToggle={() => onToggle(!open)} />
 
-                {/* Number, then the Theme's own name: the head every
-                    folding card shares (.fold-card-head). */}
-                <span className="strategy-box-number">{number}.</span>
+                {/* Number, then what kind of box this is -- Themes,
+                    Goals, Objectives and Metrics nest, so each says
+                    which it is (see CardNumber) -- then its own name. */}
+                <CardNumber number={number} kind="Theme" />
 
                 <h4 className="strategy-theme-name">
                     {strategyThemeName(theme)}
@@ -445,7 +447,7 @@ function GoalList({
                                 onToggle={() => onFocusGoal(open ? CLOSED : goal.id)}
                             />
 
-                            <span className="strategy-box-number">{goalIndex + 1}.</span>
+                            <CardNumber number={goalIndex + 1} kind="Goal" />
 
                             <CardNameInput
                                 ariaLabel={`Goal ${goalIndex + 1} name`}
@@ -659,9 +661,7 @@ function ObjectiveList({
                                 onToggle={() => onFocusObjective(open ? CLOSED : objective.id)}
                             />
 
-                            <span className="strategy-box-number">
-                                {objectiveIndex + 1}.
-                            </span>
+                            <CardNumber number={objectiveIndex + 1} kind="Objective" />
 
                             <CardNameInput
                                 ariaLabel={`Objective ${objectiveIndex + 1} name`}
@@ -908,7 +908,7 @@ function MetricList({
 
                             <span className="strategy-drag-handle" {...box.handleProps}>⠿</span>
 
-                            <span className="strategy-box-number">{metricIndex + 1}. Metric</span>
+                            <CardNumber number={metricIndex + 1} kind="Metric" />
 
                             <CardNameInput
                                 ariaLabel={`Objective ${objectiveNumber} metric ${metricIndex + 1} name`}
