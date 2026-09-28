@@ -11325,9 +11325,10 @@ td.process-library-col-number{
 }
 
 /* THE CHANNEL AND RELATIONSHIP TABLES REFLOW rather than overflow.
-   Their dropdown columns need 273px each (the 210px dropdown, 6px,
-   the 32px × and + beside it, and the cell's own padding), which a
-   fifth of the table gives only from 1365px up. Narrower, every row
+   Their dropdown columns need 260px each (the 210px dropdown, 6px,
+   the × and + stacked beside it, and the cell's own padding), which
+   a fifth of the table gives only from 1300px up -- the table is
+   1331px in a 1536px or wider window, 1185px in a 1366px one. Narrower, every row
    becomes two columns -- Channel and Offerings over Journey Stage
    and Action, the column heads laid out the same way above them --
    and anything spanning columns (a category, a band, a Relationship
@@ -11340,7 +11341,7 @@ td.process-library-col-number{
 
 }
 
-@container channel-table (max-width: 1364px){
+@container channel-table (max-width: 1299px){
 
     .business-channel-table,
     .business-channel-table > thead,
