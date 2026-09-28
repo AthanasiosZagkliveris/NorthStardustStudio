@@ -185,15 +185,11 @@ export default function StrategicRoadmapEditor({
         };
     }
 
-    const themes = foundation.themes.map((theme, themeIndex) => ({
+    const themes = foundation.themes.map((theme, themeIndex) => {
 
-        id: theme.id,
-
-        number: themeIndex + 1,
-
-        name: strategyThemeName(theme),
-
-        objectives: strategyGoalsForTheme(period, theme.id).flatMap((goal, goalIndex) =>
+        // Only a complete period that runs forwards is dated: a start
+        // with no end, or an end before the start, has no bar to draw.
+        const dated = strategyGoalsForTheme(period, theme.id).flatMap((goal, goalIndex) =>
 
             goal.objectives.map((objective, objectiveIndex) => ({
 
@@ -209,21 +205,37 @@ export default function StrategicRoadmapEditor({
 
                 end: monthIndex(objective.period.end),
 
-                range: isRangeSet(objective.period)
-                    ? `${formatMonthLong(objective.period.start)} – ${formatMonthLong(objective.period.end)}`
-                    : "",
+                range: `${formatMonthLong(objective.period.start)} – ${formatMonthLong(objective.period.end)}`,
+
+                complete: isRangeSet(objective.period),
 
                 initiatives: objective.initiatives.filter(entry => entry.trim().length > 0)
 
             }))
 
-        ).filter(objective =>
-            objective.start >= spanStart && objective.end < spanEnd && objective.start >= 0
-        )
+        ).filter(objective => objective.complete && objective.end >= objective.start);
 
-    }));
+        return {
+
+            id: theme.id,
+
+            number: themeIndex + 1,
+
+            name: strategyThemeName(theme),
+
+            datedCount: dated.length,
+
+            objectives: dated.filter(objective =>
+                objective.start >= spanStart && objective.end < spanEnd
+            )
+
+        };
+
+    });
 
     const placedCount = themes.reduce((total, theme) => total + theme.objectives.length, 0);
+
+    const datedCount = themes.reduce((total, theme) => total + theme.datedCount, 0);
 
     return (
 
@@ -257,10 +269,15 @@ export default function StrategicRoadmapEditor({
                 </p>
             )}
 
+            {/* Dated Objectives that all fall outside the period are
+                not "without a period", so they are told apart. */}
             {periodSet && themes.length > 0 && placedCount === 0 && (
                 <p className="strategy-empty-note">
-                    No Objective has a period yet. Set one on the Strategic
-                    Period page and it will appear here.
+                    {datedCount > 0
+                        ? "The Objectives' periods fall outside the Strategic Period. " +
+                          "Move them inside it on the Strategic Period page and they will appear here."
+                        : "No Objective has a period yet. Set one on the Strategic " +
+                          "Period page and it will appear here."}
                 </p>
             )}
 
@@ -386,7 +403,9 @@ export default function StrategicRoadmapEditor({
                             */}
                             {theme.objectives.length === 0 && (
                                 <p className="roadmap-empty-row">
-                                    No Objective in this Theme has a period yet.
+                                    {theme.datedCount > 0
+                                        ? "This Theme's Objectives fall outside the Strategic Period."
+                                        : "No Objective in this Theme has a period yet."}
                                 </p>
                             )}
 

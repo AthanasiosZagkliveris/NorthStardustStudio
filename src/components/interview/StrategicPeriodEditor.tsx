@@ -737,7 +737,16 @@ function ObjectiveList({
                                         firstYear={periodStartYear}
                                         isAllowed={withinPeriod}
                                         onChange={(next) => updateObjective(objectiveIndex, {
-                                            period: { ...objective.period, start: next }
+                                            // Moving From past To clears To, as the
+                                            // Strategic Period's start does on the
+                                            // Foundation page.
+                                            period: {
+                                                start: next,
+                                                end: monthIndex(objective.period.end) >= 0 &&
+                                                    monthIndex(objective.period.end) < monthIndex(next)
+                                                    ? { month: "", year: "" }
+                                                    : objective.period.end
+                                            }
                                         })}
                                     />
 
