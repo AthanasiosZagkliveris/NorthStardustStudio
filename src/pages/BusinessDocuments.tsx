@@ -297,6 +297,7 @@ export default function BusinessDocuments() {
                             <div className="business-forecast-table-wrap" key={table.title}>
                                 {/* Stays in view while a monthly table scrolls sideways. */}
                                 <h2 className="business-forecast-caption" id={"forecast-" + table.title.replace(/[^A-Za-z0-9]+/g, "-")}>{table.title}</h2>
+                                {table.note && <p className="business-forecast-table-note">{table.note}</p>}
                                 <table
                                     className={"business-forecast-table" + (period === "annual" ? " business-forecast-annual" : "")}
                                     aria-labelledby={"forecast-" + table.title.replace(/[^A-Za-z0-9]+/g, "-")}

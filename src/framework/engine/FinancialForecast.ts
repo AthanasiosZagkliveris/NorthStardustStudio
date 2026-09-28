@@ -86,6 +86,8 @@ interface ForecastRow {
 
 export interface ForecastTable {
     title: string;
+    /** A line under the title, saying what the table is. */
+    note?: string;
     rows: ForecastRow[];
     /** Whether the table has an Opening column (the balance sheet). */
     opening?: boolean;
@@ -406,6 +408,7 @@ export function financialForecast(
     const profitKept: ForecastTable | null = drawingsTaken && some(drawings)
         ? {
             title: "Profit Kept in the Business",
+            note: "Profit for the period less the owner's drawings: the result Financial Sustainability shows as revenue less costs, where the founder's pay is a cost.",
             rows: [
                 flow("Profit for the period (before tax)", profit),
                 flow("Less: owner's drawings", negative(drawings)),
@@ -601,6 +604,8 @@ export interface ForecastViewRow {
 /** One table of a view, with its own columns: the balance sheet opens with its Opening one. */
 export interface ForecastViewTable {
     title: string;
+    /** A line under the title, saying what the table is. */
+    note?: string;
     columns: string[];
     /** Which columns are a plan year's subtotal (the monthly or quarterly view's "Year 1"). */
     subtotalColumns: number[];
@@ -709,6 +714,7 @@ export function forecastView(
         columns,
         tables: tables.map(table => ({
             title: table.title,
+            ...(table.note ? { note: table.note } : {}),
             columns: table.opening ? [openingColumn(forecast), ...columns] : columns,
             subtotalColumns: subtotals.map(index => index + (table.opening ? 1 : 0)),
             rows: table.rows.map(row => ({
@@ -747,6 +753,7 @@ export function splitMonthlyTableByYear(table: ForecastViewTable): ForecastViewT
     return table.subtotalColumns.map((end, index) => {
         const slice: ForecastViewTable = {
             title: table.title + ": Year " + (index + 1),
+            ...(table.note ? { note: table.note } : {}),
             columns: table.columns.slice(start, end + 1),
             subtotalColumns: [end - start],
             rows: table.rows.map(row => ({

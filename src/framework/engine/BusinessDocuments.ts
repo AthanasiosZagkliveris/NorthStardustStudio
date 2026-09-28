@@ -86,6 +86,7 @@ import {
     fundingStanding,
     fundingType,
     isNonCash,
+    loanSchedule,
     isScheduled,
     paidBeforePlan,
     scheduledAmount,
@@ -667,26 +668,9 @@ function licenceItems(f: Foundation): string[] {
 }
 
 function companyBlocks(f: Foundation): ExportBlock[] {
-    const organisation = f.legalEntity.organisation;
     return [
         ...paragraph(text(f.definition.description)),
         ...titled("Manifesto", paragraphs(f.ethics.manifesto)),
-        ...titled("Legal Structure", details([
-            ["Legal name", organisation.name],
-            ["Legal form", legalFormOf(f.legalEntity)],
-            ["Formation date", isoMonth(f.legalEntity.formation.date)],
-            // Registered once a number or a date says so; the authority
-            // alone is only where it would be registered.
-            ["Registered", text(f.legalEntity.formation.registrationNumber) || text(f.legalEntity.formation.date)
-                ? [f.legalEntity.formation.authority, f.legalEntity.formation.registrationNumber].filter(Boolean).join(" ")
-                : ""],
-            ["Registration", f.legalEntity.formation.status === "planned"
-                ? "Not yet registered" + (text(f.legalEntity.formation.authority) ? "; to be registered with " + text(f.legalEntity.formation.authority) : "")
-                : ""],
-            ["Address", fullAddress(f)],
-            ["Main activity", organisation.mainActivity]
-        ])),
-        ...titled("Licences and Registrations", list(licenceItems(f))),
         ...titled("Values and Principles", [
             ...labelled("Philosophy", text(f.ethics.philosophy)),
             ...titled2("Values", list(listItems(f.ethics.values))),
@@ -716,22 +700,28 @@ function marketBlocks(f: Foundation): ExportBlock[] {
                 competitor.weaknesses,
                 competitor.insights
             ])))
-        ])
+        ]),
+        // Industry-wide outlook and trends: not asked for (only each segment's size).
+        ...notCovered("Industry Outlook")
     ];
 }
 
 function offeringBlocks(f: Foundation): ExportBlock[] {
-    return f.segments.flatMap(segment => [
-        heading("For " + (midSentence(segment.name) || "an unnamed segment")),
-        ...labelled("Value proposition", segment.valueProposition),
-        ...table(["Offering", "Type", "What it does", "Customer benefit", "Price", "Pricing model"], segment.offerings.map(offering => {
-            const stream = f.revenuePage.streams.find(entry => entry.offeringId === offering.id);
-            return [
-                offering.name, offering.category, offering.description.function ?? "", offering.description.benefit ?? "",
-                priceText(stream, f.format), stream ? revenueModelLabel(stream) : ""
-            ];
-        }))
-    ]);
+    return [
+        ...f.segments.flatMap(segment => [
+            heading("For " + (midSentence(segment.name) || "an unnamed segment")),
+            ...labelled("Value proposition", segment.valueProposition),
+            ...table(["Offering", "Type", "What it does", "Customer benefit", "Price", "Pricing model"], segment.offerings.map(offering => {
+                const stream = f.revenuePage.streams.find(entry => entry.offeringId === offering.id);
+                return [
+                    offering.name, offering.category, offering.description.function ?? "", offering.description.benefit ?? "",
+                    priceText(stream, f.format), stream ? revenueModelLabel(stream) : ""
+                ];
+            }))
+        ]),
+        // Intellectual property and where each Offering is in its life: not asked for.
+        ...notCovered("Intellectual Property and Product Lifecycle")
+    ];
 }
 
 function marketingBlocks(f: Foundation): ExportBlock[] {
@@ -829,11 +819,41 @@ function operationsBlocks(f: Foundation): ExportBlock[] {
         ])),
         ...titled("Partners and Providers", list(people.filter(isEngaged)
             .map(person => person.name.trim() + (text(person.description) ? ": " + text(person.description) : "")))),
+        // Tax and legal registrations: part of operating, as Start Up Loans has it.
+        ...titled("Licences and Registrations", list(licenceItems(f))),
         ...capacity
     ];
 }
 
+/**
+ * Management and Organization: the legal structure (SBA puts it here),
+ * the founders and what each is responsible for.
+ */
 function teamBlocks(f: Foundation): ExportBlock[] {
+    const organisation = f.legalEntity.organisation;
+    return [
+        ...titled("Legal Structure", details([
+            ["Legal name", organisation.name],
+            ["Legal form", legalFormOf(f.legalEntity)],
+            ["Formation date", isoMonth(f.legalEntity.formation.date)],
+            // Registered once a number or a date says so; the authority
+            // alone is only where it would be registered.
+            ["Registered", text(f.legalEntity.formation.registrationNumber) || text(f.legalEntity.formation.date)
+                ? [f.legalEntity.formation.authority, f.legalEntity.formation.registrationNumber].filter(Boolean).join(" ")
+                : ""],
+            ["Registration", f.legalEntity.formation.status === "planned"
+                ? "Not yet registered" + (text(f.legalEntity.formation.authority) ? "; to be registered with " + text(f.legalEntity.formation.authority) : "")
+                : ""],
+            ["Address", fullAddress(f)],
+            ["Main activity", organisation.mainActivity]
+        ])),
+        ...titled("Founders", founderTable(f)),
+        // Each founder's experience, and CVs: not asked for.
+        ...notCovered("Experience and CVs")
+    ];
+}
+
+function founderTable(f: Foundation): ExportBlock[] {
     const { capability, format } = f;
     const withCapital = f.legalEntity.founders.some(founder => parseAmount(founder.capital) !== null);
     return table(["Founder", "Ownership", ...(withCapital ? ["Capital"] : []), "Roles", "Responsible for"], f.legalEntity.founders
@@ -995,14 +1015,83 @@ function fundingRequestBlocks(f: Foundation): ExportBlock[] {
             ...position.needs.map(need => [need.label, format(need.amount), need.when]),
             ["Total", format(position.need), ""]
         ])),
-        ...titled("Sources of Funds", table(["Source", "Type", "Amount", "Status", "Received"], cash.map(entry => [
-            entry.source.name || entry.source.provider,
-            fundingType(entry.source.type)?.label ?? "",
-            format(entry.standing.total),
-            FUNDING_STATUSES.find(status => status.id === entry.source.status)?.label ?? entry.source.status,
-            format(entry.standing.received)
-        ])))
+        ...titled("Sources of Funds", [
+            ...table(["Source", "Type", "Amount", "Status", "Received", "Terms"], cash.map(entry => [
+                entry.source.name || entry.source.provider,
+                fundingType(entry.source.type)?.label ?? "",
+                format(entry.standing.total),
+                FUNDING_STATUSES.find(status => status.id === entry.source.status)?.label ?? entry.source.status,
+                format(entry.standing.received),
+                fundingTerms(f, entry.source)
+            ])),
+            ...labelled("Debt and equity", financingMix(f, cash.map(entry => entry.source))),
+            ...labelled("Period covered", "The plan's " + planLength(f.financial) + " months, " +
+                planMonthLabel(start, 1) + " – " + planMonthLabel(start, planLength(f.financial)) + "."),
+            ...labelled("Repayment", joinSentences(cash.map(entry => repaymentPlan(f, entry.source))))
+        ])
     ];
+}
+
+type FundingSource = ReturnType<typeof allFunding>[number];
+
+/**
+ * What a source asks in return, from the figures the Financial
+ * Foundation page records: a loan's rate and repayments, an investor's
+ * share. "" when none is recorded.
+ */
+function fundingTerms(f: Foundation, source: FundingSource): string {
+    const nature = fundingType(source.type)?.nature;
+    const parts: string[] = [];
+    if (nature === "debt") {
+        const rate = text(source.loan.rate);
+        if (rate) {
+            parts.push(rate.replace(/%?$/, "%") + " a year" + (source.loan.interestType ? ", " + source.loan.interestType : ""));
+        }
+        const schedule = loanSchedule(source, f.financial.planStart);
+        const repayments = schedule?.payments.filter(payment => payment.principal > 0) ?? [];
+        if (schedule && repayments.length > 0) {
+            const every = source.loan.frequency === "annually" ? "annual" : source.loan.frequency;
+            parts.push(repayments.length + " " + every + " repayments of " + f.format(schedule.firstPayment) +
+                " from " + planMonthLabel(f.financial.planStart, repayments[0].month));
+        }
+    }
+    if (nature === "equity" && text(source.equity)) {
+        parts.push(text(source.equity).replace(/%?$/, "%") + " of the business");
+    }
+    return parts.join("; ");
+}
+
+/** "Debt: $15,000; equity and owner's capital: $12,000", over every cash source. */
+function financingMix(f: Foundation, sources: FundingSource[]): string {
+    const total = (natures: string[]) => sources
+        .filter(source => natures.includes(fundingType(source.type)?.nature ?? "other"))
+        .reduce((sum, source) => sum + (parseAmount(source.amount) ?? 0), 0);
+    return ([
+        ["Debt", total(["debt"])],
+        [f.drawings ? "Equity and owner's capital" : "Equity and share capital", total(["equity", "capital"])],
+        ["Grants", total(["non-repayable"])],
+        ["Other", total(["other"])]
+    ] as [string, number][])
+        .filter(([, amount]) => amount > 0.005)
+        .map(([label, amount], index) => (index === 0 ? label : label.toLowerCase()) + ": " + f.format(amount))
+        .join("; ");
+}
+
+/** How a loan is paid off: "SBA Microloan: repaid from the business's cash over 36 monthly repayments, the last in Feb 2030." */
+function repaymentPlan(f: Foundation, source: FundingSource): string {
+    if (fundingType(source.type)?.nature !== "debt") {
+        return "";
+    }
+    const repayments = loanSchedule(source, f.financial.planStart)?.payments.filter(payment => payment.principal > 0) ?? [];
+    if (repayments.length === 0) {
+        return "";
+    }
+    return (text(source.name) || fundingType(source.type)?.label || "The loan") + ": repaid from the business's cash over " +
+        repayments.length + " repayments, the last in " + planMonthLabel(f.financial.planStart, repayments[repayments.length - 1].month) + ".";
+}
+
+function joinSentences(parts: string[]): string {
+    return parts.filter(Boolean).join(" ");
 }
 
 /** The forecast's tables as document tables, in whole amounts. */
@@ -1019,19 +1108,47 @@ export function forecastTableBlocks(table: ForecastViewTable, format: (amount: n
     }];
 }
 
-/** The plan's financial projections: the forecast by plan year, in the order the statements are read. */
+/**
+ * The plan's financial projections, in the order the statements are
+ * read: the first plan year by quarter, as lenders ask for it, then
+ * each plan year; the capital-expenditure budget; and the assumptions
+ * they rest on.
+ */
 function projectionBlocks(f: Foundation): ExportBlock[] {
     const forecast = financialForecast(f.financial, f.revenuePage, f.lines, f.legalEntity, f.format);
-    const view = forecastView(forecast, "annual", planYears(f.financial));
+    const years = planYears(f.financial);
+    const view = forecastView(forecast, "quarterly", years, { quarterlyYears: 1 });
     const whole = moneyFormatter(f.currency, { wholeOnly: true });
     const titles: Record<string, string> = {
         "Profit and Loss Forecast": "Profit and Loss",
         "Cash-Flow Forecast": "Cash Flow"
     };
+    const capex = forecastView(forecast, "quarterly", years, { quarterlyYears: 1, tables: [forecast.capitalExpenditure] }).tables[0];
+    const anyCapex = capex.rows.some(row => !row.total && row.values.some(amount => Math.abs(amount) > 0.005));
     return [
-        ...paragraph("By plan year, from the Financial Forecast. Amounts are estimates" + (f.currency ? ", in " + f.currency : "") + "."),
-        ...view.tables.flatMap(entry => [heading(titles[entry.title] ?? entry.title), ...forecastTableBlocks(entry, whole, f.currency)])
+        ...paragraph("Year 1 by quarter, then by plan year, from the Financial Forecast. Amounts are estimates" +
+            (f.currency ? ", in " + f.currency : "") + "."),
+        // Only the plan's own length: never extended beyond what was planned.
+        ...(years < 5
+            ? paragraph("The projections cover the plan's " + years + (years === 1 ? " year" : " years") +
+                ", as set on the Financial Foundation page; they are not extended to five years.")
+            : []),
+        ...view.tables.flatMap(entry => [
+            heading(titles[entry.title] ?? entry.title),
+            ...(entry.note ? paragraph(entry.note) : []),
+            ...forecastTableBlocks(entry, whole, f.currency)
+        ]),
+        heading("Capital Expenditure"),
+        ...(anyCapex
+            ? forecastTableBlocks(capex, whole, f.currency)
+            : paragraph("No equipment purchases or deposits are planned.")),
+        ...titled("Assumptions", list(forecast.notes))
     ];
+}
+
+/** What a standard plan section asks for and the Foundation answers do not collect: said, never made up. */
+function notCovered(title: string): ExportBlock[] {
+    return [heading(title), ...paragraph("Not covered by the Foundation answers.")];
 }
 
 /** The Appendix: the costs in full, and the brand's style guide. */
@@ -1128,7 +1245,12 @@ export function businessPlan(sessions: FoundationSessions): ExportContent {
         ["Products and Services", offeringBlocks(f)],
         ["Marketing and Sales", marketingBlocks(f)],
         ["Operations", operationsBlocks(f)],
-        ["Management and Team", teamBlocks(f)],
+        ["Management and Organization", teamBlocks(f)],
+        ["Strategy and Milestones", strategyBlocks(f)],
+        ["Risks", riskBlocks(f)],
+        // The request, then the financials that support it, then the
+        // Appendix: the order SBA and SCORE give.
+        ["Funding Request", fundingRequestBlocks(f)],
         ["Financial Plan", [
             ...financialFoundation,
             ...continueNumbering(
@@ -1136,9 +1258,6 @@ export function businessPlan(sessions: FoundationSessions): ExportContent {
                 financialFoundation)
         ]],
         ["Financial Projections", projectionBlocks(f)],
-        ["Funding Request", fundingRequestBlocks(f)],
-        ["Strategy and Milestones", strategyBlocks(f)],
-        ["Risks", riskBlocks(f)],
         ["Appendix", appendixBlocks(f)]
     ];
 
@@ -1203,7 +1322,10 @@ export function businessForecastContent(
         // Wide tables: printed sideways, in the PDF.
         landscape: true,
         sections: [
-            ...tables.map((entry, index) => section(index + 1, entry.title, forecastTableBlocks(entry, whole, f.currency))),
+            ...tables.map((entry, index) => section(index + 1, entry.title, [
+                ...(entry.note ? paragraph(entry.note) : []),
+                ...forecastTableBlocks(entry, whole, f.currency)
+            ])),
             section(tables.length + 1, "Notes", list(forecast.notes))
         ]
     };

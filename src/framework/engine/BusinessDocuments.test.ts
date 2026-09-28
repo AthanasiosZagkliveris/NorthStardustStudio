@@ -45,7 +45,7 @@ describe("business documents", () => {
     test("the plan has every section, answered", () => {
         const md = markdown(businessPlan(sessions));
         for (const title of ["Executive Summary", "Company Description", "Market Analysis", "Products and Services",
-            "Marketing and Sales", "Operations", "Management and Team", "Financial Plan", "Funding Request",
+            "Marketing and Sales", "Operations", "Management and Organization", "Financial Plan", "Funding Request",
             "Financial Projections", "Strategy and Milestones", "Risks", "Appendix"]) {
             expect(md).toContain(title);
         }
@@ -307,6 +307,52 @@ describe("Quillfield: the documents tie together", () => {
         expect(request).toContain("| Total | $25,965 |");
     });
 
+    test("the plan runs in the standard order: the request, then the financials, then the Appendix", () => {
+        const titles = [...planMd.matchAll(/^## [0-9]+\. (.+)$/gm)].map(match => match[1]);
+        expect(titles).toEqual(["Executive Summary", "Company Description", "Market Analysis", "Products and Services",
+            "Marketing and Sales", "Operations", "Management and Organization", "Strategy and Milestones", "Risks",
+            "Funding Request", "Financial Plan", "Financial Projections", "Appendix"]);
+        const part = (title: string) => {
+            const from = planMd.indexOf(title);
+            const next = planMd.slice(from + 1).search(/^## [0-9]+\. /m);
+            return planMd.slice(from, next < 0 ? undefined : from + 1 + next);
+        };
+        // The legal structure under Management, the licences under Operations.
+        expect(part("## 7. Management and Organization")).toContain("### Legal Structure");
+        expect(part("## 7. Management and Organization")).toContain("Legal form: Limited Liability Company (LLC)");
+        expect(part("## 6. Operations")).toContain("### Licences and Registrations");
+        expect(part("## 2. Company Description")).not.toContain("Legal Structure");
+        // What the answers do not collect is said, not made up.
+        expect(part("## 3. Market Analysis")).toContain("### Industry Outlook\n\nNot covered by the Foundation answers.");
+        expect(part("## 4. Products and Services")).toContain("### Intellectual Property and Product Lifecycle\n\nNot covered by the Foundation answers.");
+        expect(part("## 7. Management and Organization")).toContain("### Experience and CVs\n\nNot covered by the Foundation answers.");
+    });
+
+    test("the funding request states its terms, debt and equity, period and repayment", () => {
+        const request = planMd.slice(planMd.indexOf("## 10. Funding Request"), planMd.indexOf("## 11. Financial Plan"));
+        expect(request).toContain("| Source | Type | Amount | Status | Received | Terms |");
+        expect(request).toContain("| SBA Microloan | Microloan | $15,000 | Requested / Applied | $0 | 8% a year, fixed; 36 monthly repayments of $470 from Mar 2027 |");
+        expect(request).toContain("**Debt and equity:** Debt: $15,000; equity and owner's capital: $12,000");
+        expect(request).toContain("**Period covered:** The plan's 36 months, Jan 2027 – Dec 2029.");
+        expect(request).toContain("**Repayment:** SBA Microloan: repaid from the business's cash over 36 repayments, the last in Feb 2030.");
+    });
+
+    test("the projections: Year 1 by quarter, the later years by year, capital expenditure and assumptions", () => {
+        const projections = planMd.slice(planMd.indexOf("## 12. Financial Projections"), planMd.indexOf("## 13. Appendix"));
+        const headings = [...projections.matchAll(/^### (.+)$/gm)].map(match => match[1]);
+        expect(headings).toEqual(["Profit and Loss", "Profit Kept in the Business", "Balance Sheet", "Cash Flow", "Capital Expenditure", "Assumptions"]);
+        expect(projections).toContain("| USD | Q1 (Jan – Mar 2027) | Q2 (Apr – Jun 2027) | Q3 (Jul – Sep 2027) | Q4 (Oct – Dec 2027) | Year 1 | Year 2 (Jan 2028 – Dec 2028) | Year 3 (Jan 2029 – Dec 2029) |");
+        expect(projections).toContain("they are not extended to five years");
+        // The drawings are not in the profit and loss; the reconciliation below it ties to Page 5.
+        const pl = projections.slice(projections.indexOf("### Profit and Loss"), projections.indexOf("### Profit Kept"));
+        expect(pl).not.toMatch(/drawings/i);
+        expect(projections).toContain("| Less: owner's drawings | -$13,500 | -$13,500 | -$13,500 | -$13,500 | -$54,000 | -$54,000 | -$54,000 |");
+        expect(projections).toContain("the result Financial Sustainability shows as revenue less costs");
+        expect(projections).toContain("| Purchase of equipment | -$450 |");
+        expect(projections).toContain("| Total capital expenditure | $450 |");
+        expect(projections).toContain("- Income tax, and VAT or sales tax, are not estimated");
+    });
+
     test("the plan carries every saved answer the review asked for", () => {
         const at = (title: string) => planMd.slice(planMd.indexOf(title));
         // The cover.
@@ -436,7 +482,7 @@ describe("Quillfield: the documents tie together", () => {
         expect(swot).toContain("Larger agencies packaging low-cost automation offers for small firms");
         expect(swot).toContain("A single founder's capacity limits how many builds can run at once");
 
-        const risks = planMd.slice(planMd.indexOf("## 12. Risks"), planMd.indexOf("## 13. Appendix"));
+        const risks = planMd.slice(planMd.indexOf("## 9. Risks"), planMd.indexOf("## 10. Funding Request"));
         expect(risks).toContain("See SWOT: Weaknesses and Threats");
         expect(risks).not.toContain("Larger agencies packaging low-cost automation offers for small firms");
         expect(risks).not.toContain("A single founder's capacity limits how many builds can run at once");

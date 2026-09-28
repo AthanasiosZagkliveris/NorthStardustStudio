@@ -688,6 +688,25 @@
 
 }
 
+/* What a table is, under its title: "Profit for the period less the owner's drawings…". */
+.business-forecast-table-note{
+
+    position:sticky;
+
+    left:0;
+
+    width:fit-content;
+
+    margin:0;
+
+    padding:0 16px 8px;
+
+    font-size:var(--font-small);
+
+    color:#4b5563;
+
+}
+
 /* "Income tax: Not estimated": words where a figure would be. */
 .business-forecast-text td{
 
