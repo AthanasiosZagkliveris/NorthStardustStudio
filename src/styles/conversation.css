@@ -5806,10 +5806,10 @@ td.process-library-col-number{
    Nesting
 
    A box's own contents -- its description, and any child box --
-   start at the box's own padding, level with its fold arrow: the
-   one card body every card in the app has (see "ONE CARD BODY FOR
-   EVERY CARD"). The nesting reads from the boxes' own frames and
-   grounds.
+   start where its NUMBER starts, not at its frame: a Goal sits under
+   its Theme's label, an Objective under its Goal's. That is the one
+   card body every folding card has (--card-body-indent,
+   card-folding.css).
 ========================================================== */
 
 /* ==========================================================
@@ -9547,12 +9547,9 @@ td.process-library-col-number{
 
 /* ---------- Cards ---------- */
 
-/* ONE CARD BODY FOR EVERY CARD: its contents start at the card's
-   own padding, level with the fold arrow, as the Legal Entity,
-   Founders Profile, Activity and Strategy cards have them. (These
-   cards used to indent theirs 44px, to the number; in a card a third
-   of the page wide that left no room for a side label and its
-   control on one line.) */
+/* A card's body is indented under its head's number and name by the
+   one rule every folding card shares (--card-body-indent,
+   card-folding.css). */
 .business-foundation-card{
 
     display:flex;

@@ -233,6 +233,40 @@
 
 }
 
+/* ONE CARD BODY FOR EVERY FOLDING CARD: everything under the head
+   starts where the head's number and name start -- past the fold
+   arrow (36px) and its 8px gap, and past a grip (24px) and its gap
+   too where the box has one -- so a card reads as one column of
+   content under its title, and a nested box sits under its parent's
+   label. Set on whatever follows the head, so every card, whatever
+   it is built from, takes the same indent -- at two classes, so a
+   part's own `margin:0` does not undo it -- and a box that fills
+   its card fills what is left beside the indent. */
+:root {
+
+    --card-body-indent: 44px;
+
+}
+
+.fold-card-head ~ :not(.fold-card-head) {
+
+    margin-left: var(--card-body-indent);
+
+}
+
+.fold-card-head-grip ~ :not(.fold-card-head) {
+
+    margin-left: calc(24px + 8px + var(--card-body-indent));
+
+}
+
+.fold-card-head ~ textarea.interview-input,
+.fold-card-head ~ input.interview-input {
+
+    width: auto;
+
+}
+
 /* A card's name in its head (CardNameInput): a textarea one line
    high that grows as the name wraps, rather than a text input that
    clipped a long name at its edge. The app's textarea floor (180px,
