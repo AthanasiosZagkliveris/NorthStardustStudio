@@ -251,3 +251,59 @@ describe("BusinessEngagementEditor formula references", () => {
     });
 
 });
+
+describe("BusinessEngagementEditor offering picker", () => {
+
+    // Two Offerings may share a name. Each gets its own label, as
+    // every other picker gives them, and choosing the second records
+    // the second -- not the first one with that name.
+    it("tells apart and records two Offerings with the same name", () => {
+
+        const segment = createBusinessCustomerSegment([]);
+        const first = { ...createBusinessOffering(), name: "Audit" };
+        const second = { ...createBusinessOffering(), name: "Audit" };
+
+        const foundation = {
+            ...asBusinessFoundationValue(undefined),
+            segments: [{ ...segment, name: "Firms", offerings: [first, second] }]
+        };
+
+        const initial = {
+            ...asBusinessEngagementValue(undefined),
+            segments: [{
+                ...createBusinessSegmentEngagement(segment.id),
+                channels: [{ ...createBusinessChannel(), id: "channel-1", category: "Website" }]
+            }]
+        };
+
+        let saved: unknown = initial;
+
+        function PickHarness() {
+            const [value, setValue] = useState<unknown>(initial);
+            return (
+                <BusinessEngagementEditor
+                    value={value}
+                    onChange={(next) => { saved = next; setValue(next); }}
+                    foundation={foundation}
+                />
+            );
+        }
+
+        render(<PickHarness />);
+
+        fireEvent.click(screen.getByRole("button", { name: "Maximize Website" }));
+        fireEvent.click(screen.getByRole("button", { name: /^Offering 1 for Channel \d+:/ }));
+
+        const options = screen.getAllByRole("option").map(option => option.textContent);
+        expect(options).toContain("Audit");
+        expect(options).toContain("Audit (2)");
+
+        fireEvent.click(screen.getByRole("option", { name: "Audit (2)" }));
+
+        const channel = asBusinessEngagementValue(saved).segments[0].channels[0];
+        expect(channel.offerings).toEqual([second.id]);
+        expect(screen.getByRole("button", { name: /^Offering 1 for Channel \d+: Audit \(2\)$/ })).toBeTruthy();
+
+    });
+
+});

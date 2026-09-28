@@ -1123,12 +1123,18 @@ export default function BusinessEngagementEditor({
 
         const answers = segmentOf(segment.id);
 
-        const offeringOptions = segment.offerings.map((offering, index) => ({
-            id: offering.id,
-            label: offering.name.trim().length > 0
-                ? offering.name.trim()
-                : "Offering " + (index + 1) + ", not named yet"
-        }));
+        // Unique labels, as every other picker has (see
+        // uniqueChoices): two Offerings sharing a name are told apart,
+        // and a label chosen maps back to exactly one id.
+        const offeringOptions = uniqueChoices(
+            segment.offerings.map((offering, index) => ({
+                id: offering.id,
+                name: offering.name.trim().length > 0
+                    ? offering.name
+                    : "Offering " + (index + 1) + ", not named yet"
+            })),
+            ""
+        );
 
         /*
             Grouped by category, drawn in the fixed order the
