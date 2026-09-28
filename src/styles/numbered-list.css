@@ -40,11 +40,12 @@
 
 /* A select at the end of a line -- the kind of entry it is, say.
    The app's one select (global.css): its border, radius, side
-   padding and chevron. Only its height is the line's own: 7px above
-   and below the 27px line and a 1px border make the 43px of a line
-   (8px padding + 27px + 8px), so a line with one is no taller than
-   a line without, and its value sits on the line's text (1 + 7 =
-   the line's 8px). As wide as its longest option, which is how a
+   padding and chevron. Only its height is the line's own: 4px clear
+   of the line's edges, 1px of border and 3px of padding put its
+   value on the line's text (4 + 1 + 3 = the line's 8px), and the
+   box ends 4px inside the line's 43px (8px padding + 27px + 8px),
+   so a line with one is no taller than a line without and the
+   selects of a list stand apart. As wide as its longest option, which is how a
    native select sizes itself -- so every line's select in a list is
    the same width and they stand in a column. */
 .numbered-list-line-end select{
@@ -56,7 +57,9 @@
 
     max-width:50vw;
 
-    padding:7px var(--select-padding-right) 7px var(--select-padding-left);
+    margin:4px 0;
+
+    padding:3px var(--select-padding-right) 3px var(--select-padding-left);
 
     font:inherit;
     font-size:var(--font-body);

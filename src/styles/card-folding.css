@@ -78,7 +78,7 @@
    for the × at the end of a row of a table, which sits on the
    row's line of text. */
 .fold-card-head > .strategy-box-toggle,
-.fold-card-head > .strategy-box-remove,
+.fold-card-head .strategy-box-remove,
 .financial-cost-remove > .strategy-box-remove {
 
     font-size: var(--font-body);
@@ -120,7 +120,7 @@
 /* Its size is the app's one remove square (.strategy-box-remove);
    a box's move and remove controls, or a group's "Expand all", take
    the same last column. */
-.fold-card-head > .strategy-box-remove,
+.fold-card-head .strategy-box-remove,
 .fold-card-head > .strategy-box-actions,
 .fold-card-head > .fold-all-toggle {
 
