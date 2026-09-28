@@ -87,6 +87,27 @@ body {
   --font-small: 14px;
 }
 
+/* ==========================================================
+   Spacing
+
+   The few distances every card and form in the interview is
+   built from. Taken from what the pages already used most, so a
+   page moved onto them keeps its rhythm:
+
+     --space-label   a label to the control it names
+     --space-field   one field (label and control) to the next
+     --space-card    one card to the next in a list
+     --card-padding  inside a card, from its border to its content
+     --space-row     one row of a table or list of rows to the next
+========================================================== */
+:root {
+  --space-label: 6px;
+  --space-field: 12px;
+  --space-card: 12px;
+  --card-padding: 12px;
+  --space-row: 6px;
+}
+
 h1, h2, h3 {
   font-family: "Inter", sans-serif;
   color: #111827;

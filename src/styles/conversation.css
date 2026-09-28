@@ -4747,9 +4747,9 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--space-field);
 
-    padding:12px;
+    padding:var(--card-padding);
 
     border:1px solid #767676;
     border-radius:8px;
@@ -4996,9 +4996,9 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--space-field);
 
-    padding:12px;
+    padding:var(--card-padding);
 
     border:1px solid #c9c9c9;
     border-radius:8px;
@@ -5013,9 +5013,9 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--space-field);
 
-    padding:12px;
+    padding:var(--card-padding);
 
     border:1px solid #c9c9c9;
     border-radius:8px;
@@ -5047,7 +5047,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--space-field);
 
 }
 
@@ -7989,7 +7989,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--space-card);
 
     padding:16px;
 
@@ -8048,7 +8048,7 @@ td.process-library-col-number{
 
     grid-template-columns:repeat(2, minmax(0, 1fr));
 
-    gap:12px 24px;
+    gap:var(--space-field) 24px;
 
     align-items:start;
 
@@ -8070,7 +8070,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:6px;
+    gap:var(--space-label);
 
     min-width:0;
 
@@ -8178,7 +8178,7 @@ td.process-library-col-number{
 
     display:grid;
 
-    gap:6px 12px;
+    gap:var(--space-row) 12px;
 
     align-items:center;
 
@@ -8323,9 +8323,9 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--space-field);
 
-    padding:12px;
+    padding:var(--card-padding);
 
     border:1px solid #c9c9c9;
     border-radius:8px;
@@ -9641,7 +9641,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--space-card);
 
     min-width:0;
 
@@ -9685,11 +9685,11 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--space-field);
 
-    padding:12px;
+    padding:var(--card-padding);
 
-    padding-left:calc(12px + var(--bf-card-indent));
+    padding-left:calc(var(--card-padding) + var(--bf-card-indent));
 
     border:1px solid #c9c9c9;
     border-radius:8px;
@@ -10020,7 +10020,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:6px;
+    gap:var(--space-label);
 
     min-width:0;
 
@@ -11600,7 +11600,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--space-card);
 
     min-width:0;
 
@@ -11635,7 +11635,7 @@ td.process-library-col-number{
     grid-template-columns:repeat(2, minmax(0, 1fr));
 
     column-gap:24px;
-    row-gap:12px;
+    row-gap:var(--space-card);
 
     padding-left:24px;
 
@@ -11686,7 +11686,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--space-card);
 
     min-width:0;
 
@@ -12305,7 +12305,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:6px;
+    gap:var(--space-row);
 
     min-width:0;
 
@@ -13572,7 +13572,7 @@ td.process-library-col-number{
 
     grid-template-columns:repeat(auto-fit, minmax(440px, 1fr));
 
-    gap:12px 24px;
+    gap:var(--space-card) 24px;
 
     align-items:start;
 
@@ -13627,7 +13627,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--space-field);
 
     min-width:0;
 
