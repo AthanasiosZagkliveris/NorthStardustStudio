@@ -3,7 +3,7 @@
 
    Every colour the app picks for a thing of its own -- a Business
    Segment, a Strategic Theme and its Roadmap bars, a Business
-   card, a Financial section -- is one of these eight soft hues,
+   card, a Financial section -- is one of these seven soft hues,
    never an arbitrary point on the wheel. A hue here is only the
    hue: the stylesheet completes it with the System colour
    families in colors.css (the --theme-*-* "saturation lightness"
@@ -20,9 +20,16 @@
    calm colour in either theme. Palette.test.ts holds every label
    ink above 4.5:1 on every ground of every hue, in both.
 
-   The order is the order new things take them in: each entry
-   sits well away from the one before it on the wheel, so two
-   things made one after the other never look alike.
+   The order is their priority, and the order new things take them
+   in: first the hues that sit with the app's own blue (#0b57d0,
+   hue 217) and read as the calmest -- sky and periwinkle within 20
+   degrees of it, then teal -- then the rest, the cool before the
+   warm: sage, lavender, and last rose and terracotta, the two
+   furthest from the blue and the least restful. A new thing never
+   takes its neighbour's colour (nextPaletteHue), and no two of the
+   seven are closer than 28 degrees, so neighbours stay apart.
+   (Sand was the eighth; it read as a dull yellow beside the others.
+   A hue saved near it is drawn as terracotta, the nearest left.)
 ========================================================== */
 
 export interface PaletteColour {
@@ -37,13 +44,12 @@ export interface PaletteColour {
 
 export const PALETTE: readonly PaletteColour[] = [
     { name: "sky", hue: 200 },
-    { name: "terracotta", hue: 14 },
+    { name: "periwinkle", hue: 228 },
+    { name: "teal", hue: 172 },
     { name: "sage", hue: 130 },
     { name: "lavender", hue: 262 },
-    { name: "sand", hue: 44 },
-    { name: "teal", hue: 172 },
     { name: "rose", hue: 335 },
-    { name: "periwinkle", hue: 228 }
+    { name: "terracotta", hue: 14 }
 ];
 
 /** How far apart two hues are, going the short way round. */
@@ -139,8 +145,8 @@ export function nextPaletteHue(taken: number[], first: number = PALETTE[0].hue):
 /**
  * One palette colour for each of a list of things, by POSITION in
  * the list handed over, taken in the palette's order: the first
- * thing sky, the second terracotta, and round again after the
- * eighth.
+ * thing sky, the second periwinkle, and round again after the
+ * seventh.
  */
 export function paletteHuesInOrder(ids: string[]): Record<string, number> {
 

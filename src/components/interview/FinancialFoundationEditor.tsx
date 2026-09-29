@@ -216,14 +216,14 @@ const SECTIONS = {
 
 /**
  * Each section's own palette colour, as every card on the earlier
- * Business pages has one: rose, sand, sage, sky -- a quarter of the
- * wheel apart, so no two neighbours read alike. Fixed rather than
+ * Business pages has one: rose, periwinkle, sage, sky -- no two
+ * neighbours close on the wheel, so none read alike. Fixed rather than
  * hashed from the id, because these four never change and a hash
  * can land two of them side by side.
  */
 const SECTION_HUES: Record<string, number> = {
     "financial-costs": paletteHueNamed("rose"),
-    "financial-need": paletteHueNamed("sand"),
+    "financial-need": paletteHueNamed("periwinkle"),
     "financial-funding": paletteHueNamed("sage"),
     "financial-position": paletteHueNamed("sky")
 };

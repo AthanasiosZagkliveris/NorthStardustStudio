@@ -3377,12 +3377,12 @@ export function segmentHue(segment: { id: string; hue?: number }): number {
  * colours back on the footing this replaced -- deleting one thing
  * would recolour the rest.
  *
- * With nothing taken it starts from the id's own hue, so the
- * first of anything still varies between organizations rather
- * than everyone starting on the same colour.
+ * With nothing taken it is the palette's first, sky: new things
+ * take the palette in its order of priority (Palette.ts), the
+ * colours that sit best with the app's blue first.
  */
-export function pickHue(id: string, taken: number[]): number {
-    return nextPaletteHue(taken, stableHue(id));
+export function pickHue(taken: number[]): number {
+    return nextPaletteHue(taken);
 }
 
 /*
@@ -4382,7 +4382,7 @@ export function createBusinessCustomerSegment(
 
     return {
         id,
-        hue: pickHue(id, taken),
+        hue: pickHue(taken),
         name: "",
         description: {},
         // "By default, at least 1 Customer Profile card should
