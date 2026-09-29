@@ -60,6 +60,7 @@ import {
 import {
     CAPACITY_UTILISATION_HELP,
     CashTimelineChart,
+    FigureTable,
     FigureTiles,
     FinancialBlock,
     FinancialPageHead,
@@ -976,7 +977,7 @@ export default function FinancialSustainabilityEditor({
             <FinancialBlock title="Can the Expected Sales Be Delivered?" info={info}>
 
                 <div className="financial-table-scroll">
-                    <table className="financial-table financial-capacity-table">
+                    <FigureTable className="financial-capacity-table">
                         <thead>
                             <tr>
                                 <th scope="col">Founder</th>
@@ -1005,7 +1006,7 @@ export default function FinancialSustainabilityEditor({
                                 );
                             })}
                         </tbody>
-                    </table>
+                    </FigureTable>
                 </div>
 
                 <p className={"financial-capacity-verdict" + (short !== null ? " financial-capacity-short" : "")}>
@@ -1083,7 +1084,7 @@ export default function FinancialSustainabilityEditor({
                         ? <BusinessEmpty>No revenue streams yet. Expected revenue is {format(0)}, which is a valid starting point.</BusinessEmpty>
                         : (
                             <div className="financial-table-scroll">
-                                <table className="financial-table">
+                                <FigureTable>
                                     <thead>
                                         <tr>
                                             <th scope="col">Revenue Stream</th>
@@ -1115,7 +1116,7 @@ export default function FinancialSustainabilityEditor({
                                             <td />
                                         </tr>
                                     </tfoot>
-                                </table>
+                                </FigureTable>
                             </div>
                         )}
                 </FinancialBlock>
@@ -1225,7 +1226,7 @@ export default function FinancialSustainabilityEditor({
                         : "Counting the funding received and confirmed on Financial Foundation."}
                 </p>
                 <div className="financial-table-scroll">
-                    <table className="financial-table financial-fixed-table">
+                    <FigureTable className="financial-fixed-table">
                         <colgroup><col className="financial-col-label" /><col /><col /><col /></colgroup>
                         <thead>
                             <tr>
@@ -1247,7 +1248,7 @@ export default function FinancialSustainabilityEditor({
                                 </tr>
                             ))}
                         </tbody>
-                    </table>
+                    </FigureTable>
                 </div>
             </FinancialBlock>
         );
@@ -1463,7 +1464,7 @@ export default function FinancialSustainabilityEditor({
                         BREAK_EVEN_SOURCE
                     ]}>
                         <div className="financial-table-scroll">
-                            <table className="financial-table">
+                            <FigureTable>
                                 <thead>
                                     <tr>
                                         <th scope="col">Offering</th>
@@ -1488,7 +1489,7 @@ export default function FinancialSustainabilityEditor({
                                         </tr>
                                     ))}
                                 </tbody>
-                            </table>
+                            </FigureTable>
                         </div>
                         {result.breakEvenScale !== null && result.breakEvenRevenue !== null
                             ? (
@@ -1513,7 +1514,7 @@ export default function FinancialSustainabilityEditor({
                         ? <BusinessEmpty>With no expected revenue, break even cannot be reached from revenue.</BusinessEmpty>
                         : (
                             <div className="financial-table-scroll">
-                                <table className="financial-table">
+                                <FigureTable>
                                     <thead>
                                         <tr>
                                             <th scope="col">Month</th>
@@ -1536,7 +1537,7 @@ export default function FinancialSustainabilityEditor({
                                             </tr>
                                         ))}
                                     </tbody>
-                                </table>
+                                </FigureTable>
                             </div>
                         )}
                 </FinancialBlock>
@@ -1569,7 +1570,7 @@ export default function FinancialSustainabilityEditor({
 
                 <FinancialBlock title="Sustainability">
                     <div className="financial-table-scroll">
-                        <table className="financial-table financial-summary">
+                        <FigureTable className="financial-summary">
                             <tbody>
                                 <tr><th scope="row">Expected Monthly Revenue</th><td>{format(result.expectedRevenue)}</td></tr>
                                 <tr><th scope="row">Break-Even Revenue</th><td>{result.breakEvenRevenue === null ? "n/a" : format(result.breakEvenRevenue)}</td></tr>
@@ -1584,7 +1585,7 @@ export default function FinancialSustainabilityEditor({
                                     <td>{bufferLabel}</td>
                                 </tr>
                             </tbody>
-                        </table>
+                        </FigureTable>
                     </div>
                     <SignalList signals={result.signals} />
                     <p className="financial-muted">

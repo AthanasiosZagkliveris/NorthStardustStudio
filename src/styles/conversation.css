@@ -12947,6 +12947,59 @@ td.process-library-col-number{
 
 }
 
+/* EVERY NUMERIC TABLE SPACES ITS FIGURES EVENLY (FigureTable,
+   FinancialParts.tsx): the label column (Month, Date, Item) as wide as
+   its widest label -- measured, and handed over as
+   --figure-label-width -- and every column of figures one equal share
+   of the rest, so the gap from one column's figures to the next is the
+   same across the table. A head too long for its share wraps onto two
+   balanced lines, right-aligned over its figures (an "i" stays after
+   its last word, InfoText). Never narrower than each column's figures
+   need: in a narrow window the table scrolls inside its own box. A
+   table of one figure column keeps its own split (the summaries'
+   half and half). */
+.financial-figure-table{ --figure-columns:1; }
+.financial-figure-table:has(tr > :nth-child(3)){ --figure-columns:2; }
+.financial-figure-table:has(tr > :nth-child(4)){ --figure-columns:3; }
+.financial-figure-table:has(tr > :nth-child(5)){ --figure-columns:4; }
+.financial-figure-table:has(tr > :nth-child(6)){ --figure-columns:5; }
+.financial-figure-table:has(tr > :nth-child(7)){ --figure-columns:6; }
+.financial-figure-table:has(tr > :nth-child(8)){ --figure-columns:7; }
+.financial-figure-table:has(tr > :nth-child(9)){ --figure-columns:8; }
+.financial-figure-table:has(tr > :nth-child(10)){ --figure-columns:9; }
+.financial-figure-table:has(tr > :nth-child(11)){ --figure-columns:10; }
+.financial-figure-table:has(tr > :nth-child(12)){ --figure-columns:11; }
+
+.financial-figure-table:has(tr > :nth-child(3)){
+
+    table-layout:fixed;
+
+    min-width:calc(var(--figure-label-width, 8em) + var(--figure-columns) * 5em);
+
+}
+
+.financial-figure-table:has(tr > :nth-child(3)) > :first-child > tr:first-child > :first-child{
+
+    width:var(--figure-label-width, auto);
+
+}
+
+/* A figure with words to it ("≈ 112.3 participants / month") wraps
+   within its share rather than running into the next column. */
+.financial-figure-table:has(tr > :nth-child(3)) td{
+
+    white-space:normal;
+
+}
+
+.financial-figure-table thead th:not(:first-child){
+
+    white-space:normal;
+
+    text-wrap:balance;
+
+}
+
 .financial-table tfoot th,
 .financial-table tfoot td{
 

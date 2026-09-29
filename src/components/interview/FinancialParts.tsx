@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useState } from "react";
+import { CSSProperties, ReactNode, useLayoutEffect, useRef, useState } from "react";
 
 import type { StrategyMonthValue } from "../../framework/engine/AnswerUtils.ts";
 import {
@@ -84,6 +84,63 @@ export const CAPACITY_UTILISATION_HELP: InfoPoint[] = [
     "How much of the available time the planned work needs. Above 100% means more work than capacity.",
     { title: "Based on", source: SOURCES.capacityUtilisation }
 ];
+
+/**
+ * EVERY NUMERIC TABLE: a label column (Month, Date, Item) as wide as
+ * its widest label, and every column of figures one equal share of
+ * the rest -- so the gap from one column's figures to the next is the
+ * same across the table (`.financial-figure-table`, conversation.css).
+ * The label column's width is measured here, from its cells' own
+ * text, and handed to the stylesheet; the table lays out fixed on it.
+ */
+export function FigureTable({ className, children }: { className?: string; children: ReactNode }) {
+
+    const ref = useRef<HTMLTableElement | null>(null);
+
+    useLayoutEffect(() => {
+
+        const table = ref.current;
+
+        if (!table) {
+            return;
+        }
+
+        let live = true;
+
+        const measure = () => {
+            if (!live) {
+                return;
+            }
+            let widest = 0;
+            for (const row of Array.from(table.rows)) {
+                const cell = row.cells[0];
+                if (!cell || cell.colSpan > 1) {
+                    continue;
+                }
+                const range = document.createRange();
+                range.selectNodeContents(cell);
+                const style = getComputedStyle(cell);
+                const text = typeof range.getBoundingClientRect === "function" ? range.getBoundingClientRect().width : 0;
+                widest = Math.max(widest, text +
+                    (parseFloat(style.paddingLeft) || 0) + (parseFloat(style.paddingRight) || 0));
+            }
+            table.style.setProperty("--figure-label-width", Math.ceil(widest + 1) + "px");
+        };
+
+        measure();
+        document.fonts?.ready.then(measure);
+
+        return () => { live = false; };
+
+    });
+
+    return (
+        <table ref={ref} className={"financial-table financial-figure-table" + (className ? " " + className : "")}>
+            {children}
+        </table>
+    );
+
+}
 
 /** One headline figure, with what it means. */
 interface FigureTile {
@@ -333,7 +390,7 @@ export function CashTimelineChart({
             {asTable
                 ? (
                     <div className="financial-table-scroll">
-                        <table className="financial-table">
+                        <FigureTable>
                             <thead>
                                 <tr>
                                     <th scope="col">Month</th>
@@ -352,7 +409,7 @@ export function CashTimelineChart({
                                     </tr>
                                 ))}
                             </tbody>
-                        </table>
+                        </FigureTable>
                     </div>
                 )
                 : (

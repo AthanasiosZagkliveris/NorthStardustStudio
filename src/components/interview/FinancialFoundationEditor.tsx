@@ -79,6 +79,7 @@ import {
 } from "./BusinessCardFields.tsx";
 import {
     CashTimelineChart,
+    FigureTable,
     FigureTiles,
     FinancialBlock,
     FinancialPageHead,
@@ -1014,7 +1015,7 @@ export default function FinancialFoundationEditor({
                                     ? (
                                         /* The first year, month by month. */
                                         <div className="financial-table-scroll">
-                                            <table className="financial-table financial-need-months">
+                                            <FigureTable className="financial-need-months">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">Month</th>
@@ -1054,7 +1055,7 @@ export default function FinancialFoundationEditor({
                                                         <td><strong>{format(need.amount)}</strong></td>
                                                     </tr>
                                                 </tfoot>
-                                            </table>
+                                            </FigureTable>
                                         </div>
                                     )
                                     : need.parts.length === 0
@@ -1300,7 +1301,7 @@ export default function FinancialFoundationEditor({
                             </button>
                             {showing && (
                                 <div className="financial-table-scroll">
-                                    <table className="financial-table">
+                                    <FigureTable>
                                         <thead>
                                             <tr>
                                                 <th scope="col">Date</th>
@@ -1321,7 +1322,7 @@ export default function FinancialFoundationEditor({
                                                 </tr>
                                             ))}
                                         </tbody>
-                                    </table>
+                                    </FigureTable>
                                 </div>
                             )}
                         </div>
