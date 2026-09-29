@@ -256,6 +256,16 @@
     --theme-line-rule: 24% 80%;
     --theme-line-rule-light: 24% 84%;
 
+    /* A System ground -- a card, a tint inside it, a Roadmap bar --
+       is its hue mixed toward the page's paper by this much:
+         color-mix(in srgb, hsl(hue var(--theme-bg-ground))
+                   var(--theme-ground-weight), var(--theme-ground-paper))
+       All of it in light and dark, so the ground is drawn as it is;
+       the sepia theme takes part of it, so each card sits warm on
+       the paper instead of standing on it as a cold tint. */
+    --theme-ground-weight: 100%;
+    --theme-ground-paper: #ffffff;
+
     /* A Capability or System colour used as text or a thin line is
        mixed toward the base by this much: all of it in light mode,
        so the colour is drawn as it is. */

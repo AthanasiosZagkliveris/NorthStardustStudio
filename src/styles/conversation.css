@@ -6696,7 +6696,7 @@ td.process-library-col-number{
    stack rather than a control sitting on the Goal box. */
 .strategy-theme-panel .strategy-goal-box > .strategy-box-body > .strategy-add-button{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -6759,13 +6759,13 @@ td.process-library-col-number{
 
 .strategy-theme-panel{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
 .strategy-theme-panel .strategy-goal-box{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
@@ -6773,7 +6773,7 @@ td.process-library-col-number{
 
 .strategy-theme-panel .strategy-objective-box{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
@@ -6781,7 +6781,7 @@ td.process-library-col-number{
 
 .strategy-theme-panel .strategy-metric-box{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-raised));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-raised)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
@@ -6790,13 +6790,13 @@ td.process-library-col-number{
 /* An add button keeps taking the ground of the thing it adds. */
 .strategy-theme-panel .strategy-subsection > .strategy-add-button{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-raised));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-raised)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
 .strategy-theme-panel > .strategy-box-body > .strategy-add-button{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -7310,7 +7310,7 @@ td.process-library-col-number{
 
 .roadmap-theme-box{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
@@ -7325,13 +7325,13 @@ td.process-library-col-number{
        those measured 2.88:1 -- under the 3:1 a non-text
        boundary needs. At 34% the worst hue is 3.58:1. */
     border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-bar-edge));
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-bar));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-bar)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
 .roadmap-bar:hover{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-bar-hover));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-bar-hover)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -7378,7 +7378,7 @@ td.process-library-col-number{
     color:var(--text-default);
 
     border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-bar-edge));
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-initiative));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-initiative)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -7696,7 +7696,7 @@ td.process-library-col-number{
    The same 96% every Theme panel uses on the page after it. */
 .strategy-theme-box{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -7867,7 +7867,7 @@ td.process-library-col-number{
 
     color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-accent-deeper));
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -7889,14 +7889,14 @@ td.process-library-col-number{
     color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-accent-deeper));
 
     border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
 .strategy-theme-panel .month-picker-cell:hover:not(:disabled){
 
     border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -9529,7 +9529,7 @@ td.process-library-col-number{
     border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
     border-radius:8px;
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -9654,7 +9654,7 @@ td.process-library-col-number{
    level is a level in the markup and not a count of ancestors. */
 .business-foundation > .business-foundation-input{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
@@ -9668,7 +9668,7 @@ td.process-library-col-number{
    step further on. */
 .business-foundation-card .business-foundation-card{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
@@ -10118,7 +10118,7 @@ td.process-library-col-number{
     border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
     border-radius:8px;
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -10170,7 +10170,7 @@ td.process-library-col-number{
    transition; only the colour follows the card it sits in. */
 .business-engagement-reference-toggle:hover{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
 
@@ -10638,7 +10638,7 @@ td.process-library-col-number{
 
     border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     font-size:var(--font-body);
     font-weight:700;
@@ -10661,7 +10661,7 @@ td.process-library-col-number{
 
     border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     font-size:var(--font-body);
     font-weight:700;
@@ -10708,7 +10708,7 @@ td.process-library-col-number{
 
     border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -10727,7 +10727,7 @@ td.process-library-col-number{
        its border, so what can be typed into is as plain as it was;
        a cell that only shows something (see -derived) is a step
        darker again. */
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     /* A COLUMN IS AS NARROW AS ITS SHARE OF THE TABLE, and what is
        written in it has to fit that. Without these, one long word
@@ -10760,7 +10760,7 @@ td.process-library-col-number{
    is worth more than any label saying the same thing. */
 .business-channel-cell-derived{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -10833,7 +10833,7 @@ td.process-library-col-number{
    word-breaking and its own ground. */
 .business-engagement-band{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     font-size:var(--font-body);
     font-weight:700;
@@ -10869,7 +10869,7 @@ td.process-library-col-number{
    between its head and its category rows. */
 .business-engagement-band-offering{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -10947,7 +10947,7 @@ td.process-library-col-number{
 
     padding-left:36px;
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -10966,7 +10966,7 @@ td.process-library-col-number{
    columns and starts at the first of them. */
 .business-relationship-heading{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     font-size:var(--font-body);
     font-weight:700;
@@ -11161,7 +11161,7 @@ td.process-library-col-number{
 
 .suggested-input-toggle:hover:not(:disabled){
 
-    background-color:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover));
+    background-color:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -11666,7 +11666,7 @@ td.process-library-col-number{
     border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
     border-radius:8px;
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     min-width:0;
 
@@ -13326,7 +13326,7 @@ td.process-library-col-number{
    them. */
 .financial-page .financial-section{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
@@ -13338,7 +13338,7 @@ td.process-library-col-number{
 .financial-section .financial-tile,
 .financial-section .financial-signal{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-soft));
 
@@ -13346,7 +13346,7 @@ td.process-library-col-number{
 
 .financial-section .financial-headline{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     border-top-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-soft));
     border-right-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-soft));
@@ -13366,7 +13366,7 @@ td.process-library-col-number{
 .financial-section .financial-chart,
 .financial-section .financial-loan-summary{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -13380,7 +13380,7 @@ td.process-library-col-number{
 
 .financial-section .financial-meter{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-meter));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-meter)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -13655,7 +13655,7 @@ td.process-library-col-number{
     border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-light));
     border-radius:8px;
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-card-wash));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-card-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -13723,7 +13723,7 @@ td.process-library-col-number{
     border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-light));
     border-radius:8px;
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-card-wash));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-card-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -13984,7 +13984,7 @@ td.process-library-col-number{
 
     border-radius:8px;
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-result-wash));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-result-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     font-size:var(--font-body);
 

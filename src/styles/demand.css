@@ -168,7 +168,7 @@
 
     border-radius:999px;
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-pill));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-pill)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     font-size:var(--font-body);
 
@@ -305,7 +305,7 @@
 
     border-radius:4px;
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground-alt));
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground-alt)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 

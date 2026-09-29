@@ -249,8 +249,8 @@ body {
      darker. */
   --accent-ink: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
   --accent-line: hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
-  --accent-ground: hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
-  --accent-ground-hover: hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover));
+  --accent-ground: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+  --accent-ground-hover: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover)) var(--theme-ground-weight), var(--theme-ground-paper));
   --accent-hover-ink: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 }
 
