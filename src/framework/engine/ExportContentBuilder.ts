@@ -11,15 +11,20 @@ import {
     titleWithPeriod
 } from "./AnswerUtils.ts";
 import { bespokeAnswerBlocks } from "./ExportRenderers.ts";
+import { financialPlanPeriod } from "./FinancialModel.ts";
+import { isRangeSet } from "./AnswerUtils.ts";
 
 /**
  * A title as the page shows it: the Strategy pages carry a literal
- * "MM/YY - MM/YY" that stands for the Strategic Period (see
+ * "MM/YY - MM/YY" that stands for the Strategic Period, the Business
+ * System's Financial pages one for the financial plan's months (see
  * Conversation.tsx's resolvedSectionTitle).
  */
 function resolvedTitle(title: string, context: ExportContext): string {
-    const foundation = context.responseOf?.(AnswerType.StrategyFoundation);
-    return titleWithPeriod(title, asStrategyFoundationValue(foundation).period);
+    const strategic = asStrategyFoundationValue(context.responseOf?.(AnswerType.StrategyFoundation)).period;
+    return titleWithPeriod(title, isRangeSet(strategic)
+        ? strategic
+        : financialPlanPeriod(context.responseOf?.(AnswerType.FinancialFoundation)));
 }
 
 /**

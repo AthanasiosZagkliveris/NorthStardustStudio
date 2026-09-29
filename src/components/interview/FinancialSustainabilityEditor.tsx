@@ -1615,24 +1615,8 @@ export default function FinancialSustainabilityEditor({
                 columnsDivider={columnsDivider}
             />
 
-            <div className="financial-plan-bar">
-                <BusinessField label="Timeline">
-                    <span className="financial-plan-fact">
-                        {months} months, {planMonthLabel(start, 1)} – {planMonthLabel(start, months)}
-                    </span>
-                </BusinessField>
-                <BusinessField label="Currency">
-                    <span className="financial-plan-fact">{currency || "Not set"}</span>
-                </BusinessField>
-                {onOpenFinancialFoundation && (
-                    <span className="financial-plan-meta">
-                        Plan start, costs and funding come from{" "}
-                        <button type="button" className="business-engagement-link" onClick={() => onOpenFinancialFoundation()}>
-                            Financial Foundation
-                        </button>
-                    </span>
-                )}
-            </div>
+            {/* No settings box: the plan's months are in the page
+                title, and the currency beside every amount asked for. */}
 
             {sectionCard(
                 "sustainability-revenue", SECTIONS.revenue, revenueSection, 0,

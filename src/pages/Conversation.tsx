@@ -17,6 +17,7 @@ import {
 import { frameworkRegistry } from "../framework/engine/FrameworkRegistry";
 import { AnswerDefinition, Section, ValidationIssue, ValidationResult } from "../framework/model";
 import { AnswerType } from "../framework/enums/AnswerType";
+import { financialPlanPeriod } from "../framework/engine/FinancialModel.ts";
 import {
     CardListAnswerValue,
     defaultAnswerValue,
@@ -2240,11 +2241,24 @@ export default function Conversation() {
         (" · Jan 2027 – Dec 2029") once one is set, and disappears
         until then (see titleWithPeriod).
     */
+    // The period a title's "MM/YY - MM/YY" stands for: the Strategic
+    // Period on the Strategy pages, the financial plan's months on the
+    // Business System's Financial pages (financialPlanPeriod).
+    const titlePeriod = strategyFoundationValue?.period ?? (financialFoundationSection
+        ? financialPlanPeriod(session.getResponse(financialFoundationSection.number))
+        : { start: { month: "", year: "" }, end: { month: "", year: "" } });
+
+    // Financial Foundation states its currency in its title too: its
+    // amounts are shown formatted ("$200") and its boxes name the
+    // currency only as a placeholder, so without it the page would say
+    // nowhere which currency it counts in. (Financial Sustainability
+    // shows it beside every amount it asks for.)
+    const titleCurrency = currentSection?.answer?.type === AnswerType.FinancialFoundation && organisationCurrency
+        ? " · " + organisationCurrency
+        : "";
+
     const resolvedSectionTitle: string | undefined = currentSection
-        ? titleWithPeriod(
-            currentSection.title,
-            strategyFoundationValue?.period ?? { start: { month: "", year: "" }, end: { month: "", year: "" } }
-        )
+        ? titleWithPeriod(currentSection.title, titlePeriod) + titleCurrency
         : undefined;
 
     // A Section that numbers its own units (see

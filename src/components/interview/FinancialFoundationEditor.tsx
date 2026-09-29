@@ -1690,8 +1690,6 @@ export default function FinancialFoundationEditor({
         { id: "financial-position", section: SECTIONS.position, body: positionSection }
     ];
 
-    const lastMonth = planMonthLabel(start, months);
-
     /* The country's own consumption tax: VAT, GST, Sales Tax. */
     const taxName = jurisdictionProfile(legalEntity.organisation.country).consumptionTax.split(" (")[0];
     const taxBases = vatBases(taxName);
@@ -1726,11 +1724,6 @@ export default function FinancialFoundationEditor({
                         value={planYears(page) + (planYears(page) === 1 ? " year" : " years")}
                         onChange={(next) => update({ planYears: String(parseInt(next, 10) || "") })}
                     />
-                </BusinessField>
-                <BusinessField label="Timeline">
-                    <span className="financial-plan-fact">
-                        {months} months, {planMonthLabel(start, 1)} – {lastMonth}
-                    </span>
                 </BusinessField>
                 <BusinessField
                     label="Amounts"
@@ -1776,9 +1769,8 @@ export default function FinancialFoundationEditor({
                     undefined,
                     NUMBER_LIMITS.percent
                 )}
-                <BusinessField label="Currency">
-                    <span className="financial-plan-fact">{currency || "Not set"}</span>
-                </BusinessField>
+                {/* The plan's months and its currency are in the
+                    page title ("… · Jan 2027 – Dec 2029 · USD"). */}
                 {!currency && (
                     <span className="financial-plan-meta">
                         Choose a country on 1. Identity System → 3. Legal Entity to set the currency.

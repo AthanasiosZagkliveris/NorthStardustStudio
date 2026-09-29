@@ -36,7 +36,8 @@ import type {
     BusinessCapabilityValue,
     BusinessCostValue,
     LegalEntityValue,
-    StrategyMonthValue
+    StrategyMonthValue,
+    StrategyRangeValue
 } from "./AnswerUtils.ts";
 import { resourceUnitCount } from "./AnswerUtils.ts";
 import { type CapacityCheck, type DemandValue, capacityCheck, demandResult } from "./DemandCapacity.ts";
@@ -129,6 +130,26 @@ function monthOrdinal(month: StrategyMonthValue): number | null {
     const m = Number(month.month);
     const y = Number(month.year);
     return m >= 1 && m <= 12 && y > 0 ? y * 12 + (m - 1) : null;
+}
+
+/**
+ * The financial plan's first and last month, from its Plan Start and
+ * Plan Length -- what the Financial pages' titles show after their
+ * name (see titleWithPeriod). Only a Plan Start actually chosen
+ * counts: until then both months are empty and the title shows none.
+ */
+export function financialPlanPeriod(value: unknown): StrategyRangeValue {
+    const page = asFinancialFoundationValue(value);
+    const first = monthOrdinal(page.planStart);
+    if (first === null) {
+        return { start: { month: "", year: "" }, end: { month: "", year: "" } };
+    }
+    const last = first + planLength(page) - 1;
+    const month = (ordinal: number): StrategyMonthValue => ({
+        month: String(ordinal % 12 + 1).padStart(2, "0"),
+        year: String(Math.floor(ordinal / 12))
+    });
+    return { start: month(first), end: month(last) };
 }
 
 /**

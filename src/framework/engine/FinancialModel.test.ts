@@ -8,7 +8,8 @@ import {
     legalEntitySectionsEmpty,
     legalEntityTotalCapital,
     legalEntityTotalOwnership,
-    resourceUnitCount
+    resourceUnitCount,
+    titleWithPeriod
 } from "./AnswerUtils.ts";
 
 import {
@@ -20,6 +21,7 @@ import {
     createFundingSource,
     createOwnCost,
     createRevenueStream,
+    financialPlanPeriod,
     fundingNeeds,
     offeringCosts,
     planMonthLabel,
@@ -987,4 +989,18 @@ describe("guards for figures saved before the limits", () => {
         expect(streamVolumes(gradual, START)[59]).toBe(100);
     });
 
+});
+
+describe("the financial plan's months in the Financial pages' titles", () => {
+    test("run from the Plan Start for the Plan Length", () => {
+        expect(financialPlanPeriod({ planStart: { month: "01", year: "2027" }, planYears: "3" }))
+            .toEqual({ start: { month: "01", year: "2027" }, end: { month: "12", year: "2029" } });
+        expect(titleWithPeriod("Financial Foundation MM/YY - MM/YY",
+            financialPlanPeriod({ planStart: { month: "04", year: "2027" }, planYears: "1" })))
+            .toBe("Financial Foundation · Apr 2027 – Mar 2028");
+    });
+    test("say nothing until a Plan Start is chosen", () => {
+        expect(titleWithPeriod("Financial Sustainability MM/YY - MM/YY", financialPlanPeriod(undefined)))
+            .toBe("Financial Sustainability");
+    });
 });

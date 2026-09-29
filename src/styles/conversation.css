@@ -12103,25 +12103,22 @@ td.process-library-col-number{
 
 }
 
-/* The plan's start, its span and its currency, once for the page
-   (Financial Foundation and Financial Sustainability alike).
-
-   A grid of equal columns, each a label with its control or its
-   fact under it, so every control lines up with the one above it.
-   A column is never narrower than 370px while the bar has room:
-   the widest choice any of its selects shows, "No tax at business
-   level (pass-through)", measures 334px, plus the select's 8px and
-   24px padding and its borders -- so no choice is ever cut short
-   at 1920 or 1366 (three columns). Narrower, the columns go to one,
-   and a long choice wraps inside its select rather than ending in
-   "…". */
+/* Financial Foundation's settings, once for the page: Plan Start,
+   Plan Length, Amounts and Income Tax (the plan's months and its
+   currency are in the page title). Side by side in one row, each
+   control under its label and as wide as its longest choice -- a
+   select sizes itself to its widest option, so "No tax at business
+   level (pass-through)" always shows whole -- and wrapping onto a
+   second row only where the window is too narrow for all four. A
+   control never grows past the bar; there, a long choice wraps
+   inside its select rather than ending in "…". */
 .financial-plan-bar{
 
-    display:grid;
+    display:flex;
 
-    grid-template-columns:repeat(auto-fill, minmax(min(100%, 370px), 1fr));
+    flex-wrap:wrap;
 
-    align-items:start;
+    align-items:flex-start;
 
     gap:16px 24px;
 
@@ -12136,16 +12133,17 @@ td.process-library-col-number{
 
 .financial-plan-bar > .business-foundation-field{
 
+    flex:0 1 auto;
+
     min-width:0;
+
+    max-width:100%;
 
 }
 
-/* Every control fills its column. */
-.financial-plan-bar .month-picker-trigger,
-.financial-plan-bar .option-picker,
 .financial-plan-bar .option-picker .option-picker-trigger.interview-input{
 
-    width:100%;
+    max-width:100%;
 
 }
 
@@ -12153,23 +12151,6 @@ td.process-library-col-number{
 
     white-space:normal;
     overflow-wrap:break-word;
-
-}
-
-/* A fact (the Timeline, the Currency) is a label with its value
-   under it, like the fields beside it: the value sits where a
-   control's text would, on a line as tall as a control. */
-.financial-plan-fact{
-
-    display:flex;
-
-    align-items:center;
-
-    min-height:42px;
-
-    font-size:var(--font-body);
-
-    color:var(--text-default);
 
 }
 
