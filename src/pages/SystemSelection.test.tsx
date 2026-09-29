@@ -9,12 +9,16 @@ import SystemSelection from "./SystemSelection";
 // what these tests are about, so both are stubbed.
 const SAVED = vi.hoisted(() => ({ status: "saved" }));
 
+// The last place worked, as each test sets it.
+const lastPlace = vi.hoisted(() => ({ value: null as null | { systemNumber: number; sectionIndex: number; anchor?: string } }));
+
 vi.mock("../services/OrganizationService", () => ({
     OrganizationService: {
         getSelected: () => "org-1",
         getSummary: () => ({ id: "org-1", name: "Test Org" }),
         getSaveState: () => SAVED,
-        subscribeSaveState: () => () => undefined
+        subscribeSaveState: () => () => undefined,
+        getLastPlace: () => lastPlace.value
     }
 }));
 
@@ -28,7 +32,13 @@ function IntroductionProbe() {
 
     const location = useLocation();
 
-    return <p>Opened {location.state?.system?.title}</p>;
+    return (
+        <p>
+            Opened {location.state?.system?.title}
+            {location.state?.targetSectionNumber ? " at page " + location.state.targetSectionNumber : ""}
+            {location.state?.resume ? " to continue" + (location.state.resume.anchor ? " at " + location.state.resume.anchor : "") : ""}
+        </p>
+    );
 
 }
 
@@ -45,7 +55,10 @@ function renderAt(state?: unknown) {
 
 }
 
-afterEach(cleanup);
+afterEach(() => {
+    cleanup();
+    lastPlace.value = null;
+});
 
 describe("SystemSelection capability description and System opening", () => {
 
@@ -97,6 +110,42 @@ describe("SystemSelection capability memory", () => {
         renderAt();
 
         expect(screen.queryByRole("button", { name: /Identity System/ })).toBeNull();
+
+    });
+
+});
+
+describe("SystemSelection continue where you left off", () => {
+
+    it("offers one line back to the last place worked, and opens it there", () => {
+
+        lastPlace.value = { systemNumber: 3, sectionIndex: 2, anchor: "founders" };
+
+        renderAt();
+
+        const line = screen.getByRole("button", { name: "Continue: 3. Business System — 3. Infrastructure & Capability" });
+
+        fireEvent.click(line);
+
+        expect(screen.getByText("Opened Business System at page 3 to continue at founders")).toBeTruthy();
+
+    });
+
+    it("is hidden when nothing has been worked on", () => {
+
+        renderAt();
+
+        expect(screen.queryByRole("button", { name: /^Continue:/ })).toBeNull();
+
+    });
+
+    it("is hidden when the place no longer exists", () => {
+
+        lastPlace.value = { systemNumber: 3, sectionIndex: 40 };
+
+        renderAt();
+
+        expect(screen.queryByRole("button", { name: /^Continue:/ })).toBeNull();
 
     });
 

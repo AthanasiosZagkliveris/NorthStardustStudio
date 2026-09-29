@@ -18,7 +18,7 @@ import SystemList from "../components/SystemList";
 import CapabilityDescriptionDialog from "../components/CapabilityDescriptionDialog";
 
 import { OrganizationService } from "../services/OrganizationService";
-import { systemProgress } from "../services/ProgressService";
+import { continuePlace, systemProgress } from "../services/ProgressService";
 
 import "../styles/workspace.css";
 
@@ -80,6 +80,30 @@ export default function SystemSelection() {
         )?.title ?? "";
 
     const activeCapabilityColor = getCapabilityColor(activeCapability);
+
+    // Where the user last worked, offered as one "Continue" line.
+    const lastPlace = useMemo(
+        () => organizationId ? continuePlace(organizationId) : null,
+        [organizationId]
+    );
+
+    function continueWhereLeftOff() {
+
+        if (!lastPlace) {
+            return;
+        }
+
+        navigate("/introduction", {
+
+            state: {
+                system: lastPlace.system,
+                targetSectionNumber: lastPlace.sectionNumber,
+                resume: { anchor: lastPlace.anchor }
+            }
+
+        });
+
+    }
 
     // Each listed System's status for this Organization -- the same
     // shapes the Pages rail draws, derived from the System's pages.
@@ -207,6 +231,19 @@ export default function SystemSelection() {
                         </h1>
 
                     </div>
+
+                    {/* Back to the last place worked, when there is one. */}
+                    {lastPlace && (
+                        <div className="workspace-continue">
+                            <button
+                                type="button"
+                                className="workspace-continue-button"
+                                onClick={continueWhereLeftOff}
+                            >
+                                Continue: {lastPlace.label}
+                            </button>
+                        </div>
+                    )}
 
                     <div className="workspace-content">
 

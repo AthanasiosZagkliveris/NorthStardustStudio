@@ -124,6 +124,11 @@ export interface OrganizationDocument {
      */
     targetAudiences?: unknown[];
     /**
+     * Where the user last worked in this Organization (see
+     * setLastPlace), for System Selection's "Continue" line.
+     */
+    lastPlace?: LastPlace;
+    /**
      * Per-task annotations for the Organization Calendar (see
      * OrganizationCalendarPanel.tsx / CalendarTaskService.ts) --
      * the Calendar itself is read-only, auto-discovering its
@@ -134,6 +139,17 @@ export interface OrganizationDocument {
      * which date/Section happened to produce it.
      */
     taskAnnotations?: Record<string, CalendarTaskAnnotation>;
+}
+
+/**
+ * The last place worked: a System, the page open in it (its 0-based
+ * index), and, when a field had focus there, the rail id of the
+ * section card holding it (its `data-rail` marker).
+ */
+export interface LastPlace {
+    systemNumber: number;
+    sectionIndex: number;
+    anchor?: string;
 }
 
 /**
@@ -440,6 +456,48 @@ export class OrganizationService {
         return Object.keys(document.systems)
             .map(Number)
             .filter(value => !Number.isNaN(value));
+
+    }
+
+    // -- The last place worked --
+
+    static getLastPlace(organizationId: string): LastPlace | null {
+
+        const place = this.loadDocument(organizationId)?.lastPlace;
+
+        return place &&
+            Number.isInteger(place.systemNumber) &&
+            Number.isInteger(place.sectionIndex)
+            ? place
+            : null;
+
+    }
+
+    /** Records where the user is working; unchanged places are not re-saved. */
+    static setLastPlace(organizationId: string, place: LastPlace): void {
+
+        const document = this.loadDocument(organizationId);
+
+        if (!document) {
+            return;
+        }
+
+        const previous = document.lastPlace;
+
+        if (
+            previous &&
+            previous.systemNumber === place.systemNumber &&
+            previous.sectionIndex === place.sectionIndex &&
+            previous.anchor === place.anchor
+        ) {
+            return;
+        }
+
+        document.lastPlace = place.anchor
+            ? { ...place }
+            : { systemNumber: place.systemNumber, sectionIndex: place.sectionIndex };
+
+        this.saveDocument(document);
 
     }
 

@@ -89,3 +89,28 @@ describe("Organization format version", () => {
     });
 
 });
+
+describe("The last place worked", () => {
+
+    it("is stored with the organization, and saved only when it changes", () => {
+
+        const created = OrganizationService.create("Quillfield");
+
+        expect(OrganizationService.getLastPlace(created.id)).toBeNull();
+
+        OrganizationService.setLastPlace(created.id, { systemNumber: 3, sectionIndex: 2, anchor: "founders" });
+
+        expect(storedDocument(created.id).lastPlace).toEqual({ systemNumber: 3, sectionIndex: 2, anchor: "founders" });
+
+        const before = localStorage.getItem(`northstardust-organization-${created.id}`);
+        OrganizationService.setLastPlace(created.id, { systemNumber: 3, sectionIndex: 2, anchor: "founders" });
+        OrganizationService.flushPendingWrites();
+        expect(localStorage.getItem(`northstardust-organization-${created.id}`)).toBe(before);
+
+        // No anchor: the field is left out rather than stored empty.
+        OrganizationService.setLastPlace(created.id, { systemNumber: 1, sectionIndex: 0, anchor: undefined });
+        expect(storedDocument(created.id).lastPlace).toEqual({ systemNumber: 1, sectionIndex: 0 });
+
+    });
+
+});

@@ -504,3 +504,63 @@
     outline: 2px solid var(--line-primary);
     outline-offset: 2px;
 }
+
+/* ==========================================================
+   Continue where you left off
+========================================================== */
+
+/* One line above the lists, back to the last place worked: the
+   app's link blue at body size, underlined on hover and focus like
+   the other links, and never wider than the column it sits in. */
+.workspace-continue {
+
+    display: flex;
+
+    justify-content: center;
+
+    width: 100%;
+
+}
+
+.workspace-continue-button {
+
+    max-width: 100%;
+
+    padding: 4px 0;
+
+    border: none;
+
+    background: none;
+
+    font: inherit;
+    font-size: var(--font-body);
+    font-weight: 600;
+    line-height: 1.4;
+
+    color: var(--text-primary);
+
+    text-align: center;
+
+    overflow-wrap: break-word;
+
+    cursor: pointer;
+
+}
+
+.workspace-continue-button:hover,
+.workspace-continue-button:focus-visible {
+
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+    text-underline-offset: 0.2em;
+
+}
+
+.workspace-continue-button:focus-visible {
+
+    outline: 2px solid var(--line-primary);
+    outline-offset: 4px;
+
+    border-radius: 4px;
+
+}

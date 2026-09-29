@@ -5,6 +5,8 @@ import { pageStatuses, systemStatus, type PageStatus } from "../framework/engine
 import { systems } from "../data/systems";
 import type { FrameworkSystem } from "../types/system";
 import { StorageService } from "./StorageService";
+import { OrganizationService } from "./OrganizationService";
+import { pageRailItems } from "../components/interview/rails/railItems";
 
 const normalize = (text: string) => text.trim().toLowerCase();
 
@@ -47,6 +49,49 @@ function sharedValueResolver(organizationId: string): (answer: AnswerDefinition)
         return sessions.get(source.number)?.getResponse(section.number);
 
     };
+
+}
+
+/**
+ * Where "Continue" on System Selection leads: the last place worked,
+ * as the System and page it names ("3. Business System — 3.
+ * Infrastructure & Capability"), or null when nothing has been
+ * worked on yet (or the place no longer exists).
+ */
+export function continuePlace(organizationId: string): {
+    system: FrameworkSystem;
+    sectionNumber: number;
+    anchor?: string;
+    label: string;
+} | null {
+
+    const place = OrganizationService.getLastPlace(organizationId);
+
+    const system = place ? systems.find(candidate => candidate.number === place.systemNumber) : undefined;
+
+    if (!place || !system) {
+        return null;
+    }
+
+    try {
+
+        const sections = frameworkRegistry.getFramework(system.id).sections;
+        const section = sections[place.sectionIndex];
+
+        if (!section) {
+            return null;
+        }
+
+        return {
+            system,
+            sectionNumber: section.number,
+            anchor: place.anchor,
+            label: system.number + ". " + system.title + " — " + pageRailItems(sections)[place.sectionIndex].label
+        };
+
+    } catch {
+        return null;
+    }
 
 }
 

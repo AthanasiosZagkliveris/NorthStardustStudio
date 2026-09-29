@@ -92,3 +92,61 @@ describe("Conversation Escape", () => {
     });
 
 });
+
+describe("Conversation records the last place worked", () => {
+
+    const identity = systems.find(system => system.id === "identity")!;
+
+    function renderIdentity(state: Record<string, unknown>) {
+        return render(
+            <MemoryRouter initialEntries={[{ pathname: "/conversation", state: { system: identity, ...state } }]}>
+                <Routes>
+                    <Route path="/conversation" element={<Conversation />} />
+                </Routes>
+            </MemoryRouter>
+        );
+    }
+
+    it("records the System and page once the interview shows, and the card a field is focused in", () => {
+
+        const organization = OrganizationService.create("Quillfield");
+        vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
+
+        renderIdentity({});
+
+        // The Introduction alone is not working on anything.
+        expect(OrganizationService.getLastPlace(organization.id)).toBeNull();
+
+        fireEvent.click(screen.getByRole("button", { name: "Start Interview" }));
+        expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 0 });
+
+        fireEvent.click(screen.getByRole("navigation", { name: "Pages" }).querySelectorAll("button")[1]);
+        expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 1 });
+
+        const card = document.querySelector<HTMLElement>("[data-rail]")!;
+        const field = card.querySelector<HTMLElement>("textarea, input")!;
+        fireEvent.focus(field);
+
+        expect(OrganizationService.getLastPlace(organization.id)).toEqual({
+            systemNumber: 1,
+            sectionIndex: 1,
+            anchor: card.dataset.rail
+        });
+
+    });
+
+    it("opens the interview itself, at the page, when continued", () => {
+
+        const organization = OrganizationService.create("Quillfield");
+        vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
+
+        renderIdentity({ targetSectionNumber: 3, resume: {} });
+
+        expect(screen.queryByRole("button", { name: "Start Interview" })).toBeNull();
+        expect(screen.getByRole("navigation", { name: "Pages" }).querySelector("[aria-current='true']")?.getAttribute("title"))
+            .toMatch(/^3\. Legal Entity/);
+        expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 2 });
+
+    });
+
+});

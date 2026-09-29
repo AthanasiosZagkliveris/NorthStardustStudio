@@ -751,6 +751,12 @@ export default function Conversation() {
     // `goToSection` itself is 0-based.
     const targetSectionNumber: number | undefined = location.state?.targetSectionNumber;
 
+    // Set only by System Selection's "Continue" line: open the
+    // interview itself at `targetSectionNumber` (not its
+    // Introduction), and scroll to the section card last worked in,
+    // when one was recorded.
+    const resume: { anchor?: string } | undefined = location.state?.resume;
+
     // Every Interview Session now belongs to a specific
     // Organization (see OrganizationService / item 6) -- read
     // once on mount since the Landing page is the only place
@@ -872,6 +878,9 @@ export default function Conversation() {
 
             if (targetSectionNumber !== undefined) {
                 loadedSession.goToSection(targetSectionNumber - 1);
+                if (resume) {
+                    loadedSession.startInterview();
+                }
                 StorageService.saveInterview(organizationId, loadedSession);
             }
 
@@ -896,7 +905,48 @@ export default function Conversation() {
             OrganizationService.flushPendingWrites();
         };
 
-    }, [system, organizationId, targetSectionNumber]);
+    }, [system, organizationId, targetSectionNumber, resume]);
+
+    // The last place worked, for System Selection's "Continue" line:
+    // this System and the page open in it, whenever the interview
+    // (not its Introduction) is showing. The section card is added
+    // by recordFocusedCard below, and kept while the page stays the
+    // same.
+    const interviewShowing = session?.hasStartedInterview() ?? false;
+    const placeIndex = session?.getCurrentSectionIndex();
+
+    useEffect(() => {
+
+        if (!organizationId || !system || !interviewShowing || placeIndex === undefined) {
+            return;
+        }
+
+        const previous = OrganizationService.getLastPlace(organizationId);
+        const samePage = previous?.systemNumber === system.number && previous?.sectionIndex === placeIndex;
+
+        OrganizationService.setLastPlace(organizationId, {
+            systemNumber: system.number,
+            sectionIndex: placeIndex,
+            anchor: samePage ? previous?.anchor : undefined
+        });
+
+    }, [organizationId, system, interviewShowing, placeIndex]);
+
+    // Continuing lands on the card last worked in, once the page has
+    // drawn it.
+    useEffect(() => {
+
+        const anchor = resume?.anchor;
+
+        if (!session || !anchor) {
+            return;
+        }
+
+        const timer = window.setTimeout(() => scrollToRailSection(anchor), 300);
+
+        return () => window.clearTimeout(timer);
+
+    }, [session, resume]);
 
     // The Product Development System's Product Register is kept in
     // the Organization's shared product list (see
@@ -1750,6 +1800,29 @@ export default function Conversation() {
 
     const showIntroduction = !session.hasStartedInterview();
 
+    // A field taking focus names the section card it is in (its
+    // `data-rail` marker) as the last place worked -- cheap, and
+    // only while the interview itself is showing.
+    function recordFocusedCard(event: React.FocusEvent<HTMLElement>) {
+
+        if (!organizationId || !system || !session || showIntroduction) {
+            return;
+        }
+
+        const anchor = (event.target as HTMLElement).closest<HTMLElement>("[data-rail]")?.dataset.rail;
+
+        if (!anchor) {
+            return;
+        }
+
+        OrganizationService.setLastPlace(organizationId, {
+            systemNumber: system.number,
+            sectionIndex: session.getCurrentSectionIndex(),
+            anchor
+        });
+
+    }
+
     // The value shown, and where an edit goes. A Shared Answer reads
     // and writes the SOURCE System's stored response, so editing here
     // is editing that System -- there is deliberately no second copy
@@ -2367,7 +2440,7 @@ export default function Conversation() {
             */}
             <AppHeader organizationName={organizationName} />
 
-            <main className="conversation-content">
+            <main className="conversation-content" onFocus={recordFocusedCard}>
                 <div className="conversation-card">
                     <InterviewHeader
                         systemNumber={String(framework.metadata.systemNumber)}
