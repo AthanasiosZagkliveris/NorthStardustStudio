@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import {
     clearFieldRegistry,
     fieldKey,
+    isYesNoPair,
     isWithin,
     pageKeyPrefix,
     parseFieldKey,
@@ -84,6 +85,18 @@ describe("the field registry", () => {
         expect(fields[0]).toEqual({ key: "1." + legal.number + ":organization", label: "Organization", pageTitle: legal.number + ". Legal Entity" });
         const definition = identity.sections[0];
         expect(pageFields(1, definition).map(field => field.key)).toContain("1.1:" + definition.answer!.parts![0].id);
+    });
+
+});
+
+describe("a yes-or-no choice", () => {
+
+    it("is two choices that are each other's no", () => {
+        expect(isYesNoPair(["Yes", "No"])).toBe(true);
+        expect(isYesNoPair(["Registered", "Not yet registered"])).toBe(true);
+        expect(isYesNoPair(["Fixed", "Variable"])).toBe(false);
+        expect(isYesNoPair(["Per month", "Per week"])).toBe(false);
+        expect(isYesNoPair(["Yes", "No", "Maybe"])).toBe(false);
     });
 
 });

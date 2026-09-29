@@ -17,7 +17,7 @@ import {
     FINANCIAL_FOUNDATION_SECTIONS,
     FINANCIAL_SUSTAINABILITY_SECTIONS
 } from "../../../framework/engine/FinancialModel";
-import { fieldKey, type FieldEntry } from "../../../framework/engine/FieldKeys";
+import { fieldKey, sectionSegment, type FieldEntry } from "../../../framework/engine/FieldKeys";
 
 /**
  * One bullet on a rail. `id` matches a `data-rail` marker on the
@@ -37,7 +37,7 @@ export interface RailItem {
  */
 export function railId(label: string): string {
 
-    return label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    return sectionSegment(label);
 
 }
 

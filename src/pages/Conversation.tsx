@@ -55,6 +55,8 @@ import { OrganizationService } from "../services/OrganizationService";
 import { PreferencesService } from "../services/PreferencesService";
 import { systems } from "../data/systems";
 import { focusField, jumpTo, type OpenPage } from "../components/interview/jumpTo.ts";
+import { AnnotationProvider } from "../components/interview/fieldAnnotations.tsx";
+import type { Annotations, ReviewMarks } from "../framework/engine/Annotations";
 import BulletRail from "../components/interview/rails/BulletRail";
 import NumberedListStatic from "../components/interview/NumberedListStatic";
 import { pageIndexFromRailId, pageRailItems, sectionRailItems } from "../components/interview/rails/railItems";
@@ -790,6 +792,25 @@ export default function Conversation() {
         : "";
 
     const [session, setSession] = useState<InterviewSession | null>(null);
+
+    // The Organization's flags and notes (Annotations.ts), kept current
+    // as they change, for the page and section statuses.
+    const [annotations, setAnnotations] = useState<Annotations>(
+        () => organizationId ? OrganizationService.getAnnotations(organizationId) : {}
+    );
+
+    useEffect(() => {
+        if (!organizationId) {
+            return;
+        }
+        return OrganizationService.subscribeAnnotations(
+            () => setAnnotations(OrganizationService.getAnnotations(organizationId))
+        );
+    }, [organizationId]);
+
+    const reviewMarks: ReviewMarks | undefined = system
+        ? { systemNumber: system.number, annotations }
+        : undefined;
     const [loadingError, setLoadingError] = useState<string | null>(null);
     const [, refresh] = useState(0);
 
@@ -1229,7 +1250,8 @@ export default function Conversation() {
                         ? validateOperationsProcessOwnership(session)
                         : reviewManager.validate(
                             session,
-                            (answer) => resolveSharedAnswerValue(organizationId, answer)
+                            (answer) => resolveSharedAnswerValue(organizationId, answer),
+                            system ? { systemNumber: system.number, annotations: OrganizationService.getAnnotations(organizationId ?? "") } : undefined
                         );
 
             if (!validation.valid) {
@@ -1790,7 +1812,7 @@ export default function Conversation() {
     // Each page bullet is drawn in its page status (PageStatus.ts),
     // recomputed on every render so an answer given here shows at once.
     const railStatuses = session
-        ? pageStatuses(session, (answer) => resolveSharedAnswerValue(organizationId, answer))
+        ? pageStatuses(session, (answer) => resolveSharedAnswerValue(organizationId, answer), reviewMarks)
         : null;
     const railPages = session
         ? pageRailItems(session.getSections()).map((item, index) => ({
@@ -1847,7 +1869,9 @@ export default function Conversation() {
                 periodValue: session.getResponse(
                     session.getSections().find(candidate => candidate.answer?.type === AnswerType.StrategicPeriod)?.number ?? 0
                 ),
-                railIds: railSectionItems.map(item => item.id)
+                railIds: railSectionItems.map(item => item.id),
+                sectionNumber: session.getCurrentSection()?.number,
+                marks: reviewMarks
             }
         )
         : null;
@@ -2641,6 +2665,13 @@ export default function Conversation() {
                                 />
                             )}
 
+                            {/* Flags and notes on the page's fields (fieldAnnotations.tsx). */}
+                            <AnnotationProvider
+                                organizationId={organizationId}
+                                systemNumber={system.number}
+                                sectionNumber={currentSection.number}
+                                pageTitle={currentSection.number + ". " + (resolvedSectionTitle ?? currentSection.title)}
+                            >
                             <AnswerRenderer
                                 key={currentSection.number}
                                 definition={effectiveAnswer ?? currentSection.answer}
@@ -2709,6 +2740,7 @@ export default function Conversation() {
                                         : undefined
                                 }
                             />
+                            </AnnotationProvider>
 
                             <div className="interview-nav">
                                 <button

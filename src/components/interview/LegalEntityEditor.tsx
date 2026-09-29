@@ -39,6 +39,7 @@ import { railId } from "./rails/railItems.ts";
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
+import { FieldFlagButton, FieldStatus } from "./fieldAnnotations.tsx";
 import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
@@ -709,7 +710,9 @@ export default function LegalEntityEditor({
                 </span>
                 <span className="legal-entity-section-title">
                     {title ?? LEGAL_ENTITY_SECTIONS[index]}
+                    <FieldFlagButton label={title ?? LEGAL_ENTITY_SECTIONS[index]} section={railId(LEGAL_ENTITY_SECTIONS[index])} />
                 </span>
+                <FieldStatus label={title ?? LEGAL_ENTITY_SECTIONS[index]} section={railId(LEGAL_ENTITY_SECTIONS[index])} />
             </h3>
         );
 
@@ -761,7 +764,7 @@ export default function LegalEntityEditor({
                                 (nested ? " legal-entity-label-nested" : "")
                             }
                         >
-                            <span className="field-label legal-entity-label">{label}</span>
+                            <span className="field-label legal-entity-label">{label}<FieldFlagButton label={label} /></span>
                             {removeFieldButton(label, onRemove)}
                         </span>
                     )
@@ -777,6 +780,7 @@ export default function LegalEntityEditor({
                                     <InfoText text={label}>
                                         <InfoNote label={label} points={info} />
                                     </InfoText>
+                                    <FieldFlagButton label={label} />
                                 </span>
                             </span>
                         )
@@ -788,8 +792,10 @@ export default function LegalEntityEditor({
                                 }
                             >
                                 {label}
+                                <FieldFlagButton label={label} />
                             </span>
                         )}
+                <FieldStatus label={label} />
                 {control}
             </>
         );
@@ -941,10 +947,11 @@ export default function LegalEntityEditor({
                                             <InfoText text={label}>
                                                 <InfoNote label={label} points={info} fullList />
                                             </InfoText>
+                                            <FieldFlagButton label={label} />
                                         </span>
                                     </span>
                                 )
-                                : <span className="field-label legal-entity-label">{label}</span>}
+                                : <span className="field-label legal-entity-label">{label}<FieldFlagButton label={label} /></span>}
                             {removeFieldButton(label, onRemove)}
                         </span>
                     )
@@ -955,10 +962,12 @@ export default function LegalEntityEditor({
                                     <InfoText text={label}>
                                         <InfoNote label={label} points={info} />
                                     </InfoText>
+                                    <FieldFlagButton label={label} />
                                 </span>
                             </span>
                         )
-                        : <span className="field-label legal-entity-label">{label}</span>}
+                        : <span className="field-label legal-entity-label">{label}<FieldFlagButton label={label} /></span>}
+                <FieldStatus label={label} />
                 {control}
             </div>
         );

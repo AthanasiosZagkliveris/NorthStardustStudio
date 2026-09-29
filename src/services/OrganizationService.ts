@@ -19,6 +19,7 @@
 
 import { LocalOrganizationStore } from "./LocalOrganizationStore";
 import type { SaveState } from "./OrganizationStore";
+import { annotationIsEmpty, type Annotations, type FieldAnnotation } from "../framework/engine/Annotations";
 
 export interface OrganizationSummary {
     id: string;
@@ -129,6 +130,13 @@ export interface OrganizationDocument {
      */
     lastPlace?: LastPlace;
     /**
+     * What is said about answers beside the answers: flags ("Not sure
+     * yet", "Needs research", "Doesn't apply") and notes, keyed by
+     * FieldKey (see Annotations.ts, FieldKeys.ts). Optional data in
+     * format version 2: a file without it reads as no annotations.
+     */
+    annotations?: Annotations;
+    /**
      * Per-task annotations for the Organization Calendar (see
      * OrganizationCalendarPanel.tsx / CalendarTaskService.ts) --
      * the Calendar itself is read-only, auto-discovering its
@@ -217,6 +225,9 @@ const store = new LocalOrganizationStore(
 if (typeof window !== "undefined") {
     store.attachToPage(window);
 }
+
+/** Who listens for annotation changes (see subscribeAnnotations). */
+const annotationListeners = new Set<() => void>();
 
 export class OrganizationService {
 
@@ -499,6 +510,46 @@ export class OrganizationService {
 
         this.saveDocument(document);
 
+    }
+
+    // -- Annotations: flags and notes on answers --
+
+    /** Every flag and note in the Organization, by FieldKey. */
+    static getAnnotations(organizationId: string): Annotations {
+        const annotations = this.loadDocument(organizationId)?.annotations;
+        return annotations && typeof annotations === "object" && !Array.isArray(annotations) ? annotations : {};
+    }
+
+    /**
+     * Sets, changes or (with null, or once it says nothing) removes
+     * the annotation on one field, and tells whoever listens.
+     */
+    static setAnnotation(organizationId: string, key: string, annotation: FieldAnnotation | null): void {
+
+        const document = this.loadDocument(organizationId);
+
+        if (!document) {
+            return;
+        }
+
+        const annotations = { ...(document.annotations ?? {}) };
+
+        if (!annotation || annotationIsEmpty(annotation)) {
+            delete annotations[key];
+        } else {
+            annotations[key] = annotation;
+        }
+
+        document.annotations = annotations;
+        this.saveDocument(document);
+        annotationListeners.forEach(listener => listener());
+
+    }
+
+    /** Calls `listener` whenever an annotation changes; returns the unsubscribe. */
+    static subscribeAnnotations(listener: () => void): () => void {
+        annotationListeners.add(listener);
+        return () => annotationListeners.delete(listener);
     }
 
     // -- Shared Product Register (item 7) --

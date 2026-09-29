@@ -10,6 +10,7 @@ import { SOURCES } from "../../framework/engine/Sources.ts";
 
 import { BusinessField } from "./BusinessCardFields.tsx";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
+import { FieldFlagButton, FieldStatus } from "./fieldAnnotations.tsx";
 import MonthYearPicker from "./MonthYearPicker.tsx";
 import FoldArrow from "./FoldArrow.tsx";
 import CardNumber from "./CardNumber.tsx";
@@ -601,9 +602,12 @@ export function FinancialSectionCard({
                     <InfoText text={section.title}>
                         <InfoNote label={section.title} points={section.info} fullList />
                     </InfoText>
+                    {rail && <FieldFlagButton label={section.title} section={rail} />}
                 </span>
                 {titleExtra}
             </div>
+
+            {rail && <FieldStatus label={section.title} section={rail} />}
 
             {open && body()}
 

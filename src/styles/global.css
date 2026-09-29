@@ -776,6 +776,118 @@ b, strong {
   cursor: pointer;
 }
 
+/* THE FIELD MENU (fieldAnnotations.tsx): a small flag after a field's
+   label. Out of the way until wanted -- seen when the field or its
+   label is pointed at or holds the focus, always on a touch screen
+   (no hover to find it by), and always once the field carries a
+   flag -- and reachable by keyboard throughout (it takes focus while
+   unseen, and shows when it has it). */
+.field-flag {
+  position: relative;
+  display: inline-block;
+  margin-left: 6px;
+  vertical-align: baseline;
+}
+
+.field-status {
+  display: contents;
+}
+
+.field-flag-button {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: none;
+  font-size: var(--font-small);
+  line-height: 1;
+  letter-spacing: normal;
+  color: var(--text-subtle);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+:is(.business-foundation-field, .legal-entity-field, .legal-entity-section-head, .answer-column-label, .strategy-box-head):is(:hover, :focus-within) .field-flag-button,
+.field-flag-button:focus-visible,
+.field-flag-button[aria-expanded="true"],
+.field-flag-button[data-active] {
+  opacity: 1;
+}
+
+.field-flag-button[data-active] {
+  color: var(--text-default);
+}
+
+.field-flag-button:hover,
+.field-flag-button:focus-visible {
+  border-color: var(--box-border);
+  outline: none;
+}
+
+@media (hover: none) {
+  .field-flag-button {
+    opacity: 1;
+  }
+}
+
+.field-flag-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 220px;
+  max-width: calc(100vw - 24px);
+  margin-top: 6px;
+  padding: 4px;
+  border: 1px solid var(--box-border);
+  border-radius: 8px;
+  background: var(--bg-surface);
+  box-shadow: 0 12px 28px var(--shadow-ink-18);
+  text-align: start;
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 400;
+}
+
+.field-flag-option {
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  font: inherit;
+  font-size: var(--font-body);
+  letter-spacing: normal;
+  text-align: start;
+  color: var(--text-default);
+  cursor: pointer;
+}
+
+.field-flag-option:hover,
+.field-flag-option:focus-visible {
+  background: var(--bg-list-hover);
+  outline: none;
+}
+
+.field-flag-option[aria-checked="true"] {
+  font-weight: 700;
+}
+
+.field-flag-option[aria-checked="true"]::before {
+  content: "\2713\00a0" / "";
+}
+
+.field-flag-research {
+  margin: 2px 6px 6px;
+  width: auto;
+}
+
 /* AN ADD BUTTON STANDING ALONE IN A TABLE CELL (the last row of a
    list kept in a table: "+ Add Channel") takes the cell's whole
    content width, its label centred as every full-width add button's

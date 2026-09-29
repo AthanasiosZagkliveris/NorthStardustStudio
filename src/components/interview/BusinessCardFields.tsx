@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
+import { FieldFlagButton, FieldStatus } from "./fieldAnnotations.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import FoldArrow from "./FoldArrow.tsx";
 import CardNumber from "./CardNumber.tsx";
@@ -68,10 +69,18 @@ export function BusinessField({
                             <InfoText text={label}>
                                 <InfoNote label={label} points={info} fullList />
                             </InfoText>
+                            <FieldFlagButton label={label} />
                         </span>
+                        <FieldStatus label={label} />
                     </span>
                 )
-                : <span className="field-label business-foundation-label">{label}</span>}
+                : (
+                    <span className="field-label business-foundation-label">
+                        {label}
+                        <FieldFlagButton label={label} />
+                        <FieldStatus label={label} />
+                    </span>
+                )}
 
             {children}
 

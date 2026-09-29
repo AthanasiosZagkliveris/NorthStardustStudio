@@ -1,5 +1,8 @@
 import { ReactNode } from "react";
 
+import { FieldFlagButton, FieldStatus } from "./fieldAnnotations.tsx";
+import { railId } from "./rails/railItems.ts";
+
 /*
     The column-page heads the Brand and Strategy Foundation editors
     share: each section's numbered heading, and the bullet guidance
@@ -30,7 +33,11 @@ export function ColumnHeading({
             <span className="answer-column-label-number">
                 {(startNumber + offset) + "."}
             </span>
-            <span className="answer-column-label-text">{title}</span>
+            <span className="answer-column-label-text">
+                {title}
+                <FieldFlagButton label={title} section={railId(title)} />
+            </span>
+            <FieldStatus label={title} section={railId(title)} />
         </h3>
     );
 

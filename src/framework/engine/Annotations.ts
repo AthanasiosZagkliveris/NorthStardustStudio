@@ -1,4 +1,4 @@
-import type { FieldKey } from "./FieldKeys";
+import { fieldKey, isWithin, pageKeyPrefix, type FieldKey } from "./FieldKeys";
 
 /**
  * What a person can say ABOUT an answer, beside the answer itself:
@@ -57,4 +57,33 @@ export function annotationIsEmpty(annotation: FieldAnnotation): boolean {
 /** Whether a flag leaves the answer open: not sure, or to be researched. */
 export function flagIsOpen(flag: FieldFlag | undefined): boolean {
     return flag === "not-sure" || flag === "research";
+}
+
+/**
+ * What marks an Organization's pages for another look, handed to the
+ * page and section statuses and the validator: its annotations (flags
+ * and notes), and the pages an upstream change has left to check
+ * (see UpstreamChanges.ts). `systemNumber` is the System being judged.
+ */
+export interface ReviewMarks {
+    systemNumber: number;
+    annotations: Annotations;
+    /** Pages (Section numbers) of this System to check again. */
+    staleSections?: ReadonlySet<number>;
+}
+
+/** Whether a page, a column or a section of it was marked "Doesn't apply". */
+export function isNotApplicable(marks: ReviewMarks | undefined, sectionNumber: number, segment: string): boolean {
+    return marks?.annotations[fieldKey({ systemNumber: marks.systemNumber, sectionNumber, path: [segment] })]?.flag === "not-applicable";
+}
+
+/** Whether anything on a page (or, with `segment`, in one of its sections) is flagged as not settled. */
+export function hasOpenFlag(marks: ReviewMarks | undefined, sectionNumber: number, segment?: string): boolean {
+    if (!marks) {
+        return false;
+    }
+    const prefix = pageKeyPrefix(marks.systemNumber, sectionNumber);
+    const scope = segment ? fieldKey({ systemNumber: marks.systemNumber, sectionNumber, path: [segment] }) : prefix;
+    return Object.entries(marks.annotations).some(([key, annotation]) =>
+        flagIsOpen(annotation.flag) && (isWithin(key, scope) || (segment !== undefined && key.startsWith(prefix) && annotation.section === segment)));
 }

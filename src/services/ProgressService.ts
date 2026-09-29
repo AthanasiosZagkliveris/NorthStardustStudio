@@ -79,7 +79,10 @@ export function systemPages(
         const session = savedSession(organizationId, system)
             ?? new InterviewSession(frameworkRegistry.getFramework(system.id));
 
-        const statuses = pageStatuses(session, sharedValueResolver(organizationId));
+        const statuses = pageStatuses(session, sharedValueResolver(organizationId), {
+            systemNumber: system.number,
+            annotations: OrganizationService.getAnnotations(organizationId)
+        });
 
         return session.getSections().map(section => ({
             number: section.number,

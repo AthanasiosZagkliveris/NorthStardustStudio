@@ -38,6 +38,9 @@ import {
     financialFoundationSectionsEmpty,
     financialSustainabilitySectionsEmpty
 } from "./FinancialModel.ts";
+import { isNotApplicable, type ReviewMarks } from "./Annotations.ts";
+import { BESPOKE_SECTIONS } from "./BespokeSections.ts";
+import { sectionSegment } from "./FieldKeys.ts";
 
 /**
  * Validates a completed Interview Session.
@@ -63,7 +66,12 @@ export class InterviewValidator {
          * Sections 1-4 rather than staying silent about four pages
          * the user still has to fill in.
          */
-        resolveSharedValue?: (answer: AnswerDefinition) => unknown
+        resolveSharedValue?: (answer: AnswerDefinition) => unknown,
+        /**
+         * The Organization's flags (see Annotations.ts): a column or a
+         * section marked "Doesn't apply" counts as answered.
+         */
+        marks?: ReviewMarks
     ): ValidationResult {
 
         const framework = session.getFramework();
@@ -94,7 +102,7 @@ export class InterviewValidator {
 
                     columnNumber++;
 
-                    if (isAnswerEmpty(part.answer, values[part.id])) {
+                    if (isAnswerEmpty(part.answer, values[part.id]) && !isNotApplicable(marks, section.number, part.id)) {
 
                         issues.push({
                             sectionNumber: columnNumber,
@@ -132,7 +140,7 @@ export class InterviewValidator {
                 brandStyleSectionsEmpty(session.getResponse(section.number))
                     .forEach((empty, index) => {
                         columnNumber++;
-                        if (empty) {
+                        if (empty && !isNotApplicable(marks, section.number, sectionSegment(BRAND_STYLE_SECTIONS[index]))) {
                             issues.push({
                                 sectionNumber: columnNumber,
                                 sectionTitle: BRAND_STYLE_SECTIONS[index],
@@ -159,7 +167,7 @@ export class InterviewValidator {
 
                 businessFoundationSubsectionsEmpty(session.getResponse(section.number))
                     .forEach((empty, index) => {
-                        if (empty) {
+                        if (empty && !isNotApplicable(marks, section.number, sectionSegment(BUSINESS_FOUNDATION_SUBSECTIONS[index]))) {
                             issues.push({
                                 sectionNumber: pageNumber,
                                 sectionTitle: BUSINESS_FOUNDATION_SUBSECTIONS[index],
@@ -184,7 +192,7 @@ export class InterviewValidator {
 
                 businessEngagementSectionsEmpty(session.getResponse(section.number))
                     .forEach((empty, index) => {
-                        if (empty) {
+                        if (empty && !isNotApplicable(marks, section.number, sectionSegment(BUSINESS_ENGAGEMENT_SECTIONS[index]))) {
                             issues.push({
                                 sectionNumber: pageNumber,
                                 sectionTitle: BUSINESS_ENGAGEMENT_SECTIONS[index],
@@ -208,7 +216,7 @@ export class InterviewValidator {
 
                 businessCapabilitySectionsEmpty(session.getResponse(section.number))
                     .forEach((empty, index) => {
-                        if (empty) {
+                        if (empty && !isNotApplicable(marks, section.number, sectionSegment(BUSINESS_CAPABILITY_SECTIONS[index]))) {
                             issues.push({
                                 sectionNumber: pageNumber,
                                 sectionTitle: BUSINESS_CAPABILITY_SECTIONS[index],
@@ -242,7 +250,7 @@ export class InterviewValidator {
                     ? financialFoundationSectionsEmpty
                     : financialSustainabilitySectionsEmpty)(session.getResponse(section.number))
                     .forEach((empty, index) => {
-                        if (empty) {
+                        if (empty && !isNotApplicable(marks, section.number, sectionSegment(titles[index]))) {
                             issues.push({
                                 sectionNumber: pageNumber,
                                 sectionTitle: titles[index],
@@ -272,7 +280,7 @@ export class InterviewValidator {
 
                 legalEntitySectionsEmpty(session.getResponse(section.number))
                     .forEach((empty, index) => {
-                        if (empty) {
+                        if (empty && !isNotApplicable(marks, section.number, sectionSegment(LEGAL_ENTITY_SECTIONS[index]))) {
                             issues.push({
                                 sectionNumber: pageNumber,
                                 sectionTitle: LEGAL_ENTITY_SECTIONS[index],
@@ -304,7 +312,7 @@ export class InterviewValidator {
                 brandInventorySectionsEmpty(session.getResponse(section.number))
                     .forEach((empty, index) => {
                         columnNumber++;
-                        if (empty) {
+                        if (empty && !isNotApplicable(marks, section.number, sectionSegment(BRAND_INVENTORY_SECTIONS[index]))) {
                             issues.push({
                                 sectionNumber: columnNumber,
                                 sectionTitle: BRAND_INVENTORY_SECTIONS[index],
@@ -328,7 +336,7 @@ export class InterviewValidator {
                 strategyFoundationSectionsEmpty(session.getResponse(section.number))
                     .forEach((empty, index) => {
                         columnNumber++;
-                        if (empty) {
+                        if (empty && !isNotApplicable(marks, section.number, sectionSegment(STRATEGY_FOUNDATION_SECTIONS[index]))) {
                             issues.push({
                                 sectionNumber: columnNumber,
                                 sectionTitle: STRATEGY_FOUNDATION_SECTIONS[index],
@@ -396,7 +404,7 @@ export class InterviewValidator {
                         // part is counted (so later numbering stays
                         // right) but never reported as incomplete on
                         // no evidence.
-                        if (resolveSharedValue && isAnswerEmpty(part.answer, values[part.id])) {
+                        if (resolveSharedValue && isAnswerEmpty(part.answer, values[part.id]) && !isNotApplicable(marks, section.number, part.id)) {
 
                             issues.push({
                                 sectionNumber: columnNumber,
@@ -449,10 +457,30 @@ export class InterviewValidator {
     public isPageComplete(
         session: InterviewSession,
         section: Section,
-        resolveSharedValue?: (answer: AnswerDefinition) => unknown
+        resolveSharedValue?: (answer: AnswerDefinition) => unknown,
+        marks?: ReviewMarks
     ): boolean {
 
         const answer = section.answer;
+
+        // A column or a section marked "Doesn't apply" counts as
+        // answered: judged column by column, or section by section,
+        // as `validate` reports them.
+        if (marks && answer?.type === AnswerType.MultiPart && answer.columns && answer.parts) {
+            const response = session.getResponse(section.number);
+            const values = response && typeof response === "object" && !Array.isArray(response)
+                ? response as Record<string, unknown>
+                : {};
+            return answer.parts.every(part =>
+                !isAnswerEmpty(part.answer, values[part.id]) || isNotApplicable(marks, section.number, part.id));
+        }
+
+        const bespoke = answer ? BESPOKE_SECTIONS[answer.type] : undefined;
+
+        if (marks && bespoke) {
+            return bespoke.empty(session.getResponse(section.number)).every((empty, index) =>
+                !empty || isNotApplicable(marks, section.number, sectionSegment(bespoke.titles[index])));
+        }
 
         if (answer?.type === AnswerType.StrategicPeriod) {
             return this.strategicPeriodIssues(session, section).length === 0;

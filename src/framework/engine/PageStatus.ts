@@ -3,6 +3,8 @@ import type { InterviewSession } from "../interview";
 import { AnswerType } from "../enums/AnswerType.ts";
 import { defaultAnswerValue } from "./AnswerUtils.ts";
 import { InterviewValidator } from "./InterviewValidator.ts";
+import { hasOpenFlag, type ReviewMarks } from "./Annotations.ts";
+import { pageKeyPrefix } from "./FieldKeys.ts";
 
 /**
  * Where a page stands, computed from its answers and never set by
@@ -29,17 +31,23 @@ export const PAGE_STATUS_WORDS: Record<PageStatus, string> = {
 };
 
 /**
- * Whether a page has been flagged for another look -- by a reviewer,
- * or because something it draws on upstream has changed. Nothing
- * raises such a flag yet, so this is always false; it is the one
- * place the flags will be read from.
+ * Whether a page has been flagged for another look: a field on it
+ * marked "Not sure yet" or "Needs research" (see Annotations.ts), or
+ * something it draws on changed upstream since it was last opened
+ * (`staleSections`, see UpstreamChanges.ts). The one place both are
+ * read from.
  */
-export function needsReview(section: Section): boolean {
+export function needsReview(section: Section, marks?: ReviewMarks): boolean {
 
-    void section;
+    return !!marks?.staleSections?.has(section.number) || hasOpenFlag(marks, section.number);
 
-    return false;
+}
 
+/** Whether anything on a page is marked "Doesn't apply" (an answer of its own). */
+function hasNotApplicable(marks: ReviewMarks | undefined, sectionNumber: number): boolean {
+    const prefix = marks ? pageKeyPrefix(marks.systemNumber, sectionNumber) : "";
+    return !!marks && Object.entries(marks.annotations).some(([key, annotation]) =>
+        key.startsWith(prefix) && annotation.flag === "not-applicable");
 }
 
 // Keys that carry identity or bookkeeping rather than an answer: a
@@ -136,7 +144,8 @@ const validator = new InterviewValidator();
  */
 export function pageStatuses(
     session: InterviewSession,
-    resolveSharedValue?: (answer: AnswerDefinition) => unknown
+    resolveSharedValue?: (answer: AnswerDefinition) => unknown,
+    marks?: ReviewMarks
 ): Map<number, PageStatus> {
 
     const statuses = new Map<number, PageStatus>();
@@ -149,7 +158,7 @@ export function pageStatuses(
             continue;
         }
 
-        statuses.set(section.number, pageStatus(session, section, resolveSharedValue));
+        statuses.set(section.number, pageStatus(session, section, resolveSharedValue, marks));
 
     }
 
@@ -158,7 +167,7 @@ export function pageStatuses(
     for (const section of derived) {
         statuses.set(
             section.number,
-            needsReview(section) ? "needs-review" : systemStatus(answered)
+            needsReview(section, marks) ? "needs-review" : systemStatus(answered)
         );
     }
 
@@ -170,10 +179,11 @@ export function pageStatuses(
 export function pageStatus(
     session: InterviewSession,
     section: Section,
-    resolveSharedValue?: (answer: AnswerDefinition) => unknown
+    resolveSharedValue?: (answer: AnswerDefinition) => unknown,
+    marks?: ReviewMarks
 ): PageStatus {
 
-    if (needsReview(section)) {
+    if (needsReview(section, marks)) {
         return "needs-review";
     }
 
@@ -189,11 +199,12 @@ export function pageStatus(
         ? resolveSharedValue?.(answer)
         : session.getResponse(section.number);
 
-    if (!shown || !hasAnyAnswer(shown, value)) {
+    // "Doesn't apply" is an answer too.
+    if (!shown || (!hasAnyAnswer(shown, value) && !hasNotApplicable(marks, section.number))) {
         return "not-started";
     }
 
-    return validator.isPageComplete(session, section, resolveSharedValue)
+    return validator.isPageComplete(session, section, resolveSharedValue, marks)
         ? "defined"
         : "in-progress";
 

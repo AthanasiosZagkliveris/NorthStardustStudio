@@ -151,6 +151,21 @@ export function writeField(value: unknown, path: readonly string[], next: unknow
     the definitions).
 */
 
+export type FieldKind = "answer" | "derived" | "binary" | "optional";
+
+/**
+ * Whether two choices are a yes and a no: "Yes"/"No", or one the
+ * other's "not" ("Registered" / "Not yet registered").
+ */
+export function isYesNoPair(options: readonly string[]): boolean {
+    if (options.length !== 2) {
+        return false;
+    }
+    const [one, other] = options.map(option => option.trim().toLowerCase());
+    const negative = (text: string) => /^(no|not|none|never)\b/.test(text) || /\bnot\b/.test(text);
+    return (one === "yes" && other === "no") || (one === "no" && other === "yes") || negative(one) !== negative(other);
+}
+
 export interface FieldEntry {
 
     key: FieldKey;
@@ -160,6 +175,23 @@ export interface FieldEntry {
 
     /** The page as its title names it ("3. Legal Entity"). */
     pageTitle: string;
+
+    /**
+     * What kind of field it is -- and only an ANSWER can be flagged or
+     * noted (absent means an answer):
+     *
+     *   answer    typed or chosen by the person;
+     *   derived   worked out, read from elsewhere or shown read-only
+     *             (a Responsibility a rule decides, recalled Roles, a
+     *             total);
+     *   binary    a yes or a no: one tick box, or a choice of two that
+     *             are each other's "not" ("Registered" / "Not yet
+     *             registered") -- nothing to be unsure of;
+     *   optional  an optional text opened by its own tick box: optional
+     *             by design, so not sure / to research / does not
+     *             apply do not arise.
+     */
+    kind?: FieldKind;
 
 }
 
@@ -181,4 +213,14 @@ export function registeredFields(systemNumber?: number, sectionNumber?: number):
 /** For tests: forgets every recorded field. */
 export function clearFieldRegistry(): void {
     registry.clear();
+}
+
+/**
+ * A page section's segment from its title: its rail id ("Founders &
+ * Ownership" -> "founders-ownership"). The rails (railItems.railId)
+ * and the editors' `data-rail` markers use this very function, so a
+ * section's key and its place on the page can never drift apart.
+ */
+export function sectionSegment(title: string): string {
+    return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
