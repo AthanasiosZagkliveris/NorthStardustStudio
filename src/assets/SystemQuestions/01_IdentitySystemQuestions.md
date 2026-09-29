@@ -2,7 +2,7 @@ System Number: 1
 System Name: Identity System
 Capability: Foundation
 System Scope: Defines the organization's identity, purpose, guiding beliefs, and the principles that shape every decision.
-Guiding Question: Who are you, and why do you exist?
+Guiding Question: Who are we, and why do we exist?
 Uses From Earlier: Nothing. It's the starting point.
 Thinking Time: About 1–1.5 hr
 

@@ -207,7 +207,7 @@ describe("A System's opening screen", () => {
 
         renderOpening("business");
 
-        expect(screen.getByText("How do you create value, and how does it pay for itself?").className)
+        expect(screen.getByText("How do we create, deliver and capture value?").className)
             .toBe("intro-guiding-question");
 
         expect(Array.from(document.querySelectorAll(".intro-page")).map(page => page.textContent)).toEqual([
@@ -239,7 +239,7 @@ describe("A System's opening screen", () => {
         expect(Array.from(document.querySelectorAll(".intro-sentence strong")).map(name => name.textContent)).toEqual([
             "Definition", "Ethics", "Legal Entity", "Founders Profile"
         ]);
-        expect(document.querySelector(".intro-sentence")!.textContent).not.toContain("why do you exist");
+        expect(document.querySelector(".intro-sentence")!.textContent).not.toContain("why do we exist");
 
     });
 
@@ -259,7 +259,7 @@ describe("A System's opening screen", () => {
 
         renderOpening("identity");
 
-        expect(screen.getByText("Who are you, and why do you exist?")).toBeTruthy();
+        expect(screen.getByText("Who are we, and why do we exist?")).toBeTruthy();
         expect(fact("Uses from earlier")).toBe("Nothing. It's the starting point.");
 
     });

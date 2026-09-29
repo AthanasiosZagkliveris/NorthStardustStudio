@@ -2,7 +2,7 @@ System Number: 3
 System Name: Business System
 Capability: Foundation
 System Scope: Defines how the organization creates, delivers, and sustains value over time.
-Guiding Question: How do you create value, and how does it pay for itself?
+Guiding Question: How do we create, deliver and capture value?
 Uses From Earlier: Your target audience, founders and legal details from **1. Identity System**.
 Thinking Time: About 3–4 hr
 

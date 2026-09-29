@@ -250,12 +250,15 @@ textarea:focus{
    fixed bar under the card (.interview-nav), wherever the facts go.
 
    Beside each other, the two columns share two rows, and each row
-   holds its pair on ONE BASELINE (align-self: baseline): the
-   question with the first fact's title ("What it covers"), then the
+   holds its pair on ONE BASELINE: the question's LAST line with the
+   first fact's title ("What it covers"), so a question that wraps
+   grows upwards and still ends level with the title; then the
    introduction's first line with the facts' first line. The
-   question and every fact title take one line height
-   (--intro-lead-line), and each is --space-label above what it
-   leads, so the rows hold the same rhythm on both sides. */
+   question and every fact title END AT THEIR LAST BASELINE
+   (text-box trimmed there), whatever their type size, and each is
+   the same --space-field above what it leads: the gap under the
+   question is the gap under the title, and the rows hold the same
+   rhythm on both sides. */
 .intro-layout{
 
     --intro-lead-line:calc(var(--font-h3) * 1.35);
@@ -300,11 +303,16 @@ textarea:focus{
     }
 
     .intro-guiding-question,
-    .intro-covers-label,
+    .intro-covers-label{
+
+        align-self:last baseline;
+
+    }
+
     .intro-text,
     .intro-facts{
 
-        align-self:baseline;
+        align-self:first baseline;
 
     }
 
@@ -346,12 +354,14 @@ textarea:focus{
    a dialogue dash (U+2015) the layout draws, never the content. */
 .intro-guiding-question{
 
-    margin:0 0 var(--space-label);
+    margin:0 0 var(--space-field);
 
     font-size:var(--font-h3);
     font-style:italic;
     font-weight:500;
     line-height:var(--intro-lead-line);
+
+    text-box:trim-end cap alphabetic;
 
     color:var(--text-strong);
 
@@ -380,9 +390,11 @@ textarea:focus{
 
 .intro-fact-label{
 
-    margin:0 0 var(--space-label);
+    margin:0 0 var(--space-field);
 
     line-height:var(--intro-lead-line);
+
+    text-box:trim-end cap alphabetic;
 
 }
 
