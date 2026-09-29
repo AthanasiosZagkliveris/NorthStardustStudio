@@ -6673,6 +6673,24 @@ export function businessFounderResponsibilities(
 }
 
 /**
+ * How long a founder's Responsibilities list can be and still start
+ * open. A longer one starts folded, behind its "Completed n/m"
+ * count, so the founder card stays a card rather than a list.
+ */
+export const RESPONSIBILITIES_OPEN_UP_TO = 5;
+
+/** A founder's Responsibilities, counted: how many are done of how many, and whether the list starts open. */
+export function businessResponsibilitiesTally(
+    responsibilities: readonly { completed: boolean }[]
+): { completed: number; total: number; startsOpen: boolean } {
+    return {
+        completed: responsibilities.filter(entry => entry.completed).length,
+        total: responsibilities.length,
+        startsOpen: responsibilities.length <= RESPONSIBILITIES_OPEN_UP_TO
+    };
+}
+
+/**
  * The founder responsible BY RULE, or "" where it is a choice.
  *
  * 1. A one-person organisation: its only founder is responsible for

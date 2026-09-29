@@ -431,3 +431,65 @@ describe("BusinessCapabilityEditor founders' roles", () => {
     });
 
 });
+
+describe("BusinessCapabilityEditor founders' Responsibilities", () => {
+
+    const ann = { id: "f1", name: "Ann", ownership: "100", capital: "", roles: [""], experience: "" };
+
+    /** Ann, the only founder, is responsible for every named activity. */
+    function renderWith(names: string[], completed: number) {
+        const initial = {
+            ...asBusinessCapabilityValue(undefined),
+            activities: [{
+                id: BUSINESS_ACTIVITY_CATEGORIES[0].id,
+                name: "",
+                activities: names.map((name, index) => ({ ...createBusinessActivity(), name, completed: index < completed }))
+            }]
+        };
+        function ValueHarness() {
+            const [value, setValue] = useState<unknown>(initial);
+            return <BusinessCapabilityEditor value={value} onChange={setValue} legalEntityFounders={[ann]} />;
+        }
+        const view = render(<ValueHarness />);
+        const card = toggles(/(Founder 1|Ann)$/)[0];
+        if (card.getAttribute("aria-expanded") === "false") {
+            fireEvent.click(card);
+        }
+        return view;
+    }
+
+    const lines = (container: HTMLElement) =>
+        [...container.querySelectorAll(".business-capability-responsibilities-head ~ div .numbered-list-static-text")].map(line => line.textContent);
+
+    it("counts what is done of all of them, beside the label", () => {
+        const { container } = renderWith(["A", "B", "C", "D", "E", "F", "G"], 3);
+        expect(container.querySelector(".business-capability-responsibilities-count")?.textContent).toBe("Completed 3/7");
+    });
+
+    it("starts a list of more than five folded, and unfolds it from its arrow", () => {
+        const { container } = renderWith(["A", "B", "C", "D", "E", "F"], 1);
+        const arrow = screen.getByRole("button", { name: /^Maximize Responsibilities of (Ann|Founder 1)$/ });
+        expect(arrow.getAttribute("aria-expanded")).toBe("false");
+        expect(lines(container)).toEqual([]);
+        fireEvent.click(arrow);
+        const open = screen.getByRole("button", { name: /^Minimize Responsibilities of (Ann|Founder 1)$/ });
+        expect(open.getAttribute("aria-expanded")).toBe("true");
+        expect(lines(container)).toEqual(["A", "B", "C", "D", "E", "F"]);
+        fireEvent.click(open);
+        expect(lines(container)).toEqual([]);
+    });
+
+    it("starts a list of five or fewer open", () => {
+        const { container } = renderWith(["A", "B", "C", "D", "E"], 0);
+        expect(screen.getByRole("button", { name: /^Minimize Responsibilities of (Ann|Founder 1)$/ }).getAttribute("aria-expanded")).toBe("true");
+        expect(lines(container)).toHaveLength(5);
+        expect(container.querySelector(".business-capability-responsibilities-count")?.textContent).toBe("Completed 0/5");
+    });
+
+    it("has no arrow and no count while there is nothing to list", () => {
+        const { container } = renderWith([], 0);
+        expect(screen.queryByRole("button", { name: /Responsibilities of/ })).toBeNull();
+        expect(container.querySelector(".business-capability-responsibilities-count")).toBeNull();
+    });
+
+});

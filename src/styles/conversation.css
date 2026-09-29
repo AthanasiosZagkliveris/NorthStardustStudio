@@ -11792,6 +11792,30 @@ td.process-library-col-number{
 
 }
 
+/* A founder's Responsibilities label line: the fold arrow, the
+   label with its "i", then "Completed n/m". The arrow hangs in the
+   card body's indent, where the card's own arrow sits above it, so
+   the label stays on the column every other label starts on. */
+.business-capability-responsibilities-head{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:center;
+
+    column-gap:12px;
+
+}
+
+.business-capability-responsibilities-head > .strategy-box-toggle{
+
+    margin-left:-44px;
+
+    margin-right:-4px;
+
+}
+
 /* A founder's responsibility that is done: struck through, with a
    tag in the Completed fold's blue saying so in words -- strike-
    through alone reads as "cancelled". The line (number and text)

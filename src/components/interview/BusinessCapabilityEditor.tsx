@@ -22,6 +22,7 @@ import {
     businessFoundationSegments,
     businessAutoResponsibleId,
     businessFounderResponsibilities,
+    businessResponsibilitiesTally,
     createBusinessActivity,
     createBusinessPartner,
     createBusinessResourceSlot,
@@ -479,6 +480,14 @@ export default function BusinessCapabilityEditor({
 
     /** Completed lists start folded away: they are what is DONE. */
     const [completedOpen, setCompletedOpen] = useState<ReadonlySet<string>>(new Set());
+
+    /**
+     * Each founder's Responsibilities list, where it has been folded
+     * or unfolded by hand; otherwise it starts open up to five and
+     * folded beyond (see businessResponsibilitiesTally). Kept for as
+     * long as the page is open, like every other fold on it.
+     */
+    const [responsibilityFolds, setResponsibilityFolds] = useState<ReadonlyMap<string, boolean>>(new Map());
 
     /**
      * Resources whose provider or professional was just created
@@ -1430,6 +1439,12 @@ export default function BusinessCapabilityEditor({
             capability, founder.id
         );
 
+        const tally = businessResponsibilitiesTally(responsibilities);
+
+        const responsibilitiesOpen = responsibilityFolds.get(founder.id) ?? tally.startsOpen;
+
+        const responsibilitiesId = "responsibilities-" + founder.id;
+
         const founderLabel = founder.name.trim() || "Founder " + (index + 1);
 
         const founderDelivery = founderDeliveryHours(founder);
@@ -1620,11 +1635,41 @@ export default function BusinessCapabilityEditor({
 
                 {/* Written by the activities that name this founder
                     as responsible, never typed here -- one fact, one
-                    place. */}
-                <BusinessField
-                    label="Responsibilities"
-                    info={SECTIONS.infrastructure.responsibilities}
-                >
+                    place. It folds, with the cards' own arrow, and
+                    says how much of it is done ("Completed 3/15"), so
+                    a long list can be put away. */}
+                <div className="business-foundation-field">
+
+                    <span className="business-foundation-label-info business-capability-responsibilities-head">
+
+                        {responsibilities.length > 0 && (
+                            <FoldArrow
+                                open={responsibilitiesOpen}
+                                label={"Responsibilities of " + founderLabel}
+                                onToggle={() => setResponsibilityFolds(current =>
+                                    new Map(current).set(founder.id, !responsibilitiesOpen)
+                                )}
+                            />
+                        )}
+
+                        <span className="field-label business-foundation-label">
+                            <InfoText text="Responsibilities">
+                                <InfoNote
+                                    label="Responsibilities"
+                                    points={SECTIONS.infrastructure.responsibilities}
+                                    fullList
+                                />
+                            </InfoText>
+                        </span>
+
+                        {responsibilities.length > 0 && (
+                            <span className="field-label field-label-muted business-capability-responsibilities-count">
+                                {"Completed " + tally.completed + "/" + tally.total}
+                            </span>
+                        )}
+
+                    </span>
+
                     {responsibilities.length === 0
                         ? (
                             <BusinessEmpty>
@@ -1632,27 +1677,30 @@ export default function BusinessCapabilityEditor({
                                 activity under 2. Activities and it appears here.
                             </BusinessEmpty>
                         )
-                        : (
+                        : responsibilitiesOpen && (
                             /* A completed one stays, marked done in the
                                blue the Completed fold under 2. Activities
                                is drawn in, the mark at the end of its
                                line. */
-                            <NumberedListStatic
-                                lines={responsibilities.map((entry, position) => ({
-                                    key: entry.name + position,
-                                    text: entry.name,
-                                    className: entry.completed
-                                        ? "business-capability-responsibility-done"
-                                        : undefined,
-                                    end: entry.completed && (
-                                        <span className="business-capability-done-tag">
-                                            Completed
-                                        </span>
-                                    )
-                                }))}
-                            />
+                            <div id={responsibilitiesId}>
+                                <NumberedListStatic
+                                    lines={responsibilities.map((entry, position) => ({
+                                        key: entry.name + position,
+                                        text: entry.name,
+                                        className: entry.completed
+                                            ? "business-capability-responsibility-done"
+                                            : undefined,
+                                        end: entry.completed && (
+                                            <span className="business-capability-done-tag">
+                                                Completed
+                                            </span>
+                                        )
+                                    }))}
+                                />
+                            </div>
                         )}
-                </BusinessField>
+
+                </div>
 
             </BusinessCard>
         );
