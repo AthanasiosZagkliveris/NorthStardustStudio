@@ -11835,14 +11835,13 @@ td.process-library-col-number{
    neutral grey of everything completed (--*-completed-*,
    colors.css) -- a colour that belongs to no Segment, because
    "finished" is not a category of work. */
-/* Its cards run the FULL width of the list, exactly as the active
-   cards above do: no side padding and no side border, so a
-   completed card is as wide as an active one, sits at the same x,
-   and makes the same label-above-or-beside decision (a card's own
-   width decides it -- "A NARROW CARD", global.css). The frame is
-   an inset shadow rather than a border: it is painted under the
-   cards, which cover it at the sides with their own borders on the
-   same line, and it shows above, between and below them. */
+/* No frame and no ground of its own: the fold arrow and its grey
+   "Completed N", then the completed cards, each in its own grey
+   tint. Its cards run the FULL width of the list, exactly as the
+   active cards above do, so a completed card is as wide as an
+   active one, sits at the same x, and makes the same
+   label-above-or-beside decision (a card's own width decides it --
+   "A NARROW CARD", global.css). */
 .business-capability-completed{
 
     display:flex;
@@ -11850,14 +11849,6 @@ td.process-library-col-number{
     flex-direction:column;
 
     gap:12px;
-
-    padding:12px 0;
-
-    border-radius:8px;
-
-    background:var(--bg-completed-ground);
-
-    box-shadow:inset 0 0 0 1px var(--line-completed);
 
     /* Its colour family, which everything in it inherits: labels
        in the neutral grey, and every outlined button -- + Add
@@ -11884,9 +11875,6 @@ td.process-library-col-number{
     align-self:flex-start;
 
     min-height:28px;
-
-    /* Where the group's 12px side padding used to put it. */
-    margin-inline:12px;
 
     padding:0;
 
