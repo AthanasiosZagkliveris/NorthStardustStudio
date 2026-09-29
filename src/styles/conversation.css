@@ -423,27 +423,14 @@ textarea:focus{
 
 }
 
-/* The System's pages, as the Pages rail names them, one a line on
-   the body line (no gap of their own); each opens the interview at
-   that page. The number is part of the name ("1. Definition"), so
-   the list draws none of its own. */
-.intro-pages{
+/* The System's pages, as the Pages rail names them, in the app's
+   shown-not-asked numbered list (.numbered-list-static,
+   numbered-list.css): its right-aligned number column, its text
+   indent and its --space-row between lines. Each opens the
+   interview at that page. */
+.intro-fact-text > .numbered-list-static{
 
-    display:flex;
-    flex-direction:column;
-
-    margin:var(--space-label) 0 0;
-    padding:0;
-
-    list-style:none;
-
-}
-
-.intro-page{
-
-    max-width:100%;
-
-    overflow-wrap:break-word;
+    margin-top:var(--space-label);
 
 }
 
@@ -456,7 +443,7 @@ textarea:focus{
     background:none;
 
     font:inherit;
-    line-height:var(--body-line);
+    line-height:inherit;
     letter-spacing:normal;
 
     text-align:start;

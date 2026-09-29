@@ -56,6 +56,7 @@ import { PreferencesService } from "../services/PreferencesService";
 import { systems } from "../data/systems";
 import { jumpTo, type OpenPage } from "../components/interview/jumpTo.ts";
 import BulletRail from "../components/interview/rails/BulletRail";
+import NumberedListStatic from "../components/interview/NumberedListStatic";
 import { pageIndexFromRailId, pageRailItems, sectionRailItems } from "../components/interview/rails/railItems";
 import { pageStatuses } from "../framework/engine/PageStatus";
 import { sectionStatuses } from "../framework/engine/SectionStatus";
@@ -2542,19 +2543,24 @@ export default function Conversation() {
                                     {introduction.systemScope && (
                                         <p className="intro-fact-line">{introduction.systemScope}</p>
                                     )}
-                                    <ol className="intro-pages">
-                                        {pageRailItems(session.getSections()).map(page => (
-                                            <li key={page.id} className="intro-page">
+                                    {/* The app's one shown-not-asked
+                                        numbered list: its number column,
+                                        its indent and its gap. */}
+                                    <NumberedListStatic
+                                        lines={pageRailItems(session.getSections()).map(page => ({
+                                            key: page.id,
+                                            className: "intro-page",
+                                            text: (
                                                 <button
                                                     type="button"
                                                     className="intro-page-link"
                                                     onClick={() => startInterviewAt(pageIndexFromRailId(page.id))}
                                                 >
-                                                    {page.label}
+                                                    {page.label.replace(/^\d+\.\s+/, "")}
                                                 </button>
-                                            </li>
-                                        ))}
-                                    </ol>
+                                            )
+                                        }))}
+                                    />
                                 </div>
 
                                 {introduction.usesFromEarlier && (

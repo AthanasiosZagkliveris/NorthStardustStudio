@@ -210,12 +210,14 @@ describe("A System's opening screen", () => {
         expect(screen.getByText("How do we create, deliver and capture value?").className)
             .toBe("intro-guiding-question");
 
+        // In the shared numbered list, which draws the numbers.
+        expect(document.querySelector(".intro-page")?.closest("ol")?.className).toBe("numbered-list-static");
         expect(Array.from(document.querySelectorAll(".intro-page")).map(page => page.textContent)).toEqual([
-            "1. Foundation",
-            "2. Customer Engagement",
-            "3. Infrastructure & Capability",
-            "4. Financial Foundation",
-            "5. Sustainability"
+            "Foundation",
+            "Customer Engagement",
+            "Infrastructure & Capability",
+            "Financial Foundation",
+            "Sustainability"
         ]);
         expect(fact("What it covers")).toContain("Defines how the organization creates, delivers, and sustains value over time.");
         expect(fact("Uses from earlier")).toBe("Your target audience, founders and legal details from 1. Identity System.");
@@ -247,7 +249,7 @@ describe("A System's opening screen", () => {
 
         renderOpening("identity");
 
-        fireEvent.click(screen.getByRole("button", { name: "3. Legal Entity" }));
+        fireEvent.click(screen.getByRole("button", { name: "Legal Entity" }));
 
         expect(screen.queryByRole("button", { name: "Start Interview" })).toBeNull();
         expect(screen.getByRole("navigation", { name: "Pages" }).querySelector("[aria-current='true']")?.getAttribute("aria-label"))
@@ -271,7 +273,7 @@ describe("A System's opening screen", () => {
         expect(document.querySelector(".intro-guiding-question")).toBeNull();
         expect(fact("Uses from earlier")).toBeNull();
         expect(fact("Thinking time")).toBeNull();
-        expect(fact("What it covers")).toContain("1. Clients");
+        expect(fact("What it covers")).toContain("Clients");
 
     });
 
