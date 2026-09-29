@@ -844,7 +844,8 @@
 
     background:none;
 
-    color:color-mix(in srgb, var(--capability-color, var(--text-soft)) var(--capability-ink-weight), var(--capability-ink-base));
+    /* On the rail's light-blue panel: see --capability-panel-ink-weight. */
+    color:color-mix(in srgb, var(--capability-color, var(--text-soft)) var(--capability-panel-ink-weight), var(--capability-panel-ink-base));
 
     font:inherit;
     /* Text tier. */

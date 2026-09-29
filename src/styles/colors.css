@@ -168,6 +168,7 @@
     --line-danger-deep: #b91c1c;
     --line-danger-strong: #d01818;
     --line-disabled: #9aa3ae;
+    --line-capability-input: #767676;
     --line-divider: #d1d5db;
     --line-completed: #868c95;
     --line-completed-ink: #374151;
@@ -258,6 +259,13 @@
        so the colour is drawn as it is. */
     --capability-ink-weight: 100%;
     --capability-ink-base: #ffffff;
+
+    /* On the rail's light-blue panel (--bg-primary-selected) the
+       brown and orange Capabilities measured 4.12 and 4.15:1: as
+       text there, a Capability colour is taken 15% toward black,
+       which holds every one of the six above 5.3:1. */
+    --capability-panel-ink-weight: 85%;
+    --capability-panel-ink-base: #000000;
 
 }
 
@@ -415,6 +423,7 @@
     --line-danger-deep: #eb7b6f;
     --line-danger-strong: #e47568;
     --line-disabled: #83868b;
+    --line-capability-input: #686d75;
     --line-divider: #686d75;
     --line-completed: #6f747c;
     --line-completed-ink: #c4c8ce;
@@ -505,6 +514,11 @@
        white, so it reads on the dark ground and keeps its hue. */
     --capability-ink-weight: 45%;
     --capability-ink-base: #ffffff;
+
+    /* Already clear of 4.5:1 on the dark panel: the same mix as
+       any Capability text. */
+    --capability-panel-ink-weight: 45%;
+    --capability-panel-ink-base: #ffffff;
 
     --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23e6e8eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 

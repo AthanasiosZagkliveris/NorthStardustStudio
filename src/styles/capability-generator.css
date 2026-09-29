@@ -101,7 +101,9 @@
 
     padding: 0 20px;
 
-    border: 1px solid var(--line-divider);
+    /* 4.54:1 against the page in light mode, over the 3:1 a field's
+       edge needs (the divider grey it had measured 1.47:1). */
+    border: 1px solid var(--line-capability-input);
     border-radius: 8px;
 
     font: inherit;
