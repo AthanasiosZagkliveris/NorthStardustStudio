@@ -312,7 +312,9 @@ describe("Quillfield: the documents tie together", () => {
         const asGrant = JSON.parse(quillfieldText.replace('"type": "microloan"', '"type": "grant"')) as typeof example;
         const business = InterviewSession.fromJSON(asGrant.systems["3"], frameworkRegistry.getFramework("business"));
         const md = new MarkdownExporter().toMarkdown(business, "Foundation", businessPlan({ ...all, business }));
-        const request = md.slice(md.indexOf("Funding Request"));
+        // The Funding Request section only, up to the next section.
+        const from = md.indexOf("Funding Request\n");
+        const request = md.slice(from, md.indexOf("\n## ", from + 1));
         expect(request).not.toMatch(/\brepaid\b|\brepayments included\b/);
         expect(request).not.toContain("Still short after repayments");
         expect(request).toMatch(/Still short with the funding sought: (\$[\d,]+ at the lowest point, in \w+ \d{4}, even with the funding sought|Nothing: with the funding sought, cash stays above zero)/);
