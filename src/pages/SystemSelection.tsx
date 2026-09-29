@@ -81,7 +81,8 @@ export default function SystemSelection() {
 
     const activeCapabilityColor = getCapabilityColor(activeCapability);
 
-    // Where the user last worked, offered as one "Continue" line.
+    // Where to go on: the last place worked, or the next page not yet
+    // defined (see continuePlace) -- one "Continue" or "Next" line.
     const lastPlace = useMemo(
         () => organizationId ? continuePlace(organizationId) : null,
         [organizationId]
@@ -240,7 +241,7 @@ export default function SystemSelection() {
                                 className="workspace-continue-button"
                                 onClick={continueWhereLeftOff}
                             >
-                                Continue: {lastPlace.label}
+                                {lastPlace.prefix}: {lastPlace.label}
                             </button>
                         </div>
                     )}

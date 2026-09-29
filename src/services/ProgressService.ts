@@ -52,18 +52,82 @@ function sharedValueResolver(organizationId: string): (answer: AnswerDefinition)
 
 }
 
+/** A System's saved session, or null when there is none or it cannot be read. */
+function savedSession(organizationId: string, system: FrameworkSystem): InterviewSession | null {
+
+    try {
+        return StorageService.loadInterview(organizationId, system.number);
+    } catch {
+        return null;
+    }
+
+}
+
 /**
- * Where "Continue" on System Selection leads: the last place worked,
- * as the System and page it names ("3. Business System — 3.
- * Infrastructure & Capability"), or null when nothing has been
- * worked on yet (or the place no longer exists).
+ * Every page of a System, in order, with its status for an
+ * Organization (see PageStatus.ts), from its saved answers; every
+ * page not started when the System has never been opened. Null for a
+ * System whose Framework cannot be read.
  */
-export function continuePlace(organizationId: string): {
+export function systemPages(
+    organizationId: string,
+    system: FrameworkSystem
+): { number: number; title: string; status: PageStatus }[] | null {
+
+    try {
+
+        const session = savedSession(organizationId, system)
+            ?? new InterviewSession(frameworkRegistry.getFramework(system.id));
+
+        const statuses = pageStatuses(session, sharedValueResolver(organizationId));
+
+        return session.getSections().map(section => ({
+            number: section.number,
+            title: section.title,
+            status: statuses.get(section.number) ?? "not-started"
+        }));
+
+    } catch {
+        return null;
+    }
+
+}
+
+/** Where "Continue" on System Selection leads (see continuePlace). */
+export interface ContinuePlace {
+
+    /**
+     * "Continue" within the System last worked in; "Next" for the
+     * next Foundation System once that one is done.
+     */
+    prefix: "Continue" | "Next";
     system: FrameworkSystem;
     sectionNumber: number;
     anchor?: string;
+    /** "3. Business System — 3. Infrastructure & Capability". */
     label: string;
-} | null {
+
+}
+
+/**
+ * Where "Continue" on System Selection leads, from the last place
+ * worked and where the pages stand (a page is done only once it is
+ * defined; one that needs review is not):
+ *
+ *   the last page, while it is not done -- "Continue: <System> — <page>";
+ *   else that System's first page not done -- "Continue: ...";
+ *   else the first Foundation System (1 to 4) with a page not done,
+ *   at that page -- "Next: <System> — <page>";
+ *   else nothing: the Foundation is done, and there is no line.
+ *
+ * Null too when nothing has been worked on yet, or the place no
+ * longer exists. `pagesOf` reads a System's pages and statuses
+ * (systemPages); a test passes its own.
+ */
+export function continuePlace(
+    organizationId: string,
+    pagesOf: typeof systemPages = systemPages
+): ContinuePlace | null {
 
     const place = OrganizationService.getLastPlace(organizationId);
 
@@ -73,25 +137,50 @@ export function continuePlace(organizationId: string): {
         return null;
     }
 
-    try {
+    const pages = pagesOf(organizationId, system);
 
-        const sections = frameworkRegistry.getFramework(system.id).sections;
-        const section = sections[place.sectionIndex];
-
-        if (!section) {
-            return null;
-        }
-
-        return {
-            system,
-            sectionNumber: section.number,
-            anchor: place.anchor,
-            label: system.number + ". " + system.title + " — " + pageRailItems(sections)[place.sectionIndex].label
-        };
-
-    } catch {
+    if (!pages || !pages[place.sectionIndex]) {
         return null;
     }
+
+    const at = (prefix: ContinuePlace["prefix"], where: FrameworkSystem, list: typeof pages, index: number, anchor?: string): ContinuePlace => ({
+        prefix,
+        system: where,
+        sectionNumber: list[index].number,
+        anchor,
+        label: where.number + ". " + where.title + " — " + pageRailItems(list)[index].label
+    });
+
+    if (pages[place.sectionIndex].status !== "defined") {
+        return at("Continue", system, pages, place.sectionIndex, place.anchor);
+    }
+
+    const open = pages.findIndex(page => page.status !== "defined");
+
+    if (open >= 0) {
+        return at("Continue", system, pages, open);
+    }
+
+    const foundation = systems
+        .filter(candidate => candidate.capability === "foundation")
+        .sort((one, other) => one.number - other.number);
+
+    for (const next of foundation) {
+
+        if (next.number === system.number) {
+            continue;
+        }
+
+        const nextPages = pagesOf(organizationId, next);
+        const first = nextPages ? nextPages.findIndex(page => page.status !== "defined") : -1;
+
+        if (nextPages && first >= 0) {
+            return at("Next", next, nextPages, first);
+        }
+
+    }
+
+    return null;
 
 }
 
@@ -103,15 +192,8 @@ export function continuePlace(organizationId: string): {
  */
 export function systemProgress(organizationId: string, system: FrameworkSystem): PageStatus | null {
 
-    try {
+    const pages = systemPages(organizationId, system);
 
-        const session = StorageService.loadInterview(organizationId, system.number)
-            ?? new InterviewSession(frameworkRegistry.getFramework(system.id));
-
-        return systemStatus(Array.from(pageStatuses(session, sharedValueResolver(organizationId)).values()));
-
-    } catch {
-        return null;
-    }
+    return pages ? systemStatus(pages.map(page => page.status)) : null;
 
 }
