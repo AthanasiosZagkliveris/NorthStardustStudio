@@ -114,7 +114,13 @@
 
     z-index:20;
 
+    /* At least the trigger's width, and as wide as its longest
+       option -- up to the window, where an option wraps rather
+       than being cut off: the list is where a choice is read in
+       full. */
     min-width:100%;
+    width:max-content;
+    max-width:calc(100vw - 24px);
 
     margin-top:6px;
 
@@ -145,7 +151,8 @@
 
     color:var(--text-default);
 
-    white-space:nowrap;
+    white-space:normal;
+    overflow-wrap:break-word;
 
     cursor:pointer;
 

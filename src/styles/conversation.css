@@ -12419,12 +12419,6 @@ td.process-library-col-number{
 
 }
 
-.financial-plan-bar .option-picker-value{
-
-    white-space:normal;
-    overflow-wrap:break-word;
-
-}
 
 /* A note on the bar (a missing setting, where the rest comes
    from) runs across it, under the columns. */

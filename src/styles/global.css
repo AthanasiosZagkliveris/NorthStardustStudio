@@ -370,17 +370,15 @@ body {
 :where(.option-picker[data-size="l"]) { width: min(100%, var(--control-l)); }
 :where(.option-picker[data-size="full"]) { width: 100%; }
 
-/* The trigger fills the width its step gives the picker, and where
-   a column is narrower than the step the value wraps rather than
-   being cut off. */
+/* The trigger fills the width its step gives the picker. A CLOSED
+   PICKER IS ONE LINE, always: where its column is narrower than the
+   chosen text, the text ends in "…" (option-picker.css) -- the open
+   list shows every option in full, and the whole choice is in the
+   trigger's accessible name and title -- so the control keeps its
+   one-line height and the × beside it never moves. */
 .option-picker[data-size] > .option-picker-trigger.interview-input {
   display: grid;
   width: 100%;
-}
-
-.option-picker[data-size] .option-picker-value {
-  white-space: normal;
-  overflow-wrap: break-word;
 }
 
 /* A month, and a number or amount standing alone in a field. */
