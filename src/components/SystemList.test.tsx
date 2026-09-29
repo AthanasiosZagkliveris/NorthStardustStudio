@@ -25,4 +25,27 @@ describe("SystemList", () => {
 
     });
 
+    it("shows each System's status as the rail's shape and its word", () => {
+
+        const list = systems.slice(0, 4);
+
+        render(
+            <SystemList
+                systems={list}
+                statuses={{ 1: "defined", 2: "in-progress", 3: "not-started", 4: null }}
+                onSystemClick={() => {}}
+            />
+        );
+
+        const row = screen.getByRole("button", { name: /Brand System/ });
+
+        expect(row.textContent).toContain("in progress");
+        expect(row.querySelector(".status-shape")?.getAttribute("data-status")).toBe("in-progress");
+        expect(screen.getByRole("button", { name: /Identity System/ }).textContent).toContain("defined");
+        expect(screen.getByRole("button", { name: /Business System/ }).textContent).toContain("not started");
+        // No status known: nothing drawn.
+        expect(screen.getByRole("button", { name: /Strategy System/ }).querySelector(".system-status")).toBeNull();
+
+    });
+
 });

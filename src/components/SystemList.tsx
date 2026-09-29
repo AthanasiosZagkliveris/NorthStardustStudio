@@ -3,12 +3,16 @@ import "../styles/system-list.css";
 import SystemItem from "./SystemItem";
 
 import { FrameworkSystem } from "../types/system";
+import type { PageStatus } from "../framework/engine/PageStatus";
 
 interface SystemListProps {
 
     systems: FrameworkSystem[];
 
     color?: string;
+
+    /** Each System's status, by System number (see SystemItem). */
+    statuses?: Readonly<Record<number, PageStatus | null>>;
 
     onSystemClick: (system: FrameworkSystem) => void;
 
@@ -19,6 +23,8 @@ export default function SystemList({
     systems,
 
     color,
+
+    statuses,
 
     onSystemClick
 
@@ -37,6 +43,8 @@ export default function SystemList({
                     system={system}
 
                     color={color}
+
+                    status={statuses?.[system.number]}
 
                     onClick={() => onSystemClick(system)}
 

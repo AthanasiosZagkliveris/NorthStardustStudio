@@ -168,17 +168,13 @@
 
 .bullet-rail-left .bullet-rail-item { text-align: right; }
 
+/* Its shape is the page status (status-shape.css), drawn in the
+   rail ink: ice blue at rest, the hover blue, the active blue. */
 .bullet-rail-dot {
 
-    flex: none;
+    --status-ink: var(--rail-dot);
 
-    width: 12px;
-    height: 12px;
-
-    border-radius: 50%;
-    background: var(--rail-dot);
-
-    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 
 }
 
@@ -191,7 +187,7 @@
 
 .bullet-rail-item.active .bullet-rail-dot {
 
-    background: var(--rail-dot-active);
+    --status-ink: var(--rail-dot-active);
     box-shadow: 0 0 0 4px var(--rail-bloom);
     transform: scale(1.45);
 
@@ -224,7 +220,7 @@
 .bullet-rail-item:hover .bullet-rail-dot,
 .bullet-rail-item:focus-visible .bullet-rail-dot {
 
-    background: var(--rail-dot-hover);
+    --status-ink: var(--rail-dot-hover);
     box-shadow: 0 0 0 3px var(--rail-hover-ring);
     transform: scale(1.3);
 
@@ -233,7 +229,7 @@
 .bullet-rail-item.active:hover .bullet-rail-dot,
 .bullet-rail-item.active:focus-visible .bullet-rail-dot {
 
-    background: var(--rail-dot-active);
+    --status-ink: var(--rail-dot-active);
     box-shadow: 0 0 0 4px var(--rail-bloom);
     transform: scale(1.45);
 
@@ -347,6 +343,10 @@
     }
 
     .bullet-rail-label-text { min-width: 0; }
+
+    /* The label is inline here: the status word is left to the
+       button's title, rather than lengthening every label. */
+    .bullet-rail-status-word { display: none; }
 
 }
 

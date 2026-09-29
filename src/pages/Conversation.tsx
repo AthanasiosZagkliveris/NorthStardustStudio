@@ -57,6 +57,7 @@ import { systems } from "../data/systems";
 import { jumpTo, type OpenPage } from "../components/interview/jumpTo.ts";
 import BulletRail from "../components/interview/rails/BulletRail";
 import { pageIndexFromRailId, pageRailItems, sectionRailItems } from "../components/interview/rails/railItems";
+import { pageStatuses } from "../framework/engine/PageStatus";
 import { scrollToRailSection, useActiveRailSection } from "../components/interview/rails/useActiveRailSection";
 import { toggledIn } from "../components/interview/toggledIn";
 
@@ -1687,7 +1688,17 @@ export default function Conversation() {
 
     // The two bullet rails. Computed before the early returns below
     // (hooks), and simply empty while nothing is loaded.
-    const railPages = session ? pageRailItems(session.getSections()) : [];
+    // Each page bullet is drawn in its page status (PageStatus.ts),
+    // recomputed on every render so an answer given here shows at once.
+    const railStatuses = session
+        ? pageStatuses(session, (answer) => resolveSharedAnswerValue(organizationId, answer))
+        : null;
+    const railPages = session
+        ? pageRailItems(session.getSections()).map((item, index) => ({
+            ...item,
+            status: railStatuses?.get(session.getSections()[index].number)
+        }))
+        : [];
     const railSectionIndex = session?.getCurrentSectionIndex() ?? 0;
     // What renders on this page; also read by the page further down.
     const effectiveAnswer = session

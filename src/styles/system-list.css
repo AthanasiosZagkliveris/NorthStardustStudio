@@ -99,6 +99,40 @@
     transition: color 0.15s ease;
 }
 
+/* ==========================================================
+   System Status
+========================================================== */
+
+/* The title with the System's status on a line under it, so the
+   status never widens the row past the Systems column. */
+.system-name {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    min-width: 0;
+}
+
+/* The status shape (status-shape.css) and its word, in quiet small
+   type. */
+.system-status {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    font-size: var(--font-small);
+
+    line-height: 1.4;
+
+    color: var(--text-subtle);
+
+    white-space: nowrap;
+}
+
 /* Its hover width is reserved by the shared .hover-width-reserve
    (global.css), so the row and the list are already as wide as
    the bold title and nothing shifts when it goes bold. */

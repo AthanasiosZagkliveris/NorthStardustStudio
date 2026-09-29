@@ -1,0 +1,62 @@
+/* ==========================================================
+   Status shapes -- a page's or a System's status (PageStatus.ts)
+   drawn as a shape, so it never rests on colour alone:
+
+       ○ not started    ◐ in progress    ● defined    ◆ needs review
+
+   One 12px mark in `--status-ink` (the text colour unless the user
+   sets it): the Pages rail's bullets (bullet-rail.css) and the
+   System list's rows (system-list.css) both draw it. Without a
+   `data-status` it is the plain filled dot.
+========================================================== */
+
+/* The ink default carries no weight, so whatever draws the mark
+   sets its own, wherever its stylesheet loads. */
+:where(.status-shape) {
+
+    --status-ink: currentColor;
+
+}
+
+.status-shape {
+
+    display: inline-block;
+    flex: none;
+
+    box-sizing: border-box;
+    width: 12px;
+    height: 12px;
+
+    border-radius: 50%;
+    background: var(--status-ink);
+
+}
+
+.status-shape[data-status="not-started"] {
+
+    border: 2px solid var(--status-ink);
+    background: transparent;
+
+}
+
+/* Filled on the left half, open on the right: under way. */
+.status-shape[data-status="in-progress"] {
+
+    border: 2px solid var(--status-ink);
+    background: linear-gradient(90deg, var(--status-ink) 50%, transparent 50%);
+
+}
+
+/* A square turned on its point, a little smaller so its corners
+   reach no further than the round marks' edges. */
+.status-shape[data-status="needs-review"] {
+
+    width: 10px;
+    height: 10px;
+    margin: 1px;
+
+    border-radius: 2px;
+
+    rotate: 45deg;
+
+}

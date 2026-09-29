@@ -1,10 +1,16 @@
 import { FrameworkSystem } from "../types/system";
+import { PAGE_STATUS_WORDS, type PageStatus } from "../framework/engine/PageStatus";
+
+import "../styles/status-shape.css";
 
 interface SystemItemProps {
 
     system: FrameworkSystem;
 
     color?: string;
+
+    /** The System's status for the open Organization, when known. */
+    status?: PageStatus | null;
 
     onClick: () => void;
 
@@ -15,6 +21,8 @@ export default function SystemItem({
     system,
 
     color,
+
+    status,
 
     onClick
 
@@ -49,11 +57,25 @@ export default function SystemItem({
 
             </span>
 
-            {/* data-reserve feeds the invisible copy that reserves the
-                title's hover width (.hover-width-reserve, global.css). */}
-            <span className="system-title hover-width-reserve" data-reserve={system.title}>
+            {/* The title, and under it the System's status. */}
+            <span className="system-name">
 
-                {system.title}
+                {/* data-reserve feeds the invisible copy that reserves the
+                    title's hover width (.hover-width-reserve, global.css). */}
+                <span className="system-title hover-width-reserve" data-reserve={system.title}>
+
+                    {system.title}
+
+                </span>
+
+                {/* The same shape the Pages rail draws for a page
+                    (status-shape.css), with its word. */}
+                {status && (
+                    <span className="system-status">
+                        <span className="status-shape" data-status={status} aria-hidden="true" />
+                        <span className="system-status-word">{PAGE_STATUS_WORDS[status]}</span>
+                    </span>
+                )}
 
             </span>
 

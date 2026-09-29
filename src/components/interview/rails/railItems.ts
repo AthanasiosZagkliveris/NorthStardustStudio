@@ -1,5 +1,6 @@
 import { AnswerType } from "../../../framework/enums/AnswerType";
 import type { AnswerDefinition } from "../../../framework/model/AnswerDefinition";
+import type { PageStatus } from "../../../framework/engine/PageStatus";
 import {
     BRAND_INVENTORY_SECTIONS,
     BRAND_STYLE_SECTIONS,
@@ -17,10 +18,15 @@ import {
     FINANCIAL_SUSTAINABILITY_SECTIONS
 } from "../../../framework/engine/FinancialModel";
 
-/** One bullet on a rail. `id` matches a `data-rail` marker on the page. */
+/**
+ * One bullet on a rail. `id` matches a `data-rail` marker on the
+ * page. `status`, on the Pages rail only, is the page's status
+ * (PageStatus.ts), drawn as the bullet's shape.
+ */
 export interface RailItem {
     id: string;
     label: string;
+    status?: PageStatus;
 }
 
 /**

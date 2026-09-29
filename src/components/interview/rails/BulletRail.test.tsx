@@ -28,12 +28,12 @@ describe("BulletRail", () => {
         const partClasses = (button: HTMLElement) => Array.from(button.children).map(child => child.className);
 
         render(<BulletRail items={items} activeId="a" onSelect={() => {}} side="left" label="Pages" />);
-        expect(partClasses(screen.getByRole("button", { name: "1. Definition" }))).toEqual(["bullet-rail-label", "bullet-rail-dot"]);
+        expect(partClasses(screen.getByRole("button", { name: "1. Definition" }))).toEqual(["bullet-rail-label", "bullet-rail-dot status-shape"]);
 
         cleanup();
 
         render(<BulletRail items={items} activeId="a" onSelect={() => {}} side="right" label="Sections" />);
-        expect(partClasses(screen.getByRole("button", { name: "1. Definition" }))).toEqual(["bullet-rail-dot", "bullet-rail-label"]);
+        expect(partClasses(screen.getByRole("button", { name: "1. Definition" }))).toEqual(["bullet-rail-dot status-shape", "bullet-rail-label"]);
 
     });
 
@@ -86,9 +86,54 @@ describe("BulletRail", () => {
         }
         expect(css).toContain(".bullet-rail-item:focus-visible { color: var(--text-primary); }");
         expect(css).toContain(".bullet-rail-item:focus-visible .bullet-rail-label { text-decoration: underline;");
-        expect(css).toContain(".bullet-rail-item:focus-visible .bullet-rail-dot { background: var(--rail-dot-hover);");
+        expect(css).toContain(".bullet-rail-item:focus-visible .bullet-rail-dot { --status-ink: var(--rail-dot-hover);");
         // No transition when the system asks for reduced motion.
         expect(css).toContain("prefers-reduced-motion: reduce) { .bullet-rail-item, .bullet-rail-dot { transition: none; }");
+
+    });
+
+    it("draws each page status as the bullet shape, and says it in the tooltip and the name", () => {
+
+        const pages = [
+            { id: "page-1", label: "1. Foundation", status: "defined" as const },
+            { id: "page-2", label: "2. Customer Engagement", status: "in-progress" as const },
+            { id: "page-3", label: "3. Infrastructure & Capability", status: "not-started" as const },
+            { id: "page-4", label: "4. Financial Foundation", status: "needs-review" as const }
+        ];
+
+        render(<BulletRail items={pages} activeId="page-2" onSelect={() => {}} side="left" label="Pages" />);
+
+        const row = screen.getByRole("button", { name: "2. Customer Engagement — in progress" });
+
+        expect(row.getAttribute("title")).toBe("2. Customer Engagement — in progress");
+        // The active page keeps its active look, its shape inside it.
+        expect(row.classList.contains("active")).toBe(true);
+        expect(row.querySelector(".bullet-rail-dot")?.getAttribute("data-status")).toBe("in-progress");
+        // The narrow layout's tooltip is the label: the word is in it.
+        expect(row.querySelector(".bullet-rail-label")?.textContent).toBe("2. Customer Engagement — in progress");
+
+        expect(screen.getByRole("button", { name: "1. Foundation — defined" })).toBeTruthy();
+        expect(screen.getByRole("button", { name: "3. Infrastructure & Capability — not started" })).toBeTruthy();
+        expect(screen.getByRole("button", { name: "4. Financial Foundation — needs review" })
+            .querySelector(".status-shape")?.getAttribute("data-status")).toBe("needs-review");
+
+        // Four shapes, not four colours.
+        const shapes = stylesheet("status-shape.css");
+        expect(shapes).toContain(".status-shape[data-status=\"not-started\"] { border: 2px solid var(--status-ink); background: transparent;");
+        expect(shapes).toContain(".status-shape[data-status=\"in-progress\"] { border: 2px solid var(--status-ink); background: linear-gradient(90deg, var(--status-ink) 50%, transparent 50%);");
+        expect(shapes).toContain("border-radius: 2px; rotate: 45deg;");
+
+    });
+
+    it("leaves a bullet without a status as it was", () => {
+
+        render(<BulletRail items={items} activeId="a" onSelect={() => {}} side="right" label="Sections" />);
+
+        const row = screen.getByRole("button", { name: "2. Ethics" });
+
+        expect(row.getAttribute("title")).toBe("2. Ethics");
+        expect(row.querySelector(".bullet-rail-dot")?.hasAttribute("data-status")).toBe(false);
+        expect(row.querySelector(".bullet-rail-status-word")).toBeNull();
 
     });
 

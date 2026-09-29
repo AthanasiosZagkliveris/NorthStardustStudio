@@ -439,6 +439,50 @@ export class InterviewValidator {
     }
 
     /**
+     * Whether one page has every required answer, by the same rules
+     * `validate` applies to it: its own value judged by its Answer
+     * Structure, the Strategic Period by its Goals and Objectives, a
+     * Shared Answer's columns by the mirrored value (and anything
+     * the validator only counts, never reports, as complete). Used
+     * for the page status on the Pages rail (see PageStatus.ts).
+     */
+    public isPageComplete(
+        session: InterviewSession,
+        section: Section,
+        resolveSharedValue?: (answer: AnswerDefinition) => unknown
+    ): boolean {
+
+        const answer = section.answer;
+
+        if (answer?.type === AnswerType.StrategicPeriod) {
+            return this.strategicPeriodIssues(session, section).length === 0;
+        }
+
+        if (answer?.type === AnswerType.SharedAnswer) {
+
+            const mirrored = this.resolveSharedAnswer(answer);
+
+            if (!mirrored || !mirrored.columns || !mirrored.parts || !resolveSharedValue) {
+                return true;
+            }
+
+            return !isAnswerEmpty(mirrored, resolveSharedValue(answer));
+
+        }
+
+        return !answer || !isAnswerEmpty(answer, session.getResponse(section.number));
+
+    }
+
+    /**
+     * The Section definition a Shared Answer mirrors, if it can be
+     * found -- what its page actually shows and stores.
+     */
+    public mirroredAnswer(answer: AnswerDefinition): AnswerDefinition | undefined {
+        return this.resolveSharedAnswer(answer);
+    }
+
+    /**
      * What is still unfinished on the Strategic Period page.
      *
      * The Themes it develops belong to the Foundation page, so they

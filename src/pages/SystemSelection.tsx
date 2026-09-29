@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { capabilities, getCapabilityColor } from "../data/capabilities";
 import { systems } from "../data/systems";
@@ -18,6 +18,7 @@ import SystemList from "../components/SystemList";
 import CapabilityDescriptionDialog from "../components/CapabilityDescriptionDialog";
 
 import { OrganizationService } from "../services/OrganizationService";
+import { systemProgress } from "../services/ProgressService";
 
 import "../styles/workspace.css";
 
@@ -79,6 +80,22 @@ export default function SystemSelection() {
         )?.title ?? "";
 
     const activeCapabilityColor = getCapabilityColor(activeCapability);
+
+    // Each listed System's status for this Organization -- the same
+    // shapes the Pages rail draws, derived from the System's pages.
+    const systemStatuses = useMemo(() => {
+
+        if (!organizationId) {
+            return {};
+        }
+
+        return Object.fromEntries(
+            filteredSystems.map(system => [system.number, systemProgress(organizationId, system)])
+        );
+
+        // filteredSystems follows activeCapability.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [organizationId, activeCapability]);
 
     // Escape acts as "Back" everywhere in the app: close whichever
     // popup/sliding window is currently open first (the Capability
@@ -224,6 +241,7 @@ export default function SystemSelection() {
                             <SystemList
                                 systems={filteredSystems}
                                 color={activeCapability ? activeCapabilityColor : undefined}
+                                statuses={systemStatuses}
                                 onSystemClick={handleSystemSelection}
                             />
 

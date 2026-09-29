@@ -1,7 +1,9 @@
 import { useState } from "react";
 
 import type { RailItem } from "./railItems";
+import { PAGE_STATUS_WORDS } from "../../../framework/engine/PageStatus";
 
+import "../../../styles/status-shape.css";
 import "../../../styles/bullet-rail.css";
 
 // A narrow window's tooltip label sits this far from its bullet
@@ -17,6 +19,11 @@ const TOOLTIP_EDGE_MARGIN = 8;
  * blue. Its label turns bold too, and it carries aria-current, so
  * the state never rests on colour alone. The bullet is always on the side nearest the card:
  * label then bullet on the left, bullet then label on the right.
+ *
+ * An item with a `status` (the Pages rail) draws it as the bullet's
+ * shape -- ○ not started, ◐ in progress, ● defined, ◆ needs review
+ * (status-shape.css) -- inside the same active and hover looks, and
+ * says it in words in the tooltip and the accessible name.
  */
 export default function BulletRail({
 
@@ -86,7 +93,18 @@ export default function BulletRail({
 
                     const active = item.id === activeId;
 
-                    const dot = <span className="bullet-rail-dot" aria-hidden="true" />;
+                    const statusWord = item.status ? PAGE_STATUS_WORDS[item.status] : null;
+
+                    // "2. Customer Engagement — in progress".
+                    const name = statusWord ? item.label + " — " + statusWord : item.label;
+
+                    const dot = (
+                        <span
+                            className="bullet-rail-dot status-shape"
+                            data-status={item.status}
+                            aria-hidden="true"
+                        />
+                    );
 
                     // A leading "1." stands in the list-number column
                     // (global.css), so the labels' text lines up.
@@ -96,6 +114,12 @@ export default function BulletRail({
                             {numbered
                                 ? <><span className="list-number">{numbered[1]}</span> <span className="bullet-rail-label-text">{numbered[2]}</span></>
                                 : item.label}
+                            {/* In the narrow layout's tooltip only;
+                                wide windows show the shape beside
+                                the label and the word on hover. */}
+                            {statusWord && (
+                                <span className="bullet-rail-status-word"> — {statusWord}</span>
+                            )}
                         </span>
                     );
 
@@ -105,7 +129,8 @@ export default function BulletRail({
                                 type="button"
                                 className={"bullet-rail-item" + (active ? " active" : "") + (tooltipInside[item.id] ? " tooltip-inside" : "")}
                                 aria-current={active ? "true" : undefined}
-                                title={item.label}
+                                title={name}
+                                aria-label={statusWord ? name : undefined}
                                 onClick={() => onSelect(item.id)}
                                 onMouseEnter={event => placeTooltip(item.id, event.currentTarget)}
                                 onFocus={event => placeTooltip(item.id, event.currentTarget)}
