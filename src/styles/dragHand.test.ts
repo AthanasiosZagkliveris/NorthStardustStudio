@@ -10,9 +10,9 @@ describe("the drag hand", () => {
     const css = stylesheet("conversation.css");
 
     it("is drawn, sharp at 1x and 2x, with the browser's hand as the fallback", () => {
-        expect(css).toContain("cursor:url(\"../assets/cursors/grab.svg\") 16 16, grab;");
-        expect(css).toContain("cursor:image-set(url(\"../assets/cursors/grab.svg\") 1x, url(\"../assets/cursors/grab-2x.png\") 2x) 16 16, grab;");
-        expect(css).toContain("cursor:image-set(url(\"../assets/cursors/grabbing.svg\") 1x, url(\"../assets/cursors/grabbing-2x.png\") 2x) 16 16, grabbing;");
+        expect(css).toContain("cursor:url(\"../assets/cursors/grab.svg\") 32 32, grab;");
+        expect(css).toContain("cursor:image-set(url(\"../assets/cursors/grab.svg\") 1x, url(\"../assets/cursors/grab-2x.png\") 2x) 32 32, grab;");
+        expect(css).toContain("cursor:image-set(url(\"../assets/cursors/grabbing.svg\") 1x, url(\"../assets/cursors/grabbing-2x.png\") 2x) 32 32, grabbing;");
     });
 
     it("reaches every grip, and no rule falls back to the bare keyword", () => {
