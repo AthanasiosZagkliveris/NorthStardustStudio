@@ -178,12 +178,16 @@
     display: flex;
     flex-direction: column;
 
-    /* 380, not 350. "Product Development System" measures 307px
-       bold at 5% tracking, and 350 left only 284 beside the
-       number and inside the row padding -- so it ran out of room
-       the moment it went bold on hover. */
-    width: 380px;
-    min-width: 380px;
+    /* As wide as the widest System row, so every row -- title and
+       status line -- fits inside it: the longest title, "Product
+       Development System", reserves 15.5em bold at 5% tracking, the
+       number 2.25em beside it (both in the title's --font-h3), and
+       the row's padding 32px. In em of the title font, so a larger
+       type scale widens the column with it; never wider than the
+       room there is (a narrow window stacks it under the list).
+       `flex: none` keeps the row of two from shrinking it. */
+    flex: none;
+    width: min(100%, calc(32px + 18 * var(--font-h3)));
 
 }
 
