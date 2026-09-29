@@ -1025,21 +1025,21 @@ describe("the Loan Repayments note", () => {
 
     test("a pending loan's repayments are not counted until it is approved", () => {
         expect(loanRepaymentNotes([loan({ name: "SBA Microloan", status: "requested" })], START, dollars)).toEqual([
-            "SBA Microloan — Requested / Applied: its $500 monthly repayments are not counted until it is approved.",
+            "SBA Microloan (Requested / Applied): its $500 monthly repayments are not counted until it is approved.",
             LOAN_REPAYMENTS_RULE
         ]);
     });
 
     test("a confirmed loan's repayments are counted from their first month", () => {
         expect(loanRepaymentNotes([loan({ name: "Start Up Loan", status: "approved" })], START, dollars)).toEqual([
-            "Start Up Loan — Approved / Agreed: $500 a month from Mar 2027, counted here.",
+            "Start Up Loan (Approved / Agreed): $500 a month from Mar 2027, counted here.",
             LOAN_REPAYMENTS_RULE
         ]);
     });
 
     test("a loan without a name is named by its type, and quarterly repayments say so", () => {
         expect(loanRepaymentNotes([loan({ status: "" }, { frequency: "quarterly", payments: "8" })], START, dollars)[0])
-            .toBe("Microloan — Planned: its $1,500 quarterly repayments are not counted until it is approved.");
+            .toBe("Microloan (Planned): its $1,500 quarterly repayments are not counted until it is approved.");
     });
 
     test("with no loan there is nothing to explain, and no column", () => {

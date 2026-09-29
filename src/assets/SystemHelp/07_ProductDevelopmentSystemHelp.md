@@ -16,7 +16,7 @@ Making a clear decision here, even a "pause" or "reject," is what actually saves
 
 ## 03. Product Brief Help
 
-The Product Brief is the shared reference that gets everyone on the same page before development starts — what's being built, for whom, and why.
+The Product Brief is the shared reference that gets everyone on the same page before development starts: what's being built, for whom, and why.
 Describe the product, its target customer, the problem it solves, its value proposition, and how you'll measure success.
 Connect all five cleanly: the target customer's needs, the problem, and the value proposition should all point to the same story, rather than reading as separate facts.
 This is the document every team involved in the product should be able to point back to.

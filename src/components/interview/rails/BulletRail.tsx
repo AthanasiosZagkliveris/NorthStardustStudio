@@ -95,8 +95,8 @@ export default function BulletRail({
 
                     const statusWord = item.status ? PAGE_STATUS_WORDS[item.status] : null;
 
-                    // "2. Customer Engagement — in progress".
-                    const name = statusWord ? item.label + " — " + statusWord : item.label;
+                    // "2. Customer Engagement: in progress".
+                    const name = statusWord ? item.label + ": " + statusWord : item.label;
 
                     const dot = (
                         <span
@@ -118,7 +118,7 @@ export default function BulletRail({
                                 wide windows show the shape beside
                                 the label and the word on hover. */}
                             {statusWord && (
-                                <span className="bullet-rail-status-word"> — {statusWord}</span>
+                                <span className="bullet-rail-status-word">: {statusWord}</span>
                             )}
                         </span>
                     );

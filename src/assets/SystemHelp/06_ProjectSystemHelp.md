@@ -16,21 +16,21 @@ Getting this clear before work starts is what prevents disagreement later about 
 
 ## 03. Project Scope Help
 
-Project Scope draws the boundary lines around this project — what's part of it, what's deliberately not, and what will limit how it's delivered.
+Project Scope draws the boundary lines around this project: what's part of it, what's deliberately not, and what will limit how it's delivered.
 List what's included, what's excluded, the main constraints (time, budget, resources, and similar), and any related Systems this project connects to.
-Be just as clear about what's excluded, like "corporate office relocation," as about what's included — don't skip that part.
+Be just as clear about what's excluded, like "corporate office relocation," as about what's included: don't skip that part.
 A clearly scoped project is what prevents quiet scope creep and mismatched expectations during delivery.
 
 ## 04. Project Resources Help
 
-Project Resources lists everything this project draws on — related Systems, documents, assets, or research that inform how it's carried out.
+Project Resources lists everything this project draws on: related Systems, documents, assets, or research that inform how it's carried out.
 For each resource, name it, classify its type, and describe how it actually supports the project.
-Don't just list resources — explain their role, like a Market Analysis "supporting location selection and expected demand."
+Don't just list resources: explain their role, like a Market Analysis "supporting location selection and expected demand."
 This keeps the project connected to your organization's existing knowledge instead of starting from scratch.
 
 ## 05. Deliverables Help
 
-Deliverables are the actual outputs this project needs to produce — the concrete things that get built or completed.
+Deliverables are the actual outputs this project needs to produce: the concrete things that get built or completed.
 For each one, name it, describe it, set a priority (critical, important, optional), and track its status.
 Be honest about what's still Planned versus already In Progress, giving a real picture of where the work stands rather than an idealized one.
 This list is what turns the project's purpose into a checklist of tangible things to finish.
@@ -47,4 +47,4 @@ These checkpoints are what let you catch problems early instead of only discover
 Project Status is a quick, current snapshot: where the project stands right now and what needs to happen next.
 Note the current phase (planning, development, review, launch, completed), the overall status (active, on hold, completed, cancelled), and one clear next step.
 Make the next step specific and actionable, like "complete structural construction and begin installation," not just "continue working."
-Keep this section updated — it's usually the first thing anyone checks to understand where things stand.
+Keep this section updated: it's usually the first thing anyone checks to understand where things stand.

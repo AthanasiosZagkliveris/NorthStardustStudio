@@ -103,18 +103,18 @@ describe("BulletRail", () => {
 
         render(<BulletRail items={pages} activeId="page-2" onSelect={() => {}} side="left" label="Pages" />);
 
-        const row = screen.getByRole("button", { name: "2. Customer Engagement — in progress" });
+        const row = screen.getByRole("button", { name: "2. Customer Engagement: in progress" });
 
-        expect(row.getAttribute("title")).toBe("2. Customer Engagement — in progress");
+        expect(row.getAttribute("title")).toBe("2. Customer Engagement: in progress");
         // The active page keeps its active look, its shape inside it.
         expect(row.classList.contains("active")).toBe(true);
         expect(row.querySelector(".bullet-rail-dot")?.getAttribute("data-status")).toBe("in-progress");
         // The narrow layout's tooltip is the label: the word is in it.
-        expect(row.querySelector(".bullet-rail-label")?.textContent).toBe("2. Customer Engagement — in progress");
+        expect(row.querySelector(".bullet-rail-label")?.textContent).toBe("2. Customer Engagement: in progress");
 
-        expect(screen.getByRole("button", { name: "1. Foundation — defined" })).toBeTruthy();
-        expect(screen.getByRole("button", { name: "3. Infrastructure & Capability — not started" })).toBeTruthy();
-        expect(screen.getByRole("button", { name: "4. Financial Foundation — needs review" })
+        expect(screen.getByRole("button", { name: "1. Foundation: defined" })).toBeTruthy();
+        expect(screen.getByRole("button", { name: "3. Infrastructure & Capability: not started" })).toBeTruthy();
+        expect(screen.getByRole("button", { name: "4. Financial Foundation: needs review" })
             .querySelector(".status-shape")?.getAttribute("data-status")).toBe("needs-review");
 
         // Four shapes, not four colours.

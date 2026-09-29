@@ -17,14 +17,14 @@ function describe(state: SaveState): { glyph: string; text: string } {
         case "saved":
             return { glyph: "✓", text: "✓ Saved" };
         case "error":
-            return { glyph: "!", text: "Not saved — " + state.reason };
+            return { glyph: "!", text: "Not saved: " + state.reason };
     }
 
 }
 
 /**
  * The header's saved signal: quiet grey "Saving…" while an edit
- * waits to be written, then "✓ Saved"; "Not saved — storage is
+ * waits to be written, then "✓ Saved"; "Not saved: storage is
  * full" (or the reason) in the warning colour when a write failed,
  * with the advice in its tooltip. Announced politely, never
  * clickable. In a narrow header only the glyph shows (app-header.css);

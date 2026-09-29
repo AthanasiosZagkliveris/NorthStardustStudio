@@ -243,17 +243,47 @@ textarea:focus{
 
 /* ONE LAYOUT FOR EVERY SYSTEM'S OPENING SCREEN. The question and
    the introduction are running text, kept to a reading measure
-   (60ch: about 70 characters a line) rather than the card's full 1400px;
-   the facts -- what it covers, what it uses from earlier, the
-   thinking time -- sit beside them in a quiet panel on a wide
+   (60ch: about 70 characters a line) rather than the card's full
+   1400px; the facts -- what it covers, what it uses from earlier,
+   the thinking time -- sit beside them in a quiet panel on a wide
    screen, and under them below 1100px. Start Interview stays in the
-   fixed bar under the card (.interview-nav), wherever the facts go. */
+   fixed bar under the card (.interview-nav), wherever the facts go.
+
+   Beside each other, the two columns share two rows, and each row
+   holds its pair on ONE BASELINE (align-self: baseline): the
+   question with the first fact's title ("What it covers"), then the
+   introduction's first line with the facts' first line. The
+   question and every fact title take one line height
+   (--intro-lead-line), and each is --space-label above what it
+   leads, so the rows hold the same rhythm on both sides. */
 .intro-layout{
+
+    --intro-lead-line:calc(var(--font-h3) * 1.35);
 
     display:grid;
 
     grid-template-columns:minmax(0, 60ch);
-    row-gap:28px;
+    grid-template-areas:
+        "question"
+        "text"
+        "covers"
+        "facts";
+
+}
+
+.intro-guiding-question{ grid-area:question; }
+
+.intro-text{ grid-area:text; min-width:0; }
+
+.intro-covers-label{ grid-area:covers; }
+
+.intro-facts{ grid-area:facts; }
+
+/* Under the text on a narrow screen, the facts start a group gap
+   below it. */
+.intro-covers-label{
+
+    margin-top:calc(2 * var(--space-field));
 
 }
 
@@ -262,16 +292,48 @@ textarea:focus{
     .intro-layout{
 
         grid-template-columns:minmax(0, 60ch) minmax(0, 1fr);
+        grid-template-areas:
+            "question covers"
+            "text facts";
         column-gap:64px;
 
     }
 
-    /* A rule down its side sets the facts apart from the text, as
-       tall as the taller of the two: the facts' grid cell is
-       stretched to the row, their content kept at its top. */
+    .intro-guiding-question,
+    .intro-covers-label,
+    .intro-text,
+    .intro-facts{
+
+        align-self:baseline;
+
+    }
+
+    .intro-covers-label{
+
+        margin-top:0;
+
+    }
+
+    .intro-covers-label,
     .intro-facts{
 
         padding-left:32px;
+
+    }
+
+    /* A rule down the facts' side sets them apart from the text, as
+       tall as the taller column: drawn by the layout itself, down
+       the whole of the second column, rather than by the facts' own
+       box (which ends where they do). */
+    .intro-layout::before{
+
+        content:"";
+
+        grid-column:2;
+        grid-row:1 / -1;
+
+        justify-self:start;
+        align-self:stretch;
 
         border-left:1px solid var(--line-divider);
 
@@ -279,24 +341,25 @@ textarea:focus{
 
 }
 
-.intro-main{
-
-    min-width:0;
-
-}
-
 /* The question the System answers: the lead, at the subheading
-   size, in italics and the ink of the text rather than bold. */
+   size, in italics and the ink of the text rather than bold, after
+   a dialogue dash (U+2015) the layout draws, never the content. */
 .intro-guiding-question{
 
-    margin:0 0 calc(2 * var(--space-field));
+    margin:0 0 var(--space-label);
 
     font-size:var(--font-h3);
     font-style:italic;
     font-weight:500;
-    line-height:1.35;
+    line-height:var(--intro-lead-line);
 
     color:var(--text-strong);
+
+}
+
+.intro-guiding-question::before{
+
+    content:"\2015\00a0" / "";
 
 }
 
@@ -318,6 +381,8 @@ textarea:focus{
 .intro-fact-label{
 
     margin:0 0 var(--space-label);
+
+    line-height:var(--intro-lead-line);
 
 }
 

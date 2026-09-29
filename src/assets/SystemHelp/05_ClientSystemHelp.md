@@ -2,10 +2,10 @@
 
 ## 01. Clients Help
 
-The Clients section is your master record of who you actually serve — one entry per client or client group.
+The Clients section is your master record of who you actually serve: one entry per client or client group.
 For each one, capture their name, type (individual, business, organization, and similar), a brief description, their primary contact, and current status (prospect, active, inactive, former).
 Group similar clients together sensibly, treating "Marketplace Sellers" as one client type rather than logging every seller individually, if you serve many similar clients.
-This record is what every other section in this System — Requests, Services, Relationships — will reference by name.
+This record is what every other section in this System (Requests, Services, Relationships) will reference by name.
 
 ## 02. Requests Help
 
@@ -30,7 +30,7 @@ This is what surfaces relationships that need attention before they become a pro
 
 ## 05. Summary Help
 
-The Summary pulls everything in this System into one high-level view — a quick way for anyone to understand client activity without reading every record.
+The Summary pulls everything in this System into one high-level view: a quick way for anyone to understand client activity without reading every record.
 List your active clients, priority requests, active services, and key relationships, then add one Key Takeaway and set a date for your Next Review.
 Make the Key Takeaway a single clear sentence tying all the client activity together, not a repeat of the lists above it.
 Setting a real review cadence, like quarterly, is what keeps this section from going stale.

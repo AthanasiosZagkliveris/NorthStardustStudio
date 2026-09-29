@@ -11,7 +11,7 @@ Capturing ideas here first, before judging them, is what keeps good opportunitie
 
 Evaluation is where you actually test each idea against reality before committing resources to it.
 For each idea, write an honest assessment, then rate its feasibility, potential impact, and implementation effort, and end with a clear recommendation (proceed, investigate further, hold, reject).
-Don't rate everything "high" and "proceed" — give an honest "Hold" to an idea that depends on factors outside its control, and "Investigate Further" to one that needs more validation.
+Don't rate everything "high" and "proceed": give an honest "Hold" to an idea that depends on factors outside its control, and "Investigate Further" to one that needs more validation.
 Being honest here, including saying no, is what makes this section actually useful rather than just a formality.
 
 ## 03. Actions Help
@@ -25,5 +25,5 @@ This is the step that turns innovation from discussion into real progress.
 
 The Summary condenses your entire innovation pipeline into a quick overview anyone can scan.
 List your key ideas, the most important conclusions from evaluation, your priority actions, one Key Takeaway, and a date for your next review.
-Make the Key Takeaway draw a real conclusion — for instance, that personalization offers the highest value using existing capabilities — rather than restating the ideas list.
+Make the Key Takeaway draw a real conclusion (for instance, that personalization offers the highest value using existing capabilities) rather than restating the ideas list.
 Reviewing this regularly, like quarterly, is what keeps innovation an ongoing habit rather than a one-time exercise.

@@ -1915,9 +1915,9 @@ export const LOAN_REPAYMENTS_RULE =
  * are counted -- then the rule that decides it. Empty when no loan is
  * recorded, and then there is no column to explain.
  *
- *   "SBA Microloan — Requested / Applied: its $470 monthly repayments
+ *   "SBA Microloan (Requested / Applied): its $470 monthly repayments
  *    are not counted until it is approved."
- *   "Start Up Loan — Approved / Agreed: $305 a month from Mar 2027,
+ *   "Start Up Loan (Approved / Agreed): $305 a month from Mar 2027,
  *    counted here."
  */
 export function loanRepaymentNotes(
@@ -1934,8 +1934,8 @@ export function loanRepaymentNotes(
     return [
         ...loans.map(source => {
             const status = source.status || "planned";
-            const head = (source.name.trim() || fundingType(source.type)?.label || "Loan") + " — " +
-                (FUNDING_STATUSES.find(entry => entry.id === status)?.label ?? "Planned") + ": ";
+            const head = (source.name.trim() || fundingType(source.type)?.label || "Loan") + " (" +
+                (FUNDING_STATUSES.find(entry => entry.id === status)?.label ?? "Planned") + "): ";
             const schedule = loanSchedule(source, start);
             const every = REPAYMENT_EVERY[source.loan.frequency] ?? REPAYMENT_EVERY.monthly;
             if (statusStanding(status) === "confirmed") {

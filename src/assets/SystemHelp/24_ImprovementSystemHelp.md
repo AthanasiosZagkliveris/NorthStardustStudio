@@ -4,14 +4,14 @@
 
 Improvement Sources documents where your improvement opportunities actually come from, so you're not relying on one channel alone.
 For each source (quality reviews, customer feedback, employee suggestions, audits, and similar), describe how it surfaces opportunities.
-Draw from as many sources as you can — performance reviews, safety observations, customer feedback, audits — so improvements aren't limited to whichever team happens to speak up.
+Draw from as many sources as you can (performance reviews, safety observations, customer feedback, audits) so improvements aren't limited to whichever team happens to speak up.
 Casting this net wide is what surfaces problems and opportunities that a single feedback channel would miss.
 
 ## 02. Improvement Register Help
 
 The Improvement Register is your central list of every improvement opportunity that's actually been identified.
 For each one, name the improvement, note where it came from, its expected benefit, and who's responsible for it.
-Tie every improvement back to its source — for instance, tracing "reduce workplace ergonomic risks" back to a Safety Review — so you can see which sources are actually driving change.
+Tie every improvement back to its source (for instance, tracing "reduce workplace ergonomic risks" back to a Safety Review) so you can see which sources are actually driving change.
 This register is what keeps opportunities from getting lost once they've been raised.
 
 ## 03. Improvement Prioritization Help
@@ -32,7 +32,7 @@ This is what turns an approved improvement into a coordinated, trackable piece o
 
 Improvement Review looks back at completed improvements to see what actually happened, and what you learned from it.
 Set a review schedule, define what you'll evaluate (objectives achieved, implementation effectiveness, operational impact, and similar), and capture lessons learned.
-Make lessons genuinely reusable, like "early stakeholder involvement increases adoption" — insights that will help the next improvement, not just a summary of this one.
+Make lessons genuinely reusable, like "early stakeholder involvement increases adoption": insights that will help the next improvement, not just a summary of this one.
 This is what keeps your improvement process itself getting better over time.
 
 ## 06. Improvement Monitoring Help

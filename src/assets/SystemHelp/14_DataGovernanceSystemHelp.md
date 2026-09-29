@@ -4,7 +4,7 @@
 
 Data Inventory is your list of the actual data your organization holds, so you know what exists before you can govern it.
 For each data asset, name it, categorize it (customer, employee, financial, project, and similar), and classify its sensitivity (public, internal, confidential, restricted).
-Don't treat all data the same — mark financial and infrastructure monitoring data as Restricted while usage analytics stays only Internal.
+Don't treat all data the same: mark financial and infrastructure monitoring data as Restricted while usage analytics stays only Internal.
 Getting the classification right here is what determines how carefully each dataset needs to be protected.
 
 ## 02. Data Ownership Help
@@ -12,7 +12,7 @@ Getting the classification right here is what determines how carefully each data
 Data Ownership makes it explicit who's actually accountable for each dataset, so data doesn't end up unmanaged by default.
 For each data asset, name an owner, a custodian if there's a separate team maintaining it day to day, who has access, and how often it's reviewed.
 Separate ownership from custodianship where they differ, such as Customer Account Records owned by the Customer Platform Team but maintained by Cloud Operations.
-Clear ownership is what makes every other section in this System — quality, security, compliance — actually enforceable.
+Clear ownership is what makes every other section in this System (quality, security, compliance) actually enforceable.
 
 ## 03. Data Quality Help
 
@@ -25,7 +25,7 @@ Consistent quality here is what makes every report and decision built on this da
 
 Data Security documents how you actually protect your data from unauthorized access, loss, or misuse.
 Cover your protection measures, how access is controlled, your backup strategy, and how you respond to incidents.
-Combine multiple layers — encryption, multi-factor authentication, monitoring, and backups — rather than relying on a single safeguard.
+Combine multiple layers (encryption, multi-factor authentication, monitoring, and backups) rather than relying on a single safeguard.
 Having a documented incident response process is what determines how quickly you can react if something actually goes wrong.
 
 ## 05. Data Lifecycle Help
@@ -40,11 +40,11 @@ Managing the full lifecycle is what keeps data useful without letting it pile up
 Data Compliance documents how your data practices meet the legal, contractual, and internal requirements that apply to you.
 List the requirements that actually apply, the activities that keep you compliant, how compliance is monitored, and how issues get corrected.
 Be honest that compliance is ongoing work, pairing continuous monitoring with a clear process for resolving findings when something isn't compliant.
-This section is your evidence that data governance isn't just a policy on paper — it's actually being followed.
+This section is your evidence that data governance isn't just a policy on paper: it's actually being followed.
 
 ## 07. Data Review Help
 
-Data Review is how this entire System stays current — a regular check on whether your governance approach still works as your data and requirements change.
+Data Review is how this entire System stays current: a regular check on whether your governance approach still works as your data and requirements change.
 Set a review schedule, describe what the review actually evaluates, and list improvement actions coming out of it.
-Cover everything above it in one pass — ownership, security, quality, and compliance — rather than reviewing each in isolation.
+Cover everything above it in one pass (ownership, security, quality, and compliance) rather than reviewing each in isolation.
 Without this section, even a well-designed governance framework slowly falls out of step with how the organization actually operates.

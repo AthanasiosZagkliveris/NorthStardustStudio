@@ -21,7 +21,7 @@ export const WRITE_DEBOUNCE_MS = 400;
 
 /**
  * Why a write failed, in the words the saved signal ends its
- * sentence with ("Not saved — storage is full"). Browsers name a
+ * sentence with ("Not saved: storage is full"). Browsers name a
  * full store differently: QuotaExceededError (Chromium, WebKit),
  * NS_ERROR_DOM_QUOTA_REACHED (older Firefox), or only the legacy
  * codes 22 and 1014.

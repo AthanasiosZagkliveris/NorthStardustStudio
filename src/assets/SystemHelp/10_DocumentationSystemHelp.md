@@ -2,7 +2,7 @@
 
 ## 01. Folder Structure Help
 
-Folder Structure defines where information actually lives, so anyone can find — or file — a document without guessing.
+Folder Structure defines where information actually lives, so anyone can find (or file) a document without guessing.
 List your primary folders and what each one is for, then set a few rules for how folders should be created and organized.
 Organize by function rather than by team, separating "Customer Support" from "Governance & Compliance," which keeps content easy to locate regardless of who created it.
 Getting this right once saves everyone from creating duplicate folders later.
@@ -44,7 +44,7 @@ This is what keeps templates useful instead of becoming outdated over time.
 
 ## 07. Documentation Rules Help
 
-Documentation Rules set the standards that keep everything above this section working over time — how documents get created, updated, and eventually archived.
+Documentation Rules set the standards that keep everything above this section working over time: how documents get created, updated, and eventually archived.
 Define rules for creating new documents, updating existing ones, and handling documents that are no longer active.
 Make rules specific enough to actually follow, like "complete required metadata before publishing," rather than a general call for quality.
 Without these rules, even a well-organized system slowly becomes unreliable as it grows.

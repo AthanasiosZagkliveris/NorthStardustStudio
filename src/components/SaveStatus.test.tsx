@@ -80,7 +80,7 @@ describe("The header's saved signal", () => {
 
         const signal = document.querySelector(".save-status") as HTMLElement;
 
-        expect(screen.getByText("Not saved — storage is full")).toBeTruthy();
+        expect(screen.getByText("Not saved: storage is full")).toBeTruthy();
         expect(signal.classList.contains("save-status-error")).toBe(true);
         expect(signal.getAttribute("title")).toMatch(/Export Organization/);
 

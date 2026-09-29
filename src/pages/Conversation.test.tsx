@@ -146,17 +146,17 @@ describe("Conversation records the last place worked", () => {
             .map(button => button.getAttribute("aria-label"));
 
         expect(sections()).toEqual([
-            "1. Description — not started",
-            "2. Mission — not started",
-            "3. Positioning — not started",
-            "4. Vision — not started"
+            "1. Description: not started",
+            "2. Mission: not started",
+            "3. Positioning: not started",
+            "4. Vision: not started"
         ]);
 
         fireEvent.change(document.querySelector<HTMLTextAreaElement>("[data-rail] textarea")!, {
             target: { value: "We automate small offices." }
         });
 
-        expect(sections()[0]).toBe("1. Description — defined");
+        expect(sections()[0]).toBe("1. Description: defined");
         expect(screen.getByRole("navigation", { name: "Sections" }).querySelector(".bullet-rail-dot")?.getAttribute("data-status"))
             .toBe("defined");
 
@@ -191,9 +191,16 @@ describe("A System's opening screen", () => {
         );
     }
 
+    // What a fact says: the content after its title, or, for What it
+    // covers (whose title shares the first row with the question), the
+    // group its title labels.
     function fact(label: string) {
-        const term = screen.queryByText(label, { selector: "dt" });
-        return term ? term.nextElementSibling?.textContent ?? "" : null;
+        const title = screen.queryByRole("heading", { name: label });
+        if (!title) {
+            return null;
+        }
+        const group = document.querySelector("[aria-labelledby='" + title.id + "']");
+        return (group ?? title.nextElementSibling)?.textContent ?? "";
     }
 
     it("shows a Foundation System's guiding question, pages, what it uses from earlier and its thinking time", () => {
@@ -214,7 +221,7 @@ describe("A System's opening screen", () => {
         expect(fact("Uses from earlier")).toBe("Your target audience, founders and legal details from 1. Identity System.");
         // The System's name in it is bold.
         expect(screen.getByText("1. Identity System", { selector: "strong" })).toBeTruthy();
-        expect(Array.from(screen.getByText("Thinking time", { selector: "dt" }).nextElementSibling!.children)
+        expect(Array.from(screen.getByRole("heading", { name: "Thinking time" }).nextElementSibling!.children)
             .map(line => line.textContent)).toEqual([
                 "About 3–4 hr",
                 "You can stop at any time; everything is saved."
@@ -253,7 +260,7 @@ describe("A System's opening screen", () => {
         renderOpening("identity");
 
         expect(screen.getByText("Who are you, and why do you exist?")).toBeTruthy();
-        expect(fact("Uses from earlier")).toBe("Nothing — it's the starting point.");
+        expect(fact("Uses from earlier")).toBe("Nothing. It's the starting point.");
 
     });
 

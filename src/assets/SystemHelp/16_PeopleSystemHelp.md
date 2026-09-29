@@ -2,9 +2,9 @@
 
 ## 01. Organization Structure Help
 
-Organization Structure maps out how people are actually organized — departments, teams, reporting lines, and where everyone sits.
+Organization Structure maps out how people are actually organized: departments, teams, reporting lines, and where everyone sits.
 Document your departments and their purposes, your teams, reporting relationships, how role levels distribute responsibility, and locations if relevant.
-Tie each department and team to a clear purpose, like "Automation Engineering — industrial automation projects," rather than just naming groups.
+Tie each department and team to a clear purpose, like "Automation Engineering: industrial automation projects," rather than just naming groups.
 This structure is the reference point everything else in this System, from roles to collaboration, will build on.
 
 ## 02. Roles & Responsibilities Help
@@ -25,14 +25,14 @@ Naming who approves the final decision, like a Hiring Manager and HR together, i
 
 Onboarding documents how a new hire actually becomes a productive, contributing member of the organization.
 Cover the welcome process, orientation topics, resources they'll need, a training schedule, and their initial objectives.
-Break the schedule into concrete phases — Week 1, Month 1, and the First 90 Days — each with a clear focus, rather than one open-ended ramp-up period.
+Break the schedule into concrete phases (Week 1, Month 1, and the First 90 Days), each with a clear focus, rather than one open-ended ramp-up period.
 A structured onboarding like this is what gets new people contributing faster and with fewer early mistakes.
 
 ## 05. Development Help
 
 Development documents how people grow their skills and careers over time, not just how they're trained once at the start.
 Cover skills development, training options, career development paths, mentoring, and available learning resources.
-Offer multiple real paths forward — internal mobility, leadership pathways, and specialist career paths — rather than a single generic promotion track.
+Offer multiple real paths forward (internal mobility, leadership pathways, and specialist career paths) rather than a single generic promotion track.
 Investing in this section is what keeps people improving and staying with the organization long-term.
 
 ## 06. Performance Help
@@ -51,7 +51,7 @@ Clear guidelines here, like agreed response times and escalation paths, are what
 
 ## 08. Offboarding Help
 
-Offboarding documents how someone leaves the organization without leaving gaps behind — in knowledge, responsibilities, or security.
+Offboarding documents how someone leaves the organization without leaving gaps behind: in knowledge, responsibilities, or security.
 Cover the exit process, knowledge transfer, handover of responsibilities, asset return, access removal, a final documentation review, and exit feedback.
 Treat knowledge transfer and handover as seriously as asset return, making sure project continuity and stakeholder notification happen before someone leaves, not after.
 A structured offboarding like this protects the organization's continuity and captures honest feedback while it's still fresh.

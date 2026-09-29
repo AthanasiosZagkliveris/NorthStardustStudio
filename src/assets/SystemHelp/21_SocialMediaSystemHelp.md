@@ -4,14 +4,14 @@
 
 Audience Profiles identifies the specific groups of people you want to reach on social media, not just "your audience" in general.
 For each group, capture their name, description, interests, goals, and the challenges they face.
-Keep groups distinct even when they overlap — separate "Entertainment Fans" from "Collectors," for instance, because they want different things from your content.
+Keep groups distinct even when they overlap: separate "Entertainment Fans" from "Collectors," for instance, because they want different things from your content.
 Understanding these differences is what lets your content actually speak to each group instead of a vague general audience.
 
 ## 02. Platform Strategy Help
 
 Platform Strategy defines why you're actually on each platform and what you post there, rather than posting the same thing everywhere.
 For each platform, record its purpose, primary audience, and content focus.
-Give each platform a distinct job — Instagram for visual storytelling, LinkedIn for corporate communication, TikTok for younger audiences — rather than duplicating the same strategy across all of them.
+Give each platform a distinct job (Instagram for visual storytelling, LinkedIn for corporate communication, TikTok for younger audiences) rather than duplicating the same strategy across all of them.
 This is what keeps your presence on each platform intentional instead of just checking a box for being there.
 
 ## 03. Content Types Help
@@ -46,5 +46,5 @@ This is what lets you see at a glance what's actively running and what's coming 
 
 Analytics Tracker is how you actually measure whether your social media efforts are working, not just how active you are.
 List your performance metrics, how often you'll report on them, and record insights, observations, trends, and improvement actions.
-Turn data into real decisions — note, for instance, that "short-form video generates the highest engagement," then act on it by planning to "expand video-first content."
+Turn data into real decisions: note, for instance, that "short-form video generates the highest engagement," then act on it by planning to "expand video-first content."
 This is the step that turns your social media activity into something that actually improves over time.

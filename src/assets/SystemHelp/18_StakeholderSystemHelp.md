@@ -25,19 +25,19 @@ This is what keeps your relationships built on stated, checkable commitments ins
 
 Stakeholder Engagement documents how you actually maintain each relationship, not just how often you'd like to.
 For each stakeholder, list the engagement methods you use (meetings, surveys, workshops, and similar) and how frequently they happen.
-Vary both method and frequency by stakeholder — weekly team meetings for employees versus annual community meetings — rather than a one-size-fits-all engagement plan.
+Vary both method and frequency by stakeholder (weekly team meetings for employees versus annual community meetings) rather than a one-size-fits-all engagement plan.
 Matching the method and cadence to each group is what keeps engagement genuinely useful instead of just going through the motions.
 
 ## 05. Stakeholder Communication Help
 
 Stakeholder Communication documents what information each group actually receives, how, and how often.
 For each stakeholder, define the purpose of communicating with them, the method you'll use, and the frequency.
-Tailor both purpose and channel to each audience — an annual report and shareholder meeting for investors versus an intranet and newsletter for employees — rather than one blanket communication plan.
+Tailor both purpose and channel to each audience (an annual report and shareholder meeting for investors versus an intranet and newsletter for employees) rather than one blanket communication plan.
 Getting this right is what makes sure the right information reaches the right people without over- or under-communicating.
 
 ## 06. Stakeholder Review Help
 
-Stakeholder Review is how this whole System stays current — a regular check on whether your relationships are actually working.
+Stakeholder Review is how this whole System stays current: a regular check on whether your relationships are actually working.
 Set a review schedule, define what the review evaluates (satisfaction, relationship quality, communication effectiveness, and similar), and list improvement actions.
 Review on a set schedule but also trigger a review after significant organizational changes, rather than relying only on a fixed calendar.
 This is what keeps your stakeholder relationships responsive to change instead of managed on autopilot.

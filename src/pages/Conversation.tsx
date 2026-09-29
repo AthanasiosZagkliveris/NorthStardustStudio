@@ -2504,77 +2504,80 @@ export default function Conversation() {
 
                     {showIntroduction ? (
                         <section className="interview-section intro-layout">
-                            {/* The question and the introduction, kept to a
-                                reading measure; the facts beside them on a
-                                wide screen, under them on a narrow one. */}
-                            <div className="intro-main">
-                                {/* The question the System answers: the lead. */}
-                                {introduction.guidingQuestion && (
-                                    <p className="intro-guiding-question">
-                                        {introduction.guidingQuestion}
-                                    </p>
-                                )}
+                            {/*
+                                Two rows, so the columns' first lines
+                                line up whatever their sizes: the
+                                question beside the first fact's title,
+                                then the introduction beside the facts
+                                (each pair on one baseline). Kept to a
+                                reading measure; the facts beside the
+                                text on a wide screen, under it on a
+                                narrow one (conversation.css).
+                            */}
 
-                                <div className="interview-block-content">
-                                    {splitIntoSentences(introduction.introductionText).map((sentence, index) => (
-                                        <p key={index} className="intro-sentence">
-                                            {withBold(sentence)}
-                                        </p>
-                                    ))}
-                                </div>
+                            {/* The question the System answers: the lead. */}
+                            {introduction.guidingQuestion && (
+                                <p className="intro-guiding-question">
+                                    {introduction.guidingQuestion}
+                                </p>
+                            )}
+
+                            {/* What the System covers: its scope and its
+                                pages, each opening the interview there. */}
+                            <h2 className="intro-fact-label intro-covers-label" id="intro-covers">What it covers</h2>
+
+                            <div className="interview-block-content intro-text">
+                                {splitIntoSentences(introduction.introductionText).map((sentence, index) => (
+                                    <p key={index} className="intro-sentence">
+                                        {withBold(sentence)}
+                                    </p>
+                                ))}
                             </div>
 
-                            {/*
-                                What the System covers (its scope and
-                                pages, each opening the interview there),
-                                what it draws from Systems answered
-                                earlier, and how long it takes -- each
-                                only where the content has it.
-                            */}
-                            <dl className="intro-facts">
-                                <div className="intro-fact">
-                                    <dt className="intro-fact-label">What it covers</dt>
-                                    <dd className="intro-fact-text">
-                                        {introduction.systemScope && (
-                                            <p className="intro-fact-line">{introduction.systemScope}</p>
-                                        )}
-                                        <ol className="intro-pages">
-                                            {pageRailItems(session.getSections()).map(page => (
-                                                <li key={page.id} className="intro-page">
-                                                    <button
-                                                        type="button"
-                                                        className="intro-page-link"
-                                                        onClick={() => startInterviewAt(pageIndexFromRailId(page.id))}
-                                                    >
-                                                        {page.label}
-                                                    </button>
-                                                </li>
-                                            ))}
-                                        </ol>
-                                    </dd>
+                            {/* Then what it draws from Systems answered
+                                earlier, and how long it takes -- each only
+                                where the content has it. */}
+                            <div className="intro-facts">
+                                <div className="intro-fact-text" role="group" aria-labelledby="intro-covers">
+                                    {introduction.systemScope && (
+                                        <p className="intro-fact-line">{introduction.systemScope}</p>
+                                    )}
+                                    <ol className="intro-pages">
+                                        {pageRailItems(session.getSections()).map(page => (
+                                            <li key={page.id} className="intro-page">
+                                                <button
+                                                    type="button"
+                                                    className="intro-page-link"
+                                                    onClick={() => startInterviewAt(pageIndexFromRailId(page.id))}
+                                                >
+                                                    {page.label}
+                                                </button>
+                                            </li>
+                                        ))}
+                                    </ol>
                                 </div>
 
                                 {introduction.usesFromEarlier && (
                                     <div className="intro-fact">
-                                        <dt className="intro-fact-label">Uses from earlier</dt>
-                                        <dd className="intro-fact-text">
+                                        <h2 className="intro-fact-label">Uses from earlier</h2>
+                                        <div className="intro-fact-text">
                                             <p className="intro-fact-line">{withBold(introduction.usesFromEarlier)}</p>
-                                        </dd>
+                                        </div>
                                     </div>
                                 )}
 
                                 {introduction.thinkingTime && (
                                     <div className="intro-fact">
-                                        <dt className="intro-fact-label">Thinking time</dt>
-                                        <dd className="intro-fact-text">
+                                        <h2 className="intro-fact-label">Thinking time</h2>
+                                        <div className="intro-fact-text">
                                             <p className="intro-fact-line">{introduction.thinkingTime}</p>
                                             <p className="intro-fact-line intro-fact-note">
                                                 You can stop at any time; everything is saved.
                                             </p>
-                                        </dd>
+                                        </div>
                                     </div>
                                 )}
-                            </dl>
+                            </div>
 
                             <div className="interview-nav">
                                 <button
