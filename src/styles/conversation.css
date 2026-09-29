@@ -10617,10 +10617,15 @@ td.process-library-col-number{
 
 /* Channel (with its links under the name), Offerings, Journey
    Stage, Action. Action takes the most: it is the only column
-   holding sentences. */
-.business-channel-table th:nth-child(1){ width:30%; }
-.business-channel-table th:nth-child(2){ width:20%; }
-.business-channel-table th:nth-child(3){ width:20%; }
+   holding sentences. Offerings and Journey Stage are sized to what
+   they hold, down to the narrowest table that keeps four columns
+   (1300px): Offerings a 210px dropdown with its × beside it (248px
+   of content), Journey Stage its "+ Add Journey Stage" on one line
+   (271px). At 1300px they give 262 and 275 inside the cell's 12px
+   padding. */
+.business-channel-table th:nth-child(1){ width:25%; }
+.business-channel-table th:nth-child(2){ width:22%; }
+.business-channel-table th:nth-child(3){ width:23%; }
 .business-channel-table th:nth-child(4){ width:30%; }
 
 /* The head is the darkest of the three grounds, the category row
@@ -11036,9 +11041,11 @@ td.process-library-col-number{
 
 }
 
+/* One gap between everything stacked in a cell, and the same gap
+   between a dropdown and the × beside it: the shared row spacing. */
 .business-channel-cell > * + *{
 
-    margin-top:8px;
+    margin-top:var(--space-row);
 
 }
 
@@ -11203,7 +11210,7 @@ td.process-library-col-number{
        same line. */
     align-items:flex-start;
 
-    gap:6px;
+    gap:var(--space-row);
 
     min-width:0;
 
@@ -11217,7 +11224,10 @@ td.process-library-col-number{
    this floor rather than the dropdown clipping under it. */
 .business-channel-pick > .option-picker{
 
-    flex:1 1 auto;
+    /* From a base of 0, not its own width: the pick wraps (for the
+       add row under it), and a dropdown based at its full width
+       pushed the × beside it onto a line of its own. */
+    flex:1 1 0;
 
     min-width:210px;
 
@@ -11269,9 +11279,9 @@ td.process-library-col-number{
 }
 
 /* THE CHANNEL AND RELATIONSHIP TABLES REFLOW rather than overflow.
-   Their dropdown columns need 260px each (the 210px dropdown, 6px,
+   Their dropdown columns need 272px each (the 210px dropdown, 6px,
    the × beside it, and the cell's own padding), which
-   a fifth of the table gives only from 1300px up -- the table is
+   their share of the table gives only from 1300px up -- the table is
    1331px in a 1536px or wider window, 1185px in a 1366px one. Narrower, every row
    becomes two columns -- Channel and Offerings over Journey Stage
    and Action, the column heads laid out the same way above them --
