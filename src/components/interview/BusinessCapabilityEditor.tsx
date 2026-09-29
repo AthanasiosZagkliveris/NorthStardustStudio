@@ -38,7 +38,7 @@ import {
     BusinessEmpty,
     BusinessField,
     BusinessGroup,
-    BusinessNote,
+    OptionalNote,
     BusinessRemove,
     BusinessText,
     BusinessTicks,
@@ -1176,7 +1176,7 @@ export default function BusinessCapabilityEditor({
                     applySlot
                 )}
 
-                <BusinessNote
+                <OptionalNote
                     label="Description / Relevant Information"
                     ariaLabel={"Resource " + number + " description"}
                     disabled={disabled}
@@ -2033,7 +2033,7 @@ export default function BusinessCapabilityEditor({
 
                 </div>
 
-                <BusinessNote
+                <OptionalNote
                     label="Description"
                     ariaLabel={"Activity " + number + " description"}
                     disabled={disabled}
@@ -2171,7 +2171,7 @@ export default function BusinessCapabilityEditor({
                     (next) => change({ cost: next })
                 )}
 
-                <BusinessNote
+                <OptionalNote
                     label="Description / Relevant Information"
                     ariaLabel={"Entry " + number + " description"}
                     disabled={disabled}
@@ -2837,7 +2837,7 @@ export default function BusinessCapabilityEditor({
                 </div>
                 )}
 
-                <BusinessNote
+                <OptionalNote
                     label="Constraints"
                     info={DELIVERY_HELP.constraints}
                     ariaLabel={offering.label + " delivery constraints"}

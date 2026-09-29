@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { FieldFlagButton, FieldStatus } from "./fieldAnnotations.tsx";
@@ -237,6 +237,185 @@ export function BusinessNote({
                 onChange={onChange}
             />
         </BusinessField>
+    );
+
+}
+
+/**
+ * AN OPTIONAL FIELD, OPENED BY ITS TICK BOX: [☐ Label ⓘ].
+ *
+ * For the secondary, optional text inside a card -- Conditions,
+ * Relevant Information, Links, Assumptions -- never a card's primary
+ * question. Unticked, only that one line shows and the field is
+ * simply not answered. Ticked, the field appears under it and takes
+ * the focus. A field that already has content loads ticked.
+ *
+ * Unticking a field WITH content clears it, so it asks first: an
+ * inline "Remove text?" beside the tick box, which a second click
+ * confirms (no dialogs). Nothing hidden is ever kept, so nothing
+ * hidden can reach the documents.
+ *
+ * The same checkbox-and-label as the Foundation page's Business
+ * Data (.business-foundation-tick). No field menu
+ * (`data-field-kind="optional"`, fieldAnnotations.tsx).
+ */
+export function OptionalField({
+
+    label,
+
+    info,
+
+    filled,
+
+    onClear,
+
+    disabled = false,
+
+    children
+
+}: {
+
+    label: string;
+    info?: InfoPoint[];
+    /** Whether the field holds anything: it then loads ticked. */
+    filled: boolean;
+    /** Empties the field (after "Remove text?"). */
+    onClear: () => void;
+    disabled?: boolean;
+    children: ReactNode;
+
+}) {
+
+    const [open, setOpen] = useState(filled);
+    const [confirming, setConfirming] = useState(false);
+    const [focusOnOpen, setFocusOnOpen] = useState(false);
+    const body = useRef<HTMLDivElement | null>(null);
+    const tick = useRef<HTMLInputElement | null>(null);
+    const shown = open || filled;
+
+    useEffect(() => {
+        if (!focusOnOpen || !shown) {
+            return;
+        }
+        setFocusOnOpen(false);
+        body.current?.querySelector<HTMLElement>("textarea, input, [contenteditable=true]")?.focus({ preventScroll: true });
+    }, [focusOnOpen, shown]);
+
+    function clear() {
+        // TODO(C1): switch this confirmation to the undo toast.
+        onClear();
+        setOpen(false);
+        setConfirming(false);
+        tick.current?.focus({ preventScroll: true });
+    }
+
+    return (
+        <div className="business-foundation-field optional-field" data-field-kind="optional">
+
+            {/*
+                The tick and its name are one label, so the name is
+                clickable. The "i" follows OUTSIDE it: anything inside
+                a label toggles the tick it belongs to.
+            */}
+            <span className="business-foundation-label-info optional-field-head">
+                <label className="business-foundation-tick business-foundation-tick-inline">
+                    <input
+                        type="checkbox"
+                        ref={tick}
+                        className="brand-tick-box"
+                        disabled={disabled}
+                        checked={shown}
+                        onChange={(event) => {
+                            if (event.target.checked) {
+                                setOpen(true);
+                                setConfirming(false);
+                                setFocusOnOpen(true);
+                            } else if (filled) {
+                                setConfirming(true);
+                            } else {
+                                setOpen(false);
+                            }
+                        }}
+                    />
+                    <span className="field-label business-foundation-label">
+                        {label}
+                        <FieldFlagButton label={label} />
+                    </span>
+                </label>
+                {info && <InfoNote label={label} points={info} fullList />}
+                {confirming && (
+                    <button
+                        type="button"
+                        className="optional-field-confirm"
+                        autoFocus
+                        onClick={clear}
+                        onBlur={() => setConfirming(false)}
+                        onKeyDown={(event) => {
+                            if (event.key === "Escape") {
+                                event.stopPropagation();
+                                setConfirming(false);
+                                tick.current?.focus({ preventScroll: true });
+                            }
+                        }}
+                    >
+                        Remove text?
+                    </button>
+                )}
+            </span>
+
+            {shown && <div className="optional-field-body" ref={body}>{children}</div>}
+
+        </div>
+    );
+
+}
+
+/**
+ * OptionalField holding a written answer: the growing box of
+ * BusinessNote, behind its tick box.
+ */
+export function OptionalNote({
+
+    label,
+
+    value,
+
+    onChange,
+
+    info,
+
+    ariaLabel,
+
+    placeholder,
+
+    className = "interview-input business-foundation-note",
+
+    disabled = false
+
+}: {
+
+    label: string;
+    value: string;
+    onChange: (next: string) => void;
+    info?: InfoPoint[];
+    ariaLabel?: string;
+    placeholder?: string;
+    className?: string;
+    disabled?: boolean;
+
+}) {
+
+    return (
+        <OptionalField label={label} info={info} filled={value.trim() !== ""} onClear={() => onChange("")} disabled={disabled}>
+            <StrategyTextArea
+                className={className}
+                ariaLabel={ariaLabel ?? label}
+                placeholder={placeholder}
+                disabled={disabled}
+                value={value}
+                onChange={onChange}
+            />
+        </OptionalField>
     );
 
 }

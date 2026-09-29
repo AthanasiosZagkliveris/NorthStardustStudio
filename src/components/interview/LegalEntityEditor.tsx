@@ -43,6 +43,7 @@ import { FieldFlagButton, FieldStatus } from "./fieldAnnotations.tsx";
 import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
+import { OptionalNote } from "./BusinessCardFields.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
 import FoldArrow from "./FoldArrow.tsx";
 
@@ -826,50 +827,28 @@ export default function LegalEntityEditor({
 
     /**
      * The long note at the foot of a requirement or an expense
-     * card, which most of them never carry.
-     *
-     * Out of the way until it is asked for: the "+ Add" button
-     * stands in its place, and once open a × on its label sends
-     * it away again. The × clears what is in it, because a
-     * value left behind would open the field on its own at the next
-     * visit and the button would never come back.
-     *
-     * `info` puts a note on the label; `addText` words the button
-     * where the label's own wording would not read as one.
+     * card, which most of them never carry: the shared optional
+     * field opened by its tick box (OptionalField,
+     * BusinessCardFields.tsx).
      */
     function optionalNote(
         label: string,
-        key: string,
         ariaLabel: string,
         current: string,
-        onNext: (next: string) => void,
-        info?: string[],
-        addText?: string
+        onNext: (next: string) => void
     ) {
 
-        if (!fieldShown(key, current)) {
-            return (
-                <div className="legal-entity-field-wide">
-                    {addFieldButton(addText ?? label, key)}
-                </div>
-            );
-        }
-
-        return field(
-            label,
-            <StrategyTextArea
-                className="interview-input legal-entity-note"
-                ariaLabel={ariaLabel}
-                disabled={disabled}
-                value={current}
-                onChange={onNext}
-            />,
-            true,
-            () => {
-                closeField(key);
-                onNext("");
-            },
-            info
+        return (
+            <div className="legal-entity-field-wide">
+                <OptionalNote
+                    label={label}
+                    className="interview-input legal-entity-note"
+                    ariaLabel={ariaLabel}
+                    disabled={disabled}
+                    value={current}
+                    onChange={onNext}
+                />
+            </div>
         );
 
     }
@@ -2044,7 +2023,6 @@ export default function LegalEntityEditor({
 
                                     {optionalNote(
                                         "Relevant Information",
-                                        requirement.id + ":notes",
                                         "Legal requirement " + (index + 1) + " notes",
                                         requirement.notes,
                                         (next) => update({
@@ -2323,7 +2301,6 @@ export default function LegalEntityEditor({
 
                                     {optionalNote(
                                         "Description / Relevant Information",
-                                        expense.id + ":description",
                                         "Expense " + (index + 1) + " description",
                                         expense.description,
                                         (next) => update({

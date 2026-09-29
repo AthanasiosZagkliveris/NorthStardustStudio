@@ -72,7 +72,7 @@ import {
     BusinessCard,
     BusinessEmpty,
     BusinessField,
-    BusinessNote,
+    OptionalNote,
     BusinessRemove,
     BusinessTicks,
     uniqueChoices
@@ -803,12 +803,14 @@ export default function FinancialFoundationEditor({
                             </>
                         )}
 
-                        {own && textInput(
-                            "Description",
-                            what + " description",
-                            own.description,
-                            (next) => changeOwnCost(own.id, { description: next }),
-                            "Optional"
+                        {own && (
+                            <OptionalNote
+                                label="Description"
+                                ariaLabel={what + " description"}
+                                disabled={disabled}
+                                value={own.description}
+                                onChange={(next) => changeOwnCost(own.id, { description: next })}
+                            />
                         )}
 
                     </div>
@@ -1424,8 +1426,22 @@ export default function FinancialFoundationEditor({
 
                 {nature === "debt" && loanSummary(source)}
 
-                {textInput("Purpose", what + " purpose", source.purpose,
-                    (next) => changeSource(source.id, { purpose: next }), "What it supports")}
+                <OptionalNote
+                    label="Purpose"
+                    ariaLabel={what + " purpose"}
+                    placeholder="What it supports"
+                    disabled={disabled}
+                    value={source.purpose}
+                    onChange={(next) => changeSource(source.id, { purpose: next })}
+                />
+
+                <OptionalNote
+                    label="Conditions"
+                    ariaLabel={what + " conditions"}
+                    disabled={disabled}
+                    value={source.conditions}
+                    onChange={(next) => changeSource(source.id, { conditions: next })}
+                />
 
                 <BusinessField label="Linked Funding Need">
                     {calculatedNeeds.every(need => need.amount <= 0.005)
@@ -1442,14 +1458,6 @@ export default function FinancialFoundationEditor({
                             />
                         )}
                 </BusinessField>
-
-                <BusinessNote
-                    label="Conditions"
-                    ariaLabel={what + " conditions"}
-                    disabled={disabled}
-                    value={source.conditions}
-                    onChange={(next) => changeSource(source.id, { conditions: next })}
-                />
 
             </BusinessCard>
         );

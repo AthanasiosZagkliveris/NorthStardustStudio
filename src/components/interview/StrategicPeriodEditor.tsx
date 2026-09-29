@@ -26,7 +26,7 @@ import BoxActions, { reorder, useMovableBox } from "./ReorderControls.tsx";
 import MonthYearPicker from "./MonthYearPicker.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../framework/engine/Currencies.ts";
-import StrategyTextArea from "./StrategyTextArea.tsx";
+import { OptionalNote } from "./BusinessCardFields.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
 import FoldArrow from "./FoldArrow.tsx";
 import CardNumber from "./CardNumber.tsx";
@@ -473,10 +473,10 @@ function GoalList({
 
                             <div className="strategy-box-body">
 
-                                <StrategyTextArea
+                                <OptionalNote
+                                    label="Description"
                                     className="interview-input strategy-note"
                                     ariaLabel={`Goal ${goalIndex + 1} description`}
-                                    placeholder="Description"
                                     disabled={disabled}
                                     value={goal.description}
                                     onChange={(next) => updateGoal(goalIndex, { description: next })}
@@ -703,10 +703,10 @@ function ObjectiveList({
                                     </p>
                                 )}
 
-                                <StrategyTextArea
+                                <OptionalNote
+                                    label="Description"
                                     className="interview-input strategy-note"
                                     ariaLabel={`Objective ${objectiveIndex + 1} description`}
-                                    placeholder="Description"
                                     disabled={disabled}
                                     value={objective.description}
                                     onChange={(next) => updateObjective(objectiveIndex, {
@@ -930,10 +930,10 @@ function MetricList({
 
                         </div>
 
-                        <StrategyTextArea
+                        <OptionalNote
+                            label="Description"
                             className="interview-input strategy-note"
                             ariaLabel={`Metric ${metricIndex + 1} description`}
-                            placeholder="Description"
                             disabled={disabled}
                             value={metric.description}
                             onChange={(next) => updateMetric(metricIndex, { description: next })}

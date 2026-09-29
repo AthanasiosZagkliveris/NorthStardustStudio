@@ -911,3 +911,47 @@ b, strong {
 .strategy-sort-menu {
   text-align: start;
 }
+
+/* AN OPTIONAL FIELD OPENED BY ITS TICK BOX (OptionalField,
+   BusinessCardFields.tsx): [☐ Label ⓘ] on one line, the field under
+   it once ticked, and -- when unticking would clear text -- the
+   inline "Remove text?" that a second click confirms. */
+.optional-field > .optional-field-head{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:center;
+
+    column-gap:8px;
+
+    row-gap:4px;
+
+}
+
+.optional-field-confirm{
+
+    padding:2px 10px;
+
+    border:1px solid var(--line-danger);
+    border-radius:6px;
+
+    background:transparent;
+
+    color:var(--text-danger);
+
+    font-family:inherit;
+    font-size:var(--font-small);
+    line-height:1.5;
+
+    cursor:pointer;
+
+}
+
+.optional-field-confirm:hover,
+.optional-field-confirm:focus-visible{
+
+    background:var(--bg-danger-tint);
+
+}

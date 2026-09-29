@@ -43,6 +43,8 @@ import {
     BusinessEmpty,
     BusinessField,
     BusinessNote,
+    OptionalField,
+    OptionalNote,
     BusinessRemove,
     BusinessStep,
     BusinessTickOption,
@@ -1558,13 +1560,20 @@ export default function BusinessEngagementEditor({
                                                         since a link is optional and the
                                                         box says so. */}
                                                     <div className="business-channel-links">
-                                                        <NumberedListInput
-                                                            label={"Links for Channel " + number}
-                                                            placeholder="Links (optional)"
-                                                            items={channel.links}
+                                                        <OptionalField
+                                                            label="Links"
+                                                            filled={channel.links.some(link => link.trim() !== "")}
+                                                            onClear={() => change({ links: [] })}
                                                             disabled={disabled}
-                                                            onChange={(items) => change({ links: items })}
-                                                        />
+                                                        >
+                                                            <NumberedListInput
+                                                                label={"Links for Channel " + number}
+                                                                placeholder="Link"
+                                                                items={channel.links}
+                                                                disabled={disabled}
+                                                                onChange={(items) => change({ links: items })}
+                                                            />
+                                                        </OptionalField>
                                                     </div>
 
                                                 </div>
@@ -3437,21 +3446,17 @@ export default function BusinessEngagementEditor({
                         )}
                 </div>
 
-                <BusinessField
+                <OptionalNote
                     label="Assumptions"
                     info={["Anything else the figures rest on, beyond each source's basis."]}
-                >
-                    <StrategyTextArea
-                        className="interview-input business-foundation-note"
-                        ariaLabel={"Demand assumptions for " + offeringLabel}
-                        placeholder={DEMAND_ASSUMPTIONS_PLACEHOLDER}
-                        disabled={disabled}
-                        value={demand.assumptions}
-                        onChange={(next) => updateDemand(offeringId, {
-                            assumptions: next
-                        })}
-                    />
-                </BusinessField>
+                    ariaLabel={"Demand assumptions for " + offeringLabel}
+                    placeholder={DEMAND_ASSUMPTIONS_PLACEHOLDER}
+                    disabled={disabled}
+                    value={demand.assumptions}
+                    onChange={(next) => updateDemand(offeringId, {
+                        assumptions: next
+                    })}
+                />
 
                 <p className="business-demand-footnote">
                     The Expected Sales are used for Delivery on Infrastructure &amp;

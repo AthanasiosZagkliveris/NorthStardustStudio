@@ -53,7 +53,7 @@ import {
     BusinessCard,
     BusinessEmpty,
     BusinessField,
-    BusinessNote,
+    OptionalNote,
     BusinessRemove,
     uniqueChoices
 } from "./BusinessCardFields.tsx";
@@ -915,7 +915,7 @@ export default function FinancialSustainabilityEditor({
                     </p>
                 )}
 
-                <BusinessNote
+                <OptionalNote
                     label="Assumptions"
                     ariaLabel={what + " assumptions"}
                     disabled={disabled}
