@@ -73,7 +73,7 @@
     /* Defaults to its parent Capability's colour --
        every System reads as belonging to the
        Capability it's filed under. */
-    color: color-mix(in srgb, var(--system-color, var(--text-black)) var(--capability-ink-weight), var(--capability-ink-base));
+    color: color-mix(in srgb, var(--system-color, var(--text-black)) var(--capability-list-ink-weight), var(--capability-list-ink-base));
 
     /* `font-weight` is deliberately NOT transitioned -- a
        browser cannot interpolate between two static faces and
@@ -90,7 +90,7 @@
     font-size: var(--font-h3);
     font-weight: 500;
 
-    color: color-mix(in srgb, var(--system-color, var(--text-black)) var(--capability-ink-weight), var(--capability-ink-base));
+    color: color-mix(in srgb, var(--system-color, var(--text-black)) var(--capability-list-ink-weight), var(--capability-list-ink-base));
 
     /* `font-weight` is deliberately NOT transitioned -- a
        browser cannot interpolate between two static faces and
@@ -107,9 +107,8 @@
    Hover
 ========================================================== */
 
-.system-item:hover {
-    background-color: color-mix(in srgb, var(--system-color, var(--bg-primary)) 10%, var(--bg-primary-tint));
-}
+/* The hover ground: the one Capability and System row highlight,
+   global.css. */
 
 .system-item:hover .system-number,
 .system-item:hover .system-title {

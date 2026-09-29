@@ -105,6 +105,8 @@
     --bg-highlight: #ecfdf3;
     --bg-holds: #f0fdf4;
     --bg-hover: #f5f5f5;
+    --bg-list-hover: rgba(15, 23, 42, 0.06);
+    --bg-list-selected: rgba(15, 23, 42, 0.1);
     --bg-info: #226bc2;
     --bg-met: #1f6b3a;
     --bg-mark-preview: #ffffff;
@@ -260,12 +262,14 @@
     --capability-ink-weight: 100%;
     --capability-ink-base: #ffffff;
 
-    /* On the rail's light-blue panel (--bg-primary-selected) the
-       brown and orange Capabilities measured 4.12 and 4.15:1: as
-       text there, a Capability colour is taken 15% toward black,
-       which holds every one of the six above 5.3:1. */
-    --capability-panel-ink-weight: 85%;
-    --capability-panel-ink-base: #000000;
+    /* A Capability or System row's text, in every list of them (the
+       Capability and System lists, the rail's flyouts): its colour
+       taken 15% toward black, which holds all six Capability colours
+       at 4.8:1 and more on every ground those rows stand on -- white,
+       the rail's light-blue panel, and the hover and selected grounds
+       below on either. */
+    --capability-list-ink-weight: 85%;
+    --capability-list-ink-base: #000000;
 
 }
 
@@ -360,6 +364,8 @@
     --bg-highlight: #1e2320;
     --bg-holds: #1f2220;
     --bg-hover: #232323;
+    --bg-list-hover: rgba(255, 255, 255, 0.06);
+    --bg-list-selected: rgba(255, 255, 255, 0.1);
     --bg-info: #226bc2;
     --bg-met: #1f6b3a;
     --bg-mark-preview: #f4f5f7;
@@ -515,10 +521,10 @@
     --capability-ink-weight: 45%;
     --capability-ink-base: #ffffff;
 
-    /* Already clear of 4.5:1 on the dark panel: the same mix as
-       any Capability text. */
-    --capability-panel-ink-weight: 45%;
-    --capability-panel-ink-base: #ffffff;
+    /* Taken 65% toward white: the navy Foundation, the darkest, holds
+       5.1:1 on the selected ground over the rail's panel. */
+    --capability-list-ink-weight: 35%;
+    --capability-list-ink-base: #ffffff;
 
     --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23e6e8eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 

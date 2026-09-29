@@ -161,6 +161,27 @@ body {
   color: var(--label-color);
 }
 
+/* ONE HIGHLIGHT FOR EVERY CAPABILITY AND SYSTEM ROW -- the Capability
+   and System lists on System Selection and the rail's Capabilities and
+   Systems flyouts alike. A row keeps its own colour (a Capability's, or
+   its parent Capability's), set through --capability-list-ink-* so it
+   reads at 4.5:1 and more on every ground below; under the pointer it
+   takes a light neutral ground and goes bold (--hover-bold), and the
+   selected Capability a stronger one. The grounds are translucent, so
+   they read the same on the white page and on the rail's blue panel.
+   Each row's label reserves its bold width (.hover-width-reserve), so
+   the highlight always holds it. */
+.capability-item:hover,
+.system-item:hover,
+.org-rail-capability-item:hover,
+.org-rail-system-item:hover {
+  background: var(--bg-list-hover);
+}
+
+.capability-item.active {
+  background: var(--bg-list-selected);
+}
+
 /* BUTTON TEXT IS BODY TEXT. Every labelled button -- Next and
    Previous, Hide Help, the add buttons, the Business Documents
    buttons on System Selection and on the documents page -- sets its

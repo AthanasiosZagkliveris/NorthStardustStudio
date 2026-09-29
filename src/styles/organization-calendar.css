@@ -844,8 +844,7 @@
 
     background:none;
 
-    /* On the rail's light-blue panel: see --capability-panel-ink-weight. */
-    color:color-mix(in srgb, var(--capability-color, var(--text-soft)) var(--capability-panel-ink-weight), var(--capability-panel-ink-base));
+    color:color-mix(in srgb, var(--capability-color, var(--text-soft)) var(--capability-list-ink-weight), var(--capability-list-ink-base));
 
     font:inherit;
     /* Text tier. */
@@ -866,9 +865,9 @@
 
 }
 
+/* Its hover ground: the one Capability and System row highlight,
+   global.css. */
 .org-rail-capability-item:hover{
-
-    background:color-mix(in srgb, var(--capability-color, var(--bg-primary)) 12%, var(--bg-surface));
 
     text-shadow:var(--hover-bold);
 
@@ -921,11 +920,8 @@
 
 }
 
-.org-rail-system-item:hover{
-
-    background:color-mix(in srgb, var(--system-color, var(--bg-primary)) 10%, var(--bg-primary-tint));
-
-}
+/* Its hover ground: the one Capability and System row highlight,
+   global.css. */
 
 .org-rail-system-item:hover .org-rail-system-number,
 .org-rail-system-item:hover .org-rail-system-title{
@@ -950,7 +946,7 @@
     font-size:var(--font-body);
     font-weight:500;
 
-    color:color-mix(in srgb, var(--system-color, var(--text-black)) var(--capability-ink-weight), var(--capability-ink-base));
+    color:color-mix(in srgb, var(--system-color, var(--text-black)) var(--capability-list-ink-weight), var(--capability-list-ink-base));
 
     transition:font-weight .15s ease;
 
@@ -969,7 +965,7 @@
     white-space:normal;
     word-break:break-word;
 
-    color:color-mix(in srgb, var(--system-color, var(--text-black)) var(--capability-ink-weight), var(--capability-ink-base));
+    color:color-mix(in srgb, var(--system-color, var(--text-black)) var(--capability-list-ink-weight), var(--capability-list-ink-base));
 
     transition:font-weight .15s ease;
 

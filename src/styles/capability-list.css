@@ -31,7 +31,7 @@
     /* Each Capability shows in its own colour by
        default, not a shared neutral tone -- the
        colour is what identifies it at a glance. */
-    color: color-mix(in srgb, var(--capability-color, var(--text-soft)) var(--capability-ink-weight), var(--capability-ink-base));
+    color: color-mix(in srgb, var(--capability-color, var(--text-soft)) var(--capability-list-ink-weight), var(--capability-list-ink-base));
 
     /* Tracking follows weight: none while regular, 5% once bold.
        Stated here rather than left to inherit, so the label is
@@ -59,13 +59,8 @@
     letter-spacing: 0.05em;
 }
 
-.capability-item:hover {
-    background: color-mix(in srgb, var(--capability-color, var(--bg-primary)) 12%, var(--bg-surface));
-}
-
-.capability-item.active {
-    background: color-mix(in srgb, var(--capability-color, var(--bg-primary)) 16%, var(--bg-surface));
-}
+/* Its hover and selected grounds: the one Capability and System row
+   highlight, global.css. */
 
 .capability-item:last-child {
     margin-bottom: 0;
