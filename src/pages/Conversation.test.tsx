@@ -170,7 +170,7 @@ describe("Conversation records the last place worked", () => {
         renderIdentity({ targetSectionNumber: 3, resume: {} });
 
         expect(screen.queryByRole("button", { name: "Start Interview" })).toBeNull();
-        expect(screen.getByRole("navigation", { name: "Pages" }).querySelector("[aria-current='true']")?.getAttribute("title"))
+        expect(screen.getByRole("navigation", { name: "Pages" }).querySelector("[aria-current='true']")?.getAttribute("aria-label"))
             .toMatch(/^3\. Legal Entity/);
         expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 2 });
 
@@ -250,7 +250,7 @@ describe("A System's opening screen", () => {
         fireEvent.click(screen.getByRole("button", { name: "3. Legal Entity" }));
 
         expect(screen.queryByRole("button", { name: "Start Interview" })).toBeNull();
-        expect(screen.getByRole("navigation", { name: "Pages" }).querySelector("[aria-current='true']")?.getAttribute("title"))
+        expect(screen.getByRole("navigation", { name: "Pages" }).querySelector("[aria-current='true']")?.getAttribute("aria-label"))
             .toMatch(/^3\. Legal Entity/);
 
     });

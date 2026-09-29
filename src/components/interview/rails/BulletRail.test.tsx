@@ -85,7 +85,7 @@ describe("BulletRail", () => {
             expect(css).toContain(".bullet-rail-item" + state + " .bullet-rail-dot");
         }
         expect(css).toContain(".bullet-rail-item:focus-visible { color: var(--text-primary); }");
-        expect(css).toContain(".bullet-rail-item:focus-visible .bullet-rail-label { text-decoration: underline;");
+        expect(css).toContain(".bullet-rail-item:focus-visible .bullet-rail-label .list-number { text-decoration: underline;");
         expect(css).toContain(".bullet-rail-item:focus-visible .bullet-rail-dot { --status-ink: var(--rail-dot-hover);");
         // No transition when the system asks for reduced motion.
         expect(css).toContain("prefers-reduced-motion: reduce) { .bullet-rail-item, .bullet-rail-dot { transition: none; }");
@@ -105,7 +105,8 @@ describe("BulletRail", () => {
 
         const row = screen.getByRole("button", { name: "2. Customer Engagement: in progress" });
 
-        expect(row.getAttribute("title")).toBe("2. Customer Engagement: in progress");
+        // No native tooltip repeating the label over the page.
+        expect(row.hasAttribute("title")).toBe(false);
         // The active page keeps its active look, its shape inside it.
         expect(row.classList.contains("active")).toBe(true);
         expect(row.querySelector(".bullet-rail-dot")?.getAttribute("data-status")).toBe("in-progress");
@@ -131,7 +132,7 @@ describe("BulletRail", () => {
 
         const row = screen.getByRole("button", { name: "2. Ethics" });
 
-        expect(row.getAttribute("title")).toBe("2. Ethics");
+        expect(row.hasAttribute("title")).toBe(false);
         expect(row.querySelector(".bullet-rail-dot")?.hasAttribute("data-status")).toBe(false);
         expect(row.querySelector(".bullet-rail-status-word")).toBeNull();
 

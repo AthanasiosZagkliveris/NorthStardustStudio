@@ -20,10 +20,13 @@ const TOOLTIP_EDGE_MARGIN = 8;
  * the state never rests on colour alone. The bullet is always on the side nearest the card:
  * label then bullet on the left, bullet then label on the right.
  *
- * An item with a `status` (the Pages rail) draws it as the bullet's
- * shape -- ○ not started, ◐ in progress, ● defined, ◆ needs review
- * (status-shape.css) -- inside the same active and hover looks, and
- * says it in words in the tooltip and the accessible name.
+ * An item with a `status` (a page's, or a section's) draws it as the
+ * bullet's shape -- ○ not started, ◐ in progress, ● defined, ◆ needs
+ * review (status-shape.css) -- inside the same active and hover looks,
+ * and says it in words in the narrow layout's tooltip and in the
+ * accessible name. No native `title`: the label is already on
+ * screen (or in the app's own tooltip), and the browser's would only
+ * repeat it over the page.
  */
 export default function BulletRail({
 
@@ -129,7 +132,6 @@ export default function BulletRail({
                                 type="button"
                                 className={"bullet-rail-item" + (active ? " active" : "") + (tooltipInside[item.id] ? " tooltip-inside" : "")}
                                 aria-current={active ? "true" : undefined}
-                                title={name}
                                 aria-label={statusWord ? name : undefined}
                                 onClick={() => onSelect(item.id)}
                                 onMouseEnter={event => placeTooltip(item.id, event.currentTarget)}

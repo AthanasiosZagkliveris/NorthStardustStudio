@@ -204,8 +204,16 @@
 .bullet-rail-item.active:hover,
 .bullet-rail-item.active:focus-visible { color: var(--text-strong); }
 
+/* ONE CONTINUOUS UNDERLINE under the whole label, number and name.
+   The number stands in the list-number column, an inline-block,
+   which an underline set on the label does not reach -- so the
+   number carries the same underline itself, and the space after it
+   (a real space, see the right rail's hanging indent below) carries
+   the label's. */
 .bullet-rail-item:hover .bullet-rail-label,
-.bullet-rail-item:focus-visible .bullet-rail-label {
+.bullet-rail-item:focus-visible .bullet-rail-label,
+.bullet-rail-item:hover .bullet-rail-label .list-number,
+.bullet-rail-item:focus-visible .bullet-rail-label .list-number {
 
     text-decoration: underline;
     text-decoration-color: currentColor;
@@ -338,21 +346,23 @@
        bullet, so a numbered label hangs its text beside the number
        (the list-number column, global.css): the text of every label
        starts at one x, and a wrapped line starts under the text, not
-       under the number. The gap is the space it replaces, at the
-       rail's 0.1em tracking. The left rail's labels are
-       right-aligned to their bullets and keep the number inline. */
+       under the number -- a hanging indent of the number's column
+       and the space after it (0.28em, at the rail's 0.1em tracking).
+       The space stays a real space, so the underline runs through
+       it. The left rail's labels are right-aligned to their bullets
+       and keep the number inline. */
     .bullet-rail-right .bullet-rail-label {
 
-        display: flex;
-        align-items: baseline;
-        column-gap: calc(0.28em + 0.1em);
+        --rail-hang: calc(var(--list-number-width) + 0.28em + 0.1em);
+
+        padding-left: var(--rail-hang);
+        text-indent: calc(-1 * var(--rail-hang));
 
     }
 
-    .bullet-rail-label-text { min-width: 0; }
-
     /* The label is inline here: the status word is left to the
-       button's title, rather than lengthening every label. */
+       button's accessible name (and the shape), rather than
+       lengthening every label. */
     .bullet-rail-status-word { display: none; }
 
 }
