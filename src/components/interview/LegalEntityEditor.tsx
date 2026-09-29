@@ -1657,7 +1657,7 @@ export default function LegalEntityEditor({
                                     status: next === NOT_YET_REGISTERED ? "planned" : "registered"
                                 })}
                             />,
-                            true,
+                            false,
                             undefined,
                             INFO.registrationStatus
                         )}
@@ -1669,8 +1669,8 @@ export default function LegalEntityEditor({
                             </p>
                         )}
 
-                        {/* When it was registered, beside who
-                            registered it: one act, two answers. */}
+                        {/* When it was registered, beside whether
+                            it is: Status | Formation Date. */}
                         {entity.formation.status !== "planned" && field(
                             "Formation Date",
                             <input
@@ -1695,9 +1695,7 @@ export default function LegalEntityEditor({
                             INFO.registrationAuthority
                         )}
 
-                        {/* Nothing left to pair with, so it spans --
-                            the same way an unpaired field does in
-                            subsections 5 and 6. */}
+                        {/* A number can run long: the whole row. */}
                         {entity.formation.status !== "planned" && text(
                             "Registration Number",
                             entity.formation.registrationNumber,
@@ -1718,9 +1716,11 @@ export default function LegalEntityEditor({
                                 "Registration number"
                             )}
 
+                            {/* At the end of the list: the list-end add
+                                button, the list's whole width. */}
                             <button
                                 type="button"
-                                className="strategy-add-button"
+                                className="strategy-add-button legal-entity-list-add"
                                 disabled={disabled}
                                 onClick={() => updateFormation({
                                     additionalNumbers: [
@@ -1848,7 +1848,7 @@ export default function LegalEntityEditor({
 
                             <button
                                 type="button"
-                                className="strategy-add-button"
+                                className="strategy-add-button legal-entity-list-add"
                                 disabled={disabled}
                                 onClick={() => updateTax({
                                     additionalRegistrations: [

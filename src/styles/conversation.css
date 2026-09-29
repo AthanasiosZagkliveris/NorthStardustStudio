@@ -8934,15 +8934,14 @@ td.process-library-col-number{
 
 }
 
-/* 3.3 splits its pair unevenly, because its two answers are.
-   A date is ten characters and never more; the authority that
-   registered the organisation is a name, and at half the row it
-   was the field running out of room while the date sat in twice
-   the space it could ever use. A quarter and three quarters, so
-   the date column is half what an even split gave it. */
+/* 3.3 on the card's two-column field grid like every other pair:
+   Status | Formation Date, then Registration Authority, then the
+   Registration Number(s) across the row. Each control keeps its own
+   standard width (a date the small one) from its column's left
+   edge, so an even split costs the date nothing. */
 .legal-entity-row .legal-entity-grid-formation{
 
-    grid-template-columns:minmax(0, 1fr) minmax(0, 3fr);
+    grid-template-columns:repeat(2, minmax(0, 1fr));
 
 }
 

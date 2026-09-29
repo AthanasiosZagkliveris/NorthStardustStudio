@@ -957,3 +957,34 @@ b, strong {
     background:var(--bg-danger-tint);
 
 }
+
+/* AN ADD BUTTON AT THE END OF A LIST OF ROWS (the Legal Entity's
+   extra registration numbers and tax registrations): the list's whole
+   content width, its label centred -- as the add button standing
+   alone in a table cell is. */
+.legal-entity-list-add {
+  display: block;
+  align-self: stretch;
+  width: 100%;
+  text-align: center;
+}
+
+/* A DATE in a field takes the small standard control width (the
+   control-size tokens above), from its column's left edge. */
+:is(.legal-entity-field, .legal-entity-pair, .business-foundation-field) > input.interview-input[type="date"] {
+  width: min(100%, var(--control-s));
+}
+
+/* ONE LABEL LINE IN A TWO-COLUMN FIELD GRID: every label in a row of
+   fields keeps to one line (its "i" on it), so the controls under
+   them share one top edge. A label longer than its column ends in an
+   ellipsis rather than pushing its control lower than its
+   neighbour's. */
+:is(.legal-entity-grid, .financial-funding-grid, .financial-stream-grid) > :is(.legal-entity-field, .legal-entity-pair, .business-foundation-field) > :is(.field-label, .legal-entity-label-info, .legal-entity-label-row, .business-foundation-label-info),
+.legal-entity-grid > .legal-entity-field > .legal-entity-pair > :is(.field-label, .legal-entity-label-info, .legal-entity-label-row) {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
