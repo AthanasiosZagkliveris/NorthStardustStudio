@@ -299,3 +299,25 @@
     overflow-wrap: break-word;
 
 }
+
+/* EVERY CARD IS AS TALL AS ITS OWN CONTENT. A grid row is as tall as
+   its tallest item and stretches the others to it, so a FOLDED card
+   beside an open one became an empty box the open card's height
+   (Resources and Activities on Infrastructure & Capability; Segments,
+   Profiles, Competitors and Offerings on Pages 1 and 2; the Offering
+   cost cards). The card grids hold their cards at the top of the row
+   instead: a folded card is its head and summary, whatever sits
+   beside it. Set on the cards of these grids only -- start in a
+   COLUMN of cards (a flex column) would shrink their width instead --
+   so a new grid of cards joins this list. (The Legal Entity's rows
+   and the funding cards already hold theirs at the top.) */
+:is(.answer-columns, .business-capability-columns, .financial-offering-costs) > :is(
+    :has(> .fold-card-head),
+    .business-foundation-card,
+    .business-capability-activity,
+    .financial-offering-cost-card
+) {
+
+    align-self: start;
+
+}
