@@ -12463,6 +12463,62 @@ td.process-library-col-number{
 }
 
 
+/* Income Tax at a rate: the choice and the rate share the column,
+   the rate a compact box that fits "100.00", its "%" after the
+   figure; the choice takes the rest, on one line. */
+.financial-income-tax-pair > .option-picker{
+
+    flex:1 1 auto;
+
+    min-width:0;
+
+}
+
+.financial-income-tax-pair > .option-picker > .option-picker-trigger.interview-input{
+
+    display:grid;
+
+    width:100%;
+
+}
+
+.financial-rate-entry{
+
+    position:relative;
+
+    flex:none;
+
+    display:inline-flex;
+
+}
+
+.financial-plan-bar .financial-rate-entry > .financial-rate-input.interview-input{
+
+    width:calc(6ch + 40px);
+
+    padding-right:28px;
+
+    text-align:right;
+
+}
+
+.financial-rate-suffix{
+
+    position:absolute;
+
+    top:50%;
+    right:10px;
+
+    translate:0 -50%;
+
+    font-size:var(--font-body);
+
+    color:var(--text-muted);
+
+    pointer-events:none;
+
+}
+
 /* A note on the bar (a missing setting, where the rest comes
    from) runs across it, under the columns. */
 .financial-plan-meta{

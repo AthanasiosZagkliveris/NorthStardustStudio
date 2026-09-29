@@ -1783,26 +1783,52 @@ export default function FinancialFoundationEditor({
                     label="Income Tax"
                     info={["Income tax on profit. Pass-through businesses (e.g. most sole traders and single-member LLCs) pay it personally, not at business level. For a company, enter the corporate rate; ask your accountant."]}
                 >
-                    <OptionPicker
-                        label="Income tax"
-                        placeholder="Select"
-                        options={INCOME_TAX_BASES.map(entry => entry.label)}
-                        disabled={disabled}
-                        value={INCOME_TAX_BASES.find(entry => entry.id === stored.incomeTax)?.label ?? ""}
-                        onChange={(next) => update({
-                            incomeTax: INCOME_TAX_BASES.find(entry => entry.label === next)?.id ?? ""
-                        })}
-                    />
+                    {/* Rate on profit: the rate beside the choice, in the
+                        same column -- as a Metric's Unit and currency
+                        share theirs -- the "%" after it. */}
+                    {stored.incomeTax === "rate"
+                        ? (
+                            <div className="business-capability-price financial-income-tax-pair">
+                                <OptionPicker
+                                    label="Income tax"
+                                    placeholder="Select"
+                                    options={INCOME_TAX_BASES.map(entry => entry.label)}
+                                    disabled={disabled}
+                                    value={INCOME_TAX_BASES.find(entry => entry.id === stored.incomeTax)?.label ?? ""}
+                                    onChange={(next) => update({
+                                        incomeTax: INCOME_TAX_BASES.find(entry => entry.label === next)?.id ?? ""
+                                    })}
+                                />
+                                <span className="financial-rate-entry">
+                                    <input
+                                        type="text"
+                                        inputMode={numberInputMode(NUMBER_LIMITS.percent)}
+                                        className="interview-input financial-rate-input"
+                                        aria-label="Tax rate (%)"
+                                        placeholder="25"
+                                        disabled={disabled}
+                                        value={stored.incomeTaxRate}
+                                        onChange={(event) => update({
+                                            incomeTaxRate: limitedNumberText(event.target.value, stored.incomeTaxRate, NUMBER_LIMITS.percent)
+                                        })}
+                                    />
+                                    <span className="financial-rate-suffix" aria-hidden="true">%</span>
+                                </span>
+                            </div>
+                        )
+                        : (
+                            <OptionPicker
+                                label="Income tax"
+                                placeholder="Select"
+                                options={INCOME_TAX_BASES.map(entry => entry.label)}
+                                disabled={disabled}
+                                value={INCOME_TAX_BASES.find(entry => entry.id === stored.incomeTax)?.label ?? ""}
+                                onChange={(next) => update({
+                                    incomeTax: INCOME_TAX_BASES.find(entry => entry.label === next)?.id ?? ""
+                                })}
+                            />
+                        )}
                 </BusinessField>
-                {stored.incomeTax === "rate" && textInput(
-                    "Tax Rate (%)",
-                    "Tax Rate (%)",
-                    stored.incomeTaxRate,
-                    (next) => update({ incomeTaxRate: next }),
-                    "e.g. 25",
-                    undefined,
-                    NUMBER_LIMITS.percent
-                )}
                 {/* The plan's months and its currency are in the
                     page title ("… · Jan 2027 – Dec 2029 · USD"). */}
                 {!currency && (

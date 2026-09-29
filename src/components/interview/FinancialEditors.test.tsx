@@ -194,7 +194,7 @@ describe("FinancialFoundationEditor income tax", () => {
         render(<TaxHarness />);
 
         expect(screen.getByRole("button", { name: "Income Tax: what this means" })).toBeTruthy();
-        expect(screen.queryByLabelText("Tax Rate (%)")).toBeNull();
+        expect(screen.queryByLabelText("Tax rate (%)")).toBeNull();
 
         fireEvent.click(screen.getByRole("button", { name: "Income tax: Not estimated" }));
         expect(screen.getAllByRole("option").map(option => option.textContent))
@@ -202,7 +202,7 @@ describe("FinancialFoundationEditor income tax", () => {
         fireEvent.click(screen.getByRole("option", { name: "Rate on profit" }));
         expect(asFinancialFoundationValue(saved).incomeTax).toBe("rate");
 
-        const rate = screen.getByLabelText("Tax Rate (%)") as HTMLInputElement;
+        const rate = screen.getByLabelText("Tax rate (%)") as HTMLInputElement;
         // The keystroke that would take it past 100 is refused.
         typeInto(rate, "120");
         expect(rate.value).toBe("12");
