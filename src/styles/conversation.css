@@ -766,22 +766,45 @@ textarea:focus{
    the hook toggles). Child controls (inputs, selects, buttons,
    links) keep their own normal cursors regardless, since the
    browser resolves their default `cursor:auto` independently of
-   this ancestor's `cursor:grab`. */
+   this ancestor's grab cursor. */
+.answer-variant-cards.drag-scrolling,
+.profile-cards-row.drag-scrolling,
+.dynamic-table-scroll.drag-scrolling{
+
+    user-select:none;
+
+}
+
+/* THE DRAG HAND, one rule for everything that is dragged: the
+   scrolling rows above, and every grip -- a card's ⠿ handle, a
+   numbered line's number, an Activity's number. The browser's own
+   grab hand is a small bitmap that looks pixelated beside the
+   system's pointing hand, so it is drawn instead (src/assets/
+   cursors): an SVG, sharp at 100%, and a PNG made from it at twice
+   the size for a 2x screen, both 32px with the hotspot in the palm
+   (16 16). The browser's own hand stays as the fallback, and the
+   first line is the fallback for a browser without image-set. */
 .answer-variant-cards,
 .profile-cards-row,
-.dynamic-table-scroll{
+.dynamic-table-scroll,
+.strategy-drag-handle,
+.numbered-list-number,
+.business-capability-handle{
 
-    cursor:grab;
+    cursor:url("../assets/cursors/grab.svg") 16 16, grab;
+    cursor:image-set(url("../assets/cursors/grab.svg") 1x, url("../assets/cursors/grab-2x.png") 2x) 16 16, grab;
 
 }
 
 .answer-variant-cards.drag-scrolling,
 .profile-cards-row.drag-scrolling,
-.dynamic-table-scroll.drag-scrolling{
+.dynamic-table-scroll.drag-scrolling,
+.strategy-drag-handle:active,
+.numbered-list-number:active,
+.business-capability-handle:active{
 
-    cursor:grabbing;
-
-    user-select:none;
+    cursor:url("../assets/cursors/grabbing.svg") 16 16, grabbing;
+    cursor:image-set(url("../assets/cursors/grabbing.svg") 1x, url("../assets/cursors/grabbing-2x.png") 2x) 16 16, grabbing;
 
 }
 
@@ -4922,7 +4945,7 @@ td.process-library-col-number{
 
     color:var(--text-faint);
 
-    cursor:grab;
+    /* The drag hand: see "THE DRAG HAND". */
 
     user-select:none;
 
@@ -5579,7 +5602,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
 
-    cursor:grab;
+    /* The drag hand: see "THE DRAG HAND". */
 
     user-select:none;
 
@@ -11876,7 +11899,7 @@ td.process-library-col-number{
    a text field selects text as it normally would. */
 .business-capability-handle{
 
-    cursor:grab;
+    /* The drag hand: see "THE DRAG HAND". */
 
 }
 
