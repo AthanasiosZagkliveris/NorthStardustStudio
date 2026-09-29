@@ -13958,6 +13958,17 @@ td.process-library-col-number{
 
 }
 
+/* A funding source card's fields are this grid's cells, paired left
+   then right in its columns (Funding Schedule beside Expected, under
+   Funding Type and Total Amount); the standing line and a list of
+   milestones take a row of their own. */
+.financial-funding-grid > .financial-standing,
+.financial-funding-grid > .financial-funding-wide{
+
+    grid-column:1 / -1;
+
+}
+
 .business-field-inline .business-capability-total{
 
     margin:0;

@@ -1117,6 +1117,9 @@ export default function FinancialFoundationEditor({
         const setSchedule = (patch: Partial<FundingSourceValue["schedule"]>) =>
             changeSource(source.id, { schedule: { ...schedule, ...patch } });
 
+        // Every field here is a cell of the card's own two-column grid
+        // (.financial-funding-grid): the schedule, then what it asks,
+        // paired left then right; a list of milestones takes the row.
         return (
             <>
                 {picker(
@@ -1143,63 +1146,65 @@ export default function FinancialFoundationEditor({
                 )}
 
                 {schedule.kind === "milestone" && (
-                    <BusinessField label="Milestones">
-                        <div className="financial-schedule">
-                            {schedule.milestones.map((milestone, position) => (
-                                <div className="financial-milestone" key={milestone.id}>
-                                    <input
-                                        type="text"
-                                        className="interview-input"
-                                        aria-label={what + " milestone " + (position + 1) + " condition"}
-                                        placeholder="Milestone / condition"
-                                        disabled={disabled}
-                                        value={milestone.condition}
-                                        onChange={(event) => setSchedule({
-                                            milestones: schedule.milestones.map(entry => entry.id === milestone.id
-                                                ? { ...entry, condition: event.target.value } : entry)
-                                        })}
-                                    />
-                                    <input
-                                        type="text"
-                                        inputMode="decimal"
-                                        className="interview-input"
-                                        aria-label={what + " milestone " + (position + 1) + " amount"}
-                                        placeholder={amountPlaceholder}
-                                        disabled={disabled}
-                                        value={milestone.amount}
-                                        onChange={(event) => setSchedule({
-                                            milestones: schedule.milestones.map(entry => entry.id === milestone.id
-                                                ? { ...entry, amount: limitedNumberText(event.target.value, milestone.amount, NUMBER_LIMITS.money) } : entry)
-                                        })}
-                                    />
-                                    <MonthYearPicker
-                                        hideLabel
-                                        label={what + " milestone " + (position + 1) + " expected"}
-                                        value={milestone.month}
-                                        disabled={disabled}
-                                        firstYear={Number(start.year)}
-                                        isAllowed={() => true}
-                                        onChange={(next) => setSchedule({
-                                            milestones: schedule.milestones.map(entry => entry.id === milestone.id
-                                                ? { ...entry, month: next } : entry)
-                                        })}
-                                    />
-                                    <BusinessRemove
-                                        what={what + " milestone " + (position + 1)}
-                                        disabled={disabled}
-                                        onRemove={() => setSchedule({
-                                            milestones: schedule.milestones.filter(entry => entry.id !== milestone.id)
-                                        })}
-                                    />
-                                </div>
-                            ))}
-                            <BusinessAddButton
-                                label="Milestone"
-                                disabled={disabled}
-                                onAdd={() => setSchedule({ milestones: [...schedule.milestones, createMilestone()] })}
-                            />
-                        </div>
-                    </BusinessField>
+                    <div className="financial-funding-wide">
+                        <BusinessField label="Milestones">
+                            <div className="financial-schedule">
+                                {schedule.milestones.map((milestone, position) => (
+                                    <div className="financial-milestone" key={milestone.id}>
+                                        <input
+                                            type="text"
+                                            className="interview-input"
+                                            aria-label={what + " milestone " + (position + 1) + " condition"}
+                                            placeholder="Milestone / condition"
+                                            disabled={disabled}
+                                            value={milestone.condition}
+                                            onChange={(event) => setSchedule({
+                                                milestones: schedule.milestones.map(entry => entry.id === milestone.id
+                                                    ? { ...entry, condition: event.target.value } : entry)
+                                            })}
+                                        />
+                                        <input
+                                            type="text"
+                                            inputMode="decimal"
+                                            className="interview-input"
+                                            aria-label={what + " milestone " + (position + 1) + " amount"}
+                                            placeholder={amountPlaceholder}
+                                            disabled={disabled}
+                                            value={milestone.amount}
+                                            onChange={(event) => setSchedule({
+                                                milestones: schedule.milestones.map(entry => entry.id === milestone.id
+                                                    ? { ...entry, amount: limitedNumberText(event.target.value, milestone.amount, NUMBER_LIMITS.money) } : entry)
+                                            })}
+                                        />
+                                        <MonthYearPicker
+                                            hideLabel
+                                            label={what + " milestone " + (position + 1) + " expected"}
+                                            value={milestone.month}
+                                            disabled={disabled}
+                                            firstYear={Number(start.year)}
+                                            isAllowed={() => true}
+                                            onChange={(next) => setSchedule({
+                                                milestones: schedule.milestones.map(entry => entry.id === milestone.id
+                                                    ? { ...entry, month: next } : entry)
+                                            })}
+                                        />
+                                        <BusinessRemove
+                                            what={what + " milestone " + (position + 1)}
+                                            disabled={disabled}
+                                            onRemove={() => setSchedule({
+                                                milestones: schedule.milestones.filter(entry => entry.id !== milestone.id)
+                                            })}
+                                        />
+                                    </div>
+                                ))}
+                                <BusinessAddButton
+                                    label="Milestone"
+                                    disabled={disabled}
+                                    onAdd={() => setSchedule({ milestones: [...schedule.milestones, createMilestone()] })}
+                                />
+                            </div>
+                        </BusinessField>
+                    </div>
                 )}
 
                 {schedule.kind === "other" && (
@@ -1214,21 +1219,15 @@ export default function FinancialFoundationEditor({
 
     }
 
-    function loanFields(source: FundingSourceValue, what: string) {
+    /** A loan's terms: cells of the card's own grid, paired left then right. */
+    function loanTermFields(source: FundingSourceValue, what: string) {
 
         const loan = source.loan;
         const setLoan = (patch: Partial<FundingSourceValue["loan"]>) =>
             changeSource(source.id, { loan: { ...loan, ...patch } });
 
-        const schedule = loanSchedule(source, start);
-        const showing = schedulesOpen.has(source.id);
-        const frequency = PERIOD_FREQUENCIES.find(entry => entry.id === loan.frequency)?.label.toLowerCase() ?? "";
-
         return (
             <>
-                {/* The terms flow as one grid: four across a wide card,
-                    two across a narrow one. */}
-                <div className="financial-funding-grid">
                 <div className="business-capability-row">
                     {textInput("Interest Rate (% a year)", what + " interest rate", loan.rate,
                         (next) => setLoan({ rate: next }), "e.g. 6", undefined, NUMBER_LIMITS.percent)}
@@ -1254,8 +1253,21 @@ export default function FinancialFoundationEditor({
                         (next) => setLoan({ method: (next || "annuity") as FundingSourceValue["loan"]["method"] }),
                         "Select", explain(LOAN_METHODS))}
                 </div>
-                </div>
+            </>
+        );
 
+    }
+
+    /** A loan's repayment summary, and its schedule on request, under the card's grid. */
+    function loanSummary(source: FundingSourceValue) {
+
+        const loan = source.loan;
+        const schedule = loanSchedule(source, start);
+        const showing = schedulesOpen.has(source.id);
+        const frequency = PERIOD_FREQUENCIES.find(entry => entry.id === loan.frequency)?.label.toLowerCase() ?? "";
+
+        return (
+            <>
                 {schedule
                     ? (
                         <div className="financial-loan-summary">
@@ -1391,11 +1403,15 @@ export default function FinancialFoundationEditor({
                         NUMBER_LIMITS.money
                     )}
                 </div>
-                </div>
 
+                {/* ONE GRID FOR THE CARD'S SHORT FIELDS: what it is, how
+                    much and when, the schedule or the loan's terms, the
+                    equity -- all in the same columns, never on rows of
+                    their own under the grid. The standing line takes a
+                    row of its own, under the amount. */}
                 {standingLine(source)}
 
-                {nature === "debt" ? loanFields(source, what) : scheduleFields(source, what)}
+                {nature === "debt" ? loanTermFields(source, what) : scheduleFields(source, what)}
 
                 {nature === "equity" && textInput(
                     "Ownership / Equity (%)", what + " equity", source.equity,
@@ -1403,6 +1419,9 @@ export default function FinancialFoundationEditor({
                     ["The share given in exchange. The Legal Entity remains where legal ownership is recorded."],
                     NUMBER_LIMITS.percent
                 )}
+                </div>
+
+                {nature === "debt" && loanSummary(source)}
 
                 {textInput("Purpose", what + " purpose", source.purpose,
                     (next) => changeSource(source.id, { purpose: next }), "What it supports")}
