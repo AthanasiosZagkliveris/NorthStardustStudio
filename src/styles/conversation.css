@@ -7718,20 +7718,16 @@ td.process-library-col-number{
 
 }
 
-.strategy-theme-panel .strategy-add-button{
-
-    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
-
-    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
-
-}
-
-/* One hover ground for all three, a step darker than the
-   lightest ground any of them rests on. 4.61:1 for the label at
-   the worst hue. */
+/* The add buttons' label, stroke and hover ground come from the
+   Theme's colour family (--accent-* on .strategy-theme-panel,
+   global.css): the ink above, and one hover ground for all three,
+   a step darker than the lightest ground any of them rests on --
+   4.61:1 for the label at the worst hue. Named again here only to
+   outrank the per-level grounds above, which would otherwise hold
+   under the pointer too. */
 .strategy-theme-panel .strategy-add-button:hover:not(:disabled){
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover));
+    background:var(--accent-ground-hover);
 
 }
 
@@ -9773,8 +9769,9 @@ td.process-library-col-number{
    darker than the lightest ground any of them rests on. */
 /* Scoped to INSIDE a Segment card, because that is where the hue
    exists. + Add Segment sits out on the page with no Segment to
-   belong to, and keeps the app's own button colours. */
-.business-foundation-input .strategy-add-button,
+   belong to, and keeps the app's own button colours. The add
+   buttons take theirs from the card's colour family (--accent-*,
+   global.css); the "i" is coloured here. */
 .business-foundation-input .info-note-button{
 
     color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
@@ -9790,12 +9787,8 @@ td.process-library-col-number{
    Offering all make a card at 92%, so all three are 92%: a shade
    off the 96% they sit on, which is what makes them read as the
    next card in the stack rather than as a control laid over the
-   Segment. */
-.business-foundation-input .strategy-add-button{
-
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner));
-
-}
+   Segment. That is the family's --accent-ground (global.css), and
+   a step darker, --accent-ground-hover, is its hover ground. */
 
 /* The "i" stays white whatever it sits on. It is the one control
    here that opens something rather than changing something, and
@@ -9812,13 +9805,6 @@ td.process-library-col-number{
    the disc does not grow and push the label line taller. Growing it
    did exactly that. */
 
-/* The add button's hover ground: a step darker than the lightest
-   ground it rests on -- again Strategy's own value. */
-.business-foundation-input .strategy-add-button:hover:not(:disabled){
-
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover));
-
-}
 
 /* The "i" INVERTS instead: it is a 24px circle with one letter in
    it, and at that size a ground a shade darker barely reads as a
@@ -11992,6 +11978,18 @@ td.process-library-col-number{
     background:var(--bg-completed-ground);
 
     box-shadow:inset 0 0 0 1px var(--line-completed);
+
+    /* Its colour family, which everything in it inherits: labels
+       in the neutral grey, and every outlined button -- + Add
+       Performer, Expand all -- drawn in the grey too (see THE
+       COLOUR FAMILY A BUTTON IS DRAWN IN, global.css), not in
+       the colour of the section around it. */
+    --label-color: var(--text-muted);
+    --accent-ink: var(--text-completed-ink);
+    --accent-line: var(--line-completed);
+    --accent-ground: var(--bg-completed-ground);
+    --accent-ground-hover: var(--bg-completed-hover);
+    --accent-hover-ink: var(--text-completed-ink);
 
 }
 

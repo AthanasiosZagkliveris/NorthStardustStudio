@@ -90,6 +90,7 @@
     --bg-danger-tint-alt: #fdecea;
     --bg-completed-card: #f8f9fa;
     --bg-completed-ground: #eef0f2;
+    --bg-completed-hover: #e2e5e8;
     --bg-faint: #6b7280;
     --bg-financial-good: #0ca30c;
     --bg-financial-grid: #e5e4e0;
@@ -336,6 +337,7 @@
     --bg-danger-tint-alt: #2a2524;
     --bg-completed-card: #1f2022;
     --bg-completed-ground: #25272a;
+    --bg-completed-hover: #2e3135;
     --bg-faint: #6f7277;
     --bg-financial-good: #019c03;
     --bg-financial-grid: #2d2d2c;
