@@ -2248,17 +2248,8 @@ export default function Conversation() {
         ? financialPlanPeriod(session.getResponse(financialFoundationSection.number))
         : { start: { month: "", year: "" }, end: { month: "", year: "" } });
 
-    // Financial Foundation states its currency in its title too: its
-    // amounts are shown formatted ("$200") and its boxes name the
-    // currency only as a placeholder, so without it the page would say
-    // nowhere which currency it counts in. (Financial Sustainability
-    // shows it beside every amount it asks for.)
-    const titleCurrency = currentSection?.answer?.type === AnswerType.FinancialFoundation && organisationCurrency
-        ? " · " + organisationCurrency
-        : "";
-
     const resolvedSectionTitle: string | undefined = currentSection
-        ? titleWithPeriod(currentSection.title, titlePeriod) + titleCurrency
+        ? titleWithPeriod(currentSection.title, titlePeriod)
         : undefined;
 
     // A Section that numbers its own units (see
