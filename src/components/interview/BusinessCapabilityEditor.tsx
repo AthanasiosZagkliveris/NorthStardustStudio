@@ -56,7 +56,7 @@ import {
 } from "../../framework/engine/DemandCapacity.ts";
 import { moneyFormatter } from "../../framework/engine/FinancialModel.ts";
 import { parseAmount, parseDecimal } from "../../framework/engine/Amounts.ts";
-import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../framework/engine/Currencies.ts";
+import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES, labelWithCurrency, nameWithCurrency } from "../../framework/engine/Currencies.ts";
 import { randomId } from "../../framework/engine/Readers.ts";
 import { SOURCES } from "../../framework/engine/Sources.ts";
 import { railId } from "./rails/railItems.ts";
@@ -1513,14 +1513,14 @@ export default function BusinessCapabilityEditor({
                         whose labels all sit beside them
                         (.business-field-run), under Roles' label above. */}
                     <div className="business-field-run">
-                        <BusinessField label="Salary" inline>
+                        <BusinessField label={labelWithCurrency("Salary", organisationCurrency)} inline>
                             <div className="business-capability-price">
 
                                 <input
                                     type="text"
                                     inputMode="decimal"
                                     className="interview-input"
-                                    aria-label={founderLabel + " salary"}
+                                    aria-label={nameWithCurrency(founderLabel + " salary", organisationCurrency)}
                                     placeholder="Salary per month"
                                     disabled={disabled}
                                     value={founder.salary}
@@ -1528,15 +1528,6 @@ export default function BusinessCapabilityEditor({
                                         salary: limitedNumberText(event.target.value, founder.salary, NUMBER_LIMITS.money)
                                     })}
                                 />
-
-                                {organisationCurrency && (
-                                    <span
-                                        className="interview-input business-capability-currency"
-                                        title="The organization's currency"
-                                    >
-                                        {organisationCurrency}
-                                    </span>
-                                )}
 
                             </div>
                         </BusinessField>

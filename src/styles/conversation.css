@@ -11972,29 +11972,9 @@ td.process-library-col-number{
 
 }
 
-/* A Salary's currency: the box a Price's currency picker draws,
-   without its chevron or its pointer, since it is shown rather than
-   chosen. Two classes, to take `width` back from `.interview-input`
-   as the picker's trigger does. */
-.business-capability-price > .business-capability-currency{
-
-    flex:0 0 auto;
-
-    width:auto;
-
-    padding:8px;
-
-    letter-spacing:normal;
-
-    color:var(--text-muted);
-
-    background-color:var(--bg-neutral);
-
-    cursor:default;
-
-    user-select:none;
-
-}
+/* A currency that is fixed (the organization's) is named in the
+   label instead of a box beside the amount: "Salary (£)"
+   (labelWithCurrency, Currencies.ts). */
 
 /* An "Other" subsection's name, typed where a fixed subsection's
    title stands -- the box takes the line, the × stays at its end. */

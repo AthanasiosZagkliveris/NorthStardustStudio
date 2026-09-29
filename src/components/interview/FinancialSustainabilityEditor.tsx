@@ -80,6 +80,7 @@ import type { OpenPage } from "./jumpTo.ts";
 import { railId } from "./rails/railItems.ts";
 import { useItemFolds } from "./useItemFolds.ts";
 import { toggledIn } from "./toggledIn.ts";
+import { labelWithCurrency, nameWithCurrency } from "../../framework/engine/Currencies.ts";
 
 /** How to estimate each group of a revenue stream: the "i" beside its title. */
 const STREAM_HELP: Record<"price" | "volume" | "timing", InfoPoint[]> = {
@@ -401,21 +402,18 @@ export default function FinancialSustainabilityEditor({
         info?: InfoPoint[]
     ) {
         return (
-            <BusinessField label={label} info={info} inline>
+            <BusinessField label={labelWithCurrency(label, currency)} info={info} inline>
                 <div className="business-capability-price">
                     <input
                         type="text"
                         inputMode="decimal"
                         className="interview-input"
-                        aria-label={ariaLabel}
+                        aria-label={nameWithCurrency(ariaLabel, currency)}
                         placeholder={placeholder}
                         disabled={disabled}
                         value={current}
                         onChange={(event) => onNext(limitedNumberText(event.target.value, current, NUMBER_LIMITS.money))}
                     />
-                    {currency && (
-                        <span className="interview-input business-capability-currency" aria-hidden="true">{currency}</span>
-                    )}
                 </div>
             </BusinessField>
         );

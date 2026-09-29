@@ -46,6 +46,7 @@ import StrategyTextArea from "./StrategyTextArea.tsx";
 import { OptionalNote } from "./BusinessCardFields.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
 import FoldArrow from "./FoldArrow.tsx";
+import { labelWithCurrency, nameWithCurrency } from "../../framework/engine/Currencies.ts";
 
 /**
  * The last entry in every Legal Form list. The brief forbids
@@ -271,7 +272,12 @@ export default function LegalEntityEditor({
 
     /** An amount label, with the currency when one is known. */
     function amountLabel(base: string): string {
-        return currency ? base + " (" + currency + ")" : base;
+        return labelWithCurrency(base, currency);
+    }
+
+    /** An amount's accessible name, with the currency's code. */
+    function amountName(base: string): string {
+        return nameWithCurrency(base, currency);
     }
 
     function update(patch: Partial<LegalEntityValue>) {
@@ -1489,7 +1495,7 @@ export default function LegalEntityEditor({
                                                 type="text"
                                                 inputMode="decimal"
                                                 className="interview-input legal-entity-column-centre"
-                                                aria-label={"Founder " + (index + 1) + " " + amountLabel("capital")}
+                                                aria-label={"Founder " + (index + 1) + " " + amountName("capital")}
                                                 placeholder={currency || "Amount"}
                                                 disabled={disabled}
                                                 value={founder.capital}
