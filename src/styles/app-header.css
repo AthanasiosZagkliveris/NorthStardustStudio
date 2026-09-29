@@ -96,3 +96,72 @@
     white-space: nowrap;
 
 }
+
+/* The saved signal (SaveStatus.tsx), before the theme switch: quiet
+   grey small type, in the warning colour when a save failed. It
+   takes the push to the right from the switch, which then keeps 16px
+   from it; it never shrinks, and the Organization's name gives way
+   first ("..."). The padding keeps it clear of the logo when the
+   header has no room to spare. */
+.save-status {
+
+    flex-shrink: 0;
+
+    margin: 0 0 0 auto;
+    padding-left: 16px;
+
+    font-size: var(--font-small);
+    line-height: 1.4;
+
+    color: var(--text-subtle);
+
+    white-space: nowrap;
+
+}
+
+.save-status + .theme-switch {
+
+    margin-left: 16px;
+
+}
+
+.save-status-error {
+
+    color: var(--text-warn);
+
+}
+
+/* The glyph stands in for the words only in a narrow header. */
+.save-status-glyph {
+
+    display: none;
+
+}
+
+/* The same narrow window in which the theme switch drops its words
+   (theme-switch.css): the glyph alone, the words kept for assistive
+   technology. */
+@media (max-width: 1099px) {
+
+    .save-status-glyph {
+
+        display: inline;
+
+    }
+
+    .save-status-text {
+
+        position: absolute;
+
+        width: 1px;
+        height: 1px;
+
+        overflow: hidden;
+
+        clip-path: inset(50%);
+
+        white-space: nowrap;
+
+    }
+
+}

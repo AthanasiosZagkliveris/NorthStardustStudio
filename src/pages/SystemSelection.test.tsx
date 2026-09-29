@@ -7,10 +7,14 @@ import SystemSelection from "./SystemSelection";
 // The page bounces to "/" without a selected Organization, and the
 // Navigator rail reads a whole Organization document -- neither is
 // what these tests are about, so both are stubbed.
+const SAVED = vi.hoisted(() => ({ status: "saved" }));
+
 vi.mock("../services/OrganizationService", () => ({
     OrganizationService: {
         getSelected: () => "org-1",
-        getSummary: () => ({ id: "org-1", name: "Test Org" })
+        getSummary: () => ({ id: "org-1", name: "Test Org" }),
+        getSaveState: () => SAVED,
+        subscribeSaveState: () => () => undefined
     }
 }));
 

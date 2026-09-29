@@ -1,5 +1,6 @@
 import logo from "../assets/NORTH STARDUST Organization Framework.svg";
 
+import SaveStatus from "./SaveStatus";
 import ThemeSwitch from "./ThemeSwitch";
 
 import "../styles/app-header.css";
@@ -28,6 +29,10 @@ export default function AppHeader({ organizationName }: AppHeaderProps) {
                 alt="North Stardust Organization Framework"
                 className="app-logo"
             />
+
+            {/* Whether the open Organization's edits are saved --
+                only where one is open. */}
+            {organizationName && <SaveStatus />}
 
             <ThemeSwitch />
 
