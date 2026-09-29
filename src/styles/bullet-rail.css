@@ -104,14 +104,8 @@
     max-width: 100%;
     margin-bottom: 18px;
 
-    font-size: var(--font-body);
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--text-subtle);
-    text-decoration: underline;
-    text-decoration-color: currentColor;
-    text-underline-offset: 0.2em;
+    /* Its type is the one caption title (the rule with
+       .intro-fact-label in global.css). */
 
 }
 

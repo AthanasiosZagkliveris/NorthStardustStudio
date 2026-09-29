@@ -223,11 +223,13 @@ textarea:focus{
    Introduction (one sentence per paragraph)
 ========================================================== */
 
+/* One paragraph gap and one line height (--body-line) for the
+   introduction and the facts beside it. */
 .intro-sentence{
 
-    margin-bottom:14px;
+    margin-bottom:var(--space-field);
 
-    line-height:1.75;
+    line-height:var(--body-line);
 
     color:var(--text-soft);
 
@@ -239,42 +241,83 @@ textarea:focus{
 
 }
 
-/* The question the System answers: one line above the text,
-   emphasised by weight and ink rather than by size. */
+/* ONE LAYOUT FOR EVERY SYSTEM'S OPENING SCREEN. The question and
+   the introduction are running text, kept to a reading measure
+   (60ch: about 70 characters a line) rather than the card's full 1400px;
+   the facts -- what it covers, what it uses from earlier, the
+   thinking time -- sit beside them in a quiet panel on a wide
+   screen, and under them below 1100px. Start Interview stays in the
+   fixed bar under the card (.interview-nav), wherever the facts go. */
+.intro-layout{
+
+    display:grid;
+
+    grid-template-columns:minmax(0, 60ch);
+    row-gap:28px;
+
+}
+
+@media (min-width: 1100px){
+
+    .intro-layout{
+
+        grid-template-columns:minmax(0, 60ch) minmax(0, 1fr);
+        column-gap:64px;
+
+    }
+
+    /* A rule down its side sets the facts apart from the text, as
+       tall as the taller of the two: the facts' grid cell is
+       stretched to the row, their content kept at its top. */
+    .intro-facts{
+
+        padding-left:32px;
+
+        border-left:1px solid var(--line-divider);
+
+    }
+
+}
+
+.intro-main{
+
+    min-width:0;
+
+}
+
+/* The question the System answers: the lead, at the subheading
+   size, in italics and the ink of the text rather than bold. */
 .intro-guiding-question{
 
-    margin:0 0 20px;
+    margin:0 0 calc(2 * var(--space-field));
 
-    font-size:var(--font-body);
-    font-weight:600;
-    line-height:1.5;
+    font-size:var(--font-h3);
+    font-style:italic;
+    font-weight:500;
+    line-height:1.35;
 
     color:var(--text-strong);
 
 }
 
 /* What it covers, what it uses from earlier, and the thinking time:
-   a quiet small label over body text, under the introduction. */
+   the caption title (global.css) over body text; one gap between a
+   title and what it names, a larger one between the groups. */
 .intro-facts{
 
     display:flex;
     flex-direction:column;
-    gap:16px;
+    gap:calc(2 * var(--space-field));
 
-    margin:28px 0 0;
+    min-width:0;
+
+    margin:0;
 
 }
 
 .intro-fact-label{
 
-    margin:0 0 4px;
-
-    font-size:var(--font-small);
-    font-weight:700;
-    letter-spacing:0.05em;
-    text-transform:uppercase;
-
-    color:var(--text-subtle);
+    margin:0 0 var(--space-label);
 
 }
 
@@ -283,7 +326,7 @@ textarea:focus{
     margin:0;
 
     font-size:var(--font-body);
-    line-height:1.5;
+    line-height:var(--body-line);
 
     color:var(--text-soft);
 
@@ -295,15 +338,24 @@ textarea:focus{
 
 }
 
-/* The System's pages, as the Pages rail names them, side by side
-   and wrapping onto another line rather than past the card. */
+/* "You can stop at any time; everything is saved." -- a line of
+   its own under the thinking time, quieter than it. */
+.intro-fact-note{
+
+    color:var(--text-subtle);
+
+}
+
+/* The System's pages, as the Pages rail names them, one a line on
+   the body line (no gap of their own); each opens the interview at
+   that page. The number is part of the name ("1. Definition"), so
+   the list draws none of its own. */
 .intro-pages{
 
     display:flex;
-    flex-wrap:wrap;
-    gap:4px 24px;
+    flex-direction:column;
 
-    margin:4px 0 0;
+    margin:var(--space-label) 0 0;
     padding:0;
 
     list-style:none;
@@ -315,6 +367,45 @@ textarea:focus{
     max-width:100%;
 
     overflow-wrap:break-word;
+
+}
+
+.intro-page-link{
+
+    padding:0;
+
+    border:0;
+
+    background:none;
+
+    font:inherit;
+    line-height:var(--body-line);
+    letter-spacing:normal;
+
+    text-align:start;
+
+    color:var(--text-primary);
+
+    text-decoration:underline;
+    text-decoration-color:transparent;
+    text-underline-offset:3px;
+
+    cursor:pointer;
+
+}
+
+.intro-page-link:hover,
+.intro-page-link:focus-visible{
+
+    text-decoration-color:currentColor;
+
+}
+
+.intro-page-link:focus-visible{
+
+    outline:2px solid var(--line-primary);
+    outline-offset:2px;
+    border-radius:2px;
 
 }
 

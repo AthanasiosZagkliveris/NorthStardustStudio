@@ -106,6 +106,9 @@ body {
   --space-card: 12px;
   --card-padding: 12px;
   --space-row: 6px;
+  /* The line height of running text read as prose (a System's
+     opening screen: its introduction and its facts alike). */
+  --body-line: 1.6;
   /* The end of a row of a table: a text control ("Change", "Done",
      5em holds either at the body size), 8px, and the 32px × --
      reserved on every row, so the columns before it stay put. */
@@ -649,6 +652,21 @@ b, strong {
   overflow-wrap: anywhere;
 
   pointer-events: none;
+}
+
+/* ONE CAPTION TITLE: the rails' "PAGES" and "SECTIONS" and the
+   titles of a System's opening-screen facts ("WHAT IT COVERS"): body
+   size, bold, spaced capitals, underlined, in the subtle ink. */
+.bullet-rail-title,
+.intro-fact-label {
+  font-size: var(--font-body);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-underline-offset: 0.2em;
 }
 
 /* EVERY FLOATING PANEL READS FROM ITS START EDGE, whatever it opens

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { Fragment, ReactNode, useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import AppHeader from "../components/AppHeader";
@@ -734,6 +734,21 @@ function splitIntoSentences(text: string): string[] {
 
 }
 
+/**
+ * A line of authored text with its **bold** runs drawn bold: the page
+ * names in a System's introduction, the System names in "Uses from
+ * earlier". Anything else is shown as written.
+ */
+function withBold(text: string): ReactNode[] {
+
+    return text.split(/(\*\*[^*]+\*\*)/).filter(part => part.length > 0).map((part, index) =>
+        /^\*\*[^*]+\*\*$/.test(part)
+            ? <strong key={index}>{part.slice(2, -2)}</strong>
+            : <Fragment key={index}>{part}</Fragment>
+    );
+
+}
+
 export default function Conversation() {
 
     const location = useLocation();
@@ -1099,6 +1114,20 @@ export default function Conversation() {
         }
 
         session.startInterview();
+        persistAndRedraw(session);
+        scrollToTop();
+
+    }
+
+    // A page named on the opening screen: the interview, opened there.
+    function startInterviewAt(index: number) {
+
+        if (!session) {
+            return;
+        }
+
+        session.startInterview();
+        session.goToSection(index);
         persistAndRedraw(session);
         scrollToTop();
 
@@ -2454,27 +2483,33 @@ export default function Conversation() {
                     />
 
                     {showIntroduction ? (
-                        <section className="interview-section">
-                            {/* The question the System answers, in one line. */}
-                            {introduction.guidingQuestion && (
-                                <p className="intro-guiding-question">
-                                    {introduction.guidingQuestion}
-                                </p>
-                            )}
-
-                            <div className="interview-block-content">
-                                {splitIntoSentences(introduction.introductionText).map((sentence, index) => (
-                                    <p key={index} className="intro-sentence">
-                                        {sentence}
+                        <section className="interview-section intro-layout">
+                            {/* The question and the introduction, kept to a
+                                reading measure; the facts beside them on a
+                                wide screen, under them on a narrow one. */}
+                            <div className="intro-main">
+                                {/* The question the System answers: the lead. */}
+                                {introduction.guidingQuestion && (
+                                    <p className="intro-guiding-question">
+                                        {introduction.guidingQuestion}
                                     </p>
-                                ))}
+                                )}
+
+                                <div className="interview-block-content">
+                                    {splitIntoSentences(introduction.introductionText).map((sentence, index) => (
+                                        <p key={index} className="intro-sentence">
+                                            {withBold(sentence)}
+                                        </p>
+                                    ))}
+                                </div>
                             </div>
 
                             {/*
                                 What the System covers (its scope and
-                                pages), what it draws from Systems
-                                answered earlier, and how long it takes
-                                -- each only where the content has it.
+                                pages, each opening the interview there),
+                                what it draws from Systems answered
+                                earlier, and how long it takes -- each
+                                only where the content has it.
                             */}
                             <dl className="intro-facts">
                                 <div className="intro-fact">
@@ -2483,11 +2518,19 @@ export default function Conversation() {
                                         {introduction.systemScope && (
                                             <p className="intro-fact-line">{introduction.systemScope}</p>
                                         )}
-                                        <ul className="intro-pages">
-                                            {pageRailItems(framework.sections).map(page => (
-                                                <li key={page.id} className="intro-page">{page.label}</li>
+                                        <ol className="intro-pages">
+                                            {pageRailItems(session.getSections()).map(page => (
+                                                <li key={page.id} className="intro-page">
+                                                    <button
+                                                        type="button"
+                                                        className="intro-page-link"
+                                                        onClick={() => startInterviewAt(pageIndexFromRailId(page.id))}
+                                                    >
+                                                        {page.label}
+                                                    </button>
+                                                </li>
                                             ))}
-                                        </ul>
+                                        </ol>
                                     </dd>
                                 </div>
 
@@ -2495,7 +2538,7 @@ export default function Conversation() {
                                     <div className="intro-fact">
                                         <dt className="intro-fact-label">Uses from earlier</dt>
                                         <dd className="intro-fact-text">
-                                            <p className="intro-fact-line">{introduction.usesFromEarlier}</p>
+                                            <p className="intro-fact-line">{withBold(introduction.usesFromEarlier)}</p>
                                         </dd>
                                     </div>
                                 )}
@@ -2504,8 +2547,9 @@ export default function Conversation() {
                                     <div className="intro-fact">
                                         <dt className="intro-fact-label">Thinking time</dt>
                                         <dd className="intro-fact-text">
-                                            <p className="intro-fact-line">
-                                                {introduction.thinkingTime} You can stop at any time; everything is saved.
+                                            <p className="intro-fact-line">{introduction.thinkingTime}</p>
+                                            <p className="intro-fact-line intro-fact-note">
+                                                You can stop at any time; everything is saved.
                                             </p>
                                         </dd>
                                     </div>

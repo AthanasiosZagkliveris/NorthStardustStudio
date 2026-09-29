@@ -185,10 +185,39 @@ describe("A System's opening screen", () => {
         ]);
         expect(fact("What it covers")).toContain("Defines how the organization creates, delivers, and sustains value over time.");
         expect(fact("Uses from earlier")).toBe("Your target audience, founders and legal details from 1. Identity System.");
-        expect(fact("Thinking time")).toBe("About 3–4 hours. You can stop at any time; everything is saved.");
+        // The System's name in it is bold.
+        expect(screen.getByText("1. Identity System", { selector: "strong" })).toBeTruthy();
+        expect(Array.from(screen.getByText("Thinking time", { selector: "dt" }).nextElementSibling!.children)
+            .map(line => line.textContent)).toEqual([
+                "About 3–4 hr",
+                "You can stop at any time; everything is saved."
+            ]);
 
         // The button is as it was.
         expect(screen.getByRole("button", { name: "Start Interview" })).toBeTruthy();
+
+    });
+
+    it("names each page in bold in the introduction, without repeating the question", () => {
+
+        renderOpening("identity");
+
+        expect(Array.from(document.querySelectorAll(".intro-sentence strong")).map(name => name.textContent)).toEqual([
+            "Definition", "Ethics", "Legal Entity", "Founders Profile"
+        ]);
+        expect(document.querySelector(".intro-sentence")!.textContent).not.toContain("why do you exist");
+
+    });
+
+    it("opens the interview at a page named under What it covers", () => {
+
+        renderOpening("identity");
+
+        fireEvent.click(screen.getByRole("button", { name: "3. Legal Entity" }));
+
+        expect(screen.queryByRole("button", { name: "Start Interview" })).toBeNull();
+        expect(screen.getByRole("navigation", { name: "Pages" }).querySelector("[aria-current='true']")?.getAttribute("title"))
+            .toMatch(/^3\. Legal Entity/);
 
     });
 

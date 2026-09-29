@@ -974,7 +974,8 @@ export class FrameworkInterpreter {
             systemScope: metadata.scope,
             usesFromEarlier: metadata.usesFromEarlier,
             thinkingTime: metadata.thinkingTime,
-            introductionText: this.normalizeTextBlock(introductionText),
+            // Bold kept: the opening screen draws **page names** bold.
+            introductionText: this.normalizeTextBlock(introductionText, true),
             sections
         };
     }
@@ -1003,7 +1004,7 @@ export class FrameworkInterpreter {
         for (const section of sections) {
             introByTitle.set(
                 this.normalizeTitle(section.title),
-                this.normalizeTextBlock(section.lines.join("\n"))
+                this.normalizeTextBlock(section.lines.join("\n"), true)
             );
         }
 
@@ -1182,7 +1183,17 @@ export class FrameworkInterpreter {
     /**
      * Normalizes Markdown inline syntax.
      */
-    private normalizeInline(text: string): string {
+    private normalizeInline(text: string, keepBold = false): string {
+
+        // With keepBold, **bold** is left for the renderer to draw (the
+        // opening screen's introduction), and the other emphasis
+        // markers are left alone rather than half-matched inside it.
+        if (keepBold) {
+            return text
+                .replace(/`([^`]+)`/g, "$1")
+                .replace(/\s+/g, " ")
+                .trim();
+        }
 
         return text
             .replace(/\*\*(.*?)\*\*/g, "$1")
@@ -1197,7 +1208,7 @@ export class FrameworkInterpreter {
     /**
      * Normalizes a block of Markdown text.
      */
-    private normalizeTextBlock(text: string): string {
+    private normalizeTextBlock(text: string, keepBold = false): string {
 
         const lines = text.replace(/\r/g, "").split("\n");
         const output: string[] = [];
@@ -1222,7 +1233,7 @@ export class FrameworkInterpreter {
                 continue;
             }
 
-            output.push(this.normalizeParagraphLine(rawLine));
+            output.push(this.normalizeParagraphLine(rawLine, keepBold));
         }
 
         return this.collapseBlankLines(output)
@@ -1233,7 +1244,7 @@ export class FrameworkInterpreter {
     /**
      * Normalizes one paragraph line.
      */
-    private normalizeParagraphLine(line: string): string {
+    private normalizeParagraphLine(line: string, keepBold = false): string {
 
         const trimmed = line.trim();
 
@@ -1247,22 +1258,22 @@ export class FrameworkInterpreter {
         }
 
         if (/^#{1,6}\s+/.test(trimmed)) {
-            return this.normalizeInline(trimmed.replace(/^#{1,6}\s+/, ""));
+            return this.normalizeInline(trimmed.replace(/^#{1,6}\s+/, ""), keepBold);
         }
 
         if (/^>\s?/.test(trimmed)) {
-            return this.normalizeInline(trimmed.replace(/^>\s?/, ""));
+            return this.normalizeInline(trimmed.replace(/^>\s?/, ""), keepBold);
         }
 
         if (/^[-*+]\s+/.test(trimmed)) {
-            return "• " + this.normalizeInline(trimmed.replace(/^[-*+]\s+/, ""));
+            return "• " + this.normalizeInline(trimmed.replace(/^[-*+]\s+/, ""), keepBold);
         }
 
         if (/^\d+\.\s+/.test(trimmed)) {
-            return this.normalizeInline(trimmed);
+            return this.normalizeInline(trimmed, keepBold);
         }
 
-        return this.normalizeInline(trimmed);
+        return this.normalizeInline(trimmed, keepBold);
     }
 
     /**

@@ -61,7 +61,7 @@ export interface Metadata {
 
     /**
      * How long answering the System takes, roughly ("Thinking
-     * Time:" in the Questions header, e.g. "About 1–1½ hours.").
+     * Time:" in the Questions header, e.g. "About 1–1.5 hr").
      * Shown on the System's opening screen; absent when not authored.
      */
     thinkingTime?: string;
