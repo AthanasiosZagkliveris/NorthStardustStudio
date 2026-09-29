@@ -397,9 +397,15 @@ body {
   width: min(100%, var(--control-s));
 }
 
-/* An amount with its currency beside it: the pair, one step up. */
-:is(.business-foundation-field, .legal-entity-field) > .business-capability-price {
+/* An amount with a currency to choose beside it: the pair, one step
+   up. An amount whose currency is fixed (named in its label, "Price
+   (£)") is a number like any other: the small step. */
+:is(.business-foundation-field, .legal-entity-field) > .business-capability-price:has(> .option-picker) {
   width: min(100%, var(--control-m));
+}
+
+:is(.business-foundation-field, .legal-entity-field) > .business-capability-price:not(:has(> .option-picker)) {
+  width: min(100%, var(--control-s));
 }
 
 :root {
