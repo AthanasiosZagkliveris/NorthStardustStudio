@@ -1985,7 +1985,34 @@ export type ExportBlock =
     | { kind: "subheading"; text: string; level?: 1 | 2 }
     | { kind: "table"; headers: string[]; rows: string[][] }
     | { kind: "checklist"; items: { text: string; checked: boolean }[] }
-    | { kind: "list"; items: { text: string; indent: number }[]; ordered?: boolean };
+    | { kind: "list"; items: { text: string; indent: number }[]; ordered?: boolean }
+    /**
+     * Pictures, each with its words beneath: the brand's logo, icon
+     * and images in the Business Plan's brand guide. `src` is the
+     * image as the Brand System saved it, a data URL. `marks`: a logo
+     * and an icon, printed smaller than a photograph.
+     */
+    | { kind: "images"; items: ExportImage[]; marks?: boolean };
+
+/** One picture in an export (see ExportBlock "images", ExportContent.documentLogo). */
+export interface ExportImage {
+    src: string;
+    alt: string;
+    /** Set in bold under the picture: "Logo", an image's name. */
+    title?: string;
+    /** Under the title: what the picture shows. */
+    caption?: string;
+}
+
+/**
+ * Whether a picture can go into an export: a base64 data URL of a
+ * PNG, JPEG, GIF, WebP or SVG -- what the Brand System stores. The
+ * exports write `src` into markup, so anything else is left out
+ * rather than escaped.
+ */
+export function isExportableImage(src: string): boolean {
+    return /^data:image\/(png|jpeg|gif|webp|svg\+xml);base64,[A-Za-z0-9+/=]+$/.test(src);
+}
 
 /**
  * Per-call rendering tweaks for buildAnswerBlocks, read only by

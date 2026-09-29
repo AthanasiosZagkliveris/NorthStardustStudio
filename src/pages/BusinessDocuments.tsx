@@ -294,6 +294,14 @@ export default function BusinessDocuments() {
 
                 {documentId === "forecast" && (
                     <div className="business-forecast">
+                        {/* The logo on the Forecast's cover, as on the Plan's. */}
+                        {loaded.plan.documentLogo && (
+                            <div className="business-forecast-logo">
+                                <div className="business-document-logo">
+                                    <img src={loaded.plan.documentLogo.src} alt={loaded.plan.documentLogo.alt} />
+                                </div>
+                            </div>
+                        )}
                         <p className="business-documents-note">
                             The plan runs {planYearCount} {planYearCount === 1 ? "year" : "years"} from {loaded.forecast.forecast.months[0]}.
                             Change its length on 3. Business System → 4. Financial Foundation.
@@ -372,6 +380,12 @@ export default function BusinessDocuments() {
 
                 {documentId === "plan" && (
                     <article className="business-document">
+                        {/* The logo, above the title as on the printed cover. */}
+                        {content.documentLogo && (
+                            <div className="business-document-logo">
+                                <img src={content.documentLogo.src} alt={content.documentLogo.alt} />
+                            </div>
+                        )}
                         {/* The page's own title is its one h1. */}
                         <h2 className="business-document-title">{content.documentTitle}</h2>
                         {content.documentSubtitle && <p className="business-document-subtitle">{content.documentSubtitle}</p>}

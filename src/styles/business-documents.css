@@ -892,3 +892,138 @@
     text-align:right;
 
 }
+
+/* ---------- The brand's pictures ----------
+
+   The logo on a document's cover, above its title (the Business
+   Plan; the Financial Forecast over its tables), and the brand
+   guide's pictures in the Plan's Appendix: two to a row, each whole
+   in its frame with its words beneath. Drawn on the document's paper
+   (its tokens stay light in either theme, colors.css), so a logo made
+   for a light ground reads as it was made to; the Forecast's logo
+   sits on a patch of the same paper. */
+.business-document-logo{
+
+    margin:0 0 16px;
+
+}
+
+.business-document-logo img{
+
+    display:block;
+
+    /* A length, not a percentage: the Forecast's logo patch is as
+       wide as the logo, so a percentage would have nothing to be
+       a percentage of. */
+    max-width:280px;
+    max-height:96px;
+
+    object-fit:contain;
+
+}
+
+.business-forecast-logo{
+
+    align-self:flex-start;
+
+    /* The logo's 280px, its padding and border: a width the logo
+       can fill, since a logo drawn with a viewBox alone has none of
+       its own. */
+    width:min(314px, 100%);
+
+    padding:12px 16px;
+
+    border:1px solid var(--line-sheet);
+    border-radius:8px;
+
+    background:var(--bg-mark-preview);
+
+}
+
+.business-forecast-logo .business-document-logo{
+
+    margin:0;
+
+}
+
+.business-document .export-images{
+
+    display:grid;
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    gap:16px;
+
+    margin:12px 0 16px;
+
+}
+
+.business-document .export-figure{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+    min-width:0;
+
+    margin:0;
+
+}
+
+.business-document .export-figure-frame{
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    height:200px;
+
+    padding:12px;
+
+    border:1px solid var(--line-sheet);
+    border-radius:8px;
+
+}
+
+.business-document .export-figure-frame img{
+
+    max-width:100%;
+    max-height:100%;
+
+    object-fit:contain;
+
+}
+
+.business-document .export-figure figcaption{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:2px;
+
+    font-size:var(--font-small);
+
+    color:var(--text-muted);
+
+}
+
+.business-document .export-figure figcaption strong{
+
+    color:var(--text-default);
+
+}
+
+/* One picture to a row where two would be too narrow to read. */
+@media (max-width: 600px){
+
+    .business-document .export-images{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+}

@@ -30,15 +30,19 @@ import {
     type BusinessPartnerValue,
     type ExportBlock,
     type ExportContext,
+    type ExportImage,
     type LegalEntityValue,
     type StrategyMonthValue,
+    asBrandInventoryValue,
     asBrandStyleValue,
     asBusinessEngagementValue,
     asFoundersProfileValue,
     asLegalEntityValue,
     asStrategicPeriodValue,
     asStrategyFoundationValue,
+    brandMarkFile,
     businessFoundationSegments,
+    isExportableImage,
     type StrategyMetricValue,
     founderProfileHasText,
     founderProfileOf,
@@ -69,7 +73,6 @@ import {
     offeringName,
     offeringNames,
     capacityBlocks,
-    brandInventoryBlocks,
     brandStyleBlocks,
     paragraph,
     table,
@@ -328,6 +331,59 @@ function coverLines(f: Foundation): string[] {
         "Organization: " + f.name,
         "Prepared: " + preparedMonth(),
         ...(website ? ["Website: " + website] : [])
+    ];
+}
+
+/**
+ * The brand's pictures as the documents show them: the logo and the
+ * icon (one file each, see brandMarkFile) and the brand images that
+ * have a picture, each with what the Brand System says about it.
+ * Only what was uploaded, and only as a data URL an export can carry
+ * (isExportableImage) -- nothing, and no empty frame, where there is
+ * nothing.
+ */
+export function brandPictures(inventoryValue: unknown): {
+    logo?: ExportImage;
+    icon?: ExportImage;
+    markDescription: string;
+    images: ExportImage[];
+} {
+    const inventory = asBrandInventoryValue(inventoryValue);
+    const mark = (file: { dataUrl: string } | undefined, name: string): ExportImage | undefined =>
+        file && isExportableImage(file.dataUrl) ? { src: file.dataUrl, alt: name, title: name } : undefined;
+    return {
+        logo: mark(brandMarkFile(inventory.logo), "Logo"),
+        icon: mark(brandMarkFile(inventory.icon), "Icon"),
+        markDescription: text(inventory.markDescription),
+        images: inventory.images
+            .filter(image => isExportableImage(image.dataUrl))
+            .map((image, index) => ({
+                src: image.dataUrl,
+                alt: text(image.name) || "Brand image " + (index + 1),
+                title: text(image.name) || undefined,
+                caption: text(image.description) || undefined
+            }))
+    };
+}
+
+/**
+ * The brand guide's pictures: the logo and icon side by side with
+ * what they show beneath, then the brand images. A heading only over
+ * pictures there are.
+ */
+function brandGuidePictures(f: Foundation): ExportBlock[] {
+    const pictures = brandPictures(f.brandInventoryValue);
+    const marks = [pictures.logo, pictures.icon].filter((entry): entry is ExportImage => !!entry);
+    return [
+        ...(marks.length > 0 ? [
+            heading("Logo & Icon", 2),
+            { kind: "images" as const, items: marks, marks: true },
+            ...labelled("Description", pictures.markDescription)
+        ] : []),
+        ...(pictures.images.length > 0 ? [
+            heading("Brand Images", 2),
+            { kind: "images" as const, items: pictures.images }
+        ] : [])
     ];
 }
 
@@ -1237,13 +1293,13 @@ function notCovered(title: string): ExportBlock[] {
     return [heading(title), ...paragraph("Not covered by the Foundation answers.")];
 }
 
-/** The Appendix: the costs in full, and the brand's style guide. */
+/** The Appendix: the costs in full, and the brand's style guide -- its colours, type and hierarchy, then its pictures. */
 function appendixBlocks(f: Foundation): ExportBlock[] {
     const frequencyOf = (line: CostLine) => line.frequency === "other"
         ? (line.frequencyOther || "Other")
         : COST_FREQUENCIES.find(entry => entry.id === line.frequency)?.label ?? line.frequency;
     const demote = (blocks: ExportBlock[]) => blocks.map(block => block.kind === "subheading" ? { ...block, level: 2 as const } : block);
-    const style = [...demote(brandStyleBlocks(f.brandStyleValue)), ...demote(brandInventoryBlocks(f.brandInventoryValue))];
+    const style = [...demote(brandStyleBlocks(f.brandStyleValue)), ...brandGuidePictures(f)];
     return [
         ...titled("Costs", [
             ...paragraph("Subtotals count one-time costs once and recurring costs a month at a time; costs paid per unit or per project are in each Offering's cost of sales, not the totals."),
@@ -1356,6 +1412,7 @@ export function businessPlan(sessions: FoundationSessions): ExportContent {
         documentSubtitle: "Drawn from the Foundation capability: Identity, Brand, Business and Strategy. " +
             "Figures are estimates over a " + planLength(f.financial) + "-month plan from " + planMonthLabel(f.financial.planStart, 1) + ".",
         documentMeta: coverLines(f),
+        documentLogo: brandPictures(f.brandInventoryValue).logo,
         sections: parts.map(([title, blocks], index) => section(index + 1, title,
             blocks.length > 0 ? blocks : paragraph("Not answered yet.")))
     };
@@ -1405,6 +1462,7 @@ export function businessForecastContent(
             ", from " + forecast.months[0] +
             (f.currency ? ". Amounts in " + f.currency + "." : "."),
         documentMeta: coverLines(f),
+        documentLogo: brandPictures(f.brandInventoryValue).logo,
         // Wide tables: printed sideways, in the PDF.
         landscape: true,
         sections: [

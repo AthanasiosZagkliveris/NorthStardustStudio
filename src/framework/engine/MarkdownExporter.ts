@@ -1,6 +1,39 @@
 import { InterviewSession } from "../interview";
 import { buildExportContent, ExportContent, ExportSectionContent } from "./ExportContentBuilder.ts";
-import { ExportBlock } from "./AnswerUtils.ts";
+import { ExportBlock, ExportImage, isExportableImage } from "./AnswerUtils.ts";
+
+/**
+ * The largest picture written into a Markdown file, in bytes: the
+ * Brand System's own limit for a logo or icon. A data URL is the
+ * picture's bytes a third larger again, and a bigger one makes a
+ * file most editors choke on -- so beyond this the picture is left
+ * out and its name stands in its place.
+ */
+export const MARKDOWN_IMAGE_MAX_BYTES = 50 * 1024;
+
+/** Roughly how many bytes a base64 data URL holds. */
+function dataUrlBytes(src: string): number {
+    return Math.round((src.length - src.indexOf(",") - 1) * 0.75);
+}
+
+/** Markdown has no quoting inside ![...]: the characters that would end it go. */
+function altText(value: string): string {
+    return value.replace(/[[\]\r\n]/g, " ").trim();
+}
+
+/**
+ * One picture: `![alt](data URL)` where it is small enough, with its
+ * title and caption under it. A picture too large to carry is left
+ * out, and its words -- or, with none, its name -- stand in its
+ * place as a caption.
+ */
+function renderImage(image: ExportImage): string[] {
+    const small = isExportableImage(image.src) && dataUrlBytes(image.src) <= MARKDOWN_IMAGE_MAX_BYTES;
+    const words = [image.title ? "**" + image.title + "**" : "", image.caption ?? ""].filter(Boolean).join(": ");
+    return small
+        ? [`![${altText(image.alt)}](${image.src})`, ...(words ? ["", words] : []), ""]
+        : ["_" + (words || altText(image.alt)) + "_", ""];
+}
 
 /**
  * Escapes a value so it survives being placed inside
@@ -85,6 +118,9 @@ function renderBlock(block: ExportBlock): string[] {
                 }),
                 ""
             ];
+
+        case "images":
+            return block.items.flatMap(renderImage);
 
         default:
             return [];
@@ -185,6 +221,13 @@ export class MarkdownExporter {
         const lines: string[] = [];
 
         if (content.documentTitle) {
+            // The logo, above the title as on the cover -- only where
+            // it is small enough to carry (see renderImage).
+            const logo = content.documentLogo;
+            if (logo && isExportableImage(logo.src) && dataUrlBytes(logo.src) <= MARKDOWN_IMAGE_MAX_BYTES) {
+                lines.push(`![${altText(logo.alt)}](${logo.src})`);
+                lines.push("");
+            }
             lines.push(`# ${content.documentTitle}`);
             lines.push("");
             if (content.documentSubtitle) {

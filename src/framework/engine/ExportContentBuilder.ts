@@ -7,6 +7,7 @@ import {
     defaultAnswerValue,
     ExportBlock,
     ExportContext,
+    ExportImage,
     titleWithPeriod
 } from "./AnswerUtils.ts";
 import { bespokeAnswerBlocks } from "./ExportRenderers.ts";
@@ -89,6 +90,13 @@ export interface ExportContent {
     documentSubtitle?: string;
     /** A document's cover lines under its title: "Prepared: Sep 2026". */
     documentMeta?: string[];
+    /**
+     * The organization's logo, on the document's cover above its
+     * title and small at the head of every printed page: the
+     * Business Plan and the Financial Forecast, where one was
+     * uploaded (Brand System, Inventory).
+     */
+    documentLogo?: ExportImage;
     /** The Financial Forecast: wide tables, printed on a landscape page. */
     landscape?: boolean;
     /**

@@ -1,6 +1,6 @@
 import { InterviewSession } from "../interview";
 import { buildExportContent, ExportContent, ExportSectionContent } from "./ExportContentBuilder.ts";
-import { ExportBlock } from "./AnswerUtils.ts";
+import { ExportBlock, ExportImage, isExportableImage } from "./AnswerUtils.ts";
 
 function escapeHtml(value: string): string {
 
@@ -8,6 +8,144 @@ function escapeHtml(value: string): string {
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;");
+
+}
+
+/** A value for a double-quoted attribute. */
+function escapeAttribute(value: string): string {
+    return escapeHtml(value).replace(/"/g, "&quot;");
+}
+
+/**
+ * One picture with its words beneath, in a frame that keeps it whole
+ * (never split across two printed pages). Only a data URL the
+ * exports can carry is written at all (isExportableImage).
+ */
+function figureHtml(image: ExportImage): string {
+    const words = (image.title ? `<strong>${escapeHtml(image.title)}</strong>` : "") +
+        (image.caption ? `<span>${escapeHtml(image.caption)}</span>` : "");
+    return `<figure class="export-figure"><div class="export-figure-frame">` +
+        `<img src="${escapeAttribute(image.src)}" alt="${escapeAttribute(image.alt)}" /></div>` +
+        (words ? `<figcaption>${words}</figcaption>` : "") + `</figure>`;
+}
+
+/** The organization's logo on a document's cover, above its title; nothing without one. */
+export function documentLogoHtml(content: ExportContent): string {
+    const logo = content.documentLogo;
+    return logo && isExportableImage(logo.src)
+        ? `<div class="document-logo"><img src="${escapeAttribute(logo.src)}" alt="${escapeAttribute(logo.alt)}" /></div>`
+        : "";
+}
+
+/* ==========================================================
+   Pictures, made ready to print
+
+   The PDF is the platform's print of an HTML page (see
+   PdfExporter), so a PNG or JPEG goes in as it is. An SVG is drawn
+   to a canvas first, at SVG_PRINT_EDGE pixels on its longest side --
+   three times and more the size it prints at -- and goes in as that
+   PNG: what reaches the printer is then the same picture on every
+   print driver, and still sharp. A picture that will not load is
+   left out, quietly: the document prints without it.
+========================================================== */
+
+/** The longest side, in pixels, an SVG is drawn at before printing. */
+export const SVG_PRINT_EDGE = 2400;
+
+/** A picture's data URL, ready to print -- or null where it cannot be (it would not load). */
+export type PreparePicture = (src: string) => Promise<string | null>;
+
+/**
+ * An SVG's width over its height, from its own markup: its viewBox,
+ * else its width and height. A logo is often drawn with a viewBox
+ * alone, and a browser then reports a default size for it that is
+ * not its shape. Null where the markup does not say.
+ */
+export function svgAspect(src: string): number | null {
+    try {
+        const markup = atob(src.slice(src.indexOf(",") + 1));
+        const box = markup.match(/viewBox\s*=\s*["']\s*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)/i);
+        if (box && Number(box[1]) > 0 && Number(box[2]) > 0) {
+            return Number(box[1]) / Number(box[2]);
+        }
+        const width = markup.match(/<svg[^>]*\swidth\s*=\s*["']([\d.]+)/i);
+        const height = markup.match(/<svg[^>]*\sheight\s*=\s*["']([\d.]+)/i);
+        return width && height && Number(height[1]) > 0 ? Number(width[1]) / Number(height[1]) : null;
+    } catch {
+        return null;
+    }
+}
+
+/** Draws an SVG data URL to a PNG data URL (see SVG_PRINT_EDGE); null if it will not load or draw. */
+export function rasteriseSvg(src: string, edge: number = SVG_PRINT_EDGE): Promise<string | null> {
+    return new Promise(resolve => {
+        const image = new Image();
+        image.onload = () => {
+            try {
+                const aspect = svgAspect(src) ?? ((image.naturalWidth && image.naturalHeight) ? image.naturalWidth / image.naturalHeight : 1);
+                const width = aspect >= 1 ? edge : edge * aspect;
+                const height = aspect >= 1 ? edge / aspect : edge;
+                const canvas = document.createElement("canvas");
+                canvas.width = Math.max(1, Math.round(width));
+                canvas.height = Math.max(1, Math.round(height));
+                const context = canvas.getContext("2d");
+                if (!context) {
+                    resolve(null);
+                    return;
+                }
+                context.drawImage(image, 0, 0, canvas.width, canvas.height);
+                resolve(canvas.toDataURL("image/png"));
+            } catch {
+                resolve(null);
+            }
+        };
+        image.onerror = () => resolve(null);
+        image.src = src;
+    });
+}
+
+/** Whether a PNG, JPEG or other bitmap loads; its data URL as it is if so. */
+function loads(src: string): Promise<string | null> {
+    return new Promise(resolve => {
+        const image = new Image();
+        image.onload = () => resolve(src);
+        image.onerror = () => resolve(null);
+        image.src = src;
+    });
+}
+
+/** The default preparation: an SVG drawn to a PNG, anything else checked to load. */
+export const preparePicture: PreparePicture = src =>
+    !isExportableImage(src) ? Promise.resolve(null)
+        : src.startsWith("data:image/svg+xml") ? rasteriseSvg(src) : loads(src);
+
+/**
+ * A document with every picture made ready to print: SVGs as PNGs,
+ * and any picture that fails dropped -- a figure from its row, the
+ * logo from the cover and the page heads. Everything else as it was.
+ */
+export async function printableContent(content: ExportContent, prepare: PreparePicture = preparePicture): Promise<ExportContent> {
+
+    const ready = async (image: ExportImage): Promise<ExportImage | null> => {
+        const src = await prepare(image.src);
+        return src ? { ...image, src } : null;
+    };
+
+    const blocks = async (list: ExportBlock[]): Promise<ExportBlock[]> => Promise.all(list.map(async block => {
+        if (block.kind !== "images") {
+            return block;
+        }
+        const items = (await Promise.all(block.items.map(ready))).filter((item): item is ExportImage => item !== null);
+        return { ...block, items };
+    })).then(list => list.filter(block => block.kind !== "images" || block.items.length > 0));
+
+    const logo = content.documentLogo ? await ready(content.documentLogo) : null;
+
+    return {
+        ...content,
+        documentLogo: logo ?? undefined,
+        sections: await Promise.all(content.sections.map(async section => ({ ...section, blocks: await blocks(section.blocks) })))
+    };
 
 }
 
@@ -154,6 +292,14 @@ function renderBlockHtml(block: ExportBlock, subheadingLevel = 3): string {
             // of a real <ol>.
             return buildNestedListHtml(block.items, block.ordered ?? false);
 
+        case "images": {
+
+            const figures = block.items.filter(image => isExportableImage(image.src));
+
+            return figures.length === 0 ? "" : `<div class="export-images${block.marks ? " export-images-marks" : ""}">${figures.map(figureHtml).join("")}</div>`;
+
+        }
+
         default:
             return "";
 
@@ -256,6 +402,19 @@ const DOCUMENT_CSS = `
     ul.export-list-ordered > li > .export-list-item > .export-list-marker { width: 1.5em; }
     ul.export-list ul.export-list { margin: 6px 0 0 1.25em; }
     ul.export-list-ordered ul.export-list { margin-left: 2em; }
+    .document-logo { margin: 0 0 16px; }
+    .document-logo img { display: block; max-width: 70mm; max-height: 30mm; object-fit: contain; }
+    .export-images { margin: 12px 0 16px; }
+    .export-figure { margin: 0 0 16px; break-inside: avoid; page-break-inside: avoid; }
+    .export-figure-frame { border: 1px solid #d9d9d9; padding: 8px; }
+    .export-figure-frame img { display: block; max-width: 100%; max-height: 110mm; margin: 0 auto; object-fit: contain; }
+    .export-images-marks .export-figure-frame img { max-height: 40mm; }
+    .export-figure figcaption { margin-top: 6px; font-size: 14px; line-height: 1.45; }
+    .export-figure figcaption strong { display: block; }
+    table.print-frame { width: 100%; table-layout: fixed; border-collapse: collapse; }
+    table.print-frame > thead > tr > td, table.print-frame > tbody > tr > td { padding: 0; border: 0; }
+    .print-head { display: flex; justify-content: flex-end; padding: 0 0 6mm; }
+    .print-head img { display: block; max-width: 30mm; max-height: 8mm; object-fit: contain; }
 `;
 
 const CANVAS_CSS = `
@@ -311,7 +470,14 @@ export class PdfExporter {
     ): void {
 
         const content = contentOverride ?? buildExportContent(session, capabilityLabel);
-        const html = this.buildHtml(content);
+
+        // Its pictures made ready first (an SVG drawn as a PNG, one
+        // that will not load left out), then printed.
+        void printableContent(content).then(ready => this.print(this.buildHtml(ready)));
+
+    }
+
+    private print(html: string): void {
 
         const iframe = document.createElement("iframe");
 
@@ -355,7 +521,8 @@ export class PdfExporter {
 
     }
 
-    private buildHtml(content: ExportContent): string {
+    /** The document as the printed page: see exportPdf. Public for its tests. */
+    public buildHtml(content: ExportContent): string {
 
         const sectionsHtml = content.canvas ? canvasHtml(content.canvas) : contentSectionsHtml(content);
 
@@ -487,18 +654,35 @@ export class PdfExporter {
                     </style>
                 </head>
                 <body>
-                    ${content.documentTitle
-                        ? `<h1>${escapeHtml(content.documentTitle)}</h1>` +
+                    ${this.framed(content, `${content.documentTitle
+                        ? documentLogoHtml(content) +
+                            `<h1>${escapeHtml(content.documentTitle)}</h1>` +
                             (content.documentSubtitle ? `<div class="capability">${escapeHtml(content.documentSubtitle)}</div>` : "") +
                             documentMetaHtml(content)
                         : `<h1>${escapeHtml(content.systemNumber)}. ${escapeHtml(content.systemName)}</h1>
                     <div class="capability"><strong>Capability:</strong> ${escapeHtml(content.capability)}</div>`}
                     ${sectionsHtml}
-                    ${productGroupsHtml}
+                    ${productGroupsHtml}`)}
                 </body>
             </html>
         `;
 
+    }
+
+    /**
+     * The body, with the logo small at the head of every printed
+     * page where the document has one: a table whose head row the
+     * print repeats on each page, the one running page head a
+     * browser's print reliably draws. Without a logo, the body as
+     * it is.
+     */
+    private framed(content: ExportContent, body: string): string {
+        const logo = content.documentLogo;
+        return logo && isExportableImage(logo.src)
+            ? `<table class="print-frame"><thead><tr><td><div class="print-head">` +
+                `<img src="${escapeAttribute(logo.src)}" alt="" /></div></td></tr></thead>` +
+                `<tbody><tr><td>${body}</td></tr></tbody></table>`
+            : body;
     }
 
 }
