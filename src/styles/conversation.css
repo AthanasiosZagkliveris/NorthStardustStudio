@@ -13045,6 +13045,15 @@ td.process-library-col-number{
 
 }
 
+/* A number table's heads stand on one bottom line: a head that has to
+   wrap in a narrow window wraps upward, and the single-line heads
+   beside it stay on the line their figures hang from. */
+.financial-figure-table thead th{
+
+    vertical-align:bottom;
+
+}
+
 .financial-table tfoot th,
 .financial-table tfoot td{
 

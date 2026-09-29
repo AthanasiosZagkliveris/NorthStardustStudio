@@ -1024,8 +1024,11 @@ export default function FinancialFoundationEditor({
                                                         <th scope="col">Running Costs</th>
                                                         <th scope="col">Costs of Sales</th>
                                                         {showLoans && (
-                                                            <th scope="col">
-                                                                <InfoText text="Loan Repayments">
+                                                            // "Repayments" on the page, so the head keeps to one
+                                                            // line in its share of the table; its "i" and its
+                                                            // name say they are the loans'.
+                                                            <th scope="col" aria-label="Loan repayments">
+                                                                <InfoText text="Repayments">
                                                                     <InfoNote label="Loan Repayments" points={loanNotes} fullList />
                                                                 </InfoText>
                                                             </th>
