@@ -997,42 +997,53 @@ function MetricList({
                                 />
                             </div>
 
-                            <div className="strategy-metric-field">
-                                <span className="field-label strategy-field-label">Unit</span>
-                                <OptionPicker
-                                    label={`Metric ${metricIndex + 1} unit`}
-                                    options={STRATEGY_METRIC_UNITS}
-                                    disabled={disabled}
-                                    value={metric.unit}
-                                    onChange={(unit) => updateMetric(metricIndex, { unit })}
-                                />
-                            </div>
-
                             {/*
                                 A money Metric names its currency, as a
-                                Business price does: the organization's
-                                own by default, changeable for this
-                                Metric alone. Choosing the default back
-                                stores "", so it follows the Legal
-                                Entity country again.
+                                Business price does: the compact
+                                currency picker beside the Unit, the
+                                pair as wide as the Target above it.
+                                The organization's own currency by
+                                default, changeable for this Metric
+                                alone; choosing the default back stores
+                                "", so it follows the Legal Entity
+                                country again.
                             */}
-                            {metric.unit === STRATEGY_METRIC_CURRENCY_UNIT && (
-                                <div className="strategy-metric-field">
-                                    <span className="field-label strategy-field-label">Currency</span>
-                                    <OptionPicker
-                                        label={`Metric ${metricIndex + 1} currency`}
-                                        placeholder="Code"
-                                        options={CURRENCY_CODES}
-                                        searchable
-                                        searchAliases={CURRENCY_SEARCH_ALIASES}
-                                        disabled={disabled}
-                                        value={metric.currency || organisationCurrency}
-                                        onChange={(next) => updateMetric(metricIndex, {
-                                            currency: next === organisationCurrency ? "" : next
-                                        })}
-                                    />
-                                </div>
-                            )}
+                            <div className="strategy-metric-field">
+                                <span className="field-label strategy-field-label">Unit</span>
+                                {metric.unit === STRATEGY_METRIC_CURRENCY_UNIT
+                                    ? (
+                                        <div className="business-capability-price strategy-metric-unit-currency">
+                                            <OptionPicker
+                                                label={`Metric ${metricIndex + 1} unit`}
+                                                options={STRATEGY_METRIC_UNITS}
+                                                disabled={disabled}
+                                                value={metric.unit}
+                                                onChange={(unit) => updateMetric(metricIndex, { unit })}
+                                            />
+                                            <OptionPicker
+                                                label={`Metric ${metricIndex + 1} currency`}
+                                                placeholder="Code"
+                                                options={CURRENCY_CODES}
+                                                searchable
+                                                searchAliases={CURRENCY_SEARCH_ALIASES}
+                                                disabled={disabled}
+                                                value={metric.currency || organisationCurrency}
+                                                onChange={(next) => updateMetric(metricIndex, {
+                                                    currency: next === organisationCurrency ? "" : next
+                                                })}
+                                            />
+                                        </div>
+                                    )
+                                    : (
+                                        <OptionPicker
+                                            label={`Metric ${metricIndex + 1} unit`}
+                                            options={STRATEGY_METRIC_UNITS}
+                                            disabled={disabled}
+                                            value={metric.unit}
+                                            onChange={(unit) => updateMetric(metricIndex, { unit })}
+                                        />
+                                    )}
+                            </div>
 
                             {/*
                                 "Custom" is only a useful choice if

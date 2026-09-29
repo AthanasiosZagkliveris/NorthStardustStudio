@@ -11929,6 +11929,31 @@ td.process-library-col-number{
 
 }
 
+/* A money Metric's Unit and its currency, one pair on the Unit's row
+   as wide as the Target field above (a number's standard width): the
+   Unit takes what the compact currency picker leaves. */
+.strategy-metric-field > .strategy-metric-unit-currency{
+
+    width:min(100%, var(--control-s));
+
+}
+
+.strategy-metric-unit-currency > .option-picker:first-child{
+
+    flex:1 1 auto;
+
+    min-width:0;
+
+}
+
+.strategy-metric-unit-currency > .option-picker:first-child > .option-picker-trigger.interview-input{
+
+    display:grid;
+
+    width:100%;
+
+}
+
 /* A Salary's currency: the box a Price's currency picker draws,
    without its chevron or its pointer, since it is shown rather than
    chosen. Two classes, to take `width` back from `.interview-input`
