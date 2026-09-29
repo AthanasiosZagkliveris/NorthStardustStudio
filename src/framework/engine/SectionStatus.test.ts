@@ -5,7 +5,7 @@ import { AnswerType } from "../enums/AnswerType.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
 import { sectionStatuses } from "./SectionStatus.ts";
 import { sectionRailItems } from "../../components/interview/rails/railItems.ts";
-import { asStrategyFoundationValue } from "./AnswerUtils.ts";
+import { asLegalEntityValue, asStrategyFoundationValue } from "./AnswerUtils.ts";
 import quillfieldText from "../../../docs/examples/quillfield-automation-llc.json?raw";
 
 type SavedState = Parameters<typeof InterviewSession.fromJSON>[0];
@@ -47,6 +47,22 @@ describe("section status", () => {
         expect(ids).toHaveLength(6);
         expect(statuses.get(ids[0])).toBe("in-progress");
         expect(statuses.get(ids[1])).toBe("not-started");
+
+    });
+
+    test("Not applicable on a legal item is its answer, and stands only while nothing is listed", () => {
+
+        const legal = page("identity", AnswerType.LegalEntity);
+        const ids = idsOf(legal.answer);
+
+        const statuses = sectionStatuses(legal.answer, { requirementsNotApplicable: true, expensesNotApplicable: true }, { railIds: ids, pageDefined: false });
+        expect(statuses.get(ids[4])).toBe("defined");
+        expect(statuses.get(ids[5])).toBe("defined");
+        expect(sectionStatuses(legal.answer, {}, { railIds: ids, pageDefined: false }).get(ids[4])).toBe("not-started");
+
+        expect(asLegalEntityValue({ requirementsNotApplicable: true }).requirementsNotApplicable).toBe(true);
+        expect(asLegalEntityValue({ requirementsNotApplicable: true, requirements: [{ id: "r1", name: "Licence" }] }).requirementsNotApplicable).toBe(false);
+        expect(asLegalEntityValue({ tax: { consumptionTaxStatus: "not-applicable" } }).tax.consumptionTaxStatus).toBe("not-applicable");
 
     });
 

@@ -3655,7 +3655,11 @@ export interface LegalEntityValue {
     formation: LegalEntityFormationValue;
     tax: LegalEntityTaxValue;
     requirements: LegalEntityRequirementValue[];
+    /** "Not applicable" ticked on 5. Additional Legal Requirements: none apply. */
+    requirementsNotApplicable: boolean;
     expenses: LegalEntityExpenseValue[];
+    /** "Not applicable" ticked on 6. Legal Entity Expenses: there are none. */
+    expensesNotApplicable: boolean;
 }
 
 
@@ -3833,7 +3837,13 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
 
         requirements,
 
-        expenses
+        // A tick only stands while the list is empty: an entry says it
+        // applies after all.
+        requirementsNotApplicable: source.requirementsNotApplicable === true && requirements.length === 0,
+
+        expenses,
+
+        expensesNotApplicable: source.expensesNotApplicable === true && expenses.length === 0
 
     };
 

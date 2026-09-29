@@ -8344,17 +8344,6 @@ td.process-library-col-number{
 
 /* ---------- Founders ---------- */
 
-/* A tick box with its flag after it, on the tick box's own line. */
-.legal-entity-switch-row{
-
-    display:flex;
-
-    align-items:center;
-
-    min-width:0;
-
-}
-
 .legal-entity-switch{
 
     display:flex;
@@ -12714,26 +12703,6 @@ td.process-library-col-number{
     line-height:1.5;
 
     font-weight:600;
-
-}
-
-/* An amount entered here, with its flag after it (an outside figure,
-   FieldKinds.ts): the box takes what the flag leaves. */
-.financial-cost-amount-entry{
-
-    display:flex;
-
-    align-items:center;
-
-    min-width:0;
-
-}
-
-.financial-cost-amount-entry > .interview-input{
-
-    flex:1 1 auto;
-
-    min-width:0;
 
 }
 

@@ -27,7 +27,7 @@ import MonthYearPicker from "./MonthYearPicker.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../framework/engine/Currencies.ts";
 import { OptionalNote } from "./BusinessCardFields.tsx";
-import { FieldFlagButton, FieldStatus } from "./fieldAnnotations.tsx";
+import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
 import FoldArrow from "./FoldArrow.tsx";
 import CardNumber from "./CardNumber.tsx";
@@ -955,9 +955,7 @@ function MetricList({
                             <div className="strategy-metric-field" data-field-holder="">
                                 <span className="field-label strategy-field-label">
                                     {`Baseline (${formatMonthShort(objective.period.start)})`}
-                                    {/* Where the figure stands today: an
-                                        outside fact (FieldKinds.ts). */}
-                                    <FieldFlagButton label={`Metric ${metricIndex + 1} baseline`} keyLabel="baseline" flag="investigation" />
+                                    <FieldMark label={`Metric ${metricIndex + 1} baseline`} keyLabel="baseline" />
                                 </span>
                                 <FieldStatus label={`Metric ${metricIndex + 1} baseline`} keyLabel="baseline" />
                                 <input

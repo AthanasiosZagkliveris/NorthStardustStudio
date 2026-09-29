@@ -19,7 +19,6 @@ import { AnswerType } from "../enums/AnswerType.ts";
 import { WEEKS_PER_MONTH, demandResult, founderWorkingHours, hasDemand } from "./DemandCapacity.ts";
 import type { InterviewSession } from "../interview";
 import {
-    STRATEGY_FOUNDATION_SECTIONS,
     BUSINESS_ACTIVITY_CATEGORIES,
     BUSINESS_CHANNEL_ALL_OFFERINGS,
     BUSINESS_COMPETITOR_TYPES,
@@ -112,9 +111,6 @@ import {
     type RevenueStreamValue
 } from "./FinancialModel.ts";
 import { COUNTRIES, countryCurrency, jurisdictionProfile } from "./LegalEntityJurisdictions.ts";
-import { flagIsOpen, type Annotations, type FieldAnnotation } from "./Annotations.ts";
-import { INVESTIGATION_STATUS } from "./BuiltInFlags.ts";
-import { fieldKey, sectionSegment } from "./FieldKeys.ts";
 
 /** The four Foundation Systems as saved -- any may be missing. */
 export interface FoundationSessions {
@@ -124,70 +120,6 @@ export interface FoundationSessions {
     strategy?: InterviewSession | null;
     /** The Organization's name as the app lists it. */
     organisationName: string;
-    /** Its flags and notes (Annotations.ts): what is to be confirmed, what does not apply. */
-    annotations?: Annotations;
-}
-
-/**
- * The annotation on one field of a Foundation page, found by the
- * page's title (a RegExp) or Answer Structure, and the path inside it.
- */
-function annotationAt(
-    sessions: FoundationSessions,
-    session: InterviewSession | null | undefined,
-    page: RegExp | AnswerType,
-    path: string[]
-): FieldAnnotation | undefined {
-    if (!sessions.annotations || !session) {
-        return undefined;
-    }
-    const framework = session.getFramework();
-    const section = framework.sections.find(candidate => page instanceof RegExp
-        ? page.test(candidate.title)
-        : candidate.answer?.type === page);
-    return section
-        ? sessions.annotations[fieldKey({ systemNumber: framework.metadata.systemNumber, sectionNumber: section.number, path })]
-        : undefined;
-}
-
-/**
- * An answer as the documents print it, given what is said about it:
- * "(to be confirmed)" after an answer still flagged Needs
- * investigation; "To be confirmed: needs investigation (<what to find
- * out>)" where it is not given yet, with
- * what there is to find out; nothing where it does not apply.
- */
-export function confirmedText(value: string, annotation?: FieldAnnotation): string {
-    if (annotation?.flag === "not-applicable") {
-        return "";
-    }
-    if (!flagIsOpen(annotation?.flag)) {
-        return value;
-    }
-    if (value.trim()) {
-        return value.trim() + " (to be confirmed)";
-    }
-    const research = annotation?.research?.trim();
-    return "To be confirmed: needs investigation" + (research ? " (" + research + ")" : "");
-}
-
-/** A columns page's answers, each as confirmedText prints it (see above). */
-function confirmedColumns(
-    sessions: FoundationSessions,
-    session: InterviewSession | null | undefined,
-    page: RegExp,
-    values: Record<string, unknown>
-): Record<string, unknown> {
-    const section = session?.getFramework().sections.find(candidate => page.test(candidate.title));
-    const ids = new Set([...Object.keys(values), ...(section?.answer?.parts ?? []).map(part => part.id)]);
-    const out: Record<string, unknown> = { ...values };
-    for (const id of ids) {
-        const annotation = annotationAt(sessions, session, page, [id]);
-        if (annotation && typeof (values[id] ?? "") === "string") {
-            out[id] = confirmedText(text(values[id]), annotation);
-        }
-    }
-    return out;
 }
 
 /* ==========================================================
@@ -333,25 +265,13 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
     return {
         legalEntity, foundersProfile, currency, format, drawings, business, strategy, foundationValue, segments,
         capability, engagement, financial, lines, position, revenuePage, outlook, name,
-        definition: confirmedColumns(sessions, sessions.identity, /^definition$/i, responseByTitle(sessions.identity, /^definition$/i)),
-        ethics: confirmedColumns(sessions, sessions.identity, /^ethics$/i, responseByTitle(sessions.identity, /^ethics$/i)),
-        /** A field's answer as the documents print it (confirmedText), by page and path. */
-        confirm: (session: InterviewSession | null | undefined, page: RegExp | AnswerType, path: string[], value: string) =>
-            confirmedText(value, annotationAt(sessions, session, page, path)),
-        sessions,
+        definition: responseByTitle(sessions.identity, /^definition$/i),
+        ethics: responseByTitle(sessions.identity, /^ethics$/i),
         ambassador: responseByTitle(sessions.brand, /ambassador/i),
         brandStyle: asBrandStyleValue(responseByType(sessions.brand, AnswerType.BrandStyle)),
         brandStyleValue: responseByType(sessions.brand, AnswerType.BrandStyle),
         brandInventoryValue: responseByType(sessions.brand, AnswerType.BrandInventory),
-        strategyFoundation: (() => {
-            const foundation = asStrategyFoundationValue(strategy.responseOf?.(AnswerType.StrategyFoundation));
-            const at = (index: number) => annotationAt(sessions, sessions.strategy, AnswerType.StrategyFoundation, [sectionSegment(STRATEGY_FOUNDATION_SECTIONS[index])]);
-            return {
-                ...foundation,
-                situation: confirmedText(foundation.situation, at(0)),
-                compass: confirmedText(foundation.compass, at(2))
-            };
-        })(),
+        strategyFoundation: asStrategyFoundationValue(strategy.responseOf?.(AnswerType.StrategyFoundation)),
         strategicPeriod: asStrategicPeriodValue(strategy.responseOf?.(AnswerType.StrategicPeriod))
     };
 
@@ -965,17 +885,6 @@ function isEngaged(person: BusinessPartnerValue): boolean {
     );
 }
 
-/**
- * A Resource's status as the documents print it. Needs Investigation
- * is the built-in form of the flag (BuiltInFlags.ts), so it prints as
- * a flagged answer does: to be confirmed.
- */
-function resourceStatusText(status: string): string {
-    return status === INVESTIGATION_STATUS
-        ? "to be confirmed: needs investigation"
-        : BUSINESS_RESOURCE_STATUSES.find(entry => entry.id === status)?.label ?? "";
-}
-
 function operationsBlocks(f: Foundation): ExportBlock[] {
     const { capability } = f;
     const people = [...capability.professionals, ...capability.providers, ...capability.offering.professionals, ...capability.offering.providers];
@@ -984,12 +893,12 @@ function operationsBlocks(f: Foundation): ExportBlock[] {
     return [
         ...titled("Workspace", paragraph(withNote(
             BUSINESS_WORKSPACE_KINDS.find(kind => kind.id === capability.workspace.kind)?.label ?? "",
-            resourceStatusText(capability.workspace.status)
+            BUSINESS_RESOURCE_STATUSES.find(status => status.id === capability.workspace.status)?.label ?? ""
         ))),
         ...titled("Key Resources", list(BUSINESS_RESOURCE_GROUPS.flatMap(group => (capability.resources[group.id] ?? [])
             .flatMap(subsection => subsection.slots.filter(slot => slot.name.trim()).map(slot =>
                 slot.name.trim() + (slot.quantity ? " × " + slot.quantity : "") + " (" +
-                (resourceStatusText(slot.status) || "status not set") + ")"))))),
+                (BUSINESS_RESOURCE_STATUSES.find(status => status.id === slot.status)?.label ?? "status not set") + ")"))))),
         ...titled("Launch and Setup Tasks", table(["Task", "Category", "State"], [
             ...capability.activities.flatMap(category => category.activities
                 .filter(activity => activity.name.trim())
@@ -1028,7 +937,7 @@ function teamBlocks(f: Foundation): ExportBlock[] {
     return [
         ...titled("Legal Structure", details([
             ["Legal name", organisation.name],
-            ["Legal form", f.confirm(f.sessions.identity, AnswerType.LegalEntity, ["organization", "legal-form"], legalFormOf(f.legalEntity))],
+            ["Legal form", legalFormOf(f.legalEntity)],
             ["Formation date", isoMonth(f.legalEntity.formation.date)],
             // Registered once a number or a date says so; the authority
             // alone is only where it would be registered.

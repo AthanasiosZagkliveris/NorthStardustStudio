@@ -93,9 +93,8 @@ describe("page status", () => {
 
     });
 
-    test("a System is needs review if any page is, and defined only when every page is", () => {
+    test("a System is defined only when every page is", () => {
 
-        expect(systemStatus(["defined", "needs-review", "not-started"])).toBe("needs-review");
         expect(systemStatus(["defined", "defined"])).toBe("defined");
         expect(systemStatus(["defined", "not-started"])).toBe("in-progress");
         expect(systemStatus([])).toBe("not-started");

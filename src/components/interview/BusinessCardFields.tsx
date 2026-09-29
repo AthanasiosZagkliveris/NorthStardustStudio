@@ -1,8 +1,7 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
-import { FieldFlagButton, FieldStatus } from "./fieldAnnotations.tsx";
-import type { FlagOffer } from "../../framework/engine/FieldKeys.ts";
+import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import FoldArrow from "./FoldArrow.tsx";
 import CardNumber from "./CardNumber.tsx";
@@ -48,8 +47,6 @@ export function BusinessField({
 
     inline = false,
 
-    flag,
-
     children
 
 }: {
@@ -58,8 +55,6 @@ export function BusinessField({
     info?: InfoPoint[];
     /** The label beside its control rather than above it. */
     inline?: boolean;
-    /** The flag this field offers, if any (FieldKinds.ts). */
-    flag?: FlagOffer;
     children: ReactNode;
 
 }) {
@@ -74,7 +69,7 @@ export function BusinessField({
                             <InfoText text={label}>
                                 <InfoNote label={label} points={info} fullList />
                             </InfoText>
-                            <FieldFlagButton label={label} flag={flag} />
+                            <FieldMark label={label} />
                         </span>
                         <FieldStatus label={label} />
                     </span>
@@ -82,7 +77,7 @@ export function BusinessField({
                 : (
                     <span className="field-label business-foundation-label">
                         {label}
-                        <FieldFlagButton label={label} flag={flag} />
+                        <FieldMark label={label} />
                         <FieldStatus label={label} />
                     </span>
                 )}
@@ -107,8 +102,6 @@ export function BusinessGroup({
 
     titleExtra,
 
-    flag,
-
     children
 
 }: {
@@ -120,11 +113,6 @@ export function BusinessGroup({
      * "Expand all" (see .fold-group-head), so it never adds a line.
      */
     titleExtra?: ReactNode;
-    /**
-     * A group that is one question (its title names its one box): the
-     * flag that question offers (FieldKinds.ts), on its title.
-     */
-    flag?: FlagOffer;
     children: ReactNode;
 
 }) {
@@ -136,9 +124,7 @@ export function BusinessGroup({
                     <InfoText text={title}>
                         <InfoNote label={title} points={info} fullList />
                     </InfoText>
-                    {flag && <FieldFlagButton label={title} flag={flag} />}
                 </span>
-                {flag && <FieldStatus label={title} />}
             </span>
         )
         : <span className="field-group-title business-foundation-subhead">{title}</span>;
@@ -227,9 +213,7 @@ export function BusinessNote({
 
     ariaLabel,
 
-    disabled = false,
-
-    flag
+    disabled = false
 
 }: {
 
@@ -240,13 +224,11 @@ export function BusinessNote({
     /** When the label alone would not say which box this is. */
     ariaLabel?: string;
     disabled?: boolean;
-    /** The flag this answer offers, if any (FieldKinds.ts). */
-    flag?: FlagOffer;
 
 }) {
 
     return (
-        <BusinessField label={label} info={info} flag={flag}>
+        <BusinessField label={label} info={info}>
             <StrategyTextArea
                 className="interview-input business-foundation-note"
                 ariaLabel={ariaLabel ?? label}
@@ -275,7 +257,7 @@ export function BusinessNote({
  *
  * The same checkbox-and-label as the Foundation page's Business
  * Data (.business-foundation-tick). No field menu
- * (`data-field-kind="optional"`, fieldAnnotations.tsx).
+ * (`data-field-kind="optional"`, fieldMarks.tsx).
  */
 export function OptionalField({
 
@@ -357,7 +339,7 @@ export function OptionalField({
                     />
                     <span className="field-label business-foundation-label">
                         {label}
-                        <FieldFlagButton label={label} />
+                        <FieldMark label={label} />
                     </span>
                 </label>
                 {info && <InfoNote label={label} points={info} fullList />}

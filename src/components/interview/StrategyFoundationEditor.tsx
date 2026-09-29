@@ -15,7 +15,7 @@ import {
     monthIndex
 } from "../../framework/engine/AnswerUtils.ts";
 import { railId } from "./rails/railItems.ts";
-import { FieldFlagButton, FieldStatus } from "./fieldAnnotations.tsx";
+import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 
 import BoxActions, { reorder, useMovableBox } from "./ReorderControls.tsx";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
@@ -409,14 +409,9 @@ export default function StrategyFoundationEditor({
 
                     <div className="strategy-swot-quadrant" key={quadrant.id} data-field-holder="">
 
-                        {/* Opportunities and Threats are outside, in the
-                            market: they can be flagged (FieldKinds.ts). */}
                         <span className="field-label strategy-field-label">
                             {quadrant.label}
-                            <FieldFlagButton
-                                label={quadrant.label}
-                                flag={quadrant.id === "opportunities" || quadrant.id === "threats" ? "investigation" : undefined}
-                            />
+                            <FieldMark label={quadrant.label} />
                         </span>
                         <FieldStatus label={quadrant.label} />
 

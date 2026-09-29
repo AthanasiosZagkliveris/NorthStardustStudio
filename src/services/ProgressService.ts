@@ -2,7 +2,6 @@ import { InterviewSession } from "../framework/interview";
 import type { AnswerDefinition } from "../framework/model";
 import { frameworkRegistry } from "../framework/engine/FrameworkRegistry";
 import { pageStatuses, systemStatus, type PageStatus } from "../framework/engine/PageStatus";
-import { withBuiltInFlags } from "../framework/engine/BuiltInFlags";
 import { systems } from "../data/systems";
 import type { FrameworkSystem } from "../types/system";
 import { StorageService } from "./StorageService";
@@ -80,10 +79,7 @@ export function systemPages(
         const session = savedSession(organizationId, system)
             ?? new InterviewSession(frameworkRegistry.getFramework(system.id));
 
-        const statuses = pageStatuses(session, sharedValueResolver(organizationId), {
-            systemNumber: system.number,
-            annotations: withBuiltInFlags(OrganizationService.getAnnotations(organizationId), system.number, session)
-        });
+        const statuses = pageStatuses(session, sharedValueResolver(organizationId));
 
         return session.getSections().map(section => ({
             number: section.number,
@@ -116,7 +112,7 @@ export interface ContinuePlace {
 /**
  * Where "Continue" on System Selection leads, from the last place
  * worked and where the pages stand (a page is done only once it is
- * defined; one that needs review is not):
+ * defined):
  *
  *   the last page, while it is not done -- "Continue: <System> — <page>";
  *   else that System's first page not done -- "Continue: ...";

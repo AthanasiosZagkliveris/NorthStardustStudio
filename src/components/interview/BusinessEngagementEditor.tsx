@@ -3118,7 +3118,7 @@ export default function BusinessEngagementEditor({
             limits: NumberLimit
         ) {
             return (
-                <BusinessField key={label} label={label} info={[help]} flag="investigation">
+                <BusinessField key={label} label={label} info={[help]}>
                     <input
                         type="text"
                         inputMode={numberInputMode(limits)}

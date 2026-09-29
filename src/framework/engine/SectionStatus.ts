@@ -29,7 +29,6 @@ import {
     financialSustainabilitySectionsEmpty
 } from "./FinancialModel.ts";
 import { differsFromDefault, hasAnyAnswer, type PageStatus } from "./PageStatus.ts";
-import { hasOpenFlag, isNotApplicable, type ReviewMarks } from "./Annotations.ts";
 
 /**
  * A page's SECTIONS each in the same four states as the page itself
@@ -42,11 +41,7 @@ import { hasOpenFlag, isNotApplicable, type ReviewMarks } from "./Annotations.ts
  *                     still missing (InterviewValidator's rules, per
  *                     section: the column's own answer, or the
  *                     bespoke page's *SectionsEmpty entry);
- * - `defined`      -- every required answer in it given;
- * - `needs-review` -- a field in it flagged as not settled (see
- *                     sectionNeedsReview).
- *
- * A section marked "Doesn't apply" is defined.
+ * - `defined`      -- every required answer in it given.
  *
  * A section that asks nothing required (Additional Legal Requirements,
  * Legal Entity Expenses, both of the Founders Profile's, the Funding
@@ -71,7 +66,12 @@ const BESPOKE: Partial<Record<AnswerType, BespokeSections>> = {
     [AnswerType.LegalEntity]: {
         slices: raw => {
             const v = asLegalEntityValue(raw);
-            return [v.organisation, v.founders, v.formation, v.tax, v.requirements, v.expenses];
+            // "Not applicable" is an answer (a word the default lacks).
+            return [
+                v.organisation, v.founders, v.formation, v.tax,
+                v.requirementsNotApplicable ? "not-applicable" : v.requirements,
+                v.expensesNotApplicable ? "not-applicable" : v.expenses
+            ];
         },
         empty: legalEntitySectionsEmpty,
         optional: [4, 5]
@@ -170,15 +170,6 @@ const BESPOKE: Partial<Record<AnswerType, BespokeSections>> = {
 
 };
 
-/**
- * Whether a section has been flagged for another look: a field in it
- * marked "Needs investigation" (Annotations.ts), as
- * PageStatus.needsReview is for a page.
- */
-export function sectionNeedsReview(marks: ReviewMarks | undefined, sectionNumber: number, sectionId: string): boolean {
-    return hasOpenFlag(marks, sectionNumber, sectionId);
-}
-
 /** One section's status from what it holds, what it requires, and whether it is optional. */
 function statusOf(answered: boolean, complete: boolean, optional: boolean, pageDefined: boolean): PageStatus {
 
@@ -213,9 +204,6 @@ export function sectionStatuses(
         themes?: readonly StrategyThemeValue[];
         periodValue?: unknown;
         railIds?: readonly string[];
-        /** The page's Section number and the Organization's flags. */
-        sectionNumber?: number;
-        marks?: ReviewMarks;
     } = {}
 ): Map<string, PageStatus> {
 
@@ -225,11 +213,7 @@ export function sectionStatuses(
         return statuses;
     }
 
-    const page = options.sectionNumber ?? 0;
-    const set = (id: string, status: PageStatus) =>
-        statuses.set(id, sectionNeedsReview(options.marks, page, id)
-            ? "needs-review"
-            : isNotApplicable(options.marks, page, id) ? "defined" : status);
+    const set = (id: string, status: PageStatus) => statuses.set(id, status);
 
     if (answer.type === AnswerType.MultiPart) {
 

@@ -77,7 +77,6 @@ import {
     BusinessTicks,
     uniqueChoices
 } from "./BusinessCardFields.tsx";
-import { FieldFlagButton, FieldStatus } from "./fieldAnnotations.tsx";
 import {
     CashTimelineChart,
     FigureTable,
@@ -551,27 +550,19 @@ export default function FinancialFoundationEditor({
                     </span>
                 </div>
 
-                <div role="cell" data-field-holder={own ? "" : undefined}>
+                <div role="cell">
                     {own
                         ? (
-                            <>
-                                <span className="financial-cost-amount-entry">
-                                    <input
-                                        type="text"
-                                        inputMode="decimal"
-                                        className="interview-input"
-                                        aria-label={what + " amount"}
-                                        placeholder={amountPlaceholder}
-                                        disabled={disabled}
-                                        value={own.amount}
-                                        onChange={(event) => changeOwnCost(own.id, { amount: limitedNumberText(event.target.value, own.amount, NUMBER_LIMITS.money) })}
-                                    />
-                                    {/* An amount entered here is an outside
-                                        figure: it can be flagged. */}
-                                    <FieldFlagButton label={what + " amount"} keyLabel="amount" flag="investigation" />
-                                </span>
-                                <FieldStatus label={what + " amount"} keyLabel="amount" />
-                            </>
+                            <input
+                                type="text"
+                                inputMode="decimal"
+                                className="interview-input"
+                                aria-label={what + " amount"}
+                                placeholder={amountPlaceholder}
+                                disabled={disabled}
+                                value={own.amount}
+                                onChange={(event) => changeOwnCost(own.id, { amount: limitedNumberText(event.target.value, own.amount, NUMBER_LIMITS.money) })}
+                            />
                         )
                         : (
                             <span className="financial-cost-amount">
@@ -1770,7 +1761,6 @@ export default function FinancialFoundationEditor({
                 </BusinessField>
                 <BusinessField
                     label="Amounts"
-                    flag="investigation"
                     info={[
                         ...taxBases.map(entry => ({ title: entry.label, text: entry.explanation })),
                         "Use the same basis for every amount on this page and on Sustainability."
@@ -1804,19 +1794,14 @@ export default function FinancialFoundationEditor({
                         })}
                     />
                 </BusinessField>
-                {stored.incomeTax === "rate" && (
-                    <BusinessField label="Tax Rate (%)" flag="investigation">
-                        <input
-                            type="text"
-                            inputMode={numberInputMode(NUMBER_LIMITS.percent)}
-                            className="interview-input"
-                            aria-label="Tax Rate (%)"
-                            placeholder="e.g. 25"
-                            disabled={disabled}
-                            value={stored.incomeTaxRate}
-                            onChange={(event) => update({ incomeTaxRate: limitedNumberText(event.target.value, stored.incomeTaxRate, NUMBER_LIMITS.percent) })}
-                        />
-                    </BusinessField>
+                {stored.incomeTax === "rate" && textInput(
+                    "Tax Rate (%)",
+                    "Tax Rate (%)",
+                    stored.incomeTaxRate,
+                    (next) => update({ incomeTaxRate: next }),
+                    "e.g. 25",
+                    undefined,
+                    NUMBER_LIMITS.percent
                 )}
                 {/* The plan's months and its currency are in the
                     page title ("… · Jan 2027 – Dec 2029 · USD"). */}

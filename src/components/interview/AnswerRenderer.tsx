@@ -44,7 +44,7 @@ import {
 } from "../../framework/engine/AnswerUtils.ts";
 import { useDragToScroll } from "../../hooks/useDragToScroll.ts";
 import { useListAutoFormat } from "../../hooks/useListAutoFormat.ts";
-import { FieldFlagButton, FieldStatus } from "./fieldAnnotations.tsx";
+import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 
 let checklistItemCounter = 0;
 
@@ -842,7 +842,7 @@ function MultiPartAnswerRenderer({
 
                                 <span className="answer-column-label-text">
                                     {bindLabelAroundAmpersand(part.label)}
-                                    <FieldFlagButton label={part.label} section={part.id} />
+                                    <FieldMark label={part.label} section={part.id} />
                                 </span>
                                 <FieldStatus label={part.label} section={part.id} />
                             </>

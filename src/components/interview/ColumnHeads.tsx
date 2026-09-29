@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import { FieldFlagButton, FieldStatus } from "./fieldAnnotations.tsx";
+import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 import { railId } from "./rails/railItems.ts";
 
 /*
@@ -35,7 +35,7 @@ export function ColumnHeading({
             </span>
             <span className="answer-column-label-text">
                 {title}
-                <FieldFlagButton label={title} section={railId(title)} />
+                <FieldMark label={title} section={railId(title)} />
             </span>
             <FieldStatus label={title} section={railId(title)} />
         </h3>

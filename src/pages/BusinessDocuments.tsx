@@ -96,8 +96,7 @@ export default function BusinessDocuments() {
             brand: byId.brand,
             business: byId.business,
             strategy: byId.strategy,
-            organisationName: OrganizationService.getSummary(organizationId)?.name ?? "",
-            annotations: OrganizationService.getAnnotations(organizationId)
+            organisationName: OrganizationService.getSummary(organizationId)?.name ?? ""
         };
 
         /* Which Systems are not finished, said rather than enforced:

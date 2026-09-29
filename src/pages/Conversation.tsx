@@ -55,9 +55,7 @@ import { OrganizationService } from "../services/OrganizationService";
 import { PreferencesService } from "../services/PreferencesService";
 import { systems } from "../data/systems";
 import { focusField, jumpTo, type OpenPage } from "../components/interview/jumpTo.ts";
-import { AnnotationProvider } from "../components/interview/fieldAnnotations.tsx";
-import type { Annotations, ReviewMarks } from "../framework/engine/Annotations";
-import { withBuiltInFlags } from "../framework/engine/BuiltInFlags";
+import { FieldPageProvider } from "../components/interview/fieldMarks.tsx";
 import BulletRail from "../components/interview/rails/BulletRail";
 import NumberedListStatic from "../components/interview/NumberedListStatic";
 import { pageIndexFromRailId, pageRailItems, sectionRailItems } from "../components/interview/rails/railItems";
@@ -793,27 +791,6 @@ export default function Conversation() {
         : "";
 
     const [session, setSession] = useState<InterviewSession | null>(null);
-
-    // The Organization's flags and notes (Annotations.ts), kept current
-    // as they change, for the page and section statuses.
-    const [annotations, setAnnotations] = useState<Annotations>(
-        () => organizationId ? OrganizationService.getAnnotations(organizationId) : {}
-    );
-
-    useEffect(() => {
-        if (!organizationId) {
-            return;
-        }
-        return OrganizationService.subscribeAnnotations(
-            () => setAnnotations(OrganizationService.getAnnotations(organizationId))
-        );
-    }, [organizationId]);
-
-    // With the built-in statuses that mean the same as a flag
-    // (BuiltInFlags.ts): a Resource that Needs Investigation.
-    const reviewMarks: ReviewMarks | undefined = system
-        ? { systemNumber: system.number, annotations: withBuiltInFlags(annotations, system.number, session) }
-        : undefined;
     const [loadingError, setLoadingError] = useState<string | null>(null);
     const [, refresh] = useState(0);
 
@@ -1253,8 +1230,7 @@ export default function Conversation() {
                         ? validateOperationsProcessOwnership(session)
                         : reviewManager.validate(
                             session,
-                            (answer) => resolveSharedAnswerValue(organizationId, answer),
-                            system ? { systemNumber: system.number, annotations: OrganizationService.getAnnotations(organizationId ?? "") } : undefined
+                            (answer) => resolveSharedAnswerValue(organizationId, answer)
                         );
 
             if (!validation.valid) {
@@ -1815,7 +1791,7 @@ export default function Conversation() {
     // Each page bullet is drawn in its page status (PageStatus.ts),
     // recomputed on every render so an answer given here shows at once.
     const railStatuses = session
-        ? pageStatuses(session, (answer) => resolveSharedAnswerValue(organizationId, answer), reviewMarks)
+        ? pageStatuses(session, (answer) => resolveSharedAnswerValue(organizationId, answer))
         : null;
     const railPages = session
         ? pageRailItems(session.getSections()).map((item, index) => ({
@@ -1872,9 +1848,7 @@ export default function Conversation() {
                 periodValue: session.getResponse(
                     session.getSections().find(candidate => candidate.answer?.type === AnswerType.StrategicPeriod)?.number ?? 0
                 ),
-                railIds: railSectionItems.map(item => item.id),
-                sectionNumber: session.getCurrentSection()?.number,
-                marks: reviewMarks
+                railIds: railSectionItems.map(item => item.id)
             }
         )
         : null;
@@ -2668,8 +2642,8 @@ export default function Conversation() {
                                 />
                             )}
 
-                            {/* Flags and notes on the page's fields (fieldAnnotations.tsx). */}
-                            <AnnotationProvider
+                            {/* Every field knows its key (fieldMarks.tsx). */}
+                            <FieldPageProvider
                                 organizationId={organizationId}
                                 systemNumber={system.number}
                                 sectionNumber={currentSection.number}
@@ -2743,7 +2717,7 @@ export default function Conversation() {
                                         : undefined
                                 }
                             />
-                            </AnnotationProvider>
+                            </FieldPageProvider>
 
                             <div className="interview-nav">
                                 <button

@@ -97,8 +97,7 @@ describe("BulletRail", () => {
         const pages = [
             { id: "page-1", label: "1. Foundation", status: "defined" as const },
             { id: "page-2", label: "2. Customer Engagement", status: "in-progress" as const },
-            { id: "page-3", label: "3. Infrastructure & Capability", status: "not-started" as const },
-            { id: "page-4", label: "4. Financial Foundation", status: "needs-review" as const }
+            { id: "page-3", label: "3. Infrastructure & Capability", status: "not-started" as const }
         ];
 
         render(<BulletRail items={pages} activeId="page-2" onSelect={() => {}} side="left" label="Pages" />);
@@ -115,14 +114,12 @@ describe("BulletRail", () => {
 
         expect(screen.getByRole("button", { name: "1. Foundation: defined" })).toBeTruthy();
         expect(screen.getByRole("button", { name: "3. Infrastructure & Capability: not started" })).toBeTruthy();
-        expect(screen.getByRole("button", { name: "4. Financial Foundation: needs review" })
-            .querySelector(".status-shape")?.getAttribute("data-status")).toBe("needs-review");
 
-        // Four shapes, not four colours.
+        // Three shapes, not three colours.
         const shapes = stylesheet("status-shape.css");
         expect(shapes).toContain(".status-shape[data-status=\"not-started\"] { border: 2px solid var(--status-ink); background: transparent;");
         expect(shapes).toContain(".status-shape[data-status=\"in-progress\"] { border: 2px solid var(--status-ink); background: linear-gradient(90deg, var(--status-ink) 50%, transparent 50%);");
-        expect(shapes).toContain("border-radius: 2px; rotate: 45deg;");
+        expect(shapes).not.toContain("needs-review");
 
     });
 

@@ -49,14 +49,6 @@ describe("the field status line", () => {
         expect(container.textContent).toBe("");
     });
 
-    it("says a flag in words, with what to find out, and offers the note", () => {
-        const toggle = vi.fn();
-        render(<FieldStatusLine label="Legal Form" flag="research" research="What the accountant advises" hasNote onToggleNote={toggle} />);
-        expect(screen.getByText(/Needs investigation: What the accountant advises/)).toBeTruthy();
-        screen.getByRole("button", { name: "Show the note on Legal Form" }).click();
-        expect(toggle).toHaveBeenCalled();
-    });
-
     it("says a scenario's own value, with its reset", () => {
         const reset = vi.fn();
         render(<FieldStatusLine label="Price" changedIn="Slow start" onReset={reset} />);

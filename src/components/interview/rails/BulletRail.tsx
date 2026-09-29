@@ -21,8 +21,8 @@ const TOOLTIP_EDGE_MARGIN = 8;
  * label then bullet on the left, bullet then label on the right.
  *
  * An item with a `status` (a page's, or a section's) draws it as the
- * bullet's shape -- ○ not started, ◐ in progress, ● defined, ◆ needs
- * review (status-shape.css) -- inside the same active and hover looks,
+ * bullet's shape -- ○ not started, ◐ in progress, ● defined
+ * (status-shape.css) -- inside the same active and hover looks,
  * and says it in words in the narrow layout's tooltip and in the
  * accessible name. No native `title`: the label is already on
  * screen (or in the app's own tooltip), and the browser's would only

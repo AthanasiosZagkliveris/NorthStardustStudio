@@ -2,7 +2,7 @@
    Status shapes -- a page's or a System's status (PageStatus.ts)
    drawn as a shape, so it never rests on colour alone:
 
-       ○ not started    ◐ in progress    ● defined    ◆ needs review
+       ○ not started    ◐ in progress    ● defined
 
    One 12px mark in `--status-ink`: the Pages and Sections rails'
    bullets (bullet-rail.css) and the System list's rows
@@ -59,16 +59,3 @@
 
 }
 
-/* A square turned on its point, a little smaller so its corners
-   reach no further than the round marks' edges. */
-.status-shape[data-status="needs-review"] {
-
-    width: 10px;
-    height: 10px;
-    margin: 1px;
-
-    border-radius: 2px;
-
-    rotate: 45deg;
-
-}

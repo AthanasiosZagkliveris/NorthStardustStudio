@@ -97,7 +97,6 @@ import {
     type FinancialFoundationValue
 } from "./FinancialModel.ts";
 import { jurisdictionProfile, COUNTRIES, LEGAL_REQUIREMENT_TYPES } from "./LegalEntityJurisdictions.ts";
-import { INVESTIGATION_STATUS } from "./BuiltInFlags.ts";
 
 /* ==========================================================
    Building blocks
@@ -649,8 +648,7 @@ function slotRow(
     people: (id: string) => string,
     currency: string
 ): string[] {
-    // Needs Investigation is the built-in flag (BuiltInFlags.ts).
-    const status = labelOf(BUSINESS_RESOURCE_STATUSES, slot.status) + (slot.status === INVESTIGATION_STATUS ? " (to be confirmed)" : "");
+    const status = labelOf(BUSINESS_RESOURCE_STATUSES, slot.status);
     const detail = slot.status === "costs"
         ? costText(slot.cost, currency)
         : slot.status === "provided" || slot.status === "professional" ? people(slot.providerId) : "";
@@ -700,7 +698,7 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
         heading("Workspace", 2),
         ...details([
             ["Workspace", workspace.kind === "other" ? workspace.kindOther : labelOf(BUSINESS_WORKSPACE_KINDS, workspace.kind)],
-            ["Status", labelOf(BUSINESS_RESOURCE_STATUSES, workspace.status) + (workspace.status === INVESTIGATION_STATUS ? " (to be confirmed)" : "")],
+            ["Status", labelOf(BUSINESS_RESOURCE_STATUSES, workspace.status)],
             ["Cost", workspace.status === "costs" ? costText(workspace.cost, currency) : ""],
             ["Provider", workspace.status === "provided" ? people(workspace.providerId) : ""]
         ]),

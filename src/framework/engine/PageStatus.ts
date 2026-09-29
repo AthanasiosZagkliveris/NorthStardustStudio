@@ -3,8 +3,6 @@ import type { InterviewSession } from "../interview";
 import { AnswerType } from "../enums/AnswerType.ts";
 import { defaultAnswerValue } from "./AnswerUtils.ts";
 import { InterviewValidator } from "./InterviewValidator.ts";
-import { hasOpenFlag, type ReviewMarks } from "./Annotations.ts";
-import { pageKeyPrefix } from "./FieldKeys.ts";
 
 /**
  * Where a page stands, computed from its answers and never set by
@@ -14,42 +12,19 @@ import { pageKeyPrefix } from "./FieldKeys.ts";
  * - `in-progress`  -- something answered, but a required answer
  *                     still missing;
  * - `defined`      -- every required answer given, by
- *                     InterviewValidator's rules;
- * - `needs-review` -- flagged for another look (see needsReview).
+ *                     InterviewValidator's rules.
  *
- * A System's status is the same four, derived from its pages (see
+ * A System's status is the same three, derived from its pages (see
  * systemStatus).
  */
-export type PageStatus = "not-started" | "in-progress" | "defined" | "needs-review";
+export type PageStatus = "not-started" | "in-progress" | "defined";
 
 /** The status in words, as the rail's tooltip and the System list say it. */
 export const PAGE_STATUS_WORDS: Record<PageStatus, string> = {
     "not-started": "not started",
     "in-progress": "in progress",
-    "defined": "defined",
-    "needs-review": "needs review"
+    "defined": "defined"
 };
-
-/**
- * Whether a page has been flagged for another look: a field on it
- * marked "Needs investigation" (see Annotations.ts), or a built-in
- * status that means the same (BuiltInFlags.ts), or
- * something it draws on changed upstream since it was last opened
- * (`staleSections`, see UpstreamChanges.ts). The one place both are
- * read from.
- */
-export function needsReview(section: Section, marks?: ReviewMarks): boolean {
-
-    return !!marks?.staleSections?.has(section.number) || hasOpenFlag(marks, section.number);
-
-}
-
-/** Whether anything on a page is marked "Doesn't apply" (an answer of its own). */
-function hasNotApplicable(marks: ReviewMarks | undefined, sectionNumber: number): boolean {
-    const prefix = marks ? pageKeyPrefix(marks.systemNumber, sectionNumber) : "";
-    return !!marks && Object.entries(marks.annotations).some(([key, annotation]) =>
-        key.startsWith(prefix) && annotation.flag === "not-applicable");
-}
 
 // Keys that carry identity or bookkeeping rather than an answer: a
 // row's id, a link to another row, a React key.
@@ -145,8 +120,7 @@ const validator = new InterviewValidator();
  */
 export function pageStatuses(
     session: InterviewSession,
-    resolveSharedValue?: (answer: AnswerDefinition) => unknown,
-    marks?: ReviewMarks
+    resolveSharedValue?: (answer: AnswerDefinition) => unknown
 ): Map<number, PageStatus> {
 
     const statuses = new Map<number, PageStatus>();
@@ -159,17 +133,14 @@ export function pageStatuses(
             continue;
         }
 
-        statuses.set(section.number, pageStatus(session, section, resolveSharedValue, marks));
+        statuses.set(section.number, pageStatus(session, section, resolveSharedValue));
 
     }
 
     const answered = Array.from(statuses.values());
 
     for (const section of derived) {
-        statuses.set(
-            section.number,
-            needsReview(section, marks) ? "needs-review" : systemStatus(answered)
-        );
+        statuses.set(section.number, systemStatus(answered));
     }
 
     return statuses;
@@ -180,13 +151,8 @@ export function pageStatuses(
 export function pageStatus(
     session: InterviewSession,
     section: Section,
-    resolveSharedValue?: (answer: AnswerDefinition) => unknown,
-    marks?: ReviewMarks
+    resolveSharedValue?: (answer: AnswerDefinition) => unknown
 ): PageStatus {
-
-    if (needsReview(section, marks)) {
-        return "needs-review";
-    }
 
     const answer = section.answer;
 
@@ -200,27 +166,21 @@ export function pageStatus(
         ? resolveSharedValue?.(answer)
         : session.getResponse(section.number);
 
-    // "Doesn't apply" is an answer too.
-    if (!shown || (!hasAnyAnswer(shown, value) && !hasNotApplicable(marks, section.number))) {
+    if (!shown || !hasAnyAnswer(shown, value)) {
         return "not-started";
     }
 
-    return validator.isPageComplete(session, section, resolveSharedValue, marks)
+    return validator.isPageComplete(session, section, resolveSharedValue)
         ? "defined"
         : "in-progress";
 
 }
 
 /**
- * A System's status from its pages': needs review if any page does,
- * not started while none has an answer, defined once every page is,
- * and in progress in between.
+ * A System's status from its pages': not started while none has an
+ * answer, defined once every page is, and in progress in between.
  */
 export function systemStatus(statuses: readonly PageStatus[]): PageStatus {
-
-    if (statuses.includes("needs-review")) {
-        return "needs-review";
-    }
 
     if (statuses.every(status => status === "not-started")) {
         return "not-started";

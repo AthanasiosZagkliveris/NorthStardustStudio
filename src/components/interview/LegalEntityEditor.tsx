@@ -39,7 +39,7 @@ import { railId } from "./rails/railItems.ts";
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
-import { FieldFlagButton, FieldStatus } from "./fieldAnnotations.tsx";
+import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
@@ -711,7 +711,7 @@ export default function LegalEntityEditor({
                 </span>
                 <span className="legal-entity-section-title">
                     {title ?? LEGAL_ENTITY_SECTIONS[index]}
-                    <FieldFlagButton label={title ?? LEGAL_ENTITY_SECTIONS[index]} section={railId(LEGAL_ENTITY_SECTIONS[index])} />
+                    <FieldMark label={title ?? LEGAL_ENTITY_SECTIONS[index]} section={railId(LEGAL_ENTITY_SECTIONS[index])} />
                 </span>
                 <FieldStatus label={title ?? LEGAL_ENTITY_SECTIONS[index]} section={railId(LEGAL_ENTITY_SECTIONS[index])} />
             </h3>
@@ -767,7 +767,7 @@ export default function LegalEntityEditor({
                                 (nested ? " legal-entity-label-nested" : "")
                             }
                         >
-                            <span className="field-label legal-entity-label">{label}<FieldFlagButton label={label} /></span>
+                            <span className="field-label legal-entity-label">{label}<FieldMark label={label} /></span>
                             {removeFieldButton(label, onRemove)}
                         </span>
                     )
@@ -783,7 +783,7 @@ export default function LegalEntityEditor({
                                     <InfoText text={label}>
                                         <InfoNote label={label} points={info} />
                                     </InfoText>
-                                    <FieldFlagButton label={label} />
+                                    <FieldMark label={label} />
                                 </span>
                             </span>
                         )
@@ -795,7 +795,7 @@ export default function LegalEntityEditor({
                                 }
                             >
                                 {label}
-                                <FieldFlagButton label={label} />
+                                <FieldMark label={label} />
                             </span>
                         )}
                 <FieldStatus label={label} />
@@ -853,6 +853,27 @@ export default function LegalEntityEditor({
             </div>
         );
 
+    }
+
+    /**
+     * "Not applicable" on a legal or tax item that may not apply at
+     * all: a plain tick, which counts as the answer, and which the
+     * documents read as "leave it out".
+     */
+    function notApplicableTick(what: string, checked: boolean, onNext: (next: boolean) => void) {
+        return (
+            <label className="legal-entity-switch">
+                <input
+                    type="checkbox"
+                    className="brand-tick-box"
+                    aria-label={what + ": not applicable"}
+                    disabled={disabled}
+                    checked={checked}
+                    onChange={(event) => onNext(event.target.checked)}
+                />
+                <span className="legal-entity-switch-label">Not applicable</span>
+            </label>
+        );
     }
 
     /** The button an optional field hides behind until it is wanted. */
@@ -928,11 +949,11 @@ export default function LegalEntityEditor({
                                             <InfoText text={label}>
                                                 <InfoNote label={label} points={info} fullList />
                                             </InfoText>
-                                            <FieldFlagButton label={label} />
+                                            <FieldMark label={label} />
                                         </span>
                                     </span>
                                 )
-                                : <span className="field-label legal-entity-label">{label}<FieldFlagButton label={label} /></span>}
+                                : <span className="field-label legal-entity-label">{label}<FieldMark label={label} /></span>}
                             {removeFieldButton(label, onRemove)}
                         </span>
                     )
@@ -943,11 +964,11 @@ export default function LegalEntityEditor({
                                     <InfoText text={label}>
                                         <InfoNote label={label} points={info} />
                                     </InfoText>
-                                    <FieldFlagButton label={label} />
+                                    <FieldMark label={label} />
                                 </span>
                             </span>
                         )
-                        : <span className="field-label legal-entity-label">{label}<FieldFlagButton label={label} /></span>}
+                        : <span className="field-label legal-entity-label">{label}<FieldMark label={label} /></span>}
                 <FieldStatus label={label} />
                 {control}
             </div>
@@ -1786,7 +1807,7 @@ export default function LegalEntityEditor({
                         ) : (
                             <div className="legal-entity-field-wide">
 
-                                <span className="legal-entity-switch-row">
+                                {entity.tax.consumptionTaxStatus !== "not-applicable" && (
                                 <label className="legal-entity-switch">
                                     <input
                                         type="checkbox"
@@ -1802,18 +1823,15 @@ export default function LegalEntityEditor({
                                         {"Registered for " + profile.consumptionTax}
                                     </span>
                                 </label>
+                                )}
 
-                                {/* Whether it has to register is a
-                                    requirement to find out, or one that
-                                    does not apply (FieldKinds.ts). Outside
-                                    the label: inside, it would tick the box. */}
-                                <FieldFlagButton
-                                    label={"Registered for " + profile.consumptionTax}
-                                    keyLabel="sales-tax-registration"
-                                    flag="investigation-or-not-applicable"
-                                />
-                                </span>
-                                <FieldStatus label={"Registered for " + profile.consumptionTax} keyLabel="sales-tax-registration" />
+                                {entity.tax.consumptionTaxStatus !== "yes" && notApplicableTick(
+                                    profile.consumptionTax + " registration",
+                                    entity.tax.consumptionTaxStatus === "not-applicable",
+                                    (next) => updateTax({
+                                        consumptionTaxStatus: (next ? "not-applicable" : "no") as LegalEntityTaxStatus
+                                    })
+                                )}
 
                                 {/* Only once there is a registration to number. */}
                                 {entity.tax.consumptionTaxStatus === "yes" && (
@@ -1883,7 +1901,13 @@ export default function LegalEntityEditor({
                 {subsection(4, (
                     <>
 
-                        {entity.requirements.length === 0 && (
+                        {entity.requirements.length === 0 && notApplicableTick(
+                            "Additional legal requirements",
+                            entity.requirementsNotApplicable,
+                            (next) => update({ requirementsNotApplicable: next })
+                        )}
+
+                        {entity.requirements.length === 0 && !entity.requirementsNotApplicable && (
                             <p className="legal-entity-empty-note">
                                 Nothing recorded. Add a requirement if one applies to your
                                 activity, your legal form, or where you are registered: for
@@ -1929,26 +1953,20 @@ export default function LegalEntityEditor({
                                         </span>
                                     )}
 
-                                    {/* A requirement is flagged as a whole
-                                        (FieldKinds.ts): it may need
-                                        investigating, or not apply. */}
-                                    <span className="card-head-end">
-                                        <FieldFlagButton label={"Requirement " + (index + 1) + (requirement.name.trim() ? ": " + requirement.name.trim() : "")} card flag="investigation-or-not-applicable" />
-                                        <button
-                                            type="button"
-                                            className="strategy-box-remove"
-                                            aria-label={"Remove legal requirement " + (index + 1)}
-                                            title={"Remove legal requirement " + (index + 1)}
-                                            disabled={disabled}
-                                            onClick={() => update({
-                                                requirements: entity.requirements.filter(
-                                                    (_candidate, position) => position !== index
-                                                )
-                                            })}
-                                        >
-                                            ×
-                                        </button>
-                                    </span>
+                                    <button
+                                        type="button"
+                                        className="strategy-box-remove"
+                                        aria-label={"Remove legal requirement " + (index + 1)}
+                                        title={"Remove legal requirement " + (index + 1)}
+                                        disabled={disabled}
+                                        onClick={() => update({
+                                            requirements: entity.requirements.filter(
+                                                (_candidate, position) => position !== index
+                                            )
+                                        })}
+                                    >
+                                        ×
+                                    </button>
 
                                     {/* The rest, on a row of its own under
                                         the name (see .fold-card-head). */}
@@ -1957,8 +1975,6 @@ export default function LegalEntityEditor({
                                     )}
 
                                 </div>
-
-                                <FieldStatus label={"Requirement " + (index + 1) + (requirement.name.trim() ? ": " + requirement.name.trim() : "")} card />
 
                                 {open && (
                                 <div className="legal-entity-grid legal-entity-grid-pairs">
@@ -2066,6 +2082,7 @@ export default function LegalEntityEditor({
 
                         })}
 
+                        {!entity.requirementsNotApplicable && (
                         <button
                             type="button"
                             className="strategy-add-button"
@@ -2083,6 +2100,7 @@ export default function LegalEntityEditor({
                         >
                             + Add legal requirement
                         </button>
+                        )}
 
                     </>
                 ), undefined, (
@@ -2098,7 +2116,13 @@ export default function LegalEntityEditor({
                 {subsection(5, (
                     <>
 
-                        {entity.expenses.length === 0 && (
+                        {entity.expenses.length === 0 && notApplicableTick(
+                            "Legal entity expenses",
+                            entity.expensesNotApplicable,
+                            (next) => update({ expensesNotApplicable: next })
+                        )}
+
+                        {entity.expenses.length === 0 && !entity.expensesNotApplicable && (
                             <p className="legal-entity-empty-note">
                                 Nothing recorded. Add what it costs to establish, register
                                 and maintain this legal entity.
@@ -2344,6 +2368,7 @@ export default function LegalEntityEditor({
 
                         })}
 
+                        {!entity.expensesNotApplicable && (
                         <button
                             type="button"
                             className="strategy-add-button"
@@ -2358,6 +2383,7 @@ export default function LegalEntityEditor({
                         >
                             + Add expense
                         </button>
+                        )}
 
                     </>
                 ), undefined, (

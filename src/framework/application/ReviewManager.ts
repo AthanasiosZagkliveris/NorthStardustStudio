@@ -6,7 +6,6 @@ import { InterviewValidator } from "../engine/InterviewValidator";
 import { MarkdownExporter } from "../engine/MarkdownExporter";
 import { PdfExporter } from "../engine/PdfExporter";
 import { ExportContent } from "../engine/ExportContentBuilder.ts";
-import type { ReviewMarks } from "../engine/Annotations";
 
 /**
  * Application entry point for
@@ -42,14 +41,12 @@ export class ReviewManager {
      */
     public validate(
         session: InterviewSession,
-        resolveSharedValue?: (answer: AnswerDefinition) => unknown,
-        marks?: ReviewMarks
+        resolveSharedValue?: (answer: AnswerDefinition) => unknown
     ): ValidationResult {
 
         return this.validator.validate(
             session,
-            resolveSharedValue,
-            marks
+            resolveSharedValue
         );
 
     }

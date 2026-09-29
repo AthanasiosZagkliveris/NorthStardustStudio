@@ -18,8 +18,7 @@ vi.mock("../services/OrganizationService", () => ({
         getSummary: () => ({ id: "org-1", name: "Test Org" }),
         getSaveState: () => SAVED,
         subscribeSaveState: () => () => undefined,
-        getLastPlace: () => lastPlace.value,
-        getAnnotations: () => ({})
+        getLastPlace: () => lastPlace.value
     }
 }));
 

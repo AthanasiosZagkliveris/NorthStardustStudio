@@ -35,15 +35,6 @@ describe("Continue where you left off", () => {
 
     });
 
-    it("counts a page that needs review as not done", () => {
-
-        lastWorked(1, 0);
-
-        expect(continuePlace("org", pagesFrom({ 1: ["needs-review", "defined"] })))
-            .toMatchObject({ prefix: "Continue", sectionNumber: 1 });
-
-    });
-
     it("moves on to the System's first page not defined once the last page is", () => {
 
         lastWorked(3, 0, "segments");

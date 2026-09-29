@@ -152,20 +152,13 @@ export function writeField(value: unknown, path: readonly string[], next: unknow
 */
 
 /**
- * What a field is, for what it offers beside its answer (FieldKinds.ts):
- * an ANSWER the person gives (a note; a flag only where FlagOffer
- * says), or NONE (neither, see NoneReason).
+ * What a field is (FieldKinds.ts): an ANSWER the person gives, or
+ * NONE of theirs (see NoneReason).
  */
 export type FieldKind = "answer" | "none";
 
 /**
- * The flag a field offers, if any (FieldKinds.ts): Needs investigation
- * alone, or with Doesn't apply (the legal and tax items).
- */
-export type FlagOffer = "investigation" | "investigation-or-not-applicable";
-
-/**
- * Why a field carries no flag or note:
+ * Why a field is none of the person's answers:
  *
  *   derived         worked out, read from elsewhere or read-only;
  *   binary          a yes or a no (one tick box, or two choices that
@@ -175,7 +168,7 @@ export type FlagOffer = "investigation" | "investigation-or-not-applicable";
  *   has-own-option  a choice that holds its own "not yet" answer;
  *   link            a link to another item (Performer, Owner);
  *   display         how figures are shown (Currency, Unit);
- *   name            a card's name: the card is flagged instead.
+ *   name            a card's name: the card stands for it.
  */
 export type NoneReason = "derived" | "binary" | "optional-tick" | "status" | "has-own-option" | "link" | "display" | "name";
 
@@ -202,14 +195,11 @@ export interface FieldEntry {
     /** The page as its title names it ("3. Legal Entity"). */
     pageTitle: string;
 
-    /** What it offers beside its answer (FieldKinds.ts); absent means an answer. */
+    /** What it is (FieldKinds.ts); absent means an answer. */
     kind?: FieldKind;
 
     /** With kind "none": why. */
     why?: NoneReason;
-
-    /** The flag it offers; absent, none (FieldKinds.ts). */
-    flag?: FlagOffer;
 
 
 }
