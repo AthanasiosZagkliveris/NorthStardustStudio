@@ -11878,6 +11878,14 @@ td.process-library-col-number{
 /* What is done, folded away behind its own count and drawn in the
    light blue the specification names -- a colour that belongs to
    no Segment, because "finished" is not a category of work. */
+/* Its cards run the FULL width of the list, exactly as the active
+   cards above do: no side padding and no side border, so a
+   completed card is as wide as an active one, sits at the same x,
+   and makes the same label-above-or-beside decision (a card's own
+   width decides it -- "A NARROW CARD", global.css). The frame is
+   an inset shadow rather than a border: it is painted under the
+   cards, which cover it at the sides with their own borders on the
+   same line, and it shows above, between and below them. */
 .business-capability-completed{
 
     display:flex;
@@ -11886,12 +11894,13 @@ td.process-library-col-number{
 
     gap:12px;
 
-    padding:12px;
+    padding:12px 0;
 
-    border:1px solid var(--line-done);
     border-radius:8px;
 
     background:var(--bg-done-tint);
+
+    box-shadow:inset 0 0 0 1px var(--line-done);
 
 }
 
@@ -11906,6 +11915,9 @@ td.process-library-col-number{
     align-self:flex-start;
 
     min-height:28px;
+
+    /* Where the group's 12px side padding used to put it. */
+    margin-inline:12px;
 
     padding:0;
 
