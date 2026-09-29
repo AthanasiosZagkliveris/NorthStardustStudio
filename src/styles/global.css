@@ -733,6 +733,49 @@ b, strong {
   text-underline-offset: 0.2em;
 }
 
+/* THE FIELD STATUS LINE (FieldStatusLine.tsx): a field's flag, its
+   note and, later, a scenario's own value, in words with a small
+   mark each, under the label -- quiet small type in the subtle ink,
+   the same under every field. */
+.field-status-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin: 2px 0 0;
+  font-size: var(--font-small);
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  line-height: 1.4;
+  color: var(--text-subtle);
+}
+
+.field-status-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.field-status-mark {
+  flex: none;
+}
+
+.field-status-note,
+.field-status-reset {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
 /* AN ADD BUTTON STANDING ALONE IN A TABLE CELL (the last row of a
    list kept in a table: "+ Add Channel") takes the cell's whole
    content width, its label centred as every full-width add button's

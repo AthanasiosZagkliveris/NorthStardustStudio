@@ -106,3 +106,53 @@ export function jumpTo(path: readonly string[]) {
     window.setTimeout(attempt, STEP_MS);
 
 }
+
+/*
+    OPENING ONE FIELD (Review's "Go there", search results, the lender
+    check, "Changed in scenario"): the card it sits in is jumped to as
+    above -- folds opened from the inside out -- and then the field
+    itself, marked `data-field-key` by the shared label components
+    (see FieldKeys.ts), is scrolled to, its control focused and the
+    field briefly highlighted. Without the card path the field is
+    looked for on the page as it stands.
+*/
+
+function findField(key: string): HTMLElement | null {
+    return document.querySelector<HTMLElement>('[data-field-key="' + CSS.escape(key) + '"]');
+}
+
+/** The control a person types or chooses in, inside a field. */
+function controlOf(field: HTMLElement): HTMLElement | null {
+    return field.querySelector<HTMLElement>(
+        "input:not([type=hidden]), textarea, select, .option-picker-trigger, .month-picker-trigger"
+    );
+}
+
+/** Scrolls to, focuses and highlights the field `key` names on the page open now. */
+export function focusField(key: string, anchors: readonly string[] = []) {
+
+    if (anchors.length > 0) {
+        jumpTo(anchors);
+    }
+
+    const started = Date.now();
+
+    const attempt = () => {
+
+        const field = findField(key);
+
+        if (field) {
+            land(field);
+            controlOf(field)?.focus({ preventScroll: true });
+            return;
+        }
+
+        if (Date.now() - started <= GIVE_UP_MS) {
+            window.setTimeout(attempt, STEP_MS);
+        }
+
+    };
+
+    window.setTimeout(attempt, STEP_MS * 2);
+
+}

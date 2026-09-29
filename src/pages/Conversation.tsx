@@ -54,7 +54,7 @@ import { StorageService } from "../services/StorageService";
 import { OrganizationService } from "../services/OrganizationService";
 import { PreferencesService } from "../services/PreferencesService";
 import { systems } from "../data/systems";
-import { jumpTo, type OpenPage } from "../components/interview/jumpTo.ts";
+import { focusField, jumpTo, type OpenPage } from "../components/interview/jumpTo.ts";
 import BulletRail from "../components/interview/rails/BulletRail";
 import NumberedListStatic from "../components/interview/NumberedListStatic";
 import { pageIndexFromRailId, pageRailItems, sectionRailItems } from "../components/interview/rails/railItems";
@@ -774,6 +774,12 @@ export default function Conversation() {
     // when one was recorded.
     const resume: { anchor?: string } | undefined = location.state?.resume;
 
+    // Set by openField (fieldLocation): open the interview at
+    // `targetSectionNumber` and there the one field this names --
+    // its card unfolded, the field scrolled to, focused and
+    // highlighted (see focusField in jumpTo.ts).
+    const openingField: { key: string; anchors?: string[] } | undefined = location.state?.focusField;
+
     // Every Interview Session now belongs to a specific
     // Organization (see OrganizationService / item 6) -- read
     // once on mount since the Landing page is the only place
@@ -895,7 +901,7 @@ export default function Conversation() {
 
             if (targetSectionNumber !== undefined) {
                 loadedSession.goToSection(targetSectionNumber - 1);
-                if (resume) {
+                if (resume || openingField) {
                     loadedSession.startInterview();
                 }
                 StorageService.saveInterview(organizationId, loadedSession);
@@ -922,7 +928,7 @@ export default function Conversation() {
             OrganizationService.flushPendingWrites();
         };
 
-    }, [system, organizationId, targetSectionNumber, resume]);
+    }, [system, organizationId, targetSectionNumber, resume, openingField]);
 
     // The last place worked, for System Selection's "Continue" line:
     // this System and the page open in it, whenever the interview
@@ -964,6 +970,18 @@ export default function Conversation() {
         return () => window.clearTimeout(timer);
 
     }, [session, resume]);
+
+    useEffect(() => {
+
+        if (!session || !openingField) {
+            return;
+        }
+
+        const timer = window.setTimeout(() => focusField(openingField.key, openingField.anchors ?? []), 300);
+
+        return () => window.clearTimeout(timer);
+
+    }, [session, openingField]);
 
     // The Product Development System's Product Register is kept in
     // the Organization's shared product list (see

@@ -17,6 +17,7 @@ import {
     FINANCIAL_FOUNDATION_SECTIONS,
     FINANCIAL_SUSTAINABILITY_SECTIONS
 } from "../../../framework/engine/FinancialModel";
+import { fieldKey, type FieldEntry } from "../../../framework/engine/FieldKeys";
 
 /**
  * One bullet on a rail. `id` matches a `data-rail` marker on the
@@ -156,5 +157,29 @@ export function pickActiveRail(tops: readonly number[], threshold: number): numb
     });
 
     return active;
+
+}
+
+/**
+ * The page's own sections as fields (see FieldKeys.ts): a columns
+ * page's columns, a bespoke page's sections, the Themes of the
+ * Strategy pages -- each addressed by its rail id, named by its rail
+ * label. What the field registry knows about a page without
+ * rendering it; the fields inside are registered as they render.
+ */
+export function pageFields(
+    systemNumber: number,
+    section: { number: number; title: string; answer?: AnswerDefinition },
+    answer: AnswerDefinition | undefined = section.answer,
+    themes: readonly StrategyThemeValue[] = []
+): FieldEntry[] {
+
+    const pageTitle = pageRailItems([section])[0].label;
+
+    return sectionRailItems(answer, themes).map(item => ({
+        key: fieldKey({ systemNumber, sectionNumber: section.number, path: [item.id] }),
+        label: item.label.replace(/^\d+\.\s+/, ""),
+        pageTitle
+    }));
 
 }
