@@ -423,23 +423,22 @@ export function BusinessRemove({
 }
 
 /**
- * The small "+", or the ×, beside a value that is one of several.
+ * The add, or the ×, for a value that is one of several.
  *
- * Where a whole section grows by one card, the wide "+ Add Channel"
- * button is right -- it is a heading for what it makes. Where a
- * CELL grows by one line, it is not: a button wider than the value
- * it adds to reads as the more important of the two, and a column
- * of them reads as the page's main business.
- *
- * The "+" is 24px square, which meets the 24 the target-size rule
- * asks for and matches the line the labels are set on; the × is the
- * 32px remove every card carries.
+ * The add is the app's one labelled add button, "+ Add Offering",
+ * as everywhere else (.strategy-add-button, drawn in its card's
+ * colour family): a bare "+" said nothing about what it adds. It
+ * stands on its own line under the last value (.business-step-add-
+ * row), so a narrow column does not have to hold it beside the
+ * field. The × is the 32px remove every card carries.
  */
 export function BusinessStep({
 
     kind,
 
     what,
+
+    label,
 
     onClick,
 
@@ -450,6 +449,11 @@ export function BusinessStep({
     kind: "add" | "remove";
     /** What is added or taken away, for the control's own name. */
     what: string;
+    /**
+     * The add's visible name where `what` carries more ("Relationship
+     * Type" for "Relationship Type for AI Workflow Audit").
+     */
+    label?: string;
     onClick: () => void;
     disabled?: boolean;
 
@@ -457,19 +461,37 @@ export function BusinessStep({
 
     const adding = kind === "add";
 
+    if (adding) {
+        return (
+            <div className="business-step-add-row">
+                <button
+                    type="button"
+                    className="strategy-add-button"
+                    /* Its name starts with the words it shows, then says
+                       which one: "Add Relationship Type for …". */
+                    aria-label={"Add " + what}
+                    disabled={disabled}
+                    onClick={onClick}
+                >
+                    {"+ Add " + (label ?? what)}
+                </button>
+            </div>
+        );
+    }
+
     return (
         <button
             type="button"
             /* The remove is the app's one remove control, the 32px ×
                every card carries (.strategy-box-remove), not a small
                minus of its own. */
-            className={adding ? "business-step" : "strategy-box-remove"}
-            aria-label={(adding ? "Add another " : "Remove this ") + what}
-            title={(adding ? "Add another " : "Remove this ") + what}
+            className="strategy-box-remove"
+            aria-label={"Remove this " + what}
+            title={"Remove this " + what}
             disabled={disabled}
             onClick={onClick}
         >
-            {adding ? "+" : "×"}
+            ×
         </button>
     );
 

@@ -11295,10 +11295,8 @@ td.process-library-col-number{
 
 }
 
-/* STACKED, not side by side. Two 24px buttons in a row cost a
-   column 54px of width; one above the other costs it 24, and width
-   is what a five-column table has least of. The height they take
-   back is height the row had anyway. */
+/* The × beside a pick that is one of several. (The add for one
+   more has its own line: .business-step-add-row, below.) */
 .business-channel-steps{
 
     display:flex;
@@ -11318,80 +11316,33 @@ td.process-library-col-number{
 
 }
 
-/* A "+" with no × above it centres the same way: (44 - 24) / 2. */
-.business-channel-steps > .business-step:first-child{
+/* The add for one more value (BusinessStep): the app's labelled
+   add button, on its own line under the last pick -- the pick wraps
+   to put it there -- and starting where the picker starts, past the
+   fold arrow of a relationship type. */
+.business-channel-pick{
 
-    margin-top:4px;
+    flex-wrap:wrap;
 
 }
 
-/* The + itself.
+.business-step-add-row{
 
-   24px square, which is exactly what the target-size rule asks
-   for -- it stacks under the ×, and a larger one would make every
-   row taller than the control it belongs to. Drawn in the
-   card's own control colour like every other control on a tinted
-   card, and filled with the ground the cell stands on so they read
-   as part of the field rather than as two more buttons. */
-.business-step{
-
-    flex:0 0 auto;
-
-    width:24px;
-    height:24px;
+    flex-basis:100%;
 
     display:flex;
-    align-items:center;
-    justify-content:center;
-
-    padding:0;
-
-    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
-    border-radius:6px;
-
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground));
-
-    font-family:inherit;
-    font-size:var(--font-body);
-    font-weight:700;
-    line-height:1;
-
-    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
-
-    cursor:pointer;
 
 }
 
-.business-step:hover:not(:disabled){
+.business-channel-pick > .strategy-box-toggle ~ .business-step-add-row{
 
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover));
-
-}
-
-.business-step:focus-visible{
-
-    outline:2px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
-    outline-offset:2px;
-
-}
-
-/* Nothing left to add, or nothing yet to take away. Held above
-   4.5:1 so the reason it is there is still legible. */
-.business-step:disabled{
-
-    border-color:var(--line-disabled);
-
-    background:var(--bg-neutral);
-
-    color:var(--text-faint);
-
-    cursor:not-allowed;
+    padding-left:42px;
 
 }
 
 /* THE CHANNEL AND RELATIONSHIP TABLES REFLOW rather than overflow.
    Their dropdown columns need 260px each (the 210px dropdown, 6px,
-   the × and + stacked beside it, and the cell's own padding), which
+   the × beside it, and the cell's own padding), which
    a fifth of the table gives only from 1300px up -- the table is
    1331px in a 1536px or wider window, 1185px in a 1366px one. Narrower, every row
    becomes two columns -- Channel and Offerings over Journey Stage

@@ -1704,12 +1704,16 @@ export default function BusinessEngagementEditor({
                                                                 />
                                                             )}
 
+                                                            </div>
+
                                                             {/* HIDDEN, not disabled,
                                                                 when there is nothing
                                                                 left to add: a control
                                                                 that cannot be used is
                                                                 a control asking to be
-                                                                tried. */}
+                                                                tried.
+                                                                The add goes on its own line under the last pick,
+                                                                as the app's labelled add button (BusinessStep). */}
                                                             {index === offeringRows.length - 1 &&
                                                                 !carriesAll &&
                                                                 channel.offerings.length > 0 &&
@@ -1738,8 +1742,6 @@ export default function BusinessEngagementEditor({
                                                                     }}
                                                                 />
                                                             )}
-
-                                                            </div>
 
                                                         </div>
 
@@ -1824,6 +1826,12 @@ export default function BusinessEngagementEditor({
                                                                 />
                                                             )}
 
+
+                                                            </div>
+
+                                                            {/* The add goes on its own line under the
+                                                                last pick, as the app's labelled add
+                                                                button (BusinessStep). */}
                                                             {index === stageRows.length - 1 &&
                                                                 channel.stages.length > 0 &&
                                                                 channel.stages.length <
@@ -1855,8 +1863,6 @@ export default function BusinessEngagementEditor({
                                                                     }}
                                                                 />
                                                             )}
-
-                                                            </div>
 
                                                         </div>
 
@@ -2603,16 +2609,20 @@ export default function BusinessEngagementEditor({
                                                                     />
                                                                 )}
 
-                                                                {/* WHATEVER IS KEPT, INCLUDING
-                                                                    NOTHING. Removing the last
-                                                                    relationship type used to
-                                                                    take the Add away with it,
-                                                                    leaving a row that could
-                                                                    only be answered from the
-                                                                    dropdown and never grown
-                                                                    again -- the one state the
-                                                                    minus could get the table
-                                                                    into and not out of. */}
+                                                            </div>
+
+                                                            {/* WHATEVER IS KEPT, INCLUDING
+                                                                NOTHING. Removing the last
+                                                                relationship type used to
+                                                                take the Add away with it,
+                                                                leaving a row that could
+                                                                only be answered from the
+                                                                dropdown and never grown
+                                                                again -- the one state the
+                                                                minus could get the table
+                                                                into and not out of.
+                                                                The add goes on its own line under the last pick,
+                                                                as the app's labelled add button (BusinessStep). */}
                                                                 {typeId === typeRows[typeRows.length - 1] &&
                                                                     kept.types.length <
                                                                         BUSINESS_RELATIONSHIP_TYPES.length && (
@@ -2622,6 +2632,7 @@ export default function BusinessEngagementEditor({
                                                                             "Relationship Type for " +
                                                                             offeringName(offeringId)
                                                                         }
+                                                                        label="Relationship Type"
                                                                         disabled={disabled}
                                                                         onClick={() => {
 
@@ -2641,8 +2652,6 @@ export default function BusinessEngagementEditor({
                                                                         }}
                                                                     />
                                                                 )}
-
-                                                            </div>
 
                                                         </div>
 
