@@ -1777,8 +1777,8 @@ export default function FinancialFoundationEditor({
                         })}
                     />
                 </BusinessField>
-                {/* How the forecast treats tax on profit. Not
-                    estimated until chosen, as before it was asked. */}
+                {/* How the forecast treats tax on profit: a required
+                    answer, the forecast before tax until it is chosen. */}
                 <BusinessField
                     label="Income Tax"
                     info={["Income tax on profit. Pass-through businesses (e.g. most sole traders and single-member LLCs) pay it personally, not at business level. For a company, enter the corporate rate; ask your accountant."]}

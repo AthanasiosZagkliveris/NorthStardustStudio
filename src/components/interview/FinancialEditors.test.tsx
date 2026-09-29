@@ -183,7 +183,7 @@ describe("FinancialSustainabilityEditor number limits", () => {
 
 describe("FinancialFoundationEditor income tax", () => {
 
-    it("offers Not estimated by default, and a rate from 0 to 100 with two decimals", () => {
+    it("asks for a basis, with none chosen at first, and a rate from 0 to 100 with two decimals", () => {
 
         let saved: unknown;
         function TaxHarness() {
@@ -196,9 +196,9 @@ describe("FinancialFoundationEditor income tax", () => {
         expect(screen.getByRole("button", { name: "Income Tax: what this means" })).toBeTruthy();
         expect(screen.queryByLabelText("Tax rate (%)")).toBeNull();
 
-        fireEvent.click(screen.getByRole("button", { name: "Income tax: Not estimated" }));
+        fireEvent.click(screen.getByRole("button", { name: "Income tax: Select" }));
         expect(screen.getAllByRole("option").map(option => option.textContent))
-            .toEqual(["Not estimated", "No tax at business level", "Rate on profit"]);
+            .toEqual(["No tax at business level", "Rate on profit"]);
         fireEvent.click(screen.getByRole("option", { name: "Rate on profit" }));
         expect(asFinancialFoundationValue(saved).incomeTax).toBe("rate");
 

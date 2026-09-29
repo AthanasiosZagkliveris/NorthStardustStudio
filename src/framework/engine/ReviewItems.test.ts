@@ -31,9 +31,16 @@ describe("the Review page's items", () => {
         const financial = business.getSections().find(section => section.answer?.type === AnswerType.FinancialFoundation)!;
         business.saveResponse(financial.number, {});
         const open = reviewItems({ sessions, titles, organisationName: "Lumen" }).filter(item => item.group === "open" && item.place?.sectionNumber === financial.number);
-        expect(open.length).toBeGreaterThan(0);
-        expect(open[0].text).toMatch(/^3\. Business System → \d+\. Financial Foundation: .+ (is not answered yet|is not finished)\.$/);
-        expect(open[0].place?.key).toMatch(new RegExp("^3\\." + financial.number + ":"));
+        // Income tax, asked above the sections, is said as itself.
+        expect(open[0]).toEqual({
+            group: "open",
+            text: "3. Business System → " + financial.number + ". Financial Foundation: Income Tax: not chosen yet.",
+            place: { systemNumber: 3, sectionNumber: financial.number, key: "3." + financial.number + ":income-tax" }
+        });
+        const sections = open.slice(1);
+        expect(sections.length).toBeGreaterThan(0);
+        expect(sections[0].text).toMatch(/^3\. Business System → \d+\. Financial Foundation: .+ (is not answered yet|is not finished)\.$/);
+        expect(sections[0].place?.key).toMatch(new RegExp("^3\\." + financial.number + ":"));
     });
 
     test("a Resource that Needs Investigation is still open", () => {

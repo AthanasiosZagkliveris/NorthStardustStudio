@@ -83,7 +83,7 @@ interface ForecastRow {
     total?: boolean;
     /** A label over the rows below it ("Current assets"), with no figures. */
     heading?: boolean;
-    /** Words in place of figures ("Not estimated"), in every column. */
+    /** Words in place of figures ("Not chosen yet"), in every column. */
     text?: string;
     values: number[];
     /** The balance sheet's figure at the plan's start, before its first month. */
@@ -424,7 +424,7 @@ export function financialForecast(
         ? [flow("Income tax", tax), { ...flow("Net profit", netProfit), total: true }]
         : [
             // Without a rate: said, never guessed.
-            { label: "Income tax", kind: "flow", text: passThrough ? "None at business level" : "Not estimated", values: [] },
+            { label: "Income tax", kind: "flow", text: passThrough ? "None at business level" : "Not chosen yet", values: [] },
             ...(passThrough ? [{ ...flow("Net profit", profit), total: true }] : [])
         ];
 
@@ -643,7 +643,10 @@ export function financialForecast(
                     ? ["There is no income tax at business level: as a pass-through business, its profit is taxed as the owners' personal income, which is not estimated here. " +
                         "VAT or sales tax is not estimated. " +
                         "There are no trade payables: every cost is taken as paid when due, as no supplier payment terms are recorded."]
-                    : ["Income tax, and VAT or sales tax, are not estimated: the Foundation answers hold no tax rate. " +
+                    : ["Income tax is not included: " + (foundation.incomeTax === "rate"
+                        ? "no income tax rate has been given on Financial Foundation. "
+                        : "no income tax basis has been chosen on Financial Foundation. ") +
+                        "VAT or sales tax is not estimated. " +
                         "There are no trade payables: every cost is taken as paid when due, as no supplier payment terms are recorded."])
         ]
     };
@@ -655,7 +658,7 @@ export interface ForecastViewRow {
     label: string;
     total?: boolean;
     heading?: boolean;
-    /** Words in place of figures ("Not estimated"). */
+    /** Words in place of figures ("Not chosen yet"). */
     text?: string;
     values: number[];
 }

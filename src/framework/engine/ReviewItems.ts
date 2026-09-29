@@ -8,6 +8,7 @@ import {
     BUSINESS_RESOURCE_GROUPS
 } from "./AnswerUtils.ts";
 import { businessPlan, readFoundation, type FoundationSessions } from "./BusinessDocuments.ts";
+import { asFinancialFoundationValue, FINANCIAL_FOUNDATION_SECTIONS, incomeTaxMissing } from "./FinancialModel.ts";
 import { fieldKey, sectionSegment, type FieldKey } from "./FieldKeys.ts";
 import { InterviewValidator } from "./InterviewValidator.ts";
 import { pageStatus } from "./PageStatus.ts";
@@ -105,7 +106,26 @@ function stillOpen(input: ReviewInput): ReviewItem[] {
             const value = shared && section.answer ? input.resolveSharedValue?.(section.answer) : session.getResponse(section.number);
             const rails = sectionRailItems(answer, themes);
             const statuses = sectionStatuses(answer, value, { railIds: rails.map(item => item.id), themes, periodValue: session.getResponse(section.number) });
-            const open = rails.filter(item => statuses.get(item.id) && statuses.get(item.id) !== "defined");
+            let open = rails.filter(item => statuses.get(item.id) && statuses.get(item.id) !== "defined");
+
+            // Income tax is asked in the page's settings, above its
+            // sections: said as itself, not as an unfinished Costs.
+            if (section.answer?.type === AnswerType.FinancialFoundation) {
+                const financial = asFinancialFoundationValue(session.getResponse(section.number));
+                if (incomeTaxMissing(financial)) {
+                    items.push({
+                        group: "open",
+                        text: where + ": Income Tax: " + (financial.incomeTax === "rate" ? "rate not given yet." : "not chosen yet."),
+                        place: { systemNumber, sectionNumber: section.number, key: fieldKey({ systemNumber, sectionNumber: section.number, path: ["income-tax"] }) }
+                    });
+                    if (financial.planStart.month && financial.planStart.year) {
+                        open = open.filter(item => item.id !== sectionSegment(FINANCIAL_FOUNDATION_SECTIONS[0]));
+                    }
+                    if (open.length === 0) {
+                        continue;
+                    }
+                }
+            }
 
             if (open.length === 0) {
                 items.push({

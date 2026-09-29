@@ -932,7 +932,7 @@ describe("the industry outlook in the documents", () => {
 
 });
 
-/* Income tax: not estimated, none at business level, or a rate on profit. */
+/* Income tax: not chosen yet, none at business level, or a rate on profit. */
 import { asFinancialFoundationValue, financialFoundationSectionsEmpty } from "./FinancialModel.ts";
 
 describe("income tax in the forecast", () => {
@@ -958,18 +958,27 @@ describe("income tax in the forecast", () => {
             values.slice(year * 12, year * 12 + 12).reduce((a, b) => a + b, 0));
     const added = (values: number[]) => values.reduce((a, b) => a + b, 0);
 
-    test("saved answers without it load as Not estimated, and it is never missing", () => {
+    test("saved answers without it load as not chosen, and the page asks for it", () => {
         const value = asFinancialFoundationValue({ planYears: "3" });
         expect(value.incomeTax).toBe("");
         expect(value.incomeTaxRate).toBe("");
         expect(asFinancialFoundationValue({ incomeTax: "bogus" }).incomeTax).toBe("");
         const section = sessions.business.getFramework().sections.find(candidate => candidate.answer?.type === AnswerType.FinancialFoundation)!;
         const saved = sessions.business.getResponse(section.number) as object;
-        expect(financialFoundationSectionsEmpty({ ...saved, incomeTax: "rate", incomeTaxRate: "" }))
-            .toEqual(financialFoundationSectionsEmpty(saved));
+        expect(financialFoundationSectionsEmpty({ ...saved, incomeTax: "pass-through" })[0]).toBe(false);
+        expect(financialFoundationSectionsEmpty({ ...saved, incomeTax: "" })[0]).toBe(true);
+        expect(financialFoundationSectionsEmpty({ ...saved, incomeTax: "rate", incomeTaxRate: "" })[0]).toBe(true);
+        expect(financialFoundationSectionsEmpty({ ...saved, incomeTax: "rate", incomeTaxRate: "19" })[0]).toBe(false);
     });
 
-    test("not estimated: the statements are as they were before income tax was asked", () => {
+    test("not chosen yet: the statements stay before tax, and say so", () => {
+        const { forecast } = businessForecast(taxed("Lumen", ""));
+        expect(rowOf(forecast.profitAndLoss.rows, "Income tax")).toMatchObject({ text: "Not chosen yet" });
+        expect(forecast.notes.join(" ")).toContain("Income tax is not included: no income tax basis has been chosen on Financial Foundation.");
+        expect(forecast.notes.join(" ")).not.toMatch(/income tax[^.]*not estimated/i);
+    });
+
+    test("not chosen yet: the statements are as they were before income tax was asked", () => {
         // Lumen's answers as saved before the question existed: no incomeTax keys at all.
         const legacy = taxed("Lumen", "");
         const section = legacy.business.getFramework().sections.find(candidate => candidate.answer?.type === AnswerType.FinancialFoundation)!;

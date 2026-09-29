@@ -343,7 +343,7 @@ export default function BusinessDocuments() {
                                                 <td colSpan={table.columns.length} />
                                             </tr>
                                         ) : row.text !== undefined ? (
-                                            /* Words in place of figures: "Income tax: Not estimated". */
+                                            /* Words in place of figures: "Income tax: Not chosen yet". */
                                             <tr key={row.label} className="business-forecast-text">
                                                 <th scope="row">{row.label}</th>
                                                 {table.columns.map((column, index) => (

@@ -574,19 +574,27 @@ const VAT_BASES = [
 
 type VatBasis = typeof VAT_BASES[number]["id"];
 
-/** How income tax is estimated: the picker beside the VAT basis. */
+/**
+ * How income tax is estimated: the picker beside the VAT basis. A
+ * required answer: until one is chosen ("") the forecast stays before
+ * tax and says the basis is not chosen yet.
+ */
 export const INCOME_TAX_BASES = [
-    { id: "", label: "Not estimated" },
     { id: "pass-through", label: "No tax at business level" },
     { id: "rate", label: "Rate on profit" }
 ] as const;
 
-export type IncomeTaxBasis = typeof INCOME_TAX_BASES[number]["id"];
+export type IncomeTaxBasis = typeof INCOME_TAX_BASES[number]["id"] | "";
+
+/** Whether income tax still needs an answer: no basis, or a rate on profit with no rate. */
+export function incomeTaxMissing(value: FinancialFoundationValue): boolean {
+    return value.incomeTax === "" || (value.incomeTax === "rate" && parseAmount(value.incomeTaxRate) === null);
+}
 
 /**
  * The income tax rate in force, as a fraction: null unless a rate on
  * profit is chosen AND a rate is given. A rate chosen and left blank
- * is not estimated, rather than taxed at nothing.
+ * is not given yet, rather than taxed at nothing.
  */
 export function incomeTaxRate(value: FinancialFoundationValue): number | null {
     const rate = value.incomeTax === "rate" ? parseAmount(value.incomeTaxRate) : null;
@@ -628,7 +636,7 @@ export interface FinancialFoundationValue {
     /** "" until chosen: follow the Legal Entity's VAT registration. */
     vatBasis: VatBasis | "";
     /**
-     * Income tax on profit, for the forecast: "" is not estimated,
+     * Income tax on profit, for the forecast: "" is not chosen yet,
      * "pass-through" is none at business level (the owners pay it
      * personally), "rate" is incomeTaxRate percent of the profit.
      */
@@ -788,7 +796,7 @@ function parseFinancialFoundation(value: unknown): FinancialFoundationValue {
 
         vatBasis: oneOf(source.vatBasis, ["excluding", "including", "not-registered", ""] as const, ""),
 
-        // Asked for later: an answer saved before it is not estimated.
+        // Asked for later: an answer saved before it is not chosen yet.
         incomeTax: oneOf(source.incomeTax, ["pass-through", "rate", ""] as const, ""),
         incomeTaxRate: asText(source.incomeTaxRate),
 
@@ -2478,8 +2486,8 @@ export function financialFoundationSectionsEmpty(value: unknown): boolean[] {
     const foundation = asFinancialFoundationValue(value);
     return [
         // Costs are mostly read from elsewhere; what this page asks
-        // is when the plan starts.
-        monthOrdinal(foundation.planStart) === null,
+        // is when the plan starts, and how income tax is estimated.
+        monthOrdinal(foundation.planStart) === null || incomeTaxMissing(foundation),
         // Calculated from the costs: nothing to answer.
         false,
         // A founder's capital is answered on the Legal Entity; its
