@@ -10865,17 +10865,13 @@ td.process-library-col-number{
 }
 
 /* Channel (with its links under the name), Offerings, Journey
-   Stage, Action. Action takes the most: it is the only column
-   holding sentences. Offerings and Journey Stage are sized to what
-   they hold, down to the narrowest table that keeps four columns
-   (1300px): Offerings a 210px dropdown with its × beside it (248px
-   of content), Journey Stage its "+ Add Journey Stage" on one line
-   (271px). At 1300px they give 262 and 275 inside the cell's 12px
-   padding. */
-.business-channel-table th:nth-child(1){ width:25%; }
-.business-channel-table th:nth-child(2){ width:22%; }
-.business-channel-table th:nth-child(3){ width:23%; }
-.business-channel-table th:nth-child(4){ width:30%; }
+   Stage, Action: FOUR EQUAL COLUMNS, so the table reads as one grid.
+   At the narrowest table that keeps four columns (1300px) each is
+   325px, 301px inside the cell's 12px padding: room for a 210px
+   dropdown with its × (248px of content) and "+ Add Journey Stage"
+   on one line (271px). (The Relationships table has three columns
+   of its own, below.) */
+.business-channel-table th:nth-child(-n + 4){ width:25%; }
 
 /* The head is the darkest of the three grounds, the category row
    one step lighter, and the cells white -- so the table reads as
@@ -10885,7 +10881,10 @@ td.process-library-col-number{
 
     padding:8px 12px;
 
-    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+    /* No border of its own: every cell draws only its right and
+       bottom edge (the rule below), the table its top and left. A
+       head cell drawing all four doubled the table's top line and
+       every line between the heads. */
 
     background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover)) var(--theme-ground-weight), var(--theme-ground-paper));
 
@@ -10908,7 +10907,8 @@ td.process-library-col-number{
 
     padding:8px 12px;
 
-    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+    /* Its edges are every cell's (the rule below): no border of its
+       own to double them. */
 
     background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
@@ -11015,8 +11015,9 @@ td.process-library-col-number{
 
 /* EVERY CELL DRAWS ITS RIGHT AND BOTTOM EDGE, and only those --
    the table draws the top and left (see .business-channel-table).
-   After every rule that sets a cell border, because it replaces
-   what they ask for rather than adding to it. */
+   One 1px hairline of one colour between any two cells and round
+   the table, never two borders side by side. Head and category
+   cells included: no rule may give a cell a border of its own. */
 .business-channel-table th,
 .business-channel-table td{
 
@@ -11377,7 +11378,9 @@ td.process-library-col-number{
 
     display:flex;
 
-    align-items:center;
+    /* A name that wraps grows the box downwards; the chevron stays
+       on its first line (.suggested-input-toggle's top). */
+    align-items:flex-start;
 
     flex:1 1 auto;
 
@@ -11401,6 +11404,8 @@ td.process-library-col-number{
 
     position:absolute;
 
+    /* Centred on the box's first line: (44px one-line box - 24) / 2. */
+    top:10px;
     right:4px;
 
     width:24px;
@@ -11579,6 +11584,32 @@ td.process-library-col-number{
 .business-channel-table-wrap{
 
     container:channel-table / inline-size;
+
+}
+
+/* "+ Add Channel Category", under the table: as wide as the Channel
+   column it adds to -- from the table's left edge to that column's
+   right border -- while the table has four columns, and the stacked
+   table's full width once it has not. */
+.business-channel-table-wrap > .strategy-add-button{
+
+    display:block;
+
+    width:100%;
+
+    margin-top:var(--space-card);
+
+}
+
+@container channel-table (min-width: 1300px){
+
+    .business-channel-table-wrap > .strategy-add-button{
+
+        /* The table draws its left border (1px) and shares the rest
+           between the four columns: a quarter of that, and the border. */
+        width:calc((100% - 1px) / 4 + 1px);
+
+    }
 
 }
 

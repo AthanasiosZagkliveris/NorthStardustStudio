@@ -1,5 +1,6 @@
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 
+import { useAutoGrow } from "../../hooks/useAutoGrow.ts";
 import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
 
 import { consumeKey } from "./consumeKey.ts";
@@ -69,7 +70,12 @@ export default function SuggestedInput({
     const [activeIndex, setActiveIndex] = useState(0);
 
     const containerRef = useRef<HTMLDivElement | null>(null);
-    const inputRef = useRef<HTMLInputElement | null>(null);
+    const inputRef = useRef<HTMLTextAreaElement | null>(null);
+
+    // A name can be a long one ("SumUp card reader & online checkout"):
+    // it wraps and the box grows, as a card's name does (CardNameInput),
+    // rather than being cut off at the box's edge.
+    useAutoGrow(inputRef, value);
     const triggerRef = useRef<HTMLButtonElement | null>(null);
 
     const { panelRef, panelStyle } = useFloatingPanel(open, containerRef);
@@ -195,15 +201,22 @@ export default function SuggestedInput({
 
         <div className="suggested-input" ref={containerRef}>
 
-            <input
+            {/* One line of data that wraps: Enter adds no line, and a
+                pasted line break becomes a space (as CardNameInput). */}
+            <textarea
                 ref={inputRef}
-                type="text"
-                className="interview-input suggested-input-field"
+                rows={1}
+                className="interview-input suggested-input-field card-name-input"
                 aria-label={label}
                 placeholder={placeholder}
                 disabled={disabled}
                 value={value}
-                onChange={(event) => onChange(event.target.value)}
+                onKeyDown={(event) => {
+                    if (event.key === "Enter") {
+                        event.preventDefault();
+                    }
+                }}
+                onChange={(event) => onChange(event.target.value.replace(/\r?\n/g, " "))}
             />
 
             {options.length > 0 && (

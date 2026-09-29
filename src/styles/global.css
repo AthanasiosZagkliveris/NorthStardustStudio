@@ -735,6 +735,16 @@ b, strong {
   text-underline-offset: 0.2em;
 }
 
+/* AN ADD BUTTON STANDING ALONE IN A TABLE CELL (the last row of a
+   list kept in a table: "+ Add Channel") takes the cell's whole
+   content width, its label centred as every full-width add button's
+   is. One under a [control][×] row spans control to × instead
+   (.business-channel-pick). */
+:is(td, th) > .strategy-add-button:only-child {
+  display: block;
+  width: 100%;
+}
+
 /* EVERY FLOATING PANEL READS FROM ITS START EDGE, whatever it opens
    from. A panel inherits the alignment of the place it is opened in
    -- the Loan Repayments "i" opens from a right-aligned table head --

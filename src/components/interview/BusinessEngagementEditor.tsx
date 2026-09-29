@@ -1910,30 +1910,30 @@ export default function BusinessEngagementEditor({
 
                     </table>
 
+                    {/* A NEW CATEGORY, which is what this button now
+                        makes: it adds a channel with no category yet, so
+                        the table grows a category row for it to be filed
+                        under. Adding another channel to a category that
+                        already exists is done from inside that category,
+                        where the button that does it sits. */}
+                    <BusinessAddButton
+                        label="Channel Category"
+                        disabled={disabled}
+                        onAdd={() => {
+
+                            const channel = createBusinessChannel();
+
+                            updateSegment(segment.id, {
+                                channels: [...answers.channels, channel]
+                            });
+
+                            // Opened, so it can be filled in straight away.
+                            folds.expand(channelCategoryFoldKey(segment.id, channel.id));
+
+                        }}
+                    />
+
                 </div>
-
-                {/* A NEW CATEGORY, which is what this button now
-                    makes: it adds a channel with no category yet, so
-                    the table grows a category row for it to be filed
-                    under. Adding another channel to a category that
-                    already exists is done from inside that category,
-                    where the button that does it sits. */}
-                <BusinessAddButton
-                    label="Channel Category"
-                    disabled={disabled}
-                    onAdd={() => {
-
-                        const channel = createBusinessChannel();
-
-                        updateSegment(segment.id, {
-                            channels: [...answers.channels, channel]
-                        });
-
-                        // Opened, so it can be filled in straight away.
-                        folds.expand(channelCategoryFoldKey(segment.id, channel.id));
-
-                    }}
-                />
 
             </>
         );
