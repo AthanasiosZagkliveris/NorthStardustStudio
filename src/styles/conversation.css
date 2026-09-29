@@ -4400,15 +4400,16 @@ td.process-library-col-number{
 
 }
 
-/* Exactly the two lines the field is meant to hold: 3em of text
-   at the app's 150% line height, plus this scope's 8px padding
-   and 1px border top and bottom.
+/* Two lines to start with: 3em of text at the app's 150% line
+   height, plus this scope's 8px padding and 1px border top and
+   bottom -- so the field stack ends level with the holder beside
+   it. A longer description grows the box (StrategyTextArea sets
+   its height to its text) instead of scrolling inside it.
 
    `min-height` has to be reset first -- the app's global
    `textarea` rule floors every textarea at 180px for the long
    Notes fields, which would make this one taller than the holder
-   beside it. Not resizable either, since dragging it would break
-   the bottom edge it shares with that holder. */
+   beside it. Not resizable either: it sizes itself. */
 .brand-image-note{
 
     min-height:0;

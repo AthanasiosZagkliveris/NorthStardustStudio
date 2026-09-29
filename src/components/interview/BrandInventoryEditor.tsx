@@ -486,20 +486,22 @@ export default function BrandInventoryEditor({
                                 />
 
                                 {/*
-                                    Two lines rather than one, which
-                                    is both what a short description
-                                    actually needs and what makes the
+                                    Two lines to start with, which is
+                                    both what a short description
+                                    usually needs and what makes the
                                     field stack end level with the
-                                    bottom of the holder beside it.
+                                    bottom of the holder beside it --
+                                    and it grows with a longer one
+                                    rather than scrolling inside
+                                    itself (StrategyTextArea).
                                 */}
-                                <textarea
-                                    rows={2}
+                                <StrategyTextArea
                                     className="interview-input brand-image-note"
-                                    aria-label={`Image ${index + 1} description`}
+                                    ariaLabel={`Image ${index + 1} description`}
                                     placeholder="Short description"
                                     disabled={disabled}
                                     value={image.description}
-                                    onChange={(event) => updateImage(index, { description: event.target.value })}
+                                    onChange={(next) => updateImage(index, { description: next })}
                                 />
                             </>
                         }
