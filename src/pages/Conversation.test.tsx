@@ -150,3 +150,66 @@ describe("Conversation records the last place worked", () => {
     });
 
 });
+
+describe("A System's opening screen", () => {
+
+    function renderOpening(id: string) {
+        const system = systems.find(candidate => candidate.id === id)!;
+        return render(
+            <MemoryRouter initialEntries={[{ pathname: "/conversation", state: { system } }]}>
+                <Routes>
+                    <Route path="/conversation" element={<Conversation />} />
+                </Routes>
+            </MemoryRouter>
+        );
+    }
+
+    function fact(label: string) {
+        const term = screen.queryByText(label, { selector: "dt" });
+        return term ? term.nextElementSibling?.textContent ?? "" : null;
+    }
+
+    it("shows a Foundation System's guiding question, pages, what it uses from earlier and its thinking time", () => {
+
+        renderOpening("business");
+
+        expect(screen.getByText("How do you create value, and how does it pay for itself?").className)
+            .toBe("intro-guiding-question");
+
+        expect(Array.from(document.querySelectorAll(".intro-page")).map(page => page.textContent)).toEqual([
+            "1. Foundation",
+            "2. Customer Engagement",
+            "3. Infrastructure & Capability",
+            "4. Financial Foundation",
+            "5. Sustainability"
+        ]);
+        expect(fact("What it covers")).toContain("Defines how the organization creates, delivers, and sustains value over time.");
+        expect(fact("Uses from earlier")).toBe("Your target audience, founders and legal details from 1. Identity System.");
+        expect(fact("Thinking time")).toBe("About 3–4 hours. You can stop at any time; everything is saved.");
+
+        // The button is as it was.
+        expect(screen.getByRole("button", { name: "Start Interview" })).toBeTruthy();
+
+    });
+
+    it("says the Identity System is the starting point", () => {
+
+        renderOpening("identity");
+
+        expect(screen.getByText("Who are you, and why do you exist?")).toBeTruthy();
+        expect(fact("Uses from earlier")).toBe("Nothing — it's the starting point.");
+
+    });
+
+    it("shows only what another System's content has", () => {
+
+        renderOpening("client");
+
+        expect(document.querySelector(".intro-guiding-question")).toBeNull();
+        expect(fact("Uses from earlier")).toBeNull();
+        expect(fact("Thinking time")).toBeNull();
+        expect(fact("What it covers")).toContain("1. Clients");
+
+    });
+
+});

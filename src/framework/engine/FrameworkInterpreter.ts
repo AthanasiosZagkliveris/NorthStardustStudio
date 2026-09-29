@@ -138,11 +138,14 @@ export class FrameworkInterpreter {
                 ? metadata.question
                 : this.extractFirstQuestion(questionSections);
 
+        // The opening screen shows only a guiding question someone
+        // wrote; the first question found in the pages stands in for
+        // it in the metadata alone, where no one reads it as one.
         const introduction =
             this.buildPackageIntroduction(
                 metadata,
                 introductionText,
-                guidingQuestion
+                metadata.question.trim()
             );
 
         const sections = questionSections.map(section => {
@@ -301,6 +304,12 @@ export class FrameworkInterpreter {
                 case "scope":
                 case "systemscope":
                     metadata.scope = value;
+                    break;
+                case "usesfromearlier":
+                    metadata.usesFromEarlier = value;
+                    break;
+                case "thinkingtime":
+                    metadata.thinkingTime = value;
                     break;
                 case "version":
                     metadata.version = Number(value);
@@ -963,6 +972,8 @@ export class FrameworkInterpreter {
             capability: metadata.capability,
             guidingQuestion,
             systemScope: metadata.scope,
+            usesFromEarlier: metadata.usesFromEarlier,
+            thinkingTime: metadata.thinkingTime,
             introductionText: this.normalizeTextBlock(introductionText),
             sections
         };

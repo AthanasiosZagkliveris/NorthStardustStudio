@@ -239,6 +239,85 @@ textarea:focus{
 
 }
 
+/* The question the System answers: one line above the text,
+   emphasised by weight and ink rather than by size. */
+.intro-guiding-question{
+
+    margin:0 0 20px;
+
+    font-size:var(--font-body);
+    font-weight:600;
+    line-height:1.5;
+
+    color:var(--text-strong);
+
+}
+
+/* What it covers, what it uses from earlier, and the thinking time:
+   a quiet small label over body text, under the introduction. */
+.intro-facts{
+
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+
+    margin:28px 0 0;
+
+}
+
+.intro-fact-label{
+
+    margin:0 0 4px;
+
+    font-size:var(--font-small);
+    font-weight:700;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+
+    color:var(--text-subtle);
+
+}
+
+.intro-fact-text{
+
+    margin:0;
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:var(--text-soft);
+
+}
+
+.intro-fact-line{
+
+    margin:0;
+
+}
+
+/* The System's pages, as the Pages rail names them, side by side
+   and wrapping onto another line rather than past the card. */
+.intro-pages{
+
+    display:flex;
+    flex-wrap:wrap;
+    gap:4px 24px;
+
+    margin:4px 0 0;
+    padding:0;
+
+    list-style:none;
+
+}
+
+.intro-page{
+
+    max-width:100%;
+
+    overflow-wrap:break-word;
+
+}
+
 /* ==========================================================
    Need Help
 ========================================================== */

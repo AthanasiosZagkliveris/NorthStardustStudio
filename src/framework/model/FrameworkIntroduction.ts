@@ -26,9 +26,25 @@ export interface FrameworkIntroduction {
 
     /**
      * Primary organizational question
-     * answered by this Framework System.
+     * answered by this Framework System,
+     * as authored ("Guiding Question:" in
+     * the Questions header); "" when none
+     * is.
      */
     guidingQuestion: string;
+
+    /**
+     * What the System draws from Systems
+     * answered before it, as authored
+     * (see Metadata.usesFromEarlier).
+     */
+    usesFromEarlier?: string;
+
+    /**
+     * How long answering it takes, as
+     * authored (see Metadata.thinkingTime).
+     */
+    thinkingTime?: string;
 
     /**
      * Official Framework System scope.

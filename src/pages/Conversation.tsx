@@ -2455,6 +2455,13 @@ export default function Conversation() {
 
                     {showIntroduction ? (
                         <section className="interview-section">
+                            {/* The question the System answers, in one line. */}
+                            {introduction.guidingQuestion && (
+                                <p className="intro-guiding-question">
+                                    {introduction.guidingQuestion}
+                                </p>
+                            )}
+
                             <div className="interview-block-content">
                                 {splitIntoSentences(introduction.introductionText).map((sentence, index) => (
                                     <p key={index} className="intro-sentence">
@@ -2462,6 +2469,48 @@ export default function Conversation() {
                                     </p>
                                 ))}
                             </div>
+
+                            {/*
+                                What the System covers (its scope and
+                                pages), what it draws from Systems
+                                answered earlier, and how long it takes
+                                -- each only where the content has it.
+                            */}
+                            <dl className="intro-facts">
+                                <div className="intro-fact">
+                                    <dt className="intro-fact-label">What it covers</dt>
+                                    <dd className="intro-fact-text">
+                                        {introduction.systemScope && (
+                                            <p className="intro-fact-line">{introduction.systemScope}</p>
+                                        )}
+                                        <ul className="intro-pages">
+                                            {pageRailItems(framework.sections).map(page => (
+                                                <li key={page.id} className="intro-page">{page.label}</li>
+                                            ))}
+                                        </ul>
+                                    </dd>
+                                </div>
+
+                                {introduction.usesFromEarlier && (
+                                    <div className="intro-fact">
+                                        <dt className="intro-fact-label">Uses from earlier</dt>
+                                        <dd className="intro-fact-text">
+                                            <p className="intro-fact-line">{introduction.usesFromEarlier}</p>
+                                        </dd>
+                                    </div>
+                                )}
+
+                                {introduction.thinkingTime && (
+                                    <div className="intro-fact">
+                                        <dt className="intro-fact-label">Thinking time</dt>
+                                        <dd className="intro-fact-text">
+                                            <p className="intro-fact-line">
+                                                {introduction.thinkingTime} You can stop at any time; everything is saved.
+                                            </p>
+                                        </dd>
+                                    </div>
+                                )}
+                            </dl>
 
                             <div className="interview-nav">
                                 <button

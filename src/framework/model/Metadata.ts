@@ -53,6 +53,20 @@ export interface Metadata {
     scope: string;
 
     /**
+     * What the System draws from Systems answered before it, in one
+     * short line ("Uses From Earlier:" in the Questions header).
+     * Shown on the System's opening screen; absent when not authored.
+     */
+    usesFromEarlier?: string;
+
+    /**
+     * How long answering the System takes, roughly ("Thinking
+     * Time:" in the Questions header, e.g. "About 1–1½ hours.").
+     * Shown on the System's opening screen; absent when not authored.
+     */
+    thinkingTime?: string;
+
+    /**
      * Framework version.
      */
     version: number;
