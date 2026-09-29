@@ -571,7 +571,7 @@ type VatBasis = typeof VAT_BASES[number]["id"];
 /** How income tax is estimated: the picker beside the VAT basis. */
 export const INCOME_TAX_BASES = [
     { id: "", label: "Not estimated" },
-    { id: "pass-through", label: "No tax at business level (pass-through)" },
+    { id: "pass-through", label: "No tax at business level" },
     { id: "rate", label: "Rate on profit" }
 ] as const;
 

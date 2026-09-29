@@ -198,7 +198,7 @@ describe("FinancialFoundationEditor income tax", () => {
 
         fireEvent.click(screen.getByRole("button", { name: "Income tax: Not estimated" }));
         expect(screen.getAllByRole("option").map(option => option.textContent))
-            .toEqual(["Not estimated", "No tax at business level (pass-through)", "Rate on profit"]);
+            .toEqual(["Not estimated", "No tax at business level", "Rate on profit"]);
         fireEvent.click(screen.getByRole("option", { name: "Rate on profit" }));
         expect(asFinancialFoundationValue(saved).incomeTax).toBe("rate");
 
