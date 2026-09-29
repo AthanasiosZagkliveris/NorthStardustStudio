@@ -19,7 +19,7 @@
 
     /* The interview card's width -- the same value as
        .conversation-card's max-width (conversation-layout.css). */
-    --card-width: min(1400px, calc(100vw - 2 * var(--rail-gutter)));
+    --card-width: min(1400px, calc(var(--view-width) - 2 * var(--rail-gutter)));
 
 }
 
@@ -35,7 +35,7 @@
     top: 104px;
     bottom: 160px;
     left: 0;
-    right: 0;
+    right: var(--notepad-inset, 0px);
     z-index: 25;
 
     display: flex;
@@ -327,7 +327,7 @@
         position: static;
 
         min-width: 0;
-        max-width: calc((100vw - var(--card-width)) / 2 - 20px - 24px - 16px);
+        max-width: calc((var(--view-width) - var(--card-width)) / 2 - 20px - 24px - 16px);
         padding: 0;
 
         white-space: normal;

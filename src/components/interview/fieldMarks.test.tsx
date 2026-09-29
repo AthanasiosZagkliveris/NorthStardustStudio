@@ -26,7 +26,7 @@ describe("every field knows its key", () => {
         );
         expect(document.querySelector("[data-field-key]")?.getAttribute("data-field-key")).toBe("3.2:customer-channel/channel-abc/purpose");
         expect(registeredFields(3, 2)).toEqual([
-            { key: "3.2:customer-channel/channel-abc/purpose", label: "Purpose", pageTitle: "2. Customer Engagement", kind: "answer" }
+            { key: "3.2:customer-channel/channel-abc/purpose", label: "Purpose", pageTitle: "2. Customer Engagement", kind: "answer", anchors: ["channel-abc"] }
         ]);
     });
 

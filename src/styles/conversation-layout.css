@@ -55,7 +55,7 @@
        side gives way to the fixed 1400px cap once the window is
        wide enough for it. */
     width: 100%;
-    max-width: min(1400px, calc(100vw - 2 * var(--rail-gutter, 56px)));
+    max-width: min(1400px, calc(var(--view-width) - 2 * var(--rail-gutter, 56px)));
 
     /* The page's columns reflow on the card's own width (see the
        answer-column rule, conversation.css). */

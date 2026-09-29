@@ -35,6 +35,7 @@ import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import { railId } from "./rails/railItems.ts";
+import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
 import { toggledIn } from "./toggledIn.ts";
@@ -580,7 +581,9 @@ export default function BusinessFoundationEditor({
         parts: DescriptionPart[],
         current: BusinessDescriptionValue,
         onNext: (next: BusinessDescriptionValue) => void,
-        split = false
+        split = false,
+        /** The card, for a Description that sits outside its card's section (the Segment's). */
+        anchor?: string
     ) {
 
         const box = (part: DescriptionPart) => {
@@ -647,6 +650,7 @@ export default function BusinessFoundationEditor({
                                         fullList
                                     />
                                 </InfoText>
+                                <FieldMark label={part.title} anchor={anchor} />
                             </span>
                         )}
 
@@ -657,6 +661,10 @@ export default function BusinessFoundationEditor({
                                 fullList
                             />
                         )}
+
+                        {optional && <FieldMark label={part.title} anchor={anchor} />}
+
+                        <FieldStatus label={part.title} anchor={anchor} />
 
                     </span>
 
@@ -851,7 +859,8 @@ export default function BusinessFoundationEditor({
             SUBSECTIONS.segments.segmentDescription,
             segment.description,
             (next) => updateSegment(segmentIndex, { description: next }),
-            true
+            true,
+            segment.id
         );
 
         /* ---- 1. Its Profiles ---- */
@@ -968,7 +977,9 @@ export default function BusinessFoundationEditor({
                                                 fullList
                                             />
                                         </InfoText>
+                                        <FieldMark label={kind.title} />
                                     </span>
+                                    <FieldStatus label={kind.title} />
                                 </span>
 
                                 <NumberedListInput
@@ -1546,6 +1557,12 @@ export default function BusinessFoundationEditor({
                             {/* A Segment holds cards of other kinds, so it
                                 says what it is (see CardNumber). */}
                             <CardNumber number={segmentIndex + 1} kind="Segment" />
+
+                            <FieldMark
+                                label={"Segment " + (segmentIndex + 1) + (segment.name.trim() ? ": " + segment.name.trim() : "")}
+                                card
+                                rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[0])}
+                            />
 
                             {/* The Segment's name, asked in its own
                                 head like every other card's. */}

@@ -13,6 +13,8 @@ import { fieldKey, isYesNoPair, registerField, slug, type FieldKey, type FieldKi
 import { fieldKindOf } from "../../framework/engine/FieldKinds";
 
 import FieldStatusLine from "./FieldStatusLine.tsx";
+import { NotepadService } from "../../services/NotepadService";
+import { useNotesAt } from "../notepad/Notepad.tsx";
 
 /*
     EVERY FIELD KNOWS ITS KEY: the shared pieces a label carries.
@@ -174,7 +176,7 @@ export function useFieldAddress(
         if (register) {
             holder.dataset.fieldKey = key;
             holder.dataset.fieldType = kind;
-            registerField({ key, label, pageTitle: context.pageTitle, kind, ...(why ? { why } : {}) });
+            registerField({ key, label, pageTitle: context.pageTitle, kind, ...(why ? { why } : {}), ...(anchors.length > 0 ? { anchors } : {}) });
         }
 
         setFound(previous => previous.key === key && previous.kind === kind && previous.anchors.join(" ") === anchors.join(" ")
@@ -248,16 +250,24 @@ export function FieldMark({ label, ...place }: { label: string } & FieldPlace) {
 
 }
 
-/** The field's status line (FieldStatusLine) under its label. */
+/**
+ * The field's status line (FieldStatusLine) under its label: a marker
+ * when a note in the Notepad links here, which opens the Notepad at
+ * those notes.
+ */
 export function FieldStatus({ label, ...place }: { label: string } & FieldPlace) {
 
     const ref = useRef<HTMLSpanElement | null>(null);
-
-    useFieldAddress(ref, label, place);
+    const page = useContext(FieldPageContext);
+    const { key } = useFieldAddress(ref, label, place);
+    const notes = useNotesAt(key, page?.organizationId ?? null);
 
     return (
         <span className="field-status" ref={ref}>
-            <FieldStatusLine label={label} />
+            <FieldStatusLine
+                label={label}
+                onOpenNotes={notes.length > 0 ? () => NotepadService.open(notes.map(note => note.id)) : undefined}
+            />
         </span>
     );
 

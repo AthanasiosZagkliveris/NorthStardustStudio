@@ -201,6 +201,9 @@ export interface FieldEntry {
     /** With kind "none": why. */
     why?: NoneReason;
 
+    /** The cards to unfold to reach it, innermost first (see focusField). */
+    anchors?: string[];
+
 
 }
 

@@ -816,6 +816,9 @@ export function BusinessCard({
 
                 <CardNumber number={number} />
 
+                {/* The card as a whole has a key, so a note can link it. */}
+                {anchor && <FieldMark label={kind + " " + number + (name.trim() ? ": " + name.trim() : "")} card />}
+
                 {editable
                     ? (
                         <CardNameInput

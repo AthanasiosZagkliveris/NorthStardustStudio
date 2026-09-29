@@ -79,6 +79,13 @@ body {
    measures chart tick labels on a canvas at --font-small's 14px,
    so a change to --font-small has to be made there as well.
 ========================================================== */
+/* The page's width: the window's, less the Notepad when it is docked
+   beside the page (notepad.css). Layout that sizes itself on the
+   window reads this rather than 100vw. */
+:root {
+  --view-width: calc(100vw - var(--notepad-inset, 0px));
+}
+
 :root {
   --font-h1: 36px;
   --font-h2: 28px;

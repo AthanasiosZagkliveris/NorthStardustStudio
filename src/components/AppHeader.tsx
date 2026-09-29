@@ -1,6 +1,7 @@
 import logo from "../assets/NORTH STARDUST Organization Framework.svg";
 
 import SaveStatus from "./SaveStatus";
+import { NotepadButton, NotepadPanel, NotepadPicker } from "./notepad/Notepad";
 import ThemeSwitch from "./ThemeSwitch";
 
 import "../styles/app-header.css";
@@ -35,6 +36,11 @@ export default function AppHeader({ organizationName }: AppHeaderProps) {
             {organizationName && <SaveStatus />}
 
             <ThemeSwitch />
+
+            {/* The person's own notes: wherever an Organization is open. */}
+            {organizationName && <NotepadButton />}
+            {organizationName && <NotepadPanel />}
+            {organizationName && <NotepadPicker />}
 
             {organizationName && (
                 <h1 className="app-header-organization-name" title={organizationName}>
