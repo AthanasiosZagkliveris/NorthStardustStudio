@@ -11883,7 +11883,7 @@ td.process-library-col-number{
 }
 
 /* A founder's responsibility that is done: struck through, with a
-   tag in the Completed fold's blue saying so in words -- strike-
+   tag in the Completed fold's grey saying so in words -- strike-
    through alone reads as "cancelled". The line (number and text)
    greys; only the text is struck, the tag at the end of the line
    (see .numbered-list-static) is not. */
@@ -11905,17 +11905,17 @@ td.process-library-col-number{
 
     padding:0 8px;
 
-    border:1px solid var(--line-done);
+    border:1px solid var(--line-completed);
     border-radius:999px;
 
-    background:var(--bg-done-tint);
+    background:var(--bg-completed-ground);
 
     font-size:var(--font-body);
     font-weight:600;
 
     line-height:22px;
 
-    color:var(--text-done-ink);
+    color:var(--text-completed-ink);
 
 }
 
@@ -11966,8 +11966,9 @@ td.process-library-col-number{
 }
 
 /* What is done, folded away behind its own count and drawn in the
-   light blue the specification names -- a colour that belongs to
-   no Segment, because "finished" is not a category of work. */
+   neutral grey of everything completed (--*-completed-*,
+   colors.css) -- a colour that belongs to no Segment, because
+   "finished" is not a category of work. */
 /* Its cards run the FULL width of the list, exactly as the active
    cards above do: no side padding and no side border, so a
    completed card is as wide as an active one, sits at the same x,
@@ -11988,9 +11989,9 @@ td.process-library-col-number{
 
     border-radius:8px;
 
-    background:var(--bg-done-tint);
+    background:var(--bg-completed-ground);
 
-    box-shadow:inset 0 0 0 1px var(--line-done);
+    box-shadow:inset 0 0 0 1px var(--line-completed);
 
 }
 
@@ -12021,7 +12022,7 @@ td.process-library-col-number{
 
     letter-spacing:0.05em;
 
-    color:var(--text-done-ink);
+    color:var(--text-completed-ink);
 
     cursor:pointer;
 
@@ -12064,20 +12065,20 @@ td.process-library-col-number{
 
 .business-capability-completed-head:focus-visible{
 
-    outline:2px solid var(--line-done-ink);
+    outline:2px solid var(--line-completed-ink);
     outline-offset:2px;
 
     border-radius:4px;
 
 }
 
-/* A completed activity keeps the blue rather than its Segment's
+/* A completed activity takes the grey rather than its Segment's
    colour, so the fold reads as one block of finished work. */
 .business-capability-completed .business-capability-activity{
 
-    border-color:var(--line-done);
+    border-color:var(--line-completed);
 
-    background:var(--bg-done-faint);
+    background:var(--bg-completed-card);
 
 }
 
