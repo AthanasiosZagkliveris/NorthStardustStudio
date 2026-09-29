@@ -12063,16 +12063,27 @@ td.process-library-col-number{
 
 }
 
-/* The plan's start, its span and its currency, once for the page. */
+/* The plan's start, its span and its currency, once for the page
+   (Financial Foundation and Financial Sustainability alike).
+
+   A grid of equal columns, each a label with its control or its
+   fact under it, so every control lines up with the one above it.
+   A column is never narrower than 370px while the bar has room:
+   the widest choice any of its selects shows, "No tax at business
+   level (pass-through)", measures 334px, plus the select's 8px and
+   24px padding and its borders -- so no choice is ever cut short
+   at 1920 or 1366 (three columns). Narrower, the columns go to one,
+   and a long choice wraps inside its select rather than ending in
+   "…". */
 .financial-plan-bar{
 
-    display:flex;
+    display:grid;
 
-    flex-wrap:wrap;
+    grid-template-columns:repeat(auto-fill, minmax(min(100%, 370px), 1fr));
 
-    align-items:flex-end;
+    align-items:start;
 
-    gap:12px 24px;
+    gap:16px 24px;
 
     padding:12px 16px;
 
@@ -12085,14 +12096,50 @@ td.process-library-col-number{
 
 .financial-plan-bar > .business-foundation-field{
 
-    flex:0 0 240px;
+    min-width:0;
 
 }
 
-.financial-plan-meta{
+/* Every control fills its column. */
+.financial-plan-bar .month-picker-trigger,
+.financial-plan-bar .option-picker,
+.financial-plan-bar .option-picker .option-picker-trigger.interview-input{
+
+    width:100%;
+
+}
+
+.financial-plan-bar .option-picker-value{
+
+    white-space:normal;
+    overflow-wrap:break-word;
+
+}
+
+/* A fact (the Timeline, the Currency) is a label with its value
+   under it, like the fields beside it: the value sits where a
+   control's text would, on a line as tall as a control. */
+.financial-plan-fact{
+
+    display:flex;
+
+    align-items:center;
+
+    min-height:42px;
 
     font-size:var(--font-body);
-    line-height:40px;
+
+    color:var(--text-default);
+
+}
+
+/* A note on the bar (a missing setting, where the rest comes
+   from) runs across it, under the columns. */
+.financial-plan-meta{
+
+    grid-column:1 / -1;
+
+    font-size:var(--font-body);
 
     color:var(--text-muted);
 

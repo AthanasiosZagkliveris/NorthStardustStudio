@@ -1727,9 +1727,11 @@ export default function FinancialFoundationEditor({
                         onChange={(next) => update({ planYears: String(parseInt(next, 10) || "") })}
                     />
                 </BusinessField>
-                <span className="financial-plan-meta">
-                    Timeline: {months} months, {planMonthLabel(start, 1)} – {lastMonth}
-                </span>
+                <BusinessField label="Timeline">
+                    <span className="financial-plan-fact">
+                        {months} months, {planMonthLabel(start, 1)} – {lastMonth}
+                    </span>
+                </BusinessField>
                 <BusinessField
                     label="Amounts"
                     info={[
@@ -1774,10 +1776,14 @@ export default function FinancialFoundationEditor({
                     undefined,
                     NUMBER_LIMITS.percent
                 )}
-                <span className="financial-plan-meta">
-                    Currency: {currency || "not set"}
-                    {!currency && " (choose a country on 1. Identity System → 3. Legal Entity)"}
-                </span>
+                <BusinessField label="Currency">
+                    <span className="financial-plan-fact">{currency || "Not set"}</span>
+                </BusinessField>
+                {!currency && (
+                    <span className="financial-plan-meta">
+                        Choose a country on 1. Identity System → 3. Legal Entity to set the currency.
+                    </span>
+                )}
                 {offerings.length === 0 && onOpenFoundation && (
                     <span className="financial-plan-meta">
                         No Offerings yet:{" "}

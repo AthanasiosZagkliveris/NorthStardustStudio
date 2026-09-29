@@ -1616,10 +1616,14 @@ export default function FinancialSustainabilityEditor({
             />
 
             <div className="financial-plan-bar">
-                <span className="financial-plan-meta">
-                    Timeline: {months} months, {planMonthLabel(start, 1)} – {planMonthLabel(start, months)}
-                </span>
-                <span className="financial-plan-meta">Currency: {currency || "not set"}</span>
+                <BusinessField label="Timeline">
+                    <span className="financial-plan-fact">
+                        {months} months, {planMonthLabel(start, 1)} – {planMonthLabel(start, months)}
+                    </span>
+                </BusinessField>
+                <BusinessField label="Currency">
+                    <span className="financial-plan-fact">{currency || "Not set"}</span>
+                </BusinessField>
                 {onOpenFinancialFoundation && (
                     <span className="financial-plan-meta">
                         Plan start, costs and funding come from{" "}
