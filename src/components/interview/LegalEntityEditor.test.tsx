@@ -200,3 +200,33 @@ describe("LegalEntityEditor founders & ownership", () => {
     });
 
 });
+
+describe("LegalEntityEditor chained answers", () => {
+
+    function ChainHarness({ initial }: { initial: unknown }) {
+        const [value, setValue] = useState<unknown>(initial);
+        return <LegalEntityEditor value={value} onChange={setValue} />;
+    }
+
+    it("freezes where the organization is, its legal form and its registration authority until a country is chosen, keeping what they hold", () => {
+
+        const empty = asLegalEntityValue(undefined);
+        render(<ChainHarness initial={{ ...empty, organisation: { ...empty.organisation, city: "Leeds" } }} />);
+
+        const city = screen.getByRole("textbox", { name: "City" }) as HTMLInputElement;
+        expect(city.closest("fieldset")?.disabled).toBe(true);
+        expect(city.value).toBe("Leeds");
+        expect((screen.getByRole("textbox", { name: "Registration Authority" }) as HTMLInputElement).closest("fieldset")?.disabled).toBe(true);
+        expect((screen.getByRole("textbox", { name: "Legal Form" }) as HTMLInputElement).closest("fieldset")?.disabled).toBe(true);
+        expect(screen.getAllByText("Choose a country first.").length).toBeGreaterThan(2);
+
+        fireEvent.click(screen.getByRole("button", { name: /^Country/ }));
+        fireEvent.click(screen.getByRole("option", { name: "United Kingdom" }));
+
+        expect((screen.getByRole("textbox", { name: "City" }) as HTMLInputElement).closest("fieldset")?.disabled).toBe(false);
+        expect((screen.getByRole("textbox", { name: "City" }) as HTMLInputElement).value).toBe("Leeds");
+        expect(screen.queryByText("Choose a country first.")).toBeNull();
+
+    });
+
+});

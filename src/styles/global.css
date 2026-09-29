@@ -786,6 +786,17 @@ b, strong {
   display: contents;
 }
 
+/* A set of fields waiting for another answer (FrozenUntil): a disabled
+   fieldset, so every control in it is disabled, drawing nothing of its
+   own. */
+.field-frozen {
+  display: contents;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
 /* AN ADD BUTTON STANDING ALONE IN A TABLE CELL (the last row of a
    list kept in a table: "+ Add Channel") takes the cell's whole
    content width, its label centred as every full-width add button's

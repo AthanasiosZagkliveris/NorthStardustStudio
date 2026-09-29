@@ -3,6 +3,8 @@
  * field besides its answer, in words with a small mark where it has
  * one (never colour alone) --
  *
+ *   Choose a country first.         what a frozen field waits for
+ *                                   (FrozenUntil, FieldDependencies.ts)
  *   ⚑                               a note in your Notepad links here
  *                                   (aria "In your notes"): opens it there
  *   Changed in <Scenario> · Reset   later: a scenario's own value
@@ -15,6 +17,8 @@ export default function FieldStatusLine({
 
     label,
 
+    waiting,
+
     onOpenNotes,
 
     changedIn,
@@ -25,6 +29,8 @@ export default function FieldStatusLine({
 
     /** The field's label, for what the line's controls are named after. */
     label: string;
+    /** What the field waits for, while it is frozen: "Choose a country first." */
+    waiting?: string;
     /** Given when a note links here: opens the Notepad at those notes. */
     onOpenNotes?: () => void;
     /** The scenario whose own value this field shows. */
@@ -33,12 +39,14 @@ export default function FieldStatusLine({
 
 }) {
 
-    if (!changedIn && !onOpenNotes) {
+    if (!changedIn && !onOpenNotes && !waiting) {
         return null;
     }
 
     return (
         <span className="field-status-line">
+
+            {waiting && <span className="field-status-item field-status-waiting">{waiting}</span>}
 
             {onOpenNotes && (
                 <button

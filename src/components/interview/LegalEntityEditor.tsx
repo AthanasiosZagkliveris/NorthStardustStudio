@@ -39,7 +39,8 @@ import { railId } from "./rails/railItems.ts";
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
-import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
+import { FieldMark, FieldStatus, FrozenUntil } from "./fieldMarks.tsx";
+import { waitingHint } from "../../framework/engine/FieldDependencies.ts";
 import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
@@ -236,6 +237,16 @@ export default function LegalEntityEditor({
     // "" where the country codes no addresses, and the field is
     // then not asked for at all.
     const postalLabel = postalCodeLabel(entity.organisation.country);
+
+    /*
+        CHAINED ANSWERS (FieldDependencies.ts): where the organization
+        is, from the country down -- its state or region where the
+        country has them, then the address -- and its legal form and
+        registration authority, all wait for the country.
+    */
+    const countryChosen = entity.organisation.country.trim().length > 0;
+    const placeChosen = countryChosen && (!subdivisionSpec || entity.organisation.subdivision.trim().length > 0);
+    const placeHint = !countryChosen ? waitingHint("country") : waitingHint(subdivisionSpec?.label ?? "region");
 
     /**
      * The optional fields the user has asked to see: an address's
@@ -1206,6 +1217,7 @@ export default function LegalEntityEditor({
                                 190 countries where it changes
                                 nothing.
                             */}
+                            <FrozenUntil answered={countryChosen} hint={waitingHint("country")}>
                             {subdivisionSpec && labelled(
                                 subdivisionSpec.label,
                                 <OptionPicker
@@ -1227,6 +1239,9 @@ export default function LegalEntityEditor({
                                 />,
                                 true
                             )}
+                            </FrozenUntil>
+
+                            <FrozenUntil answered={placeChosen} hint={placeHint}>
 
                             {labelled(
                                 "City",
@@ -1282,11 +1297,13 @@ export default function LegalEntityEditor({
                                 ),
                                 true
                             )}
+                            </FrozenUntil>
 
                         </div>
 
                         {/* ---- What it is legally ---- */}
                         <div className="legal-entity-field">
+                            <FrozenUntil answered={countryChosen} hint={waitingHint("country")}>
 
                             {forms.length > 0 ? labelled(
                                 "Legal Form",
@@ -1327,6 +1344,7 @@ export default function LegalEntityEditor({
                                     ),
                                     true
                                 )}
+                            </FrozenUntil>
 
                         </div>
 
@@ -1711,6 +1729,7 @@ export default function LegalEntityEditor({
                             />
                         )}
 
+                        <FrozenUntil answered={placeChosen} hint={placeHint}>
                         {text(
                             "Registration Authority",
                             entity.formation.authority,
@@ -1721,6 +1740,7 @@ export default function LegalEntityEditor({
                             false,
                             INFO.registrationAuthority
                         )}
+                        </FrozenUntil>
 
                         {/* A number can run long: the whole row. */}
                         {entity.formation.status !== "planned" && text(

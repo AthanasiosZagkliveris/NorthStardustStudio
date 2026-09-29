@@ -251,9 +251,10 @@ export function FieldMark({ label, ...place }: { label: string } & FieldPlace) {
 }
 
 /**
- * The field's status line (FieldStatusLine) under its label: a marker
- * when a note in the Notepad links here, which opens the Notepad at
- * those notes.
+ * The field's status line (FieldStatusLine) under its label: what it
+ * waits for, when it is frozen behind another answer (FrozenUntil),
+ * and a marker when a note in the Notepad links here, which opens the
+ * Notepad at those notes.
  */
 export function FieldStatus({ label, ...place }: { label: string } & FieldPlace) {
 
@@ -261,14 +262,38 @@ export function FieldStatus({ label, ...place }: { label: string } & FieldPlace)
     const page = useContext(FieldPageContext);
     const { key } = useFieldAddress(ref, label, place);
     const notes = useNotesAt(key, page?.organizationId ?? null);
+    const [waiting, setWaiting] = useState<string | null>(null);
+
+    // Read after every render: the chain it sits in may have just been answered.
+    useLayoutEffect(() => {
+        const next = ref.current?.closest<HTMLElement>("fieldset[data-waiting]")?.dataset.waiting ?? null;
+        setWaiting(previous => previous === next ? previous : next);
+    });
 
     return (
         <span className="field-status" ref={ref}>
             <FieldStatusLine
                 label={label}
+                waiting={waiting ?? undefined}
                 onOpenNotes={notes.length > 0 ? () => NotepadService.open(notes.map(note => note.id)) : undefined}
             />
         </span>
     );
 
+}
+
+/**
+ * CHAINED ANSWERS (FieldDependencies.ts): the fields inside wait for
+ * another answer. Until it is given they are frozen -- disabled, as a
+ * disabled fieldset disables every control in it -- and each says what
+ * it waits for in its status line ("Choose a country first."). What
+ * they hold is kept. Draws no box of its own: the fields lay out as if
+ * it were not there.
+ */
+export function FrozenUntil({ answered, hint, children }: { answered: boolean; hint: string; children: ReactNode }) {
+    return (
+        <fieldset className="field-frozen" disabled={!answered} data-waiting={answered ? undefined : hint}>
+            {children}
+        </fieldset>
+    );
 }
