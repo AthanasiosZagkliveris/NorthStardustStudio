@@ -15,7 +15,7 @@ const normalize = (text: string) => text.trim().toLowerCase();
  * the System it mirrors, as the interview page does -- each mirrored
  * System's session loaded once per resolver.
  */
-function sharedValueResolver(organizationId: string): (answer: AnswerDefinition) => unknown {
+export function sharedValueResolver(organizationId: string): (answer: AnswerDefinition) => unknown {
 
     const sessions = new Map<number, InterviewSession | null>();
 

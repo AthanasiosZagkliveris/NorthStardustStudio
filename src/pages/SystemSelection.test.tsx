@@ -22,6 +22,11 @@ vi.mock("../services/OrganizationService", () => ({
     }
 }));
 
+// What is left to look at: not what these tests are about.
+vi.mock("../services/ReviewService", () => ({
+    organizationReview: () => []
+}));
+
 vi.mock("../components/OrganizationCalendarPanel", () => ({
     default: () => null
 }));

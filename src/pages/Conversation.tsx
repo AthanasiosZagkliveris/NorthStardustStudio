@@ -2740,6 +2740,18 @@ export default function Conversation() {
                                 >
                                     {session.isLastSection() ? "Finish" : "Next"}
                                 </button>
+
+                                {/* On a Foundation System's last page: the way
+                                    to what is left to look at, quietly. */}
+                                {session.isLastSection() && system?.capability === "foundation" && (
+                                    <button
+                                        type="button"
+                                        className="interview-nav-review"
+                                        onClick={() => navigate("/review")}
+                                    >
+                                        Review what's open
+                                    </button>
+                                )}
                             </div>
                         </>
                     )}
