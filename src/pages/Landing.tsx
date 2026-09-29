@@ -4,7 +4,11 @@ import { useNavigate } from "react-router-dom";
 import AppHeader from "../components/AppHeader";
 import UserPreferencesDialog from "../components/UserPreferencesDialog";
 
-import { OrganizationService, OrganizationSummary } from "../services/OrganizationService";
+import {
+    OrganizationService,
+    OrganizationSummary,
+    UnsupportedFormatVersionError
+} from "../services/OrganizationService";
 import { PreferencesService } from "../services/PreferencesService.ts";
 
 import "../styles/global.css";
@@ -155,8 +159,14 @@ export default function Landing() {
             OrganizationService.setSelected(imported.id);
             setSelectedId(imported.id);
 
-        } catch {
-            setImportError("That file could not be read as an organization.");
+        } catch (error) {
+            // A file from a newer version of the app: said plainly,
+            // with what to do, rather than as an unreadable file.
+            setImportError(
+                error instanceof UnsupportedFormatVersionError
+                    ? "That file was saved by a newer version of North Stardust. Update the app, then import it again."
+                    : "That file could not be read as an organization."
+            );
         }
 
     }
@@ -173,7 +183,7 @@ export default function Landing() {
 
         OrganizationService.flushPendingWrites();
 
-        const document = OrganizationService.loadDocument(selectedId);
+        const document = OrganizationService.exportDocument(selectedId);
 
         if (!document) {
             return;

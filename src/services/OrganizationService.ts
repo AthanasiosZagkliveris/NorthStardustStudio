@@ -24,6 +24,12 @@ export interface OrganizationSummary {
 }
 
 export interface OrganizationDocument {
+    /**
+     * The shape this document is saved in (see
+     * ORGANIZATION_FORMAT_VERSION). Absent on documents saved before
+     * it existed, which read as version 1.
+     */
+    formatVersion?: number;
     id: string;
     name: string;
     createdAt: number;
@@ -137,6 +143,44 @@ export interface CalendarTaskAnnotation {
     /** "HH:MM", 24-hour. */
     time?: string;
     notes?: string;
+}
+
+/**
+ * The saved-data format this app writes, into every stored
+ * Organization document and every exported Organization file.
+ * Version 1 is everything saved before the number existed (no
+ * `formatVersion` at all); version 2 is the same document carrying
+ * the number. Readers accept both. A file from a newer app, with a
+ * higher number, is refused on import rather than read as though it
+ * were this one (see importDocument).
+ */
+export const ORGANIZATION_FORMAT_VERSION = 2;
+
+/** A document's format version: 1 when it carries none. */
+export function organizationFormatVersion(source: { formatVersion?: unknown }): number {
+
+    const version = source.formatVersion;
+
+    return typeof version === "number" && Number.isInteger(version) && version >= 1
+        ? version
+        : 1;
+
+}
+
+/**
+ * Thrown by importDocument for a file saved by a newer version of
+ * the app, whose format this one cannot promise to read.
+ */
+export class UnsupportedFormatVersionError extends Error {
+
+    readonly version: number;
+
+    constructor(version: number) {
+        super(`This organization was saved in format version ${version}; this app reads up to version ${ORGANIZATION_FORMAT_VERSION}.`);
+        this.name = "UnsupportedFormatVersionError";
+        this.version = version;
+    }
+
 }
 
 const ORGANIZATIONS_INDEX_KEY = "northstardust-organizations";
@@ -332,6 +376,9 @@ export class OrganizationService {
      * overwriting the other. Everything else is kept as it was,
      * including the migration flags: an import saved after a
      * migration must not be migrated a second time.
+     *
+     * Files of format version 1 and 2 are read alike (and saved as
+     * 2); a higher version throws UnsupportedFormatVersionError.
      */
     static importDocument(source: unknown): OrganizationSummary | null {
 
@@ -340,6 +387,12 @@ export class OrganizationService {
         }
 
         const imported = source as Partial<OrganizationDocument>;
+
+        const version = organizationFormatVersion(imported);
+
+        if (version > ORGANIZATION_FORMAT_VERSION) {
+            throw new UnsupportedFormatVersionError(version);
+        }
 
         if (!imported.systems || typeof imported.systems !== "object") {
             return null;
@@ -449,8 +502,25 @@ export class OrganizationService {
 
     }
 
+    /** Every write is in the current format, whatever was read. */
     static saveDocument(document: OrganizationDocument): void {
+        document.formatVersion = ORGANIZATION_FORMAT_VERSION;
         debouncedStorage.write(organizationDocumentKey(document.id), document);
+    }
+
+    /**
+     * The Organization as an export file carries it: its whole
+     * document, stamped with the current format version -- also when
+     * it has not been saved since the version was introduced.
+     */
+    static exportDocument(organizationId: string): OrganizationDocument | null {
+
+        const document = this.loadDocument(organizationId);
+
+        return document
+            ? { ...document, formatVersion: ORGANIZATION_FORMAT_VERSION }
+            : null;
+
     }
 
     /**
