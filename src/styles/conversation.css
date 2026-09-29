@@ -12755,6 +12755,14 @@ td.process-library-col-number{
 
 }
 
+/* EVERY LABEL-AND-AMOUNT LIST of the financial pages -- the cost
+   breakdowns of the Funding Need cards (Establishment, Initial
+   Operating, an Offering's), the funding and capital lists, the
+   Sustainability coverage, mix and obligations -- one rule: a row
+   is --space-field from the next, clearly more than the line gap
+   inside a label that wraps, so a wrapped item never runs into the
+   one under it; and each amount (a meter, a swatch) stands on the
+   FIRST line of its label, not the middle of it. */
 .financial-coverage,
 .financial-obligations,
 .financial-mix-legend,
@@ -12764,7 +12772,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:6px;
+    gap:var(--space-field);
 
     margin:0;
 
@@ -12790,10 +12798,10 @@ td.process-library-col-number{
 
     grid-template-columns:minmax(0, 1.5fr) minmax(120px, 2fr) auto;
 
-    align-items:center;
+    /* The first line: the shared rule above. */
+    align-items:first baseline;
 
     column-gap:12px;
-    row-gap:6px;
 
 }
 
@@ -12856,7 +12864,7 @@ td.process-library-col-number{
 
     grid-template-columns:14px minmax(0, 1fr) auto;
 
-    align-items:center;
+    align-items:first baseline;
 
     gap:8px;
 
@@ -12898,15 +12906,25 @@ td.process-library-col-number{
 
 }
 
+/* Ruled rows: the rule in the middle of the row gap, --space-row
+   either side of it, in place of the list's own gap. */
+.financial-obligations{
+
+    gap:0;
+
+}
+
 .financial-obligations > li{
 
     display:grid;
 
     grid-template-columns:100px minmax(0, 1fr) auto;
 
+    align-items:first baseline;
+
     gap:12px;
 
-    padding:6px 0;
+    padding:var(--space-row) 0;
 
     border-bottom:1px solid var(--line-financial-grid);
 
@@ -12930,6 +12948,8 @@ td.process-library-col-number{
 .financial-cost-inputs > li{
 
     display:flex;
+
+    align-items:first baseline;
 
     justify-content:space-between;
 
