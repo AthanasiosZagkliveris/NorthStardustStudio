@@ -28,7 +28,8 @@ describe("BrandInventoryEditor, Icon & Logo", () => {
     it("asks for one icon and one logo, each an SVG or a PNG", () => {
         const { container } = renderWith(undefined);
         const labels = [...container.querySelectorAll(".brand-slot-label")].map(label => label.textContent);
-        expect(labels.slice(0, 2)).toEqual(["Icon", "Logo"]);
+        // The Logo first, on its own row, then the Icon.
+        expect(labels.slice(0, 2)).toEqual(["Logo", "Icon"]);
         expect(labels).not.toContain("Icon PNG");
         expect(screen.getByRole("button", { name: "Upload Icon" })).toBeTruthy();
         expect(screen.getByRole("button", { name: "Upload Logo" })).toBeTruthy();
@@ -40,7 +41,7 @@ describe("BrandInventoryEditor, Icon & Logo", () => {
         const { container } = renderWith({ icon: { png: { dataUrl: "data:image/png;base64,CC", fileName: "icon.png" }, svg }, logo: { png } });
         expect(screen.getByRole("button", { name: "Replace Icon" })).toBeTruthy();
         expect(screen.getByRole("button", { name: "Replace Logo" })).toBeTruthy();
-        expect([...container.querySelectorAll(".brand-slot-hint")].map(hint => hint.textContent)).toEqual(["old-icon.svg", "old-logo.png"]);
+        expect([...container.querySelectorAll(".brand-slot-hint")].map(hint => hint.textContent)).toEqual(["old-logo.png", "old-icon.svg"]);
     });
 
     it("removes with the ×, keeping an older file saved but not shown", () => {
@@ -62,7 +63,7 @@ describe("BrandInventoryEditor, Icon & Logo", () => {
 
     it("stores an uploaded PNG as the mark's one file", async () => {
         const { container, saved } = renderWith({ logo: { svg } });
-        fireEvent.change(fileInput(container, 1), { target: { files: [new File(["png"], "logo.png", { type: "image/png" })] } });
+        fireEvent.change(fileInput(container, 0), { target: { files: [new File(["png"], "logo.png", { type: "image/png" })] } });
         await waitFor(() => expect(saved().logo.file?.fileName).toBe("logo.png"));
         expect(saved().logo.svg).toEqual(svg);
     });
@@ -81,6 +82,28 @@ describe("BrandInventoryEditor, Icon & Logo", () => {
         // The "i" is glued to the last word of that bullet's own text.
         const bullet = note.closest(".info-note-glue")?.parentElement;
         expect(bullet?.textContent).toContain("Upload your icon and logo in PNG or SVG formats, with a maximum file size of 50 KB each.");
+    });
+
+});
+
+describe("BrandInventoryEditor layout", () => {
+
+    it("puts each image beside ONE holder of its name and description", () => {
+        const { container } = renderWith(undefined);
+        const holders = container.querySelectorAll(".brand-asset-slot-image .brand-image-text");
+        expect(holders).toHaveLength(2);
+        holders.forEach(holder => {
+            expect(holder.querySelector("input.brand-image-name")).not.toBeNull();
+            expect(holder.querySelector("textarea.brand-image-note")).not.toBeNull();
+        });
+    });
+
+    it("sets the Icon's description beside the Icon, and shares the rows across the columns", () => {
+        const { container } = renderWith({ images: [{ dataUrl: "data:image/png;base64,AA", fileName: "a", name: "", description: "" }, { dataUrl: "data:image/png;base64,AA", fileName: "b", name: "", description: "" }, { dataUrl: "data:image/png;base64,AA", fileName: "c", name: "", description: "" }] });
+        const icon = container.querySelector(".brand-asset-slot-icon")!;
+        expect(icon.querySelector(".brand-slot-aside textarea[aria-label=\"Icon and logo description\"]")).not.toBeNull();
+        // Three images and the slot for a fourth: four rows, on both sides.
+        container.querySelectorAll<HTMLElement>(".brand-inventory-rows").forEach(column => expect(column.style.getPropertyValue("--inventory-rows")).toBe("4"));
     });
 
 });

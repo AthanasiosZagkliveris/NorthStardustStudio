@@ -339,7 +339,7 @@ export default function BrandInventoryEditor({
         return <GuidanceBullets lines={lines} show={showInstructions} />;
     }
 
-    function renderMarkSlot(mark: "icon" | "logo") {
+    function renderMarkSlot(mark: "icon" | "logo", aside?: ReactNode) {
 
         const label = mark === "icon" ? "Icon" : "Logo";
         const asset = brandMarkFile(inventory[mark]);
@@ -349,17 +349,33 @@ export default function BrandInventoryEditor({
             <DropZone
                 key={label}
                 label={label}
+                shape={mark}
                 accept={MARK_TYPES}
                 disabled={disabled}
                 asset={asset}
                 hint={asset?.fileName || `SVG or PNG, up to ${MAX_MARK_BYTES / 1024} KB`}
                 onFile={(file) => acceptFile(file, "mark", (next) => setMark(mark, next))}
                 onClear={() => setMark(mark, undefined)}
+                aside={aside}
             />
 
         );
 
     }
+
+    /*
+        The two columns share their rows (see "Brand Inventory -- the
+        shared rows", conversation.css): row 1 is the Logo beside
+        Image 1, row 2 the Icon and its description beside Image 2,
+        and every further image a row of its own. Each column spans
+        as many rows as the longer of the two has slots.
+    */
+    const addingImage = inventory.images.every((image) => image.dataUrl) &&
+        inventory.images.length < BRAND_IMAGE_MAX;
+
+    const rows = Math.max(2, inventory.images.length + (addingImage ? 1 : 0));
+
+    const rowsStyle = { "--inventory-rows": rows } as CSSProperties;
 
     return (
 
@@ -419,82 +435,59 @@ export default function BrandInventoryEditor({
                 <p className="brand-inventory-error" role="alert">{error}</p>
             )}
 
-            <div className="brand-style-body" data-rail={railId(BRAND_INVENTORY_SECTIONS[0])}>
+            <div className="brand-style-body brand-inventory-rows" data-rail={railId(BRAND_INVENTORY_SECTIONS[0])} style={rowsStyle}>
 
-                {/*
-                    Two sub-columns: the ICON on the left, the LOGO
-                    on the right at three times its width, one file
-                    each, level with each other. Under both, what
-                    the two show and how they are to be used.
-                */}
-                <div className="brand-mark-columns">
+                {/* Row 1: the Logo, on its own, as wide as the column. */}
+                {renderMarkSlot("logo")}
 
-                    <div className="brand-mark-column brand-mark-column-icon">
-                        {renderMarkSlot("icon")}
-                    </div>
-
-                    <div className="brand-mark-column brand-mark-column-logo">
-                        {renderMarkSlot("logo")}
-                    </div>
-
-                </div>
-
-                <StrategyTextArea
-                    className="interview-input brand-mark-note"
-                    ariaLabel="Icon and logo description"
-                    placeholder="What the logo and icon show, what they mean, and how they should be used"
-                    disabled={disabled}
-                    value={inventory.markDescription}
-                    onChange={(next) => onChange({ ...inventory, markDescription: next })}
-                />
+                {/* Row 2: the Icon, and beside it what the two show and
+                    how they are used -- its top and bottom level with
+                    the Icon's box. */}
+                {renderMarkSlot("icon", (
+                    <StrategyTextArea
+                        className="interview-input brand-mark-note"
+                        ariaLabel="Icon and logo description"
+                        placeholder="What the logo and icon show, what they mean, and how they should be used"
+                        disabled={disabled}
+                        value={inventory.markDescription}
+                        onChange={(next) => onChange({ ...inventory, markDescription: next })}
+                    />
+                ))}
 
             </div>
 
-            <div className="brand-style-body" data-rail={railId(BRAND_INVENTORY_SECTIONS[1])}>
+            <div className="brand-style-body brand-inventory-rows" data-rail={railId(BRAND_INVENTORY_SECTIONS[1])} style={rowsStyle}>
 
                 {/*
-                    Rendered through the SAME DropZone the Icon and
-                    Logo slots use, so an image's label, holder and
-                    remove control sit exactly where theirs do. Its
-                    `aside` carries the Name and Short
-                    Description fields, which sit beside the holder
-                    and are on screen from the start -- an empty slot
-                    shows them just as a filled one does, so nothing
-                    has to be uploaded before the page reveals what
-                    it will ask for.
+                    Each image beside ONE text holder: its name on top,
+                    its description under it (room for five lines, and
+                    growing past them). The image's box is as tall as
+                    that holder, so the two end on one line. On screen
+                    from the start -- an empty slot shows its holder
+                    just as a filled one does.
                 */}
                 {inventory.images.map((image, index) => (
 
                     <DropZone
                         key={index}
                         label={`Image ${index + 1}`}
+                        shape="image"
                         accept="image/*"
                         disabled={disabled}
                         asset={image.dataUrl ? image : undefined}
                         onFile={(file) => acceptFile(file, "any", (asset) => updateImage(index, asset))}
                         onClear={() => removeImage(index)}
                         aside={
-                            <>
+                            <div className="brand-image-text">
                                 <input
                                     type="text"
-                                    className="interview-input"
+                                    className="interview-input brand-image-name"
                                     aria-label={`Image ${index + 1} name`}
                                     placeholder="Name"
                                     disabled={disabled}
                                     value={image.name}
                                     onChange={(event) => updateImage(index, { name: event.target.value })}
                                 />
-
-                                {/*
-                                    Two lines to start with, which is
-                                    both what a short description
-                                    usually needs and what makes the
-                                    field stack end level with the
-                                    bottom of the holder beside it --
-                                    and it grows with a longer one
-                                    rather than scrolling inside
-                                    itself (StrategyTextArea).
-                                */}
                                 <StrategyTextArea
                                     className="interview-input brand-image-note"
                                     ariaLabel={`Image ${index + 1} description`}
@@ -503,7 +496,7 @@ export default function BrandInventoryEditor({
                                     value={image.description}
                                     onChange={(next) => updateImage(index, { description: next })}
                                 />
-                            </>
+                            </div>
                         }
                     />
 
@@ -516,11 +509,11 @@ export default function BrandInventoryEditor({
                     holder next to two empty ones, which reads as
                     clutter rather than an invitation.
                 */}
-                {inventory.images.every((image) => image.dataUrl) &&
-                 inventory.images.length < BRAND_IMAGE_MAX && (
+                {addingImage && (
 
                     <DropZone
                         label={`Image ${inventory.images.length + 1}`}
+                        shape="image"
                         accept="image/*"
                         disabled={disabled}
                         asset={undefined}
@@ -541,8 +534,10 @@ export default function BrandInventoryEditor({
 }
 
 /**
- * One upload slot: a preview holder that is both the drop target and
- * the button that opens the file dialog.
+ * One upload slot: its label (with, for the Icon and Logo, the file
+ * it holds or what it takes on the same line), then a preview holder
+ * that is both the drop target and the button that opens the file
+ * dialog, and whatever sits beside the holder.
  *
  * The holder accepts a drag-and-drop, but being a BUTTON is what
  * carries the accessible name and keyboard operation -- a drop
@@ -552,6 +547,8 @@ export default function BrandInventoryEditor({
 function DropZone({
 
     label,
+
+    shape,
 
     accept,
 
@@ -571,6 +568,13 @@ function DropZone({
 
     label: string;
 
+    /**
+     * How the holder is sized in its row: the Logo fills its column,
+     * the Icon is square, an image shares its row with its text
+     * holder (see "Brand Inventory -- the shared rows").
+     */
+    shape: "logo" | "icon" | "image";
+
     accept: string;
 
     disabled: boolean;
@@ -582,16 +586,14 @@ function DropZone({
     onClear?: () => void;
 
     /**
-     * A line under the holder: the file it holds, or what it takes
-     * while empty. The Icon and Logo slots carry one.
+     * Beside the label, on its line: the file the slot holds, or
+     * what it takes while empty. The Icon and Logo slots carry one.
      */
     hint?: string;
 
     /**
-     * Extra controls placed BESIDE the holder rather than under it
-     * -- the Brand Images section's Name and Short Description
-     * fields. Omitted by the Icon and Logo slots, which have
-     * nothing beside their holder.
+     * What sits BESIDE the holder, as tall as it: an image's text
+     * holder, the Icon's description.
      */
     aside?: ReactNode;
 
@@ -617,98 +619,88 @@ function DropZone({
 
     return (
 
-        <div className="brand-asset-slot">
+        <div className={"brand-asset-slot brand-asset-slot-" + shape}>
 
-            <div className="brand-slot-label">{label}</div>
+            <div className="brand-slot-label-row">
+                <span className="brand-slot-label">{label}</span>
+                {hint && <span className="brand-slot-hint">{hint}</span>}
+            </div>
 
-            <div className={aside ? "brand-slot-split" : "brand-slot-single"}>
+            <div className="brand-slot-row">
 
-            <div className="brand-slot-main">
+                {/*
+                    The holder IS the upload control -- a real <button>,
+                    not a clickable div, so it is reachable by Tab and
+                    operable with Enter/Space like any other control.
+                    That removes the need for a separate Upload/Replace
+                    button beside it.
 
-            {/*
-                The holder IS the upload control -- a real <button>,
-                not a clickable div, so it is reachable by Tab and
-                operable with Enter/Space like any other control.
-                That removes the need for a separate Upload/Replace
-                button beside it.
+                    Removal stays available as a small control in the
+                    holder's own corner rather than a button in a row
+                    below: without it there would be no way to clear a
+                    wrong logo or drop an image back below the minimum.
+                */}
+                <div className="brand-holder-wrap">
 
-                Removal stays available as a small control in the
-                holder's own corner rather than a button in a row
-                below: without it there would be no way to clear a
-                wrong logo or drop an image back below the minimum.
-            */}
-            <div className="brand-holder-wrap">
-
-                <button
-                    type="button"
-                    className={
-                        "brand-asset-preview brand-dropzone brand-holder-button" +
-                        (dragging ? " brand-dropzone-active" : "")
-                    }
-                    aria-label={asset ? `Replace ${label}` : `Upload ${label}`}
-                    disabled={disabled}
-                    onClick={() => inputRef.current?.click()}
-                    onDragOver={(event) => { event.preventDefault(); if (!disabled) setDragging(true); }}
-                    onDragLeave={() => setDragging(false)}
-                    onDrop={handleDrop}
-                >
-
-                    {asset
-                        ? <img src={asset.dataUrl} alt="" />
-                        : <span className="brand-asset-empty" aria-hidden="true">
-                            {dragging ? "Drop to upload" : "Drag or click"}
-                          </span>}
-
-                </button>
-
-                {asset && onClear && (
                     <button
                         type="button"
-                        className="brand-holder-clear"
-                        aria-label={`Remove ${label}`}
+                        className={
+                            "brand-asset-preview brand-dropzone brand-holder-button" +
+                            (dragging ? " brand-dropzone-active" : "")
+                        }
+                        aria-label={asset ? `Replace ${label}` : `Upload ${label}`}
                         disabled={disabled}
-                        onClick={onClear}
+                        onClick={() => inputRef.current?.click()}
+                        onDragOver={(event) => { event.preventDefault(); if (!disabled) setDragging(true); }}
+                        onDragLeave={() => setDragging(false)}
+                        onDrop={handleDrop}
                     >
-                        ×
+
+                        {asset
+                            ? <img src={asset.dataUrl} alt="" />
+                            : <span className="brand-asset-empty" aria-hidden="true">
+                                {dragging ? "Drop to upload" : "Drag or click"}
+                              </span>}
+
                     </button>
+
+                    {asset && onClear && (
+                        <button
+                            type="button"
+                            className="brand-holder-clear"
+                            aria-label={`Remove ${label}`}
+                            disabled={disabled}
+                            onClick={onClear}
+                        >
+                            ×
+                        </button>
+                    )}
+
+                    {/*
+                        The file input -- kept visually hidden and out
+                        of the tab order, since the holder button above
+                        is what opens it.
+                    */}
+                    <input
+                        ref={inputRef}
+                        type="file"
+                        accept={accept}
+                        className="brand-file-input"
+                        tabIndex={-1}
+                        aria-hidden="true"
+                        onChange={(event) => {
+                            onFile(event.target.files?.[0]);
+                            // Cleared so picking the SAME file again still
+                            // fires a change event.
+                            event.target.value = "";
+                        }}
+                    />
+
+                </div>
+
+                {aside && (
+                    <div className="brand-slot-aside">{aside}</div>
                 )}
-
-            </div>
-
-            {hint && (
-                <div className="brand-slot-hint">{hint}</div>
-            )}
-
-            {/*
-                The file input is the only thing left here -- kept
-                visually hidden and out of the tab order, since the
-                holder button above is what opens it.
-            */}
-            <input
-                ref={inputRef}
-                type="file"
-                accept={accept}
-                className="brand-file-input"
-                tabIndex={-1}
-                aria-hidden="true"
-                onChange={(event) => {
-                    onFile(event.target.files?.[0]);
-                    // Cleared so picking the SAME file again still
-                    // fires a change event.
-                    event.target.value = "";
-                }}
-            />
-
-            </div>
-
-            {/*
-                Anything beside the holder -- the Brand Images
-                section's Name and Short Description fields. Absent
-                for Icon and Logo, whose slot is the holder only.
-            */}
-            {aside && (
-                <div className="brand-image-fields">{aside}</div>
-            )}
 
             </div>
 

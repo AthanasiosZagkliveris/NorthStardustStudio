@@ -3961,8 +3961,207 @@ td.process-library-col-number{
 }
 
 /* ==========================================================
-   Brand Inventory -- upload slots
+   Brand Inventory -- the shared rows
+
+   The two columns share their rows: row 1 is the Logo beside
+   Image 1, row 2 the Icon and its description beside Image 2,
+   every further image a row of its own. Each column is a subgrid
+   spanning as many of the page grid's rows as the longer column
+   has slots (--inventory-rows, BrandInventoryEditor), so a row is
+   as tall as the tallest slot in it on either side and the boxes
+   in it end on one line.
+
+   A slot is its label line, then its row: the holder and, beside
+   it, whatever goes with it -- an image's text holder, the Icon's
+   description -- each stretched to the row's height. An image's
+   text holder decides that height (its name and five lines of
+   description, and more as the description grows), so the Logo
+   and the Icon are drawn as large as the images beside them.
+   Stacked (a card under 700px), each column keeps its own rows.
 ========================================================== */
+
+.brand-inventory > .brand-inventory-rows{
+
+    display:grid;
+
+    grid-template-rows:subgrid;
+
+    grid-row:span var(--inventory-rows, 2);
+
+}
+
+.brand-asset-slot{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
+    min-width:0;
+
+}
+
+.brand-slot-label-row{
+
+    display:flex;
+
+    align-items:baseline;
+
+    justify-content:space-between;
+
+    gap:12px;
+
+    min-width:0;
+
+}
+
+.brand-slot-row{
+
+    flex:1 1 auto;
+
+    display:flex;
+
+    align-items:stretch;
+
+    gap:16px;
+
+    min-width:0;
+
+}
+
+.brand-slot-row > .brand-holder-wrap{
+
+    flex:1 1 0;
+
+}
+
+/* At least as tall as an image's text holder (a 45px name line,
+   five lines of description and their frame), so a holder stays
+   as large on its own -- the Logo and Icon stacked on a narrow
+   card -- as beside an image. */
+.brand-slot-row .brand-asset-preview{
+
+    flex:1 1 auto;
+
+    width:100%;
+
+    min-height:calc(5 * 1.5em + 16px + 47px);
+
+}
+
+/* An image and its text holder share the row: the image a little
+   under half, the words the rest. */
+.brand-asset-slot-image .brand-slot-row > .brand-holder-wrap{
+
+    flex:0 0 44%;
+
+}
+
+/* The Icon is square, as tall as its row; its description takes
+   the rest of the row, top and bottom level with it. */
+.brand-asset-slot-icon .brand-slot-row > .brand-holder-wrap{
+
+    flex:0 0 auto;
+
+    aspect-ratio:1 / 1;
+
+}
+
+.brand-slot-aside{
+
+    flex:1 1 0;
+
+    display:flex;
+
+    min-width:0;
+
+}
+
+/* The Icon's description: the whole of the space beside the Icon
+   (StrategyTextArea grows it, and with it the row, past that). */
+.brand-mark-note{
+
+    flex:1 1 auto;
+
+    min-height:0;
+
+    resize:none;
+
+}
+
+/* ONE text holder for an image: its name on top and its description
+   under it, in one frame, with a hairline between. The two fields
+   lose their own frames and take the holder's; the holder answers
+   hover and focus as one box. */
+.brand-image-text{
+
+    flex:1 1 auto;
+
+    display:flex;
+
+    flex-direction:column;
+
+    min-width:0;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--box-radius);
+
+    background:var(--bg-surface);
+
+    transition:border-color .15s ease, box-shadow .15s ease;
+
+}
+
+.brand-image-text:hover:not(:focus-within){
+
+    border-color:var(--line-primary);
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
+
+}
+
+.brand-image-text:focus-within{
+
+    border-color:var(--line-primary);
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
+
+}
+
+.brand-inventory .brand-image-text .interview-input,
+.brand-inventory .brand-image-text .interview-input:hover:not(:focus):not(:disabled),
+.brand-inventory .brand-image-text .interview-input:focus{
+
+    border:0;
+
+    border-radius:0;
+
+    background:transparent;
+
+    box-shadow:none;
+
+}
+
+.brand-inventory .brand-image-text .brand-image-name{
+
+    border-bottom:1px solid var(--line-rule);
+
+    font-weight:600;
+
+}
+
+/* Room for five lines (at the app's 1.5 line height, with its 8px
+   padding top and bottom), and growing past them (StrategyTextArea). */
+.brand-inventory .brand-image-text .brand-image-note{
+
+    flex:1 1 auto;
+
+    min-height:calc(5 * 1.5em + 16px);
+
+    resize:none;
+
+}
 
 /* Spans every column so an upload error is read before either
    column, not tucked inside whichever one raised it. */
@@ -3986,36 +4185,12 @@ td.process-library-col-number{
 
 }
 
-.brand-asset-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(2, minmax(0, 1fr));
-
-    gap:12px;
-
-}
-
-.brand-asset-slot{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:6px;
-
-    min-width:0;
-
-}
-
 .brand-asset-preview{
 
     display:flex;
 
     align-items:center;
     justify-content:center;
-
-    height:120px;
 
     padding:8px;
 
@@ -4280,208 +4455,29 @@ td.process-library-col-number{
 
 }
 
-/* ==========================================================
-   Brand Inventory -- fixed holder sizes
-
-   Sections 8 and 9 STACK rather than sitting side by side: the
-   stated holder sizes (150px icons, 600px logos and images) add
-   up to more than half the 1400px interview card, so two equal
-   columns could not hold them at the sizes asked for. Full width
-   each, and every holder is its exact stated size.
-========================================================== */
-
-/* Two equal columns again: at 450px the Logo and Image holders
-   fit inside a half-column (150 + 24 + 450 = 624 of the 688
-   available), which they could not at 600px. So each section
-   keeps its heading directly above its own body. */
-
-/* Icon column then Logo column at a 1:3 ratio -- an icon is
-   square and a logo is wide, so an even split would leave one
-   starved and the other padded.
-   Fractional rather than the fixed 150px/450px they used to be:
-   sections 8 and 9 get equal column widths from the page grid,
-   and fixed widths left section 8's pair 40px short of its
-   column while section 9's holder-plus-fields filled its own.
-   `fr` spends the whole width in both, so the two sections'
-   boxes span the same distance and their outer edges line up. */
-.brand-mark-columns{
-
-    display:grid;
-
-    grid-template-columns:1fr 3fr;
-
-    gap:24px;
-
-    align-items:start;
-
-}
-
-/* 12px between the SVG and PNG holders, matching the gap the
-   Brand Images column stacks its slots with -- at 6px the second
-   Icon/Logo holder sat 6px above Image 2 instead of level with
-   it. */
-.brand-mark-column{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:12px;
-
-    min-width:0;
-
-}
-
-/* Names the sub-column (Icon / Logo) above its two holders. */
-.brand-mark-column-title{
-
-    font-size:var(--font-body);
-    font-weight:600;
-
-    color:var(--text-strong);
-
-}
-
-/* Every mark holder is 150px tall; width comes from its column,
-   so an icon is 150x150 and a logo 600x150. */
-.brand-mark-column .brand-asset-preview{
-
-    width:100%;
-    height:150px;
-
-}
-
-/* One image: its title, then the 600x150 holder with its text
-   fields beside it. */
-.brand-image-slot{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:6px;
-
-    min-width:0;
-
-}
-
-.brand-image-row{
-
-    display:flex;
-
-    gap:24px;
-
-    align-items:flex-start;
-
-    min-width:0;
-
-}
-
-.brand-image-preview{
-
-    flex:0 0 auto;
-
-    width:450px;
-    height:150px;
-
-}
-
-/* Fills the holder's height (see .brand-slot-split) and pushes
-   its two fields to the top and bottom of it, so Name starts
-   level with the top of the holder and the two-line Short
-   description ends level with its bottom. */
-.brand-image-fields{
-
-    flex:1;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:space-between;
-
-    gap:6px;
-
-    min-width:0;
-
-}
-
-/* Two lines to start with: 3em of text at the app's 150% line
-   height, plus this scope's 8px padding and 1px border top and
-   bottom -- so the field stack ends level with the holder beside
-   it. A longer description grows the box (StrategyTextArea sets
-   its height to its text) instead of scrolling inside it.
-
-   `min-height` has to be reset first -- the app's global
-   `textarea` rule floors every textarea at 180px for the long
-   Notes fields, which would make this one taller than the holder
-   beside it. Not resizable either: it sizes itself. */
-.brand-image-note{
-
-    min-height:0;
-
-    height:calc(3em + 18px);
-
-    resize:none;
-
-}
-
-/* A mark is shown on paper, in either theme: logos are drawn for a
-   light ground, and a navy wordmark on the dark theme's holder all
-   but disappeared. */
-.brand-mark-column .brand-asset-preview:has(img){
+/* A picture is shown on paper, in either theme: logos and brand
+   images are made for a light ground, and a navy wordmark on the
+   dark theme's holder all but disappeared. The picture keeps its
+   shape (object-fit: contain). */
+.brand-inventory .brand-asset-preview:has(img){
 
     background:var(--bg-mark-preview);
 
 }
 
-/* Under an Icon or Logo holder: the file it holds, or what it
-   takes while empty ("SVG or PNG, up to 50 KB"). */
+/* On an Icon or Logo slot's label line, at its end: the file it
+   holds, or what it takes while empty ("SVG or PNG, up to 50 KB"). */
 .brand-slot-hint{
 
     min-width:0;
+
+    text-align:right;
 
     font-size:var(--font-small);
 
     color:var(--text-muted);
 
     overflow-wrap:anywhere;
-
-}
-
-/* What the logo and icon show and how they are used: under both
-   holders, across the section. It starts at two lines and grows
-   with its text (StrategyTextArea) rather than scrolling inside
-   itself -- the global textarea floor of 180px is for the long
-   Notes fields. */
-.brand-mark-note{
-
-    display:block;
-
-    width:100%;
-
-    min-height:calc(3em + 18px);
-
-    margin-top:16px;
-
-    resize:none;
-
-}
-
-/* The Add-image drop target matches an image holder exactly, so
-   the column keeps the same rhythm before and after an upload. */
-.brand-inventory .brand-asset-slot .brand-dropzone{
-
-    width:600px;
-    height:150px;
-
-}
-
-/* Back to the column's own width for the mark sub-columns, whose
-   holders are sized by their column instead. */
-.brand-mark-column .brand-asset-slot .brand-dropzone{
-
-    width:100%;
 
 }
 
@@ -4527,72 +4523,6 @@ td.process-library-col-number{
 .brand-tick-blocked .brand-slot-label{
 
     color:var(--text-faint);
-
-}
-
-/* ==========================================================
-   Brand Inventory -- a slot with controls beside its holder
-
-   The Brand Images slots render through the SAME DropZone the
-   Icon and Logo slots use, so their label, holder and
-   Replace/Remove buttons sit in exactly the same places. The
-   only difference is `aside`: the Name and Short Description
-   fields, which sit to the right of the holder.
-========================================================== */
-
-.brand-slot-split{
-
-    display:flex;
-
-    gap:24px;
-
-    /* Stretched, not top-aligned: the fields column takes the
-       holder's full height so its last field can sit flush with
-       the bottom of the holder. */
-    align-items:stretch;
-
-    min-width:0;
-
-}
-
-/* Holder and its buttons stay one column, whatever sits beside
-   them. */
-.brand-slot-main{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:6px;
-
-    flex:0 0 auto;
-
-    min-width:0;
-
-}
-
-/* Holder-only slots (Icon, Logo) need no flex row at all -- this
-   keeps their holder sized by its own column rather than by a
-   flex track. */
-.brand-slot-single{
-
-    min-width:0;
-
-}
-
-/* An add-image slot with no holder beside it still spans its own
-   column, so the empty drop target lines up with the filled
-   slots above it. */
-.brand-inventory .brand-slot-main .brand-dropzone{
-
-    width:300px;
-    height:150px;
-
-}
-
-.brand-mark-column .brand-slot-main .brand-dropzone{
-
-    width:100%;
 
 }
 
@@ -4704,7 +4634,7 @@ td.process-library-col-number{
 
     position:relative;
 
-    display:inline-block;
+    display:flex;
 
     min-width:0;
 
@@ -7137,7 +7067,6 @@ td.process-library-col-number{
 .profile-card-fixed-label,
 .profile-card-subtitle,
 .handbook-t-card-label,
-.brand-mark-column-title,
 .month-picker-cell-current{
 
     letter-spacing:0.05em;
