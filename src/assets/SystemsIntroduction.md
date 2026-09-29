@@ -10,7 +10,7 @@ The Brand System turns your identity into something people can see, hear, and re
 
 ## 03. Business System
 
-The Business System describes how your organization creates value and pays for itself. Foundation sets out your customer segments and profiles, your competitors, your value propositions, and your offerings. Customer Engagement records how customers find you, the relationships you keep with them, and how many sales to expect from each source. Infrastructure & Capability lists the founders, resources, activities, and partners you need, and checks that there are enough hours to deliver what you sell. Financial Foundation gathers your costs and works out how much funding you need. Financial Sustainability turns expected sales into revenue, finds your break-even point, and stress-tests the plan. From your answers, the app writes a Business Plan, a Business Model Canvas, and a Financial Forecast.
+The Business System describes how your organization creates value and pays for itself. Foundation sets out your customer segments and profiles, your competitors, your value propositions, and your offerings. Customer Engagement records how customers find you, the relationships you keep with them, and how many sales to expect from each source. Infrastructure & Capability lists the founders, resources, activities, and partners you need, and checks that there are enough hours to deliver what you sell. Financial Foundation gathers your costs and works out how much funding you need. Sustainability turns expected sales into revenue, finds your break-even point, and stress-tests the plan. From your answers, the app writes a Business Plan, a Business Model Canvas, and a Financial Forecast.
 
 ## 04. Strategy System
 

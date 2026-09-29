@@ -254,7 +254,7 @@ interface FinancialFoundationEditorProps {
     capability?: unknown;
     /** 1. Identity System → 3. Legal Entity. */
     legalEntity?: LegalEntityValue;
-    /** Financial Sustainability's answer: the revenue the operating need is net of. */
+    /** Sustainability's answer: the revenue the operating need is net of. */
     sustainability?: unknown;
     /** Customer Engagement's answer: expected sales from its Demand & Conversion. */
     engagement?: unknown;
@@ -985,7 +985,7 @@ export default function FinancialFoundationEditor({
 
                 <p className="financial-lead">
                     Calculated from the costs above. To change a need, change the costs it is made of.
-                    Until revenue is estimated on Financial Sustainability, every running cost is counted
+                    Until revenue is estimated on Sustainability, every running cost is counted
                     in the operating need; it then falls to the months before revenue covers them.
                 </p>
 
@@ -1573,7 +1573,7 @@ export default function FinancialFoundationEditor({
                         tone: position.runwayMonths !== null && position.runwayMonths < 6 ? "risk" : "neutral",
                         info: [
                             DEFINITIONS.runway,
-                            "Counts money available now and confirmed money as it is scheduled to arrive, against every scheduled cost and loan repayment, with the revenue expected on Financial Sustainability as it is received.",
+                            "Counts money available now and confirmed money as it is scheduled to arrive, against every scheduled cost and loan repayment, with the revenue expected on Sustainability as it is received.",
                             RUNWAY_FORMULA,
                             RUNWAY_SOURCE
                         ]
@@ -1667,7 +1667,7 @@ export default function FinancialFoundationEditor({
                         <p className="financial-muted">
                             {position.uncounted.unscheduled.length} cost{position.uncounted.unscheduled.length === 1 ? "" : "s"} paid
                             per unit, per order, per project or by usage depend on activity and are not in the timeline.
-                            Financial Sustainability counts those paid per unit, per order or per project against revenue;
+                            Sustainability counts those paid per unit, per order or per project against revenue;
                             one paid by usage needs a per-unit, per-project or periodic basis to be counted.
                         </p>
                     )}
@@ -1710,7 +1710,7 @@ export default function FinancialFoundationEditor({
                     planStart={{ month: "01", year: String(new Date().getFullYear() - 1) }}
                     disabled={disabled}
                     onChange={(next) => update({ planStart: next })}
-                    info={["Month 1 of the financial plan. Every timeline on this page and on Financial Sustainability runs from it."]}
+                    info={["Month 1 of the financial plan. Every timeline on this page and on Sustainability runs from it."]}
                 />
                 <BusinessField
                     label="Plan Length"
@@ -1729,7 +1729,7 @@ export default function FinancialFoundationEditor({
                     label="Amounts"
                     info={[
                         ...taxBases.map(entry => ({ title: entry.label, text: entry.explanation })),
-                        "Use the same basis for every amount on this page and on Financial Sustainability."
+                        "Use the same basis for every amount on this page and on Sustainability."
                     ]}
                 >
                     <OptionPicker

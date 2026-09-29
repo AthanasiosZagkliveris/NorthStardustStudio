@@ -1,6 +1,6 @@
 /*
     The Business System's two Financial pages -- Page 4, Financial
-    Foundation, and Page 5, Financial Sustainability -- as data and
+    Foundation, and Page 5, Sustainability -- as data and
     as arithmetic.
 
     Kept apart from AnswerUtils because most of it is CALCULATION,
@@ -1896,7 +1896,7 @@ const NEED_BY_GROUP: Record<CostGroup, FundingNeedCategory> = {
  *   until revenue covers the running costs. Month by month, every
  *   recurring cost, the variable costs of what is sold, and the
  *   repayments of confirmed loans, less the revenue received (from
- *   Financial Sustainability); the need is the deepest the running
+ *   Sustainability); the need is the deepest the running
  *   total falls over the whole plan (its first year shown month by
  *   month). With no revenue recorded, it is every running cost over
  *   the plan, and says so.
@@ -2010,7 +2010,7 @@ export function fundingNeeds(
     const operatingNote = lastNeeded < 0
         ? "Revenue covers the running costs from the start."
         : (streams.length === 0
-            ? "No expected revenue is recorded on Financial Sustainability yet, so every running cost is counted. "
+            ? "No expected revenue is recorded on Sustainability yet, so every running cost is counted. "
             : "") +
             (laterIndex >= 0
                 ? "After the first year the running total falls a further " + format(firstYearLowest - laterLowest) +
@@ -2047,7 +2047,7 @@ export function fundingNeeds(
 
 /**
  * What selling brings in, month by month, as it is received, and what
- * the units sold cost: Financial Sustainability's streams, in the
+ * the units sold cost: Sustainability's streams, in the
  * shape cashTimeline adds to its own months. Zero without a page.
  */
 function revenueFlows(
@@ -2084,7 +2084,7 @@ export function financialPosition(
     legalEntity: LegalEntityValue,
     currency: string,
     format: (amount: number) => string,
-    /** Financial Sustainability's page: the revenue the operating need is net of. */
+    /** Sustainability's page: the revenue the operating need is net of. */
     revenuePage?: FinancialSustainabilityValue
 ): FinancialPosition {
 
@@ -2313,7 +2313,7 @@ export function financialPosition(
         });
     }
 
-    // The share of the financing itself, as Financial Sustainability
+    // The share of the financing itself, as Sustainability
     // measures it: money received, not what is left of it.
     const planned = standings.reduce((sum, entry) => sum + entry.standing.total, 0);
     if (planned > 0 && pending / planned >= 0.5) {
@@ -2818,7 +2818,7 @@ interface WhatIf {
 
 /**
  * The revenue assumptions with every price, volume and start moved
- * together -- the what-if on Financial Sustainability. Never stored:
+ * together -- the what-if on Sustainability. Never stored:
  * it asks "what would it take?", it does not change the plan.
  */
 export function withWhatIf(
@@ -3415,7 +3415,7 @@ export function offeringCosts(lines: CostLine[], offeringId: string): OfferingCo
  * The revenue page with each stream's expected sales taken from
  * Customer Engagement's Demand & Conversion, where that Offering has
  * one that gives a figure. A stream without one keeps the volume
- * entered on Financial Sustainability: an organization that estimates
+ * entered on Sustainability: an organization that estimates
  * directly is never made to fill in demand.
  *
  * Every calculation that reads the revenue page reads it through this,

@@ -9,7 +9,7 @@
     - Delivery (Infrastructure & Capability): can what is sold be
       delivered? It gives the effort each unit takes, and the founders'
       hours give the DELIVERABLE CAPACITY.
-    - Financial Sustainability turns expected sales into revenue, and
+    - Sustainability turns expected sales into revenue, and
       compares the workload they bring with the capacity there is.
 
     A shortfall of capacity is reported, never "corrected": the sales
@@ -17,7 +17,7 @@
     says more capacity may be needed.
 
     Nothing here is required. An organization that enters no demand
-    keeps entering its expected sales on Financial Sustainability, and
+    keeps entering its expected sales on Sustainability, and
     one that enters no hours simply sees no capacity check.
 */
 
@@ -47,7 +47,7 @@ function readNumber(text: string | undefined): number | null {
     - its CALCULATION is how the sales from that source are estimated:
       a figure entered directly, or worked out from a few inputs;
     - the EXPECTED SALES are the sources added together: the one
-      figure Financial Sustainability uses for the Offering.
+      figure Sustainability uses for the Offering.
 
     An Offering bought every month until the customer cancels (a
     subscription, a retainer) is not another source: its sources give

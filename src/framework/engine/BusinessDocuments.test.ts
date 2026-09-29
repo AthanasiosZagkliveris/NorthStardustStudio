@@ -51,7 +51,7 @@ describe("business documents", () => {
         }
         expect(md).not.toContain("Not answered yet");
         expect(md).toContain("# Business Plan: Lumen & Loom Studio Ltd");
-        // Financial Sustainability numbers on from Financial Foundation's three headings (its costs are in the Appendix).
+        // Sustainability numbers on from Financial Foundation's three headings (its costs are in the Appendix).
         expect(md).toContain("### 4. Revenue");
         expect(md).toContain("Lumen & Loom Studio Ltd, a private company limited by shares, based in London, United Kingdom, was founded by");
         expect(md).toContain("is seeking £26,000 of additional funding towards a funding gap of £10,670");
@@ -273,9 +273,9 @@ describe("Quillfield: the documents tie together", () => {
         expect(balance.columns).toHaveLength(4);
     });
 
-    test("profit kept in the business is Financial Sustainability's monthly result", () => {
+    test("profit kept in the business is Sustainability's monthly result", () => {
         // Without the one-time costs (which the profit and loss counts
-        // when paid, and Financial Sustainability leaves to the funding),
+        // when paid, and Sustainability leaves to the funding),
         // the two agree month by month.
         const onlyRecurring = readFoundation(all);
         const lines = onlyRecurring.lines.filter(line => line.frequency !== "one-time");
@@ -349,7 +349,7 @@ describe("Quillfield: the documents tie together", () => {
         const pl = projections.slice(projections.indexOf("### Profit and Loss"), projections.indexOf("### Profit Kept"));
         expect(pl).not.toMatch(/drawings/i);
         expect(projections).toContain("| Less: owner's drawings | -$13,500 | -$13,500 | -$13,500 | -$13,500 | -$54,000 | -$54,000 | -$54,000 |");
-        expect(projections).toContain("the result Financial Sustainability shows as revenue less costs");
+        expect(projections).toContain("the result Sustainability shows as revenue less costs");
         expect(projections).toContain("| Purchase of equipment | -$450 |");
         expect(projections).toContain("| Total capital expenditure | $450 |");
         expect(projections).toContain("- There is no income tax at business level: as a pass-through business");

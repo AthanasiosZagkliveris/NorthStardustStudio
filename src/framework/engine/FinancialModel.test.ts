@@ -1000,7 +1000,7 @@ describe("the financial plan's months in the Financial pages' titles", () => {
             .toBe("Financial Foundation · Apr 2027 – Mar 2028");
     });
     test("say nothing until a Plan Start is chosen", () => {
-        expect(titleWithPeriod("Financial Sustainability MM/YY - MM/YY", financialPlanPeriod(undefined)))
-            .toBe("Financial Sustainability");
+        expect(titleWithPeriod("Sustainability MM/YY - MM/YY", financialPlanPeriod(undefined)))
+            .toBe("Sustainability");
     });
 });

@@ -31,7 +31,7 @@
 
 **Numbering:** Nested
 
-## 05. Financial Sustainability MM/YY - MM/YY
+## 05. Sustainability MM/YY - MM/YY
 
 **Structure:** Financial Sustainability
 

@@ -7,7 +7,7 @@ the Identity, Brand and Strategy Systems (see 01_IdentitySystemHelp.md,
 
 This System was rebuilt into five pages (Foundation / Customer
 Engagement / Infrastructure & Capability / Financial Foundation /
-Financial Sustainability) whose content does not correspond to the nine
+Sustainability) whose content does not correspond to the nine
 original pages the previous help text was written for, so that text was
 removed rather than remapped onto pages it no longer describes.
 

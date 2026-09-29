@@ -3067,7 +3067,7 @@ export default function BusinessEngagementEditor({
      * (each with a figure, or a calculation), the Expected Sales they
      * add up to, the channels that bring them and what it rests on.
      *
-     * All of it is optional. With no source, Financial Sustainability
+     * All of it is optional. With no source, Sustainability
      * asks for the Offering's volume directly.
      */
     function demandFor(

@@ -74,7 +74,7 @@ export function PlanMonthField({
 
 /**
  * Utilisation -- demand hours against capacity -- its "i" beside the
- * percent on Financial Sustainability and (the same content) on
+ * percent on Sustainability and (the same content) on
  * Infrastructure & Capability's own budget lines.
  */
 export const CAPACITY_UTILISATION_HELP: InfoPoint[] = [

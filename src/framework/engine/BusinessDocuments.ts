@@ -608,7 +608,7 @@ export function businessModelCanvas(sessions: FoundationSessions, capability = "
         systemName: "Business Model Canvas " + data.name,
         capability,
         documentTitle: "Business Model Canvas: " + data.name,
-        documentSubtitle: "Drawn from the Business System: Foundation, Customer Engagement, Infrastructure & Capability, Financial Foundation and Financial Sustainability.",
+        documentSubtitle: "Drawn from the Business System: Foundation, Customer Engagement, Infrastructure & Capability, Financial Foundation and Sustainability.",
         // Drawn as the nine-block grid by the PDF and the Markdown.
         canvas: CANVAS_BLOCKS.map(block => ({ id: block.id, title: block.title, items: data.blocks[block.id] })),
         sections: CANVAS_BLOCKS.map((block, index) => section(index + 1, block.title,
@@ -1360,7 +1360,7 @@ function preparedMonth(today: Date = new Date()): string {
 }
 
 /**
- * The Financial Sustainability page's "1. Revenue", "2. Break Even"
+ * The Sustainability page's "1. Revenue", "2. Break Even"
  * numbered on from the Financial Foundation page's headings before
  * it ("5. Revenue", "6. Break Even"), as one Financial Plan.
  */

@@ -318,7 +318,7 @@ export default function StrategyFoundationEditor({
                     ])}</InfoText></>,
                     <><InfoText text="How are you supported financially today?">{answeredIn("How you are funded", [
                         ["Costs and funding", "3. Business System → 4. Financial Foundation", AnswerType.FinancialFoundation],
-                        ["Revenue and break even", "3. Business System → 5. Financial Sustainability", AnswerType.FinancialSustainability]
+                        ["Revenue and break even", "3. Business System → 5. Sustainability", AnswerType.FinancialSustainability]
                     ])}</InfoText></>
                 ])}
             </div>

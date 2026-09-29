@@ -384,7 +384,7 @@ interface AnswerRendererProps {
     legalEntity?: LegalEntityValue;
     businessCapability?: unknown;
     financialFoundation?: unknown;
-    /** Financial Sustainability's saved value, for Financial Foundation's operating need. */
+    /** Sustainability's saved value, for Financial Foundation's operating need. */
     financialSustainability?: unknown;
     /** Customer Engagement's saved value: its Demand & Conversion gives expected sales. */
     businessEngagement?: unknown;

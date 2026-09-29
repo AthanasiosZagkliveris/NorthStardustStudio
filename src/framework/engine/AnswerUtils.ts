@@ -5471,7 +5471,7 @@ export interface BusinessEngagementValue {
      * Demand & Conversion, by Offering id: how each Offering's
      * customers come, and so its expected sales (see DemandCapacity.ts).
      * Optional: an Offering without one has its sales entered on
-     * Financial Sustainability.
+     * Sustainability.
      */
     demand: Record<string, DemandValue>;
 }
@@ -6037,7 +6037,7 @@ export const BUSINESS_WORKSPACE_STATUS_IDS = [
 /**
  * How often a price is paid. Per unit and per project are costs of
  * ACTIVITY -- a materials kit per participant, a courier per parcel --
- * which Financial Sustainability counts against each unit sold rather
+ * which Sustainability counts against each unit sold rather
  * than against the month.
  */
 export const BUSINESS_COST_FREQUENCIES = [

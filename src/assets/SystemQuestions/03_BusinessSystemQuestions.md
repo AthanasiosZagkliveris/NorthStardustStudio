@@ -11,5 +11,5 @@ System Scope: Defines how the organization creates, delivers, and sustains value
 
 ## 4. Financial Foundation MM/YY - MM/YY
 
-## 5. Financial Sustainability MM/YY - MM/YY
+## 5. Sustainability MM/YY - MM/YY
 

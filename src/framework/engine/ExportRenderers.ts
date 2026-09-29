@@ -882,7 +882,7 @@ export function financialFoundationBlocks(value: unknown, context: ExportContext
 }
 
 /* ==========================================================
-   3. Business -- Financial Sustainability
+   3. Business -- Sustainability
 ========================================================== */
 
 export function financialSustainabilityBlocks(value: unknown, context: ExportContext, document?: FinancialDocumentOptions): ExportBlock[] {

@@ -223,7 +223,7 @@ interface FinancialSustainabilityEditorProps {
 }
 
 /**
- * The Business System's Financial Sustainability page (see
+ * The Business System's Sustainability page (see
  * AnswerType.FinancialSustainability, and FinancialModel.ts for every
  * calculation it shows).
  *
@@ -1576,7 +1576,7 @@ export default function FinancialSustainabilityEditor({
 
 {takeBlock()}
 
-                <FinancialBlock title="Financial Sustainability">
+                <FinancialBlock title="Sustainability">
                     <div className="financial-table-scroll">
                         <table className="financial-table financial-summary">
                             <tbody>

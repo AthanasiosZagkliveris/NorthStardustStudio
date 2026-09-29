@@ -35,7 +35,7 @@
       trader, a partnership, an LLC), founders' pay is drawings, not a
       cost: never a line of the profit and loss, but set against its
       profit in a reconciliation below it (Profit Kept in the
-      Business), which is Financial Sustainability's result;
+      Business), which is Sustainability's result;
     - income tax at a rate is a flat rate on each plan year's profit
       before tax (none on a loss, no loss carried forward), accrued on
       the year-to-date profit and paid in the first month of the next plan
@@ -105,7 +105,7 @@ export interface Forecast {
     profitAndLoss: ForecastTable;
     /**
      * Where the owners take drawings: the profit for the period less
-     * the drawings, which is Financial Sustainability's result. Null
+     * the drawings, which is Sustainability's result. Null
      * where founders are paid a salary (a cost already).
      */
     profitKept: ForecastTable | null;
@@ -446,13 +446,13 @@ export function financialForecast(
     };
 
     /* The owners' drawings, set against the profit: what the business
-       keeps, which Financial Sustainability shows as revenue less
+       keeps, which Sustainability shows as revenue less
        costs (its costs count the founder's pay). */
     const kept = netProfit.map((amount, index) => amount - drawings[index]);
     const profitKept: ForecastTable | null = drawingsTaken && some(drawings)
         ? {
             title: "Profit Kept in the Business",
-            note: "Profit for the period less the owner's drawings: the result Financial Sustainability shows as revenue less costs, where the founder's pay is a cost.",
+            note: "Profit for the period less the owner's drawings: the result Sustainability shows as revenue less costs, where the founder's pay is a cost.",
             rows: [
                 flow(taxRate !== null ? "Profit for the period (after tax)" : "Profit for the period (before tax)", netProfit),
                 flow("Less: owner's drawings", negative(drawings)),
@@ -614,7 +614,7 @@ export function financialForecast(
         cashFlow,
         capitalExpenditure,
         notes: [
-            "Figures are estimates from the Business System's Financial Foundation and Financial Sustainability pages.",
+            "Figures are estimates from the Business System's Financial Foundation and Sustainability pages.",
             "Cash at the start of the plan is funding already received, less one-time costs paid before the plan (a loss before it starts); confirmed funding is counted when it arrives, and pending funding is not counted.",
             "Equipment is an asset, depreciated evenly over " + DEPRECIATION_MONTHS / 12 +
                 " years; a deposit is an asset and never a cost; other one-time costs count when they are paid.",
@@ -627,8 +627,8 @@ export function financialForecast(
                 : []),
             ...(drawingsTaken
                 ? [taxRate !== null
-                    ? "Profit kept in the business is the profit after tax less the drawings. It matches Financial Sustainability's revenue less costs, month by month, except where the profit and loss also counts one-time costs, depreciation, grants, loan interest or income tax as they fall."
-                    : "Profit kept in the business matches Financial Sustainability's revenue less costs, month by month, except where the profit and loss also counts one-time costs, depreciation, grants or loan interest as they fall."]
+                    ? "Profit kept in the business is the profit after tax less the drawings. It matches Sustainability's revenue less costs, month by month, except where the profit and loss also counts one-time costs, depreciation, grants, loan interest or income tax as they fall."
+                    : "Profit kept in the business matches Sustainability's revenue less costs, month by month, except where the profit and loss also counts one-time costs, depreciation, grants or loan interest as they fall."]
                 : []),
             "The cash flow is grouped into operating, investing and financing activities (direct method); interest paid is an operating payment.",
             "Cash below zero is shown as a current liability, Cash shortfall (unfunded): money the plan has not found yet, not an arranged overdraft.",
@@ -636,7 +636,7 @@ export function financialForecast(
             ...(taxRate !== null
                 ? ["Income tax is estimated at a flat " + ratePercent + " of each plan year's profit before tax: none on a loss, and no loss carried forward to a later year. " +
                     "It is accrued month by month on the profit so far that year, so a month or quarter still at a loss for the year shows none and a later loss month reverses some; it is a current liability (Income tax payable) until paid, and is paid in the first month of the following plan year; the final plan year's tax is still owed at the plan's end.",
-                "Break even, runway and the funding gap on the Financial Foundation and Financial Sustainability pages are before income tax.",
+                "Break even, runway and the funding gap on the Financial Foundation and Sustainability pages are before income tax.",
                 "VAT or sales tax is not estimated. " +
                     "There are no trade payables: every cost is taken as paid when due, as no supplier payment terms are recorded."]
                 : passThrough
