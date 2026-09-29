@@ -865,13 +865,17 @@ describe("the Legal Entity, read as the financial pages read it", () => {
 
 describe("the Brand Inventory is complete as its help asks", () => {
     const file = { dataUrl: "data:image/png;base64,AA", fileName: "mark" };
-    test("an icon and a logo, each as a PNG and an SVG", () => {
-        const logoOnly = { icon: {}, logo: { png: file, svg: file }, images: [] };
+    test("one icon and one logo, each an SVG or a PNG", () => {
+        const logoOnly = { icon: {}, logo: { file }, images: [] };
         expect(brandInventorySectionsEmpty(logoOnly)[0]).toBe(true);
-        const noSvgIcon = { icon: { png: file }, logo: { png: file, svg: file }, images: [] };
-        expect(brandInventorySectionsEmpty(noSvgIcon)[0]).toBe(true);
-        const all = { icon: { png: file, svg: file }, logo: { png: file, svg: file }, images: [] };
-        expect(brandInventorySectionsEmpty(all)[0]).toBe(false);
+        const both = { icon: { file }, logo: { file }, images: [] };
+        expect(brandInventorySectionsEmpty(both)[0]).toBe(false);
+        // Saved by the page's earlier two-file version: either file counts.
+        const earlier = { icon: { png: file }, logo: { svg: file }, images: [] };
+        expect(brandInventorySectionsEmpty(earlier)[0]).toBe(false);
+        // Removed by hand: an older file still saved does not count.
+        const removed = { icon: { file: null, png: file }, logo: { file }, images: [] };
+        expect(brandInventorySectionsEmpty(removed)[0]).toBe(true);
     });
 });
 

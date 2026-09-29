@@ -106,6 +106,7 @@
     --bg-hover: #f5f5f5;
     --bg-info: #226bc2;
     --bg-met: #1f6b3a;
+    --bg-mark-preview: #ffffff;
     --bg-met-tint: #e7f6ec;
     --bg-navy: #0f172a;
     --bg-navy-hover: #1e293b;
@@ -351,6 +352,7 @@
     --bg-hover: #232323;
     --bg-info: #226bc2;
     --bg-met: #1f6b3a;
+    --bg-mark-preview: #f4f5f7;
     --bg-met-tint: #222724;
     --bg-navy: #444851;
     --bg-navy-hover: #434850;

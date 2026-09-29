@@ -1,6 +1,7 @@
 import { CSSProperties, DragEvent, ReactNode, useRef, useState } from "react";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { ColumnHeading, GuidanceBullets } from "./ColumnHeads.tsx";
+import StrategyTextArea from "./StrategyTextArea.tsx";
 
 import {
     BRAND_IMAGE_MAX,
@@ -8,7 +9,8 @@ import {
     BRAND_INVENTORY_SECTIONS,
     BrandAssetValue,
     BrandInventoryAnswerValue,
-    asBrandInventoryValue
+    asBrandInventoryValue,
+    brandMarkFile
 } from "../../framework/engine/AnswerUtils.ts";
 import { railId } from "./rails/railItems.ts";
 
@@ -51,9 +53,9 @@ const RASTER_QUALITY = 0.82;
 // the smaller budget; brand images are photographic and get the
 // larger one.
 //
-// Worth knowing what a full page now costs: 4 marks at 50kB plus
-// 5 images at 500kB is ~2.7MB of file, and base64 inflates that
-// to ~3.6MB in localStorage -- roughly a quarter of the ~12.8MB
+// Worth knowing what a full page now costs: 2 marks at 50kB plus
+// 5 images at 500kB is ~2.6MB of file, and base64 inflates that
+// to ~3.5MB in localStorage -- roughly a quarter of the ~12.8MB
 // measured headroom for the WHOLE origin (every Organization, all
 // 24 Systems). Three or four Organizations filling this page to
 // the limit would exhaust the quota and break saving app-wide.
@@ -66,6 +68,11 @@ const MAX_BRAND_IMAGE_BYTES = 500 * 1024;
 const MAX_ASSET_BYTES = 900 * 1024;
 
 const SVG_TYPE = "image/svg+xml";
+
+const PNG_TYPE = "image/png";
+
+/** What an icon or a logo may be: one file, an SVG or a PNG. */
+const MARK_TYPES = SVG_TYPE + "," + PNG_TYPE;
 
 function formatBytes(bytes: number): string {
     return bytes >= 1024 * 1024
@@ -147,6 +154,13 @@ async function prepareImage(file: File, downscale: boolean): Promise<string> {
 
 /* ---------- Help: how to choose (the column "i"s) ---------- */
 
+/** What each common format is for, where the page asks for the icon and logo. */
+const MARK_FORMATS: InfoPoint[] = [
+    { title: "SVG", text: "a vector file: stays sharp at any size and is tiny, so it is the best format for a logo or icon on screen and on the web." },
+    { title: "PNG", text: "a pixel image with a transparent background: use it when you only have the logo or icon as an image, at a large enough size to stay sharp." },
+    { title: "PDF", text: "a vector file for print: the format printers and sign makers usually ask for, so keep one for business cards, signage and merchandise (upload the SVG or PNG here)." }
+];
+
 const SHAPE_ASSOCIATIONS: InfoPoint[] = [
     { title: "Circle", text: "unity, community, harmony and continuity." },
     { title: "Square", text: "stability, structure, reliability and balance." },
@@ -204,7 +218,7 @@ export default function BrandInventoryEditor({
 
     async function acceptFile(
         file: File | undefined,
-        expected: "png" | "svg" | "any",
+        expected: "mark" | "any",
         apply: (asset: BrandAssetValue) => void
     ) {
 
@@ -214,13 +228,8 @@ export default function BrandInventoryEditor({
 
         setError("");
 
-        if (expected === "svg" && file.type !== SVG_TYPE) {
-            setError(`"${file.name}" is not an SVG.`);
-            return;
-        }
-
-        if (expected === "png" && file.type !== "image/png") {
-            setError(`"${file.name}" is not a PNG.`);
+        if (expected === "mark" && file.type !== SVG_TYPE && file.type !== PNG_TYPE) {
+            setError(`"${file.name}" is not an SVG or a PNG. The icon and the logo each take one SVG or PNG file.`);
             return;
         }
 
@@ -261,12 +270,14 @@ export default function BrandInventoryEditor({
 
     }
 
-    function setMark(
-        mark: "icon" | "logo",
-        format: "png" | "svg",
-        asset: BrandAssetValue | undefined
-    ) {
-        onChange({ ...inventory, [mark]: { ...inventory[mark], [format]: asset } });
+    /**
+     * The one file of a mark, set or removed. Removing leaves `null`,
+     * not nothing: an SVG or PNG saved by the page's earlier
+     * two-file version stays saved, and `null` is what keeps it from
+     * showing again in its place (see BrandMarkValue).
+     */
+    function setMark(mark: "icon" | "logo", asset: BrandAssetValue | undefined) {
+        onChange({ ...inventory, [mark]: { ...inventory[mark], file: asset ?? null } });
     }
 
     function updateImage(index: number, patch: Partial<BrandInventoryAnswerValue["images"][number]>) {
@@ -328,21 +339,22 @@ export default function BrandInventoryEditor({
         return <GuidanceBullets lines={lines} show={showInstructions} />;
     }
 
-    function renderMarkSlot(mark: "icon" | "logo", format: "png" | "svg") {
+    function renderMarkSlot(mark: "icon" | "logo") {
 
-        const label = `${mark === "icon" ? "Icon" : "Logo"} ${format.toUpperCase()}`;
-        const asset = inventory[mark][format];
+        const label = mark === "icon" ? "Icon" : "Logo";
+        const asset = brandMarkFile(inventory[mark]);
 
         return (
 
             <DropZone
                 key={label}
                 label={label}
-                accept={format === "svg" ? SVG_TYPE : "image/png"}
+                accept={MARK_TYPES}
                 disabled={disabled}
                 asset={asset}
-                onFile={(file) => acceptFile(file, format, (next) => setMark(mark, format, next))}
-                onClear={() => setMark(mark, format, undefined)}
+                hint={asset?.fileName || `SVG or PNG, up to ${MAX_MARK_BYTES / 1024} KB`}
+                onFile={(file) => acceptFile(file, "mark", (next) => setMark(mark, next))}
+                onClear={() => setMark(mark, undefined)}
             />
 
         );
@@ -369,7 +381,11 @@ export default function BrandInventoryEditor({
             <div className="brand-style-head">
                 {heading(0)}
                 {bullets([
-                    `Upload your icon and logo in both PNG and SVG formats, with a maximum file size of ${MAX_MARK_BYTES / 1024} KB each.`,
+                    <>
+                        <InfoText text={`Upload your icon and logo in PNG or SVG formats, with a maximum file size of ${MAX_MARK_BYTES / 1024} KB each.`}>
+                            <InfoNote label="Image formats & their purposes" points={MARK_FORMATS} fullList />
+                        </InfoText>
+                    </>,
                     <>
                         <InfoText text="Choose an icon and logo that represent your organisation clearly and consistently.">
                             <InfoNote label="Shape characteristics & common associations" points={SHAPE_ASSOCIATIONS} fullList />
@@ -406,25 +422,31 @@ export default function BrandInventoryEditor({
             <div className="brand-style-body" data-rail={railId(BRAND_INVENTORY_SECTIONS[0])}>
 
                 {/*
-                    Two sub-columns: ICON on the left, LOGO on the
-                    right at three times its width, each with
-                    SVG above PNG. The two share one row grid so
-                    the SVG holders sit level with each other and
-                    the PNG holders below them do too.
+                    Two sub-columns: the ICON on the left, the LOGO
+                    on the right at three times its width, one file
+                    each, level with each other. Under both, what
+                    the two show and how they are to be used.
                 */}
                 <div className="brand-mark-columns">
 
                     <div className="brand-mark-column brand-mark-column-icon">
-                        {renderMarkSlot("icon", "svg")}
-                        {renderMarkSlot("icon", "png")}
+                        {renderMarkSlot("icon")}
                     </div>
 
                     <div className="brand-mark-column brand-mark-column-logo">
-                        {renderMarkSlot("logo", "svg")}
-                        {renderMarkSlot("logo", "png")}
+                        {renderMarkSlot("logo")}
                     </div>
 
                 </div>
+
+                <StrategyTextArea
+                    className="interview-input brand-mark-note"
+                    ariaLabel="Icon and logo description"
+                    placeholder="What the logo and icon show, what they mean, and how they should be used"
+                    disabled={disabled}
+                    value={inventory.markDescription}
+                    onChange={(next) => onChange({ ...inventory, markDescription: next })}
+                />
 
             </div>
 
@@ -539,6 +561,8 @@ function DropZone({
 
     onClear,
 
+    hint,
+
     aside
 
 }: {
@@ -554,6 +578,12 @@ function DropZone({
     onFile: (file: File | undefined) => void;
 
     onClear?: () => void;
+
+    /**
+     * A line under the holder: the file it holds, or what it takes
+     * while empty. The Icon and Logo slots carry one.
+     */
+    hint?: string;
 
     /**
      * Extra controls placed BESIDE the holder rather than under it
@@ -642,6 +672,10 @@ function DropZone({
                 )}
 
             </div>
+
+            {hint && (
+                <div className="brand-slot-hint">{hint}</div>
+            )}
 
             {/*
                 The file input is the only thing left here -- kept

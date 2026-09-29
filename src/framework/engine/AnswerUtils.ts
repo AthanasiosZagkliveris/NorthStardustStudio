@@ -1617,10 +1617,37 @@ export interface BrandStyleAnswerValue {
     hierarchy: Record<string, BrandHierarchyValue>;
 }
 
+/**
+ * The icon, or the logo: ONE file, an SVG or a PNG (`file`).
+ *
+ * The page used to ask for each mark twice, as an SVG and as a PNG,
+ * and saved them under `svg` and `png`. Those are kept exactly as
+ * saved -- never deleted -- and read through brandMarkFile: while
+ * `file` is empty the saved SVG is shown in its place, else the
+ * saved PNG. `null` is a file removed by hand, which shows nothing
+ * even where an older one is still saved.
+ */
+export interface BrandMarkValue {
+    file?: BrandAssetValue | null;
+    png?: BrandAssetValue;
+    svg?: BrandAssetValue;
+}
+
 export interface BrandInventoryAnswerValue {
-    icon: { png?: BrandAssetValue; svg?: BrandAssetValue };
-    logo: { png?: BrandAssetValue; svg?: BrandAssetValue };
+    icon: BrandMarkValue;
+    logo: BrandMarkValue;
+    /**
+     * What the logo and icon show, what they mean and how they are
+     * to be used. Answers saved before it was asked load with it
+     * empty.
+     */
+    markDescription: string;
     images: BrandImageValue[];
+}
+
+/** The one file a mark shows: its own, else a PNG or SVG saved by the page's earlier two-file version (see BrandMarkValue). */
+export function brandMarkFile(mark: BrandMarkValue): BrandAssetValue | undefined {
+    return mark.file === null ? undefined : mark.file ?? mark.svg ?? mark.png;
 }
 
 /**
@@ -1889,9 +1916,13 @@ export function asBrandInventoryValue(value: unknown): BrandInventoryAnswerValue
 
     };
 
-    const pair = (input: unknown) => {
+    const mark = (input: unknown): BrandMarkValue => {
         const record = input && typeof input === "object" ? input as Record<string, unknown> : {};
-        return { png: asset(record.png), svg: asset(record.svg) };
+        return {
+            file: record.file === null ? null : asset(record.file),
+            png: asset(record.png),
+            svg: asset(record.svg)
+        };
     };
 
     const images = (Array.isArray(source.images) ? source.images : [])
@@ -1912,7 +1943,12 @@ export function asBrandInventoryValue(value: unknown): BrandInventoryAnswerValue
         images.push({ dataUrl: "", fileName: "", name: "", description: "" });
     }
 
-    return { icon: pair(source.icon), logo: pair(source.logo), images };
+    return {
+        icon: mark(source.icon),
+        logo: mark(source.logo),
+        markDescription: typeof source.markDescription === "string" ? source.markDescription : "",
+        images
+    };
 
 }
 
@@ -1924,10 +1960,8 @@ export function brandInventorySectionsEmpty(value: unknown): boolean[] {
 
     const inventory = asBrandInventoryValue(value);
 
-    // As the page asks: an icon AND a logo, each as a PNG and an SVG.
-    const marksComplete =
-        !!inventory.icon.png && !!inventory.icon.svg &&
-        !!inventory.logo.png && !!inventory.logo.svg;
+    // As the page asks: one icon and one logo, each an SVG or a PNG.
+    const marksComplete = !!brandMarkFile(inventory.icon) && !!brandMarkFile(inventory.logo);
 
     const usableImages = inventory.images.filter(image => !!image.dataUrl);
 

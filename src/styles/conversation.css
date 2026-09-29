@@ -4419,6 +4419,48 @@ td.process-library-col-number{
 
 }
 
+/* A mark is shown on paper, in either theme: logos are drawn for a
+   light ground, and a navy wordmark on the dark theme's holder all
+   but disappeared. */
+.brand-mark-column .brand-asset-preview:has(img){
+
+    background:var(--bg-mark-preview);
+
+}
+
+/* Under an Icon or Logo holder: the file it holds, or what it
+   takes while empty ("SVG or PNG, up to 50 KB"). */
+.brand-slot-hint{
+
+    min-width:0;
+
+    font-size:var(--font-small);
+
+    color:var(--text-muted);
+
+    overflow-wrap:anywhere;
+
+}
+
+/* What the logo and icon show and how they are used: under both
+   holders, across the section. It starts at two lines and grows
+   with its text (StrategyTextArea) rather than scrolling inside
+   itself -- the global textarea floor of 180px is for the long
+   Notes fields. */
+.brand-mark-note{
+
+    display:block;
+
+    width:100%;
+
+    min-height:calc(3em + 18px);
+
+    margin-top:16px;
+
+    resize:none;
+
+}
+
 /* The Add-image drop target matches an image holder exactly, so
    the column keeps the same rhythm before and after an upload. */
 .brand-inventory .brand-asset-slot .brand-dropzone{

@@ -46,6 +46,7 @@ import {
     type StrategyMonthValue,
     STRATEGY_MONTH_NAMES,
     asBrandInventoryValue,
+    brandMarkFile,
     asBrandStyleValue,
     asBusinessCapabilityValue,
     asBusinessEngagementValue,
@@ -419,12 +420,15 @@ export function brandInventoryBlocks(value: unknown): ExportBlock[] {
     const file = (asset?: { fileName: string }) => asset?.fileName ?? "";
 
     return [
-        ...titled("Icon & Logo", details([
-            ["Icon (SVG)", file(inventory.icon.svg)],
-            ["Icon (PNG)", file(inventory.icon.png)],
-            ["Logo (SVG)", file(inventory.logo.svg)],
-            ["Logo (PNG)", file(inventory.logo.png)]
-        ])),
+        // One file each, as the page asks (see brandMarkFile), then
+        // what the two show and how they are used.
+        ...titled("Icon & Logo", [
+            ...details([
+                ["Icon", file(brandMarkFile(inventory.icon))],
+                ["Logo", file(brandMarkFile(inventory.logo))]
+            ]),
+            ...labelled("Description", inventory.markDescription)
+        ]),
         ...titled("Brand Images", table(["Image", "File", "Description"], inventory.images
             .filter(image => !!image.dataUrl)
             .map(image => [image.name, image.fileName, image.description])))
