@@ -35,6 +35,8 @@ import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import { railId } from "./rails/railItems.ts";
+import { FieldFlagButton, FieldStatus } from "./fieldAnnotations.tsx";
+import type { FlagOffer } from "../../framework/engine/FieldKeys.ts";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
 import { toggledIn } from "./toggledIn.ts";
@@ -291,6 +293,17 @@ function competitorParts(typeId: string): DescriptionPart[] {
  */
 const OPTIONAL_DESCRIPTION_PART = "business-data";
 
+/**
+ * The Description parameters that are outside facts about the market
+ * and its customers, so each can be flagged Needs investigation
+ * (FieldKinds.ts): a Segment's, and a Profile's psychographics and
+ * habits. Business Data only once it is ticked.
+ */
+const RESEARCHABLE_DESCRIPTION_PARTS = new Set([
+    "demographics", "geographics", "business-data", "purchasing", "market-size",
+    "psychographics", "habits"
+]);
+
 /** Which of the three need lists a parameter names. */
 type BusinessNeedKind = keyof BusinessProfileNeedsValue;
 
@@ -528,7 +541,9 @@ export default function BusinessFoundationEditor({
         onNext: (next: string) => void,
         info?: InfoPoint[],
         /** Which Profile or Competitor this is, for assistive technology. */
-        whose?: string
+        whose?: string,
+        /** The flag this answer offers, if any (FieldKinds.ts). */
+        flag?: FlagOffer
     ) {
         return (
             <BusinessNote
@@ -538,6 +553,7 @@ export default function BusinessFoundationEditor({
                 onChange={onNext}
                 info={info}
                 disabled={disabled}
+                flag={flag}
             />
         );
     }
@@ -548,9 +564,9 @@ export default function BusinessFoundationEditor({
      * subhead rather than a field label, so several fields can
      * belong to it and read as one piece of work.
      */
-    function group(title: string, children: ReactNode, info?: InfoPoint[]) {
+    function group(title: string, children: ReactNode, info?: InfoPoint[], flag?: FlagOffer) {
         return (
-            <BusinessGroup title={title} info={info}>
+            <BusinessGroup title={title} info={info} flag={flag}>
                 {children}
             </BusinessGroup>
         );
@@ -580,7 +596,9 @@ export default function BusinessFoundationEditor({
         parts: DescriptionPart[],
         current: BusinessDescriptionValue,
         onNext: (next: BusinessDescriptionValue) => void,
-        split = false
+        split = false,
+        /** The card, for a Description that sits outside its card's section (the Segment's). */
+        anchor?: string
     ) {
 
         const box = (part: DescriptionPart) => {
@@ -600,6 +618,8 @@ export default function BusinessFoundationEditor({
             const optional = part.id === OPTIONAL_DESCRIPTION_PART;
 
             const asked = !optional || current[part.id] !== undefined;
+
+            const flag: FlagOffer | undefined = asked && RESEARCHABLE_DESCRIPTION_PARTS.has(part.id) ? "investigation" : undefined;
 
             return (
                 <div className="business-foundation-field" key={part.id}>
@@ -647,6 +667,7 @@ export default function BusinessFoundationEditor({
                                         fullList
                                     />
                                 </InfoText>
+                                <FieldFlagButton label={part.title} flag={flag} anchor={anchor} />
                             </span>
                         )}
 
@@ -657,6 +678,10 @@ export default function BusinessFoundationEditor({
                                 fullList
                             />
                         )}
+
+                        {optional && <FieldFlagButton label={part.title} flag={flag} anchor={anchor} />}
+
+                        <FieldStatus label={part.title} anchor={anchor} />
 
                     </span>
 
@@ -851,7 +876,8 @@ export default function BusinessFoundationEditor({
             SUBSECTIONS.segments.segmentDescription,
             segment.description,
             (next) => updateSegment(segmentIndex, { description: next }),
-            true
+            true,
+            segment.id
         );
 
         /* ---- 1. Its Profiles ---- */
@@ -968,7 +994,9 @@ export default function BusinessFoundationEditor({
                                                 fullList
                                             />
                                         </InfoText>
+                                        <FieldFlagButton label={kind.title} flag="investigation" />
                                     </span>
+                                    <FieldStatus label={kind.title} />
                                 </span>
 
                                 <NumberedListInput
@@ -1115,7 +1143,8 @@ export default function BusinessFoundationEditor({
                                 competitor.strengths,
                                 (next) => change({ strengths: next }),
                                 SUBSECTIONS.competitors.strengths,
-                                segmentPath + ", Competitor " + (index + 1)
+                                segmentPath + ", Competitor " + (index + 1),
+                                "investigation"
                             )}
 
                             {note(
@@ -1123,7 +1152,8 @@ export default function BusinessFoundationEditor({
                                 competitor.weaknesses,
                                 (next) => change({ weaknesses: next }),
                                 SUBSECTIONS.competitors.weaknesses,
-                                segmentPath + ", Competitor " + (index + 1)
+                                segmentPath + ", Competitor " + (index + 1),
+                                "investigation"
                             )}
 
                             {note(
@@ -1131,7 +1161,8 @@ export default function BusinessFoundationEditor({
                                 competitor.opportunities,
                                 (next) => change({ opportunities: next }),
                                 SUBSECTIONS.competitors.opportunities,
-                                segmentPath + ", Competitor " + (index + 1)
+                                segmentPath + ", Competitor " + (index + 1),
+                                "investigation"
                             )}
 
                             {note(
@@ -1139,7 +1170,8 @@ export default function BusinessFoundationEditor({
                                 competitor.threats,
                                 (next) => change({ threats: next }),
                                 SUBSECTIONS.competitors.threats,
-                                segmentPath + ", Competitor " + (index + 1)
+                                segmentPath + ", Competitor " + (index + 1),
+                                "investigation"
                             )}
 
                             {/* What the SWOT above it was for, so
@@ -1157,7 +1189,8 @@ export default function BusinessFoundationEditor({
                                 />,
                                 asked.insights === undefined
                                     ? SUBSECTIONS.competitors.insights
-                                    : [asked.insights]
+                                    : [asked.insights],
+                                "investigation"
                             )}
 
                         </>

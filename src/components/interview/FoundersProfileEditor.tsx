@@ -17,6 +17,7 @@ import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
 import FoldArrow from "./FoldArrow.tsx";
 import InfoNote, { InfoText } from "./InfoNote.tsx";
+import { FieldFlagButton, FieldStatus } from "./fieldAnnotations.tsx";
 import type { OpenPage } from "./jumpTo.ts";
 import NumberedListInput from "./NumberedListInput.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
@@ -200,6 +201,9 @@ export default function FoundersProfileEditor({
                             </InfoText>
                         )
                         : title}
+                    {/* A subsection that is one question (an "i" on
+                        its title) is flagged by its title. */}
+                    {info && <FieldFlagButton label={title} section={railId(title)} />}
                 </span>
             </h3>
         );
@@ -220,6 +224,8 @@ export default function FoundersProfileEditor({
                     )
                     : heading}
 
+                {info && <FieldStatus label={title} section={railId(title)} />}
+
                 {children}
 
             </section>
@@ -235,7 +241,9 @@ export default function FoundersProfileEditor({
                     <InfoText text={text}>
                         <InfoNote label={text} points={info} />
                     </InfoText>
+                    <FieldFlagButton label={text} />
                 </span>
+                <FieldStatus label={text} />
             </span>
         );
     }

@@ -57,6 +57,7 @@ import { systems } from "../data/systems";
 import { focusField, jumpTo, type OpenPage } from "../components/interview/jumpTo.ts";
 import { AnnotationProvider } from "../components/interview/fieldAnnotations.tsx";
 import type { Annotations, ReviewMarks } from "../framework/engine/Annotations";
+import { withBuiltInFlags } from "../framework/engine/BuiltInFlags";
 import BulletRail from "../components/interview/rails/BulletRail";
 import NumberedListStatic from "../components/interview/NumberedListStatic";
 import { pageIndexFromRailId, pageRailItems, sectionRailItems } from "../components/interview/rails/railItems";
@@ -808,8 +809,10 @@ export default function Conversation() {
         );
     }, [organizationId]);
 
+    // With the built-in statuses that mean the same as a flag
+    // (BuiltInFlags.ts): a Resource that Needs Investigation.
     const reviewMarks: ReviewMarks | undefined = system
-        ? { systemNumber: system.number, annotations }
+        ? { systemNumber: system.number, annotations: withBuiltInFlags(annotations, system.number, session) }
         : undefined;
     const [loadingError, setLoadingError] = useState<string | null>(null);
     const [, refresh] = useState(0);

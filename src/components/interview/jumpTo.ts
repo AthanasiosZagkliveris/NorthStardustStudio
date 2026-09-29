@@ -142,7 +142,9 @@ export function focusField(key: string, anchors: readonly string[] = []) {
         const field = findField(key);
 
         if (field) {
-            land(field);
+            // A holder that draws no box of its own (display:
+            // contents) is landed on by its first part.
+            land(getComputedStyle(field).display === "contents" ? (field.firstElementChild as HTMLElement | null) ?? field : field);
             controlOf(field)?.focus({ preventScroll: true });
             return;
         }

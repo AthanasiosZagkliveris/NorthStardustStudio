@@ -60,6 +60,7 @@ import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../framework/engine/
 import { randomId } from "../../framework/engine/Readers.ts";
 import { SOURCES } from "../../framework/engine/Sources.ts";
 import { railId } from "./rails/railItems.ts";
+import type { FlagOffer } from "../../framework/engine/FieldKeys.ts";
 
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
@@ -778,7 +779,9 @@ export default function BusinessCapabilityEditor({
         cost: BusinessCostValue,
         onNext: (next: BusinessCostValue) => void,
         /** A resource's Quantity: any count but 1 makes this the price of one. */
-        quantity = ""
+        quantity = "",
+        /** The flag the price offers (FieldKinds.ts): a partner's fee. */
+        flag?: FlagOffer
     ) {
         const count = resourceUnitCount(quantity, cost.frequency);
         const unitPrice = parseAmount(cost.price) ?? NaN;
@@ -790,7 +793,7 @@ export default function BusinessCapabilityEditor({
                a row, two labelled controls leave each too narrow. */
             <div className="business-capability-stack">
 
-                <BusinessField label={count !== null ? "Price per Unit" : "Price"} inline>
+                <BusinessField label={count !== null ? "Price per Unit" : "Price"} inline flag={flag}>
                     <div className="business-capability-price">
 
                         {/* A number and nothing else: the currency is
@@ -2168,7 +2171,9 @@ export default function BusinessCapabilityEditor({
                 {costFields(
                     partner.name.trim() || "Entry " + number,
                     partner.cost,
-                    (next) => change({ cost: next })
+                    (next) => change({ cost: next }),
+                    "",
+                    "investigation"
                 )}
 
                 <OptionalNote

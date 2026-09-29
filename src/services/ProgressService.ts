@@ -2,6 +2,7 @@ import { InterviewSession } from "../framework/interview";
 import type { AnswerDefinition } from "../framework/model";
 import { frameworkRegistry } from "../framework/engine/FrameworkRegistry";
 import { pageStatuses, systemStatus, type PageStatus } from "../framework/engine/PageStatus";
+import { withBuiltInFlags } from "../framework/engine/BuiltInFlags";
 import { systems } from "../data/systems";
 import type { FrameworkSystem } from "../types/system";
 import { StorageService } from "./StorageService";
@@ -81,7 +82,7 @@ export function systemPages(
 
         const statuses = pageStatuses(session, sharedValueResolver(organizationId), {
             systemNumber: system.number,
-            annotations: OrganizationService.getAnnotations(organizationId)
+            annotations: withBuiltInFlags(OrganizationService.getAnnotations(organizationId), system.number, session)
         });
 
         return session.getSections().map(section => ({

@@ -113,6 +113,7 @@ import {
 } from "./FinancialModel.ts";
 import { COUNTRIES, countryCurrency, jurisdictionProfile } from "./LegalEntityJurisdictions.ts";
 import { flagIsOpen, type Annotations, type FieldAnnotation } from "./Annotations.ts";
+import { INVESTIGATION_STATUS } from "./BuiltInFlags.ts";
 import { fieldKey, sectionSegment } from "./FieldKeys.ts";
 
 /** The four Foundation Systems as saved -- any may be missing. */
@@ -151,8 +152,9 @@ function annotationAt(
 
 /**
  * An answer as the documents print it, given what is said about it:
- * "(to be confirmed)" after an answer still flagged Not sure yet or
- * Needs research; "To be confirmed" where it is not given yet, with
+ * "(to be confirmed)" after an answer still flagged Needs
+ * investigation; "To be confirmed: needs investigation (<what to find
+ * out>)" where it is not given yet, with
  * what there is to find out; nothing where it does not apply.
  */
 export function confirmedText(value: string, annotation?: FieldAnnotation): string {
@@ -166,7 +168,7 @@ export function confirmedText(value: string, annotation?: FieldAnnotation): stri
         return value.trim() + " (to be confirmed)";
     }
     const research = annotation?.research?.trim();
-    return "To be confirmed" + (annotation?.flag === "research" && research ? ", needs research: " + research : "");
+    return "To be confirmed: needs investigation" + (research ? " (" + research + ")" : "");
 }
 
 /** A columns page's answers, each as confirmedText prints it (see above). */
@@ -963,6 +965,17 @@ function isEngaged(person: BusinessPartnerValue): boolean {
     );
 }
 
+/**
+ * A Resource's status as the documents print it. Needs Investigation
+ * is the built-in form of the flag (BuiltInFlags.ts), so it prints as
+ * a flagged answer does: to be confirmed.
+ */
+function resourceStatusText(status: string): string {
+    return status === INVESTIGATION_STATUS
+        ? "to be confirmed: needs investigation"
+        : BUSINESS_RESOURCE_STATUSES.find(entry => entry.id === status)?.label ?? "";
+}
+
 function operationsBlocks(f: Foundation): ExportBlock[] {
     const { capability } = f;
     const people = [...capability.professionals, ...capability.providers, ...capability.offering.professionals, ...capability.offering.providers];
@@ -971,12 +984,12 @@ function operationsBlocks(f: Foundation): ExportBlock[] {
     return [
         ...titled("Workspace", paragraph(withNote(
             BUSINESS_WORKSPACE_KINDS.find(kind => kind.id === capability.workspace.kind)?.label ?? "",
-            BUSINESS_RESOURCE_STATUSES.find(status => status.id === capability.workspace.status)?.label ?? ""
+            resourceStatusText(capability.workspace.status)
         ))),
         ...titled("Key Resources", list(BUSINESS_RESOURCE_GROUPS.flatMap(group => (capability.resources[group.id] ?? [])
             .flatMap(subsection => subsection.slots.filter(slot => slot.name.trim()).map(slot =>
                 slot.name.trim() + (slot.quantity ? " × " + slot.quantity : "") + " (" +
-                (BUSINESS_RESOURCE_STATUSES.find(status => status.id === slot.status)?.label ?? "status not set") + ")"))))),
+                (resourceStatusText(slot.status) || "status not set") + ")"))))),
         ...titled("Launch and Setup Tasks", table(["Task", "Category", "State"], [
             ...capability.activities.flatMap(category => category.activities
                 .filter(activity => activity.name.trim())

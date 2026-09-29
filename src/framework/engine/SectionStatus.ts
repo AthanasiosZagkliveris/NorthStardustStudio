@@ -172,7 +172,7 @@ const BESPOKE: Partial<Record<AnswerType, BespokeSections>> = {
 
 /**
  * Whether a section has been flagged for another look: a field in it
- * marked "Not sure yet" or "Needs research" (Annotations.ts), as
+ * marked "Needs investigation" (Annotations.ts), as
  * PageStatus.needsReview is for a page.
  */
 export function sectionNeedsReview(marks: ReviewMarks | undefined, sectionNumber: number, sectionId: string): boolean {

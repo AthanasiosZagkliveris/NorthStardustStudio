@@ -756,7 +756,9 @@ export default function LegalEntityEditor({
         info?: string[]
     ) {
         return (
-            <>
+            /* One field of several in a column: its own holder (for
+               its key, FieldKeys.ts), which adds no box of its own. */
+            <div className="legal-entity-pair">
                 {onRemove
                     ? (
                         <span
@@ -798,7 +800,7 @@ export default function LegalEntityEditor({
                         )}
                 <FieldStatus label={label} />
                 {control}
-            </>
+            </div>
         );
     }
 
@@ -1784,6 +1786,7 @@ export default function LegalEntityEditor({
                         ) : (
                             <div className="legal-entity-field-wide">
 
+                                <span className="legal-entity-switch-row">
                                 <label className="legal-entity-switch">
                                     <input
                                         type="checkbox"
@@ -1799,6 +1802,18 @@ export default function LegalEntityEditor({
                                         {"Registered for " + profile.consumptionTax}
                                     </span>
                                 </label>
+
+                                {/* Whether it has to register is a
+                                    requirement to find out, or one that
+                                    does not apply (FieldKinds.ts). Outside
+                                    the label: inside, it would tick the box. */}
+                                <FieldFlagButton
+                                    label={"Registered for " + profile.consumptionTax}
+                                    keyLabel="sales-tax-registration"
+                                    flag="investigation-or-not-applicable"
+                                />
+                                </span>
+                                <FieldStatus label={"Registered for " + profile.consumptionTax} keyLabel="sales-tax-registration" />
 
                                 {/* Only once there is a registration to number. */}
                                 {entity.tax.consumptionTaxStatus === "yes" && (
@@ -1891,7 +1906,7 @@ export default function LegalEntityEditor({
 
                             return (
 
-                            <div className="legal-entity-card" key={requirement.id}>
+                            <div className="legal-entity-card" key={requirement.id} data-anchor={"legal-requirement-" + requirement.id}>
 
                                 <div className="legal-entity-card-head fold-card-head">
 
@@ -1914,20 +1929,26 @@ export default function LegalEntityEditor({
                                         </span>
                                     )}
 
-                                    <button
-                                        type="button"
-                                        className="strategy-box-remove"
-                                        aria-label={"Remove legal requirement " + (index + 1)}
-                                        title={"Remove legal requirement " + (index + 1)}
-                                        disabled={disabled}
-                                        onClick={() => update({
-                                            requirements: entity.requirements.filter(
-                                                (_candidate, position) => position !== index
-                                            )
-                                        })}
-                                    >
-                                        ×
-                                    </button>
+                                    {/* A requirement is flagged as a whole
+                                        (FieldKinds.ts): it may need
+                                        investigating, or not apply. */}
+                                    <span className="card-head-end">
+                                        <FieldFlagButton label={"Requirement " + (index + 1) + (requirement.name.trim() ? ": " + requirement.name.trim() : "")} card flag="investigation-or-not-applicable" />
+                                        <button
+                                            type="button"
+                                            className="strategy-box-remove"
+                                            aria-label={"Remove legal requirement " + (index + 1)}
+                                            title={"Remove legal requirement " + (index + 1)}
+                                            disabled={disabled}
+                                            onClick={() => update({
+                                                requirements: entity.requirements.filter(
+                                                    (_candidate, position) => position !== index
+                                                )
+                                            })}
+                                        >
+                                            ×
+                                        </button>
+                                    </span>
 
                                     {/* The rest, on a row of its own under
                                         the name (see .fold-card-head). */}
@@ -1936,6 +1957,8 @@ export default function LegalEntityEditor({
                                     )}
 
                                 </div>
+
+                                <FieldStatus label={"Requirement " + (index + 1) + (requirement.name.trim() ? ": " + requirement.name.trim() : "")} card />
 
                                 {open && (
                                 <div className="legal-entity-grid legal-entity-grid-pairs">

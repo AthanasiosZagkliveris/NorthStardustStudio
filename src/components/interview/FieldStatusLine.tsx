@@ -5,8 +5,8 @@ import { FIELD_FLAG_WORDS, type FieldFlag } from "../../framework/engine/Annotat
  * field besides its answer, in words with a small mark beside each
  * (never colour alone) --
  *
- *   ⚑ Not sure yet  /  ⚑ Needs research: <what to find out>  /
- *   ⚑ Doesn't apply     a flag (the field menu)
+ *   ⚑ Needs investigation: <what to find out>  /
+ *   ⚑ Doesn't apply     a flag (the flag button)
  *   ✎ Note              a note, which the mark opens and closes
  *   Changed in <Scenario> · Reset   later: a scenario's own value
  *

@@ -19,7 +19,7 @@
 
 import { LocalOrganizationStore } from "./LocalOrganizationStore";
 import type { SaveState } from "./OrganizationStore";
-import { annotationIsEmpty, type Annotations, type FieldAnnotation } from "../framework/engine/Annotations";
+import { annotationIsEmpty, normalizeAnnotations, type Annotations, type FieldAnnotation } from "../framework/engine/Annotations";
 
 export interface OrganizationSummary {
     id: string;
@@ -130,8 +130,8 @@ export interface OrganizationDocument {
      */
     lastPlace?: LastPlace;
     /**
-     * What is said about answers beside the answers: flags ("Not sure
-     * yet", "Needs research", "Doesn't apply") and notes, keyed by
+     * What is said about answers beside the answers: flags ("Needs
+     * investigation", "Doesn't apply") and notes, keyed by
      * FieldKey (see Annotations.ts, FieldKeys.ts). Optional data in
      * format version 2: a file without it reads as no annotations.
      */
@@ -517,7 +517,7 @@ export class OrganizationService {
     /** Every flag and note in the Organization, by FieldKey. */
     static getAnnotations(organizationId: string): Annotations {
         const annotations = this.loadDocument(organizationId)?.annotations;
-        return annotations && typeof annotations === "object" && !Array.isArray(annotations) ? annotations : {};
+        return annotations && typeof annotations === "object" && !Array.isArray(annotations) ? normalizeAnnotations(annotations) : {};
     }
 
     /**

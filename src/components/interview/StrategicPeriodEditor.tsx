@@ -27,6 +27,7 @@ import MonthYearPicker from "./MonthYearPicker.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../framework/engine/Currencies.ts";
 import { OptionalNote } from "./BusinessCardFields.tsx";
+import { FieldFlagButton, FieldStatus } from "./fieldAnnotations.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
 import FoldArrow from "./FoldArrow.tsx";
 import CardNumber from "./CardNumber.tsx";
@@ -434,6 +435,7 @@ function GoalList({
                     <div
                         key={goal.id}
                         {...props}
+                        data-anchor={goal.id}
                         className={`strategy-goal-box ${props.className}`}
                     >
 
@@ -648,6 +650,7 @@ function ObjectiveList({
                     <div
                         key={objective.id}
                         {...props}
+                        data-anchor={objective.id}
                         className={`strategy-objective-box ${props.className}`}
                     >
 
@@ -901,6 +904,7 @@ function MetricList({
                     <div
                         key={metric.id}
                         {...props}
+                        data-anchor={metric.id}
                         className={`strategy-metric-box ${props.className}`}
                     >
 
@@ -948,10 +952,14 @@ function MetricList({
                         */}
                         <div className="strategy-metric-fields">
 
-                            <div className="strategy-metric-field">
+                            <div className="strategy-metric-field" data-field-holder="">
                                 <span className="field-label strategy-field-label">
                                     {`Baseline (${formatMonthShort(objective.period.start)})`}
+                                    {/* Where the figure stands today: an
+                                        outside fact (FieldKinds.ts). */}
+                                    <FieldFlagButton label={`Metric ${metricIndex + 1} baseline`} keyLabel="baseline" flag="investigation" />
                                 </span>
+                                <FieldStatus label={`Metric ${metricIndex + 1} baseline`} keyLabel="baseline" />
                                 <input
                                     type="text"
                                     inputMode="decimal"

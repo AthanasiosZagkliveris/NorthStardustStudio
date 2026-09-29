@@ -151,7 +151,33 @@ export function writeField(value: unknown, path: readonly string[], next: unknow
     the definitions).
 */
 
-export type FieldKind = "answer" | "derived" | "binary" | "optional";
+/**
+ * What a field is, for what it offers beside its answer (FieldKinds.ts):
+ * an ANSWER the person gives (a note; a flag only where FlagOffer
+ * says), or NONE (neither, see NoneReason).
+ */
+export type FieldKind = "answer" | "none";
+
+/**
+ * The flag a field offers, if any (FieldKinds.ts): Needs investigation
+ * alone, or with Doesn't apply (the legal and tax items).
+ */
+export type FlagOffer = "investigation" | "investigation-or-not-applicable";
+
+/**
+ * Why a field carries no flag or note:
+ *
+ *   derived         worked out, read from elsewhere or read-only;
+ *   binary          a yes or a no (one tick box, or two choices that
+ *                   are each other's "not");
+ *   optional-tick   an optional text opened by its own tick box;
+ *   status          where a thing stands (Status, Completed);
+ *   has-own-option  a choice that holds its own "not yet" answer;
+ *   link            a link to another item (Performer, Owner);
+ *   display         how figures are shown (Currency, Unit);
+ *   name            a card's name: the card is flagged instead.
+ */
+export type NoneReason = "derived" | "binary" | "optional-tick" | "status" | "has-own-option" | "link" | "display" | "name";
 
 /**
  * Whether two choices are a yes and a no: "Yes"/"No", or one the
@@ -176,22 +202,15 @@ export interface FieldEntry {
     /** The page as its title names it ("3. Legal Entity"). */
     pageTitle: string;
 
-    /**
-     * What kind of field it is -- and only an ANSWER can be flagged or
-     * noted (absent means an answer):
-     *
-     *   answer    typed or chosen by the person;
-     *   derived   worked out, read from elsewhere or shown read-only
-     *             (a Responsibility a rule decides, recalled Roles, a
-     *             total);
-     *   binary    a yes or a no: one tick box, or a choice of two that
-     *             are each other's "not" ("Registered" / "Not yet
-     *             registered") -- nothing to be unsure of;
-     *   optional  an optional text opened by its own tick box: optional
-     *             by design, so not sure / to research / does not
-     *             apply do not arise.
-     */
+    /** What it offers beside its answer (FieldKinds.ts); absent means an answer. */
     kind?: FieldKind;
+
+    /** With kind "none": why. */
+    why?: NoneReason;
+
+    /** The flag it offers; absent, none (FieldKinds.ts). */
+    flag?: FlagOffer;
+
 
 }
 

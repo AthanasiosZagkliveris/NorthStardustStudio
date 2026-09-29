@@ -3118,7 +3118,7 @@ export default function BusinessEngagementEditor({
             limits: NumberLimit
         ) {
             return (
-                <BusinessField key={label} label={label} info={[help]}>
+                <BusinessField key={label} label={label} info={[help]} flag="investigation">
                     <input
                         type="text"
                         inputMode={numberInputMode(limits)}
@@ -3151,7 +3151,7 @@ export default function BusinessEngagementEditor({
                     : "";
 
             return (
-                <div className="business-demand-source" key={source.id}>
+                <div className="business-demand-source" key={source.id} data-anchor={"demand-source-" + source.id}>
 
                     {/* THE CARD'S HEAD: which source, and what it gives. */}
                     <div className="business-demand-source-head">

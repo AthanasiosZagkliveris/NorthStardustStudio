@@ -324,3 +324,38 @@
     align-self: start;
 
 }
+
+/* A DECISION CARD'S HEAD ENDS WITH ITS FLAG (FieldFlagButton, card):
+   the flag and the card's own controls share the last cell, the flag
+   first, so the × stays in the corner every card keeps it in. In a
+   head that is a row rather than a grid (a Theme), the cell goes to
+   the end of the row. */
+.card-head-end {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    margin-left: auto;
+
+}
+
+.card-head-end > .field-flag {
+
+    margin-left: 0;
+
+}
+
+.fold-card-head > .card-head-end {
+
+    grid-column: 4;
+
+}
+
+.fold-card-head-grip > .card-head-end {
+
+    grid-column: 5;
+
+}

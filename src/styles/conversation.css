@@ -8297,6 +8297,15 @@ td.process-library-col-number{
 }
 
 /* An address, an activity, a description: prose needs the width. */
+/* One label-and-control pair among several in a column: it holds
+   the field (its key, FieldKeys.ts) and draws nothing, so the
+   column lays its parts out as before. */
+.legal-entity-pair{
+
+    display:contents;
+
+}
+
 .legal-entity-field-wide{
 
     grid-column:1 / -1;
@@ -8334,6 +8343,17 @@ td.process-library-col-number{
 }
 
 /* ---------- Founders ---------- */
+
+/* A tick box with its flag after it, on the tick box's own line. */
+.legal-entity-switch-row{
+
+    display:flex;
+
+    align-items:center;
+
+    min-width:0;
+
+}
 
 .legal-entity-switch{
 
@@ -12695,6 +12715,26 @@ td.process-library-col-number{
     line-height:1.5;
 
     font-weight:600;
+
+}
+
+/* An amount entered here, with its flag after it (an outside figure,
+   FieldKinds.ts): the box takes what the flag leaves. */
+.financial-cost-amount-entry{
+
+    display:flex;
+
+    align-items:center;
+
+    min-width:0;
+
+}
+
+.financial-cost-amount-entry > .interview-input{
+
+    flex:1 1 auto;
+
+    min-width:0;
 
 }
 

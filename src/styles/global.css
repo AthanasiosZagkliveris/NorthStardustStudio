@@ -386,7 +386,7 @@ body {
   width: min(100%, var(--control-s));
 }
 
-:is(.business-foundation-field, .legal-entity-field, .strategy-metric-field) > input.interview-input:is([inputmode="decimal"], [inputmode="numeric"]) {
+:is(.business-foundation-field, .legal-entity-field, .legal-entity-pair, .strategy-metric-field) > input.interview-input:is([inputmode="decimal"], [inputmode="numeric"]) {
   width: min(100%, var(--control-s));
 }
 
@@ -812,6 +812,8 @@ b, strong {
 }
 
 :is(.business-foundation-field, .legal-entity-field, .legal-entity-section-head, .answer-column-label, .strategy-box-head):is(:hover, :focus-within) .field-flag-button,
+[data-field-key]:is(:hover, :focus-within) .field-flag-button,
+.field-group-title:is(:hover, :focus-within) .field-flag-button,
 .field-flag-button:focus-visible,
 .field-flag-button[aria-expanded="true"],
 .field-flag-button[data-active] {

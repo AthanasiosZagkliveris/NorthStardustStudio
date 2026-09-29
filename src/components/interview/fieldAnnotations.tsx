@@ -15,11 +15,13 @@ import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
 import { OrganizationService } from "../../services/OrganizationService";
 import {
     FIELD_FLAG_WORDS,
+    INVESTIGATION_QUESTION,
     type Annotations,
     type FieldAnnotation,
     type FieldFlag
 } from "../../framework/engine/Annotations";
-import { fieldKey, isYesNoPair, registerField, slug, type FieldKey, type FieldKind } from "../../framework/engine/FieldKeys";
+import { fieldKey, isYesNoPair, registerField, slug, type FieldKey, type FieldKind, type FlagOffer, type NoneReason } from "../../framework/engine/FieldKeys";
+import { fieldKindOf, flagOfferOf, offersNotApplicable } from "../../framework/engine/FieldKinds";
 
 import { consumeKey } from "./consumeKey.ts";
 import FieldStatusLine from "./FieldStatusLine.tsx";
@@ -107,23 +109,52 @@ export function AnnotationProvider({
 
 }
 
+/**
+ * Where a field is and what it offers, found from where it is drawn.
+ *
+ *   section   a page section's own heading: the section is the field;
+ *   card      a card's head: the card is the field (its section and
+ *             its own anchor);
+ *   rail      the page section, for a field that sits in none;
+ *   anchor    the card, for a field whose card sits outside its
+ *             section (a Segment's Description);
+ *   keyLabel  the label its key is made from, when the label shown
+ *             changes with the answer ("<cost name> amount");
+ *   flag      the flag it offers (FieldKinds.ts), named where it is
+ *             drawn; otherwise found by its address.
+ */
+export interface FieldPlace {
+    section?: string;
+    card?: boolean;
+    rail?: string;
+    anchor?: string;
+    keyLabel?: string;
+    flag?: FlagOffer;
+}
+
 /** The field's key and where it is, found from where `ref` sits on the page. */
 interface FieldAddressing {
     key: FieldKey | null;
-    /** An answer the person gives (see FieldEntry.kind): only those carry the menu. */
-    answer: boolean;
+    kind: FieldKind;
+    flag?: FlagOffer;
     anchors: string[];
     section?: string;
 }
 
+/** The elements that hold one field: its label, its control, its status line. */
+const HOLDER = ".business-foundation-field, .legal-entity-pair, .legal-entity-field, .legal-entity-field-wide, [data-field-holder]";
+
 function useFieldAddress(
     ref: RefObject<HTMLElement | null>,
     label: string,
-    section: string | undefined
+    place: FieldPlace,
+    /** Records the field in the registry: once per field, by its flag button. */
+    register: boolean
 ): FieldAddressing {
 
     const context = useContext(AnnotationContext);
-    const [found, setFound] = useState<FieldAddressing>({ key: null, answer: false, anchors: [] });
+    const [found, setFound] = useState<FieldAddressing>({ key: null, kind: "none", anchors: [] });
+    const { section, card = false, rail: fallbackRail, anchor, keyLabel, flag: named } = place;
 
     useLayoutEffect(() => {
 
@@ -133,11 +164,11 @@ function useFieldAddress(
 
         const element = ref.current;
         const railElement = element.closest<HTMLElement>("[data-rail]");
-        const rail = section ?? railElement?.dataset.rail;
+        const rail = section ?? railElement?.dataset.rail ?? fallbackRail;
 
         // The cards around it, innermost first, inside its section.
-        const anchors: string[] = [];
-        for (let at = element.closest<HTMLElement>("[data-anchor]"); at; at = at.parentElement?.closest<HTMLElement>("[data-anchor]") ?? null) {
+        const anchors: string[] = anchor ? [anchor] : [];
+        for (let at = anchor ? null : element.closest<HTMLElement>("[data-anchor]"); at; at = at.parentElement?.closest<HTMLElement>("[data-anchor]") ?? null) {
             // Only cards inside its section: the section itself, and
             // what holds it, are not cards of the field.
             if (railElement && (at === railElement || !railElement.contains(at))) {
@@ -151,48 +182,63 @@ function useFieldAddress(
 
         const path = section
             ? [section]
-            : [rail, anchors[0], slug(label)].filter((segment): segment is string => !!segment);
+            : card
+                ? [rail, anchors[0]].filter((segment): segment is string => !!segment)
+                : [rail, anchors[0], slug(keyLabel ?? label)].filter((segment): segment is string => !!segment);
 
         const key = fieldKey({ systemNumber: context.systemNumber, sectionNumber: context.sectionNumber, path });
 
         // Opening the field (focusField) looks for this mark.
-        const holder = element.closest<HTMLElement>(".business-foundation-field, .legal-entity-field") ?? element;
+        const holder = card
+            ? element.closest<HTMLElement>("[data-anchor]") ?? element
+            : element.closest<HTMLElement>(HOLDER) ?? element;
         holder.dataset.fieldKey = key;
 
-        // ONE RULE FOR WHAT CAN BE FLAGGED (FieldEntry.kind): only an
-        // answer the person gives. A column's or section's heading
-        // stands for what it holds, and is always one.
-        const kind = section ? "answer" : fieldKind(holder);
-        const answer = kind === "answer";
+        // ONE RULE FOR WHAT A FIELD OFFERS (FieldKinds.ts): a field
+        // named flaggable is an answer; otherwise what the markup
+        // shows for itself -- nothing to answer, a yes or a no, an
+        // optional text behind its tick box -- and then the table.
+        const flag = named ?? flagOfferOf(context.systemNumber, path, card);
+        const shown = flag || section || card ? null : markupKind(holder);
+        const { kind, why } = flag
+            ? { kind: "answer" as const, why: undefined }
+            : shown
+                ? { kind: "none" as const, why: shown }
+                : fieldKindOf(context.systemNumber, path, card);
 
-        registerField({ key, label, pageTitle: context.pageTitle, kind });
-        holder.dataset.fieldType = kind;
+        if (register) {
+            registerField({ key, label, pageTitle: context.pageTitle, kind, ...(why ? { why } : {}), ...(flag ? { flag } : {}) });
+            holder.dataset.fieldType = kind;
+            if (flag) {
+                holder.dataset.fieldFlag = flag;
+            }
+        }
 
-        setFound(previous => previous.key === key && previous.answer === answer && previous.anchors.join(" ") === anchors.join(" ")
+        setFound(previous => previous.key === key && previous.kind === kind && previous.flag === flag && previous.anchors.join(" ") === anchors.join(" ")
             ? previous
-            : { key, answer, anchors, section: rail });
+            : { key, kind, flag, anchors, section: rail });
 
-    }, [context, ref, label, section]);
+    }, [context, ref, label, section, card, fallbackRail, anchor, keyLabel, named, register]);
 
     return found;
 
 }
 
 /**
- * What kind of field `holder` is (FieldEntry.kind): derived when it
- * holds nothing the person types or chooses in; optional when it is
- * an optional text opened by its tick box (`data-field-kind`);
- * binary when its one control is a tick box, or a choice of a yes and
- * a no (isYesNoPair); otherwise an answer.
+ * What `holder`'s markup says it is, when that settles it: derived
+ * when it holds nothing the person types or chooses in; an optional
+ * text opened by its tick box (`data-field-kind`); binary when its
+ * one control is a tick box, or a choice of a yes and a no
+ * (isYesNoPair). Null when the markup does not settle it.
  */
-function fieldKind(holder: HTMLElement): FieldKind {
+function markupKind(holder: HTMLElement): NoneReason | null {
 
     if (holder.dataset.fieldKind === "optional" || holder.closest("[data-field-kind=optional]")) {
-        return "optional";
+        return "optional-tick";
     }
 
     const controls = [...holder.querySelectorAll<HTMLElement>(
-        "input:not([type=hidden]):not(.field-flag-research), textarea, select, .option-picker, .month-picker, [contenteditable=true]"
+        "input:not([type=hidden]):not(.field-flag-research), textarea:not(.field-note-text), select, .option-picker, .month-picker, [contenteditable=true]"
     )].filter(control => !control.closest(".option-picker") || control.matches(".option-picker"));
 
     if (controls.length === 0) {
@@ -221,15 +267,15 @@ function fieldKind(holder: HTMLElement): FieldKind {
         return "binary";
     }
 
-    return "answer";
+    return null;
 
 }
 
 /** The annotation on a field, and how to change it. */
-function useFieldAnnotation(ref: RefObject<HTMLElement | null>, label: string, section?: string) {
+export function useFieldAnnotation(ref: RefObject<HTMLElement | null>, label: string, place: FieldPlace, register = false) {
 
     const context = useContext(AnnotationContext);
-    const address = useFieldAddress(ref, label, section);
+    const address = useFieldAddress(ref, label, place, register);
     const annotation = address.key ? context?.annotations[address.key] : undefined;
 
     const change = useCallback((patch: Partial<FieldAnnotation> | null) => {
@@ -246,28 +292,43 @@ function useFieldAnnotation(ref: RefObject<HTMLElement | null>, label: string, s
             label,
             pageTitle: context.pageTitle,
             anchors: address.anchors,
+            kind: address.kind,
             ...(address.section ? { section: address.section } : {})
         });
     }, [context, address, annotation, label]);
 
-    return { enabled: !!context && address.answer, key: address.key, annotation, change };
+    return {
+        present: !!context,
+        kind: address.kind,
+        flag: address.flag,
+        key: address.key,
+        annotation: annotation?.builtIn ? undefined : annotation,
+        change
+    };
 
 }
 
-const FLAGS: FieldFlag[] = ["not-sure", "research", "not-applicable"];
-
 /**
- * The flag icon after a label, and the small menu it opens: Not sure
- * yet, Needs research (with one optional line: what to find out),
- * Doesn't apply, and Clear flag once flagged. Seen on hover or focus
- * of its field on a pointer, always on touch, and always once the
- * field has a flag (field-annotations CSS, global.css).
+ * THE FLAG BUTTON after a label (aria "Flag: <field>"), drawn only on
+ * the fields that offer a flag (FieldKinds.ts):
+ *
+ * - most offer one, Needs investigation: the button sets it at once
+ *   and opens its one optional line, "What do I need to find out?";
+ *   pressed again, it clears it. No menu.
+ * - the legal and tax items offer two: the button opens a small menu
+ *   -- Needs investigation (with its line), Doesn't apply, and Clear
+ *   flag once one is set.
+ *
+ * Seen on hover or focus of its field on a pointer, always on touch,
+ * and always once the field has a flag (global.css). Every label
+ * that can carry one renders it: it also records the field in the
+ * registry, whatever the field offers.
  */
-export function FieldFlagButton({ label, section }: { label: string; section?: string }) {
+export function FieldFlagButton({ label, ...place }: { label: string } & FieldPlace) {
 
     const ref = useRef<HTMLSpanElement | null>(null);
     const buttonRef = useRef<HTMLButtonElement | null>(null);
-    const { enabled, annotation, change } = useFieldAnnotation(ref, label, section);
+    const { present, flag: offer, annotation, change } = useFieldAnnotation(ref, label, place, true);
     const [open, setOpen] = useState(false);
     const { panelRef, panelStyle } = useFloatingPanel(open, buttonRef);
 
@@ -286,19 +347,25 @@ export function FieldFlagButton({ label, section }: { label: string; section?: s
 
     useEffect(() => {
         if (open) {
-            panelRef.current?.querySelector<HTMLElement>("[role=menuitemradio], [role=menuitem]")?.focus({ preventScroll: true });
+            panelRef.current?.querySelector<HTMLElement>("[role=menuitemradio], [role=menuitem], .field-flag-research")?.focus({ preventScroll: true });
         }
     }, [open, panelRef]);
 
-    if (!enabled) {
+    if (!present || !offer) {
         return <span ref={ref} hidden />;
     }
 
     const flag = annotation?.flag;
+    const menu = offersNotApplicable(offer);
 
     function close() {
         setOpen(false);
         buttonRef.current?.focus({ preventScroll: true });
+    }
+
+    function clear() {
+        change({ flag: undefined, research: undefined });
+        close();
     }
 
     function choose(next: FieldFlag) {
@@ -308,6 +375,36 @@ export function FieldFlagButton({ label, section }: { label: string; section?: s
         }
     }
 
+    function press() {
+        if (menu) {
+            setOpen(current => !current);
+            return;
+        }
+        if (flag) {
+            clear();
+            return;
+        }
+        change({ flag: "research", research: "" });
+        setOpen(true);
+    }
+
+    const line = flag === "research" && (
+        <input
+            type="text"
+            className="interview-input field-flag-research"
+            aria-label={INVESTIGATION_QUESTION}
+            placeholder={INVESTIGATION_QUESTION}
+            value={annotation?.research ?? ""}
+            onChange={(event) => change({ research: event.target.value })}
+            onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    close();
+                }
+            }}
+        />
+    );
+
     return (
         <span className="field-flag" ref={ref}>
 
@@ -316,10 +413,12 @@ export function FieldFlagButton({ label, section }: { label: string; section?: s
                 ref={buttonRef}
                 className="field-flag-button"
                 data-active={flag ? "" : undefined}
-                aria-label={"Flag or note: " + label}
-                aria-haspopup="menu"
-                aria-expanded={open}
-                onClick={() => setOpen(current => !current)}
+                aria-label={"Flag: " + label}
+                {...(menu
+                    ? { "aria-haspopup": "menu" as const, "aria-expanded": open }
+                    : { "aria-pressed": !!flag })}
+                title={menu ? undefined : flag ? "Clear the flag" : FIELD_FLAG_WORDS.research}
+                onClick={press}
             >
                 <span aria-hidden="true">⚑</span>
             </button>
@@ -329,8 +428,8 @@ export function FieldFlagButton({ label, section }: { label: string; section?: s
                     className="field-flag-menu"
                     ref={panelRef}
                     style={panelStyle}
-                    role="menu"
-                    aria-label={"Flag or note: " + label}
+                    role={menu ? "menu" : "group"}
+                    aria-label={"Flag: " + label}
                     onKeyDown={(event) => {
                         if (event.key === "Escape") {
                             consumeKey(event);
@@ -338,7 +437,7 @@ export function FieldFlagButton({ label, section }: { label: string; section?: s
                         }
                     }}
                 >
-                    {FLAGS.map(option => (
+                    {menu && (["research", "not-applicable"] as FieldFlag[]).map(option => (
                         <button
                             key={option}
                             type="button"
@@ -351,32 +450,14 @@ export function FieldFlagButton({ label, section }: { label: string; section?: s
                         </button>
                     ))}
 
-                    {flag === "research" && (
-                        <input
-                            type="text"
-                            className="interview-input field-flag-research"
-                            aria-label="What do I need to find out?"
-                            placeholder="What do I need to find out?"
-                            value={annotation?.research ?? ""}
-                            onChange={(event) => change({ research: event.target.value })}
-                            onKeyDown={(event) => {
-                                if (event.key === "Enter") {
-                                    event.preventDefault();
-                                    close();
-                                }
-                            }}
-                        />
-                    )}
+                    {line}
 
-                    {flag && (
+                    {menu && flag && (
                         <button
                             type="button"
                             role="menuitem"
                             className="field-flag-option field-flag-clear"
-                            onClick={() => {
-                                change({ flag: undefined, research: undefined });
-                                close();
-                            }}
+                            onClick={clear}
                         >
                             Clear flag
                         </button>
@@ -390,10 +471,10 @@ export function FieldFlagButton({ label, section }: { label: string; section?: s
 }
 
 /** The field's status line (FieldStatusLine) under its label: its flag. */
-export function FieldStatus({ label, section }: { label: string; section?: string }) {
+export function FieldStatus({ label, ...place }: { label: string } & FieldPlace) {
 
     const ref = useRef<HTMLSpanElement | null>(null);
-    const { annotation } = useFieldAnnotation(ref, label, section);
+    const { annotation } = useFieldAnnotation(ref, label, place);
 
     return (
         <span className="field-status" ref={ref}>

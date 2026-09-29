@@ -1,0 +1,39 @@
+import { describe, expect, test } from "vitest";
+
+import { fieldKindOf, flagOfferOf, kindCanBeNoted, offersNotApplicable } from "./FieldKinds.ts";
+
+describe("a field's kind", () => {
+
+    test("is an answer unless it is a status, a link, a display setting, a name or a choice with its own not-yet", () => {
+        expect(fieldKindOf(1, ["organization", "legal-form"]).kind).toBe("answer");
+        expect(fieldKindOf(3, ["infrastructure", "res-1", "status"])).toEqual({ kind: "none", why: "status" });
+        expect(fieldKindOf(3, ["infrastructure", "res-1", "performer"])).toEqual({ kind: "none", why: "link" });
+        expect(fieldKindOf(4, ["theme-1", "metric-1", "currency"])).toEqual({ kind: "none", why: "display" });
+        expect(fieldKindOf(3, ["income-tax"])).toEqual({ kind: "none", why: "has-own-option" });
+        expect(fieldKindOf(1, ["legal-entity-expenses", "exp-1", "name"])).toEqual({ kind: "none", why: "name" });
+        expect(kindCanBeNoted("answer")).toBe(true);
+        expect(kindCanBeNoted("none")).toBe(false);
+    });
+
+});
+
+describe("the flag a field offers", () => {
+
+    test("is offered only on the listed researchable fields", () => {
+        expect(flagOfferOf(1, ["positioning"])).toBe("investigation");
+        expect(flagOfferOf(1, ["mission"])).toBeUndefined();
+        expect(flagOfferOf(1, ["organization", "country"])).toBe("investigation");
+        expect(flagOfferOf(1, ["organization", "postcode"])).toBeUndefined();
+        expect(flagOfferOf(3, ["capital-funding", "fund-1", "interest-rate-a-year"])).toBe("investigation");
+        expect(flagOfferOf(3, ["capital-funding", "fund-1", "funding-type"])).toBeUndefined();
+        expect(flagOfferOf(3, ["revenue", "off-1", "expected-sales"])).toBe("investigation");
+    });
+
+    test("includes Doesn't apply only on the legal and tax items", () => {
+        expect(flagOfferOf(1, ["additional-legal-requirements"])).toBe("investigation-or-not-applicable");
+        expect(flagOfferOf(1, ["legal-entity-expenses", "exp-1", "cost-gbp"])).toBe("investigation-or-not-applicable");
+        expect(offersNotApplicable("investigation-or-not-applicable")).toBe(true);
+        expect(offersNotApplicable("investigation")).toBe(false);
+    });
+
+});

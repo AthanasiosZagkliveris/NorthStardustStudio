@@ -52,7 +52,7 @@ describe("the field status line", () => {
     it("says a flag in words, with what to find out, and offers the note", () => {
         const toggle = vi.fn();
         render(<FieldStatusLine label="Legal Form" flag="research" research="What the accountant advises" hasNote onToggleNote={toggle} />);
-        expect(screen.getByText(/Needs research: What the accountant advises/)).toBeTruthy();
+        expect(screen.getByText(/Needs investigation: What the accountant advises/)).toBeTruthy();
         screen.getByRole("button", { name: "Show the note on Legal Form" }).click();
         expect(toggle).toHaveBeenCalled();
     });

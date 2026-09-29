@@ -32,7 +32,8 @@ export const PAGE_STATUS_WORDS: Record<PageStatus, string> = {
 
 /**
  * Whether a page has been flagged for another look: a field on it
- * marked "Not sure yet" or "Needs research" (see Annotations.ts), or
+ * marked "Needs investigation" (see Annotations.ts), or a built-in
+ * status that means the same (BuiltInFlags.ts), or
  * something it draws on changed upstream since it was last opened
  * (`staleSections`, see UpstreamChanges.ts). The one place both are
  * read from.

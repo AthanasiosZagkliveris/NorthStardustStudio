@@ -1,4 +1,4 @@
-import { fieldKey, isWithin, pageKeyPrefix, type FieldKey } from "./FieldKeys";
+import { fieldKey, isWithin, pageKeyPrefix, type FieldKey, type FieldKind } from "./FieldKeys";
 
 /**
  * What a person can say ABOUT an answer, beside the answer itself:
@@ -7,15 +7,26 @@ import { fieldKey, isWithin, pageKeyPrefix, type FieldKey } from "./FieldKeys";
  * and imports with them.
  */
 
-/** How sure an answer is: the three flags the field menu offers. */
-export type FieldFlag = "not-sure" | "research" | "not-applicable";
+/**
+ * What is said about an answer by its flag: it needs investigation
+ * (with, optionally, what to find out), or -- for a field required
+ * only where it applies -- it does not apply. ONE word for the first
+ * everywhere, the flag and the built-in statuses that mean the same
+ * (a Resource's "Needs Investigation", see BuiltInFlags.ts).
+ *
+ * The id "research" is what is stored; an older "not-sure" reads as
+ * it (normalizeAnnotations).
+ */
+export type FieldFlag = "research" | "not-applicable";
 
-/** The flags in words, as the menu offers them and the status line says them. */
+/** The flags in words, as the buttons offer them and the status line says them. */
 export const FIELD_FLAG_WORDS: Record<FieldFlag, string> = {
-    "not-sure": "Not sure yet",
-    "research": "Needs research",
+    "research": "Needs investigation",
     "not-applicable": "Doesn't apply"
 };
+
+/** The one line a flag of investigation can carry. */
+export const INVESTIGATION_QUESTION = "What do I need to find out?";
 
 export interface FieldAnnotation {
 
@@ -45,6 +56,15 @@ export interface FieldAnnotation {
     /** The page section it sits in (its rail id), for that section's status. */
     section?: string;
 
+    /** The field's kind when the annotation was made (FieldKinds.ts). */
+    kind?: FieldKind;
+
+    /**
+     * Said by the answer itself rather than by a flag: a built-in
+     * status that means the same (BuiltInFlags.ts). Never stored.
+     */
+    builtIn?: boolean;
+
 }
 
 export type Annotations = Record<FieldKey, FieldAnnotation>;
@@ -54,9 +74,28 @@ export function annotationIsEmpty(annotation: FieldAnnotation): boolean {
     return !annotation.flag && !(annotation.note ?? "").trim() && !annotation.needsAnswer;
 }
 
-/** Whether a flag leaves the answer open: not sure, or to be researched. */
+/** Whether a flag leaves the answer open: it needs investigation. */
 export function flagIsOpen(flag: FieldFlag | undefined): boolean {
-    return flag === "not-sure" || flag === "research";
+    return flag === "research";
+}
+
+/**
+ * Annotations as stored, read into today's words: the retired "Not
+ * sure yet" meant the answer needed investigating, so it reads as
+ * Needs investigation.
+ */
+export function normalizeAnnotations(stored: Record<string, FieldAnnotation>): Annotations {
+    let changed = false;
+    const out: Annotations = {};
+    for (const [key, annotation] of Object.entries(stored)) {
+        if ((annotation.flag as string) === "not-sure") {
+            changed = true;
+            out[key] = { ...annotation, flag: "research" };
+        } else {
+            out[key] = annotation;
+        }
+    }
+    return changed ? out : stored;
 }
 
 /**
