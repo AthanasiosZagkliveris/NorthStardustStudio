@@ -214,7 +214,7 @@ describe("FinancialFoundationEditor income tax", () => {
 
 });
 
-describe("the Initial Operating Requirement's Loan Repayments column", () => {
+describe("the Operating need's Loan Repayments column", () => {
 
     const withFunding = (funding: unknown[]) => ({ ...asFinancialFoundationValue(undefined), funding });
     const loanHead = () => screen.queryAllByRole("columnheader").find(head => /Loan Repayments/.test(head.textContent ?? ""));

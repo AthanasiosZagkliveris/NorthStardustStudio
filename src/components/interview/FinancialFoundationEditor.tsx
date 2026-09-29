@@ -994,13 +994,21 @@ export default function FinancialFoundationEditor({
                                 <span className="business-foundation-label-info">
                                     <strong className="financial-need-name">
                                         <InfoText text={need.label}>
-                                            {category && <InfoNote label={need.label} points={[category.explanation]} fullList />}
+                                            {category && (
+                                                <InfoNote
+                                                    label={need.label}
+                                                    points={"alsoCalled" in category ? [category.explanation, category.alsoCalled] : [category.explanation]}
+                                                    fullList
+                                                />
+                                            )}
                                         </InfoText>
                                     </strong>
                                 </span>
 
                                 <span className="financial-need-amount">{format(need.amount)}</span>
-                                {need.when && <span className="financial-muted">{need.when}</span>}
+                                {/* Always a line, empty or not, so every card's list
+                                    starts level with its neighbours'. */}
+                                <span className="financial-muted financial-need-when">{need.when || "\u00a0"}</span>
 
                                 {need.months
                                     ? (

@@ -291,6 +291,11 @@ const SCHEDULED_FREQUENCIES: readonly CostFrequency[] =
 /** Frequencies paid per unit of activity: a variable cost per unit. */
 const PER_UNIT_FREQUENCIES: readonly CostFrequency[] = ["per-project", "per-unit", "per-order"];
 
+/**
+ * The four needs, named and ordered as the four cost groups they
+ * are made of (Establishment, Operating, Offering, Other), so a cost
+ * and the need it lands in always carry the same name.
+ */
 export const FUNDING_NEED_CATEGORIES = [
     {
         id: "establishment",
@@ -299,12 +304,13 @@ export const FUNDING_NEED_CATEGORIES = [
     },
     {
         id: "initial-operating",
-        label: "Initial Operating Requirement",
-        explanation: "Money required to support operations before revenue becomes sufficient."
+        label: "Operating",
+        explanation: "Money required to support operations before revenue becomes sufficient: the running costs, only until revenue covers them.",
+        alsoCalled: "Lenders also call this working capital."
     },
     {
         id: "offering-launch",
-        label: "Offering Development / Launch",
+        label: "Offering",
         explanation: "Money required to develop, prepare or launch an Offering before it can generate sufficient revenue."
     },
     {
@@ -1860,7 +1866,7 @@ interface CalculatedNeed {
     /** When the money is needed: a month, or a span of months. */
     when: string;
     note: string;
-    /** The Initial Operating Requirement's first year, month by month. */
+    /** The Operating need's first year, month by month. */
     months?: OperatingMonth[];
 }
 
@@ -1956,9 +1962,9 @@ export function loanRepaymentNotes(
 /**
  * THE FUNDING NEED, FROM WHAT IS ALREADY RECORDED.
  *
- * - Establishment, Offering Development / Launch and Other: every
- *   one-time cost in the matching cost group, when it is paid.
- * - Initial Operating Requirement: the money needed to keep going
+ * - Establishment, Offering and Other: every one-time cost in the
+ *   matching cost group, when it is paid.
+ * - Operating: the money needed to keep going
  *   until revenue covers the running costs. Month by month, every
  *   recurring cost, the variable costs of what is sold, and the
  *   repayments of confirmed loans, less the revenue received (from

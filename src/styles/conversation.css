@@ -14053,11 +14053,19 @@ td.process-library-col-number{
 
 /* ---------- The Funding Need, calculated (Financial Foundation) ---------- */
 
+/* THE FOUR NEEDS IN THE COST GROUPS' ORDER -- Establishment,
+   Operating, Offering, Other -- read left to right, top to bottom:
+   the Operating need (the wide one, with its months) beside
+   Establishment across the rest of the row, Offering and Other under
+   them; one card a row where only one fits. Each card is as tall as
+   its own content (the card grids' rule, card-folding.css), and
+   every card has the same title, amount and date lines, so their
+   lists start level. */
 .financial-need-cards{
 
-    display:grid;
+    container:need-cards / inline-size;
 
-    grid-auto-flow:dense;
+    display:grid;
 
     grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
 
@@ -14099,8 +14107,10 @@ td.process-library-col-number{
 
 }
 
-.financial-need-card .financial-cost-inputs{
+.financial-need-card .financial-cost-inputs,
+.financial-need-card > .financial-table-scroll{
 
+    /* The list of costs, or the Operating need's months: one start line. */
     margin-top:4px;
 
     font-size:var(--font-body);
@@ -14129,9 +14139,13 @@ td.process-library-col-number{
 
 /* The operating need carries its first year, month by month: the
    whole width, with the other three needs beside one another below. */
-.financial-need-card-wide{
+@container need-cards (min-width: 612px){
 
-    grid-column:1 / -1;
+    .financial-need-card-wide{
+
+        grid-column:2 / -1;
+
+    }
 
 }
 
