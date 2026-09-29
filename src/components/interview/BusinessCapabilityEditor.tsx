@@ -58,6 +58,7 @@ import { moneyFormatter } from "../../framework/engine/FinancialModel.ts";
 import { parseAmount, parseDecimal } from "../../framework/engine/Amounts.ts";
 import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../framework/engine/Currencies.ts";
 import { randomId } from "../../framework/engine/Readers.ts";
+import { SOURCES } from "../../framework/engine/Sources.ts";
 import { railId } from "./rails/railItems.ts";
 
 import { summaryText } from "./cardSummary.ts";
@@ -173,7 +174,7 @@ const DELIVERY_HELP = {
 const HOURS_PER_MONTH_HELP: InfoPoint[] = [
     { title: "Formula", text: "Monthly hours = Weekly hours × 52 ÷ 12" },
     "A year has 52 weeks and 12 months, so an average month has about 4.33 weeks.",
-    { title: "Source", text: "U.S. 29 CFR § 778.113", href: "https://www.law.cornell.edu/cfr/text/29/778.113" }
+    { title: "Source", source: SOURCES.weeksToMonths }
 ];
 
 

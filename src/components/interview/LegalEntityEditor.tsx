@@ -61,11 +61,6 @@ const TOTAL_OWNERSHIP_HELP: InfoPoint[] = [
     {
         title: "Formula",
         text: "Each owner's % = their shares ÷ total shares, so the total must be 100%"
-    },
-    {
-        title: "Source",
-        text: "Wikipedia, “Capitalization table”",
-        href: "https://en.wikipedia.org/wiki/Capitalization_table"
     }
 ];
 

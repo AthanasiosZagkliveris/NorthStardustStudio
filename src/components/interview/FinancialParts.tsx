@@ -6,6 +6,7 @@ import {
     type Signal,
     withinPlan
 } from "../../framework/engine/FinancialModel.ts";
+import { SOURCES } from "../../framework/engine/Sources.ts";
 
 import { BusinessField } from "./BusinessCardFields.tsx";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
@@ -80,11 +81,7 @@ export function PlanMonthField({
 export const CAPACITY_UTILISATION_HELP: InfoPoint[] = [
     { title: "Formula", text: "Utilisation = Demand hours ÷ Available hours" },
     "How much of the available time the planned work needs. Above 100% means more work than capacity.",
-    {
-        title: "Source",
-        text: "CFI, “Capacity Utilization”",
-        href: "https://corporatefinanceinstitute.com/resources/economics/capacity-utilization/"
-    }
+    { title: "Based on", source: SOURCES.capacityUtilisation }
 ];
 
 /** One headline figure, with what it means. */

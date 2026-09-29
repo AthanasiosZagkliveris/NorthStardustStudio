@@ -38,6 +38,10 @@ The export path builds an intermediate `ExportContent` structure that keeps Syst
 
 At least one System's file triad is internally inconsistent: the Answer and Help files use a literal `&` in the filename, while the Questions file spells out "And" instead. This is exactly the kind of thing a filename guess gets wrong — always list the directory before assuming a naming pattern holds across a whole triad.
 
+## References come only from accepted sources
+
+Every reference the app shows (an "i" note's "Source:"/"Based on:" link today; help text, document notes, glossary and checklists later) is a `Source { title, publisher, url, checked }` registered in `SOURCES` in `src/framework/engine/Sources.ts`, and InfoNote only links a `Source` whose URL passes `isAcceptedUrl`. Accepted: government and regulator sites (`.gov`, `gov.uk` and other `gov.<cc>`, `europa.eu`, central banks), universities and their business schools, libraries, law institutes and extension/SBDC centres (`.edu`, `ac.uk` and other `edu.<cc>`/`ac.<cc>`), official standard setters and professional bodies (named domains: W3C, IFRS, FASB, AICPA, ACCA, ICAEW, CIMA), and author-named open textbooks (OpenStax, Rice University). Rejected: Wikipedia and other open-edit or anonymous sources, content farms, marketing blogs, vendor sites and commercial explainer/training sites (CFI, Wall Street Prep, WallStreetMojo, Investopedia, Klipfolio, Umbrex, ...). A domain on the list is necessary, not sufficient: open the page, confirm it is the organisation's own and supports the exact wording, and record the date in `checked`. If no accepted source supports a statement, reword it to what one does, or drop the link — never leave an unsupported claim. `Sources.test.ts` scans every file under `src/` for external URLs and fails on any unaccepted domain; its `NOT_REFERENCES` list (XML namespaces, localhost) is the only exception.
+
 ## Stability
 
 Expected to grow in small, additive increments — one short section per newly-established pattern. Don't rewrite existing entries unless they turn out to be wrong; append.

@@ -94,6 +94,7 @@ import MonthYearPicker from "./MonthYearPicker.tsx";
 import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
 import { jurisdictionProfile } from "../../framework/engine/LegalEntityJurisdictions.ts";
+import { SOURCES } from "../../framework/engine/Sources.ts";
 import type { OpenPage } from "./jumpTo.ts";
 import { railId } from "./rails/railItems.ts";
 import { useItemFolds } from "./useItemFolds.ts";
@@ -126,23 +127,15 @@ const LOAN_PAYMENT_HELP: InfoPoint[] = [
         title: "Formula",
         text: "Payment = P × r ÷ (1 − (1 + r)^−n) (annuity); equal-principal: P ÷ n plus interest"
     },
-    "A fixed payment that covers interest and repays the loan over n periods; r is the rate per period (annual ÷ 12 for monthly).",
-    {
-        title: "Source",
-        text: "Wikipedia, “Amortization calculator”",
-        href: "https://en.wikipedia.org/wiki/Amortization_calculator"
-    }
+    "A fixed payment that covers interest and repays the loan over n periods; r is the interest rate for one period (for monthly payments, the monthly rate).",
+    { title: "Source", source: SOURCES.loanRepayment }
 ];
 
 /** The interest-only months before the first repayment, its "i". */
 const LOAN_PRE_INTEREST_HELP: InfoPoint[] = [
     { title: "Formula", text: "Interest = Principal × Rate × Time" },
     "Interest on the amount borrowed only, without compounding.",
-    {
-        title: "Source",
-        text: "CFI, “Simple Interest”",
-        href: "https://corporatefinanceinstitute.com/resources/commercial-lending/simple-interest/"
-    }
+    { title: "Source", source: SOURCES.simpleInterest }
 ];
 
 /** The funding gap formula, added to that figure's own info. */
@@ -150,22 +143,13 @@ const FUNDING_GAP_FORMULA: InfoPoint = {
     title: "Formula",
     text: "Funding gap = Funding needed − Funding available and confirmed"
 };
-const FUNDING_GAP_SOURCE: InfoPoint = {
-    title: "Source",
-    text: "WallStreetMojo, “Funding Gap”",
-    href: "https://www.wallstreetmojo.com/funding-gap/"
-};
 
 /** The runway formula, added to that figure's own info. */
 const RUNWAY_FORMULA: InfoPoint = {
     title: "Formula",
     text: "Runway = Cash ÷ Monthly net burn (here: the first month the projected balance goes below zero)"
 };
-const RUNWAY_SOURCE: InfoPoint = {
-    title: "Source",
-    text: "CFI, “Cash Runway Explained”",
-    href: "https://corporatefinanceinstitute.com/resources/valuation/cash-runway-explained/"
-};
+const RUNWAY_SOURCE: InfoPoint = { title: "Based on", source: SOURCES.cashRunway };
 
 const SECTIONS = {
     costs: {
@@ -1578,7 +1562,7 @@ export default function FinancialFoundationEditor({
                         label: "Funding Gap",
                         value: format(position.gap),
                         tone: position.gap > 0.005 ? "risk" : covered ? "good" : "neutral",
-                        info: [DEFINITIONS.gap, FUNDING_GAP_FORMULA, FUNDING_GAP_SOURCE]
+                        info: [DEFINITIONS.gap, FUNDING_GAP_FORMULA]
                     },
                     {
                         label: "Financial Runway",

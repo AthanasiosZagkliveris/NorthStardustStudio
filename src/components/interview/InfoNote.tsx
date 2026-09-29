@@ -4,6 +4,8 @@ import { openUrl } from "@tauri-apps/plugin-opener";
 
 import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
 
+import { isAcceptedUrl, Source, sourceLabel } from "../../framework/engine/Sources.ts";
+
 import { consumeKey } from "./consumeKey.ts";
 
 /**
@@ -27,12 +29,17 @@ function openExternal(href: string) {
  * every list punctuates the same way.
  *
  * With `onOpen`, the title is a link that opens the page it names.
- * With `href` instead, the TEXT is the link -- a source citation
- * ("Source:" / "Based on:" followed by the publication's name) --
- * and it opens in the reader's own browser rather than inside the
- * app (see openExternal).
+ * With `source` instead, the point is a citation: the title names
+ * what it is ("Source" / "Based on") and the publisher and page title
+ * are the link, opened in the reader's own browser rather than inside
+ * the app (see openExternal). A citation is always a `Source` from
+ * Sources.ts, so every reference passes the accepted-sources rule;
+ * one whose URL fails it is shown as plain text, never as a link.
  */
-export type InfoPoint = string | { title: string; text: string; onOpen?: () => void; href?: string };
+export type InfoPoint =
+    | string
+    | { title: string; text: string; onOpen?: () => void }
+    | { title: string; source: Source };
 
 interface InfoNoteProps {
 
@@ -258,6 +265,37 @@ export default function InfoNote({
                                 {shown.map(point => (
                                     typeof point === "string"
                                         ? <li key={point}>{point}</li>
+                                        : "source" in point
+                                        ? (
+                                            /* A citation: the title names
+                                               what it is ("Source",
+                                               "Based on"), the publisher
+                                               and page are the link,
+                                               opened in the reader's own
+                                               browser, never the app's. */
+                                            <li key={point.title}>
+                                                <strong className="info-note-point-title">
+                                                    {point.title + ":"}
+                                                </strong>
+                                                {" "}
+                                                {isAcceptedUrl(point.source.url)
+                                                    ? (
+                                                        <a
+                                                            className="business-engagement-link info-note-link"
+                                                            href={point.source.url}
+                                                            target="_blank"
+                                                            rel="noreferrer"
+                                                            onClick={(event) => {
+                                                                event.preventDefault();
+                                                                openExternal(point.source.url);
+                                                            }}
+                                                        >
+                                                            {sourceLabel(point.source)}
+                                                        </a>
+                                                    )
+                                                    : sourceLabel(point.source)}
+                                            </li>
+                                        )
                                         : asReference
                                         ? (
                                             /* THE HEADING, THEN WHAT IS
@@ -286,34 +324,6 @@ export default function InfoNote({
                                                     {point.title}
                                                 </button>
                                                 {point.text ? " " + point.text : ""}
-                                            </li>
-                                        )
-                                        : point.href
-                                        ? (
-                                            /* A citation: the title names
-                                               what it is ("Source",
-                                               "Based on"), the text is
-                                               the publication, and the
-                                               text itself is the link,
-                                               opened in the reader's own
-                                               browser, never the app's. */
-                                            <li key={point.title}>
-                                                <strong className="info-note-point-title">
-                                                    {point.title + ":"}
-                                                </strong>
-                                                {" "}
-                                                <a
-                                                    className="business-engagement-link info-note-link"
-                                                    href={point.href}
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    onClick={(event) => {
-                                                        event.preventDefault();
-                                                        openExternal(point.href!);
-                                                    }}
-                                                >
-                                                    {point.text}
-                                                </a>
                                             </li>
                                         )
                                         : (

@@ -1,6 +1,8 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
+import { SOURCES } from "../../framework/engine/Sources";
+
 import InfoNote, { InfoText } from "./InfoNote";
 
 afterEach(cleanup);
@@ -15,11 +17,7 @@ describe("InfoNote", () => {
                 points={[
                     { title: "Formula", text: "Sales / month = Prospects × Qualified% × Buy%" },
                     "Not every prospect is a real buyer.",
-                    {
-                        title: "Based on",
-                        text: "CFI, \"Lead-to-Customer Conversion Rate\"",
-                        href: "https://corporatefinanceinstitute.com/resources/valuation/lead-to-customer-conversion-rate/"
-                    }
+                    { title: "Source", source: SOURCES.breakEvenPoint }
                 ]}
             />
         );
@@ -29,15 +27,43 @@ describe("InfoNote", () => {
         expect(screen.getByText("Formula:")).toBeTruthy();
         expect(screen.getByText("Sales / month = Prospects × Qualified% × Buy%")).toBeTruthy();
 
-        const link = screen.getByRole("link", { name: "CFI, \"Lead-to-Customer Conversion Rate\"" });
-        expect(link.getAttribute("href")).toBe(
-            "https://corporatefinanceinstitute.com/resources/valuation/lead-to-customer-conversion-rate/"
-        );
+        // Named by its publisher and page title.
+        const link = screen.getByRole("link", {
+            name: "U.S. Small Business Administration, “Calculate your startup costs: break-even point”"
+        });
+        expect(link.getAttribute("href")).toBe(SOURCES.breakEvenPoint.url);
         expect(link.getAttribute("target")).toBe("_blank");
         expect(link.getAttribute("rel")).toBe("noreferrer");
 
     });
 
+
+    it("never links a source whose domain is not accepted", () => {
+
+        render(
+            <InfoNote
+                label="Rate"
+                points={[
+                    "A rate.",
+                    {
+                        title: "Source",
+                        source: {
+                            title: "Rate",
+                            publisher: "Some Blog",
+                            url: "https://example.com/rate",
+                            checked: "2026-09-29"
+                        }
+                    }
+                ]}
+            />
+        );
+
+        fireEvent.click(screen.getByRole("button", { name: "Rate: what this means" }));
+
+        expect(screen.queryByRole("link")).toBeNull();
+        expect(screen.getByText("Some Blog, “Rate”")).toBeTruthy();
+
+    });
 
     it("glues the i to the last word of its label", () => {
 

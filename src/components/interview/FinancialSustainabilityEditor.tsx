@@ -46,6 +46,7 @@ import {
     deliveryAllocation,
     demandResult
 } from "../../framework/engine/DemandCapacity.ts";
+import { SOURCES } from "../../framework/engine/Sources.ts";
 
 import {
     BusinessAddButton,
@@ -112,11 +113,7 @@ const BREAK_EVEN_UNITS_FORMULA: InfoPoint = {
     text: "Break-even units = Fixed costs ÷ (Price − Variable cost per unit)"
 };
 /* One primary source for both break-even formulas, so the two agree. */
-const BREAK_EVEN_SOURCE: InfoPoint = {
-    title: "Source",
-    text: "U.S. SBA, “Break-even point”",
-    href: "https://www.sba.gov/business-guide/plan-your-business/calculate-your-startup-costs/break-even-point"
-};
+const BREAK_EVEN_SOURCE: InfoPoint = { title: "Source", source: SOURCES.breakEvenPoint };
 
 /** The revenue formula behind Break-Even Revenue, added to its tile's own info. */
 const BREAK_EVEN_REVENUE_FORMULA: InfoPoint = {
@@ -124,11 +121,7 @@ const BREAK_EVEN_REVENUE_FORMULA: InfoPoint = {
     text: "Break-even revenue = Fixed costs ÷ Contribution margin ratio"
 };
 /* OpenStax follows BREAK_EVEN_SOURCE as the second reference the spec asks for. */
-const BREAK_EVEN_REVENUE_SECOND_SOURCE: InfoPoint = {
-    title: "Also",
-    text: "OpenStax, “Calculate a Break-Even Point in Units and Dollars”",
-    href: "https://biz.libretexts.org/Bookshelves/Accounting/Managerial_Accounting_(OpenStax)/03:_Cost-Volume-Profit_Analysis/3.03:_Calculate_a_Break-Even_Point_in_Units_and_Dollars"
-};
+const BREAK_EVEN_REVENUE_SECOND_SOURCE: InfoPoint = { title: "Also", source: SOURCES.breakEvenInDollars };
 
 /** Expected Monthly Revenue's own tile "i" -- the only headline tile
     that had none, sitting beside figures that all carry one. Nothing
@@ -150,11 +143,7 @@ const EXPECTED_BREAK_EVEN_HELP: InfoPoint[] = [
 const CONTRIBUTION_HELP: InfoPoint[] = [
     { title: "Formula", text: "Contribution = Price − Variable costs; ratio = Contribution ÷ Price" },
     "What each sale leaves to pay fixed costs and profit.",
-    {
-        title: "Source",
-        text: "CFI, “Contribution Margin”",
-        href: "https://corporatefinanceinstitute.com/resources/accounting/contribution-margin-overview/"
-    }
+    { title: "Source", source: SOURCES.contributionMargin }
 ];
 
 const SECTIONS = {

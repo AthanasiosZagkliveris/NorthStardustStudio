@@ -10,6 +10,7 @@ import {
     normalizeHex,
     relativeLuminance
 } from "../../framework/engine/AnswerUtils.ts";
+import { SOURCES } from "../../framework/engine/Sources.ts";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { ColumnHeading, GuidanceBullets } from "./ColumnHeads.tsx";
 import { NUMBER_LIMITS, limitedHexText, limitedNumberText } from "./numberInput.ts";
@@ -63,11 +64,7 @@ function contrastRatio(one: string, other: string): number {
 const CONTRAST_HELP: InfoPoint[] = [
     { title: "Formula", text: "Contrast = (L_lighter + 0.05) ÷ (L_darker + 0.05)" },
     "How readable text in this colour is against white or black. AA needs 4.5:1 for body text (3:1 large), AAA 7:1.",
-    {
-        title: "Source",
-        text: "W3C, WCAG 2.1 “contrast ratio”",
-        href: "https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio"
-    }
+    { title: "Source", source: SOURCES.contrastRatio }
 ];
 
 /**

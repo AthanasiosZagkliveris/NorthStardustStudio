@@ -246,7 +246,8 @@ describe("BusinessEngagementEditor formula references", () => {
 
         expect(screen.getByText("Formula:")).toBeTruthy();
         expect(screen.getByText("Sales / month = Prospects × Qualified% × Buy%")).toBeTruthy();
-        expect(screen.getByRole("link", { name: "CFI, “Lead-to-Customer Conversion Rate”" })).toBeTruthy();
+        // The formula is the app's own arithmetic: no outside source to cite.
+        expect(screen.queryByRole("link")).toBeNull();
 
     });
 

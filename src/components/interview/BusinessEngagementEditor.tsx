@@ -36,6 +36,7 @@ import {
     createDemandSource,
     demandResult
 } from "../../framework/engine/DemandCapacity.ts";
+import { SOURCES } from "../../framework/engine/Sources.ts";
 
 import {
     BusinessAddButton,
@@ -251,47 +252,25 @@ const DEMAND_SOURCE_FORMULA_HELP: Record<string, InfoPoint[]> = {
     funnel: [
         { title: "Formula", text: "Sales / month = Prospects × Qualified% × Buy%" },
         "Not every prospect is a real buyer. Multiply prospects by the share who qualify, then by the share of those you close.",
-        {
-            title: "Based on",
-            text: "CFI, “Lead-to-Customer Conversion Rate”",
-            href: "https://corporatefinanceinstitute.com/resources/valuation/lead-to-customer-conversion-rate/"
-        }
     ],
     referrals: [
         { title: "Formula", text: "Referrals × Buy%" },
-        "Of the people referred to you, only some buy. Referred leads often convert better than cold ones.",
-        {
-            title: "Source",
-            text: "Umbrex, “Referral Conversion Rate Analysis”",
-            href: "https://umbrex.com/resources/ultimate-guide-to-company-analysis/ultimate-guide-to-marketing-analysis/referral-conversion-rate-analysis/"
-        }
+        "Of the people referred to you, only some buy. Referred customers tend to stay longer and be worth more than customers from other sources.",
+        { title: "Based on", source: SOURCES.referrals }
     ],
     marketplace: [
         { title: "Formula", text: "Visitors × Buy%" },
         "Conversion rate is the share of visitors who buy: 5 purchases from 100 visitors is 5%.",
-        {
-            title: "Source",
-            text: "CFI, “Customer Conversion Rate”",
-            href: "https://corporatefinanceinstitute.com/resources/valuation/customer-conversion-rate/"
-        }
+        { title: "Based on", source: SOURCES.websiteConversion }
     ],
     contracts: [
         { title: "Formula", text: "Bids per year × Won% × Units per contract ÷ 12" },
-        "Win rate is the share of bids you win (25–35% is typical in professional services and construction). Dividing by 12 gives contracts a month.",
-        {
-            title: "Based on",
-            text: "Klipfolio, “Tender Win Rate”",
-            href: "https://www.klipfolio.com/resources/kpi-examples/sales/successful-unsuccessful-tenders"
-        }
+        "Win rate is the share of bids you win. Dividing by 12 gives contracts a month."
     ],
     repeat: [
         { title: "Formula", text: "Sales from other sources × Buy again% × Times each" },
         "Repeat rate is the share of customers who buy again; only their extra purchases are counted, never the customers twice.",
-        {
-            title: "Based on",
-            text: "Wall Street Prep, “Repeat Purchase Rate”",
-            href: "https://www.wallstreetprep.com/knowledge/repeat-purchase-rate/"
-        }
+        { title: "Based on", source: SOURCES.repeatCustomers }
     ]
 };
 
@@ -299,22 +278,14 @@ const DEMAND_SOURCE_FORMULA_HELP: Record<string, InfoPoint[]> = {
 const DEMAND_ACTIVE_CLIENTS_HELP: InfoPoint[] = [
     { title: "Formula", text: "Active clients = New clients a month ÷ Cancel%" },
     "At the steady level, clients joining each month equal clients leaving. Average client lifetime ≈ 1 ÷ Cancel%.",
-    {
-        title: "Based on",
-        text: "Wall Street Prep, “Churn Rate”",
-        href: "https://www.wallstreetprep.com/knowledge/churn-rate/"
-    }
+    { title: "Based on", source: SOURCES.customerLifetime }
 ];
 
 /** The months to reach that steady level, its "i" beside "months". */
 const DEMAND_MONTHS_TO_NORMAL_HELP: InfoPoint[] = [
     { title: "Formula", text: "Months to 90% = ln(10) ÷ −ln(1 − Cancel%)" },
     "The gap to the steady level shrinks by the same share every month, so growth slows as you approach it.",
-    {
-        title: "Based on",
-        text: "geometric series (fraction reached after n months = 1 − (1 − c)ⁿ)",
-        href: "https://en.wikipedia.org/wiki/Geometric_series"
-    }
+    { title: "Based on", source: SOURCES.geometricSeries }
 ];
 
 function capitalized(text: string): string {
