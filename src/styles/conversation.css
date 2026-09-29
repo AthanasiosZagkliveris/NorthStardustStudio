@@ -23,13 +23,16 @@
 
 }
 
+/* No resize handle, anywhere: every text box in the app grows with
+   its text (InterviewInput, StrategyTextArea, NotesField and the
+   rest), so dragging one is a second, worse way to size it. */
 textarea{
 
     width:100%;
 
     min-height:180px;
 
-    resize:vertical;
+    resize:none;
 
     padding:15px;
 
@@ -2243,9 +2246,9 @@ textarea:focus{
 
 /* Grows with its own content (see AutoGrowTextarea in
    AnswerRenderer.tsx) rather than scrolling internally --
-   overriding the base textarea rule's min-height and
-   resize:vertical, both of which would otherwise fight
-   the auto-grow height this element's own JS sets inline. */
+   overriding the base textarea rule's min-height, which
+   would otherwise fight the auto-grow height this
+   element's own JS sets inline. */
 .profile-card-subtitle-textarea{
 
     min-height:0;
@@ -4826,15 +4829,11 @@ td.process-library-col-number{
        inside a small box. */
     min-height:320px;
 
-    resize:vertical;
-
 }
 
 .strategy-note{
 
     min-height:calc(3em + 18px);
-
-    resize:vertical;
 
 }
 
@@ -8154,8 +8153,6 @@ td.process-library-col-number{
        fields. These are a few lines, not a note. */
     min-height:0;
 
-    resize:vertical;
-
 }
 
 .legal-entity-note-line,
@@ -10003,9 +10000,9 @@ td.process-library-col-number{
           6px  label to box
          72px  a two-row note box (2 x 27 line, 16 padding, 2 border)
 
-       A height rather than a min-height: this box is not to grow
-       with what is typed into it, or the two columns drift apart
-       again. It can still be dragged (resize:vertical above).
+       A height rather than a min-height: it opens at this height
+       whatever is typed, so the two columns start level, and grows
+       only when its answer needs more room (StrategyTextArea).
 
        The min-height is cleared first: these fields otherwise take
        the 180px the app gives its long-form Notes fields, which is

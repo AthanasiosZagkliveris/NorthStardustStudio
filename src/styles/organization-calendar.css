@@ -780,7 +780,7 @@
 
 }
 
-/* Overrides the generic `textarea{ min-height:180px; resize:vertical; }`
+/* Overrides the generic `textarea{ min-height:180px; }`
    rule (conversation.css) that would otherwise force EVERY Notes
    field open at a fixed 180px tall regardless of content, silently
    swallowing `AutoGrowNotesField`'s own auto-grow-with-content resize

@@ -102,13 +102,27 @@ describe("InterviewInput autoGrow", () => {
 
     });
 
-    it("leaves the height alone without autoGrow", () => {
+    it("leaves the height alone with autoGrow off", () => {
 
-        render(<Field initialValue={LONG_VALUE} />);
+        render(<Field autoGrow={false} initialValue={LONG_VALUE} />);
 
         const textarea = screen.getByRole("textbox", { name: "Mission" }) as HTMLTextAreaElement;
 
         expect(textarea.style.height).toBe("");
+
+    });
+
+    // Every text box grows with its text unless told not to, so none
+    // needs a resize handle (textarea { resize: none }).
+    it("grows by default", () => {
+
+        const scrollHeight = vi.spyOn(HTMLElement.prototype, "scrollHeight", "get").mockImplementation(() => 640);
+
+        render(<Field initialValue={LONG_VALUE} />);
+
+        expect((screen.getByRole("textbox", { name: "Mission" }) as HTMLTextAreaElement).style.height).toBe("640px");
+
+        scrollHeight.mockRestore();
 
     });
 

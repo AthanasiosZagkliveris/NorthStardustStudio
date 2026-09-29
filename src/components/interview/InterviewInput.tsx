@@ -31,7 +31,10 @@ interface InterviewInputProps {
     /**
      * Textarea mode only: grow the box to fit its content instead
      * of scrolling inside it (see useAutoGrow.ts). Its normal
-     * height stays the minimum.
+     * height stays the minimum. On by default: every text box in
+     * the app grows with its text, so none needs a resize handle
+     * (textarea, conversation.css); `false` is for a box that
+     * must keep a fixed height.
      */
     autoGrow?: boolean;
 }
@@ -46,7 +49,7 @@ export default function InterviewInput({
     mode = "textarea",
     options = [],
     ariaLabel,
-    autoGrow = false
+    autoGrow = true
 }: InterviewInputProps) {
 
     // Called unconditionally (mode can switch, and the "input"/"select"
