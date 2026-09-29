@@ -21,11 +21,12 @@ describe("the Capability and System row highlight", () => {
         }
     });
 
-    it("draws every row's text through the list ink, light and dark", () => {
+    it("draws every row's text through the list ink, and gives each theme its highlight", () => {
         const colours = stylesheet("colors.css");
+        // The ink is set for light and dark; sepia's grounds are light, so it takes the light ink.
         expect(colours.match(/--capability-list-ink-weight: /g)).toHaveLength(2);
-        expect(colours.match(/--bg-list-hover: /g)).toHaveLength(2);
-        expect(colours.match(/--bg-list-selected: /g)).toHaveLength(2);
+        expect(colours.match(/--bg-list-hover: /g)).toHaveLength(3);
+        expect(colours.match(/--bg-list-selected: /g)).toHaveLength(3);
         expect(stylesheet("capability-list.css")).toContain("var(--capability-list-ink-weight)");
         expect(stylesheet("system-list.css")).toContain("var(--capability-list-ink-weight)");
     });

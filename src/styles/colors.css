@@ -570,3 +570,266 @@
     filter: invert(1) hue-rotate(180deg);
 
 }
+
+/* ==========================================================
+   Sepia
+
+   The paper theme, set when <html> carries data-theme="sepia" (the
+   switch's Sepia; Auto never picks it). A warm, low-glare reading
+   ground like natural paper: the page #f4ebdd, cards #fbf5ea, ink
+   #3b2f25 and a warm brown for secondary text, every text at 4.5:1
+   on the grounds it sits on. The app's blue becomes a muted ink blue
+   (#3e5f7e, white on it 6.6:1); success, warning and danger go warm
+   and muted; neutrals, the completed grey and the highlights take
+   the paper's warmth. Every System colour keeps its hue, its inks
+   and lines a little less saturated, and its grounds mixed 38%
+   toward the paper (--theme-ground-weight), so a card sits warm on
+   the page instead of standing on it as a cold pastel. Native
+   controls stay light.
+========================================================== */
+:root[data-theme="sepia"] {
+
+    color-scheme: light;
+
+    /* Text: body copy, labels, links and coloured words. */
+    --text-add: #4d845f;
+    --text-added: #33593d;
+    --text-black: #2e241b;
+    --text-body: #3b2f25;
+    --text-button-hover: #3a5a78;
+    --text-caution-ink: #623b28;
+    --text-danger: #8d3837;
+    --text-danger-alt: #91433a;
+    --text-danger-deep: #95423a;
+    --text-deep: #33281f;
+    --text-default: #3b2f25;
+    --text-completed-ink: #5c4f41;
+    --text-error: #5e5143;
+    --text-error-detail: #897b6c;
+    --text-faint: #7a6653;
+    --text-flag: #7d4331;
+    --text-good: #3b6f38;
+    --text-holds: #40734c;
+    --text-met-ink: #294932;
+    --text-muted: #6a5745;
+    --text-navy: #45392c;
+    --text-note: #50462a;
+    --text-on-fill: #ffffff;
+    --text-over: #6d2928;
+    --text-primary: #3a5a78;
+    --text-primary-deep: #234071;
+    --text-primary-ink: #223d6d;
+    --text-quiet: #8e7f71;
+    --text-readonly: #5c4e41;
+    --text-secondary: #5c4f41;
+    --text-short-ink: #643628;
+    --text-soft: #55483a;
+    --text-strong: #3b2f25;
+    --text-subtle: #6e5c4b;
+    --text-totals-ok: #305939;
+    --text-warn: #623623;
+
+    /* Backgrounds: the page, surfaces and cards, tints, fills and chart series. */
+    --bg-add: #4d845f;
+    --bg-add-tile: #f2e5d4;
+    --bg-add-tint: #ece0cf;
+    --bg-budget: #4f55ad;
+    --bg-button-hover: #eadecd;
+    --bg-canvas-highlight: #ecdfcf;
+    --bg-capacity-ok: #ede0d0;
+    --bg-capacity-short: #ede1d0;
+    --bg-caution: #965d3e;
+    --bg-caution-tint: #f1e5d4;
+    --bg-chart: #f8f0e3;
+    --bg-danger: #8d3837;
+    --bg-danger-alt: #91433a;
+    --bg-danger-deep: #95423a;
+    --bg-danger-pressed: #76362e;
+    --bg-danger-strong: #a8493f;
+    --bg-danger-tint: #ecdfcf;
+    --bg-danger-tint-alt: #e7dbca;
+    --bg-completed-card: #f0e3d3;
+    --bg-completed-ground: #e7daca;
+    --bg-completed-hover: #dbcfbf;
+    --bg-faint: #766859;
+    --bg-financial-good: #50934c;
+    --bg-financial-grid: #dbcebe;
+    --bg-financial-in: #4b75ab;
+    --bg-financial-out: #c6795d;
+    --bg-financial-risk: #ab5651;
+    --bg-frost: rgba(244, 235, 221, 0.6);
+    --bg-frost-60: rgba(251, 245, 234, 0.6);
+    --bg-good: #3b6f38;
+    --bg-hairline: #ded1c1;
+    --bg-help: #f0e3d3;
+    --bg-highlight: #efe2d2;
+    --bg-holds: #f0e3d3;
+    --bg-hover: #ecdfcf;
+    --bg-list-hover: rgba(59, 47, 37, 0.06);
+    --bg-list-selected: rgba(59, 47, 37, 0.1);
+    --bg-info: #41689a;
+    --bg-met: #395f43;
+    --bg-mark-preview: #ffffff;
+    --bg-met-tint: #e8dccb;
+    --bg-navy: #3b2f25;
+    --bg-navy-hover: #4a3b2e;
+    --bg-neutral: #ebdece;
+    --bg-note: #efe2d2;
+    --bg-over: #e7dbcb;
+    --bg-overlay: rgba(40, 28, 16, 0.35);
+    --bg-pace: #f0e4d3;
+    --bg-page: #f4ebdd;
+    --bg-panel: #f1e4d4;
+    --bg-primary: #3e5f7e;
+    --bg-primary-a35: rgba(62, 95, 126, 0.35);
+    --bg-primary-faint: #f0e4d3;
+    --bg-primary-hover: #334f69;
+    --bg-primary-hover-alt: #334f69;
+    --bg-primary-selected: #ece3d6;
+    --bg-primary-selected-hover: #cfdaec;
+    --bg-primary-tint: #eadecd;
+    --bg-primary-tint-head: #eadecd;
+    --bg-primary-tint-hover: #e8dccb;
+    --bg-quiet: #8e7f71;
+    --bg-rail-bloom: #cad6e6;
+    --bg-rail-dot: #baccdf;
+    --bg-rail-dot-hover: #7996c3;
+    --bg-rail-hover-ring: #d8ccbc;
+    --bg-remove: #9d5045;
+    --bg-remove-disabled: #c9a39e;
+    --bg-retention: #f0e3d3;
+    --bg-series-3: #5c9f7f;
+    --bg-series-4: #d0a364;
+    --bg-series-5: #c9879e;
+    --bg-short-tint: #ebdece;
+    --bg-strong: #3b2f25;
+    --bg-surface: #fbf5ea;
+    --bg-table: #d0c4b4;
+    --bg-table-expansion: #f2e5d5;
+    --bg-table-head: #eee1d1;
+    --bg-total: #f1e4d4;
+    --bg-totals-ok: #e6daca;
+    --bg-totals-warn: #e4d8c7;
+    --bg-track: #d9cdbc;
+    --bg-warm: #f0e3d3;
+    --bg-warn: #eadecd;
+
+    /* Lines: card and box borders, rules, grid lines and focus rings. */
+    --line-add: #4d845f;
+    --line-add-tile: #b9ad9d;
+    --line-box: #8f7b66;
+    --line-calendar: #dbcfbe;
+    --line-capacity-ok: #477155;
+    --line-capacity-short: #9f7a4f;
+    --line-card: #c0b4a4;
+    --line-caution: #965d3e;
+    --line-chart: #f8f0e3;
+    --line-danger: #8d3837;
+    --line-danger-a18: rgba(141, 56, 55, 0.18);
+    --line-danger-alt: #91433a;
+    --line-danger-deep: #95423a;
+    --line-danger-strong: #a8493f;
+    --line-disabled: #8e7f70;
+    --line-capability-input: #8f7b66;
+    --line-divider: #ccbfaf;
+    --line-completed: #837466;
+    --line-completed-ink: #5c4f41;
+    --line-faint: #766859;
+    --line-financial-balance: #5b4e40;
+    --line-financial-grid: #dbcebe;
+    --line-good: #3b6f38;
+    --line-grid: #cec2b2;
+    --line-group: #8c7e6f;
+    --line-hairline: #ded1c1;
+    --line-heading-rule: #cdc1b1;
+    --line-holds: #40734c;
+    --line-input-soft: #847667;
+    --line-met: #395f43;
+    --line-navy: #45392c;
+    --line-note: #d1c49f;
+    --line-pace: #c6cde7;
+    --line-picker: #ddd0c0;
+    --line-primary: #3e5f7e;
+    --line-primary-a18: rgba(62, 95, 126, 0.18);
+    --line-primary-a22: rgba(62, 95, 126, 0.22);
+    --line-primary-a25: rgba(62, 95, 126, 0.25);
+    --line-primary-soft: #95aed6;
+    --line-quiet: #8e7f71;
+    --line-retention: #d8ccbc;
+    --line-rule: #e2d3bd;
+    --line-sheet: #cabeae;
+    --line-short: #9f553e;
+    --line-slate: #8d7f70;
+    --line-table: #d0c4b4;
+    --line-totals: #c4b8a8;
+    --line-warn: #d2b39d;
+    --line-warning-units: #dec3c7;
+
+    /* Shadows and their tints. */
+    --shadow-08: rgba(43, 31, 19, 0.08);
+    --shadow-12: rgba(43, 31, 19, 0.12);
+    --shadow-18: rgba(43, 31, 19, 0.18);
+    --shadow-ink-08: rgba(70, 57, 44, 0.08);
+    --shadow-ink-12: rgba(70, 57, 44, 0.12);
+    --shadow-ink-16: rgba(70, 57, 44, 0.16);
+    --shadow-ink-18: rgba(70, 57, 44, 0.18);
+
+    /* A System colour family, as "saturation lightness" for
+       hsl(var(--strategy-theme-hue) ...): the hue comes from the
+       card or Theme it is used in. Text. */
+    --theme-text-accent-deeper: 34% 25%;
+    --theme-text-bar-ink: 45% 21%;
+    --theme-text-ink: 24% 31%;
+    --theme-text-ink-deep: 24% 28%;
+
+    /* Backgrounds, tints and bar fills. */
+    --theme-bg-accent-deep: 32% 32%;
+    --theme-bg-bar: 62% 84%;
+    --theme-bg-bar-hover: 62% 76%;
+    --theme-bg-bar-open: 40% 24%;
+    --theme-bg-card-wash: 40% 98%;
+    --theme-bg-edge: 20% 42%;
+    --theme-bg-ground: 62% 96%;
+    --theme-bg-ground-alt: 62% 95%;
+    --theme-bg-hover: 62% 88%;
+    --theme-bg-initiative: 55% 82%;
+    --theme-bg-ink: 24% 33%;
+    --theme-bg-inner: 62% 92%;
+    --theme-bg-meter: 30% 84%;
+    --theme-bg-pill: 62% 93%;
+    --theme-bg-raised: 62% 94%;
+    --theme-bg-result-wash: 40% 97%;
+    --theme-bg-wash: 62% 98%;
+
+    /* Borders, rules and rings. */
+    --theme-line-accent: 34% 34%;
+    --theme-line-accent-deep: 34% 30%;
+    --theme-line-accent-deeper: 34% 26%;
+    --theme-line-bar-edge: 30% 36%;
+    --theme-line-bar-open: 40% 24%;
+    --theme-line-edge: 20% 44%;
+    --theme-line-edge-light: 20% 66%;
+    --theme-line-edge-soft: 20% 58%;
+    --theme-line-ink: 24% 33%;
+    --theme-line-meter: 24% 78%;
+    --theme-line-result-edge: 30% 44%;
+    --theme-line-rule: 20% 76%;
+    --theme-line-rule-light: 20% 80%;
+
+    /* A System ground: 62% its hue, the rest the page's paper. */
+    --theme-ground-weight: 62%;
+    --theme-ground-paper: #f4ebdd;
+
+    --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%233b2f25' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+}
+
+/* The documents stay on white paper, as in the light theme: the
+   Canvas and the Forecast tables take the light text colour, not
+   the sepia page's around them. */
+:root[data-theme="sepia"] .business-canvas,
+:root[data-theme="sepia"] .business-forecast-table-wrap {
+
+    color: var(--text-body);
+
+}

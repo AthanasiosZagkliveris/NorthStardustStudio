@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { PALETTE, hueDistance, nearestPaletteColour, nextPaletteHue, paletteHue, paletteHuesInOrder } from "./Palette";
 import { createBusinessCustomerSegment, segmentHue, stableCardHue, strategyThemeHues } from "./AnswerUtils";
-import { stylesheet } from "../../test/stylesheet";
+import { themeBlock } from "../../test/stylesheet";
 
 const hues = PALETTE.map(colour => colour.hue);
 
@@ -87,19 +87,31 @@ describe("the palette", () => {
 
 });
 
-/* The families in colors.css, light and dark, completed with each
-   palette hue: every label ink must hold 4.5:1 on every ground it
-   sits on, in both themes. */
+/* The families in colors.css, light, dark and sepia, completed with
+   each palette hue: every label ink must hold 4.5:1 on every ground
+   it sits on, in every theme. A ground is its hue mixed toward the
+   page's paper by --theme-ground-weight (all of it in light and dark,
+   62% in sepia), as the stylesheets draw it. */
 describe("the palette's contrast", () => {
 
-    const css = stylesheet("colors.css");
-    const darkStart = css.indexOf(":root[data-theme=\"dark\"] {");
+    type Theme = "light" | "dark" | "sepia";
 
-    const family = (token: string, dark: boolean) => {
-        const part = dark ? css.slice(darkStart) : css.slice(0, darkStart);
-        const match = part.match(new RegExp("--" + token + ": ([\\d.]+)% ([\\d.]+)%;"));
-        if (!match) throw new Error("no " + token);
+    const family = (token: string, theme: Theme) => {
+        const match = themeBlock(theme).match(new RegExp("--" + token + ": ([\\d.]+)% ([\\d.]+)%;"));
+        if (!match) throw new Error("no " + token + " in " + theme);
         return [Number(match[1]), Number(match[2])];
+    };
+
+    /* The grounds the stylesheets mix toward the paper, and the mix
+       (a theme without its own takes the light one's). */
+    const mixed = ["theme-bg-wash", "theme-bg-ground", "theme-bg-ground-alt", "theme-bg-raised", "theme-bg-pill", "theme-bg-inner", "theme-bg-hover", "theme-bg-card-wash", "theme-bg-result-wash", "theme-bg-meter", "theme-bg-bar", "theme-bg-bar-hover", "theme-bg-initiative"];
+    const mix = (theme: Theme) => {
+        const find = (pattern: RegExp) => (themeBlock(theme).match(pattern) ?? themeBlock("light").match(pattern))![1];
+        const paper = find(/--theme-ground-paper: #([0-9a-f]{6});/);
+        return {
+            weight: Number(find(/--theme-ground-weight: ([\d.]+)%;/)) / 100,
+            paper: [0, 2, 4].map(at => parseInt(paper.slice(at, at + 2), 16) / 255)
+        };
     };
 
     const channels = (hue: number, saturation: number, lightness: number) => {
@@ -127,13 +139,26 @@ describe("the palette's contrast", () => {
         ["theme-text-bar-ink", ["theme-bg-bar", "theme-bg-bar-hover"]]
     ];
 
-    for (const dark of [false, true]) {
-        it("holds every label at 4.5:1 on every ground, " + (dark ? "dark" : "light"), () => {
+    const groundOf = (hue: number, token: string, theme: Theme) => {
+        const plain = channels(hue, ...(family(token, theme) as [number, number]));
+        if (!mixed.includes(token)) return plain;
+        const { weight, paper } = mix(theme);
+        return plain.map((c, i) => c * weight + paper[i] * (1 - weight));
+    };
+
+    it("warms the grounds toward the paper in sepia only", () => {
+        expect(mix("light").weight).toBe(1);
+        expect(mix("dark").weight).toBe(1);
+        expect(mix("sepia").weight).toBeLessThan(1);
+    });
+
+    for (const theme of ["light", "dark", "sepia"] as Theme[]) {
+        it("holds every label at 4.5:1 on every ground, " + theme, () => {
             const fails: string[] = [];
             for (const colour of PALETTE) {
                 for (const [ink, grounds] of pairs) {
                     for (const ground of grounds) {
-                        const ratio = contrast(channels(colour.hue, ...(family(ink, dark) as [number, number])), channels(colour.hue, ...(family(ground, dark) as [number, number])));
+                        const ratio = contrast(channels(colour.hue, ...(family(ink, theme) as [number, number])), groundOf(colour.hue, ground, theme));
                         if (ratio < 4.5) fails.push(colour.name + " " + ink + " on " + ground + " " + ratio.toFixed(2));
                     }
                 }

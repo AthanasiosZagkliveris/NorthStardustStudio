@@ -1,16 +1,15 @@
 import { describe, expect, it } from "vitest";
 
-import { stylesheet } from "../test/stylesheet";
+import { stylesheet, themeBlock } from "../test/stylesheet";
 
 /* Everything completed -- the "Completed N" group, the cards in it,
-   a founder's done tag -- is one neutral grey family, light and dark. */
+   a founder's done tag -- is one neutral grey family, light, dark and
+   sepia (a warm grey there). */
 describe("the completed grey", () => {
 
-    const colours = stylesheet("colors.css");
-    const darkStart = colours.indexOf(":root[data-theme=\"dark\"] {");
-    const token = (name: string, dark: boolean) => {
-        const part = dark ? colours.slice(darkStart) : colours.slice(0, darkStart);
-        const match = part.match(new RegExp("--" + name + ": (#[0-9a-f]{6});"));
+    type Theme = "light" | "dark" | "sepia";
+    const token = (name: string, theme: Theme) => {
+        const match = themeBlock(theme).match(new RegExp("--" + name + ": (#[0-9a-f]{6});"));
         if (!match) throw new Error("no " + name);
         return match[1];
     };
@@ -25,14 +24,14 @@ describe("the completed grey", () => {
         return (a + 0.05) / (b + 0.05);
     };
 
-    for (const dark of [false, true]) {
-        it("holds its head text at 4.5:1 on its grounds, " + (dark ? "dark" : "light"), () => {
+    for (const theme of ["light", "dark", "sepia"] as Theme[]) {
+        it("holds its head text at 4.5:1 on its grounds, " + theme, () => {
             for (const ground of ["bg-completed-ground", "bg-completed-card"]) {
-                expect(contrast(token("text-completed-ink", dark), token(ground, dark))).toBeGreaterThanOrEqual(4.5);
+                expect(contrast(token("text-completed-ink", theme), token(ground, theme))).toBeGreaterThanOrEqual(4.5);
             }
-            // Grey: red, green and blue close together (a cool grey at most).
+            // Grey: red, green and blue close together (a cool or warm grey at most).
             for (const name of ["bg-completed-ground", "bg-completed-card", "line-completed", "text-completed-ink"]) {
-                const hex = token(name, dark);
+                const hex = token(name, theme);
                 const channels = [1, 3, 5].map(at => parseInt(hex.slice(at, at + 2), 16));
                 expect(Math.max(...channels) - Math.min(...channels), name).toBeLessThanOrEqual(30);
             }
