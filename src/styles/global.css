@@ -161,6 +161,20 @@ body {
   color: var(--label-color);
 }
 
+/* BUTTON TEXT IS BODY TEXT. Every labelled button -- Next and
+   Previous, Hide Help, the add buttons, the Business Documents
+   buttons on System Selection and on the documents page -- sets its
+   label at --font-body, never smaller: a button is read before the
+   text around it. (The documents buttons were at --font-small.) */
+.primary-button,
+.secondary-button,
+.interview-help-toggle,
+.strategy-add-button,
+.workspace-documents-button,
+.business-documents-button {
+  font-size: var(--font-body);
+}
+
 /* A LABEL THAT GOES BOLD ON HOVER OR SELECTION KEEPS ITS ROOM. It
    is widened by its 5% tracking the moment it goes bold, and a
    label held to one line then ran out past the highlight drawn

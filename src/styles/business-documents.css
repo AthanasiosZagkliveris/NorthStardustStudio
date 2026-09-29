@@ -143,8 +143,7 @@
     background:var(--bg-surface);
 
     font-family:inherit;
-    font-size:var(--font-small);
-    font-weight:600;
+    font-weight:500;
 
     color:var(--text-primary);
 
@@ -155,6 +154,8 @@
 .business-documents-button:hover:not(:disabled){
 
     background:var(--bg-primary-tint);
+
+    text-shadow:var(--hover-bold);
 
 }
 

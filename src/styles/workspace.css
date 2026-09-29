@@ -487,8 +487,7 @@
     background: var(--bg-navy);
 
     font-family: inherit;
-    font-size: var(--font-small);
-    font-weight: 600;
+    font-weight: 500;
 
     color: var(--text-on-fill);
 
@@ -498,6 +497,7 @@
 
 .workspace-documents-button:hover{
     background: var(--bg-navy-hover);
+    text-shadow: var(--hover-bold);
 }
 
 .workspace-documents-button:focus-visible{
