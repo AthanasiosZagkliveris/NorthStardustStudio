@@ -405,11 +405,14 @@
 
 .secondary-button:hover:not(:disabled) {
 
-    background: var(--bg-primary-tint);
+    /* The colour family it sits in (see --accent-* in global.css). */
+    background: var(--accent-ground-hover);
 
-    border-color: var(--line-primary);
+    border-color: var(--accent-line);
 
-    color: var(--text-primary);
+    color: var(--accent-hover-ink);
+
+    --wired-ring: var(--accent-line);
 
     text-shadow: var(--hover-bold);
 

@@ -180,6 +180,29 @@ body {
   --label-color: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 }
 
+/* THE COLOUR FAMILY A BUTTON IS DRAWN IN. An outlined button --
+   an add button, Hide Help, Previous, a file button, a dashed add
+   tile, Expand all -- reads its colours from these, and answers
+   the pointer with the family's hover ground: a slightly stronger
+   tint of its own colour, never a fixed light-mode tint. Out on
+   the page the family is the app's blue:
+     --accent-ink          an add button's label, Expand all
+     --accent-line         its border, and every hover border
+     --accent-ground       an add button's fill at rest
+     --accent-ground-hover the fill under the pointer
+     --accent-hover-ink    a neutral button's label under the pointer
+   In dark mode the hover ground is a visible dark blue and a
+   neutral button's label stays light (colors.css,
+   --bg-button-hover / --text-button-hover), where it used to jump
+   to the pale link blue over a ground one step off its own. */
+:root {
+  --accent-ink: var(--text-primary);
+  --accent-line: var(--line-primary);
+  --accent-ground: var(--bg-surface);
+  --accent-ground-hover: var(--bg-button-hover);
+  --accent-hover-ink: var(--text-button-hover);
+}
+
 /* A NARROW CARD PUTS EVERY LABEL ABOVE ITS FIELD. Measured on the
    card's own width, so the same card is laid out the same way
    wherever it sits and however wide the window is. Under 600px a
@@ -454,7 +477,7 @@ b, strong {
 :root {
   --glow-color: var(--line-primary);
 }
-
+
 /* ==========================================================
    Nothing leaves its frame
 

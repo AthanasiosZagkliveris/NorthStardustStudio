@@ -186,13 +186,18 @@
     background: none;
     cursor: pointer;
 
+    border-radius: 4px;
+
     font-size: var(--font-small);
-    color: var(--text-primary);
+    color: var(--accent-ink);
 
 }
 
+/* Underlined, on the family's hover ground (see --accent-* in
+   global.css). */
 .fold-all-toggle:hover {
 
+    background: var(--accent-ground-hover);
     text-decoration: underline;
 
 }

@@ -36,6 +36,7 @@
     --text-added: #166534;
     --text-black: #000;
     --text-body: #111;
+    --text-button-hover: #0b57d0;
     --text-caution-ink: #78350f;
     --text-danger: #b00020;
     --text-danger-alt: #b3261e;
@@ -73,6 +74,7 @@
     --bg-add-tile: #fafbfc;
     --bg-add-tint: #eafaf1;
     --bg-budget: #4f46e5;
+    --bg-button-hover: #eef4ff;
     --bg-canvas-highlight: #f7f5ee;
     --bg-capacity-ok: #f1f8f4;
     --bg-capacity-short: #fdf6e7;
@@ -279,6 +281,7 @@
     --text-added: #8ad49c;
     --text-black: #e8e8e8;
     --text-body: #e3e5e8;
+    --text-button-hover: #e6e8eb;
     --text-caution-ink: #feb08b;
     --text-danger: #ff9b96;
     --text-danger-alt: #fe9688;
@@ -316,6 +319,7 @@
     --bg-add-tile: #202021;
     --bg-add-tint: #202522;
     --bg-budget: #4f46e5;
+    --bg-button-hover: #1c2940;
     --bg-canvas-highlight: #242321;
     --bg-capacity-ok: #212322;
     --bg-capacity-short: #24221e;
