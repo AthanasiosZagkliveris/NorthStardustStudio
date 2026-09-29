@@ -884,7 +884,7 @@ export default function Conversation() {
         }
 
         // Every answer edit debounces its actual localStorage write
-        // (see OrganizationService's DebouncedLocalStorage) so typing
+        // (see LocalOrganizationStore) so typing
         // doesn't pay a full-document read-parse-write on every
         // keystroke -- flushing here on cleanup (leaving this System,
         // switching Organizations, or unmounting entirely) guarantees

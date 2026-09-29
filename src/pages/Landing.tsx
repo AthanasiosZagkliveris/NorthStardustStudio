@@ -281,7 +281,7 @@ export default function Landing() {
         }
 
         // Renaming an Organization debounces its actual localStorage
-        // write (see OrganizationService's DebouncedLocalStorage) --
+        // write (see LocalOrganizationStore) --
         // flush it now so a rename typed right before navigating
         // away is guaranteed to be on disk, not just still queued.
         OrganizationService.flushPendingWrites();

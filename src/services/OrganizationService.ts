@@ -11,11 +11,14 @@
  * Development System's Product Register (see item 7) so the
  * two Sections can read/write the same underlying data.
  *
- * A small separate index (`ORGANIZATIONS_INDEX_KEY`) lists every
+ * A small separate index (see LocalOrganizationStore) lists every
  * Organization's `{id, name, createdAt}` so the Landing page can
  * render the Organizations list without loading every full
  * document up front.
  */
+
+import { LocalOrganizationStore } from "./LocalOrganizationStore";
+import type { SaveState } from "./OrganizationStore";
 
 export interface OrganizationSummary {
     id: string;
@@ -183,126 +186,20 @@ export class UnsupportedFormatVersionError extends Error {
 
 }
 
-const ORGANIZATIONS_INDEX_KEY = "northstardust-organizations";
-const SELECTED_ORGANIZATION_KEY = "northstardust-selected-organization";
-
-function organizationDocumentKey(organizationId: string): string {
-    return `northstardust-organization-${organizationId}`;
-}
-
 function createOrganizationId(): string {
     return `org-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
 /**
- * How long a burst of writes to the SAME localStorage key (e.g.
- * every keystroke in an interview field, which re-saves that
- * Organization's whole document) is held in memory before actually
- * touching disk. Each new write to the same key restarts this
- * window, so a steady stream of edits collapses into a single
- * `JSON.stringify` + `localStorage.setItem` once typing pauses,
- * instead of one full read-parse-write per keystroke.
+ * Where every Organization is kept: this device's localStorage, for
+ * now (see OrganizationStore for the seam a server store would take).
  */
-const WRITE_DEBOUNCE_MS = 400;
-
-/**
- * Debounces every localStorage WRITE this service makes, while
- * every READ still sees the latest value immediately -- typing
- * stays instant, and nothing an in-progress debounce is holding
- * gets read back stale.
- *
- * Before this existed, every keystroke in an interview field (or an
- * Organization rename) triggered its own full `JSON.parse` +
- * mutate + `JSON.stringify` + `localStorage.setItem` round trip --
- * on a document that grows with every System, Product and answer an
- * Organization accumulates, so typing got slower the longer an
- * Organization had been used. Debouncing the disk write removes
- * that cost from every keystroke while `flushAll()` (called on
- * page unload/hide, and when navigating away from an interview --
- * see Conversation.tsx and Landing.tsx) guarantees a debounced edit
- * is never silently lost if the app closes mid-window.
- */
-class DebouncedLocalStorage {
-
-    private readonly pending = new Map<string, { value: unknown; timer: ReturnType<typeof setTimeout> }>();
-
-    /** The latest value queued for `key`, if a write is still pending. */
-    peek<T>(key: string): T | undefined {
-        return this.pending.get(key)?.value as T | undefined;
-    }
-
-    write(key: string, value: unknown): void {
-
-        const existing = this.pending.get(key);
-
-        if (existing) {
-            clearTimeout(existing.timer);
-        }
-
-        const timer = setTimeout(() => this.flush(key), WRITE_DEBOUNCE_MS);
-
-        this.pending.set(key, { value, timer });
-
-    }
-
-    /** Writes `key`'s pending value to disk immediately, if any. */
-    flush(key: string): void {
-
-        const entry = this.pending.get(key);
-
-        if (!entry) {
-            return;
-        }
-
-        clearTimeout(entry.timer);
-        this.pending.delete(key);
-
-        localStorage.setItem(key, JSON.stringify(entry.value));
-
-    }
-
-    /** Flushes every key with a pending write. */
-    flushAll(): void {
-
-        for (const key of Array.from(this.pending.keys())) {
-            this.flush(key);
-        }
-
-    }
-
-    /** Drops `key`'s pending write WITHOUT writing it (e.g. the key was just deleted). */
-    discard(key: string): void {
-
-        const entry = this.pending.get(key);
-
-        if (!entry) {
-            return;
-        }
-
-        clearTimeout(entry.timer);
-        this.pending.delete(key);
-
-    }
-
-}
-
-const debouncedStorage = new DebouncedLocalStorage();
+const store = new LocalOrganizationStore(
+    typeof localStorage !== "undefined" ? localStorage : ({} as Storage)
+);
 
 if (typeof window !== "undefined") {
-
-    // Best-effort safety net: if the tab/app closes (or is hidden,
-    // which is the more reliable signal on mobile/some desktop
-    // shells) while a debounced write is still pending, flush
-    // everything immediately rather than losing it.
-    window.addEventListener("pagehide", () => debouncedStorage.flushAll());
-    window.addEventListener("beforeunload", () => debouncedStorage.flushAll());
-
-    document.addEventListener("visibilitychange", () => {
-        if (document.visibilityState === "hidden") {
-            debouncedStorage.flushAll();
-        }
-    });
-
+    store.attachToPage(window);
 }
 
 export class OrganizationService {
@@ -313,29 +210,12 @@ export class OrganizationService {
      */
     static list(): OrganizationSummary[] {
 
-        const pending = debouncedStorage.peek<OrganizationSummary[]>(ORGANIZATIONS_INDEX_KEY);
-
-        if (pending) {
-            return pending;
-        }
-
-        const raw = localStorage.getItem(ORGANIZATIONS_INDEX_KEY);
-
-        if (!raw) {
-            return [];
-        }
-
-        try {
-            const parsed = JSON.parse(raw);
-            return Array.isArray(parsed) ? parsed : [];
-        } catch {
-            return [];
-        }
+        return store.loadIndex();
 
     }
 
     private static saveList(list: OrganizationSummary[]): void {
-        debouncedStorage.write(ORGANIZATIONS_INDEX_KEY, list);
+        store.saveIndex(list);
     }
 
     static create(name: string): OrganizationSummary {
@@ -450,11 +330,7 @@ export class OrganizationService {
             this.list().filter(organization => organization.id !== organizationId)
         );
 
-        // Drop any not-yet-flushed write for this Organization's
-        // document FIRST -- otherwise its debounce timer could still
-        // fire after the removeItem below and silently resurrect it.
-        debouncedStorage.discard(organizationDocumentKey(organizationId));
-        localStorage.removeItem(organizationDocumentKey(organizationId));
+        store.removeDocument(organizationId);
 
         if (this.getSelected() === organizationId) {
             this.setSelected(null);
@@ -463,16 +339,12 @@ export class OrganizationService {
     }
 
     static getSelected(): string | null {
-        return localStorage.getItem(SELECTED_ORGANIZATION_KEY);
+        return store.getSelectedId();
     }
 
     static setSelected(organizationId: string | null): void {
 
-        if (organizationId) {
-            localStorage.setItem(SELECTED_ORGANIZATION_KEY, organizationId);
-        } else {
-            localStorage.removeItem(SELECTED_ORGANIZATION_KEY);
-        }
+        store.setSelectedId(organizationId);
 
     }
 
@@ -482,30 +354,14 @@ export class OrganizationService {
 
     static loadDocument(organizationId: string): OrganizationDocument | null {
 
-        const pending = debouncedStorage.peek<OrganizationDocument>(organizationDocumentKey(organizationId));
-
-        if (pending) {
-            return pending;
-        }
-
-        const raw = localStorage.getItem(organizationDocumentKey(organizationId));
-
-        if (!raw) {
-            return null;
-        }
-
-        try {
-            return JSON.parse(raw) as OrganizationDocument;
-        } catch {
-            return null;
-        }
+        return store.loadDocument(organizationId);
 
     }
 
     /** Every write is in the current format, whatever was read. */
     static saveDocument(document: OrganizationDocument): void {
         document.formatVersion = ORGANIZATION_FORMAT_VERSION;
-        debouncedStorage.write(organizationDocumentKey(document.id), document);
+        store.saveDocument(document);
     }
 
     /**
@@ -533,7 +389,17 @@ export class OrganizationService {
      * which only catch the app closing, not an in-app navigation.
      */
     static flushPendingWrites(): void {
-        debouncedStorage.flushAll();
+        store.flush();
+    }
+
+    /** Where saving stands (see SaveState), for the header's saved signal. */
+    static getSaveState(): SaveState {
+        return store.getSaveState();
+    }
+
+    /** Calls `listener` whenever the save state changes; returns the unsubscribe. */
+    static subscribeSaveState(listener: () => void): () => void {
+        return store.subscribe(listener);
     }
 
     // -- Per-System Interview state --
