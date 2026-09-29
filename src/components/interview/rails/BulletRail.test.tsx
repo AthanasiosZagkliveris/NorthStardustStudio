@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import BulletRail from "./BulletRail";
+import { stylesheet } from "../../../test/stylesheet";
 
 const items = [{ id: "a", label: "1. Definition" }, { id: "b", label: "2. Ethics" }];
 
@@ -62,6 +63,32 @@ describe("BulletRail", () => {
         expect(document.querySelectorAll(".bullet-rail-label > .bullet-rail-label-text")[11].textContent).toBe("Section 12");
         // The button's name is the label as written.
         expect(screen.getByRole("button", { name: "10. Section 10" })).toBeTruthy();
+
+    });
+
+    it("shows what a click will open on hover and on keyboard focus alike", () => {
+
+        render(<BulletRail items={items} activeId="a" onSelect={() => {}} side="left" label="Pages" />);
+
+        // The whole row -- label and bullet -- is one focusable button.
+        const row = screen.getByRole("button", { name: "2. Ethics" });
+        row.focus();
+        expect(document.activeElement).toBe(row);
+        expect(row.querySelector(".bullet-rail-label")).not.toBeNull();
+        expect(row.querySelector(".bullet-rail-dot")).not.toBeNull();
+
+        // Every hover cue has its focus twin: the link colour, the
+        // underline on the label, the grown and coloured bullet.
+        const css = stylesheet("bullet-rail.css");
+        for (const state of [":hover", ":focus-visible"]) {
+            expect(css).toContain(".bullet-rail-item" + state + " .bullet-rail-label");
+            expect(css).toContain(".bullet-rail-item" + state + " .bullet-rail-dot");
+        }
+        expect(css).toContain(".bullet-rail-item:focus-visible { color: var(--text-primary); }");
+        expect(css).toContain(".bullet-rail-item:focus-visible .bullet-rail-label { text-decoration: underline;");
+        expect(css).toContain(".bullet-rail-item:focus-visible .bullet-rail-dot { background: var(--rail-dot-hover);");
+        // No transition when the system asks for reduced motion.
+        expect(css).toContain("prefers-reduced-motion: reduce) { .bullet-rail-item, .bullet-rail-dot { transition: none; }");
 
     });
 

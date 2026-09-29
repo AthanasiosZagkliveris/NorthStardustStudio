@@ -11,6 +11,8 @@
     --rail-dot: var(--bg-rail-dot);          /* ice blue: every other bullet */
     --rail-dot-active: var(--bg-primary);   /* the app's blue: where the user is */
     --rail-bloom: var(--bg-rail-bloom);        /* the light-blue bloom ring around it */
+    --rail-dot-hover: var(--bg-rail-dot-hover); /* the bullet under the pointer or focus */
+    --rail-hover-ring: var(--bg-rail-hover-ring); /* and its thinner ring */
     --rail-gutter: 56px;          /* dots-only width */
 
     /* The interview card's width -- the same value as
@@ -160,6 +162,8 @@
     color: var(--text-subtle);
     text-align: left;
 
+    transition: color 0.2s ease;
+
 }
 
 .bullet-rail-left .bullet-rail-item { text-align: right; }
@@ -193,9 +197,47 @@
 
 }
 
-.bullet-rail-item:hover .bullet-rail-dot { transform: scale(1.2); }
+/* Hover and keyboard focus say what a click will open: the label
+   turns the link colour and is underlined, the bullet grows and
+   takes the hover blue with a thin ring. The whole row -- label,
+   gap and bullet -- is the one button, so it is all one target.
+   The active item keeps its own look (the app's blue, the wider
+   bloom, the bold label); hovering it only adds the underline.
+   The underline is set on the label itself: in the narrow layout
+   the label is an absolutely placed tooltip, which a decoration
+   on the button would not reach. */
+.bullet-rail-item:hover,
+.bullet-rail-item:focus-visible { color: var(--text-primary); }
 
-.bullet-rail-item.active:hover .bullet-rail-dot { transform: scale(1.45); }
+.bullet-rail-item.active:hover,
+.bullet-rail-item.active:focus-visible { color: var(--text-strong); }
+
+.bullet-rail-item:hover .bullet-rail-label,
+.bullet-rail-item:focus-visible .bullet-rail-label {
+
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+    text-underline-offset: 0.2em;
+
+}
+
+.bullet-rail-item:hover .bullet-rail-dot,
+.bullet-rail-item:focus-visible .bullet-rail-dot {
+
+    background: var(--rail-dot-hover);
+    box-shadow: 0 0 0 3px var(--rail-hover-ring);
+    transform: scale(1.3);
+
+}
+
+.bullet-rail-item.active:hover .bullet-rail-dot,
+.bullet-rail-item.active:focus-visible .bullet-rail-dot {
+
+    background: var(--rail-dot-active);
+    box-shadow: 0 0 0 4px var(--rail-bloom);
+    transform: scale(1.45);
+
+}
 
 .bullet-rail-item:focus-visible { outline: 2px solid var(--line-primary); outline-offset: 4px; border-radius: 4px; }
 
@@ -310,6 +352,7 @@
 
 @media (prefers-reduced-motion: reduce) {
 
+    .bullet-rail-item,
     .bullet-rail-dot { transition: none; }
 
 }

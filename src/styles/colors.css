@@ -122,6 +122,8 @@
     --bg-quiet: #9ca3af;
     --bg-rail-bloom: #c9ddf8;
     --bg-rail-dot: #b5d4f4;
+    --bg-rail-dot-hover: #6a9be8;
+    --bg-rail-hover-ring: #d3e3f9;
     --bg-remove: #c0392b;
     --bg-remove-disabled: #e0a29a;
     --bg-retention: #fff8f0;
@@ -363,6 +365,8 @@
     --bg-quiet: #7e8085;
     --bg-rail-bloom: #22334a;
     --bg-rail-dot: #233a51;
+    --bg-rail-dot-hover: #5b8ce8;
+    --bg-rail-hover-ring: #2b4468;
     --bg-remove: #c0392b;
     --bg-remove-disabled: #a96f68;
     --bg-retention: #23211f;
