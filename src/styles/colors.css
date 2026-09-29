@@ -16,6 +16,11 @@
    lightness" pairs that a rule completes with the hue of the card,
    Segment or Theme it sits in:
      hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground))
+   The hue is always one of the eight soft hues of the palette
+   (src/framework/engine/Palette.ts: sky, terracotta, sage,
+   lavender, sand, teal, rose, periwinkle), so these families,
+   light and dark, are the palette's ground, tint, bar fill,
+   border and label ink.
 
    The same values are declared again on the Business Documents
    "paper" (the Plan, the Canvas and the Forecast tables): a

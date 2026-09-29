@@ -11,6 +11,7 @@ import {
 } from "./DemandCapacity.ts";
 
 import { AnswerType } from "../enums/AnswerType.ts";
+import { nextPaletteHue, paletteHue, paletteHuesInOrder } from "./Palette.ts";
 import {
     financialFoundationSectionsEmpty,
     financialSustainabilitySectionsEmpty
@@ -3236,7 +3237,7 @@ export function strategyObjectiveIncomplete(objective: StrategyObjectiveValue): 
 }
 
 /**
- * A pale background tint for each Strategic Theme, keyed by id.
+ * A colour for each Strategic Theme, keyed by id.
  *
  * Themes are the only thing on these pages that repeats without a
  * fixed identity -- there is no "first" Theme in the way there is a
@@ -3244,56 +3245,38 @@ export function strategyObjectiveIncomplete(objective: StrategyObjectiveValue): 
  * reader tell one Theme's block from the next at a glance, on the
  * Strategic Period page and the Roadmap alike.
  *
- * Every Theme gets a DIFFERENT hue, which is why this takes the
- * whole list rather than one id: hashing each id on its own could
- * land two Themes on the same colour, and two Themes that look
- * alike is the one thing the tint exists to prevent. Hues are
- * spaced by the golden angle, which spreads any number of them
- * about as far apart as they can get.
+ * Every Theme gets a DIFFERENT palette colour (Palette.ts), which
+ * is why this takes the whole list rather than one id: hashing
+ * each id on its own could land two Themes on the same colour,
+ * and two Themes that look alike is the one thing the tint exists
+ * to prevent. The palette's eight go round in its own order, each
+ * well away from the one before.
  *
  * The order is taken from the ids sorted, not from the Themes'
  * positions, so reordering the Themes does not repaint them --
  * a colour follows its Theme.
- *
- * Hue is the only thing that varies. Saturation and lightness are
- * pinned, which holds every hue this can produce above 4.5:1 for
- * the text drawn on it (worst case ~6.5:1 for #4b5563).
  */
 export function strategyThemeHues(themeIds: string[]): Record<string, number> {
-
-    const GOLDEN_ANGLE = 137.508;
-
-    const ordered = [...new Set(themeIds)].sort();
-
-    const hues: Record<string, number> = {};
-
-    ordered.forEach((id, index) => {
-        hues[id] = (index * GOLDEN_ANGLE) % 360;
-    });
-
-    return hues;
-
+    return paletteHuesInOrder([...new Set(themeIds)].sort());
 }
 
 /**
  * A hue for one thing, derived from THE THING rather than from
  * its place among its siblings.
  *
- * strategyThemeHues above spaces its hues by golden angle across
- * whatever it is handed, which gives the best-separated palette
- * possible -- but a hue is then a function of POSITION. Delete
- * the first of two Segments and the second inherits its colour,
- * so the card that is left looks like the card that went. A
- * colour that moves between things is worse than a colour that
- * is merely close to another.
+ * strategyThemeHues above hands out the palette across whatever
+ * it is handed, which keeps neighbours apart -- but a colour is
+ * then a function of POSITION. Delete the first of two Segments
+ * and the second inherits its colour, so the card that is left
+ * looks like the card that went. A colour that moves between
+ * things is worse than a colour that is merely close to another.
  *
  * Hashed with FNV-1a, whose avalanche means two ids differing by
  * one character land nowhere near each other. Tenths of a degree
  * rather than whole ones, so there is no needless clustering.
  *
- * Hue is the only thing this decides. Saturation and lightness
- * are pinned in the stylesheet, which is what holds every hue it
- * can produce above 4.5:1 for the text drawn on it.
+ * This is a raw hue, as Segments recorded before the palette
+ * stored it: draw it through paletteHue (as stableCardHue does).
  */
 export function stableHue(id: string): number {
 
@@ -3308,71 +3291,37 @@ export function stableHue(id: string): number {
 
 }
 
-/** A Segment's colour: the hue it was given, else its stable one. */
-export function segmentHue(segment: { id: string; hue?: number }): number {
-    return segment.hue ?? stableHue(segment.id);
-}
-
-/** How far apart two hues are, going the short way round. */
-function hueDistance(one: number, other: number): number {
-
-    const apart = Math.abs(one - other) % 360;
-
-    return Math.min(apart, 360 - apart);
-
+/** The palette colour a thing with a fixed id is drawn in: its stable hue's nearest. */
+export function stableCardHue(id: string): number {
+    return paletteHue(stableHue(id));
 }
 
 /**
- * A hue for a NEW thing, as far as possible from the hues its
- * siblings already have.
- *
- * stableHue alone gives every id its own colour and never moves
- * one -- but two ids hash independently, so two of them can land
- * close enough to read as the same. Two Segments in the same
- * green is the thing the colour exists to prevent.
- *
- * So the choice is made ONCE, when the thing is created, against
- * what is in use at that moment: every hue is scored by its
- * distance to the nearest one taken, and the best is kept. With
- * one sibling that is the opposite side of the wheel; with two it
- * is the widest gap between them.
+ * A Segment's colour: the hue it was given, else its stable one --
+ * drawn as the nearest palette colour, so a hue stored before the
+ * palette existed (any point on the wheel) still draws calm. The
+ * stored value itself is left as it is.
+ */
+export function segmentHue(segment: { id: string; hue?: number }): number {
+    return paletteHue(segment.hue ?? stableHue(segment.id));
+}
+
+/**
+ * The palette hue for a NEW thing, given the hues its siblings
+ * already have (see nextPaletteHue): the next palette colour after
+ * its neighbour's, the least used first, never the neighbour's own.
  *
  * Chosen once and then STORED, which is what keeps it still.
  * Recomputing it against the current siblings would put the
  * colours back on the footing this replaced -- deleting one thing
  * would recolour the rest.
  *
- * With nothing taken it falls back to the id's own hue, so the
+ * With nothing taken it starts from the id's own hue, so the
  * first of anything still varies between organizations rather
- * than everyone starting on the same red.
+ * than everyone starting on the same colour.
  */
 export function pickHue(id: string, taken: number[]): number {
-
-    const inUse = taken.filter(hue => Number.isFinite(hue));
-
-    if (inUse.length === 0) {
-        return stableHue(id);
-    }
-
-    let best = 0;
-    let bestGap = -1;
-
-    for (let candidate = 0; candidate < 360; candidate++) {
-
-        const gap = inUse.reduce(
-            (nearest, hue) => Math.min(nearest, hueDistance(candidate, hue)),
-            360
-        );
-
-        if (gap > bestGap) {
-            bestGap = gap;
-            best = candidate;
-        }
-
-    }
-
-    return best;
-
+    return nextPaletteHue(taken, stableHue(id));
 }
 
 /*

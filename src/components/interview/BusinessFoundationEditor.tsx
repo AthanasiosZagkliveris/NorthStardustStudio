@@ -1528,8 +1528,8 @@ export default function BusinessFoundationEditor({
 
                            A Segment recorded before the colour was
                            stored falls back to the hue its id hashes
-                           to, which is what it has always been drawn
-                           in. */
+                           to. Either hue is drawn as its nearest
+                           palette colour (see segmentHue). */
                         style={{
                             "--strategy-theme-hue": segmentHue(segment)
                         } as CSSProperties}

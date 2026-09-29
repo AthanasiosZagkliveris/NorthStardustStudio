@@ -63,6 +63,7 @@ import {
     type OwnCostValue
 } from "../../framework/engine/FinancialModel.ts";
 import { costSourcesFor } from "../../framework/engine/ExportRenderers.ts";
+import { paletteHueNamed } from "../../framework/engine/Palette.ts";
 
 import {
     BusinessAddButton,
@@ -214,17 +215,17 @@ const SECTIONS = {
 };
 
 /**
- * Each section's own colour, as every card on the earlier Business
- * pages has one: rose, amber, green, blue -- a quarter of the wheel
- * apart, so no two neighbours read alike. Fixed rather than hashed
- * from the id, because these four never change and a hash can land
- * two of them side by side.
+ * Each section's own palette colour, as every card on the earlier
+ * Business pages has one: rose, sand, sage, sky -- a quarter of the
+ * wheel apart, so no two neighbours read alike. Fixed rather than
+ * hashed from the id, because these four never change and a hash
+ * can land two of them side by side.
  */
 const SECTION_HUES: Record<string, number> = {
-    "financial-costs": 345,
-    "financial-need": 32,
-    "financial-funding": 140,
-    "financial-position": 212
+    "financial-costs": paletteHueNamed("rose"),
+    "financial-need": paletteHueNamed("sand"),
+    "financial-funding": paletteHueNamed("sage"),
+    "financial-position": paletteHueNamed("sky")
 };
 
 const CATEGORY_INFO: Record<FundingCategory, InfoPoint[]> = {

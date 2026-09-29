@@ -39,6 +39,7 @@ import {
     type StreamAnalysis
 } from "../../framework/engine/FinancialModel.ts";
 import { costSourcesFor } from "../../framework/engine/ExportRenderers.ts";
+import { paletteHueNamed } from "../../framework/engine/Palette.ts";
 import {
     deliveryAllocation,
     demandResult
@@ -183,12 +184,12 @@ const SECTIONS = {
 };
 
 /**
- * Each section's own colour, apart from each other and from Page 4's
- * four: violet for Revenue, teal for Break Even.
+ * Each section's own palette colour, apart from each other and from
+ * Page 4's four: lavender for Revenue, teal for Break Even.
  */
 const SECTION_HUES: Record<string, number> = {
-    "sustainability-revenue": 275,
-    "sustainability-break-even": 180
+    "sustainability-revenue": paletteHueNamed("lavender"),
+    "sustainability-break-even": paletteHueNamed("teal")
 };
 
 const STATUS_TITLES = {

@@ -26,7 +26,7 @@ import {
     createBusinessPartner,
     createBusinessResourceSlot,
     resourceUnitCount,
-    stableHue,
+    stableCardHue,
     withLegalEntityFounders
 } from "../../framework/engine/AnswerUtils.ts";
 import { costText } from "../../framework/engine/ExportRenderers.ts";
@@ -3099,7 +3099,7 @@ export default function BusinessCapabilityEditor({
                         data-anchor={"capability-" + card.id}
                         data-rail={railId(BUSINESS_CAPABILITY_SECTIONS[cardIndex])}
                         style={{
-                            "--strategy-theme-hue": stableHue(card.id)
+                            "--strategy-theme-hue": stableCardHue(card.id)
                         } as CSSProperties}
                     >
 
