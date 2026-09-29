@@ -6,11 +6,12 @@ import "../styles/theme-switch.css";
 
 const OPTIONS: readonly { value: ThemeChoice; label: string; title: string }[] = [
     { value: "light", label: "Light", title: "Light theme" },
+    { value: "sepia", label: "Sepia", title: "Sepia theme: warm paper for long reading" },
     { value: "dark", label: "Dark", title: "Dark theme" },
     { value: "auto", label: "Auto", title: "Follow the system's light or dark setting" }
 ];
 
-/** A sun, a moon, and a half-filled circle for Auto. Drawn in the text colour. */
+/** A sun, an open book for Sepia, a moon, and a half-filled circle for Auto. Drawn in the text colour. */
 function ThemeIcon({ value }: { value: ThemeChoice }) {
 
     return (
@@ -25,6 +26,15 @@ function ThemeIcon({ value }: { value: ThemeChoice }) {
                         strokeLinecap="round"
                     />
                 </>
+            )}
+            {value === "sepia" && (
+                <path
+                    d="M8 4.2C6.6 3.2 4.6 2.8 2 3v9.3c2.6-.2 4.6.2 6 1.2 1.4-1 3.4-1.4 6-1.2V3c-2.6-.2-4.6.2-6 1.2zM8 4.2v9.3"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinejoin="round"
+                />
             )}
             {value === "dark" && (
                 <path d="M13.5 10.2A6 6 0 0 1 5.8 2.5a6 6 0 1 0 7.7 7.7z" fill="currentColor" />
@@ -41,11 +51,11 @@ function ThemeIcon({ value }: { value: ThemeChoice }) {
 }
 
 /**
- * The Light / Dark / Auto switch in the app header. Three radio
- * buttons in one group, so the arrow keys move between them and a
- * screen reader announces the choice; Auto follows the system's
- * setting (ThemeService). In a narrow window only the icons show,
- * each still named by its label.
+ * The Light / Sepia / Dark / Auto switch in the app header. Four
+ * radio buttons in one group, so the arrow keys move between them
+ * and a screen reader announces the choice; Auto follows the
+ * system's light or dark setting (ThemeService). In a narrow window
+ * only the icons show, each still named by its label.
  */
 export default function ThemeSwitch() {
 

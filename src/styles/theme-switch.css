@@ -1,6 +1,6 @@
 /* ==========================================================
-   The Light / Dark / Auto switch (ThemeSwitch.tsx), in the app
-   header just before the Organization's name. Three segments of
+   The Light / Sepia / Dark / Auto switch (ThemeSwitch.tsx), in the
+   app header just before the Organization's name. Four segments of
    one box, at the small type size; the chosen one is filled in
    the app's blue. The radio buttons themselves are hidden but
    still take focus and the arrow keys.
@@ -111,8 +111,10 @@
 }
 
 /* A narrow window: the icons alone, each still named by its label
-   (visually hidden) and its title. */
-@media (max-width: 1023px) {
+   (visually hidden) and its title. With the words the switch is
+   297px, and the logo (335px), it and an Organization's name as long
+   as "QUILLFIELD AUTOMATION" (359px) need 1071px of header. */
+@media (max-width: 1099px) {
 
     .theme-switch-option {
 

@@ -1,8 +1,11 @@
-/** What the user chose: a theme, or "auto" -- follow the system. */
-export type ThemeChoice = "light" | "dark" | "auto";
+/**
+ * What the user chose: a theme, or "auto" -- follow the system's
+ * light or dark setting (never sepia, which no system has).
+ */
+export type ThemeChoice = "light" | "sepia" | "dark" | "auto";
 
 /** What the app is drawn in. */
-export type Theme = "light" | "dark";
+export type Theme = "light" | "sepia" | "dark";
 
 /**
  * Where the choice is remembered, on this device. index.html reads
@@ -25,7 +28,7 @@ let sessionChoice: ThemeChoice = "auto";
 
 function isChoice(value: unknown): value is ThemeChoice {
 
-    return value === "light" || value === "dark" || value === "auto";
+    return value === "light" || value === "sepia" || value === "dark" || value === "auto";
 
 }
 
@@ -66,9 +69,9 @@ function notify(): void {
 }
 
 /**
- * The app's light or dark theme. The choice (Light, Dark or Auto) is
- * remembered in localStorage; Auto follows the system's setting and
- * changes with it while the app is open. The resolved theme is set
+ * The app's theme. The choice (Light, Sepia, Dark or Auto) is
+ * remembered in localStorage; Auto follows the system's light or dark
+ * setting and changes with it while the app is open. The resolved theme is set
  * as `data-theme` on <html>, which is all colors.css looks at.
  */
 export const ThemeService = {
