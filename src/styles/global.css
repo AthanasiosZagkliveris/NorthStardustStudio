@@ -650,3 +650,17 @@ b, strong {
 
   pointer-events: none;
 }
+
+/* EVERY FLOATING PANEL READS FROM ITS START EDGE, whatever it opens
+   from. A panel inherits the alignment of the place it is opened in
+   -- the Loan Repayments "i" opens from a right-aligned table head --
+   and a note set right-aligned leaves each bullet stranded far to
+   the left of its own ragged text. The tooltip, the "i" note and the
+   pickers' and menus' lists all start at the start. */
+.app-tooltip,
+.info-note-panel,
+.option-picker-list,
+.month-picker-panel,
+.strategy-sort-menu {
+  text-align: start;
+}
