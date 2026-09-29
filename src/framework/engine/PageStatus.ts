@@ -93,9 +93,21 @@ function collectLeaves(value: unknown, into: (leaf: string) => void, key = ""): 
  */
 export function hasAnyAnswer(answer: AnswerDefinition, value: unknown): boolean {
 
+    return differsFromDefault(defaultAnswerValue(answer), value);
+
+}
+
+/**
+ * Whether a value holds any text or number its untouched default
+ * does not: hasAnyAnswer for a whole page, and for one part of a
+ * page's value (a section, see SectionStatus.ts) against the same
+ * part of the default.
+ */
+export function differsFromDefault(defaultValue: unknown, value: unknown): boolean {
+
     const defaults = new Set<string>();
 
-    collectLeaves(defaultAnswerValue(answer), leaf => defaults.add(leaf));
+    collectLeaves(defaultValue, leaf => defaults.add(leaf));
 
     let found = false;
 

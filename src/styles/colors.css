@@ -134,8 +134,8 @@
     --bg-rail-bloom: #c9ddf8;
     --bg-rail-dot: #b5d4f4;
     --bg-rail-dot-hover: #6a9be8;
-    --bg-rail-status: #6b8fc4;
-    --bg-rail-status-hover: #4f82dc;
+    --bg-status-ink: #6485bc;
+    --bg-status-ink-hover: #4f82dc;
     --bg-rail-hover-ring: #d3e3f9;
     --bg-remove: #c0392b;
     --bg-remove-disabled: #e0a29a;
@@ -405,8 +405,8 @@
     --bg-rail-bloom: #22334a;
     --bg-rail-dot: #233a51;
     --bg-rail-dot-hover: #5b8ce8;
-    --bg-rail-status: #4f6f96;
-    --bg-rail-status-hover: #5b8ce8;
+    --bg-status-ink: #4f6f96;
+    --bg-status-ink-hover: #5b8ce8;
     --bg-rail-hover-ring: #2b4468;
     --bg-remove: #c0392b;
     --bg-remove-disabled: #a96f68;
@@ -698,8 +698,8 @@
     --bg-rail-bloom: #cad6e6;
     --bg-rail-dot: #baccdf;
     --bg-rail-dot-hover: #7996c3;
-    --bg-rail-status: #66829f;
-    --bg-rail-status-hover: #5e7cb0;
+    --bg-status-ink: #627e9b;
+    --bg-status-ink-hover: #5e7cb0;
     --bg-rail-hover-ring: #d8ccbc;
     --bg-remove: #9d5045;
     --bg-remove-disabled: #c9a39e;

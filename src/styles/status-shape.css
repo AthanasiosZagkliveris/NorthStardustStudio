@@ -4,17 +4,29 @@
 
        ○ not started    ◐ in progress    ● defined    ◆ needs review
 
-   One 12px mark in `--status-ink` (the text colour unless the user
-   sets it): the Pages rail's bullets (bullet-rail.css) and the
-   System list's rows (system-list.css) both draw it. Without a
-   `data-status` it is the plain filled dot.
+   One 12px mark in `--status-ink`: the Pages and Sections rails'
+   bullets (bullet-rail.css) and the System list's rows
+   (system-list.css) all draw it. A status is an indicator the reader
+   has to make out, so its ink is the one status ink,
+   --bg-status-ink, 3:1 or more against the page in every theme
+   (WCAG 1.4.11) -- darker than the rails' ice-blue plain dots, so a
+   defined page's solid dot reads as a state, not decoration. Without
+   a `data-status` it is the plain filled dot, in the text colour
+   unless what draws it sets its own.
 ========================================================== */
 
-/* The ink default carries no weight, so whatever draws the mark
-   sets its own, wherever its stylesheet loads. */
+/* The ink defaults carry no weight, so whatever draws the mark sets
+   its own (the rails' active and hover inks), wherever its
+   stylesheet loads. */
 :where(.status-shape) {
 
     --status-ink: currentColor;
+
+}
+
+:where(.status-shape[data-status]) {
+
+    --status-ink: var(--bg-status-ink);
 
 }
 

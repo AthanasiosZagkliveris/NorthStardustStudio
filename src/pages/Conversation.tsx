@@ -58,6 +58,7 @@ import { jumpTo, type OpenPage } from "../components/interview/jumpTo.ts";
 import BulletRail from "../components/interview/rails/BulletRail";
 import { pageIndexFromRailId, pageRailItems, sectionRailItems } from "../components/interview/rails/railItems";
 import { pageStatuses } from "../framework/engine/PageStatus";
+import { sectionStatuses } from "../framework/engine/SectionStatus";
 import { scrollToRailSection, useActiveRailSection } from "../components/interview/rails/useActiveRailSection";
 import { toggledIn } from "../components/interview/toggledIn";
 
@@ -1810,9 +1811,28 @@ export default function Conversation() {
                 0
             );
 
-    const railSections = session
+    // Each section bullet is drawn in its section's status too
+    // (SectionStatus.ts), from the same answers, on every render.
+    const railSectionItems = session
         ? sectionRailItems(effectiveAnswer, strategyFoundationValue?.themes ?? [], columnNumberOffset + 1)
         : [];
+    const railSectionStatuses = session
+        ? sectionStatuses(
+            effectiveAnswer,
+            sharedSource
+                ? resolveSharedAnswerValue(organizationId, session.getCurrentSection()?.answer)
+                : session.getResponse(session.getCurrentSection()?.number ?? 0),
+            {
+                pageDefined: railStatuses?.get(session.getCurrentSection()?.number ?? 0) === "defined",
+                themes: strategyFoundationValue?.themes ?? [],
+                periodValue: session.getResponse(
+                    session.getSections().find(candidate => candidate.answer?.type === AnswerType.StrategicPeriod)?.number ?? 0
+                ),
+                railIds: railSectionItems.map(item => item.id)
+            }
+        )
+        : null;
+    const railSections = railSectionItems.map(item => ({ ...item, status: railSectionStatuses?.get(item.id) }));
     const [activeRailSection, selectRailSection] = useActiveRailSection(railSections.map(item => item.id), railSectionIndex);
 
     if (loadingError) {

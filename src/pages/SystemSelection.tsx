@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { capabilities, getCapabilityColor } from "../data/capabilities";
 import { systems } from "../data/systems";
@@ -18,7 +18,8 @@ import SystemList from "../components/SystemList";
 import CapabilityDescriptionDialog from "../components/CapabilityDescriptionDialog";
 
 import { OrganizationService } from "../services/OrganizationService";
-import { continuePlace, systemProgress } from "../services/ProgressService";
+import { continuePlace, systemProgress, type ContinuePlace } from "../services/ProgressService";
+import type { PageStatus } from "../framework/engine/PageStatus";
 
 import "../styles/workspace.css";
 
@@ -83,10 +84,15 @@ export default function SystemSelection() {
 
     // Where to go on: the last place worked, or the next page not yet
     // defined (see continuePlace) -- one "Continue" or "Next" line.
-    const lastPlace = useMemo(
-        () => organizationId ? continuePlace(organizationId) : null,
-        [organizationId]
-    );
+    // Read after rendering, not during it: reading a System's saved
+    // answers can bring them up to date and save them, and a save
+    // re-renders the header's saved signal -- which React refuses in
+    // the middle of rendering this page.
+    const [lastPlace, setLastPlace] = useState<ContinuePlace | null>(null);
+
+    useEffect(() => {
+        setLastPlace(organizationId ? continuePlace(organizationId) : null);
+    }, [organizationId]);
 
     function continueWhereLeftOff() {
 
@@ -108,15 +114,16 @@ export default function SystemSelection() {
 
     // Each listed System's status for this Organization -- the same
     // shapes the Pages rail draws, derived from the System's pages.
-    const systemStatuses = useMemo(() => {
+    // Read after rendering too, for the same reason as lastPlace.
+    const [systemStatuses, setSystemStatuses] = useState<Record<number, PageStatus | null>>({});
 
-        if (!organizationId) {
-            return {};
-        }
+    useEffect(() => {
 
-        return Object.fromEntries(
-            filteredSystems.map(system => [system.number, systemProgress(organizationId, system)])
-        );
+        setSystemStatuses(organizationId
+            ? Object.fromEntries(
+                filteredSystems.map(system => [system.number, systemProgress(organizationId, system)])
+            )
+            : {});
 
         // filteredSystems follows activeCapability.
         // eslint-disable-next-line react-hooks/exhaustive-deps

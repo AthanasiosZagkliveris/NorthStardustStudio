@@ -135,6 +135,33 @@ describe("Conversation records the last place worked", () => {
 
     });
 
+    it("draws each section's status on the Sections rail, and updates it as a column is answered", () => {
+
+        const organization = OrganizationService.create("Quillfield");
+        vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
+
+        renderIdentity({ targetSectionNumber: 1, resume: {} });
+
+        const sections = () => Array.from(screen.getByRole("navigation", { name: "Sections" }).querySelectorAll("button"))
+            .map(button => button.getAttribute("aria-label"));
+
+        expect(sections()).toEqual([
+            "1. Description — not started",
+            "2. Mission — not started",
+            "3. Positioning — not started",
+            "4. Vision — not started"
+        ]);
+
+        fireEvent.change(document.querySelector<HTMLTextAreaElement>("[data-rail] textarea")!, {
+            target: { value: "We automate small offices." }
+        });
+
+        expect(sections()[0]).toBe("1. Description — defined");
+        expect(screen.getByRole("navigation", { name: "Sections" }).querySelector(".bullet-rail-dot")?.getAttribute("data-status"))
+            .toBe("defined");
+
+    });
+
     it("opens the interview itself, at the page, when continued", () => {
 
         const organization = OrganizationService.create("Quillfield");

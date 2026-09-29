@@ -13,8 +13,8 @@
     --rail-bloom: var(--bg-rail-bloom);        /* the light-blue bloom ring around it */
     --rail-dot-hover: var(--bg-rail-dot-hover); /* the bullet under the pointer or focus */
     --rail-hover-ring: var(--bg-rail-hover-ring); /* and its thinner ring */
-    --rail-status: var(--bg-rail-status);   /* a page status shape: 3:1 on the page (WCAG 1.4.11) */
-    --rail-status-hover: var(--bg-rail-status-hover); /* the same under the pointer or focus */
+    --rail-status: var(--bg-status-ink);   /* a page status shape: 3:1 on the page (WCAG 1.4.11) */
+    --rail-status-hover: var(--bg-status-ink-hover); /* the same under the pointer or focus */
     --rail-gutter: 56px;          /* dots-only width */
 
     /* The interview card's width -- the same value as
@@ -222,11 +222,12 @@
 
 }
 
-/* A page's STATUS shape (the Pages rail) is an indicator the reader
-   has to make out, so its ink holds 3:1 against the page (WCAG
-   1.4.11) at rest and under the pointer -- a muted blue, darker than
-   the ice blue of the plain bullets. The active page keeps its own
-   look (the rule below). */
+/* A STATUS shape (a page's on the Pages rail, a section's on the
+   Sections rail) is an indicator the reader has to make out, so its
+   ink holds 3:1 against the page (WCAG 1.4.11) at rest and under the
+   pointer -- the status ink (status-shape.css), darker than the ice
+   blue of the plain bullets. The active item keeps its own look (the
+   rule below), its shape still showing its state. */
 .bullet-rail-dot[data-status] { --status-ink: var(--rail-status); }
 
 .bullet-rail-item:not(.active):hover .bullet-rail-dot[data-status],
