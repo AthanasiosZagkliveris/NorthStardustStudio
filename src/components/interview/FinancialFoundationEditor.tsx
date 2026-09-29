@@ -44,8 +44,10 @@ import {
     INCOME_TAX_BASES,
     vatBases,
     isScheduled,
+    loanRepaymentNotes,
     loanSchedule,
     moneyFormatter,
+    allFunding,
     monthlyEquivalent,
     planMonthLabel,
     withPlanStart,
@@ -980,6 +982,11 @@ export default function FinancialFoundationEditor({
         const needs = calculatedNeeds;
         const total = needs.reduce((sum, need) => sum + need.amount, 0);
 
+        /* Each loan and whether its repayments are counted: the "i" on
+           the Loan Repayments column. No loan, no column. */
+        const loanNotes = loanRepaymentNotes(allFunding(page, legalEntity), start, format);
+        const showLoans = loanNotes.length > 0;
+
         return (
             <div className="financial-section-body">
 
@@ -1021,7 +1028,13 @@ export default function FinancialFoundationEditor({
                                                         <th scope="col">Month</th>
                                                         <th scope="col">Running Costs</th>
                                                         <th scope="col">Costs of Sales</th>
-                                                        <th scope="col">Loan Repayments</th>
+                                                        {showLoans && (
+                                                            <th scope="col">
+                                                                <InfoText text="Loan Repayments">
+                                                                    <InfoNote label="Loan Repayments" points={loanNotes} fullList />
+                                                                </InfoText>
+                                                            </th>
+                                                        )}
                                                         <th scope="col">Revenue</th>
                                                         <th scope="col">Net</th>
                                                         <th scope="col">Running Total</th>
@@ -1034,7 +1047,7 @@ export default function FinancialFoundationEditor({
                                                             <th scope="row">{month.label}</th>
                                                             <td>{format(month.costs)}</td>
                                                             <td>{format(month.variable)}</td>
-                                                            <td>{format(month.loans)}</td>
+                                                            {showLoans && <td>{format(month.loans)}</td>}
                                                             <td>{format(month.revenue)}</td>
                                                             <td>{format(month.net)}</td>
                                                             <td>{format(month.cumulative)}</td>
@@ -1045,7 +1058,7 @@ export default function FinancialFoundationEditor({
                                                 <tfoot>
                                                     <tr>
                                                         <th scope="row">First year</th>
-                                                        <td colSpan={6} />
+                                                        <td colSpan={showLoans ? 6 : 5} />
                                                         <td><strong>{format(need.amount)}</strong></td>
                                                     </tr>
                                                 </tfoot>

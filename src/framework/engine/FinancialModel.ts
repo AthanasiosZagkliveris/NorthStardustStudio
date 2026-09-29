@@ -1887,6 +1887,72 @@ const NEED_BY_GROUP: Record<CostGroup, FundingNeedCategory> = {
     other: "other"
 };
 
+/** A loan: a funding source of the debt kind, whatever its status. */
+export function isLoan(source: FundingSourceValue): boolean {
+    return fundingType(source.type)?.nature === "debt";
+}
+
+/** Whether any loan is recorded: without one, no Loan Repayments column or line is shown. */
+export function hasLoans(funding: FundingSourceValue[]): boolean {
+    return funding.some(isLoan);
+}
+
+const REPAYMENT_EVERY: Record<PeriodFrequency, { adjective: string; unit: string }> = {
+    monthly: { adjective: "monthly", unit: "a month" },
+    quarterly: { adjective: "quarterly", unit: "a quarter" },
+    annually: { adjective: "annual", unit: "a year" }
+};
+
+/** The line under every loan's own, in the Loan Repayments note. */
+export const LOAN_REPAYMENTS_RULE =
+    "Only loans that are Approved / Agreed, Received / Available or Completed / Closed are repaid in this table. " +
+    "A pending loan's repayments are counted only with the funding being sought: in Financial Position below, " +
+    "and in the Stress Test on Sustainability.";
+
+/**
+ * THE LOAN REPAYMENTS COLUMN, EXPLAINED FROM THE DATA: each loan, its
+ * status as the Status picker names it, and whether its repayments
+ * are counted -- then the rule that decides it. Empty when no loan is
+ * recorded, and then there is no column to explain.
+ *
+ *   "SBA Microloan — Requested / Applied: its $470 monthly repayments
+ *    are not counted until it is approved."
+ *   "Start Up Loan — Approved / Agreed: $305 a month from Mar 2027,
+ *    counted here."
+ */
+export function loanRepaymentNotes(
+    funding: FundingSourceValue[],
+    start: StrategyMonthValue,
+    format: (amount: number) => string
+): string[] {
+
+    const loans = funding.filter(isLoan);
+    if (loans.length === 0) {
+        return [];
+    }
+
+    return [
+        ...loans.map(source => {
+            const status = source.status || "planned";
+            const head = (source.name.trim() || fundingType(source.type)?.label || "Loan") + " — " +
+                (FUNDING_STATUSES.find(entry => entry.id === status)?.label ?? "Planned") + ": ";
+            const schedule = loanSchedule(source, start);
+            const every = REPAYMENT_EVERY[source.loan.frequency] ?? REPAYMENT_EVERY.monthly;
+            if (statusStanding(status) === "confirmed") {
+                return schedule?.firstRepayment
+                    ? head + format(schedule.firstPayment) + " " + every.unit + " from " +
+                        planMonthLabel(start, schedule.firstRepayment.month) + ", counted here."
+                    : head + "its repayment terms are not complete, so no repayments are counted.";
+            }
+            return head + (schedule
+                ? "its " + format(schedule.firstPayment) + " " + every.adjective + " repayments are"
+                : "its repayments are") + " not counted until it is approved.";
+        }),
+        LOAN_REPAYMENTS_RULE
+    ];
+
+}
+
 /**
  * THE FUNDING NEED, FROM WHAT IS ALREADY RECORDED.
  *

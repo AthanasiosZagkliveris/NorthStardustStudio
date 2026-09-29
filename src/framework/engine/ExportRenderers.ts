@@ -87,6 +87,7 @@ import {
     sustainability,
     withPlanStart,
     allFunding,
+    hasLoans,
     spentBeforePlan,
     effectiveVatBasis,
     incomeTaxRate,
@@ -827,11 +828,12 @@ export function financialFoundationBlocks(value: unknown, context: ExportContext
                     ? "Nothing recorded"
                     : need.parts.map(part => part.name + " " + format(part.amount)).join("; ")
         ])),
+        // No loan, no Loan repayments column.
         ...position.needs.filter(need => need.months).flatMap(need => [
             heading(need.label + ": the First Year", 2),
-            ...table(["Month", "Running costs", "Costs of sales", "Loan repayments", "Revenue", "Net", "Running total", "Needed"],
+            ...table(["Month", "Running costs", "Costs of sales", ...(hasLoans(funding) ? ["Loan repayments"] : []), "Revenue", "Net", "Running total", "Needed"],
                 (need.months ?? []).map(entry => [
-                    entry.label, format(entry.costs), format(entry.variable), format(entry.loans),
+                    entry.label, format(entry.costs), format(entry.variable), ...(hasLoans(funding) ? [format(entry.loans)] : []),
                     format(entry.revenue), format(entry.net), format(entry.cumulative),
                     entry.needed > 0.005 ? format(entry.needed) : ""
                 ])),

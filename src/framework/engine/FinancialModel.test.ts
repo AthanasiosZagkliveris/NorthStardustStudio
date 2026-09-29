@@ -27,7 +27,10 @@ import {
     planMonthLabel,
     financialPosition,
     fundingStanding,
+    hasLoans,
+    loanRepaymentNotes,
     loanSchedule,
+    LOAN_REPAYMENTS_RULE,
     monthlyPrice,
     numberAsText,
     parsePercent,
@@ -1002,5 +1005,53 @@ describe("the financial plan's months in the Financial pages' titles", () => {
     test("say nothing until a Plan Start is chosen", () => {
         expect(titleWithPeriod("Sustainability MM/YY - MM/YY", financialPlanPeriod(undefined)))
             .toBe("Sustainability");
+    });
+});
+
+describe("the Loan Repayments note", () => {
+
+    const loan = (overrides: object, terms: object = {}) => ({
+        ...createFundingSource("external"),
+        type: "microloan",
+        amount: "12000",
+        ...overrides,
+        loan: {
+            ...createFundingSource("external").loan,
+            repaymentStart: month(3), payments: "24", frequency: "monthly" as const, method: "equal-principal" as const,
+            ...terms
+        }
+    });
+    const dollars = (amount: number) => "$" + Math.round(amount).toLocaleString("en-US");
+
+    test("a pending loan's repayments are not counted until it is approved", () => {
+        expect(loanRepaymentNotes([loan({ name: "SBA Microloan", status: "requested" })], START, dollars)).toEqual([
+            "SBA Microloan — Requested / Applied: its $500 monthly repayments are not counted until it is approved.",
+            LOAN_REPAYMENTS_RULE
+        ]);
+    });
+
+    test("a confirmed loan's repayments are counted from their first month", () => {
+        expect(loanRepaymentNotes([loan({ name: "Start Up Loan", status: "approved" })], START, dollars)).toEqual([
+            "Start Up Loan — Approved / Agreed: $500 a month from Mar 2027, counted here.",
+            LOAN_REPAYMENTS_RULE
+        ]);
+    });
+
+    test("a loan without a name is named by its type, and quarterly repayments say so", () => {
+        expect(loanRepaymentNotes([loan({ status: "" }, { frequency: "quarterly", payments: "8" })], START, dollars)[0])
+            .toBe("Microloan — Planned: its $1,500 quarterly repayments are not counted until it is approved.");
+    });
+
+    test("with no loan there is nothing to explain, and no column", () => {
+        const grant = { ...createFundingSource("external"), type: "grant", amount: "5000", status: "received" as const };
+        expect(loanRepaymentNotes([grant], START, dollars)).toEqual([]);
+        expect(hasLoans([grant])).toBe(false);
+        expect(hasLoans([grant, loan({ status: "planned" })])).toBe(true);
+    });
+
+    test("the rule names where a pending loan's repayments are counted", () => {
+        expect(LOAN_REPAYMENTS_RULE).toContain("Approved / Agreed, Received / Available or Completed / Closed");
+        expect(LOAN_REPAYMENTS_RULE).toContain("Financial Position");
+        expect(LOAN_REPAYMENTS_RULE).toContain("Stress Test on Sustainability");
     });
 });

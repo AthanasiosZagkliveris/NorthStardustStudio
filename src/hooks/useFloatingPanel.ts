@@ -6,6 +6,27 @@ const EDGE_MARGIN = 12;
 /** The gap a panel keeps from the control it belongs to. */
 const ANCHOR_GAP = 6;
 
+/**
+ * The box a panel is seen through sideways: the window, or the
+ * nearest box around it that clips or scrolls its content sideways
+ * (a wide table's scroller), whichever is narrower. A panel opened
+ * from a table head inside such a scroller is cut off at the
+ * scroller's edge, not the window's.
+ */
+function horizontalBounds(panel: HTMLElement): { left: number; right: number } {
+    let left = EDGE_MARGIN;
+    let right = window.innerWidth - EDGE_MARGIN;
+    for (let box = panel.parentElement; box && box !== document.body; box = box.parentElement) {
+        if (getComputedStyle(box).overflowX !== "visible") {
+            const rect = box.getBoundingClientRect();
+            left = Math.max(left, rect.left + box.clientLeft);
+            right = Math.min(right, rect.left + box.clientLeft + box.clientWidth);
+            break;
+        }
+    }
+    return { left, right };
+}
+
 interface FloatingPanelPlacement {
 
     /** Attach to the panel that floats. */
@@ -39,7 +60,9 @@ interface FloatingPanelPlacement {
  *      nowhere to go, and scrolling is still reachable.
  *
  * Sideways is the same idea, in one step: a panel running past the
- * right edge is pulled back by however far it went.
+ * right edge -- of the window, or of a scroller it opens inside
+ * (horizontalBounds) -- is pulled back by however far it went, never
+ * past the left edge.
  *
  * Measured rather than guessed, because the answer depends on where
  * the control has been scrolled to, not on anything knowable when
@@ -115,10 +138,12 @@ export function useFloatingPanel(
         // Horizontal: measured with the current shift removed, so
         // repeated passes settle instead of drifting.
         const panelRect = panel.getBoundingClientRect();
+        const naturalLeft = panelRect.left - shiftX;
         const naturalRight = panelRect.right - shiftX;
-        const overflowRight = naturalRight - (window.innerWidth - EDGE_MARGIN);
+        const bounds = horizontalBounds(panel);
+        const overflowRight = naturalRight - bounds.right;
 
-        setShiftX(overflowRight > 0 ? -overflowRight : 0);
+        setShiftX(overflowRight > 0 ? -Math.min(overflowRight, Math.max(0, naturalLeft - bounds.left)) : 0);
 
     }, [anchorRef, shiftX, ceiling]);
 

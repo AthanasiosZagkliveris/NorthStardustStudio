@@ -36,7 +36,9 @@ import {
     whatItWouldTake,
     type FinancialSustainabilityValue,
     type RevenueStreamValue,
-    type StreamAnalysis
+    type StreamAnalysis,
+    allFunding,
+    hasLoans
 } from "../../framework/engine/FinancialModel.ts";
 import { costSourcesFor } from "../../framework/engine/ExportRenderers.ts";
 import { paletteHueNamed } from "../../framework/engine/Palette.ts";
@@ -1566,7 +1568,7 @@ export default function FinancialSustainabilityEditor({
                                 format={format}
                                 markers={markers}
                                 inLabel="Funding & revenue in"
-                                outLabel="Costs & repayments out"
+                                outLabel={hasLoans(allFunding(financial, legalEntity)) ? "Costs & repayments out" : "Costs out"}
                             />
                         )
                         : <BusinessEmpty>Nothing is scheduled to come in or go out yet.</BusinessEmpty>}

@@ -213,3 +213,21 @@ describe("FinancialFoundationEditor income tax", () => {
     });
 
 });
+
+describe("the Initial Operating Requirement's Loan Repayments column", () => {
+
+    const withFunding = (funding: unknown[]) => ({ ...asFinancialFoundationValue(undefined), funding });
+    const loanHead = () => screen.queryAllByRole("columnheader").find(head => /Loan Repayments/.test(head.textContent ?? ""));
+
+    it("is there, with its i, when a loan is recorded, whatever its status", () => {
+        render(<Harness initial={withFunding([{ ...createFundingSource("external"), type: "bank-loan", name: "Start Up Loan", amount: "9000", status: "requested" }])} />);
+        expect(loanHead()).toBeDefined();
+        expect(screen.getByRole("button", { name: "Loan Repayments: what this means" })).toBeTruthy();
+    });
+
+    it("is not there when no loan is recorded", () => {
+        render(<Harness initial={withFunding([{ ...createFundingSource("external"), type: "grant", amount: "5000", status: "received" }])} />);
+        expect(screen.queryAllByRole("columnheader").some(head => /Running Costs/.test(head.textContent ?? ""))).toBe(true);
+        expect(loanHead()).toBeUndefined();
+    });
+});
