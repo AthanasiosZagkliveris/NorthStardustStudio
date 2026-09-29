@@ -99,8 +99,11 @@ textarea:focus{
     margin-bottom:0;
 
     /* Tinted to the System's Capability colour, same
-       as the title text next to it. */
-    background:var(--capability-color, var(--bg-primary));
+       as the title text next to it -- and mixed toward white
+       in dark mode the same way (--capability-ink-weight,
+       colors.css), so a navy System's rule does not vanish
+       into the dark page. Light mode draws the colour as is. */
+    background:color-mix(in srgb, var(--capability-color, var(--bg-primary)) var(--capability-ink-weight), var(--capability-ink-base));
 
 }
 
