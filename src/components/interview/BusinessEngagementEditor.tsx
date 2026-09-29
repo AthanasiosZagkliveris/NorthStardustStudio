@@ -3417,6 +3417,18 @@ export default function BusinessEngagementEditor({
                     </div>
                 )}
 
+                <OptionalNote
+                    label="Assumptions"
+                    info={["Anything else the figures rest on, beyond each source's basis."]}
+                    ariaLabel={"Demand assumptions for " + offeringLabel}
+                    placeholder={DEMAND_ASSUMPTIONS_PLACEHOLDER}
+                    disabled={disabled}
+                    value={demand.assumptions}
+                    onChange={(next) => updateDemand(offeringId, {
+                        assumptions: next
+                    })}
+                />
+
                 <div className="business-demand-channels">
                     <span className="field-label business-foundation-label">
                         Channels That Bring Them
@@ -3446,21 +3458,9 @@ export default function BusinessEngagementEditor({
                         )}
                 </div>
 
-                <OptionalNote
-                    label="Assumptions"
-                    info={["Anything else the figures rest on, beyond each source's basis."]}
-                    ariaLabel={"Demand assumptions for " + offeringLabel}
-                    placeholder={DEMAND_ASSUMPTIONS_PLACEHOLDER}
-                    disabled={disabled}
-                    value={demand.assumptions}
-                    onChange={(next) => updateDemand(offeringId, {
-                        assumptions: next
-                    })}
-                />
-
                 <p className="business-demand-footnote">
                     The Expected Sales are used for Delivery on Infrastructure &amp;
-                    Capability and for this Offering&rsquo;s revenue on Financial
+                    Capability and for this Offering&rsquo;s revenue on
                     Sustainability.
                 </p>
 

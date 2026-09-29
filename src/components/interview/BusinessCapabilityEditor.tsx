@@ -2879,7 +2879,7 @@ export default function BusinessCapabilityEditor({
 
                     {/* EACH FOUNDER'S MONTH, as a budget: what they have,
                         what each Offering takes at the expected sales,
-                        and what is left. On this page, before Financial
+                        and what is left. On this page, before
                         Sustainability, so it can be acted on here. */}
                     {founders.map((founder, position) => {
                         const available = founderDeliveryHours(founder);

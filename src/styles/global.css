@@ -822,9 +822,15 @@ b, strong {
 
     align-items:center;
 
-    column-gap:8px;
-
+    /* No gap of its own: the "i" keeps the one 8px every "i" keeps
+       from its word (.info-note), and the confirmation its own. */
     row-gap:4px;
+
+}
+
+.optional-field-head > .optional-field-confirm{
+
+    margin-left:8px;
 
 }
 
