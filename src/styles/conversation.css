@@ -11285,16 +11285,41 @@ td.process-library-col-number{
 }
 
 /* The channel's own name, the nesting mark in front of it, and the
-   control that removes it. */
+   control that removes it -- and under them, where the channel is
+   (its links), from the name's left edge to the ×'s right edge: one
+   grid for the row and what stacks under it, as a dropdown's add
+   is (.business-channel-pick). The mark's and the ×'s gaps are their
+   own margins, so an absent × adds none. */
 .business-channel-name{
 
-    display:flex;
+    display:grid;
+
+    grid-template-columns:[lead] auto [control] minmax(0, 1fr) [remove] auto [end];
 
     align-items:center;
 
-    gap:8px;
+    row-gap:var(--space-row);
 
     min-width:0;
+
+}
+
+.business-channel-name > .business-channel-nest{
+
+    grid-column:lead;
+
+    margin-right:8px;
+
+}
+
+.business-channel-name > .suggested-input,
+.business-channel-name > .interview-input{ grid-column:control; }
+
+.business-channel-name > .strategy-box-remove{
+
+    grid-column:remove;
+
+    margin-left:8px;
 
 }
 
@@ -11306,19 +11331,12 @@ td.process-library-col-number{
 
 }
 
-/* WHERE THE CHANNEL IS, under what it is called and indented to
-   the name rather than to the cell -- so the links read as the
-   channel's own and not as a second answer beside it. The nesting
-   mark and its gap are what that indent is. */
-.business-channel-links{
+/* WHERE THE CHANNEL IS, under what it is called and starting where
+   the name starts rather than the cell -- so the links read as the
+   channel's own and not as a second answer beside it. */
+.business-channel-name > .business-channel-links{
 
-    padding-left:28px;
-
-}
-
-.business-channel-name > .interview-input{
-
-    flex:1 1 auto;
+    grid-column:control / end;
 
     min-width:0;
 
@@ -11436,20 +11454,48 @@ td.process-library-col-number{
    makes + and − mean anything. */
 .business-channel-pick{
 
-    display:flex;
+    /* ONE GRID FOR THE ROW AND WHAT STACKS UNDER IT: the fold arrow
+       (where there is one), the dropdown, the × -- and under them the
+       add for one more, from the dropdown's left edge to the ×'s
+       right edge, so the stack reads as one tidy block. The arrow's
+       column is empty (0) where there is no arrow; the gaps are the
+       arrow's and the ×'s own margins, so an empty column adds none. */
+    display:grid;
+
+    grid-template-columns:[lead] auto [control] minmax(210px, 1fr) [remove] auto [end];
 
     /* TOP, not centre. The two stacked buttons beside the dropdown
        are taller than it, and centring the dropdown against them
        dropped it a few pixels below the boxes in every other
        column. Aligned to the top, every cell in a row starts on the
        same line. */
-    align-items:flex-start;
+    align-items:start;
 
-    gap:var(--space-row);
+    row-gap:var(--space-row);
 
     min-width:0;
 
 }
+
+.business-channel-pick > .strategy-box-toggle{
+
+    grid-column:lead;
+
+    margin-right:var(--space-row);
+
+}
+
+.business-channel-pick > .option-picker{ grid-column:control; }
+
+.business-channel-pick > .business-channel-steps{
+
+    grid-column:remove;
+
+    margin-left:var(--space-row);
+
+}
+
+.business-channel-pick > .business-step-add-row{ grid-column:control / end; }
 
 /* Floored at the longest option any of these dropdowns holds --
    "Support & Follow Up" measures 178px at its own padding, and the
@@ -11459,12 +11505,8 @@ td.process-library-col-number{
    this floor rather than the dropdown clipping under it. */
 .business-channel-pick > .option-picker{
 
-    /* From a base of 0, not its own width: the pick wraps (for the
-       add row under it), and a dropdown based at its full width
-       pushed the × beside it onto a line of its own. */
-    flex:1 1 0;
-
-    min-width:210px;
+    /* The floor is the grid column's (minmax(210px, 1fr) above). */
+    min-width:0;
 
 }
 
@@ -11490,26 +11532,18 @@ td.process-library-col-number{
 }
 
 /* The add for one more value (BusinessStep): the app's labelled
-   add button, on its own line under the last pick -- the pick wraps
-   to put it there -- and starting where the picker starts, past the
-   fold arrow of a relationship type. */
-.business-channel-pick{
-
-    flex-wrap:wrap;
-
-}
-
+   add button, on its own line under the last pick, as wide as the
+   pick and its × together (the grid above places it), its label
+   centred as every full-width add button's is. */
 .business-step-add-row{
-
-    flex-basis:100%;
 
     display:flex;
 
 }
 
-.business-channel-pick > .strategy-box-toggle ~ .business-step-add-row{
+.business-step-add-row > .strategy-add-button{
 
-    padding-left:42px;
+    flex:1 1 auto;
 
 }
 
@@ -11941,6 +11975,15 @@ td.process-library-col-number{
     align-self:stretch;
 
     min-width:0;
+
+}
+
+/* "+ Add Performer" under the pickers: as wide as a picker and its ×
+   together, the same full row every add under a list of pickers
+   takes (see .business-channel-pick). */
+.business-capability-performers > .strategy-add-button{
+
+    align-self:stretch;
 
 }
 

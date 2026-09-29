@@ -1539,34 +1539,34 @@ export default function BusinessEngagementEditor({
                                                         />
                                                     )}
 
-                                                </div>
+                                                    {/* No second box for "Other": the
+                                                        name is typed into the one box
+                                                        there is.
 
-                                                {/* No second box for "Other": the
-                                                    name is typed into the one box
-                                                    there is.
+                                                        No category picker here either: the
+                                                        category is chosen once, on
+                                                        the row that names the group
+                                                        this channel sits in. */}
 
-                                                    No category picker here either: the
-                                                    category is chosen once, on
-                                                    the row that names the group
-                                                    this channel sits in. */}
+                                                    {/* WHERE THE CHANNEL IS, UNDER
+                                                        WHAT IT IS CALLED. A column of
+                                                        its own put a destination as far
+                                                        from its channel as an Action is,
+                                                        and left it holding nothing on
+                                                        every row that had no link to
+                                                        give -- which is most of them,
+                                                        since a link is optional and the
+                                                        box says so. */}
+                                                    <div className="business-channel-links">
+                                                        <NumberedListInput
+                                                            label={"Links for Channel " + number}
+                                                            placeholder="Links (optional)"
+                                                            items={channel.links}
+                                                            disabled={disabled}
+                                                            onChange={(items) => change({ links: items })}
+                                                        />
+                                                    </div>
 
-                                                {/* WHERE THE CHANNEL IS, UNDER
-                                                    WHAT IT IS CALLED. A column of
-                                                    its own put a destination as far
-                                                    from its channel as an Action is,
-                                                    and left it holding nothing on
-                                                    every row that had no link to
-                                                    give -- which is most of them,
-                                                    since a link is optional and the
-                                                    box says so. */}
-                                                <div className="business-channel-links">
-                                                    <NumberedListInput
-                                                        label={"Links for Channel " + number}
-                                                        placeholder="Links (optional)"
-                                                        items={channel.links}
-                                                        disabled={disabled}
-                                                        onChange={(items) => change({ links: items })}
-                                                    />
                                                 </div>
 
                                             </td>
