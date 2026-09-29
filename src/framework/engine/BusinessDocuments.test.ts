@@ -307,6 +307,17 @@ describe("Quillfield: the documents tie together", () => {
         expect(request).toContain("| Total | $25,965 |");
     });
 
+    test("with a grant sought instead of a loan, the funding request speaks of no repayments", () => {
+        // The same $15,000 sought, as a grant: nothing is repaid.
+        const asGrant = JSON.parse(quillfieldText.replace('"type": "microloan"', '"type": "grant"')) as typeof example;
+        const business = InterviewSession.fromJSON(asGrant.systems["3"], frameworkRegistry.getFramework("business"));
+        const md = new MarkdownExporter().toMarkdown(business, "Foundation", businessPlan({ ...all, business }));
+        const request = md.slice(md.indexOf("Funding Request"));
+        expect(request).not.toMatch(/\brepaid\b|\brepayments included\b/);
+        expect(request).not.toContain("Still short after repayments");
+        expect(request).toMatch(/Still short with the funding sought: (\$[\d,]+ at the lowest point, in \w+ \d{4}, even with the funding sought|Nothing: with the funding sought, cash stays above zero)/);
+    });
+
     test("the plan runs in the standard order: the request, then the financials, then the Appendix", () => {
         const titles = [...planMd.matchAll(/^## [0-9]+\. (.+)$/gm)].map(match => match[1]);
         expect(titles).toEqual(["Executive Summary", "Company Description", "Market Analysis", "Products and Services",

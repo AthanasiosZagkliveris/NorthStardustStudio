@@ -93,6 +93,7 @@ import {
     financialPosition,
     fundingStanding,
     fundingType,
+    isLoan,
     isNonCash,
     loanSchedule,
     isScheduled,
@@ -1122,6 +1123,9 @@ function fundingRequestBlocks(f: Foundation): ExportBlock[] {
     const received = cash.reduce((sum, entry) => sum + entry.standing.received, 0);
     const spentBefore = spentBeforePlan(f.lines, start);
     const sought = cash.filter(entry => entry.standing.pending > 0.005);
+    // Only a loan is repaid: with no loan among the funding sought (a
+    // grant, equity), the line speaks of the funding, not repayments.
+    const soughtRepaid = sought.some(entry => isLoan(entry.source));
     const soughtNames = joinNames(sought.map(entry => entry.source.name.trim() || fundingType(entry.source.type)?.label || "funding"));
 
     return [
@@ -1137,11 +1141,11 @@ function fundingRequestBlocks(f: Foundation): ExportBlock[] {
             ["Confirmed, still to arrive", position.confirmedFuture > 0.005 ? format(position.confirmedFuture) : ""],
             ["Funding gap", format(position.gap)],
             ["Amount sought", position.pending > 0.005 ? format(position.pending) + (soughtNames ? " (" + soughtNames + ")" : "") : ""],
-            ["Still short after repayments", position.sought && position.gap > 0.005
+            [soughtRepaid ? "Still short after repayments" : "Still short with the funding sought", position.sought && position.gap > 0.005
                 ? position.sought.shortfall > 0.005
                     ? format(position.sought.shortfall) + " at the lowest point, in " + position.sought.lowestLabel +
-                        ", once the funding sought is repaid"
-                    : "Nothing: with the funding sought, cash stays above zero, its repayments included"
+                        (soughtRepaid ? ", once the funding sought is repaid" : ", even with the funding sought")
+                    : "Nothing: with the funding sought, cash stays above zero" + (soughtRepaid ? ", its repayments included" : "")
                 : ""]
         ]),
         ...titled("Use of Funds", table(["Need", "Amount", "When"], [
