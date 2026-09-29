@@ -5459,8 +5459,10 @@ td.process-library-col-number{
        resizes as the date changes, and two of them side by side
        always match. Left over now that letter-spacing is normal
        (below), so the button stays at least as wide as it needs
-       to be rather than exactly it. */
-    width:195px;
+       to be rather than exactly it. That is the smallest standard
+       control width, --control-s (200px, "One control-sizing rule",
+       global.css). */
+    width:min(100%, var(--control-s));
 
     white-space:nowrap;
 
@@ -11517,7 +11519,11 @@ td.process-library-col-number{
    this floor rather than the dropdown clipping under it. */
 .business-channel-pick > .option-picker{
 
-    /* The floor is the grid column's (minmax(210px, 1fr) above). */
+    /* It fills its column up to the × (a list row keeps the full
+       row, not a standard control width); the floor is the grid
+       column's (minmax(210px, 1fr) above). */
+    width:auto;
+
     min-width:0;
 
 }
@@ -11891,6 +11897,18 @@ td.process-library-col-number{
 
     flex:0 0 auto;
 
+    /* As wide as its code, not a standard control width: the
+       currency beside an amount is the exception there. */
+    width:auto;
+
+}
+
+.business-capability-price > .option-picker[data-size] > .option-picker-trigger.interview-input{
+
+    display:inline-grid;
+
+    width:auto;
+
 }
 
 /* A Salary's currency: the box a Price's currency picker draws,
@@ -12002,6 +12020,9 @@ td.process-library-col-number{
 .business-capability-performer > .option-picker{
 
     flex:1 1 auto;
+
+    /* A list row: the picker fills it up to the ×. */
+    width:auto;
 
     min-width:0;
 
@@ -12373,7 +12394,8 @@ td.process-library-col-number{
 
 .financial-plan-bar .month-picker-trigger,
 .financial-plan-bar .option-picker,
-.financial-plan-bar .option-picker .option-picker-trigger.interview-input{
+.financial-plan-bar .option-picker .option-picker-trigger.interview-input,
+.financial-plan-bar .business-foundation-field > input.interview-input{
 
     width:100%;
 

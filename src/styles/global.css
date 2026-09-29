@@ -331,6 +331,72 @@ body {
    before the value, 24px on the chevron side (6px inset + its
    12px + 6px clear of the value).
 ========================================================== */
+/* ==========================================================
+   ONE CONTROL-SIZING RULE
+
+   Free text -- a name, a description, a note -- takes the full
+   width of its field. A choice (the option picker), a date or
+   month, a number or amount takes the SMALLEST STANDARD WIDTH that
+   fits its longest value, never the whole column just because the
+   column is wide:
+
+     --control-s  numbers, amounts, dates and months, short choices
+                  ("September 2030" is 195px as the month button
+                  draws it)
+     --control-m  a typical choice ("No tax at business level")
+     --control-l  a long choice ("Private Company Limited by Shares
+                  (Ltd)")
+
+   and past --control-l, the full width. A picker measures its own
+   options and says its step (OptionPicker's data-size); a standard
+   width gives way to a column narrower than it. Controls in one
+   card then differ only by these steps, on one left edge.
+
+   Kept as they are, by rules of their own that outrank these: a
+   picker in a list row with its × (it fills the row, and its add
+   spans control to ×: .business-channel-pick, .business-capability-
+   performer), the Financial Foundation's settings bar (equal
+   columns: .financial-plan-bar), a currency beside an amount, and
+   the controls inside tables.
+========================================================== */
+:root {
+  --control-s: 200px;
+  --control-m: 300px;
+  --control-l: 420px;
+}
+
+:where(.option-picker[data-size="s"]) { width: min(100%, var(--control-s)); }
+:where(.option-picker[data-size="m"]) { width: min(100%, var(--control-m)); }
+:where(.option-picker[data-size="l"]) { width: min(100%, var(--control-l)); }
+:where(.option-picker[data-size="full"]) { width: 100%; }
+
+/* The trigger fills the width its step gives the picker, and where
+   a column is narrower than the step the value wraps rather than
+   being cut off. */
+.option-picker[data-size] > .option-picker-trigger.interview-input {
+  display: grid;
+  width: 100%;
+}
+
+.option-picker[data-size] .option-picker-value {
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+/* A month, and a number or amount standing alone in a field. */
+.month-picker-trigger {
+  width: min(100%, var(--control-s));
+}
+
+:is(.business-foundation-field, .legal-entity-field, .strategy-metric-field) > input.interview-input:is([inputmode="decimal"], [inputmode="numeric"]) {
+  width: min(100%, var(--control-s));
+}
+
+/* An amount with its currency beside it: the pair, one step up. */
+:is(.business-foundation-field, .legal-entity-field) > .business-capability-price {
+  width: min(100%, var(--control-m));
+}
+
 :root {
   --box-border: var(--line-box);
   --box-radius: 6px;

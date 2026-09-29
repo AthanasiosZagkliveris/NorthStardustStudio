@@ -1,10 +1,53 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
 
 import { consumeKey } from "./consumeKey.ts";
 
 import "../../styles/option-picker.css";
+
+/** The standard control widths (global.css), smallest first. */
+const CONTROL_STEPS = ["s", "m", "l"] as const;
+
+export type ControlStep = typeof CONTROL_STEPS[number] | "full";
+
+/**
+ * The smallest standard control width that fits a picker: its widest
+ * option (the sizer spans, see below) plus the trigger's own padding
+ * and border, against --control-s/-m/-l. "full" when even the largest
+ * is too narrow. Where nothing can be measured (no layout: a test),
+ * the smallest.
+ */
+export function controlStep(trigger: HTMLElement): ControlStep {
+
+    const style = getComputedStyle(trigger);
+    const chrome =
+        (parseFloat(style.paddingLeft) || 0) + (parseFloat(style.paddingRight) || 0) +
+        (parseFloat(style.borderLeftWidth) || 0) + (parseFloat(style.borderRightWidth) || 0);
+
+    let widest = 0;
+
+    trigger.querySelectorAll(".option-picker-sizer, .option-picker-value").forEach(span => {
+        const range = document.createRange();
+        range.selectNodeContents(span);
+        // A range's box is its text's full width even where the span
+        // clips it -- which is what a trigger narrower than its
+        // widest option does.
+        const width = typeof range.getBoundingClientRect === "function"
+            ? range.getBoundingClientRect().width
+            : 0;
+        widest = Math.max(widest, width);
+    });
+
+    const need = widest + chrome;
+    const root = getComputedStyle(document.documentElement);
+
+    return CONTROL_STEPS.find(step => {
+        const limit = parseFloat(root.getPropertyValue("--control-" + step));
+        return !Number.isFinite(limit) || need <= limit;
+    }) ?? "full";
+
+}
 
 /**
  * One option's height: 18px text at 1.5, plus 8px of padding above
@@ -122,6 +165,31 @@ export default function OptionPicker({
     const containerRef = useRef<HTMLDivElement | null>(null);
     const triggerRef = useRef<HTMLButtonElement | null>(null);
     const searchRef = useRef<HTMLInputElement | null>(null);
+
+    // Its width step (see controlStep and "One control-sizing rule",
+    // global.css): measured from its options, again once the fonts
+    // have loaded (they change every width), and whenever the
+    // options change.
+    const [step, setStep] = useState<ControlStep>("s");
+    const optionsKey = [placeholder, ...options].join("\u0000");
+
+    useLayoutEffect(() => {
+
+        const trigger = triggerRef.current;
+
+        if (!trigger) {
+            return;
+        }
+
+        let live = true;
+        const measure = () => live && setStep(controlStep(trigger));
+
+        measure();
+        document.fonts?.ready.then(measure);
+
+        return () => { live = false; };
+
+    }, [optionsKey]);
 
     // Opens downwards where there is room and upwards where there
     // is not, so the last option is never under the window edge or
@@ -318,7 +386,7 @@ export default function OptionPicker({
 
     return (
 
-        <div className="option-picker" ref={containerRef}>
+        <div className="option-picker" data-size={step} ref={containerRef}>
 
             <button
                 ref={triggerRef}
