@@ -11291,14 +11291,19 @@ td.process-library-col-number{
    (its links), from the name's left edge to the ×'s right edge: one
    grid for the row and what stacks under it, as a dropdown's add
    is (.business-channel-pick). The mark's and the ×'s gaps are their
-   own margins, so an absent × adds none. */
+   own margins, so an absent × adds none.
+
+   The mark and the × are ANCHORED TO THE NAME'S FIRST LINE, where
+   they sit beside a one-line name, however many lines the name
+   wraps to: the row aligns to the top, and each is centred on the
+   44px one-line box by its own top margin. */
 .business-channel-name{
 
     display:grid;
 
     grid-template-columns:[lead] auto [control] minmax(0, 1fr) [remove] auto [end];
 
-    align-items:center;
+    align-items:start;
 
     row-gap:var(--space-row);
 
@@ -11310,6 +11315,8 @@ td.process-library-col-number{
 
     grid-column:lead;
 
+    /* Its 28px line centred on the 44px box's first line. */
+    margin-top:8px;
     margin-right:8px;
 
 }
@@ -11321,6 +11328,8 @@ td.process-library-col-number{
 
     grid-column:remove;
 
+    /* The 32px × centred on the 44px box's first line. */
+    margin-top:6px;
     margin-left:8px;
 
 }
