@@ -99,25 +99,9 @@
     transition: color 0.15s ease;
 }
 
-/* Reserves the hover width: an invisible, zero-height copy of the
-   title at the hover tracking, so the title (and with it the row
-   and the list) is already as wide as it gets and nothing shifts
-   or resizes when it goes bold. Hidden from assistive technology
-   by visibility. */
-.system-title {
-    display: inline-grid;
-}
-
-.system-title::after {
-    content: attr(data-title);
-
-    height: 0;
-    overflow: hidden;
-    visibility: hidden;
-
-    letter-spacing: 0.05em;
-    white-space: nowrap;
-}
+/* Its hover width is reserved by the shared .hover-width-reserve
+   (global.css), so the row and the list are already as wide as
+   the bold title and nothing shifts when it goes bold. */
 
 /* ==========================================================
    Hover

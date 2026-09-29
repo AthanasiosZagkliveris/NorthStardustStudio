@@ -49,9 +49,9 @@ export default function SystemItem({
 
             </span>
 
-            {/* data-title feeds the invisible copy that reserves the
-                title's hover width (system-list.css). */}
-            <span className="system-title" data-title={system.title}>
+            {/* data-reserve feeds the invisible copy that reserves the
+                title's hover width (.hover-width-reserve, global.css). */}
+            <span className="system-title hover-width-reserve" data-reserve={system.title}>
 
                 {system.title}
 

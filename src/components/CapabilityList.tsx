@@ -57,7 +57,11 @@ export default function CapabilityList({
                         }
                     }}
                 >
-                    {capability.title}
+                    {/* Sized for its bold, tracked hover and selected
+                        look from the start (.hover-width-reserve). */}
+                    <span className="hover-width-reserve" data-reserve={capability.title}>
+                        {capability.title}
+                    </span>
                 </div>
 
             ))}

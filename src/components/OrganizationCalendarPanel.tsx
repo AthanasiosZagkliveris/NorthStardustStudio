@@ -846,7 +846,9 @@ export default function OrganizationCalendarPanel({
                                     onCapabilityOpen(capability);
                                 }}
                             >
-                                {capability.title}
+                                <span className="hover-width-reserve" data-reserve={capability.title}>
+                                    {capability.title}
+                                </span>
                             </button>
 
                         ))}
@@ -887,7 +889,7 @@ export default function OrganizationCalendarPanel({
                                 onClick={() => onSystemOpen(system)}
                             >
                                 <span className="org-rail-system-number">{pad2(system.number)}.</span>
-                                <span className="org-rail-system-title">{system.title}</span>
+                                <span className="org-rail-system-title hover-width-reserve" data-reserve={system.title}>{system.title}</span>
                             </button>
 
                         ))}

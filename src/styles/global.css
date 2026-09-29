@@ -161,6 +161,28 @@ body {
   color: var(--label-color);
 }
 
+/* A LABEL THAT GOES BOLD ON HOVER OR SELECTION KEEPS ITS ROOM. It
+   is widened by its 5% tracking the moment it goes bold, and a
+   label held to one line then ran out past the highlight drawn
+   behind it ("Manage the Organization" on the Capability list).
+   An invisible, zero-height copy of it at the bold tracking
+   (data-reserve) makes it as wide as it will ever be from the
+   start, so the row, its highlight and the list around it are
+   sized for the bold label and nothing moves when it changes. The
+   copy's alternative text is empty, so it is never read out. */
+.hover-width-reserve {
+  display: inline-grid;
+}
+
+.hover-width-reserve::after {
+  content: attr(data-reserve) / "";
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
 /* A label's quieter companion on the same line -- a count beside
    it, such as a founder's "Completed 3/15": the label's size and
    line, in the neutral muted grey rather than the card's colour. */

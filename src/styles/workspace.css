@@ -141,6 +141,11 @@
 
     display: flex;
 
+    /* A window too narrow for the list and the Systems side by side
+       puts the Systems under the list rather than cutting either
+       off at the window's edge. */
+    flex-wrap: wrap;
+
     justify-content: center;
     align-items: flex-start;
 
@@ -157,11 +162,11 @@
     display: flex;
     flex-direction: column;
 
-    /* 300, not 280. "Manage the Organization" measures 261px
-       bold at 5% tracking, and 280 left only 248 inside the
-       row's padding -- so the label re-wrapped the instant it
-       went bold on hover. */
-    width: 300px;
+    /* At least 300, and as wide as its widest label is bold (each
+       label reserves that width, .hover-width-reserve): at 300 a
+       selected "Manage the Organization" ran 32px past its own
+       highlight. */
+    width: max-content;
     min-width: 300px;
 
     margin-left: 50px;
