@@ -781,8 +781,11 @@ textarea:focus{
    grab hand is a small bitmap that looks pixelated beside the
    system's pointing hand, so it is drawn instead (src/assets/
    cursors): an SVG, sharp at 100%, and a PNG made from it at twice
-   the size for a 2x screen, both 32px with the hotspot in the palm
-   (16 16). The browser's own hand stays as the fallback, and the
+   the size for a 2x screen, both 32px with the hotspot at 16 16.
+   The open hand is drawn at the system pointing hand's size -- a
+   glyph 20px tall and 17 wide in its 32px box, with a 1px outline --
+   and the closed hand at the same scale, so the two match it and
+   each other. The browser's own hand stays as the fallback, and the
    first line is the fallback for a browser without image-set. */
 .answer-variant-cards,
 .profile-cards-row,
