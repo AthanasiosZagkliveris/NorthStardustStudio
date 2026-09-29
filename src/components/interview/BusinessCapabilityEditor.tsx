@@ -1508,41 +1508,46 @@ export default function BusinessCapabilityEditor({
 
                     {/* Laid out as a Price is, but the currency is
                         not chosen: a salary is paid in the
-                        organization's own, so it is shown, not asked. */}
-                    <BusinessField label="Salary" inline>
-                        <div className="business-capability-price">
+                        organization's own, so it is shown, not asked.
+                        With the hours below, a run of short values
+                        whose labels all sit beside them
+                        (.business-field-run), under Roles' label above. */}
+                    <div className="business-field-run">
+                        <BusinessField label="Salary" inline>
+                            <div className="business-capability-price">
 
-                            <input
-                                type="text"
-                                inputMode="decimal"
-                                className="interview-input"
-                                aria-label={founderLabel + " salary"}
-                                placeholder="Salary per month"
-                                disabled={disabled}
-                                value={founder.salary}
-                                onChange={(event) => change({
-                                    salary: limitedNumberText(event.target.value, founder.salary, NUMBER_LIMITS.money)
-                                })}
-                            />
+                                <input
+                                    type="text"
+                                    inputMode="decimal"
+                                    className="interview-input"
+                                    aria-label={founderLabel + " salary"}
+                                    placeholder="Salary per month"
+                                    disabled={disabled}
+                                    value={founder.salary}
+                                    onChange={(event) => change({
+                                        salary: limitedNumberText(event.target.value, founder.salary, NUMBER_LIMITS.money)
+                                    })}
+                                />
 
-                            {organisationCurrency && (
-                                <span
-                                    className="interview-input business-capability-currency"
-                                    title="The organization's currency"
-                                >
-                                    {organisationCurrency}
-                                </span>
-                            )}
+                                {organisationCurrency && (
+                                    <span
+                                        className="interview-input business-capability-currency"
+                                        title="The organization's currency"
+                                    >
+                                        {organisationCurrency}
+                                    </span>
+                                )}
 
-                        </div>
-                    </BusinessField>
+                            </div>
+                        </BusinessField>
+                    </div>
 
                 </div>
 
                 {/* The time this founder has, and how much of it goes
                     on delivering Offerings: what 4. Delivery under
                     Offering's Capability adds up as the capacity. */}
-                <div className="delivery-founder-hours">
+                <div className="delivery-founder-hours business-field-run">
 
                     <BusinessField label="Hours Given" info={DELIVERY_HELP.period} inline>
                         <OptionPicker

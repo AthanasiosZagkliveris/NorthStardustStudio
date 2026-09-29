@@ -13612,6 +13612,33 @@ td.process-library-col-number{
 
 }
 
+/* ONE LABEL PLACEMENT AMONG FIELDS THAT BELONG TOGETHER. A label
+   beside its field is for a run of short single values that all take
+   it (a Founder's Salary and Hours); among fields whose labels are
+   above -- a Performer with its + Add, a Linked to list, a
+   Description -- one side label reads as an odd one out, its value
+   stranded far to the right. So where a field with its label above
+   shares a card, or a run of fields, with side-labelled ones, those
+   take their labels above too. Side labels stay only on a run of
+   short single values that ALL take them, held in a parent of their
+   own marked .business-field-run (a Founder's Salary and Hours) --
+   there they line up on the one side-label column. */
+:is(:has(> .fold-card-head):has(.business-foundation-field:not(.business-field-inline)) .business-field-inline:not(.business-field-run *),
+:has(> .business-foundation-field:not(.business-field-inline)) > .business-field-inline){
+
+    grid-template-columns:minmax(0, 1fr);
+
+    row-gap:var(--space-label);
+
+}
+
+:is(:has(> .fold-card-head):has(.business-foundation-field:not(.business-field-inline)) .business-field-inline:not(.business-field-run *),
+:has(> .business-foundation-field:not(.business-field-inline)) > .business-field-inline) > :not(:first-child){
+
+    grid-column:1;
+
+}
+
 /*
     CAPITAL & FUNDING (Financial Foundation): Internal, External and
     Other each across the section, their sources side by side. A
