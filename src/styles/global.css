@@ -106,6 +106,8 @@ body {
      --space-card    one card to the next in a list
      --card-padding  inside a card, from its border to its content
      --space-row     one row of a table or list of rows to the next
+     --space-cell    one cell of a row to the next, inside a card (a
+                     field grid's columns, a pair row, a list's cells)
 ========================================================== */
 :root {
   --space-label: 6px;
@@ -113,6 +115,7 @@ body {
   --space-card: 12px;
   --card-padding: 12px;
   --space-row: 6px;
+  --space-cell: 12px;
   /* The line height of running text read as prose (a System's
      opening screen: its introduction and its facts alike). */
   --body-line: 1.6;

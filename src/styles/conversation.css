@@ -6889,10 +6889,10 @@ td.process-library-col-number{
 /* ==========================================================
    Metric fields -- pairing
 
-   Each label sits close to its OWN control (8px) with a wide
-   gap between one pair and the next (24px), so "Target" reads
-   as belonging to the box beside it rather than to the one it
-   happens to follow. Same order and the same two rows as
+   Each label sits close to its OWN control (8px), and one pair is
+   the in-row cell gap (--space-cell, 12px) from the next, so
+   "Target" reads as belonging to the box beside it rather than to
+   the one it happens to follow. Same order and the same two rows as
    before; only the spacing changed.
 
    Each pair carries its own two-track grid at a fixed label
@@ -6904,7 +6904,7 @@ td.process-library-col-number{
 
     grid-template-columns:repeat(2, minmax(0, 1fr));
 
-    gap:12px 24px;
+    gap:12px var(--space-cell);
 
 }
 
@@ -8425,7 +8425,7 @@ td.process-library-col-number{
 
     grid-template-columns:repeat(2, minmax(0, 1fr));
 
-    gap:var(--space-field) 24px;
+    gap:var(--space-field) var(--space-cell);
 
     align-items:start;
 
@@ -8663,7 +8663,7 @@ td.process-library-col-number{
     /* The Name | Number list (global.css). */
     grid-template-columns:var(--name-number-columns);
 
-    gap:12px;
+    gap:var(--space-cell);
 
     /* A name that wraps grows down; the number and x stay on its
        first line. */
@@ -9137,15 +9137,15 @@ td.process-library-col-number{
 }
 
 /* Two short fields sharing one row of a column, at equal widths and
-   the grid's 24px column gap; they stack where the column is too
-   narrow for two (see docs/ai/layout-rules.md, "Pair rows"). */
+   the in-row cell gap; they stack where the column is too narrow for
+   two (see docs/ai/layout-rules.md, "Pair rows"). */
 .legal-entity-pair-row{
 
     display:grid;
 
     grid-template-columns:repeat(2, minmax(0, 1fr));
 
-    gap:var(--space-field) 24px;
+    gap:var(--space-field) var(--space-cell);
 
     align-items:start;
 
@@ -9222,13 +9222,7 @@ td.process-library-col-number{
 
 }
 
-/* 1. Organization, half the page: what it is | where it is, 12px
-   apart as the Name / Number columns of 3. and 4. */
-.legal-entity-row .legal-entity-grid-organization{
 
-    column-gap:12px;
-
-}
 
 /* Except inside the cards of 3.5 and 3.6, where short answers
    still pair up: a requirement's name beside its reference, an
@@ -9258,7 +9252,7 @@ td.process-library-col-number{
        Number | ×, and 4.'s Tax / Registration | Number | × the same. */
     grid-template-columns:var(--name-number-columns);
 
-    column-gap:12px;
+    column-gap:var(--space-cell);
 
 }
 
@@ -14877,7 +14871,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
 
-    column-gap:24px;
+    column-gap:var(--space-cell);
     row-gap:var(--space-field);
 
     align-items:start;
@@ -14943,7 +14937,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     justify-content:start;
 
-    column-gap:24px;
+    column-gap:var(--space-cell);
     row-gap:var(--space-field);
 
     align-items:start;
