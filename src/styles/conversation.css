@@ -8537,14 +8537,15 @@ td.process-library-col-number{
 
 }
 
+/* A table's column heads read as every card's field labels. */
 .legal-entity-column-head{
 
     font-size:var(--font-body);
-    font-weight:700;
+    font-weight:400;
 
-    letter-spacing:0.05em;
+    line-height:var(--label-line);
 
-    color:var(--text-muted);
+    color:var(--label-color);
 
 }
 
@@ -8630,16 +8631,12 @@ td.process-library-col-number{
 
     display:flex;
 
-    flex-wrap:wrap;
+    /* One above the other: Total Capital, then the ownership badge. */
+    flex-direction:column;
 
-    gap:24px;
+    align-items:flex-start;
 
-    /* Total Capital is a line of text; Total Ownership is a badge
-       with a border and its own padding, so it stands taller. Left
-       to stretch, the plain line sat at the top of that height and
-       the two totals read on two different lines. Centred, they
-       read on one. */
-    align-items:center;
+    gap:var(--space-field);
 
 }
 
@@ -8809,23 +8806,24 @@ td.process-library-col-number{
 
 }
 
-/* COMPACT COLUMNS: the Name the rest (a long one wraps and grows),
-   Ownership the XS step ("100", or "33.333") or its one-line head
-   where that is wider, Capital the Code / Date step ("1250000.00"),
-   and the x column (32px) kept on every row, 12px apart as the Name /
-   Number lists below. A one-owner form asks no ownership and has no
-   x; capital off, no Capital column. */
+/* COMPACT COLUMNS, 12px APART (the in-row cell gap): the Name the
+   rest (a long one wraps and grows), Ownership the XS step ("100",
+   "33.333"), Capital the Code step ("£250,000"), and the x column
+   (32px) kept on every row. A head wider than its column ("Ownership
+   %") stays on one line, centred over it, into the gaps either side.
+   A one-owner form asks no ownership and has no x; capital off, no
+   Capital column. */
 .legal-entity-founders{
 
-    grid-template-columns:minmax(0, 1fr) minmax(var(--control-xs), max-content) 32px;
+    grid-template-columns:minmax(0, 1fr) var(--control-xs) 32px;
 
-    column-gap:12px;
+    column-gap:var(--space-cell);
 
 }
 
 .legal-entity-founders-capital{
 
-    grid-template-columns:minmax(0, 1fr) minmax(var(--control-xs), max-content) minmax(var(--control-code), max-content) 32px;
+    grid-template-columns:minmax(0, 1fr) var(--control-xs) var(--control-code) 32px;
 
 }
 
@@ -8837,22 +8835,13 @@ td.process-library-col-number{
 
 .legal-entity-founders-no-ownership.legal-entity-founders-capital{
 
-    grid-template-columns:minmax(0, 1fr) minmax(var(--control-code), max-content) 32px;
+    grid-template-columns:minmax(0, 1fr) var(--control-code) 32px;
 
 }
 
-/* Each figure its step, centred under its head. */
-.legal-entity-founder-row > .interview-input[inputmode="decimal"]{
+.legal-entity-founders > .legal-entity-column-centre{
 
     justify-self:center;
-
-    width:var(--control-xs);
-
-}
-
-.legal-entity-founders-capital .legal-entity-founder-row > .interview-input[inputmode="decimal"]:last-of-type{
-
-    width:var(--control-code);
 
 }
 
@@ -9911,11 +9900,11 @@ td.process-library-col-number{
         display:block;
 
         font-size:var(--font-body);
-        font-weight:700;
+        font-weight:400;
 
-        letter-spacing:0.05em;
+        line-height:var(--label-line);
 
-        color:var(--text-muted);
+        color:var(--label-color);
 
     }
 
@@ -9938,10 +9927,18 @@ td.process-library-col-number{
 
     }
 
-    /* Each figure under its own label, from the left. */
+    /* Each figure under its own label, from the left, at its step. */
     .legal-entity-founder-row > .interview-input[inputmode="decimal"]{
 
         justify-self:start;
+
+        width:var(--control-xs);
+
+    }
+
+    .legal-entity-founders-capital .legal-entity-founder-row > .interview-input[inputmode="decimal"]:last-of-type{
+
+        width:var(--control-code);
 
     }
 

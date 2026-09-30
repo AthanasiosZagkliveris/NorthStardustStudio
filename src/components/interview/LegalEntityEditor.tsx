@@ -1558,6 +1558,14 @@ export default function LegalEntityEditor({
                         {(!soleFounderSettled || entity.capitalApplies) && (
                             <div className="legal-entity-totals">
 
+                                {/* The capital first, the ownership badge under it. */}
+                                {entity.capitalApplies && (
+                                    <span className="legal-entity-total">
+                                        {amountLabel("Total Capital")}
+                                        : {percent(totalCapital)}
+                                    </span>
+                                )}
+
                                 {/*
                                     Flagged, not enforced. Ownership
                                     that does not reach 100% is usually
@@ -1627,12 +1635,6 @@ export default function LegalEntityEditor({
                                     </span>
                                 )}
 
-                                {entity.capitalApplies && (
-                                    <span className="legal-entity-total">
-                                        {amountLabel("Total Capital")}
-                                        : {percent(totalCapital)}
-                                    </span>
-                                )}
 
                             </div>
                         )}
