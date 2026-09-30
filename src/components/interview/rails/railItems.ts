@@ -28,6 +28,8 @@ export interface RailItem {
     id: string;
     label: string;
     status?: PageStatus;
+    /** Shown in capitals (the Introduction, which heads the pages rather than being one). */
+    capitals?: boolean;
 }
 
 /**

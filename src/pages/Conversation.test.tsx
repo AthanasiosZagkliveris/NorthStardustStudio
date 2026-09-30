@@ -231,6 +231,8 @@ describe("Conversation records the last place worked", () => {
         renderIdentity({ targetSectionNumber: 2, resume: {} });
         const items = screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item");
         expect(items[0].textContent).toBe("Introduction");
+        // Drawn in capitals.
+        expect(items[0].classList.contains("bullet-rail-item-capitals")).toBe(true);
         expect(items[0].querySelector(".bullet-rail-dot")?.getAttribute("data-status")).toBeNull();
         expect(items[1].textContent).toMatch(/^1. /);
 

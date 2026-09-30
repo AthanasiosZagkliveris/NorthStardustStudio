@@ -145,7 +145,7 @@ export default function BulletRail({
                         <li key={item.id}>
                             <button
                                 type="button"
-                                className={"bullet-rail-item" + (active ? " active" : "") + (tooltipInside[item.id] ? " tooltip-inside" : "")}
+                                className={"bullet-rail-item" + (active ? " active" : "") + (tooltipInside[item.id] ? " tooltip-inside" : "") + (item.capitals ? " bullet-rail-item-capitals" : "")}
                                 aria-current={active ? "true" : undefined}
                                 aria-label={statusWord ? name : undefined}
                                 onClick={() => onSelect(item.id)}

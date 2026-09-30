@@ -141,6 +141,10 @@
 
 .bullet-rail-head:empty { display: none; }
 
+/* The Introduction, heading the pages: in capitals (the word stays
+   "Introduction" for assistive technology). */
+.bullet-rail-item-capitals .bullet-rail-label { text-transform: uppercase; }
+
 .bullet-rail-head > .bullet-rail-title { margin-bottom: 0; }
 
 .bullet-rail-list {

@@ -2852,7 +2852,7 @@ export default function Conversation() {
                             side="left"
                             label="Pages"
                             // The Introduction first, unnumbered and with no status.
-                            items={[{ id: INTRODUCTION_RAIL_ID, label: "Introduction" }, ...railPages]}
+                            items={[{ id: INTRODUCTION_RAIL_ID, label: "Introduction", capitals: true }, ...railPages]}
                             activeId={"page-" + currentSection.number}
                             onSelect={id => id === INTRODUCTION_RAIL_ID
                                 ? goToIntroduction()
