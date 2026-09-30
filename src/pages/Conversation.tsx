@@ -2784,6 +2784,12 @@ export default function Conversation() {
                                 businessEngagement={businessEngagementValue}
                                 onOpenBusinessEngagement={openBusinessSection(AnswerType.BusinessEngagement)}
                                 onOpenBusinessCapability={openBusinessSection(AnswerType.BusinessCapability)}
+                                onChangeBusinessCapability={capabilitySection
+                                    ? (next: unknown) => {
+                                        session.saveResponse(capabilitySection.number, next);
+                                        persistAndRedraw(session);
+                                    }
+                                    : undefined}
                                 onOpenFinancialFoundation={openBusinessSection(AnswerType.FinancialFoundation)}
                                 onOpenLegalEntity={openLegalEntity}
                                 strategy={strategyContext}

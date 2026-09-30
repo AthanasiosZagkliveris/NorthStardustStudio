@@ -391,6 +391,8 @@ interface AnswerRendererProps {
     businessEngagement?: unknown;
     onOpenBusinessEngagement?: OpenPage;
     onOpenBusinessCapability?: OpenPage;
+    /** Writes 3. Infrastructure & Capability from another page (a channel's "Create a cost …"). */
+    onChangeBusinessCapability?: (value: unknown) => void;
     onOpenFinancialFoundation?: OpenPage;
     /** 1. Identity System → 3. Legal Entity, from Financial Foundation's costs and the Founders Profile. */
     onOpenLegalEntity?: OpenPage;
@@ -1073,6 +1075,7 @@ function SingleAnswerRenderer({
 
     onOpenBusinessEngagement,
     onOpenBusinessCapability,
+    onChangeBusinessCapability,
     onOpenFinancialFoundation,
 
     onOpenLegalEntity,
@@ -2100,6 +2103,10 @@ function SingleAnswerRenderer({
                     columnsDivider={columnsDivider}
                     foundation={businessFoundation}
                     onOpenFoundation={onOpenBusinessFoundation}
+                    capability={businessCapability}
+                    onChangeCapability={onChangeBusinessCapability}
+                    onOpenCapability={onOpenBusinessCapability}
+                    currency={organisationCurrency}
                     onChange={onChange}
                     disabled={disabled}
                 />
@@ -2120,6 +2127,7 @@ function SingleAnswerRenderer({
                     legalEntityFounders={legalEntityFounders}
                     foundersProfile={foundersProfile}
                     engagement={businessEngagement}
+                    onOpenEngagement={onOpenBusinessEngagement}
                     onChange={onChange}
                     disabled={disabled}
                 />

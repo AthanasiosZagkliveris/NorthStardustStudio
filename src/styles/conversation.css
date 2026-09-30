@@ -11476,6 +11476,96 @@ td.process-library-col-number{
 
 }
 
+/* A CHANNEL'S COSTS (ChannelCosts.tsx): the cost cards that pay for it
+   as the Notepad's chips, a summary line, and "+ Add cost" -- under
+   the channel's name (or its category's), from where the name starts
+   to the cell's end, as the Links above. */
+.business-channel-name > .business-channel-costs,
+.business-channel-category > .business-channel-costs,
+th > .business-channel-costs{
+
+    grid-column:control / end;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-row);
+
+    min-width:0;
+
+}
+
+/* Under the category's row, from where its picker starts: past the
+   fold arrow's 36px column and its 8px gap (.business-channel-category). */
+th > .business-channel-costs{
+
+    margin:var(--space-row) 0 0 calc(36px + 8px);
+
+}
+
+.business-channel-cost-chips{
+
+    margin:0;
+
+}
+
+.business-channel-cost-summary{
+
+    margin:0;
+
+    font-size:var(--font-small);
+    font-weight:400;
+
+    color:var(--text-subtle);
+
+    text-align:start;
+
+}
+
+.business-channel-cost-add{
+
+    position:relative;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:var(--space-row);
+
+    min-width:0;
+
+}
+
+.business-channel-cost-add > .interview-input{
+
+    width:100%;
+
+}
+
+.business-channel-cost-add > .notepad-suggestions{
+
+    width:100%;
+
+}
+
+/* Picking a channel's cost on 3. Infrastructure & Capability: the cost
+   cards take the pointer, the one under it outlined (as a note's pick). */
+html.cost-picking [data-cost-pick]{
+
+    cursor:pointer;
+
+}
+
+html.cost-picking [data-cost-pick][data-pick-hover]{
+
+    outline:2px solid var(--accent-line);
+    outline-offset:2px;
+
+}
+
 /* ---------- A box that knows some likely answers ---------- */
 
 /* ONE FIELD, with the list behind the chevron beside it. The name

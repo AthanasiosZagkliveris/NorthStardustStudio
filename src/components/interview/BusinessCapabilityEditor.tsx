@@ -63,6 +63,8 @@ import { railId } from "./rails/railItems.ts";
 
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
+import { CostPicker } from "./ChannelCosts.tsx";
+import { costCards } from "../../framework/engine/ChannelCosts.ts";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { NUMBER_LIMITS, limitedNumberText } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
@@ -411,6 +413,8 @@ interface BusinessCapabilityEditorProps {
     foundersProfile?: unknown;
     /** Customer Engagement: its Demand & Conversion gives each Offering's expected sales. */
     engagement?: unknown;
+    /** Opens Customer Engagement: back to a channel after picking its cost here. */
+    onOpenEngagement?: OpenPage;
 
 }
 
@@ -451,7 +455,9 @@ export default function BusinessCapabilityEditor({
 
     foundersProfile,
 
-    engagement
+    engagement,
+
+    onOpenEngagement
 
 }: BusinessCapabilityEditorProps) {
 
@@ -3166,6 +3172,10 @@ export default function BusinessCapabilityEditor({
             className="answer-columns business-foundation business-engagement business-capability"
             style={{ "--answer-column-count": 2 } as CSSProperties}
         >
+
+            {/* A channel on Customer Engagement waiting for its cost:
+                the cost cards light up here, and a click links one. */}
+            <CostPicker cards={costCards(capability)} onReturn={(anchors) => onOpenEngagement?.(anchors)} />
 
             {heads.map(head => (
                 <h3 className="answer-column-label" key={"title-" + head.number}>

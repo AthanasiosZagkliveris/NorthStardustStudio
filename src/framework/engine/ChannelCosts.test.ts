@@ -93,7 +93,7 @@ describe("a channel's costs", () => {
         const { capability: next, id } = withNewCostCard(asBusinessCapabilityValue(undefined), " Flyers ");
         const card = costCards(next).find(candidate => candidate.id === id);
         expect(card?.name).toBe("Flyers");
-        expect(next.offering.resources.at(-1)).toMatchObject({ id, status: "costs", name: "Flyers" });
+        expect(next.offering.resources[next.offering.resources.length - 1]).toMatchObject({ id, status: "costs", name: "Flyers" });
     });
 
     test("the forecast counts each cost once, however many channels link it", () => {
