@@ -10857,7 +10857,9 @@ td.process-library-col-number{
    repeated for every row". */
 .business-channel-category-row th{
 
-    padding:8px 12px;
+    /* 8px at the sides, as the channels' cells below: the pickers get
+       the room for a name such as "Physical Delivery" on one line. */
+    padding:8px;
 
     /* Its edges are every cell's (the rule below): no border of its
        own to double them. */
@@ -10924,6 +10926,10 @@ td.process-library-col-number{
     grid-column:info;
 
     margin-top:11px;
+
+    /* The grid's one 8px gap is the gap to the picker: none of its
+       own, so the picker reaches right up to it. */
+    margin-left:0;
 
 }
 
@@ -11323,7 +11329,8 @@ td.process-library-col-number{
    where the category's does. */
 .business-channel-cell-nested{
 
-    padding-left:12px;
+    padding-left:8px;
+    padding-right:8px;
 
 }
 
