@@ -33,7 +33,9 @@
 
     position: fixed;
     top: 104px;
-    bottom: 160px;
+    /* Clear of the footer (64px), with the same 32px to spare as
+       the page. */
+    bottom: 96px;
     left: 0;
     right: 0;
     z-index: 25;

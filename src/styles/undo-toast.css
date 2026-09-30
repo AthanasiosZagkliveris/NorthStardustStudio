@@ -1,15 +1,15 @@
 /* ==========================================================
    The undo toast (UndoToast.tsx): after a removal, one line at
    the bottom centre -- "Profile 1 removed. Undo" -- above the
-   footer and the Previous / Next bar (together 160px, as the
-   rails keep clear of them, bullet-rail.css), over the page.
+   footer (64px, and 32px to spare, as the rails keep,
+   bullet-rail.css), over the page.
 ========================================================== */
 
 .undo-toast-region {
 
     position: fixed;
     left: 50%;
-    bottom: 160px;
+    bottom: 96px;
     z-index: 45;
 
     translate: -50% 0;

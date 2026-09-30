@@ -210,7 +210,9 @@
 
     height: 64px;
 
-    background: var(--bg-surface);
+    /* No band of its own: "← Back" stands on the page's ground, in
+       every theme. */
+    background: transparent;
 
     z-index: 30;
 

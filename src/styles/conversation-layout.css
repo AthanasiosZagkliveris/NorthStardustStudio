@@ -26,13 +26,10 @@
 
     /* Top padding clears the fixed app header (80px) and leaves
        exactly a 24px gap between it and the System title below --
-       80 + 24 = 104. Bottom padding clears the fixed Footer (64px)
-       and the fixed Previous/Next bar sitting flush above it (80px:
-       a 52px button with 16px above and 12px below), plus a little
-       breathing room -- 64 + 80 + 32 = 176 -- so content scrolled all
-       the way down can still get fully clear of both instead
-       of stopping underneath their frosted blur. */
-    padding: 104px 40px 176px;
+       80 + 24 = 104. Bottom padding clears the fixed Footer (64px),
+       plus a little breathing room -- 64 + 32 = 96 -- so content
+       scrolled all the way down gets fully clear of "← Back". */
+    padding: 104px 40px 96px;
 
 }
 

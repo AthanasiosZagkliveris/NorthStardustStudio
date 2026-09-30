@@ -2810,28 +2810,13 @@ export default function Conversation() {
                             />
                             </FieldPageProvider>
 
-                            <div className="interview-nav">
-                                <button
-                                    type="button"
-                                    className="secondary-button"
-                                    onClick={
-                                        session.isFirstSection()
-                                            ? goToIntroduction
-                                            : previousSection
-                                    }
-                                >
-                                    {session.isFirstSection() ? "Introduction" : "Previous"}
-                                </button>
-
-                                <button
-                                    type="button"
-                                    className="primary-button"
-                                    onClick={nextSection}
-                                    disabled={nextDisabled}
-                                >
-                                    {session.isLastSection() ? "Finish" : "Next"}
-                                </button>
-                            </div>
+                            {/* No Previous / Next bar: the page arrows above the
+                                rails (and ← / →) turn the page. FINISH IS HIDDEN, not
+                                removed: on the last page the next arrow is not shown,
+                                so the export flow nextSection opens there (validation,
+                                then the export options) is not reached from here for
+                                now -- the user will decide how it is offered. Its code,
+                                dialogs and route stay as they are. */}
                         </>
                     )}
                 </div>
