@@ -1743,7 +1743,10 @@ export default function LegalEntityEditor({
                         )}
                         </FrozenUntil>
 
-                        {/* A number can run long: the whole row. */}
+                        {/* The first number beside the authority that issued it:
+                            Registration Authority | Registration Number. Any
+                            further numbers, and their + Add, across the row
+                            below. */}
                         {entity.formation.status !== "planned" && text(
                             "Registration Number",
                             entity.formation.registrationNumber,
@@ -1752,7 +1755,7 @@ export default function LegalEntityEditor({
                             // that is something to say with
                             // confidence.
                             profile.registrationNumberHint,
-                            true
+                            false
                         )}
 
                         {entity.formation.status !== "planned" && <div className="legal-entity-field-wide">
