@@ -8577,6 +8577,21 @@ td.process-library-col-number{
 
 }
 
+/* "Registered for VAT" and, ticked, its number beside it: on the
+   columns of the registration rows below, so the number sits in their
+   Number column. */
+.legal-entity-field-wide.legal-entity-tax-row{
+
+    display:grid;
+
+    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr) 32px;
+
+    gap:12px;
+
+    align-items:center;
+
+}
+
 .legal-entity-registrations{
 
     gap:var(--space-field);

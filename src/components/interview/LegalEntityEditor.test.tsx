@@ -289,3 +289,28 @@ describe("LegalEntityEditor registrations", () => {
     });
 
 });
+
+describe("LegalEntityEditor VAT", () => {
+
+    it("asks one tick, its number beside it, and reads a saved \"not applicable\" as not registered", () => {
+
+        const saved = asLegalEntityValue({ organisation: { country: "United Kingdom" }, tax: { consumptionTaxStatus: "not-applicable" } });
+        expect(saved.tax.consumptionTaxStatus).toBe("no");
+
+        function Vat() {
+            const [value, setValue] = useState<unknown>(saved);
+            return <LegalEntityEditor value={value} onChange={setValue} />;
+        }
+        render(<Vat />);
+
+        const row = document.querySelector(".legal-entity-tax-row")!;
+        expect(row.textContent).not.toContain("Not applicable");
+        const tick = row.querySelector("input[type=checkbox]") as HTMLInputElement;
+        expect(tick.checked).toBe(false);
+        fireEvent.click(tick);
+        // Ticked: the number, on the same row.
+        expect(row.querySelector("input.interview-input")).toBeTruthy();
+
+    });
+
+});

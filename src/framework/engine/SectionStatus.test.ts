@@ -62,7 +62,8 @@ describe("section status", () => {
 
         expect(asLegalEntityValue({ requirementsNotApplicable: true }).requirementsNotApplicable).toBe(true);
         expect(asLegalEntityValue({ requirementsNotApplicable: true, requirements: [{ id: "r1", name: "Licence" }] }).requirementsNotApplicable).toBe(false);
-        expect(asLegalEntityValue({ tax: { consumptionTaxStatus: "not-applicable" } }).tax.consumptionTaxStatus).toBe("not-applicable");
+        // VAT has no "Not applicable" of its own: its tick says it (unticked, not registered).
+        expect(asLegalEntityValue({ tax: { consumptionTaxStatus: "not-applicable" } }).tax.consumptionTaxStatus).toBe("no");
 
     });
 

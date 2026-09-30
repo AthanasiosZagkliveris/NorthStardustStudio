@@ -3828,10 +3828,13 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
 
         tax: {
             identificationNumber: asText(taxSource.identificationNumber),
+            // The tick is the answer: ticked, registered; unticked, not
+            // (or not applicable). A "not applicable" saved while the page
+            // asked it separately is read as not registered.
             consumptionTaxStatus:
-                status === "yes" || status === "no" || status === "not-applicable"
+                status === "yes" || status === "no"
                     ? status
-                    : "",
+                    : status === "not-applicable" ? "no" : "",
             consumptionTaxNumber: asText(taxSource.consumptionTaxNumber),
             additionalRegistrations: legalEntityNumberList(taxSource.additionalRegistrations)
         },

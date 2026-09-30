@@ -1878,9 +1878,11 @@ export default function LegalEntityEditor({
                                 other states you sell into.
                             </p>
                         ) : (
-                            <div className="legal-entity-field-wide">
+                            /* ONE TICK: ticked, registered, and its number beside it on
+                               the same row; unticked, not registered -- which is also
+                               the answer where it does not apply. */
+                            <div className="legal-entity-field-wide legal-entity-tax-row">
 
-                                {entity.tax.consumptionTaxStatus !== "not-applicable" && (
                                 <label className="legal-entity-switch">
                                     <input
                                         type="checkbox"
@@ -1896,33 +1898,19 @@ export default function LegalEntityEditor({
                                         {"Registered for " + profile.consumptionTax}
                                     </span>
                                 </label>
-                                )}
 
-                                {entity.tax.consumptionTaxStatus !== "yes" && notApplicableTick(
-                                    profile.consumptionTax + " registration",
-                                    entity.tax.consumptionTaxStatus === "not-applicable",
-                                    (next) => updateTax({
-                                        consumptionTaxStatus: (next ? "not-applicable" : "no") as LegalEntityTaxStatus
-                                    })
-                                )}
-
-                                {/* Only once there is a registration to number. */}
                                 {entity.tax.consumptionTaxStatus === "yes" && (
-                                    <>
-                                        <span className="field-label legal-entity-label legal-entity-label-nested">
-                                            {profile.consumptionTax + " Number"}
-                                        </span>
-                                        <input
-                                            type="text"
-                                            className="interview-input"
-                                            aria-label={profile.consumptionTax + " Number"}
-                                            disabled={disabled}
-                                            value={entity.tax.consumptionTaxNumber}
-                                            onChange={(event) => updateTax({
-                                                consumptionTaxNumber: event.target.value
-                                            })}
-                                        />
-                                    </>
+                                    <input
+                                        type="text"
+                                        className="interview-input"
+                                        aria-label={profile.consumptionTax + " Number"}
+                                        placeholder={profile.consumptionTax + " Number"}
+                                        disabled={disabled}
+                                        value={entity.tax.consumptionTaxNumber}
+                                        onChange={(event) => updateTax({
+                                            consumptionTaxNumber: event.target.value
+                                        })}
+                                    />
                                 )}
 
                             </div>
