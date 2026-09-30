@@ -511,6 +511,15 @@ html.notepad-picking [data-pick-hover] {
 
 }
 
+/* Pointed at -- hovered, focused, or its note hovered in the Notepad
+   (.is-noted-hot) -- the same stroke steps OUTSIDE the box, the glow
+   kept: an outline takes no room, so nothing moves. */
+.is-noted.is-noted.is-noted:is(:hover, :focus, :focus-visible, :focus-within, .is-noted-hot) {
+
+    outline-offset: 0;
+
+}
+
 /* Tinted, gently, with the same orange -- not where the box is
    disabled or read-only, which keep their own look. */
 .is-noted.is-noted.is-noted:not(:disabled, [readonly]) {
@@ -541,6 +550,20 @@ html.notepad-picking [data-pick-hover] {
    be cut off at its edge, so there it is drawn inside instead: the
    same glow, turned in, and nothing moves. */
 :where(.financial-table-scroll, .dynamic-table-scroll, .process-library-table-scroll, .operational-log-scroll, .business-forecast-table-wrap, .answer-variant-cards, .numbered-list) .is-noted.is-noted.is-noted:not(:focus, :focus-within) {
+
+    box-shadow: inset 0 0 12px var(--glow-noted);
+
+}
+
+/* Pointed at, the glow stays: over a box's own hover shadow (the
+   hover rules of the answer boxes are as specific as the glow). */
+.is-noted.is-noted.is-noted:is(:hover, .is-noted-hot):not(:focus, :focus-within):not(:disabled) {
+
+    box-shadow: 0 0 12px var(--glow-noted);
+
+}
+
+:where(.financial-table-scroll, .dynamic-table-scroll, .process-library-table-scroll, .operational-log-scroll, .business-forecast-table-wrap, .answer-variant-cards, .numbered-list) .is-noted.is-noted.is-noted:is(:hover, .is-noted-hot):not(:focus, :focus-within):not(:disabled) {
 
     box-shadow: inset 0 0 12px var(--glow-noted);
 

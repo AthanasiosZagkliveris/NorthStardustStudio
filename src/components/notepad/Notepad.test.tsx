@@ -10,6 +10,7 @@ import { FieldPageProvider } from "../interview/fieldMarks";
 import { NotepadButton, NotepadPanel, NotepadPicker, linkFor } from "./Notepad";
 import { findPlaces, linkAvailable } from "./notepadPlaces";
 import { UndoService } from "../../services/UndoService";
+import { stylesheet } from "../../test/stylesheet";
 
 beforeEach(() => {
     localStorage.clear();
@@ -219,6 +220,17 @@ describe("notes by Organization", () => {
         ] }));
         NotepadService.use(LocalNotepadStore);
         expect(NotepadService.notes().map(note => note.organizationId)).toEqual(["org-9", ""]);
+    });
+
+});
+
+describe("a field in your notes, pointed at", () => {
+
+    it("draws its stroke inside the box, and outside it (the glow kept) while hovered, focused or its note is hovered", () => {
+        const css = stylesheet("notepad.css");
+        expect(css).toContain("outline: 4px solid var(--line-noted); outline-offset: -4px;");
+        expect(css).toContain(".is-noted.is-noted.is-noted:is(:hover, :focus, :focus-visible, :focus-within, .is-noted-hot) { outline-offset: 0; }");
+        expect(css).toContain(".is-noted.is-noted.is-noted:is(:hover, .is-noted-hot):not(:focus, :focus-within):not(:disabled) { box-shadow: 0 0 12px var(--glow-noted); }");
     });
 
 });
