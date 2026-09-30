@@ -9347,12 +9347,14 @@ td.process-library-col-number{
 
 }
 
-/* Main Activity gets twice the room the other notes do: it is the
-   one field here answered in sentences rather than in a value, and
-   it is what the activity code below it is derived from. */
-.legal-entity-activity{
+/* THE FOUR-LINE TEXT BOX: the Main Activity (answered in sentences)
+   and the Address (street, city, postal code and a spare line), side
+   by side, one column wide each: room for four lines at their own
+   line height, and growing past them. */
+.legal-entity-activity,
+.legal-entity-address{
 
-    min-height:144px;
+    min-height:calc(4 * 1lh + 16px + 2px);
 
 }
 
