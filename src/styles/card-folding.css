@@ -108,19 +108,22 @@
 
 }
 
-/* THE NUMBER STARTS WHERE THE BODY STARTS: "1." at the left of its
-   number column, the same x as the labels and fields under the head
-   (--card-body-indent). The column keeps its width, so the names of a
-   stack of cards still start at one x from 1. to 99. */
+/* THE NUMBER STARTS WHERE THE BODY STARTS, AND THE NAME FOLLOWS IT AT
+   ONE GAP: "1." at the same x as the labels and fields under the head
+   (--card-body-indent), only as wide as its digits, and the name 8px
+   after it on every card (docs/ai/layout-rules.md, the card head). */
 .fold-card-head > .legal-entity-card-number {
 
-    min-width: var(--list-number-width);
+    /* Only as wide as its digits: the name follows it at the one 8px gap. */
+    min-width: 0;
 
     text-align: left;
 
 }
 
 .fold-card-head > .strategy-box-number > .list-number {
+
+    min-width: 0;
 
     text-align: left;
 
