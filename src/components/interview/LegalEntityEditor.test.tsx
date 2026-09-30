@@ -113,7 +113,7 @@ describe("LegalEntityEditor number limits", () => {
         const iso = limit.getFullYear() + "-" + String(limit.getMonth() + 1).padStart(2, "0") + "-" +
             String(limit.getDate()).padStart(2, "0");
 
-        expect(screen.getByLabelText("Formation Date").getAttribute("max")).toBe(iso);
+        expect(screen.getByLabelText("Formation date").getAttribute("max")).toBe(iso);
 
     });
 
@@ -369,6 +369,35 @@ describe("LegalEntityEditor where it is", () => {
         fireEvent.click(code.querySelector("button")!);
         expect(document.body.textContent).toContain("classifies what the organization does");
         expect(document.querySelector('a[href*="census.gov"]')).toBeNull();
+
+    });
+
+});
+
+describe("LegalEntityEditor formation row", () => {
+
+    function Formation({ initial }: { initial: unknown }) {
+        const [value, setValue] = useState<unknown>(initial);
+        return <LegalEntityEditor value={value} onChange={setValue} />;
+    }
+
+    it("sets Status and Formation Date on one row, each label beside its control, and hides the date while not registered", () => {
+
+        render(<Formation initial={asLegalEntityValue({ organisation: { country: "GB" }, formation: { status: "registered", date: "2026-03-02" } })} />);
+
+        const row = document.querySelector(".legal-entity-side-row")!;
+        const fields = [...row.children];
+        expect(fields).toHaveLength(2);
+        expect(fields[0].querySelector(".option-picker-trigger")).toBeTruthy();
+        expect(fields[1].querySelector('input[type="date"]')).toBeTruthy();
+        expect(fields[1].textContent).toContain("Date");
+
+        fireEvent.click(screen.getByRole("button", { name: /^Registration status/ }));
+        fireEvent.click(screen.getByRole("option", { name: "Not yet registered" }));
+
+        expect(document.querySelector(".legal-entity-side-row")!.children).toHaveLength(1);
+        expect(screen.queryByLabelText("Formation date")).toBeNull();
+        expect(screen.getByText(/Not registered yet/)).toBeTruthy();
 
     });
 

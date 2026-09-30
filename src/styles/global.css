@@ -371,13 +371,20 @@ body {
 :root {
   /* A short number beside its neighbours (a Quantity). */
   --control-xs: 80px;
-  /* A code of up to 11 characters (a postcode or ZIP: "10001-1234",
-     "SW1A 1AA"): 11 digits at body size are 114px, plus the box's
-     10px padding and border each side. */
-  --control-code: 140px;
+  /* The CODE / DATE step: a code of up to 11 characters (a postcode or
+     ZIP: "10001-1234", "SW1A 1AA", 11 digits at body size are 114px)
+     or a date with its calendar button (the widest date the browser
+     draws is 159px), plus the box's padding and border. */
+  --control-code: 160px;
   /* A box as wide as a control is tall: a 2-3 digit value with its
      unit after it (a Text Hierarchy level's px). */
   --control-square: 45px;
+  /* THE NAME | NUMBER LIST (a Legal Entity's registrations and tax
+     registrations, and the Status | Date row above them): the name
+     the rest, the number the S step (18 characters at body size:
+     "UK00004012345" is 146px, "HRB 123456 B" 122px) or two fifths of
+     a narrow list, and the x column kept on every row. */
+  --name-number-columns: minmax(0, 1fr) min(var(--control-s), 40%) 32px;
   --control-s: 220px;
   --control-m: 300px;
   --control-l: 420px;

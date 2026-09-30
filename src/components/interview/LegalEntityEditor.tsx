@@ -911,7 +911,9 @@ export default function LegalEntityEditor({
         control: ReactNode,
         wide = false,
         onRemove?: () => void,
-        info?: string[]
+        info?: string[],
+        /** The field's key where its label was renamed (FieldKeys.ts). */
+        keyLabel?: string
     ) {
         return (
             <div className={"legal-entity-field" + (wide ? " legal-entity-field-wide" : "")}>
@@ -941,12 +943,12 @@ export default function LegalEntityEditor({
                                     <InfoText text={label}>
                                         <InfoNote label={label} points={info} />
                                     </InfoText>
-                                    <FieldMark label={label} />
+                                    <FieldMark label={label} keyLabel={keyLabel} />
                                 </span>
                             </span>
                         )
-                        : <span className="field-label legal-entity-label">{label}<FieldMark label={label} /></span>}
-                <FieldStatus label={label} />
+                        : <span className="field-label legal-entity-label">{label}<FieldMark label={label} keyLabel={keyLabel} /></span>}
+                <FieldStatus label={label} keyLabel={keyLabel} />
                 {control}
             </div>
         );
@@ -997,16 +999,15 @@ export default function LegalEntityEditor({
 
             <div className="legal-entity-number-row" key={entry.id}>
 
-                <input
-                    type="text"
-                    className="interview-input"
-                    aria-label={noun + " " + (index + 1) + " name"}
+                {/* A name wraps and grows, never clipped. */}
+                <CardNameInput
+                    ariaLabel={noun + " " + (index + 1) + " name"}
                     placeholder={labelPlaceholder}
                     disabled={disabled}
                     value={entry.label}
-                    onChange={(event) => onNext(entries.map(
+                    onChange={(next) => onNext(entries.map(
                         (candidate, position) => position === index
-                            ? { ...candidate, label: event.target.value }
+                            ? { ...candidate, label: next }
                             : candidate
                     ))}
                 />
@@ -1651,46 +1652,59 @@ export default function LegalEntityEditor({
                 {subsection(2, (
                     <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-formation">
 
-                        {/* A founder planning the organization has no
-                            date or number yet: say so, and the page
-                            asks only where it will be registered. */}
-                        {field(
-                            "Status",
-                            <OptionPicker
-                                label="Registration status"
-                                placeholder={REGISTERED}
-                                options={[REGISTERED, NOT_YET_REGISTERED]}
-                                disabled={disabled}
-                                value={entity.formation.status === "planned" ? NOT_YET_REGISTERED : REGISTERED}
-                                onChange={(next) => updateFormation({
-                                    status: next === NOT_YET_REGISTERED ? "planned" : "registered"
-                                })}
-                            />,
-                            false,
-                            undefined,
-                            INFO.registrationStatus
-                        )}
+                        {/* ONE SIDE-LABEL ROW SNAPPED TO THE GRID: "Status
+                            [Registered]" filling column 1 and "Date [date]"
+                            column 2 of the list below (the Name | Number
+                            columns), each label on its control's centre line
+                            (see .legal-entity-side-row). */}
+                        <div className="legal-entity-field-wide legal-entity-side-row">
+                            {/* A founder planning the organization has no
+                                date or number yet: say so (under the row),
+                                and the page asks only where it will be
+                                registered. */}
+                            {field(
+                                "Status",
+                                <OptionPicker
+                                    label="Registration status"
+                                    placeholder={REGISTERED}
+                                    options={[REGISTERED, NOT_YET_REGISTERED]}
+                                    disabled={disabled}
+                                    value={entity.formation.status === "planned" ? NOT_YET_REGISTERED : REGISTERED}
+                                    onChange={(next) => updateFormation({
+                                        status: next === NOT_YET_REGISTERED ? "planned" : "registered"
+                                    })}
+                                />,
+                                false,
+                                undefined,
+                                INFO.registrationStatus
+                            )}
+
+                            {/* When it was registered, beside whether it is. */}
+                            {/* "Date": the card's title says Formation. Its
+                                name and its key stay "Formation date". */}
+                            {entity.formation.status !== "planned" && field(
+                                "Date",
+                                <input
+                                    type="date"
+                                    className="interview-input"
+                                    aria-label="Formation date"
+                                    max={yearsAhead(5)}
+                                    disabled={disabled}
+                                    value={entity.formation.date}
+                                    onChange={(event) => updateFormation({ date: event.target.value })}
+                                />,
+                                false,
+                                undefined,
+                                undefined,
+                                "Formation Date"
+                            )}
+                        </div>
 
                         {entity.formation.status === "planned" && (
                             <p className="legal-entity-note-line legal-entity-field-wide">
                                 Not registered yet: choose the legal form you intend to use above, and where it
                                 will be registered. Add the date and numbers once it is registered.
                             </p>
-                        )}
-
-                        {/* When it was registered, beside whether
-                            it is: Status | Formation Date. */}
-                        {entity.formation.status !== "planned" && field(
-                            "Formation Date",
-                            <input
-                                type="date"
-                                className="interview-input"
-                                aria-label="Formation Date"
-                                max={yearsAhead(5)}
-                                disabled={disabled}
-                                value={entity.formation.date}
-                                onChange={(event) => updateFormation({ date: event.target.value })}
-                            />
                         )}
 
                         {/* THE REGISTRATIONS, ONE LIST: every row the same
@@ -1716,17 +1730,16 @@ export default function LegalEntityEditor({
 
                             <div className="legal-entity-number-row">
 
+                                {/* A name wraps and grows, never clipped. */}
                                 <FrozenUntil answered={placeChosen} hint={placeHint}>
-                                    <input
-                                        type="text"
-                                        className="interview-input"
-                                        aria-label="Registration Authority"
+                                    <CardNameInput
+                                        ariaLabel="Registration Authority"
                                         placeholder={entity.formation.status === "planned"
                                             ? "Where the organization will be registered"
                                             : "Which authority registered the organization"}
                                         disabled={disabled}
                                         value={entity.formation.authority}
-                                        onChange={(event) => updateFormation({ authority: event.target.value })}
+                                        onChange={(next) => updateFormation({ authority: next })}
                                     />
                                 </FrozenUntil>
 

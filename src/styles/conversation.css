@@ -8646,11 +8646,31 @@ td.process-library-col-number{
 
     display:grid;
 
-    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr) 32px;
+    /* The Name | Number list (global.css). */
+    grid-template-columns:var(--name-number-columns);
 
     gap:12px;
 
-    align-items:center;
+    /* A name that wraps grows down; the number and x stay on its
+       first line. */
+    align-items:start;
+
+}
+
+/* The x on the first line's centre (a control's 45px). */
+.legal-entity-number-row > .strategy-box-remove{
+
+    margin-top:calc((var(--control-square) - 32px) / 2);
+
+}
+
+/* A fixed row's words (the tax number's name): their first line on
+   the box's centre line, a second hanging below. */
+.legal-entity-number-row > .legal-entity-row-label > .field-label{
+
+    display:block;
+
+    margin-top:calc((var(--control-square) - 1lh) / 2);
 
 }
 
@@ -9221,10 +9241,10 @@ td.process-library-col-number{
    edge, so an even split costs the date nothing. */
 .legal-entity-row .legal-entity-grid-formation{
 
-    /* The registrations' columns, the × column kept on every row:
-       Status | Formation Date above Authority / Name | Number | ×,
-       and 4.'s Tax / Registration | Number | × the same. */
-    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr) 32px;
+    /* The Name | Number list's columns (global.css), the × column
+       kept on every row: Status | Date above Authority / Name |
+       Number | ×, and 4.'s Tax / Registration | Number | × the same. */
+    grid-template-columns:var(--name-number-columns);
 
     column-gap:12px;
 
@@ -9233,6 +9253,99 @@ td.process-library-col-number{
 .legal-entity-row .legal-entity-grid-formation > .legal-entity-field-wide{
 
     grid-column:1 / -1;
+
+}
+
+/* 3.3 A SIDE-LABEL ROW SNAPPED TO THE GRID: Status and (formation)
+   Date on one row, each label BESIDE its control on the control's
+   centre line, on the Name | Number columns of the list below (a
+   subgrid of them). "Status" and its picker fill column 1, the
+   picker's right edge the Authority / Name field's; "Date" starts at
+   column 2's edge (the Number field's) and the date ends at the
+   Number's right edge. The picker is never narrower than its longest
+   option ("Not yet registered" with the chevron, 186px): where column
+   1 cannot hold the label and that, the labels go above their
+   controls. */
+.legal-entity-row .legal-entity-grid-formation{
+
+    container:formation / inline-size;
+
+}
+
+.legal-entity-grid > .legal-entity-side-row{
+
+    display:grid;
+
+    grid-template-columns:subgrid;
+
+    /* The list's own column gap (a subgrid's "normal"), not the 6px a
+       wide field sets. */
+    column-gap:normal;
+
+    align-items:center;
+
+}
+
+.legal-entity-side-row > .legal-entity-field{
+
+    display:grid;
+
+    grid-template-columns:auto minmax(0, 1fr);
+
+    align-items:center;
+
+    column-gap:var(--side-label-gap);
+
+}
+
+.legal-entity-side-row > .legal-entity-field > .option-picker{
+
+    width:auto;
+
+    /* Its longest option always fits: the row keeps its labels
+       beside only while column 1 is wide enough (the container query
+       below). */
+    min-width:0;
+
+}
+
+.legal-entity-side-row > .legal-entity-field > input.interview-input[type="date"]{
+
+    width:100%;
+
+    min-width:0;
+
+}
+
+/* Too narrow for a label beside a whole picker: labels above, each
+   control its column's width, as the rest of the grid. */
+@container formation (max-width: 559.98px){
+
+    .legal-entity-side-row > .legal-entity-field{
+
+        grid-template-columns:minmax(0, 1fr);
+
+        row-gap:var(--space-label);
+
+    }
+
+}
+
+/* One column (a narrow window): each control at its own step, from
+   the column's edge, rather than the whole width. */
+@media (max-width: 900px){
+
+    .legal-entity-side-row > .legal-entity-field > .option-picker{
+
+        width:min(100%, var(--control-s));
+
+    }
+
+    .legal-entity-side-row > .legal-entity-field > input.interview-input[type="date"]{
+
+        width:min(100%, var(--control-code));
+
+    }
 
 }
 
