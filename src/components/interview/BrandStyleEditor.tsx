@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useRef } from "react";
+import { CSSProperties, ReactNode, useLayoutEffect, useRef } from "react";
 
 import {
     BRAND_COLOUR_SLOTS,
@@ -103,6 +103,18 @@ function previewSize(size: string, range: string): number | undefined {
         return undefined;
     }
     return Number(clampedSize(size, bounds));
+}
+
+/**
+ * A Text Hierarchy level's row height, px: its name's lines at the
+ * LARGEST size its range allows (line height 1.2), and never under a
+ * control's 45px. Fixed, so a size typed, stepped or switched off
+ * never moves another row or resizes the box.
+ */
+export function levelHeight(label: string, range: string): number {
+    const most = pixelRange(range)?.max ?? 18;
+    const lines = label.split(" / ").length;
+    return Math.max(45, Math.ceil(most * 1.2 * lines));
 }
 
 /** The Text Hierarchy's one box. */
@@ -432,6 +444,44 @@ export default function BrandStyleEditor({
             }
         });
     }
+
+    /*
+        A level's name wider than its row (a large size in a narrow
+        column) is SCALED to fit, from its left edge and its row's
+        centre line, rather than wrapped: wrapping would need a second
+        line the fixed row has no room for. Measured after every
+        change and whenever the card's width changes.
+    */
+    const hierarchyCard = useRef<HTMLDivElement | null>(null);
+    useLayoutEffect(() => {
+        const card = hierarchyCard.current;
+        if (!card) {
+            return;
+        }
+        function fit() {
+            card!.querySelectorAll<HTMLElement>(".brand-hierarchy-row .brand-slot-label").forEach(label => {
+                label.style.removeProperty("--level-fit");
+                const room = label.clientWidth;
+                const needed = label.scrollWidth;
+                if (room > 0 && needed > room + 0.5) {
+                    label.style.setProperty("--level-fit", String(Math.floor((room / needed) * 1000) / 1000));
+                }
+            });
+        }
+        fit();
+        if (typeof ResizeObserver === "undefined") {
+            return;
+        }
+        let width = card.clientWidth;
+        const observer = new ResizeObserver(() => {
+            if (card.clientWidth !== width) {
+                width = card.clientWidth;
+                fit();
+            }
+        });
+        observer.observe(card);
+        return () => observer.disconnect();
+    }, [style.hierarchy]);
 
     function heading(offset: number) {
         return (
@@ -805,6 +855,7 @@ export default function BrandStyleEditor({
                     it, so it has no head, number or fold of its own.
                     Each level's name is drawn at the size in its box. */}
                 <div
+                    ref={hierarchyCard}
                     className="business-foundation-card brand-style-card brand-hierarchy-card"
                     data-anchor={HIERARCHY_CARD}
                 >
@@ -828,7 +879,12 @@ export default function BrandStyleEditor({
 
                             return (
 
-                                <div className="brand-hierarchy-row" key={level.id}>
+                                <div
+                                    className="brand-hierarchy-row"
+                                    key={level.id}
+                                    // Its fixed height: see levelHeight.
+                                    style={{ "--level-height": levelHeight(level.label, level.range) + "px" } as CSSProperties}
+                                >
 
                                     {activationTick(
                                         level.label,

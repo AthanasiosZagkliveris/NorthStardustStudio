@@ -7428,6 +7428,82 @@ td.process-library-col-number{
 
 }
 
+/* A LEVEL'S ROW: ONE FIXED HEIGHT, ONE CENTRE LINE. Each row is as
+   tall as its name at the LARGEST size its range allows
+   (--level-height, levelHeight() in BrandStyleEditor), so the box is
+   the size it would be with every level at its maximum, and changing
+   a size never moves another row or resizes the box. The tick, the
+   name (its whole block: "Captions & Metadata /" over "Interface")
+   and the px box all sit on the row's centre line; the name grows
+   and shrinks about that line from a fixed left edge. A name wider
+   than its row is scaled to fit (--level-fit), never wrapped. */
+.brand-hierarchy-card .brand-hierarchy-row{
+
+    display:grid;
+
+    grid-template-columns:minmax(0, 1fr) auto;
+
+    align-items:center;
+
+    column-gap:12px;
+
+    height:var(--level-height);
+
+}
+
+.brand-hierarchy-card .brand-hierarchy-row > .brand-tick{
+
+    align-items:center;
+
+    height:100%;
+    min-height:0;
+
+}
+
+.brand-hierarchy-card .brand-hierarchy-row > .brand-tick > .brand-tick-box{
+
+    margin:0;
+
+}
+
+.brand-hierarchy-card .brand-hierarchy-row > .brand-tick .brand-slot-label{
+
+    position:static;
+
+    flex:1 1 auto;
+
+    white-space:nowrap;
+
+    transform:scale(var(--level-fit, 1));
+    transform-origin:left center;
+
+}
+
+/* The px box's "Kept within ..." note floats under it, over the row
+   below, rather than making its own row taller. */
+.brand-hierarchy-card .brand-hierarchy-size-holder{
+
+    position:relative;
+
+}
+
+.brand-hierarchy-card .brand-hierarchy-kept{
+
+    position:absolute;
+
+    top:calc(100% + 2px);
+    right:0;
+
+    z-index:2;
+
+    padding:0 4px;
+
+    background:var(--bg-panel);
+
+    border-radius:3px;
+
+}
+
 /* The px box, with the quiet line under it when a size was kept
    within its range. */
 .brand-hierarchy-size-holder{

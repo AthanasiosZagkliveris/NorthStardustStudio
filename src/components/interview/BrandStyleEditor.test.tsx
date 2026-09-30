@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import BrandStyleEditor from "./BrandStyleEditor";
+import BrandStyleEditor, { levelHeight } from "./BrandStyleEditor";
 import { typeInto } from "../../test/interviewTestUtils";
 import { asBrandStyleValue, brandStyleSectionsEmpty, type BrandStyleAnswerValue } from "../../framework/engine/AnswerUtils";
 import { UndoService } from "../../services/UndoService";
@@ -173,6 +173,26 @@ describe("BrandStyleEditor Text Hierarchy", () => {
         expect(h1().value).toBe("37");
 
     });
+
+    // A stable box: every row as tall as its name at its range's largest
+    // size (never under a control), whatever the sizes typed.
+    it("fixes each level's row at its largest size, so a size typed moves nothing", () => {
+
+        expect(levelHeight("H1 (Title)", "36–48")).toBe(58);
+        expect(levelHeight("Body Text", "16–18")).toBe(45);
+        // Two lines at 14px are 34px: a control's 45.
+        expect(levelHeight("Captions & Metadata / Interface", "12–14")).toBe(45);
+
+        const { container } = render(<Harness />);
+        const rows = () => [...container.querySelectorAll(".brand-hierarchy-row")].map(row => (row as HTMLElement).style.getPropertyValue("--level-height"));
+        const before = rows();
+        expect(before[0]).toBe("58px");
+
+        typeInto(h1(), "36");
+        expect(rows()).toEqual(before);
+
+    });
+
 
 });
 
