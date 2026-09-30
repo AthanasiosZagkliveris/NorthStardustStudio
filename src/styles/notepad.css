@@ -516,3 +516,12 @@ html.notepad-picking [data-pick-hover] {
     outline-offset: -4px;
 
 }
+
+/* And a soft glow around it, static -- except while it holds the
+   focus, when the focus ring (--glow-color) is drawn instead, so the
+   two never read as one. Outside the box, so nothing moves. */
+.is-noted.is-noted.is-noted:not(:focus, :focus-within) {
+
+    box-shadow: 0 0 12px var(--glow-noted);
+
+}
