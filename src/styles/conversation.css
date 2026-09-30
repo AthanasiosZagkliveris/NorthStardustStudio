@@ -246,8 +246,8 @@ textarea:focus{
    (60ch: about 70 characters a line) rather than the card's full
    1400px; the facts -- what it covers, what it uses from earlier,
    the thinking time -- sit beside them in a quiet panel on a wide
-   screen, and under them below 1100px. Start Interview stays in the
-   fixed bar under the card (.interview-nav), wherever the facts go.
+   screen, and under them below 1100px. Start Interview comes under
+   both (.intro-start), wherever the facts go.
 
    Beside each other, the two columns share two rows, and each row
    holds its pair on ONE BASELINE: the question's LAST line with the
@@ -294,7 +294,10 @@ textarea:focus{
 
     .intro-layout{
 
-        grid-template-columns:minmax(0, 60ch) minmax(0, 1fr);
+        /* Two equal columns, so the rule between them (::before) is
+           at the exact middle of the page, with the same 32px to
+           each column and the same outer margins. */
+        grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
         grid-template-areas:
             "question covers"
             "text facts";
@@ -322,13 +325,6 @@ textarea:focus{
 
     }
 
-    .intro-covers-label,
-    .intro-facts{
-
-        padding-left:32px;
-
-    }
-
     /* A rule down the facts' side sets them apart from the text, as
        tall as the taller column: drawn by the layout itself, down
        the whole of the second column, rather than by the facts' own
@@ -342,6 +338,10 @@ textarea:focus{
 
         justify-self:start;
         align-self:stretch;
+
+        /* In the middle of the 64px gap: half of it, less half the
+           1px rule. */
+        margin-left:-32.5px;
 
         border-left:1px solid var(--line-divider);
 
@@ -559,67 +559,21 @@ textarea:focus{
 }
 
 /* ==========================================================
-   Interview Navigation (Previous / Next)
+   Start Interview, on a System's opening screen: under the
+   content (both columns), 48px below it, centred, with the
+   next-page arrow beside it (.page-arrow, global.css).
 ========================================================== */
 
-.interview-nav{
+.intro-start{
+
+    grid-column:1 / -1;
 
     display:flex;
-
     justify-content:center;
+    align-items:center;
+    gap:12px;
 
-    gap:16px;
-
-    /* The 12px bottom padding IS the gap between the Footer's top
-       edge and the underside of the buttons -- the bar itself sits
-       flush on the Footer (see `bottom` below), so this padding is
-       the only thing separating them. */
-    padding:16px 0 12px;
-
-    /* Frosted-glass rather than solid: content that scrolls
-       up underneath this fixed bar (everything except the
-       Footer, which sits below it and is never covered) stays
-       faintly visible through it, blurred, instead of being
-       hidden behind a flat white block. */
-    background:var(--bg-frost);
-
-    backdrop-filter:blur(10px);
-    -webkit-backdrop-filter:blur(10px);
-
-    /* Always fixed directly above the Footer -- flush against
-       it, no gap -- regardless of how long the Question/Table
-       above it is, or how far the page is scrolled. This is
-       deliberately position:fixed rather than sticky/in-flow,
-       so the buttons never drift closer to (or further from)
-       the content, only ever sitting in this one place. */
-    position:fixed;
-
-    left:0;
-    right:0;
-
-    /* Matches .workspace-footer's own height exactly, so the
-       nav's bottom edge sits flush on the footer's top edge. */
-    bottom:64px;
-
-    z-index:20;
-
-}
-
-/* Both nav buttons share ONE width, so the pair is symmetric
-   about the page's centre line rather than merely having its
-   bounding box centred on it.
-
-   The group was always centred (justify-content:center above),
-   but the shared .primary-button is 220px wide and
-   .secondary-button only 180px -- so the seam between the two
-   sat 20px left of centre, and that seam is what the eye reads
-   as the middle. Matching the widths puts it exactly on centre.
-   Scoped to .interview-nav so the Footer's own Back/action
-   buttons elsewhere in the app keep their existing sizes. */
-.interview-nav .primary-button,
-.interview-nav .secondary-button{
-
-    min-width:220px;
+    margin-top:48px;
 
 }
 
@@ -7956,8 +7910,7 @@ td.process-library-col-number{
 .brand-file-button:hover:not(:disabled),
 .brand-remove-button:hover:not(:disabled),
 .strategy-add-button:hover:not(:disabled),
-.operational-log-delete-old:hover:not(:disabled),
-.interview-nav .secondary-button:hover:not(:disabled){
+.operational-log-delete-old:hover:not(:disabled){
 
     box-shadow:inset 0 0 0 1px var(--wired-ring, currentColor);
 

@@ -317,6 +317,22 @@ describe("A System's opening screen", () => {
 
     });
 
+    it("offers Start Interview under the content with the next-page arrow beside it, which starts it too, as → does", () => {
+
+        renderOpening("identity");
+        const start = screen.getByRole("button", { name: "Start Interview" });
+        expect(start.parentElement?.className).toBe("intro-start");
+        expect(start.nextElementSibling?.getAttribute("aria-label")).toBe("Next page");
+        fireEvent.click(screen.getByRole("button", { name: "Next page" }));
+        expect(screen.queryByRole("button", { name: "Start Interview" })).toBeNull();
+        cleanup();
+
+        renderOpening("identity");
+        fireEvent.keyDown(document.body, { key: "ArrowRight" });
+        expect(screen.queryByRole("button", { name: "Start Interview" })).toBeNull();
+
+    });
+
     it("says the Identity System is the starting point", () => {
 
         renderOpening("identity");

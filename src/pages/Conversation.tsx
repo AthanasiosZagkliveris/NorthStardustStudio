@@ -2695,7 +2695,10 @@ export default function Conversation() {
                                 )}
                             </div>
 
-                            <div className="interview-nav">
+                            {/* Under the content, not in a bar: Start Interview,
+                                and beside it the next-page arrow (→ does the
+                                same, PageArrow). */}
+                            <div className="intro-start">
                                 <button
                                     type="button"
                                     className="primary-button"
@@ -2703,6 +2706,7 @@ export default function Conversation() {
                                 >
                                     Start Interview
                                 </button>
+                                <PageArrow direction="next" label="Next page: the first page of the interview" onClick={startInterview} />
                             </div>
                         </section>
                     ) : (
