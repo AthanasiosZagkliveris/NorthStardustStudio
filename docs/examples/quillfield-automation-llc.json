@@ -600,17 +600,18 @@
                       "evaluation",
                       "support"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "discovery": [
-                        "Post three times a week: before-and-after workflows, hours saved, short demos",
-                        "Comment on posts by NYC firm owners and operations managers"
+                        "action-segment-qf3n8d2w-channel-discovery-1",
+                        "action-segment-qf3n8d2w-channel-discovery-2",
+                        "action-channel-w8e2b5sq-discovery-1"
                       ],
                       "evaluation": [
-                        "Feature case studies and client quotes on the profile",
-                        "Answer questions by direct message within one business day"
+                        "action-segment-qf3n8d2w-channel-evaluation-1",
+                        "action-segment-qf3n8d2w-channel-evaluation-2"
                       ],
                       "support": [
-                        "Share tips for clients' teams on getting more from their automations"
+                        "action-segment-qf3n8d2w-channel-support-1"
                       ]
                     }
                   },
@@ -629,17 +630,17 @@
                       "evaluation",
                       "purchase"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "discovery": [
-                        "Publish one practical article a month per profession (SEO)"
+                        "action-channel-w8e2b5sq-discovery-1"
                       ],
                       "evaluation": [
-                        "Service pages with fixed prices, case studies and an FAQ on data privacy",
-                        "Hours-saved calculator"
+                        "action-channel-w8e2b5sq-evaluation-1",
+                        "action-channel-w8e2b5sq-evaluation-2"
                       ],
                       "purchase": [
-                        "Book a free 30-minute call through Calendly",
-                        "Accept the proposal online"
+                        "action-channel-w8e2b5sq-purchase-1",
+                        "action-channel-w8e2b5sq-purchase-2"
                       ]
                     }
                   },
@@ -658,16 +659,16 @@
                       "delivery",
                       "support"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "evaluation": [
-                        "Monthly issue of The Quill with one workflow teardown and one quick win"
+                        "action-channel-n6l3t9rd-evaluation-1"
                       ],
                       "delivery": [
-                        "Weekly project update emails during audits and builds"
+                        "action-channel-n6l3t9rd-delivery-1"
                       ],
                       "support": [
-                        "Monthly usage report for retainer clients",
-                        "Invite past clients to new offers"
+                        "action-channel-n6l3t9rd-support-1",
+                        "action-channel-n6l3t9rd-support-2"
                       ]
                     }
                   },
@@ -686,13 +687,14 @@
                       "discovery",
                       "evaluation"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "discovery": [
-                        "Recruit three bookkeeping firms and two managed IT providers who serve small firms",
-                        "Give partners a one-page introduction and a 10% referral fee on audits"
+                        "action-channel-r4f7p1xk-discovery-1",
+                        "action-channel-r4f7p1xk-discovery-2"
                       ],
                       "evaluation": [
-                        "Joint introduction call with the partner present"
+                        "action-channel-r4f7p1xk-evaluation-1",
+                        "action-channel-m2u5e8gv-evaluation-1"
                       ]
                     }
                   },
@@ -710,13 +712,13 @@
                       "discovery",
                       "evaluation"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "discovery": [
-                        "Attend two meetups a month (Brooklyn Tech Meetup, chamber of commerce events)",
-                        "Offer a 20-minute talk on practical AI for small firms"
+                        "action-channel-m2u5e8gv-discovery-1",
+                        "action-channel-m2u5e8gv-discovery-2"
                       ],
                       "evaluation": [
-                        "Follow up within 48 hours with a relevant case study"
+                        "action-channel-m2u5e8gv-evaluation-1"
                       ]
                     }
                   },
@@ -733,10 +735,10 @@
                     "stages": [
                       "purchase"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "purchase": [
-                        "Send invoices by card or ACH transfer",
-                        "Automatic monthly billing for retainers"
+                        "action-channel-s9t3r6pw-purchase-1",
+                        "action-channel-s9t3r6pw-purchase-2"
                       ]
                     }
                   }
@@ -876,7 +878,97 @@
                     }
                   }
                 ],
-                "profiles": []
+                "profiles": [],
+                "actions": [
+                  {
+                    "id": "action-segment-qf3n8d2w-channel-discovery-1",
+                    "text": "Post three times a week: before-and-after workflows, hours saved, short demos"
+                  },
+                  {
+                    "id": "action-segment-qf3n8d2w-channel-discovery-2",
+                    "text": "Comment on posts by NYC firm owners and operations managers"
+                  },
+                  {
+                    "id": "action-segment-qf3n8d2w-channel-evaluation-1",
+                    "text": "Feature case studies and client quotes on the profile"
+                  },
+                  {
+                    "id": "action-segment-qf3n8d2w-channel-evaluation-2",
+                    "text": "Answer questions by direct message within one business day"
+                  },
+                  {
+                    "id": "action-segment-qf3n8d2w-channel-support-1",
+                    "text": "Share tips for clients' teams on getting more from their automations"
+                  },
+                  {
+                    "id": "action-channel-w8e2b5sq-discovery-1",
+                    "text": "Publish one practical article a month per profession (SEO)"
+                  },
+                  {
+                    "id": "action-channel-w8e2b5sq-evaluation-1",
+                    "text": "Service pages with fixed prices, case studies and an FAQ on data privacy"
+                  },
+                  {
+                    "id": "action-channel-w8e2b5sq-evaluation-2",
+                    "text": "Hours-saved calculator"
+                  },
+                  {
+                    "id": "action-channel-w8e2b5sq-purchase-1",
+                    "text": "Book a free 30-minute call through Calendly"
+                  },
+                  {
+                    "id": "action-channel-w8e2b5sq-purchase-2",
+                    "text": "Accept the proposal online"
+                  },
+                  {
+                    "id": "action-channel-n6l3t9rd-evaluation-1",
+                    "text": "Monthly issue of The Quill with one workflow teardown and one quick win"
+                  },
+                  {
+                    "id": "action-channel-n6l3t9rd-delivery-1",
+                    "text": "Weekly project update emails during audits and builds"
+                  },
+                  {
+                    "id": "action-channel-n6l3t9rd-support-1",
+                    "text": "Monthly usage report for retainer clients"
+                  },
+                  {
+                    "id": "action-channel-n6l3t9rd-support-2",
+                    "text": "Invite past clients to new offers"
+                  },
+                  {
+                    "id": "action-channel-r4f7p1xk-discovery-1",
+                    "text": "Recruit three bookkeeping firms and two managed IT providers who serve small firms"
+                  },
+                  {
+                    "id": "action-channel-r4f7p1xk-discovery-2",
+                    "text": "Give partners a one-page introduction and a 10% referral fee on audits"
+                  },
+                  {
+                    "id": "action-channel-r4f7p1xk-evaluation-1",
+                    "text": "Joint introduction call with the partner present"
+                  },
+                  {
+                    "id": "action-channel-m2u5e8gv-discovery-1",
+                    "text": "Attend two meetups a month (Brooklyn Tech Meetup, chamber of commerce events)"
+                  },
+                  {
+                    "id": "action-channel-m2u5e8gv-discovery-2",
+                    "text": "Offer a 20-minute talk on practical AI for small firms"
+                  },
+                  {
+                    "id": "action-channel-m2u5e8gv-evaluation-1",
+                    "text": "Follow up within 48 hours with a relevant case study"
+                  },
+                  {
+                    "id": "action-channel-s9t3r6pw-purchase-1",
+                    "text": "Send invoices by card or ACH transfer"
+                  },
+                  {
+                    "id": "action-channel-s9t3r6pw-purchase-2",
+                    "text": "Automatic monthly billing for retainers"
+                  }
+                ]
               }
             ],
             "demand": {
@@ -963,7 +1055,48 @@
                 ],
                 "assumptions": "About 10% of retainer clients cancel each month, so a client stays about 10 months on average."
               }
-            }
+            },
+            "channelResources": [
+              {
+                "id": "channel-resource-resource-s5q9w1fm",
+                "segmentId": "segment-qf3n8d2w",
+                "channelId": "channel-w8e2b5sq",
+                "resourceId": "resource-s5q9w1fm",
+                "actionIds": [
+                  "action-channel-w8e2b5sq-discovery-1",
+                  "action-channel-w8e2b5sq-evaluation-1",
+                  "action-channel-w8e2b5sq-evaluation-2"
+                ]
+              },
+              {
+                "id": "channel-resource-resource-c7a1l4ey",
+                "segmentId": "segment-qf3n8d2w",
+                "channelId": "channel-w8e2b5sq",
+                "resourceId": "resource-c7a1l4ey",
+                "actionIds": [
+                  "action-channel-w8e2b5sq-purchase-1"
+                ]
+              },
+              {
+                "id": "channel-resource-resource-e4m8l1ow",
+                "segmentId": "segment-qf3n8d2w",
+                "channelId": "segment-qf3n8d2w-channel",
+                "resourceId": "resource-e4m8l1ow",
+                "actionIds": [
+                  "action-segment-qf3n8d2w-channel-discovery-1"
+                ]
+              },
+              {
+                "id": "channel-resource-resource-q9b3k6lu",
+                "segmentId": "segment-qf3n8d2w",
+                "channelId": "channel-s9t3r6pw",
+                "resourceId": "resource-q9b3k6lu",
+                "actionIds": [
+                  "action-channel-s9t3r6pw-purchase-1",
+                  "action-channel-s9t3r6pw-purchase-2"
+                ]
+              }
+            ]
           }
         },
         {

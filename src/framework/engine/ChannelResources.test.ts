@@ -21,6 +21,7 @@ import {
 } from "./ChannelResources.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
 import lumenText from "../../../docs/examples/lumen-and-loom-studio.json?raw";
+import quillText from "../../../docs/examples/quillfield-automation-llc.json?raw";
 
 /** A Segment with Instagram and Pinterest sharing one action. */
 function engagementWithSharedAction(): BusinessEngagementValue {
@@ -140,6 +141,36 @@ describe("a channel's resources", () => {
         engagementResponse.value = engagement;
         const rows = (value: typeof example) => JSON.stringify(businessForecast(sessionsOf(value)).forecast);
         expect(rows(linked)).toBe(rows(example));
+    });
+
+});
+
+describe("the examples' channel resources", () => {
+
+    test.each([["lumen", lumenText], ["quillfield", quillText]])("%s: 3 to 5 resources on its own cards, one serving a second channel, listed in the export", async (_name, text) => {
+        const { buildExportContent } = await import("./ExportContentBuilder.ts");
+        const { MarkdownExporter } = await import("./MarkdownExporter.ts");
+        const example = JSON.parse(text) as { systems: Record<string, Parameters<typeof InterviewSession.fromJSON>[0]> };
+        const responses = (example.systems["3"] as unknown as { responses: { sectionNumber: number; value: unknown }[] }).responses;
+        const engagement = asBusinessEngagementValue(responses.find(response => response.sectionNumber === 2)?.value);
+        const cards = capabilityCards(asBusinessCapabilityValue(responses.find(response => response.sectionNumber === 3)?.value));
+        expect(engagement.channelResources.length).toBeGreaterThanOrEqual(3);
+        expect(engagement.channelResources.length).toBeLessThanOrEqual(5);
+        // Every one on a card the example already had, with the actions it pays for.
+        engagement.channelResources.forEach(link => {
+            expect(cards.some(card => card.id === link.resourceId)).toBe(true);
+            expect(link.actionIds.length).toBeGreaterThan(0);
+        });
+        expect(engagement.channelResources.some(link => resourceReach(engagement, link).length > 0)).toBe(true);
+        // Each action shared between rows at least twice over.
+        const sharedActions = engagement.segments.flatMap(segment => segment.actions.filter(action =>
+            segment.channels.flatMap(channel => Object.values(channel.actionIds).flat()).filter(id => id === action.id).length > 1));
+        expect(sharedActions.length).toBeGreaterThanOrEqual(2);
+
+        const session = InterviewSession.fromJSON(example.systems["3"], frameworkRegistry.getFramework("business"));
+        const markdown = new MarkdownExporter().toMarkdown(session, "Foundation", buildExportContent(session, "Foundation", undefined, undefined, { currency: "GBP" }));
+        expect(markdown).toContain("## Channel Resources");
+        expect(markdown).toContain("| Channel | Resource | Cost | Linked actions |");
     });
 
 });

@@ -772,7 +772,8 @@
                     "actionIds": {
                       "discovery": [
                         "action-channel-enk0uesk-discovery-1",
-                        "action-channel-enk0uesk-discovery-2"
+                        "action-channel-enk0uesk-discovery-2",
+                        "action-channel-xrenzwzk-discovery-1"
                       ]
                     }
                   },
@@ -860,7 +861,8 @@
                         "action-channel-kenelogh-discovery-1"
                       ],
                       "support": [
-                        "action-channel-kenelogh-support-1"
+                        "action-channel-kenelogh-support-1",
+                        "action-segment-8lu427u5-channel-support-1"
                       ]
                     }
                   },
@@ -1178,13 +1180,13 @@
                       "discovery",
                       "evaluation"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "discovery": [
-                        "Case studies of finished hotel and residential projects",
-                        "Oliver connects with designers met at fairs"
+                        "action-segment-majxtl1u-channel-discovery-1",
+                        "action-segment-majxtl1u-channel-discovery-2"
                       ],
                       "evaluation": [
-                        "Share sustainability documentation and client testimonials"
+                        "action-segment-majxtl1u-channel-evaluation-1"
                       ]
                     }
                   },
@@ -1201,9 +1203,9 @@
                     "stages": [
                       "discovery"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "discovery": [
-                        "Tag designers and hotels in project posts; trade-only Story highlight"
+                        "action-channel-eo91172u-discovery-1"
                       ]
                     }
                   },
@@ -1221,12 +1223,13 @@
                       "evaluation",
                       "purchase"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "evaluation": [
-                        "Trade page with spec sheets, lead times, price list request and sample box order"
+                        "action-channel-87177les-evaluation-1",
+                        "action-segment-majxtl1u-channel-discovery-1"
                       ],
                       "purchase": [
-                        "Trade account application and order form"
+                        "action-channel-87177les-purchase-1"
                       ]
                     }
                   },
@@ -1245,15 +1248,15 @@
                       "delivery",
                       "support"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "evaluation": [
-                        "Quotes and sample confirmations within 48 hours"
+                        "action-channel-hyjk89p3-evaluation-1"
                       ],
                       "delivery": [
-                        "Weekly project progress updates with photos"
+                        "action-channel-hyjk89p3-delivery-1"
                       ],
                       "support": [
-                        "Quarterly trade newsletter with new designs and case studies"
+                        "action-channel-hyjk89p3-support-1"
                       ]
                     }
                   },
@@ -1270,9 +1273,9 @@
                     "stages": [
                       "discovery"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "discovery": [
-                        "Exhibit at Clerkenwell Design Week and Decorex with live weaving"
+                        "action-channel-imbnizvs-discovery-1"
                       ]
                     }
                   },
@@ -1289,9 +1292,9 @@
                     "stages": [
                       "evaluation"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "evaluation": [
-                        "Studio visits to review samples and yarns in person"
+                        "action-channel-lnvisits1-evaluation-1"
                       ]
                     }
                   },
@@ -1308,9 +1311,9 @@
                     "stages": [
                       "delivery"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "delivery": [
-                        "Installation of wall textiles on site in London"
+                        "action-channel-lnonsite1-delivery-1"
                       ]
                     }
                   },
@@ -1327,11 +1330,11 @@
                     "stages": [
                       "purchase"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "purchase": [
-                        "Purchase orders, deposit invoices and 30-day terms",
-                        "50% deposit invoice, balance on delivery, 30-day terms for trade accounts",
-                        "Bank transfer, reconciled in Xero"
+                        "action-channel-87i4o7mf-purchase-1",
+                        "action-channel-87i4o7mf-purchase-2",
+                        "action-channel-87i4o7mf-purchase-3"
                       ]
                     }
                   }
@@ -1427,7 +1430,110 @@
                     }
                   }
                 ],
-                "profiles": []
+                "profiles": [],
+                "actions": [
+                  {
+                    "id": "action-segment-majxtl1u-channel-discovery-1",
+                    "text": "Case studies of finished hotel and residential projects"
+                  },
+                  {
+                    "id": "action-segment-majxtl1u-channel-discovery-2",
+                    "text": "Oliver connects with designers met at fairs"
+                  },
+                  {
+                    "id": "action-segment-majxtl1u-channel-evaluation-1",
+                    "text": "Share sustainability documentation and client testimonials"
+                  },
+                  {
+                    "id": "action-channel-eo91172u-discovery-1",
+                    "text": "Tag designers and hotels in project posts; trade-only Story highlight"
+                  },
+                  {
+                    "id": "action-channel-87177les-evaluation-1",
+                    "text": "Trade page with spec sheets, lead times, price list request and sample box order"
+                  },
+                  {
+                    "id": "action-channel-87177les-purchase-1",
+                    "text": "Trade account application and order form"
+                  },
+                  {
+                    "id": "action-channel-hyjk89p3-evaluation-1",
+                    "text": "Quotes and sample confirmations within 48 hours"
+                  },
+                  {
+                    "id": "action-channel-hyjk89p3-delivery-1",
+                    "text": "Weekly project progress updates with photos"
+                  },
+                  {
+                    "id": "action-channel-hyjk89p3-support-1",
+                    "text": "Quarterly trade newsletter with new designs and case studies"
+                  },
+                  {
+                    "id": "action-channel-imbnizvs-discovery-1",
+                    "text": "Exhibit at Clerkenwell Design Week and Decorex with live weaving"
+                  },
+                  {
+                    "id": "action-channel-lnvisits1-evaluation-1",
+                    "text": "Studio visits to review samples and yarns in person"
+                  },
+                  {
+                    "id": "action-channel-lnonsite1-delivery-1",
+                    "text": "Installation of wall textiles on site in London"
+                  },
+                  {
+                    "id": "action-channel-87i4o7mf-purchase-1",
+                    "text": "Purchase orders, deposit invoices and 30-day terms"
+                  },
+                  {
+                    "id": "action-channel-87i4o7mf-purchase-2",
+                    "text": "50% deposit invoice, balance on delivery, 30-day terms for trade accounts"
+                  },
+                  {
+                    "id": "action-channel-87i4o7mf-purchase-3",
+                    "text": "Bank transfer, reconciled in Xero"
+                  }
+                ]
+              }
+            ],
+            "channelResources": [
+              {
+                "id": "channel-resource-resource-mszvpqno",
+                "segmentId": "segment-8lu427u5",
+                "channelId": "channel-xrenzwzk",
+                "resourceId": "resource-mszvpqno",
+                "actionIds": [
+                  "action-channel-xrenzwzk-purchase-1",
+                  "action-channel-xrenzwzk-purchase-2"
+                ]
+              },
+              {
+                "id": "channel-resource-resource-16z4g5pn",
+                "segmentId": "segment-8lu427u5",
+                "channelId": "channel-xrenzwzk",
+                "resourceId": "resource-16z4g5pn",
+                "actionIds": [
+                  "action-channel-xrenzwzk-discovery-1",
+                  "action-channel-xrenzwzk-evaluation-1"
+                ]
+              },
+              {
+                "id": "channel-resource-resource-oksyeqw4",
+                "segmentId": "segment-8lu427u5",
+                "channelId": "channel-qpjm4v72",
+                "resourceId": "resource-oksyeqw4",
+                "actionIds": [
+                  "action-channel-qpjm4v72-evaluation-1",
+                  "action-channel-qpjm4v72-support-1"
+                ]
+              },
+              {
+                "id": "channel-resource-partner-xj18kuj7",
+                "segmentId": "segment-8lu427u5",
+                "channelId": "channel-xrenzwzk",
+                "resourceId": "partner-xj18kuj7",
+                "actionIds": [
+                  "action-channel-xrenzwzk-delivery-1"
+                ]
               }
             ]
           }

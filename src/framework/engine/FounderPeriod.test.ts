@@ -10,6 +10,7 @@ import { MarkdownExporter } from "./MarkdownExporter.ts";
 import lumenText from "../../../docs/examples/lumen-and-loom-studio.json?raw";
 import quillText from "../../../docs/examples/quillfield-automation-llc.json?raw";
 import goldenText from "./founder-period-golden.json?raw";
+import engagementText from "./founder-period-engagement.json?raw";
 
 /*
     A FOUNDER'S ONE FREQUENCY, MIGRATED WITHOUT CHANGING A RESULT.
@@ -42,8 +43,27 @@ import goldenText from "./founder-period-golden.json?raw";
 
 type Example = { systems: Record<string, Parameters<typeof InterviewSession.fromJSON>[0]> };
 
-const lumen = JSON.parse(lumenText) as Example;
-const quill = JSON.parse(quillText) as Example;
+/*
+    The examples' Customer Engagement page as it was when the golden
+    file was written (founder-period-engagement.json): the examples'
+    channels have grown since (shared actions, channel resources), which
+    changes the documents' words but no figure -- and this test is about
+    the founders' figures, so it keeps the page it was written against.
+*/
+const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
+
+function asAtGolden(example: Example, name: string): Example {
+    const copy = JSON.parse(JSON.stringify(example)) as Example;
+    const responses = (copy.systems["3"] as unknown as { responses: { sectionNumber: number; value: unknown }[] }).responses;
+    const page = responses.find(response => response.sectionNumber === 2);
+    if (page) {
+        page.value = ENGAGEMENT[name];
+    }
+    return copy;
+}
+
+const lumen = asAtGolden(JSON.parse(lumenText) as Example, "lumen");
+const quill = asAtGolden(JSON.parse(quillText) as Example, "quillfield");
 
 /** Lumen & Loom with every founder's hours given a week, as saved before the change. */
 function weekly(example: Example): Example {
