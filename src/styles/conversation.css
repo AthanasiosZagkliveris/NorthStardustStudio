@@ -14416,6 +14416,16 @@ td.process-library-col-number{
 
 }
 
+/* A Founder's hours take their column's width like the Salary and
+   Frequency above them -- not the short box an hours figure has
+   elsewhere (.delivery-number) -- so each column's controls share
+   both edges. */
+.business-founder-grid .delivery-number.interview-input{
+
+    max-width:none;
+
+}
+
 @container cost-fields (max-width: 299.98px){
 
     .business-founder-grid,
