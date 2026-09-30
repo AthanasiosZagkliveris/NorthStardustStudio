@@ -7460,12 +7460,15 @@ td.process-library-col-number{
 
 }
 
-/* White, and no stroke at all -- the arrow itself is the whole
-   control, so lifting it off the Theme's tinted ground is the
-   clearest way to say it is under the pointer. */
+/* ONE FOLD ARROW: under the pointer every one takes a white ground
+   and a stroke in the line of the card it sits in -- its Segment's or
+   Theme's hue where the card has one (.business-foundation-input,
+   .strategy-theme-panel, below), the plain card line where it has
+   none (the Identity System's Legal Entity and Founders Profile
+   cards, which used to show no stroke at all). */
 .strategy-box-toggle:hover{
 
-    border-color:transparent;
+    border-color:var(--line-card);
 
     background:var(--bg-surface);
 
