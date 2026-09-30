@@ -14765,6 +14765,11 @@ td.process-library-col-number{
 /* Strategy 1.4: the financial plan's dates beside the Period. */
 .strategy-plan-dates{
 
+    /* In from the edge as the Start and End labels above it are (the
+       45px of .strategy-period-box .month-picker-label), so its two
+       lines start where theirs do. */
+    padding-left:45px;
+
     display:flex;
 
     flex-wrap:wrap;
@@ -14794,7 +14799,9 @@ td.process-library-col-number{
 
 .strategy-plan-dates-differ{
 
-    padding:6px 10px;
+    /* Its lines still start where "Start" and "End" do: the 45px,
+       less its 3px rule. */
+    padding:6px 10px 6px 42px;
 
     border-left:3px solid var(--line-caution);
 
