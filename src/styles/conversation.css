@@ -14226,11 +14226,27 @@ td.process-library-col-number{
 
 }
 
-/* A cost's fields (a resource at Costs, a provider or professional):
-   side by side in the card's two columns, labels above, tops level --
-   Price with its currency beside Frequency -- and one under the other
-   where the fields have under 300px (measured on their own
-   box, a container query). */
+/* ---------- A cost's fields ----------
+
+   A resource at Costs, a provider, a professional or partner: the
+   fields sit on the card's column grid, so every edge lines up with
+   the controls above and below. A column is one standard control
+   wide (--control-s, the Responsibility picker's width), the second
+   starting 24px after it:
+
+     Responsibility
+     Price [currency]      Frequency
+
+   The Price and its compact currency together are exactly one
+   column wide. A resource's Quantity | Price | currency row spans
+   BOTH columns -- one column could not hold three controls -- so its
+   left edge is column 1's and its right edge column 2's, with
+   Frequency under it in column 1.
+
+   Where the fields have less than the two columns (464px, a container
+   query on their own box), one column: a control stays one column
+   wide, and the Quantity row takes the whole width. Tops level:
+   labels above, all of them. */
 .business-capability-costs{
 
     container:cost-fields / inline-size;
@@ -14243,7 +14259,9 @@ td.process-library-col-number{
 
     display:grid;
 
-    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns:repeat(2, var(--control-s));
+
+    justify-content:start;
 
     column-gap:24px;
     row-gap:var(--space-field);
@@ -14252,33 +14270,44 @@ td.process-library-col-number{
 
 }
 
-@container cost-fields (max-width: 300px){
+.business-capability-cost-grid > *{
+
+    min-width:0;
+
+}
+
+.business-capability-cost-grid-quantity > .business-capability-quantity-price{
+
+    grid-column:1 / -1;
+
+}
+
+@container cost-fields (max-width: 463.98px){
 
     .business-capability-cost-grid{
+
+        grid-template-columns:minmax(0, var(--control-s));
+
+    }
+
+    .business-capability-cost-grid-quantity{
 
         grid-template-columns:minmax(0, 1fr);
 
     }
 
-}
+    .business-capability-cost-grid-quantity > .business-capability-price-only,
+    .business-capability-cost-grid-quantity > .business-foundation-field{
 
-/* ---------- Each Offering's costs (Sustainability) ---------- */
+        width:min(100%, var(--control-s));
 
-.financial-offering-costs{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));
-
-    gap:12px;
+    }
 
 }
 
-/* A Costs resource: Quantity | Price | currency on one row, the first
-   column's (Frequency in the second); the whole width, Frequency under
-   it, where the fields have under 560px. The Quantity is a short
-   number (--control-xs); the Price takes the rest beside its compact
-   currency. Tops level: labels above, all three. */
+/* Quantity | Price | currency: the Quantity a short number
+   (--control-xs), the Price taking the rest beside its compact
+   currency. */
 .business-capability-quantity-price{
 
     display:flex;
@@ -14307,13 +14336,24 @@ td.process-library-col-number{
 
 }
 
-@container cost-fields (max-width: 560px){
+/* The Price and its currency fill the rest of the row, to column 2's
+   right edge -- not the one step (--control-m) an amount with a
+   currency takes standing alone (global.css). */
+.business-capability-cost-grid-quantity > .business-capability-quantity-price > .business-foundation-field > .business-capability-price{
 
-    .business-capability-cost-grid-quantity{
+    width:100%;
 
-        grid-template-columns:minmax(0, 1fr);
+}
 
-    }
+/* ---------- Each Offering's costs (Sustainability) ---------- */
+
+.financial-offering-costs{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));
+
+    gap:12px;
 
 }
 
