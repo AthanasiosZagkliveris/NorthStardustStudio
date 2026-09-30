@@ -571,9 +571,53 @@ textarea:focus{
     display:flex;
     justify-content:center;
     align-items:center;
-    gap:12px;
 
     margin-top:48px;
+
+}
+
+/* START INTERVIEW, ONE SHAPE: a cell whose left side keeps the app's
+   corner radius and whose right side tapers to a point -- the whole
+   arrow one button, one hover, one press. The shape is a clip; the
+   focus ring, which a clip would cut away, is drawn round the same
+   shape by the wrapper's drop-shadows: a ring of the page's ground,
+   then one of the primary line. */
+.start-arrow-button{
+
+    --arrow-depth:24px;
+
+    padding-right:calc(28px + var(--arrow-depth));
+
+    clip-path:polygon(0 0, calc(100% - var(--arrow-depth)) 0, 100% 50%, calc(100% - var(--arrow-depth)) 100%, 0 100%);
+
+}
+
+.start-arrow-button:active:not(:disabled){
+
+    background:var(--bg-primary-hover);
+
+}
+
+.start-arrow-button:focus-visible{
+
+    outline:none;
+
+}
+
+.start-arrow{
+
+    display:inline-flex;
+
+}
+
+.start-arrow:has(> .start-arrow-button:focus-visible){
+
+    filter:
+        drop-shadow(0 0 1px var(--bg-page))
+        drop-shadow(0 0 1px var(--bg-page))
+        drop-shadow(0 0 1px var(--line-primary))
+        drop-shadow(0 0 1px var(--line-primary))
+        drop-shadow(0 0 1px var(--line-primary));
 
 }
 

@@ -336,13 +336,14 @@ describe("A System's opening screen", () => {
 
     });
 
-    it("offers Start Interview under the content with the next-page arrow beside it, which starts it too, as → does", () => {
+    it("offers Start Interview under the content as one arrow-shaped button, with no separate arrow; → starts it too", () => {
 
         renderOpening("identity");
         const start = screen.getByRole("button", { name: "Start Interview" });
-        expect(start.parentElement?.className).toBe("intro-start");
-        expect(start.nextElementSibling?.getAttribute("aria-label")).toBe("Next page");
-        fireEvent.click(screen.getByRole("button", { name: "Next page" }));
+        expect(start.classList.contains("start-arrow-button")).toBe(true);
+        expect(start.closest(".intro-start")).toBeTruthy();
+        expect(screen.queryByRole("button", { name: "Next page" })).toBeNull();
+        fireEvent.click(start);
         expect(screen.queryByRole("button", { name: "Start Interview" })).toBeNull();
         cleanup();
 

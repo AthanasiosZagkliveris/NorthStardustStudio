@@ -2698,18 +2698,20 @@ export default function Conversation() {
                                 )}
                             </div>
 
-                            {/* Under the content, not in a bar: Start Interview,
-                                and beside it the next-page arrow (→ does the
-                                same, PageArrow). */}
+                            {/* Under the content, centred on the page: Start
+                                Interview, one button shaped as an arrow (→
+                                starts it too). Its focus ring is drawn by the
+                                wrapper, which the shape does not clip. */}
                             <div className="intro-start">
-                                <button
-                                    type="button"
-                                    className="primary-button"
-                                    onClick={startInterview}
-                                >
-                                    Start Interview
-                                </button>
-                                <PageArrow direction="next" label="Next page: the first page of the interview" onClick={startInterview} />
+                                <span className="start-arrow">
+                                    <button
+                                        type="button"
+                                        className="primary-button start-arrow-button"
+                                        onClick={startInterview}
+                                    >
+                                        Start Interview
+                                    </button>
+                                </span>
                             </div>
                         </section>
                     ) : (
