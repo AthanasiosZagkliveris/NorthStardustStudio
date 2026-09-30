@@ -786,7 +786,9 @@ export default function BusinessCapabilityEditor({
         cost: BusinessCostValue,
         onNext: (next: BusinessCostValue) => void,
         /** A resource's Quantity: any count but 1 makes this the price of one. */
-        quantity = ""
+        quantity = "",
+        /** A resource's Quantity field, set on the Price's row: Qty | Price | currency. */
+        quantityField?: ReactNode
     ) {
         const count = resourceUnitCount(quantity, cost.frequency);
         const unitPrice = parseAmount(cost.price) ?? NaN;
@@ -798,7 +800,14 @@ export default function BusinessCapabilityEditor({
                the card's two columns, tops level; one under the other
                in a narrow card (business-capability-costs). */
             <div className="business-capability-costs">
-            <div className="business-capability-cost-grid">
+            <div className={"business-capability-cost-grid" + (quantityField ? " business-capability-cost-grid-quantity" : "")}>
+
+                {/* A resource's Quantity on the Price's row, first:
+                    Qty | Price | currency, one row in the card's first
+                    column (the whole width in a narrow card). */}
+                <div className={quantityField ? "business-capability-quantity-price" : "business-capability-price-only"}>
+
+                {quantityField}
 
                 <BusinessField label={count !== null ? "Price per Unit" : "Price"}>
                     <div className="business-capability-price">
@@ -838,6 +847,8 @@ export default function BusinessCapabilityEditor({
                         </p>
                     )}
                 </BusinessField>
+
+                </div>
 
                 <BusinessField label="Frequency">
                     <OptionPicker
@@ -958,13 +969,12 @@ export default function BusinessCapabilityEditor({
                     what, scope, "professionals", slot, applySlot
                 )}
 
-                {slot.status === "costs" && quantityField}
-
                 {slot.status === "costs" && costFields(
                     what,
                     slot.cost,
                     (next) => onSlot({ cost: next }),
-                    slot.quantity
+                    slot.quantity,
+                    quantityField
                 )}
 
                 {(slot.status === "activity" || slot.status === "investigation") && (
@@ -1147,7 +1157,7 @@ export default function BusinessCapabilityEditor({
                            units") belongs in the Description. 0 is kept
                            as typed, so the box does not change under
                            the caret, but counts as 1 and says so. */
-                        <BusinessField label="Quantity" inline>
+                        <BusinessField label="Quantity">
                             <input
                                 type="text"
                                 inputMode="decimal"

@@ -14217,6 +14217,49 @@ td.process-library-col-number{
 
 }
 
+/* A Costs resource: Quantity | Price | currency on one row, the first
+   column's (Frequency in the second); the whole width, Frequency under
+   it, where the fields have under 560px. The Quantity is a short
+   number (--control-xs); the Price takes the rest beside its compact
+   currency. Tops level: labels above, all three. */
+.business-capability-quantity-price{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:8px;
+
+    min-width:0;
+
+}
+
+.business-capability-quantity-price > .business-foundation-field:first-child{
+
+    flex:0 0 var(--control-xs);
+
+    min-width:0;
+
+}
+
+.business-capability-quantity-price > .business-foundation-field + .business-foundation-field{
+
+    flex:1 1 auto;
+
+    min-width:0;
+
+}
+
+@container cost-fields (max-width: 560px){
+
+    .business-capability-cost-grid-quantity{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+}
+
 .financial-offering-cost-card{
 
     display:flex;

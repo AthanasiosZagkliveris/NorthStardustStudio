@@ -369,6 +369,8 @@ body {
    the controls inside tables.
 ========================================================== */
 :root {
+  /* A short number beside its neighbours (a Quantity). */
+  --control-xs: 80px;
   --control-s: 220px;
   --control-m: 300px;
   --control-l: 420px;
