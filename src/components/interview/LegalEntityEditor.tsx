@@ -39,6 +39,7 @@ import { railId } from "./rails/railItems.ts";
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
+import CardNameInput from "./CardNameInput.tsx";
 import { FieldMark, FieldStatus, FrozenUntil } from "./fieldMarks.tsx";
 import { waitingHint } from "../../framework/engine/FieldDependencies.ts";
 import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "./numberInput.ts";
@@ -1004,6 +1005,23 @@ export default function LegalEntityEditor({
         /** A number box: what it accepts. */
         limits?: NumberLimit
     ) {
+        // A name in a card's body wraps and grows as a card's own name
+        // does (CardNameInput), rather than being cut off at the box.
+        if (label === "Name" && !limits) {
+            return field(
+                label,
+                <CardNameInput
+                    ariaLabel={ariaLabel ?? label}
+                    placeholder={placeholder ?? ""}
+                    disabled={disabled}
+                    value={current}
+                    onChange={onNext}
+                />,
+                wide,
+                undefined,
+                info
+            );
+        }
         return field(
             label,
             <input
