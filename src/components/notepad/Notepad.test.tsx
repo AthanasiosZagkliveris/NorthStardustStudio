@@ -117,19 +117,19 @@ describe("the notepad on the page", () => {
         expect(screen.queryByRole("complementary", { name: "Notes" })).toBeNull();
     });
 
-    it("links a picked field without editing it, and marks the field as in your notes", () => {
+    it("links a picked field without editing it, and outlines the field as in your notes", () => {
         const organization = OrganizationService.create("Lumen");
         OrganizationService.setSelected(organization.id);
         const note = NotepadService.addNote();
         page(organization.id);
 
-        expect(screen.queryByRole("button", { name: "In your notes" })).toBeNull();
+        const box = screen.getByLabelText("Market size") as HTMLTextAreaElement;
+        expect(box.classList.contains("is-noted")).toBe(false);
 
         act(() => { NotepadService.open(); });
         act(() => { fireEvent.click(screen.getByRole("button", { name: "Link a field" })); });
         expect(screen.getByRole("status").textContent).toBe("Click a field or card to link it · Esc to cancel");
 
-        const box = screen.getByLabelText("Market size") as HTMLTextAreaElement;
         act(() => { fireEvent.mouseDown(box); fireEvent.click(box); });
 
         expect(box.value).toBe("About 40,000 households");
@@ -141,10 +141,13 @@ describe("the notepad on the page", () => {
         });
         expect(screen.queryByRole("status")).toBeNull();
 
-        // The field now says so, and its marker opens the notepad at the note.
-        act(() => { NotepadService.close(); });
-        act(() => { fireEvent.click(screen.getByRole("button", { name: "In your notes" })); });
-        expect(NotepadService.view()).toMatchObject({ open: true, focusNoteIds: [note] });
+        // The field is now drawn in your notes: its box outlined, and said so.
+        expect(box.classList.contains("is-noted")).toBe(true);
+        expect(box.getAttribute("aria-description")).toBe("In your notes");
+
+        // And no longer once the link is removed.
+        act(() => { NotepadService.removeLink(note, NotepadService.notes()[0].links[0].id); });
+        expect(box.classList.contains("is-noted")).toBe(false);
     });
 
     it("makes a link of what a picked element holds", () => {

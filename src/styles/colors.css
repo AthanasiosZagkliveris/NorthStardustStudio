@@ -167,6 +167,8 @@
     --line-caution: #b45309;
     --line-chart: #fcfcfb;
     --line-danger: #b00020;
+    /* A field or card a note links to (notepad.css): calm orange, 4.6:1 on white. */
+    --line-noted: #c05621;
     --line-danger-a18: rgba(176, 0, 32, .18);
     --line-danger-alt: #b3261e;
     --line-danger-deep: #b91c1c;
@@ -438,6 +440,7 @@
     --line-caution: #dd7c43;
     --line-chart: #1d2023;
     --line-danger: #f07f7a;
+    --line-noted: #e8914a;
     --line-danger-a18: rgba(240, 127, 122, 0.18);
     --line-danger-alt: #ec7c6e;
     --line-danger-deep: #eb7b6f;
@@ -731,6 +734,7 @@
     --line-caution: #965d3e;
     --line-chart: #f8f0e3;
     --line-danger: #8d3837;
+    --line-noted: #a8541c;
     --line-danger-a18: rgba(141, 56, 55, 0.18);
     --line-danger-alt: #91433a;
     --line-danger-deep: #95423a;

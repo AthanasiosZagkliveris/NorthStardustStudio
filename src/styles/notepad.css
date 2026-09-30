@@ -420,27 +420,18 @@ html.notepad-picking [data-pick-hover] {
 
 }
 
-/* ---------- The marker on a field ---------- */
+/* ---------- A field or card in your notes ---------- */
 
-.field-status-notes {
+/* Its own border, bold and orange: the border takes the colour, and
+   an outline just inside it the second pixel, so nothing moves. The
+   focus ring (a shadow outside) and hover still show over it. The
+   class three times over: it outranks each box's own border colour,
+   however specific, without !important. */
+.is-noted.is-noted.is-noted {
 
-    padding: 0;
+    border-color: var(--line-noted);
 
-    border: 0;
-
-    background: none;
-
-    font: inherit;
-
-    color: var(--text-subtle);
-
-    cursor: pointer;
-
-}
-
-.field-status-notes:hover,
-.field-status-notes:focus-visible {
-
-    color: var(--text-default);
+    outline: 1px solid var(--line-noted);
+    outline-offset: -2px;
 
 }

@@ -15,7 +15,6 @@ import { fieldKindOf } from "../../framework/engine/FieldKinds";
 
 import FieldStatusLine from "./FieldStatusLine.tsx";
 import { NotepadService } from "../../services/NotepadService";
-import { useNotesAt } from "../notepad/Notepad.tsx";
 
 /*
     EVERY FIELD KNOWS ITS KEY: the shared pieces a label carries.
@@ -80,17 +79,25 @@ export function FieldPageProvider({
     const page = useRef<HTMLDivElement | null>(null);
 
     // Every control and card on the page gets a key, whether or not a
-    // label component marked it (markControls).
+    // label component marked it (markControls); and what a note in
+    // the Notepad links to is drawn so (markNoted).
     useEffect(() => {
         const root = page.current;
         if (!root || !value) {
             return;
         }
-        const mark = () => markControls(root, value);
+        const mark = () => {
+            markControls(root, value);
+            markNoted(root, value.organizationId);
+        };
         mark();
         const observer = new MutationObserver(mark);
         observer.observe(root, { childList: true, subtree: true });
-        return () => observer.disconnect();
+        const unsubscribe = NotepadService.subscribe(() => markNoted(root, value.organizationId));
+        return () => {
+            observer.disconnect();
+            unsubscribe();
+        };
     }, [value]);
 
     return (
@@ -179,6 +186,49 @@ function markControls(root: HTMLElement, page: FieldPageValue): void {
             registerField({ key, label: name, pageTitle: page.pageTitle, kind: "answer", ...(anchors.length > 0 ? { anchors } : {}) });
         }
 
+    }
+
+}
+
+/** The box a noted field is drawn on: the card itself, or the field's control. */
+const NOTED_BOX = "input:not([type=hidden]):not([type=checkbox]):not([type=radio]), textarea, select, .option-picker-trigger, .month-picker-trigger, [contenteditable=true], .numbered-list-input";
+
+/**
+ * IN YOUR NOTES: every field and card a note in the Notepad links to
+ * is drawn with a bold orange outline (`.is-noted`, notepad.css) and
+ * described to assistive technology as "In your notes". The card's own
+ * box, or the field's control (a column's answer box, a list's box).
+ */
+function markNoted(root: HTMLElement, organizationId: string): void {
+
+    const keys = new Set(NotepadService.notes().flatMap(note => note.links
+        .filter(link => link.organizationId === organizationId && link.key)
+        .map(link => link.key as string)));
+
+    const noted = new Set<HTMLElement>();
+    for (const holder of root.querySelectorAll<HTMLElement>("[data-field-key]")) {
+        if (!keys.has(holder.dataset.fieldKey ?? "") || holder.closest("[hidden]")) {
+            continue;
+        }
+        const box = holder.matches(CARDS) || holder.matches(NOTED_BOX)
+            ? holder
+            : holder.querySelector<HTMLElement>(NOTED_BOX);
+        if (box) {
+            noted.add(box);
+        }
+    }
+
+    for (const element of root.querySelectorAll<HTMLElement>(".is-noted")) {
+        if (!noted.has(element)) {
+            element.classList.remove("is-noted");
+            element.removeAttribute("aria-description");
+        }
+    }
+    for (const element of noted) {
+        if (!element.classList.contains("is-noted")) {
+            element.classList.add("is-noted");
+            element.setAttribute("aria-description", "In your notes");
+        }
     }
 
 }
@@ -355,17 +405,14 @@ export function FieldMark({ label, ...place }: { label: string } & FieldPlace) {
 
 /**
  * The field's status line (FieldStatusLine) under its label: what it
- * waits for, when it is frozen behind another answer (FrozenUntil),
- * and a marker when a note in the Notepad links here, which opens the
- * Notepad at those notes.
+ * waits for, when it is frozen behind another answer (FrozenUntil).
  */
 export function FieldStatus({ label, ...place }: { label: string } & FieldPlace) {
 
     const ref = useRef<HTMLSpanElement | null>(null);
-    const page = useContext(FieldPageContext);
-    const { key } = useFieldAddress(ref, label, place);
-    const notes = useNotesAt(key, page?.organizationId ?? null);
     const [waiting, setWaiting] = useState<string | null>(null);
+
+    useFieldAddress(ref, label, place);
 
     // Read after every render: the chain it sits in may have just been answered.
     useLayoutEffect(() => {
@@ -378,7 +425,6 @@ export function FieldStatus({ label, ...place }: { label: string } & FieldPlace)
             <FieldStatusLine
                 label={label}
                 waiting={waiting ?? undefined}
-                onOpenNotes={notes.length > 0 ? () => NotepadService.open(notes.map(note => note.id)) : undefined}
             />
         </span>
     );

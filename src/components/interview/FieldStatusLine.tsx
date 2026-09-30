@@ -5,8 +5,6 @@
  *
  *   Choose a country first.         what a frozen field waits for
  *                                   (FrozenUntil, FieldDependencies.ts)
- *   ⚑                               a note in your Notepad links here
- *                                   (aria "In your notes"): opens it there
  *   Changed in <Scenario> · Reset   later: a scenario's own value
  *
  * Quiet: small muted type, and nothing at all when there is nothing
@@ -15,11 +13,7 @@
  */
 export default function FieldStatusLine({
 
-    label,
-
     waiting,
-
-    onOpenNotes,
 
     changedIn,
 
@@ -31,15 +25,13 @@ export default function FieldStatusLine({
     label: string;
     /** What the field waits for, while it is frozen: "Choose a country first." */
     waiting?: string;
-    /** Given when a note links here: opens the Notepad at those notes. */
-    onOpenNotes?: () => void;
     /** The scenario whose own value this field shows. */
     changedIn?: string;
     onReset?: () => void;
 
 }) {
 
-    if (!changedIn && !onOpenNotes && !waiting) {
+    if (!changedIn && !waiting) {
         return null;
     }
 
@@ -47,18 +39,6 @@ export default function FieldStatusLine({
         <span className="field-status-line">
 
             {waiting && <span className="field-status-item field-status-waiting">{waiting}</span>}
-
-            {onOpenNotes && (
-                <button
-                    type="button"
-                    className="field-status-item field-status-notes"
-                    aria-label="In your notes"
-                    data-field={label}
-                    onClick={onOpenNotes}
-                >
-                    <span className="field-status-mark" aria-hidden="true">⚑</span>
-                </button>
-            )}
 
             {changedIn && (
             <span className="field-status-item field-status-changed">

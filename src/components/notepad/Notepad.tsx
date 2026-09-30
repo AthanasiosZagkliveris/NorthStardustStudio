@@ -493,14 +493,3 @@ export function NotepadPicker() {
     );
 
 }
-
-/** The marker a field shows when a note links to it: opens the notepad at those notes. */
-export function useNotesAt(key: string | null, organizationId: string | null): Note[] {
-    useNotepad();
-    return key && organizationId ? NotepadService.notesLinking(organizationId, key) : [];
-}
-
-/** Every link in the notepad to an Organization (for tests and the Review page). */
-export function linksOf(organizationId: string): NoteLink[] {
-    return NotepadService.notes().flatMap(note => note.links.filter(link => link.organizationId === organizationId));
-}
