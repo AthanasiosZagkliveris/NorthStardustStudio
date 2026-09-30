@@ -920,3 +920,16 @@ label:has(> input[type="checkbox"]) {
 label:has(> input[type="checkbox"]) > input[type="checkbox"] {
   margin-top: calc((1lh - 18px) / 2);
 }
+
+/* A TICK-BOX OPTION UNDER THE POINTER: its words underlined, and its
+   box the hover of a field you write into (the answer boxes' primary
+   edge and soft glow ring, "Fields respond" in conversation.css). */
+label:has(> input[type="checkbox"]:not(:disabled)):hover > :not(input) {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+label:has(> input[type="checkbox"]:not(:disabled)):hover > input[type="checkbox"]:not(:focus-visible) {
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px var(--line-primary), 0 0 0 5px color-mix(in srgb, var(--glow-color) 18%, transparent);
+}
