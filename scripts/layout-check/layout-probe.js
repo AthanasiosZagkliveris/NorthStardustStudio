@@ -436,6 +436,86 @@
             }
         }
 
+        // 15. ONE VERTICAL RHYTHM in every card and section box: a label 6px
+        // (spec.labelGap) above its control, and a control, list row or add
+        // button 12px (spec.fieldGap) above what follows it. Measured from a
+        // label's line box (its words' middle, half a line either way), between
+        // things that stand one above the other in one column; gaps of 30px or
+        // more are separations of their own (a subhead, a group) and are not
+        // this rule's.
+        if (spec.labelGap && spec.fieldGap) {
+            const lineBox = label => {
+                const range = document.createRange();
+                range.selectNodeContents(label);
+                const glyphs = [...range.getClientRects()].filter(box => box.width > 0);
+                const line = parseFloat(getComputedStyle(label).lineHeight);
+                if (!glyphs.length || !Number.isFinite(line)) {
+                    return null;
+                }
+                const first = glyphs[0], last = glyphs[glyphs.length - 1];
+                return { top: first.top + first.height / 2 - line / 2, bottom: last.top + last.height / 2 + line / 2, left: Math.min(...glyphs.map(g => g.left)), right: Math.max(...glyphs.map(g => g.right)) };
+            };
+            for (const card of [...document.querySelectorAll(CARDS)].filter(visible)) {
+                const items = [];
+                for (const label of card.querySelectorAll(".field-label, .legal-entity-column-head")) {
+                    if (!visible(label) || label.closest(".info-note-panel, table, .fold-card-head")) {
+                        continue;
+                    }
+                    const box = lineBox(label);
+                    if (box) {
+                        items.push({ kind: "label", element: label, ...box });
+                    }
+                }
+                for (const control of card.querySelectorAll("input.interview-input:not([type=checkbox]), textarea.interview-input, .option-picker-trigger, .month-picker-trigger, .strategy-add-button")) {
+                    // A Text Hierarchy level is measured as its fixed row (rows a field gap apart).
+                    if (!visible(control) || control.closest(".info-note-panel, table, .fold-card-head, .numbered-list, .notepad-panel, .brand-hierarchy-card")) {
+                        continue;
+                    }
+                    const box = rect(control);
+                    items.push({ kind: "control", element: control, top: box.top, bottom: box.bottom, left: box.left, right: box.right });
+                }
+                // A label BESIDE a control (a side label) is part of the control's row.
+                const beside = item => item.kind === "label" && items.some(other => other.kind === "control" &&
+                    other.top <= item.top + 1 && other.bottom >= item.bottom - 1 && (other.left >= item.right - 1 || other.right <= item.left + 1));
+                const stack = items.filter(item => !beside(item));
+                for (const item of stack) {
+                    // What stands directly above it, in its column, in the same card.
+                    const home = item.element.closest(CARDS);
+                    let above = null;
+                    for (const other of stack) {
+                        if (other === item || other.bottom > item.top + 0.5 || other.right <= item.left + 1 || other.left >= item.right - 1 || other.element.closest(CARDS) !== home) {
+                            continue;
+                        }
+                        if (!above || other.bottom > above.bottom) {
+                            above = other;
+                        }
+                    }
+                    if (!above) {
+                        continue;
+                    }
+                    const gap = item.top - above.bottom;
+                    if (gap >= 30) {
+                        continue;
+                    }
+                    const expected = above.kind === "label" && item.kind === "control" ? spec.labelGap : spec.fieldGap;
+                    // A GROUP GAP: two groups divided by a rule, a field gap either side of it.
+                    let divided = false;
+                    for (let node = item.element.parentElement; node && node !== card; node = node.parentElement) {
+                        const top = rect(node).top;
+                        if (parseFloat(getComputedStyle(node).borderTopWidth) > 0 && top >= above.bottom - 0.5 && top <= item.top + 0.5) {
+                            divided = true;
+                        }
+                    }
+                    if (divided && rules.near(gap, 2 * spec.fieldGap, 1)) {
+                        continue;
+                    }
+                    if (!rules.near(gap, expected, 1)) {
+                        fail(above.kind === "label" && item.kind === "control" ? "label gap" : "row gap", item.element, { gap, expected, above: describe(above.element) });
+                    }
+                }
+            }
+        }
+
         // 13. Every card and section box: one inner side margin (--card-padding).
         if (spec.cardPadding) {
             for (const box of [...document.querySelectorAll(CARDS)].filter(visible)) {

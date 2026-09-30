@@ -27,6 +27,9 @@ export const SPEC = {
     widths: [80, 128, 220, 300, 420],
     /** The square variant: as wide as a control is tall (a Text Hierarchy px box). */
     square: 45,
+    /** A label to its control (--space-label), and one field or row to the next (--space-field). */
+    labelGap: 6,
+    fieldGap: 12,
     /** Every card's and section box's inner side margin (--card-padding). */
     cardPadding: 12,
     /** The one single-line control height. */

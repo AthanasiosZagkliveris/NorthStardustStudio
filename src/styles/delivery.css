@@ -87,7 +87,8 @@
 
     flex-direction:column;
 
-    gap:4px;
+    /* One row to the next: the rhythm's field gap. */
+    gap:var(--space-field);
 
     min-width:0;
 

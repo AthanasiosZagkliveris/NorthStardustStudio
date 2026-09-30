@@ -7558,7 +7558,8 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:6px;
+    /* One row to the next: the rhythm's field gap. */
+    gap:var(--space-field);
 
     min-width:0;
 
@@ -8529,7 +8530,9 @@ td.process-library-col-number{
 
     display:grid;
 
-    gap:var(--space-row) 12px;
+    /* Rows of fields one field apart, as every list of rows on the
+       page; the heads a label's 6px above the first (below). */
+    gap:var(--space-field) 12px;
 
     align-items:center;
 
@@ -8845,6 +8848,13 @@ td.process-library-col-number{
 
 }
 
+/* The heads a label's 6px above the first row, not a row's 12px. */
+.legal-entity-founders > .legal-entity-column-head{
+
+    margin-bottom:calc(var(--space-label) - var(--space-field));
+
+}
+
 /* The last cell of a founder's row: the button that removes the
    row, at its start, next to the last number (Capital, or
    Ownership where capital is off). */
@@ -9113,6 +9123,10 @@ td.process-library-col-number{
 }
 
 .legal-entity-activity-code > .legal-entity-pair{
+
+    /* One field from the box above: the column's 6px and this 6px, as
+       a label's own margin gives every other field. */
+    margin-top:var(--space-label);
 
     display:grid;
 
@@ -12697,7 +12711,8 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:flex-start;
 
-    gap:8px;
+    /* One list row to the next: the rhythm's field gap. */
+    gap:var(--space-field);
 
     min-width:0;
 
@@ -13508,7 +13523,8 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:flex-start;
 
-    gap:8px;
+    /* One row to the next: the rhythm's field gap. */
+    gap:var(--space-field);
 
 }
 
@@ -13521,7 +13537,8 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:center;
 
-    gap:8px;
+    /* Rows a field gap apart, cells a cell gap. */
+    gap:var(--space-field) var(--space-cell);
 
     align-self:stretch;
 
@@ -13547,7 +13564,8 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 /* Each milestone apart from the next. */
 .financial-milestone + .financial-milestone{
 
-    padding-top:8px;
+    /* A GROUP GAP: a field gap either side of the rule. */
+    padding-top:calc(var(--space-field) - 1px);
 
     border-top:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-rule));
 
