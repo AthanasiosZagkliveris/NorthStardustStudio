@@ -51,6 +51,21 @@ describe("placeTooltip", () => {
 
     });
 
+    it("goes above or below, never beside: on the side with more room, never over the element", () => {
+
+        // Near the top: more room below.
+        const high = { left: 100, right: 700, top: 120, bottom: 150 };
+        expect(placeTooltip(high, size, viewport, 0).top).toBe(150 + TOOLTIP_GAP);
+        // Near the bottom: above.
+        const low = { left: 100, right: 700, top: 700, bottom: 730 };
+        expect(placeTooltip(low, size, viewport, 0).top).toBe(700 - TOOLTIP_GAP - 30);
+        // Always its own left edge, never to the side.
+        expect(placeTooltip(high, size, viewport, 0).left).toBe(100);
+        // Within a band clear of a fixed header and footer.
+        expect(placeTooltip({ left: 100, right: 700, top: 90, bottom: 120 }, size, viewport, 0, { top: 80, bottom: 736 }).top).toBe(120 + TOOLTIP_GAP);
+
+    });
+
     it("never leaves the window", () => {
 
         // Too far right: pulled back inside the right edge.

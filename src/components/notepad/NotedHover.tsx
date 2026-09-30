@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 
 import { NotepadService, type Note } from "../../services/NotepadService";
 import { consumeKey } from "../interview/consumeKey";
-import { TOOLTIP_EDGE_MARGIN, TOOLTIP_GAP } from "../interview/roadmapTooltip";
+import { placeTooltip } from "../interview/roadmapTooltip";
 
 /*
     A FIELD IN YOUR NOTES, AND ITS NOTES: pointing at one shows the other.
@@ -42,69 +42,6 @@ function fieldArea(box: HTMLElement): { left: number; right: number; top: number
         top: Math.min(one.top, other.top),
         bottom: Math.max(one.bottom, other.bottom)
     };
-}
-
-type Box = { left: number; right: number; top: number; bottom: number };
-
-/** The card or column a noted field sits in (none for a card itself). */
-function cardAround(box: HTMLElement): Box | null {
-    const card = box.parentElement?.closest<HTMLElement>("[data-anchor], .legal-entity-section, .answer-column");
-    return card ? card.getBoundingClientRect() : null;
-}
-
-/** What the tooltip must never cover: every shown control and label on the page. */
-const OBSTACLES = "input:not([type=hidden]), textarea, select, .option-picker-trigger, .month-picker-trigger, .field-label, .legal-entity-label, .business-foundation-label, label";
-
-function overlaps(one: Box, other: Box): boolean {
-    return !(one.right <= other.left || one.left >= other.right || one.bottom <= other.top || one.top >= other.bottom);
-}
-
-/**
- * Where the noted tooltip goes: in free space BESIDE the field -- to
- * its right outside its card or column where there is room, else to
- * the right of the field itself, else to the left (the card's, then
- * the field's) -- then under the field, and only then over it; the
- * first place that covers no other control or label and stays inside
- * the window. Where none is clear, under the field.
- */
-function placeClear(field: Box, card: Box | null, size: { width: number; height: number }, tip: HTMLElement): { left: number; top: number } {
-    const within = (left: number, top: number) => ({
-        left: Math.min(Math.max(TOOLTIP_EDGE_MARGIN, left), window.innerWidth - TOOLTIP_EDGE_MARGIN - size.width),
-        top: Math.min(Math.max(VIEW_TOP + TOOLTIP_EDGE_MARGIN, top), window.innerHeight - VIEW_BOTTOM - TOOLTIP_EDGE_MARGIN - size.height)
-    });
-    const fits = (left: number, top: number) =>
-        left >= TOOLTIP_EDGE_MARGIN && left + size.width <= window.innerWidth - TOOLTIP_EDGE_MARGIN &&
-        top >= VIEW_TOP && top + size.height <= window.innerHeight - VIEW_BOTTOM;
-    const candidates: { left: number; top: number }[] = [];
-    const sideTop = field.top;
-    if (card) {
-        candidates.push({ left: card.right + TOOLTIP_GAP, top: sideTop });
-    }
-    candidates.push({ left: field.right + TOOLTIP_GAP, top: sideTop });
-    if (card) {
-        candidates.push({ left: card.left - TOOLTIP_GAP - size.width, top: sideTop });
-    }
-    candidates.push({ left: field.left - TOOLTIP_GAP - size.width, top: sideTop });
-    candidates.push({ left: field.left, top: field.bottom + TOOLTIP_GAP });
-    candidates.push({ left: field.left, top: field.top - TOOLTIP_GAP - size.height });
-
-    const obstacles = [...document.querySelectorAll<HTMLElement>(OBSTACLES)]
-        .filter(element => element.offsetParent !== null && !tip.contains(element))
-        .map(element => element.getBoundingClientRect())
-        .filter(rect => rect.width > 0 && rect.bottom > 0 && rect.top < window.innerHeight);
-
-    for (const candidate of candidates) {
-        // Sideways, it may move down or up a little to stay in the window.
-        const placed = candidate.left === field.left ? candidate : { left: candidate.left, top: within(candidate.left, candidate.top).top };
-        if (!fits(placed.left, placed.top)) {
-            continue;
-        }
-        const rect = { left: placed.left, top: placed.top, right: placed.left + size.width, bottom: placed.top + size.height };
-        if (!overlaps(rect, field) && !obstacles.some(obstacle => overlaps(rect, obstacle))) {
-            return placed;
-        }
-    }
-    return within(field.left, field.bottom + TOOLTIP_GAP);
 }
 
 /** How many notes the tooltip shows before "+N more". */
@@ -256,10 +193,10 @@ export function NotedHover({ root, organizationId }: { root: RefObject<HTMLEleme
     }, [root, organizationId]);
 
     // Placed once measured: above the box, or under it, inside the window.
-    // Placed in clear space beside the field (placeClear), never over
-    // its label or another field; again as the page scrolls or the
-    // window resizes, so it stays with its field; hidden while the
-    // field is out of view (behind the header or the footer).
+    // Placed above or below the field and its label (placeTooltip, on
+    // the side with more room), never over them; again as the page
+    // scrolls or the window resizes, so it stays with its field; hidden
+    // while the field is out of view (behind the header or the footer).
     useLayoutEffect(() => {
         if (!shown) {
             setPosition(null);
@@ -278,7 +215,7 @@ export function NotedHover({ root, organizationId }: { root: RefObject<HTMLEleme
                 return;
             }
             const size = tip.current.getBoundingClientRect();
-            setPosition(placeClear(anchor, cardAround(shown.box), { width: size.width, height: size.height }, tip.current));
+            setPosition(placeTooltip(anchor, { width: size.width, height: size.height }, { width: window.innerWidth, height: window.innerHeight }, anchor.left, { top: VIEW_TOP, bottom: window.innerHeight - VIEW_BOTTOM }));
         };
         place();
         window.addEventListener("scroll", place, true);

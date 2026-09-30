@@ -17,20 +17,23 @@ interface Box {
 }
 
 /**
- * The tooltip's top-left corner, in window coordinates.
+ * The tooltip's top-left corner, in window coordinates: ABOVE or
+ * BELOW the element, never beside it -- on the side with more room
+ * (above when they are equal), so it never covers the element.
  *
- * Above the element, starting where the element is first visible --
+ * Its left edge starts where the element is first visible --
  * `visibleLeft` is the left edge of the timeline the reader can see,
  * so a bar scrolled in under the Theme names gets its tooltip over
- * the part that shows, not off in the hidden part. Below it when
- * there is no room above. Always held inside the window, so neither
- * edge cuts it off.
+ * the part that shows, not off in the hidden part. Always held inside
+ * the window (and inside `band`, the part of it not under a fixed
+ * header or footer, where one is given), so no edge cuts it off.
  */
 export function placeTooltip(
     anchor: Box,
     size: { width: number; height: number },
     viewport: { width: number; height: number },
-    visibleLeft: number
+    visibleLeft: number,
+    band: { top: number; bottom: number } = { top: 0, bottom: viewport.height }
 ): { left: number; top: number } {
 
     const start = Math.max(anchor.left, visibleLeft);
@@ -40,15 +43,16 @@ export function placeTooltip(
         Math.max(TOOLTIP_EDGE_MARGIN, viewport.width - TOOLTIP_EDGE_MARGIN - size.width)
     );
 
-    const above = anchor.top - TOOLTIP_GAP - size.height;
+    const lowest = band.top + TOOLTIP_EDGE_MARGIN;
+    const highest = band.bottom - TOOLTIP_EDGE_MARGIN - size.height;
 
-    const top = above >= TOOLTIP_EDGE_MARGIN
-        ? above
-        : Math.min(
-            anchor.bottom + TOOLTIP_GAP,
-            Math.max(TOOLTIP_EDGE_MARGIN, viewport.height - TOOLTIP_EDGE_MARGIN - size.height)
-        );
+    const roomAbove = anchor.top - TOOLTIP_GAP - lowest;
+    const roomBelow = band.bottom - TOOLTIP_EDGE_MARGIN - (anchor.bottom + TOOLTIP_GAP);
 
-    return { left, top };
+    const top = roomAbove >= roomBelow
+        ? anchor.top - TOOLTIP_GAP - size.height
+        : anchor.bottom + TOOLTIP_GAP;
+
+    return { left, top: Math.min(Math.max(lowest, top), Math.max(lowest, highest)) };
 
 }
