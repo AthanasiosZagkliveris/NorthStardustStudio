@@ -8354,7 +8354,9 @@ td.process-library-col-number{
 
     gap:var(--space-card);
 
-    padding:16px;
+    /* The card's side margin (--card-padding): one inner side margin
+       for every card and section box. */
+    padding:16px var(--card-padding);
 
     border:1px solid var(--box-border);
     border-radius:8px;
@@ -15127,7 +15129,8 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     min-width:0;
 
-    padding:14px 16px;
+    /* A card's side margin (--card-padding). */
+    padding:14px var(--card-padding);
 
     border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-light));
     border-radius:8px;
@@ -15200,7 +15203,8 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     min-width:0;
 
-    padding:14px 16px;
+    /* A card's side margin (--card-padding). */
+    padding:14px var(--card-padding);
 
     border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-light));
     border-radius:8px;
