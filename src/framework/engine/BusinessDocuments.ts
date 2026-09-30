@@ -19,6 +19,7 @@ import { AnswerType } from "../enums/AnswerType.ts";
 import { WEEKS_PER_MONTH, demandResult, founderMonthlySalary, founderWorkingHours, hasDemand } from "./DemandCapacity.ts";
 import type { InterviewSession } from "../interview";
 import {
+    addressCity,
     BUSINESS_ACTIVITY_CATEGORIES,
     BUSINESS_CHANNEL_ALL_OFFERINGS,
     BUSINESS_JOURNEY_STAGES,
@@ -627,7 +628,7 @@ function executiveSummary(f: Foundation): ExportBlock[] {
 
     const organisation = f.legalEntity.organisation;
     const country = COUNTRIES.find(entry => entry.code === organisation.country)?.name ?? "";
-    const place = [text(organisation.city), country].filter(Boolean).join(", ");
+    const place = [addressCity(organisation.addressLine1), country].filter(Boolean).join(", ");
     const founders = f.legalEntity.founders.filter(founder => founder.name.trim()).map(founder => founder.name.trim());
     const offerings = f.segments.flatMap(segment => segment.offerings.map(offering => offering.name.trim())).filter(Boolean);
     const segments = f.segments.map(segment => segment.name.trim()).filter(Boolean);
@@ -728,9 +729,9 @@ function paragraphs(value: unknown): ExportBlock[] {
 function fullAddress(f: Foundation): string {
     const organisation = f.legalEntity.organisation;
     const country = COUNTRIES.find(entry => entry.code === organisation.country)?.name ?? organisation.country;
-    // The address's lines, one part each, as before.
-    return [...organisation.addressLine1.split("\n"), organisation.addressLine2, organisation.city,
-        [organisation.subdivision, organisation.postalCode].map(text).filter(Boolean).join(" "), country]
+    // The address's lines (street, city, postal code), then the state
+    // or region and the country, one part each.
+    return [...organisation.addressLine1.split("\n"), organisation.subdivision, country]
         .map(text).filter(Boolean).join(", ");
 }
 

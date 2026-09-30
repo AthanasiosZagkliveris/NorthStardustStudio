@@ -213,18 +213,18 @@ describe("LegalEntityEditor chained answers", () => {
         const empty = asLegalEntityValue(undefined);
         render(<ChainHarness initial={{ ...empty, organisation: { ...empty.organisation, city: "Leeds" } }} />);
 
-        const city = screen.getByRole("textbox", { name: "City" }) as HTMLInputElement;
-        expect(city.closest("fieldset")?.disabled).toBe(true);
-        expect(city.value).toBe("Leeds");
+        const address = screen.getByRole("textbox", { name: "Address" }) as HTMLTextAreaElement;
+        expect(address.closest("fieldset")?.disabled).toBe(true);
+        expect(address.value).toBe("Leeds");
         expect((screen.getByRole("textbox", { name: "Registration Authority" }) as HTMLInputElement).closest("fieldset")?.disabled).toBe(true);
         expect((screen.getByRole("textbox", { name: "Legal Form" }) as HTMLInputElement).closest("fieldset")?.disabled).toBe(true);
-        expect(screen.getAllByText("Choose a country first.").length).toBeGreaterThan(2);
+        expect(screen.getAllByText("Choose a country first.").length).toBeGreaterThanOrEqual(2);
 
         fireEvent.click(screen.getByRole("button", { name: /^Country/ }));
         fireEvent.click(screen.getByRole("option", { name: "United Kingdom" }));
 
-        expect((screen.getByRole("textbox", { name: "City" }) as HTMLInputElement).closest("fieldset")?.disabled).toBe(false);
-        expect((screen.getByRole("textbox", { name: "City" }) as HTMLInputElement).value).toBe("Leeds");
+        expect((screen.getByRole("textbox", { name: "Address" }) as HTMLTextAreaElement).closest("fieldset")?.disabled).toBe(false);
+        expect((screen.getByRole("textbox", { name: "Address" }) as HTMLTextAreaElement).value).toBe("Leeds");
         expect(screen.queryByText("Choose a country first.")).toBeNull();
 
     });
@@ -322,23 +322,22 @@ describe("LegalEntityEditor where it is", () => {
         return <LegalEntityEditor value={value} onChange={setValue} />;
     }
 
-    it("asks Country, then City beside Postcode, then one Address box of lines, with no Address 2", () => {
+    it("asks Country, then one Address box of lines holding the street, city and postcode saved before", () => {
 
         const saved = asLegalEntityValue({
-            organisation: { country: "GB", mainActivity: "Weaving", addressLine1: "Unit 4", addressLine2: "92 Wallis Road" }
+            organisation: { country: "GB", mainActivity: "Weaving", addressLine1: "Unit 4", addressLine2: "92 Wallis Road", city: "London", postalCode: "E9 5LN" }
         });
         render(<Where initial={saved} />);
 
         const column = document.querySelector(".legal-entity-where")!;
-        const pair = column.querySelector(".legal-entity-pair-row")!;
-        // City wraps and grows (one line of data); the Postcode is the second, Code-step cell.
-        expect(pair.classList.contains("legal-entity-city-postcode")).toBe(true);
-        expect(pair.querySelector('textarea[aria-label="City"]')).toBeTruthy();
-        expect(pair.querySelector('input[aria-label="Postcode"]')).toBeTruthy();
+        expect(screen.queryByRole("textbox", { name: "City" })).toBeNull();
+        expect(screen.queryByRole("textbox", { name: "Postcode" })).toBeNull();
 
         const address = screen.getByRole("textbox", { name: "Address" }) as HTMLTextAreaElement;
         expect(address.tagName).toBe("TEXTAREA");
-        expect(address.value).toBe("Unit 4\n92 Wallis Road");
+        expect(address.value).toBe("Unit 4\n92 Wallis Road\nLondon\nE9 5LN");
+        // The lines expected, in the country's words.
+        expect(address.placeholder).toBe("Street\nCity\nPostcode");
         expect(screen.queryByRole("button", { name: /Add Address 2/i })).toBeNull();
         expect(screen.queryByRole("textbox", { name: "Address 2" })).toBeNull();
 
@@ -346,6 +345,17 @@ describe("LegalEntityEditor where it is", () => {
         const order = [...column.querySelectorAll(".option-picker-trigger, input, textarea")];
         expect(order[0].classList.contains("option-picker-trigger")).toBe(true);
         expect(order[order.length - 1]).toBe(address);
+
+    });
+
+    it("names a US address's code the ZIP Code, and a UAE address none", () => {
+
+        const { unmount } = render(<Where initial={asLegalEntityValue({ organisation: { country: "US" } })} />);
+        expect((screen.getByRole("textbox", { name: "Address" }) as HTMLTextAreaElement).placeholder).toBe("Street\nCity\nZIP Code");
+        unmount();
+
+        render(<Where initial={asLegalEntityValue({ organisation: { country: "AE" } })} />);
+        expect((screen.getByRole("textbox", { name: "Address" }) as HTMLTextAreaElement).placeholder).toBe("Street\nCity");
 
     });
 

@@ -1212,9 +1212,9 @@ export default function LegalEntityEditor({
 
                         {/* ---- Where it is ----
                             Country, then its State or Region where it has
-                            one, each the column's width; City | Postcode
-                            side by side; the Address, one box of as many
-                            lines as it needs. */}
+                            one (they decide the registry, the tax and the
+                            legal forms), each the column's width; then the
+                            Address, one box of as many lines as it needs. */}
                         <div className="legal-entity-field legal-entity-where">
 
                             {labelled(
@@ -1275,45 +1275,17 @@ export default function LegalEntityEditor({
 
                             <FrozenUntil answered={placeChosen} hint={placeHint}>
 
-                            {/* City takes the column's width less the Postcode's,
-                                wrapping and growing when it is long; a postal
-                                code is 11 characters at most, so it takes the
-                                Code step (--control-code). */}
-                            <div className="legal-entity-pair-row legal-entity-city-postcode">
-
-                                {labelled(
-                                    "City",
-                                    <CardNameInput
-                                        ariaLabel="City"
-                                        placeholder=""
-                                        disabled={disabled}
-                                        value={entity.organisation.city}
-                                        onChange={(next) => updateOrganisation({ city: next })}
-                                    />,
-                                    true
-                                )}
-
-                                {/* Not every country codes its addresses. */}
-                                {postalLabel && labelled(
-                                    postalLabel,
-                                    textControl(
-                                        postalLabel,
-                                        entity.organisation.postalCode,
-                                        (next) => updateOrganisation({ postalCode: next })
-                                    ),
-                                    true
-                                )}
-
-                            </div>
-
-                            {/* One box, as many lines as the address needs
-                                (Enter starts the next), growing with them. */}
+                            {/* THE WHOLE ADDRESS, ONE BOX: as many lines as it
+                                needs (Enter starts the next), at least four,
+                                growing with them. Its placeholder shows the lines
+                                expected, in the country's own words (its postal
+                                code's name; none where addresses carry none). */}
                             {labelled(
                                 "Address",
                                 <StrategyTextArea
                                     className="interview-input legal-entity-note legal-entity-address"
                                     ariaLabel="Address"
-                                    placeholder="Street and number"
+                                    placeholder={["Street", "City", ...(postalLabel ? [postalLabel] : [])].join("\n")}
                                     disabled={disabled}
                                     value={entity.organisation.addressLine1}
                                     onChange={(next) => updateOrganisation({ addressLine1: next })}

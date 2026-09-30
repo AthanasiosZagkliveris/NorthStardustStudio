@@ -397,7 +397,8 @@ describe("Quillfield: the documents tie together", () => {
         expect(planMd).toContain("### Manifesto");
         expect(planMd).toContain("Tax identification number (EIN): 93-4567812");
         expect(planMd).toContain("Formation date: Aug 2026");
-        expect(planMd).toContain("Brooklyn, New York 11201, United States of America");
+        // The address's lines (street, city, ZIP), then the state and the country.
+        expect(planMd).toContain("120 Clinton Street, Suite 3R, Brooklyn, 11201, New York, United States of America");
         expect(planMd).toContain("| Jordan Ellis | 100% | $12,000 |");
         expect(planMd).toContain("| Full-time (about 37 hours a week) | $4,500 a month (owner's drawings) |");
         // Brand & Voice under Marketing and Sales; the style guide in the Appendix.

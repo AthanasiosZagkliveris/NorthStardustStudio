@@ -54,6 +54,10 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
     were written again, deliberately, when a Metric's "Custom" unit was
     retired: only the Strategy table's Metric rows changed ("36000 £" is
     "£36,000"; "40 hours per build" is "40"), every number as it was.
+    Quillfield's again when the address became one box of lines: the
+    Company Description's address reads its lines, then the state and
+    the country ("Brooklyn, 11201, New York" for "Brooklyn, New York
+    11201"), every number as it was.
 */
 const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
 

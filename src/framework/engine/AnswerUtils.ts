@@ -3592,13 +3592,14 @@ interface LegalEntityOrganisationValue {
      */
     addressLine2: string;
 
+    /**
+     * No longer asked: the City and the postal code are lines of the
+     * one address (addressLine1). Saved ones are read into it, and
+     * these are always "" (see asLegalEntityValue; addressCity reads
+     * the city back where a sentence needs it).
+     */
     city: string;
 
-    /**
-     * Named by the country (ZIP Code, Postcode, Eircode) and not
-     * asked for at all where addresses carry none -- see
-     * postalCodeLabel.
-     */
     postalCode: string;
 }
 
@@ -3841,14 +3842,18 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
             // what was written in it: the whole thing lands on the
             // first line, which is the only part of it we can know
             // is right.
-            // One box now: a second line saved before is its next line.
+            // ONE ADDRESS, ONE BOX: the street lines saved before
+            // (Address 1, Address 2), then the City, then the postal
+            // code, one per line, so nothing saved is lost.
             addressLine1: [
                 asText(organisationSource.addressLine1) || asText(organisationSource.address),
-                asText(organisationSource.addressLine2)
+                asText(organisationSource.addressLine2),
+                asText(organisationSource.city),
+                asText(organisationSource.postalCode)
             ].filter(line => line.trim().length > 0).join("\n"),
             addressLine2: "",
-            city: asText(organisationSource.city),
-            postalCode: asText(organisationSource.postalCode)
+            city: "",
+            postalCode: ""
         },
 
         capitalApplies: source.capitalApplies === true,
@@ -3925,6 +3930,21 @@ export function legalEntityTotalCapital(value: LegalEntityValue): number {
  * organizations correctly leave empty, and a page that can never be
  * finished is a page that stops meaning anything.
  */
+/**
+ * The City, read back out of the one address where a sentence names it
+ * ("based in London"): the line before a last line that is a postal
+ * code (short, with a digit), as the address box's placeholder asks
+ * the lines to be written. "" where that cannot be told.
+ */
+export function addressCity(address: string): string {
+    const lines = address.split("\n").map(line => line.trim()).filter(Boolean);
+    if (lines.length < 3) {
+        return "";
+    }
+    const last = lines[lines.length - 1];
+    return /\d/.test(last) && last.length <= 12 ? lines[lines.length - 2] : "";
+}
+
 export function legalEntitySectionsEmpty(value: unknown): boolean[] {
 
     const entity = asLegalEntityValue(value);
@@ -3936,8 +3956,7 @@ export function legalEntitySectionsEmpty(value: unknown): boolean[] {
         (organisation.legalForm.trim().length === 0 &&
             organisation.legalFormOther.trim().length === 0) ||
         organisation.mainActivity.trim().length === 0 ||
-        organisation.addressLine1.trim().length === 0 ||
-        organisation.city.trim().length === 0;
+        organisation.addressLine1.trim().length === 0;
 
     const foundersEmpty = !entity.founders.some(
         founder => founder.name.trim().length > 0

@@ -35,10 +35,10 @@
               "legalFormOther": "",
               "mainActivity": "Design and build of AI-assisted workflow automations for small professional-services firms (law, accounting, architecture and marketing firms of 5 to 50 staff), with automation audits and monthly care retainers (NAICS 541512: Computer Systems Design Services).",
               "activityCode": "541512",
-              "addressLine1": "120 Clinton Street, Suite 3R",
+              "addressLine1": "120 Clinton Street, Suite 3R\nBrooklyn\n11201",
               "addressLine2": "",
-              "city": "Brooklyn",
-              "postalCode": "11201"
+              "city": "",
+              "postalCode": ""
             },
             "capitalApplies": true,
             "founders": [

@@ -35,10 +35,10 @@
               "legalFormOther": "",
               "mainActivity": "Design, handweaving and sale of sustainable home textiles; weaving workshops and bespoke textile commissions (SIC 13921: manufacture of soft furnishings).",
               "activityCode": "13921",
-              "addressLine1": "Unit 4, Hackney Wick Maker Yard, 92 Wallis Road",
+              "addressLine1": "Unit 4, Hackney Wick Maker Yard, 92 Wallis Road\nLondon\nE9 5LN",
               "addressLine2": "",
-              "city": "London",
-              "postalCode": "E9 5LN"
+              "city": "",
+              "postalCode": ""
             },
             "capitalApplies": true,
             "founders": [

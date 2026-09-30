@@ -130,7 +130,6 @@ export function openItemsOf(
                     blank(organisation.name) && "name",
                     blank(organisation.mainActivity) && "main activity",
                     blank(organisation.country) && "country",
-                    blank(organisation.city) && "city",
                     blank(organisation.addressLine1) && "address",
                     blank(organisation.legalForm) && blank(organisation.legalFormOther) && "legal form"
                 ].filter((word): word is string => !!word);
