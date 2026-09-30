@@ -362,10 +362,7 @@
 
 .notepad-chip-tag {
 
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    column-gap: 8px;
+    display: block;
 
 }
 

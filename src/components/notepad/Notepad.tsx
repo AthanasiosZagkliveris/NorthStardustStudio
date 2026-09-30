@@ -260,13 +260,12 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
                                 disabled={available[link.id] === false}
                                 onClick={() => places().then(module => module.openLink(navigate, link))}
                             >
-                                {/* The tag and where it is in numbers; under it, what it is. */}
+                                {/* "#" and where it is in numbers; under it, the field's own name. */}
                                 <span className="notepad-chip-tag">
-                                    #{link.label}
-                                    <span className="notepad-chip-number">{linkNumber(link)}</span>
+                                    # <span className="notepad-chip-number">{linkNumber(link)}</span>
                                 </span>
                                 <span className="notepad-chip-description">
-                                    {linkDescription(link)}
+                                    {link.label}
                                     {link.organizationId !== note.organizationId && (
                                         <span className="notepad-chip-organization"> · {organizationName(link.organizationId)}</span>
                                     )}
@@ -459,11 +458,6 @@ function linkNumber(link: NoteLink): string {
     return link.number ?? [link.systemNumber, link.sectionNumber].filter(part => part !== undefined).join(".");
 }
 
-/** What a link is, in words: the card it is in, or else its page. */
-function linkDescription(link: NoteLink): string {
-    return link.description || link.place;
-}
-
 /** The number a card shows in its head ("2"), or null. */
 function cardNumber(card: HTMLElement): string | null {
     const number = [...card.querySelectorAll(".list-number")]
@@ -471,23 +465,12 @@ function cardNumber(card: HTMLElement): string | null {
     return number?.textContent?.replace(/\D+/g, "") || null;
 }
 
-/** A card's name as it shows it, or "". */
-function cardName(card: HTMLElement): string {
-    const input = [...card.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(".card-name-input, .strategy-name-input")]
-        .find(candidate => candidate.closest("[data-anchor]") === card);
-    const text = input?.value ?? [...card.querySelectorAll(".strategy-name-static")]
-        .find(candidate => candidate.closest("[data-anchor]") === card)?.textContent ?? "";
-    return text.trim();
-}
-
 /**
- * Where a picked element is, in numbers and words: its System and page,
- * the page's section it is in (counted among the page's sections), and
- * the number of each card on the way to it, outermost first
- * ("3.1.1.2"); and the name of the card it is in, if it is not that
- * card itself.
+ * Where a picked element is, in numbers: its System and page, the
+ * page's section it is in (counted among the page's sections), and the
+ * number of each card on the way to it, outermost first ("3.1.1.2").
  */
-function whereIs(element: HTMLElement, systemNumber: number, sectionNumber: number): { number: string; description: string } {
+function whereIs(element: HTMLElement, systemNumber: number, sectionNumber: number): { number: string } {
     const numbers = [String(systemNumber), String(sectionNumber)];
     const rail = element.closest<HTMLElement>("[data-rail]");
     const page = element.closest<HTMLElement>(".field-page");
@@ -509,9 +492,7 @@ function whereIs(element: HTMLElement, systemNumber: number, sectionNumber: numb
             numbers.push(number);
         }
     }
-    const inner = cards[cards.length - 1];
-    const description = inner && inner !== element ? cardName(inner) : "";
-    return { number: numbers.join("."), description };
+    return { number: numbers.join(".") };
 }
 
 /** What a picked field or card becomes as a link. */

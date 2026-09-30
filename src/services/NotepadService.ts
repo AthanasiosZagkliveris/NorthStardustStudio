@@ -35,8 +35,6 @@ export interface NoteLink {
      * on the way ("3.5.1.2"), as the page showed them when linked.
      */
     number?: string;
-    /** What it is, in words: the card it is in ("Handwoven Homeware Collection"). */
-    description?: string;
 }
 
 export interface Note {

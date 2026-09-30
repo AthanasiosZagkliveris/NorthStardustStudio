@@ -171,11 +171,10 @@ describe("the notepad on the page", () => {
             // System 3, page 1, the page's first section.
             number: "3.1.1"
         });
-        // The chip: the tag and its numbers, then what it is (here its page).
+        // The chip: "#" and its numbers, then the field's own name.
         const chip = document.querySelector(".notepad-chip-open")!;
-        expect(chip.querySelector(".notepad-chip-tag")?.textContent).toBe("#Market Size & Industry Outlook3.1.1");
-        expect(chip.querySelector(".notepad-chip-number")?.textContent).toBe("3.1.1");
-        expect(chip.querySelector(".notepad-chip-description")?.textContent).toBe("1. Foundation");
+        expect(chip.querySelector(".notepad-chip-tag")?.textContent).toBe("# 3.1.1");
+        expect(chip.querySelector(".notepad-chip-description")?.textContent).toBe("Market Size & Industry Outlook");
         expect(screen.queryByRole("status")).toBeNull();
 
         // The field is now drawn in your notes: its box outlined, and said so.
