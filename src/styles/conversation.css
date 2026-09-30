@@ -8632,6 +8632,11 @@ td.process-library-col-number{
 
 .legal-entity-totals{
 
+    /* The badge's inside: its padding, its mark and the gap after it
+       (.legal-entity-total-short, -met, -over). */
+    --total-badge-pad:12px;
+    --total-badge-mark:18px;
+
     display:flex;
 
     /* One above the other: Total Capital, then the ownership badge. */
@@ -8640,6 +8645,14 @@ td.process-library-col-number{
     align-items:flex-start;
 
     gap:var(--space-field);
+
+}
+
+/* Total Capital above the ownership badge: its words start where the
+   badge's do, after the badge's edge, padding, mark and gap. */
+.legal-entity-totals:has(> [role="status"]) > .legal-entity-total:not([role="status"]){
+
+    padding-left:calc(1px + var(--total-badge-pad) + var(--total-badge-mark) + 8px);
 
 }
 
@@ -8889,7 +8902,7 @@ td.process-library-col-number{
 
     gap:8px;
 
-    padding:6px 12px;
+    padding:6px var(--total-badge-pad, 12px);
 
     border:1px solid;
     border-radius:999px;
@@ -8932,8 +8945,9 @@ td.process-library-col-number{
 
     flex:0 0 auto;
 
-    width:16px;
-    height:16px;
+    /* The size of the other two marks, so the words start at one x. */
+    width:var(--total-badge-mark, 18px);
+    height:var(--total-badge-mark, 18px);
 
     border:2px solid var(--line-short);
     border-radius:50%;
