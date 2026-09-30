@@ -618,3 +618,59 @@ html.notepad-picking [data-pick-hover] {
     box-shadow: 0 0 12px var(--glow-noted);
 
 }
+
+/* ---------- What can be clicked, answering the pointer ---------- */
+
+/* "Link a field" and the other text buttons: the app's button hover
+   ground and ink, the underline thickened. The ground reaches past
+   the words as a ring, so nothing moves. */
+.notepad-text-button:is(:hover, :focus-visible) {
+
+    border-radius: 4px;
+
+    background: var(--bg-button-hover);
+    box-shadow: 0 0 0 4px var(--bg-button-hover);
+
+    color: var(--text-button-hover);
+
+    text-decoration-thickness: 2px;
+
+    outline: none;
+
+}
+
+/* A link chip that opens its place: tinted under the pointer or the
+   keyboard, its words underlined. */
+.notepad-chip:has(> .notepad-chip-open:not(:disabled):is(:hover, :focus-visible)) {
+
+    background: var(--accent-ground-hover);
+
+}
+
+.notepad-chip-open:not(:disabled):is(:hover, :focus-visible) {
+
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+
+    outline: none;
+
+}
+
+/* The × of a note or of a chip shows itself as a button as soon as
+   its note or chip is pointed at or holds the focus, not only when
+   it is itself. */
+.notepad-note:is(:hover, :focus-within) > .notepad-note-actions > .notepad-note-remove,
+.notepad-chip:is(:hover, :focus-within) > .notepad-chip-remove {
+
+    border-color: var(--box-border);
+
+    color: var(--text-default);
+
+}
+
+/* The note under the pointer: its edge in the accent line. */
+.notepad-note:hover {
+
+    border-color: var(--accent-line);
+
+}
