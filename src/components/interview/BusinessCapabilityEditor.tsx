@@ -2761,7 +2761,9 @@ export default function BusinessCapabilityEditor({
                 disabled={disabled}
             >
 
-                <div className="delivery-inline-grid">
+                {/* A short label beside its one control, on its first
+                    line, however narrow the card (a compact run). */}
+                <div className="delivery-inline-grid business-field-run business-field-run-compact">
                     <BusinessField label="Delivered" info={DELIVERY_HELP.mode} inline>
                         <OptionPicker
                             label={offering.label + " delivered per unit or every month"}
@@ -2882,7 +2884,7 @@ export default function BusinessCapabilityEditor({
                 </BusinessField>
 
                 {!recurring && (
-                <div className="delivery-inline-grid">
+                <div className="delivery-inline-grid business-field-run business-field-run-compact">
 
                     <BusinessField label="Calendar Time (weeks)" info={DELIVERY_HELP.duration} inline>
                         <input
