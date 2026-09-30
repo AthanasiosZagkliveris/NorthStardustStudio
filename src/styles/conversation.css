@@ -1911,14 +1911,8 @@ textarea:focus{
 
 }
 
+/* Its size, from the one tick box (global.css). */
 .answer-checklist-checkbox{
-
-    width:20px;
-    height:20px;
-
-    flex-shrink:0;
-
-    accent-color:var(--bg-primary);
 
     cursor:pointer;
 
@@ -10260,17 +10254,7 @@ td.process-library-col-number{
 
 }
 
-.business-foundation-tick > .brand-tick-box{
-
-    flex:0 0 auto;
-
-    /* Centred on the label's FIRST line -- (28px row - 18px box)
-       halved. The row aligns to flex-start so that a label
-       running to two lines keeps its box beside the first of
-       them rather than floating to the middle of both. */
-    margin-top:calc((28px - 18px) / 2);
-
-}
+/* Its box: the one tick box (global.css), beside the label's first line. */
 
 .business-foundation-tick-label{
 

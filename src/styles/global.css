@@ -889,3 +889,34 @@ b, strong {
 .legal-entity-grid > .legal-entity-field > .legal-entity-pair > :is(.field-label, .legal-entity-label-info, .legal-entity-label-row):has(.info-note-panel) {
   overflow: visible;
 }
+
+/* ONE TICK BOX: every checkbox in the app is the same fixed 18px box
+   (the text tier it sits beside), never squeezed by a label that
+   wraps (flex: none), in the app's blue. It stands beside the FIRST
+   line of its label -- centred on that line, as a field's × and
+   markers are -- the label wrapping beside it. The box takes its
+   label's type, so 1lh is that first line. */
+input[type="checkbox"] {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  accent-color: var(--bg-primary);
+}
+
+/* The text tier on one line height, where a label says nothing else
+   (a smaller list filter keeps its own size). */
+:where(label:has(> input[type="checkbox"])) {
+  font-size: var(--font-body);
+  line-height: 1.5;
+}
+
+label:has(> input[type="checkbox"]) {
+  align-items: flex-start;
+}
+
+label:has(> input[type="checkbox"]) > input[type="checkbox"] {
+  margin-top: calc((1lh - 18px) / 2);
+}
