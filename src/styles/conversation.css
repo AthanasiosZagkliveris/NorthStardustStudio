@@ -7377,6 +7377,53 @@ td.process-library-col-number{
 }
 
 /* ==========================================================
+   Brand Style -- cards
+
+   Colours, Typography and Text Hierarchy as the app's standard
+   cards (BusinessCard): a column of cards at the card list's one
+   gap, "Expand all" on a head row of its own at the top of each
+   column -- one line tall in all three, whether it shows or not, so
+   the columns' first cards start level -- and "+ Add ..." under
+   the last card.
+========================================================== */
+
+.brand-style-columns > .brand-style-cards{
+
+    gap:var(--space-card);
+
+}
+
+.brand-style-cards-head{
+
+    justify-content:flex-end;
+
+    min-height:calc(var(--font-body) * 1.5);
+
+}
+
+/* A colour's swatch and HEX together at the standard control width,
+   their right edge under the Role picker's. */
+.brand-style-card .brand-colour-row{
+
+    width:min(100%, var(--control-s));
+
+}
+
+/* Inside the Text Hierarchy card, the level rows keep the pitch
+   they had as a column (a tick row stands at an input's 45px). */
+.brand-hierarchy-levels{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
+    min-width:0;
+
+}
+
+/* ==========================================================
    Help panels
 
    One ground for every piece of guidance in the app -- the

@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, ReactNode, useRef } from "react";
 
 import {
     BRAND_COLOUR_SLOTS,
@@ -15,6 +15,12 @@ import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { ColumnHeading, GuidanceBullets } from "./ColumnHeads.tsx";
 import { NUMBER_LIMITS, limitedHexText, limitedNumberText } from "./numberInput.ts";
 import { railId } from "./rails/railItems.ts";
+import { BusinessAddButton, BusinessCard, BusinessField, BusinessRemove, BusinessText } from "./BusinessCardFields.tsx";
+import FoldAllToggle from "./FoldAllToggle.tsx";
+import OptionPicker from "./OptionPicker.tsx";
+import { summaryText } from "./cardSummary.ts";
+import { useItemFolds } from "./useItemFolds.ts";
+import { UndoService } from "../../services/UndoService";
 
 interface BrandStyleEditorProps {
 
@@ -81,6 +87,46 @@ function contrastNote(hex: string): string {
         black.toFixed(1) + ":1 (" + verdict(black) + ")";
 }
 
+/** A card's fold key and anchor: "brand-colour-primary-a". */
+function cardId(kind: "colour" | "typeface", slotId: string): string {
+    return "brand-" + kind + "-" + slotId;
+}
+
+/** The Text Hierarchy's one card. */
+const HIERARCHY_CARD = "brand-text-hierarchy";
+
+/** A role (slot) with the one it needs switched on first. */
+interface StyleSlot {
+    readonly id: string;
+    readonly label: string;
+    readonly help: string;
+    readonly dependsOn: string | undefined;
+}
+
+/** Whether a slot's prerequisite is switched on (or it has none). */
+function prerequisiteOn(slots: readonly StyleSlot[], entries: readonly { enabled: boolean }[], index: number): boolean {
+    const needs = slots[index].dependsOn;
+    return !needs || entries[slots.findIndex(slot => slot.id === needs)]?.enabled === true;
+}
+
+/** The first role that can be added now (switched off, its prerequisite on), or null. */
+function nextFree(slots: readonly StyleSlot[], entries: readonly { enabled: boolean }[]): number | null {
+    const at = slots.findIndex((_slot, index) => !entries[index].enabled && prerequisiteOn(slots, entries, index));
+    return at >= 0 ? at : null;
+}
+
+/**
+ * A card moved to another role: what it holds goes to that slot,
+ * switched on, and the slot it leaves takes back what that one held,
+ * switched off -- so nothing typed into either is lost.
+ */
+function movedSlot<T extends { enabled: boolean }>(entries: readonly T[], from: number, to: number): T[] {
+    return entries.map((entry, index) =>
+        index === to ? { ...entries[from], enabled: true }
+            : index === from ? { ...entries[to], enabled: false }
+                : entry);
+}
+
 /* ---------- Help: how to choose and combine (the column "i"s) ---------- */
 
 const COLOUR_ASSOCIATIONS: InfoPoint[] = [
@@ -138,14 +184,15 @@ const TYPEFACE_PAIRINGS: InfoPoint[] = [
  * line, every input below it. Three equal columns -- Colours,
  * Typography, Text Hierarchy.
  *
- * Every slot is progressively disclosed. Deactivated, a slot shows
- * only its tick and its title; ticking it drops the rest of its
- * fields open. Slots also chain: a B colour can only be switched on
- * once its A partner is, the optional typeface needs the secondary
- * first, and H3 needs H2 -- so the palette can only be built in an
- * order that makes sense, and switching a prerequisite back off
- * takes its dependents with it rather than leaving an orphan
- * active.
+ * Below the line, the app's standard cards: one per colour and one
+ * per typeface -- each a fixed role (slot) switched on, kept under
+ * the same keys as ever, "+ Add" switching the next free role on and
+ * the × switching it off (what it holds is kept, and the undo toast
+ * offers it back) -- and one card for the Text Hierarchy, its levels
+ * ticked on inside it. Roles still chain: a B colour needs its A
+ * partner, the optional typeface the secondary, and H3 needs H2 --
+ * so switching a prerequisite off takes its dependents with it
+ * rather than leaving an orphan active.
  */
 export default function BrandStyleEditor({
 
@@ -164,6 +211,94 @@ export default function BrandStyleEditor({
 }: BrandStyleEditorProps) {
 
     const style = asBrandStyleValue(value);
+
+    /** Which cards are open -- see useItemFolds. */
+    const folds = useItemFolds();
+
+    /* The answer as it is now, for an undo offered a moment ago. */
+    const latest = useRef({ style, onChange });
+    latest.current = { style, onChange };
+
+    const colourCards = BRAND_COLOUR_SLOTS
+        .map((slot, index) => ({ slot, index }))
+        .filter(({ index }) => style.colours[index].enabled);
+
+    const typefaceCards = BRAND_TYPEFACE_SLOTS
+        .map((slot, index) => ({ slot, index }))
+        .filter(({ index }) => style.typefaces[index].enabled);
+
+    /** "+ Add Colour" / "+ Add Typeface": the first role free now, opened. */
+    function addSlot(list: "colours" | "typefaces") {
+        const slots: readonly StyleSlot[] = list === "colours" ? BRAND_COLOUR_SLOTS : BRAND_TYPEFACE_SLOTS;
+        const at = nextFree(slots, style[list]);
+        if (at === null) {
+            return;
+        }
+        if (list === "colours") {
+            toggleColour(at, true);
+        } else {
+            toggleTypeface(at, true);
+        }
+        folds.expand(cardId(list === "colours" ? "colour" : "typeface", slots[at].id));
+    }
+
+    /**
+     * The ×: the role is switched off (with any that need it), what it
+     * holds kept under its key, and the undo toast offers it back.
+     */
+    function removeSlot(list: "colours" | "typefaces", index: number, what: string) {
+        const before = style[list].map(entry => entry.enabled);
+        if (list === "colours") {
+            toggleColour(index, false);
+        } else {
+            toggleTypeface(index, false);
+        }
+        UndoService.offer(what + " removed.", () => {
+            const { style: now, onChange: write } = latest.current;
+            if (list === "colours") {
+                write({ ...now, colours: now.colours.map((entry, position) => before[position] ? { ...entry, enabled: true } : entry) });
+            } else {
+                write({ ...now, typefaces: now.typefaces.map((entry, position) => before[position] ? { ...entry, enabled: true } : entry) });
+            }
+        });
+    }
+
+    /**
+     * The card's role (Primary A, Secondary…): its own, or one free
+     * now. A role another card needs (Primary A under Primary B)
+     * cannot be left, so it is the only choice.
+     */
+    function roleField(
+        what: string,
+        slots: readonly StyleSlot[],
+        entries: readonly { enabled: boolean }[],
+        index: number,
+        onMove: (to: number) => void,
+        onMoved: (to: number) => void
+    ) {
+        const needed = slots.some((slot, position) => slot.dependsOn === slots[index].id && entries[position].enabled);
+        const choices = slots
+            .map((slot, position) => ({ slot, position }))
+            .filter(({ position }) => position === index || (!needed && !entries[position].enabled &&
+                slots[position].dependsOn !== slots[index].id && prerequisiteOn(slots, entries, position)));
+        return (
+            <BusinessField label="Role" info={[slots[index].help]}>
+                <OptionPicker
+                    label={what + " role"}
+                    options={choices.map(({ slot }) => slot.label)}
+                    disabled={disabled}
+                    value={slots[index].label}
+                    onChange={(next) => {
+                        const to = slots.findIndex(slot => slot.label === next);
+                        if (to >= 0 && to !== index) {
+                            onMove(to);
+                            onMoved(to);
+                        }
+                    }}
+                />
+            </BusinessField>
+        );
+    }
 
     /**
      * Switches a colour slot on or off, cascading the change to any
@@ -411,233 +546,270 @@ export default function BrandStyleEditor({
                 <div className="answer-columns-divider">{columnsDivider}</div>
             )}
 
-            {/* Row 3 -- the inputs, below the line */}
-            <div className="brand-style-body" data-rail={railId(BRAND_STYLE_SECTIONS[0])}>
+            {/* Row 3 -- the inputs, below the line: the app's standard
+                cards. One per colour and one per typeface -- each a
+                role (a fixed slot, kept under the same key) that is
+                switched on -- and one for the Text Hierarchy. */}
+            <div className="brand-style-body brand-style-cards" data-rail={railId(BRAND_STYLE_SECTIONS[0])}>
 
-                {BRAND_COLOUR_SLOTS.map((slot, index) => {
+                <div className="fold-group-head brand-style-cards-head">
+                    <FoldAllToggle
+                        ids={colourCards.map(({ slot }) => cardId("colour", slot.id))}
+                        folds={folds}
+                        label="colours"
+                    />
+                </div>
+
+                {colourCards.map(({ slot, index }, position) => {
 
                     const colour = style.colours[index];
                     const swatch = normalizeHex(colour.hex);
-
-                    const prerequisite = slot.dependsOn
-                        ? BRAND_COLOUR_SLOTS.find(other => other.id === slot.dependsOn)
-                        : undefined;
-
-                    const prerequisiteMet = !prerequisite || style.colours[
-                        BRAND_COLOUR_SLOTS.findIndex(other => other.id === prerequisite.id)
-                    ].enabled;
-
-                    const blocked = prerequisiteMet
-                        ? undefined
-                        : `Activate ${prerequisite?.label} first`;
+                    const id = cardId("colour", slot.id);
+                    const what = "Colour " + (position + 1);
 
                     return (
+                        <BusinessCard
+                            key={slot.id}
+                            anchor={id}
+                            className="brand-style-card"
+                            kind="Colour"
+                            number={position + 1}
+                            name={colour.name}
+                            onName={(name) => updateColour(index, { name })}
+                            open={folds.isOpen(id)}
+                            onToggle={() => folds.toggle(id)}
+                            disabled={disabled}
+                            summary={summaryText(slot.label, swatch?.toUpperCase(), colour.usage)}
+                            actions={
+                                <BusinessRemove
+                                    what={what}
+                                    disabled={disabled}
+                                    onRemove={() => removeSlot("colours", index, what)}
+                                />
+                            }
+                        >
 
-                        <div className="brand-colour" key={slot.id}>
-
-                            {activationTick(
-                                slot.label,
-                                colour.enabled,
-                                blocked,
-                                (next) => toggleColour(index, next),
-                                slot.help
+                            {roleField(
+                                what,
+                                BRAND_COLOUR_SLOTS,
+                                style.colours,
+                                index,
+                                (to) => onChange({ ...style, colours: movedSlot(style.colours, index, to) }),
+                                (to) => folds.expand(cardId("colour", BRAND_COLOUR_SLOTS[to].id))
                             )}
 
-                            {/*
-                                Disclosed only when active. A
-                                deactivated slot is its tick and title
-                                alone, so the column reads as a short
-                                checklist until a colour is actually
-                                being defined.
-                            */}
-                            {colour.enabled && (
-
-                                <div className="brand-slot-fields">
-
-                                    <div className="brand-colour-row">
-
-                                        <input
-                                            type="color"
-                                            className={`brand-colour-picker${swatch ? "" : " brand-colour-picker-empty"}`}
-                                            aria-label={`${slot.label} colour picker`}
-                                            disabled={disabled}
-                                            value={swatch ?? "#ffffff"}
-                                            onChange={(event) => updateColour(index, { hex: event.target.value })}
-                                        />
-
-                                        <input
-                                            type="text"
-                                            className="interview-input brand-hex-input"
-                                            aria-label={`${slot.label} HEX`}
-                                            placeholder="#000000"
-                                            disabled={disabled}
-                                            value={colour.hex}
-                                            onChange={(event) => updateColour(index, { hex: limitedHexText(event.target.value, colour.hex) })}
-                                        />
-
-                                    </div>
+                            <BusinessField label="Colour">
+                                <div className="brand-colour-row">
 
                                     <input
-                                        type="text"
-                                        className="interview-input"
-                                        aria-label={`${slot.label} name`}
-                                        placeholder="Name"
+                                        type="color"
+                                        className={`brand-colour-picker${swatch ? "" : " brand-colour-picker-empty"}`}
+                                        aria-label={`${slot.label} colour picker`}
                                         disabled={disabled}
-                                        value={colour.name}
-                                        onChange={(event) => updateColour(index, { name: event.target.value })}
+                                        value={swatch ?? "#ffffff"}
+                                        onChange={(event) => updateColour(index, { hex: event.target.value })}
                                     />
 
                                     <input
                                         type="text"
-                                        className="interview-input"
-                                        aria-label={`${slot.label} usage`}
-                                        placeholder="Usage"
+                                        className="interview-input brand-hex-input"
+                                        aria-label={`${slot.label} HEX`}
+                                        placeholder="#000000"
                                         disabled={disabled}
-                                        value={colour.usage}
-                                        onChange={(event) => updateColour(index, { usage: event.target.value })}
+                                        value={colour.hex}
+                                        onChange={(event) => updateColour(index, { hex: limitedHexText(event.target.value, colour.hex) })}
                                     />
 
-                                    {swatch && (
-                                        <span className="brand-style-contrast">
-                                            <InfoText text={contrastNote(swatch)}>
-                                                <InfoNote label="Contrast ratio" points={CONTRAST_HELP} />
-                                            </InfoText>
+                                </div>
+
+                                {swatch && (
+                                    <span className="brand-style-contrast">
+                                        <InfoText text={contrastNote(swatch)}>
+                                            <InfoNote label="Contrast ratio" points={CONTRAST_HELP} />
+                                        </InfoText>
+                                    </span>
+                                )}
+                            </BusinessField>
+
+                            <BusinessText
+                                label="Usage"
+                                ariaLabel={`${slot.label} usage`}
+                                placeholder="Where the colour is used"
+                                disabled={disabled}
+                                value={colour.usage}
+                                onChange={(usage) => updateColour(index, { usage })}
+                            />
+
+                        </BusinessCard>
+                    );
+
+                })}
+
+                {nextFree(BRAND_COLOUR_SLOTS, style.colours) !== null && (
+                    <div className="business-step-add-row">
+                        <BusinessAddButton
+                            label="Colour"
+                            disabled={disabled}
+                            onAdd={() => addSlot("colours")}
+                        />
+                    </div>
+                )}
+
+            </div>
+
+            <div className="brand-style-body brand-style-cards" data-rail={railId(BRAND_STYLE_SECTIONS[1])}>
+
+                <div className="fold-group-head brand-style-cards-head">
+                    <FoldAllToggle
+                        ids={typefaceCards.map(({ slot }) => cardId("typeface", slot.id))}
+                        folds={folds}
+                        label="typefaces"
+                    />
+                </div>
+
+                {typefaceCards.map(({ slot, index }, position) => {
+
+                    const typeface = style.typefaces[index];
+                    const id = cardId("typeface", slot.id);
+                    const what = "Typeface " + (position + 1);
+
+                    return (
+                        <BusinessCard
+                            key={slot.id}
+                            anchor={id}
+                            className="brand-style-card"
+                            kind="Typeface"
+                            number={position + 1}
+                            name={typeface.font}
+                            onName={(font) => updateTypeface(index, { font })}
+                            open={folds.isOpen(id)}
+                            onToggle={() => folds.toggle(id)}
+                            disabled={disabled}
+                            summary={summaryText(slot.label, typeface.purpose)}
+                            actions={
+                                <BusinessRemove
+                                    what={what}
+                                    disabled={disabled}
+                                    onRemove={() => removeSlot("typefaces", index, what)}
+                                />
+                            }
+                        >
+
+                            {roleField(
+                                what,
+                                BRAND_TYPEFACE_SLOTS,
+                                style.typefaces,
+                                index,
+                                (to) => onChange({ ...style, typefaces: movedSlot(style.typefaces, index, to) }),
+                                (to) => folds.expand(cardId("typeface", BRAND_TYPEFACE_SLOTS[to].id))
+                            )}
+
+                            <BusinessText
+                                label="Purpose"
+                                ariaLabel={`${slot.label} purpose`}
+                                placeholder="What the typeface is used for"
+                                disabled={disabled}
+                                value={typeface.purpose}
+                                onChange={(purpose) => updateTypeface(index, { purpose })}
+                            />
+
+                        </BusinessCard>
+                    );
+
+                })}
+
+                {nextFree(BRAND_TYPEFACE_SLOTS, style.typefaces) !== null && (
+                    <div className="business-step-add-row">
+                        <BusinessAddButton
+                            label="Typeface"
+                            disabled={disabled}
+                            onAdd={() => addSlot("typefaces")}
+                        />
+                    </div>
+                )}
+
+            </div>
+
+            <div className="brand-style-body brand-style-cards" data-rail={railId(BRAND_STYLE_SECTIONS[2])}>
+
+                {/* An empty head row, as the other two columns have,
+                    so the three columns' first cards start level. */}
+                <div className="fold-group-head brand-style-cards-head" />
+
+                <BusinessCard
+                    anchor={HIERARCHY_CARD}
+                    className="brand-style-card"
+                    kind="Text Hierarchy"
+                    number={1}
+                    name="Text Hierarchy"
+                    open={folds.isOpen(HIERARCHY_CARD)}
+                    onToggle={() => folds.toggle(HIERARCHY_CARD)}
+                    disabled={disabled}
+                    summary={summaryText(...BRAND_HIERARCHY_LEVELS
+                        .filter(level => style.hierarchy[level.id].enabled)
+                        .map(level => level.label.split(" (")[0] +
+                            (style.hierarchy[level.id].size.trim() ? " " + style.hierarchy[level.id].size.trim() + " px" : "")))}
+                >
+
+                    <div className="brand-hierarchy-levels">
+
+                        {BRAND_HIERARCHY_LEVELS.map(level => {
+
+                            const entry = style.hierarchy[level.id];
+
+                            const prerequisite = level.dependsOn
+                                ? BRAND_HIERARCHY_LEVELS.find(other => other.id === level.dependsOn)
+                                : undefined;
+
+                            const prerequisiteMet =
+                                !prerequisite || style.hierarchy[prerequisite.id].enabled;
+
+                            const blocked = prerequisiteMet
+                                ? undefined
+                                : `Activate ${prerequisite?.label} first`;
+
+                            return (
+
+                                <div className="brand-hierarchy-row" key={level.id}>
+
+                                    {activationTick(
+                                        level.label,
+                                        entry.enabled,
+                                        blocked,
+                                        (next) => toggleLevel(level.id, next),
+                                        "Recommended range: " + level.range + " px."
+                                    )}
+
+                                    {entry.enabled && (
+
+                                        <span className="brand-hierarchy-size">
+
+                                            <input
+                                                type="text"
+                                                inputMode="numeric"
+                                                className="interview-input brand-size-input"
+                                                aria-label={`${level.label} size in pixels, recommended ${level.range}`}
+                                                placeholder={level.range}
+                                                disabled={disabled}
+                                                value={entry.size}
+                                                onChange={(event) => updateLevelSize(level.id, event.target.value)}
+                                            />
+
+                                            <span className="brand-hierarchy-unit" aria-hidden="true">px</span>
+
                                         </span>
+
                                     )}
 
                                 </div>
 
-                            )}
+                            );
 
-                        </div>
+                        })}
 
-                    );
+                    </div>
 
-                })}
-
-            </div>
-
-            <div className="brand-style-body" data-rail={railId(BRAND_STYLE_SECTIONS[1])}>
-
-                {BRAND_TYPEFACE_SLOTS.map((slot, index) => {
-
-                    const typeface = style.typefaces[index];
-
-                    const prerequisite = slot.dependsOn
-                        ? BRAND_TYPEFACE_SLOTS.find(other => other.id === slot.dependsOn)
-                        : undefined;
-
-                    const prerequisiteMet = !prerequisite || style.typefaces[
-                        BRAND_TYPEFACE_SLOTS.findIndex(other => other.id === prerequisite.id)
-                    ].enabled;
-
-                    const blocked = prerequisiteMet
-                        ? undefined
-                        : `Activate ${prerequisite?.label} first`;
-
-                    return (
-
-                        <div className="brand-typeface" key={slot.id}>
-
-                            {activationTick(
-                                slot.label,
-                                typeface.enabled,
-                                blocked,
-                                (next) => toggleTypeface(index, next),
-                                slot.help
-                            )}
-
-                            {typeface.enabled && (
-
-                                <div className="brand-slot-fields">
-
-                                    <input
-                                        type="text"
-                                        className="interview-input"
-                                        aria-label={`${slot.label} font`}
-                                        placeholder="Font"
-                                        disabled={disabled}
-                                        value={typeface.font}
-                                        onChange={(event) => updateTypeface(index, { font: event.target.value })}
-                                    />
-
-                                    <input
-                                        type="text"
-                                        className="interview-input"
-                                        aria-label={`${slot.label} purpose`}
-                                        placeholder="Purpose"
-                                        disabled={disabled}
-                                        value={typeface.purpose}
-                                        onChange={(event) => updateTypeface(index, { purpose: event.target.value })}
-                                    />
-
-                                </div>
-
-                            )}
-
-                        </div>
-
-                    );
-
-                })}
-
-            </div>
-
-            <div className="brand-style-body" data-rail={railId(BRAND_STYLE_SECTIONS[2])}>
-
-                {BRAND_HIERARCHY_LEVELS.map(level => {
-
-                    const entry = style.hierarchy[level.id];
-
-                    const prerequisite = level.dependsOn
-                        ? BRAND_HIERARCHY_LEVELS.find(other => other.id === level.dependsOn)
-                        : undefined;
-
-                    const prerequisiteMet =
-                        !prerequisite || style.hierarchy[prerequisite.id].enabled;
-
-                    const blocked = prerequisiteMet
-                        ? undefined
-                        : `Activate ${prerequisite?.label} first`;
-
-                    return (
-
-                        <div className="brand-hierarchy-row" key={level.id}>
-
-                            {activationTick(
-                                level.label,
-                                entry.enabled,
-                                blocked,
-                                (next) => toggleLevel(level.id, next),
-                                "Recommended range: " + level.range + " px."
-                            )}
-
-                            {entry.enabled && (
-
-                                <span className="brand-hierarchy-size">
-
-                                    <input
-                                        type="text"
-                                        inputMode="numeric"
-                                        className="interview-input brand-size-input"
-                                        aria-label={`${level.label} size in pixels, recommended ${level.range}`}
-                                        placeholder={level.range}
-                                        disabled={disabled}
-                                        value={entry.size}
-                                        onChange={(event) => updateLevelSize(level.id, event.target.value)}
-                                    />
-
-                                    <span className="brand-hierarchy-unit" aria-hidden="true">px</span>
-
-                                </span>
-
-                            )}
-
-                        </div>
-
-                    );
-
-                })}
+                </BusinessCard>
 
             </div>
 
