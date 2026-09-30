@@ -2619,6 +2619,7 @@ export default function Conversation() {
                                 ? "Introduction"
                                 : mergesTitleIntoHeader ? pageTitle : undefined
                         }
+                        pageTitleCapitals={showIntroduction}
                     />
 
                     {showIntroduction ? (

@@ -381,6 +381,8 @@ describe("A System's opening screen", () => {
         const title = screen.getByRole("heading", { level: 1 });
         expect(title.textContent).toBe("1. Identity System — Introduction");
         expect(title.querySelector(".interview-header-page-title")?.textContent).toBe(" — Introduction");
+        // In capitals on screen, by CSS; the words stay "Introduction".
+        expect(title.querySelector(".interview-header-page-title")?.classList.contains("interview-header-page-title-capitals")).toBe(true);
     });
 
     it("says the Identity System is the starting point", () => {

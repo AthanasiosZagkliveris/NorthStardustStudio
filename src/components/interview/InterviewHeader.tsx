@@ -16,13 +16,21 @@ interface InterviewHeaderProps {
      * everywhere else, leaving the System title exactly as it was.
      */
     pageTitle?: string;
+
+    /**
+     * The page title shown in capitals ("— INTRODUCTION"), by CSS
+     * alone: the text stays as written, so a screen reader reads
+     * "Introduction", not a spelled-out word.
+     */
+    pageTitleCapitals?: boolean;
 }
 
 export default function InterviewHeader({
     systemNumber,
     systemName,
     capabilityId,
-    pageTitle
+    pageTitle,
+    pageTitleCapitals = false
 }: InterviewHeaderProps) {
 
     const color = getCapabilityColor(capabilityId);
@@ -48,7 +56,7 @@ export default function InterviewHeader({
                 <h1>
                     {systemNumber}. {systemName}
                     {pageTitle && (
-                        <span className="interview-header-page-title">
+                        <span className={"interview-header-page-title" + (pageTitleCapitals ? " interview-header-page-title-capitals" : "")}>
                             {` — ${pageTitle}`}
                         </span>
                     )}

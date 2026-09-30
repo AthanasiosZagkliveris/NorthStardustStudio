@@ -157,6 +157,14 @@ textarea:focus{
 
 }
 
+/* "— INTRODUCTION": in capitals on screen only (text-transform), so
+   the words read aloud stay "Introduction". */
+.interview-header-page-title-capitals{
+
+    text-transform:uppercase;
+
+}
+
 /* ==========================================================
    Interview Section
 ========================================================== */
