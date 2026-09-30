@@ -62,13 +62,27 @@ export default function Review() {
         return () => window.removeEventListener("keydown", onKey);
     }, [back]);
 
-    const items = useMemo(() => organizationId ? organizationReview(organizationId) : [], [organizationId]);
+    // Every Organization, the open one first; each its own section.
+    const sections = useMemo(() => {
+        if (!organizationId) {
+            return [];
+        }
+        const all = OrganizationService.list();
+        const ordered = [...all.filter(entry => entry.id === organizationId), ...all.filter(entry => entry.id !== organizationId)];
+        return ordered.map(entry => ({ id: entry.id, name: entry.name, items: organizationReview(entry.id) }));
+    }, [organizationId]);
 
     if (!organizationId) {
         return null;
     }
 
-    function goThere(place: ReviewPlace) {
+    /* Go there: in another Organization, it is selected first (as
+       choosing it on the Organizations screen does), then the place
+       is opened. */
+    function goThere(owner: string, place: ReviewPlace) {
+        if (OrganizationService.getSelected() !== owner) {
+            OrganizationService.setSelected(owner);
+        }
         const location = place.key ? fieldLocation(place.key, place.anchors ?? []) : null;
         if (location) {
             navigate(location.pathname, { state: location.state });
@@ -80,8 +94,6 @@ export default function Review() {
         }
     }
 
-    const byGroup = (group: ReviewGroup): ReviewItem[] => items.filter(item => item.group === group);
-
     return (
 
         <div className="workspace review">
@@ -92,41 +104,15 @@ export default function Review() {
 
                 <h1 className="workspace-title review-title">Review</h1>
 
-                {nothingOpen(items) && byGroup("second-look").length === 0 && (
-                    <p className="review-empty">Nothing is open.</p>
-                )}
-
-                {GROUPS.filter(group => byGroup(group.id).length > 0).map(group => (
-                        <section className="review-group" key={group.id} aria-labelledby={"review-" + group.id}>
-                            <h2 className="review-group-title" id={"review-" + group.id}>
-                                {group.title}
-                                <span className="review-group-count">{byGroup(group.id).length}</span>
-                            </h2>
-                            {capabilities
-                                .filter(capability => byGroup(group.id).some(item => (item.capability ?? "foundation") === capability.id))
-                                .map(capability => (
-                                    <div className="review-capability" key={capability.id}>
-                                        <h3 className="review-capability-title">{capability.title}</h3>
-                                    <ul className="review-list">
-                                        {byGroup(group.id).filter(item => (item.capability ?? "foundation") === capability.id).map((item, index) => (
-                                            <li className="review-item" key={group.id + index}>
-                                                <span className="review-item-text">{item.text}</span>
-                                                {item.place && (
-                                                    <button
-                                                        type="button"
-                                                        className="review-go"
-                                                        onClick={() => goThere(item.place!)}
-                                                    >
-                                                        Go there
-                                                    </button>
-                                                )}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    </div>
-                                ))}
-                        </section>
-                    ))}
+                {sections.map(section => (
+                    <OrganizationReview
+                        key={section.id}
+                        name={section.name}
+                        items={section.items}
+                        current={section.id === organizationId}
+                        onGo={(place) => goThere(section.id, place)}
+                    />
+                ))}
 
             </main>
 
@@ -138,3 +124,77 @@ export default function Review() {
 
 }
 
+/**
+ * One Organization's Review: its three groups, each by Capability.
+ * The open Organization's starts open; the others start folded, with
+ * how much each has to look at.
+ */
+function OrganizationReview({ name, items, current, onGo }: {
+    name: string;
+    items: ReviewItem[];
+    current: boolean;
+    onGo: (place: ReviewPlace) => void;
+}) {
+
+    const [open, setOpen] = useState(current);
+    const byGroup = (group: ReviewGroup): ReviewItem[] => items.filter(item => item.group === group);
+    const id = "review-organization-" + name.replace(/[^A-Za-z0-9]+/g, "-");
+
+    return (
+        <section className="review-organization" aria-label={name}>
+
+            <h2 className="review-organization-title">
+                <button
+                    type="button"
+                    className="review-organization-head"
+                    aria-expanded={open}
+                    aria-controls={id}
+                    onClick={() => setOpen(value => !value)}
+                >
+                    <span className="review-organization-name">{name}</span>
+                    <span className="review-group-count">{items.length === 0 ? "Nothing open" : String(items.length)}</span>
+                </button>
+            </h2>
+
+            {open && (
+                <div className="review-organization-body" id={id}>
+
+                    {nothingOpen(items) && byGroup("second-look").length === 0 && (
+                        <p className="review-empty">Nothing is open.</p>
+                    )}
+
+                    {GROUPS.filter(group => byGroup(group.id).length > 0).map(group => (
+                        <section className="review-group" key={group.id} aria-label={group.title}>
+                            <h3 className="review-group-title">
+                                {group.title}
+                                <span className="review-group-count">{byGroup(group.id).length}</span>
+                            </h3>
+                            {capabilities
+                                .filter(capability => byGroup(group.id).some(item => (item.capability ?? "foundation") === capability.id))
+                                .map(capability => (
+                                    <div className="review-capability" key={capability.id}>
+                                        <h4 className="review-capability-title">{capability.title}</h4>
+                                        <ul className="review-list">
+                                            {byGroup(group.id).filter(item => (item.capability ?? "foundation") === capability.id).map((item, index) => (
+                                                <li className="review-item" key={group.id + index}>
+                                                    <span className="review-item-text">{item.text}</span>
+                                                    {item.place && (
+                                                        <button type="button" className="review-go" onClick={() => onGo(item.place!)}>
+                                                            Go there
+                                                        </button>
+                                                    )}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                ))}
+                        </section>
+                    ))}
+
+                </div>
+            )}
+
+        </section>
+    );
+
+}

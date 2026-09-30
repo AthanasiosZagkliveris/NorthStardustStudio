@@ -38,7 +38,7 @@ describe("the notepad", () => {
         const organization = OrganizationService.create("Lumen");
         const first = NotepadService.addNote();
         NotepadService.setText(first, "Ask the accountant");
-        const second = NotepadService.addNote([]);
+        const second = NotepadService.addNote("");
         NotepadService.setText(second, "Check the market size");
 
         expect(NotepadService.notes().map(note => note.text)).toEqual(["Check the market size", "Ask the accountant"]);
@@ -52,7 +52,7 @@ describe("the notepad", () => {
 
     it("links a place once, finds the notes that link to a field, and forgets a removed link or note", () => {
         const organization = OrganizationService.create("Lumen");
-        const note = NotepadService.addNote();
+        const note = NotepadService.addNote(organization.id);
         NotepadService.addLink(note, place(organization.id));
         NotepadService.addLink(note, place(organization.id));
 
@@ -120,7 +120,7 @@ describe("the notepad on the page", () => {
     it("links a picked field without editing it, and outlines the field as in your notes", () => {
         const organization = OrganizationService.create("Lumen");
         OrganizationService.setSelected(organization.id);
-        const note = NotepadService.addNote();
+        const note = NotepadService.addNote(organization.id);
         page(organization.id);
 
         const box = screen.getByLabelText("Market size") as HTMLTextAreaElement;
@@ -156,6 +156,40 @@ describe("the notepad on the page", () => {
         document.body.append(holder);
         expect(linkFor(holder, "org-1")).toMatchObject({ kind: "field", systemNumber: 1, sectionNumber: 3, key: "1.3:organization/legal-form" });
         holder.remove();
+    });
+
+});
+
+describe("notes by Organization", () => {
+
+    it("belong to the Organization they were written in; the open one first and open, the others folded with their counts, General last", () => {
+        const lumen = OrganizationService.create("Lumen");
+        const quill = OrganizationService.create("Quillfield");
+        OrganizationService.setSelected(lumen.id);
+        NotepadService.setText(NotepadService.addNote(quill.id), "About Quillfield");
+        NotepadService.setText(NotepadService.addNote(""), "A general thought");
+        NotepadService.setText(NotepadService.addNote(lumen.id), "About Lumen");
+
+        render(<MemoryRouter><NotepadPanel /></MemoryRouter>);
+        act(() => { NotepadService.open(); });
+
+        const heads = screen.getAllByRole("button", { name: /Lumen|Quillfield|General/ }).filter(button => button.classList.contains("notepad-group-head"));
+        expect(heads.map(head => head.textContent)).toEqual(["Lumen1", "Quillfield1", "General1"]);
+        expect(heads.map(head => head.getAttribute("aria-expanded"))).toEqual(["true", "false", "false"]);
+        expect((screen.getAllByRole("textbox", { name: "Note" }) as HTMLTextAreaElement[]).map(box => box.value)).toEqual(["About Lumen"]);
+
+        // Only a note of the open Organization can pick a field on its pages.
+        act(() => { fireEvent.click(heads[1]); });
+        expect(screen.getAllByRole("button", { name: "Link a field" })).toHaveLength(1);
+    });
+
+    it("reads an older note as belonging to its first link's Organization", () => {
+        localStorage.setItem(notepadStorageKey(DEFAULT_PROFILE), JSON.stringify({ version: 1, notes: [
+            { id: "n1", text: "Old", createdAt: 1, links: [{ id: "l1", organizationId: "org-9", kind: "system", systemNumber: 1, label: "Identity System", place: "" }] },
+            { id: "n2", text: "Older", createdAt: 0, links: [] }
+        ] }));
+        NotepadService.use(LocalNotepadStore);
+        expect(NotepadService.notes().map(note => note.organizationId)).toEqual(["org-9", ""]);
     });
 
 });

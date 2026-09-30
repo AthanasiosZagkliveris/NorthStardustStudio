@@ -135,6 +135,76 @@
 
 }
 
+.review-organization{
+
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+
+}
+
+.review-organization-title{
+
+    margin:0;
+
+}
+
+.review-organization-head{
+
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+
+    width:100%;
+    padding:0 0 8px;
+
+    border:0;
+    border-bottom:1px solid var(--line-sheet);
+
+    background:none;
+
+    font:inherit;
+    font-size:var(--font-h2);
+    font-weight:600;
+    line-height:1.3;
+    text-align:start;
+
+    color:var(--text-default);
+
+    cursor:pointer;
+
+}
+
+.review-organization-head::before{
+
+    content:"\25B8";
+    flex:none;
+    font-size:var(--font-body);
+    color:var(--text-muted);
+
+}
+
+.review-organization-head[aria-expanded="true"]::before{
+
+    content:"\25BE";
+
+}
+
+.review-organization-name{
+
+    min-width:0;
+    overflow-wrap:anywhere;
+
+}
+
+.review-organization-body{
+
+    display:flex;
+    flex-direction:column;
+    gap:28px;
+
+}
+
 .review-empty{
 
     margin:0;

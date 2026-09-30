@@ -34,6 +34,11 @@ export interface NoteLink {
 
 export interface Note {
     id: string;
+    /**
+     * The Organization it was written in, and whose places it links
+     * to; "" for a note written with none open ("General").
+     */
+    organizationId: string;
     text: string;
     links: NoteLink[];
     /** When it was written (ms since the epoch): the notepad lists newest first. */
@@ -61,6 +66,10 @@ function asNotepad(value: unknown): NotepadDocument {
         .filter(note => note && typeof note.id === "string")
         .map(note => ({
             id: note.id,
+            // Older notes: the Organization their first link is in.
+            organizationId: typeof note.organizationId === "string"
+                ? note.organizationId
+                : (Array.isArray(note.links) && typeof note.links[0]?.organizationId === "string" ? note.links[0].organizationId : ""),
             text: typeof note.text === "string" ? note.text : "",
             createdAt: typeof note.createdAt === "number" ? note.createdAt : 0,
             links: Array.isArray(note.links)
@@ -173,9 +182,9 @@ export const NotepadService = {
         return read().notes.length;
     },
 
-    /** A new, empty note at the top; its id. */
-    addNote(links: NoteLink[] = []): string {
-        const note: Note = { id: newId("note"), text: "", links, createdAt: Date.now() };
+    /** A new, empty note at the top, in an Organization ("" for none); its id. */
+    addNote(organizationId = "", links: NoteLink[] = []): string {
+        const note: Note = { id: newId("note"), organizationId, text: "", links, createdAt: Date.now() };
         const document = read();
         write({ ...document, notes: [...document.notes, note] });
         return note.id;

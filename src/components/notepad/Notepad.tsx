@@ -119,7 +119,9 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
     const [available, setAvailable] = useState<Record<string, boolean>>({});
     const box = useRef<HTMLTextAreaElement | null>(null);
     const card = useRef<HTMLDivElement | null>(null);
-    const organizationId = OrganizationService.getSelected();
+    // A note links only into the Organization it belongs to.
+    const organizationId = note.organizationId || null;
+    const current = OrganizationService.getSelected();
 
     useEffect(() => {
         if (focused && typeof card.current?.scrollIntoView === "function") {
@@ -190,6 +192,9 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
     }
 
     const picking = NotepadService.view().pickingFor === note.id;
+    // Fields can be picked only in the note's own Organization, while it is open.
+    const canPick = !!organizationId && organizationId === current;
+    const organizationName = (id: string) => OrganizationService.getSummary(id)?.name ?? "another organization";
 
     return (
         <div className={"notepad-note" + (focused ? " notepad-note-focus" : "")} ref={card}>
@@ -227,6 +232,9 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
                                 onClick={() => places().then(module => module.openLink(navigate, link))}
                             >
                                 #{link.label}
+                                {link.organizationId !== note.organizationId && (
+                                    <span className="notepad-chip-organization"> · {organizationName(link.organizationId)}</span>
+                                )}
                                 {available[link.id] === false && <span className="notepad-chip-gone-word"> · No longer available</span>}
                             </button>
                             <button
@@ -243,14 +251,18 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
             )}
 
             <div className="notepad-note-actions">
-                <button
-                    type="button"
-                    className="notepad-text-button"
-                    aria-pressed={picking}
-                    onClick={() => NotepadService.pick(picking ? null : note.id)}
-                >
-                    {picking ? "Picking: click a field or card" : "Link a field"}
-                </button>
+                {canPick
+                    ? (
+                        <button
+                            type="button"
+                            className="notepad-text-button"
+                            aria-pressed={picking}
+                            onClick={() => NotepadService.pick(picking ? null : note.id)}
+                        >
+                            {picking ? "Picking: click a field or card" : "Link a field"}
+                        </button>
+                    )
+                    : <span />}
                 {confirming
                     ? (
                         <button
@@ -283,7 +295,61 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
 
 }
 
-/** The panel: every note, newest first, with its links. */
+interface NoteGroupValue {
+    /** The Organization's id, or "" for General. */
+    id: string;
+    name: string;
+    notes: Note[];
+    current: boolean;
+}
+
+/**
+ * The notes by the Organization they were written in: the open one
+ * first, the others after in the Organizations' order, then General
+ * (written with none open).
+ */
+function noteGroups(notes: Note[]): NoteGroupValue[] {
+    const current = OrganizationService.getSelected() ?? "";
+    const known = OrganizationService.list();
+    const ids = [...new Set(notes.map(note => note.organizationId))];
+    const rank = (id: string) => id === current ? -1 : id === "" ? known.length + 1 : Math.max(0, known.findIndex(entry => entry.id === id));
+    return ids.sort((one, other) => rank(one) - rank(other)).map(id => ({
+        id,
+        name: id === "" ? "General" : OrganizationService.getSummary(id)?.name ?? "An Organization no longer here",
+        notes: notes.filter(note => note.organizationId === id),
+        current: id === current && id !== ""
+    }));
+}
+
+/** One Organization's notes: open when it is the open one, folded otherwise, with its count. */
+function NoteGroup({ group, focusNoteIds }: { group: NoteGroupValue; focusNoteIds: string[] }) {
+    const focused = group.notes.some(note => focusNoteIds.includes(note.id));
+    const [open, setOpen] = useState(group.current || focused);
+    const id = "notepad-group-" + (group.id || "general");
+    return (
+        <section className="notepad-group" aria-label={group.name}>
+            <button
+                type="button"
+                className="notepad-group-head"
+                aria-expanded={open}
+                aria-controls={id}
+                onClick={() => setOpen(current => !current)}
+            >
+                <span className="notepad-group-name">{group.name}</span>
+                <span className="notepad-group-count">{group.notes.length}</span>
+            </button>
+            {open && (
+                <div className="notepad-group-notes" id={id}>
+                    {group.notes.map(note => (
+                        <NoteCard key={note.id} note={note} focused={focusNoteIds.includes(note.id)} />
+                    ))}
+                </div>
+            )}
+        </section>
+    );
+}
+
+/** The panel: every note, newest first, by Organization, with its links. */
 export function NotepadPanel() {
 
     const { notes, view } = useNotepad();
@@ -330,7 +396,7 @@ export function NotepadPanel() {
                     type="button"
                     className="strategy-add-button notepad-add"
                     onClick={() => {
-                        NotepadService.addNote();
+                        NotepadService.addNote(OrganizationService.getSelected() ?? "");
                         window.setTimeout(() => panel.current?.querySelector<HTMLTextAreaElement>(".notepad-note-text")?.focus(), 0);
                     }}
                 >
@@ -350,8 +416,8 @@ export function NotepadPanel() {
                 ? <p className="notepad-empty">No notes yet. Add one, and link it to any page, card or field.</p>
                 : (
                     <div className="notepad-list">
-                        {notes.map(note => (
-                            <NoteCard key={note.id} note={note} focused={view.focusNoteIds.includes(note.id)} />
+                        {noteGroups(notes).map(group => (
+                            <NoteGroup key={group.id || "general"} group={group} focusNoteIds={view.focusNoteIds} />
                         ))}
                     </div>
                 )}

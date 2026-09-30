@@ -75,3 +75,35 @@ describe("opening Review", () => {
     });
 
 });
+
+describe("Review across Organizations", () => {
+
+    it("has a section per Organization, the open one first and open, the others folded with their counts; Go there selects the other one first", () => {
+        const other = OrganizationService.create("Quillfield");
+        const current = OrganizationService.getSelected()!;
+
+        render(
+            <MemoryRouter initialEntries={["/review"]}>
+                <Routes>
+                    <Route path="/review" element={<Review />} />
+                    <Route path="/introduction" element={<Where name="The interview" />} />
+                </Routes>
+            </MemoryRouter>
+        );
+
+        const heads = screen.getAllByRole("button", { expanded: true }).concat(screen.getAllByRole("button", { expanded: false }))
+            .filter(button => button.classList.contains("review-organization-head"));
+        expect(heads.map(head => head.querySelector(".review-organization-name")?.textContent)).toEqual(["Lumen", "Quillfield"]);
+        expect(heads.map(head => head.getAttribute("aria-expanded"))).toEqual(["true", "false"]);
+        // Nothing started: the four Foundation Systems each still open.
+        expect(heads[1].querySelector(".review-group-count")?.textContent).toBe("4");
+
+        act(() => { fireEvent.click(heads[1]); });
+        const quill = screen.getByRole("region", { name: "Quillfield" });
+        act(() => { fireEvent.click(quill.querySelectorAll<HTMLButtonElement>(".review-go")[0]); });
+        expect(OrganizationService.getSelected()).toBe(other.id);
+        expect(current).not.toBe(other.id);
+        expect(screen.getByText("The interview at /introduction")).toBeTruthy();
+    });
+
+});
