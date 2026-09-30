@@ -2055,22 +2055,6 @@ export default function BusinessCapabilityEditor({
 
                 </div>
 
-                {/* Done: decided about the activity itself, so above its
-                    Description and links (the one card order: links last). */}
-                <label className="business-capability-done">
-                    <input
-                        type="checkbox"
-                        className="brand-tick-box"
-                        aria-label={"Activity " + number + " completed"}
-                        disabled={disabled}
-                        checked={activity.completed}
-                        onChange={(event) => onActivity({
-                            completed: event.target.checked
-                        })}
-                    />
-                    <span>Completed</span>
-                </label>
-
                 <OptionalNote
                     label="Description"
                     ariaLabel={"Activity " + number + " description"}
@@ -2086,6 +2070,22 @@ export default function BusinessCapabilityEditor({
                     "Activity " + number + " linked Offerings",
                     "Define an Offering on the Foundation page first."
                 )}
+
+                {/* Done, at the very end (the one card order: fields,
+                    Description, links, then the card's state). */}
+                <label className="business-capability-done">
+                    <input
+                        type="checkbox"
+                        className="brand-tick-box"
+                        aria-label={"Activity " + number + " completed"}
+                        disabled={disabled}
+                        checked={activity.completed}
+                        onChange={(event) => onActivity({
+                            completed: event.target.checked
+                        })}
+                    />
+                    <span>Completed</span>
+                </label>
 
                 </>)}
 
