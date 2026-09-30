@@ -595,8 +595,7 @@ textarea:focus{
     position:fixed;
 
     left:0;
-    /* Clear of the Notepad when it is docked (notepad.css). */
-    right:var(--notepad-inset, 0px);
+    right:0;
 
     /* Matches .workspace-footer's own height exactly, so the
        nav's bottom edge sits flush on the footer's top edge. */

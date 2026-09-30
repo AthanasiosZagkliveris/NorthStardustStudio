@@ -3,25 +3,12 @@
    on the right, the links as chips, and picking a field.
 
    The panel lies between the header (80px) and the footer (64px),
-   as the Organization rail does on the left. From 1200px wide it
-   DOCKS: `html.notepad-docked` sets --notepad-inset to its width,
-   and the page's width (--view-width, global.css), its body and its
-   fixed bands (the rails, the Previous/Next bar) give that much up
-   -- so the page narrows beside it and nothing of the page's
-   content column is covered. Narrower, it lies over the page's
-   right edge, with its close button.
+   as the Organization rail does on the left, and slides in from the
+   right OVER the page: the page does not narrow or move under it.
 ========================================================== */
 
 :root {
     --notepad-width: 360px;
-}
-
-html.notepad-docked {
-    --notepad-inset: var(--notepad-width);
-}
-
-html.notepad-docked body {
-    padding-right: var(--notepad-inset);
 }
 
 /* ---------- The panel ---------- */
@@ -46,12 +33,30 @@ html.notepad-docked body {
 
     text-align: start;
 
+    /* Over the page: a soft shadow off its left edge only. */
+    box-shadow: -8px 0 16px -8px var(--shadow-ink-18);
+
+    /* It slides in from the right, briefly -- not at all under
+       reduced motion. */
+    animation: notepad-slide-in 0.2s ease-out;
+
 }
 
-/* Lying over the page, it shows it is above it. */
-html:not(.notepad-docked) .notepad-panel {
+@keyframes notepad-slide-in {
 
-    box-shadow: 0 12px 28px var(--shadow-ink-18);
+    from {
+        transform: translateX(100%);
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .notepad-panel {
+
+        animation: none;
+
+    }
 
 }
 

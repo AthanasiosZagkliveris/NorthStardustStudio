@@ -300,3 +300,28 @@ describe("what can be clicked in the Notepad", () => {
     });
 
 });
+
+describe("the Notepad panel", () => {
+
+    it("slides in over the page (no reduced-motion slide), between the header and the footer, with a shadow off its left edge", () => {
+        const css = stylesheet("notepad.css");
+        expect(css).toContain("position: fixed; top: 80px; bottom: 64px; right: 0;");
+        expect(css).toContain("box-shadow: -8px 0 16px -8px var(--shadow-ink-18); /* It slides in from the right, briefly -- not at all under reduced motion. */ animation: notepad-slide-in 0.2s ease-out;");
+        expect(css).toContain("@media (prefers-reduced-motion: reduce) { .notepad-panel { animation: none; } }");
+        // Over the page: it never narrows it.
+        expect(css).not.toContain("notepad-docked");
+        expect(stylesheet("global.css")).toContain("--view-width: 100vw;");
+    });
+
+    it("stays open when the page is clicked (fields are linked by clicking them)", () => {
+        const organization = OrganizationService.create("Lumen");
+        OrganizationService.setSelected(organization.id);
+        render(<MemoryRouter><NotepadButton /><NotepadPanel /><p>Page</p></MemoryRouter>);
+        act(() => { fireEvent.click(screen.getByRole("button", { name: /^Notes/ })); });
+        act(() => { fireEvent.mouseDown(screen.getByText("Page")); fireEvent.click(screen.getByText("Page")); });
+        expect(screen.getByRole("complementary", { name: "Notes" })).toBeTruthy();
+        act(() => { fireEvent.click(screen.getByRole("button", { name: "Close notes" })); });
+        expect(screen.queryByRole("complementary", { name: "Notes" })).toBeNull();
+    });
+
+});

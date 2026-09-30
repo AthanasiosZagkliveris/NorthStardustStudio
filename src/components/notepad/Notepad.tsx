@@ -14,11 +14,12 @@ import "../../styles/notepad.css";
     THE NOTEPAD (NotepadService.ts): the header's "Notes" button, the
     panel it opens on the right, and picking a field or card to link.
 
-    The panel docks: from 1200px wide the page narrows to make room for
-    it (`html.notepad-docked`, notepad.css), so it never covers the
-    page's content column; narrower, it lies over the page's right edge
-    with its close button. It stays open while the person works, from
-    page to page, until closed (its ×, the button, or Escape).
+    The panel slides in from the right OVER the page, between the
+    header and the footer: the page does not narrow or move under it,
+    and stays clickable -- a field is linked by clicking it -- so a
+    click on the page never closes it. It stays open while the person
+    works, from page to page, until closed (its ×, the Notes button,
+    or Escape).
 */
 
 /** The notepad's notes and view, kept current. */
@@ -40,7 +41,6 @@ function places(): Promise<Places> {
     return placesModule;
 }
 
-const DOCK_FROM = 1200;
 
 /** The header button: icon and word (icon alone when narrow), and how many notes there are. */
 export function NotepadButton() {
@@ -379,20 +379,6 @@ export function NotepadPanel() {
 
     const { notes, view } = useNotepad();
     const panel = useRef<HTMLElement | null>(null);
-    const [wide, setWide] = useState(() => typeof window !== "undefined" && window.innerWidth >= DOCK_FROM);
-
-    useEffect(() => {
-        const onResize = () => setWide(window.innerWidth >= DOCK_FROM);
-        window.addEventListener("resize", onResize);
-        return () => window.removeEventListener("resize", onResize);
-    }, []);
-
-    // Docked, the page makes room for it.
-    useEffect(() => {
-        document.documentElement.classList.toggle("notepad-docked", view.open && wide);
-        return () => document.documentElement.classList.remove("notepad-docked");
-    }, [view.open, wide]);
-
     // Escape closes it -- and only it: the key goes no further.
     useEffect(() => {
         if (!view.open) {
