@@ -1,4 +1,4 @@
-import { KeyboardEvent, ReactNode, useLayoutEffect, useRef, useState } from "react";
+import { KeyboardEvent, ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { consumeKey } from "./consumeKey.ts";
 import { useListDrag } from "./ReorderControls.tsx";
@@ -64,7 +64,7 @@ function ListLine({
     // Height follows content: reset first, then take whatever the
     // browser says it needs. Without the reset it could only ever
     // grow.
-    useLayoutEffect(() => {
+    const fit = () => {
 
         const element = ref.current;
 
@@ -75,7 +75,33 @@ function ListLine({
         element.style.height = "auto";
         element.style.height = `${element.scrollHeight}px`;
 
-    }, [value]);
+    };
+
+    useLayoutEffect(fit, [value]);
+
+    /* The wrapped height depends on the line's WIDTH, which changes
+       with the window and the column around it: measured again then
+       (width only, as StrategyTextArea does, so setting the height
+       does not set off another measure). */
+    const lastWidth = useRef(0);
+
+    useEffect(() => {
+        const element = ref.current;
+        if (!element || typeof ResizeObserver === "undefined") {
+            return;
+        }
+        const observer = new ResizeObserver(() => {
+            if (element.clientWidth === lastWidth.current) {
+                return;
+            }
+            lastWidth.current = element.clientWidth;
+            fit();
+        });
+        observer.observe(element);
+        return () => observer.disconnect();
+        // Once: fit reads the element each time.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
 
