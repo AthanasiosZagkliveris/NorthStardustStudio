@@ -490,9 +490,10 @@ export default function StrategyFoundationEditor({
                 {financialPlan && (
                     <div className={"strategy-plan-dates" + (periodDiffers ? " strategy-plan-dates-differ" : "")} role="note">
                         <span>
-                            Your financial plan runs {formatRangeAbbrev(financialPlan)}.
+                            {/* Named as a field is (its label), then its value. */}
+                            <span className="field-label">Financial Plan:</span> {formatRangeAbbrev(financialPlan)}
                             {periodDiffers && isRangeSet(foundation.period)
-                                ? " The Strategic Period differs, so the Business Plan will show two time frames."
+                                ? ". The Strategic Period differs, so the Business Plan will show two time frames."
                                 : ""}
                         </span>
                         {periodDiffers && (
