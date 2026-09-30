@@ -4851,97 +4851,216 @@ const ALL_STAGES = [
 ] as const;
 
 /*
- * THE CHANNEL CATEGORIES, in the order they are offered: each with
- * its channels (the well-known places or means of that kind, offered
- * by name so nobody types "Instagram" twice and spells it two ways;
- * the picker adds "Other" after them, which lets the name be typed)
- * and the Journey Stages a channel of that kind is usually used at.
- * One table, from the Customer Channels specification; the editor,
- * its tests and the documents all read it.
+ * THE CHANNEL CATEGORIES, in the order they are offered (the Customer
+ * Channels specification's final taxonomy): each with what it is, the
+ * Journey Stages a channel of that kind is usually used at, and its
+ * channels -- the well-known places or means of that kind, each with
+ * what it is, offered by name so nobody types "Instagram" twice and
+ * spells it two ways. The picker adds "Other" after them, which lets
+ * the name be typed; `otherDescription` says what it stands for.
+ * One table: the pickers, their "i" help, the tests and the documents
+ * all read it.
  *
- * "Other" is the fallback, for a channel that fits none of them: its
- * name is the category the founder types, and it offers every stage.
+ * "Other" is the fallback category, for a channel that fits none of
+ * them: its name is the category the founder types, and it offers
+ * every stage.
  */
 export const BUSINESS_CHANNEL_CATEGORIES = [
     {
         id: "social-media",
         label: "Social Media",
+        description: "Social platforms where people can discover your organisation, engage with your content and stay connected.",
         stages: ["discovery", "evaluation", "support"],
-        channels: ["Facebook", "Instagram", "LinkedIn", "TikTok", "YouTube", "X (Twitter)", "Pinterest"]
-    },
-    {
-        id: "website",
-        label: "Website",
-        stages: ALL_STAGES,
-        channels: ["Main Website", "Online Store", "Landing Page", "Booking / Registration Page", "Client Portal"],
-        namePlaceholder: "Website or page"
-    },
-    {
-        id: "email",
-        label: "Email",
-        stages: ["evaluation", "delivery", "support"],
-        channels: ["Newsletter", "Direct Email", "Automated Email", "Email Campaign"],
-        namePlaceholder: "Email address"
+        channels: [
+            { label: "Instagram", description: "A visual social platform for showcasing offerings, awareness and engagement." },
+            { label: "Facebook", description: "A social platform for audience engagement, communities, events and promotion." },
+            { label: "LinkedIn", description: "A professional platform for networking, expertise, services and B2B engagement." },
+            { label: "YouTube", description: "A video platform for content, education, demonstrations and engagement." },
+            { label: "TikTok", description: "A short-form video platform for discovery and engagement." },
+            { label: "Pinterest", description: "A visual discovery platform for inspiration and product discovery." },
+            { label: "X (Twitter)", description: "Public communication, discussion and audience engagement." }
+        ],
+        otherDescription: "Another social media platform."
     },
     {
         id: "community",
         label: "Community",
+        description: "Spaces where people gather to discuss, participate, share knowledge and interact with your organisation or community.",
         stages: ["discovery", "evaluation", "support"],
-        channels: ["Reddit", "Discord", "Slack", "Facebook Group", "Meetup"]
+        channels: [
+            { label: "Facebook Group", description: "A community space for discussion and ongoing engagement." },
+            { label: "Discord", description: "A community platform for ongoing discussion and interaction." },
+            { label: "Reddit", description: "Topic-based communities for discussion and shared interests." },
+            { label: "Slack", description: "A group communication and discussion environment." },
+            { label: "Meetup", description: "A platform for communities and gatherings." }
+        ],
+        otherDescription: "Another community platform."
+    },
+    {
+        id: "website",
+        label: "Website",
+        description: "Your organisation's own website and pages, used to present information, offerings, transactions, delivery or support.",
+        stages: ALL_STAGES,
+        channels: [
+            { label: "Main Website", description: "Your organisation's primary website and online presence." },
+            { label: "Online Store", description: "A website area for browsing and purchasing offerings." },
+            { label: "Landing Page", description: "A focused page for an offering, campaign or action." },
+            { label: "Booking / Registration Page", description: "A page for bookings, registrations or appointments." },
+            { label: "Contact Page", description: "A page for contacting your organisation." }
+        ],
+        otherDescription: "Another website page or web presence.",
+        namePlaceholder: "Website or page"
     },
     {
         id: "marketplace",
         label: "Marketplace",
+        description: "Third-party platforms where customers can discover, evaluate, purchase or receive your offerings.",
         stages: ["discovery", "evaluation", "purchase", "delivery"],
-        channels: ["Gumroad", "Etsy", "Amazon", "Fiverr", "Upwork"]
+        channels: [
+            { label: "Etsy", description: "A marketplace for creative, handmade, personalised and physical products." },
+            { label: "Amazon", description: "A large marketplace for physical and digital products." },
+            { label: "Gumroad", description: "A platform for digital products, memberships and creator offerings." },
+            { label: "Fiverr", description: "A marketplace for freelance and creative services." },
+            { label: "Upwork", description: "A freelance marketplace for professional services." }
+        ],
+        otherDescription: "Another marketplace."
+    },
+    {
+        id: "in-person",
+        label: "In Person",
+        description: "Physical locations, meetings, events or activities where you interact directly with customers.",
+        stages: ["discovery", "evaluation", "delivery", "support"],
+        channels: [
+            { label: "Studio / Shop", description: "A physical location for visiting, browsing or receiving offerings." },
+            { label: "Market / Pop-up", description: "A temporary physical selling or promotional presence." },
+            { label: "Trade Fair / Exhibition", description: "An event for presenting offerings and meeting audiences." },
+            { label: "Workshop / Class", description: "In-person teaching, training or an experience." },
+            { label: "Event / Talk", description: "A presentation, talk or public gathering." },
+            { label: "Sales Visit", description: "A face-to-face sales or relationship meeting." },
+            { label: "Customer Location", description: "A service or interaction at the customer's location." },
+            { label: "Pickup / Collection", description: "The customer collects a purchased product in person." }
+        ],
+        otherDescription: "Another in-person interaction."
+    },
+    {
+        id: "email",
+        label: "Email",
+        description: "Communication with customers through email, including direct messages, newsletters and follow-ups.",
+        stages: ["evaluation", "delivery", "support"],
+        channels: [
+            { label: "Direct Email", description: "Individual or small-group customer communication." },
+            { label: "Newsletter", description: "Regular email communication to subscribers." },
+            { label: "Email Campaign", description: "Planned email communication for a specific purpose." },
+            { label: "Automated Email", description: "An email triggered by an action or a customer's status." }
+        ],
+        otherDescription: "Another form of email communication.",
+        namePlaceholder: "Email address"
+    },
+    {
+        id: "online-live",
+        label: "Online / Live",
+        description: "Live digital interactions or experiences delivered through online meeting, streaming or communication platforms.",
+        stages: ["evaluation", "delivery", "support"],
+        channels: [
+            { label: "Zoom", description: "Live online meetings and video communication." },
+            { label: "Google Meet", description: "Live online meetings and video communication." },
+            { label: "Microsoft Teams", description: "Online meetings, communication and collaboration." },
+            { label: "Live Stream", description: "A real-time broadcast to an online audience." },
+            { label: "Discord", description: "A live online interaction or session." }
+        ],
+        otherDescription: "Another live online platform or method."
     },
     {
         id: "direct-payment",
         label: "Direct Payment",
+        description: "Methods customers use to pay your organisation directly, such as cash, card or bank transfer.",
         stages: ["purchase"],
-        channels: ["Bank Transfer", "Payment Link", "Card", "Cash", "Invoice"],
+        channels: [
+            { label: "Card", description: "Payment with a debit, credit or other payment card." },
+            { label: "Cash", description: "Payment in physical cash." },
+            { label: "Bank Transfer", description: "Payment transferred directly from the customer's bank account." },
+            { label: "Payment Link", description: "Payment completed through a dedicated payment link." },
+            { label: "Invoice", description: "Payment requested through an issued invoice." }
+        ],
+        otherDescription: "Another direct payment method.",
         namePlaceholder: "Payment method"
     },
     {
         id: "file-delivery",
         label: "File Delivery",
+        description: "Services or methods used to deliver digital files or downloadable products to customers.",
         stages: ["delivery"],
-        channels: ["WeTransfer", "Google Drive", "Dropbox", "OneDrive", "Client Portal", "Download Link"]
+        channels: [
+            { label: "WeTransfer", description: "A file-transfer service for sending digital files." },
+            { label: "Google Drive", description: "Cloud storage used to give access to digital files." },
+            { label: "Dropbox", description: "Cloud storage and file sharing for digital files." },
+            { label: "OneDrive", description: "Cloud storage and file sharing for digital files." },
+            { label: "Email Attachment", description: "A digital file delivered as an email attachment." },
+            { label: "Client Portal", description: "A dedicated customer area for accessing files and resources." }
+        ],
+        otherDescription: "Another digital file delivery method."
     },
     {
         id: "physical-delivery",
         label: "Physical Delivery",
+        description: "Methods used to physically deliver products to customers, such as courier, postal service or local delivery.",
         stages: ["delivery"],
-        channels: ["Postal Service", "Courier", "Local Delivery", "Third-party Fulfilment"]
-    },
-    {
-        id: "online-live",
-        label: "Online / Live",
-        stages: ["evaluation", "delivery", "support"],
-        channels: ["Zoom", "Google Meet", "Microsoft Teams", "Discord", "Live Stream", "Client Portal"]
-    },
-    {
-        id: "in-person",
-        label: "In Person",
-        stages: ["discovery", "evaluation", "delivery", "support"],
         channels: [
-            "Studio / Shop",
-            "Customer Location",
-            "Market / Pop-up",
-            "Trade Fair / Exhibition",
-            "Workshop / Class",
-            "Event / Talk",
-            "Sales Visit",
-            "Pickup / Collection"
-        ]
+            { label: "Courier", description: "A product delivered through a courier or parcel service." },
+            { label: "Postal Service", description: "A product sent through a national or international postal service." },
+            { label: "Local Delivery", description: "A product delivered within a local area." },
+            { label: "Third-party Fulfilment", description: "An outside provider stores, prepares and ships your products." }
+        ],
+        otherDescription: "Another physical delivery method."
     },
     {
         id: "other",
         label: "Other",
+        description: "A channel that does not fit any of the categories above.",
         stages: ALL_STAGES,
-        channels: []
+        channels: [],
+        otherDescription: "A channel of your own."
     }
 ] as const;
+
+/** A point of help: a name and what it means. */
+export interface ChannelHelpPoint {
+    title: string;
+    text: string;
+}
+
+/** The chosen one first, then the rest in their order. */
+function chosenFirst(points: ChannelHelpPoint[], chosen: string): ChannelHelpPoint[] {
+    const at = points.findIndex(point => point.title === chosen.trim());
+    return at <= 0 ? points : [points[at], ...points.slice(0, at), ...points.slice(at + 1)];
+}
+
+/**
+ * The "i" beside the Channel Category picker: every category and what
+ * it is, the one chosen first (from the one table).
+ */
+export function channelCategoryHelp(chosen: string): ChannelHelpPoint[] {
+    return chosenFirst(
+        BUSINESS_CHANNEL_CATEGORIES.map(category => ({ title: category.label, text: category.description })),
+        chosen
+    );
+}
+
+/**
+ * The "i" beside a channel's picker: its category's channels and what
+ * each is, "Other" last, the one chosen first. None for a category of
+ * the founder's own, which has no list.
+ */
+export function channelOptionHelp(category: string, chosen: string): ChannelHelpPoint[] {
+    const known = BUSINESS_CHANNEL_CATEGORIES.find(entry => entry.label === category);
+    if (!known || known.channels.length === 0) {
+        return [];
+    }
+    return chosenFirst([
+        ...known.channels.map(channel => ({ title: channel.label, text: channel.description })),
+        { title: BUSINESS_CHANNEL_OTHER, text: known.otherDescription }
+    ], chosen);
+}
 
 /** What to write in a channel's name box, for a category that says. */
 export function businessChannelNamePlaceholder(category: string): string {

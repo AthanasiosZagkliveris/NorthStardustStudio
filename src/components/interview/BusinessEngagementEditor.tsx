@@ -17,6 +17,8 @@ import {
     BusinessSegmentEngagementValue,
     asBusinessEngagementValue,
     businessChannelNamePlaceholder,
+    channelCategoryHelp,
+    channelOptionHelp,
     businessFoundationSegments,
     businessProfileOfferings,
     businessRelationshipInteractions,
@@ -470,7 +472,7 @@ export function channelNameOptions(
 
     };
 
-    known.channels.forEach(add);
+    known.channels.forEach(channel => add(channel.label));
 
     siblings
         .filter(sibling => sibling.category === category)
@@ -1378,6 +1380,13 @@ export default function BusinessEngagementEditor({
                                                 that removes five of them at
                                                 once should name them before
                                                 it is pressed. */}
+                                            {/* What the categories are, the chosen one first. */}
+                                            <InfoNote
+                                                label="Channel Category"
+                                                points={channelCategoryHelp(group.label)}
+                                                fullList
+                                            />
+
                                             <BusinessRemove
                                                 what={
                                                     "Channel Category " +
@@ -1541,6 +1550,15 @@ export default function BusinessEngagementEditor({
                                                             name: next
                                                         })}
                                                     />
+
+                                                    {/* What its category's channels are, the chosen one first. */}
+                                                    {channelOptionHelp(channel.category, channel.name).length > 0 && (
+                                                        <InfoNote
+                                                            label="Channel"
+                                                            points={channelOptionHelp(channel.category, channel.name)}
+                                                            fullList
+                                                        />
+                                                    )}
 
                                                     {answers.channels.length > 1 && (
                                                         <BusinessRemove

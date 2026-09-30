@@ -11,23 +11,25 @@ import {
     BUSINESS_JOURNEY_STAGES,
     asBusinessEngagementValue,
     asBusinessFoundationValue,
+    channelCategoryHelp,
+    channelOptionHelp,
     createBusinessChannel,
     createBusinessCustomerSegment,
     createBusinessSegmentEngagement
 } from "../../framework/engine/AnswerUtils";
 
-/** The Customer Channels specification, as one table: each category's channels and stages. */
+/** The Customer Channels specification (final taxonomy), as one table: each category's channels and stages. */
 const SPEC: [string, string[], string[]][] = [
-    ["Social Media", ["Facebook", "Instagram", "LinkedIn", "TikTok", "YouTube", "X (Twitter)", "Pinterest"], ["Discover", "Evaluation", "Support & Follow Up"]],
-    ["Website", ["Main Website", "Online Store", "Landing Page", "Booking / Registration Page", "Client Portal"], ["Discover", "Evaluation", "Purchase", "Delivery", "Support & Follow Up"]],
-    ["Email", ["Newsletter", "Direct Email", "Automated Email", "Email Campaign"], ["Evaluation", "Delivery", "Support & Follow Up"]],
-    ["Community", ["Reddit", "Discord", "Slack", "Facebook Group", "Meetup"], ["Discover", "Evaluation", "Support & Follow Up"]],
-    ["Marketplace", ["Gumroad", "Etsy", "Amazon", "Fiverr", "Upwork"], ["Discover", "Evaluation", "Purchase", "Delivery"]],
-    ["Direct Payment", ["Bank Transfer", "Payment Link", "Card", "Cash", "Invoice"], ["Purchase"]],
-    ["File Delivery", ["WeTransfer", "Google Drive", "Dropbox", "OneDrive", "Client Portal", "Download Link"], ["Delivery"]],
-    ["Physical Delivery", ["Postal Service", "Courier", "Local Delivery", "Third-party Fulfilment"], ["Delivery"]],
-    ["Online / Live", ["Zoom", "Google Meet", "Microsoft Teams", "Discord", "Live Stream", "Client Portal"], ["Evaluation", "Delivery", "Support & Follow Up"]],
-    ["In Person", ["Studio / Shop", "Customer Location", "Market / Pop-up", "Trade Fair / Exhibition", "Workshop / Class", "Event / Talk", "Sales Visit", "Pickup / Collection"], ["Discover", "Evaluation", "Delivery", "Support & Follow Up"]],
+    ["Social Media", ["Instagram", "Facebook", "LinkedIn", "YouTube", "TikTok", "Pinterest", "X (Twitter)"], ["Discover", "Evaluation", "Support & Follow Up"]],
+    ["Community", ["Facebook Group", "Discord", "Reddit", "Slack", "Meetup"], ["Discover", "Evaluation", "Support & Follow Up"]],
+    ["Website", ["Main Website", "Online Store", "Landing Page", "Booking / Registration Page", "Contact Page"], ["Discover", "Evaluation", "Purchase", "Delivery", "Support & Follow Up"]],
+    ["Marketplace", ["Etsy", "Amazon", "Gumroad", "Fiverr", "Upwork"], ["Discover", "Evaluation", "Purchase", "Delivery"]],
+    ["In Person", ["Studio / Shop", "Market / Pop-up", "Trade Fair / Exhibition", "Workshop / Class", "Event / Talk", "Sales Visit", "Customer Location", "Pickup / Collection"], ["Discover", "Evaluation", "Delivery", "Support & Follow Up"]],
+    ["Email", ["Direct Email", "Newsletter", "Email Campaign", "Automated Email"], ["Evaluation", "Delivery", "Support & Follow Up"]],
+    ["Online / Live", ["Zoom", "Google Meet", "Microsoft Teams", "Live Stream", "Discord"], ["Evaluation", "Delivery", "Support & Follow Up"]],
+    ["Direct Payment", ["Card", "Cash", "Bank Transfer", "Payment Link", "Invoice"], ["Purchase"]],
+    ["File Delivery", ["WeTransfer", "Google Drive", "Dropbox", "OneDrive", "Email Attachment", "Client Portal"], ["Delivery"]],
+    ["Physical Delivery", ["Courier", "Postal Service", "Local Delivery", "Third-party Fulfilment"], ["Delivery"]],
     ["Other", [], ["Discover", "Evaluation", "Purchase", "Delivery", "Support & Follow Up"]]
 ];
 
@@ -39,7 +41,14 @@ describe("the customer channel categories", () => {
         expect(BUSINESS_CHANNEL_CATEGORIES.map(category => category.label)).toEqual(SPEC.map(([label]) => label));
         for (const [label, channels, stages] of SPEC) {
             const category = BUSINESS_CHANNEL_CATEGORIES.find(entry => entry.label === label)!;
-            expect([...category.channels]).toEqual(channels);
+            expect(category.channels.map(channel => channel.label)).toEqual(channels);
+            // Every category and every channel says what it is, in a sentence, with no dash for a colon.
+            expect(category.description).toMatch(/^[A-Z].*\.$/);
+            expect(category.otherDescription).toMatch(/^[A-Z].*\.$/);
+            for (const channel of category.channels) {
+                expect(channel.description).toMatch(/^[A-Z].*\.$/);
+                expect(channel.description).not.toMatch(/\u2014/);
+            }
             expect(category.stages.map(stageLabel)).toEqual(stages);
         }
         expect(BUSINESS_JOURNEY_STAGES.map(stage => stage.label)).toEqual(["Discover", "Evaluation", "Purchase", "Delivery", "Support & Follow Up"]);
@@ -68,6 +77,23 @@ describe("the customer channel categories", () => {
         expect(stageIsUsual("Email", "purchase")).toBe(false);
         expect(stageIsUsual("Email", "evaluation")).toBe(true);
         expect(stageIsUsual("A category of my own", "purchase")).toBe(true);
+    });
+
+});
+
+describe("the channel help", () => {
+
+    it("explains every category, the chosen one first", () => {
+        const help = channelCategoryHelp("File Delivery");
+        expect(help[0]).toEqual({ title: "File Delivery", text: "Services or methods used to deliver digital files or downloadable products to customers." });
+        expect(help.map(point => point.title).sort()).toEqual(SPEC.map(([label]) => label).sort());
+    });
+
+    it("explains a category's channels and its Other, the chosen one first, and nothing for a category of one's own", () => {
+        const help = channelOptionHelp("Physical Delivery", "Local Delivery");
+        expect(help.map(point => point.title)).toEqual(["Local Delivery", "Courier", "Postal Service", "Third-party Fulfilment", "Other"]);
+        expect(help[help.length - 1].text).toBe("Another physical delivery method.");
+        expect(channelOptionHelp("A category of my own", "")).toEqual([]);
     });
 
 });
@@ -116,6 +142,12 @@ describe("the examples, on the new categories", () => {
         render(<Harness />);
         fireEvent.click(screen.getByRole("button", { name: "Expand all channel categories" }));
         expect(screen.getAllByText("Not usual for this category")).toHaveLength(1);
+        // Each category and each channel picker has its "i"; the two rows share one shape.
+        expect(screen.getAllByRole("button", { name: "Channel Category: what this means" })).toHaveLength(2);
+        expect(screen.getAllByRole("button", { name: "Channel: what this means" })).toHaveLength(2);
+        const name = document.querySelector(".business-channel-name")!;
+        expect(name.querySelector(".business-channel-nest")).toBeTruthy();
+        expect(document.querySelector(".business-channel-cell-nested")).toBeTruthy();
     });
 
 });

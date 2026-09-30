@@ -10880,26 +10880,58 @@ td.process-library-col-number{
    channel names beneath it -- which is what makes the group read as
    the heading of those channels rather than as a control laid
    across the table. */
-/* The arrow that folds the category's channels, and the box the
-   category is named in -- on one line, the arrow no narrower than
-   itself and the box taking the rest. */
-.business-channel-category{
+/* ONE ROW SHAPE FOR A CATEGORY AND FOR EACH OF ITS CHANNELS, so their
+   pickers start at one x and end at one x: the category's fold arrow
+   and a channel's ↳ in one 36px column, the picker, its "i", and the
+   × in one 32px column (kept where there is no ×). Every mark sits on
+   the picker's first line (the 44px box). */
+.business-channel-category,
+.business-channel-name{
 
-    display:flex;
+    display:grid;
 
-    align-items:center;
+    grid-template-columns:[lead] 36px [control] minmax(0, 1fr) [info] auto [remove] 32px [end];
 
-    gap:4px;
+    column-gap:8px;
+    row-gap:var(--space-row);
+
+    align-items:start;
 
     width:100%;
+    min-width:0;
+
+}
+
+.business-channel-category > .strategy-box-toggle{
+
+    grid-column:lead;
+
+    margin-top:4px;
 
 }
 
 .business-channel-category > .suggested-input{
 
-    flex:1 1 auto;
+    grid-column:control;
 
     min-width:0;
+
+}
+
+.business-channel-category > .info-note,
+.business-channel-name > .info-note{
+
+    grid-column:info;
+
+    margin-top:11px;
+
+}
+
+.business-channel-category > .strategy-box-remove{
+
+    grid-column:remove;
+
+    margin-top:6px;
 
 }
 
@@ -11262,27 +11294,15 @@ td.process-library-col-number{
    they sit beside a one-line name, however many lines the name
    wraps to: the row aligns to the top, and each is centred on the
    44px one-line box by its own top margin. */
-.business-channel-name{
-
-    display:grid;
-
-    grid-template-columns:[lead] auto [control] minmax(0, 1fr) [remove] auto [end];
-
-    align-items:start;
-
-    row-gap:var(--space-row);
-
-    min-width:0;
-
-}
-
 .business-channel-name > .business-channel-nest{
 
     grid-column:lead;
 
-    /* Its 28px line centred on the 44px box's first line. */
+    /* Its 28px line centred on the 44px box's first line, in the
+       middle of the column the fold arrow above takes. */
     margin-top:8px;
-    margin-right:8px;
+
+    text-align:center;
 
 }
 
@@ -11295,15 +11315,15 @@ td.process-library-col-number{
 
     /* The 32px × centred on the 44px box's first line. */
     margin-top:6px;
-    margin-left:8px;
 
 }
 
-/* A CHANNEL SITS UNDER ITS CATEGORY, a step in from the row that
-   names it -- the same 24 every level on this page steps by. */
+/* A CHANNEL SITS UNDER ITS CATEGORY: the step in is its ↳, in the
+   column the category's fold arrow takes, so the cell itself starts
+   where the category's does. */
 .business-channel-cell-nested{
 
-    padding-left:36px;
+    padding-left:12px;
 
 }
 
