@@ -118,6 +118,8 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
     const [suggestions, setSuggestions] = useState<Awaited<ReturnType<Places["findPlaces"]>> | null>(null);
     const [active, setActive] = useState(0);
     const [available, setAvailable] = useState<Record<string, boolean>>({});
+    // What each link's chip says, worked out from its key (linkDetail).
+    const [details, setDetails] = useState<Record<string, { number: string; name: string }>>({});
     const box = useRef<HTMLTextAreaElement | null>(null);
     const card = useRef<HTMLDivElement | null>(null);
     // A note links only into the Organization it belongs to.
@@ -135,6 +137,7 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
         places().then(module => {
             if (live) {
                 setAvailable(Object.fromEntries(note.links.map(link => [link.id, module.linkAvailable(link)])));
+                setDetails(Object.fromEntries(note.links.map(link => [link.id, module.linkDetail(link)])));
             }
         });
         return () => { live = false; };
@@ -262,10 +265,10 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
                             >
                                 {/* "#" and where it is in numbers; under it, the field's own name. */}
                                 <span className="notepad-chip-tag">
-                                    # <span className="notepad-chip-number">{linkNumber(link)}</span>
+                                    # <span className="notepad-chip-number">{details[link.id]?.number ?? linkNumber(link)}</span>
                                 </span>
                                 <span className="notepad-chip-description">
-                                    {link.label}
+                                    {details[link.id]?.name ?? ""}
                                     {link.organizationId !== note.organizationId && (
                                         <span className="notepad-chip-organization"> · {organizationName(link.organizationId)}</span>
                                     )}
@@ -453,46 +456,9 @@ function anchorsOf(element: HTMLElement): string[] {
     return anchors;
 }
 
-/** Where a link is, in numbers ("3.5.1.2"): as linked, or its System and page for an older link. */
+/** Where a link is, in numbers, until its section is known (linkDetail): its System and page. */
 function linkNumber(link: NoteLink): string {
-    return link.number ?? [link.systemNumber, link.sectionNumber].filter(part => part !== undefined).join(".");
-}
-
-/** The number a card shows in its head ("2"), or null. */
-function cardNumber(card: HTMLElement): string | null {
-    const number = [...card.querySelectorAll(".list-number")]
-        .find(candidate => candidate.closest("[data-anchor]") === card);
-    return number?.textContent?.replace(/\D+/g, "") || null;
-}
-
-/**
- * Where a picked element is, in numbers: its System and page, the
- * page's section it is in (counted among the page's sections), and the
- * number of each card on the way to it, outermost first ("3.1.1.2").
- */
-function whereIs(element: HTMLElement, systemNumber: number, sectionNumber: number): { number: string } {
-    const numbers = [String(systemNumber), String(sectionNumber)];
-    const rail = element.closest<HTMLElement>("[data-rail]");
-    const page = element.closest<HTMLElement>(".field-page");
-    if (rail && page) {
-        const rails = [...page.querySelectorAll<HTMLElement>("[data-rail]")]
-            .filter(candidate => !candidate.parentElement?.closest("[data-rail]"));
-        const at = rails.indexOf(rail.parentElement?.closest<HTMLElement>("[data-rail]") ?? rail);
-        if (at >= 0) {
-            numbers.push(String(at + 1));
-        }
-    }
-    const cards: HTMLElement[] = [];
-    for (let card = element.closest<HTMLElement>("[data-anchor]"); card && (!rail || (card !== rail && rail.contains(card))); card = card.parentElement?.closest<HTMLElement>("[data-anchor]") ?? null) {
-        cards.unshift(card);
-    }
-    for (const card of cards) {
-        const number = cardNumber(card);
-        if (number) {
-            numbers.push(number);
-        }
-    }
-    return { number: numbers.join(".") };
+    return [link.systemNumber, link.sectionNumber].filter(part => part !== undefined).join(".");
 }
 
 /** What a picked field or card becomes as a link. */
@@ -512,8 +478,7 @@ export function linkFor(element: HTMLElement, organizationId: string): Omit<Note
         key,
         ...(anchors.length > 0 ? { anchors } : {}),
         label: entry?.label ?? (element.querySelector(".field-label")?.textContent?.trim() || key),
-        place: entry?.pageTitle ?? "",
-        ...whereIs(element, address.systemNumber, address.sectionNumber)
+        place: entry?.pageTitle ?? ""
     };
 }
 

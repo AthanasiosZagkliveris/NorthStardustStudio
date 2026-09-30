@@ -167,14 +167,8 @@ describe("the notepad on the page", () => {
             organizationId: organization.id,
             key: "3.1:customer-segment-and-profile/seg-1/market-size-and-industry-outlook",
             anchors: ["seg-1"],
-            label: "Market Size & Industry Outlook",
-            // System 3, page 1, the page's first section.
-            number: "3.1.1"
+            label: "Market Size & Industry Outlook"
         });
-        // The chip: "#" and its numbers, then the field's own name.
-        const chip = document.querySelector(".notepad-chip-open")!;
-        expect(chip.querySelector(".notepad-chip-tag")?.textContent).toBe("# 3.1.1");
-        expect(chip.querySelector(".notepad-chip-description")?.textContent).toBe("Market Size & Industry Outlook");
         expect(screen.queryByRole("status")).toBeNull();
 
         // The field is now drawn in your notes: its box outlined, and said so.

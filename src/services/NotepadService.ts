@@ -30,11 +30,6 @@ export interface NoteLink {
     label: string;
     /** Where it is, in words ("3. Business System → 1. Foundation"). */
     place: string;
-    /**
-     * Where it is, in numbers: System, page, section, then each card
-     * on the way ("3.5.1.2"), as the page showed them when linked.
-     */
-    number?: string;
 }
 
 export interface Note {

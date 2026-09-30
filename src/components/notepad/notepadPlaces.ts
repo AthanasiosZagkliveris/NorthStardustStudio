@@ -4,7 +4,7 @@ import { registeredFields, parseFieldKey } from "../../framework/engine/FieldKey
 import { OrganizationService } from "../../services/OrganizationService";
 import type { NoteLink } from "../../services/NotepadService";
 import { fieldLocation } from "../interview/openField";
-import { pageFields, pageRailItems } from "../interview/rails/railItems";
+import { pageFields, pageRailItems, sectionRailItems } from "../interview/rails/railItems";
 import type { FrameworkSystem } from "../../types/system";
 
 /** A place a note can link to, before it is linked (see NoteLink). */
@@ -151,5 +151,71 @@ export function openLink(navigate: Navigate, link: NoteLink): void {
             ? { system, targetSectionNumber: link.sectionNumber }
             : { system }
     });
+
+}
+
+/** "registration-number" as words: "Registration Number". */
+function words(segment: string): string {
+    return segment.split("-").filter(Boolean).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+}
+
+/** A path segment that names a card (its anchor holds an id: "legal-expense-expense-e6o4i9lb"). */
+function isCardAnchor(segment: string): boolean {
+    return /[a-z]+-[a-z0-9]*\d[a-z0-9]*$/i.test(segment) && /\d/.test(segment.split("-").pop() ?? "");
+}
+
+/**
+ * What a link's chip says, worked out from its key every time (never
+ * from text stored with it): WHERE it is as System.page.section --
+ * the section (or column) of the page the field is in, numbered as
+ * the page's rail numbers it ("1.3.3") -- and WHAT it asks: the
+ * field's label ("Registration Number"), or, for a whole card, the
+ * section it is in. Never what was typed into it.
+ */
+export function linkDetail(link: NoteLink): { number: string; name: string } {
+
+    const base = [String(link.systemNumber), ...(link.sectionNumber !== undefined ? [String(link.sectionNumber)] : [])];
+    const address = link.key ? parseFieldKey(link.key) : null;
+
+    if (!address || link.sectionNumber === undefined) {
+        return { number: base.join("."), name: link.label };
+    }
+
+    const system = systems.find(candidate => candidate.number === link.systemNumber);
+    let items: { key: string; label: string }[] = [];
+    let rawLabels: string[] = [];
+    try {
+        const section = system && frameworkRegistry.exists(system.id)
+            ? frameworkRegistry.getFramework(system.id).sections.find(candidate => candidate.number === link.sectionNumber)
+            : undefined;
+        if (section) {
+            items = pageFields(system!.number, section);
+            rawLabels = sectionRailItems(section.answer).map(item => item.label);
+        }
+    } catch {
+        items = [];
+    }
+
+    const sectionSegment = address.path[0];
+    const at = items.findIndex(item => parseFieldKey(item.key)?.path[0] === sectionSegment);
+    const number = at >= 0
+        ? [...base, /^(\d+)\./.exec(rawLabels[at] ?? "")?.[1] ?? String(at + 1)].join(".")
+        : base.join(".");
+
+    const last = address.path[address.path.length - 1] ?? "";
+    let name: string;
+    if (address.path.length === 1) {
+        // The section itself.
+        name = at >= 0 ? items[at].label : words(last);
+    } else if (isCardAnchor(last)) {
+        // A whole card: the section it belongs to.
+        name = at >= 0 ? items[at].label : words(sectionSegment);
+    } else {
+        // A field: its label as registered where it is known, else its key's words.
+        const registered = registeredFields().find(entry => entry.key === link.key)?.label;
+        name = registered && !/^\w+ \d+ /.test(registered) ? registered : words(last.replace(/^[a-z]+-\d+-/, ""));
+    }
+
+    return { number, name };
 
 }
