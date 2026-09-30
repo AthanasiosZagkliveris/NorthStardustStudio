@@ -20,6 +20,30 @@ import { placeTooltip } from "../interview/roadmapTooltip";
     (.is-noted-hot, notepad.css).
 */
 
+/** The fixed header's and footer's heights: a field under either is out of view. */
+const VIEW_TOP = 80;
+const VIEW_BOTTOM = 64;
+
+/**
+ * The field a noted box stands for, with its label: the box, and the
+ * field it answers (label and all) where it has one -- or a card,
+ * whose head is its own label row.
+ */
+function fieldArea(box: HTMLElement): { left: number; right: number; top: number; bottom: number } {
+    const field = box.parentElement?.closest<HTMLElement>(".business-foundation-field, .legal-entity-field, .legal-entity-pair, .legal-entity-field-wide, .strategy-metric-field");
+    const one = box.getBoundingClientRect();
+    if (!field || field.contains(box) === false) {
+        return one;
+    }
+    const other = field.getBoundingClientRect();
+    return {
+        left: Math.min(one.left, other.left),
+        right: Math.max(one.right, other.right),
+        top: Math.min(one.top, other.top),
+        bottom: Math.max(one.bottom, other.bottom)
+    };
+}
+
 /** How many notes the tooltip shows before "+N more". */
 const TOOLTIP_NOTES = 2;
 
@@ -169,14 +193,37 @@ export function NotedHover({ root, organizationId }: { root: RefObject<HTMLEleme
     }, [root, organizationId]);
 
     // Placed once measured: above the box, or under it, inside the window.
+    // Placed over the field and its label together, so it never covers
+    // the label; again as the page scrolls or the window resizes, so it
+    // stays with its field; hidden while the field is out of view
+    // (behind the header or the footer).
     useLayoutEffect(() => {
-        if (!shown || !tip.current) {
+        if (!shown) {
             setPosition(null);
             return;
         }
-        const anchor = shown.box.getBoundingClientRect();
-        const size = tip.current.getBoundingClientRect();
-        setPosition(placeTooltip(anchor, { width: size.width, height: size.height }, { width: window.innerWidth, height: window.innerHeight }, anchor.left));
+        const place = () => {
+            if (!tip.current) {
+                return;
+            }
+            const anchor = fieldArea(shown.box);
+            const box = shown.box.getBoundingClientRect();
+            // (No layout at all -- nothing measured -- counts as in view.)
+            const laidOut = box.width > 0 || box.height > 0;
+            if (laidOut && (box.bottom <= VIEW_TOP || box.top >= window.innerHeight - VIEW_BOTTOM)) {
+                setPosition(null);
+                return;
+            }
+            const size = tip.current.getBoundingClientRect();
+            setPosition(placeTooltip(anchor, { width: size.width, height: size.height }, { width: window.innerWidth, height: window.innerHeight }, anchor.left));
+        };
+        place();
+        window.addEventListener("scroll", place, true);
+        window.addEventListener("resize", place);
+        return () => {
+            window.removeEventListener("scroll", place, true);
+            window.removeEventListener("resize", place);
+        };
     }, [shown]);
 
     // Described by it, for assistive technology.
