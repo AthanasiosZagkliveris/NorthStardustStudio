@@ -1833,90 +1833,95 @@ export default function LegalEntityEditor({
 
                 {/* ---------- 4. Tax & Business Registration ---------- */}
 
+                {/* ONE LIST, as the registrations of 3. are: under "Tax /
+                    Registration" and "Number", the tax number first (its
+                    local name, "UTR", "EIN"), then the consumption tax as a
+                    tick (ticked, its number beside it; unticked, not
+                    registered -- which is also the answer where it does not
+                    apply), then any others added, each with its ×. The ×
+                    column is kept on every row, so the Number column stands
+                    at the same x as 3.'s. */}
                 {subsection(3, (
-                    <div className="legal-entity-grid">
+                    <div className="legal-entity-grid legal-entity-grid-formation">
 
-                        {/*
-                            Labelled with the local name where there
-                            is one: a founder recognises "AFM" or
-                            "EIN" on the document in front of them
-                            faster than the generic phrase. The value
-                            stays free text either way.
-                        */}
-                        {text(
-                            profile.taxIdName
-                                ? "Tax Identification Number (" + profile.taxIdName + ")"
-                                : "Tax Identification Number",
-                            entity.tax.identificationNumber,
-                            (next) => updateTax({ identificationNumber: next }),
-                            undefined,
-                            false,
-                            INFO.taxNumber
-                        )}
+                        <div className="legal-entity-field-wide legal-entity-registrations">
 
-                        {sharesTaxAndRegistrationNumber(entity.organisation.country) && (
-                            <p className="legal-entity-note-line">
-                                In this country this is the same number as the Registration
-                                Number, so it is filled in from there. Change it if yours
-                                differs.
-                            </p>
-                        )}
-
-                        {/*
-                            Not asked at all where the tax does not
-                            exist: five US states levy no sales tax,
-                            and a question with no answer is worse
-                            than no question. Everywhere else it is a
-                            single tick, because "are you registered"
-                            has two answers and a three-option list
-                            was two more than it needed.
-                        */}
-                        {chosenSubdivision?.noConsumptionTax ? (
-                            <p className="legal-entity-note-line">
-                                {chosenSubdivision.name} levies no state sales tax, so there is
-                                nothing to register here. You may still have to register in
-                                other states you sell into.
-                            </p>
-                        ) : (
-                            /* ONE TICK: ticked, registered, and its number beside it on
-                               the same row; unticked, not registered -- which is also
-                               the answer where it does not apply. */
-                            <div className="legal-entity-field-wide legal-entity-tax-row">
-
-                                <label className="legal-entity-switch">
-                                    <input
-                                        type="checkbox"
-                                        className="brand-tick-box"
-                                        disabled={disabled}
-                                        checked={entity.tax.consumptionTaxStatus === "yes"}
-                                        onChange={(event) => updateTax({
-                                            consumptionTaxStatus:
-                                                (event.target.checked ? "yes" : "no") as LegalEntityTaxStatus
-                                        })}
-                                    />
-                                    <span className="legal-entity-switch-label">
-                                        {"Registered for " + profile.consumptionTax}
-                                    </span>
-                                </label>
-
-                                {entity.tax.consumptionTaxStatus === "yes" && (
-                                    <input
-                                        type="text"
-                                        className="interview-input"
-                                        aria-label={profile.consumptionTax + " Number"}
-                                        placeholder={profile.consumptionTax + " Number"}
-                                        disabled={disabled}
-                                        value={entity.tax.consumptionTaxNumber}
-                                        onChange={(event) => updateTax({
-                                            consumptionTaxNumber: event.target.value
-                                        })}
-                                    />
-                                )}
-
+                            <div className="legal-entity-number-row legal-entity-number-head">
+                                <span className="field-label legal-entity-label">Tax / Registration</span>
+                                <span className="field-label legal-entity-label">Number</span>
                             </div>
-                        )}
 
-                        <div className="legal-entity-field-wide">
+                            <div className="legal-entity-number-row">
+                                <span className="legal-entity-label-info legal-entity-row-label">
+                                    <span className="field-label legal-entity-label">
+                                        <InfoText text={(profile.taxIdName
+                                                ? "Tax Identification Number (" + profile.taxIdName + ")"
+                                                : "Tax Identification Number")}>
+                                            <InfoNote label={(profile.taxIdName
+                                                ? "Tax Identification Number (" + profile.taxIdName + ")"
+                                                : "Tax Identification Number")} points={INFO.taxNumber} />
+                                        </InfoText>
+                                    </span>
+                                </span>
+                                <input
+                                    type="text"
+                                    className="interview-input"
+                                    aria-label={(profile.taxIdName
+                                                ? "Tax Identification Number (" + profile.taxIdName + ")"
+                                                : "Tax Identification Number")}
+                                    disabled={disabled}
+                                    value={entity.tax.identificationNumber}
+                                    onChange={(event) => updateTax({ identificationNumber: event.target.value })}
+                                />
+                            </div>
+
+                            {sharesTaxAndRegistrationNumber(entity.organisation.country) && (
+                                <p className="legal-entity-note-line">
+                                    In this country this is the same number as the Registration
+                                    Number, so it is filled in from there. Change it if yours
+                                    differs.
+                                </p>
+                            )}
+
+                            {/* Not asked at all where the tax does not exist: five
+                                US states levy no sales tax. */}
+                            {chosenSubdivision?.noConsumptionTax ? (
+                                <p className="legal-entity-note-line">
+                                    {chosenSubdivision.name} levies no state sales tax, so there is
+                                    nothing to register here. You may still have to register in
+                                    other states you sell into.
+                                </p>
+                            ) : (
+                                <div className="legal-entity-number-row legal-entity-tax-row">
+                                    <label className="legal-entity-switch">
+                                        <input
+                                            type="checkbox"
+                                            className="brand-tick-box"
+                                            aria-label={"Registered for " + profile.consumptionTax}
+                                            disabled={disabled}
+                                            checked={entity.tax.consumptionTaxStatus === "yes"}
+                                            onChange={(event) => updateTax({
+                                                consumptionTaxStatus:
+                                                    (event.target.checked ? "yes" : "no") as LegalEntityTaxStatus
+                                            })}
+                                        />
+                                        <span className="legal-entity-switch-label">{profile.consumptionTax}</span>
+                                    </label>
+                                    {entity.tax.consumptionTaxStatus === "yes" && (
+                                        <input
+                                            type="text"
+                                            className="interview-input"
+                                            aria-label={profile.consumptionTax + " Number"}
+                                            placeholder={profile.consumptionTax + " Number"}
+                                            disabled={disabled}
+                                            value={entity.tax.consumptionTaxNumber}
+                                            onChange={(event) => updateTax({
+                                                consumptionTaxNumber: event.target.value
+                                            })}
+                                        />
+                                    )}
+                                </div>
+                            )}
 
                             {numberList(
                                 entity.tax.additionalRegistrations,

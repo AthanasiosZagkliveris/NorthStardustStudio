@@ -1,4 +1,4 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 
 import { InterviewSession } from "../interview";
 import { asBusinessCapabilityValue, asLegalEntityValue } from "./AnswerUtils.ts";
@@ -139,7 +139,12 @@ function outputs(example: Example) {
 
 describe("a founder's Frequency, migrated", () => {
 
+    // On the day the golden file was written: the documents say what is
+    // due "now", so a later day would change their words.
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date("2026-09-30T12:00:00"));
     const now = Object.fromEntries(Object.entries(FIXTURES).map(([name, example]) => [name, outputs(example)]));
+    vi.useRealTimers();
 
     const before = JSON.parse(goldenText) as Record<string, Record<string, unknown>>;
 

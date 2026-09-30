@@ -8588,18 +8588,37 @@ td.process-library-col-number{
 
 }
 
-/* "Registered for VAT" and, ticked, its number beside it: on the
-   columns of the registration rows below, so the number sits in their
-   Number column. */
-.legal-entity-field-wide.legal-entity-tax-row{
+/* A fixed row of a list of numbers (the tax number, the consumption-
+   tax tick): its words in column 1, centred on the row's line. */
+.legal-entity-row-label{
 
-    display:grid;
+    min-width:0;
 
-    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr) 32px;
+}
 
-    gap:12px;
+/* The tick and its words on the row's centre line, level with the
+   number box beside them. */
+.legal-entity-number-row > label.legal-entity-switch{
 
     align-items:center;
+
+    align-self:stretch;
+
+}
+
+/* Centred by the row, not by the first-line offset a tick has in a
+   paragraph of words. */
+.legal-entity-number-row > label.legal-entity-switch > input[type="checkbox"]{
+
+    margin-top:0;
+    margin-bottom:0;
+
+}
+
+/* The tick row keeps the rows' height when unticked (no number box). */
+.legal-entity-number-row.legal-entity-tax-row{
+
+    min-height:45px;
 
 }
 
@@ -9034,7 +9053,18 @@ td.process-library-col-number{
    edge, so an even split costs the date nothing. */
 .legal-entity-row .legal-entity-grid-formation{
 
-    grid-template-columns:repeat(2, minmax(0, 1fr));
+    /* The registrations' columns, the × column kept on every row:
+       Status | Formation Date above Authority / Name | Number | ×,
+       and 4.'s Tax / Registration | Number | × the same. */
+    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr) 32px;
+
+    column-gap:12px;
+
+}
+
+.legal-entity-row .legal-entity-grid-formation > .legal-entity-field-wide{
+
+    grid-column:1 / -1;
 
 }
 
