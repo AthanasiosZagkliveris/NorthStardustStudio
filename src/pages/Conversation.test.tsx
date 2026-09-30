@@ -243,6 +243,27 @@ describe("Conversation records the last place worked", () => {
 
     });
 
+    it("starts the interview at its first page, whichever page was last open", () => {
+
+        const organization = OrganizationService.create("Quillfield");
+        vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
+
+        renderIdentity({ targetSectionNumber: 3, resume: {} });
+        const current = () => screen.getByRole("navigation", { name: "Pages" }).querySelector("[aria-current='true']")?.getAttribute("aria-label");
+        expect(current()).toMatch(/^3. /);
+
+        fireEvent.click(screen.getByRole("button", { name: "Introduction" }));
+        fireEvent.click(screen.getByRole("button", { name: "Start Interview" }));
+        expect(current()).toMatch(/^1. /);
+
+        // And → on the Introduction does the same.
+        fireEvent.click(screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item")[3]);
+        fireEvent.click(screen.getByRole("button", { name: "Introduction" }));
+        fireEvent.keyDown(document.body, { key: "ArrowRight" });
+        expect(current()).toMatch(/^1. /);
+
+    });
+
     it("opens the interview itself, at the page, when continued", () => {
 
         const organization = OrganizationService.create("Quillfield");

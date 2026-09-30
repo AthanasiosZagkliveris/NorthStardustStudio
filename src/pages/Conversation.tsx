@@ -1169,6 +1169,9 @@ export default function Conversation() {
         window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     }
 
+    // Start Interview (and → on the Introduction): the System's FIRST
+    // page, not the last one visited -- Continue and the rails keep
+    // their own places.
     function startInterview() {
 
         if (!session) {
@@ -1176,6 +1179,7 @@ export default function Conversation() {
         }
 
         session.startInterview();
+        session.goToSection(0);
         persistAndRedraw(session);
         scrollToTop();
 
