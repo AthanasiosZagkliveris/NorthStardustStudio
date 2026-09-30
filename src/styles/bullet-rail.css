@@ -288,9 +288,12 @@
 
     padding: 4px 8px;
 
+    /* The one tooltip's colours (colors.css --tooltip-*). */
+    border: 1px solid var(--tooltip-border);
     border-radius: 6px;
-    background: var(--bg-strong);
-    color: var(--text-on-fill);
+    background: var(--tooltip-bg);
+    box-shadow: var(--tooltip-shadow);
+    color: var(--tooltip-text);
 
     white-space: nowrap;
     font-weight: 500;
@@ -358,7 +361,9 @@
         white-space: normal;
         overflow-wrap: break-word;
 
+        border: 0;
         background: none;
+        box-shadow: none;
         color: inherit;
         font-weight: inherit;
 

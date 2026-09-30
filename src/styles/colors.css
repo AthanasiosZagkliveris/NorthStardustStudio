@@ -145,6 +145,14 @@
     --bg-series-5: #e87ba4;
     --bg-short-tint: #fff1ea;
     --bg-strong: #1f2937;
+
+    /* THE TOOLTIP (.app-tooltip, the rails' narrow labels, the noted
+       field's notes): a dark slate block on the white page, white
+       text (14.7:1), a soft shadow to lift it. */
+    --tooltip-bg: #1f2937;
+    --tooltip-text: #ffffff;
+    --tooltip-border: #1f2937;
+    --tooltip-shadow: 0 4px 14px rgba(17, 24, 39, 0.28);
     --bg-surface: #ffffff;
     --bg-table: #d9d9d9;
     --bg-table-expansion: #fafbfd;
@@ -428,6 +436,14 @@
     --bg-series-5: #c05781;
     --bg-short-tint: #272321;
     --bg-strong: #3a414c;
+
+    /* The tooltip in dark: LIGHT on the dark page, so it stands off
+       it (a grey block blended in), dark ink on it (14.9:1), a
+       darker shadow under it. */
+    --tooltip-bg: #e6e8eb;
+    --tooltip-text: #111827;
+    --tooltip-border: #ffffff;
+    --tooltip-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
     --bg-surface: #1a1d21;
     --bg-table: #333333;
     --bg-table-expansion: #202021;
@@ -736,6 +752,13 @@
     --bg-series-5: #c9879e;
     --bg-short-tint: #ebdece;
     --bg-strong: #3b2f25;
+
+    /* The tooltip in sepia: the sepia ink as its ground, the paper
+       as its text (12.2:1), a warm shadow. */
+    --tooltip-bg: #3b2f25;
+    --tooltip-text: #fbf5ea;
+    --tooltip-border: #3b2f25;
+    --tooltip-shadow: 0 4px 14px rgba(59, 47, 37, 0.32);
     --bg-surface: #fbf5ea;
     --bg-table: #d0c4b4;
     --bg-table-expansion: #f2e5d5;

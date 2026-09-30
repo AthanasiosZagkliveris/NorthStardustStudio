@@ -722,9 +722,11 @@ b, strong {
   max-width: calc(100vw - 16px);
   padding: 4px 8px;
 
+  border: 1px solid var(--tooltip-border);
   border-radius: 6px;
-  background: var(--bg-strong);
-  color: var(--text-on-fill);
+  background: var(--tooltip-bg);
+  box-shadow: var(--tooltip-shadow);
+  color: var(--tooltip-text);
 
   font-size: var(--font-body);
   font-weight: 500;
