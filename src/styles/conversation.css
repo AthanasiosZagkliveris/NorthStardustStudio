@@ -5906,8 +5906,8 @@ td.process-library-col-number{
 
 }
 
-/* Baseline and Target on the first row, how they are measured on
-   the second. */
+/* How they are measured on the first row (Measurement Frequency |
+   Unit), Baseline and Target on the second. */
 .strategy-metric-fields{
 
     display:grid;
@@ -6770,16 +6770,18 @@ td.process-library-col-number{
 /* ==========================================================
    Metric fields -- two pairs per row
 
-   Baseline and Target share the first line, Measurement
-   Frequency and Unit the second, each label beside its own
-   control. All four controls sit in the same two grid columns,
-   so each one is directly above or below another of exactly the
-   same width.
+   Measurement Frequency and Unit share the first row, Baseline
+   and Target the second, each label above its own control. All
+   four controls sit in the same two grid columns, so each one is
+   directly above or below another of exactly the same width. A row's
+   controls stay level where one label wraps ("Measurement
+   Frequency" in a narrow column): each field packs to the row's
+   foot.
 ========================================================== */
 
 .strategy-metric-fields{
 
-    align-items:center;
+    align-items:end;
 
 }
 

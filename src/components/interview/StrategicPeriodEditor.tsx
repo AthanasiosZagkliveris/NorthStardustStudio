@@ -944,49 +944,16 @@ function MetricList({
                         />
 
                         {/*
-                            Label beside its field rather than above
-                            it, in two rows: Baseline and Target
-                            first -- the two figures the Objective is
-                            judged between -- with how they are
-                            measured underneath.
+                            Two rows in the same two columns, tops
+                            level: how the Metric is measured first
+                            (Measurement Frequency | Unit, with the
+                            currency beside a Currency Unit), then the
+                            two figures the Objective is judged
+                            between (Baseline | Target). A Custom
+                            Unit's name comes last, so the pairs keep
+                            their columns.
                         */}
                         <div className="strategy-metric-fields">
-
-                            <div className="strategy-metric-field" data-field-holder="">
-                                <span className="field-label strategy-field-label">
-                                    {`Baseline (${formatMonthShort(objective.period.start)})`}
-                                    <FieldMark label={`Metric ${metricIndex + 1} baseline`} keyLabel="baseline" />
-                                </span>
-                                <FieldStatus label={`Metric ${metricIndex + 1} baseline`} keyLabel="baseline" />
-                                <input
-                                    type="text"
-                                    inputMode="decimal"
-                                    className="interview-input"
-                                    aria-label={`Metric ${metricIndex + 1} baseline`}
-                                    disabled={disabled}
-                                    value={metric.baseline}
-                                    onChange={(event) => updateMetric(metricIndex, {
-                                        baseline: event.target.value
-                                    })}
-                                />
-                            </div>
-
-                            <div className="strategy-metric-field">
-                                <span className="field-label strategy-field-label">
-                                    {`Target (${formatMonthShort(objective.period.end)})`}
-                                </span>
-                                <input
-                                    type="text"
-                                    inputMode="decimal"
-                                    className="interview-input"
-                                    aria-label={`Metric ${metricIndex + 1} target`}
-                                    disabled={disabled}
-                                    value={metric.target}
-                                    onChange={(event) => updateMetric(metricIndex, {
-                                        target: event.target.value
-                                    })}
-                                />
-                            </div>
 
                             <div className="strategy-metric-field">
                                 <span className="field-label strategy-field-label strategy-field-label-wrap">
@@ -1049,6 +1016,42 @@ function MetricList({
                                             onChange={(unit) => updateMetric(metricIndex, { unit })}
                                         />
                                     )}
+                            </div>
+
+                            <div className="strategy-metric-field" data-field-holder="">
+                                <span className="field-label strategy-field-label">
+                                    {`Baseline (${formatMonthShort(objective.period.start)})`}
+                                    <FieldMark label={`Metric ${metricIndex + 1} baseline`} keyLabel="baseline" />
+                                </span>
+                                <FieldStatus label={`Metric ${metricIndex + 1} baseline`} keyLabel="baseline" />
+                                <input
+                                    type="text"
+                                    inputMode="decimal"
+                                    className="interview-input"
+                                    aria-label={`Metric ${metricIndex + 1} baseline`}
+                                    disabled={disabled}
+                                    value={metric.baseline}
+                                    onChange={(event) => updateMetric(metricIndex, {
+                                        baseline: event.target.value
+                                    })}
+                                />
+                            </div>
+
+                            <div className="strategy-metric-field">
+                                <span className="field-label strategy-field-label">
+                                    {`Target (${formatMonthShort(objective.period.end)})`}
+                                </span>
+                                <input
+                                    type="text"
+                                    inputMode="decimal"
+                                    className="interview-input"
+                                    aria-label={`Metric ${metricIndex + 1} target`}
+                                    disabled={disabled}
+                                    value={metric.target}
+                                    onChange={(event) => updateMetric(metricIndex, {
+                                        target: event.target.value
+                                    })}
+                                />
                             </div>
 
                             {/*
