@@ -3585,7 +3585,11 @@ interface LegalEntityOrganisationValue {
      */
     addressLine1: string;
 
-    /** Rarely needed, so asked for as optional. */
+    /**
+     * No longer asked: the address is one box of as many lines as it
+     * needs (addressLine1). A second line saved before is read into it,
+     * on a line of its own, and this is always "" (see asLegalEntityValue).
+     */
     addressLine2: string;
 
     city: string;
@@ -3837,9 +3841,12 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
             // what was written in it: the whole thing lands on the
             // first line, which is the only part of it we can know
             // is right.
-            addressLine1: asText(organisationSource.addressLine1) ||
-                asText(organisationSource.address),
-            addressLine2: asText(organisationSource.addressLine2),
+            // One box now: a second line saved before is its next line.
+            addressLine1: [
+                asText(organisationSource.addressLine1) || asText(organisationSource.address),
+                asText(organisationSource.addressLine2)
+            ].filter(line => line.trim().length > 0).join("\n"),
+            addressLine2: "",
             city: asText(organisationSource.city),
             postalCode: asText(organisationSource.postalCode)
         },

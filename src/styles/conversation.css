@@ -8355,16 +8355,6 @@ td.process-library-col-number{
 
 }
 
-/* An add button standing where a field would be, inside a column
-   of fields. The margin is the same 6px that tells one label and
-   control pair from the next, so the button sits on the column's
-   rhythm rather than crowding the field above it. */
-.legal-entity-add-inline{
-
-    margin-top:6px;
-
-}
-
 /* An address, an activity, a description: prose needs the width. */
 /* One label-and-control pair among several in a column: it holds
    the field (its key, FieldKeys.ts) and draws nothing, so the
@@ -8998,6 +8988,100 @@ td.process-library-col-number{
     .legal-entity-grid-three{
 
         grid-template-columns:minmax(0, 1fr);
+
+    }
+
+}
+
+/* "Where it is": Country, then State / Region where the country has
+   one (it decides which registry and tax apply, so it follows the
+   country), each the column's width; City | Postcode side by side;
+   the Address below, one box of as many lines as it needs. */
+.legal-entity-where{
+
+    container-type:inline-size;
+
+}
+
+/* Country and State / Region take the column's width, as the City |
+   Postcode pair and the Address below them do, rather than the step
+   their longest option would pick (the "column" width variant). */
+.legal-entity-where .option-picker{
+
+    width:100%;
+
+}
+
+/* The activity code (SIC, NAICS...): a short code, at the S step,
+   under the Main Activity it classifies. */
+.legal-entity-activity-code{
+
+    display:contents;
+
+}
+
+.legal-entity-activity-code .interview-input{
+
+    width:var(--control-s);
+
+    max-width:100%;
+
+}
+
+/* Two short fields sharing one row of a column, at equal widths and
+   the grid's 24px column gap; they stack where the column is too
+   narrow for two (see docs/ai/layout-rules.md, "Pair rows"). */
+.legal-entity-pair-row{
+
+    display:grid;
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    gap:var(--space-field) 24px;
+
+    align-items:start;
+
+}
+
+.legal-entity-pair-row > .legal-entity-pair{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-label);
+
+    min-width:0;
+
+}
+
+/* City | Postcode: the code at its Code step, the City the rest, the
+   pair exactly the column's width. Where the country has no postal
+   code, the City is the column's width. */
+.legal-entity-city-postcode{
+
+    grid-template-columns:minmax(0, 1fr) var(--control-code);
+
+}
+
+.legal-entity-city-postcode:not(:has(> :nth-child(2))){
+
+    grid-template-columns:minmax(0, 1fr);
+
+}
+
+@container (max-width: 300px){
+
+    .legal-entity-pair-row,
+    .legal-entity-city-postcode{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+    .legal-entity-city-postcode > :nth-child(2) > .interview-input{
+
+        width:min(100%, var(--control-code));
 
     }
 

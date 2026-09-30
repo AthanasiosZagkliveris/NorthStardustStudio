@@ -371,6 +371,10 @@ body {
 :root {
   /* A short number beside its neighbours (a Quantity). */
   --control-xs: 80px;
+  /* A code of up to 11 characters (a postcode or ZIP: "10001-1234",
+     "SW1A 1AA"): 11 digits at body size are 114px, plus the box's
+     10px padding and border each side. */
+  --control-code: 140px;
   --control-s: 220px;
   --control-m: 300px;
   --control-l: 420px;

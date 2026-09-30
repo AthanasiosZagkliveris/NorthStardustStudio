@@ -345,7 +345,7 @@ function legalEntityBlocks(value: unknown, context: ExportContext): ExportBlock[
             ["Legal Form", organisation.legalForm === "Other (not listed)" ? organisation.legalFormOther : organisation.legalForm],
             ["Country", COUNTRIES.find(country => country.code === organisation.country)?.name ?? organisation.country],
             ["Region", organisation.subdivision],
-            ["Address", [organisation.addressLine1, organisation.addressLine2, organisation.city, organisation.postalCode]
+            ["Address", [...organisation.addressLine1.split("\n"), organisation.addressLine2, organisation.city, organisation.postalCode]
                 .map(text).filter(Boolean).join(", ")]
         ])),
 

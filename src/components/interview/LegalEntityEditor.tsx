@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useEffect, useRef, useState } from "react";
+import { CSSProperties, ReactNode, useEffect, useRef } from "react";
 
 import {
     LEGAL_ENTITY_SECTIONS,
@@ -44,6 +44,7 @@ import { FieldMark, FieldStatus, FrozenUntil } from "./fieldMarks.tsx";
 import { waitingHint } from "../../framework/engine/FieldDependencies.ts";
 import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
+import { SOURCES } from "../../framework/engine/Sources.ts";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import { OptionalNote } from "./BusinessCardFields.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
@@ -57,9 +58,6 @@ import { labelWithCurrency, nameWithCurrency } from "../../framework/engine/Curr
  * inside the list rather than as a second field beside it.
  */
 const LEGAL_FORM_OTHER = "Other (not listed)";
-
-/** The key the second address line is opened and closed under. */
-const ADDRESS_LINE_2 = "address-line-2";
 
 /** Why ownership must total 100%, the "i" beside the running total. */
 const TOTAL_OWNERSHIP_HELP: InfoPoint[] = [
@@ -85,6 +83,11 @@ const NOT_YET_REGISTERED = "Not yet registered";
  * answer to give, which is theirs and their jurisdiction's.
  */
 const INFO = {
+
+    activityCode: [
+        "The official code for the organization's main activity: it classifies what the organization does.",
+        "Asked for when the organization is registered, and on its annual filings where they apply."
+    ],
 
     mainActivity: [
         "The work the organization actually does, described factually.",
@@ -249,38 +252,8 @@ export default function LegalEntityEditor({
     const placeChosen = countryChosen && (!subdivisionSpec || entity.organisation.subdivision.trim().length > 0);
     const placeHint = !countryChosen ? waitingHint("country") : waitingHint(subdivisionSpec?.label ?? "region");
 
-    /**
-     * The optional fields the user has asked to see: an address's
-     * second line, a requirement's relevant information, an
-     * expense's description. Each is keyed by what it belongs to,
-     * so two expenses open and close independently.
-     *
-     * A field is on show when it has been opened here OR when it
-     * already holds something -- which is what carries a filled-in
-     * field across a later visit, without a stored flag to keep in
-     * step with it. The × beside it clears the value and drops
-     * the key, and the "+ Add" button comes back.
-     */
-    const [opened, setOpened] = useState<ReadonlySet<string>>(new Set());
-
     /** Which Requirement and Expense cards are open -- see useItemFolds. */
     const folds = useItemFolds();
-
-    function openField(key: string) {
-        setOpened(current => new Set(current).add(key));
-    }
-
-    function closeField(key: string) {
-        setOpened(current => {
-            const next = new Set(current);
-            next.delete(key);
-            return next;
-        });
-    }
-
-    function fieldShown(key: string, current: string): boolean {
-        return opened.has(key) || current.trim().length > 0;
-    }
 
     /** An amount label, with the currency when one is known. */
     function amountLabel(base: string): string {
@@ -771,7 +744,7 @@ export default function LegalEntityEditor({
         control: ReactNode,
         nested = false,
         onRemove?: () => void,
-        info?: string[]
+        info?: InfoPoint[]
     ) {
         return (
             /* One field of several in a column: its own holder (for
@@ -891,20 +864,6 @@ export default function LegalEntityEditor({
                 />
                 <span className="legal-entity-switch-label">Not applicable</span>
             </label>
-        );
-    }
-
-    /** The button an optional field hides behind until it is wanted. */
-    function addFieldButton(label: string, key: string) {
-        return (
-            <button
-                type="button"
-                className="strategy-add-button legal-entity-add-inline"
-                disabled={disabled}
-                onClick={() => openField(key)}
-            >
-                {"+ Add " + label}
-            </button>
         );
     }
 
@@ -1169,22 +1128,35 @@ export default function LegalEntityEditor({
                                 described.
                             */}
                             {profile.activityCode &&
-                                entity.organisation.mainActivity.trim().length > 0 &&
-                                labelled(
-                                    profile.activityCode,
-                                    textControl(
-                                        profile.activityCode,
-                                        entity.organisation.activityCode,
-                                        (next) => updateOrganisation({ activityCode: next }),
-                                        "Optional"
-                                    ),
-                                    true
+                                entity.organisation.mainActivity.trim().length > 0 && (
+                                    <div className="legal-entity-activity-code">
+                                        {labelled(
+                                            profile.activityCode,
+                                            textControl(
+                                                profile.activityCode,
+                                                entity.organisation.activityCode,
+                                                (next) => updateOrganisation({ activityCode: next }),
+                                                "Optional"
+                                            ),
+                                            true,
+                                            undefined,
+                                            [
+                                                ...INFO.activityCode,
+                                                // The official list, where one is verified (Sources.ts).
+                                                ...(entity.organisation.country === "GB" ? [{ title: "Source", source: SOURCES.ukSicCodes }] : [])
+                                            ]
+                                        )}
+                                    </div>
                                 )}
 
                         </div>
 
-                        {/* ---- Where it is ---- */}
-                        <div className="legal-entity-field">
+                        {/* ---- Where it is ----
+                            Country, then its State or Region where it has
+                            one, each the column's width; City | Postcode
+                            side by side; the Address, one box of as many
+                            lines as it needs. */}
+                        <div className="legal-entity-field legal-entity-where">
 
                             {labelled(
                                 "Country",
@@ -1244,58 +1216,49 @@ export default function LegalEntityEditor({
 
                             <FrozenUntil answered={placeChosen} hint={placeHint}>
 
-                            {labelled(
-                                "City",
-                                textControl(
+                            {/* City takes the column's width less the Postcode's,
+                                wrapping and growing when it is long; a postal
+                                code is 11 characters at most, so it takes the
+                                Code step (--control-code). */}
+                            <div className="legal-entity-pair-row legal-entity-city-postcode">
+
+                                {labelled(
                                     "City",
-                                    entity.organisation.city,
-                                    (next) => updateOrganisation({ city: next })
-                                ),
-                                true
-                            )}
+                                    <CardNameInput
+                                        ariaLabel="City"
+                                        placeholder=""
+                                        disabled={disabled}
+                                        value={entity.organisation.city}
+                                        onChange={(next) => updateOrganisation({ city: next })}
+                                    />,
+                                    true
+                                )}
 
-                            {labelled(
-                                "Address 1",
-                                textControl(
-                                    "Address 1",
-                                    entity.organisation.addressLine1,
-                                    (next) => updateOrganisation({ addressLine1: next }),
-                                    "Street and number"
-                                ),
-                                true
-                            )}
-
-                            {/*
-                                Behind a button, like everything else
-                                optional on this page. Most addresses
-                                are one line, and a second empty box
-                                on every form is a question nearly
-                                nobody has to answer.
-                            */}
-                            {fieldShown(ADDRESS_LINE_2, entity.organisation.addressLine2)
-                                ? labelled(
-                                    "Address 2",
-                                    textControl(
-                                        "Address 2",
-                                        entity.organisation.addressLine2,
-                                        (next) => updateOrganisation({ addressLine2: next })
-                                    ),
-                                    true,
-                                    () => {
-                                        closeField(ADDRESS_LINE_2);
-                                        updateOrganisation({ addressLine2: "" });
-                                    }
-                                )
-                                : addFieldButton("Address 2", ADDRESS_LINE_2)}
-
-                            {/* Not every country codes its addresses. */}
-                            {postalLabel && labelled(
-                                postalLabel,
-                                textControl(
+                                {/* Not every country codes its addresses. */}
+                                {postalLabel && labelled(
                                     postalLabel,
-                                    entity.organisation.postalCode,
-                                    (next) => updateOrganisation({ postalCode: next })
-                                ),
+                                    textControl(
+                                        postalLabel,
+                                        entity.organisation.postalCode,
+                                        (next) => updateOrganisation({ postalCode: next })
+                                    ),
+                                    true
+                                )}
+
+                            </div>
+
+                            {/* One box, as many lines as the address needs
+                                (Enter starts the next), growing with them. */}
+                            {labelled(
+                                "Address",
+                                <StrategyTextArea
+                                    className="interview-input legal-entity-note legal-entity-address"
+                                    ariaLabel="Address"
+                                    placeholder="Street and number"
+                                    disabled={disabled}
+                                    value={entity.organisation.addressLine1}
+                                    onChange={(next) => updateOrganisation({ addressLine1: next })}
+                                />,
                                 true
                             )}
                             </FrozenUntil>

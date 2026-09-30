@@ -62,3 +62,29 @@ describe("exporting the Foundation capability", () => {
     });
 
 });
+
+describe("the Legal Entity's address, one box of lines", () => {
+
+    test("a saved Address 2 is read as the Address's next line, and exported as its own part", () => {
+        const saved = identity.getResponse(legalSection!.number) as { organisation: Record<string, unknown> };
+        const migrated = asLegalEntityValue({
+            ...saved,
+            organisation: { ...saved.organisation, addressLine1: "Unit 4, Maker Yard", addressLine2: "92 Wallis Road" }
+        });
+        expect(migrated.organisation.addressLine1).toBe("Unit 4, Maker Yard\n92 Wallis Road");
+        expect(migrated.organisation.addressLine2).toBe("");
+
+        const session = InterviewSession.fromJSON(example.systems["1"], frameworkRegistry.getFramework("identity"));
+        session.saveResponse(legalSection!.number, migrated);
+        const content = buildExportContent(session, "Foundation", undefined, undefined, { legalEntity: migrated, currency: "GBP" });
+        const markdown = new MarkdownExporter().toMarkdown(session, "Foundation", content);
+        expect(markdown).toContain("Unit 4, Maker Yard, 92 Wallis Road, London");
+        expect(markdown).not.toContain("Maker Yard\n92");
+    });
+
+    test("an address with no second line is kept as it was", () => {
+        const migrated = asLegalEntityValue({ organisation: { addressLine1: "1 High Street" } });
+        expect(migrated.organisation.addressLine1).toBe("1 High Street");
+    });
+
+});

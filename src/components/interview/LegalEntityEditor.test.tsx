@@ -314,3 +314,62 @@ describe("LegalEntityEditor VAT", () => {
     });
 
 });
+
+describe("LegalEntityEditor where it is", () => {
+
+    function Where({ initial }: { initial: unknown }) {
+        const [value, setValue] = useState<unknown>(initial);
+        return <LegalEntityEditor value={value} onChange={setValue} />;
+    }
+
+    it("asks Country, then City beside Postcode, then one Address box of lines, with no Address 2", () => {
+
+        const saved = asLegalEntityValue({
+            organisation: { country: "GB", mainActivity: "Weaving", addressLine1: "Unit 4", addressLine2: "92 Wallis Road" }
+        });
+        render(<Where initial={saved} />);
+
+        const column = document.querySelector(".legal-entity-where")!;
+        const pair = column.querySelector(".legal-entity-pair-row")!;
+        // City wraps and grows (one line of data); the Postcode is the second, Code-step cell.
+        expect(pair.classList.contains("legal-entity-city-postcode")).toBe(true);
+        expect(pair.querySelector('textarea[aria-label="City"]')).toBeTruthy();
+        expect(pair.querySelector('input[aria-label="Postcode"]')).toBeTruthy();
+
+        const address = screen.getByRole("textbox", { name: "Address" }) as HTMLTextAreaElement;
+        expect(address.tagName).toBe("TEXTAREA");
+        expect(address.value).toBe("Unit 4\n92 Wallis Road");
+        expect(screen.queryByRole("button", { name: /Add Address 2/i })).toBeNull();
+        expect(screen.queryByRole("textbox", { name: "Address 2" })).toBeNull();
+
+        // Country comes first, the Address last.
+        const order = [...column.querySelectorAll(".option-picker-trigger, input, textarea")];
+        expect(order[0].classList.contains("option-picker-trigger")).toBe(true);
+        expect(order[order.length - 1]).toBe(address);
+
+    });
+
+    it("asks the activity code under Main Activity at the small width, with a note and, in the UK, its official list", () => {
+
+        render(<Where initial={asLegalEntityValue({ organisation: { country: "GB", mainActivity: "Weaving" } })} />);
+
+        const code = document.querySelector(".legal-entity-activity-code")!;
+        expect(code.querySelector("input.interview-input")).toBeTruthy();
+        fireEvent.click(code.querySelector("button")!);
+        expect(document.body.textContent).toContain("classifies what the organization does");
+        expect(document.querySelector('a[href*="gov.uk/government/publications/standard-industrial-classification"]')).toBeTruthy();
+
+    });
+
+    it("links no list where none is verified (the US)", () => {
+
+        render(<Where initial={asLegalEntityValue({ organisation: { country: "US", mainActivity: "Automation" } })} />);
+
+        const code = document.querySelector(".legal-entity-activity-code")!;
+        fireEvent.click(code.querySelector("button")!);
+        expect(document.body.textContent).toContain("classifies what the organization does");
+        expect(document.querySelector('a[href*="census.gov"]')).toBeNull();
+
+    });
+
+});

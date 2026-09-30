@@ -129,6 +129,13 @@ export function sourceLabel(source: Source): string {
  */
 export const SOURCES = {
 
+    ukSicCodes: {
+        title: "Standard industrial classification of economic activities (SIC)",
+        publisher: "Companies House",
+        url: "https://www.gov.uk/government/publications/standard-industrial-classification-of-economic-activities-sic",
+        checked: "2026-10-01"
+    },
+
     breakEvenPoint: {
         title: "Calculate your startup costs: break-even point",
         publisher: "U.S. Small Business Administration",

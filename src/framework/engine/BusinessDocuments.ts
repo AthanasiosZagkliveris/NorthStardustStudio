@@ -728,7 +728,8 @@ function paragraphs(value: unknown): ExportBlock[] {
 function fullAddress(f: Foundation): string {
     const organisation = f.legalEntity.organisation;
     const country = COUNTRIES.find(entry => entry.code === organisation.country)?.name ?? organisation.country;
-    return [organisation.addressLine1, organisation.addressLine2, organisation.city,
+    // The address's lines, one part each, as before.
+    return [...organisation.addressLine1.split("\n"), organisation.addressLine2, organisation.city,
         [organisation.subdivision, organisation.postalCode].map(text).filter(Boolean).join(" "), country]
         .map(text).filter(Boolean).join(", ");
 }
