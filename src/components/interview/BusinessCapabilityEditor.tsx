@@ -2036,7 +2036,9 @@ export default function BusinessCapabilityEditor({
 
                 {open && (<>
 
-                <div className="business-capability-stack">
+                {/* Performer and Responsibility side by side (stacked in
+                    a narrow card): business-capability-activity-fields. */}
+                <div className="business-capability-stack business-capability-activity-fields">
 
                     {performerFields(
                         "Activity " + number,

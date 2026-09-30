@@ -14120,6 +14120,39 @@ td.process-library-col-number{
 
 }
 
+/* An Activity's Performer (its list and "+ Add Performer") and its
+   Responsibility, side by side in the card's two columns, tops level;
+   one under the other where the card is under 600px wide. The card is
+   the container measured, so the rule is the same in every list. */
+.business-capability-activity{
+
+    container:activity-card / inline-size;
+
+}
+
+.business-capability-stack.business-capability-activity-fields{
+
+    display:grid;
+
+    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
+
+    column-gap:24px;
+    row-gap:var(--space-field);
+
+    align-items:start;
+
+}
+
+@container activity-card (max-width: 600px){
+
+    .business-capability-stack.business-capability-activity-fields{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+}
+
 /* ---------- Each Offering's costs (Sustainability) ---------- */
 
 .financial-offering-costs{
