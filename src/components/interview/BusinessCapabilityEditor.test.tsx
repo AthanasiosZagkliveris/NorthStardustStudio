@@ -375,6 +375,32 @@ describe("BusinessCapabilityEditor legacy numbers", () => {
 
     });
 
+    it("asks a resource's Quantity at Costs only, after the Status, and keeps it hidden otherwise", () => {
+
+        const slot = {
+            id: "slot-1", name: "Power", quantity: "3", description: "",
+            status: "provided", cost: cost(""), providerId: "", offeringIds: []
+        };
+        const { unmount } = renderWith({
+            ...asBusinessCapabilityValue(undefined),
+            resources: { utilities: [{ id: "electricity", name: "", slots: [slot] }] }
+        });
+        fireEvent.click(toggles(/(Resource 1|Power)$/)[0]);
+        expect(screen.queryByLabelText("Resource 1 quantity")).toBeNull();
+        unmount();
+
+        renderWith({
+            ...asBusinessCapabilityValue(undefined),
+            resources: { utilities: [{ id: "electricity", name: "", slots: [{ ...slot, status: "costs", cost: cost("5") }] }] }
+        });
+        fireEvent.click(toggles(/(Resource 1|Power)$/)[0]);
+        const quantity = screen.getByLabelText("Resource 1 quantity") as HTMLInputElement;
+        expect(quantity.value).toBe("3");
+        const status = screen.getByRole("button", { name: /Resource 1 status/ });
+        expect(status.compareDocumentPosition(quantity) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+
+    });
+
 });
 
 describe("BusinessCapabilityEditor founders' roles", () => {

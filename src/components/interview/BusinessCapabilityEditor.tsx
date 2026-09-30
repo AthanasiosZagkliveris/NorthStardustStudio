@@ -901,7 +901,9 @@ export default function BusinessCapabilityEditor({
         applySlot: (
             base: BusinessCapabilityValue,
             patch: Partial<BusinessResourceSlotValue>
-        ) => BusinessCapabilityValue
+        ) => BusinessCapabilityValue,
+        /** A resource's Quantity field, shown at Costs only (the Workspace has none). */
+        quantityField?: ReactNode
     ) {
 
         const onSlot = (patch: Partial<BusinessResourceSlotValue>) =>
@@ -955,6 +957,8 @@ export default function BusinessCapabilityEditor({
                 {slot.status === "professional" && partnerPicker(
                     what, scope, "professionals", slot, applySlot
                 )}
+
+                {slot.status === "costs" && quantityField}
 
                 {slot.status === "costs" && costFields(
                     what,
@@ -1130,39 +1134,39 @@ export default function BusinessCapabilityEditor({
                 }
             >
 
-                <div className="business-capability-stack">
-
-                    {/* How many, as a number: empty is one. What a
-                        count cannot say ("3 tables, 6 shelving units")
-                        belongs in the Description. 0 is kept as typed,
-                        so the box does not change under the caret, but
-                        counts as 1 and says so. */}
-                    <BusinessField label="Quantity" inline>
-                        <input
-                            type="text"
-                            inputMode="decimal"
-                            className="interview-input"
-                            aria-label={"Resource " + number + " quantity"}
-                            placeholder="1"
-                            disabled={disabled}
-                            value={slot.quantity}
-                            onChange={(event) => onSlot({
-                                quantity: limitedNumberText(event.target.value, slot.quantity, NUMBER_LIMITS.quantity)
-                            })}
-                        />
-                        {parseDecimal(slot.quantity) === 0 && (
-                            <p className="business-capability-total">
-                                A quantity must be more than 0. It is counted as 1.
-                            </p>
-                        )}
-                    </BusinessField>
-
-                </div>
-
+                {/* Status first; the Quantity only at Costs, where it
+                    is what the cost is counted by (see statusFields). A
+                    Quantity kept from another status is kept, hidden. */}
                 {statusFields(
                     "Resource " + number, scope, slot,
                     BUSINESS_RESOURCE_STATUSES.map(status => status.id),
-                    applySlot
+                    applySlot,
+                    (
+                        /* How many, as a number: empty is one. What a
+                           count cannot say ("3 tables, 6 shelving
+                           units") belongs in the Description. 0 is kept
+                           as typed, so the box does not change under
+                           the caret, but counts as 1 and says so. */
+                        <BusinessField label="Quantity" inline>
+                            <input
+                                type="text"
+                                inputMode="decimal"
+                                className="interview-input"
+                                aria-label={"Resource " + number + " quantity"}
+                                placeholder="1"
+                                disabled={disabled}
+                                value={slot.quantity}
+                                onChange={(event) => onSlot({
+                                    quantity: limitedNumberText(event.target.value, slot.quantity, NUMBER_LIMITS.quantity)
+                                })}
+                            />
+                            {parseDecimal(slot.quantity) === 0 && (
+                                <p className="business-capability-total">
+                                    A quantity must be more than 0. It is counted as 1.
+                                </p>
+                            )}
+                        </BusinessField>
+                    )
                 )}
 
                 <OptionalNote

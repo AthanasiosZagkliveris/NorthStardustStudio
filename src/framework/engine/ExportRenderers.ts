@@ -652,7 +652,8 @@ function slotRow(
     const detail = slot.status === "costs"
         ? costText(slot.cost, currency)
         : slot.status === "provided" || slot.status === "professional" ? people(slot.providerId) : "";
-    return [place, slot.name, slot.quantity, status, detail];
+    // The Quantity is a Costs resource's only: kept, not shown, for any other status.
+    return [place, slot.name, slot.status === "costs" ? slot.quantity : "", status, detail];
 }
 
 function businessCapabilityBlocks(value: unknown, context: ExportContext): ExportBlock[] {

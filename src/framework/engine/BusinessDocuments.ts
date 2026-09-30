@@ -899,7 +899,7 @@ function operationsBlocks(f: Foundation): ExportBlock[] {
         ))),
         ...titled("Key Resources", list(BUSINESS_RESOURCE_GROUPS.flatMap(group => (capability.resources[group.id] ?? [])
             .flatMap(subsection => subsection.slots.filter(slot => slot.name.trim()).map(slot =>
-                slot.name.trim() + (slot.quantity ? " × " + slot.quantity : "") + " (" +
+                slot.name.trim() + (slot.status === "costs" && slot.quantity ? " × " + slot.quantity : "") + " (" +
                 (BUSINESS_RESOURCE_STATUSES.find(status => status.id === slot.status)?.label ?? "status not set") + ")"))))),
         ...titled("Launch and Setup Tasks", table(["Task", "Category", "State"], [
             ...capability.activities.flatMap(category => category.activities
