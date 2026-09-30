@@ -6,6 +6,7 @@ import BrandStyleEditor, { levelHeight } from "./BrandStyleEditor";
 import { typeInto } from "../../test/interviewTestUtils";
 import { asBrandStyleValue, brandStyleSectionsEmpty, type BrandStyleAnswerValue } from "../../framework/engine/AnswerUtils";
 import { UndoService } from "../../services/UndoService";
+import { stylesheet } from "../../test/stylesheet";
 import { cardTint, contrastBetween, readColour } from "./brandStyleParts";
 
 afterEach(cleanup);
@@ -193,6 +194,11 @@ describe("BrandStyleEditor Text Hierarchy", () => {
 
     });
 
+    it("asks each size in a square box, the value centred", () => {
+        const css = stylesheet("conversation.css");
+        expect(css).toMatch(/\.brand-style \.brand-size-input\{[^}]*width:var\(--control-square\);\s*height:var\(--control-square\);[^}]*text-align:center;/);
+        expect(stylesheet("global.css")).toContain("--control-square: 45px;");
+    });
 
 });
 

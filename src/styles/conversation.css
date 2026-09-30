@@ -4179,9 +4179,10 @@ td.process-library-col-number{
 
 .brand-size-input{
 
-    width:72px;
+    /* The square variant (see .brand-style .brand-size-input). */
+    width:var(--control-square);
 
-    text-align:right;
+    text-align:center;
 
 }
 
@@ -4673,7 +4674,14 @@ td.process-library-col-number{
    Brand input. Two classes' worth of specificity to beat it. */
 .brand-style .brand-size-input{
 
-    width:72px;
+    /* The SQUARE variant: as wide as a control is tall, the value
+       centred, "px" after it on its centre line. */
+    width:var(--control-square);
+    height:var(--control-square);
+
+    padding-inline:4px;
+
+    text-align:center;
 
     flex:0 0 auto;
 

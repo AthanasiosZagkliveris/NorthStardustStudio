@@ -180,7 +180,10 @@ export function LevelSize({
                     inputMode="numeric"
                     className="interview-input brand-size-input"
                     aria-label={`${label} size in pixels, recommended ${range}`}
-                    placeholder={range}
+                    // No range written inside: a square holds three digits,
+                    // not "36–48". It is in the box's name, its tooltip
+                    // and the section's "i".
+                    title={"Recommended " + range + " px"}
                     disabled={disabled}
                     value={value}
                     onChange={(event) => {

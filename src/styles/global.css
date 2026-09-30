@@ -375,6 +375,9 @@ body {
      "SW1A 1AA"): 11 digits at body size are 114px, plus the box's
      10px padding and border each side. */
   --control-code: 140px;
+  /* A box as wide as a control is tall: a 2-3 digit value with its
+     unit after it (a Text Hierarchy level's px). */
+  --control-square: 45px;
   --control-s: 220px;
   --control-m: 300px;
   --control-l: 420px;
