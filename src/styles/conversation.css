@@ -14723,6 +14723,15 @@ td.process-library-col-number{
 
 }
 
+/* "Financial Plan:" on its line, the dates in bold on the next (and
+   any note under them). */
+.strategy-plan-dates-text{
+
+    display:flex;
+    flex-direction:column;
+
+}
+
 .strategy-plan-dates-differ{
 
     padding:6px 10px;

@@ -489,12 +489,13 @@ export default function StrategyFoundationEditor({
                     not show two unrelated time frames. */}
                 {financialPlan && (
                     <div className={"strategy-plan-dates" + (periodDiffers ? " strategy-plan-dates-differ" : "")} role="note">
-                        <span>
-                            {/* Named as a field is (its label), then its value. */}
-                            <span className="field-label">Financial Plan:</span> {formatRangeAbbrev(financialPlan)}
-                            {periodDiffers && isRangeSet(foundation.period)
-                                ? ". The Strategic Period differs, so the Business Plan will show two time frames."
-                                : ""}
+                        {/* Two lines: its name as a label, then the dates in bold. */}
+                        <span className="strategy-plan-dates-text">
+                            <span className="field-label">Financial Plan:</span>
+                            <strong>{formatRangeAbbrev(financialPlan)}</strong>
+                            {periodDiffers && isRangeSet(foundation.period) && (
+                                <span>The Strategic Period differs, so the Business Plan will show two time frames.</span>
+                            )}
                         </span>
                         {periodDiffers && (
                             <button
