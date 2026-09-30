@@ -3,6 +3,7 @@ import {
     ReactNode,
     RefObject,
     useContext,
+    useEffect,
     useLayoutEffect,
     useMemo,
     useRef,
@@ -76,7 +77,109 @@ export function FieldPageProvider({
         : null,
     [organizationId, systemNumber, sectionNumber, pageTitle]);
 
-    return <FieldPageContext.Provider value={value}>{children}</FieldPageContext.Provider>;
+    const page = useRef<HTMLDivElement | null>(null);
+
+    // Every control and card on the page gets a key, whether or not a
+    // label component marked it (markControls).
+    useEffect(() => {
+        const root = page.current;
+        if (!root || !value) {
+            return;
+        }
+        const mark = () => markControls(root, value);
+        mark();
+        const observer = new MutationObserver(mark);
+        observer.observe(root, { childList: true, subtree: true });
+        return () => observer.disconnect();
+    }, [value]);
+
+    return (
+        <FieldPageContext.Provider value={value}>
+            <div className="field-page" ref={page}>{children}</div>
+        </FieldPageContext.Provider>
+    );
+
+}
+
+/** Every control a person answers in (what a note can link to, and openField can focus). */
+export const ANSWER_CONTROLS = "input:not([type=hidden]):not([type=file]), textarea, select, .option-picker-trigger, .month-picker-trigger, [contenteditable=true]";
+
+/** The cards a note can link to as a whole. */
+const CARDS = ".business-foundation-card, .legal-entity-card, .strategy-theme-box, .strategy-goal-box, .strategy-objective-box, .strategy-metric-box";
+
+/** What a control is called, without the value a picker adds ("Journey Stage 1: Discovery"). */
+function controlName(control: HTMLElement): string {
+    const name = control.getAttribute("aria-label")
+        ?? ((control as HTMLInputElement).labels?.[0] ?? control.closest("label"))?.textContent?.trim()
+        ?? control.getAttribute("placeholder") ?? "";
+    return control.matches(".option-picker-trigger, .month-picker-trigger") ? name.replace(/:\s[^:]*$/, "") : name;
+}
+
+/** The cards around an element, innermost first, inside its page section. */
+function anchorsWithin(element: HTMLElement, rail: HTMLElement | null): string[] {
+    const anchors: string[] = [];
+    for (let at: HTMLElement | null = element.closest<HTMLElement>("[data-anchor]"); at; at = at.parentElement?.closest<HTMLElement>("[data-anchor]") ?? null) {
+        if (rail && (at === rail || !rail.contains(at))) {
+            break;
+        }
+        const token = (at.dataset.anchor ?? "").split(/\s+/)[0];
+        if (token) {
+            anchors.push(token);
+        }
+    }
+    return anchors;
+}
+
+/**
+ * EVERY CONTROL AND CARD HAS A KEY. A label component marks the field
+ * it names (FieldMark); what no label component reaches -- a column's
+ * box, a table cell, a line of a list, a card's name -- is marked here,
+ * on the control itself, from where it sits: its section, its card and
+ * its own accessible name. A card is marked by its section and anchor.
+ * So every answer can be linked from a note and opened again.
+ */
+function markControls(root: HTMLElement, page: FieldPageValue): void {
+
+    for (const card of root.querySelectorAll<HTMLElement>(CARDS)) {
+        const anchor = (card.dataset.anchor ?? "").split(/\s+/)[0];
+        if (!anchor || card.dataset.fieldKey) {
+            continue;
+        }
+        const rail = card.closest<HTMLElement>("[data-rail]");
+        const key = fieldKey({ systemNumber: page.systemNumber, sectionNumber: page.sectionNumber, path: [rail?.dataset.rail, anchor].filter((segment): segment is string => !!segment) });
+        const name = card.querySelector<HTMLInputElement>(".strategy-name-input, .card-name-input, input[aria-label$=' name']")?.value.trim()
+            || card.querySelector(".strategy-name-static, .strategy-box-number, .card-number")?.textContent?.trim() || anchor;
+        card.dataset.fieldKey = key;
+        registerField({ key, label: name, pageTitle: page.pageTitle, kind: "answer", anchors: anchorsWithin(card.parentElement ?? card, rail) });
+    }
+
+    for (const control of root.querySelectorAll<HTMLElement>(ANSWER_CONTROLS)) {
+
+        const held = control.closest<HTMLElement>("[data-field-key]");
+        // Marked already by its label, and not merely by the card around it.
+        if (held && !held.matches(CARDS)) {
+            continue;
+        }
+
+        const name = controlName(control);
+        if (!name) {
+            continue;
+        }
+
+        const rail = control.closest<HTMLElement>("[data-rail]");
+        const anchors = anchorsWithin(control, rail);
+        const own = slug(name);
+        // A column's own box is the column itself.
+        const path = [rail?.dataset.rail, anchors[0], rail?.dataset.rail === own && !anchors[0] ? undefined : own]
+            .filter((segment): segment is string => !!segment);
+        const key = fieldKey({ systemNumber: page.systemNumber, sectionNumber: page.sectionNumber, path });
+
+        if (control.dataset.fieldKey !== key) {
+            control.dataset.fieldKey = key;
+            registerField({ key, label: name, pageTitle: page.pageTitle, kind: "answer", ...(anchors.length > 0 ? { anchors } : {}) });
+        }
+
+    }
 
 }
 

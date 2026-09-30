@@ -521,6 +521,7 @@ export default function StrategyFoundationEditor({
                         <div
                             key={theme.id}
                             {...box}
+                            data-anchor={theme.id}
                             className={`strategy-theme-box ${box.className}`}
                             style={{ "--strategy-theme-hue": themeHues[theme.id] } as CSSProperties}
                         >

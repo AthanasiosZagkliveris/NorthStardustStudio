@@ -123,9 +123,9 @@ function findField(key: string): HTMLElement | null {
 
 /** The control a person types or chooses in, inside a field. */
 function controlOf(field: HTMLElement): HTMLElement | null {
-    return field.querySelector<HTMLElement>(
-        "input:not([type=hidden]), textarea, select, .option-picker-trigger, .month-picker-trigger"
-    );
+    const controls = "input:not([type=hidden]), textarea, select, .option-picker-trigger, .month-picker-trigger";
+    // A field marked on its control itself (fieldMarks.tsx) is that control.
+    return field.matches(controls) ? field : field.querySelector<HTMLElement>(controls);
 }
 
 /** Scrolls to, focuses and highlights the field `key` names on the page open now. */

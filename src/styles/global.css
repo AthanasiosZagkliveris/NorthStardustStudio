@@ -792,6 +792,12 @@ b, strong {
   display: contents;
 }
 
+/* The page every field key belongs to (FieldPageProvider): it holds
+   them, and draws nothing. */
+.field-page {
+  display: contents;
+}
+
 /* A set of fields waiting for another answer (FrozenUntil): a disabled
    fieldset, so every control in it is disabled, drawing nothing of its
    own. */

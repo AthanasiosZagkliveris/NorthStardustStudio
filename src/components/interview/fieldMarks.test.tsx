@@ -66,3 +66,32 @@ describe("every field knows its key", () => {
     });
 
 });
+
+describe("every control has a key, whatever draws it", () => {
+
+    it("marks controls no label component reaches, and cards, from where they sit and what they are called", async () => {
+        render(
+            <FieldPageProvider organizationId="org-1" systemNumber={3} sectionNumber={2} pageTitle="2. Customer Engagement">
+                <section data-rail="positioning">
+                    <textarea aria-label="Positioning" />
+                </section>
+                <section data-rail="customer-relationship">
+                    <div className="business-foundation-card" data-anchor="rel-1">
+                        <input className="card-name-input" aria-label="Relationship 1 name" defaultValue="Retainer clients" />
+                        <textarea aria-label="Approach for Discovery" />
+                        <button type="button" className="option-picker-trigger" aria-label="Journey Stage 1: Discovery" />
+                    </div>
+                </section>
+            </FieldPageProvider>
+        );
+        // The observer marks on its first pass, straight after mounting.
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const keyOf = (name: string) => document.querySelector("[aria-label='" + name + "']")?.getAttribute("data-field-key");
+        expect(keyOf("Positioning")).toBe("3.2:positioning");
+        expect(keyOf("Approach for Discovery")).toBe("3.2:customer-relationship/rel-1/approach-for-discovery");
+        expect(keyOf("Journey Stage 1: Discovery")).toBe("3.2:customer-relationship/rel-1/journey-stage-1");
+        expect(document.querySelector("[data-anchor=rel-1]")?.getAttribute("data-field-key")).toBe("3.2:customer-relationship/rel-1");
+        expect(registeredFields(3, 2).map(entry => entry.label)).toEqual(expect.arrayContaining(["Retainer clients", "Approach for Discovery", "Journey Stage 1"]));
+    });
+
+});
