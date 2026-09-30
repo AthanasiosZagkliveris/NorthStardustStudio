@@ -541,3 +541,13 @@ html.notepad-picking [data-pick-hover] {
     box-shadow: 0 0 12px var(--glow-noted);
 
 }
+
+/* Inside a box that clips what it holds -- a table that scrolls
+   sideways, a row of cards, a list's one box -- a glow outside would
+   be cut off at its edge, so there it is drawn inside instead: the
+   same glow, turned in, and nothing moves. */
+:where(.financial-table-scroll, .dynamic-table-scroll, .process-library-table-scroll, .operational-log-scroll, .business-forecast-table-wrap, .answer-variant-cards, .numbered-list) .is-noted.is-noted.is-noted:not(:focus, :focus-within) {
+
+    box-shadow: inset 0 0 12px var(--glow-noted);
+
+}
