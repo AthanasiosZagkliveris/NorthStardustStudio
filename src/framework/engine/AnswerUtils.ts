@@ -5571,8 +5571,28 @@ export interface BusinessSegmentEngagementValue {
  * that Segment, and a Segment deleted on Page 1 simply stops being
  * drawn.
  */
+/**
+ * A channel's cost: a link from a Customer Channel (a channel, or its
+ * category's row) to a cost card on 3. Infrastructure & Capability --
+ * a Resource at Costs, a Workspace that costs, an External
+ * Professional, Partner or Provider -- by their ids (see
+ * ChannelCosts.ts). Only a link: the cost is counted, once, where it
+ * is recorded.
+ */
+export interface BusinessChannelCostLinkValue {
+    id: string;
+    /** The Page 1 Segment the channel is under. */
+    segmentId: string;
+    /** A channel's id, or its category's row: "category:" and the category's label. */
+    channelKey: string;
+    /** The cost card's id (a resource slot, a partner or "workspace"). */
+    costId: string;
+}
+
 export interface BusinessEngagementValue {
     segments: BusinessSegmentEngagementValue[];
+    /** The channels' costs, linked (see BusinessChannelCostLinkValue). */
+    channelCosts: BusinessChannelCostLinkValue[];
     /**
      * Demand & Conversion, by Offering id: how each Offering's
      * customers come, and so its expected sales (see DemandCapacity.ts).
@@ -6006,7 +6026,19 @@ export function asBusinessEngagementValue(value: unknown): BusinessEngagementVal
         })
         .filter(segment => segment.segmentId.length > 0);
 
-    return { segments, demand: asDemandMap(source.demand) };
+    const channelCosts = (Array.isArray(source.channelCosts) ? source.channelCosts : [])
+        .map(entry => {
+            const link = asObject(entry);
+            return {
+                id: asText(link.id) || randomId("channel-cost"),
+                segmentId: asText(link.segmentId),
+                channelKey: asText(link.channelKey),
+                costId: asText(link.costId)
+            };
+        })
+        .filter(link => link.segmentId && link.channelKey && link.costId);
+
+    return { segments, demand: asDemandMap(source.demand), channelCosts };
 
 }
 
