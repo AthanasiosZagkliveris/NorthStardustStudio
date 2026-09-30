@@ -150,7 +150,8 @@ describe("Conversation records the last place worked", () => {
         fireEvent.click(screen.getByRole("button", { name: "Start Interview" }));
         expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 0 });
 
-        fireEvent.click(screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item")[1]);
+        // (The first item is the Introduction.)
+        fireEvent.click(screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item")[2]);
         expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 1 });
 
         const card = document.querySelector<HTMLElement>("[data-rail]")!;
@@ -219,6 +220,24 @@ describe("Conversation records the last place worked", () => {
         expect(current()).toMatch(/^1. /);
         fireEvent.click(screen.getByRole("button", { name: "Previous page" }));
         expect(screen.getByRole("button", { name: "Start Interview" })).toBeTruthy();
+
+    });
+
+    it("lists the Introduction first on the Pages rail, unnumbered and with no status, and opens it from there", () => {
+
+        const organization = OrganizationService.create("Quillfield");
+        vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
+
+        renderIdentity({ targetSectionNumber: 2, resume: {} });
+        const items = screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item");
+        expect(items[0].textContent).toBe("Introduction");
+        expect(items[0].querySelector(".bullet-rail-dot")?.getAttribute("data-status")).toBeNull();
+        expect(items[1].textContent).toMatch(/^1. /);
+
+        fireEvent.click(items[0]);
+        expect(screen.getByRole("button", { name: "Start Interview" })).toBeTruthy();
+        // The Introduction lists the pages itself: no rails there.
+        expect(screen.queryByRole("navigation", { name: "Pages" })).toBeNull();
 
     });
 

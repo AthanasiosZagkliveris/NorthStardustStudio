@@ -61,6 +61,9 @@ import { focusField, focusText, jumpTo, type OpenPage } from "../components/inte
 import { FieldPageProvider } from "../components/interview/fieldMarks.tsx";
 import BulletRail from "../components/interview/rails/BulletRail";
 import PageArrow, { pageKey } from "../components/interview/PageArrow";
+
+/** The Introduction's place on the PAGES rail, above "1. …". */
+const INTRODUCTION_RAIL_ID = "introduction";
 import NumberedListStatic from "../components/interview/NumberedListStatic";
 import { pageIndexFromRailId, pageRailItems, sectionRailItems } from "../components/interview/rails/railItems";
 import { pageStatuses } from "../framework/engine/PageStatus";
@@ -2828,9 +2831,11 @@ export default function Conversation() {
 
             {/*
                 Two bullet rails flank the card once the interview has
-                started: the left one lists the System's pages and
-                jumps between them; the right one lists the current
-                page's sections and scrolls to them. Rendered after
+                started: the left one lists the System's Introduction and
+                pages and jumps between them (not on the Introduction
+                itself, which lists the pages under What it covers); the
+                right one lists the current page's sections and scrolls
+                to them. Rendered after
                 <main> so the card's own fields come first in the tab
                 order -- the rails are position: fixed, so where they
                 sit in the DOM does not move them on screen. One
@@ -2843,9 +2848,12 @@ export default function Conversation() {
                         <BulletRail
                             side="left"
                             label="Pages"
-                            items={railPages}
+                            // The Introduction first, unnumbered and with no status.
+                            items={[{ id: INTRODUCTION_RAIL_ID, label: "Introduction" }, ...railPages]}
                             activeId={"page-" + currentSection.number}
-                            onSelect={id => goToPage(pageIndexFromRailId(id))}
+                            onSelect={id => id === INTRODUCTION_RAIL_ID
+                                ? goToIntroduction()
+                                : goToPage(pageIndexFromRailId(id))}
                             arrow={
                                 <PageArrow
                                     direction="previous"
