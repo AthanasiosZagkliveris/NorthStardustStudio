@@ -165,6 +165,41 @@ function isCardAnchor(segment: string): boolean {
 }
 
 /**
+ * Where a card is in its list, counting from 1 as the cards are
+ * numbered, found by the id its anchor holds ("legal-requirement-
+ * requirement-e7o2i5nx" holds "requirement-e7o2i5nx") in what the page
+ * has saved. Null where no saved list holds it.
+ */
+function cardPosition(value: unknown, anchor: string): number | null {
+    const parts = anchor.split("-");
+    const ids = parts.map((_part, index) => parts.slice(index).join("-")).filter(id => /\d/.test(id));
+    let found: number | null = null;
+    const walk = (node: unknown) => {
+        if (found !== null || !node || typeof node !== "object") {
+            return;
+        }
+        if (Array.isArray(node)) {
+            const at = node.findIndex(item => item && typeof item === "object" && ids.includes((item as { id?: unknown }).id as string));
+            if (at >= 0) {
+                found = at + 1;
+                return;
+            }
+            node.forEach(walk);
+            return;
+        }
+        Object.values(node as Record<string, unknown>).forEach(walk);
+    };
+    walk(value);
+    return found;
+}
+
+/** A page's saved answer in an Organization, or undefined. */
+function savedPage(organizationId: string, systemNumber: number, sectionNumber: number): unknown {
+    const document = OrganizationService.loadDocument(organizationId) as { systems?: Record<string, { responses?: { sectionNumber: number; value: unknown }[] }> } | null;
+    return document?.systems?.[String(systemNumber)]?.responses?.find(response => response.sectionNumber === sectionNumber)?.value;
+}
+
+/**
  * What a link's chip says, worked out from its key every time (never
  * from text stored with it): WHERE it is as System.page.section --
  * the section (or column) of the page the field is in, numbered as
@@ -198,9 +233,29 @@ export function linkDetail(link: NoteLink): { number: string; name: string } {
 
     const sectionSegment = address.path[0];
     const at = items.findIndex(item => parseFieldKey(item.key)?.path[0] === sectionSegment);
-    const number = at >= 0
-        ? [...base, /^(\d+)\./.exec(rawLabels[at] ?? "")?.[1] ?? String(at + 1)].join(".")
-        : base.join(".");
+    const numbers = at >= 0
+        ? [...base, /^(\d+)\./.exec(rawLabels[at] ?? "")?.[1] ?? String(at + 1)]
+        : [...base];
+
+    // Deeper where it is in a card list: each card's place on the way,
+    // outermost first ("1.3.5.1", "3.1.1.2"), as the cards are
+    // numbered -- from what is saved now, so a moved card is counted
+    // where it is.
+    if (at >= 0) {
+        // The cards around it (the link's anchors, innermost first), then
+        // the card its key names, where it names one.
+        const around = [...(link.anchors ?? [])].reverse();
+        const anchors = [...around, ...address.path.slice(1).filter(isCardAnchor).filter(anchor => !around.includes(anchor))];
+        const page = savedPage(link.organizationId, link.systemNumber, link.sectionNumber);
+        for (const anchor of anchors) {
+            const position = cardPosition(page, anchor);
+            if (position !== null) {
+                numbers.push(String(position));
+            }
+        }
+    }
+
+    const number = numbers.join(".");
 
     const last = address.path[address.path.length - 1] ?? "";
     let name: string;
