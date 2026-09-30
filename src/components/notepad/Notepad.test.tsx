@@ -286,6 +286,8 @@ describe("what can be clicked in the Notepad", () => {
         const css = stylesheet("notepad.css");
         expect(css).toContain(".notepad-note:hover { border-color: var(--line-primary); box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent); }");
         expect(css).not.toMatch(/.notepad-note-remove[,:{ ]/);
+        // "Link a field": only its underline thickens.
+        expect(css).toContain(".notepad-text-button:hover { text-decoration-thickness: 2px; }");
         expect(stylesheet("remove-button.css")).toContain(".strategy-box-remove{ width:32px; height:32px;");
     });
 

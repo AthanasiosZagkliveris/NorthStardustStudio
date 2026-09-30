@@ -620,21 +620,11 @@ html.notepad-picking [data-pick-hover] {
 
 /* ---------- What can be clicked, answering the pointer ---------- */
 
-/* "Link a field" and the other text buttons: the app's button hover
-   ground and ink, the underline thickened. The ground reaches past
-   the words as a ring, so nothing moves. */
-.notepad-text-button:is(:hover, :focus-visible) {
-
-    border-radius: 4px;
-
-    background: var(--bg-button-hover);
-    box-shadow: 0 0 0 4px var(--bg-button-hover);
-
-    color: var(--text-button-hover);
+/* "Link a field" and the other text buttons: only the underline
+   thickens. */
+.notepad-text-button:hover {
 
     text-decoration-thickness: 2px;
-
-    outline: none;
 
 }
 
