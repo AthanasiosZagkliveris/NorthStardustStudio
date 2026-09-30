@@ -42,13 +42,29 @@ describe("BulletRail", () => {
         render(<BulletRail items={items} activeId="a" onSelect={() => {}} side="right" label="Sections" />);
 
         const nav = screen.getByRole("navigation", { name: "Sections" });
-        const title = nav.firstElementChild as HTMLElement;
+        const head = nav.firstElementChild as HTMLElement;
+        const title = head.querySelector(".bullet-rail-title") as HTMLElement;
 
-        expect(title.className).toBe("bullet-rail-title");
+        expect(head.className).toBe("bullet-rail-head");
         expect(title.textContent).toBe("Sections");
         // The nav's label already names it; the title is not read twice.
         expect(title.getAttribute("aria-hidden")).toBe("true");
-        expect(title.nextElementSibling?.className).toBe("bullet-rail-list");
+        expect(head.nextElementSibling?.className).toBe("bullet-rail-list");
+
+    });
+
+    it("holds its page arrow on the title row, on the outer side of the name, even with too few items to draw", () => {
+
+        const { container, unmount } = render(
+            <BulletRail items={items} activeId="a" onSelect={() => {}} side="right" label="Sections" arrow={<button type="button">›</button>} />
+        );
+        const head = container.querySelector(".bullet-rail-head")!;
+        expect([...head.children].map(child => child.textContent)).toEqual(["Sections", "›"]);
+        unmount();
+
+        const left = render(<BulletRail items={items.slice(0, 1)} activeId="a" onSelect={() => {}} side="left" label="Pages" arrow={<button type="button">‹</button>} />);
+        expect(left.container.querySelector(".bullet-rail-head")?.firstElementChild?.textContent).toBe("‹");
+        expect(left.container.querySelector(".bullet-rail-list")).toBeNull();
 
     });
 

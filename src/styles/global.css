@@ -933,3 +933,54 @@ label:has(> input[type="checkbox"]:not(:disabled)):hover > input[type="checkbox"
   border-radius: 3px;
   box-shadow: 0 0 0 1px var(--line-primary), 0 0 0 5px color-mix(in srgb, var(--glow-color) 18%, transparent);
 }
+
+/* THE PAGE ARROWS (PageArrow.tsx): "‹" and "›", previous and next
+   page, above the rails and beside Start Interview. A 36px square
+   like a fold arrow, its chevron DRAWN (two strokes turned from the
+   button's middle), so it sits exactly centred in any font; white
+   ground and the card line under the pointer, as the fold arrows. */
+.page-arrow {
+  position: relative;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: none;
+  font-size: 0;
+  color: var(--text-default);
+  cursor: pointer;
+}
+
+.page-arrow::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 11px;
+  height: 11px;
+  border-left: 2.5px solid currentColor;
+  border-bottom: 2.5px solid currentColor;
+  transform: translate(-30%, -50%) rotate(45deg);
+}
+
+.page-arrow[data-direction="next"]::before {
+  transform: translate(-70%, -50%) rotate(-135deg);
+}
+
+.page-arrow:hover:not(:disabled) {
+  border-color: var(--line-card);
+  background: var(--bg-surface);
+}
+
+.page-arrow:focus-visible {
+  outline: none;
+  border-color: var(--line-primary);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
+}
+
+.page-arrow:disabled {
+  color: var(--text-faint);
+  cursor: not-allowed;
+}

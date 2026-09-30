@@ -150,7 +150,7 @@ describe("Conversation records the last place worked", () => {
         fireEvent.click(screen.getByRole("button", { name: "Start Interview" }));
         expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 0 });
 
-        fireEvent.click(screen.getByRole("navigation", { name: "Pages" }).querySelectorAll("button")[1]);
+        fireEvent.click(screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item")[1]);
         expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 1 });
 
         const card = document.querySelector<HTMLElement>("[data-rail]")!;
@@ -172,7 +172,7 @@ describe("Conversation records the last place worked", () => {
 
         renderIdentity({ targetSectionNumber: 1, resume: {} });
 
-        const sections = () => Array.from(screen.getByRole("navigation", { name: "Sections" }).querySelectorAll("button"))
+        const sections = () => Array.from(screen.getByRole("navigation", { name: "Sections" }).querySelectorAll(".bullet-rail-item"))
             .map(button => button.getAttribute("aria-label"));
 
         expect(sections()).toEqual([
@@ -189,6 +189,36 @@ describe("Conversation records the last place worked", () => {
         expect(sections()[0]).toBe("1. Description: defined");
         expect(screen.getByRole("navigation", { name: "Sections" }).querySelector(".bullet-rail-dot")?.getAttribute("data-status"))
             .toBe("defined");
+
+    });
+
+    it("turns the page with the arrows above the rails and with ← / →, back to the Introduction from the first page", () => {
+
+        const organization = OrganizationService.create("Quillfield");
+        vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
+
+        renderIdentity({ targetSectionNumber: 2, resume: {} });
+        const current = () => screen.getByRole("navigation", { name: "Pages" }).querySelector("[aria-current='true']")?.getAttribute("aria-label");
+
+        expect(current()).toMatch(/^2. /);
+        fireEvent.click(screen.getByRole("button", { name: "Next page" }));
+        expect(current()).toMatch(/^3. /);
+        fireEvent.keyDown(document.body, { key: "ArrowLeft" });
+        expect(current()).toMatch(/^2. /);
+        fireEvent.keyDown(document.body, { key: "ArrowRight" });
+        expect(current()).toMatch(/^3. /);
+
+        // Not while typing.
+        const box = document.querySelector<HTMLElement>("textarea, input")!;
+        fireEvent.keyDown(box, { key: "ArrowLeft" });
+        expect(current()).toMatch(/^3. /);
+
+        // From the first page, back to the Introduction.
+        fireEvent.click(screen.getByRole("button", { name: "Previous page" }));
+        fireEvent.click(screen.getByRole("button", { name: "Previous page" }));
+        expect(current()).toMatch(/^1. /);
+        fireEvent.click(screen.getByRole("button", { name: "Previous page" }));
+        expect(screen.getByRole("button", { name: "Start Interview" })).toBeTruthy();
 
     });
 

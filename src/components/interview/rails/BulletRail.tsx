@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 import type { RailItem } from "./railItems";
 import { PAGE_STATUS_WORDS } from "../../../framework/engine/PageStatus";
@@ -38,7 +38,9 @@ export default function BulletRail({
 
     side,
 
-    label
+    label,
+
+    arrow
 
 }: {
 
@@ -47,6 +49,12 @@ export default function BulletRail({
     onSelect: (id: string) => void;
     side: "left" | "right";
     label: string;
+    /**
+     * A page arrow (PageArrow) on the rail's title row: "‹" before
+     * PAGES on the left, "›" after SECTIONS on the right. Shown even
+     * where the rail itself has too few items to draw.
+     */
+    arrow?: ReactNode;
 
 }) {
 
@@ -78,17 +86,25 @@ export default function BulletRail({
 
     }
 
+    // The title row: the rail's name ("PAGES", "SECTIONS"), hidden
+    // from assistive technology (the nav's own label says it), and
+    // the page arrow on the rail's outer side of it.
+    const head = (
+        <div className="bullet-rail-head">
+            {side === "left" && arrow}
+            <span className="bullet-rail-title" aria-hidden="true">{label}</span>
+            {side === "right" && arrow}
+        </div>
+    );
+
     if (items.length < 2) {
-        return null;
+        return arrow ? <div className={"bullet-rail bullet-rail-" + side}>{head}</div> : null;
     }
 
     return (
         <nav className={"bullet-rail bullet-rail-" + side} aria-label={label}>
 
-            {/* The rail's name, shown above it ("PAGES", "SECTIONS").
-                Hidden from assistive technology: the nav's own
-                label already says it. */}
-            <span className="bullet-rail-title" aria-hidden="true">{label}</span>
+            {head}
 
             <ol className="bullet-rail-list">
 

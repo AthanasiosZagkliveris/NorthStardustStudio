@@ -113,6 +113,29 @@
 
 .bullet-rail-right .bullet-rail-title { padding-left: 24px; text-align: left; }
 
+/* The title row: the rail's name and its page arrow (.page-arrow,
+   global.css) -- "‹" before PAGES, "›" after SECTIONS -- the arrow
+   at the bullets' side of the row where the name is hidden. It takes
+   clicks, as the lists do. */
+.bullet-rail-head {
+
+    flex: none;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    max-width: 100%;
+    margin-bottom: 18px;
+
+    pointer-events: auto;
+
+}
+
+.bullet-rail-head:empty { display: none; }
+
+.bullet-rail-head > .bullet-rail-title { margin-bottom: 0; }
+
 .bullet-rail-list {
 
     display: flex;

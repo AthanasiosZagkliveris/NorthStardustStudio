@@ -60,6 +60,7 @@ import { systems } from "../data/systems";
 import { focusField, focusText, jumpTo, type OpenPage } from "../components/interview/jumpTo.ts";
 import { FieldPageProvider } from "../components/interview/fieldMarks.tsx";
 import BulletRail from "../components/interview/rails/BulletRail";
+import PageArrow, { pageKey } from "../components/interview/PageArrow";
 import NumberedListStatic from "../components/interview/NumberedListStatic";
 import { pageIndexFromRailId, pageRailItems, sectionRailItems } from "../components/interview/rails/railItems";
 import { pageStatuses } from "../framework/engine/PageStatus";
@@ -849,6 +850,28 @@ export default function Conversation() {
     const [operationsExportScope, setOperationsExportScope] = useState<OperationsExportScope>("all");
     const [selectedProcessIndexes, setSelectedProcessIndexes] = useState<Set<number>>(new Set());
     const [selectedSopKeys, setSelectedSopKeys] = useState<Set<string>>(new Set());
+
+    // ← and → turn the page (pageKey says when they may): set below,
+    // once the session's page functions exist, and read by one
+    // listener for the page's life.
+    const pageTurn = useRef<(direction: "previous" | "next") => void>(() => undefined);
+    // Not while the Strategy confirmation or the export flow is open.
+    const strategyPromptOpen = useRef(false);
+    strategyPromptOpen.current = strategyPrompt !== null;
+    const exportOpen = useRef(false);
+    exportOpen.current = exportStep !== "none";
+
+    useEffect(() => {
+        function onKey(event: KeyboardEvent) {
+            const direction = pageKey(event);
+            if (direction && !strategyPromptOpen.current && !exportOpen.current) {
+                event.preventDefault();
+                pageTurn.current(direction);
+            }
+        }
+        window.addEventListener("keydown", onKey);
+        return () => window.removeEventListener("keydown", onKey);
+    }, []);
 
     // Escape acts as "Back" everywhere in the app: first close
     // whichever popup is currently open (here, the Strategy
@@ -1908,6 +1931,25 @@ export default function Conversation() {
 
     const showIntroduction = !session.hasStartedInterview();
 
+    // The page arrows (above the rails; beside Start Interview on the
+    // Introduction) and ← / →: back to the Introduction from the first
+    // page, and no further than the last.
+    const previousPage = session.isFirstSection() ? goToIntroduction : previousSection;
+    const onLastPage = session.isLastSection();
+    pageTurn.current = (direction) => {
+        if (showIntroduction) {
+            if (direction === "next") {
+                startInterview();
+            }
+            return;
+        }
+        if (direction === "previous") {
+            previousPage();
+        } else if (!onLastPage && !nextDisabled) {
+            nextSection();
+        }
+    };
+
     // A field taking focus names the section card it is in (its
     // `data-rail` marker) as the last place worked -- cheap, and
     // only while the interview itself is showing.
@@ -2815,6 +2857,13 @@ export default function Conversation() {
                             items={railPages}
                             activeId={"page-" + currentSection.number}
                             onSelect={id => goToPage(pageIndexFromRailId(id))}
+                            arrow={
+                                <PageArrow
+                                    direction="previous"
+                                    label={session.isFirstSection() ? "Previous page: the Introduction" : undefined}
+                                    onClick={previousPage}
+                                />
+                            }
                         />
                         <BulletRail
                             side="right"
@@ -2826,6 +2875,9 @@ export default function Conversation() {
                                 selectRailSection(id);
                                 scrollToRailSection(id);
                             }}
+                            arrow={onLastPage ? undefined : (
+                                <PageArrow direction="next" disabled={nextDisabled} onClick={nextSection} />
+                            )}
                         />
                     </div>
                 </div>
