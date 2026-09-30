@@ -399,6 +399,42 @@
             }
         }
 
+        // 14. An "i" right after its words: on their (last) line's centre, one gap after the last word.
+        for (const button of [...document.querySelectorAll(".info-note-button")].filter(visible)) {
+            const note = button.closest(".info-note");
+            const holder = note.closest(".info-note-glue") ?? note.previousElementSibling;
+            if (!holder) {
+                continue;
+            }
+            const walker = document.createTreeWalker(holder, NodeFilter.SHOW_TEXT);
+            let last = null;
+            for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+                if (node.textContent.trim() && !node.parentElement.closest(".info-note")) {
+                    last = node;
+                }
+            }
+            if (!last) {
+                continue;
+            }
+            const range = document.createRange();
+            range.selectNodeContents(last);
+            const lines = range.getClientRects();
+            // After a badge (a figure in a pill), the badge is what it follows.
+            const holderStyle = getComputedStyle(holder);
+            const boxed = parseFloat(holderStyle.borderLeftWidth) > 0 || holderStyle.backgroundColor !== "rgba(0, 0, 0, 0)";
+            const words = boxed ? rect(holder) : lines[lines.length - 1];
+            if (!words) {
+                continue;
+            }
+            const box = rect(button);
+            if (!rules.near(box.top + box.height / 2, words.top + words.height / 2, 1)) {
+                fail("an i on its words' centre line", button, { i: box.top + box.height / 2, words: words.top + words.height / 2 });
+            }
+            if (Math.abs(box.top - words.top) < words.height && !rules.near(box.left - words.right, 8, 0.5)) {
+                fail("an i one gap after its words", button, { gap: box.left - words.right });
+            }
+        }
+
         // 13. Every card and section box: one inner side margin (--card-padding).
         if (spec.cardPadding) {
             for (const box of [...document.querySelectorAll(CARDS)].filter(visible)) {
