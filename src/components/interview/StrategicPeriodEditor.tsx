@@ -2,7 +2,6 @@ import { CSSProperties, ReactNode, useState } from "react";
 
 import {
     STRATEGY_METRIC_CURRENCY_UNIT,
-    STRATEGY_METRIC_CUSTOM_UNIT,
     STRATEGY_METRIC_FREQUENCIES,
     STRATEGY_METRIC_UNITS,
     StrategicPeriodValue,
@@ -1053,29 +1052,6 @@ function MetricList({
                                     })}
                                 />
                             </div>
-
-                            {/*
-                                "Custom" is only a useful choice if
-                                the unit can then be named --
-                                otherwise two metrics measured in
-                                different things would both read
-                                "Custom".
-                            */}
-                            {metric.unit === STRATEGY_METRIC_CUSTOM_UNIT && (
-                                <div className="strategy-metric-field">
-                                    <span className="field-label strategy-field-label">Custom Unit</span>
-                                    <input
-                                        type="text"
-                                        className="interview-input"
-                                        aria-label={`Metric ${metricIndex + 1} custom unit`}
-                                        disabled={disabled}
-                                        value={metric.customUnit}
-                                        onChange={(event) => updateMetric(metricIndex, {
-                                            customUnit: event.target.value
-                                        })}
-                                    />
-                                </div>
-                            )}
 
                         </div>
 

@@ -2169,7 +2169,6 @@
                           "target": "15000",
                           "frequency": "Monthly",
                           "unit": "Currency",
-                          "customUnit": "",
                           "currency": ""
                         }
                       ],
@@ -2203,18 +2202,16 @@
                           "target": "14250",
                           "frequency": "Monthly",
                           "unit": "Currency",
-                          "customUnit": "",
                           "currency": ""
                         },
                         {
                           "id": "metric-qf7resv4",
-                          "name": "Cash reserve",
+                          "name": "Cash reserve (months of costs)",
                           "description": "Cash at month end divided by average monthly running costs",
                           "baseline": "0",
                           "target": "3",
                           "frequency": "Quarterly",
-                          "unit": "Custom",
-                          "customUnit": "months of costs",
+                          "unit": "Number",
                           "currency": ""
                         }
                       ],
@@ -2257,7 +2254,6 @@
                           "target": "70",
                           "frequency": "Quarterly",
                           "unit": "Percentage",
-                          "customUnit": "",
                           "currency": ""
                         },
                         {
@@ -2268,7 +2264,6 @@
                           "target": "12",
                           "frequency": "Monthly",
                           "unit": "Number",
-                          "customUnit": "",
                           "currency": ""
                         }
                       ],
@@ -2302,7 +2297,6 @@
                           "target": "50",
                           "frequency": "Quarterly",
                           "unit": "Percentage",
-                          "customUnit": "",
                           "currency": ""
                         }
                       ],
@@ -2344,8 +2338,7 @@
                           "baseline": "40",
                           "target": "30",
                           "frequency": "Quarterly",
-                          "unit": "Custom",
-                          "customUnit": "hours per build",
+                          "unit": "Number",
                           "currency": ""
                         }
                       ],
@@ -2379,7 +2372,6 @@
                           "target": "6",
                           "frequency": "Quarterly",
                           "unit": "Number",
-                          "customUnit": "",
                           "currency": ""
                         },
                         {
@@ -2390,7 +2382,6 @@
                           "target": "95",
                           "frequency": "Quarterly",
                           "unit": "Percentage",
-                          "customUnit": "",
                           "currency": ""
                         }
                       ],

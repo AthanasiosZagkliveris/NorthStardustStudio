@@ -3000,8 +3000,8 @@
                           "baseline": "36000",
                           "target": "46400",
                           "frequency": "Monthly",
-                          "unit": "Custom",
-                          "customUnit": "£"
+                          "unit": "Currency",
+                          "currency": "GBP"
                         }
                       ],
                       "ownerId": "founder-3fhkh0cm"
@@ -3033,8 +3033,8 @@
                           "baseline": "1970",
                           "target": "9740",
                           "frequency": "Monthly",
-                          "unit": "Custom",
-                          "customUnit": "£"
+                          "unit": "Currency",
+                          "currency": "GBP"
                         },
                         {
                           "id": "metric-2pjrm52r",
@@ -3043,8 +3043,7 @@
                           "baseline": "0",
                           "target": "3",
                           "frequency": "Monthly",
-                          "unit": "Number",
-                          "customUnit": ""
+                          "unit": "Number"
                         }
                       ],
                       "ownerId": "founder-3fhkh0cm"
@@ -3085,8 +3084,7 @@
                           "baseline": "0",
                           "target": "12",
                           "frequency": "Quarterly",
-                          "unit": "Number",
-                          "customUnit": ""
+                          "unit": "Number"
                         }
                       ],
                       "ownerId": "founder-z2jgpf8v"
@@ -3118,8 +3116,7 @@
                           "baseline": "0",
                           "target": "95",
                           "frequency": "Quarterly",
-                          "unit": "Percentage",
-                          "customUnit": ""
+                          "unit": "Percentage"
                         },
                         {
                           "id": "metric-r4b5rgp3",
@@ -3128,8 +3125,8 @@
                           "baseline": "0",
                           "target": "43000",
                           "frequency": "Annually",
-                          "unit": "Custom",
-                          "customUnit": "£"
+                          "unit": "Currency",
+                          "currency": "GBP"
                         }
                       ],
                       "ownerId": "founder-3aux8uyh"
@@ -3170,8 +3167,7 @@
                           "baseline": "40",
                           "target": "90",
                           "frequency": "Monthly",
-                          "unit": "Percentage",
-                          "customUnit": ""
+                          "unit": "Percentage"
                         },
                         {
                           "id": "metric-boblcues",
@@ -3180,8 +3176,7 @@
                           "baseline": "0",
                           "target": "4.8",
                           "frequency": "Quarterly",
-                          "unit": "Number",
-                          "customUnit": ""
+                          "unit": "Number"
                         }
                       ],
                       "ownerId": "founder-z2jgpf8v"
@@ -3212,8 +3207,7 @@
                           "baseline": "0",
                           "target": "30",
                           "frequency": "Quarterly",
-                          "unit": "Percentage",
-                          "customUnit": ""
+                          "unit": "Percentage"
                         }
                       ],
                       "ownerId": "founder-z2jgpf8v"
@@ -3254,8 +3248,7 @@
                           "baseline": "40",
                           "target": "80",
                           "frequency": "Monthly",
-                          "unit": "Number",
-                          "customUnit": ""
+                          "unit": "Number"
                         }
                       ],
                       "ownerId": "founder-3aux8uyh"
@@ -3287,8 +3280,7 @@
                           "baseline": "60",
                           "target": "100",
                           "frequency": "Quarterly",
-                          "unit": "Percentage",
-                          "customUnit": ""
+                          "unit": "Percentage"
                         }
                       ],
                       "ownerId": "founder-3fhkh0cm"

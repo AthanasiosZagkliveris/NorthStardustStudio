@@ -1,4 +1,5 @@
 import { parseAmount, parseDecimal } from "./Amounts.ts";
+import { CURRENCY_CODES } from "./Currencies.ts";
 import { asObject, asText, randomId } from "./Readers.ts";
 import { AnswerDefinition, TableColumnDefinition } from "../model/index.ts";
 import {
@@ -2811,18 +2812,18 @@ export const STRATEGY_METRIC_FREQUENCIES = [
 ] as const;
 
 /**
- * What a Metric's Baseline and Target are counted in. "Custom"
- * reveals a field for naming the unit, since two fixed options
- * cannot cover every measure an organization tracks.
+ * What a Metric's Baseline and Target are counted in. A money Metric
+ * is Currency (its currency chosen beside it); anything else counted
+ * is a Number, what it counts said in the Metric's name or
+ * description. (A "Custom" unit, named in a box of its own, was a
+ * second way to say Currency -- "£" -- and is read as one of these
+ * now; see migratedMetricUnit.)
  */
 export const STRATEGY_METRIC_UNITS = [
     "Number",
     "Percentage",
-    "Currency",
-    "Custom"
+    "Currency"
 ] as const;
-
-export const STRATEGY_METRIC_CUSTOM_UNIT = "Custom";
 
 /** A money Metric: its currency is chosen as a Business price's is. */
 export const STRATEGY_METRIC_CURRENCY_UNIT = "Currency";
@@ -2872,7 +2873,6 @@ export interface StrategyMetricValue {
     target: string;
     frequency: string;
     unit: string;
-    customUnit: string;
     /**
      * For a Currency Metric: its currency code. "" is the
      * organization's own (from the Legal Entity country), so it
@@ -3076,15 +3076,51 @@ function strategyMetric(value: unknown): StrategyMetricValue {
     return {
         id: asText(source.id) || randomId("metric"),
         name: asText(source.name),
-        description: asText(source.description),
         baseline: asText(source.baseline),
         target: asText(source.target),
         frequency: asText(source.frequency),
-        unit: asText(source.unit),
-        customUnit: asText(source.customUnit),
-        currency: asText(source.currency)
+        ...migratedMetricUnit(asText(source.unit), asText(source.customUnit), asText(source.currency), asText(source.description))
     };
 
+}
+
+/** Currency symbols a "Custom" unit was written as, and their codes. */
+const METRIC_UNIT_SYMBOLS: Record<string, string> = {
+    "£": "GBP", "$": "USD", "US$": "USD", "€": "EUR", "¥": "JPY", "C$": "CAD", "A$": "AUD", "CHF": "CHF"
+};
+
+/**
+ * A Metric saved with the "Custom" unit, read as one of the three:
+ * a currency's symbol or code (£, $, €, GBP, USD…) is Currency in
+ * that currency; "%" or "percent" is Percentage; "number" or "count"
+ * is Number; anything else is a Number, its words kept at the end of
+ * the Description ("Unit: hours per build"), so nothing is lost.
+ */
+export function migratedMetricUnit(
+    unit: string,
+    customUnit: string,
+    currency: string,
+    description: string
+): { unit: string; currency: string; description: string } {
+    if (unit !== "Custom") {
+        return { unit, currency, description };
+    }
+    const text = customUnit.trim();
+    const code = METRIC_UNIT_SYMBOLS[text] ?? (/^[A-Za-z]{3}$/.test(text) && CURRENCY_CODES.includes(text.toUpperCase()) ? text.toUpperCase() : "");
+    if (code) {
+        return { unit: "Currency", currency: code, description };
+    }
+    if (/^(%|percent(age)?)$/i.test(text)) {
+        return { unit: "Percentage", currency, description };
+    }
+    if (text === "" || /^(number|count|#)$/i.test(text)) {
+        return { unit: "Number", currency, description };
+    }
+    return {
+        unit: "Number",
+        currency,
+        description: (description.trim() ? description.replace(/\s+$/, "") + "\n" : "") + "Unit: " + text
+    };
 }
 
 function strategyObjective(value: unknown): StrategyObjectiveValue {
@@ -3226,7 +3262,6 @@ export function strategyGoalsForTheme(
                 target: "",
                 frequency: "",
                 unit: "",
-                customUnit: "",
                 currency: ""
             }]
         }]

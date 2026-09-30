@@ -49,6 +49,11 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
     channels have grown since (shared actions, channel resources), which
     changes the documents' words but no figure -- and this test is about
     the founders' figures, so it keeps the page it was written against.
+
+    The Business Plan's digests (and the weekly fixture's plan words)
+    were written again, deliberately, when a Metric's "Custom" unit was
+    retired: only the Strategy table's Metric rows changed ("36000 £" is
+    "£36,000"; "40 hours per build" is "40"), every number as it was.
 */
 const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
 

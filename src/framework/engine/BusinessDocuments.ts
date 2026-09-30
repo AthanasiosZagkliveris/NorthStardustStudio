@@ -1025,8 +1025,7 @@ function metricValue(metric: StrategyMetricValue, value: string, format: (amount
     if (metric.unit === "Percentage") {
         return text(value) + "%";
     }
-    const unit = metric.unit === "Custom" ? text(metric.customUnit) : "";
-    return text(value) + (unit ? " " + unit : "");
+    return text(value);
 }
 
 function strategyBlocks(f: Foundation): ExportBlock[] {

@@ -1066,9 +1066,7 @@ function strategicPeriodBlocks(value: unknown, context: ExportContext): ExportBl
                     ...list(objective.initiatives, true),
                     ...table(["Metric", "Baseline", "Target", "Frequency", "Unit"], objective.metrics.map(metric => [
                         metric.name, metric.baseline, metric.target, metric.frequency,
-                        metric.unit === "Custom" ? metric.customUnit
-                            : metric.unit === "Currency" ? (metric.currency || context.currency || "Currency")
-                                : metric.unit
+                        metric.unit === "Currency" ? (metric.currency || context.currency || "Currency") : metric.unit
                     ]))
                 ])
             ])
