@@ -136,6 +136,22 @@
 
 }
 
+/* A FOLDED CARD'S HEAD IS THE OPEN ONE'S: its name, written rather
+   than in a box, stands in the space the name box takes (one control
+   high, its first line on the box's centre line), so the arrow,
+   number, name and × are at the same place, folded or open, and
+   folding moves nothing but what is under the head. */
+.fold-card-head > .strategy-name-static {
+
+    /* The name box's own line, padding and (unseen) edge. */
+    line-height: 1.5;
+
+    padding-block: 8px;
+
+    border-block: 1px solid transparent;
+
+}
+
 /* Its size is the app's one remove square (.strategy-box-remove);
    a box's move and remove controls, or a group's "Expand all", take
    the same last column. */

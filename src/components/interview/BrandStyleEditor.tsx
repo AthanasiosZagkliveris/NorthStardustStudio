@@ -346,9 +346,18 @@ export default function BrandStyleEditor({
                     />
                 </BusinessField>
             );
-        /* A side label is kept only in a run of its own (.business-field-run):
-           among the card's labels above, it would otherwise be set above too. */
-        return inline ? <div className="business-field-run business-field-run-compact">{field}</div> : field;
+        /* Beside its picker ON THE CARD'S TWO COLUMNS (.card-field-pairs,
+           as a colour's Role | Colour): the label in column 1 on the
+           picker's centre line, the picker from column 2's edge at its
+           width. A run of its own (.business-field-run): among the card's
+           labels above, it would otherwise be set above too. */
+        return inline
+            ? (
+                <div className="card-field-pairs">
+                    <div className="card-field-pairs-grid card-field-side-row business-field-run">{field}</div>
+                </div>
+            )
+            : field;
     }
 
     /**

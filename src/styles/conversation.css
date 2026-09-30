@@ -14848,6 +14848,29 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 }
 
+/* A side label on the card's two columns (a typeface's Role): the
+   label in column 1, on its picker's centre line, the picker from
+   column 2's edge -- where a colour card's Colour starts. */
+.card-field-side-row > .business-field-inline{
+
+    display:contents;
+
+}
+
+.card-field-side-row > .business-field-inline > :first-child{
+
+    grid-column:1;
+
+    align-self:center;
+
+}
+
+.card-field-side-row > .business-field-inline > :not(:first-child){
+
+    grid-column:2;
+
+}
+
 @container cost-fields (max-width: 299.98px){
 
     .business-founder-grid,
@@ -14877,6 +14900,18 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
     .business-capability-cost-grid-quantity > .business-foundation-field{
 
         width:min(100%, var(--control-s));
+
+    }
+
+    .card-field-side-row > .business-field-inline > :first-child{
+
+        align-self:start;
+
+    }
+
+    .card-field-side-row > .business-field-inline > :not(:first-child){
+
+        grid-column:1;
 
     }
 
