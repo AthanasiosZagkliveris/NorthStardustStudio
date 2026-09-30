@@ -11454,6 +11454,31 @@ td.process-library-col-number{
 
 }
 
+/* EMPTY, IT IS A PICKER'S ONE LINE: the placeholder ("Channel
+   category", "Channel name") never wraps -- it ends in "…" where the
+   box is narrower -- as a closed picker's text never does
+   (.option-picker-value). A name typed in still wraps and grows the
+   box. */
+.suggested-input > .suggested-input-field:placeholder-shown{
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
+
+.suggested-input > .suggested-input-field::placeholder{
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
+
 .suggested-input-toggle{
 
     position:absolute;
