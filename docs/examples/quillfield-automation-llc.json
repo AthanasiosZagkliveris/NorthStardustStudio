@@ -617,7 +617,7 @@
                   {
                     "id": "channel-w8e2b5sq",
                     "category": "Website",
-                    "name": "quillfieldautomation.com (with Calendly booking)",
+                    "name": "Main Website",
                     "links": [
                       "https://quillfieldautomation.com"
                     ],
@@ -646,7 +646,7 @@
                   {
                     "id": "channel-n6l3t9rd",
                     "category": "Email",
-                    "name": "Monthly newsletter (The Quill)",
+                    "name": "Newsletter",
                     "links": [
                       "quillfieldautomation.com/newsletter"
                     ],
@@ -660,7 +660,7 @@
                     ],
                     "actions": {
                       "evaluation": [
-                        "Monthly issue with one workflow teardown and one quick win"
+                        "Monthly issue of The Quill with one workflow teardown and one quick win"
                       ],
                       "delivery": [
                         "Weekly project update emails during audits and builds"
@@ -699,7 +699,7 @@
                   {
                     "id": "channel-m2u5e8gv",
                     "category": "In Person",
-                    "name": "NYC tech and small-business meetups",
+                    "name": "Event / Talk",
                     "links": [
                       ""
                     ],
@@ -723,7 +723,7 @@
                   {
                     "id": "channel-s9t3r6pw",
                     "category": "Direct Payment",
-                    "name": "Stripe invoicing and payments",
+                    "name": "Invoice",
                     "links": [
                       ""
                     ],

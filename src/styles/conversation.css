@@ -11477,6 +11477,19 @@ td.process-library-col-number{
 
 .business-channel-pick > .business-step-add-row{ grid-column:control / end; }
 
+/* "Not usual for this category": a stage kept that its channel's
+   category does not usually take -- quiet small type under it. */
+.business-channel-pick > .business-channel-stage-note{
+
+    grid-column:control / end;
+
+    font-size:var(--font-small);
+    line-height:1.4;
+
+    color:var(--text-subtle);
+
+}
+
 /* Floored at the longest option any of these dropdowns holds --
    "Support & Follow Up" measures 178px at its own padding, and the
    32px × beside it (once the app's one remove control, item 10,

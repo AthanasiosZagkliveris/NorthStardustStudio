@@ -251,6 +251,14 @@ describe("Quillfield: the documents tie together", () => {
     const planMd = new MarkdownExporter().toMarkdown(all.business, "Foundation", businessPlan(all));
     const count = (text: string, part: string) => text.split(part).length - 1;
 
+    test("names the channels' journey stages as the page does, and their new channel names", () => {
+        expect(planMd).toContain("Main Website");
+        expect(planMd).toContain("Event / Talk");
+        expect(planMd).toMatch(/Discover, Evaluation/);
+        expect(planMd).not.toMatch(/Discovery, /);
+        expect(planMd).toContain("Support & Follow Up");
+    });
+
     test("negative cash is funding still to be found, and the balance sheet still balances", () => {
         const { forecast } = businessForecast(all);
         const sheet = (label: string) => forecast.balanceSheet.rows.find(entry => entry.label === label)!;

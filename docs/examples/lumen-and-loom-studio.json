@@ -779,7 +779,7 @@
                   {
                     "id": "channel-xrenzwzk",
                     "category": "Website",
-                    "name": "lumenandloom.co.uk (Shopify shop & booking)",
+                    "name": "Online Store",
                     "links": [
                       "https://lumenandloom.co.uk"
                     ],
@@ -816,7 +816,7 @@
                   {
                     "id": "channel-qpjm4v72",
                     "category": "Email",
-                    "name": "Monthly newsletter (Klaviyo)",
+                    "name": "Newsletter",
                     "links": [
                       ""
                     ],
@@ -825,15 +825,12 @@
                     ],
                     "stages": [
                       "evaluation",
-                      "purchase",
                       "delivery",
                       "support"
                     ],
                     "actions": {
                       "evaluation": [
-                        "Welcome series telling the studio story and materials"
-                      ],
-                      "purchase": [
+                        "Monthly newsletter (Klaviyo): a welcome series telling the studio story and materials",
                         "Early access to seasonal drops and last workshop places"
                       ],
                       "delivery": [
@@ -868,9 +865,9 @@
                     }
                   },
                   {
-                    "id": "channel-kuy4u7hj",
-                    "category": "Other",
-                    "name": "Hackney Wick studio & London craft markets",
+                    "id": "channel-lnstudio1",
+                    "category": "In Person",
+                    "name": "Studio / Shop",
                     "links": [
                       ""
                     ],
@@ -880,18 +877,14 @@
                     "stages": [
                       "discovery",
                       "evaluation",
-                      "purchase",
                       "delivery"
                     ],
                     "actions": {
                       "discovery": [
-                        "Monthly studio open day; stalls at Broadway Market, Columbia Road and the Christmas makers’ fair"
+                        "Monthly studio open day"
                       ],
                       "evaluation": [
                         "Let visitors touch the cloth and try the loom"
-                      ],
-                      "purchase": [
-                        "Sell collection pieces and workshop vouchers on the spot"
                       ],
                       "delivery": [
                         "Workshops held in the studio; local collection of orders"
@@ -899,9 +892,32 @@
                     }
                   },
                   {
+                    "id": "channel-kuy4u7hj",
+                    "category": "In Person",
+                    "name": "Market / Pop-up",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery",
+                      "evaluation"
+                    ],
+                    "actions": {
+                      "discovery": [
+                        "Stalls at Broadway Market, Columbia Road and the Christmas makers’ fair"
+                      ],
+                      "evaluation": [
+                        "Let visitors touch the cloth and try the loom"
+                      ]
+                    }
+                  },
+                  {
                     "id": "channel-jr5yloro",
                     "category": "Direct Payment",
-                    "name": "SumUp card reader & bank transfer",
+                    "name": "Card",
                     "links": [
                       ""
                     ],
@@ -913,7 +929,27 @@
                     ],
                     "actions": {
                       "purchase": [
-                        "Card payments at markets and open days; bank transfer for commissions over £500"
+                        "Card payments at markets and open days (SumUp card reader)",
+                        "Sell collection pieces and workshop vouchers on the spot"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "channel-lnbank01",
+                    "category": "Direct Payment",
+                    "name": "Bank Transfer",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "purchase"
+                    ],
+                    "actions": {
+                      "purchase": [
+                        "Bank transfer for commissions over £500"
                       ]
                     }
                   }
@@ -1060,9 +1096,9 @@
                   {
                     "id": "channel-87177les",
                     "category": "Website",
-                    "name": "lumenandloom.co.uk/trade",
+                    "name": "Landing Page",
                     "links": [
-                      ""
+                      "lumenandloom.co.uk/trade"
                     ],
                     "offerings": [
                       "*"
@@ -1083,7 +1119,7 @@
                   {
                     "id": "channel-hyjk89p3",
                     "category": "Email",
-                    "name": "Trade email & quarterly trade newsletter",
+                    "name": "Direct Email",
                     "links": [
                       ""
                     ],
@@ -1092,16 +1128,12 @@
                     ],
                     "stages": [
                       "evaluation",
-                      "purchase",
                       "delivery",
                       "support"
                     ],
                     "actions": {
                       "evaluation": [
                         "Quotes and sample confirmations within 48 hours"
-                      ],
-                      "purchase": [
-                        "Purchase orders, deposit invoices and 30-day terms"
                       ],
                       "delivery": [
                         "Weekly project progress updates with photos"
@@ -1113,8 +1145,8 @@
                   },
                   {
                     "id": "channel-imbnizvs",
-                    "category": "Other",
-                    "name": "Design fairs (Clerkenwell Design Week, Decorex) & studio visits",
+                    "category": "In Person",
+                    "name": "Trade Fair / Exhibition",
                     "links": [
                       ""
                     ],
@@ -1122,17 +1154,47 @@
                       "*"
                     ],
                     "stages": [
-                      "discovery",
-                      "evaluation",
-                      "delivery"
+                      "discovery"
                     ],
                     "actions": {
                       "discovery": [
                         "Exhibit at Clerkenwell Design Week and Decorex with live weaving"
-                      ],
+                      ]
+                    }
+                  },
+                  {
+                    "id": "channel-lnvisits1",
+                    "category": "In Person",
+                    "name": "Studio / Shop",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "evaluation"
+                    ],
+                    "actions": {
                       "evaluation": [
                         "Studio visits to review samples and yarns in person"
-                      ],
+                      ]
+                    }
+                  },
+                  {
+                    "id": "channel-lnonsite1",
+                    "category": "In Person",
+                    "name": "Customer Location",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "delivery"
+                    ],
+                    "actions": {
                       "delivery": [
                         "Installation of wall textiles on site in London"
                       ]
@@ -1141,7 +1203,7 @@
                   {
                     "id": "channel-87i4o7mf",
                     "category": "Direct Payment",
-                    "name": "Invoice & bank transfer (Xero)",
+                    "name": "Invoice",
                     "links": [
                       ""
                     ],
@@ -1153,7 +1215,9 @@
                     ],
                     "actions": {
                       "purchase": [
-                        "50% deposit invoice, balance on delivery, 30-day terms for trade accounts"
+                        "Purchase orders, deposit invoices and 30-day terms",
+                        "50% deposit invoice, balance on delivery, 30-day terms for trade accounts",
+                        "Bank transfer, reconciled in Xero"
                       ]
                     }
                   }

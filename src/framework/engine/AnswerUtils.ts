@@ -4850,122 +4850,96 @@ const ALL_STAGES = [
     "discovery", "evaluation", "purchase", "delivery", "support"
 ] as const;
 
+/*
+ * THE CHANNEL CATEGORIES, in the order they are offered: each with
+ * its channels (the well-known places or means of that kind, offered
+ * by name so nobody types "Instagram" twice and spells it two ways;
+ * the picker adds "Other" after them, which lets the name be typed)
+ * and the Journey Stages a channel of that kind is usually used at.
+ * One table, from the Customer Channels specification; the editor,
+ * its tests and the documents all read it.
+ *
+ * "Other" is the fallback, for a channel that fits none of them: its
+ * name is the category the founder types, and it offers every stage.
+ */
 export const BUSINESS_CHANNEL_CATEGORIES = [
     {
         id: "social-media",
         label: "Social Media",
-        // Where people find you and look you over, and where they
-        // message you afterwards. Nobody pays through a feed.
         stages: ["discovery", "evaluation", "support"],
-        /*
-         * The platforms a small organisation actually reaches
-         * people on, offered by name so nobody has to type
-         * "Instagram" twice and spell it two ways.
-         *
-         * Only this category has a list. The rest are whatever the
-         * organisation happens to use -- a marketplace is Gumroad or
-         * Etsy or a shop of its own, and a guessed list there would
-         * be wrong more often than right. They are named by hand,
-         * and every channel already recorded under a category is
-         * offered back under it, which is the list that matters.
-         */
-        channels: [
-            "Facebook",
-            "Instagram",
-            "LinkedIn",
-            "TikTok",
-            "YouTube",
-            "X (Twitter)",
-            "Pinterest"
-        ]
+        channels: ["Facebook", "Instagram", "LinkedIn", "TikTok", "YouTube", "X (Twitter)", "Pinterest"]
+    },
+    {
+        id: "website",
+        label: "Website",
+        stages: ALL_STAGES,
+        channels: ["Main Website", "Online Store", "Landing Page", "Booking / Registration Page", "Client Portal"],
+        namePlaceholder: "Website or page"
+    },
+    {
+        id: "email",
+        label: "Email",
+        stages: ["evaluation", "delivery", "support"],
+        channels: ["Newsletter", "Direct Email", "Automated Email", "Email Campaign"],
+        namePlaceholder: "Email address"
     },
     {
         id: "community",
         label: "Community",
-        // The same three: a community is found, judged and asked
-        // in, but not sold through.
         stages: ["discovery", "evaluation", "support"],
         channels: ["Reddit", "Discord", "Slack", "Facebook Group", "Meetup"]
     },
     {
         id: "marketplace",
         label: "Marketplace",
-        // "Gumroad -> Purchase, Delivery" is the specification's
-        // own example, and a marketplace is browsed before it is
-        // bought from. Support happens off it.
         stages: ["discovery", "evaluation", "purchase", "delivery"],
         channels: ["Gumroad", "Etsy", "Amazon", "Fiverr", "Upwork"]
     },
     {
-        id: "file-delivery",
-        label: "File Delivery",
-        /* Everything but Discovery. The specification's own Client
-           Portal example runs "Evaluation, Purchase, Delivery,
-           Support & Follow Up" -- nobody finds an organisation
-           through its file drop. */
-        stages: ["evaluation", "purchase", "delivery", "support"],
-        channels: ["WeTransfer", "Google Drive", "Dropbox", "OneDrive", "Client Portal"]
-    },
-    /*
-     * These three have NO list, and are typed in plainly.
-     *
-     * A website is the organisation's own, an email address is its
-     * own, and a payment link is whatever its bank or processor
-     * gave it -- none of them is chosen from a set of well-known
-     * places the way a social platform or a marketplace is. A list
-     * there would be a list of one obvious answer, or of guesses.
-     */
-    /*
-     * The three with no list of their own also say what to write.
-     * "Channel name" is the right prompt under Social Media, where
-     * the answer is the name of a place; under these it is a page,
-     * an address or a way of being paid, and a prompt that says so
-     * is worth more than one that says "channel" again.
-     */
-    // The one channel that can do everything: found on a search,
-    // read, bought from, delivered by and supported through.
-    {
-        id: "website",
-        label: "Website",
-        stages: ALL_STAGES,
-        channels: [],
-        namePlaceholder: "Website or page"
-    },
-    // Everything but Discovery -- an address has to be known
-    // before it can be written to.
-    {
-        id: "email",
-        label: "Email",
-        stages: ["evaluation", "purchase", "delivery", "support"],
-        channels: [],
-        namePlaceholder: "Email address"
-    },
-    // "Stripe -> Purchase", and the specification is emphatic that
-    // payment and delivery are not the same thing.
-    {
         id: "direct-payment",
         label: "Direct Payment",
         stages: ["purchase"],
-        channels: [],
+        channels: ["Bank Transfer", "Payment Link", "Card", "Cash", "Invoice"],
         namePlaceholder: "Payment method"
     },
     {
-        /* Places people meet the organisation face to face -- a
-           studio, a market stall, a trade fair, a workshop. Every
-           stage can happen there: people discover a maker at a
-           market, handle the product, buy it, take it home and come
-           back. */
+        id: "file-delivery",
+        label: "File Delivery",
+        stages: ["delivery"],
+        channels: ["WeTransfer", "Google Drive", "Dropbox", "OneDrive", "Client Portal", "Download Link"]
+    },
+    {
+        id: "physical-delivery",
+        label: "Physical Delivery",
+        stages: ["delivery"],
+        channels: ["Postal Service", "Courier", "Local Delivery", "Third-party Fulfilment"]
+    },
+    {
+        id: "online-live",
+        label: "Online / Live",
+        stages: ["evaluation", "delivery", "support"],
+        channels: ["Zoom", "Google Meet", "Microsoft Teams", "Discord", "Live Stream", "Client Portal"]
+    },
+    {
         id: "in-person",
         label: "In Person",
-        stages: ALL_STAGES,
+        stages: ["discovery", "evaluation", "delivery", "support"],
         channels: [
             "Studio / Shop",
+            "Customer Location",
             "Market / Pop-up",
             "Trade Fair / Exhibition",
             "Workshop / Class",
             "Event / Talk",
-            "Sales Visit"
+            "Sales Visit",
+            "Pickup / Collection"
         ]
+    },
+    {
+        id: "other",
+        label: "Other",
+        stages: ALL_STAGES,
+        channels: []
     }
 ] as const;
 
@@ -5013,7 +4987,9 @@ export const BUSINESS_CHANNEL_OTHER = "Other";
  * happen through completely different channels."
  */
 export const BUSINESS_JOURNEY_STAGES = [
-    { id: "discovery", label: "Discovery" },
+    // "Discover", the specification's word; the id stays "discovery",
+    // so every stored answer still names it.
+    { id: "discovery", label: "Discover" },
     { id: "evaluation", label: "Evaluation" },
     { id: "purchase", label: "Purchase" },
     { id: "delivery", label: "Delivery" },

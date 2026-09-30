@@ -437,7 +437,7 @@ function channelChoices(
  * a list of one obvious answer is worse than none. Those stay the
  * plain text box they were.
  */
-function channelNameOptions(
+export function channelNameOptions(
     category: string,
     siblings: readonly BusinessChannelValue[]
 ): string[] {
@@ -491,7 +491,7 @@ function channelNameOptions(
  * has since become. A rule about what usually fits must never hide
  * something a founder has actually said.
  */
-function stageOptionsFor(
+export function stageOptionsFor(
     category: string,
     channel: BusinessChannelValue
 ): typeof BUSINESS_JOURNEY_STAGES[number][] {
@@ -508,6 +508,21 @@ function stageOptionsFor(
         (known.stages as readonly string[]).includes(stage.id) ||
         channel.stages.includes(stage.id)
     );
+
+}
+
+/**
+ * Whether a channel of this category is usually used at this stage
+ * (BUSINESS_CHANNEL_CATEGORIES.stages). A category the founder named
+ * themselves takes any stage.
+ */
+export function stageIsUsual(category: string, stageId: string): boolean {
+
+    const known = BUSINESS_CHANNEL_CATEGORIES.find(
+        entry => entry.label === category
+    );
+
+    return !known || (known.stages as readonly string[]).includes(stageId);
 
 }
 
@@ -1315,6 +1330,8 @@ export default function BusinessEngagementEditor({
                                                    the box can still show it. */
                                                 options={[
                                                     ...BUSINESS_CHANNEL_CATEGORIES
+                                                        // "Other" last, once: the entry that lets a category be typed.
+                                                        .filter(category => category.label !== BUSINESS_CHANNEL_OTHER)
                                                         .filter(category =>
                                                             category.label === group.label ||
                                                             !groups.some(other =>
@@ -1790,6 +1807,15 @@ export default function BusinessEngagementEditor({
 
                                                                 }}
                                                             />
+
+                                                            {/* A stage recorded that its category
+                                                                does not usually take: kept, and said
+                                                                so quietly (stageIsUsual). */}
+                                                            {stageId && !stageIsUsual(channel.category, stageId) && (
+                                                                <span className="business-channel-stage-note">
+                                                                    Not usual for this category
+                                                                </span>
+                                                            )}
 
                                                             <div className="business-channel-steps">
 

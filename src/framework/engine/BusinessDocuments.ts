@@ -21,6 +21,7 @@ import type { InterviewSession } from "../interview";
 import {
     BUSINESS_ACTIVITY_CATEGORIES,
     BUSINESS_CHANNEL_ALL_OFFERINGS,
+    BUSINESS_JOURNEY_STAGES,
     BUSINESS_COMPETITOR_TYPES,
     BUSINESS_RELATIONSHIP_TYPES,
     BUSINESS_RESOURCE_GROUPS,
@@ -832,7 +833,8 @@ function marketingBlocks(f: Foundation): ExportBlock[] {
                 channel.name,
                 channel.category,
                 channel.offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS) ? "All Offerings" : channel.offerings.map(offering).filter(Boolean).join(", "),
-                channel.stages.map(stage => stage.charAt(0).toUpperCase() + stage.slice(1)).join(", ")
+                // The stages by their names ("Discover", "Support & Follow Up"), as the page says them.
+                channel.stages.map(stage => BUSINESS_JOURNEY_STAGES.find(candidate => candidate.id === stage)?.label ?? stage).join(", ")
             ])),
             ...list(entry.offerings.flatMap(relationship => relationship.types.map(typeId => {
                 const type = BUSINESS_RELATIONSHIP_TYPES.find(candidate => candidate.id === typeId)?.label ?? typeId;
