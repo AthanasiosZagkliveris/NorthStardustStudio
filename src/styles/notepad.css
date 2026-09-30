@@ -555,11 +555,13 @@ html.notepad-picking [data-pick-hover] {
 
 }
 
-/* Pointed at, the glow stays: over a box's own hover shadow (the
-   hover rules of the answer boxes are as specific as the glow). */
+/* Pointed at, the glow follows the stroke out: drawn around the
+   outside stroke (spread by its 4px) and a touch wider -- over a
+   box's own hover shadow (the hover rules of the answer boxes are as
+   specific as the glow). */
 .is-noted.is-noted.is-noted:is(:hover, .is-noted-hot):not(:focus, :focus-within):not(:disabled) {
 
-    box-shadow: 0 0 12px var(--glow-noted);
+    box-shadow: 0 0 16px 4px var(--glow-noted);
 
 }
 
@@ -615,7 +617,7 @@ html.notepad-picking [data-pick-hover] {
     outline: 4px solid var(--line-noted);
     outline-offset: 0;
 
-    box-shadow: 0 0 12px var(--glow-noted);
+    box-shadow: 0 0 16px 4px var(--glow-noted);
 
 }
 

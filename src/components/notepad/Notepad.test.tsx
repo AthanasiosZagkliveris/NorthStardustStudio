@@ -275,7 +275,7 @@ describe("a field in your notes, pointed at", () => {
         const css = stylesheet("notepad.css");
         expect(css).toContain("outline: 4px solid var(--line-noted); outline-offset: -4px;");
         expect(css).toContain(".is-noted.is-noted.is-noted:is(:hover, :focus, :focus-visible, :focus-within, .is-noted-hot) { outline-offset: 0; }");
-        expect(css).toContain(".is-noted.is-noted.is-noted:is(:hover, .is-noted-hot):not(:focus, :focus-within):not(:disabled) { box-shadow: 0 0 12px var(--glow-noted); }");
+        expect(css).toContain(".is-noted.is-noted.is-noted:is(:hover, .is-noted-hot):not(:focus, :focus-within):not(:disabled) { box-shadow: 0 0 16px 4px var(--glow-noted); }");
     });
 
 });
