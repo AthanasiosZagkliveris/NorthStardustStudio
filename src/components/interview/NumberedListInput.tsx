@@ -37,7 +37,9 @@ function ListLine({
 
     onKeyDown,
 
-    onBlur
+    onBlur,
+
+    fieldId
 
 }: {
 
@@ -52,6 +54,8 @@ function ListLine({
     onChange: (value: string) => void;
     onKeyDown: (event: KeyboardEvent<HTMLTextAreaElement>) => void;
     onBlur: () => void;
+    /** The line's stable id in its field key (FieldKeys.ts), where it has one. */
+    fieldId?: string;
 
 }) {
 
@@ -85,6 +89,7 @@ function ListLine({
             }}
             rows={1}
             className="numbered-list-input"
+            data-field-id={fieldId}
             aria-label={ariaLabel}
             placeholder={placeholder}
             disabled={disabled}
@@ -155,6 +160,16 @@ interface NumberedListInputProps {
     suggestions?: string[];
 
     /**
+     * A suggestion chosen on a line, for a list whose lines refer to
+     * something (a Segment's shared channel actions): the caller puts
+     * that thing on the line. Omitted, choosing one writes its text in.
+     */
+    onAccept?: (index: number, entry: string) => void;
+
+    /** Each line's stable id, for its field key: an action's id, say. */
+    lineIds?: readonly string[];
+
+    /**
      * The most lines the list takes: Enter on the last one opens no
      * further line once it holds this many. Omitted, it has no cap.
      */
@@ -191,6 +206,10 @@ export default function NumberedListInput({
     lineEnd,
 
     suggestions = [],
+
+    onAccept,
+
+    lineIds,
 
     maxItems
 
@@ -247,10 +266,15 @@ export default function NumberedListInput({
 
     function accept(index: number, entry: string) {
 
+        setOpenLine(-1);
+
+        if (onAccept) {
+            onAccept(index, entry);
+            return;
+        }
+
         const values = [...items];
         values[index] = entry;
-
-        setOpenLine(-1);
 
         onChange(values, unmoved());
 
@@ -415,6 +439,7 @@ export default function NumberedListInput({
                             onBlur={() => setOpenLine(
                                 current => current === index ? -1 : current
                             )}
+                            fieldId={lineIds?.[index]}
                         />
 
                         {lineEnd && (

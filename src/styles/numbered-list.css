@@ -175,3 +175,61 @@
     margin-left:8px;
 
 }
+
+/* A SHARED CHANNEL ACTION (Customer Channel): a quiet "also in 2
+   places" (the places in its tooltip), and the line's own ×, which
+   takes the action out of this row only. On the line's first line. */
+.numbered-list-line-end .channel-action-shared{
+
+    align-self:flex-start;
+
+    margin-top:6px;
+    margin-right:6px;
+
+    font-size:var(--font-small);
+    white-space:nowrap;
+
+    color:var(--text-subtle);
+
+    cursor:help;
+
+}
+
+.numbered-list-remove{
+
+    flex:none;
+
+    width:24px;
+    height:24px;
+    margin-top:4px;
+    padding:0;
+
+    border:0;
+    border-radius:4px;
+
+    background:none;
+
+    font:inherit;
+    font-size:var(--font-body);
+    line-height:24px;
+
+    color:var(--text-subtle);
+
+    cursor:pointer;
+
+}
+
+.numbered-list-remove:hover:not(:disabled){
+
+    background:var(--accent-ground-hover);
+
+    color:var(--text-default);
+
+}
+
+.numbered-list-remove:focus-visible{
+
+    outline:2px solid var(--line-primary);
+    outline-offset:1px;
+
+}

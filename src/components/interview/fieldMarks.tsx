@@ -182,7 +182,8 @@ function markControls(root: HTMLElement, page: FieldPageValue): void {
 
         const rail = control.closest<HTMLElement>("[data-rail]");
         const anchors = anchorsWithin(control, rail);
-        const own = slug(name);
+        // A line with a stable id of its own (a shared channel action) is keyed by it.
+        const own = control.dataset.fieldId || slug(name);
         // A column's own box is the column itself.
         const path = [rail?.dataset.rail, anchors[0], rail?.dataset.rail === own && !anchors[0] ? undefined : own]
             .filter((segment): segment is string => !!segment);

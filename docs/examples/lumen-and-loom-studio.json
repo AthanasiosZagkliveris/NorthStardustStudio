@@ -741,18 +741,18 @@
                       "evaluation",
                       "support"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "discovery": [
-                        "Post weaving-process reels three times a week",
-                        "Collaborate with London interiors and slow-living accounts"
+                        "action-segment-8lu427u5-channel-discovery-1",
+                        "action-segment-8lu427u5-channel-discovery-2"
                       ],
                       "evaluation": [
-                        "Share customer homes and reviews in Story highlights",
-                        "Show materials and provenance for each product"
+                        "action-segment-8lu427u5-channel-evaluation-1",
+                        "action-segment-8lu427u5-channel-evaluation-2"
                       ],
                       "support": [
-                        "Answer DMs within one working day",
-                        "Repost customers’ photos with permission"
+                        "action-segment-8lu427u5-channel-support-1",
+                        "action-segment-8lu427u5-channel-support-2"
                       ]
                     }
                   },
@@ -769,10 +769,10 @@
                     "stages": [
                       "discovery"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "discovery": [
-                        "Pin every product in styled room sets",
-                        "Create boards by room and colour palette"
+                        "action-channel-enk0uesk-discovery-1",
+                        "action-channel-enk0uesk-discovery-2"
                       ]
                     }
                   },
@@ -793,23 +793,23 @@
                       "delivery",
                       "support"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "discovery": [
-                        "Publish a monthly journal post on materials and makers (SEO)"
+                        "action-channel-xrenzwzk-discovery-1"
                       ],
                       "evaluation": [
-                        "Show the maker, farm and hours on every product page",
-                        "Workshop pages with photos, reviews and FAQs"
+                        "action-channel-xrenzwzk-evaluation-1",
+                        "action-channel-xrenzwzk-evaluation-2"
                       ],
                       "purchase": [
-                        "Shopify checkout with Apple Pay and Klarna",
-                        "Online workshop booking and gift vouchers"
+                        "action-channel-xrenzwzk-purchase-1",
+                        "action-channel-xrenzwzk-purchase-2"
                       ],
                       "delivery": [
-                        "Order-tracking page and dispatch updates"
+                        "action-channel-xrenzwzk-delivery-1"
                       ],
                       "support": [
-                        "Care guides and lifetime repair request form"
+                        "action-channel-xrenzwzk-support-1"
                       ]
                     }
                   },
@@ -828,16 +828,16 @@
                       "delivery",
                       "support"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "evaluation": [
-                        "Monthly newsletter (Klaviyo): a welcome series telling the studio story and materials",
-                        "Early access to seasonal drops and last workshop places"
+                        "action-channel-qpjm4v72-evaluation-1",
+                        "action-channel-qpjm4v72-evaluation-2"
                       ],
                       "delivery": [
-                        "Dispatch and workshop-joining emails"
+                        "action-channel-qpjm4v72-delivery-1"
                       ],
                       "support": [
-                        "Care reminder after 6 months; review request after 2 weeks"
+                        "action-channel-qpjm4v72-support-1"
                       ]
                     }
                   },
@@ -855,12 +855,12 @@
                       "discovery",
                       "support"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "discovery": [
-                        "Share workshop dates in local Hackney and Walthamstow groups"
+                        "action-channel-kenelogh-discovery-1"
                       ],
                       "support": [
-                        "Alumni group for past workshop participants to share their weaving"
+                        "action-channel-kenelogh-support-1"
                       ]
                     }
                   },
@@ -879,15 +879,15 @@
                       "evaluation",
                       "delivery"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "discovery": [
-                        "Monthly studio open day"
+                        "action-channel-lnstudio1-discovery-1"
                       ],
                       "evaluation": [
-                        "Let visitors touch the cloth and try the loom"
+                        "action-channel-lnstudio1-evaluation-1"
                       ],
                       "delivery": [
-                        "Workshops held in the studio; local collection of orders"
+                        "action-channel-lnstudio1-delivery-1"
                       ]
                     }
                   },
@@ -905,12 +905,12 @@
                       "discovery",
                       "evaluation"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "discovery": [
-                        "Stalls at Broadway Market, Columbia Road and the Christmas makers’ fair"
+                        "action-channel-kuy4u7hj-discovery-1"
                       ],
                       "evaluation": [
-                        "Let visitors touch the cloth and try the loom"
+                        "action-channel-lnstudio1-evaluation-1"
                       ]
                     }
                   },
@@ -927,10 +927,10 @@
                     "stages": [
                       "purchase"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "purchase": [
-                        "Card payments at markets and open days (SumUp card reader)",
-                        "Sell collection pieces and workshop vouchers on the spot"
+                        "action-channel-jr5yloro-purchase-1",
+                        "action-channel-jr5yloro-purchase-2"
                       ]
                     }
                   },
@@ -947,9 +947,9 @@
                     "stages": [
                       "purchase"
                     ],
-                    "actions": {
+                    "actionIds": {
                       "purchase": [
-                        "Bank transfer for commissions over £500"
+                        "action-channel-lnbank01-purchase-1"
                       ]
                     }
                   }
@@ -1045,7 +1045,121 @@
                     }
                   }
                 ],
-                "profiles": []
+                "profiles": [],
+                "actions": [
+                  {
+                    "id": "action-segment-8lu427u5-channel-discovery-1",
+                    "text": "Post weaving-process reels three times a week"
+                  },
+                  {
+                    "id": "action-segment-8lu427u5-channel-discovery-2",
+                    "text": "Collaborate with London interiors and slow-living accounts"
+                  },
+                  {
+                    "id": "action-segment-8lu427u5-channel-evaluation-1",
+                    "text": "Share customer homes and reviews in Story highlights"
+                  },
+                  {
+                    "id": "action-segment-8lu427u5-channel-evaluation-2",
+                    "text": "Show materials and provenance for each product"
+                  },
+                  {
+                    "id": "action-segment-8lu427u5-channel-support-1",
+                    "text": "Answer DMs within one working day"
+                  },
+                  {
+                    "id": "action-segment-8lu427u5-channel-support-2",
+                    "text": "Repost customers’ photos with permission"
+                  },
+                  {
+                    "id": "action-channel-enk0uesk-discovery-1",
+                    "text": "Pin every product in styled room sets"
+                  },
+                  {
+                    "id": "action-channel-enk0uesk-discovery-2",
+                    "text": "Create boards by room and colour palette"
+                  },
+                  {
+                    "id": "action-channel-xrenzwzk-discovery-1",
+                    "text": "Publish a monthly journal post on materials and makers (SEO)"
+                  },
+                  {
+                    "id": "action-channel-xrenzwzk-evaluation-1",
+                    "text": "Show the maker, farm and hours on every product page"
+                  },
+                  {
+                    "id": "action-channel-xrenzwzk-evaluation-2",
+                    "text": "Workshop pages with photos, reviews and FAQs"
+                  },
+                  {
+                    "id": "action-channel-xrenzwzk-purchase-1",
+                    "text": "Shopify checkout with Apple Pay and Klarna"
+                  },
+                  {
+                    "id": "action-channel-xrenzwzk-purchase-2",
+                    "text": "Online workshop booking and gift vouchers"
+                  },
+                  {
+                    "id": "action-channel-xrenzwzk-delivery-1",
+                    "text": "Order-tracking page and dispatch updates"
+                  },
+                  {
+                    "id": "action-channel-xrenzwzk-support-1",
+                    "text": "Care guides and lifetime repair request form"
+                  },
+                  {
+                    "id": "action-channel-qpjm4v72-evaluation-1",
+                    "text": "Monthly newsletter (Klaviyo): a welcome series telling the studio story and materials"
+                  },
+                  {
+                    "id": "action-channel-qpjm4v72-evaluation-2",
+                    "text": "Early access to seasonal drops and last workshop places"
+                  },
+                  {
+                    "id": "action-channel-qpjm4v72-delivery-1",
+                    "text": "Dispatch and workshop-joining emails"
+                  },
+                  {
+                    "id": "action-channel-qpjm4v72-support-1",
+                    "text": "Care reminder after 6 months; review request after 2 weeks"
+                  },
+                  {
+                    "id": "action-channel-kenelogh-discovery-1",
+                    "text": "Share workshop dates in local Hackney and Walthamstow groups"
+                  },
+                  {
+                    "id": "action-channel-kenelogh-support-1",
+                    "text": "Alumni group for past workshop participants to share their weaving"
+                  },
+                  {
+                    "id": "action-channel-lnstudio1-discovery-1",
+                    "text": "Monthly studio open day"
+                  },
+                  {
+                    "id": "action-channel-lnstudio1-evaluation-1",
+                    "text": "Let visitors touch the cloth and try the loom"
+                  },
+                  {
+                    "id": "action-channel-lnstudio1-delivery-1",
+                    "text": "Workshops held in the studio; local collection of orders"
+                  },
+                  {
+                    "id": "action-channel-kuy4u7hj-discovery-1",
+                    "text": "Stalls at Broadway Market, Columbia Road and the Christmas makers’ fair"
+                  },
+                  {
+                    "id": "action-channel-jr5yloro-purchase-1",
+                    "text": "Card payments at markets and open days (SumUp card reader)"
+                  },
+                  {
+                    "id": "action-channel-jr5yloro-purchase-2",
+                    "text": "Sell collection pieces and workshop vouchers on the spot"
+                  },
+                  {
+                    "id": "action-channel-lnbank01-purchase-1",
+                    "text": "Bank transfer for commissions over £500"
+                  }
+                ]
               },
               {
                 "segmentId": "segment-majxtl1u",

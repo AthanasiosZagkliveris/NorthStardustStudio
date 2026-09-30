@@ -64,6 +64,7 @@ import type { OpenPage } from "./jumpTo.ts";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import SuggestedInput from "./SuggestedInput.tsx";
 import ChannelCosts, { usePickedCost } from "./ChannelCosts.tsx";
+import { actionPlaces, rowActions, withChosenAction, withRowLines } from "../../framework/engine/ChannelActions.ts";
 import { type CostCard, categoryChannelKey, costCards, withNewCostCard } from "../../framework/engine/ChannelCosts.ts";
 import { BUSINESS_CAPABILITY_SECTIONS, asBusinessCapabilityValue } from "../../framework/engine/AnswerUtils.ts";
 import { fieldKey } from "../../framework/engine/FieldKeys.ts";
@@ -764,6 +765,79 @@ export default function BusinessEngagementEditor({
     function segmentOf(segmentId: string): BusinessSegmentEngagementValue {
         return engagement.segments.find(entry => entry.segmentId === segmentId)
             ?? createBusinessSegmentEngagement(segmentId);
+    }
+
+    /**
+     * A row's actions (a channel at one stage): the Segment's shared
+     * actions it holds, one per line (ChannelActions.ts). Typing edits
+     * the action in every row; choosing one of the Segment's others as
+     * it is offered puts the same action on the line; the line's ×
+     * takes it out of this row only. An action another row holds too
+     * says where, quietly.
+     */
+    function channelActions(
+        segmentId: string,
+        answers: BusinessSegmentEngagementValue,
+        channelId: string,
+        stageId: string,
+        label: string
+    ) {
+        const row = rowActions(answers, channelId, stageId);
+        const items = row.texts.length > 0 ? row.texts : [""];
+        const others = answers.actions.filter(action => !row.ids.includes(action.id) && action.text.trim().length > 0);
+        const write = (next: BusinessSegmentEngagementValue) =>
+            updateSegment(segmentId, { channels: next.channels, actions: next.actions });
+        return (
+            <NumberedListInput
+                label={label}
+                items={items}
+                lineIds={row.ids}
+                disabled={disabled}
+                suggestions={[...new Set(others.map(action => action.text))]}
+                onAccept={(line, text) => {
+                    const chosen = others.find(action => action.text === text);
+                    if (chosen) {
+                        write(withChosenAction(answers, channelId, stageId, line, chosen.id));
+                    }
+                }}
+                onChange={(next, origins) => write(withRowLines(answers, channelId, stageId, next, origins))}
+                lineEnd={(line) => {
+                    const id = row.ids[line];
+                    if (!id) {
+                        return null;
+                    }
+                    // The other rows that hold it: "Instagram › Discovery, …".
+                    const channel = answers.channels.find(candidate => candidate.id === channelId);
+                    const thisRow = (channel?.name.trim() || "Unnamed channel") + " › " + (STAGE_LABELS[stageId] ?? stageId);
+                    const places = actionPlaces(answers, id);
+                    const elsewhere = [...places];
+                    elsewhere.splice(places.indexOf(thisRow), places.includes(thisRow) ? 1 : 0);
+                    return (
+                        <>
+                            {elsewhere.length > 0 && (
+                                <span className="channel-action-shared" title={elsewhere.join(", ")}>
+                                    {"also in " + elsewhere.length + (elsewhere.length === 1 ? " place" : " places")}
+                                </span>
+                            )}
+                            <button
+                                type="button"
+                                className="numbered-list-remove"
+                                aria-label={"Remove action " + (line + 1) + " from " + label}
+                                title={"Remove action " + (line + 1) + " from this row"}
+                                disabled={disabled}
+                                onClick={() => write(withRowLines(
+                                    answers, channelId, stageId,
+                                    items.filter((_text, index) => index !== line),
+                                    items.map((_text, index) => index).filter(index => index !== line)
+                                ))}
+                            >
+                                ×
+                            </button>
+                        </>
+                    );
+                }}
+            />
+        );
     }
 
     function updateSegment(
@@ -2012,21 +2086,12 @@ export default function BusinessEngagementEditor({
                                                             is: a stage can involve
                                                             several things done through
                                                             the same channel. */}
-                                                        {stageId.length > 0 && (
-                                                            <NumberedListInput
-                                                                label={
-                                                                    (STAGE_LABELS[stageId] ?? "Stage") +
-                                                                    " actions for Channel " + number
-                                                                }
-                                                                items={channel.actions[stageId] ?? [""]}
-                                                                disabled={disabled}
-                                                                onChange={(items) => change({
-                                                                    actions: {
-                                                                        ...channel.actions,
-                                                                        [stageId]: items
-                                                                    }
-                                                                })}
-                                                            />
+                                                        {stageId.length > 0 && channelActions(
+                                                            segment.id,
+                                                            answers,
+                                                            channel.id,
+                                                            stageId,
+                                                            (STAGE_LABELS[stageId] ?? "Stage") + " actions for Channel " + number
                                                         )}
                                                     </td>
 

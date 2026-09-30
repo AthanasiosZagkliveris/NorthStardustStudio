@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { useState } from "react";
 
 import BusinessEngagementEditor, { channelNameOptions, stageIsUsual, stageOptionsFor } from "./BusinessEngagementEditor";
@@ -109,7 +109,15 @@ describe("the examples, on the new categories", () => {
             const summary = (value: typeof loaded) => value.segments.flatMap(segment => segment.channels.map(channel => ({
                 category: channel.category, name: channel.name, stages: channel.stages, actions: channel.actions
             })));
-            expect(summary(loaded)).toEqual(summary(stored));
+            // As saved: the texts, or (a Segment whose actions are shared) its actions by id.
+            type Saved = { actions?: { id: string; text: string }[]; channels: { category: string; name: string; stages: string[]; actions?: Record<string, string[]>; actionIds?: Record<string, string[]> }[] };
+            const saved = (stored.segments as Saved[]).flatMap(segment => segment.channels.map(channel => ({
+                category: channel.category, name: channel.name, stages: channel.stages,
+                actions: channel.actionIds
+                    ? Object.fromEntries(Object.entries(channel.actionIds).map(([stage, ids]) => [stage, ids.map(id => segment.actions?.find(action => action.id === id)?.text ?? "")]))
+                    : channel.actions
+            })));
+            expect(summary(loaded)).toEqual(saved);
             // Every channel is on a category of the table (Other is for a typed one).
             for (const channel of summary(loaded)) {
                 expect(BUSINESS_CHANNEL_CATEGORIES.some(category => category.label === channel.category)).toBe(true);
@@ -152,6 +160,52 @@ describe("the examples, on the new categories", () => {
         const name = document.querySelector(".business-channel-name")!;
         expect(name.querySelector(".business-channel-nest")).toBeTruthy();
         expect(document.querySelector(".business-channel-cell-nested")).toBeTruthy();
+    });
+
+});
+
+describe("a Segment's shared channel actions, in the table", () => {
+
+    it("offers the Segment's other actions as a line is typed, shares the one chosen, and takes a line out of one row only", () => {
+        cleanup();
+        let saved: ReturnType<typeof asBusinessEngagementValue> | undefined;
+        function Harness() {
+            const [{ foundation, engagement }] = useState(() => {
+                const segment = createBusinessCustomerSegment([]);
+                return {
+                    foundation: { ...asBusinessFoundationValue(undefined), segments: [{ ...segment, name: "Homes" }] },
+                    engagement: {
+                        ...asBusinessEngagementValue(undefined),
+                        segments: [{
+                            ...createBusinessSegmentEngagement(segment.id),
+                            channels: [
+                                { ...createBusinessChannel(), id: "insta", category: "Social Media", name: "Instagram", stages: ["discovery"], actions: { discovery: ["Post weaving reels"] } },
+                                { ...createBusinessChannel(), id: "pin", category: "Social Media", name: "Pinterest", stages: ["discovery"] }
+                            ]
+                        }]
+                    }
+                };
+            });
+            const [value, setValue] = useState<unknown>(engagement);
+            return <BusinessEngagementEditor value={value} onChange={(next) => { saved = next; setValue(next); }} foundation={foundation} />;
+        }
+        render(<Harness />);
+        fireEvent.click(document.querySelector(".business-channel-category .strategy-box-toggle")!);
+
+        const pinLine = screen.getByLabelText("Discover actions for Channel 2 1");
+        fireEvent.change(pinLine, { target: { value: "Post" } });
+        fireEvent.mouseDown(screen.getByRole("option", { name: "Post weaving reels" }));
+
+        const segment = saved!.segments[0];
+        const [insta, pin] = segment.channels;
+        expect(pin.actionIds.discovery).toEqual(insta.actionIds.discovery);
+        expect(segment.actions).toHaveLength(1);
+        expect(screen.getAllByText("also in 1 place")).toHaveLength(2);
+
+        // Out of Pinterest's row: still in Instagram's.
+        fireEvent.click(screen.getByRole("button", { name: "Remove action 1 from Discover actions for Channel 2" }));
+        expect(saved!.segments[0].channels[1].actionIds.discovery).toEqual([]);
+        expect(saved!.segments[0].channels[0].actions.discovery).toEqual(["Post weaving reels"]);
     });
 
 });

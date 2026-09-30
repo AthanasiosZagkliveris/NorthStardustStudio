@@ -5219,8 +5219,29 @@ export interface BusinessChannelValue {
     offerings: string[];
     /** Journey stage ids this channel is used at. */
     stages: string[];
-    /** Actions per stage id, kept when a stage is unticked. */
+    /**
+     * THE ACTIONS OF EACH ROW (channel x stage), by id, in order: each
+     * a reference to one of the Segment's actions (its `actions`), so
+     * the same action can stand in any number of rows. Kept when a
+     * stage is unticked.
+     */
+    actionIds: Record<string, string[]>;
+    /**
+     * The same actions' texts, row by row, as read (never written):
+     * worked out from `actionIds` every time the answer is read, for
+     * everything that only reads them -- documents, exports, search.
+     */
     actions: Record<string, string[]>;
+}
+
+/**
+ * One action of a Segment's channels: written once, placed in any
+ * number of rows (BusinessChannelValue.actionIds). Editing it edits
+ * it in every row; it is gone once no row holds it.
+ */
+export interface BusinessChannelActionValue {
+    id: string;
+    text: string;
 }
 
 /**
@@ -5554,6 +5575,8 @@ export interface BusinessSegmentEngagementValue {
     /** The Page 1 Segment this belongs to. */
     segmentId: string;
     channels: BusinessChannelValue[];
+    /** The Segment's channel actions, each held once (see BusinessChannelActionValue). */
+    actions: BusinessChannelActionValue[];
     /**
      * By Offering, which is the order the table reads: Offering,
      * the Profiles it is sold to, then the relationship kept about
@@ -5613,6 +5636,7 @@ export function createBusinessChannel(): BusinessChannelValue {
         links: [""],
         offerings: [],
         stages: [],
+        actionIds: {},
         actions: {}
     };
 }
@@ -5645,6 +5669,7 @@ export function createBusinessSegmentEngagement(
     return {
         segmentId,
         channels: [{ ...createBusinessChannel(), id: segmentId + "-channel" }],
+        actions: [],
         offerings: [],
         profiles: []
     };
@@ -5704,11 +5729,21 @@ function asBusinessChannel(entry: unknown): BusinessChannelValue {
 
     const channel = asObject(entry);
 
+    // The texts as saved before actions were shared (read by
+    // withSharedActions below, which turns them into actions).
     const actions: Record<string, string[]> = {};
 
     for (const [stage, list] of Object.entries(asObject(channel.actions))) {
         if (BUSINESS_JOURNEY_STAGE_IDS.has(stage)) {
             actions[stage] = businessNeedList(list);
+        }
+    }
+
+    const actionIds: Record<string, string[]> = {};
+
+    for (const [stage, list] of Object.entries(asObject(channel.actionIds))) {
+        if (BUSINESS_JOURNEY_STAGE_IDS.has(stage) && Array.isArray(list)) {
+            actionIds[stage] = list.map(asText).filter(id => id.length > 0);
         }
     }
 
@@ -5727,7 +5762,71 @@ function asBusinessChannel(entry: unknown): BusinessChannelValue {
         links: businessNeedList(channel.links, 1),
         offerings: businessIdList(channel.offerings),
         stages: businessIdList(channel.stages, BUSINESS_JOURNEY_STAGE_IDS),
+        // Marks a channel saved with shared actions (see withSharedActions).
+        // (An empty one beside texts is a channel made new and given texts: read as saved before.)
+        actionIds: channel.actionIds !== undefined && (Object.keys(actionIds).length > 0 || Object.keys(actions).length === 0)
+            ? actionIds
+            : (null as unknown as Record<string, string[]>),
         actions
+    };
+
+}
+
+/**
+ * A Segment's channels with their actions SHARED: each row's actions
+ * as references to the Segment's own list, and the texts worked out
+ * from them.
+ *
+ * A channel saved before actions were shared holds its texts: each
+ * becomes an action of its own, one reference each -- never merged
+ * with another of the same words, which may mean something else in
+ * its row -- under an id made from where it was (channel, stage,
+ * place), so reading the same answer twice gives the same ids. An
+ * action no row holds any more is gone.
+ */
+function withSharedActions(
+    channels: BusinessChannelValue[],
+    stored: unknown
+): { channels: BusinessChannelValue[]; actions: BusinessChannelActionValue[] } {
+
+    const texts = new Map<string, string>();
+
+    for (const entry of Array.isArray(stored) ? stored : []) {
+        const action = asObject(entry);
+        const id = asText(action.id);
+        if (id) {
+            texts.set(id, asText(action.text));
+        }
+    }
+
+    const shared = channels.map(channel => {
+        let actionIds: Record<string, string[]>;
+        if (channel.actionIds) {
+            actionIds = Object.fromEntries(Object.entries(channel.actionIds)
+                .map(([stage, ids]) => [stage, ids.filter(id => texts.has(id))]));
+        } else {
+            actionIds = {};
+            for (const [stage, list] of Object.entries(channel.actions)) {
+                actionIds[stage] = list.flatMap((text, index) => {
+                    if (!text.trim()) {
+                        return [];
+                    }
+                    const id = "action-" + channel.id + "-" + stage + "-" + (index + 1);
+                    texts.set(id, text);
+                    return [id];
+                });
+            }
+        }
+        const actions = Object.fromEntries(Object.entries(actionIds)
+            .map(([stage, ids]) => [stage, ids.map(id => texts.get(id) ?? "")]));
+        return { ...channel, actionIds, actions };
+    });
+
+    const held = new Set(shared.flatMap(channel => Object.values(channel.actionIds).flat()));
+
+    return {
+        channels: shared,
+        actions: [...texts.entries()].filter(([id]) => held.has(id)).map(([id, text]) => ({ id, text }))
     };
 
 }
@@ -6018,10 +6117,15 @@ export function asBusinessEngagementValue(value: unknown): BusinessEngagementVal
                 }
             }
 
+            const { channels, actions } = withSharedActions(
+                (Array.isArray(segment.channels) ? segment.channels : []).map(asBusinessChannel),
+                segment.actions
+            );
+
             return {
                 segmentId: asText(segment.segmentId),
-                channels: (Array.isArray(segment.channels) ? segment.channels : [])
-                    .map(asBusinessChannel),
+                channels,
+                actions,
                 offerings: merged,
                 profiles
             };
