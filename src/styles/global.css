@@ -882,3 +882,10 @@ b, strong {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+/* While its "i" is open, the label is not clipped: its note floats
+   from inside the label, and the clip cut it down to a grey band. */
+:is(.legal-entity-grid, .financial-funding-grid, .financial-stream-grid) > :is(.legal-entity-field, .legal-entity-pair, .business-foundation-field) > :is(.field-label, .legal-entity-label-info, .legal-entity-label-row, .business-foundation-label-info):has(.info-note-panel),
+.legal-entity-grid > .legal-entity-field > .legal-entity-pair > :is(.field-label, .legal-entity-label-info, .legal-entity-label-row):has(.info-note-panel) {
+  overflow: visible;
+}
