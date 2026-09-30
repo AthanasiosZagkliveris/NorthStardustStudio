@@ -121,3 +121,26 @@ describe("a channel's costs", () => {
     });
 
 });
+
+describe("a channel's costs in the export", () => {
+
+    test("are listed under the Customer Channel, each with what it costs and the channel's total", async () => {
+        const { buildExportContent } = await import("./ExportContentBuilder.ts");
+        const { MarkdownExporter } = await import("./MarkdownExporter.ts");
+        const example = JSON.parse(lumenText) as { systems: Record<string, Parameters<typeof InterviewSession.fromJSON>[0]> };
+        const business = example.systems["3"] as unknown as { responses: { sectionNumber: number; value: Record<string, unknown> }[] };
+        const capabilityValue = asBusinessCapabilityValue(business.responses.find(response => response.sectionNumber === 3)?.value);
+        const engagementResponse = business.responses.find(response => response.sectionNumber === 2)!;
+        let engagement = asBusinessEngagementValue(engagementResponse.value);
+        const segment = engagement.segments[0];
+        const channel = segment.channels.find(candidate => candidate.name.trim())!;
+        const card = costCards(capabilityValue).find(candidate => candidate.cost.frequency === "monthly")!;
+        engagement = withChannelCost(engagement, segment.segmentId, channel.id, card.id);
+        engagementResponse.value = engagement as unknown as Record<string, unknown>;
+        const session = InterviewSession.fromJSON(example.systems["3"], frameworkRegistry.getFramework("business"));
+        const markdown = new MarkdownExporter().toMarkdown(session, "Foundation", buildExportContent(session, "Foundation", undefined, undefined, { currency: "GBP" }));
+        expect(markdown).toContain("## Channel Costs");
+        expect(markdown).toContain("| " + channel.name.trim() + " | " + card.name.trim() + " | " + costCardAmountText(card, "GBP") + " | " + costCardAmountText(card, "GBP") + " |");
+    });
+
+});

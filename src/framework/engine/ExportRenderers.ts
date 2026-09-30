@@ -97,6 +97,7 @@ import {
     type FinancialFoundationValue
 } from "./FinancialModel.ts";
 import { jurisdictionProfile, COUNTRIES, LEGAL_REQUIREMENT_TYPES } from "./LegalEntityJurisdictions.ts";
+import { categoryChannelKey, channelCostLinks, channelCostSummary, costCardAmountText, costCardName, costCards } from "./ChannelCosts.ts";
 
 /* ==========================================================
    Building blocks
@@ -517,6 +518,9 @@ function businessEngagementBlocks(value: unknown, context: ExportContext): Expor
     const segments = businessFoundationSegments(foundation);
     const engagement = asBusinessEngagementValue(value);
     const stage = (id: string) => labelOf(BUSINESS_JOURNEY_STAGES, id);
+    // The cost cards the channels link to (ChannelCosts.ts): read, never counted here.
+    const cards = costCards(asBusinessCapabilityValue(context.responseOf?.(AnswerType.BusinessCapability)));
+    const currency = context.currency ?? "";
 
     const bySegment = engagement.segments.flatMap((entry, index) => {
 
@@ -543,6 +547,28 @@ function businessEngagementBlocks(value: unknown, context: ExportContext): Expor
                     (channel.actions[stageId] ?? []).filter(Boolean).join("; ")
                 ]);
             })),
+
+            // What each channel costs, where any is linked: the channel (or
+            // its category), the cost card, what it costs, and a total line.
+            ...(() => {
+                const keys = [
+                    ...[...new Set(channels.map(channel => channel.category).filter(Boolean))]
+                        .map(label => ({ key: categoryChannelKey(label), name: label + " (category)" })),
+                    ...channels.map(channel => ({ key: channel.id, name: channel.name.trim() || "Unnamed channel" }))
+                ];
+                const rows = keys.flatMap(({ key, name }) => {
+                    const linked = channelCostLinks(engagement, entry.segmentId, key, cards);
+                    return linked.map(({ card, shared }, position) => [
+                        position === 0 ? name : "",
+                        costCardName(card) + (shared ? " (shared)" : ""),
+                        costCardAmountText(card, currency),
+                        position === linked.length - 1 ? (channelCostSummary(linked, currency) ?? "").replace(/^Costs: /, "") : ""
+                    ]);
+                });
+                return rows.length > 0
+                    ? [heading("Channel Costs", 2), ...table(["Channel", "Cost", "Amount", "Channel total"], rows)]
+                    : [];
+            })(),
 
             heading("2. Customer Relationship", 2),
             ...entry.offerings.flatMap(relationship => {
