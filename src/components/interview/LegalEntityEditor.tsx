@@ -661,10 +661,11 @@ export default function LegalEntityEditor({
             })),
         ...entity.requirements
             .filter(requirement => requirement.name.trim().length > 0)
+            // A requirement by its name alone: its kind ("Other Legal
+            // Requirement") says nothing the name does not.
             .map(requirement => ({
                 id: requirement.id,
-                label: (LEGAL_REQUIREMENT_TYPES.find(type => type.id === requirement.type)?.label
-                    ?? "Legal requirement") + ": " + requirement.name.trim()
+                label: requirement.name.trim()
             }))
     ];
 
@@ -1718,9 +1719,7 @@ export default function LegalEntityEditor({
                                 <FrozenUntil answered={placeChosen} hint={placeHint}>
                                     <CardNameInput
                                         ariaLabel="Registration Authority"
-                                        placeholder={entity.formation.status === "planned"
-                                            ? "Where the organization will be registered"
-                                            : "Which authority registered the organization"}
+                                        placeholder=""
                                         disabled={disabled}
                                         value={entity.formation.authority}
                                         onChange={(next) => updateFormation({ authority: next })}

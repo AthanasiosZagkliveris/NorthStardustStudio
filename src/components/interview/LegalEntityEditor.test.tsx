@@ -4,7 +4,7 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import LegalEntityEditor from "./LegalEntityEditor";
 import { typeInto } from "../../test/interviewTestUtils";
-import { asLegalEntityValue, createLegalEntityRequirement, legalEntitySectionsEmpty } from "../../framework/engine/AnswerUtils";
+import { asLegalEntityValue, createLegalEntityExpense, createLegalEntityRequirement, legalEntitySectionsEmpty } from "../../framework/engine/AnswerUtils";
 
 function Harness() {
     const [value, setValue] = useState<unknown>({
@@ -458,6 +458,32 @@ describe("LegalEntityEditor organization columns", () => {
         expect(controls[controls.length - 1].closest(".legal-entity-legal-form")).toBeTruthy();
         expect(controls[controls.length - 2].closest(".legal-entity-activity-code")).toBeTruthy();
         expect(columns[1].classList.contains("legal-entity-where")).toBe(true);
+
+    });
+
+});
+
+describe("LegalEntityEditor expense links", () => {
+
+    it("offers a legal requirement by its name alone, and asks the authority with no placeholder", () => {
+
+        function Links() {
+            const [value, setValue] = useState<unknown>(asLegalEntityValue({
+                organisation: { country: "GB" },
+                requirements: [{ ...createLegalEntityRequirement(), type: "other", name: "Employers' Liability Insurance" }],
+                expenses: [createLegalEntityExpense()]
+            }));
+            return <LegalEntityEditor value={value} onChange={setValue} />;
+        }
+        render(<Links />);
+        for (const arrow of screen.queryAllByRole("button", { name: /^Maximize/ })) {
+            fireEvent.click(arrow);
+        }
+
+        const labels = [...document.querySelectorAll(".legal-entity-link-label")].map(label => label.textContent);
+        expect(labels).toContain("Employers' Liability Insurance");
+        expect(labels.some(label => label?.includes("Other Legal Requirement"))).toBe(false);
+        expect((screen.getByRole("textbox", { name: "Registration Authority" }) as HTMLTextAreaElement).placeholder).toBe("");
 
     });
 
