@@ -16,9 +16,16 @@
  * and the glossary all address fields this way -- never with a key
  * scheme of their own.
  *
- * A path segment is a part id, a rail id, a card anchor or a label's
- * slug; segments are joined with "/" and each is URI-encoded, so an
+ * A path segment is a part id, a rail id, a card anchor or a field's
+ * id; segments are joined with "/" and each is URI-encoded, so an
  * id holding "/" or ":" still round-trips.
+ *
+ * A FIELD'S ID IS STABLE. It is its label's slug unless the field
+ * states an id of its own (BusinessField's `fieldId`, FieldMark's
+ * `keyLabel`) -- and a field whose label is renamed states the id it
+ * had, or a new one listed in RENAMED_FIELDS, so what links to it
+ * (a note's chip, a flag) still finds it: currentFieldKey turns a key
+ * saved under an old label into the field's key now.
  */
 
 export type FieldKey = string;
@@ -45,6 +52,56 @@ export function slug(label: string): string {
         .replace(/&/g, " and ")
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-+|-+$/g, "");
+}
+
+/**
+ * Keys saved under a label since renamed or a place since moved, and
+ * the field's key now: by the field's last segment where only its
+ * label changed, or by the page, section and segment where the field
+ * moved into a card.
+ */
+const RENAMED_FIELDS: Record<string, string> = {
+    // Business › Infrastructure & Capability › a Founder: one Frequency
+    // for the salary and the hours ("Hours Given", "Working Hours /
+    // Month" and "Delivery Hours / Week" before).
+    "hours-given": "frequency",
+    "working-hours-month": "working-hours",
+    "working-hours-week": "working-hours",
+    "delivery-hours-month": "delivery-hours",
+    "delivery-hours-week": "delivery-hours",
+    // Their labels' slugs for a while after, before the fields had ids.
+    "working-hrs": "working-hours",
+    "delivery-hrs": "delivery-hours"
+};
+
+/** Brand › Style, before its colours and typefaces were cards: "colours/primary-a-hex". */
+const BRAND_STYLE_FIELD = /^(primary|secondary|neutral|optional)(?:-([ab]))?-(hex|colour-picker|usage|name|font|purpose)$/;
+
+/** The key a saved key names now (itself, where nothing was renamed or moved). */
+export function currentFieldKey(key: FieldKey): FieldKey {
+    const address = parseFieldKey(key);
+    if (!address || address.path.length === 0) {
+        return key;
+    }
+    const path = [...address.path];
+    const last = path[path.length - 1];
+    if (RENAMED_FIELDS[last]) {
+        path[path.length - 1] = RENAMED_FIELDS[last];
+        return fieldKey({ ...address, path });
+    }
+    const brand = address.systemNumber === 2 && path.length === 2 ? BRAND_STYLE_FIELD.exec(last) : null;
+    if (brand) {
+        const slot = brand[1] + (brand[2] ? "-" + brand[2] : "");
+        const field = brand[3];
+        const card = path[0] === "colours" ? "brand-colour-" + slot : "brand-typeface-" + slot;
+        const into = field === "hex" || field === "colour-picker" ? ["colour"]
+            : field === "usage" ? ["usage"]
+                : field === "purpose" ? ["purpose"]
+                    // A colour's name and a typeface's font are the card's name: the card.
+                    : [];
+        return fieldKey({ ...address, path: [path[0], card, ...into] });
+    }
+    return key;
 }
 
 export function fieldKey(address: FieldAddress): FieldKey {

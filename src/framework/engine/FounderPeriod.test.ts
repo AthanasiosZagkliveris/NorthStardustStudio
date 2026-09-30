@@ -2,7 +2,6 @@ import { describe, expect, test } from "vitest";
 
 import { InterviewSession } from "../interview";
 import { asBusinessCapabilityValue, asLegalEntityValue } from "./AnswerUtils.ts";
-import { parseAmount } from "./Amounts.ts";
 import { founderMonthlySalary } from "./DemandCapacity.ts";
 import { businessForecast, businessPlan } from "./BusinessDocuments.ts";
 import { buildExportContent } from "./ExportContentBuilder.ts";
@@ -29,6 +28,16 @@ import goldenText from "./founder-period-golden.json?raw";
     golden.json, beside this file: the founders' table in full, the
     rest as digests); the same saved answers, loaded and
     migrated now, must calculate exactly that.
+
+    ONE DOCUMENTED EXCEPTION, the weekly fixture: its salary, turned
+    into a week's, is kept to the cent (415.38, not 415.3846...), as
+    every amount is. Converted back to a month that is at most half a
+    cent a week off -- about 2.2 cents a month a founder -- so its
+    figures are compared word for word with every number within that:
+    2.2 cents x 3 founders x 60 months, under 4 (a cumulative balance
+    carries it every month; a figure shown in whole pounds can move by
+    1 across a rounding boundary). For it the golden file holds the
+    documents' words (numbers blanked, as a digest) and their numbers.
 */
 
 type Example = { systems: Record<string, Parameters<typeof InterviewSession.fromJSON>[0]> };
@@ -79,7 +88,7 @@ function outputs(example: Example) {
         organisationName: "Example"
     };
     const { forecast } = businessForecast(sessions);
-    const tables = Object.fromEntries(Object.entries(forecast)
+    const tables: Record<string, string[]> = Object.fromEntries(Object.entries(forecast)
         .filter(([, table]) => table && typeof table === "object" && Array.isArray((table as { rows?: unknown }).rows))
         .map(([name, table]) => [name, (table as { rows: { label: string; values: number[] }[] }).rows
             .map(row => row.label + ": " + row.values.map(cents).join(" "))]));
@@ -89,6 +98,8 @@ function outputs(example: Example) {
         buildExportContent(sessions.business, "Foundation", undefined, undefined, { legalEntity, currency: "GBP" }));
     const plan = new MarkdownExporter().toMarkdown(sessions.business, "Foundation", businessPlan(sessions));
     return {
+        // For the weekly fixture's comparison within the rounding.
+        texts: { forecast: JSON.stringify(tables), plan, exported },
         // Read in full where it is short enough to show what changed:
         // the founders' table the export carries (pay and hours a month).
         founders: exported.match(/\| Founder \| Roles \|[^]*?\n\n/)?.[0] ?? "",
@@ -105,13 +116,27 @@ describe("a founder's Frequency, migrated", () => {
 
     const now = Object.fromEntries(Object.entries(FIXTURES).map(([name, example]) => [name, outputs(example)]));
 
-    const before = JSON.parse(goldenText) as typeof now;
+    const before = JSON.parse(goldenText) as Record<string, Record<string, unknown>>;
 
-    test.each(Object.keys(FIXTURES))("%s calculates what it did before, to the cent", (name) => {
+    test.each(["lumen", "quillfield"])("%s calculates what it did before, to the cent", (name) => {
         expect(now[name].founders).toBe(before[name].founders);
         expect(now[name].forecast).toBe(before[name].forecast);
         expect(now[name].plan).toBe(before[name].plan);
         expect(now[name].exported).toBe(before[name].exported);
+    });
+
+    test("the weekly fixture, its salary kept to the cent, calculates what it did within that", () => {
+        const old = before["lumen-weekly"];
+        expect(now["lumen-weekly"].founders).toBe(old.founders);
+        const NUMBER = /-?\d[\d,]*(?:\.\d+)?/g;
+        for (const part of ["forecast", "plan", "exported"] as const) {
+            const text = now["lumen-weekly"].texts[part];
+            expect(digest(text.replace(NUMBER, "#")), part + ": the words").toBe(old[part + "Shape"]);
+            const numbers = (text.match(NUMBER) ?? []).map(number => Number(number.replace(/,/g, "")));
+            const was = old[part + "Numbers"] as number[];
+            expect(numbers.length).toBe(was.length);
+            numbers.forEach((number, index) => expect(Math.abs(number - was[index]), part + " number " + index).toBeLessThan(4));
+        }
     });
 
 });
@@ -125,8 +150,9 @@ describe("migrating one founder", () => {
         const migrated = founder({ salary: "1800", hours: "40", deliveryHours: "22", hoursPeriod: "week" });
         expect(migrated.id).toBe("founder-a");
         expect(migrated.period).toBe("week");
-        expect(parseAmount(migrated.salary)).toBeCloseTo(1800 * 12 / 52, 10);
-        expect(founderMonthlySalary(migrated)).toBeCloseTo(1800, 10);
+        // A week's, kept to the cent, as every amount is.
+        expect(migrated.salary).toBe("415.38");
+        expect(Math.abs((founderMonthlySalary(migrated) ?? 0) - 1800)).toBeLessThan(0.03);
         expect(migrated.hours).toBe("40");
     });
 
@@ -141,6 +167,10 @@ describe("migrating one founder", () => {
         expect(again.salary).toBe(once.salary);
         expect(again.period).toBe("week");
         expect(founder({ salary: "415", period: "week" }).salary).toBe("415");
+    });
+
+    test("a salary kept with more than two decimals is rounded to the cent, once", () => {
+        expect(founder({ salary: "415.38461538461536", period: "week" }).salary).toBe("415.38");
     });
 
     test("a year's salary and hours are a twelfth a month", () => {

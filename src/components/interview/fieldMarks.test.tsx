@@ -3,7 +3,7 @@ import { cleanup, render } from "@testing-library/react";
 
 import { FieldPageProvider } from "./fieldMarks";
 import { BusinessField } from "./BusinessCardFields";
-import { clearFieldRegistry, registeredFields } from "../../framework/engine/FieldKeys";
+import { clearFieldRegistry, currentFieldKey, registeredFields } from "../../framework/engine/FieldKeys";
 
 afterEach(() => {
     cleanup();
@@ -92,6 +92,31 @@ describe("every control has a key, whatever draws it", () => {
         expect(keyOf("Journey Stage 1: Discovery")).toBe("3.2:customer-relationship/rel-1/journey-stage-1");
         expect(document.querySelector("[data-anchor=rel-1]")?.getAttribute("data-field-key")).toBe("3.2:customer-relationship/rel-1");
         expect(registeredFields(3, 2).map(entry => entry.label)).toEqual(expect.arrayContaining(["Retainer clients", "Approach for Discovery", "Journey Stage 1"]));
+    });
+
+});
+
+describe("a field's key, by its id", () => {
+
+    it("stays the same when the field's label is renamed, so a link to it keeps working", () => {
+        const page = (label: string) => (
+            <FieldPageProvider organizationId="org-1" systemNumber={3} sectionNumber={3} pageTitle="3. Infrastructure & Capability">
+                <section data-rail="founders">
+                    <div data-anchor="founder-a">
+                        <BusinessField label={label} fieldId="working-hours">
+                            <input className="interview-input" aria-label="Maya working hours a month" />
+                        </BusinessField>
+                    </div>
+                </section>
+            </FieldPageProvider>
+        );
+        const { rerender } = render(page("Working Hours / Month"));
+        const before = document.querySelector("[data-field-key]")?.getAttribute("data-field-key");
+        rerender(page("Working Hrs"));
+        expect(before).toBe("3.3:founders/founder-a/working-hours");
+        expect(document.querySelector("[data-field-key]")?.getAttribute("data-field-key")).toBe(before);
+        // A link saved under the old label's slug leads there too.
+        expect(currentFieldKey("3.3:founders/founder-a/working-hours-month")).toBe(before);
     });
 
 });

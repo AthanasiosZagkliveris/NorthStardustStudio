@@ -1,4 +1,4 @@
-import type { FieldKey } from "../framework/engine/FieldKeys";
+import { type FieldKey, currentFieldKey } from "../framework/engine/FieldKeys";
 
 /*
     THE NOTEPAD: the person's own notes, kept apart from any
@@ -73,7 +73,12 @@ function asNotepad(value: unknown): NotepadDocument {
             text: typeof note.text === "string" ? note.text : "",
             createdAt: typeof note.createdAt === "number" ? note.createdAt : 0,
             links: Array.isArray(note.links)
-                ? note.links.filter(link => link && typeof link.organizationId === "string" && typeof link.systemNumber === "number")
+                ? note.links
+                    .filter(link => link && typeof link.organizationId === "string" && typeof link.systemNumber === "number")
+                    // A link saved under a field's old label leads to the field as it is now.
+                    .map(link => typeof link.key === "string" && currentFieldKey(link.key) !== link.key
+                        ? { ...link, key: currentFieldKey(link.key) }
+                        : link)
                 : []
         }));
     return { version: 1, notes };

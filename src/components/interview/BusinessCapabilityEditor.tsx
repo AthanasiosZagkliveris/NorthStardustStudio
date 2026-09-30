@@ -1555,7 +1555,7 @@ export default function BusinessCapabilityEditor({
                 <div className="business-founder-fields">
                 <div className="business-founder-grid">
 
-                    <BusinessField label={labelWithCurrency("Salary", organisationCurrency)}>
+                    <BusinessField label={labelWithCurrency("Salary", organisationCurrency)} fieldId="salary">
                         <input
                             type="text"
                             inputMode="decimal"
@@ -1570,7 +1570,7 @@ export default function BusinessCapabilityEditor({
                         />
                     </BusinessField>
 
-                    <BusinessField label="Frequency" info={DELIVERY_HELP.period}>
+                    <BusinessField label="Frequency" info={DELIVERY_HELP.period} fieldId="frequency">
                         <OptionPicker
                             label={founderLabel + " frequency of salary and hours"}
                             placeholder="Monthly"
@@ -1583,7 +1583,7 @@ export default function BusinessCapabilityEditor({
                         />
                     </BusinessField>
 
-                    <BusinessField label="Working Hrs" info={DELIVERY_HELP.hours}>
+                    <BusinessField label="Working Hrs" info={DELIVERY_HELP.hours} fieldId="working-hours">
                         <input
                             type="text"
                             inputMode="decimal"
@@ -1598,7 +1598,7 @@ export default function BusinessCapabilityEditor({
                         />
                     </BusinessField>
 
-                    <BusinessField label="Delivery Hrs" info={DELIVERY_HELP.deliveryHours}>
+                    <BusinessField label="Delivery Hrs" info={DELIVERY_HELP.deliveryHours} fieldId="delivery-hours">
                         <input
                             type="text"
                             inputMode="decimal"

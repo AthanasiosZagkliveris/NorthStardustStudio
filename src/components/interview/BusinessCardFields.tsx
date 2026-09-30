@@ -48,12 +48,20 @@ export function BusinessField({
 
     inline = false,
 
+    fieldId,
+
     children
 
 }: {
 
     label: string;
     info?: InfoPoint[];
+    /**
+     * The field's stable id in its key (FieldKeys.ts), where the label
+     * could change: a note that links it keeps working when it does.
+     * The label's slug otherwise.
+     */
+    fieldId?: string;
     /** The label beside its control rather than above it. */
     inline?: boolean;
     children: ReactNode;
@@ -70,16 +78,16 @@ export function BusinessField({
                             <InfoText text={label}>
                                 <InfoNote label={label} points={info} fullList />
                             </InfoText>
-                            <FieldMark label={label} />
+                            <FieldMark label={label} keyLabel={fieldId} />
                         </span>
-                        <FieldStatus label={label} />
+                        <FieldStatus label={label} keyLabel={fieldId} />
                     </span>
                 )
                 : (
                     <span className="field-label business-foundation-label">
                         {label}
-                        <FieldMark label={label} />
-                        <FieldStatus label={label} />
+                        <FieldMark label={label} keyLabel={fieldId} />
+                        <FieldStatus label={label} keyLabel={fieldId} />
                     </span>
                 )}
 

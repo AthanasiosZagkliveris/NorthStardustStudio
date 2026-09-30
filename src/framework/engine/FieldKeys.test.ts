@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 
 import {
     clearFieldRegistry,
+    currentFieldKey,
     fieldKey,
     isYesNoPair,
     isWithin,
@@ -97,6 +98,24 @@ describe("a yes-or-no choice", () => {
         expect(isYesNoPair(["Fixed", "Variable"])).toBe(false);
         expect(isYesNoPair(["Per month", "Per week"])).toBe(false);
         expect(isYesNoPair(["Yes", "No", "Maybe"])).toBe(false);
+    });
+
+});
+
+describe("currentFieldKey", () => {
+
+    it("leads a key saved under a renamed label to the field's key now", () => {
+        expect(currentFieldKey("3.3:founders/founder-a/hours-given")).toBe("3.3:founders/founder-a/frequency");
+        expect(currentFieldKey("3.3:founders/founder-a/delivery-hours-week")).toBe("3.3:founders/founder-a/delivery-hours");
+        expect(currentFieldKey("3.3:founders/founder-a/working-hrs")).toBe("3.3:founders/founder-a/working-hours");
+        // Brand › Style: its fields moved into cards.
+        expect(currentFieldKey("2.2:colours/primary-a-usage")).toBe("2.2:colours/brand-colour-primary-a/usage");
+        expect(currentFieldKey("2.2:colours/secondary-b-hex")).toBe("2.2:colours/brand-colour-secondary-b/colour");
+        expect(currentFieldKey("2.2:typography/optional-purpose")).toBe("2.2:typography/brand-typeface-optional/purpose");
+        expect(currentFieldKey("2.2:typography/primary-font")).toBe("2.2:typography/brand-typeface-primary");
+        // Anything else is itself.
+        expect(currentFieldKey("1.3:organization/legal-form")).toBe("1.3:organization/legal-form");
+        expect(currentFieldKey("not a key")).toBe("not a key");
     });
 
 });

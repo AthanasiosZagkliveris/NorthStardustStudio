@@ -6335,19 +6335,31 @@ export function resourceUnitCount(quantity: string, frequency: string): number |
  * before the one Frequency: then the salary was always a month's and
  * the hours alone had a period (`hoursPeriod`, a week or a month).
  * That period becomes the founder's, and a monthly salary is turned
- * into that period's (a week's: times 12 / 52, kept unrounded), so
- * every figure calculated from them -- converted back to a month --
- * is exactly what it was.
+ * into that period's (a week's: times 12 / 52), rounded to the cent
+ * as every amount is kept -- so every figure calculated from it,
+ * converted back to a month, is what it was to within that rounding
+ * (at most half a cent a week: about 2 cents a month a founder).
+ *
+ * A salary kept with more than two decimals (the first version of this
+ * migration kept them unrounded) is rounded to the cent, once.
  */
+/** An amount to the cent, as plain text: "415.38", "1800". */
+function centsText(amount: number): string {
+    return String(Math.round(amount * 100) / 100);
+}
+
 function founderSalaryAndPeriod(founder: Record<string, unknown>): { salary: string; period: FounderPeriod } {
-    const salary = businessAmountText(founder.salary);
+    const typed = businessAmountText(founder.salary);
+    const salary = /\.\d{3,}$/.test(typed) && parseAmount(typed) !== null
+        ? centsText(parseAmount(typed) ?? 0)
+        : typed;
     if (founder.period !== undefined) {
         return { salary, period: asFounderPeriod(founder.period) };
     }
     const period: FounderPeriod = asHoursPeriod(founder.hoursPeriod);
     const monthly = parseAmount(salary);
     return period === "week" && monthly !== null
-        ? { salary: String(monthly * 12 / 52), period }
+        ? { salary: centsText(monthly * 12 / 52), period }
         : { salary, period };
 }
 
