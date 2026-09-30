@@ -11,6 +11,7 @@ This folder is NorthStardustStudio's shared knowledge for AI assistants (Claude,
 
 - **`framework-dsl-grammar.md`** — authoring or editing a System's content? Read this before touching any Markdown file.
 - **`framework-conventions-and-patterns.md`** — the non-obvious architectural patterns (cross-Section sharing, auto-ordering, the tabbed layout, the three justified special-case editors) and the data model. Read alongside the grammar reference for any non-trivial content change.
+- **`layout-rules.md`** — changing how a Foundation page's cards, fields or lists are laid out? The measured rulebook (tokens, the closed set of sizes, alignment, interactions) and the automated layout check that must pass.
 - **`verification-and-regression-playbook.md`** — after any change, before calling it done. Contains the living list of currently-known expected test failures and why each one is expected.
 - **`outstanding-findings.md`** — before running a diagnostic Skill (`metadata-relationship-validator`, `architecture-doc-maintainer`), check here first for anything already confirmed in the same area. Contains the living list of real, confirmed problems a diagnostic Skill found but wasn't authorized to fix in that turn — the same "living record" pattern as the verification playbook's known-failures list, generalized to any diagnostic finding instead of just automated test results.
 
