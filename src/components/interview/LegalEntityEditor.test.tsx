@@ -231,14 +231,16 @@ describe("LegalEntityEditor chained answers", () => {
 
 });
 
-describe("a name in a Legal Entity card's body", () => {
+describe("a Legal Entity requirement's or expense's name", () => {
 
-    it("wraps and grows as a card's own name does, rather than being cut off", () => {
+    it("is edited in the card's head, beside its number, and wraps and grows as every card's name does", () => {
         render(<Harness />);
         fireEvent.click(screen.getByRole("button", { name: /\+ Add legal requirement/i }));
         const name = screen.getByRole("textbox", { name: "Legal requirement 3 name" });
         expect(name.tagName).toBe("TEXTAREA");
         expect(name.classList.contains("card-name-input")).toBe(true);
+        expect(name.closest(".fold-card-head")).toBeTruthy();
+        expect(screen.queryByText("Name", { selector: ".field-label, .legal-entity-label" })).toBeNull();
         // Still one line of data.
         fireEvent.change(name, { target: { value: "Companies House\nincorporation" } });
         expect((screen.getByRole("textbox", { name: "Legal requirement 3 name" }) as HTMLTextAreaElement).value).toBe("Companies House incorporation");

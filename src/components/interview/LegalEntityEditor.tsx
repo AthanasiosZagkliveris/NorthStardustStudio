@@ -1005,23 +1005,6 @@ export default function LegalEntityEditor({
         /** A number box: what it accepts. */
         limits?: NumberLimit
     ) {
-        // A name in a card's body wraps and grows as a card's own name
-        // does (CardNameInput), rather than being cut off at the box.
-        if (label === "Name" && !limits) {
-            return field(
-                label,
-                <CardNameInput
-                    ariaLabel={ariaLabel ?? label}
-                    placeholder={placeholder ?? ""}
-                    disabled={disabled}
-                    value={current}
-                    onChange={onNext}
-                />,
-                wide,
-                undefined,
-                info
-            );
-        }
         return field(
             label,
             <input
@@ -1988,14 +1971,30 @@ export default function LegalEntityEditor({
                                         {(index + 1) + "."}
                                     </span>
 
-                                    {/* Folded, the name is read here, as on
-                                        every folding card; open, it is
-                                        edited in its own field below. */}
-                                    {!open && (
-                                        <span className="strategy-name-static">
-                                            {requirement.name.trim() || "Unnamed requirement"}
-                                        </span>
-                                    )}
+                                    {/* The name in the head, as on every
+                                        folding card: edited here while open
+                                        (it wraps and grows), read here folded. */}
+                                    {open
+                                        ? (
+                                            <CardNameInput
+                                                ariaLabel={"Legal requirement " + (index + 1) + " name"}
+                                                placeholder="What the requirement is"
+                                                disabled={disabled}
+                                                value={requirement.name}
+                                                onChange={(next) => update({
+                                                    requirements: entity.requirements.map(
+                                                        (candidate, position) => position === index
+                                                            ? { ...candidate, name: next }
+                                                            : candidate
+                                                    )
+                                                })}
+                                            />
+                                        )
+                                        : (
+                                            <span className="strategy-name-static">
+                                                {requirement.name.trim() || "Unnamed requirement"}
+                                            </span>
+                                        )}
 
                                     <button
                                         type="button"
@@ -2022,27 +2021,6 @@ export default function LegalEntityEditor({
 
                                 {open && (
                                 <div className="legal-entity-grid legal-entity-grid-pairs">
-
-                                    {/* First, because it is what the
-                                        user came to write down: what
-                                        the requirement is, beside
-                                        what it is called on the
-                                        paperwork. */}
-                                    {text(
-                                        "Name",
-                                        requirement.name,
-                                        (next) => update({
-                                            requirements: entity.requirements.map(
-                                                (candidate, position) => position === index
-                                                    ? { ...candidate, name: next }
-                                                    : candidate
-                                            )
-                                        }),
-                                        "What the requirement is",
-                                        false,
-                                        undefined,
-                                        "Legal requirement " + (index + 1) + " name"
-                                    )}
 
                                     {text(
                                         "Reference or Number",
@@ -2198,14 +2176,30 @@ export default function LegalEntityEditor({
                                         {(index + 1) + "."}
                                     </span>
 
-                                    {/* Folded, the name is read here, as on
-                                        every folding card; open, it is
-                                        edited in its own field below. */}
-                                    {!open && (
-                                        <span className="strategy-name-static">
-                                            {expense.name.trim() || "Unnamed expense"}
-                                        </span>
-                                    )}
+                                    {/* The name in the head, as on every
+                                        folding card: edited here while open
+                                        (it wraps and grows), read here folded. */}
+                                    {open
+                                        ? (
+                                            <CardNameInput
+                                                ariaLabel={"Expense " + (index + 1) + " name"}
+                                                placeholder="What the expense is"
+                                                disabled={disabled}
+                                                value={expense.name}
+                                                onChange={(next) => update({
+                                                    expenses: entity.expenses.map(
+                                                        (candidate, position) => position === index
+                                                            ? { ...candidate, name: next }
+                                                            : candidate
+                                                    )
+                                                })}
+                                            />
+                                        )
+                                        : (
+                                            <span className="strategy-name-static">
+                                                {expense.name.trim() || "Unnamed expense"}
+                                            </span>
+                                        )}
 
                                     <button
                                         type="button"
@@ -2232,31 +2226,6 @@ export default function LegalEntityEditor({
 
                                 {open && (
                                 <div className="legal-entity-grid legal-entity-grid-pairs">
-
-                                    {/*
-                                        Paired with Responsibility,
-                                        and full width on the visits
-                                        where there is only one
-                                        founder and no Responsibility
-                                        to pair with -- otherwise
-                                        Cost would slide up beside it
-                                        and break the pair below.
-                                    */}
-                                    {text(
-                                        "Name",
-                                        expense.name,
-                                        (next) => update({
-                                            expenses: entity.expenses.map(
-                                                (candidate, position) => position === index
-                                                    ? { ...candidate, name: next }
-                                                    : candidate
-                                            )
-                                        }),
-                                        "What the expense is",
-                                        namedFounders.length <= 1,
-                                        undefined,
-                                        "Expense " + (index + 1) + " name"
-                                    )}
 
                                     {/*
                                         The founders named in 2. Founders & Ownership, by
@@ -2296,7 +2265,9 @@ export default function LegalEntityEditor({
                                                         : candidate
                                                 )
                                             })}
-                                        />
+                                        />,
+                                        // Its own row, so Cost and Frequency below stay a pair.
+                                        true
                                     )}
 
                                     {text(
