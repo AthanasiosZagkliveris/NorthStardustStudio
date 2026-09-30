@@ -91,7 +91,7 @@ the same inner side margin: `--card-padding` (12px).
 | Step | Width | Holds | Used for |
 |---|---|---|---|
 | XS | 80px | 3-4 digits, or "33.333" | Quantity, a person's hours, calendar weeks (`.delivery-number`), a founder's Ownership % |
-| Code | 128px | 10 characters ("10001-1234" 98px, ten digits 107px) | a founder's Capital |
+| Code | 128px | 10 characters ("10001-1234" 98px, ten digits 107px, "£250,000") | a founder's Capital |
 | S | 220px | 18 characters, or a whole date with its calendar button (159px) | numbers and amounts in fields, dates, short pickers (Status, Role, Owner), month pickers, the activity code, the Number column of a Name / Number list |
 | M | 300px | an amount with its currency | price + currency pairs |
 | L | 420px | a long option | pickers whose longest option needs it (OptionPicker picks S, M or L itself) |
@@ -109,9 +109,11 @@ track of the grid it stands in.
 - **Square** (`--control-square`, 45 x 45): a 2-3 digit value with its unit
   after it; the Text Hierarchy's px boxes. Value centred.
 - **Text boxes** grow with their text and are never resized by hand:
-  at least **2 lines** for a written answer, **5 lines** for an image's
-  description (Brand Inventory). One-line text boxes (a card's name, a
-  City, a registration's name) wrap and grow instead of clipping.
+  at least **2 lines** for a written answer, **4 lines** for the Legal
+  Entity's Main Activity and Address (side by side, one column each, the
+  same size), **5 lines** for an image's description (Brand Inventory).
+  One-line text boxes (a card's name, a founder's name, a registration's
+  name) wrap and grow instead of clipping.
 
 ### Compact items
 
@@ -149,9 +151,9 @@ grids' 24px) are not cell gaps.
 - A list with a x keeps the x column on every row (`32px` track), so the
   columns before it stay put.
 - An add button at a list's end spans the list ("+ ADD ...", labelled).
-- **Pair rows** (`.legal-entity-pair-row`): two short fields sharing one
-  row of a column, `--space-cell` apart, stacking where the column is under
-  300px.
+- **List-end add button**: "+ ADD ..." under a list, the list's whole width,
+  its label centred (`.legal-entity-list-add`): registrations, tax
+  registrations, founders.
 - **Name / Number list** (`--name-number-columns`): the name the rest, the
   number S (two fifths of a narrow list), the x column. Names wrap and grow;
   the number and x stay on the name's first line. Used by the Legal
@@ -178,12 +180,17 @@ Fields follow the order a founder answers them: what it is, then where,
 then the details. On the Legal Entity page every section box is half the
 page, in pairs: 1. Organization | 2. Founders & Ownership, 3 | 4, 5 | 6,
 each as tall as its own content, stacked under 1100px. The Organization
-section is two columns 12px apart (the Name / Number lists' gap): "what it is" reads Organization Name, Main
-Activity, its activity code (S), Legal Form (the column's width: every UK
+section is two columns `--space-cell` apart: "what it is" reads Organization
+Name, Main Activity, its activity code (label beside its box, on the box's
+centre line; the box the S step at most, ending at the column's edge),
+Legal Form (the column's width: every UK
 and US form reads in full; the longest, 57 characters, fits from a 1366px
 window, and a closed picker too narrow ends in "..."); "where it is" reads
 Country, State / Region (where the country has one: it decides which
-registry and tax apply), City | Postcode, Address.
+registry and tax apply), then the Address: one box of lines, its
+placeholder the lines expected in the country's words ("Street", "City",
+"Postcode" / "ZIP Code" / "PLZ"; no postal line where addresses carry
+none).
 
 ---
 

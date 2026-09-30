@@ -409,7 +409,8 @@
             const walker = document.createTreeWalker(holder, NodeFilter.SHOW_TEXT);
             let last = null;
             for (let node = walker.nextNode(); node; node = walker.nextNode()) {
-                if (node.textContent.trim() && !node.parentElement.closest(".info-note")) {
+                // The words BEFORE the "i" (a full stop after it is not what it follows).
+                if (node.textContent.trim() && !node.parentElement.closest(".info-note") && (node.compareDocumentPosition(note) & Node.DOCUMENT_POSITION_FOLLOWING)) {
                     last = node;
                 }
             }
