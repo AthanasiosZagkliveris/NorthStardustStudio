@@ -353,6 +353,13 @@ describe("A System's opening screen", () => {
 
     });
 
+    it("is titled as a page is: the System, then the separator and Introduction in the page-title weight", () => {
+        renderOpening("identity");
+        const title = screen.getByRole("heading", { level: 1 });
+        expect(title.textContent).toBe("1. Identity System — Introduction");
+        expect(title.querySelector(".interview-header-page-title")?.textContent).toBe(" — Introduction");
+    });
+
     it("says the Identity System is the starting point", () => {
 
         renderOpening("identity");

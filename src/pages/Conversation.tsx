@@ -2610,9 +2610,10 @@ export default function Conversation() {
                         systemName={framework.metadata.systemName}
                         capabilityId={system?.capability}
                         pageTitle={
-                            !showIntroduction && mergesTitleIntoHeader
-                                ? pageTitle
-                                : undefined
+                            // The opening screen is named as a page is: "— Introduction".
+                            showIntroduction
+                                ? "Introduction"
+                                : mergesTitleIntoHeader ? pageTitle : undefined
                         }
                     />
 
