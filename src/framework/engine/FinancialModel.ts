@@ -40,7 +40,7 @@ import type {
     StrategyRangeValue
 } from "./AnswerUtils.ts";
 import { resourceUnitCount } from "./AnswerUtils.ts";
-import { type CapacityCheck, type DemandValue, capacityCheck, demandResult } from "./DemandCapacity.ts";
+import { type CapacityCheck, type DemandValue, capacityCheck, demandResult, founderMonthlySalary } from "./DemandCapacity.ts";
 
 /**
  * How many months the model calculates from the plan's first month:
@@ -1155,10 +1155,12 @@ export function consolidateCosts(
 
     const capability = sources.capability;
 
-    /* Founders' salaries -- per month, as Page 3 asks for them. */
+    /* Founders' salaries -- given for the founder's Frequency (a week,
+       a month or a year) on Page 3, and counted here a month. */
     if (sources.foundersLinked) {
         capability.founders.forEach(founder => {
-            if (parseAmount(founder.salary) === null) {
+            const monthly = founderMonthlySalary(founder);
+            if (monthly === null) {
                 return;
             }
             read(
@@ -1166,7 +1168,8 @@ export function consolidateCosts(
                 "Salary: " + (founder.name.trim() || "Unnamed founder"),
                 "founders",
                 "Infrastructure → Founders",
-                founder.salary,
+                // As typed where it is a month's; a week's or a year's, a month's worth.
+                (founder.period === "week" || founder.period === "year") ? String(monthly) : founder.salary,
                 "",
                 "monthly",
                 "",

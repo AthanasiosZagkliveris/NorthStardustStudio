@@ -14246,8 +14246,15 @@ td.process-library-col-number{
    Where the fields have less than the two columns (464px, a container
    query on their own box), one column: a control stays one column
    wide, and the Quantity row takes the whole width. Tops level:
-   labels above, all of them. */
-.business-capability-costs{
+   labels above, all of them.
+
+   A Founder's pay and time use the same grid (.business-founder-
+   fields): Salary | Frequency, then Working Hrs | Delivery Hrs --
+   its columns a standard control wide at most, narrower in a narrow
+   card (a Founder card is), so the pairs stay side by side down to
+   300px. */
+.business-capability-costs,
+.business-founder-fields{
 
     container:cost-fields / inline-size;
 
@@ -14255,7 +14262,8 @@ td.process-library-col-number{
 
 }
 
-.business-capability-cost-grid{
+.business-capability-cost-grid,
+.business-founder-grid{
 
     display:grid;
 
@@ -14270,7 +14278,8 @@ td.process-library-col-number{
 
 }
 
-.business-capability-cost-grid > *{
+.business-capability-cost-grid > *,
+.business-founder-grid > *{
 
     min-width:0;
 
@@ -14279,6 +14288,22 @@ td.process-library-col-number{
 .business-capability-cost-grid-quantity > .business-capability-quantity-price{
 
     grid-column:1 / -1;
+
+}
+
+.business-founder-grid{
+
+    grid-template-columns:repeat(2, minmax(0, var(--control-s)));
+
+}
+
+@container cost-fields (max-width: 299.98px){
+
+    .business-founder-grid{
+
+        grid-template-columns:minmax(0, var(--control-s));
+
+    }
 
 }
 

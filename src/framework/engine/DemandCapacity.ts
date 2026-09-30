@@ -21,7 +21,7 @@
     one that enters no hours simply sees no capacity check.
 */
 
-import { parseDecimal } from "./Amounts.ts";
+import { parseAmount, parseDecimal } from "./Amounts.ts";
 import { asObject, asText, randomId } from "./Readers.ts";
 
 /* ==========================================================
@@ -463,6 +463,30 @@ function monthlyHours(hours: number, period: HoursPeriod): number {
     return period === "week" ? hours * WEEKS_PER_MONTH : hours;
 }
 
+/**
+ * A founder's Frequency: the one period their salary AND their hours
+ * are given for -- a week, a month or a year. "" is a month.
+ */
+export type FounderPeriod = "week" | "month" | "year" | "";
+
+export function asFounderPeriod(value: unknown): FounderPeriod {
+    return value === "week" || value === "month" || value === "year" ? value : "";
+}
+
+/**
+ * A figure given for a founder's period, as a month's: a week's times
+ * 52 / 12 (as the hours always were), a year's divided by 12.
+ */
+export function monthlyFromFounderPeriod(value: number, period: FounderPeriod): number {
+    return period === "week" ? value * WEEKS_PER_MONTH : period === "year" ? value / 12 : value;
+}
+
+/** A founder's salary a month, from the period it is given for. Null when none is given. */
+export function founderMonthlySalary(founder: { salary: string; period?: FounderPeriod }): number | null {
+    const salary = parseAmount(founder.salary);
+    return salary === null ? null : monthlyFromFounderPeriod(salary, founder.period ?? "");
+}
+
 /*
     CAPACITY IS THE FOUNDERS' HOURS. What the organization controls is
     the time its founders give to delivery; that is its capacity, and
@@ -575,14 +599,14 @@ export function deliveryEffort(delivery: DeliveryValue | undefined): number | nu
 interface FounderHours {
     id?: string;
     name: string;
-    /** Working hours, a month or a week (hoursPeriod). */
+    /** Working hours, for the founder's period. */
     hours: string;
     /** Hours available for delivery, in the same period: the preferred answer. */
     deliveryHours?: string;
     /** Or the percent of working hours spent delivering. */
     deliveryShare: string;
-    /** The period both figures are given for; "" is a month. */
-    hoursPeriod?: HoursPeriod;
+    /** The period both figures (and the salary) are given for; "" is a month. */
+    period?: FounderPeriod;
 }
 
 /**
@@ -590,21 +614,21 @@ interface FounderHours {
  * the percent spent delivering. Null when neither is known.
  */
 export function founderDeliveryHours(founder: FounderHours): number | null {
-    const period = founder.hoursPeriod ?? "";
+    const period = founder.period ?? "";
     const direct = readNumber(founder.deliveryHours);
     const hours = readNumber(founder.hours);
     if (direct !== null) {
         // Never more than the working hours, if they were lowered after.
-        return monthlyHours(hours !== null ? Math.min(direct, hours) : direct, period);
+        return monthlyFromFounderPeriod(hours !== null ? Math.min(direct, hours) : direct, period);
     }
     const share = readNumber(founder.deliveryShare);
-    return hours !== null && share !== null ? monthlyHours(hours * Math.min(100, share) / 100, period) : null;
+    return hours !== null && share !== null ? monthlyFromFounderPeriod(hours * Math.min(100, share) / 100, period) : null;
 }
 
-/** A founder's working hours a month, converted from a week if given so. */
+/** A founder's working hours a month, converted from a week or a year if given so. */
 export function founderWorkingHours(founder: FounderHours): number | null {
     const hours = readNumber(founder.hours);
-    return hours === null ? null : monthlyHours(hours, founder.hoursPeriod ?? "");
+    return hours === null ? null : monthlyFromFounderPeriod(hours, founder.period ?? "");
 }
 
 /** The organization's controlled capacity: every founder's delivery hours. Null when none is known. */

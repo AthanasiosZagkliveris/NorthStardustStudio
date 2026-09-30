@@ -151,7 +151,7 @@ const DELIVERY_HELP = {
     ],
     hours: ["Working hours available: about 40 a week (about 173 a month) full-time, fewer while employed elsewhere."],
     deliveryHours: ["Of those, the hours you can give to delivering Offerings. Selling, admin, learning and holidays take the rest, often 30 to 50% for a founder."],
-    period: ["Give the hours a week or a month, whichever you know. Weekly hours become monthly at 52 ÷ 12 ≈ 4.33 weeks a month (40 h a week is about 173 h a month)."],
+    period: ["The period of the salary and of both hours: a week, a month or a year, whichever you know. Every calculation turns them into a month: a week's at 52 ÷ 12 ≈ 4.33 weeks a month (40 h a week is about 173 h a month), a year's divided by 12."],
     mode: [
         "Per unit: done once for each unit sold (a project, a product, a session), over its Calendar Time in weeks.",
         "Every month: ongoing work for each active client every month (a retainer, a subscription). It has no Calendar Time, and it uses founders' hours first.",
@@ -169,6 +169,13 @@ const DELIVERY_HELP = {
     duration: ["From start to finish, including waiting for the client: approvals, access, feedback. Not working time: it is not added to the hours, and only sets the pace (hours a week) and how many run at once."],
     constraints: ["Limits such as equipment, availability or lead times."]
 };
+
+/** A founder's Frequency: the period of the salary and the hours. */
+const FOUNDER_FREQUENCIES = [
+    { id: "week", label: "Weekly" },
+    { id: "month", label: "Monthly" },
+    { id: "year", label: "Annually" }
+] as const;
 
 /** The weekly-to-monthly hours conversion, its "i" beside "a month". */
 const HOURS_PER_MONTH_HELP: InfoPoint[] = [
@@ -546,7 +553,7 @@ export default function BusinessCapabilityEditor({
 
     /* Hours in the unit the founders think in: a week if any founder
        gave their hours a week, with the month beside it. */
-    const weeklyView = founders.some(founder => founder.hoursPeriod === "week");
+    const weeklyView = founders.some(founder => founder.period === "week");
     function inFounderUnit(monthly: number): string {
         // One decimal, so a budget adds up line by line.
         const exact = (hours: number) => hours.toLocaleString("en-GB", { maximumFractionDigits: 1 });
@@ -1478,14 +1485,16 @@ export default function BusinessCapabilityEditor({
 
         const workingHours = founderWorkingHours(founder);
 
-        /* Both figures are a week's or a month's, as the founder
-           chooses; the capacity is always counted a month. */
-        const weekly = founder.hoursPeriod === "week";
-        const per = weekly ? "a week" : "a month";
+        /* The salary and both hours are for the founder's one
+           Frequency, a week, a month or a year; the capacity and the
+           pay are always counted a month. */
+        const period = founder.period || "month";
+        const weekly = period === "week";
+        const per = weekly ? "a week" : period === "year" ? "a year" : "a month";
 
         /* Hours in the period chosen; delivery hours never more
            than the working hours typed beside them. */
-        const hoursLimit = weekly ? NUMBER_LIMITS.hoursWeek : NUMBER_LIMITS.hoursMonth;
+        const hoursLimit = weekly ? NUMBER_LIMITS.hoursWeek : period === "year" ? NUMBER_LIMITS.hoursYear : NUMBER_LIMITS.hoursMonth;
         const typedWorking = parseDecimal(founder.hours);
         const deliveryLimit = typedWorking !== null
             ? { ...hoursLimit, max: Math.min(hoursLimit.max, typedWorking) }
@@ -1532,58 +1541,55 @@ export default function BusinessCapabilityEditor({
                             )}
                     </BusinessField>
 
-                    {/* Laid out as a Price is, but the currency is
-                        not chosen: a salary is paid in the
-                        organization's own, so it is shown, not asked.
-                        With the hours below, a run of short values
-                        whose labels all sit beside them
-                        (.business-field-run), under Roles' label above. */}
-                    <div className="business-field-run">
-                        <BusinessField label={labelWithCurrency("Salary", organisationCurrency)} inline>
-                            <div className="business-capability-price">
-
-                                <input
-                                    type="text"
-                                    inputMode="decimal"
-                                    className="interview-input"
-                                    aria-label={nameWithCurrency(founderLabel + " salary", organisationCurrency)}
-                                    placeholder="Salary per month"
-                                    disabled={disabled}
-                                    value={founder.salary}
-                                    onChange={(event) => change({
-                                        salary: limitedNumberText(event.target.value, founder.salary, NUMBER_LIMITS.money)
-                                    })}
-                                />
-
-                            </div>
-                        </BusinessField>
-                    </div>
-
                 </div>
 
-                {/* The time this founder has, and how much of it goes
-                    on delivering Offerings: what 4. Delivery under
-                    Offering's Capability adds up as the capacity. */}
-                <div className="delivery-founder-hours business-field-run">
+                {/* Pay and time, in the card's two columns (labels
+                    above, tops level): Salary | Frequency, then
+                    Working Hrs | Delivery Hrs. The one Frequency is the
+                    period of all three -- a salary and hours a week, a
+                    month or a year -- and every calculation turns them
+                    into a month. The delivery hours are what 4.
+                    Delivery under Offering's Capability adds up as the
+                    capacity. A salary is paid in the organization's own
+                    currency, so it is named in the label, not asked. */}
+                <div className="business-founder-fields">
+                <div className="business-founder-grid">
 
-                    <BusinessField label="Hours Given" info={DELIVERY_HELP.period} inline>
-                        <OptionPicker
-                            label={founderLabel + " hours given per week or per month"}
-                            placeholder="Per month"
-                            options={["Per month", "Per week"]}
+                    <BusinessField label={labelWithCurrency("Salary", organisationCurrency)}>
+                        <input
+                            type="text"
+                            inputMode="decimal"
+                            className="interview-input"
+                            aria-label={nameWithCurrency(founderLabel + " salary " + per, organisationCurrency)}
+                            placeholder={"Salary " + per}
                             disabled={disabled}
-                            value={weekly ? "Per week" : "Per month"}
-                            onChange={(next) => change({ hoursPeriod: next === "Per week" ? "week" : "month" })}
+                            value={founder.salary}
+                            onChange={(event) => change({
+                                salary: limitedNumberText(event.target.value, founder.salary, NUMBER_LIMITS.money)
+                            })}
                         />
                     </BusinessField>
 
-                    <BusinessField label={"Working Hours / " + (weekly ? "Week" : "Month")} info={DELIVERY_HELP.hours} inline>
+                    <BusinessField label="Frequency" info={DELIVERY_HELP.period}>
+                        <OptionPicker
+                            label={founderLabel + " frequency of salary and hours"}
+                            placeholder="Monthly"
+                            options={FOUNDER_FREQUENCIES.map(frequency => frequency.label)}
+                            disabled={disabled}
+                            value={FOUNDER_FREQUENCIES.find(frequency => frequency.id === (founder.period || "month"))?.label ?? "Monthly"}
+                            onChange={(next) => change({
+                                period: FOUNDER_FREQUENCIES.find(frequency => frequency.label === next)?.id ?? "month"
+                            })}
+                        />
+                    </BusinessField>
+
+                    <BusinessField label="Working Hrs" info={DELIVERY_HELP.hours}>
                         <input
                             type="text"
                             inputMode="decimal"
                             className="interview-input delivery-number"
                             aria-label={founderLabel + " working hours " + per}
-                            placeholder={weekly ? "40" : "173"}
+                            placeholder={period === "week" ? "40" : period === "year" ? "2080" : "173"}
                             disabled={disabled}
                             value={founder.hours}
                             onChange={(event) => change({
@@ -1592,13 +1598,13 @@ export default function BusinessCapabilityEditor({
                         />
                     </BusinessField>
 
-                    <BusinessField label={"Delivery Hours / " + (weekly ? "Week" : "Month")} info={DELIVERY_HELP.deliveryHours} inline>
+                    <BusinessField label="Delivery Hrs" info={DELIVERY_HELP.deliveryHours}>
                         <input
                             type="text"
                             inputMode="decimal"
                             className="interview-input delivery-number"
                             aria-label={founderLabel + " delivery hours " + per}
-                            placeholder={weekly ? "e.g. 22" : "e.g. 96"}
+                            placeholder={period === "week" ? "e.g. 22" : period === "year" ? "e.g. 1150" : "e.g. 96"}
                             disabled={disabled}
                             value={founder.deliveryHours}
                             onChange={(event) => {
@@ -1616,7 +1622,7 @@ export default function BusinessCapabilityEditor({
                         shown only while it is the one there is, so it
                         can still be read and converted. */}
                     {legacyShare && (
-                        <BusinessField label="Delivering (%)" info={DELIVERY_HELP.share} inline>
+                        <BusinessField label="Delivering (%)" info={DELIVERY_HELP.share}>
                             <input
                                 type="text"
                                 inputMode="decimal"
@@ -1633,6 +1639,7 @@ export default function BusinessCapabilityEditor({
                     )}
 
                 </div>
+                </div>
 
                 {founderDelivery !== null && (
                     <p className="delivery-muted">
@@ -1642,7 +1649,10 @@ export default function BusinessCapabilityEditor({
                                 : weekly
                                     ? "Delivery hours: " + formatHours(founderDelivery / WEEKS_PER_MONTH) + " a week, about " +
                                         formatHours(founderDelivery) + " a month"
-                                    : "Delivery hours: " + formatHours(founderDelivery) + " a month") +
+                                    : period === "year"
+                                        ? "Delivery hours: " + formatHours(founderDelivery * 12) + " a year, about " +
+                                            formatHours(founderDelivery) + " a month"
+                                        : "Delivery hours: " + formatHours(founderDelivery) + " a month") +
                                 (workingHours !== null && workingHours > 0
                                     ? " (" + formatHours(Math.round(founderDelivery / workingHours * 100)) + "% of working hours)."
                                     : ".")}

@@ -16,7 +16,7 @@
 */
 
 import { AnswerType } from "../enums/AnswerType.ts";
-import { WEEKS_PER_MONTH, demandResult, founderWorkingHours, hasDemand } from "./DemandCapacity.ts";
+import { WEEKS_PER_MONTH, demandResult, founderMonthlySalary, founderWorkingHours, hasDemand } from "./DemandCapacity.ts";
 import type { InterviewSession } from "../interview";
 import {
     BUSINESS_ACTIVITY_CATEGORIES,
@@ -990,7 +990,11 @@ function founderCommitment(hoursAMonth: number | null): string {
 function founderTable(f: Foundation): ExportBlock[] {
     const { capability, format } = f;
     const withCapital = f.legalEntity.founders.some(founder => parseAmount(founder.capital) !== null);
-    const payOf = (id: string) => parseAmount(capability.founders.find(entry => entry.id === id)?.salary ?? "");
+    // A month's pay, whatever the founder's Frequency.
+    const payOf = (id: string) => {
+        const founder = capability.founders.find(entry => entry.id === id);
+        return founder ? founderMonthlySalary(founder) : null;
+    };
     const withPay = f.legalEntity.founders.some(founder => payOf(founder.id) !== null);
     return table(["Founder", "Ownership", ...(withCapital ? ["Capital"] : []), "Roles", "Commitment", ...(withPay ? ["Pay"] : [])], f.legalEntity.founders
         .filter(founder => founder.name.trim())

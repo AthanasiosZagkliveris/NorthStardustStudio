@@ -18,7 +18,7 @@
 */
 
 import { AnswerType } from "../enums/AnswerType.ts";
-import { type CapacityCheck, type DemandResult, deliveryAllocation, deliveryEffort, deliveryHours, demandResult, founderDeliveryHours, hasDemand, founderWorkingHours } from "./DemandCapacity.ts";
+import { type CapacityCheck, type DemandResult, deliveryAllocation, deliveryEffort, deliveryHours, demandResult, founderDeliveryHours, founderMonthlySalary, hasDemand, founderWorkingHours } from "./DemandCapacity.ts";
 import type { AnswerDefinition } from "../model/index.ts";
 import {
     BRAND_COLOUR_SLOTS,
@@ -642,6 +642,11 @@ function activityRows(
     ]);
 }
 
+/** "a week" or "a year" for a founder whose Frequency is not a month; "" for a month. */
+function founderPer(founder: { period: string }): string {
+    return founder.period === "week" ? "a week" : founder.period === "year" ? "a year" : "";
+}
+
 function slotRow(
     slot: BusinessResourceSlotValue,
     place: string,
@@ -686,12 +691,15 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
         ...table(["Founder", "Roles", "Salary / month", "Working Hours / month", "Delivery Hours / month", "Responsibilities"], capability.founders.map(founder => [
             founder.name,
             founder.roles.filter(Boolean).join(", "),
-            moneyText(founder.salary, currency),
-            // A month, as the capacity is counted; the week as given, beside it.
+            // A month's, whatever the founder's Frequency.
+            founder.period === "week" || founder.period === "year"
+                ? moneyText(founderMonthlySalary(founder) === null ? "" : String(founderMonthlySalary(founder)), currency)
+                : moneyText(founder.salary, currency),
+            // A month, as the capacity is counted; the week or year as given, beside it.
             founderWorkingHours(founder) === null ? "" : String(Math.round(founderWorkingHours(founder) ?? 0)) +
-                (founder.hoursPeriod === "week" ? " (" + founder.hours + " a week)" : ""),
+                (founderPer(founder) ? " (" + founder.hours + " " + founderPer(founder) + ")" : ""),
             founderDeliveryHours(founder) === null ? "" : String(Math.round(founderDeliveryHours(founder) ?? 0)) +
-                (founder.hoursPeriod === "week" && founder.deliveryHours ? " (" + founder.deliveryHours + " a week)" : ""),
+                (founderPer(founder) && founder.deliveryHours ? " (" + founder.deliveryHours + " " + founderPer(founder) + ")" : ""),
             businessFounderResponsibilities(capability, founder.id)
                 .map(entry => entry.name + (entry.completed ? " (completed)" : "")).join("; ")
         ])),

@@ -428,6 +428,22 @@ describe("BusinessCapabilityEditor founders' roles", () => {
         return () => asBusinessCapabilityValue(saved);
     }
 
+    it("asks one Frequency for the salary and both hours", () => {
+
+        const saved = renderWith();
+
+        const labels = [...document.querySelectorAll(".business-founder-grid .field-label")].map(label => label.textContent?.replace(/i$/, "").trim());
+        expect(labels.slice(1)).toEqual(["Frequency", "Working Hrs", "Delivery Hrs"]);
+        const frequency = screen.getByRole("button", { name: /^Ann frequency of salary and hours/ });
+        fireEvent.click(frequency);
+        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Weekly", "Monthly", "Annually"]);
+        fireEvent.click(screen.getByRole("option", { name: "Annually" }));
+        expect(saved().founders[0].period).toBe("year");
+        expect(screen.getByLabelText(/^Ann working hours a year/)).toBeTruthy();
+        expect(screen.getByLabelText(/^Ann salary a year/)).toBeTruthy();
+
+    });
+
     it("shows each founder's roles from the Founders Profile, read-only", () => {
 
         const saved = renderWith({ founders: [{ id: "f1", roles: ["Director", "Designer"] }] });

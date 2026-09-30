@@ -32,6 +32,7 @@ export const NUMBER_LIMITS = {
     money: { max: 1_000_000_000, decimals: 2 },
     hoursWeek: { max: 168, decimals: 1 },
     hoursMonth: { max: 730, decimals: 1 },
+    hoursYear: { max: 8760, decimals: 1 },
     /** Hours one unit or client takes, by person. */
     unitHours: { max: 730, decimals: 1 },
     /** Number of payments or periods. */

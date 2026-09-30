@@ -198,9 +198,13 @@ describe("hours a week or a month", () => {
 
     it("weekly hours become monthly at 52 / 12 weeks a month", () => {
         expect(WEEKS_PER_MONTH).toBeCloseTo(4.333, 3);
-        const weekly = { name: "F", hours: "40", deliveryHours: "22", deliveryShare: "", hoursPeriod: "week" as const };
+        const weekly = { name: "F", hours: "40", deliveryHours: "22", deliveryShare: "", period: "week" as const };
         expect(founderWorkingHours(weekly)).toBeCloseTo(173.33, 2);
         expect(founderDeliveryHours(weekly)).toBeCloseTo(95.33, 2);
+        // A year's: a twelfth a month.
+        const yearly = { name: "F", hours: "1920", deliveryHours: "1200", deliveryShare: "", period: "year" as const };
+        expect(founderWorkingHours(yearly)).toBe(160);
+        expect(founderDeliveryHours(yearly)).toBe(100);
         // Given a month, or before the choice existed: unchanged.
         expect(founderDeliveryHours({ name: "F", hours: "160", deliveryHours: "96", deliveryShare: "" })).toBe(96);
     });

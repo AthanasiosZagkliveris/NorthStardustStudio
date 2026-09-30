@@ -1,0 +1,20 @@
+{
+ "lumen": {
+  "founders": "| Founder | Roles | Salary / month | Working Hours / month | Delivery Hours / month | Responsibilities |\n| --- | --- | --- | --- | --- | --- |\n| Maya Chen |  | £1,800 | 160 | 112 | Investigate Warping mill; Source British wool and organic cotton yarns; Weave spring collection (40 pieces); Test fire-retardant finish for hospitality orders; Run the first six beginner workshops; Sample three headboard panels for hotel pitches |\n| Oliver Grant |  | £1,800 | 160 | 48 | Set up Product photography; Launch website and journal (completed); Plan Clerkenwell Design Week stand; Instagram content calendar; Build trade price list and swatch box |\n| Priya Shah |  | £1,800 | 160 | 40 | Register trade mark and ICO data protection fee (completed); Set up Xero, VAT returns and payroll; Set up the lifetime repair service |\n\n",
+  "forecast": "11b778d6c0d559:15363",
+  "plan": "355d5005c0005:161117",
+  "exported": "1748c3ce453fb6:39363"
+ },
+ "quillfield": {
+  "founders": "| Founder | Roles | Salary / month | Working Hours / month | Delivery Hours / month | Responsibilities |\n| --- | --- | --- | --- | --- | --- |\n| Jordan Ellis |  | £4,500 | 160 | 96 | Form the LLC and get an EIN (completed); Open a business bank account (completed); Complete the LLC publication (completed); Investigate Password and credential vault for client logins; Set up bookkeeping and quarterly estimated taxes; Build a reusable automation component library; Write a client data privacy and AI use policy; Publish three case studies; LinkedIn content plan; Launch the website with booking; Start the monthly newsletter; Proposal and statement-of-work templates; Recruit three referral partners; Standard client contract templates; Create the audit interview guide and roadmap template; Define the build handover pack; Set up retainer monitoring and alerts |\n\n",
+  "forecast": "167bbc4815eaff:12442",
+  "plan": "9756d622ea821:84218",
+  "exported": "1752fa26ccaa74:32979"
+ },
+ "lumen-weekly": {
+  "founders": "| Founder | Roles | Salary / month | Working Hours / month | Delivery Hours / month | Responsibilities |\n| --- | --- | --- | --- | --- | --- |\n| Maya Chen |  | £1,800 | 163 (37.5 a week) | 113 (26 a week) | Investigate Warping mill; Source British wool and organic cotton yarns; Weave spring collection (40 pieces); Test fire-retardant finish for hospitality orders; Run the first six beginner workshops; Sample three headboard panels for hotel pitches |\n| Oliver Grant |  | £1,800 | 163 (37.5 a week) | 113 (26 a week) | Set up Product photography; Launch website and journal (completed); Plan Clerkenwell Design Week stand; Instagram content calendar; Build trade price list and swatch box |\n| Priya Shah |  | £1,800 | 163 (37.5 a week) | 113 (26 a week) | Register trade mark and ICO data protection fee (completed); Set up Xero, VAT returns and payroll; Set up the lifetime repair service |\n\n",
+  "forecast": "11b778d6c0d559:15363",
+  "plan": "165350561622c2:161121",
+  "exported": "1ccc1d67e00c5:39447"
+ }
+}

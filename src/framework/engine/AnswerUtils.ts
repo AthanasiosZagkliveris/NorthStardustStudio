@@ -4,9 +4,10 @@ import { AnswerDefinition, TableColumnDefinition } from "../model/index.ts";
 import {
     type DeliveryValue,
     type DemandValue,
-    type HoursPeriod,
+    type FounderPeriod,
     asDeliveryMap,
     asDemandMap,
+    asFounderPeriod,
     asHoursPeriod
 } from "./DemandCapacity.ts";
 
@@ -6329,6 +6330,27 @@ export function resourceUnitCount(quantity: string, frequency: string): number |
  * for the founder to correct. A plain number comes back as it was,
  * so reading a value twice changes nothing.
  */
+/**
+ * A founder's salary and Frequency, as saved -- or migrated from
+ * before the one Frequency: then the salary was always a month's and
+ * the hours alone had a period (`hoursPeriod`, a week or a month).
+ * That period becomes the founder's, and a monthly salary is turned
+ * into that period's (a week's: times 12 / 52, kept unrounded), so
+ * every figure calculated from them -- converted back to a month --
+ * is exactly what it was.
+ */
+function founderSalaryAndPeriod(founder: Record<string, unknown>): { salary: string; period: FounderPeriod } {
+    const salary = businessAmountText(founder.salary);
+    if (founder.period !== undefined) {
+        return { salary, period: asFounderPeriod(founder.period) };
+    }
+    const period: FounderPeriod = asHoursPeriod(founder.hoursPeriod);
+    const monthly = parseAmount(salary);
+    return period === "week" && monthly !== null
+        ? { salary: String(monthly * 12 / 52), period }
+        : { salary, period };
+}
+
 function businessAmountText(value: unknown): string {
     const text = asText(value).trim();
     if (text === "" || BUSINESS_PLAIN_NUMBER.test(text)) {
@@ -6352,16 +6374,20 @@ export interface BusinessFounderValue {
     name: string;
     /** One line per role: a founder is often several things. */
     roles: string[];
-    /** Price per month. */
+    /** The salary for the founder's period (see founderMonthlySalary). */
     salary: string;
-    /** Working hours a month (see DemandCapacity.ts, deliveryHours). */
+    /** Working hours for the period (see DemandCapacity.ts, deliveryHours). */
     hours: string;
-    /** Hours a month available for delivering Offerings: the preferred answer. */
+    /** Hours for the period available for delivering Offerings: the preferred answer. */
     deliveryHours: string;
     /** Or the percent of working hours spent delivering (see founderDeliveryHours). */
     deliveryShare: string;
-    /** Whether the hours above are a week's or a month's; "" is a month. */
-    hoursPeriod: HoursPeriod;
+    /**
+     * The founder's Frequency: whether the salary and the hours above
+     * are a week's, a month's or a year's; "" is a month. Every
+     * calculation converts them to a month.
+     */
+    period: FounderPeriod;
 }
 
 /**
@@ -6519,7 +6545,7 @@ function createBusinessCost(): BusinessCostValue {
 }
 
 function createBusinessFounder(): BusinessFounderValue {
-    return { id: randomId("founder"), name: "", roles: [""], salary: "", hours: "", deliveryHours: "", deliveryShare: "", hoursPeriod: "" };
+    return { id: randomId("founder"), name: "", roles: [""], salary: "", hours: "", deliveryHours: "", deliveryShare: "", period: "" };
 }
 
 export function createBusinessResourceSlot(): BusinessResourceSlotValue {
@@ -6738,10 +6764,9 @@ export function asBusinessCapabilityValue(value: unknown): BusinessCapabilityVal
                     roles: typeof founder.roles === "string"
                         ? [founder.roles]
                         : businessNeedList(founder.roles, 1),
-                    salary: businessAmountText(founder.salary),
+                    ...founderSalaryAndPeriod(founder),
                     hours: businessDecimalText(asText(founder.hours)),
                     deliveryHours: businessDecimalText(asText(founder.deliveryHours)),
-                    hoursPeriod: asHoursPeriod(founder.hoursPeriod),
                     deliveryShare: businessDecimalText(asText(founder.deliveryShare))
                 };
 
@@ -6963,7 +6988,7 @@ export function withLegalEntityFounders(
             salary: match?.salary ?? "",
             hours: match?.hours ?? "",
             deliveryHours: match?.deliveryHours ?? "",
-            hoursPeriod: match?.hoursPeriod ?? "",
+            period: match?.period ?? "",
             deliveryShare: match?.deliveryShare ?? ""
         };
 
