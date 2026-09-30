@@ -25,7 +25,7 @@ function triggerWith(widths: number[]): HTMLElement {
         selectNodeContents: () => undefined,
         getBoundingClientRect: () => ({ width: widths[call++] ?? 0 })
     }) as unknown as Range);
-    document.documentElement.style.cssText = "--control-s:200px;--control-m:300px;--control-l:420px";
+    document.documentElement.style.cssText = "--control-s:220px;--control-m:300px;--control-l:420px";
     return trigger;
 }
 
@@ -33,8 +33,8 @@ describe("one control-sizing rule for pickers", () => {
 
     it("takes the smallest standard width that fits its widest option", () => {
         // 34px of padding and border beside the widest option.
-        expect(controlStep(triggerWith([120, 166]))).toBe("s");
-        expect(controlStep(triggerWith([167]))).toBe("m");
+        expect(controlStep(triggerWith([120, 186]))).toBe("s");
+        expect(controlStep(triggerWith([187]))).toBe("m");
         expect(controlStep(triggerWith([300]))).toBe("l");
         expect(controlStep(triggerWith([387]))).toBe("full");
     });
@@ -48,7 +48,7 @@ describe("one control-sizing rule for pickers", () => {
 
     it("defines the steps once and sizes by them, never a width of its own", () => {
         const css = stylesheet("global.css");
-        expect(css).toContain("--control-s: 200px; --control-m: 300px; --control-l: 420px;");
+        expect(css).toContain("--control-s: 220px; --control-m: 300px; --control-l: 420px;");
         expect(css).toContain(":where(.option-picker[data-size=\"m\"]) { width: min(100%, var(--control-m)); }");
         expect(stylesheet("conversation.css")).toContain("width:min(100%, var(--control-s));");
     });

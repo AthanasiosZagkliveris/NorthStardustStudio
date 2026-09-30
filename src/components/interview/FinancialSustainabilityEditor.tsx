@@ -830,6 +830,13 @@ export default function FinancialSustainabilityEditor({
 
                 </section>
 
+                {/* When the money arrives, and its orders: side by side on
+                    one band while payment takes two fields and orders apply,
+                    each group in two of the four columns, so every field
+                    stays on the grid above; otherwise, or where the grid is
+                    narrower, one under the other (conversation.css). */}
+                <div className={"financial-stream-band" + (perOrder > 0 && !delayedPayment ? " financial-stream-band-paired" : "")}>
+
                 <section className="financial-stream-group">
                 {groupHead("Begins and Payment", STREAM_HELP.timing)}
                 <div className="financial-inline-grid financial-stream-grid">
@@ -899,6 +906,8 @@ export default function FinancialSustainabilityEditor({
                     </div>
                     </section>
                 )}
+
+                </div>
 
                 {analysis && analysis.price !== null && (
                     <p className="financial-stream-result">

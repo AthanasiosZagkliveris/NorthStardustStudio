@@ -231,3 +231,44 @@ describe("the Operating need's Loan Repayments column", () => {
         expect(loanHead()).toBeUndefined();
     });
 });
+
+describe("a revenue stream's Begins and Payment and Orders & Delivery", () => {
+
+    // A courier at 6 a delivery: a cost per order, so the stream asks about orders.
+    const capability = {
+        offering: { professionals: [], providers: [{ id: "courier", name: "Courier", offeringId: "offering-1",
+            cost: { price: "6", frequency: "per-order", frequencyOther: "", currency: "" } }], resources: [], activities: [] }
+    };
+    const foundation = { segments: [{ offerings: [{ id: "offering-1", name: "Offering One" }] }] };
+
+    function band(paymentTiming: string, withOrders = true) {
+        const { container } = render(
+            <FinancialSustainabilityEditor
+                value={asFinancialSustainabilityValue({ streams: [{ offeringId: "offering-1", paymentTiming }] })}
+                foundation={foundation}
+                capability={withOrders ? capability : undefined}
+                onChange={() => {}}
+            />
+        );
+        fireEvent.click(toggles(/Revenue Stream 1$/)[0]);
+        return container.querySelector(".financial-stream-band")!;
+    }
+
+    it("sit side by side on one band while payment takes two fields", () => {
+        const element = band("");
+        expect(element.classList.contains("financial-stream-band-paired")).toBe(true);
+        const heads = [...element.querySelectorAll(".financial-stream-subhead")].map(head => head.textContent ?? "");
+        expect(heads.length).toBe(2);
+        expect(heads[0].startsWith("Begins and Payment")).toBe(true);
+        expect(heads[1].startsWith("Orders & Delivery")).toBe(true);
+    });
+
+    it("stack when payment needs more fields, or there are no orders to ask about", () => {
+        expect(band("split").classList.contains("financial-stream-band-paired")).toBe(false);
+        cleanup();
+        const alone = band("", false);
+        expect(alone.classList.contains("financial-stream-band-paired")).toBe(false);
+        expect(alone.querySelectorAll(".financial-stream-group").length).toBe(1);
+    });
+
+});

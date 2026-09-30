@@ -349,7 +349,9 @@ body {
 
      --control-s  numbers, amounts, dates and months, short choices
                   ("September 2030" is 195px as the month button
-                  draws it)
+                  draws it; the longest short choice, a revenue
+                  stream's Build-up "Steady from the start", is
+                  214px with its padding and chevron)
      --control-m  a typical choice ("No tax at business level")
      --control-l  a long choice ("Private Company Limited by Shares
                   (Ltd)")
@@ -367,7 +369,7 @@ body {
    the controls inside tables.
 ========================================================== */
 :root {
-  --control-s: 200px;
+  --control-s: 220px;
   --control-m: 300px;
   --control-l: 420px;
 }

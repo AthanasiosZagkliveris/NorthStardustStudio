@@ -5448,7 +5448,7 @@ td.process-library-col-number{
        always match. Left over now that letter-spacing is normal
        (below), so the button stays at least as wide as it needs
        to be rather than exactly it. That is the smallest standard
-       control width, --control-s (200px, "One control-sizing rule",
+       control width, --control-s (220px, "One control-sizing rule",
        global.css). */
     width:min(100%, var(--control-s));
 
@@ -14469,6 +14469,66 @@ td.process-library-col-number{
     padding-top:0;
 
     border-top:0;
+
+}
+
+/* When the money arrives and its orders (FinancialSustainabilityEditor):
+   two groups like the others, one under the other at the card's own
+   gap, unless paired. */
+.financial-stream-band{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    min-width:0;
+
+}
+
+.financial-stream-band > .financial-stream-group{
+
+    padding-top:12px;
+
+    border-top:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-rule-light));
+
+}
+
+/* Paired: one band under one rule, each group in two of the card's
+   four columns, its own grid two columns of the same width and gap,
+   so each field sits in the column of the field above it. */
+@media (min-width:1001px){
+
+    .financial-stream-band-paired{
+
+        display:grid;
+
+        grid-template-columns:repeat(4, minmax(0, 1fr));
+
+        column-gap:20px;
+
+        padding-top:12px;
+
+        border-top:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-rule-light));
+
+    }
+
+    .financial-stream-band-paired > .financial-stream-group{
+
+        grid-column:span 2;
+
+        padding-top:0;
+
+        border-top:0;
+
+    }
+
+    .financial-stream-band-paired .financial-stream-grid{
+
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    }
 
 }
 
