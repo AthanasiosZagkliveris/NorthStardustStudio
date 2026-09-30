@@ -9109,19 +9109,33 @@ td.process-library-col-number{
 
 }
 
-/* The activity code (SIC, NAICS...): a short code, at the S step,
-   under the Main Activity it classifies. */
+/* The activity code (SIC, NAICS...), under the Main Activity it
+   classifies: its label BESIDE its box, on the box's centre line, the
+   label at the column's left edge and the box after it, the S step at
+   most and never past the column's right edge. */
 .legal-entity-activity-code{
 
     display:contents;
 
 }
 
-.legal-entity-activity-code .interview-input{
+.legal-entity-activity-code > .legal-entity-pair{
 
-    width:var(--control-s);
+    display:grid;
 
-    max-width:100%;
+    grid-template-columns:auto minmax(0, var(--control-s));
+
+    justify-content:start;
+
+    align-items:center;
+
+    column-gap:var(--side-label-gap);
+
+}
+
+.legal-entity-activity-code > .legal-entity-pair > .legal-entity-label-nested{
+
+    margin-top:0;
 
 }
 
