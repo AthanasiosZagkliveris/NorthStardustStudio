@@ -1730,37 +1730,78 @@ export default function LegalEntityEditor({
                             />
                         )}
 
-                        <FrozenUntil answered={placeChosen} hint={placeHint}>
-                        {text(
-                            "Registration Authority",
-                            entity.formation.authority,
-                            (next) => updateFormation({ authority: next }),
-                            entity.formation.status === "planned"
-                                ? "Where the organization will be registered"
-                                : "Which authority registered the organization",
-                            false,
-                            INFO.registrationAuthority
-                        )}
-                        </FrozenUntil>
+                        {/* THE REGISTRATIONS, ONE LIST: every row the same
+                            [Authority / Name][Number][×] -- the first (where
+                            the organization is registered, and its number)
+                            and any further ones -- under one pair of column
+                            heads; the card's title says "Registration".
+                            Removing the first moves the next one up;
+                            removing the only one leaves it empty. Not
+                            registered yet: only where it will be. */}
+                        <div className="legal-entity-field-wide legal-entity-registrations">
 
-                        {/* The first number beside the authority that issued it:
-                            Registration Authority | Registration Number. Any
-                            further numbers, and their + Add, across the row
-                            below. */}
-                        {entity.formation.status !== "planned" && text(
-                            "Registration Number",
-                            entity.formation.registrationNumber,
-                            changeRegistrationNumber,
-                            // The shape this country issues, where
-                            // that is something to say with
-                            // confidence.
-                            profile.registrationNumberHint,
-                            false
-                        )}
+                            <div className="legal-entity-number-row legal-entity-number-head">
+                                <span className="legal-entity-label-info">
+                                    <span className="field-label legal-entity-label">
+                                        <InfoText text="Authority / Name">
+                                            <InfoNote label="Authority / Name" points={INFO.registrationAuthority} />
+                                        </InfoText>
+                                    </span>
+                                </span>
+                                {!(entity.formation.status === "planned") && <span className="field-label legal-entity-label">Number</span>}
+                            </div>
 
-                        {entity.formation.status !== "planned" && <div className="legal-entity-field-wide">
+                            <div className="legal-entity-number-row">
 
-                            {numberList(
+                                <FrozenUntil answered={placeChosen} hint={placeHint}>
+                                    <input
+                                        type="text"
+                                        className="interview-input"
+                                        aria-label="Registration Authority"
+                                        placeholder={entity.formation.status === "planned"
+                                            ? "Where the organization will be registered"
+                                            : "Which authority registered the organization"}
+                                        disabled={disabled}
+                                        value={entity.formation.authority}
+                                        onChange={(event) => updateFormation({ authority: event.target.value })}
+                                    />
+                                </FrozenUntil>
+
+                                {!(entity.formation.status === "planned") && (
+                                    <input
+                                        type="text"
+                                        className="interview-input"
+                                        aria-label="Registration Number"
+                                        // The shape this country issues, where
+                                        // that is something to say with confidence.
+                                        placeholder={profile.registrationNumberHint ?? "Number"}
+                                        disabled={disabled}
+                                        value={entity.formation.registrationNumber}
+                                        onChange={(event) => changeRegistrationNumber(event.target.value)}
+                                    />
+                                )}
+
+                                {!(entity.formation.status === "planned") && (
+                                    <button
+                                        type="button"
+                                        className="strategy-box-remove"
+                                        aria-label="Remove registration number"
+                                        title="Remove registration number"
+                                        disabled={disabled}
+                                        onClick={() => {
+                                            const [next, ...rest] = entity.formation.additionalNumbers;
+                                            updateFormation(next
+                                                ? { authority: next.label, registrationNumber: next.number, additionalNumbers: rest }
+                                                : { authority: "", registrationNumber: "" });
+                                        }}
+                                    >
+                                        ×
+                                    </button>
+                                )}
+
+                            </div>
+
+                            {!(entity.formation.status === "planned") && numberList(
                                 entity.formation.additionalNumbers,
                                 "What this number is called",
                                 (next) => updateFormation({ additionalNumbers: next }),
@@ -1769,21 +1810,23 @@ export default function LegalEntityEditor({
 
                             {/* At the end of the list: the list-end add
                                 button, the list's whole width. */}
-                            <button
-                                type="button"
-                                className="strategy-add-button legal-entity-list-add"
-                                disabled={disabled}
-                                onClick={() => updateFormation({
-                                    additionalNumbers: [
-                                        ...entity.formation.additionalNumbers,
-                                        createLegalEntityNumber()
-                                    ]
-                                })}
-                            >
-                                + Add registration number
-                            </button>
+                            {!(entity.formation.status === "planned") && (
+                                <button
+                                    type="button"
+                                    className="strategy-add-button legal-entity-list-add"
+                                    disabled={disabled}
+                                    onClick={() => updateFormation({
+                                        additionalNumbers: [
+                                            ...entity.formation.additionalNumbers,
+                                            createLegalEntityNumber()
+                                        ]
+                                    })}
+                                >
+                                    + Add registration number
+                                </button>
+                            )}
 
-                        </div>}
+                        </div>
 
                     </div>
                 ))}

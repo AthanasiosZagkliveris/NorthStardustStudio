@@ -8569,6 +8569,26 @@ td.process-library-col-number{
 
 }
 
+/* A list of numbers' column heads ("Authority / Name", "Number"): on
+   the rows' own columns, so every row's edges sit under them. */
+.legal-entity-number-head{
+
+    align-items:end;
+
+}
+
+.legal-entity-registrations{
+
+    gap:var(--space-field);
+
+}
+
+.legal-entity-registrations > .legal-entity-number-head{
+
+    margin-bottom:calc(var(--space-label) - var(--space-field));
+
+}
+
 .legal-entity-card{
 
     display:flex;

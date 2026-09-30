@@ -247,3 +247,45 @@ describe("a Legal Entity requirement's or expense's name", () => {
     });
 
 });
+
+describe("LegalEntityEditor registrations", () => {
+
+    function Registered() {
+        const [value, setValue] = useState<unknown>(() => {
+            const base = asLegalEntityValue(undefined);
+            return {
+                ...base,
+                organisation: { ...base.organisation, country: "United Kingdom" },
+                formation: {
+                    ...base.formation,
+                    status: "registered",
+                    authority: "Companies House",
+                    registrationNumber: "16234587",
+                    additionalNumbers: [{ id: "number-1", label: "UK Trade Mark", number: "UK00004012345" }]
+                }
+            };
+        });
+        return <LegalEntityEditor value={value} onChange={setValue} />;
+    }
+
+    it("heads one list of rows, each with its ×: the first moves the next up, the last leaves one empty row", () => {
+
+        render(<Registered />);
+
+        const heads = document.querySelector(".legal-entity-number-head")?.textContent ?? "";
+        expect(heads).toContain("Authority / Name");
+        expect(heads).toContain("Number");
+        expect(heads).not.toContain("Registration");
+
+        fireEvent.click(screen.getByRole("button", { name: "Remove registration number" }));
+        expect((screen.getByLabelText("Registration Authority") as HTMLInputElement).value).toBe("UK Trade Mark");
+        expect((screen.getByLabelText("Registration Number") as HTMLInputElement).value).toBe("UK00004012345");
+        expect(screen.queryByRole("button", { name: "Remove registration number 1" })).toBeNull();
+
+        fireEvent.click(screen.getByRole("button", { name: "Remove registration number" }));
+        expect((screen.getByLabelText("Registration Authority") as HTMLInputElement).value).toBe("");
+        expect((screen.getByLabelText("Registration Number") as HTMLInputElement).value).toBe("");
+
+    });
+
+});
