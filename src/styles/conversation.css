@@ -14880,6 +14880,18 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     }
 
+    .card-field-side-row > .business-field-inline > :first-child{
+
+        align-self:start;
+
+    }
+
+    .card-field-side-row > .business-field-inline > :not(:first-child){
+
+        grid-column:1;
+
+    }
+
 }
 
 @container cost-fields (max-width: 463.98px){
@@ -14900,18 +14912,6 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
     .business-capability-cost-grid-quantity > .business-foundation-field{
 
         width:min(100%, var(--control-s));
-
-    }
-
-    .card-field-side-row > .business-field-inline > :first-child{
-
-        align-self:start;
-
-    }
-
-    .card-field-side-row > .business-field-inline > :not(:first-child){
-
-        grid-column:1;
 
     }
 
