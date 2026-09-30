@@ -25,10 +25,10 @@
 
 }
 
-/* A few digits: no need for the full width. */
+/* A few digits: the XS step (docs/ai/layout-rules.md, sizes). */
 .delivery-number.interview-input{
 
-    max-width:8rem;
+    max-width:var(--control-xs);
 
 }
 
@@ -125,9 +125,12 @@
 
 }
 
+.business-foundation .delivery-person-hours.interview-input,
 .delivery-person-hours.interview-input{
 
-    max-width:4.5rem;
+    /* The XS step (a short number), as a Quantity. */
+    width:var(--control-xs);
+    max-width:none;
 
     text-align:right;
 

@@ -5987,7 +5987,16 @@ td.process-library-col-number{
 
     flex:0 0 auto;
 
-    flex-wrap:nowrap;
+    /* The pair wraps where the box is too narrow for both S steps. */
+    flex-wrap:wrap;
+    max-width:100%;
+
+}
+
+/* An Objective's From and To, each the S step, as every month. */
+.strategy-objective-period .month-picker-trigger{
+
+    width:var(--control-s);
 
 }
 
@@ -6533,6 +6542,9 @@ td.process-library-col-number{
 .strategy-period-box .month-picker-trigger{
 
     margin-left:auto;
+
+    /* The S step, as every month. */
+    width:var(--control-s);
 
 }
 
@@ -14595,7 +14607,8 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 .strategy-objective-owner > .option-picker{
 
-    flex:0 1 260px;
+    /* The S step, as every short picker. */
+    flex:0 1 var(--control-s);
 
     min-width:0;
 
