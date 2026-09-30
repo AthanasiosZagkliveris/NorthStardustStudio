@@ -23,7 +23,11 @@ describe("one tick box", () => {
 
     it("underlines a tick-box option's words under the pointer, and gives its box a field's hover", () => {
         const css = stylesheet("global.css");
-        expect(css).toContain("label:has(> input[type=\"checkbox\"]:not(:disabled)):hover > :not(input) { text-decoration: underline;");
+        expect(css).toContain("label:has(> input[type=\"checkbox\"]:not(:disabled)):hover > :not(input),");
+        // A tick box that is not inside its label (a Text Hierarchy level's)
+        // reacts the same, under the pointer on the box itself.
+        expect(css).toContain(".brand-tick:has(> input[type=\"checkbox\"]:not(:disabled):hover) > :not(input) { text-decoration: underline;");
+        expect(css).toContain(".brand-tick > input[type=\"checkbox\"]:not(:disabled):hover:not(:focus-visible) { border-radius: 3px;");
         expect(css).toContain("box-shadow: 0 0 0 1px var(--line-primary), 0 0 0 5px color-mix(in srgb, var(--glow-color) 18%, transparent);");
     });
 
