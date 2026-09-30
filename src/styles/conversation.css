@@ -135,7 +135,7 @@ textarea:focus{
 
     margin:0;
 
-    color:color-mix(in srgb, var(--capability-color, var(--text-default)) var(--capability-ink-weight), var(--capability-ink-base));
+    color:color-mix(in srgb, var(--capability-color, var(--text-default)) var(--capability-title-weight), var(--capability-title-base));
 
     /* A fixed 36px rather than global.css's clamp(28px, 2vw + 20px,
        48px) -- the Interview Page's System title is deliberately

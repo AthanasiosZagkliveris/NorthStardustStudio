@@ -280,6 +280,12 @@
     --capability-ink-weight: 100%;
     --capability-ink-base: #ffffff;
 
+    /* The same for a System's TITLE (the interview header's), which
+       has to hold 4.5:1 on the page and read as the page's ink:
+       in light, the colour as it is. */
+    --capability-title-weight: 100%;
+    --capability-title-base: #ffffff;
+
     /* A Capability or System row's text, in every list of them (the
        Capability and System lists, the rail's flyouts): its colour
        taken 15% toward black, which holds all six Capability colours
@@ -544,6 +550,12 @@
     --capability-ink-weight: 45%;
     --capability-ink-base: #ffffff;
 
+    /* A System's title: mostly the ink, a fifth of its Capability's
+       colour -- the navy Foundation's came out a mid grey half way to
+       white. 9.9:1 or more on the page for all six. */
+    --capability-title-weight: 20%;
+    --capability-title-base: var(--text-default);
+
     /* Taken 65% toward white: the navy Foundation, the darkest, holds
        5.1:1 on the selected ground over the rail's panel. */
     --capability-list-ink-weight: 35%;
@@ -601,6 +613,12 @@
    controls stay light.
 ========================================================== */
 :root[data-theme="sepia"] {
+
+    /* A System's title: four fifths of its Capability's colour, the
+       rest the sepia ink -- as drawn, the brown and orange Capability
+       colours fell to 4.3:1 on the paper. 5.2:1 or more for all six. */
+    --capability-title-weight: 80%;
+    --capability-title-base: var(--text-default);
 
     color-scheme: light;
 
