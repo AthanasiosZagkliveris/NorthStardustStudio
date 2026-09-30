@@ -26,9 +26,13 @@ const saveState = vi.hoisted(() => {
 vi.mock("../services/OrganizationService", () => ({
     OrganizationService: {
         getSaveState: () => saveState.get() as SaveState,
-        subscribeSaveState: saveState.subscribe
+        subscribeSaveState: saveState.subscribe,
+        // No Organization selected: the header's Review count is not read.
+        getSelected: () => null
     }
 }));
+
+import { MemoryRouter } from "react-router-dom";
 
 import AppHeader from "./AppHeader";
 
@@ -41,7 +45,7 @@ describe("The header's saved signal", () => {
 
     it("is shown only while an Organization is open", () => {
 
-        const { rerender } = render(<AppHeader />);
+        const { rerender } = render(<AppHeader />, { wrapper: MemoryRouter });
 
         expect(document.querySelector(".save-status")).toBeNull();
 
@@ -53,7 +57,7 @@ describe("The header's saved signal", () => {
 
     it("says Saving… while a save is pending, then ✓ Saved, politely announced", () => {
 
-        render(<AppHeader organizationName="Quillfield" />);
+        render(<AppHeader organizationName="Quillfield" />, { wrapper: MemoryRouter });
 
         const signal = document.querySelector(".save-status") as HTMLElement;
 
@@ -74,7 +78,7 @@ describe("The header's saved signal", () => {
 
     it("names the reason when a save failed, in the warning style, with what to do in its tooltip", () => {
 
-        render(<AppHeader organizationName="Quillfield" />);
+        render(<AppHeader organizationName="Quillfield" />, { wrapper: MemoryRouter });
 
         act(() => saveState.set({ status: "error", reason: "storage is full" }));
 

@@ -165,3 +165,88 @@
     }
 
 }
+
+/* THE HEADER'S TOOLS: Notes (Notepad.tsx) and Review (ReviewButton.tsx),
+   side by side, each an icon and a word (the icon alone in a narrow
+   header, the word kept in its name) and, where there is one, a count. */
+
+.header-tool {
+
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    min-height: 36px;
+    margin-left: 16px;
+    padding: 4px 10px;
+
+    border: 1px solid var(--box-border);
+    border-radius: 6px;
+
+    background: none;
+
+    font: inherit;
+    font-size: var(--font-small);
+    line-height: 1.4;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+
+    color: var(--text-default);
+
+    cursor: pointer;
+
+}
+
+.header-tool:hover,
+.header-tool:focus-visible,
+.header-tool[aria-expanded="true"] {
+
+    background: var(--bg-list-hover);
+
+}
+
+.header-tool:focus-visible {
+
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 28%, transparent);
+
+}
+
+.header-tool-icon {
+
+    width: 18px;
+    height: 18px;
+
+    flex: none;
+
+}
+
+.header-tool-count {
+
+    min-width: 20px;
+    padding: 0 6px;
+
+    border-radius: 10px;
+
+    background: var(--bg-primary-tint);
+
+    text-align: center;
+    letter-spacing: normal;
+
+    color: var(--text-primary);
+
+}
+
+/* A narrow header: the icon (and the count) alone; the word stays
+   in the button's name. */
+@media (max-width: 1099px) {
+
+    .header-tool-word {
+
+        display: none;
+
+    }
+
+}

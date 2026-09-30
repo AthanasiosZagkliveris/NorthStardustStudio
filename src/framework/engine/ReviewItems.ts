@@ -297,3 +297,8 @@ export function reviewCount(items: readonly ReviewItem[]): number {
 export function reviewCountText(count: number): string {
     return count === 0 ? "Nothing open" : count + (count === 1 ? " item" : " items") + " to look at";
 }
+
+/** The header's Review count: what is still open or worth a second look. */
+export function headerCount(items: readonly ReviewItem[]): number {
+    return items.filter(item => item.group === "open" || item.group === "second-look").length;
+}

@@ -4,7 +4,7 @@
 
    The panel lies between the header (80px) and the footer (64px),
    as the Organization rail does on the left. From 1200px wide it
-   DOCKS: \`html.notepad-docked\` sets --notepad-inset to its width,
+   DOCKS: `html.notepad-docked` sets --notepad-inset to its width,
    and the page's width (--view-width, global.css), its body and its
    fixed bands (the rails, the Previous/Next bar) give that much up
    -- so the page narrows beside it and nothing of the page's
@@ -22,89 +22,6 @@ html.notepad-docked {
 
 html.notepad-docked body {
     padding-right: var(--notepad-inset);
-}
-
-/* ---------- The header button ---------- */
-
-.notepad-button {
-
-    flex-shrink: 0;
-
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-
-    min-height: 36px;
-    margin-left: 16px;
-    padding: 4px 10px;
-
-    border: 1px solid var(--box-border);
-    border-radius: 6px;
-
-    background: none;
-
-    font: inherit;
-    font-size: var(--font-small);
-    line-height: 1.4;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-
-    color: var(--text-default);
-
-    cursor: pointer;
-
-}
-
-.notepad-button:hover,
-.notepad-button:focus-visible,
-.notepad-button[aria-expanded="true"] {
-
-    background: var(--bg-list-hover);
-
-}
-
-.notepad-button:focus-visible {
-
-    outline: none;
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 28%, transparent);
-
-}
-
-.notepad-button-icon {
-
-    width: 18px;
-    height: 18px;
-
-    flex: none;
-
-}
-
-.notepad-button-count {
-
-    min-width: 20px;
-    padding: 0 6px;
-
-    border-radius: 10px;
-
-    background: var(--bg-primary-tint);
-
-    text-align: center;
-    letter-spacing: normal;
-
-    color: var(--text-primary);
-
-}
-
-/* A narrow header: the icon (and the count) alone; the word stays
-   in the button's name. */
-@media (max-width: 1099px) {
-
-    .notepad-button-word {
-
-        display: none;
-
-    }
-
 }
 
 /* ---------- The panel ---------- */

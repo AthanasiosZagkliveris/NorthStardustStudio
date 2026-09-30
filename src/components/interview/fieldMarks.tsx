@@ -25,11 +25,11 @@ import { useNotesAt } from "../notepad/Notepad.tsx";
 
     Both find their field's key the same way: the page from the
     FieldPageProvider around the page, then -- from where they sit on
-    the page -- the section (the nearest \`data-rail\`) and the card (the
-    nearest \`data-anchor\`), then the label. A column's or a section's
-    own heading names its section instead (\`section\`).
+    the page -- the section (the nearest `data-rail`) and the card (the
+    nearest `data-anchor`), then the label. A column's or a section's
+    own heading names its section instead (`section`).
 
-    The field's holder is marked with its key (\`data-field-key\`), which
+    The field's holder is marked with its key (`data-field-key`), which
     is what opening a field (openField, focusField) and picking one
     look for.
 

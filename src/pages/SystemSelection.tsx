@@ -21,8 +21,6 @@ import { OrganizationService } from "../services/OrganizationService";
 import { continuePlace, systemProgress, type ContinuePlace } from "../services/ProgressService";
 import type { PageStatus } from "../framework/engine/PageStatus";
 
-import { organizationReview } from "../services/ReviewService";
-import { reviewCount, reviewCountText } from "../framework/engine/ReviewItems";
 import "../styles/workspace.css";
 
 export default function SystemSelection() {
@@ -118,16 +116,6 @@ export default function SystemSelection() {
     // shapes the Pages rail draws, derived from the System's pages.
     // Read after rendering too, for the same reason as lastPlace.
     const [systemStatuses, setSystemStatuses] = useState<Record<number, PageStatus | null>>({});
-
-    // How much is left to look at across the Foundation (the Review
-    // page), read after rendering like the statuses.
-    const [reviewOpen, setReviewOpen] = useState<number | null>(null);
-
-    useEffect(() => {
-        setReviewOpen(organizationId && activeCapability === "foundation"
-            ? reviewCount(organizationReview(organizationId))
-            : null);
-    }, [organizationId, activeCapability]);
 
     useEffect(() => {
 
@@ -314,22 +302,6 @@ export default function SystemSelection() {
                                         onClick={() => navigate("/documents")}
                                     >
                                         Business Documents
-                                    </button>
-                                </div>
-                            )}
-
-                            {/* What is left to look at before the documents. */}
-                            {activeCapability === "foundation" && reviewOpen !== null && (
-                                <div className="workspace-documents">
-                                    <p className="workspace-documents-text">
-                                        {reviewCountText(reviewOpen)}
-                                    </p>
-                                    <button
-                                        type="button"
-                                        className="workspace-documents-button"
-                                        onClick={() => navigate("/review")}
-                                    >
-                                        Review
                                     </button>
                                 </div>
                             )}
