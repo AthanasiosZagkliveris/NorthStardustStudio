@@ -2033,7 +2033,9 @@ export default function LegalEntityEditor({
                                             )
                                         }),
                                         "Optional",
-                                        false,
+                                        // Across the card, as wide as the Type below it:
+                                        // one column of edges.
+                                        true,
                                         undefined,
                                         "Legal requirement " + (index + 1) + " reference or number"
                                     )}
