@@ -1544,7 +1544,7 @@ export default function LegalEntityEditor({
                         {!soleFounderForm && (
                             <button
                                 type="button"
-                                className="strategy-add-button"
+                                className="strategy-add-button legal-entity-list-add"
                                 disabled={disabled}
                                 onClick={() => update({
                                     founders: [...entity.founders, createLegalEntityFounder()]
