@@ -54,6 +54,8 @@ import { StorageService } from "../services/StorageService";
 import { OrganizationService } from "../services/OrganizationService";
 import { PreferencesService } from "../services/PreferencesService";
 import { offerRemovalUndo, UndoService } from "../services/UndoService";
+import { FocusModeService } from "../services/FocusModeService";
+import { useFocusMode } from "../components/FocusModeButton";
 import { systems } from "../data/systems";
 import { focusField, focusText, jumpTo, type OpenPage } from "../components/interview/jumpTo.ts";
 import { FieldPageProvider } from "../components/interview/fieldMarks.tsx";
@@ -808,6 +810,9 @@ export default function Conversation() {
     // new user looking at unexplained boxes.
     const [instructionsOpen, setInstructionsOpen] = useState(true);
 
+    // Focus mode hides the Help with the rest (FocusModeButton).
+    const focusMode = useFocusMode();
+
     // A held-back Strategy System change and what it would cost --
     // removing a Theme that has work under it, or narrowing the
     // Strategic Period past an Objective. `apply` runs it; dismissing
@@ -865,6 +870,12 @@ export default function Conversation() {
 
             if (exportStep !== "none") {
                 setExportStep("none");
+                return;
+            }
+
+            // Focus mode shown: Escape leaves it, before leaving the page.
+            if (document.documentElement.classList.contains("focus-mode")) {
+                FocusModeService.set(false);
                 return;
             }
 
@@ -2545,7 +2556,7 @@ export default function Conversation() {
                 (The Organization Calendar / Capabilities / System
                 slide-in panel lives only on the System Selection page.)
             */}
-            <AppHeader organizationName={organizationName} />
+            <AppHeader organizationName={organizationName} focusable={!showIntroduction} />
 
             <main className="conversation-content" onFocus={recordFocusedCard}>
                 <div className="conversation-card">
@@ -2719,7 +2730,7 @@ export default function Conversation() {
                                 onOpenFinancialFoundation={openBusinessSection(AnswerType.FinancialFoundation)}
                                 onOpenLegalEntity={openLegalEntity}
                                 strategy={strategyContext}
-                                showInstructions={instructionsOpen}
+                                showInstructions={instructionsOpen && !focusMode}
                                 columnsDivider={
                                     mergesTitleIntoHeader
                                         ? (

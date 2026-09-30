@@ -5,6 +5,7 @@ import { MemoryRouter, Route, Routes, useLocation, useNavigate } from "react-rou
 import Conversation from "./Conversation";
 import { OrganizationService } from "../services/OrganizationService";
 import { systems } from "../data/systems";
+import { FocusModeService } from "../services/FocusModeService";
 
 // The Strategy confirmation is only reached through real Strategy
 // content; a stand-in Foundation page asks for it directly.
@@ -77,6 +78,35 @@ describe("Conversation Escape", () => {
         expect(screen.queryByText("Replace your Current Situation?")).toBeNull();
         expect(screen.queryByText(/^Assistant/)).toBeNull();
         expect(screen.getByRole("button", { name: "Ask to refresh" })).toBeTruthy();
+
+    });
+
+    it("offers Focus on an interview page only, and in focus mode leaves it before leaving the page, after a dialog has closed", () => {
+
+        const organization = OrganizationService.create("Quillfield");
+        vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
+        renderConversation();
+
+        expect(screen.queryByRole("button", { name: "Focus" })).toBeNull();
+        fireEvent.click(screen.getByRole("button", { name: "Start Interview" }));
+        fireEvent.click(screen.getByRole("button", { name: "Focus" }));
+        expect(document.documentElement.classList.contains("focus-mode")).toBe(true);
+
+        // A dialog closes first ...
+        fireEvent.click(screen.getByRole("button", { name: "Ask to refresh" }));
+        fireEvent.keyDown(window, { key: "Escape" });
+        expect(screen.queryByText("Replace your Current Situation?")).toBeNull();
+        expect(document.documentElement.classList.contains("focus-mode")).toBe(true);
+
+        // ... then focus mode, and the page stays.
+        fireEvent.keyDown(window, { key: "Escape" });
+        expect(document.documentElement.classList.contains("focus-mode")).toBe(false);
+        expect(FocusModeService.isOn()).toBe(false);
+        expect(screen.queryByText(/^Assistant/)).toBeNull();
+
+        // Then Back, as ever.
+        fireEvent.keyDown(window, { key: "Escape" });
+        expect(screen.getByText(`Assistant ${strategy.capability}`)).toBeTruthy();
 
     });
 

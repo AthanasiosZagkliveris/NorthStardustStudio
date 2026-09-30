@@ -2,6 +2,7 @@ import logo from "../assets/NORTH STARDUST Organization Framework.svg";
 
 import SaveStatus from "./SaveStatus";
 import { NotepadButton, NotepadPanel, NotepadPicker } from "./notepad/Notepad";
+import FocusModeButton from "./FocusModeButton";
 import ReviewButton from "./ReviewButton";
 import SearchButton from "./SearchButton";
 import ThemeSwitch from "./ThemeSwitch";
@@ -20,9 +21,11 @@ interface AppHeaderProps {
      * renders exactly as before, logo only.
      */
     organizationName?: string;
+    /** An interview page: the Focus tool (FocusModeButton) is offered. */
+    focusable?: boolean;
 }
 
-export default function AppHeader({ organizationName }: AppHeaderProps) {
+export default function AppHeader({ organizationName, focusable = false }: AppHeaderProps) {
 
     return (
 
@@ -39,6 +42,9 @@ export default function AppHeader({ organizationName }: AppHeaderProps) {
             {organizationName && <SaveStatus />}
 
             <ThemeSwitch />
+
+            {/* Focus mode: on an interview page. */}
+            {organizationName && focusable && <FocusModeButton />}
 
             {/* Search (Ctrl+K), and the person's own notes: wherever an Organization is open. */}
             {organizationName && <SearchButton />}

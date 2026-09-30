@@ -1,0 +1,84 @@
+/* ==========================================================
+   Focus mode (FocusModeButton.tsx): <html> carries .focus-mode on
+   an interview page while it is on. The page alone: no rails, no
+   Help, no progress line, and of the header only what floats (the
+   Notepad, the search, the undo toast) -- plus the one "Exit focus"
+   button in the top-right corner. The page's card is centred at a
+   reading width, its title kept. It changes at once, never animated,
+   so there is nothing for reduced motion to stop.
+========================================================== */
+
+:root {
+
+    /* The reading width: wide enough for a page's four columns and
+       its tables, narrow enough to read across. */
+    --focus-width: 1040px;
+
+}
+
+/* The header's band and its own tools go; what floats from it stays. */
+html.focus-mode .app-header {
+
+    height: 0;
+    padding: 0;
+
+    border: 0;
+
+    background: none;
+
+    pointer-events: none;
+
+}
+
+html.focus-mode .app-header > :is(.app-logo, .save-status, .theme-switch, .header-tool, .app-header-organization-name) {
+
+    display: none;
+
+}
+
+html.focus-mode .app-header > :not(.app-logo, .save-status, .theme-switch, .header-tool, .app-header-organization-name) {
+
+    pointer-events: auto;
+
+}
+
+html.focus-mode :is(.bullet-rails, .interview-progress, .interview-help, .interview-instructions-toggle) {
+
+    display: none;
+
+}
+
+/* The page: clear of the corner button only, and centred at the
+   reading width. */
+html.focus-mode .conversation-content {
+
+    padding-top: 64px;
+
+}
+
+html.focus-mode .conversation-card {
+
+    max-width: min(var(--focus-width), 100%);
+
+}
+
+/* The way out, always in the same corner. */
+.focus-mode-exit {
+
+    position: fixed;
+    top: 12px;
+    right: 16px;
+    z-index: 41;
+
+    margin-left: 0;
+
+    background: var(--bg-surface);
+
+}
+
+.focus-mode-exit:hover,
+.focus-mode-exit:focus-visible {
+
+    background: var(--bg-list-hover);
+
+}
