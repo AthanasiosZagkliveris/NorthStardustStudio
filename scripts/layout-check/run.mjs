@@ -23,8 +23,8 @@ import { fileURLToPath } from "node:url";
 export const SPEC = {
     /** From the end of a card's number ("1.", or "1. Goal") to its name: the one gap. */
     numberToName: 8,
-    /** The closed set of control widths (XS, Code / Date, S, M, L); a control may also fill its column or its container. */
-    widths: [80, 160, 220, 300, 420],
+    /** The closed set of control widths (XS, Code, S, M, L); a control may also fill its column or its container. */
+    widths: [80, 128, 220, 300, 420],
     /** The square variant: as wide as a control is tall (a Text Hierarchy px box). */
     square: 45,
     /** Every card's and section box's inner side margin (--card-padding). */

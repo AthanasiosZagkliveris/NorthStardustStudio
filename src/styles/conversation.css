@@ -9338,7 +9338,7 @@ td.process-library-col-number{
 
     .legal-entity-side-row > .legal-entity-field > input.interview-input[type="date"]{
 
-        width:min(100%, var(--control-code));
+        width:min(100%, var(--control-s));
 
     }
 

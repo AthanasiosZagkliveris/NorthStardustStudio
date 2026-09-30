@@ -35,10 +35,11 @@ below are these, made measurable.
 | `--space-card` | 12px | one card to the next in a list |
 | `--card-padding` | 12px | inside every card **and every section box**, border to content (sides) |
 | `--space-row` | 6px | one row of a table to the next |
+| `--space-cell` | 12px | one cell of a row to the next inside a card: a field grid's columns, a pair row, a list's cells, a table's columns |
 | `--card-body-indent` | 44px | a card body's left edge from the head's left (the arrow's 36px plus 8px) |
 | `--side-label-gap` | 12px | a side label to its control |
 | `--control-xs` | 80px | XS width step |
-| `--control-code` | 160px | Code / Date width step |
+| `--control-code` | 128px | Code width step |
 | `--control-s` | 220px | S width step |
 | `--control-m` | 300px | M width step |
 | `--control-l` | 420px | L width step |
@@ -71,7 +72,7 @@ below are these, made measurable.
 - Everything starts at the body's left edge (`--card-body-indent`).
 - Fields are 12px apart; a label is 6px above its control.
 - A card's two columns (`.card-field-pairs-grid`): `repeat(2, minmax(0, S))`
-  with a 24px gap, one column under 300px.
+  `--space-cell` (12px) apart, one column under 300px.
 - An optional field (tick + growing box) has its tick at the body edge and
   its box under it, from the same edge.
 
@@ -90,8 +91,8 @@ the same inner side margin: `--card-padding` (12px).
 | Step | Width | Holds | Used for |
 |---|---|---|---|
 | XS | 80px | 3-4 digits, or "33.333" | Quantity, a person's hours, calendar weeks (`.delivery-number`), a founder's Ownership % |
-| Code / Date | 160px | 11 characters, or a whole date with its calendar button (159px) | Postcode / ZIP beside City; a date in a one-column row; a founder's Capital |
-| S | 220px | 18 characters | numbers and amounts in fields, dates, short pickers (Status, Role, Owner), month pickers, the activity code, the Number column of a Name / Number list |
+| Code | 128px | 10 characters ("10001-1234" 98px, ten digits 107px) | a founder's Capital |
+| S | 220px | 18 characters, or a whole date with its calendar button (159px) | numbers and amounts in fields, dates, short pickers (Status, Role, Owner), month pickers, the activity code, the Number column of a Name / Number list |
 | M | 300px | an amount with its currency | price + currency pairs |
 | L | 420px | a long option | pickers whose longest option needs it (OptionPicker picks S, M or L itself) |
 | Column | its column | anything | text fields and pickers that fill their column (Country, State / Region, the Address) |
@@ -122,12 +123,22 @@ track of the grid it stands in.
 
 ## 5. Alignment
 
+### The in-row cell gap
+
+Cells side by side in one row inside a card are `--space-cell` (12px)
+apart, everywhere: field grids, pair rows, Name / Number lists, tables.
+Gaps between cards, sections and page columns (`--space-card`, the page
+grids' 24px) are not cell gaps.
+
 ### The mid-line rule
 
 - **Text beside a control** has its first line centred on the control's
   centre line (a side label, "px" after a box, the words of a fixed list
   row). A second line hangs below.
 - **A tick box** is centred on its words' first line.
+- **An "i"** follows its words' last word at 8px, on that line's centre
+  (glued to the last word, `.info-note-glue`); after a badge, on the
+  badge's centre.
 - Exception: a Text Hierarchy level's row (see 7) centres the tick, the
   name's whole block and the px box on the row's centre line.
 
@@ -139,8 +150,8 @@ track of the grid it stands in.
   columns before it stay put.
 - An add button at a list's end spans the list ("+ ADD ...", labelled).
 - **Pair rows** (`.legal-entity-pair-row`): two short fields sharing one
-  row of a column, the grid's 24px gap, stacking where the column is under
-  300px. City | Postcode: the postcode at Code / Date, the City the rest.
+  row of a column, `--space-cell` apart, stacking where the column is under
+  300px.
 - **Name / Number list** (`--name-number-columns`): the name the rest, the
   number S (two fifths of a narrow list), the x column. Names wrap and grow;
   the number and x stay on the name's first line. Used by the Legal
@@ -148,9 +159,11 @@ track of the grid it stands in.
   their Number columns share one x. Column heads head only the rows the user
   adds; rows that name themselves (the tax number, VAT) have none.
 - **Founders table**: Name the rest (wraps and grows), Ownership % the XS
-  step (its track as wide as its one-line head), Capital the Code / Date
-  step, the x column on every row, 12px apart; a block per founder under
-  700px.
+  step, Capital the Code step, the x column on every row, `--space-cell`
+  apart. Heads are field labels, on one line, centred over their figures
+  ("Ownership %" is wider than XS and reaches into the gaps beside it).
+  Total Capital, then the Total Ownership badge, under the table from its
+  left edge. A block per founder under 700px.
 - **Side-label row snapped to the grid** (`.legal-entity-side-row`): a row
   of fields whose labels sit beside their controls on the columns of the
   list below (a subgrid): each label at its column's left edge, its control
@@ -222,7 +235,7 @@ Rules checked: number-left = body-left; number to name gap (8); control at
 its column's left edge; same-row tops; list x column; add button spans its
 list; side-by-side bottoms; text box not clipped and at least two lines;
 picker one line; nothing overflows its card or the page; text beside a
-control on its centre line; tick box on its words' first line; a hierarchy
+control on its centre line; tick box on its words' first line; an "i" on its words' line, 8px after them; a hierarchy
 level on its row's centre line; control width is a size step; single-line
 control height; card side margin; and the hover reactions above.
 
