@@ -14585,6 +14585,41 @@ html.cost-picking [data-cost-pick][data-pick-hover]{
 
 }
 
+/* A PARTNER'S CARD (Partnerships & Providers): the two columns fill
+   the card -- Price with its currency in the first (the price box
+   growing, the currency compact at its right end), Frequency in the
+   second, and the Responsibility under the Price, one column wide,
+   as wide as the Frequency -- so a long founder's name fits. One
+   column under 360px. */
+.business-capability-cost-grid.business-capability-cost-grid-wide{
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+}
+
+.business-capability-cost-grid-wide > .business-capability-cost-after{
+
+    grid-column:1;
+
+}
+
+.business-capability-cost-grid-wide .business-foundation-field > .business-capability-price,
+.business-capability-cost-grid-wide .business-foundation-field > .option-picker{
+
+    width:100%;
+
+}
+
+@container cost-fields (max-width: 359.98px){
+
+    .business-capability-cost-grid.business-capability-cost-grid-wide{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+}
+
 /* Quantity | Price | currency: the Quantity a short number
    (--control-xs), the Price taking the rest beside its compact
    currency. */

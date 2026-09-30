@@ -801,7 +801,13 @@ export default function BusinessCapabilityEditor({
         /** A resource's Quantity: any count but 1 makes this the price of one. */
         quantity = "",
         /** A resource's Quantity field, set on the Price's row: Qty | Price | currency. */
-        quantityField?: ReactNode
+        quantityField?: ReactNode,
+        /**
+         * A partner's card: the two columns fill the card, and what is
+         * given here (its Responsibility) goes under the Price, one
+         * column wide -- as wide as the Frequency beside the Price.
+         */
+        wide?: { after: ReactNode }
     ) {
         const count = resourceUnitCount(quantity, cost.frequency);
         const unitPrice = parseAmount(cost.price) ?? NaN;
@@ -813,7 +819,9 @@ export default function BusinessCapabilityEditor({
                the card's two columns, tops level; one under the other
                in a narrow card (business-capability-costs). */
             <div className="business-capability-costs">
-            <div className={"business-capability-cost-grid" + (quantityField ? " business-capability-cost-grid-quantity" : "")}>
+            <div className={"business-capability-cost-grid" +
+                (quantityField ? " business-capability-cost-grid-quantity" : "") +
+                (wide ? " business-capability-cost-grid-wide" : "")}>
 
                 {/* A resource's Quantity on the Price's row, first:
                     Qty | Price | currency, one row in the card's first
@@ -891,6 +899,8 @@ export default function BusinessCapabilityEditor({
                         onChange={(next) => onNext({ ...cost, frequencyOther: next })}
                     />
                 )}
+
+                {wide && <div className="business-capability-cost-after">{wide.after}</div>}
 
             </div>
             </div>
@@ -2210,22 +2220,23 @@ export default function BusinessCapabilityEditor({
                 }
             >
 
-                <div className="business-capability-stack">
-
-                    {responsibilityField(
-                        businessAutoResponsibleId(founderIds),
-                        partner.responsibleId,
-                        (next) => change({ responsibleId: next }),
-                        SECTIONS.infrastructure.responsibility,
-                        partner.name.trim() || "Entry " + number
-                    )}
-
-                </div>
-
+                {/* Price | Frequency first, then who is responsible,
+                    under the Price and as wide as the Frequency. */}
                 {costFields(
                     partner.name.trim() || "Entry " + number,
                     partner.cost,
-                    (next) => change({ cost: next })
+                    (next) => change({ cost: next }),
+                    "",
+                    undefined,
+                    {
+                        after: responsibilityField(
+                            businessAutoResponsibleId(founderIds),
+                            partner.responsibleId,
+                            (next) => change({ responsibleId: next }),
+                            SECTIONS.infrastructure.responsibility,
+                            partner.name.trim() || "Entry " + number
+                        )
+                    }
                 )}
 
                 <OptionalNote
