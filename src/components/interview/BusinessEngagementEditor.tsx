@@ -63,10 +63,11 @@ import { railId } from "./rails/railItems.ts";
 import type { OpenPage } from "./jumpTo.ts";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import SuggestedInput from "./SuggestedInput.tsx";
-import ChannelCosts, { usePickedCost } from "./ChannelCosts.tsx";
+import ChannelResources, { ActionPicker, useLatestEngagement } from "./ChannelResources.tsx";
+import { jumpTo } from "./jumpTo.ts";
 import { actionPlaces, rowActions, withChosenAction, withRowLines } from "../../framework/engine/ChannelActions.ts";
-import { type CostCard, categoryChannelKey, costCards, withNewCostCard } from "../../framework/engine/ChannelCosts.ts";
-import { BUSINESS_CAPABILITY_SECTIONS, asBusinessCapabilityValue } from "../../framework/engine/AnswerUtils.ts";
+import { type CostCard, capabilityCards } from "../../framework/engine/ChannelResources.ts";
+import { asBusinessCapabilityValue } from "../../framework/engine/AnswerUtils.ts";
 import { fieldKey } from "../../framework/engine/FieldKeys.ts";
 import { frameworkRegistry } from "../../framework/engine/FrameworkRegistry.ts";
 import { AnswerType } from "../../framework/enums/AnswerType.ts";
@@ -569,27 +570,27 @@ interface BusinessEngagementEditorProps {
     onOpenFoundation?: OpenPage;
 
     /**
-     * 3. Infrastructure & Capability's answer: the cost cards a
-     * channel's costs link to (ChannelCosts.ts), read by id.
+     * 3. Infrastructure & Capability's answer: the Resource cards a
+     * channel's resources are (ChannelResources.ts), read by id.
      */
     capability?: unknown;
 
-    /** Writes 3. Infrastructure & Capability ("Create a cost …"). */
+    /** Writes 3. Infrastructure & Capability (a channel's resource made, renamed or taken away). */
     onChangeCapability?: (value: unknown) => void;
 
-    /** Opens 3. Infrastructure & Capability: a cost card, or to pick one. */
+    /** Opens 3. Infrastructure & Capability, at a resource's card. */
     onOpenCapability?: OpenPage;
 
-    /** The organisation's currency, for the channels' costs. */
+    /** The organisation's currency, for what a channel's resources cost. */
     currency?: string;
 
 }
 
-/** The Business System's Infrastructure & Capability page's number, for a cost card's "# 3.3.…". */
-function capabilitySectionNumber(): number | undefined {
+/** This page's number in the Business System, for an action's "# 3.2.…". */
+function engagementSectionNumber(): number | undefined {
     try {
         return frameworkRegistry.getFramework("business").sections
-            .find(section => section.answer?.type === AnswerType.BusinessCapability)?.number;
+            .find(section => section.answer?.type === AnswerType.BusinessEngagement)?.number;
     } catch {
         return undefined;
     }
@@ -641,52 +642,62 @@ export default function BusinessEngagementEditor({
 
     const engagement = asBusinessEngagementValue(value);
 
-    /* THE COST CARDS a channel can link to, on 3. Infrastructure &
-       Capability -- and a card picked there a moment ago, linked now
-       that this page is back (CostPickService). */
+    /* THE RESOURCE CARDS of 3. Infrastructure & Capability a channel's
+       resources are, read by id (ChannelResources.ts). */
     const capabilityValue = useMemo(() => asBusinessCapabilityValue(capability), [capability]);
-    const cards = useMemo(() => costCards(capabilityValue), [capabilityValue]);
-    usePickedCost(engagement, onChange);
+    const cards = useMemo(() => capabilityCards(capabilityValue), [capabilityValue]);
+    useLatestEngagement(engagement);
 
-    /** "3.3.2.1": where a cost card is, as a note's chip numbers it. */
-    function costNumber(card: CostCard): string {
-        const sectionNumber = capabilitySectionNumber();
+    /** "3.2.1.5": where an action is, as a note's chip numbers it. */
+    function actionNumber(actionId: string): string {
+        const sectionNumber = engagementSectionNumber();
         const organizationId = OrganizationService.getSelected();
         if (sectionNumber === undefined || !organizationId) {
-            return "3";
+            return "3.2";
         }
-        const rail = railId(BUSINESS_CAPABILITY_SECTIONS[card.scope === "infrastructure" ? 0 : 1]);
         return linkDetail({
-            id: card.id, organizationId, kind: "field", systemNumber: 3, sectionNumber,
-            key: fieldKey({ systemNumber: 3, sectionNumber, path: [rail, card.id] }),
-            anchors: card.anchors.filter(anchor => /\d/.test(anchor)),
-            label: card.name, place: ""
+            id: actionId, organizationId, kind: "field", systemNumber: 3, sectionNumber,
+            key: fieldKey({ systemNumber: 3, sectionNumber, path: [railId(BUSINESS_ENGAGEMENT_SECTIONS[0]), actionId] }),
+            anchors: [actionId],
+            label: "", place: ""
         }).number;
     }
 
-    /** A channel's costs, in its cell: the chips, the summary and "+ Add cost". */
-    function channelCosts(segmentId: string, channelKey: string, what: string, returnTo: string[]) {
+    /** Goes to an action's first line in the table, and puts the caret in it. */
+    function openAction(segmentId: string, actionId: string) {
+        const answers = engagement.segments.find(entry => entry.segmentId === segmentId);
+        const channel = answers?.channels.find(candidate => Object.values(candidate.actionIds).some(ids => ids.includes(actionId)));
+        if (!answers || !channel) {
+            return;
+        }
+        const first = answers.channels.find(candidate => candidate.category === channel.category);
+        jumpTo(["channel-" + channel.id, "channel-category-" + (first?.id ?? channel.id), "engagement-segment-" + segmentId]);
+        window.setTimeout(() => document.querySelector<HTMLTextAreaElement>('textarea[data-field-id="' + actionId + '"]')?.focus(), 400);
+    }
+
+    /** A channel's resources, in its cell: its small cards, its summary and "+ Add resource". */
+    function channelResources(answers: BusinessSegmentEngagementValue, channelId: string, what: string) {
         return (
-            <ChannelCosts
-                segmentId={segmentId}
-                channelKey={channelKey}
+            <ChannelResources
+                segment={answers}
+                channelId={channelId}
                 what={what}
-                returnTo={returnTo}
                 engagement={engagement}
+                capability={capabilityValue}
                 cards={cards}
                 currency={currency}
-                disabled={disabled}
-                onEngagement={onChange}
-                numberOf={costNumber}
-                onCreate={onChangeCapability
-                    ? (name) => {
-                        const created = withNewCostCard(capabilityValue, name);
-                        onChangeCapability(created.capability);
-                        return created.id;
+                disabled={disabled || !onChangeCapability}
+                onWrite={(next) => {
+                    if (next.capability) {
+                        onChangeCapability?.(next.capability);
                     }
-                    : undefined}
-                onOpen={onOpenCapability ? (card) => onOpenCapability(card.anchors) : undefined}
-                onPick={onOpenCapability ? () => onOpenCapability() : undefined}
+                    if (next.engagement) {
+                        onChange(next.engagement);
+                    }
+                }}
+                actionNumber={actionNumber}
+                onOpenCard={onOpenCapability ? (card: CostCard) => onOpenCapability(card.anchors) : undefined}
+                onOpenAction={(actionId) => openAction(answers.segmentId, actionId)}
             />
         );
     }
@@ -1594,14 +1605,6 @@ export default function BusinessEngagementEditor({
                                             </div>
                                         )}
 
-                                        {/* The category's own costs (what pays for it as a
-                                            whole: a platform's plan, say), once it is named. */}
-                                        {group.label.trim().length > 0 && channelCosts(
-                                            segment.id,
-                                            categoryChannelKey(group.label),
-                                            "Channel Category " + group.label,
-                                            ["channel-category-" + group.key, "engagement-segment-" + segment.id]
-                                        )}
 
                                     </th>
                                     <td colSpan={3} />
@@ -1788,13 +1791,9 @@ export default function BusinessEngagementEditor({
                                                         </OptionalField>
                                                     </div>
 
-                                                    {/* What it costs: the cost cards that pay for it. */}
-                                                    {channelCosts(
-                                                        segment.id,
-                                                        channel.id,
-                                                        "Channel " + number,
-                                                        ["channel-" + channel.id, "channel-category-" + group.key, "engagement-segment-" + segment.id]
-                                                    )}
+                                                    {/* What it needs: its resources, costed on
+                                                        3. Infrastructure & Capability. */}
+                                                    {channelResources(answers, channel.id, "Channel " + number)}
 
                                                 </div>
 
@@ -3722,6 +3721,9 @@ export default function BusinessEngagementEditor({
             className="answer-columns business-foundation business-engagement"
             style={{ "--answer-column-count": 2 } as CSSProperties}
         >
+
+            {/* A resource waiting for one of its channel's actions: the table's action lines take a click. */}
+            <ActionPicker />
 
             {/* Row 1: the two section titles. */}
             {heads.map(head => (

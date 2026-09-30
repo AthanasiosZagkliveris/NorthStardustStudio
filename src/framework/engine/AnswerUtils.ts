@@ -5598,27 +5598,29 @@ export interface BusinessSegmentEngagementValue {
  * drawn.
  */
 /**
- * A channel's cost: a link from a Customer Channel (a channel, or its
- * category's row) to a cost card on 3. Infrastructure & Capability --
- * a Resource at Costs, a Workspace that costs, an External
- * Professional, Partner or Provider -- by their ids (see
- * ChannelCosts.ts). Only a link: the cost is counted, once, where it
- * is recorded.
+ * A CHANNEL'S RESOURCE (ChannelResources.ts): something a Customer
+ * Channel needs, kept as a Resource card on 3. Infrastructure &
+ * Capability -- where its Quantity, Price, Frequency and Description
+ * are entered -- and linked here by that card's id. Its name is the
+ * card's (one name). The channel's actions it serves are linked by id.
+ * Only a link: its cost is counted once, where it is recorded.
  */
-export interface BusinessChannelCostLinkValue {
+export interface BusinessChannelResourceValue {
     id: string;
     /** The Page 1 Segment the channel is under. */
     segmentId: string;
-    /** A channel's id, or its category's row: "category:" and the category's label. */
-    channelKey: string;
-    /** The cost card's id (a resource slot, a partner or "workspace"). */
-    costId: string;
+    /** The channel's id. */
+    channelId: string;
+    /** The card on 3. Infrastructure & Capability (a resource, or a partner or the Workspace linked before). */
+    resourceId: string;
+    /** The Segment's channel actions it serves (BusinessChannelActionValue ids). */
+    actionIds: string[];
 }
 
 export interface BusinessEngagementValue {
     segments: BusinessSegmentEngagementValue[];
-    /** The channels' costs, linked (see BusinessChannelCostLinkValue). */
-    channelCosts: BusinessChannelCostLinkValue[];
+    /** The channels' resources (see BusinessChannelResourceValue). */
+    channelResources: BusinessChannelResourceValue[];
     /**
      * Demand & Conversion, by Offering id: how each Offering's
      * customers come, and so its expected sales (see DemandCapacity.ts).
@@ -6133,19 +6135,45 @@ export function asBusinessEngagementValue(value: unknown): BusinessEngagementVal
         })
         .filter(segment => segment.segmentId.length > 0);
 
-    const channelCosts = (Array.isArray(source.channelCosts) ? source.channelCosts : [])
+    const channelResources: BusinessChannelResourceValue[] = (Array.isArray(source.channelResources) ? source.channelResources : [])
         .map(entry => {
             const link = asObject(entry);
             return {
-                id: asText(link.id) || randomId("channel-cost"),
+                id: asText(link.id) || randomId("channel-resource"),
                 segmentId: asText(link.segmentId),
-                channelKey: asText(link.channelKey),
-                costId: asText(link.costId)
+                channelId: asText(link.channelId),
+                resourceId: asText(link.resourceId),
+                actionIds: (Array.isArray(link.actionIds) ? link.actionIds : []).map(asText).filter(Boolean)
             };
         })
-        .filter(link => link.segmentId && link.channelKey && link.costId);
+        .filter(link => link.segmentId && link.channelId && link.resourceId);
 
-    return { segments, demand: asDemandMap(source.demand), channelCosts };
+    /* COST LINKS SAVED BEFORE (a channel, or its category's row, linked
+       to a cost card): each is a resource of its channel now, pointing
+       at the SAME card -- nothing is made. A category's link goes to
+       its first channel; one whose category has no channel is dropped.
+       A resource is made on one channel: a card linked to several is
+       the first one's, and serves the others through shared actions.
+       Its id is kept, so reading it twice gives the same resource. */
+    for (const entry of Array.isArray(source.channelCosts) ? source.channelCosts : []) {
+        const link = asObject(entry);
+        const segmentId = asText(link.segmentId);
+        const key = asText(link.channelKey);
+        const costId = asText(link.costId);
+        const segment = segments.find(candidate => candidate.segmentId === segmentId);
+        if (!segment || !key || !costId) {
+            continue;
+        }
+        const channelId = key.startsWith("category:")
+            ? segment.channels.find(channel => channel.category === key.slice("category:".length))?.id
+            : segment.channels.find(channel => channel.id === key)?.id;
+        if (!channelId || channelResources.some(existing => existing.resourceId === costId)) {
+            continue;
+        }
+        channelResources.push({ id: asText(link.id) || "channel-resource-" + channelId + "-" + costId, segmentId, channelId, resourceId: costId, actionIds: [] });
+    }
+
+    return { segments, demand: asDemandMap(source.demand), channelResources };
 
 }
 

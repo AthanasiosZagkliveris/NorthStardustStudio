@@ -63,8 +63,7 @@ import { railId } from "./rails/railItems.ts";
 
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
-import { CostPicker } from "./ChannelCosts.tsx";
-import { costCards } from "../../framework/engine/ChannelCosts.ts";
+import { resourceChannels, resourceReach } from "../../framework/engine/ChannelResources.ts";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { NUMBER_LIMITS, limitedNumberText } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
@@ -549,7 +548,49 @@ export default function BusinessCapabilityEditor({
         the page before this one, so already filled in on the way here.
         Never from a later page.
     */
-    const demandByOffering = asBusinessEngagementValue(engagement).demand;
+    const engagementValue = asBusinessEngagementValue(engagement);
+    const demandByOffering = engagementValue.demand;
+
+    /**
+     * "For channel: Social Media › Instagram" on a Resource card a
+     * Customer Channel holds (ChannelResources.ts) -- read only, with
+     * the way back to the channel.
+     */
+    function channelLine(resourceId: string) {
+        const links = resourceChannels(engagementValue, resourceId);
+        if (links.length === 0) {
+            return null;
+        }
+        return links.map(link => {
+            const segment = engagementValue.segments.find(entry => entry.segmentId === link.segmentId);
+            const channel = segment?.channels.find(entry => entry.id === link.channelId);
+            if (!segment || !channel) {
+                return null;
+            }
+            const first = segment.channels.find(entry => entry.category === channel.category);
+            // The other channels it serves, through the actions it is linked to.
+            const also = resourceReach(engagementValue, link)
+                .map(id => segment.channels.find(entry => entry.id === id)?.name.trim() || "Unnamed channel");
+            return (
+                <p className="business-capability-channel-line" key={link.id}>
+                    {"For channel: " + [channel.category, channel.name.trim() || "Unnamed channel"].filter(Boolean).join(" › ")}
+                    {also.length > 0 && ". Also serves: " + also.join(", ")}
+                    {onOpenEngagement && (
+                        <>
+                            {" "}
+                            <button
+                                type="button"
+                                className="business-engagement-link"
+                                onClick={() => onOpenEngagement(["channel-" + channel.id, "channel-category-" + (first?.id ?? channel.id), "engagement-segment-" + segment.segmentId])}
+                            >
+                                Go there
+                            </button>
+                        </>
+                    )}
+                </p>
+            );
+        });
+    }
     function expectedFor(offeringId: string): { volume: number; source: string } | null {
         const fromDemand = demandResult(demandByOffering[offeringId]).expected;
         return fromDemand !== null && fromDemand > 0
@@ -1166,6 +1207,9 @@ export default function BusinessCapabilityEditor({
                     />
                 }
             >
+
+                {/* What channel it is for, where a Customer Channel holds it. */}
+                {channelLine(slot.id)}
 
                 {/* Status first; the Quantity only at Costs, where it
                     is what the cost is counted by (see statusFields). A
@@ -3186,9 +3230,6 @@ export default function BusinessCapabilityEditor({
             style={{ "--answer-column-count": 2 } as CSSProperties}
         >
 
-            {/* A channel on Customer Engagement waiting for its cost:
-                the cost cards light up here, and a click links one. */}
-            <CostPicker cards={costCards(capability)} onReturn={(anchors) => onOpenEngagement?.(anchors)} />
 
             {heads.map(head => (
                 <h3 className="answer-column-label" key={"title-" + head.number}>

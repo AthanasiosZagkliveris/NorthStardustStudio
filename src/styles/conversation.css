@@ -11523,13 +11523,11 @@ td.process-library-col-number{
 
 }
 
-/* A CHANNEL'S COSTS (ChannelCosts.tsx): the cost cards that pay for it
-   as the Notepad's chips, a summary line, and "+ Add cost" -- under
-   the channel's name (or its category's), from where the name starts
-   to the cell's end, as the Links above. */
-.business-channel-name > .business-channel-costs,
-.business-channel-category > .business-channel-costs,
-th > .business-channel-costs{
+/* A CHANNEL'S RESOURCES (ChannelResources.tsx): its small resource
+   cards, those serving it through a shared action as chips, a summary
+   line and "+ Add resource" -- under the channel's name, from where the
+   name starts to the cell's end, as the Links above. */
+.business-channel-name > .business-channel-resources{
 
     grid-column:control / end;
 
@@ -11543,19 +11541,122 @@ th > .business-channel-costs{
 
 }
 
-/* Under the category's row, from where its picker starts: past the
-   fold arrow's 36px column and its 8px gap (.business-channel-category). */
-th > .business-channel-costs{
+/* One resource: a small card on the grey card ground -- its name (the
+   Resource card's, on Infrastructure & Capability) and its ×, what it
+   costs there and how many actions it serves (which opens it there),
+   its actions as chips, and "# Link an action". */
+.business-channel-resource{
 
-    margin:var(--space-row) 0 0 calc(36px + 8px);
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-row);
+
+    min-width:0;
+
+    padding:8px;
+
+    border:1px solid var(--box-border);
+    border-radius:6px;
+
+    background:var(--bg-panel);
 
 }
 
-.business-channel-cost-chips{
+.business-channel-resource-head{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:8px;
+
+    min-width:0;
+
+}
+
+.business-channel-resource-head > .business-channel-resource-name{
+
+    flex:1 1 auto;
+
+    min-width:0;
+
+}
+
+.business-channel-resource-head > .business-channel-resource-remove{
+
+    flex:none;
+
+    margin-top:8px;
+
+}
+
+.business-channel-resource-cost{
+
+    align-self:flex-start;
+
+    padding:0;
+
+    border:0;
+
+    background:none;
+
+    font:inherit;
+    font-size:var(--font-small);
+    text-align:start;
+
+    color:var(--accent-ink);
+
+    cursor:pointer;
+
+}
+
+.business-channel-resource-cost:hover{
+
+    text-decoration:underline;
+
+}
+
+.business-channel-resource-cost:focus-visible{
+
+    outline:2px solid var(--line-primary);
+    outline-offset:2px;
+
+}
+
+.business-channel-resource-actions,
+.business-channel-resources-shared{
 
     margin:0;
 
 }
+
+html.action-picking .business-channel-table textarea[data-field-id]{
+
+    cursor:pointer;
+
+}
+
+html.action-picking .business-channel-table textarea[data-pick-hover]{
+
+    outline:2px solid var(--accent-line);
+    outline-offset:2px;
+
+}
+
+/* "For channel: Social Media › Instagram" on a Resource card a channel
+   holds (Infrastructure & Capability): read only, quiet. */
+.business-capability-channel-line{
+
+    margin:0;
+
+    font-size:var(--font-small);
+
+    color:var(--text-subtle);
+
+}
+
 
 .business-channel-cost-summary{
 
@@ -11598,20 +11699,6 @@ th > .business-channel-costs{
 
 }
 
-/* Picking a channel's cost on 3. Infrastructure & Capability: the cost
-   cards take the pointer, the one under it outlined (as a note's pick). */
-html.cost-picking [data-cost-pick]{
-
-    cursor:pointer;
-
-}
-
-html.cost-picking [data-cost-pick][data-pick-hover]{
-
-    outline:2px solid var(--accent-line);
-    outline-offset:2px;
-
-}
 
 /* ---------- A box that knows some likely answers ---------- */
 

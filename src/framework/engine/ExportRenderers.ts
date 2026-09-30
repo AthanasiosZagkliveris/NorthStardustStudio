@@ -97,7 +97,7 @@ import {
     type FinancialFoundationValue
 } from "./FinancialModel.ts";
 import { jurisdictionProfile, COUNTRIES, LEGAL_REQUIREMENT_TYPES } from "./LegalEntityJurisdictions.ts";
-import { categoryChannelKey, channelCostLinks, channelCostSummary, costCardAmountText, costCardName, costCards } from "./ChannelCosts.ts";
+import { capabilityCards, channelResourceLinks, costCardAmountText, costCardName } from "./ChannelResources.ts";
 
 /* ==========================================================
    Building blocks
@@ -518,8 +518,8 @@ function businessEngagementBlocks(value: unknown, context: ExportContext): Expor
     const segments = businessFoundationSegments(foundation);
     const engagement = asBusinessEngagementValue(value);
     const stage = (id: string) => labelOf(BUSINESS_JOURNEY_STAGES, id);
-    // The cost cards the channels link to (ChannelCosts.ts): read, never counted here.
-    const cards = costCards(asBusinessCapabilityValue(context.responseOf?.(AnswerType.BusinessCapability)));
+    // The Resource cards the channels' resources are (ChannelResources.ts): read, never counted here.
+    const cards = capabilityCards(asBusinessCapabilityValue(context.responseOf?.(AnswerType.BusinessCapability)));
     const currency = context.currency ?? "";
 
     const bySegment = engagement.segments.flatMap((entry, index) => {
@@ -548,25 +548,19 @@ function businessEngagementBlocks(value: unknown, context: ExportContext): Expor
                 ]);
             })),
 
-            // What each channel costs, where any is linked: the channel (or
-            // its category), the cost card, what it costs, and a total line.
+            // What each channel needs, where it has any: the channel, the
+            // resource, what it costs (on Infrastructure & Capability), and
+            // the channel's actions it serves.
             ...(() => {
-                const keys = [
-                    ...[...new Set(channels.map(channel => channel.category).filter(Boolean))]
-                        .map(label => ({ key: categoryChannelKey(label), name: label + " (category)" })),
-                    ...channels.map(channel => ({ key: channel.id, name: channel.name.trim() || "Unnamed channel" }))
-                ];
-                const rows = keys.flatMap(({ key, name }) => {
-                    const linked = channelCostLinks(engagement, entry.segmentId, key, cards);
-                    return linked.map(({ card, shared }, position) => [
-                        position === 0 ? name : "",
-                        costCardName(card) + (shared ? " (shared)" : ""),
-                        costCardAmountText(card, currency),
-                        position === linked.length - 1 ? (channelCostSummary(linked, currency) ?? "").replace(/^Costs: /, "") : ""
-                    ]);
-                });
+                const rows = channels.flatMap(channel => channelResourceLinks(engagement, entry.segmentId, channel.id, cards)
+                    .map(({ link, card }, position) => [
+                        position === 0 ? channel.name.trim() || "Unnamed channel" : "",
+                        costCardName(card),
+                        costCardAmountText(card, currency) || "No cost yet",
+                        link.actionIds.map(id => entry.actions.find(action => action.id === id)?.text ?? "").filter(Boolean).join("; ")
+                    ]));
                 return rows.length > 0
-                    ? [heading("Channel Costs", 2), ...table(["Channel", "Cost", "Amount", "Channel total"], rows)]
+                    ? [heading("Channel Resources", 2), ...table(["Channel", "Resource", "Cost", "Linked actions"], rows)]
                     : [];
             })(),
 
