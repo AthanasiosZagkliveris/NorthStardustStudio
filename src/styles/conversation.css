@@ -5129,14 +5129,6 @@ td.process-library-col-number{
 
 }
 
-.strategy-box-remove:hover:not(:disabled){
-
-    border-color:var(--line-danger);
-
-    box-shadow:0 0 0 4px var(--line-danger-a18);
-
-}
-
 /* A grip, not a control: the up/down buttons beside it do the
    same job for anyone not using a pointer, so it is hidden from
    assistive technology (see useListDrag.handleProps). */
@@ -7701,8 +7693,7 @@ td.process-library-col-number{
 
 .profile-card-remove,
 .brand-holder-clear,
-.legal-entity-field-remove,
-.strategy-box-remove{
+.legal-entity-field-remove{
 
     width:32px;
     height:32px;
@@ -7735,17 +7726,6 @@ td.process-library-col-number{
 
 }
 
-/* Only the ones that are not ALREADY positioned. The Profile
-   Card's and the Brand image holder's removes are
-   `position:absolute` in their own corner -- setting `relative`
-   here pulled both back into normal flow and moved the image
-   holders' layout with them. */
-.strategy-box-remove{
-
-    position:relative;
-
-}
-
 /* The two strokes of the X.
    `currentColor` so they follow the button's own colour through
    rest, hover and disabled. */
@@ -7754,9 +7734,7 @@ td.process-library-col-number{
 .brand-holder-clear::before,
 .brand-holder-clear::after,
 .legal-entity-field-remove::before,
-.legal-entity-field-remove::after,
-.strategy-box-remove::before,
-.strategy-box-remove::after{
+.legal-entity-field-remove::after{
 
     content:"";
 
@@ -7778,8 +7756,7 @@ td.process-library-col-number{
 
 .profile-card-remove::before,
 .brand-holder-clear::before,
-.legal-entity-field-remove::before,
-.strategy-box-remove::before{
+.legal-entity-field-remove::before{
 
     transform:rotate(45deg);
 
@@ -7787,8 +7764,7 @@ td.process-library-col-number{
 
 .profile-card-remove::after,
 .brand-holder-clear::after,
-.legal-entity-field-remove::after,
-.strategy-box-remove::after{
+.legal-entity-field-remove::after{
 
     transform:rotate(-45deg);
 
@@ -7796,8 +7772,7 @@ td.process-library-col-number{
 
 .profile-card-remove:hover:not(:disabled),
 .brand-holder-clear:hover:not(:disabled),
-.legal-entity-field-remove:hover:not(:disabled),
-.strategy-box-remove:hover:not(:disabled){
+.legal-entity-field-remove:hover:not(:disabled){
 
     color:var(--text-on-fill);
 
@@ -7812,8 +7787,7 @@ td.process-library-col-number{
 
 .profile-card-remove:focus-visible,
 .brand-holder-clear:focus-visible,
-.legal-entity-field-remove:focus-visible,
-.strategy-box-remove:focus-visible{
+.legal-entity-field-remove:focus-visible{
 
     outline:none;
 
@@ -7825,8 +7799,7 @@ td.process-library-col-number{
 
 .profile-card-remove:disabled,
 .brand-holder-clear:disabled,
-.legal-entity-field-remove:disabled,
-.strategy-box-remove:disabled{
+.legal-entity-field-remove:disabled{
 
     /* Colour rather than opacity, so the glyph stays legible --
        the same choice `.strategy-box-action:disabled` documents. */

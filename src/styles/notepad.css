@@ -90,7 +90,6 @@ html:not(.notepad-docked) .notepad-panel {
 }
 
 .notepad-close,
-.notepad-note-remove,
 .notepad-chip-remove {
 
     flex: none;
@@ -119,8 +118,6 @@ html:not(.notepad-docked) .notepad-panel {
 
 .notepad-close:hover,
 .notepad-close:focus-visible,
-.notepad-note-remove:hover,
-.notepad-note-remove:focus-visible,
 .notepad-chip-remove:hover,
 .notepad-chip-remove:focus-visible {
 
@@ -658,10 +655,8 @@ html.notepad-picking [data-pick-hover] {
 
 }
 
-/* The × of a note or of a chip shows itself as a button as soon as
-   its note or chip is pointed at or holds the focus, not only when
-   it is itself. */
-.notepad-note:is(:hover, :focus-within) > .notepad-note-actions > .notepad-note-remove,
+/* The × of a chip shows itself as a button as soon as its chip is
+   pointed at or holds the focus, not only when it is itself. */
 .notepad-chip:is(:hover, :focus-within) > .notepad-chip-remove {
 
     border-color: var(--box-border);
@@ -670,9 +665,14 @@ html.notepad-picking [data-pick-hover] {
 
 }
 
-/* The note under the pointer: its edge in the accent line. */
+/* A note's box: the hover of a field you write into (the answer
+   boxes' hover, "Fields respond" in conversation.css: the primary
+   edge and a soft ring in the glow colour). A note's × is the app's
+   one remove button (remove-button.css). */
 .notepad-note:hover {
 
-    border-color: var(--accent-line);
+    border-color: var(--line-primary);
+
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
 
 }

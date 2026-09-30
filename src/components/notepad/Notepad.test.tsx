@@ -282,11 +282,11 @@ describe("a field in your notes, pointed at", () => {
 
 describe("what can be clicked in the Notepad", () => {
 
-    it("answers the pointer and the keyboard with the app's hover grounds, the ×s showing as buttons on their note or chip", () => {
+    it("gives a note a field's hover, and its × the app's one remove button", () => {
         const css = stylesheet("notepad.css");
-        expect(css).toContain(".notepad-text-button:is(:hover, :focus-visible) { border-radius: 4px; background: var(--bg-button-hover);");
-        expect(css).toContain(".notepad-chip:has(> .notepad-chip-open:not(:disabled):is(:hover, :focus-visible)) { background: var(--accent-ground-hover); }");
-        expect(css).toContain(".notepad-note:is(:hover, :focus-within) > .notepad-note-actions > .notepad-note-remove, .notepad-chip:is(:hover, :focus-within) > .notepad-chip-remove { border-color: var(--box-border);");
+        expect(css).toContain(".notepad-note:hover { border-color: var(--line-primary); box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent); }");
+        expect(css).not.toMatch(/.notepad-note-remove[,:{ ]/);
+        expect(stylesheet("remove-button.css")).toContain(".strategy-box-remove{ width:32px; height:32px;");
     });
 
 });

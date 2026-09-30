@@ -14,6 +14,7 @@ import "@fontsource/inter/700.css";
 
 import "./styles/colors.css";
 import "./styles/global.css";
+import "./styles/remove-button.css";
 
 import App from "./App";
 import { ErrorBoundary } from "./components/ErrorBoundary";

@@ -1,0 +1,120 @@
+/* ==========================================================
+   THE REMOVE BUTTON (×): the app's one, on every card and row and
+   in the Notepad -- a 32px square, its X drawn as two bars, neutral
+   at rest and filled red under the pointer. Loaded with the app
+   (main.tsx), so it looks the same wherever it is used; the three
+   older removes that share its look (.profile-card-remove,
+   .brand-holder-clear, .legal-entity-field-remove) keep their rules
+   in conversation.css, where the reasons for the look are written.
+========================================================== */
+
+.strategy-box-remove{
+
+    width:32px;
+    height:32px;
+
+    /* The same square in every row: a flex row never squeezes it
+       (an Activity's performer × and a cost's × beside "Change"
+       were narrowed to 29px and 19px). */
+    flex:none;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:0;
+
+    color:var(--text-default);
+
+    border:1px solid var(--box-border);
+    border-radius:6px;
+
+    background:var(--bg-surface);
+
+    font:inherit;
+    font-size:0;
+    line-height:1;
+
+    cursor:pointer;
+
+    transition:background-color .15s ease, border-color .15s ease, color .15s ease;
+
+}
+
+/* Positioned, for its drawn X (the older removes above are positioned in their own corners). */
+.strategy-box-remove{
+
+    position:relative;
+
+}
+
+.strategy-box-remove::before,
+.strategy-box-remove::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:50%;
+    left:50%;
+
+    width:14px;
+    height:2px;
+
+    margin:-1px 0 0 -7px;
+
+    border-radius:1px;
+
+    background:currentColor;
+
+}
+
+.strategy-box-remove::before{
+
+    transform:rotate(45deg);
+
+}
+
+.strategy-box-remove::after{
+
+    transform:rotate(-45deg);
+
+}
+
+.strategy-box-remove:hover:not(:disabled){
+
+    color:var(--text-on-fill);
+
+    border-color:var(--line-danger-strong);
+    background:var(--bg-danger-strong);
+
+    /* No ring: the fill IS the reaction, and the box these sit
+       on already glows on its own hover. */
+    box-shadow:none;
+
+}
+
+.strategy-box-remove:focus-visible{
+
+    outline:none;
+
+    border-color:var(--line-primary);
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
+
+}
+
+.strategy-box-remove:disabled{
+
+    /* Colour rather than opacity, so the glyph stays legible --
+       the same choice `.strategy-box-action:disabled` documents. */
+    opacity:1;
+
+    color:var(--text-faint);
+    border-color:var(--line-card);
+
+    background:var(--bg-surface);
+
+    cursor:not-allowed;
+
+}
