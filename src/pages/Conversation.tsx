@@ -55,7 +55,7 @@ import { OrganizationService } from "../services/OrganizationService";
 import { PreferencesService } from "../services/PreferencesService";
 import { offerRemovalUndo, UndoService } from "../services/UndoService";
 import { systems } from "../data/systems";
-import { focusField, jumpTo, type OpenPage } from "../components/interview/jumpTo.ts";
+import { focusField, focusText, jumpTo, type OpenPage } from "../components/interview/jumpTo.ts";
 import { FieldPageProvider } from "../components/interview/fieldMarks.tsx";
 import BulletRail from "../components/interview/rails/BulletRail";
 import NumberedListStatic from "../components/interview/NumberedListStatic";
@@ -779,8 +779,9 @@ export default function Conversation() {
     // Set by openField (fieldLocation): open the interview at
     // `targetSectionNumber` and there the one field this names --
     // its card unfolded, the field scrolled to, focused and
-    // highlighted (see focusField in jumpTo.ts).
-    const openingField: { key: string; anchors?: string[] } | undefined = location.state?.focusField;
+    // highlighted (see focusField in jumpTo.ts). A search result for
+    // an answer names its text and cards instead (focusText).
+    const openingField: { key: string; anchors?: string[]; text?: string; ids?: string[] } | undefined = location.state?.focusField;
 
     // Every Interview Session now belongs to a specific
     // Organization (see OrganizationService / item 6) -- read
@@ -979,7 +980,9 @@ export default function Conversation() {
             return;
         }
 
-        const timer = window.setTimeout(() => focusField(openingField.key, openingField.anchors ?? []), 300);
+        const timer = window.setTimeout(() => openingField.text
+            ? focusText(openingField.text, openingField.ids ?? [])
+            : focusField(openingField.key, openingField.anchors ?? []), 300);
 
         return () => window.clearTimeout(timer);
 

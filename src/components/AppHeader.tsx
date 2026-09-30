@@ -3,6 +3,7 @@ import logo from "../assets/NORTH STARDUST Organization Framework.svg";
 import SaveStatus from "./SaveStatus";
 import { NotepadButton, NotepadPanel, NotepadPicker } from "./notepad/Notepad";
 import ReviewButton from "./ReviewButton";
+import SearchButton from "./SearchButton";
 import ThemeSwitch from "./ThemeSwitch";
 import UndoToast from "./UndoToast";
 
@@ -39,7 +40,8 @@ export default function AppHeader({ organizationName }: AppHeaderProps) {
 
             <ThemeSwitch />
 
-            {/* The person's own notes: wherever an Organization is open. */}
+            {/* Search (Ctrl+K), and the person's own notes: wherever an Organization is open. */}
+            {organizationName && <SearchButton />}
             {organizationName && <NotepadButton />}
             {organizationName && <ReviewButton />}
             {organizationName && <NotepadPanel />}

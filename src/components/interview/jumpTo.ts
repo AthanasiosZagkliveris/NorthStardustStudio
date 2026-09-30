@@ -142,6 +142,14 @@ export function focusField(key: string, anchors: readonly string[] = []) {
         const field = findField(key);
 
         if (field) {
+            // A folded card: opened first, so its first control can
+            // take the focus.
+            const toggle = !controlOf(field) && field.matches("[data-anchor]") ? ownToggle(field) : null;
+            if (toggle?.getAttribute("aria-expanded") === "false" && Date.now() - started <= GIVE_UP_MS) {
+                toggle.click();
+                window.setTimeout(attempt, STEP_MS);
+                return;
+            }
             // A holder that draws no box of its own (display:
             // contents) is landed on by its first part.
             land(getComputedStyle(field).display === "contents" ? (field.firstElementChild as HTMLElement | null) ?? field : field);
@@ -152,6 +160,86 @@ export function focusField(key: string, anchors: readonly string[] = []) {
         if (Date.now() - started <= GIVE_UP_MS) {
             window.setTimeout(attempt, STEP_MS);
         }
+
+    };
+
+    window.setTimeout(attempt, STEP_MS * 2);
+
+}
+
+/*
+    OPENING AN ANSWER (a search result, "Your answers"): the cards it
+    is in are named by their ids, innermost first, and a card's anchor
+    holds its id ("profile-<id>", or the id itself) -- so the innermost
+    one on the page is unfolded, then the next, until a control holding
+    the text shows. That control is scrolled to, focused and briefly
+    highlighted; failing that, the innermost card found is landed on.
+*/
+
+/** Lower case, accents off: how an answer's text is looked for. */
+function folded(text: string): string {
+    return text.normalize("NFD").replace(/\p{M}+/gu, "").toLowerCase().replace(/\s+/g, " ").trim();
+}
+
+/** The element whose anchor holds a card's id, or null. */
+function cardWithId(id: string): HTMLElement | null {
+    for (const element of document.querySelectorAll<HTMLElement>("[data-anchor]")) {
+        const tokens = (element.dataset.anchor ?? "").split(/\s+/);
+        if (tokens.some(token => token === id || token.endsWith("-" + id))) {
+            return element;
+        }
+    }
+    return null;
+}
+
+/** A shown control whose answer holds `text`. */
+function controlHolding(text: string, within: ParentNode): HTMLElement | null {
+    const wanted = folded(text);
+    for (const control of within.querySelectorAll<HTMLElement>("input:not([type=hidden]):not([type=checkbox]):not([type=radio]), textarea, .option-picker-trigger, .month-picker-trigger, [contenteditable=true]")) {
+        if (control.offsetParent === null) {
+            continue;
+        }
+        const value = control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement
+            ? control.value
+            : control.textContent ?? "";
+        if (folded(value).includes(wanted)) {
+            return control;
+        }
+    }
+    return null;
+}
+
+/** Scrolls to, focuses and highlights the control holding `text`, in the cards `ids` names (innermost first). */
+export function focusText(text: string, ids: readonly string[] = []) {
+
+    const started = Date.now();
+
+    const attempt = () => {
+
+        const cards = ids.map(cardWithId);
+        const innermost = cards.find((card): card is HTMLElement => card !== null) ?? null;
+        const control = controlHolding(text, cards[0] ?? document);
+
+        if (control) {
+            land(control);
+            control.focus({ preventScroll: true });
+            return;
+        }
+
+        // Unfold the innermost card there is, and look again.
+        const toggle = innermost ? ownToggle(innermost) : null;
+        if (toggle?.getAttribute("aria-expanded") === "false") {
+            toggle.click();
+        }
+
+        if (Date.now() - started > GIVE_UP_MS) {
+            if (innermost) {
+                land(innermost);
+            }
+            return;
+        }
+
+        window.setTimeout(attempt, STEP_MS);
 
     };
 

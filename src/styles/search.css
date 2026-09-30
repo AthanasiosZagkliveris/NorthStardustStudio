@@ -1,0 +1,151 @@
+/* ==========================================================
+   Search (SearchButton.tsx, SearchDialog.tsx): the header's
+   Search tool (.header-tool, app-header.css), and the dialog it
+   opens -- one box, centred near the top, and under it the
+   results in their groups, scrolling inside the dialog.
+========================================================== */
+
+.search-overlay {
+
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    padding: 12vh 16px 16px;
+
+    background: var(--bg-overlay);
+
+}
+
+.search-dialog {
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    width: min(640px, 100%);
+    max-height: 76vh;
+    padding: 12px;
+
+    border: 1px solid var(--line-box);
+    border-radius: 12px;
+
+    background: var(--bg-surface);
+
+    box-shadow: 0 16px 40px var(--shadow-18);
+
+}
+
+.search-dialog > .search-input {
+
+    flex: none;
+
+    width: 100%;
+
+}
+
+.search-results {
+
+    min-height: 0;
+
+    overflow-y: auto;
+
+}
+
+.search-results:empty {
+
+    display: none;
+
+}
+
+.search-group + .search-group {
+
+    margin-top: 8px;
+
+}
+
+.search-group-title {
+
+    padding: 6px 10px 2px;
+
+    font-size: var(--font-small);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+
+    color: var(--text-subtle);
+
+}
+
+.search-option {
+
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    padding: 8px 10px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+}
+
+.search-option-active {
+
+    background: color-mix(in srgb, var(--glow-color) 18%, transparent);
+
+}
+
+.search-option-label {
+
+    font-size: var(--font-body);
+    line-height: 1.4;
+
+    color: var(--text-default);
+
+    overflow-wrap: anywhere;
+
+}
+
+.search-option-place {
+
+    font-size: var(--font-small);
+    line-height: 1.4;
+
+    color: var(--text-subtle);
+
+    overflow-wrap: anywhere;
+
+}
+
+/* The words found, in an answer: bold on a light ground, so they do
+   not rest on colour alone. */
+.search-mark {
+
+    padding: 0 1px;
+
+    border-radius: 2px;
+
+    background: var(--bg-primary-tint);
+
+    font-weight: 700;
+
+    color: inherit;
+
+}
+
+.search-empty {
+
+    margin: 0;
+    padding: 8px 10px;
+
+    font-size: var(--font-body);
+
+    color: var(--text-subtle);
+
+}
