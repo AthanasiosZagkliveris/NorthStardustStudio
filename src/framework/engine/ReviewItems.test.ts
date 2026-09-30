@@ -3,8 +3,9 @@ import { describe, expect, test } from "vitest";
 import { InterviewSession } from "../interview";
 import { AnswerType } from "../enums/AnswerType.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
+import { systems } from "../../data/systems";
 import { asBusinessCapabilityValue, asBusinessFoundationValue, createBusinessActivity } from "./AnswerUtils.ts";
-import { foundationReady, headerCount, reviewCount, reviewCountText, reviewItems } from "./ReviewItems.ts";
+import { nothingOpen, headerCount, reviewCount, reviewCountText, reviewItems } from "./ReviewItems.ts";
 import lumenText from "../../../docs/examples/lumen-and-loom-studio.json?raw";
 import quillText from "../../../docs/examples/quillfield-automation-llc.json?raw";
 
@@ -25,14 +26,14 @@ describe("the Review page's items", () => {
     test.each(["Lumen", "Quillfield"] as const)("%s, fully answered, is ready: nothing still open or missing", (which) => {
         const items = reviewItems({ sessions: load(which), titles, organisationName: which });
         expect(items.filter(item => item.group === "open" || item.group === "missing")).toEqual([]);
-        expect(foundationReady(items)).toBe(true);
+        expect(nothingOpen(items)).toBe(true);
     });
 
     test("a System not started is one item, with the way to it", () => {
         const sessions = load();
         sessions[4] = null;
         const items = reviewItems({ sessions, titles, organisationName: "Lumen" });
-        expect(items).toContainEqual({ group: "open", text: "4. Strategy System is not started yet.", place: { systemNumber: 4, sectionNumber: 1 } });
+        expect(items).toContainEqual({ group: "open", text: "4. Strategy System is not started yet.", place: { systemNumber: 4, sectionNumber: 1 }, capability: "foundation" });
     });
 
     test("a card with information missing is one item, naming the card and what it lacks", () => {
@@ -45,6 +46,7 @@ describe("the Review page's items", () => {
         const items = reviewItems({ sessions, titles, organisationName: "Lumen" }).filter(item => item.group === "open");
         expect(items).toEqual([{
             group: "open",
+            capability: "foundation",
             text: "3. Business System → " + page.number + ". Foundation: " + segment.name.trim() + ": value proposition.",
             place: { systemNumber: 3, sectionNumber: page.number, key: "3." + page.number + ":value-proposition", anchors: [segment.id] }
         }]);
@@ -57,6 +59,7 @@ describe("the Review page's items", () => {
         business.saveResponse(financial.number, { ...(business.getResponse(financial.number) as object), incomeTax: "" });
         expect(reviewItems({ sessions, titles, organisationName: "Lumen" }).filter(item => item.group === "open")).toEqual([{
             group: "open",
+            capability: "foundation",
             text: "3. Business System → " + financial.number + ". Financial Foundation: Income Tax: not chosen yet.",
             place: { systemNumber: 3, sectionNumber: financial.number, key: "3." + financial.number + ":income-tax" }
         }]);
@@ -82,6 +85,7 @@ describe("the Review page's items", () => {
         business.saveResponse(page.number, { ...capability, founders, activities: [{ id: "cat-x", name: "Legal", activities: [activity] }, ...capability.activities] });
         expect(reviewItems({ sessions, titles, organisationName: "Quillfield" }).filter(item => item.group === "open")).toContainEqual({
             group: "open",
+            capability: "foundation",
             text: "3. Business System → " + page.number + ". Infrastructure & Capability: Register the trademark: responsible founder.",
             place: { systemNumber: 3, sectionNumber: page.number, key: "3." + page.number + ":infrastructure/" + activity.id, anchors: [activity.id] }
         });
@@ -100,6 +104,56 @@ describe("the Review page's items", () => {
         expect(reviewCountText(0)).toBe("Nothing open");
         expect(reviewCountText(1)).toBe("1 item to look at");
         expect(reviewCountText(3)).toBe("3 items to look at");
+    });
+
+});
+
+describe("Review across the whole app", () => {
+
+    /** A System beyond the Foundation with a free-text page, opened, and answered there or not. */
+    function project(answered: boolean) {
+        const candidates = systems.filter(system => system.capability !== "foundation" && frameworkRegistry.exists(system.id));
+        for (const system of candidates) {
+            const framework = frameworkRegistry.getFramework(system.id);
+            const first = framework.sections.find(section => section.answer?.type === AnswerType.FreeText);
+            if (first && framework.sections.length > 1) {
+                const session = new InterviewSession(framework);
+                if (answered) {
+                    session.saveResponse(first.number, "A first answer.");
+                }
+                return { session, first, system };
+            }
+        }
+        throw new Error("no such System");
+    }
+
+    test("lists a System beyond the Foundation once it holds an answer, under its Capability", () => {
+        const { session, first, system } = project(true);
+        const n = system.number;
+        const sessions = { ...load(), [n]: session };
+        const items = reviewItems({
+            sessions,
+            titles: { ...titles, [n]: n + ". " + system.title },
+            capabilities: { 1: "foundation", 2: "foundation", 3: "foundation", 4: "foundation", [n]: system.capability },
+            order: [1, 2, 3, 4, n],
+            organisationName: "Lumen"
+        }).filter(item => item.group === "open");
+        expect(items.length).toBeGreaterThan(0);
+        expect(items.every(item => item.capability === system.capability && item.text.startsWith(n + ". " + system.title + " → "))).toBe(true);
+        expect(items.some(item => item.text.includes(first.number + ". " + first.title + ":"))).toBe(false);
+    });
+
+    test("leaves out a System never answered", () => {
+        const { session, system } = project(false);
+        const n = system.number;
+        const items = reviewItems({
+            sessions: { ...load(), [n]: session },
+            titles: { ...titles, [n]: n + ". " + system.title },
+            capabilities: { 1: "foundation", 2: "foundation", 3: "foundation", 4: "foundation", [n]: system.capability },
+            order: [1, 2, 3, 4, n],
+            organisationName: "Lumen"
+        });
+        expect(items.filter(item => item.group === "open")).toEqual([]);
     });
 
 });

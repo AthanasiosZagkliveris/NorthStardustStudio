@@ -135,30 +135,40 @@
 
 }
 
-.review-ready{
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:16px;
-
-    padding:28px 20px;
-
-    border:1px solid var(--line-sheet);
-    border-radius:10px;
-
-    background:var(--bg-warm);
-
-}
-
-.review-ready-text{
+.review-empty{
 
     margin:0;
 
     font-size:var(--font-body);
     line-height:1.5;
 
-    color:var(--text-default);
+    color:var(--text-muted);
+
+}
+
+.review-capability{
+
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+
+}
+
+.review-capability + .review-capability{
+
+    margin-top:8px;
+
+}
+
+.review-capability-title{
+
+    margin:0;
+
+    font-size:var(--font-body);
+    font-weight:600;
+    line-height:1.4;
+
+    color:var(--text-muted);
 
 }
 

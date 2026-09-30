@@ -5,6 +5,7 @@ import { businessPlan, readFoundation, type FoundationSessions } from "./Busines
 import { fieldKey, type FieldKey } from "./FieldKeys.ts";
 import { pageRailItems } from "../../components/interview/rails/railItems.ts";
 import { openItemsOf } from "./OpenItems.ts";
+import { pageStatuses } from "./PageStatus.ts";
 
 /** A page as the rail names it: "4. Financial Foundation". */
 function pageName(section: { number: number; title: string }): string {
@@ -46,13 +47,23 @@ export interface ReviewItem {
     text: string;
     /** Where to go and answer it; absent when there is nowhere to go. */
     place?: ReviewPlace;
+    /** The Capability of the System it is in ("foundation"), for grouping. */
+    capability?: string;
 }
 
 export interface ReviewInput {
-    /** The Foundation Systems' saved sessions, by System number (1 to 4); null where not started. */
+    /**
+     * The Systems' saved sessions, by System number: the four
+     * Foundation Systems always (null where not started), any other
+     * System where it has been worked on.
+     */
     sessions: Record<number, InterviewSession | null>;
-    /** The Systems' titles, by number: "Identity System". */
+    /** The Systems' titles, by number: "1. Identity System". */
     titles: Record<number, string>;
+    /** Each System's Capability, by number (the Foundation's four when absent). */
+    capabilities?: Record<number, string>;
+    /** The Systems in the app's order: by Capability, then number (1 to 4 when absent). */
+    order?: number[];
     /** Reads the value behind a Shared Answer (see PageStatus.pageStatuses). */
     resolveSharedValue?: (answer: AnswerDefinition) => unknown;
     organisationName: string;
@@ -62,25 +73,38 @@ function pageOf(session: InterviewSession | null, type: AnswerType) {
     return session?.getSections().find(section => section.answer?.type === type);
 }
 
+const FOUNDATION_SYSTEMS = [1, 2, 3, 4];
+
 /**
- * Still open: what is missing, by card or section (OpenItems.ts), and
- * a System not started yet. A Resource whose Status is Needs
- * Investigation is a complete answer (its work is its activity), so
- * it is not here.
+ * Still open, across the whole app: what is missing, by card or
+ * section (OpenItems.ts), in every System worked on -- the four
+ * Foundation Systems always, and a Foundation System not started yet
+ * as one item; any other System once it holds an answer, so one never
+ * opened is not a list of everything it asks. A Resource whose Status
+ * is Needs Investigation is a complete answer (its work is its
+ * activity), so it is not here.
  */
 function stillOpen(input: ReviewInput): ReviewItem[] {
 
     const items: ReviewItem[] = [];
+    const order = input.order ?? FOUNDATION_SYSTEMS;
 
-    for (const systemNumber of [1, 2, 3, 4]) {
+    for (const systemNumber of order) {
         const session = input.sessions[systemNumber];
         const system = input.titles[systemNumber];
+        const capability = input.capabilities?.[systemNumber] ?? "foundation";
+        const foundation = FOUNDATION_SYSTEMS.includes(systemNumber);
         if (!session) {
-            items.push({ group: "open", text: system + " is not started yet.", place: { systemNumber, sectionNumber: 1 } });
+            if (foundation) {
+                items.push({ group: "open", text: system + " is not started yet.", place: { systemNumber, sectionNumber: 1 }, capability });
+            }
+            continue;
+        }
+        if (!foundation && ![...pageStatuses(session, input.resolveSharedValue).values()].some(status => status !== "not-started")) {
             continue;
         }
         for (const item of openItemsOf(systemNumber, session, section => system + " → " + pageName(section), input.resolveSharedValue)) {
-            items.push({ group: "open", text: item.text, place: item.place });
+            items.push({ group: "open", text: item.text, place: item.place, capability });
         }
     }
 
@@ -118,7 +142,8 @@ function secondLook(input: ReviewInput): ReviewItem[] {
                 items.push({
                     group: "second-look",
                     text: title + " → " + pageName(page) + ": " + signal.title + ". " + signal.text,
-                    place: { systemNumber: 3, sectionNumber: page.number }
+                    place: { systemNumber: 3, sectionNumber: page.number },
+                    capability: "foundation"
                 });
             }
         }
@@ -156,6 +181,7 @@ function missing(input: ReviewInput): ReviewItem[] {
             }
             items.push({
                 group: "missing",
+                capability: "foundation",
                 text: "The Business Plan's " + block.text + " is not covered yet: " + input.titles[target.systemNumber] + " → " + pageName(page) + ".",
                 place: {
                     systemNumber: target.systemNumber,
@@ -176,7 +202,7 @@ export function reviewItems(input: ReviewInput): ReviewItem[] {
 }
 
 /** Whether nothing is left to answer: nothing still open or missing from the documents. */
-export function foundationReady(items: readonly ReviewItem[]): boolean {
+export function nothingOpen(items: readonly ReviewItem[]): boolean {
     return !items.some(item => item.group === "open" || item.group === "missing");
 }
 

@@ -5,7 +5,8 @@ import AppFooter from "../components/AppFooter";
 import AppHeader from "../components/AppHeader";
 import { fieldLocation } from "../components/interview/openField";
 import { systems } from "../data/systems";
-import { foundationReady, type ReviewGroup, type ReviewItem, type ReviewPlace } from "../framework/engine/ReviewItems";
+import { nothingOpen, type ReviewGroup, type ReviewItem, type ReviewPlace } from "../framework/engine/ReviewItems";
+import { capabilities } from "../data/capabilities";
 import { OrganizationService } from "../services/OrganizationService";
 import { organizationReview } from "../services/ReviewService";
 
@@ -20,10 +21,10 @@ const GROUPS: { id: ReviewGroup; title: string }[] = [
 ];
 
 /**
- * REVIEW: what is left to look at across the four Foundation Systems,
- * in three groups (ReviewItems.ts) -- each item one sentence and a
- * "Go there" that opens the place to answer it. With nothing left:
- * "Your Foundation is ready", and the way to the documents. Escape
+ * REVIEW: what is left to look at across the whole app for the open
+ * Organization, in three groups (ReviewItems.ts), each by Capability
+ * -- each item one sentence and a "Go there" that opens the place to
+ * answer it. With nothing left, a plain "Nothing is open." Escape
  * goes back.
  */
 export default function Review() {
@@ -91,19 +92,8 @@ export default function Review() {
 
                 <h1 className="workspace-title review-title">Review</h1>
 
-                {/* Nothing left to answer: ready, whatever the
-                    financial pages still signal (listed under it). */}
-                {foundationReady(items) && (
-                    <div className="review-ready">
-                        <p className="review-ready-text">Your Foundation is ready. Create your documents.</p>
-                        <button
-                            type="button"
-                            className="workspace-documents-button"
-                            onClick={() => navigate("/documents")}
-                        >
-                            Business Documents
-                        </button>
-                    </div>
+                {nothingOpen(items) && byGroup("second-look").length === 0 && (
+                    <p className="review-empty">Nothing is open.</p>
                 )}
 
                 {GROUPS.filter(group => byGroup(group.id).length > 0).map(group => (
@@ -112,22 +102,29 @@ export default function Review() {
                                 {group.title}
                                 <span className="review-group-count">{byGroup(group.id).length}</span>
                             </h2>
-                            <ul className="review-list">
-                                {byGroup(group.id).map((item, index) => (
-                                    <li className="review-item" key={group.id + index}>
-                                        <span className="review-item-text">{item.text}</span>
-                                        {item.place && (
-                                            <button
-                                                type="button"
-                                                className="review-go"
-                                                onClick={() => goThere(item.place!)}
-                                            >
-                                                Go there
-                                            </button>
-                                        )}
-                                    </li>
+                            {capabilities
+                                .filter(capability => byGroup(group.id).some(item => (item.capability ?? "foundation") === capability.id))
+                                .map(capability => (
+                                    <div className="review-capability" key={capability.id}>
+                                        <h3 className="review-capability-title">{capability.title}</h3>
+                                    <ul className="review-list">
+                                        {byGroup(group.id).filter(item => (item.capability ?? "foundation") === capability.id).map((item, index) => (
+                                            <li className="review-item" key={group.id + index}>
+                                                <span className="review-item-text">{item.text}</span>
+                                                {item.place && (
+                                                    <button
+                                                        type="button"
+                                                        className="review-go"
+                                                        onClick={() => goThere(item.place!)}
+                                                    >
+                                                        Go there
+                                                    </button>
+                                                )}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    </div>
                                 ))}
-                            </ul>
                         </section>
                     ))}
 

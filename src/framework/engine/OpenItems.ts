@@ -40,6 +40,7 @@ import { fieldKey, sectionSegment } from "./FieldKeys.ts";
 import { InterviewValidator } from "./InterviewValidator.ts";
 import { monthOrdinal } from "./FinancialModel.ts";
 import { parseAmount } from "./Amounts.ts";
+import { pageStatus } from "./PageStatus.ts";
 
 /*
     STILL OPEN: what is missing, by the CARD (or, where a page has no
@@ -326,9 +327,10 @@ export function openItemsOf(
             }
 
             default:
-                // Any other page: answered or not, as the validator judges it.
+                // Any other page (a System's own editors): answered or
+                // not, as the validator judges it.
                 if (!validator.isPageComplete(session, section, resolveSharedValue)) {
-                    add("not answered yet.");
+                    add(pageStatus(session, section, resolveSharedValue) === "not-started" ? "not answered yet." : "not finished.");
                 }
 
         }
