@@ -7387,6 +7387,17 @@ td.process-library-col-number{
    the last card.
 ========================================================== */
 
+/* The Brand Style cards, open or folded, on the grey card ground and
+   border the Legal Entity's boxes use (--bg-panel, --box-border) in
+   every theme; a folded colour card's own tint is set on it inline. */
+.brand-style-columns .business-foundation-card.brand-style-card{
+
+    background:var(--bg-panel);
+
+    border-color:var(--box-border);
+
+}
+
 .brand-style-columns > .brand-style-cards{
 
     gap:var(--space-card);

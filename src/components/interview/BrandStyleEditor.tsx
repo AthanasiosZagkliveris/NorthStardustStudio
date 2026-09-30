@@ -657,18 +657,19 @@ export default function BrandStyleEditor({
 
                                 </div>
 
+                                {/* Under the colour it is about, in its column. */}
+                                {swatch && (
+                                    <span className="brand-style-contrast">
+                                        <InfoText text={contrastNote(swatch)}>
+                                            <InfoNote label="Contrast ratio" points={CONTRAST_HELP} />
+                                        </InfoText>
+                                    </span>
+                                )}
+
                             </BusinessField>
 
                             </div>
                             </div>
-
-                            {swatch && (
-                                <span className="brand-style-contrast">
-                                    <InfoText text={contrastNote(swatch)}>
-                                        <InfoNote label="Contrast ratio" points={CONTRAST_HELP} />
-                                    </InfoText>
-                                </span>
-                            )}
 
                             <OptionalField
                                 label="Usage"

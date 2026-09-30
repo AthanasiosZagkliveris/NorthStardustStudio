@@ -48,7 +48,8 @@ export function useCardInk(): CardInk | null {
         }
         const style = getComputedStyle(document.documentElement);
         const token = (name: string) => readColour(style.getPropertyValue(name));
-        const ground = token("--bg-surface");
+        // The Brand Style cards' own ground (conversation.css: --bg-panel).
+        const ground = token("--bg-panel");
         const texts = ["--text-default", "--text-muted", "--text-subtle"].map(token).filter((colour): colour is Rgb => colour !== null);
         return ground && texts.length > 0 ? { ground, texts } : null;
     };
