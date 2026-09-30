@@ -1,7 +1,9 @@
-import { useId, useSyncExternalStore } from "react";
+import { KeyboardEvent, useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 
 import { ThemeService, ThemeChoice } from "../services/ThemeService";
+import { consumeKey } from "./interview/consumeKey";
 
+import "../styles/option-picker.css";
 import "../styles/theme-switch.css";
 
 const OPTIONS: readonly { value: ThemeChoice; label: string; title: string }[] = [
@@ -15,7 +17,7 @@ const OPTIONS: readonly { value: ThemeChoice; label: string; title: string }[] =
 function ThemeIcon({ value }: { value: ThemeChoice }) {
 
     return (
-        <svg className="theme-switch-icon" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+        <svg className="header-tool-icon theme-switch-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
             {value === "light" && (
                 <>
                     <circle cx="8" cy="8" r="3" fill="currentColor" />
@@ -51,43 +53,167 @@ function ThemeIcon({ value }: { value: ThemeChoice }) {
 }
 
 /**
- * The Light / Sepia / Dark / Auto switch in the app header. Four
- * radio buttons in one group, so the arrow keys move between them
- * and a screen reader announces the choice; Auto follows the
- * system's light or dark setting (ThemeService). In a narrow window
- * only the icons show, each still named by its label.
+ * THE READING MODE, in the app header: one compact picker. The button
+ * shows the current mode's icon and name (the icon alone in a narrow
+ * header, the name kept in its accessible name) and opens a short list
+ * of the four, the current one marked (aria-selected, and bold). Built
+ * like the app's option picker (OptionPicker.tsx), and drawn with its
+ * list: Enter, Space or an arrow opens it on the current mode; Up,
+ * Down, Home and End move; Enter or Space takes one; Escape or Tab
+ * closes without changing anything; a click elsewhere closes it too.
+ * Auto follows the system's light or dark setting (ThemeService).
  */
 export default function ThemeSwitch() {
 
-    const name = useId();
+    const listId = useId();
 
     const choice = useSyncExternalStore(ThemeService.subscribe, ThemeService.getChoice, ThemeService.getChoice);
+    const current = OPTIONS.find(option => option.value === choice) ?? OPTIONS[OPTIONS.length - 1];
+
+    const [open, setOpen] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(0);
+
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const triggerRef = useRef<HTMLButtonElement | null>(null);
+    const listRef = useRef<HTMLDivElement | null>(null);
+
+    // A click anywhere else closes it without choosing.
+    useEffect(() => {
+        if (!open) {
+            return;
+        }
+        function onPointerDown(event: MouseEvent) {
+            if (!containerRef.current?.contains(event.target as Node)) {
+                setOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", onPointerDown);
+        return () => document.removeEventListener("mousedown", onPointerDown);
+    }, [open]);
+
+    // The list takes the keyboard as it opens.
+    useEffect(() => {
+        if (open) {
+            listRef.current?.focus({ preventScroll: true });
+        }
+    }, [open]);
+
+    function start() {
+        setActiveIndex(Math.max(0, OPTIONS.indexOf(current)));
+        setOpen(true);
+    }
+
+    function close() {
+        setOpen(false);
+        triggerRef.current?.focus();
+    }
+
+    function choose(value: ThemeChoice) {
+        ThemeService.setChoice(value);
+        close();
+    }
+
+    function onTriggerKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
+        if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+            event.preventDefault();
+            start();
+        }
+    }
+
+    function onListKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+        const last = OPTIONS.length - 1;
+        switch (event.key) {
+            case "ArrowDown":
+                event.preventDefault();
+                setActiveIndex(index => Math.min(index + 1, last));
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                setActiveIndex(index => Math.max(index - 1, 0));
+                break;
+            case "Home":
+                event.preventDefault();
+                setActiveIndex(0);
+                break;
+            case "End":
+                event.preventDefault();
+                setActiveIndex(last);
+                break;
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                choose(OPTIONS[activeIndex].value);
+                break;
+            // Consumed, so it closes the list and nothing else (see consumeKey).
+            case "Escape":
+                consumeKey(event);
+                close();
+                break;
+            case "Tab":
+                event.preventDefault();
+                close();
+                break;
+            default:
+                break;
+        }
+    }
 
     return (
-        <fieldset className="theme-switch">
+        <div className="theme-switch" ref={containerRef}>
 
-            <legend className="theme-switch-legend">Theme</legend>
+            <button
+                ref={triggerRef}
+                type="button"
+                className="header-tool theme-switch-trigger"
+                aria-label={"Reading mode: " + current.label}
+                title={current.title}
+                aria-haspopup="listbox"
+                aria-expanded={open}
+                aria-controls={open ? listId : undefined}
+                onClick={() => open ? close() : start()}
+                onKeyDown={onTriggerKeyDown}
+            >
+                <ThemeIcon value={current.value} />
+                <span className="header-tool-word">{current.label}</span>
+                <svg className="theme-switch-chevron" viewBox="0 0 12 8" aria-hidden="true" focusable="false">
+                    <path d="M1 1.5 6 6.5 11 1.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+            </button>
 
-            {OPTIONS.map(option => (
-                <label
-                    key={option.value}
-                    className={"theme-switch-option" + (choice === option.value ? " theme-switch-option-checked" : "")}
-                    title={option.title}
+            {open && (
+                <div
+                    ref={listRef}
+                    id={listId}
+                    className="option-picker-list theme-switch-list"
+                    role="listbox"
+                    aria-label="Reading mode"
+                    tabIndex={-1}
+                    aria-activedescendant={listId + "-" + OPTIONS[activeIndex].value}
+                    onKeyDown={onListKeyDown}
                 >
-                    <input
-                        type="radio"
-                        className="theme-switch-input"
-                        name={name}
-                        value={option.value}
-                        checked={choice === option.value}
-                        onChange={() => ThemeService.setChoice(option.value)}
-                    />
-                    <ThemeIcon value={option.value} />
-                    <span className="theme-switch-text">{option.label}</span>
-                </label>
-            ))}
+                    {OPTIONS.map((option, index) => (
+                        <div
+                            key={option.value}
+                            id={listId + "-" + option.value}
+                            className={
+                                "option-picker-option theme-switch-option" +
+                                (option.value === current.value ? " option-picker-option-chosen" : "") +
+                                (index === activeIndex ? " option-picker-option-active" : "")
+                            }
+                            role="option"
+                            aria-selected={option.value === current.value}
+                            title={option.title}
+                            onMouseEnter={() => setActiveIndex(index)}
+                            onClick={() => choose(option.value)}
+                        >
+                            <ThemeIcon value={option.value} />
+                            <span>{option.label}</span>
+                        </div>
+                    ))}
+                </div>
+            )}
 
-        </fieldset>
+        </div>
     );
 
 }

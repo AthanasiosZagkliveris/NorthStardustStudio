@@ -31,6 +31,18 @@ function mockSystem(prefersDark: boolean) {
 
 const theme = () => document.documentElement.getAttribute("data-theme");
 
+/** The picker's button, named for the mode it shows. */
+const trigger = () => screen.getByRole("button", { name: /^Reading mode/ });
+
+/** Chooses a mode the way a pointer does: open the list, click the mode. */
+function pick(label: string) {
+    fireEvent.click(trigger());
+    fireEvent.click(screen.getByRole("option", { name: label }));
+}
+
+/** The mode the picker says is current. */
+const shown = () => trigger().getAttribute("aria-label");
+
 let stop: () => void = () => {};
 
 beforeEach(() => {
@@ -48,16 +60,24 @@ afterEach(() => {
 
 describe("ThemeSwitch", () => {
 
-    it("offers Light, Sepia, Dark and Auto as one group, Auto by default", () => {
+    it("offers Light, Sepia, Dark and Auto in one picker, Auto by default", () => {
 
         mockSystem(false);
         stop = ThemeService.start();
 
         render(<ThemeSwitch />);
 
-        expect(screen.getByRole("group", { name: "Theme" })).toBeTruthy();
-        expect(screen.getAllByRole("radio").map(radio => (radio as HTMLInputElement).value)).toEqual(["light", "sepia", "dark", "auto"]);
-        expect((screen.getByRole("radio", { name: "Auto" }) as HTMLInputElement).checked).toBe(true);
+        expect(shown()).toBe("Reading mode: Auto");
+        expect(trigger().getAttribute("aria-haspopup")).toBe("listbox");
+        expect(trigger().getAttribute("aria-expanded")).toBe("false");
+
+        fireEvent.click(trigger());
+        const list = screen.getByRole("listbox", { name: "Reading mode" });
+        expect(list).toBeTruthy();
+        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Light", "Sepia", "Dark", "Auto"]);
+        expect(screen.getByRole("option", { name: "Auto" }).getAttribute("aria-selected")).toBe("true");
+        expect(screen.getByRole("option", { name: "Light" }).getAttribute("aria-selected")).toBe("false");
+        expect(shown()).toBe("Reading mode: Auto");
         expect(theme()).toBe("light");
 
     });
@@ -69,22 +89,22 @@ describe("ThemeSwitch", () => {
 
         render(<ThemeSwitch />);
 
-        fireEvent.click(screen.getByRole("radio", { name: "Light" }));
+        pick("Light");
         expect(theme()).toBe("light");
         expect(localStorage.getItem(THEME_KEY)).toBe("light");
-        expect((screen.getByRole("radio", { name: "Light" }) as HTMLInputElement).checked).toBe(true);
+        expect(shown()).toBe("Reading mode: Light");
 
-        fireEvent.click(screen.getByRole("radio", { name: "Sepia" }));
+        pick("Sepia");
         expect(theme()).toBe("sepia");
         expect(localStorage.getItem(THEME_KEY)).toBe("sepia");
-        expect((screen.getByRole("radio", { name: "Sepia" }) as HTMLInputElement).checked).toBe(true);
+        expect(shown()).toBe("Reading mode: Sepia");
 
-        fireEvent.click(screen.getByRole("radio", { name: "Dark" }));
+        pick("Dark");
         expect(theme()).toBe("dark");
         expect(localStorage.getItem(THEME_KEY)).toBe("dark");
 
         // Auto: the system's setting, dark here.
-        fireEvent.click(screen.getByRole("radio", { name: "Auto" }));
+        pick("Auto");
         expect(theme()).toBe("dark");
         expect(localStorage.getItem(THEME_KEY)).toBe("auto");
 
@@ -99,7 +119,7 @@ describe("ThemeSwitch", () => {
         render(<ThemeSwitch />);
 
         expect(theme()).toBe("dark");
-        expect((screen.getByRole("radio", { name: "Dark" }) as HTMLInputElement).checked).toBe(true);
+        expect(shown()).toBe("Reading mode: Dark");
 
     });
 
@@ -112,7 +132,7 @@ describe("ThemeSwitch", () => {
         render(<ThemeSwitch />);
 
         expect(theme()).toBe("sepia");
-        expect((screen.getByRole("radio", { name: "Sepia" }) as HTMLInputElement).checked).toBe(true);
+        expect(shown()).toBe("Reading mode: Sepia");
 
     });
 
@@ -123,7 +143,7 @@ describe("ThemeSwitch", () => {
         stop = ThemeService.start();
 
         render(<ThemeSwitch />);
-        fireEvent.click(screen.getByRole("radio", { name: "Auto" }));
+        pick("Auto");
         expect(theme()).toBe("light");
 
         act(() => system.set(true));
@@ -142,7 +162,7 @@ describe("ThemeSwitch", () => {
         stop = ThemeService.start();
 
         render(<ThemeSwitch />);
-        fireEvent.click(screen.getByRole("radio", { name: "Sepia" }));
+        pick("Sepia");
 
         act(() => system.set(true));
         expect(theme()).toBe("sepia");
@@ -162,7 +182,7 @@ describe("ThemeSwitch", () => {
 
         act(() => system.set(false));
         expect(theme()).toBe("light");
-        expect((screen.getByRole("radio", { name: "Auto" }) as HTMLInputElement).checked).toBe(true);
+        expect(shown()).toBe("Reading mode: Auto");
 
     });
 
@@ -172,10 +192,70 @@ describe("ThemeSwitch", () => {
         stop = ThemeService.start();
 
         render(<ThemeSwitch />);
-        fireEvent.click(screen.getByRole("radio", { name: "Light" }));
+        pick("Light");
 
         act(() => system.set(true));
         expect(theme()).toBe("light");
+
+    });
+
+    it("works from the keyboard: arrows open on the current mode and move, Enter takes, Escape closes", () => {
+
+        mockSystem(false);
+        stop = ThemeService.start();
+
+        render(<ThemeSwitch />);
+
+        // Down opens the list on the current mode (Auto, the last).
+        fireEvent.keyDown(trigger(), { key: "ArrowDown" });
+        const list = screen.getByRole("listbox", { name: "Reading mode" });
+        expect(document.activeElement).toBe(list);
+        const active = () => document.getElementById(list.getAttribute("aria-activedescendant") ?? "")?.textContent;
+        expect(active()).toBe("Auto");
+
+        fireEvent.keyDown(list, { key: "Home" });
+        expect(active()).toBe("Light");
+        fireEvent.keyDown(list, { key: "ArrowDown" });
+        expect(active()).toBe("Sepia");
+        fireEvent.keyDown(list, { key: "Enter" });
+        expect(theme()).toBe("sepia");
+        expect(screen.queryByRole("listbox")).toBeNull();
+        expect(document.activeElement).toBe(trigger());
+
+        // Escape closes without changing anything, and stops there.
+        const onWindow = vi.fn((event: KeyboardEvent) => event.key);
+        const escapes = () => onWindow.mock.results.filter(result => result.value === "Escape").length;
+        window.addEventListener("keydown", onWindow);
+        fireEvent.keyDown(trigger(), { key: "ArrowUp" });
+        fireEvent.keyDown(screen.getByRole("listbox"), { key: "End" });
+        fireEvent.keyDown(screen.getByRole("listbox"), { key: "Escape" });
+        window.removeEventListener("keydown", onWindow);
+        expect(escapes()).toBe(0);
+        expect(screen.queryByRole("listbox")).toBeNull();
+        expect(theme()).toBe("sepia");
+
+        // Space takes a mode too.
+        fireEvent.keyDown(trigger(), { key: "ArrowDown" });
+        fireEvent.keyDown(screen.getByRole("listbox"), { key: "ArrowDown" });
+        fireEvent.keyDown(screen.getByRole("listbox"), { key: " " });
+        expect(theme()).toBe("dark");
+
+        // Back to Auto, so the choice does not leak into other tests.
+        pick("Auto");
+
+    });
+
+    it("closes on a click elsewhere, choosing nothing", () => {
+
+        mockSystem(false);
+        stop = ThemeService.start();
+
+        render(<ThemeSwitch />);
+        fireEvent.click(trigger());
+        expect(trigger().getAttribute("aria-expanded")).toBe("true");
+        fireEvent.mouseDown(document.body);
+        expect(screen.queryByRole("listbox")).toBeNull();
+        expect(shown()).toBe("Reading mode: Auto");
 
     });
 
@@ -191,14 +271,14 @@ describe("ThemeSwitch", () => {
         render(<ThemeSwitch />);
 
         expect(theme()).toBe("dark");
-        expect((screen.getByRole("radio", { name: "Auto" }) as HTMLInputElement).checked).toBe(true);
+        expect(shown()).toBe("Reading mode: Auto");
 
-        fireEvent.click(screen.getByRole("radio", { name: "Light" }));
+        pick("Light");
         expect(theme()).toBe("light");
-        expect((screen.getByRole("radio", { name: "Light" }) as HTMLInputElement).checked).toBe(true);
+        expect(shown()).toBe("Reading mode: Light");
 
         // Back to Auto, so the session's choice does not leak into other tests.
-        fireEvent.click(screen.getByRole("radio", { name: "Auto" }));
+        pick("Auto");
 
     });
 

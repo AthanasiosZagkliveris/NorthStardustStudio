@@ -66,10 +66,11 @@
 
 /* The active Organization's name, on the opposite side of
    the header from the logo (item: "on the Header, on the
-   right side, the other side of the logo"). The theme switch
-   before it (theme-switch.css) pushes both to the far right;
-   the name keeps 24px from it, and in a window too narrow for
-   the logo, the switch and the whole name, the name ends in
+   right side, the other side of the logo"). The reading mode
+   picker before it (theme-switch.css) pushes the tools and the
+   name to the far right;
+   the name keeps 24px from the tool before it, and in a window too narrow for
+   the logo, the tools and the whole name, the name ends in
    "..." rather than running out of the header. */
 .app-header-organization-name {
 
@@ -138,7 +139,7 @@
 
 }
 
-/* The same narrow window in which the theme switch drops its words
+/* The same narrow window in which the header's tools drop their words
    (theme-switch.css): the glyph alone, the words kept for assistive
    technology. */
 @media (max-width: 1099px) {
