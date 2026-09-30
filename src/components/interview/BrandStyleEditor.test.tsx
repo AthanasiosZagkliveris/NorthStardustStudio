@@ -111,6 +111,12 @@ describe("BrandStyleEditor cards", () => {
 
 describe("BrandStyleEditor Text Hierarchy", () => {
 
+    it("explains every level in one \"i\" on the section's first guidance line, none in the box", () => {
+        const { container } = render(<Harness />);
+        expect(container.querySelector(".brand-hierarchy-card .info-note")).toBeNull();
+        expect(screen.getByRole("button", { name: /Text levels and their sizes/ })).toBeTruthy();
+    });
+
     function h1() {
         return screen.getByLabelText(/^H1 \(Title\) size in pixels/) as HTMLInputElement;
     }

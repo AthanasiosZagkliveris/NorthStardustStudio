@@ -180,6 +180,24 @@ const HIERARCHY_RELATIONSHIP: InfoPoint[] = [
     "Use size and weight to distinguish levels, keep similar content at the same level, and avoid creating unnecessary text levels."
 ];
 
+/** What each text level is for (the Text Hierarchy's one "i"). */
+const LEVEL_PURPOSES: Record<string, string> = {
+    h1: "the title of a page or document.",
+    h2: "the headings of its sections.",
+    h3: "the headings within a section.",
+    body: "paragraphs and anything read at length.",
+    caption: "captions, dates and labels, and the text of an interface."
+};
+
+/**
+ * Every level in one list: its recommended range -- the same range its
+ * px box keeps to -- and what it is for.
+ */
+const HIERARCHY_LEVEL_HELP: InfoPoint[] = BRAND_HIERARCHY_LEVELS.map(level => ({
+    title: level.label + ", " + level.range + " px",
+    text: LEVEL_PURPOSES[level.id] ?? ""
+}));
+
 const TYPEFACE_PAIRINGS: InfoPoint[] = [
     { title: "Serif + Sans-serif", text: "Georgia + Inter creates classic headings with clean, modern body text." },
     { title: "Display + Sans-serif", text: "Abril Fatface + Inter creates expressive headings with clear supporting text." },
@@ -556,7 +574,11 @@ export default function BrandStyleEditor({
             <div className="brand-style-head">
                 {heading(2)}
                 {bullets([
-                    "Use larger sizes for more important headings, and smaller sizes for longer text to keep it comfortable to read.",
+                    <>
+                        <InfoText text="Use larger sizes for more important headings, and smaller sizes for longer text to keep it comfortable to read.">
+                            <InfoNote label="Text levels and their sizes" points={HIERARCHY_LEVEL_HELP} fullList />
+                        </InfoText>
+                    </>,
                     <>
                         <InfoText text="Maintain a clear and consistent relationship between text levels.">
                             <InfoNote label="Text levels" points={HIERARCHY_RELATIONSHIP} />
@@ -813,7 +835,9 @@ export default function BrandStyleEditor({
                                         entry.enabled,
                                         blocked,
                                         (next) => toggleLevel(level.id, next),
-                                        "Recommended range: " + level.range + " px.",
+                                        // What each level is for, and its range, is in the
+                                        // one "i" of the section's first guidance line.
+                                        undefined,
                                         entry.enabled ? previewSize(entry.size, level.range) : undefined
                                     )}
 
