@@ -145,6 +145,10 @@ describe("the examples, on the new categories", () => {
         // Each category and each channel picker has its "i"; the two rows share one shape.
         expect(screen.getAllByRole("button", { name: "Channel Category: what this means" })).toHaveLength(2);
         expect(screen.getAllByRole("button", { name: "Channel: what this means" })).toHaveLength(2);
+        // Both open as the wide note (1.5 times the standard width).
+        fireEvent.click(screen.getAllByRole("button", { name: "Channel Category: what this means" })[0]);
+        expect(document.querySelector(".info-note-panel")?.classList.contains("info-note-panel-wide")).toBe(true);
+        fireEvent.keyDown(document.querySelector(".info-note-panel")!, { key: "Escape" });
         const name = document.querySelector(".business-channel-name")!;
         expect(name.querySelector(".business-channel-nest")).toBeTruthy();
         expect(document.querySelector(".business-channel-cell-nested")).toBeTruthy();

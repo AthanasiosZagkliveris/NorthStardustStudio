@@ -74,6 +74,15 @@ interface InfoNoteProps {
     fullList?: boolean;
 
     /**
+     * The note's width: the one standard width, or "wide" (1.5 times
+     * it, still held inside the window) for a note that lists many
+     * named things, each with a line of explanation -- the Customer
+     * Channel categories and their channels -- which the standard
+     * width made long and narrow.
+     */
+    size?: "standard" | "wide";
+
+    /**
      * Draws the note as a REFERENCE rather than as an explanation.
      *
      * For the one kind of note whose content is not a sentence
@@ -160,7 +169,7 @@ export function InfoText({ text, children }: { text: string; children?: ReactNod
  * would be a note nobody reads.
  */
 export default function InfoNote({
-    label, points, fullList, asReference
+    label, points, fullList, asReference, size = "standard"
 }: InfoNoteProps) {
 
     const [open, setOpen] = useState(false);
@@ -230,7 +239,7 @@ export default function InfoNote({
 
             {open && (
                 <div
-                    className="info-note-panel"
+                    className={"info-note-panel" + (size === "wide" ? " info-note-panel-wide" : "")}
                     ref={panelRef}
                     style={panelStyle}
                     role="dialog"

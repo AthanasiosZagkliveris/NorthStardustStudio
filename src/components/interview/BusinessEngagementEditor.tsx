@@ -1385,6 +1385,7 @@ export default function BusinessEngagementEditor({
                                                 label="Channel Category"
                                                 points={channelCategoryHelp(group.label)}
                                                 fullList
+                                                size="wide"
                                             />
 
                                             <BusinessRemove
@@ -1557,6 +1558,7 @@ export default function BusinessEngagementEditor({
                                                             label="Channel"
                                                             points={channelOptionHelp(channel.category, channel.name)}
                                                             fullList
+                                                            size="wide"
                                                         />
                                                     )}
 

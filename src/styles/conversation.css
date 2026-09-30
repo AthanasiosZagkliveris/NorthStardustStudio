@@ -9163,6 +9163,15 @@ td.process-library-col-number{
 
 }
 
+/* The wide note (InfoNote size="wide"): 1.5 times the one width, for
+   the Customer Channel categories and channels -- still inside the
+   window. */
+.info-note-panel.info-note-panel-wide{
+
+    width:540px;
+
+}
+
 .info-note-panel:focus-visible{
 
     outline:none;
