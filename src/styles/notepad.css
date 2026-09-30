@@ -568,3 +568,53 @@ html.notepad-picking [data-pick-hover] {
     box-shadow: inset 0 0 12px var(--glow-noted);
 
 }
+
+/* ---------- A field's notes, on hover (NotedHover.tsx) ---------- */
+
+/* The app's one tooltip, holding notes: each to four lines, the rest
+   counted. */
+.noted-tooltip {
+
+    max-width: min(360px, calc(100vw - 16px));
+    padding: 6px 10px;
+
+}
+
+.noted-tooltip-note {
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+
+    margin: 0;
+
+    overflow: hidden;
+
+    white-space: pre-line;
+
+}
+
+.noted-tooltip-note + .noted-tooltip-note,
+.noted-tooltip-more {
+
+    margin: 6px 0 0;
+
+}
+
+.noted-tooltip-more {
+
+    font-size: var(--font-small);
+
+}
+
+/* In the Notepad, the notes (and their links) of the field pointed
+   at on the page: the same orange stroke and glow as the field. */
+.notepad-note.is-noted-hot,
+.notepad-chip.is-noted-hot {
+
+    outline: 4px solid var(--line-noted);
+    outline-offset: 0;
+
+    box-shadow: 0 0 12px var(--glow-noted);
+
+}

@@ -180,6 +180,51 @@ describe("the notepad on the page", () => {
         expect(box.classList.contains("is-noted")).toBe(false);
     });
 
+    it("shows a noted field's notes on hover and focus, and marks them and the field each way while the Notepad is open", () => {
+        const organization = OrganizationService.create("Lumen");
+        OrganizationService.setSelected(organization.id);
+        const key = "3.1:customer-segment-and-profile/seg-1/market-size-and-industry-outlook";
+        const link = { ...place(organization.id), key };
+        for (const text of ["Check the census", "Ask the council", "Compare with Lyon"]) {
+            const note = NotepadService.addNote(organization.id);
+            NotepadService.setText(note, text);
+            NotepadService.addLink(note, link);
+        }
+        page(organization.id);
+        const box = screen.getByLabelText("Market size");
+        expect(box.classList.contains("is-noted")).toBe(true);
+
+        // Hovered: its notes, newest first, two and a count.
+        act(() => { fireEvent.pointerOver(box); });
+        const tip = screen.getByRole("tooltip");
+        expect([...tip.querySelectorAll(".noted-tooltip-note")].map(note => note.textContent)).toEqual(["Compare with Lyon", "Ask the council"]);
+        expect(tip.textContent).toContain("+1 more");
+        expect(box.getAttribute("aria-describedby")).toBe(tip.id);
+        act(() => { fireEvent.pointerOut(box, { relatedTarget: document.body }); });
+        expect(screen.queryByRole("tooltip")).toBeNull();
+
+        // Focused, too; Escape puts it away.
+        act(() => { fireEvent.focusIn(box); });
+        expect(screen.getByRole("tooltip")).toBeTruthy();
+        act(() => { fireEvent.keyDown(box, { key: "Escape" }); });
+        expect(screen.queryByRole("tooltip")).toBeNull();
+
+        // With the Notepad open: the field pointed at marks its notes and links there ...
+        act(() => { NotepadService.open(); });
+        act(() => { fireEvent.pointerOver(box); });
+        expect(document.querySelectorAll(".notepad-note.is-noted-hot")).toHaveLength(3);
+        expect(document.querySelectorAll(".notepad-chip.is-noted-hot")).toHaveLength(3);
+        act(() => { fireEvent.pointerOut(box, { relatedTarget: document.body }); });
+        expect(document.querySelectorAll(".notepad-panel .is-noted-hot")).toHaveLength(0);
+
+        // ... and a note pointed at marks the field.
+        const note = document.querySelector<HTMLElement>(".notepad-note[data-note-id]")!;
+        act(() => { fireEvent.mouseEnter(note); });
+        expect(box.classList.contains("is-noted-hot")).toBe(true);
+        act(() => { fireEvent.mouseLeave(note); });
+        expect(box.classList.contains("is-noted-hot")).toBe(false);
+    });
+
     it("makes a link of what a picked element holds", () => {
         const holder = document.createElement("div");
         holder.dataset.fieldKey = "1.3:organization/legal-form";

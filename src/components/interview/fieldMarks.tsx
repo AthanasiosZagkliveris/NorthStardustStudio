@@ -16,6 +16,7 @@ import { fieldKindOf } from "../../framework/engine/FieldKinds";
 import FieldStatusLine from "./FieldStatusLine.tsx";
 import { NotepadService } from "../../services/NotepadService";
 import { useRemovalMarks } from "./removalMarks";
+import { NotedHover } from "../notepad/NotedHover";
 
 /*
     EVERY FIELD KNOWS ITS KEY: the shared pieces a label carries.
@@ -107,6 +108,8 @@ export function FieldPageProvider({
     return (
         <FieldPageContext.Provider value={value}>
             <div className="field-page" ref={page}>{children}</div>
+            {/* A noted field's notes, on hover and focus (NotedHover.tsx). */}
+            {value && <NotedHover root={page} organizationId={value.organizationId} />}
         </FieldPageContext.Provider>
     );
 

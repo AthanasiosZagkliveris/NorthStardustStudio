@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { NotepadService, type Note, type NoteLink } from "../../services/NotepadService";
 import { UndoService } from "../../services/UndoService";
+import { markFieldsHot } from "./NotedHover";
 import { OrganizationService } from "../../services/OrganizationService";
 import { parseFieldKey, registeredFields } from "../../framework/engine/FieldKeys";
 import { consumeKey } from "../interview/consumeKey";
@@ -192,12 +193,32 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
     }
 
     const picking = NotepadService.view().pickingFor === note.id;
+    // Gone while pointed at: nothing stays marked on the page.
+    useEffect(() => () => markFieldsHot([]), []);
+
+    // The fields and cards it links to in the open Organization.
+    const linkedKeys = note.links
+        .filter(link => link.organizationId === current && link.key)
+        .map(link => link.key as string);
     // Fields can be picked only in the note's own Organization, while it is open.
     const canPick = !!organizationId && organizationId === current;
     const organizationName = (id: string) => OrganizationService.getSummary(id)?.name ?? "another organization";
 
     return (
-        <div className={"notepad-note" + (focused ? " notepad-note-focus" : "")} ref={card}>
+        <div
+            className={"notepad-note" + (focused ? " notepad-note-focus" : "")}
+            ref={card}
+            data-note-id={note.id}
+            // Pointed at, the fields and cards it links to are marked on the page (NotedHover.tsx).
+            onMouseEnter={() => markFieldsHot(linkedKeys)}
+            onMouseLeave={() => markFieldsHot([])}
+            onFocus={() => markFieldsHot(linkedKeys)}
+            onBlur={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                    markFieldsHot([]);
+                }
+            }}
+        >
 
             <NoteText note={note} onKey={onKey} textRef={(element) => { box.current = element; }} />
 
@@ -223,7 +244,15 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
             {note.links.length > 0 && (
                 <ul className="notepad-chips" aria-label="Linked places">
                     {note.links.map(link => (
-                        <li key={link.id} className={"notepad-chip" + (available[link.id] === false ? " notepad-chip-gone" : "")}>
+                        <li
+                            key={link.id}
+                            className={"notepad-chip" + (available[link.id] === false ? " notepad-chip-gone" : "")}
+                            data-link-key={link.key}
+                            data-link-organization={link.organizationId}
+                            // A link alone marks only its own field.
+                            onMouseEnter={() => markFieldsHot(link.key && link.organizationId === current ? [link.key] : [])}
+                            onMouseLeave={() => markFieldsHot(linkedKeys)}
+                        >
                             <button
                                 type="button"
                                 className="notepad-chip-open"
