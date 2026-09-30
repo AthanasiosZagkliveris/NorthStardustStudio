@@ -1,5 +1,6 @@
 import { CSSProperties, DragEvent, ReactNode, useRef, useState } from "react";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
+import AssetPreviewImage from "./AssetPreviewImage.tsx";
 import { ColumnHeading, GuidanceBullets } from "./ColumnHeads.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 
@@ -657,7 +658,7 @@ function DropZone({
                     >
 
                         {asset
-                            ? <img src={asset.dataUrl} alt="" />
+                            ? <AssetPreviewImage dataUrl={asset.dataUrl} />
                             : <span className="brand-asset-empty" aria-hidden="true">
                                 {dragging ? "Drop to upload" : "Drag or click"}
                               </span>}
