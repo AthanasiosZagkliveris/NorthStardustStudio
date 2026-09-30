@@ -694,15 +694,9 @@ export default function FinancialSustainabilityEditor({
                         true)}
 
                     {moneyInput("Price", what + " price", stream.price,
-                        (next) => changeStream(stream.id, { price: next }), "0", [
-                            "What the customer pays for one " + unit + ", before any delivery charge.",
-                            "Enter it on the basis chosen under Amounts on Financial Foundation."
-                        ])}
+                        (next) => changeStream(stream.id, { price: next }), "0")}
                     {listPicker("Per", what + " unit", REVENUE_UNITS, stream.unit,
-                        (next) => changeStream(stream.id, { unit: next }), "Unit", [
-                            "What one price buys: a product, a session, an hour, a client or a project.",
-                            "Expected sales are counted in the same unit, so the two multiply to the revenue."
-                        ], true)}
+                        (next) => changeStream(stream.id, { unit: next }), "Unit", undefined, true)}
 
                     {stream.unit === "Other" && textInput("Unit Name", what + " unit, named", stream.unitOther,
                         (next) => changeStream(stream.id, { unitOther: next }), undefined, undefined, true)}
@@ -860,10 +854,6 @@ export default function FinancialSustainabilityEditor({
                         planMonths={months}
                         disabled={disabled || stream.development === "detailed"}
                         onChange={(next) => changeStream(stream.id, { start: next })}
-                        info={[
-                            "The first month this Offering brings in sales.",
-                            "Before it, the plan counts no revenue from it, while its costs may already run."
-                        ]}
                         inline
                     />
 
