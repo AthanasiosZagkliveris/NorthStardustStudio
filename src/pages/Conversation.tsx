@@ -1,4 +1,4 @@
-import { Fragment, ReactNode, useCallback, useEffect, useState } from "react";
+import { Fragment, ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import AppHeader from "../components/AppHeader";
@@ -53,6 +53,7 @@ import { countryCurrency } from "../framework/engine/LegalEntityJurisdictions.ts
 import { StorageService } from "../services/StorageService";
 import { OrganizationService } from "../services/OrganizationService";
 import { PreferencesService } from "../services/PreferencesService";
+import { offerRemovalUndo, UndoService } from "../services/UndoService";
 import { systems } from "../data/systems";
 import { focusField, jumpTo, type OpenPage } from "../components/interview/jumpTo.ts";
 import { FieldPageProvider } from "../components/interview/fieldMarks.tsx";
@@ -1314,6 +1315,10 @@ export default function Conversation() {
             return;
         }
 
+        // What the page held before, so a removal can be undone.
+        const changedSection = session.getCurrentSectionNumber();
+        const before = session.getResponse(changedSection);
+
         session.saveCurrentResponse(value);
 
         if (organizationId && system) {
@@ -1364,7 +1369,27 @@ export default function Conversation() {
 
         persistAndRedraw(session);
 
+        // A card, row or text just removed can be put back, into the
+        // page as it is then: through this same path while the page is
+        // open (so whatever it keeps in step is kept), otherwise
+        // straight into its stored answer.
+        offerRemovalUndo(before, value, () => session.getResponse(changedSection), next => {
+            if (session.getCurrentSectionNumber() === changedSection) {
+                answerChangeRef.current(next);
+            } else {
+                session.saveResponse(changedSection, next);
+                persistAndRedraw(session);
+            }
+        });
+
     }, [session, organizationId, system]);
+
+    // The latest handleAnswerChange, for an undo offered by an earlier one.
+    const answerChangeRef = useRef(handleAnswerChange);
+    answerChangeRef.current = handleAnswerChange;
+
+    // Another System's interview: a removal on the last one is final.
+    useEffect(() => () => UndoService.dismiss(), [session]);
 
     // Resolves a Table column's live dropdown options from another
     // Section's response (see TableColumnDefinition.dynamicSource) --
@@ -1906,11 +1931,21 @@ export default function Conversation() {
             return;
         }
 
-        sharedSource.session.saveResponse(sharedSource.section.number, value);
+        const { session: source, section } = sharedSource;
+        const before = source.getResponse(section.number);
 
-        StorageService.saveInterview(organizationId, sharedSource.session);
+        source.saveResponse(section.number, value);
+
+        StorageService.saveInterview(organizationId, source);
 
         redraw();
+
+        // As handleAnswerChange: a removal can be undone.
+        offerRemovalUndo(before, value, () => source.getResponse(section.number), next => {
+            source.saveResponse(section.number, next);
+            StorageService.saveInterview(organizationId, source);
+            redraw();
+        });
 
     }
 

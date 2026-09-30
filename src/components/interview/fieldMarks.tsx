@@ -15,6 +15,7 @@ import { fieldKindOf } from "../../framework/engine/FieldKinds";
 
 import FieldStatusLine from "./FieldStatusLine.tsx";
 import { NotepadService } from "../../services/NotepadService";
+import { useRemovalMarks } from "./removalMarks";
 
 /*
     EVERY FIELD KNOWS ITS KEY: the shared pieces a label carries.
@@ -77,6 +78,9 @@ export function FieldPageProvider({
     [organizationId, systemNumber, sectionNumber, pageTitle]);
 
     const page = useRef<HTMLDivElement | null>(null);
+
+    // Every removal on the page can be undone (removalMarks.ts).
+    useRemovalMarks(page);
 
     // Every control and card on the page gets a key, whether or not a
     // label component marked it (markControls); and what a note in

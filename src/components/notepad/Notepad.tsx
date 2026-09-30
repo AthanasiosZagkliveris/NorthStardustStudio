@@ -2,6 +2,7 @@ import { KeyboardEvent, useEffect, useLayoutEffect, useRef, useState, useSyncExt
 import { useNavigate } from "react-router-dom";
 
 import { NotepadService, type Note, type NoteLink } from "../../services/NotepadService";
+import { UndoService } from "../../services/UndoService";
 import { OrganizationService } from "../../services/OrganizationService";
 import { parseFieldKey, registeredFields } from "../../framework/engine/FieldKeys";
 import { consumeKey } from "../interview/consumeKey";
@@ -113,7 +114,6 @@ function hashQuery(box: HTMLTextAreaElement): { query: string; start: number } |
 function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
 
     const navigate = useNavigate();
-    const [confirming, setConfirming] = useState(false);
     const [suggestions, setSuggestions] = useState<Awaited<ReturnType<Places["findPlaces"]>> | null>(null);
     const [active, setActive] = useState(0);
     const [available, setAvailable] = useState<Record<string, boolean>>({});
@@ -263,31 +263,20 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
                         </button>
                     )
                     : <span />}
-                {confirming
-                    ? (
-                        <button
-                            type="button"
-                            className="notepad-text-button notepad-delete-confirm"
-                            autoFocus
-                            onBlur={() => setConfirming(false)}
-                            onClick={() => {
-                                // TODO(C1): switch this confirmation to the undo toast.
-                                NotepadService.removeNote(note.id);
-                            }}
-                        >
-                            Delete note?
-                        </button>
-                    )
-                    : (
-                        <button
-                            type="button"
-                            className="notepad-note-remove"
-                            aria-label="Delete note"
-                            onClick={() => setConfirming(true)}
-                        >
-                            ×
-                        </button>
-                    )}
+                {/* At once, and the undo toast offers it back; an empty note just goes. */}
+                <button
+                    type="button"
+                    className="notepad-note-remove"
+                    aria-label="Delete note"
+                    onClick={() => {
+                        const removed = NotepadService.removeNote(note.id);
+                        if (removed && (removed.note.text.trim() !== "" || removed.note.links.length > 0)) {
+                            UndoService.offer("Note removed.", () => NotepadService.restoreNote(removed.note, removed.index));
+                        }
+                    }}
+                >
+                    ×
+                </button>
             </div>
 
         </div>

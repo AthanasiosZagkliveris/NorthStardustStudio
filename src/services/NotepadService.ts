@@ -194,12 +194,26 @@ export const NotepadService = {
         changeNote(noteId, note => ({ ...note, text }));
     },
 
-    removeNote(noteId: string): void {
+    /** Removes a note; what it was and where, for restoreNote (null when there was none). */
+    removeNote(noteId: string): { note: Note; index: number } | null {
         const document = read();
+        const index = document.notes.findIndex(note => note.id === noteId);
         write({ ...document, notes: document.notes.filter(note => note.id !== noteId) });
         if (view.pickingFor === noteId) {
             setView({ pickingFor: null });
         }
+        return index >= 0 ? { note: document.notes[index], index } : null;
+    },
+
+    /** Puts a removed note back where it was, with its id, text and links (once). */
+    restoreNote(note: Note, index: number): void {
+        const document = read();
+        if (document.notes.some(existing => existing.id === note.id)) {
+            return;
+        }
+        const notes = [...document.notes];
+        notes.splice(Math.min(index, notes.length), 0, note);
+        write({ ...document, notes });
     },
 
     /** Links a place to a note, once: a place already linked is not added again. */

@@ -6,6 +6,7 @@ import StrategyTextArea from "./StrategyTextArea.tsx";
 import FoldArrow from "./FoldArrow.tsx";
 import CardNumber from "./CardNumber.tsx";
 import CardNameInput from "./CardNameInput.tsx";
+import { UndoService } from "../../services/UndoService";
 
 import "../../styles/card-folding.css";
 
@@ -250,10 +251,10 @@ export function BusinessNote({
  * simply not answered. Ticked, the field appears under it and takes
  * the focus. A field that already has content loads ticked.
  *
- * Unticking a field WITH content clears it, so it asks first: an
- * inline "Remove text?" beside the tick box, which a second click
- * confirms (no dialogs). Nothing hidden is ever kept, so nothing
- * hidden can reach the documents.
+ * Unticking a field WITH content clears it at once, and the undo
+ * toast offers it back ("Assumptions removed. Undo", UndoService).
+ * Nothing hidden is ever kept, so nothing hidden can reach the
+ * documents.
  *
  * The same checkbox-and-label as the Foundation page's Business
  * Data (.business-foundation-tick). No field menu
@@ -279,7 +280,7 @@ export function OptionalField({
     info?: InfoPoint[];
     /** Whether the field holds anything: it then loads ticked. */
     filled: boolean;
-    /** Empties the field (after "Remove text?"). */
+    /** Empties the field (as it is unticked). */
     onClear: () => void;
     disabled?: boolean;
     children: ReactNode;
@@ -287,10 +288,8 @@ export function OptionalField({
 }) {
 
     const [open, setOpen] = useState(filled);
-    const [confirming, setConfirming] = useState(false);
     const [focusOnOpen, setFocusOnOpen] = useState(false);
     const body = useRef<HTMLDivElement | null>(null);
-    const tick = useRef<HTMLInputElement | null>(null);
     const shown = open || filled;
 
     useEffect(() => {
@@ -302,11 +301,10 @@ export function OptionalField({
     }, [focusOnOpen, shown]);
 
     function clear() {
-        // TODO(C1): switch this confirmation to the undo toast.
+        // Marked as a removal, so the page offers to undo it.
+        UndoService.markRemoval(label);
         onClear();
         setOpen(false);
-        setConfirming(false);
-        tick.current?.focus({ preventScroll: true });
     }
 
     return (
@@ -321,17 +319,15 @@ export function OptionalField({
                 <label className="business-foundation-tick business-foundation-tick-inline">
                     <input
                         type="checkbox"
-                        ref={tick}
                         className="brand-tick-box"
                         disabled={disabled}
                         checked={shown}
                         onChange={(event) => {
                             if (event.target.checked) {
                                 setOpen(true);
-                                setConfirming(false);
                                 setFocusOnOpen(true);
                             } else if (filled) {
-                                setConfirming(true);
+                                clear();
                             } else {
                                 setOpen(false);
                             }
@@ -343,24 +339,6 @@ export function OptionalField({
                     </span>
                 </label>
                 {info && <InfoNote label={label} points={info} fullList />}
-                {confirming && (
-                    <button
-                        type="button"
-                        className="optional-field-confirm"
-                        autoFocus
-                        onClick={clear}
-                        onBlur={() => setConfirming(false)}
-                        onKeyDown={(event) => {
-                            if (event.key === "Escape") {
-                                event.stopPropagation();
-                                setConfirming(false);
-                                tick.current?.focus({ preventScroll: true });
-                            }
-                        }}
-                    >
-                        Remove text?
-                    </button>
-                )}
             </span>
 
             {shown && <div className="optional-field-body" ref={body}>{children}</div>}

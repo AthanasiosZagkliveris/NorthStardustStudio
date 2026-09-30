@@ -3,6 +3,7 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { useState } from "react";
 
 import { OptionalNote } from "./BusinessCardFields";
+import { UndoService } from "../../services/UndoService";
 
 afterEach(cleanup);
 
@@ -46,26 +47,21 @@ describe("an optional field opened by its tick box", () => {
         act(() => { fireEvent.click(tick); });
         act(() => { fireEvent.click(tick); });
         expect(screen.queryByRole("textbox", { name: "Loan conditions" })).toBeNull();
-        expect(screen.queryByRole("button", { name: "Remove text?" })).toBeNull();
     });
 
-    it("asks before clearing text, and clears it on the second click", () => {
+    it("clears its text at once as it is unticked, marked as a removal the page can undo", () => {
         let stored = "Personal guarantee";
         render(<Harness initial={stored} onStore={(value) => { stored = value; }} />);
         const tick = screen.getByRole("checkbox", { name: "Conditions" });
 
         act(() => { fireEvent.click(tick); });
 
-        // Still ticked, still holding its text, until confirmed.
-        expect((tick as HTMLInputElement).checked).toBe(true);
-        expect(stored).toBe("Personal guarantee");
-        const confirm = screen.getByRole("button", { name: "Remove text?" });
-
-        act(() => { fireEvent.click(confirm); });
-
         expect(stored).toBe("");
         expect((tick as HTMLInputElement).checked).toBe(false);
         expect(screen.queryByRole("textbox", { name: "Loan conditions" })).toBeNull();
+        expect(screen.queryByRole("button", { name: /Remove/ })).toBeNull();
+        // The page's answer changed in the same moment: it offers the undo.
+        expect(UndoService.takeRemoval()).toBe("Conditions");
     });
 
     it("keeps nothing hidden, so the documents have nothing hidden to print", () => {
@@ -74,7 +70,6 @@ describe("an optional field opened by its tick box", () => {
         let stored = "Only if the lender asks";
         render(<Harness initial={stored} onStore={(value) => { stored = value; }} />);
         act(() => { fireEvent.click(screen.getByRole("checkbox", { name: "Conditions" })); });
-        act(() => { fireEvent.click(screen.getByRole("button", { name: "Remove text?" })); });
         expect(stored).toBe("");
         expect(document.body.textContent).not.toContain("Only if the lender asks");
     });

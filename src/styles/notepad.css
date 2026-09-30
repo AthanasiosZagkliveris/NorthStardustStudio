@@ -301,12 +301,6 @@ html:not(.notepad-docked) .notepad-panel {
 
 }
 
-.notepad-delete-confirm {
-
-    color: var(--text-danger);
-
-}
-
 /* ---------- The links, as chips ---------- */
 
 .notepad-chips {

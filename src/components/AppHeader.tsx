@@ -4,6 +4,7 @@ import SaveStatus from "./SaveStatus";
 import { NotepadButton, NotepadPanel, NotepadPicker } from "./notepad/Notepad";
 import ReviewButton from "./ReviewButton";
 import ThemeSwitch from "./ThemeSwitch";
+import UndoToast from "./UndoToast";
 
 import "../styles/app-header.css";
 
@@ -43,6 +44,9 @@ export default function AppHeader({ organizationName }: AppHeaderProps) {
             {organizationName && <ReviewButton />}
             {organizationName && <NotepadPanel />}
             {organizationName && <NotepadPicker />}
+
+            {/* Undo after a removal: one toast for the whole app. */}
+            {organizationName && <UndoToast />}
 
             {organizationName && (
                 <h1 className="app-header-organization-name" title={organizationName}>

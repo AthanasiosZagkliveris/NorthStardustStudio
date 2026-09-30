@@ -9,6 +9,7 @@ import { BusinessField } from "../interview/BusinessCardFields";
 import { FieldPageProvider } from "../interview/fieldMarks";
 import { NotepadButton, NotepadPanel, NotepadPicker, linkFor } from "./Notepad";
 import { findPlaces, linkAvailable } from "./notepadPlaces";
+import { UndoService } from "../../services/UndoService";
 
 beforeEach(() => {
     localStorage.clear();
@@ -115,6 +116,34 @@ describe("the notepad on the page", () => {
 
         act(() => { fireEvent.keyDown(window, { key: "Escape" }); });
         expect(screen.queryByRole("complementary", { name: "Notes" })).toBeNull();
+    });
+
+    it("deletes a note at once and offers it back, where it was, with its id, text and links", () => {
+        const organization = OrganizationService.create("Lumen");
+        OrganizationService.setSelected(organization.id);
+        const older = NotepadService.addNote(organization.id);
+        NotepadService.setText(older, "Ask the accountant");
+        NotepadService.addLink(older, place(organization.id));
+        const newer = NotepadService.addNote(organization.id);
+        NotepadService.setText(newer, "Check the market size");
+        NotepadService.addNote(organization.id);
+        page(organization.id);
+        act(() => { fireEvent.click(screen.getByRole("button", { name: /^Notes, 3 notes/ })); });
+
+        // An empty note just goes.
+        act(() => { fireEvent.click(screen.getAllByRole("button", { name: "Delete note" })[0]); });
+        expect(NotepadService.notes().map(note => note.id)).toEqual([newer, older]);
+        expect(UndoService.current()).toBeNull();
+
+        const kept = NotepadService.notes()[1];
+        act(() => { fireEvent.click(screen.getAllByRole("button", { name: "Delete note" })[1]); });
+        expect(screen.queryByRole("button", { name: "Delete note?" })).toBeNull();
+        expect(NotepadService.notes().map(note => note.id)).toEqual([newer]);
+        expect(UndoService.current()?.message).toBe("Note removed.");
+
+        act(() => UndoService.undo());
+        expect(NotepadService.notes()).toEqual([NotepadService.notes()[0], kept]);
+        expect(NotepadService.notes().map(note => note.id)).toEqual([newer, older]);
     });
 
     it("links a picked field without editing it, and outlines the field as in your notes", () => {
