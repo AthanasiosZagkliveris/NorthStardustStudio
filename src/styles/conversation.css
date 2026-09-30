@@ -8992,12 +8992,43 @@ td.process-library-col-number{
 
 }
 
+/* 3.6 An expense's Cost | Frequency | Responsibility, one row: three
+   columns each a standard control wide at most (narrower in a
+   narrower card), left edges shared by every card; the Description
+   and the Links under them across the card. One under the other in a
+   card under 520px (a container query on the card). */
+.legal-entity-row .legal-entity-grid-expense{
+
+    grid-template-columns:repeat(3, minmax(0, var(--control-s)));
+
+    justify-content:start;
+
+}
+
+.legal-entity-grid-expense > .legal-entity-field-wide,
+.legal-entity-grid-expense > .optional-field{
+
+    grid-column:1 / -1;
+
+}
+
+@container card (max-width: 519.98px){
+
+    .legal-entity-row .legal-entity-grid-expense{
+
+        grid-template-columns:minmax(0, var(--control-s));
+
+    }
+
+}
+
 /* The same 900px floor the grid outside a row uses -- half of a
    half is no longer a field, it is a sliver. */
 @media (max-width: 900px){
 
     .legal-entity-row .legal-entity-grid-pairs,
-    .legal-entity-row .legal-entity-grid-formation{
+    .legal-entity-row .legal-entity-grid-formation,
+    .legal-entity-row .legal-entity-grid-expense{
 
         grid-template-columns:minmax(0, 1fr);
 

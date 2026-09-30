@@ -2225,7 +2225,43 @@ export default function LegalEntityEditor({
                                 </div>
 
                                 {open && (
-                                <div className="legal-entity-grid legal-entity-grid-pairs">
+                                <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-expense">
+
+
+                                    {text(
+                                        amountLabel("Cost"),
+                                        expense.cost,
+                                        (next) => update({
+                                            expenses: entity.expenses.map(
+                                                (candidate, position) => position === index
+                                                    ? { ...candidate, cost: next }
+                                                    : candidate
+                                            )
+                                        }),
+                                        currency || "Amount",
+                                        false,
+                                        undefined,
+                                        "Expense " + (index + 1) + " cost",
+                                        NUMBER_LIMITS.money
+                                    )}
+
+                                    {field(
+                                        "Frequency",
+                                        <OptionPicker
+                                            label={"Expense " + (index + 1) + " frequency"}
+                                            placeholder="Select a frequency"
+                                            options={[...LEGAL_ENTITY_EXPENSE_FREQUENCIES]}
+                                            disabled={disabled}
+                                            value={expense.frequency}
+                                            onChange={(next) => update({
+                                                expenses: entity.expenses.map(
+                                                    (candidate, position) => position === index
+                                                        ? { ...candidate, frequency: next }
+                                                        : candidate
+                                                )
+                                            })}
+                                        />
+                                    )}
 
                                     {/*
                                         The founders named in 2. Founders & Ownership, by
@@ -2262,43 +2298,6 @@ export default function LegalEntityEditor({
                                                                 founder => founder.name === next
                                                             )?.id ?? ""
                                                         }
-                                                        : candidate
-                                                )
-                                            })}
-                                        />,
-                                        // Its own row, so Cost and Frequency below stay a pair.
-                                        true
-                                    )}
-
-                                    {text(
-                                        amountLabel("Cost"),
-                                        expense.cost,
-                                        (next) => update({
-                                            expenses: entity.expenses.map(
-                                                (candidate, position) => position === index
-                                                    ? { ...candidate, cost: next }
-                                                    : candidate
-                                            )
-                                        }),
-                                        currency || "Amount",
-                                        false,
-                                        undefined,
-                                        "Expense " + (index + 1) + " cost",
-                                        NUMBER_LIMITS.money
-                                    )}
-
-                                    {field(
-                                        "Frequency",
-                                        <OptionPicker
-                                            label={"Expense " + (index + 1) + " frequency"}
-                                            placeholder="Select a frequency"
-                                            options={[...LEGAL_ENTITY_EXPENSE_FREQUENCIES]}
-                                            disabled={disabled}
-                                            value={expense.frequency}
-                                            onChange={(next) => update({
-                                                expenses: entity.expenses.map(
-                                                    (candidate, position) => position === index
-                                                        ? { ...candidate, frequency: next }
                                                         : candidate
                                                 )
                                             })}
