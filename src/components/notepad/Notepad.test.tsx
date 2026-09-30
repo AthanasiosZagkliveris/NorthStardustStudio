@@ -167,8 +167,15 @@ describe("the notepad on the page", () => {
             organizationId: organization.id,
             key: "3.1:customer-segment-and-profile/seg-1/market-size-and-industry-outlook",
             anchors: ["seg-1"],
-            label: "Market Size & Industry Outlook"
+            label: "Market Size & Industry Outlook",
+            // System 3, page 1, the page's first section.
+            number: "3.1.1"
         });
+        // The chip: the tag and its numbers, then what it is (here its page).
+        const chip = document.querySelector(".notepad-chip-open")!;
+        expect(chip.querySelector(".notepad-chip-tag")?.textContent).toBe("#Market Size & Industry Outlook3.1.1");
+        expect(chip.querySelector(".notepad-chip-number")?.textContent).toBe("3.1.1");
+        expect(chip.querySelector(".notepad-chip-description")?.textContent).toBe("1. Foundation");
         expect(screen.queryByRole("status")).toBeNull();
 
         // The field is now drawn in your notes: its box outlined, and said so.
@@ -282,12 +289,13 @@ describe("a field in your notes, pointed at", () => {
 
 describe("what can be clicked in the Notepad", () => {
 
-    it("gives a note a field's hover, and its × the app's one remove button", () => {
+    it("gives a note and a chip a field's hover, \"Link a field\" a thicker underline, a chip's × a bold glyph, and a note the app's one ×", () => {
         const css = stylesheet("notepad.css");
-        expect(css).toContain(".notepad-note:hover { border-color: var(--line-primary); box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent); }");
-        expect(css).not.toMatch(/.notepad-note-remove[,:{ ]/);
-        // "Link a field": only its underline thickens.
+        expect(css).toContain(".notepad-note:hover, .notepad-chip:not(.notepad-chip-gone):hover { border-color: var(--line-primary); box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent); }");
         expect(css).toContain(".notepad-text-button:hover { text-decoration-thickness: 2px; }");
+        expect(css).toContain(".notepad-chip-remove:hover { font-weight: 700; }");
+        expect(css).not.toContain(".notepad-chip:is(:hover, :focus-within) > .notepad-chip-remove");
+        expect(css).not.toMatch(/.notepad-note-remove[,:{ ]/);
         expect(stylesheet("remove-button.css")).toContain(".strategy-box-remove{ width:32px; height:32px;");
     });
 

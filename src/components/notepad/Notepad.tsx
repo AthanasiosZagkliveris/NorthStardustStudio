@@ -260,11 +260,18 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
                                 disabled={available[link.id] === false}
                                 onClick={() => places().then(module => module.openLink(navigate, link))}
                             >
-                                #{link.label}
-                                {link.organizationId !== note.organizationId && (
-                                    <span className="notepad-chip-organization"> · {organizationName(link.organizationId)}</span>
-                                )}
-                                {available[link.id] === false && <span className="notepad-chip-gone-word"> · No longer available</span>}
+                                {/* The tag and where it is in numbers; under it, what it is. */}
+                                <span className="notepad-chip-tag">
+                                    #{link.label}
+                                    <span className="notepad-chip-number">{linkNumber(link)}</span>
+                                </span>
+                                <span className="notepad-chip-description">
+                                    {linkDescription(link)}
+                                    {link.organizationId !== note.organizationId && (
+                                        <span className="notepad-chip-organization"> · {organizationName(link.organizationId)}</span>
+                                    )}
+                                    {available[link.id] === false && <span className="notepad-chip-gone-word"> · No longer available</span>}
+                                </span>
                             </button>
                             <button
                                 type="button"
@@ -461,6 +468,66 @@ function anchorsOf(element: HTMLElement): string[] {
     return anchors;
 }
 
+/** Where a link is, in numbers ("3.5.1.2"): as linked, or its System and page for an older link. */
+function linkNumber(link: NoteLink): string {
+    return link.number ?? [link.systemNumber, link.sectionNumber].filter(part => part !== undefined).join(".");
+}
+
+/** What a link is, in words: the card it is in, or else its page. */
+function linkDescription(link: NoteLink): string {
+    return link.description || link.place;
+}
+
+/** The number a card shows in its head ("2"), or null. */
+function cardNumber(card: HTMLElement): string | null {
+    const number = [...card.querySelectorAll(".list-number")]
+        .find(candidate => candidate.closest("[data-anchor]") === card);
+    return number?.textContent?.replace(/\D+/g, "") || null;
+}
+
+/** A card's name as it shows it, or "". */
+function cardName(card: HTMLElement): string {
+    const input = [...card.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(".card-name-input, .strategy-name-input")]
+        .find(candidate => candidate.closest("[data-anchor]") === card);
+    const text = input?.value ?? [...card.querySelectorAll(".strategy-name-static")]
+        .find(candidate => candidate.closest("[data-anchor]") === card)?.textContent ?? "";
+    return text.trim();
+}
+
+/**
+ * Where a picked element is, in numbers and words: its System and page,
+ * the page's section it is in (counted among the page's sections), and
+ * the number of each card on the way to it, outermost first
+ * ("3.1.1.2"); and the name of the card it is in, if it is not that
+ * card itself.
+ */
+function whereIs(element: HTMLElement, systemNumber: number, sectionNumber: number): { number: string; description: string } {
+    const numbers = [String(systemNumber), String(sectionNumber)];
+    const rail = element.closest<HTMLElement>("[data-rail]");
+    const page = element.closest<HTMLElement>(".field-page");
+    if (rail && page) {
+        const rails = [...page.querySelectorAll<HTMLElement>("[data-rail]")]
+            .filter(candidate => !candidate.parentElement?.closest("[data-rail]"));
+        const at = rails.indexOf(rail.parentElement?.closest<HTMLElement>("[data-rail]") ?? rail);
+        if (at >= 0) {
+            numbers.push(String(at + 1));
+        }
+    }
+    const cards: HTMLElement[] = [];
+    for (let card = element.closest<HTMLElement>("[data-anchor]"); card && (!rail || (card !== rail && rail.contains(card))); card = card.parentElement?.closest<HTMLElement>("[data-anchor]") ?? null) {
+        cards.unshift(card);
+    }
+    for (const card of cards) {
+        const number = cardNumber(card);
+        if (number) {
+            numbers.push(number);
+        }
+    }
+    const inner = cards[cards.length - 1];
+    const description = inner && inner !== element ? cardName(inner) : "";
+    return { number: numbers.join("."), description };
+}
+
 /** What a picked field or card becomes as a link. */
 export function linkFor(element: HTMLElement, organizationId: string): Omit<NoteLink, "id"> | null {
     const key = element.dataset.fieldKey;
@@ -478,7 +545,8 @@ export function linkFor(element: HTMLElement, organizationId: string): Omit<Note
         key,
         ...(anchors.length > 0 ? { anchors } : {}),
         label: entry?.label ?? (element.querySelector(".field-label")?.textContent?.trim() || key),
-        place: entry?.pageTitle ?? ""
+        place: entry?.pageTitle ?? "",
+        ...whereIs(element, address.systemNumber, address.sectionNumber)
     };
 }
 
