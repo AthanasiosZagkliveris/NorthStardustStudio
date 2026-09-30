@@ -7409,6 +7409,40 @@ td.process-library-col-number{
 
 }
 
+/* A level's name drawn at its own size (the size in its box): the
+   line as tall as the type, no taller. */
+.brand-style .brand-tick .brand-slot-label-sized{
+
+    line-height:1.2;
+
+}
+
+/* The px box, with the quiet line under it when a size was kept
+   within its range. */
+.brand-hierarchy-size-holder{
+
+    flex-shrink:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-end;
+
+    gap:2px;
+
+}
+
+.brand-hierarchy-kept{
+
+    font-size:var(--font-small);
+
+    color:var(--text-subtle);
+
+    white-space:nowrap;
+
+}
+
 /* Inside the Text Hierarchy card, the level rows keep the pitch
    they had as a column (a tick row stands at an input's 45px). */
 .brand-hierarchy-levels{
@@ -14085,6 +14119,29 @@ td.process-library-col-number{
 
 }
 
+/* A COMPACT SIDE LABEL: a short label ("Role") beside its one
+   control, the label only as wide as its words -- so it stays beside
+   the control in a narrow card too, down to 280px, where the side-
+   label column above would have put it on top. Its own run
+   (.business-field-run-compact). */
+@container card (min-width: 280px){
+
+    .business-field-run-compact > .business-field-inline{
+
+        grid-template-columns:auto minmax(0, 1fr);
+
+        row-gap:var(--space-label);
+
+    }
+
+    .business-field-run-compact > .business-field-inline > :not(:first-child){
+
+        grid-column:2;
+
+    }
+
+}
+
 /* ONE LABEL PLACEMENT AMONG FIELDS THAT BELONG TOGETHER. A label
    beside its field is for a run of short single values that all take
    it (a Founder's Salary and Hours); among fields whose labels are
@@ -14274,12 +14331,15 @@ td.process-library-col-number{
    labels above, all of them.
 
    A Founder's pay and time use the same grid (.business-founder-
-   fields): Salary | Frequency, then Working Hrs | Delivery Hrs --
+   fields), as does any card's pair of fields (.card-field-pairs, a
+   Brand colour's Role | Colour): Salary | Frequency, then Working
+   Hrs | Delivery Hrs --
    its columns a standard control wide at most, narrower in a narrow
    card (a Founder card is), so the pairs stay side by side down to
    300px. */
 .business-capability-costs,
-.business-founder-fields{
+.business-founder-fields,
+.card-field-pairs{
 
     container:cost-fields / inline-size;
 
@@ -14288,7 +14348,8 @@ td.process-library-col-number{
 }
 
 .business-capability-cost-grid,
-.business-founder-grid{
+.business-founder-grid,
+.card-field-pairs-grid{
 
     display:grid;
 
@@ -14304,7 +14365,8 @@ td.process-library-col-number{
 }
 
 .business-capability-cost-grid > *,
-.business-founder-grid > *{
+.business-founder-grid > *,
+.card-field-pairs-grid > *{
 
     min-width:0;
 
@@ -14316,7 +14378,8 @@ td.process-library-col-number{
 
 }
 
-.business-founder-grid{
+.business-founder-grid,
+.card-field-pairs-grid{
 
     grid-template-columns:repeat(2, minmax(0, var(--control-s)));
 
@@ -14324,7 +14387,8 @@ td.process-library-col-number{
 
 @container cost-fields (max-width: 299.98px){
 
-    .business-founder-grid{
+    .business-founder-grid,
+    .card-field-pairs-grid{
 
         grid-template-columns:minmax(0, var(--control-s));
 

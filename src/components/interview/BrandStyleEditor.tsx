@@ -13,12 +13,12 @@ import {
 import { SOURCES } from "../../framework/engine/Sources.ts";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { ColumnHeading, GuidanceBullets } from "./ColumnHeads.tsx";
-import { NUMBER_LIMITS, limitedHexText, limitedNumberText } from "./numberInput.ts";
+import { limitedHexText } from "./numberInput.ts";
 import { railId } from "./rails/railItems.ts";
-import { BusinessAddButton, BusinessCard, BusinessField, BusinessRemove, BusinessText } from "./BusinessCardFields.tsx";
+import { BusinessAddButton, BusinessCard, BusinessField, BusinessRemove, OptionalField } from "./BusinessCardFields.tsx";
+import { LevelSize, cardTint, clampedSize, pixelRange, useCardInk } from "./brandStyleParts.tsx";
 import FoldAllToggle from "./FoldAllToggle.tsx";
 import OptionPicker from "./OptionPicker.tsx";
-import { summaryText } from "./cardSummary.ts";
 import { useItemFolds } from "./useItemFolds.ts";
 import { UndoService } from "../../services/UndoService";
 
@@ -92,7 +92,20 @@ function cardId(kind: "colour" | "typeface", slotId: string): string {
     return "brand-" + kind + "-" + slotId;
 }
 
-/** The Text Hierarchy's one card. */
+/**
+ * The size a level's name is drawn at: the size typed, within its
+ * range (the same one its "i" states); nothing (the page's own size)
+ * while the box is empty or holds no number.
+ */
+function previewSize(size: string, range: string): number | undefined {
+    const bounds = pixelRange(range);
+    if (!bounds || size.trim() === "" || !Number.isFinite(Number(size))) {
+        return undefined;
+    }
+    return Number(clampedSize(size, bounds));
+}
+
+/** The Text Hierarchy's one box. */
 const HIERARCHY_CARD = "brand-text-hierarchy";
 
 /** A role (slot) with the one it needs switched on first. */
@@ -215,6 +228,9 @@ export default function BrandStyleEditor({
     /** Which cards are open -- see useItemFolds. */
     const folds = useItemFolds();
 
+    /** The card ground and texts, for a folded colour card's tint. */
+    const ink = useCardInk();
+
     /* The answer as it is now, for an undo offered a moment ago. */
     const latest = useRef({ style, onChange });
     latest.current = { style, onChange };
@@ -274,30 +290,35 @@ export default function BrandStyleEditor({
         entries: readonly { enabled: boolean }[],
         index: number,
         onMove: (to: number) => void,
-        onMoved: (to: number) => void
+        onMoved: (to: number) => void,
+        /** The label beside the picker, on its first line. */
+        inline = false
     ) {
         const needed = slots.some((slot, position) => slot.dependsOn === slots[index].id && entries[position].enabled);
         const choices = slots
             .map((slot, position) => ({ slot, position }))
             .filter(({ position }) => position === index || (!needed && !entries[position].enabled &&
                 slots[position].dependsOn !== slots[index].id && prerequisiteOn(slots, entries, position)));
-        return (
-            <BusinessField label="Role" info={[slots[index].help]}>
-                <OptionPicker
-                    label={what + " role"}
-                    options={choices.map(({ slot }) => slot.label)}
-                    disabled={disabled}
-                    value={slots[index].label}
-                    onChange={(next) => {
-                        const to = slots.findIndex(slot => slot.label === next);
-                        if (to >= 0 && to !== index) {
-                            onMove(to);
-                            onMoved(to);
-                        }
-                    }}
-                />
-            </BusinessField>
-        );
+        const field = (
+                <BusinessField label="Role" info={[slots[index].help]} inline={inline}>
+                    <OptionPicker
+                        label={what + " role"}
+                        options={choices.map(({ slot }) => slot.label)}
+                        disabled={disabled}
+                        value={slots[index].label}
+                        onChange={(next) => {
+                            const to = slots.findIndex(slot => slot.label === next);
+                            if (to >= 0 && to !== index) {
+                                onMove(to);
+                                onMoved(to);
+                            }
+                        }}
+                    />
+                </BusinessField>
+            );
+        /* A side label is kept only in a run of its own (.business-field-run):
+           among the card's labels above, it would otherwise be set above too. */
+        return inline ? <div className="business-field-run business-field-run-compact">{field}</div> : field;
     }
 
     /**
@@ -387,11 +408,9 @@ export default function BrandStyleEditor({
     function updateLevelSize(id: string, size: string) {
         onChange({
             ...style,
-            // Whole pixels up to 120 -- "px" is printed beside the
-            // field, so a typed "24px" is refused, not doubled.
             hierarchy: {
                 ...style.hierarchy,
-                [id]: { ...style.hierarchy[id], size: limitedNumberText(size, style.hierarchy[id].size, NUMBER_LIMITS.pixels) }
+                [id]: { ...style.hierarchy[id], size }
             }
         });
     }
@@ -421,7 +440,9 @@ export default function BrandStyleEditor({
         blocked: string | undefined,
         onToggle: (next: boolean) => void,
         /** What the role is for: shown behind an "i" beside its name. */
-        help?: string
+        help?: string,
+        /** The label drawn at this size (a Text Hierarchy level's own), px. */
+        labelSize?: number
     ) {
         return (
             /*
@@ -470,7 +491,10 @@ export default function BrandStyleEditor({
                 {/* The "i" ends the LAST line, glued to its last
                     word (see InfoText) -- not after the block, where
                     it sat between the two lines. */}
-                <span className="brand-slot-label">
+                <span
+                    className={"brand-slot-label" + (labelSize ? " brand-slot-label-sized" : "")}
+                    style={labelSize ? { fontSize: labelSize + "px" } : undefined}
+                >
                     {label.split(" / ").map((part, index, parts) => (
                         <span className="brand-slot-label-line" key={index}>
                             {index < parts.length - 1
@@ -566,20 +590,25 @@ export default function BrandStyleEditor({
                     const swatch = normalizeHex(colour.hex);
                     const id = cardId("colour", slot.id);
                     const what = "Colour " + (position + 1);
+                    const open = folds.isOpen(id);
+                    /* Folded, the card is tinted with its own colour
+                       (as much as keeps its text at 4.5:1). */
+                    const tint = open ? null : cardTint(swatch, ink);
 
                     return (
                         <BusinessCard
                             key={slot.id}
                             anchor={id}
-                            className="brand-style-card"
+                            className={"brand-style-card" + (tint ? " brand-style-card-tinted" : "")}
                             kind="Colour"
                             number={position + 1}
                             name={colour.name}
                             onName={(name) => updateColour(index, { name })}
-                            open={folds.isOpen(id)}
+                            open={open}
                             onToggle={() => folds.toggle(id)}
                             disabled={disabled}
-                            summary={summaryText(slot.label, swatch?.toUpperCase(), colour.usage)}
+                            style={tint ? { background: tint } : undefined}
+                            summary={slot.label}
                             actions={
                                 <BusinessRemove
                                     what={what}
@@ -588,6 +617,12 @@ export default function BrandStyleEditor({
                                 />
                             }
                         >
+
+                            {/* Role | Colour, one row in the card's two
+                                columns (one under the other in a narrow
+                                card). */}
+                            <div className="card-field-pairs">
+                            <div className="card-field-pairs-grid">
 
                             {roleField(
                                 what,
@@ -622,23 +657,35 @@ export default function BrandStyleEditor({
 
                                 </div>
 
-                                {swatch && (
-                                    <span className="brand-style-contrast">
-                                        <InfoText text={contrastNote(swatch)}>
-                                            <InfoNote label="Contrast ratio" points={CONTRAST_HELP} />
-                                        </InfoText>
-                                    </span>
-                                )}
                             </BusinessField>
 
-                            <BusinessText
+                            </div>
+                            </div>
+
+                            {swatch && (
+                                <span className="brand-style-contrast">
+                                    <InfoText text={contrastNote(swatch)}>
+                                        <InfoNote label="Contrast ratio" points={CONTRAST_HELP} />
+                                    </InfoText>
+                                </span>
+                            )}
+
+                            <OptionalField
                                 label="Usage"
-                                ariaLabel={`${slot.label} usage`}
-                                placeholder="Where the colour is used"
+                                filled={colour.usage.trim().length > 0}
+                                onClear={() => updateColour(index, { usage: "" })}
                                 disabled={disabled}
-                                value={colour.usage}
-                                onChange={(usage) => updateColour(index, { usage })}
-                            />
+                            >
+                                <input
+                                    type="text"
+                                    className="interview-input"
+                                    aria-label={`${slot.label} usage`}
+                                    placeholder="Where the colour is used"
+                                    disabled={disabled}
+                                    value={colour.usage}
+                                    onChange={(event) => updateColour(index, { usage: event.target.value })}
+                                />
+                            </OptionalField>
 
                         </BusinessCard>
                     );
@@ -685,7 +732,7 @@ export default function BrandStyleEditor({
                             open={folds.isOpen(id)}
                             onToggle={() => folds.toggle(id)}
                             disabled={disabled}
-                            summary={summaryText(slot.label, typeface.purpose)}
+                            summary={slot.label}
                             actions={
                                 <BusinessRemove
                                     what={what}
@@ -701,17 +748,26 @@ export default function BrandStyleEditor({
                                 style.typefaces,
                                 index,
                                 (to) => onChange({ ...style, typefaces: movedSlot(style.typefaces, index, to) }),
-                                (to) => folds.expand(cardId("typeface", BRAND_TYPEFACE_SLOTS[to].id))
+                                (to) => folds.expand(cardId("typeface", BRAND_TYPEFACE_SLOTS[to].id)),
+                                true
                             )}
 
-                            <BusinessText
+                            <OptionalField
                                 label="Purpose"
-                                ariaLabel={`${slot.label} purpose`}
-                                placeholder="What the typeface is used for"
+                                filled={typeface.purpose.trim().length > 0}
+                                onClear={() => updateTypeface(index, { purpose: "" })}
                                 disabled={disabled}
-                                value={typeface.purpose}
-                                onChange={(purpose) => updateTypeface(index, { purpose })}
-                            />
+                            >
+                                <input
+                                    type="text"
+                                    className="interview-input"
+                                    aria-label={`${slot.label} purpose`}
+                                    placeholder="What the typeface is used for"
+                                    disabled={disabled}
+                                    value={typeface.purpose}
+                                    onChange={(event) => updateTypeface(index, { purpose: event.target.value })}
+                                />
+                            </OptionalField>
 
                         </BusinessCard>
                     );
@@ -736,19 +792,12 @@ export default function BrandStyleEditor({
                     so the three columns' first cards start level. */}
                 <div className="fold-group-head brand-style-cards-head" />
 
-                <BusinessCard
-                    anchor={HIERARCHY_CARD}
-                    className="brand-style-card"
-                    kind="Text Hierarchy"
-                    number={1}
-                    name="Text Hierarchy"
-                    open={folds.isOpen(HIERARCHY_CARD)}
-                    onToggle={() => folds.toggle(HIERARCHY_CARD)}
-                    disabled={disabled}
-                    summary={summaryText(...BRAND_HIERARCHY_LEVELS
-                        .filter(level => style.hierarchy[level.id].enabled)
-                        .map(level => level.label.split(" (")[0] +
-                            (style.hierarchy[level.id].size.trim() ? " " + style.hierarchy[level.id].size.trim() + " px" : "")))}
+                {/* One plain box: the section's heading above names
+                    it, so it has no head, number or fold of its own.
+                    Each level's name is drawn at the size in its box. */}
+                <div
+                    className="business-foundation-card brand-style-card brand-hierarchy-card"
+                    data-anchor={HIERARCHY_CARD}
                 >
 
                     <div className="brand-hierarchy-levels">
@@ -777,28 +826,18 @@ export default function BrandStyleEditor({
                                         entry.enabled,
                                         blocked,
                                         (next) => toggleLevel(level.id, next),
-                                        "Recommended range: " + level.range + " px."
+                                        "Recommended range: " + level.range + " px.",
+                                        entry.enabled ? previewSize(entry.size, level.range) : undefined
                                     )}
 
                                     {entry.enabled && (
-
-                                        <span className="brand-hierarchy-size">
-
-                                            <input
-                                                type="text"
-                                                inputMode="numeric"
-                                                className="interview-input brand-size-input"
-                                                aria-label={`${level.label} size in pixels, recommended ${level.range}`}
-                                                placeholder={level.range}
-                                                disabled={disabled}
-                                                value={entry.size}
-                                                onChange={(event) => updateLevelSize(level.id, event.target.value)}
-                                            />
-
-                                            <span className="brand-hierarchy-unit" aria-hidden="true">px</span>
-
-                                        </span>
-
+                                        <LevelSize
+                                            label={level.label}
+                                            range={level.range}
+                                            value={entry.size}
+                                            disabled={disabled}
+                                            onChange={(next) => updateLevelSize(level.id, next)}
+                                        />
                                     )}
 
                                 </div>
@@ -809,7 +848,7 @@ export default function BrandStyleEditor({
 
                     </div>
 
-                </BusinessCard>
+                </div>
 
             </div>
 

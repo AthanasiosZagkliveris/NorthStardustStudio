@@ -1,11 +1,12 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import BrandStyleEditor from "./BrandStyleEditor";
 import { typeInto } from "../../test/interviewTestUtils";
 import { asBrandStyleValue, brandStyleSectionsEmpty, type BrandStyleAnswerValue } from "../../framework/engine/AnswerUtils";
 import { UndoService } from "../../services/UndoService";
+import { cardTint, contrastBetween, readColour } from "./brandStyleParts";
 
 afterEach(cleanup);
 
@@ -59,9 +60,11 @@ describe("BrandStyleEditor cards", () => {
 
         const heads = [...container.querySelectorAll(".brand-style-card .fold-card-head")];
         expect(heads[0].textContent).toContain("Loom Blue");
-        expect(heads[0].textContent).toContain("Primary A · #1A2B3C · Headings");
-        // Two colour cards (Primary A, and Secondary A on by default), one typeface card, the Text Hierarchy card.
-        expect(heads.length).toBe(4);
+        // Folded: the name, and the role under it.
+        expect(heads[0].querySelector(".business-card-summary")?.textContent).toBe("Primary A");
+        // Two colour cards (Primary A, and Secondary A on by default) and one typeface card; the Text Hierarchy is a plain box, no head.
+        expect(heads.length).toBe(3);
+        expect(container.querySelector(".brand-hierarchy-card .fold-card-head")).toBeNull();
 
         openAll();
         expect((screen.getByLabelText("Colour 1 name") as HTMLTextAreaElement).value).toBe("Loom Blue");
@@ -101,6 +104,102 @@ describe("BrandStyleEditor cards", () => {
 
         expect(saved?.colours[4]).toMatchObject({ enabled: true, name: "Loom Blue", hex: "#1a2b3c" });
         expect(saved?.colours[0].enabled).toBe(false);
+
+    });
+
+});
+
+describe("BrandStyleEditor Text Hierarchy", () => {
+
+    function h1() {
+        return screen.getByLabelText(/^H1 \(Title\) size in pixels/) as HTMLInputElement;
+    }
+
+    it("draws each level's name at the size in its box, within its range", () => {
+
+        const { container } = render(<Harness />);
+
+        typeInto(h1(), "40");
+        const label = container.querySelector(".brand-hierarchy-row .brand-slot-label") as HTMLElement;
+        expect(label.style.fontSize).toBe("40px");
+
+        // Outside the range, the name stays at the range's end.
+        typeInto(h1(), "90");
+        expect(label.style.fontSize).toBe("48px");
+
+    });
+
+    it("keeps a size within the range its \"i\" states when the box is left, quietly", () => {
+
+        render(<Harness />);
+
+        typeInto(h1(), "90");
+        fireEvent.blur(h1());
+        expect(h1().value).toBe("48");
+        expect(screen.getByRole("status").textContent).toBe("Kept within 36–48 px.");
+
+        typeInto(h1(), "12");
+        fireEvent.blur(h1());
+        expect(h1().value).toBe("36");
+
+    });
+
+    it("steps by 1 with the arrow keys and the wheel (5 with Shift), within the range", () => {
+
+        render(<Harness />);
+
+        typeInto(h1(), "40");
+        fireEvent.keyDown(h1(), { key: "ArrowUp" });
+        expect(h1().value).toBe("41");
+        fireEvent.keyDown(h1(), { key: "ArrowDown", shiftKey: true });
+        expect(h1().value).toBe("36");
+        fireEvent.keyDown(h1(), { key: "ArrowDown" });
+        expect(h1().value).toBe("36");
+
+        // The wheel only while the box has the focus, and it keeps the page still.
+        const idle = new WheelEvent("wheel", { deltaY: -1, bubbles: true, cancelable: true });
+        h1().dispatchEvent(idle);
+        expect(h1().value).toBe("36");
+        h1().focus();
+        const turn = new WheelEvent("wheel", { deltaY: -1, bubbles: true, cancelable: true });
+        act(() => { h1().dispatchEvent(turn); });
+        expect(turn.defaultPrevented).toBe(true);
+        expect(h1().value).toBe("37");
+
+    });
+
+});
+
+describe("BrandStyleEditor optional fields and tint", () => {
+
+    it("asks Usage and Purpose behind a tick", () => {
+
+        render(<Harness />);
+        openAll();
+
+        // Filled, Usage loads ticked; the empty typeface's Purpose waits behind its tick.
+        expect((screen.getByLabelText("Primary A usage") as HTMLInputElement).value).toBe("Headings");
+        expect(screen.queryByLabelText("Primary purpose")).toBeNull();
+        const tick = screen.getAllByRole("checkbox").find(box => box.closest(".optional-field")?.textContent?.includes("Purpose"))!;
+        fireEvent.click(tick);
+        expect(screen.getByLabelText("Primary purpose")).toBeTruthy();
+
+    });
+
+    it("tints a folded colour card no further than keeps its text at 4.5:1", () => {
+
+        const light = { ground: [255, 255, 255] as [number, number, number], texts: [[17, 24, 39], [95, 99, 104]] as [number, number, number][] };
+        const dark = { ground: [26, 29, 33] as [number, number, number], texts: [[230, 232, 235], [182, 184, 186]] as [number, number, number][] };
+        for (const hex of ["#000000", "#ffffff", "#ffff00", "#1a2b3c", "#e05a2b"]) {
+            for (const ink of [light, dark]) {
+                const tint = cardTint(hex, ink);
+                if (tint) {
+                    const ground = readColour(tint)!;
+                    ink.texts.forEach(text => expect(contrastBetween(text, ground)).toBeGreaterThanOrEqual(4.5));
+                }
+            }
+        }
+        expect(cardTint("#1a2b3c", light)).not.toBeNull();
 
     });
 

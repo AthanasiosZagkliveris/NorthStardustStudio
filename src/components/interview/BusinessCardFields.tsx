@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { CSSProperties, ReactNode, useEffect, useRef, useState } from "react";
 
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
@@ -735,6 +735,8 @@ export function BusinessCard({
 
     summary,
 
+    style,
+
     children
 
 }: {
@@ -763,6 +765,8 @@ export function BusinessCard({
      * own line, so it never squeezes the name beside it.
      */
     summary?: ReactNode;
+    /** The card's own inline style: a folded colour card's tint (Brand Style). */
+    style?: CSSProperties;
     children: ReactNode;
 
 }) {
@@ -780,6 +784,7 @@ export function BusinessCard({
                 "business-foundation-card" + (className ? " " + className : "")
             }
             data-anchor={anchor}
+            style={style}
         >
 
             {/* A foldable card's head is the one every folding card
