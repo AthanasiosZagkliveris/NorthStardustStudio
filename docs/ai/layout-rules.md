@@ -89,8 +89,8 @@ the same inner side margin: `--card-padding` (12px).
 
 | Step | Width | Holds | Used for |
 |---|---|---|---|
-| XS | 80px | 3-4 digits | Quantity, a person's hours, calendar weeks (`.delivery-number`) |
-| Code / Date | 160px | 11 characters, or a whole date with its calendar button (159px) | Postcode / ZIP beside City; a date in a one-column row |
+| XS | 80px | 3-4 digits, or "33.333" | Quantity, a person's hours, calendar weeks (`.delivery-number`), a founder's Ownership % |
+| Code / Date | 160px | 11 characters, or a whole date with its calendar button (159px) | Postcode / ZIP beside City; a date in a one-column row; a founder's Capital |
 | S | 220px | 18 characters | numbers and amounts in fields, dates, short pickers (Status, Role, Owner), month pickers, the activity code, the Number column of a Name / Number list |
 | M | 300px | an amount with its currency | price + currency pairs |
 | L | 420px | a long option | pickers whose longest option needs it (OptionPicker picks S, M or L itself) |
@@ -147,6 +147,10 @@ track of the grid it stands in.
   Entity's Formation & Registration and Tax & Business Registration, so
   their Number columns share one x. Column heads head only the rows the user
   adds; rows that name themselves (the tax number, VAT) have none.
+- **Founders table**: Name the rest (wraps and grows), Ownership % the XS
+  step (its track as wide as its one-line head), Capital the Code / Date
+  step, the x column on every row, 12px apart; a block per founder under
+  700px.
 - **Side-label row snapped to the grid** (`.legal-entity-side-row`): a row
   of fields whose labels sit beside their controls on the columns of the
   list below (a subgrid): each label at its column's left edge, its control
@@ -158,8 +162,10 @@ track of the grid it stands in.
 ### Body order
 
 Fields follow the order a founder answers them: what it is, then where,
-then the details. The Legal Entity's Organization section is two columns
-on the card's two-column grid: "what it is" reads Organization Name, Main
+then the details. On the Legal Entity page every section box is half the
+page, in pairs: 1. Organization | 2. Founders & Ownership, 3 | 4, 5 | 6,
+each as tall as its own content, stacked under 1100px. The Organization
+section is two columns 12px apart (the Name / Number lists' gap): "what it is" reads Organization Name, Main
 Activity, its activity code (S), Legal Form (the column's width: every UK
 and US form reads in full; the longest, 57 characters, fits from a 1366px
 window, and a closed picker too narrow ends in "..."); "where it is" reads

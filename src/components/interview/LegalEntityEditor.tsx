@@ -1079,10 +1079,18 @@ export default function LegalEntityEditor({
 
             <div className="legal-entity-body">
 
+                {/*
+                    Subsections 1 and 2 side by side, each half the page
+                    as every subsection here: what the organization is
+                    and where, beside who owns it. Each as tall as its
+                    own content.
+                */}
+                <div className="legal-entity-row">
+
                 {/* ---------- 1. Organisation ---------- */}
 
                 {subsection(0, (
-                    <div className="legal-entity-grid">
+                    <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization">
 
                         {/*
                             Two columns, each one subject, on the
@@ -1440,16 +1448,13 @@ export default function LegalEntityEditor({
                                     */}
                                     {founderLabel("Name")}
 
-                                    <input
-                                        type="text"
-                                        className="interview-input"
-                                        aria-label={"Founder " + (index + 1) + " name"}
+                                    {/* The rest of the row: a long name wraps and grows. */}
+                                    <CardNameInput
+                                        ariaLabel={"Founder " + (index + 1) + " name"}
                                         placeholder="Name"
                                         disabled={disabled}
                                         value={founder.name}
-                                        onChange={(event) => updateFounder(index, {
-                                            name: event.target.value
-                                        })}
+                                        onChange={(next) => updateFounder(index, { name: next })}
                                     />
 
                                     {/* Not asked where the form leaves
@@ -1639,6 +1644,8 @@ export default function LegalEntityEditor({
                     // name says so.
                     soleFounderSettled ? "Founders" : undefined
                 )}
+
+                </div>
 
                 {/*
                     Subsections 3 and 4 side by side: how the organisation is

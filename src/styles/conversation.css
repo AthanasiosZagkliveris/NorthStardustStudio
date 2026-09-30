@@ -8809,55 +8809,50 @@ td.process-library-col-number{
 
 }
 
-/* Wide enough to hold "Ownership %" on one line at 18px, which
-   is what the head above now insists on. */
-/* Name and the last cell take the same flexible width, one either
-   side of the fixed number columns. Equal, because the row is then
-   symmetric -- [flexible] [numbers] [flexible] -- and the numbers
-   sit on the exact middle of the box, which is the same axis as
-   the line between 3.3 and 3.4 below.
-
-   The last cell held Role until roles moved to 4. Founders
-   Profile; it now holds only the row's delete button, at its
-   start, next to the last number (see `.legal-entity-founder-end`). It is kept rather than
-   dropped, because a column of its own for the button used to
-   hang off the right-hand end and carry the numbers 28px left of
-   centre with it. */
+/* COMPACT COLUMNS: the Name the rest (a long one wraps and grows),
+   Ownership the XS step ("100", or "33.333") or its one-line head
+   where that is wider, Capital the Code / Date step ("1250000.00"),
+   and the x column (32px) kept on every row, 12px apart as the Name /
+   Number lists below. A one-owner form asks no ownership and has no
+   x; capital off, no Capital column. */
 .legal-entity-founders{
 
-    grid-template-columns:minmax(0, 1fr) 150px minmax(0, 1fr);
+    grid-template-columns:minmax(0, 1fr) minmax(var(--control-xs), max-content) 32px;
 
-    /* The 24px every other grid on this page puts between its
-       columns. At 12px the table read as one crowded block rather
-       than as four columns. */
-    column-gap:24px;
+    column-gap:12px;
 
 }
 
 .legal-entity-founders-capital{
 
-    /* Capital is a number, the same as Ownership, so it takes the
-       same fixed column. One flexible number column beside one
-       fixed one read as an accident rather than a pair. */
-    grid-template-columns:minmax(0, 1fr) 150px 150px minmax(0, 1fr);
+    grid-template-columns:minmax(0, 1fr) minmax(var(--control-xs), max-content) minmax(var(--control-code), max-content) 32px;
 
 }
 
-/* A one-owner legal form asks no ownership question, so the table
-   is one column narrower. The symmetry is what matters and it
-   survives: whatever number columns are left stay between the two
-   flexible ones, centred on the same line. After the capital rule
-   above, so it wins when capital is off; the compound below wins
-   when it is on. */
 .legal-entity-founders-no-ownership{
 
-    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns:minmax(0, 1fr) 32px;
 
 }
 
 .legal-entity-founders-no-ownership.legal-entity-founders-capital{
 
-    grid-template-columns:minmax(0, 1fr) 150px minmax(0, 1fr);
+    grid-template-columns:minmax(0, 1fr) minmax(var(--control-code), max-content) 32px;
+
+}
+
+/* Each figure its step, centred under its head. */
+.legal-entity-founder-row > .interview-input[inputmode="decimal"]{
+
+    justify-self:center;
+
+    width:var(--control-xs);
+
+}
+
+.legal-entity-founders-capital .legal-entity-founder-row > .interview-input[inputmode="decimal"]:last-of-type{
+
+    width:var(--control-code);
 
 }
 
@@ -9224,6 +9219,14 @@ td.process-library-col-number{
 .legal-entity-row .legal-entity-grid{
 
     grid-template-columns:minmax(0, 1fr);
+
+}
+
+/* 1. Organization, half the page: what it is | where it is, 12px
+   apart as the Name / Number columns of 3. and 4. */
+.legal-entity-row .legal-entity-grid-organization{
+
+    column-gap:12px;
 
 }
 
@@ -9938,6 +9941,13 @@ td.process-library-col-number{
     .legal-entity-founder-row .legal-entity-founder-label{
 
         grid-column:1;
+
+    }
+
+    /* Each figure under its own label, from the left. */
+    .legal-entity-founder-row > .interview-input[inputmode="decimal"]{
+
+        justify-self:start;
 
     }
 
