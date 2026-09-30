@@ -50,9 +50,9 @@ export default function BulletRail({
     side: "left" | "right";
     label: string;
     /**
-     * A page arrow (PageArrow) on the rail's title row: "‹" before
-     * PAGES on the left, "›" after SECTIONS on the right. Shown even
-     * where the rail itself has too few items to draw.
+     * A page arrow (PageArrow) on its own row ABOVE the rail's title:
+     * "‹" over PAGES, "›" over SECTIONS. Shown even where the rail
+     * itself has too few items to draw.
      */
     arrow?: ReactNode;
 
@@ -86,14 +86,13 @@ export default function BulletRail({
 
     }
 
-    // The title row: the rail's name ("PAGES", "SECTIONS"), hidden
-    // from assistive technology (the nav's own label says it), and
-    // the page arrow on the rail's outer side of it.
+    // The head: the page arrow on a row of its own, then the rail's
+    // name ("PAGES", "SECTIONS"), hidden from assistive technology
+    // (the nav's own label says it).
     const head = (
         <div className="bullet-rail-head">
-            {side === "left" && arrow}
+            {arrow}
             <span className="bullet-rail-title" aria-hidden="true">{label}</span>
-            {side === "right" && arrow}
         </div>
     );
 

@@ -53,13 +53,13 @@ describe("BulletRail", () => {
 
     });
 
-    it("holds its page arrow on the title row, on the outer side of the name, even with too few items to draw", () => {
+    it("holds its page arrow on a row of its own above the name, even with too few items to draw", () => {
 
         const { container, unmount } = render(
             <BulletRail items={items} activeId="a" onSelect={() => {}} side="right" label="Sections" arrow={<button type="button">›</button>} />
         );
         const head = container.querySelector(".bullet-rail-head")!;
-        expect([...head.children].map(child => child.textContent)).toEqual(["Sections", "›"]);
+        expect([...head.children].map(child => child.textContent)).toEqual(["›", "Sections"]);
         unmount();
 
         const left = render(<BulletRail items={items.slice(0, 1)} activeId="a" onSelect={() => {}} side="left" label="Pages" arrow={<button type="button">‹</button>} />);

@@ -115,17 +115,18 @@
 
 .bullet-rail-right .bullet-rail-title { padding-left: 24px; text-align: left; }
 
-/* The title row: the rail's name and its page arrow (.page-arrow,
-   global.css) -- "‹" before PAGES, "›" after SECTIONS -- the arrow
-   at the bullets' side of the row where the name is hidden. It takes
-   clicks, as the lists do. */
+/* The head: the page arrow (.page-arrow, global.css) on a row of its
+   own ABOVE the rail's name -- "‹" over PAGES, "›" over SECTIONS --
+   on the side the rail reads from (the bullets' side), level with
+   the name's text edge where the name shows; alone above the bullets
+   where it does not. It takes clicks, as the lists do. */
 .bullet-rail-head {
 
     flex: none;
 
     display: flex;
-    align-items: center;
-    gap: 12px;
+    flex-direction: column;
+    gap: 8px;
 
     max-width: 100%;
     margin-bottom: 18px;
@@ -133,6 +134,10 @@
     pointer-events: auto;
 
 }
+
+.bullet-rail-left .bullet-rail-head { align-items: flex-end; }
+
+.bullet-rail-right .bullet-rail-head { align-items: flex-start; }
 
 .bullet-rail-head:empty { display: none; }
 
@@ -322,6 +327,11 @@
     :root { --rail-gutter: 220px; }
 
     .bullet-rail-title { display: block; }
+
+    /* Level with the name's text edge (the title's 24px, above). */
+    .bullet-rail-left .bullet-rail-head > .page-arrow { margin-right: 24px; }
+
+    .bullet-rail-right .bullet-rail-head > .page-arrow { margin-left: 24px; }
 
     /* Many Themes on a short window scroll instead of clipping. Only
        here, where the labels sit inline: a scrolling list clips on
