@@ -1155,28 +1155,6 @@ export default function BusinessCapabilityEditor({
                         )}
                     </BusinessField>
 
-                    {scope === "offering" && offeringsField(
-                        slot.offeringIds,
-                        (next) => onSlot({ offeringIds: next }),
-                        "Resource " + number + " linked Offerings",
-                        <>
-                            Define an Offering on the Foundation page first
-                            {onOpenFoundation && (
-                                <>
-                                    {": "}
-                                    <button
-                                        type="button"
-                                        className="business-engagement-link"
-                                        onClick={() => onOpenFoundation()}
-                                    >
-                                        open it
-                                    </button>
-                                </>
-                            )}
-                            .
-                        </>
-                    )}
-
                 </div>
 
                 {statusFields(
@@ -1192,6 +1170,29 @@ export default function BusinessCapabilityEditor({
                     value={slot.description}
                     onChange={(next) => onSlot({ description: next })}
                 />
+
+                {/* The links last, under the Description (the one card order). */}
+                {scope === "offering" && offeringsField(
+                    slot.offeringIds,
+                    (next) => onSlot({ offeringIds: next }),
+                    "Resource " + number + " linked Offerings",
+                    <>
+                        Define an Offering on the Foundation page first
+                        {onOpenFoundation && (
+                            <>
+                                {": "}
+                                <button
+                                    type="button"
+                                    className="business-engagement-link"
+                                    onClick={() => onOpenFoundation()}
+                                >
+                                    open it
+                                </button>
+                            </>
+                        )}
+                        .
+                    </>
+                )}
 
             </BusinessCard>
         );
@@ -2052,25 +2053,10 @@ export default function BusinessCapabilityEditor({
                         "Activity " + number
                     )}
 
-                    {scope === "offering" && offeringsField(
-                        activity.offeringIds,
-                        (next) => onActivity({ offeringIds: next }),
-                        "Activity " + number + " linked Offerings",
-                        "Define an Offering on the Foundation page first."
-                    )}
-
                 </div>
 
-                <OptionalNote
-                    label="Description"
-                    ariaLabel={"Activity " + number + " description"}
-                    disabled={disabled}
-                    value={activity.description}
-                    onChange={(next) => onActivity({ description: next })}
-                />
-
-                {/* Done, at the end of the row: the last thing
-                    decided about an activity. */}
+                {/* Done: decided about the activity itself, so above its
+                    Description and links (the one card order: links last). */}
                 <label className="business-capability-done">
                     <input
                         type="checkbox"
@@ -2084,6 +2070,22 @@ export default function BusinessCapabilityEditor({
                     />
                     <span>Completed</span>
                 </label>
+
+                <OptionalNote
+                    label="Description"
+                    ariaLabel={"Activity " + number + " description"}
+                    disabled={disabled}
+                    value={activity.description}
+                    onChange={(next) => onActivity({ description: next })}
+                />
+
+                {/* The links last, under the Description. */}
+                {scope === "offering" && offeringsField(
+                    activity.offeringIds,
+                    (next) => onActivity({ offeringIds: next }),
+                    "Activity " + number + " linked Offerings",
+                    "Define an Offering on the Foundation page first."
+                )}
 
                 </>)}
 
@@ -2184,13 +2186,6 @@ export default function BusinessCapabilityEditor({
                         partner.name.trim() || "Entry " + number
                     )}
 
-                    {scope === "offering" && offeringsField(
-                        partner.offeringIds,
-                        (next) => change({ offeringIds: next }),
-                        (partner.name.trim() || "Entry " + number) + " linked Offerings",
-                        "Define an Offering on the Foundation page first."
-                    )}
-
                 </div>
 
                 {costFields(
@@ -2206,6 +2201,14 @@ export default function BusinessCapabilityEditor({
                     value={partner.description}
                     onChange={(next) => change({ description: next })}
                 />
+
+                {/* The links last, under the Description. */}
+                {scope === "offering" && offeringsField(
+                    partner.offeringIds,
+                    (next) => change({ offeringIds: next }),
+                    (partner.name.trim() || "Entry " + number) + " linked Offerings",
+                    "Define an Offering on the Foundation page first."
+                )}
 
             </BusinessCard>
         );

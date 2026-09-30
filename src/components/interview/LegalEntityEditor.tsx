@@ -2316,8 +2316,22 @@ export default function LegalEntityEditor({
                                         />
                                     )}
 
+                                    {optionalNote(
+                                        "Description / Relevant Information",
+                                        "Expense " + (index + 1) + " description",
+                                        expense.description,
+                                        (next) => update({
+                                            expenses: entity.expenses.map(
+                                                (candidate, position) => position === index
+                                                    ? { ...candidate, description: next }
+                                                    : candidate
+                                            )
+                                        })
+                                    )}
+
                                     {/*
-                                        What this expense is for, out
+                                        Last, under the Description (the
+                                        one card order): what this expense is for, out
                                         of what has actually been
                                         recorded on this page. A link
                                         that points at nothing is not
@@ -2371,19 +2385,6 @@ export default function LegalEntityEditor({
                                         </div>
 
                                     </div>
-
-                                    {optionalNote(
-                                        "Description / Relevant Information",
-                                        "Expense " + (index + 1) + " description",
-                                        expense.description,
-                                        (next) => update({
-                                            expenses: entity.expenses.map(
-                                                (candidate, position) => position === index
-                                                    ? { ...candidate, description: next }
-                                                    : candidate
-                                            )
-                                        })
-                                    )}
 
                                 </div>
                                 )}
