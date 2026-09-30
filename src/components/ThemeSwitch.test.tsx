@@ -245,6 +245,31 @@ describe("ThemeSwitch", () => {
 
     });
 
+    it("always shows the choice the page is drawn in: Auto with the icon of what it comes to, and a choice made in another window", () => {
+
+        const system = mockSystem(true);
+        stop = ThemeService.start();
+
+        render(<ThemeSwitch />);
+        // Auto, dark now: "Auto", with the moon.
+        expect(shown()).toBe("Reading mode: Auto");
+        const icon = () => trigger().querySelector("svg path")?.getAttribute("d") ?? "";
+        expect(icon()).toMatch(/^M13.5 10.2/);
+        act(() => system.set(false));
+        expect(theme()).toBe("light");
+        expect(icon()).not.toMatch(/^M13.5 10.2/);
+
+        // Another window of the app chooses Sepia: this one follows, page and picker.
+        localStorage.setItem(THEME_KEY, "sepia");
+        act(() => { window.dispatchEvent(new StorageEvent("storage", { key: THEME_KEY, newValue: "sepia" })); });
+        expect(theme()).toBe("sepia");
+        expect(shown()).toBe("Reading mode: Sepia");
+
+        // Back to Auto, so the choice does not leak into other tests.
+        pick("Auto");
+
+    });
+
     it("closes on a click elsewhere, choosing nothing", () => {
 
         mockSystem(false);

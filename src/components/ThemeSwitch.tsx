@@ -1,6 +1,6 @@
 import { KeyboardEvent, useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 
-import { ThemeService, ThemeChoice } from "../services/ThemeService";
+import { ThemeService, ThemeChoice, type Theme } from "../services/ThemeService";
 import { consumeKey } from "./interview/consumeKey";
 
 import "../styles/option-picker.css";
@@ -12,6 +12,12 @@ const OPTIONS: readonly { value: ThemeChoice; label: string; title: string }[] =
     { value: "dark", label: "Dark", title: "Dark theme" },
     { value: "auto", label: "Auto", title: "Follow the system's light or dark setting" }
 ];
+
+/** The choice and the theme it comes to, as one value React can compare ("auto:dark"). */
+function themeState(): string {
+    const choice = ThemeService.getChoice();
+    return choice + ":" + ThemeService.resolve(choice);
+}
 
 /** A sun, an open book for Sepia, a moon, and a half-filled circle for Auto. Drawn in the text colour. */
 function ThemeIcon({ value }: { value: ThemeChoice }) {
@@ -67,7 +73,10 @@ export default function ThemeSwitch() {
 
     const listId = useId();
 
-    const choice = useSyncExternalStore(ThemeService.subscribe, ThemeService.getChoice, ThemeService.getChoice);
+    // The choice AND what it comes to: under Auto the system's change
+    // alters only the latter, and the picker's icon has to follow it.
+    const state = useSyncExternalStore(ThemeService.subscribe, themeState, themeState);
+    const [choice, resolved] = state.split(":") as [ThemeChoice, Theme];
     const current = OPTIONS.find(option => option.value === choice) ?? OPTIONS[OPTIONS.length - 1];
 
     const [open, setOpen] = useState(false);
@@ -173,7 +182,8 @@ export default function ThemeSwitch() {
                 onClick={() => open ? close() : start()}
                 onKeyDown={onTriggerKeyDown}
             >
-                <ThemeIcon value={current.value} />
+                {/* Auto says "Auto", with the icon of what it comes to now. */}
+                <ThemeIcon value={current.value === "auto" ? resolved : current.value} />
                 <span className="header-tool-word">{current.label}</span>
                 <svg className="theme-switch-chevron" viewBox="0 0 12 8" aria-hidden="true" focusable="false">
                     <path d="M1 1.5 6 6.5 11 1.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

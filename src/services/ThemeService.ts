@@ -149,9 +149,26 @@ export const ThemeService = {
 
         ThemeService.apply();
 
+        // A choice made in another window of the app (the same
+        // storage): drawn here too, and the picker says so, so the
+        // page and the picker never disagree.
+        const onStorage = (event: StorageEvent) => {
+
+            if (event.key === THEME_KEY || event.key === null) {
+
+                ThemeService.apply();
+
+                notify();
+
+            }
+
+        };
+
+        window.addEventListener("storage", onStorage);
+
         if (typeof window.matchMedia !== "function") {
 
-            return () => {};
+            return () => window.removeEventListener("storage", onStorage);
 
         }
 
@@ -171,7 +188,13 @@ export const ThemeService = {
 
         query.addEventListener("change", onChange);
 
-        return () => query.removeEventListener("change", onChange);
+        return () => {
+
+            query.removeEventListener("change", onChange);
+
+            window.removeEventListener("storage", onStorage);
+
+        };
 
     }
 
