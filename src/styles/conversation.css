@@ -10291,6 +10291,7 @@ td.process-library-col-number{
    Dragging one shorter also broke the alignment across the card,
    which nothing in the page could put back. */
 .business-foundation .business-foundation-note,
+.brand-style .business-foundation-note,
 .business-foundation .business-foundation-proposition-input{
 
     min-height:0;

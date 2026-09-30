@@ -15,7 +15,7 @@ import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { ColumnHeading, GuidanceBullets } from "./ColumnHeads.tsx";
 import { limitedHexText } from "./numberInput.ts";
 import { railId } from "./rails/railItems.ts";
-import { BusinessAddButton, BusinessCard, BusinessField, BusinessRemove, OptionalField } from "./BusinessCardFields.tsx";
+import { BusinessAddButton, BusinessCard, BusinessField, BusinessRemove, OptionalNote } from "./BusinessCardFields.tsx";
 import { LevelSize, cardTint, clampedSize, pixelRange, useCardInk } from "./brandStyleParts.tsx";
 import FoldAllToggle from "./FoldAllToggle.tsx";
 import OptionPicker from "./OptionPicker.tsx";
@@ -671,22 +671,15 @@ export default function BrandStyleEditor({
                             </div>
                             </div>
 
-                            <OptionalField
+                            {/* A growing box behind its tick, as every optional field. */}
+                            <OptionalNote
                                 label="Usage"
-                                filled={colour.usage.trim().length > 0}
-                                onClear={() => updateColour(index, { usage: "" })}
+                                ariaLabel={`${slot.label} usage`}
+                                placeholder="Where the colour is used"
                                 disabled={disabled}
-                            >
-                                <input
-                                    type="text"
-                                    className="interview-input"
-                                    aria-label={`${slot.label} usage`}
-                                    placeholder="Where the colour is used"
-                                    disabled={disabled}
-                                    value={colour.usage}
-                                    onChange={(event) => updateColour(index, { usage: event.target.value })}
-                                />
-                            </OptionalField>
+                                value={colour.usage}
+                                onChange={(usage) => updateColour(index, { usage })}
+                            />
 
                         </BusinessCard>
                     );
@@ -753,22 +746,15 @@ export default function BrandStyleEditor({
                                 true
                             )}
 
-                            <OptionalField
+                            {/* A growing box behind its tick, as every optional field. */}
+                            <OptionalNote
                                 label="Purpose"
-                                filled={typeface.purpose.trim().length > 0}
-                                onClear={() => updateTypeface(index, { purpose: "" })}
+                                ariaLabel={`${slot.label} purpose`}
+                                placeholder="What the typeface is used for"
                                 disabled={disabled}
-                            >
-                                <input
-                                    type="text"
-                                    className="interview-input"
-                                    aria-label={`${slot.label} purpose`}
-                                    placeholder="What the typeface is used for"
-                                    disabled={disabled}
-                                    value={typeface.purpose}
-                                    onChange={(event) => updateTypeface(index, { purpose: event.target.value })}
-                                />
-                            </OptionalField>
+                                value={typeface.purpose}
+                                onChange={(purpose) => updateTypeface(index, { purpose })}
+                            />
 
                         </BusinessCard>
                     );
