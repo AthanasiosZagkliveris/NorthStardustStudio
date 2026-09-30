@@ -126,7 +126,7 @@ function currentMonth(today: Date = new Date()): StrategyMonthValue {
     };
 }
 
-function monthOrdinal(month: StrategyMonthValue): number | null {
+export function monthOrdinal(month: StrategyMonthValue): number | null {
     const m = Number(month.month);
     const y = Number(month.year);
     return m >= 1 && m <= 12 && y > 0 ? y * 12 + (m - 1) : null;

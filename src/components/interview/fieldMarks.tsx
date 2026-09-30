@@ -105,7 +105,7 @@ export function FieldPageProvider({
 export const ANSWER_CONTROLS = "input:not([type=hidden]):not([type=file]), textarea, select, .option-picker-trigger, .month-picker-trigger, [contenteditable=true]";
 
 /** The cards a note can link to as a whole. */
-const CARDS = ".business-foundation-card, .legal-entity-card, .strategy-theme-box, .strategy-goal-box, .strategy-objective-box, .strategy-metric-box";
+const CARDS = ".business-foundation-card, .legal-entity-card, .business-capability-activity, .strategy-theme-box, .strategy-goal-box, .strategy-objective-box, .strategy-metric-box";
 
 /** What a control is called, without the value a picker adds ("Journey Stage 1: Discovery"). */
 function controlName(control: HTMLElement): string {

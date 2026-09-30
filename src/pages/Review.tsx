@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import AppFooter from "../components/AppFooter";
 import AppHeader from "../components/AppHeader";
 import { fieldLocation } from "../components/interview/openField";
 import { systems } from "../data/systems";
-import type { ReviewGroup, ReviewItem, ReviewPlace } from "../framework/engine/ReviewItems";
+import { foundationReady, type ReviewGroup, type ReviewItem, type ReviewPlace } from "../framework/engine/ReviewItems";
 import { OrganizationService } from "../services/OrganizationService";
 import { organizationReview } from "../services/ReviewService";
 
@@ -29,7 +29,20 @@ const GROUPS: { id: ReviewGroup; title: string }[] = [
 export default function Review() {
 
     const navigate = useNavigate();
+    const location = useLocation();
     const [organizationId] = useState(() => OrganizationService.getSelected());
+
+    /* Back, and Escape, return to where Review was opened from (the
+       header's Review and the last page's link say where); opened
+       any other way, to System Selection's Foundation. */
+    const from = (location.state as { from?: { pathname: string; state?: unknown } } | null)?.from;
+    const back = useMemo(() => () => {
+        if (from && from.pathname !== "/review") {
+            navigate(from.pathname, { state: from.state });
+        } else {
+            navigate("/assistant", { state: { capability: "foundation" } });
+        }
+    }, [from, navigate]);
 
     useEffect(() => {
         if (!organizationId) {
@@ -39,13 +52,14 @@ export default function Review() {
 
     useEffect(() => {
         function onKey(event: KeyboardEvent) {
-            if (event.key === "Escape") {
-                navigate("/assistant", { state: { capability: "foundation" } });
+            // Not a key something open on the page has already answered.
+            if (event.key === "Escape" && !event.defaultPrevented) {
+                back();
             }
         }
         window.addEventListener("keydown", onKey);
         return () => window.removeEventListener("keydown", onKey);
-    }, [navigate]);
+    }, [back]);
 
     const items = useMemo(() => organizationId ? organizationReview(organizationId) : [], [organizationId]);
 
@@ -77,20 +91,22 @@ export default function Review() {
 
                 <h1 className="workspace-title review-title">Review</h1>
 
-                {items.length === 0
-                    ? (
-                        <div className="review-ready">
-                            <p className="review-ready-text">Your Foundation is ready. Create your documents.</p>
-                            <button
-                                type="button"
-                                className="workspace-documents-button"
-                                onClick={() => navigate("/documents")}
-                            >
-                                Business Documents
-                            </button>
-                        </div>
-                    )
-                    : GROUPS.filter(group => byGroup(group.id).length > 0).map(group => (
+                {/* Nothing left to answer: ready, whatever the
+                    financial pages still signal (listed under it). */}
+                {foundationReady(items) && (
+                    <div className="review-ready">
+                        <p className="review-ready-text">Your Foundation is ready. Create your documents.</p>
+                        <button
+                            type="button"
+                            className="workspace-documents-button"
+                            onClick={() => navigate("/documents")}
+                        >
+                            Business Documents
+                        </button>
+                    </div>
+                )}
+
+                {GROUPS.filter(group => byGroup(group.id).length > 0).map(group => (
                         <section className="review-group" key={group.id} aria-labelledby={"review-" + group.id}>
                             <h2 className="review-group-title" id={"review-" + group.id}>
                                 {group.title}
@@ -117,7 +133,7 @@ export default function Review() {
 
             </main>
 
-            <AppFooter onBack={() => navigate("/assistant", { state: { capability: "foundation" } })} />
+            <AppFooter onBack={back} />
 
         </div>
 

@@ -2747,7 +2747,9 @@ export default function Conversation() {
                                     <button
                                         type="button"
                                         className="interview-nav-review"
-                                        onClick={() => navigate("/review")}
+                                        onClick={() => navigate("/review", {
+                                            state: { from: { pathname: location.pathname, state: location.state } }
+                                        })}
                                     >
                                         Review what's open
                                     </button>
