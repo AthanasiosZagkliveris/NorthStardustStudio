@@ -29,16 +29,24 @@ export interface NumberedListStaticLine {
  */
 export default function NumberedListStatic({
 
-    lines
+    lines,
+
+    start = 1
 
 }: {
 
     lines: readonly NumberedListStaticLine[];
+    /** The first line's number, for a list that continues another (a Completed fold). */
+    start?: number;
 
 }) {
 
     return (
-        <ol className="numbered-list-static">
+        <ol
+            className="numbered-list-static"
+            start={start}
+            style={start !== 1 ? { counterReset: "numbered-list-static " + (start - 1) } : undefined}
+        >
             {lines.map(line => (
                 <li key={line.key} className={line.className}>
                     <span className="numbered-list-static-text">{line.text}</span>

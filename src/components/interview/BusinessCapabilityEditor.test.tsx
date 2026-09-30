@@ -2,9 +2,9 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
-import BusinessCapabilityEditor from "./BusinessCapabilityEditor";
+import BusinessCapabilityEditor, { withDerivedActivity } from "./BusinessCapabilityEditor";
 import { toggles } from "../../test/interviewTestUtils";
-import { BUSINESS_ACTIVITY_CATEGORIES, asBusinessCapabilityValue, createBusinessActivity } from "../../framework/engine/AnswerUtils";
+import { BUSINESS_ACTIVITY_CATEGORIES, asBusinessCapabilityValue, createBusinessActivity, createBusinessResourceSlot } from "../../framework/engine/AnswerUtils";
 
 function Harness() {
     const [value, setValue] = useState<unknown>(asBusinessCapabilityValue(undefined));
@@ -474,9 +474,23 @@ describe("BusinessCapabilityEditor founders' Responsibilities", () => {
         fireEvent.click(arrow);
         const open = screen.getByRole("button", { name: /^Minimize Responsibilities of (Ann|Founder 1)$/ });
         expect(open.getAttribute("aria-expanded")).toBe("true");
-        expect(lines(container)).toEqual(["A", "B", "C", "D", "E", "F"]);
+        // What is done waits in its own Completed fold, folded.
+        expect(lines(container)).toEqual(["B", "C", "D", "E", "F"]);
         fireEvent.click(open);
         expect(lines(container)).toEqual([]);
+    });
+
+    it("keeps what is done out of the list, in a Completed fold under it that starts folded", () => {
+        const { container } = renderWith(["A", "B", "C", "D"], 2);
+        expect(lines(container)).toEqual(["C", "D"]);
+        const completed = container.querySelector<HTMLButtonElement>("[aria-controls=responsibilities-done-f1]")!;
+        expect(completed.getAttribute("aria-expanded")).toBe("false");
+        fireEvent.click(completed);
+        expect(lines(container)).toEqual(["C", "D", "A", "B"]);
+        // Numbered on from the list above.
+        const done = container.querySelectorAll(".business-capability-completed .numbered-list-static");
+        expect(done[done.length - 1].getAttribute("start")).toBe("3");
+        expect(container.querySelector(".business-capability-responsibilities-count")?.textContent).toBe("Completed 2/4");
     });
 
     it("starts a list of five or fewer open", () => {
@@ -490,6 +504,24 @@ describe("BusinessCapabilityEditor founders' Responsibilities", () => {
         const { container } = renderWith([], 0);
         expect(screen.queryByRole("button", { name: /Responsibilities of/ })).toBeNull();
         expect(container.querySelector(".business-capability-responsibilities-count")).toBeNull();
+    });
+
+});
+
+describe("an activity a resource's status creates", () => {
+
+    const slot = { ...createBusinessResourceSlot(), id: "resource-loom", name: "Warping mill" };
+
+    it("is the sole founder's, as Performer and Responsibility", () => {
+        const next = withDerivedActivity(asBusinessCapabilityValue(undefined), "infrastructure", slot, "investigation", ["f1"]);
+        const created = next.activities.flatMap(category => category.activities).find(activity => activity.sourceId === slot.id)!;
+        expect(created).toMatchObject({ name: "Investigate Warping mill", performerIds: ["f1"], responsibleId: "f1" });
+    });
+
+    it("is left for the person to assign where there are several founders", () => {
+        const next = withDerivedActivity(asBusinessCapabilityValue(undefined), "infrastructure", slot, "activity", ["f1", "f2"]);
+        const created = next.activities.flatMap(category => category.activities).find(activity => activity.sourceId === slot.id)!;
+        expect(created).toMatchObject({ name: "Set up Warping mill", performerIds: [], responsibleId: "" });
     });
 
 });

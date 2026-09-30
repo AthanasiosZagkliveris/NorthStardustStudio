@@ -260,7 +260,7 @@ const ACTIVITY_CATEGORY_ORDER: readonly string[] =
     ACTIVITY_GROUPINGS.flatMap(grouping => grouping.categories);
 
 /** The two sections of this page, as the value stores them. */
-type Scope = "infrastructure" | "offering";
+export type Scope = "infrastructure" | "offering";
 
 /**
  * The activity a resource's status creates.
@@ -292,12 +292,17 @@ function derivedActivityName(slot: BusinessResourceSlotValue, status: string): s
  * "Needs Activity" leaves the activity alone, because by then it
  * may have a description, a performer and a responsible founder
  * that nothing else knows.
+ *
+ * With exactly one named founder, the new activity is theirs: its
+ * Performer and its Responsibility. With several it is left for the
+ * person to assign (the Review page lists it until they do).
  */
-function withDerivedActivity(
+export function withDerivedActivity(
     capability: BusinessCapabilityValue,
     scope: Scope,
     slot: BusinessResourceSlotValue,
-    status: string
+    status: string,
+    founderIds: readonly string[] = []
 ): BusinessCapabilityValue {
 
     if (status !== "activity" && status !== "investigation") {
@@ -313,11 +318,14 @@ function withDerivedActivity(
         return capability;
     }
 
+    const soleFounder = founderIds.length === 1 ? founderIds[0] : "";
+
     const activity: BusinessActivityValue = {
         ...createBusinessActivity(),
         name: derivedActivityName(slot, status),
         sourceId: slot.id,
-        offeringIds: scope === "offering" ? [...slot.offeringIds] : []
+        offeringIds: scope === "offering" ? [...slot.offeringIds] : [],
+        ...(soleFounder ? { performerIds: [soleFounder], responsibleId: soleFounder } : {})
     };
 
     if (scope === "offering") {
@@ -930,7 +938,8 @@ export default function BusinessCapabilityEditor({
                                 applySlot(capability, { status }),
                                 scope,
                                 { ...slot, status },
-                                status
+                                status,
+                                founders.filter(founder => founder.name.trim().length > 0).map(founder => founder.id)
                             ));
 
                         }}
@@ -1674,28 +1683,55 @@ export default function BusinessCapabilityEditor({
                                 activity under 2. Activities and it appears here.
                             </BusinessEmpty>
                         )
-                        : responsibilitiesOpen && (
-                            /* A completed one stays, marked done in the
-                               blue the Completed fold under 2. Activities
-                               is drawn in, the mark at the end of its
-                               line. */
-                            <div id={responsibilitiesId}>
-                                <NumberedListStatic
-                                    lines={responsibilities.map((entry, position) => ({
-                                        key: entry.name + position,
-                                        text: entry.name,
-                                        className: entry.completed
-                                            ? "business-capability-responsibility-done"
-                                            : undefined,
-                                        end: entry.completed && (
-                                            <span className="business-capability-done-tag">
-                                                Completed
-                                            </span>
-                                        )
-                                    }))}
-                                />
-                            </div>
-                        )}
+                        : responsibilitiesOpen && (() => {
+                            /* What is still to do, numbered; what is
+                               done, in its own Completed fold under it
+                               -- folded at first, in the grey of the
+                               Completed group under 2. Activities --
+                               its numbers carrying on from the list's.
+                               The order is the Activities'. */
+                            const active = responsibilities.filter(entry => !entry.completed);
+                            const done = responsibilities.filter(entry => entry.completed);
+                            const doneKey = "responsibilities-done-" + founder.id;
+                            const doneOpen = completedOpen.has(doneKey);
+                            return (
+                                <div id={responsibilitiesId}>
+                                    {active.length > 0 && (
+                                        <NumberedListStatic
+                                            lines={active.map((entry, position) => ({
+                                                key: entry.name + position,
+                                                text: entry.name
+                                            }))}
+                                        />
+                                    )}
+                                    {done.length > 0 && (
+                                        <div className="business-capability-completed">
+                                            <button
+                                                type="button"
+                                                className="business-capability-completed-head"
+                                                aria-expanded={doneOpen}
+                                                aria-controls={doneKey}
+                                                onClick={() => setCompletedOpen(current => toggledIn(current, doneKey))}
+                                            >
+                                                {"Completed " + done.length}
+                                            </button>
+                                            {doneOpen && (
+                                                <div id={doneKey}>
+                                                    <NumberedListStatic
+                                                        start={active.length + 1}
+                                                        lines={done.map((entry, position) => ({
+                                                            key: entry.name + position,
+                                                            text: entry.name,
+                                                            className: "business-capability-responsibility-done"
+                                                        }))}
+                                                    />
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })()}
 
                 </div>
 
@@ -1951,6 +1987,7 @@ export default function BusinessCapabilityEditor({
             <div
                 className={"business-capability-activity " + dropTarget}
                 key={activity.id}
+                data-anchor={activity.id}
                 {...dragProps}
             >
 
