@@ -6861,9 +6861,13 @@ export function businessResponsibilitiesTally(
  *
  * 1. A one-person organisation: its only founder is responsible for
  *    everything, since there is nobody else it could be.
- * 2. An activity performed by one founder alone: that founder is
- *    responsible for it too. Performed by several, or by anybody
- *    who is not a founder, somebody has to be chosen.
+ * 2. An activity whose Performers include exactly one founder (with
+ *    or without partners and providers beside them): that founder is
+ *    responsible for it too, and it follows the Performers -- change
+ *    them so a different single founder remains, and so does this.
+ *    With two or more founders among them somebody has to be chosen
+ *    (the choice, kept in responsibleId, is never overridden); with
+ *    none it is left empty for Review to list.
  *
  * `performerIds` is omitted for what has no performer -- a partner,
  * where only the first rule applies.
@@ -6877,10 +6881,12 @@ export function businessAutoResponsibleId(
         return founderIds[0];
     }
 
-    const chosen = (performerIds ?? []).filter(id => id.length > 0);
+    const founders = [...new Set(
+        (performerIds ?? []).filter(id => id.length > 0 && founderIds.includes(id))
+    )];
 
-    if (chosen.length === 1 && founderIds.includes(chosen[0])) {
-        return chosen[0];
+    if (founders.length === 1) {
+        return founders[0];
     }
 
     return "";
