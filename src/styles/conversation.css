@@ -9091,23 +9091,18 @@ td.process-library-col-number{
     margin-top:6px;
 
 }
-/* The Organisation subsection reads as three subjects rather than
-   a grid of six fields: who the organisation is and what it does,
-   where it is, and what it is legally. Each column stacks its own
-   fields, so a founder answers one subject at a time. */
-.legal-entity-grid-three{
+/* The Legal Form under the activity code: its picker the column's
+   width (the "column" width variant), so its longest option reads in
+   full; the holder adds no box of its own. */
+.legal-entity-legal-form{
 
-    grid-template-columns:repeat(3, minmax(0, 1fr));
+    display:contents;
 
 }
 
-@media (max-width: 1100px){
+.legal-entity-legal-form .option-picker{
 
-    .legal-entity-grid-three{
-
-        grid-template-columns:minmax(0, 1fr);
-
-    }
+    width:100%;
 
 }
 

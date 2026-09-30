@@ -1082,19 +1082,19 @@ export default function LegalEntityEditor({
                 {/* ---------- 1. Organisation ---------- */}
 
                 {subsection(0, (
-                    <div className="legal-entity-grid legal-entity-grid-three">
+                    <div className="legal-entity-grid">
 
                         {/*
-                            Three columns, each one subject.
-
-                            Who the organisation is and what it does;
-                            where it is; and what it is legally. Read
-                            down a column rather than across a grid,
-                            so a founder answers one question at a
-                            time instead of stepping between three.
+                            Two columns, each one subject, on the
+                            card's two-column grid: what the
+                            organization is (its name, what it does,
+                            the code that classifies that, and its
+                            legal form), and where it is. Read down a
+                            column rather than across a grid, so a
+                            founder answers one question at a time.
                         */}
 
-                        {/* ---- Who it is, and what it does ---- */}
+                        {/* ---- What it is ---- */}
                         <div className="legal-entity-field">
 
                             {labelled(
@@ -1149,6 +1149,56 @@ export default function LegalEntityEditor({
                                         )}
                                     </div>
                                 )}
+
+                            {/* What it is legally: under the activity it
+                                classifies, the Legal Form (its note, and its
+                                name when Other), frozen until a country is
+                                chosen. The picker takes the column's width. */}
+                            <div className="legal-entity-legal-form">
+                            <FrozenUntil answered={countryChosen} hint={waitingHint("country")}>
+
+                            {forms.length > 0 ? labelled(
+                                "Legal Form",
+                                <OptionPicker
+                                    label="Legal Form"
+                                    placeholder="Select a legal form"
+                                    options={[
+                                        ...forms.map(form => form.label),
+                                        LEGAL_FORM_OTHER
+                                    ]}
+                                    disabled={disabled}
+                                    value={entity.organisation.legalForm}
+                                    onChange={chooseLegalForm}
+                                />,
+                                true,
+                                undefined,
+                                INFO.legalForm
+                            ) : labelled(
+                                "Legal Form",
+                                textControl(
+                                    "Legal Form",
+                                    entity.organisation.legalFormOther,
+                                    (next) => updateOrganisation({ legalFormOther: next }),
+                                    "Enter the legal form"
+                                ),
+                                true
+                            )}
+
+                            {/* Named directly under the list that sent them here. */}
+                            {forms.length > 0 &&
+                                entity.organisation.legalForm === LEGAL_FORM_OTHER &&
+                                labelled(
+                                    "Name the legal form",
+                                    textControl(
+                                        "Name the legal form",
+                                        entity.organisation.legalFormOther,
+                                        (next) => updateOrganisation({ legalFormOther: next }),
+                                        "Enter the legal form"
+                                    ),
+                                    true
+                                )}
+                            </FrozenUntil>
+                            </div>
 
                         </div>
 
@@ -1266,55 +1316,8 @@ export default function LegalEntityEditor({
 
                         </div>
 
-                        {/* ---- What it is legally ---- */}
-                        <div className="legal-entity-field">
-                            <FrozenUntil answered={countryChosen} hint={waitingHint("country")}>
-
-                            {forms.length > 0 ? labelled(
-                                "Legal Form",
-                                <OptionPicker
-                                    label="Legal Form"
-                                    placeholder="Select a legal form"
-                                    options={[
-                                        ...forms.map(form => form.label),
-                                        LEGAL_FORM_OTHER
-                                    ]}
-                                    disabled={disabled}
-                                    value={entity.organisation.legalForm}
-                                    onChange={chooseLegalForm}
-                                />,
-                                false,
-                                undefined,
-                                INFO.legalForm
-                            ) : labelled(
-                                "Legal Form",
-                                textControl(
-                                    "Legal Form",
-                                    entity.organisation.legalFormOther,
-                                    (next) => updateOrganisation({ legalFormOther: next }),
-                                    "Enter the legal form"
-                                )
-                            )}
-
-                            {/* Named directly under the list that sent them here. */}
-                            {forms.length > 0 &&
-                                entity.organisation.legalForm === LEGAL_FORM_OTHER &&
-                                labelled(
-                                    "Name the legal form",
-                                    textControl(
-                                        "Name the legal form",
-                                        entity.organisation.legalFormOther,
-                                        (next) => updateOrganisation({ legalFormOther: next }),
-                                        "Enter the legal form"
-                                    ),
-                                    true
-                                )}
-                            </FrozenUntil>
-
-                        </div>
-
                         {entity.organisation.country.trim().length > 0 && !profiled && (
-                            <p className="legal-entity-note-line">
+                            <p className="legal-entity-note-line legal-entity-field-wide">
                                 This app holds no legal form or tax detail for the country you
                                 chose, so the questions below stay general. Your jurisdiction may
                                 require something different, so check with someone who knows

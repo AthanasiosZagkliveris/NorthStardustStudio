@@ -158,9 +158,13 @@ track of the grid it stands in.
 ### Body order
 
 Fields follow the order a founder answers them: what it is, then where,
-then the details; the Legal Entity's "where it is" column reads Country,
-State / Region (where the country has one: it decides which registry and
-tax apply), City | Postcode, Address.
+then the details. The Legal Entity's Organization section is two columns
+on the card's two-column grid: "what it is" reads Organization Name, Main
+Activity, its activity code (S), Legal Form (the column's width: every UK
+and US form reads in full; the longest, 57 characters, fits from a 1366px
+window, and a closed picker too narrow ends in "..."); "where it is" reads
+Country, State / Region (where the country has one: it decides which
+registry and tax apply), City | Postcode, Address.
 
 ---
 

@@ -429,3 +429,26 @@ describe("LegalEntityEditor tax list", () => {
     });
 
 });
+
+describe("LegalEntityEditor organization columns", () => {
+
+    it("asks what the organization is (Legal Form last, under the activity code) beside where it is, in two columns", () => {
+
+        function Org() {
+            const [value, setValue] = useState<unknown>(asLegalEntityValue({ organisation: { country: "GB", mainActivity: "Weaving" } }));
+            return <LegalEntityEditor value={value} onChange={setValue} />;
+        }
+        render(<Org />);
+
+        const grid = document.querySelector("[data-anchor='legal-section-0'] .legal-entity-grid")!;
+        const columns = [...grid.children].filter(child => child.classList.contains("legal-entity-field"));
+        expect(columns).toHaveLength(2);
+        const what = columns[0];
+        const controls = [...what.querySelectorAll(".option-picker-trigger, input, textarea")];
+        expect(controls[controls.length - 1].closest(".legal-entity-legal-form")).toBeTruthy();
+        expect(controls[controls.length - 2].closest(".legal-entity-activity-code")).toBeTruthy();
+        expect(columns[1].classList.contains("legal-entity-where")).toBe(true);
+
+    });
+
+});
