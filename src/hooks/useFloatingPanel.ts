@@ -86,7 +86,14 @@ export function useFloatingPanel(
      * would otherwise be judged too tall for the space and flip
      * upwards for no reason.
      */
-    ceiling?: number
+    ceiling?: number,
+    /**
+     * Floats free of every box around it: placed in window
+     * coordinates (position: fixed), so a scroller or a clipped
+     * label it opens inside cannot cut it off -- a note opened from
+     * a table head. Placed by hand, not by the styles below.
+     */
+    free = false
 ): FloatingPanelPlacement {
 
     const panelRef = useRef<HTMLDivElement | null>(null);
@@ -106,6 +113,11 @@ export function useFloatingPanel(
 
         const anchorRect = anchor.getBoundingClientRect();
 
+        if (free) {
+            placeFree(panel, anchorRect, ceiling);
+            return;
+        }
+
         // The panel's own natural height, not its current one --
         // once it has been capped, its rendered height is the cap
         // and measuring that would make the cap permanent. Held to
@@ -123,15 +135,16 @@ export function useFloatingPanel(
             setAbove(true);
             setMaxHeight(undefined);
         } else {
+            // Capped to the side with more room -- and still held
+            // inside the window sideways, below.
             const goAbove = roomAbove > roomBelow;
             setAbove(goAbove);
             setMaxHeight(Math.max(goAbove ? roomAbove : roomBelow, 0));
-            return;
         }
 
         // It fits: the ceiling is still what holds a long list to a
         // readable length.
-        if (ceiling !== undefined && panel.scrollHeight > ceiling) {
+        if (needed <= Math.max(roomBelow, roomAbove) && ceiling !== undefined && panel.scrollHeight > ceiling) {
             setMaxHeight(ceiling);
         }
 
@@ -145,7 +158,7 @@ export function useFloatingPanel(
 
         setShiftX(overflowRight > 0 ? -Math.min(overflowRight, Math.max(0, naturalLeft - bounds.left)) : 0);
 
-    }, [anchorRef, shiftX, ceiling]);
+    }, [anchorRef, shiftX, ceiling, free]);
 
     useLayoutEffect(() => {
 
@@ -170,6 +183,11 @@ export function useFloatingPanel(
 
     }, [open, place]);
 
+    // Free: placed by hand (placeFree), hidden until it has been.
+    if (free) {
+        return { panelRef, panelStyle: { position: "fixed", margin: 0 }, above: false };
+    }
+
     const panelStyle: CSSProperties = above
         ? {
             top: "auto",
@@ -187,5 +205,54 @@ export function useFloatingPanel(
         };
 
     return { panelRef, panelStyle, above };
+
+}
+
+/**
+ * A free panel's place, in window coordinates: under its anchor if it
+ * fits, over it if it fits there, else capped to the side with more
+ * room; its left edge at the anchor's, pulled back inside the window.
+ * Measured and corrected once, so a transformed box around it (which
+ * makes "fixed" relative to itself) cannot throw it off.
+ */
+function placeFree(panel: HTMLElement, anchor: DOMRect, ceiling?: number): void {
+
+    panel.style.maxHeight = "";
+    panel.style.overflowY = "";
+
+    const needed = Math.min(panel.scrollHeight, ceiling ?? Infinity);
+    const width = panel.getBoundingClientRect().width;
+
+    const roomBelow = window.innerHeight - anchor.bottom - ANCHOR_GAP - EDGE_MARGIN;
+    const roomAbove = anchor.top - ANCHOR_GAP - EDGE_MARGIN;
+
+    let height = needed;
+    let below = true;
+    if (needed > roomBelow) {
+        if (needed <= roomAbove) {
+            below = false;
+        } else {
+            below = roomBelow >= roomAbove;
+            height = Math.max(below ? roomBelow : roomAbove, 0);
+        }
+    }
+    if (height < panel.scrollHeight) {
+        panel.style.maxHeight = height + "px";
+        panel.style.overflowY = "auto";
+    }
+
+    const top = below ? anchor.bottom + ANCHOR_GAP : anchor.top - ANCHOR_GAP - height;
+    const left = Math.max(EDGE_MARGIN, Math.min(anchor.left, window.innerWidth - EDGE_MARGIN - width));
+
+    panel.style.left = left + "px";
+    panel.style.top = top + "px";
+
+    // Where it landed against where it was meant to: the difference is
+    // a transformed box around it, taken off once.
+    const landed = panel.getBoundingClientRect();
+    if (Math.abs(landed.left - left) > 0.5 || Math.abs(landed.top - top) > 0.5) {
+        panel.style.left = (2 * left - landed.left) + "px";
+        panel.style.top = (2 * top - landed.top) + "px";
+    }
 
 }

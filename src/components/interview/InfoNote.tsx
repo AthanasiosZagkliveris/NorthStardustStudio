@@ -171,7 +171,8 @@ export default function InfoNote({
     // No ceiling: three bullets are short by construction, so the
     // only cap that should ever apply is the window's own, which
     // the hook supplies when the note will not otherwise fit.
-    const { panelRef, panelStyle } = useFloatingPanel(open, buttonRef);
+    // Free of the boxes around it (a table's scroller, a one-line label).
+    const { panelRef, panelStyle } = useFloatingPanel(open, buttonRef, undefined, true);
 
     // Clicking anywhere else closes it, as a popover is expected to.
     useEffect(() => {
