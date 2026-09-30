@@ -517,6 +517,22 @@ html.notepad-picking [data-pick-hover] {
 
 }
 
+/* Tinted, gently, with the same orange -- not where the box is
+   disabled or read-only, which keep their own look. */
+.is-noted.is-noted.is-noted:not(:disabled, [readonly]) {
+
+    background-color: var(--bg-noted);
+
+}
+
+/* On the tint, a placeholder takes the muted text ink, so it keeps
+   4.5:1 in every theme. */
+.is-noted.is-noted.is-noted::placeholder {
+
+    color: var(--text-muted);
+
+}
+
 /* And a soft glow around it, static -- except while it holds the
    focus, when the focus ring (--glow-color) is drawn instead, so the
    two never read as one. Outside the box, so nothing moves. */

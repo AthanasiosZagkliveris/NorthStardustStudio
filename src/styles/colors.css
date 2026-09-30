@@ -171,6 +171,8 @@
     --line-noted: #c05621;
     /* Its soft outer glow: static, the same orange, faint. */
     --glow-noted: rgba(192, 86, 33, 0.4);
+    /* Its tint: 8% of the orange in the field's white. */
+    --bg-noted: #faf2ed;
     --line-danger-a18: rgba(176, 0, 32, .18);
     --line-danger-alt: #b3261e;
     --line-danger-deep: #b91c1c;
@@ -444,6 +446,7 @@
     --line-danger: #f07f7a;
     --line-noted: #e8914a;
     --glow-noted: rgba(232, 145, 74, 0.28);
+    --bg-noted: #372d27;
     --line-danger-a18: rgba(240, 127, 122, 0.18);
     --line-danger-alt: #ec7c6e;
     --line-danger-deep: #eb7b6f;
@@ -739,6 +742,7 @@
     --line-danger: #8d3837;
     --line-noted: #a8541c;
     --glow-noted: rgba(168, 84, 28, 0.4);
+    --bg-noted: #f4e8da;
     --line-danger-a18: rgba(141, 56, 55, 0.18);
     --line-danger-alt: #91433a;
     --line-danger-deep: #95423a;
