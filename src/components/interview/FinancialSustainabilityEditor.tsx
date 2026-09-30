@@ -103,6 +103,12 @@ const STREAM_HELP: Record<"price" | "volume" | "timing", InfoPoint[]> = {
     ]
 };
 
+/** Orders & Delivery's "i": asked only where the Offering has a cost per order. */
+const ORDERS_HELP: InfoPoint[] = [
+    "Asked because this Offering has a cost per order, such as delivery, on Infrastructure & Capability.",
+    "Items per Order shares that cost between the items in one order; the Delivery Charge is what the customer pays towards it."
+];
+
 const TAKE_INFO: InfoPoint[] = [
     "Worked out from the plan: the smallest single change that keeps the cash at zero or above in every month of the plan, each tried on its own with everything else as planned.",
     "The funding being sought is counted as if it arrives as planned, its repayments included, as in the Stress Test.",
@@ -688,9 +694,15 @@ export default function FinancialSustainabilityEditor({
                         true)}
 
                     {moneyInput("Price", what + " price", stream.price,
-                        (next) => changeStream(stream.id, { price: next }), "0")}
+                        (next) => changeStream(stream.id, { price: next }), "0", [
+                            "What the customer pays for one " + unit + ", before any delivery charge.",
+                            "Enter it on the basis chosen under Amounts on Financial Foundation."
+                        ])}
                     {listPicker("Per", what + " unit", REVENUE_UNITS, stream.unit,
-                        (next) => changeStream(stream.id, { unit: next }), "Unit", undefined, true)}
+                        (next) => changeStream(stream.id, { unit: next }), "Unit", [
+                            "What one price buys: a product, a session, an hour, a client or a project.",
+                            "Expected sales are counted in the same unit, so the two multiply to the revenue."
+                        ], true)}
 
                     {stream.unit === "Other" && textInput("Unit Name", what + " unit, named", stream.unitOther,
                         (next) => changeStream(stream.id, { unitOther: next }), undefined, undefined, true)}
@@ -848,6 +860,10 @@ export default function FinancialSustainabilityEditor({
                         planMonths={months}
                         disabled={disabled || stream.development === "detailed"}
                         onChange={(next) => changeStream(stream.id, { start: next })}
+                        info={[
+                            "The first month this Offering brings in sales.",
+                            "Before it, the plan counts no revenue from it, while its costs may already run."
+                        ]}
                         inline
                     />
 
@@ -869,7 +885,9 @@ export default function FinancialSustainabilityEditor({
                         true)}
 
                     {splitPayment && textInput("Upfront (%)", what + " percent paid at start", stream.firstPercent,
-                        (next) => changeStream(stream.id, { firstPercent: next }), "e.g. 50", undefined, true, NUMBER_LIMITS.percent)}
+                        (next) => changeStream(stream.id, { firstPercent: next }), "e.g. 50",
+                        ["The share of the price paid when the sale is made; the rest arrives the months after given beside it."],
+                        true, NUMBER_LIMITS.percent)}
                     {delayedPayment && textInput(
                         stream.paymentTiming === "completion" ? "Paid After" : "Rest After",
                         what + " payment delay", stream.paymentDelay,
@@ -882,7 +900,7 @@ export default function FinancialSustainabilityEditor({
                 {/* Asked only when this Offering has a cost per order, such as delivery. */}
                 {perOrder > 0 && (
                     <section className="financial-stream-group">
-                    {groupHead("Orders & Delivery")}
+                    {groupHead("Orders & Delivery", ORDERS_HELP)}
                     <div className="financial-inline-grid financial-stream-grid">
                             {textInput(
                                 "Items per Order",

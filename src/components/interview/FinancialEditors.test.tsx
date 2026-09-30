@@ -261,6 +261,10 @@ describe("a revenue stream's Begins and Payment and Orders & Delivery", () => {
         expect(heads.length).toBe(2);
         expect(heads[0].startsWith("Begins and Payment")).toBe(true);
         expect(heads[1].startsWith("Orders & Delivery")).toBe(true);
+        // Every field and group title of the card says what it asks.
+        for (const name of ["Price", "Per", "Begins", "Orders & Delivery", "Items per Order", "Delivery Charge"]) {
+            expect(screen.queryAllByRole("button", { name: new RegExp("^" + name.replace(/[()£]/g, ".") + ".*: what this means$") }).length).toBeGreaterThan(0);
+        }
     });
 
     it("stack when payment needs more fields, or there are no orders to ask about", () => {
