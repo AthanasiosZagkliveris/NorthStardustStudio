@@ -794,11 +794,13 @@ export default function BusinessCapabilityEditor({
             ? Math.round(unitPrice * count * 100) / 100
             : null;
         return (
-            /* One field a line, label beside control: side by side in
-               a row, two labelled controls leave each too narrow. */
-            <div className="business-capability-stack">
+            /* Price (with its currency) and Frequency side by side, in
+               the card's two columns, tops level; one under the other
+               in a narrow card (business-capability-costs). */
+            <div className="business-capability-costs">
+            <div className="business-capability-cost-grid">
 
-                <BusinessField label={count !== null ? "Price per Unit" : "Price"} inline>
+                <BusinessField label={count !== null ? "Price per Unit" : "Price"}>
                     <div className="business-capability-price">
 
                         {/* A number and nothing else: the currency is
@@ -837,7 +839,7 @@ export default function BusinessCapabilityEditor({
                     )}
                 </BusinessField>
 
-                <BusinessField label="Frequency" inline>
+                <BusinessField label="Frequency">
                     <OptionPicker
                         label={what + " payment frequency"}
                         placeholder="Select a frequency"
@@ -859,7 +861,6 @@ export default function BusinessCapabilityEditor({
                 {cost.frequency === "other" && (
                     <BusinessText
                         label="Which?"
-                        inline
                         ariaLabel={what + " frequency, named"}
                         value={cost.frequencyOther}
                         disabled={disabled}
@@ -867,6 +868,7 @@ export default function BusinessCapabilityEditor({
                     />
                 )}
 
+            </div>
             </div>
         );
     }

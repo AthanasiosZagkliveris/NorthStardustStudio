@@ -14169,6 +14169,42 @@ td.process-library-col-number{
 
 }
 
+/* A cost's fields (a resource at Costs, a provider or professional):
+   side by side in the card's two columns, labels above, tops level --
+   Price with its currency beside Frequency -- and one under the other
+   where the fields have under 300px (measured on their own
+   box, a container query). */
+.business-capability-costs{
+
+    container:cost-fields / inline-size;
+
+    min-width:0;
+
+}
+
+.business-capability-cost-grid{
+
+    display:grid;
+
+    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
+
+    column-gap:24px;
+    row-gap:var(--space-field);
+
+    align-items:start;
+
+}
+
+@container cost-fields (max-width: 300px){
+
+    .business-capability-cost-grid{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+}
+
 /* ---------- Each Offering's costs (Sustainability) ---------- */
 
 .financial-offering-costs{
