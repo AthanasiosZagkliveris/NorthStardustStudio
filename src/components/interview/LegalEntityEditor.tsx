@@ -1809,23 +1809,19 @@ export default function LegalEntityEditor({
 
                 {/* ---------- 4. Tax & Business Registration ---------- */}
 
-                {/* ONE LIST, as the registrations of 3. are: under "Tax /
-                    Registration" and "Number", the tax number first (its
-                    local name, "UTR", "EIN"), then the consumption tax as a
-                    tick (ticked, its number beside it; unticked, not
-                    registered -- which is also the answer where it does not
-                    apply), then any others added, each with its ×. The ×
+                {/* ONE LIST on the Name | Number columns of 3.: the tax
+                    number first (its local name, "UTR", "EIN") beside its
+                    box, then the consumption tax as a tick (ticked, its
+                    number beside it; unticked, not registered -- which is
+                    also the answer where it does not apply), then, under
+                    "Tax / Registration" and "Number", any others added,
+                    each with its ×. The ×
                     column is kept on every row, so the Number column stands
                     at the same x as 3.'s. */}
                 {subsection(3, (
                     <div className="legal-entity-grid legal-entity-grid-formation">
 
                         <div className="legal-entity-field-wide legal-entity-registrations">
-
-                            <div className="legal-entity-number-row legal-entity-number-head">
-                                <span className="field-label legal-entity-label">Tax / Registration</span>
-                                <span className="field-label legal-entity-label">Number</span>
-                            </div>
 
                             <div className="legal-entity-number-row">
                                 <span className="legal-entity-label-info legal-entity-row-label">
@@ -1896,6 +1892,17 @@ export default function LegalEntityEditor({
                                             })}
                                         />
                                     )}
+                                </div>
+                            )}
+
+                            {/* The heads of the list the user adds to, over its
+                                first row: the tax number and the consumption tax
+                                above are named beside their numbers, so a card
+                                with only those has no heads at all. */}
+                            {entity.tax.additionalRegistrations.length > 0 && (
+                                <div className="legal-entity-number-row legal-entity-number-head">
+                                    <span className="field-label legal-entity-label">Tax / Registration</span>
+                                    <span className="field-label legal-entity-label">Number</span>
                                 </div>
                             )}
 

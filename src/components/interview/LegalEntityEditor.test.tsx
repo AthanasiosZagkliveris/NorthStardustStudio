@@ -402,3 +402,30 @@ describe("LegalEntityEditor formation row", () => {
     });
 
 });
+
+describe("LegalEntityEditor tax list", () => {
+
+    it("names the tax number and VAT beside their boxes, and heads only the registrations added, under them", () => {
+
+        function Tax() {
+            const [value, setValue] = useState<unknown>(asLegalEntityValue({ organisation: { country: "GB" } }));
+            return <LegalEntityEditor value={value} onChange={setValue} />;
+        }
+        render(<Tax />);
+
+        const list = () => document.querySelectorAll(".legal-entity-registrations")[1] as HTMLElement;
+        const heads = () => [...list().querySelectorAll(".legal-entity-number-head")];
+        expect(heads()).toHaveLength(0);
+
+        fireEvent.click(screen.getByRole("button", { name: /\+ Add tax registration/i }));
+
+        expect(heads()).toHaveLength(1);
+        expect(heads()[0].textContent).toBe("Tax / RegistrationNumber");
+        const rows = [...list().children];
+        // After the VAT row, before the first added registration.
+        expect(rows.indexOf(heads()[0])).toBeGreaterThan(rows.indexOf(list().querySelector(".legal-entity-tax-row")!));
+        expect(rows[rows.indexOf(heads()[0]) + 1].querySelector('[aria-label="Tax registration 1 name"]')).toBeTruthy();
+
+    });
+
+});
