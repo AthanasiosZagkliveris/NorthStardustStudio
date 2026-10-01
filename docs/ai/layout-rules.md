@@ -33,6 +33,7 @@ below are these, made measurable.
 | `--space-label` | 6px | a label to the control it names |
 | `--space-field` | 12px | one field (label and control) to the next |
 | `--space-card` | 12px | one card to the next in a list |
+| `--bg-card-tint` | #f3f4f6 / #23272c / #f3e8d8 (light / dark / sepia) | the neutral card ground: every card without a hue (Legal Entity, Founders Profile, Brand Style, Business cards), so the white boxes stand out; every card text keeps 4.5:1 on it (faint text as `--text-faint-on-tint`) |
 | `--card-padding` | 12px | inside every card **and every section box**, border to content (sides) |
 | `--space-row` | 6px | one row of a table to the next |
 | `--space-cell` | 12px | one cell of a row to the next inside a card: a field grid's columns, a pair row, a list's cells, a table's columns |
@@ -166,11 +167,10 @@ grids' 24px) are not cell gaps.
   Expenses", "Relevant Information") is one line, a row gap from what is
   above and below it, and a label gap above the box it opens. The options
   of one tick list (several ticks under one label) are rows of that field.
-- **Founder card** (Founders Profile): open, the Roles list stands in the
-  head beside the name (the name at its own width, "Roles i" beside the
-  list on its first line, the list the rest of the row, growing down; under
-  a 600px card, on a row of its own under the name); then two rows of two
-  equal columns, Industry | Management and Achievements | Skills.
+- **Founder card** (Founders Profile): on the card's two equal columns,
+  the Roles in the first column of the first row (the second empty), then
+  Industry | Management, then Achievements | Skills; one column under a
+  600px card.
 - **Additional Legal Requirement card**: Reference or Number | Type on one
   row of the card's two columns, the Type at the width its longest option
   needs.

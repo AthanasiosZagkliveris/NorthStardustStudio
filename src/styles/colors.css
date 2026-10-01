@@ -120,6 +120,10 @@
     --bg-pace: #f8fafc;
     --bg-page: #ffffff;
     --bg-panel: #fafafa;
+    /* The neutral card ground: white boxes stand out on it; every text
+       token keeps 4.5:1 on it (the faint one as --text-faint-on-tint). */
+    --bg-card-tint: #f3f4f6;
+    --text-faint-on-tint: #666d7a;
     --bg-primary: #0b57d0;
     --bg-primary-a35: rgba(11,87,208,.35);
     --bg-primary-faint: #f7faff;
@@ -411,6 +415,10 @@
     --bg-pace: #202121;
     --bg-page: #121417;
     --bg-panel: #212121;
+    /* The neutral card ground: white boxes stand out on it; every text
+       token keeps 4.5:1 on it (the faint one as --text-faint-on-tint). */
+    --bg-card-tint: #23272c;
+    --text-faint-on-tint: #acafb5;
     --bg-primary: #2563d8;
     --bg-primary-a35: rgba(11, 87, 208, 0.35);
     --bg-primary-faint: #202122;
@@ -727,6 +735,10 @@
     --bg-pace: #f0e4d3;
     --bg-page: #f4ebdd;
     --bg-panel: #f1e4d4;
+    /* The neutral card ground: white boxes stand out on it; every text
+       token keeps 4.5:1 on it (the faint one as --text-faint-on-tint). */
+    --bg-card-tint: #f3e8d8;
+    --text-faint-on-tint: #75614e;
     --bg-primary: #3e5f7e;
     --bg-primary-a35: rgba(62, 95, 126, 0.35);
     --bg-primary-faint: #f0e4d3;

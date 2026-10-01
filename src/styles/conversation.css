@@ -7412,7 +7412,7 @@ td.process-library-col-number{
    every theme; a folded colour card's own tint is set on it inline. */
 .brand-style-columns .business-foundation-card.brand-style-card{
 
-    background:var(--bg-panel);
+    background:var(--bg-card-tint);
 
     border-color:var(--box-border);
 
@@ -8790,6 +8790,13 @@ td.process-library-col-number{
 
 .legal-entity-card{
 
+    /* THE NEUTRAL CARD GROUND (--bg-card-tint, colors.css), so the
+       white boxes stand out from the card; text on it keeps 4.5:1
+       (its faint text takes --text-faint-on-tint). */
+    background:var(--bg-card-tint);
+
+    --text-faint:var(--text-faint-on-tint);
+
     display:flex;
 
     flex-direction:column;
@@ -8800,8 +8807,6 @@ td.process-library-col-number{
 
     border:1px solid var(--line-card);
     border-radius:8px;
-
-    background:var(--bg-surface);
 
 }
 
@@ -10395,7 +10400,11 @@ td.process-library-col-number{
     border:1px solid var(--line-card);
     border-radius:8px;
 
-    background:var(--bg-surface);
+    /* The neutral card ground (as .legal-entity-card); a card with a
+       hue sets its own below. */
+    background:var(--bg-card-tint);
+
+    --text-faint:var(--text-faint-on-tint);
 
     min-width:0;
 
