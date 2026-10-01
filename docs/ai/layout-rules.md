@@ -181,7 +181,8 @@ grids' 24px) are not cell gaps.
   "Responsible" over its picker: "Start" and "Responsible" on the
   Description label's line, the End box and the picker on the next row.
   In a card under 600px, Responsible goes under the period; one column
-  under 900px.
+  under 900px. Its columns, and every box inside the card, stand
+  `--space-card` (12px) apart.
 - **Nested cards: one action column.** A card inside a card keeps its
   head's buttons in the parent's button column: an Objective's x stands
   under its Goal's x, and a Metric box's x under its Objective's filter

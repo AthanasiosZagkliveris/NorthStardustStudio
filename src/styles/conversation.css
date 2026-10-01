@@ -5888,7 +5888,8 @@ td.process-library-col-number{
 
     display:grid;
 
-    gap:24px;
+    /* Boxes in a card: a card gap apart. */
+    gap:var(--space-card);
 
     align-items:start;
 
