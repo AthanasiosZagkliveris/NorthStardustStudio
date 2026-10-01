@@ -7,7 +7,7 @@ describe("one tick box", () => {
     it("gives every checkbox one fixed size that a wrapping label cannot squeeze, beside its label's first line", () => {
         const css = stylesheet("global.css");
         expect(css).toContain("input[type=\"checkbox\"] { flex: none; width: 18px; height: 18px; margin: 0; font: inherit; line-height: inherit;");
-        expect(css).toContain("label:has(> input[type=\"checkbox\"]) { align-items: flex-start; }");
+        expect(css).toContain("label:has(> input[type=\"checkbox\"]) { align-items: flex-start;");
         expect(css).toContain("label:has(> input[type=\"checkbox\"]) > input[type=\"checkbox\"] { margin-top: calc((1lh - 18px) / 2); }");
     });
 
@@ -29,6 +29,15 @@ describe("one tick box", () => {
         expect(css).toContain(".brand-tick:has(> input[type=\"checkbox\"]:not(:disabled):hover) > :not(input) { text-decoration: underline;");
         expect(css).toContain(".brand-tick > input[type=\"checkbox\"]:not(:disabled):hover:not(:focus-visible) { border-radius: 3px;");
         expect(css).toContain("box-shadow: 0 0 0 1px var(--line-primary), 0 0 0 5px color-mix(in srgb, var(--glow-color) 18%, transparent);");
+    });
+
+});
+
+describe("a tick box's click area", () => {
+
+    it("is only the box and its words: the label is as wide as they are", () => {
+        const css = stylesheet("global.css");
+        expect(css).toMatch(/label:has\(> input\[type="checkbox"\]\) \{[^}]*width: fit-content;[^}]*max-width: 100%;/);
     });
 
 });

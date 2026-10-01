@@ -936,6 +936,11 @@ input[type="checkbox"] {
 
 label:has(> input[type="checkbox"]) {
   align-items: flex-start;
+  /* ONLY THE BOX AND ITS WORDS TOGGLE: the label is as wide as they are,
+     so a click in the empty space beside them does nothing (Space still
+     toggles the focused box). */
+  width: fit-content;
+  max-width: 100%;
 }
 
 label:has(> input[type="checkbox"]) > input[type="checkbox"] {
