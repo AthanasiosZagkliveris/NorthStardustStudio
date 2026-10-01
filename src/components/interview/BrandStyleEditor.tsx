@@ -346,18 +346,7 @@ export default function BrandStyleEditor({
                     />
                 </BusinessField>
             );
-        /* Beside its picker ON THE CARD'S TWO COLUMNS (.card-field-pairs,
-           as a colour's Role | Colour): the label in column 1 on the
-           picker's centre line, the picker from column 2's edge at its
-           width. A run of its own (.business-field-run): among the card's
-           labels above, it would otherwise be set above too. */
-        return inline
-            ? (
-                <div className="card-field-pairs">
-                    <div className="card-field-pairs-grid card-field-side-row business-field-run">{field}</div>
-                </div>
-            )
-            : field;
+        return field;
     }
 
     /**
@@ -707,11 +696,11 @@ export default function BrandStyleEditor({
                             }
                         >
 
-                            {/* Role | Colour, one row in the card's two
-                                columns (one under the other in a narrow
-                                card). */}
-                            <div className="card-field-pairs">
-                            <div className="card-field-pairs-grid">
+                            {/* Role and Colour, each label BESIDE its control
+                                on the control's centre line, the labels in one
+                                column and the controls from one x to the name
+                                box's right edge (.brand-side-rows). */}
+                            <div className="brand-side-rows business-field-run">
 
                             {roleField(
                                 what,
@@ -719,10 +708,17 @@ export default function BrandStyleEditor({
                                 style.colours,
                                 index,
                                 (to) => onChange({ ...style, colours: movedSlot(style.colours, index, to) }),
-                                (to) => folds.expand(cardId("colour", BRAND_COLOUR_SLOTS[to].id))
+                                (to) => folds.expand(cardId("colour", BRAND_COLOUR_SLOTS[to].id)),
+                                true
                             )}
 
-                            <BusinessField label="Colour">
+                            {/* The contrast is the first point of the Colour's
+                                "i", worked out live from the colour chosen. */}
+                            <BusinessField
+                                label="Colour"
+                                inline
+                                info={[...(swatch ? [contrastNote(swatch)] : []), ...CONTRAST_HELP]}
+                            >
                                 <div className="brand-colour-row">
 
                                     <input
@@ -746,18 +742,8 @@ export default function BrandStyleEditor({
 
                                 </div>
 
-                                {/* Under the colour it is about, in its column. */}
-                                {swatch && (
-                                    <span className="brand-style-contrast">
-                                        <InfoText text={contrastNote(swatch)}>
-                                            <InfoNote label="Contrast ratio" points={CONTRAST_HELP} />
-                                        </InfoText>
-                                    </span>
-                                )}
-
                             </BusinessField>
 
-                            </div>
                             </div>
 
                             {/* A growing box behind its tick, as every optional field. */}
@@ -825,6 +811,7 @@ export default function BrandStyleEditor({
                             }
                         >
 
+                            <div className="brand-side-rows business-field-run">
                             {roleField(
                                 what,
                                 BRAND_TYPEFACE_SLOTS,
@@ -834,6 +821,7 @@ export default function BrandStyleEditor({
                                 (to) => folds.expand(cardId("typeface", BRAND_TYPEFACE_SLOTS[to].id)),
                                 true
                             )}
+                            </div>
 
                             {/* A growing box behind its tick, as every optional
                                 field: "Usage", as a colour's; its key stays

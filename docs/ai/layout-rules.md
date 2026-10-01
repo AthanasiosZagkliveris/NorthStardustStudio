@@ -247,17 +247,31 @@ that does not react as its row says.
   Limited by Shares (Ltd)", "Limited Liability Company (LLC)", a currency
   code). Stored values never change for a wording; documents keep full
   names.
+- **Exception: official and legal names stay as written**, brackets and
+  all: legal forms ("Toiminimi (sole proprietorship)", "Corporation
+  (federal)", "Empresario individual (autónomo)", "Stichting
+  (foundation)", "Unternehmergesellschaft (UG, haftungsbeschränkt)"), a
+  tax's official name ("VAT (USt)") and a platform's name ("X
+  (Twitter)").
 
 ---
 
 ## 7. Declared exceptions
 
-- **Text Hierarchy rows**: each row is fixed at the height of its name at
-  the largest size its range allows (`levelHeight()`), never under 45px,
-  so the box never changes size; the name scales about the row's centre
-  line from a fixed left edge and, where too wide, is scaled to fit rather
-  than wrapped. The two-line "Captions & Metadata / Interface" is centred
-  as a block.
+- **Text Hierarchy box**: every row is the px box's square (45px), 12px
+  apart, so the squares stand at one equal pitch and the box never changes
+  size. The tick, the name and the square share the row's centre line; a
+  name is scaled (about that line, from its left edge) to stay within its
+  row's width and within the square's height, never wrapped. The box
+  takes 12px more inside each side (24px).
+- **Colour and Typeface cards: the body under the name box.** Their rows
+  (Role, Colour, Usage) start at the name box's left edge and end at its
+  right edge, not at the number's x and the card's edge (the card is a
+  grid whose head shares its columns). Role and Colour are side-label rows
+  (`.brand-side-rows`): labels in one column on their controls' centre
+  line, controls to the right edge; a colour's contrast is the first point
+  of the Colour's "i". Every other card keeps the number-left rule; the
+  check tests this exception as "body under the name box".
 - **Composite groups** measured as one control: price + currency, swatch +
   HEX, a list row with its x, month side-label rows, the channel pick and
   resource rows, the founders table (see `GROUPS` in the probe).

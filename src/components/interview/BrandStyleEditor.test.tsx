@@ -257,3 +257,26 @@ describe("brandStyleSectionsEmpty", () => {
     });
 
 });
+
+describe("BrandStyleEditor colour and typeface cards", () => {
+
+    it("sets Role and Colour beside their controls, the contrast inside the Colour's note", () => {
+        render(<Harness />);
+        openAll();
+        const card = document.querySelector('[data-anchor="brand-colour-primary-a"]')!;
+        const rows = card.querySelector(".brand-side-rows")!;
+        expect(rows.querySelectorAll(":scope > .business-field-inline")).toHaveLength(2);
+        expect(card.textContent).not.toContain("With white");
+        fireEvent.click([...card.querySelectorAll("button")].find(button => button.getAttribute("aria-label") === "Colour: what this means")!);
+        expect(document.body.textContent).toContain("With white");
+    });
+
+    it("names a typeface's note Usage, as a colour's", () => {
+        render(<Harness />);
+        openAll();
+        const card = document.querySelector('[data-anchor^="brand-typeface"]')!;
+        expect(card.textContent).toContain("Usage");
+        expect(card.textContent).not.toContain("Purpose");
+    });
+
+});

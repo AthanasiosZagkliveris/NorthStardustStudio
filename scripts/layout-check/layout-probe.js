@@ -209,6 +209,19 @@
                 continue;
             }
             const body = bodyLeft(head);
+            // THE NAMED EXCEPTION: a colour or typeface card's body stands under its
+            // name box, from its left edge to its right edge.
+            if (head.parentElement && head.parentElement.matches(".brand-style-card")) {
+                const name = nameBox(head);
+                const next = head.nextElementSibling;
+                if (name && next && visible(next)) {
+                    const box = rect(next);
+                    if (!rules.near(box.left, name.left, tolerance) || !rules.near(box.right, name.right, tolerance)) {
+                        fail("body under the name box", head, { body: [box.left, box.right], name: [name.left, name.right] });
+                    }
+                }
+                continue;
+            }
             if (body !== null && !rules.near(number.text.left, body, tolerance)) {
                 fail("number-left = body-left", head, { number: number.text.left, body });
             }

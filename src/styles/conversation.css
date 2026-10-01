@@ -7432,18 +7432,86 @@ td.process-library-col-number{
 
 }
 
+/* SIDE-LABEL ROWS ON A COLOUR OR TYPEFACE CARD: "Role i" [picker],
+   "Colour i" [swatch + HEX], each label on its control's centre line,
+   the labels in one column and the controls from one x to the card
+   body's right edge. */
+.brand-side-rows{
+
+    display:grid;
+
+    grid-template-columns:auto minmax(0, 1fr);
+
+    align-items:center;
+
+    gap:var(--space-field) var(--side-label-gap);
+
+}
+
+.brand-side-rows > .business-field-inline{
+
+    display:contents;
+
+}
+
+.brand-side-rows > .business-field-inline > :first-child{
+
+    grid-column:1;
+
+}
+
+.brand-side-rows > .business-field-inline > :not(:first-child){
+
+    grid-column:2;
+
+    min-width:0;
+
+}
+
+.brand-side-rows .brand-colour-row,
+.brand-side-rows .option-picker{
+
+    width:100%;
+
+}
+
+/* A NAMED EXCEPTION (docs/ai/layout-rules.md): a colour or typeface
+   card's body stands under its NAME BOX, from the box's left edge to
+   its right edge, not from the number's x to the card's edge. The card
+   is a grid whose head shares its columns (arrow, number, name, x):
+   everything under the head takes the name's column. */
+.brand-style-columns .business-foundation-card.brand-style-card:has(> .fold-card-head){
+
+    display:grid;
+
+    grid-template-columns:auto auto minmax(0, 1fr) auto;
+
+    column-gap:8px;
+
+    row-gap:var(--space-field);
+
+}
+
+.brand-style-card > .fold-card-head{
+
+    grid-column:1 / -1;
+
+    grid-template-columns:subgrid;
+
+}
+
+.brand-style-card > .fold-card-head ~ *{
+
+    grid-column:3;
+
+    margin-left:0;
+
+}
+
 /* The Text Hierarchy box: 12px more inside each side (24px). */
 .brand-style-columns .business-foundation-card.brand-hierarchy-card{
 
     padding-inline:calc(var(--card-padding) + 12px);
-
-}
-
-/* A colour's swatch and HEX together at the standard control width,
-   their right edge under the Role picker's. */
-.brand-style-card .brand-colour-row{
-
-    width:min(100%, var(--control-s));
 
 }
 
@@ -14703,17 +14771,6 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 }
 
-/* A colour's text contrast, in words, under its fields. */
-.brand-style-contrast{
-
-    font-size:var(--font-small);
-
-    line-height:1.4;
-
-    color:var(--text-muted);
-
-}
-
 /* A source or a Page 3 link inside a cost row: a plain small line,
    not a button's spaced-out capitals. */
 .financial-cost-link{
@@ -15065,47 +15122,12 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 }
 
-/* A side label on the card's two columns (a typeface's Role): the
-   label in column 1, on its picker's centre line, the picker from
-   column 2's edge -- where a colour card's Colour starts. */
-.card-field-side-row > .business-field-inline{
-
-    display:contents;
-
-}
-
-.card-field-side-row > .business-field-inline > :first-child{
-
-    grid-column:1;
-
-    align-self:center;
-
-}
-
-.card-field-side-row > .business-field-inline > :not(:first-child){
-
-    grid-column:2;
-
-}
-
 @container cost-fields (max-width: 299.98px){
 
     .business-founder-grid,
     .card-field-pairs-grid{
 
         grid-template-columns:minmax(0, var(--control-s));
-
-    }
-
-    .card-field-side-row > .business-field-inline > :first-child{
-
-        align-self:start;
-
-    }
-
-    .card-field-side-row > .business-field-inline > :not(:first-child){
-
-        grid-column:1;
 
     }
 
