@@ -254,6 +254,21 @@
 
 }
 
+/* A GROUP THAT FOLDS INSIDE A CARD (a Profile's Description, Motivations
+   and Needs; a Competitor's Description and SWOT; an Offering's
+   Description): the app's fold arrow before its title, hanging in the
+   card's arrow column as the card's own arrow does -- the title stays at
+   the body's edge (number-left = body-left), the arrow the indent and its
+   8px gap before it. The row is the arrow's height, the title on its
+   centre line, so nothing reaches into the gaps above and below. */
+.business-group-fold-head > .strategy-box-toggle {
+
+    flex: none;
+
+    margin-left: calc(-1 * var(--card-body-indent));
+
+}
+
 /* One line, always: in a narrow column the title wraps instead. */
 .fold-group-head > .fold-all-toggle {
 

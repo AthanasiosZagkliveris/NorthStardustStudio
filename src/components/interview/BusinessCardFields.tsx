@@ -111,6 +111,8 @@ export function BusinessGroup({
 
     titleExtra,
 
+    fold,
+
     children
 
 }: {
@@ -122,6 +124,12 @@ export function BusinessGroup({
      * "Expand all" (see .fold-group-head), so it never adds a line.
      */
     titleExtra?: ReactNode;
+    /**
+     * A group that folds: the app's fold arrow before its title,
+     * hanging in the card's arrow column so the title stays at the
+     * body's edge; folded, only the title's line shows.
+     */
+    fold?: { open: boolean; label: string; onToggle: () => void };
     children: ReactNode;
 
 }) {
@@ -137,6 +145,22 @@ export function BusinessGroup({
             </span>
         )
         : <span className="field-group-title business-foundation-subhead">{title}</span>;
+
+    if (fold) {
+        return (
+            <>
+
+                <div className="fold-group-head business-group-fold-head">
+                    <FoldArrow open={fold.open} label={fold.label} onToggle={fold.onToggle} />
+                    {heading}
+                    {titleExtra}
+                </div>
+
+                {fold.open && children}
+
+            </>
+        );
+    }
 
     return (
         <>

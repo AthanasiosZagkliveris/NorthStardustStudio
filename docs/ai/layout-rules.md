@@ -70,6 +70,12 @@ below are these, made measurable.
   (unseen) edge, so folding moves nothing but what is under the head.
 - A folded card's one-line summary sits under the name, from the name's x
   (a Profile card shows none: number, name and x only).
+- **A group that folds inside a card** (a Profile's Description,
+  Motivations and Needs; a Competitor's Description and Competitors SWOT
+  Analysis; an Offering's Description): the app's fold arrow before its
+  title, hanging in the card's arrow column (the title stays at the
+  body's edge), the row the arrow's 36px high; open until folded, and
+  folded it shows only its title's line.
 - **Head to body: 12px** (`--space-field`), from the head's lowest edge to
   the first thing under it, on every card (an Objective's Start box too:
   its Description label is set down onto the Start box's centre line

@@ -415,6 +415,10 @@ export default function BusinessFoundationEditor({
      */
     const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
 
+    // The groups folded inside the Profile, Competitor and Offering
+    // cards (see groupFold): every group starts open.
+    const [foldedGroups, setFoldedGroups] = useState<ReadonlySet<string>>(new Set());
+
     /**
      * Which Profile, Competitor and Offering cards are open. These
      * three item kinds start CLOSED -- see useItemFolds -- unlike
@@ -522,12 +526,31 @@ export default function BusinessFoundationEditor({
      * subhead rather than a field label, so several fields can
      * belong to it and read as one piece of work.
      */
-    function group(title: string, children: ReactNode, info?: InfoPoint[]) {
+    function group(
+        title: string,
+        children: ReactNode,
+        info?: InfoPoint[],
+        fold?: { open: boolean; label: string; onToggle: () => void }
+    ) {
         return (
-            <BusinessGroup title={title} info={info}>
+            <BusinessGroup title={title} info={info} fold={fold}>
                 {children}
             </BusinessGroup>
         );
+    }
+
+    /**
+     * A group inside a Profile, Competitor or Offering card that folds
+     * (its Description, Motivations, Needs, SWOT): open until folded,
+     * remembered while the page is open, as the cards' own folds are.
+     */
+    function groupFold(itemId: string, title: string, path: string) {
+        const key = itemId + " " + title;
+        return {
+            open: !foldedGroups.has(key),
+            label: path + " → " + title,
+            onToggle: () => setFoldedGroups(current => toggledIn(current, key))
+        };
     }
 
     /**
@@ -556,7 +579,9 @@ export default function BusinessFoundationEditor({
         onNext: (next: BusinessDescriptionValue) => void,
         split = false,
         /** The card, for a Description that sits outside its card's section (the Segment's). */
-        anchor?: string
+        anchor?: string,
+        /** Its fold, where the group folds (see groupFold). */
+        fold?: { open: boolean; label: string; onToggle: () => void }
     ) {
 
         const box = (part: DescriptionPart) => {
@@ -677,7 +702,9 @@ export default function BusinessFoundationEditor({
                         </div>
                     </div>
                 )
-                : parts.map(box)
+                : parts.map(box),
+            undefined,
+            fold
         );
 
     }
@@ -872,7 +899,10 @@ export default function BusinessFoundationEditor({
                             profile.description,
                             (next) => updateProfile(
                                 segmentIndex, profileIndex, { description: next }
-                            )
+                            ),
+                            false,
+                            undefined,
+                            groupFold(profile.id, "Description", segmentPath + ", Profile " + (profileIndex + 1))
                         )}
 
                         {/* What the Profile wants and what stands in
@@ -886,9 +916,7 @@ export default function BusinessFoundationEditor({
                             below, and a section called "... and
                             Needs" containing a section called "Needs"
                             says it twice. */}
-                        <span className="field-group-title business-foundation-subhead">
-                            Motivations
-                        </span>
+                        {group("Motivations", <>
 
                         {note(
                             "Goals & Desires",
@@ -920,6 +948,8 @@ export default function BusinessFoundationEditor({
                             segmentPath + ", Profile " + (profileIndex + 1)
                         )}
 
+                        </>, undefined, groupFold(profile.id, "Motivations", segmentPath + ", Profile " + (profileIndex + 1)))}
+
                         {/* Three kinds of need under one title, a
                             numbered list each. The list needs no
                             Add button -- Enter opens the next line
@@ -929,11 +959,7 @@ export default function BusinessFoundationEditor({
                             NumberedListInput) -- and a numbered
                             line is what the Offerings subsection
                             picks from. */}
-                        <span className="field-group-title business-foundation-subhead">
-                            Needs
-                        </span>
-
-                        {SUBSECTIONS.segments.needs.map(kind => (
+                        {group("Needs", SUBSECTIONS.segments.needs.map(kind => (
                             <div
                                 className="business-foundation-field"
                                 key={kind.id}
@@ -986,7 +1012,7 @@ export default function BusinessFoundationEditor({
                                 />
 
                             </div>
-                        ))}
+                        )), undefined, groupFold(profile.id, "Needs", segmentPath + ", Profile " + (profileIndex + 1)))}
 
                     </>
                 ))}
@@ -1085,12 +1111,13 @@ export default function BusinessFoundationEditor({
                                 segmentPath + ", Competitor " + (index + 1),
                                 competitorParts(competitor.type),
                                 competitor.description,
-                                (next) => change({ description: next })
+                                (next) => change({ description: next }),
+                                false,
+                                undefined,
+                                groupFold(competitor.id, "Description", segmentPath + ", Competitor " + (index + 1))
                             )}
 
-                            <span className="field-group-title business-foundation-subhead">
-                                Competitors SWOT Analysis
-                            </span>
+                            {group("Competitors SWOT Analysis", <>
 
                             {note(
                                 "Strengths",
@@ -1123,6 +1150,8 @@ export default function BusinessFoundationEditor({
                                 SUBSECTIONS.competitors.threats,
                                 segmentPath + ", Competitor " + (index + 1)
                             )}
+
+                            </>, undefined, groupFold(competitor.id, "Competitors SWOT Analysis", segmentPath + ", Competitor " + (index + 1)))}
 
                             {/* What the SWOT above it was for, so
                                 it is titled like the SWOT rather
@@ -1393,7 +1422,10 @@ export default function BusinessFoundationEditor({
                                 segmentPath + ", Offering " + (index + 1),
                                 SUBSECTIONS.offerings.description,
                                 offering.description,
-                                (next) => change({ description: next })
+                                (next) => change({ description: next }),
+                                false,
+                                undefined,
+                                groupFold(offering.id, "Description", segmentPath + ", Offering " + (index + 1))
                             )}
 
                         </>
