@@ -499,10 +499,15 @@ export default function BusinessFoundationEditor({
         info?: InfoPoint[]
     ) {
         return (
-            /* A single choice: its label beside it, as on every card. */
-            <BusinessField label={label} info={info} inline>
-                {control}
-            </BusinessField>
+            /* A single choice (a Competitor's or an Offering's Type): its
+               label beside it, only as wide as its word, on the picker's
+               line -- a compact run of its own, so the card's labels above
+               do not pull it on top (.business-field-run-compact). */
+            <div className="business-field-run business-field-run-compact">
+                <BusinessField label={label} info={info} inline>
+                    {control}
+                </BusinessField>
+            </div>
         );
     }
 

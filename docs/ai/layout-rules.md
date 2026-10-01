@@ -219,6 +219,8 @@ grids' 24px, `--space-column`) are not cell gaps.
   Value Proposition above share their edges with Profiles, Competitors
   and Offerings below; each column's cards take its whole width, 12px
   apart. (Two columns under 1500px, one under 900px, on the same edges.)
+- **Competitor and Offering cards**: "Type" is a compact side label
+  (only as wide as its word) beside its picker, on the picker's mid line.
 - **Additional Legal Requirement card**: Reference or Number | Type on one
   row of the card's two columns, the Type at the width its longest option
   needs.
