@@ -119,6 +119,10 @@ body {
   /* One column of cards, or of a card's field stacks, to the next (a
      Segment's three columns, its Description's two). */
   --space-column: 24px;
+  /* The caps title's colour (see THE CAPS TITLE): the muted text colour,
+     4.5:1 or more on every ground a caps title stands on (5.8:1 at the
+     least, sepia, on a Goal card and the Value Proposition panel). */
+  --caps-title-color: var(--text-muted);
   /* The line height of running text read as prose (a System's
      opening screen: its introduction and its facts alike). */
   --body-line: 1.6;
@@ -329,18 +333,27 @@ body {
   color: var(--text-color);
 }
 
-/* HEADINGS AND KIND WORDS IN CAPITALS, on screen only (text-transform:
-   the words read aloud, and every accessible name, are unchanged), at
-   the headings' 0.05em tracking. Business Foundation's "1. SEGMENT",
-   PROFILES, COMPETITORS, OFFERINGS and VALUE PROPOSITION; Strategy's
-   THEME, GOAL, OBJECTIVE, METRIC and INITIATIVES. (A button inside --
-   an "i", an "Expand all" -- keeps its own case.) */
+/* THE CAPS TITLE: every capitalised card kind word and group heading in
+   one calm style -- the card-head kind word's ("1. SEGMENT"): the body
+   size, 600, the 0.05em tracking, the muted colour (--caps-title-color,
+   4.5:1 or more on every ground it stands on). On screen only
+   (text-transform: the words read aloud, and every accessible name, are
+   unchanged). Business Foundation's "1. SEGMENT", PROFILES, COMPETITORS,
+   OFFERINGS and VALUE PROPOSITION; Customer Engagement's "1. SEGMENT",
+   CUSTOMER CHANNEL and CUSTOMER RELATIONSHIP; Strategy's THEME, GOAL,
+   OBJECTIVE, METRIC and INITIATIVES. (A button inside -- an "i", an
+   "Expand all" -- keeps its own case.) */
 .business-foundation:not(.business-engagement) .business-foundation-input-head > .strategy-box-number,
+.business-engagement:not(.business-capability) .business-foundation-input-head > .strategy-box-number,
+.business-engagement:not(.business-capability) .business-engagement-section > .business-engagement-section-head > .business-foundation-subhead,
 .business-foundation-column-title,
 .business-foundation-proposition > .business-foundation-label-info > .business-foundation-subhead,
 :is(.strategy-theme-box, .strategy-theme-panel, .strategy-goal-box, .strategy-objective-box, .strategy-metric-box) > .strategy-box-head > .strategy-box-number {
-  text-transform: uppercase;
+  font-size: var(--font-body);
+  font-weight: 600;
   letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--caps-title-color);
 }
 
 /* ==========================================================

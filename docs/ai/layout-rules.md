@@ -152,15 +152,22 @@ track of the grid it stands in.
 - A tick box: 18 x 18.
 - The fold arrow: 36 x 36.
 
-### Headings and kind words in capitals
+### The caps title
 
-On screen only (`text-transform`, the words read aloud and every
-accessible name unchanged), at the headings' 0.05em tracking:
-Business Foundation's "1. SEGMENT", PROFILES, COMPETITORS, OFFERINGS and
-VALUE PROPOSITION; Strategy's THEME, GOAL, OBJECTIVE, METRIC and
-INITIATIVES wherever they name a card. A button inside a heading (an
-"i", "Expand all") keeps its own case. The Roadmap and the documents are
-unchanged.
+Every capitalised card kind word and group heading takes ONE calm style,
+the card-head kind word's ("1. SEGMENT"): the body size, weight 600, the
+0.05em tracking, `--caps-title-color` (the muted text colour), in
+capitals on screen only (`text-transform`: the words read aloud and
+every accessible name unchanged). Business Foundation's "1. SEGMENT",
+PROFILES, COMPETITORS, OFFERINGS and VALUE PROPOSITION; Customer
+Engagement's "1. SEGMENT", CUSTOMER CHANNEL and CUSTOMER RELATIONSHIP;
+Strategy's THEME, GOAL, OBJECTIVE, METRIC and INITIATIVES wherever they
+name a card. No bolder, full-ink variant. `--caps-title-color` holds
+4.5:1 or more on every ground a caps title stands on, in light, sepia and
+dark (5.8:1 at the least: sepia, on a Goal card and the Value Proposition
+panel); a ground that fails darkens the token, never one title. A button
+inside a heading (an "i", "Expand all") keeps its own case. The Roadmap
+and the documents are unchanged.
 
 ### Card-list add buttons (an explicit list)
 
