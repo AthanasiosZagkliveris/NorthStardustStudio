@@ -68,7 +68,8 @@ below are these, made measurable.
 - **A folded card's head is the open card's head.** The written name
   (`.strategy-name-static`) takes the name box's own line, padding and
   (unseen) edge, so folding moves nothing but what is under the head.
-- A folded card's one-line summary sits under the name, from the name's x.
+- A folded card's one-line summary sits under the name, from the name's x
+  (a Profile card shows none: number, name and x only).
 - **Head to body: 12px** (`--space-field`), from the head's lowest edge to
   the first thing under it, on every card (an Objective's Start box too:
   its Description label is set down onto the Start box's centre line

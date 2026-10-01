@@ -345,38 +345,6 @@ function otherProfileNeeds(
 
 }
 
-/**
- * The first non-empty string among a Profile's Goals, Challenges
- * and Description -- whichever of those a founder happened to fill
- * in first -- for its folded-card summary.
- *
- * A plain string (Goals, Challenges) counts as itself; a
- * BusinessDescriptionValue (Description) counts as its first
- * non-empty entry, in whatever order Object.values gives them.
- */
-function firstFilled(...values: (string | BusinessDescriptionValue)[]): string {
-
-    for (const value of values) {
-
-        if (typeof value === "string") {
-            if (value.trim().length > 0) {
-                return value.trim();
-            }
-            continue;
-        }
-
-        for (const entry of Object.values(value)) {
-            if (entry.trim().length > 0) {
-                return entry.trim();
-            }
-        }
-
-    }
-
-    return "";
-
-}
-
 /** The last entry of the Category/Format list. */
 const CATEGORY_OTHER = "Other";
 
@@ -883,9 +851,7 @@ export default function BusinessFoundationEditor({
                             segmentIndex, profileIndex, { name: next }
                         ),
                         key: profile.id,
-                        summary: summaryText(firstFilled(
-                            profile.goals, profile.challenges, profile.description
-                        )),
+                        // Folded, a Profile shows its number, name and x only.
                         // One Profile card must always exist.
                         actions: segment.profiles.length > 1 &&
                             remove(
