@@ -45,6 +45,7 @@ import { waitingHint } from "../../framework/engine/FieldDependencies.ts";
 import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "./numberInput.ts";
 import OptionPicker from "./OptionPicker.tsx";
 import { SOURCES } from "../../framework/engine/Sources.ts";
+import { UndoService } from "../../services/UndoService";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import { OptionalNote } from "./BusinessCardFields.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
@@ -58,6 +59,22 @@ import { labelWithCurrency, nameWithCurrency } from "../../framework/engine/Curr
  * inside the list rather than as a second field beside it.
  */
 const LEGAL_FORM_OTHER = "Other (not listed)";
+
+/**
+ * How LEGAL_FORM_OTHER is SHOWN: a picker option holds no bracketed
+ * note (docs/ai/layout-rules.md), and the field that follows it names
+ * the form. What is saved stays LEGAL_FORM_OTHER.
+ */
+const OTHER_OPTION = "Other";
+
+/** A saved value as its picker shows it, and back. */
+function shownOther(value: string): string {
+    return value === LEGAL_FORM_OTHER ? OTHER_OPTION : value;
+}
+
+function savedOther(value: string): string {
+    return value === OTHER_OPTION ? LEGAL_FORM_OTHER : value;
+}
 
 /** Why ownership must total 100%, the "i" beside the running total. */
 const TOTAL_OWNERSHIP_HELP: InfoPoint[] = [
@@ -98,7 +115,7 @@ const INFO = {
     legalForm: [
         "Decides who is liable for the organization's debts: the organization, or you personally.",
         "Decides how it is taxed, and whether it must hold share capital.",
-        "Choose Other (not listed) to name a form the list does not carry."
+        "Choose Other to name a form the list does not carry."
     ],
 
     capital: [
@@ -212,6 +229,10 @@ export default function LegalEntityEditor({
 }: LegalEntityEditorProps) {
 
     const entity = asLegalEntityValue(value);
+
+    /* The latest answer and handler, for an undo that runs later. */
+    const latest = useRef({ value, onChange });
+    latest.current = { value, onChange };
 
     const profile = jurisdictionProfile(entity.organisation.country);
     const profiled = jurisdictionIsProfiled(entity.organisation.country);
@@ -475,6 +496,45 @@ export default function LegalEntityEditor({
      * only: the switch below is the user's, and nothing here reads
      * it back.
      */
+    /**
+     * "Add to Legal Entity Expenses": offer a requirement to the expenses'
+     * Links, or stop offering it -- which unlinks any expense that linked
+     * it, undoably (the tick and the links come back together).
+     */
+    function offerInExpenses(index: number, offered: boolean) {
+        const requirement = entity.requirements[index];
+        const requirements = entity.requirements.map((candidate, position) => position === index
+            ? { ...candidate, offerInExpenses: offered }
+            : candidate);
+        if (offered) {
+            update({ requirements });
+            return;
+        }
+        const before = entity.expenses;
+        const linked = before.some(expense => expense.links.includes(requirement.id));
+        update({
+            requirements,
+            expenses: before.map(expense => ({ ...expense, links: expense.links.filter(link => link !== requirement.id) }))
+        });
+        if (linked) {
+            UndoService.offer("Removed from Legal Entity Expenses.", () => {
+                const now = asLegalEntityValue(latest.current.value);
+                latest.current.onChange({
+                    ...now,
+                    requirements: now.requirements.map(candidate => candidate.id === requirement.id
+                        ? { ...candidate, offerInExpenses: true }
+                        : candidate),
+                    expenses: now.expenses.map(expense => {
+                        const was = before.find(entry => entry.id === expense.id);
+                        return was && was.links.includes(requirement.id) && !expense.links.includes(requirement.id)
+                            ? { ...expense, links: [...expense.links, requirement.id] }
+                            : expense;
+                    })
+                });
+            });
+        }
+    }
+
     function chooseLegalForm(legalForm: string) {
 
         // "Other" is a way into the field below, not a legal form:
@@ -660,7 +720,7 @@ export default function LegalEntityEditor({
                     (entry.number.trim() ? ": " + entry.number.trim() : "")
             })),
         ...entity.requirements
-            .filter(requirement => requirement.name.trim().length > 0)
+            .filter(requirement => requirement.offerInExpenses && requirement.name.trim().length > 0)
             // A requirement by its name alone: its kind ("Other Legal
             // Requirement") says nothing the name does not.
             .map(requirement => ({
@@ -668,6 +728,32 @@ export default function LegalEntityEditor({
                 label: requirement.name.trim()
             }))
     ];
+
+    /**
+     * The consumption tax's "i": what it is, when registering is required
+     * (the UK's threshold, from GOV.UK; elsewhere no figure, since none is
+     * verified), and what the tick does in this app.
+     */
+    const consumptionTaxNote: InfoPoint[] = [
+        profile.consumptionTax + " is a tax on sales: a registered business adds it to its prices, " +
+            "pays it on to the tax authority, and reclaims what it paid on its own purchases.",
+        entity.organisation.country === "GB"
+            ? "You must register when your taxable turnover for the last 12 months goes over £90,000, " +
+                "and you can register below that by choice."
+            : "Registration is required once your sales pass the threshold your country sets, and " +
+                "some businesses can register by choice. Check with your tax authority.",
+        "Ticked, this asks for your " + profile.consumptionTax + " number, and the Financial Foundation " +
+            "takes its amounts as excluding " + profile.consumptionTax + " unless you choose otherwise.",
+        ...(entity.organisation.country === "GB" ? [{ title: "Source", source: SOURCES.ukVatRegistration }] : [])
+    ];
+
+    /** The Type's "i": the kinds of requirement this country usually asks for. */
+    const commonRequirementsNote = profile.commonRequirements.length > 0
+        ? ["Usually required here: " + LEGAL_REQUIREMENT_TYPES
+            .filter(type => profile.commonRequirements.includes(type.id))
+            .map(type => type.label)
+            .join(", ") + "."]
+        : undefined;
 
     const namedFounders = entity.founders.filter(
         founder => founder.name.trim().length > 0
@@ -1013,16 +1099,15 @@ export default function LegalEntityEditor({
                     ))}
                 />
 
-                <input
-                    type="text"
-                    className="interview-input"
-                    aria-label={noun + " " + (index + 1)}
+                {/* Free text, not a figure: a long one wraps and grows. */}
+                <CardNameInput
+                    ariaLabel={noun + " " + (index + 1)}
                     placeholder="Number"
                     disabled={disabled}
                     value={entry.number}
-                    onChange={(event) => onNext(entries.map(
+                    onChange={(next) => onNext(entries.map(
                         (candidate, position) => position === index
-                            ? { ...candidate, number: event.target.value }
+                            ? { ...candidate, number: next }
                             : candidate
                     ))}
                 />
@@ -1173,11 +1258,11 @@ export default function LegalEntityEditor({
                                     placeholder="Select a legal form"
                                     options={[
                                         ...forms.map(form => form.label),
-                                        LEGAL_FORM_OTHER
+                                        OTHER_OPTION
                                     ]}
                                     disabled={disabled}
-                                    value={entity.organisation.legalForm}
-                                    onChange={chooseLegalForm}
+                                    value={shownOther(entity.organisation.legalForm)}
+                                    onChange={(next) => chooseLegalForm(savedOther(next))}
                                 />,
                                 true,
                                 undefined,
@@ -1258,7 +1343,7 @@ export default function LegalEntityEditor({
                                     placeholder={"Select a " + subdivisionSpec.label.toLowerCase()}
                                     options={[
                                         ...subdivisionSpec.options.map(option => option.name),
-                                        LEGAL_FORM_OTHER
+                                        OTHER_OPTION
                                     ]}
                                     // Typed the same way a country is,
                                     // by name or by code.
@@ -1267,8 +1352,8 @@ export default function LegalEntityEditor({
                                         entity.organisation.country
                                     )}
                                     disabled={disabled}
-                                    value={entity.organisation.subdivision}
-                                    onChange={chooseSubdivision}
+                                    value={shownOther(entity.organisation.subdivision)}
+                                    onChange={(next) => chooseSubdivision(savedOther(next))}
                                 />,
                                 true
                             )}
@@ -1727,16 +1812,14 @@ export default function LegalEntityEditor({
                                 </FrozenUntil>
 
                                 {!(entity.formation.status === "planned") && (
-                                    <input
-                                        type="text"
-                                        className="interview-input"
-                                        aria-label="Registration Number"
+                                    <CardNameInput
+                                        ariaLabel="Registration Number"
                                         // The shape this country issues, where
                                         // that is something to say with confidence.
                                         placeholder={profile.registrationNumberHint ?? "Number"}
                                         disabled={disabled}
                                         value={entity.formation.registrationNumber}
-                                        onChange={(event) => changeRegistrationNumber(event.target.value)}
+                                        onChange={changeRegistrationNumber}
                                     />
                                 )}
 
@@ -1818,15 +1901,14 @@ export default function LegalEntityEditor({
                                         </InfoText>
                                     </span>
                                 </span>
-                                <input
-                                    type="text"
-                                    className="interview-input"
-                                    aria-label={(profile.taxIdName
+                                <CardNameInput
+                                    ariaLabel={(profile.taxIdName
                                                 ? "Tax Identification Number (" + profile.taxIdName + ")"
                                                 : "Tax Identification Number")}
+                                    placeholder=""
                                     disabled={disabled}
                                     value={entity.tax.identificationNumber}
-                                    onChange={(event) => updateTax({ identificationNumber: event.target.value })}
+                                    onChange={(next) => updateTax({ identificationNumber: next })}
                                 />
                             </div>
 
@@ -1848,6 +1930,9 @@ export default function LegalEntityEditor({
                                 </p>
                             ) : (
                                 <div className="legal-entity-number-row legal-entity-tax-row">
+                                    {/* The tick and its words, then their "i" OUTSIDE the
+                                        label, so reading the note never toggles the tick. */}
+                                    <span className="legal-entity-switch-cell">
                                     <label className="legal-entity-switch">
                                         <input
                                             type="checkbox"
@@ -1862,17 +1947,15 @@ export default function LegalEntityEditor({
                                         />
                                         <span className="legal-entity-switch-label">{profile.consumptionTax}</span>
                                     </label>
+                                    <InfoNote label={profile.consumptionTax} points={consumptionTaxNote} fullList />
+                                    </span>
                                     {entity.tax.consumptionTaxStatus === "yes" && (
-                                        <input
-                                            type="text"
-                                            className="interview-input"
-                                            aria-label={profile.consumptionTax + " Number"}
+                                        <CardNameInput
+                                            ariaLabel={profile.consumptionTax + " Number"}
                                             placeholder={profile.consumptionTax + " Number"}
                                             disabled={disabled}
                                             value={entity.tax.consumptionTaxNumber}
-                                            onChange={(event) => updateTax({
-                                                consumptionTaxNumber: event.target.value
-                                            })}
+                                            onChange={(next) => updateTax({ consumptionTaxNumber: next })}
                                         />
                                     )}
                                 </div>
@@ -2027,67 +2110,70 @@ export default function LegalEntityEditor({
                                 {open && (
                                 <div className="legal-entity-grid legal-entity-grid-pairs">
 
-                                    {text(
+                                    {/* Reference or Number | Type, one row on the card's
+                                        two columns: the reference free text that wraps
+                                        and grows, the Type at the width its longest
+                                        option needs. */}
+                                    {field(
                                         "Reference or Number",
-                                        requirement.reference,
-                                        (next) => update({
-                                            requirements: entity.requirements.map(
-                                                (candidate, position) => position === index
-                                                    ? { ...candidate, reference: next }
-                                                    : candidate
-                                            )
-                                        }),
-                                        "Optional",
-                                        // Across the card, as wide as the Type below it:
-                                        // one column of edges.
-                                        true,
-                                        undefined,
-                                        "Legal requirement " + (index + 1) + " reference or number"
+                                        <CardNameInput
+                                            ariaLabel={"Legal requirement " + (index + 1) + " reference or number"}
+                                            placeholder="Optional"
+                                            disabled={disabled}
+                                            value={requirement.reference}
+                                            onChange={(next) => update({
+                                                requirements: entity.requirements.map(
+                                                    (candidate, position) => position === index
+                                                        ? { ...candidate, reference: next }
+                                                        : candidate
+                                                )
+                                            })}
+                                        />
                                     )}
 
-                                    {/*
-                                        After them, on its own line:
-                                        the type classifies an answer
-                                        already given, and its list is
-                                        the widest control here.
-                                    */}
+                                    {/* The kinds this country usually asks for are said
+                                        in the Type's "i", not in its options. */}
                                     {field(
                                         "Type",
                                         <OptionPicker
                                             label={"Legal requirement " + (index + 1) + " type"}
                                             placeholder="Select a type"
-                                            options={LEGAL_REQUIREMENT_TYPES.map(type =>
-                                                profile.commonRequirements.includes(type.id)
-                                                    ? type.label + " (common here)"
-                                                    : type.label
-                                            )}
+                                            options={LEGAL_REQUIREMENT_TYPES.map(type => type.label)}
                                             disabled={disabled}
-                                            value={(() => {
-                                                const type = LEGAL_REQUIREMENT_TYPES.find(
-                                                    candidate => candidate.id === requirement.type
-                                                );
-                                                if (!type) {
-                                                    return "";
-                                                }
-                                                return profile.commonRequirements.includes(type.id)
-                                                    ? type.label + " (common here)"
-                                                    : type.label;
-                                            })()}
+                                            value={LEGAL_REQUIREMENT_TYPES.find(
+                                                candidate => candidate.id === requirement.type
+                                            )?.label ?? ""}
                                             onChange={(next) => update({
                                                 requirements: entity.requirements.map(
                                                     (candidate, position) => position === index
                                                         ? {
                                                             ...candidate,
                                                             type: LEGAL_REQUIREMENT_TYPES.find(
-                                                                type => next.startsWith(type.label)
+                                                                type => type.label === next
                                                             )?.id ?? ""
                                                         }
                                                         : candidate
                                                 )
                                             })}
                                         />,
-                                        true
+                                        false,
+                                        undefined,
+                                        commonRequirementsNote
                                     )}
+
+                                    {/* Under the reference (the next row's first column): whether 6.'s expenses are
+                                        offered this requirement in their Links. */}
+                                    <label className="legal-entity-switch legal-entity-offer">
+                                        <input
+                                            type="checkbox"
+                                            className="brand-tick-box"
+                                            disabled={disabled}
+                                            checked={requirement.offerInExpenses}
+                                            onChange={(event) => offerInExpenses(index, event.target.checked)}
+                                        />
+                                        <span className="legal-entity-switch-label">Add to Legal Entity Expenses</span>
+                                    </label>
+
 
                                     {optionalNote(
                                         "Relevant Information",

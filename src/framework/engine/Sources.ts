@@ -129,6 +129,13 @@ export function sourceLabel(source: Source): string {
  */
 export const SOURCES = {
 
+    ukVatRegistration: {
+        title: "Register for VAT: When to register for VAT",
+        publisher: "GOV.UK",
+        url: "https://www.gov.uk/vat-registration/when-to-register",
+        checked: "2026-10-01"
+    },
+
     ukSicCodes: {
         title: "Standard industrial classification of economic activities (SIC)",
         publisher: "Companies House",

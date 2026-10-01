@@ -8719,11 +8719,44 @@ td.process-library-col-number{
 
 /* The tick and its words on the row's centre line, level with the
    number box beside them. */
-.legal-entity-number-row > label.legal-entity-switch{
+.legal-entity-number-row > label.legal-entity-switch,
+.legal-entity-number-row > .legal-entity-switch-cell{
 
     align-items:center;
 
     align-self:stretch;
+
+}
+
+/* The tick, its words and their "i" on one line. */
+.legal-entity-switch-cell{
+
+    display:flex;
+
+    min-width:0;
+
+}
+
+.legal-entity-switch-cell{
+
+    align-items:center;
+
+}
+
+/* The label only as tall as its words, centred in the cell with the
+   "i" after it: tick, words, "i" and the number box on one line. */
+.legal-entity-switch-cell > label.legal-entity-switch{
+
+    align-items:center;
+
+    min-height:0;
+
+}
+
+.legal-entity-switch-cell > label.legal-entity-switch > input[type="checkbox"]{
+
+    margin-top:0;
+    margin-bottom:0;
 
 }
 

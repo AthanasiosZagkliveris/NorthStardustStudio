@@ -3663,6 +3663,12 @@ export interface LegalEntityRequirementValue {
     name: string;
     reference: string;
     notes: string;
+    /**
+     * "Add to Legal Entity Expenses": whether 6.'s expenses are offered
+     * this requirement in their Links. Saved before it was asked: ticked
+     * where an expense already links to it.
+     */
+    offerInExpenses: boolean;
 }
 
 export interface LegalEntityExpenseValue {
@@ -3713,7 +3719,7 @@ export function createLegalEntityNumber(): LegalEntityNumberValue {
 }
 
 export function createLegalEntityRequirement(): LegalEntityRequirementValue {
-    return { id: randomId("requirement"), type: "", name: "", reference: "", notes: "" };
+    return { id: randomId("requirement"), type: "", name: "", reference: "", notes: "", offerInExpenses: false };
 }
 
 export function createLegalEntityExpense(): LegalEntityExpenseValue {
@@ -3791,18 +3797,28 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
 
     });
 
+    // What the expenses link to, for a requirement saved before it said
+    // whether it is offered to them.
+    const linkedIds = new Set((Array.isArray(source.expenses) ? source.expenses : []).flatMap(entry =>
+        entry && typeof entry === "object" && Array.isArray((entry as Record<string, unknown>).links)
+            ? ((entry as Record<string, unknown>).links as unknown[]).map(asText)
+            : []));
+
     const requirements = (Array.isArray(source.requirements) ? source.requirements : []).map(entry => {
 
         const row = entry && typeof entry === "object" && !Array.isArray(entry)
             ? entry as Record<string, unknown>
             : {};
 
+        const id = asText(row.id) || randomId("requirement");
+
         return {
-            id: asText(row.id) || randomId("requirement"),
+            id,
             type: asText(row.type),
             name: asText(row.name),
             reference: asText(row.reference),
-            notes: asText(row.notes)
+            notes: asText(row.notes),
+            offerInExpenses: typeof row.offerInExpenses === "boolean" ? row.offerInExpenses : linkedIds.has(id)
         };
 
     });

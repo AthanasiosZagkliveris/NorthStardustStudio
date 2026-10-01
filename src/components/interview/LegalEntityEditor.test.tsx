@@ -1,9 +1,10 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import LegalEntityEditor from "./LegalEntityEditor";
 import { typeInto } from "../../test/interviewTestUtils";
+import { UndoService } from "../../services/UndoService";
 import { asLegalEntityValue, createLegalEntityExpense, createLegalEntityRequirement, legalEntitySectionsEmpty } from "../../framework/engine/AnswerUtils";
 
 function Harness() {
@@ -309,7 +310,7 @@ describe("LegalEntityEditor VAT", () => {
         expect(tick.checked).toBe(false);
         fireEvent.click(tick);
         // Ticked: the number, on the same row.
-        expect(row.querySelector("input.interview-input")).toBeTruthy();
+        expect(row.querySelector(".interview-input:not([type=checkbox])")).toBeTruthy();
 
     });
 
@@ -470,7 +471,7 @@ describe("LegalEntityEditor expense links", () => {
         function Links() {
             const [value, setValue] = useState<unknown>(asLegalEntityValue({
                 organisation: { country: "GB" },
-                requirements: [{ ...createLegalEntityRequirement(), type: "other", name: "Employers' Liability Insurance" }],
+                requirements: [{ ...createLegalEntityRequirement(), type: "other", name: "Employers' Liability Insurance", offerInExpenses: true }],
                 expenses: [createLegalEntityExpense()]
             }));
             return <LegalEntityEditor value={value} onChange={setValue} />;
@@ -485,6 +486,134 @@ describe("LegalEntityEditor expense links", () => {
         expect(labels.some(label => label?.includes("Other Legal Requirement"))).toBe(false);
         expect((screen.getByRole("textbox", { name: "Registration Authority" }) as HTMLTextAreaElement).placeholder).toBe("");
 
+    });
+
+});
+
+describe("LegalEntityEditor requirement type and free-text numbers", () => {
+
+    it("offers plain Type options beside the reference, the country's usual kinds in the Type's note, and Other for a legal form not listed", () => {
+
+        function Requirement() {
+            const [value, setValue] = useState<unknown>(asLegalEntityValue({
+                organisation: { country: "GB", legalForm: "Other (not listed)", legalFormOther: "Charitable Incorporated Organisation" },
+                requirements: [{ ...createLegalEntityRequirement(), name: "PSC register", reference: "A long reference that has to wrap onto a second line of its own" }]
+            }));
+            return <LegalEntityEditor value={value} onChange={setValue} />;
+        }
+        render(<Requirement />);
+        for (const arrow of screen.queryAllByRole("button", { name: /^Maximize/ })) {
+            fireEvent.click(arrow);
+        }
+
+        // The saved "Other (not listed)" shows as "Other".
+        const legalForm = document.querySelector(".legal-entity-legal-form .option-picker-trigger")!;
+        expect(legalForm.querySelector(".option-picker-value")?.textContent).toBe("Other");
+
+        const type = screen.getByRole("button", { name: /^Legal requirement 1 type/ });
+        fireEvent.click(type);
+        const options = screen.getAllByRole("option").map(option => option.textContent);
+        expect(options.some(option => option?.includes("("))).toBe(false);
+
+        // Reference and Type on one row of the card's grid; the reference is free text that wraps.
+        const reference = screen.getByRole("textbox", { name: "Legal requirement 1 reference or number" });
+        expect(reference.tagName).toBe("TEXTAREA");
+        const referenceCell = reference.closest(".legal-entity-field")!;
+        const typeCell = type.closest(".legal-entity-field")!;
+        expect(referenceCell.classList.contains("legal-entity-field-wide")).toBe(false);
+        expect(typeCell.classList.contains("legal-entity-field-wide")).toBe(false);
+        expect(referenceCell.nextElementSibling).toBe(typeCell);
+
+    });
+
+    it("asks registration and tax numbers as free text that wraps, not one-line inputs", () => {
+
+        render(<Harness />);
+        const empty = asLegalEntityValue({ organisation: { country: "GB" }, tax: { consumptionTaxStatus: "yes" } });
+        cleanup();
+        function Numbers() {
+            const [value, setValue] = useState<unknown>(empty);
+            return <LegalEntityEditor value={value} onChange={setValue} />;
+        }
+        render(<Numbers />);
+        for (const name of ["Registration Number", /^Tax Identification Number/, "VAT Number"]) {
+            expect(screen.getByRole("textbox", { name }).tagName).toBe("TEXTAREA");
+        }
+
+    });
+
+});
+
+describe("LegalEntityEditor VAT note", () => {
+
+    function Vat({ country }: { country: string }) {
+        const [value, setValue] = useState<unknown>(asLegalEntityValue({ organisation: { country } }));
+        return <LegalEntityEditor value={value} onChange={setValue} />;
+    }
+
+    it("explains the consumption tax beside its tick, outside the label, with the UK threshold and its GOV.UK source", () => {
+        render(<Vat country="GB" />);
+        const row = document.querySelector(".legal-entity-tax-row")!;
+        const note = row.querySelector(".info-note")!;
+        expect(note.closest("label")).toBeNull();
+        fireEvent.click(note.querySelector("button")!);
+        expect(document.body.textContent).toContain("£90,000");
+        expect(document.querySelector('a[href*="vat-registration"]')).toBeTruthy();
+        expect(document.body.textContent).toContain("excluding VAT");
+    });
+
+    it("gives no figure where none is verified", () => {
+        render(<Vat country="DE" />);
+        fireEvent.click(document.querySelector(".legal-entity-tax-row .info-note button")!);
+        expect(document.body.textContent).toContain("threshold your country sets");
+        expect(document.body.textContent).not.toContain("£90,000");
+    });
+
+});
+
+describe("LegalEntityEditor Add to Legal Entity Expenses", () => {
+
+    it("offers a requirement to the expenses' Links only while ticked, and unticking unlinks it, undoably", () => {
+
+        const requirement = { ...createLegalEntityRequirement(), name: "Company Secretary" };
+        const expense = { ...createLegalEntityExpense(), name: "Secretary fee", links: [] as string[] };
+        let latest: unknown;
+        function Offer() {
+            const [value, setValue] = useState<unknown>(asLegalEntityValue({ organisation: { country: "GB" }, requirements: [requirement], expenses: [expense] }));
+            latest = value;
+            return <LegalEntityEditor value={value} onChange={setValue} />;
+        }
+        render(<Offer />);
+        for (const arrow of screen.queryAllByRole("button", { name: /^Maximize/ })) {
+            fireEvent.click(arrow);
+        }
+        const links = () => [...document.querySelectorAll(".legal-entity-link-label")].map(label => label.textContent);
+        const tick = screen.getByRole("checkbox", { name: "Add to Legal Entity Expenses" }) as HTMLInputElement;
+
+        expect(tick.checked).toBe(false);
+        expect(links()).not.toContain("Company Secretary");
+
+        fireEvent.click(tick);
+        expect(links()).toContain("Company Secretary");
+
+        // Link it, then untick: the link goes; undo brings both back.
+        const link = [...document.querySelectorAll(".legal-entity-link")].find(label => label.textContent === "Company Secretary")!.querySelector("input")!;
+        fireEvent.click(link);
+        expect(asLegalEntityValue(latest).expenses[0].links).toEqual([requirement.id]);
+        fireEvent.click(screen.getByRole("checkbox", { name: "Add to Legal Entity Expenses" }));
+        expect(asLegalEntityValue(latest).expenses[0].links).toEqual([]);
+        expect(links()).not.toContain("Company Secretary");
+        act(() => { UndoService.undo(); });
+        expect(asLegalEntityValue(latest).expenses[0].links).toEqual([requirement.id]);
+        expect(asLegalEntityValue(latest).requirements[0].offerInExpenses).toBe(true);
+
+    });
+
+    it("ticks a saved requirement an expense already links to, and leaves the others unticked", () => {
+        const linked = { id: "requirement-a", type: "", name: "A", reference: "", notes: "" };
+        const unlinked = { id: "requirement-b", type: "", name: "B", reference: "", notes: "" };
+        const entity = asLegalEntityValue({ requirements: [linked, unlinked], expenses: [{ id: "e", name: "X", links: ["requirement-a"] }] });
+        expect(entity.requirements.map(r => r.offerInExpenses)).toEqual([true, false]);
     });
 
 });

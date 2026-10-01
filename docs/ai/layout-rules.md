@@ -70,7 +70,11 @@ below are these, made measurable.
 ### Card body
 
 - Everything starts at the body's left edge (`--card-body-indent`).
-- Fields are 12px apart; a label is 6px above its control.
+- **One vertical rhythm** in every card and section box: a label 6px
+  (`--space-label`) above its control; a control, list row or add button
+  12px (`--space-field`) above what follows it; two groups divided by a
+  rule, 12px either side of it (a group gap of 24px). A side label is part
+  of its control's row.
 - A card's two columns (`.card-field-pairs-grid`): `repeat(2, minmax(0, S))`
   `--space-cell` (12px) apart, one column under 300px.
 - An optional field (tick + growing box) has its tick at the body edge and
@@ -154,6 +158,13 @@ grids' 24px) are not cell gaps.
 - **List-end add button**: "+ ADD ..." under a list, the list's whole width,
   its label centred (`.legal-entity-list-add`): registrations, tax
   registrations, founders.
+- **Free-text numbers wrap**: a registration or tax number, a VAT number, a
+  requirement's reference are free text, not figures: they keep their
+  standard width and wrap onto more lines, growing down; the x and the
+  fields beside them stay on the first line.
+- **Additional Legal Requirement card**: Reference or Number | Type on one
+  row of the card's two columns, the Type at the width its longest option
+  needs.
 - **Name / Number list** (`--name-number-columns`): the name the rest, the
   number S (two fifths of a narrow list), the x column. Names wrap and grow;
   the number and x stay on the name's first line. Used by the Legal
@@ -202,12 +213,31 @@ none).
 | Text holder (an image's name and description, one box) | as a text box, on the holder | as a text box | as a text box |
 | Picker | as a text box | as a text box | as a text box |
 | Tick box | its words underlined, the box's glow ring (whether or not the words are in its label: `.brand-tick` too) | focus ring | not-allowed cursor |
+
+A tick box toggles only from the box itself or its words: its label is as
+wide as they are (`width: fit-content`), never the empty space beside
+them; Space toggles the focused box. A tick's "i" stands outside its label,
+so reading the note never toggles the tick.
 | Add button | its ground | focus ring | muted |
 | x (remove) | its ground | focus ring | muted |
 | Fold arrow | its ground | focus ring | n/a |
 
 The check hovers up to three of each kind on every page and fails a kind
 that does not react as its row says.
+
+---
+
+## 6a. Picker options
+
+- **No bracketed text in an option.** A hint, a note or an explanation
+  ("(common here)", "(not listed)") goes in the field's "i" instead:
+  a Legal Requirement's Type says "Usually required here: ..." in its note;
+  "Other (not listed)" reads "Other" (the field that follows names it; the
+  saved value is unchanged).
+- **Exception: an abbreviation in brackets stays** ("Private Company
+  Limited by Shares (Ltd)", "Limited Liability Company (LLC)", a currency
+  code). Stored values never change for a wording; documents keep full
+  names.
 
 ---
 
@@ -244,7 +274,8 @@ list; side-by-side bottoms; text box not clipped and at least two lines;
 picker one line; nothing overflows its card or the page; text beside a
 control on its centre line; tick box on its words' first line; an "i" on its words' line, 8px after them; a hierarchy
 level on its row's centre line; control width is a size step; single-line
-control height; card side margin; and the hover reactions above.
+control height; card side margin; label gap (6) and row gap (12, or 24
+across a dividing rule) in every card; and the hover reactions above.
 
 Run it with the dev server up (`npm run dev`, port 1420):
 
