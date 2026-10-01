@@ -179,15 +179,13 @@ describe("BrandStyleEditor Text Hierarchy", () => {
     // size (never under a control), whatever the sizes typed.
     it("fixes each level's row at its largest size, so a size typed moves nothing", () => {
 
-        expect(levelHeight("H1 (Title)", "36–48")).toBe(58);
-        expect(levelHeight("Body Text", "16–18")).toBe(45);
-        // Two lines at 14px are 34px: a control's 45.
-        expect(levelHeight("Captions & Metadata / Interface", "12–14")).toBe(45);
+        // Every row the px box's square: an equal pitch.
+        expect(levelHeight()).toBe(45);
 
         const { container } = render(<Harness />);
         const rows = () => [...container.querySelectorAll(".brand-hierarchy-row")].map(row => (row as HTMLElement).style.getPropertyValue("--level-height"));
         const before = rows();
-        expect(before[0]).toBe("58px");
+        expect(new Set(before)).toEqual(new Set(["45px"]));
 
         typeInto(h1(), "36");
         expect(rows()).toEqual(before);

@@ -541,9 +541,11 @@
         if (spec.cardPadding) {
             for (const box of [...document.querySelectorAll(CARDS)].filter(visible)) {
                 const style = getComputedStyle(box);
+                // The Text Hierarchy box: a declared 12px more each side.
+                const margin = box.matches(".brand-hierarchy-card") ? spec.cardPadding + 12 : spec.cardPadding;
                 for (const side of ["paddingLeft", "paddingRight"]) {
-                    if (!rules.near(parseFloat(style[side]), spec.cardPadding, 0.01)) {
-                        fail("card side margin", box, { side, padding: parseFloat(style[side]), expected: spec.cardPadding });
+                    if (!rules.near(parseFloat(style[side]), margin, 0.01)) {
+                        fail("card side margin", box, { side, padding: parseFloat(style[side]), expected: margin });
                     }
                 }
             }

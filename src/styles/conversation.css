@@ -7432,6 +7432,13 @@ td.process-library-col-number{
 
 }
 
+/* The Text Hierarchy box: 12px more inside each side (24px). */
+.brand-style-columns .business-foundation-card.brand-hierarchy-card{
+
+    padding-inline:calc(var(--card-padding) + 12px);
+
+}
+
 /* A colour's swatch and HEX together at the standard control width,
    their right edge under the Role picker's. */
 .brand-style-card .brand-colour-row{

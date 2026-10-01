@@ -111,10 +111,10 @@ function previewSize(size: string, range: string): number | undefined {
  * control's 45px. Fixed, so a size typed, stepped or switched off
  * never moves another row or resizes the box.
  */
-export function levelHeight(label: string, range: string): number {
-    const most = pixelRange(range)?.max ?? 18;
-    const lines = label.split(" / ").length;
-    return Math.max(45, Math.ceil(most * 1.2 * lines));
+export function levelHeight(): number {
+    // Every row the px box's square: equal rows, an equal pitch, and the
+    // name held within the square's height (see the fit in the editor).
+    return 45;
 }
 
 /** The Text Hierarchy's one box. */
@@ -470,10 +470,18 @@ export default function BrandStyleEditor({
         function fit() {
             card!.querySelectorAll<HTMLElement>(".brand-hierarchy-row .brand-slot-label").forEach(label => {
                 label.style.removeProperty("--level-fit");
+                // Within its row's width, and within its square's height: a
+                // large size never reaches below the px box beside it.
                 const room = label.clientWidth;
                 const needed = label.scrollWidth;
-                if (room > 0 && needed > room + 0.5) {
-                    label.style.setProperty("--level-fit", String(Math.floor((room / needed) * 1000) / 1000));
+                const height = label.getBoundingClientRect().height;
+                const square = label.closest<HTMLElement>(".brand-hierarchy-row")?.clientHeight ?? 0;
+                const fit = Math.min(
+                    room > 0 && needed > room + 0.5 ? room / needed : 1,
+                    square > 0 && height > square + 0.5 ? square / height : 1
+                );
+                if (fit < 1) {
+                    label.style.setProperty("--level-fit", String(Math.floor(fit * 1000) / 1000));
                 }
             });
         }
@@ -892,7 +900,7 @@ export default function BrandStyleEditor({
                                     className="brand-hierarchy-row"
                                     key={level.id}
                                     // Its fixed height: see levelHeight.
-                                    style={{ "--level-height": levelHeight(level.label, level.range) + "px" } as CSSProperties}
+                                    style={{ "--level-height": levelHeight() + "px" } as CSSProperties}
                                 >
 
                                     {activationTick(
