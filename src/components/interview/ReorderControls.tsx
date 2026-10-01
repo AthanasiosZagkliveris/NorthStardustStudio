@@ -166,7 +166,7 @@ export default function BoxActions({
             {onRemove && (
                 <button
                     type="button"
-                    className="strategy-box-action strategy-box-remove"
+                    className="strategy-box-remove"
                     aria-label={`Remove ${label}`}
                     title={`Remove ${label}`}
                     disabled={disabled}

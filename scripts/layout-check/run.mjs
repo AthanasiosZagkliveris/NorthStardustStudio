@@ -160,9 +160,89 @@ export async function checkReactions(page, where, sample = 3) {
     return failures;
 }
 
+/**
+ * THE ONE x (docs/ai/layout-rules.md, "Interactions"): every remove
+ * button looks as a Legal Entity card's does, at rest, under the pointer
+ * and focused -- its square, edge, corners, ground, colour, ring and its
+ * drawn X (the two bars). The look of one x, in those three states.
+ */
+const REMOVE_LOOK = ["width", "height", "borderTopWidth", "borderTopStyle", "borderTopColor", "borderRadius", "backgroundColor", "color", "boxShadow", "outlineStyle", "cursor", "transitionProperty", "transitionDuration", "paddingTop", "paddingLeft", "display", "alignItems", "justifyContent"];
+const REMOVE_BARS = ["width", "height", "backgroundColor", "transform", "borderRadius", "top", "left", "marginTop", "marginLeft"];
+
+async function removeLook(page, element) {
+    const read = () => element.evaluate((node, [look, bars]) => {
+        const style = getComputedStyle(node);
+        const out = {};
+        for (const property of look) {
+            out[property] = style[property];
+        }
+        for (const pseudo of ["::before", "::after"]) {
+            const bar = getComputedStyle(node, pseudo);
+            for (const property of bars) {
+                out[pseudo + property] = bar[property];
+            }
+        }
+        return out;
+    }, [REMOVE_LOOK, REMOVE_BARS]);
+    await page.mouse.move(1, 1);
+    await page.waitForTimeout(250);
+    const rest = await read();
+    await element.hover({ timeout: 800 });
+    await page.waitForTimeout(300);
+    const hover = await read();
+    await page.mouse.move(1, 1);
+    await page.keyboard.press("Shift");
+    await element.focus();
+    await page.waitForTimeout(300);
+    const focus = await read();
+    await element.evaluate(node => node.blur());
+    return { rest, hover, focus };
+}
+
+async function checkRemoveLook(page, where, reference, sample = 12) {
+    const failures = [];
+    let tried = 0;
+    for (const element of await page.locator(".strategy-box-remove:not(:disabled)").all()) {
+        if (tried >= sample) {
+            break;
+        }
+        if (!(await element.isVisible())) {
+            continue;
+        }
+        tried++;
+        let look;
+        try {
+            look = await removeLook(page, element);
+        } catch {
+            continue;
+        }
+        const differs = {};
+        for (const state of ["rest", "hover", "focus"]) {
+            for (const [property, value] of Object.entries(reference[state])) {
+                if (look[state][property] !== value) {
+                    differs[state + " " + property] = [value, look[state][property]];
+                }
+            }
+        }
+        if (Object.keys(differs).length) {
+            failures.push({ page: where, rule: "the one x (as a Legal Entity card's)", where: await element.evaluate(node => node.getAttribute("aria-label") || node.className), detail: differs });
+        }
+    }
+    await page.mouse.move(1, 1);
+    return failures;
+}
+
 /** The whole check: a list of failures (empty is a pass). */
 export async function runLayoutCheck(page, { base = "http://localhost:1420", probe, pages = PAGES, widths = WIDTHS, themes = THEMES } = {}) {
     const failures = [];
+    // The reference x: the first Legal Entity card's.
+    let referenceX = null;
+    if (await openPage(page, base, "Identity System", "Legal Entity")) {
+        const card = page.locator(".legal-entity-card .strategy-box-remove").first();
+        if (await card.count()) {
+            referenceX = await removeLook(page, card);
+        }
+    }
     for (const [system, names] of pages) {
         for (const name of names) {
             if (!(await openPage(page, base, system, name))) {
@@ -172,6 +252,9 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
             await page.addScriptTag({ content: probe });
             await page.setViewportSize({ width: 1920, height: 1000 });
             failures.push(...(await checkReactions(page, system + " › " + name)));
+            if (referenceX) {
+                failures.push(...(await checkRemoveLook(page, system + " › " + name, referenceX)));
+            }
             for (const theme of themes) {
                 await page.evaluate(value => document.documentElement.setAttribute("data-theme", value), theme);
                 for (const width of widths) {
