@@ -12054,6 +12054,20 @@ td.process-library-col-number{
 
 }
 
+/* THE ADD FOR ONE MORE TYPE, UNDER THE PURPOSE: from the picker's edge
+   (past the arrow, as the Purpose) to the x's, closing the cell. */
+.business-relationship-add{
+
+    padding-left:40px;
+
+}
+
+.business-relationship-add:empty{
+
+    display:none;
+
+}
+
 /* WHAT A FOLDED RELATIONSHIP TYPE STILL SHOWS: the journey, and
    what is done at each step of it. The stage named the way every
    heading over an answer on this page is named, and the answer

@@ -2810,6 +2810,39 @@ export default function BusinessEngagementEditor({
 
                                                             </div>
 
+                                                        </div>
+
+                                                        {/* UNDER THE TYPE, NOT UNDER ITS
+                                                            ARROW. The Purpose belongs to
+                                                            the relationship type chosen
+                                                            above it, so it starts where
+                                                            that picker starts -- past the
+                                                            arrow that folds them both. */}
+                                                        {typeId.length > 0 && (
+                                                            <div className="business-relationship-purpose">
+                                                            <BusinessNote
+                                                                label="Purpose"
+                                                                ariaLabel={
+                                                                    "Purpose of " +
+                                                                    TYPE_LABELS[typeId] +
+                                                                    " for " +
+                                                                    offeringName(offeringId)
+                                                                }
+                                                                info={SECTIONS.relationships.purpose}
+                                                                disabled={disabled}
+                                                                value={type.purpose}
+                                                                onChange={(next) => updateType(
+                                                                    segment.id,
+                                                                    offeringId, typeId,
+                                                                    { purpose: next }
+                                                                )}
+                                                            />
+                                                            </div>
+                                                        )}
+
+                                                        {/* UNDER THE PURPOSE: the add for one more type closes the
+                                                            cell, from the picker's edge to the x's (.business-relationship-add). */}
+                                                        <div className="business-relationship-add">
                                                             {/* WHATEVER IS KEPT, INCLUDING
                                                                 NOTHING. Removing the last
                                                                 relationship type used to
@@ -2851,36 +2884,7 @@ export default function BusinessEngagementEditor({
                                                                         }}
                                                                     />
                                                                 )}
-
                                                         </div>
-
-                                                        {/* UNDER THE TYPE, NOT UNDER ITS
-                                                            ARROW. The Purpose belongs to
-                                                            the relationship type chosen
-                                                            above it, so it starts where
-                                                            that picker starts -- past the
-                                                            arrow that folds them both. */}
-                                                        {typeId.length > 0 && (
-                                                            <div className="business-relationship-purpose">
-                                                            <BusinessNote
-                                                                label="Purpose"
-                                                                ariaLabel={
-                                                                    "Purpose of " +
-                                                                    TYPE_LABELS[typeId] +
-                                                                    " for " +
-                                                                    offeringName(offeringId)
-                                                                }
-                                                                info={SECTIONS.relationships.purpose}
-                                                                disabled={disabled}
-                                                                value={type.purpose}
-                                                                onChange={(next) => updateType(
-                                                                    segment.id,
-                                                                    offeringId, typeId,
-                                                                    { purpose: next }
-                                                                )}
-                                                            />
-                                                            </div>
-                                                        )}
 
                                                     </td>
                                                 );
