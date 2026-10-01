@@ -3559,21 +3559,6 @@ export default function BusinessEngagementEditor({
 
                 {open && (<>
 
-                <div className="business-demand-fields">
-                    <BusinessField label="Customers Buy" info={DEMAND_BUYING_HELP}>
-                        <OptionPicker
-                            label={"How customers buy " + offeringLabel}
-                            placeholder={DEMAND_BUY_ONCE}
-                            options={[DEMAND_BUY_ONCE, DEMAND_BUY_MONTHLY]}
-                            disabled={disabled}
-                            value={demand.recurring ? DEMAND_BUY_MONTHLY : DEMAND_BUY_ONCE}
-                            onChange={(next) => updateDemand(offeringId, {
-                                recurring: next === DEMAND_BUY_MONTHLY
-                            })}
-                        />
-                    </BusinessField>
-                </div>
-
                 <div className="business-demand-sources">
                     {demand.sources.map(sourceCard)}
                     <BusinessAddButton
@@ -3585,19 +3570,33 @@ export default function BusinessEngagementEditor({
                     />
                 </div>
 
-                {demand.recurring && demand.sources.length > 0 && (
-                    <div className="business-demand-fields">
-                        {numberField(
-                            "Cancel / Month (%)",
-                            "The share of active clients who cancel each month. At 5%, a client stays about 20 months on average.",
-                            "Share of clients cancelling a month, " + offeringLabel,
-                            "e.g. 5",
-                            demand.cancel,
-                            (next) => updateDemand(offeringId, { cancel: next }),
-                            NUMBER_LIMITS.cancelPercent
-                        )}
-                    </div>
-                )}
+                {/* HOW IT IS BOUGHT, UNDER THE SOURCES: Customers Buy and,
+                    for an Offering kept until cancelled, the share
+                    cancelling a month -- one row, labels above. */}
+                <div className="business-demand-fields business-demand-buying">
+                    <BusinessField label="Customers Buy" info={DEMAND_BUYING_HELP}>
+                        <OptionPicker
+                            label={"How customers buy " + offeringLabel}
+                            placeholder={DEMAND_BUY_ONCE}
+                            hug
+                            options={[DEMAND_BUY_ONCE, DEMAND_BUY_MONTHLY]}
+                            disabled={disabled}
+                            value={demand.recurring ? DEMAND_BUY_MONTHLY : DEMAND_BUY_ONCE}
+                            onChange={(next) => updateDemand(offeringId, {
+                                recurring: next === DEMAND_BUY_MONTHLY
+                            })}
+                        />
+                    </BusinessField>
+                    {demand.recurring && demand.sources.length > 0 && numberField(
+                        "Cancel / Month (%)",
+                        "The share of active clients who cancel each month. At 5%, a client stays about 20 months on average.",
+                        "Share of clients cancelling a month, " + offeringLabel,
+                        "e.g. 5",
+                        demand.cancel,
+                        (next) => updateDemand(offeringId, { cancel: next }),
+                        NUMBER_LIMITS.cancelPercent
+                    )}
+                </div>
 
                 {demand.sources.length > 0 && (
                     <div

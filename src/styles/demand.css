@@ -266,7 +266,8 @@
    value needs), a cell gap apart, labels above, tops aligned. A row too
    long for the card wraps, its next line from the same left edge. The
    Basis stays under them at the card's width. */
-.business-demand-source > .business-demand-fields{
+.business-demand-source > .business-demand-fields,
+.business-demand-buying{
 
     display:flex;
 
@@ -276,15 +277,18 @@
 
 }
 
-.business-demand-source > .business-demand-fields > .business-foundation-field{
+.business-demand-source > .business-demand-fields > .business-foundation-field,
+.business-demand-buying > .business-foundation-field{
 
     flex:none;
 
 }
 
-.business-demand-source > .business-demand-fields .business-demand-number[data-size="xs"]{ width:var(--control-xs); }
-.business-demand-source > .business-demand-fields .business-demand-number[data-size="code"]{ width:var(--control-code); }
-.business-demand-source > .business-demand-fields .business-demand-number[data-size="s"]{ width:var(--control-s); }
+/* (And the row under the sources: Customers Buy, hugging its longest
+   option, and Cancel / Month (%) beside it while it shows.) */
+:is(.business-demand-source > .business-demand-fields, .business-demand-buying) .business-demand-number[data-size="xs"]{ width:var(--control-xs); }
+:is(.business-demand-source > .business-demand-fields, .business-demand-buying) .business-demand-number[data-size="code"]{ width:var(--control-code); }
+:is(.business-demand-source > .business-demand-fields, .business-demand-buying) .business-demand-number[data-size="s"]{ width:var(--control-s); }
 
 .business-demand-source-note{
 

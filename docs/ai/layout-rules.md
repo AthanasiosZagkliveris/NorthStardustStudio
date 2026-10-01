@@ -292,6 +292,10 @@ grids' 24px, `--space-column`) are not cell gaps.
   gap apart, labels above, tops aligned; a row too long for the card wraps
   from the same left edge (at 768px every type with a calculation does,
   "Other" does not). The Basis stays under them at the card's width.
+  Under the sources and their add button, one row: Customers Buy (its
+  picker hugging its longest option) and, for an Offering kept until
+  cancelled, Cancel / Month (%) (XS), labels above, tops aligned; then
+  the Expected Sales, Assumptions and Channels That Bring Them.
 - **Additional Legal Requirement card**: Reference or Number | Type on one
   row of the card's two columns, the Type at the width its longest option
   needs.
