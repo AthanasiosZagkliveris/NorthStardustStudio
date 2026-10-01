@@ -9250,6 +9250,9 @@ td.process-library-col-number{
 
     grid-template-columns:subgrid;
 
+    /* Stacked (one column), one field from the next. */
+    row-gap:var(--space-field);
+
     /* The list's own column gap (a subgrid's "normal"), not the 6px a
        wide field sets. */
     column-gap:normal;

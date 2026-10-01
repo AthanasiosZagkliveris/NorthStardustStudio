@@ -509,6 +509,22 @@
                     if (divided && rules.near(gap, 2 * spec.fieldGap, 1)) {
                         continue;
                     }
+                    // A cell of a grid row stands under the row's TALLEST cell, which may be
+                    // in the next column: measured from the lowest thing above it in the card.
+                    const lowest = Math.max(...stack.filter(other => other !== item && other.bottom <= item.top + 0.5 && other.element.closest(CARDS) === home).map(other => other.bottom));
+                    if (lowest > above.bottom && rules.near(item.top - lowest, spec.fieldGap, 1)) {
+                        continue;
+                    }
+                    // The first thing in a field of a grid: its field is a row gap under the
+                    // grid row above (whose tallest cell sets it).
+                    const field = item.element.closest(FIELD);
+                    if (field && field.parentElement && getComputedStyle(field.parentElement).display.includes("grid") && item.top - rect(field).top < spec.fieldGap) {
+                        const fieldTop = rect(field).top;
+                        const bottoms = [...field.parentElement.children].map(child => rect(child).bottom).filter(bottom => bottom <= fieldTop + 0.5);
+                        if (bottoms.length && rules.near(fieldTop - Math.max(...bottoms), spec.fieldGap, 1)) {
+                            continue;
+                        }
+                    }
                     if (!rules.near(gap, expected, 1)) {
                         fail(above.kind === "label" && item.kind === "control" ? "label gap" : "row gap", item.element, { gap, expected, above: describe(above.element) });
                     }
