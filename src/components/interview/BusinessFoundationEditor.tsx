@@ -782,9 +782,9 @@ export default function BusinessFoundationEditor({
 
     }
 
-    function addButton(label: string, onAdd: () => void) {
+    function addButton(label: string, onAdd: () => void, span = false) {
         return (
-            <BusinessAddButton label={label} onAdd={onAdd} disabled={disabled} />
+            <BusinessAddButton label={label} onAdd={onAdd} disabled={disabled} span={span} />
         );
     }
 
@@ -1031,7 +1031,7 @@ export default function BusinessFoundationEditor({
                         profiles: [...segment.profiles, profile]
                     });
                     folds.expand(profile.id);
-                })}
+                }, true)}
 
             </>
         );
@@ -1182,7 +1182,7 @@ export default function BusinessFoundationEditor({
                         competitors: [...segment.competitors, competitor]
                     });
                     folds.expand(competitor.id);
-                })}
+                }, true)}
 
             </>
         );
@@ -1436,7 +1436,7 @@ export default function BusinessFoundationEditor({
                         offerings: [...segment.offerings, offering]
                     });
                     folds.expand(offering.id);
-                })}
+                }, true)}
 
             </>
         );

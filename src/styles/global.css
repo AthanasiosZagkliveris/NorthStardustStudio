@@ -879,8 +879,12 @@ b, strong {
 /* AN ADD BUTTON AT THE END OF A LIST OF ROWS (the Legal Entity's
    extra registration numbers and tax registrations): the list's whole
    content width, its label centred -- as the add button standing
-   alone in a table cell is. */
-.legal-entity-list-add {
+   alone in a table cell is. The same for the add buttons named in
+   the rulebook's list of card-list adds (.card-list-add: the Legal
+   Entity's legal requirements and expenses, Business Foundation's
+   profiles, competitors and offerings): the cards' width. */
+.legal-entity-list-add,
+.card-list-add {
   display: block;
   align-self: stretch;
   width: 100%;

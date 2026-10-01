@@ -685,20 +685,25 @@ export function BusinessAddButton({
 
     onAdd,
 
-    disabled = false
+    disabled = false,
+
+    span = false
 
 }: {
 
     label: string;
     onAdd: () => void;
     disabled?: boolean;
+    /** The cards' whole width, label centred (.card-list-add): only the
+        add buttons the rulebook lists. */
+    span?: boolean;
 
 }) {
 
     return (
         <button
             type="button"
-            className="strategy-add-button"
+            className={"strategy-add-button" + (span ? " card-list-add" : "")}
             disabled={disabled}
             onClick={onAdd}
         >

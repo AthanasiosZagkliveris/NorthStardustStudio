@@ -85,6 +85,9 @@
     const GROUPS = ".business-capability-price, .brand-colour-row, .legal-entity-number-row, .business-channel-resource-head, .strategy-metric-unit-currency, .suggested-input, .business-capability-quantity-price, .business-capability-performer, .business-channel-pick, .brand-image-text, .financial-milestone, .financial-schedule-row, .financial-cost-row, .legal-entity-founders, .strategy-period-box .month-picker, .strategy-objective-period .month-picker";
     // Every card and section box (docs/ai/layout-rules.md, "Cards and section boxes").
     const CARDS = ".legal-entity-section, .legal-entity-card, .business-foundation-card, .business-capability-activity, .business-engagement-reference, .financial-need-card, .financial-offering-cost-card, .financial-cost-row, .strategy-theme-box, .strategy-theme-panel, .strategy-goal-box, .strategy-objective-box, .strategy-metric-box, .roadmap-theme-box";
+    // The add buttons that span their list of cards (docs/ai/layout-rules.md,
+    // "Card-list add buttons"): an explicit list, not every add.
+    const CARD_LIST_ADDS = ["+ Add legal requirement", "+ Add expense", "+ Add Profile", "+ Add Competitor", "+ Add Offering"];
     const GRIDS = ".founders-profile-row, .business-capability-cost-grid, .business-founder-grid, .card-field-pairs-grid, .legal-entity-grid, .strategy-metric-fields";
 
     const rect = element => element.getBoundingClientRect();
@@ -570,6 +573,25 @@
                         fail("card side margin", box, { side, padding: parseFloat(style[side]), expected: margin });
                     }
                 }
+            }
+        }
+
+        // 14. The card-list adds the rulebook names (and only those): the
+        //     cards' whole width, from the cards' left edge to their right
+        //     (the list's content width while it has none), label centred.
+        for (const button of [...document.querySelectorAll("button.strategy-add-button")].filter(visible)) {
+            if (!CARD_LIST_ADDS.includes(button.textContent.trim()) || button.closest(".business-step-add-row")) {
+                continue;
+            }
+            const list = button.parentElement;
+            const cards = [...list.children].filter(child => child.matches(CARD) && visible(child)).map(rect);
+            const style = getComputedStyle(list);
+            const span = cards.length
+                ? [Math.min(...cards.map(card => card.left)), Math.max(...cards.map(card => card.right))]
+                : [rect(list).left + parseFloat(style.borderLeftWidth) + parseFloat(style.paddingLeft), rect(list).right - parseFloat(style.borderRightWidth) - parseFloat(style.paddingRight)];
+            const box = rect(button);
+            if (!rules.near(box.left, span[0], 1) || !rules.near(box.right, span[1], 1) || getComputedStyle(button).textAlign !== "center") {
+                fail("card-list add spans the cards", button, { button: [box.left, box.right], cards: span, textAlign: getComputedStyle(button).textAlign });
             }
         }
 

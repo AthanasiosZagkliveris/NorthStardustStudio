@@ -128,6 +128,21 @@ track of the grid it stands in.
 - A tick box: 18 x 18.
 - The fold arrow: 36 x 36.
 
+### Card-list add buttons (an explicit list)
+
+These add buttons span their list of cards, from the cards' left edge to
+their right (the list's content width while it is empty), label centred
+(`.card-list-add`, as `.legal-entity-list-add`):
+
+- Legal Entity: "+ Add legal requirement" (5), "+ Add expense" (6).
+- Business Foundation: "+ Add Profile", "+ Add Competitor", "+ Add
+  Offering".
+
+Every other add button keeps its own rule: as wide as its label (Goal,
+Objective, Metric, Theme, Segment, Resource, Activity, Cost, Funding
+Source...), the whole cell in a table cell, control to x under a
+[control][x] row. The check holds only the buttons listed here.
+
 ---
 
 ## 5. Alignment

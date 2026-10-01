@@ -2206,7 +2206,7 @@ export default function LegalEntityEditor({
                         {!entity.requirementsNotApplicable && (
                         <button
                             type="button"
-                            className="strategy-add-button"
+                            className="strategy-add-button card-list-add"
                             disabled={disabled}
                             onClick={() => {
                                 const requirement = createLegalEntityRequirement();
@@ -2485,7 +2485,7 @@ export default function LegalEntityEditor({
                         {!entity.expensesNotApplicable && (
                         <button
                             type="button"
-                            className="strategy-add-button"
+                            className="strategy-add-button card-list-add"
                             disabled={disabled}
                             onClick={() => {
                                 const expense = createLegalEntityExpense();
