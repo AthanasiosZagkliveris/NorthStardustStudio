@@ -335,7 +335,7 @@ body {
    PROFILES, COMPETITORS, OFFERINGS and VALUE PROPOSITION; Strategy's
    THEME, GOAL, OBJECTIVE, METRIC and INITIATIVES. (A button inside --
    an "i", an "Expand all" -- keeps its own case.) */
-.business-foundation-input-head > .strategy-box-number,
+.business-foundation:not(.business-engagement) .business-foundation-input-head > .strategy-box-number,
 .business-foundation-column-title,
 .business-foundation-proposition > .business-foundation-label-info > .business-foundation-subhead,
 :is(.strategy-theme-box, .strategy-theme-panel, .strategy-goal-box, .strategy-objective-box, .strategy-metric-box) > .strategy-box-head > .strategy-box-number {
