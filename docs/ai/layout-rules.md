@@ -37,6 +37,7 @@ below are these, made measurable.
 | `--card-padding` | 12px | inside every card **and every section box**, border to content (sides) |
 | `--space-row` | 6px | one row of a table to the next |
 | `--space-cell` | 12px | one cell of a row to the next inside a card: a field grid's columns, a pair row, a list's cells, a table's columns |
+| `--space-column` | 24px | one column of cards, or of a card's field stacks, to the next (a Segment's three columns, its Description's two) |
 | `--card-body-indent` | 44px | a card body's left edge from the head's left (the arrow's 36px plus 8px) |
 | `--side-label-gap` | 12px | a side label to its control |
 | `--control-xs` | 80px | XS width step |
@@ -162,7 +163,7 @@ Source...), the whole cell in a table cell, control to x under a
 Cells side by side in one row inside a card are `--space-cell` (12px)
 apart, everywhere: field grids, pair rows, Name / Number lists, tables.
 Gaps between cards, sections and page columns (`--space-card`, the page
-grids' 24px) are not cell gaps.
+grids' 24px, `--space-column`) are not cell gaps.
 
 ### The mid-line rule
 
@@ -212,6 +213,12 @@ grids' 24px) are not cell gaps.
   Metric box ends where that column needs it, and its name and
   description boxes end with it. (Every card's own x stays at its own
   12px side margin: a Goal's x is not moved in to its Objectives'.)
+- **Segment card** (Business Foundation): one grid for its body, from the
+  body's left edge (the number's x) to its right: three equal columns
+  `--space-column` (24px) apart. The Description's two columns and the
+  Value Proposition above share their edges with Profiles, Competitors
+  and Offerings below; each column's cards take its whole width, 12px
+  apart. (Two columns under 1500px, one under 900px, on the same edges.)
 - **Additional Legal Requirement card**: Reference or Number | Type on one
   row of the card's two columns, the Type at the width its longest option
   needs.

@@ -10348,6 +10348,68 @@ td.process-library-col-number{
 
 }
 
+/* ONE GRID FOR THE SEGMENT'S BODY. Its areas start at the body's left
+   edge (the number's x, --card-body-indent) rather than each pushed in
+   by the fold card's body indent inside its own track: a first track
+   gives the indent less one gap, so the Description's two columns and
+   the Value Proposition above share their edges with Profiles,
+   Competitors and Offerings below, every column --space-column apart.
+   Business Foundation's Segment only (the later pages' cards, marked
+   .business-engagement, keep their own grids). */
+.business-foundation:not(.business-engagement) > .business-foundation-input{
+
+    grid-template-columns:calc(var(--card-body-indent) - var(--space-column)) repeat(3, minmax(0, 1fr));
+
+    grid-template-areas:
+        "head head        head        proposition"
+        ".    description description proposition"
+        ".    profiles    competitors offerings";
+
+    column-gap:var(--space-column);
+
+}
+
+.business-foundation:not(.business-engagement) > .business-foundation-input > :not(.fold-card-head){
+
+    margin-left:0;
+
+}
+
+@media (max-width: 1500px){
+
+    .business-foundation:not(.business-engagement) > .business-foundation-input{
+
+        grid-template-columns:calc(var(--card-body-indent) - var(--space-column)) repeat(2, minmax(0, 1fr));
+
+        grid-template-areas:
+            "head head        head"
+            ".    proposition proposition"
+            ".    description description"
+            ".    profiles    competitors"
+            ".    offerings   offerings";
+
+    }
+
+}
+
+@media (max-width: 900px){
+
+    .business-foundation:not(.business-engagement) > .business-foundation-input{
+
+        grid-template-columns:calc(var(--card-body-indent) - var(--space-column)) minmax(0, 1fr);
+
+        grid-template-areas:
+            "head head"
+            ".    proposition"
+            ".    description"
+            ".    profiles"
+            ".    competitors"
+            ".    offerings";
+
+    }
+
+}
+
 /* The Segment's name and number, across the top of its card. */
 .business-foundation-input-head{
 
@@ -10698,7 +10760,9 @@ td.process-library-col-number{
 
     grid-template-columns:repeat(2, minmax(0, 1fr));
 
-    gap:12px;
+    /* Its two columns are the Segment grid's first two, --space-column
+       apart (see ONE GRID FOR THE SEGMENT'S BODY). */
+    gap:var(--space-field) var(--space-column);
 
 }
 

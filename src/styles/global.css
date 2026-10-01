@@ -116,6 +116,9 @@ body {
   --card-padding: 12px;
   --space-row: 6px;
   --space-cell: 12px;
+  /* One column of cards, or of a card's field stacks, to the next (a
+     Segment's three columns, its Description's two). */
+  --space-column: 24px;
   /* The line height of running text read as prose (a System's
      opening screen: its introduction and its facts alike). */
   --body-line: 1.6;
