@@ -780,6 +780,8 @@ export function BusinessCard({
 
     summary,
 
+    headRow,
+
     style,
 
     children
@@ -810,6 +812,12 @@ export function BusinessCard({
      * own line, so it never squeezes the name beside it.
      */
     summary?: ReactNode;
+    /**
+     * A field set in the head, under the name and starting at the name
+     * box's left edge, while the card is open (a Competitor's or an
+     * Offering's Type).
+     */
+    headRow?: ReactNode;
     /** The card's own inline style: a folded colour card's tint (Brand Style). */
     style?: CSSProperties;
     children: ReactNode;
@@ -872,6 +880,10 @@ export function BusinessCard({
 
                 {!open && summary && (
                     <div className="business-card-summary">{summary}</div>
+                )}
+
+                {open && headRow && (
+                    <div className="fold-card-head-row">{headRow}</div>
                 )}
 
             </div>

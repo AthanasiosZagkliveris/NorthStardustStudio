@@ -122,6 +122,12 @@ the same inner side margin: `--card-padding` (12px).
 | L | 420px | a long option | pickers whose longest option needs it (OptionPicker picks S, M or L itself) |
 | Column | its column | anything | text fields and pickers that fill their column (Country, State / Region, the Address) |
 
+**The hug exception.** A side-label picker marked to hug (`hug`,
+`data-size="hug"`: a Competitor's and an Offering's Type) is exactly as
+wide as its longest option (or placeholder) with its padding, chevron and
+border, rather than the step that holds it. The check measures that
+width.
+
 The two-column grids are built from these: a pair row is two S columns, a
 Name / Number list is "the rest" plus S. A width outside this list fails
 the check, except a control that fills its column, its container, or one
@@ -236,8 +242,11 @@ grids' 24px, `--space-column`) are not cell gaps.
   Value Proposition above share their edges with Profiles, Competitors
   and Offerings below; each column's cards take its whole width, 12px
   apart. (Two columns under 1500px, one under 900px, on the same edges.)
-- **Competitor and Offering cards**: "Type" is a compact side label
-  (only as wide as its word) beside its picker, on the picker's mid line.
+- **Competitor and Offering cards**: the Type field is a row of the head
+  under the name: "Type" starts at the name box's left edge, a compact
+  side label beside its picker on the picker's mid line, 12px under the
+  name and 12px above the body. The picker hugs its longest option (see
+  the hug exception).
 - **Additional Legal Requirement card**: Reference or Number | Type on one
   row of the card's two columns, the Type at the width its longest option
   needs.

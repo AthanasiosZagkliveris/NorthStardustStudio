@@ -20,6 +20,22 @@ export type ControlStep = typeof CONTROL_STEPS[number] | "full";
  */
 export function controlStep(trigger: HTMLElement): ControlStep {
 
+    const need = controlNeed(trigger);
+    const root = getComputedStyle(document.documentElement);
+
+    return CONTROL_STEPS.find(step => {
+        const limit = parseFloat(root.getPropertyValue("--control-" + step));
+        return !Number.isFinite(limit) || need <= limit;
+    }) ?? "full";
+
+}
+
+/**
+ * The width a picker needs: its widest option (or placeholder) and the
+ * trigger's own padding (the chevron's side included) and border.
+ */
+export function controlNeed(trigger: HTMLElement): number {
+
     const style = getComputedStyle(trigger);
     const chrome =
         (parseFloat(style.paddingLeft) || 0) + (parseFloat(style.paddingRight) || 0) +
@@ -39,13 +55,7 @@ export function controlStep(trigger: HTMLElement): ControlStep {
         widest = Math.max(widest, width);
     });
 
-    const need = widest + chrome;
-    const root = getComputedStyle(document.documentElement);
-
-    return CONTROL_STEPS.find(step => {
-        const limit = parseFloat(root.getPropertyValue("--control-" + step));
-        return !Number.isFinite(limit) || need <= limit;
-    }) ?? "full";
+    return widest + chrome;
 
 }
 
@@ -99,6 +109,13 @@ interface OptionPickerProps {
      */
     searchAliases?: Record<string, string>;
 
+    /**
+     * As wide as its widest option exactly, rather than the size step
+     * that holds it: a side-label picker's allowed exception (a
+     * Competitor's or an Offering's Type, docs/ai/layout-rules.md).
+     */
+    hug?: boolean;
+
     onChange: (value: string) => void;
 
 }
@@ -146,6 +163,8 @@ export default function OptionPicker({
 
     searchAliases,
 
+    hug = false,
+
     onChange
 
 }: OptionPickerProps) {
@@ -171,6 +190,8 @@ export default function OptionPicker({
     // have loaded (they change every width), and whenever the
     // options change.
     const [step, setStep] = useState<ControlStep>("s");
+    // Hugging: the width its widest option needs (0 until measured).
+    const [hugWidth, setHugWidth] = useState(0);
     const optionsKey = [placeholder, ...options].join("\u0000");
 
     useLayoutEffect(() => {
@@ -182,14 +203,22 @@ export default function OptionPicker({
         }
 
         let live = true;
-        const measure = () => live && setStep(controlStep(trigger));
+        const measure = () => {
+            if (!live) {
+                return;
+            }
+            setStep(controlStep(trigger));
+            if (hug) {
+                setHugWidth(Math.ceil(controlNeed(trigger)));
+            }
+        };
 
         measure();
         document.fonts?.ready.then(measure);
 
         return () => { live = false; };
 
-    }, [optionsKey]);
+    }, [optionsKey, hug]);
 
     // Opens downwards where there is room and upwards where there
     // is not, so the last option is never under the window edge or
@@ -386,7 +415,12 @@ export default function OptionPicker({
 
     return (
 
-        <div className="option-picker" data-size={step} ref={containerRef}>
+        <div
+            className="option-picker"
+            data-size={hug ? "hug" : step}
+            style={hug && hugWidth > 0 ? { width: "min(100%, " + hugWidth + "px)" } : undefined}
+            ref={containerRef}
+        >
 
             <button
                 ref={triggerRef}

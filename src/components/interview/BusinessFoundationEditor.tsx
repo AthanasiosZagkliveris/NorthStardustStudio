@@ -740,7 +740,8 @@ export default function BusinessFoundationEditor({
             key,
             actions = null,
             ariaPrefix,
-            summary
+            summary,
+            headRow
         }: {
             kind: string;
             number: number;
@@ -752,6 +753,8 @@ export default function BusinessFoundationEditor({
             ariaPrefix?: string;
             /** The one line shown in the head while the card is folded. */
             summary?: string;
+            /** A field under the name, from the name box's edge (see BusinessCard). */
+            headRow?: ReactNode;
         },
         children: ReactNode
     ) {
@@ -775,6 +778,7 @@ export default function BusinessFoundationEditor({
                 actions={actions}
                 disabled={disabled}
                 summary={summary}
+                headRow={headRow}
             >
                 {children}
             </BusinessCard>
@@ -1069,27 +1073,13 @@ export default function BusinessFoundationEditor({
                             summary: summaryText(
                                 chosen?.label
                             ),
-                            actions: segment.competitors.length > 1 &&
-                                remove(
-                                    "Competitor " + (index + 1),
-                                    () => updateSegment(segmentIndex, {
-                                        competitors: segment.competitors.filter(
-                                            (_candidate, position) =>
-                                                position !== index
-                                        )
-                                    })
-                                )
-                        },
-                        <>
-
-                            {/* The five Types, each shown with the
-                                explanation the specification gives
-                                it. */}
-                            {labelled(
+                            // The five Types, each shown with the explanation the specification gives it. Under the name, from its box's edge.
+                            headRow: labelled(
                                 "Type",
                                 <OptionPicker
                                     label={segmentPath + ", Competitor " + (index + 1) + " type"}
                                     placeholder="Select a type"
+                                    hug
                                     options={BUSINESS_COMPETITOR_TYPES.map(
                                         type => type.label
                                     )}
@@ -1102,7 +1092,19 @@ export default function BusinessFoundationEditor({
                                     })}
                                 />,
                                 SUBSECTIONS.competitors.type
-                            )}
+                            ),
+                            actions: segment.competitors.length > 1 &&
+                                remove(
+                                    "Competitor " + (index + 1),
+                                    () => updateSegment(segmentIndex, {
+                                        competitors: segment.competitors.filter(
+                                            (_candidate, position) =>
+                                                position !== index
+                                        )
+                                    })
+                                )
+                        },
+                        <>
 
                             {/* What this TYPE of competitor is
                                 asked -- see
@@ -1327,6 +1329,24 @@ export default function BusinessFoundationEditor({
                                         (offering.needsAddressed.length === 1 ? " need" : " needs")
                                     : ""
                             ),
+                            // What kind of thing it is, before what it is for: an Offering is a product, a service or both, and that frames everything asked after it. Under the name, from its box's edge.
+                            headRow: labelled(
+                                "Type",
+                                <OptionPicker
+                                    label={segmentPath + ", Offering " + (index + 1) + " type"}
+                                    placeholder="Select a type"
+                                    hug
+                                    options={[...BUSINESS_OFFERING_CATEGORIES]}
+                                    disabled={disabled}
+                                    value={offering.category}
+                                    onChange={(next) => change({
+                                        category: next,
+                                        categoryOther: next === CATEGORY_OTHER
+                                            ? offering.categoryOther
+                                            : ""
+                                    })}
+                                />
+                            ),
                             actions: segment.offerings.length > 1 &&
                                 remove(
                                     "Offering " + (index + 1),
@@ -1339,27 +1359,6 @@ export default function BusinessFoundationEditor({
                                 )
                         },
                         <>
-
-                            {/* What kind of thing it is, before what
-                                it is for: an Offering is a product,
-                                a service or both, and that frames
-                                everything asked after it. */}
-                            {labelled(
-                                "Type",
-                                <OptionPicker
-                                    label={segmentPath + ", Offering " + (index + 1) + " type"}
-                                    placeholder="Select a type"
-                                    options={[...BUSINESS_OFFERING_CATEGORIES]}
-                                    disabled={disabled}
-                                    value={offering.category}
-                                    onChange={(next) => change({
-                                        category: next,
-                                        categoryOther: next === CATEGORY_OTHER
-                                            ? offering.categoryOther
-                                            : ""
-                                    })}
-                                />
-                            )}
 
                             {offering.category === CATEGORY_OTHER && text(
                                 "Name the type",

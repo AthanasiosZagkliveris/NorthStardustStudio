@@ -269,6 +269,20 @@
 
 }
 
+/* A ROW OF THE HEAD UNDER THE NAME (BusinessCard's headRow): a
+   Competitor's or an Offering's Type, starting at the name box's left
+   edge, a field gap under it (the head's own row gap is 6px). */
+.fold-card-head > .fold-card-head-row {
+
+    grid-column: 3 / -1;
+    grid-row: 2;
+
+    min-width: 0;
+
+    margin-top: calc(var(--space-field) - 6px);
+
+}
+
 /* One line, always: in a narrow column the title wraps instead. */
 .fold-group-head > .fold-all-toggle {
 

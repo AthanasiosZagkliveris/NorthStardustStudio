@@ -413,7 +413,15 @@
             const tracks = cell && getComputedStyle(cell).display.includes("grid")
                 ? getComputedStyle(cell).gridTemplateColumns.split(" ").map(parseFloat).filter(Number.isFinite)
                 : [];
-            const allowed = (spec.widths ?? []).some(step => rules.near(width, step, 1)) || rules.near(width, inner, 1) || (cell && rules.near(width, rect(cell).width, 1)) ||
+            // THE HUG EXCEPTION: a side-label picker marked to hug (data-size
+            // "hug") is as wide as its widest option and its padding and border.
+            const hugs = holder.matches(".option-picker[data-size=\"hug\"]") && (() => {
+                const style = getComputedStyle(control);
+                const chrome = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight) + parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
+                const widest = Math.max(0, ...[...control.querySelectorAll(".option-picker-sizer, .option-picker-value")].map(span => { const range = document.createRange(); range.selectNodeContents(span); return range.getBoundingClientRect().width; }));
+                return rules.near(width, Math.ceil(widest + chrome), 1);
+            })();
+            const allowed = hugs || (spec.widths ?? []).some(step => rules.near(width, step, 1)) || rules.near(width, inner, 1) || (cell && rules.near(width, rect(cell).width, 1)) ||
                 tracks.some(track => rules.near(width, track, 1)) ||
                 (spec.square && rules.near(width, spec.square, 1) && rules.near(rect(control).height, spec.square, 1));
             // Groups and list rows are measured as the group (the column), not each part.
@@ -641,6 +649,16 @@
                 if (!rules.near(gap, spec.fieldGap, 0.5)) {
                     fail("name → head buttons a cell gap", head, { gap, expected: spec.fieldGap });
                 }
+            }
+        }
+
+        // 16c. A field set in a card head under the name (a Competitor's or an
+        //      Offering's Type): its label starts at the name box's left edge.
+        for (const row of [...document.querySelectorAll(".fold-card-head > .fold-card-head-row")].filter(visible)) {
+            const name = nameBox(row.parentElement);
+            const first = [...row.querySelectorAll(".business-foundation-label-info, .business-foundation-label, .field-label")].find(visible) ?? row;
+            if (name && !rules.near(rect(first).left, name.left, 0.5)) {
+                fail("head row under the name box", row, { left: rect(first).left, name: name.left });
             }
         }
 
