@@ -59,7 +59,8 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
     the country ("Brooklyn, 11201, New York" for "Brooklyn, New York
     11201"), every number as it was. And all three when a typeface's
     "Purpose" became "Usage" (the Typography table's head), every number
-    as it was.
+    as it was. And again when an Objective's "Owner" became "Responsible" (the
+    Objectives and KPI tables' heads), every number as it was.
 */
 const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
 

@@ -1062,7 +1062,7 @@ function strategicPeriodBlocks(value: unknown, context: ExportContext): ExportBl
                     ...paragraph((themeIndex + 1) + "." + (goalIndex + 1) + "." + (objectiveIndex + 1) + " " +
                         (objective.name || "Unnamed objective") + (range(objective.period) ? " (" + range(objective.period) + ")" : "")),
                     ...paragraph(objective.description),
-                    ...paragraph(context.legalEntity?.founders.find(founder => founder.id === objective.ownerId)?.name ?? "", "Owner"),
+                    ...paragraph(context.legalEntity?.founders.find(founder => founder.id === objective.ownerId)?.name ?? "", "Responsible"),
                     ...list(objective.initiatives, true),
                     ...table(["Metric", "Baseline", "Target", "Frequency", "Unit"], objective.metrics.map(metric => [
                         metric.name, metric.baseline, metric.target, metric.frequency,
@@ -1083,7 +1083,7 @@ function strategicRoadmapBlocks(context: ExportContext): ExportBlock[] {
 
     return [
         ...paragraph(range(foundation.period), "Strategic Period"),
-        ...table(["Theme", "Objective", "From", "To", "Initiatives"], foundation.themes.flatMap((theme, themeIndex) =>
+        ...table(["Theme", "Objective", "Start", "End", "Initiatives"], foundation.themes.flatMap((theme, themeIndex) =>
             (period.goalsByTheme[theme.id] ?? []).flatMap((goal, goalIndex) => goal.objectives.map((objective, objectiveIndex) => [
                 theme.name,
                 (themeIndex + 1) + "." + (goalIndex + 1) + "." + (objectiveIndex + 1) + " " + objective.name,

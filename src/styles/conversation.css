@@ -14775,6 +14775,83 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 }
 
+/* Stacked (one column), the Description and the period a field apart. */
+.strategy-objective-columns.strategy-objective-top{
+
+    row-gap:var(--space-field);
+
+}
+
+/* THE PERIOD AND WHO SEES IT THROUGH, beside the Description, from the
+   Metric column's left edge: "Start [month]" over "End [month]" (the
+   Strategic Period's pair, the S step each), and beside them
+   "Responsible" over its picker. "Start" and "Responsible" stand on the
+   Description label's line (the block lifted by half of what a box has
+   over that line), the End box and the picker on the next row. */
+.strategy-objective-when{
+
+    display:grid;
+
+    grid-template-columns:auto minmax(0, var(--control-s));
+
+    align-items:center;
+
+    justify-content:start;
+
+    gap:var(--space-field) var(--side-label-gap);
+
+    min-width:0;
+
+}
+
+/* Beside the Description (two columns), lifted onto its label's line. */
+@media (min-width: 900.02px){
+
+    .strategy-objective-when{
+
+        margin-top:calc((var(--font-body) * 1.5 - var(--control-square)) / 2);
+
+    }
+
+}
+
+.strategy-objective-when.strategy-objective-when-responsible{
+
+    grid-template-columns:auto minmax(0, var(--control-s)) minmax(0, var(--control-s));
+
+}
+
+.strategy-objective-when .month-picker-trigger,
+.strategy-objective-when .strategy-objective-owner > .option-picker{
+
+    width:100%;
+
+}
+
+.strategy-objective-when .strategy-objective-owner{
+
+    min-width:0;
+
+}
+
+/* Too narrow for three columns: Responsible, label above its picker,
+   under the period. (Children: Start label, Start, Responsible label,
+   End label, End, the picker.) */
+@container card (max-width: 599.98px){
+
+    .strategy-objective-when.strategy-objective-when-responsible{
+
+        grid-template-columns:auto minmax(0, var(--control-s));
+
+    }
+
+    .strategy-objective-when-responsible > :nth-child(3){ grid-row:3; grid-column:1 / -1; }
+    .strategy-objective-when-responsible > :nth-child(4){ grid-row:2; grid-column:1; }
+    .strategy-objective-when-responsible > :nth-child(5){ grid-row:2; grid-column:2; }
+    .strategy-objective-when-responsible > :nth-child(6){ grid-row:4; grid-column:1 / -1; max-width:var(--control-s); width:100%; margin-top:calc(var(--space-label) - var(--space-field)); }
+
+}
+
 .strategy-objective-owner > .option-picker{
 
     /* The S step, as every short picker. */

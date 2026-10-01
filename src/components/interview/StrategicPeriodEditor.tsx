@@ -705,6 +705,14 @@ function ObjectiveList({
                                     </p>
                                 )}
 
+                                {/* ON THE COLUMNS OF THE INITIATIVES | METRICS ROW
+                                    BELOW: the Description in the first (as wide as
+                                    the Initiatives box), the period and owner in
+                                    the second as side-label rows, "From" and
+                                    "Owner" in one label column so their boxes
+                                    start at one x. One column when narrow. */}
+                                <div className="strategy-objective-columns strategy-objective-top">
+
                                 <OptionalNote
                                     label="Description"
                                     className="interview-input strategy-note"
@@ -716,66 +724,74 @@ function ObjectiveList({
                                     })}
                                 />
 
-                                {/*
-                                    When it happens, after what it is:
-                                    the two dates read as one line --
-                                    "From ... To ..." -- rather than
-                                    as two separate fields.
-                                */}
-                                <div className="strategy-objective-period">
+                                {/* THE PERIOD AND WHO SEES IT THROUGH, beside the
+                                    Description: "Start [month]" over "End [month]"
+                                    (the Strategic Period's own pair), and beside
+                                    them "Responsible" over its picker -- "Start" and
+                                    "Responsible" on the Description label's line,
+                                    the End box and the picker on the next. */}
+                                <div className={"strategy-objective-when" + (founders.length > 0 ? " strategy-objective-when-responsible" : "")}>
 
-                                    <MonthYearPicker
-                                        label="From"
-                                        value={objective.period.start}
-                                        disabled={disabled || !periodSet}
-                                        firstYear={periodStartYear}
-                                        isAllowed={withinPeriod}
+                                <span className="field-label strategy-field-label strategy-objective-start-label">Start</span>
+                                <MonthYearPicker
+                                    label="Start"
+                                    hideLabel
+                                    value={objective.period.start}
+                                    disabled={disabled || !periodSet}
+                                    firstYear={periodStartYear}
+                                    isAllowed={withinPeriod}
+                                    onChange={(next) => updateObjective(objectiveIndex, {
+                                        // Moving Start past End clears End, as the
+                                        // Strategic Period's start does on the
+                                        // Foundation page.
+                                        period: {
+                                            start: next,
+                                            end: monthIndex(objective.period.end) >= 0 &&
+                                                monthIndex(objective.period.end) < monthIndex(next)
+                                                ? { month: "", year: "" }
+                                                : objective.period.end
+                                        }
+                                    })}
+                                />
+
+                                {founders.length > 0 && (
+                                    <span className="field-label strategy-field-label strategy-objective-responsible-label">Responsible</span>
+                                )}
+
+                                <span className="field-label strategy-field-label">End</span>
+                                <MonthYearPicker
+                                    label="End"
+                                    hideLabel
+                                    value={objective.period.end}
+                                    disabled={disabled || !periodSet}
+                                    firstYear={periodStartYear}
+                                    isAllowed={(month, year) =>
+                                        withinPeriod(month, year) &&
+                                        year * 12 + (month - 1) >= monthIndex(objective.period.start)}
+                                    onChange={(next) => updateObjective(objectiveIndex, {
+                                        period: { ...objective.period, end: next }
+                                    })}
+                                />
+
+                                {/* One founder, the way every Activity names one. */}
+                                {founders.length > 0 && (
+                                    <div className="strategy-objective-owner">
+                                    <OptionPicker
+                                        label={"Objective " + (objectiveIndex + 1) + " responsible"}
+                                        placeholder="Select a founder"
+                                        options={founders.map(founder => founder.name)}
+                                        disabled={disabled}
+                                        value={founders.find(founder => founder.id === objective.ownerId)?.name ?? ""}
                                         onChange={(next) => updateObjective(objectiveIndex, {
-                                            // Moving From past To clears To, as the
-                                            // Strategic Period's start does on the
-                                            // Foundation page.
-                                            period: {
-                                                start: next,
-                                                end: monthIndex(objective.period.end) >= 0 &&
-                                                    monthIndex(objective.period.end) < monthIndex(next)
-                                                    ? { month: "", year: "" }
-                                                    : objective.period.end
-                                            }
+                                            ownerId: founders.find(founder => founder.name === next)?.id ?? ""
                                         })}
                                     />
-
-                                    <MonthYearPicker
-                                        label="To"
-                                        value={objective.period.end}
-                                        disabled={disabled || !periodSet}
-                                        firstYear={periodStartYear}
-                                        isAllowed={(month, year) =>
-                                            withinPeriod(month, year) &&
-                                            year * 12 + (month - 1) >= monthIndex(objective.period.start)}
-                                        onChange={(next) => updateObjective(objectiveIndex, {
-                                            period: { ...objective.period, end: next }
-                                        })}
-                                    />
+                                    </div>
+                                )}
 
                                 </div>
 
-                                {/* Who sees it through: one founder, the
-                                    way every Activity names one. */}
-                                {founders.length > 0 && (
-                                    <div className="strategy-objective-owner">
-                                        <span className="field-label strategy-field-label">Owner</span>
-                                        <OptionPicker
-                                            label={"Objective " + (objectiveIndex + 1) + " owner"}
-                                            placeholder="Select a founder"
-                                            options={founders.map(founder => founder.name)}
-                                            disabled={disabled}
-                                            value={founders.find(founder => founder.id === objective.ownerId)?.name ?? ""}
-                                            onChange={(next) => updateObjective(objectiveIndex, {
-                                                ownerId: founders.find(founder => founder.name === next)?.id ?? ""
-                                            })}
-                                        />
-                                    </div>
-                                )}
+                                </div>
 
                                 {/*
                                     Side by side: Initiatives are the

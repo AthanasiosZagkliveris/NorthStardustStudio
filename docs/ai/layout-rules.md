@@ -171,6 +171,14 @@ grids' 24px) are not cell gaps.
   the Roles in the first column of the first row (the second empty), then
   Industry | Management, then Achievements | Skills; one column under a
   600px card.
+- **Objective card** (Strategy): on the columns of its Initiatives | Metrics
+  row; the Description in the first (as wide as the Initiatives box); in
+  the second, from the Metric column's edge, "Start [month]" over "End
+  [month]" (the Strategic Period's pair, S each) and beside them
+  "Responsible" over its picker: "Start" and "Responsible" on the
+  Description label's line, the End box and the picker on the next row.
+  In a card under 600px, Responsible goes under the period; one column
+  under 900px.
 - **Additional Legal Requirement card**: Reference or Number | Type on one
   row of the card's two columns, the Type at the width its longest option
   needs.
@@ -258,12 +266,15 @@ that does not react as its row says.
 
 ## 7. Declared exceptions
 
-- **Text Hierarchy box**: every row is the px box's square (45px), 12px
-  apart, so the squares stand at one equal pitch and the box never changes
-  size. The tick, the name and the square share the row's centre line; a
-  name is scaled (about that line, from its left edge) to stay within its
-  row's width and within the square's height, never wrapped. The box
-  takes 12px more inside each side (24px).
+- **Text Hierarchy box**: every row is one height, the room H1 needs at
+  its largest size (lines at 1.25), 12px apart, so the px squares stand at
+  one equal pitch and the box never changes size. Each square stands at its
+  row's foot with its tick on its centre line. A name is centred on its
+  square while no taller than it, then keeps its foot on the square's foot
+  and grows upward only: never below its square, never into the row above
+  (checked at every size of every range). The box takes 12px more inside
+  each side (24px), and as much room under the last square as above the
+  first (the first row's reserve is matched at the foot).
 - **Colour and Typeface cards: the body under the name box.** Their rows
   (Role, Colour, Usage) start at the name box's left edge and end at its
   right edge, not at the number's x and the card's edge (the card is a

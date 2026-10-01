@@ -49,7 +49,7 @@ function range(start: [string, string], end: [string, string]): StrategyRangeVal
 
 describe("StrategicPeriodEditor Objective dates", () => {
 
-    it("clears To when From moves past it", () => {
+    it("clears End when Start moves past it", () => {
 
         let saved: StrategicPeriodValue | null = null;
 
@@ -62,7 +62,7 @@ describe("StrategicPeriodEditor Objective dates", () => {
         );
 
         // The picker opens holding 2027, so choosing a month commits.
-        fireEvent.click(screen.getByRole("button", { name: "From: March 2027" }));
+        fireEvent.click(screen.getByRole("button", { name: "Start: March 2027" }));
         fireEvent.click(screen.getByRole("button", { name: "Sep" }));
 
         const objective = saved!.goalsByTheme["theme-1"][0].objectives[0];
@@ -72,7 +72,7 @@ describe("StrategicPeriodEditor Objective dates", () => {
 
     });
 
-    it("keeps To when From stays before it", () => {
+    it("keeps End when Start stays before it", () => {
 
         let saved: StrategicPeriodValue | null = null;
 
@@ -84,7 +84,7 @@ describe("StrategicPeriodEditor Objective dates", () => {
             />
         );
 
-        fireEvent.click(screen.getByRole("button", { name: "From: March 2027" }));
+        fireEvent.click(screen.getByRole("button", { name: "Start: March 2027" }));
         fireEvent.click(screen.getByRole("button", { name: "May" }));
 
         const objective = saved!.goalsByTheme["theme-1"][0].objectives[0];

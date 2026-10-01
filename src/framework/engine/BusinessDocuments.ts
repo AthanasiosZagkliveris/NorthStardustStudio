@@ -1064,7 +1064,7 @@ function strategyBlocks(f: Foundation): ExportBlock[] {
                     ...(text(goal.description)
                         ? labelled((themeIndex + 1) + "." + (goalIndex + 1) + " " + (goal.name || "Unnamed goal"), goal.description)
                         : paragraph((themeIndex + 1) + "." + (goalIndex + 1) + " " + (goal.name || "Unnamed goal"))),
-                    ...table(["Objective", "When", "Owner", "Description", "Initiatives"], goal.objectives.map((objective, objectiveIndex) => [
+                    ...table(["Objective", "When", "Responsible", "Description", "Initiatives"], goal.objectives.map((objective, objectiveIndex) => [
                         (themeIndex + 1) + "." + (goalIndex + 1) + "." + (objectiveIndex + 1) + " " + objective.name,
                         range(objective.period),
                         owner(objective.ownerId),
@@ -1074,7 +1074,7 @@ function strategyBlocks(f: Foundation): ExportBlock[] {
                 ])
             ];
         })),
-        ...titled("Key Performance Indicators", table(["Metric", "Baseline", "Target", "Frequency", "Owner"],
+        ...titled("Key Performance Indicators", table(["Metric", "Baseline", "Target", "Frequency", "Responsible"],
             objectives.flatMap(({ objective }) => objective.metrics.map(metric => [
                 metric.name,
                 metricValue(metric, metric.baseline, f.format),
