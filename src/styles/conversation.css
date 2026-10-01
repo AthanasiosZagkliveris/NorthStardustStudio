@@ -7513,6 +7513,11 @@ td.process-library-col-number{
 
     padding-inline:calc(var(--card-padding) + 12px);
 
+    /* The first square stands at its row's foot, the room above it kept
+       for a large H1; the box keeps as much under the last square, so the
+       squares sit as far from the top border as from the bottom. */
+    padding-bottom:calc(var(--card-padding) + var(--level-height, 45px) - var(--control-square));
+
 }
 
 /* A level's name drawn at its own size (the size in its box): the

@@ -864,6 +864,7 @@ export default function BrandStyleEditor({
                     ref={hierarchyCard}
                     className="business-foundation-card brand-style-card brand-hierarchy-card"
                     data-anchor={HIERARCHY_CARD}
+                    style={{ "--level-height": levelHeight() + "px" } as CSSProperties}
                 >
 
                     <div className="brand-hierarchy-levels">
