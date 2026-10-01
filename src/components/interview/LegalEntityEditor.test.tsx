@@ -617,3 +617,20 @@ describe("LegalEntityEditor Add to Legal Entity Expenses", () => {
     });
 
 });
+
+describe("LegalEntityEditor requirement note", () => {
+
+    it("names a requirement's note as the expenses name theirs", () => {
+        function Note() {
+            const [value, setValue] = useState<unknown>(asLegalEntityValue({ requirements: [{ ...createLegalEntityRequirement(), name: "PSC register" }] }));
+            return <LegalEntityEditor value={value} onChange={setValue} />;
+        }
+        render(<Note />);
+        for (const arrow of screen.queryAllByRole("button", { name: /^Maximize/ })) {
+            fireEvent.click(arrow);
+        }
+        expect(screen.getAllByText("Description / Relevant Information").length).toBeGreaterThan(0);
+        expect(screen.queryByText("Relevant Information", { exact: true })).toBeNull();
+    });
+
+});
