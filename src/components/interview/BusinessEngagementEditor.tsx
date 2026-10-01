@@ -3566,11 +3566,6 @@ export default function BusinessEngagementEditor({
 
                 <div className="business-demand-sources">
                     {demand.sources.map(sourceCard)}
-                    {demand.sources.length === 0 && (
-                        <BusinessEmpty>
-                            No customer source yet.
-                        </BusinessEmpty>
-                    )}
                     <BusinessAddButton
                         label="Customer Source"
                         disabled={disabled}
