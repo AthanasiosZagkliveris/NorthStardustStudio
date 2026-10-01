@@ -6543,8 +6543,8 @@ td.process-library-col-number{
 
     margin-left:auto;
 
-    /* The S step, as every month. */
-    width:var(--control-s);
+    /* The Date step (below). */
+    width:var(--control-date);
 
 }
 
@@ -6652,9 +6652,28 @@ td.process-library-col-number{
    there: written as a bare `.month-picker-trigger` this quietly
    right-aligned every month picker in the app, unlike the
    `.interview-input` fields beside them everywhere else. */
-.strategy-period-box .month-picker-trigger{
+.strategy-period-box .month-picker-trigger,
+.strategy-objective-when .month-picker-trigger{
 
     text-align:right;
+
+}
+
+/* ONE START / END PAIR IN STRATEGY: the Strategic Period's and every
+   Objective's, the same picker at the Date step, its label in a 48px
+   column beside it. */
+.strategy-period-box .month-picker-trigger,
+.strategy-objective-when .month-picker-trigger{
+
+    width:var(--control-date);
+
+    flex:none;
+
+}
+
+.strategy-objective-when .month-picker-label{
+
+    min-width:48px;
 
 }
 
@@ -14792,7 +14811,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     display:grid;
 
-    grid-template-columns:auto minmax(0, var(--control-s));
+    grid-template-columns:auto;
 
     align-items:center;
 
@@ -14817,11 +14836,10 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 .strategy-objective-when.strategy-objective-when-responsible{
 
-    grid-template-columns:auto minmax(0, var(--control-s)) minmax(0, var(--control-s));
+    grid-template-columns:auto minmax(0, var(--control-s));
 
 }
 
-.strategy-objective-when .month-picker-trigger,
 .strategy-objective-when .strategy-objective-owner > .option-picker{
 
     width:100%;
@@ -14834,21 +14852,20 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 }
 
-/* Too narrow for three columns: Responsible, label above its picker,
-   under the period. (Children: Start label, Start, Responsible label,
-   End label, End, the picker.) */
+/* Too narrow for two columns: Responsible, label above its picker,
+   under the period. (Children: Start, Responsible label, End, the
+   picker.) */
 @container card (max-width: 599.98px){
 
     .strategy-objective-when.strategy-objective-when-responsible{
 
-        grid-template-columns:auto minmax(0, var(--control-s));
+        grid-template-columns:auto;
 
     }
 
-    .strategy-objective-when-responsible > :nth-child(3){ grid-row:3; grid-column:1 / -1; }
-    .strategy-objective-when-responsible > :nth-child(4){ grid-row:2; grid-column:1; }
-    .strategy-objective-when-responsible > :nth-child(5){ grid-row:2; grid-column:2; }
-    .strategy-objective-when-responsible > :nth-child(6){ grid-row:4; grid-column:1 / -1; max-width:var(--control-s); width:100%; margin-top:calc(var(--space-label) - var(--space-field)); }
+    .strategy-objective-when-responsible > :nth-child(2){ grid-row:3; }
+    .strategy-objective-when-responsible > :nth-child(3){ grid-row:2; }
+    .strategy-objective-when-responsible > :nth-child(4){ grid-row:4; max-width:var(--control-s); width:100%; margin-top:calc(var(--space-label) - var(--space-field)); }
 
 }
 

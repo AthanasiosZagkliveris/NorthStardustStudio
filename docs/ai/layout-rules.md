@@ -41,6 +41,7 @@ below are these, made measurable.
 | `--side-label-gap` | 12px | a side label to its control |
 | `--control-xs` | 80px | XS width step |
 | `--control-code` | 128px | Code width step |
+| `--control-date` | 170px | Date width step |
 | `--control-s` | 220px | S width step |
 | `--control-m` | 300px | M width step |
 | `--control-l` | 420px | L width step |
@@ -91,13 +92,14 @@ the same inner side margin: `--card-padding` (12px).
 
 ## 4. Sizes: the closed set
 
-### Widths (five steps, plus "its column")
+### Widths (six steps, plus "its column")
 
 | Step | Width | Holds | Used for |
 |---|---|---|---|
 | XS | 80px | 3-4 digits, or "33.333" | Quantity, a person's hours, calendar weeks (`.delivery-number`), a founder's Ownership % |
 | Code | 128px | 10 characters ("10001-1234" 98px, ten digits 107px, "£250,000") | a founder's Capital |
-| S | 220px | 18 characters, or a whole date with its calendar button (159px) | numbers and amounts in fields, dates, short pickers (Status, Role, Owner), month pickers, the activity code, the Number column of a Name / Number list |
+| Date | 170px | the longest month and year ("September 2030" 143px) and its insets | every Start / End month picker in Strategy: the Strategic Period's and every Objective's |
+| S | 220px | 18 characters, or a whole date with its calendar button (159px) | numbers and amounts in fields, dates, short pickers (Status, Role, Responsible), month pickers outside Strategy, the activity code, the Number column of a Name / Number list |
 | M | 300px | an amount with its currency | price + currency pairs |
 | L | 420px | a long option | pickers whose longest option needs it (OptionPicker picks S, M or L itself) |
 | Column | its column | anything | text fields and pickers that fill their column (Country, State / Region, the Address) |
@@ -174,7 +176,8 @@ grids' 24px) are not cell gaps.
 - **Objective card** (Strategy): on the columns of its Initiatives | Metrics
   row; the Description in the first (as wide as the Initiatives box); in
   the second, from the Metric column's edge, "Start [month]" over "End
-  [month]" (the Strategic Period's pair, S each) and beside them
+  [month]" (the Strategic Period's pair: the same month picker, its
+  label in a 48px column beside it, the Date step) and beside them
   "Responsible" over its picker: "Start" and "Responsible" on the
   Description label's line, the End box and the picker on the next row.
   In a card under 600px, Responsible goes under the period; one column

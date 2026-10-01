@@ -732,10 +732,8 @@ function ObjectiveList({
                                     the End box and the picker on the next. */}
                                 <div className={"strategy-objective-when" + (founders.length > 0 ? " strategy-objective-when-responsible" : "")}>
 
-                                <span className="field-label strategy-field-label strategy-objective-start-label">Start</span>
                                 <MonthYearPicker
                                     label="Start"
-                                    hideLabel
                                     value={objective.period.start}
                                     disabled={disabled || !periodSet}
                                     firstYear={periodStartYear}
@@ -758,10 +756,8 @@ function ObjectiveList({
                                     <span className="field-label strategy-field-label strategy-objective-responsible-label">Responsible</span>
                                 )}
 
-                                <span className="field-label strategy-field-label">End</span>
                                 <MonthYearPicker
                                     label="End"
-                                    hideLabel
                                     value={objective.period.end}
                                     disabled={disabled || !periodSet}
                                     firstYear={periodStartYear}

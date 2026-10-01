@@ -382,6 +382,9 @@ body {
   /* A box as wide as a control is tall: a 2-3 digit value with its
      unit after it (a Text Hierarchy level's px). */
   --control-square: 45px;
+  /* THE DATE step: the widest month and year a month picker shows
+     ("September 2030", 143px at body size) and its 12px insets. */
+  --control-date: 170px;
   /* THE NAME | NUMBER LIST (a Legal Entity's registrations and tax
      registrations, and the Status | Date row above them): the name
      the rest, the number the S step (18 characters at body size:
