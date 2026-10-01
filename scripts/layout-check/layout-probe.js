@@ -367,11 +367,20 @@
             // (its whole block) and px box share the row's centre line.
             const level = box.closest(".brand-hierarchy-row");
             if (level) {
+                // The tick on its px square's centre line; the name never below the
+                // square's foot, never above its row (into the row above).
                 const size = level.querySelector(".brand-size-input");
-                for (const part of [box, box.nextElementSibling, size].filter(Boolean)) {
-                    if (!rules.near(mid(part), mid(level), 1)) {
-                        fail("a hierarchy level on its row's centre line", part, { part: mid(part), row: mid(level) });
+                const words = box.nextElementSibling;
+                if (size && visible(size)) {
+                    if (!rules.near(mid(box), mid(size), 1)) {
+                        fail("a hierarchy tick on its square's centre line", box, { box: mid(box), square: mid(size) });
                     }
+                    if (words && rect(words).bottom > rect(size).bottom + 0.5) {
+                        fail("a hierarchy name not below its square", words, { name: rect(words).bottom, square: rect(size).bottom });
+                    }
+                }
+                if (words && rect(words).top < rect(level).top - 0.5) {
+                    fail("a hierarchy name within its row", words, { name: rect(words).top, row: rect(level).top });
                 }
                 continue;
             }

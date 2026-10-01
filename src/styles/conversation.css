@@ -7523,22 +7523,22 @@ td.process-library-col-number{
 
 }
 
-/* A LEVEL'S ROW: ONE FIXED HEIGHT, ONE CENTRE LINE. Each row is as
-   tall as its name at the LARGEST size its range allows
-   (--level-height, levelHeight() in BrandStyleEditor), so the box is
-   the size it would be with every level at its maximum, and changing
-   a size never moves another row or resizes the box. The tick, the
-   name (its whole block: "Captions & Metadata /" over "Interface")
-   and the px box all sit on the row's centre line; the name grows
-   and shrinks about that line from a fixed left edge. A name wider
-   than its row is scaled to fit (--level-fit), never wrapped. */
+/* A LEVEL'S ROW: ONE HEIGHT FOR EVERY ROW (--level-height, the room
+   the tallest name needs at its largest size), so the px squares stand
+   at one equal pitch and a size never moves another row. The square
+   stands at the row's FOOT, its tick on its centre line. The name grows
+   about the square's centre line while it is no taller than the square;
+   from there its foot stays on the square's foot and it grows UPWARD
+   only, into the room above -- never below the square, never into the
+   row above. A name wider than its row is scaled to fit (--level-fit),
+   never wrapped. */
 .brand-hierarchy-card .brand-hierarchy-row{
 
     display:grid;
 
     grid-template-columns:minmax(0, 1fr) auto;
 
-    align-items:center;
+    align-items:end;
 
     column-gap:12px;
 
@@ -7548,16 +7548,17 @@ td.process-library-col-number{
 
 .brand-hierarchy-card .brand-hierarchy-row > .brand-tick{
 
-    align-items:center;
+    align-items:flex-end;
 
     height:100%;
     min-height:0;
 
 }
 
+/* The tick on the square's centre line. */
 .brand-hierarchy-card .brand-hierarchy-row > .brand-tick > .brand-tick-box{
 
-    margin:0;
+    margin:0 0 calc((var(--control-square) - 18px) / 2);
 
 }
 
@@ -7569,8 +7570,15 @@ td.process-library-col-number{
 
     white-space:nowrap;
 
+    /* A line that holds the type's whole height (ascent to descent), so
+       not a pixel of a large size reaches below the square's foot. */
+    line-height:1.25;
+
+    /* Centred on the square while it fits it; on its foot once taller. */
+    margin-bottom:max(0px, calc((var(--control-square) - var(--level-lines, 1) * 1lh) / 2));
+
     transform:scale(var(--level-fit, 1));
-    transform-origin:left center;
+    transform-origin:left bottom;
 
 }
 

@@ -112,9 +112,12 @@ function previewSize(size: string, range: string): number | undefined {
  * never moves another row or resizes the box.
  */
 export function levelHeight(): number {
-    // Every row the px box's square: equal rows, an equal pitch, and the
-    // name held within the square's height (see the fit in the editor).
-    return 45;
+    // Every row one height (an equal pitch): the room the tallest name
+    // needs at the largest size its range allows (lines at 1.25, which hold
+    // the type's whole height), and never
+    // under the px box's square, which stands at the row's foot.
+    return Math.max(45, ...BRAND_HIERARCHY_LEVELS.map(level =>
+        Math.ceil((pixelRange(level.range)?.max ?? 18) * 1.25 * level.label.split(" / ").length)));
 }
 
 /** The Text Hierarchy's one box. */
@@ -459,16 +462,11 @@ export default function BrandStyleEditor({
         function fit() {
             card!.querySelectorAll<HTMLElement>(".brand-hierarchy-row .brand-slot-label").forEach(label => {
                 label.style.removeProperty("--level-fit");
-                // Within its row's width, and within its square's height: a
-                // large size never reaches below the px box beside it.
+                // Within its row's width (its height is the row's to give:
+                // it grows up from the square's foot, see the CSS).
                 const room = label.clientWidth;
                 const needed = label.scrollWidth;
-                const height = label.getBoundingClientRect().height;
-                const square = label.closest<HTMLElement>(".brand-hierarchy-row")?.clientHeight ?? 0;
-                const fit = Math.min(
-                    room > 0 && needed > room + 0.5 ? room / needed : 1,
-                    square > 0 && height > square + 0.5 ? square / height : 1
-                );
+                const fit = room > 0 && needed > room + 0.5 ? room / needed : 1;
                 if (fit < 1) {
                     label.style.setProperty("--level-fit", String(Math.floor(fit * 1000) / 1000));
                 }
@@ -890,8 +888,11 @@ export default function BrandStyleEditor({
                                 <div
                                     className="brand-hierarchy-row"
                                     key={level.id}
-                                    // Its fixed height: see levelHeight.
-                                    style={{ "--level-height": levelHeight() + "px" } as CSSProperties}
+                                    // Its fixed height (levelHeight), and its name's lines.
+                                    style={{
+                                        "--level-height": levelHeight() + "px",
+                                        "--level-lines": level.label.split(" / ").length
+                                    } as CSSProperties}
                                 >
 
                                     {activationTick(
