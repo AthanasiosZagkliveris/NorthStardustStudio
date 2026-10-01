@@ -202,17 +202,17 @@ describe("BrandStyleEditor Text Hierarchy", () => {
 
 describe("BrandStyleEditor optional fields and tint", () => {
 
-    it("asks Usage and Purpose behind a tick", () => {
+    it("asks a colour's and a typeface's Usage behind a tick", () => {
 
         render(<Harness />);
         openAll();
 
-        // Filled, Usage loads ticked; the empty typeface's Purpose waits behind its tick.
+        // Filled, Usage loads ticked; the empty typeface's Usage waits behind its tick.
         expect((screen.getByLabelText("Primary A usage") as HTMLInputElement).value).toBe("Headings");
-        expect(screen.queryByLabelText("Primary purpose")).toBeNull();
-        const tick = screen.getAllByRole("checkbox").find(box => box.closest(".optional-field")?.textContent?.includes("Purpose"))!;
+        expect(screen.queryByLabelText("Primary usage")).toBeNull();
+        const tick = screen.getAllByRole("checkbox").find(box => box.closest(".brand-style-card")?.getAttribute("data-anchor")?.startsWith("brand-typeface") && box.closest(".optional-field"))!;
         fireEvent.click(tick);
-        expect(screen.getByLabelText("Primary purpose")).toBeTruthy();
+        expect(screen.getByLabelText("Primary usage")).toBeTruthy();
 
     });
 

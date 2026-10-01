@@ -404,7 +404,7 @@ export function brandStyleBlocks(value: unknown): ExportBlock[] {
             .filter(entry => entry.colour.enabled)
             .map(({ colour, slot }) => [slot, colour.name, colour.hex, colour.usage])))),
 
-        ...titled("Typography", table(["Role", "Typeface", "Purpose"], answeredRows(style.typefaces
+        ...titled("Typography", table(["Role", "Typeface", "Usage"], answeredRows(style.typefaces
             .map((typeface, index) => ({ typeface, slot: BRAND_TYPEFACE_SLOTS[index]?.label ?? "Typeface " + (index + 1) }))
             .filter(entry => entry.typeface.enabled)
             .map(({ typeface, slot }) => [slot, typeface.font, typeface.purpose])))),

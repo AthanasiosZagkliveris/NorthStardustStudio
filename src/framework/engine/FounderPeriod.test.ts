@@ -57,7 +57,9 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
     Quillfield's again when the address became one box of lines: the
     Company Description's address reads its lines, then the state and
     the country ("Brooklyn, 11201, New York" for "Brooklyn, New York
-    11201"), every number as it was.
+    11201"), every number as it was. And all three when a typeface's
+    "Purpose" became "Usage" (the Typography table's head), every number
+    as it was.
 */
 const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
 

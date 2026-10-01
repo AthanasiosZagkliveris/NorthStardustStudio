@@ -835,10 +835,13 @@ export default function BrandStyleEditor({
                                 true
                             )}
 
-                            {/* A growing box behind its tick, as every optional field. */}
+                            {/* A growing box behind its tick, as every optional
+                                field: "Usage", as a colour's; its key stays
+                                "Purpose". */}
                             <OptionalNote
-                                label="Purpose"
-                                ariaLabel={`${slot.label} purpose`}
+                                label="Usage"
+                                fieldId="Purpose"
+                                ariaLabel={`${slot.label} usage`}
                                 placeholder="What the typeface is used for"
                                 disabled={disabled}
                                 value={typeface.purpose}
