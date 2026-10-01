@@ -11996,16 +11996,31 @@ td.process-library-col-number{
 
 }
 
-/* CUSTOMER ENGAGEMENT'S SECTIONS UNDER THEIR SEGMENT'S HEAD: "1. Customer
-   Channel" and "2. Customer Relationship" hang their fold arrows in the
-   Segment card's arrow column (under its arrow), so their numbers and
-   titles stand where the Segment's number and title stand. (This page
-   only: Infrastructure's and Sustainability's sections share the class.) */
-.business-engagement:not(.business-capability) .business-engagement-section > .business-engagement-section-head > .strategy-box-toggle{
+/* A SECTION OR GROUP AT ITS CARD'S BODY EDGE HANGS ITS ARROW IN THE CARD'S
+   ARROW COLUMN (content starts at the number, docs/ai/layout-rules.md):
+   Customer Engagement's "1. Customer Channel" and "2. Customer
+   Relationship" under their Segment's arrow, Infrastructure's sections
+   ("1. Resources") and groups ("Organizational Resources") under their
+   capability card's -- so their numbers and titles stand where the
+   card's number stands, and their content starts there too. */
+.business-engagement:not(.business-capability) .business-engagement-section > .business-engagement-section-head > .strategy-box-toggle,
+.business-capability-section > .business-engagement-section-head > .strategy-box-toggle,
+.business-capability-group > .business-engagement-section-head > .strategy-box-toggle{
 
     flex:none;
 
     margin-left:calc(-1 * var(--card-body-indent));
+
+}
+
+/* A FOLDING BLOCK WITH NO ARROW COLUMN BEFORE IT starts its content at its
+   title's text, the arrow in front (36px and the head's 8px gap):
+   Infrastructure's subsections ("Electricity") inside their columns and
+   Financial Foundation's cost groups ("Establishment", "Operating"). */
+.business-capability-subsection > :not(.business-capability-subsection-head),
+.financial-cost-group > :not(.financial-cost-group-head){
+
+    margin-left:calc(36px + 8px);
 
 }
 

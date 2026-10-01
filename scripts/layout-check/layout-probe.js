@@ -662,6 +662,66 @@
             }
         }
 
+        // 18. CONTENT STARTS AT THE TITLE: under every head with a fold arrow --
+        //     a numbered card, section, sub-block or item ("1. Segment",
+        //     "2. Customer Relationship") or a titled block with no number
+        //     ("Demand & Conversion", "Electricity") -- the content starts at
+        //     the left edge of the title's text (its number, where it has
+        //     one). Fold arrows, grips and "Expand all" are not content.
+        //     Named exceptions: a Brand colour or typeface card (its body
+        //     under its name box). A table's band heads (a cell, or a cell's own
+        //     row) are set by its cells.
+        {
+            const HEADS = ".fold-card-head, .fold-group-head, .business-engagement-section-head, .business-capability-subsection-head, .financial-cost-group-head, .business-demand-head, .strategy-box-head";
+            const aside = element => element.closest(".strategy-box-toggle, .strategy-drag-handle, .fold-all-toggle, .info-note-panel, .option-picker-list, .month-picker-panel, .business-card-summary");
+            for (const arrow of [...document.querySelectorAll(".strategy-box-toggle")].filter(visible)) {
+                const head = arrow.closest(HEADS) ?? arrow.parentElement;
+                if (!head || head.matches("th, td, tr") || (head.parentElement && head.parentElement.matches("th, td, .brand-style-card"))) {
+                    continue;
+                }
+                // The title: the first text after the arrow (or, for a card, its number or name box).
+                let titleLeft = null;
+                const walker = document.createTreeWalker(head, NodeFilter.SHOW_TEXT);
+                for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+                    if (!node.textContent.trim() || aside(node.parentElement) || node.parentElement.closest("textarea, input, .business-demand-figure, .financial-subtotal")) {
+                        continue;
+                    }
+                    if (arrow.compareDocumentPosition(node) & Node.DOCUMENT_POSITION_PRECEDING) {
+                        continue;
+                    }
+                    const range = document.createRange();
+                    range.selectNodeContents(node);
+                    const boxes = [...range.getClientRects()].filter(box => box.width > 0);
+                    if (boxes.length) {
+                        titleLeft = Math.min(...boxes.map(box => box.left));
+                        break;
+                    }
+                }
+                if (titleLeft === null) {
+                    const name = nameBox(head);
+                    titleLeft = name ? name.left : null;
+                }
+                if (titleLeft === null) {
+                    continue;
+                }
+                const content = [];
+                for (let next = head.nextElementSibling; next; next = next.nextElementSibling) {
+                    for (const element of [next, ...next.querySelectorAll("*")]) {
+                        if (visible(element) && !aside(element)) {
+                            content.push(rect(element).left);
+                        }
+                    }
+                }
+                if (!content.length) {
+                    continue;
+                }
+                const left = Math.min(...content);
+                if (!rules.near(left, titleLeft, 1)) {
+                    fail("content starts at the title", head, { content: left, title: titleLeft });
+                }
+            }
+        }
+
         // 17. A drag grip to what follows it (the fold arrow, or the
         //     number's first character where there is no arrow): the head's
         //     one 8px gap.

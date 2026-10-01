@@ -87,6 +87,25 @@ below are these, made measurable.
   empty list-number column), and the body starts at the number's x
   (number-left = body-left), 32px in (the grip's 24px and 8px).
 
+### Content starts at the title (numbered or not)
+
+Under every head with a fold arrow, the content -- text, labels, cells,
+boxes, tables, nested cards -- starts at the left edge of the title's
+text: its NUMBER where it has one ("1. Segment", "2. Customer
+Relationship", "1. Offering -", "1. Goal", "1. Metric"), its first letter
+where it has none ("Demand & Conversion", "Electricity", "Establishment").
+Fold arrows and drag grips are not content: they stand in front of that
+edge. Where the block sits at its card's body edge, its arrow hangs in the
+card's arrow column (Customer Engagement's sections, Infrastructure's
+sections and groups); where there is no arrow column before it, its
+content moves in past the arrow and its gap instead (Demand &
+Conversion, Infrastructure's subsections, Financial Foundation's cost
+groups). The card rule (number-left = body-left) is this rule for cards.
+Named exceptions: a Brand colour or typeface card's body (under its name
+box); a Competitor's or Offering's Type (under its name box). A table's
+band rows are set by their cells (the Customer Relationship's Offering
+blocks, below). The check holds every head on every page.
+
 ### Card body
 
 - Everything starts at the body's left edge (`--card-body-indent`).

@@ -50,6 +50,15 @@
 
 }
 
+/* A TITLED BLOCK WITH A FOLD ARROW AND NO NUMBER: its content starts at
+   the title's text (the "D"), the arrow in front of it -- past the 36px
+   arrow and the title row's 10px gap. The title stays where it is. */
+.business-demand > :not(.business-demand-head){
+
+    margin-left:calc(36px + 10px);
+
+}
+
 
 .business-demand-purpose{
 
