@@ -614,6 +614,12 @@ function engagementSectionNumber(): number | undefined {
  * Segment, drawn in that Segment's own colour -- the same card, on
  * the next page, continuing the same work.
  */
+/** What the Demand & Conversion block is for, and where its result goes: its title's "i". */
+const DEMAND_BLOCK_HELP: InfoPoint[] = [
+    "Where this Offering\u2019s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.",
+    "The Expected Sales are used for Delivery on Infrastructure & Capability and for this Offering\u2019s revenue on Sustainability."
+];
+
 export default function BusinessEngagementEditor({
 
     value,
@@ -3518,8 +3524,13 @@ export default function BusinessEngagementEditor({
                             label={"Demand & Conversion for " + offeringLabel}
                             onToggle={() => folds.toggle(foldKey)}
                         />
+                        {/* What the block is for, and where its result is
+                            used: one "i" on the title rather than two
+                            paragraphs around the fields. */}
                         <span className="field-group-title business-foundation-subhead business-demand-title">
-                            Demand &amp; Conversion
+                            <InfoText text="Demand & Conversion">
+                                <InfoNote label="Demand & Conversion" points={DEMAND_BLOCK_HELP} fullList />
+                            </InfoText>
                         </span>
                         {!open && result.expected !== null && (
                             <span className="business-demand-figure">
@@ -3534,13 +3545,6 @@ export default function BusinessEngagementEditor({
                             </span>
                         )}
                     </div>
-                    {open && (
-                        <p className="business-demand-purpose">
-                            Where this Offering&rsquo;s customers come from, and so how
-                            many sales to expect. One source with a figure is enough;
-                            add more, or calculate them, as the business develops.
-                        </p>
-                    )}
                 </div>
 
                 {open && (<>
@@ -3680,12 +3684,6 @@ export default function BusinessEngagementEditor({
                             </div>
                         )}
                 </div>
-
-                <p className="business-demand-footnote">
-                    The Expected Sales are used for Delivery on Infrastructure &amp;
-                    Capability and for this Offering&rsquo;s revenue on
-                    Sustainability.
-                </p>
 
                 </>)}
 

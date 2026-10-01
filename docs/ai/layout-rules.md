@@ -263,6 +263,9 @@ grids' 24px, `--space-column`) are not cell gaps.
   Offering's (the band's 12px inset, the same 36px arrow, its 4px gap),
   and its picker [x], then its Purpose, then "+ Add Relationship Type"
   (from the picker's edge to the x's) start at that number.
+- **Demand & Conversion** (Customer Engagement): what the block is for
+  and where its Expected Sales are used are the points of one "i" on its
+  title, not paragraphs around its fields.
 - **Additional Legal Requirement card**: Reference or Number | Type on one
   row of the card's two columns, the Type at the width its longest option
   needs.
