@@ -14794,6 +14794,23 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 }
 
+/* NESTED ACTIONS IN ONE COLUMN: a Goal's x stands where its
+   Objectives' x stand (its head kept clear of the Objective box's
+   padding and edge), and a Metric's x under its Objective's filter
+   button (the Metric box ends one action, and its gap, before the
+   Objective's edge, less its own padding and edge). */
+.strategy-goal-box > .strategy-box-head{
+
+    padding-right:calc(var(--card-padding) + 1px);
+
+}
+
+.strategy-objective-columns > :nth-child(2) .strategy-metric-box:not(.strategy-initiatives-box){
+
+    margin-right:calc(32px + 4px - var(--card-padding) - 1px);
+
+}
+
 /* Stacked (one column), the Description and the period a field apart. */
 .strategy-objective-columns.strategy-objective-top{
 

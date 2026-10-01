@@ -182,6 +182,11 @@ grids' 24px) are not cell gaps.
   Description label's line, the End box and the picker on the next row.
   In a card under 600px, Responsible goes under the period; one column
   under 900px.
+- **Nested cards: one action column.** A card inside a card keeps its
+  head's buttons in the parent's button column: an Objective's x stands
+  under its Goal's x, and a Metric box's x under its Objective's filter
+  (funnel) button. The inner box ends where that column needs it, and its
+  name and description boxes end with it.
 - **Additional Legal Requirement card**: Reference or Number | Type on one
   row of the card's two columns, the Type at the width its longest option
   needs.
