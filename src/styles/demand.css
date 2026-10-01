@@ -251,6 +251,32 @@
 
 }
 
+/* A SOURCE'S FIELDS ON ONE ROW: Customer Source, Estimated, then the
+   figure or the calculation's figures, each as narrow as it can be (the
+   pickers hug their longest option, a number takes the step its largest
+   value needs), a cell gap apart, labels above, tops aligned. A row too
+   long for the card wraps, its next line from the same left edge. The
+   Basis stays under them at the card's width. */
+.business-demand-source > .business-demand-fields{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:var(--space-field) var(--space-cell);
+
+}
+
+.business-demand-source > .business-demand-fields > .business-foundation-field{
+
+    flex:none;
+
+}
+
+.business-demand-source > .business-demand-fields .business-demand-number[data-size="xs"]{ width:var(--control-xs); }
+.business-demand-source > .business-demand-fields .business-demand-number[data-size="code"]{ width:var(--control-code); }
+.business-demand-source > .business-demand-fields .business-demand-number[data-size="s"]{ width:var(--control-s); }
+
 .business-demand-source-note{
 
     margin:0;

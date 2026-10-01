@@ -266,6 +266,13 @@ grids' 24px, `--space-column`) are not cell gaps.
 - **Demand & Conversion** (Customer Engagement): what the block is for
   and where its Expected Sales are used are the points of one "i" on its
   title, not paragraphs around its fields.
+  A Customer Source card's fields stand on one row (Customer Source,
+  Estimated, then the figure or the calculation's figures), each as narrow
+  as it can be: the pickers hug their longest option, a number takes the
+  step its largest value needs (XS to six characters, Code to ten), a cell
+  gap apart, labels above, tops aligned; a row too long for the card wraps
+  from the same left edge (at 768px every type with a calculation does,
+  "Other" does not). The Basis stays under them at the card's width.
 - **Additional Legal Requirement card**: Reference or Number | Type on one
   row of the card's two columns, the Type at the width its longest option
   needs.

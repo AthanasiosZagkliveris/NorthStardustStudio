@@ -620,6 +620,16 @@ const DEMAND_BLOCK_HELP: InfoPoint[] = [
     "The Expected Sales are used for Delivery on Infrastructure & Capability and for this Offering\u2019s revenue on Sustainability."
 ];
 
+/**
+ * The narrowest width step that holds a number's largest value (its
+ * digits, and its decimals with their point): XS to six characters
+ * ("33.333"), Code to ten, S beyond.
+ */
+function numberStep(limits: NumberLimit): "xs" | "code" | "s" {
+    const characters = String(Math.floor(limits.max)).length + ((limits.decimals ?? 0) > 0 ? (limits.decimals ?? 0) + 1 : 0);
+    return characters <= 6 ? "xs" : characters <= 10 ? "code" : "s";
+}
+
 export default function BusinessEngagementEditor({
 
     value,
@@ -3352,6 +3362,7 @@ export default function BusinessEngagementEditor({
                         type="text"
                         inputMode={numberInputMode(limits)}
                         className="interview-input business-demand-number"
+                        data-size={numberStep(limits)}
                         aria-label={ariaLabel}
                         placeholder={placeholder}
                         disabled={disabled}
@@ -3427,6 +3438,7 @@ export default function BusinessEngagementEditor({
                             <OptionPicker
                                 label={capitalized(what)}
                                 placeholder="Select"
+                                hug
                                 options={available.map(entry => entry.label)}
                                 disabled={disabled}
                                 value={type?.label ?? ""}
@@ -3443,6 +3455,7 @@ export default function BusinessEngagementEditor({
                                 <OptionPicker
                                     label={"How the sales are estimated, " + what}
                                     placeholder={DEMAND_BY_FIGURE}
+                                    hug
                                     options={[DEMAND_BY_FIGURE, DEMAND_BY_CALCULATION]}
                                     disabled={disabled}
                                     value={source.calculate ? DEMAND_BY_CALCULATION : DEMAND_BY_FIGURE}
@@ -3455,9 +3468,6 @@ export default function BusinessEngagementEditor({
 
                         {type && !excluded && (
                             <>
-                                {/* A calculation starts on its own line, so
-                                    its inputs sit together. */}
-                                {calculated && <span className="business-demand-break" aria-hidden="true" />}
                                 {calculated
                                     ? type.fields.map(field => numberField(
                                         field.label,
