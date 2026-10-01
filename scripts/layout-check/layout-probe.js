@@ -206,7 +206,8 @@
         const fail = (rule, element, detail) => failures.push({ rule, where: place(element), detail });
 
         // 1-2. A card head: the number where the body starts; the name one fixed step after it.
-        for (const head of [...document.querySelectorAll(".fold-card-head")].filter(visible)) {
+        //      (A Metric box's head too: a grip, no fold arrow.)
+        for (const head of [...document.querySelectorAll(".fold-card-head, .strategy-metric-box:not(.strategy-initiatives-box) > .strategy-box-head")].filter(visible)) {
             const number = numberBox(head);
             if (!number) {
                 continue;
@@ -573,6 +574,99 @@
                         fail("card side margin", box, { side, padding: parseFloat(style[side]), expected: margin });
                     }
                 }
+            }
+        }
+
+        // 15. A card's head to its body: the one head gap (--space-field),
+        //     from the head's lowest edge to the body's highest.
+        for (const card of [...document.querySelectorAll(CARD)].filter(visible)) {
+            if (card.matches(".strategy-initiatives-box")) {
+                continue;
+            }
+            const head = card.querySelector(":scope > .strategy-box-head, :scope > .fold-card-head");
+            if (!head || !visible(head)) {
+                continue;
+            }
+            const headParts = [...head.children].filter(visible).map(rect);
+            const bodyParts = [];
+            for (let next = head.nextElementSibling; next; next = next.nextElementSibling) {
+                if (next.matches(".business-card-summary")) {
+                    continue;
+                }
+                bodyParts.push(...[next, ...next.querySelectorAll("*")].filter(visible).map(rect));
+            }
+            // Only what stands UNDER the head: a column set beside it (a
+            // Segment's proposition at full width) is not its body's first row.
+            const headLeft = Math.min(...headParts.map(part => part.left));
+            const headRight = Math.max(...headParts.map(part => part.right));
+            const under = bodyParts.filter(part => part.right > headLeft + 1 && part.left < headRight - 1);
+            if (!headParts.length || !under.length) {
+                continue;
+            }
+            const gap = Math.min(...under.map(part => part.top)) - Math.max(...headParts.map(part => part.bottom));
+            if (!rules.near(gap, spec.fieldGap, 1)) {
+                fail("head → body gap", head, { gap, expected: spec.fieldGap });
+            }
+        }
+
+        // 16. A head's action buttons (filter, x): a cell gap apart.
+        for (const actions of [...document.querySelectorAll(".strategy-box-actions")].filter(visible)) {
+            const buttons = [...actions.children].filter(visible).map(rect).sort((one, other) => one.left - other.left);
+            for (let index = 1; index < buttons.length; index++) {
+                const gap = buttons[index].left - buttons[index - 1].right;
+                if (!rules.near(gap, spec.fieldGap, 0.5)) {
+                    fail("action buttons a cell gap apart", actions, { gap, expected: spec.fieldGap });
+                }
+            }
+        }
+
+        // 16b. A Strategy card's head buttons: a cell gap after the name box,
+        //      the last at the card's side margin (padding + edge).
+        for (const card of [...document.querySelectorAll(".strategy-theme-box, .strategy-goal-box, .strategy-objective-box, .strategy-metric-box")].filter(visible)) {
+            const head = card.querySelector(":scope > .strategy-box-head");
+            const actions = head && head.querySelector(":scope > .strategy-box-actions");
+            const buttons = actions ? [...actions.children].filter(visible).map(rect) : [];
+            if (!buttons.length) {
+                continue;
+            }
+            const style = getComputedStyle(card);
+            const edge = rect(card).right - parseFloat(style.borderRightWidth) - parseFloat(style.paddingRight);
+            const last = Math.max(...buttons.map(button => button.right));
+            if (!rules.near(last, edge, 0.5)) {
+                fail("head buttons at the side margin", head, { right: last, edge });
+            }
+            const name = nameBox(head);
+            if (name) {
+                const gap = Math.min(...buttons.map(button => button.left)) - name.right;
+                if (!rules.near(gap, spec.fieldGap, 0.5)) {
+                    fail("name → head buttons a cell gap", head, { gap, expected: spec.fieldGap });
+                }
+            }
+        }
+
+        // 17. A drag grip to what follows it (the fold arrow, or the
+        //     number's first character where there is no arrow): the head's
+        //     one 8px gap.
+        for (const grip of [...document.querySelectorAll(".strategy-drag-handle")].filter(visible)) {
+            let next = grip.nextElementSibling;
+            while (next && !visible(next)) {
+                next = next.nextElementSibling;
+            }
+            if (!next) {
+                continue;
+            }
+            let left = rect(next).left;
+            if (next.matches(".strategy-box-number, .legal-entity-card-number")) {
+                const range = document.createRange();
+                range.selectNodeContents(next);
+                const glyphs = [...range.getClientRects()].filter(box => box.width > 0);
+                if (glyphs.length) {
+                    left = Math.min(...glyphs.map(box => box.left));
+                }
+            }
+            const gap = left - rect(grip).right;
+            if (!rules.near(gap, spec.numberToName, 1)) {
+                fail("grip → next gap", grip, { gap, expected: spec.numberToName, next: describe(next) });
             }
         }
 

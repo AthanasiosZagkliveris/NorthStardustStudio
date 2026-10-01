@@ -5084,7 +5084,8 @@ td.process-library-col-number{
 
     align-items:center;
 
-    gap:4px;
+    /* A head's action buttons: a cell gap apart, as every row's cells. */
+    gap:var(--space-cell);
 
     flex:0 0 auto;
 
@@ -6092,6 +6093,17 @@ td.process-library-col-number{
 .strategy-box-actions{
 
     margin-left:auto;
+
+}
+
+/* A HEAD WITH A GRIP AND NO FOLD ARROW (a Metric box, a Theme box):
+   the number follows the grip directly, at the head's one 8px gap --
+   no empty list-number column before "1.". */
+.strategy-box-head:has(> .strategy-drag-handle):not(:has(> .strategy-box-toggle)) > .strategy-box-number > .list-number{
+
+    min-width:0;
+
+    text-align:left;
 
 }
 
@@ -8309,7 +8321,6 @@ td.process-library-col-number{
     .strategy-add-button,
     .strategy-box-action,
     .strategy-box-toggle,
-    .strategy-box-remove,
     .month-picker-step,
     .month-picker-cell
 ):focus-visible:not(:disabled){
@@ -14795,20 +14806,29 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 }
 
-/* NESTED ACTIONS IN ONE COLUMN: a Goal's x stands where its
-   Objectives' x stand (its head kept clear of the Objective box's
-   padding and edge), and a Metric's x under its Objective's filter
-   button (the Metric box ends one action, and its gap, before the
-   Objective's edge, less its own padding and edge). */
-.strategy-goal-box > .strategy-box-head{
+/* A STRATEGY CARD'S HEAD BUTTONS: a cell gap after the name box (the
+   head's own gap is the 8px one, so 4px more), a cell gap apart, the
+   last at the card's side margin. */
+:is(.strategy-theme-box, .strategy-goal-box, .strategy-objective-box, .strategy-metric-box) > .strategy-box-head > .strategy-box-actions{
 
-    padding-right:calc(var(--card-padding) + 1px);
+    padding-left:calc(var(--space-cell) - 8px);
 
 }
 
+/* A METRIC'S x UNDER ITS OBJECTIVE'S FILTER BUTTON: the Metric box ends
+   one action, and its gap, before the Objective's edge, less its own
+   padding and edge. */
 .strategy-objective-columns > :nth-child(2) .strategy-metric-box:not(.strategy-initiatives-box){
 
-    margin-right:calc(32px + 4px - var(--card-padding) - 1px);
+    margin-right:calc(32px + var(--space-cell) - var(--card-padding) - 1px);
+
+}
+
+/* A METRIC'S BODY STARTS WHERE ITS NUMBER STARTS (number-left =
+   body-left): after the grip (24px) and the head's 8px gap. */
+.strategy-metric-box:not(.strategy-initiatives-box) > :not(.strategy-box-head){
+
+    margin-left:calc(24px + 8px);
 
 }
 
@@ -14823,7 +14843,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
    Metric column's left edge: "Start [month]" over "End [month]" (the
    Strategic Period's pair, the S step each), and beside them
    "Responsible" over its picker. "Start" and "Responsible" stand on the
-   Description label's line (the block lifted by half of what a box has
+   Description label's line (the label set down by half of what a box has
    over that line), the End box and the picker on the next row. */
 .strategy-objective-when{
 
@@ -14841,12 +14861,15 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 }
 
-/* Beside the Description (two columns), lifted onto its label's line. */
+/* Beside the Description (two columns): the Start box a head gap under
+   the head, as every card's first row, and the Description's label set
+   down onto the Start box's centre line (half of what a box has over a
+   label's line). */
 @media (min-width: 900.02px){
 
-    .strategy-objective-when{
+    .strategy-objective-columns.strategy-objective-top > :first-child{
 
-        margin-top:calc((var(--font-body) * 1.5 - var(--control-square)) / 2);
+        margin-top:calc((var(--control-square) - var(--font-body) * 1.5) / 2);
 
     }
 

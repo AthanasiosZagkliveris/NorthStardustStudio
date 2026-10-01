@@ -68,6 +68,16 @@ below are these, made measurable.
   (`.strategy-name-static`) takes the name box's own line, padding and
   (unseen) edge, so folding moves nothing but what is under the head.
 - A folded card's one-line summary sits under the name, from the name's x.
+- **Head to body: 12px** (`--space-field`), from the head's lowest edge to
+  the first thing under it, on every card (an Objective's Start box too:
+  its Description label is set down onto the Start box's centre line
+  instead of the Start box being lifted into the head's gap).
+- **Head buttons** (a Strategy card's filter and x): 12px (`--space-cell`)
+  after the name box, 12px apart, the last at the card's 12px side margin.
+- **A grip and no fold arrow** (a Metric box, a Situation Theme box): the
+  number's first character follows the grip at the head's 8px gap (no
+  empty list-number column), and the body starts at the number's x
+  (number-left = body-left), 32px in (the grip's 24px and 8px).
 
 ### Card body
 
@@ -198,11 +208,10 @@ grids' 24px) are not cell gaps.
   In a card under 600px, Responsible goes under the period; one column
   under 900px. Its columns, and every box inside the card, stand
   `--space-card` (12px) apart.
-- **Nested cards: one action column.** A card inside a card keeps its
-  head's buttons in the parent's button column: an Objective's x stands
-  under its Goal's x, and a Metric box's x under its Objective's filter
-  (funnel) button. The inner box ends where that column needs it, and its
-  name and description boxes end with it.
+- **A Metric box's x under its Objective's filter (funnel) button.** The
+  Metric box ends where that column needs it, and its name and
+  description boxes end with it. (Every card's own x stays at its own
+  12px side margin: a Goal's x is not moved in to its Objectives'.)
 - **Additional Legal Requirement card**: Reference or Number | Type on one
   row of the card's two columns, the Type at the width its longest option
   needs.
