@@ -99,12 +99,12 @@ describe("FoundersProfileEditor founders", () => {
         for (const label of ["Roles", "Relevant Industry Experience", "Management Experience", "Key Achievements", "Skills, Expertise & Qualifications", "Team Capability Gaps & Cover"]) {
             expect(screen.getByRole("button", { name: label + ": what this means" })).toBeTruthy();
         }
-        // No group heading: the Roles beside the name in the card's head,
-        // Industry | Management on one row, Achievements | Skills on the next.
+        // No group heading: the Roles alone in one column, then Industry |
+        // Management, then Achievements | Skills, on the card's two columns.
         expect(screen.queryByText("Relevant Experience")).toBeNull();
-        expect(document.querySelector(".fold-card-head .founders-profile-roles")).toBeTruthy();
         const rows = [...document.querySelectorAll(".founders-profile-row")];
-        expect(rows.map(row => row.querySelectorAll(":scope > .legal-entity-field").length)).toEqual([2, 2]);
+        expect(rows.map(row => row.querySelectorAll(":scope > .legal-entity-field").length)).toEqual([1, 2, 2]);
+        expect(rows.every(row => row.classList.contains("founders-profile-row-two"))).toBe(true);
         expect(screen.getByLabelText("Founder 1 roles 1")).toBeTruthy();
         expect(screen.getByLabelText("Founder 1 relevant industry experience").tagName).toBe("TEXTAREA");
         expect(screen.getByLabelText("Founder 1 relevant industry experience").getAttribute("placeholder"))

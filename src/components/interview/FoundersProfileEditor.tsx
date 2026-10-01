@@ -324,7 +324,7 @@ export default function FoundersProfileEditor({
 
                 {/* Named on the Legal Entity page, so the name is
                     shown rather than asked, and there is no ×. */}
-                <div className={"legal-entity-card-head fold-card-head" + (open ? " founders-profile-head" : "")}>
+                <div className="legal-entity-card-head fold-card-head">
 
                     <FoldArrow
                         open={open}
@@ -343,14 +343,16 @@ export default function FoundersProfileEditor({
                     {!open && summary && (
                         <span className="business-card-summary">{summary}</span>
                     )}
+                </div>
 
-                    {/* OPEN, THE ROLES BESIDE THE NAME: the name at its own
-                        width, the Roles list the rest of the row, its side
-                        label and its first line on the name's line; it
-                        grows downward. (Folded, they are the summary.) */}
-                    {open && (
-                        <div className="founders-profile-roles">
-                            {label("Roles", INFO.roles)}
+                {open && (
+                    <div className="legal-entity-grid">
+
+                        {/* ROW 0: the Roles, one column of the card's two
+                            (as wide as each box below it), the second
+                            column left empty. */}
+                        <div className="legal-entity-field-wide founders-profile-row founders-profile-row-two">
+                        {field("Roles", INFO.roles, (
                             <NumberedListInput
                                 label={who + " roles"}
                                 placeholder="Role"
@@ -358,13 +360,8 @@ export default function FoundersProfileEditor({
                                 disabled={disabled}
                                 onChange={(items) => updateFounder(founder.id, { roles: items })}
                             />
+                        ))}
                         </div>
-                    )}
-
-                </div>
-
-                {open && (
-                    <div className="legal-entity-grid">
 
                         {/* ROW 1, TWO EQUAL COLUMNS: Relevant Industry
                             Experience | Management Experience, tops level,

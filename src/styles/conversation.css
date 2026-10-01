@@ -9147,8 +9147,8 @@ td.process-library-col-number{
 
 }
 
-/* A FOUNDER'S PROFILE: the Roles beside the name in the card's head,
-   then two rows of two equal columns (cells --space-cell apart):
+/* A FOUNDER'S PROFILE ON THE CARD'S TWO EQUAL COLUMNS (cells
+   --space-cell apart): the Roles in the first (the second empty), then
    Industry | Management, then Achievements | Skills, tops level, each
    growing with its text; one column in a narrow card. */
 .legal-entity-grid > .founders-profile-row{
@@ -9172,64 +9172,6 @@ td.process-library-col-number{
     .legal-entity-grid > .founders-profile-row{
 
         grid-template-columns:minmax(0, 1fr);
-
-    }
-
-}
-
-/* The open head: arrow, number, the name at its own width, and the
-   Roles the rest of the row, all from the top so the list's first line
-   is the name's line. */
-.fold-card-head.founders-profile-head{
-
-    grid-template-columns:auto auto max-content minmax(0, 1fr);
-
-    align-items:start;
-
-}
-
-.fold-card-head.founders-profile-head > .strategy-box-toggle{
-
-    margin-top:calc((var(--control-square) - 36px) / 2);
-
-}
-
-.fold-card-head.founders-profile-head > .legal-entity-card-number{
-
-    padding-top:calc((var(--control-square) - 1lh) / 2);
-
-}
-
-/* "Roles i" beside the list, on its first line's centre line. */
-.founders-profile-roles{
-
-    grid-column:4;
-
-    display:grid;
-
-    grid-template-columns:auto minmax(0, 1fr);
-
-    align-items:start;
-
-    column-gap:var(--side-label-gap);
-
-    min-width:0;
-
-}
-
-.founders-profile-roles > .legal-entity-label-info{
-
-    margin-top:calc((var(--control-square) - 28px) / 2);
-
-}
-
-/* A narrow card: the Roles on a row of their own under the name. */
-@container card (max-width: 599.98px){
-
-    .founders-profile-roles{
-
-        grid-column:3 / -1;
-        grid-row:2;
 
     }
 
