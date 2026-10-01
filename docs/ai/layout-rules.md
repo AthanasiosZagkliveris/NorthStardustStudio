@@ -162,6 +162,15 @@ grids' 24px) are not cell gaps.
   requirement's reference are free text, not figures: they keep their
   standard width and wrap onto more lines, growing down; the x and the
   fields beside them stay on the first line.
+- **Tick rows**: a tick that stands as a field ("Add to Legal Entity
+  Expenses", "Relevant Information") is one line, a row gap from what is
+  above and below it, and a label gap above the box it opens. The options
+  of one tick list (several ticks under one label) are rows of that field.
+- **Founder card** (Founders Profile): open, the Roles list stands in the
+  head beside the name (the name at its own width, "Roles i" beside the
+  list on its first line, the list the rest of the row, growing down; under
+  a 600px card, on a row of its own under the name); then two rows of two
+  equal columns, Industry | Management and Achievements | Skills.
 - **Additional Legal Requirement card**: Reference or Number | Type on one
   row of the card's two columns, the Type at the width its longest option
   needs.

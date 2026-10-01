@@ -324,7 +324,7 @@ export default function FoundersProfileEditor({
 
                 {/* Named on the Legal Entity page, so the name is
                     shown rather than asked, and there is no ×. */}
-                <div className="legal-entity-card-head fold-card-head">
+                <div className={"legal-entity-card-head fold-card-head" + (open ? " founders-profile-head" : "")}>
 
                     <FoldArrow
                         open={open}
@@ -344,14 +344,13 @@ export default function FoundersProfileEditor({
                         <span className="business-card-summary">{summary}</span>
                     )}
 
-                </div>
-
-                {open && (
-                    <div className="legal-entity-grid">
-
-                        {/* Moved here from the Legal Entity page,
-                            which asked it beside the founder's name. */}
-                        {field("Roles", INFO.roles, (
+                    {/* OPEN, THE ROLES BESIDE THE NAME: the name at its own
+                        width, the Roles list the rest of the row, its side
+                        label and its first line on the name's line; it
+                        grows downward. (Folded, they are the summary.) */}
+                    {open && (
+                        <div className="founders-profile-roles">
+                            {label("Roles", INFO.roles)}
                             <NumberedListInput
                                 label={who + " roles"}
                                 placeholder="Role"
@@ -359,13 +358,19 @@ export default function FoundersProfileEditor({
                                 disabled={disabled}
                                 onChange={(items) => updateFounder(founder.id, { roles: items })}
                             />
-                        ), true)}
-
-                        {/* The two experience questions side by side,
-                            under a title of their own. */}
-                        <div className="legal-entity-field-wide">
-                            <span className="field-group-title business-foundation-subhead">Relevant Experience</span>
                         </div>
+                    )}
+
+                </div>
+
+                {open && (
+                    <div className="legal-entity-grid">
+
+                        {/* ROW 1, TWO EQUAL COLUMNS: Relevant Industry
+                            Experience | Management Experience, tops level,
+                            each growing with its text. One column in a
+                            narrow card. */}
+                        <div className="legal-entity-field-wide founders-profile-row founders-profile-row-two">
 
                         {field("Relevant Industry Experience", INFO.industryExperience, (
                             <StrategyTextArea
@@ -389,6 +394,12 @@ export default function FoundersProfileEditor({
                             />
                         ))}
 
+                        </div>
+
+                        {/* ROW 2, TWO EQUAL COLUMNS: Key Achievements | Skills,
+                            Expertise & Qualifications. */}
+                        <div className="legal-entity-field-wide founders-profile-row founders-profile-row-two">
+
                         {field("Key Achievements", INFO.achievements, (
                             <NumberedListInput
                                 label={who + " key achievements"}
@@ -397,9 +408,11 @@ export default function FoundersProfileEditor({
                                 disabled={disabled}
                                 onChange={(items) => updateFounder(founder.id, { achievements: items })}
                             />
-                        ), true)}
+                        ))}
 
-                        {field("Skills, Expertise & Qualifications", INFO.skills, skillList(founder, who), true)}
+                        {field("Skills, Expertise & Qualifications", INFO.skills, skillList(founder, who))}
+
+                        </div>
 
                     </div>
                 )}

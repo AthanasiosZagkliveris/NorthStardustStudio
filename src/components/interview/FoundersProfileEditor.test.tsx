@@ -99,7 +99,12 @@ describe("FoundersProfileEditor founders", () => {
         for (const label of ["Roles", "Relevant Industry Experience", "Management Experience", "Key Achievements", "Skills, Expertise & Qualifications", "Team Capability Gaps & Cover"]) {
             expect(screen.getByRole("button", { name: label + ": what this means" })).toBeTruthy();
         }
-        expect(screen.getByText("Relevant Experience").classList.contains("business-foundation-subhead")).toBe(true);
+        // No group heading: the Roles beside the name in the card's head,
+        // Industry | Management on one row, Achievements | Skills on the next.
+        expect(screen.queryByText("Relevant Experience")).toBeNull();
+        expect(document.querySelector(".fold-card-head .founders-profile-roles")).toBeTruthy();
+        const rows = [...document.querySelectorAll(".founders-profile-row")];
+        expect(rows.map(row => row.querySelectorAll(":scope > .legal-entity-field").length)).toEqual([2, 2]);
         expect(screen.getByLabelText("Founder 1 roles 1")).toBeTruthy();
         expect(screen.getByLabelText("Founder 1 relevant industry experience").tagName).toBe("TEXTAREA");
         expect(screen.getByLabelText("Founder 1 relevant industry experience").getAttribute("placeholder"))
