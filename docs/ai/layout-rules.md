@@ -254,6 +254,15 @@ grids' 24px, `--space-column`) are not cell gaps.
   side label beside its picker on the picker's mid line, 12px under the
   name and 12px above the body. The picker hugs its longest option (see
   the hug exception).
+- **Customer Engagement**: "1. Customer Channel" and "2. Customer
+  Relationship" hang their fold arrows in the Segment card's arrow column
+  (under its arrow), so their numbers stand at the Segment's number. In
+  the Customer Relationship table, an Offering's block starts at the "1."
+  of "1. Offering -" (the Customer Profiles row and the Relationship
+  column's cells); a Relationship Type's arrow stands under the
+  Offering's (the band's 12px inset, the same 36px arrow, its 4px gap),
+  and its picker [x], then its Purpose, then "+ Add Relationship Type"
+  (from the picker's edge to the x's) start at that number.
 - **Additional Legal Requirement card**: Reference or Number | Type on one
   row of the card's two columns, the Type at the width its longest option
   needs.

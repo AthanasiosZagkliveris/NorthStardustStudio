@@ -11996,6 +11996,54 @@ td.process-library-col-number{
 
 }
 
+/* CUSTOMER ENGAGEMENT'S SECTIONS UNDER THEIR SEGMENT'S HEAD: "1. Customer
+   Channel" and "2. Customer Relationship" hang their fold arrows in the
+   Segment card's arrow column (under its arrow), so their numbers and
+   titles stand where the Segment's number and title stand. (This page
+   only: Infrastructure's and Sustainability's sections share the class.) */
+.business-engagement:not(.business-capability) .business-engagement-section > .business-engagement-section-head > .strategy-box-toggle{
+
+    flex:none;
+
+    margin-left:calc(-1 * var(--card-body-indent));
+
+}
+
+/* AN OFFERING'S BLOCK STARTS AT ITS NUMBER (number-left = body-left):
+   the Customer Profiles row and the Relationship | Engagement columns'
+   first cells start at the "1." of "1. Offering -" -- past the band's
+   12px inset, its 36px arrow and the arrow's 4px gap. */
+.business-relationship-table{
+
+    --offering-number-indent:calc(var(--space-cell) + 36px + 4px);
+
+}
+
+.business-relationship-table .business-relationship-profiles,
+.business-relationship-table .business-relationship-heading:first-child{
+
+    padding-left:var(--offering-number-indent);
+
+}
+
+/* A Relationship Type's arrow under its Offering's (the band's 12px
+   inset, the same 36px arrow), so the picker, its x, the Purpose and the
+   + Add for one more start at the Offering's number, past the arrow and
+   its 4px gap. */
+.business-relationship-table .business-relationship-type-cell{
+
+    padding-left:var(--space-cell);
+
+}
+
+/* Its arrow's gap, the band's 4px (not a pick row's 6px), so the picker
+   starts at the number as the Purpose does. */
+.business-relationship-table .business-relationship-type-cell > .business-channel-pick > .strategy-box-toggle{
+
+    margin-right:4px;
+
+}
+
 /* THE PURPOSE STARTS WHERE ITS TYPE STARTS -- past the arrow
    that folds them both, so the two read as one answer rather than
    as a picker and a loose box under it. The arrow is 36 wide and
