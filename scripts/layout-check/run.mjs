@@ -116,7 +116,7 @@ export const REACTIONS = [
     // An add button: its ground.
     { kind: "add button", selector: ".strategy-add-button:not(:disabled)", property: "backgroundColor", on: "self" },
     // A card's ×: its ground.
-    { kind: "remove", selector: ".strategy-box-remove:not(:disabled)", property: "backgroundColor", on: "self" },
+    { kind: "remove", selector: ".strategy-box-remove:not(:disabled)", property: "backgroundColor", on: "self", same: true },
     // A fold arrow: its ground.
     { kind: "fold arrow", selector: ".strategy-box-toggle", property: "backgroundColor", on: "self" }
 ];
@@ -126,8 +126,10 @@ export async function checkReactions(page, where, sample = 3) {
     for (const reaction of REACTIONS) {
         const elements = await page.locator(reaction.selector).all();
         let tried = 0;
+        // Every one of a kind reacts the SAME way (one hovered value).
+        const hoveredValues = new Map();
         for (const element of elements) {
-            if (tried >= sample) {
+            if (tried >= (reaction.same ? sample * 4 : sample)) {
                 break;
             }
             if (!(await element.isVisible())) {
@@ -146,7 +148,12 @@ export async function checkReactions(page, where, sample = 3) {
             const hovered = await element.evaluate((node, property) => getComputedStyle(node)[property], reaction.property);
             if (hovered === rest) {
                 failures.push({ page: where, rule: "reacts on hover: " + reaction.kind, where: await element.evaluate(node => node.getAttribute("aria-label") || node.className), detail: { property: reaction.property, rest, hovered } });
+            } else if (reaction.same) {
+                hoveredValues.set(hovered, await element.evaluate(node => node.getAttribute("aria-label") || node.className));
             }
+        }
+        if (hoveredValues.size > 1) {
+            failures.push({ page: where, rule: "one reaction per kind: " + reaction.kind, detail: Object.fromEntries([...hoveredValues].map(([value, name]) => [name, value])) });
         }
     }
     await page.mouse.move(1, 1);

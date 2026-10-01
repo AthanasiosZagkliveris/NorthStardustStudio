@@ -7761,7 +7761,7 @@ td.process-library-col-number{
 /* A filled hover rather than a tinted border: these two act on
    the box they sit in -- one reorders it, one removes it -- so
    they are worth noticing before they are pressed. */
-.strategy-box-action:hover:not(:disabled){
+.strategy-box-action:not(.strategy-box-remove):hover:not(:disabled){
 
     color:var(--text-on-fill);
 

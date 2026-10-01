@@ -236,11 +236,12 @@ wide as they are (`width: fit-content`), never the empty space beside
 them; Space toggles the focused box. A tick's "i" stands outside its label,
 so reading the note never toggles the tick.
 | Add button | its ground | focus ring | muted |
-| x (remove) | its ground | focus ring | muted |
+| x (remove) | its ground: the danger colour, the same on every x (a Strategy card's x too; no second hover overrides it) | focus ring | muted |
 | Fold arrow | its ground | focus ring | n/a |
 
 The check hovers up to three of each kind on every page and fails a kind
-that does not react as its row says.
+that does not react as its row says; it hovers up to twelve x and fails
+if any two turn different colours (one reaction per kind).
 
 ---
 
