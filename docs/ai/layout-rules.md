@@ -139,6 +139,16 @@ track of the grid it stands in.
 - A tick box: 18 x 18.
 - The fold arrow: 36 x 36.
 
+### Headings and kind words in capitals
+
+On screen only (`text-transform`, the words read aloud and every
+accessible name unchanged), at the headings' 0.05em tracking:
+Business Foundation's "1. SEGMENT", PROFILES, COMPETITORS, OFFERINGS and
+VALUE PROPOSITION; Strategy's THEME, GOAL, OBJECTIVE, METRIC and
+INITIATIVES wherever they name a card. A button inside a heading (an
+"i", "Expand all") keeps its own case. The Roadmap and the documents are
+unchanged.
+
 ### Card-list add buttons (an explicit list)
 
 These add buttons span their list of cards, from the cards' left edge to
