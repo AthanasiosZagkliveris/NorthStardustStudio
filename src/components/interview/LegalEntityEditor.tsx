@@ -915,13 +915,16 @@ export default function LegalEntityEditor({
         label: string,
         ariaLabel: string,
         current: string,
-        onNext: (next: string) => void
+        onNext: (next: string) => void,
+        /** The field's key where its label was renamed (FieldKeys.ts). */
+        fieldId?: string
     ) {
 
         return (
             <div className="legal-entity-field-wide">
                 <OptionalNote
                     label={label}
+                    fieldId={fieldId}
                     className="interview-input legal-entity-note"
                     ariaLabel={ariaLabel}
                     disabled={disabled}
@@ -2175,8 +2178,10 @@ export default function LegalEntityEditor({
                                     </label>
 
 
+                                    {/* Named as 6.'s expenses name theirs; its key
+                                        stays "Relevant Information". */}
                                     {optionalNote(
-                                        "Relevant Information",
+                                        "Description / Relevant Information",
                                         "Legal requirement " + (index + 1) + " notes",
                                         requirement.notes,
                                         (next) => update({
@@ -2185,7 +2190,8 @@ export default function LegalEntityEditor({
                                                     ? { ...candidate, notes: next }
                                                     : candidate
                                             )
-                                        })
+                                        }),
+                                        "Relevant Information"
                                     )}
 
                                 </div>

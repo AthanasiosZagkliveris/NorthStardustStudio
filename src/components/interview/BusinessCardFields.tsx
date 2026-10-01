@@ -280,12 +280,16 @@ export function OptionalField({
 
     disabled = false,
 
+    fieldId,
+
     children
 
 }: {
 
     label: string;
     info?: InfoPoint[];
+    /** The field's key where its label was renamed (FieldKeys.ts). */
+    fieldId?: string;
     /** Whether the field holds anything: it then loads ticked. */
     filled: boolean;
     /** Empties the field (as it is unticked). */
@@ -343,7 +347,7 @@ export function OptionalField({
                     />
                     <span className="field-label business-foundation-label">
                         {label}
-                        <FieldMark label={label} />
+                        <FieldMark label={label} keyLabel={fieldId} />
                     </span>
                 </label>
                 {info && <InfoNote label={label} points={info} fullList />}
@@ -376,11 +380,15 @@ export function OptionalNote({
 
     className = "interview-input business-foundation-note",
 
-    disabled = false
+    disabled = false,
+
+    fieldId
 
 }: {
 
     label: string;
+    /** The field's key where its label was renamed (FieldKeys.ts). */
+    fieldId?: string;
     value: string;
     onChange: (next: string) => void;
     info?: InfoPoint[];
@@ -392,7 +400,7 @@ export function OptionalNote({
 }) {
 
     return (
-        <OptionalField label={label} info={info} filled={value.trim() !== ""} onClear={() => onChange("")} disabled={disabled}>
+        <OptionalField label={label} info={info} filled={value.trim() !== ""} onClear={() => onChange("")} disabled={disabled} fieldId={fieldId}>
             <StrategyTextArea
                 className={className}
                 ariaLabel={ariaLabel ?? label}
