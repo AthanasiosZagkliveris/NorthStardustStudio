@@ -9147,6 +9147,14 @@ td.process-library-col-number{
 
 }
 
+/* A tick row under a field ("Add to Legal Entity Expenses"): one line,
+   a row gap from what is above and below it. */
+.legal-entity-switch.legal-entity-offer{
+
+    min-height:0;
+
+}
+
 /* "Where it is": Country, then State / Region where the country has
    one (it decides which registry and tax apply, so it follows the
    country), each the column's width, and the Address below them, one

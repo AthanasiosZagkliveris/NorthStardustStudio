@@ -85,7 +85,7 @@
     const GROUPS = ".business-capability-price, .brand-colour-row, .legal-entity-number-row, .business-channel-resource-head, .strategy-metric-unit-currency, .suggested-input, .business-capability-quantity-price, .business-capability-performer, .business-channel-pick, .brand-image-text, .financial-milestone, .financial-schedule-row, .financial-cost-row, .legal-entity-founders, .strategy-period-box .month-picker, .strategy-objective-period .month-picker";
     // Every card and section box (docs/ai/layout-rules.md, "Cards and section boxes").
     const CARDS = ".legal-entity-section, .legal-entity-card, .business-foundation-card, .business-capability-activity, .business-engagement-reference, .financial-need-card, .financial-offering-cost-card, .financial-cost-row, .strategy-theme-box, .strategy-theme-panel, .strategy-goal-box, .strategy-objective-box, .strategy-metric-box, .roadmap-theme-box";
-    const GRIDS = ".business-capability-cost-grid, .business-founder-grid, .card-field-pairs-grid, .legal-entity-grid, .strategy-metric-fields";
+    const GRIDS = ".founders-profile-row, .business-capability-cost-grid, .business-founder-grid, .card-field-pairs-grid, .legal-entity-grid, .strategy-metric-fields";
 
     const rect = element => element.getBoundingClientRect();
     const visible = element => { const box = rect(element); return box.width > 0 && box.height > 0; };
@@ -226,7 +226,7 @@
             for (const cell of cells) {
                 const control = cell.matches(CONTROL) ? cell : cell.querySelector(CONTROL);
                 // A cell that is a row of its own (the VAT tick and its number, a list of numbers) is checked as one.
-                if (!control || !visible(control) || cell.classList.contains("business-field-inline") || cell.matches(".legal-entity-tax-row, .legal-entity-registrations, .legal-entity-field-wide:has(.legal-entity-number-row), .legal-entity-side-row")) {
+                if (!control || !visible(control) || cell.classList.contains("business-field-inline") || cell.matches(".legal-entity-tax-row, .legal-entity-registrations, .legal-entity-field-wide:has(.legal-entity-number-row), .legal-entity-side-row, .founders-profile-row")) {
                     continue;
                 }
                 if (!rules.near(rect(control).left, rect(cell).left, tolerance)) {
@@ -457,8 +457,13 @@
             };
             for (const card of [...document.querySelectorAll(CARDS)].filter(visible)) {
                 const items = [];
-                for (const label of card.querySelectorAll(".field-label, .legal-entity-column-head")) {
-                    if (!visible(label) || label.closest(".info-note-panel, table, .fold-card-head")) {
+                for (const label of card.querySelectorAll(".field-label, .legal-entity-column-head, label:has(> input[type=checkbox])")) {
+                    if (!visible(label) || label.closest(".info-note-panel, table, .fold-card-head, .legal-entity-number-row")) {
+                        continue;
+                    }
+                    // An option of a tick list (several ticks under one label) is a row
+                    // of that one field, not a field of its own.
+                    if (label.matches("label") && label.parentElement && label.parentElement.querySelectorAll(":scope > label:has(> input[type=checkbox]), :scope > * > label:has(> input[type=checkbox])").length > 1) {
                         continue;
                     }
                     const box = lineBox(label);
