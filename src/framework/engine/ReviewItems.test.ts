@@ -70,7 +70,7 @@ describe("the Review page's items", () => {
         const business = sessions[3]!;
         const page = pageOf(business, AnswerType.BusinessCapability);
         const capability = asBusinessCapabilityValue(business.getResponse(page.number));
-        business.saveResponse(page.number, { ...capability, workspace: { ...capability.workspace, status: "investigation" } });
+        business.saveResponse(page.number, { ...capability, resources: { ...capability.resources, workspace: capability.resources.workspace.map(subsection => ({ ...subsection, slots: subsection.slots.map(slot => ({ ...slot, status: "investigation" })) })) } });
         expect(reviewItems({ sessions, titles, organisationName: "Lumen" }).filter(item => item.group === "open")).toEqual([]);
     });
 
@@ -89,6 +89,17 @@ describe("the Review page's items", () => {
             text: "3. Business System → " + page.number + ". Infrastructure & Capability: Register the trademark: responsible founder.",
             place: { systemNumber: 3, sectionNumber: page.number, key: "3." + page.number + ":infrastructure/" + activity.id, anchors: [activity.id] }
         });
+    });
+
+    test("an activity whose Responsible tick is off is not open: no responsible by choice", () => {
+        const sessions = load("Quillfield");
+        const business = sessions[3]!;
+        const page = pageOf(business, AnswerType.BusinessCapability);
+        const capability = asBusinessCapabilityValue(business.getResponse(page.number));
+        const founders = [...capability.founders, { ...capability.founders[0], id: "founder-2", name: "Sam Ortega" }];
+        const activity = { ...createBusinessActivity(), name: "Register the trademark", responsibleOff: true };
+        business.saveResponse(page.number, { ...capability, founders, activities: [{ id: "cat-x", name: "Legal", activities: [activity] }, ...capability.activities] });
+        expect(reviewItems({ sessions, titles, organisationName: "Quillfield" }).filter(item => item.group === "open" && /Register the trademark: responsible/.test(item.text))).toEqual([]);
     });
 
     test("lists nothing the Foundation never asks for", () => {

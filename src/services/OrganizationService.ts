@@ -169,11 +169,14 @@ export interface CalendarTaskAnnotation {
  * Organization document and every exported Organization file.
  * Version 1 is everything saved before the number existed (no
  * `formatVersion` at all); version 2 is the same document carrying
- * the number. Readers accept both. A file from a newer app, with a
+ * the number; version 3 is the same again with Page 3 in its nine
+ * categories (the Page 3 answer carries its own `formatVersion` and an
+ * older one is moved to them when it is read). Readers accept all three.
+ * A file from a newer app, with a
  * higher number, is refused on import rather than read as though it
  * were this one (see importDocument).
  */
-export const ORGANIZATION_FORMAT_VERSION = 2;
+export const ORGANIZATION_FORMAT_VERSION = 3;
 
 /** A document's format version: 1 when it carries none. */
 export function organizationFormatVersion(source: { formatVersion?: unknown }): number {

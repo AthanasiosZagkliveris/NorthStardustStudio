@@ -25,7 +25,7 @@ import BoxActions, { reorder, useMovableBox } from "./ReorderControls.tsx";
 import MonthYearPicker from "./MonthYearPicker.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../framework/engine/Currencies.ts";
-import { OptionalNote } from "./BusinessCardFields.tsx";
+import { BusinessField, OptionalNote } from "./BusinessCardFields.tsx";
 import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
 import FoldArrow from "./FoldArrow.tsx";
@@ -726,11 +726,12 @@ function ObjectiveList({
 
                                 {/* THE PERIOD AND WHO SEES IT THROUGH, beside the
                                     Description: "Start [month]" over "End [month]"
-                                    (the Strategic Period's own pair), and beside
-                                    them "Responsible" over its picker -- "Start" and
-                                    "Responsible" on the Description label's line,
-                                    the End box and the picker on the next. */}
-                                <div className={"strategy-objective-when" + (founders.length > 0 ? " strategy-objective-when-responsible" : "")}>
+                                    (the Strategic Period's own pair), and under them
+                                    "Responsible" -- the Capability cards' side-label
+                                    row (BusinessField side). A one-founder
+                                    organisation has no Responsible row: he is
+                                    responsible (strategyObjectiveOwnerId). */}
+                                <div className="strategy-objective-when">
 
                                 <MonthYearPicker
                                     label="Start"
@@ -752,10 +753,6 @@ function ObjectiveList({
                                     })}
                                 />
 
-                                {founders.length > 0 && (
-                                    <span className="field-label strategy-field-label strategy-objective-responsible-label">Responsible</span>
-                                )}
-
                                 <MonthYearPicker
                                     label="End"
                                     value={objective.period.end}
@@ -769,20 +766,34 @@ function ObjectiveList({
                                     })}
                                 />
 
-                                {/* One founder, the way every Activity names one. */}
-                                {founders.length > 0 && (
-                                    <div className="strategy-objective-owner">
-                                    <OptionPicker
-                                        label={"Objective " + (objectiveIndex + 1) + " responsible"}
-                                        placeholder="Select a founder"
-                                        options={founders.map(founder => founder.name)}
-                                        disabled={disabled}
-                                        value={founders.find(founder => founder.id === objective.ownerId)?.name ?? ""}
-                                        onChange={(next) => updateObjective(objectiveIndex, {
-                                            ownerId: founders.find(founder => founder.name === next)?.id ?? ""
-                                        })}
-                                    />
-                                    </div>
+                                {founders.length > 1 && (
+                                    <BusinessField
+                                        label="Responsible"
+                                        side
+                                        tick={{
+                                            on: objective.responsibleOff !== true,
+                                            disabled,
+                                            ariaLabel: "Objective " + (objectiveIndex + 1) + " has a responsible",
+                                            // Unticked: no responsible by choice, the choice cleared.
+                                            onChange: (on) => updateObjective(objectiveIndex, on
+                                                ? { responsibleOff: undefined }
+                                                : { responsibleOff: true, ownerId: "" })
+                                        }}
+                                    >
+                                        {objective.responsibleOff === true ? null : (
+                                        <OptionPicker
+                                            label={"Objective " + (objectiveIndex + 1) + " responsible"}
+                                            placeholder="Select a founder"
+                                            hug
+                                            options={founders.map(founder => founder.name)}
+                                            disabled={disabled}
+                                            value={founders.find(founder => founder.id === objective.ownerId)?.name ?? ""}
+                                            onChange={(next) => updateObjective(objectiveIndex, {
+                                                ownerId: founders.find(founder => founder.name === next)?.id ?? ""
+                                            })}
+                                        />
+                                        )}
+                                    </BusinessField>
                                 )}
 
                                 </div>

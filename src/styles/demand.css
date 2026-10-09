@@ -394,7 +394,7 @@
 
     flex-wrap:wrap;
 
-    gap:4px 16px;
+    gap:var(--space-field) 16px;
 
 }
 

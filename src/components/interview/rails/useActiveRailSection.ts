@@ -193,6 +193,12 @@ export function scrollToRailSection(id: string): void {
 
     // Next frame, so a section just opened above has its full height.
     window.requestAnimationFrame(() => {
+        // Page 3: the page stays and each card scrolls its own body; a card's rail
+        // bullet brings that body back to its top (the card is already in view).
+        const body = target.querySelector<HTMLElement>(":scope > .card-scroll");
+        if (body && body.scrollHeight > body.clientHeight + 1) {
+            body.scrollTo({ top: 0, behavior: "auto" });
+        }
         const top = target.getBoundingClientRect().top + window.scrollY - RAIL_TOP_CLEARANCE;
         const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
         window.scrollTo({ top: Math.max(0, top), behavior: reduceMotion ? "auto" : "smooth" });

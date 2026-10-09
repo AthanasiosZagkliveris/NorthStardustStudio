@@ -2890,6 +2890,12 @@ export interface StrategyObjectiveValue {
     metrics: StrategyMetricValue[];
     /** The founder who owns it -- a Legal Entity founder id, or "". */
     ownerId: string;
+    /**
+     * The Responsible tick, unticked: this objective has no responsible
+     * by choice. Absent means ticked (the default), so nothing stored
+     * before this key existed changes. See responsibleIsOff.
+     */
+    responsibleOff?: boolean;
 }
 
 export interface StrategyGoalValue {
@@ -3138,7 +3144,8 @@ function strategyObjective(value: unknown): StrategyObjectiveValue {
         period: strategyRange(source.period),
         initiatives: strategyStringList(source.initiatives, 1),
         metrics: metrics.length > 0 ? metrics : [strategyMetric(undefined)],
-        ownerId: asText(source.ownerId)
+        ownerId: asText(source.ownerId),
+        ...(source.responsibleOff === true ? { responsibleOff: true } : {})
     };
 
 }
@@ -3572,6 +3579,12 @@ interface LegalEntityOrganisationValue {
      * where there is one to ask for.
      */
     activityCode: string;
+    /**
+     * The tick that asks for the code at all (as the consumption tax's
+     * tick asks for its number). A page saved before it existed reads
+     * as ticked when it already holds a code.
+     */
+    activityCodeOn: boolean;
     /*
      * The registered address, in parts.
      *
@@ -3674,6 +3687,8 @@ export interface LegalEntityRequirementValue {
 export interface LegalEntityExpenseValue {
     id: string;
     name: string;
+    /** The date of the expense (an ISO date), straight after the name: it places the cost in a month of the cash flow. */
+    date: string;
     /** A founder id, so renaming a founder renames this too. */
     responsibility: string;
     cost: string;
@@ -3684,6 +3699,8 @@ export interface LegalEntityExpenseValue {
      * legal requirement recorded above. Ids rather than typed
      * references, so a link cannot go stale while its target is
      * renamed, and cannot point at something that was deleted.
+     * Exactly one: every expense pays for one registration or requirement
+     * (a saved answer with several keeps its first).
      */
     links: string[];
     description: string;
@@ -3702,11 +3719,7 @@ export interface LegalEntityValue {
     formation: LegalEntityFormationValue;
     tax: LegalEntityTaxValue;
     requirements: LegalEntityRequirementValue[];
-    /** "Not applicable" ticked on 5. Additional Legal Requirements: none apply. */
-    requirementsNotApplicable: boolean;
     expenses: LegalEntityExpenseValue[];
-    /** "Not applicable" ticked on 6. Legal Entity Expenses: there are none. */
-    expensesNotApplicable: boolean;
 }
 
 
@@ -3726,6 +3739,7 @@ export function createLegalEntityExpense(): LegalEntityExpenseValue {
     return {
         id: randomId("expense"),
         name: "",
+        date: "",
         responsibility: "",
         cost: "",
         frequency: "",
@@ -3832,10 +3846,12 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
         return {
             id: asText(row.id) || randomId("expense"),
             name: asText(row.name),
+            date: isoDateText(row.date),
             responsibility: asText(row.responsibility),
             cost: asText(row.cost),
             frequency: asText(row.frequency),
-            links: (Array.isArray(row.links) ? row.links : []).map(asText).filter(Boolean),
+            // (One registration only: an earlier answer's several keep the first.)
+            links: (Array.isArray(row.links) ? row.links : []).map(asText).filter(Boolean).slice(0, 1),
             description: asText(row.description)
         };
 
@@ -3853,6 +3869,9 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
             legalFormOther: asText(organisationSource.legalFormOther),
             mainActivity: asText(organisationSource.mainActivity),
             activityCode: asText(organisationSource.activityCode),
+            activityCodeOn: typeof organisationSource.activityCodeOn === "boolean"
+                ? organisationSource.activityCodeOn
+                : asText(organisationSource.activityCode).trim().length > 0,
 
             // A page saved while the address was one field keeps
             // what was written in it: the whole thing lands on the
@@ -3902,15 +3921,11 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
             additionalRegistrations: legalEntityNumberList(taxSource.additionalRegistrations)
         },
 
+        // (A "Not applicable" tick saved by an earlier version is
+        // simply not read: an empty list says the same.)
         requirements,
 
-        // A tick only stands while the list is empty: an entry says it
-        // applies after all.
-        requirementsNotApplicable: source.requirementsNotApplicable === true && requirements.length === 0,
-
-        expenses,
-
-        expensesNotApplicable: source.expensesNotApplicable === true && expenses.length === 0
+        expenses
 
     };
 
@@ -5095,6 +5110,33 @@ export const BUSINESS_CHANNEL_CATEGORIES = [
         otherDescription: "Another physical delivery method."
     },
     {
+        id: "retail-wholesale",
+        label: "Retail & Wholesale",
+        description: "Shops, stockists and trade buyers who sell your offerings to their own customers, or buy them in bulk to resell.",
+        stages: ["discovery", "evaluation", "purchase", "delivery"],
+        channels: [
+            { label: "Retail Stockist", description: "A shop or boutique that stocks and sells your products." },
+            { label: "Distributor", description: "A trade firm that buys in volume and supplies shops or other buyers." },
+            { label: "Wholesale Account", description: "A business customer that buys in bulk at trade prices." },
+            { label: "Reseller", description: "A business that sells your offerings on under its own name or alongside its own." },
+            { label: "Concession / Shop-in-shop", description: "A space inside another shop where your products are sold." }
+        ],
+        otherDescription: "Another retail or wholesale route."
+    },
+    {
+        id: "referral-affiliates",
+        label: "Referral & Affiliates",
+        description: "People and partners who send customers to you and are rewarded for the sales or leads they bring.",
+        stages: ["discovery", "evaluation", "purchase"],
+        channels: [
+            { label: "Referral Partner", description: "A business or person that recommends you to their own contacts." },
+            { label: "Affiliate", description: "A website or creator paid for the sales that come through their link." },
+            { label: "Influencer / Ambassador", description: "A public voice who promotes your offerings to an audience." },
+            { label: "Customer Referral", description: "Existing customers who bring new ones, often for a reward." }
+        ],
+        otherDescription: "Another referral or affiliate route."
+    },
+    {
         id: "other",
         label: "Other",
         description: "A channel that does not fit any of the categories above.",
@@ -5677,10 +5719,12 @@ export interface BusinessSegmentEngagementValue {
 /**
  * A CHANNEL'S RESOURCE (ChannelResources.ts): something a Customer
  * Channel needs, kept as a Resource card on 3. Infrastructure &
- * Capability -- where its Quantity, Price, Frequency and Description
+ * Capability (made in Offering's Capability › Resources, or earlier in
+ * Infrastructure) -- where its Quantity, Price, Frequency and Description
  * are entered -- and linked here by that card's id. Its name is the
  * card's (one name). The channel's actions it serves are linked by id.
- * Only a link: its cost is counted once, where it is recorded.
+ * The card is made blank (no Offerings, no Status): the user fills it in
+ * on page 3. Only a link: its cost is counted once, where it is recorded.
  */
 export interface BusinessChannelResourceValue {
     id: string;
@@ -5692,6 +5736,8 @@ export interface BusinessChannelResourceValue {
     resourceId: string;
     /** The Segment's channel actions it serves (BusinessChannelActionValue ids). */
     actionIds: string[];
+    /** The card was already the company's and was linked ("Link existing"): taking it off the channel keeps it. */
+    existing?: boolean;
 }
 
 export interface BusinessEngagementValue {
@@ -5713,7 +5759,8 @@ export function createBusinessChannel(): BusinessChannelValue {
         category: "",
         name: "",
         links: [""],
-        offerings: [],
+        // A channel always carries Offerings; a new one carries them all.
+        offerings: [BUSINESS_CHANNEL_ALL_OFFERINGS],
         stages: [],
         actionIds: {},
         actions: {}
@@ -5839,7 +5886,10 @@ function asBusinessChannel(entry: unknown): BusinessChannelValue {
         ),
         name: asText(channel.name),
         links: businessNeedList(channel.links, 1),
-        offerings: businessIdList(channel.offerings),
+        // A channel is never without Offerings: none saved (older data) reads as every Offering.
+        offerings: businessIdList(channel.offerings).length > 0
+            ? businessIdList(channel.offerings)
+            : [BUSINESS_CHANNEL_ALL_OFFERINGS],
         stages: businessIdList(channel.stages, BUSINESS_JOURNEY_STAGE_IDS),
         // Marks a channel saved with shared actions (see withSharedActions).
         // (An empty one beside texts is a channel made new and given texts: read as saved before.)
@@ -6220,7 +6270,8 @@ export function asBusinessEngagementValue(value: unknown): BusinessEngagementVal
                 segmentId: asText(link.segmentId),
                 channelId: asText(link.channelId),
                 resourceId: asText(link.resourceId),
-                actionIds: (Array.isArray(link.actionIds) ? link.actionIds : []).map(asText).filter(Boolean)
+                actionIds: (Array.isArray(link.actionIds) ? link.actionIds : []).map(asText).filter(Boolean),
+                ...(link.existing === true ? { existing: true } : {})
             };
         })
         .filter(link => link.segmentId && link.channelId && link.resourceId);
@@ -6247,7 +6298,7 @@ export function asBusinessEngagementValue(value: unknown): BusinessEngagementVal
         if (!channelId || channelResources.some(existing => existing.resourceId === costId)) {
             continue;
         }
-        channelResources.push({ id: asText(link.id) || "channel-resource-" + channelId + "-" + costId, segmentId, channelId, resourceId: costId, actionIds: [] });
+        channelResources.push({ id: asText(link.id) || "channel-resource-" + channelId + "-" + costId, segmentId, channelId, resourceId: costId, actionIds: [], existing: true });
     }
 
     return { segments, demand: asDemandMap(source.demand), channelResources };
@@ -6315,10 +6366,10 @@ export const BUSINESS_ENGAGEMENT_SECTIONS = [
    there is additionally linked to one of Page 1's Offerings.
 
    THE THREE SUBSECTIONS WRITE INTO EACH OTHER, which is the whole
-   difficulty of this page. A resource marked "Provided" needs a
-   provider under 3; one marked "Needs Activity" or "Needs
-   Investigation" creates an activity under 2; an activity's
-   responsible founder collects its name under their own
+   difficulty of this page. A resource marked "Partners & Suppliers"
+   (or a space's "Rent") names a supplier under 3; one marked "Activity"
+   chooses an activity under 2 (or makes one with "Other…"); an
+   activity's responsible founder collects its name under their own
    Responsibilities in 1. Nothing here is a form that can be filled
    top to bottom and left alone.
 ================================================================== */
@@ -6338,26 +6389,30 @@ export const BUSINESS_WORKSPACE_KINDS = [
  * `action` is the follow-up the specification attaches to the
  * status -- the thing that makes this page a system rather than a
  * list. See the editor, which carries each one out.
+ *
+ * Rent and Buy are a space's or a vehicle's own words for what
+ * were Provided and Costs. "Needs Investigation" is kept for the people
+ * cards alone (BUSINESS_PEOPLE_STATUS_IDS).
  */
 export const BUSINESS_RESOURCE_STATUSES = [
     {
         id: "exists",
-        label: "Already Exists / Free",
+        label: "Exists / Free",
         explanation: "It is already available to the organization at no additional cost."
     },
     {
-        id: "provided",
-        label: "Provided",
-        explanation: "It is included in an existing package or arrangement."
+        id: "rent",
+        label: "Rent",
+        explanation: "It is rented through a supplier. Choose who."
     },
     {
-        id: "professional",
-        label: "External Professionals & Partners",
-        explanation: "It cannot or should not be performed by the founders."
+        id: "partners-suppliers",
+        label: "Partners & Suppliers",
+        explanation: "It is supplied by a partner or a supplier, or cannot or should not be performed by the founders. Choose who."
     },
     {
         id: "activity",
-        label: "Needs Activity",
+        label: "Activity",
         explanation: "It can be created, developed or established internally by the founders."
     },
     {
@@ -6366,54 +6421,130 @@ export const BUSINESS_RESOURCE_STATUSES = [
         explanation: "It is not yet known and requires research."
     },
     {
+        id: "buy",
+        label: "Buy",
+        explanation: "It is bought. Record its price."
+    },
+    {
         id: "costs",
         label: "Costs",
         explanation: "It must be purchased. Record its price and payment frequency."
     }
 ] as const;
 
+/** The statuses a RESOURCE CARD offers. (A space's are BUSINESS_WORKSPACE_STATUS_IDS; a people card adds one, BUSINESS_PEOPLE_STATUS_IDS.) */
+export const BUSINESS_RESOURCE_CARD_STATUS_IDS = ["exists", "partners-suppliers", "activity", "costs"] as const;
+
+/** A people card's (Admin Team, Delivery Team): the common ones, and Needs Investigation. */
+export const BUSINESS_PEOPLE_STATUS_IDS = ["exists", "partners-suppliers", "activity", "investigation", "costs"] as const;
+
+/** The groups whose cards are people. */
+export const BUSINESS_PEOPLE_GROUP_IDS = ["admin-team", "delivery-team"] as const;
+
 /**
- * The Workspace's own four.
- *
- * "Needs Activity" is not among them: a workspace is found or paid
- * for, not built by the founders on an afternoon. The specification
- * lists four for the Workspace and five for everything else, and
- * the difference is deliberate enough to keep.
+ * The groups whose cards are SPACES and VEHICLES (in both places): their statuses are Exists / Free, Rent, Activity and Buy. Rent names a supplier of one
+ * group (RENT_SUPPLIER_GROUP), whose card holds the rent or the lease; Buy shows the price: One-time for a space, Per unit for a vehicle.
  */
+export const BUSINESS_SPACE_GROUP_IDS = ["premises", "workshop-storage", "company-vehicles", "delivery-vehicles"] as const;
+
+/** The statuses of a space or a vehicle. */
+export const BUSINESS_SPACE_STATUS_IDS = ["exists", "rent", "activity", "buy"] as const;
+
+export const isSpaceGroup = (groupId: string) => (BUSINESS_SPACE_GROUP_IDS as readonly string[]).includes(groupId);
+
+/** The spaces (not the vehicles): bought One-time, with no Qty. */
+export const isSpaceOnlyGroup = (groupId: string) => groupId === "premises" || groupId === "workshop-storage";
+
+/** The one supplier group a Rent names, by place: Property, Vehicles & Facilities; Landlords, Leasing & Warehouses. */
+export const RENT_SUPPLIER_GROUP: Record<"infrastructure" | "offering", string> = {
+    infrastructure: "property-vehicles-facilities",
+    offering: "landlords-leasing-warehouses"
+};
+
+/** The statuses a card of this group offers (a group of "" is any). */
+export function resourceStatusIds(groupId: string): readonly string[] {
+    return isSpaceGroup(groupId)
+        ? BUSINESS_SPACE_STATUS_IDS
+        : (BUSINESS_PEOPLE_GROUP_IDS as readonly string[]).includes(groupId) ? BUSINESS_PEOPLE_STATUS_IDS : BUSINESS_RESOURCE_CARD_STATUS_IDS;
+}
+
+/**
+ * A card's status when it is filed in another group: a space or a vehicle's Rent and Buy are another card's Partners & Suppliers and Costs, and the other
+ * way round; a status the new group does not offer is cleared.
+ */
+export function statusInGroup(status: string, groupId: string): string {
+    const space = isSpaceGroup(groupId);
+    const mapped = space
+        ? (status === "partners-suppliers" ? "rent" : status === "costs" ? "buy" : status)
+        : (status === "rent" ? "partners-suppliers" : status === "buy" ? "costs" : status);
+    return status === "" || resourceStatusIds(groupId).includes(mapped) ? mapped : "";
+}
+
+/** Whether a status names a supplier: Partners & Suppliers, or a space's Rent. */
+export const usesSupplier = (status: string) => status === "partners-suppliers" || status === "rent";
+
+/**
+ * The price a Buy asks for: a space's is One-time, a vehicle's Per unit (with the unit "unit"); what is already there for it is kept.
+ */
+export function buyCostOf(groupId: string, cost: BusinessCostValue): BusinessCostValue {
+    if (isSpaceOnlyGroup(groupId)) {
+        return cost.frequency === "" ? { ...cost, frequency: "one-time" } : cost;
+    }
+    return cost.frequency === "" ? { ...cost, frequency: "per-unit", unit: cost.unit || "unit" } : cost;
+}
+
+/** Whether a resource's status says a partner or supplier supplies it. */
+export const isPartnered = (status: string) => status === "partners-suppliers";
+
+/** Whether a status says the card is paid for with a price: Costs, or a space's Buy. */
+export const isCostingStatus = (status: string) => status === "costs" || status === "buy";
+
+/** The Workspace's statuses: a space's (the Workspace form is the common card now). */
 export const BUSINESS_WORKSPACE_STATUS_IDS = [
-    "exists", "provided", "investigation", "costs"
+    "exists", "rent", "activity", "buy"
 ] as const;
 
 /**
- * How often a price is paid. Per unit and per project are costs of
- * ACTIVITY -- a materials kit per participant, a courier per parcel --
- * which Sustainability counts against each unit sold rather
- * than against the month.
+ * How often a price is paid (the card's driver). Per unit (with a unit
+ * name) and per project are costs of ACTIVITY -- a materials kit per
+ * participant, a courier per parcel -- which Sustainability counts
+ * against each unit sold rather than against the month; but a purchase
+ * of an asset is priced per unit too (see isPurchaseGroup).
  */
 export const BUSINESS_COST_FREQUENCIES = [
     { id: "one-time", label: "One-time" },
     { id: "monthly", label: "Monthly" },
+    { id: "quarterly", label: "Quarterly" },
     { id: "annually", label: "Annually" },
     { id: "per-unit", label: "Per unit" },
-    { id: "per-order", label: "Per order" },
     { id: "per-project", label: "Per project" },
-    { id: "other", label: "Other" }
+    { id: "percent-revenue", label: "% of revenue" }
 ] as const;
 
+interface BusinessResourceKind { id: string; label: string; help: string }
+
 /**
- * The four resource groups below Founders and Workspace, each with
- * the fixed subsections it opens with.
+ * The nine resource categories, each with the groups INFRASTRUCTURE
+ * has in it (a group's id is also the id of the subsection that holds
+ * its cards). The groups are fixed lists: no "Other" adds one.
  *
- * A subsection is a container for slots, not a slot itself: a
- * founder records three chairs and a desk under Furniture, not one
- * answer called "Furniture". Each group also takes named additions,
- * which is the specification's "Other -> Specify/Name".
+ * Founders & Owners, the first group of Human Resources, is the Founders
+ * tile and is not listed here; the Offering's groups are
+ * BUSINESS_OFFERING_RESOURCE_GROUPS.
  *
  * No letter or number: the page numbers them where it draws them,
  * inside the two groups it arranges them into (see the Capability
  * editor's RESOURCE_GROUPINGS), so the order is written once.
  */
 export const BUSINESS_RESOURCE_GROUPS = [
+    {
+        id: "workspace",
+        label: "Workspace",
+        notes: [],
+        kinds: [
+            { id: "premises", label: "Premises", help: "The space where the team works, owned, rented through a landlord or at home, e.g. Studio rent, Shared-space seat, Home-office allowance, Owned office." }
+        ] as BusinessResourceKind[]
+    },
     {
         id: "utilities",
         label: "Utilities",
@@ -6422,68 +6553,694 @@ export const BUSINESS_RESOURCE_GROUPS = [
             "Record the appropriate provider or activity, and any related costs separately."
         ],
         kinds: [
-            { id: "electricity", label: "Electricity", help: "" },
-            { id: "internet", label: "Internet", help: "" },
-            { id: "heating", label: "Heating / Gas", help: "" },
-            { id: "cooling", label: "Cooling / Air Conditioning", help: "" },
-            { id: "water", label: "Water", help: "" }
-        ]
+            { id: "premises-utilities", label: "Premises Utilities", help: "The services the daily operation consumes, e.g. Electricity, Gas heating, Broadband line, Mobile plan." }
+        ] as BusinessResourceKind[]
     },
     {
         id: "workstation",
         label: "Workstation",
         notes: [],
         kinds: [
-            { id: "furniture", label: "Furniture", help: "e.g. desks, chairs, shelving, cabinets, or storage." },
-            { id: "electrical", label: "Electrical", help: "e.g. power strips, sockets, chargers, or lighting." },
-            { id: "supporting", label: "Supporting", help: "e.g. stands, organizers, or ergonomic accessories." }
-        ]
+            { id: "furniture-fittings", label: "Furniture & Fittings", help: "The furniture and fittings of the work areas, e.g. Standing desk, Drawing table, Ergonomic chair, Filing cabinet." }
+        ] as BusinessResourceKind[]
     },
     {
         id: "equipment",
         label: "Equipment",
         notes: [],
         kinds: [
-            { id: "computing", label: "Computing", help: "e.g. desktops, laptops." },
-            { id: "peripherals", label: "Peripherals", help: "e.g. monitors, keyboards, mice, printers, or webcams." },
-            { id: "specialised", label: "Specialized", help: "e.g. cameras, scanners, drawing tablets, 3D printers." }
-        ]
+            { id: "devices-tools", label: "Devices & Tools", help: "The devices and tools the team uses for its own work, bought or leased, e.g. Laptop, Label printer, Mirrorless camera, Vehicle tracker, Protective goggles." }
+        ] as BusinessResourceKind[]
+    },
+    {
+        id: "vehicles",
+        label: "Vehicles",
+        notes: [],
+        kinds: [
+            { id: "company-vehicles", label: "Company Vehicles", help: "Cars and bikes the company owns or leases for general use, e.g. Sales car, Cargo bike, Minibus lease." },
+            { id: "vehicle-running-costs", label: "Vehicle Running Costs", help: "Fuel and the everyday running costs of company vehicles, e.g. Petrol, Electric charging, Car wash, Washer fluid." }
+        ] as BusinessResourceKind[]
     },
     {
         id: "digital",
         label: "Digital Infrastructure",
         notes: [],
         kinds: [
-            { id: "software", label: "Software", help: "e.g. design, accounting, communication, or management software." },
-            { id: "services", label: "Digital Services", help: "e.g. store, protect, back up, or manage the organization's digital information." },
-            { id: "presence", label: "Online Presence & Communication", help: "e.g. email, social media, and website services." }
-        ]
+            { id: "software-web", label: "Software & Web", help: "Software subscriptions and the public website, e.g. Bookkeeping software, Company website, Shared mailbox, Fleet tracking." },
+            { id: "cloud-security", label: "Cloud & Security", help: "Storage, back-up and protection of files and data, e.g. Cloud drive, Nightly back-up, Password vault, Antivirus." }
+        ] as BusinessResourceKind[]
+    },
+    {
+        id: "materials",
+        label: "Materials & Inventory",
+        notes: [],
+        kinds: [
+            { id: "business-consumables", label: "Business Consumables", help: "Everyday items the business uses up and replaces, e.g. Copy paper, Dish soap, Coffee beans." }
+        ] as BusinessResourceKind[]
+    },
+    {
+        id: "documents",
+        label: "Documents & Rights",
+        notes: [],
+        kinds: [
+            { id: "insurances", label: "Insurances", help: "Policies that cover the company's liability, premises and people, e.g. Public liability, Cyber, Key person, Directors and officers." },
+            { id: "licences", label: "Licences", help: "Paid permissions: the right to use another's work and permits from authorities, e.g. Stock photo licence, Typeface rights, Image library, Staff parking permit." },
+            { id: "certificates", label: "Certificates", help: "Certificates and inspections of the premises and the team, e.g. Gas safety certificate, Fire-risk assessment, First-aid award, Energy rating." },
+            { id: "tickets-trips", label: "Tickets & Trip Costs", help: "The fares and stops of trips that serve the whole company, e.g. Conference train fare, Hotel for a seminar, Airport taxi, Car park." }
+        ] as BusinessResourceKind[]
+    },
+    {
+        id: "hr",
+        label: "Human Resources",
+        notes: [],
+        kinds: [
+            { id: "admin-team", label: "Admin Team", help: "Staff and helpers who handle the company's administration, e.g. Operations manager, Bookkeeper, Receptionist, Intern." }
+        ] as BusinessResourceKind[]
     }
 ] as const;
 
-/** The four activity categories every organisation starts with. */
-export const BUSINESS_ACTIVITY_CATEGORIES = [
-    {
-        id: "operational",
-        label: "Operational",
-        note: "Activities required to establish and operate the organization."
-    },
-    {
-        id: "production",
-        label: "Production",
-        note: "Activities required to design, develop and deliver the offerings."
-    },
-    {
-        id: "marketing",
-        label: "Marketing",
-        note: "Activities required to promote the organization and its offerings."
-    },
-    {
-        id: "sales",
-        label: "Sales & Customer",
-        note: "Activities required to acquire customers and manage customer relationships."
-    }
+/** The same nine categories in the Offering's Capability, and the groups it has in each. */
+export const BUSINESS_OFFERING_RESOURCE_GROUPS: readonly { id: string; label: string; kinds: readonly BusinessResourceKind[] }[] = [
+    { id: "workspace", label: "Workspace", kinds: [
+        { id: "site-hire", label: "Site Hire", help: "The site rented for one event or job, e.g. Market pitch fee, Stand levy, Marquee frame, Rehearsal room slot." },
+        { id: "workshop-storage", label: "Workshop & Storage", help: "The permanent base where the product is made or stored, e.g. Warehouse bay, Container yard, Shared-kitchen membership, Chiller space." }
+    ] },
+    { id: "utilities", label: "Utilities", kinds: [
+        { id: "process-utilities", label: "Process Utilities", help: "The energy, water and waste services that production consumes, e.g. Firing power, Rinse water, Chemical disposal." }
+    ] },
+    { id: "workstation", label: "Workstation", kinds: [
+        { id: "fixtures-displays", label: "Fixtures & Displays", help: "Fixed installations in your premises for making or showing the product, e.g. Workbench, Pallet racking, Showcase shelves, Sign board." }
+    ] },
+    { id: "equipment", label: "Equipment", kinds: [
+        { id: "production-machinery", label: "Production Machinery", help: "Machines that turn raw materials into finished goods, e.g. Floor loom, Industrial oven, Laser cutter." },
+        { id: "devices-tools", label: "Devices & Tools", help: "The tools, instruments and gear used to make or deliver the offering, besides its machines, e.g. Card reader, Stall display kit, Tripod rig, Hard hat, Moisture meter." }
+    ] },
+    { id: "vehicles", label: "Vehicles", kinds: [
+        { id: "delivery-vehicles", label: "Delivery Vehicles", help: "Vans and trucks that carry or install the product, e.g. Transit van, Refrigerated truck, Short-term hire." },
+        { id: "delivery-running-costs", label: "Delivery Running Costs", help: "Fuel and the everyday running costs of delivery vehicles, e.g. Diesel, AdBlue, Van valet, Cab air freshener." }
+    ] },
+    { id: "digital", label: "Digital Infrastructure", kinds: [
+        { id: "sales-delivery-tools", label: "Sales & Delivery Tools", help: "Software that takes orders, bookings and payments, then delivers the result, e.g. Web shop, Booking app, Newsletter tool, File transfer." },
+        { id: "platforms-apis", label: "Platforms & APIs", help: "Online services your product calls, billed per use, e.g. AI text service, Maps lookup, Address check, Speech transcription." }
+    ] },
+    { id: "materials", label: "Materials & Inventory", kinds: [
+        { id: "materials-stock", label: "Materials & Stock", help: "The materials, parts, packaging and resale goods that each sale uses, e.g. Yarn, Brass fittings, Mailer boxes, Gift wrap, Sample swatches, Resale mugs." }
+    ] },
+    { id: "documents", label: "Documents & Rights", kinds: [
+        { id: "insurances", label: "Insurances", help: "Policies that cover products, jobs and events, e.g. Product recall, Carriage of goods, Event cancellation, Customer default." },
+        { id: "licences", label: "Licences", help: "Paid permissions for the offering: the right to use another's work and permits from authorities, e.g. Licensed artwork, Backing track, Patented method, Parking-bay suspension." },
+        { id: "royalties", label: "Royalties", help: "Payments that follow the sales or use of another's creation, e.g. Author royalty, Franchise percentage, Patent share, Master-rights split." },
+        { id: "certificates", label: "Certificates", help: "Certificates, inspections and the tests behind them, needed to sell or use an offering, e.g. CE-mark testing, Organic certification, Flame trial, Food-safety swab." },
+        { id: "tickets-trips", label: "Tickets & Trip Costs", help: "The fares, stops and tolls of trips that the work requires, e.g. Coach ticket, Ferry crossing, Toll bridge, Loading-bay fee." }
+    ] },
+    { id: "hr", label: "Human Resources", kinds: [
+        { id: "delivery-team", label: "Delivery Team", help: "The people who make the product or serve the customer, e.g. Weaver, Instructor, Installer, Barista." }
+    ] }
+];
+
+/**
+ * The groups whose cards are bought things (assets): a purchase there is
+ * priced Per unit, and the quantity multiplies the price. A space bought
+ * is One-time.
+ */
+export const BUSINESS_PURCHASE_GROUP_IDS = [
+    "furniture-fittings", "devices-tools", "fixtures-displays", "production-machinery", "company-vehicles", "delivery-vehicles"
 ] as const;
+
+export const isPurchaseGroup = (groupId: string) => (BUSINESS_PURCHASE_GROUP_IDS as readonly string[]).includes(groupId);
+
+/** The id of a category's group when it has exactly one (nothing is left to choose), else "". */
+export function soleGroupOf(groups: readonly { id: string }[] | undefined): string {
+    return groups !== undefined && groups.length === 1 ? groups[0].id : "";
+}
+
+/**
+ * THE PERIOD of an activity group (cost model section 13), as the days its dates must stay inside: Pre-Operational runs from Plan Start to the day before
+ * the Opening Date; Operational and Sales & Customer from the Opening Date; Production and Marketing from Plan Start. A bound that is not known (a date
+ * not given yet) is "" and holds nothing.
+ */
+export function activityPeriod(groupId: string, planStart: string, openingDate: string): { from: string; to: string } {
+    switch (groupId) {
+        case "pre-operational": {
+            const opening = isoToTime(openingDate);
+            return { from: planStart, to: opening === null ? "" : timeToIso(opening - PAYMENT_DAY) };
+        }
+        case "operational":
+        case "sales":
+            return { from: openingDate, to: "" };
+        case "production":
+        case "marketing":
+            return { from: planStart, to: "" };
+        default:
+            return { from: "", to: "" };
+    }
+}
+
+/** The last day of an activity: its End date, else its Start date (an activity with no end counts as one day). */
+export const activityLastDay = (activity: { startDate: string; endDate: string }) => activity.endDate || activity.startDate;
+
+/** What is wrong with an activity's dates against the period of its group: a start before it, an end after it, an end before its start. */
+export function activityDateIssues(activity: { startDate: string; endDate: string }, period: { from: string; to: string }): string[] {
+    const issues: string[] = [];
+    if (activity.startDate && period.from && activity.startDate < period.from) {
+        issues.push("The Start date is before the period begins.");
+    }
+    if (period.to && ((activity.startDate && activity.startDate > period.to) || (activityLastDay(activity) && activityLastDay(activity) > period.to))) {
+        issues.push("The dates run past the end of the period.");
+    }
+    if (activity.endDate && activity.startDate && activity.endDate < activity.startDate) {
+        issues.push("The End date is before the Start date.");
+    }
+    return issues;
+}
+
+/**
+ * A resource linked to an activity: the card, and the number of units of it the activity uses when the card has units (a Per unit price: 3 hours, 40 km).
+ */
+export interface BusinessActivityResource {
+    id: string;
+    units: string;
+}
+
+/** The linked resources whose Start date falls after the activity ends (its End date, else its Start date): a linked card cannot begin later. */
+export function resourcesStartingTooLate(activity: { startDate: string; endDate: string }, starts: Readonly<Record<string, string>>, linked: readonly BusinessActivityResource[]): string[] {
+    const last = activityLastDay(activity);
+    return last === "" ? [] : linked.filter(entry => entry.id !== "" && (starts[entry.id] ?? "") !== "" && starts[entry.id] > last).map(entry => entry.id);
+}
+
+/** The most units of a resource an activity (or a performer) can take: the Qty of the card (whole units); null where the card has no limit to give. */
+export function unitsCap(quantity: string): number | null {
+    const count = Math.floor(parseAmount(quantity) ?? 0);
+    return count >= 1 ? count : null;
+}
+
+/** Units typed for a resource or a performer, kept whole and never more than the card holds. */
+export function cappedUnits(typed: string, quantity: string): string {
+    const digits = typed.replace(/\D/g, "").slice(0, 6);
+    const cap = unitsCap(quantity);
+    return digits !== "" && cap !== null && Number(digits) > cap ? String(cap) : digits;
+}
+
+/**
+ * THE PAYMENT PLAN of a Per project price (cost model section 13): when the money leaves, not what the cost is. Not ticked, the price is paid in full on the
+ * card's Start date. Ticked, its type is one of three; every payment has a percent and a date, and the percents total 100% or the card is incomplete.
+ *
+ * - Deposit & Balance: a percent at the Start date and the rest on a second date (the End date unless another is given).
+ * - Instalments: a number of payments, dated evenly from the Start date to the End date and equal; the dates and amounts can be moved.
+ * - Milestones: a title, a percent and a date for each stage.
+ */
+export const BUSINESS_PAYMENT_PLANS = [
+    { id: "deposit-balance", label: "Deposit & Balance" },
+    { id: "instalments", label: "Instalments" },
+    { id: "milestones", label: "Milestones" }
+] as const;
+
+export interface BusinessPaymentLine {
+    id: string;
+    /** A stage's name (Milestones); "" for the others. */
+    title: string;
+    percent: string;
+    /** An ISO date; "" is the card's Start date for the first line of Deposit & Balance, its End date for the second. */
+    date: string;
+}
+
+export interface BusinessPaymentPlan {
+    on: boolean;
+    /** One of BUSINESS_PAYMENT_PLANS' ids, or "". */
+    type: string;
+    /** The number of Instalments, as typed. */
+    count: string;
+    lines: BusinessPaymentLine[];
+}
+
+export const emptyPaymentPlan = (): BusinessPaymentPlan => ({ on: false, type: "", count: "", lines: [] });
+
+function asPaymentPlan(value: unknown): BusinessPaymentPlan {
+    const plan = asObject(value);
+    const type = asText(plan.type);
+    return {
+        on: plan.on === true,
+        type: BUSINESS_PAYMENT_PLANS.some(entry => entry.id === type) ? type : "",
+        count: asText(plan.count).replace(/\D/g, "").slice(0, 2),
+        lines: (Array.isArray(plan.lines) ? plan.lines : []).slice(0, 60).map(entry => {
+            const line = asObject(entry);
+            return { id: asText(line.id) || randomId("payment"), title: asText(line.title), percent: businessDecimalText(asText(line.percent)), date: isoDateText(line.date) };
+        })
+    };
+}
+
+const PAYMENT_DAY = 24 * 60 * 60 * 1000;
+
+function isoToTime(iso: string): number | null {
+    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+    return match ? Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3])) : null;
+}
+
+function timeToIso(time: number): string {
+    return new Date(time).toISOString().slice(0, 10);
+}
+
+/** Equal shares of 100%, to two decimals, the last taking what rounding leaves: three are 33.33, 33.33 and 33.34. */
+export function equalPercents(count: number): string[] {
+    if (count < 1) {
+        return [];
+    }
+    const each = Math.floor(10000 / count) / 100;
+    const shares = Array.from({ length: count }, () => each);
+    shares[count - 1] = Math.round((100 - each * (count - 1)) * 100) / 100;
+    return shares.map(share => String(share));
+}
+
+/** INSTALMENTS: `count` equal payments, dated evenly from the Start date to the End date (the first on the Start date, the last on the End date). */
+export function instalmentLines(count: number, startDate: string, endDate: string): BusinessPaymentLine[] {
+    const first = isoToTime(startDate);
+    const last = isoToTime(endDate);
+    return equalPercents(count).map((percent, at) => ({
+        id: randomId("payment"),
+        title: "",
+        percent,
+        date: first === null ? "" : count === 1 || last === null || last < first ? startDate : timeToIso(first + Math.round((last - first) / PAYMENT_DAY * at / (count - 1)) * PAYMENT_DAY)
+    }));
+}
+
+/** The payments of a plan as they fall: the first of Deposit & Balance on the Start date, the second on its own date else the End date. */
+export function paymentPlanLines(plan: BusinessPaymentPlan, startDate: string, endDate: string): BusinessPaymentLine[] {
+    return plan.type === "deposit-balance"
+        ? plan.lines.slice(0, 2).map((line, at) => ({ ...line, date: at === 0 ? startDate : line.date || endDate }))
+        : plan.lines;
+}
+
+/** What the percents of a plan add up to. */
+export function paymentPlanTotal(plan: BusinessPaymentPlan): number {
+    return Math.round(plan.lines.reduce((sum, line) => sum + (parseAmount(line.percent) ?? 0), 0) * 100) / 100;
+}
+
+/**
+ * Whether the plan of a Per project price leaves the card incomplete: a plan ticked with no type, percents that do not total 100%, or a payment with no date
+ * (for Deposit & Balance, no Start date or no End date to fall back on). Nothing is wrong with a plan that is not ticked.
+ */
+export function paymentPlanIncomplete(cost: { frequency: string }, plan: BusinessPaymentPlan, startDate: string, endDate: string): boolean {
+    if (cost.frequency !== "per-project" || !plan.on) {
+        return false;
+    }
+    if (plan.type === "" || plan.lines.length === 0 || paymentPlanTotal(plan) !== 100) {
+        return true;
+    }
+    if (plan.type === "deposit-balance" && plan.lines.length !== 2) {
+        return true;
+    }
+    return paymentPlanLines(plan, startDate, endDate).some(line => line.date === "");
+}
+
+/**
+ * THE EXTRAS: optional lines that depend on one card (the card structure's "Extras", cost model section 8). Each is ticked on and typed; none is required.
+ * `kind` is what the figure is -- money (in the card's currency), a percent, or a quantity -- and `frequency` how often it is paid.
+ */
+export const BUSINESS_EXTRAS = {
+    "allowance": { label: "Allowance", kind: "money", frequency: "monthly" },
+    "commission": { label: "Commission", kind: "percent", frequency: "percent-revenue" },
+    "bonus": { label: "Bonus", kind: "money", frequency: "annually" },
+    "property-tax": { label: "Commercial property tax", kind: "money", frequency: "annually" },
+    "service-charge": { label: "Service charge", kind: "money", frequency: "monthly" },
+    "deposit": { label: "Deposit", kind: "money", frequency: "one-time" },
+    "handling-pallet": { label: "Handling per pallet", kind: "money", frequency: "per-unit" },
+    "road-tax": { label: "Road tax", kind: "money", frequency: "annually" },
+    "minimum-order": { label: "Minimum order", kind: "quantity", frequency: "per-unit" },
+    "customs-duty": { label: "Customs duty", kind: "percent", frequency: "percent-cost" },
+    "clearance-handling": { label: "Clearance and handling", kind: "money", frequency: "per-project" },
+    "other-duties": { label: "Other duties", kind: "percent", frequency: "percent-cost" }
+} as const;
+
+export type BusinessExtraKey = keyof typeof BUSINESS_EXTRAS;
+
+/** The extras kept on a card: a figure for each one ticked (an extra with nothing typed is not ticked). */
+export type BusinessExtrasValue = Partial<Record<BusinessExtraKey, string>>;
+
+/** The people's groups, and the founders (the Founders tile): Allowance, Commission and Bonus. */
+export const PEOPLE_EXTRA_KEYS: readonly BusinessExtraKey[] = ["allowance", "commission", "bonus"];
+
+/** The extras a RESOURCE card offers: a bought space has its tax and charge, a bought vehicle its road tax, a person Allowance, Commission and Bonus. */
+export function slotExtraKeys(groupId: string, status: string): readonly BusinessExtraKey[] {
+    if ((BUSINESS_PEOPLE_GROUP_IDS as readonly string[]).includes(groupId)) {
+        return PEOPLE_EXTRA_KEYS;
+    }
+    if (isSpaceOnlyGroup(groupId)) {
+        return isCostingStatus(status) ? ["property-tax", "service-charge"] : [];
+    }
+    if (groupId === "company-vehicles" || groupId === "delivery-vehicles") {
+        return isCostingStatus(status) ? ["road-tax"] : [];
+    }
+    return [];
+}
+
+/** What a landlord or leasing supplier's card is connected to: the rented spaces and vehicles that name it. */
+export interface SupplierConnections {
+    space: boolean;
+    workshop: boolean;
+    vehicle: boolean;
+}
+
+export function supplierConnections(capability: BusinessCapabilityValue, partnerId: string): SupplierConnections {
+    const rented = [
+        ...Object.entries(capability.resources).flatMap(([, subsections]) => subsections.map(subsection => ({ groupId: subsection.id, slots: subsection.slots }))),
+        ...BUSINESS_OFFERING_RESOURCE_GROUPS.flatMap(category => category.kinds.map(kind => ({
+            groupId: kind.id,
+            slots: capability.offering.resources.filter(slot => slot.category === category.id && slot.group === kind.id)
+        })))
+    ].flatMap(entry => entry.slots.filter(slot => slot.status === "rent" && slot.providerId === partnerId).map(() => entry.groupId));
+    return {
+        space: rented.some(groupId => isSpaceOnlyGroup(groupId)),
+        workshop: rented.includes("workshop-storage"),
+        vehicle: rented.some(groupId => groupId === "company-vehicles" || groupId === "delivery-vehicles")
+    };
+}
+
+/** The extras a PARTNER or SUPPLIER card offers: a producer's duties and minimum, a landlord's by what is connected to it. */
+export function partnerExtraKeys(group: string, connections: SupplierConnections): readonly BusinessExtraKey[] {
+    if (group === "producers-wholesalers") {
+        return ["minimum-order", "customs-duty", "clearance-handling", "other-duties"];
+    }
+    if (group === "property-vehicles-facilities" || group === "landlords-leasing-warehouses") {
+        return [
+            ...(connections.space ? ["deposit", "service-charge", "property-tax"] as const : []),
+            ...(connections.workshop && group === "landlords-leasing-warehouses" ? ["handling-pallet"] as const : []),
+            ...(connections.vehicle ? ["road-tax"] as const : [])
+        ];
+    }
+    return [];
+}
+
+/**
+ * THE SERVICES BUNDLED INTO AN ASSET (rule C2): a Technical Support supplier whose card is named by a Partners & Suppliers status row of an asset card
+ * (a bought physical asset: the status Costs or Buy, in a purchase group) builds or installs that asset, so its price is added to the asset's value.
+ * The link is the only data. Returns the asset's id by the supplier's id (the first asset that names it).
+ */
+export function serviceAssetLinks(capability: BusinessCapabilityValue): Record<string, string> {
+    const technical = new Set([...capability.providers, ...capability.offering.providers].filter(partner => partner.group === "technical-support").map(partner => partner.id));
+    const links: Record<string, string> = {};
+    const assets = [
+        ...Object.values(capability.resources).flatMap(subsections => subsections.flatMap(subsection => subsection.slots.map(slot => ({ slot, groupId: subsection.id })))),
+        ...capability.offering.resources.map(slot => ({ slot, groupId: slot.group }))
+    ];
+    assets.forEach(({ slot, groupId }) => {
+        if (!isCostingStatus(slot.status) || !isPurchaseGroup(groupId)) {
+            return;
+        }
+        const named = (slot.extraStatuses ?? []).filter(row => row.status === "partners-suppliers").map(row => row.providerId);
+        named.filter(id => id !== "" && technical.has(id) && !(id in links)).forEach(id => { links[id] = slot.id; });
+    });
+    return links;
+}
+
+/** The Technical Support suppliers bundled into one asset. */
+export const servicesOfAsset = (capability: BusinessCapabilityValue, assetId: string): BusinessPartnerValue[] => {
+    const links = serviceAssetLinks(capability);
+    return [...capability.providers, ...capability.offering.providers].filter(partner => links[partner.id] === assetId);
+};
+
+/**
+ * THE GENERATED INSURANCES CARD (rule G1): a premises, company vehicle, delivery vehicle, workshop, machine or event (Site Hire) card that is created gets
+ * an Insurances card in Documents & Rights of its place, linked to it. Its End date is the renewal date, the insurer is added with the + status and the
+ * cover limit and grade go in the Description. Made once, when the card first has a name; removing the Insurances card does not make it again.
+ */
+const INSURED_INFRASTRUCTURE_GROUPS = ["premises", "company-vehicles"];
+const INSURED_OFFERING_GROUPS = ["site-hire", "workshop-storage", "production-machinery", "delivery-vehicles"];
+
+export function withNewInsurances(previous: BusinessCapabilityValue, next: BusinessCapabilityValue): BusinessCapabilityValue {
+    const named = (slot: BusinessResourceSlotValue) => slot.name.trim() !== "";
+    const before = new Map([
+        ...Object.values(previous.resources).flatMap(subsections => subsections.flatMap(subsection => subsection.slots)),
+        ...previous.offering.resources
+    ].map(slot => [slot.id, slot] as const));
+    const fresh = (slot: BusinessResourceSlotValue) => slot.insuranceId === "" && slot.insuresId === "" && named(slot) && !(before.get(slot.id) && named(before.get(slot.id) as BusinessResourceSlotValue));
+    const made: BusinessResourceSlotValue[] = [];
+    const insurance = (slot: BusinessResourceSlotValue, offering: boolean): BusinessResourceSlotValue => {
+        const card: BusinessResourceSlotValue = {
+            ...createBusinessResourceSlot(),
+            name: "Insurance for " + slot.name.trim(),
+            status: "costs",
+            insuresId: slot.id,
+            cost: { ...createBusinessCost(), frequency: slot.group === "site-hire" ? "per-project" : "annually" },
+            ...(offering ? { category: "documents", group: "insurances", offeringIds: [...slot.offeringIds], offeringShares: { ...slot.offeringShares } } : {})
+        };
+        made.push(card);
+        return card;
+    };
+    let changed = false;
+    const link = (slot: BusinessResourceSlotValue, offering: boolean, groupId: string): BusinessResourceSlotValue => {
+        if (!(offering ? INSURED_OFFERING_GROUPS : INSURED_INFRASTRUCTURE_GROUPS).includes(groupId) || !fresh(slot)) {
+            return slot;
+        }
+        changed = true;
+        return { ...slot, insuranceId: insurance(slot, offering).id };
+    };
+    const resources = Object.fromEntries(Object.entries(next.resources).map(([category, subsections]) =>
+        [category, subsections.map(subsection => ({ ...subsection, slots: subsection.slots.map(slot => link(slot, false, subsection.id)) }))]
+    )) as BusinessCapabilityValue["resources"];
+    const offeringResources = next.offering.resources.map(slot => link(slot, true, slot.group));
+    if (!changed) {
+        return next;
+    }
+    const infrastructureCards = made.filter(card => card.category === "");
+    const documents = resources.documents ?? [];
+    const withDocuments = infrastructureCards.length === 0
+        ? resources
+        : {
+            ...resources,
+            documents: documents.some(subsection => subsection.id === "insurances")
+                ? documents.map(subsection => subsection.id === "insurances" ? { ...subsection, slots: [...subsection.slots, ...infrastructureCards] } : subsection)
+                : [...documents, { id: "insurances", name: "", slots: infrastructureCards }]
+        };
+    return {
+        ...next,
+        resources: withDocuments,
+        offering: { ...next.offering, resources: [...offeringResources, ...made.filter(card => card.category !== "")] }
+    };
+}
+
+/**
+ * WHAT MAY BE WRITTEN IN A CARD'S DESCRIPTION, by group (the card structure): the cover limit and grade of an insurance, the outcome of a certificate, the
+ * organisation and terms of a partner, the contact and lead time of a supplier. "" for a group with no hint of its own.
+ */
+export function noteHint(groupId: string): string {
+    switch (groupId) {
+        case "insurances":
+            return "The cover limit, the grade (mandatory, recommended, optional) and any other detail may be written here. The insurer is added with +, as a Business Services supplier.";
+        case "certificates":
+            return "The outcome (certificate, test report, permit) and any other detail may be written here. The issuing body or inspector is added with +, as a supplier.";
+        case "alliances-networks":
+        case "revenue-partners":
+        case "accreditation-bodies":
+            return "The organisation, the contact and the terms of the agreement may be written here.";
+        case "goods-equipment":
+        case "business-services":
+        case "creative-it-services":
+        case "property-vehicles-facilities":
+        case "technical-support":
+        case "producers-wholesalers":
+        case "logistics-fulfilment":
+        case "contractors-advisers":
+        case "agencies-influencers":
+        case "venues-organisers":
+        case "landlords-leasing-warehouses":
+        case "platforms-payments":
+            return "The supplier, the contact, the terms and the lead time may be written here.";
+        default:
+            return "";
+    }
+}
+
+/** A supplier connected to a rented vehicle shows a Qty before its price (how many vehicles the lease covers). */
+export const supplierHasQuantity = (connections: SupplierConnections) => connections.vehicle;
+
+/** Extras as saved: the known ones that hold a figure, the figure cleaned to its kind. */
+function asBusinessExtras(value: unknown): BusinessExtrasValue {
+    const source = asObject(value);
+    const kept: BusinessExtrasValue = {};
+    for (const key of Object.keys(BUSINESS_EXTRAS) as BusinessExtraKey[]) {
+        const text = key in source ? (BUSINESS_EXTRAS[key].kind === "quantity" ? asText(source[key]).replace(/\D/g, "") : businessDecimalText(asText(source[key]))) : "";
+        if (text.length > 0) {
+            kept[key] = text;
+        }
+    }
+    return kept;
+}
+
+/**
+ * The frequencies each group offers (the card structure's "Frequencies offered"), by "place:group". A group not listed offers all seven. A group with ONE
+ * frequency has nothing to choose: it is shown as text -- and a One-time one is not shown at all.
+ */
+const GROUP_FREQUENCIES: Record<string, readonly string[]> = {
+    "infrastructure:premises": ["one-time"],
+    "infrastructure:premises-utilities": ["monthly"],
+    "infrastructure:furniture-fittings": ["per-unit"],
+    "infrastructure:devices-tools": ["per-unit", "monthly"],
+    "infrastructure:company-vehicles": ["per-unit"],
+    "infrastructure:vehicle-running-costs": ["per-unit", "monthly"],
+    "infrastructure:software-web": ["per-unit", "monthly", "annually"],
+    "infrastructure:cloud-security": ["monthly"],
+    "infrastructure:business-consumables": ["monthly", "per-unit"],
+    "infrastructure:insurances": ["annually", "monthly"],
+    "infrastructure:licences": ["one-time", "annually", "per-unit"],
+    "infrastructure:certificates": ["one-time", "annually"],
+    "infrastructure:tickets-trips": ["per-unit", "per-project"],
+    "infrastructure:admin-team": ["monthly"],
+    "infrastructure:alliances-networks": ["annually"],
+    "infrastructure:goods-equipment": ["per-unit"],
+    "infrastructure:business-services": ["monthly", "annually", "per-project"],
+    "infrastructure:creative-it-services": ["per-project", "monthly"],
+    "infrastructure:property-vehicles-facilities": ["monthly"],
+    "infrastructure:technical-support": ["per-project", "per-unit", "annually"],
+    "offering:site-hire": ["per-project"],
+    "offering:workshop-storage": ["one-time"],
+    "offering:process-utilities": ["per-unit"],
+    "offering:fixtures-displays": ["per-unit"],
+    "offering:production-machinery": ["per-unit"],
+    "offering:devices-tools": ["per-unit", "annually"],
+    "offering:delivery-vehicles": ["per-unit"],
+    "offering:delivery-running-costs": ["per-unit"],
+    "offering:sales-delivery-tools": ["monthly", "annually"],
+    "offering:platforms-apis": ["per-unit"],
+    "offering:materials-stock": ["per-unit"],
+    "offering:insurances": ["annually", "per-project"],
+    "offering:licences": ["one-time", "annually", "per-unit"],
+    "offering:royalties": ["percent-revenue", "monthly", "annually", "one-time"],
+    "offering:certificates": ["per-project", "annually"],
+    "offering:tickets-trips": ["per-unit", "per-project"],
+    "offering:delivery-team": ["monthly", "per-unit"],
+    "offering:revenue-partners": ["percent-revenue", "per-project"],
+    "offering:accreditation-bodies": ["annually"],
+    "offering:producers-wholesalers": ["per-unit"],
+    "offering:logistics-fulfilment": ["per-unit", "monthly"],
+    "offering:contractors-advisers": ["per-project", "per-unit"],
+    "offering:agencies-influencers": ["per-project", "monthly"],
+    "offering:venues-organisers": ["per-project"],
+    "offering:landlords-leasing-warehouses": ["monthly"],
+    "offering:platforms-payments": ["percent-revenue", "per-unit", "monthly"]
+};
+
+/** The frequencies a group offers, in the order of the seven; all seven for a group the list does not know. */
+export function frequencyIdsOf(place: "infrastructure" | "offering", groupId: string): readonly string[] {
+    const offered = GROUP_FREQUENCIES[place + ":" + groupId];
+    return offered === undefined ? BUSINESS_COST_FREQUENCIES.map(entry => entry.id) : BUSINESS_COST_FREQUENCIES.map(entry => entry.id).filter(id => offered.includes(id));
+}
+
+/**
+ * The units a Per unit price can be for, by group (the card structure's "Unit"); "unit" is always one. A group with one unit besides "unit" has nothing to
+ * choose: the unit is text. A group not listed has "unit" alone.
+ */
+const GROUP_UNITS: Record<string, readonly string[]> = {
+    "infrastructure:furniture-fittings": ["item", "set"],
+    "infrastructure:devices-tools": ["item", "set"],
+    "infrastructure:company-vehicles": ["vehicle"],
+    "infrastructure:vehicle-running-costs": ["km", "litre", "kWh", "bill"],
+    "infrastructure:software-web": ["seat", "licence", "user"],
+    "infrastructure:business-consumables": ["box", "kg", "litre", "bill"],
+    "infrastructure:licences": ["seat", "licence", "user"],
+    "infrastructure:tickets-trips": ["trip", "ticket", "night", "person"],
+    "infrastructure:goods-equipment": ["order", "bill"],
+    "infrastructure:technical-support": ["hour", "visit"],
+    "offering:process-utilities": ["kWh", "litre", "m³", "bill"],
+    "offering:fixtures-displays": ["item", "set"],
+    "offering:production-machinery": ["machine", "item"],
+    "offering:devices-tools": ["item", "set"],
+    "offering:delivery-vehicles": ["vehicle"],
+    "offering:delivery-running-costs": ["km", "litre", "delivery", "bill"],
+    "offering:platforms-apis": ["call", "token", "request"],
+    "offering:materials-stock": ["kg", "metre", "litre", "piece", "box"],
+    "offering:licences": ["seat", "licence", "user"],
+    "offering:tickets-trips": ["trip", "ticket", "night", "person"],
+    "offering:delivery-team": ["hour"],
+    "offering:producers-wholesalers": ["kg", "metre", "piece", "order"],
+    "offering:logistics-fulfilment": ["parcel", "pallet", "order"],
+    "offering:contractors-advisers": ["hour", "day"],
+    "offering:platforms-payments": ["order", "transaction"]
+};
+
+/** The units of a group, "unit" last (always there). */
+export function unitsOf(place: "infrastructure" | "offering", groupId: string): readonly string[] {
+    return [...(GROUP_UNITS[place + ":" + groupId] ?? []), "unit"];
+}
+
+/** The one unit a group has besides "unit", when it has exactly one (then the unit is text), else "". */
+export function soleUnitOf(place: "infrastructure" | "offering", groupId: string): string {
+    const specific = unitsOf(place, groupId).filter(unit => unit !== "unit");
+    return specific.length === 1 ? specific[0] : "";
+}
+
+/**
+ * A price with what its group fixes filled in: the one frequency a group offers (when a price is typed and none is set), and for a Per unit price the unit -- the
+ * group's only one, else "unit". What is already there is kept.
+ */
+export function normalCostOf(cost: BusinessCostValue, place: "infrastructure" | "offering", groupId: string): BusinessCostValue {
+    const offered = frequencyIdsOf(place, groupId);
+    // (Only a card with a price: an empty one is left as it is, so that a blank card is still blank.)
+    const frequency = cost.frequency === "" && offered.length === 1 && cost.price.trim() !== "" ? offered[0] : cost.frequency;
+    const unit = frequency === "per-unit" && cost.unit === "" ? soleUnitOf(place, groupId) || "unit" : cost.unit;
+    return frequency === cost.frequency && unit === cost.unit ? cost : { ...cost, frequency, unit };
+}
+
+/** The Offering's groups of one category. */
+export function offeringGroupsOf(categoryId: string): readonly BusinessResourceKind[] {
+    return BUSINESS_OFFERING_RESOURCE_GROUPS.find(category => category.id === categoryId)?.kinds ?? [];
+}
+
+/**
+ * The activity groups of a place, with the period each one's dates stay
+ * inside. Infrastructure's Pre-Operational activities also have a type
+ * (BUSINESS_PREOPERATIONAL_TYPES), which is not shown as a category.
+ */
+export const BUSINESS_ACTIVITY_GROUPS = {
+    infrastructure: [
+        {
+            id: "pre-operational",
+            label: "Pre-Operational",
+            period: "plan-start-to-opening",
+            note: "Anything that runs before opening: machinery and its installation, legal and accounting, testing and training, a launch event."
+        },
+        {
+            id: "operational",
+            label: "Operational",
+            period: "from-opening",
+            note: "Activities required to operate the organization day to day."
+        }
+    ],
+    offering: [
+        {
+            id: "production",
+            label: "Production",
+            period: "from-plan-start",
+            note: "Activities required to design, develop and deliver the offerings."
+        },
+        {
+            id: "marketing",
+            label: "Marketing",
+            period: "from-plan-start",
+            note: "Activities required to promote the organization and its offerings."
+        },
+        {
+            id: "sales",
+            label: "Sales & Customer",
+            period: "from-opening",
+            note: "Activities required to acquire customers and manage customer relationships."
+        }
+    ]
+} as const;
+
+/** What a Pre-Operational activity is: the type it carries (not shown as a category). */
+export const BUSINESS_PREOPERATIONAL_TYPES = [
+    { id: "capex", label: "Capital Expenditure" },
+    { id: "startup", label: "Start-up Expenses" }
+] as const;
+
+/** Every activity group of both places, for the lookups that do not care which place. */
+export const BUSINESS_ACTIVITY_CATEGORIES = [
+    ...BUSINESS_ACTIVITY_GROUPS.infrastructure,
+    ...BUSINESS_ACTIVITY_GROUPS.offering
+];
+
+/** The activity groups of a place (the ones a card there can be filed under). */
+export const activityGroupsOf = (scope: "infrastructure" | "offering") => BUSINESS_ACTIVITY_GROUPS[scope];
 
 /**
  * Where an activity created from a resource's status is filed.
@@ -6496,23 +7253,32 @@ export const BUSINESS_ACTIVITY_CATEGORIES = [
 export const BUSINESS_DERIVED_ACTIVITY_CATEGORY = "operational";
 
 /**
- * The three professionals the specification seeds A. External
- * Professionals & Partners with -- "a default list with 3 inputs,
- * that they can edited, or removed".
+ * The category an activity made by a resource's status is filed under, by the section the resource is in: work to establish and operate the
+ * organization (Infrastructure) is Operational, work to design, develop and deliver an offering (Offering's Capability) is Production. The one place
+ * to change that default.
  */
-const BUSINESS_DEFAULT_PROFESSIONALS = [
-    "Accountant",
-    "Lawyer",
-    "Insurance Professional"
-] as const;
+export const DERIVED_ACTIVITY_CATEGORY: Record<"infrastructure" | "offering", string> = {
+    infrastructure: BUSINESS_DERIVED_ACTIVITY_CATEGORY,
+    offering: "production"
+};
+
+/** The category of a NEW Activity or Partner / Provider card: none yet -- the cell reads "Select", the card is incomplete till one is chosen. */
+export const UNASSIGNED_CATEGORY = "unassigned";
+
+/** An activity category's name: a built-in's label, else the name the user typed ("" while he has not typed it yet). */
+export function activityCategoryLabel(categories: readonly { id: string; name: string }[], id: string): string {
+    return BUSINESS_ACTIVITY_CATEGORIES.find(entry => entry.id === id)?.label ?? categories.find(entry => entry.id === id)?.name.trim() ?? "";
+}
 
 /** A price and how often it is paid. */
 export interface BusinessCostValue {
     price: string;
     /** One of BUSINESS_COST_FREQUENCIES' ids, or "". */
     frequency: string;
-    /** Named when the frequency is "other". */
+    /** Named when the frequency is "other" (no longer offered: an older answer's is moved to the card's description). */
     frequencyOther: string;
+    /** What a Per unit price is for ("unit", "order", "hour", "kg"...), or "" for none. */
+    unit: string;
     /**
      * An ISO currency code, or "" for the organisation's own -- the
      * currency of the country it is registered in on the Identity
@@ -6548,10 +7314,12 @@ export function businessDecimalText(text: string): string {
  * number at all, which count as 1 rather than as nothing.
  *
  * A per-unit or per-project price is never multiplied: its quantity
- * is not how many were bought.
+ * is not how many were bought -- unless it is a PURCHASE (an asset
+ * group's card priced Per unit, see isPurchaseGroup): 3 laptops at
+ * 1,000 are 3,000.
  */
-export function resourceUnitCount(quantity: string, frequency: string): number | null {
-    if (frequency === "per-unit" || frequency === "per-order" || frequency === "per-project") {
+export function resourceUnitCount(quantity: string, frequency: string, purchase = false): number | null {
+    if ((frequency === "per-unit" && !purchase) || frequency === "per-order" || frequency === "per-project" || frequency === "percent-revenue") {
         return null;
     }
     const text = quantity.trim();
@@ -6560,6 +7328,20 @@ export function resourceUnitCount(quantity: string, frequency: string): number |
     }
     const count = Number(text);
     return count > 0 && count !== 1 ? count : null;
+}
+
+/** The units a Qty may count with decimals; any other unit takes whole numbers. */
+export const BUSINESS_DECIMAL_UNITS = ["hour", "metre", "litre", "kWh"] as const;
+
+/**
+ * What a Qty box keeps of what was typed: whole digits, or digits and
+ * one "." where the unit is an hour, a metre, a litre or kWh.
+ */
+export function businessQuantityText(text: string, unit = ""): string {
+    const named = unit.trim().toLowerCase();
+    return BUSINESS_DECIMAL_UNITS.some(entry => entry.toLowerCase() === named)
+        ? businessDecimalText(text)
+        : text.replace(/\D/g, "");
 }
 
 /**
@@ -6638,6 +7420,10 @@ export interface BusinessFounderValue {
     deliveryHours: string;
     /** Or the percent of working hours spent delivering (see founderDeliveryHours). */
     deliveryShare: string;
+    /** The day the founder starts (an ISO date): a founder has a start date only. */
+    startDate: string;
+    /** The founder's optional Allowance, Commission and Bonus. */
+    extras: BusinessExtrasValue;
     /**
      * The founder's Frequency: whether the salary and the hours above
      * are a week's, a month's or a year's; "" is a month. Every
@@ -6649,10 +7435,9 @@ export interface BusinessFounderValue {
 /**
  * One recorded resource.
  *
- * `providerId` and the activity a status creates are the two ends
- * of this page's cross-references: the first points into
- * 3. Partnerships & Providers, and the second is found by looking
- * for the activity whose `sourceId` is this slot's id.
+ * `providerId` and `activityId` are the two ends of this page's
+ * cross-references: the first points into 3. Partners & Suppliers (at Partners
+ * & Suppliers or Rent), the second at an activity of 2. Activities (at Activity).
  */
 export interface BusinessResourceSlotValue {
     id: string;
@@ -6673,7 +7458,59 @@ export interface BusinessResourceSlotValue {
      * in two collections).
      */
     offeringIds: string[];
+    /** A Workspace card (the Workspace category): its type (BUSINESS_WORKSPACE_KINDS' id), the name of an "Other" one, and its optional deposit. */
+    workspaceKind: string;
+    workspaceKindOther: string;
+    deposit: string;
+    /**
+     * An OFFERING card's category and group (BUSINESS_OFFERING_RESOURCE_GROUPS' ids); "" while it is in "No category" / "No group". An Infrastructure
+     * card has neither: the subsection that holds it is its group.
+     */
+    category: string;
+    group: string;
+    /** The day the resource starts (an ISO date, "YYYY-MM-DD"); "" while it is not given. Asked on every card. */
+    startDate: string;
+    /** The day it ends (an ISO date); optional. */
+    endDate: string;
+    /** The activity chosen at the status Activity (an id of an activity of its place), "" for none. */
+    activityId: string;
+    /** Years the asset stays useful to the business (it feeds the depreciation line); "" for the group's default. Asked of an asset bought. */
+    usefulLife: string;
+    /** The equipment has a warranty (information only), and the day it lasts until (an ISO date). */
+    warranty: boolean;
+    warrantyUntil: string;
+    /** A contract's own rate (a percent) in place of the default one: royalties. Optional. */
+    rateOverride: string;
+    /** The optional extras of the card (slotExtraKeys). */
+    extras: BusinessExtrasValue;
+    /** The payment plan of a Per project price. */
+    paymentPlan: BusinessPaymentPlan;
+    /** When the description was first written (the note's automatic record date and time). */
+    noteRecorded: string;
+    /** The share of the card each linked Offering carries, by Offering id, when several are linked (they total 100%). */
+    offeringShares: Record<string, string>;
+    /**
+     * The statuses added beside the first with the "+": a further supplier of the same resource (the installer, the insurer...), or a further activity.
+     * Each is a row of its own.
+     */
+    extraStatuses: BusinessStatusRow[];
+    /** The Insurances card generated for this card when it was made ("" until then; kept when that card is removed, so it is not made again). */
+    insuranceId: string;
+    /** On a generated Insurances card: the card it insures ("" for any other). */
+    insuresId: string;
 }
+
+/** A status row added with the "+" of a card's Status: its own status and the supplier or activity it names. */
+export interface BusinessStatusRow {
+    id: string;
+    /** One of BUSINESS_EXTRA_STATUS_IDS, or "". */
+    status: string;
+    providerId: string;
+    activityId: string;
+}
+
+/** The statuses a row added with the "+" can have. */
+export const BUSINESS_EXTRA_STATUS_IDS = ["partners-suppliers", "activity"] as const;
 
 /**
  * One subsection of a resource group: a fixed kind, or a named
@@ -6693,6 +7530,12 @@ interface BusinessResourceSubsectionValue {
 
 export interface BusinessActivityValue {
     id: string;
+    /**
+     * Its category: "operational", "production", "marketing", "sales" or one the user made (BusinessCapabilityValue.activityCategories). An
+     * Infrastructure activity is filed in the category it stands in (that is its truth); an Offering's carries it here. A saved Offering activity without
+     * one is read as Production (Operational when a resource of Infrastructure made it).
+     */
+    category: string;
     name: string;
     description: string;
     /**
@@ -6707,6 +7550,12 @@ export interface BusinessActivityValue {
      * for when it stops applying.
      */
     responsibleId: string;
+    /**
+     * The Responsible tick, unticked: no responsible by choice (the field
+     * is removed for this card, responsibleId is cleared). Absent means
+     * ticked, the default. See responsibleIsOff.
+     */
+    responsibleOff?: boolean;
     completed: boolean;
     /**
      * The Page 1 Offerings it serves -- Offering's Capability only. One
@@ -6714,12 +7563,20 @@ export interface BusinessActivityValue {
      * in two collections).
      */
     offeringIds: string[];
-    /**
-     * The resource slot whose status created this activity, if one
-     * did. Kept so the status cannot create a second one, and so
-     * the slot can say where its activity went.
-     */
-    sourceId: string;
+    /** A Pre-Operational activity's type (BUSINESS_PREOPERATIONAL_TYPES' id), "" for any other. */
+    type: string;
+    /** The day it starts (an ISO date); asked on every card. */
+    startDate: string;
+    /** The day it ends (an ISO date); optional. */
+    endDate: string;
+    /** When the description was first written (the note's automatic record date and time). */
+    noteRecorded: string;
+    /** The share of the card each linked Offering carries, by Offering id, when several are linked (they total 100%). */
+    offeringShares: Record<string, string>;
+    /** The resources the activity uses (the Resources tick), each with the units of it the activity takes when it has units. */
+    resources: BusinessActivityResource[];
+    /** How many people each performer is, by performer id ("" is one). */
+    performerPeople: Record<string, string>;
 }
 
 interface BusinessActivityCategoryValue {
@@ -6729,12 +7586,99 @@ interface BusinessActivityCategoryValue {
     activities: BusinessActivityValue[];
 }
 
-export interface BusinessPartnerValue {
+/**
+ * A CATEGORY the user keeps (Partners & Providers': "Legal", "Couriers" ...): an id and the name he typed under "Other". The built-in categories
+ * (Partners, Providers) are not stored here.
+ */
+export interface BusinessCategoryValue {
     id: string;
     name: string;
+}
+
+/** The two types of card in Partners & Suppliers; each type's groups (BUSINESS_PARTNER_GROUPS) play the part of categories. */
+export const PARTNER_CATEGORIES = [
+    { id: "partners", label: "Partners" },
+    { id: "suppliers", label: "Suppliers" }
+] as const;
+
+/** The groups of each type, by place: fixed lists (21 groups in Infrastructure with the resources', 26 in the Offering with theirs). */
+export const BUSINESS_PARTNER_GROUPS: Record<"infrastructure" | "offering", Record<"partners" | "suppliers", readonly { id: string; label: string }[]>> = {
+    infrastructure: {
+        partners: [
+            { id: "alliances-networks", label: "Alliances & Networks" }
+        ],
+        suppliers: [
+            { id: "goods-equipment", label: "Goods & Equipment" },
+            { id: "business-services", label: "Business Services" },
+            { id: "creative-it-services", label: "Creative & IT Services" },
+            { id: "property-vehicles-facilities", label: "Property, Vehicles & Facilities" },
+            { id: "technical-support", label: "Technical Support" }
+        ]
+    },
+    offering: {
+        partners: [
+            { id: "revenue-partners", label: "Revenue Partners" },
+            { id: "accreditation-bodies", label: "Accreditation Bodies" }
+        ],
+        suppliers: [
+            { id: "producers-wholesalers", label: "Producers & Wholesalers" },
+            { id: "logistics-fulfilment", label: "Logistics & Fulfilment" },
+            { id: "contractors-advisers", label: "Contractors & Advisers" },
+            { id: "agencies-influencers", label: "Agencies & Influencers" },
+            { id: "venues-organisers", label: "Venues & Organisers" },
+            { id: "landlords-leasing-warehouses", label: "Landlords, Leasing & Warehouses" },
+            { id: "platforms-payments", label: "Platforms & Payments" }
+        ]
+    }
+};
+
+/** Where an older answer's Partners and Providers are filed: both are Suppliers, the first in the group that holds advisers and services. */
+const LEGACY_PARTNER_GROUP: Record<"infrastructure" | "offering", string> = { infrastructure: "business-services", offering: "contractors-advisers" };
+
+/** A category's name: a built-in's label, else the name the user typed ("" while he has not typed it yet). */
+export function partnerCategoryLabel(categories: readonly BusinessCategoryValue[], id: string): string {
+    return PARTNER_CATEGORIES.find(entry => entry.id === id)?.label ?? categories.find(entry => entry.id === id)?.name.trim() ?? "";
+}
+
+/** What a card of this category is called in a link ("Open Partner", "Open Supplier"): a Supplier only in the Suppliers type. */
+export const partnerNoun = (category: string): "Partner" | "Supplier" => category === "suppliers" ? "Supplier" : "Partner";
+
+/** Which of the two stored lists a card counts as (for the Financial Foundation's expense natures): by its category, else by the list it is stored in. */
+export function partnerKindOf(partner: { category: string }, stored: "professionals" | "providers"): "professionals" | "providers" {
+    return partner.category === "suppliers" ? "providers" : partner.category === "partners" ? "professionals" : stored;
+}
+
+export interface BusinessPartnerValue {
+    id: string;
+    /**
+     * Its category: "partners", "providers" or a category the user made (BusinessCapabilityValue.partnerCategories). A saved card without one is read
+     * as the list it is in (professionals: Partners, providers: Providers), so nothing is lost.
+     */
+    category: string;
+    name: string;
     description: string;
+    /** Its group within the type (BUSINESS_PARTNER_GROUPS' id), "" while it is in "No group". */
+    group: string;
+    /** A contract's own rate (a percent) in place of the default one: a Revenue Partner's. Optional. */
+    rateOverride: string;
+    /** A supplier connected to a rented vehicle: how many vehicles its price is for ("" is one). */
+    quantity: string;
+    /** The optional extras of the card (partnerExtraKeys). */
+    extras: BusinessExtrasValue;
+    /** The payment plan of a Per project price. */
+    paymentPlan: BusinessPaymentPlan;
+    /** When the description was first written (the note's automatic record date and time). */
+    noteRecorded: string;
+    /** The share of the card each linked Offering carries, by Offering id, when several are linked (they total 100%). */
+    offeringShares: Record<string, string>;
+    /** The day it starts (an ISO date); asked on every card. */
+    startDate: string;
+    /** The day it ends (an ISO date); optional. */
+    endDate: string;
     /** A founder id: who contacts and coordinates them. */
     responsibleId: string;
+    /** The Responsible tick, unticked: no responsible by choice. Absent means ticked. */
+    responsibleOff?: boolean;
     cost: BusinessCostValue;
     /**
      * The Page 1 Offerings it serves -- Offering's Capability only. One
@@ -6759,20 +7703,137 @@ export interface BusinessPartnerValue {
  * send the reader to "A. External Professionals & Partners or
  * B. Providers".
  */
+/**
+ * A Workspace as the cost model, the exports and the tiles read it: a RESOURCE CARD of the built-in "Workspace" category (resources.workspace), seen through
+ * `workspacesOf`. It is not stored apart: a card whose Category is Workspace is the one Resource card with the Workspace form's fields in it (its type, its
+ * deposit), and it keeps its id when its Category is changed.
+ */
+export interface BusinessWorkspaceValue {
+    id: string;
+    /** The card's name: its type's label ("Dedicated Workspace"), or what the founder wrote. */
+    name: string;
+    /** One of BUSINESS_WORKSPACE_KINDS' ids, or "". */
+    kind: string;
+    kindOther: string;
+    status: string;
+    cost: BusinessCostValue;
+    providerId: string;
+    /**
+     * An optional deposit on the Workspace (an amount, in the cost's
+     * currency), meaningful at Costs only. "" = none. The Financial
+     * Foundation gathers it as a one-time Deposit asset.
+     */
+    deposit: string;
+}
+
+/** The id of the first Workspace card (the one every earlier answer has). */
+export const FIRST_WORKSPACE_ID = "workspace";
+
+/** The built-in Resources category whose cards are Workspaces. */
+export const WORKSPACE_GROUP_ID = "workspace";
+
+/** The group of the Workspace category that holds the Workspace cards (the id of their subsection). */
+export const PREMISES_GROUP_ID = "premises";
+
+/**
+ * The format of a Page 3 answer. Version 3 has the nine categories with their groups, Partners & Suppliers and the current statuses and frequencies;
+ * an answer without it is read once into them (see asBusinessCapabilityValue) and written back with it.
+ */
+export const BUSINESS_CAPABILITY_FORMAT_VERSION = 3;
+
+/**
+ * Where the fixed kinds of the five earlier Infrastructure categories are filed now: [category, group]. A kind the user made ("Other") has no group
+ * and goes to "No group" of its category, its name written into the description of its cards.
+ */
+const LEGACY_KIND_GROUP: Record<string, [string, string]> = {
+    workspace: ["workspace", PREMISES_GROUP_ID],
+    electricity: ["utilities", "premises-utilities"],
+    internet: ["utilities", "premises-utilities"],
+    heating: ["utilities", "premises-utilities"],
+    cooling: ["utilities", "premises-utilities"],
+    water: ["utilities", "premises-utilities"],
+    furniture: ["workstation", "furniture-fittings"],
+    electrical: ["workstation", "furniture-fittings"],
+    supporting: ["workstation", "furniture-fittings"],
+    computing: ["equipment", "devices-tools"],
+    peripherals: ["equipment", "devices-tools"],
+    specialised: ["equipment", "devices-tools"],
+    software: ["digital", "software-web"],
+    presence: ["digital", "software-web"],
+    services: ["digital", "cloud-security"]
+};
+
+/** The activity categories an earlier answer had (the same four in both places), for the note an activity that has to leave its category carries. */
+const LEGACY_ACTIVITY_CATEGORY_LABELS: Record<string, string> = {
+    operational: "Operational",
+    production: "Production",
+    marketing: "Marketing",
+    sales: "Sales & Customer"
+};
+
+/** What a Workspace card is called where cards are listed in the documents and the costs: "Workspace" for the first, "Workspace 2" and on for the others. */
+export const workspaceCardName = (index: number) => index === 0 ? "Workspace" : "Workspace " + (index + 1);
+
+/** The Workspace cards of an answer, in order: the resource cards of its Workspace category. */
+export function workspacesOf(capability: { resources: Record<string, BusinessResourceSubsectionValue[]> }): BusinessWorkspaceValue[] {
+    return (capability.resources[WORKSPACE_GROUP_ID] ?? []).flatMap(subsection => subsection.slots).map(slot => ({
+        id: slot.id,
+        name: slot.name,
+        kind: slot.workspaceKind,
+        kindOther: slot.workspaceKindOther,
+        status: slot.status,
+        cost: slot.cost,
+        providerId: slot.providerId,
+        deposit: slot.deposit
+    }));
+}
+
+/** Whether an answer saved before there were Workspace cards held anything in its Workspace (an untouched one made no card then, and makes none now). */
+function legacyWorkspaceSlots(source: Record<string, unknown>): BusinessResourceSlotValue[] {
+    const list: unknown[] = Array.isArray(source.workspaces) ? source.workspaces : source.workspace !== undefined ? [source.workspace] : [];
+    const seen = new Set<string>();
+    return list.flatMap((entry, index) => {
+        const workspace = asObject(entry);
+        const kind = asText(workspace.kind);
+        const cost = asBusinessCost(workspace.cost);
+        const status = asText(workspace.status);
+        const providerId = asText(workspace.providerId);
+        const deposit = businessDecimalText(asText(workspace.deposit));
+        if (!kind && !status && !cost.price && !providerId && !deposit) {
+            return [];
+        }
+        let id = asText(workspace.id) || (index === 0 ? FIRST_WORKSPACE_ID : randomId("workspace"));
+        const earlierStatus = status === "investigation" ? "Needs Investigation" : "";
+        if (seen.has(id)) {
+            id = randomId("workspace");
+        }
+        seen.add(id);
+        const label = BUSINESS_WORKSPACE_KINDS.find(entry => entry.id === kind)?.label ?? "";
+        const other = asText(workspace.kindOther).trim();
+        return [{
+            ...createBusinessResourceSlot(),
+            id,
+            // (Its name is its type's: it stays complete, and the totals are as they were.)
+            name: kind === "other" && other ? other : label || workspaceCardName(index),
+            description: withEarlier("", "status", earlierStatus),
+            status: spaceStatusOf(status),
+            cost: normalCostOf(cost, "infrastructure", PREMISES_GROUP_ID),
+            providerId,
+            workspaceKind: kind,
+            workspaceKindOther: asText(workspace.kindOther),
+            deposit
+        }];
+    });
+}
+
 export interface BusinessCapabilityValue {
+
+    /** BUSINESS_CAPABILITY_FORMAT_VERSION once read; an answer saved before it is moved to the current categories when it is read. */
+    formatVersion?: number;
 
     founders: BusinessFounderValue[];
 
-    workspace: {
-        /** One of BUSINESS_WORKSPACE_KINDS' ids, or "". */
-        kind: string;
-        kindOther: string;
-        status: string;
-        cost: BusinessCostValue;
-        providerId: string;
-    };
-
-    /** C-F, by group id. */
+    /** C-F, by group id (and the Workspace category: its cards are read through `workspacesOf`). */
     resources: Record<string, BusinessResourceSubsectionValue[]>;
 
     activities: BusinessActivityCategoryValue[];
@@ -6780,6 +7841,12 @@ export interface BusinessCapabilityValue {
     professionals: BusinessPartnerValue[];
 
     providers: BusinessPartnerValue[];
+
+    /** The categories of Partners & Providers the user has made (under "Other"), shared by Infrastructure's and Offering's cards. */
+    partnerCategories: BusinessCategoryValue[];
+
+    /** The categories of activities the user has made (under "Other"), shared by Infrastructure's and Offering's activities. */
+    activityCategories: BusinessCategoryValue[];
 
     offering: {
         resources: BusinessResourceSlotValue[];
@@ -6797,42 +7864,78 @@ export interface BusinessCapabilityValue {
 }
 
 function createBusinessCost(): BusinessCostValue {
-    return { price: "", frequency: "", frequencyOther: "", currency: "" };
+    return { price: "", frequency: "", frequencyOther: "", unit: "", currency: "" };
 }
 
 function createBusinessFounder(): BusinessFounderValue {
-    return { id: randomId("founder"), name: "", roles: [""], salary: "", hours: "", deliveryHours: "", deliveryShare: "", period: "" };
+    return { id: randomId("founder"), name: "", roles: [""], salary: "", hours: "", deliveryHours: "", deliveryShare: "", period: "", startDate: "", extras: {} };
 }
 
 export function createBusinessResourceSlot(): BusinessResourceSlotValue {
     return {
         id: randomId("resource"),
         name: "",
-        quantity: "",
+        quantity: "1",
         description: "",
         status: "",
         cost: createBusinessCost(),
         providerId: "",
-        offeringIds: []
+        offeringIds: [],
+        workspaceKind: "",
+        workspaceKindOther: "",
+        deposit: "",
+        category: "",
+        group: "",
+        startDate: "",
+        endDate: "",
+        activityId: "",
+        usefulLife: "",
+        warranty: false,
+        warrantyUntil: "",
+        rateOverride: "",
+        extras: {},
+        paymentPlan: emptyPaymentPlan(),
+        noteRecorded: "",
+        offeringShares: {},
+        extraStatuses: [],
+        insuranceId: "",
+        insuresId: ""
     };
 }
 
-export function createBusinessActivity(): BusinessActivityValue {
+export function createBusinessActivity(category = ""): BusinessActivityValue {
     return {
         id: randomId("activity"),
+        category,
         name: "",
         description: "",
         performerIds: [],
         responsibleId: "",
         completed: false,
         offeringIds: [],
-        sourceId: ""
+        type: "",
+        startDate: "",
+        endDate: "",
+        noteRecorded: "",
+        offeringShares: {},
+        resources: [],
+        performerPeople: {}
     };
 }
 
-export function createBusinessPartner(name = ""): BusinessPartnerValue {
+export function createBusinessPartner(name = "", category = ""): BusinessPartnerValue {
     return {
         id: randomId("partner"),
+        category,
+        group: "",
+        rateOverride: "",
+        quantity: "",
+        extras: {},
+        paymentPlan: emptyPaymentPlan(),
+        noteRecorded: "",
+        offeringShares: {},
+        startDate: "",
+        endDate: "",
         name,
         description: "",
         responsibleId: "",
@@ -6842,41 +7945,73 @@ export function createBusinessPartner(name = ""): BusinessPartnerValue {
 }
 
 /**
- * The three professionals A. External Professionals & Partners
- * opens with -- "a default list with 3 inputs, that they can
- * edited, or removed".
- *
- * Supplied only when the key is ABSENT, never when it is an empty
- * list: a founder who deletes all three has said they need none,
- * and a seed that came back would be arguing with them. Deleting
- * the last one leaves `[]`, which is an answer.
- *
- * Their ids come from their names rather than from the random
- * generator, because this runs while the page is being drawn: a
- * fresh id per render is a fresh card per render, and the caret
- * would jump out of whichever one was being typed into.
+ * What Partners opens with: nothing. (It used to be seeded with an Accountant, a Lawyer and an Insurance Professional; a saved answer keeps
+ * whatever it holds, these included -- only a page with none stored stops getting them.)
  */
 function seededProfessionals(): BusinessPartnerValue[] {
-    return BUSINESS_DEFAULT_PROFESSIONALS.map(name => ({
-        ...createBusinessPartner(name),
-        id: "professional-" + name.toLocaleLowerCase().replace(/\s+/g, "-")
-    }));
+    return [];
 }
 
 function asBusinessCost(value: unknown): BusinessCostValue {
 
     const cost = asObject(value);
 
+    /* Per order is Per unit now, with "order" as its unit; the price and the way it is counted are as they were. */
+    const perOrder = asText(cost.frequency) === "per-order";
+
     return {
         price: businessAmountText(cost.price),
-        frequency: asText(cost.frequency),
+        frequency: perOrder ? "per-unit" : asText(cost.frequency),
         frequencyOther: asText(cost.frequencyOther),
+        unit: asText(cost.unit) || (perOrder ? "order" : ""),
         currency: asText(cost.currency)
     };
 
 }
 
-function asBusinessResourceSlot(entry: unknown): BusinessResourceSlotValue {
+/**
+ * A cost saved with the frequency "Other" (which is no longer offered): the frequency is cleared -- the card shows incomplete until one is chosen --
+ * and what it was called is returned, to be written into the card's description rather than lost.
+ */
+function withoutOtherFrequency(cost: BusinessCostValue): { cost: BusinessCostValue; was: string } {
+    if (cost.frequency !== "other") {
+        return { cost, was: "" };
+    }
+    return { cost: { ...cost, frequency: "", frequencyOther: "" }, was: cost.frequencyOther.trim() || "Other" };
+}
+
+/** A description with what an earlier version of the page called the card, put in front of it so that nothing is lost. */
+function withEarlier(description: string, what: string, was: string): string {
+    return (was ? "Earlier " + what + ": " + was + ". " + description : description).trim();
+}
+
+/** The status a space (the Workspace form) has in the current statuses, from an earlier answer's. Needs Investigation and Needs Activity were none of its. */
+function spaceStatusOf(status: string): string {
+    return status === "provided" || status === "partners-providers" || status === "professional" ? "rent"
+        : status === "costs" ? "buy"
+        : (BUSINESS_WORKSPACE_STATUS_IDS as readonly string[]).includes(status) ? status : "";
+}
+
+/** The status any other card has in the current statuses, from an earlier answer's. */
+function cardStatusOf(status: string): string {
+    return status === "provided" || status === "professional" || status === "partners-providers" ? "partners-suppliers"
+        : status === "rent" ? "partners-suppliers"
+        : status === "buy" ? "costs"
+        : status;
+}
+
+function asBusinessResourceSlot(
+    entry: unknown,
+    workspace = false,
+    context: {
+        /** The answer was saved before the nine categories (no format version 3): its statuses, frequencies and quantities are moved to the current ones. */
+        legacy?: boolean;
+        /** The group the card is filed in (an Infrastructure card's subsection, an Offering card's own). */
+        groupId?: string;
+        /** Its place: the group's frequency and unit are those of the place. */
+        place?: "infrastructure" | "offering";
+    } = {}
+): BusinessResourceSlotValue {
 
     const slot = asObject(entry);
 
@@ -6893,19 +8028,134 @@ function asBusinessResourceSlot(entry: unknown): BusinessResourceSlotValue {
        "." are on their way to one and stay. */
     const moved = !/^\d*\.?\d*$/.test(quantity);
 
+    const groupId = context.groupId ?? "";
+    const rawStatus = asText(slot.status);
+
+    /* An earlier answer's status, in the current ones (see the F1 mapping): Provided is Rent on a space and Partners & Suppliers elsewhere; Costs on a
+       space is Buy; Needs Investigation belongs to the people cards, and on any other card it is cleared and said in the description. */
+    let status = rawStatus;
+    let earlierStatus = "";
+    if (workspace) {
+        status = context.legacy ? spaceStatusOf(rawStatus) : rawStatus;
+        if (context.legacy && rawStatus === "investigation") {
+            earlierStatus = "Needs Investigation";
+        }
+    } else if (context.legacy) {
+        status = cardStatusOf(rawStatus);
+        if (status === "investigation" && !(BUSINESS_PEOPLE_GROUP_IDS as readonly string[]).includes(groupId)) {
+            status = "";
+            earlierStatus = "Needs Investigation";
+        }
+    } else {
+        // (Provided and Partners were one status already, before the nine categories.)
+        status = rawStatus === "provided" || rawStatus === "professional" ? "partners-suppliers" : rawStatus;
+    }
+
+    const read = asBusinessCost(slot.cost);
+    const { cost: noOther, was: earlierFrequency } = withoutOtherFrequency(read);
+
+    /* A purchase of an asset is priced Per unit: an earlier answer's One-time price in an asset group moves to it (Qty times the price, as before). */
+    const cost = context.legacy && isPurchaseGroup(groupId) && isCostingStatus(status) && noOther.frequency === "one-time"
+        ? { ...noOther, frequency: "per-unit", unit: noOther.unit || "unit" }
+        : noOther;
+
     return {
         id: asText(slot.id) || randomId("resource"),
         name: asText(slot.name),
         quantity: moved ? "" : quantity,
-        description: moved
+        description: withEarlier(withEarlier(moved
             ? ("Quantity: " + quantity.replace(/\.$/, "") + ". " + description).trim()
-            : description,
-        status: asText(slot.status),
-        cost: asBusinessCost(slot.cost),
+            : description, "frequency", earlierFrequency), "status", earlierStatus),
+        status,
+        cost: normalCostOf(cost, context.place ?? "infrastructure", groupId),
         providerId: asText(slot.providerId),
-        offeringIds: offeringIdsOf(slot)
+        offeringIds: offeringIdsOf(slot),
+        workspaceKind: asText(slot.workspaceKind),
+        workspaceKindOther: asText(slot.workspaceKindOther),
+        deposit: businessDecimalText(asText(slot.deposit)),
+        category: asText(slot.category),
+        group: asText(slot.group),
+        startDate: isoDateText(slot.startDate),
+        endDate: isoDateText(slot.endDate),
+        activityId: asText(slot.activityId),
+        usefulLife: businessDecimalText(asText(slot.usefulLife)),
+        warranty: slot.warranty === true,
+        warrantyUntil: isoDateText(slot.warrantyUntil),
+        rateOverride: businessDecimalText(asText(slot.rateOverride)),
+        extras: asBusinessExtras(slot.extras),
+        paymentPlan: asPaymentPlan(slot.paymentPlan),
+        noteRecorded: isoDateTimeText(slot.noteRecorded),
+        offeringShares: asOfferingShares(slot.offeringShares, offeringIdsOf(slot)),
+        extraStatuses: (Array.isArray(slot.extraStatuses) ? slot.extraStatuses : []).map(entry => {
+            const row = asObject(entry);
+            return {
+                id: asText(row.id) || randomId("status"),
+                status: (BUSINESS_EXTRA_STATUS_IDS as readonly string[]).includes(asText(row.status)) ? asText(row.status) : "",
+                providerId: asText(row.providerId),
+                activityId: asText(row.activityId)
+            };
+        }),
+        insuranceId: asText(slot.insuranceId),
+        insuresId: asText(slot.insuresId)
     };
 
+}
+
+/**
+ * THE SHARES of the Offerings a card is linked to: the percent of the card each Offering carries, when it is linked to several. They total 100% or the card
+ * is incomplete; one Offering carries all of it. Ticking Offerings starts them equal.
+ */
+export function equalOfferingShares(offeringIds: readonly string[]): Record<string, string> {
+    const shares = equalPercents(offeringIds.length);
+    return Object.fromEntries(offeringIds.map((id, at) => [id, shares[at]]));
+}
+
+/** What the typed shares of the linked Offerings add up to (an Offering with none typed counts nothing). */
+export function offeringSharesTotal(offeringIds: readonly string[], shares: Record<string, string>): number {
+    return Math.round(offeringIds.reduce((sum, id) => sum + (parseAmount(shares[id] ?? "") ?? 0), 0) * 100) / 100;
+}
+
+/** Whether a card linked to several Offerings has a share missing, or shares that do not total 100%. One or none: nothing to share. */
+export function offeringSharesIncomplete(offeringIds: readonly string[], shares: Record<string, string>): boolean {
+    return offeringIds.length > 1 && (offeringIds.some(id => (shares[id] ?? "") === "") || offeringSharesTotal(offeringIds, shares) !== 100);
+}
+
+/** The fraction of a card each linked Offering carries: the typed shares when they total 100%, else equal ones. */
+export function offeringFractions(offeringIds: readonly string[], shares: Record<string, string>): Record<string, number> {
+    const typed = offeringIds.length > 1 && !offeringSharesIncomplete(offeringIds, shares);
+    return Object.fromEntries(offeringIds.map(id => [id, typed ? (parseAmount(shares[id] ?? "") ?? 0) / 100 : 1 / offeringIds.length]));
+}
+
+/** The shares kept: those of the Offerings the card is linked to, cleaned to numbers. */
+function asOfferingShares(value: unknown, offeringIds: readonly string[]): Record<string, string> {
+    const source = asObject(value);
+    const kept = Object.fromEntries(offeringIds.filter(id => id in source).map(id => [id, businessDecimalText(asText(source[id]))]));
+    // A card linked to several Offerings before there were shares was shared equally: it keeps being.
+    return offeringIds.length > 1 && Object.keys(kept).length === 0 ? equalOfferingShares(offeringIds) : kept;
+}
+
+/** The moment a note was first written ("YYYY-MM-DDTHH:mm", local time) as saved; anything else reads as none. */
+function isoDateTimeText(value: unknown): string {
+    const text = asText(value).trim();
+    const match = /^(\d{4}-\d{2}-\d{2})T([01]\d|2[0-3]):([0-5]\d)$/.exec(text);
+    return match && isoDateText(match[1]) !== "" ? text : "";
+}
+
+/** An ISO date ("YYYY-MM-DD") as saved; anything else is not a date and reads as none. */
+function isoDateText(value: unknown): string {
+    const text = asText(value).trim();
+    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(text);
+    if (!match) {
+        return "";
+    }
+    // A real day: 2027-02-30 is none.
+    const day = new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3])));
+    return day.getUTCFullYear() === Number(match[1]) && day.getUTCMonth() === Number(match[2]) - 1 && day.getUTCDate() === Number(match[3]) ? text : "";
+}
+
+/** A list of unknowns: what is not a list reads as none. */
+function asArrayOf(value: unknown): unknown[] {
+    return Array.isArray(value) ? value : [];
 }
 
 /** A list now; one Offering before, which is kept as the list's first. */
@@ -6916,12 +8166,13 @@ function offeringIdsOf(entry: Record<string, unknown>): string[] {
     return [...new Set(list.filter(id => id.length > 0))];
 }
 
-function asBusinessActivity(entry: unknown): BusinessActivityValue {
+function asBusinessActivity(entry: unknown, fallbackCategory = ""): BusinessActivityValue {
 
     const activity = asObject(entry);
 
     return {
         id: asText(activity.id) || randomId("activity"),
+        category: asText(activity.category) || fallbackCategory,
         name: asText(activity.name),
         description: asText(activity.description),
         /* A list now; one id before. The one chosen is kept. An
@@ -6931,30 +8182,112 @@ function asBusinessActivity(entry: unknown): BusinessActivityValue {
             ? activity.performerIds.map(asText)
             : [asText(activity.performerId)].filter(id => id.length > 0),
         responsibleId: asText(activity.responsibleId),
+        ...(activity.responsibleOff === true ? { responsibleOff: true } : {}),
         completed: activity.completed === true,
         offeringIds: offeringIdsOf(activity),
-        sourceId: asText(activity.sourceId)
+        type: BUSINESS_PREOPERATIONAL_TYPES.some(entry => entry.id === asText(activity.type)) ? asText(activity.type) : "",
+        startDate: isoDateText(activity.startDate),
+        endDate: isoDateText(activity.endDate),
+        noteRecorded: isoDateTimeText(activity.noteRecorded),
+        offeringShares: asOfferingShares(activity.offeringShares, offeringIdsOf(activity)),
+        resources: (Array.isArray(activity.resources) ? activity.resources : [])
+            // (Units are whole numbers. A row still waiting for its resource is kept: its id is "".)
+            .map(entry => ({ id: asText(asObject(entry).id), units: asText(asObject(entry).units).replace(/\D/g, "").slice(0, 6) }))
+            .filter((entry, at, all) => entry.id === "" || all.findIndex(other => other.id === entry.id) === at),
+        performerPeople: Object.fromEntries(Object.entries(asObject(activity.performerPeople))
+            .map(([id, people]) => [id, asText(people).replace(/\D/g, "").slice(0, 4)])
+            .filter(([, people]) => people !== ""))
     };
 
 }
 
-function asBusinessPartner(entry: unknown): BusinessPartnerValue {
+function asBusinessPartner(
+    entry: unknown,
+    fallbackCategory: string,
+    context: {
+        legacy?: boolean;
+        scope?: "infrastructure" | "offering";
+        /** The names of the categories the user made, by id (an earlier answer's). */
+        categoryNames?: ReadonlyMap<string, string>;
+    } = {}
+): BusinessPartnerValue {
 
     const partner = asObject(entry);
 
+    const scope = context.scope ?? "infrastructure";
+    const rawCategory = asText(partner.category) || fallbackCategory;
+    const description = asText(partner.description);
+
+    let category = rawCategory;
+    let group = asText(partner.group);
+    let earlierCategory = "";
+
+    if (context.legacy) {
+        /* Partners and Providers are both Suppliers now (see the F1 mapping): the old Partners in the group that holds advisers and services, the
+           old Providers and the categories the user made with no group yet -- the name of such a category goes into the description. */
+        if (rawCategory === "partners") {
+            category = "suppliers";
+            group = LEGACY_PARTNER_GROUP[scope];
+        } else if (rawCategory === "providers") {
+            category = "suppliers";
+            group = "";
+        } else if (rawCategory !== UNASSIGNED_CATEGORY) {
+            category = "suppliers";
+            group = "";
+            earlierCategory = context.categoryNames?.get(rawCategory)?.trim() ?? "";
+        }
+    }
+
+    // (Providers is Suppliers: a list's default category from before the types were Partners and Suppliers.)
+    if (category === "providers") {
+        category = "suppliers";
+    }
+
+    /* A group is one of the type's in this place. */
+    if (!(PARTNER_CATEGORIES as readonly { id: string }[]).some(entry => entry.id === category)) {
+        group = "";
+    } else if (!BUSINESS_PARTNER_GROUPS[scope][category as "partners" | "suppliers"].some(entry => entry.id === group)) {
+        group = "";
+    }
+
+    const read = asBusinessCost(partner.cost);
+    const { cost, was: earlierFrequency } = withoutOtherFrequency(read);
+
     return {
         id: asText(partner.id) || randomId("partner"),
+        category,
+        group,
+        rateOverride: businessDecimalText(asText(partner.rateOverride)),
+        quantity: businessDecimalText(asText(partner.quantity)),
+        extras: asBusinessExtras(partner.extras),
+        paymentPlan: asPaymentPlan(partner.paymentPlan),
+        noteRecorded: isoDateTimeText(partner.noteRecorded),
+        offeringShares: asOfferingShares(partner.offeringShares, offeringIdsOf(partner)),
+        startDate: isoDateText(partner.startDate),
+        endDate: isoDateText(partner.endDate),
         name: asText(partner.name),
-        description: asText(partner.description),
+        description: withEarlier(withEarlier(description, "frequency", earlierFrequency), "category", earlierCategory),
         responsibleId: asText(partner.responsibleId),
-        cost: asBusinessCost(partner.cost),
+        ...(partner.responsibleOff === true ? { responsibleOff: true } : {}),
+        cost: normalCostOf(cost, scope, group),
         offeringIds: offeringIdsOf(partner)
     };
 
 }
 
-function asBusinessPartnerList(value: unknown): BusinessPartnerValue[] {
-    return (Array.isArray(value) ? value : []).map(asBusinessPartner);
+function asBusinessPartnerList(
+    value: unknown,
+    fallbackCategory: string,
+    context: Parameters<typeof asBusinessPartner>[2] = {}
+): BusinessPartnerValue[] {
+    return (Array.isArray(value) ? value : []).map(entry => asBusinessPartner(entry, fallbackCategory, context));
+}
+
+function asBusinessCategoryList(value: unknown): BusinessCategoryValue[] {
+    return (Array.isArray(value) ? value : []).map(entry => {
+        const category = asObject(entry);
+        return { id: asText(category.id) || randomId("category"), name: asText(category.name) };
+    });
 }
 
 /**
@@ -6970,30 +8303,146 @@ export function asBusinessCapabilityValue(value: unknown): BusinessCapabilityVal
 
     const source = asObject(value);
 
-    const workspace = asObject(source.workspace);
+    /* An answer saved before the nine categories has no format version: its cards are moved ONCE to the current categories, groups, statuses and
+       frequencies (the mapping agreed as F1), and the value is written back carrying the version. A card that fits nowhere is put in "No category" /
+       "No group" with what it was written into its description. */
+    const legacy = !(typeof source.formatVersion === "number" && source.formatVersion >= BUSINESS_CAPABILITY_FORMAT_VERSION);
 
     const resources: Record<string, BusinessResourceSubsectionValue[]> = {};
 
-    for (const [group, entries] of Object.entries(asObject(source.resources))) {
+    for (const [category, entries] of Object.entries(asObject(source.resources))) {
 
-        resources[group] = (Array.isArray(entries) ? entries : []).map(entry => {
+        const merged = new Map<string, BusinessResourceSubsectionValue>();
+
+        for (const entry of Array.isArray(entries) ? entries : []) {
 
             const subsection = asObject(entry);
+            const rawId = asText(subsection.id);
 
-            return {
-                id: asText(subsection.id),
-                name: asText(subsection.name),
-                slots: (Array.isArray(subsection.slots) ? subsection.slots : [])
-                    .map(asBusinessResourceSlot)
-            };
+            if (rawId.length === 0) {
+                continue;
+            }
 
-        }).filter(subsection => subsection.id.length > 0);
+            const target = legacy ? LEGACY_KIND_GROUP[rawId] : undefined;
+            const kept = target !== undefined && target[0] === category ? target[1] : "";
+            const fixed = BUSINESS_RESOURCE_GROUPS.find(entry => entry.id === category)?.kinds.some(kind => kind.id === rawId) ?? false;
+            // A kind the user made, or one no longer there: its cards are in the category's "No group" -- or, where the category has just the one group, in it.
+            const made = legacy && kept === "" && !fixed && rawId !== UNASSIGNED_CATEGORY;
+            const only = soleGroupOf(BUSINESS_RESOURCE_GROUPS.find(entry => entry.id === category)?.kinds);
+            const id = kept ? kept : made || rawId === UNASSIGNED_CATEGORY ? only || UNASSIGNED_CATEGORY : rawId;
+            const named = asText(subsection.name).trim();
+
+            const slots = (Array.isArray(subsection.slots) ? subsection.slots : [])
+                .map(slot => asBusinessResourceSlot(slot, category === WORKSPACE_GROUP_ID, { legacy, groupId: id, place: "infrastructure" }))
+                .map(slot => made ? { ...slot, description: withEarlier(slot.description, "group", named || "Other") } : slot);
+
+            const into = merged.get(id);
+            if (into) {
+                into.slots.push(...slots);
+            } else if (!made || slots.length > 0) {
+                merged.set(id, { id, name: made ? "" : asText(subsection.name), slots });
+            }
+
+        }
+
+        resources[category] = [...merged.values()];
 
     }
 
+    // An answer saved before the Workspace was a Resources category: its Workspace(s) become cards of it, ids kept.
+    if (!resources[WORKSPACE_GROUP_ID] || resources[WORKSPACE_GROUP_ID].every(subsection => subsection.slots.length === 0)) {
+        const legacyWorkspace = legacyWorkspaceSlots(source);
+        if (legacyWorkspace.length > 0) {
+            resources[WORKSPACE_GROUP_ID] = [{ id: PREMISES_GROUP_ID, name: "", slots: legacyWorkspace }];
+        }
+    }
+
+    // The activity an earlier answer's status MADE (it named the card in its `sourceId`) is now the one the card chooses: the same activity, an ordinary one.
+    const madeBy = new Map<string, string>();
+    const noteMade = (entry: unknown) => {
+        const made = asObject(entry);
+        const from = asText(made.sourceId);
+        if (from && asText(made.id) && !madeBy.has(from)) {
+            madeBy.set(from, asText(made.id));
+        }
+    };
+    (Array.isArray(source.activities) ? source.activities : []).forEach(container => asArrayOf(asObject(container).activities).forEach(noteMade));
+    asArrayOf(asObject(source.offering).activities).forEach(noteMade);
+    const choosing = <T extends { id: string; status: string; activityId: string }>(slot: T): T =>
+        slot.status === "activity" && slot.activityId === "" && madeBy.has(slot.id) ? { ...slot, activityId: madeBy.get(slot.id) ?? "" } : slot;
+    for (const [category, subsections] of Object.entries(resources)) {
+        resources[category] = subsections.map(subsection => ({ ...subsection, slots: subsection.slots.map(choosing) }));
+    }
+
+    // The categories the user made (an earlier answer's) by id: their names, for the note a card carries when its category goes.
+    const userActivityNames = new Map<string, string>();
+    for (const entry of asBusinessCategoryList(source.activityCategories)) {
+        userActivityNames.set(entry.id, entry.name);
+    }
+
+    const rawContainers: BusinessActivityCategoryValue[] = (Array.isArray(source.activities) ? source.activities : [])
+        .map(entry => {
+            const category = asObject(entry);
+            const id = asText(category.id);
+            if (id.length > 0 && asText(category.name).trim()) {
+                userActivityNames.set(id, asText(category.name));
+            }
+            return {
+                id,
+                name: asText(category.name),
+                activities: (Array.isArray(category.activities) ? category.activities : []).map(activity => ({ ...asBusinessActivity(activity, id), category: id }))
+            };
+        })
+        .filter(category => category.id.length > 0);
+
+    /** The category an earlier answer's activity is filed under now in this place, and the note it carries when that is "No category". */
+    const activityFiledUnder = (scope: "infrastructure" | "offering", id: string): { category: string; earlier: string } => {
+        if (id === UNASSIGNED_CATEGORY || BUSINESS_ACTIVITY_GROUPS[scope].some(group => group.id === id)) {
+            return { category: id, earlier: "" };
+        }
+        return { category: UNASSIGNED_CATEGORY, earlier: userActivityNames.get(id)?.trim() || LEGACY_ACTIVITY_CATEGORY_LABELS[id] || id };
+    };
+
+    let activityContainers = rawContainers;
+    if (legacy) {
+        // Infrastructure has two groups now (Pre-Operational and Operational): the other categories' activities are in "No category".
+        const regrouped = new Map<string, BusinessActivityCategoryValue>();
+        for (const container of rawContainers) {
+            for (const activity of container.activities) {
+                const filed = activityFiledUnder("infrastructure", container.id);
+                const into = regrouped.get(filed.category) ?? { id: filed.category, name: "", activities: [] };
+                into.activities.push({ ...activity, category: filed.category, description: withEarlier(activity.description, "category", filed.earlier) });
+                regrouped.set(filed.category, into);
+            }
+        }
+        activityContainers = [...regrouped.values()];
+    }
+
+    // The categories the user made: the stored list, then any named category an old answer kept only as the container of its activities.
+    const activityCategories: BusinessCategoryValue[] = legacy ? [] : asBusinessCategoryList(source.activityCategories);
+    if (!legacy) {
+        for (const container of activityContainers) {
+            if (!BUSINESS_ACTIVITY_CATEGORIES.some(entry => entry.id === container.id) && container.name.trim() && !activityCategories.some(entry => entry.id === container.id)) {
+                activityCategories.push({ id: container.id, name: container.name });
+            }
+        }
+    }
+
+    const partnerCategoryNames = new Map<string, string>(asBusinessCategoryList(source.partnerCategories).map(entry => [entry.id, entry.name]));
+    const partnerContext = (scope: "infrastructure" | "offering") => ({ legacy, scope, categoryNames: partnerCategoryNames });
+
     const offering = asObject(source.offering);
 
-    return {
+    const offeringResource = (entry: unknown): BusinessResourceSlotValue => {
+        const read = asBusinessResourceSlot(entry, false, { legacy, groupId: asText(asObject(entry).group), place: "offering" });
+        const category = BUSINESS_OFFERING_RESOURCE_GROUPS.some(group => group.id === read.category) ? read.category : "";
+        const groups = offeringGroupsOf(category);
+        return { ...read, category, group: groups.some(group => group.id === read.group) ? read.group : soleGroupOf(groups) };
+    };
+
+    return withDepositsOnLandlords({
+
+        formatVersion: BUSINESS_CAPABILITY_FORMAT_VERSION,
 
         /* One founder card from the start, like Page 1's one
            Segment and Page 2's one channel: an organisation has at
@@ -7023,56 +8472,86 @@ export function asBusinessCapabilityValue(value: unknown): BusinessCapabilityVal
                     ...founderSalaryAndPeriod(founder),
                     hours: businessDecimalText(asText(founder.hours)),
                     deliveryHours: businessDecimalText(asText(founder.deliveryHours)),
-                    deliveryShare: businessDecimalText(asText(founder.deliveryShare))
+                    deliveryShare: businessDecimalText(asText(founder.deliveryShare)),
+                    startDate: isoDateText(founder.startDate),
+                    extras: asBusinessExtras(founder.extras)
                 };
 
             }),
 
-        workspace: {
-            kind: asText(workspace.kind),
-            kindOther: asText(workspace.kindOther),
-            status: asText(workspace.status),
-            cost: asBusinessCost(workspace.cost),
-            providerId: asText(workspace.providerId)
-        },
-
         resources,
 
-        activities: (Array.isArray(source.activities) ? source.activities : [])
-            .map(entry => {
+        // (An Infrastructure activity's category IS the one it is filed in.)
+        activities: activityContainers,
 
-                const category = asObject(entry);
-
-                return {
-                    id: asText(category.id),
-                    name: asText(category.name),
-                    activities: (Array.isArray(category.activities)
-                        ? category.activities
-                        : []).map(asBusinessActivity)
-                };
-
-            })
-            .filter(category => category.id.length > 0),
+        activityCategories,
 
         professionals: source.professionals === undefined
             ? seededProfessionals()
-            : asBusinessPartnerList(source.professionals),
+            : asBusinessPartnerList(source.professionals, "partners", partnerContext("infrastructure")),
 
-        providers: asBusinessPartnerList(source.providers),
+        providers: asBusinessPartnerList(source.providers, "providers", partnerContext("infrastructure")),
+
+        partnerCategories: legacy ? [] : asBusinessCategoryList(source.partnerCategories),
 
         offering: {
-            resources: (Array.isArray(offering.resources) ? offering.resources : [])
-                .map(asBusinessResourceSlot),
+            resources: (Array.isArray(offering.resources) ? offering.resources : []).map(offeringResource).map(choosing),
+            // (An Offering activity carries its category: the one it was saved with, else Production.)
             activities: (Array.isArray(offering.activities) ? offering.activities : [])
-                .map(asBusinessActivity),
-            professionals: asBusinessPartnerList(offering.professionals),
-            providers: asBusinessPartnerList(offering.providers)
+                .map(entry => {
+                    const read = asBusinessActivity(entry, DERIVED_ACTIVITY_CATEGORY.offering);
+                    const known = read.category === UNASSIGNED_CATEGORY
+                        || activityGroupsOf("offering").some(category => category.id === read.category)
+                        || (legacy && read.category in LEGACY_ACTIVITY_CATEGORY_LABELS)
+                        || activityCategories.some(category => category.id === read.category);
+                    const category = known ? read.category : DERIVED_ACTIVITY_CATEGORY.offering;
+                    const filed = legacy ? activityFiledUnder("offering", category) : { category, earlier: "" };
+                    return { ...read, category: filed.category, description: withEarlier(read.description, "category", filed.earlier) };
+                }),
+            professionals: asBusinessPartnerList(offering.professionals, "partners", partnerContext("offering")),
+            providers: asBusinessPartnerList(offering.providers, "providers", partnerContext("offering"))
         },
 
         delivery: asDeliveryMap(source.delivery)
 
-    };
+    });
 
+}
+
+/**
+ * A Deposit is the landlord's extra (it sits on the supplier card that holds the rent). The deposit an earlier answer kept on a rented Premises card moves to
+ * its supplier, unless the supplier already has one; one on a card with no supplier stays where it was.
+ */
+function withDepositsOnLandlords(value: BusinessCapabilityValue): BusinessCapabilityValue {
+    const spaces = Object.values(value.resources).flat().flatMap(subsection => subsection.slots).filter(slot => slot.deposit !== "" && slot.status === "rent" && slot.providerId !== "");
+    if (spaces.length === 0) {
+        return value;
+    }
+    const lists = [value.providers, value.professionals, value.offering.providers, value.offering.professionals].flat();
+    const movable = spaces.filter(slot => lists.some(partner => partner.id === slot.providerId));
+    if (movable.length === 0) {
+        return value;
+    }
+    const given = new Map<string, string>();
+    const moved = new Set<string>();
+    for (const slot of movable) {
+        const partner = lists.find(entry => entry.id === slot.providerId);
+        if (partner && (partner.extras.deposit ?? "") === "" && !given.has(partner.id)) {
+            given.set(partner.id, slot.deposit);
+            moved.add(slot.id);
+        }
+    }
+    const give = (partner: BusinessPartnerValue): BusinessPartnerValue => given.has(partner.id) ? { ...partner, extras: { ...partner.extras, deposit: given.get(partner.id) } } : partner;
+    return {
+        ...value,
+        resources: Object.fromEntries(Object.entries(value.resources).map(([category, subsections]) => [
+            category,
+            subsections.map(subsection => ({ ...subsection, slots: subsection.slots.map(slot => moved.has(slot.id) ? { ...slot, deposit: "" } : slot) }))
+        ])),
+        professionals: value.professionals.map(give),
+        providers: value.providers.map(give),
+        offering: { ...value.offering, professionals: value.offering.professionals.map(give), providers: value.offering.providers.map(give) }
+    };
 }
 
 /** Every activity on the page, whichever section or category it is
@@ -7099,7 +8578,7 @@ function businessAllActivities(
 export function businessFounderResponsibilities(
     capability: BusinessCapabilityValue,
     founderId: string
-): { name: string; completed: boolean }[] {
+): { id: string; name: string; completed: boolean }[] {
 
     if (founderId.length === 0) {
         return [];
@@ -7113,6 +8592,7 @@ export function businessFounderResponsibilities(
             activity.name.trim().length > 0
         )
         .map(activity => ({
+            id: activity.id,
             name: activity.name.trim(),
             completed: activity.completed
         }));
@@ -7135,6 +8615,18 @@ export function businessResponsibilitiesTally(
         total: responsibilities.length,
         startsOpen: responsibilities.length <= RESPONSIBILITIES_OPEN_UP_TO
     };
+}
+
+/**
+ * The Responsible tick was turned off on this card (activity, partner /
+ * provider or strategy objective): it has no responsible by choice. The
+ * default -- the key absent -- is ticked, so everything stored before the
+ * tick existed is unchanged. An unticked card is neither flagged as
+ * missing a responsible nor given the sole founder by the rule: the rules
+ * of businessAutoResponsibleId apply only while the tick is on.
+ */
+export function responsibleIsOff(card: { responsibleOff?: boolean }): boolean {
+    return card.responsibleOff === true;
 }
 
 /**
@@ -7174,11 +8666,51 @@ export function businessAutoResponsibleId(
 
 }
 
+/**
+ * Who is responsible for a Partnership / Provider: the founder chosen on its
+ * card; and, where the organisation has exactly ONE founder, that founder
+ * while nothing (or nobody who is still a founder) is chosen -- he is
+ * responsible automatically (businessAutoResponsibleId's first rule). Derived
+ * from what is stored, never written back: a choice is never overridden, and
+ * with several founders, or none, it is what was chosen ("" until then).
+ */
+export function businessPartnerResponsibleId(
+    partner: { responsibleId: string; responsibleOff?: boolean },
+    founderIds: readonly string[]
+): string {
+    if (responsibleIsOff(partner)) {
+        return "";
+    }
+    if (partner.responsibleId.length > 0 && founderIds.includes(partner.responsibleId)) {
+        return partner.responsibleId;
+    }
+    return businessAutoResponsibleId(founderIds) || partner.responsibleId;
+}
+
+/**
+ * Who is responsible for a Strategy Objective: the founder chosen on its card;
+ * and, where the organisation has exactly ONE founder (who has no Responsible
+ * field to choose in), that founder while nothing (or nobody who is still a
+ * founder) is chosen. Derived from what is stored, never written back.
+ */
+export function strategyObjectiveOwnerId(
+    objective: { ownerId: string; responsibleOff?: boolean },
+    founderIds: readonly string[]
+): string {
+    return businessPartnerResponsibleId(
+        { responsibleId: objective.ownerId, responsibleOff: objective.responsibleOff },
+        founderIds
+    );
+}
+
 /** Who is responsible for an activity: by rule, or as chosen. */
 export function businessResponsibleId(
     activity: BusinessActivityValue,
     founderIds: readonly string[]
 ): string {
+    if (responsibleIsOff(activity)) {
+        return "";
+    }
     return businessAutoResponsibleId(founderIds, activity.performerIds) ||
         activity.responsibleId;
 }
@@ -7245,7 +8777,9 @@ export function withLegalEntityFounders(
             hours: match?.hours ?? "",
             deliveryHours: match?.deliveryHours ?? "",
             period: match?.period ?? "",
-            deliveryShare: match?.deliveryShare ?? ""
+            deliveryShare: match?.deliveryShare ?? "",
+            startDate: match?.startDate ?? "",
+            extras: match?.extras ?? {}
         };
 
     });

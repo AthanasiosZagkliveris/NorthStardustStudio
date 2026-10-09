@@ -60,7 +60,62 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
     11201"), every number as it was. And all three when a typeface's
     "Purpose" became "Usage" (the Typography table's head), every number
     as it was. And again when an Objective's "Owner" became "Responsible" (the
-    Objectives and KPI tables' heads), every number as it was.
+    Objectives and KPI tables' heads), every number as it was. And the
+    forecast, plan and export digests (and the weekly fixture's words and
+    numbers) once more when the examples' channel resources were moved
+    from Infrastructure to Offering's Capability: the founders' table and
+    every total (gross, operating and net profit, break even) are as they
+    were; only the costs' rows moved (Software and digital services to
+    Delivery tools and supplies, and Marketing and sales) and the documents'
+    lists of resources by place. And once more when the examples’ channel
+    resources were made real: only a cost that exists because of its channel
+    (a plan, payment fees, a stall, a courier, a booking tool) stays a
+    channel resource, and the tools the work needs anyway (Adobe Creative
+    Cloud, Xero, QuickBooks, Google Workspace, Miro and Loom) are Infrastructure
+    software; a few real costs were added (a workshop booking app, a card
+    reader, the trade fair stand, meetup and LinkedIn costs). The founders’ tables
+    are unchanged to the character; the forecast, plan and export digests (and
+    the weekly fixture’s words and numbers) were written again from the code
+    as it is, with the costs’ rows and totals moved by those cards alone.
+
+    Lumen's Business Plan and export digests (and the weekly fixture's words and numbers)
+    were written again for two reasons, no figure changed (the forecast and
+    export digests, and every total, are as they were): (1) the Workspace's
+    Deposit is a field of the Workspace now, so the £3,750 "Rent deposit (3
+    months)" typed on the Financial Foundation became a gathered "Workspace
+    deposit" line (same amount, one-time, Establishment, Deposit: only its name
+    and its place in the lists moved), and (2) a possible duplicate is warned
+    of only for a same-source, same-price, same-frequency, similar-name pair,
+    so the Financial Signals no longer carry the old "same leading word" warning.
+
+    The plan and export digests (and the weekly fixture's words and numbers) were written again for these reasons, the founders' tables and revenue as they
+    were: (1) a resource's status "Provided" and "Partners" became one, "Partners & Providers", so the status words of the documents changed; (2) a card
+    that lacks a required answer is counted nowhere (CardCompleteness.ts), which left Quillfield's cost-less "Insurance Professional" out of the lists; and (3)
+    the examples' partners and providers were completed (Lumen & Loom: the Accountant's 300 one-time onboarding fee, the Maker Yard's 180 a month service
+    charge, two courier resources for DPD Local and Royal Mail, the Lawyer and the weaving tutor linked to activities, "Insurance Professional" removed;
+    Quillfield: "Insurance Professional" removed, the web designer and the freelance developer linked to activities), so Lumen & Loom's costs are 300
+    one-time and 180 a month higher (its funding gap 17,614 to 20,434, its Total Funding Need 53,344 to 56,164); Quillfield's figures are as they were.
+
+    All three digests of both examples (and the weekly fixture's words and
+    numbers) were written again when the costs typed on the Financial
+    Foundation were moved to the cards of the earlier sections (the Costs
+    section is a generated table now, nothing is typed there). The founders'
+    tables, revenue and every cash figure are as they were. Only these moved:
+    Lumen's studio fit-out (1,200 one-time) is a Workstation resource, which
+    the model counts as equipment, so it is an asset depreciated over three
+    years (Premises' first month 2,450 to 1,250, Depreciation 263.89 to 297.22 a
+    month) instead of a first-month expense, and its tax follows; Quillfield's
+    1,500 copywriting and web design is a Partner now, so it reads under
+    Professional fees, not Marketing and sales (the total is the same), and
+    its video kit is listed among the Physical resources of the canvas.
+
+    Lumen's forecast, plan and export digests (and the weekly fixture's plan and export words and numbers) were written again when the example was made to
+    follow the app's rules: (1) the Accountant was counted twice (a 150 a month "Accountant" expense of the Legal Entity AND the Accountant partner's 300
+    one-time fee): the Legal Entity expense is removed and the Accountant partner is the one place, 150 a month, so Total Funding Need 56,164 to 55,864 and the
+    funding gap 20,434 to 20,134 (the one-time 300 is gone, the 150 a month stays); (2) the courier cards come from the Customer Engagement page: the channels'
+    Channel Resources are the two cards "Parcel delivery to customers" and "Tracked postage for small orders" (status Partners & Providers, DPD Local and Royal
+    Mail as their Providers), not the providers themselves, and each is linked to its own channel's Offering only. The founders' tables, the revenue and the
+    Quillfield digests are as they were.
 */
 const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
 

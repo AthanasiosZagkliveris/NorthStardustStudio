@@ -10,6 +10,7 @@ import {
     UnsupportedFormatVersionError
 } from "../services/OrganizationService";
 import { PreferencesService } from "../services/PreferencesService.ts";
+import { refreshExampleOrganizations } from "../services/ExampleOrganizations.ts";
 
 import "../styles/global.css";
 import "../styles/landing.css";
@@ -293,7 +294,7 @@ export default function Landing() {
   return (
     <main className="landing">
 
-      <AppHeader />
+      <AppHeader reloadable onReload={refreshExampleOrganizations} />
 
       <section className="user-name-section">
 

@@ -1,0 +1,140 @@
+/* ==========================================================
+   The title arrow (TitleHelpArrow.tsx, CardTitleHelp.tsx, docs/ai/layout-rules.md "The
+   title arrow"): the arrow beside a column title that folds that
+   column's own guidance. NOT the 36px fold arrow: its glyph is the
+   title's own size (--title-arrow-size, global.css: three quarters of
+   the title's font size, about its cap height) and its hit area is 28px
+   (never under 24px). Pointing right = guidance hidden, down = open.
+========================================================== */
+
+/* A CARD'S TITLE ROW: the title and its arrow on one line, the arrow after the
+   text, 8px apart, centred on the title's line, the pair centred in the card. */
+.card-title-row {
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    min-width: 0;
+
+}
+
+/* The column's "i" (what the column is) stands after the title at the row's one gap, the arrow after it: the row's gap is the "i"'s 8px. */
+.card-title-row > .info-note {
+
+    margin-left: 0;
+
+}
+
+/* The block is what the drop-down is anchored to: its panel floats under the
+   title row, across the card's content width, over what is below it. */
+.card-title-block {
+
+    position: relative;
+
+    min-width: 0;
+
+}
+
+.card-title-block > .card-title-help {
+
+    position: absolute;
+
+    top: calc(100% + var(--space-label));
+    left: 0;
+    right: 0;
+
+    z-index: 20;
+
+    box-sizing: border-box;
+
+    /* The help box (.answer-column-questions on the other pages), floating. */
+    padding: 16px 12px;
+
+    border-radius: 8px;
+
+    background: var(--bg-help);
+
+    box-shadow: 0 8px 24px var(--shadow-18);
+
+}
+
+.title-arrow {
+
+    position: relative;
+
+    flex: none;
+
+    box-sizing: border-box;
+
+    width: 28px;
+    height: 28px;
+
+    padding: 0;
+
+    /* The glyph is drawn below; the typed character is only the fallback. */
+    font-size: 0;
+    line-height: 1;
+
+    color: var(--text-strong);
+
+    border: 1px solid transparent;
+    border-radius: 6px;
+
+    background: transparent;
+
+    cursor: pointer;
+
+}
+
+.title-arrow::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 0;
+    height: 0;
+
+    border-style: solid;
+
+}
+
+/* Closed: pointing right. The long side is --title-arrow-size, the depth
+   0.61 of it (the fold arrow's 11 x 18). */
+.title-arrow[aria-expanded="false"]::before {
+
+    border-width: calc(var(--title-arrow-size) / 2) 0 calc(var(--title-arrow-size) / 2) calc(var(--title-arrow-size) * 0.61);
+    border-color: transparent transparent transparent currentColor;
+
+    margin: calc(var(--title-arrow-size) / -2) 0 0 calc(var(--title-arrow-size) * -0.305);
+
+}
+
+/* Open: pointing down, the same triangle turned. */
+.title-arrow[aria-expanded="true"]::before {
+
+    border-width: calc(var(--title-arrow-size) * 0.61) calc(var(--title-arrow-size) / 2) 0 calc(var(--title-arrow-size) / 2);
+    border-color: currentColor transparent transparent transparent;
+
+    margin: calc(var(--title-arrow-size) * -0.305) 0 0 calc(var(--title-arrow-size) / -2);
+
+}
+
+/* No reaction under the pointer (no ground, no ring): the arrow is a glyph; the keyboard focus below is its ring. */
+
+.title-arrow:focus-visible {
+
+    outline: none;
+
+    border-color: var(--line-primary);
+
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color, var(--line-primary)) 28%, transparent);
+
+}

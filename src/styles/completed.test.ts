@@ -43,7 +43,7 @@ describe("the completed grey", () => {
         const rule = (selector: string) => css.slice(css.indexOf(selector + "{"), css.indexOf("}", css.indexOf(selector + "{")));
         // The group itself has no frame and no ground (only its cards are tinted).
         expect(rule(".business-capability-completed")).not.toMatch(/background|box-shadow|border:/);
-        expect(rule(".business-capability-completed-head")).toContain("var(--text-completed-ink)");
+        expect(rule(".business-capability-completed .business-foundation-label")).toContain("var(--text-completed-ink)");
         expect(rule(".business-capability-completed .business-capability-activity")).toContain("var(--bg-completed-card)");
         expect(rule(".business-capability-done-tag")).toContain("var(--text-completed-ink)");
         expect(css).not.toMatch(/--(bg|line|text)-done-/);

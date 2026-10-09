@@ -43,7 +43,7 @@ export function controlNeed(trigger: HTMLElement): number {
 
     let widest = 0;
 
-    trigger.querySelectorAll(".option-picker-sizer, .option-picker-value").forEach(span => {
+    trigger.querySelectorAll(".option-picker-sizer, .option-picker-value:not([data-empty])").forEach(span => {
         const range = document.createRange();
         range.selectNodeContents(span);
         // A range's box is its text's full width even where the span
@@ -116,6 +116,27 @@ interface OptionPickerProps {
      */
     hug?: boolean;
 
+    /**
+     * Fills the column it stands in, and asks for exactly the width its widest option (with the words of
+     * `sizeFor`) needs: pickers that all `fill` one column make it as wide as the widest of them, and
+     * are every one that wide (the Workspace form: docs/ai/layout-rules.md). `"fit"` fills the column too but asks for
+     * nothing: its own options never widen it (a longer one ends in an ellipsis).
+     */
+    fill?: boolean | "fit";
+    /**
+     * A hugging picker as wide as its longest OPTION and no wider: the placeholder is not counted (nothing chosen yet,
+     * it is shown cut by an ellipsis rather than making the picker wider than any option).
+     */
+    tight?: boolean;
+
+    /**
+     * Words the picker is also made wide enough for, though they are not
+     * its options now (the Customer Channel's Journey Stage offers only
+     * the stages a channel has left, and is as wide as its longest stage
+     * all the same, so it does not change width as stages are chosen).
+     */
+    sizeFor?: readonly string[];
+
     onChange: (value: string) => void;
 
 }
@@ -165,6 +186,11 @@ export default function OptionPicker({
 
     hug = false,
 
+    fill = false,
+    tight = false,
+
+    sizeFor = [],
+
     onChange
 
 }: OptionPickerProps) {
@@ -192,7 +218,7 @@ export default function OptionPicker({
     const [step, setStep] = useState<ControlStep>("s");
     // Hugging: the width its widest option needs (0 until measured).
     const [hugWidth, setHugWidth] = useState(0);
-    const optionsKey = [placeholder, ...options].join("\u0000");
+    const optionsKey = [placeholder, ...options, "\u0001", ...sizeFor, tight ? "tight" : ""].join("\u0000");
 
     useLayoutEffect(() => {
 
@@ -228,11 +254,35 @@ export default function OptionPicker({
         LIST_PADDING +
         (searchable ? SEARCH_HEIGHT : 0);
 
+    // On page 3 (a card, a dialog, the All Tiles funnel -- boxes that scroll or clip) the list floats free of the boxes around it: placed in window
+    // coordinates under the cell, over it where there is no room below, else capped to the larger room and scrolling, so no option is ever cut off.
+    const [free, setFree] = useState(false);
+
     const { panelRef: listRef, panelStyle } = useFloatingPanel(
         open,
         triggerRef,
-        listMaxHeight
+        listMaxHeight,
+        free
     );
+
+    /* THE LIST IS A CARD OF ITS OWN under the cell (the placement's gap, above it where there is no room below), exactly the cell's width: its left
+       and right edges are the cell's. A long option wraps inside that width (its full text is the tooltip). Measured on opening and on resizing. */
+    const [reach, setReach] = useState<{ left: number; width: number } | null>(null);
+
+    useLayoutEffect(() => {
+        const trigger = triggerRef.current;
+        if (!open || !trigger) {
+            setReach(null);
+            return;
+        }
+        const measure = () => {
+            const width = trigger.getBoundingClientRect().width;
+            setReach(previous => previous && Math.abs(previous.width - width) < 0.01 && previous.left === trigger.offsetLeft ? previous : { left: trigger.offsetLeft, width });
+        };
+        measure();
+        window.addEventListener("resize", measure);
+        return () => window.removeEventListener("resize", measure);
+    }, [open, optionsKey]);
 
     // Clicking anywhere else, or pressing Escape, closes without
     // choosing -- both are what a popover is expected to do.
@@ -289,6 +339,7 @@ export default function OptionPicker({
 
         setQuery("");
         setActiveIndex(chosen >= 0 ? chosen : 0);
+        setFree(!!triggerRef.current?.closest(".business-capability, .section-tile-overlay, .section-tile-dialog, .strategy-sort-menu"));
         setOpen(true);
 
     }
@@ -417,7 +468,7 @@ export default function OptionPicker({
 
         <div
             className="option-picker"
-            data-size={hug ? "hug" : step}
+            data-size={fill === "fit" ? "fit" : fill ? "fill" : hug ? "hug" : step}
             style={hug && hugWidth > 0 ? { width: "min(100%, " + hugWidth + "px)" } : undefined}
             ref={containerRef}
         >
@@ -437,7 +488,7 @@ export default function OptionPicker({
                 onClick={() => open ? close() : start()}
                 onKeyDown={onTriggerKeyDown}
             >
-                <span className="option-picker-value">{display}</span>
+                <span className="option-picker-value" data-empty={tight && value.trim().length === 0 ? "" : undefined}>{display}</span>
 
                 {/*
                     Every choice, laid in the same grid cell as the
@@ -448,7 +499,7 @@ export default function OptionPicker({
                 */}
                 {/* Once each: a placeholder that is also an option
                     ("When earned") would otherwise be listed twice. */}
-                {[...new Set([placeholder, ...options])].map(option => (
+                {[...new Set([...(tight ? [] : [placeholder]), ...options, ...sizeFor])].map(option => (
                     <span
                         className="option-picker-sizer"
                         key={option}
@@ -465,7 +516,18 @@ export default function OptionPicker({
                 <div
                     ref={listRef}
                     className="option-picker-list"
-                    style={panelStyle}
+                    style={{
+                        ...panelStyle,
+                        // (Not shifted sideways: the width and the left edge are the cell's.)
+                        transform: undefined,
+                        ...(free
+                            // (Free: its left edge is placed by hand, at the cell's; only its width is the cell's.)
+                            ? (() => {
+                                const width = triggerRef.current?.getBoundingClientRect().width;
+                                return width ? { width, minWidth: width, maxWidth: width } : {};
+                            })()
+                            : reach ? { left: reach.left, width: reach.width, minWidth: reach.width, maxWidth: reach.width } : {})
+                    }}
                     role="listbox"
                     aria-label={label}
                     tabIndex={-1}
@@ -512,6 +574,7 @@ export default function OptionPicker({
                                 }
                                 role="option"
                                 aria-selected={row.value === value}
+                                title={row.text}
                                 onMouseEnter={() => setActiveIndex(position)}
                                 onClick={() => choose(row.value)}
                             >

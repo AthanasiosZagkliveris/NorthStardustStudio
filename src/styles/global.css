@@ -117,8 +117,83 @@ body {
   --space-row: 6px;
   --space-cell: 12px;
   /* One column of cards, or of a card's field stacks, to the next (a
-     Segment's three columns, its Description's two). */
-  --space-column: 24px;
+     Segment's three columns, its Description's two): a card gap, so a
+     card is the same distance from its neighbour across as down. */
+  --space-column: var(--space-card);
+  /* A section tile (SectionTiles): a true square, this wide and this high,
+     in every group of tiles (3. Infrastructure & Capability): a third of the
+     group's width less its two gaps (100cqw is the width of the tile box,
+     section-tiles.css), so three across fill it, and never under the minimum.
+     The hundredth of a pixel keeps three across from being rounded out of the row. */
+  /* The arrow beside a column title (title-arrow.css): its glyph's long side,
+     three quarters of the title's size (--font-h3), not the 36px fold arrow. */
+  --title-arrow-size: calc(var(--font-h2) * 0.75);
+  /* A section heading's height in a card of tiles (the old fold arrow's 36px). */
+  --section-head-height: 36px;
+  --section-tile-min: 120px;
+  /* A tile title that wraps: room between its lines (a single line is unchanged). */
+  --section-tile-line-height: 1.45;
+  /* A closed founder's box and a subcategory box (SubcategoryBoxes): the tile at this fixed side. */
+  --section-box-size: 160px;
+  /* The Workspace dialog's form block (section-tiles.css): centred, this wide at most. */
+  /* The Workspace form's label column: as wide as the widest label of the form (max-content), no wider. */
+  /* An open card in a dialog (a card box pressed): centred, this wide at most. */
+  --open-card-width: 480px;
+  /* A founder's card: the marker column left of the content edge (a bullet, a number, the
+     fold arrow), so the card's padding on that side is --card-padding + --founder-inset + this. */
+  --founder-marker: 26.3px;
+  /* (26.3px = a single-digit head number in tabular figures, 18.3px, plus the head's one 8px gap: the number stands 8px
+     before the name. --founder-inset keeps the standard 36px fold arrow's focus ring inside the card: the arrow's box
+     reaches 12.5px left of its glyph, its ring 4px more.) */
+  --founder-inset: 4.5px;
+  /* A founder's four cells (Salary, Frequency, Working Hrs, Delivery Hrs): one width, what the Frequency
+     picker's longest option ("Annually") needs with its padding, chevron and border. And the width of a
+     founder's card: what its content needs and no more -- the padding, inset and marker column, the two columns of cells
+     (the second as wide as the label "Frequency (i)", 120px) 12px apart, the right padding and the border. */
+  --founder-cell: 108px;
+  --founder-card-min: 297px;
+  /* THE ONE DIALOG GROUND and the glass cards inside it (section-tiles.css): the alpha
+     of the card's ground (the rest lets the dimmed page show through) and the blur
+     behind it. Text over them stays at 4.5:1 or more on the worst ground, per theme
+     (layout-rules 5a). */
+  --dialog-ground-alpha: 20%;
+  /* The page behind the dialog, lifted: it is dimmed by the overlay (35% black), and dark text or a dark smear of it under
+     the translucent ground would take the muted texts under 4.5:1. 1.7 undoes the dimming and a little more (light, sepia);
+     the dark theme needs none. */
+  --dialog-backdrop-brightness: 1.7;
+  /* A BOX (page tile, subcategory box, card box, Completed box) has no stroke: an inset light from the top left and an inset
+     shade to the bottom right are its edge. Per theme. */
+  --box-light: rgba(255, 255, 255, 0.75);
+  --box-shade: rgba(0, 0, 0, 0.18);
+  --box-inset: inset 3px 3px 6px var(--box-light), inset -3px -3px 6px var(--box-shade);
+  /* The "+" box's fill: the darker tone of the tile's hue (the card's hue at this saturation and lightness). */
+  --plus-fill-saturation: 36%;
+  --plus-fill-lightness: 38%;
+  /* THE PAGE BEHIND A FLOATING CARD: a flat dark scrim and the white ink of the box names standing on it (7:1 or more over the brightest page of any theme). */
+  --floating-scrim: rgba(0, 0, 0, 0.6);
+  --floating-caption-ink: #ffffff;
+  /* THE CELLS of an opened card (inputs, pickers, text boxes, name cells, Back; not the x, which keeps its own look) have no stroke either: a lighter light and shade, inside. */
+  --cell-light: rgba(255, 255, 255, 0.5);
+  --cell-shade: rgba(0, 0, 0, 0.12);
+  --cell-inset: inset 2px 2px 3px var(--cell-light), inset -2px -2px 3px var(--cell-shade);
+  /* A TEXT OR NUMBER CELL reads as a deeper part of its card: the same light and shade, the other way round (the shade at the top left, the light at the bottom right). */
+  --cell-inset-recess: inset 2px 2px 3px var(--cell-shade), inset -2px -2px 3px var(--cell-light);
+  /* THE HOVER LIFT of page 3: the glow a tile, a cell or a list row takes under the pointer is its old amount (18%, 28%) times this. One place to change it. */
+  --hover-lift: 1.2;
+  /* THE FOCUS RING INK of page 3 (cells, tiles, links, "+", x): the primary line in light and sepia; in dark a clean white, never the light blue (the dark
+     primary, #7aa7f5, drew a thin blue line round a focused cell). */
+  --focus-ring-ink: var(--line-primary);
+
+  --dialog-blur: 14px;
+  --card-glass-alpha: 62%;
+  --card-glass-blur: 8px;
+  --section-tile-size: max(var(--section-tile-min), calc((100cqw - (max(var(--tile-columns, 3), 3) - 1) * var(--space-card)) / max(var(--tile-columns, 3), 3) - 0.01px));
+  /* A tile's or box's title: the centre of its LAST line stands this fraction of the way down the square
+     (a third: about two thirds of the square lie below the title line). One token; 0.66667 would put it
+     two thirds down. */
+  --tile-title-top: 0.25;
+  /* The gap between a tile's title and its list, and between a list's bullet and its text. */
+  --tile-list-gap: 8px;
   /* The caps title's colour (see THE CAPS TITLE): the muted text colour,
      4.5:1 or more on every ground a caps title stands on (5.8:1 at the
      least, sepia, on a Goal card and the Value Proposition panel). */
@@ -163,6 +238,15 @@ body {
   --label-line: 28px;
   --side-label-width: 232px;
   --side-label-gap: 12px;
+  /* The SHORT side-label column (BusinessField side): wide enough for
+     "Responsibility" and its "i" (118px + 8px + 26px = 152px, 4px slack:
+     the longer of the two short labels a Capability card sets beside a
+     dropdown, with "Frequency"), so the two
+     labels stand in one column and their dropdowns start at one x. With a
+     TICK BOX before it (Responsible: 22px box + 8px gap + 100px word + 8px +
+     22px "i" = 160px) the column still holds tick, word and "i" on ONE line. */
+  --side-label-short: 164px;
+  --tile-radius: 8px;
   /* The column itself: the full width while the control keeps 9rem,
      then giving way down to half the field, never less. */
   --side-label-column: min(var(--side-label-width), max(50%, 100% - var(--side-label-gap) - 9rem));
@@ -274,6 +358,86 @@ body {
   --accent-hover-ink: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 }
 
+/* ACTION MARKERS' COLOURS (Customer Channel): the SHAPE of a symbol says the
+   kind of tie (a link = shared, a tag = linked to a resource), the COLOUR
+   says which one. Each SHARED action takes one of six COOL hues (teal,
+   blues, violets) and each RESOURCE one of six WARM hues (amber, orange,
+   rust, red, rose, pink), cycling -- the greens and yellow-greens are left
+   out: at the glyph lightness they fall under 3:1 on a lit row. The same
+   colour is on the symbol, on the 4px line at the edge of the action's cell (right for shared, left for
+   a resource) and, for a resource, on its card and chips. The tints come
+   from the same family tokens as a card's (--theme-*, per theme), so they
+   hold in light, sepia and dark:
+     --tint-ink     text on the tint's ground (the card family's ink,
+                    >= 4.5:1 on --tint-ground in all three themes)
+     --tint-mark    a symbol's glyph, a connection line (>= 3:1)
+     --tint-ground  a chip's fill
+     --tint-wash    a row or card lit by its twin / its resource
+   The connection lines read --shared-hue-N / --resource-hue-N with
+   --theme-mark-ink directly (BusinessEngagementEditor). */
+:root {
+  --shared-hue-1: 190;
+  --shared-hue-2: 210;
+  --shared-hue-3: 232;
+  --shared-hue-4: 254;
+  --shared-hue-5: 272;
+  --shared-hue-6: 292;
+  --resource-hue-1: 46;
+  --resource-hue-2: 28;
+  --resource-hue-3: 12;
+  --resource-hue-4: 356;
+  --resource-hue-5: 340;
+  --resource-hue-6: 322;
+}
+
+.tint-shared-1 { --tint-hue: var(--shared-hue-1); }
+.tint-shared-2 { --tint-hue: var(--shared-hue-2); }
+.tint-shared-3 { --tint-hue: var(--shared-hue-3); }
+.tint-shared-4 { --tint-hue: var(--shared-hue-4); }
+.tint-shared-5 { --tint-hue: var(--shared-hue-5); }
+.tint-shared-6 { --tint-hue: var(--shared-hue-6); }
+.tint-resource-1 { --tint-hue: var(--resource-hue-1); }
+.tint-resource-2 { --tint-hue: var(--resource-hue-2); }
+.tint-resource-3 { --tint-hue: var(--resource-hue-3); }
+.tint-resource-4 { --tint-hue: var(--resource-hue-4); }
+.tint-resource-5 { --tint-hue: var(--resource-hue-5); }
+.tint-resource-6 { --tint-hue: var(--resource-hue-6); }
+
+:is(.tint-shared-1,
+    .tint-shared-2,
+    .tint-shared-3,
+    .tint-shared-4,
+    .tint-shared-5,
+    .tint-shared-6,
+    .tint-resource-1,
+    .tint-resource-2,
+    .tint-resource-3,
+    .tint-resource-4,
+    .tint-resource-5,
+    .tint-resource-6) {
+  --tint-ink: hsl(var(--tint-hue) var(--theme-text-ink));
+  --tint-mark: hsl(var(--tint-hue) var(--theme-mark-ink));
+  --tint-ground: color-mix(in srgb, hsl(var(--tint-hue) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+  --tint-wash: color-mix(in srgb, hsl(var(--tint-hue) var(--theme-bg-hover)) var(--theme-ground-weight), var(--theme-ground-paper));
+  --tint-fill: linear-gradient(var(--tint-mark), var(--tint-mark));
+}
+
+/* PAST SIX COLOURS the hues come round in a PATTERN, with a second,
+   contrasting colour (--pattern-alt, colors.css): the 7th to 12th shared
+   action (or resource) in diagonal 4px STRIPES, the 13th to 18th in a
+   CROSS-HATCH, then round again. --tint-fill is what a mark is painted
+   with: its ink where solid, the pattern where not; a symbol, a 4px
+   line, a card's stripe and a chip's edge all read it. */
+.tint-pattern-stripes {
+  --tint-fill: repeating-linear-gradient(45deg, var(--tint-mark) 0 4px, var(--pattern-alt) 4px 8px);
+}
+
+.tint-pattern-hatch {
+  --tint-fill:
+    repeating-linear-gradient(90deg, var(--pattern-alt) 0 1px, transparent 1px 6px),
+    repeating-linear-gradient(0deg, var(--pattern-alt) 0 1px, var(--tint-mark) 1px 6px);
+}
+
 /* THE COLOUR FAMILY A BUTTON IS DRAWN IN. An outlined button --
    an add button, Hide Help, Previous, a file button, a dashed add
    tile, Expand all -- reads its colours from these, and answers
@@ -340,13 +504,19 @@ body {
    (text-transform: the words read aloud, and every accessible name, are
    unchanged). Business Foundation's "1. SEGMENT", PROFILES, COMPETITORS,
    OFFERINGS and VALUE PROPOSITION; Customer Engagement's "1. SEGMENT",
-   CUSTOMER CHANNEL and CUSTOMER RELATIONSHIP; Strategy's THEME, GOAL,
+   CUSTOMER CHANNEL and CUSTOMER RELATIONSHIP, and a Customer Relationship
+   band's "1. OFFERING -" and "PROFILES:", and the references' SEGMENT
+   (with the card's number before it), PROFILES and OFFERINGS; Strategy's THEME, GOAL,
    OBJECTIVE, METRIC and INITIATIVES. (A button inside -- an "i", an
    "Expand all" -- keeps its own case.) */
 .business-foundation:not(.business-engagement) .business-foundation-input-head > .strategy-box-number,
 .business-engagement:not(.business-capability) .business-foundation-input-head > .strategy-box-number,
 .business-engagement:not(.business-capability) .business-engagement-section > .business-engagement-section-head > .business-foundation-subhead,
+.business-engagement .business-relationship-table .business-engagement-band-kind,
+.business-engagement .business-relationship-table .business-relationship-profiles > .business-engagement-reference-label,
 .business-foundation-column-title,
+.business-engagement .business-engagement-reference-column > .business-foundation-label-info > .business-foundation-subhead,
+.business-engagement .business-engagement-segment-folded > .business-foundation-label-info > .business-foundation-subhead,
 .business-foundation-proposition > .business-foundation-label-info > .business-foundation-subhead,
 :is(.strategy-theme-box, .strategy-theme-panel, .strategy-goal-box, .strategy-objective-box, .strategy-metric-box) > .strategy-box-head > .strategy-box-number {
   font-size: var(--font-body);
@@ -740,6 +910,13 @@ b, strong {
 ========================================================== */
 :root {
   --list-number-width: 3.1ch;
+  /* Every numbered list, editable or shown: the number's right edge to
+     its text (the default 12px gap). */
+  --list-number-gap: 12px;
+  /* A shown (read-only) bulleted list: the bullet dot, and the gap from
+     its right edge to the text (the default 12px gap). */
+  --bullet-size: 6px;
+  --bullet-gap: 12px;
 }
 
 .list-number {
@@ -1066,4 +1243,24 @@ label:has(> input[type="checkbox"]:not(:disabled)):hover > input[type="checkbox"
   .page-arrow {
     transition: none;
   }
+}
+
+/* The dark theme dims the page less visibly (its text is light): the backdrop needs no lift. */
+:root[data-theme="dark"] {
+  --dialog-backdrop-brightness: 1;
+  --box-light: rgba(255, 255, 255, 0.1);
+  --box-shade: rgba(0, 0, 0, 0.5);
+  --cell-light: rgba(255, 255, 255, 0.07);
+  --cell-shade: rgba(0, 0, 0, 0.45);
+  --plus-fill-saturation: 42%;
+  --plus-fill-lightness: 68%;
+}
+
+:root[data-theme="sepia"] {
+  --box-light: rgba(255, 252, 244, 0.8);
+  --box-shade: rgba(60, 40, 20, 0.2);
+  --cell-light: rgba(255, 252, 244, 0.55);
+  --cell-shade: rgba(60, 40, 20, 0.14);
+  --plus-fill-saturation: 34%;
+  --plus-fill-lightness: 36%;
 }

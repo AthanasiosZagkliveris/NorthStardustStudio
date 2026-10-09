@@ -16,6 +16,13 @@
 
     align-items:flex-start;
 
+    /* PINNED TO THE RIGHT EDGE. The column is as wide as the widest
+       line end of the list (the rows share it), so a row without a
+       note ("also in 1 place") beside its x is narrower than the
+       column; its x must stand at the box's right edge like every
+       other row's, not at the column's left. */
+    justify-content:flex-end;
+
     min-width:0;
 
     padding-right:6px;
@@ -108,8 +115,9 @@
    A numbered list that is SHOWN, not asked (NumberedListStatic):
    the numbered list's own form without its box. The number the
    same size and colour as its text and on the text's first line,
-   right-aligned in the same 40px column with the same 20px to the
-   text, so the text of every line starts at the same x -- and
+   right-aligned in a column as wide as the list's widest number,
+   its first digit --space-cell (12px) from the list's left edge and
+   --list-number-gap (12px) to the text, so the text of every line starts at the same x -- and
    level with the text of an editable list beside it. Anything a
    line carries (a "Completed" badge) sits at the END of its first
    line, not on a line of its own; a long text wraps in its own
@@ -117,11 +125,16 @@
 ========================================================== */
 .numbered-list-static{
 
-    display:flex;
+    /* The number, the text, the line's end: three columns the lines
+       share (subgrid), so the number column is as wide as the widest
+       number of this list and every text starts at one x. */
+    display:grid;
 
-    flex-direction:column;
+    grid-template-columns:auto minmax(0, 1fr) auto;
 
-    gap:var(--space-row);
+    align-content:start;
+
+    row-gap:var(--space-row);
 
     margin:0;
 
@@ -142,7 +155,9 @@
 
     display:grid;
 
-    grid-template-columns:40px minmax(0, 1fr) auto;
+    grid-column:1 / -1;
+
+    grid-template-columns:subgrid;
 
     align-items:baseline;
 
@@ -154,9 +169,77 @@
 
     content:counter(numbered-list-static) ".";
 
-    padding-right:10px;
+    /* The first digit of a list under ten stands a cell gap (12px) from
+       the list's left edge, as in the editable list. */
+    padding-left:var(--space-cell);
 
     text-align:right;
+
+}
+
+/* A list that stands at a card's content edge (a founder's Responsibilities): the number
+   starts AT the list's left edge, left-aligned (no 12px inset), the text --list-number-gap after it. */
+.numbered-list-static-flush > li::before{
+
+    padding-left:0;
+
+    text-align:left;
+
+}
+
+/* A bulleted list that is SHOWN (BulletListStatic: a founder's Roles): the drawn bullet
+   (--bullet-size), its left edge the list's left edge, the text --bullet-gap from its right edge; the
+   size, colour and line height of a NumberedListStatic's. */
+.bullet-list-static{
+
+    display:flex;
+
+    flex-direction:column;
+
+    row-gap:var(--space-row);
+
+    margin:0;
+
+    padding:0;
+
+    list-style:none;
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:var(--text-color);
+
+}
+
+.bullet-list-static > li{
+
+    position:relative;
+
+    padding-left:calc(var(--bullet-size) + var(--bullet-gap));
+
+}
+
+.bullet-list-static > li::before{
+
+    content:"";
+
+    position:absolute;
+    left:0;
+    top:calc((1.5em - var(--bullet-size)) / 2);
+
+    width:var(--bullet-size);
+    height:var(--bullet-size);
+
+    border-radius:50%;
+    background:currentColor;
+
+}
+
+.bullet-list-static-text{
+
+    min-width:0;
+
+    overflow-wrap:break-word;
 
 }
 
@@ -164,7 +247,7 @@
 
     min-width:0;
 
-    padding-left:10px;
+    padding-left:var(--list-number-gap);
 
     overflow-wrap:break-word;
 
@@ -176,32 +259,374 @@
 
 }
 
-/* A SHARED CHANNEL ACTION (Customer Channel): a quiet "also in 2
-   places" (the places in its tooltip), and the line's own ×, which
-   takes the action out of this row only. On the line's first line. */
-.numbered-list-line-end .channel-action-shared{
+/* ACTION LINES (Customer Channel; ActionMarkers.tsx, NumberedListInput's
+   data-marks). The cell is TWO LINES high at least (8px + 2 x 27px + 8px =
+   70px), however short its text. Under the list number stands the line's
+   TOTAL ACTION ORDER NUMBER ("#12", small and muted), at the bottom of the
+   cell whatever the text's length. The x stays at the top right (32 x 32,
+   6px in from the top and right) and the line's SYMBOLS stand UNDER it, out
+   of the text's way, so the cell is never taller, nor the text narrower,
+   than the text asks for:
+     one symbol          directly under the x
+     two, 1 or 2 lines   side by side under the x (the text gives up the
+                         16px they reach past it)
+     two, 3+ lines       one under the other under the x
+     two, 1 line that    side by side level with the x (the text gives up
+       fits beside them  their 48px)
+   (data-marks "under" | "pair" | "stack" | "beside", set by the list from
+   the text's measured size.) Each symbol is a 24 x 24 button round a 16px
+   glyph; pointing at it or focusing it shows the app's tooltip above it, a
+   click isolates the related rows (aria-pressed). The symbols are placed
+   (absolute) so nothing moves on hover. */
+.numbered-list-row.is-action-line .numbered-list-input{
 
-    align-self:flex-start;
-
-    margin-top:6px;
-    margin-right:6px;
-
-    font-size:var(--font-small);
-    white-space:nowrap;
-
-    color:var(--text-subtle);
-
-    cursor:help;
+    /* Two text lines. */
+    min-height:70px;
 
 }
 
+.numbered-list-row.is-action-line > .numbered-list-number{
+
+    flex-direction:column;
+    align-items:flex-end;
+    align-self:stretch;
+
+    padding-bottom:9px;
+
+}
+
+.numbered-list-order{
+
+    margin-top:auto;
+
+    font-size:var(--font-small);
+    line-height:1.5;
+    font-variant-numeric:tabular-nums;
+
+    color:var(--text-subtle);
+
+}
+
+.numbered-list-row.is-action-line > .numbered-list-line-end{
+
+    position:relative;
+
+    align-self:stretch;
+
+    box-sizing:border-box;
+
+    width:38px;
+
+}
+
+.numbered-list-row.is-action-line .numbered-list-remove{
+
+    margin-top:6px;
+
+}
+
+.action-marks{
+
+    position:absolute;
+
+    display:flex;
+
+    /* One symbol, or the default before the list has measured: under the
+       x, centred on it ((32 - 24) / 2 = 4px in from its right edge). */
+    top:38px;
+    right:10px;
+
+    z-index:1;
+
+}
+
+.is-action-line[data-marks="pair"] .action-marks{
+
+    right:6px;
+
+}
+
+.is-action-line[data-marks="stack"] .action-marks{
+
+    flex-direction:column;
+
+}
+
+.is-action-line[data-marks="beside"] .action-marks{
+
+    top:10px;
+    right:38px;
+
+}
+
+/* The text's room, given up only where two symbols reach past the x. */
+.numbered-list-row.is-action-line[data-marks="pair"] .numbered-list-input{
+
+    padding-right:26px;
+
+}
+
+.numbered-list-row.is-action-line[data-marks="beside"] .numbered-list-input{
+
+    padding-right:58px;
+
+}
+
+.action-symbol{
+
+    flex:none;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    box-sizing:border-box;
+    width:24px;
+    height:24px;
+
+    margin:0;
+    padding:0;
+
+    border:0;
+    border-radius:4px;
+
+    background:none;
+
+    color:var(--tint-mark);
+
+    cursor:pointer;
+
+    transition:background-color .15s ease;
+
+}
+
+.action-symbol .action-mark-icon{
+
+    flex:none;
+
+}
+
+.action-symbol:hover,
+.action-symbol[aria-pressed="true"]{
+
+    background:var(--tint-ground);
+
+}
+
+/* The one isolating: filled, and ringed in its own colour. */
+.action-symbol[aria-pressed="true"]{
+
+    box-shadow:inset 0 0 0 1.5px var(--tint-mark);
+
+}
+
+/* Past six colours (global.css, .tint-pattern-*) the symbol is ringed in the
+   pattern -- 2px of stripes or cross-hatch round its tint ground -- and the
+   glyph stays the hue's ink on it. */
+.action-symbol:is(.tint-pattern-stripes, .tint-pattern-hatch),
+.action-symbol:is(.tint-pattern-stripes, .tint-pattern-hatch):hover,
+.action-symbol:is(.tint-pattern-stripes, .tint-pattern-hatch)[aria-pressed="true"]{
+
+    position:relative;
+    isolation:isolate;
+
+    background-color:transparent;
+    background-image:var(--tint-fill);
+
+}
+
+.action-symbol:is(.tint-pattern-stripes, .tint-pattern-hatch)::before{
+
+    content:"";
+
+    position:absolute;
+    inset:2px;
+    z-index:-1;
+
+    border-radius:2px;
+
+    background:var(--tint-ground);
+
+}
+
+.action-symbol:focus-visible{
+
+    outline:2px solid var(--line-primary);
+    outline-offset:1px;
+
+}
+
+/* THE CONNECTION LINES: a 4px line down the LEFT edge of the cell in the
+   colour of each resource the action is linked to (split into equal
+   segments, top to bottom, for two or more), and one down the RIGHT edge in
+   the colour of a shared action -- the same on every row it stands in. Set
+   by --line-left / --line-right on the row (BusinessEngagementEditor). The
+   box's rounded corners clip them. */
+.numbered-list-row.has-line-left::before,
+.numbered-list-row.has-line-right::after{
+
+    content:"";
+
+    position:absolute;
+    top:0;
+    bottom:0;
+
+    width:4px;
+
+    pointer-events:none;
+
+}
+
+/* Each is a list of layers (ActionOrder.ts, connectionPaint): one part of the
+   line per colour, and, past six colours, the hue's stripes or cross-hatch. */
+.numbered-list-row.has-line-left::before{
+
+    left:0;
+
+    background-image:var(--line-left);
+    background-size:var(--line-left-size);
+    background-position:var(--line-left-position);
+    background-repeat:no-repeat;
+
+}
+
+.numbered-list-row.has-line-right::after{
+
+    right:0;
+
+    background-image:var(--line-right);
+    background-size:var(--line-right-size);
+    background-position:var(--line-right-position);
+    background-repeat:no-repeat;
+
+}
+
+/* Lit: the twins of the row under the pointer, or the actions of the
+   resource under it, on the tint's very light wash. */
+.numbered-list-row{
+
+    transition:background-color .15s ease;
+
+}
+
+.numbered-list-row.is-lit{
+
+    background:color-mix(in srgb, var(--tint-wash) 40%, transparent);
+
+}
+
+/* ISOLATING. The lines that are not part of what a symbol isolated
+   collapse away (height and opacity; the table drops the rows left
+   with none). Hidden for the keyboard and assistive technology once
+   they are shut (visibility, after the transition), and nothing is
+   deleted: a second click, Escape or the title row's note brings them
+   back. Where the browser cannot animate to height 0 (interpolate-size),
+   they simply close. */
+.business-channel-table{
+
+    interpolate-size:allow-keywords;
+
+}
+
+.numbered-list-row.is-collapsed{
+
+    height:0;
+
+    overflow:hidden;
+
+    border-top-width:0;
+
+    opacity:0;
+
+    visibility:hidden;
+
+    pointer-events:none;
+
+    transition:height .2s ease, opacity .15s ease, visibility 0s linear .2s;
+
+}
+
+/* The first line left standing has no hairline above it: the box's own
+   border is there. */
+.numbered-list-row.is-first-shown{
+
+    border-top-width:0;
+
+}
+
+@media (prefers-reduced-motion: reduce){
+
+    .numbered-list-row,
+    .numbered-list-row.is-collapsed,
+    .action-symbol{
+
+        transition:none;
+
+    }
+
+}
+
+/* The channel table's bottom-left corner while it isolates: its last
+   row is a stage row, whose first cell is not always the channel's. */
+.business-channel-table.is-isolating:not(.business-relationship-table)
+    > tbody:last-of-type > tr:last-child > td:first-child{
+
+    border-bottom-left-radius:0;
+
+}
+
+.business-channel-table.is-isolating:not(.business-relationship-table)
+    .business-channel-corner-bl{
+
+    border-bottom-left-radius:8px;
+
+}
+
+/* "Shared: Instagram, Pinterest x" or "Linked: Shopify Basic x", at the far
+   end of the section's title row, before "Expand all" (the same quiet text
+   button); only while something is isolated. Every name shows: it wraps onto
+   further lines rather than being cut. */
+.fold-all-toggle.action-isolation-note,
+.fold-group-head > .fold-all-toggle.action-isolation-note{
+
+    flex:0 1 auto;
+
+    min-width:0;
+
+    margin-left:auto;
+
+    white-space:normal;
+    text-align:end;
+
+}
+
+.action-isolation-note + .fold-all-toggle{
+
+    margin-left:0;
+
+}
+
+/* The tooltip a symbol shows (the app's tooltip, global.css): above the
+   symbol, one line, as wide as its words. */
+.app-tooltip.action-tip{
+
+    width:max-content;
+    min-width:0;
+    max-width:calc(100vw - 16px);
+
+    white-space:nowrap;
+
+}
+
+/* 32 x 32 (the rulebook's ×), centred on the line's first line: the
+   line is 8px + 27px + 8px, so the × stands (43 - 32) / 2 under its top. */
 .numbered-list-remove{
 
     flex:none;
 
-    width:24px;
-    height:24px;
-    margin-top:4px;
+    width:32px;
+    height:32px;
+    margin-top:calc((43px - 32px) / 2);
     padding:0;
 
     border:0;
@@ -211,7 +636,7 @@
 
     font:inherit;
     font-size:var(--font-body);
-    line-height:24px;
+    line-height:32px;
 
     color:var(--text-subtle);
 

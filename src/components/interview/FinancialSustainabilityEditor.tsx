@@ -1,3 +1,4 @@
+import { countedCapability } from "../../framework/engine/CardCompleteness.ts";
 import { ReactNode, useState } from "react";
 
 import {
@@ -275,7 +276,7 @@ export default function FinancialSustainabilityEditor({
 
     const capability = withLegalEntityFounders(asBusinessCapabilityValue(capabilityValue), legalEntity.founders);
 
-    const lines = consolidateCosts(financial, costSourcesFor(legalEntity, capability, currency));
+    const lines = consolidateCosts(financial, costSourcesFor(legalEntity, countedCapability(capability), currency));
 
     // Whole units everywhere on this read-only page: an amount
     // someone can edit shows the string they typed, never this
@@ -816,6 +817,7 @@ export default function FinancialSustainabilityEditor({
                                         })}
                                     />
                                     <BusinessRemove
+                                        cell
                                         what={what + " volume change " + (position + 1)}
                                         disabled={disabled}
                                         onRemove={() => changeStream(stream.id, {

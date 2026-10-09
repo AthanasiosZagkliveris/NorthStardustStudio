@@ -1,4 +1,4 @@
-import { KeyboardEvent, ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { FocusEvent, HTMLAttributes, KeyboardEvent, ReactNode, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { consumeKey } from "./consumeKey.ts";
 import { useListDrag } from "./ReorderControls.tsx";
@@ -53,7 +53,7 @@ function ListLine({
     onFocused: () => void;
     onChange: (value: string) => void;
     onKeyDown: (event: KeyboardEvent<HTMLTextAreaElement>) => void;
-    onBlur: () => void;
+    onBlur: (event: FocusEvent<HTMLTextAreaElement>) => void;
     /** The line's stable id in its field key (FieldKeys.ts), where it has one. */
     fieldId?: string;
 
@@ -169,6 +169,21 @@ interface NumberedListInputProps {
     lineEnd?: (index: number) => ReactNode;
 
     /**
+     * Extra attributes for a line's row -- a class, data-* marks, the
+     * pointer and focus handlers of a row that is lit by its twins
+     * (the Customer Channel's shared actions). The class is added to
+     * the row's own.
+     */
+    rowProps?: (index: number) => HTMLAttributes<HTMLDivElement> & { [mark: `data-${string}`]: string | undefined };
+
+    /**
+     * A small muted note UNDER a line's number, at the bottom of the
+     * line however many lines its text runs to (the Customer Channel's
+     * total action order number, "#12"). Omitted, a line is its number.
+     */
+    lineOrder?: (index: number) => ReactNode;
+
+    /**
      * Entries already recorded elsewhere that this list could
      * reasonably repeat -- offered as you type, matched on what
      * has been typed so far.
@@ -188,9 +203,29 @@ interface NumberedListInputProps {
     /**
      * A suggestion chosen on a line, for a list whose lines refer to
      * something (a Segment's shared channel actions): the caller puts
-     * that thing on the line. Omitted, choosing one writes its text in.
+     * that thing on the line. `typed` is what the line held when it was
+     * chosen (a reference such as "#12"). Omitted, choosing one writes
+     * its text in.
      */
-    onAccept?: (index: number, entry: string) => void;
+    onAccept?: (index: number, entry: string, typed: string) => void;
+
+    /**
+     * For a list whose lines can name something by a reference rather
+     * than by its words (the Customer Channel's "#12", an action's total
+     * order number): what a typed text refers to, as the one suggestion
+     * to offer for it -- or undefined when it refers to nothing (the text
+     * stays as typed and nothing is offered). Needs `onAccept`.
+     */
+    reference?: (typed: string, index: number) => string | undefined;
+
+    /**
+     * A line left EMPTY goes when focus leaves it, so no stray blank line
+     * stays after editing (the Customer Channel's action cells). The last
+     * line of a list never goes: a list with nothing in it keeps its one
+     * empty line, where the first entry is typed. Enter still opens a
+     * new line to type in; it goes again if it is left empty.
+     */
+    dropEmptyOnBlur?: boolean;
 
     /** Each line's stable id, for its field key: an action's id, say. */
     lineIds?: readonly string[];
@@ -231,9 +266,17 @@ export default function NumberedListInput({
 
     lineEnd,
 
+    rowProps,
+
+    lineOrder,
+
     suggestions = [],
 
     onAccept,
+
+    reference,
+
+    dropEmptyOnBlur = false,
 
     lineIds,
 
@@ -265,6 +308,13 @@ export default function NumberedListInput({
      */
     function matches(index: number): string[] {
 
+        // A reference ("#12") offers the one thing it refers to.
+        const referred = reference?.(items[index] ?? "", index);
+
+        if (referred !== undefined) {
+            return [referred];
+        }
+
         const typed = (items[index] ?? "").trim().toLocaleLowerCase();
 
         if (typed.length === 0) {
@@ -295,7 +345,7 @@ export default function NumberedListInput({
         setOpenLine(-1);
 
         if (onAccept) {
-            onAccept(index, entry);
+            onAccept(index, entry, items[index] ?? "");
             return;
         }
 
@@ -306,10 +356,119 @@ export default function NumberedListInput({
 
     }
 
+    /* WHERE AN ACTION LINE'S SYMBOLS STAND (ActionMarkers.tsx), set on
+       the row as data-marks and drawn by numbered-list.css: one symbol
+       under the x; two side by side under it; two stacked under it when
+       the text runs to three lines or more; or, when the text is one line
+       and both fit beside the x, level with it. The aim is a cell no
+       taller, and a text no narrower, than the text itself asks for.
+       Decided from the text's measured width and height, which do not
+       depend on where the symbols stand, so the choice cannot flip back
+       and forth. */
+    const rows = useRef<(HTMLDivElement | null)[]>([]);
+    const measure = useRef<CanvasRenderingContext2D | null>(null);
+
+    const arrange = useCallback(() => {
+        for (const row of rows.current) {
+            if (!row || !row.classList.contains("is-action-line")) {
+                continue;
+            }
+            const marks = row.querySelectorAll(".action-symbol").length;
+            const field = row.querySelector<HTMLTextAreaElement>("textarea");
+            let shape = marks === 0 ? "none" : marks === 1 ? "under" : "pair";
+            if (marks === 2 && field && field.clientWidth > 0) {
+                const style = getComputedStyle(field);
+                const number = row.querySelector<HTMLElement>(".numbered-list-number");
+                const end = row.querySelector<HTMLElement>(".numbered-list-line-end");
+                const lineHeight = parseFloat(style.lineHeight) || 27;
+                // Its height as the text alone asks for it, at the width two symbols under the x leave it
+                // (whatever the line is drawn at now, so the choice cannot flip back and forth).
+                const height = field.style.height;
+                const least = field.style.minHeight;
+                const padding = field.style.paddingRight;
+                field.style.height = "auto";
+                field.style.minHeight = "0";
+                field.style.paddingRight = "26px";
+                const lines = Math.round((field.scrollHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom)) / lineHeight);
+                field.style.height = height;
+                field.style.minHeight = least;
+                field.style.paddingRight = padding;
+                if (!measure.current) {
+                    measure.current = document.createElement("canvas").getContext("2d");
+                }
+                const context = measure.current;
+                let fitsBeside = false;
+                if (context && !/\n/.test(field.value)) {
+                    context.font = style.fontStyle + " " + style.fontWeight + " " + style.fontSize + " " + style.fontFamily;
+                    const wanted = context.measureText(field.value).width;
+                    // The text's room with both symbols beside the x: the row less its number, its end column, the symbols and the text's own padding.
+                    const room = row.clientWidth - (number?.offsetWidth ?? 0) - (end?.offsetWidth ?? 0) - 48
+                        - parseFloat(style.paddingLeft) - 10;
+                    fitsBeside = wanted + 4 <= room;
+                }
+                shape = fitsBeside ? "beside" : lines >= 3 ? "stack" : "pair";
+            }
+            if (row.dataset.marks !== shape) {
+                row.dataset.marks = shape;
+                // The text's width changed with it (padding, not size): its height is fitted again.
+                const field = row.querySelector<HTMLTextAreaElement>("textarea");
+                if (field) {
+                    field.style.height = "auto";
+                    field.style.height = `${field.scrollHeight}px`;
+                }
+            }
+        }
+    }, []);
+
+    useLayoutEffect(arrange);
+
+    const listRef = useRef<HTMLDivElement | null>(null);
+    useEffect(() => {
+        const list = listRef.current;
+        if (!list || typeof ResizeObserver === "undefined") {
+            return;
+        }
+        const observer = new ResizeObserver(() => arrange());
+        observer.observe(list);
+        return () => observer.disconnect();
+    }, [arrange]);
+
     // Which line to put the caret in after the next render -- Enter
     // opens the line below and moves to it, which only works once
     // the new field exists.
     const pendingFocus = useRef<number>(-1);
+
+    /* AN EMPTY LINE LEFT BEHIND GOES (dropEmptyOnBlur). Checked a moment
+       after focus leaves it -- not at once, so that a click on a control
+       beside it is not lost to the row closing under the pointer -- and
+       then only if it is still empty, still not focused, and not the
+       list's last line. Focus that moved to a later line of the list is
+       kept on it as the lines close up. */
+    const latest = useRef({ items, onChange });
+    latest.current = { items, onChange };
+    const dropTimers = useRef<number[]>([]);
+
+    useEffect(() => () => dropTimers.current.forEach(timer => window.clearTimeout(timer)), []);
+
+    function dropIfEmpty(index: number) {
+        const { items: now, onChange: change } = latest.current;
+        const list = listRef.current;
+        if ((now[index] ?? "").length > 0 || now.length < 2 || !list) {
+            return;
+        }
+        const fields = [...list.querySelectorAll<HTMLTextAreaElement>("textarea.numbered-list-input")];
+        if (document.activeElement === fields[index]) {
+            return;
+        }
+        const focused = fields.indexOf(document.activeElement as HTMLTextAreaElement);
+        if (focused > index) {
+            pendingFocus.current = focused - 1;
+        }
+        change(
+            now.filter((_entry, position) => position !== index),
+            now.map((_entry, position) => position).filter(position => position !== index)
+        );
+    }
 
     const drag = useListDrag((from, to) => {
         const next = [...items];
@@ -407,6 +566,7 @@ export default function NumberedListInput({
     return (
 
         <div
+            ref={listRef}
             className={
                 "numbered-list" +
                 /* The box clips itself to its rounded corners, which
@@ -424,12 +584,15 @@ export default function NumberedListInput({
             {items.map((item, index) => {
 
                 const row = drag.itemProps(index);
+                const extra = rowProps?.(index) ?? {};
 
                 return (
 
                     <div
                         key={index}
-                        className={`numbered-list-row ${row.className}`}
+                        ref={(element) => { rows.current[index] = element; }}
+                        {...extra}
+                        className={`numbered-list-row ${row.className}` + (extra.className ? " " + extra.className : "")}
                         draggable={row.draggable}
                         onDragStart={row.onDragStart}
                         onDragOver={row.onDragOver}
@@ -438,7 +601,14 @@ export default function NumberedListInput({
                     >
 
                         <span className="numbered-list-number" {...drag.handleProps}>
-                            {index + 1}.
+                            {lineOrder?.(index)
+                                ? (
+                                    <>
+                                        <span>{index + 1}.</span>
+                                        <span className="numbered-list-order">{lineOrder(index)}</span>
+                                    </>
+                                )
+                                : <>{index + 1}.</>}
                         </span>
 
                         <ListLine
@@ -462,9 +632,12 @@ export default function NumberedListInput({
                                 onChange(values, unmoved());
                             }}
                             onKeyDown={(event) => keyDown(event, index)}
-                            onBlur={() => setOpenLine(
-                                current => current === index ? -1 : current
-                            )}
+                            onBlur={() => {
+                                setOpenLine(current => current === index ? -1 : current);
+                                if (dropEmptyOnBlur && !disabled) {
+                                    dropTimers.current.push(window.setTimeout(() => dropIfEmpty(index), 200));
+                                }
+                            }}
                             fieldId={lineIds?.[index]}
                         />
 

@@ -1,0 +1,317 @@
+/* ==========================================================
+   Channel resources (Business System, Page 2, 1. Customer Channel)
+
+   A read-only table of the Segment's channel resources, under its
+   Customer Channel table. Drawn like that table: the head on the
+   Segment's darkest ground, one 1px hairline between cells (every cell
+   draws its right and bottom edge, the table the top and left), rounded
+   corners, 12px (--space-field) from every cell's edge to its text.
+========================================================== */
+
+.channel-resource-block{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    min-width:0;
+
+}
+
+/* The table fits its card and wraps its text; only a window narrower than
+   the columns need scrolls it, inside this box and nowhere else. */
+.channel-resource-table-wrap{
+
+    max-width:100%;
+
+    overflow-x:auto;
+
+    border-radius:8px;
+
+}
+
+.channel-resource-table{
+
+    width:100%;
+
+    min-width:1050px;
+
+    border-collapse:separate;
+    border-spacing:0;
+
+    border-top:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+    border-left:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+    border-radius:8px;
+
+    table-layout:auto;
+
+}
+
+.channel-resource-table > caption{
+
+    position:absolute;
+
+    width:1px;
+    height:1px;
+
+    overflow:hidden;
+
+    clip-path:inset(50%);
+
+    white-space:nowrap;
+
+}
+
+.channel-resource-table th,
+.channel-resource-table td{
+
+    padding:var(--space-field);
+
+    border-style:solid;
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+    border-width:0 1px 1px 0;
+
+    text-align:left;
+    vertical-align:top;
+
+    font-size:var(--font-small);
+    font-weight:400;
+    line-height:1.4;
+
+    color:var(--text-default);
+
+    overflow-wrap:anywhere;
+
+}
+
+.channel-resource-table thead th{
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    font-weight:700;
+
+    letter-spacing:0.05em;
+
+    overflow-wrap:normal;
+
+}
+
+/* The four corners, on the cells that occupy them. */
+.channel-resource-table > thead > tr > :first-child{ border-top-left-radius:8px; }
+.channel-resource-table > thead > tr > :last-child{ border-top-right-radius:8px; }
+.channel-resource-table > tbody > tr:last-child > :first-child{ border-bottom-left-radius:8px; }
+.channel-resource-table > tbody > tr:last-child > :last-child{ border-bottom-right-radius:8px; }
+
+/* A row is on the cell ground, washed in its own colour when pointed at. */
+.channel-resource-table tbody td,
+.channel-resource-table tbody th{
+
+    background-color:var(--bg-panel);
+
+    transition:background-color .15s ease;
+
+}
+
+.channel-resource-table tbody tr:hover > *,
+.channel-resource-table tbody tr:focus-within > *{
+
+    background-color:var(--tint-wash);
+
+}
+
+/* Its name: the resource's colour (the warm palette, the same as its card and
+   the line down its actions' cells) as a 4px stripe down the row's left edge and
+   a dot, then the name as a button that opens its card. */
+.channel-resource-table tbody th.channel-resource-name{
+
+    background-image:var(--tint-fill);
+    background-size:4px 100%;
+    background-position:left top;
+    background-repeat:no-repeat;
+
+    padding-left:calc(var(--space-field) + 4px);
+
+    font-weight:600;
+
+}
+
+.channel-resource-open{
+
+    display:inline-flex;
+
+    align-items:baseline;
+
+    gap:6px;
+
+    max-width:100%;
+
+    padding:0;
+
+    border:0;
+    background:none;
+
+    font:inherit;
+    text-align:left;
+
+    color:var(--text-default);
+
+    text-decoration:underline;
+    text-underline-offset:2px;
+
+    cursor:pointer;
+
+}
+
+.channel-resource-open:disabled{
+
+    cursor:default;
+
+    text-decoration:none;
+
+}
+
+.channel-resource-dot{
+
+    flex:none;
+
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+
+    background-image:var(--tint-fill);
+
+}
+
+.channel-resource-detail{
+
+    color:var(--text-subtle);
+
+}
+
+.channel-resource-list{
+
+    margin:0;
+    padding:0;
+
+    list-style:none;
+
+}
+
+.channel-resource-list > li + li{
+
+    margin-top:var(--space-label);
+
+}
+
+/* Two or more values in a cell: one under the other, each with a drawn bullet
+   (--bullet-size, --bullet-gap, as the shown lists), all styled alike. */
+.channel-resource-bullets > li{
+
+    position:relative;
+
+    padding-left:calc(var(--bullet-size) + var(--bullet-gap));
+
+}
+
+.channel-resource-bullets > li::before{
+
+    content:"";
+
+    position:absolute;
+    left:0;
+    top:calc(0.7em - var(--bullet-size) / 2);
+
+    width:var(--bullet-size);
+    height:var(--bullet-size);
+
+    border-radius:50%;
+    background:currentColor;
+
+}
+
+/* A single value: plain text, indented to where a bullet list's text starts. */
+.channel-resource-single{
+
+    display:block;
+
+    padding-left:calc(var(--bullet-size) + var(--bullet-gap));
+
+}
+
+/* The Actions cell: no bullets; the buttons side by side, wrapping between them. */
+.channel-resource-chips{
+
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:var(--space-label);
+
+}
+
+.channel-resource-chips > li + li{
+
+    margin-top:0;
+
+}
+
+/* Column widths from their content: the name, cost and behaviour read on one
+   line; the three list columns hold most items on one line; three buttons
+   fit a line of Actions. */
+.channel-resource-col-resource{ width:19%; min-width:170px; }
+.channel-resource-col-cost{ width:9%; min-width:110px; }
+.channel-resource-col-behaviour{ width:7%; min-width:90px; }
+.channel-resource-col-channel{ width:17%; min-width:190px; }
+.channel-resource-col-offerings{ width:22%; min-width:190px; }
+.channel-resource-col-stages{ width:14%; min-width:160px; }
+.channel-resource-col-actions{ width:12%; min-width:140px; }
+
+.channel-resource-table td.channel-resource-cost,
+.channel-resource-table td.channel-resource-behaviour{ white-space:nowrap; }
+
+/* "#12": a button to that action's line; its words are the title. */
+.channel-resource-action{
+
+    white-space:nowrap;
+
+    padding:0 6px;
+
+    border:1px solid var(--tint-mark);
+    border-radius:6px;
+
+    background:var(--tint-ground);
+
+    font:inherit;
+    font-weight:600;
+
+    color:var(--tint-ink);
+
+    cursor:pointer;
+
+}
+
+.channel-resource-action:hover,
+.channel-resource-action:focus-visible{
+
+    background:var(--tint-wash);
+
+}
+
+.channel-resource-summary{
+
+    margin:0;
+
+    font-size:var(--font-small);
+
+    color:var(--text-subtle);
+
+}
+
+.channel-resource-summary-label{
+
+    font-weight:600;
+
+}

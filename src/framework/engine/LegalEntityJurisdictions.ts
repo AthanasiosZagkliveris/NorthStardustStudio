@@ -728,7 +728,7 @@ const JURISDICTIONS: Record<string, JurisdictionProfile> = {
         postalCodeName: "Postcode",
         registrationAuthority: "Companies House",
         taxIdName: "UTR",
-        registrationNumberHint: "8 characters, e.g. 12345678",
+        registrationNumberHint: "8 characters",
         consumptionTax: "VAT",
         activityCode: "SIC code",
         forms: [

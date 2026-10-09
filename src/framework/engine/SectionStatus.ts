@@ -66,12 +66,7 @@ const BESPOKE: Partial<Record<AnswerType, BespokeSections>> = {
     [AnswerType.LegalEntity]: {
         slices: raw => {
             const v = asLegalEntityValue(raw);
-            // "Not applicable" is an answer (a word the default lacks).
-            return [
-                v.organisation, v.founders, v.formation, v.tax,
-                v.requirementsNotApplicable ? "not-applicable" : v.requirements,
-                v.expensesNotApplicable ? "not-applicable" : v.expenses
-            ];
+            return [v.organisation, v.founders, v.formation, v.tax, v.requirements, v.expenses];
         },
         empty: legalEntitySectionsEmpty,
         optional: [4, 5]

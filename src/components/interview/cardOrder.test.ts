@@ -32,12 +32,13 @@ describe("the one card order: fields, the Description, the tick-box link lists, 
         expect(completed).toBeGreaterThan(links);
     });
 
-    it("puts a Legal Entity expense's Links after its Description", () => {
+    it("puts a Legal Entity expense's Linked registration before its Description (the card structure's order)", () => {
         const text = source("LegalEntityEditor.tsx");
         const description = text.indexOf("\"Expense \" + (index + 1) + \" description\"");
-        const links = text.indexOf("className=\"legal-entity-links\"");
+        const linked = text.indexOf("\"Expense \" + (index + 1) + \" linked registration\"");
         expect(description).toBeGreaterThan(0);
-        expect(links).toBeGreaterThan(description);
+        expect(linked).toBeGreaterThan(0);
+        expect(linked).toBeLessThan(description);
     });
 
     it("keeps a funding source's Linked Funding Need last, under its optional texts", () => {

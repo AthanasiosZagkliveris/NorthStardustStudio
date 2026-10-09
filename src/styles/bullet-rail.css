@@ -16,6 +16,12 @@
     --rail-status: var(--bg-status-ink);   /* a page status shape: 3:1 on the page (WCAG 1.4.11) */
     --rail-status-hover: var(--bg-status-ink-hover); /* the same under the pointer or focus */
     --rail-gutter: 56px;          /* dots-only width */
+    /* The blank before a one-digit "N." in the number column: the column
+       (--list-number-width, 3.1ch, global.css) less the number's ink (a
+       digit, the full stop and the rail's 0.1em tracking twice, ~1.77ch)
+       -- 1.33ch of the labels' Inter, 0.84em. In em, not ch: the name
+       is set in a heavier face, whose ch is wider. */
+    --rail-number-lead: 0.84em;
 
     /* The interview card's width -- the same value as
        .conversation-card's max-width (conversation-layout.css). */
@@ -340,6 +346,16 @@
 
     .bullet-rail-title { display: block; }
 
+    /* The right rail's labels are numbered, and the number stands
+       right-aligned in its column (.list-number, global.css), so its
+       ink starts a little in from the label's left edge: the blank
+       the column leaves before a one-digit "N." (tabular figures: the
+       same for every digit). The name lines up with the INK -- the
+       mirror of the left rail, whose name ends where its labels end --
+       so its padding is the dot and gap (24px): the label itself is
+       pulled left by that blank (below), putting the ink there. */
+    .bullet-rail-right .bullet-rail-title { padding-left: 24px; }
+
     /* Level with the name's text edge (the title's 24px, above). */
     .bullet-rail-left .bullet-rail-head > .page-arrow { margin-right: 24px; }
 
@@ -409,6 +425,11 @@
 
         padding-left: var(--rail-hang);
         text-indent: calc(-1 * var(--rail-hang));
+
+        /* Pulled in by the blank before the number's ink, so the INK
+           stands the dot-to-text gap (12px) from the dot, as the left
+           rail's text does; the name (24px, above) stands over it. */
+        margin-left: calc(-1 * var(--rail-number-lead));
 
     }
 

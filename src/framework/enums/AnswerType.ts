@@ -334,7 +334,7 @@ export enum AnswerType {
      * what each Offering needs on top of that.
      *
      * Two sections holding the same three subsections -- Resources,
-     * Activities, Partnerships & Providers -- and the reason this is
+     * Activities, Partners & Providers -- and the reason this is
      * its own Structure rather than an assembly of existing ones is
      * that THE THREE WRITE INTO EACH OTHER:
      *

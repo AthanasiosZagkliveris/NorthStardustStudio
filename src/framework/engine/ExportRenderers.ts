@@ -1,3 +1,4 @@
+import { workspacesOf, WORKSPACE_GROUP_ID } from "./AnswerUtils.ts";
 /*
     Export blocks for the Answer Structures that have an editor of
     their own -- the pages buildAnswerBlocks has no generic shape for.
@@ -17,6 +18,7 @@
     Business Plan (see BusinessDocuments.ts).
 */
 
+import { countedCapability } from "./CardCompleteness.ts";
 import { AnswerType } from "../enums/AnswerType.ts";
 import { type CapacityCheck, type DemandResult, deliveryAllocation, deliveryEffort, deliveryHours, demandResult, founderDeliveryHours, founderMonthlySalary, hasDemand, founderWorkingHours } from "./DemandCapacity.ts";
 import type { AnswerDefinition } from "../model/index.ts";
@@ -33,6 +35,7 @@ import {
     BUSINESS_RELATIONSHIP_TYPES,
     BUSINESS_RESOURCE_GROUPS,
     BUSINESS_RESOURCE_STATUSES,
+    isCostingStatus,
     BUSINESS_WORKSPACE_KINDS,
     type BusinessActivityValue,
     type BusinessCapabilityValue,
@@ -49,6 +52,7 @@ import {
     brandMarkFile,
     asBrandStyleValue,
     asBusinessCapabilityValue,
+    workspaceCardName,
     asBusinessEngagementValue,
     asBusinessFoundationValue,
     asFoundersProfileValue,
@@ -57,7 +61,9 @@ import {
     asStrategyFoundationValue,
     businessFoundationSegments,
     businessFounderResponsibilities,
+    businessPartnerResponsibleId,
     businessResponsibleId,
+    strategyObjectiveOwnerId,
     founderProfiles,
     founderSkillLines,
     withLegalEntityFounders
@@ -211,9 +217,10 @@ export function offeringNames(foundation: unknown, ids: readonly string[]): stri
 /** Page 3's value with the Legal Entity's founders, and their Founders Profile roles, laid over it, as Page 3 shows it. */
 export function capabilityOf(value: unknown, context: ExportContext): BusinessCapabilityValue {
     const capability = asBusinessCapabilityValue(value);
-    return context.legalEntity
+    // (As every calculation, count, export and document reads it: the incomplete cards left out -- see CardCompleteness.ts.)
+    return countedCapability(context.legalEntity
         ? withLegalEntityFounders(capability, context.legalEntity.founders, context.foundersProfile)
-        : capability;
+        : capability);
 }
 
 /** "£1,250 monthly", in the price's own currency. */
@@ -226,7 +233,9 @@ export function costText(cost: BusinessCostValue, currency: string): string {
     const code = cost.currency || currency;
     const frequency = cost.frequency === "other"
         ? text(cost.frequencyOther)
-        : labelOf(BUSINESS_COST_FREQUENCIES, cost.frequency).toLowerCase();
+        : cost.frequency === "per-unit" && cost.unit.trim() && cost.unit.trim() !== "unit"
+            ? "per " + cost.unit.trim()
+            : labelOf(BUSINESS_COST_FREQUENCIES, cost.frequency).toLowerCase();
     return [amount === null ? price : moneyFormatter(code)(amount), frequency].filter(Boolean).join(" ");
 }
 
@@ -341,7 +350,7 @@ function legalEntityBlocks(value: unknown, context: ExportContext): ExportBlock[
         ...titled("Organization", details([
             ["Name", organisation.name],
             ["Main Activity", organisation.mainActivity],
-            ["Activity Code", organisation.activityCode],
+            ["Activity Code", organisation.activityCodeOn ? organisation.activityCode : ""],
             ["Legal Form", organisation.legalForm === "Other (not listed)" ? organisation.legalFormOther : organisation.legalForm],
             ["Country", COUNTRIES.find(country => country.code === organisation.country)?.name ?? organisation.country],
             ["Region", organisation.subdivision],
@@ -381,9 +390,9 @@ function legalEntityBlocks(value: unknown, context: ExportContext): ExportBlock[
         ])),
 
         ...(entity.expenses.length > 0 ? [heading("Legal Entity Expenses")] : []),
-        ...table(["Expense", "Responsibility", "Cost", "Frequency", "For"],
+        ...table(["Expense", "Date", "Responsibility", "Cost", "Frequency", "Registration"],
             entity.expenses.map(expense => [
-                expense.name, founderName(expense.responsibility), moneyText(expense.cost, currency), expense.frequency,
+                expense.name, expense.date, founderName(expense.responsibility), moneyText(expense.cost, currency), expense.frequency,
                 expense.links.map(numberLabel).filter(Boolean).join("; ")
             ]))
     ];
@@ -519,7 +528,7 @@ function businessEngagementBlocks(value: unknown, context: ExportContext): Expor
     const engagement = asBusinessEngagementValue(value);
     const stage = (id: string) => labelOf(BUSINESS_JOURNEY_STAGES, id);
     // The Resource cards the channels' resources are (ChannelResources.ts): read, never counted here.
-    const cards = capabilityCards(asBusinessCapabilityValue(context.responseOf?.(AnswerType.BusinessCapability)));
+    const cards = capabilityCards(countedCapability(asBusinessCapabilityValue(context.responseOf?.(AnswerType.BusinessCapability))));
     const currency = context.currency ?? "";
 
     const bySegment = engagement.segments.flatMap((entry, index) => {
@@ -626,18 +635,20 @@ export function demandBasis(result: DemandResult, assumptions: string): string {
    3. Business -- Infrastructure & Capability
 ========================================================== */
 
-function partnerRows(
+export function partnerRows(
     partners: BusinessPartnerValue[],
     kind: string,
     founderName: (id: string) => string,
     currency: string,
     foundation: unknown,
-    withOffering: boolean
+    withOffering: boolean,
+    founderIds: readonly string[]
 ): string[][] {
     return partners.map(partner => [
         kind,
         partner.name,
-        founderName(partner.responsibleId),
+        // The one founder of a one-founder organisation is responsible without being chosen.
+        founderName(businessPartnerResponsibleId(partner, founderIds)),
         costText(partner.cost, currency),
         ...(withOffering ? [offeringNames(foundation, partner.offeringIds)] : []),
         partner.description
@@ -674,11 +685,11 @@ function slotRow(
     currency: string
 ): string[] {
     const status = labelOf(BUSINESS_RESOURCE_STATUSES, slot.status);
-    const detail = slot.status === "costs"
+    const detail = isCostingStatus(slot.status)
         ? costText(slot.cost, currency)
-        : slot.status === "provided" || slot.status === "professional" ? people(slot.providerId) : "";
+        : slot.status === "partners-suppliers" ? people(slot.providerId) : "";
     // The Quantity is a Costs resource's only: kept, not shown, for any other status.
-    return [place, slot.name, slot.status === "costs" ? slot.quantity : "", status, detail];
+    return [place, slot.name, isCostingStatus(slot.status) ? slot.quantity : "", status, detail];
 }
 
 function businessCapabilityBlocks(value: unknown, context: ExportContext): ExportBlock[] {
@@ -695,10 +706,8 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
     const people = (id: string) => everyone.find(person => person.id === id)?.name.trim() ?? "";
     const founderIds = capability.founders.map(founder => founder.id);
 
-    const workspace = capability.workspace;
-
     const resourceRows = [
-        ...BUSINESS_RESOURCE_GROUPS.flatMap(group => (capability.resources[group.id] ?? []).flatMap(subsection => {
+        ...BUSINESS_RESOURCE_GROUPS.filter(group => group.id !== WORKSPACE_GROUP_ID).flatMap(group => (capability.resources[group.id] ?? []).flatMap(subsection => {
             const place = group.label + " → " + (group.kinds.find(kind => kind.id === subsection.id)?.label ?? (subsection.name.trim() || "Other"));
             return subsection.slots.map(slot => slotRow(slot, place, people, currency));
         }))
@@ -724,12 +733,14 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
                 .map(entry => entry.name + (entry.completed ? " (completed)" : "")).join("; ")
         ])),
 
-        heading("Workspace", 2),
-        ...details([
-            ["Workspace", workspace.kind === "other" ? workspace.kindOther : labelOf(BUSINESS_WORKSPACE_KINDS, workspace.kind)],
-            ["Status", labelOf(BUSINESS_RESOURCE_STATUSES, workspace.status)],
-            ["Cost", workspace.status === "costs" ? costText(workspace.cost, currency) : ""],
-            ["Provider", workspace.status === "provided" ? people(workspace.providerId) : ""]
+        ...workspacesOf(capability).flatMap((workspace, index) => [
+            heading(workspaceCardName(index), 2),
+            ...details([
+                ["Workspace", workspace.kind === "other" ? workspace.kindOther : labelOf(BUSINESS_WORKSPACE_KINDS, workspace.kind)],
+                ["Status", labelOf(BUSINESS_RESOURCE_STATUSES, workspace.status)],
+                ["Cost", isCostingStatus(workspace.status) ? costText(workspace.cost, currency) : ""],
+                ["Supplier", workspace.status === "rent" ? people(workspace.providerId) : ""]
+            ])
         ]),
 
         heading("Resources", 2),
@@ -741,10 +752,10 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
                 BUSINESS_ACTIVITY_CATEGORIES.find(entry => entry.id === category.id)?.label ?? (category.name.trim() || "Other"),
                 people, founderIds, foundation, false))),
 
-        heading("Partnerships & Providers", 2),
+        heading("Partners & Providers", 2),
         ...table(["Kind", "Name", "Responsible", "Cost", "Description"], [
-            ...partnerRows(capability.professionals, "Professional / Partner", people, currency, foundation, false),
-            ...partnerRows(capability.providers, "Provider", people, currency, foundation, false)
+            ...partnerRows(capability.professionals, "Professional / Partner", people, currency, foundation, false, founderIds),
+            ...partnerRows(capability.providers, "Provider", people, currency, foundation, false, founderIds)
         ]),
 
         heading("2. Offering's Capability"),
@@ -756,8 +767,8 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
         ...table(["Category", "Activity", "Performers", "Responsible", "Offering", "State"],
             activityRows(capability.offering.activities, "Offering", people, founderIds, foundation, true)),
         ...table(["Kind", "Name", "Responsible", "Cost", "Offering", "Description"], [
-            ...partnerRows(capability.offering.professionals, "Professional / Partner", people, currency, foundation, true),
-            ...partnerRows(capability.offering.providers, "Provider", people, currency, foundation, true)
+            ...partnerRows(capability.offering.professionals, "Professional / Partner", people, currency, foundation, true, founderIds),
+            ...partnerRows(capability.offering.providers, "Provider", people, currency, foundation, true, founderIds)
         ]),
 
         heading("Delivery", 2),
@@ -1062,7 +1073,7 @@ function strategicPeriodBlocks(value: unknown, context: ExportContext): ExportBl
                     ...paragraph((themeIndex + 1) + "." + (goalIndex + 1) + "." + (objectiveIndex + 1) + " " +
                         (objective.name || "Unnamed objective") + (range(objective.period) ? " (" + range(objective.period) + ")" : "")),
                     ...paragraph(objective.description),
-                    ...paragraph(context.legalEntity?.founders.find(founder => founder.id === objective.ownerId)?.name ?? "", "Responsible"),
+                    ...paragraph(context.legalEntity?.founders.find(founder => founder.id === strategyObjectiveOwnerId(objective, (context.legalEntity?.founders ?? []).map(entry => entry.id)))?.name ?? "", "Responsible"),
                     ...list(objective.initiatives, true),
                     ...table(["Metric", "Baseline", "Target", "Frequency", "Unit"], objective.metrics.map(metric => [
                         metric.name, metric.baseline, metric.target, metric.frequency,

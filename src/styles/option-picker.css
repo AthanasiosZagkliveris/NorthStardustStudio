@@ -114,24 +114,24 @@
 
     z-index:20;
 
-    /* At least the trigger's width, and as wide as its longest
-       option -- up to the window, where an option wraps rather
-       than being cut off: the list is where a choice is read in
-       full. */
+    /* EXACTLY THE CELL'S WIDTH (OptionPicker sets the width, the least and the most, and the left edge, from the cell's own box): the list's
+       left and right edges are the cell's. A long option wraps inside that width (its full text is the tooltip). */
     min-width:100%;
-    width:max-content;
-    max-width:calc(100vw - 24px);
+    width:100%;
+    max-width:100%;
+    box-sizing:border-box;
 
     margin-top:6px;
 
     padding:4px;
 
-    border:1px solid var(--box-border);
+    /* NO STROKE: the card is the surface's own light and shade (the boxes' inset), with the drop shadow under it. */
+    border:0;
     border-radius:8px;
 
     background:var(--bg-surface);
 
-    box-shadow:0 12px 28px var(--shadow-ink-18);
+    box-shadow:var(--box-inset), 0 12px 28px var(--shadow-ink-18);
 
     /* The list holds the keyboard while it is open, and it is a
        listbox rather than a field -- so no focus ring of its own;

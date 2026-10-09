@@ -689,11 +689,24 @@ export default function BusinessFoundationEditor({
         // left-to-right.
         const half = Math.ceil(parts.length / 2);
 
+        // The rows of the one grid both columns fill: auto, but the last
+        // flexible, so the shorter column's last field (it spans down to
+        // it) never stretches a row it shares with the longer column's.
+        const descriptionTemplate = half > 1
+            ? "repeat(" + (half - 1) + ", auto) 1fr"
+            : "auto";
+
         return group(
             "Description",
             split
                 ? (
-                    <div className="business-foundation-description-split">
+                    <div
+                        className="business-foundation-description-split"
+                        style={{
+                            "--description-template": descriptionTemplate,
+                            "--description-tail": half - (parts.length - half) + 1
+                        } as CSSProperties}
+                    >
                         <div className="business-foundation-description-column">
                             {parts.slice(0, half).map(box)}
                         </div>

@@ -304,7 +304,7 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
                 {/* At once, and the undo toast offers it back; an empty note just goes. */}
                 <button
                     type="button"
-                    className="strategy-box-remove notepad-note-remove"
+                    className="strategy-box-remove card-remove notepad-note-remove"
                     aria-label="Delete note"
                     onClick={() => {
                         const removed = NotepadService.removeNote(note.id);

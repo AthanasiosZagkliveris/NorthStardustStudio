@@ -1,9 +1,9 @@
 import { describe, expect, test } from "vitest";
 
 import { InterviewSession } from "../interview";
-import { addressCity, asLegalEntityValue } from "./AnswerUtils.ts";
+import { addressCity, asLegalEntityValue, createBusinessPartner } from "./AnswerUtils.ts";
 import { buildExportContent } from "./ExportContentBuilder.ts";
-import { financialFoundationBlocks } from "./ExportRenderers.ts";
+import { financialFoundationBlocks, partnerRows } from "./ExportRenderers.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
 import { MarkdownExporter } from "./MarkdownExporter.ts";
 import exampleText from "../../../docs/examples/lumen-and-loom-studio.json?raw";
@@ -44,7 +44,7 @@ describe("exporting the Foundation capability", () => {
         expect(outputs.business).toContain("Segment 1: Conscious London Homemakers");
         expect(outputs.business).toContain("1. Customer Channel");
         expect(outputs.business).toContain("8-shaft floor looms");
-        expect(outputs.business).toContain("Total Funding Need: £46,400");
+        expect(outputs.business).toContain("Total Funding Need: £55,864");
         expect(outputs.business).toContain("Break-even revenue");
         expect(outputs.strategy).toContain("Financial Resilience");
         expect(outputs.strategy).toContain("2.1.1 Launch the Trade Collection");
@@ -95,6 +95,29 @@ describe("the Legal Entity's address, one box of lines", () => {
         // No postal code line to anchor on, or too few lines: no city.
         expect(addressCity("Office 12, Tower B\nDubai")).toBe("");
         expect(addressCity("1 High Street")).toBe("");
+    });
+
+});
+
+describe("a Partnership / Provider's Responsible in the export", () => {
+
+    const names: Record<string, string> = { ann: "Ann", bo: "Bo" };
+    const name = (id: string) => names[id] ?? "";
+    const rows = (responsibleId: string, founderIds: string[]) =>
+        partnerRows([{ ...createBusinessPartner("Printer"), responsibleId }], "Provider", name, "GBP", undefined, false, founderIds)[0][2];
+
+    test("is the one founder of a one-founder organisation when nobody is chosen; a choice is kept; several founders leave it empty until chosen", () => {
+        expect(rows("", ["ann"])).toBe("Ann");
+        expect(rows("bo", ["ann", "bo"])).toBe("Bo");
+        expect(rows("", ["ann", "bo"])).toBe("");
+        expect(rows("", [])).toBe("");
+    });
+
+    test("is empty when the Responsible tick is off, even for a one-founder organisation", () => {
+        const off = (responsibleId: string, founderIds: string[]) =>
+            partnerRows([{ ...createBusinessPartner("Printer"), responsibleId, responsibleOff: true }], "Provider", name, "GBP", undefined, false, founderIds)[0][2];
+        expect(off("", ["ann"])).toBe("");
+        expect(off("bo", ["ann", "bo"])).toBe("");
     });
 
 });

@@ -38,7 +38,30 @@ function headerClearance(): number {
     return (header?.getBoundingClientRect().height ?? 0) + 24;
 }
 
+/**
+ * A section tile (SectionTiles): the section it names is drawn in a dialog
+ * only while open, so a jump to anything inside it presses the tile first.
+ * Nothing is pressed while a dialog is already open.
+ */
+function openTile(tile: HTMLElement | null) {
+    if (tile && tile.hasAttribute("data-tile") && !document.querySelector(".section-tile-dialog, .floating-card-host")) {
+        tile.click();
+    }
+}
+
 function scrollToElement(element: HTMLElement) {
+    // Inside a dialog the dialog scrolls, not the page behind it.
+    if (element.closest("[role=dialog][aria-modal=true]")) {
+        element.scrollIntoView({ block: "center", behavior: "auto" });
+        return;
+    }
+    // Page 3 (Infrastructure & Capability): each card's body scrolls on its own and the
+    // page stays; the card body that holds the element scrolls to it.
+    const body = element.closest<HTMLElement>(".card-scroll");
+    if (body && body.scrollHeight > body.clientHeight + 1) {
+        element.scrollIntoView({ block: "center", behavior: "auto" });
+        return;
+    }
     window.scrollTo({
         top: element.getBoundingClientRect().top + window.scrollY - headerClearance(),
         left: 0,
@@ -72,6 +95,15 @@ export function jumpTo(path: readonly string[]) {
         const target = find(path[0]);
 
         if (target) {
+            // A closed box that opens its card in place (a founder's, FounderCards): pressed, then
+            // the card that replaces it is the target.
+            if (target.hasAttribute("data-opens") && Date.now() - started < GIVE_UP_MS) {
+                target.click();
+                window.setTimeout(attempt, STEP_MS);
+                return;
+            }
+            // A tile is opened: the point is to see what it holds.
+            openTile(target);
             // A folded card is opened too: the point is to see it.
             const toggle = ownToggle(target);
             if (toggle?.getAttribute("aria-expanded") === "false") {
@@ -81,9 +113,17 @@ export function jumpTo(path: readonly string[]) {
             return;
         }
 
+        // A card inside a closed tile: the tile that holds it is pressed (its dialog draws the card).
+        openTile(document.querySelector<HTMLElement>('[data-tile][data-holds~="' + CSS.escape(path[0]) + '"]'));
+
+        // ... and, inside the dialog, the subcategory box that holds it (SubcategoryBoxes): it opens
+        // its cards in place of the grid, then the card is found.
+        document.querySelector<HTMLElement>('.section-tile-dialog [data-opens][data-holds~="' + CSS.escape(path[0]) + '"]')?.click();
+
         const container = path.slice(1).map(find).find((element): element is HTMLElement => element !== null);
 
         if (container) {
+            openTile(container);
             const toggle = ownToggle(container);
             if (toggle?.getAttribute("aria-expanded") === "false") {
                 toggle.click();

@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { useState } from "react";
 
 import BusinessEngagementEditor, { channelNameOptions, stageIsUsual, stageOptionsFor } from "./BusinessEngagementEditor";
@@ -13,8 +13,10 @@ import {
     asBusinessFoundationValue,
     channelCategoryHelp,
     channelOptionHelp,
+    asBusinessCapabilityValue,
     createBusinessChannel,
     createBusinessCustomerSegment,
+    createBusinessResourceSlot,
     createBusinessSegmentEngagement
 } from "../../framework/engine/AnswerUtils";
 
@@ -30,6 +32,8 @@ const SPEC: [string, string[], string[]][] = [
     ["Direct Payment", ["Card", "Cash", "Bank Transfer", "Payment Link", "Invoice"], ["Purchase"]],
     ["File Delivery", ["WeTransfer", "Google Drive", "Dropbox", "OneDrive", "Email Attachment", "Client Portal"], ["Delivery"]],
     ["Physical Delivery", ["Courier", "Postal Service", "Local Delivery", "Third-party Fulfilment"], ["Delivery"]],
+    ["Retail & Wholesale", ["Retail Stockist", "Distributor", "Wholesale Account", "Reseller", "Concession / Shop-in-shop"], ["Discover", "Evaluation", "Purchase", "Delivery"]],
+    ["Referral & Affiliates", ["Referral Partner", "Affiliate", "Influencer / Ambassador", "Customer Referral"], ["Discover", "Evaluation", "Purchase"]],
     ["Other", [], ["Discover", "Evaluation", "Purchase", "Delivery", "Support & Follow Up"]]
 ];
 
@@ -200,12 +204,391 @@ describe("a Segment's shared channel actions, in the table", () => {
         const [insta, pin] = segment.channels;
         expect(pin.actionIds.discovery).toEqual(insta.actionIds.discovery);
         expect(segment.actions).toHaveLength(1);
-        expect(screen.getAllByText("also in 1 place")).toHaveLength(2);
+        // A shared symbol on both rows (a name for assistive technology), in place of the old note.
+        expect(screen.getAllByRole("button", { name: "Shared in 2 places" })).toHaveLength(2);
+        expect(screen.queryByText(/^also in/)).toBeNull();
 
         // Out of Pinterest's row: still in Instagram's.
         fireEvent.click(screen.getByRole("button", { name: "Remove action 1 from Discover actions for Channel 2" }));
         expect(saved!.segments[0].channels[1].actionIds.discovery).toEqual([]);
         expect(saved!.segments[0].channels[0].actions.discovery).toEqual(["Post weaving reels"]);
+    });
+
+    function renderPair(pinActions: string[] = []) {
+        cleanup();
+        const holder: { saved?: ReturnType<typeof asBusinessEngagementValue> } = {};
+        function Harness() {
+            const [{ foundation, engagement }] = useState(() => {
+                const segment = createBusinessCustomerSegment([]);
+                return {
+                    foundation: { ...asBusinessFoundationValue(undefined), segments: [{ ...segment, name: "Homes" }] },
+                    engagement: {
+                        ...asBusinessEngagementValue(undefined),
+                        segments: [{
+                            ...createBusinessSegmentEngagement(segment.id),
+                            channels: [
+                                { ...createBusinessChannel(), id: "insta", category: "Social Media", name: "Instagram", stages: ["discovery"], actions: { discovery: ["Post weaving reels", "Answer DMs"] } },
+                                { ...createBusinessChannel(), id: "pin", category: "Social Media", name: "Pinterest", stages: ["discovery"], actions: { discovery: pinActions } }
+                            ]
+                        }]
+                    }
+                };
+            });
+            const [value, setValue] = useState<unknown>(engagement);
+            return <BusinessEngagementEditor value={value} onChange={(next) => { holder.saved = next; setValue(next); }} foundation={foundation} />;
+        }
+        render(<Harness />);
+        fireEvent.click(document.querySelector(".business-channel-category .strategy-box-toggle")!);
+        return holder;
+    }
+
+    it("shares an action by typing # and its total order number in a line: it is offered first, and Enter puts the same action there", () => {
+        const holder = renderPair();
+        const line = screen.getByLabelText("Discover actions for Channel 2 1");
+        fireEvent.change(line, { target: { value: "#2" } });
+        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Answer DMs"]);
+        fireEvent.keyDown(line, { key: "Enter" });
+        const [insta, pin] = holder.saved!.segments[0].channels;
+        // The same action (same id), not a copy; the typed text is replaced by its words; no stray "#2" action.
+        expect(pin.actionIds.discovery).toEqual([insta.actionIds.discovery[1]]);
+        expect(holder.saved!.segments[0].actions).toHaveLength(2);
+        expect((screen.getByLabelText("Discover actions for Channel 2 1") as HTMLTextAreaElement).value).toBe("Answer DMs");
+        // Shared actions carry one number: #2 on both rows.
+        expect([...document.querySelectorAll(".numbered-list-order")].map(node => node.textContent)).toEqual(["#1", "#2", "#2"]);
+    });
+
+    it("leaves a number that refers to nothing, or to an action already on the row, as typed", () => {
+        const holder = renderPair(["Pin room sets"]);
+        const line = screen.getByLabelText("Discover actions for Channel 2 1");
+        for (const typed of ["#9", "#0", "#", "# 3 4", "#3"]) {
+            fireEvent.change(line, { target: { value: typed } });
+            // #3 is this row's own action ("Pin room sets" is typed over by now): nothing to offer.
+            expect(screen.queryByRole("option")).toBeNull();
+        }
+        fireEvent.keyDown(line, { key: "Enter" });
+        expect(holder.saved!.segments[0].channels[1].actions.discovery[0]).toBe("#3");
+    });
+
+    it("lets an empty line go when focus leaves it, and keeps the one line of an empty row", async () => {
+        renderPair(["Pin room sets"]);
+        const first = screen.getByLabelText("Discover actions for Channel 2 1");
+        first.focus();
+        // Enter opens a new line to type in...
+        fireEvent.keyDown(first, { key: "Enter" });
+        const second = screen.getByLabelText("Discover actions for Channel 2 2");
+        expect(document.activeElement).toBe(second);
+        // ...it stays while it is being typed in or only just opened...
+        await act(() => new Promise(resolve => window.setTimeout(resolve, 260)));
+        expect(screen.queryByLabelText("Discover actions for Channel 2 2")).not.toBeNull();
+        // ...and goes when focus leaves it empty.
+        second.blur();
+        await act(() => new Promise(resolve => window.setTimeout(resolve, 260)));
+        expect(screen.queryByLabelText("Discover actions for Channel 2 2")).toBeNull();
+        expect((screen.getByLabelText("Discover actions for Channel 2 1") as HTMLTextAreaElement).value).toBe("Pin room sets");
+    });
+
+    it("keeps the one empty line of a row with no action, whatever focus does", async () => {
+        renderPair();
+        const lone = screen.getByLabelText("Discover actions for Channel 2 1");
+        lone.focus();
+        lone.blur();
+        await act(() => new Promise(resolve => window.setTimeout(resolve, 260)));
+        expect(screen.getByLabelText("Discover actions for Channel 2 1")).toBeTruthy();
+        expect(screen.queryByLabelText("Discover actions for Channel 2 2")).toBeNull();
+    });
+
+});
+
+describe("action markers in the Customer Channel table", () => {
+
+    function renderTable() {
+        cleanup();
+        function Harness() {
+            const [{ foundation, engagement, capability }] = useState(() => {
+                const segment = createBusinessCustomerSegment([]);
+                const capability = asBusinessCapabilityValue(undefined);
+                return {
+                    foundation: { ...asBusinessFoundationValue(undefined), segments: [{ ...segment, name: "Homes" }] },
+                    capability: {
+                        ...capability,
+                        offering: {
+                            ...capability.offering,
+                            resources: [
+                                { ...createBusinessResourceSlot(), id: "card-shop", name: "Shopify Basic" },
+                                { ...createBusinessResourceSlot(), id: "card-ads", name: "Mail ads" }
+                            ]
+                        }
+                    },
+                    engagement: {
+                        ...asBusinessEngagementValue(undefined),
+                        channelResources: [
+                            { id: "link-shop", segmentId: segment.id, channelId: "insta", resourceId: "card-shop", actionIds: ["a-reels", "a-plain"] },
+                            { id: "link-ads", segmentId: segment.id, channelId: "mail", resourceId: "card-ads", actionIds: ["a-news"] }
+                        ],
+                        segments: [{
+                            ...createBusinessSegmentEngagement(segment.id),
+                            actions: [{ id: "a-reels", text: "Post reels" }, { id: "a-pins", text: "Pin room sets" }, { id: "a-plain", text: "Answer DMs" }, { id: "a-news", text: "Send the monthly note" }],
+                            channels: [
+                                { ...createBusinessChannel(), id: "insta", category: "Social Media", name: "Instagram", offerings: ["*"], stages: ["discovery"], actionIds: { discovery: ["a-reels", "a-plain"] } },
+                                { ...createBusinessChannel(), id: "pin", category: "Social Media", name: "Pinterest", offerings: ["*"], stages: ["discovery"], actionIds: { discovery: ["a-reels", "a-pins"] } },
+                                { ...createBusinessChannel(), id: "mail", category: "Email", name: "Newsletter", offerings: ["*"], stages: ["discovery"], actionIds: { discovery: ["a-news"] } }
+                            ]
+                        }]
+                    }
+                };
+            });
+            const [value, setValue] = useState<unknown>(engagement);
+            return <BusinessEngagementEditor value={value} onChange={setValue} foundation={foundation} capability={capability} onChangeCapability={() => undefined} />;
+        }
+        render(<Harness />);
+        for (const toggle of document.querySelectorAll(".business-channel-category .strategy-box-toggle")) {
+            fireEvent.click(toggle);
+        }
+    }
+
+    const rowOf = (id: string) => [...document.querySelectorAll(`.numbered-list-row[data-action-id="${id}"]`)];
+    const shared = () => screen.getAllByRole("button", { name: "Shared in 2 places" });
+    const resource = () => screen.getAllByRole("button", { name: "Linked to Shopify Basic" });
+    const collapsed = (id: string) => rowOf(id).map(row => row.classList.contains("is-collapsed"));
+    const adds = () => document.querySelectorAll(".business-channel-table-wrap .strategy-add-button");
+
+    it("puts a link symbol on every row of a shared action and a tag symbol on a linked one, each in its own colour, with a line at the cell's edge", () => {
+        renderTable();
+        // "Post reels" stands in two rows and is linked to a resource: both symbols on each.
+        expect(shared()).toHaveLength(2);
+        expect(resource()).toHaveLength(3);
+        for (const row of rowOf("a-reels")) {
+            expect(row.querySelectorAll(".numbered-list-line-end .action-symbol")).toHaveLength(2);
+            // The resource's colour down the left, the shared action's down the right.
+            expect(row.classList.contains("has-line-left") && row.classList.contains("has-line-right")).toBe(true);
+            expect((row as HTMLElement).style.getPropertyValue("--line-right")).toContain("--shared-hue-1");
+            expect((row as HTMLElement).style.getPropertyValue("--line-left")).toContain("--resource-hue-1");
+        }
+        expect(shared()[0].className).toMatch(/tint-shared-1/);
+        expect(resource()[0].className).toMatch(/tint-resource-1/);
+        // The second resource has the second warm colour, on its action's symbol, line and card.
+        expect(screen.getByRole("button", { name: "Linked to Mail ads" }).className).toMatch(/tint-resource-2/);
+        expect((rowOf("a-news")[0] as HTMLElement).style.getPropertyValue("--line-left")).toContain("--resource-hue-2");
+        expect(rowOf("a-news")[0].classList.contains("has-line-right")).toBe(false);
+        expect(document.querySelector('[data-channel-resource="link-shop"]')?.className).toMatch(/tint-resource-1/);
+        expect(document.querySelector('[data-channel-resource="link-ads"]')?.className).toMatch(/tint-resource-2/);
+        // A plain action (in one row, no resource) has neither symbol nor lines.
+        expect(rowOf("a-pins")[0].querySelector(".action-symbol")).toBeNull();
+        expect(rowOf("a-pins")[0].classList.contains("has-line-left") || rowOf("a-pins")[0].classList.contains("has-line-right")).toBe(false);
+        // A shared action only: the right line, no left.
+        // Every action line is a two-line cell.
+        expect(document.querySelectorAll(".numbered-list-row.is-action-line").length).toBeGreaterThanOrEqual(5);
+        // Gone: the chips, the tags row, the filter.
+        expect(document.querySelector(".action-chip, .channel-action-tags, .action-filter")).toBeNull();
+        expect(screen.queryByRole("button", { name: "All actions" })).toBeNull();
+    });
+
+    it("numbers every placement down the whole table, under its list number, and the resource's chips with the same numbers", () => {
+        renderTable();
+        const order = (id: string) => rowOf(id).map(row => row.querySelector(".numbered-list-order")?.textContent);
+        // Social Media (Instagram, Pinterest), then Email: category, channel, stage, line. A shared
+        // action has ONE number, on every row it stands in, and the numbers have no gaps.
+        expect(order("a-reels")).toEqual(["#1", "#1"]);
+        expect(order("a-plain")).toEqual(["#2"]);
+        expect(order("a-pins")).toEqual(["#3"]);
+        expect(order("a-news")).toEqual(["#4"]);
+        const chips = [...document.querySelectorAll('[data-channel-resource="link-shop"] .notepad-chip-open')].map(chip => chip.textContent);
+        expect(chips).toEqual(["#1Post reels", "#2Answer DMs"]);
+        // Isolating renumbers nothing.
+        fireEvent.click(shared()[0]);
+        expect(order("a-reels")).toEqual(["#1", "#1"]);
+    });
+
+    it("shows the app's tooltip, one line of words, on hover or focus, and Escape closes it", () => {
+        renderTable();
+        const symbol = shared()[0];
+        fireEvent.focus(symbol);
+        expect(screen.getByRole("tooltip").textContent).toBe("Shared in 2 places");
+        expect(screen.getByRole("tooltip").className).toMatch(/app-tooltip/);
+        fireEvent.keyDown(symbol, { key: "Escape" });
+        expect(screen.queryByRole("tooltip")).toBeNull();
+        fireEvent.mouseEnter(resource()[0]);
+        expect(screen.getByRole("tooltip").textContent).toBe("Linked to Shopify Basic");
+        fireEvent.mouseLeave(resource()[0]);
+        expect(screen.queryByRole("tooltip")).toBeNull();
+    });
+
+    it("lights an action's twins when its row is pointed at, and a resource's actions when its card or its symbol is", () => {
+        renderTable();
+        const [first, second] = rowOf("a-reels");
+        fireEvent.mouseEnter(first);
+        expect(first.classList.contains("is-lit") && second.classList.contains("is-lit")).toBe(true);
+        expect(rowOf("a-pins")[0].classList.contains("is-lit")).toBe(false);
+        fireEvent.mouseLeave(first);
+        expect(document.querySelectorAll(".numbered-list-row.is-lit")).toHaveLength(0);
+
+        fireEvent.mouseEnter(document.querySelector('[data-channel-resource="link-shop"]')!);
+        expect(rowOf("a-reels").every(row => row.classList.contains("is-lit"))).toBe(true);
+        fireEvent.mouseLeave(document.querySelector('[data-channel-resource="link-shop"]')!);
+        expect(document.querySelectorAll(".numbered-list-row.is-lit")).toHaveLength(0);
+        fireEvent.mouseEnter(resource()[0]);
+        expect(document.querySelector('[data-channel-resource="link-shop"]')?.classList.contains("is-lit")).toBe(true);
+    });
+
+    it("isolates a shared action by collapsing: only its lines, its channels' rows and the cards linked to it stay, no add button, and the note names the channels", () => {
+        renderTable();
+        const channelInputs = () => document.querySelectorAll(".business-channel-category-row").length;
+        expect(channelInputs()).toBe(2);
+        const rowsBefore = document.querySelectorAll(".business-channel-table tbody tr").length;
+        expect(adds().length).toBeGreaterThan(0);
+        expect(screen.getAllByRole("button", { name: /Add expenses for/ }).length).toBeGreaterThan(0);
+
+        fireEvent.click(shared()[0]);
+        expect(shared().every(button => button.getAttribute("aria-pressed") === "true")).toBe(true);
+        expect(collapsed("a-reels")).toEqual([false, false]);
+        expect(collapsed("a-plain").every(Boolean)).toBe(true);
+        expect(collapsed("a-pins")).toEqual([true]);
+        // The Email category held nothing of it: its band and row are gone; Social Media stays.
+        expect(channelInputs()).toBe(1);
+        expect(document.querySelectorAll(".business-channel-table tbody tr").length).toBeLessThan(rowsBefore);
+        // Every Add is hidden; so are the cards and cost lines not linked to the action.
+        expect(adds()).toHaveLength(0);
+        expect(screen.queryByRole("button", { name: /Add expenses for/ })).toBeNull();
+        expect(screen.queryByRole("button", { name: /Link an action to/ })).toBeNull();
+        expect(document.querySelector('[data-channel-resource="link-shop"]')).toBeTruthy();
+        expect(document.querySelector('[data-channel-resource="link-ads"]')).toBeNull();
+        expect(document.querySelector(".business-channel-cost-summary")).toBeNull();
+        // "Shared: <the channels that hold it>", every name.
+        expect(screen.getByRole("button", { name: /Show every action again/ }).textContent).toBe("Shared: Instagram, Pinterest ×");
+
+        // Second click on the same symbol.
+        fireEvent.click(shared()[0]);
+        expect(document.querySelectorAll(".numbered-list-row.is-collapsed")).toHaveLength(0);
+        expect(channelInputs()).toBe(2);
+        expect(document.querySelectorAll(".business-channel-table tbody tr")).toHaveLength(rowsBefore);
+        expect(screen.queryByText(/^Shared:/)).toBeNull();
+        expect(adds().length).toBeGreaterThan(0);
+
+        // Escape.
+        fireEvent.click(shared()[0]);
+        expect(document.querySelectorAll(".numbered-list-row.is-collapsed").length).toBeGreaterThan(0);
+        fireEvent.keyDown(document, { key: "Escape" });
+        expect(document.querySelectorAll(".numbered-list-row.is-collapsed")).toHaveLength(0);
+        expect(channelInputs()).toBe(2);
+
+        // The title row's note.
+        fireEvent.click(shared()[0]);
+        fireEvent.click(screen.getByRole("button", { name: /Show every action again/ }));
+        expect(document.querySelectorAll(".numbered-list-row.is-collapsed")).toHaveLength(0);
+        expect(document.querySelector(".business-channel-table")?.classList.contains("is-isolating")).toBe(false);
+    });
+
+    it("isolating a shared action shows EVERY card linked to it in EVERY channel kept: at home and, by the shared action, in the other", () => {
+        renderTable();
+        fireEvent.click(shared()[0]);
+        const cell = (channel: string) => [...document.querySelectorAll(".business-channel-name")]
+            .find(name => (name.querySelector("textarea") as HTMLTextAreaElement | null)?.value === channel)!;
+        // Shopify Basic was made on Instagram: its card is there, and Pinterest (which holds the same action) lists it as shared.
+        expect(within(cell("Instagram") as HTMLElement).getByDisplayValue("Shopify Basic")).toBeTruthy();
+        const viaPinterest = cell("Pinterest").querySelector(".business-channel-resources-shared");
+        expect(viaPinterest?.textContent).toContain("Shopify Basic");
+        expect(within(viaPinterest as HTMLElement).getByRole("button", { name: /^Go to shared action #1/ })).toBeTruthy();
+        // The card linked to nothing here (Mail ads) is in neither.
+        expect(cell("Instagram").textContent).not.toContain("Mail ads");
+        expect(cell("Pinterest").textContent).not.toContain("Mail ads");
+    });
+
+    it("creates nothing while isolated: Enter in an action line opens no new line, a Links box is not opened, and the lines stay editable", () => {
+        renderTable();
+        const line = () => document.querySelector('.numbered-list-row[data-action-id="a-reels"] textarea') as HTMLTextAreaElement;
+        const linesIn = () => document.querySelectorAll(".business-channel-table textarea[data-field-id]").length;
+        const before = linesIn();
+        fireEvent.keyDown(line(), { key: "Enter" });
+        expect(linesIn()).toBe(before + 1);
+        fireEvent.click(shared()[0]);
+        const isolated = linesIn();
+        fireEvent.keyDown(line(), { key: "Enter" });
+        expect(linesIn()).toBe(isolated);
+        // Text can still be edited.
+        fireEvent.change(line(), { target: { value: "Post reels weekly" } });
+        expect(line().value).toBe("Post reels weekly");
+        // The Links tick (it opens a new box) is shut.
+        for (const tick of document.querySelectorAll<HTMLInputElement>(".business-channel-links input[type=checkbox]")) {
+            expect(tick.disabled).toBe(true);
+        }
+    });
+
+    it("a click on empty space ends the isolation; a click on a control or a cell's content does not", () => {
+        renderTable();
+        const isolating = () => document.querySelector(".business-channel-table")?.classList.contains("is-isolating");
+        const press = (target: Element) => {
+            fireEvent.mouseDown(target);
+            fireEvent.mouseUp(target);
+            fireEvent.click(target);
+        };
+        fireEvent.click(shared()[0]);
+        expect(isolating()).toBe(true);
+        // Controls and content: the line's text, its row, a resource card and its name.
+        press(rowOf("a-reels")[0].querySelector("textarea")!);
+        press(rowOf("a-reels")[0]);
+        press(document.querySelector('[data-channel-resource="link-shop"]')!);
+        press(document.querySelector('[data-channel-resource="link-shop"] input')!);
+        expect(isolating()).toBe(true);
+        // A drag that began on a text and ended outside it is no click on empty space.
+        fireEvent.mouseDown(rowOf("a-reels")[0].querySelector("textarea")!);
+        fireEvent.click(document.body);
+        expect(isolating()).toBe(true);
+        // Empty space: the table's head, the page.
+        press(document.querySelector(".business-channel-table thead th")!);
+        expect(isolating()).toBe(false);
+        expect(document.querySelectorAll(".numbered-list-row.is-collapsed")).toHaveLength(0);
+        fireEvent.click(shared()[0]);
+        expect(isolating()).toBe(true);
+        press(document.body);
+        expect(isolating()).toBe(false);
+    });
+
+    it("isolates a resource from an action's symbol: only its card(s), with all its actions as chips and the clicked one highlighted, and the note names the resources", () => {
+        renderTable();
+        fireEvent.click(resource()[0]);
+        expect(resource().every(button => button.getAttribute("aria-pressed") === "true")).toBe(true);
+        expect(shared().every(button => button.getAttribute("aria-pressed") === "false")).toBe(true);
+        expect(collapsed("a-reels")).toEqual([false, false]);
+        expect(collapsed("a-plain")).toEqual([false]);
+        expect(collapsed("a-pins")).toEqual([true]);
+        expect(rowOf("a-news")).toHaveLength(0);
+        // Its card only: no other card, no summary, no add, no link.
+        expect(document.querySelector('[data-channel-resource="link-shop"]')).toBeTruthy();
+        expect(document.querySelector('[data-channel-resource="link-ads"]')).toBeNull();
+        expect(document.querySelector(".business-channel-cost-summary")).toBeNull();
+        expect(adds()).toHaveLength(0);
+        expect(screen.queryByRole("button", { name: /Link an action to/ })).toBeNull();
+        // All of its actions are chips; the one clicked from is highlighted.
+        const chips = [...document.querySelectorAll('[data-channel-resource="link-shop"] .notepad-chip')];
+        expect(chips.map(chip => chip.querySelector(".notepad-chip-open")?.textContent)).toEqual(["#1Post reels", "#2Answer DMs"]);
+        expect(chips.map(chip => chip.classList.contains("is-picked"))).toEqual([true, false]);
+        expect(screen.getByRole("button", { name: /Show every action again/ }).textContent).toBe("Linked: Shopify Basic ×");
+        // Only one isolation at a time: the shared symbol replaces it.
+        fireEvent.click(shared()[0]);
+        expect(resource().every(button => button.getAttribute("aria-pressed") === "false")).toBe(true);
+        expect(shared().every(button => button.getAttribute("aria-pressed") === "true")).toBe(true);
+        expect(screen.getAllByText(/^(Shared|Linked):/)).toHaveLength(1);
+    });
+
+    it("isolates a resource from its own card: its symbol, or the actions part of its summary, and a second click restores", () => {
+        renderTable();
+        const card = () => document.querySelector('[data-channel-resource="link-shop"]')!;
+        const words = () => within(card() as HTMLElement).getByRole("button", { name: "2 actions" });
+        // The card has no symbol: its summary line says "2 actions" (one action: "action"; none: "no actions").
+        expect(card().querySelector(".action-symbol")).toBeNull();
+        expect(card().querySelector(".business-channel-resource-summary")?.textContent).toBe("No cost yet · 2 actions");
+        expect(document.querySelector('[data-channel-resource="link-ads"] .business-channel-resource-summary')?.textContent).toBe("No cost yet · action");
+        fireEvent.click(words());
+        expect(words().getAttribute("aria-pressed")).toBe("true");
+        expect(collapsed("a-pins")).toEqual([true]);
+        expect(collapsed("a-plain")).toEqual([false]);
+        // Opened from the card: no action is singled out.
+        expect(card().querySelectorAll(".notepad-chip.is-picked")).toHaveLength(0);
+        expect(screen.getByRole("button", { name: /Show every action again/ }).textContent).toBe("Linked: Shopify Basic ×");
+        // A second click restores everything.
+        fireEvent.click(words());
+        expect(document.querySelectorAll(".numbered-list-row.is-collapsed")).toHaveLength(0);
+        expect(rowOf("a-news")).toHaveLength(1);
     });
 
 });

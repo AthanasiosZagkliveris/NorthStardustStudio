@@ -4,9 +4,12 @@ import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import FoldArrow from "./FoldArrow.tsx";
+import { drawnTitle } from "./SectionTiles.tsx";
 import CardNumber from "./CardNumber.tsx";
 import CardNameInput from "./CardNameInput.tsx";
 import { UndoService } from "../../services/UndoService";
+import { PreferencesService } from "../../services/PreferencesService.ts";
+import { isoToDisplay } from "./DateCellInput.tsx";
 
 import "../../styles/card-folding.css";
 
@@ -36,6 +39,14 @@ import "../../styles/card-folding.css";
    Labels and fields
 --------------------------------------------------------------- */
 
+/** The tick box next to a BusinessField's label (see BusinessField's `tick`). */
+export interface BusinessFieldTick {
+    on: boolean;
+    onChange: (on: boolean) => void;
+    disabled?: boolean;
+    ariaLabel?: string;
+}
+
 /**
  * A label, with its "i" note when the specification gives one, and
  * whatever control it names underneath.
@@ -48,7 +59,13 @@ export function BusinessField({
 
     inline = false,
 
+    side = false,
+
     fieldId,
+
+    tick,
+
+    className,
 
     children
 
@@ -56,6 +73,16 @@ export function BusinessField({
 
     label: string;
     info?: InfoPoint[];
+    /** A class of the field's own, after the ones it has. */
+    className?: string;
+    /**
+     * A tick box NEXT TO the label (tick, then the label's words), so the
+     * field can be turned off for this card: Responsible on a Capability
+     * card or a Strategy Objective. The label is the tick's label, so its
+     * name is clickable; the "i" follows outside it. The caller draws the
+     * control (children) only while the tick is on.
+     */
+    tick?: BusinessFieldTick;
     /**
      * The field's stable id in its key (FieldKeys.ts), where the label
      * could change: a note that links it keeps working when it does.
@@ -64,14 +91,44 @@ export function BusinessField({
     fieldId?: string;
     /** The label beside its control rather than above it. */
     inline?: boolean;
+    /**
+     * A SHORT SIDE LABEL (global.css, --side-label-short): the label in the
+     * one short label column, then --side-label-gap, then its control, label
+     * and control on one centre line. Frequency and Responsibility in the
+     * Capability cards -- their controls start at one x.
+     */
+    side?: boolean;
     children: ReactNode;
 
 }) {
 
     return (
-        <div className={"business-foundation-field" + (inline ? " business-field-inline" : "")}>
+        <div className={"business-foundation-field" + (inline ? " business-field-inline" : "") + (side ? " business-field-side" : "") + (className ? " " + className : "")}>
 
-            {info
+            {tick
+                ? (
+                    <>
+                        <span className="business-foundation-label-info">
+                            <label className="business-foundation-tick business-foundation-tick-inline">
+                                <input
+                                    type="checkbox"
+                                    className="brand-tick-box"
+                                    aria-label={tick.ariaLabel}
+                                    disabled={tick.disabled}
+                                    checked={tick.on}
+                                    onChange={(event) => tick.onChange(event.target.checked)}
+                                />
+                                <span className="field-label business-foundation-label">
+                                    {label}
+                                    <FieldMark label={label} keyLabel={fieldId} />
+                                </span>
+                            </label>
+                            {info && <InfoNote label={label} points={info} fullList />}
+                        </span>
+                        <FieldStatus label={label} keyLabel={fieldId} />
+                    </>
+                )
+                : info
                 ? (
                     <span className="business-foundation-label-info">
                         <span className="field-label business-foundation-label">
@@ -138,13 +195,13 @@ export function BusinessGroup({
         ? (
             <span className="business-foundation-label-info">
                 <span className="field-group-title business-foundation-subhead">
-                    <InfoText text={title}>
+                    <InfoText text={drawnTitle(title)}>
                         <InfoNote label={title} points={info} fullList />
                     </InfoText>
                 </span>
             </span>
         )
-        : <span className="field-group-title business-foundation-subhead">{title}</span>;
+        : <span className="field-group-title business-foundation-subhead">{drawnTitle(title)}</span>;
 
     if (fold) {
         return (
@@ -406,7 +463,9 @@ export function OptionalNote({
 
     disabled = false,
 
-    fieldId
+    fieldId,
+
+    recorded
 
 }: {
 
@@ -420,6 +479,11 @@ export function OptionalNote({
     placeholder?: string;
     className?: string;
     disabled?: boolean;
+    /**
+     * A DATED NOTE: when the note was first written ("YYYY-MM-DDTHH:mm"; "" before). Given, the note shows that moment as read-only text under the box,
+     * and an "Add Date" button adds today's date to the text. The one who owns the value stamps it (see noteStamped) in the same write as the text.
+     */
+    recorded?: string;
 
 }) {
 
@@ -433,9 +497,50 @@ export function OptionalNote({
                 value={value}
                 onChange={onChange}
             />
+            {recorded !== undefined && (
+                <div className="business-note-stamp">
+                    {recorded !== "" && (
+                        <span className="business-note-recorded">{"Recorded " + noteMomentText(recorded)}</span>
+                    )}
+                    <BusinessAddButton
+                        label="Date"
+                        disabled={disabled}
+                        onAdd={() => onChange(value + (value === "" || value.endsWith("\n") ? "" : "\n") + todayText() + " ")}
+                    />
+                </div>
+            )}
         </OptionalField>
     );
 
+}
+
+/** The moment a note is recorded, now: "YYYY-MM-DDTHH:mm" in local time. */
+export function noteNow(now = new Date()): string {
+    const two = (n: number) => String(n).padStart(2, "0");
+    return now.getFullYear() + "-" + two(now.getMonth() + 1) + "-" + two(now.getDate()) + "T" + two(now.getHours()) + ":" + two(now.getMinutes());
+}
+
+/**
+ * The record stamp of a note after an edit: a note that was empty and now holds text is stamped now; one that already has a stamp keeps it; one emptied
+ * loses it. (Written in the same patch as the text.)
+ */
+export function noteStamped(previous: string, next: string, recorded: string, now = new Date()): string {
+    if (next.trim() === "") {
+        return "";
+    }
+    // (A note written before the stamp existed keeps none: a moment is never made up.)
+    return previous.trim() === "" ? noteNow(now) : recorded;
+}
+
+/** A recorded moment as the app writes dates (the user's presentation) and the hour: "12/03/2027 14:05". */
+function noteMomentText(recorded: string): string {
+    const [date, time] = recorded.split("T");
+    return isoToDisplay(date, PreferencesService.getDateFormat()) + " " + time;
+}
+
+/** Today, written as the app writes dates. */
+function todayText(now = new Date()): string {
+    return isoToDisplay(noteNow(now).split("T")[0], PreferencesService.getDateFormat());
 }
 
 /**
@@ -457,6 +562,8 @@ export interface BusinessTickOption {
     label: string;
     /** Shown after the label, for a list whose names need one. */
     meaning?: string;
+    /** A sub-option of the one above it: drawn indented. */
+    indent?: boolean;
 }
 
 /**
@@ -500,7 +607,7 @@ export function BusinessTicks({
         <>
             {options.map(option => (
 
-                <label className="business-foundation-tick" key={option.id}>
+                <label className={"business-foundation-tick" + (option.indent ? " business-foundation-tick-indented" : "")} key={option.id}>
 
                     <input
                         type="checkbox"
@@ -596,12 +703,44 @@ export function uniqueChoices(
    Cards
 --------------------------------------------------------------- */
 
+/**
+ * THE LINK SYMBOL, beside a name chosen from a dropdown that leads to another card: a click opens that card. (A card another card generated has
+ * no symbol: its name is the link.)
+ */
+export function LinkSymbol({
+    noun,
+    name,
+    onOpen,
+    title
+}: {
+    /** What the card is called: "Supplier", "Partner", "Workspace". */
+    noun: string;
+    name: string;
+    onOpen: () => void;
+    title?: string;
+}) {
+    const text = "Open " + noun + " “" + name + "”";
+    return (
+        <button
+            type="button"
+            className="business-link-symbol"
+            aria-label={text}
+            title={title ?? text}
+            onClick={onOpen}
+        >
+            🔗
+        </button>
+    );
+}
+
 /** The delete control every card carries. */
 export function BusinessRemove({
 
     what,
 
     onRemove,
+
+    cell = false,
 
     disabled = false
 
@@ -610,13 +749,15 @@ export function BusinessRemove({
     what: string;
     onRemove: () => void;
     disabled?: boolean;
+    /** A row inside a card's cell (a performer, a milestone), not the card's own delete: it keeps the cell x's red. */
+    cell?: boolean;
 
 }) {
 
     return (
         <button
             type="button"
-            className="strategy-box-remove"
+            className={"strategy-box-remove" + (cell ? "" : " card-remove")}
             aria-label={"Remove " + what}
             title={"Remove " + what}
             disabled={disabled}
@@ -782,7 +923,11 @@ export function BusinessCard({
 
     headRow,
 
+    fixedFolded = false,
+
     style,
+
+    nameLink,
 
     children
 
@@ -793,6 +938,8 @@ export function BusinessCard({
     name: string;
     /** Absent for a card whose name belongs to another page. */
     onName?: (next: string) => void;
+    /** For a card whose name belongs to another page (a Customer Channel's): its name is a link to that page, as an investigated activity's name is. */
+    nameLink?: { title: string; onClick: () => void };
     open: boolean;
     /** Absent for a card that is always open: it has no fold arrow. */
     onToggle?: () => void;
@@ -818,6 +965,14 @@ export function BusinessCard({
      * Offering's Type).
      */
     headRow?: ReactNode;
+    /**
+     * Folded, the card is ONE FIXED SIZE (a Capability list's Resource and
+     * Partner / Provider cards): its name on one line cut by an ellipsis
+     * (the full name in a tooltip), and its summary on one line under it,
+     * cut the same way -- the line kept even when there is none -- so
+     * every folded card in the list is as tall as the next.
+     */
+    fixedFolded?: boolean;
     /** The card's own inline style: a folded colour card's tint (Brand Style). */
     style?: CSSProperties;
     children: ReactNode;
@@ -844,7 +999,7 @@ export function BusinessCard({
                 shares (.fold-card-head): arrow, number, name, remove,
                 and the folded summary on a row of its own under the
                 name. */}
-            <div className={"strategy-box-head" + (onToggle ? " fold-card-head" : "")}>
+            <div className={"strategy-box-head" + (onToggle ? " fold-card-head fold-card-fixed" : "") + (fixedFolded && !open ? " fold-card-head-fixed" : "")}>
 
                 {onToggle && (
                     <FoldArrow open={open} label={who} onToggle={onToggle} />
@@ -865,11 +1020,26 @@ export function BusinessCard({
                             onChange={(name) => onName(name)}
                         />
                     )
+                    : nameLink && name.trim().length > 0
+                    ? (
+                        <button
+                            type="button"
+                            className="business-capability-child-name"
+                            title={nameLink.title}
+                            aria-label={"Open " + nameLink.title}
+                            onClick={nameLink.onClick}
+                        >
+                            {name}
+                        </button>
+                    )
                     : (
                         /* Shown, not asked. It fills the same slot
                            the input would, so a referring card and
                            an answering one have the same head. */
-                        <span className="strategy-name-static">
+                        <span
+                            className="strategy-name-static"
+                            title={name.trim().length > 0 ? name : undefined}
+                        >
                             {name.trim().length > 0
                                 ? name
                                 : "Unnamed " + kind.toLocaleLowerCase()}
@@ -878,8 +1048,13 @@ export function BusinessCard({
 
                 {actions}
 
-                {!open && summary && (
-                    <div className="business-card-summary">{summary}</div>
+                {!open && (summary || fixedFolded) && (
+                    <div
+                        className="business-card-summary"
+                        title={typeof summary === "string" ? summary : undefined}
+                    >
+                        {summary}
+                    </div>
                 )}
 
                 {open && headRow && (

@@ -4,6 +4,7 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/react"
 
 import LegalEntityEditor from "./LegalEntityEditor";
 import { typeInto } from "../../test/interviewTestUtils";
+import { stylesheet } from "../../test/stylesheet";
 import { UndoService } from "../../services/UndoService";
 import { asLegalEntityValue, createLegalEntityExpense, createLegalEntityRequirement, legalEntitySectionsEmpty } from "../../framework/engine/AnswerUtils";
 
@@ -295,7 +296,7 @@ describe("LegalEntityEditor VAT", () => {
 
     it("asks one tick, its number beside it, and reads a saved \"not applicable\" as not registered", () => {
 
-        const saved = asLegalEntityValue({ organisation: { country: "United Kingdom" }, tax: { consumptionTaxStatus: "not-applicable" } });
+        const saved = asLegalEntityValue({ organisation: { country: "GB" }, tax: { consumptionTaxStatus: "not-applicable" } });
         expect(saved.tax.consumptionTaxStatus).toBe("no");
 
         function Vat() {
@@ -338,7 +339,7 @@ describe("LegalEntityEditor where it is", () => {
         expect(address.tagName).toBe("TEXTAREA");
         expect(address.value).toBe("Unit 4\n92 Wallis Road\nLondon\nE9 5LN");
         // The lines expected, in the country's words.
-        expect(address.placeholder).toBe("Street\nCity\nPostcode");
+        expect(address.placeholder).toBe("City\nStreet and Postcode");
         expect(screen.queryByRole("button", { name: /Add Address 2/i })).toBeNull();
         expect(screen.queryByRole("textbox", { name: "Address 2" })).toBeNull();
 
@@ -352,23 +353,49 @@ describe("LegalEntityEditor where it is", () => {
     it("names a US address's code the ZIP Code, and a UAE address none", () => {
 
         const { unmount } = render(<Where initial={asLegalEntityValue({ organisation: { country: "US" } })} />);
-        expect((screen.getByRole("textbox", { name: "Address" }) as HTMLTextAreaElement).placeholder).toBe("Street\nCity\nZIP Code");
+        expect((screen.getByRole("textbox", { name: "Address" }) as HTMLTextAreaElement).placeholder).toBe("City\nStreet and ZIP Code");
         unmount();
 
         render(<Where initial={asLegalEntityValue({ organisation: { country: "AE" } })} />);
-        expect((screen.getByRole("textbox", { name: "Address" }) as HTMLTextAreaElement).placeholder).toBe("Street\nCity");
+        expect((screen.getByRole("textbox", { name: "Address" }) as HTMLTextAreaElement).placeholder).toBe("City\nStreet");
+
+    });
+
+    it("always shows the activity code as a tick row, and its box only while ticked (a saved code loads ticked)", () => {
+
+        const { unmount } = render(<Where initial={asLegalEntityValue({ organisation: { country: "GB" } })} />);
+        const tick = () => screen.getByRole("checkbox", { name: "Has a SIC code" }) as HTMLInputElement;
+        expect(tick().checked).toBe(false);
+        expect(screen.queryByRole("textbox", { name: "SIC code" })).toBeNull();
+        fireEvent.click(tick());
+        expect(screen.getByRole("textbox", { name: "SIC code" })).toBeTruthy();
+        unmount();
+
+        render(<Where initial={asLegalEntityValue({ organisation: { country: "GB", activityCode: "13100" } })} />);
+        expect(tick().checked).toBe(true);
+        expect((screen.getByRole("textbox", { name: "SIC code" }) as HTMLInputElement).value).toBe("13100");
 
     });
 
     it("asks the activity code under Main Activity at the small width, with a note and, in the UK, its official list", () => {
 
-        render(<Where initial={asLegalEntityValue({ organisation: { country: "GB", mainActivity: "Weaving" } })} />);
+        render(<Where initial={asLegalEntityValue({ organisation: { country: "GB", mainActivity: "Weaving", activityCode: "13100" } })} />);
 
         const code = document.querySelector(".legal-entity-activity-code")!;
         expect(code.querySelector("input.interview-input")).toBeTruthy();
         fireEvent.click(code.querySelector("button")!);
         expect(document.body.textContent).toContain("classifies what the organization does");
         expect(document.querySelector('a[href*="gov.uk/government/publications/standard-industrial-classification"]')).toBeTruthy();
+
+    });
+
+    it("keeps the activity code's tick row a field gap under the Main Activity box, ticked or not", () => {
+
+        // The column already puts a label gap between its children, so the row's margin is the rest of the 12px;
+        // the row is as high as its content (the tick, or the 45px box beside it), never a fixed minimum.
+        const css = stylesheet("conversation.css");
+        expect(css).toMatch(/\.legal-entity-activity-code > \.legal-entity-activity-code-tick ?\{[^}]*margin-top: ?calc\(var\(--space-field\) - var\(--space-label\)\);[^}]*align-items: ?center;/);
+        expect(css).not.toMatch(/\.legal-entity-activity-code > \.legal-entity-activity-code-tick ?\{[^}]*min-height/);
 
     });
 
@@ -481,7 +508,8 @@ describe("LegalEntityEditor expense links", () => {
             fireEvent.click(arrow);
         }
 
-        const labels = [...document.querySelectorAll(".legal-entity-link-label")].map(label => label.textContent);
+        fireEvent.click(screen.getByRole("button", { name: /^Expense 1 linked registration/ }));
+        const labels = screen.getAllByRole("option").map(option => option.textContent);
         expect(labels).toContain("Employers' Liability Insurance");
         expect(labels.some(label => label?.includes("Other Legal Requirement"))).toBe(false);
         expect((screen.getByRole("textbox", { name: "Registration Authority" }) as HTMLTextAreaElement).placeholder).toBe("");
@@ -587,7 +615,15 @@ describe("LegalEntityEditor Add to Legal Entity Expenses", () => {
         for (const arrow of screen.queryAllByRole("button", { name: /^Maximize/ })) {
             fireEvent.click(arrow);
         }
-        const links = () => [...document.querySelectorAll(".legal-entity-link-label")].map(label => label.textContent);
+        // (The Linked registration is a dropdown of what has been offered: exactly one can be chosen.)
+        const picker = () => screen.queryByRole("button", { name: /^Expense 1 linked registration/ });
+        const links = () => {
+            if (!picker()) { return []; }
+            fireEvent.click(picker()!);
+            const names = screen.getAllByRole("option").map(option => option.textContent);
+            fireEvent.keyDown(document.activeElement ?? document.body, { key: "Escape" });
+            return names;
+        };
         const tick = screen.getByRole("checkbox", { name: "Add to Legal Entity Expenses" }) as HTMLInputElement;
 
         expect(tick.checked).toBe(false);
@@ -597,8 +633,8 @@ describe("LegalEntityEditor Add to Legal Entity Expenses", () => {
         expect(links()).toContain("Company Secretary");
 
         // Link it, then untick: the link goes; undo brings both back.
-        const link = [...document.querySelectorAll(".legal-entity-link")].find(label => label.textContent === "Company Secretary")!.querySelector("input")!;
-        fireEvent.click(link);
+        fireEvent.click(picker()!);
+        fireEvent.click(screen.getByRole("option", { name: "Company Secretary" }));
         expect(asLegalEntityValue(latest).expenses[0].links).toEqual([requirement.id]);
         fireEvent.click(screen.getByRole("checkbox", { name: "Add to Legal Entity Expenses" }));
         expect(asLegalEntityValue(latest).expenses[0].links).toEqual([]);

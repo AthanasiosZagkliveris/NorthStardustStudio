@@ -136,18 +136,35 @@ describe("BusinessEngagementEditor folding", () => {
 
     });
 
-    it("hides the References until asked for", () => {
+    it("shows the References on the card, with the fold arrow beside 1. SEGMENT and no Show / Hide button", () => {
 
         const { container } = render(<Harness />);
 
-        const toggle = screen.getByRole("button", { name: "Show References" });
-        expect(toggle.getAttribute("aria-expanded")).toBe("false");
-        expect(container.querySelector<HTMLElement>(".business-engagement-reference-columns")?.hidden).toBe(true);
+        expect(screen.queryByRole("button", { name: /(Show|Hide) References/ })).toBeNull();
+        expect(container.querySelector(".business-engagement-reference")).toBeNull();
+        expect(container.querySelector(".business-engagement-input > .fold-card-head")).toBeNull();
 
-        fireEvent.click(toggle);
+        const labels = [...container.querySelectorAll(".business-engagement-reference-column > .business-foundation-label-info")]
+            .map(label => label.textContent?.replace(/\s+/g, " ").trim());
+        expect(labels[0]).toContain("1.Segment");
+        expect(labels[1]).toMatch(/^Profiles/);
+        expect(labels[2]).toMatch(/^Offerings/);
 
-        expect(screen.getByRole("button", { name: "Hide References" }).getAttribute("aria-expanded")).toBe("true");
-        expect(container.querySelector<HTMLElement>(".business-engagement-reference-columns")?.hidden).toBe(false);
+        // The card's own arrow stands in the Segment column's heading.
+        const heading = container.querySelector(".business-engagement-reference-column > .business-foundation-label-info")!;
+        const arrow = screen.getByRole("button", { name: "Minimize Segment 1" });
+        expect(heading.contains(arrow)).toBe(true);
+
+        // The Segment's details start folded.
+        const segmentColumn = container.querySelector(".business-engagement-reference-column")!;
+        expect(segmentColumn.querySelector(".business-engagement-reference-facts")).toBeNull();
+
+        // Folding the card leaves its heading and the Segment's name.
+        fireEvent.click(arrow);
+        expect(container.querySelector(".business-engagement-reference-columns")).toBeNull();
+        const folded = container.querySelector(".business-engagement-segment-folded")!;
+        expect(folded.textContent).toMatch(/1\.\s*Segment/);
+        expect(screen.getByRole("button", { name: "Maximize Segment 1" })).toBeTruthy();
 
     });
 
@@ -305,6 +322,93 @@ describe("BusinessEngagementEditor offering picker", () => {
         expect(channel.offerings).toEqual([second.id]);
         expect(screen.getByRole("button", { name: /^Offering 1 for Channel \d+: Audit \(2\)$/ })).toBeTruthy();
 
+    });
+
+    // A channel cannot be without Offerings: the last one is changed, not removed.
+    it("never offers to remove a channel's last Offering", () => {
+
+        render(<Harness />);
+
+        fireEvent.click(screen.getByRole("button", { name: "Maximize Website" }));
+
+        // Two carried: each can go.
+        expect(screen.getAllByRole("button", { name: "Remove this Offering" })).toHaveLength(2);
+
+        fireEvent.click(screen.getAllByRole("button", { name: "Remove this Offering" })[0]);
+
+        // One left: nothing to remove.
+        expect(screen.queryByRole("button", { name: "Remove this Offering" })).toBeNull();
+        expect(screen.getByRole("button", { name: /^Offering 1 for Channel \d+: Retainer$/ })).toBeTruthy();
+
+    });
+
+    it("gives a new channel every Offering, with nothing to remove", () => {
+
+        render(<Harness />);
+
+        fireEvent.click(screen.getByRole("button", { name: "Maximize Email" }));
+
+        expect(screen.getAllByRole("button", { name: /^Offering 1 for Channel \d+: All Offerings$/ }).length).toBeGreaterThan(0);
+
+    });
+
+});
+
+describe("BusinessEngagementEditor Engagement Strategy (2. Customer Relationship)", () => {
+
+    function StrategyHarness() {
+        const [{ foundation, engagement }] = useState(() => {
+            const scenario = engagementScenario();
+            const [audit] = scenario.foundation.segments[0].offerings;
+            const segment = scenario.engagement.segments[0];
+            return {
+                foundation: scenario.foundation,
+                engagement: {
+                    ...scenario.engagement,
+                    segments: [{ ...segment, offerings: [{ offeringId: audit.id, types: ["self-service"], typeDetail: {} }] }]
+                }
+            };
+        });
+        const [value, setValue] = useState<unknown>(engagement);
+        return <BusinessEngagementEditor value={value} onChange={setValue} foundation={foundation} />;
+    }
+
+    function openAudit() {
+        const view = render(<StrategyHarness />);
+        fireEvent.click(screen.getByRole("button", { name: /^Maximize .*Audit/ }));
+        return view;
+    }
+
+    it("puts the Goal on the Journey Stage's own line, and the Approach under the Goal beside the channels", () => {
+        const { container } = openAudit();
+        const goal = container.querySelector("td.business-engagement-band-goal")!;
+        const bandRow = goal.closest("tr")!;
+        // The Journey Stage (first part) and the Goal (second part) are cells of ONE row.
+        expect(bandRow.querySelector("th.business-engagement-band")).toBeTruthy();
+        expect(goal.textContent).toContain("Goal");
+        expect(goal.querySelector(".business-engagement-goal-ticks")).toBeTruthy();
+        // Every Journey Stage band starts folded.
+        expect(bandRow.contains(screen.getByRole("button", { name: /^Maximize Discover/ }))).toBe(true);
+        fireEvent.click(screen.getByRole("button", { name: /^Maximize Discover/ }));
+        // The Approach is in the rows below, beside the channel category lists, not in the band row.
+        expect(bandRow.querySelector("textarea[aria-label^=\"Approach\"]")).toBeNull();
+        const channelRow = goal.closest("tr")!.nextElementSibling!;
+        expect(channelRow.querySelector(".business-engagement-stage-channels")).toBeTruthy();
+        expect(channelRow.querySelector("textarea[aria-label^=\"Approach\"]")).toBeTruthy();
+    });
+
+    it("folds only the channel categories under a stage, from the start: the Goal and the Approach stay", () => {
+        const { container } = openAudit();
+        expect(container.querySelector(".business-engagement-stage-channels")).toBeNull();
+        fireEvent.click(screen.getByRole("button", { name: /^Maximize Discover/ }));
+        expect(container.querySelector(".business-engagement-stage-channels")).toBeTruthy();
+        fireEvent.click(screen.getByRole("button", { name: /^Minimize Discover/ }));
+        expect(container.querySelector(".business-engagement-stage-channels")).toBeNull();
+        expect(container.querySelector("td.business-engagement-band-goal .business-engagement-goal-ticks")).toBeTruthy();
+        expect(screen.getByRole("textbox", { name: /^Approach for Discover/ })).toBeTruthy();
+        fireEvent.click(screen.getByRole("button", { name: /^Maximize Discover/ }));
+        expect(container.querySelector(".business-engagement-stage-channels")).toBeTruthy();
+        expect(screen.getAllByRole("textbox", { name: /^Approach for Discover/ })).toHaveLength(1);
     });
 
 });

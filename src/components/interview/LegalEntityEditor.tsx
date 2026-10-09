@@ -106,6 +106,17 @@ const INFO = {
         "Asked for when the organization is registered, and on its annual filings where they apply."
     ],
 
+    requirements: [
+        "What else the law asks of this organization, if anything applies: for example a licence, a professional registration, or a named officer.",
+        "Add one if it applies to your activity, your legal form, or where you are registered. If none does, add none."
+    ],
+
+    expenses: [
+        "What it costs to register and keep registered: filing, renewal and agent fees. Each pays for one registration.",
+        "Insurance, licences and certificates are cards of Documents & Rights on 3. Infrastructure & Capability.",
+        "Add the ones that apply. If there are none, add none."
+    ],
+
     mainActivity: [
         "The work the organization actually does, described factually.",
         "Write it as a registry or a bank would expect to read it.",
@@ -139,7 +150,7 @@ const INFO = {
     ],
 
     links: [
-        "Says which registration or requirement this expense pays for.",
+        "Says which registration or requirement this expense pays for. Only one can be chosen.",
         "Lists what you have already recorded further up the page."
     ]
 
@@ -779,8 +790,10 @@ export default function LegalEntityEditor({
      *
      * `titleExtra` sits at the far end of the heading's own row --
      * the subsection's "Expand all" (see .fold-group-head).
+     *
+     * `titleInfo` is the "i" beside the title.
      */
-    function subsection(index: number, children: ReactNode, title?: string, titleExtra?: ReactNode) {
+    function subsection(index: number, children: ReactNode, title?: string, titleExtra?: ReactNode, titleInfo?: InfoPoint[]) {
 
         const heading = (
             <h3 className="legal-entity-section-head">
@@ -790,6 +803,7 @@ export default function LegalEntityEditor({
                 <span className="legal-entity-section-title">
                     {title ?? LEGAL_ENTITY_SECTIONS[index]}
                     <FieldMark label={title ?? LEGAL_ENTITY_SECTIONS[index]} section={railId(LEGAL_ENTITY_SECTIONS[index])} />
+                    {titleInfo && <InfoNote label={title ?? LEGAL_ENTITY_SECTIONS[index]} points={titleInfo} />}
                 </span>
                 <FieldStatus label={title ?? LEGAL_ENTITY_SECTIONS[index]} section={railId(LEGAL_ENTITY_SECTIONS[index])} />
             </h3>
@@ -845,7 +859,7 @@ export default function LegalEntityEditor({
                                 (nested ? " legal-entity-label-nested" : "")
                             }
                         >
-                            <span className="field-label legal-entity-label">{label}<FieldMark label={label} /></span>
+                            <span className="field-label legal-entity-label">{label}<FieldMark label={label} /><FieldStatus label={label} /></span>
                             {removeFieldButton(label, onRemove)}
                         </span>
                     )
@@ -862,6 +876,7 @@ export default function LegalEntityEditor({
                                         <InfoNote label={label} points={info} />
                                     </InfoText>
                                     <FieldMark label={label} />
+                                    <FieldStatus label={label} />
                                 </span>
                             </span>
                         )
@@ -874,9 +889,9 @@ export default function LegalEntityEditor({
                             >
                                 {label}
                                 <FieldMark label={label} />
+                                <FieldStatus label={label} />
                             </span>
                         )}
-                <FieldStatus label={label} />
                 {control}
             </div>
         );
@@ -934,27 +949,6 @@ export default function LegalEntityEditor({
             </div>
         );
 
-    }
-
-    /**
-     * "Not applicable" on a legal or tax item that may not apply at
-     * all: a plain tick, which counts as the answer, and which the
-     * documents read as "leave it out".
-     */
-    function notApplicableTick(what: string, checked: boolean, onNext: (next: boolean) => void) {
-        return (
-            <label className="legal-entity-switch">
-                <input
-                    type="checkbox"
-                    className="brand-tick-box"
-                    aria-label={what + ": not applicable"}
-                    disabled={disabled}
-                    checked={checked}
-                    onChange={(event) => onNext(event.target.checked)}
-                />
-                <span className="legal-entity-switch-label">Not applicable</span>
-            </label>
-        );
     }
 
     /**
@@ -1019,10 +1013,11 @@ export default function LegalEntityEditor({
                                                 <InfoNote label={label} points={info} fullList />
                                             </InfoText>
                                             <FieldMark label={label} />
+                                            <FieldStatus label={label} keyLabel={keyLabel} />
                                         </span>
                                     </span>
                                 )
-                                : <span className="field-label legal-entity-label">{label}<FieldMark label={label} /></span>}
+                                : <span className="field-label legal-entity-label">{label}<FieldMark label={label} /><FieldStatus label={label} keyLabel={keyLabel} /></span>}
                             {removeFieldButton(label, onRemove)}
                         </span>
                     )
@@ -1034,11 +1029,11 @@ export default function LegalEntityEditor({
                                         <InfoNote label={label} points={info} />
                                     </InfoText>
                                     <FieldMark label={label} keyLabel={keyLabel} />
+                                    <FieldStatus label={label} keyLabel={keyLabel} />
                                 </span>
                             </span>
                         )
-                        : <span className="field-label legal-entity-label">{label}<FieldMark label={label} keyLabel={keyLabel} /></span>}
-                <FieldStatus label={label} keyLabel={keyLabel} />
+                        : <span className="field-label legal-entity-label">{label}<FieldMark label={label} keyLabel={keyLabel} /><FieldStatus label={label} keyLabel={keyLabel} /></span>}
                 {control}
             </div>
         );
@@ -1221,31 +1216,43 @@ export default function LegalEntityEditor({
 
                             {/*
                                 Asked for only where the jurisdiction
-                                actually issues one, and only once the
-                                activity it classifies has been
-                                described.
+                                actually issues one: always as a tick row
+                                (as the consumption tax), the code's box
+                                appearing only while it is ticked.
                             */}
-                            {profile.activityCode &&
-                                entity.organisation.mainActivity.trim().length > 0 && (
-                                    <div className="legal-entity-activity-code">
-                                        {labelled(
+                            {profile.activityCode && (
+                                <div className="legal-entity-activity-code">
+                                    <div className="legal-entity-activity-code-tick">
+                                        <span className="legal-entity-switch-cell">
+                                            <label className="legal-entity-switch">
+                                                <input
+                                                    type="checkbox"
+                                                    className="brand-tick-box"
+                                                    aria-label={"Has a " + profile.activityCode}
+                                                    disabled={disabled}
+                                                    checked={entity.organisation.activityCodeOn}
+                                                    onChange={(event) => updateOrganisation({ activityCodeOn: event.target.checked })}
+                                                />
+                                                <span className="legal-entity-switch-label">{profile.activityCode}</span>
+                                            </label>
+                                            <InfoNote
+                                                label={profile.activityCode}
+                                                points={[
+                                                    ...INFO.activityCode,
+                                                    // The official list, where one is verified (Sources.ts).
+                                                    ...(entity.organisation.country === "GB" ? [{ title: "Source", source: SOURCES.ukSicCodes }] : [])
+                                                ]}
+                                            />
+                                        </span>
+                                        {entity.organisation.activityCodeOn && textControl(
                                             profile.activityCode,
-                                            textControl(
-                                                profile.activityCode,
-                                                entity.organisation.activityCode,
-                                                (next) => updateOrganisation({ activityCode: next }),
-                                                "Optional"
-                                            ),
-                                            true,
-                                            undefined,
-                                            [
-                                                ...INFO.activityCode,
-                                                // The official list, where one is verified (Sources.ts).
-                                                ...(entity.organisation.country === "GB" ? [{ title: "Source", source: SOURCES.ukSicCodes }] : [])
-                                            ]
+                                            entity.organisation.activityCode,
+                                            (next) => updateOrganisation({ activityCode: next }),
+                                            "Optional"
                                         )}
                                     </div>
-                                )}
+                                </div>
+                            )}
 
                             {/* What it is legally: under the activity it
                                 classifies, the Legal Form (its note, and its
@@ -1365,7 +1372,7 @@ export default function LegalEntityEditor({
                             <FrozenUntil answered={placeChosen} hint={placeHint}>
 
                             {/* THE WHOLE ADDRESS, ONE BOX: as many lines as it
-                                needs (Enter starts the next), at least four,
+                                needs (Enter starts the next), at least two,
                                 growing with them. Its placeholder shows the lines
                                 expected, in the country's own words (its postal
                                 code's name; none where addresses carry none). */}
@@ -1374,7 +1381,7 @@ export default function LegalEntityEditor({
                                 <StrategyTextArea
                                     className="interview-input legal-entity-note legal-entity-address"
                                     ariaLabel="Address"
-                                    placeholder={["Street", "City", ...(postalLabel ? [postalLabel] : [])].join("\n")}
+                                    placeholder={["City", postalLabel ? "Street and " + postalLabel : "Street"].join("\n")}
                                     disabled={disabled}
                                     value={entity.organisation.addressLine1}
                                     onChange={(next) => updateOrganisation({ addressLine1: next })}
@@ -1579,7 +1586,7 @@ export default function LegalEntityEditor({
                                         <div className="legal-entity-founder-end">
                                             <button
                                                 type="button"
-                                                className="strategy-box-remove"
+                                                className="strategy-box-remove card-remove"
                                                 aria-label={"Remove founder " + (index + 1)}
                                                 title={"Remove founder " + (index + 1)}
                                                 disabled={disabled}
@@ -1739,6 +1746,7 @@ export default function LegalEntityEditor({
                                 "Status",
                                 <OptionPicker
                                     label="Registration status"
+                                    hug
                                     placeholder={REGISTERED}
                                     options={[REGISTERED, NOT_YET_REGISTERED]}
                                     disabled={disabled}
@@ -1925,7 +1933,10 @@ export default function LegalEntityEditor({
 
                             {/* Not asked at all where the tax does not exist: five
                                 US states levy no sales tax. */}
-                            {chosenSubdivision?.noConsumptionTax ? (
+                            {/* Only with a country chosen that has a particular
+                                consumption tax (a profiled country); none
+                                before, and none for a country without one. */}
+                            {!countryChosen || !profiled ? null : chosenSubdivision?.noConsumptionTax ? (
                                 <p className="legal-entity-note-line">
                                     {chosenSubdivision.name} levies no state sales tax, so there is
                                     nothing to register here. You may still have to register in
@@ -2019,21 +2030,6 @@ export default function LegalEntityEditor({
                 {subsection(4, (
                     <>
 
-                        {entity.requirements.length === 0 && notApplicableTick(
-                            "Additional legal requirements",
-                            entity.requirementsNotApplicable,
-                            (next) => update({ requirementsNotApplicable: next })
-                        )}
-
-                        {entity.requirements.length === 0 && !entity.requirementsNotApplicable && (
-                            <p className="legal-entity-empty-note">
-                                Nothing recorded. Add a requirement if one applies to your
-                                activity, your legal form, or where you are registered: for
-                                example, a licence, a professional registration, or a named
-                                officer.
-                            </p>
-                        )}
-
                         {entity.requirements.map((requirement, index) => {
 
                             const open = folds.isOpen(requirement.id);
@@ -2050,7 +2046,7 @@ export default function LegalEntityEditor({
 
                             <div className="legal-entity-card" key={requirement.id} data-anchor={"legal-requirement-" + requirement.id}>
 
-                                <div className="legal-entity-card-head fold-card-head">
+                                <div className="legal-entity-card-head fold-card-head fold-card-fixed">
 
                                     <FoldArrow
                                         open={open}
@@ -2082,14 +2078,14 @@ export default function LegalEntityEditor({
                                             />
                                         )
                                         : (
-                                            <span className="strategy-name-static">
+                                            <span className="strategy-name-static" title={requirement.name.trim() || undefined}>
                                                 {requirement.name.trim() || "Unnamed requirement"}
                                             </span>
                                         )}
 
                                     <button
                                         type="button"
-                                        className="strategy-box-remove"
+                                        className="strategy-box-remove card-remove"
                                         aria-label={"Remove legal requirement " + (index + 1)}
                                         title={"Remove legal requirement " + (index + 1)}
                                         disabled={disabled}
@@ -2105,7 +2101,7 @@ export default function LegalEntityEditor({
                                     {/* The rest, on a row of its own under
                                         the name (see .fold-card-head). */}
                                     {!open && summary && (
-                                        <span className="business-card-summary">{summary}</span>
+                                        <span className="business-card-summary" title={summary}>{summary}</span>
                                     )}
 
                                 </div>
@@ -2203,7 +2199,6 @@ export default function LegalEntityEditor({
 
                         })}
 
-                        {!entity.requirementsNotApplicable && (
                         <button
                             type="button"
                             className="strategy-add-button card-list-add"
@@ -2221,7 +2216,6 @@ export default function LegalEntityEditor({
                         >
                             + Add legal requirement
                         </button>
-                        )}
 
                     </>
                 ), undefined, (
@@ -2230,25 +2224,12 @@ export default function LegalEntityEditor({
                         folds={folds}
                         label="legal requirements"
                     />
-                ))}
+                ), INFO.requirements)}
 
                 {/* ---------- 6. Legal Entity Expenses ---------- */}
 
                 {subsection(5, (
                     <>
-
-                        {entity.expenses.length === 0 && notApplicableTick(
-                            "Legal entity expenses",
-                            entity.expensesNotApplicable,
-                            (next) => update({ expensesNotApplicable: next })
-                        )}
-
-                        {entity.expenses.length === 0 && !entity.expensesNotApplicable && (
-                            <p className="legal-entity-empty-note">
-                                Nothing recorded. Add what it costs to establish, register
-                                and maintain this legal entity.
-                            </p>
-                        )}
 
                         {entity.expenses.map((expense, index) => {
 
@@ -2263,7 +2244,7 @@ export default function LegalEntityEditor({
 
                             <div className="legal-entity-card" key={expense.id} data-anchor={"legal-expense-" + expense.id}>
 
-                                <div className="legal-entity-card-head fold-card-head">
+                                <div className="legal-entity-card-head fold-card-head fold-card-fixed">
 
                                     <FoldArrow
                                         open={open}
@@ -2295,14 +2276,14 @@ export default function LegalEntityEditor({
                                             />
                                         )
                                         : (
-                                            <span className="strategy-name-static">
+                                            <span className="strategy-name-static" title={expense.name.trim() || undefined}>
                                                 {expense.name.trim() || "Unnamed expense"}
                                             </span>
                                         )}
 
                                     <button
                                         type="button"
-                                        className="strategy-box-remove"
+                                        className="strategy-box-remove card-remove"
                                         aria-label={"Remove expense " + (index + 1)}
                                         title={"Remove expense " + (index + 1)}
                                         disabled={disabled}
@@ -2318,7 +2299,7 @@ export default function LegalEntityEditor({
                                     {/* The rest, on a row of its own under
                                         the name (see .fold-card-head). */}
                                     {!open && summary && (
-                                        <span className="business-card-summary">{summary}</span>
+                                        <span className="business-card-summary" title={summary}>{summary}</span>
                                     )}
 
                                 </div>
@@ -2326,6 +2307,25 @@ export default function LegalEntityEditor({
                                 {open && (
                                 <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-expense">
 
+                                    {/* The Date straight after the name: it places the cost in a month of the cash flow. */}
+                                    {field(
+                                        "Date",
+                                        <input
+                                            type="date"
+                                            className="interview-input"
+                                            aria-label={"Expense " + (index + 1) + " date"}
+                                            max={yearsAhead(5)}
+                                            disabled={disabled}
+                                            value={expense.date}
+                                            onChange={(event) => update({
+                                                expenses: entity.expenses.map(
+                                                    (candidate, position) => position === index
+                                                        ? { ...candidate, date: event.target.value }
+                                                        : candidate
+                                                )
+                                            })}
+                                        />
+                                    )}
 
                                     {text(
                                         amountLabel("Cost"),
@@ -2403,6 +2403,38 @@ export default function LegalEntityEditor({
                                         />
                                     )}
 
+                                    {/*
+                                        Exactly one registration or requirement, chosen from what has
+                                        actually been recorded on this page, so none can go stale.
+                                    */}
+                                    {linkTargets.length === 0
+                                        ? (
+                                            <p className="legal-entity-empty-note legal-entity-field-wide">
+                                                Record a registration number or a legal requirement
+                                                above, and you can link it here.
+                                            </p>
+                                        )
+                                        : field(
+                                            "Linked registration",
+                                            <OptionPicker
+                                                label={"Expense " + (index + 1) + " linked registration"}
+                                                placeholder="Select"
+                                                options={linkTargets.map(target => target.label)}
+                                                disabled={disabled}
+                                                value={linkTargets.find(target => expense.links.includes(target.id))?.label ?? ""}
+                                                onChange={(next) => update({
+                                                    expenses: entity.expenses.map(
+                                                        (candidate, position) => position === index
+                                                            ? { ...candidate, links: [linkTargets.find(target => target.label === next)?.id ?? ""].filter(Boolean) }
+                                                            : candidate
+                                                    )
+                                                })}
+                                            />,
+                                            false,
+                                            undefined,
+                                            INFO.links
+                                        )}
+
                                     {optionalNote(
                                         "Description / Relevant Information",
                                         "Expense " + (index + 1) + " description",
@@ -2416,63 +2448,6 @@ export default function LegalEntityEditor({
                                         })
                                     )}
 
-                                    {/*
-                                        Last, under the Description (the
-                                        one card order): what this expense is for, out
-                                        of what has actually been
-                                        recorded on this page. A link
-                                        that points at nothing is not
-                                        offered, so none can go stale.
-                                    */}
-                                    <div className="legal-entity-field-wide">
-
-                                        <span className="legal-entity-label-info">
-                                            <span className="field-label legal-entity-label">
-                                                <InfoText text="Links">
-                                                    <InfoNote label="Links" points={INFO.links} />
-                                                </InfoText>
-                                            </span>
-                                        </span>
-
-                                        {linkTargets.length === 0 && (
-                                            <p className="legal-entity-empty-note">
-                                                Record a registration number or a legal requirement
-                                                above, and you can link it here.
-                                            </p>
-                                        )}
-
-                                        <div className="legal-entity-links">
-                                            {linkTargets.map(target => (
-                                                <label className="legal-entity-link" key={target.id}>
-                                                    <input
-                                                        type="checkbox"
-                                                        className="brand-tick-box"
-                                                        disabled={disabled}
-                                                        checked={expense.links.includes(target.id)}
-                                                        onChange={(event) => update({
-                                                            expenses: entity.expenses.map(
-                                                                (candidate, position) => position === index
-                                                                    ? {
-                                                                        ...candidate,
-                                                                        links: event.target.checked
-                                                                            ? [...candidate.links, target.id]
-                                                                            : candidate.links.filter(
-                                                                                link => link !== target.id
-                                                                            )
-                                                                    }
-                                                                    : candidate
-                                                            )
-                                                        })}
-                                                    />
-                                                    <span className="legal-entity-link-label">
-                                                        {target.label}
-                                                    </span>
-                                                </label>
-                                            ))}
-                                        </div>
-
-                                    </div>
-
                                 </div>
                                 )}
 
@@ -2482,7 +2457,6 @@ export default function LegalEntityEditor({
 
                         })}
 
-                        {!entity.expensesNotApplicable && (
                         <button
                             type="button"
                             className="strategy-add-button card-list-add"
@@ -2497,7 +2471,6 @@ export default function LegalEntityEditor({
                         >
                             + Add expense
                         </button>
-                        )}
 
                     </>
                 ), undefined, (
@@ -2506,7 +2479,7 @@ export default function LegalEntityEditor({
                         folds={folds}
                         label="legal entity expenses"
                     />
-                ))}
+                ), INFO.expenses)}
 
                 </div>
 

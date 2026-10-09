@@ -1,3 +1,4 @@
+import { workspacesOf, WORKSPACE_GROUP_ID } from "./AnswerUtils.ts";
 /*
     The Business System's two Financial pages -- Page 4, Financial
     Foundation, and Page 5, Sustainability -- as data and
@@ -39,7 +40,23 @@ import type {
     StrategyMonthValue,
     StrategyRangeValue
 } from "./AnswerUtils.ts";
-import { resourceUnitCount } from "./AnswerUtils.ts";
+import {
+    BUSINESS_EXTRAS,
+    type BusinessExtraKey,
+    type BusinessExtrasValue,
+    isCostingStatus,
+    offeringFractions,
+    isPurchaseGroup,
+    partnerExtraKeys,
+    PEOPLE_EXTRA_KEYS,
+    partnerKindOf,
+    resourceUnitCount,
+    slotExtraKeys,
+    supplierConnections,
+    serviceAssetLinks,
+    supplierHasQuantity,
+    workspaceCardName
+} from "./AnswerUtils.ts";
 import { type CapacityCheck, type DemandValue, capacityCheck, demandResult, founderMonthlySalary } from "./DemandCapacity.ts";
 
 /**
@@ -940,6 +957,8 @@ export interface CostLine {
      * them; a fixed one is shared out between them.
      */
     offeringIds: string[];
+    /** The fraction of the cost each linked Offering carries (they total 1); absent: equal shares. */
+    offeringShares?: Record<string, number>;
     /** The first of them, where only one can be shown. */
     offeringId: string;
     /** The amount as recorded, and as a number (null if unreadable). */
@@ -965,6 +984,8 @@ export interface CostLine {
     asset: CostAsset | "";
     /** The page's own record, editable here; null for a read one. */
     own: OwnCostValue | null;
+    /** The asset a Technical Support service builds or installs: its price is added to that asset's value (rule C2). */
+    capitalisedInto?: string;
     /**
      * Where it was recorded, as a jump path (see jumpTo.ts): the card,
      * then what holds it. Empty for a cost added on this page.
@@ -972,11 +993,24 @@ export interface CostLine {
     sourcePath: string[];
 }
 
+/** What an asset is worth: its own cost plus the services bundled into it (counted ones only). */
+export function assetValue(lines: readonly CostLine[], assetId: string): number {
+    return lines
+        .filter(line => line.counted && (line.id === assetId || line.capitalisedInto === assetId))
+        .reduce((total, line) => total + (line.amount ?? 0), 0);
+}
+
 /** Page 3's frequencies onto this page's. */
-function fromCapabilityFrequency(frequency: string): CostFrequency {
-    return frequency === "one-time" || frequency === "monthly" || frequency === "annually" ||
-        frequency === "per-unit" || frequency === "per-order" || frequency === "per-project"
+function fromCapabilityFrequency(frequency: string, unit = "", purchase = false): CostFrequency {
+    /* A purchase of an asset (an asset group's card priced Per unit) is paid once, for its quantity; any other Per unit is a cost of each unit -- per order
+       where its unit is the order. A share of revenue is not scheduled here: it is a calculated line of the Financial Foundation (a later task). */
+    if (frequency === "per-unit") {
+        return purchase ? "one-time" : unit.trim() === "order" ? "per-order" : "per-unit";
+    }
+    return frequency === "one-time" || frequency === "monthly" || frequency === "quarterly" || frequency === "annually" ||
+        frequency === "per-order" || frequency === "per-project"
         ? frequency
+        : frequency === "percent-revenue" ? "usage-based"
         : frequency === "other" ? "other" : "monthly";
 }
 
@@ -1115,23 +1149,69 @@ export function consolidateCosts(
         defaultGroup: CostGroup,
         offeringIds: string[],
         quantity = "",
-        sourcePath: string[] = []
+        sourcePath: string[] = [],
+        purchase = false,
+        shares: Record<string, string> = {}
     ) => {
         if (parseAmount(cost.price) === null) {
             return;
         }
+        const before = lines.length;
         read(
             id, name, origin, sourceLabel, cost.price, cost.currency,
-            fromCapabilityFrequency(cost.frequency), cost.frequencyOther,
-            defaultGroup, offeringIds, resourceUnitCount(quantity, cost.frequency),
+            fromCapabilityFrequency(cost.frequency, cost.unit, purchase), cost.frequencyOther,
+            defaultGroup, offeringIds, resourceUnitCount(quantity, cost.frequency, purchase),
             null, sourcePath
         );
+        if (lines.length > before && offeringIds.length > 1) {
+            lines[lines.length - 1].offeringShares = offeringFractions(offeringIds, shares);
+        }
+    };
+
+    /**
+     * A card's optional EXTRAS that are money -- a tax, a charge, a deposit, a bonus -- one cost line each, in the card's currency and at the extra's own
+     * frequency. A percent or a minimum (a commission, a duty, a minimum order) is a rate on something else, so it is the financial foundation's to calculate
+     * (a later task), not a line here. A Deposit is an asset returned later, never a cost.
+     */
+    const extraLines = (
+        id: string,
+        name: string,
+        origin: CostOrigin,
+        sourceLabel: string,
+        extras: BusinessExtrasValue,
+        keys: readonly BusinessExtraKey[],
+        currency: string,
+        defaultGroup: CostGroup,
+        offeringIds: string[],
+        sourcePath: string[],
+        shares: Record<string, string> = {}
+    ) => {
+        for (const key of keys) {
+            const definition = BUSINESS_EXTRAS[key];
+            const amount = extras[key];
+            if (!amount || definition.kind !== "money") {
+                continue;
+            }
+            const before = lines.length;
+            fromCost(
+                id + ":" + key, name + ": " + definition.label.toLowerCase(), origin, sourceLabel,
+                { price: amount, frequency: definition.frequency, frequencyOther: "", unit: key === "handling-pallet" ? "pallet" : "", currency },
+                defaultGroup, offeringIds, "", sourcePath, false, shares
+            );
+            if (key === "deposit" && lines.length > before) {
+                lines[lines.length - 1].asset = value.classified[id + ":" + key]?.asset ?? "deposit";
+            }
+        }
     };
 
     /* 1. Identity System → Legal Entity. Its one-time fees are paid
        when the organization is formed: before the plan, if it was. */
     const formed = /^(\d{4})-(\d{2})/.exec(sources.legalEntity.formation.date);
     const formationMonth: StrategyMonthValue | null = formed ? { month: formed[2], year: formed[1] } : null;
+    const monthOfDate = (iso: string): StrategyMonthValue | null => {
+        const match = /^(\d{4})-(\d{2})/.exec(iso);
+        return match ? { month: match[2], year: match[1] } : null;
+    };
     sources.legalEntity.expenses.forEach(expense => {
         if (parseAmount(expense.cost) === null) {
             return;
@@ -1148,7 +1228,8 @@ export function consolidateCosts(
             expense.frequency === "One time" ? "establishment" : "operating",
             [],
             null,
-            expense.frequency === "One time" ? formationMonth : null,
+            // (A one-time expense falls in the month of its own date; with none, in the month of the formation.)
+            expense.frequency === "One time" ? monthOfDate(expense.date) ?? formationMonth : null,
             ["legal-expense-" + expense.id, "legal-section-5"]
         );
     });
@@ -1159,6 +1240,11 @@ export function consolidateCosts(
        a month or a year) on Page 3, and counted here a month. */
     if (sources.foundersLinked) {
         capability.founders.forEach(founder => {
+            const founderPath = ["founder-" + founder.id, "resource-group-founders", "contains-founders", "section-infrastructure-resources", "capability-infrastructure"];
+            extraLines(
+                "founder-" + founder.id, founder.name.trim() || "Unnamed founder", "founders", "Infrastructure → Founders",
+                founder.extras, PEOPLE_EXTRA_KEYS, "", "operating", [], founderPath
+            );
             const monthly = founderMonthlySalary(founder);
             if (monthly === null) {
                 return;
@@ -1183,24 +1269,56 @@ export function consolidateCosts(
     }
 
     /* The Workspace, when it costs money. */
-    if (capability.workspace.status === "costs") {
+    workspacesOf(capability).forEach((workspace, workspaceIndex) => {
+      if (isCostingStatus(workspace.status)) {
         fromCost(
-            "workspace", "Workspace", "infrastructure",
+            workspace.id, workspace.name.trim() || workspaceCardName(workspaceIndex), "infrastructure",
             "Infrastructure → Workspace",
-            capability.workspace.cost, "operating", [], "",
+            workspace.cost, "operating", [], "",
             ["resource-group-workspace", "contains-workspace", "section-infrastructure-resources", "capability-infrastructure"]
         );
-    }
+        // Its extras (a bought space's tax and charge), kept on the card itself.
+        const card = (capability.resources[WORKSPACE_GROUP_ID] ?? []).flatMap(subsection => subsection.slots).find(slot => slot.id === workspace.id);
+        if (card) {
+            extraLines(
+                workspace.id, workspace.name.trim() || workspaceCardName(workspaceIndex), "infrastructure", "Infrastructure → Workspace",
+                card.extras, slotExtraKeys("premises", workspace.status), workspace.cost.currency, "operating", [],
+                ["resource-group-workspace", "contains-workspace", "section-infrastructure-resources", "capability-infrastructure"]
+            );
+        }
+
+        /* Its optional Deposit: one-time, an Establishment cost paid at the
+           plan's start, treated as a Deposit (an asset returned later, never
+           a cost) unless the founder reclassifies it here. In the Workspace's
+           currency. */
+        const deposit = workspace.deposit;
+        if (deposit && parseAmount(deposit) !== null) {
+            const before = lines.length;
+            read(
+                workspace.id + "-deposit", workspaceCardName(workspaceIndex) + " deposit", "infrastructure",
+                "Infrastructure → Workspace",
+                deposit, workspace.cost.currency,
+                "one-time", "", "establishment", [], null,
+                monthOrdinal(value.planStart) !== null ? { ...value.planStart } : null,
+                ["resource-group-workspace", "contains-workspace", "section-infrastructure-resources", "capability-infrastructure"]
+            );
+            if (lines.length > before) {
+                const line = lines[lines.length - 1];
+                line.asset = value.classified[workspace.id + "-deposit"]?.asset ?? "deposit";
+            }
+        }
+      }
+    });
 
     /* Every resource marked "Costs". */
-    Object.entries(capability.resources).forEach(([groupId, subsections]) => {
+    Object.entries(capability.resources).filter(([groupId]) => groupId !== WORKSPACE_GROUP_ID).forEach(([groupId, subsections]) => {
         subsections.forEach(subsection => {
 
             const subsectionName = sources.subsectionLabels[subsection.id] ||
                 subsection.name.trim() || "Other";
 
             subsection.slots.forEach(slot => {
-                if (slot.status !== "costs") {
+                if (!isCostingStatus(slot.status)) {
                     return;
                 }
                 fromCost(
@@ -1212,46 +1330,69 @@ export function consolidateCosts(
                         " → " + subsectionName,
                     slot.cost, "operating", [], slot.quantity,
                     [slot.id, "subsection-" + groupId + "-" + subsection.id, "resource-group-" + groupId,
-                        "contains-" + groupId, "section-infrastructure-resources", "capability-infrastructure"]
+                        "contains-" + groupId, "section-infrastructure-resources", "capability-infrastructure"],
+                    isPurchaseGroup(subsection.id)
+                );
+                extraLines(
+                    slot.id, slot.name, "infrastructure",
+                    "Infrastructure → " + (sources.resourceGroupLabels[groupId] ?? groupId) + " → " + subsectionName,
+                    slot.extras, slotExtraKeys(subsection.id, slot.status), slot.cost.currency, "operating", [],
+                    [slot.id, "subsection-" + groupId + "-" + subsection.id, "resource-group-" + groupId, "contains-" + groupId, "section-infrastructure-resources", "capability-infrastructure"]
                 );
             });
 
         });
     });
 
-    /* Partnerships & Providers. */
-    ([["professionals", "External Professionals & Partners"], ["providers", "Providers"]] as const)
-        .forEach(([kind, label]) => {
-            capability[kind].forEach(partner => fromCost(
-                partner.id, partner.name, "infrastructure",
-                "Infrastructure → " + label,
-                partner.cost, "operating", [], "",
-                [partner.id, "partners-infrastructure-" + kind, "section-infrastructure-partners", "capability-infrastructure"]
-            ));
+    /* Partners & Providers. */
+    (["professionals", "providers"] as const)
+        .forEach(kind => {
+            capability[kind].forEach(partner => {
+                const connections = supplierConnections(capability, partner.id);
+                const path = [partner.id, "partners-infrastructure-" + partnerKindOf(partner, kind), "section-infrastructure-partners", "capability-infrastructure"];
+                const label = "Infrastructure → " + (partnerKindOf(partner, kind) === "providers" ? "Suppliers" : "Partners");
+                fromCost(partner.id, partner.name, "infrastructure", label, partner.cost, "operating", [], supplierHasQuantity(connections) ? partner.quantity : "", path);
+                extraLines(partner.id, partner.name, "infrastructure", label, partner.extras, partnerExtraKeys(partner.group, connections), partner.cost.currency, "operating", [], path);
+            });
         });
 
     /* Offering's Capability: an Offering's own costs. */
     capability.offering.resources.forEach(slot => {
-        if (slot.status !== "costs") {
+        if (!isCostingStatus(slot.status)) {
             return;
         }
         fromCost(
             slot.id, slot.name, "offering-capability",
             "Offering's Capability → Resources",
             slot.cost, "offering", slot.offeringIds, slot.quantity,
-            [slot.id, "section-offering-resources", "capability-offering-capability"]
+            [slot.id, "section-offering-resources", "capability-offering-capability"],
+            isPurchaseGroup(slot.group), slot.offeringShares
+        );
+        extraLines(
+            slot.id, slot.name, "offering-capability", "Offering's Capability → Resources",
+            slot.extras, slotExtraKeys(slot.group, slot.status), slot.cost.currency, "offering", slot.offeringIds,
+            [slot.id, "section-offering-resources", "capability-offering-capability"], slot.offeringShares
         );
     });
 
-    ([["professionals", "External Professionals & Partners"], ["providers", "Providers"]] as const)
-        .forEach(([kind, label]) => {
-            capability.offering[kind].forEach(partner => fromCost(
-                partner.id, partner.name, "offering-capability",
-                "Offering's Capability → " + label,
-                partner.cost, "offering", partner.offeringIds, "",
-                [partner.id, "partners-offering-" + kind, "section-offering-partners", "capability-offering-capability"]
-            ));
+    (["professionals", "providers"] as const)
+        .forEach(kind => {
+            capability.offering[kind].forEach(partner => {
+                const connections = supplierConnections(capability, partner.id);
+                const path = [partner.id, "partners-offering-" + partnerKindOf(partner, kind), "section-offering-partners", "capability-offering-capability"];
+                const label = "Offering's Capability → " + (partnerKindOf(partner, kind) === "providers" ? "Suppliers" : "Partners");
+                fromCost(partner.id, partner.name, "offering-capability", label, partner.cost, "offering", partner.offeringIds, supplierHasQuantity(connections) ? partner.quantity : "", path, false, partner.offeringShares);
+                extraLines(partner.id, partner.name, "offering-capability", label, partner.extras, partnerExtraKeys(partner.group, connections), partner.cost.currency, "offering", partner.offeringIds, path, partner.offeringShares);
+            });
         });
+
+    /* A Technical Support service named by an asset card is bundled into that asset. */
+    const bundled = serviceAssetLinks(capability);
+    lines.forEach(line => {
+        if (line.id in bundled) {
+            line.capitalisedInto = bundled[line.id];
+        }
+    });
 
     /* And this page's own. */
     value.costs.forEach(cost => {
@@ -1325,9 +1466,14 @@ export function isScheduled(line: CostLine): boolean {
     return SCHEDULED_FREQUENCIES.includes(line.frequency);
 }
 
+/** Whether a frequency is paid per unit of activity (per unit, order or project): a variable cost. */
+export function isPerUnitFrequency(frequency: CostFrequency): boolean {
+    return PER_UNIT_FREQUENCIES.includes(frequency);
+}
+
 /** Whether a cost is paid per unit of activity. */
 function isPerUnit(line: CostLine): boolean {
-    return PER_UNIT_FREQUENCIES.includes(line.frequency);
+    return isPerUnitFrequency(line.frequency);
 }
 
 /**
@@ -1719,27 +1865,96 @@ const COMMON_WORDS = new Set([
     "studio", "office", "other", "general", "the", "and", "for", "with"
 ]);
 
-function leadingWord(name: string): string {
-    return name.toLowerCase().split(/[^a-z]+/).find(word => word.length >= 4 && !COMMON_WORDS.has(word)) ?? "";
+/** A cost's name as words: lower case, without a bracketed note, letters and digits only. */
+function nameWords(name: string): string[] {
+    return name.toLowerCase()
+        .replace(/\([^)]*\)/g, " ")
+        .split(/[^a-z0-9]+/)
+        .filter(Boolean);
+}
+
+/** The words of a name that say what it is (not "annual", "services"…, nor a short word). */
+function significantWords(name: string): Set<string> {
+    return new Set(nameWords(name).filter(word => word.length >= 3 && !COMMON_WORDS.has(word)));
 }
 
 /**
- * Pairs of costs that are probably ONE cost recorded twice: the same
- * leading word -- "Accountant (annual accounts)" on the Legal Entity
- * and "Accountant" under Partnerships -- in two different places,
- * both priced. Said, not decided: two genuinely different costs can
- * share a word, and only the founder knows.
+ * Whether two cost names are similar enough to be one cost. Conservative:
+ * NOT merely a shared leading word. True when, ignoring case, bracketed
+ * notes and punctuation, (1) the names are equal, or (2) one is the other
+ * with words added whole ("Workspace" in "Workspace deposit"), or (3) the
+ * words that say what they are overlap by at least 60% (Jaccard).
+ * "Trade mark registration" and "Trade fair stand" share only "trade": 20%.
+ */
+export function similarCostNames(one: string, other: string): boolean {
+    const a = nameWords(one).join(" ");
+    const b = nameWords(other).join(" ");
+    if (!a || !b) {
+        return false;
+    }
+    if (a === b || (" " + a + " ").includes(" " + b + " ") || (" " + b + " ").includes(" " + a + " ")) {
+        return true;
+    }
+    const x = significantWords(one);
+    const y = significantWords(other);
+    if (x.size === 0 || y.size === 0) {
+        return false;
+    }
+    const shared = [...x].filter(word => y.has(word)).length;
+    return shared / (x.size + y.size - shared) >= 0.6;
+}
+
+/** The page and section a cost was recorded under: "Infrastructure → Digital" of a longer label. */
+function costSection(line: CostLine): string {
+    return line.sourceLabel.split(" → ").slice(0, 2).join(" → ");
+}
+
+/**
+ * Whether two cost lines originate from the same source: the same card
+ * or record (one id), or the same page and section ("Infrastructure →
+ * Digital" and "Infrastructure → Digital → Domains"; "Legal Entity →
+ * Expenses"). Across different pages the only connection the data holds
+ * is the founder having NAMED the two the same, so then the names must be
+ * equal (ignoring case, brackets and punctuation), not merely similar:
+ * a Legal Entity expense "Accountant" and a Capability card "Accountant".
+ */
+export function sameCostSource(one: CostLine, other: CostLine): boolean {
+    if (one.id === other.id || (one.sourcePath[0] && one.sourcePath[0] === other.sourcePath[0])) {
+        return true;
+    }
+    if (costSection(one) === costSection(other)) {
+        return true;
+    }
+    return nameWords(one.name).join(" ") === nameWords(other.name).join(" ");
+}
+
+/**
+ * Pairs of costs that are probably ONE cost recorded twice. ALL of:
+ *
+ * (a) SIMILAR NAMES (similarCostNames): equal, one the other plus whole
+ *     words, or at least 60% of their significant words shared;
+ * (b) THE SAME PRICE AND FREQUENCY: the same counted amount (after
+ *     quantity, to the cent), in the same currency, paid at the same
+ *     frequency (an "Other" frequency, the same words);
+ * (c) THE SAME SOURCE (sameCostSource): the same record, the same page
+ *     and section, or -- across pages -- equal names.
+ *
+ * Said, not decided: only the founder knows if it is really twice.
  */
 export function possibleDuplicates(lines: CostLine[]): [CostLine, CostLine][] {
     const priced = lines.filter(line => line.counted && line.amount !== null && line.amount > 0);
     const pairs: [CostLine, CostLine][] = [];
     priced.forEach((line, index) => {
-        const word = leadingWord(line.name);
-        if (!word) {
-            return;
-        }
         priced.slice(index + 1).forEach(other => {
-            if (other.sourceLabel !== line.sourceLabel && leadingWord(other.name) === word) {
+            if (
+                similarCostNames(line.name, other.name) &&
+                Math.round(line.amount! * 100) === Math.round(other.amount! * 100) &&
+                line.currency === other.currency &&
+                line.frequency === other.frequency &&
+                (line.frequency !== "other" ||
+                    line.frequencyOther.trim().toLowerCase() === other.frequencyOther.trim().toLowerCase()) &&
+                sameCostSource(line, other)
+            ) {
                 pairs.push([line, other]);
             }
         });
@@ -3441,8 +3656,8 @@ export function offeringCosts(lines: CostLine[], offeringId: string): OfferingCo
             return;
         }
 
-        // A fixed cost several Offerings share is shared out evenly.
-        const share = 1 / line.offeringIds.length;
+        // A cost several Offerings share is shared out by the shares of the card (equally where it gives none).
+        const share = line.offeringShares?.[offeringId] ?? 1 / line.offeringIds.length;
         const shared = line.offeringIds.length > 1 ? " (shared)" : "";
 
         if (isPerUnit(line)) {

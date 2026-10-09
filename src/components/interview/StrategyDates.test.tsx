@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
+import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import StrategicPeriodEditor from "./StrategicPeriodEditor";
@@ -162,6 +163,70 @@ describe("StrategicRoadmapEditor Objective bars", () => {
         expect(container.textContent).toContain("has a period yet");
         expect(container.textContent).not.toContain("outside the Strategic Period");
 
+    });
+
+});
+
+describe("StrategicPeriodEditor Objective Responsible", () => {
+
+    const founderList = (...names: string[]) => names.map((name, index) => ({ id: "f" + (index + 1), name }));
+    const show = (names: string[]) => render(
+        <StrategicPeriodEditor value={periodWith(range(["03", "2027"], ["06", "2027"]))} onChange={() => undefined} foundation={foundation} founders={founderList(...names)} />
+    );
+
+    it("is the Capability cards' side-label row (label beside a hugging dropdown) with several founders", () => {
+        const { container } = show(["Ann", "Bo", "Cy"]);
+        const field = container.querySelector(".strategy-objective-when > .business-field-side")!;
+        expect(field.querySelector(".field-label")?.textContent).toMatch(/^Responsible/);
+        expect(field.querySelector(".option-picker")?.getAttribute("data-size")).toBe("hug");
+        expect(container.querySelector(".strategy-objective-when")?.children).toHaveLength(3);
+    });
+
+    it("is not shown at all with ONE founder -- no label, no dropdown, no empty row -- and with none", () => {
+        for (const names of [["Ann"], []]) {
+            const { container, unmount } = show(names);
+            expect(container.textContent).not.toMatch(/Responsible/);
+            expect(container.querySelector(".strategy-objective-when")?.children).toHaveLength(2);
+            unmount();
+        }
+    });
+
+});
+
+describe("the Responsible tick on a Strategy Objective", () => {
+
+    const founderList = [{ id: "f1", name: "Ann" }, { id: "f2", name: "Bo" }];
+    let latest: unknown;
+
+    function Harness() {
+        const [value, setValue] = useState<StrategicPeriodValue>(periodWith(range(["03", "2027"], ["06", "2027"])));
+        return <StrategicPeriodEditor value={value} onChange={(next) => { latest = next; setValue(next); }} foundation={foundation} founders={founderList} />;
+    }
+
+    const tick = () => screen.getByRole("checkbox", { name: "Objective 1 has a responsible" }) as HTMLInputElement;
+
+    it("is ticked by default next to the label; unticking hides the dropdown and stores responsibleOff; re-ticking brings it back empty", () => {
+        const { container } = render(<Harness />);
+        const field = container.querySelector(".strategy-objective-when > .business-field-side")!;
+        expect(tick().checked).toBe(true);
+        expect(field.firstElementChild?.querySelector("label.business-foundation-tick > input.brand-tick-box")).toBe(tick());
+        expect(field.querySelector(".option-picker")).not.toBeNull();
+
+        fireEvent.click(tick());
+        expect(tick().checked).toBe(false);
+        expect(field.querySelector(".option-picker")).toBeNull();
+        expect(field.textContent).toMatch(/^Responsible/);
+        expect(JSON.stringify(latest)).toContain("\"responsibleOff\":true");
+
+        fireEvent.click(tick());
+        expect(tick().checked).toBe(true);
+        expect(field.querySelector(".option-picker-trigger")?.textContent).toContain("Select a founder");
+        expect(JSON.stringify(latest)).not.toContain("\"responsibleOff\":true");
+    });
+
+    it("shows no tick with ONE founder", () => {
+        render(<StrategicPeriodEditor value={periodWith(range(["03", "2027"], ["06", "2027"]))} onChange={() => undefined} foundation={foundation} founders={[founderList[0]]} />);
+        expect(screen.queryByRole("checkbox", { name: /has a responsible/ })).toBeNull();
     });
 
 });

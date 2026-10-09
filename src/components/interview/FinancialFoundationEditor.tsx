@@ -1,3 +1,4 @@
+import { countedCapability } from "../../framework/engine/CardCompleteness.ts";
 import { ReactNode, useState } from "react";
 
 import {
@@ -29,7 +30,6 @@ import {
     consolidateCosts,
     createFundingSource,
     createMilestone,
-    createOwnCost,
     financialPosition,
     founderCapitalSources,
     fundingNeeds,
@@ -51,18 +51,13 @@ import {
     monthlyEquivalent,
     planMonthLabel,
     withPlanStart,
-    type CostBehaviour,
     COST_ASSETS,
-    type CostClassification,
-    type CostFrequency,
-    type CostGroup,
     type CostLine,
     type FinancialFoundationValue,
     type FundingCategory,
     asFinancialSustainabilityValue,
     withDemand,
     type FundingSourceValue,
-    type OwnCostValue
 } from "../../framework/engine/FinancialModel.ts";
 import { costSourcesFor } from "../../framework/engine/ExportRenderers.ts";
 import { paletteHueNamed } from "../../framework/engine/Palette.ts";
@@ -100,7 +95,6 @@ import type { OpenPage } from "./jumpTo.ts";
 import { railId } from "./rails/railItems.ts";
 import { useItemFolds } from "./useItemFolds.ts";
 import FoldArrow from "./FoldArrow.tsx";
-import CardNameInput from "./CardNameInput.tsx";
 import { toggledIn } from "./toggledIn.ts";
 
 /* ==========================================================
@@ -156,8 +150,8 @@ const SECTIONS = {
     costs: {
         title: "Costs",
         instructions: [
-            "Review the costs gathered from the Legal Entity and Infrastructure & Capability, and add any recorded nowhere else.",
-            "Classify each cost by what it supports, how it behaves, and when it is paid."
+            "Review the costs gathered from the Legal Entity and Infrastructure & Capability.",
+            "Each cost is grouped by what it supports, how it behaves, and when it is paid; to change one, change it where it was recorded."
         ],
         info: [
             DEFINITIONS.cost,
@@ -313,7 +307,7 @@ export default function FinancialFoundationEditor({
         legalEntity.founders
     );
 
-    const lines = consolidateCosts(page, costSourcesFor(legalEntity, capability, currency));
+    const lines = consolidateCosts(page, costSourcesFor(legalEntity, countedCapability(capability), currency));
 
     // Whole units everywhere on this read-only page: an amount
     // someone can edit shows the string they typed, never this
@@ -347,10 +341,6 @@ export default function FinancialFoundationEditor({
     const folds = useItemFolds();
 
     const [schedulesOpen, setSchedulesOpen] = useState<ReadonlySet<string>>(new Set());
-    /* Read costs whose classification is open for changing. Closed,
-       a row reads as plain text: most costs need no decision here. */
-    const [editingCosts, setEditingCosts] = useState<ReadonlySet<string>>(new Set());
-
     function toggle(key: string) {
         setCollapsed(current => toggledIn(current, key));
     }
@@ -458,34 +448,11 @@ export default function FinancialFoundationEditor({
 
     /* ---------- 1. Costs ---------- */
 
-    function classify(line: CostLine, patch: Partial<CostClassification>) {
-        if (line.own) {
-            changeOwnCost(line.own.id, patch);
-            return;
-        }
-        update({
-            classified: {
-                ...stored.classified,
-                [line.id]: { ...stored.classified[line.id], ...patch }
-            }
-        });
-    }
-
-    function changeOwnCost(id: string, patch: Partial<OwnCostValue>) {
-        update({
-            costs: stored.costs.map(cost => cost.id === id ? { ...cost, ...patch } : cost)
-        });
-    }
-
     function frequencyLabel(line: CostLine): string {
         const label = COST_FREQUENCIES.find(entry => entry.id === line.frequency)?.label ?? "";
         return line.frequency === "other" && line.frequencyOther.trim()
             ? line.frequencyOther.trim()
             : label;
-    }
-
-    function toggleEditing(id: string) {
-        setEditingCosts(current => toggledIn(current, id));
     }
 
     function whenText(line: CostLine): string {
@@ -500,84 +467,62 @@ export default function FinancialFoundationEditor({
         return line.frequency === "one-time" ? "At the start" : "From the start";
     }
 
-    const MOVABLE_GROUPS = COST_GROUPS.filter(group => group.id !== "offering");
-
+    /*
+        A COST ROW IS A SUMMARY: plain text only (where it was recorded, with the link to that card; the amount and what it comes to a year; how often;
+        when; for an Offering's cost, Fixed or Variable and which Offering). Nothing here is typed or chosen: a cost is changed where it was recorded,
+        and how it is counted (its group, behaviour, equipment or deposit) is worked out automatically from it.
+    */
     function costRow(line: CostLine, oneTimeGroup = false) {
 
-        const own = line.own;
-        const what = line.name;
-        /* Its name, amount and frequency are always open on an added
-           cost; how it is counted opens on "Change", as a read one's. */
-        const editing = editingCosts.has(line.id);
-        /* Only the Offering group says how a cost moves with sales,
-           and which Offering it is for. */
         const forOffering = line.group === "offering";
         const offeringName = line.offeringIds
             .map(id => offerings.find(offering => offering.id === id)?.label ?? "")
             .filter(Boolean)
             .join(", ");
+        const open = line.origin === "legal-entity" ? onOpenLegalEntity : onOpenCapability;
+        const sourceText = (line.origin === "legal-entity" ? "1. Identity System → " : "") + line.sourceLabel;
 
         return (
             <div className="financial-cost-row" key={line.id} role="row" data-anchor={"cost-" + line.id}>
 
                 <div className="financial-cost-name" role="cell">
-                    {own
-                        ? (
-                            <CardNameInput
-                                ariaLabel={"Added cost " + (stored.costs.indexOf(own) + 1) + " name"}
-                                placeholder="Cost name"
-                                disabled={disabled}
-                                value={own.name}
-                                onChange={(name) => changeOwnCost(own.id, { name })}
-                            />
-                        )
-                        : <span className="financial-cost-title">{line.name}</span>}
+                    <span className="financial-cost-title">{line.name}</span>
                     <span className="financial-cost-source">
                         {line.origin === "own"
-                            ? "Added here"
-                            : (line.origin === "legal-entity" ? onOpenLegalEntity : onOpenCapability)
+                            ? "Recorded earlier on this page"
+                            : open
                                 ? (
                                     /* To the card it was recorded on. */
                                     <button
                                         type="button"
                                         className="business-engagement-link financial-cost-link"
-                                        onClick={() => (line.origin === "legal-entity" ? onOpenLegalEntity : onOpenCapability)?.(line.sourcePath)}
+                                        onClick={() => open(line.sourcePath)}
                                     >
-                                        {(line.origin === "legal-entity" ? "1. Identity System → " : "") + line.sourceLabel}
+                                        {sourceText}
                                     </button>
                                 )
-                                : (line.origin === "legal-entity" ? "1. Identity System → " : "") + line.sourceLabel}
+                                : sourceText}
                     </span>
                 </div>
 
                 <div role="cell">
-                    {own
-                        ? (
-                            <input
-                                type="text"
-                                inputMode="decimal"
-                                className="interview-input"
-                                aria-label={what + " amount"}
-                                placeholder={amountPlaceholder}
-                                disabled={disabled}
-                                value={own.amount}
-                                onChange={(event) => changeOwnCost(own.id, { amount: limitedNumberText(event.target.value, own.amount, NUMBER_LIMITS.money) })}
-                            />
-                        )
-                        : (
-                            <span className="financial-cost-amount">
-                                {line.amount === null
-                                    ? line.amountText
-                                    : line.counted
-                                        ? format(scheduledAmount(line))
-                                        : line.amountText + " " + line.currency}
-                            </span>
-                        )}
-                    {/* Separated: what is paid anyway, and what each sale adds. */}
+                    <span className="financial-cost-amount">
+                        {line.amount === null
+                            ? line.amountText
+                            : line.counted
+                                ? format(scheduledAmount(line))
+                                : line.amountText + " " + line.currency}
+                    </span>
                     {line.behaviour === "semi-variable" && line.counted && line.amount !== null &&
                         (line.fixedPart !== null || line.variablePerUnit !== null) && (
                         <span className="financial-cost-source">
                             + {format(line.variablePerUnit ?? 0)} per unit sold (recorded as {format(line.amount)})
+                        </span>
+                    )}
+                    {line.counted && line.amount !== null && line.frequency !== "one-time" && isScheduled(line) &&
+                        monthlyEquivalent(scheduledAmount(line), line.frequency) > 0 && (
+                        <span className="financial-cost-source financial-cost-yearly">
+                            {format(monthlyEquivalent(scheduledAmount(line), line.frequency) * 12)} a year
                         </span>
                     )}
                     {line.quantity !== null && line.unitAmount !== null && (
@@ -598,223 +543,43 @@ export default function FinancialFoundationEditor({
                 </div>
 
                 {!oneTimeGroup && (
-                <div role="cell">
-                    {own
-                        ? (
-                            <OptionPicker
-                                label={what + " frequency"}
-                                placeholder="Frequency"
-                                options={COST_FREQUENCIES.map(entry => entry.label)}
-                                disabled={disabled}
-                                value={COST_FREQUENCIES.find(entry => entry.id === own.frequency)?.label ?? ""}
-                                onChange={(next) => changeOwnCost(own.id, {
-                                    frequency: (COST_FREQUENCIES.find(entry => entry.label === next)?.id ?? "") as CostFrequency | ""
-                                })}
-                            />
-                        )
-                        : line.sourceFrequency === "other"
-                            ? (
-                                /* Recorded as "Other" where it came from: say
-                                   what it is here, so it can be counted. */
-                                <>
-                                    <OptionPicker
-                                        label={what + " frequency"}
-                                        placeholder="What is it?"
-                                        options={COST_FREQUENCIES.map(entry => entry.label)}
-                                        disabled={disabled}
-                                        value={COST_FREQUENCIES.find(entry => entry.id === line.frequency)?.label ?? ""}
-                                        onChange={(next) => classify(line, {
-                                            frequency: (COST_FREQUENCIES.find(entry => entry.label === next)?.id ?? "") as CostFrequency | ""
-                                        })}
-                                    />
-                                    {line.frequencyOther.trim() && (
-                                        <span className="financial-cost-source">Recorded as “{line.frequencyOther.trim()}”</span>
-                                    )}
-                                </>
-                            )
-                            : <span>{frequencyLabel(line)}</span>}
-                    {own && own.frequency === "other" && (
-                        <input
-                            type="text"
-                            className="interview-input financial-inline-input"
-                            aria-label={what + " frequency, named"}
-                            placeholder="Name the frequency"
-                            disabled={disabled}
-                            value={own.frequencyOther}
-                            onChange={(event) => changeOwnCost(own.id, { frequencyOther: event.target.value })}
-                        />
-                    )}
-                </div>
+                    <div role="cell">
+                        <span>{frequencyLabel(line)}</span>
+                    </div>
                 )}
 
                 <div role="cell">
                     {!isScheduled(line)
                         ? <span className="financial-muted">Depends on activity</span>
-                        : editing
-                            ? (
-                                <MonthYearPicker
-                                    hideLabel
-                                    label={what + (line.frequency === "one-time" ? " paid in" : " first paid in")}
-                                    value={line.month}
-                                    disabled={disabled}
-                                    firstYear={Number(start.year)}
-                                    isAllowed={() => true}
-                                    onChange={(next) => classify(line, { month: next })}
-                                />
-                            )
-                            : <span>
-                                {/* In a group of one-time costs, only one that
-                                    is not says how often it falls. */}
+                        : (
+                            <span>
                                 {oneTimeGroup && line.frequency !== "one-time" ? frequencyLabel(line) + ", " + whenText(line).toLowerCase() : whenText(line)}
                                 {line.asset ? " · " + (COST_ASSETS.find(entry => entry.id === line.asset)?.label ?? "") : ""}
-                            </span>}
+                            </span>
+                        )}
                 </div>
 
                 {forOffering && (
                     <div role="cell">
-                        {editing
-                            ? (
-                                <OptionPicker
-                                    label={what + " behaviour"}
-                                    placeholder="Behaviour"
-                                    options={COST_BEHAVIOURS.map(entry => entry.label)}
-                                    disabled={disabled}
-                                    value={COST_BEHAVIOURS.find(entry => entry.id === line.behaviour)?.label ?? ""}
-                                    onChange={(next) => classify(line, {
-                                        behaviour: (COST_BEHAVIOURS.find(entry => entry.label === next)?.id ?? "fixed") as CostBehaviour
-                                    })}
-                                />
-                            )
-                            : <span>{COST_BEHAVIOURS.find(entry => entry.id === line.behaviour)?.label ?? ""}</span>}
+                        <span>{COST_BEHAVIOURS.find(entry => entry.id === line.behaviour)?.label ?? ""}</span>
                     </div>
                 )}
 
                 {forOffering && (
                     <div role="cell">
-                        {own && editing && offerings.length > 0
-                            ? (
-                                /* Only an added cost says its Offering here:
-                                   a read one is linked on Page 3. */
-                                <OptionPicker
-                                    label={what + " offering"}
-                                    placeholder="Select an Offering"
-                                    options={offerings.map(offering => offering.label)}
-                                    disabled={disabled}
-                                    value={offeringName}
-                                    onChange={(next) => classify(line, {
-                                        offeringId: offerings.find(offering => offering.label === next)?.id ?? ""
-                                    })}
-                                />
-                            )
-                            : offeringName
-                                ? <span>{offeringName}</span>
-                                : onOpenCapability && !own
-                                    ? (
-                                        <button type="button" className="business-engagement-link financial-cost-link" onClick={() => onOpenCapability(line.sourcePath)}>
-                                            Link it on Infrastructure & Capability
-                                        </button>
-                                    )
-                                    : <span className="financial-muted">Not linked</span>}
+                        {offeringName
+                            ? <span>{offeringName}</span>
+                            : onOpenCapability && !line.own
+                                ? (
+                                    <button type="button" className="business-engagement-link financial-cost-link" onClick={() => onOpenCapability(line.sourcePath)}>
+                                        Link it on Infrastructure & Capability
+                                    </button>
+                                )
+                                : <span className="financial-muted">Not linked</span>}
                     </div>
                 )}
 
-                <div role="cell" className="financial-cost-remove">
-                    {!disabled && (
-                        <button
-                            type="button"
-                            className="business-engagement-link financial-cost-change"
-                            aria-expanded={editing}
-                            aria-label={(editing ? "Done changing " : "Change how this is counted: ") + (line.name || "this cost")}
-                            onClick={() => toggleEditing(line.id)}
-                        >
-                            {editing ? "Done" : "Change"}
-                        </button>
-                    )}
-                    {own && (
-                        <BusinessRemove
-                            what={own.name.trim() || "this cost"}
-                            disabled={disabled}
-                            onRemove={() => update({
-                                costs: stored.costs.filter(cost => cost.id !== own.id)
-                            })}
-                        />
-                    )}
-                </div>
-
-                {/* What some costs need on a line of their own. */}
-                {((forOffering && line.behaviour === "semi-variable") || (editing && (!forOffering || own || line.frequency === "one-time"))) && (
-                    <div className="financial-cost-detail" role="cell">
-
-                        {/* Something bought once can be kept: equipment the
-                            business owns, or a deposit it gets back. */}
-                        {editing && line.frequency === "one-time" && (
-                            <BusinessField
-                                label="Treat As"
-                                info={COST_ASSETS.map(entry => ({ title: entry.label, text: entry.explanation }))}
-                            >
-                                <OptionPicker
-                                    label={what + " treated as"}
-                                    placeholder="Expense"
-                                    options={COST_ASSETS.map(entry => entry.label)}
-                                    disabled={disabled}
-                                    value={COST_ASSETS.find(entry => entry.id === line.asset)?.label ?? "Expense"}
-                                    onChange={(next) => classify(line, {
-                                        asset: COST_ASSETS.find(entry => entry.label === next)?.id ?? ""
-                                    })}
-                                />
-                            </BusinessField>
-                        )}
-
-                        {editing && !forOffering && (
-                            <BusinessField label="Group">
-                                <OptionPicker
-                                    label={what + " group"}
-                                    placeholder="Group"
-                                    options={MOVABLE_GROUPS.map(entry => entry.label)}
-                                    disabled={disabled}
-                                    value={COST_GROUPS.find(entry => entry.id === line.group)?.label ?? ""}
-                                    onChange={(next) => classify(line, {
-                                        group: (COST_GROUPS.find(entry => entry.label === next)?.id ?? "other") as CostGroup
-                                    })}
-                                />
-                            </BusinessField>
-                        )}
-
-                        {forOffering && line.behaviour === "semi-variable" && (
-                            <>
-                                {textInput(
-                                    "Fixed Part",
-                                    what + " fixed part",
-                                    stored.classified[line.id]?.fixedPart ?? own?.fixedPart ?? "",
-                                    (next) => classify(line, { fixedPart: next }),
-                                    amountPlaceholder + " per " + (frequencyLabel(line).toLowerCase() || "period"),
-                                    undefined,
-                                    NUMBER_LIMITS.money
-                                )}
-                                {textInput(
-                                    "Variable Part per Unit",
-                                    what + " variable part per unit",
-                                    stored.classified[line.id]?.variablePerUnit ?? own?.variablePerUnit ?? "",
-                                    (next) => classify(line, { variablePerUnit: next }),
-                                    amountPlaceholder + " per unit of the Offering",
-                                    undefined,
-                                    NUMBER_LIMITS.money
-                                )}
-                            </>
-                        )}
-
-                        {own && (
-                            <OptionalNote
-                                label="Description"
-                                ariaLabel={what + " description"}
-                                disabled={disabled}
-                                value={own.description}
-                                onChange={(next) => changeOwnCost(own.id, { description: next })}
-                            />
-                        )}
-
-                    </div>
-                )}
+                <div role="cell" className="financial-cost-remove" />
 
             </div>
         );
@@ -844,8 +609,9 @@ export default function FinancialFoundationEditor({
             <div className="financial-section-body">
 
                 <p className="financial-lead">
-                    Costs recorded on the Legal Entity and on Infrastructure & Capability are gathered here
-                    automatically. Change an amount where it was recorded, and add here only what is recorded nowhere else.
+                    Generated from the costs recorded on the Legal Entity, the Workspace, the Founders and Infrastructure & Capability:
+                    each row says where it was recorded (the link opens that card), what it comes to and what a year of it comes to. Nothing is typed here:
+                    change a cost where it was recorded.
                 </p>
 
                 {COST_GROUPS.map(group => {
@@ -928,17 +694,7 @@ export default function FinancialFoundationEditor({
                                         .
                                     </p>
                                 )
-                                : (
-                                    <BusinessAddButton
-                                        label="Cost"
-                                        disabled={disabled}
-                                        onAdd={() => {
-                                            const cost = createOwnCost(group.id);
-                                            update({ costs: [...stored.costs, cost] });
-                                            toggleEditing(cost.id);
-                                        }}
-                                    />
-                                ))}
+                                : null)}
 
                         </div>
                     );
@@ -1195,6 +951,7 @@ export default function FinancialFoundationEditor({
                                             })}
                                         />
                                         <BusinessRemove
+                                            cell
                                             what={what + " milestone " + (position + 1)}
                                             disabled={disabled}
                                             onRemove={() => setSchedule({

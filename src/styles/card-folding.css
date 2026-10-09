@@ -270,16 +270,31 @@
 }
 
 /* A ROW OF THE HEAD UNDER THE NAME (BusinessCard's headRow): a
-   Competitor's or an Offering's Type, starting at the name box's left
-   edge, a field gap under it (the head's own row gap is 6px). */
+   Competitor's or an Offering's Type, ending at the name box's right
+   edge, a field gap under it (the head's own row gap is 6px). It stands
+   in the name's column only, so its picker ends where the name box ends
+   (not under the x). */
 .fold-card-head > .fold-card-head-row {
 
-    grid-column: 3 / -1;
+    grid-column: 3;
     grid-row: 2;
 
     min-width: 0;
 
     margin-top: calc(var(--space-field) - 6px);
+
+}
+
+/* The whole Type field (its label and its picker, each at its own size)
+   is set against the row's right edge, so the picker's right edge is the
+   name box's right edge. */
+.fold-card-head-row .business-field-run-compact > .business-field-inline {
+
+    grid-template-columns: auto auto;
+
+    width: fit-content;
+
+    margin-left: auto;
 
 }
 
@@ -380,5 +395,74 @@
 ) {
 
     align-self: start;
+
+}
+
+/* CARDS IN INDEPENDENT COLUMNS (CardColumns): as many columns as fit, each
+   its own vertical stack, a card gap (12px) between cards and between
+   columns, tops aligned. Opening or closing a card moves only the cards
+   below it in its own column -- no grid row ties the columns' heights. The
+   number of columns, and which card goes to which (card i to column
+   (i - 1) mod N, so the numbering still counts across), is CardColumns's. */
+.card-columns {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: var(--space-card);
+
+    min-width: 0;
+
+}
+
+.card-column {
+
+    flex: 1 1 0;
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: var(--space-card);
+
+}
+
+/* A FOLDED CARD IS ONE FIXED HEIGHT: its head is ONE line -- the written name
+   is cut by an ellipsis where it does not fit (its full text is its
+   tooltip, title) -- and its summary, where it has one, ONE line under it,
+   cut the same way. Every folded card of a kind has the one height: the
+   name's line (a control high), the head's row gap, the summary's line (a
+   card with no summary is head-only). Open, the name box wraps and grows as
+   every card's does -- so this is set on a head whose own arrow says it is
+   folded (aria-expanded="false").
+
+   OPT-IN, `.fold-card-fixed` on the head: the flat folding card lists only
+   (BusinessCard: Business Foundation's Profile, Competitor and Offering,
+   Infrastructure & Capability's cards, Brand's colour and typeface cards,
+   the Financial pages' cards; the Legal Entity's requirement and expense
+   cards; the Founders Profile's). Not Customer Engagement (tables), Strategy
+   (nested boxes), Page 1's Segment card or a section card. */
+.fold-card-fixed:has(> .strategy-box-toggle[aria-expanded="false"]) > .strategy-name-static,
+.fold-card-head-fixed > .strategy-name-static {
+
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-wrap: normal;
+
+}
+
+/* (BusinessCard fixedFolded -- the Capability lists' Resource, Activity and
+   Partner / Provider cards -- also keeps the summary's line when there is
+   none, so every card of those lists has the one height.) */
+.fold-card-fixed:has(> .strategy-box-toggle[aria-expanded="false"]) > .business-card-summary,
+.fold-card-head-fixed > .business-card-summary {
+
+    height: 1.5em;
+    line-height: 1.5;
 
 }

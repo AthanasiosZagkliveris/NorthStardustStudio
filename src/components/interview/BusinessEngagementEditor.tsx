@@ -1,4 +1,4 @@
-import { CSSProperties, Fragment, ReactNode, useMemo, useState } from "react";
+import { CSSProperties, FocusEvent, Fragment, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
 import {
     BUSINESS_CHANNEL_ALL_OFFERINGS,
@@ -53,6 +53,7 @@ import {
     BusinessTicks,
     uniqueChoices
 } from "./BusinessCardFields.tsx";
+import { consumeKey } from "./consumeKey.ts";
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
@@ -63,19 +64,31 @@ import { railId } from "./rails/railItems.ts";
 import type { OpenPage } from "./jumpTo.ts";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import SuggestedInput from "./SuggestedInput.tsx";
-import ChannelResources, { ActionPicker, useLatestEngagement } from "./ChannelResources.tsx";
+import ChannelResources, { ActionPicker, ActionPickService, useLatestEngagement } from "./ChannelResources.tsx";
 import { jumpTo } from "./jumpTo.ts";
-import { actionPlaces, rowActions, withChosenAction, withRowLines } from "../../framework/engine/ChannelActions.ts";
-import { type CostCard, capabilityCards } from "../../framework/engine/ChannelResources.ts";
+import { rowActions, withChosenAction, withRowLines } from "../../framework/engine/ChannelActions.ts";
+import {
+    actionAtOrder,
+    actionPlacements,
+    actionRows,
+    channelNamesOf,
+    connectionPaint,
+    markTint,
+    orderAt,
+    orderIn,
+    parseOrderReference,
+    resourceColours,
+    sharedColours
+} from "../../framework/engine/ActionOrder.ts";
+import { journeyStageLabels } from "../../framework/engine/ChannelTableColumns.ts";
+import { useChannelColumns } from "./useChannelColumns.ts";
+import { type CostCard, actionResourceLinks, capabilityCards, costCardName } from "../../framework/engine/ChannelResources.ts";
+import { type ActionIsolation, type ActionLit, IsolationNote, ResourceSymbol, SharedSymbol } from "./ActionMarkers.tsx";
+import ChannelResourceTable from "./ChannelResourceTable.tsx";
+import { buildChannelResourceTable } from "../../framework/engine/ChannelResourceTable.ts";
 import { asBusinessCapabilityValue } from "../../framework/engine/AnswerUtils.ts";
-import { fieldKey } from "../../framework/engine/FieldKeys.ts";
-import { frameworkRegistry } from "../../framework/engine/FrameworkRegistry.ts";
-import { AnswerType } from "../../framework/enums/AnswerType.ts";
-import { OrganizationService } from "../../services/OrganizationService";
-import { linkDetail } from "../notepad/notepadPlaces";
 import { useItemFolds } from "./useItemFolds.ts";
 import FoldArrow from "./FoldArrow.tsx";
-import CardNumber from "./CardNumber.tsx";
 import { toggledIn } from "./toggledIn.ts";
 
 import "../../styles/demand.css";
@@ -586,16 +599,6 @@ interface BusinessEngagementEditorProps {
 
 }
 
-/** This page's number in the Business System, for an action's "# 3.2.…". */
-function engagementSectionNumber(): number | undefined {
-    try {
-        return frameworkRegistry.getFramework("business").sections
-            .find(section => section.answer?.type === AnswerType.BusinessEngagement)?.number;
-    } catch {
-        return undefined;
-    }
-}
-
 /**
  * The Business System's Customer Engagement section (see
  * AnswerType.BusinessEngagement).
@@ -614,6 +617,19 @@ function engagementSectionNumber(): number | undefined {
  * Segment, drawn in that Segment's own colour -- the same card, on
  * the next page, continuing the same work.
  */
+/**
+ * What is NOT empty space while the Customer Channel table isolates something
+ * (a click on it keeps the isolation): any control, a field, a line of an
+ * action list (its number, text and symbols), a resource card or chip, a
+ * floating list, tooltip or note, and a label.
+ */
+const CONTENT_OF_THE_TABLE = [
+    "button", "a", "input", "textarea", "select", "label", "summary",
+    "[role='button']", "[role='option']", "[role='listbox']", "[role='tooltip']", "[role='dialog']", "[role='status']", "[role='alert']",
+    "[contenteditable='true']",
+    ".numbered-list-row", ".business-channel-resource", ".notepad-chip", ".option-picker", ".app-tooltip", ".info-note"
+].join(", ");
+
 /** What the Demand & Conversion block is for, and where its result goes: its title's "i". */
 const DEMAND_BLOCK_HELP: InfoPoint[] = [
     "Where this Offering\u2019s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.",
@@ -663,21 +679,96 @@ export default function BusinessEngagementEditor({
     const capabilityValue = useMemo(() => asBusinessCapabilityValue(capability), [capability]);
     const cards = useMemo(() => capabilityCards(capabilityValue), [capabilityValue]);
     useLatestEngagement(engagement);
+    // The Journey Stage and Channel columns of the Customer Channel table fit their dropdowns.
+    useChannelColumns();
 
-    /** "3.2.1.5": where an action is, as a note's chip numbers it. */
-    function actionNumber(actionId: string): string {
-        const sectionNumber = engagementSectionNumber();
-        const organizationId = OrganizationService.getSelected();
-        if (sectionNumber === undefined || !organizationId) {
-            return "3.2";
+    /** What pointing at an action or a resource lights (its twins; a resource's actions), and what
+     *  the Customer Channel table isolates (a symbol's click: the others dim). View state: never saved. */
+    const [lit, setLit] = useState<ActionLit>(null);
+    const [isolated, setIsolated] = useState<ActionIsolation>(null);
+
+    /** The symbol that isolated, to give the keyboard back to when everything is restored. */
+    const isolator = useRef<HTMLElement | null>(null);
+
+    /** Isolates (or, given null, restores everything). Starting an isolation takes the top of
+     *  that Segment's Customer Channel section (its title row, with the note) to the top of the
+     *  window, under the app header -- smoothly, unless motion is reduced; ending one scrolls nothing. */
+    function toggleIsolation(next: ActionIsolation, symbol?: HTMLElement) {
+        if (symbol) {
+            isolator.current = symbol;
         }
-        return linkDetail({
-            id: actionId, organizationId, kind: "field", systemNumber: 3, sectionNumber,
-            key: fieldKey({ systemNumber: 3, sectionNumber, path: [railId(BUSINESS_ENGAGEMENT_SECTIONS[0]), actionId] }),
-            anchors: [actionId],
-            label: "", place: ""
-        }).number;
+        if (next) {
+            // Nothing is created while the table is isolated: a "Link an action" click-to-pick in progress ends.
+            ActionPickService.finish(null);
+        }
+        if (next && !isolated) {
+            const head = document.querySelector<HTMLElement>(
+                '[data-anchor~="engagement-section-' + CSS.escape(next.segmentId + "-channels") + '"] > .business-engagement-section-head'
+            );
+            if (head) {
+                const header = document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().height ?? 0;
+                // The rows above the window that close would move the page under the scroll (scroll
+                // anchoring): off while it settles, so the scroll lands where it was aimed.
+                const root = document.documentElement;
+                root.style.overflowAnchor = "none";
+                window.setTimeout(() => { root.style.overflowAnchor = ""; }, 900);
+                window.scrollTo({
+                    top: Math.max(0, head.getBoundingClientRect().top + window.scrollY - header),
+                    left: 0,
+                    behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"
+                });
+            }
+        }
+        setIsolated(next);
     }
+
+    /** Restores everything (Escape, the title row's note) and puts the keyboard back on the symbol. */
+    function clearIsolation() {
+        setIsolated(null);
+        const symbol = isolator.current;
+        window.setTimeout(() => {
+            if (symbol?.isConnected) {
+                // The keyboard goes back to the symbol; the page does not move to it.
+                symbol.focus({ preventScroll: true });
+            }
+        }, 0);
+    }
+
+    useEffect(() => {
+        if (!isolated) {
+            return;
+        }
+        const clear = (event: globalThis.KeyboardEvent) => {
+            if (event.key === "Escape" && !event.defaultPrevented) {
+                // Escape is Back for the page (consumeKey): this press only restores the rows.
+                consumeKey(event);
+                clearIsolation();
+            }
+        };
+        document.addEventListener("keydown", clear);
+        // A click on EMPTY SPACE -- the page's background, a table's blank area, anywhere that is not a
+        // control or a cell's content -- restores everything too. It must also have PRESSED on empty
+        // space, so a drag that began in a text and ended outside it is not a click on empty space.
+        let pressedOnEmpty = false;
+        const emptySpace = (target: EventTarget | null) => target instanceof Element && target.closest(CONTENT_OF_THE_TABLE) === null;
+        const press = (event: MouseEvent) => {
+            pressedOnEmpty = event.button === 0 && emptySpace(event.target);
+        };
+        const click = (event: MouseEvent) => {
+            if (pressedOnEmpty && !event.defaultPrevented && emptySpace(event.target)) {
+                pressedOnEmpty = false;
+                clearIsolation();
+            }
+        };
+        document.addEventListener("mousedown", press, true);
+        document.addEventListener("click", click);
+        return () => {
+            document.removeEventListener("keydown", clear);
+            document.removeEventListener("mousedown", press, true);
+            document.removeEventListener("click", click);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isolated]);
 
     /** Goes to an action's first line in the table, and puts the caret in it. */
     function openAction(segmentId: string, actionId: string) {
@@ -711,7 +802,11 @@ export default function BusinessEngagementEditor({
                         onChange(next.engagement);
                     }
                 }}
-                actionNumber={actionNumber}
+                actionOrder={(actionId, channelId) => orderIn(actionPlacements(answers), actionId, channelId)}
+                lit={lit}
+                onLit={setLit}
+                isolated={isolated}
+                onIsolate={toggleIsolation}
                 onOpenCard={onOpenCapability ? (card: CostCard) => onOpenCapability(card.anchors) : undefined}
                 onOpenAction={(actionId) => openAction(answers.segmentId, actionId)}
             />
@@ -728,11 +823,11 @@ export default function BusinessEngagementEditor({
 
     /**
      * Which reference headers, Offering reference entries, Channel
-     * Categories, per-Offering relationship blocks and Demand &
-     * Conversion blocks are open. These five start CLOSED -- see useItemFolds
-     * -- unlike the structural sections and per-type/per-stage
-     * folds around them, which stay on `collapsed` and so start
-     * open.
+     * Categories, per-Offering relationship blocks, Demand &
+     * Conversion blocks and Engagement Strategy Journey Stage bands are
+     * open. These start CLOSED -- see useItemFolds -- unlike the
+     * structural sections and per-type folds around them, which stay
+     * on `collapsed` and so start open.
      */
     const folds = useItemFolds();
 
@@ -770,14 +865,6 @@ export default function BusinessEngagementEditor({
 
     }
 
-    /** One Segment's reference header. Hidden until asked for, so
-     *  it is kept with the item folds, which start closed. */
-    const referencesFoldKey = (segmentId: string) =>
-        "reference-header-" + segmentId;
-
-    const referencesOpen = (segmentId: string) =>
-        folds.isOpen(referencesFoldKey(segmentId));
-
     function toggle(key: string) {
         setCollapsed(current => toggledIn(current, key));
     }
@@ -792,6 +879,43 @@ export default function BusinessEngagementEditor({
     function segmentOf(segmentId: string): BusinessSegmentEngagementValue {
         return engagement.segments.find(entry => entry.segmentId === segmentId)
             ?? createBusinessSegmentEngagement(segmentId);
+    }
+
+    /** The Customer Channel table is isolating something of this Segment. */
+    function isolatingSegment(segmentId: string): boolean {
+        return isolated !== null && isolated.segmentId === segmentId;
+    }
+
+    /** Whether an action is part of what is isolated (everything is, while nothing is). */
+    function isRelated(segmentId: string, actionId: string): boolean {
+        if (!isolated || isolated.segmentId !== segmentId) {
+            return true;
+        }
+        if (isolated.kind === "action") {
+            return isolated.actionId === actionId;
+        }
+        return actionResourceLinks(engagement, segmentId, actionId, cards)
+            .some(entry => isolated.resourceIds.includes(entry.link.resourceId));
+    }
+
+    /** The note's names: the channels that hold the shared action, or the isolated resources, each once. */
+    function isolationNames(): string[] {
+        if (!isolated) {
+            return [];
+        }
+        if (isolated.kind === "action") {
+            const answers = segmentOf(isolated.segmentId);
+            return channelNamesOf(answers, actionPlacements(answers), isolated.actionId);
+        }
+        return [...new Set(isolated.resourceIds
+            .flatMap(id => cards.filter(card => card.id === id))
+            .map(card => costCardName(card)))];
+    }
+
+    /** The stages of a channel that hold an isolated action. */
+    function relatedStages(answers: BusinessSegmentEngagementValue, segmentId: string, channel: BusinessChannelValue): string[] {
+        return channel.stages.filter(stage => rowActions(answers, channel.id, stage).ids
+            .some(actionId => isRelated(segmentId, actionId)));
     }
 
     /**
@@ -811,6 +935,10 @@ export default function BusinessEngagementEditor({
     ) {
         const row = rowActions(answers, channelId, stageId);
         const items = row.texts.length > 0 ? row.texts : [""];
+        // The table read down: each line's total order number, the shared actions' and the resources' colours.
+        const placements = actionPlacements(answers);
+        const sharedColour = sharedColours(placements);
+        const resourceColour = resourceColours(engagement, segmentId);
         const others = answers.actions.filter(action => !row.ids.includes(action.id) && action.text.trim().length > 0);
         const write = (next: BusinessSegmentEngagementValue) =>
             updateSegment(segmentId, { channels: next.channels, actions: next.actions });
@@ -819,31 +947,142 @@ export default function BusinessEngagementEditor({
                 label={label}
                 items={items}
                 lineIds={row.ids}
+                /* Isolating: Enter opens no new line (nothing is created); a line's text stays editable. */
+                maxItems={isolatingSegment(segmentId) ? items.length : undefined}
                 disabled={disabled}
                 suggestions={[...new Set(others.map(action => action.text))]}
-                onAccept={(line, text) => {
-                    const chosen = others.find(action => action.text === text);
-                    if (chosen) {
-                        write(withChosenAction(answers, channelId, stageId, line, chosen.id));
+                /* "#12" typed in a line offers action number 12 (its total order number) as the one
+                   suggestion -- unless it is on this row already, has no words yet or there is no 12 --
+                   and choosing it shares that very action here, as choosing any other suggestion does.
+                   Anything else typed stays as typed. */
+                reference={(typed) => {
+                    const number = parseOrderReference(typed);
+                    const id = number === undefined ? undefined : actionAtOrder(placements, number);
+                    const action = id === undefined || row.ids.includes(id) ? undefined : answers.actions.find(entry => entry.id === id);
+                    return action && action.text.trim().length > 0 ? action.text : undefined;
+                }}
+                dropEmptyOnBlur
+                onAccept={(line, text, typed) => {
+                    const number = parseOrderReference(typed);
+                    const chosenId = number !== undefined
+                        ? actionAtOrder(placements, number)
+                        : others.find(action => action.text === text)?.id;
+                    if (chosenId) {
+                        write(withChosenAction(answers, channelId, stageId, line, chosenId));
                     }
                 }}
                 onChange={(next, origins) => write(withRowLines(answers, channelId, stageId, next, origins))}
+                lineOrder={(line) => {
+                    const order = orderAt(placements, channelId, stageId, line);
+                    return order === undefined ? null : "#" + order;
+                }}
+                rowProps={(line) => {
+                    const id = row.ids[line];
+                    const classes: string[] = ["is-action-line"];
+                    // Isolating: the lines that are not part of it collapse away.
+                    if (isolatingSegment(segmentId)) {
+                        if (!id || !isRelated(segmentId, id)) {
+                            classes.push("is-collapsed");
+                        } else if (row.ids.slice(0, line).length > 0) {
+                            // The first line left standing has no hairline above it (the box's border is there).
+                            if (row.ids.slice(0, line).every(earlier => !isRelated(segmentId, earlier))) {
+                                classes.push("is-first-shown");
+                            }
+                        }
+                    }
+                    if (!id) {
+                        return { className: classes.join(" ") };
+                    }
+                    const sharedAt = sharedColour.get(id);
+                    const linked = actionResourceLinks(engagement, segmentId, id, cards);
+                    const hues = [...new Set(linked.map(entry => resourceColour.get(entry.link.resourceId) ?? 0))];
+                    // The connection lines: a resource's colour(s) down the cell's left edge (split into equal
+                    // segments, top to bottom, when there are two or more), a shared action's down its right.
+                    const style: Record<string, string> = {};
+                    if (hues.length > 0) {
+                        // One part of the line per resource; past six resources the hues come round in stripes, then a cross-hatch.
+                        const paint = connectionPaint("resource", hues);
+                        classes.push("has-line-left");
+                        style["--line-left"] = paint.image;
+                        style["--line-left-size"] = paint.size;
+                        style["--line-left-position"] = paint.position;
+                    }
+                    if (sharedAt !== undefined) {
+                        const paint = connectionPaint("shared", [sharedAt]);
+                        classes.push("has-line-right");
+                        style["--line-right"] = paint.image;
+                        style["--line-right-size"] = paint.size;
+                        style["--line-right-position"] = paint.position;
+                    }
+                    const litResource = lit?.kind === "resources"
+                        ? engagement.channelResources.find(entry => lit.ids.includes(entry.id) && entry.actionIds.includes(id))
+                        : undefined;
+                    const lighting = litResource !== undefined || (lit?.kind === "action" && lit.id === id);
+                    if (lighting) {
+                        classes.push("is-lit", litResource
+                            ? markTint("resource", resourceColour.get(litResource.resourceId) ?? 0)
+                            : markTint("shared", sharedAt ?? 0));
+                    }
+                    return {
+                        className: classes.join(" "),
+                        style: style as CSSProperties,
+                        "data-action-id": id,
+                        ...(sharedAt !== undefined
+                            ? {
+                                onMouseEnter: () => setLit({ kind: "action", id }),
+                                onMouseLeave: () => setLit(null),
+                                onFocus: () => setLit({ kind: "action", id }),
+                                onBlur: (event: FocusEvent<HTMLDivElement>) => {
+                                    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                                        setLit(null);
+                                    }
+                                }
+                            }
+                            : {})
+                    };
+                }}
                 lineEnd={(line) => {
                     const id = row.ids[line];
                     if (!id) {
                         return null;
                     }
-                    // The other rows that hold it: "Instagram › Discovery, …".
-                    const channel = answers.channels.find(candidate => candidate.id === channelId);
-                    const thisRow = (channel?.name.trim() || "Unnamed channel") + " › " + (STAGE_LABELS[stageId] ?? stageId);
-                    const places = actionPlaces(answers, id);
-                    const elsewhere = [...places];
-                    elsewhere.splice(places.indexOf(thisRow), places.includes(thisRow) ? 1 : 0);
+                    const rowsHolding = actionRows(placements, id).length;
+                    const sharedAt = sharedColour.get(id);
+                    const linked = actionResourceLinks(engagement, segmentId, id, cards);
+                    const linkIds = linked.map(entry => entry.link.id);
+                    const resourceIds = [...new Set(linked.map(entry => entry.link.resourceId))];
+                    const resourceNames = [...new Set(linked.map(entry => costCardName(entry.card)))];
+                    const sharedPressed = isolated?.kind === "action" && isolated.actionId === id;
+                    const resourcePressed = isolated?.kind === "resource" && isolated.segmentId === segmentId
+                        && isolated.resourceIds.length === resourceIds.length
+                        && resourceIds.every(resourceId => isolated.resourceIds.includes(resourceId));
                     return (
                         <>
-                            {elsewhere.length > 0 && (
-                                <span className="channel-action-shared" title={elsewhere.join(", ")}>
-                                    {"also in " + elsewhere.length + (elsewhere.length === 1 ? " place" : " places")}
+                            {(sharedAt !== undefined || linked.length > 0) && (
+                                <span className="action-marks">
+                                    {sharedAt !== undefined && (
+                                        <SharedSymbol
+                                            places={rowsHolding}
+                                            colour={sharedAt}
+                                            pressed={sharedPressed}
+                                            onToggle={(symbol) => toggleIsolation(
+                                                sharedPressed ? null : { kind: "action", segmentId, actionId: id },
+                                                symbol
+                                            )}
+                                        />
+                                    )}
+                                    {linked.length > 0 && (
+                                        <ResourceSymbol
+                                            names={resourceNames}
+                                            colour={resourceColour.get(linked[0].link.resourceId) ?? 0}
+                                            pressed={resourcePressed}
+                                            onHover={(on) => setLit(on ? { kind: "resources", ids: linkIds } : null)}
+                                            onToggle={(symbol) => toggleIsolation(
+                                                resourcePressed ? null : { kind: "resource", segmentId, resourceIds, fromActionId: id },
+                                                symbol
+                                            )}
+                                        />
+                                    )}
                                 </span>
                             )}
                             <button
@@ -1143,10 +1382,16 @@ export default function BusinessEngagementEditor({
          * The Profiles and the Offerings do: a Segment can have
          * three of each, every one with three sections under it,
          * and a reader working on one channel does not need all
-         * nine open. The Segment column holds one entry and has
-         * nothing to fold past.
+         * nine open. The Segment column's one entry folds too, and
+         * starts folded like the others.
          */
-        foldable = false
+        foldable: boolean | "open" = false,
+        /** The card's number, written before the column's label
+         *  ("1. SEGMENT") on the Segment column only. */
+        number?: number,
+        /** The Segment card's fold arrow, hung in the card's arrow
+         *  column before the number (the Segment column only). */
+        cardArrow?: ReactNode
     ) {
 
         return (
@@ -1154,6 +1399,12 @@ export default function BusinessEngagementEditor({
 
                 <span className="business-foundation-label-info">
                     <span className="field-group-title business-foundation-subhead">
+                        {cardArrow}
+                        {number !== undefined && (
+                            <span className="business-engagement-reference-number">
+                                {number + "."}
+                            </span>
+                        )}
                         <InfoText text={title}>
                             <InfoNote
                                 label={title}
@@ -1180,7 +1431,10 @@ export default function BusinessEngagementEditor({
 
                         const foldKey = "reference-" + source.key;
 
-                        const open = !foldable || folds.isOpen(foldKey);
+                        const open = foldable === false
+                            || (foldable === "open"
+                                ? !collapsed.has(foldKey)
+                                : folds.isOpen(foldKey));
 
                         return (
                             <div
@@ -1190,15 +1444,17 @@ export default function BusinessEngagementEditor({
 
                                 <div className="business-engagement-reference-name-row">
 
+                                    {foundationLink(source.name, what, source.key)}
+
                                     {foldable && sections.length > 0 && (
                                         <FoldArrow
                                             open={open}
                                             label={source.name.trim() || what}
-                                            onToggle={() => folds.toggle(foldKey)}
+                                            onToggle={() => foldable === "open"
+                                                ? toggle(foldKey)
+                                                : folds.toggle(foldKey)}
                                         />
                                     )}
-
-                                    {foundationLink(source.name, what, source.key)}
 
                                 </div>
 
@@ -1274,6 +1530,58 @@ export default function BusinessEngagementEditor({
                 </div>
 
                 {open && body()}
+
+            </div>
+        );
+
+    }
+
+    /**
+     * CHANNEL RESOURCES: the Segment's channel resources as one
+     * read-only, auto-generated table under its Customer Channel table
+     * (ChannelResourceTable.ts). A fold of its own, open until folded;
+     * not drawn while the Segment has none. Pointing at it lights, and
+     * what the Customer Channel table isolates leaves it as it is: it
+     * lists every resource, whatever the rows above show.
+     */
+    function channelResourceTable(segment: BusinessCustomerSegmentValue) {
+
+        const answers = segmentOf(segment.id);
+        const table = buildChannelResourceTable(
+            engagement,
+            answers,
+            cards,
+            currency,
+            segments.flatMap(entry => entry.offerings)
+        );
+
+        if (table.rows.length === 0) {
+            return null;
+        }
+
+        const key = segment.id + "-channel-resources";
+        const open = !collapsed.has(key);
+
+        return (
+            <div className="business-engagement-section business-channel-resources-section" data-anchor={"engagement-section-" + key}>
+
+                <div className="business-engagement-section-head fold-group-head">
+
+                    <FoldArrow open={open} label="channel resources" onToggle={() => toggle(key)} />
+
+                    <span className="field-group-title business-foundation-subhead">Channel resources</span>
+
+                </div>
+
+                {open && (
+                    <ChannelResourceTable
+                        table={table}
+                        segmentName={segment.name.trim() || "this Segment"}
+                        onOpenCard={onOpenCapability ? (row) => onOpenCapability(row.anchors) : undefined}
+                        onOpenAction={(actionId) => openAction(answers.segmentId, actionId)}
+                        onLit={setLit}
+                    />
+                )}
 
             </div>
         );
@@ -1364,6 +1672,18 @@ export default function BusinessEngagementEditor({
         // channel's number is its own position.
         let position = 0;
 
+        /* ISOLATING (a symbol's click): the categories and channels with
+           no isolated action are not drawn, a channel's stage rows with
+           none are not drawn, and no "+ Channel" row stands. A category
+           folded shut stays folded (the fold states are not touched). */
+        const isolating = isolatingSegment(segment.id);
+        const keeps = (channel: BusinessChannelValue) => relatedStages(answers, segment.id, channel).length > 0;
+        const keptGroups = groups.filter(group => group.label.trim().length > 0 && group.channels.some(keeps));
+        const lastKept = keptGroups[keptGroups.length - 1];
+        const lastKeptChannel = lastKept && (isolating || folds.isOpen(channelCategoryFoldKey(segment.id, lastKept.key)))
+            ? lastKept.channels.filter(keeps).pop()
+            : undefined;
+
         return (
             <>
 
@@ -1374,7 +1694,7 @@ export default function BusinessEngagementEditor({
                     to move with them. */}
                 <div className="business-channel-table-wrap">
 
-                    <table className="business-channel-table">
+                    <table className={"business-channel-table" + (isolatingSegment(segment.id) ? " is-isolating" : "")}>
 
                         <thead>
                             <tr>
@@ -1421,7 +1741,7 @@ export default function BusinessEngagementEditor({
                             than as empty. It also gives the table a
                             last row to round its bottom corners
                             on. */}
-                        {groups.length === 0 && (
+                        {!isolating && groups.length === 0 && (
                             <tbody>
                                 <tr>
                                     <td
@@ -1445,7 +1765,15 @@ export default function BusinessEngagementEditor({
                           const categoryFoldKey =
                               channelCategoryFoldKey(segment.id, group.key);
 
-                          const categoryOpen = folds.isOpen(categoryFoldKey);
+                          /* Isolating shows every category that holds a related row, open
+                             whatever its fold (the folds themselves are untouched). */
+                          const categoryOpen = isolating || folds.isOpen(categoryFoldKey);
+
+                          if (isolating && !keptGroups.includes(group)) {
+                              // Counted all the same: the numbers after it stay their own.
+                              position += group.label.trim().length > 0 ? group.channels.length : 0;
+                              return null;
+                          }
 
                           return (
 
@@ -1646,7 +1974,7 @@ export default function BusinessEngagementEditor({
                                        channel's number is its own. */
                                     const number = position;
 
-                                    if (!categoryOpen) {
+                                    if (!categoryOpen || (isolating && !keeps(channel))) {
                                         return null;
                                     }
 
@@ -1660,9 +1988,11 @@ export default function BusinessEngagementEditor({
                                        always shows the dropdown that
                                        chooses one rather than a bare
                                        button. */
-                                    const stageRows = channel.stages.length > 0
-                                        ? channel.stages
-                                        : [""];
+                                    const stageRows = isolating
+                                        ? relatedStages(answers, segment.id, channel)
+                                        : channel.stages.length > 0
+                                            ? channel.stages
+                                            : [""];
 
                                     const span = stageRows.length;
 
@@ -1699,7 +2029,7 @@ export default function BusinessEngagementEditor({
                                                 the one above. */}
                                             <td
                                                 rowSpan={span}
-                                                className="business-channel-cell business-channel-cell-nested"
+                                                className={"business-channel-cell business-channel-cell-nested" + (lastKeptChannel === channel ? " business-channel-corner-bl" : "")}
                                                 data-anchor={"channel-" + channel.id}
                                             >
 
@@ -1791,24 +2121,26 @@ export default function BusinessEngagementEditor({
                                                         since a link is optional and the
                                                         box says so. */}
                                                     <div className="business-channel-links">
+                                                        {/* While the table isolates nothing is created: no new Links box, no new line. */}
                                                         <OptionalField
                                                             label="Links"
                                                             filled={channel.links.some(link => link.trim() !== "")}
                                                             onClear={() => change({ links: [] })}
-                                                            disabled={disabled}
+                                                            disabled={disabled || (isolating && !channel.links.some(link => link.trim() !== ""))}
                                                         >
                                                             <NumberedListInput
                                                                 label={"Links for Channel " + number}
                                                                 placeholder="Link"
                                                                 items={channel.links}
+                                                                maxItems={isolating ? channel.links.length : undefined}
                                                                 disabled={disabled}
                                                                 onChange={(items) => change({ links: items })}
                                                             />
                                                         </OptionalField>
                                                     </div>
 
-                                                    {/* What it needs: its resources, costed on
-                                                        3. Infrastructure & Capability. */}
+                                                    {/* What it needs: its resources, made in
+                                                        3. Offering's Capability. */}
                                                     {channelResources(answers, channel.id, "Channel " + number)}
 
                                                 </div>
@@ -1906,7 +2238,11 @@ export default function BusinessEngagementEditor({
                                                                 has least of. */}
                                                             <div className="business-channel-steps">
 
-                                                            {channel.offerings.length > 0 && (
+                                                            {/* Never the last one: a channel
+                                                                cannot be without Offerings,
+                                                                so the only one left is
+                                                                changed, not removed. */}
+                                                            {!carriesAll && channel.offerings.length > 1 && (
                                                                 <BusinessStep
                                                                     kind="remove"
                                                                     what="Offering"
@@ -1930,6 +2266,7 @@ export default function BusinessEngagementEditor({
                                                                 The add goes on its own line under the last pick,
                                                                 as the app's labelled add button (BusinessStep). */}
                                                             {index === offeringRows.length - 1 &&
+                                                                !isolating &&
                                                                 !carriesAll &&
                                                                 channel.offerings.length > 0 &&
                                                                 channel.offerings.length <
@@ -1969,15 +2306,20 @@ export default function BusinessEngagementEditor({
                                     return (
                                         <Fragment key={channel.id}>
 
-                                            {stageRows.map((stageId, index) => (
+                                            {stageRows.map((stageId, shown) => ({
+                                                stageId,
+                                                shown,
+                                                // The stage's own place in the channel (the rows drawn may be fewer).
+                                                index: isolating ? channel.stages.indexOf(stageId) : shown
+                                            })).map(({ stageId, shown, index }) => (
 
                                                 <tr key={channel.id + "-" + (stageId || "unchosen")}>
 
-                                                    {index === 0 && channelCells}
+                                                    {shown === 0 && channelCells}
 
                                                     <td className="business-channel-cell">
 
-                                                        <div className="business-channel-pick">
+                                                        <div className="business-channel-pick business-channel-pick-stage">
 
                                                             {/* Every stage still free,
                                                                 plus this row's own: a
@@ -1992,6 +2334,14 @@ export default function BusinessEngagementEditor({
                                                                     " for Channel " + number
                                                                 }
                                                                 placeholder="Select a stage"
+                                                                /* It fills the track from the cell's
+                                                                   left padding to the x (the width of
+                                                                   the Add Journey Stage button under
+                                                                   it), never narrower than the longest
+                                                                   stage ("Support & Follow Up"): its
+                                                                   column is at least that wide
+                                                                   (useChannelColumns). */
+                                                                sizeFor={journeyStageLabels()}
                                                                 /* Narrowed by what a
                                                                    channel of this kind
                                                                    is plausibly used
@@ -2056,7 +2406,8 @@ export default function BusinessEngagementEditor({
                                                             {/* The add goes on its own line under the
                                                                 last pick, as the app's labelled add
                                                                 button (BusinessStep). */}
-                                                            {index === stageRows.length - 1 &&
+                                                            {shown === stageRows.length - 1 &&
+                                                                !isolating &&
                                                                 channel.stages.length > 0 &&
                                                                 channel.stages.length <
                                                                     stageOptionsFor(
@@ -2125,7 +2476,7 @@ export default function BusinessEngagementEditor({
                                     below the table starts a new
                                     category; this one adds to the
                                     category it sits in. */}
-                                {group.label.trim().length > 0 && categoryOpen && (
+                                {group.label.trim().length > 0 && categoryOpen && !isolating && (
                                     <tr>
                                         <td className="business-channel-cell">
                                             <BusinessAddButton
@@ -2160,22 +2511,24 @@ export default function BusinessEngagementEditor({
                         under. Adding another channel to a category that
                         already exists is done from inside that category,
                         where the button that does it sits. */}
-                    <BusinessAddButton
-                        label="Channel Category"
-                        disabled={disabled}
-                        onAdd={() => {
+                    {!isolating && (
+                        <BusinessAddButton
+                            label="Channel Category"
+                            disabled={disabled}
+                            onAdd={() => {
 
-                            const channel = createBusinessChannel();
+                                const channel = createBusinessChannel();
 
-                            updateSegment(segment.id, {
-                                channels: [...answers.channels, channel]
-                            });
+                                updateSegment(segment.id, {
+                                    channels: [...answers.channels, channel]
+                                });
 
-                            // Opened, so it can be filled in straight away.
-                            folds.expand(channelCategoryFoldKey(segment.id, channel.id));
+                                // Opened, so it can be filled in straight away.
+                                folds.expand(channelCategoryFoldKey(segment.id, channel.id));
 
-                        }}
-                    />
+                            }}
+                        />
+                    )}
 
                 </div>
 
@@ -2349,7 +2702,7 @@ export default function BusinessEngagementEditor({
 
         const stageOpen = (
             offeringId: string, typeId: string, stageId: string
-        ) => !collapsed.has(stageFoldKey(offeringId, typeId, stageId));
+        ) => folds.isOpen(stageFoldKey(offeringId, typeId, stageId));
 
         /* HOW TALL A BLOCK IS, counted the way it is drawn. A folded
            level keeps one row and gives up everything under it, so
@@ -2357,15 +2710,17 @@ export default function BusinessEngagementEditor({
            the table tears.
 
            A type open: one band row per stage, plus a row for each
-           kind of channel under the stages still open. */
+           kind of channel under the stages still open. A stage folded keeps one more row,
+           the one that holds its Approach. */
         const typeHeight = (offeringId: string, typeId: string) =>
             !typeOpen(offeringId, typeId)
                 ? 1
                 : rowsOf(offeringId).reduce(
                     (total, entry) => total + 1 + (
-                        stageOpen(offeringId, typeId, entry.stageId)
+                        stageOpen(offeringId, typeId, entry.stageId) &&
+                            entry.groups.length > 0
                             ? entry.groups.length
-                            : 0
+                            : 1
                     ),
                     0
                 );
@@ -2454,20 +2809,25 @@ export default function BusinessEngagementEditor({
                                             <span className="business-engagement-band-kind">
                                                 {(offeringIndex + 1) + ". Offering -"}
                                             </span>
-                                            <span className="business-engagement-derived">
-                                                <InfoText text={offeringName(offeringId)}>
-                                                    {offeringFacts.length > 0 && (
-                                                        <InfoNote
-                                                            label={offeringName(offeringId)}
-                                                            points={offeringFacts.map(section => ({
-                                                                title: section.label,
-                                                                text: section.text
-                                                            }))}
-                                                            fullList
-                                                            asReference
-                                                        />
-                                                    )}
-                                                </InfoText>
+                                            {/* The name is the link to the Offering
+                                                on the Foundation page, as a
+                                                Profile's name is; its "i" stays
+                                                with it as one run. */}
+                                            <span>
+                                                {foundationLink(
+                                                    offeringName(offeringId), "Offering", offeringId
+                                                )}
+                                                {offeringFacts.length > 0 && (
+                                                    <InfoNote
+                                                        label={offeringName(offeringId)}
+                                                        points={offeringFacts.map(section => ({
+                                                            title: section.label,
+                                                            text: section.text
+                                                        }))}
+                                                        fullList
+                                                        asReference
+                                                    />
+                                                )}
                                             </span>
                                             {!offeringShown && (
                                                 <span className="business-card-summary">
@@ -2514,7 +2874,7 @@ export default function BusinessEngagementEditor({
                                                     the row is reference, so it
                                                     should take one row. */}
                                                 <span className="business-engagement-reference-label">
-                                                    Customer Profiles
+                                                    Profiles:
                                                 </span>
 
                                                 {served.length === 0
@@ -3006,171 +3366,11 @@ export default function BusinessEngagementEditor({
                                                                 interaction.stageId
                                                             );
 
-                                                            return (
-                                                                <Fragment
-                                                                    key={interaction.key + "-" +
-                                                                        (typeId || "t")}
-                                                                >
-
-                                                                    {/* 4a. THE JOURNEY STAGE,
-                                                                        WRITTEN ABOVE the ways
-                                                                        it happens rather than
-                                                                        beside them. A band
-                                                                        across the Interaction
-                                                                        Context and its
-                                                                        Approach: the reader
-                                                                        meets "Discovery", then
-                                                                        every kind of channel
-                                                                        it happens through.
-
-                                                                        It carries the Offering
-                                                                        and the Relationship
-                                                                        Type when this is the
-                                                                        first row of their
-                                                                        block, since the band is
-                                                                        now that first row. */}
-                                                                    <tr>
-
-                                                                            {index === 0 && typeCell}
-
-                                                                            <th
-                                                                                scope="rowgroup"
-                                                                                colSpan={2}
-                                                                                className="business-channel-cell business-engagement-band"
-                                                                            >
-
-                                                                                {/* THE ARROW BESIDE
-                                                                                    THE STAGE, the
-                                                                                    same one a
-                                                                                    Profile carries
-                                                                                    and for the same
-                                                                                    reason: a stage
-                                                                                    can run to
-                                                                                    several kinds of
-                                                                                    channel, and a
-                                                                                    reader working on
-                                                                                    one journey stage
-                                                                                    does not need the
-                                                                                    others
-                                                                                    underfoot. */}
-                                                                                <span className="business-engagement-reference-name-row">
-                                                                                    <FoldArrow
-                                                                                        open={stageShown}
-                                                                                        label={about}
-                                                                                        onToggle={() => toggle(stageFoldKey(offeringId, typeId, interaction.stageId))}
-                                                                                    />
-                                                                                    <span>
-                                                                                        {STAGE_LABELS[interaction.stageId]}
-                                                                                    </span>
-                                                                                </span>
-
-                                                                            </th>
-
-                                                                    </tr>
-
-                                                                    {stageShown &&
-                                                                        interaction.groups.map((group, groupIndex) => (
-                                                                        <tr
-                                                                            key={group.category ||
-                                                                                "uncategorised"}
-                                                                        >
-
-                                                                            {/* 4b. WHERE IT HAPPENS:
-                                                                                one kind of channel,
-                                                                                and every channel of
-                                                                                that kind used at this
-                                                                                stage, as a list.
-
-                                                                                The kinds come in the
-                                                                                page's own order --
-                                                                                Social Media before
-                                                                                Website -- however the
-                                                                                Channels table was
-                                                                                filled in.
-
-                                                                                NOT the Action. What is
-                                                                                done through the
-                                                                                channel is the Channels
-                                                                                table's answer; this
-                                                                                column gives the
-                                                                                setting the Approach is
-                                                                                written for. */}
-                                                                            <td className="business-channel-cell business-channel-cell-derived business-relationship-channels-cell">
-
-                                                                                <span className="business-engagement-derived-second">
-                                                                                    {group.category.trim().length
-                                                                                        ? group.category
-                                                                                        : "No category"}
-                                                                                </span>
-
-                                                                                <ul className="business-engagement-channel-list">
-                                                                                    {group.channelIds.map(id => (
-                                                                                        <li key={id}>
-                                                                                            {channelName(id)}
-                                                                                        </li>
-                                                                                    ))}
-                                                                                </ul>
-
-                                                                            </td>
-
-                                                                            {/* 5. WHAT IT SHOULD
-                                                                                ACHIEVE, then how it
-                                                                                is conducted -- ONE
-                                                                                GOAL AND ONE APPROACH
-                                                                                FOR THE WHOLE STAGE,
-                                                                                beside every way it
-                                                                                happens.
-
-                                                                                An organisation does
-                                                                                not approach being
-                                                                                discovered one way on
-                                                                                social media and
-                                                                                another on its own
-                                                                                site: it has an
-                                                                                approach to being
-                                                                                discovered, and these
-                                                                                are where it puts it
-                                                                                into practice. */}
-                                                                            {groupIndex === 0 && (
-                                                                            <td
-                                                                                rowSpan={interaction.groups.length}
-                                                                                className="business-channel-cell"
-                                                                            >
-
-                                                                                {typeId.length === 0 ? null : (
-                                                                                    <>
-
-                                                                                        <div className="business-engagement-goal">
-
-                                                                                            <span className="business-foundation-label-info">
-                                                                                                <span className="business-engagement-reference-label">
-                                                                                                    <InfoText text="Goal">
-                                                                                                        <InfoNote
-                                                                                                            label="Goal"
-                                                                                                            points={SECTIONS.relationships.goals}
-                                                                                                            fullList
-                                                                                                        />
-                                                                                                    </InfoText>
-                                                                                                </span>
-                                                                                            </span>
-
-                                                                                            <div className="business-engagement-goal-ticks">
-                                                                                                <BusinessTicks
-                                                                                                    name={"Goals for " + about}
-                                                                                                    options={GOAL_OPTIONS}
-                                                                                                    chosen={answersFor.goals}
-                                                                                                    disabled={disabled}
-                                                                                                    onChange={(next) => updateInteraction(
-                                                                                                        segment.id,
-                                                                                                        offeringId, typeId,
-                                                                                                        interaction.key, interaction.legacyKeys,
-                                                                                                        { goals: next }
-                                                                                                    )}
-                                                                                                />
-                                                                                            </div>
-
-                                                                                        </div>
-
+           /* THE APPROACH, named above its box like the Goal: shown beside
+              the channels under the stage, or by itself when the stage is
+              folded. None until a Relationship Type is chosen. */
+           const approachBlock = typeId.length === 0 ? null : (
+               <>
                                                                                         {/* NAMED ABOVE THE BOX,
                                                                                             the way the Goal
                                                                                             above it is. The
@@ -3202,17 +3402,186 @@ export default function BusinessEngagementEditor({
                                                                                                 segment.id, offeringId, typeId,
                                                                                                 interaction.key, interaction.legacyKeys,
                                                                                                 { approach: next }
-                                                                                            )}
-                                                                                        />
+                                                                         )}
+                                                                     />
+               </>
+           );
 
-                                                                                    </>
+                                                            return (
+                                                                <Fragment
+                                                                    key={interaction.key + "-" +
+                                                                        (typeId || "t")}
+                                                                >
+
+                                                                    {/* 4a. THE JOURNEY STAGE,
+                                                                        WRITTEN ABOVE the ways
+                                                                        it happens rather than
+                                                                        beside them. A band
+                                                                        across the Interaction
+                                                                        Context and its
+                                                                        Approach: the reader
+                                                                        meets "Discovery", then
+                                                                        every kind of channel
+                                                                        it happens through.
+
+                                                                        It carries the Offering
+                                                                        and the Relationship
+                                                                        Type when this is the
+                                                                        first row of their
+                                                                        block, since the band is
+                                                                        now that first row. */}
+                                                                    <tr>
+
+                                                                            {index === 0 && typeCell}
+
+                                                                            <th
+                                                                                scope="rowgroup"
+                                                                                className="business-channel-cell business-engagement-band"
+                                                                            >
+
+                                                                                {/* THE ARROW BESIDE
+                                                                                    THE STAGE, the
+                                                                                    same one a
+                                                                                    Profile carries
+                                                                                    and for the same
+                                                                                    reason: a stage
+                                                                                    can run to
+                                                                                    several kinds of
+                                                                                    channel, and a
+                                                                                    reader working on
+                                                                                    one journey stage
+                                                                                    does not need the
+                                                                                    others
+                                                                                    underfoot. */}
+                                                                                <span className="business-engagement-reference-name-row">
+                                                                                    <FoldArrow
+                                                                                        open={stageShown}
+                                                                                        label={about}
+                                                                                        onToggle={() => folds.toggle(stageFoldKey(offeringId, typeId, interaction.stageId))}
+                                                                                    />
+                                                                                    <span>
+                                                                                        {STAGE_LABELS[interaction.stageId]}
+                                                                                    </span>
+                                                                                </span>
+
+                                                                            </th>
+
+                                                                            {/* THE GOAL, ON THE STAGE'S OWN LINE: the second part of the
+                                                                                Engagement Strategy, beside the Journey Stage band (its first
+                                                                                part) and centred on the same line. The Approach follows it,
+                                                                                beside the channels under the stage. */}
+                                                                            <td className="business-channel-cell business-engagement-band business-engagement-band-goal">
+
+                                                                                {typeId.length === 0 ? null : (
+                                                                                        <div className="business-engagement-goal">
+
+                                                                                            <span className="business-foundation-label-info">
+                                                                                                <span className="business-engagement-reference-label">
+                                                                                                    <InfoText text="Goal">
+                                                                                                        <InfoNote
+                                                                                                            label="Goal"
+                                                                                                            points={SECTIONS.relationships.goals}
+                                                                                                            fullList
+                                                                                                        />
+                                                                                                    </InfoText>
+                                                                                                </span>
+                                                                                            </span>
+
+                                                                                            <div className="business-engagement-goal-ticks">
+                                                                                                <BusinessTicks
+                                                                                                    name={"Goals for " + about}
+                                                                                                    options={GOAL_OPTIONS}
+                                                                                                    chosen={answersFor.goals}
+                                                                                                    disabled={disabled}
+                                                                                                    onChange={(next) => updateInteraction(
+                                                                                                        segment.id,
+                                                                                                        offeringId, typeId,
+                                                                                                        interaction.key, interaction.legacyKeys,
+                                                                                                        { goals: next }
+                                                                                                    )}
+                                                                                                />
+                                                                                            </div>
+
+                                                                                        </div>
                                                                                 )}
+
+                                                                            </td>
+
+                                                                </tr>
+
+                                                                    {stageShown &&
+                                                                        interaction.groups.map((group, groupIndex) => (
+                                                                        <tr
+                                                                            key={group.category ||
+                                                                                "uncategorised"}
+                                                                        >
+
+                                                                            {/* 4b. WHERE IT HAPPENS:
+                                                                                one kind of channel,
+                                                                                and every channel of
+                                                                                that kind used at this
+                                                                                stage, as a list.
+
+                                                                                The kinds come in the
+                                                                                page's own order --
+                                                                                Social Media before
+                                                                                Website -- however the
+                                                                                Channels table was
+                                                                                filled in.
+
+                                                                                NOT the Action. What is
+                                                                                done through the
+                                                                                channel is the Channels
+                                                                                table's answer; this
+                                                                                column gives the
+                                                                                setting the Approach is
+                                                                                written for. */}
+                                                                            <td className="business-channel-cell business-channel-cell-derived business-relationship-channels-cell business-relationship-stage-cell">
+
+                                                                                <span className="business-engagement-derived-second">
+                                                                                    {group.category.trim().length
+                                                                                        ? group.category
+                                                                                        : "No category"}
+                                                                                </span>
+
+                                                                                <ul className="business-engagement-channel-list business-engagement-stage-channels">
+                                                                                    {group.channelIds.map(id => (
+                                                                                        <li key={id}>
+                                                                                            {channelName(id)}
+                                                                                        </li>
+                                                                                    ))}
+                                                                                </ul>
+
+                                                                            </td>
+
+                                                                            {groupIndex === 0 && (
+                                                                            <td
+                                                                                rowSpan={interaction.groups.length}
+                                                                                className="business-channel-cell"
+                                                                            >
+
+                                                                                {approachBlock}
 
                                                                             </td>
                                                                             )}
 
+
                                                                         </tr>
                                                                     ))}
+
+                                                                        {/* THE STAGE FOLDED: the channel lists are gone, the Approach stays. */}
+                                                                        {!(stageShown && interaction.groups.length > 0) && (
+                                                                        <tr>
+                                                                            <td className="business-channel-cell business-channel-cell-derived business-relationship-channels-cell business-relationship-stage-cell" />
+                                                                            <td
+                                                                                className="business-channel-cell"
+                                                                            >
+
+                                                                                {approachBlock}
+
+                                                                            </td>
+                                                                        </tr>
+                                                                        )}
 
                                                                 </Fragment>
                                                             );
@@ -3786,11 +4155,22 @@ export default function BusinessEngagementEditor({
 
                 const open = !collapsed.has(key);
 
+                const segmentArrow = (
+                    <FoldArrow
+                        open={open}
+                        label={"Segment " + (segmentIndex + 1)}
+                        onToggle={() => toggle(key)}
+                    />
+                );
+
                 return (
                     <div
                         className="business-foundation-input business-foundation-card business-engagement-input"
                         key={segment.id}
                         data-anchor={"engagement-segment-" + segment.id}
+                        role="group"
+                        aria-label={"Segment " + (segmentIndex + 1) + ": " +
+                            (segment.name.trim().length > 0 ? segment.name.trim() : "Not named yet")}
                         /* The Segment's OWN colour, chosen on Page 1
                            and carried here: the same Segment is the
                            same colour on both pages, which is most
@@ -3799,108 +4179,79 @@ export default function BusinessEngagementEditor({
                         style={{ "--strategy-theme-hue": segmentHue(segment) } as CSSProperties}
                     >
 
-                        <div className="strategy-box-head business-foundation-input-head fold-card-head">
+                        {/* NO HEAD ROW OF ITS OWN: the card's fold arrow
+                            stands next to "1. SEGMENT", the first
+                            column's heading, in the card's arrow
+                            column. Folded, that heading stands alone
+                            with the Segment's name, as a folded card
+                            shows its name. */}
+                        {open ? (
+                            <div className="business-engagement-references">
 
-                            <FoldArrow
-                                open={open}
-                                label={"Segment " + (segmentIndex + 1)}
-                                onToggle={() => toggle(key)}
-                            />
+                                <div className="business-engagement-reference-columns">
 
-                            {/* A Segment holds cards of other kinds, so it
-                                says what it is (see CardNumber). */}
-                            <CardNumber number={segmentIndex + 1} kind="Segment" />
+                                    {referenceColumn(
+                                        "Segment",
+                                        "Segment",
+                                        segmentQuestions,
+                                        [{
+                                            key: segment.id,
+                                            name: segment.name,
+                                            description: segment.description
+                                        }],
+                                        true,
+                                        segmentIndex + 1,
+                                        segmentArrow
+                                    )}
 
-                            {/* Page 1's name, shown. This page adds
-                                no Segments and renames none. */}
-                            <span className="strategy-name-static">
-                                {segment.name.trim().length > 0
-                                    ? segment.name
-                                    : "Not named yet"}
-                            </span>
+                                    {referenceColumn(
+                                        "Profiles",
+                                        "Profile",
+                                        () => SECTIONS.channels.profileInformation,
+                                        segment.profiles.map(profile => ({
+                                            key: profile.id,
+                                            name: profile.name,
+                                            description: profile.description
+                                        })),
+                                        true
+                                    )}
 
-                        </div>
-
-                        {open && (
-                            <>
-
-                                {/* The reference header: what Page 1
-                                    already says about this Segment,
-                                    linked rather than re-asked. */}
-                                <div className="business-engagement-reference">
-
-                                    {/* An "Information / References"
-                                        heading and its "i" sat above
-                                        these three. Both are gone:
-                                        three columns of linked names
-                                        under the Segment's own head
-                                        are plainly references, and a
-                                        heading that says so is a line
-                                        spent saying nothing. */}
-                                    <div
-                                        className="business-engagement-reference-columns"
-                                        hidden={!referencesOpen(segment.id)}
-                                    >
-
-                                        {referenceColumn(
-                                            "Customer Segment",
-                                            "Segment",
-                                            segmentQuestions,
-                                            [{
-                                                key: segment.id,
-                                                name: segment.name,
-                                                description: segment.description
-                                            }]
-                                        )}
-
-                                        {referenceColumn(
-                                            "Customer Profiles",
-                                            "Profile",
-                                            () => SECTIONS.channels.profileInformation,
-                                            segment.profiles.map(profile => ({
-                                                key: profile.id,
-                                                name: profile.name,
-                                                description: profile.description
-                                            })),
-                                            true
-                                        )}
-
-                                        {referenceColumn(
-                                            "Offerings",
-                                            "Offering",
-                                            () => SECTIONS.channels.offeringInformation,
-                                            segment.offerings.map(offering => ({
-                                                key: offering.id,
-                                                name: offering.name,
-                                                description: offering.description
-                                            })),
-                                            true
-                                        )}
-
-                                    </div>
-
-                                    {/* UNDER THE THING IT HIDES, the
-                                        way Need Help? sits under the
-                                        guidance it hides -- the same
-                                        control, so it is the one
-                                        already learned. A founder who
-                                        knows their Segment by heart
-                                        can put the whole reference
-                                        away and answer. */}
-                                    <button
-                                        type="button"
-                                        className="interview-help-toggle business-engagement-reference-toggle"
-                                        aria-expanded={referencesOpen(segment.id)}
-                                        onClick={() => folds.toggle(
-                                            referencesFoldKey(segment.id)
-                                        )}
-                                    >
-                                        {referencesOpen(segment.id)
-                                            ? "Hide References"
-                                            : "Show References"}
-                                    </button>
+                                    {referenceColumn(
+                                        "Offerings",
+                                        "Offering",
+                                        () => SECTIONS.channels.offeringInformation,
+                                        segment.offerings.map(offering => ({
+                                            key: offering.id,
+                                            name: offering.name,
+                                            description: offering.description
+                                        })),
+                                        true
+                                    )}
 
                                 </div>
+
+                            </div>
+                        ) : (
+                            <div className="business-engagement-references business-engagement-segment-folded">
+                                <span className="business-foundation-label-info">
+                                    <span className="field-group-title business-foundation-subhead">
+                                        {segmentArrow}
+                                        <span className="business-engagement-reference-number">
+                                            {(segmentIndex + 1) + "."}
+                                        </span>
+                                        Segment
+                                    </span>
+                                </span>
+                                <span className="strategy-name-static">
+                                    {segment.name.trim().length > 0
+                                        ? segment.name
+                                        : "Not named yet"}
+                                </span>
+                            </div>
+                        )}
+
+                        {open && (
+                        <>
 
                                 {/* Each section folds away. Both of
                                     them run to a table, and a founder
@@ -3909,13 +4260,27 @@ export default function BusinessEngagementEditor({
                                 {foldingSection(
                                     segment.id + "-channels",
                                     "1. Customer Channel",
-                                    () => channelsFor(segment),
+                                    () => (
+                                        <>
+                                            {channelsFor(segment)}
+                                            {channelResourceTable(segment)}
+                                        </>
+                                    ),
                                     0,
-                                    <FoldAllToggle
-                                        ids={channelCategoryFoldKeys(segment.id)}
-                                        folds={folds}
-                                        label="channel categories"
-                                    />
+                                    <>
+                                        {isolated && isolated.segmentId === segment.id && (
+                                            <IsolationNote
+                                                kind={isolated.kind === "action" ? "shared" : "linked"}
+                                                names={isolationNames()}
+                                                onClear={clearIsolation}
+                                            />
+                                        )}
+                                        <FoldAllToggle
+                                            ids={channelCategoryFoldKeys(segment.id)}
+                                            folds={folds}
+                                            label="channel categories"
+                                        />
+                                    </>
                                 )}
 
                                 {foldingSection(
@@ -3937,7 +4302,7 @@ export default function BusinessEngagementEditor({
                                     />
                                 )}
 
-                            </>
+                        </>
                         )}
 
                     </div>

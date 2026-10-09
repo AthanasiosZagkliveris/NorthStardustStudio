@@ -1,0 +1,781 @@
+/* ALL THE TILES IN ONE GRID (Page 3, the "All Tiles" tile): the tiles are the page's own (section-tiles.css); only their arrangement, the bar and the funnel's filters are here. */
+
+.capability-overview {
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    min-width: 0;
+
+    font-size: var(--font-small);
+
+    color: var(--text-default);
+
+}
+
+.capability-overview-bar {
+
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+}
+
+.capability-overview-count,
+.capability-overview-legend {
+
+    color: var(--text-secondary);
+
+}
+
+.capability-overview-legend {
+
+    display: inline-flex;
+    gap: 16px;
+
+}
+
+.capability-overview-legend span {
+
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+
+}
+
+.capability-overview-views {
+
+    display: inline-flex;
+    gap: 4px;
+
+    margin-left: auto;
+
+}
+
+.capability-overview-views button,
+.capability-overview-name {
+
+    padding: 2px 10px;
+
+    border: 1px solid var(--line-card);
+    border-radius: 4px;
+
+    background: var(--bg-surface);
+
+    color: inherit;
+
+    font: inherit;
+
+    cursor: pointer;
+
+}
+
+.capability-overview-name {
+
+    padding: 0;
+
+    border: 0;
+
+    background: none;
+
+    text-align: left;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+
+}
+
+.capability-overview-views button[aria-pressed="true"] {
+
+    background: var(--bg-button-hover);
+
+}
+
+.capability-overview button:focus-visible {
+
+    outline: 1px solid var(--focus-ring-ink);
+    outline-offset: 2px;
+
+}
+
+/* The funnel's drop-down. */
+.capability-overview-menu {
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    padding: 8px 10px;
+
+    font-size: var(--font-small);
+
+}
+
+.capability-overview-menu-group {
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+}
+
+.capability-overview-menu-fields label:not(.business-foundation-tick) {
+
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+}
+
+.capability-overview-menu-fields input[type="text"] {
+
+    width: 6em;
+
+}
+
+.capability-overview-menu select,
+.capability-overview-menu input[type="text"] {
+
+    font: inherit;
+
+    text-transform: none;
+
+}
+
+/* A long label WRAPS inside the menu. */
+.capability-overview-menu strong,
+.capability-overview-menu .business-foundation-tick-label,
+.capability-overview-menu-fields label {
+
+    white-space: normal;
+    overflow-wrap: anywhere;
+
+}
+
+/* The Status and Frequency cells are the app's own dropdown, as long as their longest option. */
+.capability-overview-menu-fields .option-picker {
+
+    align-self: flex-start;
+
+    text-transform: none;
+
+}
+
+/* The funnel's labels are in capitals. */
+.capability-overview-menu strong,
+.capability-overview-menu .business-foundation-tick-label,
+.capability-overview-menu-fields label,
+.strategy-sort-menu-wide .strategy-sort-option {
+
+    text-transform: uppercase;
+
+}
+
+/* A sub-option of a tick (Workspace under Resources) stands indented. */
+.capability-overview-menu .business-foundation-tick-indented {
+
+    margin-left: 20px;
+
+}
+
+.capability-overview-menu-sort {
+
+    padding-top: 4px;
+
+    border-top: 1px solid var(--line-divider);
+
+}
+
+.strategy-sort-menu-wide .strategy-sort-option {
+
+    font-size: var(--font-small);
+
+}
+
+.capability-overview-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    text-align: left;
+
+}
+
+.capability-overview-table th,
+.capability-overview-table td {
+
+    padding: 4px 8px;
+
+    border-bottom: 1px solid var(--line-divider);
+
+    vertical-align: top;
+
+}
+
+
+/* Step 2 of Belongs to (the groups of the chosen place) is indented under step 1. */
+.capability-overview-menu-sub {
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    padding-left: 20px;
+
+}
+
+.capability-overview-menu .business-foundation-tick-label {
+
+    font-size: var(--font-small);
+
+}
+
+/* The header stays; only the tiles / table scroll under it. */
+.capability-overview {
+
+    height: 100%;
+    min-height: 0;
+
+}
+
+.capability-overview-bar {
+
+    flex: 0 0 auto;
+
+}
+
+.capability-overview-scroll {
+
+    flex: 1 1 auto;
+    min-height: 0;
+
+    /* (No side room: a tile grows inwards, never past the panel.) */
+    padding: 4px 0 12px;
+
+    overflow-y: auto;
+    scrollbar-width: auto;
+    scrollbar-color: auto;
+
+}
+
+/* The legend's circles are toggles; a pressed one is ringed. */
+.capability-overview-legend-item {
+
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+
+    padding: 2px 8px 2px 4px;
+
+    border: 1px solid transparent;
+    border-radius: 999px;
+
+    background: none;
+
+    color: inherit;
+
+    font: inherit;
+
+    cursor: pointer;
+
+}
+
+.capability-overview-legend-item[aria-pressed="true"] {
+
+    border-color: var(--focus-ring-ink);
+
+    background: var(--bg-button-hover);
+
+    font-weight: 600;
+
+}
+
+.capability-overview-chip {
+
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 2px 4px 2px 10px;
+
+    border: 1px solid var(--focus-ring-ink);
+    border-radius: 999px;
+
+}
+
+.capability-overview-chip button {
+
+    padding: 0 6px;
+
+    border: 0;
+    border-radius: 999px;
+
+    background: none;
+
+    color: inherit;
+
+    font: inherit;
+
+    cursor: pointer;
+
+}
+
+
+
+/* The scrolling area's bar: thin, no arrows (overriding the app-wide *::-webkit-scrollbar { display: none }). */
+.capability-overview-scroll::-webkit-scrollbar {
+
+    display: block;
+    width: 8px;
+
+}
+
+.capability-overview-scroll::-webkit-scrollbar-button {
+
+    display: none;
+
+    width: 0;
+    height: 0;
+
+}
+
+.capability-overview-scroll::-webkit-scrollbar-track {
+
+    background: transparent;
+
+}
+
+.capability-overview-scroll::-webkit-scrollbar-thumb {
+
+    min-height: 40px;
+
+    border-radius: 4px;
+
+    background: color-mix(in srgb, currentColor 45%, transparent);
+
+}
+
+/* THE COSTS of the tiles shown, with the cost order and range under them. */
+.capability-overview-costs-order,
+.capability-overview-costs-range {
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+}
+
+.capability-overview-costs-order button {
+
+    font: inherit;
+    text-transform: uppercase;
+
+}
+
+.capability-overview-costs-order button[aria-pressed="true"] {
+
+    font-weight: 700;
+    text-decoration: underline;
+
+}
+
+.capability-overview-costs-range input[type="text"] {
+
+    width: 6.5em;
+
+}
+
+.capability-overview-costs-range label {
+
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    text-transform: uppercase;
+
+}
+
+/* ==========================================================
+   THE FUNNEL'S VERTICAL RHYTHM (docs/ai/layout-rules.md, "One rhythm in the funnel"): two tokens of the layout rulebook and nothing else.
+   --space-field (12px): the menu's padding; between its blocks (Include, Belongs to, Status / Frequency, Costs, Sort); between a block's label and its
+   first row, and above a label; between a block's sub-lists (Type, Category, Group); between the fields of the Status / Frequency / Costs blocks.
+   --space-label (6px): between rows of ticks, from a select's or an input's label to its control, between the two cost-order buttons and the two
+   Cost cells.
+========================================================== */
+.capability-overview-menu {
+
+    gap: var(--space-field);
+
+    padding: var(--space-field);
+
+}
+
+/* A block: its label row, then its rows, a field gap apart; the rows themselves (ticks) a label gap apart. */
+.capability-overview-menu-group {
+
+    gap: var(--space-field);
+
+}
+
+.capability-overview-menu-body,
+.capability-overview-menu-sub,
+.capability-overview-menu-fields,
+.capability-overview-costs {
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-label);
+
+}
+
+/* Fields (Status, Frequency, Linked, and the Costs tick, order, range) stand a field gap apart, each with its label a label gap above it. */
+.capability-overview-menu-fields,
+.capability-overview-costs {
+
+    gap: var(--space-field);
+
+}
+
+.capability-overview-menu-fields label:not(.business-foundation-tick),
+.capability-overview-costs-range label {
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-label);
+
+}
+
+/* The sub-lists of a block (Type, Category, Group) stand a field gap under the ticks above, indented. */
+.capability-overview-menu-body > .capability-overview-menu-sub {
+
+    margin-top: calc(var(--space-field) - var(--space-label));
+
+}
+
+.capability-overview-menu-sub > strong {
+
+    margin-bottom: 0;
+
+}
+
+/* The cost-order buttons and the two Cost cells: each pair side by side on one row, a label gap apart. */
+.capability-overview-costs-order,
+.capability-overview-costs-range {
+
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    gap: var(--space-label);
+
+}
+
+.capability-overview-costs-order button {
+
+    flex: 1 1 0;
+    min-width: 0;
+
+    padding: 2px 4px;
+
+    border: 1px solid var(--line-card);
+    border-radius: 4px;
+
+    background: var(--bg-surface);
+
+    color: inherit;
+
+    font: inherit;
+    font-size: 12px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    text-decoration: none;
+
+    cursor: pointer;
+
+}
+
+.capability-overview-costs-order button[aria-pressed="true"] {
+
+    background: var(--bg-button-hover);
+
+    font-weight: 700;
+    text-decoration: none;
+
+}
+
+/* A block's label with its fold arrow (the section cards' title arrow, small): the label left, the arrow right. */
+.capability-overview-menu-head {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-label);
+
+    /* (The arrow's 24px hit area does not make the row taller than the label.) */
+    height: 1.45em;
+
+}
+
+.capability-overview-menu .title-arrow {
+
+    --title-arrow-size: 14px;
+
+    width: 24px;
+    height: 24px;
+
+}
+
+/* Sort: the label (with its arrow) under a rule, a field gap under the block above; its orders follow. */
+.capability-overview-menu-sort {
+
+    display: flex;
+    flex-direction: column;
+
+    padding-top: var(--space-field);
+
+    border-top: 1px solid var(--line-divider);
+
+}
+
+/* The fold arrow stands right after its label. */
+.capability-overview-menu-head {
+
+    justify-content: flex-start;
+
+}
+
+/* COSTS: the tick and, beside it, the cost order as two small arrow buttons (up: low to high, down: high to low; the active one pressed). */
+.capability-overview-costs-head {
+
+    display: flex;
+    align-items: center;
+    gap: var(--space-field);
+
+}
+
+.capability-overview-costs-head .capability-overview-costs-order {
+
+    flex: 0 0 auto;
+
+}
+
+.capability-overview-costs-order button {
+
+    flex: 0 0 auto;
+
+    width: 24px;
+    height: 24px;
+    padding: 0;
+
+    line-height: 1;
+    font-size: var(--font-small);
+    text-align: center;
+
+}
+
+/* The table: nine columns that fit the panel (no sideways scroll); a second cost's line carries the name dimmed. */
+.capability-overview-table {
+
+    table-layout: auto;
+
+    font-size: var(--font-small);
+
+}
+
+.capability-overview-table th,
+.capability-overview-table td {
+
+    padding: 4px 6px;
+
+    overflow-wrap: anywhere;
+
+}
+
+.capability-overview-table-extra th,
+.capability-overview-table-extra td {
+
+    color: var(--text-secondary);
+
+}
+
+/* The funnel's tick boxes stand on their label's centre line, in every row. */
+.capability-overview-menu .business-foundation-tick {
+
+    align-items: center;
+
+}
+
+.capability-overview-menu label.business-foundation-tick > input[type="checkbox"] {
+
+    margin-top: 0;
+    margin-bottom: 0;
+
+}
+
+/* Short columns never break a word (Type, Section, Cost, Frequency, Status, Linked); Name, Category and Group take the rest and wrap between words. */
+.capability-overview-table :is(th, td) {
+
+    overflow-wrap: normal;
+
+}
+
+.capability-overview-table :is(th, td):is(:nth-child(2), :nth-child(3), :nth-child(6), :nth-child(7), :nth-child(8), :nth-child(9)) {
+
+    white-space: nowrap;
+
+}
+
+/* ==========================================================
+   THE TABLE MODE: an opaque, calm reading surface (the tiles keep their see-through look). Four tokens per theme: ground, ink (soft, never pure white or
+   black, 7:1 or more against the ground), line (the row separators) and tint (zebra and hover). Links and bullets keep their own colours.
+========================================================== */
+:root {
+    --table-ground: #f6f3ec;
+    --table-ink: #2a2f38;
+    --table-line: rgba(42, 47, 56, 0.16);
+    --table-tint: rgba(42, 47, 56, 0.05);
+    --table-hover: rgba(42, 47, 56, 0.1);
+}
+
+:root[data-theme="dark"] {
+    --table-ground: #1d2029;
+    --table-ink: #cfd3da;
+    --table-line: rgba(207, 211, 218, 0.16);
+    --table-tint: rgba(207, 211, 218, 0.045);
+    --table-hover: rgba(207, 211, 218, 0.1);
+}
+
+:root[data-theme="sepia"] {
+    --table-ground: #f0e4cc;
+    --table-ink: #3d3122;
+    --table-line: rgba(61, 49, 34, 0.18);
+    --table-tint: rgba(61, 49, 34, 0.06);
+    --table-hover: rgba(61, 49, 34, 0.11);
+}
+
+.capability-overview-table-mode .capability-overview-scroll {
+
+    padding: 0 0 12px;
+
+    border-radius: 8px;
+
+    background: var(--table-ground);
+
+    color: var(--table-ink);
+
+}
+
+.capability-overview-table-mode .capability-overview-empty {
+
+    color: var(--table-ink);
+
+}
+
+.capability-overview-table {
+
+    /* (Separate borders, so the sticky heading keeps its rule while the body scrolls under it.) */
+    border-collapse: separate;
+    border-spacing: 0;
+
+    font-size: var(--table-font, var(--font-body));
+    line-height: 1.35;
+
+    color: var(--table-ink);
+
+}
+
+.capability-overview-table th,
+.capability-overview-table td {
+
+    padding: var(--table-pad, 7px) 10px;
+
+    border-bottom: 1px solid var(--table-line);
+
+    color: var(--table-ink);
+
+    vertical-align: middle;
+
+}
+
+.capability-overview-table thead th {
+
+    position: sticky;
+    top: 0;
+    z-index: 2;
+
+    background: var(--table-ground);
+
+    border-bottom: 2px solid var(--table-line);
+
+    font-weight: 700;
+
+    text-align: left;
+
+}
+
+.capability-overview-table tbody tr:nth-child(even) > * {
+
+    background: var(--table-tint);
+
+}
+
+.capability-overview-table tbody tr:hover > * {
+
+    background: var(--table-hover);
+
+}
+
+.capability-overview-table .capability-overview-name {
+
+    color: var(--table-ink);
+
+}
+
+.capability-overview-table-extra th,
+.capability-overview-table-extra td {
+
+    color: color-mix(in srgb, var(--table-ink) 72%, transparent);
+
+}
+
+/* The size buttons beside Tiles / Table. */
+.capability-overview-sizes {
+
+    display: inline-flex;
+    gap: 4px;
+
+}
+
+.capability-overview-sizes button {
+
+    padding: 2px 8px;
+
+    border: 1px solid var(--line-card);
+    border-radius: 4px;
+
+    background: var(--bg-surface);
+
+    color: inherit;
+
+    font: inherit;
+
+    cursor: pointer;
+
+}
+
+.capability-overview-sizes button:disabled {
+
+    opacity: 0.4;
+
+    cursor: default;
+
+}
+
+/* Numbers align to the right in a table, in figures of one width; the currency is written once, in the column's header. */
+.capability-overview-table .capability-overview-number {
+
+    text-align: right;
+
+    font-variant-numeric: tabular-nums;
+
+}

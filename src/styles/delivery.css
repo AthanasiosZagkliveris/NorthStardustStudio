@@ -7,24 +7,6 @@
    inline-label styles (conversation.css); only what is new here.
 ========================================================== */
 
-/* Working and delivery hours side by side while the card has room
-   for both -- each a whole side-label row (--side-label-row) -- one
-   under the other when it does not. */
-.delivery-founder-hours,
-.delivery-inline-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit, minmax(min(var(--side-label-row), 100%), 1fr));
-
-    gap:8px 16px;
-
-    align-items:start;
-
-    min-width:0;
-
-}
-
 /* A few digits: the XS step (docs/ai/layout-rules.md, sizes). */
 .delivery-number.interview-input{
 
@@ -80,7 +62,70 @@
 
 }
 
-/* Effort by person: one line each, the name, a few digits, "h". */
+/* A Delivery card's side-label rows (Delivered, Hours Given, Calendar Time):
+   BusinessField side -- the label beside its control on one centre line, the
+   control hugging -- in a label column wide enough for "Calendar Time
+   (weeks)" and its "i", so the three controls start at one x. In a card too
+   narrow for it, the label goes above, as every side label does. */
+.delivery-card .business-field-side{
+
+    --side-label-short:calc(var(--font-body) * 13);
+
+}
+
+/* (Opened on its own, floating from the tile's link, the card is a .card-box-open whose 124px label column is for the Status and Frequency rows; a Delivery
+   card keeps its own, wide enough for "Calendar Time (weeks)" on one line.) */
+@container card (min-width: 396px){
+
+    .card-box-open .delivery-card.delivery-card.delivery-card .business-field-side{
+
+        grid-template-columns:var(--side-label-short) minmax(0, 1fr);
+
+    }
+
+}
+
+@container card (max-width: 395.98px){
+
+    .delivery-card .business-field-side{
+
+        grid-template-columns:minmax(0, 1fr);
+
+        align-items:start;
+
+    }
+
+    .delivery-card .business-field-side > :not(:first-child){
+
+        grid-column:1;
+
+    }
+
+}
+
+/* Working hours by person, its Total and the computed panel: one stack,
+   --space-field (12px) from each to the next, under the label's 6px. */
+.delivery-effort{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    min-width:0;
+
+}
+
+.delivery-effort > p{
+
+    margin:0;
+
+}
+
+/* Effort by person: [name ......... [hours]] one row each, the boxes (the XS
+   step, all equal) on one right edge. A name that wraps ("Freelance developer
+   (overflow) (external)") keeps the box on its FIRST line's centre. */
 .delivery-people{
 
     display:flex;
@@ -98,11 +143,11 @@
 
     display:grid;
 
-    grid-template-columns:minmax(0, 1fr) 4.5rem auto;
+    grid-template-columns:minmax(0, 1fr) var(--control-xs);
 
-    align-items:center;
+    align-items:start;
 
-    gap:8px;
+    gap:var(--space-cell);
 
 }
 
@@ -113,6 +158,11 @@
     overflow-wrap:anywhere;
 
     font-size:var(--font-body);
+
+    line-height:1.5;
+
+    /* The first line centred on the box (a control high). */
+    padding-block:calc((var(--control-square) - var(--font-body) * 1.5) / 2);
 
     color:var(--text-secondary);
 
@@ -137,14 +187,6 @@
 
 }
 
-.delivery-person-unit{
-
-    font-size:var(--font-body);
-
-    color:var(--text-muted);
-
-}
-
 /* Total per unit, with the "i" on what a unit is. */
 .delivery-total{
 
@@ -152,7 +194,7 @@
 
     align-items:center;
 
-    margin:6px 0 0;
+    margin:0;
 
     font-size:var(--font-body);
 
@@ -162,9 +204,51 @@
 
 }
 
-/* Pace and monthly load on each Offering card. */
-.delivery-pace{ margin:8px 0; padding:8px 12px; border-left:3px solid var(--line-pace); background:var(--bg-pace); border-radius:4px; }
-.delivery-pace p{ margin:4px 0; font-size:var(--font-body); color:var(--text-secondary); }
+/* Pace and monthly load on each Offering card: compact labelled lines in
+   one subtle box, 12px inside. */
+.delivery-pace{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-label);
+
+    margin:0;
+
+    padding:var(--card-padding);
+
+    border-left:3px solid var(--line-pace);
+
+    background:var(--bg-pace);
+
+    border-radius:4px;
+
+}
+
+.delivery-pace p{
+
+    margin:0;
+
+    font-size:var(--font-body);
+
+    color:var(--text-secondary);
+
+}
+
+.delivery-pace .delivery-muted{
+
+    margin:0;
+
+}
+
+.delivery-pace-label{
+
+    font-weight:600;
+
+    color:var(--text-strong);
+
+}
 
 /* Each founder's month, as a budget. */
 .delivery-budget{ margin:12px 0; max-width:560px; }
@@ -177,3 +261,28 @@
 .delivery-budget-bar{ height:8px; margin-top:6px; background:var(--bg-hairline); border-radius:4px; overflow:hidden; }
 .delivery-budget-fill{ display:block; height:100%; background:var(--bg-budget); border-radius:4px; }
 .delivery-budget-fill-short{ background:var(--bg-danger-deep); }
+
+/* THE DELIVERY CARDS in their dialog: each card is 360px wide (as an opened card is), side by side as many as fit, wrapping, 12px apart. */
+.business-capability-delivery-cards {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    align-items: flex-start;
+
+    gap: var(--space-card);
+
+    min-width: 0;
+
+}
+
+.business-capability-delivery-cards > .delivery-card {
+
+    flex: 0 0 auto;
+
+    box-sizing: border-box;
+
+    width: min(360px, 100%);
+
+}

@@ -1,3 +1,4 @@
+import { workspacesOf } from "./AnswerUtils.ts";
 import { describe, expect, test } from "vitest";
 
 import {
@@ -26,6 +27,7 @@ import {
     offeringCosts,
     planMonthLabel,
     financialPosition,
+    similarCostNames,
     fundingStanding,
     hasLoans,
     loanRepaymentNotes,
@@ -44,6 +46,8 @@ import {
     type FinancialFoundationValue
 } from "./FinancialModel.ts";
 
+import lumenText from "../../../docs/examples/lumen-and-loom-studio.json?raw";
+
 const START = { month: "01", year: "2027" };
 
 /** €100 each project costs the Offering "off", recorded as its cost. */
@@ -56,7 +60,7 @@ function sources(overrides: Partial<CostSources> = {}): CostSources {
         legalEntity: asLegalEntityValue(undefined),
         capability: asBusinessCapabilityValue({ founders: [], professionals: [] }),
         resourceGroupLabels: { utilities: "Utilities" },
-        subsectionLabels: { internet: "Internet" },
+        subsectionLabels: { "premises-utilities": "Premises Utilities" },
         currency: "EUR",
         foundersLinked: true,
         ...overrides
@@ -151,7 +155,7 @@ describe("cost consolidation", () => {
             professionals: [],
             providers: [],
             offering: {
-                resources: [{ id: "o1", name: "Clay", status: "costs", offeringId: "off-1", cost: { price: "5", frequency: "other" } }],
+                resources: [{ id: "o1", name: "Clay", status: "costs", offeringId: "off-1", cost: { price: "5", frequency: "monthly" } }],
                 activities: [], professionals: [], providers: []
             }
         });
@@ -165,7 +169,7 @@ describe("cost consolidation", () => {
         expect(byId["legal-e1"].group).toBe("establishment");
         expect(byId["legal-e2"].group).toBe("operating");
         expect(byId["salary-f1"].frequency).toBe("monthly");
-        expect(byId.s1.sourceLabel).toBe("Infrastructure → Utilities → Internet");
+        expect(byId.s1.sourceLabel).toBe("Infrastructure → Utilities → Premises Utilities");
         expect(byId.o1.group).toBe("offering");
         expect(byId.o1.offeringId).toBe("off-1");
         expect(byId.s3.counted).toBe(false);
@@ -439,6 +443,14 @@ describe("recording costs once, and in the right shape", () => {
     });
 
     test("an 'Other' cost can be reclassified on Page 4", () => {
+        // (Page 3 has no Other frequency any more; the Legal Entity's expenses can still be recorded as one.)
+        const legalEntity = asLegalEntityValue({ expenses: [{ id: "kit", name: "Materials kit", cost: "12", frequency: "Per participant" }] });
+        const [line] = consolidateCosts(foundation({ classified: { "legal-kit": { frequency: "per-unit" } } }), sources({ legalEntity }));
+        expect(line.frequency).toBe("per-unit");
+        expect(line.sourceFrequency).toBe("other");
+    });
+
+    test("an old Other frequency on Page 3 is cleared (the card is incomplete till one is chosen) and its words are kept in the description", () => {
         const capability = asBusinessCapabilityValue({
             founders: [],
             offering: {
@@ -446,21 +458,75 @@ describe("recording costs once, and in the right shape", () => {
                 activities: [], professionals: [], providers: []
             }
         });
-        const [line] = consolidateCosts(foundation({ classified: { kit: { frequency: "per-unit" } } }), sources({ capability }));
-        expect(line.frequency).toBe("per-unit");
-        expect(line.sourceFrequency).toBe("other");
+        expect(capability.offering.resources[0].cost.frequency).toBe("");
+        expect(capability.offering.resources[0].description).toBe("Earlier frequency: per participant.");
     });
 
-    test("the same cost in two places is flagged", () => {
-        const legalEntity = asLegalEntityValue({ expenses: [{ id: "e", name: "Accountant (annual accounts)", cost: "150", frequency: "Monthly" }] });
-        const capability = asBusinessCapabilityValue({
-            founders: [],
-            professionals: [{ id: "p", name: "Accountant", cost: { price: "120", frequency: "monthly" } }]
+    describe("a possible duplicate needs a similar name, the same price and frequency, and the same source", () => {
+
+        const duplicatesOf = (legalEntity: ReturnType<typeof asLegalEntityValue>, capability: ReturnType<typeof asBusinessCapabilityValue>) => {
+            const lines = consolidateCosts(foundation(), sources({ legalEntity, capability }));
+            return { lines, position: financialPosition(foundation(), lines, legalEntity, "EUR", format) };
+        };
+        const empty = asLegalEntityValue(undefined);
+        const professional = (id: string, name: string, price: string, frequency = "monthly") =>
+            ({ id, name, cost: { price, frequency } });
+
+        test("the same name, price and frequency in the same section is flagged, with its text", () => {
+            const capability = asBusinessCapabilityValue({
+                founders: [],
+                professionals: [professional("a", "Accountant", "120"), professional("b", "Accountant (annual accounts)", "120")]
+            });
+            const { position } = duplicatesOf(empty, capability);
+            expect(position.duplicates).toHaveLength(1);
+            expect(position.signals.some(signal => signal.title === "Possible Duplicate")).toBe(true);
         });
-        const lines = consolidateCosts(foundation(), sources({ legalEntity, capability }));
-        const position = financialPosition(foundation(), lines, legalEntity, "EUR", format);
-        expect(position.duplicates).toHaveLength(1);
-        expect(position.signals.some(signal => signal.title === "Possible Duplicate")).toBe(true);
+
+        test("the same name, price and frequency on two pages, named the same, is flagged", () => {
+            const legalEntity = asLegalEntityValue({ expenses: [{ id: "e", name: "Accountant", cost: "120", frequency: "Monthly" }] });
+            const capability = asBusinessCapabilityValue({ founders: [], professionals: [professional("p", "Accountant", "120")] });
+            expect(duplicatesOf(legalEntity, capability).position.duplicates).toHaveLength(1);
+        });
+
+        test("the same name with a different amount is not flagged", () => {
+            const legalEntity = asLegalEntityValue({ expenses: [{ id: "e", name: "Accountant (annual accounts)", cost: "150", frequency: "Monthly" }] });
+            const capability = asBusinessCapabilityValue({ founders: [], professionals: [professional("p", "Accountant", "120")] });
+            expect(duplicatesOf(legalEntity, capability).position.duplicates).toHaveLength(0);
+            const same = asBusinessCapabilityValue({ founders: [], professionals: [professional("a", "Accountant", "120"), professional("b", "Accountant", "130")] });
+            expect(duplicatesOf(empty, same).position.duplicates).toHaveLength(0);
+        });
+
+        test("the same name and amount at a different frequency is not flagged", () => {
+            const capability = asBusinessCapabilityValue({
+                founders: [],
+                professionals: [professional("a", "Accountant", "120"), professional("b", "Accountant", "120", "annually")]
+            });
+            expect(duplicatesOf(empty, capability).position.duplicates).toHaveLength(0);
+        });
+
+        test("Trade mark registration £220 and Trade fair stand £3,000 are not flagged", () => {
+            const legalEntity = asLegalEntityValue({ expenses: [{ id: "e", name: "Trade mark registration", cost: "220", frequency: "One time" }] });
+            const capability = asBusinessCapabilityValue({ founders: [], professionals: [professional("p", "Trade fair stand", "3000", "one-time")] });
+            expect(duplicatesOf(legalEntity, capability).position.duplicates).toHaveLength(0);
+            expect(similarCostNames("Trade mark registration", "Trade fair stand")).toBe(false);
+        });
+
+        test("similar names, same price, but unconnected sources (different pages, different names) are not flagged", () => {
+            const legalEntity = asLegalEntityValue({ expenses: [{ id: "e", name: "Insurance", cost: "50", frequency: "Monthly" }] });
+            const capability = asBusinessCapabilityValue({ founders: [], professionals: [professional("p", "Insurance broker fees", "50")] });
+            expect(duplicatesOf(legalEntity, capability).position.duplicates).toHaveLength(0);
+        });
+
+        test("name similarity is conservative", () => {
+            expect(similarCostNames("Accountant (annual accounts)", "Accountant")).toBe(true);
+            expect(similarCostNames("Workspace", "Workspace deposit")).toBe(true);
+            expect(similarCostNames("Adobe Creative Cloud", "Creative Cloud")).toBe(true);
+            expect(similarCostNames("Accountant", "Accounting software")).toBe(false);
+            expect(similarCostNames("Adobe Creative Cloud", "Creative Cloud subscription")).toBe(false);
+            expect(similarCostNames("Salary: Jean", "Salary: Maya")).toBe(false);
+            expect(similarCostNames("", "")).toBe(false);
+        });
+
     });
 
     test("in-kind contributions are not cash", () => {
@@ -694,7 +760,7 @@ describe("resource quantities", () => {
         expect(c.quantity).toBe("4");
         expect(c.cost.price).toBe("12,5");
         expect(once.founders[0].salary).toBe("1200");
-        expect(once.workspace.cost.price).toBe("30");
+        expect(workspacesOf(once)[0].cost.price).toBe("30");
         expect(asBusinessCapabilityValue(once)).toEqual(once);
     });
 
@@ -1054,4 +1120,80 @@ describe("the Loan Repayments note", () => {
         expect(LOAN_REPAYMENTS_RULE).toContain("Financial Position");
         expect(LOAN_REPAYMENTS_RULE).toContain("Stress Test on Sustainability");
     });
+});
+
+describe("the Workspace's optional Deposit", () => {
+
+    const withDeposit = (workspace: Record<string, unknown>) => asBusinessCapabilityValue({
+        founders: [], professionals: [],
+        workspace: { kind: "dedicated", status: "costs", cost: { price: "1250", frequency: "monthly" }, ...workspace }
+    });
+
+    test("reads tolerantly: absent is none, and no line is gathered", () => {
+        const capability = withDeposit({});
+        expect(workspacesOf(capability)[0].deposit).toBe("");
+        expect(workspacesOf(asBusinessCapabilityValue(undefined))).toEqual([]);
+        const lines = consolidateCosts(foundation(), sources({ capability }));
+        expect(lines.map(line => line.id)).toEqual(["workspace"]);
+    });
+
+    test("flows once as a one-time Establishment Deposit line, at the plan's start, from Infrastructure → Workspace", () => {
+        const capability = withDeposit({ deposit: "3750" });
+        const lines = consolidateCosts(foundation(), sources({ capability }));
+        const deposits = lines.filter(line => line.id === "workspace-deposit");
+        expect(deposits).toHaveLength(1);
+        const [line] = deposits;
+        expect(line.name).toBe("Workspace deposit");
+        expect(line.amount).toBe(3750);
+        expect(line.frequency).toBe("one-time");
+        expect(line.group).toBe("establishment");
+        expect(line.asset).toBe("deposit");
+        expect(line.month).toEqual(START);
+        expect(line.sourceLabel).toBe("Infrastructure → Workspace");
+        // The rent beside it is untouched, and the two are not a duplicate.
+        expect(lines.find(entry => entry.id === "workspace")!.amount).toBe(1250);
+        expect(financialPosition(foundation(), lines, asLegalEntityValue(undefined), "EUR", format).duplicates).toHaveLength(0);
+    });
+
+    test("SEVERAL Workspaces: each costs its own rent and deposit, the first keeping its old ids; the old single workspace is read as the first", () => {
+        const one = withDeposit({ deposit: "3750" });
+        expect(workspacesOf(one)).toHaveLength(1);
+        expect(workspacesOf(one)[0].id).toBe("workspace");
+        expect(workspacesOf(one)[0].cost.price).toBe("1250");
+        // Reading what is read again changes nothing.
+        expect(asBusinessCapabilityValue(one)).toEqual(one);
+        const first = one.resources.workspace[0].slots[0];
+        const second = { ...first, id: "workspace-b", cost: { ...first.cost, price: "400" }, deposit: "800" };
+        const two = { ...one, resources: { ...one.resources, workspace: [{ ...one.resources.workspace[0], slots: [first, second] }] } };
+        expect(workspacesOf(asBusinessCapabilityValue(two)).map(entry => entry.id)).toEqual(["workspace", "workspace-b"]);
+        const lines = consolidateCosts(foundation(), sources({ capability: two }));
+        const amount = (id: string) => lines.find(line => line.id === id)?.amount;
+        expect([amount("workspace"), amount("workspace-b"), amount("workspace-deposit"), amount("workspace-b-deposit")]).toEqual([1250, 400, 3750, 800]);
+        // The first alone is what it always was.
+        const alone = consolidateCosts(foundation(), sources({ capability: one }));
+        expect(alone.filter(line => /^workspace/.test(line.id)).map(line => [line.id, line.amount])).toEqual([["workspace", 1250], ["workspace-deposit", 3750]]);
+    });
+
+    test("only while the Workspace costs money, and the founder can still reclassify it", () => {
+        expect(consolidateCosts(foundation(), sources({ capability: withDeposit({ deposit: "500", status: "provided" }) }))
+            .some(line => line.id === "workspace-deposit")).toBe(false);
+        const reclassified = consolidateCosts(
+            foundation({ classified: { "workspace-deposit": { asset: "" } } as FinancialFoundationValue["classified"] }),
+            sources({ capability: withDeposit({ deposit: "500" }) })
+        ).find(line => line.id === "workspace-deposit")!;
+        expect(reclassified.asset).toBe("");
+    });
+
+    test("Lumen's £3,750 rent deposit is the Workspace's, once: no manual 'Rent deposit' beside it", () => {
+        const responses = (JSON.parse(lumenText) as { systems: Record<string, { responses: { value: Record<string, unknown> }[] }> })
+            .systems["3"].responses.map(response => response.value ?? {});
+        const capability = asBusinessCapabilityValue(responses.find(value => value.resources && (value.resources as Record<string, unknown>).workspace));
+        const own = asFinancialFoundationValue(responses.find(value => Array.isArray(value.costs) && "planStart" in value));
+        expect(workspacesOf(capability)[0].deposit).toBe("3750");
+        expect(own.costs.some(cost => /deposit/i.test(cost.name))).toBe(false);
+        const lines = consolidateCosts(own, sources({ capability, currency: "GBP", foundersLinked: false }));
+        const deposits = lines.filter(line => line.asset === "deposit");
+        expect(deposits.map(line => [line.id, line.amount])).toEqual([["workspace-deposit", 3750]]);
+    });
+
 });

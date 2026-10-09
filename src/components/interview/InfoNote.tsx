@@ -1,4 +1,5 @@
-import { Children, ReactNode, useEffect, useRef, useState } from "react";
+import { Children, CSSProperties, ReactNode, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 import { openUrl } from "@tauri-apps/plugin-opener";
 
@@ -191,7 +192,7 @@ export default function InfoNote({
         }
 
         function onPointerDown(event: MouseEvent) {
-            if (!containerRef.current?.contains(event.target as Node)) {
+            if (!containerRef.current?.contains(event.target as Node) && !panelRef.current?.contains(event.target as Node)) {
                 setOpen(false);
             }
         }
@@ -200,7 +201,17 @@ export default function InfoNote({
 
         return () => document.removeEventListener("mousedown", onPointerDown);
 
+    }, [open, panelRef]);
+
+    // The note is drawn OUTSIDE the boxes around its button (in the dialog's overlay, else the page): a card or a dialog that clips its content, or a glass
+    // ground that makes "fixed" relative to itself, never cuts it off. It keeps the hue of the box it opens from.
+    const [hue, setHue] = useState<string>("");
+    useEffect(() => {
+        if (open && buttonRef.current) {
+            setHue(getComputedStyle(buttonRef.current).getPropertyValue("--strategy-theme-hue").trim());
+        }
     }, [open]);
+    const host = open ? buttonRef.current?.closest<HTMLElement>(".section-tile-overlay") ?? document.body : null;
 
     // The note takes focus when it opens, so a screen reader reads
     // it rather than leaving the reader on a button whose page has
@@ -237,11 +248,11 @@ export default function InfoNote({
                 i
             </button>
 
-            {open && (
+            {open && host && createPortal(
                 <div
                     className={"info-note-panel" + (size === "wide" ? " info-note-panel-wide" : "")}
                     ref={panelRef}
-                    style={panelStyle}
+                    style={{ ...panelStyle, ...(hue ? { "--strategy-theme-hue": hue } : {}) } as CSSProperties}
                     role="dialog"
                     aria-label={label}
                     tabIndex={-1}
@@ -347,7 +358,8 @@ export default function InfoNote({
                                 ))}
                             </ul>
                         )}
-                </div>
+                </div>,
+                host
             )}
 
         </span>

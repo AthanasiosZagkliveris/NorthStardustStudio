@@ -50,18 +50,15 @@ describe("section status", () => {
 
     });
 
-    test("Not applicable on a legal item is its answer, and stands only while nothing is listed", () => {
+    test("a saved legal-item \"not applicable\" tick is ignored, and VAT's old value reads as not registered", () => {
 
         const legal = page("identity", AnswerType.LegalEntity);
         const ids = idsOf(legal.answer);
 
         const statuses = sectionStatuses(legal.answer, { requirementsNotApplicable: true, expensesNotApplicable: true }, { railIds: ids, pageDefined: false });
-        expect(statuses.get(ids[4])).toBe("defined");
-        expect(statuses.get(ids[5])).toBe("defined");
-        expect(sectionStatuses(legal.answer, {}, { railIds: ids, pageDefined: false }).get(ids[4])).toBe("not-started");
-
-        expect(asLegalEntityValue({ requirementsNotApplicable: true }).requirementsNotApplicable).toBe(true);
-        expect(asLegalEntityValue({ requirementsNotApplicable: true, requirements: [{ id: "r1", name: "Licence" }] }).requirementsNotApplicable).toBe(false);
+        expect(statuses.get(ids[4])).toBe("not-started");
+        expect(statuses.get(ids[5])).toBe("not-started");
+        expect("requirementsNotApplicable" in asLegalEntityValue({ requirementsNotApplicable: true })).toBe(false);
         // VAT has no "Not applicable" of its own: its tick says it (unticked, not registered).
         expect(asLegalEntityValue({ tax: { consumptionTaxStatus: "not-applicable" } }).tax.consumptionTaxStatus).toBe("no");
 

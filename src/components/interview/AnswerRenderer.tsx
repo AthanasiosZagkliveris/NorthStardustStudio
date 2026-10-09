@@ -2125,8 +2125,10 @@ function SingleAnswerRenderer({
                     onOpenFoundation={onOpenBusinessFoundation}
                     organisationCurrency={organisationCurrency}
                     legalEntityFounders={legalEntityFounders}
+                    legalExpenses={legalEntity?.expenses}
                     foundersProfile={foundersProfile}
                     engagement={businessEngagement}
+                    financialFoundation={financialFoundation}
                     onOpenEngagement={onOpenBusinessEngagement}
                     onChange={onChange}
                     disabled={disabled}

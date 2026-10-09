@@ -2,12 +2,18 @@ import { KeyboardEvent, useEffect, useRef, useState, useSyncExternalStore } from
 
 import {
     type CostCard,
+    actionsServing,
     channelCostSummary,
     channelResourceLinks,
     costCardAmountText,
     sharedResourceLinks,
     costCardName,
     withNewChannelResource,
+    CHANNEL_COST_TEMPLATES,
+    existingForTemplate,
+    withLinkedExistingCard,
+    withNewTemplateCost,
+    withTypicalCosts,
     withRenamedCard,
     withResourceAction,
     withoutChannelResource
@@ -20,6 +26,8 @@ import type {
 } from "../../framework/engine/AnswerUtils.ts";
 import { UndoService } from "../../services/UndoService";
 import { consumeKey } from "./consumeKey.ts";
+import type { ActionIsolation, ActionLit } from "./ActionMarkers.tsx";
+import { actionPlacements, markTint, resourceColours, tableActionIds } from "../../framework/engine/ActionOrder.ts";
 
 import "../../styles/notepad.css";
 
@@ -29,15 +37,24 @@ import "../../styles/notepad.css";
     its Resource card on 3. Infrastructure & Capability, one name), what
     it costs there ("£150 a month", or "No cost yet"), which opens that
     card, and the channel's actions it serves, linked as a note links a
-    place: "#" and an action's words, or "Link an action" and a click on
-    one in the table; each a Notepad chip. Then "+ Add resource", which
-    makes the Resource card and links it, and the channel's summary line.
+    place: "#" and the action's total order number in the table with its
+    words, or "Link an action" and a click on one in the table; each a
+    Notepad chip. Then "+ Add expenses", which
+    makes the Resource card -- in Offering's Capability › Resources, linked
+    to the channel's Offerings -- and links it, and the channel's summary line.
+
+    "# Link an action" finds any action of the Segment's WHOLE table, not only
+    the channel's own: by its total order number ("12", "#12") or by words. A
+    card whose action stands in another channel shows in that channel's cell
+    too, "via shared action", the words a link to the action's line.
 */
 
 /* ---------- Picking an action in the table (as a note picks a field) ---------- */
 
 interface ActionPick {
     linkId: string;
+    /** The actions of the table it may take: its Segment's (a click on any other is left alone). */
+    actionIds: readonly string[];
     /** What the resource is called, for the banner. */
     what: string;
     segmentId: string;
@@ -91,7 +108,9 @@ export function ActionPicker() {
         const target = (event: Event): HTMLElement | null => {
             const element = event.target as HTMLElement | null;
             const line = element?.closest<HTMLElement>(".business-channel-table textarea[data-field-id]") ?? null;
-            return line && (line.dataset.fieldId ?? "").startsWith("action") ? line : null;
+            return line && (line.dataset.fieldId ?? "").startsWith("action") && (pick.actionIds.length === 0 || pick.actionIds.includes(line.dataset.fieldId ?? ""))
+                ? line
+                : null;
         };
         let hovered: HTMLElement | null = null;
         const onOver = (event: MouseEvent) => {
@@ -163,12 +182,20 @@ export interface ChannelResourcesProps {
     disabled?: boolean;
     /** Writes either page, or both (capability first). */
     onWrite: (next: { engagement?: BusinessEngagementValue; capability?: BusinessCapabilityValue }) => void;
-    /** "3.2.1.5": where an action is, as a note's chip numbers it. */
-    actionNumber: (actionId: string) => string;
-    /** Opens the resource's card on 3. Infrastructure & Capability. */
+    /** "#12": where an action stands in the table (its total action order number), in this channel's rows. */
+    actionOrder: (actionId: string, channelId: string) => number | undefined;
+    /** Opens the resource's card on 3. Infrastructure & Capability (Offering's Capability, or Infrastructure where made before). */
     onOpenCard?: (card: CostCard) => void;
     /** Goes to an action's line in the table. */
     onOpenAction?: (actionId: string) => void;
+    /** What the table is lighting (see ActionMarkers.tsx): a resource lit by pointing at it, or at its action's symbol. */
+    lit?: ActionLit;
+    /** What the table isolates: only the resources involved stay, with no summary and no add. */
+    isolated?: ActionIsolation;
+    /** A click on a resource's symbol isolates its actions (a second click restores everything). */
+    onIsolate?: (next: ActionIsolation, symbol?: HTMLElement) => void;
+    /** Pointing at (or focusing) a resource lights its actions in the table. */
+    onLit?: (lit: ActionLit) => void;
 }
 
 export default function ChannelResources(props: ChannelResourcesProps) {
@@ -179,6 +206,16 @@ export default function ChannelResources(props: ChannelResourcesProps) {
     // Made on other channels, serving this one through an action it shares.
     const shared = sharedResourceLinks(engagement, segment.segmentId, channelId, cards);
     const summary = channelCostSummary([...linked, ...shared].map(entry => entry.card), currency, shared.length > 0);
+    const colours = resourceColours(engagement, segment.segmentId);
+    // Isolating (a symbol's click): only the resources involved stay; no summary, no add.
+    const isolating = props.isolated != null && props.isolated.segmentId === segment.segmentId ? props.isolated : null;
+    const involved = (link: BusinessChannelResourceValue) => !isolating
+        || (isolating.kind === "action"
+            ? link.actionIds.includes(isolating.actionId)
+            : isolating.resourceIds.includes(link.resourceId));
+    // The actions of a card shared in here that stand in this channel's rows.
+    const serving = (link: BusinessChannelResourceValue) => actionsServing(engagement, segment.segmentId, channelId, link);
+    const actionWords = (id: string) => segment.actions.find(action => action.id === id)?.text ?? "";
     const channelName = (id: string) => {
         const channel = segment.channels.find(entry => entry.id === id);
         return channel ? [channel.category, channel.name.trim() || "Unnamed channel"].filter(Boolean).join(" › ") : "another channel";
@@ -187,16 +224,19 @@ export default function ChannelResources(props: ChannelResourcesProps) {
     /* The page as it is now, for an undo offered a moment ago. */
     const latest = useRef({ engagement, capability, onWrite });
     latest.current = { engagement, capability, onWrite };
+    // The templates the company already has an item for, offered after "Typical costs for this channel" (by template id).
+    const [offered, setOffered] = useState<string[]>([]);
 
     return (
         <div className="business-channel-resources">
 
-            {linked.map(({ link, card }, index) => (
+            {linked.map(({ link, card }, index) => involved(link) && (
                 <ChannelResourceCard
                     key={link.id}
                     {...props}
                     link={link}
                     card={card}
+                    colour={colours.get(link.resourceId) ?? 0}
                     label={"Resource " + (index + 1) + " of " + what}
                     onRemove={() => {
                         const before = { engagement, capability };
@@ -215,45 +255,128 @@ export default function ChannelResources(props: ChannelResourcesProps) {
                 />
             ))}
 
-            {shared.length > 0 && (
+            {shared.length > 0 && (!isolating || isolating.kind === "action") && (
                 <ul className="notepad-chips business-channel-resources-shared" aria-label={"Resources serving " + what + " through shared actions"}>
-                    {shared.map(({ link, card }) => (
-                        <li key={link.id} className="notepad-chip">
-                            <button
-                                type="button"
-                                className="notepad-chip-open"
-                                title={"Created on " + channelName(link.channelId)}
-                                onClick={() => props.onOpenCard?.(card)}
-                            >
-                                <span className="notepad-chip-tag">{costCardName(card)}</span>
-                                <span className="notepad-chip-description">
-                                    {(costCardAmountText(card, currency) || "No cost yet") + " · via shared action"}
+                    {shared.filter(({ link }) => involved(link)).map(({ link, card }) => (
+                        <li
+                            key={link.id}
+                            className={"notepad-chip " + markTint("resource", colours.get(link.resourceId) ?? 0)}
+                            onMouseEnter={() => props.onLit?.({ kind: "resources", ids: [link.id] })}
+                            onMouseLeave={() => props.onLit?.(null)}
+                        >
+                            <div className="business-channel-shared-body">
+                                <button
+                                    type="button"
+                                    className="notepad-chip-open"
+                                    title={"Created on " + channelName(link.channelId)}
+                                    onClick={() => props.onOpenCard?.(card)}
+                                >
+                                    <span className="notepad-chip-tag">{costCardName(card)}</span>
+                                    <span className="notepad-chip-description">{costCardAmountText(card, currency) || "No cost yet"}</span>
+                                </button>
+                                {/* "via shared action": the action is a link to its line in the table (one link per action when several). */}
+                                <span className="business-channel-via-shared">
+                                    {"via "}
+                                    {serving(link).length === 1
+                                        ? (
+                                            <ViaActionLink
+                                                words="shared action"
+                                                order={props.actionOrder(serving(link)[0], channelId)}
+                                                text={actionWords(serving(link)[0])}
+                                                onOpen={() => props.onOpenAction?.(serving(link)[0])}
+                                            />
+                                        )
+                                        : (
+                                            <>
+                                                {"shared actions "}
+                                                {serving(link).map(actionId => (
+                                                    <ViaActionLink
+                                                        key={actionId}
+                                                        words={"#" + (props.actionOrder(actionId, channelId) ?? "")}
+                                                        order={props.actionOrder(actionId, channelId)}
+                                                        text={actionWords(actionId)}
+                                                        onOpen={() => props.onOpenAction?.(actionId)}
+                                                    />
+                                                ))}
+                                            </>
+                                        )}
                                 </span>
-                            </button>
+                            </div>
                         </li>
                     ))}
                 </ul>
             )}
 
-            {summary && <p className="business-channel-cost-summary">{summary}</p>}
+            {summary && !isolating && <p className="business-channel-cost-summary">{summary}</p>}
 
-            <div className="business-step-add-row">
+            {!isolating && <div className="business-step-add-row">
                 <button
                     type="button"
                     className="strategy-add-button"
-                    aria-label={"Add resource for " + what}
+                    aria-label={"Add expenses for " + what}
                     disabled={disabled}
                     onClick={() => {
-                        const made = withNewChannelResource(engagement, capability, segment.segmentId, channelId);
+                        const made = withNewChannelResource(engagement, capability, segment.segmentId, channelId, "");
                         onWrite({ capability: made.capability, engagement: made.engagement });
                         window.setTimeout(() => document
                             .querySelector<HTMLTextAreaElement>('[data-channel-resource="' + made.link.id + '"] .business-channel-resource-name')
                             ?.focus(), 0);
                     }}
                 >
-                    + Add resource
+                    + Add expenses
                 </button>
-            </div>
+                <button
+                    type="button"
+                    className="strategy-add-button"
+                    aria-label={"Typical costs for " + what}
+                    disabled={disabled}
+                    onClick={() => {
+                        const made = withTypicalCosts(engagement, capability, segment.segmentId, channelId);
+                        onWrite({ capability: made.capability, engagement: made.engagement });
+                        setOffered(made.offers.map(template => template.id));
+                    }}
+                >
+                    Typical costs for this channel
+                </button>
+            </div>}
+
+            {/* The templates: each makes its card in its group with the price blank; one the company already has is offered to link. */}
+            {!isolating && offered.length > 0 && (
+                <div className="business-channel-cost-add">
+                    <ul className="notepad-suggestions" role="list" aria-label={"Typical costs for " + what + " list"}>
+                        {CHANNEL_COST_TEMPLATES.filter(template => offered.includes(template.id)).map(template => (
+                            <li key={template.id}>
+                                <button
+                                    type="button"
+                                    className="notepad-suggestion"
+                                    aria-label={"Add new " + template.label + " to " + what}
+                                    onClick={() => {
+                                        const made = withNewTemplateCost(engagement, capability, segment.segmentId, channelId, template);
+                                        onWrite({ capability: made.capability, engagement: made.engagement });
+                                        setOffered(list => list.filter(id => id !== template.id));
+                                    }}
+                                >
+                                    <span className="notepad-suggestion-label">{template.label}</span>
+                                </button>
+                                {existingForTemplate(engagement, capability, segment.segmentId, channelId, template).map(existing => (
+                                    <button
+                                        type="button"
+                                        key={existing.id}
+                                        className="notepad-suggestion"
+                                        aria-label={"Link existing " + existing.name + " to " + what}
+                                        onClick={() => {
+                                            onWrite({ engagement: withLinkedExistingCard(engagement, segment.segmentId, channelId, existing.id) });
+                                            setOffered(list => list.filter(id => id !== template.id));
+                                        }}
+                                    >
+                                        <span className="notepad-suggestion-label">{"Link existing: " + existing.name}</span>
+                                    </button>
+                                ))}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
 
         </div>
     );
@@ -268,9 +391,14 @@ function ChannelResourceCard({
     currency,
     disabled = false,
     onWrite,
-    actionNumber,
+    actionOrder,
+    onIsolate,
+    colour,
     onOpenCard,
     onOpenAction,
+    lit,
+    onLit,
+    isolated,
     link,
     card,
     label,
@@ -278,6 +406,8 @@ function ChannelResourceCard({
 }: ChannelResourcesProps & {
     link: BusinessChannelResourceValue;
     card: CostCard;
+    /** Its place in the resource palette (ActionOrder.ts: hue, then pattern). */
+    colour: number;
     label: string;
     onRemove: () => void;
 }) {
@@ -294,15 +424,28 @@ function ChannelResourceCard({
     }, [adding]);
 
     const text = (id: string) => segment.actions.find(action => action.id === id)?.text ?? "";
-    // This channel's actions, every row of it (a shared one too), each once.
-    const channel = segment.channels.find(candidate => candidate.id === channelId);
-    const channelActions = [...new Set(Object.values(channel?.actionIds ?? {}).flat())];
+    // Every action of the Segment's table (any channel's, a shared one once), in the table's order.
+    const tableActions = tableActionIds(actionPlacements(segment));
     const linkedActions = link.actionIds.filter(id => segment.actions.some(action => action.id === id));
-    const wanted = query.replace(/^#/, "").trim().toLowerCase();
-    const offered = channelActions
+    const wanted = query.replace(/^\s*#?\s*/, "").trim().toLowerCase();
+    const typedNumber = /^\d+$/.test(wanted) ? Number(wanted) : undefined;
+    // Found by its number in the table ("12" or "#12": the exact number first, then numbers
+    // that start with it) or by its words.
+    const offered = tableActions
         .filter(id => !linkedActions.includes(id) && text(id).trim())
-        .filter(id => text(id).toLowerCase().includes(wanted))
+        .filter(id => text(id).toLowerCase().includes(wanted)
+            || (typedNumber !== undefined && String(actionOrder(id, channelId) ?? "").startsWith(wanted)))
+        .sort((one, other) => Number(actionOrder(other, channelId) === typedNumber) - Number(actionOrder(one, channelId) === typedNumber))
         .slice(0, 8);
+    const isolating = isolated != null && isolated.segmentId === segment.segmentId;
+    // Isolating this resource alone (from its card, or from an action linked only to it).
+    const only = isolated?.kind === "resource" && isolating
+        && isolated.resourceIds.length === 1 && isolated.resourceIds[0] === link.resourceId;
+    const fromAction = isolated?.kind === "resource" && isolating ? isolated.fromActionId : undefined;
+    const toggleOnly = (symbol?: HTMLElement) => onIsolate?.(
+        only ? null : { kind: "resource", segmentId: segment.segmentId, resourceIds: [link.resourceId] },
+        symbol
+    );
     const cost = costCardAmountText(card, currency);
     const name = card.name;
 
@@ -332,7 +475,21 @@ function ChannelResourceCard({
     }
 
     return (
-        <div className="business-channel-resource" data-channel-resource={link.id}>
+        <div
+            className={
+                "business-channel-resource " + markTint("resource", colour) +
+                (lit?.kind === "resources" && lit.ids.includes(link.id) ? " is-lit" : "")
+            }
+            data-channel-resource={link.id}
+            onMouseEnter={() => onLit?.({ kind: "resources", ids: [link.id] })}
+            onMouseLeave={() => onLit?.(null)}
+            onFocus={() => onLit?.({ kind: "resources", ids: [link.id] })}
+            onBlur={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                    onLit?.(null);
+                }
+            }}
+        >
 
             <div className="business-channel-resource-head">
                 {/* The Resource card's own name: renamed here, it is renamed there. */}
@@ -349,7 +506,7 @@ function ChannelResourceCard({
                     type="button"
                     className="notepad-chip-remove business-channel-resource-remove"
                     aria-label={"Take " + label + " off the channel"}
-                    title="Take it off the channel (and its card off Infrastructure & Capability)"
+                    title="Take it off the channel (and its card off Offering's Capability)"
                     disabled={disabled}
                     onClick={onRemove}
                 >
@@ -358,22 +515,44 @@ function ChannelResourceCard({
             </div>
 
             {/* What it costs where it is recorded; a click opens it there. */}
-            <button
-                type="button"
-                className="business-channel-resource-cost"
-                title={card.place}
-                onClick={() => onOpenCard?.(card)}
-            >
-                {(cost || "No cost yet") + " · " + linkedActions.length + (linkedActions.length === 1 ? " action" : " actions")}
-            </button>
+            <div className="business-channel-resource-summary">
+                <button
+                    type="button"
+                    className="business-channel-resource-cost"
+                    title={card.place}
+                    onClick={() => onOpenCard?.(card)}
+                >
+                    {cost || "No cost yet"}
+                </button>
+                {" · "}
+                {linkedActions.length > 0
+                    ? (
+                        <button
+                            type="button"
+                            className="business-channel-resource-cost"
+                            aria-pressed={Boolean(only)}
+                            title={only ? "Show every action again" : "Show only the actions of this resource"}
+                            onClick={(event) => toggleOnly(event.currentTarget)}
+                        >
+                            {linkedActions.length === 1 ? "action" : linkedActions.length + " actions"}
+                        </button>
+                    )
+                    : <span>no actions</span>}
+            </div>
 
             {linkedActions.length > 0 && (
                 <ul className="notepad-chips business-channel-resource-actions" aria-label={"Actions of " + label}>
                     {linkedActions.map(actionId => (
-                        <li key={actionId} className="notepad-chip">
-                            <button type="button" className="notepad-chip-open" onClick={() => onOpenAction?.(actionId)}>
+                        <li key={actionId} className={"notepad-chip" + (fromAction === actionId ? " is-picked" : "")}>
+                            <button
+                                type="button"
+                                className="notepad-chip-open"
+                                title={"#" + (actionOrder(actionId, channelId) ?? "") + " " + text(actionId)}
+                                aria-label={"#" + (actionOrder(actionId, channelId) ?? "") + " " + text(actionId)}
+                                onClick={() => onOpenAction?.(actionId)}
+                            >
                                 <span className="notepad-chip-tag">
-                                    # <span className="notepad-chip-number">{actionNumber(actionId)}</span>
+                                    <span className="notepad-chip-number">{"#" + (actionOrder(actionId, channelId) ?? "")}</span>
                                 </span>
                                 <span className="notepad-chip-description">{text(actionId)}</span>
                             </button>
@@ -394,7 +573,9 @@ function ChannelResourceCard({
                 </ul>
             )}
 
-            {adding
+            {isolating
+                ? null
+                : adding
                 ? (
                     <div className="business-channel-cost-add">
                         <input
@@ -415,7 +596,7 @@ function ChannelResourceCard({
                             }}
                         />
                         <ul className="notepad-suggestions" role="listbox" aria-label="Actions to link">
-                            {offered.length === 0 && <li className="notepad-suggestion-empty">No action of this channel by that name</li>}
+                            {offered.length === 0 && <li className="notepad-suggestion-empty">No action of this table by that name or number</li>}
                             {offered.map((actionId, index) => (
                                 <li key={actionId} role="option" aria-selected={index === active}>
                                     <button
@@ -424,7 +605,7 @@ function ChannelResourceCard({
                                         onMouseDown={(event) => event.preventDefault()}
                                         onClick={() => linkAction(actionId)}
                                     >
-                                        <span className="notepad-suggestion-label">#{text(actionId)}</span>
+                                        <span className="notepad-suggestion-label">{"#" + (actionOrder(actionId, channelId) ?? "") + " " + text(actionId)}</span>
                                     </button>
                                 </li>
                             ))}
@@ -437,7 +618,7 @@ function ChannelResourceCard({
                                 setAdding(false);
                                 setQuery("");
                                 ActionPickService.start(
-                                    { linkId: link.id, what: name.trim() || label, segmentId: segment.segmentId },
+                                    { linkId: link.id, what: name.trim() || label, segmentId: segment.segmentId, actionIds: tableActions },
                                     (actionId) => onWrite({ engagement: withResourceAction(latestEngagement.current, link.id, actionId, true) })
                                 );
                             }}
@@ -461,6 +642,24 @@ function ChannelResourceCard({
         </div>
     );
 
+}
+
+/**
+ * "shared action" in a card shared into another channel's cell: a link (as
+ * "# Link an action" is one) to that action's line in the table.
+ */
+function ViaActionLink({ words, order, text, onOpen }: { words: string; order: number | undefined; text: string; onOpen: () => void }) {
+    return (
+        <button
+            type="button"
+            className="notepad-text-button business-channel-via-link"
+            title={"#" + (order ?? "") + (text ? " " + text : "")}
+            aria-label={"Go to " + words + (order !== undefined && !words.startsWith("#") ? " #" + order : "") + (text ? ": " + text : "")}
+            onClick={onOpen}
+        >
+            {words}
+        </button>
+    );
 }
 
 /* The engagement as it is when a picked action comes back. */

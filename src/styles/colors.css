@@ -271,6 +271,10 @@
     --theme-line-edge-light: 24% 70%;
     --theme-line-edge-soft: 24% 62%;
     --theme-line-ink: 28% 34%;
+    --theme-mark-ink: 62% 38%;
+    /* The second colour of a striped / cross-hatched action mark (global.css, .tint-pattern-*):
+       the opposite end of the lightness scale from the mark ink, >= 3:1 on the card ground. */
+    --pattern-alt: hsl(222 30% 12%);
     --theme-line-meter: 30% 84%;
     --theme-line-result-edge: 40% 44%;
     --theme-line-rule: 24% 80%;
@@ -563,6 +567,8 @@
     --theme-line-edge-light: 14% 42%;
     --theme-line-edge-soft: 24% 50.8%;
     --theme-line-ink: 28% 67.6%;
+    --theme-mark-ink: 62% 64%;
+    --pattern-alt: hsl(40 20% 94%);
     --theme-line-meter: 18% 33.6%;
     --theme-line-result-edge: 40% 61.6%;
     --theme-line-rule: 14% 36%;
@@ -882,6 +888,8 @@
     --theme-line-edge-light: 20% 66%;
     --theme-line-edge-soft: 20% 58%;
     --theme-line-ink: 24% 33%;
+    --theme-mark-ink: 55% 36%;
+    --pattern-alt: hsl(28 40% 12%);
     --theme-line-meter: 24% 78%;
     --theme-line-result-edge: 30% 44%;
     --theme-line-rule: 20% 76%;
@@ -902,5 +910,42 @@
 :root[data-theme="sepia"] .business-forecast-table-wrap {
 
     color: var(--text-body);
+
+}
+
+/* ==========================================================
+   TITLES AND CAPTIONS THAT TIRE THE EYE LEAST (app-wide): the ink of a title (the page title, a column title, a section heading, a tile or box title,
+   a dialog title) and of a floating card's caption. Not the extremes of the theme (#111827 on white was 17.7:1, #e6e8eb on the dark page 13.8:1, the
+   caption's white on the dark scrim 20:1): a step softer, each about 10:1 to 12:1 on its ground (not over 13:1), never under 4.5:1. Body text keeps
+   its own ink (--text-default). docs/ai/layout-rules.md, "Titles and captions".
+========================================================== */
+:root {
+
+    --title-ink: #303a49;
+
+}
+
+:root[data-theme="dark"] {
+
+    --title-ink: #cdd1d8;
+
+    --floating-caption-ink: #cdd1d8;
+
+}
+
+:root[data-theme="sepia"] {
+
+    --title-ink: #3b2f25;
+
+}
+
+.conversation-card h1,
+.app-header-organization-name.app-header-organization-name,
+.answer-column-label.answer-column-label,
+.field-group-title.field-group-title,
+.section-tile-title.section-tile-title,
+.dialog-heading-title.dialog-heading-title {
+
+    color: var(--title-ink);
 
 }

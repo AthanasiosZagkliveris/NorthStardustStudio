@@ -1,3 +1,4 @@
+import { workspacesOf, WORKSPACE_GROUP_ID } from "./AnswerUtils.ts";
 /*
     The two documents the Foundation capability adds up to, built from
     what has been answered -- nothing is asked again:
@@ -28,6 +29,8 @@ import {
     BUSINESS_RESOURCE_GROUPS,
     BUSINESS_RESOURCE_STATUSES,
     BUSINESS_WORKSPACE_KINDS,
+    isCostingStatus,
+    isPurchaseGroup,
     STRATEGY_MONTH_NAMES,
     type BusinessPartnerValue,
     type ExportBlock,
@@ -49,7 +52,9 @@ import {
     founderProfileHasText,
     founderProfileOf,
     founderProfiles,
-    founderSkillLines
+    founderSkillLines,
+    strategyObjectiveOwnerId,
+    workspaceCardName
 } from "./AnswerUtils.ts";
 import type { ExportContent, ExportSectionContent } from "./ExportContentBuilder.ts";
 import { sessionExportContext } from "./ExportContentBuilder.ts";
@@ -434,7 +439,7 @@ function withBrackets(name: string, note: string): string {
 
 /** A cost paid per unit sold: part of the cost of sales, not a resource the business keeps. */
 function isPerUse(frequency: string): boolean {
-    return frequency === "per-unit" || frequency === "per-order" || frequency === "per-project";
+    return frequency === "per-unit" || frequency === "per-order" || frequency === "per-project" || frequency === "percent-revenue";
 }
 
 /** The canvas as its nine lists -- for the page's own nine-box drawing. */
@@ -486,19 +491,21 @@ export function businessModelCanvasData(sessions: FoundationSessions): {
        intellectual and financial. What the business keeps and relies
        on, not a partner's, not a utility it is simply provided with,
        nor a per-use cost of sales. */
-    const kept = (group: string, slot: { name: string; status: string; providerId: string; cost: { frequency: string } }) =>
+    const kept = (group: string, slot: { name: string; status: string; providerId: string; cost: { frequency: string } }, subsection = "") =>
         !!slot.name.trim() &&
-        !(group === "utilities" && (slot.status === "provided" || slot.status === "exists")) &&
-        !isPerUse(slot.cost.frequency) &&
+        !(group === "utilities" && (slot.status === "partners-suppliers" || slot.status === "exists")) &&
+        (!isPerUse(slot.cost.frequency) || (slot.cost.frequency === "per-unit" && isPurchaseGroup(subsection))) &&
         !isPartner(slot.name, slot.providerId);
-    const workspace = capability.workspace.kind && !(capability.workspace.status === "provided" && partnerIds.has(capability.workspace.providerId))
-        ? BUSINESS_WORKSPACE_KINDS.find(kind => kind.id === capability.workspace.kind)?.label ?? capability.workspace.kindOther
-        : "";
+    const workspaces = workspacesOf(capability)
+        .filter(workspace => workspace.kind && !(workspace.status === "rent" && partnerIds.has(workspace.providerId)))
+        .map(workspace => BUSINESS_WORKSPACE_KINDS.find(kind => kind.id === workspace.kind)?.label ?? workspace.kindOther)
+        .filter(Boolean);
     const namesIn = (groups: string[]) => BUSINESS_RESOURCE_GROUPS.filter(group => groups.includes(group.id))
+        .filter(group => group.id !== WORKSPACE_GROUP_ID)
         .flatMap(group => (capability.resources[group.id] ?? [])
-            .flatMap(subsection => subsection.slots.filter(slot => kept(group.id, slot)).map(slot => slot.name.trim())));
+            .flatMap(subsection => subsection.slots.filter(slot => kept(group.id, slot, subsection.id)).map(slot => slot.name.trim())));
     const physical = [
-        ...(workspace ? [workspace] : []),
+        ...workspaces,
         ...namesIn(BUSINESS_RESOURCE_GROUPS.map(group => group.id).filter(id => id !== "digital")),
         ...capability.offering.resources.filter(slot => kept("offering", slot)).map(slot => slot.name.trim())
     ];
@@ -895,13 +902,13 @@ function operationsBlocks(f: Foundation): ExportBlock[] {
     // Once, here: the Financial Plan leaves it out.
     const capacity = capacityBlocks(salesCapacity(f.revenuePage, f.financial, capability), f.financial.planStart, 1);
     return [
-        ...titled("Workspace", paragraph(withNote(
-            BUSINESS_WORKSPACE_KINDS.find(kind => kind.id === capability.workspace.kind)?.label ?? "",
-            BUSINESS_RESOURCE_STATUSES.find(status => status.id === capability.workspace.status)?.label ?? ""
-        ))),
-        ...titled("Key Resources", list(BUSINESS_RESOURCE_GROUPS.flatMap(group => (capability.resources[group.id] ?? [])
+        ...workspacesOf(capability).flatMap((workspace, index) => titled(workspaceCardName(index), paragraph(withNote(
+            BUSINESS_WORKSPACE_KINDS.find(kind => kind.id === workspace.kind)?.label ?? "",
+            BUSINESS_RESOURCE_STATUSES.find(status => status.id === workspace.status)?.label ?? ""
+        )))),
+        ...titled("Key Resources", list(BUSINESS_RESOURCE_GROUPS.filter(group => group.id !== WORKSPACE_GROUP_ID).flatMap(group => (capability.resources[group.id] ?? [])
             .flatMap(subsection => subsection.slots.filter(slot => slot.name.trim()).map(slot =>
-                slot.name.trim() + (slot.status === "costs" && slot.quantity ? " × " + slot.quantity : "") + " (" +
+                slot.name.trim() + (isCostingStatus(slot.status) && slot.quantity && slot.quantity !== "1" ? " × " + slot.quantity : "") + " (" +
                 (BUSINESS_RESOURCE_STATUSES.find(status => status.id === slot.status)?.label ?? "status not set") + ")"))))),
         ...titled("Launch and Setup Tasks", table(["Task", "Category", "State"], [
             ...capability.activities.flatMap(category => category.activities
@@ -1033,7 +1040,10 @@ function metricValue(metric: StrategyMetricValue, value: string, format: (amount
 function strategyBlocks(f: Foundation): ExportBlock[] {
     const foundation = f.strategyFoundation;
     const period = foundation.period;
-    const owner = (id: string) => f.legalEntity.founders.find(founder => founder.id === id)?.name ?? "";
+    const founderIds = f.legalEntity.founders.map(founder => founder.id);
+    // The one founder of a one-founder organisation is responsible without being chosen.
+    const owner = (objective: { ownerId: string }) =>
+        f.legalEntity.founders.find(founder => founder.id === strategyObjectiveOwnerId(objective, founderIds))?.name ?? "";
     const range = (value: { start: StrategyMonthValue; end: StrategyMonthValue }) =>
         [monthName(value.start), monthName(value.end)].filter(Boolean).join(" – ");
     const bullets = bulletCell;
@@ -1067,7 +1077,7 @@ function strategyBlocks(f: Foundation): ExportBlock[] {
                     ...table(["Objective", "When", "Responsible", "Description", "Initiatives"], goal.objectives.map((objective, objectiveIndex) => [
                         (themeIndex + 1) + "." + (goalIndex + 1) + "." + (objectiveIndex + 1) + " " + objective.name,
                         range(objective.period),
-                        owner(objective.ownerId),
+                        owner(objective),
                         objective.description,
                         bullets(objective.initiatives)
                     ]))
@@ -1080,7 +1090,7 @@ function strategyBlocks(f: Foundation): ExportBlock[] {
                 metricValue(metric, metric.baseline, f.format),
                 metricValue(metric, metric.target, f.format),
                 metric.frequency,
-                owner(objective.ownerId)
+                owner(objective)
             ])))),
         // Each Theme's Objectives, numbered from 1 in each Theme as the
         // Roadmap page numbers them, with when each runs.

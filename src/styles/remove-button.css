@@ -120,3 +120,78 @@
     cursor:not-allowed;
 
 }
+
+/* ==========================================================
+   THE x, THE LAST LOOK (app-wide: the one shared class and the three older removes that share it).
+   At rest it is a swap of two colours, as the "+" box is: the FILL is the ground of the card it stands on (--x-ground, set where each kind of card
+   sets its own ground; the page's surface where none does), the STROKE is 2px (the "+" box's) and the stroke and the X are both the danger red
+   (--x-red). Under the pointer or the keyboard focus the stroke is gone and the two colours swap: filled red, the X in the card's ground.
+   Size (32 x 32) and place are unchanged: the border keeps its 2px, only turned transparent.
+========================================================== */
+:root{
+
+    /* The x of a cell or a field (a row, a clear): the danger text red. */
+    --x-red:var(--text-danger);
+
+}
+
+/* The x that deletes a CARD keeps the previous default red (the one before this restyle). */
+.card-remove,
+.profile-card-remove{
+
+    --x-red:var(--bg-danger-strong);
+
+}
+
+.strategy-box-remove.strategy-box-remove,
+.profile-card-remove.profile-card-remove,
+.brand-holder-clear.brand-holder-clear,
+.legal-entity-field-remove.legal-entity-field-remove{
+
+    color:var(--x-red);
+
+    border:2px solid var(--x-red);
+
+    background:var(--x-ground, var(--bg-surface));
+
+    box-shadow:none;
+
+}
+
+.strategy-box-remove.strategy-box-remove:is(:hover, :focus-visible):not(:disabled),
+.profile-card-remove.profile-card-remove:is(:hover, :focus-visible):not(:disabled),
+.brand-holder-clear.brand-holder-clear:is(:hover, :focus-visible):not(:disabled),
+.legal-entity-field-remove.legal-entity-field-remove:is(:hover, :focus-visible):not(:disabled){
+
+    color:var(--x-ground, var(--bg-surface));
+
+    border-color:transparent;
+
+    background:var(--x-red);
+
+    box-shadow:none;
+
+}
+
+.strategy-box-remove.strategy-box-remove:focus-visible:not(:disabled),
+.profile-card-remove.profile-card-remove:focus-visible:not(:disabled),
+.brand-holder-clear.brand-holder-clear:focus-visible:not(:disabled),
+.legal-entity-field-remove.legal-entity-field-remove:focus-visible:not(:disabled){
+
+    outline:2px solid var(--focus-ring-ink, var(--line-primary));
+    outline-offset:2px;
+
+}
+
+.strategy-box-remove.strategy-box-remove:disabled,
+.profile-card-remove.profile-card-remove:disabled,
+.brand-holder-clear.brand-holder-clear:disabled,
+.legal-entity-field-remove.legal-entity-field-remove:disabled{
+
+    color:var(--text-faint);
+
+    border:1px solid var(--line-card);
+
+    background:var(--bg-surface);
+
+}

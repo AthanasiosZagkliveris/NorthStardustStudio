@@ -27,19 +27,19 @@ describe("Organization format version", () => {
         expect(organizationFormatVersion({})).toBe(1);
         expect(organizationFormatVersion({ formatVersion: "2" })).toBe(1);
         expect(organizationFormatVersion({ formatVersion: 2 })).toBe(2);
-        expect(ORGANIZATION_FORMAT_VERSION).toBe(2);
+        expect(ORGANIZATION_FORMAT_VERSION).toBe(3);
 
     });
 
-    it("writes version 2 into every saved document", () => {
+    it("writes version 3 into every saved document", () => {
 
         const created = OrganizationService.create("Quillfield");
 
-        expect(storedDocument(created.id).formatVersion).toBe(2);
+        expect(storedDocument(created.id).formatVersion).toBe(3);
 
     });
 
-    it("reads a version 1 document, and saves it back as version 2", () => {
+    it("reads a version 1 document, and saves it back as version 3", () => {
 
         localStorage.setItem("northstardust-organizations", JSON.stringify([{ id: "org-old", name: "Old", createdAt: 1 }]));
         localStorage.setItem("northstardust-organization-org-old", JSON.stringify({
@@ -53,35 +53,38 @@ describe("Organization format version", () => {
 
         OrganizationService.rename("org-old", "Renamed");
 
-        expect(storedDocument("org-old")).toMatchObject({ name: "Renamed", formatVersion: 2 });
+        expect(storedDocument("org-old")).toMatchObject({ name: "Renamed", formatVersion: 3 });
 
     });
 
-    it("exports version 2, also for a document last saved as version 1", () => {
+    it("exports version 3, also for a document last saved as version 1", () => {
 
         localStorage.setItem("northstardust-organization-org-old", JSON.stringify({
             id: "org-old", name: "Old", createdAt: 1, systems: {}, products: []
         }));
 
-        expect(OrganizationService.exportDocument("org-old")?.formatVersion).toBe(2);
+        expect(OrganizationService.exportDocument("org-old")?.formatVersion).toBe(3);
         // The stored document itself is left as it was.
         expect(storedDocument("org-old").formatVersion).toBeUndefined();
 
     });
 
-    it("imports version 1 and version 2 files, saving both as version 2", () => {
+    it("imports version 1, 2 and 3 files, saving all as version 3", () => {
 
         const fromOne = OrganizationService.importDocument({ name: "One", systems: {}, products: [] });
         const fromTwo = OrganizationService.importDocument({ formatVersion: 2, name: "Two", systems: {}, products: [] });
 
-        expect(fromOne && storedDocument(fromOne.id).formatVersion).toBe(2);
-        expect(fromTwo && storedDocument(fromTwo.id).formatVersion).toBe(2);
+        const fromThree = OrganizationService.importDocument({ formatVersion: 3, name: "Three", systems: {}, products: [] });
+
+        expect(fromOne && storedDocument(fromOne.id).formatVersion).toBe(3);
+        expect(fromTwo && storedDocument(fromTwo.id).formatVersion).toBe(3);
+        expect(fromThree && storedDocument(fromThree.id).formatVersion).toBe(3);
 
     });
 
     it("refuses a file from a newer format with a clear error, and adds nothing", () => {
 
-        expect(() => OrganizationService.importDocument({ formatVersion: 3, name: "Future", systems: {} }))
+        expect(() => OrganizationService.importDocument({ formatVersion: 4, name: "Future", systems: {} }))
             .toThrow(UnsupportedFormatVersionError);
 
         expect(OrganizationService.list()).toEqual([]);

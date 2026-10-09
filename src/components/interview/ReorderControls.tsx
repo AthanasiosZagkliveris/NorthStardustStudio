@@ -1,4 +1,5 @@
-import { DragEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from "react";
+import { DragEvent, KeyboardEvent, MouseEvent, ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
 
@@ -23,7 +24,13 @@ export default function BoxActions({
 
     onSort,
 
-    sortOptions
+    sortOptions,
+
+    menuContent,
+
+    sortSelected,
+
+    keepOpen = false
 
 }: {
 
@@ -44,12 +51,58 @@ export default function BoxActions({
 
     onSort?: (optionId: string) => void;
 
+    /**
+     * More for the funnel's drop-down than orders: filters, above the orders (the All Tiles overlay's). The drop-down is then wider
+     * and scrolls, and stays open while a choice is made.
+     */
+    menuContent?: ReactNode;
+
+    /** The order now in use: its option carries a bullet. */
+    sortSelected?: string;
+
+    /** Choosing an order leaves the drop-down open. */
+    keepOpen?: boolean;
+
 }) {
 
     const [menuOpen, setMenuOpen] = useState(false);
 
     const menuRef = useRef<HTMLDivElement | null>(null);
     const sortButtonRef = useRef<HTMLButtonElement | null>(null);
+    // The wide menu (the All Tiles funnel) is drawn outside the box around its button, OUTWARD -- beside the dialog, over no tile -- where the window has room for
+    // it there, else under the funnel, inside the window.
+    const wideRef = useRef<HTMLDivElement | null>(null);
+    const wideHost = menuOpen && menuContent ? sortButtonRef.current?.closest<HTMLElement>(".section-tile-overlay") ?? document.body : null;
+    useLayoutEffect(() => {
+        const menu = wideRef.current;
+        const button = sortButtonRef.current;
+        if (!menuOpen || !menu || !button) {
+            return;
+        }
+        const place = () => {
+            menu.style.maxHeight = "";
+            const dialog = button.closest<HTMLElement>(".section-tile-dialog")?.getBoundingClientRect();
+            const width = menu.getBoundingClientRect().width;
+            const anchor = button.getBoundingClientRect();
+            let left: number;
+            let top: number;
+            if (dialog && window.innerWidth - dialog.right - 8 - 12 >= width) {
+                left = dialog.right + 8;
+                top = Math.max(dialog.top, 8);
+                menu.setAttribute("data-outward", "");
+            } else {
+                left = Math.max(8, Math.min(anchor.right - width, window.innerWidth - 8 - width));
+                top = anchor.bottom + 4;
+                menu.removeAttribute("data-outward");
+            }
+            menu.style.left = left + "px";
+            menu.style.top = top + "px";
+            menu.style.maxHeight = Math.max(160, window.innerHeight - top - 12) + "px";
+        };
+        place();
+        window.addEventListener("resize", place);
+        return () => window.removeEventListener("resize", place);
+    }, [menuOpen]);
 
     // Clicking away or pressing Escape closes the menu -- what any
     // popover is expected to do, and without them the only way out
@@ -61,7 +114,7 @@ export default function BoxActions({
         }
 
         function onPointerDown(event: globalThis.MouseEvent) {
-            if (!menuRef.current?.contains(event.target as Node)) {
+            if (!menuRef.current?.contains(event.target as Node) && !wideRef.current?.contains(event.target as Node)) {
                 setMenuOpen(false);
             }
         }
@@ -85,7 +138,7 @@ export default function BoxActions({
 
     }, [menuOpen]);
 
-    const showSort = !!onSort && !!sortOptions?.length;
+    const showSort = (!!onSort && !!sortOptions?.length) || !!menuContent;
 
     // See useFloatingPanel: this menu sits in a box head that can
     // be anywhere down a long page, so where it opens has to be
@@ -131,14 +184,17 @@ export default function BoxActions({
                         </svg>
                     </button>
 
-                    {menuOpen && (
+                    {menuOpen && (() => {
+                        const menuNode = (
 
                         <div
-                            ref={sortMenuRef}
-                            className="strategy-sort-menu"
-                            style={sortMenuStyle}
+                            ref={menuContent ? wideRef : sortMenuRef}
+                            className={"strategy-sort-menu" + (menuContent ? " strategy-sort-menu-wide" : "")}
+                            style={menuContent ? { position: "fixed", right: "auto" } : sortMenuStyle}
                             role="menu"
                         >
+
+                            {menuContent}
 
                             {sortOptions?.map(option => (
                                 <button
@@ -148,16 +204,23 @@ export default function BoxActions({
                                     role="menuitem"
                                     onClick={() => {
                                         onSort?.(option.id);
-                                        setMenuOpen(false);
+                                        if (!keepOpen) {
+                                            setMenuOpen(false);
+                                        }
                                     }}
                                 >
+                                    {sortSelected !== undefined && (
+                                        <span className="strategy-sort-bullet" aria-hidden="true">{sortSelected === option.id ? "•" : ""}</span>
+                                    )}
                                     {option.label}
                                 </button>
                             ))}
 
                         </div>
 
-                    )}
+                        );
+                        return menuContent && wideHost ? createPortal(menuNode, wideHost) : menuNode;
+                    })()}
 
                 </div>
 
@@ -166,7 +229,7 @@ export default function BoxActions({
             {onRemove && (
                 <button
                     type="button"
-                    className="strategy-box-remove"
+                    className="strategy-box-remove card-remove"
                     aria-label={`Remove ${label}`}
                     title={`Remove ${label}`}
                     disabled={disabled}

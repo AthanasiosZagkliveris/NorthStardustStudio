@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useLayoutEffect } from "react";
+import { RefObject, useEffect, useLayoutEffect, useRef } from "react";
 
 // Sets the textarea's height to fit its content, so it never
 // scrolls inside itself. Collapsing to "auto" first lets it shrink
@@ -42,10 +42,17 @@ export function useAutoGrow(
 
 ) {
 
+    // The width the text was last fitted at: a width that changed after that
+    // (a container laying out again right after the box mounted: the card
+    // columns of a dialog) is a rewrap, even if it settled before the
+    // observer below was set up.
+    const fittedWidth = useRef(0);
+
     useLayoutEffect(() => {
 
         if (enabled) {
             fit(ref.current);
+            fittedWidth.current = ref.current?.clientWidth ?? 0;
         }
 
     }, [ref, value, enabled]);
@@ -60,16 +67,18 @@ export function useAutoGrow(
 
         // Only a width change rewraps the text -- the height changes
         // this hook makes itself must not trigger another fit.
-        let width = el.clientWidth;
+        const refit = () => {
 
-        const observer = new ResizeObserver(() => {
-
-            if (el.clientWidth !== width) {
-                width = el.clientWidth;
+            if (el.clientWidth !== fittedWidth.current) {
                 fit(el);
+                fittedWidth.current = el.clientWidth;
             }
 
-        });
+        };
+
+        refit();
+
+        const observer = new ResizeObserver(refit);
 
         observer.observe(el);
 

@@ -23,9 +23,13 @@ interface AppHeaderProps {
     organizationName?: string;
     /** An interview page: the Focus tool (FocusModeButton) is offered. */
     focusable?: boolean;
+    /** The landing page: a Reload tool beside the theme switch (the app's view is drawn again; the data is kept: it is on disk). */
+    reloadable?: boolean;
+    /** Called before the reload (the Landing page refreshes the saved examples from the current example files). */
+    onReload?: () => void;
 }
 
-export default function AppHeader({ organizationName, focusable = false }: AppHeaderProps) {
+export default function AppHeader({ organizationName, focusable = false, reloadable = false, onReload }: AppHeaderProps) {
 
     return (
 
@@ -42,6 +46,21 @@ export default function AppHeader({ organizationName, focusable = false }: AppHe
             {organizationName && <SaveStatus />}
 
             <ThemeSwitch />
+
+            {reloadable && (
+                <button
+                    type="button"
+                    className="header-tool app-reload"
+                    aria-label="Reload the app and refresh the examples"
+                    title="Reload the app and refresh the examples"
+                    onClick={() => { onReload?.(); window.location.reload(); }}
+                >
+                    <svg className="header-tool-icon" viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="M16 10a6 6 0 1 1-2-4.5M16 3v3.5h-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span className="header-tool-word">Reload</span>
+                </button>
+            )}
 
             {/* Focus mode: on an interview page. */}
             {organizationName && focusable && <FocusModeButton />}

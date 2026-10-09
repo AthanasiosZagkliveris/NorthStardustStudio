@@ -1,5 +1,6 @@
 import type { AnswerDefinition, Section } from "../model";
 import type { InterviewSession } from "../interview";
+import { incompleteCards } from "./CardCompleteness.ts";
 import { AnswerType } from "../enums/AnswerType.ts";
 import {
     asBrandInventoryValue,
@@ -21,6 +22,7 @@ import {
     BUSINESS_ENGAGEMENT_SECTIONS,
     BUSINESS_FOUNDATION_SUBSECTIONS,
     businessResponsibleId,
+    responsibleIsOff,
     isAnswerEmpty,
     isRangeSet,
     LEGAL_ENTITY_SECTIONS,
@@ -239,6 +241,23 @@ export function openItemsOf(
                     capability.offering.professionals.some(withOffering) || capability.offering.providers.some(withOffering))) {
                     sectionItem(BUSINESS_CAPABILITY_SECTIONS[1], "a named resource, activity or partner linked to an Offering");
                 }
+                // A card that lacks a required answer is stored, flagged, and counted nowhere: each is an open item (CardCompleteness.ts).
+                const missing = incompleteCards(capability);
+                const cards: { id: string; name: string; rail: ReturnType<typeof sectionSegment> }[] = [
+                    ...Object.values(capability.resources).flat().flatMap(subsection => subsection.slots).map(card => ({ id: card.id, name: card.name || "A resource", rail: infrastructure })),
+                    ...capability.activities.flatMap(category => category.activities).map(card => ({ id: card.id, name: card.name || "An activity", rail: infrastructure })),
+                    ...[...capability.professionals, ...capability.providers].map(card => ({ id: card.id, name: card.name || "A partner or provider", rail: infrastructure })),
+                    ...capability.offering.resources.map(card => ({ id: card.id, name: card.name || "A resource", rail: offering })),
+                    ...capability.offering.activities.map(card => ({ id: card.id, name: card.name || "An activity", rail: offering })),
+                    ...[...capability.offering.professionals, ...capability.offering.providers].map(card => ({ id: card.id, name: card.name || "A partner or provider", rail: offering })),
+                    ...capability.founders.map(card => ({ id: card.id, name: card.name || "A founder", rail: infrastructure }))
+                ];
+                cards.forEach(card => {
+                    const fields = missing.get(card.id);
+                    if (fields) {
+                        add(card.name.trim() + ": " + list(fields.map(field => field.toLowerCase())) + " missing; it is not counted yet.", { key: key(card.rail, card.id), anchors: [card.id] });
+                    }
+                });
                 // Several founders: every activity needs one of them responsible.
                 if (founderIds.length > 1) {
                     const activities = [
@@ -246,7 +265,7 @@ export function openItemsOf(
                         ...capability.offering.activities.map(activity => ({ activity, rail: offering }))
                     ];
                     activities.forEach(({ activity, rail }, index) => {
-                        if (!activity.completed && !blank(activity.name) && !businessResponsibleId(activity, founderIds)) {
+                        if (!activity.completed && !blank(activity.name) && !responsibleIsOff(activity) && !businessResponsibleId(activity, founderIds)) {
                             add((activity.name.trim() || "Activity " + (index + 1)) + ": responsible founder.",
                                 { key: key(rail, activity.id), anchors: [activity.id] });
                         }

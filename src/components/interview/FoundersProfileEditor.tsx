@@ -324,7 +324,7 @@ export default function FoundersProfileEditor({
 
                 {/* Named on the Legal Entity page, so the name is
                     shown rather than asked, and there is no ×. */}
-                <div className="legal-entity-card-head fold-card-head">
+                <div className="legal-entity-card-head fold-card-head fold-card-fixed">
 
                     <FoldArrow
                         open={open}
@@ -336,12 +336,12 @@ export default function FoundersProfileEditor({
                         {(index + 1) + "."}
                     </span>
 
-                    <span className="strategy-name-static">
+                    <span className="strategy-name-static" title={founder.name.trim() || undefined}>
                         {founder.name}
                     </span>
 
                     {!open && summary && (
-                        <span className="business-card-summary">{summary}</span>
+                        <span className="business-card-summary" title={typeof summary === "string" ? summary : undefined}>{summary}</span>
                     )}
                 </div>
 

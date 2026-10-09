@@ -31,19 +31,23 @@ export default function NumberedListStatic({
 
     lines,
 
-    start = 1
+    start = 1,
+
+    flush = false
 
 }: {
 
     lines: readonly NumberedListStaticLine[];
     /** The first line's number, for a list that continues another (a Completed fold). */
     start?: number;
+    /** The numbers at the list's left edge (no 12px inset): a list that stands in a card's content edge. */
+    flush?: boolean;
 
 }) {
 
     return (
         <ol
-            className="numbered-list-static"
+            className={"numbered-list-static" + (flush ? " numbered-list-static-flush" : "")}
             start={start}
             style={start !== 1 ? { counterReset: "numbered-list-static " + (start - 1) } : undefined}
         >

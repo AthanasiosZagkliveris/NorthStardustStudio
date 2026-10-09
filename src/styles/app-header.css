@@ -251,3 +251,12 @@
     }
 
 }
+
+/* THE HEADER IS NEVER AFFECTED BY THE PAGE'S LAYERS (docs/ai/layout-rules.md, "The header over the layers"): while a dialog, a floating card or All Tiles is open
+   it stands above their scrims (which dim only the page), so the reading version, Notes, Search, Review and Reload stay in view and work, and their menus
+   and panels open over the layers. */
+body:has(.section-tile-overlay) .app-header {
+
+    z-index: 1001;
+
+}

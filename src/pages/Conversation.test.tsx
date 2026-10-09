@@ -406,3 +406,39 @@ describe("A System's opening screen", () => {
     });
 
 });
+
+describe("3. Infrastructure & Capability folds its guidance per title", () => {
+
+    it("has no Hide Help button: each column title has its own arrow, the guidance hidden to begin with; other pages keep their button", () => {
+
+        const organization = OrganizationService.create("Quillfield");
+        vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
+        const business = systems.find(system => system.id === "business")!;
+
+        const renderPage = (targetSectionNumber: number) => render(
+            <MemoryRouter initialEntries={[{ pathname: "/conversation", state: { system: business, targetSectionNumber, resume: {} } }]}>
+                <Routes>
+                    <Route path="/conversation" element={<Conversation />} />
+                </Routes>
+            </MemoryRouter>
+        );
+
+        // Page 3 (a number per page: Foundation 1, Customer Engagement 2).
+        const page = renderPage(3);
+        expect(screen.queryByRole("button", { name: /Hide Help|Need Help/ })).toBeNull();
+        const arrow = screen.getByRole("button", { name: "Show help for Infrastructure" });
+        expect(arrow.getAttribute("aria-expanded")).toBe("false");
+        expect(screen.getByRole("button", { name: "Show help for Offering's Capability" })).toBeTruthy();
+        expect(document.querySelector(".answer-column-questions")).toBeNull();
+        fireEvent.click(arrow);
+        expect(document.querySelectorAll(".answer-column-questions")).toHaveLength(1);
+        page.unmount();
+
+        // Page 2 keeps the page's own button.
+        renderPage(2);
+        expect(screen.getByRole("button", { name: "Hide Help" })).toBeTruthy();
+        expect(screen.queryByRole("button", { name: /^(Show|Hide) help for / })).toBeNull();
+
+    });
+
+});

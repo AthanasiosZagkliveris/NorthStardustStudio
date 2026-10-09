@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import AppHeader from "../components/AppHeader";
 import AppFooter from "../components/AppFooter";
 import InterviewHeader from "../components/interview/InterviewHeader";
-import InterviewProgress from "../components/InterviewProgress";
+import InterviewProgress, { SHOW_PROGRESS_LINE } from "../components/InterviewProgress";
 import InterviewSection from "../components/InterviewSection";
 import AnswerRenderer from "../components/interview/AnswerRenderer";
 
@@ -2024,6 +2024,10 @@ export default function Conversation() {
     // heading directly above their own first heading. Column pages
     // do this already; the Brand System's Style and Inventory
     // editors are laid out the same way and read the same.
+    // 3. Infrastructure & Capability drops each card's guidance down from an arrow
+    // beside the card's title, instead of the page's Hide Help button.
+    const titleHelpArrows = effectiveAnswer?.type === AnswerType.BusinessCapability;
+
     const mergesTitleIntoHeader =
         isColumnsPage ||
         effectiveAnswer?.type === AnswerType.BusinessFoundation ||
@@ -2793,9 +2797,19 @@ export default function Conversation() {
                                 onOpenFinancialFoundation={openBusinessSection(AnswerType.FinancialFoundation)}
                                 onOpenLegalEntity={openLegalEntity}
                                 strategy={strategyContext}
-                                showInstructions={instructionsOpen && !focusMode}
+                                showInstructions={!focusMode && (titleHelpArrows || instructionsOpen)}
                                 columnsDivider={
-                                    mergesTitleIntoHeader
+                                    titleHelpArrows
+                                        // No "Hide Help" button: each column title folds its own guidance.
+                                        ? (SHOW_PROGRESS_LINE
+                                            ? (
+                                                <InterviewProgress
+                                                    current={session.getCurrentSectionIndex() + 1}
+                                                    total={session.getTotalSections()}
+                                                />
+                                            )
+                                            : undefined)
+                                        : mergesTitleIntoHeader
                                         ? (
                                             <>
                                                 {/*
@@ -2813,7 +2827,7 @@ export default function Conversation() {
                                                 */}
                                                 <button
                                                     type="button"
-                                                    className="interview-help-toggle interview-instructions-toggle"
+                                                    className={"interview-help-toggle interview-instructions-toggle" + (SHOW_PROGRESS_LINE ? "" : " interview-instructions-toggle-last")}
                                                     aria-expanded={instructionsOpen}
                                                     onClick={() => setInstructionsOpen(open => !open)}
                                                 >
