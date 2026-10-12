@@ -2384,6 +2384,8 @@ function SingleAnswerRenderer({
                             disabled={disabled}
                             onEditTheme={args.onEditTheme}
                             onRemoveTheme={args.onRemoveTheme}
+                            onAddTheme={args.onAddTheme}
+                            trailing={args.trailing}
                             roadmap={() => (
                                 <StrategicRoadmapEditor
                                     foundation={args.foundation}

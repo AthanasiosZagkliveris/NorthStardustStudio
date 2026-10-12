@@ -14,7 +14,7 @@ First, you imagine your brand as a person, your **Ambassador**: how the Ambassad
 
 ## 04. Strategy System
 
-**Situation & Direction** looks at where you are today, your strengths, weaknesses, opportunities, and threats, and your Strategic Compass: the way you will move towards your Vision. It also sets the Strategic Period and the Strategic Themes that frame the plan. **Goals & Objectives** turns each Theme into Goals, and each Goal into Objectives, each with dates, an owner, the Initiatives that deliver it, and the Metrics that show progress. Finally, the **Roadmap** lays every Objective across the Strategic Period, so you can see what happens when and review the plan as things change.
+The Strategy System is one page, **Situation & Direction**. It looks at where you are today, your strengths, weaknesses, opportunities, and threats, and your Strategic Compass: the way you will move towards your Vision. Its Strategic Period sets the dates and the Strategic Themes that frame the plan; each Theme's card turns the Theme into Goals, each Goal into Objectives with dates, an owner, the Initiatives that deliver them and the Metrics that show progress, and the Roadmap tile lays every Objective across the period, so you can see what happens when and review the plan as things change.
 
 ## 05. Client System
 

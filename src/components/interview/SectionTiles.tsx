@@ -128,6 +128,9 @@ export interface SectionTile {
     wide?: boolean;
     press?: () => void;
 
+    /** The "+" makes the card and opens the tile's DIALOG on it (its box is the new card's id): the card stands where the dialog shows its cards, with no floating card. */
+    addOpensDialog?: boolean;
+
     /** A "+" at the tile's lower right that does this (adds what the tile holds, then the tile opens), for a tile whose items are not cards. */
     plus?: () => void;
 
@@ -194,6 +197,9 @@ export interface TileAdd {
     /** Creates a blank card and returns its id (it is opened at once). */
     onAdd: () => string;
 
+    /** Where a card made by the "+" tile is opened where no floating card is (a card shown in its place among the others): it is given the new id. */
+    onOpen?: (id: string) => void;
+
     /** True while the card still holds nothing the user wrote. */
     isBlank: (id: string) => boolean;
 
@@ -255,6 +261,18 @@ export function tileGapLevel(): number | null {
     const second = first ? slots.map(slot => slot.getBoundingClientRect()).find(box => box.top > first.bottom - 4) : undefined;
     if (first && second) {
         return (first.bottom + second.top) / 2;
+    }
+    // A page with no tiles (a long page of lists): the level a page of tiles has at this width -- the heading's underline, the frame's 12px gap and its head (61px), one tile, and half the gap between rows.
+    const underline = document.querySelector<HTMLElement>(".interview-divider")?.getBoundingClientRect();
+    const card = document.querySelector<HTMLElement>(".conversation-card")?.getBoundingClientRect();
+    if (underline && card && card.width > 300) {
+        // (As a page of tiles sizes its tiles: the card's width allows one, the window's height leaves room for two rows above the footer; the gap follows them down from 12px.)
+        const top = underline.bottom + window.scrollY + 12 + 61;
+        const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
+        const natural = (Math.floor((card.width - 12) / 2) - 26 - 12) / 2;
+        const tile = Math.min(natural, Math.max(Math.floor((window.innerHeight - top - footer - 36) / 2), 150));
+        const gap = natural > 0 ? Math.max(6, Math.min(12, Math.round(12 * tile / natural))) : 12;
+        return top + tile + gap / 2;
     }
     const frame = dialogFrame();
     return frame ? frame.top + frame.height / 2 : null;
@@ -568,6 +586,8 @@ export interface ItemMark {
     centre?: boolean;
     /** This line has no bullet (the state a list starts with). */
     plain?: boolean;
+    /** A hairline stands under this line: it ends one topic of the list and the next begins (the Strategic Period's dates, then its Themes). */
+    rule?: boolean;
 }
 
 /** A line's words, with what stands between two pairs of asterisks in bold. */
@@ -601,9 +621,14 @@ export default function SectionTiles({
 
     incomplete,
 
-    small = false
+    small = false,
+
+    trailing
 
 }: {
+
+    /** Something that stands in the grid after the last tile, as a tile does (the Strategic Period's "Add Card"). */
+    trailing?: ReactNode;
 
     /** The tiles keep the page's small size, whatever their number (four are not drawn as the 2 x 2 of large tiles). */
     small?: boolean;
@@ -738,6 +763,32 @@ export default function SectionTiles({
         }
     };
 
+    // The dialog this set of tiles stands in was opened on one of them (a link or a "+" of the tile above it names it): that one opens at once.
+    const initialBox = useContext(InitialBoxContext);
+    const initialOpened = useRef(false);
+    // (Until it has opened, the dialog these tiles stand in is not shown: the card asked for is the first thing seen.)
+    const [initialPending, setInitialPending] = useState(initialBox !== null);
+    useEffect(() => {
+        const timer = window.setTimeout(() => setInitialPending(false), 800);
+        return () => window.clearTimeout(timer);
+    }, []);
+    useEffect(() => {
+        if (initialOpened.current || !initialBox) {
+            return;
+        }
+        const found = latest.current.find(tile => tile.id === initialBox);
+        if (found) {
+            initialOpened.current = true;
+            // (After the dialog it stands in has taken its place and size.)
+            window.setTimeout(() => {
+                // (From its own tile, as if pressed: the dialog takes its place and size from it.)
+                const from = document.querySelector<HTMLElement>(`.section-tile[data-tile="${CSS.escape(found.id)}"]`) ?? opener.current ?? document.body;
+                openTile(found, from, false);
+                setInitialPending(false);
+            }, 0);
+        }
+    });
+
     // A card or a section asked for from another card (OPEN_EVENT).
     useEffect(() => {
         const answer = (event: Event) => {
@@ -751,7 +802,8 @@ export default function SectionTiles({
                 openFloating(found, request.card, from, "column", request.fresh === true);
             } else if (request.box) {
                 setFloating(null);
-                openDialog(found, from, request.box);
+                // (From its own tile where it stands on screen: the dialog takes its place and size from it, not from the page.)
+                openDialog(found, document.querySelector<HTMLElement>(`.section-tile[data-tile="${CSS.escape(found.id)}"]`) ?? from, request.box);
             }
         };
         document.addEventListener(OPEN_EVENT, answer);
@@ -788,12 +840,10 @@ export default function SectionTiles({
     // dialog goes through the tiles of the section, the ones that have something to open (a tile of none would make a blank card).
     const boxCards = floating && floatingTile ? Object.values(floatingTile.boxHolds ?? {}).find(ids => ids.includes(floating.id)) : undefined;
     const siblingCards = floating && floatingTile ? (boxCards ?? floatingTile.holds ?? []) : [];
-    const stepFloating = (direction: 1 | -1) => {
+    const goFloating = (nextId: string) => {
         if (!floating || siblingCards.length < 2) {
             return;
         }
-        const at = siblingCards.findIndex(item => item === floating.id || item === "founder-" + floating.id);
-        const nextId = siblingCards[(at + direction + siblingCards.length) % siblingCards.length];
         // (A card made a moment ago and left blank is taken away, as on closing it.)
         const remover = blank ?? floating.remover ?? floatingTile?.add;
         if (floating.fresh && remover?.isBlank(floating.id)) {
@@ -801,16 +851,28 @@ export default function SectionTiles({
         }
         setFloating({ ...floating, id: nextId, fresh: false });
     };
+    const stepFloating = (direction: 1 | -1) => {
+        if (!floating || siblingCards.length < 2) {
+            return;
+        }
+        const at = siblingCards.findIndex(item => item === floating.id || item === "founder-" + floating.id);
+        goFloating(siblingCards[(at + direction + siblingCards.length) % siblingCards.length]);
+    };
+    // (A card's bullet says its place: the tile's own name for its cards, and its number.)
+    const floatingItems = siblingCards.map((id, at) => ({ id, label: (floatingTile?.groupFor?.(id) ?? floatingTile?.group ?? "Card") + " " + (at + 1) }));
+    const floatingAt = floating ? siblingCards.findIndex(item => item === floating.id || item === "founder-" + floating.id) : -1;
     const steppable = tiles.filter(tile => !(cardsFloatOnly(tile) && !tile.view && tile.holds && tile.holds.length === 0 && tile.add) && !tile.direct);
+    const goDialog = (next: SectionTile) => {
+        const from = opener.current ?? document.body;
+        setOpenId(null);
+        openTile(next, from, openedByPointer.current);
+    };
     const stepDialog = (direction: 1 | -1) => {
         if (!open || steppable.length < 2) {
             return;
         }
         const at = steppable.findIndex(tile => tile.id === open.id);
-        const next = steppable[(at + direction + steppable.length) % steppable.length];
-        const from = opener.current ?? document.body;
-        setOpenId(null);
-        openTile(next, from, openedByPointer.current);
+        goDialog(steppable[(at + direction + steppable.length) % steppable.length]);
     };
 
     // The card is gone (its x was pressed) after it was shown: nothing floats any more.
@@ -835,6 +897,7 @@ export default function SectionTiles({
             <div ref={quadBox} className={"section-tiles-box" + (big ? " section-tiles-quad" : "") + (small ? " section-tiles-small" : "")}>
             <div
                 className="section-tiles"
+                data-initial-pending={initialPending ? "" : undefined}
                 role="group"
                 aria-label={label}
                 style={{ "--tile-columns": columns } as CSSProperties}
@@ -867,11 +930,14 @@ export default function SectionTiles({
                             onAdd={(from, pointer) => {
                                 if (tile.add && tile.cardFor) {
                                     openFloating(tile, tile.add.onAdd(), from, "column", true, pointer);
+                                } else if (tile.add && tile.addOpensDialog) {
+                                    openDialog(tile, from, tile.add.onAdd(), pointer);
                                 }
                             }}
                         />
                     );
                 })}
+                {trailing}
             </div>
             </div>
 
@@ -882,7 +948,7 @@ export default function SectionTiles({
                     opener={opener.current}
                     initialBox={openBox}
                     hue={open.channel ? CHANNEL_TILE_HUE : hue}
-                    step={steppable.length > 1 && steppable.some(tile => tile.id === open.id) ? { what: "section", previous: () => stepDialog(-1), next: () => stepDialog(1) } : undefined}
+                    step={steppable.length > 1 && steppable.some(tile => tile.id === open.id) ? { what: "section", previous: () => stepDialog(-1), next: () => stepDialog(1), items: steppable.map(tile => ({ id: tile.id, label: tile.title })), current: steppable.findIndex(tile => tile.id === open.id), go: (id: string) => { const target = steppable.find(tile => tile.id === id); if (target && target.id !== open.id) { goDialog(target); } } } : undefined}
                     onClose={() => setOpenId(null)}
                     onOpenCard={cardsFloatOnly(open) ? (id, caption, remover, pointer, fresh) => {
                         // A card chosen in the dialog's grid (or made by a box's "+"): the dialog closes and the card floats on its section part,
@@ -909,7 +975,7 @@ export default function SectionTiles({
                     hue={floatingTile.channel || floatingTile.isChannelCard?.(floating.id) ? CHANNEL_TILE_HUE : hue}
                     label={floatingTile.title}
                     attrs={{ "data-floating": floating.tileId, "data-card-id": floating.id }}
-                    step={!floating.fresh && siblingCards.length > 1 && siblingCards.some(item => item === floating.id || item === "founder-" + floating.id) ? { what: "card", previous: () => stepFloating(-1), next: () => stepFloating(1) } : undefined}
+                    step={!floating.fresh && siblingCards.length > 1 && siblingCards.some(item => item === floating.id || item === "founder-" + floating.id) ? { what: "card", previous: () => stepFloating(-1), next: () => stepFloating(1), items: floatingItems, current: floatingAt, go: (id: string) => { if (id !== floating.id) { goFloating(id); } } } : undefined}
                     cards={(() => {
                         const pair = floatingTile.pairOf?.(floating.id);
                         const one = (id: string, caption: string, node: ReactNode) => ({ key: id, caption, kind: floatingTile.kindFor?.(id) ?? floatingTile.cardKind ?? "card" as const, node, note: floatingTile.noteFor?.(id) ?? floatingTile.note });
@@ -1070,7 +1136,7 @@ function TileSlot({
                     />
                 </div>
             )}
-            {tile.add && tile.cardFor && (
+            {tile.add && (tile.cardFor || tile.addOpensDialog) && (
                 <button
                     type="button"
                     className="plus-box section-tile-plus"
@@ -1363,7 +1429,8 @@ export function TileList({
                             marks?.[position]?.channel ? "section-tile-list-channel" : "",
                             marks?.[position]?.bullet ? "section-tile-list-bullet" : "",
                             marks?.[position]?.centre ? "section-tile-list-centre" : "",
-                            marks?.[position]?.plain ? "section-tile-list-plain" : ""
+                            marks?.[position]?.plain ? "section-tile-list-plain" : "",
+                            marks?.[position]?.rule ? "section-tile-list-rule" : ""
                         ].filter(Boolean).join(" ") || undefined}
                         title={alerts?.[position] ? plainTitle(item).replace(/\*\*/g, "") + ": " + incompleteTitle(alerts[position]!) : plainTitle(item).replace(/\*\*/g, "")}
                     >
@@ -1392,6 +1459,15 @@ export interface CarouselStep {
     what: string;
     previous: () => void;
     next: () => void;
+    /**
+     * Every one of the list, in its order, with the name its bullet's tooltip says: the rail of bullets under the arrows (one for each; this one's lit),
+     * as the page's own rails -- any arrows that step through a list carry one.
+     */
+    items?: readonly { id: string; label: string }[];
+    /** This one's place in `items`. */
+    current?: number;
+    /** Goes to the one of `items` with this id. */
+    go?: (id: string) => void;
 }
 
 /** The carousel arrow's box: the page arrow's (24 x 44), 10% larger. */
@@ -1462,7 +1538,20 @@ function CarouselArrows({ target, step, hue }: { target: RefObject<HTMLElement |
         return () => document.removeEventListener("keydown", onKeyDown);
     }, [target]);
 
-    if (!at) {
+    // Only the topmost layer shows its arrows and rail: the one under it stands at the same place, and its bullets would overlap the top one's.
+    const [topmost, setTopmost] = useState(true);
+    useEffect(() => {
+        const check = () => {
+            const layers = document.querySelectorAll("[data-carousel]");
+            setTopmost(layers.length === 0 || !!layers[layers.length - 1]?.contains(target.current));
+        };
+        check();
+        const observer = typeof MutationObserver === "undefined" ? null : new MutationObserver(check);
+        observer?.observe(document.body, { childList: true });
+        return () => observer?.disconnect();
+    }, [target]);
+
+    if (!at || !topmost) {
         return null;
     }
     return (
@@ -1489,6 +1578,31 @@ function CarouselArrows({ target, step, hue }: { target: RefObject<HTMLElement |
             >
                 ›
             </button>
+            {step.items && step.items.length > 1 && step.go && (
+                // The rail under the arrows (the right one's): a bullet for each of the list, this one's lit; a tooltip with the name says where a bullet goes.
+                <nav
+                    className="carousel-rail"
+                    aria-label={"Go to a " + step.what}
+                    style={{ right: at.right, top: at.top + 36, "--strategy-theme-hue": hue } as CSSProperties}
+                >
+                    <ol className="bullet-rail-list">
+                        {step.items.map((item, position) => (
+                            <li key={item.id}>
+                                <button
+                                    type="button"
+                                    className={"bullet-rail-item" + (position === step.current ? " active" : "")}
+                                    aria-current={position === step.current ? "true" : undefined}
+                                    aria-label={item.label}
+                                    onClick={() => step.go?.(item.id)}
+                                >
+                                    <span className="bullet-rail-dot status-shape" aria-hidden="true" />
+                                    <span className="strategy-card-nav-tip" aria-hidden="true">{item.label}</span>
+                                </button>
+                            </li>
+                        ))}
+                    </ol>
+                </nav>
+            )}
         </>
     );
 }

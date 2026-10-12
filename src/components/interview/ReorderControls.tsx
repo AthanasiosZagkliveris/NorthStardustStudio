@@ -22,6 +22,10 @@ export default function BoxActions({
 
     onRemove,
 
+    onAdd,
+
+    addLabel,
+
     onSort,
 
     sortOptions,
@@ -40,6 +44,11 @@ export default function BoxActions({
     disabled?: boolean;
 
     onRemove?: () => void;
+
+    /** A "+" beside the x: adds a card related to this one (named by `addLabel`: "Goal", "Metric"...). */
+    onAdd?: () => void;
+
+    addLabel?: string;
 
     /**
      * The orders the funnel offers. Shown as a short menu rather
@@ -224,6 +233,20 @@ export default function BoxActions({
 
                 </div>
 
+            )}
+
+            {onAdd && (
+                <button
+                    type="button"
+                    className="strategy-box-add"
+                    aria-label={`Add ${addLabel ?? "card"}`}
+                    title={`Add ${addLabel ?? "card"}`}
+                    disabled={disabled}
+                    onClick={onAdd}
+                >
+                    {/* The + is drawn in CSS, as the x is. */}
+                    +
+                </button>
             )}
 
             {onRemove && (

@@ -237,7 +237,8 @@ function placeFree(panel: HTMLElement, anchor: DOMRect, ceiling?: number): void 
             below = true;
         } else {
             below = roomBelow > roomUp;
-            height = Math.max(below ? roomBelow : roomAbove, 0);
+            // (Above, the room is what the app's header leaves: a note capped to the window's top edge would run under the header.)
+            height = Math.max(below ? roomBelow : roomUp, 0);
         }
     }
     if (height < panel.scrollHeight) {

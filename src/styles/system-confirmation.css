@@ -15,7 +15,7 @@
 
     background: var(--bg-overlay);
 
-    z-index: 1000;
+    z-index: 1100; /* above the page tiles' dialogs (1000, later in the page): a question asked inside one is answered on top of it */
 
 }
 

@@ -1,8 +1,8 @@
-import { ReactNode, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { ReactNode, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 
 import { OpenCardContext, type ItemMark } from "./SectionTiles.tsx";
-import CardTile, { inwardOrigin, pageTileSide, useTilesAcross } from "./CardTile.tsx";
+import CardTile, { TILE_GAP, inwardOrigin, pageTileSide, useTilesAcross } from "./CardTile.tsx";
 import { AddTile } from "./SectionView.tsx";
 import type { FloorLink, FloorTone } from "./capabilityFloor.ts";
 
@@ -74,6 +74,9 @@ export interface CardBoxAdd {
     /** Creates a blank card and returns its id (it is opened at once). */
     onAdd: () => string;
 
+    /** Where no floating card is: the new card is shown in its place among the others (given its id). */
+    onOpen?: (id: string) => void;
+
     /** True while the card still holds nothing the user wrote. */
     isBlank: (id: string) => boolean;
 
@@ -106,9 +109,14 @@ export default function CardBoxes({
 
     autoStart = true,
 
-    addNext = false
+    addNext = false,
+
+    threeAcross = false
 
 }: {
+
+    /** The tiles are sized to the card they stand in: three across, however wide the card is (the Strategy cards' Goals, Objectives and Metrics). */
+    threeAcross?: boolean;
 
     /** The add box stands right after the last card where its row has room (a Strategy Theme's Goals and Objectives), not at the grid's last column. */
     addNext?: boolean;
@@ -143,11 +151,16 @@ export default function CardBoxes({
     // A new blank card is opened floating; left completely blank, the floating card's closing takes it away again.
     const create = (pointer = false) => {
         const adder = latest.current.add;
-        if (!adder || !openCard) {
+        if (!adder || (!openCard && !adder.onOpen)) {
             return;
         }
         const id = adder.onAdd();
-        openCard(id, undefined, adder, pointer, true);
+        if (adder.onOpen) {
+            // (A card shown in its place among the others, not floating.)
+            adder.onOpen(id);
+            return;
+        }
+        openCard?.(id, undefined, adder, pointer, true);
     };
 
     // A list with nothing in it makes one blank card and opens it (once: the guard survives a strict-mode remount).
@@ -162,8 +175,26 @@ export default function CardBoxes({
     }, []);
 
     // The page's own tile size, and as many across as fit: a tile grows inwards.
-    const side = useMemo(pageTileSide, []);
-    const across = useTilesAcross(grid, side);
+    const pageSide = useMemo(pageTileSide, []);
+    const pageAcross = useTilesAcross(grid, pageSide);
+    // Three across, whatever the card's width: the tile is a third of it, less the two gaps.
+    const [fitSide, setFitSide] = useState<number | null>(null);
+    useLayoutEffect(() => {
+        const node = grid.current;
+        if (!threeAcross || !node) {
+            return;
+        }
+        const measure = () => setFitSide(Math.max(72, Math.floor((node.clientWidth - 2 * TILE_GAP) / 3)));
+        measure();
+        if (typeof ResizeObserver === "undefined") {
+            return;
+        }
+        const observer = new ResizeObserver(measure);
+        observer.observe(node);
+        return () => observer.disconnect();
+    }, [threeAcross]);
+    const side = threeAcross && fitSide ? fitSide : pageSide;
+    const across = threeAcross ? 3 : pageAcross;
 
     return (
         <div className={"card-boxes" + (className ? " " + className : "")} ref={root}>

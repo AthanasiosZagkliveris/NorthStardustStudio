@@ -1,6 +1,9 @@
 import { useLayoutEffect, useRef } from "react";
 
-import { dialogFrame, tileGapLevel } from "./SectionTiles.tsx";
+import { tileGapLevel } from "./SectionTiles.tsx";
+
+/** How many page arrows are drawn now: the page's two (previous and next) share the one level. */
+let mounted = 0;
 
 /**
  * A page arrow: "‹" (the previous page) or "›" (the next), named
@@ -34,23 +37,28 @@ export default function PageArrow({
     useLayoutEffect(() => {
         const root = document.documentElement;
         const level = () => {
-            const frame = dialogFrame();
-            // (The same level on every page: the middle of the page's frame, the heading's underline to the footer.)
-            const y = frame ? frame.top + frame.height / 2 : tileGapLevel();
+            // (The gap between the two rows of the page's tiles; where the page has none, the middle of its frame, the heading's underline to the footer.)
+            const y = tileGapLevel();
             if (y !== null) {
                 root.style.setProperty("--arrow-level", Math.round(y) + "px");
             }
         };
+        mounted += 1;
         level();
-        const later = window.setTimeout(level, 250);
+        // (The tiles settle to their size a little after the page is drawn: measured again until they have.)
+        const later = [100, 250, 500, 900, 1500].map(delay => window.setTimeout(level, delay));
         window.addEventListener("resize", level);
         const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(level);
         observer?.observe(document.body);
         return () => {
-            window.clearTimeout(later);
+            later.forEach(timer => window.clearTimeout(timer));
             window.removeEventListener("resize", level);
             observer?.disconnect();
-            root.style.removeProperty("--arrow-level");
+            // (Only when the last arrow of the page goes: the other one of the pair, still there, keeps standing at it.)
+            mounted -= 1;
+            if (mounted === 0) {
+                root.style.removeProperty("--arrow-level");
+            }
         };
     }, []);
 

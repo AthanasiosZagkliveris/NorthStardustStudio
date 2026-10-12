@@ -14,6 +14,7 @@ import {
     createStrategyMetric,
     createStrategyObjective,
     formatMonthShort,
+    formatRangeAbbrev,
     isRangeSet,
     monthIndex,
     strategyGoalsForTheme,
@@ -27,9 +28,11 @@ import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../framework/engine/
 import { BusinessField, OptionalNote } from "./BusinessCardFields.tsx";
 import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
-import CardNumber from "./CardNumber.tsx";
 import InfoNote from "./InfoNote.tsx";
 import CardNameInput from "./CardNameInput.tsx";
+import CardNav from "./CardNav.tsx";
+import FoldArrow from "./FoldArrow.tsx";
+import { useGroupView } from "./groupView.ts";
 import SectionTiles, { DialogHeading, type SectionTile } from "./SectionTiles.tsx";
 import CardBoxes, { type CardBox } from "./CardBoxes.tsx";
 import { workHue } from "../../framework/engine/WorkColours.ts";
@@ -84,26 +87,44 @@ interface StrategicPeriodEditorProps {
     /** Where a Theme is taken away (its x in the Theme's card): the Foundation page's own removal, with its guard. */
     onRemoveTheme?: (themeId: string) => void;
 
+    /** Where a Theme is added (its "+" beside the x): a new Theme card. */
+    onAddTheme?: () => void;
+
+    /** What stands in the tiles' grid after the last tile (the page's "Add Card" for a Theme). */
+    trailing?: ReactNode;
+
 }
 
-const GOALS_HELP = "What do you want to accomplish within each Strategic Theme, and why does it matter?";
+/**
+ * A card's name cell with its order number INSIDE it (the Theme, Goal,
+ * Objective and Metric heads): the number stands at the cell's left, the
+ * name after it, so the cell starts at the card's own 12px margin.
+ */
+function NumberedName({ number, children }: { number: number; children: ReactNode }) {
+    return (
+        <span className="strategy-numbered-name">
+            <span className="strategy-name-number list-number">{number + "."}</span>
+            {children}
+        </span>
+    );
+}
+
+/** A head's kind label with its "i" (Goal, Objective, Metric): between the name cell and the x. */
+function HeadKind({ kind, help }: { kind: string; help: string }) {
+    return (
+        <span className="strategy-head-kind">
+            <span className="strategy-head-kind-name">{kind}</span>
+            <InfoNote label={kind} points={[help]} />
+        </span>
+    );
+}
+
+/** The Objective's date-sort funnel button: hidden for now. */
+const SHOW_OBJECTIVE_SORT = false;
+const GOALS_HELP ="What do you want to accomplish within each Strategic Theme, and why does it matter?";
 const OBJECTIVES_HELP = "Specific, measurable, and time-bound milestones that support a Goal.";
 const INITIATIVES_HELP = "Actions focused on major areas of work to achieve the Objectives.";
 const METRICS_HELP = "Measures that provide evidence of progress toward the Objective.";
-
-/**
- * Marks a level as deliberately closed, as opposed to "nothing
- * chosen yet" (""), which opens the first box at that level. An id
- * is never this string, so the two states cannot collide.
- */
-
-/** Which box is open at each level. Nothing below a closed box shows. */
-interface FocusPath {
-    themeId: string;
-    goalId: string;
-    objectiveId: string;
-}
-
 
 /**
  * The Strategy System's Strategic Period page (see
@@ -142,7 +163,9 @@ export default function StrategicPeriodEditor({
 
     onEditTheme,
 
-    onRemoveTheme
+    onRemoveTheme,
+    onAddTheme,
+    trailing
 
 }: StrategicPeriodEditorProps) {
 
@@ -152,16 +175,6 @@ export default function StrategicPeriodEditor({
     const period = asStrategicPeriodValue(value);
 
     const themes = foundation.themes;
-
-    // Only one box is open at each level: opening a Goal closes the
-    // other Goals in its Theme and the other Themes, which is what
-    // keeps a page of nested boxes readable. Starts on the first of
-    // everything, so a fresh page is open rather than shut.
-    const [focus, setFocus] = useState<FocusPath>({
-        themeId: "",
-        goalId: "",
-        objectiveId: ""
-    });
 
     const periodSet = isRangeSet(foundation.period);
 
@@ -182,111 +195,24 @@ export default function StrategicPeriodEditor({
         onChange({ goalsByTheme: { ...period.goalsByTheme, [themeId]: goals } });
     }
 
-    // (The guidance of each section is its "i", beside the section's own title in the table: Goal, Objective, Initiatives, Metric.)
-    /**
-     * Whether a box at this level is open.
-     *
-     * "" means nothing has been chosen at this level yet, which opens
-     * the FIRST box rather than none -- a page that opened entirely
-     * shut would hide the one Goal and Objective every Theme starts
-     * with. CLOSED is the deliberate "shut it" state, which is what
-     * the toggle sets and what "" must not be confused with.
-     */
-    function isOpen(chosen: string, id: string, index: number): boolean {
-        return chosen === id || (chosen === "" && index === 0);
-    }
-
     const goalProps = {
         disabled,
         periodSet,
         withinPeriod,
         founders,
         organisationCurrency,
-        periodStartYear: periodSet ? Number(foundation.period.start.year) : new Date().getFullYear(),
-        isOpen
+        periodStartYear: periodSet ? Number(foundation.period.start.year) : new Date().getFullYear()
     };
 
-    /** What adds an Objective to a Goal, as a tile's "+" does. */
-    function objectiveAdd(themeId: string, goalId: string) {
-        const edit = (change: (objectives: StrategyObjectiveValue[]) => StrategyObjectiveValue[]) => setGoals(themeId, goalsFor(themeId).map(goal => goal.id === goalId ? { ...goal, objectives: change(goal.objectives) } : goal));
-        return {
-            label: "objective",
-            disabled,
-            onAdd: () => {
-                const added = createStrategyObjective();
-                edit(objectives => [...objectives, added]);
-                return added.id;
-            },
-            isBlank: (id: string) => {
-                const objective = goalsFor(themeId).find(goal => goal.id === goalId)?.objectives.find(entry => entry.id === id);
-                return !objective || (objective.name.trim() === "" && objective.description.trim() === "");
-            },
-            onRemove: (ids: string[]) => edit(objectives => objectives.filter(entry => !ids.includes(entry.id)))
-        };
-    }
-
-    /** One Objective alone, floating: its Goal's list holds just it. */
-    function objectiveCard(themeId: string, objectiveId: string): ReactNode {
-        const goals = goalsFor(themeId);
-        const goal = goals.find(entry => entry.objectives.some(objective => objective.id === objectiveId));
-        const objective = goal?.objectives.find(entry => entry.id === objectiveId);
-        if (!goal || !objective) {
-            return null;
-        }
-        return (
-            <div className="column-tile-content strategy-goal-card" style={{ "--strategy-theme-hue": pageHue } as CSSProperties}>
-                <ObjectiveList
-                    firstNumber={goal.objectives.indexOf(objective) + 1}
-                    objectives={[objective]}
-                    disabled={disabled}
-                    periodSet={periodSet}
-                    withinPeriod={withinPeriod}
-                    founders={founders}
-                    organisationCurrency={organisationCurrency}
-                    periodStartYear={goalProps.periodStartYear}
-                    openObjectiveId={objective.id}
-                    isOpen={isOpen}
-                    onFocusObjective={() => undefined}
-                    onChangeObjectives={(next) => setGoals(themeId, goals.map(entry => entry.id === goal.id ? { ...entry, objectives: entry.objectives.flatMap(candidate => candidate.id === objective.id ? next : [candidate]) } : entry))}
-                    onRemoveObjective={(id) => setGoals(themeId, goals.map(entry => entry.id === goal.id ? { ...entry, objectives: entry.objectives.filter(candidate => candidate.id !== id) } : entry))}
-                />
-            </div>
-        );
-    }
-
-    /** A Goal's own card: it alone, in the box a floating card or a Theme with one Goal draws. */
-    function goalCard(themeId: string, goalId: string): ReactNode {
-        const goals = goalsFor(themeId);
-        const goal = goals.find(entry => entry.id === goalId);
-        if (!goal) {
-            return null;
-        }
+    /** A Theme's Goals, in the Theme's dialog: one Goal at a time (groupView.ts), or all of them as tiles. There is no card of one Goal, one Objective or one Metric apart from this one. */
+    function goalsView(themeId: string): ReactNode {
         return (
             <div className="column-tile-content strategy-goal-card" style={{ "--strategy-theme-hue": pageHue } as CSSProperties}>
                 <GoalList
                     {...goalProps}
-                    firstNumber={goals.indexOf(goal) + 1}
-                    goals={[goal]}
-                    objectiveTiles={(entry) => (
-                        <>
-                        <span className="field-group-title business-foundation-subhead strategy-tiles-label">Objectives</span>
-                        <CardBoxes
-                            items={entry.objectives.map((objective, at): CardBox => ({ id: objective.id, number: at + 1, name: objective.name, unnamed: "Unnamed objective", own: true, lines: objective.initiatives.filter(item => item.trim() !== "").slice(0, 4), marks: objective.initiatives.filter(item => item.trim() !== "").slice(0, 4).map(() => ({ bullet: true })), content: () => null }))}
-                            label="Objectives"
-                            what="Objective"
-                            add={objectiveAdd(themeId, entry.id)}
-                            autoStart={false}
-                            addNext
-                        />
-                        </>
-                    )}
-                    single
-                    openGoalId={goal.id}
-                    openObjectiveId={focus.objectiveId}
-                    onFocusGoal={() => undefined}
-                    onFocusObjective={(_goalId, objectiveId) => setFocus({ themeId, goalId: goal.id, objectiveId })}
-                    onChangeGoals={(next) => setGoals(themeId, goals.flatMap(entry => entry.id === goal.id ? next : [entry]))}
-                    onRemoveGoal={() => setGoals(themeId, goals.length > 1 ? goals.filter(entry => entry.id !== goal.id) : [createStrategyGoal()])}
+                    groupId={themeId}
+                    goals={goalsFor(themeId)}
+                    onChangeGoals={(next) => setGoals(themeId, next)}
                 />
             </div>
         );
@@ -296,20 +222,6 @@ export default function StrategicPeriodEditor({
     const tiles: SectionTile[] = themes.map((theme, themeIndex): SectionTile => {
         const goals = goalsFor(theme.id);
         const named = goals.map(goal => goal.name.trim()).filter(name => name.length > 0).slice(0, 6);
-        const add = {
-            label: "goal",
-            disabled,
-            onAdd: () => {
-                const added = createStrategyGoal();
-                setGoals(theme.id, [...goalsFor(theme.id), added]);
-                return added.id;
-            },
-            isBlank: (id: string) => {
-                const goal = goalsFor(theme.id).find(entry => entry.id === id);
-                return !goal || (goal.name.trim() === "" && goal.description.trim() === "" && goal.objectives.every(objective => objective.name.trim() === ""));
-            },
-            onRemove: (ids: string[]) => setGoals(theme.id, goalsFor(theme.id).filter(entry => !ids.includes(entry.id)))
-        };
         return {
             id: theme.id,
             title: strategyThemeName(theme),
@@ -317,10 +229,6 @@ export default function StrategicPeriodEditor({
             rail: theme.id,
             items: named,
             itemMarks: named.map(() => ({ bullet: true })),
-            links: goals.filter(goal => goal.name.trim()).slice(0, 6).map(goal => ({ card: goal.id })),
-            holds: [...goals.map(goal => goal.id), ...goals.flatMap(goal => goal.objectives.map(objective => objective.id))],
-            add,
-            cardFor: (id: string) => goals.some(goal => goal.id === id) ? goalCard(theme.id, id) : objectiveCard(theme.id, id),
             content: () => (
                 <div className="column-tile-content strategy-theme-dialog" data-rail={theme.id} style={{ "--strategy-theme-hue": pageHue } as CSSProperties}>
                     {/* Where the Theme is written (the Foundation page): the card's head -- its number, its name cell and its x -- then its description, optional (a tick). */}
@@ -328,17 +236,18 @@ export default function StrategicPeriodEditor({
                         ? (
                             <div className="strategy-theme-fields">
                                 <div className="strategy-box-head strategy-theme-head">
-                                    <span className="strategy-box-number"><span className="list-number">{(themeIndex + 1) + "."}</span></span>
-                                    <input
-                                        type="text"
-                                        className="interview-input strategy-theme-name"
-                                        aria-label={"Strategic Theme " + (themeIndex + 1) + " name"}
-                                        placeholder="Theme name"
-                                        disabled={disabled}
-                                        value={theme.name}
-                                        onChange={(event) => onEditTheme(theme.id, { name: event.target.value })}
-                                    />
-                                    {onRemoveTheme && <BoxActions label={"Strategic Theme " + (themeIndex + 1)} disabled={disabled} onRemove={() => onRemoveTheme(theme.id)} />}
+                                    <NumberedName number={themeIndex + 1}>
+                                        <input
+                                            type="text"
+                                            className="interview-input strategy-theme-name"
+                                            aria-label={"Strategic Theme " + (themeIndex + 1) + " name"}
+                                            placeholder="Theme name"
+                                            disabled={disabled}
+                                            value={theme.name}
+                                            onChange={(event) => onEditTheme(theme.id, { name: event.target.value })}
+                                        />
+                                    </NumberedName>
+                                    <BoxActions label={"Strategic Theme " + (themeIndex + 1)} disabled={disabled} onAdd={onAddTheme} addLabel="Theme" onRemove={onRemoveTheme ? () => onRemoveTheme(theme.id) : undefined} />
                                 </div>
                                 <OptionalNote
                                     label="Description"
@@ -355,26 +264,7 @@ export default function StrategicPeriodEditor({
                                 <DialogHeading title={(themeIndex + 1) + ". " + strategyThemeName(theme)} info={theme.description.trim() ? [theme.description.trim()] : undefined} />
                             </div>
                         )}
-                    {goals.length > 1
-                        ? (
-                            <>
-                            <span className="field-group-title business-foundation-subhead strategy-tiles-label">Goals</span>
-                            <CardBoxes
-                                items={goals.map((goal, at): CardBox => ({ id: goal.id, number: at + 1, name: goal.name, unnamed: "Unnamed goal", own: true, content: () => null }))}
-                                label="Goals"
-                                what="Goal"
-                                add={add}
-                                autoStart={false}
-                                addNext
-                            />
-                            </>
-                        )
-                        : (
-                            <>
-                                {goalCard(theme.id, goals[0]?.id ?? "")}
-                                <button type="button" className="strategy-add-button" disabled={disabled} onClick={() => { add.onAdd(); }}>+ Add Goal</button>
-                            </>
-                        )}
+                    {goalsView(theme.id)}
                 </div>
             )
         };
@@ -386,8 +276,8 @@ export default function StrategicPeriodEditor({
         title: "Roadmap",
         wide: true,
         view: true,
-        items: themes.map(theme => strategyThemeName(theme)).filter(name => name.trim().length > 0).slice(0, 6),
-        itemMarks: themes.map(() => ({ bullet: true })),
+        // (Its name alone: the Roadmap is drawn in its dialog, and its tile has no list.)
+        items: [],
         content: () => <div className="column-tile-content">{roadmap()}</div>
     }] : [];
 
@@ -395,7 +285,7 @@ export default function StrategicPeriodEditor({
         return (
             <div className="strategy-embedded-tiles">
                 {/* (The tiles keep the hue of the dialog they stand in: the Foundation's.) */}
-                <SectionTiles small label="Roadmap and Strategic Themes" hue={workHue("discover")} tiles={only === "roadmap" ? roadmapTile : only === "themes" ? tiles : [...roadmapTile, ...tiles]} />
+                <SectionTiles small label="Roadmap and Strategic Themes" hue={workHue("discover")} tiles={only === "roadmap" ? roadmapTile : only === "themes" ? tiles : [...roadmapTile, ...tiles]} trailing={trailing} />
             </div>
         );
     }
@@ -432,8 +322,10 @@ export default function StrategicPeriodEditor({
 
 }
 
-/** A Theme's Goals, movable as a group. */
+/** A Theme's Goals: one at a time, brought forward by its arrows, its rail bullets or its tile (groupView.ts), movable as a group. */
 function GoalList({
+
+    groupId,
 
     goals,
 
@@ -449,39 +341,12 @@ function GoalList({
 
     periodStartYear,
 
-
-    openObjectiveId,
-
-    isOpen,
-
-    onFocusGoal,
-
-    onFocusObjective,
-
-    onChangeGoals,
-
-    single = false,
-
-    onRemoveGoal,
-
-    objectiveTiles,
-
-    firstNumber = 1
+    onChangeGoals
 
 }: {
 
-    /** The number of the first Goal drawn (a Goal alone in its card keeps its place in its Theme). */
-    firstNumber?: number;
-
-
-    /** With several Objectives a Goal shows them as tiles (each a floating card): this replaces the list and its add button. */
-    objectiveTiles?: (goal: StrategyGoalValue) => ReactNode;
-
-
-    /** One Goal alone, in its own card: no "+ Add Goal", and its x removes it through onRemoveGoal. */
-    single?: boolean;
-
-    onRemoveGoal?: () => void;
+    /** The Theme's id: what the group of Goals is held under. */
+    groupId: string;
 
     goals: StrategyGoalValue[];
 
@@ -496,19 +361,13 @@ function GoalList({
 
     periodStartYear: number;
 
-    openGoalId: string;
-
-    openObjectiveId: string;
-
-    isOpen: (chosen: string, id: string, index: number) => boolean;
-
-    onFocusGoal: (goalId: string) => void;
-
-    onFocusObjective: (goalId: string, objectiveId: string) => void;
-
     onChangeGoals: (goals: StrategyGoalValue[]) => void;
 
 }) {
+
+    const ids = goals.map(entry => entry.id);
+
+    const view = useGroupView(groupId, ids);
 
     const box = useMovableBox(
         (from, to) => onChangeGoals(reorder(goals, from, to)),
@@ -525,16 +384,43 @@ function GoalList({
         ));
     }
 
+    // The Goals as tiles: pressing one brings it forward, in its place under the Theme.
+    if (view.tiles) {
+        const items = goals.map((goal, at): CardBox => {
+            const lines = goal.objectives.map(objective => objective.name.trim()).filter(name => name !== "").slice(0, 4);
+            return { id: goal.id, number: at + 1, name: goal.name, unnamed: "Unnamed goal", own: true, lines, marks: lines.map(() => ({ bullet: true })), press: () => view.select(goal.id), content: () => null };
+        });
+        const add = {
+            label: "goal",
+            disabled,
+            onAdd: () => {
+                const added = createStrategyGoal();
+                onChangeGoals([...goals, added]);
+                return added.id;
+            },
+            onOpen: (id: string) => view.select(id),
+            isBlank: () => false,
+            onRemove: () => undefined
+        };
+        return (
+            <>
+                <span className="field-group-title business-foundation-subhead strategy-tiles-label">Goals</span>
+                <CardBoxes items={items} label="Goals" what="Goal" add={add} autoStart={false} addNext threeAcross />
+            </>
+        );
+    }
+
     return (
 
         <>
 
             {goals.map((goal, goalIndex) => {
 
-                const props = box.boxProps(goalIndex, goals.length, `Goal ${goalIndex + 1}`);
+                if (goalIndex !== view.index) {
+                    return null;
+                }
 
-                // (A card is always open: no fold arrow, no grip.)
-                const open = true;
+                const props = box.boxProps(goalIndex, goals.length, `Goal ${goalIndex + 1}`);
 
                 return (
 
@@ -542,28 +428,35 @@ function GoalList({
                         key={goal.id}
                         {...props}
                         data-anchor={goal.id}
+                        data-slide={view.direction}
                         className={`strategy-goal-box ${props.className}`}
                     >
 
                         <div className="strategy-box-head strategy-card-head-flat">
 
-                            <span className="strategy-card-head-label">
-                                <CardNumber number={firstNumber + goalIndex} kind="Goal" />
-                                <InfoNote label="Goal" points={[GOALS_HELP]} />
-                            </span>
+                            <NumberedName number={goalIndex + 1}>
+                                <CardNameInput
+                                    ariaLabel={`Goal ${goalIndex + 1} name`}
+                                    placeholder="Goal name"
+                                    disabled={disabled}
+                                    value={goal.name}
+                                    onChange={(name) => updateGoal(goalIndex, { name })}
+                                />
+                            </NumberedName>
 
-                            <CardNameInput
-                                ariaLabel={`Goal ${goalIndex + 1} name`}
-                                placeholder="Goal name"
-                                disabled={disabled}
-                                value={goal.name}
-                                onChange={(name) => updateGoal(goalIndex, { name })}
-                            />
+                            <HeadKind kind="Goal" help={GOALS_HELP} />
 
                             <BoxActions
                                 label={`Goal ${goalIndex + 1}`}
                                 disabled={disabled}
-                                onRemove={() => onRemoveGoal ? onRemoveGoal() : onChangeGoals(
+                                addLabel="Goal"
+                                onAdd={() => {
+                                    // A new Goal beside this one, brought forward as it is added.
+                                    const added = createStrategyGoal();
+                                    onChangeGoals([...goals, added]);
+                                    view.select(added.id);
+                                }}
+                                onRemove={() => onChangeGoals(
                                     goals.length > 1
                                         ? goals.filter((_goal, position) => position !== goalIndex)
                                         : [createStrategyGoal()]
@@ -572,74 +465,38 @@ function GoalList({
 
                         </div>
 
-                        {open && (
+                        <CardNav kind="Goal" ids={ids} names={goals.map(entry => entry.name)} index={view.index} onGo={view.select} onTiles={() => view.setTiles(true)} />
 
-                            <div className="strategy-box-body">
+                        <div className="strategy-box-body">
 
-                                <OptionalNote
-                                    label="Description"
-                                    className="interview-input strategy-note"
-                                    ariaLabel={`Goal ${goalIndex + 1} description`}
-                                    disabled={disabled}
-                                    value={goal.description}
-                                    onChange={(next) => updateGoal(goalIndex, { description: next })}
-                                />
+                            <OptionalNote
+                                label="Description"
+                                className="interview-input strategy-note"
+                                ariaLabel={`Goal ${goalIndex + 1} description`}
+                                disabled={disabled}
+                                value={goal.description}
+                                onChange={(next) => updateGoal(goalIndex, { description: next })}
+                            />
 
-                                {objectiveTiles && goal.objectives.length > 1 ? objectiveTiles(goal) : (<>
-                                <ObjectiveList
-                                    objectives={goal.objectives}
-                                    disabled={disabled}
-                                    periodSet={periodSet}
-                                    withinPeriod={withinPeriod}
-                                    founders={founders}
-                                    organisationCurrency={organisationCurrency}
-                                    periodStartYear={periodStartYear}
-                                    openObjectiveId={openObjectiveId}
-                                    isOpen={isOpen}
-                                    onFocusObjective={(objectiveId) => onFocusObjective(goal.id, objectiveId)}
-                                    onChangeObjectives={(objectives) => updateGoal(goalIndex, { objectives })}
-                                />
+                            <ObjectiveList
+                                groupId={goal.id}
+                                objectives={goal.objectives}
+                                disabled={disabled}
+                                periodSet={periodSet}
+                                withinPeriod={withinPeriod}
+                                founders={founders}
+                                organisationCurrency={organisationCurrency}
+                                periodStartYear={periodStartYear}
+                                onChangeObjectives={(objectives) => updateGoal(goalIndex, { objectives })}
+                            />
 
-                                <button
-                                    type="button"
-                                    className="strategy-add-button"
-                                    disabled={disabled}
-                                    onClick={() => {
-                                        // Opened as it is added: it is the one
-                                        // about to be filled in.
-                                        const added = createStrategyObjective();
-                                        updateGoal(goalIndex, { objectives: [...goal.objectives, added] });
-                                        onFocusObjective(goal.id, added.id);
-                                    }}
-                                >
-                                    + Add Objective
-                                </button>
-                                </>)}
-
-                            </div>
-
-                        )}
+                        </div>
 
                     </div>
 
                 );
 
             })}
-
-            {!single && (
-                <button
-                    type="button"
-                    className="strategy-add-button"
-                    disabled={disabled}
-                    onClick={() => {
-                        const added = createStrategyGoal();
-                        onChangeGoals([...goals, added]);
-                        onFocusGoal(added.id);
-                    }}
-                >
-                    + Add Goal
-                </button>
-            )}
 
         </>
 
@@ -649,6 +506,8 @@ function GoalList({
 
 /** A Goal's Objectives, movable as a group. */
 function ObjectiveList({
+
+    groupId,
 
     objectives,
 
@@ -664,23 +523,12 @@ function ObjectiveList({
 
     periodStartYear,
 
-
-
-
-    onChangeObjectives,
-
-    onRemoveObjective,
-
-    firstNumber = 1
+    onChangeObjectives
 
 }: {
 
-    /** The number of the first Objective drawn (an Objective alone in its card keeps its place in its Goal). */
-    firstNumber?: number;
-
-
-    /** One Objective alone, in its own card: its x takes it away (a list of one would put a blank in its place). */
-    onRemoveObjective?: (objectiveId: string) => void;
+    /** The Goal's id: what the group of Objectives is held under. */
+    groupId: string;
 
     objectives: StrategyObjectiveValue[];
 
@@ -695,25 +543,24 @@ function ObjectiveList({
 
     periodStartYear: number;
 
-    openObjectiveId: string;
-
-    isOpen: (chosen: string, id: string, index: number) => boolean;
-
-    onFocusObjective: (objectiveId: string) => void;
-
     onChangeObjectives: (objectives: StrategyObjectiveValue[]) => void;
 
 }) {
 
+    // The Objectives whose Initiatives are folded shut (the fold arrow before the title).
+    const [foldedInitiatives, setFoldedInitiatives] = useState<readonly string[]>([]);
+
+    const ids = objectives.map(entry => entry.id);
+
+    const view = useGroupView(groupId, ids);
+
     const box = useMovableBox(
         (from, to) => onChangeObjectives(reorder(objectives, from, to)),
-        (index) => onRemoveObjective
-            ? onRemoveObjective(objectives[index].id)
-            : onChangeObjectives(
-                objectives.length > 1
-                    ? objectives.filter((_objective, position) => position !== index)
-                    : [createStrategyObjective()]
-            )
+        (index) => onChangeObjectives(
+            objectives.length > 1
+                ? objectives.filter((_objective, position) => position !== index)
+                : [createStrategyObjective()]
+        )
     );
 
 
@@ -746,11 +593,41 @@ function ObjectiveList({
 
     }
 
+    // The Objectives as tiles: pressing one brings it forward, in its place under the Goal.
+    if (view.tiles) {
+        const items = objectives.map((objective, at): CardBox => {
+            const lines = objective.initiatives.filter(item => item.trim() !== "").slice(0, 4);
+            return { id: objective.id, number: at + 1, name: objective.name, unnamed: "Unnamed objective", own: true, lines, marks: lines.map(() => ({ bullet: true })), press: () => view.select(objective.id), content: () => null };
+        });
+        const add = {
+            label: "objective",
+            disabled,
+            onAdd: () => {
+                const added = createStrategyObjective();
+                onChangeObjectives([...objectives, added]);
+                return added.id;
+            },
+            onOpen: (id: string) => view.select(id),
+            isBlank: () => false,
+            onRemove: () => undefined
+        };
+        return (
+            <>
+                <span className="field-group-title business-foundation-subhead strategy-tiles-label">Objectives</span>
+                <CardBoxes items={items} label="Objectives" what="Objective" add={add} autoStart={false} addNext threeAcross />
+            </>
+        );
+    }
+
     return (
 
         <>
 
             {objectives.map((objective, objectiveIndex) => {
+
+                if (objectiveIndex !== view.index) {
+                    return null;
+                }
 
                 const props = box.boxProps(
                     objectiveIndex,
@@ -766,37 +643,42 @@ function ObjectiveList({
                         key={objective.id}
                         {...props}
                         data-anchor={objective.id}
+                        data-slide={view.direction}
                         className={`strategy-objective-box ${props.className}`}
                     >
 
                         <div className="strategy-box-head strategy-card-head-flat">
 
-                            <span className="strategy-card-head-label">
-                                <CardNumber number={firstNumber + objectiveIndex} kind="Objective" />
-                                <InfoNote label="Objective" points={[OBJECTIVES_HELP]} />
-                            </span>
+                            <NumberedName number={objectiveIndex + 1}>
+                                <CardNameInput
+                                    ariaLabel={`Objective ${objectiveIndex + 1} name`}
+                                    placeholder="Objective name"
+                                    disabled={disabled}
+                                    value={objective.name}
+                                    onChange={(name) => updateObjective(objectiveIndex, { name })}
+                                />
+                            </NumberedName>
 
-                            <CardNameInput
-                                ariaLabel={`Objective ${objectiveIndex + 1} name`}
-                                placeholder="Objective name"
-                                disabled={disabled}
-                                value={objective.name}
-                                onChange={(name) => updateObjective(objectiveIndex, { name })}
-                            />
+                            <HeadKind kind="Objective" help={OBJECTIVES_HELP} />
 
                             <BoxActions
                                 label={`Objective ${objectiveIndex + 1}`}
                                 disabled={disabled}
-                                // Always offered, not only once there
-                                // are two to sort: a control that
-                                // comes and goes is one the user has
-                                // to look for.
-                                onSort={sortByDate}
-                                sortOptions={[
+                                addLabel="Objective"
+                                onAdd={() => {
+                                    // A new Objective beside this one, brought forward as it is added.
+                                    const added = createStrategyObjective();
+                                    onChangeObjectives([...objectives, added]);
+                                    view.select(added.id);
+                                }}
+                                // The date-sort funnel is hidden for now:
+                                // set SHOW_OBJECTIVE_SORT to bring it back.
+                                onSort={SHOW_OBJECTIVE_SORT ? sortByDate : undefined}
+                                sortOptions={SHOW_OBJECTIVE_SORT ? [
                                     { id: "sooner", label: "Soonest first" },
                                     { id: "later", label: "Latest first" }
-                                ]}
-                                onRemove={() => onRemoveObjective ? onRemoveObjective(objective.id) : onChangeObjectives(
+                                ] : undefined}
+                                onRemove={() => onChangeObjectives(
                                     objectives.length > 1
                                         ? objectives.filter((_entry, index) => index !== objectiveIndex)
                                         : [createStrategyObjective()]
@@ -804,6 +686,8 @@ function ObjectiveList({
                             />
 
                         </div>
+
+                        <CardNav kind="Objective" ids={ids} names={objectives.map(entry => entry.name)} index={view.index} onGo={view.select} onTiles={() => view.setTiles(true)} />
 
                         {open && (
 
@@ -936,10 +820,16 @@ function ObjectiveList({
                                     <div className="strategy-metric-box strategy-initiatives-box">
 
                                         <div className="strategy-box-head">
+                                            <FoldArrow
+                                                open={!foldedInitiatives.includes(objective.id)}
+                                                label={`Objective ${objectiveIndex + 1} initiatives`}
+                                                onToggle={() => setFoldedInitiatives(current => current.includes(objective.id) ? current.filter(id => id !== objective.id) : [...current, objective.id])}
+                                            />
                                             <span className="strategy-box-number">Initiatives</span>
                                             <InfoNote label="Initiatives" points={[INITIATIVES_HELP]} />
                                         </div>
 
+                                        {!foldedInitiatives.includes(objective.id) && (
                                         <NumberedListInput
                                             label={`Objective ${objectiveIndex + 1} initiative`}
                                             items={objective.initiatives}
@@ -949,10 +839,12 @@ function ObjectiveList({
                                                 objectiveIndex, { initiatives }
                                             )}
                                         />
+                                        )}
 
                                     </div>
 
                                     <MetricList
+                                        groupId={objective.id}
                                         objective={objective}
                                         organisationCurrency={organisationCurrency}
                                         objectiveNumber={objectiveIndex + 1}
@@ -991,9 +883,14 @@ function MetricList({
 
     disabled,
 
-    onChangeMetrics
+    onChangeMetrics,
+
+    groupId
 
 }: {
+
+    /** The Objective's id: what the group of Metrics is held under. */
+    groupId: string;
 
     objective: StrategyObjectiveValue;
 
@@ -1009,13 +906,20 @@ function MetricList({
 
     const metrics = objective.metrics;
 
+    const ids = metrics.map(entry => entry.id);
+
+    const view = useGroupView(groupId, ids);
+
+    // The last Metric of an Objective is made blank again, not taken away.
+    const removeAt = (index: number) => onChangeMetrics(
+        metrics.length > 1
+            ? metrics.filter((_metric, position) => position !== index)
+            : [createStrategyMetric()]
+    );
+
     const box = useMovableBox(
         (from, to) => onChangeMetrics(reorder(metrics, from, to)),
-        (index) => onChangeMetrics(
-            metrics.length > 1
-                ? metrics.filter((_metric, position) => position !== index)
-                : [createStrategyMetric()]
-        )
+        removeAt
     );
 
     function updateMetric(index: number, patch: Partial<StrategyMetricValue>) {
@@ -1024,11 +928,47 @@ function MetricList({
         ));
     }
 
+    // The Metrics as tiles: pressing one brings it forward, in its place under the Objective.
+    if (view.tiles) {
+        const items = metrics.map((metric, at): CardBox => {
+            // The Objective's time period first, the Baseline and the Target under it.
+            const period = isRangeSet(objective.period) ? formatRangeAbbrev(objective.period) : "";
+            const lines = [
+                period,
+                metric.baseline.trim() !== "" ? "Baseline: " + metric.baseline.trim() : "",
+                metric.target.trim() !== "" ? "Target: " + metric.target.trim() : ""
+            ].filter(line => line !== "");
+            return { id: metric.id, number: at + 1, name: metric.name, unnamed: "Unnamed metric", own: true, lines, marks: lines.map(() => ({ bullet: true })), press: () => view.select(metric.id), content: () => null };
+        });
+        const add = {
+            label: "metric",
+            disabled,
+            onAdd: () => {
+                const added = createStrategyMetric();
+                onChangeMetrics([...metrics, added]);
+                return added.id;
+            },
+            onOpen: (id: string) => view.select(id),
+            isBlank: () => false,
+            onRemove: () => undefined
+        };
+        return (
+            <div className="strategy-subsection">
+                <span className="field-group-title business-foundation-subhead strategy-tiles-label">Metrics</span>
+                <CardBoxes items={items} label="Metrics" what="Metric" add={add} autoStart={false} addNext threeAcross />
+            </div>
+        );
+    }
+
     return (
 
         <div className="strategy-subsection">
 
             {metrics.map((metric, metricIndex) => {
+
+                if (metricIndex !== view.index) {
+                    return null;
+                }
 
                 const props = box.boxProps(metricIndex, metrics.length, `Metric ${metricIndex + 1}`);
 
@@ -1038,33 +978,40 @@ function MetricList({
                         key={metric.id}
                         {...props}
                         data-anchor={metric.id}
+                        data-slide={view.direction}
                         className={`strategy-metric-box ${props.className}`}
                     >
 
                         <div className="strategy-box-head">
 
-                            <CardNumber number={metricIndex + 1} kind="Metric" />
-                            <InfoNote label="Metric" points={[METRICS_HELP]} />
+                            <NumberedName number={metricIndex + 1}>
+                                <CardNameInput
+                                    ariaLabel={`Objective ${objectiveNumber} metric ${metricIndex + 1} name`}
+                                    placeholder="Metric name"
+                                    disabled={disabled}
+                                    value={metric.name}
+                                    onChange={(name) => updateMetric(metricIndex, { name })}
+                                />
+                            </NumberedName>
 
-                            <CardNameInput
-                                ariaLabel={`Objective ${objectiveNumber} metric ${metricIndex + 1} name`}
-                                placeholder="Metric name"
-                                disabled={disabled}
-                                value={metric.name}
-                                onChange={(name) => updateMetric(metricIndex, { name })}
-                            />
+                            <HeadKind kind="Metric" help={METRICS_HELP} />
 
                             <BoxActions
                                 label={`Metric ${metricIndex + 1}`}
                                 disabled={disabled}
-                                onRemove={() => onChangeMetrics(
-                                    metrics.length > 1
-                                        ? metrics.filter((_entry, index) => index !== metricIndex)
-                                        : [createStrategyMetric()]
-                                )}
+                                addLabel="Metric"
+                                onAdd={() => {
+                                    // A new Metric beside this one, brought forward as it is added.
+                                    const added = createStrategyMetric();
+                                    onChangeMetrics([...metrics, added]);
+                                    view.select(added.id);
+                                }}
+                                onRemove={() => removeAt(metricIndex)}
                             />
 
                         </div>
+
+                        <CardNav kind="Metric" ids={ids} names={metrics.map(entry => entry.name)} index={view.index} onGo={view.select} onTiles={() => view.setTiles(true)} />
 
                         <OptionalNote
                             label="Description"
@@ -1089,7 +1036,7 @@ function MetricList({
 
                             <div className="strategy-metric-field">
                                 <span className="field-label strategy-field-label strategy-field-label-wrap">
-                                    Measurement Frequency
+                                    Frequency
                                 </span>
                                 <OptionPicker
                                     label={`Metric ${metricIndex + 1} measurement frequency`}
@@ -1193,15 +1140,6 @@ function MetricList({
                 );
 
             })}
-
-            <button
-                type="button"
-                className="strategy-add-button"
-                disabled={disabled}
-                onClick={() => onChangeMetrics([...metrics, createStrategyMetric()])}
-            >
-                + Add Metric
-            </button>
 
         </div>
 
