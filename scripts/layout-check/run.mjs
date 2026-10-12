@@ -187,7 +187,8 @@ async function removeLook(page, element) {
     await page.mouse.move(1, 1);
     await page.waitForTimeout(250);
     const rest = await read();
-    await element.hover({ timeout: 800 });
+    await element.scrollIntoViewIfNeeded({ timeout: 2000 });
+    await element.hover({ timeout: 2000, force: true });
     await page.waitForTimeout(300);
     const hover = await read();
     await page.mouse.move(1, 1);
@@ -232,6 +233,125 @@ async function checkRemoveLook(page, where, reference, sample = 12) {
     return failures;
 }
 
+/**
+ * THE REAL MOUSE ON THE LIST ITEMS OF THE PAGE TILES (3. Infrastructure & Capability; docs/ai/layout-rules.md, "The page tile's slot"): every
+ * list item of every tile of a group's FIRST ROW, with the page scrolled to its top, is pressed with real mouse events (move, down, up -- not a
+ * scripted click). A tile grows to 150% under the pointer; the press moves the focus; the old code measured the tile again then (the tile already
+ * grown, its transition still on its first frame), took another origin and slid the tile under the pointer between the press and the release, so
+ * the click never landed -- worst on the tiles whose origin is moved to keep them inside the card (the first row of Offering's Capability in a low
+ * window, Infrastructure's Activities near the foot of its card). Each press must: not move the item under the pointer (0.5px), open its card or
+ * dialog, and -- on Escape -- return to the default page: no tile grown, no focus ring on the opener (a mouse opened it). One opened with the keyboard
+ * keeps its ring, and still no tile grown.
+ */
+export async function checkRealMouse(page, where) {
+    const failures = [];
+    const fail = (rule, detail) => failures.push({ page: where, rule, detail });
+    const count = await page.locator(".section-tile-slot").count();
+    const page3 = () => page.evaluate(() => {
+        const grown = [...document.querySelectorAll(".section-tile-slot")].filter(slot => getComputedStyle(slot).transform !== "none").map(slot => slot.querySelector(".section-tile-title").textContent);
+        const active = document.activeElement;
+        return {
+            grown,
+            open: !!document.querySelector(".floating-card-host, .section-tile-dialog"),
+            ring: active && active !== document.body ? { tag: active.tagName, text: (active.textContent || "").slice(0, 30), visible: active.matches(":focus-visible"), outline: getComputedStyle(active).outlineStyle }  : null
+        };
+    });
+    const close = async () => {
+        for (let round = 0; round < 4 && (await page3()).open; round++) {
+            await page.keyboard.press("Escape");
+            await page.waitForTimeout(250);
+        }
+    };
+    let keyboardDone = false;
+    for (let at = 0; at < count; at++) {
+        const info = await page.locator(".section-tile-slot").nth(at).evaluate(node => ({ title: node.querySelector(".section-tile-title").textContent, row: node.getAttribute("data-row"), links: node.querySelectorAll("button.section-tile-link").length }));
+        if (info.row !== "0") {
+            continue;
+        }
+        for (let k = 0; k < info.links; k++) {
+            await close();
+            await page.mouse.move(1, 1);
+            await page.evaluate(() => document.querySelectorAll(".card-scroll").forEach(body => { body.scrollTop = 0; }));
+            await page.waitForTimeout(200);
+            const link = page.locator(".section-tile-slot").nth(at).locator("button.section-tile-link").nth(k);
+            const name = info.title + " > item " + (k + 1);
+            let box = await link.boundingBox();
+            if (!box) {
+                fail("a list item of a first-row tile has a box at the top of the page", { item: name });
+                continue;
+            }
+            // (An item below the foot of its card's scrolling body at the top of the page is out of reach until the card is scrolled: not tried.)
+            const inView = await link.evaluate(node => {
+                const body = node.closest(".card-scroll");
+                const at = node.getBoundingClientRect();
+                const room = body ? body.getBoundingClientRect() : { top: 0, bottom: window.innerHeight };
+                return at.top + at.height / 2 > room.top && at.top + at.height / 2 < room.bottom;
+            });
+            if (!inView) {
+                continue;
+            }
+            await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+            await page.waitForTimeout(450);
+            box = await link.boundingBox();
+            if (!box) {
+                fail("a list item of a first-row tile stays in view under the pointer", { item: name });
+                continue;
+            }
+            await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+            const before = await link.boundingBox();
+            await page.mouse.down();
+            const during = await link.boundingBox();
+            await page.mouse.up();
+            await page.waitForTimeout(350);
+            if (before && during && Math.abs(before.x - during.x) + Math.abs(before.y - during.y) > 0.5) {
+                fail("a press on a list item does not move it from under the pointer", { item: name, before: [before.x, before.y], during: [during.x, during.y] });
+            }
+            const opened = await page3();
+            if (!opened.open) {
+                fail("a real click on a list item of a first-row tile opens its card", { item: name });
+                continue;
+            }
+            await page.keyboard.press("Escape");
+            await page.waitForTimeout(250);
+            await close();
+            const after = await page3();
+            if (after.grown.length > 0) {
+                fail("closing returns to the default page: no tile stays grown", { item: name, grown: after.grown });
+            }
+            if (after.ring && after.ring.visible && after.ring.outline !== "none") {
+                fail("closing a mouse-opened card draws no ring on its opener", { item: name, ring: after.ring });
+            }
+            // Once: opened with the keyboard (Enter), the opener keeps its ring and no tile grows.
+            if (!keyboardDone) {
+                keyboardDone = true;
+                await page.mouse.move(1, 1);
+                await link.focus();
+                await page.keyboard.press("Shift+Tab");
+                await page.keyboard.press("Tab");
+                await page.keyboard.press("Enter");
+                await page.waitForTimeout(350);
+                if (!(await page3()).open) {
+                    fail("Enter on a list item opens its card", { item: name });
+                } else {
+                    await page.keyboard.press("Escape");
+                    await page.waitForTimeout(300);
+                    await close();
+                    const back = await page3();
+                    if (back.grown.length > 0) {
+                        fail("closing a keyboard-opened card grows no tile", { item: name, grown: back.grown });
+                    }
+                    if (!back.ring || !back.ring.visible || back.ring.outline === "none") {
+                        fail("closing a keyboard-opened card leaves the ring on its opener", { item: name, ring: back.ring });
+                    }
+                }
+            }
+        }
+    }
+    await close();
+    await page.mouse.move(1, 1);
+    return failures;
+}
+
 /** The whole check: a list of failures (empty is a pass). */
 export async function runLayoutCheck(page, { base = "http://localhost:1420", probe, pages = PAGES, widths = WIDTHS, themes = THEMES } = {}) {
     const failures = [];
@@ -260,8 +380,19 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
                 for (const width of widths) {
                     await page.setViewportSize({ width, height: 1000 });
                     await page.waitForTimeout(300);
-                    const found = await page.evaluate(spec => window.__layoutProbe.check(spec), SPEC);
+                    // The page as drawn, then every section tile's dialog opened in turn
+                    // (a page with no tiles is just the page).
+                    const found = await page.evaluate(spec => window.__layoutProbe.checkWithTiles(spec), SPEC);
                     failures.push(...found.map(failure => ({ page: system + " › " + name, theme, width, ...failure })));
+                }
+            }
+            // The real mouse on the list items of the first-row tiles (3. Infrastructure & Capability), in a tall and a low window.
+            if (/Infrastructure/.test(name)) {
+                await page.evaluate(value => document.documentElement.setAttribute("data-theme", value), "light");
+                for (const [width, height] of [[1366, 1000], [1366, 700], [1920, 1000]]) {
+                    await page.setViewportSize({ width, height });
+                    await page.waitForTimeout(300);
+                    failures.push(...(await checkRealMouse(page, system + " › " + name + " (" + width + " x " + height + ")")));
                 }
             }
         }
@@ -272,14 +403,21 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
 // As a script: node scripts/layout-check/run.mjs
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     const { chromium } = await import("playwright");
-    const browser = await chromium.launch();
+    const browser = await chromium.launch(process.env.PW_CHANNEL ? { channel: process.env.PW_CHANNEL } : {});
     const page = await browser.newPage();
     const probe = readFileSync(new URL("./layout-probe.js", import.meta.url), "utf8");
     const base = process.env.BASE_URL ?? "http://localhost:1420";
     const failures = [];
-    for (const example of ["lumen-and-loom-studio.json", "quillfield-automation-llc.json"]) {
+    // A quick run: CHECK_PAGES="Customer Engagement,Roadmap" CHECK_WIDTHS=1920 CHECK_THEMES=light CHECK_EXAMPLES=lumen node scripts/layout-check/run.mjs
+    const only = (name) => process.env[name]?.split(",").map(entry => entry.trim()).filter(Boolean);
+    const pageFilter = only("CHECK_PAGES");
+    const pages = pageFilter ? PAGES.map(([system, names]) => [system, names.filter(name => pageFilter.some(entry => name.includes(entry)))]).filter(([, names]) => names.length > 0) : PAGES;
+    const widths = only("CHECK_WIDTHS")?.map(Number) ?? WIDTHS;
+    const themes = only("CHECK_THEMES") ?? THEMES;
+    const exampleFilter = only("CHECK_EXAMPLES");
+    for (const example of ["lumen-and-loom-studio.json", "quillfield-automation-llc.json"].filter(name => !exampleFilter || exampleFilter.some(entry => name.includes(entry)))) {
         await seedExample(page, base, readFileSync(new URL("../../docs/examples/" + example, import.meta.url), "utf8"));
-        failures.push(...(await runLayoutCheck(page, { base, probe })).map(failure => ({ example, ...failure })));
+        failures.push(...(await runLayoutCheck(page, { base, probe, pages, widths, themes })).map(failure => ({ example, ...failure })));
     }
     await browser.close();
     failures.forEach(failure => console.log(JSON.stringify(failure)));
