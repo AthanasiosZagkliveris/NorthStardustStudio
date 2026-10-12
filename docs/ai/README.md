@@ -27,3 +27,7 @@ Nothing in this folder duplicates another file's knowledge. `glossary.md` points
 ## Relationship to the AI Skills library
 
 Skills (delivered separately, outside this folder) reference specific files here by path — for example, `framework-content-author` reads the DSL grammar and conventions references before authoring content; `regression-verifier` reads the toolchain and verification playbooks. This folder is the single source of truth those Skills consume; a Skill should never carry a copy of anything that belongs here.
+
+## The app's own map
+
+- **`app-guide.md`**: where each part of the app is, what it is for and what it holds (systems, pages, Global Settings, the Calendar, the tile and card pattern), with the code locations. Start here to find your way in the product.

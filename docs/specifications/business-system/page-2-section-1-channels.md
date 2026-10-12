@@ -154,15 +154,23 @@ The category should appear once, with its channels nested underneath.
 
 Provide a conservative predefined list of channel categories.
 
-Use:
+Use, in this fixed order (as built):
 
 1. Social Media
 2. Community
-3. Marketplace
-4. Website
-5. Email
-6. File Delivery / Client Portal
-7. Direct Payment
+3. Website
+4. Marketplace
+5. In Person
+6. Email
+7. Online / Live
+8. Direct Payment
+9. File Delivery
+10. Physical Delivery
+11. Retail & Wholesale (Stockist, Distributor, Wholesale Account, Reseller, Concession / Shop-in-shop; stages Discover, Evaluation, Purchase, Delivery)
+12. Referral & Affiliates (Referral Partner, Affiliate, Influencer / Ambassador, Customer Referral; stages Discover, Evaluation, Purchase)
+13. Other
+
+Each category lists its own channels as presets (for example Social Media: Instagram, Facebook, LinkedIn, YouTube, TikTok, Pinterest, X) and ends in **Other**, which takes a name typed by the user. The earlier category "File Delivery / Client Portal" is now **File Delivery**.
 
 Do not allow unlimited custom categories unless explicitly required by the implementation.
 
@@ -188,7 +196,7 @@ Social Media
 Marketplace
     ↳ Gumroad
 
-File Delivery / Client Portal
+File Delivery
     ↳ WeTransfer
     ↳ Client Portal
 
@@ -205,8 +213,10 @@ The same category may contain multiple specific channels.
 
 Each channel should contain the following fields:
 
-| Channel | Links | Offerings | Journey Stage | Action |
-|---|---|---|---|---|
+| Channel | Offerings | Journey Stage | Action |
+|---|---|---|---|
+
+As built, the table has these four columns. A channel's **Links** (optional, a list of destinations or access points, placeholder "Links (optional)") sit under its name in the Channel cell, not in a column of their own. A channel has a × to remove it (not on the last channel).
 
 Do not include a separate **Purpose / Description** column.
 
@@ -268,6 +278,8 @@ Allow the user to associate one or more Offerings with the channel.
 
 An Offering may be connected to multiple channels.
 
+A channel can never be without Offerings: a new channel carries "All Offerings" by default, the last remaining Offering cannot be removed (it can only be changed to another), and a saved channel with none is read as "All Offerings".
+
 Examples:
 
 ```text
@@ -294,7 +306,7 @@ A channel may support more than one Journey Stage.
 
 Use these five stages:
 
-1. **Discovery**
+1. **Discover** (labelled "Discover" in the app; the stored id stays `discovery`)
 2. **Evaluation**
 3. **Purchase**
 4. **Delivery**
@@ -423,6 +435,24 @@ Evaluation
 ```
 
 Do not impose unlimited complexity. Keep the interaction simple and suitable for small organisations.
+
+### Action order numbers, and sharing an action by its number
+
+Every distinct Action of a Segment has a **total order number** ("#12"): the Actions are counted in the order the table is read (Channel Category, channel, Journey Stage, line), each Action taking the next number the first time it appears. An Action shared by several rows (the same Action, placed in more than one channel or stage) has **one** number, shown on every row it stands in, so the numbers run 1..N without gaps. Folding or isolating rows renumbers nothing.
+
+An Action can be shared by typing "#" and its number in an Action line: the Action with that number is offered as the first (only) suggestion and, chosen with Enter or a click, is placed on that line — the same Action, not a copy — exactly as when it is picked from the suggestions of the Segment's other Actions. A number that refers to nothing (or to an Action the row already holds) offers nothing and the text stays as typed. An Action line left empty disappears when focus leaves it, unless it is the only line of its row (which keeps its one empty line to type the first Action in).
+
+### Linking a resource to an action of any channel
+
+A resource's "# Link an action" finds an Action of the Segment's **whole** Customer Channel table, not only of its own channel: type its number ("12" or "#12") or words from it, or choose "Link an action" and click any Action line of that Segment's table. A resource linked to an Action that stands only in another channel stays on the channel it was made on and also shows in the cell of every channel whose rows hold that Action, marked "via shared action": "shared action" is a link that goes to the Action's line (one link per Action, "#3 #7", when it is shared through several). The Channel resources table lists those channels under the resource's home channel.
+
+### The isolated mode
+
+A click on the link or tag symbol of an Action isolates the rows involved (the others collapse away, and a shared Action shows every resource card linked to it in every channel kept). While a Segment is isolated nothing can be created in its table: every Add button is hidden, Enter in an Action line opens no new line, "Link an action" is inert, and the Links tick of a channel cannot open a new box; text already there stays editable. The isolation ends with a second click on the symbol, Escape, the note in the section's title row, or a click on empty space (anywhere that is not a control or a cell's content).
+
+### Column widths
+
+The Journey Stage column is wide enough for its "+ Add Journey Stage" button on one line, and the Channel column for the longest Channel Category ("Physical Delivery") and channel name, whether or not a category is open.
 
 ---
 
@@ -573,3 +603,18 @@ One Offering → Many Channels
 ```
 
 The interface should make these relationships easy to manage without exposing unnecessary technical complexity to the user.
+
+## Channel resources table
+
+Under the Customer Channel table, a collapsible "Channel resources" subsection (open by default, hidden while the Segment has no channel resource) lists every resource of the Segment in one read-only, auto-generated table. Its columns are Resource (a button to its card on 3. Infrastructure & Capability, in its colour), Cost (price x quantity and how often), Behaviour (Fixed for one-time, monthly and annual costs, Variable for per-unit, per-order and per-project ones, as the Financial Foundation reads them), Channel (the channel it was made on, first, then each other channel it shows in through an action), Offerings (the names of the Offerings the resource's card links, and "—" when it links none or is an Infrastructure or Workspace card, which has no Offerings field; never "All Offerings"), Journey stages and Actions (by total order number, each a button to that action's line). A cell of Channel, Offerings or Journey stages with two or more values lists them one under the other as bullets, all styled alike; a single value is plain text indented to where the bullets' text starts, so the text of a column begins at one x. The Actions cell has no bullets: its buttons sit side by side and wrap between buttons, never inside one. A footer line adds up the rows shown (Fixed per month, Variable by what it varies with, One-time); it is a summary of those rows, not a forecast, and nothing is stored or counted from it: each resource is still counted once, from its card.
+
+## Channel expenses (as built, batches G and H)
+
+Each channel cell offers two ways to record what the channel costs. Both write Resource cards on Page 3 (the card is the only place the price lives), so nothing is entered twice.
+
+- **+ Add expenses** creates one blank Resource card, linked to the channel. Blank cards stay in the Channel tile on Page 3.
+- **Typical costs for this channel** creates, with one press, the set of template cards for that kind of channel (templates T1 to T10 and T12 of the card-structure document), each with its price left blank. A template the company already has is offered as **Link existing: <name>** or **Add new**; a linked card is flagged `existing` and is kept when the channel or the link is removed. Template-made cards live in their own group tile on Page 3, in teal, with the card's name as the link back to the channel and no link symbol.
+
+Removing a channel removes the template cards it made that nothing else uses, and keeps any card the user linked as existing.
+
+The cost of a channel is read by Page 4 from its cards: payment-processor and marketplace fees are calculated lines (Channel Fee Table by card name, rates from Global Settings), and royalties, affiliate and agent commissions are Percentage billing lines whose rate is the card's override, then its price, then the Global Settings default.

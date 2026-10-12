@@ -195,11 +195,11 @@ A cost record should contain, where applicable:
 | Offering | Relevant Offering, if applicable |
 | Description | Optional additional information |
 
-Provide:
+**As built, there is no "+ Add Cost".** The Costs section is generated only: every cost is read from the record that owns it (a Page 3 card, a Legal Entity expense, a founder's salary), shows its source with a link back, and is edited there. A cost with no home is added as a card on Page 3 (or an expense on the Legal Entity), never typed on this page. Only the classification of a read cost (group, behaviour, offering, and from the opening on its cost nature) is stored here.
 
-**+ Add Cost**
+A Workspace Deposit recorded on Page 3 (Infrastructure → Workspace, status Costs) is gathered here as a **Workspace deposit** line: one-time, Establishment, Treat As Deposit (an asset, never a cost, returned later), paid in the plan's first month. It is entered once, on Page 3, and is not added again here.
 
-for costs that cannot be derived from another system.
+A **possible duplicate** is warned of ("Also recorded as ... Counted twice?") only when ALL hold: the names are similar (equal, one the other plus whole words, or at least 60% of their significant words shared); the amount (after quantity), currency and frequency are the same; and the two lines come from the same source (the same record, the same page and section, or, across pages, equal names). The same name with a different price is never a duplicate.
 
 ---
 
@@ -238,6 +238,8 @@ Support:
 - Description / Conditions
 
 Funding needs may be one-time or distributed across periods.
+
+**As built, Funding Needs are calculated, not typed** (there is no "+ Add Funding Need"): Establishment, Initial Operating Requirement, Offering Development / Launch and Other are derived from the costs and their timing. With an Opening Date, the **Establishment** need is the **cash to raise before the opening** (see "Cost nature, funds and scheduling" below), and the budget lines it counts are not counted again as running costs.
 
 Example:
 
@@ -733,9 +735,8 @@ Use the existing North Stardust visual language and progressive structure.
 │                                                             │
 │ [ Establishment ] [ Operating ] [ Offering ] [ Other ]      │
 │                                                             │
-│ Cost | Source | Group | Amount | Frequency | Behaviour        │
-│                                                             │
-│ [+ ADD COST]                                                │
+│ Cost | Source | Group | Amount (CUR) | Frequency | When |      │
+│ Cost nature | Behaviour | Offering   (generated, no Add)     │
 └─────────────────────────────────────────────────────────────┘
 
                               ↓
@@ -743,9 +744,8 @@ Use the existing North Stardust visual language and progressive structure.
 ┌─────────────────────────────────────────────────────────────┐
 │ 2. FUNDING NEED                                           i │
 │                                                             │
-│ Purpose | Amount | Timing | Linked Costs                     │
-│                                                             │
-│ [+ ADD FUNDING NEED]                                        │
+│ Purpose | Amount | Timing | Linked Costs   (calculated)      │
+│ Funds: budget, contingency, cash to raise                    │
 │                                                             │
 │ Total Funding Need                                         │
 └─────────────────────────────────────────────────────────────┘
@@ -818,3 +818,45 @@ to:
 
 > "I know what the organisation costs, what needs to be financed, when the money is required, where the financing will come from, what obligations it creates, whether there is a funding gap, and how long the organisation can operate under the current financial assumptions."
 
+
+---
+
+# 30. Cost nature, funds and scheduling (as built, batches F to I)
+
+## 30.1 Opening Date and Global Settings
+
+- **Opening Date** is a field on this page next to Plan Start. Until it is given, the funds block asks for it; with it, costs are split into what falls before and from the opening.
+- **Global Settings** are kept per organisation on `/settings` (the header's Settings button), never on this page: opening date default, channel fee table (Stripe 2% + 0.25 + 0.5, PayPal 3.5% + 0.35 + 1, Wolt/Amazon 25%), royalty 10%, affiliate 15%, agent 10%, capitalisation limit, useful life by six asset groups, target reserve months (3), Startup Contingency rate (10%), Operational Contingency rate (4%), insurance per employee, income tax rate.
+
+## 30.2 Cost nature (rules C1 to C16)
+
+Each cost line has a nature, shown in its own column (header "Cost nature", with an i): **Startup**, **Pre-Operating**, **CapEx**, **OpEx**, **COGS** or **Inventory**. Before the opening the nature follows the rules (a dated cost before the opening is in the budget; an asset above the capitalisation limit, tested on one unit with its bundled services, is CapEx). From the opening on, the row has a dropdown to choose CapEx, OpEx or COGS, or "Set by the rules"; the months before the opening stay in the budget. The Amount column header carries the currency, "Amount (EUR)", and the rows hold the figures alone.
+
+## 30.3 Funds (rules F1 to F6)
+
+Under Funding Need, with an Opening Date:
+
+- **Total Pre-operational Budget** = CapEx + Startup + Pre-Operating (also shown under the costs).
+- **Startup Contingency Fund** = the Startup rate of that budget.
+- **Cash to raise before the opening** = budget + Startup Contingency + opening inventory (kept outside the contingency base).
+- **Operational Contingency Fund**: after the opening, the Operational rate of monthly OpEx is set aside until the fund equals the target reserve months of OpEx; the card shows OpEx a month, the target, and the months to reach it.
+- The **Establishment** funding need is the cash to raise.
+
+## 30.4 Calculated lines
+
+Lines the page computes and the forecast uses, with no record behind them: employer on-costs, key-person insurance per employee, channel fees, royalties and commissions, depreciation (cost plus services over useful life; COGS for Offering, OpEx for Infrastructure), amortisation (franchise fee), opening inventory released to COGS, an accumulated Start-up and Pre-Operating row, and income tax. The balance sheet gains Inventory, Intangible assets, Pre-launch costs to be written off and **Payments due under payment plans**.
+
+## 30.5 Scheduling a per-project card
+
+A Per project card with a Start date or a ticked payment plan is a dated payment: the cost (price x Qty) is counted in full in the month of the Start date; the cash leaves by the plan (Deposit & Balance, Instalments, Milestones). The difference is held as prepaid (paid ahead) or as a payment due (paid after). Payments dated before the plan start come off opening cash. A per-project card with neither remains a cost of each project sold. The cost row's When says "Paid in full, May 2027" or "N payments, A to B". A Per unit cost follows the units sold.
+
+## 30.6 Not yet built
+
+Minimum-order floor, customs and other duty lines, percentage commission/bonus extras on people cards, VAT, the Repair Record (use of the contingency fund), and enforcing a Start date on every cost card.
+
+## 30.7 Batch J additions
+
+- **Dates place the cost.** A card's Start date puts a one-time cost in its month, starts a recurring one (monthly, quarterly, annually) in that month, and its End date stops it; a Per project card with a Start date or a plan is one dated payment.
+- **A rate is shown as a rate**: a Percentage cost (a payment fee, a royalty, a commission) reads "4%" under "Amount" and "% of revenue" under Frequency, never as money.
+- **Rate and floor extras**: Customs duty and Other duties add a line of the goods' own kind (price times the rate); a person's Commission is a calculated line of the revenue it follows; a Minimum order makes a month's purchases at least that many units, the excess carried as stock.
+- **The examples** (Lumen & Loom, Quillfield) are in the current structure: every card in its category and group, dated, linked to its Offerings, with their suppliers, activities, Opening Date and Global Settings.

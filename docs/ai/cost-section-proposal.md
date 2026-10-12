@@ -1,0 +1,28 @@
+# The Cost section: what it should record and how it should look
+
+Status: proposal and answers, nothing built. Written 2026-10-12.
+
+## What the app records today
+
+Every cost line carries: a name and its source card (Resource, Partner or Supplier, Legal Entity expense), a group (Establishment, Operating, Offering), a nature (CapEx, Startup, Pre-operating, OpEx, COGS, inventory), a behaviour (fixed or variable), an amount, a frequency, start and end dates, and the Offerings it serves. The Costs section only summarises these by group; the full list is in the Inventory on page 3.
+
+## What the research says a cost budget holds
+
+Templates and guides (Stripe, Xero, Shakuro and others) agree on one line per item with: its category, whether it is one-time or recurring, its estimated amount, and, after launch, the actual. They separate three things the reader must see at once: the **launch cash** (one-time costs), the **monthly burn** (recurring costs, which set the cash buffer: one-time costs plus three to six months of running costs), and the **cost of each sale** (variable costs, which move with sales). Fixed against variable decides the break-even; one-time against recurring decides how much to raise.
+
+## Recommended layout
+
+1. **A strip of three totals on top**, each with its "i": *Launch budget* (before the opening), *Running costs a month* (fixed), *Cost of each sale* (variable, COGS). Under them, the cash to raise: the launch budget plus the buffer months of running costs.
+2. **One table, a line per cost**, grouped under those three headings: Name (a link to its card) | Group | When (date, or frequency) | Amount | Nature | Offering. Lines that are not counted yet (a missing price or card detail) are listed under "Not counted yet", saying what is missing.
+3. **Filters** by group, by Offering and by nature, and a sort by amount or date.
+4. **The Funding Need cards read from the same table**, each line appearing in exactly one card, so no cost is counted twice and no card is empty without saying where its costs went.
+
+## Your questions
+
+**CapEx, Startup and Pre-operating: three costs or one?** Both views are right in different words. In accounting, "pre-operating (pre-opening) expenses" is the umbrella for the costs of getting ready that are expensed: formation and legal fees, pre-opening advertising, training, deposits (US GAAP expenses them as incurred; US tax capitalises them with a first-year election). Equipment, furniture and fit-out are capital expenditure: an asset, depreciated, not an expense. The app's rule (F1) adds the two kinds, and a third (Pre-operating: rent and wages before the opening), into one Total Pre-operational Budget. Proposal: say it that way on screen: *Pre-opening budget = Capital expenditure (assets) + Startup expenses + Pre-operating expenses*, three parts of one total.
+
+**Freelance developer, copywriting and web design for launch, and the Lawyer: assets (IP)?** The first two usually are. The cost of developing a website, software or a brand identity (the building stage, not the planning) is capitalised as an intangible asset and amortised, typically over about three years (IAS 38; FRS 102; US website-development guidance). Legal fees to register a trademark or patent are part of that asset; general legal advice and the fees of forming the company are expenses. So: the freelance developer and the web design and copy for the site: asset; the Lawyer: an asset only for the trademark work, otherwise an expense. The app does not yet offer this: only the lump-sum cost options (a permit, a franchise fee) are amortised. Proposal: a tick on a cost, "Capitalise as an intangible asset", which sends it to the Intangible assets table with its years.
+
+**Why is the Offering need zero with 12 Offering costs?** Because a need holds only what is not counted elsewhere: running Offering costs are in the Operating need (month by month), and one-time Offering costs paid before the opening are in Establishment's cash to raise. Only one-time Offering costs after the opening appear in the Offering need. The empty card now says how many Offering costs there are and where they went. The proposal above (every line in exactly one card, with its group shown) would make the same thing visible without reading a sentence.
+
+Sources: [Stripe, startup costs](https://stripe.com/resources/more/Startup-costs-101-a-guide-for-new-startups), [Xero, startup business costs](https://www.xero.com/ph/guides/startup-business-costs/), [AccountingTools, accounting for startup costs](https://www.accountingtools.com/articles/accounting-for-startup-costs.html), [Shakuro, startup budget](https://shakuro.com/blog/how-to-create-a-budget-for-your-startup-a-comprehensive-guide).
