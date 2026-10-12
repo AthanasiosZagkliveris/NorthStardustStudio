@@ -3,7 +3,7 @@ import type { AnswerDefinition } from "../../../framework/model/AnswerDefinition
 import type { PageStatus } from "../../../framework/engine/PageStatus";
 import {
     BRAND_INVENTORY_SECTIONS,
-    BRAND_STYLE_SECTIONS,
+    BRAND_STYLE_PAGE_SECTIONS,
     BUSINESS_CAPABILITY_SECTIONS,
     BUSINESS_ENGAGEMENT_SECTIONS,
     BUSINESS_FOUNDATION_SUBSECTIONS,
@@ -67,7 +67,7 @@ export function pageIndexFromRailId(id: string): number {
 const FIXED_SECTIONS: Partial<Record<AnswerType, readonly string[]>> = {
     [AnswerType.LegalEntity]: LEGAL_ENTITY_SECTIONS,
     [AnswerType.FoundersProfile]: FOUNDERS_PROFILE_SECTIONS,
-    [AnswerType.BrandStyle]: BRAND_STYLE_SECTIONS,
+    [AnswerType.BrandStyle]: BRAND_STYLE_PAGE_SECTIONS,
     [AnswerType.BrandInventory]: BRAND_INVENTORY_SECTIONS,
     [AnswerType.BusinessFoundation]: BUSINESS_FOUNDATION_SUBSECTIONS,
     [AnswerType.BusinessEngagement]: BUSINESS_ENGAGEMENT_SECTIONS,
@@ -76,6 +76,22 @@ const FIXED_SECTIONS: Partial<Record<AnswerType, readonly string[]>> = {
     [AnswerType.FinancialSustainability]: FINANCIAL_SUSTAINABILITY_SECTIONS,
     [AnswerType.StrategyFoundation]: STRATEGY_FOUNDATION_SECTIONS
 };
+
+/**
+ * The pages drawn as TILES (each section a tile of its own, or inside one) show no Sections rail: the tiles are the way to the sections. (The sections
+ * themselves are still the page's: the rail's items are what names and numbers them elsewhere.)
+ * (The Legal Entity, the Founders Profile, the Style page, the Strategy Foundation, Infrastructure & Capability, and the four-column pages -- Definition, Ethics, Ambassador.)
+ */
+const DRAWN_AS_TILES: ReadonlySet<AnswerType> = new Set([
+    AnswerType.LegalEntity,
+    AnswerType.FoundersProfile,
+    AnswerType.BrandStyle,
+    AnswerType.BrandInventory,
+    AnswerType.StrategyFoundation,
+    AnswerType.BusinessFoundation,
+    AnswerType.BusinessCapability,
+    AnswerType.StrategicRoadmap
+]);
 
 /**
  * The bespoke pages that, like a columns page, can carry on a
@@ -115,6 +131,7 @@ export function sectionRailItems(
         if (!answer.columns || answer.tabbed || !answer.parts) {
             return [];
         }
+
 
         return answer.parts
             .map((part, index) => ({ id: part.id, label: part.label, number: firstNumber + index }))
@@ -184,4 +201,9 @@ export function pageFields(
         pageTitle
     }));
 
+}
+
+/** Whether a page is drawn as tiles, with no Sections rail: a four-column page, the Legal Entity, the Founders Profile, the Style page, the Strategy Foundation. */
+export function drawnAsTiles(answer: AnswerDefinition | undefined): boolean {
+    return !!answer && (DRAWN_AS_TILES.has(answer.type) || (answer.type === AnswerType.MultiPart && !!answer.columns && !answer.tabbed && answer.parts?.length === 4));
 }

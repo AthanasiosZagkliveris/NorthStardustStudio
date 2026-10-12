@@ -34,14 +34,23 @@ import { workspacesOf, WORKSPACE_GROUP_ID } from "./AnswerUtils.ts";
 import { parseAmount, parseDecimal } from "./Amounts.ts";
 import { asObject, asText, randomId } from "./Readers.ts";
 import type {
+    BillingType,
+    BusinessPaymentPlan,
     BusinessCapabilityValue,
     BusinessCostValue,
+    BusinessPartnerValue,
+    BusinessResourceSlotValue,
     LegalEntityValue,
     StrategyMonthValue,
     StrategyRangeValue
 } from "./AnswerUtils.ts";
 import {
     BUSINESS_EXTRAS,
+    assetUnitCost,
+    billingOf,
+    isSpaceOnlyGroup,
+    paymentPlanIncomplete,
+    paymentPlanLines,
     type BusinessExtraKey,
     type BusinessExtrasValue,
     isCostingStatus,
@@ -54,7 +63,7 @@ import {
     slotExtraKeys,
     supplierConnections,
     serviceAssetLinks,
-    supplierHasQuantity,
+    partnerHasQuantity,
     workspaceCardName
 } from "./AnswerUtils.ts";
 import { type CapacityCheck, type DemandValue, capacityCheck, demandResult, founderMonthlySalary } from "./DemandCapacity.ts";
@@ -198,11 +207,36 @@ export function planMonth(
  */
 export function withPlanStart<T extends { planStart: StrategyMonthValue }>(
     value: T,
-    today: Date = new Date()
+    today: Date = new Date(),
+    /** The first month worked out from the Opening Date and the costs (derivedPlanStart): it replaces any chosen before. */
+    derived?: StrategyMonthValue
 ): T {
+    if (derived) {
+        return monthOrdinal(value.planStart) !== null && value.planStart.year === derived.year && value.planStart.month === derived.month ? value : { ...value, planStart: derived };
+    }
     return monthOrdinal(value.planStart) === null
         ? { ...value, planStart: currentMonth(today) }
         : value;
+}
+
+/**
+ * THE PLAN'S FIRST MONTH, worked out and never typed: the earlier of the month the business opens in and the month of the earliest cost of a Business card
+ * (a cost dated before the plan starts counts as already paid, so no card's cost is left out of it). The Legal Entity's expenses do not move it: a
+ * registration paid before the plan stays already paid. With neither a date nor a card, the month the plan already has.
+ */
+export function derivedPlanStart(openingDate: string, costStarts: readonly string[], without: StrategyMonthValue): StrategyMonthValue {
+    const days = [openingDate, ...costStarts].filter(day => /^\d{4}-\d{2}-\d{2}$/.test(day)).sort();
+    return days.length === 0 ? without : { year: days[0].slice(0, 4), month: days[0].slice(5, 7) };
+}
+
+/** The Start dates of the Business cards that cost something: the costed resources and the priced partners and suppliers. */
+export function costStartDates(capability: BusinessCapabilityValue): string[] {
+    const slots = [...Object.values(capability.resources).flatMap(subsections => subsections.flatMap(subsection => subsection.slots)), ...capability.offering.resources];
+    const partners = [...capability.professionals, ...capability.providers, ...capability.offering.professionals, ...capability.offering.providers];
+    return [
+        ...slots.filter(slot => isCostingStatus(slot.status) && slot.cost.price.trim() !== "").map(slot => slot.startDate),
+        ...partners.filter(partner => partner.cost.price.trim() !== "").map(partner => partner.startDate)
+    ].filter(day => day !== "");
 }
 
 /** The calendar month a plan month falls in, as "Mar 2027". */
@@ -257,11 +291,6 @@ export const COST_GROUPS = [
         id: "offering",
         label: "Offering",
         explanation: "Costs of creating, delivering or supporting a particular Offering."
-    },
-    {
-        id: "other",
-        label: "Other",
-        explanation: "Costs that do not reasonably fit the other three groups."
     }
 ] as const;
 
@@ -295,7 +324,7 @@ export const COST_FREQUENCIES = [
     { id: "per-project", label: "Per project" },
     { id: "per-unit", label: "Per unit" },
     { id: "per-order", label: "Per order" },
-    { id: "usage-based", label: "Usage-based" },
+    { id: "usage-based", label: "% of revenue" },
     { id: "other", label: "Other" }
 ] as const;
 
@@ -329,11 +358,6 @@ export const FUNDING_NEED_CATEGORIES = [
         id: "offering-launch",
         label: "Offering",
         explanation: "Money required to develop, prepare or launch an Offering before it can generate sufficient revenue."
-    },
-    {
-        id: "other",
-        label: "Other",
-        explanation: "A requirement outside the three above."
     }
 ] as const;
 
@@ -473,6 +497,8 @@ export const COST_ASSETS: { id: CostAsset | ""; label: string; explanation: stri
 export interface CostClassification {
     /** For a one-time cost: whether it buys equipment or is a deposit. */
     asset: CostAsset | "";
+    /** The cost nature the user chose in place of the rules' (it applies from the Opening Date only: rule C13). */
+    nature?: CostNature | "";
     group: CostGroup | "";
     behaviour: CostBehaviour | "";
     /** A Page 1 Offering, for the Offering group. */
@@ -768,6 +794,9 @@ function asClassification(value: unknown): Partial<CostClassification> {
     if (source.asset === "equipment" || source.asset === "deposit" || source.asset === "") {
         result.asset = source.asset;
     }
+    if ((COST_NATURES as readonly string[]).includes(source.nature as string)) {
+        result.nature = source.nature as CostNature;
+    }
 
     return result;
 
@@ -986,6 +1015,25 @@ export interface CostLine {
     own: OwnCostValue | null;
     /** The asset a Technical Support service builds or installs: its price is added to that asset's value (rule C2). */
     capitalisedInto?: string;
+    /** The Start date and the End date of the card the cost was read from (ISO dates; "" when it has none): they place the cost around the Opening Date. */
+    startDate?: string;
+    endDate?: string;
+    /** Where the card is filed on Page 3, for the cost nature: its place and group, its billing type and cost option, and whether it buys a physical asset. */
+    place?: "infrastructure" | "offering";
+    groupId?: string;
+    billing?: BillingType;
+    costOption?: string;
+    physicalAsset?: boolean;
+    /** The card's own useful life (years), amortisation period (years) and rate override (a percent), for the calculated lines. */
+    usefulLife?: string;
+    amortisationYears?: string;
+    rateOverride?: string;
+    /** The card's own Qty, as typed: what opening stock is bought in (a Per unit price is the price of one), and how many projects a Per project price is for. */
+    cardQuantity?: string;
+    /** A Producers & Wholesalers card's Minimum order (X6): the smallest purchase, in units; the forecast buys at least this when a purchase is needed. */
+    minimumOrder?: number;
+    /** The payment plan of a Per project price: when the money leaves, not what the cost is. */
+    paymentPlan?: BusinessPaymentPlan;
     /**
      * Where it was recorded, as a jump path (see jumpTo.ts): the card,
      * then what holds it. Empty for a cost added on this page.
@@ -1151,7 +1199,9 @@ export function consolidateCosts(
         quantity = "",
         sourcePath: string[] = [],
         purchase = false,
-        shares: Record<string, string> = {}
+        shares: Record<string, string> = {},
+        /** A partner or supplier card: a Per unit price is multiplied by its Qty (0.4 of an hour at 23.50 an hour). */
+        multiplyPerUnit = false
     ) => {
         if (parseAmount(cost.price) === null) {
             return;
@@ -1160,7 +1210,7 @@ export function consolidateCosts(
         read(
             id, name, origin, sourceLabel, cost.price, cost.currency,
             fromCapabilityFrequency(cost.frequency, cost.unit, purchase), cost.frequencyOther,
-            defaultGroup, offeringIds, resourceUnitCount(quantity, cost.frequency, purchase),
+            defaultGroup, offeringIds, resourceUnitCount(quantity, multiplyPerUnit && cost.frequency === "per-unit" ? "monthly" : cost.frequency, purchase),
             null, sourcePath
         );
         if (lines.length > before && offeringIds.length > 1) {
@@ -1169,9 +1219,10 @@ export function consolidateCosts(
     };
 
     /**
-     * A card's optional EXTRAS that are money -- a tax, a charge, a deposit, a bonus -- one cost line each, in the card's currency and at the extra's own
-     * frequency. A percent or a minimum (a commission, a duty, a minimum order) is a rate on something else, so it is the financial foundation's to calculate
-     * (a later task), not a line here. A Deposit is an asset returned later, never a cost.
+     * A card's optional EXTRAS, each ticked one: money (a tax, a charge, a deposit, a bonus, a clearance fee) is one cost line at the extra's own frequency, in
+     * the card's currency; a Deposit is an asset returned later, never a cost. A percent of cost (customs duty, other duties: X7, P1) is a line of the card's own
+     * kind (its frequency and unit) whose price is the card's price times the rate. A commission (a percent of revenue) is a calculated line of the revenue it
+     * follows, as a partner's (X5). A Minimum order is no line: it is the card's floor (X6), kept on the card's own line for the forecast.
      */
     const extraLines = (
         id: string,
@@ -1184,12 +1235,48 @@ export function consolidateCosts(
         defaultGroup: CostGroup,
         offeringIds: string[],
         sourcePath: string[],
-        shares: Record<string, string> = {}
+        shares: Record<string, string> = {},
+        basis?: BusinessCostValue
     ) => {
         for (const key of keys) {
             const definition = BUSINESS_EXTRAS[key];
             const amount = extras[key];
-            if (!amount || definition.kind !== "money") {
+            if (!amount) {
+                continue;
+            }
+            if (definition.kind === "quantity") {
+                const floor = parseAmount(amount);
+                const own = lines.find(line => line.id === id);
+                if (own && floor !== null && floor > 0) {
+                    own.minimumOrder = floor;
+                }
+                continue;
+            }
+            if (definition.kind === "percent") {
+                const rate = parseAmount(amount);
+                if (rate === null || rate <= 0) {
+                    continue;
+                }
+                if (definition.frequency === "percent-revenue") {
+                    fromCost(
+                        id + ":" + key, name + ": " + definition.label.toLowerCase(), origin, sourceLabel,
+                        { price: amount, frequency: "percent-revenue", frequencyOther: "", unit: "", currency },
+                        defaultGroup, offeringIds, "", sourcePath, false, shares
+                    );
+                } else if (basis) {
+                    const price = parseAmount(basis.price);
+                    if (price === null) {
+                        continue;
+                    }
+                    fromCost(
+                        id + ":" + key, name + ": " + definition.label.toLowerCase() + " (" + amount + "%)", origin, sourceLabel,
+                        { price: String(Math.round(price * rate) / 100), frequency: basis.frequency, frequencyOther: basis.frequencyOther, unit: basis.unit, currency },
+                        defaultGroup, offeringIds, "", sourcePath, false, shares
+                    );
+                }
+                continue;
+            }
+            if (definition.kind !== "money") {
                 continue;
             }
             const before = lines.length;
@@ -1344,15 +1431,15 @@ export function consolidateCosts(
         });
     });
 
-    /* Partners & Providers. */
+    /* Partners & Suppliers. */
     (["professionals", "providers"] as const)
         .forEach(kind => {
             capability[kind].forEach(partner => {
                 const connections = supplierConnections(capability, partner.id);
                 const path = [partner.id, "partners-infrastructure-" + partnerKindOf(partner, kind), "section-infrastructure-partners", "capability-infrastructure"];
                 const label = "Infrastructure → " + (partnerKindOf(partner, kind) === "providers" ? "Suppliers" : "Partners");
-                fromCost(partner.id, partner.name, "infrastructure", label, partner.cost, "operating", [], supplierHasQuantity(connections) ? partner.quantity : "", path);
-                extraLines(partner.id, partner.name, "infrastructure", label, partner.extras, partnerExtraKeys(partner.group, connections), partner.cost.currency, "operating", [], path);
+                fromCost(partner.id, partner.name, "infrastructure", label, partner.cost, "operating", [], partnerHasQuantity(connections, partner.cost) ? partner.quantity : "", path, false, {}, true);
+                extraLines(partner.id, partner.name, "infrastructure", label, partner.extras, partnerExtraKeys(partner.group, connections), partner.cost.currency, "operating", [], path, {}, partner.cost);
             });
         });
 
@@ -1381,8 +1468,8 @@ export function consolidateCosts(
                 const connections = supplierConnections(capability, partner.id);
                 const path = [partner.id, "partners-offering-" + partnerKindOf(partner, kind), "section-offering-partners", "capability-offering-capability"];
                 const label = "Offering's Capability → " + (partnerKindOf(partner, kind) === "providers" ? "Suppliers" : "Partners");
-                fromCost(partner.id, partner.name, "offering-capability", label, partner.cost, "offering", partner.offeringIds, supplierHasQuantity(connections) ? partner.quantity : "", path, false, partner.offeringShares);
-                extraLines(partner.id, partner.name, "offering-capability", label, partner.extras, partnerExtraKeys(partner.group, connections), partner.cost.currency, "offering", partner.offeringIds, path, partner.offeringShares);
+                fromCost(partner.id, partner.name, "offering-capability", label, partner.cost, "offering", partner.offeringIds, partnerHasQuantity(connections, partner.cost) ? partner.quantity : "", path, false, partner.offeringShares, true);
+                extraLines(partner.id, partner.name, "offering-capability", label, partner.extras, partnerExtraKeys(partner.group, connections), partner.cost.currency, "offering", partner.offeringIds, path, partner.offeringShares, partner.cost);
             });
         });
 
@@ -1394,6 +1481,68 @@ export function consolidateCosts(
         }
     });
 
+    /* The dates of the card each cost was read from. */
+    const dates = new Map<string, { start: string; end: string }>();
+    [...Object.values(capability.resources).flat().flatMap(subsection => subsection.slots), ...capability.offering.resources].forEach(slot => dates.set(slot.id, { start: slot.startDate, end: slot.endDate }));
+    [...capability.professionals, ...capability.providers, ...capability.offering.professionals, ...capability.offering.providers]
+        .forEach(partner => dates.set(partner.id, { start: partner.startDate, end: partner.endDate }));
+    capability.founders.forEach(founder => {
+        dates.set("founder-" + founder.id, { start: founder.startDate, end: "" });
+        dates.set("salary-" + founder.id, { start: founder.startDate, end: "" });
+    });
+    sources.legalEntity.expenses.forEach(expense => dates.set("legal-" + expense.id, { start: expense.date, end: "" }));
+    lines.forEach(line => {
+        const own = dates.get(line.id.split(":")[0]);
+        if (own) {
+            line.startDate = own.start;
+            line.endDate = own.end;
+            // THE START DATE PLACES THE COST IN A MONTH OF THE CASH FLOW (cost model, section 2): a card's first month is the month of its Start date, unless a
+            // month was chosen on this page. (A Per project card is paid by its own dates; a Per unit cost follows the sales.)
+            const dated = monthOfDate(own.start);
+            if (dated && line.month.month === "" && line.frequency !== "per-project" && !isPerUnitFrequency(line.frequency)) {
+                line.month = dated;
+            }
+        }
+    });
+
+    /* Where each card is filed, its billing type and whether it buys a physical asset: what the cost nature rules ask. */
+    const filed = new Map<string, Pick<CostLine, "place" | "groupId" | "billing" | "costOption" | "physicalAsset" | "usefulLife" | "amortisationYears" | "rateOverride" | "cardQuantity" | "paymentPlan">>();
+    const fileSlot = (slot: BusinessResourceSlotValue, place: "infrastructure" | "offering", groupId: string) => filed.set(slot.id, {
+        place,
+        groupId,
+        billing: billingOf(place, groupId, slot.costOption),
+        costOption: slot.costOption,
+        physicalAsset: isCostingStatus(slot.status) && (isPurchaseGroup(groupId) || (isSpaceOnlyGroup(groupId) && slot.status === "buy")),
+        usefulLife: slot.usefulLife,
+        amortisationYears: slot.amortisationYears,
+        rateOverride: slot.rateOverride,
+        cardQuantity: slot.quantity,
+        paymentPlan: slot.paymentPlan
+    });
+    Object.values(capability.resources).forEach(subsections => subsections.forEach(subsection => subsection.slots.forEach(slot => fileSlot(slot, "infrastructure", subsection.id))));
+    capability.offering.resources.forEach(slot => fileSlot(slot, "offering", slot.group));
+    const filePartner = (partner: BusinessPartnerValue, place: "infrastructure" | "offering") => filed.set(partner.id, {
+        place, groupId: partner.group, billing: billingOf(place, partner.group, partner.costOption), costOption: partner.costOption, physicalAsset: false,
+        usefulLife: "", amortisationYears: "", rateOverride: partner.rateOverride, paymentPlan: partner.paymentPlan
+    });
+    [...capability.professionals, ...capability.providers].forEach(partner => filePartner(partner, "infrastructure"));
+    [...capability.offering.professionals, ...capability.offering.providers].forEach(partner => filePartner(partner, "offering"));
+    lines.forEach(line => {
+        const own = filed.get(line.id.split(":")[0]);
+        if (own) {
+            Object.assign(line, own);
+        }
+        // A dated Per project card is one payment, as a one-time cost is: it stands with the Establishment costs unless a group was chosen on this page.
+        if (isProjectPayment(line) && line.group === "operating" && !value.classified[line.id]?.group) {
+            line.group = "establishment";
+        }
+        // A person's commission (a percent of revenue, an extra of its card): a calculated line of the revenue it follows, as a partner's commission.
+        if (line.id.includes(":commission") && line.frequency === "usage-based") {
+            line.billing = "percentage";
+            line.costOption = "affiliate-commission";
+        }
+    });
+
     /* And this page's own. */
     value.costs.forEach(cost => {
         lines.push({
@@ -1401,7 +1550,7 @@ export function consolidateCosts(
             name: cost.name.trim() || "Unnamed cost",
             origin: "own",
             sourceLabel: "Financial Foundation",
-            group: cost.group || "other",
+            group: cost.group || "operating",
             behaviour: cost.behaviour || "fixed",
             offeringIds: cost.offeringId ? [cost.offeringId] : [],
             offeringId: cost.offeringId,
@@ -1443,7 +1592,10 @@ export function paidBeforePlan(line: CostLine, start: StrategyMonthValue): boole
  * money the organization had, so not in the plan's opening balance.
  */
 export function spentBeforePlan(lines: CostLine[], start: StrategyMonthValue): number {
-    return lines
+    const projects = lines
+        .filter(line => line.counted && line.amount !== null && isProjectPayment(line))
+        .reduce((sum, line) => sum + projectPayments(line, start).filter(payment => payment.index < 0).reduce((total, payment) => total + payment.amount, 0), 0);
+    return projects + lines
         .filter(line => line.counted && line.amount !== null && paidBeforePlan(line, start))
         .reduce((sum, line) => sum + scheduledAmount(line), 0);
 }
@@ -1461,19 +1613,85 @@ export function scheduledAmount(line: CostLine): number {
     return separated ? line.fixedPart ?? 0 : line.amount ?? 0;
 }
 
+/**
+ * A PER PROJECT CARD is one price for the project (or Qty of them), paid in full on its Start date or by its payment plan (cost model, section 13; rule X9):
+ * a dated payment in the calendar, not a cost of each unit sold. (A cost typed on this page, with no card, is still a cost of each project sold.)
+ */
+export function isProjectPayment(line: CostLine): boolean {
+    // (A card with no Start date has no place in the calendar yet: like an earlier answer, it stays a cost of each project sold.)
+    return line.frequency === "per-project" && line.place !== undefined && ((line.startDate ?? "") !== "" || line.paymentPlan?.on === true);
+}
+
+/** What a Per project card costs altogether: its price times the number of projects (its Qty, 1 where it has none). */
+export function projectTotal(line: CostLine): number {
+    return Math.round((line.amount ?? 0) * Math.max(1, parseDecimal(line.cardQuantity ?? "") ?? 1) * 100) / 100;
+}
+
+/** The plan month (0-based, negative before the plan) an ISO date falls in; null for no date. */
+function planMonthIndex(iso: string, start: StrategyMonthValue): number | null {
+    const date = /^(\d{4})-(\d{2})/.exec(iso);
+    const first = monthOrdinal(start);
+    return date && first !== null ? Number(date[1]) * 12 + Number(date[2]) - 1 - first : null;
+}
+
+/**
+ * WHEN A PER PROJECT CARD IS PAID (the payment plan, rule X9): the total split by the plan's percents, each on its own date. Not ticked, or a plan that is
+ * not complete, the whole price is paid on the Start date (the plan's first month where it has none). Returns each payment's plan month (0-based, negative
+ * when it falls before the plan) and amount.
+ */
+export function projectPayments(line: CostLine, start: StrategyMonthValue): { index: number; amount: number }[] {
+    const total = projectTotal(line);
+    const startIndex = planMonthIndex(line.startDate ?? "", start) ?? ((planMonth(start, line.month) ?? 1) - 1);
+    const plan = line.paymentPlan;
+    if (!plan || !plan.on || paymentPlanIncomplete({ frequency: "per-project" }, plan, line.startDate ?? "", line.endDate ?? "")) {
+        return [{ index: startIndex, amount: total }];
+    }
+    const payments = paymentPlanLines(plan, line.startDate ?? "", line.endDate ?? "")
+        .map(entry => ({ index: planMonthIndex(entry.date, start) ?? startIndex, amount: Math.round(total * (parseAmount(entry.percent) ?? 0)) / 100 }));
+    // (Rounding leaves a cent or two on the last payment.)
+    const rest = Math.round((total - payments.reduce((sum, payment) => sum + payment.amount, 0)) * 100) / 100;
+    if (payments.length > 0 && rest !== 0) {
+        payments[payments.length - 1].amount = Math.round((payments[payments.length - 1].amount + rest) * 100) / 100;
+    }
+    return payments;
+}
+
+/** The cost of a Per project card as it is incurred: the whole price in the month of its Start date, whenever the money leaves. */
+export function projectExpenseSchedule(line: CostLine, start: StrategyMonthValue): number[] {
+    const months = new Array<number>(MODEL_MONTHS).fill(0);
+    if (!line.counted || line.amount === null || !isProjectPayment(line)) {
+        return months;
+    }
+    const at = planMonthIndex(line.startDate ?? "", start) ?? ((planMonth(start, line.month) ?? 1) - 1);
+    if (at >= 0 && at < MODEL_MONTHS) {
+        months[at] = projectTotal(line);
+    }
+    return months;
+}
+
 /** Whether a cost has a place in the calendar this page can model. */
 export function isScheduled(line: CostLine): boolean {
-    return SCHEDULED_FREQUENCIES.includes(line.frequency);
+    return SCHEDULED_FREQUENCIES.includes(line.frequency) || isProjectPayment(line);
 }
 
 /** Whether a frequency is paid per unit of activity (per unit, order or project): a variable cost. */
+/** Whether a cost is a rate of the revenue it follows (Percentage billing, or the % of revenue driver): its amount is a percent, not money. */
+export function isPercentLine(line: Pick<CostLine, "billing" | "frequency">): boolean {
+    return line.billing === "percentage" || line.frequency === "usage-based";
+}
+
+/** What a cost's amount reads as in a table: money, or "4%" for a rate of revenue. */
+export function costAmountShown(line: CostLine, format: (amount: number) => string): string {
+    return isPercentLine(line) ? (line.amount === null ? line.amountText : String(Math.round(line.amount * 100) / 100) + "%") : line.amount === null ? line.amountText : format(line.amount);
+}
+
 export function isPerUnitFrequency(frequency: CostFrequency): boolean {
     return PER_UNIT_FREQUENCIES.includes(frequency);
 }
 
 /** Whether a cost is paid per unit of activity. */
 function isPerUnit(line: CostLine): boolean {
-    return isPerUnitFrequency(line.frequency);
+    return isPerUnitFrequency(line.frequency) && !isProjectPayment(line);
 }
 
 /**
@@ -1485,6 +1703,16 @@ export function costSchedule(line: CostLine, start: StrategyMonthValue): number[
     const months = new Array<number>(MODEL_MONTHS).fill(0);
 
     if (!line.counted || line.amount === null || !isScheduled(line) || paidBeforePlan(line, start)) {
+        return months;
+    }
+
+    // A Per project card: paid in full on its Start date, or by its payment plan.
+    if (isProjectPayment(line)) {
+        projectPayments(line, start).forEach(payment => {
+            if (payment.index >= 0 && payment.index < MODEL_MONTHS) {
+                months[payment.index] += payment.amount;
+            }
+        });
         return months;
     }
 
@@ -1501,8 +1729,12 @@ export function costSchedule(line: CostLine, start: StrategyMonthValue): number[
 
     const paid = scheduledAmount(line);
 
+    // An End date stops a recurring cost from its month (a lease or a subscription that ends).
+    const stop = line.endDate ? planMonthIndex(line.endDate, start) : null;
+    const last = stop === null ? MODEL_MONTHS - 1 : Math.min(MODEL_MONTHS - 1, stop);
+
     const every = (step: number) => {
-        for (let index = first; index < MODEL_MONTHS; index += step) {
+        for (let index = first; index <= last; index += step) {
             months[index] += paid;
         }
     };
@@ -1531,6 +1763,227 @@ export function costSchedule(line: CostLine, start: StrategyMonthValue): number[
 }
 
 /** A recurring cost's monthly equivalent; 0 for anything else. */
+/** A day of an ISO date, as a count of days; null where it is not a date. */
+function dayNumber(iso: string): number | null {
+    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+    return match ? Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3])) / 86_400_000 : null;
+}
+
+/** The whole months from one ISO date to another (the earlier month counted, the later not): 2027-01-01 to 2027-04-01 is 3. */
+function monthsBetween(from: string, to: string): number {
+    const one = /^(\d{4})-(\d{2})/.exec(from);
+    const other = /^(\d{4})-(\d{2})/.exec(to);
+    return one && other ? (Number(other[1]) - Number(one[1])) * 12 + Number(other[2]) - Number(one[2]) : 0;
+}
+
+/* ==========================================================
+   The cost nature (cost model, section 4; automatic rules C1 to C16)
+========================================================== */
+
+/**
+ * WHAT A COST IS, set by the rules (the user may change it, from the Opening Date on):
+ * - "startup": a Startup Expense, a one-time cost before the opening (legal and incorporation fees, a licence, a domain). Written off, never capitalised.
+ * - "pre-operating": a Pre-Operating Expense, a time-dependent cost before the opening (rent during works, early salaries). Written off, never capitalised.
+ * - "capex": Capital Expenditure: a physical asset at or above the capitalisation limit, a service bundled into it, or an intangible right (a franchise fee).
+ * - "opex": an operating expense.
+ * - "cogs": a cost of goods sold, or of delivering the offering.
+ * - "inventory": opening stock, a separate cash line outside the contingency base; it reaches COGS as it is sold.
+ */
+export const COST_NATURES = ["startup", "pre-operating", "capex", "opex", "cogs", "inventory"] as const;
+export type CostNature = typeof COST_NATURES[number];
+
+export const COST_NATURE_LABELS: Record<CostNature, string> = {
+    startup: "Startup Expense",
+    "pre-operating": "Pre-Operating Expense",
+    capex: "CapEx",
+    opex: "OpEx",
+    cogs: "COGS",
+    inventory: "Opening inventory"
+};
+
+/** What the cost nature rules need that is not on a line. */
+export interface NatureContext {
+    /** The Opening Date (an ISO date); "" while none is given. */
+    openingDate: string;
+    /** The capitalisation limit; null while none is set (every purchase of a physical asset is then an asset). */
+    capitalisationLimit: number | null;
+    /** The cost of one unit with its linked services, by the id of the card (assetUnitCost); a line without one uses its own price. */
+    assetUnitCosts?: Readonly<Record<string, number>>;
+}
+
+/** The groups whose cards the Offering's rule C7 makes COGS whatever their driver. */
+const COGS_GROUPS: readonly string[] = ["materials-stock", "delivery-team", "delivery-running-costs", "site-hire"];
+
+const isRecurring = (frequency: CostFrequency) => frequency === "monthly" || frequency === "quarterly" || frequency === "annually";
+
+/**
+ * THE NATURE OF A COST FROM THE OPENING DATE, or with no date (steps 2 and 5 of the rules): the first rule that fits.
+ *
+ * - C2: a service linked to an asset is part of it: CapEx, before or after the opening.
+ * - C5: a Percentage billing type, or a % of revenue driver: a calculated COGS line.
+ * - C3: a lump sum by its cost option: an upfront franchise fee is an intangible asset (CapEx, amortised); a set-up fee, legal drafting or an initial licence
+ *   is a one-time OpEx. The capitalisation limit never applies to an intangible right.
+ * - C4: a purchase of a physical asset: CapEx when the cost of one unit, with its linked services, is at or above the limit; else OpEx.
+ * - C7: an Offering card with a Per unit or Per project driver, or in Materials, Delivery Team, Delivery Running Costs or Site Hire: COGS.
+ * - C6, C8, C15: a recurring fixed cost, and any other company cost: OpEx.
+ */
+export function natureFromOpening(line: CostLine, context: NatureContext): CostNature {
+    if (line.capitalisedInto) {
+        return "capex";
+    }
+    if (line.billing === "percentage" || line.frequency === "usage-based") {
+        return "cogs";
+    }
+    if (line.billing === "lump-sum") {
+        return line.costOption === "franchise-fee" ? "capex" : "opex";
+    }
+    if (line.physicalAsset) {
+        const unit = context.assetUnitCosts?.[line.id] ?? line.unitAmount ?? line.amount;
+        return context.capitalisationLimit === null || unit === null || unit >= context.capitalisationLimit ? "capex" : "opex";
+    }
+    if (line.place === "offering" && (line.frequency === "per-unit" || line.frequency === "per-project" || line.frequency === "per-order" || COGS_GROUPS.includes(line.groupId ?? ""))) {
+        return "cogs";
+    }
+    return "opex";
+}
+
+/**
+ * THE NATURE OF A COST DATED BEFORE THE OPENING DATE (rule C1: it counts in the Total Pre-operational Budget):
+ * - C5: a Percentage cost is COGS, never charged to the startup fund.
+ * - C14: opening stock (a Materials & Stock card) is a separate cash line: opening inventory.
+ * - C2: a service linked to an asset is added to it: CapEx.
+ * - C3: a lump sum is an intangible asset (a franchise fee: CapEx) or a Startup Expense.
+ * - C4: a physical asset at or above the limit is CapEx; below it, a Startup Expense.
+ * - C16: any other pre-launch cost is written off: a one-time cost is a Startup Expense, a time-dependent one a Pre-Operating Expense.
+ */
+export function natureBeforeOpening(line: CostLine, context: NatureContext): CostNature {
+    if (line.billing === "percentage" || line.frequency === "usage-based") {
+        return "cogs";
+    }
+    if (line.groupId === "materials-stock" && line.place === "offering") {
+        return "inventory";
+    }
+    if (line.capitalisedInto) {
+        return "capex";
+    }
+    if (line.billing === "lump-sum") {
+        return line.costOption === "franchise-fee" ? "capex" : "startup";
+    }
+    if (line.physicalAsset) {
+        return natureFromOpening(line, context) === "capex" ? "capex" : "startup";
+    }
+    return isRecurring(line.frequency) ? "pre-operating" : "startup";
+}
+
+/** A cost line split by the Opening Date, each part with its nature. */
+export interface NatureSplit {
+    /** The part dated before the opening: its nature and its amount (null when none is). */
+    before: { nature: CostNature; amount: number } | null;
+    /** The nature from the opening on (null for a one-time cost wholly before it). */
+    after: CostNature | null;
+}
+
+/**
+ * THE COST NATURE OF A LINE, with its split around the Opening Date (rules C1 to C16, C13). A card that starts before the opening and runs past it has
+ * both parts; a one-time cost dated before it has only the first; with no Opening Date or no Start date it has only the second. The user's own choice
+ * (C13) replaces the nature from the opening on, and never moves a month out of the Pre-operational Budget.
+ * A line that is not counted (a different currency, an incomplete card) has no nature.
+ */
+export function natureSplitOf(line: CostLine, context: NatureContext, chosen: CostNature | "" = ""): NatureSplit {
+    if (!line.counted) {
+        return { before: null, after: null };
+    }
+    const split = splitAtOpening(line, context.openingDate);
+    // A Percentage cost is COGS whatever its date: wholly the rule's, there is no split.
+    if (line.billing === "percentage" || line.frequency === "usage-based") {
+        return { before: null, after: chosen || "cogs" };
+    }
+    const before = split.startsBefore && split.before > 0 ? { nature: natureBeforeOpening(line, context), amount: split.before } : null;
+    // Paid in full on the Start date, or ended before the opening: wholly before it.
+    if (before !== null && (line.frequency === "one-time" || line.frequency === "per-project" || !split.runsPast)) {
+        return { before, after: null };
+    }
+    return { before, after: chosen || natureFromOpening(line, context) };
+}
+
+/** What the Total Pre-operational Budget holds (rule F1), by nature; opening inventory is outside the contingency base. */
+export interface PreOperationalSchedule {
+    capex: number;
+    startup: number;
+    preOperating: number;
+    /** CapEx + Startup Expenses + Pre-Operating Expenses: the base of the Startup Contingency. */
+    total: number;
+    /** The cash for opening stock, added after the contingency calculation. */
+    openingInventory: number;
+    /** Percentage costs are COGS and never charged to the fund: left out. */
+}
+
+export function preOperationalSchedule(lines: readonly CostLine[], context: NatureContext, chosen: Readonly<Record<string, CostNature | undefined>> = {}): PreOperationalSchedule {
+    const totals = { capex: 0, startup: 0, preOperating: 0, openingInventory: 0 };
+    lines.forEach(line => {
+        const part = natureSplitOf(line, context, chosen[line.id] ?? "").before;
+        if (!part) {
+            return;
+        }
+        switch (part.nature) {
+            case "capex": totals.capex += part.amount; break;
+            case "startup": totals.startup += part.amount; break;
+            case "pre-operating": totals.preOperating += part.amount; break;
+            case "inventory": totals.openingInventory += part.amount; break;
+            default: break;
+        }
+    });
+    const round = (value: number) => Math.round(value * 100) / 100;
+    return {
+        capex: round(totals.capex),
+        startup: round(totals.startup),
+        preOperating: round(totals.preOperating),
+        total: round(totals.capex + totals.startup + totals.preOperating),
+        openingInventory: round(totals.openingInventory)
+    };
+}
+
+/**
+ * A CARD SPLIT AT THE OPENING DATE (rule C1): the part of its cost dated before the Opening Date, which counts in the Total Pre-operational Budget,
+ * and the part from the Opening Date, which follows the other rules. A card that runs past the opening splits by date: rent of 1,500 a month from
+ * 3 months before the opening is 4,500 before and 1,500 a month after.
+ *
+ * - A one-time cost (and a Per project one, paid in full on its Start date) is wholly before the opening when its Start date is before it.
+ * - A monthly, quarterly or annual cost counts the months from its Start date to the opening, or to its End date if that comes first.
+ * - With no Opening Date, or no Start date, nothing is before the opening.
+ * The cost is the line's amount for the period it is counted (a monthly equivalent for a quarterly or annual one).
+ */
+export function splitAtOpening(line: CostLine, openingDate: string): { before: number; startsBefore: boolean; runsPast: boolean } {
+    const none = { before: 0, startsBefore: false, runsPast: false };
+    const start = line.startDate ?? "";
+    const startDay = dayNumber(start);
+    const openingDay = dayNumber(openingDate);
+    if (!line.counted || line.amount === null || startDay === null || openingDay === null || startDay >= openingDay) {
+        return none;
+    }
+    const end = line.endDate ?? "";
+    const endDay = dayNumber(end);
+    const endsBefore = endDay !== null && endDay < openingDay;
+    const runsPast = line.frequency !== "one-time" && line.frequency !== "per-project" && !endsBefore;
+    // (Opening stock, a Materials & Stock card dated before the opening, is bought whole on its Start date, whatever its driver.)
+    const stock = line.place === "offering" && line.groupId === "materials-stock" && line.frequency === "per-unit";
+    if (line.frequency === "one-time" || line.frequency === "per-project" || stock) {
+        if (isProjectPayment(line)) {
+            return { before: projectTotal(line), startsBefore: true, runsPast: false };
+        }
+        return { before: stock ? Math.round(line.amount * Math.max(1, parseDecimal(line.cardQuantity ?? "") ?? 1) * 100) / 100 : line.amount, startsBefore: true, runsPast: false };
+    }
+    if (line.frequency === "monthly" || line.frequency === "quarterly" || line.frequency === "annually") {
+        const lastMonthEnd = endsBefore ? end : openingDate;
+        // (A month counts when any of it falls before the opening: from the Start date's month up to the month the opening or the End date falls in.)
+        const months = Math.max(1, monthsBetween(start, lastMonthEnd) + (endsBefore ? 1 : 0));
+        const perMonth = monthlyEquivalent(line.amount, line.frequency);
+        return { before: Math.round(perMonth * months * 100) / 100, startsBefore: true, runsPast };
+    }
+    // (Per unit, per order and % of revenue follow the sales, not the calendar: the forecast places them.)
+    return { before: 0, startsBefore: true, runsPast };
+}
+
 export function monthlyEquivalent(amount: number, frequency: CostFrequency): number {
     switch (frequency) {
         case "monthly": return amount;
@@ -2076,7 +2529,11 @@ function runwayOf(timeline: CashMonth[]): number | null {
 
 /** The VAT basis in force: as chosen, or as the Legal Entity implies. */
 export function effectiveVatBasis(value: FinancialFoundationValue, legalEntity: LegalEntityValue): VatBasis {
-    return value.vatBasis || (legalEntity.tax.consumptionTaxStatus === "yes" ? "excluding" : "not-registered");
+    // (Registered, or not, is answered once, on the Legal Entity: not registered there is no tax to include or leave out. Registered, the choice is including or excluding.)
+    if (legalEntity.tax.consumptionTaxStatus !== "yes") {
+        return "not-registered";
+    }
+    return value.vatBasis === "including" ? "including" : "excluding";
 }
 
 /**
@@ -2094,6 +2551,20 @@ interface CalculatedNeed {
     note: string;
     /** The Operating need's first year, month by month. */
     months?: OperatingMonth[];
+}
+
+/**
+ * WHAT HAS TO BE RAISED BEFORE THE OPENING, for the Funding Need (ContingencyFunds.ts, launchNeedOf): the Total Pre-operational Budget, the Startup
+ * Contingency Fund and the cash for opening inventory replace the one-time costs of the Establishment need, and what they count is not counted again.
+ */
+export interface LaunchNeed {
+    /** The plan month the business opens in (0-based; later than the first). */
+    openingIndex: number;
+    /** The lines whose cost before the opening is in the budget: their one-time cost, and their months before the opening, are not in the other needs. */
+    budgetLineIds: ReadonlySet<string>;
+    /** What the cash to raise is made of. */
+    parts: { name: string; amount: number }[];
+    cashToRaise: number;
 }
 
 interface OperatingMonth {
@@ -2115,8 +2586,7 @@ interface OperatingMonth {
 const NEED_BY_GROUP: Record<CostGroup, FundingNeedCategory> = {
     establishment: "establishment",
     operating: "establishment",
-    offering: "offering-launch",
-    other: "other"
+    offering: "offering-launch"
 };
 
 /** A loan: a funding source of the debt kind, whatever its status. */
@@ -2205,6 +2675,9 @@ export function fundingNeeds(
     legalEntity: LegalEntityValue,
     revenuePage?: FinancialSustainabilityValue,
     format: (amount: number) => string = moneyFormatter("")
+    ,
+    /** With an Opening Date: the cash to raise before it, which the Establishment need is. */
+    launch?: LaunchNeed
 ): CalculatedNeed[] {
 
     const start = value.planStart;
@@ -2212,7 +2685,7 @@ export function fundingNeeds(
     const funding = allFunding(value, legalEntity);
 
     const oneTime: Record<FundingNeedCategory, CalculatedNeed["parts"]> = {
-        "establishment": [], "initial-operating": [], "offering-launch": [], "other": []
+        "establishment": [], "initial-operating": [], "offering-launch": []
     };
     const firstMonth: Record<string, number> = {};
     const lastMonth: Record<string, number> = {};
@@ -2224,6 +2697,10 @@ export function fundingNeeds(
             return;
         }
         const schedule = costSchedule(line, start);
+        const inBudget = launch !== undefined && launch.budgetLineIds.has(line.id);
+        if (inBudget && line.frequency === "one-time") {
+            return;
+        }
         if (line.frequency === "one-time") {
             const category = NEED_BY_GROUP[line.group];
             const index = schedule.findIndex(amount => amount > 0);
@@ -2235,7 +2712,8 @@ export function fundingNeeds(
             lastMonth[category] = Math.max(lastMonth[category] ?? index, index);
             return;
         }
-        schedule.forEach((amount, index) => { outflow[index] += amount; });
+        // (A cost in the budget counts its months before the opening there, not in the running costs.)
+        schedule.forEach((amount, index) => { outflow[index] += inBudget && index < launch.openingIndex ? 0 : amount; });
     });
 
     /* Running costs: loans, and what selling costs and brings in. */
@@ -2330,6 +2808,17 @@ export function fundingNeeds(
         }
 
         const parts = oneTime[category.id];
+        if (launch && category.id === "establishment") {
+            const kept = parts.reduce((sum, part) => sum + part.amount, 0);
+            return {
+                id: category.id,
+                label: category.label,
+                amount: launch.cashToRaise + kept,
+                parts: [...launch.parts.filter(part => part.amount > 0.005).map(part => ({ ...part, when: "Before " + planMonthLabel(start, launch.openingIndex + 1) })), ...parts],
+                when: "Before " + planMonthLabel(start, launch.openingIndex + 1),
+                note: "The cash to raise before the opening: the Total Pre-operational Budget, the Startup Contingency Fund and the cash for opening inventory."
+            };
+        }
         return {
             id: category.id,
             label: category.label,
@@ -2383,7 +2872,9 @@ export function financialPosition(
     currency: string,
     format: (amount: number) => string,
     /** Sustainability's page: the revenue the operating need is net of. */
-    revenuePage?: FinancialSustainabilityValue
+    revenuePage?: FinancialSustainabilityValue,
+    /** With an Opening Date: the cash to raise before it. */
+    launch?: LaunchNeed
 ): FinancialPosition {
 
     const start = value.planStart;
@@ -2397,7 +2888,7 @@ export function financialPosition(
         .filter(entry => isNonCash(entry.source))
         .reduce((sum, entry) => sum + entry.standing.total, 0);
 
-    const needs = fundingNeeds(value, lines, legalEntity, revenuePage, format);
+    const needs = fundingNeeds(value, lines, legalEntity, revenuePage, format, launch);
     const need = needs.reduce((sum, entry) => sum + entry.amount, 0);
     // In hand: what has arrived, less what was already spent before the plan.
     const availableNow = standings.reduce((sum, entry) => sum + entry.standing.received, 0) -
@@ -3561,6 +4052,14 @@ const CURRENCY_LOCALES: Record<string, string> = {
     USD: "en-US", GBP: "en-GB", EUR: "en-IE", CAD: "en-CA", AUD: "en-AU", NZD: "en-NZ"
 };
 
+/** The figures of an amount alone, in the currency's own locale: for a table that writes the currency once, in the header of the column. */
+export function moneyFigures(currency: string, options?: { wholeOnly?: boolean }): (amount: number) => string {
+    const locale = CURRENCY_LOCALES[currency];
+    const whole = new Intl.NumberFormat(locale, { maximumFractionDigits: 0 });
+    const pence = new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return (amount: number) => options?.wholeOnly || Math.abs(amount - Math.round(amount)) < 0.005 ? whole.format(Math.round(amount)) : pence.format(amount);
+}
+
 export function moneyFormatter(
     currency: string,
     options?: {
@@ -3990,4 +4489,20 @@ export function whatItWouldTake(
         room: null
     };
 
+}
+
+/** The cost of one unit with its linked services, for each asset card (what the capitalisation limit is tested on). */
+export function assetUnitCostsOf(capability: BusinessCapabilityValue): Record<string, number> {
+    const costs: Record<string, number> = {};
+    const add = (slot: BusinessResourceSlotValue, groupId: string) => {
+        if (isCostingStatus(slot.status) && (isPurchaseGroup(groupId) || (isSpaceOnlyGroup(groupId) && slot.status === "buy"))) {
+            const cost = assetUnitCost(capability, slot);
+            if (cost !== null) {
+                costs[slot.id] = cost;
+            }
+        }
+    };
+    Object.values(capability.resources).forEach(subsections => subsections.forEach(subsection => subsection.slots.forEach(slot => add(slot, subsection.id))));
+    capability.offering.resources.forEach(slot => add(slot, slot.group));
+    return costs;
 }

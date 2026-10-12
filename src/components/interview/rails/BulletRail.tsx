@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useLayoutEffect, useRef, useState } from "react";
 
 import type { RailItem } from "./railItems";
 import { PAGE_STATUS_WORDS } from "../../../framework/engine/PageStatus";
@@ -86,13 +86,37 @@ export default function BulletRail({
 
     }
 
+    // A label that does not fit on one line (it wraps in the gutter): the rail shows its bullets alone, and a name appears beside a bullet under the pointer.
+    const nav = useRef<HTMLElement | null>(null);
+    useLayoutEffect(() => {
+        const node = nav.current;
+        if (!node) {
+            return;
+        }
+        const fit = () => {
+            node.classList.remove("bullet-rail-compact");
+            const wraps = Array.from(node.querySelectorAll<HTMLElement>(".bullet-rail-label")).some(label => {
+                if (getComputedStyle(label).position === "absolute") {
+                    return false;
+                }
+                const size = parseFloat(getComputedStyle(label).fontSize) || 16;
+                return label.getBoundingClientRect().height > size * 1.9;
+            });
+            node.classList.toggle("bullet-rail-compact", wraps);
+        };
+        fit();
+        window.addEventListener("resize", fit);
+        return () => window.removeEventListener("resize", fit);
+    });
+
     // The head: the page arrow on a row of its own, then the rail's
     // name ("PAGES", "SECTIONS"), hidden from assistive technology
     // (the nav's own label says it).
     const head = (
         <div className="bullet-rail-head">
             {arrow}
-            <span className="bullet-rail-title" aria-hidden="true">{label}</span>
+            {/* (No rail, no title: a page with nothing to list leaves its name out too.) */}
+            {items.length >= 2 && <span className="bullet-rail-title" aria-hidden="true">{label}</span>}
         </div>
     );
 
@@ -101,7 +125,7 @@ export default function BulletRail({
     }
 
     return (
-        <nav className={"bullet-rail bullet-rail-" + side} aria-label={label}>
+        <nav ref={nav} className={"bullet-rail bullet-rail-" + side} aria-label={label}>
 
             {head}
 

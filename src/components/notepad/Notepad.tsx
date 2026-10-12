@@ -7,6 +7,8 @@ import { markFieldsHot } from "./NotedHover";
 import { OrganizationService } from "../../services/OrganizationService";
 import { parseFieldKey, registeredFields } from "../../framework/engine/FieldKeys";
 import { consumeKey } from "../interview/consumeKey";
+import DateCellInput, { isoToDisplay } from "../interview/DateCellInput";
+import { PreferencesService } from "../../services/PreferencesService";
 
 import "../../styles/notepad.css";
 
@@ -26,7 +28,7 @@ import "../../styles/notepad.css";
 function useNotepad() {
     const version = useSyncExternalStore(
         NotepadService.subscribe,
-        () => NotepadService.notes().length + ":" + JSON.stringify(NotepadService.view()) + ":" + NotepadService.notes().map(note => note.text.length + "/" + note.links.length).join(",")
+        () => NotepadService.notes().length + ":" + JSON.stringify(NotepadService.view()) + ":" + NotepadService.notes().map(note => note.text.length + "/" + note.links.length + "/" + (note.date ?? "")).join(",")
     );
     void version;
     return { notes: NotepadService.notes(), view: NotepadService.view() };
@@ -103,6 +105,19 @@ function NoteText({ note, onKey, textRef }: {
         />
     );
 
+}
+
+/** A moment as the app writes dates (the user's presentation) and the hour: "12/03/2027 14:05". */
+export function noteMomentText(moment: number | Date): string {
+    const at = new Date(moment);
+    const two = (n: number) => String(n).padStart(2, "0");
+    const iso = at.getFullYear() + "-" + two(at.getMonth() + 1) + "-" + two(at.getDate());
+    return isoToDisplay(iso, PreferencesService.getDateFormat()) + " " + two(at.getHours()) + ":" + two(at.getMinutes());
+}
+
+/** Today, written as the app writes dates. */
+export function noteTodayText(now = new Date()): string {
+    return noteMomentText(now).split(" ")[0];
 }
 
 /** "#query" just before the caret, if the person is naming a place. */
@@ -223,6 +238,24 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
             }}
         >
 
+            {/* Above the text, at the right: when the note was written (automatic, read-only), then the note's ×. At once, and the undo toast offers it back; an empty note just goes. */}
+            <div className="notepad-note-top">
+                {note.createdAt > 0 && <p className="notepad-note-recorded">{"Recorded " + noteMomentText(note.createdAt)}</p>}
+                <button
+                    type="button"
+                    className="strategy-box-remove card-remove notepad-note-remove"
+                    aria-label="Delete note"
+                    onClick={() => {
+                        const removed = NotepadService.removeNote(note.id);
+                        if (removed && (removed.note.text.trim() !== "" || removed.note.links.length > 0)) {
+                            UndoService.offer("Note removed.", () => NotepadService.restoreNote(removed.note, removed.index));
+                        }
+                    }}
+                >
+                    ×
+                </button>
+            </div>
+
             <NoteText note={note} onKey={onKey} textRef={(element) => { box.current = element; }} />
 
             {suggestions && (
@@ -289,6 +322,7 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
             )}
 
             <div className="notepad-note-actions">
+                <div className="notepad-note-actions-text">
                 {canPick
                     ? (
                         <button
@@ -300,21 +334,25 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
                             {picking ? "Picking: click a field or card" : "Link a field"}
                         </button>
                     )
-                    : <span />}
-                {/* At once, and the undo toast offers it back; an empty note just goes. */}
-                <button
-                    type="button"
-                    className="strategy-box-remove card-remove notepad-note-remove"
-                    aria-label="Delete note"
-                    onClick={() => {
-                        const removed = NotepadService.removeNote(note.id);
-                        if (removed && (removed.note.text.trim() !== "" || removed.note.links.length > 0)) {
-                            UndoService.offer("Note removed.", () => NotepadService.restoreNote(removed.note, removed.index));
-                        }
-                    }}
-                >
-                    ×
-                </button>
+                    : null}
+                {/* The Date: a tick; ticked, its label becomes the day to pick, and the note stands on that day of the Calendar. */}
+                <span className="notepad-date">
+                    <input
+                        type="checkbox"
+                        className="brand-tick-box"
+                        aria-label="Date"
+                        checked={!!note.date}
+                        onChange={(event) => {
+                            const now = new Date();
+                            const two = (n: number) => String(n).padStart(2, "0");
+                            NotepadService.setDate(note.id, event.target.checked ? now.getFullYear() + "-" + two(now.getMonth() + 1) + "-" + two(now.getDate()) : "");
+                        }}
+                    />
+                    {note.date
+                        ? <DateCellInput ariaLabel="Note date" value={note.date} onChange={(next) => NotepadService.setDate(note.id, next)} />
+                        : <span className="notepad-date-label">Date</span>}
+                </span>
+                </div>
             </div>
 
         </div>
@@ -419,9 +457,10 @@ export function NotepadPanel() {
                     type="button"
                     className="notepad-close"
                     aria-label="Close notes"
+                    title="Fold the notes away"
                     onClick={() => NotepadService.close()}
                 >
-                    ×
+                    ▸
                 </button>
             </div>
 

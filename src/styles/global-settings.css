@@ -1,0 +1,606 @@
+/* ==========================================================
+   Global Settings (GlobalSettings.tsx): one column on the Review
+   page's frame, a section for each family of figures, and the
+   Channel Fee Table. Numbers align to the right.
+========================================================== */
+
+.settings-intro{
+
+    margin:0;
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:var(--text-muted);
+
+}
+
+.settings-section{
+
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+
+}
+
+.settings-subtitle{
+
+    margin:8px 0 0;
+
+    font-size:var(--font-body);
+    font-weight:600;
+
+    color:var(--text-default);
+
+}
+
+.settings-field{
+
+    display:grid;
+    grid-template-columns:minmax(0, 320px) auto minmax(0, 1fr);
+    align-items:center;
+    gap:8px 20px;
+
+}
+
+.settings-label{
+
+    min-width:0;
+
+}
+
+.settings-control{
+
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+
+}
+
+.settings-number{
+
+    width:120px;
+
+    text-align:right;
+
+}
+
+.settings-unit{
+
+    min-width:48px;
+
+    font-size:var(--font-body);
+
+    color:var(--text-muted);
+
+}
+
+.settings-hint{
+
+    margin:0;
+
+    font-size:var(--font-body);
+    line-height:1.4;
+
+    color:var(--text-muted);
+
+}
+
+.settings-table-wrap{
+
+    overflow-x:auto;
+
+}
+
+.settings-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.settings-table th,
+.settings-table td{
+
+    padding:6px 8px;
+
+    text-align:left;
+    vertical-align:middle;
+
+    border-bottom:1px solid var(--line-sheet);
+
+}
+
+.settings-table th{
+
+    font-size:var(--font-body);
+    font-weight:600;
+
+    color:var(--text-default);
+
+}
+
+.settings-table .settings-number-column{
+
+    text-align:right;
+
+}
+
+.settings-table .settings-number{
+
+    width:96px;
+
+}
+
+.settings-visually-hidden{
+
+    position:absolute;
+
+    width:1px;
+    height:1px;
+
+    overflow:hidden;
+
+    clip:rect(0 0 0 0);
+
+}
+
+@media (max-width:760px){
+
+    .settings-field{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+/* What a setting says is wrong with itself (the Opening Date before the Plan Start): the app's danger red. */
+.settings-alarm{
+
+    color:var(--text-danger);
+
+}
+
+/* ---- ONE SIZE FOR EVERY CELL OF THE PAGE ----
+   Every box and picker is as high as a card's cell (--card-cell-height) and its text the body size; the label column, the cell column and the hint stand on the same
+   three columns in every section. */
+.settings-page .settings-field{
+
+    grid-template-columns:minmax(0, 340px) 240px minmax(0, 1fr);
+    gap:8px 20px;
+
+}
+
+.settings-page .settings-control{
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+}
+
+.settings-page .settings-number{
+
+    width:140px;
+
+}
+
+.settings-page :is(.interview-input, .option-picker .option-picker-trigger.interview-input){
+
+    min-height:var(--card-cell-height);
+
+    font-size:var(--font-body);
+
+}
+
+.settings-page .settings-number-column .settings-number,
+.settings-page .settings-table .settings-number{
+
+    width:100%;
+    min-width:96px;
+
+}
+
+.settings-subtitle-row{
+
+    display:flex;
+    align-items:center;
+    gap:16px;
+
+    margin-top:8px;
+
+}
+
+.settings-subtitle-row > .settings-subtitle{
+
+    margin:0;
+
+}
+
+.settings-reset{
+
+    padding:4px 12px;
+
+    border:1px solid var(--line-primary);
+    border-radius:999px;
+
+    background:var(--bg-surface);
+    color:var(--text-default);
+
+    font:inherit;
+    font-size:var(--font-small);
+
+    cursor:pointer;
+
+}
+
+.settings-reset:disabled{
+
+    border-color:var(--box-border);
+
+    color:var(--text-faint);
+
+    cursor:default;
+
+}
+
+.settings-life-category{
+
+    display:flex;
+    flex-direction:column;
+
+    gap:12px;
+
+    padding:12px 0 0;
+
+}
+
+.settings-category-title{
+
+    margin:0;
+
+    font-size:var(--font-body);
+    font-weight:700;
+
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+
+    color:var(--text-subtle);
+
+}
+
+.settings-life-group{
+
+    display:flex;
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+.settings-asset{
+
+    display:grid;
+    grid-template-columns:minmax(0, 340px) 240px minmax(0, 1fr);
+    align-items:center;
+    gap:8px 20px;
+
+    padding-left:20px;
+
+}
+
+.settings-asset-name{
+
+    padding:0;
+
+    border:0;
+
+    background:none;
+    color:var(--text-link, var(--bg-primary));
+
+    font:inherit;
+    font-size:var(--font-body);
+    text-align:left;
+    text-decoration:underline;
+
+    cursor:pointer;
+
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+
+}
+
+.settings-asset-cost{
+
+    font-size:var(--font-body);
+
+    color:var(--text-muted);
+
+}
+
+@media (max-width:760px){
+
+    .settings-page .settings-field,
+    .settings-asset{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+/* The pickers of the page (Plan Length, Amounts, Income Tax ...) are the size of its boxes. */
+.settings-page .settings-field .option-picker[data-size] > .option-picker-trigger.interview-input,
+.settings-page .settings-field .option-picker[data-size] .option-picker-trigger.interview-input.interview-input {
+
+    min-height:var(--card-cell-height);
+    height:auto;
+
+    font-size:var(--font-body);
+
+}
+
+/* ---- THE BUSINESS STYLE ----
+   A label is a field label (the Business cards' own: small, muted, the "i" after it), a cell is a card cell (44px, body text), a section title the card heading size; two
+   columns -- the label and its cell -- and nothing written under a field: what it means is in its "i". */
+.settings-page .settings-field{
+
+    grid-template-columns:minmax(0, 340px) auto;
+
+}
+
+.settings-page .settings-label{
+
+    display:flex;
+    align-items:center;
+
+    gap:6px;
+
+    font-size:var(--font-body);
+
+}
+
+.settings-page .review-group-title{
+
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+
+}
+
+.settings-assets-table th,
+.settings-assets-table td{
+
+    padding:8px 12px;
+
+    vertical-align:middle;
+
+}
+
+.settings-assets-table thead th{
+
+    font-size:var(--font-small);
+    font-weight:700;
+
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+
+    color:var(--text-subtle);
+
+}
+
+.settings-assets-table tbody th{
+
+    font-size:var(--font-body);
+    font-weight:400;
+    text-align:left;
+
+}
+
+.settings-assets-category th{
+
+    padding-top:20px;
+
+    font-size:var(--font-small);
+    font-weight:700;
+
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+
+    color:var(--text-subtle);
+
+}
+
+.settings-assets-group th{
+
+    font-weight:600;
+
+}
+
+.settings-assets-card th{
+
+    padding-left:28px;
+
+}
+
+.settings-assets-table .settings-number{
+
+    width:120px;
+
+}
+
+.settings-assets-table .settings-number-column{
+
+    text-align:left;
+
+}
+
+/* ---- CELLS THE SIZE OF THEIR FIGURES ----
+   A figure box is 112px (a card's short cell), never a column's whole width; the Assets table has four columns of fixed widths -- the asset, its cost, its
+   useful life, the reset -- and is as wide as they are. */
+.settings-page .settings-number{
+
+    width:112px;
+
+}
+
+.settings-page .settings-number-column .settings-number,
+.settings-page .settings-table .settings-number,
+.settings-page .settings-assets-table .settings-number{
+
+    width:96px;
+    min-width:0;
+
+}
+
+.settings-page .settings-assets-table{
+
+    width:max-content;
+    min-width:0;
+
+    table-layout:fixed;
+
+}
+
+.settings-page .settings-assets-table col.settings-col-asset{ width:340px; }
+.settings-page .settings-assets-table col.settings-col-cost{ width:150px; }
+.settings-page .settings-assets-table col.settings-col-life{ width:132px; }
+.settings-page .settings-assets-table col.settings-col-reset{ width:90px; }
+
+.settings-page .settings-assets-table .settings-number-column{
+
+    text-align:left;
+
+}
+
+.settings-page .settings-assets-cost-cell{
+
+    font-size:var(--font-body);
+
+}
+
+/* ---- SMALLER CELLS, A STEADY TABLE ---- */
+.settings-page .settings-number{
+
+    width:88px;
+
+}
+
+.settings-page .settings-number-column .settings-number,
+.settings-page .settings-table .settings-number,
+.settings-page .settings-assets-table .settings-number{
+
+    width:80px;
+
+}
+
+.settings-reset:not(:disabled):hover,
+.settings-reset:not(:disabled):focus-visible{
+
+    border-color:var(--glow-color, var(--line-primary));
+    background:color-mix(in srgb, var(--glow-color, var(--line-primary)) 14%, var(--bg-surface));
+
+    outline:none;
+
+}
+
+.settings-asset-order{
+
+    display:inline-block;
+
+    min-width:1.6em;
+
+    color:var(--text-muted);
+
+}
+
+/* The Channel Fee Table: fixed columns, the figures' headings right-aligned over their cells, the cells at the same right edge. */
+.settings-page .settings-fee-table{
+
+    width:max-content;
+
+    table-layout:fixed;
+
+}
+
+.settings-page .settings-fee-table col.settings-col-channel{ width:200px; }
+.settings-page .settings-fee-table col.settings-col-figure{ width:150px; }
+.settings-page .settings-fee-table col.settings-col-note{ width:240px; }
+.settings-page .settings-fee-table col.settings-col-remove{ width:56px; }
+
+.settings-page .settings-fee-table th.settings-number-column,
+.settings-page .settings-fee-table td.settings-number-column{
+
+    text-align:right;
+
+}
+
+.settings-page .settings-fee-table td .interview-input:not(.settings-number){
+
+    width:100%;
+
+}
+
+/* ---- ROUND THREE ---- */
+/* A percent has room for two digits: a square. */
+.settings-page .settings-number.settings-percent,
+.settings-page .settings-number-column .settings-number.settings-percent,
+.settings-page .settings-table .settings-number.settings-percent{
+
+    width:var(--card-cell-height, 44px);
+    min-width:0;
+
+    padding-left:4px;
+    padding-right:6px;
+
+}
+
+/* The drop-downs of the page are as wide as their words need. */
+.settings-page .settings-field .option-picker,
+.settings-page .settings-field .option-picker .option-picker-trigger.interview-input{
+
+    width:200px;
+    max-width:100%;
+
+}
+
+.settings-page .settings-assets-table col.settings-col-cost{ width:110px; }
+.settings-page .settings-assets-table col.settings-col-frequency{ width:140px; }
+.settings-page .settings-assets-table col.settings-col-life{ width:120px; }
+.settings-page .settings-assets-table col.settings-col-reset{ width:90px; }
+
+/* The Reset is the app's own small button. */
+.settings-page .settings-reset{
+
+    padding:4px 12px;
+
+    border-radius:6px;
+
+    font-size:var(--font-small);
+
+}
+
+/* A date cell on the page is the one date cell (the Start date cell's size). */
+.settings-page .date-cell{
+
+    width:198px;
+
+}
+
+.settings-page .date-cell .date-cell-input{
+
+    width:auto;
+    flex:1;
+
+}
+
+/* The Capitalisation limit has room for four digits. */
+.settings-page input[aria-label="Capitalisation limit"]{
+
+    width:72px;
+
+}

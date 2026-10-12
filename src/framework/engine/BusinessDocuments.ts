@@ -111,12 +111,20 @@ import {
     parseAmount,
     moneyFormatter,
     planMonthLabel,
+    incomeTaxRate,
+    assetUnitCostsOf,
     spentBeforePlan,
     sustainability,
     withPlanStart,
+    derivedPlanStart,
+    costStartDates,
     type CostLine,
-    type RevenueStreamValue
+    type RevenueStreamValue,
+    costAmountShown
 } from "./FinancialModel.ts";
+import { calculatedLines } from "./CalculatedLines.ts";
+import { launchNeedOf } from "./ContingencyFunds.ts";
+import { asGlobalSettings, capitalisationLimitOf } from "./GlobalSettings.ts";
 import { COUNTRIES, countryCurrency, jurisdictionProfile } from "./LegalEntityJurisdictions.ts";
 
 /** The four Foundation Systems as saved -- any may be missing. */
@@ -127,6 +135,8 @@ export interface FoundationSessions {
     strategy?: InterviewSession | null;
     /** The Organization's name as the app lists it. */
     organisationName: string;
+    /** Its Global Settings as saved (the Opening Date is one): given, the forecast uses the calculated lines (CalculatedLines.ts); not given, it is as it was. */
+    globalSettings?: unknown;
 }
 
 /* ==========================================================
@@ -254,30 +264,46 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
     const capability = capabilityOf(business.responseOf?.(AnswerType.BusinessCapability), business);
     const engagement = asBusinessEngagementValue(business.responseOf?.(AnswerType.BusinessEngagement));
 
-    const financial = withPlanStart(asFinancialFoundationValue(business.responseOf?.(AnswerType.FinancialFoundation)));
+    const chosenFinancial = withPlanStart(asFinancialFoundationValue(business.responseOf?.(AnswerType.FinancialFoundation)));
+    const financial = withPlanStart(chosenFinancial, undefined, derivedPlanStart(sessions.globalSettings === undefined ? "" : asGlobalSettings(sessions.globalSettings).openingDate, costStartDates(capability), chosenFinancial.planStart));
     const lines = costLines(financial, business);
     const revenuePage = withDemand(
         asFinancialSustainabilityValue(business.responseOf?.(AnswerType.FinancialSustainability)),
         asBusinessEngagementValue(business.responseOf?.(AnswerType.BusinessEngagement)).demand
     );
-    const position = financialPosition(financial, lines, legalEntity, currency, format, revenuePage);
-    const outlook = sustainability(revenuePage, financial, lines, legalEntity, format);
-
-    const name = text(legalEntity.organisation.name) || text(sessions.organisationName) || "The organization";
-
     // Where the owners take drawings rather than a salary, as the
     // forecast counts them (see FinancialForecast.ts).
     const drawings = ownersTakeDrawings(legalEntity.organisation.legalForm);
 
+    const settings = sessions.globalSettings === undefined ? undefined : asGlobalSettings(sessions.globalSettings);
+    const calculated = settings
+        ? calculatedLines({ foundation: financial, revenuePage, lines, capability, settings, openingDate: settings.openingDate, drawings }, incomeTaxRate(financial))
+        : undefined;
+    // The cash to raise before the opening, which the Establishment need is (ContingencyFunds.ts).
+    const launched = settings
+        ? launchNeedOf(
+            lines,
+            { openingDate: settings.openingDate, capitalisationLimit: capitalisationLimitOf(settings), assetUnitCosts: assetUnitCostsOf(capability) },
+            settings,
+            Object.fromEntries(Object.entries(financial.classified).map(([id, entry]) => [id, entry.nature || undefined])),
+            calculated
+        )
+        : undefined;
+
+    const position = financialPosition(financial, lines, legalEntity, currency, format, revenuePage, launched?.launch);
+    const outlook = sustainability(revenuePage, financial, lines, legalEntity, format);
+
+    const name = text(legalEntity.organisation.name) || text(sessions.organisationName) || "The organization";
+
     return {
         legalEntity, foundersProfile, currency, format, drawings, business, strategy, foundationValue, segments,
-        capability, engagement, financial, lines, position, revenuePage, outlook, name,
+        capability, engagement, financial, lines, position, revenuePage, outlook, name, calculated,
         definition: responseByTitle(sessions.identity, /^definition$/i),
         ethics: responseByTitle(sessions.identity, /^ethics$/i),
         ambassador: responseByTitle(sessions.brand, /ambassador/i),
         brandStyle: asBrandStyleValue(responseByType(sessions.brand, AnswerType.BrandStyle)),
         brandStyleValue: responseByType(sessions.brand, AnswerType.BrandStyle),
-        brandInventoryValue: responseByType(sessions.brand, AnswerType.BrandInventory),
+        brandInventoryValue: asBrandStyleValue(responseByType(sessions.brand, AnswerType.BrandStyle)).inventory,
         strategyFoundation: asStrategyFoundationValue(strategy.responseOf?.(AnswerType.StrategyFoundation)),
         strategicPeriod: asStrategicPeriodValue(strategy.responseOf?.(AnswerType.StrategicPeriod))
     };
@@ -876,7 +902,7 @@ function brandVoiceBlocks(f: Foundation): ExportBlock[] {
     // ("First impression: …"), so each goes under a heading.
     const parts = ([
         ["Aesthetics", f.ambassador.aesthetics],
-        ["Attitude & Body Language", f.ambassador["attitude-body-language"]],
+        ["Body Language", f.ambassador["attitude-body-language"]],
         ["Communication & Voice", f.ambassador["communication-voice"]],
         ["Imprint", f.ambassador.imprint]
     ] as [string, unknown][]).flatMap(([title, value]) => text(value) ? [heading(title, 2), ...paragraphs(value)] : []);
@@ -926,7 +952,7 @@ function operationsBlocks(f: Foundation): ExportBlock[] {
                     activity.completed ? "Completed" : "Planned"
                 ])
         ])),
-        ...titled("Partners and Providers", list(people.filter(isEngaged)
+        ...titled("Partners and Suppliers", list(people.filter(isEngaged)
             .map(person => person.name.trim() + (text(person.description) ? ": " + text(person.description) : "")))),
         // Tax and legal registrations: part of operating, as Start Up Loans has it.
         ...titled("Licences and Registrations", list(licenceItems(f))),
@@ -944,7 +970,10 @@ function operationsBlocks(f: Foundation): ExportBlock[] {
 function teamBlocks(f: Foundation): ExportBlock[] {
     const organisation = f.legalEntity.organisation;
     const profiled = founderProfiles(f.legalEntity.founders, f.foundersProfile).filter(founderProfileHasText);
-    const teamGaps = asFoundersProfileValue(f.foundersProfile).teamGaps;
+    const capability = asFoundersProfileValue(f.foundersProfile);
+    const teamGaps = capability.teamCover.trim()
+        ? [capability.teamGaps.trim() ? "Gaps: " + capability.teamGaps.trim() : "", "Cover: " + capability.teamCover.trim()].filter(Boolean).join("\n\n")
+        : capability.teamGaps;
     return [
         ...titled("Legal Structure", details([
             ["Legal name", organisation.name],
@@ -974,8 +1003,8 @@ function teamBlocks(f: Foundation): ExportBlock[] {
             ]))
             : notCovered("Experience and CVs")),
         ...(text(teamGaps)
-            ? titled("Team Capability Gaps and Cover", paragraph(teamGaps))
-            : notCovered("Team Capability Gaps and Cover"))
+            ? titled("Capability Gaps and Cover", paragraph(teamGaps))
+            : notCovered("Capability Gaps and Cover"))
     ];
 }
 
@@ -1269,7 +1298,7 @@ export function forecastTableBlocks(table: ForecastViewTable, format: (amount: n
  * they rest on.
  */
 function projectionBlocks(f: Foundation): ExportBlock[] {
-    const forecast = financialForecast(f.financial, f.revenuePage, f.lines, f.legalEntity, f.format);
+    const forecast = financialForecast(f.financial, f.revenuePage, f.lines, f.legalEntity, f.format, f.calculated);
     const years = planYears(f.financial);
     const full = forecastView(forecast, "quarterly", years, { quarterlyYears: 1 });
     // Short column heads ("Q1", "Year 2") so the tables fit a page's
@@ -1335,7 +1364,7 @@ function appendixBlocks(f: Foundation): ExportBlock[] {
                     ...table(["Cost", "Amount", "Frequency", "Offering"], [
                         ...lines.map(line => [
                             costName(f, line),
-                            line.amount === null ? line.amountText : line.counted ? f.format(line.amount) : line.amountText + " " + line.currency + " (not counted)",
+                            line.amount === null ? line.amountText : line.counted ? costAmountShown(line, f.format) : line.amountText + " " + line.currency + " (not counted)",
                             frequencyOf(line),
                             offeringNames(f.foundationValue, line.offeringIds)
                         ]),
@@ -1448,7 +1477,7 @@ export function businessPlan(sessions: FoundationSessions): ExportContent {
 export function businessForecast(sessions: FoundationSessions) {
     const f = readFoundation(sessions, { wholeOnly: true });
     return {
-        forecast: financialForecast(f.financial, f.revenuePage, f.lines, f.legalEntity, f.format),
+        forecast: financialForecast(f.financial, f.revenuePage, f.lines, f.legalEntity, f.format, f.calculated),
         years: planYears(f.financial),
         currency: f.currency,
         format: f.format,
@@ -1464,7 +1493,7 @@ export function businessForecastContent(
     capability = "Foundation"
 ): ExportContent {
     const f = readFoundation(sessions, { wholeOnly: true });
-    const forecast = financialForecast(f.financial, f.revenuePage, f.lines, f.legalEntity, f.format);
+    const forecast = financialForecast(f.financial, f.revenuePage, f.lines, f.legalEntity, f.format, f.calculated);
     const view = forecastView(forecast, period, untilYear);
     const whole = moneyFormatter(f.currency, { wholeOnly: true });
     // A monthly or quarterly forecast beyond one plan year is too wide

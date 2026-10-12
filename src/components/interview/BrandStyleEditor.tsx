@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useLayoutEffect, useRef } from "react";
+import { CSSProperties, ReactNode, useLayoutEffect, useRef, useState } from "react";
 
 import {
     BRAND_COLOUR_SLOTS,
@@ -15,11 +15,17 @@ import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { ColumnHeading, GuidanceBullets } from "./ColumnHeads.tsx";
 import { limitedHexText } from "./numberInput.ts";
 import { railId } from "./rails/railItems.ts";
+import SectionTiles, { DialogHeading, type SectionTile } from "./SectionTiles.tsx";
+import PictureBoxes, { type PictureBox } from "./PictureBoxes.tsx";
+import BrandInventoryEditor from "./BrandInventoryEditor.tsx";
+import type { CardBoxAdd } from "./CardBoxes.tsx";
+import { workHue } from "../../framework/engine/WorkColours.ts";
 import { BusinessAddButton, BusinessCard, BusinessField, BusinessRemove, OptionalNote } from "./BusinessCardFields.tsx";
 import { LevelSize, cardTint, clampedSize, pixelRange, useCardInk } from "./brandStyleParts.tsx";
 import FoldAllToggle from "./FoldAllToggle.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
+import { inwardOrigin } from "./CardTile.tsx";
 import { UndoService } from "../../services/UndoService";
 
 interface BrandStyleEditorProps {
@@ -51,6 +57,12 @@ interface BrandStyleEditorProps {
      * line -- see AnswerRendererProps.showInstructions.
      */
     showInstructions?: boolean;
+
+    /** The page drawn as tiles (the page's tile system); the editor's own tests draw the whole page. */
+    asTiles?: boolean;
+
+    /** The frame's heading, on top of its tiles (a page of several sections). */
+    frameTitle?: string;
 
 }
 
@@ -252,7 +264,11 @@ export default function BrandStyleEditor({
 
     columnsDivider,
 
-    showInstructions = true
+    showInstructions = true,
+
+    frameTitle,
+
+    asTiles = false
 
 }: BrandStyleEditorProps) {
 
@@ -453,9 +469,9 @@ export default function BrandStyleEditor({
         line the fixed row has no room for. Measured after every
         change and whenever the card's width changes.
     */
-    const hierarchyCard = useRef<HTMLDivElement | null>(null);
+    const [hierarchyNode, setHierarchyNode] = useState<HTMLDivElement | null>(null);
     useLayoutEffect(() => {
-        const card = hierarchyCard.current;
+        const card = hierarchyNode;
         if (!card) {
             return;
         }
@@ -485,11 +501,12 @@ export default function BrandStyleEditor({
         });
         observer.observe(card);
         return () => observer.disconnect();
-    }, [style.hierarchy]);
+    }, [style.hierarchy, hierarchyNode]);
 
-    function heading(offset: number) {
+    function heading(offset: number, info?: InfoPoint[]) {
         return (
             <ColumnHeading
+                info={info}
                 offset={offset}
                 title={BRAND_STYLE_SECTIONS[offset]}
                 startNumber={startNumber}
@@ -583,6 +600,417 @@ export default function BrandStyleEditor({
         );
     }
 
+    /** One colour card; `always` is the card floating over its tile (open, with no fold arrow). */
+    function colourCard({ slot, index }: { slot: StyleSlot; index: number }, position: number, always = false) {
+
+                    const colour = style.colours[index];
+                    const swatch = normalizeHex(colour.hex);
+                    const id = cardId("colour", slot.id);
+                    const what = "Colour " + (position + 1);
+                    const open = always || folds.isOpen(id);
+                    /* Folded, the card is tinted with its own colour
+                       (as much as keeps its text at 4.5:1). */
+                    const tint = open ? null : cardTint(swatch, ink);
+
+                    return (
+                        <BusinessCard
+                            key={slot.id}
+                            anchor={id}
+                            className={"brand-style-card" + (tint ? " brand-style-card-tinted" : "")}
+                            kind="Colour"
+                            number={position + 1}
+                            name={colour.name}
+                            onName={(name) => updateColour(index, { name })}
+                            open={open}
+                            onToggle={always ? undefined : () => folds.toggle(id)}
+                            disabled={disabled}
+                            style={tint ? { background: tint } : undefined}
+                            summary={slot.label}
+                            actions={
+                                <BusinessRemove
+                                    what={what}
+                                    disabled={disabled}
+                                    onRemove={() => removeSlot("colours", index, what)}
+                                />
+                            }
+                        >
+
+                            {/* Role and Colour, each label BESIDE its control
+                                on the control's centre line, the labels in one
+                                column and the controls from one x to the name
+                                box's right edge (.brand-side-rows). */}
+                            <div className="brand-side-rows business-field-run">
+
+                            {roleField(
+                                what,
+                                BRAND_COLOUR_SLOTS,
+                                style.colours,
+                                index,
+                                (to) => onChange({ ...style, colours: movedSlot(style.colours, index, to) }),
+                                (to) => folds.expand(cardId("colour", BRAND_COLOUR_SLOTS[to].id)),
+                                true
+                            )}
+
+                            {/* The contrast is the first point of the Colour's
+                                "i", worked out live from the colour chosen. */}
+                            <BusinessField
+                                label="Colour"
+                                inline
+                                info={[...(swatch ? [contrastNote(swatch)] : []), ...CONTRAST_HELP]}
+                            >
+                                <div className="brand-colour-row">
+
+                                    <input
+                                        type="color"
+                                        className={`brand-colour-picker${swatch ? "" : " brand-colour-picker-empty"}`}
+                                        aria-label={`${slot.label} colour picker`}
+                                        disabled={disabled}
+                                        value={swatch ?? "#ffffff"}
+                                        onChange={(event) => updateColour(index, { hex: event.target.value })}
+                                    />
+
+                                    <input
+                                        type="text"
+                                        className="interview-input brand-hex-input"
+                                        aria-label={`${slot.label} HEX`}
+                                        placeholder="#000000"
+                                        disabled={disabled}
+                                        value={colour.hex}
+                                        onChange={(event) => updateColour(index, { hex: limitedHexText(event.target.value, colour.hex) })}
+                                    />
+
+                                </div>
+
+                            </BusinessField>
+
+                            </div>
+
+                            {/* A growing box behind its tick, as every optional field. */}
+                            <OptionalNote
+                                label="Usage"
+                                ariaLabel={`${slot.label} usage`}
+                                placeholder="Where the colour is used"
+                                disabled={disabled}
+                                value={colour.usage}
+                                onChange={(usage) => updateColour(index, { usage })}
+                            />
+
+                        </BusinessCard>
+                    );
+
+    }
+
+    /** One typeface card; `always` is the card floating over its tile (open, with no fold arrow). */
+    function typefaceCard({ slot, index }: { slot: StyleSlot; index: number }, position: number, always = false) {
+
+                    const typeface = style.typefaces[index];
+                    const id = cardId("typeface", slot.id);
+                    const what = "Typeface " + (position + 1);
+
+                    return (
+                        <BusinessCard
+                            key={slot.id}
+                            anchor={id}
+                            className="brand-style-card"
+                            kind="Typeface"
+                            number={position + 1}
+                            name={typeface.font}
+                            onName={(font) => updateTypeface(index, { font })}
+                            open={always || folds.isOpen(id)}
+                            onToggle={always ? undefined : () => folds.toggle(id)}
+                            disabled={disabled}
+                            summary={slot.label}
+                            actions={
+                                <BusinessRemove
+                                    what={what}
+                                    disabled={disabled}
+                                    onRemove={() => removeSlot("typefaces", index, what)}
+                                />
+                            }
+                        >
+
+                            <div className="brand-side-rows business-field-run">
+                            {roleField(
+                                what,
+                                BRAND_TYPEFACE_SLOTS,
+                                style.typefaces,
+                                index,
+                                (to) => onChange({ ...style, typefaces: movedSlot(style.typefaces, index, to) }),
+                                (to) => folds.expand(cardId("typeface", BRAND_TYPEFACE_SLOTS[to].id)),
+                                true
+                            )}
+                            </div>
+
+                            {/* A growing box behind its tick, as every optional
+                                field: "Usage", as a colour's; its key stays
+                                "Purpose". */}
+                            <OptionalNote
+                                label="Usage"
+                                fieldId="Purpose"
+                                ariaLabel={`${slot.label} usage`}
+                                placeholder="What the typeface is used for"
+                                disabled={disabled}
+                                value={typeface.purpose}
+                                onChange={(purpose) => updateTypeface(index, { purpose })}
+                            />
+
+                        </BusinessCard>
+                    );
+
+    }
+
+    /** The Text Hierarchy's one box, a row for each level. */
+    function hierarchyTable() {
+        return (
+                    <div
+                        ref={setHierarchyNode}
+                        className="business-foundation-card brand-style-card brand-hierarchy-card"
+                        data-anchor={HIERARCHY_CARD}
+                        style={{ "--level-height": levelHeight() + "px" } as CSSProperties}
+                    >
+    
+                        <div className="brand-hierarchy-levels">
+    
+                            {BRAND_HIERARCHY_LEVELS.map(level => {
+    
+                                const entry = style.hierarchy[level.id];
+    
+                                const prerequisite = level.dependsOn
+                                    ? BRAND_HIERARCHY_LEVELS.find(other => other.id === level.dependsOn)
+                                    : undefined;
+    
+                                const prerequisiteMet =
+                                    !prerequisite || style.hierarchy[prerequisite.id].enabled;
+    
+                                const blocked = prerequisiteMet
+                                    ? undefined
+                                    : `Activate ${prerequisite?.label} first`;
+    
+                                return (
+    
+                                    <div
+                                        className="brand-hierarchy-row"
+                                        key={level.id}
+                                        // Its fixed height (levelHeight), and its name's lines.
+                                        style={{
+                                            "--level-height": levelHeight() + "px",
+                                            "--level-lines": level.label.split(" / ").length
+                                        } as CSSProperties}
+                                    >
+    
+                                        {activationTick(
+                                            level.label,
+                                            entry.enabled,
+                                            blocked,
+                                            (next) => toggleLevel(level.id, next),
+                                            // What each level is for, and its range, is in the
+                                            // one "i" of the section's first guidance line.
+                                            undefined,
+                                            entry.enabled ? previewSize(entry.size, level.range) : undefined
+                                        )}
+    
+                                        {entry.enabled && (
+                                            <LevelSize
+                                                label={level.label}
+                                                range={level.range}
+                                                value={entry.size}
+                                                disabled={disabled}
+                                                onChange={(next) => updateLevelSize(level.id, next)}
+                                            />
+                                        )}
+    
+                                    </div>
+    
+                                );
+    
+                            })}
+    
+                        </div>
+    
+                    </div>
+        );
+    }
+
+    /* THE PAGE AS TILES (the page's tile system): two LARGE tiles. Colours carries every colour as a block; Typography & Text Hierarchy carries the typefaces. A
+       tile opens its dialog: the colours, or the typefaces with the Text Hierarchy's table under them. A colour's or a typeface's box opens its card floating. */
+    if (asTiles) {
+        const info: InfoPoint[][] = [
+            [
+                "Choose colours that support the character and purpose of your organisation.", ...COLOUR_ASSOCIATIONS,
+                "As a starting point, consider a 60 / 30 / 10 distribution guide.", ...COLOUR_COMBINATIONS,
+                "Accessibility: check text/background contrast before assigning a colour to text or essential interface elements."
+            ],
+            [
+                "Choose typefaces that support your brand's character while remaining appropriate for their intended use.", ...TYPEFACE_STYLES,
+                "Use complementary typefaces and prioritise readability over personality.", ...TYPEFACE_PAIRINGS,
+                "Recommended: use 1–2 typefaces for most brands; use 3 only when each has a clearly defined purpose."
+            ],
+            [
+                "Use larger sizes for more important headings, and smaller sizes for longer text to keep it comfortable to read.", ...HIERARCHY_LEVEL_HELP,
+                "Maintain a clear and consistent relationship between text levels.", ...HIERARCHY_RELATIONSHIP
+            ]
+        ];
+        const rail = (section: number) => railId(BRAND_STYLE_SECTIONS[section]);
+        const colourId = (slotId: string) => cardId("colour", slotId);
+        const typefaceId = (slotId: string) => cardId("typeface", slotId);
+        /** A card floating over its tile keeps the page's Style scope (its pickers, its roles). */
+        const floating = (card: ReactNode) => (
+            <div className="brand-style brand-style-columns" style={{ "--answer-column-count": 1 } as CSSProperties}>
+                <div className="brand-style-body brand-style-cards">{card}</div>
+            </div>
+        );
+        const inkOf = (swatch: string | null) => swatch ? (luminance(swatch) > 0.5 ? "#1c1c1c" : "#ffffff") : undefined;
+
+        /** A blank card added and left blank is taken away again. */
+        const addOf = (list: "colours" | "typefaces", kind: "colour" | "typeface", label: string): CardBoxAdd | undefined => {
+            const slots: readonly StyleSlot[] = list === "colours" ? BRAND_COLOUR_SLOTS : BRAND_TYPEFACE_SLOTS;
+            if (nextFree(slots, style[list]) === null) {
+                return undefined;
+            }
+            const indexOf = (id: string) => slots.findIndex(slot => cardId(kind, slot.id) === id);
+            return {
+                label,
+                disabled,
+                onAdd: () => {
+                    const at = nextFree(slots, latest.current.style[list]) ?? 0;
+                    addSlot(list);
+                    return cardId(kind, slots[at].id);
+                },
+                isBlank: (id: string) => {
+                    const entry = latest.current.style[list][indexOf(id)] as { name?: string; hex?: string; usage?: string; font?: string; purpose?: string } | undefined;
+                    return !entry || [entry.name, entry.hex, entry.usage, entry.font, entry.purpose].every(text => (text ?? "").trim() === "");
+                },
+                onRemove: (ids: string[]) => {
+                    const { style: now, onChange: write } = latest.current;
+                    const off = ids.map(indexOf).filter(at => at >= 0);
+                    write({ ...now, [list]: now[list].map((entry, at) => off.includes(at) ? { ...entry, enabled: false } : entry) });
+                }
+            };
+        };
+
+        // The A colours on the top row, the B colours under them.
+        const inPairs = [...colourCards.filter(entry => /A$/.test(entry.slot.label)), ...colourCards.filter(entry => !/A$/.test(entry.slot.label))];
+        const colourBoxes: PictureBox[] = inPairs.map((entry) => {
+            const position = colourCards.indexOf(entry);
+            const colour = style.colours[entry.index];
+            const swatch = normalizeHex(colour.hex);
+            return {
+                id: colourId(entry.slot.id),
+                label: "Colour " + (position + 1) + ": " + (colour.name.trim() || entry.slot.label),
+                style: swatch ? { background: swatch, color: inkOf(swatch) } : undefined,
+                children: (
+                    <>
+                        <span className="picture-box-name">{colour.name.trim() || "Unnamed colour"}</span>
+                        <span className="picture-box-line">{entry.slot.label}</span>
+                        <span className="picture-box-line picture-box-code">{swatch ? swatch.toUpperCase() : "No colour yet"}</span>
+                    </>
+                )
+            };
+        });
+        const typefaceBoxes: PictureBox[] = typefaceCards.map((entry, position) => {
+            const typeface = style.typefaces[entry.index];
+            return {
+                id: typefaceId(entry.slot.id),
+                label: "Typeface " + (position + 1) + ": " + (typeface.font.trim() || entry.slot.label),
+                children: (
+                    <>
+                        <span className="picture-box-name">{typeface.font.trim() || "Unnamed typeface"}</span>
+                        <span className="picture-box-line">{entry.slot.label}</span>
+                        <span className="picture-box-specimen" style={typeface.font.trim() ? { fontFamily: '"' + typeface.font.trim() + '", sans-serif' } : undefined}>Aa</span>
+                    </>
+                )
+            };
+        });
+
+        const colourTile: SectionTile = {
+            id: "brand-style-colours",
+            title: BRAND_STYLE_SECTIONS[0],
+            large: true,
+            view: true,
+            rail: rail(0),
+            holds: colourCards.map(entry => colourId(entry.slot.id)),
+            add: addOf("colours", "colour", "colour"),
+            cardFor: (id: string) => {
+                const at = colourCards.findIndex(entry => colourId(entry.slot.id) === id);
+                return at >= 0 ? floating(colourCard(colourCards[at], at, true)) : null;
+            },
+            picture: colourCards.length > 0
+                ? (
+                    <span className="brand-mosaic" style={{ "--mosaic-across": Math.max(1, Math.ceil(colourCards.length / 2)) } as CSSProperties}>
+                        {inPairs.map((entry, at) => <span key={entry.slot.id} data-card={colourId(entry.slot.id)} style={{ transformOrigin: inwardOrigin(at, inPairs.length, Math.max(1, Math.ceil(colourCards.length / 2))), background: normalizeHex(style.colours[entry.index].hex) ?? "transparent" }} />)}
+                    </span>
+                )
+                : <span className="section-tile-picture-colour section-tile-picture-colour-empty">No colours yet</span>,
+            content: () => (
+                <div className="column-tile-content brand-style" data-rail={rail(0)}>
+                    <div className="business-engagement-section-head"><DialogHeading title={BRAND_STYLE_SECTIONS[0]} info={info[0]} noteSize="double" /></div>
+                    <PictureBoxes label="Colours" items={colourBoxes} add={addOf("colours", "colour", "colour")} />
+                </div>
+            )
+        };
+
+        const levels = BRAND_HIERARCHY_LEVELS.filter(level => style.hierarchy[level.id].enabled).length;
+        const typographyTile: SectionTile = {
+            id: "brand-style-typography",
+            title: BRAND_STYLE_SECTIONS[1] + " &\n" + BRAND_STYLE_SECTIONS[2],
+            large: true,
+            view: true,
+            rail: rail(1),
+            holds: typefaceCards.map(entry => typefaceId(entry.slot.id)),
+            add: addOf("typefaces", "typeface", "typeface"),
+            cardFor: (id: string) => {
+                const at = typefaceCards.findIndex(entry => typefaceId(entry.slot.id) === id);
+                return at >= 0 ? floating(typefaceCard(typefaceCards[at], at, true)) : null;
+            },
+            picture: (
+                <span className="brand-specimens">
+                    {typefaceCards.map(entry => {
+                        const font = style.typefaces[entry.index].font.trim();
+                        return <span key={entry.slot.id} data-card={typefaceId(entry.slot.id)} style={font ? { fontFamily: '"' + font + '", sans-serif' } : undefined}>{font || entry.slot.label}</span>;
+                    })}
+                    <span className="brand-specimens-note">{levels + (levels === 1 ? " text level" : " text levels")}</span>
+                </span>
+            ),
+            content: () => (
+                <div className="column-tile-content brand-style" data-rail={rail(1)}>
+                    <div className="business-engagement-section-head"><DialogHeading title={BRAND_STYLE_SECTIONS[1]} info={info[1]} noteSize="double" /></div>
+                    <PictureBoxes label="Typefaces" items={typefaceBoxes} add={addOf("typefaces", "typeface", "typeface")} />
+                    <div className="business-engagement-section-head" data-rail={rail(2)}><DialogHeading title={BRAND_STYLE_SECTIONS[2]} info={info[2]} noteSize="double" /></div>
+                    <div className="brand-style-columns" style={{ "--answer-column-count": 1 } as CSSProperties}>
+                        <div className="brand-style-body brand-style-cards">{hierarchyTable()}</div>
+                    </div>
+                </div>
+            )
+        };
+
+        // The page: the Colours, the Typography & Text Hierarchy, then the Icon & Logo and the Brand Images (the Inventory editor hands over its two tiles).
+        const page = (inventoryTiles: SectionTile[]) => (
+            <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
+                <div
+                    className="business-foundation-input business-foundation-card business-engagement-input"
+                    data-anchor="column-tiles"
+                    style={{ "--strategy-theme-hue": workHue("create") } as CSSProperties}
+                >
+                    <div className="card-scroll">
+                        <div className="business-capability-section business-capability-tiles-section">
+                            {frameTitle ? <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">{frameTitle}</span></div> : <div className="business-capability-heading-spacer" aria-hidden="true" />}
+                            <SectionTiles label="Style" hue={workHue("create")} tiles={[colourTile, typographyTile, ...inventoryTiles]} />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+        return (
+            <BrandInventoryEditor
+                value={style.inventory}
+                onChange={(next) => latest.current.onChange({ ...latest.current.style, inventory: next })}
+                disabled={disabled}
+                asTiles
+                renderTiles={page}
+            />
+        );
+    }
+
     return (
 
         <div
@@ -660,104 +1088,7 @@ export default function BrandStyleEditor({
                     />
                 </div>
 
-                {colourCards.map(({ slot, index }, position) => {
-
-                    const colour = style.colours[index];
-                    const swatch = normalizeHex(colour.hex);
-                    const id = cardId("colour", slot.id);
-                    const what = "Colour " + (position + 1);
-                    const open = folds.isOpen(id);
-                    /* Folded, the card is tinted with its own colour
-                       (as much as keeps its text at 4.5:1). */
-                    const tint = open ? null : cardTint(swatch, ink);
-
-                    return (
-                        <BusinessCard
-                            key={slot.id}
-                            anchor={id}
-                            className={"brand-style-card" + (tint ? " brand-style-card-tinted" : "")}
-                            kind="Colour"
-                            number={position + 1}
-                            name={colour.name}
-                            onName={(name) => updateColour(index, { name })}
-                            open={open}
-                            onToggle={() => folds.toggle(id)}
-                            disabled={disabled}
-                            style={tint ? { background: tint } : undefined}
-                            summary={slot.label}
-                            actions={
-                                <BusinessRemove
-                                    what={what}
-                                    disabled={disabled}
-                                    onRemove={() => removeSlot("colours", index, what)}
-                                />
-                            }
-                        >
-
-                            {/* Role and Colour, each label BESIDE its control
-                                on the control's centre line, the labels in one
-                                column and the controls from one x to the name
-                                box's right edge (.brand-side-rows). */}
-                            <div className="brand-side-rows business-field-run">
-
-                            {roleField(
-                                what,
-                                BRAND_COLOUR_SLOTS,
-                                style.colours,
-                                index,
-                                (to) => onChange({ ...style, colours: movedSlot(style.colours, index, to) }),
-                                (to) => folds.expand(cardId("colour", BRAND_COLOUR_SLOTS[to].id)),
-                                true
-                            )}
-
-                            {/* The contrast is the first point of the Colour's
-                                "i", worked out live from the colour chosen. */}
-                            <BusinessField
-                                label="Colour"
-                                inline
-                                info={[...(swatch ? [contrastNote(swatch)] : []), ...CONTRAST_HELP]}
-                            >
-                                <div className="brand-colour-row">
-
-                                    <input
-                                        type="color"
-                                        className={`brand-colour-picker${swatch ? "" : " brand-colour-picker-empty"}`}
-                                        aria-label={`${slot.label} colour picker`}
-                                        disabled={disabled}
-                                        value={swatch ?? "#ffffff"}
-                                        onChange={(event) => updateColour(index, { hex: event.target.value })}
-                                    />
-
-                                    <input
-                                        type="text"
-                                        className="interview-input brand-hex-input"
-                                        aria-label={`${slot.label} HEX`}
-                                        placeholder="#000000"
-                                        disabled={disabled}
-                                        value={colour.hex}
-                                        onChange={(event) => updateColour(index, { hex: limitedHexText(event.target.value, colour.hex) })}
-                                    />
-
-                                </div>
-
-                            </BusinessField>
-
-                            </div>
-
-                            {/* A growing box behind its tick, as every optional field. */}
-                            <OptionalNote
-                                label="Usage"
-                                ariaLabel={`${slot.label} usage`}
-                                placeholder="Where the colour is used"
-                                disabled={disabled}
-                                value={colour.usage}
-                                onChange={(usage) => updateColour(index, { usage })}
-                            />
-
-                        </BusinessCard>
-                    );
-
-                })}
+                {colourCards.map((entry, position) => colourCard(entry, position))}
 
                 {nextFree(BRAND_COLOUR_SLOTS, style.colours) !== null && (
                     <div className="business-step-add-row">
@@ -781,63 +1112,7 @@ export default function BrandStyleEditor({
                     />
                 </div>
 
-                {typefaceCards.map(({ slot, index }, position) => {
-
-                    const typeface = style.typefaces[index];
-                    const id = cardId("typeface", slot.id);
-                    const what = "Typeface " + (position + 1);
-
-                    return (
-                        <BusinessCard
-                            key={slot.id}
-                            anchor={id}
-                            className="brand-style-card"
-                            kind="Typeface"
-                            number={position + 1}
-                            name={typeface.font}
-                            onName={(font) => updateTypeface(index, { font })}
-                            open={folds.isOpen(id)}
-                            onToggle={() => folds.toggle(id)}
-                            disabled={disabled}
-                            summary={slot.label}
-                            actions={
-                                <BusinessRemove
-                                    what={what}
-                                    disabled={disabled}
-                                    onRemove={() => removeSlot("typefaces", index, what)}
-                                />
-                            }
-                        >
-
-                            <div className="brand-side-rows business-field-run">
-                            {roleField(
-                                what,
-                                BRAND_TYPEFACE_SLOTS,
-                                style.typefaces,
-                                index,
-                                (to) => onChange({ ...style, typefaces: movedSlot(style.typefaces, index, to) }),
-                                (to) => folds.expand(cardId("typeface", BRAND_TYPEFACE_SLOTS[to].id)),
-                                true
-                            )}
-                            </div>
-
-                            {/* A growing box behind its tick, as every optional
-                                field: "Usage", as a colour's; its key stays
-                                "Purpose". */}
-                            <OptionalNote
-                                label="Usage"
-                                fieldId="Purpose"
-                                ariaLabel={`${slot.label} usage`}
-                                placeholder="What the typeface is used for"
-                                disabled={disabled}
-                                value={typeface.purpose}
-                                onChange={(purpose) => updateTypeface(index, { purpose })}
-                            />
-
-                        </BusinessCard>
-                    );
-
-                })}
+                {typefaceCards.map((entry, position) => typefaceCard(entry, position))}
 
                 {nextFree(BRAND_TYPEFACE_SLOTS, style.typefaces) !== null && (
                     <div className="business-step-add-row">
@@ -860,72 +1135,7 @@ export default function BrandStyleEditor({
                 {/* One plain box: the section's heading above names
                     it, so it has no head, number or fold of its own.
                     Each level's name is drawn at the size in its box. */}
-                <div
-                    ref={hierarchyCard}
-                    className="business-foundation-card brand-style-card brand-hierarchy-card"
-                    data-anchor={HIERARCHY_CARD}
-                    style={{ "--level-height": levelHeight() + "px" } as CSSProperties}
-                >
-
-                    <div className="brand-hierarchy-levels">
-
-                        {BRAND_HIERARCHY_LEVELS.map(level => {
-
-                            const entry = style.hierarchy[level.id];
-
-                            const prerequisite = level.dependsOn
-                                ? BRAND_HIERARCHY_LEVELS.find(other => other.id === level.dependsOn)
-                                : undefined;
-
-                            const prerequisiteMet =
-                                !prerequisite || style.hierarchy[prerequisite.id].enabled;
-
-                            const blocked = prerequisiteMet
-                                ? undefined
-                                : `Activate ${prerequisite?.label} first`;
-
-                            return (
-
-                                <div
-                                    className="brand-hierarchy-row"
-                                    key={level.id}
-                                    // Its fixed height (levelHeight), and its name's lines.
-                                    style={{
-                                        "--level-height": levelHeight() + "px",
-                                        "--level-lines": level.label.split(" / ").length
-                                    } as CSSProperties}
-                                >
-
-                                    {activationTick(
-                                        level.label,
-                                        entry.enabled,
-                                        blocked,
-                                        (next) => toggleLevel(level.id, next),
-                                        // What each level is for, and its range, is in the
-                                        // one "i" of the section's first guidance line.
-                                        undefined,
-                                        entry.enabled ? previewSize(entry.size, level.range) : undefined
-                                    )}
-
-                                    {entry.enabled && (
-                                        <LevelSize
-                                            label={level.label}
-                                            range={level.range}
-                                            value={entry.size}
-                                            disabled={disabled}
-                                            onChange={(next) => updateLevelSize(level.id, next)}
-                                        />
-                                    )}
-
-                                </div>
-
-                            );
-
-                        })}
-
-                    </div>
-
-                </div>
+                {hierarchyTable()}
 
             </div>
 

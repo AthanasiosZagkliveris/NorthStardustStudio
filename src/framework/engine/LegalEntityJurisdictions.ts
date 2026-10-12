@@ -111,6 +111,9 @@ export interface JurisdictionProfile {
      */
     registrationNumberHint?: string;
 
+    /** The shape of the tax identification number ("10 digits"), where it is certain: what can be typed in it follows (registrationNumberRule). */
+    taxIdNumberHint?: string;
+
     /**
      * Set only for the countries where the state, province, canton
      * or emirate genuinely changes the answers -- which registry
@@ -289,6 +292,7 @@ const JURISDICTIONS: Record<string, JurisdictionProfile> = {
         postalCodeName: "CEP",
         registrationAuthority: "Junta Comercial (state commercial registry)",
         taxIdName: "CNPJ",
+        taxIdNumberHint: "14 digits",
         registrationNumberHint: "14 digits",
         consumptionTax: "Consumption taxes (ICMS / ISS / IPI)",
         activityCode: "CNAE code",
@@ -728,6 +732,7 @@ const JURISDICTIONS: Record<string, JurisdictionProfile> = {
         postalCodeName: "Postcode",
         registrationAuthority: "Companies House",
         taxIdName: "UTR",
+        taxIdNumberHint: "10 digits",
         registrationNumberHint: "8 characters",
         consumptionTax: "VAT",
         activityCode: "SIC code",
@@ -1101,3 +1106,45 @@ export function jurisdictionIsProfiled(countryCode: string): boolean {
  * the same list it actually offered -- so the two can never
  * disagree.
  */
+
+/**
+ * WHAT A REGISTRATION NUMBER MAY HOLD, from the shape its country states (registrationNumberHint): "8 digits" takes digits only, no more than 8; "8 characters"
+ * takes letters and digits, no more than 8; a shape with separators ("123456-7890", "CHE-123.456.789") takes the characters it shows (digits, or digits and
+ * letters where it shows letters), no longer than it. A country with no stated shape takes letters, digits and the usual separators, up to 20.
+ */
+export interface RegistrationNumberRule {
+    digitsOnly: boolean;
+    max: number;
+    /** Whether a character may stand in it. */
+    allows: (character: string) => boolean;
+}
+
+const isDigit = (character: string) => character >= "0" && character <= "9";
+const isLetter = (character: string) => /^[A-Za-z]$/.test(character);
+
+export function registrationNumberRule(hint?: string): RegistrationNumberRule {
+    const text = (hint ?? "").replace(/^[^:]*:\s*/, "").trim();
+    const digits = /^(\d+) digits/.exec(text);
+    if (digits) {
+        return { digitsOnly: true, max: Number(digits[1]), allows: isDigit };
+    }
+    const characters = /^(\d+)[- ]characters?/.exec(text);
+    if (characters) {
+        return { digitsOnly: false, max: Number(characters[1]), allows: character => isDigit(character) || isLetter(character) };
+    }
+    if (text !== "") {
+        const separators = new Set([...text].filter(character => !isDigit(character) && !isLetter(character) && character !== " "));
+        const letters = [...text].some(isLetter);
+        return {
+            digitsOnly: !letters,
+            max: text.length + (letters ? 4 : 0),
+            allows: character => isDigit(character) || separators.has(character) || (letters && (isLetter(character) || character === " "))
+        };
+    }
+    return { digitsOnly: false, max: 20, allows: character => isDigit(character) || isLetter(character) || " .-/".includes(character) };
+}
+
+/** Text typed into a registration number, cut to what the rule allows: nothing else can be typed, and no more than its length. */
+export function limitedRegistrationNumber(text: string, rule: RegistrationNumberRule): string {
+    return [...text].filter(rule.allows).join("").slice(0, rule.max);
+}

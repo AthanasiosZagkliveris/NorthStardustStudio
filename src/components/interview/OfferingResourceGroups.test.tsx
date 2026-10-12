@@ -58,7 +58,7 @@ describe("Offering's Resources are filed by category and group", () => {
         fireEvent.click(screen.getByLabelText(/Resource Yarn category: /));
         fireEvent.click(screen.getByRole("option", { name: "Materials & Inventory" }));
         expect(latest!.offering.resources[0]).toMatchObject({ category: "materials", group: "materials-stock" });
-        expect(screen.queryByLabelText(/Resource Yarn group: /)).toBeNull();
+        expect((screen.getByLabelText(/Resource Yarn group: /) as HTMLButtonElement).disabled).toBe(true);
     });
 
     it("offers no Other… for an Infrastructure resource's Group, and no Other tile in a category", () => {

@@ -209,8 +209,8 @@ export function useFloatingPanel(
 }
 
 /**
- * A free panel's place, in window coordinates: under its anchor if it
- * fits, over it if it fits there, else capped to the side with more
+ * A free panel's place, in window coordinates: over its anchor if it
+ * fits, under it if it fits there, else capped to the side with more
  * room; its left edge at the anchor's, pulled back inside the window.
  * Measured and corrected once, so a transformed box around it (which
  * makes "fixed" relative to itself) cannot throw it off.
@@ -226,13 +226,17 @@ function placeFree(panel: HTMLElement, anchor: DOMRect, ceiling?: number): void 
     const roomBelow = window.innerHeight - anchor.bottom - ANCHOR_GAP - EDGE_MARGIN;
     const roomAbove = anchor.top - ANCHOR_GAP - EDGE_MARGIN;
 
+    // (Above the control when it fits there: a note over its "i" leaves what the "i" explains in view; below only where there is no room above.)
+    // (Under the "i" where the note would run under the app's header: a note is never half hidden.)
+    const header = document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom ?? 0;
+    const roomUp = Math.min(roomAbove, anchor.top - ANCHOR_GAP - Math.max(header, 0));
     let height = needed;
-    let below = true;
-    if (needed > roomBelow) {
-        if (needed <= roomAbove) {
-            below = false;
+    let below = false;
+    if (needed > roomUp) {
+        if (needed <= roomBelow) {
+            below = true;
         } else {
-            below = roomBelow >= roomAbove;
+            below = roomBelow > roomUp;
             height = Math.max(below ? roomBelow : roomAbove, 0);
         }
     }

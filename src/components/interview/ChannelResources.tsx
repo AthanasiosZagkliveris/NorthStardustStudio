@@ -9,11 +9,12 @@ import {
     sharedResourceLinks,
     costCardName,
     withNewChannelResource,
-    CHANNEL_COST_TEMPLATES,
     existingForTemplate,
     withLinkedExistingCard,
     withNewTemplateCost,
     withTypicalCosts,
+    holdsTemplate,
+    templatesForCategory,
     withRenamedCard,
     withResourceAction,
     withoutChannelResource
@@ -224,8 +225,10 @@ export default function ChannelResources(props: ChannelResourcesProps) {
     /* The page as it is now, for an undo offered a moment ago. */
     const latest = useRef({ engagement, capability, onWrite });
     latest.current = { engagement, capability, onWrite };
-    // The templates the company already has an item for, offered after "Typical costs for this channel" (by template id).
-    const [offered, setOffered] = useState<string[]>([]);
+    // The typical costs that fit this channel's category: a courier is not offered on an Instagram channel.
+    const fitting = templatesForCategory(segment.channels.find(entry => entry.id === channelId)?.category ?? "");
+    // The menu of the one "+ Add expense" button.
+    const [menuOpen, setMenuOpen] = useState(false);
 
     return (
         <div className="business-channel-resources">
@@ -309,42 +312,57 @@ export default function ChannelResources(props: ChannelResourcesProps) {
 
             {summary && !isolating && <p className="business-channel-cost-summary">{summary}</p>}
 
+            {/* ONE BUTTON for every way of adding an expense: a blank one, every typical cost of the channel at once, one typical cost, or a card the company already has
+                (Link existing). The menu stays open for the next, and closes with its own "Done". */}
             {!isolating && <div className="business-step-add-row">
                 <button
                     type="button"
                     className="strategy-add-button"
-                    aria-label={"Add expenses for " + what}
+                    aria-label={"Add expense to " + what}
+                    aria-expanded={menuOpen}
                     disabled={disabled}
-                    onClick={() => {
-                        const made = withNewChannelResource(engagement, capability, segment.segmentId, channelId, "");
-                        onWrite({ capability: made.capability, engagement: made.engagement });
-                        window.setTimeout(() => document
-                            .querySelector<HTMLTextAreaElement>('[data-channel-resource="' + made.link.id + '"] .business-channel-resource-name')
-                            ?.focus(), 0);
-                    }}
+                    onClick={() => setMenuOpen(open => !open)}
                 >
-                    + Add expenses
-                </button>
-                <button
-                    type="button"
-                    className="strategy-add-button"
-                    aria-label={"Typical costs for " + what}
-                    disabled={disabled}
-                    onClick={() => {
-                        const made = withTypicalCosts(engagement, capability, segment.segmentId, channelId);
-                        onWrite({ capability: made.capability, engagement: made.engagement });
-                        setOffered(made.offers.map(template => template.id));
-                    }}
-                >
-                    Typical costs for this channel
+                    + Add expense
                 </button>
             </div>}
 
-            {/* The templates: each makes its card in its group with the price blank; one the company already has is offered to link. */}
-            {!isolating && offered.length > 0 && (
+            {!isolating && menuOpen && (
                 <div className="business-channel-cost-add">
-                    <ul className="notepad-suggestions" role="list" aria-label={"Typical costs for " + what + " list"}>
-                        {CHANNEL_COST_TEMPLATES.filter(template => offered.includes(template.id)).map(template => (
+                    <ul className="notepad-suggestions" role="list" aria-label={"Add expense to " + what + " list"}>
+                        <li>
+                            <button
+                                type="button"
+                                className="notepad-suggestion"
+                                aria-label={"Blank expense for " + what}
+                                onClick={() => {
+                                    const made = withNewChannelResource(engagement, capability, segment.segmentId, channelId, "");
+                                    onWrite({ capability: made.capability, engagement: made.engagement });
+                                    setMenuOpen(false);
+                                    window.setTimeout(() => document
+                                        .querySelector<HTMLTextAreaElement>('[data-channel-resource="' + made.link.id + '"] .business-channel-resource-name')
+                                        ?.focus(), 0);
+                                }}
+                            >
+                                <span className="notepad-suggestion-label">Blank expense</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                type="button"
+                                className="notepad-suggestion"
+                                aria-label={"Typical costs for " + what}
+                                onClick={() => {
+                                    const made = withTypicalCosts(engagement, capability, segment.segmentId, channelId, fitting);
+                                    onWrite({ capability: made.capability, engagement: made.engagement });
+                                    // (What the company already has stays offered, to Link existing.)
+                                    setMenuOpen(made.offers.length > 0);
+                                }}
+                            >
+                                <span className="notepad-suggestion-label">All typical costs for this channel</span>
+                            </button>
+                        </li>
+                        {fitting.filter(template => !holdsTemplate(engagement, capability, segment.segmentId, channelId, template)).map(template => (
                             <li key={template.id}>
                                 <button
                                     type="button"
@@ -353,7 +371,6 @@ export default function ChannelResources(props: ChannelResourcesProps) {
                                     onClick={() => {
                                         const made = withNewTemplateCost(engagement, capability, segment.segmentId, channelId, template);
                                         onWrite({ capability: made.capability, engagement: made.engagement });
-                                        setOffered(list => list.filter(id => id !== template.id));
                                     }}
                                 >
                                     <span className="notepad-suggestion-label">{template.label}</span>
@@ -366,7 +383,6 @@ export default function ChannelResources(props: ChannelResourcesProps) {
                                         aria-label={"Link existing " + existing.name + " to " + what}
                                         onClick={() => {
                                             onWrite({ engagement: withLinkedExistingCard(engagement, segment.segmentId, channelId, existing.id) });
-                                            setOffered(list => list.filter(id => id !== template.id));
                                         }}
                                     >
                                         <span className="notepad-suggestion-label">{"Link existing: " + existing.name}</span>

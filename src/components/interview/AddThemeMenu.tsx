@@ -3,6 +3,7 @@ import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
 
 import { consumeKey } from "./consumeKey.ts";
+import InfoNote, { InfoPoint } from "./InfoNote.tsx";
 
 interface AddThemeMenuProps {
 
@@ -13,6 +14,9 @@ interface AddThemeMenuProps {
     usedNames: string[];
 
     disabled?: boolean;
+
+    /** Guidance for adding Themes: an "i" beside the button. */
+    info?: InfoPoint[];
 
     /** A blank Theme, or a suggested one to keep or change. */
     onAdd: (name?: string, description?: string) => void;
@@ -26,7 +30,7 @@ interface AddThemeMenuProps {
  * page asks for; the common ones follow as help. Added ones stay in
  * the list, marked, so the list never reorders under the pointer.
  */
-export default function AddThemeMenu({ suggestions, usedNames, disabled = false, onAdd }: AddThemeMenuProps) {
+export default function AddThemeMenu({ suggestions, usedNames, disabled = false, info, onAdd }: AddThemeMenuProps) {
 
     const [open, setOpen] = useState(false);
     const wrapRef = useRef<HTMLDivElement>(null);
@@ -101,6 +105,8 @@ export default function AddThemeMenu({ suggestions, usedNames, disabled = false,
                 + Add Theme
                 <span className="strategy-add-caret" aria-hidden="true" />
             </button>
+
+            {info && info.length > 0 && <InfoNote label="Adding Themes" points={info} fullList size="double" />}
 
             {open && (
 

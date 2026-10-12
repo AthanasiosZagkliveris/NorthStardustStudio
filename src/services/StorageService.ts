@@ -121,6 +121,11 @@ export class StorageService {
             this.handOverAmbassadorPageToBrandSystem(organizationId);
         }
 
+        // The Brand System's Inventory page became part of the Style page.
+        if (systemNumber === this.BRAND_SYSTEM_NUMBER) {
+            this.mergeBrandInventoryIntoStyle(organizationId);
+        }
+
         // Also before anything is read: the Business and Strategy
         // Systems traded places in the Framework's order, and saved
         // answers are keyed by System NUMBER -- so without this, a
@@ -263,7 +268,7 @@ export class StorageService {
     /**
      * The column ids of the Ambassador page, as
      * AnswerParser.slug derives them from the four column titles
-     * in the Answer Definition ("Aesthetics", "Attitude & Body
+     * in the Answer Definition ("Aesthetics", "Body
      * Language", "Communication & Voice", "Imprint").
      *
      * Used to RECOGNISE that page's saved value, which is what
@@ -636,6 +641,43 @@ export class StorageService {
         document.legacyBusinessPagesRetired = true;
 
         OrganizationService.saveDocument(document);
+
+    }
+
+    /**
+     * The Brand System's third page, Inventory (the Icon & Logo and the Brand Images), is part of the second, Style: what was saved
+     * as the third page's answer moves into the second's `inventory`, and the third page goes. A no-op once moved.
+     */
+    private static mergeBrandInventoryIntoStyle(organizationId: string): void {
+
+        const brandState = OrganizationService.loadSystemState(
+            organizationId,
+            this.BRAND_SYSTEM_NUMBER
+        ) as Parameters<typeof InterviewSession.fromJSON>[0] | null;
+
+        const responses: SectionResponse[] = brandState?.responses ?? [];
+
+        const inventory = responses.find(response => response.sectionNumber === 3);
+
+        if (!brandState || !inventory) {
+            return;
+        }
+
+        const style = responses.find(response => response.sectionNumber === 2);
+        const styleValue = style?.value && typeof style.value === "object" && !Array.isArray(style.value)
+            ? style.value as Record<string, unknown>
+            : {};
+
+        const moved = [
+            ...responses.filter(response => response.sectionNumber !== 2 && response.sectionNumber !== 3),
+            { ...(style ?? { sectionNumber: 2 }), sectionNumber: 2, value: { ...styleValue, inventory: inventory.value } } as SectionResponse
+        ];
+
+        OrganizationService.saveSystemState(
+            organizationId,
+            this.BRAND_SYSTEM_NUMBER,
+            { ...brandState, responses: moved }
+        );
 
     }
 

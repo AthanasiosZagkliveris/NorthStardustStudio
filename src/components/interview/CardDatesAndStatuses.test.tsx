@@ -34,6 +34,9 @@ describe("Start date and End date, straight after the name", () => {
         openTile("Equipment");
         openCard("Laptop");
         const start = screen.getByRole("textbox", { name: "Resource 1 start date" });
+        // The End date is optional: it comes with its tick.
+        expect(screen.queryByRole("textbox", { name: "Resource 1 end date" })).toBeNull();
+        fireEvent.click(screen.getByRole("checkbox", { name: "Resource 1 has an end date" }));
         const end = screen.getByRole("textbox", { name: "Resource 1 end date" });
         expect(start).toBeTruthy();
         // (They stand straight after the name: before the Category.)
@@ -44,6 +47,10 @@ describe("Start date and End date, straight after the name", () => {
         fireEvent.change(end, { target: { value: "11/11/2028" } });
         fireEvent.blur(end);
         expect(latest!.resources.equipment[0].slots[0]).toMatchObject({ startDate: "2027-12-12", endDate: "2028-11-11" });
+        // Unticked, the date goes.
+        fireEvent.click(screen.getByRole("checkbox", { name: "Resource 1 has an end date" }));
+        expect(latest!.resources.equipment[0].slots[0].endDate).toBe("");
+        expect(screen.queryByRole("textbox", { name: "Resource 1 end date" })).toBeNull();
     });
 
     it("a partner card asks for both", () => {
@@ -56,6 +63,7 @@ describe("Start date and End date, straight after the name", () => {
         fireEvent.change(start, { target: { value: "01/02/2027" } });
         fireEvent.blur(start);
         expect(latest!.professionals[0].startDate).toMatch(/^2027-0[12]-0[12]$/);
+        fireEvent.click(screen.getByRole("checkbox", { name: "Acme has an end date" }));
         expect(screen.getByRole("textbox", { name: "Acme end date" })).toBeTruthy();
     });
 
@@ -65,6 +73,7 @@ describe("Start date and End date, straight after the name", () => {
         openTile("Operational");
         openCard("Open the shop");
         expect(screen.getByRole("textbox", { name: "Activity 1 start date" })).toBeTruthy();
+        fireEvent.click(screen.getByRole("checkbox", { name: "Activity 1 has an end date" }));
         expect(screen.getByRole("textbox", { name: "Activity 1 end date" })).toBeTruthy();
     });
 
@@ -88,8 +97,10 @@ describe("a dropdown with one option is shown as text", () => {
         render(<Harness initial={{ ...value, resources: { equipment: [{ id: "devices-tools", name: "", slots: [card("Laptop")] }] } }} />);
         openTile("Equipment");
         openCard("Laptop");
-        expect(screen.queryByLabelText(/Resource Laptop group: /)).toBeNull();
-        expect([...document.querySelectorAll(".business-capability-static-value")].map(node => node.textContent)).toContain("Devices & Tools");
+        // (The one group stays a cell, as the Category's is: set, and not to be pressed.)
+        const group = screen.getByLabelText(/Resource Laptop group: /) as HTMLButtonElement;
+        expect(group.getAttribute("aria-label")).toMatch(/Devices & Tools$/);
+        expect(group.disabled).toBe(true);
         expect(screen.getByLabelText(/Resource Laptop category: /)).toBeTruthy();
     });
 
@@ -121,9 +132,7 @@ describe("the status \"+\" adds another status row", () => {
         fireEvent.click(screen.getByLabelText(/Resource 1 status 2: /));
         expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Partners & Suppliers", "Activity"]);
         fireEvent.click(screen.getByRole("option", { name: "Partners & Suppliers" }));
-        // Category, Group, then Name.
-        fireEvent.click(screen.getByLabelText(/Resource 1 status 2 supplier category: /));
-        fireEvent.click(screen.getByRole("option", { name: "Suppliers" }));
+        // Group, then Name.
         fireEvent.click(screen.getByLabelText(/Resource 1 status 2 supplier group: /));
         fireEvent.click(screen.getByRole("option", { name: "Technical Support" }));
         fireEvent.click(screen.getByLabelText(/Resource 1 status 2 supplier: /));

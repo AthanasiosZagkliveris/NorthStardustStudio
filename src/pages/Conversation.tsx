@@ -6,6 +6,7 @@ import AppFooter from "../components/AppFooter";
 import InterviewHeader from "../components/interview/InterviewHeader";
 import InterviewProgress, { SHOW_PROGRESS_LINE } from "../components/InterviewProgress";
 import InterviewSection from "../components/InterviewSection";
+import { groupOf, isCompanion, primaryOf } from "../framework/engine/PageGroups";
 import AnswerRenderer from "../components/interview/AnswerRenderer";
 
 import { InterviewManager, ReviewManager } from "../framework/application";
@@ -34,6 +35,7 @@ import {
     TableAnswerRow,
     asLegalEntityValue,
     asStrategicPeriodValue,
+    type StrategicPeriodValue,
     asStrategyFoundationValue,
     formatRangeShort,
     titleWithPeriod,
@@ -52,6 +54,7 @@ import { countryCurrency } from "../framework/engine/LegalEntityJurisdictions.ts
 
 import { StorageService } from "../services/StorageService";
 import { OrganizationService } from "../services/OrganizationService";
+import { asGlobalSettings } from "../framework/engine/GlobalSettings";
 import { PreferencesService } from "../services/PreferencesService";
 import { offerRemovalUndo, UndoService } from "../services/UndoService";
 import { FocusModeService } from "../services/FocusModeService";
@@ -65,7 +68,7 @@ import PageArrow, { pageKey } from "../components/interview/PageArrow";
 /** The Introduction's place on the PAGES rail, above "1. …". */
 const INTRODUCTION_RAIL_ID = "introduction";
 import NumberedListStatic from "../components/interview/NumberedListStatic";
-import { pageIndexFromRailId, pageRailItems, sectionRailItems } from "../components/interview/rails/railItems";
+import { drawnAsTiles, pageIndexFromRailId, pageRailItems, sectionRailItems } from "../components/interview/rails/railItems";
 import { pageStatuses } from "../framework/engine/PageStatus";
 import { sectionStatuses } from "../framework/engine/SectionStatus";
 import { scrollToRailSection, useActiveRailSection } from "../components/interview/rails/useActiveRailSection";
@@ -1248,7 +1251,7 @@ export default function Conversation() {
 
         commitProcessLibraryChangesToOperationalLog();
 
-        if (session.isLastSection()) {
+        if (session.isLastSection() || session.getCurrentSectionIndex() >= session.getSections().reduce((last, section, index) => isCompanion(groupSystemNumber, section.number) ? last : index, 0)) {
 
             if (organizationId) {
                 StorageService.saveInterview(organizationId, session);
@@ -1290,6 +1293,9 @@ export default function Conversation() {
         }
 
         session.nextSection();
+        while (isCompanion(groupSystemNumber, session.getCurrentSection().number) && !session.isLastSection()) {
+            session.nextSection();
+        }
         persistAndRedraw(session);
         scrollToTop();
 
@@ -1304,6 +1310,9 @@ export default function Conversation() {
         commitProcessLibraryChangesToOperationalLog();
 
         if (session.previousSection()) {
+            while (isCompanion(groupSystemNumber, session.getCurrentSection().number) && session.previousSection()) {
+                // (A companion is not a page: on to the page it stands beside.)
+            }
             persistAndRedraw(session);
             scrollToTop();
         }
@@ -1862,11 +1871,26 @@ export default function Conversation() {
     const railStatuses = session
         ? pageStatuses(session, (answer) => resolveSharedAnswerValue(organizationId, answer))
         : null;
+    // (A page that holds several sections -- PageGroups.ts -- is one bullet, its companions' sections not pages of their own.)
+    const groupSystemNumber = system?.number;
+    const visiblePages = session ? session.getSections().filter(section => !isCompanion(groupSystemNumber, section.number)).length : 0;
     const railPages = session
-        ? pageRailItems(session.getSections()).map((item, index) => ({
-            ...item,
-            status: railStatuses?.get(session.getSections()[index].number)
-        }))
+        ? pageRailItems(session.getSections())
+            .filter((_item, index) => !isCompanion(groupSystemNumber, session.getSections()[index].number))
+            .map((item, position) => {
+                const section = session.getSections().find(candidate => "page-" + candidate.number === item.id)!;
+                const group = groupOf(groupSystemNumber, section.number);
+                const members = (group?.members ?? [section.number]).map(number => railStatuses?.get(number));
+                const status = members.every(entry => entry === "defined")
+                    ? "defined" as const
+                    : members.every(entry => entry === undefined || entry === "not-started") ? "not-started" as const : "in-progress" as const;
+                return {
+                    ...item,
+                    // (A System of one page names it, with no number.)
+                    label: (visiblePages > 1 ? (position + 1) + ". " : "") + (group ? group.title : item.label.replace(/^\d+\.\s+/, "")),
+                    status: group ? status : railStatuses?.get(section.number)
+                };
+            })
         : [];
     const railSectionIndex = session?.getCurrentSectionIndex() ?? 0;
     // What renders on this page; also read by the page further down.
@@ -1903,7 +1927,7 @@ export default function Conversation() {
     // Each section bullet is drawn in its section's status too
     // (SectionStatus.ts), from the same answers, on every render.
     const railSectionItems = session
-        ? sectionRailItems(effectiveAnswer, strategyFoundationValue?.themes ?? [], columnNumberOffset + 1)
+        ? (drawnAsTiles(effectiveAnswer) ? [] : sectionRailItems(effectiveAnswer, strategyFoundationValue?.themes ?? [], columnNumberOffset + 1))
         : [];
     const railSectionStatuses = session
         ? sectionStatuses(
@@ -1924,6 +1948,15 @@ export default function Conversation() {
     const railSections = railSectionItems.map(item => ({ ...item, status: railSectionStatuses?.get(item.id) }));
     const [activeRailSection, selectRailSection] = useActiveRailSection(railSections.map(item => item.id), railSectionIndex);
 
+    // A companion is no page of its own: wherever the interview was left on one (a saved place, a link), it opens on the page it stands in.
+    useEffect(() => {
+        const current = session?.getCurrentSection();
+        if (session && current && isCompanion(groupSystemNumber, current.number)) {
+            session.goToSection(primaryOf(groupSystemNumber, current.number) - 1);
+            redraw();
+        }
+    });
+
     if (loadingError) {
         return <div>{loadingError}</div>;
     }
@@ -1942,7 +1975,9 @@ export default function Conversation() {
     // Introduction) and ← / →: back to the Introduction from the first
     // page, and no further than the last.
     const previousPage = session.isFirstSection() ? goToIntroduction : previousSection;
-    const onLastPage = session.isLastSection();
+    // (The last page: no page of its own follows it.)
+    const lastPageIndex = session.getSections().reduce((last, section, index) => isCompanion(groupSystemNumber, section.number) ? last : index, 0);
+    const onLastPage = session.getCurrentSectionIndex() >= lastPageIndex;
     pageTurn.current = (direction) => {
         if (showIntroduction) {
             if (direction === "next") {
@@ -2026,7 +2061,13 @@ export default function Conversation() {
     // editors are laid out the same way and read the same.
     // 3. Infrastructure & Capability drops each card's guidance down from an arrow
     // beside the card's title, instead of the page's Hide Help button.
-    const titleHelpArrows = effectiveAnswer?.type === AnswerType.BusinessCapability;
+    // (3. Customer Engagement has its guidance in the "i" beside each section title: no Hide Help button either.)
+    const titleHelpArrows = effectiveAnswer?.type === AnswerType.BusinessCapability || effectiveAnswer?.type === AnswerType.BusinessFoundation || effectiveAnswer?.type === AnswerType.BusinessEngagement || effectiveAnswer?.type === AnswerType.StrategyFoundation
+        || effectiveAnswer?.type === AnswerType.LegalEntity || effectiveAnswer?.type === AnswerType.FoundersProfile
+        || effectiveAnswer?.type === AnswerType.BrandStyle || effectiveAnswer?.type === AnswerType.BrandInventory
+        || effectiveAnswer?.type === AnswerType.StrategicPeriod || effectiveAnswer?.type === AnswerType.StrategicRoadmap
+        // (A column page of four is drawn as four tiles, 2 x 2: each column's questions are in its tile's dialog, so the page has no Hide Help button.)
+        || (effectiveAnswer?.columns === true && (effectiveAnswer.parts?.length ?? 0) === 4);
 
     const mergesTitleIntoHeader =
         isColumnsPage ||
@@ -2242,6 +2283,16 @@ export default function Conversation() {
     const financialFoundationValue = financialFoundationSection
         ? session.getResponse(financialFoundationSection.number)
         : undefined;
+
+    // The Opening Date lives in the Global Settings; the Financial Foundation edits it, and the pages that place costs around it read it.
+    const globalSettings = asGlobalSettings(organizationId ? OrganizationService.getGlobalSettings(organizationId) : undefined);
+    const openingDate = globalSettings.openingDate;
+    const changeOpeningDate = (iso: string) => {
+        if (organizationId) {
+            OrganizationService.saveGlobalSettings(organizationId, { ...asGlobalSettings(OrganizationService.getGlobalSettings(organizationId)), openingDate: iso });
+            redraw();
+        }
+    };
 
     // Its Demand & Conversion gives the expected sales both Financial pages use.
     const businessEngagementValue = businessEngagementSection
@@ -2483,6 +2534,12 @@ export default function Conversation() {
                 themeNumberPrefix: strategyThemeNumberPrefix,
                 guardThemeRemoval,
                 guardPeriodChange,
+                onChangePeriod: (next: StrategicPeriodValue) => {
+                    if (strategicPeriodSection) {
+                        session.saveResponse(strategicPeriodSection.number, next);
+                        persistAndRedraw(session);
+                    }
+                },
                 situationDraft,
                 guardSituationRefresh,
                 openBusinessPage,
@@ -2513,7 +2570,11 @@ export default function Conversation() {
     // columns are on. Where the numbering runs across the System
     // instead, the columns already carry that count and a Section
     // number in the title would be a second, unrelated one.
-    const pageTitle = effectiveAnswer?.nestedNumbering && resolvedSectionTitle
+    const pageTitleGroup = groupOf(groupSystemNumber, currentSection.number);
+    const pageTitle = pageTitleGroup
+        // A page of several sections is named for them all (and a System of one such page needs no page name).
+        ? (!pageTitleGroup.inHeader ? undefined : (railPages.findIndex(page => page.id === "page-" + currentSection.number) + 1) + ". " + pageTitleGroup.title)
+        : effectiveAnswer?.nestedNumbering && resolvedSectionTitle
         ? currentSection.number + ". " + resolvedSectionTitle
         : resolvedSectionTitle;
 
@@ -2603,6 +2664,106 @@ export default function Conversation() {
           }
         : undefined;
 
+    /** One section's answer, drawn with its own field keys: the page's own section, or a companion drawn beside it (PageGroups.ts). */
+    const renderAnswer = (section: typeof currentSection, answerDefinition: AnswerDefinition | undefined, answerValue: unknown, change: (value: unknown) => void, primary: boolean) => (
+                            <FieldPageProvider
+                                key={section.number}
+                                organizationId={organizationId}
+                                systemNumber={system.number}
+                                sectionNumber={section.number}
+                                pageTitle={section.number + ". " + (primary ? (resolvedSectionTitle ?? section.title) : section.title)}
+                            >
+                            <AnswerRenderer
+                                key={section.number}
+                                definition={answerDefinition ?? section.answer}
+                                value={answerValue}
+                                onChange={change}
+                                frameTitle={pageGroup && pageGroup.members.length > 1 ? (pageGroup.members.indexOf(section.number) + 1) + ". " + (pageGroup.frameTitles?.[pageGroup.members.indexOf(section.number)] ?? section.title) : undefined}
+                                resolveDynamicOptions={resolveDynamicOptions}
+                                rowSelection={productRegisterRowSelection}
+                                ownerSuggestions={operationsOwnerSuggestions}
+                                processLibraryProcesses={operationsProcesses}
+                                columnNumberOffset={primary ? columnNumberOffset : 0}
+                                legalEntityPrefill={legalEntityPrefill}
+                                targetAudience={targetAudience}
+                                identityVision={identityVision}
+                                businessFoundation={businessFoundationValue}
+                                onOpenBusinessFoundation={openBusinessFoundation}
+                                organisationCurrency={organisationCurrency}
+                                legalEntityFounders={legalEntity.founders}
+                                foundersProfile={foundersProfile}
+                                legalEntity={legalEntity}
+                                businessCapability={businessCapabilityValue}
+                                financialFoundation={financialFoundationValue}
+                                openingDate={openingDate}
+                                onChangeOpeningDate={changeOpeningDate}
+                                globalSettings={globalSettings}
+                                financialSustainability={financialSustainabilityValue}
+                                businessEngagement={businessEngagementValue}
+                                onOpenBusinessEngagement={openBusinessSection(AnswerType.BusinessEngagement)}
+                                onOpenBusinessCapability={openBusinessSection(AnswerType.BusinessCapability)}
+                                onChangeBusinessCapability={capabilitySection
+                                    ? (next: unknown) => {
+                                        session.saveResponse(capabilitySection.number, next);
+                                        persistAndRedraw(session);
+                                    }
+                                    : undefined}
+                                onOpenFinancialFoundation={openBusinessSection(AnswerType.FinancialFoundation)}
+                                onOpenLegalEntity={openLegalEntity}
+                                strategy={strategyContext}
+                                showInstructions={!focusMode && (titleHelpArrows || instructionsOpen)}
+                                columnsDivider={
+                                    !primary
+                                        ? undefined
+                                        : titleHelpArrows
+                                        // No "Hide Help" button: each column title folds its own guidance.
+                                        ? (SHOW_PROGRESS_LINE
+                                            ? (
+                                                <InterviewProgress
+                                                    current={session.getCurrentSectionIndex() + 1}
+                                                    total={session.getTotalSections()}
+                                                />
+                                            )
+                                            : undefined)
+                                        : mergesTitleIntoHeader
+                                        ? (
+                                            <>
+                                                {/*
+                                                    Sits directly above
+                                                    the progress line,
+                                                    below the guidance
+                                                    it hides -- so the
+                                                    control is where
+                                                    the thing it acts
+                                                    on ends, and the
+                                                    line stays the
+                                                    boundary between
+                                                    reading and
+                                                    answering.
+                                                */}
+                                                <button
+                                                    type="button"
+                                                    className={"interview-help-toggle interview-instructions-toggle" + (SHOW_PROGRESS_LINE ? "" : " interview-instructions-toggle-last")}
+                                                    aria-expanded={instructionsOpen}
+                                                    onClick={() => setInstructionsOpen(open => !open)}
+                                                >
+                                                    {instructionsOpen ? "Hide Help" : "Need Help?"}
+                                                </button>
+
+                                                <InterviewProgress
+                                                    current={session.getCurrentSectionIndex() + 1}
+                                                    total={session.getTotalSections()}
+                                                />
+                                            </>
+                                        )
+                                        : undefined
+                                }
+                            />
+                            </FieldPageProvider>
+    );
+
+    const pageGroup = groupOf(groupSystemNumber, currentSection.number);
+
     return (
         <div className="conversation-page">
             {/*
@@ -2670,7 +2831,7 @@ export default function Conversation() {
                                         numbered list: its number column,
                                         its indent and its gap. */}
                                     <NumberedListStatic
-                                        lines={pageRailItems(session.getSections()).map(page => ({
+                                        lines={railPages.map(page => ({
                                             key: page.id,
                                             className: "intro-page",
                                             text: (
@@ -2752,98 +2913,22 @@ export default function Conversation() {
                                 />
                             )}
 
-                            {/* Every field knows its key (fieldMarks.tsx). */}
-                            <FieldPageProvider
-                                organizationId={organizationId}
-                                systemNumber={system.number}
-                                sectionNumber={currentSection.number}
-                                pageTitle={currentSection.number + ". " + (resolvedSectionTitle ?? currentSection.title)}
-                            >
-                            <AnswerRenderer
-                                key={currentSection.number}
-                                definition={effectiveAnswer ?? currentSection.answer}
-                                value={effectiveValue}
-                                onChange={
-                                    sharedSource
-                                        ? handleSharedAnswerChange
-                                        : handleAnswerChange
-                                }
-                                resolveDynamicOptions={resolveDynamicOptions}
-                                rowSelection={productRegisterRowSelection}
-                                ownerSuggestions={operationsOwnerSuggestions}
-                                processLibraryProcesses={operationsProcesses}
-                                columnNumberOffset={columnNumberOffset}
-                                legalEntityPrefill={legalEntityPrefill}
-                                targetAudience={targetAudience}
-                                identityVision={identityVision}
-                                businessFoundation={businessFoundationValue}
-                                onOpenBusinessFoundation={openBusinessFoundation}
-                                organisationCurrency={organisationCurrency}
-                                legalEntityFounders={legalEntity.founders}
-                                foundersProfile={foundersProfile}
-                                legalEntity={legalEntity}
-                                businessCapability={businessCapabilityValue}
-                                financialFoundation={financialFoundationValue}
-                                financialSustainability={financialSustainabilityValue}
-                                businessEngagement={businessEngagementValue}
-                                onOpenBusinessEngagement={openBusinessSection(AnswerType.BusinessEngagement)}
-                                onOpenBusinessCapability={openBusinessSection(AnswerType.BusinessCapability)}
-                                onChangeBusinessCapability={capabilitySection
-                                    ? (next: unknown) => {
-                                        session.saveResponse(capabilitySection.number, next);
-                                        persistAndRedraw(session);
-                                    }
-                                    : undefined}
-                                onOpenFinancialFoundation={openBusinessSection(AnswerType.FinancialFoundation)}
-                                onOpenLegalEntity={openLegalEntity}
-                                strategy={strategyContext}
-                                showInstructions={!focusMode && (titleHelpArrows || instructionsOpen)}
-                                columnsDivider={
-                                    titleHelpArrows
-                                        // No "Hide Help" button: each column title folds its own guidance.
-                                        ? (SHOW_PROGRESS_LINE
-                                            ? (
-                                                <InterviewProgress
-                                                    current={session.getCurrentSectionIndex() + 1}
-                                                    total={session.getTotalSections()}
-                                                />
-                                            )
-                                            : undefined)
-                                        : mergesTitleIntoHeader
-                                        ? (
-                                            <>
-                                                {/*
-                                                    Sits directly above
-                                                    the progress line,
-                                                    below the guidance
-                                                    it hides -- so the
-                                                    control is where
-                                                    the thing it acts
-                                                    on ends, and the
-                                                    line stays the
-                                                    boundary between
-                                                    reading and
-                                                    answering.
-                                                */}
-                                                <button
-                                                    type="button"
-                                                    className={"interview-help-toggle interview-instructions-toggle" + (SHOW_PROGRESS_LINE ? "" : " interview-instructions-toggle-last")}
-                                                    aria-expanded={instructionsOpen}
-                                                    onClick={() => setInstructionsOpen(open => !open)}
-                                                >
-                                                    {instructionsOpen ? "Hide Help" : "Need Help?"}
-                                                </button>
-
-                                                <InterviewProgress
-                                                    current={session.getCurrentSectionIndex() + 1}
-                                                    total={session.getTotalSections()}
-                                                />
-                                            </>
-                                        )
-                                        : undefined
-                                }
-                            />
-                            </FieldPageProvider>
+                            {pageGroup && pageGroup.members.length > 1
+                                ? (
+                                    <div className="page-group">
+                                        {renderAnswer(currentSection, effectiveAnswer ?? currentSection.answer, effectiveValue, sharedSource ? handleSharedAnswerChange : handleAnswerChange, true)}
+                                        {pageGroup.members.slice(1).map(number => {
+                                            const companion = session.getSections().find(candidate => candidate.number === number);
+                                            return companion
+                                                ? renderAnswer(companion, companion.answer, session.getResponse(companion.number), (next: unknown) => {
+                                                    session.saveResponse(companion.number, next);
+                                                    persistAndRedraw(session);
+                                                }, false)
+                                                : null;
+                                        })}
+                                    </div>
+                                )
+                                : renderAnswer(currentSection, effectiveAnswer ?? currentSection.answer, effectiveValue, sharedSource ? handleSharedAnswerChange : handleAnswerChange, true)}
 
                             {/* No Previous / Next bar: the page arrows above the
                                 rails (and ← / →) turn the page. FINISH IS HIDDEN, not

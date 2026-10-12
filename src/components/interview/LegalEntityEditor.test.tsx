@@ -1,11 +1,10 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
-import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import LegalEntityEditor from "./LegalEntityEditor";
 import { typeInto } from "../../test/interviewTestUtils";
 import { stylesheet } from "../../test/stylesheet";
-import { UndoService } from "../../services/UndoService";
 import { asLegalEntityValue, createLegalEntityExpense, createLegalEntityRequirement, legalEntitySectionsEmpty } from "../../framework/engine/AnswerUtils";
 
 function Harness() {
@@ -106,16 +105,20 @@ describe("LegalEntityEditor number limits", () => {
 
     });
 
-    it("allows a Formation Date up to five years ahead", () => {
+    it("takes a Formation Date no later than today", () => {
 
-        render(<FoundersHarness />);
+        function Formed() {
+            const [value, setValue] = useState<unknown>(asLegalEntityValue({ organisation: { country: "GB" }, formation: { registrationNumber: "16234587", date: "2026-03-02" } }));
+            return <LegalEntityEditor value={value} onChange={setValue} />;
+        }
+        render(<Formed />);
 
         const today = new Date();
-        const limit = new Date(today.getFullYear() + 5, today.getMonth(), today.getDate());
+        const limit = new Date(today.getFullYear(), today.getMonth(), today.getDate());
         const iso = limit.getFullYear() + "-" + String(limit.getMonth() + 1).padStart(2, "0") + "-" +
             String(limit.getDate()).padStart(2, "0");
 
-        expect(screen.getByLabelText("Formation date").getAttribute("max")).toBe(iso);
+        expect(screen.getByLabelText("Formation date").closest(".date-cell")!.querySelector(".date-cell-native-picker")!.getAttribute("max")).toBe(iso);
 
     });
 
@@ -280,12 +283,13 @@ describe("LegalEntityEditor registrations", () => {
         expect(heads).not.toContain("Registration");
 
         fireEvent.click(screen.getByRole("button", { name: "Remove registration number" }));
-        expect((screen.getByLabelText("Registration Authority") as HTMLInputElement).value).toBe("UK Trade Mark");
+        // (The authority is the country's, shown as text; the next number moves up.)
+        expect(screen.getByLabelText("Registration Authority").textContent).toBe("Companies House");
         expect((screen.getByLabelText("Registration Number") as HTMLInputElement).value).toBe("UK00004012345");
         expect(screen.queryByRole("button", { name: "Remove registration number 1" })).toBeNull();
 
         fireEvent.click(screen.getByRole("button", { name: "Remove registration number" }));
-        expect((screen.getByLabelText("Registration Authority") as HTMLInputElement).value).toBe("");
+        expect(screen.getByLabelText("Registration Authority").textContent).toBe("Companies House");
         expect((screen.getByLabelText("Registration Number") as HTMLInputElement).value).toBe("");
 
     });
@@ -421,19 +425,19 @@ describe("LegalEntityEditor formation row", () => {
 
     it("sets Status and Formation Date on one row, each label beside its control, and hides the date while not registered", () => {
 
-        render(<Formation initial={asLegalEntityValue({ organisation: { country: "GB" }, formation: { status: "registered", date: "2026-03-02" } })} />);
+        render(<Formation initial={asLegalEntityValue({ organisation: { country: "GB" }, formation: { date: "2026-03-02", registrationNumber: "16234587" } })} />);
 
-        const row = document.querySelector(".legal-entity-side-row")!;
+        // (There is no Status to show: the number registers it. The date shows once there is a number.)
+        const row = document.querySelector(".legal-entity-date-row")!;
         const fields = [...row.children];
-        expect(fields).toHaveLength(2);
-        expect(fields[0].querySelector(".option-picker-trigger")).toBeTruthy();
-        expect(fields[1].querySelector('input[type="date"]')).toBeTruthy();
-        expect(fields[1].textContent).toContain("Date");
+        expect(fields).toHaveLength(1);
+        expect(screen.queryByLabelText("Registration status")).toBeNull();
+        expect(fields[0].querySelector(".date-cell")).toBeTruthy();
+        expect(fields[0].textContent).toContain("Date");
 
-        fireEvent.click(screen.getByRole("button", { name: /^Registration status/ }));
-        fireEvent.click(screen.getByRole("option", { name: "Not yet registered" }));
+        fireEvent.change(screen.getByLabelText("Registration Number"), { target: { value: "" } });
 
-        expect(document.querySelector(".legal-entity-side-row")!.children).toHaveLength(1);
+        expect(document.querySelector(".legal-entity-date-row")?.children.length ?? 0).toBe(0);
         expect(screen.queryByLabelText("Formation date")).toBeNull();
         expect(screen.getByText(/Not registered yet/)).toBeTruthy();
 
@@ -508,11 +512,7 @@ describe("LegalEntityEditor expense links", () => {
             fireEvent.click(arrow);
         }
 
-        fireEvent.click(screen.getByRole("button", { name: /^Expense 1 linked registration/ }));
-        const labels = screen.getAllByRole("option").map(option => option.textContent);
-        expect(labels).toContain("Employers' Liability Insurance");
-        expect(labels.some(label => label?.includes("Other Legal Requirement"))).toBe(false);
-        expect((screen.getByRole("textbox", { name: "Registration Authority" }) as HTMLTextAreaElement).placeholder).toBe("");
+        expect(screen.getByLabelText("Registration Authority").textContent).toBe("Companies House");
 
     });
 
@@ -543,14 +543,12 @@ describe("LegalEntityEditor requirement type and free-text numbers", () => {
         const options = screen.getAllByRole("option").map(option => option.textContent);
         expect(options.some(option => option?.includes("("))).toBe(false);
 
-        // Reference and Type on one row of the card's grid; the reference is free text that wraps.
+        // The reference is optional, so a tick box (ticked here, it holds one); it is free text that wraps.
         const reference = screen.getByRole("textbox", { name: "Legal requirement 1 reference or number" });
         expect(reference.tagName).toBe("TEXTAREA");
-        const referenceCell = reference.closest(".legal-entity-field")!;
-        const typeCell = type.closest(".legal-entity-field")!;
-        expect(referenceCell.classList.contains("legal-entity-field-wide")).toBe(false);
-        expect(typeCell.classList.contains("legal-entity-field-wide")).toBe(false);
-        expect(referenceCell.nextElementSibling).toBe(typeCell);
+        const referenceField = reference.closest(".optional-field")!;
+        expect(referenceField.querySelector('input[type="checkbox"]')).toBeTruthy();
+        expect(referenceField.textContent).toContain("Reference or Number");
 
     });
 
@@ -601,13 +599,12 @@ describe("LegalEntityEditor VAT note", () => {
 
 describe("LegalEntityEditor Add to Legal Entity Expenses", () => {
 
-    it("offers a requirement to the expenses' Links only while ticked, and unticking unlinks it, undoably", () => {
+    it("ticking a requirement makes an expense named as it is and linked to it; unticking takes it away, undoably", () => {
 
         const requirement = { ...createLegalEntityRequirement(), name: "Company Secretary" };
-        const expense = { ...createLegalEntityExpense(), name: "Secretary fee", links: [] as string[] };
         let latest: unknown;
         function Offer() {
-            const [value, setValue] = useState<unknown>(asLegalEntityValue({ organisation: { country: "GB" }, requirements: [requirement], expenses: [expense] }));
+            const [value, setValue] = useState<unknown>(asLegalEntityValue({ organisation: { country: "GB" }, requirements: [requirement], expenses: [] }));
             latest = value;
             return <LegalEntityEditor value={value} onChange={setValue} />;
         }
@@ -615,34 +612,16 @@ describe("LegalEntityEditor Add to Legal Entity Expenses", () => {
         for (const arrow of screen.queryAllByRole("button", { name: /^Maximize/ })) {
             fireEvent.click(arrow);
         }
-        // (The Linked registration is a dropdown of what has been offered: exactly one can be chosen.)
-        const picker = () => screen.queryByRole("button", { name: /^Expense 1 linked registration/ });
-        const links = () => {
-            if (!picker()) { return []; }
-            fireEvent.click(picker()!);
-            const names = screen.getAllByRole("option").map(option => option.textContent);
-            fireEvent.keyDown(document.activeElement ?? document.body, { key: "Escape" });
-            return names;
-        };
-        const tick = screen.getByRole("checkbox", { name: "Add to Legal Entity Expenses" }) as HTMLInputElement;
+        const tick = () => screen.getByRole("checkbox", { name: "Add to Legal Entity Expenses" }) as HTMLInputElement;
+        expect(asLegalEntityValue(latest).expenses).toHaveLength(0);
 
-        expect(tick.checked).toBe(false);
-        expect(links()).not.toContain("Company Secretary");
+        fireEvent.click(tick());
+        const made = asLegalEntityValue(latest).expenses;
+        expect(made).toHaveLength(1);
+        expect(made[0]).toMatchObject({ name: "Company Secretary", links: [requirement.id], fromRequirement: requirement.id });
 
-        fireEvent.click(tick);
-        expect(links()).toContain("Company Secretary");
-
-        // Link it, then untick: the link goes; undo brings both back.
-        fireEvent.click(picker()!);
-        fireEvent.click(screen.getByRole("option", { name: "Company Secretary" }));
-        expect(asLegalEntityValue(latest).expenses[0].links).toEqual([requirement.id]);
-        fireEvent.click(screen.getByRole("checkbox", { name: "Add to Legal Entity Expenses" }));
-        expect(asLegalEntityValue(latest).expenses[0].links).toEqual([]);
-        expect(links()).not.toContain("Company Secretary");
-        act(() => { UndoService.undo(); });
-        expect(asLegalEntityValue(latest).expenses[0].links).toEqual([requirement.id]);
-        expect(asLegalEntityValue(latest).requirements[0].offerInExpenses).toBe(true);
-
+        fireEvent.click(tick());
+        expect(asLegalEntityValue(latest).expenses).toHaveLength(0);
     });
 
     it("ticks a saved requirement an expense already links to, and leaves the others unticked", () => {
@@ -667,6 +646,38 @@ describe("LegalEntityEditor requirement note", () => {
         }
         expect(screen.getAllByText("Description / Relevant Information").length).toBeGreaterThan(0);
         expect(screen.queryByText("Relevant Information", { exact: true })).toBeNull();
+    });
+
+});
+
+
+describe("LegalEntityEditor as tiles", () => {
+
+    function Tiled() {
+        const [value, setValue] = useState<unknown>(asLegalEntityValue({ expenses: [{ ...createLegalEntityExpense(), name: "Filing fee" }] }));
+        return <LegalEntityEditor value={value} onChange={setValue} asTiles />;
+    }
+
+    it("is four large tiles: Organization, Founders & Ownership, Registrations and Expenses", () => {
+        render(<Tiled />);
+        expect([...document.querySelectorAll(".section-tile")].map(tile => tile.getAttribute("data-tile"))).toEqual([
+            "legal-entity-organization", "legal-entity-founders", "legal-entity-registrations", "legal-entity-expenses"
+        ]);
+    });
+
+    it("opens a box for each expense, with the add box, in its section's dialog", () => {
+        render(<Tiled />);
+        fireEvent.click(document.querySelector("[data-tile=legal-entity-expenses]")!);
+        expect(screen.getByRole("button", { name: /Expense 1: Filing fee/ })).toBeTruthy();
+        expect(screen.getByRole("button", { name: "Add Card" })).toBeTruthy();
+    });
+
+    it("opens the Registrations as three sub tiles: Formation & registration, Tax & business registration, Additional legal requirements", () => {
+        render(<Tiled />);
+        fireEvent.click(document.querySelector("[data-tile=legal-entity-registrations]")!);
+        expect([...document.querySelectorAll(".section-tile-dialog .section-tile")].map(tile => tile.getAttribute("data-tile"))).toEqual(["formation", "tax", "requirements"]);
+        fireEvent.click(document.querySelector("[data-tile=requirements]")!);
+        expect(screen.getByRole("button", { name: "Add Card" })).toBeTruthy();
     });
 
 });

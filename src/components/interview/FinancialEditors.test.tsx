@@ -4,6 +4,8 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import FinancialFoundationEditor from "./FinancialFoundationEditor";
 import FinancialSustainabilityEditor from "./FinancialSustainabilityEditor";
+import FinancialPlanSettings from "./FinancialPlanSettings";
+import { asLegalEntityValue } from "../../framework/engine/AnswerUtils";
 import { toggles, typeInto } from "../../test/interviewTestUtils";
 import { asFinancialFoundationValue, asFinancialSustainabilityValue, createFundingSource } from "../../framework/engine/FinancialModel";
 
@@ -181,14 +183,23 @@ describe("FinancialSustainabilityEditor number limits", () => {
 
 });
 
-describe("FinancialFoundationEditor income tax", () => {
+describe("the plan's income tax setting (Global Settings)", () => {
 
     it("asks for a basis, with none chosen at first, and a rate from 0 to 100 with two decimals", () => {
 
         let saved: unknown;
         function TaxHarness() {
             const [value, setValue] = useState<unknown>(asFinancialFoundationValue(undefined));
-            return <FinancialFoundationEditor value={value} onChange={(next) => { saved = next; setValue(next); }} />;
+            return (
+                <FinancialPlanSettings
+                    value={asFinancialFoundationValue(value)}
+                    legalEntity={asLegalEntityValue(undefined)}
+                    openingDate=""
+                    planStart={{ month: "10", year: "2026" }}
+                    onChange={(next) => { saved = next; setValue(next); }}
+                    onChangeOpeningDate={() => undefined}
+                />
+            );
         }
 
         render(<TaxHarness />);
@@ -236,7 +247,7 @@ describe("a revenue stream's Begins and Payment and Orders & Delivery", () => {
 
     // A courier at 6 a delivery: a cost per order, so the stream asks about orders.
     const capability = {
-        offering: { professionals: [], providers: [{ id: "courier", name: "Courier", offeringId: "offering-1",
+        offering: { professionals: [], providers: [{ id: "courier", name: "Courier", offeringId: "offering-1", startDate: "2026-10-01",
             cost: { price: "6", frequency: "per-order", frequencyOther: "", currency: "" } }], resources: [], activities: [] }
     };
     const foundation = { segments: [{ offerings: [{ id: "offering-1", name: "Offering One" }] }] };

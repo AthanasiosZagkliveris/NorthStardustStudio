@@ -1,4 +1,4 @@
-import { CSSProperties, Fragment, ReactNode, useEffect, useRef, useState } from "react";
+import { CSSProperties, Fragment, ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import {
     BUSINESS_ACTIVITY_CATEGORIES,
@@ -14,6 +14,9 @@ import {
     BUSINESS_EXTRA_STATUS_IDS,
     PREMISES_GROUP_ID,
     BUSINESS_PARTNER_GROUPS,
+    partnerGroupHelp,
+    groupHelpPoints,
+    FOUNDERS_OWNERS_HELP,
     BUSINESS_RESOURCE_STATUSES,
     resourceStatusIds,
     statusInGroup,
@@ -26,11 +29,14 @@ import {
     resourcesStartingTooLate,
     cappedUnits,
     unitsCap,
-    BUSINESS_PREOPERATIONAL_TYPES,
     equalOfferingShares,
     offeringSharesTotal,
+    offeringSharesInUnits,
+    offeringSharesIncomplete,
+    unitOfferingShares,
     BUSINESS_PAYMENT_PLANS,
     type BusinessPaymentPlan,
+    type BusinessPaymentLine,
     instalmentLines,
     paymentPlanTotal,
     BUSINESS_EXTRAS,
@@ -40,9 +46,14 @@ import {
     partnerExtraKeys,
     supplierConnections,
     servicesOfAsset,
+    BILLING_TYPES,
+    billingOf,
+    costOptionsOf,
+    costWithOption,
+    optionFrequenciesOf,
     noteHint,
     withNewInsurances,
-    supplierHasQuantity,
+    partnerHasQuantity,
     slotExtraKeys,
     frequencyIdsOf,
     unitsOf,
@@ -78,6 +89,8 @@ import {
     UNASSIGNED_CATEGORY,
     createBusinessPartner,
     createBusinessResourceSlot,
+    orderedByDate,
+    todayIsoDate,
     workspacesOf,
     resourceUnitCount,
     stableCardHue,
@@ -87,9 +100,9 @@ import { costText } from "../../framework/engine/ExportRenderers.ts";
 
 import {
     BusinessCard,
+    MissingMapContext,
+    MissingScope,
     LinkSymbol,
-    BusinessAddButton,
-    noteStamped,
     BusinessEmpty,
     BusinessField,
     BusinessFieldTick,
@@ -110,7 +123,9 @@ import {
     founderDeliveryHours,
     founderWorkingHours
 } from "../../framework/engine/DemandCapacity.ts";
+import { type GlobalSettingsValue } from "../../framework/engine/GlobalSettings.ts";
 import { asFinancialFoundationValue, moneyFormatter } from "../../framework/engine/FinancialModel.ts";
+import { inventoryClassification } from "../../framework/engine/InventoryClassification.ts";
 import { PreferencesService } from "../../services/PreferencesService.ts";
 import { parseAmount, parseDecimal } from "../../framework/engine/Amounts.ts";
 import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES, labelWithCurrency, nameWithCurrency } from "../../framework/engine/Currencies.ts";
@@ -121,7 +136,7 @@ import { railId } from "./rails/railItems.ts";
 
 import { summaryText } from "./cardSummary.ts";
 import CardBoxes, { CardBox } from "./CardBoxes.tsx";
-import SectionTiles, { CHANNEL_TILE_HUE, otherColumn, ActiveCount, DialogHeading, FloatingCards, ItemMark, SectionTile, TileAdd, TileLink } from "./SectionTiles.tsx";
+import SectionTiles, { SQUEEZED_ROW_MIN, CHANNEL_TILE_HUE, otherColumn, ActiveCount, CrumbNote, DialogHeading, FloatingCards, ItemMark, SectionTile, TileAdd, TileLink } from "./SectionTiles.tsx";
 import SectionView, { CATEGORY_TILE_MIN_CARDS, SubcategoryBox, SubcategoryBoxes, ViewCategory } from "./SectionView.tsx";
 import { resourceChannels, resourceReach } from "../../framework/engine/ChannelResources.ts";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
@@ -132,8 +147,7 @@ import { useItemFolds } from "./useItemFolds.ts";
 import FoldArrow from "./FoldArrow.tsx";
 import CardTitleHelp from "./CardTitleHelp.tsx";
 import CapabilityOverview from "./CapabilityOverview.tsx";
-import { floorRows, tileLines } from "./capabilityFloor.ts";
-import FounderCards from "./FounderCards.tsx";
+import { floorRows, tileLines, tileMarks } from "./capabilityFloor.ts";
 import CardNameInput from "./CardNameInput.tsx";
 import CardNumber from "./CardNumber.tsx";
 import NumberedListStatic from "./NumberedListStatic.tsx";
@@ -152,27 +166,30 @@ import "../../styles/page-3-edges.css";
  * the guidance above the process line is this page's, as every
  * page writes its own.
  */
+/** The last choice of an Activity status's list: it makes a new activity (named in the box that appears). */
+const ADD_ACTIVITY = "+ Add";
+
 const SECTIONS = {
 
     infrastructure: {
         instructions: [
-            "Record the resources, activities, partners and providers the organization needs to establish, operate and deliver.",
-            "Mark what each resource needs: it already exists, it is provided, it needs a partner, it needs work, it needs looking into, or it costs money.",
+            "Record the resources, activities, partners and suppliers the organization needs to establish, operate and deliver.",
+            "Mark what each resource needs: it already exists, it is rented or bought, it comes from a partner or a supplier, it needs work, it needs looking into, or it costs money.",
             "Give every activity one person who is responsible for it."
         ],
         note: [
-            "Existing or planned resources, activities, partners and providers the organization needs to establish, operate, and deliver."
+            "Existing or planned resources, activities, partners and suppliers the organization needs to establish, operate, and deliver."
         ],
         resources: ["Physical and digital resources the organization needs to operate."],
         workspace: ["Where the organization's work is carried out."],
         responsibilities: ["This list is developed automatically."],
         activities: [
             "Add activities directly or create them from resources marked Needs Investigation or Needs Activity.",
-            "Activities do not record costs directly. Any resulting cost is recorded under the relevant Resource, Partner or Provider.",
+            "Activities do not record costs directly. Any resulting cost is recorded under the relevant Resource, Partner or Supplier.",
             "Assign one responsible person to each activity."
         ],
         partnerships: [
-            "Add Partners & Providers directly or create them from Resources or Activities."
+            "Add Partners & Suppliers directly or create them from Resources or Activities."
         ],
         professionals: [
             "People or firms engaged for work the founders cannot or should not do."
@@ -192,18 +209,9 @@ const SECTIONS = {
             "Use the results to compare offering options and make better decisions."
         ],
         note: [
-            "What each Offering needs on top of the organization's own infrastructure: its resources, activities, partners and providers, and how it is delivered."
+            "What each Offering needs on top of the organization's own infrastructure: its resources, activities, partners and suppliers, and how it is delivered."
         ]
-    },
-
-    /* The five statuses and what each one means, behind the "i" on
-       every Status field. The follow-up each one obliges is carried
-       out by the page rather than described here. */
-    status: BUSINESS_RESOURCE_STATUSES.map(status => ({
-        title: status.label,
-        text: status.explanation
-    }))
-
+    }
 };
 
 /**
@@ -219,8 +227,8 @@ const DELIVERY_HELP = {
     deliveryHours: ["Of those, the hours you can give to delivering Offerings. Selling, admin, learning and holidays take the rest, often 30 to 50% for a founder."],
     period: ["The period of the salary and of both hours: a week, a month or a year, whichever you know. Every calculation turns them into a month: a week's at 52 ÷ 12 ≈ 4.33 weeks a month (40 h a week is about 173 h a month), a year's divided by 12."],
     mode: [
-        "Per unit: done once for each unit sold (a project, a product, a session), over its Calendar Time in weeks.",
-        "Every month: ongoing work for each active client every month (a retainer, a subscription). It has no Calendar Time, and it uses founders' hours first.",
+        { title: "Per unit", text: "Done once for each unit sold (a project, a product, a session), over its Calendar Time in weeks." },
+        { title: "Every month", text: "Ongoing work for each active client every month (a retainer, a subscription). It has no Calendar Time, and it uses founders' hours first." },
         "Match how customers buy under Demand & Conversion on Customer Engagement: an Offering bought every month is delivered every month."
     ],
     recurring: ["A subscription or retainer is served every period. Give each client's hours a week or a month; weekly hours become monthly at about 4.33 weeks a month."],
@@ -228,7 +236,7 @@ const DELIVERY_HELP = {
     effort: [
         "The working hours one unit of this Offering takes, by each person who works on it.",
         "Founders' hours count against their capacity. External hours are delivered, and paid for, outside it: their cost is recorded with the professional.",
-        "To share the work with a partner, add one under 3. Partners & Providers and link it to this Offering."
+        "To share the work with a partner, add one under 3. Partners & Suppliers and link it to this Offering."
     ],
     capacity: [
         "The budgets below compare this with the hours each Offering's expected sales need.",
@@ -286,16 +294,6 @@ const FIXED_ACTIVITY_IDS: ReadonlySet<string> =
     new Set(BUSINESS_ACTIVITY_CATEGORIES.map(category => category.id));
 
 /**
- * The six sections of Infrastructure's 1. Resources, in the order
- * they are numbered and drawn as tiles (SectionTiles): three across,
- * two rows. A section's number is where it sits: "3. Utilities" is
- * the third thing under Resources. Founders and Workspace are the
- * page's own; the other four are BUSINESS_RESOURCE_GROUPS, by id.
- */
-const RESOURCE_SECTION_ORDER: readonly string[] =
-    ["founders", "workspace", "utilities", "workstation", "equipment", "vehicles", "digital", "materials", "documents", "hr"];
-
-/**
  * 2. Activities: making and running the thing, then selling it,
  * numbered 1 to 4 and drawn as four tiles, two by two. A category the
  * founder added earlier is drawn as a tile after them while it holds
@@ -312,10 +310,11 @@ export type Scope = "infrastructure" | "offering";
  * Offering), starting when the card does, for the card's Offerings -- and, with exactly one named founder, theirs (its Performer and Responsible). With
  * several founders it is left to be assigned (the Review page lists it until then).
  */
-export function newActivityFor(scope: Scope, startDate: string, offeringIds: readonly string[], founderIds: readonly string[] = []): BusinessActivityValue {
+export function newActivityFor(scope: Scope, startDate: string, offeringIds: readonly string[], founderIds: readonly string[] = [], madeBy = ""): BusinessActivityValue {
     const soleFounder = founderIds.length === 1 ? founderIds[0] : "";
     return {
         ...createBusinessActivity(DERIVED_ACTIVITY_CATEGORY[scope]),
+        madeBy,
         startDate,
         offeringIds: scope === "offering" ? [...offeringIds] : [],
         ...(soleFounder ? { performerIds: [soleFounder], responsibleId: soleFounder } : {})
@@ -411,7 +410,7 @@ interface BusinessCapabilityEditorProps {
      * and a Salary here.
      */
     legalEntityFounders?: readonly LegalEntityFounderValue[];
-    /** 1. Identity System — 3. Legal Entity's expenses: shown (not opened) among the "All Tiles". */
+    /** 1. Identity System — 3. Legal Entity's expenses: shown (not opened) among the "Inventory". */
     legalExpenses?: readonly LegalEntityExpenseValue[];
     /** 1. Identity System — 4. Founders Profile, as saved: each founder's Roles. */
     foundersProfile?: unknown;
@@ -421,6 +420,8 @@ interface BusinessCapabilityEditorProps {
     financialFoundation?: unknown;
     /** The Opening Date (an ISO date), where the Financial Foundation has one. */
     openingDate?: string;
+    /** The Global Settings: the default rates a Percentage card shows beside its Rate override. */
+    globalSettings?: GlobalSettingsValue;
     /** Opens Customer Engagement: back to a channel after picking its cost here. */
     onOpenEngagement?: OpenPage;
 
@@ -468,6 +469,7 @@ export default function BusinessCapabilityEditor({
     engagement,
     financialFoundation,
     openingDate = "",
+    globalSettings,
 
     onOpenEngagement
 
@@ -477,11 +479,11 @@ export default function BusinessCapabilityEditor({
        this render was drawn with -- it waits for the render that follows, which carries the write. */
     const wrote = useRef(false);
     wrote.current = false;
-    const stored = asBusinessCapabilityValue(value);
+    const stored = orderedByDate(asBusinessCapabilityValue(value));
     const onChange = (next: BusinessCapabilityValue) => {
         wrote.current = true;
         // (A premises, vehicle, workshop, machine or event made by this change gets its Insurances card.)
-        onChangeProp(withNewInsurances(stored, next));
+        onChangeProp(orderedByDate(withNewInsurances(stored, next)));
     };
 
     /* The founders as the Legal Entity names them, with the Roles
@@ -583,12 +585,49 @@ export default function BusinessCapabilityEditor({
     /* A resource and the activity its status created, shown together (the link in either): the PARENT above, the CHILD below. */
     const [pair, setPair] = useState<{ parentId: string; childId: string } | null>(null);
 
+    /** The cards whose Links section is open (it starts folded). */
+    const [linksOpen, setLinksOpen] = useState<ReadonlySet<string>>(new Set());
+
+    // THE INVENTORY AND COMPLETED ROW under the two cards is squeezed into the room the window leaves (never under SQUEEZED_ROW_MIN, never over the page's own 215px).
+    useLayoutEffect(() => {
+        const squeeze = () => {
+            const row = document.querySelector<HTMLElement>(".section-tiles-completed");
+            if (!row) {
+                return;
+            }
+            const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
+            const room = window.innerHeight - row.getBoundingClientRect().top - footer - 12;
+            // (Square, 215px, while the window has the room; the height alone gives way when it has not, so the tiles become rectangles.)
+            const side = Math.round(Math.max(SQUEEZED_ROW_MIN, Math.min(215, room)));
+            row.style.setProperty("--section-tile-size", side + "px");
+            // (Squeezed under what a list needs, the tiles keep their titles.)
+            if (side < 150) {
+                row.setAttribute("data-squeezed", "");
+            } else {
+                row.removeAttribute("data-squeezed");
+            }
+        };
+        squeeze();
+        const later = window.setTimeout(squeeze, 300);
+        window.addEventListener("resize", squeeze);
+        return () => {
+            window.clearTimeout(later);
+            window.removeEventListener("resize", squeeze);
+        };
+    });
+
 
     /**
      * Resources whose provider or professional was just created
      * through "Other…", and so still show the box that names it.
      */
     const [naming, setNaming] = useState<ReadonlySet<string>>(new Set());
+    // The amount of a payment being typed (a payment plan's amount and percent are one figure: the text typed stays as typed).
+    // The cards whose optional End date is ticked while it is still empty (a date typed keeps it ticked by itself).
+    const [endTicked, setEndTicked] = useState<ReadonlySet<string>>(new Set());
+    // What a date refused says (the End date of a Per project card cannot be before a payment, and a payment cannot fall after the End date), by card.
+    const [dateNotice, setDateNotice] = useState<{ owner: string; text: string } | null>(null);
+    const [amountDraft, setAmountDraft] = useState<{ id: string; text: string } | null>(null);
 
     /** The Category and Group picked on a status row's supplier rows before a name is chosen, by the row's key (a chosen name carries its own). */
     const [cascade, setCascade] = useState<Readonly<Record<string, { category: string; group: string }>>>({});
@@ -648,7 +687,7 @@ export default function BusinessCapabilityEditor({
 
     /**
      * THE CARDS IN THE CHANNEL'S COLOUR: the cards a channel holds, the activity one of them generated (Needs Activity / Investigation) and the Partner or
-     * Provider it is connected to (Partners & Providers) -- in tiles and floating cards alike. (The Partner keeps its own Category.)
+     * Provider it is connected to (Partners & Suppliers) -- in tiles and floating cards alike. (The Partner keeps its own Category.)
      */
     const channelToneIds: ReadonlySet<string> = (() => {
         const ids = new Set<string>(channelCardIds);
@@ -662,7 +701,7 @@ export default function BusinessCapabilityEditor({
     })();
 
     /**
-     * WHAT A CARD TILE SAYS (CardTile.tsx -- the same lines as in All Tiles): where the card belongs, its status and its cost, its links as circles, the
+     * WHAT A CARD TILE SAYS (CardTile.tsx -- the same lines as in Inventory): where the card belongs, its status and its cost, its links as circles, the
      * colour of its section. Read from the floor's rows, so the grids of cards and the overlay can never differ.
      */
     const floor = floorRows(capability, legalExpenses, channelToneIds);
@@ -677,7 +716,7 @@ export default function BusinessCapabilityEditor({
     })();
     const tileData = (id: string) => {
         const row = floorById.get(id);
-        return row ? { lines: tileLines(row, formatMoney), links: row.links, tone: row.tone, missing: row.missing } : {};
+        return row ? { lines: tileLines(row, formatMoney), marks: tileMarks(row, tileLines(row, formatMoney)), links: row.links, tone: row.tone, missing: row.missing } : {};
     };
 
     /** A card a Customer Channel MADE (in Offering's Capability; a card of Infrastructure only linked from a channel is the user's own). */
@@ -750,7 +789,7 @@ export default function BusinessCapabilityEditor({
 
     /**
      * Who can perform an activity: a founder, or somebody engaged
-     * under this section's own Partners & Providers. Both, and
+     * under this section's own Partners & Suppliers. Both, and
      * in that order, because an early-stage organisation does most
      * things itself and buys the rest.
      */
@@ -922,8 +961,48 @@ export default function BusinessCapabilityEditor({
         shares: Record<string, string>
     ) {
         const total = offeringSharesTotal(current, shares);
+        const inUnits = offeringSharesInUnits(shares);
         return (
-            <BusinessField label="Linked to">
+            <BusinessField label="Linked to" className="business-offering-field">
+                {/* With several Offerings: what the shares count in -- Units (each starts at 1) or 100% (each starts equal). */}
+                {offeringChoices.length > 0 && current.length > 1 && (
+                    <div className="business-offering-mode" role="radiogroup" aria-label={name + " shares count in"}>
+                        <label className="business-offering-mode-option">
+                            <input
+                                type="radio"
+                                name={name + ":mode"}
+                                aria-label={name + " shares in units"}
+                                disabled={disabled}
+                                checked={inUnits}
+                                onChange={() => onNext({ offeringIds: current, offeringShares: unitOfferingShares(current) })}
+                            />
+                            <span>Units</span>
+                        </label>
+                        <label className="business-offering-mode-option">
+                            <input
+                                type="radio"
+                                name={name + ":mode"}
+                                aria-label={name + " shares in percent"}
+                                disabled={disabled}
+                                checked={!inUnits}
+                                onChange={() => onNext({ offeringIds: current, offeringShares: equalOfferingShares(current) })}
+                            />
+                            <span>100%</span>
+                        </label>
+                    </div>
+                )}
+                {/* With several Offerings, the percent of the card each carries; said first, above the numbers. */}
+                {offeringChoices.length > 0 && current.length > 1 && (
+                    <>
+                        {inUnits
+                            ? (offeringSharesIncomplete(current, shares) ? <p className="business-capability-total business-capability-alarm">Every Offering needs at least one unit.</p> : null)
+                            : (
+                                <p className={"business-capability-total" + (total === 100 ? "" : " business-capability-alarm")}>
+                                    {total === 100 ? "Total 100%" : "Total " + total + "%: the shares must total 100%"}
+                                </p>
+                            )}
+                    </>
+                )}
                 {offeringChoices.length === 0
                     ? <BusinessEmpty>{empty}</BusinessEmpty>
                     : (
@@ -933,35 +1012,23 @@ export default function BusinessCapabilityEditor({
                             chosen={current}
                             disabled={disabled}
                             // (Ticking starts the shares equal.)
-                            onChange={(next) => onNext({ offeringIds: next, offeringShares: equalOfferingShares(next) })}
+                            onChange={(next) => onNext({ offeringIds: next, offeringShares: inUnits && next.length > 1 ? unitOfferingShares(next) : equalOfferingShares(next) })}
+                            // With several Offerings, the percent of the card each carries stands at the end of its own row, in the x's column (a whole number, two digits at most).
+                            trailing={current.length > 1 ? Object.fromEntries(current.map(id => [id, (
+                                <input
+                                    type="text"
+                                    inputMode="numeric"
+                                    className="interview-input business-capability-share"
+                                    aria-label={name + " share of " + (offeringChoices.find(choice => choice.id === id)?.label ?? "Offering")}
+                                    placeholder={inUnits ? "1" : "%"}
+                                    title={inUnits ? "Units of this Offering" : "Percent of this card"}
+                                    disabled={disabled}
+                                    value={shares[id] ?? ""}
+                                    onChange={(event) => onNext({ offeringIds: current, offeringShares: { ...shares, [id]: event.target.value.replace(/\D/g, "").slice(0, inUnits ? 3 : 2) } })}
+                                />
+                            )])) : undefined}
                         />
                     )}
-                {/* With several Offerings, the percent of the card each carries; they total 100%. */}
-                {offeringChoices.length > 0 && current.length > 1 && (
-                    <>
-                        {current.map(id => {
-                            const label = offeringChoices.find(choice => choice.id === id)?.label ?? "Offering";
-                            return (
-                                <div className="business-capability-plan-line" key={id}>
-                                    <input
-                                        type="text"
-                                        inputMode="decimal"
-                                        className="interview-input business-capability-years"
-                                        aria-label={name + " share of " + label}
-                                        placeholder="%"
-                                        disabled={disabled}
-                                        value={shares[id] ?? ""}
-                                        onChange={(event) => onNext({ offeringIds: current, offeringShares: { ...shares, [id]: limitedNumberText(event.target.value, shares[id] ?? "", NUMBER_LIMITS.percent) } })}
-                                    />
-                                    <span className="business-capability-deposit-currency">{"% " + label}</span>
-                                </div>
-                            );
-                        })}
-                        <p className={"business-capability-total" + (total === 100 ? "" : " business-capability-alarm")}>
-                            {total === 100 ? "Total 100%" : "Total " + total + "%: the shares must total 100%"}
-                        </p>
-                    </>
-                )}
             </BusinessField>
         );
     }
@@ -996,36 +1063,37 @@ export default function BusinessCapabilityEditor({
         /** The card is a purchase of an asset (an asset group's): a Per unit price is then multiplied by the Qty. */
         purchase = false,
         /** Where the card is filed: its group offers its own frequencies and units. */
-        where?: { scope: Scope; groupId: string }
+        where?: { scope: Scope; groupId: string; costOption?: string }
     ) {
         const place = where?.scope ?? "infrastructure";
         const groupId = where?.groupId ?? "";
 
         // THE FREQUENCIES THE GROUP OFFERS (all seven where it is not known; the one already chosen stays offered). One frequency is nothing to choose: it is
         // text, and a One-time one is implied, so it is not shown at all.
-        const offered = where ? frequencyIdsOf(place, groupId) : BUSINESS_COST_FREQUENCIES.map(entry => entry.id);
+        // (A chosen cost option locks the driver to the ones its billing type allows.)
+        const offered = where
+            ? optionFrequenciesOf(place, groupId, where.costOption ?? "") ?? frequencyIdsOf(place, groupId)
+            : BUSINESS_COST_FREQUENCIES.map(entry => entry.id);
         const frequencyOptions = BUSINESS_COST_FREQUENCIES.filter(entry => offered.includes(entry.id) || entry.id === cost.frequency);
-        const soleFrequency = frequencyOptions.length === 1 ? frequencyOptions[0] : undefined;
 
         // THE UNIT of a Per unit price, a dropdown of the group's units beside the Frequency, with no label (the currency's way); one unit besides "unit" is text.
         const units = unitsOf(place, groupId);
         const unitIds = cost.unit !== "" && !units.includes(cost.unit) ? [...units.filter(unit => unit !== "unit"), cost.unit, "unit"] : units;
         const specificUnits = unitIds.filter(unit => unit !== "unit");
-        const unitControl = cost.frequency !== "per-unit" || specificUnits.length === 0
-            ? null
-            : specificUnits.length === 1
-                ? <span className="business-capability-static-value" data-unit="">{specificUnits.includes(cost.unit) ? cost.unit : specificUnits[0]}</span>
-                : (
-                    <OptionPicker
-                        label={what + " unit"}
-                        placeholder="Unit"
-                        hug
-                        options={unitIds}
-                        disabled={disabled}
-                        value={cost.unit || "unit"}
-                        onChange={(next) => onNext({ ...cost, unit: next })}
-                    />
-                );
+        // PER UNIT IS ONE OPTION PER UNIT of the group ("Per hour", "Per kg", "Per unit"): choosing one sets the frequency AND the unit, so no list of units
+        // follows the Frequency and every list says what it holds.
+        const perUnitLabel = (unit: string) => "Per " + (unit || "unit");
+        // (A label that is long for the cell says "rev." for revenue and "proj." for project: "% of rev.", "Per proj.".)
+        const shortFrequency = (label: string) => label.length >= 11 ? label.replace(/revenue/i, "rev.").replace(/project/i, "proj.").replace(/hour/i, "hr") : label;
+        const frequencyChoices: { label: string; frequency: string; unit: string }[] = frequencyOptions.flatMap(entry => entry.id === "per-unit"
+            ? (specificUnits.length > 0 ? specificUnits : ["unit"]).map(unit => ({ label: shortFrequency(perUnitLabel(unit)), frequency: "per-unit", unit }))
+            : [{ label: shortFrequency(entry.label), frequency: entry.id, unit: "" }]);
+        const soleChoice = frequencyChoices.length === 1 ? frequencyChoices[0] : undefined;
+        const soleFrequency = soleChoice ? { id: soleChoice.frequency, label: soleChoice.label } : undefined;
+        const chosenFrequencyLabel = shortFrequency(cost.frequency === "per-unit"
+            ? perUnitLabel(cost.unit)
+            : BUSINESS_COST_FREQUENCIES.find(entry => entry.id === cost.frequency)?.label ?? "");
+        const unitControl = null;
 
         const count = resourceUnitCount(quantity, cost.frequency, purchase);
         const unitPrice = parseAmount(cost.price) ?? NaN;
@@ -1067,6 +1135,7 @@ export default function BusinessCapabilityEditor({
                             placeholder="Code"
                             options={CURRENCY_CODES}
                             searchable
+                            searchPlaceholder="Type"
                             searchAliases={CURRENCY_SEARCH_ALIASES}
                             disabled={disabled}
                             value={cost.currency || organisationCurrency}
@@ -1086,19 +1155,18 @@ export default function BusinessCapabilityEditor({
                                         <OptionPicker
                                             label={what + " payment frequency"}
                                             placeholder="Select"
-                                            hug
-                                            options={frequencyOptions.map(entry => entry.label)}
+                                            options={frequencyChoices.map(choice => choice.label)}
                                             disabled={disabled}
-                                            value={BUSINESS_COST_FREQUENCIES.find(
-                                                entry => entry.id === cost.frequency
-                                            )?.label ?? ""}
-                                            onChange={(next) => onNext(normalCostOf({
-                                                ...cost,
-                                                frequency: BUSINESS_COST_FREQUENCIES.find(
-                                                    entry => entry.label === next
-                                                )?.id ?? "",
-                                                frequencyOther: ""
-                                            }, place, groupId))}
+                                            value={chosenFrequencyLabel}
+                                            onChange={(next) => {
+                                                const choice = frequencyChoices.find(entry => entry.label === next);
+                                                onNext(normalCostOf({
+                                                    ...cost,
+                                                    frequency: choice?.frequency ?? "",
+                                                    unit: choice?.unit ?? "",
+                                                    frequencyOther: ""
+                                                }, place, groupId));
+                                            }}
                                         />
                                     );
                                 return unitControl
@@ -1140,7 +1208,7 @@ export default function BusinessCapabilityEditor({
      *
      * "Provided" asks which provider, and offers to create one when
      * there are none -- the specification's "A Provider must be
-     * defined under 3. Partners & Providers". "Costs" asks the
+     * defined under 3. Partners & Suppliers". "Costs" asks the
      * price. The two that make work say where that work went, which
      * is the only way a founder can tell the page did anything.
      */
@@ -1206,17 +1274,10 @@ export default function BusinessCapabilityEditor({
             />
         );
 
-        // A generated Insurances card leads back to the card it insures.
-        const insured = slot.insuresId !== ""
-            ? [...Object.values(capability.resources).flat().flatMap(entry => entry.slots), ...capability.offering.resources].find(entry => entry.id === slot.insuresId)
-            : undefined;
-
         return (
             <>
 
-                {insured && cardLink(slot.id + ":insures", "Resource", insured.name.trim() || "Unnamed Resource", () => openPair(slot.id, insured.id))}
-
-                <BusinessField label="Status" info={SECTIONS.status} inline={false} side>
+                <BusinessField label="Status" info={options.map(status => ({ title: status.label, text: status.explanation }))} inline={false} side>
                     {/* The picker, and beside it the "+" that adds another status row (the Performer's place for its "+"). */}
                     <div className="business-capability-performers">
                         <div className="business-capability-performer">
@@ -1296,6 +1357,8 @@ export default function BusinessCapabilityEditor({
                     );
                 })}
 
+                {isCostingStatus(slot.status) && costOptionRows(what, scope, groupId, slot.costOption, (option) => onSlot({ costOption: option, cost: withDefaultRate(costWithOption(slot.cost, scope, groupId, option), scope, groupId, option) }), channelMade(scope, slot.id))}
+
                 {isCostingStatus(slot.status) && costFields(
                     what,
                     slot.cost,
@@ -1304,10 +1367,10 @@ export default function BusinessCapabilityEditor({
                     quantityField,
                     undefined,
                     purchase,
-                    { scope, groupId }
+                    { scope, groupId, costOption: slot.costOption }
                 )}
 
-                {isCostingStatus(slot.status) && slot.cost.frequency === "per-project" && paymentPlanFields(what, slot.startDate, slot.endDate, slot.paymentPlan, (next) => onSlot({ paymentPlan: next }))}
+                {isCostingStatus(slot.status) && slot.cost.frequency === "per-project" && paymentPlanFields(what, slot.startDate, slot.endDate, slot.paymentPlan, (next, dates) => onSlot({ paymentPlan: next, ...dates }), planTotalOf(slot.cost.price, slot.quantity))}
 
             </>
         );
@@ -1337,7 +1400,7 @@ export default function BusinessCapabilityEditor({
         const choices = uniqueChoices(
             open.map(activity => ({
                 id: activity.id,
-                name: (activity.name.trim() || "Unnamed activity") + " (" + (activity.category === UNASSIGNED_CATEGORY ? "No category" : activityCategoryLabel(capability.activityCategories, activity.category) || "Category") + ")"
+                name: activity.name.trim() || "Unnamed activity"
             })),
             "Unnamed activity"
         );
@@ -1352,12 +1415,12 @@ export default function BusinessCapabilityEditor({
                                 label={what + " activity"}
                                 placeholder="Select"
                                 fill="fit"
-                                options={[...choices.map(choice => choice.label), OTHER_PARTNER]}
+                                options={[...choices.map(choice => choice.label), ADD_ACTIVITY]}
                                 disabled={disabled}
                                 value={choices.find(choice => choice.id === activityId)?.label ?? ""}
                                 onChange={(next) => {
 
-                                    if (next !== OTHER_PARTNER) {
+                                    if (next !== ADD_ACTIVITY) {
                                         setNaming(current => {
                                             const kept = new Set(current);
                                             kept.delete(key);
@@ -1367,7 +1430,7 @@ export default function BusinessCapabilityEditor({
                                         return;
                                     }
 
-                                    const made = newActivityFor(scope, startDate, offeringIds, founders.filter(founder => founder.name.trim().length > 0).map(founder => founder.id));
+                                    const made = newActivityFor(scope, startDate, offeringIds, founders.filter(founder => founder.name.trim().length > 0).map(founder => founder.id), ownerId);
                                     onChange(apply(withActivity(capability, scope, made), made.id));
                                     setNaming(current => new Set(current).add(key));
 
@@ -1384,7 +1447,8 @@ export default function BusinessCapabilityEditor({
                     </div>
                 </BusinessField>
 
-                {chosen && naming.has(key) && (
+                {/* (The name of an activity made here is written here, always: its own card shows it as a link back to this card.) */}
+                {chosen && (naming.has(key) || chosen.madeBy === ownerId) && (
                     <BusinessText
                         label="Name the activity"
                         value={chosen.name}
@@ -1422,12 +1486,16 @@ export default function BusinessCapabilityEditor({
         const category = chosen ? chosen.category : picked.category;
         const type = category === "partners" || category === "suppliers" ? category : undefined;
 
-        const groups = type ? BUSINESS_PARTNER_GROUPS[scope][type] : [];
         const ungrouped = type ? all.filter(partner => partner.category === type && partner.group === "") : [];
+        // The Group list holds every group of the place, Partners' first then Suppliers': the group chosen is what says which of the two the card is.
+        const everyGroup = [
+            ...BUSINESS_PARTNER_GROUPS[scope].partners.map(entry => ({ id: entry.id, label: entry.label, type: "partners" as const })),
+            ...BUSINESS_PARTNER_GROUPS[scope].suppliers.map(entry => ({ id: entry.id, label: entry.label, type: "suppliers" as const }))
+        ];
         const groupOptions = [
-            ...groups.map(entry => ({ id: entry.id, label: entry.label })),
+            ...everyGroup,
             // (Cards an earlier answer left with no group stay reachable.)
-            ...(ungrouped.length > 0 ? [{ id: NO_GROUP, label: "No group" }] : [])
+            ...(ungrouped.length > 0 ? [{ id: NO_GROUP, label: "No group", type: type ?? ("suppliers" as const) }] : [])
         ];
         const group = chosen
             ? (type ? chosen.group || NO_GROUP : "")
@@ -1467,33 +1535,17 @@ export default function BusinessCapabilityEditor({
 
                 {categoryRow({
                     owner,
-                    label: "Category",
-                    allowNew: false,
-                    key: key + ":supplier-category",
-                    options: PARTNER_CATEGORIES.map(entry => ({ id: entry.id as string, label: entry.label as string })),
-                    value: PARTNER_CATEGORIES.find(entry => entry.id === category)?.label ?? "",
-                    custom: undefined,
-                    onPick: (id) => {
-                        if (id && id !== category) {
-                            setCascade(current => ({ ...current, [key]: { category: id, group: "" } }));
-                            clearName();
-                        }
-                    },
-                    onNew: () => undefined,
-                    onRename: () => undefined
-                })}
-
-                {type && categoryRow({
-                    owner,
                     label: "Group",
                     allowNew: false,
+                    info: type ? partnerGroupHelp(scope, type, group) : undefined,
                     key: key + ":supplier-group",
                     options: groupOptions,
-                    value: groupOptions.find(entry => entry.id === group)?.label ?? "",
+                    value: groupOptions.find(entry => entry.id === group && (entry.id !== NO_GROUP || entry.type === type))?.label ?? "",
                     custom: undefined,
                     onPick: (id) => {
-                        if (id && id !== group) {
-                            setCascade(current => ({ ...current, [key]: { category: type, group: id } }));
+                        const entry = groupOptions.find(option => option.id === id);
+                        if (entry && (id !== group || entry.type !== type)) {
+                            setCascade(current => ({ ...current, [key]: { category: entry.type, group: id } }));
                             clearName();
                         }
                     },
@@ -1707,11 +1759,12 @@ export default function BusinessCapabilityEditor({
                 )}
             >
 
-                {cardDates("Resource " + number, slot.startDate, slot.endDate, onSlot)}
+                {cardDates("Resource " + number, slot.startDate, slot.endDate, onSlot, false, latestPaymentOf(slot.cost.frequency, slot.paymentPlan))}
 
                 {/* Its category and group (Infrastructure's resources): the group it is filed in and its subsection. */}
                 {scope === "infrastructure" && resourceCategoryCells(slot)}
                 {scope === "offering" && !channelMade(scope, slot.id) && offeringCategoryCells(slot, onSlot)}
+                {scope === "offering" && channelMade(scope, slot.id) && channelCategoryText(slot)}
 
                 {/* Status first; the Quantity only at Costs, where it
                     is what the cost is counted by (see statusFields). A
@@ -1774,9 +1827,10 @@ export default function BusinessCapabilityEditor({
                 {groupId === PREMISES_GROUP_ID && slot.deposit.trim() !== "" && depositField(slot, onSlot)}
 
                 {/* The lower rows of the groups that need them: how long an asset stays useful (an asset bought), a warranty (equipment), a contract's own rate. */}
-                {isCostingStatus(slot.status) && isPurchaseGroup(groupId) && usefulLifeField("Resource " + number, slot.usefulLife, (next) => onSlot({ usefulLife: next }))}
-                {WARRANTY_GROUPS.includes(groupId) && warrantyField("Resource " + number, slot.warranty, slot.warrantyUntil, (patch) => onSlot(patch))}
-                {RATE_OVERRIDE_RESOURCE_GROUPS.includes(groupId) && slot.cost.frequency === "percent-revenue" && rateOverrideField("Resource " + number, slot.rateOverride, (next) => onSlot({ rateOverride: next }))}
+                {/* (A card's useful life is not asked here: it is the group's, on Global Settings > Useful Life, where each asset's own years are set under its group.) */}
+                {WARRANTY_GROUPS.includes(groupId) && warrantyField("Resource " + number, slot.warranty, slot.warrantyUntil, (patch) => onSlot(patch), slot.startDate)}
+                {isCostingStatus(slot.status) && billingOf(scope, groupId, slot.costOption) === "percentage" && rateOverrideField("Resource " + number, slot.rateOverride, (next) => onSlot({ rateOverride: next }), defaultRateOf(slot.costOption))}
+                {isCostingStatus(slot.status) && groupId === "royalties" && billingOf(scope, groupId, slot.costOption) === "lump-sum" && amortisationField("Resource " + number, slot.amortisationYears, (next) => onSlot({ amortisationYears: next }))}
 
                 {/* The extras this card offers: a bought space's tax and charge, a bought vehicle's road tax, a person's Allowance, Commission and Bonus. */}
                 {extrasFields("Resource " + number, slotExtraKeys(groupId, slot.status), slot.extras, slot.cost.currency || organisationCurrency, (next) => onSlot({ extras: next }))}
@@ -1787,8 +1841,7 @@ export default function BusinessCapabilityEditor({
                     placeholder={noteHint(groupId)}
                     disabled={disabled}
                     value={slot.description}
-                    recorded={slot.noteRecorded}
-                    onChange={(next) => onSlot({ description: next, noteRecorded: noteStamped(slot.description, next, slot.noteRecorded) })}
+                    onChange={(next) => onSlot({ description: next })}
                 />
 
                 {/* The links last, under the Description (the one card order). */}
@@ -1814,6 +1867,9 @@ export default function BusinessCapabilityEditor({
                     </>,
                     slot.offeringShares
                 )}
+
+                {/* THE CARDS THIS ONE LEADS TO OR IS USED BY (the resource it insures, the activities that list it): at the end of the card. */}
+                {linksSection(slot.id, resourceLinks(slot))}
 
             </BusinessCard>
         );
@@ -2117,7 +2173,7 @@ export default function BusinessCapabilityEditor({
                 key={founder.id}
                 anchor={"founder-" + founder.id}
                 kind="Founder"
-                className={always ? "business-founder-open" : undefined}
+                className={always ? "business-founder-open" + (capability.founders.length === 1 ? " business-founder-solo" : "") : undefined}
                 number={index + 1}
                 name={founder.name}
                 open={always || folds.isOpen(founder.id)}
@@ -2382,44 +2438,116 @@ export default function BusinessCapabilityEditor({
 
     /* ---------- 2. Payment plan ---------- */
 
+    /** What a Per project card costs altogether: its price times its Qty (1 where it has none); null while the price is not typed. */
+    /** The latest date a Per project card's payment plan pays on ("" while it has none, or it is not a plan). */
+    function latestPaymentOf(frequency: string, plan: BusinessPaymentPlan): string {
+        return frequency === "per-project" && plan.on ? plan.lines.reduce((latest, line) => line.date > latest ? line.date : latest, "") : "";
+    }
+
+    function planTotalOf(price: string, quantity: string): number | null {
+        const unit = parseAmount(price);
+        return unit === null ? null : Math.round(unit * Math.max(1, Number(quantity) || 1) * 100) / 100;
+    }
+
     /**
      * THE PAYMENT PLAN of a Per project price: a tick (after the cost row), then its type -- Deposit & Balance, Instalments or Milestones -- and its
-     * payments, each a percent and a date. The percents must total 100% or the card is incomplete. Not ticked, the price is paid in full on the Start date.
-     * Deposit & Balance pays the first percent on the Start date and the rest on a second date (the End date unless one is given); Instalments are equal
-     * and evenly dated from the Start date to the End date, and can be moved; Milestones are written one by one.
+     * payments, each an amount, a percent and a date on one row (the amount and the percent are one figure: typing either sets the other). The percents
+     * must total 100% or the card is incomplete. Not ticked, the price is paid in full on the Start date.
+     * Deposit & Balance is two rows: the deposit on the Start date, the balance (what the deposit leaves) on its own date, else the End date. Instalments
+     * have a one-digit number beside the type: it makes that many equal, numbered rows, dated evenly from the Start date to the End date (a new number
+     * makes them again). Milestones are two rows each: the stage with a "+" (an x on any after the first), then its amount, percent and date.
      */
     function paymentPlanFields(
         what: string,
         startDate: string,
         endDate: string,
         plan: BusinessPaymentPlan,
-        onNext: (next: BusinessPaymentPlan) => void
+        onNext: (next: BusinessPaymentPlan, dates?: { startDate?: string; endDate?: string }) => void,
+        /** What the card costs altogether (the price times its Qty); null while the price is not typed: the amount cells then wait for it. */
+        total: number | null
     ) {
-        const set = (patch: Partial<BusinessPaymentPlan>) => onNext({ ...plan, ...patch });
+        const set = (patch: Partial<BusinessPaymentPlan>, dates?: { startDate?: string; endDate?: string }) => onNext({ ...plan, ...patch }, dates);
         const setLine = (id: string, patch: Partial<BusinessPaymentPlan["lines"][number]>) => set({ lines: plan.lines.map(line => line.id === id ? { ...line, ...patch } : line) });
-        const total = paymentPlanTotal(plan);
+        const sum = paymentPlanTotal(plan);
+        const blank = () => ({ id: randomId("payment"), title: "", percent: "", date: "" });
         const choose = (type: string) => {
             if (type === "deposit-balance") {
-                set({ type, count: "", lines: [{ id: randomId("payment"), title: "", percent: "50", date: "" }, { id: randomId("payment"), title: "", percent: "50", date: "" }] });
+                set({ type, count: "", lines: [{ ...blank(), percent: "50" }, { ...blank(), percent: "50" }] });
             } else if (type === "instalments") {
-                set({ type, count: "3", lines: instalmentLines(3, startDate, endDate) });
+                set({ type, count: "", lines: [] });
             } else {
-                set({ type, count: "", lines: [{ id: randomId("payment"), title: "", percent: "", date: "" }] });
+                set({ type, count: "", lines: [blank()] });
             }
         };
-        const percentBox = (label: string, value: string, onValue: (next: string) => void, readOnly = false) => (
-            <input
-                type="text"
-                inputMode="decimal"
-                className="interview-input business-capability-years"
-                aria-label={label}
-                placeholder="%"
-                disabled={disabled}
-                readOnly={readOnly}
-                value={value}
-                onChange={(event) => onValue(limitedNumberText(event.target.value, value, NUMBER_LIMITS.percent))}
-            />
-        );
+        // The number of Instalments: its rows are made again whenever it changes (what was typed in them is lost).
+        const setCount = (count: string) => {
+            const n = Number(count);
+            if (count !== plan.count) {
+                set(n >= 1 ? { count, lines: instalmentLines(n, startDate, endDate) } : { count: "", lines: [] });
+            }
+        };
+        const stepCount = (by: number) => setCount(String(Math.min(99, Math.max(1, (Number(plan.count) || 0) + by))));
+        const amountOf = (percent: string) => total === null || parseAmount(percent) === null ? "" : String(Math.round(total * (parseAmount(percent) ?? 0)) / 100);
+        // The percent and the amount of a payment are one figure written two ways: typing either sets the other. (The amount being typed is kept as typed.)
+        const valueRow = (line: BusinessPaymentLine, label: string, order: string, mode: "free" | "balance" | "deposit") => {
+            const draft = amountDraft?.id === line.id ? amountDraft.text : null;
+            const setPercent = (next: string) => {
+                if (mode === "deposit") {
+                    const rest = Math.round((100 - (Number(next) || 0)) * 100) / 100;
+                    set({ lines: plan.lines.map((entry, position) => position === 0 ? { ...entry, percent: next } : { ...entry, percent: String(rest) }) });
+                } else {
+                    setLine(line.id, { percent: next });
+                }
+            };
+            return (
+                <div className={"business-capability-plan-row" + (order ? " business-capability-plan-row-numbered" : "")} key={line.id + ":values"}>
+                    {order && <span className="business-capability-plan-order">{order}</span>}
+                    <input
+                        type="text"
+                        inputMode="decimal"
+                        className="interview-input business-capability-plan-amount"
+                        aria-label={label + " amount"}
+                        placeholder={total === null ? "Price?" : "0"}
+                        disabled={disabled || total === null}
+                        readOnly={mode === "balance"}
+                        value={draft ?? amountOf(line.percent)}
+                        onChange={(event) => {
+                            const text = limitedNumberText(event.target.value, draft ?? amountOf(line.percent), NUMBER_LIMITS.money);
+                            setAmountDraft({ id: line.id, text });
+                            const amount = parseAmount(text);
+                            setPercent(amount === null || total === null || total === 0 ? "" : String(Math.min(100, Math.round(amount / total * 10000) / 100)));
+                        }}
+                        onBlur={() => setAmountDraft(null)}
+                    />
+                    <input
+                        type="text"
+                        inputMode="decimal"
+                        className="interview-input business-capability-plan-percent"
+                        aria-label={label + " percent"}
+                        placeholder="%"
+                        disabled={disabled}
+                        readOnly={mode === "balance"}
+                        value={line.percent}
+                        onChange={(event) => setPercent(limitedNumberText(event.target.value, line.percent, NUMBER_LIMITS.percent))}
+                    />
+                    <DateCellInput
+                        ariaLabel={label + " date"}
+                        min={startDate || undefined}
+                        max={endDate || undefined}
+                        disabled={disabled || mode === "deposit"}
+                        value={mode === "deposit" ? startDate : line.date || (mode === "balance" ? endDate : "")}
+                        onChange={(next) => {
+                            if (next !== "" && endDate !== "" && next > endDate) {
+                                setDateNotice({ owner: what, text: "A payment cannot fall after the card's End date (" + isoToDisplay(endDate, PreferencesService.getDateFormat()) + ")." });
+                                return;
+                            }
+                            setDateNotice(null);
+                            setLine(line.id, { date: next });
+                        }}
+                    />
+                </div>
+            );
+        };
 
         return (
             <>
@@ -2427,95 +2555,112 @@ export default function BusinessCapabilityEditor({
                 <BusinessField
                     label="Payment Plan"
                     inline
-                    tick={{ on: plan.on, onChange: (on) => set({ on }), disabled, ariaLabel: what + " payment plan" }}
+                    tick={{
+                        on: plan.on,
+                        // (A plan has dates to fall between: the card is given a Start and an End date -- today -- where it has none.)
+                        onChange: (on) => {
+                            const today = todayIsoDate();
+                            const start = startDate || today;
+                            set({ on }, on ? { ...(startDate === "" ? { startDate: start } : {}), ...(endDate === "" ? { endDate: start > today ? start : today } : {}) } : undefined);
+                        },
+                        disabled,
+                        ariaLabel: what + " payment plan"
+                    }}
                 >
                     {plan.on && (
-                        <OptionPicker
-                            label={what + " payment plan type"}
-                            placeholder="Select"
-                            hug
-                            options={BUSINESS_PAYMENT_PLANS.map(entry => entry.label)}
-                            disabled={disabled}
-                            value={BUSINESS_PAYMENT_PLANS.find(entry => entry.id === plan.type)?.label ?? ""}
-                            onChange={(next) => choose(BUSINESS_PAYMENT_PLANS.find(entry => entry.label === next)?.id ?? "")}
-                        />
+                        <div className="business-capability-plan-type">
+                            {/* INSTALMENTS: how many (two digits, 1 to 99) stands beside the type; a number makes that many rows, and a new number makes them again. */}
+                            {plan.type === "instalments" && (
+                                <input
+                                    type="text"
+                                    inputMode="numeric"
+                                    className="interview-input business-capability-plan-count"
+                                    aria-label={what + " number of instalments"}
+                                    title="Number of instalments (1 to 99)"
+                                    placeholder="No."
+                                    disabled={disabled}
+                                    value={plan.count}
+                                    onChange={(event) => setCount(event.target.value.replace(/\D/g, "").slice(0, 2))}
+                                    onKeyDown={(event) => {
+                                        // The arrows count up and down (1 to 99).
+                                        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+                                            event.preventDefault();
+                                            stepCount(event.key === "ArrowUp" ? 1 : -1);
+                                        }
+                                    }}
+                                    onWheel={(event) => {
+                                        // The wheel too, while the box has the cursor.
+                                        if (document.activeElement === event.currentTarget && event.deltaY !== 0) {
+                                            stepCount(event.deltaY < 0 ? 1 : -1);
+                                        }
+                                    }}
+                                />
+                            )}
+                            <OptionPicker
+                                label={what + " payment plan type"}
+                                placeholder="Select"
+                                hug
+                                options={BUSINESS_PAYMENT_PLANS.map(entry => entry.label)}
+                                disabled={disabled}
+                                value={BUSINESS_PAYMENT_PLANS.find(entry => entry.id === plan.type)?.label ?? ""}
+                                onChange={(next) => choose(BUSINESS_PAYMENT_PLANS.find(entry => entry.label === next)?.id ?? "")}
+                            />
+                        </div>
                     )}
                 </BusinessField>
 
-                {plan.on && plan.type === "instalments" && (
-                    <BusinessField label="Instalments" side>
-                        <input
-                            type="text"
-                            inputMode="numeric"
-                            className="interview-input business-capability-years"
-                            aria-label={what + " number of instalments"}
-                            disabled={disabled}
-                            value={plan.count}
-                            onChange={(event) => {
-                                const count = event.target.value.replace(/\D/g, "").slice(0, 2);
-                                const n = Number(count);
-                                set(n >= 1 ? { count, lines: instalmentLines(n, startDate, endDate) } : { count, lines: [] });
-                            }}
-                        />
-                    </BusinessField>
-                )}
+                {/* DEPOSIT & BALANCE: two rows, each an amount, a percent and a date; the balance is what the deposit leaves. */}
+                {plan.on && plan.type === "deposit-balance" && plan.lines.slice(0, 2).map((line, at) => valueRow(line, what + " " + (at === 0 ? "deposit" : "balance"), "", at === 0 ? "deposit" : "balance"))}
 
-                {plan.on && plan.type !== "" && plan.lines.map((line, at) => {
-                    const label = what + " payment " + (at + 1);
-                    const first = plan.type === "deposit-balance" && at === 0;
-                    return (
-                        <div className="business-capability-plan-line" key={line.id}>
-                            {plan.type === "milestones" && (
-                                <input
-                                    type="text"
-                                    className="interview-input"
-                                    aria-label={label + " title"}
-                                    placeholder="Stage"
-                                    disabled={disabled}
-                                    value={line.title}
-                                    onChange={(event) => setLine(line.id, { title: event.target.value.slice(0, 80) })}
-                                />
-                            )}
-                            {plan.type === "deposit-balance" && at === 1
-                                ? percentBox(label + " percent", line.percent, () => undefined, true)
-                                : percentBox(label + " percent", line.percent, (next) => {
-                                    if (plan.type === "deposit-balance") {
-                                        const rest = Math.round((100 - (Number(next) || 0)) * 100) / 100;
-                                        set({ lines: plan.lines.map((entry, position) => position === 0 ? { ...entry, percent: next } : { ...entry, percent: String(rest) }) });
-                                    } else {
-                                        setLine(line.id, { percent: next });
-                                    }
-                                })}
-                            <DateCellInput
-                                ariaLabel={label + " date"}
-                                disabled={disabled || first}
-                                value={first ? startDate : line.date || (plan.type === "deposit-balance" ? endDate : "")}
-                                onChange={(next) => setLine(line.id, { date: next })}
+                {/* INSTALMENTS: a row each, numbered. */}
+                {plan.on && plan.type === "instalments" && plan.lines.map((line, at) => valueRow(line, what + " instalment " + (at + 1), (at + 1) + ".", "free"))}
+
+                {/* MILESTONES: two rows each -- the stage, with the "+" (the first) or the x (any other) -- then its amount, percent and date. */}
+                {plan.on && plan.type === "milestones" && plan.lines.flatMap((line, at) => {
+                    const label = what + " milestone " + (at + 1);
+                    return [
+                        <div className="business-capability-plan-row business-capability-plan-stage" key={line.id + ":stage"}>
+                            <input
+                                type="text"
+                                className="interview-input"
+                                aria-label={label + " title"}
+                                placeholder="Milestone"
+                                disabled={disabled}
+                                value={line.title}
+                                onChange={(event) => setLine(line.id, { title: event.target.value.slice(0, 80) })}
                             />
-                            {plan.type === "milestones" && plan.lines.length > 1 && (
-                                <BusinessRemove
-                                    cell
-                                    what={label}
-                                    disabled={disabled}
-                                    onRemove={() => set({ lines: plan.lines.filter(entry => entry.id !== line.id) })}
-                                />
-                            )}
-                        </div>
-                    );
+                            {at === 0
+                                ? (
+                                    <button
+                                        type="button"
+                                        className="plus-box plus-box-small"
+                                        aria-label={"Add milestone to " + what}
+                                        title="Add milestone"
+                                        disabled={disabled || plan.lines.length >= 20}
+                                        onClick={() => set({ lines: [...plan.lines, blank()] })}
+                                    />
+                                )
+                                : (
+                                    <BusinessRemove
+                                        cell
+                                        what={label}
+                                        disabled={disabled}
+                                        onRemove={() => set({ lines: plan.lines.filter(entry => entry.id !== line.id) })}
+                                    />
+                                )}
+                        </div>,
+                        valueRow(line, label, "", "free")
+                    ];
                 })}
 
-                {plan.on && plan.type === "milestones" && (
-                    <BusinessAddButton
-                        label="Payment"
-                        disabled={disabled}
-                        onAdd={() => set({ lines: [...plan.lines, { id: randomId("payment"), title: "", percent: "", date: "" }] })}
-                    />
+                {plan.on && plan.type !== "" && plan.lines.length > 0 && (
+                    <p className={"business-capability-total" + (sum === 100 ? "" : " business-capability-alarm")}>
+                        {sum === 100 ? "Total 100%" : "Total " + sum + "%: the payments must total 100%"}
+                    </p>
                 )}
 
-                {plan.on && plan.type !== "" && plan.lines.length > 0 && (
-                    <p className={"business-capability-total" + (total === 100 ? "" : " business-capability-alarm")}>
-                        {total === 100 ? "Total 100%" : "Total " + total + "%: the payments must total 100%"}
-                    </p>
+                {plan.on && dateNotice !== null && dateNotice.owner === what && (
+                    <p className="business-capability-total business-capability-alarm">{dateNotice.text}</p>
                 )}
 
             </>
@@ -2578,25 +2723,48 @@ export default function BusinessCapabilityEditor({
     /* ---------- 2. Lower rows ---------- */
 
     /** How long the asset stays useful to the business, in years (not how long it lasts): it feeds the depreciation line. Optional. */
-    function usefulLifeField(what: string, value: string, onNext: (next: string) => void) {
+    /**
+     * THE COST OPTION AND BILLING TYPE, above the cost row, on the groups that ask for a ready-made option (costOptionsOf): the option is chosen, and its
+     * billing type (Percentage, Fixed amount or Lump sum) is read-only text; the option locks the Frequency. Nothing for a group with no options.
+     */
+    function costOptionRows(what: string, place: Scope, groupId: string, optionId: string, onPick: (optionId: string) => void, fixed = false) {
+        const options = costOptionsOf(place, groupId);
+        if (options.length === 0) {
+            return null;
+        }
+        const billing = billingOf(place, groupId, optionId);
+        const chosen = options.find(option => option.id === optionId)?.label ?? "";
         return (
-            <BusinessField label="Useful life" side>
-                <input
-                    type="text"
-                    inputMode="numeric"
-                    className="interview-input business-capability-years"
-                    aria-label={what + " useful life in years"}
-                    placeholder="Years"
-                    disabled={disabled}
-                    value={value}
-                    onChange={(event) => onNext(event.target.value.replace(/\D/g, "").slice(0, 3))}
-                />
-            </BusinessField>
+            <>
+                {/* A card a Customer Channel made files itself: its cost option is text where it is known. */}
+                {fixed && chosen !== ""
+                    ? (
+                        <BusinessField label="Cost option" side>
+                            <span className="business-capability-static-value">{chosen}</span>
+                        </BusinessField>
+                    )
+                    : <BusinessField label="Cost option" side>
+                    <OptionPicker
+                        label={what + " cost option"}
+                        placeholder="Select"
+                        fill="fit"
+                        options={options.map(option => option.label)}
+                        disabled={disabled}
+                        value={options.find(option => option.id === optionId)?.label ?? ""}
+                        onChange={(next) => onPick(options.find(option => option.label === next)?.id ?? "")}
+                    />
+                </BusinessField>}
+                {billing !== "" && (
+                    <BusinessField label="Billing type" side>
+                        <span className="business-capability-static-value">{BILLING_TYPES.find(entry => entry.id === billing)?.label}</span>
+                    </BusinessField>
+                )}
+            </>
         );
     }
 
     /** A warranty (information only, it locks nothing): its tick, and when it ticked, the day it lasts until in a Calendar beside it. Optional. */
-    function warrantyField(what: string, on: boolean, until: string, onNext: (patch: Partial<BusinessResourceSlotValue>) => void) {
+    function warrantyField(what: string, on: boolean, until: string, onNext: (patch: Partial<BusinessResourceSlotValue>) => void, from = "") {
         return (
             <BusinessField
                 label="Warranty"
@@ -2606,6 +2774,7 @@ export default function BusinessCapabilityEditor({
                 {on && (
                     <DateCellInput
                         ariaLabel={what + " warranty until"}
+                        min={from || undefined}
                         disabled={disabled}
                         value={until}
                         onChange={(next) => onNext({ warrantyUntil: next })}
@@ -2616,20 +2785,53 @@ export default function BusinessCapabilityEditor({
     }
 
     /** A contract's own rate, in place of the default one (a percent). Optional. */
-    function rateOverrideField(what: string, value: string, onNext: (next: string) => void) {
+    function amortisationField(what: string, value: string, onNext: (next: string) => void) {
         return (
-            <BusinessField label="Rate override" side>
+            <BusinessField label="Amortisation period" side>
+                <input
+                    type="text"
+                    inputMode="numeric"
+                    className="interview-input business-capability-years"
+                    aria-label={what + " amortisation period in years"}
+                    placeholder="Years"
+                    disabled={disabled}
+                    value={value}
+                    onChange={(event) => onNext(event.target.value.replace(/\D/g, "").slice(0, 3))}
+                />
+            </BusinessField>
+        );
+    }
+
+    /** The default rate (a percent) of a cost option, from the Global Settings: what a Rate override replaces. */
+    function defaultRateOf(optionId: string): string {
+        switch (optionId) {
+            case "royalty-on-sales": return globalSettings?.royaltyRate ?? "";
+            case "affiliate-commission": return globalSettings?.affiliateRate ?? "";
+            case "sales-agents": return globalSettings?.agentRate ?? "";
+            default: return "";
+        }
+    }
+
+    /** A Percentage option with no rate yet starts at the default rate of the Global Settings (the card's price is its rate). */
+    function withDefaultRate(cost: BusinessCostValue, place: Scope, groupId: string, optionId: string): BusinessCostValue {
+        const rate = defaultRateOf(optionId);
+        return billingOf(place, groupId, optionId) === "percentage" && cost.price.trim() === "" && rate !== "" ? { ...cost, price: rate } : cost;
+    }
+
+    function rateOverrideField(what: string, value: string, onNext: (next: string) => void, defaultRate = "") {
+        return (
+            <OptionalField label="Rate override" inline filled={value.trim() !== ""} onClear={() => onNext("")} disabled={disabled}>
                 <input
                     type="text"
                     inputMode="decimal"
                     className="interview-input business-capability-years"
                     aria-label={what + " rate override in percent"}
-                    placeholder="%"
+                    placeholder={defaultRate !== "" ? defaultRate + "%" : "%"}
                     disabled={disabled}
                     value={value}
                     onChange={(event) => onNext(limitedNumberText(event.target.value, value, NUMBER_LIMITS.percent))}
                 />
-            </BusinessField>
+            </OptionalField>
         );
     }
 
@@ -2679,7 +2881,9 @@ export default function BusinessCapabilityEditor({
         startDate: string,
         endDate: string,
         onDates: (patch: { startDate?: string; endDate?: string }) => void,
-        startOnly = false
+        startOnly = false,
+        /** The latest date of the card's payment plan (a Per project card): the End date cannot be earlier. */
+        latestPayment = ""
     ) {
         return (
             <>
@@ -2688,17 +2892,56 @@ export default function BusinessCapabilityEditor({
                         ariaLabel={what + " start date"}
                         disabled={disabled}
                         value={startDate}
-                        onChange={(next) => onDates({ startDate: next })}
+                        // (A Start after the End takes the End along with it: the End is never before the Start.)
+                        onChange={(next) => onDates(next !== "" && endDate !== "" && next > endDate ? { startDate: next, endDate: next } : { startDate: next })}
                     />
                 </BusinessField>
                 {!startOnly && (
-                    <BusinessField label="End date" side>
-                        <DateCellInput
-                            ariaLabel={what + " end date"}
-                            disabled={disabled}
-                            value={endDate}
-                            onChange={(next) => onDates({ endDate: next })}
-                        />
+                    /* The End date is optional: a tick, and the date once it is ticked (unticking takes the date away). */
+                    <BusinessField
+                        label="End date"
+                        side
+                        tick={{
+                            on: endDate !== "" || endTicked.has(what),
+                            onChange: (on) => {
+                                setEndTicked(current => {
+                                    const next = new Set(current);
+                                    if (on) {
+                                        next.add(what);
+                                    } else {
+                                        next.delete(what);
+                                    }
+                                    return next;
+                                });
+                                if (!on && endDate !== "") {
+                                    onDates({ endDate: "" });
+                                }
+                                // (Ticked, the End date is today -- or the Start date, where that is later.)
+                                if (on && endDate === "") {
+                                    const today = todayIsoDate();
+                                    onDates({ endDate: startDate > today ? startDate : today });
+                                }
+                            },
+                            disabled,
+                            ariaLabel: what + " has an end date"
+                        }}
+                    >
+                        {(endDate !== "" || endTicked.has(what)) && (
+                            <DateCellInput
+                                ariaLabel={what + " end date"}
+                                disabled={disabled}
+                                min={startDate || undefined}
+                                value={endDate}
+                                onChange={(next) => {
+                                    if (next !== "" && latestPayment !== "" && next < latestPayment) {
+                                        setDateNotice({ owner: what, text: "The End date cannot be earlier than the last payment of the plan (" + isoToDisplay(latestPayment, PreferencesService.getDateFormat()) + ")." });
+                                        return;
+                                    }
+                                    setDateNotice(null);
+                                    onDates({ endDate: next });
+                                }}
+                            />
+                        )}
                     </BusinessField>
                 )}
             </>
@@ -2724,7 +2967,9 @@ export default function BusinessCapabilityEditor({
         people: Record<string, string> = {},
         onPeople?: (next: Record<string, string>) => void,
         /** How many people a performer's card holds (its Qty); a number box shows only for a card that holds several. */
-        holds: Record<string, string> = {}
+        holds: Record<string, string> = {},
+        /** A partner or supplier performer's card, by its id: the link symbol beside it opens that card (a founder has none). */
+        links: Record<string, { noun: string; open: () => void }> = {}
     ) {
 
         // Always one picker, even before anybody is chosen.
@@ -2741,7 +2986,7 @@ export default function BusinessCapabilityEditor({
                 {who.length === 0
                     ? (
                         <BusinessEmpty>
-                            Add a founder, or a partner under 3. Partners & Providers.
+                            Add a founder, or a partner under 3. Partners & Suppliers.
                         </BusinessEmpty>
                     )
                     : (
@@ -2787,6 +3032,11 @@ export default function BusinessCapabilityEditor({
                                             }}
                                         />
                                     )}
+
+                                    {/* (A partner or supplier: the link symbol; every row keeps its place, so the dropdowns end at one x.) */}
+                                    {rows.some(entry => links[entry]) && (links[id]
+                                        ? <LinkSymbol noun={links[id].noun} name={who.find(choice => choice.id === id)?.label ?? ""} onOpen={links[id].open} />
+                                        : <span className="business-capability-row-spacer" aria-hidden="true" />)}
 
                                     {position > 0
                                         ? (
@@ -2908,7 +3158,7 @@ export default function BusinessCapabilityEditor({
     function parentCard(id: string): { caption: string; scope: Scope; kind: "card" | "founder"; node: ReactNode } | null {
         const founderAt = founders.findIndex(founder => founder.id === id);
         if (founderAt >= 0) {
-            return { caption: "Founders", scope: "infrastructure", kind: "founder", node: founderCard(founders[founderAt], founderAt, true) };
+            return { caption: "Founders", scope: "infrastructure", kind: "card", node: founderCard(founders[founderAt], founderAt, true) };
         }
         for (const [groupId, subsections] of Object.entries(capability.resources)) {
             for (const subsection of subsections) {
@@ -2938,8 +3188,8 @@ export default function BusinessCapabilityEditor({
             caption: channelTileIds.has(id) ? "Channel Resources" : "Resources",
             scope: "offering",
             kind: "card",
-            // (Numbered in the view it is listed in: Resources, or the Channel's own.)
-            node: resourceCard("offering", capability.offering.resources[at], capability.offering.resources.filter(slot => channelTileIds.has(slot.id) === channelTileIds.has(id)).findIndex(slot => slot.id === id) + 1, (base, patch) => patchSlot(base, id, patch), () => onChange(removeSlot(capability, id)))
+            // (Numbered as its tile numbers it: in its own Group's list, or -- a card the Channel's own tile holds -- in that tile's.)
+            node: resourceCard("offering", capability.offering.resources[at], offeringNumberOf(capability.offering.resources[at]), (base, patch) => patchSlot(base, id, patch), () => onChange(removeSlot(capability, id)))
         };
     }
 
@@ -2962,7 +3212,7 @@ export default function BusinessCapabilityEditor({
             for (const show of ["own", "channel"] as const) {
                 const card = partnerCardFor(scope, id, show);
                 if (card) {
-                    return { caption: show === "channel" ? "Channel Partners" : "Partners & Providers", node: card };
+                    return { caption: show === "channel" ? "Channel Partners" : "Partners & Suppliers", node: card };
                 }
             }
         }
@@ -2979,6 +3229,8 @@ export default function BusinessCapabilityEditor({
         label?: string;
         /** Whether "Other…" (a new one) is offered (default yes). */
         allowNew?: boolean;
+        /** The help text of the chosen option (a partner or supplier group's), in the label's "i". */
+        info?: string;
         key: string;
         options: readonly { id: string; label: string }[];
         value: string;
@@ -2987,24 +3239,18 @@ export default function BusinessCapabilityEditor({
         onNew: (made: BusinessCategoryValue) => void;
         onRename: (name: string) => void;
     }) {
-        // A dropdown with ONE option has nothing to choose: it is shown as text.
-        if (args.allowNew === false && args.options.length === 1) {
-            return (
-                <BusinessField label={args.label ?? "Category"} side>
-                    <span className="business-capability-static-value" data-owner={args.owner}>{args.options[0].label}</span>
-                </BusinessField>
-            );
-        }
+        // A dropdown with ONE option has nothing to choose: it stays a cell like the Category's, drawn as set (not to be pressed).
+        const onlyOne = args.allowNew === false && args.options.length === 1;
         return (
             <>
-                <BusinessField label={args.label ?? "Category"} side>
+                <BusinessField label={args.label ?? "Category"} side info={args.info ? [args.info] : undefined}>
                     <OptionPicker
                         label={args.owner + " " + (args.label ?? "Category").toLowerCase()}
                         placeholder="Select"
                         fill="fit"
                         options={[...args.options.map(entry => entry.label), ...(args.allowNew === false ? [] : [OTHER_PARTNER])]}
-                        disabled={disabled}
-                        value={args.value}
+                        disabled={disabled || onlyOne}
+                        value={onlyOne ? args.options[0].label : args.value}
                         onChange={(next) => {
                             if (next === OTHER_PARTNER) {
                                 const made = { id: randomId("category"), name: "" };
@@ -3067,6 +3313,26 @@ export default function BusinessCapabilityEditor({
             subsections.filter(subsection => fixed.has(subsection.id) || subsection.slots.length > 0 || subsection.name.trim())
         ]));
         return { ...base, resources };
+    }
+
+    /** A card a Customer Channel made files itself: its Category and Group stand where the other cards' cells do, as text (nothing to choose). */
+    function channelCategoryText(slot: BusinessResourceSlotValue) {
+        const category = BUSINESS_OFFERING_RESOURCE_GROUPS.find(entry => entry.id === slot.category);
+        const group = category?.kinds.find(kind => kind.id === slot.group);
+        return (
+            <>
+                {category && (
+                    <BusinessField label="Category" side>
+                        <span className="business-capability-static-value">{category.label}</span>
+                    </BusinessField>
+                )}
+                {group && (
+                    <BusinessField label="Group" side>
+                        <span className="business-capability-static-value">{group.label}</span>
+                    </BusinessField>
+                )}
+            </>
+        );
     }
 
     /** An Offering resource's Category and Group (its own fields; the lists are fixed): the Group is chosen once the Category is. */
@@ -3206,7 +3472,7 @@ export default function BusinessCapabilityEditor({
     /**
      * THE CATEGORY OF A PARTNER OR PROVIDER, under its name: Partners, Providers, the categories the user made and "Other…", which makes a new one (named in
      * the box that appears). The categories are the organization's, shared by every card (Infrastructure's and Offering's). The same cell stands on the
-     * Partner / Provider card and, below the Partner / Provider field, on a resource whose status is Partners & Providers.
+     * Partner / Provider card and, below the Partner / Provider field, on a resource whose status is Partners & Suppliers.
      */
     function partnerCategoryCell(partner: BusinessPartnerValue, owner: string) {
         const options = [
@@ -3241,22 +3507,35 @@ export default function BusinessCapabilityEditor({
     }
 
     /** A partner or supplier's Group, under its Category: the type's fixed list in this place (a list of one is text). Nothing before the Category is a type. */
-    function partnerGroupCell(scope: Scope, partner: BusinessPartnerValue, owner: string, change: (patch: Partial<BusinessPartnerValue>) => void) {
-        if (partner.category !== "partners" && partner.category !== "suppliers") {
+    function partnerGroupCell(scope: Scope, partner: BusinessPartnerValue, owner: string) {
+        // (A category the user made in an earlier answer keeps its own Category cell.)
+        if (capability.partnerCategories.some(entry => entry.id === partner.category)) {
             return null;
         }
-        const options = BUSINESS_PARTNER_GROUPS[scope][partner.category].map(entry => ({ id: entry.id, label: entry.label }));
+        // Every group of the place, Partners' then Suppliers': the group picked says whether the card is a Partner or a Supplier.
+        const options = (["partners", "suppliers"] as const).flatMap(type => BUSINESS_PARTNER_GROUPS[scope][type].map(entry => ({ id: entry.id, label: entry.label, type })));
+        const current = options.find(entry => entry.type === partner.category && entry.id === partner.group);
+        // A card a Customer Channel made files itself: its Group is text where it is known.
+        if (channelMade(scope, partner.id) && current) {
+            return (
+                <BusinessField label="Group" side info={partnerGroupHelp(scope, partner.category, partner.group) ? [partnerGroupHelp(scope, partner.category, partner.group)] : undefined}>
+                    <span className="business-capability-static-value">{current.label}</span>
+                </BusinessField>
+            );
+        }
         return categoryRow({
             owner,
             label: "Group",
             allowNew: false,
+            info: partnerGroupHelp(scope, partner.category, partner.group) || undefined,
             key: partner.id + ":partner-group",
             options,
-            value: options.find(entry => entry.id === partner.group)?.label ?? "",
+            value: current?.label ?? "",
             custom: undefined,
             onPick: (id) => {
-                if (id && id !== partner.group) {
-                    change({ group: id });
+                const picked = options.find(entry => entry.id === id);
+                if (picked && picked !== current) {
+                    onChange(patchPartner(capability, partner.id, { category: picked.type, group: picked.id }));
                 }
             },
             onNew: () => undefined,
@@ -3327,12 +3606,47 @@ export default function BusinessCapabilityEditor({
                 className="business-capability-activity-line business-capability-card-link"
                 title={title ?? "Open " + noun + " “" + name + "”"}
             >
-                {"Open " + noun + " “"}
-                <button type="button" className="business-capability-link" onClick={onOpen}>
+                {/* The kind as its first letter (R. Resource, A. Activity, P. Partner, S. Supplier), then the name as the link. */}
+                <span className="business-capability-card-link-kind" aria-hidden="true">{noun.charAt(0).toUpperCase() + "."}</span>
+                <button type="button" className="business-capability-link" aria-label={"Open " + noun + " “" + name + "”"} onClick={onOpen}>
                     {name}
                 </button>
-                {"”"}
             </p>
+        );
+    }
+
+    /** The cards a resource's card links to, apart from its supplier and its activity (those have their symbol beside their picker): the resource a generated Insurances card insures, and the activities that list it. */
+    function resourceLinks(slot: BusinessResourceSlotValue): { key: string; noun: string; name: string; onOpen: () => void }[] {
+        const insured = slot.insuresId !== ""
+            ? [...Object.values(capability.resources).flat().flatMap(entry => entry.slots), ...capability.offering.resources].find(entry => entry.id === slot.insuresId)
+            : undefined;
+        return [
+            ...(insured ? [{ key: slot.id + ":insures", noun: "Resource", name: insured.name.trim() || "Unnamed Resource", onOpen: () => openPair(slot.id, insured.id) }] : []),
+            ...[...capability.activities.flatMap(category => category.activities), ...capability.offering.activities]
+                .filter(activity => activity.resources.some(entry => entry.id === slot.id))
+                .map(activity => ({ key: activity.id, noun: "Activity", name: activity.name.trim() || "Unnamed Activity", onOpen: () => openPair(activity.id, slot.id) }))
+        ];
+    }
+
+    /** The "Open ..." lines of a card, last in it: one is the line itself; several are a folded section named Links (collapsed, its count beside it). */
+    function linksSection(id: string, links: readonly { key: string; noun: string; name: string; onOpen: () => void }[]) {
+        if (links.length === 0) {
+            return null;
+        }
+        if (links.length === 1) {
+            return cardLink(links[0].key, links[0].noun, links[0].name, links[0].onOpen);
+        }
+        const open = linksOpen.has(id);
+        return (
+            <div className="business-foundation-field business-capability-links">
+                {/* The same row as a founder's Responsibilities: the fold arrow, the label, how many. */}
+                <span className="business-foundation-label-info business-capability-responsibilities-head business-capability-links-head">
+                    <FoldArrow open={open} label={"Links of this card"} onToggle={() => setLinksOpen(current => toggledIn(current, id))} />
+                    <span className="field-label business-foundation-label">Links</span>
+                    <span className="field-label field-label-muted business-capability-responsibilities-count">{links.length}</span>
+                </span>
+                {open && <div className="business-capability-links-list">{links.map(link => cardLink(link.key, link.noun, link.name, link.onOpen))}</div>}
+            </div>
         );
     }
 
@@ -3391,6 +3705,38 @@ export default function BusinessCapabilityEditor({
 
     }
 
+    /** What a partner or supplier card costs (its price times its units); null while it has no price. */
+    function partnerAmount(partner: BusinessPartnerValue): { amount: number; currency: string } | null {
+        const price = parseAmount(partner.cost.price);
+        if (price === null) {
+            return null;
+        }
+        const factor = resourceUnitCount(partner.quantity, partner.cost.frequency) ?? 1;
+        return { amount: Math.round(price * factor * 100) / 100, currency: partner.cost.currency || organisationCurrency };
+    }
+
+    /** The costs of the partners and suppliers an activity names as Performers, one line each, after the last performer. */
+    function performerCosts(scope: Scope, activity: BusinessActivityValue) {
+        const all = [...partnersOf(scope, "professionals"), ...partnersOf(scope, "providers")];
+        const named = activity.performerIds.map(id => all.find(partner => partner.id === id)).filter((partner): partner is BusinessPartnerValue => partner !== undefined);
+        if (named.length === 0) {
+            return null;
+        }
+        return (
+            <div className="business-capability-resource-costs">
+                {named.map(partner => {
+                    const own = partnerAmount(partner);
+                    return (
+                        <p className="business-capability-total business-capability-cost-line" key={partner.id}>
+                            <span className="business-capability-cost-name" title={partner.name.trim() || "Unnamed partner"}>{partner.name.trim() || "Unnamed partner"}</span>
+                            <span className="business-capability-cost-amount">{own ? moneyFormatter(own.currency)(own.amount) : "no price yet"}</span>
+                        </p>
+                    );
+                })}
+            </div>
+        );
+    }
+
     /**
      * THE RESOURCES an activity uses: a tick after the Performer opens the resources of its place, each with the units of it the activity takes when it has
      * units (a Per unit price: 3 hours, 40 km). A linked card that begins after the activity ends is said so. After the last, the cost they come to: Cost,
@@ -3411,6 +3757,7 @@ export default function BusinessCapabilityEditor({
         const linked = activity.resources.filter(entry => candidates.some(slot => slot.id === entry.id));
         const late = resourcesStartingTooLate(activity, Object.fromEntries(candidates.map(slot => [slot.id, slot.startDate])), linked);
         const canAdd = rows.every(entry => entry.id !== "") && rows.length < candidates.length;
+        const anyUnits = rows.some(entry => candidates.find(candidate => candidate.id === entry.id)?.cost.frequency === "per-unit");
         const setRows = (next: { id: string; units: string }[]) => onActivity({ resources: next });
 
         // What each linked card comes to for this activity: its price times the units taken (a Per unit price) or its quantity.
@@ -3425,13 +3772,23 @@ export default function BusinessCapabilityEditor({
                 : resourceUnitCount(slot.quantity, slot.cost.frequency) ?? 1;
             return { amount: Math.round(price * factor * 100) / 100, currency: slot.cost.currency || organisationCurrency };
         };
-        const values = linked.flatMap(entry => amountOf(entry) ?? []);
+        // A resource that a partner or supplier provides brings that partner's cost, under its own line.
+        const providerOf = (entry: { id: string }) => {
+            const slot = candidates.find(candidate => candidate.id === entry.id);
+            return slot && slot.status === "partners-suppliers" && slot.providerId
+                ? [...partnersOf(scope, "professionals"), ...partnersOf(scope, "providers")].find(partner => partner.id === slot.providerId)
+                : undefined;
+        };
+        const providerValues = linked.flatMap(entry => { const partner = providerOf(entry); return partner ? partnerAmount(partner) ?? [] : []; });
+        const values = [...linked.flatMap(entry => amountOf(entry) ?? []), ...providerValues];
         const sameCurrency = values.length > 0 && values.every(value => value.currency === values[0].currency);
         const sum = Math.round(values.reduce((total, value) => total + value.amount, 0) * 100) / 100;
 
         return (
+            <>
             <OptionalField
                 label="Resources"
+                inline
                 filled={activity.resources.some(entry => entry.id !== "")}
                 onClear={() => onActivity({ resources: [] })}
                 disabled={disabled}
@@ -3439,12 +3796,12 @@ export default function BusinessCapabilityEditor({
                 {candidates.length === 0
                     ? <BusinessEmpty>Add resources under 1. Resources first.</BusinessEmpty>
                     : (
-                        <div className="business-capability-performers">
+                        <div className="business-capability-performers business-capability-resource-rows">
                             {rows.map((entry, position) => {
                                 const slot = candidates.find(candidate => candidate.id === entry.id);
-                                const own = slot ? amountOf(entry) : null;
+                                const hasUnits = slot !== undefined && slot.cost.frequency === "per-unit";
                                 return (
-                                    <div className="business-capability-performer" key={position}>
+                                    <div className="business-capability-performer business-capability-resource-row" key={position}>
                                         <OptionPicker
                                             label={what + " resource " + (position + 1)}
                                             placeholder="Select"
@@ -3459,7 +3816,9 @@ export default function BusinessCapabilityEditor({
                                                 : row))}
                                         />
                                         {/* The units of it the activity takes, shown beside a resource that has units, never more than it has. */}
-                                        {slot && slot.cost.frequency === "per-unit" && (
+                                        {/* (Every row keeps the places of the units and of the link, so the dropdowns end at one x.) */}
+                                        {anyUnits && !hasUnits && <span className="business-capability-row-spacer business-capability-row-spacer-units" aria-hidden="true" />}
+                                        {slot && hasUnits && (
                                             <input
                                                 type="text"
                                                 inputMode="numeric"
@@ -3472,7 +3831,9 @@ export default function BusinessCapabilityEditor({
                                                 onChange={(event) => setRows(rows.map((row, at) => at === position ? { ...row, units: cappedUnits(event.target.value, slot.quantity) } : row))}
                                             />
                                         )}
-                                        {slot && <LinkSymbol noun="Resource" name={nameOf(slot)} onOpen={() => openPair(activity.id, slot.id)} />}
+                                        {slot
+                                            ? <LinkSymbol noun="Resource" name={nameOf(slot)} onOpen={() => openPair(activity.id, slot.id)} />
+                                            : <span className="business-capability-row-spacer" aria-hidden="true" />}
                                         {position > 0
                                             ? (
                                                 <BusinessRemove
@@ -3494,9 +3855,6 @@ export default function BusinessCapabilityEditor({
                                                     />
                                                 )
                                                 : <span className="business-capability-performer-slot" aria-hidden="true" />}
-                                        {own && (
-                                            <span className="business-capability-deposit-currency">{moneyFormatter(own.currency)(own.amount)}</span>
-                                        )}
                                     </div>
                                 );
                             })}
@@ -3507,12 +3865,34 @@ export default function BusinessCapabilityEditor({
                         {nameOf(candidates.find(slot => slot.id === id) as BusinessResourceSlotValue) + " begins after this activity ends."}
                     </p>
                 ))}
-                {sameCurrency && (
-                    <p className="business-capability-total">
-                        {(values.length > 2 ? "Total" : "Cost") + ": " + moneyFormatter(values[0].currency)(sum)}
+            </OptionalField>
+            {/* The cost of each linked resource and their total: from the left edge of the card's name cell to its right edge (the card's whole content width). */}
+            {linked.length > 0 && (
+                <div className="business-capability-resource-costs">
+                {/* The estimated cost of EVERY linked card, one line each (a card with no price yet says so); with two or more costs, then the sum. */}
+                {linked.map(entry => {
+                    const own = amountOf(entry);
+                    const slot = candidates.find(candidate => candidate.id === entry.id);
+                    const partner = providerOf(entry);
+                    const partnerCost = partner ? partnerAmount(partner) : null;
+                    return slot
+                        ? (
+                            <Fragment key={entry.id}>
+                                <p className="business-capability-total business-capability-cost-line"><span className="business-capability-cost-name" title={nameOf(slot)}>{nameOf(slot)}</span><span className="business-capability-cost-amount">{own ? moneyFormatter(own.currency)(own.amount) : "no price yet"}</span></p>
+                                {partner && <p className="business-capability-total business-capability-cost-line business-capability-cost-sub"><span className="business-capability-cost-name" title={partner.name.trim()}>{partner.name.trim() || "Unnamed partner"}</span><span className="business-capability-cost-amount">{partnerCost ? moneyFormatter(partnerCost.currency)(partnerCost.amount) : "no price yet"}</span></p>}
+                            </Fragment>
+                        )
+                        : null;
+                })}
+                {sameCurrency && values.length > 1 && (
+                    <p className="business-capability-total business-capability-cost-line business-capability-cost-total">
+                        <span className="business-capability-cost-name">Total</span>
+                        <span className="business-capability-cost-amount">{moneyFormatter(values[0].currency)(sum)}</span>
                     </p>
                 )}
-            </OptionalField>
+                </div>
+            )}
+            </>
         );
     }
 
@@ -3534,33 +3914,58 @@ export default function BusinessCapabilityEditor({
         const frozen = activity.completed;
 
         /* The head of a card that does not fold (BusinessCard's): number, name, remove. */
+        // The card whose status made this activity, while it is still there and still chooses it.
+        const madeFrom = activity.madeBy !== ""
+            ? [...Object.values(capability.resources).flat().flatMap(entry => entry.slots), ...capability.offering.resources]
+                .filter(slot => slot.id === activity.madeBy && (slot.activityId === activity.id || (slot.extraStatuses ?? []).some(row => row.activityId === activity.id)))
+                .map(slot => ({ id: slot.id, name: (slot.name.trim() || "Unnamed Resource") }))[0]
+            : undefined;
+
         const head = (
             <div className="business-capability-activity-head strategy-box-head">
 
                 <CardNumber number={number} />
 
-                <CardNameInput
-                    ariaLabel={"Activity " + number + " name"}
-                    placeholder="Activity name"
-                    disabled={disabled}
-                    value={activity.name}
-                    onChange={(name) => onActivity({ name })}
-                />
+                {madeFrom
+                    ? (
+                        /* Made by a card's Activity status: its name is written on that card, and here it is a link to it (as a Customer Channel's card is). */
+                        <button
+                            type="button"
+                            className="business-capability-child-name"
+                            title={"Open " + madeFrom.name}
+                            aria-label={"Open " + madeFrom.name}
+                            onClick={() => openPair(activity.id, madeFrom.id)}
+                        >
+                            {activity.name.trim() || "Unnamed activity"}
+                        </button>
+                    )
+                    : (
+                        <CardNameInput
+                            ariaLabel={"Activity " + number + " name"}
+                            placeholder="Activity name"
+                            disabled={disabled}
+                            value={activity.name}
+                            onChange={(name) => onActivity({ name })}
+                        />
+                    )}
 
-                <BusinessRemove
-                    what={"Activity " + number}
-                    disabled={disabled}
-                    onRemove={onRemove}
-                />
+                {!madeFrom && (
+                    <BusinessRemove
+                        what={"Activity " + number}
+                        disabled={disabled}
+                        onRemove={onRemove}
+                    />
+                )}
 
             </div>
         );
 
         return (
+            <MissingScope lacking={missingById.get(activity.id) ?? []} key={activity.id}>{(lacking) => (
             <div
                 className={"business-capability-activity business-capability-slot" + (activity.completed ? " business-capability-activity-completed" : "")}
-                key={activity.id}
                 data-anchor={activity.id}
+                data-lacks={lacking.length > 0 ? "|" + lacking.join("|") + "|" : undefined}
                 data-frozen={frozen ? "" : undefined}
             >
 
@@ -3575,15 +3980,10 @@ export default function BusinessCapabilityEditor({
                 {/* The period its group runs in, and what is wrong where the dates leave it. */}
                 {(() => {
                     const period = activityPeriod(activity.category, planStartDay, openingDate);
-                    const shown = (iso: string) => isoToDisplay(iso, PreferencesService.getDateFormat());
                     return (
                         <>
-                            {(period.from !== "" || period.to !== "") && (
-                                <p className="business-capability-total">
-                                    {"Inside the period: " + [period.from !== "" ? "from " + shown(period.from) : "", period.to !== "" ? "to " + shown(period.to) : ""].filter(Boolean).join(" ")}
-                                </p>
-                            )}
-                            {activityDateIssues(activity, period).map(issue => (
+                            {/* (A finished activity is history: its dates are not judged against the period.) */}
+                            {(activity.completed ? [] : activityDateIssues(activity, period)).map(issue => (
                                 <p className="business-capability-total business-capability-alarm" key={issue}>{issue}</p>
                             ))}
                         </>
@@ -3591,21 +3991,6 @@ export default function BusinessCapabilityEditor({
                 })()}
 
                 {categoryCell}
-
-                {/* A Pre-Operational activity is Capital Expenditure or Start-up Expenses (its type, not a category). */}
-                {activity.category === "pre-operational" && (
-                    <BusinessField label="Type" side>
-                        <OptionPicker
-                            label={"Activity " + number + " type"}
-                            placeholder="Select"
-                            fill="fit"
-                            options={BUSINESS_PREOPERATIONAL_TYPES.map(entry => entry.label)}
-                            disabled={disabled}
-                            value={BUSINESS_PREOPERATIONAL_TYPES.find(entry => entry.id === activity.type)?.label ?? ""}
-                            onChange={(next) => onActivity({ type: BUSINESS_PREOPERATIONAL_TYPES.find(entry => entry.label === next)?.id ?? "" })}
-                        />
-                    </BusinessField>
-                )}
 
                 {/* Performer and Responsibility, one under the other, their dropdowns at one x
                     (business-capability-activity-fields). */}
@@ -3618,12 +4003,22 @@ export default function BusinessCapabilityEditor({
                         (next) => onActivity({ performerIds: next }),
                         activity.performerPeople,
                         (next) => onActivity({ performerPeople: next }),
-                        Object.fromEntries([...partnersOf(scope, "professionals"), ...partnersOf(scope, "providers")].map(partner => [partner.id, partner.quantity]))
+                        Object.fromEntries([...partnersOf(scope, "professionals"), ...partnersOf(scope, "providers")].map(partner => [partner.id, partner.quantity])),
+                        Object.fromEntries([
+                            ...founders.map(founder => [founder.id, { noun: "Founder", open: () => openPair(activity.id, founder.id) }] as const),
+                            ...[...partnersOf(scope, "professionals"), ...partnersOf(scope, "providers")].map(partner => [partner.id, { noun: partnerNoun(partner.category), open: () => openPair(activity.id, partner.id) }] as const)
+                        ])
                     )}
 
                 </div>
 
-                {activityResources(scope, activity, number, onActivity)}
+                {performerCosts(scope, activity)}
+
+                <div className="business-capability-stack business-capability-activity-fields">
+
+                    {activityResources(scope, activity, number, onActivity)}
+
+                </div>
 
                 {/* Responsible after the Resources and their Cost, its dropdown at the Performer's x. */}
                 <div className="business-capability-stack business-capability-activity-fields">
@@ -3651,8 +4046,7 @@ export default function BusinessCapabilityEditor({
                     ariaLabel={"Activity " + number + " description"}
                     disabled={disabled}
                     value={activity.description}
-                    recorded={activity.noteRecorded}
-                    onChange={(next) => onActivity({ description: next, noteRecorded: noteStamped(activity.description, next, activity.noteRecorded) })}
+                    onChange={(next) => onActivity({ description: next })}
                 />
 
                 {/* The links last, under the Description. */}
@@ -3665,6 +4059,11 @@ export default function BusinessCapabilityEditor({
                 )}
 
                 </fieldset>
+
+                {/* THE CARDS THAT CHOOSE THIS ACTIVITY (a resource whose status is Activity or Needs Activity): a link each, unless the name already is the link to the one that made it. */}
+                {linksSection(activity.id, [...Object.values(capability.resources).flat().flatMap(entry => entry.slots), ...capability.offering.resources]
+                    .filter(slot => slot.id !== madeFrom?.id && (slot.activityId === activity.id || (slot.extraStatuses ?? []).some(row => row.activityId === activity.id)))
+                    .map(slot => ({ key: slot.id + ":chooses", noun: "Resource", name: slot.name.trim() || "Unnamed Resource", onOpen: () => openPair(activity.id, slot.id) })))}
 
                 {/* Done, at the very end (the one card order: fields,
                     Description, links, then the card's state), on the left with the other ticks. */}
@@ -3683,6 +4082,7 @@ export default function BusinessCapabilityEditor({
                 </label>
 
             </div>
+            )}</MissingScope>
         );
 
     }
@@ -3750,7 +4150,7 @@ export default function BusinessCapabilityEditor({
 
     }
 
-    /* ---------- 3. Partners & Providers ---------- */
+    /* ---------- 3. Partners & Suppliers ---------- */
 
     function partnerCard(
         scope: Scope,
@@ -3771,11 +4171,21 @@ export default function BusinessCapabilityEditor({
             ...Object.values(capability.resources).flat().flatMap(entry => entry.slots),
             ...capability.offering.resources
         ]
-            .filter(slot => slot.providerId === partner.id && usesSupplier(slot.status))
+            // (Named by its own status, or by a further status row: a resource can have a supplier for each.)
+            .filter(slot => (slot.providerId === partner.id && usesSupplier(slot.status)) || (slot.extraStatuses ?? []).some(row => row.status === "partners-suppliers" && row.providerId === partner.id))
             .map(slot => ({ id: slot.id, name: slot.name.trim() || "Unnamed Resource", noun: "Resource" }));
         workspacesOf(capability).filter(workspace => workspace.providerId === partner.id && workspace.status === "rent").forEach(workspace => {
+            // (A Workspace is a Resource like the others: listed once, as the Resource it is.)
+            if (users.some(user => user.id === workspace.id)) {
+                return;
+            }
             users.push({ id: workspace.id, name: BUSINESS_WORKSPACE_KINDS.find(entry => entry.id === workspace.kind)?.label ?? "Workspace", noun: "Workspace" });
         });
+
+        // ... and the activities it performs (the Performer rows of an activity's card name it): one link each.
+        [...capability.activities.flatMap(category => category.activities), ...capability.offering.activities]
+            .filter(activity => activity.performerIds.includes(partner.id))
+            .forEach(activity => users.push({ id: activity.id, name: activity.name.trim() || "Unnamed Activity", noun: "Activity" }));
 
         return (
             <BusinessCard
@@ -3802,26 +4212,25 @@ export default function BusinessCapabilityEditor({
                 )}
             >
 
-                {cardDates(partner.name.trim() || "Entry " + number, partner.startDate, partner.endDate, change)}
+                {cardDates(partner.name.trim() || "Entry " + number, partner.startDate, partner.endDate, change, false, latestPaymentOf(partner.cost.frequency, partner.paymentPlan))}
 
                 {/* (No Category row: the tile says whether it is a Partner or a Supplier. A card with no type yet, from an earlier answer, keeps the row so it can be given one.) */}
-                {partner.category !== "partners" && partner.category !== "suppliers" && partnerCategoryCell(partner, partner.name.trim() || "Entry " + number)}
+                {capability.partnerCategories.some(entry => entry.id === partner.category) && partnerCategoryCell(partner, partner.name.trim() || "Entry " + number)}
 
-                {partnerGroupCell(scope, partner, partner.name.trim() || "Entry " + number, change)}
-
-                {/* THE RESOURCES THAT USE IT: one line each, a link that opens that card (above this one, as a resource's link to its partner does). */}
-                {users.map(user => cardLink(user.id, user.noun, user.name, () => openPair(user.id, partner.id)))}
+                {partnerGroupCell(scope, partner, partner.name.trim() || "Entry " + number)}
 
                 {/* Price | Frequency first (the Frequency's label above it, as it was), then
                     Responsible on a row of its own: its label beside its picker, in the
                     short side-label column. */}
+                {costOptionRows(partner.name.trim() || "Entry " + number, scope, partner.group, partner.costOption, (option) => change({ costOption: option, cost: withDefaultRate(costWithOption(partner.cost, scope, partner.group, option), scope, partner.group, option) }), channelMade(scope, partner.id))}
+
                 {costFields(
                     partner.name.trim() || "Entry " + number,
                     partner.cost,
                     (next) => change({ cost: next }),
-                    supplierHasQuantity(supplierConnections(capability, partner.id)) ? partner.quantity : "",
-                    // A landlord or lessor connected to a rented vehicle: how many vehicles the price is for, before the price.
-                    supplierHasQuantity(supplierConnections(capability, partner.id))
+                    partnerHasQuantity(supplierConnections(capability, partner.id), partner.cost) ? partner.quantity : "",
+                    // A lessor of vehicles, or any card priced Per unit (per hour, per kg ...): how many the price is for, before the price.
+                    partnerHasQuantity(supplierConnections(capability, partner.id), partner.cost)
                         ? {
                             field: (
                                 <BusinessField label="Qty">
@@ -3840,11 +4249,12 @@ export default function BusinessCapabilityEditor({
                         }
                         : undefined,
                     undefined,
-                    false,
-                    { scope, groupId: partner.group }
+                    // (A Per unit price of a partner or supplier is multiplied by its Qty.)
+                    partner.cost.frequency === "per-unit",
+                    { scope, groupId: partner.group, costOption: partner.costOption }
                 )}
 
-                {partner.cost.frequency === "per-project" && paymentPlanFields(partner.name.trim() || "Entry " + number, partner.startDate, partner.endDate, partner.paymentPlan, (next) => change({ paymentPlan: next }))}
+                {partner.cost.frequency === "per-project" && paymentPlanFields(partner.name.trim() || "Entry " + number, partner.startDate, partner.endDate, partner.paymentPlan, (next, dates) => change({ paymentPlan: next, ...dates }), planTotalOf(partner.cost.price, partnerHasQuantity(supplierConnections(capability, partner.id), partner.cost) ? partner.quantity : ""))}
 
                 {/* The extras by what is connected: a landlord's deposit, service charge and property tax, a lessor's road tax; a producer's duties. */}
                 {extrasFields(
@@ -3853,8 +4263,8 @@ export default function BusinessCapabilityEditor({
                     partner.extras, partner.cost.currency || organisationCurrency, (next) => change({ extras: next })
                 )}
 
-                {RATE_OVERRIDE_PARTNER_GROUPS.includes(partner.group) && partner.cost.frequency === "percent-revenue" && rateOverrideField(
-                    partner.name.trim() || "Entry " + number, partner.rateOverride, (next) => change({ rateOverride: next })
+                {billingOf(scope, partner.group, partner.costOption) === "percentage" && rateOverrideField(
+                    partner.name.trim() || "Entry " + number, partner.rateOverride, (next) => change({ rateOverride: next }), defaultRateOf(partner.costOption)
                 )}
 
                 {/* Responsible after the payment plan, the extras and the rate override, before the Description (the card structure's order). */}
@@ -3880,8 +4290,7 @@ export default function BusinessCapabilityEditor({
                     placeholder={noteHint(partner.group)}
                     disabled={disabled}
                     value={partner.description}
-                    recorded={partner.noteRecorded}
-                    onChange={(next) => change({ description: next, noteRecorded: noteStamped(partner.description, next, partner.noteRecorded) })}
+                    onChange={(next) => change({ description: next })}
                 />
 
                 {/* The links last, under the Description. */}
@@ -3892,6 +4301,9 @@ export default function BusinessCapabilityEditor({
                     "Define an Offering on the Foundation page first.",
                     partner.offeringShares
                 )}
+
+                {/* THE CARDS THAT USE IT (the resources that name it, the activities it performs): at the end of the card, a link each (above this one when opened). */}
+                {linksSection(partner.id, users.map(user => ({ key: user.id, noun: user.noun, name: user.name, onOpen: () => openPair(user.id, partner.id) })))}
 
             </BusinessCard>
         );
@@ -3936,73 +4348,10 @@ export default function BusinessCapabilityEditor({
      * arrow like every level inside it.
      *
      * Its arrow names the CARD too: both cards hold a 1. Resources,
-     * a 2. Activities and a 3. Partners & Providers, and six
+     * a 2. Activities and a 3. Partners & Suppliers, and six
      * arrows announcing three names would be the thing the path is
      * there to prevent.
      */
-
-    /** A section of 1. Resources by its name, without its number: its tile's title. */
-    function resourceName(id: string): string {
-        return id === "founders" ? "Founders"
-            : id === "workspace" ? "Workspace"
-                : BUSINESS_RESOURCE_GROUPS.find(group => group.id === id)?.label ?? "";
-    }
-
-    /**
-     * One section of 1. Resources, as the content of its tile's dialog:
-     * its number and title, its "i", and what it holds. Its anchors are
-     * its tile's (SectionTiles), so a link to it opens the tile.
-     */
-    function resourceColumn(id: string) {
-
-        const title = (RESOURCE_SECTION_ORDER.indexOf(id) + 1) + ". " + resourceName(id);
-
-        const path = "1. Resources → " + title;
-
-        const key = "fold-resource-section-" + id;
-
-        if (id === "founders") {
-            return foldingGroup(
-                key, title, path, undefined, "business-capability-column",
-                () => (
-                    /* Open side by side up to 8; beyond that closed square boxes (FounderCards). */
-                    <FounderCards
-                        onOpening={() => setResponsibilityFolds(new Map())}
-                        founders={founders.map(founder => ({ id: founder.id, name: founder.name, role: founder.roles[0] ?? "" }))}
-                        renderCard={(id, always) => {
-                            const index = founders.findIndex(founder => founder.id === id);
-                            return founderCard(founders[index], index, always);
-                        }}
-                        empty={(
-                            <BusinessEmpty>
-                                Add founders under 1. Identity System → 3. Legal
-                                Entity → 2. Founders & Ownership and they appear
-                                here.
-                            </BusinessEmpty>
-                        )}
-                    />
-                ),
-                false
-            );
-        }
-
-        const group = BUSINESS_RESOURCE_GROUPS.find(entry => entry.id === id);
-
-        // A section named in RESOURCE_SECTION_ORDER that the resource
-        // groups do not define: nothing to draw.
-        if (!group) {
-            return null;
-        }
-
-        return foldingGroup(
-            key, title, path,
-            group.notes.length > 0 ? [...group.notes] : undefined,
-            "business-capability-column",
-            () => resourceGroup(group),
-            false
-        );
-
-    }
 
     /**
      * One activity category's list, and the write that replaces it.
@@ -4087,19 +4436,19 @@ export default function BusinessCapabilityEditor({
         const counts = (kinds: string[]) => rows.filter(row => kinds.includes(row.kind) && !row.missing).length;
         return {
             id: "overview",
-            title: "All Tiles",
+            title: "Inventory",
             anchor: "section-overview",
             items: [
                 counts(["resource", "workspace", "founder"]) + " resources",
                 counts(["activity"]) + " activities",
-                counts(["partner", "provider"]) + " partners & providers"
+                counts(["partner", "provider"]) + " partners & suppliers"
             ],
             // (A line is red, and the tile glows, while a card of its kind lacks an answer.)
             itemAlerts: [["resource", "workspace", "founder"], ["activity"], ["partner", "provider"]]
                 .map(kinds => floor.filter(row => kinds.includes(row.kind) && row.missing).flatMap(row => row.missing!))
                 .map(lacking => lacking.length > 0 ? lacking : undefined),
             isChannelCard: (cardId: string) => channelToneIds.has(cardId),
-            kindFor: (cardId: string) => capability.founders.some(founder => founder.id === cardId) ? "founder" : "card",
+            kindFor: () => "card",
             cardFor: (cardId: string) => {
                 const index = founders.findIndex(founder => founder.id === cardId);
                 if (index >= 0) {
@@ -4107,7 +4456,12 @@ export default function BusinessCapabilityEditor({
                 }
                 return parentCard(cardId)?.node ?? childCard(cardId)?.node ?? null;
             },
-            content: () => <CapabilityOverview rows={rows} format={moneyFormatter(organisationCurrency)} currency={organisationCurrency} />
+            content: () => {
+                const classes = inventoryClassification(
+                    capability, legalEntityFounders, legalExpenses, asFinancialFoundationValue(financialFoundation), organisationCurrency, openingDate, globalSettings
+                );
+                return <CapabilityOverview rows={rows.map(row => ({ ...row, ...(classes.get(row.id) ?? classes.get("salary-" + row.id) ?? classes.get("legal-" + row.id)) }))} format={moneyFormatter(organisationCurrency)} currency={organisationCurrency} />;
+            }
         };
     }
 
@@ -4336,7 +4690,7 @@ export default function BusinessCapabilityEditor({
     /* ---------- THE SECTION TILES (one per section) and their views ---------- */
 
     /**
-     * A SECTION'S TILE: the one tile of Resources, of Activities, of Partners & Providers. Its list names the categories that hold cards (a category with
+     * A SECTION'S TILE: the one tile of Resources, of Activities, of Partners & Suppliers. Its list names the categories that hold cards (a category with
      * CATEGORY_TILE_MIN_CARDS or more is a line that opens that category; a smaller one lists its cards); pressing the tile opens the section's VIEW
      * (SectionView): the cards' tiles grouped by category, a category tile for each big one with an Add of its own, and the section's Add. A "+" at the
      * tile's corner adds a blank card of the section and opens it floating.
@@ -4366,7 +4720,7 @@ export default function BusinessCapabilityEditor({
             view: true,
             isChannelCard: (cardId: string) => channelToneIds.has(cardId),
             items: filled.flatMap(category => big(category) ? [category.title] : category.cards.map(card => card.name.trim() || card.unnamed)),
-            // A category with no card is faded; Offering's Channel line (Resources) is teal; a line of Offering's Activities / Partners & Providers that holds cards a channel made has a teal bullet behind its own.
+            // A category with no card is faded; Offering's Channel line (Resources) is teal; a line of Offering's Activities / Partners & Suppliers that holds cards a channel made has a teal bullet behind its own.
             itemMarks: filled.flatMap((category): ItemMark[] => big(category)
                 ? [{
                     empty: category.cards.length === 0,
@@ -4405,6 +4759,11 @@ export default function BusinessCapabilityEditor({
         return { id, title, cards, content, add, channel };
     }
 
+    /** What a category's "i" says: the help texts of its groups (the help-texts document), under the category's name in the dialog's header. */
+    function categoryInfo(label: string, lines: CrumbNote["points"]): CrumbNote | undefined {
+        return lines.length > 0 ? { label, points: [...lines] } : undefined;
+    }
+
     /** Infrastructure's Resources, by category (the group a card is filed in) -- and the Workspaces, a category of cards like the others. */
     function infrastructureResourceCategories(): ViewCategory[] {
         return [
@@ -4420,7 +4779,14 @@ export default function BusinessCapabilityEditor({
                 () => resourceGroup(group),
                 // (A new card of a category has no Group yet -- but the Workspace's, which has one.)
                 subAdd(group.id, soleGroupOf(group.kinds) || NO_GROUP)
-            )),
+            )).map((view, at) => {
+                const group = BUSINESS_RESOURCE_GROUPS[at];
+                // (Human Resources: Founders & Owners, the Founders tile, comes first.)
+                const lines = group.id === "hr"
+                    ? groupHelpPoints([{ label: "Founders & Owners", help: FOUNDERS_OWNERS_HELP }, ...group.kinds])
+                    : groupHelpPoints(group.kinds);
+                return { ...view, info: categoryInfo(group.label, lines) };
+            }),
             // The cards that have no Category yet (the new ones): a tile of their own while there are any.
             ...((capability.resources[NO_CATEGORY] ?? []).flatMap(subsection => subsection.slots).length > 0
                 ? [categoryView(
@@ -4464,6 +4830,14 @@ export default function BusinessCapabilityEditor({
         };
     }
 
+    /** A card's number in the list its tile draws it in (the box and the card it opens carry the same number). */
+    function offeringNumberOf(slot: BusinessResourceSlotValue): number {
+        const list = channelTileIds.has(slot.id)
+            ? capability.offering.resources.filter(entry => channelTileIds.has(entry.id))
+            : offeringSlotsIn(slot.category, slot.category === "" ? undefined : slot.group);
+        return Math.max(0, list.findIndex(entry => entry.id === slot.id)) + 1;
+    }
+
     /** The cards of the Offering a customer channel did not make, in one category and group. */
     function offeringSlotsIn(categoryId: string, groupId?: string): BusinessResourceSlotValue[] {
         return capability.offering.resources.filter(slot => !channelTileIds.has(slot.id) && slot.category === categoryId && (groupId === undefined || slot.group === groupId));
@@ -4471,8 +4845,8 @@ export default function BusinessCapabilityEditor({
 
     /** The boxes of Offering cards, each patching and removing itself inside the Offering's list. */
     function offeringBoxes(slots: BusinessResourceSlotValue[]) {
-        return slots.map((slot, index) => resourceBox(
-            "offering", slot, index + 1,
+        return slots.map(slot => resourceBox(
+            "offering", slot, offeringNumberOf(slot),
             (base, patch) => ({ ...base, offering: { ...base.offering, resources: base.offering.resources.map(entry => entry.id === slot.id ? { ...entry, ...patch } : entry) } }),
             () => update({ offering: { ...capability.offering, resources: capability.offering.resources.filter(entry => entry.id !== slot.id) } })
         ));
@@ -4522,7 +4896,7 @@ export default function BusinessCapabilityEditor({
                 () => offeringResourceGroup(category),
                 // (A new card of a category has no Group yet.)
                 offeringAdd(category.id, soleGroupOf(category.kinds))
-            )),
+            )).map((view, at) => ({ ...view, info: categoryInfo(BUSINESS_OFFERING_RESOURCE_GROUPS[at].label, groupHelpPoints(BUSINESS_OFFERING_RESOURCE_GROUPS[at].kinds)) })),
             // The cards that have no Category yet (the new ones, and an earlier answer's): a tile of their own while there are any.
             ...(unsorted.length > 0
                 ? [categoryView(
@@ -4562,7 +4936,7 @@ export default function BusinessCapabilityEditor({
         };
     }
 
-    /** Partners & Providers, by category (Partners, Providers, the user's own), and -- Offering's -- the ones a Customer Channel made. */
+    /** Partners & Suppliers, by category (Partners, Providers, the user's own), and -- Offering's -- the ones a Customer Channel made. */
     function partnerCategories(scope: Scope): ViewCategory[] {
         const every = [
             ...partnersOf(scope, "professionals").map(partner => ({ partner, kind: "professionals" as const })),
@@ -4581,7 +4955,9 @@ export default function BusinessCapabilityEditor({
                 const list = every.filter(entry => !made(entry) && entry.partner.category === id);
                 const label = id === UNASSIGNED_CATEGORY ? "No category" : partnerCategoryLabel(capability.partnerCategories, id) || "Category";
                 const add = partnerAddIn(scope, id);
-                return categoryView(id, label, boxes(list), () => <CardBoxes label={label} what={partnerNoun(id)} items={boxes(list)} add={add} />, add);
+                const view = categoryView(id, label, boxes(list), () => <CardBoxes label={label} what={partnerNoun(id)} items={boxes(list)} add={add} />, add);
+                // (Partners and Suppliers: the groups of the category in this place, with their texts.)
+                return id === "partners" || id === "suppliers" ? { ...view, info: categoryInfo(label, groupHelpPoints(BUSINESS_PARTNER_GROUPS[scope][id])) } : view;
             }),
             ...(scope === "offering" && every.some(made)
                 ? [categoryView("channel", "Channel", boxes(every.filter(made)), () => <CardBoxes label="Channel" what="Partner" items={boxes(every.filter(made))} />, undefined, true)]
@@ -4613,7 +4989,26 @@ export default function BusinessCapabilityEditor({
                 (patch) => setList(list.map(entry => entry.id === activity.id ? { ...entry, ...patch } : entry)),
                 () => setList(list.filter(entry => entry.id !== activity.id))
             ));
-            return { ...categoryView(id, label, boxes, () => activityList(scope, scope + "-activities-" + id, list, setList), activityAdd(list, setList, id)), active: active.length };
+            // The dates its group runs in: Pre-Operational from the plan start to the opening, Operational from the opening on.
+            // (Only Infrastructure's groups run in a period; the Offering's activities have no dates of their own to say.)
+            const period = scope === "infrastructure" ? activityPeriod(id, planStartDay, openingDate) : { from: "", to: "" };
+            const shown = (iso: string) => isoToDisplay(iso, PreferencesService.getDateFormat());
+            const periodText = period.from !== "" || period.to !== ""
+                ? period.from !== "" && period.to !== "" ? shown(period.from) + " – " + shown(period.to) : period.from !== "" ? "FROM " + shown(period.from) : "TO " + shown(period.to)
+                : "";
+            const view = categoryView(id, label, boxes, () => activityList(scope, scope + "-activities-" + id, list, setList), activityAdd(list, setList, id));
+            return {
+                ...view,
+                active: active.length,
+                period: periodText,
+                // (Opened, the category says its dates above its cards.)
+                content: () => (
+                    <>
+                        {periodText && <p className="business-capability-period-line">{periodText}</p>}
+                        {view.content()}
+                    </>
+                )
+            };
         });
     }
 
@@ -4627,13 +5022,29 @@ export default function BusinessCapabilityEditor({
             empty: false,
             items: founderItems(),
             links: cardLinks(founders),
-            cardKind: "founder",
+            // A founder's card is a card like the others (the same width), shown as a tile of the Founders tile and opened floating.
             cardFor: (cardId: string) => {
-                const index = founders.findIndex(founder => founder.id === cardId);
+                const index = founders.findIndex(founder => founder.id === cardId || "founder-" + founder.id === cardId);
                 return index >= 0 ? founderCard(founders[index], index, true) : null;
             },
             opening: () => setResponsibilityFolds(new Map()),
-            content: () => resourceColumn("founders")
+            // (One founder is a section of its own: its card in the dialog, one of the tiles the arrows go through.)
+            view: founders.length === 1,
+            content: () => tileSection("infrastructure", "Founders", undefined, () => founders.length === 1 ? founderCard(founders[0], 0, true) : (
+                <CardBoxes
+                    label="Founders"
+                    what="Founder"
+                    items={founders.map((founder, index): CardBox => ({
+                        id: founder.id,
+                        number: index + 1,
+                        name: founder.name,
+                        unnamed: "Unnamed founder",
+                        summary: summaryText(founder.roles[0]),
+                        ...tileData(founder.id),
+                        content: () => founderCard(founder, index, true)
+                    }))}
+                />
+            ))
         };
 
         return (
@@ -4657,7 +5068,7 @@ export default function BusinessCapabilityEditor({
                             note: SECTIONS.infrastructure.activities
                         }),
                         viewTile({
-                            id: "partners", title: "Partners & Providers", what: "Partner", scope: "infrastructure", anchor: "section-infrastructure-partners partners-infrastructure-professionals partners-infrastructure-providers",
+                            id: "partners", title: "Partners & Suppliers", what: "Partner", scope: "infrastructure", anchor: "section-infrastructure-partners partners-infrastructure-professionals partners-infrastructure-providers",
                             categories: partnerCategories("infrastructure"), add: partnerAddIn("infrastructure", UNASSIGNED_CATEGORY), note: SECTIONS.infrastructure.partnerships
                         })
                     ]}
@@ -4766,7 +5177,7 @@ export default function BusinessCapabilityEditor({
 
         /* WHO WORKS ON IT: every founder, and the External
            Professionals linked to this Offering under Offering's
-           own 3. Partners & Providers. Providers supply things
+           own 3. Partners & Suppliers. Providers supply things
            rather than hours, and Infrastructure's professionals serve
            the organization, not one Offering. */
         const linkedProfessionals = uniqueChoices(
@@ -5098,9 +5509,13 @@ export default function BusinessCapabilityEditor({
                         </BusinessEmpty>
                     )
                     : (
-                        <div className="business-capability-delivery-cards">
-                            {offeringChoices.map(deliveryCard)}
-                        </div>
+                        /* Each Offering's Delivery is a card, and each card a tile: pressed, it floats over the page. */
+                        <CardBoxes
+                            items={offeringChoices.map((choice, at): CardBox => ({ id: "delivery-" + choice.id, number: at + 1, name: choice.label, unnamed: "Unnamed offering", own: true, content: () => null }))}
+                            label="Delivery"
+                            what="Delivery"
+                            autoStart={false}
+                        />
                     )}
 
             </>
@@ -5128,7 +5543,7 @@ export default function BusinessCapabilityEditor({
             }),
 
             viewTile({
-                id: "partners", title: "Partners & Providers", what: "Partner", scope: "offering",
+                id: "partners", title: "Partners & Suppliers", what: "Partner", scope: "offering",
                 anchor: "section-offering-partners partners-offering-professionals partners-offering-providers",
                 categories: partnerCategories("offering"), add: partnerAddIn("offering", UNASSIGNED_CATEGORY)
             }),
@@ -5138,8 +5553,8 @@ export default function BusinessCapabilityEditor({
                 title: "Delivery",
                 anchor: "section-offering-delivery",
                 holds: offeringChoices.map(choice => "delivery-" + choice.id),
-                // (Delivery's cards are shown in its dialog; a link in its list still opens one floating.)
-                keepDialog: true,
+                // (Its dialog lists a tile for each Offering's Delivery card; a link in its list opens one floating.)
+                view: true,
                 items: offeringChoices.map(choice => choice.label),
                 // An Offering's name opens THAT Offering's Delivery card alone, floating (the rest of the tile opens the dialog).
                 links: cardLinks(offeringChoices.map(choice => ({ id: "delivery-" + choice.id }))),
@@ -5148,7 +5563,7 @@ export default function BusinessCapabilityEditor({
                     const at = offeringChoices.findIndex(choice => "delivery-" + choice.id === cardId);
                     return at >= 0 ? deliveryCard(offeringChoices[at], at) : null;
                 },
-                content: () => tileSection("offering", "4. Delivery", DELIVERY_HELP.section, deliverySection)
+                content: () => tileSection("offering", "Delivery", DELIVERY_HELP.section, deliverySection)
             },
 
         ];
@@ -5199,7 +5614,8 @@ export default function BusinessCapabilityEditor({
     const overview = overviewTile();
 
     const pairParent = pair ? parentCard(pair.parentId) : null;
-    const pairChild = pair ? childCard(pair.childId) : null;
+    // (The card below may be any card: an activity or a partner, and also a founder or a resource -- what a Performer, a Responsible or a Resource row of an activity leads to.)
+    const pairChild = pair ? childCard(pair.childId) ?? parentCard(pair.childId) : null;
 
     useEffect(() => {
         if (pair && (!pairParent || !pairChild)) {
@@ -5209,6 +5625,7 @@ export default function BusinessCapabilityEditor({
 
     return (
 
+        <MissingMapContext.Provider value={missingById}>
         <div
             className="answer-columns business-foundation business-engagement business-capability"
             style={{ "--answer-column-count": 2 } as CSSProperties}
@@ -5266,7 +5683,7 @@ export default function BusinessCapabilityEditor({
                 <SectionTiles
                     incomplete={missingById}
                     blank={discard}
-                    label="All Tiles"
+                    label="Inventory"
                     hue={stableCardHue("offering-capability")}
                     tiles={completed ? [overview, completed] : [overview]}
                 />
@@ -5289,6 +5706,7 @@ export default function BusinessCapabilityEditor({
             )}
 
         </div>
+        </MissingMapContext.Provider>
 
     );
 
@@ -5310,8 +5728,6 @@ const NO_GROUP = "unassigned";
 
 /** The groups whose cards carry a warranty (equipment), and the ones with a contract's own rate. */
 const WARRANTY_GROUPS: readonly string[] = ["devices-tools", "production-machinery"];
-const RATE_OVERRIDE_RESOURCE_GROUPS: readonly string[] = ["royalties"];
-const RATE_OVERRIDE_PARTNER_GROUPS: readonly string[] = ["revenue-partners", "platforms-payments"];
 
 /** Every fixed subsection id across all four resource groups. */
 const FIXED_KIND_IDS: ReadonlySet<string> = new Set(

@@ -160,7 +160,7 @@ function secondLook(input: ReviewInput): ReviewItem[] {
 const MISSING_PLACES: Record<string, { systemNumber: number; type: AnswerType; section?: string }> = {
     "Market Size and Industry Outlook": { systemNumber: 3, type: AnswerType.BusinessFoundation, section: "customer-segment-and-profile" },
     "Experience and CVs": { systemNumber: 1, type: AnswerType.FoundersProfile, section: "founders" },
-    "Team Capability Gaps and Cover": { systemNumber: 1, type: AnswerType.FoundersProfile, section: "team-capability-gaps-cover" }
+    "Capability Gaps and Cover": { systemNumber: 1, type: AnswerType.FoundersProfile, section: "capability-gaps-cover" }
 };
 
 function missing(input: ReviewInput): ReviewItem[] {

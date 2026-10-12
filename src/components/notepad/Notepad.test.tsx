@@ -7,7 +7,7 @@ import { OrganizationService } from "../../services/OrganizationService";
 import { clearFieldRegistry } from "../../framework/engine/FieldKeys";
 import { BusinessField } from "../interview/BusinessCardFields";
 import { FieldPageProvider } from "../interview/fieldMarks";
-import { NotepadButton, NotepadPanel, NotepadPicker, linkFor } from "./Notepad";
+import { NotepadButton, NotepadPanel, NotepadPicker, linkFor, noteMomentText, noteTodayText } from "./Notepad";
 import { findPlaces, linkAvailable } from "./notepadPlaces";
 import { UndoService } from "../../services/UndoService";
 import { stylesheet } from "../../test/stylesheet";
@@ -231,6 +231,39 @@ describe("the notepad on the page", () => {
         document.body.append(holder);
         expect(linkFor(holder, "org-1")).toMatchObject({ kind: "field", systemNumber: 1, sectionNumber: 3, key: "1.3:organization/legal-form" });
         holder.remove();
+    });
+
+});
+
+describe("a dated note", () => {
+
+    it("shows when it was recorded, automatically, and its Date tick places it on a day of the Calendar", () => {
+        const now = new Date(2027, 2, 12, 14, 5);
+        const organization = OrganizationService.create("Lumen");
+        OrganizationService.setSelected(organization.id);
+        const id = NotepadService.addNote(organization.id);
+        // (The record is the note's own creation moment.)
+        const stored = NotepadService.notes()[0];
+        expect(stored.id).toBe(id);
+        render(<MemoryRouter><NotepadPanel /></MemoryRouter>);
+        act(() => { NotepadService.open(); });
+        expect(screen.getByText(/^Recorded /).textContent).toBe("Recorded " + noteMomentText(stored.createdAt));
+
+        act(() => { NotepadService.setText(id, "Call the landlord"); });
+        expect(NotepadService.notes()[0].date).toBeUndefined();
+        act(() => { fireEvent.click(screen.getByRole("checkbox", { name: "Date" })); });
+        // (Ticked: today, and the label is a day to pick.)
+        expect(NotepadService.notes()[0].date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+        expect(screen.getByRole("textbox", { name: "Note date" })).toBeTruthy();
+        act(() => { fireEvent.click(screen.getByRole("checkbox", { name: "Date" })); });
+        expect(NotepadService.notes()[0].date).toBeUndefined();
+        void now;
+        void noteTodayText;
+    });
+
+    it("writes a moment as the app writes dates and the hour", () => {
+        expect(noteMomentText(new Date(2027, 2, 12, 14, 5)).endsWith(" 14:05")).toBe(true);
+        expect(noteTodayText(new Date(2027, 2, 12, 14, 5))).toBe(noteMomentText(new Date(2027, 2, 12, 9, 0)).split(" ")[0]);
     });
 
 });

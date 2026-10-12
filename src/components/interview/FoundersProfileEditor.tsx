@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useEffect } from "react";
+import { CSSProperties, ReactNode, useEffect, useLayoutEffect, useRef } from "react";
 
 import {
     FOUNDER_CREDENTIAL_TYPES,
@@ -13,9 +13,43 @@ import {
 } from "../../framework/engine/AnswerUtils.ts";
 
 import { railId } from "./rails/railItems.ts";
+import SectionTiles, { DialogHeading, TILE_DIVIDER, type SectionTile } from "./SectionTiles.tsx";
+import { workHue } from "../../framework/engine/WorkColours.ts";
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
 import FoldArrow from "./FoldArrow.tsx";
+import OptionPicker from "./OptionPicker.tsx";
+
+/**
+ * The cell of a skill's kind: its drop-down shows the kind on two lines where the skill beside it is written on two or more (the row is that tall anyway),
+ * and on one line where the skill is one line.
+ */
+function SkillKind({ children }: { children: ReactNode }) {
+    const cell = useRef<HTMLDivElement | null>(null);
+    useLayoutEffect(() => {
+        const row = cell.current?.closest(".numbered-list-row");
+        const text = row?.querySelector("textarea");
+        if (!row || !text) {
+            return;
+        }
+        const fit = () => {
+            const line = parseFloat(getComputedStyle(text).lineHeight) || 20;
+            row.toggleAttribute("data-multiline", text.scrollHeight > line * 1.6);
+        };
+        fit();
+        text.addEventListener("input", fit);
+        if (typeof ResizeObserver === "undefined") {
+            return () => text.removeEventListener("input", fit);
+        }
+        const observer = new ResizeObserver(fit);
+        observer.observe(text);
+        return () => {
+            text.removeEventListener("input", fit);
+            observer.disconnect();
+        };
+    });
+    return <div ref={cell}>{children}</div>;
+}
 import InfoNote, { InfoText } from "./InfoNote.tsx";
 import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 import type { OpenPage } from "./jumpTo.ts";
@@ -101,6 +135,12 @@ interface FoundersProfileEditorProps {
     /** See AnswerRendererProps.showInstructions. */
     showInstructions?: boolean;
 
+    /** The page drawn as tiles (the page's tile system): one for each founder and one for the capability gaps; the editor's own tests draw the whole page. */
+    asTiles?: boolean;
+
+    /** The frame's heading, on top of its tiles (a page of several sections). */
+    frameTitle?: string;
+
     /**
      * The founders answered under 3. Legal Entity, 2. Founders &
      * Ownership: who this page's cards are for, and in what order.
@@ -135,6 +175,10 @@ export default function FoundersProfileEditor({
     columnsDivider,
 
     showInstructions = true,
+
+    frameTitle,
+
+    asTiles = false,
 
     legalEntityFounders = [],
 
@@ -282,20 +326,21 @@ export default function FoundersProfileEditor({
                     type: origins[index] >= 0 ? entries[origins[index]]?.type ?? "" : "",
                     text
                 })))}
+                // The kind of each line, in the app's own drop-down (a long kind wraps and grows the cell down).
                 lineEnd={(index) => (
-                    <select
-                        aria-label={who + " skills entry " + (index + 1) + " type"}
+                    <SkillKind>
+                    <OptionPicker
+                        label={who + " skills entry " + (index + 1) + " type"}
+                        placeholder="Type"
+                        options={FOUNDER_CREDENTIAL_TYPES.map(kind => kind.label)}
                         disabled={disabled}
-                        value={entries[index]?.type ?? ""}
-                        onChange={(event) => save(entries.map((entry, at) => at === index
-                            ? { ...entry, type: event.target.value }
+                        fill
+                        value={FOUNDER_CREDENTIAL_TYPES.find(kind => kind.id === (entries[index]?.type ?? ""))?.label ?? ""}
+                        onChange={(next) => save(entries.map((entry, at) => at === index
+                            ? { ...entry, type: FOUNDER_CREDENTIAL_TYPES.find(kind => kind.label === next)?.id ?? "" }
                             : entry))}
-                    >
-                        <option value="">Type</option>
-                        {FOUNDER_CREDENTIAL_TYPES.map(kind => (
-                            <option key={kind.id} value={kind.id}>{kind.label}</option>
-                        ))}
-                    </select>
+                    />
+                    </SkillKind>
                 )}
             />
         );
@@ -304,9 +349,9 @@ export default function FoundersProfileEditor({
 
     /* ---------- A founder ---------- */
 
-    function founderCard(founder: FounderProfileValue & { name: string }, index: number) {
+    function founderCard(founder: FounderProfileValue & { name: string }, index: number, always = false) {
 
-        const open = folds.isOpen(founder.id);
+        const open = always || folds.isOpen(founder.id);
 
         /** What names this founder's fields for assistive technology. */
         const who = "Founder " + (index + 1);
@@ -326,11 +371,13 @@ export default function FoundersProfileEditor({
                     shown rather than asked, and there is no ×. */}
                 <div className="legal-entity-card-head fold-card-head fold-card-fixed">
 
-                    <FoldArrow
-                        open={open}
-                        label={who}
-                        onToggle={() => folds.toggle(founder.id)}
-                    />
+                    {!always && (
+                        <FoldArrow
+                            open={open}
+                            label={who}
+                            onToggle={() => folds.toggle(founder.id)}
+                        />
+                    )}
 
                     <span className="legal-entity-card-number">
                         {(index + 1) + "."}
@@ -420,6 +467,82 @@ export default function FoundersProfileEditor({
 
     }
 
+    /* THE PAGE AS TILES: each founder is a tile (the name, the roles), and the capability gaps another. A tile opens its card in its dialog. */
+    if (asTiles) {
+        const lines = (list: readonly string[], count = 4) => list.map(text => text.trim()).filter(text => text.length > 0).slice(0, count);
+        const tiles: SectionTile[] = [
+            ...founders.map((founder, index): SectionTile => {
+                // The roles, a line, then the skills and degrees: two lists, each line with its bullet.
+                // (The skills as the section lists them, each as written: no kind before it.)
+                const skills = lines(founder.skills.map(entry => entry.text), 6);
+                const listed = [...lines(founder.roles, 5), ...(skills.length > 0 ? [TILE_DIVIDER, ...skills] : [])];
+                return {
+                id: "founder-profile-" + founder.id,
+                large: true,
+                title: founder.name.trim() || "Founder " + (index + 1),
+                rail: railId(FOUNDERS_PROFILE_SECTIONS[0]),
+                items: listed,
+                itemMarks: listed.map(item => item === TILE_DIVIDER ? undefined : { bullet: true }),
+                content: () => <div className="column-tile-content legal-entity legal-entity-unframed founders-profile" data-rail={railId(FOUNDERS_PROFILE_SECTIONS[0])}><div className="legal-entity-body">{founderCard(founder, index, true)}</div></div>
+                };
+            }),
+            {
+                id: "founders-gaps",
+                large: true,
+                // (Named for what it holds, with no order number: a gaps text and a cover text.)
+                title: "Capability",
+                rail: railId(FOUNDERS_PROFILE_SECTIONS[1]),
+                items: lines([...profile.teamGaps.split("\n"), ...profile.teamCover.split("\n")], 8),
+                content: () => (
+                    <div className="column-tile-content legal-entity legal-entity-unframed founders-profile" data-rail={railId(FOUNDERS_PROFILE_SECTIONS[1])}>
+                        <div className="business-engagement-section-head"><DialogHeading title="Capability" info={INFO.teamGaps} /></div>
+                        <div className="legal-entity-body">
+                            {field("Gaps", [INFO.teamGaps[0]], (
+                                <StrategyTextArea
+                                    className="interview-input legal-entity-note"
+                                    ariaLabel="Capability gaps"
+                                    placeholder="The capabilities the team lacks"
+                                    disabled={disabled}
+                                    value={profile.teamGaps}
+                                    onChange={(next) => update({ teamGaps: next })}
+                                />
+                            ), true)}
+                            {field("Cover", [INFO.teamGaps[1], INFO.teamGaps[2]], (
+                                <StrategyTextArea
+                                    className="interview-input legal-entity-note"
+                                    ariaLabel="Capability cover"
+                                    placeholder="How each will be covered: planned hires, advisors, mentors, partners, contractors, training"
+                                    disabled={disabled}
+                                    value={profile.teamCover}
+                                    onChange={(next) => update({ teamCover: next })}
+                                />
+                            ), true)}
+                        </div>
+                    </div>
+                )
+            }
+        ];
+        return (
+            <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
+                <div
+                    className="business-foundation-input business-foundation-card business-engagement-input"
+                    data-anchor="column-tiles"
+                    style={{ "--strategy-theme-hue": workHue("define") } as CSSProperties}
+                >
+                    <div className="card-scroll">
+                        <div className="business-capability-section business-capability-tiles-section">
+                            {frameTitle ? <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">{frameTitle}</span></div> : <div className="business-capability-heading-spacer" aria-hidden="true" />}
+                            {founders.length === 0 && (
+                                <p className="legal-entity-empty-note">Add founders under 1. Identity System → 3. Legal Entity → 2. Founders & Ownership and they appear here.</p>
+                            )}
+                            <SectionTiles label="Founders Profile" hue={workHue("define")} tiles={tiles} />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
 
         <div
@@ -458,7 +581,7 @@ export default function FoundersProfileEditor({
 
                 {subsection(0, (
                     founders.length > 0
-                        ? founders.map(founderCard)
+                        ? founders.map((founder, index) => founderCard(founder, index))
                         : (
                             <p className="legal-entity-empty-note">
                                 Add founders under{" "}
@@ -484,12 +607,12 @@ export default function FoundersProfileEditor({
                     />
                 ))}
 
-                {/* ---------- 2. Team Capability Gaps & Cover ---------- */}
+                {/* ---------- 2. Capability Gaps & Cover ---------- */}
 
                 {subsection(1, (
                     <StrategyTextArea
                         className="interview-input legal-entity-note"
-                        ariaLabel="Team Capability Gaps & Cover"
+                        ariaLabel="Capability Gaps & Cover"
                         placeholder="The capabilities the team lacks, and how each will be covered: planned hires, advisors, mentors, partners, contractors, training"
                         disabled={disabled}
                         value={profile.teamGaps}

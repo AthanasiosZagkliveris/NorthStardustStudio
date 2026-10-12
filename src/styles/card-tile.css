@@ -1,4 +1,4 @@
-/* THE CARD TILE (CardTile.tsx): the one tile a card is shown as -- the All Tiles overlay and every grid of cards in a dialog. A page tile's make
+/* THE CARD TILE (CardTile.tsx): the one tile a card is shown as -- the Inventory overlay and every grid of cards in a dialog. A page tile's make
    (section-tiles.css: .section-tile, its title, its list), 215px, its colour the section's; this file holds only what is the card tile's own: the grid
    it stands in, its circles, and its hover. */
 
@@ -95,6 +95,8 @@ button.card-tile-symbol[aria-pressed="true"] {
 .card-tile-symbol-partner { background: var(--bg-add); }
 .card-tile-symbol-provider { background: var(--bg-info); }
 .card-tile-symbol-resource { background: var(--line-faint); }
+.card-tile-symbol-expense { background: var(--bg-budget); }
+.card-tile-symbol-registration { background: var(--bg-info); }
 
 /* A list that orders its tiles by dragging (the activities): a hand under the pointer, the tile being moved faded, the one it is over marked. */
 .card-tile-movable {
@@ -183,7 +185,7 @@ button.card-tile-symbol[aria-pressed="true"] {
 
 }
 
-/* THE TITLES OF A CATEGORY OR A GROUP are in capitals: on its tile, in the dialog's header while it is open, and in the All Tiles filter's Category and Group lists. */
+/* THE TITLES OF A CATEGORY OR A GROUP are in capitals: on its tile, in the dialog's header while it is open, and in the Inventory filter's Category and Group lists. */
 .section-tile-category .section-tile-title,
 .dialog-heading-sub,
 .capability-overview-menu-titles .business-foundation-tick {
@@ -268,7 +270,7 @@ button.card-tile-symbol[aria-pressed="true"] {
 
 }
 
-/* THE TITLES OF THE MAIN TILES of a page (Founders, Resources, Activities, Partners & Providers, Delivery, All Tiles, Completed) are in capitals, as the category tiles'. */
+/* THE TITLES OF THE MAIN TILES of a page (Founders, Resources, Activities, Partners & Suppliers, Delivery, Inventory, Completed) are in capitals, as the category tiles'. */
 .answer-columns.business-capability .section-tile-slot:not(.card-tile-slot) > .section-tile .section-tile-title,
 .section-tiles-completed .section-tile-slot > .section-tile .section-tile-title {
     text-transform: uppercase;
@@ -303,5 +305,45 @@ button.card-tile-symbol[aria-pressed="true"] {
     font-weight: 600;
     text-transform: uppercase;
     color: var(--text-muted);
+
+}
+
+/* A CELL AN INCOMPLETE CARD LACKS (BusinessField, via the card's list of what is missing): the cell flashes the red of the card's tile, and a short line under it says
+   why. The card's Name, in its head, flashes too. Steady where motion is reduced. */
+.business-field-missing :is(.interview-input, .option-picker-trigger, .date-cell, .brand-tick-box) {
+
+    animation: card-incomplete-glow 1.4s ease-in-out infinite;
+
+}
+
+[data-lacks*="|Name|"] :is(.card-name-input, .strategy-name-input, input[aria-label$=" name"]):not([type="checkbox"]) {
+
+    animation: card-incomplete-glow 1.4s ease-in-out infinite;
+
+}
+
+.business-field-missing-note {
+
+    grid-column: 1 / -1;
+
+    margin: 4px 0 0;
+
+    font-size: var(--font-small);
+    line-height: 1.4;
+
+    color: var(--text-danger);
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .business-field-missing :is(.interview-input, .option-picker-trigger, .date-cell, .brand-tick-box),
+    [data-lacks*="|Name|"] :is(.card-name-input, .strategy-name-input, input[aria-label$=" name"]):not([type="checkbox"]) {
+
+        animation: none;
+
+        box-shadow: var(--box-inset), 0 0 0 2px var(--line-danger-strong);
+
+    }
 
 }

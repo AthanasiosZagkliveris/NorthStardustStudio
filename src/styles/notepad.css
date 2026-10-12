@@ -282,6 +282,26 @@
 
 }
 
+/* The two text buttons of a note (Link a field, Add Date) side by side, the note's × at the far end. */
+.notepad-note-actions-text {
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+}
+
+/* When the note was written: automatic, read-only. */
+.notepad-note-recorded {
+
+    margin: 0;
+
+    font-size: var(--font-small);
+
+    color: var(--text-muted);
+
+}
+
 .notepad-text-button {
 
     padding: 2px 0;
@@ -683,3 +703,107 @@ html.notepad-picking [data-pick-hover] {
     font-weight: 700;
 
 }
+
+/* A note's Date: a tick; ticked, its label is the day to pick. */
+.notepad-date{
+
+    display:inline-flex;
+    align-items:center;
+
+    gap:8px;
+
+}
+
+.notepad-date-label{
+
+    font-size:var(--font-small);
+
+}
+
+/* The note's day (a date cell, as every card's): the box, the calendar button and the hidden native picker, on one row. */
+.notepad-panel .date-cell{
+
+    position:relative;
+
+    display:flex;
+    align-items:center;
+
+    gap:6px;
+
+}
+
+.notepad-panel .date-cell-input{
+
+    flex:1;
+
+    width:104px;
+    min-width:0;
+    height:32px;
+
+    padding:0 8px;
+
+    border:1px solid var(--box-border);
+    border-radius:6px;
+
+    background:var(--bg-surface);
+    color:var(--text-default);
+
+    font:inherit;
+    font-size:var(--font-small);
+
+}
+
+.notepad-panel .date-cell-native-picker{
+
+    position:absolute;
+
+    width:0;
+    height:0;
+
+    padding:0;
+    margin:0;
+
+    border:none;
+
+    opacity:0;
+
+    pointer-events:none;
+
+}
+
+.notepad-panel .date-cell-calendar-button{
+
+    flex-shrink:0;
+
+    width:32px;
+    height:32px;
+
+    padding:0;
+
+    border:1px solid var(--box-border);
+    border-radius:6px;
+
+    background:var(--bg-surface);
+
+    cursor:pointer;
+
+}
+
+/* ABOVE THE TEXT, AT THE RIGHT: when the note was recorded, and the note's ×. */
+.notepad-note-top {
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+
+}
+
+/* The fold arrow that slides the notes away is as large as the page's other fold arrows. */
+.notepad-close{
+
+    font-size:20px;
+
+}
+
+.notepad-panel .date-cell{ width:auto; }

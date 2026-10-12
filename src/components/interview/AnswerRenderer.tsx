@@ -19,6 +19,7 @@ import StrategyFoundationEditor from "./StrategyFoundationEditor.tsx";
 import StrategicPeriodEditor from "./StrategicPeriodEditor.tsx";
 import StrategicRoadmapEditor from "./StrategicRoadmapEditor.tsx";
 
+import type { GlobalSettingsValue } from "../../framework/engine/GlobalSettings.ts";
 import { AnswerDefinition, TableColumnDefinition } from "../../framework/model/index.ts";
 
 import { AnswerType } from "../../framework/enums/AnswerType.ts";
@@ -40,11 +41,15 @@ import {
     StrategyThemeValue,
     isAnswerEmpty,
     isDateColumn,
-    visibleTableColumns
+    visibleTableColumns,
+    strategyThemeName
 } from "../../framework/engine/AnswerUtils.ts";
 import { useDragToScroll } from "../../hooks/useDragToScroll.ts";
 import { useListAutoFormat } from "../../hooks/useListAutoFormat.ts";
 import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
+import SectionTiles, { DialogHeading, type SectionTile } from "./SectionTiles.tsx";
+import { ImprintFields, NumberedTextList } from "./ColumnFields.tsx";
+import { workHue } from "../../framework/engine/WorkColours.ts";
 
 let checklistItemCounter = 0;
 
@@ -304,6 +309,9 @@ interface AnswerRendererProps {
      */
     columnsDivider?: ReactNode;
 
+    /** The frame's heading, on top of its tiles (a page of several sections: "1. Definition"). */
+    frameTitle?: string;
+
     /**
      * How many column-layout columns precede this Section's own, so
      * a Section's columns can be numbered continuously across the
@@ -385,6 +393,11 @@ interface AnswerRendererProps {
     legalEntity?: LegalEntityValue;
     businessCapability?: unknown;
     financialFoundation?: unknown;
+    /** The Opening Date (an ISO date) of the Global Settings, for the pages that place costs around it. */
+    openingDate?: string;
+    onChangeOpeningDate?: (iso: string) => void;
+    /** The Global Settings, for the default rates a card shows beside its own. */
+    globalSettings?: GlobalSettingsValue;
     /** Sustainability's saved value, for Financial Foundation's operating need. */
     financialSustainability?: unknown;
     /** Customer Engagement's saved value: its Demand & Conversion gives expected sales. */
@@ -481,6 +494,9 @@ interface AnswerRendererProps {
          * Objective's own period outside it.
          */
         guardPeriodChange: (period: StrategyRangeValue, apply: () => void) => void;
+
+        /** Writes the Strategic Period page's answer (the Foundation page's Strategic Period draws its Themes' tiles). */
+        onChangePeriod?: (period: StrategicPeriodValue) => void;
 
     };
 
@@ -693,6 +709,8 @@ function MultiPartAnswerRenderer({
 
     columnsDivider,
 
+    frameTitle,
+
     columnNumberOffset,
 
     showInstructions = true
@@ -795,6 +813,81 @@ function MultiPartAnswerRenderer({
 
             </div>
 
+        );
+
+    }
+
+    // A column page of FOUR columns (Identity's Definition and Ethics, Brand's Ambassador): the page's tile system, 2 x 2, instead of four narrow columns.
+    // Each tile carries its title and a line or two of what is in it; pressing it opens the column (its questions and its editor) in the tile's dialog.
+    if (definition.columns && parts.length === 4) {
+
+        const firstWords = (text: string) => text.replace(/^\s*•\s*/, "").trim().replace(/\s+/g, " ");
+        const snippet = (part: (typeof parts)[number]): string[] => {
+            const answered = typeof values[part.id] === "string"
+                ? (values[part.id] as string).split("\n").map(firstWords).filter(line => line.length > 0).slice(0, 12)
+                : [];
+            if (answered.length > 0) {
+                return answered;
+            }
+            // (Nothing written yet: what the column asks, its first line.)
+            return (part.questions ?? "").split("\n").map(firstWords).filter(line => line.length > 0).slice(0, 1);
+        };
+
+        // The column's guidance is the "i" beside its title.
+        const guidance = (part: (typeof parts)[number]): string[] => (part.questions ?? "").split("\n").map(firstWords).map(line => line.replace(/^[-•]\s*/, "")).filter(line => line.length > 0);
+
+        const tiles: SectionTile[] = parts.map(part => ({
+            id: part.id,
+            title: part.label,
+            rail: part.id,
+            items: snippet(part),
+            content: () => (
+                <div className="column-tile-content" data-rail={part.id} role="group" aria-label={part.label}>
+                    {/* The dialog's title, as every tile's dialog has one. */}
+                    <div className="business-engagement-section-head">
+                        <DialogHeading title={part.label} info={guidance(part)} />
+                    </div>
+                    {part.id === "imprint"
+                        ? <ImprintFields value={values[part.id]} onChange={(next) => onChange({ ...values, [part.id]: next })} disabled={disabled} />
+                        : part.id === "values" || part.id === "principles"
+                            ? <NumberedTextList label={part.label} value={values[part.id]} onChange={(next) => onChange({ ...values, [part.id]: next })} disabled={disabled} />
+                            : (
+                                <SingleAnswerRenderer
+                                    definition={part.answer}
+                                    ariaLabel={part.label}
+                                    autoGrow
+                                    value={values[part.id]}
+                                    onChange={(next) => onChange({ ...values, [part.id]: next })}
+                                    disabled={disabled}
+                                    resolveDynamicOptions={resolveDynamicOptions}
+                                    rowSelection={rowSelection}
+                                    ownerSuggestions={ownerSuggestions}
+                                    processLibraryProcesses={processLibraryProcesses}
+                                    dynamicOptionsDependency={values}
+                                />
+                            )}
+                </div>
+            )
+        }));
+
+        return (
+            <div
+                className="answer-columns business-foundation business-engagement business-capability column-tiles-page"
+                style={{ "--answer-column-count": 1 } as CSSProperties}
+            >
+                <div
+                    className="business-foundation-input business-foundation-card business-engagement-input"
+                    data-anchor="column-tiles"
+                    style={{ "--strategy-theme-hue": (parts[0]?.id === "philosophy" ? workHue("decide") : workHue("create")) } as CSSProperties}
+                >
+                    <div className="card-scroll">
+                        <div className="business-capability-section business-capability-tiles-section">
+                            {frameTitle ? <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">{frameTitle}</span></div> : <div className="business-capability-heading-spacer" aria-hidden="true" />}
+                            <SectionTiles label={parts.map(part => part.label).join(", ")} hue={(parts[0]?.id === "philosophy" ? workHue("decide") : workHue("create"))} tiles={tiles} />
+                        </div>
+                    </div>
+                </div>
+            </div>
         );
 
     }
@@ -1068,6 +1161,9 @@ function SingleAnswerRenderer({
     legalEntity,
     businessCapability,
     financialFoundation,
+    openingDate,
+    onChangeOpeningDate,
+    globalSettings,
 
     financialSustainability,
 
@@ -1081,6 +1177,8 @@ function SingleAnswerRenderer({
     onOpenLegalEntity,
 
     columnsDivider,
+
+    frameTitle,
 
     showInstructions = true,
 
@@ -2086,6 +2184,8 @@ function SingleAnswerRenderer({
                     value={value}
                     showInstructions={showInstructions}
                     columnsDivider={columnsDivider}
+                    frameTitle={frameTitle}
+                    asTiles
                     targetAudience={targetAudience}
                     onChange={onChange}
                     disabled={disabled}
@@ -2107,6 +2207,7 @@ function SingleAnswerRenderer({
                     onChangeCapability={onChangeBusinessCapability}
                     onOpenCapability={onOpenBusinessCapability}
                     currency={organisationCurrency}
+                    asTiles
                     onChange={onChange}
                     disabled={disabled}
                 />
@@ -2129,6 +2230,8 @@ function SingleAnswerRenderer({
                     foundersProfile={foundersProfile}
                     engagement={businessEngagement}
                     financialFoundation={financialFoundation}
+                    openingDate={openingDate}
+                    globalSettings={globalSettings}
                     onOpenEngagement={onOpenBusinessEngagement}
                     onChange={onChange}
                     disabled={disabled}
@@ -2150,6 +2253,9 @@ function SingleAnswerRenderer({
                     sustainability={financialSustainability}
                     engagement={businessEngagement}
                     currency={organisationCurrency}
+                    openingDate={openingDate}
+                    globalSettings={globalSettings}
+                    onChangeOpeningDate={onChangeOpeningDate}
                     onOpenFoundation={onOpenBusinessFoundation}
                     onOpenCapability={onOpenBusinessCapability}
                     onOpenLegalEntity={onOpenLegalEntity}
@@ -2191,8 +2297,11 @@ function SingleAnswerRenderer({
                     value={value}
                     prefill={legalEntityPrefill}
                     foundersProfile={foundersProfile}
+                    openingDate={openingDate}
                     columnsDivider={columnsDivider}
+                    frameTitle={frameTitle}
                     showInstructions={showInstructions}
+                    asTiles
                     onChange={onChange}
                     disabled={disabled}
                 />
@@ -2208,7 +2317,9 @@ function SingleAnswerRenderer({
                     legalEntityFounders={legalEntityFounders}
                     onOpenLegalEntity={onOpenLegalEntity}
                     columnsDivider={columnsDivider}
+                    frameTitle={frameTitle}
                     showInstructions={showInstructions}
+                    asTiles
                     onChange={onChange}
                     disabled={disabled}
                 />
@@ -2223,7 +2334,9 @@ function SingleAnswerRenderer({
                     value={value}
                     startNumber={(columnNumberOffset ?? 0) + 1}
                     columnsDivider={columnsDivider}
+                    frameTitle={frameTitle}
                     showInstructions={showInstructions}
+                    asTiles
                     onChange={onChange}
                     disabled={disabled}
                 />
@@ -2239,6 +2352,7 @@ function SingleAnswerRenderer({
                     startNumber={(columnNumberOffset ?? 0) + 1}
                     columnsDivider={columnsDivider}
                     showInstructions={showInstructions}
+                    asTiles
                     onChange={onChange}
                     disabled={disabled}
                 />
@@ -2258,6 +2372,28 @@ function SingleAnswerRenderer({
                     disabled={disabled}
                     guardThemeRemoval={strategy?.guardThemeRemoval}
                     guardPeriodChange={strategy?.guardPeriodChange}
+                    periodTiles={strategy?.onChangePeriod ? (args) => (
+                        <StrategicPeriodEditor
+                            embedded
+                            only={args.only}
+                            value={strategy.period}
+                            onChange={strategy.onChangePeriod!}
+                            foundation={args.foundation}
+                            founders={(legalEntityFounders ?? []).filter(founder => founder.name.trim().length > 0)}
+                            organisationCurrency={organisationCurrency}
+                            disabled={disabled}
+                            onEditTheme={args.onEditTheme}
+                            onRemoveTheme={args.onRemoveTheme}
+                            roadmap={() => (
+                                <StrategicRoadmapEditor
+                                    foundation={args.foundation}
+                                    period={strategy.period}
+                                    columnsDivider={columnsDivider}
+                                    showInstructions={showInstructions}
+                                />
+                            )}
+                        />
+                    ) : undefined}
                     vision={identityVision}
                     situationDraft={strategy?.situationDraft ?? ""}
                     guardSituationRefresh={strategy?.guardSituationRefresh}
@@ -2298,15 +2434,43 @@ function SingleAnswerRenderer({
                 return null;
             }
 
+            // The Roadmap is one large tile of its own, opening the roadmap in its dialog.
             return (
-
-                <StrategicRoadmapEditor
-                    foundation={strategy.foundation}
-                    period={strategy.period}
-                    columnsDivider={columnsDivider}
-                    showInstructions={showInstructions}
-                />
-
+                <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page column-tiles-page-wide" style={{ "--answer-column-count": 1 } as CSSProperties}>
+                    <div
+                        className="business-foundation-input business-foundation-card business-engagement-input"
+                        data-anchor="column-tiles"
+                        style={{ "--strategy-theme-hue": workHue("decide") } as CSSProperties}
+                    >
+                        <div className="card-scroll">
+                            <div className="business-capability-section business-capability-tiles-section">
+                                <div className="business-capability-heading-spacer" aria-hidden="true" />
+                                <SectionTiles
+                                    small
+                                    label="Roadmap"
+                                    hue={workHue("decide")}
+                                    tiles={[{
+                                        id: "roadmap",
+                                        title: "Roadmap",
+                                        view: true,
+                                        items: strategy.foundation.themes.map(theme => strategyThemeName(theme)).filter(name => name.trim().length > 0).slice(0, 6),
+                                        itemMarks: strategy.foundation.themes.map(() => ({ bullet: true })),
+                                        content: () => (
+                                            <div className="column-tile-content">
+                                                <StrategicRoadmapEditor
+                                                    foundation={strategy.foundation}
+                                                    period={strategy.period}
+                                                    columnsDivider={columnsDivider}
+                                                    showInstructions={showInstructions}
+                                                />
+                                            </div>
+                                        )
+                                    }]}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             );
 
         case AnswerType.RolesResponsibilities: {

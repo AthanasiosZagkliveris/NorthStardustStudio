@@ -20,7 +20,7 @@ function Harness({ initial, onValue }: { initial: unknown; onValue?: (value: Val
 
 const base = () => asBusinessCapabilityValue(undefined);
 const activity = (id: string, name: string, fields: Record<string, unknown> = {}) => ({ ...createBusinessActivity(), id, name, category: "operational", ...fields });
-const oven = (fields: Record<string, unknown> = {}) => ({ ...createBusinessResourceSlot(), id: "oven", name: "Oven", status: "activity", ...fields });
+const oven = (fields: Record<string, unknown> = {}) => ({ ...createBusinessResourceSlot(), id: "oven", name: "Oven", status: "activity", startDate: "2027-01-01", ...fields });
 
 function setup(activities: ReturnType<typeof activity>[], slot = oven()) {
     let latest: Value | undefined;
@@ -40,10 +40,10 @@ function setup(activities: ReturnType<typeof activity>[], slot = oven()) {
 
 describe("the Activity status", () => {
 
-    it("lists the activities of the place with their category, then Other…", () => {
+    it("lists the activities of the place with their category, then + Add", () => {
         setup([activity("a1", "Install the oven"), activity("a2", "Train the staff")]);
         fireEvent.click(screen.getByLabelText(/Resource 1 activity: /));
-        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Install the oven (Operational)", "Train the staff (Operational)", "Other…"]);
+        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Install the oven", "Train the staff", "+ Add"]);
     });
 
     it("does not offer an activity that ended before the card starts (the chosen one stays)", () => {
@@ -52,19 +52,19 @@ describe("the Activity status", () => {
             oven({ startDate: "2027-03-01" })
         );
         fireEvent.click(screen.getByLabelText(/Resource 1 activity: /));
-        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Train the staff (Operational)", "Open the shop (Operational)", "Other…"]);
+        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Train the staff", "Open the shop", "+ Add"]);
     });
 
-    it("with no activity the list holds only Other…", () => {
+    it("with no activity the list holds only + Add", () => {
         setup([]);
         fireEvent.click(screen.getByLabelText(/Resource 1 activity: /));
-        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Other…"]);
+        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["+ Add"]);
     });
 
     it("choosing one stores it on the card; the link symbol beside the name opens it; nothing is made", () => {
         const latest = setup([activity("a1", "Install the oven")]);
         fireEvent.click(screen.getByLabelText(/Resource 1 activity: /));
-        fireEvent.click(screen.getByRole("option", { name: "Install the oven (Operational)" }));
+        fireEvent.click(screen.getByRole("option", { name: "Install the oven" }));
         expect(latest().resources.equipment[0].slots[0].activityId).toBe("a1");
         expect(latest().activities.flatMap(category => category.activities)).toHaveLength(1);
         const symbol = screen.getByRole("button", { name: "Open Activity “Install the oven”" });
@@ -73,10 +73,10 @@ describe("the Activity status", () => {
         expect(document.querySelector("[data-pair]")).toBeTruthy();
     });
 
-    it("Other… makes an ordinary activity (the only founder's, starting with the card), chooses it and asks its name", () => {
+    it("+ Add makes an ordinary activity (the only founder's, starting with the card), chooses it and asks its name", () => {
         const latest = setup([], oven({ startDate: "2027-03-01" }));
         fireEvent.click(screen.getByLabelText(/Resource 1 activity: /));
-        fireEvent.click(screen.getByRole("option", { name: "Other…" }));
+        fireEvent.click(screen.getByRole("option", { name: "+ Add" }));
         const made = latest().activities.flatMap(category => category.activities)[0];
         expect(made).toMatchObject({ category: "operational", startDate: "2027-03-01", performerIds: ["f1"], responsibleId: "f1" });
         expect(latest().resources.equipment[0].slots[0].activityId).toBe(made.id);

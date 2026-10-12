@@ -12,7 +12,7 @@ import { InterviewSession } from "../interview";
 import { AnswerType } from "../enums/AnswerType.ts";
 import {
     BRAND_INVENTORY_SECTIONS,
-    BRAND_STYLE_SECTIONS,
+    BRAND_STYLE_PAGE_SECTIONS,
     STRATEGY_FOUNDATION_SECTIONS,
     asStrategicPeriodValue,
     asStrategyFoundationValue,
@@ -135,7 +135,7 @@ export class InterviewValidator {
                         if (empty) {
                             issues.push({
                                 sectionNumber: columnNumber,
-                                sectionTitle: BRAND_STYLE_SECTIONS[index],
+                                sectionTitle: BRAND_STYLE_PAGE_SECTIONS[index],
                                 pageNumber: nested ? section.number : undefined,
                                 label: nested ? (index + 1) + "." : undefined
                             });

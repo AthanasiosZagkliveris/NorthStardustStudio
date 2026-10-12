@@ -184,11 +184,11 @@ describe("cost consolidation", () => {
         });
 
         const lines = consolidateCosts(
-            foundation({ classified: { "legal-e2": { group: "other", behaviour: "variable" } } }),
+            foundation({ classified: { "legal-e2": { group: "operating", behaviour: "variable" } } }),
             sources({ legalEntity })
         );
 
-        expect(lines[0].group).toBe("other");
+        expect(lines[0].group).toBe("operating");
         // Only an Offering's cost can vary with sales, or move into its group.
         expect(lines[0].behaviour).toBe("fixed");
         const moved = consolidateCosts(
@@ -927,7 +927,8 @@ describe("the Legal Entity, read as the financial pages read it", () => {
         const [, , formationEmpty, taxEmpty] = legalEntitySectionsEmpty(base);
         expect(formationEmpty).toBe(false);
         expect(taxEmpty).toBe(false);
-        const [, , registeredEmpty, registeredTaxEmpty] = legalEntitySectionsEmpty({ ...base, formation: { ...base.formation, status: "registered" } });
+        // (A registration number registers it: then the date is asked, and is empty.)
+        const [, , registeredEmpty, registeredTaxEmpty] = legalEntitySectionsEmpty({ ...base, formation: { ...base.formation, registrationNumber: "16234587" } });
         expect(registeredEmpty).toBe(true);
         expect(registeredTaxEmpty).toBe(true);
     });
@@ -1184,16 +1185,17 @@ describe("the Workspace's optional Deposit", () => {
         expect(reclassified.asset).toBe("");
     });
 
-    test("Lumen's £3,750 rent deposit is the Workspace's, once: no manual 'Rent deposit' beside it", () => {
+    test("Lumen's £3,750 rent deposit is the landlord's, once: no manual 'Rent deposit' beside it", () => {
         const responses = (JSON.parse(lumenText) as { systems: Record<string, { responses: { value: Record<string, unknown> }[] }> })
             .systems["3"].responses.map(response => response.value ?? {});
         const capability = asBusinessCapabilityValue(responses.find(value => value.resources && (value.resources as Record<string, unknown>).workspace));
         const own = asFinancialFoundationValue(responses.find(value => Array.isArray(value.costs) && "planStart" in value));
-        expect(workspacesOf(capability)[0].deposit).toBe("3750");
+        // (The Dedicated Workspace is rented: the rent, the service charge and the deposit sit on the landlord's supplier card.)
+        expect(workspacesOf(capability)[0].status).toBe("rent");
         expect(own.costs.some(cost => /deposit/i.test(cost.name))).toBe(false);
         const lines = consolidateCosts(own, sources({ capability, currency: "GBP", foundersLinked: false }));
         const deposits = lines.filter(line => line.asset === "deposit");
-        expect(deposits.map(line => [line.id, line.amount])).toEqual([["workspace-deposit", 3750]]);
+        expect(deposits.map(line => [line.id, line.amount])).toEqual([["partner-3grgyco6:deposit", 3750]]);
     });
 
 });

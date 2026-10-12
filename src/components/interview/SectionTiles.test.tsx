@@ -4,7 +4,7 @@ import { useState } from "react";
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 
 import BusinessCapabilityEditor from "./BusinessCapabilityEditor";
-import { cardBoxes, closeAllTiles, closeTile, infrastructureCard, offeringCard, openBox, openCard, openTile, tileButton, toggles, topDialog } from "../../test/interviewTestUtils";
+import { cardBoxes, closeAllTiles, closeTile, floatingCardHost, infrastructureCard, offeringCard, openBox, openCard, openTile, tileButton, toggles, topDialog } from "../../test/interviewTestUtils";
 import { asBusinessCapabilityValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot } from "../../framework/engine/AnswerUtils";
 import { stylesheet } from "../../test/stylesheet";
 import { tableRows } from "./CapabilityOverview";
@@ -61,7 +61,7 @@ describe("the section tiles of 3. Infrastructure & Capability", () => {
 
     it("places Infrastructure's four tiles two by two, with no group headings", () => {
         render(<Harness />);
-        expect(tilesOf("Infrastructure sections")).toEqual(["Founders", "Resources", "Activities", "Partners & Providers"]);
+        expect(tilesOf("Infrastructure sections")).toEqual(["Founders", "Resources", "Activities", "Partners & Suppliers"]);
         expect(across("Infrastructure sections")).toBe("2");
         expect(document.body.textContent).not.toMatch(/Organizational Resources|Operational Resources/);
         // The sections' contents are drawn only in a dialog.
@@ -92,16 +92,16 @@ describe("the section tiles of 3. Infrastructure & Capability", () => {
         expect(cardBoxes()).toEqual(["Activity 1: One", "Activity 2: Two"]);
     });
 
-    it("gives Offering's Capability four tiles, two by two, and, outside both sections (under Offering's Capability's card), the All Tiles tile and ONE grey Completed tile once an activity is completed", () => {
+    it("gives Offering's Capability four tiles, two by two, and, outside both sections (under Offering's Capability's card), the Inventory tile and ONE grey Completed tile once an activity is completed", () => {
         const base = asBusinessCapabilityValue(undefined);
         render(<Harness />);
-        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Providers", "Delivery"]);
-        // Only "All Tiles" until an activity is completed.
-        expect(within(document.querySelector(".section-tiles-completed") as HTMLElement).getAllByRole("button").map(button => button.getAttribute("aria-label")?.split(",")[0])).toEqual(["All Tiles"]);
+        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Delivery"]);
+        // Only "Inventory" until an activity is completed.
+        expect(within(document.querySelector(".section-tiles-completed") as HTMLElement).getAllByRole("button").map(button => button.getAttribute("aria-label")?.split(",")[0])).toEqual(["Inventory"]);
         cleanup();
         render(<Harness initial={{ ...base, offering: { ...base.offering, activities: [{ ...createBusinessActivity(), name: "Finished", completed: true }] } }} />);
         // Still four tiles in the section; the Completed tile is not in either section's group.
-        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Providers", "Delivery"]);
+        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Delivery"]);
         const wrapper = document.querySelector(".section-tiles-completed") as HTMLElement;
         expect(wrapper).toBeTruthy();
         // It stands after both cards, as the page grid's last child; there is exactly one Completed tile on the page.
@@ -124,7 +124,7 @@ describe("the section tiles of 3. Infrastructure & Capability", () => {
             activities: [{ id: "custom-1", name: "Legal", activities: [file("a1", "File"), file("a2", "Review")] }]
         }} />);
         // (The page keeps its four tiles: the category is inside the Activities view.)
-        expect(tilesOf("Infrastructure sections")).toEqual(["Founders", "Resources", "Activities", "Partners & Providers"]);
+        expect(tilesOf("Infrastructure sections")).toEqual(["Founders", "Resources", "Activities", "Partners & Suppliers"]);
         fireEvent.click(tileButton("Activities", infrastructureCard()));
         const dialog = topDialog();
         expect([...dialog.querySelectorAll("button.section-tile")].map(button => button.getAttribute("aria-label"))).toEqual(["Pre-Operational", "Operational", "Legal, File, Review"]);
@@ -163,8 +163,8 @@ describe("ONE SHAPE for every set of tiles, boxes and card boxes", () => {
             initial={{ ...base, offering: { ...base.offering, resources, professionals: partners } }}
             engagement={engagement}
         />);
-        // Resources, Activities, Partners & Providers, Delivery: the channel-made cards stand inside the views, not as tiles of their own.
-        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Providers", "Delivery"]);
+        // Resources, Activities, Partners & Suppliers, Delivery: the channel-made cards stand inside the views, not as tiles of their own.
+        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Delivery"]);
         expect(across("Offering's Capability sections")).toBe("2");
     });
 
@@ -231,7 +231,7 @@ describe("tile anatomy: the title at a third of the height, underlined, a list o
         expect(css).toMatch(/--tile-title-row: calc\(var\(--section-tile-size\) \* var\(--tile-title-top\) - 1px \+ 5px \+ var\(--section-tile-line-height\) \* 0\.5em\);/);
         // The list starts 12px under the underline, whatever the lift (TileTitle writes the tile's --tile-lift).
         expect(css).toMatch(/\.section-tile-list \{[^}]*margin: calc\(var\(--space-card\) - var\(--tile-lift, 0px\)\) 0 0;/);
-        expect(css).toMatch(/\.section-tile-title \{[^}]*align-self: end;/);
+        expect(css).toMatch(/\.section-tile-title \{[^}]*align-self: start;/);
         expect(css).toMatch(/\.section-tile-list \{[^}]*width: fit-content;[^}]*max-width: 100%;/);
         expect(css).toMatch(/\.section-tile-title \{[^}]*border-bottom: 1px solid color-mix\(in srgb, currentColor 40%, transparent\);/);
         expect(css).toMatch(/\.section-tile-list \{[^}]*font-size: var\(--font-small\);[^}]*color: var\(--text-muted\);/);
@@ -412,10 +412,7 @@ describe("a section tile's dialog", () => {
         openTile("Founders");
         const dialog = screen.getByRole("dialog", { name: "Founders" });
         expect(dialog.getAttribute("aria-modal")).toBe("true");
-        // The section's own heading and cards, as on the page before.
-        expect(within(dialog).getByText("1. Founders")).toBeTruthy();
-        // The founders' cards are open side by side (no fold arrow on them).
-        expect(within(dialog).getByText("Ann")).toBeTruthy();
+        // (One founder: the tile opens that founder's card floating at once, as a tile of one card does; no fold arrow on it.)
         expect(within(dialog).queryByRole("button", { name: /Maximize|Minimize/ })).toBeNull();
         // Only one dialog at a time, and everything else on the page is inert.
         expect(screen.getAllByRole("dialog")).toHaveLength(1);
@@ -533,10 +530,10 @@ describe("cards made from a Customer Channel", () => {
         expect(categories.map(tile => tile.getAttribute("aria-label")).some(label => label?.startsWith("Channel"))).toBe(false);
     });
 
-    it("stand among the section's cards as tiles of a hue of their own: the Resources and Partners & Providers views, not tiles on the page", () => {
+    it("stand among the section's cards as tiles of a hue of their own: the Resources and Partners & Suppliers views, not tiles on the page", () => {
         render(<Harness initial={value} engagement={engagement} />);
         // (Offering keeps its four tiles; the channel's cards stand in a 'Channel' category inside the views.)
-        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Providers", "Delivery"]);
+        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Delivery"]);
         expect(across("Offering's Capability sections")).toBe("2");
         // The page tile lists the categories (cut after the first few: "and more"); the channel's own is in the view.
         expect(tileButton("Resources").getAttribute("aria-label")).toBe("Resources, Workspace, Utilities, Workstation, Equipment, Vehicles, Digital Infrastructure, and more");
@@ -560,7 +557,7 @@ describe("cards made from a Customer Channel", () => {
         expect(tiles.map(tile => tile.classList.contains("section-tile-channel"))).toEqual([true]);
         closeTile();
         closeTile();
-        openTile("Partners & Providers");
+        openTile("Partners & Suppliers");
         openBox("Partners");
         const partners = [...topDialog().querySelectorAll<HTMLElement>("button.card-tile")];
         expect(partners.map(tile => tile.getAttribute("aria-label"))).toEqual(["Partner 1: Courier"]);
@@ -595,12 +592,12 @@ describe("cards made from a Customer Channel", () => {
         expect(status.disabled).toBe(false);
         closeAllTiles();
 
-        openTile("Partners & Providers", "Partners", "Courier");
+        openTile("Partners & Suppliers", "Partners", "Courier");
         expect((screen.getByRole("textbox", { name: "Professional 1 name" }) as HTMLTextAreaElement).value).toBe("Courier");
         closeAllTiles();
 
-        openTile("Partners & Providers", "Channel", "Agency");
-        expect(screen.getByRole("dialog", { name: "Partners & Providers" }).querySelector(".business-capability-child-name")!.textContent).toBe("Agency");
+        openTile("Partners & Suppliers", "Channel", "Agency");
+        expect(screen.getByRole("dialog", { name: "Partners & Suppliers" }).querySelector(".business-capability-child-name")!.textContent).toBe("Agency");
     });
 
     it("are not tiled in Infrastructure: a card linked from a channel stays where it is", () => {
@@ -609,13 +606,13 @@ describe("cards made from a Customer Channel", () => {
             initial={{ ...base, resources: { utilities: [{ id: "premises-utilities", name: "", slots: [infra] }] } }}
             engagement={{ ...engagement, channelResources: [{ id: "l3", segmentId: "s1", channelId: "c1", resourceId: infra.id, actionIds: [] }] }}
         />);
-        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Providers", "Delivery"]);
-        expect(tilesOf("Infrastructure sections")).toEqual(["Founders", "Resources", "Activities", "Partners & Providers"]);
+        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Delivery"]);
+        expect(tilesOf("Infrastructure sections")).toEqual(["Founders", "Resources", "Activities", "Partners & Suppliers"]);
         // (Infrastructure's Resources view holds the one card as a card tile, in the Utilities category where it was made.)
         openTile("Resources", "Utilities", undefined, infrastructureCard());
         const tile = topDialog().querySelector<HTMLElement>("button.card-tile")!;
         expect(tile.getAttribute("aria-label")).toBe("Resource 1: Card reader");
-        expect([...tile.querySelectorAll("li")].slice(0, 2).map(item => item.textContent)).toEqual(["Infrastructure", "Utilities"]);
+        expect([...tile.querySelectorAll("li")].slice(1, 3).map(item => item.textContent)).toEqual(["Infrastructure", "Utilities"]);
     });
 
 });
@@ -646,14 +643,10 @@ describe("the tiles' stylesheet", () => {
         expect(css).toMatch(/\.section-tile-title \{[^}]*line-height: var\(--section-tile-line-height\);/);
     });
 
-    it("gives every dialog ONE translucent, blurred ground, and the cards in it the same glass", () => {
-        const global = stylesheet("global.css");
-        expect(global).toMatch(/--dialog-ground-alpha: \d+%;/);
-        expect(global).toMatch(/--dialog-blur: \d+px;/);
-        expect(global).toMatch(/--card-glass-alpha: \d+%;/);
-        expect(global).toMatch(/--card-glass-blur: \d+px;/);
-        expect(css).toMatch(/\.section-tile-dialog\.business-foundation-card \{[^}]*var\(--dialog-ground-alpha\), transparent\);[^}]*backdrop-filter: blur\(var\(--dialog-blur\)\) brightness\(var\(--dialog-backdrop-brightness\)\);/);
-        expect(css).toMatch(/\.section-tile-dialog \.business-foundation-card \{[^}]*var\(--card-glass-alpha\), transparent\);[^}]*backdrop-filter: blur\(var\(--card-glass-blur\)\);/);
+    it("gives every dialog ONE solid ground, and the cards in it the same: no transparency on a frame with text", () => {
+        expect(css).toMatch(/\.section-tile-dialog\.business-foundation-card \{[^}]*backdrop-filter: none;/);
+        expect(css).not.toMatch(/\.section-tile-dialog\.business-foundation-card \{[^}]*transparent\);/);
+        expect(css).toMatch(/\.section-tile-dialog \.business-foundation-card \{[^}]*backdrop-filter: none;/);
         // No dialog of its own look: no wide exception any more.
         expect(css).not.toMatch(/section-tile-dialog-wide/);
     });
@@ -731,7 +724,7 @@ describe("the page's cards and titles", () => {
         const open = screen.getByRole("button", { name: "Hide help for Infrastructure" });
         expect(open.getAttribute("aria-expanded")).toBe("true");
         const help = document.getElementById(open.getAttribute("aria-controls")!)!;
-        expect(help.textContent).toMatch(/Record the resources, activities, partners and providers/);
+        expect(help.textContent).toMatch(/Record the resources, activities, partners and suppliers/);
         // The other title is untouched.
         expect(screen.getByRole("button", { name: "Show help for Offering's Capability" }).getAttribute("aria-expanded")).toBe("false");
         expect(document.querySelectorAll(".answer-column-questions")).toHaveLength(1);
@@ -864,10 +857,7 @@ describe("the dialog's square and backdrop", () => {
 
 });
 
-describe("the Founders' dialog: open cards in rows, closed boxes beyond eight", () => {
-
-    const cardsIn = (dialog: HTMLElement) => dialog.querySelectorAll(".founder-rows > .founder-row > .business-foundation-card");
-    const perRow = (dialog: HTMLElement) => (dialog.querySelector(".founder-row") as HTMLElement).style.getPropertyValue("--founders-per-row");
+describe("the Founders tile: the founders are tiles, and a card opens floating, the width of any card", () => {
 
     it("is no exception: every dialog has the one frame, so none carries a wide class", () => {
         render(<Harness founders={3} />);
@@ -881,77 +871,37 @@ describe("the Founders' dialog: open cards in rows, closed boxes beyond eight", 
         expect(topDialog().className).not.toMatch(/wide/);
     });
 
-    it("shows one to four founders as open cards in ONE row, as many across as founders", () => {
-        for (const count of [1, 2, 3, 4]) {
+    it("shows the founders as card tiles (name and role), however many there are, with no open cards in the dialog", () => {
+        for (const count of [2, 4, 9]) {
             const { unmount } = render(<Harness founders={count} />);
             openTile("Founders");
             const dialog = topDialog();
-            expect(cardsIn(dialog)).toHaveLength(count);
-            expect(perRow(dialog)).toBe(String(count));
-            // Open: no fold arrow, the fields are there.
-            expect(within(dialog).queryByRole("button", { name: /Maximize|Minimize/ })).toBeNull();
-            expect(within(dialog).getAllByText("Salary")).toHaveLength(count);
+            expect(dialog.querySelector(".founder-row")).toBeNull();
+            const boxes = within(dialog).getAllByRole("button", { name: /Founder Name/ });
+            expect(boxes).toHaveLength(count);
+            expect(boxes.every(box => box.classList.contains("section-tile"))).toBe(true);
+            expect(within(dialog).queryByText("Salary")).toBeNull();
             unmount();
         }
     });
 
-    it("shows five to eight founders as two balanced rows of open cards of one width", () => {
-        const acrossBy = { 5: "3", 6: "3", 7: "4", 8: "4" } as const;
-        for (const count of [5, 6, 7, 8] as const) {
-            const { unmount } = render(<Harness founders={count} />);
-            openTile("Founders");
-            const dialog = topDialog();
-            expect(cardsIn(dialog)).toHaveLength(count);
-            expect(perRow(dialog)).toBe(acrossBy[count]);
-            expect(within(dialog).queryByRole("button", { name: /Maximize|Minimize/ })).toBeNull();
-            unmount();
-        }
-        expect(stylesheet("section-tiles.css")).toMatch(/\.founder-row \{[^}]*flex-wrap: wrap;[^}]*justify-content: center;/);
-        const css = stylesheet("section-tiles.css");
-        // Every card is the width its content needs (297px) and no more: as many across as the content holds -- 4 from 1224px
-        // (4 x 297 + 3 gaps), 3 from 915px, 2 from 606px.
-        expect(css).toMatch(/\.founder-row \{ --founder-across: 4; --founder-card-width: var\(--founder-card-min\);/);
-        expect(css).toMatch(/@container founder-rows \(max-width: 1223\.98px\) \{ \.founder-row \{ --founder-across: 3;/);
-        expect(css).toMatch(/@container founder-rows \(max-width: 914\.98px\) \{ \.founder-row \{ --founder-across: 2;/);
-        expect(css).toMatch(/@container founder-rows \(max-width: 605\.98px\) \{ \.founder-row \{ --founder-across: 1;/);
-        expect(stylesheet("global.css")).toMatch(/--founder-card-min: 297px;/);
-        expect(stylesheet("section-tiles.css")).toMatch(/\.founder-row > \.business-foundation-card \{[^}]*flex: 0 0 var\(--founder-card-width\);/);
-    });
-
-    it("shows more than eight as closed square boxes, name and role, and opens one card in place of the grid", () => {
+    it("pressing a founder tile opens that founder's card floating, in the card width of every other card", () => {
         render(<Harness founders={9} />);
         openTile("Founders");
-        const dialog = topDialog();
-        expect(dialog.querySelector(".founder-row")).toBeNull();
-        const boxes = within(dialog).getAllByRole("button", { name: /Founder Name/ });
-        expect(boxes).toHaveLength(9);
-        expect(boxes.every(box => box.classList.contains("section-tile"))).toBe(true);
-
-        fireEvent.click(boxes[2]);
-        // The card replaces the grid: one card, open, no fold arrow; no other box.
-        expect(dialog.querySelector(".section-tiles-founders")).toBeNull();
-        // (Its name stands in the header after a slash, and in its head.)
-        expect(dialog.querySelector(".business-founder-open")).toBeTruthy();
-        expect(dialog.querySelector(".dialog-heading-sub")!.textContent).toBe("Founder Name 3");
-        expect(within(dialog).getAllByText("Salary")).toHaveLength(1);
-        expect(within(dialog).queryByRole("button", { name: /Maximize|Minimize/ })).toBeNull();
-
-        // Back returns to the grid; the dialog stays.
-        fireEvent.click(within(dialog).getByRole("button", { name: "Back" }));
-        expect(topDialog()).toBeTruthy();
-        expect(within(topDialog()).getAllByRole("button", { name: /Founder Name/ })).toHaveLength(9);
-
-        // Escape closes the dialog at once, from the card as from the grid (it does not go up a level first).
-        fireEvent.click(within(topDialog()).getAllByRole("button", { name: /Founder Name/ })[0]);
-        expect(topDialog().querySelector(".section-tiles-founders")).toBeNull();
-        fireEvent.keyDown(topDialog(), { key: "Escape" });
-        expect(screen.queryByRole("dialog")).toBeNull();
+        fireEvent.click(within(topDialog()).getAllByRole("button", { name: /Founder Name/ })[2]);
+        const card = floatingCardHost()!;
+        expect(card).toBeTruthy();
+        expect(card.querySelector(".business-founder-open")).toBeTruthy();
+        expect(within(card).getAllByText("Salary")).toHaveLength(1);
+        expect(within(card).queryByRole("button", { name: /Maximize|Minimize/ })).toBeNull();
+        // (The card is the width of any card, not a founder's own 297px.)
+        expect(card.getAttribute("data-card-kind") ?? "card").toBe("card");
     });
 
-    it("names a founder's box for a link to it, which presses it (data-opens)", () => {
+    it("names a founder's tile for a link to it, which presses it (data-opens)", () => {
         render(<Harness founders={9} />);
         openTile("Founders");
-        const box = topDialog().querySelector("[data-anchor='founder-f4']")!;
+        const box = topDialog().querySelector("[data-anchor='f4']")!;
         expect(box.hasAttribute("data-opens")).toBe(true);
     });
 
@@ -963,7 +913,7 @@ describe("the Founders' dialog: open cards in rows, closed boxes beyond eight", 
     it("stands every text of a founder's card at ONE left edge, the numbers, bullets and fold arrows hanging left of it in a marker column", () => {
         const css = stylesheet("section-tiles.css");
         // The marker column is a single-digit head number (tabular figures, 18.3px) and the head's 8px gap; the inset keeps the 36px arrow's ring inside.
-        expect(stylesheet("global.css")).toMatch(/--founder-marker: 26\.3px;/);
+        expect(stylesheet("global.css")).toMatch(/--founder-marker: 35\.5px;/);
         expect(stylesheet("global.css")).toMatch(/--founder-inset: 4\.5px;/);
         expect(css).toMatch(/\.business-foundation-card\.business-founder-open \{[^}]*padding-left: calc\(var\(--card-padding\) \+ var\(--founder-inset\) \+ var\(--founder-marker\)\);/);
         expect(css).toMatch(/\.business-founder-open > \.strategy-box-head \{[^}]*margin-left: calc\(-1 \* var\(--founder-marker\)\);/);
@@ -974,12 +924,12 @@ describe("the Founders' dialog: open cards in rows, closed boxes beyond eight", 
         expect(css).toMatch(/\.business-founder-open \.numbered-list-static-text \{[^}]*padding-left: 0;/);
         // The fold arrows are the STANDARD 36px arrow (size and reactions untouched), hung so the glyph's left edge is the markers' x:
         // its box reaches 12.5px left of a closed glyph (9px of an open one).
-        expect(css).toMatch(/\.business-founder-open \.business-capability-responsibilities-head > \.strategy-box-toggle \{[^}]*margin-left: calc\(-1 \* var\(--founder-marker\) - 12\.5px\);/);
+        expect(css).toMatch(/:is\(\.business-founder-open, \.business-capability-links\) \.business-capability-responsibilities-head > \.strategy-box-toggle \{[^}]*margin-left: calc\(-1 \* var\(--founder-marker\) - 12\.5px\);/);
         expect(css).not.toMatch(/\.business-founder-open \.business-capability-responsibilities-head > \.strategy-box-toggle \{[^}]*width: 24px/);
         // One position for both states: the arrow does not move when it is toggled.
         expect(css).not.toMatch(/\.business-founder-open \.business-capability-responsibilities-head > \.strategy-box-toggle\[aria-expanded="true"\]/);
         // The four cells are one size (--founder-cell), side by side 12px apart at the left; the two hours labels are two lines.
-        expect(stylesheet("global.css")).toMatch(/--founder-cell: 108px;/);
+        expect(stylesheet("global.css")).toMatch(/--card-cell-narrow: 108px;/);
         expect(css).toMatch(/\.business-founder-open \.business-founder-grid \{[^}]*grid-template-columns: var\(--founder-cell\) max-content;[^}]*justify-content: start;/);
         expect(css).toMatch(/\.business-founder-open \.business-founder-grid > \.business-foundation-field:nth-child\(n\+3\) > :first-child \{[^}]*width: var\(--founder-cell\);[^}]*white-space: normal;/);
         expect(css).not.toMatch(/translate: min\(0px, calc\(var\(--founder-cell\)/);
@@ -992,14 +942,14 @@ describe("the Founders' dialog: open cards in rows, closed boxes beyond eight", 
 describe("tile and dialog titles: an & never ends a line", () => {
 
     it("joins an & to the word after it with a no-break space, only in what is drawn", () => {
-        expect(drawnTitle("Partners & Providers")).toBe("Partners & Providers");
+        expect(drawnTitle("Partners & Suppliers")).toBe("Partners & Suppliers");
         expect(drawnTitle("Sales & Customer")).toBe("Sales & Customer");
         expect(drawnTitle("Workspace")).toBe("Workspace");
         render(<Harness />);
-        const tile = tileButton("Partners & Providers");
+        const tile = tileButton("Partners & Suppliers");
         // The accessible name starts with the plain title; the drawn text has the no-break space.
-        expect(tile.getAttribute("aria-label")!.startsWith("Partners & Providers")).toBe(true);
-        expect(tile.querySelector(".section-tile-title")!.textContent).toBe("Partners & Providers");
+        expect(tile.getAttribute("aria-label")!.startsWith("Partners & Suppliers")).toBe(true);
+        expect(tile.querySelector(".section-tile-title")!.textContent).toBe("Partners & Suppliers");
     });
 
 });
@@ -1101,8 +1051,8 @@ describe("a category with several groups opens on tiles", () => {
         expect(tiles()).toHaveLength(4);
         closeTile();
         closeTile();
-        // Offering's Partners & Providers: the Partners category tile, then the Suppliers one.
-        openTile("Partners & Providers");
+        // Offering's Partners & Suppliers: the Partners category tile, then the Suppliers one.
+        openTile("Partners & Suppliers");
         expect(tiles().map(tile => tile.getAttribute("aria-label"))).toEqual(["Partners, Ann, Bo", "Suppliers"]);
     });
 
@@ -1150,7 +1100,7 @@ describe("a category with several groups opens on tiles", () => {
             offering: { ...base.offering, professionals: [createBusinessPartner("Ann"), createBusinessPartner("Bo")] },
             activities: [{ id: "operational", name: "", activities: [activity("One"), activity("Two")] }]
         }} />);
-        openTile("Partners & Providers");
+        openTile("Partners & Suppliers");
         expect([...topDialog().querySelectorAll("button.section-tile")].map(tile => tile.getAttribute("aria-label"))).toEqual(["Partners, Ann, Bo", "Suppliers"]);
         // (No Channel tile while no channel made a card.)
         fireEvent.click(tileButton("Partners", topDialog()));
@@ -1188,8 +1138,8 @@ describe("a list of cards as closed square boxes", () => {
         // (An incomplete card says what it lacks after its name.)
         expect(box.getAttribute("title")).toMatch(/^Card 1. Missing: Price, Payment Frequency/);
         expect(box.classList.contains("section-tile")).toBe(true);
-        // Its lines: where it belongs, then the status (Costs, no price yet).
-        expect([...box.querySelectorAll(".section-tile-list > li")].map(item => item.textContent)).toEqual(["Offering's Capability", "No category", "No group", "Costs"]);
+        // Its lines: the dates, where it belongs, then the status (Costs, no price yet).
+        expect([...box.querySelectorAll(".section-tile-list > li")].map(item => item.textContent).slice(1)).toEqual(["Offering's Capability", "No category", "No group", "Costs"]);
         openCard("Card 2");
         expect(document.querySelector(".floating-card-host")).not.toBeNull();
         expect((screen.getByRole("textbox", { name: "Resource 2 name" }) as HTMLTextAreaElement).value).toBe("Card 2");
@@ -1296,7 +1246,7 @@ describe("a Workspace is one tidy resource card", () => {
 });
 
 
-describe("All Tiles: a tile's circle and the legend's circles never add up", () => {
+describe("Inventory: a tile's circle and the legend's circles never add up", () => {
 
     function seededProvider() {
         const base = asBusinessCapabilityValue(undefined);
@@ -1309,20 +1259,20 @@ describe("All Tiles: a tile's circle and the legend's circles never add up", () 
             resources: { equipment: [{ id: "devices-tools", name: "", slots: [loom, kettle] }] }
         };
     }
-    const names = () => [...document.querySelectorAll<HTMLElement>('[aria-label="All tiles"] .card-tile')].map(tile => tile.getAttribute("aria-label")!.replace(/^[^:]*: /, "").split(",")[0]);
+    const names = () => [...document.querySelectorAll<HTMLElement>('[aria-label="Inventory"] .card-tile')].map(tile => tile.getAttribute("aria-label")!.replace(/^[^:]*: /, "").split(",")[0]);
 
     it("shows the provider tile and its connected resources when its circle is pressed, even after a legend circle was pressed; the legend then clears the chip", () => {
         render(<Harness initial={seededProvider()} />);
-        fireEvent.click(tileButton(/^All Tiles/));
+        fireEvent.click(tileButton(/^Inventory/));
         expect(names().sort()).toEqual(["Ann", "Bo", "Hackney", "Kettle", "Loom"]);
         // A legend circle first: only the tiles connected to a provider (the Loom).
         const legend = () => screen.getByRole("group", { name: "Show only tiles with a connection" });
-        fireEvent.click(within(legend()).getAllByRole("button").find(button => /provider/i.test(button.title))!);
+        fireEvent.click(within(legend()).getAllByRole("button").find(button => /supplier/i.test(button.title))!);
         expect(names()).toEqual(["Loom"]);
         const pressedLegend = () => within(legend()).getAllByRole("button").filter(button => button.getAttribute("aria-pressed") === "true");
         expect(pressedLegend()).toHaveLength(1);
         // Then the Loom tile's circle: the legend isolation goes, the tile and what it is connected to (its provider) show.
-        fireEvent.click(document.querySelector<HTMLElement>('[aria-label="All tiles"] button.card-tile-symbol')!);
+        fireEvent.click(document.querySelector<HTMLElement>('[aria-label="Inventory"] button.card-tile-symbol')!);
         expect(screen.getByText(/^Connected to /).textContent).toContain("Connected to ");
         expect(pressedLegend()).toHaveLength(0);
         const shown = names().sort();
@@ -1367,7 +1317,7 @@ describe("the marks on the lines of a tile's list", () => {
             "No category", "Channel", "Workspace", "Utilities", "Workstation", "Equipment", "Vehicles", "Digital Infrastructure", "Materials & Inventory", "Documents & Rights", "Human Resources"
         ]);
         expect(resourceLines.map(line => line.classList.contains("section-tile-list-teal"))).toEqual([false, true, false, false, false, false, false, false, false, false, false]);
-        const partnerLines = linesOf("Partners & Providers", offeringCard());
+        const partnerLines = linesOf("Partners & Suppliers", offeringCard());
         expect(partnerLines.some(line => line.classList.contains("section-tile-list-channel"))).toBe(true);
         // Infrastructure's lists carry neither mark.
         expect(linesOf("Resources").some(line => line.classList.contains("section-tile-list-teal") || line.classList.contains("section-tile-list-channel"))).toBe(false);
@@ -1436,10 +1386,10 @@ describe("the slide of a long title", () => {
 
 });
 
-describe("the All Tiles funnel menu", () => {
+describe("the Inventory funnel menu", () => {
 
     const openFunnel = () => {
-        fireEvent.click(tileButton(/^All Tiles/));
+        fireEvent.click(tileButton(/^Inventory/));
         fireEvent.click(screen.getByRole("button", { name: /Sort all tiles/i }));
         return document.querySelector<HTMLElement>(".strategy-sort-menu-wide")!;
     };
@@ -1502,7 +1452,7 @@ describe("the All Tiles funnel menu", () => {
 
 });
 
-describe("the All Tiles table", () => {
+describe("the Inventory table", () => {
 
     const row = (fields: Record<string, unknown>) => ({
         id: "r", tone: "infrastructure", kind: "resource", name: "Loom", path: ["Infrastructure", "Equipment", "Specialized"],
@@ -1510,7 +1460,7 @@ describe("the All Tiles table", () => {
     }) as never;
 
     it("maps a card to Section, Category, Group, Cost and Frequency, one line for one cost", () => {
-        expect(tableRows(row({}))).toEqual([{ type: "Resource", section: "Infrastructure", category: "Equipment", group: "Specialized", status: "Costs", cost: "7200", frequency: "One-time" }]);
+        expect(tableRows(row({}))).toEqual([{ type: "Resource", section: "Infrastructure", category: "Equipment", group: "Specialized", status: "Costs", cost: "7200", frequency: "One-time", nature: "", behaviour: "" }]);
         expect(tableRows(row({ path: ["Offering's Capability", "Resources"] }))[0]).toMatchObject({ section: "Offering", category: "Resources", group: "" });
     });
 
@@ -1524,17 +1474,17 @@ describe("the All Tiles table", () => {
 
     it("fills a Legal Entity expense with Section Legal Entity, Type Expense, name, cost and frequency only", () => {
         const [line] = tableRows(row({ kind: "legal", path: ["Identity System", "Legal Entity", "Expenses"], status: "", statusLabel: "", amount: 120, frequency: "annually", frequencyLabel: "Annually" }));
-        expect(line).toEqual({ type: "Expense", section: "Legal Entity", category: "", group: "", status: "", cost: "120", frequency: "Annually" });
+        expect(line).toEqual({ type: "Expense", section: "Legal Entity", category: "", group: "", status: "", cost: "120", frequency: "Annually", nature: "", behaviour: "" });
     });
 
-    it("shows the nine columns in order, the second cost's line dimmed with the name repeated, the links as bullets only (their text a tooltip)", () => {
+    it("shows the eleven columns in order, the second cost's line dimmed with the name repeated, the links as bullets only (their text a tooltip)", () => {
         const base = asBusinessCapabilityValue(undefined);
         const loom = { ...createBusinessResourceSlot(), name: "Loom", status: "partners-suppliers", providerId: "p1" };
         render(<Harness initial={{ ...base, providers: [{ ...createBusinessPartner("Hackney"), id: "p1", category: "suppliers", group: "business-services" }], resources: { equipment: [{ id: "devices-tools", name: "", slots: [loom] }] } }} />);
-        fireEvent.click(tileButton(/^All Tiles/));
+        fireEvent.click(tileButton(/^Inventory/));
         fireEvent.click(screen.getByRole("button", { name: "Table" }));
         const table = document.querySelector(".capability-overview-table")!;
-        expect([...table.querySelectorAll("th[scope=col]")].map(head => head.textContent)).toEqual(["Name", "Type", "Section", "Category", "Group", "Cost", "Frequency", "Status", "Linked"]);
+        expect([...table.querySelectorAll("th[scope=col]")].map(head => head.textContent)).toEqual(["Name", "Type", "Section", "Category", "Group", "Cost", "Frequency", "Cost Nature", "Behaviour", "Status", "Linked"]);
         const linked = table.querySelector("tbody tr td:last-child")!;
         expect(linked.textContent).toBe("");
         const bullets = [...linked.querySelectorAll<HTMLElement>(".card-tile-symbol")];
@@ -1561,7 +1511,7 @@ describe("the lines of channel-made cards", () => {
             channelResources: [{ id: "l1", segmentId: "s1", channelId: "c1", resourceId: partners[1].id, actionIds: [] }]
         };
         render(<Harness initial={{ ...base, offering: { ...base.offering, providers: partners } }} engagement={engagement} />);
-        fireEvent.click(tileButton("Partners & Providers", offeringCard()));
+        fireEvent.click(tileButton("Partners & Suppliers", offeringCard()));
         const lines = [...document.querySelectorAll<HTMLElement>(".section-tile-dialog .section-tile-category ~ .section-tile-links-layer .section-tile-list > li")];
         const teal = lines.filter(line => line.classList.contains("section-tile-list-teal")).map(line => line.textContent);
         expect(teal).toContain("Courier 2");
@@ -1581,7 +1531,7 @@ describe("the Channel group", () => {
     const own = { ...base, id: "q", name: "Flame", tone: "offering" } as never;
 
     it("reads Channel in the Group column and as the last line of a tile for a card of the Customer Channel (Section, Type and Category keep their values)", () => {
-        expect(tableRows(channel)[0]).toMatchObject({ type: "Provider", section: "Offering", category: "Providers", group: "Channel" });
+        expect(tableRows(channel)[0]).toMatchObject({ type: "Supplier", section: "Offering", category: "Providers", group: "Channel" });
         expect(tableRows(own)[0]).toMatchObject({ category: "Providers", group: "" });
         expect(belongsLines(channel)).toEqual(["Offering's Capability", "Providers", "Channel"]);
         expect(belongsLines(own)).toEqual(["Offering's Capability", "Providers"]);
@@ -1602,7 +1552,7 @@ describe("the Channel group", () => {
 describe("the table mode: surface, columns, sizes", () => {
 
     const openTable = () => {
-        fireEvent.click(tileButton(/^All Tiles/));
+        fireEvent.click(tileButton(/^Inventory/));
         fireEvent.click(screen.getByRole("button", { name: "Table" }));
         return document.querySelector<HTMLElement>(".capability-overview-table")!;
     };
@@ -1613,7 +1563,7 @@ describe("the table mode: surface, columns, sizes", () => {
         const priced = { ...createBusinessResourceSlot(), name: "Loom", status: "costs", cost: { price: "10", frequency: "monthly", frequencyOther: "", currency: "" } };
         render(<Harness initial={{ ...base, resources: { equipment: [{ id: "devices-tools", name: "", slots: [priced] }] } }} />);
         const table = openTable();
-        expect(heads(table)).toEqual(["Name", "Type", "Section", "Category", "Group", "Cost", "Frequency", "Status", "Linked"]);
+        expect(heads(table)).toEqual(["Name", "Type", "Section", "Category", "Group", "Cost", "Frequency", "Cost Nature", "Behaviour", "Status", "Linked"]);
         fireEvent.click(screen.getByRole("button", { name: /Sort all tiles/i }));
         const menu = document.querySelector<HTMLElement>(".strategy-sort-menu-wide")!;
         fireEvent.click(within(menu).getByRole("button", { name: "Unfold Columns" }));
@@ -1718,4 +1668,33 @@ describe("tailPlacement", () => {
     it("starts a new row when the last row is full and wide", () => {
         expect(tailPlacement(6, 3)).toEqual({ row: 3, column: 1, columns: 3 });
     });
+});
+
+describe("THE CAROUSEL ARROWS beside the card or the section opened last", () => {
+
+    it("goes to the next and the previous card of the tile, round its ends", () => {
+        render(<Harness initial={twoInEach()} />);
+        openTile("Utilities");
+        openCard("Mains");
+        const name = () => (screen.getByRole("textbox", { name: /Resource \d+ name/ }) as HTMLTextAreaElement).value;
+        expect(name()).toBe("Mains");
+        fireEvent.click(screen.getByRole("button", { name: "Next card" }));
+        expect(name()).toBe("Generator");
+        fireEvent.click(screen.getByRole("button", { name: "Next card" }));
+        expect(name()).toBe("Mains");
+        fireEvent.click(screen.getByRole("button", { name: "Previous card" }));
+        expect(name()).toBe("Generator");
+    });
+
+    it("goes through the sections from an opened section, and leaves the dialog's own arrows out of sight under a card", () => {
+        render(<Harness initial={twoInEach()} />);
+        openTile("Resources");
+        const title = () => document.querySelector(".section-tile-dialog-name")?.textContent;
+        expect(title()).toBe("Resources");
+        fireEvent.click(screen.getByRole("button", { name: "Next section" }));
+        expect(title()).toBe("Activities");
+        fireEvent.click(screen.getByRole("button", { name: "Previous section" }));
+        expect(title()).toBe("Resources");
+    });
+
 });

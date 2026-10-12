@@ -22,11 +22,13 @@ import {
     LegalEntityExpenseValue
 } from "../../framework/engine/AnswerUtils.ts";
 import { parseAmount } from "../../framework/engine/Amounts.ts";
+import { PreferencesService } from "../../services/PreferencesService.ts";
+import { isoToDisplay } from "./DateCellInput.tsx";
 import { incompleteCards } from "../../framework/engine/CardCompleteness.ts";
 import { founderMonthlySalary } from "../../framework/engine/DemandCapacity.ts";
 
 /*
-    THE FLOOR: every tile kind of Page 3 -- Resources, Activities, Partners & Providers, and (to include or leave out) the Workspace and
+    THE FLOOR: every tile kind of Page 3 -- Resources, Activities, Partners & Suppliers, and (to include or leave out) the Workspace and
     the Founders -- as plain rows, so that the connections between them (a resource that created an activity, a resource a partner or
     provider supplies) can be seen at once and filtered. Pure: the editor draws it (CapabilityFloor.tsx).
 */
@@ -37,7 +39,7 @@ export const FLOOR_KINDS: readonly { id: FloorKind; label: string; one: string }
     { id: "resource", label: "Resources", one: "Resource" },
     { id: "activity", label: "Activities", one: "Activity" },
     { id: "partner", label: "Partners", one: "Partner" },
-    { id: "provider", label: "Providers", one: "Provider" },
+    { id: "provider", label: "Suppliers", one: "Supplier" },
     { id: "founder", label: "Founders", one: "Founder" },
     { id: "legal", label: "Legal expenses", one: "Legal expense" }
 ];
@@ -46,8 +48,8 @@ export const FLOOR_KINDS: readonly { id: FloorKind; label: string; one: string }
 export interface FloorLink {
     id: string;
     name: string;
-    /** "activity", "investigation" (an activity that investigates), "partner" or "provider". */
-    type: "activity" | "investigation" | "partner" | "provider" | "resource";
+    /** "activity", "investigation" (an activity that investigates), "partner" or "provider"; the Legal Entity's "expense" and "registration" (what an expense is for). */
+    type: "activity" | "investigation" | "partner" | "provider" | "resource" | "expense" | "registration";
 }
 
 /** The colour a tile keeps from the section it stands in on the page. */
@@ -70,10 +72,22 @@ export interface FloorRow {
     deposit?: number | null;
     /** The code of the currency the amount is in; "" is the organisation's own. */
     currency?: string;
+    /** Its cost nature and behaviour as the Financial Foundation works them out (the Inventory's table); "" for none. */
+    nature?: string;
+    behaviour?: string;
     /** What the card lacks, when it is incomplete (CardCompleteness.ts); it is then counted nowhere. */
     missing?: readonly string[];
     links: FloorLink[];
+    /** Its dates, the first line of its tile ("01/10/2026 - 05/11/2026"), and its warranty ("Warranty until 05/11/2028"). */
+    dates?: string;
+    warranty?: string;
 }
+
+/** An ISO day in the form the date boxes show (the reader's own). */
+const dayText = (iso: string) => isoToDisplay(iso, PreferencesService.getDateFormat()) || iso;
+/** A card's dates: both days, or -- with no End date -- the Start date, saying "From" only where the cost runs on a schedule (monthly, quarterly, annually). */
+const periodLine = (start: string, end: string, scheduled = false) => start && end ? dayText(start) + " - " + dayText(end) : start ? (scheduled ? "From " : "") + dayText(start) : end ? "Until " + dayText(end) : "";
+const SCHEDULED = new Set(["monthly", "quarterly", "annually"]);
 
 const INFRASTRUCTURE = "Infrastructure";
 const OFFERING = "Offering's Capability";
@@ -156,26 +170,57 @@ export function floorRows(
     ];
 
     const slotNames = new Map<string, string>(resources.map(({ slot }) => [slot.id, slot.name.trim() || "Unnamed Resource"]));
-    workspacesOf(capability).forEach((workspace, index) => slotNames.set(workspace.id, workspaceCardName(index)));
+    workspacesOf(capability).forEach((workspace, index) => slotNames.set(workspace.id, workspace.name.trim() || workspaceCardName(index)));
 
     // THE CIRCLES (one per link, the colour of what is at the other end): purple an Activity, green a Partner, blue a Provider, grey a Resource (what a
     // card uses an activity for, what a partner or provider supplies).
     const usedBy = new Map<string, FloorLink[]>();
+    const addTo = (list: FloorLink[], link: FloorLink) => {
+        if (!list.some(entry => entry.id === link.id)) {
+            list.push(link);
+        }
+    };
     const noteUse = (slot: BusinessResourceSlotValue, name: string) => chosenBy(slot).forEach(activity => {
-        usedBy.set(activity.id, [...(usedBy.get(activity.id) ?? []), { id: slot.id, name, type: "resource" }]);
+        const list = usedBy.get(activity.id) ?? [];
+        addTo(list, { id: slot.id, name, type: "resource" });
+        usedBy.set(activity.id, list);
     });
     resources.forEach(({ slot }) => noteUse(slot, slot.name.trim() || "Unnamed Resource"));
     const spaces = (capability.resources[WORKSPACE_GROUP_ID] ?? []).flatMap(subsection => subsection.slots);
     spaces.forEach(slot => noteUse(slot, slot.name.trim() || "Unnamed Resource"));
+    // ... and the resources an activity lists in its own Resources rows: the same connection, from the activity's side.
+    const listedBy = new Map<string, FloorLink[]>();
+    activities.forEach(({ activity }) => activity.resources.forEach(entry => {
+        const name = slotNames.get(entry.id);
+        if (name === undefined) {
+            return;
+        }
+        const list = usedBy.get(activity.id) ?? [];
+        addTo(list, { id: entry.id, name, type: "resource" });
+        usedBy.set(activity.id, list);
+        const back = listedBy.get(entry.id) ?? [];
+        addTo(back, { id: activity.id, name: activity.name.trim() || "Unnamed Activity", type: "activity" });
+        listedBy.set(entry.id, back);
+    }));
+
+    /** The partners and suppliers a card names: by its status, and by each further status row. */
+    const suppliersOf = (slot: BusinessResourceSlotValue): string[] => [...new Set([
+        usesSupplier(slot.status) ? slot.providerId : "",
+        ...(slot.extraStatuses ?? []).filter(row => row.status === "partners-suppliers").map(row => row.providerId)
+    ].filter(id => id.length > 0 && partners.has(id)))];
 
     resources.forEach(({ slot, path, groupId }) => {
         const links: FloorLink[] = [];
-        chosenBy(slot).forEach(made => links.push({ id: made.id, name: made.name.trim() || "Unnamed Activity", type: "activity" }));
-        const partner = usesSupplier(slot.status) && slot.providerId ? partners.get(slot.providerId) : undefined;
-        if (partner) {
+        chosenBy(slot).forEach(made => addTo(links, { id: made.id, name: made.name.trim() || "Unnamed Activity", type: "activity" }));
+        (listedBy.get(slot.id) ?? []).forEach(link => addTo(links, link));
+        // (The partner or supplier of its status, and of every further status row that names one.)
+        suppliersOf(slot).forEach(id => {
+            const partner = partners.get(id)!;
             links.push({ id: partner.partner.id, name: partner.partner.name.trim() || "Unnamed", type: partner.kind });
-        }
+        });
         rows.push({
+            dates: periodLine(slot.startDate, slot.endDate, SCHEDULED.has(slot.cost.frequency) && isCostingStatus(slot.status)),
+            warranty: slot.warranty ? (slot.warrantyUntil ? "Warranty until " + dayText(slot.warrantyUntil) : "Warranty") : "",
             id: slot.id, kind: "resource", name: slot.name.trim() || "Unnamed Resource", path,
             status: slot.status, statusLabel: statusLabel(slot.status),
             ...(isCostingStatus(slot.status) ? cost(slot.cost, slot.quantity, isPurchaseGroup(groupId)) : { frequency: "", frequencyLabel: "", amount: null }),
@@ -194,6 +239,7 @@ export function floorRows(
         });
         rows.push({
             id: activity.id, kind: "activity", name: activity.name.trim() || "Unnamed Activity", path,
+            dates: periodLine(activity.startDate, activity.endDate),
             status: activity.completed ? "completed" : "", statusLabel: activity.completed ? "Completed" : "",
             frequency: "", frequencyLabel: "", amount: null, links
         });
@@ -201,9 +247,9 @@ export function floorRows(
 
     const supplied = new Map<string, FloorLink[]>();
     resources.forEach(({ slot }) => {
-        if (slot.providerId && partners.has(slot.providerId) && usesSupplier(slot.status)) {
-            supplied.set(slot.providerId, [...(supplied.get(slot.providerId) ?? []), { id: slot.id, name: slot.name.trim() || "Unnamed Resource", type: "resource" }]);
-        }
+        suppliersOf(slot).forEach(id => {
+            supplied.set(id, [...(supplied.get(id) ?? []), { id: slot.id, name: slot.name.trim() || "Unnamed Resource", type: "resource" }]);
+        });
     });
     // ... and the activities a partner or provider performs: the other end of the activity's own link to it.
     activities.forEach(({ activity }) => activity.performerIds.forEach(id => {
@@ -218,7 +264,7 @@ export function floorRows(
     // The Workspace provided by a Partner or Provider supplies it too.
     workspacesOf(capability).forEach((workspace, index) => {
         if (workspace.providerId && partners.has(workspace.providerId) && workspace.status === "rent") {
-            supplied.set(workspace.providerId, [...(supplied.get(workspace.providerId) ?? []), { id: workspace.id, name: workspaceCardName(index), type: "resource" }]);
+            supplied.set(workspace.providerId, [...(supplied.get(workspace.providerId) ?? []), { id: workspace.id, name: workspace.name.trim() || workspaceCardName(index), type: "resource" }]);
         }
     });
     partnerLists.forEach(([list, section]) => list.forEach(partner => {
@@ -234,7 +280,7 @@ export function floorRows(
                     ? [BUSINESS_PARTNER_GROUPS[section === OFFERING ? "offering" : "infrastructure"][partner.category].find(entry => entry.id === partner.group)?.label ?? "No group"]
                     : [])
             ],
-            status: "", statusLabel: "", ...cost(partner.cost), links: supplied.get(partner.id) ?? []
+            status: "", statusLabel: "", ...cost(partner.cost, partner.cost.frequency === "per-unit" ? partner.quantity : "", partner.cost.frequency === "per-unit"), links: supplied.get(partner.id) ?? []
         });
     }));
 
@@ -296,13 +342,23 @@ export function belongsLines(row: FloorRow): string[] {
 
 /** The lines a tile of the overlay lists under its name: where it belongs, then its status and its cost, the information alone. */
 export function tileLines(row: FloorRow, format: (amount: number) => string = String): string[] {
-    const cost = row.amount === null ? "" : [format(row.amount), row.frequencyLabel.toLowerCase()].filter(Boolean).join(" ");
+    // (The price in bold; where there is one, "Costs" is said by it and not written.)
+    const cost = row.amount === null ? "" : ["**" + format(row.amount) + "**", row.frequencyLabel.toLowerCase()].filter(Boolean).join(" ");
     return [
+        ...(row.dates ? [row.dates] : []),
         ...belongsLines(row),
-        ...(row.statusLabel ? [row.statusLabel] : []),
+        ...(row.statusLabel && !(cost && /^costs?$/i.test(row.statusLabel.trim())) ? [row.statusLabel] : []),
+        ...(row.warranty ? [row.warranty] : []),
         ...(cost ? [cost] : []),
         ...(row.deposit ? [format(row.deposit) + " deposit"] : [])
     ];
+}
+
+/** The marks of a tile's lines: where it belongs is plain information (no bullets); what follows it (status, dates, warranty, cost) keeps its bullet. */
+export function tileMarks(row: FloorRow, lines: readonly string[]): ({ plain: true } | { bullet: true })[] {
+    // (The dates come first, then where it belongs: plain lines; the rest keeps its bullets.)
+    const plain = (row.dates ? 1 : 0) + belongsLines(row).length;
+    return lines.map((_line, at) => at < plain ? { plain: true } : { bullet: true });
 }
 
 export const FLOOR_SORTS: readonly { id: string; label: string }[] = [
@@ -374,7 +430,7 @@ export const placeOf = (row: FloorRow): "legal" | "infrastructure" | "offering" 
 /** The ONE group of its place a row belongs to (the group the page names: Utilities, Resources, Partners ...; a legal expense's is "Expenses"). */
 export const groupOf = (row: FloorRow) => row.tone === "legal" ? (row.path[2] ?? row.path[1] ?? "") : (row.path[1] ?? "");
 
-/** The TYPES a place can be filtered by, directly under the places: the Founders, then Resources, Activities, Partners & Providers, and the Channel's cards. */
+/** The TYPES a place can be filtered by, directly under the places: the Founders, then Resources, Activities, Partners & Suppliers, and the Channel's cards. */
 export type FloorType = FloorKind | "channel";
 export const PLACE_KINDS: readonly FloorType[] = ["founder", "resource", "activity", "partner", "provider", "channel"];
 

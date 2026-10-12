@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useEffect, useRef, useState } from "react";
+import { createContext, CSSProperties, ReactNode, useContext, useEffect, useRef, useState } from "react";
 
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
@@ -8,8 +8,6 @@ import { drawnTitle } from "./SectionTiles.tsx";
 import CardNumber from "./CardNumber.tsx";
 import CardNameInput from "./CardNameInput.tsx";
 import { UndoService } from "../../services/UndoService";
-import { PreferencesService } from "../../services/PreferencesService.ts";
-import { isoToDisplay } from "./DateCellInput.tsx";
 
 import "../../styles/card-folding.css";
 
@@ -38,6 +36,64 @@ import "../../styles/card-folding.css";
 /* ---------------------------------------------------------------
    Labels and fields
 --------------------------------------------------------------- */
+
+/**
+ * WHAT AN INCOMPLETE CARD LACKS, for the cells to show it (CardCompleteness.ts). The page gives the whole map (card id -> what it lacks); a card takes its own
+ * entry and gives it to its fields, and a field that is one of those flashes the red of the card's tile and says why, in a short line under it.
+ */
+export const MissingMapContext = createContext<ReadonlyMap<string, readonly string[]>>(new Map());
+const NO_MISSING: readonly string[] = [];
+export const MissingFieldsContext = createContext<readonly string[]>([]);
+
+/**
+ * A card just made (it still lacks its Name when it opens) is quiet while it is open: nothing flashes at someone who is only starting it. It shows what it lacks
+ * the next time it is opened.
+ */
+export function MissingScope({ lacking, children }: { lacking: readonly string[]; children: (shown: readonly string[]) => ReactNode }) {
+    const [quiet] = useState(() => lacking.includes("Name"));
+    const shown = quiet ? NO_MISSING : lacking;
+    return <MissingFieldsContext.Provider value={shown}>{children(shown)}</MissingFieldsContext.Provider>;
+}
+
+/** The labels of the cells each thing a card can lack stands for (the lower-cased start of the field's label). */
+const MISSING_LABELS: Record<string, readonly string[]> = {
+    "Start date": ["start date"],
+    "Status": ["status"],
+    "Activity": ["activity"],
+    "Partner or Supplier": ["name"],
+    "Rent": ["rent"],
+    "Cost option": ["cost option"],
+    "Amortisation period": ["amortisation"],
+    "Price": ["price"],
+    "Payment Frequency": ["frequency"],
+    "Payment Plan": ["payment plan"],
+    "Category": ["category", "group"],
+    "Group": ["group"],
+    "Performer": ["performer"],
+    "Responsible": ["responsible"],
+    "Linked Offerings": ["linked to"],
+    "Offering shares": ["linked to"],
+    "Salary": ["salary"],
+    "Working Hours": ["working hrs"],
+    "Delivery Hours": ["delivery hrs"]
+};
+
+/** What a missing cell says under it. */
+const MISSING_WORDS: Record<string, string> = {
+    "Payment Plan": "The payments must total 100%, each with a date.",
+    "Offering shares": "The shares must total 100%, or every Offering needs its units.",
+    "Linked Offerings": "Link at least one Offering.",
+    "Category": "Pick a Group so the card knows where it belongs."
+};
+
+/** The thing the card lacks that a field of this label stands for, or "" when it is none. */
+export function missingFor(lacking: readonly string[], label: string): string {
+    const text = label.trim().toLowerCase();
+    return lacking.find(item => (MISSING_LABELS[item] ?? []).some(start => text.startsWith(start))) ?? "";
+}
+
+/** The words under a missing cell. */
+export const missingWords = (item: string) => MISSING_WORDS[item] ?? "Required: this card is not counted until it is given.";
 
 /** The tick box next to a BusinessField's label (see BusinessField's `tick`). */
 export interface BusinessFieldTick {
@@ -102,8 +158,11 @@ export function BusinessField({
 
 }) {
 
+    const lacking = useContext(MissingFieldsContext);
+    const lacks = lacking.length > 0 ? missingFor(lacking, label) : "";
+
     return (
-        <div className={"business-foundation-field" + (inline ? " business-field-inline" : "") + (side ? " business-field-side" : "") + (className ? " " + className : "")}>
+        <div className={"business-foundation-field" + (inline ? " business-field-inline" : "") + (side ? " business-field-side" : "") + (lacks ? " business-field-missing" : "") + (className ? " " + className : "")}>
 
             {tick
                 ? (
@@ -363,6 +422,8 @@ export function OptionalField({
 
     fieldId,
 
+    inline = false,
+
     children
 
 }: {
@@ -371,6 +432,8 @@ export function OptionalField({
     info?: InfoPoint[];
     /** The field's key where its label was renamed (FieldKeys.ts). */
     fieldId?: string;
+    /** The control beside the label (on the same line, in the next column) rather than under it. */
+    inline?: boolean;
     /** Whether the field holds anything: it then loads ticked. */
     filled: boolean;
     /** Empties the field (as it is unticked). */
@@ -401,7 +464,7 @@ export function OptionalField({
     }
 
     return (
-        <div className="business-foundation-field optional-field" data-field-kind="optional">
+        <div className={"business-foundation-field optional-field" + (inline ? " optional-field-inline" : "")} data-field-kind="optional">
 
             {/*
                 The tick and its name are one label, so the name is
@@ -463,9 +526,7 @@ export function OptionalNote({
 
     disabled = false,
 
-    fieldId,
-
-    recorded
+    fieldId
 
 }: {
 
@@ -479,12 +540,6 @@ export function OptionalNote({
     placeholder?: string;
     className?: string;
     disabled?: boolean;
-    /**
-     * A DATED NOTE: when the note was first written ("YYYY-MM-DDTHH:mm"; "" before). Given, the note shows that moment as read-only text under the box,
-     * and an "Add Date" button adds today's date to the text. The one who owns the value stamps it (see noteStamped) in the same write as the text.
-     */
-    recorded?: string;
-
 }) {
 
     return (
@@ -497,50 +552,9 @@ export function OptionalNote({
                 value={value}
                 onChange={onChange}
             />
-            {recorded !== undefined && (
-                <div className="business-note-stamp">
-                    {recorded !== "" && (
-                        <span className="business-note-recorded">{"Recorded " + noteMomentText(recorded)}</span>
-                    )}
-                    <BusinessAddButton
-                        label="Date"
-                        disabled={disabled}
-                        onAdd={() => onChange(value + (value === "" || value.endsWith("\n") ? "" : "\n") + todayText() + " ")}
-                    />
-                </div>
-            )}
         </OptionalField>
     );
 
-}
-
-/** The moment a note is recorded, now: "YYYY-MM-DDTHH:mm" in local time. */
-export function noteNow(now = new Date()): string {
-    const two = (n: number) => String(n).padStart(2, "0");
-    return now.getFullYear() + "-" + two(now.getMonth() + 1) + "-" + two(now.getDate()) + "T" + two(now.getHours()) + ":" + two(now.getMinutes());
-}
-
-/**
- * The record stamp of a note after an edit: a note that was empty and now holds text is stamped now; one that already has a stamp keeps it; one emptied
- * loses it. (Written in the same patch as the text.)
- */
-export function noteStamped(previous: string, next: string, recorded: string, now = new Date()): string {
-    if (next.trim() === "") {
-        return "";
-    }
-    // (A note written before the stamp existed keeps none: a moment is never made up.)
-    return previous.trim() === "" ? noteNow(now) : recorded;
-}
-
-/** A recorded moment as the app writes dates (the user's presentation) and the hour: "12/03/2027 14:05". */
-function noteMomentText(recorded: string): string {
-    const [date, time] = recorded.split("T");
-    return isoToDisplay(date, PreferencesService.getDateFormat()) + " " + time;
-}
-
-/** Today, written as the app writes dates. */
-function todayText(now = new Date()): string {
-    return isoToDisplay(noteNow(now).split("T")[0], PreferencesService.getDateFormat());
 }
 
 /**
@@ -590,7 +604,9 @@ export function BusinessTicks({
 
     onChange,
 
-    disabled = false
+    disabled = false,
+
+    trailing
 
 }: {
 
@@ -600,12 +616,18 @@ export function BusinessTicks({
     chosen: readonly string[];
     onChange: (next: string[]) => void;
     disabled?: boolean;
+    /** A control at the end of an option's row (by option id): the share each Offering carries, in the x's column. Only the options given one are rows. */
+    trailing?: Readonly<Record<string, ReactNode>>;
 
 }) {
 
+    const row = (option: BusinessTickOption, label: ReactNode) => trailing && trailing[option.id] !== undefined
+        ? <div className="business-tick-row" key={option.id}>{label}{trailing[option.id]}</div>
+        : label;
+
     return (
         <>
-            {options.map(option => (
+            {options.map(option => row(option, (
 
                 <label className={"business-foundation-tick" + (option.indent ? " business-foundation-tick-indented" : "")} key={option.id}>
 
@@ -660,7 +682,7 @@ export function BusinessTicks({
 
                 </label>
 
-            ))}
+            )))}
         </>
     );
 
@@ -981,17 +1003,22 @@ export function BusinessCard({
 
     const who = (ariaPrefix ? ariaPrefix + ", " : "") + kind + " " + number;
 
+    // What this card lacks (its fields flash for it); a founder's anchor is "founder-" and its id.
+    const stored = useContext(MissingMapContext).get((anchor ?? "").replace(/^founder-/, "")) ?? NO_MISSING;
+
     /* Folded, a card is read rather than edited: its name is text,
        as the Founder card's always is, and becomes a box once the
        card is opened. A card that cannot fold keeps its box. */
     const editable = onName !== undefined && (open || !onToggle);
 
     return (
+        <MissingScope lacking={stored}>{(lacking) => (
         <div
             className={
                 "business-foundation-card" + (className ? " " + className : "")
             }
             data-anchor={anchor}
+            data-lacks={lacking.length > 0 ? "|" + lacking.join("|") + "|" : undefined}
             style={style}
         >
 
@@ -999,7 +1026,7 @@ export function BusinessCard({
                 shares (.fold-card-head): arrow, number, name, remove,
                 and the folded summary on a row of its own under the
                 name. */}
-            <div className={"strategy-box-head" + (onToggle ? " fold-card-head fold-card-fixed" : "") + (fixedFolded && !open ? " fold-card-head-fixed" : "")}>
+            <div className={"strategy-box-head" + (onToggle || headRow ? " fold-card-head fold-card-fixed" : "") + (fixedFolded && !open ? " fold-card-head-fixed" : "")}>
 
                 {onToggle && (
                     <FoldArrow open={open} label={who} onToggle={onToggle} />
@@ -1066,6 +1093,7 @@ export function BusinessCard({
             {open && children}
 
         </div>
+        )}</MissingScope>
     );
 
 }

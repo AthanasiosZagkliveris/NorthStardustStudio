@@ -10,7 +10,7 @@
 
 **Structure:** Free Text
 
-**Attitude & Body Language**
+**Body Language**
 
 **Structure:** Free Text
 
@@ -25,11 +25,5 @@
 ## 02. Style
 
 **Structure:** Brand Style
-
-**Numbering:** Nested
-
-## 03. Inventory
-
-**Structure:** Brand Inventory
 
 **Numbering:** Nested

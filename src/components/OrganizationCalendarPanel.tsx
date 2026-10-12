@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 
 import { CalendarTaskAnnotation, OrganizationService } from "../services/OrganizationService";
+import { NotepadService } from "../services/NotepadService";
 import { CalendarTask, getCalendarTasks } from "../services/CalendarTaskService";
 import { DateFormat, PreferencesService } from "../services/PreferencesService.ts";
 import { isoToDisplay } from "./interview/DateCellInput.tsx";
 import NotesField from "./interview/NotesField.tsx";
+import CalendarFunnel, { CALENDAR_INCLUDES } from "./CalendarFunnel.tsx";
+import { CARD_DATE_KINDS, type CardDateKind } from "../framework/engine/CalendarCardDates.ts";
+import { type CalendarPeriod, loadCustomPeriods, presetPeriods, saveCustomPeriods } from "../services/CalendarPeriods.ts";
 
 import { Capability } from "../types/capability";
 import { FrameworkSystem } from "../types/system";
@@ -264,24 +268,6 @@ export default function OrganizationCalendarPanel({
      */
     const [timeConfirmPrompt, setTimeConfirmPrompt] = useState<{ time: string; siblingTaskIds: string[]; howOften: string } | null>(null);
 
-    // The Calendar flyout's own title reads "{Organization name}
-    // Calendar" rather than the generic "Organization Calendar" --
-    // re-read whenever `organizationId` changes (switching
-    // Organizations, or a rename elsewhere finishing before this
-    // panel next mounts fresh for that Organization).
-    const [organizationName, setOrganizationName] = useState<string>("");
-
-    useEffect(() => {
-
-        if (!organizationId) {
-            setOrganizationName("");
-            return;
-        }
-
-        setOrganizationName(OrganizationService.getSummary(organizationId)?.name ?? "");
-
-    }, [organizationId]);
-
     // While the "apply to every occurrence?" dialog is open, none of
     // the rail's usual close triggers (mouse leaving, focus leaving,
     // clicking outside) should fire -- same reasoning as the existing
@@ -399,6 +385,18 @@ export default function OrganizationCalendarPanel({
     const [viewMonth, setViewMonth] = useState(() => Number(today.slice(5, 7)) - 1);
 
     const [selectedDate, setSelectedDate] = useState<string | null>(null);
+
+    // THE FUNNEL: the period listed (none: the month grid alone), the periods the user made, and the kinds of card date shown (the recommended ones to begin with).
+    const [periodId, setPeriodId] = useState<string | null>(null);
+    const [customPeriods, setCustomPeriods] = useState<CalendarPeriod[]>([]);
+    const [kinds, setKinds] = useState<ReadonlySet<CardDateKind>>(() => new Set(CARD_DATE_KINDS.filter(kind => kind.recommended).map(kind => kind.id)));
+    // Which cards the dates are included from (all to begin with).
+    const [includes, setIncludes] = useState<ReadonlySet<string>>(() => new Set(CALENDAR_INCLUDES.map(entry => entry.id)));
+    // A note (a time and words) is made only when the user asks for one, on a new date or one already recorded.
+    const [notesOpen, setNotesOpen] = useState<ReadonlySet<string>>(new Set());
+    useEffect(() => {
+        setCustomPeriods(organizationId ? loadCustomPeriods(organizationId) : []);
+    }, [organizationId]);
 
     const [dateFormat, setDateFormat] = useState<DateFormat>(PreferencesService.getDateFormat());
 
@@ -558,7 +556,24 @@ export default function OrganizationCalendarPanel({
         cells.push(null);
     }
 
-    const selectedDateTasks = selectedDate ? tasksOnDate(tasks, selectedDate) : [];
+    // (Card dates of a kind the funnel leaves out are not shown; every other task always is.)
+    const shown = tasks.filter(task => !task.kind || (kinds.has(task.kind) && CALENDAR_INCLUDES.some(entry => includes.has(entry.id) && (!task.noun || entry.nouns.includes(task.noun)) && (task.noun !== undefined))));
+    const periods = [...presetPeriods(today), ...customPeriods];
+    const period = periods.find(candidate => candidate.id === periodId) ?? null;
+    const periodTasks = period
+        ? shown.filter(task => task.date >= period.from && task.date <= period.to).sort((one, other) => one.date.localeCompare(other.date) || one.description.localeCompare(other.description))
+        : [];
+
+    function choosePeriod(id: string | null) {
+        setPeriodId(id);
+        const chosen = periods.find(candidate => candidate.id === id);
+        if (chosen) {
+            setViewYear(Number(chosen.from.slice(0, 4)));
+            setViewMonth(Number(chosen.from.slice(5, 7)) - 1);
+        }
+    }
+
+    const selectedDateTasks = selectedDate ? tasksOnDate(shown, selectedDate) : [];
 
     const orderedSystems = [...systems].sort((a, b) => a.number - b.number);
 
@@ -580,29 +595,6 @@ export default function OrganizationCalendarPanel({
             {activeTab === "calendar" && (
 
                 <>
-
-                    <div className="org-calendar-header">
-
-                        {/*
-                            Deliberately a <div>, not an <h2> --
-                            this panel is always mounted (just
-                            visually collapsed via `overflow:
-                            hidden` on its container until
-                            hovered, see organization-calendar.
-                            css), so a real heading element here
-                            would sit in the page's heading
-                            order even while closed, competing
-                            with each interview page's own
-                            "N. Section Title" <h2> for anyone
-                            navigating by heading (assistive
-                            tech, or any test/tool that greps
-                            the page's first <h2>).
-                        */}
-                        <div className="org-calendar-title">
-                            {organizationName ? `${organizationName} Calendar` : "Organization Calendar"}
-                        </div>
-
-                    </div>
 
                     {/*
                         The single, app-wide date-presentation
@@ -642,6 +634,33 @@ export default function OrganizationCalendarPanel({
                         </div>
 
                     </div>
+
+                    <CalendarFunnel
+                        periods={periods}
+                        periodId={periodId}
+                        onPeriod={choosePeriod}
+                        onAddPeriod={(made) => {
+                            const next = [...customPeriods, made];
+                            setCustomPeriods(next);
+                            if (organizationId) {
+                                saveCustomPeriods(organizationId, next);
+                            }
+                        }}
+                        onRemovePeriod={(id) => {
+                            const next = customPeriods.filter(candidate => candidate.id !== id);
+                            setCustomPeriods(next);
+                            if (periodId === id) {
+                                setPeriodId(null);
+                            }
+                            if (organizationId) {
+                                saveCustomPeriods(organizationId, next);
+                            }
+                        }}
+                        kinds={kinds}
+                        onKinds={setKinds}
+                        includes={includes}
+                        onIncludes={setIncludes}
+                    />
 
                     <div className="org-calendar-month-nav">
 
@@ -683,7 +702,7 @@ export default function OrganizationCalendarPanel({
                                 return <div key={`blank-${index}`} className="org-calendar-day org-calendar-day-blank" />;
                             }
 
-                            const dayTasks = tasksOnDate(tasks, cell.iso);
+                            const dayTasks = tasksOnDate(shown, cell.iso);
                             const visibleDots = dayTasks.slice(0, MAX_VISIBLE_DOTS);
                             const overflowCount = dayTasks.length - visibleDots.length;
 
@@ -730,53 +749,111 @@ export default function OrganizationCalendarPanel({
 
                     </div>
 
+                    {period && (
+
+                        <div className="org-calendar-agenda">
+
+                            <h3 className="org-calendar-selected-title">
+                                {period.label}
+                                <span className="org-calendar-agenda-range">
+                                    {period.from === period.to ? isoToDisplay(period.from, dateFormat) : isoToDisplay(period.from, dateFormat) + " - " + isoToDisplay(period.to, dateFormat)}
+                                </span>
+                            </h3>
+
+                            {periodTasks.length === 0 && (
+                                <p className="org-calendar-selected-empty">Nothing in this period.</p>
+                            )}
+
+                            {periodTasks.map(task => (
+                                <div key={task.taskId} className="org-calendar-agenda-row" style={{ "--capability-color": task.color } as React.CSSProperties}>
+                                    <span className="org-calendar-agenda-date">{isoToDisplay(task.date, dateFormat)}</span>
+                                    {task.label && <span className="org-calendar-task-kind">{task.label}</span>}
+                                    {task.noteId
+                                        ? <button type="button" className="org-calendar-task-link" onClick={() => NotepadService.open([task.noteId as string])}>{task.name}</button>
+                                        : onOpenTask
+                                            ? <button type="button" className="org-calendar-task-link" title={task.originLabel + " " + task.sectionTitle} onClick={() => onOpenTask(task.systemNumber, task.sectionNumber)}>{task.name ?? task.description}</button>
+                                            : <span className="org-calendar-agenda-text">{task.name ?? task.description}</span>}
+                                </div>
+                            ))}
+
+                        </div>
+
+                    )}
+
                     {selectedDate && (
 
                         <div className="org-calendar-selected">
 
                             <h3 className="org-calendar-selected-title">
                                 {isoToDisplay(selectedDate, dateFormat)}
+                                {selectedDateTasks.length > 0 && (
+                                    <button
+                                        type="button"
+                                        className="org-calendar-chip org-calendar-expand"
+                                        onClick={() => setNotesOpen(current => selectedDateTasks.every(task => current.has(task.taskId))
+                                            ? new Set([...current].filter(id => !selectedDateTasks.some(task => task.taskId === id)))
+                                            : new Set([...current, ...selectedDateTasks.map(task => task.taskId)]))}
+                                    >
+                                        {selectedDateTasks.every(task => notesOpen.has(task.taskId)) ? "Collapse all" : "Expand all"}
+                                    </button>
+                                )}
                             </h3>
 
                             {selectedDateTasks.length === 0 && (
                                 <p className="org-calendar-selected-empty">Nothing on this date.</p>
                             )}
 
-                            {selectedDateTasks.map(task => {
+                            {[...selectedDateTasks].sort((one, other) => (annotations[one.taskId]?.time ?? "99:99").localeCompare(annotations[other.taskId]?.time ?? "99:99")).map(task => {
 
                                 const annotation = annotations[task.taskId] ?? {};
+                                const hasNote = !!(annotation.time || annotation.notes);
+                                const noteShown = hasNote || notesOpen.has(task.taskId);
 
                                 return (
 
-                                    <div key={task.taskId} className="org-calendar-task">
+                                    <div key={task.taskId} className="org-calendar-task" style={{ "--capability-color": task.color } as React.CSSProperties}>
 
-                                        <div className="org-calendar-task-header">
+                                        {/* What the date is (Start, End ...) and the card's name, a link to its page; a note is added from the button that shows on hovering. */}
+                                        <div className="org-calendar-task-line">
 
-                                            <span
-                                                className="org-calendar-task-origin"
-                                                style={{ "--capability-color": task.color } as React.CSSProperties}
-                                            >
-                                                {task.originLabel} {task.sectionTitle}
-                                            </span>
+                                            {task.label && <span className="org-calendar-task-kind">{task.label}</span>}
 
-                                            {onOpenTask && (
+                                            {task.noteId
+                                                ? (
+                                                    <button
+                                                        type="button"
+                                                        className="org-calendar-task-link"
+                                                        onClick={() => NotepadService.open([task.noteId as string])}
+                                                    >
+                                                        {task.name}
+                                                    </button>
+                                                )
+                                                : onOpenTask
+                                                ? (
+                                                    <button
+                                                        type="button"
+                                                        className="org-calendar-task-link"
+                                                        title={task.originLabel + " " + task.sectionTitle}
+                                                        onClick={() => onOpenTask(task.systemNumber, task.sectionNumber)}
+                                                    >
+                                                        {task.name ?? task.description}
+                                                    </button>
+                                                )
+                                                : <span>{task.name ?? task.description}</span>}
 
+                                            {!noteShown && (
                                                 <button
                                                     type="button"
-                                                    className="org-calendar-task-open"
-                                                    onClick={() => onOpenTask(task.systemNumber, task.sectionNumber)}
+                                                    className="org-calendar-chip org-calendar-task-add"
+                                                    onClick={() => setNotesOpen(current => new Set(current).add(task.taskId))}
                                                 >
-                                                    Open →
+                                                    Add Note
                                                 </button>
-
                                             )}
 
                                         </div>
 
-                                        <div className="org-calendar-task-description">
-                                            {task.description}
-                                        </div>
-
+                                        {noteShown && (
                                         <div className="org-calendar-task-annotation">
 
                                             <label className="org-calendar-task-annotation-time">
@@ -792,7 +869,7 @@ export default function OrganizationCalendarPanel({
                                             </label>
 
                                             <label className="org-calendar-task-annotation-notes">
-                                                <span>Notes</span>
+                                                <span>Note</span>
                                                 <NotesField
                                                     value={annotation.notes ?? ""}
                                                     onChange={(next) =>
@@ -802,6 +879,7 @@ export default function OrganizationCalendarPanel({
                                             </label>
 
                                         </div>
+                                        )}
 
                                     </div>
 

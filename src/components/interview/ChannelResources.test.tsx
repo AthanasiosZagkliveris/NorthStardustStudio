@@ -15,14 +15,27 @@ afterEach(() => {
 
 let saved: { engagement: BusinessEngagementValue; capability: BusinessCapabilityValue };
 
-function Harness({ onIsolate, onOpenAction }: { onIsolate?: (next: unknown) => void; onOpenAction?: (actionId: string) => void } = {}) {
+/** The one "+ Add expense" button opens a menu (if it is not open): a blank expense, all typical costs, one of them, or a card to link. */
+function openMenu(channel: string) {
+    const button = screen.getByRole("button", { name: "Add expense to " + channel });
+    if (button.getAttribute("aria-expanded") !== "true") {
+        fireEvent.click(button);
+    }
+}
+
+function addBlank(channel: string) {
+    openMenu(channel);
+    fireEvent.click(screen.getByRole("button", { name: "Blank expense for " + channel }));
+}
+
+function Harness({ onIsolate, onOpenAction, category = "Social Media" }: { onIsolate?: (next: unknown) => void; onOpenAction?: (actionId: string) => void; category?: string } = {}) {
     const [engagement, setEngagement] = useState(() => asBusinessEngagementValue({
         segments: [{
             segmentId: "seg-1",
             actions: [{ id: "action-reels", text: "Post reels" }, { id: "action-pins", text: "Pin room sets" }],
             channels: [
-                { id: "insta", category: "Social Media", name: "Instagram", stages: ["discovery"], offerings: ["*"], actionIds: { discovery: ["action-reels"] } },
-                { id: "pin", category: "Social Media", name: "Pinterest", stages: ["discovery"], actionIds: { discovery: ["action-reels", "action-pins"] } }
+                { id: "insta", category, name: "Instagram", stages: ["discovery"], offerings: ["*"], actionIds: { discovery: ["action-reels"] } },
+                { id: "pin", category, name: "Pinterest", stages: ["discovery"], actionIds: { discovery: ["action-reels", "action-pins"] } }
             ]
         }]
     }));
@@ -68,7 +81,7 @@ describe("a channel's resources, in its cell", () => {
 
     it("adds a resource: a BLANK card is made in Offering's Capability, linked to the channel, named in both places at once", () => {
         render(<Harness />);
-        fireEvent.click(screen.getByRole("button", { name: "Add expenses for Channel 1" }));
+        addBlank("Channel 1");
         const name = screen.getByLabelText("Resource 1 of Channel 1 name");
         fireEvent.change(name, { target: { value: "Meta ads" } });
         const slot = saved.capability.offering.resources[0];
@@ -81,7 +94,7 @@ describe("a channel's resources, in its cell", () => {
 
     it("links an action by \"#\", shows it as a chip, and serves the other channel through it", () => {
         render(<Harness />);
-        fireEvent.click(screen.getByRole("button", { name: "Add expenses for Channel 1" }));
+        addBlank("Channel 1");
         fireEvent.click(screen.getByRole("button", { name: "Link an action to Resource 1 of Channel 1" }));
         const box = screen.getByLabelText(/^Action for Resource 1 of Channel 1/);
         fireEvent.change(box, { target: { value: "#reels" } });
@@ -104,7 +117,7 @@ describe("a channel's resources, in its cell", () => {
     it("\"shared action\" is a link that goes to the action's line; one link per action (#N) when the card is shared through several", () => {
         const opened: string[] = [];
         render(<Harness onOpenAction={(id) => opened.push(id)} />);
-        fireEvent.click(screen.getByRole("button", { name: "Add expenses for Channel 1" }));
+        addBlank("Channel 1");
         const link = (typed: string) => {
             fireEvent.click(screen.getByRole("button", { name: "Link an action to Resource 1 of Channel 1" }));
             const box = screen.getByLabelText(/^Action for Resource 1 of Channel 1/);
@@ -127,7 +140,7 @@ describe("a channel's resources, in its cell", () => {
 
     it("finds an action of ANOTHER channel of the table by its number or words, and links it (the card then shows in that channel too)", () => {
         render(<Harness />);
-        fireEvent.click(screen.getByRole("button", { name: "Add expenses for Channel 1" }));
+        addBlank("Channel 1");
         fireEvent.click(screen.getByRole("button", { name: "Link an action to Resource 1 of Channel 1" }));
         const box = screen.getByLabelText(/^Action for Resource 1 of Channel 1/);
         // "Pin room sets" is in Pinterest's rows only, yet Instagram's card offers it: by number, with or without the #, and by words.
@@ -146,7 +159,7 @@ describe("a channel's resources, in its cell", () => {
 
     it("finds an action to link by its number in the table as well as by its words", () => {
         render(<Harness />);
-        fireEvent.click(screen.getByRole("button", { name: "Add expenses for Channel 2" }));
+        addBlank("Channel 2");
         fireEvent.click(screen.getByRole("button", { name: "Link an action to Resource 1 of Channel 2" }));
         const box = screen.getByLabelText(/^Action for Resource 1 of Channel 2/);
         fireEvent.change(box, { target: { value: "#2" } });
@@ -157,7 +170,7 @@ describe("a channel's resources, in its cell", () => {
 
     it("finds it by the digits alone, with or without the #, the exact number first and selected", () => {
         render(<Harness />);
-        fireEvent.click(screen.getByRole("button", { name: "Add expenses for Channel 2" }));
+        addBlank("Channel 2");
         fireEvent.click(screen.getByRole("button", { name: "Link an action to Resource 1 of Channel 2" }));
         const box = screen.getByLabelText(/^Action for Resource 1 of Channel 2/);
         for (const typed of ["2", "#2", " # 2"]) {
@@ -175,7 +188,7 @@ describe("a channel's resources, in its cell", () => {
     it("has no symbol on the card: its summary says no actions, action or N actions, and the words isolate its actions", () => {
         const isolations: unknown[] = [];
         render(<Harness onIsolate={(next) => isolations.push(next)} />);
-        fireEvent.click(screen.getByRole("button", { name: "Add expenses for Channel 2" }));
+        addBlank("Channel 2");
         const summary = () => document.querySelector(".business-channel-resource-summary")!;
         // No actions linked yet: "no actions", plain text.
         expect(summary().textContent).toBe("No cost yet · no actions");
@@ -202,7 +215,7 @@ describe("a channel's resources, in its cell", () => {
 
     it("links an action picked in the table", () => {
         render(<Harness />);
-        fireEvent.click(screen.getByRole("button", { name: "Add expenses for Channel 1" }));
+        addBlank("Channel 1");
         fireEvent.click(screen.getByRole("button", { name: "Link an action to Resource 1 of Channel 1" }));
         fireEvent.click(screen.getByRole("button", { name: "Link an action" }));
         expect(screen.getByRole("status").textContent).toMatch(/^Click an action to link it to .+ · Esc to cancel$/);
@@ -213,7 +226,7 @@ describe("a channel's resources, in its cell", () => {
 
     it("picks only an action of its own Segment's table in the click-to-pick", () => {
         render(<Harness />);
-        fireEvent.click(screen.getByRole("button", { name: "Add expenses for Channel 1" }));
+        addBlank("Channel 1");
         fireEvent.click(screen.getByRole("button", { name: "Link an action to Resource 1 of Channel 1" }));
         fireEvent.click(screen.getByRole("button", { name: "Link an action" }));
         const foreign = document.createElement("textarea");
@@ -228,7 +241,7 @@ describe("a channel's resources, in its cell", () => {
 
     it("takes a resource off with its card, and the undo toast brings both back", () => {
         render(<Harness />);
-        fireEvent.click(screen.getByRole("button", { name: "Add expenses for Channel 1" }));
+        addBlank("Channel 1");
         fireEvent.click(screen.getByRole("button", { name: "Take Resource 1 of Channel 1 off the channel" }));
         expect(saved.engagement.channelResources).toHaveLength(0);
         expect(saved.capability.offering.resources).toHaveLength(0);
@@ -241,10 +254,13 @@ describe("a channel's resources, in its cell", () => {
 
 describe("Typical costs for this channel (H4)", () => {
 
-    const press = (channel = "Channel 1") => fireEvent.click(screen.getByRole("button", { name: "Typical costs for " + channel }));
+    const press = (channel = "Channel 1") => {
+        openMenu(channel);
+        fireEvent.click(screen.getByRole("button", { name: "Typical costs for " + channel }));
+    };
 
     it("one press makes every template (T1 to T10 and T12, no T11) in its group, the price blank, linked to the channel", () => {
-        render(<Harness />);
+        render(<Harness category="Other" />);
         press();
         const { offering } = saved.capability;
         expect(offering.resources.map(slot => slot.name)).toEqual([
@@ -260,14 +276,14 @@ describe("Typical costs for this channel (H4)", () => {
     });
 
     it("pressing again makes nothing twice", () => {
-        render(<Harness />);
+        render(<Harness category="Other" />);
         press();
         press();
         expect(saved.engagement.channelResources).toHaveLength(11);
     });
 
     it("an item the company already has is not made but offered as Link existing; linking makes nothing, and taking it off keeps the card", () => {
-        render(<Harness />);
+        render(<Harness category="Other" />);
         press();
         // (Channel 1 made them all: Channel 2 is offered each one to link, and makes none.)
         press("Channel 2");
@@ -283,7 +299,7 @@ describe("Typical costs for this channel (H4)", () => {
     });
 
     it("an offered template can still be added as a new card", () => {
-        render(<Harness />);
+        render(<Harness category="Other" />);
         press();
         press("Channel 2");
         fireEvent.click(screen.getByRole("button", { name: "Add new Ads and influencers to Channel 2" }));
@@ -291,12 +307,25 @@ describe("Typical costs for this channel (H4)", () => {
     });
 
     it("taking a template-made supplier off the channel removes its card too", () => {
-        render(<Harness />);
+        render(<Harness category="Other" />);
         press();
         const before = saved.capability.offering.providers.length;
         fireEvent.click(screen.getAllByRole("button", { name: /Take Resource [0-9]+ of Channel 1 off the channel/ })[6]);
         expect(saved.capability.offering.providers.length + saved.capability.offering.resources.length + saved.capability.offering.professionals.length).toBe(10);
         expect(before).toBe(4);
+    });
+
+});
+
+describe("Typical costs are filtered by the channel's category", () => {
+
+    it("a Social Media channel is offered only the templates that fit it", () => {
+        render(<Harness />);
+        fireEvent.click(screen.getByRole("button", { name: "Add expense to Channel 1" }));
+        fireEvent.click(screen.getByRole("button", { name: "Typical costs for Channel 1" }));
+        expect(saved.engagement.channelResources.length).toBeGreaterThan(0);
+        expect(saved.engagement.channelResources.length).toBeLessThan(11);
+        expect(saved.capability.offering.resources.map(slot => slot.name)).not.toContain("Stall, pitch, stand or event fee");
     });
 
 });

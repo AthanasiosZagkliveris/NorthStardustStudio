@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import InterviewInput from "./InterviewInput.tsx";
+import DateCellInput from "./DateCellInput.tsx";
 
 import {
     FieldDefinition,
@@ -287,21 +288,7 @@ export default function FieldRenderer({
 
             return (
 
-                <input
-
-                    type="date"
-
-                    className="interview-input"
-
-                    value={String(value ?? "")}
-
-                    disabled={disabled}
-
-                    onChange={(event) =>
-                        onChange(event.target.value)
-                    }
-
-                />
+                <DateCellInput ariaLabel="Date" value={String(value ?? "")} disabled={disabled} onChange={(next) => onChange(next)} />
 
             );
 

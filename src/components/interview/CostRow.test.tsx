@@ -72,7 +72,8 @@ describe("the cost row of a card", () => {
         openBox("Devices & Tools");
         openCard("Loom");
         fireEvent.click(screen.getByLabelText(/Resource 1 payment frequency: /));
-        expect(options()).toEqual(["Annually", "Per unit"]);
+        // (Per unit is one option for each unit of the group; the plain "Per unit" is not among them where the group has its own.)
+        expect(options()).toEqual(["Annually", "Per item", "Per set"]);
     });
 
     it("a group with one frequency shows it as text; a One-time one is not shown at all", () => {
@@ -100,12 +101,13 @@ describe("the cost row of a card", () => {
         />);
         openTile("Workstation");
         openCard("Desk");
-        fireEvent.click(screen.getByLabelText(/Resource 1 unit: /));
-        expect(options()).toEqual(["item", "set", "unit"]);
-        fireEvent.click(screen.getByRole("option", { name: "set" }));
+        expect(screen.queryByLabelText(/Resource 1 unit: /)).toBeNull();
+        fireEvent.click(screen.getByLabelText(/Resource 1 payment frequency: /));
+        expect(options()).toContain("Per item");
+        expect(options()).toContain("Per set");
+        fireEvent.click(screen.getByRole("option", { name: "Per set" }));
         expect(latest!.resources.workstation[0].slots[0].cost).toMatchObject({ frequency: "per-unit", unit: "set" });
-        // (The Unit has no label of its own.)
-        expect([...document.querySelectorAll(".field-label")].map(node => node.textContent)).not.toContain("Unit");
+        expect(screen.getByLabelText(/Resource 1 payment frequency: /).getAttribute("aria-label")).toMatch(/Per set$/);
     });
 
     it("one unit besides \"unit\" is text", () => {
@@ -114,7 +116,8 @@ describe("the cost row of a card", () => {
         openTile("Vehicles", "Company Vehicles");
         openCard("Van");
         expect(screen.queryByLabelText(/Resource 1 unit: /)).toBeNull();
-        expect([...document.querySelectorAll(".business-capability-static-value")].map(node => node.textContent)).toContain("vehicle");
+        // (Its one choice is text: there is nothing to choose.)
+        expect([...document.querySelectorAll(".business-capability-static-value")].map(node => node.textContent)).toContain("Per vehicle");
     });
 
     it("a quantity takes whole numbers, and decimals when the unit is an hour, a metre, a litre or kWh", () => {
@@ -128,8 +131,8 @@ describe("the cost row of a card", () => {
         openCard("Diesel");
         fireEvent.change(screen.getByLabelText("Resource 1 quantity"), { target: { value: "2.5" } });
         expect(latest!.resources.vehicles[0].slots[0].quantity).toBe("2.5");
-        fireEvent.click(screen.getByLabelText(/Resource 1 unit: /));
-        fireEvent.click(screen.getByRole("option", { name: "km" }));
+        fireEvent.click(screen.getByLabelText(/Resource 1 payment frequency: /));
+        fireEvent.click(screen.getByRole("option", { name: "Per km" }));
         fireEvent.change(screen.getByLabelText("Resource 1 quantity"), { target: { value: "3.5" } });
         expect(latest!.resources.vehicles[0].slots[0].quantity).toBe("35");
     });
@@ -138,7 +141,7 @@ describe("the cost row of a card", () => {
 
 describe("the lower rows", () => {
 
-    it("Useful life is asked of an asset bought, in whole years", () => {
+    it("Useful life is not asked on the card of an asset bought", () => {
         const value = base();
         let latest: Value | undefined;
         render(<Harness
@@ -147,14 +150,9 @@ describe("the lower rows", () => {
         />);
         openTile("Equipment");
         openCard("Laptop");
-        fireEvent.change(screen.getByLabelText("Resource 1 useful life in years"), { target: { value: "3.5y" } });
-        expect(latest!.resources.equipment[0].slots[0].usefulLife).toBe("35");
-        cleanup();
-        // (Not asked of what is rented or of a utility.)
-        render(<Harness initial={{ ...value, resources: { utilities: [{ id: "premises-utilities", name: "", slots: [card("Power", { cost: cost("40", "monthly") })] }] } }} />);
-        openTile("Utilities");
-        openCard("Power");
+        // (Not asked on the card: Global Settings > Useful Life holds each asset's years, under its group.)
         expect(screen.queryByLabelText("Resource 1 useful life in years")).toBeNull();
+        expect(latest).toBeUndefined();
     });
 
     it("a Warranty is a tick on equipment, with its date in a Calendar beside it once ticked", () => {
@@ -181,18 +179,20 @@ describe("the lower rows", () => {
         const value = base();
         let latest: Value | undefined;
         render(<Harness
-            initial={{ ...value, offering: { ...value.offering, resources: [card("Author royalty", { category: "documents", group: "royalties", cost: cost("8", "percent-revenue") })] } }}
+            initial={{ ...value, offering: { ...value.offering, resources: [card("Author royalty", { category: "documents", group: "royalties", costOption: "royalty-on-sales", cost: cost("8", "percent-revenue") })] } }}
             onValue={(next) => { latest = next; }}
         />);
         openTile("Resources", undefined, undefined, offeringCard());
         openBox("Documents & Rights");
         openBox("Royalties");
         openCard("Author royalty");
+        fireEvent.click(screen.getByLabelText("Rate override"));
         fireEvent.change(screen.getByLabelText("Resource 1 rate override in percent"), { target: { value: "12.5" } });
         expect(latest!.offering.resources[0].rateOverride).toBe("12.5");
         cleanup();
-        render(<Harness initial={{ ...value, offering: { ...value.offering, providers: [{ ...createBusinessPartner("Shop", "partners"), group: "revenue-partners", cost: cost("10", "percent-revenue") }], professionals: [] } }} />);
-        openTile("Partners & Providers", "Partners", "Shop");
+        render(<Harness initial={{ ...value, offering: { ...value.offering, providers: [{ ...createBusinessPartner("Shop", "partners"), group: "revenue-partners", costOption: "affiliate-commission", cost: cost("10", "percent-revenue") }], professionals: [] } }} />);
+        openTile("Partners & Suppliers", "Partners", "Shop");
+        fireEvent.click(screen.getByLabelText("Rate override"));
         expect(screen.getByLabelText("Shop rate override in percent")).toBeTruthy();
     });
 

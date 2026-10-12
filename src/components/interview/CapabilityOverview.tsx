@@ -24,12 +24,13 @@ import {
     floorSubgroups,
     sortFloor,
     subgroupOf,
-    tileLines
+    tileLines,
+    tileMarks
 } from "./capabilityFloor.ts";
 import "../../styles/capability-overview.css";
 
 /*
-    ALL THE TILES IN ONE GRID (Page 3, the "All Tiles" tile beside Completed). Its dialog lists every Resource, Activity, Partner, Provider, the
+    ALL THE TILES IN ONE GRID (Page 3, the "Inventory" tile beside Completed). Its dialog lists every Resource, Activity, Partner, Provider, the
     Workspace, the Founders and the Legal Entity's expenses as tiles of the page's own make (the same tile, the same size, the same text sizes, TileFace),
     each in the colour of the section it stands in on the page (Infrastructure, Offering's Capability, a Customer Channel's teal; a legal expense in the
     Legal Entity's neutral card ground). A tile says, as labelled lines, where it belongs (Section, Group, Subgroup), then its status and its cost, and
@@ -39,7 +40,7 @@ import "../../styles/capability-overview.css";
 */
 
 // (The Workspace and the Founders ARE resources: their kind reads "Resource"; Include still lets the user toggle each of them.)
-/** "Partners & Providers" is ONE option of the funnel: it stands for the two kinds. */
+/** "Partners & Suppliers" is ONE option of the funnel: it stands for the two kinds. */
 const UNITED = "partners-providers";
 const toOptionIds = (kinds: Iterable<string>): string[] => {
     const set = new Set(kinds);
@@ -85,7 +86,7 @@ function MenuHead({ title, open, onToggle, controls }: { title: string; open: bo
 }
 
 const SECTION_OF_KIND: Record<FloorKind, string> = {
-    founder: "Founders", resource: "Resources", activity: "Activities", partner: "Partners & Providers", provider: "Partners & Providers", legal: ""
+    founder: "Founders", resource: "Resources", activity: "Activities", partner: "Partners & Suppliers", provider: "Partners & Suppliers", legal: ""
 };
 
 const kindName = (row: FloorRow) => FLOOR_KINDS.find(kind => kind.id === kindClass(row))?.one ?? "";
@@ -107,9 +108,9 @@ export function tableRows(row: FloorRow, format: (amount: number) => string = St
     };
     // (The currency is written once, in the column's header; a cost in another currency than the organisation's says its own code.)
     const own = row.currency && row.currency !== organisationCurrency ? row.currency + " " : "";
-    const lines = [{ ...base, cost: row.amount !== null ? own + format(row.amount) : "", frequency: row.frequencyLabel }];
+    const lines = [{ ...base, cost: row.amount !== null ? own + format(row.amount) : "", frequency: row.frequencyLabel, nature: row.nature ?? "", behaviour: row.behaviour ?? "" }];
     if (row.deposit) {
-        const deposit = { ...base, cost: own + format(row.deposit) + " Deposit", frequency: "One-time" };
+        const deposit = { ...base, cost: own + format(row.deposit) + " Deposit", frequency: "One-time", nature: row.nature ?? "", behaviour: row.behaviour ?? "" };
         if (row.amount === null) {
             lines[0] = deposit;
         } else {
@@ -127,6 +128,8 @@ export const TABLE_COLUMNS = [
     { id: "group", label: "Group" },
     { id: "cost", label: "Cost" },
     { id: "frequency", label: "Frequency" },
+    { id: "nature", label: "Cost Nature" },
+    { id: "behaviour", label: "Behaviour" },
     { id: "status", label: "Status" },
     { id: "linked", label: "Linked" }
 ] as const;
@@ -196,7 +199,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
 
     const open = (row: FloorRow, pointer: boolean) => {
         if (row.kind !== "legal") {
-            // (The box name above the card is the card's own section -- Founders, Resources, Activities, Partners & Providers -- not "All Tiles".)
+            // (The box name above the card is the card's own section -- Founders, Resources, Activities, Partners & Suppliers -- not "Inventory".)
             openCard?.(row.id, SECTION_OF_KIND[kindClass(row)], undefined, pointer, false);
         }
     };
@@ -205,14 +208,14 @@ export default function CapabilityOverview({ rows, format = String, currency = "
         <div className="capability-overview-menu" role="group" aria-label="Filters">
             <div className="capability-overview-menu-group">
                 <MenuHead title="Include" open={!folded.has("include")} onToggle={() => toggleFold("include")} controls="funnel-include" />
-                {/* Founders above Resources (the Workspace is within Resources), Partners & Providers one option. */}
+                {/* Founders above Resources (the Workspace is within Resources), Partners & Suppliers one option. */}
                 {!folded.has("include") && <div className="capability-overview-menu-body" id="funnel-include"><BusinessTicks
                     name="Include"
                     options={[
                         { id: "founder", label: "Founders" },
                         { id: "resource", label: "Resources" },
                         { id: "activity", label: "Activities" },
-                        { id: UNITED, label: "Partners & Providers" },
+                        { id: UNITED, label: "Partners & Suppliers" },
                         { id: "legal", label: "Legal expenses" }
                     ]}
                     chosen={toOptionIds(filter.kinds)}
@@ -258,7 +261,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                         <strong>Type</strong>
                         <BusinessTicks
                             name="Type"
-                            options={placeKinds.filter(kind => kind !== "provider").map(kind => kind === "partner" ? { id: UNITED, label: "Partners & Providers" } : kind === "channel" ? { id: kind, label: "Channel" } : { id: kind, label: FLOOR_KINDS.find(entry => entry.id === kind)?.label ?? kind })}
+                            options={placeKinds.filter(kind => kind !== "provider").map(kind => kind === "partner" ? { id: UNITED, label: "Partners & Suppliers" } : kind === "channel" ? { id: kind, label: "Channel" } : { id: kind, label: FLOOR_KINDS.find(entry => entry.id === kind)?.label ?? kind })}
                             chosen={toOptionIds(filter.placeKinds)}
                             onChange={(ids) => {
                                 const next = fromOptionIds(ids) as FloorType[];
@@ -451,7 +454,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                     ref={grid}
                     className="section-tiles card-tile-grid"
                     role="group"
-                    aria-label="All tiles"
+                    aria-label="Inventory"
                     style={{ "--section-tile-size": side + "px" } as CSSProperties}
                 >
                     {shown.map((row, index) => {
@@ -466,6 +469,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                                 id={row.id}
                                 name={row.name}
                                 lines={tileLines(row, format)}
+                                marks={tileMarks(row, tileLines(row, format))}
                                 links={row.links}
                                 tone={row.tone}
                                 missing={row.missing}

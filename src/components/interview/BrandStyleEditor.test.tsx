@@ -280,3 +280,41 @@ describe("BrandStyleEditor colour and typeface cards", () => {
     });
 
 });
+
+
+describe("BrandStyleEditor as tiles", () => {
+
+    function Tiled() {
+        const [value, setValue] = useState<unknown>(() => {
+            const style = asBrandStyleValue(undefined);
+            return { ...style, colours: style.colours.map((colour, index) => index === 0 ? { ...colour, enabled: true, name: "Loom Blue", hex: "#1a2b3c", usage: "Headings" } : colour) };
+        });
+        return <BrandStyleEditor value={value} onChange={setValue} asTiles />;
+    }
+
+    it("is four large tiles: Colours, Typography with the Text Hierarchy, the Icon & Logo and the Brand Images", () => {
+        render(<Tiled />);
+        const tiles = [...document.querySelectorAll<HTMLElement>(".section-tile")];
+        expect(tiles.map(tile => tile.getAttribute("data-tile"))).toEqual(["brand-style-colours", "brand-style-typography", "brand-inventory-0", "brand-inventory-1"]);
+        expect(document.querySelector(".section-tiles-quad")).toBeTruthy();
+    });
+
+    it("draws every colour as a block on the Colours tile, and each colour's box in its dialog covered with it, carrying its name, role and code", () => {
+        render(<Tiled />);
+        const block = document.querySelector<HTMLElement>(".brand-mosaic > span");
+        expect(block?.style.background).toMatch(/rgb\(26, 43, 60\)|#1a2b3c/i);
+        fireEvent.click(document.querySelector("[data-tile=brand-style-colours]")!);
+        const box = screen.getByRole("button", { name: /Colour 1: Loom Blue/ });
+        expect(box.style.background).toMatch(/rgb\(26, 43, 60\)|#1a2b3c/i);
+        expect(box.textContent).toContain("Loom Blue");
+        expect(box.textContent).toContain("#1A2B3C");
+    });
+
+    it("keeps the Text Hierarchy as its table under the typefaces, in the Typography tile's dialog", () => {
+        render(<Tiled />);
+        fireEvent.click(document.querySelector("[data-tile=brand-style-typography]")!);
+        expect(document.querySelector(".brand-hierarchy-levels")).toBeTruthy();
+        expect(screen.getAllByRole("checkbox").length).toBeGreaterThan(0);
+    });
+
+});

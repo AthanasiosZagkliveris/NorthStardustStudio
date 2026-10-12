@@ -54,7 +54,7 @@ describe("business documents", () => {
         // Sustainability numbers on from Financial Foundation's three headings (its costs are in the Appendix).
         expect(md).toContain("### 4. Revenue");
         expect(md).toContain("Lumen & Loom Studio Ltd, a private company limited by shares, based in London, United Kingdom, was founded by");
-        expect(md).toContain("is seeking £26,000 of additional funding towards a funding gap of £20,134");
+        expect(md).toContain("is seeking £26,000 of additional funding towards a funding gap of £21,150");
     });
 
     test("the financial forecast adds up, month by month and by year", () => {
@@ -184,7 +184,7 @@ describe("Quillfield: an unresolved funding gap", () => {
         // $3,210 of establishment costs (the $450 video kit and the $60 webcam and headset included) and a $23,638 operating need.
         // The channels' costs now sit on their own cards (Squarespace, Calendly, Mailchimp, Zoom, payment fees, referral
         // fees, meetups, LinkedIn Premium), counted once; the work tools moved to Infrastructure (QuickBooks, Miro and Loom).
-        expect(f.position.need).toBeCloseTo(26848.45, 1);
+        expect(f.position.need).toBeCloseTo(24759.03, 1);
     });
 
     test("the loan's repayments are scheduled", () => {
@@ -193,15 +193,15 @@ describe("Quillfield: an unresolved funding gap", () => {
         expect(loan.schedule.totalInterest).toBeCloseTo(1921.64, 1);
     });
 
-    test("the gap is found: $10,650 in hand against $26,848", () => {
+    test("the gap is found: $10,650 in hand against $24,759", () => {
         expect(f.position.availableNow).toBeCloseTo(10650, 6);
-        expect(f.position.gap).toBeCloseTo(16198.45, 1);
+        expect(f.position.gap).toBeCloseTo(14109.03, 1);
         expect(f.position.signals.some(signal => signal.title === "Funding Gap")).toBe(true);
     });
 
     test("the $15,000 being sought still leaves cash short once it is repaid", () => {
         expect(f.position.sought).toMatchObject({ amount: 15000, lowestLabel: "Jul 2027" });
-        expect(f.position.sought!.shortfall).toBeCloseTo(3496.72, 1);
+        expect(f.position.sought!.shortfall).toBeCloseTo(1258.17, 1);
         expect(f.position.signals.some(signal => signal.title === "Funding Being Sought Falls Short")).toBe(true);
     });
 
@@ -209,33 +209,32 @@ describe("Quillfield: an unresolved funding gap", () => {
         const test = stressTest(f.revenuePage, f.financial, f.lines, f.legalEntity, f.format);
         expect(test.sought).toBe(15000);
         const short = Object.fromEntries(test.scenarios.map(scenario => [scenario.id, Math.round(scenario.shortfall)]));
-        expect(short).toEqual({ planned: 3497, sales: 7871, delay: 20888, costs: 4911, late: 10124, downside: 35736 });
+        expect(short).toEqual({ planned: 1258, sales: 5469, delay: 18649, costs: 2449, late: 7718, downside: 31171 });
         expect(test.scenarios[0].lowestLabel).toBe("Jul 2027");
     });
 
     test("what it would take: any one of these closes the gap", () => {
         const take = whatItWouldTake(f.revenuePage, f.financial, f.lines, f.legalEntity, f.format);
         expect(take.holds).toBe(false);
-        expect(Math.round(take.shortfall)).toBe(3497);
-        expect(take.shortBy).toBe("May 2027");
+        expect(Math.round(take.shortfall)).toBe(1258);
+        expect(take.shortBy).toBe("Jun 2027");
         expect({ prices: take.prices, sales: take.sales, costs: take.costs, earlier: take.earlier })
-            .toEqual({ prices: 28, sales: 32, costs: 25, earlier: 1 });
+            .toEqual({ prices: 9, sales: 10, costs: 11, earlier: 1 });
     });
 
-    test("what if: prices 30% higher close it; a $17,000 loan does not", () => {
-        // 28% is what it takes (above); the what-if is 30%, since 20% (the figure before the channel
-        // costs were counted) now leaves about $805 short.
+    test("what if: prices 30% higher close it; a $16,000 loan does not", () => {
+        // 9% is what it takes (above); the what-if is 30%.
         const dearer = withWhatIf(f.revenuePage, { price: 30, volume: 0, delay: 0 }, f.financial.planStart);
         const priced = financialPosition(f.financial, f.lines, f.legalEntity, f.currency, f.format, dearer);
-        expect(priced.gap).toBeCloseTo(12787.66, 1);
+        expect(priced.gap).toBeCloseTo(10698.23, 1);
         expect(priced.sought!.shortfall).toBe(0);
 
         const bigger = {
             ...f.financial,
-            funding: f.financial.funding.map(source => source.name === "SBA Microloan" ? { ...source, amount: "17000" } : source)
+            funding: f.financial.funding.map(source => source.name === "SBA Microloan" ? { ...source, amount: "16000" } : source)
         };
         const borrowed = financialPosition(bigger, f.lines, f.legalEntity, f.currency, f.format, f.revenuePage);
-        expect(borrowed.sought!.shortfall).toBeCloseTo(1810.08, 1);
+        expect(borrowed.sought!.shortfall).toBeCloseTo(414.85, 1);
     });
 
 });
@@ -295,7 +294,8 @@ describe("Quillfield: the documents tie together", () => {
         // when paid, and Sustainability leaves to the funding),
         // the two agree month by month.
         const onlyRecurring = readFoundation(all);
-        const lines = onlyRecurring.lines.filter(line => line.frequency !== "one-time");
+        // (A dated Per project card is a one-off payment, like a one-time cost: it is no part of the monthly result.)
+        const lines = onlyRecurring.lines.filter(line => line.frequency !== "one-time" && line.frequency !== "per-project");
         const forecast = financialForecast(onlyRecurring.financial, onlyRecurring.revenuePage, lines, onlyRecurring.legalEntity, onlyRecurring.format);
         const outlook = sustainability(onlyRecurring.revenuePage, onlyRecurring.financial, lines, onlyRecurring.legalEntity, onlyRecurring.format);
         const after = forecast.profitKept!.rows.find(row => row.label === "Profit kept in the business")!.values;
@@ -316,12 +316,12 @@ describe("Quillfield: the documents tie together", () => {
     test("the funding request reconciles", () => {
         expect(f.position.need - f.position.availableNow - f.position.confirmedFuture).toBeCloseTo(f.position.gap, 1);
         const request = planMd.slice(planMd.indexOf("Funding Request"));
-        expect(request).toContain("Funding need: $26,848");
+        expect(request).toContain("Funding need: $24,759");
         expect(request).toContain("Available now: $10,650 ($12,000 received, less $1,350 of costs paid before the plan)");
-        expect(request).toContain("Funding gap: $16,198");
+        expect(request).toContain("Funding gap: $14,109");
         expect(request).toContain("Amount sought: $15,000 (SBA Microloan)");
-        expect(request).toContain("Still short after repayments: $3,497 at the lowest point, in Jul 2027");
-        expect(request).toContain("| Total | $26,848 |");
+        expect(request).toContain("Still short after repayments: $1,258 at the lowest point, in Jul 2027");
+        expect(request).toContain("| Total | $24,759 |");
     });
 
     test("with a grant sought instead of a loan, the funding request speaks of no repayments", () => {
@@ -414,7 +414,7 @@ describe("Quillfield: the documents tie together", () => {
         // Brand & Voice under Marketing and Sales; the style guide in the Appendix.
         const marketing = planMd.slice(planMd.indexOf("## 5. Marketing and Sales"), planMd.indexOf("## 6. Operations"));
         expect(marketing).toContain("### Brand & Voice");
-        expect(marketing).toContain("#### Attitude & Body Language");
+        expect(marketing).toContain("#### Body Language");
         expect(planMd).not.toMatch(/^## [0-9]+[.] Brand$/m);
         expect(at("## 13. Appendix")).toContain("### Brand Style Guide");
         expect(at("## 13. Appendix")).toContain("### Costs");
@@ -451,16 +451,16 @@ describe("Quillfield: the documents tie together", () => {
         expect(blocks.resources.map(entry => entry.split(":")[0])).toEqual(["Human", "Physical", "Physical (systems)", "Intellectual", "Financial"]);
         // What a channel needs (the website, booking, email, video, event and LinkedIn costs) is an Offering's Capability resource;
         // the tools the work needs anyway (Google Workspace, QuickBooks, Miro and Loom) stay with the systems on Infrastructure.
-        expect(resources).toContain("Webcam and headset; Video-conferencing kit (camera, microphone, light); Squarespace Core; Calendly Standard; Mailchimp Standard; Zoom Workplace Pro; Meetup and event costs; LinkedIn Premium Business");
+        expect(resources).toContain("Webcam and headset; Video-conferencing kit (camera, microphone, light); Squarespace Core; Calendly Standard; Mailchimp Standard; Zoom Workplace Pro; LinkedIn Premium Business");
         expect(resources).toContain("Physical (systems): Google Workspace Business Standard; Make.com Core plan; Zapier Professional and 5 more");
         expect(resources).toContain("Intellectual: the Quillfield Automation LLC brand; the website quillfieldautomation.com");
         expect(resources).toContain("Financial: $10,650 in hand; $15,000 sought (SBA Microloan)");
         expect(resources).not.toMatch(/Electricity|AI model and API usage|Coworking Space/);
         expect(blocks.costs).toContain("Founder pay (owner's drawings): Jordan Ellis ($4,500 a month)");
-        // $45 of running costs and the $15 card or ACH fee on each month’s retainer invoice.
-        expect(blocks.costs).toContain("Variable costs: $60 per client a month (Automation Care Retainer)");
-        // The audit’s $40 of AI usage, $15 of payment fees and $100 of referral fees (averaged over all audits).
-        expect(blocks.costs).toContain("Variable costs: $155 per project (AI Workflow Audit)");
+        // $45 of running costs on each month’s retainer (the card or ACH fee is a calculated percent of revenue now, not a cost per unit).
+        expect(blocks.costs).toContain("Variable costs: $45 per client a month (Automation Care Retainer)");
+        // The audit’s $40 of AI usage (the payment fees and the referral fees are calculated percents of the audit’s revenue).
+        expect(blocks.costs).toContain("Variable costs: $40 per project (AI Workflow Audit)");
         expect(blocks.costs.join(" ")).not.toMatch(/[.][0-9][0-9]/);
         expect(blocks.revenue).toContain("AI Workflow Audit (Small professional-services firms in New York City): $2,500 per project, one-time");
         expect(blocks.revenue).toContain("Automation Care Retainer (Small professional-services firms in New York City): $1,200 per client a month, recurring");
@@ -499,8 +499,8 @@ describe("Quillfield: the documents tie together", () => {
         // The costs, by group, with subtotals and a total, without their source.
         const appendix = planMd.slice(planMd.indexOf("## 13. Appendix"));
         expect(appendix).toContain("#### Establishment");
-        expect(appendix).toContain("| Subtotal | $4,560 one-time |");
-        expect(appendix).toContain("**Total:** $4,560 one-time; $5,460 a month");
+        expect(appendix).toContain("| Subtotal | $1,860 one-time |");
+        expect(appendix).toContain("**Total:** $1,860 one-time; $5,231 a month");
         expect(appendix).not.toContain("| Source |");
         // The Roadmap numbers each Theme's Objectives from 1.
         expect(planMd).toContain("| 1. Financial Stability | 1. Close the funding gap (Jan 2027 – Jun 2027)<br>2. Reach monthly break even");
@@ -838,7 +838,7 @@ describe("the optional answers in the documents", () => {
     test("the founders' profiles replace the \"not covered\" lines under Management", () => {
         const plain = partOf(planOf({ ...base(), identity: withoutProfile() }), "## 7. Management and Organization");
         expect(plain).toContain("### Experience and CVs\n\nNot covered by the Foundation answers.");
-        expect(plain).toContain("### Team Capability Gaps and Cover\n\nNot covered by the Foundation answers.");
+        expect(plain).toContain("### Capability Gaps and Cover\n\nNot covered by the Foundation answers.");
         expect(plain).not.toContain("### Founder Profiles");
 
         const given = partOf(planOf(base()), "## 7. Management and Organization");
@@ -858,7 +858,7 @@ describe("the optional answers in the documents", () => {
             "- Professional / Technical Expertise: Data security and access control for client records\n" +
             "- Degree / Qualification: BS in Information Systems\n" +
             "- Certification: Certified in Microsoft Power Platform and Zapier\n");
-        expect(given).toContain("### Team Capability Gaps and Cover\n\nAs a one-person LLC");
+        expect(given).toContain("### Capability Gaps and Cover\n\nAs a one-person LLC");
     });
 
     test("every achievement reaches the plan, and untyped skills come last, as written", () => {
@@ -903,7 +903,7 @@ describe("the optional answers in the documents", () => {
         expect(profile).toContain("**Key Achievements:** \n\n- Designed an invoice-intake automation");
         expect(profile).toContain("**Skills, Expertise & Qualifications:** \n\n- Skill: Python and API integration\n");
         expect(profile).toContain("- Certification: Certified in Microsoft Power Platform and Zapier");
-        expect(profile).toContain("### Team Capability Gaps & Cover\n\nAs a one-person LLC");
+        expect(profile).toContain("### Capability Gaps & Cover\n\nAs a one-person LLC");
 
         const legacy = legacyIdentity();
         expect(new MarkdownExporter().toMarkdown(legacy, "Foundation", buildExportContent(legacy, "Foundation")))

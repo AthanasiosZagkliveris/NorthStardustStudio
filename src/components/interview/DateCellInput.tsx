@@ -10,6 +10,12 @@ interface DateCellInputProps {
 
     disabled?: boolean;
 
+    /** The latest day it takes (an ISO day): a later one is refused. */
+    max?: string;
+
+    /** The earliest day it takes (an ISO day): an earlier one is refused. */
+    min?: string;
+
     /**
      * Accessible name for the date text field -- see
      * InterviewInput.ariaLabel. Sourced from the Table column
@@ -120,6 +126,10 @@ export default function DateCellInput({
 
     disabled = false,
 
+    max,
+
+    min,
+
     ariaLabel
 
 }: DateCellInputProps) {
@@ -152,7 +162,7 @@ export default function DateCellInput({
 
         const iso = displayToIso(text, format);
 
-        if (iso) {
+        if (iso && !(max && iso > max) && !(min && iso < min)) {
             onChange(iso);
         } else {
             // Not a complete/valid date -- revert to the last
@@ -247,6 +257,10 @@ export default function DateCellInput({
                 className="date-cell-native-picker"
 
                 disabled={disabled}
+
+                max={max}
+
+                min={min}
 
                 value={value ?? ""}
 

@@ -30,11 +30,16 @@
 
 import { StorageService } from "./StorageService";
 import { OrganizationService } from "./OrganizationService";
+import { NotepadService } from "./NotepadService";
 import { systems } from "../data/systems";
 import { getCapabilityColor } from "../data/capabilities";
 import { AnswerType } from "../framework/enums/AnswerType.ts";
+import { capabilityCardDates, legalEntityCardDates, openingCardDate, type CardDate, type CardDateKind } from "../framework/engine/CalendarCardDates.ts";
+import { asGlobalSettings } from "../framework/engine/GlobalSettings.ts";
 import {
     OperationalLogAnswerValue,
+    asBusinessCapabilityValue,
+    asLegalEntityValue,
     ProcessRecordValue,
     ProcessScheduleValue,
     TableAnswerRow,
@@ -265,6 +270,22 @@ export interface CalendarTask {
     color: string;
 
     /**
+     * For the date of a card (a resource's start, a warranty's end, a payment, an Opening Date ...): which kind it is, so the Calendar's funnel can keep or leave it.
+     * `undefined` for the Calendar's other tasks.
+     */
+    kind?: CardDateKind;
+
+    /** For the date of a card: what kind of card it is ("Resource", "Activity", "Partner", "Supplier", "Founder", "Expense", "Organization"). */
+    noun?: string;
+
+    /** For a note placed on this day: its id (the Notepad opens on it). */
+    noteId?: string;
+
+    /** For the date of a card: what the date is ("Starts", "Ends", "Warranty until") and the card's name. */
+    label?: string;
+    name?: string;
+
+    /**
      * The Process/SOP's own How Often preset ("Daily", "Monthly",
      * "Semi-Annually", ...) for a schedule-derived task; `undefined`
      * for an Operational Log or Table-derived task, which is a
@@ -379,6 +400,33 @@ export function getCalendarTasks(organizationId: string): CalendarTask[] {
 
         }
 
+        // THE DATES OF THE CARDS: the Infrastructure & Capability page's resources, partners, activities and founders; the Legal Entity's formation and expenses; the Opening Date.
+        const cardTask = (section: { number: number; title: string }, entry: CardDate): CalendarTask => ({
+            taskId: systemNumber + "-" + section.number + "-card-" + entry.key,
+            date: entry.date,
+            systemNumber,
+            systemTitle,
+            sectionNumber: section.number,
+            sectionTitle: section.title,
+            originLabel: systemNumber + "." + section.number,
+            description: entry.noun + ": " + entry.name + " \u00B7 " + entry.label,
+            color,
+            kind: entry.kind,
+            noun: entry.noun,
+            label: entry.label,
+            name: entry.name
+        });
+        for (const section of sections) {
+            const value = session.getResponse(section.number);
+            if (section.answer.type === AnswerType.BusinessCapability) {
+                capabilityCardDates(asBusinessCapabilityValue(value), []).forEach(entry => tasks.push(cardTask(section, entry)));
+            } else if (section.answer.type === AnswerType.LegalEntity) {
+                legalEntityCardDates(asLegalEntityValue(value)).forEach(entry => tasks.push(cardTask(section, entry)));
+            } else if (section.answer.type === AnswerType.FinancialFoundation) {
+                openingCardDate(asGlobalSettings(OrganizationService.getGlobalSettings(organizationId)).openingDate).forEach(entry => tasks.push(cardTask(section, entry)));
+            }
+        }
+
         for (const section of sections) {
 
             const value = session.getResponse(section.number);
@@ -477,6 +525,27 @@ export function getCalendarTasks(organizationId: string): CalendarTask[] {
 
         }
 
+    }
+
+    // THE NOTES that stand on a day (the Notepad's Date, ticked): this Organization's, and the general ones.
+    for (const note of NotepadService.notes()) {
+        if (note.date && (note.organizationId === organizationId || note.organizationId === "")) {
+            const first = note.text.split("\n").map(line => line.trim()).find(line => line.length > 0) ?? "Note";
+            tasks.push({
+                taskId: "note-" + note.id,
+                date: note.date,
+                systemNumber: 0,
+                systemTitle: "Notes",
+                sectionNumber: 0,
+                sectionTitle: "Notes",
+                originLabel: "Note",
+                description: first,
+                color: "var(--bg-primary)",
+                label: "Note",
+                name: first,
+                noteId: note.id
+            });
+        }
     }
 
     return tasks;

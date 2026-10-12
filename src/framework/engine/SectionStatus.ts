@@ -75,7 +75,7 @@ const BESPOKE: Partial<Record<AnswerType, BespokeSections>> = {
     [AnswerType.FoundersProfile]: {
         slices: raw => {
             const v = asFoundersProfileValue(raw);
-            return [v.founders, v.teamGaps];
+            return [v.founders, [v.teamGaps, v.teamCover]];
         },
         empty: () => [false, false],
         optional: [0, 1]
@@ -84,7 +84,7 @@ const BESPOKE: Partial<Record<AnswerType, BespokeSections>> = {
     [AnswerType.BrandStyle]: {
         slices: raw => {
             const v = asBrandStyleValue(raw);
-            return [v.colours, v.typefaces, v.hierarchy];
+            return [v.colours, v.typefaces, v.hierarchy, [v.inventory.icon, v.inventory.logo, v.inventory.markDescription], v.inventory.images];
         },
         empty: brandStyleSectionsEmpty,
         optional: []

@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 
 import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
+import InfoNote, { InfoPoint } from "./InfoNote.tsx";
 import { railId } from "./rails/railItems.ts";
 
 /*
@@ -16,7 +17,9 @@ export function ColumnHeading({
 
     title,
 
-    startNumber
+    startNumber,
+
+    info
 
 }: {
 
@@ -25,6 +28,8 @@ export function ColumnHeading({
     title: string;
     /** The number the page's first section carries. */
     startNumber: number;
+    /** The section's guidance, as an "i" beside its title. */
+    info?: InfoPoint[];
 
 }) {
 
@@ -37,6 +42,7 @@ export function ColumnHeading({
                 {title}
                 <FieldMark label={title} section={railId(title)} />
             </span>
+            {info && <InfoNote label={title} points={info} fullList size="double" />}
             <FieldStatus label={title} section={railId(title)} />
         </h3>
     );

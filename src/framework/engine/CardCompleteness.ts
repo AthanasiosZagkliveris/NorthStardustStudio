@@ -7,8 +7,10 @@ import {
     BusinessFounderValue,
     BusinessPartnerValue,
     BusinessResourceSlotValue,
+    billingOf,
     businessAutoResponsibleId,
     businessPartnerResponsibleId,
+    costOptionsOf,
     usesSupplier,
     offeringSharesIncomplete,
     paymentPlanIncomplete,
@@ -50,14 +52,29 @@ export function offeringLinksMissing(card: { offeringIds: string[]; offeringShar
         : offeringSharesIncomplete(card.offeringIds, card.offeringShares) ? ["Offering shares"] : [];
 }
 
+/** Where a resource card is filed: its place and its group (an Infrastructure card's group is its subsection). */
+function homeOf(slot: BusinessResourceSlotValue, capability: BusinessCapabilityValue): { place: "infrastructure" | "offering"; group: string } {
+    if (capability.offering.resources.some(entry => entry.id === slot.id)) {
+        return { place: "offering", group: slot.group };
+    }
+    const subsection = Object.values(capability.resources).flat().find(entry => entry.slots.some(candidate => candidate.id === slot.id));
+    return { place: "infrastructure", group: subsection?.id ?? slot.group };
+}
+
 export function resourceMissing(slot: BusinessResourceSlotValue, capability: BusinessCapabilityValue): string[] {
+    const home = homeOf(slot, capability);
     const partnerIds = new Set([...capability.professionals, ...capability.providers, ...capability.offering.professionals, ...capability.offering.providers].map(entry => entry.id));
     const activityIds = new Set([...capability.activities.flatMap(category => category.activities), ...capability.offering.activities].map(entry => entry.id));
     return [
         ...(filled(slot.name) ? [] : ["Name"]),
+        // (V2: a card places its cost in time: the Start date is required on every card.)
+        ...(filled(slot.startDate) ? [] : ["Start date"]),
         ...(filled(slot.status) ? [] : ["Status"]),
         ...(slot.status === "activity" && !activityIds.has(slot.activityId) ? ["Activity"] : []),
         ...(usesSupplier(slot.status) && !(partnerIds.has(slot.providerId) || slot.providerId.startsWith("workspace:")) ? [slot.status === "rent" ? "Rent" : "Partner or Supplier"] : []),
+        // (A group with ready-made cost options asks for one; an upfront franchise fee asks for the years it is amortised over.)
+        ...(isCostingStatus(slot.status) && costOptionsOf(home.place, home.group).length > 0 && slot.costOption === "" ? ["Cost option"] : []),
+        ...(isCostingStatus(slot.status) && billingOf(home.place, home.group, slot.costOption) === "lump-sum" && home.group === "royalties" && slot.amortisationYears === "" ? ["Amortisation period"] : []),
         ...(isCostingStatus(slot.status) ? priceMissing(slot.cost) : []),
         ...(isCostingStatus(slot.status) && paymentPlanIncomplete(slot.cost, slot.paymentPlan, slot.startDate, slot.endDate) ? ["Payment Plan"] : [])
     ];
@@ -70,8 +87,6 @@ export function activityMissing(activity: BusinessActivityValue, capability: Bus
         ...(activity.category === UNASSIGNED_CATEGORY ? ["Category"] : []),
         ...(filled(activity.name) ? [] : ["Name"]),
         ...(filled(activity.startDate) ? [] : ["Start date"]),
-        // (A Pre-Operational activity is Capital Expenditure or Start-up Expenses.)
-        ...(activity.category === "pre-operational" && activity.type === "" ? ["Type"] : []),
         ...(activity.performerIds.some(filled) ? [] : ["Performer"]),
         ...(founderIds.length > 0 && !filled(responsible) ? ["Responsible"] : [])
     ];
@@ -83,6 +98,8 @@ export function partnerMissing(partner: BusinessPartnerValue, capability: Busine
     return [
         ...(partner.category === UNASSIGNED_CATEGORY ? ["Category"] : []),
         ...(filled(partner.name) ? [] : ["Name"]),
+        ...(filled(partner.startDate) ? [] : ["Start date"]),
+        ...(costOptionsOf(capability.offering.professionals.concat(capability.offering.providers).some(entry => entry.id === partner.id) ? "offering" : "infrastructure", partner.group).length > 0 && partner.costOption === "" ? ["Cost option"] : []),
         ...priceMissing(partner.cost),
         ...(paymentPlanIncomplete(partner.cost, partner.paymentPlan, partner.startDate, partner.endDate) ? ["Payment Plan"] : []),
         ...(founderIds.length > 0 && !filled(responsible) ? ["Responsible"] : [])
@@ -91,6 +108,8 @@ export function partnerMissing(partner: BusinessPartnerValue, capability: Busine
 
 export function founderMissing(founder: BusinessFounderValue): string[] {
     return [
+        // (When the pay starts: a founder has a Start date and no End date.)
+        ...(filled(founder.startDate) ? [] : ["Start date"]),
         ...(parseAmount(founder.salary) === null ? ["Salary"] : []),
         ...(parseAmount(founder.hours) === null ? ["Working Hours"] : []),
         ...(parseAmount(founder.deliveryHours) === null && parseAmount(founder.deliveryShare) === null ? ["Delivery Hours"] : [])

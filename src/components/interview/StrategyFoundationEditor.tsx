@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useEffect } from "react";
+import { CSSProperties, ReactNode, useEffect, useRef } from "react";
 
 import {
     STRATEGY_FOUNDATION_SECTIONS,
@@ -15,11 +15,12 @@ import {
     monthIndex
 } from "../../framework/engine/AnswerUtils.ts";
 import { railId } from "./rails/railItems.ts";
+import { workHue } from "../../framework/engine/WorkColours.ts";
 import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 
 import BoxActions, { reorder, useMovableBox } from "./ReorderControls.tsx";
-import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
-import { ColumnHeading, GuidanceBullets } from "./ColumnHeads.tsx";
+import { InfoPoint } from "./InfoNote.tsx";
+import SectionTiles, { DialogHeading, type SectionTile, type TileAdd } from "./SectionTiles.tsx";
 import AddThemeMenu from "./AddThemeMenu.tsx";
 import { AnswerType } from "../../framework/enums/AnswerType.ts";
 import MonthYearPicker from "./MonthYearPicker.tsx";
@@ -81,6 +82,12 @@ interface StrategyFoundationEditorProps {
 
     guardPeriodChange?: (period: StrategyRangeValue, apply: () => void) => void;
 
+    /**
+     * The tiles of 2. Goals & Objectives and of 3. Roadmap, drawn in the Strategic Period's dialog beside the dates: the page's own tiles, each opening
+     * what it opens there. It is given this page's Themes and where to write one of them.
+     */
+    periodTiles?: (args: { only: "roadmap" | "themes"; foundation: StrategyFoundationValue; onEditTheme: (themeId: string, patch: { name?: string; description?: string }) => void; onRemoveTheme: (themeId: string) => void }) => ReactNode;
+
 }
 
 /** The first month a Strategic Period may start in: this one. */
@@ -117,11 +124,7 @@ export default function StrategyFoundationEditor({
 
     disabled = false,
 
-    startNumber = 1,
-
-    columnsDivider,
-
-    showInstructions = true,
+    startNumber: _startNumber = 1,
 
     guardThemeRemoval,
 
@@ -135,7 +138,9 @@ export default function StrategyFoundationEditor({
 
     openBusinessPage,
 
-    financialPlan = null
+    financialPlan = null,
+
+    periodTiles
 
 }: StrategyFoundationEditorProps) {
 
@@ -144,6 +149,10 @@ export default function StrategyFoundationEditor({
     function update(patch: Partial<StrategyFoundationValue>) {
         onChange({ ...foundation, ...patch });
     }
+
+    /* The answer as it is now, for a Theme left blank and taken away later. */
+    const latest = useRef({ foundation, onChange });
+    latest.current = { foundation, onChange };
 
     /*
         THE CURRENT SITUATION, FILLED IN FROM THE BUSINESS SYSTEM by
@@ -176,21 +185,6 @@ export default function StrategyFoundationEditor({
         commitPeriod({ start: { ...financialPlan.start }, end: { ...financialPlan.end } });
     }
 
-    /** An "i" naming where a question is answered, each a link to that page. */
-    function answeredIn(label: string, pages: [string, string, AnswerType][]) {
-        return (
-            <InfoNote
-                label={label}
-                fullList
-                points={pages.map(([title, where, type]) => ({
-                    title,
-                    text: "(" + where + ")",
-                    onOpen: openBusinessPage ? () => openBusinessPage(type) : undefined
-                }))}
-            />
-        );
-    }
-
     /** Back to the draft: asked first when it would replace the founder's words. */
     function refreshSituation() {
         const apply = () => update({ situation: situationDraft, situationSource: "auto" });
@@ -199,20 +193,6 @@ export default function StrategyFoundationEditor({
         } else {
             apply();
         }
-    }
-
-    function heading(offset: number) {
-        return (
-            <ColumnHeading
-                offset={offset}
-                title={STRATEGY_FOUNDATION_SECTIONS[offset]}
-                startNumber={startNumber}
-            />
-        );
-    }
-
-    function bullets(lines: ReactNode[]) {
-        return <GuidanceBullets lines={lines} show={showInstructions} />;
     }
 
     /* ---------- Strategic Period ---------- */
@@ -300,78 +280,123 @@ export default function StrategyFoundationEditor({
     const currentYear = new Date().getFullYear();
     const thisMonth = currentMonthIndex();
 
-    return (
+    /* ---------- The four columns, each in a tile's dialog ---------- */
 
-        <div
-            className="brand-style strategy-foundation"
-            style={{ "--answer-column-count": 4 } as CSSProperties}
-        >
+    /** Each column's guidance as the "i" beside its title. */
+    const pageLink = (type: AnswerType) => openBusinessPage ? () => openBusinessPage(type) : undefined;
+    const columnInfo: InfoPoint[][] = [
+        [
+            { title: "What do you sell, and who uses it?", text: "(3. Business System → 1. Foundation: Offerings and Customer Segments)", onOpen: pageLink(AnswerType.BusinessFoundation) },
+            { title: "How do people discover and reach you?", text: "(3. Business System → 2. Customer Engagement: Customer Channels)", onOpen: pageLink(AnswerType.BusinessEngagement) },
+            { title: "How are you supported financially today?", text: "(3. Business System → 4. Financial Foundation: Costs and funding; 5. Sustainability: Revenue and break even)", onOpen: pageLink(AnswerType.FinancialFoundation) }
+        ],
+        [
+            "Strengths and Weaknesses: inside your organization.",
+            "Opportunities and Threats: outside, in your market.",
+            "Think of resources, skills, customers, competition and technology."
+        ],
+        [
+            "Where do you want your organization to be heading, and what do you want it to build, become, or achieve over the long term?",
+            "Choose a time horizon far enough ahead to give your strategy direction, yet close enough for your organization to make meaningful decisions about.",
+            { title: "The Vision is the goal; the Compass is the route.", text: vision.trim() ? vision.trim() : "Your Vision is not written yet. Write it under 1. Identity System → 1. Definition → 4. Vision." }
+        ],
+        [
+            "Choose a start and an end: three to five years.",
+            "Name 3 to 5 Strategic Themes: broad areas the organisation intends to develop during the strategic period.",
+            "Say briefly why each Theme matters."
+        ]
+    ];
+    const themeInfo: InfoPoint[] = [...THEME_SUGGESTIONS];
 
-            {/* Row 1 -- headings and guidance, above the line */}
-            <div className="brand-style-head">
-                {heading(0)}
-                {bullets([
-                    <><InfoText text="What do you sell, and who uses it?">{answeredIn("What you sell", [
-                        ["Offerings and Customer Segments", "3. Business System → 1. Foundation", AnswerType.BusinessFoundation]
-                    ])}</InfoText></>,
-                    <><InfoText text="How do people discover and reach you?">{answeredIn("How customers reach you", [
-                        ["Customer Channels", "3. Business System → 2. Customer Engagement", AnswerType.BusinessEngagement]
-                    ])}</InfoText></>,
-                    <><InfoText text="How are you supported financially today?">{answeredIn("How you are funded", [
-                        ["Costs and funding", "3. Business System → 4. Financial Foundation", AnswerType.FinancialFoundation],
-                        ["Revenue and break even", "3. Business System → 5. Sustainability", AnswerType.FinancialSustainability]
-                    ])}</InfoText></>
-                ])}
-            </div>
+    const removeThemeById = (themeId: string) => removeTheme(foundation.themes.findIndex(theme => theme.id === themeId));
 
-            <div className="brand-style-head">
-                {heading(1)}
-                {bullets([
-                    "Strengths and Weaknesses: inside your organization.",
-                    "Opportunities and Threats: outside, in your market.",
-                    "Think of resources, skills, customers, competition and technology."
-                ])}
-            </div>
+    /** A Theme's name or description, typed in its tile's dialog. */
+    const editTheme = (themeId: string, patch: { name?: string; description?: string }) => update({ themes: foundation.themes.map(theme => theme.id === themeId ? { ...theme, ...patch } : theme) });
 
-            <div className="brand-style-head">
-                {heading(2)}
-                {bullets([
-                    "Where do you want your organization to be heading, and what do you want it to build, become, or achieve over the long term?",
-                    "Choose a time horizon far enough ahead to give your strategy direction, yet close enough for your organization to make meaningful decisions about.",
-                    <>
-                        {/* The Vision the line names, one click away. */}
-                        <InfoText text="The Vision is the goal; the Compass is the route.">
-                            <InfoNote
-                                label="Your Vision"
-                                points={[vision.trim()
-                                    ? vision.trim()
-                                    : "Not written yet. Write it under 1. Identity System → 1. Definition → 4. Vision."]}
-                            />
-                        </InfoText>
-                    </>
-                ])}
-            </div>
+    /** One Theme's box; `floating` is the box floating over its tile (no dragging). */
+    function themeBoxFor(theme: StrategyThemeValue, index: number, floating = false) {
 
-            <div className="brand-style-head">
-                {heading(3)}
-                {bullets([
-                    "Choose a start and an end: three to five years.",
-                    <>
-                        <InfoText text="Name 3 to 5 Strategic Themes: broad areas the organisation intends to develop during the strategic period.">
-                            <InfoNote label="Common Strategic Themes" fullList points={THEME_SUGGESTIONS} />
-                        </InfoText>
-                    </>,
-                    "Say briefly why each Theme matters."
-                ])}
-            </div>
+                    const box = floating
+                        ? { className: "" }
+                        : themeBox.boxProps(
+                            index,
+                            foundation.themes.length,
+                            `Strategic Theme ${index + 1}`
+                        );
 
-            {/* Row 2 -- the progress line, spanning every column */}
-            {columnsDivider && (
-                <div className="answer-columns-divider">{columnsDivider}</div>
-            )}
+                    return (
 
-            {/* Row 3 -- the inputs, below the line */}
-            <div className="brand-style-body" data-rail={railId(STRATEGY_FOUNDATION_SECTIONS[0])}>
+                        <div
+                            key={theme.id}
+                            {...box}
+                            data-anchor={theme.id}
+                            className={`strategy-theme-box ${box.className}`}
+                            style={{ "--strategy-theme-hue": themeHues[theme.id] } as CSSProperties}
+                        >
+
+                            {/*
+                                Which Theme this is, on its own line
+                                across the top, with removal in the
+                                corner -- then the name and the
+                                description beneath it. The label
+                                names the box; it is not a prefix to
+                                the name field.
+                            */}
+                            <div className="strategy-box-head">
+
+                                {!floating && (
+                                    <span
+                                        className="strategy-drag-handle"
+                                        {...themeBox.handleProps}
+                                    >
+                                        ⠿
+                                    </span>
+                                )}
+
+                                <span className="strategy-box-number">
+                                    {`Theme ${index + 1}`}
+                                </span>
+
+                                <BoxActions
+                                    label={`Strategic Theme ${index + 1}`}
+                                    disabled={disabled}
+                                    onRemove={() => removeTheme(index)}
+                                />
+
+                            </div>
+
+                            <div className="strategy-box-body">
+
+                                <input
+                                    type="text"
+                                    className="interview-input"
+                                    aria-label={`Strategic Theme ${index + 1} name`}
+                                    placeholder="Theme name"
+                                    disabled={disabled}
+                                    value={theme.name}
+                                    onChange={(event) => setTheme(index, { name: event.target.value })}
+                                />
+
+                                <StrategyTextArea
+                                    className="interview-input strategy-note"
+                                    ariaLabel={`Strategic Theme ${index + 1} description`}
+                                    placeholder="What it represents and why it matters"
+                                    disabled={disabled}
+                                    value={theme.description}
+                                    onChange={(next) => setTheme(index, { description: next })}
+                                />
+
+                            </div>
+
+                        </div>
+
+                    );
+
+    }
+
+    const columnBodies: ReactNode[] = [
+        (
+            <>
 
                 <StrategyTextArea
                     className="interview-input strategy-prose"
@@ -401,9 +426,10 @@ export default function StrategyFoundationEditor({
                     </button>
                 </div>
 
-            </div>
-
-            <div className="brand-style-body" data-rail={railId(STRATEGY_FOUNDATION_SECTIONS[1])}>
+            </>
+        ),
+        (
+            <>
 
                 {STRATEGY_SWOT_QUADRANTS.map(quadrant => (
 
@@ -428,9 +454,10 @@ export default function StrategyFoundationEditor({
 
                 ))}
 
-            </div>
-
-            <div className="brand-style-body" data-rail={railId(STRATEGY_FOUNDATION_SECTIONS[2])}>
+            </>
+        ),
+        (
+            <>
 
                 <StrategyTextArea
                     className="interview-input strategy-prose"
@@ -441,15 +468,21 @@ export default function StrategyFoundationEditor({
                     onChange={(next) => update({ compass: next })}
                 />
 
-            </div>
-
-            <div className="brand-style-body" data-rail={railId(STRATEGY_FOUNDATION_SECTIONS[3])}>
+            </>
+        ),
+        (
+            <>
 
                 {/*
                     No title above these two: the column heading
                     already says Strategic Period, and repeating it
                     inside the box said the same thing twice.
                 */}
+                {/* The period and the plan's dates stand together, in the dialog's second column. */}
+                <div className="strategy-period-row">
+
+                <div className="strategy-period-column">
+
                 <div className="strategy-period-box">
 
                     <MonthYearPicker
@@ -510,97 +543,114 @@ export default function StrategyFoundationEditor({
                     </div>
                 )}
 
-                {foundation.themes.map((theme, index) => {
+                </div>
 
-                    const box = themeBox.boxProps(
-                        index,
-                        foundation.themes.length,
-                        `Strategic Theme ${index + 1}`
-                    );
+                {/* THE TILES OF 2. GOALS & OBJECTIVES AND OF THE ROADMAP, next to the dates: the page's own, each opening what it opens there. */}
+                {periodTiles && (
+                    <div className="strategy-period-tiles">
+                        {periodTiles({ only: "roadmap", foundation, onEditTheme: editTheme, onRemoveTheme: removeThemeById })}
+                    </div>
+                )}
 
-                    return (
+                </div>
 
-                        <div
-                            key={theme.id}
-                            {...box}
-                            data-anchor={theme.id}
-                            className={`strategy-theme-box ${box.className}`}
-                            style={{ "--strategy-theme-hue": themeHues[theme.id] } as CSSProperties}
-                        >
-
-                            {/*
-                                Which Theme this is, on its own line
-                                across the top, with removal in the
-                                corner -- then the name and the
-                                description beneath it. The label
-                                names the box; it is not a prefix to
-                                the name field.
-                            */}
-                            <div className="strategy-box-head">
-
-                                <span
-                                    className="strategy-drag-handle"
-                                    {...themeBox.handleProps}
-                                >
-                                    ⠿
-                                </span>
-
-                                <span className="strategy-box-number">
-                                    {`Theme ${index + 1}`}
-                                </span>
-
-                                <BoxActions
-                                    label={`Strategic Theme ${index + 1}`}
-                                    disabled={disabled}
-                                    onRemove={() => removeTheme(index)}
-                                />
-
-                            </div>
-
-                            <div className="strategy-box-body">
-
-                                <input
-                                    type="text"
-                                    className="interview-input"
-                                    aria-label={`Strategic Theme ${index + 1} name`}
-                                    placeholder="Theme name"
-                                    disabled={disabled}
-                                    value={theme.name}
-                                    onChange={(event) => setTheme(index, { name: event.target.value })}
-                                />
-
-                                <StrategyTextArea
-                                    className="interview-input strategy-note"
-                                    ariaLabel={`Strategic Theme ${index + 1} description`}
-                                    placeholder="What it represents and why it matters"
-                                    disabled={disabled}
-                                    value={theme.description}
-                                    onChange={(next) => setTheme(index, { description: next })}
-                                />
-
-                            </div>
-
-                        </div>
-
-                    );
-
-                })}
-
-                {foundation.themes.length > 5 && (
-                    <p className="strategy-theme-count" role="note">
-                        More than 5 Themes can spread your focus thin: 3 to 5 is usual.
-                    </p>
+                {periodTiles && (
+                    <div className="strategy-period-themes">
+                        {periodTiles({ only: "themes", foundation, onEditTheme: editTheme, onRemoveTheme: removeThemeById })}
+                    </div>
                 )}
 
                 <AddThemeMenu
                     suggestions={STRATEGY_THEME_SUGGESTIONS}
                     usedNames={foundation.themes.map(theme => theme.name)}
                     disabled={disabled}
+                    info={themeInfo}
                     onAdd={(name, description) => update({ themes: [...foundation.themes, createStrategyTheme(name, description)] })}
                 />
 
-            </div>
+            </>
+        )
+    ];
 
+    /** What a tile says of its column: a line or two of what is written there. */
+    const firstLines = (text: string, count: number) => text.split("\n").map(line => line.trim()).filter(line => line.length > 0).slice(0, count);
+    const tileItems: string[][] = [
+        firstLines(foundation.situation, 3),
+        STRATEGY_SWOT_QUADRANTS.map(quadrant => (foundation.swot[quadrant.id] ?? []).find(item => item.trim().length > 0) ?? "").filter(item => item.length > 0).slice(0, 4),
+        firstLines(foundation.compass, 3),
+        [...(isRangeSet(foundation.period) ? [formatRangeAbbrev(foundation.period)] : []), ...foundation.themes.map(theme => theme.name.trim()).filter(name => name.length > 0)].slice(0, 6)
+    ];
+
+    /** A Theme added from its tile: a blank box, opened floating; left blank, it is taken away again. */
+    const themeAdd: TileAdd = {
+        label: "Theme",
+        disabled,
+        onAdd: () => {
+            const made = createStrategyTheme();
+            latest.current.onChange({ ...latest.current.foundation, themes: [...latest.current.foundation.themes, made] });
+            return made.id;
+        },
+        isBlank: (id: string) => {
+            const theme = latest.current.foundation.themes.find(candidate => candidate.id === id);
+            return !theme || (theme.name.trim() === "" && theme.description.trim() === "");
+        },
+        onRemove: (ids: string[]) => latest.current.onChange({ ...latest.current.foundation, themes: latest.current.foundation.themes.filter(theme => !ids.includes(theme.id)) })
+    };
+
+    const tiles: SectionTile[] = STRATEGY_FOUNDATION_SECTIONS.map((title, column) => ({
+        id: "strategy-foundation-" + column,
+        // (Named for what it holds, as the dialog says it, with no order number.)
+        title: column === 0 ? "Current Situation" : title,
+        rail: railId(title),
+        items: tileItems[column].length > 0 ? tileItems[column] : [],
+        // The Strategic Period: its dates in the centre, its Themes as a list; a "+" adds a Theme box floating.
+        ...(column === 3 ? {
+            view: true,
+            itemMarks: tileItems[3].map((_item, position) => position === 0 && isRangeSet(foundation.period) ? { centre: true } : { bullet: true }),
+            // (The period first, then a line for each Theme named: a link to its card.)
+            links: (() => {
+                const named = foundation.themes.filter(theme => theme.name.trim().length > 0);
+                return tileItems[3].map((_item, position) => {
+                    const at = position - (isRangeSet(foundation.period) ? 1 : 0);
+                    return at >= 0 && named[at] ? { card: named[at].id } : undefined;
+                });
+            })(),
+            holds: foundation.themes.map(theme => theme.id),
+            cardFor: (id: string) => {
+                const at = foundation.themes.findIndex(theme => theme.id === id);
+                return at >= 0 ? <div className="column-tile-content strategy-foundation strategy-theme-floating"><div className="brand-style-body">{themeBoxFor(foundation.themes[at], at, true)}</div></div> : null;
+            },
+            add: themeAdd
+        } : {}),
+        content: () => (
+            <div className="column-tile-content strategy-foundation" data-rail={railId(title)} role="group" aria-label={title}>
+                <div className="business-engagement-section-head">
+                    <DialogHeading
+                        title={column === 0 ? "Current Situation" : title}
+                        info={columnInfo[column]}
+                    />
+                </div>
+                {/* (Each column's guidance is the "i" beside its title.) */}
+                <div className="brand-style-body">{columnBodies[column]}</div>
+            </div>
+        )
+    }));
+
+    return (
+
+        <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
+            <div
+                className="business-foundation-input business-foundation-card business-engagement-input"
+                data-anchor="column-tiles"
+                style={{ "--strategy-theme-hue": workHue("discover") } as CSSProperties}
+            >
+                <div className="card-scroll">
+                    <div className="business-capability-section business-capability-tiles-section">
+                        <div className="business-capability-heading-spacer" aria-hidden="true" />
+                        <SectionTiles label={STRATEGY_FOUNDATION_SECTIONS.join(", ")} hue={workHue("discover")} tiles={tiles} />
+                    </div>
+                </div>
+            </div>
         </div>
 
     );

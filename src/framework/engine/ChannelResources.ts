@@ -1,4 +1,4 @@
-import { workspacesOf, WORKSPACE_GROUP_ID } from "./AnswerUtils.ts";
+import { workspacesOf, WORKSPACE_GROUP_ID, BUSINESS_CHANNEL_CATEGORIES } from "./AnswerUtils.ts";
 import { parseAmount, parseDecimal } from "./Amounts.ts";
 import {
     type BusinessCapabilityValue,
@@ -373,21 +373,29 @@ export interface ChannelCostTemplate {
     group: string;
     frequency: string;
     unit?: string;
+    /** The channel categories (BUSINESS_CHANNEL_CATEGORIES ids) the template makes sense on: a courier is not a cost of an Instagram channel. */
+    categories: readonly string[];
 }
 
 export const CHANNEL_COST_TEMPLATES: readonly ChannelCostTemplate[] = [
-    { id: "T1", label: "Platform or tool subscription", kind: "resource", category: "digital", group: "sales-delivery-tools", frequency: "monthly" },
-    { id: "T2", label: "Payment processing fees", kind: "supplier", category: "suppliers", group: "platforms-payments", frequency: "percent-revenue" },
-    { id: "T3", label: "Marketplace fees and commission", kind: "supplier", category: "suppliers", group: "platforms-payments", frequency: "percent-revenue" },
-    { id: "T4", label: "Ads and influencers", kind: "supplier", category: "suppliers", group: "agencies-influencers", frequency: "per-project" },
-    { id: "T5", label: "Stall, pitch, stand or event fee", kind: "resource", category: "workspace", group: "site-hire", frequency: "per-project" },
-    { id: "T6", label: "Display kit or hardware", kind: "resource", category: "equipment", group: "devices-tools", frequency: "per-unit", unit: "item" },
-    { id: "T7", label: "Travel and van hire", kind: "resource", category: "documents", group: "tickets-trips", frequency: "per-project" },
-    { id: "T8", label: "Packaging and samples", kind: "resource", category: "materials", group: "materials-stock", frequency: "per-unit" },
-    { id: "T9", label: "Courier, postal, fulfilment", kind: "supplier", category: "suppliers", group: "logistics-fulfilment", frequency: "per-unit", unit: "parcel" },
-    { id: "T10", label: "Referral or reseller commission", kind: "partner", category: "partners", group: "revenue-partners", frequency: "percent-revenue" },
-    { id: "T12", label: "Event or transit insurance", kind: "resource", category: "documents", group: "insurances", frequency: "per-project" }
+    { id: "T1", categories: ["website","email","online-live","community","marketplace","file-delivery","social-media"], label: "Platform or tool subscription", kind: "resource", category: "digital", group: "sales-delivery-tools", frequency: "monthly" },
+    { id: "T2", categories: ["website","direct-payment","in-person","online-live"], label: "Payment processing fees", kind: "supplier", category: "suppliers", group: "platforms-payments", frequency: "percent-revenue" },
+    { id: "T3", categories: ["marketplace","retail-wholesale"], label: "Marketplace fees and commission", kind: "supplier", category: "suppliers", group: "platforms-payments", frequency: "percent-revenue" },
+    { id: "T4", categories: ["social-media","website","community","marketplace","referral-affiliates"], label: "Ads and influencers", kind: "supplier", category: "suppliers", group: "agencies-influencers", frequency: "per-project" },
+    { id: "T5", categories: ["in-person","retail-wholesale"], label: "Stall, pitch, stand or event fee", kind: "resource", category: "workspace", group: "site-hire", frequency: "per-project" },
+    { id: "T6", categories: ["in-person","direct-payment","online-live"], label: "Display kit or hardware", kind: "resource", category: "equipment", group: "devices-tools", frequency: "per-unit", unit: "item" },
+    { id: "T7", categories: ["in-person","physical-delivery"], label: "Travel and van hire", kind: "resource", category: "documents", group: "tickets-trips", frequency: "per-project" },
+    { id: "T8", categories: ["physical-delivery","retail-wholesale","marketplace","website","in-person"], label: "Packaging and samples", kind: "resource", category: "materials", group: "materials-stock", frequency: "per-unit" },
+    { id: "T9", categories: ["physical-delivery","marketplace","website","retail-wholesale"], label: "Courier, postal, fulfilment", kind: "supplier", category: "suppliers", group: "logistics-fulfilment", frequency: "per-unit", unit: "parcel" },
+    { id: "T10", categories: ["referral-affiliates","retail-wholesale"], label: "Referral or reseller commission", kind: "partner", category: "partners", group: "revenue-partners", frequency: "percent-revenue" },
+    { id: "T12", categories: ["in-person","physical-delivery","retail-wholesale"], label: "Event or transit insurance", kind: "resource", category: "documents", group: "insurances", frequency: "per-project" }
 ];
+
+/** The templates that fit a channel of this category (by its label); a category of the founder's own, or none, fits them all. */
+export function templatesForCategory(categoryLabel: string): readonly ChannelCostTemplate[] {
+    const known = BUSINESS_CHANNEL_CATEGORIES.find(entry => entry.label === categoryLabel);
+    return known && known.id !== "other" ? CHANNEL_COST_TEMPLATES.filter(template => template.categories.includes(known.id)) : CHANNEL_COST_TEMPLATES;
+}
 
 /** The company's cards of a template's kind and group that this channel does not hold yet: what it may Link existing. */
 export function existingForTemplate(
@@ -437,7 +445,7 @@ export function withNewTemplateCost(
 }
 
 /** Whether the channel already holds the card a template makes (a card of its group, named as the template). */
-function holdsTemplate(
+export function holdsTemplate(
     engagement: BusinessEngagementValue,
     capability: BusinessCapabilityValue,
     segmentId: string,
@@ -458,11 +466,13 @@ export function withTypicalCosts(
     engagement: BusinessEngagementValue,
     capability: BusinessCapabilityValue,
     segmentId: string,
-    channelId: string
+    channelId: string,
+    /** The templates that fit the channel's category (templatesForCategory); all of them where it is not given. */
+    fitting: readonly ChannelCostTemplate[] = CHANNEL_COST_TEMPLATES
 ): { engagement: BusinessEngagementValue; capability: BusinessCapabilityValue; offers: ChannelCostTemplate[] } {
     let next = { engagement, capability };
     const offers: ChannelCostTemplate[] = [];
-    for (const template of CHANNEL_COST_TEMPLATES) {
+    for (const template of fitting) {
         if (holdsTemplate(engagement, capability, segmentId, channelId, template)) {
             continue;
         }

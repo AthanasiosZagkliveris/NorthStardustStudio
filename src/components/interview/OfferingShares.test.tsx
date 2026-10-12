@@ -30,12 +30,12 @@ function Harness({ initial, onValue }: { initial: unknown; onValue?: (value: Val
 }
 
 const cost = (price: string, frequency: string) => ({ price, frequency, frequencyOther: "", unit: "", currency: "" });
-const card = (name: string, fields: Record<string, unknown> = {}) => ({ ...createBusinessResourceSlot(), name, status: "costs", cost: cost("300", "monthly"), category: "equipment", group: "devices-tools", ...fields });
+const card = (name: string, fields: Record<string, unknown> = {}) => ({ ...createBusinessResourceSlot(), name, status: "costs", startDate: "2027-01-01", cost: cost("300", "monthly"), category: "equipment", group: "devices-tools", ...fields });
 
 describe("the shares of the Offerings a card is linked to", () => {
 
     it("equal to start; typed ones total 100% or the card is incomplete; one Offering carries all", () => {
-        expect(equalOfferingShares(["a", "b", "c"])).toEqual({ a: "33.33", b: "33.33", c: "33.34" });
+        expect(equalOfferingShares(["a", "b", "c"])).toEqual({ a: "33", b: "33", c: "34" });
         expect(equalOfferingShares(["a"])).toEqual({ a: "100" });
         expect(offeringSharesTotal(["a", "b"], { a: "70", b: "30" })).toBe(100);
         expect(offeringSharesIncomplete(["a", "b"], { a: "70", b: "30" })).toBe(false);
@@ -142,7 +142,7 @@ describe("the shares on the card", () => {
     it("ticking a third Offering starts the shares again, equal", () => {
         const slot = setup({ offeringIds: ["off-a", "off-b"], offeringShares: { "off-a": "70", "off-b": "30" } });
         fireEvent.click(tick("Gamma"));
-        expect(slot().offeringShares).toEqual({ "off-a": "33.33", "off-b": "33.33", "off-c": "33.34" });
+        expect(slot().offeringShares).toEqual({ "off-a": "33", "off-b": "33", "off-c": "34" });
     });
 
 });

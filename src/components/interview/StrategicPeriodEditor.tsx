@@ -17,7 +17,6 @@ import {
     isRangeSet,
     monthIndex,
     strategyGoalsForTheme,
-    strategyThemeHues,
     strategyThemeName
 } from "../../framework/engine/AnswerUtils.ts";
 
@@ -28,9 +27,12 @@ import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../framework/engine/
 import { BusinessField, OptionalNote } from "./BusinessCardFields.tsx";
 import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
-import FoldArrow from "./FoldArrow.tsx";
 import CardNumber from "./CardNumber.tsx";
+import InfoNote from "./InfoNote.tsx";
 import CardNameInput from "./CardNameInput.tsx";
+import SectionTiles, { DialogHeading, type SectionTile } from "./SectionTiles.tsx";
+import CardBoxes, { type CardBox } from "./CardBoxes.tsx";
+import { workHue } from "../../framework/engine/WorkColours.ts";
 
 interface StrategicPeriodEditorProps {
 
@@ -67,14 +69,33 @@ interface StrategicPeriodEditorProps {
     /** The organization's currency, from the Legal Entity country: a Currency Metric's default. */
     organisationCurrency?: string;
 
+    /** Drawn inside another page's dialog (the Foundation's Strategic Period): only the tiles, no page around them. */
+    embedded?: boolean;
+
+    /** Embedded: only the Roadmap's tile, or only the Themes' (the Roadmap stands beside the dates, the Themes under them). */
+    only?: "roadmap" | "themes";
+
+    /** The Roadmap, as a tile before the Themes' (it opens the Roadmap in its dialog). */
+    roadmap?: () => ReactNode;
+
+    /** Where the Themes are written (the Foundation page): with it, a Theme's dialog has its name and its description to type in. */
+    onEditTheme?: (themeId: string, patch: { name?: string; description?: string }) => void;
+
+    /** Where a Theme is taken away (its x in the Theme's card): the Foundation page's own removal, with its guard. */
+    onRemoveTheme?: (themeId: string) => void;
+
 }
+
+const GOALS_HELP = "What do you want to accomplish within each Strategic Theme, and why does it matter?";
+const OBJECTIVES_HELP = "Specific, measurable, and time-bound milestones that support a Goal.";
+const INITIATIVES_HELP = "Actions focused on major areas of work to achieve the Objectives.";
+const METRICS_HELP = "Measures that provide evidence of progress toward the Objective.";
 
 /**
  * Marks a level as deliberately closed, as opposed to "nothing
  * chosen yet" (""), which opens the first box at that level. An id
  * is never this string, so the two states cannot collide.
  */
-const CLOSED = "__closed__";
 
 /** Which box is open at each level. Nothing below a closed box shows. */
 interface FocusPath {
@@ -109,15 +130,24 @@ export default function StrategicPeriodEditor({
 
     foundation,
 
-    columnsDivider,
-
-    showInstructions = true,
-
     founders = [],
 
-    organisationCurrency = ""
+    organisationCurrency = "",
+
+    embedded = false,
+
+    only,
+
+    roadmap,
+
+    onEditTheme,
+
+    onRemoveTheme
 
 }: StrategicPeriodEditorProps) {
+
+    // (Inside the Foundation's dialog the tiles and cards keep that dialog's hue; on its own page, the Strategy's.)
+    const pageHue = workHue(embedded ? "discover" : "decide");
 
     const period = asStrategicPeriodValue(value);
 
@@ -132,13 +162,6 @@ export default function StrategicPeriodEditor({
         goalId: "",
         objectiveId: ""
     });
-
-    // One pass over the whole list, so no two Themes can land on
-    // the same hue. The hue itself is what goes down the tree: the
-    // nested levels inside a Theme are the same hue at different
-    // lightnesses, so a Goal or a Metric reads as part of its
-    // Theme rather than as an unrelated grey.
-    const themeHues = strategyThemeHues(themes.map(theme => theme.id));
 
     const periodSet = isRangeSet(foundation.period);
 
@@ -159,25 +182,7 @@ export default function StrategicPeriodEditor({
         onChange({ goalsByTheme: { ...period.goalsByTheme, [themeId]: goals } });
     }
 
-    function heading(title: string, text: string) {
-        return (
-            <div className="brand-style-head">
-                <h3 className="answer-column-label brand-section-heading strategy-unnumbered-heading">
-                    <span className="answer-column-label-text">{title}</span>
-                </h3>
-                {/* Hidden by the page's Help button -- the heading
-                    stays, only the guidance goes. */}
-                {showInstructions && (
-                    <div className="answer-column-questions">
-                        <span className="answer-question-line answer-question-line-bullet">
-                            {`• ${text}`}
-                        </span>
-                    </div>
-                )}
-            </div>
-        );
-    }
-
+    // (The guidance of each section is its "i", beside the section's own title in the table: Goal, Objective, Initiatives, Metric.)
     /**
      * Whether a box at this level is open.
      *
@@ -191,157 +196,238 @@ export default function StrategicPeriodEditor({
         return chosen === id || (chosen === "" && index === 0);
     }
 
-    return (
+    const goalProps = {
+        disabled,
+        periodSet,
+        withinPeriod,
+        founders,
+        organisationCurrency,
+        periodStartYear: periodSet ? Number(foundation.period.start.year) : new Date().getFullYear(),
+        isOpen
+    };
 
-        <div
-            className="brand-style strategic-period"
-            style={{ "--answer-column-count": 4 } as CSSProperties}
-        >
+    /** What adds an Objective to a Goal, as a tile's "+" does. */
+    function objectiveAdd(themeId: string, goalId: string) {
+        const edit = (change: (objectives: StrategyObjectiveValue[]) => StrategyObjectiveValue[]) => setGoals(themeId, goalsFor(themeId).map(goal => goal.id === goalId ? { ...goal, objectives: change(goal.objectives) } : goal));
+        return {
+            label: "objective",
+            disabled,
+            onAdd: () => {
+                const added = createStrategyObjective();
+                edit(objectives => [...objectives, added]);
+                return added.id;
+            },
+            isBlank: (id: string) => {
+                const objective = goalsFor(themeId).find(goal => goal.id === goalId)?.objectives.find(entry => entry.id === id);
+                return !objective || (objective.name.trim() === "" && objective.description.trim() === "");
+            },
+            onRemove: (ids: string[]) => edit(objectives => objectives.filter(entry => !ids.includes(entry.id)))
+        };
+    }
 
-            {heading("Goals", "What do you want to accomplish within each Strategic Theme, and why does it matter?")}
-            {heading("Objectives", "Specific, measurable, and time-bound milestones that support a Goal.")}
-            {heading("Initiatives", "Actions focused on major areas of work to achieve the Objectives.")}
-            {heading("Metrics", "Measures that provide evidence of progress toward the Objective.")}
+    /** One Objective alone, floating: its Goal's list holds just it. */
+    function objectiveCard(themeId: string, objectiveId: string): ReactNode {
+        const goals = goalsFor(themeId);
+        const goal = goals.find(entry => entry.objectives.some(objective => objective.id === objectiveId));
+        const objective = goal?.objectives.find(entry => entry.id === objectiveId);
+        if (!goal || !objective) {
+            return null;
+        }
+        return (
+            <div className="column-tile-content strategy-goal-card" style={{ "--strategy-theme-hue": pageHue } as CSSProperties}>
+                <ObjectiveList
+                    firstNumber={goal.objectives.indexOf(objective) + 1}
+                    objectives={[objective]}
+                    disabled={disabled}
+                    periodSet={periodSet}
+                    withinPeriod={withinPeriod}
+                    founders={founders}
+                    organisationCurrency={organisationCurrency}
+                    periodStartYear={goalProps.periodStartYear}
+                    openObjectiveId={objective.id}
+                    isOpen={isOpen}
+                    onFocusObjective={() => undefined}
+                    onChangeObjectives={(next) => setGoals(themeId, goals.map(entry => entry.id === goal.id ? { ...entry, objectives: entry.objectives.flatMap(candidate => candidate.id === objective.id ? next : [candidate]) } : entry))}
+                    onRemoveObjective={(id) => setGoals(themeId, goals.map(entry => entry.id === goal.id ? { ...entry, objectives: entry.objectives.filter(candidate => candidate.id !== id) } : entry))}
+                />
+            </div>
+        );
+    }
 
-            {columnsDivider && (
-                <div className="answer-columns-divider">{columnsDivider}</div>
-            )}
+    /** A Goal's own card: it alone, in the box a floating card or a Theme with one Goal draws. */
+    function goalCard(themeId: string, goalId: string): ReactNode {
+        const goals = goalsFor(themeId);
+        const goal = goals.find(entry => entry.id === goalId);
+        if (!goal) {
+            return null;
+        }
+        return (
+            <div className="column-tile-content strategy-goal-card" style={{ "--strategy-theme-hue": pageHue } as CSSProperties}>
+                <GoalList
+                    {...goalProps}
+                    firstNumber={goals.indexOf(goal) + 1}
+                    goals={[goal]}
+                    objectiveTiles={(entry) => (
+                        <>
+                        <span className="field-group-title business-foundation-subhead strategy-tiles-label">Objectives</span>
+                        <CardBoxes
+                            items={entry.objectives.map((objective, at): CardBox => ({ id: objective.id, number: at + 1, name: objective.name, unnamed: "Unnamed objective", own: true, lines: objective.initiatives.filter(item => item.trim() !== "").slice(0, 4), marks: objective.initiatives.filter(item => item.trim() !== "").slice(0, 4).map(() => ({ bullet: true })), content: () => null }))}
+                            label="Objectives"
+                            what="Objective"
+                            add={objectiveAdd(themeId, entry.id)}
+                            autoStart={false}
+                            addNext
+                        />
+                        </>
+                    )}
+                    single
+                    openGoalId={goal.id}
+                    openObjectiveId={focus.objectiveId}
+                    onFocusGoal={() => undefined}
+                    onFocusObjective={(_goalId, objectiveId) => setFocus({ themeId, goalId: goal.id, objectiveId })}
+                    onChangeGoals={(next) => setGoals(themeId, goals.flatMap(entry => entry.id === goal.id ? next : [entry]))}
+                    onRemoveGoal={() => setGoals(themeId, goals.length > 1 ? goals.filter(entry => entry.id !== goal.id) : [createStrategyGoal()])}
+                />
+            </div>
+        );
+    }
 
-            <div className="strategy-themes">
+    /** THE PAGE AS TILES: each Strategic Theme is a tile (its Goals listed on it) opening its dialog; a Theme with several Goals shows a tile for each, and each Goal opens as a floating card. */
+    const tiles: SectionTile[] = themes.map((theme, themeIndex): SectionTile => {
+        const goals = goalsFor(theme.id);
+        const named = goals.map(goal => goal.name.trim()).filter(name => name.length > 0).slice(0, 6);
+        const add = {
+            label: "goal",
+            disabled,
+            onAdd: () => {
+                const added = createStrategyGoal();
+                setGoals(theme.id, [...goalsFor(theme.id), added]);
+                return added.id;
+            },
+            isBlank: (id: string) => {
+                const goal = goalsFor(theme.id).find(entry => entry.id === id);
+                return !goal || (goal.name.trim() === "" && goal.description.trim() === "" && goal.objectives.every(objective => objective.name.trim() === ""));
+            },
+            onRemove: (ids: string[]) => setGoals(theme.id, goalsFor(theme.id).filter(entry => !ids.includes(entry.id)))
+        };
+        return {
+            id: theme.id,
+            title: strategyThemeName(theme),
+            view: true,
+            rail: theme.id,
+            items: named,
+            itemMarks: named.map(() => ({ bullet: true })),
+            links: goals.filter(goal => goal.name.trim()).slice(0, 6).map(goal => ({ card: goal.id })),
+            holds: [...goals.map(goal => goal.id), ...goals.flatMap(goal => goal.objectives.map(objective => objective.id))],
+            add,
+            cardFor: (id: string) => goals.some(goal => goal.id === id) ? goalCard(theme.id, id) : objectiveCard(theme.id, id),
+            content: () => (
+                <div className="column-tile-content strategy-theme-dialog" data-rail={theme.id} style={{ "--strategy-theme-hue": pageHue } as CSSProperties}>
+                    {/* Where the Theme is written (the Foundation page): the card's head -- its number, its name cell and its x -- then its description, optional (a tick). */}
+                    {onEditTheme
+                        ? (
+                            <div className="strategy-theme-fields">
+                                <div className="strategy-box-head strategy-theme-head">
+                                    <span className="strategy-box-number"><span className="list-number">{(themeIndex + 1) + "."}</span></span>
+                                    <input
+                                        type="text"
+                                        className="interview-input strategy-theme-name"
+                                        aria-label={"Strategic Theme " + (themeIndex + 1) + " name"}
+                                        placeholder="Theme name"
+                                        disabled={disabled}
+                                        value={theme.name}
+                                        onChange={(event) => onEditTheme(theme.id, { name: event.target.value })}
+                                    />
+                                    {onRemoveTheme && <BoxActions label={"Strategic Theme " + (themeIndex + 1)} disabled={disabled} onRemove={() => onRemoveTheme(theme.id)} />}
+                                </div>
+                                <OptionalNote
+                                    label="Description"
+                                    ariaLabel={"Strategic Theme " + (themeIndex + 1) + " description"}
+                                    placeholder="What it represents and why it matters"
+                                    disabled={disabled}
+                                    value={theme.description}
+                                    onChange={(next) => onEditTheme(theme.id, { description: next })}
+                                />
+                            </div>
+                        )
+                        : (
+                            <div className="business-engagement-section-head">
+                                <DialogHeading title={(themeIndex + 1) + ". " + strategyThemeName(theme)} info={theme.description.trim() ? [theme.description.trim()] : undefined} />
+                            </div>
+                        )}
+                    {goals.length > 1
+                        ? (
+                            <>
+                            <span className="field-group-title business-foundation-subhead strategy-tiles-label">Goals</span>
+                            <CardBoxes
+                                items={goals.map((goal, at): CardBox => ({ id: goal.id, number: at + 1, name: goal.name, unnamed: "Unnamed goal", own: true, content: () => null }))}
+                                label="Goals"
+                                what="Goal"
+                                add={add}
+                                autoStart={false}
+                                addNext
+                            />
+                            </>
+                        )
+                        : (
+                            <>
+                                {goalCard(theme.id, goals[0]?.id ?? "")}
+                                <button type="button" className="strategy-add-button" disabled={disabled} onClick={() => { add.onAdd(); }}>+ Add Goal</button>
+                            </>
+                        )}
+                </div>
+            )
+        };
+    });
 
+    // The Roadmap's tile, first among them when the page draws it.
+    const roadmapTile: SectionTile[] = roadmap ? [{
+        id: "strategy-roadmap",
+        title: "Roadmap",
+        wide: true,
+        view: true,
+        items: themes.map(theme => strategyThemeName(theme)).filter(name => name.trim().length > 0).slice(0, 6),
+        itemMarks: themes.map(() => ({ bullet: true })),
+        content: () => <div className="column-tile-content">{roadmap()}</div>
+    }] : [];
 
-                {themes.length === 0 && (
+    if (embedded) {
+        return (
+            <div className="strategy-embedded-tiles">
+                {/* (The tiles keep the hue of the dialog they stand in: the Foundation's.) */}
+                <SectionTiles small label="Roadmap and Strategic Themes" hue={workHue("discover")} tiles={only === "roadmap" ? roadmapTile : only === "themes" ? tiles : [...roadmapTile, ...tiles]} />
+            </div>
+        );
+    }
+
+    if (themes.length === 0) {
+        return (
+            <div className="brand-style strategic-period" style={{ "--answer-column-count": 4 } as CSSProperties}>
+                <div className="strategy-themes">
                     <p className="strategy-empty-note">
                         Define your Strategic Themes on the Foundation page first.
                         Each one opens a box here.
                     </p>
-                )}
-
-                {themes.map((theme, themeIndex) => (
-
-                    <ThemeBox
-                        key={theme.id}
-                        theme={theme}
-                        number={themeIndex + 1}
-                        open={isOpen(focus.themeId, theme.id, themeIndex)}
-                        onToggle={(next) => setFocus({
-                            themeId: next ? theme.id : CLOSED,
-                            goalId: "",
-                            objectiveId: ""
-                        })}
-                        hue={themeHues[theme.id]}
-                    >
-
-                        <GoalList
-                            goals={goalsFor(theme.id)}
-                            disabled={disabled}
-                            periodSet={periodSet}
-                            withinPeriod={withinPeriod}
-                            founders={founders}
-                            organisationCurrency={organisationCurrency}
-                            periodStartYear={
-                                periodSet ? Number(foundation.period.start.year) : new Date().getFullYear()
-                            }
-                            openGoalId={focus.goalId}
-                            openObjectiveId={focus.objectiveId}
-                            isOpen={isOpen}
-                            onFocusGoal={(goalId) => setFocus({
-                                themeId: theme.id, goalId, objectiveId: ""
-                            })}
-                            onFocusObjective={(goalId, objectiveId) => setFocus({
-                                themeId: theme.id, goalId, objectiveId
-                            })}
-                            onChangeGoals={(goals) => setGoals(theme.id, goals)}
-                        />
-
-                    </ThemeBox>
-
-                ))}
-
+                </div>
             </div>
-
-        </div>
-
-    );
-
-}
-
-/**
- * One Strategic Theme. Its name and description belong to the
- * Foundation page and are shown here as text, not fields -- editing
- * stays where the information is defined.
- */
-function ThemeBox({
-
-    theme,
-
-    number,
-
-    open,
-
-    onToggle,
-
-    hue,
-
-    children
-
-}: {
-
-    theme: { id: string; name: string; description: string };
-
-    /**
-     * This Theme's own hue. Every ground inside the panel is that
-     * hue at a different lightness -- see strategyThemeHues.
-     */
-    hue: number;
-
-    number: number;
-
-    open: boolean;
-
-    onToggle: (open: boolean) => void;
-
-    children: ReactNode;
-
-}) {
+        );
+    }
 
     return (
-
-        <section
-            className="strategy-theme-panel"
-            data-rail={theme.id}
-            style={{ "--strategy-theme-hue": hue } as CSSProperties}
-        >
-
-            <div className="strategy-box-head fold-card-head">
-
-                <FoldArrow open={open} label={"Theme " + number} onToggle={() => onToggle(!open)} />
-
-                {/* Number, then what kind of box this is -- Themes,
-                    Goals, Objectives and Metrics nest, so each says
-                    which it is (see CardNumber) -- then its own name. */}
-                <CardNumber number={number} kind="Theme" />
-
-                <h4 className="strategy-theme-name">
-                    {strategyThemeName(theme)}
-                </h4>
-
-            </div>
-
-            {open && (
-                <div className="strategy-box-body">
-
-                    {theme.description.trim().length > 0 && (
-                        <p className="strategy-inherited-text">{theme.description}</p>
-                    )}
-
-                    {children}
-
+        <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
+            <div
+                className="business-foundation-input business-foundation-card business-engagement-input"
+                data-anchor="column-tiles"
+                style={{ "--strategy-theme-hue": pageHue } as CSSProperties}
+            >
+                <div className="card-scroll">
+                    <div className="business-capability-section business-capability-tiles-section">
+                        <div className="business-capability-heading-spacer" aria-hidden="true" />
+                        <SectionTiles small label="Strategic Themes" hue={pageHue} tiles={tiles} />
+                    </div>
                 </div>
-            )}
-
-        </section>
-
+            </div>
+        </div>
     );
 
 }
@@ -363,7 +449,6 @@ function GoalList({
 
     periodStartYear,
 
-    openGoalId,
 
     openObjectiveId,
 
@@ -373,9 +458,30 @@ function GoalList({
 
     onFocusObjective,
 
-    onChangeGoals
+    onChangeGoals,
+
+    single = false,
+
+    onRemoveGoal,
+
+    objectiveTiles,
+
+    firstNumber = 1
 
 }: {
+
+    /** The number of the first Goal drawn (a Goal alone in its card keeps its place in its Theme). */
+    firstNumber?: number;
+
+
+    /** With several Objectives a Goal shows them as tiles (each a floating card): this replaces the list and its add button. */
+    objectiveTiles?: (goal: StrategyGoalValue) => ReactNode;
+
+
+    /** One Goal alone, in its own card: no "+ Add Goal", and its x removes it through onRemoveGoal. */
+    single?: boolean;
+
+    onRemoveGoal?: () => void;
 
     goals: StrategyGoalValue[];
 
@@ -427,7 +533,8 @@ function GoalList({
 
                 const props = box.boxProps(goalIndex, goals.length, `Goal ${goalIndex + 1}`);
 
-                const open = isOpen(openGoalId, goal.id, goalIndex);
+                // (A card is always open: no fold arrow, no grip.)
+                const open = true;
 
                 return (
 
@@ -438,17 +545,12 @@ function GoalList({
                         className={`strategy-goal-box ${props.className}`}
                     >
 
-                        <div className="strategy-box-head fold-card-head fold-card-head-grip">
+                        <div className="strategy-box-head strategy-card-head-flat">
 
-                            <span className="strategy-drag-handle" {...box.handleProps}>⠿</span>
-
-                            <FoldArrow
-                                open={open}
-                                label={"Goal " + (goalIndex + 1)}
-                                onToggle={() => onFocusGoal(open ? CLOSED : goal.id)}
-                            />
-
-                            <CardNumber number={goalIndex + 1} kind="Goal" />
+                            <span className="strategy-card-head-label">
+                                <CardNumber number={firstNumber + goalIndex} kind="Goal" />
+                                <InfoNote label="Goal" points={[GOALS_HELP]} />
+                            </span>
 
                             <CardNameInput
                                 ariaLabel={`Goal ${goalIndex + 1} name`}
@@ -461,7 +563,7 @@ function GoalList({
                             <BoxActions
                                 label={`Goal ${goalIndex + 1}`}
                                 disabled={disabled}
-                                onRemove={() => onChangeGoals(
+                                onRemove={() => onRemoveGoal ? onRemoveGoal() : onChangeGoals(
                                     goals.length > 1
                                         ? goals.filter((_goal, position) => position !== goalIndex)
                                         : [createStrategyGoal()]
@@ -483,6 +585,7 @@ function GoalList({
                                     onChange={(next) => updateGoal(goalIndex, { description: next })}
                                 />
 
+                                {objectiveTiles && goal.objectives.length > 1 ? objectiveTiles(goal) : (<>
                                 <ObjectiveList
                                     objectives={goal.objectives}
                                     disabled={disabled}
@@ -511,6 +614,7 @@ function GoalList({
                                 >
                                     + Add Objective
                                 </button>
+                                </>)}
 
                             </div>
 
@@ -522,18 +626,20 @@ function GoalList({
 
             })}
 
-            <button
-                type="button"
-                className="strategy-add-button"
-                disabled={disabled}
-                onClick={() => {
-                    const added = createStrategyGoal();
-                    onChangeGoals([...goals, added]);
-                    onFocusGoal(added.id);
-                }}
-            >
-                + Add Goal
-            </button>
+            {!single && (
+                <button
+                    type="button"
+                    className="strategy-add-button"
+                    disabled={disabled}
+                    onClick={() => {
+                        const added = createStrategyGoal();
+                        onChangeGoals([...goals, added]);
+                        onFocusGoal(added.id);
+                    }}
+                >
+                    + Add Goal
+                </button>
+            )}
 
         </>
 
@@ -558,15 +664,23 @@ function ObjectiveList({
 
     periodStartYear,
 
-    openObjectiveId,
 
-    isOpen,
 
-    onFocusObjective,
 
-    onChangeObjectives
+    onChangeObjectives,
+
+    onRemoveObjective,
+
+    firstNumber = 1
 
 }: {
+
+    /** The number of the first Objective drawn (an Objective alone in its card keeps its place in its Goal). */
+    firstNumber?: number;
+
+
+    /** One Objective alone, in its own card: its x takes it away (a list of one would put a blank in its place). */
+    onRemoveObjective?: (objectiveId: string) => void;
 
     objectives: StrategyObjectiveValue[];
 
@@ -593,11 +707,13 @@ function ObjectiveList({
 
     const box = useMovableBox(
         (from, to) => onChangeObjectives(reorder(objectives, from, to)),
-        (index) => onChangeObjectives(
-            objectives.length > 1
-                ? objectives.filter((_objective, position) => position !== index)
-                : [createStrategyObjective()]
-        )
+        (index) => onRemoveObjective
+            ? onRemoveObjective(objectives[index].id)
+            : onChangeObjectives(
+                objectives.length > 1
+                    ? objectives.filter((_objective, position) => position !== index)
+                    : [createStrategyObjective()]
+            )
     );
 
 
@@ -642,7 +758,7 @@ function ObjectiveList({
                     `Objective ${objectiveIndex + 1}`
                 );
 
-                const open = isOpen(openObjectiveId, objective.id, objectiveIndex);
+                const open = true;
 
                 return (
 
@@ -653,17 +769,12 @@ function ObjectiveList({
                         className={`strategy-objective-box ${props.className}`}
                     >
 
-                        <div className="strategy-box-head fold-card-head fold-card-head-grip">
+                        <div className="strategy-box-head strategy-card-head-flat">
 
-                            <span className="strategy-drag-handle" {...box.handleProps}>⠿</span>
-
-                            <FoldArrow
-                                open={open}
-                                label={"Objective " + (objectiveIndex + 1)}
-                                onToggle={() => onFocusObjective(open ? CLOSED : objective.id)}
-                            />
-
-                            <CardNumber number={objectiveIndex + 1} kind="Objective" />
+                            <span className="strategy-card-head-label">
+                                <CardNumber number={firstNumber + objectiveIndex} kind="Objective" />
+                                <InfoNote label="Objective" points={[OBJECTIVES_HELP]} />
+                            </span>
 
                             <CardNameInput
                                 ariaLabel={`Objective ${objectiveIndex + 1} name`}
@@ -685,7 +796,7 @@ function ObjectiveList({
                                     { id: "sooner", label: "Soonest first" },
                                     { id: "later", label: "Latest first" }
                                 ]}
-                                onRemove={() => onChangeObjectives(
+                                onRemove={() => onRemoveObjective ? onRemoveObjective(objective.id) : onChangeObjectives(
                                     objectives.length > 1
                                         ? objectives.filter((_entry, index) => index !== objectiveIndex)
                                         : [createStrategyObjective()]
@@ -783,7 +894,6 @@ function ObjectiveList({
                                         {objective.responsibleOff === true ? null : (
                                         <OptionPicker
                                             label={"Objective " + (objectiveIndex + 1) + " responsible"}
-                                            placeholder="Select a founder"
                                             hug
                                             options={founders.map(founder => founder.name)}
                                             disabled={disabled}
@@ -807,7 +917,7 @@ function ObjectiveList({
                                     are written together rather than
                                     one after the other.
                                 */}
-                                <div className="strategy-objective-columns">
+                                <div className="strategy-objective-columns strategy-objective-stacked">
 
                                     {/*
                                         Borrows the Metric box's
@@ -827,6 +937,7 @@ function ObjectiveList({
 
                                         <div className="strategy-box-head">
                                             <span className="strategy-box-number">Initiatives</span>
+                                            <InfoNote label="Initiatives" points={[INITIATIVES_HELP]} />
                                         </div>
 
                                         <NumberedListInput
@@ -932,9 +1043,8 @@ function MetricList({
 
                         <div className="strategy-box-head">
 
-                            <span className="strategy-drag-handle" {...box.handleProps}>⠿</span>
-
                             <CardNumber number={metricIndex + 1} kind="Metric" />
+                            <InfoNote label="Metric" points={[METRICS_HELP]} />
 
                             <CardNameInput
                                 ariaLabel={`Objective ${objectiveNumber} metric ${metricIndex + 1} name`}

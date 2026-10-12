@@ -115,7 +115,7 @@ describe("a channel's resources", () => {
         const foundation = responses.find(response => response.sectionNumber === 1)!.value as { segments: { id: string; offerings: { id: string }[] }[] };
         const offeringId = foundation.segments.find(entry => entry.id === segment.segmentId)!.offerings[0].id;
         const chosen = asBusinessCapabilityValue(capabilityResponse.value);
-        capabilityResponse.value = { ...chosen, offering: { ...chosen.offering, resources: chosen.offering.resources.map(slot => slot.id === made.link.resourceId ? { ...slot, status: "costs", offeringIds: [offeringId] } : slot) } };
+        capabilityResponse.value = { ...chosen, offering: { ...chosen.offering, resources: chosen.offering.resources.map(slot => slot.id === made.link.resourceId ? { ...slot, status: "costs", startDate: "2026-10-01", offeringIds: [offeringId] } : slot) } };
         const lines = readFoundation(sessions(), { wholeOnly: true }).lines.filter(line => line.name === "Card reader subscription");
         expect(lines).toHaveLength(1);
         expect(lines[0].amount).toBe(20);

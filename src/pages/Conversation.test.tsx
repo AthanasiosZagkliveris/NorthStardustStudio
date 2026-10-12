@@ -150,46 +150,40 @@ describe("Conversation records the last place worked", () => {
         fireEvent.click(screen.getByRole("button", { name: "Start Interview" }));
         expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 0 });
 
-        // (The first item is the Introduction.)
+        // (The first item is the Introduction; the second the Organization page, which holds the Legal Entity and the Founders Profile.)
         fireEvent.click(screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item")[2]);
-        expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 1 });
+        expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 2 });
+        fireEvent.click(screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item")[1]);
 
-        const card = document.querySelector<HTMLElement>("[data-rail]")!;
+        // (The Foundation page holds the Definition and the Ethics, four tiles each: Philosophy's dialog opens, and the field in it is focused.)
+        fireEvent.click(screen.getByRole("button", { name: /^Philosophy/ }));
+        const card = document.querySelector<HTMLElement>(".column-tile-content[data-rail]")!;
         const field = card.querySelector<HTMLElement>("textarea, input")!;
         fireEvent.focus(field);
 
         expect(OrganizationService.getLastPlace(organization.id)).toEqual({
             systemNumber: 1,
-            sectionIndex: 1,
+            sectionIndex: 0,
             anchor: card.dataset.rail
         });
 
     });
 
-    it("draws each section's status on the Sections rail, and updates it as a column is answered", () => {
+    it("has no Sections rail on a page of tiles; the tile carries the column", () => {
 
         const organization = OrganizationService.create("Quillfield");
         vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
 
         renderIdentity({ targetSectionNumber: 1, resume: {} });
 
-        const sections = () => Array.from(screen.getByRole("navigation", { name: "Sections" }).querySelectorAll(".bullet-rail-item"))
-            .map(button => button.getAttribute("aria-label"));
+        expect(screen.queryByRole("navigation", { name: "Sections" })).toBeNull();
 
-        expect(sections()).toEqual([
-            "1. Description: not started",
-            "2. Mission: not started",
-            "3. Positioning: not started",
-            "4. Vision: not started"
-        ]);
-
-        fireEvent.change(document.querySelector<HTMLTextAreaElement>("[data-rail] textarea")!, {
+        fireEvent.click(screen.getByRole("button", { name: /^Description/ }));
+        fireEvent.change(document.querySelector<HTMLTextAreaElement>(".column-tile-content[data-rail] textarea")!, {
             target: { value: "We automate small offices." }
         });
 
-        expect(sections()[0]).toBe("1. Description: defined");
-        expect(screen.getByRole("navigation", { name: "Sections" }).querySelector(".bullet-rail-dot")?.getAttribute("data-status"))
-            .toBe("defined");
+        expect(screen.getAllByRole("button", { name: /^Description/ }).length).toBeGreaterThan(0);
 
     });
 
@@ -198,24 +192,24 @@ describe("Conversation records the last place worked", () => {
         const organization = OrganizationService.create("Quillfield");
         vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
 
-        renderIdentity({ targetSectionNumber: 2, resume: {} });
+        renderIdentity({ targetSectionNumber: 1, resume: {} });
         const current = () => screen.getByRole("navigation", { name: "Pages" }).querySelector("[aria-current='true']")?.getAttribute("aria-label");
 
-        expect(current()).toMatch(/^2. /);
+        expect(current()).toMatch(/^1. /);
         fireEvent.click(screen.getByRole("button", { name: "Next page" }));
-        expect(current()).toMatch(/^3. /);
-        fireEvent.keyDown(document.body, { key: "ArrowLeft" });
         expect(current()).toMatch(/^2. /);
+        fireEvent.keyDown(document.body, { key: "ArrowLeft" });
+        expect(current()).toMatch(/^1. /);
         fireEvent.keyDown(document.body, { key: "ArrowRight" });
-        expect(current()).toMatch(/^3. /);
+        expect(current()).toMatch(/^2. /);
 
-        // Not while typing.
+        // Not while typing (page 2 holds the Legal Entity, tiles: open the first, which holds boxes).
+        fireEvent.click(screen.getByRole("button", { name: /^Organization/ }));
         const box = document.querySelector<HTMLElement>("textarea, input")!;
         fireEvent.keyDown(box, { key: "ArrowLeft" });
-        expect(current()).toMatch(/^3. /);
+        expect(current()).toMatch(/^2. /);
 
-        // From the first page, back to the Introduction.
-        fireEvent.click(screen.getByRole("button", { name: "Previous page" }));
+        // From the second page, back to the first, then to the Introduction.
         fireEvent.click(screen.getByRole("button", { name: "Previous page" }));
         expect(current()).toMatch(/^1. /);
         fireEvent.click(screen.getByRole("button", { name: "Previous page" }));
@@ -250,14 +244,14 @@ describe("Conversation records the last place worked", () => {
 
         renderIdentity({ targetSectionNumber: 3, resume: {} });
         const current = () => screen.getByRole("navigation", { name: "Pages" }).querySelector("[aria-current='true']")?.getAttribute("aria-label");
-        expect(current()).toMatch(/^3. /);
+        expect(current()).toMatch(/^2. /);
 
         fireEvent.click(screen.getByRole("button", { name: "Introduction" }));
         fireEvent.click(screen.getByRole("button", { name: "Start Interview" }));
         expect(current()).toMatch(/^1. /);
 
         // And → on the Introduction does the same.
-        fireEvent.click(screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item")[3]);
+        fireEvent.click(screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item")[2]);
         fireEvent.click(screen.getByRole("button", { name: "Introduction" }));
         fireEvent.keyDown(document.body, { key: "ArrowRight" });
         expect(current()).toMatch(/^1. /);
@@ -273,7 +267,7 @@ describe("Conversation records the last place worked", () => {
 
         expect(screen.queryByRole("button", { name: "Start Interview" })).toBeNull();
         expect(screen.getByRole("navigation", { name: "Pages" }).querySelector("[aria-current='true']")?.getAttribute("aria-label"))
-            .toMatch(/^3\. Legal Entity/);
+            .toMatch(/^2\. Organization/);
         expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 2 });
 
     });
@@ -351,11 +345,11 @@ describe("A System's opening screen", () => {
 
         renderOpening("identity");
 
-        fireEvent.click(screen.getByRole("button", { name: "Legal Entity" }));
+        fireEvent.click(screen.getByRole("button", { name: "Organization" }));
 
         expect(screen.queryByRole("button", { name: "Start Interview" })).toBeNull();
         expect(screen.getByRole("navigation", { name: "Pages" }).querySelector("[aria-current='true']")?.getAttribute("aria-label"))
-            .toMatch(/^3\. Legal Entity/);
+            .toMatch(/^2\. Organization/);
 
     });
 
@@ -434,9 +428,14 @@ describe("3. Infrastructure & Capability folds its guidance per title", () => {
         expect(document.querySelectorAll(".answer-column-questions")).toHaveLength(1);
         page.unmount();
 
-        // Page 2 keeps the page's own button.
-        renderPage(2);
-        expect(screen.getByRole("button", { name: "Hide Help" })).toBeTruthy();
+        // Page 2 (Customer Engagement) has none either: the guidance of each section title is its "i".
+        const second = renderPage(2);
+        expect(screen.queryByRole("button", { name: /Hide Help|Need Help/ })).toBeNull();
+        second.unmount();
+
+        // Page 1 (Foundation) is drawn as tiles too: no Hide Help button.
+        renderPage(1);
+        expect(screen.queryByRole("button", { name: /Hide Help|Need Help/ })).toBeNull();
         expect(screen.queryByRole("button", { name: /^(Show|Hide) help for / })).toBeNull();
 
     });

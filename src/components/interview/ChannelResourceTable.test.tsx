@@ -75,10 +75,10 @@ describe("the Channel resources table (Customer Engagement, 1. Customer Channel)
 
     it("lists each channel resource with its cost, behaviour, home channel (and the others it shows in), stages and actions, read-only", () => {
         renderPage();
-        const table = screen.getByRole("table", { name: /Channel resources of Homes/ });
+        const table = screen.getByRole("table", { name: /Channel expenses of Homes/ });
         const rows = within(table).getAllByRole("row").slice(1);
         expect(within(table).getAllByRole("columnheader").map(cell => cell.textContent)).toEqual([
-            "Resource", "Cost", "Behaviour", "Channel", "Offerings", "Journey stages", "Actions"
+            "Channel Expense", expect.stringMatching(/^Cost/), "Frequency", "Behaviour", "ChannelSubchannel", "Offerings", "Journey stages", "Actions"
         ]);
         // Social Media is the first category in the channel table, Email the second.
         // The categories come in first-appearance order: Social Media (Instagram), then Email.
@@ -88,19 +88,19 @@ describe("the Channel resources table (Customer Engagement, 1. Customer Channel)
         // No "Where it lives", Status or "Also reaches" column: the Channel cell lists the home channel
         // first and each other channel the resource shows in after it, as bullets styled alike.
         expect(cells(rows[0])).toEqual([
-            "£25 a month", "Fixed", "Social Media · InstagramSocial Media · Pinterest", "—", "Discover", "#1"
+            "25", "a month", "Fixed", "Social MediaInstagramPinterest", "—", "Discover", "#1"
         ]);
-        const home = within(rows[0]).getAllByRole("cell")[2];
-        expect([...home.querySelectorAll("li")].map(item => item.textContent))
-            .toEqual(["Social Media · Instagram", "Social Media · Pinterest"]);
-        expect(home.querySelector("ul")?.className).toContain("channel-resource-bullets");
-        expect(home.textContent).not.toContain("also");
+        // The Channel column: each place is its channel, a rule, its subchannel.
+        const home = within(rows[0]).getAllByRole("cell")[3];
+        expect([...home.querySelectorAll(".channel-resource-place")].map(item => item.textContent))
+            .toEqual(["Social MediaInstagramPinterest"]);
+        expect(home.querySelector(".channel-resource-place-rule")).not.toBeNull();
         // One value is plain text indented to the bullets' text, with no bullet list.
-        expect(within(rows[0]).getAllByRole("cell")[4].querySelector("ul")).toBeNull();
-        expect(within(rows[0]).getAllByRole("cell")[4].querySelector(".channel-resource-single")).not.toBeNull();
+        expect(within(rows[0]).getAllByRole("cell")[5].querySelector("ul")).toBeNull();
+        expect(within(rows[0]).getAllByRole("cell")[5].querySelector(".channel-resource-single")).not.toBeNull();
         expect(within(rows[1]).getByRole("rowheader").textContent).toBe("Courier label");
         expect(cells(rows[1])).toEqual([
-            "£1.40 per order", "Variable", "Email · Newsletter", "—", "—", "—"
+            "1.40", "per order", "Variable", "EmailNewsletter", "—", "—", "—"
         ]);
         // Each row is in its resource's warm colour.
         expect(rows[0].className).toMatch(/tint-resource-1/);
@@ -114,7 +114,7 @@ describe("the Channel resources table (Customer Engagement, 1. Customer Channel)
 
     it("opens the card on 3. Infrastructure & Capability from the name, and names each action in a button", () => {
         const { onOpenCapability } = renderPage();
-        const table = screen.getByRole("table", { name: /Channel resources/ });
+        const table = screen.getByRole("table", { name: /Channel expenses/ });
         fireEvent.click(within(table).getByRole("button", { name: /Shopify Basic/ }));
         expect(onOpenCapability).toHaveBeenCalledWith(expect.arrayContaining(["card-shop", "capability-offering-capability"]));
         const action = within(table).getByRole("button", { name: "Go to action #1: Post reels" });
@@ -123,22 +123,22 @@ describe("the Channel resources table (Customer Engagement, 1. Customer Channel)
 
     it("is a fold of its own, open until folded, and is not drawn while the Segment has no resources", () => {
         renderPage();
-        const fold = screen.getByRole("button", { name: "Minimize channel resources" });
-        expect(screen.getByText("Channel resources")).toBeTruthy();
+        const fold = screen.getByRole("button", { name: "Minimize channel expenses" });
+        expect(screen.getByText("Channel expenses")).toBeTruthy();
         fireEvent.click(fold);
-        expect(screen.queryByRole("table", { name: /Channel resources/ })).toBeNull();
-        fireEvent.click(screen.getByRole("button", { name: "Maximize channel resources" }));
-        expect(screen.getByRole("table", { name: /Channel resources/ })).toBeTruthy();
+        expect(screen.queryByRole("table", { name: /Channel expenses/ })).toBeNull();
+        fireEvent.click(screen.getByRole("button", { name: "Maximize channel expenses" }));
+        expect(screen.getByRole("table", { name: /Channel expenses/ })).toBeTruthy();
         cleanup();
         renderPage({ linked: false });
-        expect(screen.queryByText("Channel resources")).toBeNull();
-        expect(screen.queryByRole("table", { name: /Channel resources/ })).toBeNull();
+        expect(screen.queryByText("Channel expenses")).toBeNull();
+        expect(screen.queryByRole("table", { name: /Channel expenses/ })).toBeNull();
     });
 
     it("lists two or more journey stages, offerings or actions one under the other, bulleted alike", () => {
         const row = {
-            resourceId: "r", linkIds: [], name: "Shop", colour: 1, anchors: [], place: "", costText: "£1", costDetail: "",
-            behaviour: "Fixed" as const, home: "Email · News", reaches: [], stages: ["Discover", "Evaluate"],
+            resourceId: "r", linkIds: [], name: "Shop", colour: 1, anchors: [], place: "", costText: "£1", amountText: "1", frequencyText: "a month", costDetail: "",
+            behaviour: "Fixed" as const, home: "Email · News", reaches: [], placesOf: [{ channel: "Email", sub: "News" }], stages: ["Discover", "Evaluate"],
             actions: [{ id: "a", order: 1, text: "One" }, { id: "b", order: 2, text: "Two" }], offerings: ["Mugs", "Plates"]
         };
         render(<ChannelResourceTable
@@ -147,14 +147,14 @@ describe("the Channel resources table (Customer Engagement, 1. Customer Channel)
         />);
         const cells = within(screen.getByRole("table")).getAllByRole("cell");
         const lists = cells.map(cell => [...cell.querySelectorAll("li")].map(item => item.textContent));
-        // Channel (one value), Offerings, Journey stages, Actions
-        expect(lists.slice(2)).toEqual([[], ["Mugs", "Plates"], ["Discover", "Evaluate"], ["#1", "#2"]]);
-        for (const cell of cells.slice(3, 5)) {
+        // Cost, Frequency, Behaviour, Channel (a place), Offerings, Journey stages, Actions
+        expect(lists.slice(3)).toEqual([[], ["Mugs", "Plates"], ["Discover", "Evaluate"], ["#1", "#2"]]);
+        for (const cell of cells.slice(4, 6)) {
             expect(cell.querySelector("ul")?.className).toContain("channel-resource-bullets");
         }
         // Actions: side by side, no bullets.
-        expect(cells[5].querySelector("ul")?.className).toContain("channel-resource-chips");
-        expect(cells[5].querySelector("ul")?.className).not.toContain("channel-resource-bullets");
+        expect(cells[6].querySelector("ul")?.className).toContain("channel-resource-chips");
+        expect(cells[6].querySelector("ul")?.className).not.toContain("channel-resource-bullets");
     });
 
 });

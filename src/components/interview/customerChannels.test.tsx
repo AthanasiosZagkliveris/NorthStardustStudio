@@ -155,10 +155,10 @@ describe("the examples, on the new categories", () => {
         fireEvent.click(screen.getByRole("button", { name: "Expand all channel categories" }));
         expect(screen.getAllByText("Not usual for this category")).toHaveLength(1);
         // Each category and each channel picker has its "i"; the two rows share one shape.
-        expect(screen.getAllByRole("button", { name: "Channel Category: what this means" })).toHaveLength(2);
+        expect(screen.getAllByRole("button", { name: "Channel: what this means" })).toHaveLength(2);
         expect(screen.getAllByRole("button", { name: "Channel: what this means" })).toHaveLength(2);
         // Both open as the wide note (1.5 times the standard width).
-        fireEvent.click(screen.getAllByRole("button", { name: "Channel Category: what this means" })[0]);
+        fireEvent.click(screen.getAllByRole("button", { name: "Channel: what this means" })[0]);
         expect(document.querySelector(".info-note-panel")?.classList.contains("info-note-panel-wide")).toBe(true);
         fireEvent.keyDown(document.querySelector(".info-note-panel")!, { key: "Escape" });
         const name = document.querySelector(".business-channel-name")!;
@@ -196,7 +196,7 @@ describe("a Segment's shared channel actions, in the table", () => {
         render(<Harness />);
         fireEvent.click(document.querySelector(".business-channel-category .strategy-box-toggle")!);
 
-        const pinLine = screen.getByLabelText("Discover actions for Channel 2 1");
+        const pinLine = screen.getByLabelText("Discover actions for Subchannel 2 1");
         fireEvent.change(pinLine, { target: { value: "Post" } });
         fireEvent.mouseDown(screen.getByRole("option", { name: "Post weaving reels" }));
 
@@ -209,7 +209,7 @@ describe("a Segment's shared channel actions, in the table", () => {
         expect(screen.queryByText(/^also in/)).toBeNull();
 
         // Out of Pinterest's row: still in Instagram's.
-        fireEvent.click(screen.getByRole("button", { name: "Remove action 1 from Discover actions for Channel 2" }));
+        fireEvent.click(screen.getByRole("button", { name: "Remove action 1 from Discover actions for Subchannel 2" }));
         expect(saved!.segments[0].channels[1].actionIds.discovery).toEqual([]);
         expect(saved!.segments[0].channels[0].actions.discovery).toEqual(["Post weaving reels"]);
     });
@@ -244,7 +244,7 @@ describe("a Segment's shared channel actions, in the table", () => {
 
     it("shares an action by typing # and its total order number in a line: it is offered first, and Enter puts the same action there", () => {
         const holder = renderPair();
-        const line = screen.getByLabelText("Discover actions for Channel 2 1");
+        const line = screen.getByLabelText("Discover actions for Subchannel 2 1");
         fireEvent.change(line, { target: { value: "#2" } });
         expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Answer DMs"]);
         fireEvent.keyDown(line, { key: "Enter" });
@@ -252,14 +252,14 @@ describe("a Segment's shared channel actions, in the table", () => {
         // The same action (same id), not a copy; the typed text is replaced by its words; no stray "#2" action.
         expect(pin.actionIds.discovery).toEqual([insta.actionIds.discovery[1]]);
         expect(holder.saved!.segments[0].actions).toHaveLength(2);
-        expect((screen.getByLabelText("Discover actions for Channel 2 1") as HTMLTextAreaElement).value).toBe("Answer DMs");
+        expect((screen.getByLabelText("Discover actions for Subchannel 2 1") as HTMLTextAreaElement).value).toBe("Answer DMs");
         // Shared actions carry one number: #2 on both rows.
         expect([...document.querySelectorAll(".numbered-list-order")].map(node => node.textContent)).toEqual(["#1", "#2", "#2"]);
     });
 
     it("leaves a number that refers to nothing, or to an action already on the row, as typed", () => {
         const holder = renderPair(["Pin room sets"]);
-        const line = screen.getByLabelText("Discover actions for Channel 2 1");
+        const line = screen.getByLabelText("Discover actions for Subchannel 2 1");
         for (const typed of ["#9", "#0", "#", "# 3 4", "#3"]) {
             fireEvent.change(line, { target: { value: typed } });
             // #3 is this row's own action ("Pin room sets" is typed over by now): nothing to offer.
@@ -271,30 +271,30 @@ describe("a Segment's shared channel actions, in the table", () => {
 
     it("lets an empty line go when focus leaves it, and keeps the one line of an empty row", async () => {
         renderPair(["Pin room sets"]);
-        const first = screen.getByLabelText("Discover actions for Channel 2 1");
+        const first = screen.getByLabelText("Discover actions for Subchannel 2 1");
         first.focus();
         // Enter opens a new line to type in...
         fireEvent.keyDown(first, { key: "Enter" });
-        const second = screen.getByLabelText("Discover actions for Channel 2 2");
+        const second = screen.getByLabelText("Discover actions for Subchannel 2 2");
         expect(document.activeElement).toBe(second);
         // ...it stays while it is being typed in or only just opened...
         await act(() => new Promise(resolve => window.setTimeout(resolve, 260)));
-        expect(screen.queryByLabelText("Discover actions for Channel 2 2")).not.toBeNull();
+        expect(screen.queryByLabelText("Discover actions for Subchannel 2 2")).not.toBeNull();
         // ...and goes when focus leaves it empty.
         second.blur();
         await act(() => new Promise(resolve => window.setTimeout(resolve, 260)));
-        expect(screen.queryByLabelText("Discover actions for Channel 2 2")).toBeNull();
-        expect((screen.getByLabelText("Discover actions for Channel 2 1") as HTMLTextAreaElement).value).toBe("Pin room sets");
+        expect(screen.queryByLabelText("Discover actions for Subchannel 2 2")).toBeNull();
+        expect((screen.getByLabelText("Discover actions for Subchannel 2 1") as HTMLTextAreaElement).value).toBe("Pin room sets");
     });
 
     it("keeps the one empty line of a row with no action, whatever focus does", async () => {
         renderPair();
-        const lone = screen.getByLabelText("Discover actions for Channel 2 1");
+        const lone = screen.getByLabelText("Discover actions for Subchannel 2 1");
         lone.focus();
         lone.blur();
         await act(() => new Promise(resolve => window.setTimeout(resolve, 260)));
-        expect(screen.getByLabelText("Discover actions for Channel 2 1")).toBeTruthy();
-        expect(screen.queryByLabelText("Discover actions for Channel 2 2")).toBeNull();
+        expect(screen.getByLabelText("Discover actions for Subchannel 2 1")).toBeTruthy();
+        expect(screen.queryByLabelText("Discover actions for Subchannel 2 2")).toBeNull();
     });
 
 });
@@ -436,7 +436,7 @@ describe("action markers in the Customer Channel table", () => {
         expect(channelInputs()).toBe(2);
         const rowsBefore = document.querySelectorAll(".business-channel-table tbody tr").length;
         expect(adds().length).toBeGreaterThan(0);
-        expect(screen.getAllByRole("button", { name: /Add expenses for/ }).length).toBeGreaterThan(0);
+        expect(screen.getAllByRole("button", { name: /Add expense to/ }).length).toBeGreaterThan(0);
 
         fireEvent.click(shared()[0]);
         expect(shared().every(button => button.getAttribute("aria-pressed") === "true")).toBe(true);
@@ -448,7 +448,7 @@ describe("action markers in the Customer Channel table", () => {
         expect(document.querySelectorAll(".business-channel-table tbody tr").length).toBeLessThan(rowsBefore);
         // Every Add is hidden; so are the cards and cost lines not linked to the action.
         expect(adds()).toHaveLength(0);
-        expect(screen.queryByRole("button", { name: /Add expenses for/ })).toBeNull();
+        expect(screen.queryByRole("button", { name: /Add expense to/ })).toBeNull();
         expect(screen.queryByRole("button", { name: /Link an action to/ })).toBeNull();
         expect(document.querySelector('[data-channel-resource="link-shop"]')).toBeTruthy();
         expect(document.querySelector('[data-channel-resource="link-ads"]')).toBeNull();

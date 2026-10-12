@@ -1,4 +1,8 @@
 import { CSSProperties, DragEvent, ReactNode, useRef, useState } from "react";
+import SectionTiles, { DialogHeading, type SectionTile } from "./SectionTiles.tsx";
+import PictureBoxes, { type PictureBox } from "./PictureBoxes.tsx";
+import type { CardBoxAdd } from "./CardBoxes.tsx";
+import { stableCardHue } from "../../framework/engine/AnswerUtils.ts";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import AssetPreviewImage from "./AssetPreviewImage.tsx";
 import { ColumnHeading, GuidanceBullets } from "./ColumnHeads.tsx";
@@ -14,6 +18,7 @@ import {
     brandMarkFile
 } from "../../framework/engine/AnswerUtils.ts";
 import { railId } from "./rails/railItems.ts";
+import { inwardOrigin } from "./CardTile.tsx";
 
 interface BrandInventoryEditorProps {
 
@@ -35,6 +40,12 @@ interface BrandInventoryEditorProps {
      * line -- see AnswerRendererProps.showInstructions.
      */
     showInstructions?: boolean;
+
+    /** The page drawn as tiles (the page's tile system); the editor's own tests draw the whole page. */
+    asTiles?: boolean;
+
+    /** With `asTiles`: the tiles are handed to the page that holds them (the Style page, which carries the Icon & Logo and the Brand Images) instead of being a page of their own. */
+    renderTiles?: (tiles: SectionTile[]) => ReactNode;
 
 }
 
@@ -209,11 +220,19 @@ export default function BrandInventoryEditor({
 
     columnsDivider,
 
-    showInstructions = true
+    showInstructions = true,
+
+    asTiles = false,
+
+    renderTiles
 
 }: BrandInventoryEditorProps) {
 
     const inventory = asBrandInventoryValue(value);
+
+    /* The answer as it is now, for a card left blank and taken away later. */
+    const latest = useRef({ inventory, onChange });
+    latest.current = { inventory, onChange };
 
     const [error, setError] = useState<string>("");
 
@@ -378,6 +397,236 @@ export default function BrandInventoryEditor({
 
     const rowsStyle = { "--inventory-rows": rows } as CSSProperties;
 
+    /** One image's holder, with its name and description beside it; `key` is its place. */
+    function imageZone(image: BrandInventoryAnswerValue["images"][number], index: number) {
+        return (
+                        <DropZone
+                            key={index}
+                            label={`Image ${index + 1}`}
+                            shape="image"
+                            accept="image/*"
+                            disabled={disabled}
+                            asset={image.dataUrl ? image : undefined}
+                            onFile={(file) => acceptFile(file, "any", (asset) => updateImage(index, asset))}
+                            onClear={() => removeImage(index)}
+                            aside={
+                                <div className="brand-image-text">
+                                    <input
+                                        type="text"
+                                        className="interview-input brand-image-name"
+                                        aria-label={`Image ${index + 1} name`}
+                                        placeholder="Name"
+                                        disabled={disabled}
+                                        value={image.name}
+                                        onChange={(event) => updateImage(index, { name: event.target.value })}
+                                    />
+                                    <StrategyTextArea
+                                        className="interview-input brand-image-note"
+                                        ariaLabel={`Image ${index + 1} description`}
+                                        placeholder="Short description"
+                                        disabled={disabled}
+                                        value={image.description}
+                                        onChange={(next) => updateImage(index, { description: next })}
+                                    />
+                                </div>
+                            }
+                        />
+        );
+    }
+
+    /* ---------- The page as tiles: each section's guidance and uploads ---------- */
+
+    /** Each section's guidance as the "i" beside its title. */
+    const guidance: InfoPoint[][] = [
+        [
+            `Upload your icon and logo in PNG or SVG formats, with a maximum file size of ${MAX_MARK_BYTES / 1024} KB each.`, ...MARK_FORMATS,
+            "Choose an icon and logo that represent your organisation clearly and consistently.", ...SHAPE_ASSOCIATIONS,
+            "Icon vs Logo: the icon should remain recognisable at small sizes, while the logo can combine the icon with the organisation name."
+        ],
+        [
+            `Upload ${BRAND_IMAGE_MIN}–${BRAND_IMAGE_MAX} images that represent the visual character of your brand, with a maximum file size of ${MAX_BRAND_IMAGE_BYTES / 1024} KB each.`,
+            "Choose images that consistently communicate your brand's visual character, atmosphere and subject matter.", ...IMAGE_TYPES,
+            "Image selection: choose images with a recognisable visual character through subject matter, composition, lighting, colour, texture or atmosphere.",
+            "Variety: use different subjects or perspectives while maintaining enough consistency for the collection to feel like one brand."
+        ]
+    ];
+
+    const columnBodies: ReactNode[] = [
+        (
+            <>
+
+                {/* Row 1: the Logo, on its own, as wide as the column. */}
+                {renderMarkSlot("logo")}
+
+                {/* Row 2: the Icon, and beside it what the two show and
+                    how they are used -- its top and bottom level with
+                    the Icon's box. */}
+                {renderMarkSlot("icon", (
+                    <StrategyTextArea
+                        className="interview-input brand-mark-note"
+                        ariaLabel="Icon and logo description"
+                        placeholder="What the logo and icon show, what they mean, and how they should be used"
+                        disabled={disabled}
+                        value={inventory.markDescription}
+                        onChange={(next) => onChange({ ...inventory, markDescription: next })}
+                    />
+                ))}
+
+            </>
+        ),
+        (
+            <>
+
+                {/*
+                    Each image beside ONE text holder: its name on top,
+                    its description under it (room for five lines, and
+                    growing past them). The image's box is as tall as
+                    that holder, so the two end on one line. On screen
+                    from the start -- an empty slot shows its holder
+                    just as a filled one does.
+                */}
+                {inventory.images.map((image, index) => imageZone(image, index))}
+
+                {/*
+                    The way to go past the two default slots. Held
+                    back until both of those are actually filled --
+                    otherwise it would sit there as a third empty
+                    holder next to two empty ones, which reads as
+                    clutter rather than an invitation.
+                */}
+                {addingImage && (
+
+                    <DropZone
+                        label={`Image ${inventory.images.length + 1}`}
+                        shape="image"
+                        accept="image/*"
+                        disabled={disabled}
+                        asset={undefined}
+                        onFile={(file) => acceptFile(file, "any", (asset) => onChange({
+                            ...inventory,
+                            images: [...inventory.images, { ...asset, name: "", description: "" }]
+                        }))}
+                    />
+
+                )}
+
+            </>
+        )
+    ];
+
+    /* THE PAGE AS TILES (the page's tile system): two LARGE tiles. Icon & Logo carries the icon, in front; Brand Images carries the images. Icon & Logo opens its
+       uploads in its dialog; Brand Images opens a box for each image (the image covers it, its title on top), and a box opens that image's card floating. */
+    if (asTiles) {
+        const imageId = (index: number) => "brand-image-" + index;
+        const imageIndex = (id: string) => id.startsWith("brand-image-") ? Number(id.slice("brand-image-".length)) : -1;
+        /** A card floating over its tile keeps the page's scope (its holder, its fields). */
+        const floating = (card: ReactNode) => (
+            <div className="column-tile-content brand-inventory">
+                <div className="brand-image-card">
+                    <div className="brand-style-body brand-inventory-rows" style={{ "--inventory-rows": 1 } as CSSProperties}>{card}</div>
+                </div>
+            </div>
+        );
+
+        const mark = brandMarkFile(inventory.icon) ?? brandMarkFile(inventory.logo);
+        const markTile: SectionTile = {
+            id: "brand-inventory-0",
+            title: BRAND_INVENTORY_SECTIONS[0],
+            large: true,
+            view: true,
+            rail: railId(BRAND_INVENTORY_SECTIONS[0]),
+            picture: mark
+                ? <img className="brand-tile-icon" src={mark.dataUrl} alt="" />
+                : <span className="section-tile-picture-colour section-tile-picture-colour-empty">No icon yet</span>,
+            content: () => (
+                <div className="column-tile-content brand-inventory" data-rail={railId(BRAND_INVENTORY_SECTIONS[0])}>
+                    <div className="business-engagement-section-head"><DialogHeading title={BRAND_INVENTORY_SECTIONS[0]} info={guidance[0]} noteSize="double" /></div>
+                    {error && <p className="brand-inventory-error" role="alert">{error}</p>}
+                    <div className="brand-style-body brand-inventory-rows" style={rowsStyle}>{columnBodies[0]}</div>
+                </div>
+            )
+        };
+
+        const imageBoxes: PictureBox[] = inventory.images.map((image, index) => ({
+            id: imageId(index),
+            label: "Image " + (index + 1) + ": " + (image.name.trim() || image.fileName || "no image yet"),
+            style: image.dataUrl ? { backgroundImage: "url(" + image.dataUrl + ")" } : undefined,
+            className: "picture-box-image" + (image.dataUrl ? "" : " picture-box-image-empty"),
+            children: (
+                <>
+                    <span className="picture-box-name">{image.name.trim() || "Image " + (index + 1)}</span>
+                    {!image.dataUrl && <span className="picture-box-line">Drag or click to add the image</span>}
+                </>
+            )
+        }));
+        const imageAdd: CardBoxAdd | undefined = inventory.images.length < BRAND_IMAGE_MAX
+            ? {
+                label: "image",
+                disabled,
+                onAdd: () => {
+                    onChange({ ...inventory, images: [...inventory.images, { dataUrl: "", fileName: "", name: "", description: "" }] });
+                    return imageId(inventory.images.length);
+                },
+                isBlank: (id: string) => {
+                    const image = latest.current.inventory.images[imageIndex(id)];
+                    return !image || (!image.dataUrl && !image.name.trim() && !image.description.trim());
+                },
+                onRemove: (ids: string[]) => {
+                    const now = latest.current;
+                    const off = ids.map(imageIndex);
+                    now.onChange({ ...now.inventory, images: now.inventory.images.filter((_image, at) => !off.includes(at)) });
+                }
+            }
+            : undefined;
+        const imagesTile: SectionTile = {
+            id: "brand-inventory-1",
+            title: BRAND_INVENTORY_SECTIONS[1],
+            large: true,
+            view: true,
+            rail: railId(BRAND_INVENTORY_SECTIONS[1]),
+            holds: inventory.images.map((_image, index) => imageId(index)),
+            add: imageAdd,
+            cardFor: (id: string) => {
+                const index = imageIndex(id);
+                return index >= 0 && index < inventory.images.length ? floating(imageZone(inventory.images[index], index)) : null;
+            },
+            picture: inventory.images.some(image => image.dataUrl)
+                ? (
+                    <span className="brand-mosaic brand-mosaic-images" style={{ "--mosaic-across": inventory.images.length <= 3 ? inventory.images.length : Math.ceil(inventory.images.length / 2) } as CSSProperties}>
+                        {inventory.images.map((image, index) => <span key={index} className="brand-mosaic-image" data-card={imageId(index)} style={{ transformOrigin: inwardOrigin(index, inventory.images.length, inventory.images.length <= 3 ? inventory.images.length : Math.ceil(inventory.images.length / 2)), ...(image.dataUrl ? { backgroundImage: "url(" + image.dataUrl + ")" } : {}) }} />)}
+                    </span>
+                )
+                : <span className="section-tile-picture-colour section-tile-picture-colour-empty">No images yet</span>,
+            content: () => (
+                <div className="column-tile-content brand-inventory" data-rail={railId(BRAND_INVENTORY_SECTIONS[1])}>
+                    <div className="business-engagement-section-head"><DialogHeading title={BRAND_INVENTORY_SECTIONS[1]} info={guidance[1]} noteSize="double" /></div>
+                    {error && <p className="brand-inventory-error" role="alert">{error}</p>}
+                    <PictureBoxes label="Images" items={imageBoxes} add={imageAdd} />
+                </div>
+            )
+        };
+
+        if (renderTiles) {
+            return <>{renderTiles([markTile, imagesTile])}</>;
+        }
+        return (
+            <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
+                <div
+                    className="business-foundation-input business-foundation-card business-engagement-input"
+                    data-anchor="column-tiles"
+                    style={{ "--strategy-theme-hue": stableCardHue("column-tiles-brand-inventory") } as CSSProperties}
+                >
+                    <div className="card-scroll">
+                        <div className="business-capability-section business-capability-tiles-section">
+                            <div className="business-capability-heading-spacer" aria-hidden="true" />
+                            <SectionTiles label="Inventory" hue={stableCardHue("column-tiles-brand-inventory")} tiles={[markTile, imagesTile]} />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
 
         <div
@@ -467,41 +716,7 @@ export default function BrandInventoryEditor({
                     from the start -- an empty slot shows its holder
                     just as a filled one does.
                 */}
-                {inventory.images.map((image, index) => (
-
-                    <DropZone
-                        key={index}
-                        label={`Image ${index + 1}`}
-                        shape="image"
-                        accept="image/*"
-                        disabled={disabled}
-                        asset={image.dataUrl ? image : undefined}
-                        onFile={(file) => acceptFile(file, "any", (asset) => updateImage(index, asset))}
-                        onClear={() => removeImage(index)}
-                        aside={
-                            <div className="brand-image-text">
-                                <input
-                                    type="text"
-                                    className="interview-input brand-image-name"
-                                    aria-label={`Image ${index + 1} name`}
-                                    placeholder="Name"
-                                    disabled={disabled}
-                                    value={image.name}
-                                    onChange={(event) => updateImage(index, { name: event.target.value })}
-                                />
-                                <StrategyTextArea
-                                    className="interview-input brand-image-note"
-                                    ariaLabel={`Image ${index + 1} description`}
-                                    placeholder="Short description"
-                                    disabled={disabled}
-                                    value={image.description}
-                                    onChange={(next) => updateImage(index, { description: next })}
-                                />
-                            </div>
-                        }
-                    />
-
-                ))}
+                {inventory.images.map((image, index) => imageZone(image, index))}
 
                 {/*
                     The way to go past the two default slots. Held

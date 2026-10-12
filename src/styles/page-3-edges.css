@@ -144,7 +144,7 @@
    FILLED UNDER THE POINTER: at rest an outlined triangle (no fill, a 1.5px stroke in the ink colour), under the pointer and the keyboard focus the
    same triangle filled. It is a mask over the ink colour, in the size and at the place the filled one had: nothing moves.
 ========================================================== */
-:is(.answer-columns, .section-tile-overlay).business-capability .business-founder-open .strategy-box-toggle::before,
+:is(.answer-columns, .section-tile-overlay).business-capability :is(.business-founder-open, .business-capability-links) .strategy-box-toggle::before,
 :is(.answer-columns, .section-tile-overlay).business-capability .title-arrow::before {
 
     border-width: 0;
@@ -156,7 +156,7 @@
 
 }
 
-:is(.answer-columns, .section-tile-overlay).business-capability .business-founder-open .strategy-box-toggle[aria-expanded="false"]::before {
+:is(.answer-columns, .section-tile-overlay).business-capability :is(.business-founder-open, .business-capability-links) .strategy-box-toggle[aria-expanded="false"]::before {
 
     width: 11px;
     height: 18px;
@@ -167,7 +167,7 @@
 
 }
 
-:is(.answer-columns, .section-tile-overlay).business-capability .business-founder-open .strategy-box-toggle[aria-expanded="true"]::before {
+:is(.answer-columns, .section-tile-overlay).business-capability :is(.business-founder-open, .business-capability-links) .strategy-box-toggle[aria-expanded="true"]::before {
 
     width: 18px;
     height: 11px;
@@ -178,14 +178,14 @@
 
 }
 
-:is(.answer-columns, .section-tile-overlay).business-capability .business-founder-open .strategy-box-toggle[aria-expanded="false"]:is(:hover, :focus-visible)::before {
+:is(.answer-columns, .section-tile-overlay).business-capability :is(.business-founder-open, .business-capability-links) .strategy-box-toggle[aria-expanded="false"]:is(:hover, :focus-visible)::before {
 
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 18'%3E%3Cpath d='M.75.75 10.25 9 .75 17.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 18'%3E%3Cpath d='M.75.75 10.25 9 .75 17.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
 
 }
 
-:is(.answer-columns, .section-tile-overlay).business-capability .business-founder-open .strategy-box-toggle[aria-expanded="true"]:is(:hover, :focus-visible)::before {
+:is(.answer-columns, .section-tile-overlay).business-capability :is(.business-founder-open, .business-capability-links) .strategy-box-toggle[aria-expanded="true"]:is(:hover, :focus-visible)::before {
 
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'%3E%3Cpath d='M.75.75 17.25.75 9 10.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'%3E%3Cpath d='M.75.75 17.25.75 9 10.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
@@ -229,7 +229,7 @@
 }
 
 /* No ground and no ring under the pointer: the filled triangle is the whole reaction. */
-:is(.answer-columns, .section-tile-overlay).business-capability .business-founder-open .strategy-box-toggle:hover {
+:is(.answer-columns, .section-tile-overlay).business-capability :is(.business-founder-open, .business-capability-links) .strategy-box-toggle:hover {
 
     border-color: transparent;
 
@@ -345,5 +345,29 @@
     padding-right: 12px;
 
     text-align: right;
+
+}
+
+/* THE "i" TAKES ITS CARD'S HUE WHEREVER THE CARD IS: the pair above is set where the surface is, where no hue is known yet (a dialog's hue is set on the card inside it), so it fell
+   back to red -- on a green or blue card. Set on the button itself, it reads the hue the button inherits, in every reading mode (the tokens change with the mode). */
+:is(.answer-columns, .section-tile-overlay).business-capability .info-note > .info-note-button {
+
+    --info-ink: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+
+    --info-fill: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+:is(.answer-columns, .section-tile-overlay).business-capability .business-foundation-card:not(.business-foundation-input) .info-note > .info-note-button {
+
+    --info-fill: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+.floating-overlay .floating-card-caption .info-note > .info-note-button.info-note-button {
+
+    --info-ink: var(--floating-caption-ink);
+
+    --info-fill: #2b2b2b;
 
 }

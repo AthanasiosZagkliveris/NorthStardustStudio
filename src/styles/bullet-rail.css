@@ -58,7 +58,8 @@
 
     content: "";
 
-    flex: 0 1 max(0px, calc(50vh - 104px));
+    /* (The arrow's centre stands at --arrow-level, the gap between the two rows of tiles -- PageArrow.tsx --; the rails' row starts 24px under it.) */
+    flex: 0 1 max(0px, calc(var(--arrow-level, calc(50vh - 24px)) + 24px - 104px));
 
 }
 
@@ -327,9 +328,10 @@
 
 }
 
-.bullet-rail-left .bullet-rail-label { right: 24px; }
+/* (A name always stands INWARDS, over the page, so the window's edge never cuts it.) */
+.bullet-rail-left .bullet-rail-label { left: 24px; }
 
-.bullet-rail-right .bullet-rail-label { left: 24px; }
+.bullet-rail-right .bullet-rail-label { right: 24px; }
 
 .bullet-rail-left .tooltip-inside .bullet-rail-label { right: auto; left: 24px; }
 
@@ -370,11 +372,11 @@
 
         flex: 0 1 auto;
         min-height: 0;
-        max-width: calc(100% + 20px);
+        max-width: calc(100% + 56px);
         overflow-y: auto;
 
-        margin: -10px;
-        padding: 10px;
+        margin: -28px;
+        padding: 28px;
 
     }
 
@@ -444,5 +446,49 @@
 
     .bullet-rail-item,
     .bullet-rail-dot { transition: none; }
+
+}
+
+/* A RAIL WHOSE NAMES WRAP (set by BulletRail): its title and names are not drawn; the bullets stay, a name appears beside the bullet under the pointer, as in the narrow layout. */
+@media (min-width: 1700px) {
+
+    .bullet-rail.bullet-rail-compact .bullet-rail-title { display: none; }
+
+    .bullet-rail.bullet-rail-compact .bullet-rail-label {
+
+        position: absolute;
+        top: 50%;
+
+        max-width: none;
+        padding: 4px 8px;
+
+        white-space: nowrap;
+
+        border: 1px solid var(--tooltip-border);
+        border-radius: 6px;
+        background: var(--tooltip-bg);
+        box-shadow: var(--tooltip-shadow);
+        color: var(--tooltip-text);
+        font-weight: 500;
+
+        text-indent: 0;
+        margin-left: 0;
+
+        transform: translateY(-50%);
+        opacity: 0;
+        pointer-events: none;
+
+    }
+
+    /* Its names are tooltips and its bullets glow: nothing may clip either. */
+    .bullet-rail.bullet-rail-compact .bullet-rail-list { overflow: visible; }
+
+    /* The name stands INWARDS, over the page (never out toward the window's edge, where it would be cut). */
+    .bullet-rail-left.bullet-rail-compact .bullet-rail-label { left: 24px; right: auto; }
+
+    .bullet-rail-right.bullet-rail-compact .bullet-rail-label { right: 24px; left: auto; }
+
+    .bullet-rail.bullet-rail-compact .bullet-rail-item:hover .bullet-rail-label,
+    .bullet-rail.bullet-rail-compact .bullet-rail-item:focus-visible .bullet-rail-label { opacity: 1; }
 
 }

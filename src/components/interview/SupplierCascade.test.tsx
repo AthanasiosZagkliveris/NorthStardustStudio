@@ -39,16 +39,14 @@ function setup(extra: Record<string, unknown> = {}) {
 
 describe("Category, Group, Name", () => {
 
-    it("shows the Category first, the Group once the Category is picked and the Name once the Group is", () => {
+    it("shows the Group first, with every group in the list, and the Name once the Group is picked", () => {
         setup();
-        expect(screen.getByLabelText(/Resource 1 supplier category: /)).toBeTruthy();
-        expect(screen.queryByLabelText(/Resource 1 supplier group: /)).toBeNull();
+        // (No Category: the group picked says whether the card is a Partner or a Supplier.)
+        expect(screen.queryByLabelText(/Resource 1 supplier category: /)).toBeNull();
+        expect(screen.getByLabelText(/Resource 1 supplier group: /)).toBeTruthy();
         expect(screen.queryByLabelText(/Resource 1 supplier: /)).toBeNull();
-        fireEvent.click(screen.getByLabelText(/Resource 1 supplier category: /));
-        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Partners", "Suppliers"]);
-        fireEvent.click(screen.getByRole("option", { name: "Suppliers" }));
         fireEvent.click(screen.getByLabelText(/Resource 1 supplier group: /));
-        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Goods & Equipment", "Business Services", "Creative & IT Services", "Property, Vehicles & Facilities", "Technical Support"]);
+        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Alliances & Networks", "Goods & Equipment", "Business Services", "Creative & IT Services", "Property, Vehicles & Facilities", "Technical Support"]);
         expect(screen.queryByLabelText(/Resource 1 supplier: /)).toBeNull();
         fireEvent.click(screen.getByRole("option", { name: "Technical Support" }));
         fireEvent.click(screen.getByLabelText(/Resource 1 supplier: /));
@@ -58,8 +56,6 @@ describe("Category, Group, Name", () => {
 
     it("the link symbol appears beside the chosen name and opens that card with this one; there is no 'Open …' line", () => {
         const value = setup();
-        fireEvent.click(screen.getByLabelText(/Resource 1 supplier category: /));
-        fireEvent.click(screen.getByRole("option", { name: "Suppliers" }));
         fireEvent.click(screen.getByLabelText(/Resource 1 supplier group: /));
         fireEvent.click(screen.getByRole("option", { name: "Technical Support" }));
         expect(screen.queryByRole("button", { name: /^Open Supplier/ })).toBeNull();
@@ -73,9 +69,8 @@ describe("Category, Group, Name", () => {
         expect(document.querySelector("[data-pair]")).toBeTruthy();
     });
 
-    it("a chosen name shows its own Category and Group; changing the Group clears the name", () => {
+    it("a chosen name shows its own Group; changing the Group clears the name", () => {
         const value = setup({ resources: { equipment: [{ id: "devices-tools", name: "", slots: [{ ...oven(), providerId: "clerk" }] }] } });
-        expect(screen.getByLabelText(/Resource 1 supplier category: /).getAttribute("aria-label")).toMatch(/Suppliers$/);
         expect(screen.getByLabelText(/Resource 1 supplier group: /).getAttribute("aria-label")).toMatch(/Business Services$/);
         expect(screen.getByLabelText(/Resource 1 supplier: /).getAttribute("aria-label")).toMatch(/Clerk & Co$/);
         fireEvent.click(screen.getByLabelText(/Resource 1 supplier group: /));
@@ -87,10 +82,9 @@ describe("Category, Group, Name", () => {
 
     it("'Other…' makes a new card in the Category and Group picked, and chooses it", () => {
         const value = setup();
-        fireEvent.click(screen.getByLabelText(/Resource 1 supplier category: /));
-        fireEvent.click(screen.getByRole("option", { name: "Partners" }));
-        // (Infrastructure has the one group of Partners: a list of one is text, and the Name follows at once.)
-        expect(screen.queryByLabelText(/Resource 1 supplier group: /)).toBeNull();
+        // (A Partners group: the card made is a Partner.)
+        fireEvent.click(screen.getByLabelText(/Resource 1 supplier group: /));
+        fireEvent.click(screen.getByRole("option", { name: "Alliances & Networks" }));
         fireEvent.click(screen.getByLabelText(/Resource 1 partner: /));
         expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Other…"]);
         fireEvent.click(screen.getByRole("option", { name: "Other…" }));
@@ -106,7 +100,7 @@ describe("Category, Group, Name", () => {
 
 describe("a partner or supplier card has its Group", () => {
 
-    it("shows the Group of its Category, and files a card in the one group when the Category has just one", () => {
+    it("shows its Group, with every group of the place in the list; the group picked decides whether it is a Partner or a Supplier", () => {
         const base = asBusinessCapabilityValue(undefined);
         let latest: Value | undefined;
         render(<Harness initial={{ ...base, providers: [supplier("acme", "Acme Installers", "technical-support")] }} onValue={(next) => { latest = next; }} />);
@@ -116,9 +110,14 @@ describe("a partner or supplier card has its Group", () => {
         // No Category row: the tile says whether it is a Supplier.
         expect(screen.queryByLabelText(/Acme Installers category: /)).toBeNull();
         fireEvent.click(screen.getByLabelText(/Acme Installers group: /));
-        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Goods & Equipment", "Business Services", "Creative & IT Services", "Property, Vehicles & Facilities", "Technical Support"]);
+        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Alliances & Networks", "Goods & Equipment", "Business Services", "Creative & IT Services", "Property, Vehicles & Facilities", "Technical Support"]);
         fireEvent.click(screen.getByRole("option", { name: "Business Services" }));
         expect(latest!.providers[0]).toMatchObject({ category: "suppliers", group: "business-services" });
+        // A Partners group makes it a Partner.
+        fireEvent.click(screen.getByLabelText(/Acme Installers group: /));
+        fireEvent.click(screen.getByRole("option", { name: "Alliances & Networks" }));
+        const moved = [...latest!.professionals, ...latest!.providers].find(partner => partner.id === "acme")!;
+        expect(moved).toMatchObject({ category: "partners", group: "alliances-networks" });
     });
 
 });

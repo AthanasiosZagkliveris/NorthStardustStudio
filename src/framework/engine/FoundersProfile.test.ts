@@ -34,12 +34,12 @@ describe("the Founders Profile page", () => {
 
     test("stores an object from the start, takes one number, and is never incomplete", () => {
         const answer = { type: AnswerType.FoundersProfile };
-        expect(defaultAnswerValue(answer)).toEqual({ founders: [], teamGaps: "" });
+        expect(defaultAnswerValue(answer)).toEqual({ founders: [], teamGaps: "", teamCover: "" });
         expect(numberedUnitCount(answer)).toBe(1);
         expect(isAnswerEmpty(answer, undefined)).toBe(false);
         expect(sectionRailItems(answer)).toEqual([
             { id: "founders", label: "1. Founders" },
-            { id: "team-capability-gaps-cover", label: "2. Team Capability Gaps & Cover" }
+            { id: "capability-gaps-cover", label: "2. Capability Gaps & Cover" }
         ]);
     });
 

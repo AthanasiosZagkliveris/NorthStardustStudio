@@ -57,6 +57,10 @@ export interface ChannelResourceRow {
     place: string;
     /** "£25 a month", "£1.40 per order"; "No cost yet" (or "Free" for a resource that already exists). */
     costText: string;
+    /** The cost as a plain figure ("25", "1.40"), its currency being the table's heading; "Free" / "No cost yet" where there is no price. */
+    amountText: string;
+    /** How often it is paid: "a month", "per order", "one-time"; "" where there is no price. */
+    frequencyText: string;
     /** "2 × £25" when a Quantity multiplies the price, else "". */
     costDetail: string;
     behaviour: "Fixed" | "Variable" | "";
@@ -64,6 +68,8 @@ export interface ChannelResourceRow {
     home: string;
     /** The other channels its actions reach (their names with category), in table order: listed under the home channel, in its cell. */
     reaches: string[];
+    /** The home channel and the others it reaches, each as its channel (the category) and its subchannel (the name), for the Channel column. */
+    placesOf: { channel: string; sub: string }[];
     /** The journey stages of its actions, in the journey's order. */
     stages: string[];
     actions: ChannelResourceAction[];
@@ -86,6 +92,8 @@ export interface ChannelResourceTable {
     summary: ChannelResourceSummary;
     /** "Fixed per month: £25 · Variable: £1.40 per order · One-time: £400"; "" with nothing priced. */
     summaryText: string;
+    /** The currency of the Cost column's heading ("GBP"); "" while the organisation has none. */
+    currency?: string;
 }
 
 const STAGE_LABELS = new Map<string, string>(BUSINESS_JOURNEY_STAGES.map(stage => [stage.id, stage.label]));
@@ -152,6 +160,7 @@ export function buildChannelResourceTable(
 
             const reachedIds = [...new Set(links.flatMap(entry => resourceReach(engagement, entry)))].filter(id => id !== channel.id);
             const reaches = channels.filter(other => reachedIds.includes(other.id)).map(other => channelNameById.get(other.id) ?? "");
+            const placesOf = [channel, ...channels.filter(other => reachedIds.includes(other.id))].map(entry => ({ channel: entry.category.trim(), sub: entry.name.trim() || "Unnamed subchannel" }));
 
             const stages = [...new Set(placed.map(placement => placement.stage))]
                 .sort((one, other) => STAGE_ORDER.indexOf(one) - STAGE_ORDER.indexOf(other))
@@ -170,6 +179,7 @@ export function buildChannelResourceTable(
                 ? count + " × " + format(Math.round(amount / count * 100) / 100)
                 : "";
             const period = costPeriodWords(card.cost);
+            const isPercent = card.cost.frequency === "percent-revenue" || card.cost.frequency === "percent-cost";
 
             // Only what the card holds: the names of its linked Offerings (an Infrastructure or Workspace card has no Offerings field).
             const offeringNames = card.scope === "infrastructure"
@@ -186,14 +196,18 @@ export function buildChannelResourceTable(
                 costText: amount !== null
                     ? [format(amount), period].filter(Boolean).join(" ")
                     : card.status === "exists" ? "Free" : "No cost yet",
+                amountText: amount !== null ? format(amount).replace(/^[^0-9-]+/, "").replace(/[^0-9.,-]+$/, "") : card.status === "exists" ? "Free" : "No cost yet",
+                // (A percentage says its symbol here: "% of revenue".)
+                frequencyText: amount !== null ? (isPercent ? "% " : "") + period : "",
                 costDetail,
                 behaviour: amount === null
                     ? ""
-                    : isPerUnitFrequency(card.cost.frequency as CostFrequency)
+                    : isPercent || isPerUnitFrequency(card.cost.frequency as CostFrequency)
                         ? "Variable"
                         : ["one-time", "monthly", "annually"].includes(card.cost.frequency) ? "Fixed" : "",
                 home: channelLabel(channel.category, channel.name),
                 reaches,
+                placesOf,
                 stages,
                 actions,
                 offerings: offeringNames
@@ -256,6 +270,6 @@ export function buildChannelResourceTable(
         parts.push("One-time: " + format(summary.oneTime));
     }
 
-    return { rows, summary, summaryText: parts.join(" · ") };
+    return { rows, summary, summaryText: parts.join(" · "), currency };
 
 }

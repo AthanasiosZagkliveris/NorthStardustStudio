@@ -138,10 +138,10 @@ body {
   /* The Workspace dialog's form block (section-tiles.css): centred, this wide at most. */
   /* The Workspace form's label column: as wide as the widest label of the form (max-content), no wider. */
   /* An open card in a dialog (a card box pressed): centred, this wide at most. */
-  --open-card-width: 480px;
+  --open-card-width: 492px;
   /* A founder's card: the marker column left of the content edge (a bullet, a number, the
      fold arrow), so the card's padding on that side is --card-padding + --founder-inset + this. */
-  --founder-marker: 26.3px;
+  --founder-marker: 35.5px;
   /* (26.3px = a single-digit head number in tabular figures, 18.3px, plus the head's one 8px gap: the number stands 8px
      before the name. --founder-inset keeps the standard 36px fold arrow's focus ring inside the card: the arrow's box
      reaches 12.5px left of its glyph, its ring 4px more.) */
@@ -150,7 +150,7 @@ body {
      picker's longest option ("Annually") needs with its padding, chevron and border. And the width of a
      founder's card: what its content needs and no more -- the padding, inset and marker column, the two columns of cells
      (the second as wide as the label "Frequency (i)", 120px) 12px apart, the right padding and the border. */
-  --founder-cell: 108px;
+  --founder-cell: var(--card-cell-narrow);
   --founder-card-min: 297px;
   /* THE ONE DIALOG GROUND and the glass cards inside it (section-tiles.css): the alpha
      of the card's ground (the rest lets the dimmed page show through) and the blur
@@ -170,7 +170,7 @@ body {
   --plus-fill-saturation: 36%;
   --plus-fill-lightness: 38%;
   /* THE PAGE BEHIND A FLOATING CARD: a flat dark scrim and the white ink of the box names standing on it (7:1 or more over the brightest page of any theme). */
-  --floating-scrim: rgba(0, 0, 0, 0.6);
+  --floating-scrim: transparent;
   --floating-caption-ink: #ffffff;
   /* THE CELLS of an opened card (inputs, pickers, text boxes, name cells, Back; not the x, which keeps its own look) have no stroke either: a lighter light and shade, inside. */
   --cell-light: rgba(255, 255, 255, 0.5);
@@ -245,7 +245,21 @@ body {
      labels stand in one column and their dropdowns start at one x. With a
      TICK BOX before it (Responsible: 22px box + 8px gap + 100px word + 8px +
      22px "i" = 160px) the column still holds tick, word and "i" on ONE line. */
-  --side-label-short: 164px;
+  /* THE FIELDS OF A CARD, ONE SET OF MEASURES (Business cards, the Legal Entity's, the Founders'): every cell of a card starts at one of these lines, so no card
+     can be a few pixels off another.
+       --card-label-col   the label column of a side-label row (Start date, Group, Performer, Responsible, Frequency): wide enough for a tick, its word and its "i"
+       --card-cell-gap    the space between two cells of a row (and between a label and its cell)
+       --card-cell-narrow the narrow cell of a pair (Salary | Frequency, Working | Delivery hours) */
+  --card-label-col: 177px;
+  --card-cell-gap: var(--space-cell);
+  --card-cell-narrow: 108px;
+  /* The label column of a colour's or a typeface's card (Role, Colour): the same on both. */
+  --brand-label-col: 87px;
+  /* The height of every cell of a card (a text box, a picker, a date): 44px. */
+  --card-cell-height: 44px;
+  /* The delete x of a card's head and the gap before it: the content under the name ends where the name's cell does, so a card with no name cell (a founder's) keeps this much clear on its right. */
+  --card-x-col: 40px;
+  --side-label-short: var(--card-label-col);
   --tile-radius: 8px;
   /* The column itself: the full width while the control keeps 9rem,
      then giving way down to half the field, never less. */

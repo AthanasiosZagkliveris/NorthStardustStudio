@@ -183,6 +183,15 @@ export function openItemsOf(
                 }
                 levels.filter(entry => !(/^\d+$/.test(entry.level.size.trim()) && Number(entry.level.size.trim()) >= 8))
                     .forEach(entry => sectionItem(BRAND_STYLE_SECTIONS[2], entry.label + " size"));
+                const marks = [!brandMarkFile(style.inventory.icon) && "icon", !brandMarkFile(style.inventory.logo) && "logo"]
+                    .filter((word): word is string => !!word);
+                if (marks.length > 0) {
+                    sectionItem(BRAND_INVENTORY_SECTIONS[0], list(marks));
+                }
+                const images = style.inventory.images.filter(image => !!image.dataUrl).length;
+                if (images < BRAND_IMAGE_MIN) {
+                    sectionItem(BRAND_INVENTORY_SECTIONS[1], "at least " + BRAND_IMAGE_MIN + " images (" + images + " so far)");
+                }
                 break;
             }
 

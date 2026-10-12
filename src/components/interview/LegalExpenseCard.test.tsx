@@ -1,3 +1,4 @@
+import { PreferencesService } from "../../services/PreferencesService.ts";
 import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
@@ -20,7 +21,7 @@ const entity = (expenses: object[]) => asLegalEntityValue({
 describe("the Legal Entity expense in the value", () => {
 
     it("has a Date, read as an ISO date", () => {
-        expect(createLegalEntityExpense().date).toBe("");
+        expect(createLegalEntityExpense().date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
         expect(asLegalEntityValue({ expenses: [{ id: "e", name: "Filing", date: "2027-03-15" }] }).expenses[0].date).toBe("2027-03-15");
         expect(asLegalEntityValue({ expenses: [{ id: "e", name: "Filing", date: "March" }] }).expenses[0].date).toBe("");
     });
@@ -66,14 +67,17 @@ describe("the Legal Entity expense card", () => {
 
     it("types the Date into the expense", () => {
         const value = open([{ id: "e", name: "Filing fee" }]);
-        fireEvent.change(screen.getByLabelText("Expense 1 date"), { target: { value: "2027-03-15" } });
+        // (The date cell: typed as the reader's format shows it, taken on leaving the box.)
+        const cell = screen.getByLabelText("Expense 1 date");
+        fireEvent.change(cell, { target: { value: PreferencesService.getDateFormat() === "US" ? "03/15/2027" : "15/03/2027" } });
+        fireEvent.blur(cell);
         expect(value().expenses[0].date).toBe("2027-03-15");
     });
 
     it("chooses one linked registration from a dropdown; choosing another replaces it", () => {
         const value = open([{ id: "e", name: "Filing fee" }]);
         fireEvent.click(screen.getByRole("button", { name: /^Expense 1 linked registration/ }));
-        fireEvent.click(screen.getByRole("option", { name: /Registration Number: 12345678/ }));
+        fireEvent.click(screen.getByRole("option", { name: /: 12345678/ }));
         expect(value().expenses[0].links).toEqual(["formation-registration-number"]);
         expect(screen.queryAllByRole("checkbox", { name: /Registration Number/ })).toHaveLength(0);
     });
@@ -83,4 +87,26 @@ describe("the Legal Entity expense card", () => {
         expect(document.body.textContent).not.toMatch(/insurance\s*,?\s*(and)?\s*the\s*like/i);
     });
 
+});
+
+describe("what cannot be in the Formation's date", () => {
+    it("says a registered company's date is not in the future, nor after the Opening Date", async () => {
+        const { formationIssues } = await import("./LegalEntityEditor.tsx");
+        expect(formationIssues({ status: "registered", date: "2999-01-01" })).toHaveLength(1);
+        expect(formationIssues({ status: "registered", date: "2020-05-01" }, "2020-01-01")).toHaveLength(1);
+        expect(formationIssues({ status: "registered", date: "2020-05-01" }, "2020-09-01")).toEqual([]);
+        expect(formationIssues({ status: "planned", date: "2999-01-01" }, "2020-01-01")).toEqual([]);
+    });
+});
+
+describe("what a registration number may hold", () => {
+    it("takes digits only, no more than the country's, where its shape is digits", async () => {
+        const { registrationNumberRule, limitedRegistrationNumber } = await import("../../framework/engine/LegalEntityJurisdictions.ts");
+        const eight = registrationNumberRule("8 digits");
+        expect(limitedRegistrationNumber("12a34-5678 9", eight)).toBe("12345678");
+        expect(limitedRegistrationNumber("SC123456", registrationNumberRule("8 characters"))).toBe("SC123456");
+        expect(limitedRegistrationNumber("SC12345678", registrationNumberRule("8 characters"))).toBe("SC123456");
+        expect(limitedRegistrationNumber("12-34a567890", registrationNumberRule("EIN: 12-3456789"))).toBe("12-3456789");
+        expect(limitedRegistrationNumber("HRB 123456", registrationNumberRule("HRB 12345"))).toBe("HRB 123456");
+    });
 });

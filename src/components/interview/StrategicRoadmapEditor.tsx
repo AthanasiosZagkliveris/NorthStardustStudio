@@ -191,11 +191,7 @@ export default function StrategicRoadmapEditor({
 
     foundation,
 
-    period,
-
-    columnsDivider,
-
-    showInstructions = true
+    period
 
 }: StrategicRoadmapEditorProps) {
 
@@ -631,27 +627,6 @@ export default function StrategicRoadmapEditor({
     return (
 
         <div className="strategic-roadmap">
-
-            <div className="brand-style-head strategy-roadmap-head">
-
-                {showInstructions && (
-                    <div className="answer-column-questions">
-                        <span className="answer-question-line answer-question-line-bullet">
-                            • See how your Objectives and Initiatives unfold over time,
-                            providing a clear view of how your strategy progresses throughout
-                            the Strategic Period.
-                        </span>
-                        <span className="answer-question-line answer-question-line-bullet">
-                            • Select an Objective's bar to see the Initiatives planned inside it.
-                        </span>
-                    </div>
-                )}
-
-            </div>
-
-            {columnsDivider && (
-                <div className="answer-columns-divider">{columnsDivider}</div>
-            )}
 
             {!periodSet && (
                 <p className="strategy-empty-note">

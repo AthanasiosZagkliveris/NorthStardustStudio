@@ -58,7 +58,7 @@ describe("the period of an activity", () => {
 
 describe("what an activity needs to be complete", () => {
 
-    it("a Start date, and for a Pre-Operational activity its Type", () => {
+    it("a Start date (a Pre-Operational activity has no Type to give)", () => {
         const value = asBusinessCapabilityValue({
             founders: [{ id: "f1", name: "Ann", ownership: "100", capital: "", roles: [""], experience: "" }],
             activities: [
@@ -69,7 +69,7 @@ describe("what an activity needs to be complete", () => {
         const missing = incompleteCards(value);
         expect(missing.get("a1")).toEqual(["Start date"]);
         expect(missing.has("a2")).toBe(false);
-        expect(missing.get("a3")).toEqual(["Type"]);
+        expect(missing.has("a3")).toBe(false);
         expect(missing.has("a4")).toBe(false);
     });
 
@@ -130,25 +130,19 @@ describe("the Activity card", () => {
     it("a Per unit resource takes the units the activity uses, and the Cost is the price times them", () => {
         open({ resources: [{ id: "kiln", units: "3" }] }, [kiln({ status: "costs", quantity: "5", cost: { price: "10", frequency: "per-unit", frequencyOther: "", unit: "hour", currency: "" } })]);
         expect((screen.getByLabelText("Activity 1 units of Kiln") as HTMLInputElement).value).toBe("3");
-        expect(screen.getByText(/^Cost: .*30/)).toBeTruthy();
+        expect(document.querySelector(".business-capability-cost-line")?.textContent).toMatch(/Kiln.*30/);
         // (Never more units than the resource holds.)
         fireEvent.change(screen.getByLabelText("Activity 1 units of Kiln"), { target: { value: "99" } });
         expect((screen.getByLabelText("Activity 1 units of Kiln") as HTMLInputElement).value).toBe("5");
     });
 
-    it("a Pre-Operational activity chooses its Type", () => {
+    it("a Pre-Operational activity has no Type field", () => {
         const base0 = base();
-        let latest: Value | undefined;
         render(<Harness
             initial={{ ...base0, activities: [{ id: "pre-operational", name: "", activities: [activity({ category: "pre-operational" })] }] }}
-            onValue={(next) => { latest = next; }}
         />);
         openTile("Pre-Operational", undefined, "Weave");
-        fireEvent.click(screen.getByLabelText(/Activity 1 type: /));
-        const options = screen.getAllByRole("option").map(option => option.textContent);
-        expect(options.length).toBe(2);
-        fireEvent.click(screen.getAllByRole("option")[0]);
-        expect(latest!.activities[0].activities[0].type).not.toBe("");
+        expect(screen.queryByLabelText(/Activity 1 type: /)).toBeNull();
     });
 
 });

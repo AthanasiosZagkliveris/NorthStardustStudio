@@ -13,7 +13,8 @@ import {
     TileList,
     plainTitle,
     tileName,
-    useDialogInnerBack
+    useDialogInnerBack,
+    useDialogInnerStep
 } from "./SectionTiles.tsx";
 import CardTile, { inwardOrigin, pageTileSide, useTilesAcross } from "./CardTile.tsx";
 import type { CardBox } from "./CardBoxes.tsx";
@@ -35,8 +36,9 @@ export const CATEGORY_TILE_MIN_CARDS = 0;
 
 /** The tile of a CATEGORY (or a group): the section tile's look, its cards' names listed, a "+" of its own at the corner. */
 function CategoryTile({
-    id, title, anchor, names, ids, alerts, marks, channel, origin, add, what, onOpen, onAdd, onCard
+    id, title, anchor, names, ids, alerts, marks, channel, origin, add, what, onOpen, onAdd, onCard, period
 }: {
+    period?: string;
     id: string;
     title: string;
     anchor?: string;
@@ -58,7 +60,7 @@ function CategoryTile({
 }) {
     return (
         <div
-            className={"section-tile-slot card-tile-slot" + (add ? " section-tile-slot-plus" : "") + (names.length === 0 ? " section-tile-slot-empty" : "") + (alerts?.some(entry => entry && entry.length > 0) ? " card-tile-incomplete" : "")}
+            className={"section-tile-slot card-tile-slot" + (add ? " section-tile-slot-plus" : "") + (names.length === 0 ? " section-tile-slot-empty" : "") + (period ? " section-tile-slot-period" : "") + (alerts?.some(entry => entry && entry.length > 0) ? " card-tile-incomplete" : "")}
             style={{ transformOrigin: origin, ...(channel ? { "--strategy-theme-hue": CHANNEL_TILE_HUE } : {}) } as CSSProperties}
         >
             <button
@@ -71,6 +73,7 @@ function CategoryTile({
             >
                 <TileFace title={title} empty={names.length === 0} glyph={false} />
             </button>
+            {period && <span className="section-tile-period">{period}</span>}
             {names.length > 0 && (
                 <div className="section-tile-links-layer">
                     <TileList
@@ -100,10 +103,10 @@ function CategoryTile({
  * dashed edge; it does not grow on hover -- its ground turns semi-transparent and its "+" grows 10%. (What it adds -- a Resource, an Activity, a Partner, a group --
  * is in its tooltip.)
  */
-export function AddTile({ label, disabled, across, onAdd }: { label: string; disabled?: boolean; across: number; onAdd: (pointer: boolean) => void }) {
+export function AddTile({ label, disabled, across, onAdd, after }: { label: string; disabled?: boolean; across: number; onAdd: (pointer: boolean) => void; /** The number of cards before it: it stands in the place after the last of them when its row has room, else at the start of a row of its own. */ after?: number }) {
     return (
         // (In the LAST column of the grid: the empty place at the end of the lowest row of tiles, else a row of its own under them -- at the bottom right.)
-        <div className="add-card-slot" style={{ gridColumn: across }}>
+        <div className="add-card-slot" style={{ gridColumn: after === undefined ? across : (after % Math.max(across, 1)) + 1, ...(after !== undefined ? { justifySelf: "start", alignSelf: "start" } : {}) }}>
             <button
                 type="button"
                 className="add-card-tile"
@@ -141,6 +144,10 @@ export interface ViewCategory {
     channel?: boolean;
     /** The number of its ACTIVE cards (Activities): it adds up to the overall number next to the dialog's title (not shown on the tile). */
     active?: number;
+    /** The "i" note the dialog's header carries after this category's name while it is open (the help texts of its groups). */
+    info?: CrumbNote;
+    /** The dates the category runs in (an activity group: "01/10/2026 to 30/09/2026"), said under its tile's title. */
+    period?: string;
 }
 
 /**
@@ -167,7 +174,19 @@ export default function SectionView({
     const [openId, setOpenId] = useState<string | null>(() => initial !== null && categories.some(category => category.id === initial) ? initial : null);
     const open = categories.find(category => category.id === openId) ?? null;
 
-    useDialogInnerBack(open ? () => setOpenId(null) : null, open ? plainTitle(open.title) : undefined);
+    useDialogInnerBack(open ? () => setOpenId(null) : null, open ? plainTitle(open.title) : undefined, open?.info);
+    // The carousel arrows keep to this level: with a category open they go to the next category (of the section's tiles), not out to another tile of the page.
+    useDialogInnerStep(open
+        ? (direction) => {
+            const level = categories.filter(category => category.cards.length >= CATEGORY_TILE_MIN_CARDS);
+            if (level.length < 2) {
+                return false;
+            }
+            const at = level.findIndex(category => category.id === open.id);
+            setOpenId(level[(at + direction + level.length) % level.length].id);
+            return true;
+        }
+        : null);
 
     const grid = useRef<HTMLDivElement | null>(null);
     const side = useMemo(pageTileSide, []);
@@ -234,6 +253,7 @@ export default function SectionView({
                             alerts={alerts}
                             marks={marks}
                             channel={category.channel}
+                            period={category.period}
                             origin={origin}
                             add={!!category.add}
                             what={what}
@@ -330,6 +350,18 @@ export function SubcategoryBoxes({
     }, []);
 
     useDialogInnerBack(open && items.length > 1 ? () => setOpenId(null) : null, open ? plainTitle(open.title) : undefined, open?.crumbInfo);
+    // The arrows keep to this level: with a group open they go to the next group of its category.
+    useDialogInnerStep(open && items.length > 1
+        ? (direction) => {
+            const level = items.filter(item => !item.blankUnnamed);
+            if (level.length < 2) {
+                return false;
+            }
+            const at = level.findIndex(item => item.id === open.id);
+            setOpenId(level[(at + direction + level.length) % level.length].id);
+            return true;
+        }
+        : null);
 
     const grid = useRef<HTMLDivElement | null>(null);
     const side = useMemo(pageTileSide, []);

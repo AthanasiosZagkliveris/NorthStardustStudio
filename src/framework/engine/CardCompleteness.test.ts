@@ -3,9 +3,9 @@ import { asBusinessCapabilityValue, workspacesOf } from "./AnswerUtils.ts";
 import { countedCapability, incompleteCards } from "./CardCompleteness.ts";
 
 const cost = (price: string, frequency: string) => ({ price, frequency, frequencyOther: "", currency: "" });
-const slot = (fields: Record<string, unknown>) => ({ id: "s", name: "Thing", status: "exists", cost: cost("", ""), ...fields });
-const partner = (fields: Record<string, unknown>) => ({ id: "p", name: "Partner", cost: cost("100", "monthly"), ...fields });
-const founder = { id: "f1", name: "Maya", roles: [], salary: "1800", hours: "160", deliveryHours: "100" };
+const slot = (fields: Record<string, unknown>) => ({ id: "s", name: "Thing", status: "exists", startDate: "2027-01-01", cost: cost("", ""), ...fields });
+const partner = (fields: Record<string, unknown>) => ({ id: "p", name: "Partner", startDate: "2027-01-01", cost: cost("100", "monthly"), ...fields });
+const founder = { id: "f1", name: "Maya", roles: [], salary: "1800", hours: "160", deliveryHours: "100", startDate: "2027-01-01" };
 
 describe("incomplete cards", () => {
 
@@ -49,7 +49,7 @@ describe("incomplete cards", () => {
         expect(incompleteCards(untouched).size).toBe(0);
         const half = asBusinessCapabilityValue({
             founders: [{ ...founder, hours: "" }],
-            workspace: { kind: "dedicated", status: "costs", cost: cost("", "") }
+            resources: { workspace: [{ id: "premises", name: "", slots: [slot({ id: "workspace", name: "Dedicated Workspace", workspaceKind: "dedicated", status: "costs", cost: cost("", "") })] }] }
         });
         const missing = incompleteCards(half);
         expect(missing.get("f1")).toEqual(["Working Hours"]);
@@ -60,8 +60,7 @@ describe("incomplete cards", () => {
         const value = asBusinessCapabilityValue({
             founders: [{ ...founder, hours: "" }],
             // (A Workspace bought has the one frequency, One-time: its Price is what it lacks.)
-            workspace: { kind: "dedicated", status: "costs", cost: cost("", ""), deposit: "3750" },
-            resources: { equipment: [{ id: "computing", name: "", slots: [slot({ id: "a", status: "costs" }), slot({ id: "c", status: "costs", cost: cost("12", "monthly") })] }] },
+            resources: { workspace: [{ id: "premises", name: "", slots: [slot({ id: "workspace", name: "Dedicated Workspace", workspaceKind: "dedicated", status: "costs", cost: cost("", ""), deposit: "3750" })] }], equipment: [{ id: "computing", name: "", slots: [slot({ id: "a", status: "costs" }), slot({ id: "c", status: "costs", cost: cost("12", "monthly") })] }] },
             providers: [partner({ id: "p1", cost: cost("", "") }), partner({ id: "p2" })]
         });
         const counted = countedCapability(value);
@@ -80,10 +79,10 @@ describe("incomplete cards", () => {
     test("every Workspace card is judged on its own and left out of the counts on its own", () => {
         const value = asBusinessCapabilityValue({
             founders: [founder],
-            workspaces: [
-                { id: "workspace", kind: "dedicated", status: "costs", cost: cost("900", "monthly"), deposit: "500" },
-                { id: "ws-2", kind: "coworking", status: "costs", cost: cost("", ""), deposit: "300" }
-            ]
+            resources: { workspace: [{ id: "premises", name: "", slots: [
+                slot({ id: "workspace", name: "Dedicated Workspace", workspaceKind: "dedicated", status: "costs", cost: cost("900", "monthly"), deposit: "500" }),
+                slot({ id: "ws-2", name: "Coworking Space", workspaceKind: "coworking", status: "costs", cost: cost("", ""), deposit: "300" })
+            ] }] }
         });
         const missing = incompleteCards(value);
         expect(missing.has("workspace")).toBe(false);

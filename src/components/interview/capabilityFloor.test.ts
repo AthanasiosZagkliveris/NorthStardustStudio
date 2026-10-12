@@ -113,7 +113,7 @@ describe("the floor", () => {
 
     test("a tile lists where it belongs, then its status and cost, as plain lines (no labels, no arrows)", () => {
         const lines = tileLines(rows.find(row => row.id === "r1")!, amount => "£" + amount);
-        expect(lines).toEqual(["Infrastructure", "Utilities", "Premises Utilities", "Costs", "£80 monthly"]);
+        expect(lines).toEqual(["Infrastructure", "Utilities", "Premises Utilities", "**£80** monthly"]);
         expect(lines.join("")).not.toMatch(/[>›→:]/);
     });
 
@@ -178,7 +178,7 @@ describe("the floor", () => {
         expect(list.find(row => row.id === "q1")!.amount).toBe(7200);
         expect(list.find(row => row.id === "f1")).toMatchObject({ amount: 1800, frequency: "monthly" });
         expect(list.find(row => row.id === "workspace")).toMatchObject({ amount: 1250, deposit: 3750 });
-        expect(tileLines(list.find(row => row.id === "workspace")!, amount => "£" + amount)).toEqual(["Infrastructure", "Workspace", "Premises", "Buy", "£1250 monthly", "£3750 deposit"]);
+        expect(tileLines(list.find(row => row.id === "workspace")!, amount => "£" + amount)).toEqual(["Infrastructure", "Workspace", "Premises", "Buy", "**£1250** monthly", "£3750 deposit"]);
     });
 
 });

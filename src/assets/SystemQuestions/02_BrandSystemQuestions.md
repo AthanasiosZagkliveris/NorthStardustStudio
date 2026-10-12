@@ -14,7 +14,7 @@ Thinking Time: About 45 min–1 hr
 - What does the Ambassador look like?
 - Attire, colours, grooming, scent, style, surroundings.
 
-### Attitude & Body Language
+### Body Language
 
 - How does the Ambassador stand and move?
 - How does the Ambassador behave?
@@ -33,5 +33,3 @@ Thinking Time: About 45 min–1 hr
 - What should people feel and remember?
 
 ## 2. Style
-
-## 3. Inventory

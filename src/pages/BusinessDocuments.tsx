@@ -23,6 +23,7 @@ import {
 import OptionPicker from "../components/interview/OptionPicker.tsx";
 import { contentSectionsHtml, documentMetaHtml } from "../framework/engine/PdfExporter.ts";
 import { OrganizationService } from "../services/OrganizationService";
+import { asGlobalSettings } from "../framework/engine/GlobalSettings";
 import { StorageService } from "../services/StorageService.ts";
 import { systems } from "../data/systems.ts";
 
@@ -96,7 +97,8 @@ export default function BusinessDocuments() {
             brand: byId.brand,
             business: byId.business,
             strategy: byId.strategy,
-            organisationName: OrganizationService.getSummary(organizationId)?.name ?? ""
+            organisationName: OrganizationService.getSummary(organizationId)?.name ?? "",
+            globalSettings: asGlobalSettings(OrganizationService.getGlobalSettings(organizationId))
         };
 
         /* Which Systems are not finished, said rather than enforced:

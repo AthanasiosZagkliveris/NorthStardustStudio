@@ -43,6 +43,8 @@ export interface Note {
     links: NoteLink[];
     /** When it was written (ms since the epoch): the notepad lists newest first. */
     createdAt: number;
+    /** The day the note is placed on in the Calendar (ISO "YYYY-MM-DD"); none while its Date is not ticked. */
+    date?: string;
 }
 
 export interface NotepadDocument {
@@ -197,6 +199,15 @@ export const NotepadService = {
 
     setText(noteId: string, text: string): void {
         changeNote(noteId, note => ({ ...note, text }));
+    },
+
+    /** Places the note on a day of the Calendar ("" takes it off). */
+    setDate(noteId: string, date: string): void {
+        changeNote(noteId, note => {
+            const { date: _old, ...rest } = note;
+            void _old;
+            return date ? { ...rest, date } : rest;
+        });
     },
 
     /** Removes a note; what it was and where, for restoreNote (null when there was none). */

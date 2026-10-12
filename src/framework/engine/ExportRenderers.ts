@@ -311,7 +311,10 @@ function foundersProfileBlocks(value: unknown, context: ExportContext): ExportBl
             ];
             return said.length === 0 ? [] : [heading(founder.name, 2), ...said];
         })),
-        ...titled("Team Capability Gaps & Cover", paragraph(profile.teamGaps))
+        ...titled("Capability Gaps & Cover", [
+            ...paragraph(profile.teamGaps, profile.teamCover.trim() ? "Gaps" : undefined),
+            ...paragraph(profile.teamCover, profile.teamGaps.trim() ? "Cover" : undefined)
+        ])
     ];
 
 }
@@ -420,7 +423,9 @@ export function brandStyleBlocks(value: unknown): ExportBlock[] {
 
         ...titled("Text Hierarchy", table(["Level", "Size"], answeredRows(BRAND_HIERARCHY_LEVELS
             .filter(level => style.hierarchy[level.id]?.enabled)
-            .map(level => [level.label, text(style.hierarchy[level.id].size) ? style.hierarchy[level.id].size + " px" : ""]))))
+            .map(level => [level.label, text(style.hierarchy[level.id].size) ? style.hierarchy[level.id].size + " px" : ""])))),
+
+        ...brandInventoryBlocks(style.inventory)
     ];
 
 }
@@ -752,7 +757,7 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
                 BUSINESS_ACTIVITY_CATEGORIES.find(entry => entry.id === category.id)?.label ?? (category.name.trim() || "Other"),
                 people, founderIds, foundation, false))),
 
-        heading("Partners & Providers", 2),
+        heading("Partners & Suppliers", 2),
         ...table(["Kind", "Name", "Responsible", "Cost", "Description"], [
             ...partnerRows(capability.professionals, "Professional / Partner", people, currency, foundation, false, founderIds),
             ...partnerRows(capability.providers, "Provider", people, currency, foundation, false, founderIds)

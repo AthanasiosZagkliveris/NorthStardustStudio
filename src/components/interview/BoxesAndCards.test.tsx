@@ -116,7 +116,7 @@ describe("a tile's title, with its line, stands one line higher", () => {
 
     it("lifts the title by one line of its own size, the list keeping its place", () => {
         expect(css).toMatch(/--tile-title-lift: calc\(var\(--section-tile-line-height\) \* 1em\);/);
-        expect(css).toMatch(/\.section-tile-title \{[^}]*margin-bottom: min\(var\(--tile-title-lift\), max\(0px, calc\(var\(--tile-title-row\) - 17px - var\(--section-tile-line-height\) \* 1em\)\)\);/);
+        expect(css).toMatch(/\.section-tile-title \{[^}]*margin-top: var\(--tile-title-gap, 24px\);/);
         expect(css).toMatch(/--tile-title-row: calc\(var\(--section-tile-size\) \* var\(--tile-title-top\) - 1px \+ 5px \+ var\(--section-tile-line-height\) \* 0\.5em\);/);
     });
 
@@ -222,8 +222,14 @@ describe("the Responsible tick row is one row at every width", () => {
 
     it("puts Qty, Price, currency and Frequency on ONE row: the currency over the side pickers' left edge, the Frequency to the name cell's right edge, the Price between", () => {
         expect(css).toMatch(/.business-capability-cost-row {[^}]*--cost-x: calc\(var\(--card-side-label, var\(--side-label-short\)\) \+ var\(--side-label-gap\)\);[^}]*--qty-w: 56px;/);
-        expect(css).toMatch(/\.business-capability-cost-row \{[^}]*grid-template-columns: calc\(var\(--cost-x\) - var\(--space-cell\)\) var\(--space-cell\) max-content minmax\(0, 1fr\) max-content;/);
-        expect(css).toMatch(/\.business-capability-cost-grid-quantity \.business-capability-cost-row \{[^}]*grid-template-columns: var\(--qty-w\) var\(--space-cell\) calc\(var\(--cost-x\) - var\(--qty-w\) - 2 \* var\(--space-cell\)\) var\(--space-cell\) max-content minmax\(0, 1fr\) max-content;/);
+        expect(css).toMatch(/\.business-capability-cost-row \{[^}]*grid-template-columns: calc\(var\(--cost-x\) - var\(--space-cell\)\) var\(--space-cell\) max-content minmax\(0, 1fr\) minmax\(0, max-content\);/);
+        expect(css).toMatch(/\.business-capability-cost-grid-quantity \.business-capability-cost-row \{[^}]*grid-template-columns: var\(--qty-w\) var\(--space-cell\) calc\(var\(--cost-x\) - var\(--qty-w\) - 2 \* var\(--space-cell\)\) var\(--space-cell\) max-content minmax\(0, 1fr\) minmax\(0, max-content\);/);
+    });
+
+    it("lets the Frequency column give way to the room left, and puts a Per unit Frequency with its Unit under the row", () => {
+        expect(css).toContain(".business-capability-cost-row:has(.business-capability-frequency-unit) {");
+        expect(css).toMatch(/:has\(\.business-capability-frequency-unit\) \{[^}]*grid-template-columns: calc\(var\(--cost-x\) - var\(--space-cell\)\) var\(--space-cell\) max-content;/);
+        expect(css).toMatch(/:has\(\.business-capability-frequency-unit\) > \.business-foundation-field:nth-child\(4\) \{[^}]*grid-column: 1 \/ -1;/);
     });
 
     it("lets the Frequency go under the row in a card too narrow for them (under 358px of content)", () => {
@@ -311,14 +317,13 @@ describe("the page behind a floating card is only dimmed", () => {
         expect(block).toMatch(/background: var\(--floating-scrim\);/);
         expect(block).not.toMatch(/backdrop-filter/);
         expect(block).not.toMatch(/brightness|blur/);
-        expect(global).toMatch(/--floating-scrim: rgba\(0, 0, 0, 0\.6\);/);
+        expect(global).toMatch(/--floating-scrim: transparent;/);
         // The white of the names over it: 5.7:1 at the least, over a white page.
         expect(global).toMatch(/--floating-caption-ink: #ffffff;/);
     });
 
-    it("leaves the dialog its own 80% transparent ground", () => {
-        expect(css).toMatch(/backdrop-filter: blur\(var\(--dialog-blur\)\) brightness\(var\(--dialog-backdrop-brightness\)\);/);
-        expect(global).toMatch(/--dialog-ground-alpha: 20%;/);
+    it("gives the dialog a solid ground: a frame with text on it is never transparent", () => {
+        expect(css).toMatch(/\.section-tile-dialog\.business-foundation-card \{[^}]*backdrop-filter: none;/);
     });
 
 });
@@ -326,12 +331,12 @@ describe("the page behind a floating card is only dimmed", () => {
 describe("the fold arrows of a founder's card do not move when toggled, and neither they nor the title arrows react to the pointer", () => {
 
     it("has one margin for the closed and the open arrow", () => {
-        expect(css).toMatch(/\.business-founder-open \.business-capability-responsibilities-head > \.strategy-box-toggle \{[^}]*margin-left: calc\(-1 \* var\(--founder-marker\) - 12\.5px\);[^}]*margin-right: calc\(var\(--founder-marker\) - 35\.5px\);/);
+        expect(css).toMatch(/:is\(\.business-founder-open, \.business-capability-links\) \.business-capability-responsibilities-head > \.strategy-box-toggle \{[^}]*margin-left: calc\(-1 \* var\(--founder-marker\) - 12\.5px\);[^}]*margin-right: calc\(var\(--founder-marker\) - 35\.5px\);/);
         expect(css).not.toMatch(/\.business-founder-open[^{]*strategy-box-toggle\[aria-expanded="true"\] \{/);
     });
 
     it("has no ground, ring or bolder glyph under the pointer on a founder's arrows, and none on the title arrows", () => {
-        expect(edges).toMatch(/\.business-capability \.business-founder-open \.strategy-box-toggle:hover \{[^}]*border-color: transparent;[^}]*background: transparent;[^}]*box-shadow: none;[^}]*text-shadow: none;/);
+        expect(edges).toMatch(/\.business-capability :is\(\.business-founder-open, \.business-capability-links\) \.strategy-box-toggle:hover \{[^}]*border-color: transparent;[^}]*background: transparent;[^}]*box-shadow: none;[^}]*text-shadow: none;/);
         expect(stylesheet("title-arrow.css")).not.toMatch(/\.title-arrow:hover/);
         // The ring of the keyboard focus is kept.
         expect(stylesheet("title-arrow.css")).toMatch(/\.title-arrow:focus-visible \{/);
@@ -387,7 +392,7 @@ describe("the Activity card's rows", () => {
     it("sets the Performer label beside its dropdown, which runs on to the + box in the x's own column; Completed is the last tick on the left", () => {
         const card = open();
         const row = card.querySelector(".business-capability-performer")!;
-        expect([...row.children].map(child => child.className.split(" ")[0])).toEqual(["option-picker", "plus-box"]);
+        expect([...row.children].map(child => child.className.split(" ")[0])).toEqual(["option-picker", "business-link-symbol", "plus-box"]);
         expect(card.querySelector(".business-capability-performer-field")!.classList.contains("business-field-inline")).toBe(true);
         expect(row.querySelector(".option-picker")!.getAttribute("data-size")).toBe("fit");
         const plus = row.querySelector(".plus-box") as HTMLElement;
@@ -448,7 +453,7 @@ describe("the cards of a resource group", () => {
             activities: [{ id: "operational", name: "", activities: [{ ...createBusinessActivity(), name: "Weave" }] }],
             providers: [createBusinessPartner("Maker Yard", "suppliers")]
         }} />);
-        for (const [tile, category, name] of [["Resources", "Utilities", "Mains"], ["Activities", "Operational", "Weave"], ["Partners & Providers", "Suppliers", "Maker Yard"]] as const) {
+        for (const [tile, category, name] of [["Resources", "Utilities", "Mains"], ["Activities", "Operational", "Weave"], ["Partners & Suppliers", "Suppliers", "Maker Yard"]] as const) {
             openTile(tile, category, undefined, infrastructureCard());
             if (tile === "Resources") {
                 openBox("Premises Utilities");
@@ -586,8 +591,8 @@ describe("the fold arrows and the title arrows are wired, and filled under the p
 describe("the opened card's columns: everything under the head starts and ends at the name cell", () => {
 
     it("lays a Resource / Activity / Partner / Provider card out on three columns (the marker, the content, the x) with the head on a subgrid", () => {
-        expect(css).toMatch(/\.card-box-open > \.business-capability-slot:not\(\.delivery-card\) \{[^}]*grid-template-columns: max-content minmax\(0, 1fr\) var\(--card-x-column\);/);
-        expect(css).toMatch(/\.card-box-open > \.business-capability-slot:not\(\.delivery-card\) > \*,[^{]*\{[^}]*grid-column: 2;/);
+        expect(css).toMatch(/\.card-box-open > \.business-capability-slot \{[^}]*grid-template-columns: minmax\(var\(--card-marker-col\), max-content\) minmax\(0, 1fr\) var\(--card-x-column\);/);
+        expect(css).toMatch(/\.card-box-open > \.business-capability-slot > \*,[^{]*\{[^}]*grid-column: 2;/);
         expect(css).toMatch(/> \.strategy-box-head,[^{]*\{[^}]*grid-column: 1 \/ -1;[^}]*grid-template-columns: subgrid;/);
         expect(css).toMatch(/--card-x-column: 32px;/);
         // The old 40px margin that held the child's name short of the x is gone: the grid does it.

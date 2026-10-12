@@ -89,7 +89,7 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
     so the Financial Signals no longer carry the old "same leading word" warning.
 
     The plan and export digests (and the weekly fixture's words and numbers) were written again for these reasons, the founders' tables and revenue as they
-    were: (1) a resource's status "Provided" and "Partners" became one, "Partners & Providers", so the status words of the documents changed; (2) a card
+    were: (1) a resource's status "Provided" and "Partners" became one, "Partners & Suppliers", so the status words of the documents changed; (2) a card
     that lacks a required answer is counted nowhere (CardCompleteness.ts), which left Quillfield's cost-less "Insurance Professional" out of the lists; and (3)
     the examples' partners and providers were completed (Lumen & Loom: the Accountant's 300 one-time onboarding fee, the Maker Yard's 180 a month service
     charge, two courier resources for DPD Local and Royal Mail, the Lawyer and the weaving tutor linked to activities, "Insurance Professional" removed;
@@ -113,9 +113,17 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
     follow the app's rules: (1) the Accountant was counted twice (a 150 a month "Accountant" expense of the Legal Entity AND the Accountant partner's 300
     one-time fee): the Legal Entity expense is removed and the Accountant partner is the one place, 150 a month, so Total Funding Need 56,164 to 55,864 and the
     funding gap 20,434 to 20,134 (the one-time 300 is gone, the 150 a month stays); (2) the courier cards come from the Customer Engagement page: the channels'
-    Channel Resources are the two cards "Parcel delivery to customers" and "Tracked postage for small orders" (status Partners & Providers, DPD Local and Royal
+    Channel Resources are the two cards "Parcel delivery to customers" and "Tracked postage for small orders" (status Partners & Suppliers, DPD Local and Royal
     Mail as their Providers), not the providers themselves, and each is linked to its own channel's Offering only. The founders' tables, the revenue and the
     Quillfield digests are as they were.
+
+    J1: all three digests (and the weekly fixture's words and numbers) were written again when both examples were rebuilt in the current structure: every card in its
+    category and group, dated, linked to its Offerings, with the suppliers, activities and Opening Date (and the card dates now place a cost in its month of
+    the cash flow). The founders' tables differ only in the Responsibilities (the activities moved between groups); the founders' pay, hours and the revenue
+    are as they were.
+
+    K0: the digests (and the weekly fixture's words) were written again when "Partners and Providers" became "Partners and Suppliers" in the
+    documents (the same length, other letters).
 */
 const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
 

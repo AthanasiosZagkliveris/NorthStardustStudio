@@ -24,10 +24,10 @@ const jpegPhoto = "data:image/jpeg;base64,/9j/4AAQ";
 // Over the Markdown limit: a picture too large to carry in the file.
 const bigPhoto = "data:image/jpeg;base64," + "A".repeat(Math.ceil(MARKDOWN_IMAGE_MAX_BYTES * 4 / 3) + 400);
 
-/** The four Systems, the Brand System's Inventory answer being `inventory`. */
+/** The four Systems, the Brand System's Icon & Logo and Brand Images (the Style page's `inventory`) being `inventory`. */
 function sessionsWith(inventory: unknown) {
     const brand = example.systems["2"] as unknown as { responses: { sectionNumber: number; value: unknown }[] };
-    const responses = brand.responses.map(response => response.sectionNumber === 3 ? { ...response, value: inventory } : response);
+    const responses = brand.responses.map(response => response.sectionNumber === 2 ? { ...response, value: { ...(response.value as object), inventory } } : response);
     return {
         identity: load(1, "identity"),
         brand: load(2, "brand", { ...(brand as object), responses } as unknown as SystemJson),

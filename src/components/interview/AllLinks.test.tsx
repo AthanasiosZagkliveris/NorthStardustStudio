@@ -77,7 +77,7 @@ function walkEveryLink(): number {
         Providers: /^Provider \d+ name/,
         Resources: /^Resource \d+ name/,
         Activities: /^Activity \d+ name/,
-        "Partners & Providers": /^(Professional|Provider) \d+ name/
+        "Partners & Suppliers": /^(Professional|Provider) \d+ name/
     };
     // (Two tiles are called Completed -- Infrastructure's and Offering's Capability's: a tile is found by its place on the page.)
     slots().forEach(({ title, links }, place) => {
@@ -138,8 +138,8 @@ describe("every link of every tile's list", () => {
 
     it("opens the right card -- the item that was pressed, of the kind its tile holds -- under its tile's name; Back closes it and the focus is back on the item; a second press works", () => {
         render(<Harness />);
-        // Infrastructure: Founders (2), Resources (the Workspace form and the subcategories that name cards), Activities and Partners & Providers (their
-        // categories); Offering's Capability: Resources, Activities and Partners & Providers -- each link twice.
+        // Infrastructure: Founders (2), Resources (the Workspace form and the subcategories that name cards), Activities and Partners & Suppliers (their
+        // categories); Offering's Capability: Resources, Activities and Partners & Suppliers -- each link twice.
         expect(walkEveryLink()).toBeGreaterThanOrEqual(24);
     }, 90000);
 

@@ -1,12 +1,12 @@
 import { CSSProperties, DragEvent, RefObject, useLayoutEffect, useRef, useState } from "react";
 import { stableCardHue } from "../../framework/engine/AnswerUtils.ts";
-import { CHANNEL_TILE_HUE, TileFace, incompleteTitle } from "./SectionTiles.tsx";
+import { CHANNEL_TILE_HUE, TileFace, incompleteTitle, type ItemMark } from "./SectionTiles.tsx";
 import { useAboveTip } from "./AboveTip.tsx";
 import type { FloorLink, FloorTone } from "./capabilityFloor.ts";
 import "../../styles/card-tile.css";
 
 /*
-    THE CARD TILE: the ONE tile a card is shown as wherever cards are shown as tiles -- the All Tiles overlay and every grid of cards in a dialog
+    THE CARD TILE: the ONE tile a card is shown as wherever cards are shown as tiles -- the Inventory overlay and every grid of cards in a dialog
     (Resources, Activities, Partners, Providers, a category's, a channel's, the Completed activities). A page tile's make (TileFace: the name, its rule,
     a list of lines), 215px, in the colour of the section it stands in; the lines say where it belongs, its status and its cost; a small coloured circle
     for each link; the page tile's hover (lift, glow, transition) grown to 110% INWARDS (from the side of the grid it stands on). One component, one
@@ -17,8 +17,10 @@ export const SYMBOLS: Record<FloorLink["type"], string> = {
     activity: "Activity",
     investigation: "Investigate",
     partner: "Partner",
-    provider: "Provider",
-    resource: "Resource"
+    provider: "Supplier",
+    resource: "Resource",
+    expense: "Expense",
+    registration: "Registration"
 };
 
 /** The hue a tile keeps from the section it stands in on the page (a legal expense has none: the Legal Entity's neutral ground). */
@@ -129,10 +131,20 @@ export interface CardTileProps {
     number?: number;
     /** What the tile lists under its name. */
     lines: readonly string[];
+    /** The mark of each line (a plain line has no bullet). */
+    marks?: readonly (ItemMark | undefined)[];
     links?: readonly FloorLink[];
     tone: FloorTone;
+
+    /** Keeps the hue of the card the tile stands in (see CardBox.own). */
+    own?: boolean;
+
+    /** Its lines are centred, with no bullets. */
+    centred?: boolean;
     /** A finished card (a completed activity): the grey of everything completed. */
     inactive?: boolean;
+    /** Not used yet (a subchannel the category offers): half transparent, as every tile with no card in it. */
+    faded?: boolean;
     /** What the card lacks, when it is incomplete (CardCompleteness.ts): the tile glows red, flashing, and says so in its tooltip. */
     missing?: readonly string[];
     /** The tile's accessible name. */
@@ -157,18 +169,19 @@ export interface CardTileProps {
     };
 }
 
-export default function CardTile({ id, name, unnamed = "", number, lines, links = [], tone, inactive, missing, label, onOpen, origin, focusId, onFocus, title, drag }: CardTileProps) {
+export default function CardTile({ id, name, unnamed = "", number, lines, marks, links = [], tone, own, centred, inactive, faded, missing, label, onOpen, origin, focusId, onFocus, title, drag }: CardTileProps) {
     const onCircle = useRef(false);
     const shown = name.trim() || unnamed;
-    const style = { ...(tone === "legal" ? {} : { "--strategy-theme-hue": toneHue(tone) }), transformOrigin: origin } as CSSProperties;
+    const style = { ...(tone === "legal" || own ? {} : { "--strategy-theme-hue": toneHue(tone) }), transformOrigin: origin } as CSSProperties;
     const className = "section-tile card-tile" +
         (tone === "channel" ? " section-tile-channel" : "") +
         (tone === "legal" ? " card-tile-legal" : "") +
+        (centred ? " card-tile-centred" : "") +
         (inactive ? " section-tile-completed" : "");
-    const face = <TileFace title={(number !== undefined ? number + ". " : "") + shown} items={lines} />;
+    const face = <TileFace title={(number !== undefined ? number + ". " : "") + shown} items={lines} marks={marks} />;
     return (
         <div
-            className={"section-tile-slot card-tile-slot" + (missing && missing.length > 0 ? " card-tile-incomplete" : "") + (drag ? " card-tile-movable" : "") + (drag?.dragging ? " card-tile-dragged" : "") + (drag?.over ? " card-tile-drop" : "")}
+            className={"section-tile-slot card-tile-slot" + (faded ? " section-tile-slot-empty" : "") + (missing && missing.length > 0 ? " card-tile-incomplete" : "") + (drag ? " card-tile-movable" : "") + (drag?.dragging ? " card-tile-dragged" : "") + (drag?.over ? " card-tile-drop" : "")}
             style={style}
             draggable={drag ? true : undefined}
             // A press on a circle never starts a drag of the tile (the circle is a pointer, not a handle).
@@ -183,6 +196,7 @@ export default function CardTile({ id, name, unnamed = "", number, lines, links 
                     <button
                         type="button"
                         className={className}
+                        data-own={own ? "" : undefined}
                         data-anchor={id}
                         data-opens=""
                         aria-label={label}

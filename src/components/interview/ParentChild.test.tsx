@@ -163,29 +163,29 @@ describe("the Activity row under the card's Status", () => {
         render(<Harness initial={seeded({ child: { description: "Compare buying new with sharing" } })} />);
         openAdminCard();
         const card = floatingCardHost()!;
-        expect(within(card).getByRole("button", { name: "Resource 1 activity: Set up the mill (Operational)" })).toBeTruthy();
+        expect(within(card).getByRole("button", { name: "Resource 1 activity: Set up the mill" })).toBeTruthy();
         expect(within(card).getAllByRole("button", { name: "Open Activity “Set up the mill”" })).toHaveLength(1);
         expect(card.querySelector(".business-capability-alarm")).toBeNull();
         expect(card.querySelector(".business-capability-activity-line")).toBeNull();
         expect(card.textContent).not.toMatch(/Open Activity “Set up the mill”/);
     });
 
-    it("lists the activities of the place that have not ended at the card's Start date, each as Name (Category), then Other…", () => {
+    it("lists the activities of the place that have not ended at the card's Start date, each as Name (Category), then + Add", () => {
         const base = seeded();
         const ended = { ...createBusinessActivity("operational"), id: "activity-old", name: "Close the stall", endDate: "2020-01-31" };
         const open = { ...createBusinessActivity("operational"), id: "activity-shop", name: "Open the shop" };
         render(<Harness initial={{ ...base, resources: { hr: [{ id: "admin-team", name: "", slots: [{ ...slot, startDate: "2021-05-01" }] }] }, activities: [{ id: "operational", name: "", activities: [child, ended, open] }] }} />);
         openAdminCard();
         fireEvent.click(screen.getByRole("button", { name: /^Resource 1 activity: / }));
-        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Set up the mill (Operational)", "Open the shop (Operational)", "Other…"]);
+        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Set up the mill", "Open the shop", "+ Add"]);
     });
 
-    it("makes a new ordinary activity with Other…: filed in Operational, starting with the card, chosen and named in a box; nothing else changes", () => {
+    it("makes a new ordinary activity with + Add: filed in Operational, starting with the card, chosen and named in a box; nothing else changes", () => {
         let latest: Capability | null = null;
         render(<Spy initial={seeded({ slot: { activityId: "", startDate: "2021-05-01" } })} spy={value => { latest = value; }} />);
         openAdminCard();
         fireEvent.click(screen.getByRole("button", { name: /^Resource 1 activity: / }));
-        fireEvent.click(screen.getByRole("option", { name: "Other…" }));
+        fireEvent.click(screen.getByRole("option", { name: "+ Add" }));
         const made = activitiesOf(latest!).find(activity => activity.id !== "activity-mill")!;
         expect(made).toMatchObject({ category: "operational", startDate: "2021-05-01", name: "" });
         expect(latest!.resources.hr[0].slots[0].activityId).toBe(made.id);
@@ -252,7 +252,7 @@ describe("the Activity row under the card's Status", () => {
         fireEvent.click(linkOf("Set up the mill"));
         fireEvent.change(screen.getByRole("textbox", { name: "Activity 1 name" }), { target: { value: "Fit the loom" } });
         // (The card stands twice under the pair -- on its own and as the pair's upper half -- so every one of them shows the new name.)
-        expect(screen.getAllByRole("button", { name: "Resource 1 activity: Fit the loom (Operational)" }).length).toBeGreaterThan(0);
+        expect(screen.getAllByRole("button", { name: "Resource 1 activity: Fit the loom" }).length).toBeGreaterThan(0);
         expect(screen.getAllByRole("button", { name: "Open Activity “Fit the loom”" }).length).toBeGreaterThan(0);
     });
 

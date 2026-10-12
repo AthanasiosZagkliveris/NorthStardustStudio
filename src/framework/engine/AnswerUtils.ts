@@ -929,7 +929,7 @@ export function formatProcessChangeDescription(summary: ProcessChangeSummary): s
  * date, not UTC, so "today" always matches what the user's own
  * clock says regardless of timezone offset.
  */
-function todayIsoDate(): string {
+export function todayIsoDate(): string {
 
     const now = new Date();
     const month = String(now.getMonth() + 1).padStart(2, "0");
@@ -1617,6 +1617,8 @@ export interface BrandStyleAnswerValue {
     colours: BrandColourValue[];
     typefaces: BrandTypefaceValue[];
     hierarchy: Record<string, BrandHierarchyValue>;
+    /** The Icon & Logo and the Brand Images: the Style page holds them too (they were a page of their own, "Inventory"). */
+    inventory: BrandInventoryAnswerValue;
 }
 
 /**
@@ -1719,6 +1721,9 @@ export const BRAND_STYLE_SECTIONS = ["Colours", "Typography", "Text Hierarchy"] 
 
 export const BRAND_INVENTORY_SECTIONS = ["Icon & Logo", "Brand Images"] as const;
 
+/** The Style page's sections: its own three, then the Icon & Logo and the Brand Images (once the Inventory page). */
+export const BRAND_STYLE_PAGE_SECTIONS = [...BRAND_STYLE_SECTIONS, ...BRAND_INVENTORY_SECTIONS] as const;
+
 /**
  * How many individually-numbered parts a Section contributes to its
  * System's running count -- the columns of a column-layout page, or
@@ -1745,7 +1750,7 @@ export function numberedUnitCount(
     }
 
     if (answer.type === AnswerType.BrandStyle) {
-        return BRAND_STYLE_SECTIONS.length;
+        return BRAND_STYLE_PAGE_SECTIONS.length;
     }
 
     if (answer.type === AnswerType.BrandInventory) {
@@ -1835,7 +1840,7 @@ export function asBrandStyleValue(value: unknown): BrandStyleAnswerValue {
         };
     }
 
-    return { colours, typefaces, hierarchy };
+    return { colours, typefaces, hierarchy, inventory: asBrandInventoryValue(source.inventory) };
 
 }
 
@@ -1889,7 +1894,8 @@ export function brandStyleSectionsEmpty(value: unknown): boolean[] {
     return [
         colours.length === 0 || colours.some(colour => !wholeHex(colour.hex)),
         typefaces.length === 0 || typefaces.some(typeface => typeface.font.trim().length === 0),
-        levels.length === 0 || levels.some(level => !readableSize(level.size))
+        levels.length === 0 || levels.some(level => !readableSize(level.size)),
+        ...brandInventorySectionsEmpty(style.inventory)
     ];
 
 }
@@ -3704,6 +3710,8 @@ export interface LegalEntityExpenseValue {
      */
     links: string[];
     description: string;
+    /** The id of the requirement that made this expense ("Add to Legal Entity Expenses"), or "": such an expense is named and linked by its requirement. */
+    fromRequirement: string;
 }
 
 export interface LegalEntityValue {
@@ -3731,6 +3739,20 @@ export function createLegalEntityNumber(): LegalEntityNumberValue {
     return { id: randomId("number"), label: "", number: "" };
 }
 
+/** The legal forms that have no company registry (a sole trader is known to the tax office, not to a registry). */
+const NO_REGISTRY_FORM = /sole (trader|proprietor)|self-employed|freelance/i;
+
+/**
+ * WHETHER THE ORGANIZATION IS REGISTERED, worked out and never chosen: a registration number is the proof, so a number says registered and none says not yet.
+ * A form with no company registry has none to show: it counts as registered once it has a date.
+ */
+export function formationStatusOf(legalForm: string, registrationNumber: string, date: string): "planned" | "registered" {
+    if (registrationNumber.trim().length > 0) {
+        return "registered";
+    }
+    return NO_REGISTRY_FORM.test(legalForm) && date.trim().length > 0 ? "registered" : "planned";
+}
+
 export function createLegalEntityRequirement(): LegalEntityRequirementValue {
     return { id: randomId("requirement"), type: "", name: "", reference: "", notes: "", offerInExpenses: false };
 }
@@ -3739,12 +3761,13 @@ export function createLegalEntityExpense(): LegalEntityExpenseValue {
     return {
         id: randomId("expense"),
         name: "",
-        date: "",
+        date: todayIsoDate(),
         responsibility: "",
         cost: "",
         frequency: "",
         links: [],
-        description: ""
+        description: "",
+        fromRequirement: ""
     };
 }
 
@@ -3852,7 +3875,8 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
             frequency: asText(row.frequency),
             // (One registration only: an earlier answer's several keep the first.)
             links: (Array.isArray(row.links) ? row.links : []).map(asText).filter(Boolean).slice(0, 1),
-            description: asText(row.description)
+            description: asText(row.description),
+            fromRequirement: asText(row.fromRequirement)
         };
 
     });
@@ -3899,9 +3923,8 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
         founders: founders.length > 0 ? founders : [createLegalEntityFounder()],
 
         formation: {
-            status: formationSource.status === "planned" || formationSource.status === "registered"
-                ? formationSource.status
-                : "",
+            // (Never chosen: a company with a registration number is registered, one without is not yet.)
+            status: formationStatusOf(asText(organisationSource.legalForm), asText(formationSource.registrationNumber), asText(formationSource.date)),
             date: asText(formationSource.date),
             authority: asText(formationSource.authority),
             registrationNumber: asText(formationSource.registrationNumber),
@@ -4029,7 +4052,7 @@ export function legalEntitySectionsEmpty(value: unknown): boolean[] {
 /** The two subsections, in the order the page asks them. */
 export const FOUNDERS_PROFILE_SECTIONS = [
     "Founders",
-    "Team Capability Gaps & Cover"
+    "Capability Gaps & Cover"
 ] as const;
 
 /**
@@ -4069,8 +4092,10 @@ export interface FounderProfileValue {
 
 export interface FoundersProfileValue {
     founders: FounderProfileValue[];
-    /** Which capabilities the team lacks, and how they are covered. */
+    /** Which capabilities the team lacks. */
     teamGaps: string;
+    /** How they are covered: planned hires, advisors, mentors, partners, contractors, training. */
+    teamCover: string;
 }
 
 /** A founder's profile, named as the Legal Entity names them. */
@@ -4185,7 +4210,8 @@ export function asFoundersProfileValue(value: unknown): FoundersProfileValue {
 
     return {
         founders,
-        teamGaps: asText(source.teamGaps)
+        teamGaps: asText(source.teamGaps),
+        teamCover: asText(source.teamCover)
     };
 
 }
@@ -6952,6 +6978,21 @@ export function serviceAssetLinks(capability: BusinessCapabilityValue): Record<s
     return links;
 }
 
+/**
+ * THE COST OF ONE UNIT OF AN ASSET WITH ITS LINKED SERVICES (cost model, section 4): the price of one unit plus the services bundled into it, shared by the
+ * units the card buys. The capitalisation limit is tested on this, never on the invoice of a linked service: a machine of 20,000 and an installation of 1,500
+ * are one asset of 21,500. Null while the card has no price.
+ */
+export function assetUnitCost(capability: BusinessCapabilityValue, slot: BusinessResourceSlotValue): number | null {
+    const price = parseAmount(slot.cost.price);
+    if (price === null) {
+        return null;
+    }
+    const units = Math.max(1, parseAmount(slot.quantity) ?? 1);
+    const services = servicesOfAsset(capability, slot.id).reduce((sum, partner) => sum + (parseAmount(partner.cost.price) ?? 0), 0);
+    return Math.round((price + services / units) * 100) / 100;
+}
+
 /** The Technical Support suppliers bundled into one asset. */
 export const servicesOfAsset = (capability: BusinessCapabilityValue, assetId: string): BusinessPartnerValue[] => {
     const links = serviceAssetLinks(capability);
@@ -7053,6 +7094,9 @@ export function noteHint(groupId: string): string {
 /** A supplier connected to a rented vehicle shows a Qty before its price (how many vehicles the lease covers). */
 export const supplierHasQuantity = (connections: SupplierConnections) => connections.vehicle;
 
+/** Whether a partner or supplier card has a Qty before its price: a lessor of vehicles, and any card priced Per unit (per hour, per kg ...). */
+export const partnerHasQuantity = (connections: SupplierConnections, cost: { frequency: string }) => connections.vehicle || cost.frequency === "per-unit";
+
 /** Extras as saved: the known ones that hold a figure, the figure cleaned to its kind. */
 function asBusinessExtras(value: unknown): BusinessExtrasValue {
     const source = asObject(value);
@@ -7119,6 +7163,127 @@ const GROUP_FREQUENCIES: Record<string, readonly string[]> = {
     "offering:platforms-payments": ["percent-revenue", "per-unit", "monthly"]
 };
 
+/**
+ * THE COST OPTIONS AND BILLING TYPES (cost model, section 5). A card in Platforms & Payments, Revenue Partners, Royalties, Insurances or Licences asks for
+ * a ready-made option: the option sets the billing type, the billing type sets the driver, and the financial engine routes the cost. (A courier and a
+ * campaign are priced one way a card, by an option of their own; they have no billing type.)
+ *
+ * - Percentage: a rate of the revenue it follows. The driver is locked to % of revenue (a calculated COGS line).
+ * - Fixed amount: an amount a month or a year. The driver is Monthly or Annually (an OpEx line).
+ * - Lump sum: one amount at the start. The driver is One-time (a Start-up expense, or an intangible asset amortised automatically).
+ */
+export type BillingType = "percentage" | "fixed" | "lump-sum" | "";
+
+export const BILLING_TYPES: readonly { id: Exclude<BillingType, "">; label: string }[] = [
+    { id: "percentage", label: "Percentage" },
+    { id: "fixed", label: "Fixed amount" },
+    { id: "lump-sum", label: "Lump sum" }
+];
+
+export interface BusinessCostOption {
+    id: string;
+    label: string;
+    billing: BillingType;
+    /** The drivers the option allows, where its billing type does not say (a courier's, a campaign's). */
+    frequencies?: readonly string[];
+    /** The unit of a Per unit option. */
+    unit?: string;
+    /** A calculated line for each employee (key-person or health cover): the price is a month's for one. */
+    perEmployee?: boolean;
+}
+
+const INSURANCE_OPTIONS: readonly BusinessCostOption[] = [
+    { id: "property-liability", label: "Commercial property and liability", billing: "fixed" },
+    { id: "key-person-health", label: "Key-person or employee health", billing: "fixed", frequencies: ["monthly"], perEmployee: true }
+];
+
+const COST_OPTIONS: Record<string, readonly BusinessCostOption[]> = {
+    "infrastructure:insurances": INSURANCE_OPTIONS,
+    "offering:insurances": INSURANCE_OPTIONS,
+    "infrastructure:licences": [
+        { id: "initial-permit", label: "Initial permit", billing: "lump-sum" },
+        { id: "annual-renewal", label: "Annual renewal, music rights, municipal taxes", billing: "fixed" }
+    ],
+    "offering:licences": [
+        { id: "initial-permit", label: "Initial operating licence", billing: "lump-sum" },
+        { id: "annual-renewal", label: "Annual renewal", billing: "fixed" }
+    ],
+    "offering:royalties": [
+        { id: "royalty-on-sales", label: "Royalty on sales", billing: "percentage" },
+        { id: "fixed-royalty", label: "Fixed royalty", billing: "fixed" },
+        { id: "franchise-fee", label: "Upfront franchise or master licence fee", billing: "lump-sum" }
+    ],
+    "offering:revenue-partners": [
+        { id: "affiliate-commission", label: "Affiliate networks and influencer commissions", billing: "percentage" },
+        { id: "sales-agents", label: "Sales agents and B2B brokers", billing: "percentage" }
+    ],
+    "offering:platforms-payments": [
+        { id: "payment-gateway", label: "Payment gateway", billing: "percentage" },
+        { id: "marketplace-platform", label: "Marketplace or delivery platform", billing: "percentage" },
+        { id: "saas-platform", label: "SaaS e-commerce platform", billing: "fixed" }
+    ],
+    "offering:logistics-fulfilment": [
+        { id: "flat-per-parcel", label: "Flat per parcel", billing: "", frequencies: ["per-unit"], unit: "parcel" },
+        { id: "by-weight-zone", label: "By weight or zone", billing: "", frequencies: ["per-unit"], unit: "parcel" },
+        { id: "monthly-flat-fee", label: "Monthly flat fee", billing: "", frequencies: ["monthly"] },
+        { id: "fulfilment-per-item", label: "Fulfilment per item", billing: "", frequencies: ["per-unit"], unit: "order" }
+    ],
+    "offering:agencies-influencers": [
+        { id: "campaign-fee", label: "Campaign fee", billing: "", frequencies: ["per-project"] },
+        { id: "monthly-budget", label: "Monthly budget", billing: "", frequencies: ["monthly"] },
+        { id: "retainer", label: "Retainer", billing: "", frequencies: ["monthly"] },
+        { id: "per-post", label: "Per post", billing: "", frequencies: ["per-unit"], unit: "post" }
+    ]
+};
+
+/** The cost options of a group (none for a group that asks for no option). */
+export const costOptionsOf = (place: "infrastructure" | "offering", groupId: string): readonly BusinessCostOption[] => COST_OPTIONS[place + ":" + groupId] ?? [];
+
+export const costOptionOf = (place: "infrastructure" | "offering", groupId: string, optionId: string): BusinessCostOption | undefined =>
+    costOptionsOf(place, groupId).find(option => option.id === optionId);
+
+/** The billing type an option sets ("" for a card with no option, or an option with none). */
+export const billingOf = (place: "infrastructure" | "offering", groupId: string, optionId: string): BillingType => costOptionOf(place, groupId, optionId)?.billing ?? "";
+
+/** The drivers a chosen option allows: Percentage is % of revenue, a Lump sum One-time, a Fixed amount Monthly or Annually (as the group offers). */
+export function optionFrequenciesOf(place: "infrastructure" | "offering", groupId: string, optionId: string): readonly string[] | null {
+    const option = costOptionOf(place, groupId, optionId);
+    if (!option) {
+        return null;
+    }
+    if (option.frequencies) {
+        return option.frequencies;
+    }
+    switch (option.billing) {
+        case "percentage": return ["percent-revenue"];
+        case "lump-sum": return ["one-time"];
+        case "fixed": {
+            const own = frequencyIdsOf(place, groupId).filter(id => id === "monthly" || id === "annually");
+            return own.length > 0 ? own : ["monthly", "annually"];
+        }
+        default: return null;
+    }
+}
+
+/**
+ * A cost with an option chosen: the driver the option locks (kept when it is one the option allows, else the first), the unit of a Per unit option, and no
+ * unit otherwise. Nothing is changed for a card whose option is not one of its group's.
+ */
+export function costWithOption(cost: BusinessCostValue, place: "infrastructure" | "offering", groupId: string, optionId: string): BusinessCostValue {
+    const allowed = optionFrequenciesOf(place, groupId, optionId);
+    const option = costOptionOf(place, groupId, optionId);
+    if (!allowed || !option) {
+        return cost;
+    }
+    const frequency = allowed.includes(cost.frequency) ? cost.frequency : allowed[0];
+    const unit = frequency === "per-unit" ? (option.unit ?? (cost.unit || "unit")) : "";
+    return frequency === cost.frequency && unit === cost.unit && cost.frequencyOther === "" ? cost : { ...cost, frequency, unit, frequencyOther: "" };
+}
+
+/** An option as saved: kept when it is one of the group's, else none. */
+const validCostOption = (place: "infrastructure" | "offering", groupId: string, optionId: string): string =>
+    costOptionOf(place, groupId, optionId) ? optionId : "";
+
 /** The frequencies a group offers, in the order of the seven; all seven for a group the list does not know. */
 export function frequencyIdsOf(place: "infrastructure" | "offering", groupId: string): readonly string[] {
     const offered = GROUP_FREQUENCIES[place + ":" + groupId];
@@ -7154,7 +7319,8 @@ const GROUP_UNITS: Record<string, readonly string[]> = {
     "offering:producers-wholesalers": ["kg", "metre", "piece", "order"],
     "offering:logistics-fulfilment": ["parcel", "pallet", "order"],
     "offering:contractors-advisers": ["hour", "day"],
-    "offering:platforms-payments": ["order", "transaction"]
+    "offering:platforms-payments": ["order", "transaction"],
+    "offering:agencies-influencers": ["post"]
 };
 
 /** The units of a group, "unit" last (always there). */
@@ -7316,7 +7482,9 @@ export function businessDecimalText(text: string): string {
  * A per-unit or per-project price is never multiplied: its quantity
  * is not how many were bought -- unless it is a PURCHASE (an asset
  * group's card priced Per unit, see isPurchaseGroup): 3 laptops at
- * 1,000 are 3,000.
+ * 1,000 are 3,000. (A partner or supplier card priced Per unit counts
+ * as one too: 0.4 of an hour at 23.50 an hour is 9.40. Stock, a Qty
+ * that is the opening stock, is not.)
  */
 export function resourceUnitCount(quantity: string, frequency: string, purchase = false): number | null {
     if ((frequency === "per-unit" && !purchase) || frequency === "per-order" || frequency === "per-project" || frequency === "percent-revenue") {
@@ -7481,12 +7649,14 @@ export interface BusinessResourceSlotValue {
     warrantyUntil: string;
     /** A contract's own rate (a percent) in place of the default one: royalties. Optional. */
     rateOverride: string;
+    /** The ready-made cost option of its group (costOptionsOf), which sets the billing type and locks the driver; "" until chosen. */
+    costOption: string;
+    /** Years an intangible asset (an upfront franchise fee) is amortised over; "" until given. */
+    amortisationYears: string;
     /** The optional extras of the card (slotExtraKeys). */
     extras: BusinessExtrasValue;
     /** The payment plan of a Per project price. */
     paymentPlan: BusinessPaymentPlan;
-    /** When the description was first written (the note's automatic record date and time). */
-    noteRecorded: string;
     /** The share of the card each linked Offering carries, by Offering id, when several are linked (they total 100%). */
     offeringShares: Record<string, string>;
     /**
@@ -7565,12 +7735,12 @@ export interface BusinessActivityValue {
     offeringIds: string[];
     /** A Pre-Operational activity's type (BUSINESS_PREOPERATIONAL_TYPES' id), "" for any other. */
     type: string;
+    /** The card whose Activity status made it with "+ Add" (its name is written there, and the activity's name is a link back to it); "" for one made on its own. */
+    madeBy: string;
     /** The day it starts (an ISO date); asked on every card. */
     startDate: string;
     /** The day it ends (an ISO date); optional. */
     endDate: string;
-    /** When the description was first written (the note's automatic record date and time). */
-    noteRecorded: string;
     /** The share of the card each linked Offering carries, by Offering id, when several are linked (they total 100%). */
     offeringShares: Record<string, string>;
     /** The resources the activity uses (the Resources tick), each with the units of it the activity takes when it has units. */
@@ -7587,7 +7757,7 @@ interface BusinessActivityCategoryValue {
 }
 
 /**
- * A CATEGORY the user keeps (Partners & Providers': "Legal", "Couriers" ...): an id and the name he typed under "Other". The built-in categories
+ * A CATEGORY the user keeps (Partners & Suppliers': "Legal", "Couriers" ...): an id and the name he typed under "Other". The built-in categories
  * (Partners, Providers) are not stored here.
  */
 export interface BusinessCategoryValue {
@@ -7602,37 +7772,60 @@ export const PARTNER_CATEGORIES = [
 ] as const;
 
 /** The groups of each type, by place: fixed lists (21 groups in Infrastructure with the resources', 26 in the Offering with theirs). */
-export const BUSINESS_PARTNER_GROUPS: Record<"infrastructure" | "offering", Record<"partners" | "suppliers", readonly { id: string; label: string }[]>> = {
+export const BUSINESS_PARTNER_GROUPS: Record<"infrastructure" | "offering", Record<"partners" | "suppliers", readonly { id: string; label: string; help: string }[]>> = {
     infrastructure: {
         partners: [
-            { id: "alliances-networks", label: "Alliances & Networks" }
+            { id: "alliances-networks", label: "Alliances & Networks", help: "Organisations you join for the benefit of the whole company, e.g. Trade association, Buying group, Start-up accelerator, Producers cooperative." }
         ],
         suppliers: [
-            { id: "goods-equipment", label: "Goods & Equipment" },
-            { id: "business-services", label: "Business Services" },
-            { id: "creative-it-services", label: "Creative & IT Services" },
-            { id: "property-vehicles-facilities", label: "Property, Vehicles & Facilities" },
-            { id: "technical-support", label: "Technical Support" }
+            { id: "goods-equipment", label: "Goods & Equipment", help: "Sellers of furniture, devices and consumables for the company, e.g. Furniture dealer, Stationery merchant, Computer reseller, Water-cooler rental." },
+            { id: "business-services", label: "Business Services", help: "Firms that run the administrative side, e.g. Accountant, Lawyer, Insurance broker, Payroll bureau, Business bank, Web host." },
+            { id: "creative-it-services", label: "Creative & IT Services", help: "Freelancers and small agencies for design, branding, content or technology work, e.g. Web builder, Brand identity house, Photographer, IT support, Copywriter." },
+            { id: "property-vehicles-facilities", label: "Property, Vehicles & Facilities", help: "Owners and caretakers of the premises, and lessors of vehicles, e.g. Landlord, Coworking operator, Cleaner, Car lessor." },
+            { id: "technical-support", label: "Technical Support", help: "Outsourced technicians who maintain, repair and install the company's assets, e.g. Electrical engineer, Plumber, Boiler fitter, Network cabling. An installation is linked to the asset it installs." }
         ]
     },
     offering: {
         partners: [
-            { id: "revenue-partners", label: "Revenue Partners" },
-            { id: "accreditation-bodies", label: "Accreditation Bodies" }
+            { id: "revenue-partners", label: "Revenue Partners", help: "Parties who sell for you or send customers, and take a cut of each sale, e.g. Boutique stockist, Distributor, Referral partner, Affiliate blogger, Co-teacher." },
+            { id: "accreditation-bodies", label: "Accreditation Bodies", help: "Bodies whose approval gives your work credibility, e.g. Weavers' guild, Craft standards panel, Culinary institute." }
         ],
         suppliers: [
-            { id: "producers-wholesalers", label: "Producers & Wholesalers" },
-            { id: "logistics-fulfilment", label: "Logistics & Fulfilment" },
-            { id: "contractors-advisers", label: "Contractors & Advisers" },
-            { id: "agencies-influencers", label: "Agencies & Influencers" },
-            { id: "venues-organisers", label: "Venues & Organisers" },
-            { id: "landlords-leasing-warehouses", label: "Landlords, Leasing & Warehouses" },
-            { id: "platforms-payments", label: "Platforms & Payments" }
+            { id: "producers-wholesalers", label: "Producers & Wholesalers", help: "Producers and wholesalers that sell the materials and parts in the product, e.g. Wool mill, Box maker, Fabric importer, Flour miller." },
+            { id: "logistics-fulfilment", label: "Logistics & Fulfilment", help: "Carriers and warehouses that deliver orders to buyers, e.g. Courier, National post, Fulfilment centre, Freight forwarder." },
+            { id: "contractors-advisers", label: "Contractors & Advisers", help: "Outsourced specialists who do part of an offering's job or guide it, e.g. Dye works, Freelance developer, Product-safety adviser, Electrician." },
+            { id: "agencies-influencers", label: "Agencies & Influencers", help: "Firms and creators paid to spread the word, e.g. Marketing agency, Instagram creator, Poster press, Podcast sponsor." },
+            { id: "venues-organisers", label: "Venues & Organisers", help: "Hosts of the places and events where you sell, e.g. Fair organiser, Exhibition hall, Show promoter." },
+            { id: "landlords-leasing-warehouses", label: "Landlords, Leasing & Warehouses", help: "Owners of premises used for making or storing stock, and lessors of vehicles, e.g. Estate owner, Depot firm, Chilled-storage outfit, Van leasing specialist." },
+            { id: "platforms-payments", label: "Platforms & Payments", help: "Intermediaries between you and the customer who charge a fee, e.g. Online marketplace, Payment processor, App store, Reservation portal." }
         ]
     }
 };
 
-/** Where an older answer's Partners and Providers are filed: both are Suppliers, the first in the group that holds advisers and services. */
+/** The help text of Founders & Owners, the first group of Human Resources in Infrastructure (the Founders tile): the help-texts document's own. */
+export const FOUNDERS_OWNERS_HELP = "Owners who work in the company and draw pay from it, e.g. Founder salary, Part-time director fee.";
+
+/**
+ * THE HELP OF A CATEGORY, as the help-texts document shows it: the text of its one group, or one line for each of its groups ("Company Vehicles: cars and
+ * bikes the company owns ..."), the group's name first and its text after it in lower case.
+ */
+export function groupHelpLines(groups: readonly { label: string; help: string }[]): string[] {
+    const usable = groups.filter(group => group.help.length > 0);
+    return usable.length === 1 ? [usable[0].help] : usable.map(group => group.label + ": " + group.help.charAt(0).toLowerCase() + group.help.slice(1));
+}
+
+/** The same as points of an "i": one group is its text; several are each a bold name and its text (as the Status's "i" lists its options). */
+export function groupHelpPoints(groups: readonly { label: string; help: string }[]): (string | { title: string; text: string })[] {
+    const usable = groups.filter(group => group.help.length > 0);
+    return usable.length === 1 ? [usable[0].help] : usable.map(group => ({ title: group.label, text: group.help }));
+}
+
+/** The help text ("i") of a partner or supplier group, "" for none (no group, or an older answer's). */
+export function partnerGroupHelp(place: "infrastructure" | "offering", type: string | undefined, group: string): string {
+    return type === "partners" || type === "suppliers" ? BUSINESS_PARTNER_GROUPS[place][type].find(entry => entry.id === group)?.help ?? "" : "";
+}
+
+/** Where an older answer's Partners and Suppliers are filed: both are Suppliers, the first in the group that holds advisers and services. */
 const LEGACY_PARTNER_GROUP: Record<"infrastructure" | "offering", string> = { infrastructure: "business-services", offering: "contractors-advisers" };
 
 /** A category's name: a built-in's label, else the name the user typed ("" while he has not typed it yet). */
@@ -7661,14 +7854,14 @@ export interface BusinessPartnerValue {
     group: string;
     /** A contract's own rate (a percent) in place of the default one: a Revenue Partner's. Optional. */
     rateOverride: string;
+    /** The ready-made cost option of its group (costOptionsOf), which sets the billing type and locks the driver; "" until chosen. */
+    costOption: string;
     /** A supplier connected to a rented vehicle: how many vehicles its price is for ("" is one). */
     quantity: string;
     /** The optional extras of the card (partnerExtraKeys). */
     extras: BusinessExtrasValue;
     /** The payment plan of a Per project price. */
     paymentPlan: BusinessPaymentPlan;
-    /** When the description was first written (the note's automatic record date and time). */
-    noteRecorded: string;
     /** The share of the card each linked Offering carries, by Offering id, when several are linked (they total 100%). */
     offeringShares: Record<string, string>;
     /** The day it starts (an ISO date); asked on every card. */
@@ -7842,7 +8035,7 @@ export interface BusinessCapabilityValue {
 
     providers: BusinessPartnerValue[];
 
-    /** The categories of Partners & Providers the user has made (under "Other"), shared by Infrastructure's and Offering's cards. */
+    /** The categories of Partners & Suppliers the user has made (under "Other"), shared by Infrastructure's and Offering's cards. */
     partnerCategories: BusinessCategoryValue[];
 
     /** The categories of activities the user has made (under "Other"), shared by Infrastructure's and Offering's activities. */
@@ -7861,6 +8054,36 @@ export interface BusinessCapabilityValue {
      */
     delivery: Record<string, DeliveryValue>;
 
+}
+
+/**
+ * THE DATE DEFINES THE ORDER (then the number): every list of cards of the Infrastructure & Capability page -- a resource group's, an activity category's,
+ * the partners' and suppliers' -- is kept in the order of the cards' Start dates, the earliest first; a card with the same date keeps its place, a card
+ * with no date goes last. The founders keep the order the Legal Entity gives them.
+ */
+export function orderedByDate(value: BusinessCapabilityValue): BusinessCapabilityValue {
+    const byDate = <T extends { startDate: string }>(cards: T[]): T[] => {
+        const sorted = cards.map((card, at) => ({ card, at })).sort((a, b) => {
+            const first = a.card.startDate || "9999-99-99";
+            const second = b.card.startDate || "9999-99-99";
+            return first < second ? -1 : first > second ? 1 : a.at - b.at;
+        }).map(entry => entry.card);
+        return sorted.every((card, at) => card === cards[at]) ? cards : sorted;
+    };
+    return {
+        ...value,
+        resources: Object.fromEntries(Object.entries(value.resources).map(([id, subsections]) => [id, subsections.map(subsection => ({ ...subsection, slots: byDate(subsection.slots) }))])),
+        activities: value.activities.map(category => ({ ...category, activities: byDate(category.activities) })),
+        professionals: byDate(value.professionals),
+        providers: byDate(value.providers),
+        offering: {
+            ...value.offering,
+            resources: byDate(value.offering.resources),
+            activities: byDate(value.offering.activities),
+            professionals: byDate(value.offering.professionals),
+            providers: byDate(value.offering.providers)
+        }
+    };
 }
 
 function createBusinessCost(): BusinessCostValue {
@@ -7886,16 +8109,18 @@ export function createBusinessResourceSlot(): BusinessResourceSlotValue {
         deposit: "",
         category: "",
         group: "",
-        startDate: "",
+        // (A card begins today unless told otherwise.)
+        startDate: todayIsoDate(),
         endDate: "",
         activityId: "",
         usefulLife: "",
         warranty: false,
         warrantyUntil: "",
         rateOverride: "",
+        costOption: "",
+        amortisationYears: "",
         extras: {},
         paymentPlan: emptyPaymentPlan(),
-        noteRecorded: "",
         offeringShares: {},
         extraStatuses: [],
         insuranceId: "",
@@ -7914,9 +8139,9 @@ export function createBusinessActivity(category = ""): BusinessActivityValue {
         completed: false,
         offeringIds: [],
         type: "",
-        startDate: "",
+        madeBy: "",
+        startDate: todayIsoDate(),
         endDate: "",
-        noteRecorded: "",
         offeringShares: {},
         resources: [],
         performerPeople: {}
@@ -7929,12 +8154,12 @@ export function createBusinessPartner(name = "", category = ""): BusinessPartner
         category,
         group: "",
         rateOverride: "",
+        costOption: "",
         quantity: "",
         extras: {},
         paymentPlan: emptyPaymentPlan(),
-        noteRecorded: "",
         offeringShares: {},
-        startDate: "",
+        startDate: todayIsoDate(),
         endDate: "",
         name,
         description: "",
@@ -8082,9 +8307,10 @@ function asBusinessResourceSlot(
         warranty: slot.warranty === true,
         warrantyUntil: isoDateText(slot.warrantyUntil),
         rateOverride: businessDecimalText(asText(slot.rateOverride)),
+        costOption: validCostOption(context.place ?? "infrastructure", groupId, asText(slot.costOption)),
+        amortisationYears: asText(slot.amortisationYears).replace(/\D/g, "").slice(0, 3),
         extras: asBusinessExtras(slot.extras),
         paymentPlan: asPaymentPlan(slot.paymentPlan),
-        noteRecorded: isoDateTimeText(slot.noteRecorded),
         offeringShares: asOfferingShares(slot.offeringShares, offeringIdsOf(slot)),
         extraStatuses: (Array.isArray(slot.extraStatuses) ? slot.extraStatuses : []).map(entry => {
             const row = asObject(entry);
@@ -8106,8 +8332,22 @@ function asBusinessResourceSlot(
  * is incomplete; one Offering carries all of it. Ticking Offerings starts them equal.
  */
 export function equalOfferingShares(offeringIds: readonly string[]): Record<string, string> {
-    const shares = equalPercents(offeringIds.length);
-    return Object.fromEntries(offeringIds.map((id, at) => [id, shares[at]]));
+    // (Whole percents, of at most two digits: three Offerings are 33, 33 and 34.)
+    const each = Math.floor(100 / Math.max(1, offeringIds.length));
+    return Object.fromEntries(offeringIds.map((id, at) => [id, String(at === offeringIds.length - 1 ? 100 - each * (offeringIds.length - 1) : each)]));
+}
+
+/**
+ * THE SHARES COUNT IN UNITS instead of percents when the card says so (a delivery of 3 items of one Offering and 5 of another): a reserved entry of the
+ * shares, UNITS_KEY, holds "1". The units are then shares of their own total, and there is nothing to total to 100.
+ */
+export const OFFERING_UNITS_KEY = "~units";
+
+export const offeringSharesInUnits = (shares: Record<string, string>) => shares[OFFERING_UNITS_KEY] === "1";
+
+/** Every linked Offering one unit, in units. */
+export function unitOfferingShares(offeringIds: readonly string[]): Record<string, string> {
+    return { ...Object.fromEntries(offeringIds.map(id => [id, "1"])), [OFFERING_UNITS_KEY]: "1" };
 }
 
 /** What the typed shares of the linked Offerings add up to (an Offering with none typed counts nothing). */
@@ -8117,13 +8357,17 @@ export function offeringSharesTotal(offeringIds: readonly string[], shares: Reco
 
 /** Whether a card linked to several Offerings has a share missing, or shares that do not total 100%. One or none: nothing to share. */
 export function offeringSharesIncomplete(offeringIds: readonly string[], shares: Record<string, string>): boolean {
+    if (offeringSharesInUnits(shares)) {
+        return offeringIds.length > 1 && offeringIds.some(id => !((parseAmount(shares[id] ?? "") ?? 0) > 0));
+    }
     return offeringIds.length > 1 && (offeringIds.some(id => (shares[id] ?? "") === "") || offeringSharesTotal(offeringIds, shares) !== 100);
 }
 
 /** The fraction of a card each linked Offering carries: the typed shares when they total 100%, else equal ones. */
 export function offeringFractions(offeringIds: readonly string[], shares: Record<string, string>): Record<string, number> {
     const typed = offeringIds.length > 1 && !offeringSharesIncomplete(offeringIds, shares);
-    return Object.fromEntries(offeringIds.map(id => [id, typed ? (parseAmount(shares[id] ?? "") ?? 0) / 100 : 1 / offeringIds.length]));
+    const whole = offeringSharesInUnits(shares) ? offeringIds.reduce((sum, id) => sum + (parseAmount(shares[id] ?? "") ?? 0), 0) : 100;
+    return Object.fromEntries(offeringIds.map(id => [id, typed ? (parseAmount(shares[id] ?? "") ?? 0) / whole : 1 / offeringIds.length]));
 }
 
 /** The shares kept: those of the Offerings the card is linked to, cleaned to numbers. */
@@ -8131,14 +8375,10 @@ function asOfferingShares(value: unknown, offeringIds: readonly string[]): Recor
     const source = asObject(value);
     const kept = Object.fromEntries(offeringIds.filter(id => id in source).map(id => [id, businessDecimalText(asText(source[id]))]));
     // A card linked to several Offerings before there were shares was shared equally: it keeps being.
-    return offeringIds.length > 1 && Object.keys(kept).length === 0 ? equalOfferingShares(offeringIds) : kept;
-}
-
-/** The moment a note was first written ("YYYY-MM-DDTHH:mm", local time) as saved; anything else reads as none. */
-function isoDateTimeText(value: unknown): string {
-    const text = asText(value).trim();
-    const match = /^(\d{4}-\d{2}-\d{2})T([01]\d|2[0-3]):([0-5]\d)$/.exec(text);
-    return match && isoDateText(match[1]) !== "" ? text : "";
+    if (offeringIds.length > 1 && Object.keys(kept).length === 0) {
+        return equalOfferingShares(offeringIds);
+    }
+    return offeringIds.length > 1 && source[OFFERING_UNITS_KEY] === "1" ? { ...kept, [OFFERING_UNITS_KEY]: "1" } : kept;
 }
 
 /** An ISO date ("YYYY-MM-DD") as saved; anything else is not a date and reads as none. */
@@ -8186,9 +8426,9 @@ function asBusinessActivity(entry: unknown, fallbackCategory = ""): BusinessActi
         completed: activity.completed === true,
         offeringIds: offeringIdsOf(activity),
         type: BUSINESS_PREOPERATIONAL_TYPES.some(entry => entry.id === asText(activity.type)) ? asText(activity.type) : "",
+        madeBy: asText(activity.madeBy),
         startDate: isoDateText(activity.startDate),
         endDate: isoDateText(activity.endDate),
-        noteRecorded: isoDateTimeText(activity.noteRecorded),
         offeringShares: asOfferingShares(activity.offeringShares, offeringIdsOf(activity)),
         resources: (Array.isArray(activity.resources) ? activity.resources : [])
             // (Units are whole numbers. A row still waiting for its resource is kept: its id is "".)
@@ -8223,7 +8463,7 @@ function asBusinessPartner(
     let earlierCategory = "";
 
     if (context.legacy) {
-        /* Partners and Providers are both Suppliers now (see the F1 mapping): the old Partners in the group that holds advisers and services, the
+        /* Partners and Suppliers are both Suppliers now (see the F1 mapping): the old Partners in the group that holds advisers and services, the
            old Providers and the categories the user made with no group yet -- the name of such a category goes into the description. */
         if (rawCategory === "partners") {
             category = "suppliers";
@@ -8258,10 +8498,10 @@ function asBusinessPartner(
         category,
         group,
         rateOverride: businessDecimalText(asText(partner.rateOverride)),
+        costOption: validCostOption(scope, group, asText(partner.costOption)),
         quantity: businessDecimalText(asText(partner.quantity)),
         extras: asBusinessExtras(partner.extras),
         paymentPlan: asPaymentPlan(partner.paymentPlan),
-        noteRecorded: isoDateTimeText(partner.noteRecorded),
         offeringShares: asOfferingShares(partner.offeringShares, offeringIdsOf(partner)),
         startDate: isoDateText(partner.startDate),
         endDate: isoDateText(partner.endDate),

@@ -239,6 +239,41 @@ export const SOURCES = {
         publisher: "OpenStax, Rice University",
         url: "https://openstax.org/books/calculus-volume-2/pages/5-2-infinite-series",
         checked: "2026-09-29"
+    },
+
+    texasAssetClasses: {
+        title: "State Property Class Codes",
+        publisher: "Texas DFPS",
+        url: "https://dfps.texas.gov/handbooks/Asset_Management/Files/ASM_px_2.asp",
+        checked: "2026-10-10"
+    },
+
+    frs102Intangibles: {
+        title: "FRS 102 intangible assets: what's changed?",
+        publisher: "ACCA",
+        url: "https://www.accaglobal.com/gb/en/technical-activities/technical-resources-search/2018/april/FRS102-intangible-assets-whats-changed.html",
+        checked: "2026-10-12"
+    },
+
+    ias38Examples: {
+        title: "IAS 38 Intangible Assets: Illustrative Examples",
+        publisher: "IFRS Foundation",
+        url: "https://www.ifrs.org/content/dam/ifrs/publications/html-standards/english/2024/issued/ias38-ie.html",
+        checked: "2026-10-12"
+    },
+
+    section197Amortisation: {
+        title: "T.D. 8865: Amortization of Intangibles",
+        publisher: "IRS",
+        url: "https://www.eitc.irs.gov/pub/irs-regs/td8865.pdf",
+        checked: "2026-10-12"
+    },
+
+    smallCompanyIntangibleLives: {
+        title: "A small company's intangible assets note",
+        publisher: "SEC (company filing)",
+        url: "https://www.sec.gov/Archives/edgar/data/1520118/000147793225007253/R15.htm",
+        checked: "2026-10-12"
     }
 
 } satisfies Record<string, Source>;

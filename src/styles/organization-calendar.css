@@ -1100,3 +1100,328 @@
     letter-spacing:0.05em;
 
 }
+
+/* THE FUNNEL: the period chips (Today ... Xmas, the user's own) and the kinds of date shown. */
+.org-calendar-funnel{
+
+    display:flex;
+    flex-direction:column;
+
+    gap:8px;
+
+    margin-bottom:12px;
+
+}
+
+.org-calendar-funnel-row{
+
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+
+    gap:6px;
+
+}
+
+.org-calendar-funnel-label{
+
+    font-size:var(--font-body);
+    font-weight:700;
+
+    text-transform:uppercase;
+    letter-spacing:0.4px;
+
+    color:var(--text-subtle);
+
+    min-width:3.5em;
+
+}
+
+.org-calendar-chip-wrap{
+
+    display:inline-flex;
+    align-items:center;
+
+}
+
+.org-calendar-chip{
+
+    padding:4px 10px;
+
+    border:1px solid var(--box-border);
+    border-radius:999px;
+
+    background:var(--bg-surface);
+    color:var(--text-default);
+
+    font:inherit;
+    font-size:var(--font-small);
+
+    cursor:pointer;
+
+}
+
+.org-calendar-chip:hover:not(:disabled){
+
+    border-color:var(--line-primary);
+
+}
+
+.org-calendar-chip[aria-pressed="true"]{
+
+    border-color:var(--line-primary);
+
+    background:var(--bg-primary);
+    color:var(--text-on-primary, #fff);
+
+}
+
+.org-calendar-chip-add{
+
+    border-style:dashed;
+
+}
+
+.org-calendar-chip-remove{
+
+    margin-left:-4px;
+    padding:0 6px;
+
+    border:0;
+
+    background:none;
+    color:var(--text-subtle);
+
+    cursor:pointer;
+
+}
+
+.org-calendar-funnel-form{
+
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:6px;
+
+}
+
+.org-calendar-funnel-form > .interview-input{
+
+    flex:1 1 120px;
+
+    min-width:0;
+
+}
+
+.org-calendar-funnel-kinds{
+
+    display:grid;
+
+    gap:4px;
+
+    padding:8px 10px;
+
+    border:1px solid var(--box-border);
+    border-radius:8px;
+
+}
+
+.org-calendar-funnel-kind{
+
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+
+    font-size:var(--font-small);
+
+}
+
+.org-calendar-agenda{
+
+    margin-top:12px;
+
+}
+
+.org-calendar-agenda-range{
+
+    margin-left:8px;
+
+    font-size:var(--font-small);
+    font-weight:400;
+
+    color:var(--text-subtle);
+
+}
+
+.org-calendar-agenda-row{
+
+    display:flex;
+    flex-wrap:wrap;
+    align-items:baseline;
+
+    gap:4px 10px;
+
+    padding:6px 0 6px 10px;
+
+    border-left:4px solid var(--capability-color, var(--line-primary));
+
+    font-size:var(--font-small);
+
+}
+
+.org-calendar-agenda-date{
+
+    flex:none;
+
+    font-weight:700;
+
+}
+
+.org-calendar-agenda-text{
+
+    flex:1 1 140px;
+
+    min-width:0;
+
+}
+
+/* The funnel's drop-down cells. */
+.org-calendar-funnel-field{
+
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+
+    flex:0 1 auto;
+
+}
+
+.org-calendar-dropdown{
+
+    width:auto;
+    max-width:100%;
+
+    min-height:var(--card-cell-height, 44px);
+
+    font-size:var(--font-body);
+    text-align:left;
+
+}
+
+.org-calendar-multi{
+
+    position:relative;
+
+    flex:0 0 auto;
+
+    min-width:0;
+
+}
+
+.org-calendar-multi-list{
+
+    position:absolute;
+    z-index:5;
+
+    top:calc(100% + 4px);
+    left:0;
+
+    display:grid;
+
+    gap:6px;
+
+    min-width:100%;
+    padding:10px;
+
+    border:1px solid var(--box-border);
+    border-radius:8px;
+
+    background:var(--bg-surface);
+
+    box-shadow:0 8px 24px var(--shadow-18);
+
+}
+
+.org-calendar-multi-actions{
+
+    display:flex;
+
+    gap:6px;
+
+}
+
+/* A day's event: what the date is, the card's name as a link, and (on hovering) a button that adds a note. */
+.org-calendar-task{
+
+    padding:6px 0 6px 10px;
+
+    border-left:4px solid var(--capability-color, var(--line-primary));
+
+}
+
+.org-calendar-task-line{
+
+    display:flex;
+    flex-wrap:wrap;
+    align-items:baseline;
+
+    gap:4px 10px;
+
+}
+
+.org-calendar-task-kind{
+
+    font-weight:700;
+
+}
+
+.org-calendar-task-link{
+
+    padding:0;
+
+    border:0;
+
+    background:none;
+    color:var(--bg-primary);
+
+    font:inherit;
+    text-decoration:underline;
+
+    cursor:pointer;
+
+}
+
+.org-calendar-task-add{
+
+    margin-left:auto;
+
+    opacity:0;
+
+}
+
+.org-calendar-task:hover .org-calendar-task-add,
+.org-calendar-task:focus-within .org-calendar-task-add{
+
+    opacity:1;
+
+}
+
+.org-calendar-expand{
+
+    margin-left:12px;
+
+    font-weight:400;
+
+}
+
+.org-calendar-multi > .org-calendar-dropdown,
+select.org-calendar-dropdown{
+
+    font-family:inherit;
+    letter-spacing:normal;
+
+    background:var(--bg-surface);
+
+}

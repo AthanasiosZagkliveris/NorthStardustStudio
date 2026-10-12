@@ -1,4 +1,8 @@
-import { CSSProperties, ReactNode, useState } from "react";
+import { CSSProperties, ReactNode, useRef, useState } from "react";
+
+import { workHue } from "../../framework/engine/WorkColours.ts";
+import CardBoxes, { type CardBox } from "./CardBoxes.tsx";
+import SectionTiles, { DialogHeading, type SectionTile, type TileAdd } from "./SectionTiles.tsx";
 
 import {
     BUSINESS_COMPETITOR_TYPES,
@@ -371,6 +375,12 @@ interface BusinessFoundationEditorProps {
      */
     targetAudience?: string;
 
+    /** The page as four tiles (Customers, Competitors, Value Proposition, Offerings), each opening its part of every Segment in its dialog. */
+    asTiles?: boolean;
+
+    /** With `asTiles`: the frame's title over the tiles. */
+    frameTitle?: string;
+
 }
 
 /**
@@ -400,7 +410,9 @@ export default function BusinessFoundationEditor({
 
     columnsDivider,
 
-    targetAudience = ""
+    targetAudience = "",
+
+    asTiles = false
 
 }: BusinessFoundationEditorProps) {
 
@@ -426,6 +438,13 @@ export default function BusinessFoundationEditor({
      * starts open.
      */
     const folds = useItemFolds();
+
+    // The latest answer (a card made by a tile's "+" is judged blank, and removed, against the answer as it is by then), the cards as they are built (a tile
+    // opens ONE of them floating) and whether the cards being built are opened for that (no fold arrow).
+    const latest = useRef(foundation);
+    latest.current = foundation;
+    const built = new Map<string, ReactNode>();
+    let forceOpen = false;
 
     function update(patch: Partial<BusinessFoundationValue>) {
         onChange({ ...foundation, ...patch });
@@ -777,7 +796,7 @@ export default function BusinessFoundationEditor({
         // through the shared `folds` state (see useItemFolds). The
         // Segment card that holds them is built inline below and
         // stays on `collapsed`.
-        return (
+        const node = (
             <BusinessCard
                 key={key}
                 anchor={key}
@@ -786,8 +805,8 @@ export default function BusinessFoundationEditor({
                 name={name}
                 onName={onName}
                 ariaPrefix={ariaPrefix}
-                open={folds.isOpen(key)}
-                onToggle={() => folds.toggle(key)}
+                open={forceOpen || folds.isOpen(key)}
+                onToggle={forceOpen ? undefined : () => folds.toggle(key)}
                 actions={actions}
                 disabled={disabled}
                 summary={summary}
@@ -796,6 +815,8 @@ export default function BusinessFoundationEditor({
                 {children}
             </BusinessCard>
         );
+        built.set(key, node);
+        return node;
 
     }
 
@@ -1091,7 +1112,6 @@ export default function BusinessFoundationEditor({
                                 "Type",
                                 <OptionPicker
                                     label={segmentPath + ", Competitor " + (index + 1) + " type"}
-                                    placeholder="Select a type"
                                     hug
                                     options={BUSINESS_COMPETITOR_TYPES.map(
                                         type => type.label
@@ -1347,7 +1367,6 @@ export default function BusinessFoundationEditor({
                                 "Type",
                                 <OptionPicker
                                     label={segmentPath + ", Offering " + (index + 1) + " type"}
-                                    placeholder="Select a type"
                                     hug
                                     options={[...BUSINESS_OFFERING_CATEGORIES]}
                                     disabled={disabled}
@@ -1458,6 +1477,201 @@ export default function BusinessFoundationEditor({
 
         return { segmentDescription, profiles, competitors, valueProposition, offerings };
 
+    }
+
+    /* THE PAGE AS TILES (the page's tile system): four tiles, two by two -- Customers (the Segments and their Profiles) and Value Proposition above, Competitors and
+       Offerings under them. Everything this page asks is asked about a Segment, so each tile's dialog lists the Segments, each with its part: the Segment and its
+       Profiles; what is promised to it; the competitors facing it; the Offerings sold to it. Only the first edits the Segment itself (its name, its x). */
+    if (asTiles) {
+        const rail = (section: number) => railId(BUSINESS_FOUNDATION_SUBSECTIONS[section]);
+        const segmentAdd = (
+            <div className="business-foundation-input-actions">
+                {addButton("Segment", () => update({
+                    segments: [...foundation.segments, createBusinessCustomerSegment(foundation.segments.map(segmentHue))]
+                }))}
+            </div>
+        );
+        /** One of a Segment's cards (a Profile, a Competitor, an Offering) as it floats over its tile: open, with no fold arrow. */
+        const floatingOf = (segment: BusinessCustomerSegmentValue, index: number, id: string): ReactNode => {
+            forceOpen = true;
+            try {
+                subsectionsFor(segment, index);
+            } finally {
+                forceOpen = false;
+            }
+            const node = built.get(id);
+            return node ? <div className="column-tile-content" style={{ "--strategy-theme-hue": workHue("discover") } as CSSProperties}>{node}</div> : null;
+        };
+        type Kind = "profiles" | "competitors" | "offerings";
+        const listOf = (segment: BusinessCustomerSegmentValue, kind: Kind): { id: string; name: string }[] => segment[kind];
+        const NOUN: Record<Kind, string> = { profiles: "Profile", competitors: "Competitor", offerings: "Offering" };
+        const addOf = (segmentId: string, kind: Kind): TileAdd => ({
+            label: NOUN[kind],
+            disabled,
+            onAdd: () => {
+                const made = kind === "profiles" ? createBusinessCustomerProfile() : kind === "competitors" ? createBusinessCompetitor() : createBusinessOffering();
+                onChange({
+                    ...latest.current,
+                    segments: latest.current.segments.map(segment => segment.id === segmentId ? { ...segment, [kind]: [...segment[kind], made] } : segment)
+                });
+                return made.id;
+            },
+            isBlank: (id: string) => {
+                const entry = latest.current.segments.flatMap(segment => listOf(segment, kind)).find(candidate => candidate.id === id);
+                return !entry || entry.name.trim().length === 0;
+            },
+            onRemove: (ids: string[]) => onChange({
+                ...latest.current,
+                segments: latest.current.segments.map(segment => segment.id === segmentId ? { ...segment, [kind]: listOf(segment, kind).filter(entry => !ids.includes(entry.id)) } : segment)
+            })
+        });
+        /** The floating card of a Segment's Description or of its Value Proposition (the cards of a Profile, a Competitor, an Offering come from floatingOf). */
+        const ownCard = (segment: BusinessCustomerSegmentValue, index: number, which: "description" | "proposition"): ReactNode => (
+            // (Only the section itself: the Segment's number, name and x are the frame's, outside the tiles.)
+            <div className="column-tile-content" style={{ "--strategy-theme-hue": workHue("discover") } as CSSProperties}>
+                <div className="business-foundation-input business-foundation-card" data-anchor={segment.id + ":" + (which === "description" ? 0 : 2)}>
+                    {which === "description"
+                        ? <div className="business-foundation-description" data-rail={rail(0)}>{subsectionsFor(segment, index).segmentDescription}</div>
+                        : <div className="business-foundation-proposition" data-rail={rail(2)}>{subsectionsFor(segment, index).valueProposition}</div>}
+                </div>
+            </div>
+        );
+        const DESCRIPTION = ":description";
+        const PROPOSITION = ":proposition";
+        const info = (section: number): InfoPoint[] => [...heads[section].instructions];
+        const written = (names: readonly string[], count = 6) => names.map(name => name.trim()).filter(name => name.length > 0).slice(0, count);
+        const boxesOf = (segment: BusinessCustomerSegmentValue, kind: Kind): CardBox[] => listOf(segment, kind).map((entry, at) => ({
+            id: entry.id,
+            number: at + 1,
+            name: entry.name,
+            unnamed: "Unnamed " + NOUN[kind].toLowerCase(),
+            own: true,
+            content: () => null
+        }));
+        const dialog = (section: number, title: string, body: ReactNode) => (
+            <div className="column-tile-content" data-rail={rail(section)}>
+                <div className="business-engagement-section-head"><DialogHeading title={title} info={info(section)} /></div>
+                {body}
+            </div>
+        );
+        /**
+         * A SEGMENT'S FOUR TILES, two by two, in its frame: Customers (its Description and its Profiles), Value Proposition, Competitors and Offerings. Customers, Competitors
+         * and Offerings open the small tiles of their cards; every card -- the Description, a Profile, the Value Proposition, a Competitor, an Offering -- floats over its tile.
+         */
+        const tilesOf = (segment: BusinessCustomerSegmentValue, index: number): SectionTile[] => {
+            const cardFor = (id: string): ReactNode => id === segment.id + DESCRIPTION
+                ? ownCard(segment, index, "description")
+                : id === segment.id + PROPOSITION ? ownCard(segment, index, "proposition") : floatingOf(segment, index, id);
+            const listTile = (kind: Kind, section: number, title: string): SectionTile => {
+                const add = addOf(segment.id, kind);
+                return {
+                    id: segment.id + ":" + kind,
+                    title,
+                    group: title,
+                    large: true,
+                    view: true,
+                    rail: rail(section),
+                    holds: listOf(segment, kind).map(entry => entry.id),
+                    items: written(listOf(segment, kind).map(entry => entry.name)),
+                    itemMarks: listOf(segment, kind).map(() => ({ bullet: true })),
+                    links: listOf(segment, kind).filter(entry => entry.name.trim()).slice(0, 6).map(entry => ({ card: entry.id })),
+                    add,
+                    cardFor,
+                    content: () => dialog(section, title, <CardBoxes items={boxesOf(segment, kind)} label={title} what={NOUN[kind]} add={add} autoStart={false} />)
+                };
+            };
+            const profileAdd = addOf(segment.id, "profiles");
+            const profileNames = written(segment.profiles.map(profile => profile.name));
+            return [
+                {
+                    id: segment.id + ":customers",
+                    title: "Segment Description",
+                    group: "Profiles",
+                    large: true,
+                    view: true,
+                    rail: rail(0),
+                    // Under the title's rule: PROFILES, centred in capitals with no bullet; the Profiles follow, bulleted.
+                    items: ["PROFILES", ...profileNames],
+                    itemMarks: [{ centre: true }, ...profileNames.map(() => ({ bullet: true }))],
+                    links: [undefined, ...segment.profiles.filter(profile => profile.name.trim()).slice(0, 5).map(profile => ({ card: profile.id }))],
+                    holds: segment.profiles.map(profile => profile.id),
+                    add: profileAdd,
+                    cardFor,
+                    // (The Description is the Segment's own, one each: a section of the dialog, not a card; the Profiles under it are the small tiles of their cards.)
+                    content: () => dialog(0, "Segment Description", (
+                        <>
+                            <div className="business-foundation-description" data-rail={rail(0)}>{subsectionsFor(segment, index).segmentDescription}</div>
+                            <span className="field-group-title business-foundation-subhead strategy-tiles-label">Profiles</span>
+                            <CardBoxes
+                                items={boxesOf(segment, "profiles")}
+                                label="Profiles"
+                                what="Profile"
+                                add={profileAdd}
+                                autoStart={false}
+                            />
+                        </>
+                    ))
+                },
+                {
+                    id: segment.id + ":value-proposition",
+                    title: "Value Proposition",
+                    group: "Value Proposition",
+                    large: true,
+                    rail: rail(2),
+                    items: segment.valueProposition.trim() ? [segment.valueProposition.trim()] : [],
+                    // (The Value Proposition is a section of the Segment, one each: it opens in the dialog, a tile the arrows go through.)
+                    content: () => dialog(2, "Value Proposition", (
+                        <div className="column-tile-content" style={{ "--strategy-theme-hue": workHue("discover") } as CSSProperties}>
+                            <div className="business-foundation-proposition" data-rail={rail(2)}>{subsectionsFor(segment, index).valueProposition}</div>
+                        </div>
+                    ))
+                },
+                listTile("competitors", 1, "Competitors"),
+                listTile("offerings", 3, "Offerings")
+            ];
+        };
+        /** A Segment's frame title: "Segment" until it has a name, then the name; with several Segments each is numbered. */
+        const frameName = (segment: BusinessCustomerSegmentValue, index: number) => (foundation.segments.length > 1 ? (index + 1) + ". " : "") + (segment.name.trim() || "Segment");
+        return (
+            <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
+                <div className="business-foundation-segment-frames">
+                    {foundation.segments.map((segment, index) => (
+                        <div
+                            className="business-foundation-input business-foundation-card business-engagement-input"
+                            key={segment.id}
+                            data-anchor={segment.id}
+                            style={{ "--strategy-theme-hue": workHue("discover") } as CSSProperties}
+                        >
+                            <div className="card-scroll">
+                                <div className="business-capability-section business-capability-tiles-section">
+                                    {/* The Segment's frame holds all its tiles: its title is the frame's, as Identity's and Brand's are -- centred, in capitals -- and is the Segment's name, edited right there. */}
+                                    <div className="business-engagement-section-head tiles-frame-head business-foundation-frame-head">
+                                        <span className="field-group-title business-foundation-subhead business-foundation-frame-title">
+                                            {foundation.segments.length > 1 && <span className="business-foundation-frame-number">{(index + 1) + "."}</span>}
+                                            <input
+                                                type="text"
+                                                className="business-foundation-frame-name"
+                                                aria-label={"Segment " + (index + 1) + " name"}
+                                                placeholder="Segment name"
+                                                disabled={disabled}
+                                                value={segment.name}
+                                                onChange={(event) => updateSegment(index, { name: event.target.value })}
+                                            />
+                                        </span>
+                                        {foundation.segments.length > 1 && remove(
+                                            "Segment " + (index + 1),
+                                            () => update({ segments: foundation.segments.filter((_candidate, position) => position !== index) })
+                                        )}
+                                    </div>
+                                    <SectionTiles label={frameName(segment, index) + ": Customers, Value Proposition, Competitors, Offerings"} hue={workHue("discover")} tiles={tilesOf(segment, index)} />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                {segmentAdd}
+            </div>
+        );
     }
 
     return (

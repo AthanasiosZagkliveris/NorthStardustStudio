@@ -1,3 +1,7 @@
+import { useLayoutEffect, useRef } from "react";
+
+import { dialogFrame, tileGapLevel } from "./SectionTiles.tsx";
+
 /**
  * A page arrow: "‹" (the previous page) or "›" (the next), named
  * "Previous page" / "Next page", its tooltip saying where it goes
@@ -24,8 +28,35 @@ export default function PageArrow({
 
 }) {
 
+    const node = useRef<HTMLButtonElement | null>(null);
+
+    // Level with the gap between the two rows of the page's tiles (--arrow-level, read by the rails: they follow the arrow).
+    useLayoutEffect(() => {
+        const root = document.documentElement;
+        const level = () => {
+            const frame = dialogFrame();
+            // (The same level on every page: the middle of the page's frame, the heading's underline to the footer.)
+            const y = frame ? frame.top + frame.height / 2 : tileGapLevel();
+            if (y !== null) {
+                root.style.setProperty("--arrow-level", Math.round(y) + "px");
+            }
+        };
+        level();
+        const later = window.setTimeout(level, 250);
+        window.addEventListener("resize", level);
+        const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(level);
+        observer?.observe(document.body);
+        return () => {
+            window.clearTimeout(later);
+            window.removeEventListener("resize", level);
+            observer?.disconnect();
+            root.style.removeProperty("--arrow-level");
+        };
+    }, []);
+
     return (
         <button
+            ref={node}
             type="button"
             className="page-arrow"
             data-direction={direction}

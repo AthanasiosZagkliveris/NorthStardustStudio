@@ -19,8 +19,8 @@ function Harness({ initial, onValue }: { initial: unknown; onValue?: (value: Val
 }
 
 const base = () => asBusinessCapabilityValue(undefined);
-const card = (name: string, fields: Record<string, unknown> = {}) => ({ ...createBusinessResourceSlot(), name, ...fields });
-const supplier = (id: string, name: string, group: string) => ({ ...createBusinessPartner(name, "suppliers"), id, group });
+const card = (name: string, fields: Record<string, unknown> = {}) => ({ ...createBusinessResourceSlot(), name, startDate: "2027-01-01", ...fields });
+const supplier = (id: string, name: string, group: string) => ({ ...createBusinessPartner(name, "suppliers"), id, group, startDate: "2027-01-01" });
 const statusOptions = () => screen.getAllByRole("option").map(option => option.textContent);
 
 describe("a space or a vehicle", () => {

@@ -81,7 +81,7 @@ interface InfoNoteProps {
      * Channel categories and their channels -- which the standard
      * width made long and narrow.
      */
-    size?: "standard" | "wide";
+    size?: "standard" | "wide" | "double";
 
     /**
      * Draws the note as a REFERENCE rather than as an explanation.
@@ -250,7 +250,7 @@ export default function InfoNote({
 
             {open && host && createPortal(
                 <div
-                    className={"info-note-panel" + (size === "wide" ? " info-note-panel-wide" : "")}
+                    className={"info-note-panel" + (size === "wide" ? " info-note-panel-wide" : size === "double" ? " info-note-panel-double" : "")}
                     ref={panelRef}
                     style={{ ...panelStyle, ...(hue ? { "--strategy-theme-hue": hue } : {}) } as CSSProperties}
                     role="dialog"

@@ -15,6 +15,7 @@ const Conversation = lazy(() => import("./pages/Conversation"));
 const CapabilityGenerator = lazy(() => import("./pages/CapabilityGenerator"));
 const BusinessDocuments = lazy(() => import("./pages/BusinessDocuments"));
 const Review = lazy(() => import("./pages/Review"));
+const GlobalSettings = lazy(() => import("./pages/GlobalSettings"));
 
 export default function App() {
 
@@ -52,6 +53,11 @@ export default function App() {
                 <Route
                     path="/review"
                     element={<Review />}
+                />
+
+                <Route
+                    path="/settings"
+                    element={<GlobalSettings />}
                 />
 
                 <Route

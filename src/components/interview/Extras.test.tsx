@@ -112,7 +112,7 @@ describe("the extras that are costs", () => {
     });
     const lines = (capability: Value) => consolidateCosts({ ...asFinancialFoundationValue({}), planStart: { month: "01", year: "2027" } }, sources(capability));
 
-    it("a bought space\x27s tax is Annually and its charge Monthly; a person\x27s Bonus is Annually and Allowance Monthly; a percent or a minimum is no line", () => {
+    it("a bought space\x27s tax is Annually and its charge Monthly; a person\x27s Bonus is Annually and Allowance Monthly; a commission is a calculated line, a duty is the goods' own kind, a minimum is no line", () => {
         const capability = asBusinessCapabilityValue({
             ...base(),
             founders: [{ id: "f", name: "Ann", roles: [], salary: "2000", extras: { bonus: "1000", allowance: "50", commission: "5" } }],
@@ -126,7 +126,8 @@ describe("the extras that are costs", () => {
         expect(byId["s:service-charge"]).toMatchObject({ frequency: "monthly", amount: 80 });
         expect(byId["founder-f:bonus"]).toMatchObject({ frequency: "annually", amount: 1000 });
         expect(byId["founder-f:allowance"]).toMatchObject({ frequency: "monthly", amount: 50 });
-        expect(byId["founder-f:commission"]).toBeUndefined();
+        // (A commission is a percent of revenue: a calculated line of it, a partner's way.)
+        expect(byId["founder-f:commission"]).toMatchObject({ frequency: "usage-based", amount: 5, billing: "percentage" });
         expect(byId["prod:clearance-handling"]).toMatchObject({ frequency: "per-project", amount: 40 });
         expect(byId["prod:customs-duty"]).toBeUndefined();
         expect(byId["prod:minimum-order"]).toBeUndefined();
@@ -211,7 +212,7 @@ describe("the extras on the cards", () => {
     it("a producer offers its minimum and duties; a people card and a founder Allowance, Commission and Bonus", () => {
         const value = base();
         render(<Harness initial={{ ...value, offering: { ...value.offering, providers: [supplier("prod", "Wool Mill", "producers-wholesalers", { cost: cost("", "") })] } }} />);
-        openTile("Partners & Providers", "Suppliers", "Wool Mill");
+        openTile("Partners & Suppliers", "Suppliers", "Wool Mill");
         expect(labelsOf()).toEqual(["Minimum order", "Customs duty", "Clearance and handling", "Other duties"]);
         cleanup();
         render(<Harness initial={{ ...value, resources: { hr: [{ id: "admin-team", name: "", slots: [card("Bookkeeper", { status: "costs" })] }] } }} />);

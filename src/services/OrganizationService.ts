@@ -139,6 +139,11 @@ export interface OrganizationDocument {
      * which date/Section happened to produce it.
      */
     taskAnnotations?: Record<string, CalendarTaskAnnotation>;
+    /**
+     * The Global Settings (GlobalSettings.ts): the rates and limits the calculated lines read. Kept as saved; absent on an Organization that never
+     * opened the screen, which then has the starting values.
+     */
+    globalSettings?: unknown;
 }
 
 /**
@@ -519,6 +524,25 @@ export class OrganizationService {
         }
 
         document.products = products;
+        this.saveDocument(document);
+
+    }
+
+    // -- Global Settings --
+
+    static getGlobalSettings(organizationId: string): unknown {
+        return this.loadDocument(organizationId)?.globalSettings;
+    }
+
+    static saveGlobalSettings(organizationId: string, settings: unknown): void {
+
+        const document = this.loadDocument(organizationId);
+
+        if (!document) {
+            return;
+        }
+
+        document.globalSettings = settings;
         this.saveDocument(document);
 
     }

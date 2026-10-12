@@ -102,7 +102,7 @@ export class AnswerParser {
 
                 parts: parts.map((part): AnswerPartDefinition => ({
 
-                    id: part.label.length > 0 ? this.slug(part.label) : "primary",
+                    id: part.label.length > 0 ? this.partId(part.label) : "primary",
 
                     label: part.label,
 
@@ -876,6 +876,18 @@ export class AnswerParser {
             trailingCard
 
         };
+
+    }
+
+    /**
+     * A part's id: its title's slug, except where the title was shortened and what was saved under the old
+     * one must stay found ("Attitude & Body Language" is "Body Language" now).
+     */
+    private partId(label: string): string {
+
+        const id = this.slug(label);
+
+        return id === "body-language" ? "attitude-body-language" : id;
 
     }
 

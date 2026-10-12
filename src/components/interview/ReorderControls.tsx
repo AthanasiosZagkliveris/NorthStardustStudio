@@ -52,7 +52,7 @@ export default function BoxActions({
     onSort?: (optionId: string) => void;
 
     /**
-     * More for the funnel's drop-down than orders: filters, above the orders (the All Tiles overlay's). The drop-down is then wider
+     * More for the funnel's drop-down than orders: filters, above the orders (the Inventory overlay's). The drop-down is then wider
      * and scrolls, and stays open while a choice is made.
      */
     menuContent?: ReactNode;
@@ -69,7 +69,7 @@ export default function BoxActions({
 
     const menuRef = useRef<HTMLDivElement | null>(null);
     const sortButtonRef = useRef<HTMLButtonElement | null>(null);
-    // The wide menu (the All Tiles funnel) is drawn outside the box around its button, OUTWARD -- beside the dialog, over no tile -- where the window has room for
+    // The wide menu (the Inventory funnel) is drawn outside the box around its button, OUTWARD -- beside the dialog, over no tile -- where the window has room for
     // it there, else under the funnel, inside the window.
     const wideRef = useRef<HTMLDivElement | null>(null);
     const wideHost = menuOpen && menuContent ? sortButtonRef.current?.closest<HTMLElement>(".section-tile-overlay") ?? document.body : null;

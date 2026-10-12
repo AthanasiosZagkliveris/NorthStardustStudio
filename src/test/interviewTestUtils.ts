@@ -34,7 +34,7 @@ export function tileButton(name: string | RegExp, scope: HTMLElement = document.
         const label = button.getAttribute("aria-label") ?? "";
         return label === name || label.startsWith(name + ", ");
     });
-    // (Infrastructure's section tiles and Offering's Capability's carry the same names -- Resources, Activities, Partners & Providers: unless a scope says
+    // (Infrastructure's section tiles and Offering's Capability's carry the same names -- Resources, Activities, Partners & Suppliers: unless a scope says
     // otherwise, the name means Offering's.)
     const own = matches.length > 1 && scope === document.body ? matches.filter(button => offeringCard().contains(button)) : matches;
     if (own.length === 0 && scope === document.body && SECTION_OF_CATEGORY[name] !== undefined) {
@@ -49,13 +49,13 @@ export function tileButton(name: string | RegExp, scope: HTMLElement = document.
 
 /**
  * The section tile of Infrastructure that holds a CATEGORY (Utilities, Operational, Providers ...): Infrastructure has four tiles, Founders, Resources,
- * Activities and Partners & Providers, whose views group the cards by category.
+ * Activities and Partners & Suppliers, whose views group the cards by category.
  */
 const SECTION_OF_CATEGORY: Record<string, string> = {
     Utilities: "Resources", Workstation: "Resources", Equipment: "Resources", Vehicles: "Resources", "Digital Infrastructure": "Resources", "Materials & Inventory": "Resources",
     "Documents & Rights": "Resources", "Human Resources": "Resources", Workspace: "Resources",
     "Pre-Operational": "Activities", Operational: "Activities", Production: "Activities", Marketing: "Activities", "Sales & Customer": "Activities",
-    Partners: "Partners & Providers", Suppliers: "Partners & Providers", Providers: "Partners & Providers"
+    Partners: "Partners & Suppliers", Suppliers: "Partners & Suppliers", Providers: "Partners & Suppliers"
 };
 
 /**

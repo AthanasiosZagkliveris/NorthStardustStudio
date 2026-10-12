@@ -7503,7 +7503,8 @@ td.process-library-col-number{
 
     display:grid;
 
-    grid-template-columns:auto minmax(0, 1fr);
+    /* (One label column on a colour's card and on a typeface's: the width of "Colour (i)", not of the words that happen to be on the card.) */
+    grid-template-columns:var(--brand-label-col) minmax(0, 1fr);
 
     align-items:center;
 
@@ -7526,7 +7527,7 @@ td.process-library-col-number{
 .brand-side-rows > .business-field-inline > :not(:first-child){
 
     grid-column:2;
-    grid-row:1;
+    grid-row:auto;
 
     min-width:0;
 
@@ -14343,6 +14344,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
         minmax(0, 1fr)
         minmax(0, 1fr)
         minmax(0, 1.1fr)
+        minmax(0, 1.2fr)
         var(--row-actions-width);
 
     align-items:baseline;
@@ -14370,6 +14372,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
         minmax(0, 1.1fr)
         minmax(0, 1fr)
         minmax(0, 1.4fr)
+        minmax(0, 1.2fr)
         var(--row-actions-width);
 
 }
@@ -14381,7 +14384,25 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
         minmax(0, 2.6fr)
         minmax(0, 1fr)
         minmax(0, 1.2fr)
+        minmax(0, 1.2fr)
         var(--row-actions-width);
+
+}
+
+/* Amounts align to the right (the currency is in the column header); the cost nature is a short dropdown with a muted line under it. */
+.financial-cost-number{
+
+    text-align:right;
+
+}
+
+.financial-cost-nature{
+
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+
+    min-width:0;
 
 }
 
@@ -16052,7 +16073,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 }
 
-/* A PARTNER'S CARD (Partners & Providers): the two columns fill
+/* A PARTNER'S CARD (Partners & Suppliers): the two columns fill
    the card -- Price with its currency in the first (the price box
    growing, the currency compact at its right end), Frequency in the
    second, and the Responsibility under the Price, one column wide,
@@ -17111,7 +17132,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 }
 
 
-/* The funnel's drop-down with filters in it (the All Tiles overlay): wider, scrolling, a bullet before the chosen order. */
+/* The funnel's drop-down with filters in it (the Inventory overlay): wider, scrolling, a bullet before the chosen order. */
 .strategy-sort-menu-wide{
 
     /* A fixed, narrow menu: its long labels wrap onto a second line instead of widening it; held inside the window. */
@@ -17127,5 +17148,94 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
     display:inline-block;
 
     width:1em;
+
+}
+
+/* THE COSTS SUMMARY of 4. Financial Foundation: a row for each group of costs -- its name (with its "i"), how many, and what they come to. */
+.financial-cost-summary{
+
+    display:flex;
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+}
+
+.financial-cost-summary-row{
+
+    display:grid;
+    grid-template-columns:minmax(0, 1fr) auto auto;
+    align-items:baseline;
+
+    gap:var(--space-cell);
+
+    padding-bottom:var(--space-field);
+
+    border-bottom:1px solid var(--line-card);
+
+}
+
+.financial-cost-summary-row .financial-subtotal{
+
+    justify-self:end;
+
+    text-align:right;
+
+}
+
+/* A third wider than the one width and a half (InfoNote size="double", 480px): the guidance of the Brand pages and of the Themes. */
+.info-note-panel.info-note-panel-double{
+
+    width:480px;
+
+}
+
+/* The day in a date cell is written at the size of the text around it (the labels and the other cells), not smaller. */
+.date-cell-input{
+
+    font-size:var(--font-body);
+
+}
+
+/* THE ONE DATE CELL: the size of a card's Start date cell (the input, the calendar button and the gap between them), wherever a date is asked. */
+.date-cell{
+
+    width:198px;
+    max-width:100%;
+
+    box-sizing:border-box;
+
+}
+
+/* The total at the foot of a Funding Need's list: a rule over it. */
+.financial-cost-inputs > li.financial-cost-total{
+
+    margin-top:4px;
+    padding-top:6px;
+
+    border-top:1px solid var(--line-faint, var(--box-border));
+
+}
+
+/* A Financial Foundation section's number stands on the middle of the title's line, as the title does. */
+.financial-section .fold-card-head > .strategy-box-number{
+
+    align-self:center;
+
+}
+
+/* A Goal's and an Objective's name cell starts at the Description's left edge (the number's column) and runs to the x's column: one cell width for the name and the description. */
+.strategy-goal-box > .strategy-box-head > .strategy-name-input,
+.strategy-objective-box > .strategy-box-head > .strategy-name-input,
+.strategy-goal-box > .strategy-box-head > .card-name-input,
+.strategy-objective-box > .strategy-box-head > .card-name-input{
+
+    grid-column:3 / 5;
+
+}
+
+.strategy-goal-box > .strategy-box-body{
+
+    padding-right:40px;
 
 }

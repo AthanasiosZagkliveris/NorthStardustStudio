@@ -5,6 +5,7 @@ import { NotepadButton, NotepadPanel, NotepadPicker } from "./notepad/Notepad";
 import FocusModeButton from "./FocusModeButton";
 import ReviewButton from "./ReviewButton";
 import SearchButton from "./SearchButton";
+import SettingsButton from "./SettingsButton";
 import ThemeSwitch from "./ThemeSwitch";
 import UndoToast from "./UndoToast";
 
@@ -69,6 +70,7 @@ export default function AppHeader({ organizationName, focusable = false, reloada
             {organizationName && <SearchButton />}
             {organizationName && <NotepadButton />}
             {organizationName && <ReviewButton />}
+            {organizationName && <SettingsButton />}
             {organizationName && <NotepadPanel />}
             {organizationName && <NotepadPicker />}
 

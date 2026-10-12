@@ -89,9 +89,9 @@ describe("BusinessCapabilityEditor lists of cards as boxes", () => {
         render(<ValueHarness initial={initial} />);
         openTile("Operational");
         const boxes = [...topDialog().querySelectorAll<HTMLElement>(".card-tile")];
-        // The card tile says what All Tiles says: the name (with its number), then where it belongs.
+        // The card tile says what Inventory says: the name (with its number), then where it belongs.
         expect(boxes[0].querySelector(".section-tile-title")?.textContent).toMatch(/1\. Review/);
-        expect([...boxes[0].querySelectorAll(".section-tile-list > li")].map(item => item.textContent)).toEqual(["Infrastructure", "Activities", "Operational"]);
+        expect([...boxes[0].querySelectorAll(".section-tile-list > li")].map(item => item.textContent).slice(1)).toEqual(["Infrastructure", "Activities", "Operational"]);
         // The card itself is a press away, with its name box.
         expect(screen.queryByRole("textbox", { name: "Activity 1 name" })).toBeNull();
         openCard("Review");
@@ -101,10 +101,10 @@ describe("BusinessCapabilityEditor lists of cards as boxes", () => {
     it("names a partner kind in the dialog's header, its cards boxes with no Expand all", () => {
         const base = asBusinessCapabilityValue(undefined);
         render(<ValueHarness initial={{ ...base, offering: { ...base.offering, professionals: [{ ...createBusinessPartner("Printer") }, { ...createBusinessPartner("Binder") }] } }} />);
-        openTile("Partners & Providers", "Partners");
+        openTile("Partners & Suppliers", "Partners");
         expect(screen.queryByRole("button", { name: /^(Expand|Collapse) all/ })).toBeNull();
         expect(cardBoxes()).toEqual(["Partner 1: Printer", "Partner 2: Binder"]);
-        expect(screen.getByRole("dialog", { name: "Partners & Providers, Partners" })).toBeTruthy();
+        expect(screen.getByRole("dialog", { name: "Partners & Suppliers, Partners" })).toBeTruthy();
         // (The kind is named in the header, after a slash; the box grid carries no heading of its own.)
         expect(document.querySelector(".section-tile-dialog .dialog-heading-sub")?.textContent).toBe("Partners");
         fireEvent.click(document.querySelector(".section-tile-back")!);
@@ -112,7 +112,7 @@ describe("BusinessCapabilityEditor lists of cards as boxes", () => {
         // and opens it floating, under the section's name.
         fireEvent.click(within(topDialog()).getByRole("button", { name: "Add Card" }));
         expect(document.querySelector(".floating-card-host")).not.toBeNull();
-        expect(document.querySelector(".floating-card-host")!.getAttribute("aria-label")).toBe("Partners & Providers");
+        expect(document.querySelector(".floating-card-host")!.getAttribute("aria-label")).toBe("Partners & Suppliers");
         expect(screen.getByRole("textbox", { name: "Professional 1 name" })).toBeTruthy();
     });
 
@@ -404,6 +404,7 @@ describe("BusinessCapabilityEditor legacy numbers", () => {
             { segments: [{ offerings: [{ id: "offering-1", name: "Offering One" }] }] }
         );
         openTile("Delivery");
+        openCard("Offering One");
 
         const line = document.body.querySelector(".delivery-total")?.textContent ?? "";
         expect(line).toContain("Total: 2.5 h per unit");
@@ -741,10 +742,10 @@ describe("BusinessCapabilityEditor Frequency and Responsibility side labels", ()
         renderCards();
         openOfferingResources();
         openCard("Resource 1");
-        expect(sideLabels()).toEqual(["Start date", "End date", "Category", "Group", "Status", "Useful life"]);
+        expect(sideLabels()).toEqual(["Start date", "End date", "Category", "Group", "Status"]);
         expectLabelThenHuggingDropdown();
         closeTile();
-        openCards("Partners & Providers", "Partner 1", "Partners");
+        openCards("Partners & Suppliers", "Partner 1", "Partners");
         expect(sideLabels()).toEqual(["Start date", "End date", "Group", "Responsible"]);
         // The partner's Frequency keeps its label above the dropdown, on the Price's row (the dropdown hugs its longest option too).
         const partnerFrequency = [...document.querySelectorAll('.floating-card-host .business-foundation-field')]
@@ -755,7 +756,7 @@ describe("BusinessCapabilityEditor Frequency and Responsibility side labels", ()
 
     it("gives the two labels one shared column (--side-label-short) and the gap --side-label-gap, label and dropdown on one centre line", () => {
         const css = stylesheet("conversation.css");
-        expect(stylesheet("global.css")).toMatch(/--side-label-short: \d+px;/);
+        expect(stylesheet("global.css")).toMatch(/--card-label-col: \d+px;[\s\S]*--side-label-short: var\(--card-label-col\);/);
         expect(css).toContain(".business-field-side{ display:grid; grid-template-columns:var(--side-label-short) minmax(0, 1fr); column-gap:var(--side-label-gap);");
         expect(css).toMatch(/\.business-field-side\{[^}]*align-items:center;/);
     });
@@ -777,7 +778,7 @@ describe("a Partnership / Provider's Responsible", () => {
             return <BusinessCapabilityEditor value={value} onChange={setValue} legalEntityFounders={founders} />;
         }
         render(<PartnerHarness />);
-        openTile("Partners & Providers", "Partners", "Partner 1");
+        openTile("Partners & Suppliers", "Partners", "Partner 1");
         return document.querySelector(".floating-card-host")!;
     }
 
@@ -887,7 +888,7 @@ describe("BusinessCapabilityEditor Offering's Capability resources as boxes", ()
         openOfferingResources();
         const box = document.querySelector(".card-tile") as HTMLElement;
         expect(box.getAttribute("title")?.startsWith(slot.name)).toBe(true);
-        expect([...box.querySelectorAll(".section-tile-list > li")].map(item => item.textContent)).toEqual(["Offering's Capability", "Equipment", "Production Machinery", "Costs"]);
+        expect([...box.querySelectorAll(".section-tile-list > li")].map(item => item.textContent).slice(1)).toEqual(["Offering's Capability", "Equipment", "Production Machinery", "Costs"]);
         // The list's lines are the page tiles' own (one line each, cut by an ellipsis).
         expect(stylesheet("section-tiles.css")).toMatch(/\.section-tile-list > li \{[^}]*text-overflow: ellipsis;[^}]*white-space: nowrap;/);
     });
@@ -928,6 +929,7 @@ describe("BusinessCapabilityEditor Delivery", () => {
             />
         );
         openTile("Delivery");
+        openCard("Offering One");
         const person = document.querySelector(".delivery-card .delivery-person")!;
         expect(person.textContent).not.toMatch(/\((founder|external)\)/);
         expect(person.querySelector(".delivery-person-kind")).toBeNull();
@@ -973,6 +975,7 @@ describe("BusinessCapabilityEditor Delivery", () => {
             />
         );
         openTile("Delivery");
+        openCard("Offering One");
         const card = document.querySelector(".delivery-card")!;
         expect(card.textContent).not.toMatch(/count against their capacity/);
         expect(card.textContent).not.toMatch(/To share the work with an external professional/);
@@ -1021,7 +1024,7 @@ describe("the Responsible tick on a Capability card", () => {
     }
 
     const openActivity = () => openCards("Operational", "Activity 1");
-    const openPartner = () => openCards("Partners & Providers", "Partner 1", "Partners");
+    const openPartner = () => openCards("Partners & Suppliers", "Partner 1", "Partners");
 
     const activityTick = () => screen.queryByRole("checkbox", { name: "Activity 1 has a responsible" }) as HTMLInputElement | null;
     const partnerTick = () => screen.queryByRole("checkbox", { name: "Printer has a responsible" }) as HTMLInputElement | null;

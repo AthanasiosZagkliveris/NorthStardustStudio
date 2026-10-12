@@ -96,7 +96,7 @@ describe("FoundersProfileEditor founders", () => {
         render(<Harness founders={[ann]} />);
         open(/Founder 1$/);
 
-        for (const label of ["Roles", "Relevant Industry Experience", "Management Experience", "Key Achievements", "Skills, Expertise & Qualifications", "Team Capability Gaps & Cover"]) {
+        for (const label of ["Roles", "Relevant Industry Experience", "Management Experience", "Key Achievements", "Skills, Expertise & Qualifications", "Capability Gaps & Cover"]) {
             expect(screen.getByRole("button", { name: label + ": what this means" })).toBeTruthy();
         }
         // No group heading: the Roles alone in one column, then Industry |
@@ -113,9 +113,9 @@ describe("FoundersProfileEditor founders", () => {
         expect(screen.queryByLabelText(/years in the industry/)).toBeNull();
         expect(screen.queryByText(/years in the industry/)).toBeNull();
         expect(screen.getByLabelText("Founder 1 management experience").tagName).toBe("TEXTAREA");
-        expect(screen.getByLabelText("Team Capability Gaps & Cover").tagName).toBe("TEXTAREA");
+        expect(screen.getByLabelText("Capability Gaps & Cover").tagName).toBe("TEXTAREA");
         // The subsection, and so its rail item, follows the new name.
-        expect(document.querySelector("[data-rail='team-capability-gaps-cover'] h3")?.textContent).toMatch(/Team Capability Gaps & Cover/);
+        expect(document.querySelector("[data-rail='capability-gaps-cover'] h3")?.textContent).toMatch(/Capability Gaps & Cover/);
 
     });
 
@@ -146,7 +146,13 @@ describe("FoundersProfileEditor founders", () => {
         open(/Founder 1$/);
 
         const text = (n: number) => screen.queryByLabelText("Founder 1 skills entry " + n) as HTMLTextAreaElement | null;
-        const type = (n: number) => screen.getByLabelText("Founder 1 skills entry " + n + " type") as HTMLSelectElement;
+        // (The kind is the app's own drop-down: its button says the choice in its name.)
+        const type = (n: number) => screen.getByRole("button", { name: new RegExp("^Founder 1 skills entry " + n + " type") });
+        const chosen = (n: number) => type(n).getAttribute("aria-label")!.replace(/^.*type: /, "");
+        const choose = (n: number, label: string) => {
+            fireEvent.click(type(n));
+            fireEvent.click(screen.getByRole("option", { name: label }));
+        };
         const stored = () => asFoundersProfileValue(saved).founders[0].skills;
 
         // The same list as Roles: one box, no add button, no ×.
@@ -157,24 +163,26 @@ describe("FoundersProfileEditor founders", () => {
         // The type at the end of the line, inside the box.
         const row = text(1)!.closest(".numbered-list-row")!;
         expect(row.lastElementChild!.contains(type(1))).toBe(true);
-        expect([...type(1).options].map(option => option.textContent)).toEqual([
-            "Type", "Skill", "Professional / Technical Expertise", "Degree / Qualification",
+        fireEvent.click(type(1));
+        expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual([
+            "Skill", "Professional / Technical Expertise", "Degree / Qualification",
             "Certification", "Licence", "Membership / Other Credential"
         ]);
+        fireEvent.click(type(1));
 
         // Untyped, it asks for any kind; typed, for that kind.
         expect(text(1)!.placeholder).toBe("Skill, expertise, qualification, certification, licence or membership");
-        fireEvent.change(type(1), { target: { value: "certification" } });
+        choose(1, "Certification");
         expect(text(1)!.placeholder).toBe("Name and issuing body");
-        fireEvent.change(type(1), { target: { value: "skill" } });
+        choose(1, "Skill");
         expect(text(1)!.placeholder).toBe("e.g. Negotiation");
         fireEvent.change(text(1)!, { target: { value: "Negotiation" } });
 
         // Enter opens the next line, untyped, with a placeholder of its own.
         fireEvent.keyDown(text(1)!, { key: "Enter" });
-        expect(type(2).value).toBe("");
+        expect(chosen(2)).toBe("Type");
         expect(text(2)!.placeholder).toBe("Skill, expertise, qualification, certification, licence or membership");
-        fireEvent.change(type(2), { target: { value: "licence" } });
+        choose(2, "Licence");
         expect(text(2)!.placeholder).toBe("Licence and where it applies");
         fireEvent.change(text(2)!, { target: { value: "NY notary" } });
         expect(stored()).toEqual([
@@ -189,7 +197,7 @@ describe("FoundersProfileEditor founders", () => {
             { type: "", text: "" },
             { type: "licence", text: "NY notary" }
         ]);
-        expect(type(3).value).toBe("licence");
+        expect(chosen(3)).toBe("Licence");
 
         // Backspace on the empty one takes it away, and the types follow.
         fireEvent.keyDown(text(2)!, { key: "Backspace" });
@@ -197,7 +205,7 @@ describe("FoundersProfileEditor founders", () => {
             { type: "skill", text: "Negotiation" },
             { type: "licence", text: "NY notary" }
         ]);
-        expect(type(2).value).toBe("licence");
+        expect(chosen(2)).toBe("Licence");
 
     });
 
@@ -223,7 +231,7 @@ describe("FoundersProfileEditor founders", () => {
             { type: "", text: "Untyped" },
             { type: "skill", text: "Negotiation" }
         ]);
-        expect((screen.getByLabelText("Founder 1 skills entry 3 type") as HTMLSelectElement).value).toBe("skill");
+        expect(screen.getByRole("button", { name: /^Founder 1 skills entry 3 type: Skill/ })).toBeTruthy();
 
     });
 
@@ -234,7 +242,7 @@ describe("FoundersProfileEditor founders", () => {
 
         expect((screen.getByLabelText("Founder 1 skills entry 1") as HTMLTextAreaElement).value).toBe("BA (Hons)");
         expect((screen.getByLabelText("Founder 1 skills entry 2") as HTMLTextAreaElement).value).toBe("Negotiation");
-        expect((screen.getByLabelText("Founder 1 skills entry 2 type") as HTMLSelectElement).value).toBe("");
+        expect(screen.getByRole("button", { name: /^Founder 1 skills entry 2 type: Type/ })).toBeTruthy();
 
     });
 

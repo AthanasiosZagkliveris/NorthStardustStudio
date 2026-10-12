@@ -1,7 +1,7 @@
 import { ReactNode, useContext, useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 
-import { OpenCardContext } from "./SectionTiles.tsx";
+import { OpenCardContext, type ItemMark } from "./SectionTiles.tsx";
 import CardTile, { inwardOrigin, pageTileSide, useTilesAcross } from "./CardTile.tsx";
 import { AddTile } from "./SectionView.tsx";
 import type { FloorLink, FloorTone } from "./capabilityFloor.ts";
@@ -25,8 +25,11 @@ export interface CardBox {
     /** One muted line (the folded card's summary): the tile's one line where it has no more to say. */
     summary?: string;
 
-    /** What the tile lists under its name: where it belongs, its status and its cost (the same lines as in All Tiles). */
+    /** What the tile lists under its name: where it belongs, its status and its cost (the same lines as in Inventory). */
     lines?: readonly string[];
+
+    /** The mark of each of its lines (a plain line has no bullet). */
+    marks?: readonly (ItemMark | undefined)[];
 
     /** Its links to other cards, one circle each. */
     links?: readonly FloorLink[];
@@ -34,8 +37,23 @@ export interface CardBox {
     /** The colour of the section it stands in. */
     tone?: FloorTone;
 
+    /** Its lines are centred, with no bullets; its title is its name alone, with no order number. */
+    plain?: boolean;
+
+    /** Its lines are centred with no bullets, its number kept. */
+    centred?: boolean;
+
+    /** The tile keeps the hue of the card it stands in (the Legal Entity's), not a section's tone. */
+    own?: boolean;
+
     /** A finished card (a completed activity): drawn grey. */
     inactive?: boolean;
+
+    /** Not used yet: half transparent, as a tile with no card in it. */
+    faded?: boolean;
+
+    /** What pressing it does instead of opening its card (an inactive tile that makes the card). */
+    press?: () => void;
 
     /** What the card lacks, when it is incomplete: the tile glows red. */
     missing?: readonly string[];
@@ -67,7 +85,7 @@ export interface CardBoxAdd {
 /**
  * A LIST OF CARDS AS CARD TILES (docs/ai/layout-rules.md, "Card tiles").
  *
- * Each card is a CardTile -- the one tile of the All Tiles overlay: its number and name, where it belongs, its status and cost, a circle per link,
+ * Each card is a CardTile -- the one tile of the Inventory overlay: its number and name, where it belongs, its status and cost, a circle per link,
  * 215px; pressing it closes the dialog and opens THAT card as a FLOATING card on its section part of the page (OpenCardContext) -- the grid only lets
  * the user choose; a card is never shown inside the dialog. A list with nothing in it makes ONE new blank card and opens it floating, its name focused;
  * left while it is still completely blank, the card is removed again. The add box (dashed, half the side, last in the flow) adds a card and opens it at once.
@@ -84,9 +102,16 @@ export default function CardBoxes({
 
     onReorder,
 
-    className
+    className,
+
+    autoStart = true,
+
+    addNext = false
 
 }: {
+
+    /** The add box stands right after the last card where its row has room (a Strategy Theme's Goals and Objectives), not at the grid's last column. */
+    addNext?: boolean;
 
     items: readonly CardBox[];
     /** What the boxes are, for assistive technology: "Resources". */
@@ -101,6 +126,8 @@ export default function CardBoxes({
     onReorder?: (from: number, to: number) => void;
     /** On the list's root (the grid, or the open card): the grey of the finished ones. */
     className?: string;
+    /** A list with nothing in it makes a blank card and opens it (the default); off where the list is one part of a larger dialog. */
+    autoStart?: boolean;
 
 }) {
 
@@ -126,7 +153,7 @@ export default function CardBoxes({
     // A list with nothing in it makes one blank card and opens it (once: the guard survives a strict-mode remount).
     const started = useRef(false);
     useEffect(() => {
-        if (!started.current && items.length === 0 && add) {
+        if (!started.current && autoStart && items.length === 0 && add) {
             started.current = true;
             create();
         }
@@ -155,15 +182,19 @@ export default function CardBoxes({
                             id={item.id}
                             name={item.name}
                             unnamed={item.unnamed}
-                            number={item.number}
+                            number={item.plain ? undefined : item.number}
+                            centred={item.plain || item.centred}
                             lines={item.lines ?? (item.summary && item.summary.trim().length > 0 ? [item.summary] : [])}
+                            marks={item.marks}
                             links={item.links}
                             tone={item.tone ?? "infrastructure"}
+                            own={item.own}
                             inactive={item.inactive}
+                            faded={item.faded}
                             missing={item.missing}
                             label={what + " " + item.number + ": " + name}
                             origin={inwardOrigin(index, items.length, across)}
-                            onOpen={(pointer) => openCard?.(item.id, undefined, undefined, pointer, false)}
+                            onOpen={(pointer) => item.press ? item.press() : openCard?.(item.id, undefined, undefined, pointer, false)}
                             drag={onReorder ? {
                                 dragging: drag?.from === index,
                                 over: !!drag && drag.over === index && drag.from !== index,
@@ -192,7 +223,7 @@ export default function CardBoxes({
                         />
                     );
                 })}
-                {add && <AddTile label={add.label} disabled={add.disabled} across={across} onAdd={(pointer) => create(pointer)} />}
+                {add && <AddTile label={add.label} disabled={add.disabled} across={across} after={addNext ? items.length : undefined} onAdd={(pointer) => create(pointer)} />}
             </div>
         </div>
     );

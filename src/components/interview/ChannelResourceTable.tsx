@@ -79,15 +79,20 @@ export default function ChannelResourceTable({ table, segmentName, onOpenCard, o
                 <table className="channel-resource-table">
 
                     <caption>
-                        {"Channel resources of " + segmentName + ": each resource, what it costs and the actions it serves. Generated from the channels above."}
+                        {"Channel expenses of " + segmentName + ": each resource, what it costs and the actions it serves. Generated from the channels above."}
                     </caption>
 
                     <thead>
                         <tr>
-                            <th scope="col" className="channel-resource-col-resource">Resource</th>
-                            <th scope="col" className="channel-resource-col-cost">Cost</th>
+                            <th scope="col" className="channel-resource-col-resource">Channel Expense</th>
+                            <th scope="col" className="channel-resource-col-cost">{table.currency ? "Cost (" + table.currency + ")" : "Cost"}</th>
+                            <th scope="col" className="channel-resource-col-frequency">Frequency</th>
                             <th scope="col" className="channel-resource-col-behaviour">Behaviour</th>
-                            <th scope="col" className="channel-resource-col-channel">Channel</th>
+                            <th scope="col" className="channel-resource-col-channel">
+                                <span className="channel-resource-head-line">Channel</span>
+                                <span className="channel-resource-head-rule" aria-hidden="true" />
+                                <span className="channel-resource-head-line">Subchannel</span>
+                            </th>
                             <th scope="col" className="channel-resource-col-offerings">Offerings</th>
                             <th scope="col" className="channel-resource-col-stages">Journey stages</th>
                             <th scope="col" className="channel-resource-col-actions">Actions</th>
@@ -117,15 +122,30 @@ export default function ChannelResourceTable({ table, segmentName, onOpenCard, o
                                 </th>
 
                                 <td className="channel-resource-cost">
-                                    <span>{row.costText}</span>
+                                    <span>{row.amountText}</span>
                                     {row.costDetail && <span className="channel-resource-detail">{" (" + row.costDetail + ")"}</span>}
                                 </td>
+
+                                <td className="channel-resource-frequency">{row.frequencyText || DASH}</td>
 
                                 <td className="channel-resource-behaviour">{row.behaviour || DASH}</td>
 
                                 {/* Where it was made first, then each other channel it shows in. */}
-                                <td>
-                                    <Values items={[row.home, ...row.reaches].map(name => ({ key: name, node: name }))} />
+                                <td className="channel-resource-places">
+                                    {row.placesOf.length === 0
+                                        ? DASH
+                                        : [...new Set(row.placesOf.map(place => place.channel))].map(channel => {
+                                            const subs = row.placesOf.filter(place => place.channel === channel).map(place => place.sub);
+                                            return (
+                                                <div className="channel-resource-place" key={channel}>
+                                                    <span className="channel-resource-place-channel">{channel || DASH}</span>
+                                                    <span className="channel-resource-place-rule" aria-hidden="true" />
+                                                    {subs.length > 1
+                                                        ? <ul className="channel-resource-bullets channel-resource-subs">{subs.map(sub => <li key={sub}>{sub}</li>)}</ul>
+                                                        : <span className="channel-resource-place-sub">{subs[0]}</span>}
+                                                </div>
+                                            );
+                                        })}
                                 </td>
 
                                 <td>

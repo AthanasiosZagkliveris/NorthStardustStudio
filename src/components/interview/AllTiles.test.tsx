@@ -5,7 +5,7 @@ import CapabilityOverview, { tableRows } from "./CapabilityOverview";
 import { DEFAULT_FLOOR_FILTER, filterFloor, floorRows, type FloorRow } from "./capabilityFloor";
 import { asBusinessCapabilityValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot } from "../../framework/engine/AnswerUtils";
 
-/* G11: All Tiles for the new structure: category and group paths, completed activities hidden unless asked for, the currency in the column header,
+/* G11: Inventory for the new structure: category and group paths, completed activities hidden unless asked for, the currency in the column header,
    costs right aligned, and the tooltip above its circle. */
 
 afterEach(cleanup);
@@ -100,7 +100,7 @@ describe("the tooltip of a circle", () => {
             resources: { equipment: [{ id: "devices-tools", name: "", slots: [{ ...createBusinessResourceSlot(), id: "r", name: "Oven", status: "partners-suppliers", providerId: "s" }] }] }
         };
         render(<CapabilityOverview rows={rowsOf(capability)} format={String} />);
-        const circle = document.querySelector<HTMLElement>("[aria-label=\"All tiles\"] .card-tile-symbol")!;
+        const circle = document.querySelector<HTMLElement>("[aria-label=\"Inventory\"] .card-tile-symbol")!;
         expect(circle.getAttribute("title")).toBeNull();
         expect(screen.queryByRole("tooltip")).toBeNull();
         fireEvent.mouseEnter(circle);

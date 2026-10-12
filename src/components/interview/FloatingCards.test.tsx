@@ -204,11 +204,11 @@ describe("the lists on the page tiles are real controls", () => {
         expect(screen.queryByRole("dialog")).toBeNull();
     });
 
-    it("opens a founder's card alone, in the founder card's own look", () => {
+    it("opens a founder's card alone, in the look and width of any card", () => {
         render(<Harness />);
         fireEvent.click(within(slotOf("Founders")).getByRole("button", { name: "Bo" }));
         const card = screen.getByRole("dialog", { name: "Founders" });
-        expect(card.classList.contains("floating-card-founder")).toBe(true);
+        expect(card.classList.contains("floating-card-founder")).toBe(false);
         expect(card.querySelector(".business-founder-open")).toBeTruthy();
         expect(card.querySelector(".strategy-name-static")!.textContent).toBe("Bo");
         expect(card.querySelectorAll(".business-founder-open")).toHaveLength(1);
@@ -293,10 +293,10 @@ describe("the + box of a tile that takes new cards", () => {
     const withPlus = [
         ["Resources", "Add Resource to Resources"],
         ["Activities", "Add Activity to Activities"],
-        ["Partners & Providers", "Add Partner to Partners & Providers"]
+        ["Partners & Suppliers", "Add Partner to Partners & Suppliers"]
     ] as const;
 
-    it("is on the Resources, Activities and Partners & Providers tiles of Infrastructure and of Offering's Capability, and only there", () => {
+    it("is on the Resources, Activities and Partners & Suppliers tiles of Infrastructure and of Offering's Capability, and only there", () => {
         render(<Harness />);
         for (const [tile, label] of withPlus) {
             expect(within(slotOf(tile)).getByRole("button", { name: label })).toBeTruthy();
@@ -392,7 +392,7 @@ describe("the + box of a tile that takes new cards", () => {
         fireEvent.click(within(offeringCard()).getByRole("button", { name: "Add Resource to Resources" }));
         expect(screen.getByRole("textbox", { name: "Resource 2 name" })).toBeTruthy();
         fireEvent.keyDown(document, { key: "Escape" });
-        fireEvent.click(within(offeringCard()).getByRole("button", { name: "Add Partner to Partners & Providers" }));
+        fireEvent.click(within(offeringCard()).getByRole("button", { name: "Add Partner to Partners & Suppliers" }));
         expect(screen.getByRole("textbox", { name: /^(Professional|Partner) [0-9]+ name$/ })).toBeTruthy();
     });
 
@@ -410,7 +410,7 @@ describe("a resource's links to the cards it is connected with", () => {
         const symbol = screen.getByRole("button", { name: "Open Supplier “Hackney Wick Maker Yard”" });
         expect(symbol.textContent).toBe("🔗");
         expect(symbol.getAttribute("title")).toBe("Open Supplier “Hackney Wick Maker Yard”");
-        expect([...document.querySelectorAll<HTMLElement>(".business-capability-card-link")].some(node => /Open Supplier/.test(node.textContent ?? ""))).toBe(false);
+        expect([...document.querySelectorAll<HTMLElement>(".business-capability-card-link")].some(node => /^S[.]/.test(node.textContent ?? ""))).toBe(false);
         fireEvent.click(symbol);
         // The resource above, the provider's card below it.
         expect(document.querySelector("[data-pair]")).toBeTruthy();
@@ -424,15 +424,15 @@ describe("a resource's links to the cards it is connected with", () => {
         const provider = createBusinessPartner("Hackney Wick Maker Yard", "suppliers");
         const slot = filed({ ...createBusinessResourceSlot(), name: "Loom", status: "partners-suppliers", providerId: provider.id });
         render(<Harness initial={{ ...base, offering: { ...base.offering, resources: [slot], providers: [provider] } }} />);
-        openTile("Partners & Providers", "Suppliers", "Hackney");
-        const line = [...document.querySelectorAll<HTMLElement>(".business-capability-card-link")].find(node => /Open Resource/.test(node.textContent ?? ""))!;
-        expect(line.textContent).toBe("Open Resource “Loom”");
-        fireEvent.click(within(line).getByRole("button", { name: "Loom" }));
+        openTile("Partners & Suppliers", "Suppliers", "Hackney");
+        const line = [...document.querySelectorAll<HTMLElement>(".business-capability-card-link")].find(node => /^R[.]/.test(node.textContent ?? ""))!;
+        expect(line.textContent).toBe("R.Loom");
+        fireEvent.click(within(line).getByRole("button", { name: "Open Resource “Loom”" }));
         expect(document.querySelector("[data-pair]")).toBeTruthy();
         expect((screen.getByRole("textbox", { name: "Resource 1 name" }) as HTMLTextAreaElement).value).toBe("Loom");
     });
 
-    it("gives a Partners & Providers card no Category row (its tile says Partner or Supplier): its Group comes first", () => {
+    it("gives a Partners & Suppliers card no Category row (its tile says Partner or Supplier): its Group comes first", () => {
         const base = asBusinessCapabilityValue(undefined);
         const partner = createBusinessPartner("Accountant", "suppliers");
         render(<Harness initial={{ ...base, providers: [{ ...partner, id: "acct", name: "Accountant", group: "business-services" }] }} />);
@@ -460,24 +460,23 @@ describe("a resource's links to the cards it is connected with", () => {
         expect(screen.queryByRole("option", { name: "Other…" })).toBeNull();
     });
 
-    it("a resource that is Partners & Suppliers picks a Category, a Group and then a Name from that group; changing the Category or Group above clears the name", () => {
+    it("a resource that is Partners & Suppliers picks a Group (of any of the two types) and then a Name from that group; changing the Group above clears the name", () => {
         const base = asBusinessCapabilityValue(undefined);
         const partner = createBusinessPartner("Accountant", "partners");
         const provider = createBusinessPartner("DPD Local", "suppliers");
         const slot = filed({ ...createBusinessResourceSlot(), name: "Courier", status: "partners-suppliers", providerId: provider.id });
         render(<Harness initial={{ ...base, offering: { ...base.offering, resources: [slot], professionals: [partner], providers: [provider] } }} />);
         openOfferingResource("Courier");
-        // The chosen supplier's own Category and Group lead to it (it has no group yet); its Name lists the cards of that group only.
-        expect(screen.getByLabelText(/Resource 1 supplier category: /).getAttribute("aria-label")).toMatch(/Suppliers$/);
+        // The chosen supplier's own Group leads to it (it has no group yet); its Name lists the cards of that group only.
         expect(screen.getByLabelText(/Resource 1 supplier group: /).getAttribute("aria-label")).toMatch(/No group$/);
         fireEvent.click(screen.getByLabelText(/Resource 1 supplier: /));
         expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["DPD Local", "Other…"]);
         fireEvent.keyDown(document, { key: "Escape" });
-        // Another Category: the name is no longer one of the list, so it is cleared, and the Name waits for a Group.
-        fireEvent.click(screen.getByLabelText(/Resource 1 supplier category: /));
-        fireEvent.click(screen.getByRole("option", { name: "Partners" }));
-        expect(screen.getByLabelText(/Resource 1 supplier category: /).getAttribute("aria-label")).toMatch(/Partners$/);
-        expect(screen.queryByLabelText(/Resource 1 supplier: /)).toBeNull();
+        // Another Group (a Partners one): the name is no longer one of the list, so it is cleared; the Name then lists that group's cards.
+        fireEvent.click(screen.getByLabelText(/Resource 1 supplier group: /));
+        fireEvent.click(screen.getByRole("option", { name: "Revenue Partners" }));
+        expect(screen.getByLabelText(/Resource 1 supplier group: /).getAttribute("aria-label")).toMatch(/Revenue Partners$/);
+        expect(screen.getByLabelText(/Resource 1 partner: /).getAttribute("aria-label")).toMatch(/Select$/);
         expect(screen.queryByRole("button", { name: /^Open (Supplier|Partner) / })).toBeNull();
     });
 
@@ -487,7 +486,7 @@ describe("a resource's links to the cards it is connected with", () => {
         const slot = filed({ ...createBusinessResourceSlot(), name: "Vault", status: "activity", activityId: activity.id });
         render(<Harness initial={{ ...base, offering: { ...base.offering, resources: [slot], activities: [activity] } }} />);
         openOfferingResource("Vault");
-        expect(screen.getByLabelText(/Resource 1 activity: /).getAttribute("aria-label")).toMatch(/Test the vault \(Production\)$/);
+        expect(screen.getByLabelText(/Resource 1 activity: /).getAttribute("aria-label")).toMatch(/Test the vault$/);
         expect(screen.getByRole("button", { name: "Open Activity “Test the vault”" })).toBeTruthy();
     });
 
@@ -511,14 +510,14 @@ describe("a resource's links to the cards it is connected with", () => {
         fireEvent.click(screen.getByRole("option", { name: "Equipment" }));
         expect(screen.getByLabelText(/Resource Power category: /).getAttribute("aria-label")).toMatch(/Equipment$/);
         // (Equipment has the one group: a dropdown with one option is text, and the card is filed in it.)
-        expect(screen.queryByLabelText(/Resource Power group: /)).toBeNull();
-        expect([...document.querySelectorAll(".business-capability-static-value")].map(node => node.textContent)).toContain("Devices & Tools");
+        expect((screen.getByLabelText(/Resource Power group: /) as HTMLButtonElement).disabled).toBe(true);
+        expect(group().getAttribute("aria-label")).toMatch(/Devices & Tools$/);
     });
 
     it("flags an incomplete card: its tile glows (with what it lacks in its tooltip), its line in the page tile is red and first", () => {
         const base = asBusinessCapabilityValue(undefined);
-        const done = { ...createBusinessResourceSlot(), name: "Complete one", status: "exists" };
-        const lacking = { ...createBusinessResourceSlot(), name: "Lacking one", status: "costs" };
+        const done = { ...createBusinessResourceSlot(), name: "Complete one", status: "exists", startDate: "2027-01-01" };
+        const lacking = { ...createBusinessResourceSlot(), name: "Lacking one", status: "costs", startDate: "2027-01-01" };
         render(<Harness initial={{ ...base, resources: { utilities: [{ id: "premises-utilities", name: "", slots: [done] }], workstation: [{ id: "furniture-fittings", name: "", slots: [{ ...lacking, status: "" }, { ...done, name: "Complete too" }] }] } }} />);
         const slot = slotOf("Resources");
         const items = [...slot.querySelectorAll<HTMLElement>(".section-tile-list > li")];
@@ -539,17 +538,17 @@ describe("a resource's links to the cards it is connected with", () => {
         expect(stylesheet("card-tile.css").split("@media (prefers-reduced-motion: reduce)")[1]).toMatch(/\.card-tile-incomplete > \.section-tile \{[^}]*animation: none;/);
     });
 
-    it("passes an incomplete card up: its group tile, its category tile, its section tile and the All Tiles tile glow and open with a red first line", () => {
+    it("passes an incomplete card up: its group tile, its category tile, its section tile and the Inventory tile glow and open with a red first line", () => {
         const base = asBusinessCapabilityValue(undefined);
         const lacking = { ...createBusinessResourceSlot(), name: "Lacking one", status: "" };
-        const other = { ...createBusinessResourceSlot(), name: "Other", status: "exists" };
+        const other = { ...createBusinessResourceSlot(), name: "Other", status: "exists", startDate: "2027-01-01" };
         render(<Harness initial={{ ...base, resources: { vehicles: [{ id: "company-vehicles", name: "", slots: [lacking, other] }, { id: "vehicle-running-costs", name: "", slots: [{ ...other, name: "Desk" }, { ...other, name: "Chair" }] }] } }} />);
         const glows = (el: Element | null | undefined) => el?.closest(".section-tile-slot")?.classList.contains("card-tile-incomplete") ?? false;
         // The section tile glows, its Vehicles line is the red first one.
         expect(slotOf("Resources").classList.contains("card-tile-incomplete")).toBe(true);
         expect(slotOf("Resources").querySelector(".section-tile-list > li")!.classList.contains("section-tile-list-alert")).toBe(true);
-        // The All Tiles tile glows too.
-        const allTiles = tileButton(/^All Tiles/);
+        // The Inventory tile glows too.
+        const allTiles = tileButton(/^Inventory/);
         expect(glows(allTiles)).toBe(true);
         // The category tile (in the section's view) glows, the one without a lacking card does not.
         fireEvent.click(tileButton("Resources", infrastructureCard()));
@@ -656,7 +655,7 @@ describe("the stylesheet of the page tiles, the floating cards and the dialog gr
         expect(css).toMatch(/\[data-tiles-settled\] \.section-tile-slot:hover \{[^}]*transform: none;/);
         expect(css).toMatch(/@media \(prefers-reduced-motion: reduce\) \{\s*\.section-tile-slot,[^}]*transition: none;/);
         // Not the boxes of a dialog.
-        // The card tiles of a dialog and of All Tiles have their own hover (110%, growing inwards), from card-tile.css.
+        // The card tiles of a dialog and of Inventory have their own hover (110%, growing inwards), from card-tile.css.
         expect(stylesheet("card-tile.css")).toMatch(/\.card-tile-slot:hover \{[^}]*transform: scale\(1\.1\);/);
     });
 
@@ -677,25 +676,20 @@ describe("the stylesheet of the page tiles, the floating cards and the dialog gr
         expect(css).toMatch(/\.section-tile-link:hover,\s*\.section-tile-link:focus-visible \{[^}]*text-decoration-color: currentColor;/);
     });
 
-    it("floats a card over the dimmed page with a drop shadow, 480px wide unless it is a founder's or the Workspace's", () => {
+    it("floats a card over the dimmed page with a drop shadow, 492px wide unless it is a founder's or the Workspace's", () => {
         expect(stylesheet("page-3-edges.css")).toMatch(/\.floating-card-host :is\([^)]*\) \{[^}]*--card-drop: 0 24px 56px var\(--shadow-18\)/);
         expect(css).toMatch(/\.floating-card-card \{[^}]*width: min\(var\(--open-card-width\), calc\(100vw - 16px\)\);/);
         expect(css).toMatch(/\.floating-card-founder \{[^}]*width: min\(var\(--founder-card-min\), calc\(100vw - 16px\)\);/);
-        expect(global).toMatch(/--open-card-width: 480px;/);
+        expect(global).toMatch(/--open-card-width: 492px;/);
     });
 
-    it("makes the dialog's ground 80% transparent over a blurred page lifted to keep every text at 4.5:1", () => {
-        expect(global).toMatch(/--dialog-ground-alpha: 20%;/);
-        expect(global).toMatch(/--dialog-blur: 14px;/);
-        expect(global).toMatch(/--dialog-backdrop-brightness: 1\.7;/);
-        expect(global).toMatch(/:root\[data-theme="dark"\] \{\s*--dialog-backdrop-brightness: 1;/);
-        expect(css).toMatch(/backdrop-filter: blur\(var\(--dialog-blur\)\) brightness\(var\(--dialog-backdrop-brightness\)\);/);
-        // The cards inside keep their glass.
-        expect(global).toMatch(/--card-glass-alpha: 62%;/);
+    it("makes the dialog's ground solid, and the cards in it too: nothing of the page shows through a frame with text", () => {
+        expect(css).toMatch(/\.section-tile-dialog\.business-foundation-card \{[^}]*backdrop-filter: none;/);
+        expect(css).toMatch(/\.section-tile-dialog \.business-foundation-card \{[^}]*backdrop-filter: none;/);
     });
 
     it("sets an Activity card's Performer and Responsible rows with their dropdowns next to the labels, 12px apart", () => {
-        expect(css).toMatch(/\.card-box-open \.business-capability-stack\.business-capability-activity-fields \{[^}]*grid-template-columns: max-content minmax\(0, 1fr\);[^}]*column-gap: var\(--space-cell\);/);
+        expect(css).toMatch(/\.card-box-open \.business-capability-stack\.business-capability-activity-fields \{[^}]*grid-template-columns: var\(--activity-label-column\) minmax\(0, 1fr\);[^}]*column-gap: var\(--space-cell\);/);
         expect(css).toMatch(/\.card-box-open \.business-capability-activity-fields > \.business-field-inline \{[^}]*grid-template-columns: subgrid;[^}]*align-items: center;/);
         // The Responsible's row (a tick, its words, the dropdown) shares those two columns, so the two dropdowns start at one x.
         expect(css).toMatch(/:not\(\.optional-field\):has\(> \.business-foundation-label-info > \.business-foundation-tick-inline\) \{[^}]*grid-template-columns: subgrid;/);

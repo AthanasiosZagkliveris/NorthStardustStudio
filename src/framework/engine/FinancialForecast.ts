@@ -48,6 +48,7 @@
 */
 
 import type { LegalEntityValue } from "./AnswerUtils.ts";
+import type { CalculatedResult } from "./CalculatedLines.ts";
 import {
     monthlyEquivalent,
     scheduledAmount,
@@ -58,6 +59,9 @@ import {
     MODEL_MONTHS,
     allFunding,
     costSchedule,
+    isPerUnitFrequency,
+    isProjectPayment,
+    projectExpenseSchedule,
     fundingStanding,
     incomeTaxRate,
     fundingType,
@@ -153,6 +157,10 @@ function assetOf(line: CostLine): "equipment" | "deposit" | "" {
     if (line.asset) {
         return line.asset;
     }
+    // (A card that buys a physical asset -- a machine, a tool, a piece of furniture, of either place -- is equipment where no settings give the rules.)
+    if (line.physicalAsset) {
+        return "equipment";
+    }
     return line.sourcePath.some(token => ASSET_GROUPS.includes(token)) ? "equipment" : "";
 }
 
@@ -237,12 +245,29 @@ export function financialForecast(
     revenuePage: FinancialSustainabilityValue,
     lines: CostLine[],
     legalEntity: LegalEntityValue,
-    format: (amount: number) => string
+    format: (amount: number) => string,
+    /**
+     * The calculated lines (CalculatedLines.ts), from the Global Settings and the Opening Date. Given, the statements use them: employer on-costs, fees,
+     * royalties and commissions, depreciation from the useful life, amortisation, opening inventory released to COGS, the Startup and Pre-Operating
+     * Expenses written off in the first operating month, and the income tax rate of the settings. Not given, the forecast is as it was.
+     */
+    calculated?: CalculatedResult
 ): Forecast {
 
     const start = foundation.planStart;
     const length = planLength(foundation);
     const cut = (values: number[]) => values.slice(0, length);
+    const calc = calculated;
+    // The cards the calculated lines stand for: assets (and the services bundled into them), opening stock, a key-person insurance priced per employee.
+    const skipped = new Set<string>(calc ? [
+        ...calc.assets.map(asset => asset.id),
+        ...calc.inventoryLineIds,
+        ...calc.replaced
+    ] : []);
+    const bundled = (line: CostLine) => calc !== undefined && line.capitalisedInto !== undefined;
+    const opensAt = calc?.openingIndex ?? null;
+    const writtenOffAt = opensAt !== null && opensAt > 0 && opensAt < length ? opensAt : null;
+    const startupIds = new Set<string>(calc?.startupLineIds ?? []);
 
     /* Revenue, and the variable costs its sales bring. */
     const outlook = sustainability(revenuePage, foundation, lines, legalEntity, format);
@@ -254,6 +279,27 @@ export function financialForecast(
         add(earned, revenue.earned);
         add(received, revenue.received);
         add(variable, streamVolumes(entry.stream, start).map(units => units * entry.variable));
+    });
+    // THE MINIMUM ORDER (X6): each month the demand is first met from the stock carried over; if a purchase is still needed and it is below the minimum, the
+    // month buys the minimum (its cost of sales and cash use it), and the excess is carried over as stock that reduces the next month's demand.
+    lines.filter(line => line.counted && line.amount !== null && line.minimumOrder !== undefined && isPerUnitFrequency(line.frequency)).forEach(line => {
+        const only = line.offeringIds.length > 0 && !line.offeringIds.includes("*") ? line.offeringIds : null;
+        const shares: Record<string, number> = line.offeringShares ?? (only ? Object.fromEntries(only.map(id => [id, 1 / only.length])) : {});
+        const demand = zeros();
+        outlook.streams.forEach(entry => {
+            const share = only ? shares[entry.stream.offeringId] ?? 0 : 1;
+            if (share > 0) {
+                streamVolumes(entry.stream, start).forEach((units, index) => { demand[index] += units * share; });
+            }
+        });
+        let stock = 0;
+        demand.forEach((needed, index) => {
+            const net = Math.max(0, needed - stock);
+            const bought = net > 0 ? Math.max(net, line.minimumOrder ?? 0) : 0;
+            // (What was bought less what was sold is the change in stock; the line's own variable cost is per unit sold, so only the difference is added.)
+            variable[index] += (bought - needed) * (line.amount ?? 0);
+            stock = stock + bought - needed;
+        });
     });
 
     /* Funding: what is in hand at the start, what arrives, what is repaid.
@@ -329,13 +375,26 @@ export function financialForecast(
     const drawingsTaken = ownersTakeDrawings(legalEntity.organisation.legalForm);
     const drawings = zeros();
     const assetsBought = zeros();
+    const intangiblesBought = zeros();
     const depositsPaid = zeros();
     const prepaidChange = zeros();
+    // Startup and Pre-Operating Expenses paid before the opening: held, then written off in the first operating month (one row of the profit and loss).
+    const prelaunchHeld = zeros();
+    const accumulatedWrittenOff = zeros();
     const paidByNature = Object.fromEntries(EXPENSE_NATURES.map(nature => [nature, zeros()])) as Record<ExpenseNature, number[]>;
     const expensedByNature = Object.fromEntries(EXPENSE_NATURES.map(nature => [nature, zeros()])) as Record<ExpenseNature, number[]>;
+    calc?.assets.forEach(asset => {
+        if (asset.paidIndex < MODEL_MONTHS) {
+            (asset.kind === "intangible" ? intangiblesBought : assetsBought)[asset.paidIndex] += asset.cost;
+        }
+    });
     lines.forEach(line => {
         const paid = costSchedule(line, start);
-        const kind = assetOf(line);
+        if (skipped.has(line.id) || bundled(line)) {
+            return;
+        }
+        // (With the calculated lines, an asset is what the cost nature rules say; a deposit is still an asset by its mark.)
+        const kind = calc ? (line.asset === "deposit" ? "deposit" : "") : assetOf(line);
         if (kind) {
             add(kind === "equipment" ? assetsBought : depositsPaid, paid);
             return;
@@ -346,6 +405,28 @@ export function financialForecast(
         }
         const nature = expenseNature(line);
         add(paidByNature[nature], paid);
+        if (writtenOffAt !== null && startupIds.has(line.id)) {
+            // Cash in the month it falls; the expense is one row in the first operating month.
+            paid.forEach((amount, index) => {
+                if (index < writtenOffAt && amount !== 0) {
+                    prelaunchHeld[index] += amount;
+                    accumulatedWrittenOff[writtenOffAt] += amount;
+                } else {
+                    expensedByNature[nature][index] += amount;
+                }
+            });
+            return;
+        }
+        // A Per project card: the whole price is a cost in the month of its Start date; the money leaves by its payment plan. The difference is held:
+        // paid ahead is a prepaid cost, paid after is a payment due.
+        if (isProjectPayment(line)) {
+            const incurred = projectExpenseSchedule(line, start);
+            incurred.forEach((amount, index) => {
+                expensedByNature[nature][index] += amount;
+                prepaidChange[index] += paid[index] - amount;
+            });
+            return;
+        }
         const first = paid.findIndex(amount => amount > 0);
         if ((line.frequency === "annually" || line.frequency === "quarterly") && first >= 0) {
             const monthly = monthlyEquivalent(scheduledAmount(line), line.frequency);
@@ -360,11 +441,40 @@ export function financialForecast(
     });
 
     const depreciation = zeros();
-    assetsBought.forEach((amount, month) => {
-        for (let index = month; index < Math.min(MODEL_MONTHS, month + DEPRECIATION_MONTHS); index++) {
-            depreciation[index] += amount / DEPRECIATION_MONTHS;
-        }
-    });
+    if (calc) {
+        calc.depreciation.opex.forEach((amount, index) => { depreciation[index] += amount; });
+        calc.depreciation.cogs.forEach((amount, index) => { depreciation[index] += amount; });
+    } else {
+        assetsBought.forEach((amount, month) => {
+            for (let index = month; index < Math.min(MODEL_MONTHS, month + DEPRECIATION_MONTHS); index++) {
+                depreciation[index] += amount / DEPRECIATION_MONTHS;
+            }
+        });
+    }
+    const amortisation = zeros();
+    calc?.amortisation.opex.forEach((amount, index) => { amortisation[index] += amount; });
+    calc?.amortisation.cogs.forEach((amount, index) => { amortisation[index] += amount; });
+    // What each calculated line costs in cash, month by month: paid when due, like every other cost here.
+    const calculatedCosts = calc
+        ? [
+            { label: "Employer on-costs", values: calc.onCosts.values, cogs: false },
+            { label: "Key-person and health insurance", values: calc.employeeInsurance.values, cogs: false }
+        ].filter(entry => entry.values.some(amount => Math.abs(amount) > 0.005))
+        : [];
+    const feeKinds = [
+        { kind: "channel-fee", label: "Channel fees" },
+        { kind: "royalty", label: "Royalties" },
+        { kind: "commission", label: "Partner commissions" }
+    ] as const;
+    const percentageRows = calc
+        ? feeKinds.map(entry => {
+            const values = zeros();
+            calc.percentageLines.filter(line => line.kind === entry.kind).forEach(line => add(values, line.values));
+            return { label: entry.label, values };
+        }).filter(entry => entry.values.some(amount => Math.abs(amount) > 0.005))
+        : [];
+    const inventoryPurchased = calc ? calc.inventory.purchased : zeros();
+    const inventoryReleased = calc ? calc.inventory.released : zeros();
 
     const negative = (values: number[]) => cut(values).map(amount => -amount);
     const some = (values: number[]) => values.some(amount => Math.abs(amount) > 0.005);
@@ -378,10 +488,21 @@ export function financialForecast(
        income and finance costs. */
     const revenue = cut(earned);
     const costOfSales = cut(variable);
-    const gross = revenue.map((amount, index) => amount - costOfSales[index]);
+    // The calculated cost of sales: fees, royalties and commissions, the opening inventory sold; depreciation and amortisation of what makes the offering.
+    const calculatedSales = [
+        ...percentageRows.map(entry => flow(entry.label, cut(entry.values))),
+        ...(some(inventoryReleased) ? [flow("Cost of opening inventory sold", cut(inventoryReleased))] : []),
+        ...(calc && some(cut(calc.depreciation.cogs)) ? [flow("Depreciation (cost of sales)", cut(calc.depreciation.cogs))] : []),
+        ...(calc && some(cut(calc.amortisation.cogs)) ? [flow("Amortisation (cost of sales)", cut(calc.amortisation.cogs))] : [])
+    ];
+    const gross = revenue.map((amount, index) => amount - costOfSales[index] - calculatedSales.reduce((total, row) => total + row.values[index], 0));
+    const opexOnly = (values: number[] | undefined, cogs: number[] | undefined) => cut(values ?? zeros()).map((amount, index) => amount - (cogs ? cogs[index] ?? 0 : 0));
     const expenseRows = [
         ...EXPENSE_NATURES.map(nature => flow(nature, cut(expensedByNature[nature]))),
-        flow("Depreciation of equipment", cut(depreciation))
+        ...(some(cut(accumulatedWrittenOff)) ? [flow("Accumulated Start-up & Pre-Operating Expenses", cut(accumulatedWrittenOff))] : []),
+        ...calculatedCosts.map(entry => flow(entry.label, cut(entry.values))),
+        flow("Depreciation of equipment", calc ? opexOnly(calc.depreciation.opex, undefined) : cut(depreciation)),
+        ...(calc && some(cut(calc.amortisation.opex)) ? [flow("Amortisation of intangible assets", cut(calc.amortisation.opex))] : [])
     ].filter(row => some(row.values));
     const expenses = sum(expenseRows);
     const operating = gross.map((amount, index) => amount - expenses[index]);
@@ -398,7 +519,7 @@ export function financialForecast(
        some, and each year's months add up to exactly its tax; owed
        until paid in the first month of the next plan year, and the
        last year's still owed at the plan's end. */
-    const taxRate = incomeTaxRate(foundation);
+    const taxRate = calc ? calc.incomeTaxRate : incomeTaxRate(foundation);
     const passThrough = taxRate === null && foundation.incomeTax === "pass-through";
     const tax = profit.map(() => 0);
     const taxPaid = profit.map(() => 0);
@@ -433,6 +554,7 @@ export function financialForecast(
         rows: [
             flow("Revenue", revenue),
             flow("Cost of sales (variable costs)", costOfSales),
+            ...calculatedSales,
             { ...flow("Gross profit", gross), total: true },
             heading("Operating expenses"),
             ...expenseRows,
@@ -467,12 +589,16 @@ export function financialForecast(
         flow("Receipts from customers", cut(received)),
         flow("Grants received", cut(grantsIn)),
         ...EXPENSE_NATURES.map(nature => flow(nature, negative(paidByNature[nature]))),
+        ...calculatedCosts.map(entry => flow(entry.label, negative(entry.values))),
         flow("Variable costs of sales", negative(variable)),
+        ...percentageRows.map(entry => flow(entry.label, negative(entry.values))),
+        flow("Opening inventory bought", negative(inventoryPurchased)),
         flow("Interest paid", negative(loanInterest)),
         flow("Income tax paid", negative(taxPaid))
     ].filter(row => some(row.values) || row.label === "Receipts from customers");
     const investingRows = [
         flow("Purchase of equipment", negative(assetsBought)),
+        flow("Purchase of intangible assets", negative(intangiblesBought)),
         flow("Deposits paid", negative(depositsPaid))
     ].filter(row => some(row.values));
     const financingRows = [
@@ -511,8 +637,9 @@ export function financialForecast(
         title: "Capital Expenditure",
         rows: [
             flow("Equipment", cut(assetsBought)),
+            ...(some(cut(intangiblesBought)) ? [flow("Intangible assets", cut(intangiblesBought))] : []),
             flow("Deposits", cut(depositsPaid)),
-            { ...flow("Total capital expenditure", cut(assetsBought).map((amount, index) => amount + depositsPaid[index])), total: true }
+            { ...flow("Total capital expenditure", cut(assetsBought).map((amount, index) => amount + intangiblesBought[index] + depositsPaid[index])), total: true }
         ]
     };
 
@@ -527,9 +654,15 @@ export function financialForecast(
     const cash = closings.map(amount => Math.max(0, amount));
     const shortfall = closings.map(amount => Math.max(0, -amount));
     const receivables = running(cut(earned).map((amount, index) => amount - received[index]));
-    const equipment = running(cut(assetsBought).map((amount, index) => amount - depreciation[index]));
+    const equipment = running(cut(assetsBought).map((amount, index) => amount - (calc ? calc.depreciation.opex[index] + calc.depreciation.cogs[index] : depreciation[index])));
+    const intangibles = running(cut(intangiblesBought).map((amount, index) => amount - amortisation[index]));
+    const inventory = running(cut(inventoryPurchased).map((amount, index) => amount - inventoryReleased[index]));
+    const prelaunch = running(cut(prelaunchHeld).map((amount, index) => amount - accumulatedWrittenOff[index]));
     const deposits = running(cut(depositsPaid));
-    const prepaid = running(cut(prepaidChange));
+    // Held cost: positive is paid ahead (an asset), negative is owed under a payment plan (a liability).
+    const heldCost = running(cut(prepaidChange));
+    const prepaid = heldCost.map(amount => Math.max(0, amount));
+    const paymentsDue = heldCost.map(amount => Math.max(0, -amount));
     const loansOwed = running(cut(loansIn).map((amount, index) => amount - loanPrincipal[index]), openingLoans);
     // The part of a loan repaid within the next 12 months is current.
     const dueWithinYear = (index: number, owed: number) =>
@@ -568,16 +701,20 @@ export function financialForecast(
     const currentAssets = group("Current assets", [
         { label: "Cash", values: cash, opening: Math.max(0, opening) },
         { label: "Trade receivables", values: receivables, opening: 0 },
-        { label: "Prepaid expenses", values: prepaid, opening: 0 }
+        { label: "Prepaid expenses", values: prepaid, opening: 0 },
+        { label: "Inventory", values: inventory, opening: 0 },
+        { label: "Pre-launch costs to be written off", values: prelaunch, opening: 0 }
     ], "Total current assets", ["Cash"]);
     const nonCurrentAssets = group("Non-current assets", [
         { label: "Equipment (net of depreciation)", values: equipment, opening: 0 },
+        { label: "Intangible assets (net of amortisation)", values: intangibles, opening: 0 },
         { label: "Deposits", values: deposits, opening: 0 }
     ], "Total non-current assets");
     const currentLiabilities = group("Current liabilities", [
         { label: "Cash shortfall (unfunded)", values: shortfall, opening: openingShortfall },
         { label: "Loans: due within 12 months", values: loansCurrent, opening: openingLoansCurrent },
-        { label: "Income tax payable", values: taxOwed, opening: 0 }
+        { label: "Income tax payable", values: taxOwed, opening: 0 },
+        { label: "Payments due under payment plans", values: paymentsDue, opening: 0 }
     ], "Total current liabilities");
     const nonCurrentLiabilities = group("Non-current liabilities", [
         { label: "Loans: due after 12 months", values: loansLater, opening: openingLoans - openingLoansCurrent }
@@ -616,8 +753,19 @@ export function financialForecast(
         notes: [
             "Figures are estimates from the Business System's Financial Foundation and Sustainability pages.",
             "Cash at the start of the plan is funding already received, less one-time costs paid before the plan (a loss before it starts); confirmed funding is counted when it arrives, and pending funding is not counted.",
-            "Equipment is an asset, depreciated evenly over " + DEPRECIATION_MONTHS / 12 +
-                " years; a deposit is an asset and never a cost; other one-time costs count when they are paid.",
+            ...(calc
+                ? [
+                    "An asset is what the cost rules say: a physical asset at or above the capitalisation limit, the services bundled into it, or an upfront franchise or master licence fee. " +
+                        "It is depreciated (amortised) evenly over its useful life (the amortisation period the user gave), from the Opening Date for one bought before it and from the month it is ready for one bought after it; a deposit is an asset and never a cost.",
+                    "Startup and Pre-Operating Expenses dated before the opening are paid in the months they fall, and written off in one row, Accumulated Start-up & Pre-Operating Expenses, in the first operating month. " +
+                        "Opening stock is inventory, and reaches the cost of sales as the units are sold.",
+                    "Employer on-costs, channel fees, royalties and partner commissions are calculated from the Global Settings and the sales.",
+                    ...calc.notes
+                ]
+                : [
+                    "Equipment is an asset, depreciated evenly over " + DEPRECIATION_MONTHS / 12 +
+                        " years; a deposit is an asset and never a cost; other one-time costs count when they are paid."
+                ]),
             "Annual and quarterly costs count a month at a time in the profit and loss; what is paid ahead is a prepaid expense.",
             "Operating expenses are analysed by nature, from where each cost was recorded.",
             "A grant is other income, whenever it arrives; capital put in is the owners' equity.",

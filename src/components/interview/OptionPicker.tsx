@@ -109,6 +109,9 @@ interface OptionPickerProps {
      */
     searchAliases?: Record<string, string>;
 
+    /** The word in the search box while it is empty (default "Type to search"). */
+    searchPlaceholder?: string;
+
     /**
      * As wide as its widest option exactly, rather than the size step
      * that holds it: a side-label picker's allowed exception (a
@@ -183,6 +186,7 @@ export default function OptionPicker({
     searchable = false,
 
     searchAliases,
+    searchPlaceholder = "Type to search",
 
     hug = false,
 
@@ -254,7 +258,7 @@ export default function OptionPicker({
         LIST_PADDING +
         (searchable ? SEARCH_HEIGHT : 0);
 
-    // On page 3 (a card, a dialog, the All Tiles funnel -- boxes that scroll or clip) the list floats free of the boxes around it: placed in window
+    // On page 3 (a card, a dialog, the Inventory funnel -- boxes that scroll or clip) the list floats free of the boxes around it: placed in window
     // coordinates under the cell, over it where there is no room below, else capped to the larger room and scrolling, so no option is ever cut off.
     const [free, setFree] = useState(false);
 
@@ -266,7 +270,7 @@ export default function OptionPicker({
     );
 
     /* THE LIST IS A CARD OF ITS OWN under the cell (the placement's gap, above it where there is no room below), exactly the cell's width: its left
-       and right edges are the cell's. A long option wraps inside that width (its full text is the tooltip). Measured on opening and on resizing. */
+       edge is the cell's and it is as wide as its longest option needs (never narrower than the cell). A very long option wraps (its full text is the tooltip). Measured on opening and on resizing. */
     const [reach, setReach] = useState<{ left: number; width: number } | null>(null);
 
     useLayoutEffect(() => {
@@ -524,9 +528,9 @@ export default function OptionPicker({
                             // (Free: its left edge is placed by hand, at the cell's; only its width is the cell's.)
                             ? (() => {
                                 const width = triggerRef.current?.getBoundingClientRect().width;
-                                return width ? { width, minWidth: width, maxWidth: width } : {};
+                                return width ? { width: "max-content", minWidth: width, maxWidth: "min(560px, 92vw)" } : {};
                             })()
-                            : reach ? { left: reach.left, width: reach.width, minWidth: reach.width, maxWidth: reach.width } : {})
+                            : reach ? { left: reach.left, width: "max-content", minWidth: reach.width, maxWidth: "min(560px, 92vw)" } : {})
                     }}
                     role="listbox"
                     aria-label={label}
@@ -540,7 +544,7 @@ export default function OptionPicker({
                             className="interview-input option-picker-search"
                             ref={searchRef}
                             aria-label={label + ": type to narrow the list"}
-                            placeholder="Type to search"
+                            placeholder={searchPlaceholder}
                             value={query}
                             onChange={(event) => {
                                 setQuery(event.target.value);
