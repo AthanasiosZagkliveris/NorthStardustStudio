@@ -18,7 +18,7 @@ import {
     asBusinessCapabilityValue
 } from "./AnswerUtils.ts";
 import { sectionRailItems } from "../../components/interview/rails/railItems.ts";
-import quillfieldText from "../../../docs/examples/quillfield-automation-llc.json?raw";
+import quillfieldText from "../../data/examples/quillfield-automation-llc.json?raw";
 
 const legal = (founders: Record<string, unknown>[]) => asLegalEntityValue({ founders }).founders;
 

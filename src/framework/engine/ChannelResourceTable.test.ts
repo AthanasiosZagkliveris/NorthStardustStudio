@@ -8,7 +8,7 @@ import {
 } from "./AnswerUtils.ts";
 import { buildChannelResourceTable } from "./ChannelResourceTable.ts";
 import { capabilityCards } from "./ChannelResources.ts";
-import lumenText from "../../../docs/examples/lumen-and-loom-studio.json?raw";
+import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
 
 const slot = (id: string, name: string, extra: Partial<BusinessResourceSlotValue> & { price?: string; frequency?: string } = {}): BusinessResourceSlotValue => {
     const { price = "", frequency = "", ...rest } = extra;

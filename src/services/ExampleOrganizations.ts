@@ -1,10 +1,10 @@
-import lumen from "../../docs/examples/lumen-and-loom-studio.json";
-import quillfield from "../../docs/examples/quillfield-automation-llc.json";
+import lumen from "../data/examples/lumen-and-loom-studio.json";
+import quillfield from "../data/examples/quillfield-automation-llc.json";
 
 import { OrganizationDocument, OrganizationService } from "./OrganizationService";
 
 /**
- * THE EXAMPLE ORGANIZATIONS the project ships (docs/examples): each has a fixed id. The Landing page's Reload refreshes every example that is already
+ * THE EXAMPLE ORGANIZATIONS the project ships (src/data/examples): each has a fixed id. The Landing page's Reload refreshes every example that is already
  * among the saved Organizations -- its saved document is replaced by the current example file (so a change to an example reaches the app) -- and leaves every
  * other Organization alone. An example is found by its id OR, for a copy that was imported (an import always makes a new id), by its name; the saved
  * copy keeps its own id, name and creation time. An example that was removed, or never added, is not brought back.

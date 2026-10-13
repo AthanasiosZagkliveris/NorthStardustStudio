@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 import { asBusinessEngagementValue, type BusinessSegmentEngagementValue } from "./AnswerUtils.ts";
 import { actionPlaces, rowActions, withChosenAction, withRowLines } from "./ChannelActions.ts";
 import { removalPatches, undoRemoval } from "./RemovalPatch.ts";
-import lumenText from "../../../docs/examples/lumen-and-loom-studio.json?raw";
+import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
 
 /** A Segment with two channels, read as the page reads it. */
 function segment(stored: Record<string, unknown>): BusinessSegmentEngagementValue {

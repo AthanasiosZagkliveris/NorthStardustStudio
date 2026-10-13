@@ -6,7 +6,7 @@ import { brandPictures, businessForecastContent, businessPlan } from "./Business
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
 import { MARKDOWN_IMAGE_MAX_BYTES, MarkdownExporter } from "./MarkdownExporter.ts";
 import { PdfExporter, printableContent, svgAspect } from "./PdfExporter.ts";
-import exampleText from "../../../docs/examples/lumen-and-loom-studio.json?raw";
+import exampleText from "../../data/examples/lumen-and-loom-studio.json?raw";
 
 /* The brand's logo, icon and images in the Business Documents, from
    the Lumen & Loom Studio example with its Inventory page replaced. */

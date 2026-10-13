@@ -3,7 +3,7 @@
 One page to find your way: what each part of the app is for, what it holds, and where the data and the rules live. The rules of layout are in `layout-rules.md` and `tile-and-card-pattern.md`; the cost rules in `cost-model.html`; this file is the map.
 
 ## How the app is entered
-1. **Organizations** (home): create, import or export an Organization; the two examples are in `docs/examples/` (Lumen & Loom Studio, Quillfield Automation).
+1. **Organizations** (home): create, import or export an Organization; the two examples are in `src/data/examples/` (Lumen & Loom Studio, Quillfield Automation).
 2. **System Selection**: Capabilities (Foundation, Deliver Value, Manage Information, Manage the Organization, Communicate, Measure & Improve) and their Systems. Left rail: Calendar, Capabilities, Systems.
 3. **A System's pages**: an Introduction, then its pages. The left rail lists the pages (Pages), the page arrows go previous / next, and the arrow keys do the same where nothing else uses them. A page drawn as tiles has no Sections rail.
 4. **Header**: reading mode, Focus, Search, Notes, Review (what is incomplete), Settings (Global Settings).
@@ -37,4 +37,4 @@ Tiles open a dialog; a dialog lists card boxes; a card box opens a floating card
 - Tiles, dialogs, floating cards, carousel: `src/components/interview/SectionTiles.tsx` (+ `CardBoxes.tsx`, `CardTile.tsx`).
 - Data shapes and readers: `src/framework/engine/AnswerUtils.ts`; the money model: `FinancialModel.ts`; settings: `GlobalSettings.ts`; calendar dates: `CalendarCardDates.ts`.
 - Styles: `src/styles/` (tokens in `global.css`; tiles and cards in `section-tiles.css`).
-- Examples: `docs/examples/`. Rules for AI assistants: `docs/ai/README.md`.
+- Examples: `src/data/examples/`. Rules for AI assistants: `docs/ai/README.md`.

@@ -46,7 +46,7 @@ import {
     type FinancialFoundationValue
 } from "./FinancialModel.ts";
 
-import lumenText from "../../../docs/examples/lumen-and-loom-studio.json?raw";
+import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
 
 const START = { month: "01", year: "2027" };
 

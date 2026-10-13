@@ -6,7 +6,7 @@ import { systems } from "../../data/systems";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
 import { InterviewValidator } from "./InterviewValidator.ts";
 import { hasAnyAnswer, pageStatuses, systemStatus } from "./PageStatus.ts";
-import quillfieldText from "../../../docs/examples/quillfield-automation-llc.json?raw";
+import quillfieldText from "../../data/examples/quillfield-automation-llc.json?raw";
 
 type SavedState = Parameters<typeof InterviewSession.fromJSON>[0];
 

@@ -7,8 +7,8 @@ import { businessForecast, businessPlan } from "./BusinessDocuments.ts";
 import { buildExportContent } from "./ExportContentBuilder.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
 import { MarkdownExporter } from "./MarkdownExporter.ts";
-import lumenText from "../../../docs/examples/lumen-and-loom-studio.json?raw";
-import quillText from "../../../docs/examples/quillfield-automation-llc.json?raw";
+import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
+import quillText from "../../data/examples/quillfield-automation-llc.json?raw";
 import goldenText from "./founder-period-golden.json?raw";
 import engagementText from "./founder-period-engagement.json?raw";
 

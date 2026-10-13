@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 
-import lumen from "../../docs/examples/lumen-and-loom-studio.json";
+import lumen from "../data/examples/lumen-and-loom-studio.json";
 import { OrganizationService } from "./OrganizationService";
 import { refreshExampleOrganizations } from "./ExampleOrganizations";
 

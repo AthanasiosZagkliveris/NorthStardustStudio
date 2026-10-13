@@ -6,7 +6,7 @@ import { financialPosition, stressTest, sustainability, whatItWouldTake, withWha
 import { financialForecast, forecastCsv, forecastView, splitMonthlyTableByYear } from "./FinancialForecast.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
 import { MarkdownExporter } from "./MarkdownExporter.ts";
-import exampleText from "../../../docs/examples/lumen-and-loom-studio.json?raw";
+import exampleText from "../../data/examples/lumen-and-loom-studio.json?raw";
 
 /* The two documents, built from the Lumen & Loom Studio example. */
 
@@ -101,7 +101,7 @@ describe("business documents", () => {
 });
 
 /* The Quillfield example: a single-member LLC in New York. */
-import quillfieldText from "../../../docs/examples/quillfield-automation-llc.json?raw";
+import quillfieldText from "../../data/examples/quillfield-automation-llc.json?raw";
 
 describe("the forecast's accounting conventions", () => {
 

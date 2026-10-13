@@ -6,7 +6,7 @@ import { frameworkRegistry } from "./FrameworkRegistry.ts";
 import { sectionStatuses } from "./SectionStatus.ts";
 import { sectionRailItems } from "../../components/interview/rails/railItems.ts";
 import { asLegalEntityValue, asStrategyFoundationValue } from "./AnswerUtils.ts";
-import quillfieldText from "../../../docs/examples/quillfield-automation-llc.json?raw";
+import quillfieldText from "../../data/examples/quillfield-automation-llc.json?raw";
 
 type SavedState = Parameters<typeof InterviewSession.fromJSON>[0];
 

@@ -1209,7 +1209,7 @@ differs.
 
 `scripts/layout-check/layout-probe.js` measures a page in the browser;
 `scripts/layout-check/run.mjs` opens every Foundation page of both examples
-(`docs/examples`), every card unfolded, at **1920, 1366 and 768px** in
+(`src/data/examples`), every card unfolded, at **1920, 1366 and 768px** in
 **light and dark**, runs the probe and the hover check, and lists the
 failures. **It must report 0 failures.**
 
@@ -1229,7 +1229,7 @@ Run it with the dev server up (`npm run dev`, port 1420):
 - **From an agent's Playwright browser tool**: evaluate `run.mjs`'s
   functions with `page` bound (strip its imports and `export`s, fetch the
   probe from `/scripts/layout-check/layout-probe.js`, the examples from
-  `/docs/examples/`), then call `runLayoutCheck(page, { probe })` for each
+  `/src/data/examples/`), then call `runLayoutCheck(page, { probe })` for each
   seeded example. The check writes the examples into the browser's storage:
   back up and restore localStorage around it.
 

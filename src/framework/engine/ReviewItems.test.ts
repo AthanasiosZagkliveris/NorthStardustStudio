@@ -6,8 +6,8 @@ import { frameworkRegistry } from "./FrameworkRegistry.ts";
 import { systems } from "../../data/systems";
 import { asBusinessCapabilityValue, asBusinessFoundationValue, createBusinessActivity } from "./AnswerUtils.ts";
 import { nothingOpen, headerCount, reviewCount, reviewCountText, reviewItems } from "./ReviewItems.ts";
-import lumenText from "../../../docs/examples/lumen-and-loom-studio.json?raw";
-import quillText from "../../../docs/examples/quillfield-automation-llc.json?raw";
+import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
+import quillText from "../../data/examples/quillfield-automation-llc.json?raw";
 
 type Saved = { systems: Record<string, Parameters<typeof InterviewSession.fromJSON>[0]> };
 const examples: Record<string, Saved> = { Lumen: JSON.parse(lumenText), Quillfield: JSON.parse(quillText) };

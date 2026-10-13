@@ -75,7 +75,7 @@ describe("Landing reload", () => {
 
         try {
             const { OrganizationService } = await import("../services/OrganizationService");
-            const lumen = (await import("../../docs/examples/lumen-and-loom-studio.json")).default as { id: string };
+            const lumen = (await import("../data/examples/lumen-and-loom-studio.json")).default as { id: string };
             // An old copy of the example (and an Organization of the user's own) are saved.
             localStorage.setItem("northstardust-organizations", JSON.stringify([{ id: lumen.id, name: "Lumen & Loom Studio", createdAt: 1 }, { id: "mine", name: "Mine", createdAt: 2 }]));
             localStorage.setItem("northstardust-organization-" + lumen.id, JSON.stringify({ id: lumen.id, name: "Lumen & Loom Studio", createdAt: 1, systems: { old: true }, products: [] }));

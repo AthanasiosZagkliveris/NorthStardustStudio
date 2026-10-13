@@ -4,7 +4,7 @@
     checked by layout-probe.js against the rulebook. Any failure fails.
 
     Run it with the dev server up (npm run dev) and an Organization
-    open -- the two examples in docs/examples are the reference:
+    open -- the two examples in src/data/examples are the reference:
 
         npx playwright test is not needed: this is a plain script.
         node scripts/layout-check/run.mjs            (needs the
@@ -87,7 +87,7 @@ async function openPage(page, base, system, pageName) {
     return true;
 }
 
-/** An example Organization (docs/examples) put in the browser's storage and opened. */
+/** An example Organization (src/data/examples) put in the browser's storage and opened. */
 export async function seedExample(page, base, exampleText) {
     const example = JSON.parse(exampleText);
     await page.goto(base + "/");
@@ -426,7 +426,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     const themes = only("CHECK_THEMES") ?? THEMES;
     const exampleFilter = only("CHECK_EXAMPLES");
     for (const example of ["lumen-and-loom-studio.json", "quillfield-automation-llc.json"].filter(name => !exampleFilter || exampleFilter.some(entry => name.includes(entry)))) {
-        await seedExample(page, base, readFileSync(new URL("../../docs/examples/" + example, import.meta.url), "utf8"));
+        await seedExample(page, base, readFileSync(new URL("../../src/data/examples/" + example, import.meta.url), "utf8"));
         failures.push(...(await runLayoutCheck(page, { base, probe, pages, widths, themes })).map(failure => ({ example, ...failure })));
     }
     await browser.close();

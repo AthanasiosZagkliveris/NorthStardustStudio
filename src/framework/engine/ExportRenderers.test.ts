@@ -6,10 +6,10 @@ import { buildExportContent } from "./ExportContentBuilder.ts";
 import { financialFoundationBlocks, partnerRows } from "./ExportRenderers.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
 import { MarkdownExporter } from "./MarkdownExporter.ts";
-import exampleText from "../../../docs/examples/lumen-and-loom-studio.json?raw";
+import exampleText from "../../data/examples/lumen-and-loom-studio.json?raw";
 
 /*
-    The Lumen & Loom Studio example (docs/examples) exported through
+    The Lumen & Loom Studio example (src/data/examples) exported through
     the real Frameworks: every page of the Foundation capability must
     export what was answered on it -- none of them "No response".
 */

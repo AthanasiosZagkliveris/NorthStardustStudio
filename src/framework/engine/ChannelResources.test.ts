@@ -25,8 +25,8 @@ import {
     withoutChannelResource
 } from "./ChannelResources.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
-import lumenText from "../../../docs/examples/lumen-and-loom-studio.json?raw";
-import quillText from "../../../docs/examples/quillfield-automation-llc.json?raw";
+import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
+import quillText from "../../data/examples/quillfield-automation-llc.json?raw";
 
 /** A Segment with Instagram and Pinterest sharing one action. */
 function engagementWithSharedAction(): BusinessEngagementValue {

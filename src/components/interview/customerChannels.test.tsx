@@ -107,7 +107,7 @@ describe("the examples, on the new categories", () => {
     for (const file of ["lumen-and-loom-studio.json", "quillfield-automation-llc.json"]) {
 
         it(file + " loads with every channel, stage and action kept", () => {
-            const document = JSON.parse(readFileSync("docs/examples/" + file, "utf8"));
+            const document = JSON.parse(readFileSync("src/data/examples/" + file, "utf8"));
             const stored = document.systems["3"].responses[1].value;
             const loaded = asBusinessEngagementValue(stored);
             const summary = (value: typeof loaded) => value.segments.flatMap(segment => segment.channels.map(channel => ({
