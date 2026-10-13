@@ -1566,18 +1566,25 @@ function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLEle
         };
     }, []);
 
+    const tabCache = useRef<{ key: string; value: ReturnType<typeof tabColours> } | null>(null);
+    const measureTick = useRef(0);
+
     useLayoutEffect(() => {
         const node = target.current;
         if (!node) {
             return;
         }
-        void modeCount;
         const box = node.getBoundingClientRect();
         // (At the page arrows' own level; the arrows never leave the window.)
         const top = arrowLevel() ?? window.innerHeight / 2;
         const left = Math.max(4, box.left - CAROUSEL_ARROW_GAP - CAROUSEL_ARROW_WIDTH);
         const right = Math.max(4, window.innerWidth - box.right - CAROUSEL_ARROW_GAP - CAROUSEL_ARROW_WIDTH);
-        const tab = tabColours(node);
+        // (The tab's colours walk the layer's boxes and read their styles: kept until the layer is resized, the reading mode changes or the layer is another, not read again at every render -- typing in a card renders it at every key.)
+        const key = modeCount + ":" + measureTick.current + ":" + Math.round(box.width) + ":" + node.className;
+        if (tabCache.current?.key !== key) {
+            tabCache.current = { key, value: tabColours(node) };
+        }
+        const tab = tabCache.current.value;
         const titleTop = titleTopOf(node);
         // (The tab stands on the side of the layer that is nearer its end of the page: a layer in the left half has it at its left, one in the right half at its right.)
         const side: "left" | "right" = box.left + box.width / 2 < window.innerWidth / 2 ? "left" : "right";
@@ -1588,7 +1595,10 @@ function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLEle
     const [, measureAgain] = useState(0);
     useEffect(() => {
         const node = target.current;
-        const again = () => measureAgain(count => count + 1);
+        const again = () => {
+            measureTick.current += 1;
+            measureAgain(count => count + 1);
+        };
         window.addEventListener("resize", again);
         const observer = typeof ResizeObserver === "undefined" || !node ? null : new ResizeObserver(again);
         if (node) {

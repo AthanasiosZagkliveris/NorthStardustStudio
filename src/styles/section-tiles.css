@@ -860,14 +860,6 @@
 
 }
 
-.business-founder-open .business-founder-grid > .business-foundation-field > :first-child {
-
-    width: max-content;
-
-    white-space: nowrap;
-
-}
-
 .business-founder-open .business-founder-grid > .business-foundation-field:nth-child(n+3) > :first-child {
 
     width: var(--founder-cell);
@@ -1005,13 +997,6 @@
 
 }
 
-/* THE RESOURCES LIST of an activity: its rows end in the x's column like the Performer's (the "+" and the x stand under the head's x). */
-.card-box-open .optional-field:has(.business-capability-resource-rows) {
-
-    margin-right: calc(-1 * (var(--card-x-column) + var(--card-marker-gap)));
-
-}
-
 /* THE LABEL COLUMN of an activity's picker rows (Performer, Responsible): one width in both stacks (the Responsible's label carries its tick, 7.25em of the body
    size), so the Performer's dropdown and the Responsible's name start at one x. */
 .business-capability-activity-fields {
@@ -1072,16 +1057,7 @@
 .business-capability-plan-row {
 
     display: grid;
-    grid-template-columns: 88px 80px minmax(0, 1fr);
     align-items: center;
-
-    gap: var(--space-cell);
-
-}
-
-.business-capability-plan-row-numbered {
-
-    grid-template-columns: 1.5em 88px 80px minmax(0, 1fr);
 
 }
 
@@ -1130,11 +1106,6 @@
 }
 
 .business-capability-plan-type > .interview-input.interview-input.business-capability-plan-count {
-
-    flex: 0 0 44px;
-
-    width: 44px;
-    max-width: 44px;
 
     padding-left: 4px;
     padding-right: 4px;
@@ -1382,7 +1353,6 @@
 .business-capability-cost-grid-quantity .business-capability-cost-row > .business-foundation-field:nth-child(1) { grid-column: 1; width: var(--qty-w); }
 .business-capability-cost-grid-quantity .business-capability-cost-row > .business-foundation-field:nth-child(2) { grid-column: 3; }
 .business-capability-cost-grid-quantity .business-capability-cost-row > .business-capability-cost-currency { grid-column: 5; }
-.business-capability-cost-grid-quantity .business-capability-cost-row > .business-foundation-field:nth-child(4) { grid-column: 7; justify-self: end; }
 
 .business-capability-cost-currency {
 
@@ -2098,12 +2068,6 @@
 
 }
 
-.card-box-open .business-capability-activity-fields > .business-foundation-field:not(.business-field-inline) {
-
-    grid-column: 1 / -1;
-
-}
-
 /* The Responsible's row (a tick, its words, then the dropdown) shares the stack's two columns with the Performer's, so the two dropdowns start at one x
    (it had its own two columns, set for the narrow rows of the other cards; the rule it answers is the long one in conversation.css). */
 .card-box-open .business-capability-activity-fields > .business-foundation-field.business-foundation-field.business-foundation-field.business-foundation-field:not(.optional-field):has(> .business-foundation-label-info > .business-foundation-tick-inline) {
@@ -2718,7 +2682,6 @@
     align-self: start;
 
     /* (Centred under the two cards.) */
-    justify-self: center;
 
     padding-left: 0;
 
@@ -2987,15 +2950,6 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
 }
 
-
-/* A FOUNDER'S START DATE: the card is narrow (the 297px its content needs), so the label takes the room its words need and the date cell the rest -- not the
-   side-label column of the wider cards, which left the cell a few pixels. */
-.business-founder-open > .business-field-side {
-
-    grid-template-columns: max-content minmax(0, 1fr);
-
-}
-
 /* THE SHARES' MODE of a card linked to several Offerings: Units | 100%, each a round, on the line of the "Linked to" label, at the field's right edge. */
 .business-offering-field {
 
@@ -3133,14 +3087,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
 .column-tiles-page .section-tile-list-line {
 
-    display: -webkit-box;
-
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
-
-    overflow: hidden;
-
-    white-space: normal;
     text-overflow: clip;
 
     text-align: left;
@@ -3187,7 +3134,6 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
     place-items: center;
 
     min-height: 0;
-    margin-top: var(--space-card);
 
     overflow: hidden;
 
@@ -3268,14 +3214,6 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
     flex: 0 0 40%;
 
     max-width: 40%;
-
-}
-
-/* THE TILES OF A COLUMN PAGE show what is written as plain text, not a list: no bullets, the lines running down the tile to a line above its foot, the last
-   line fading out where the text goes on. */
-.column-tiles-page .section-tile-list {
-
-    width: 100%;
 
 }
 
@@ -3689,12 +3627,6 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
 }
 
-.founders-profile .numbered-list-line-end .option-picker-value {
-
-    white-space: normal;
-
-}
-
 /* A line between two topics of a tile's list. */
 .section-tile-list > li.section-tile-divider {
 
@@ -3703,8 +3635,6 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
     margin: calc(var(--section-tile-line-height) * 0.5em - 0.5px) 0;
     padding: 0;
-
-    background: color-mix(in srgb, currentColor 40%, transparent);
 
 }
 
@@ -3819,9 +3749,6 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 .floating-card-body .brand-style-card {
 
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-
-    column-gap: 8px;
     row-gap: var(--space-field);
 
 }
@@ -4080,8 +4007,6 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
     text-transform: uppercase;
 
-    letter-spacing: 0.06em;
-
 }
 
 /* The lists of a column page's tiles stand in the middle of the tile, as wide as their longest line. */
@@ -4105,13 +4030,6 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
     flex-direction: column;
 
     gap: var(--space-label);
-
-}
-
-/* The frames of a page of several sections start and end where the Business System's frames do (the card's own 13px bleed is taken away). */
-.page-group {
-
-    margin-inline: -13px;
 
 }
 
@@ -4448,15 +4366,11 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
     position: fixed;
 
-    z-index: 5;
-
     width: 24px;
     height: 44px;
     margin-top: -22px;
 
     /* The card's own hue, deep enough on a light page (light and sepia), light enough on a dark one; a thin halo keeps it visible over any ground. */
-    color: hsl(var(--strategy-theme-hue, 220) 70% 34%);
-    filter: drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.9)) drop-shadow(0 1px 3px rgba(0, 0, 0, 0.35));
 
     /* (A floating card's overlay takes no press; the arrows do.) */
     pointer-events: auto;
@@ -4625,13 +4539,6 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
 }
 
-:root[data-theme="dark"] .page-arrow.carousel-arrow {
-
-    color: hsl(var(--strategy-theme-hue, 220) 85% 70%);
-    filter: drop-shadow(0 0 1.5px rgba(0, 0, 0, 0.9)) drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
-
-}
-
 /* A Legal Entity dialog opens with the dialog heading every tile of the app uses (title, "i"); the section's own heading is not drawn twice. */
 .column-tile-content.legal-entity-unframed .legal-entity-body > .legal-entity-section > .legal-entity-section-head,
 .column-tile-content.legal-entity-unframed .legal-entity-body > .legal-entity-section > .fold-group-head > .legal-entity-section-head {
@@ -4787,13 +4694,6 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
 }
 
-/* THE LINK SYMBOL OF A REGISTRATION (Legal Entity): hung in the margin at the left of its number's row (the Formation's and the Tax's sections keep a 30px margin for it). */
-.legal-entity-subview {
-
-    padding-left: 30px;
-
-}
-
 .legal-entity-subview .legal-entity-number-row {
 
     position: relative;
@@ -4804,7 +4704,6 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
     position: absolute;
     top: 10px;
-    left: -30px;
 
     display: inline-flex;
 
@@ -4862,14 +4761,6 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
 }
 
-.section-tiles-completed[data-squeezed] .section-tile-title {
-
-    font-size: 10px;
-
-    letter-spacing: 0.02em;
-
-}
-
 /* The currency cell is as small as its three letters and the arrow; the Frequency beside it takes the rest of the row. */
 .business-capability-cost-currency .option-picker,
 .business-capability-cost-currency .option-picker .option-picker-trigger.interview-input {
@@ -4891,7 +4782,6 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 .business-foundation-frame-head.strategy-box-head {
 
     display: flex;
-    align-items: flex-start;
 
     gap: 8px;
 
@@ -4984,20 +4874,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
     width: 48px;
     max-width: 48px;
-
-}
-
-/* A payment's rows: 12px between every cell, the date cell its own default size. */
-.business-capability-plan-row {
-
-    grid-template-columns: 72px 68px minmax(0, 1fr);
-    gap: 12px;
-
-}
-
-.business-capability-plan-row-numbered {
-
-    grid-template-columns: 18px 72px 68px minmax(0, 1fr);
 
 }
 
@@ -5157,7 +5033,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 .legal-entity-link-hang {
 
     left: auto;
-    right: 10px;
 
     z-index: 1;
 
@@ -5241,8 +5116,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
 .business-foundation-tile-group .section-tiles-box {
 
-    --section-tile-size: 208px;
-
     width: 100%;
 
 }
@@ -5259,8 +5132,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 }
 
 .business-foundation-frame-head {
-
-    display: flex;
     align-items: flex-start;
     gap: 8px;
 
@@ -5293,10 +5164,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
    (the name cell and everything under it, to the name cell's right edge) and the x -- the same ground, edge and drop shadow.
 ========================================================== */
 .floating-card-body .column-tile-content > .business-foundation-card {
-
-    --card-x-column: 32px;
-    --card-marker-gap: 8px;
-    --card-marker-col: 32px;
 
     display: grid;
 
@@ -5512,7 +5379,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
     position: absolute;
     top: 50%;
-    right: 0;
 
     transform: translateY(-50%);
 
@@ -5644,13 +5510,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
 }
 
-/* ---- CUSTOMER RELATIONSHIP: a block for each relationship type ---- */
-.business-relationship-blocks-cell {
-
-    padding: var(--space-field);
-
-}
-
 .business-relationship-block + .business-relationship-block {
 
     margin-top: calc(2 * var(--space-field));
@@ -5763,7 +5622,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
     display: grid;
     grid-template-columns: 280px minmax(0, 1fr);
-    align-items: start;
 
     gap: 12px;
 
@@ -5773,8 +5631,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
     display: flex;
     flex-direction: column;
-
-    gap: 6px;
 
 }
 
@@ -5816,18 +5672,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 .business-relationship-strategy-table td {
 
     text-align: left;
-    vertical-align: top;
-
-    padding: 0;
-
-    font-weight: 600;
-
-}
-
-.business-relationship-strategy-table > tbody > tr > th:first-child,
-.business-relationship-strategy-table > thead > tr > td:first-child {
-
-    width: 90px;
 
 }
 
@@ -5844,8 +5688,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
     border-collapse: separate;
     border-spacing: 12px 8px;
-
-    table-layout: auto;
 
 }
 
@@ -5866,7 +5708,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 .business-demand-table .business-demand-fields {
 
     display: flex;
-    flex-wrap: wrap;
 
     gap: 8px 12px;
 
@@ -5930,16 +5771,8 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 .business-relationship-block > .business-relationship-block-remove {
 
     position: absolute;
-    top: 6px;
-    right: 6px;
 
     z-index: 1;
-
-}
-
-.business-relationship-type-row {
-
-    padding-right: 44px;
 
 }
 
@@ -6059,13 +5892,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
 }
 
-.business-relationship-strategy-table th,
-.business-relationship-strategy-table td {
-
-    padding: 0 6px;
-
-}
-
 /* THE COLOUR OF A FLOATING CARD IS ITS TILE'S: the hue of the section the tile stands in (the dialog's), whatever hue the card's own content carries. */
 .floating-card-host .floating-card-body > *,
 .floating-card-host .floating-card-body > * > .business-foundation-card,
@@ -6152,7 +5978,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 .business-demand-table .business-demand-ticks {
 
     display: flex;
-    flex-direction: column;
 
 }
 
@@ -6322,8 +6147,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 /* The tiles of 2. Goals & Objectives and of the Roadmap stand beside the Strategic Period's dates. */
 .strategy-period-row > .strategy-period-tiles {
 
-    flex: 1 1 440px;
-
     min-width: 0;
 
 }
@@ -6331,15 +6154,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 .strategy-period-tiles .strategy-embedded-tiles .section-tiles-box {
 
     margin: 0;
-
-}
-
-.strategy-theme-fields {
-
-    display: flex;
-    flex-direction: column;
-
-    gap: var(--space-field);
 
 }
 
@@ -6432,8 +6246,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 }
 
 .business-subchannel-card .business-subchannel-remove {
-
-    position: absolute;
     top: 8px;
     right: 8px;
 
@@ -6540,8 +6352,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     display: flex !important;
     flex-direction: column;
 
-    gap: var(--space-field);
-
     width: 100%;
 
     border: 0;
@@ -6584,7 +6394,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 .business-subchannel-card .business-channel-th-action { order: 3; }
 .business-subchannel-card .business-channel-td-stage,
 .business-subchannel-card .business-channel-td-action { order: 4; }
-.business-subchannel-card .business-channel-td-name { order: 5; }
 .business-subchannel-card .business-channel-th-stage { display: none; }
 
 .business-subchannel-card .business-channel-th-offerings,
@@ -6594,21 +6403,9 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
 }
 
-.business-subchannel-card .business-channel-td-stage {
-
-    margin-bottom: calc(var(--space-label) * -1);
-
-}
-
 .business-subchannel-card .business-channel-table th.business-channel-th-stage {
 
     display: none;
-
-}
-
-.business-subchannel-card .business-channel-table {
-
-    gap: var(--space-label);
 
 }
 
@@ -6622,13 +6419,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 .business-subchannel-card .business-channel-th-name { display: none !important; }
 
 .business-subchannel-card .business-subchannel-remove { position: static; }
-
-/* The subchannel card's table sits under the head in the card's content column. */
-.floating-card-body .column-tile-content > .business-subchannel-card > .business-channel-table-wrap {
-
-    grid-column: 2;
-
-}
 
 /* THE RELATIONSHIP BLOCK'S LABELS are one style: the body size, the regular weight, the label colour (Relationship Type, Purpose, Goal & Approach, the stages, Get / Keep / Grow). The table's corners are round (8px) and it stands 12px from what is around it. */
 .business-relationship-block .field-label,
@@ -6794,13 +6584,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
 }
 
-.business-relationship-block > .business-relationship-block-remove {
-
-    top: 4px;
-    right: 0;
-
-}
-
 .business-relationship-add {
 
     margin: 0;
@@ -6836,22 +6619,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
 }
 
-.business-subchannel-card .business-channel-table td.business-channel-td-offerings,
-.business-subchannel-card .business-channel-table td.business-channel-td-stage,
-.business-subchannel-card .business-channel-table td.business-channel-td-action,
-.business-subchannel-card .business-channel-table td.business-channel-td-name {
-
-    padding: 12px;
-
-    border: 1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
-
-}
-
-.business-subchannel-card .business-channel-table td.business-channel-td-stage { border-bottom-width: 0; border-radius: 8px 8px 0 0; }
-.business-subchannel-card .business-channel-table td.business-channel-td-action { border-radius: 0 0 8px 8px; margin-top: -8px; }
-.business-subchannel-card .business-channel-table td.business-channel-td-offerings,
-.business-subchannel-card .business-channel-table td.business-channel-td-name { border-radius: 8px; }
-
 .business-subchannel-card .business-channel-td-name .business-channel-links,
 .business-subchannel-card .business-channel-td-name .optional-field,
 .business-subchannel-card .business-channel-td-name > * ,
@@ -6861,13 +6628,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     padding-left: 0;
 
     width: 100%;
-
-}
-
-/* THE CHANNEL CARD, third pass: 12px at the sides and between its parts; Offerings is one field (its label over its cell); a Journey Stage and its Actions are one section (one frame, no line between); "+ Add Journey Stage" stands after the last, outside that section. */
-.business-subchannel-card .business-channel-table {
-
-    gap: 12px;
 
 }
 
@@ -6885,23 +6645,9 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
 }
 
-.business-subchannel-card .business-channel-table th.business-channel-th-action {
-
-    margin-top: 0 !important;
-
-    border-bottom: 0;
-
-    padding-bottom: 0;
-
-}
-
 .business-subchannel-card .business-channel-table td.business-channel-td-stage {
 
     border-bottom-width: 0;
-
-    border-radius: 8px 8px 0 0;
-
-    padding-bottom: 0;
 
 }
 
@@ -6910,8 +6656,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     border-top-width: 0;
 
     border-radius: 0 0 8px 8px;
-
-    margin-top: -12px;
 
     padding-top: 12px;
 
@@ -6954,7 +6698,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
     display: flex !important;
     flex-wrap: nowrap;
-    align-items: center;
 
     gap: 8px;
 
@@ -7129,15 +6872,11 @@ table.business-relationship-table {
 
     border-radius: 8px 8px 0 0;
 
-    padding-bottom: 12px;
-
     overflow: visible;
 
 }
 
 .business-subchannel-card .business-channel-table td.business-channel-td-action {
-
-    margin-top: -1px;
 
     background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
@@ -7174,28 +6913,9 @@ table.business-relationship-table {
 
 }
 
-/* Links: label and cell on one line */
-.business-subchannel-card .business-channel-td-name .optional-field-inline {
-
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-
-    gap: 12px;
-
-}
-
 .business-subchannel-card .business-channel-td-name .optional-field-inline > .optional-field-body {
 
-    flex: 1 1 200px;
-
     margin: 0;
-
-}
-
-.business-subchannel-card .business-channel-td-name .optional-field-inline {
-
-    flex-wrap: nowrap;
 
 }
 
@@ -7210,8 +6930,6 @@ table.business-relationship-table {
 .business-subchannel-card .business-channel-td-name .optional-field-inline > .optional-field-body {
 
     flex: 1 1 0;
-
-    min-width: 0;
 
 }
 
@@ -8155,30 +7873,11 @@ table.business-relationship-table {
 
 }
 
-.strategy-period-box .month-picker-label {
-
-    min-width: 0;
-
-}
-
 .strategy-period-column > .strategy-plan-dates {
 
     margin: 0;
 
     padding: 0;
-
-}
-
-/* The Start and the End stand at the left and the right edges of the tiles below, the Financial Plan's name against the right edge of the first tile and its dates from the left edge of the next: the one grid of the tiles (three columns, 12px between). */
-.strategy-period-column {
-
-    width: calc(3 * 215px + 2 * 12px);
-
-}
-
-.strategy-period-column > .strategy-period-box {
-
-    justify-content: space-between;
 
 }
 
@@ -8254,8 +7953,6 @@ table.business-relationship-table {
 }
 
 .strategy-period-box .month-picker-label {
-
-    width: auto;
 
     flex: 0 0 auto;
 
@@ -8662,8 +8359,6 @@ table.business-relationship-table {
 .business-subchannel-card > .business-subchannel-head > .strategy-box-number {
 
     position: absolute;
-
-    left: 10px;
     top: 0;
 
     z-index: 1;
@@ -8789,12 +8484,6 @@ table.business-relationship-table {
 
 }
 
-.business-subchannel-card .business-channel-table td.business-channel-td-action {
-
-    margin-top: 0 !important;
-
-}
-
 .business-subchannel-card .business-channel-table th.business-channel-th-offerings,
 .business-subchannel-card .business-channel-table th.business-channel-th-action {
 
@@ -8815,8 +8504,6 @@ table.business-relationship-table {
 .business-founder-open:not(.floating-card-body *) .business-founder-grid {
 
     display: grid;
-
-    grid-template-columns: max-content var(--founder-cell) max-content var(--founder-cell);
 
     column-gap: var(--space-cell);
 
@@ -8885,13 +8572,6 @@ table.business-relationship-table {
 
 }
 
-/* THE CHANNEL CARD'S CONTENT STARTS AND ENDS WHERE ITS NAME CELL DOES (as every card's): the parts end 44px (the x column and its 12px) before the card's padding, as the Journey Stage's picker does, whose x stands in that column. */
-.business-subchannel-card .business-channel-table :is(th, td):not(.business-channel-td-stage) {
-
-    margin-right: 44px;
-
-}
-
 /* A SECTION'S RAIL (the tiles of a frame, whose names are given) says the names beside its bullets, on the outer side; a card's rail has the tooltip (the user names the cards). */
 .carousel-rail-named {
 
@@ -8926,22 +8606,6 @@ table.business-relationship-table {
     flex: 0 1 auto;
 
     min-width: 0;
-
-    padding: 0;
-
-    border: 0;
-
-    border-radius: 0;
-
-    background: none;
-
-    box-shadow: none;
-
-    color: inherit;
-
-    font-size: var(--font-body);
-
-    font-weight: 400;
 
     transform: none;
 
@@ -9013,13 +8677,6 @@ main.conversation-content[data-reserve],
 
 }
 
-/* THE OFFERINGS AS TICK BOXES: one per line, 6px apart, under their label. */
-.business-subchannel-card .business-channel-td-offerings .business-foundation-tick {
-
-    margin: 0 0 6px;
-
-}
-
 /* ==========================================================
    GLOBAL STYLE OF A FIELD'S LABEL AND OF A CARD'S TITLE (docs/ai/tile-and-card-pattern.md, "Labels and titles").
    A LABEL: the body size (18px), regular, the card's label colour -- a field's name, the name of an optional field ("Links", "Description"), and the part labels
@@ -9064,9 +8721,6 @@ main.conversation-content[data-reserve],
    the pickers, the tick boxes and the lists of actions end on one line, and a Journey Stage's x stands in that column, 12px after its picker.
 ========================================================== */
 .business-subchannel-card {
-
-    --part-tint-a: color-mix(in srgb, var(--text-default) 5%, transparent);
-    --part-tint-b: color-mix(in srgb, var(--text-default) 9%, transparent);
     --part-line: color-mix(in srgb, var(--text-default) 20%, transparent);
 
 }
@@ -9126,17 +8780,7 @@ main.conversation-content[data-reserve],
 .business-subchannel-card .business-channel-table td.business-channel-td-action + td.business-channel-td-stage,
 .business-subchannel-card .business-channel-table tr + tr > td.business-channel-td-stage {
 
-    margin-top: -12px !important;
-
     padding-top: 12px !important;
-
-    border-top: 1px solid var(--part-line) !important;
-
-}
-
-.business-subchannel-card .business-channel-table td.business-channel-td-addstage {
-
-    padding: 0 56px 12px 12px !important;
 
 }
 
@@ -9145,21 +8789,6 @@ main.conversation-content[data-reserve],
 .business-subchannel-card .business-channel-table tbody > tr:last-child > td.business-channel-td-addstage {
 
     border-radius: 0 0 8px 8px !important;
-
-}
-
-/* THE RELATIONSHIP TYPE'S x STANDS IN ITS OWN COLUMN, 12px from the block's edge and 12px from the Purpose's cell, level with the cell's top (an x never lies on a cell). */
-.business-relationship-block > .business-relationship-block-remove {
-
-    top: 34px;
-
-    right: 12px;
-
-}
-
-.business-relationship-block .business-relationship-type-row {
-
-    padding-right: 56px;
 
 }
 
@@ -9287,8 +8916,6 @@ main.conversation-content[data-reserve],
 
     --part-tint-a: transparent;
 
-    --part-tint-b: color-mix(in srgb, var(--text-default) 8%, transparent);
-
 }
 
 /* ==========================================================
@@ -9305,15 +8932,6 @@ main.conversation-content[data-reserve],
 .business-subchannel-card {
 
     --part-tint-b: color-mix(in srgb, var(--label-color, var(--text-default)) 12%, transparent);
-
-}
-
-/* THE RELATIONSHIP TYPE'S DELETE x stands at the block's top right corner (12px from both edges), the Purpose's cell ending before its column. */
-.business-relationship-block > .business-relationship-block-remove {
-
-    top: 12px;
-
-    right: 12px;
 
 }
 
@@ -9511,8 +9129,6 @@ main.conversation-content[data-reserve],
 
     margin: 12px -56px -24px -12px;
 
-    padding: 12px 56px 24px 12px;
-
     background: var(--part-tint-b);
 
     border-radius: 0 0 8px 8px;
@@ -9584,33 +9200,9 @@ main.conversation-content[data-reserve],
 
 }
 
-.business-subchannel-card .business-channel-td-name .business-channel-expenses .business-channel-resources-head {
-
-    margin: -12px -44px 12px -12px !important;
-
-}
-
 .business-subchannel-card .business-channel-td-name .business-channel-expenses .business-channel-resource-row {
 
     margin-right: -44px !important;
-
-}
-
-.business-subchannel-card .business-channel-td-name .business-channel-expenses .business-channel-resource-row > .business-channel-resource-x {
-
-    margin: 8px 12px 0 0 !important;
-
-}
-
-.business-subchannel-card .business-channel-td-name .business-channel-expenses .business-channel-resources-head {
-
-    padding: 12px 0 6px 24px !important;
-
-}
-
-.business-subchannel-card .business-channel-td-name .business-channel-expenses .business-channel-resource-row > .business-channel-resource-x {
-
-    margin: 8px 0 0 0 !important;
 
 }
 
@@ -9622,11 +9214,7 @@ main.conversation-content[data-reserve],
 /* THE CUSTOMER RELATIONSHIP'S FIRST ROW: [Relationship Type: label over a cell as wide as its longest option] [Purpose: its label, then its cell beside it] [x], all on the cells' top line, 12px apart; the x in its own column, 12px from the block's edge. */
 .business-relationship-block .business-relationship-type-row {
 
-    grid-template-columns: max-content minmax(0, 1fr) !important;
-
     column-gap: 12px !important;
-
-    padding-right: 44px !important;
 
 }
 
@@ -9652,8 +9240,6 @@ main.conversation-content[data-reserve],
 
     flex: 0 0 auto;
 
-    padding-top: 6px;
-
 }
 
 .business-relationship-block .business-relationship-purpose > .business-foundation-field > :not(.business-foundation-label-info) {
@@ -9666,8 +9252,6 @@ main.conversation-content[data-reserve],
 
 .business-relationship-block > .business-relationship-block-remove {
 
-    top: 34px !important;
-
     right: 12px !important;
 
 }
@@ -9675,13 +9259,6 @@ main.conversation-content[data-reserve],
 .business-relationship-block .business-relationship-type-row {
 
     padding-right: 56px !important;
-
-}
-
-/* The Purpose's cell is level with the Type's dropdown (the Type's label stands above its cell, the Purpose's beside it). */
-.business-relationship-block .business-relationship-purpose {
-
-    margin-top: 34px !important;
 
 }
 
@@ -9874,14 +9451,6 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
 }
 
-.business-subchannel-card .business-channel-td-name .business-channel-expenses .business-channel-resources-head {
-
-    margin: 0 -44px 12px 0 !important;
-
-    padding: 0 0 6px !important;
-
-}
-
 .business-subchannel-card .business-channel-expenses .business-channel-resources {
 
     display: flex;
@@ -9912,19 +9481,6 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
 }
 
-/* AN ACTION CELL (a channel card's action line) REACTS AS EVERY CELL DOES: under the pointer the same glow, while it is written in the same stronger one (the line's own textarea draws none; the row is the cell). Nothing moves. */
-.business-subchannel-card .business-channel-td-action .numbered-list-row:hover:not(:focus-within) {
-
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
-
-}
-
-.business-subchannel-card .business-channel-td-action .numbered-list-row:focus-within {
-
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
-
-}
-
 /* THE DIVIDERS OF A CHANNEL CARD (under the Actions heading, between two Journey Stages) HAVE THE CARD'S MARGINS: each runs between two edges 12px from the card's sides, never to its edge. */
 .business-subchannel-card .business-channel-table th.business-channel-th-action {
 
@@ -9933,10 +9489,6 @@ label:has(> input[type="checkbox"]) > :not(input) {
     background-image: linear-gradient(var(--part-line), var(--part-line));
 
     background-repeat: no-repeat;
-
-    background-size: calc(100% - 24px) 1px;
-
-    background-position: 12px 100%;
 
 }
 
@@ -9948,10 +9500,6 @@ label:has(> input[type="checkbox"]) > :not(input) {
     background-image: linear-gradient(var(--part-line), var(--part-line));
 
     background-repeat: no-repeat;
-
-    background-size: calc(100% - 24px) 1px;
-
-    background-position: 12px 0;
 
 }
 
@@ -9997,22 +9545,6 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
 }
 
-/* THE CHANNEL CARD, from the last review. */
-/* No order number: the name starts at the card's own edge (a typed name keeps a cell's inset); the head is as tall as its title, so the Offerings stand 12px under it. */
-.business-subchannel-card > .business-subchannel-head > .business-subchannel-name {
-
-    padding-left: 0 !important;
-
-    line-height: 32px !important;
-
-}
-
-.business-subchannel-card > .business-subchannel-head {
-
-    align-items: flex-start;
-
-}
-
 .business-subchannel-card > .business-subchannel-head > :is(.suggested-input, .suggested-input input) {
 
     padding-left: 12px;
@@ -10044,15 +9576,6 @@ label:has(> input[type="checkbox"]) > :not(input) {
     border-bottom: 0 !important;
 
     padding-bottom: 0 !important;
-
-}
-
-/* Where the "+" stands in a heading, the divider is 12px under the button (the heading is as tall as the button and its two 12px). */
-.business-subchannel-card .business-channel-table tr:has(td.business-channel-td-addstage) th.business-channel-th-action {
-
-    min-height: 56px;
-
-    box-sizing: border-box;
 
 }
 
@@ -10107,13 +9630,6 @@ label:has(> input[type="checkbox"]) > :not(input) {
 }
 
 .business-subchannel-card > .business-subchannel-head > .suggested-input :is(input, textarea) {
-
-    padding-left: 12px !important;
-
-}
-
-/* A name that is only said (no cell) starts where a cell's text does: 12px in from the content edge, so every channel card's name reads at one x. */
-.business-subchannel-card > .business-subchannel-head > .business-subchannel-name {
 
     padding-left: 12px !important;
 
@@ -10209,12 +9725,6 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
     display: block;
 
-    padding: 0 8px 4px;
-
-    font-size: var(--font-small);
-
-    color: var(--text-subtle);
-
 }
 
 .business-channel-cost-add .notepad-suggestion-existing .notepad-suggestion-label {
@@ -10248,19 +9758,6 @@ label:has(> input[type="checkbox"]) > :not(input) {
 .business-subchannel-card .business-channel-table td.business-channel-td-stage:has(+ td.business-channel-td-action .numbered-list-row) {
 
     padding-bottom: 6px !important;
-
-}
-
-/* (The action cell's reaction drawn INSIDE the cell -- an edge and an inner glow -- so the list's own clipping never hides it.) */
-.business-subchannel-card .business-channel-td-action .numbered-list-row:hover:not(:focus-within) {
-
-    box-shadow: inset 0 0 0 1px var(--line-primary), inset 0 0 8px 1px color-mix(in srgb, var(--glow-color) 45%, transparent) !important;
-
-}
-
-.business-subchannel-card .business-channel-td-action .numbered-list-row:focus-within {
-
-    box-shadow: inset 0 0 0 2px var(--line-primary), inset 0 0 8px 1px color-mix(in srgb, var(--glow-color) 55%, transparent) !important;
 
 }
 

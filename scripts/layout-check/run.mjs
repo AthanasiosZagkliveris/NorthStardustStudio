@@ -431,8 +431,8 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     }
     await browser.close();
     // THE BASELINE: the findings known today (BASELINE_FILE). The check fails only on a finding that is NOT in it, so it can run after every change; a finding that is gone is said, and the baseline is rewritten with --write-baseline.
-    // (A card made by a "+" gets a random id each run: ids -- eight letters and digits with a digit in them -- are not part of a finding's key.)
-    const plain = text => text.replace(/(?<![a-z0-9])(?=[a-z]*d)[a-z0-9]{8}(?![a-z0-9])/g, "~");
+    // (A card made by a "+" gets a random id each run: an id -- eight letters and digits after a hyphen -- is not part of a finding's key.)
+    const plain = text => text.replace(/(?<=-)[a-z0-9]{8}(?![a-z0-9])/g, "~");
     const keyOf = failure => plain([failure.example, failure.page, failure.theme, failure.width, failure.rule, failure.where, failure.tile].join("|"));
     if (process.argv.includes("--write-baseline")) {
         const merged = new Map();

@@ -457,35 +457,6 @@ export function holdsTemplate(
         .some(card => held.has(card.id) && card.group === template.group && card.name === template.label);
 }
 
-/**
- * THE BUTTON "Typical costs for this channel": every template whose item the company does not already have is created at once, in its group, the
- * price blank. A template the company already has an item for is not created: it is returned as an offer, to Link existing (or to add a new one).
- * A template the channel already holds is left alone, so pressing twice makes nothing twice.
- */
-export function withTypicalCosts(
-    engagement: BusinessEngagementValue,
-    capability: BusinessCapabilityValue,
-    segmentId: string,
-    channelId: string,
-    /** The templates that fit the channel's category (templatesForCategory); all of them where it is not given. */
-    fitting: readonly ChannelCostTemplate[] = CHANNEL_COST_TEMPLATES
-): { engagement: BusinessEngagementValue; capability: BusinessCapabilityValue; offers: ChannelCostTemplate[] } {
-    let next = { engagement, capability };
-    const offers: ChannelCostTemplate[] = [];
-    for (const template of fitting) {
-        if (holdsTemplate(engagement, capability, segmentId, channelId, template)) {
-            continue;
-        }
-        if (existingForTemplate(engagement, capability, segmentId, channelId, template).length > 0) {
-            offers.push(template);
-            continue;
-        }
-        const made = withNewTemplateCost(next.engagement, next.capability, segmentId, channelId, template);
-        next = { engagement: made.engagement, capability: made.capability };
-    }
-    return { ...next, offers };
-}
-
 /** A card the company already has, linked to the channel (Link existing): nothing is made, and it stays when taken off. */
 export function withLinkedExistingCard(engagement: BusinessEngagementValue, segmentId: string, channelId: string, cardId: string): BusinessEngagementValue {
     return {

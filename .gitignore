@@ -37,3 +37,11 @@ Desktop.ini
 *.tsbuildinfo
 .claude/
 .playwright-mcp/
+
+# Working drafts and screenshots (not part of the app): screenshots in the repo root, and the HTML / PDF / CSV drafts of the planning documents
+/*.png
+/docs/*.pdf
+/docs/ai/*.html
+/docs/ai/*.pdf
+/docs/ai/*.csv
+/.playwright-mcp/
