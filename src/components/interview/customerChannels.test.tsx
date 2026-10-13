@@ -28,7 +28,7 @@ const SPEC: [string, string[], string[]][] = [
     ["Marketplace", ["Etsy", "Amazon", "Gumroad", "Fiverr", "Upwork"], ["Discover", "Evaluation", "Purchase", "Delivery"]],
     ["In Person", ["Studio / Shop", "Market / Pop-up", "Trade Fair / Exhibition", "Workshop / Class", "Event / Talk", "Sales Visit", "Customer Location", "Pickup / Collection"], ["Discover", "Evaluation", "Delivery", "Support & Follow Up"]],
     ["Email", ["Direct Email", "Newsletter", "Email Campaign", "Automated Email"], ["Evaluation", "Delivery", "Support & Follow Up"]],
-    ["Online / Live", ["Zoom", "Google Meet", "Microsoft Teams", "Live Stream", "Discord"], ["Evaluation", "Delivery", "Support & Follow Up"]],
+    ["Online / Live", ["Zoom", "Google Meet", "Microsoft Teams", "Live Stream"], ["Evaluation", "Delivery", "Support & Follow Up"]],
     ["Direct Payment", ["Card", "Cash", "Bank Transfer", "Payment Link", "Invoice"], ["Purchase"]],
     ["File Delivery", ["WeTransfer", "Google Drive", "Dropbox", "OneDrive", "Email Attachment", "Client Portal"], ["Delivery"]],
     ["Physical Delivery", ["Courier", "Postal Service", "Local Delivery", "Third-party Fulfilment"], ["Delivery"]],

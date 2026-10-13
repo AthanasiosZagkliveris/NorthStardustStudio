@@ -5087,8 +5087,7 @@ export const BUSINESS_CHANNEL_CATEGORIES = [
             { label: "Zoom", description: "Live online meetings and video communication." },
             { label: "Google Meet", description: "Live online meetings and video communication." },
             { label: "Microsoft Teams", description: "Online meetings, communication and collaboration." },
-            { label: "Live Stream", description: "A real-time broadcast to an online audience." },
-            { label: "Discord", description: "A live online interaction or session." }
+            { label: "Live Stream", description: "A real-time broadcast to an online audience." }
         ],
         otherDescription: "Another live online platform or method."
     },

@@ -98,3 +98,4 @@ This file is the short, visual brief: what a tile, frame and card look like, for
 - **A tooltip opened by the pointer stands a line above the hovered text** (6px over its top), never over it.
 - **A subchannel is used once by an Offering, but may have many cards** (each with its own actions and costs): on a card, the Offerings another card of the same subchannel already serves are blocked -- grey, unticked, "Already uses this subchannel" beside them -- and "All Offerings" is blocked while any is.
 - **The action cell being typed in** has the common focus frame: 2px in the primary colour drawn inside the cell, with the default soft glow.
+- **A Customer Relationship block's first row is one row**: [Relationship Type label + its drop-down] [Purpose label + its cell, the rest of the width] [x], level with the cells' first line, 12px apart.

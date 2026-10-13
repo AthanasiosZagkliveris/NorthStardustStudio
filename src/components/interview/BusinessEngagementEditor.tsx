@@ -1715,7 +1715,9 @@ export default function BusinessEngagementEditor({
                             <OptionPicker
                                 label="Subchannel name"
                                 placeholder="Select a subchannel"
-                                options={channelNameOptions(channel.category, answers.channels.filter(candidate => candidate.id !== channel.id))}
+                                // (A subchannel that is already used -- it has a card -- is not offered again: its Offerings are added on its own card.)
+                                options={channelNameOptions(channel.category, answers.channels.filter(candidate => candidate.id !== channel.id))
+                                    .filter(option => option === BUSINESS_CHANNEL_OTHER || !answers.channels.some(other => other.id !== channel.id && other.category === channel.category && other.name.trim().toLocaleLowerCase() === option.toLocaleLowerCase()))}
                                 disabled={disabled}
                                 value={channel.name}
                                 onChange={(next) => updateChannel(segment.id, channel.id, { name: next })}

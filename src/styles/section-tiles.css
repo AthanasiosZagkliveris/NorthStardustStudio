@@ -10356,3 +10356,59 @@ label:has(> input[type="checkbox"]) > :not(input) {
     outline-offset: -2px !important;
 
 }
+
+/* The subchannel drop-down of a new card stands at the right of the head, 12px from the x (as the stage pickers do). */
+.business-subchannel-card > .business-subchannel-head > .option-picker {
+
+    margin-left: auto;
+
+    flex: 0 0 auto;
+
+}
+
+/* THE CUSTOMER RELATIONSHIP'S FIRST ROW IS ONE ROW: [Relationship Type: its label, then its drop-down beside it] [Purpose: its label, then its cell, the rest of the width] [x], all level with the first line of the cells, 12px apart, the x 12px from the block's edge. */
+.business-relationship-block .business-relationship-type-row {
+
+    grid-template-columns: max-content minmax(0, 1fr) !important;
+
+    align-items: start !important;
+
+}
+
+.business-relationship-block .business-relationship-type-field {
+
+    flex-direction: row !important;
+
+    align-items: flex-start !important;
+
+    gap: 12px !important;
+
+}
+
+.business-relationship-block .business-relationship-type-field > .business-relationship-type-label,
+.business-relationship-block .business-relationship-purpose > .business-foundation-field > .business-foundation-label-info {
+
+    padding-top: 8px !important;
+
+    white-space: nowrap;
+
+}
+
+.business-relationship-block .business-relationship-purpose {
+
+    margin-top: 0 !important;
+
+}
+
+.business-relationship-block > .business-relationship-block-remove {
+
+    top: 6px !important;
+
+}
+
+/* A tick box's label row is 18px tall (its box); the "i" beside it is taller, and would make the row 22px: its 2px over and under are taken off its margins, so the "i" stays where it is and the row, and the 6px under it, are the box's. */
+.business-foundation-label-info:has(> .business-foundation-tick) > .info-note {
+
+    margin-block: -2px;
+
+}

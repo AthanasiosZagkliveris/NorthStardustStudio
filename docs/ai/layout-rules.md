@@ -1546,3 +1546,7 @@ New fields follow the rules above and reuse their neighbours' shapes; nothing he
 - **x column 44px** (`--card-x-column`), a channel card's parts are tinted bands (`--part-tint-a`, `--part-tint-b`) with a hairline between Journey Stages.
 - **Layout probe**: a remove x keeps 12px from the cell beside it and never lies on one.
 
+
+## The automatic check (after every layout change)
+
+`npm run check:layout` runs the layout probe (`scripts/layout-check/`) on every page of the Quillfield example (1920 wide, light page) and fails only on a finding that is NOT in `scripts/layout-check/baseline.json` (the findings known and accepted so far; ids of cards made by a "+" are ignored in a finding's key). It says how many known findings are gone. `npm run check:layout:baseline` rewrites the baseline after findings were fixed on purpose; `CHECK_PAGES="Customer Engagement" npm run check:layout` runs one page; without `--quick` (`node scripts/layout-check/run.mjs`) it runs every width, both themes and both examples. A full run takes about 25 minutes; a sub-pixel finding (a gap of 12.95 for 12) can come and go between runs.

@@ -17,8 +17,11 @@
     It prints the failures as JSON lines, and exits 1 if there are any.
 */
 
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+
+/** The findings known today (see the end of this file): the check fails only on one that is not in it. */
+const BASELINE_FILE = fileURLToPath(new URL("./baseline.json", import.meta.url));
 
 export const SPEC = {
     /** From the end of a card's number ("1.", or "1. Goal") to its name: the one gap. */
@@ -40,10 +43,10 @@ export const SPEC = {
 export const PAGES = [
     // Each name is matched from the start of the page's button ("1. Definition"),
     // so "Foundation" does not also find "Financial Foundation".
-    ["Identity System", ["^1\\. Definition", "^2\\. Ethics", "Legal Entity", "Founders Profile"]],
-    ["Brand System", ["Ambassador", "Style", "Inventory"]],
+    ["Identity System", ["^1\\. Definition", "^2\\. Organization"]],
+    ["Brand System", ["Brand System"]],
     ["Business System", ["^1\\. Foundation", "Customer Engagement", "Infrastructure", "Financial Foundation", "Sustainability"]],
-    ["Strategy System", ["Situation", "Goals", "Roadmap"]]
+    ["Strategy System", ["Strategy System"]]
 ];
 
 export const WIDTHS = [1920, 1366, 768];
@@ -67,7 +70,8 @@ async function openPage(page, base, system, pageName) {
     if (!(await target.count())) {
         return false;
     }
-    await target.click();
+    // (Pressed in the page, not with the mouse: a fixed footer or tab over the rail must not make the check crash.)
+    await target.evaluate(node => node.click());
     await page.waitForTimeout(800);
     // Every card open: "Expand all", then any arrow still folded.
     for (let round = 0; round < 3; round++) {
@@ -357,7 +361,7 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
     const failures = [];
     // The reference x: the first Legal Entity card's.
     let referenceX = null;
-    if (await openPage(page, base, "Identity System", "Legal Entity")) {
+    if (await openPage(page, base, "Identity System", "^2\\. Organization")) {
         const card = page.locator(".legal-entity-card .strategy-box-remove").first();
         if (await card.count()) {
             referenceX = await removeLook(page, card);
@@ -409,6 +413,12 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     const base = process.env.BASE_URL ?? "http://localhost:1420";
     const failures = [];
     // A quick run: CHECK_PAGES="Customer Engagement,Roadmap" CHECK_WIDTHS=1920 CHECK_THEMES=light CHECK_EXAMPLES=lumen node scripts/layout-check/run.mjs
+    // --quick: the one setting the baseline is made at (the Quillfield example, 1920 wide, the light page); the full check is the same command without it.
+    if (process.argv.includes("--quick")) {
+        process.env.CHECK_WIDTHS ??= "1920";
+        process.env.CHECK_THEMES ??= "light";
+        process.env.CHECK_EXAMPLES ??= "quillfield";
+    }
     const only = (name) => process.env[name]?.split(",").map(entry => entry.trim()).filter(Boolean);
     const pageFilter = only("CHECK_PAGES");
     const pages = pageFilter ? PAGES.map(([system, names]) => [system, names.filter(name => pageFilter.some(entry => name.includes(entry)))]).filter(([, names]) => names.length > 0) : PAGES;
@@ -420,7 +430,39 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
         failures.push(...(await runLayoutCheck(page, { base, probe, pages, widths, themes })).map(failure => ({ example, ...failure })));
     }
     await browser.close();
-    failures.forEach(failure => console.log(JSON.stringify(failure)));
-    console.log(failures.length === 0 ? "Layout check: 0 failures." : "Layout check: " + failures.length + " failures.");
-    process.exit(failures.length === 0 ? 0 : 1);
+    // THE BASELINE: the findings known today (BASELINE_FILE). The check fails only on a finding that is NOT in it, so it can run after every change; a finding that is gone is said, and the baseline is rewritten with --write-baseline.
+    // (A card made by a "+" gets a random id each run: ids -- eight letters and digits with a digit in them -- are not part of a finding's key.)
+    const plain = text => text.replace(/(?<![a-z0-9])(?=[a-z]*d)[a-z0-9]{8}(?![a-z0-9])/g, "~");
+    const keyOf = failure => plain([failure.example, failure.page, failure.theme, failure.width, failure.rule, failure.where, failure.tile].join("|"));
+    if (process.argv.includes("--write-baseline")) {
+        const merged = new Map();
+        if (existsSync(BASELINE_FILE)) {
+            // (A run of some pages only keeps the others' findings.)
+            for (const entry of JSON.parse(readFileSync(BASELINE_FILE, "utf8"))) {
+                merged.set(entry.key, entry);
+            }
+            const ran = new Set(failures.map(failure => failure.example + "|" + failure.page));
+            for (const [key, entry] of [...merged]) {
+                if (ran.has(entry.example + "|" + entry.page)) {
+                    merged.delete(key);
+                }
+            }
+        }
+        failures.forEach(failure => merged.set(keyOf(failure), { key: keyOf(failure), example: failure.example, page: failure.page, rule: failure.rule }));
+        writeFileSync(BASELINE_FILE, JSON.stringify([...merged.values()], null, 1) + "\n");
+        console.log("Baseline written: " + merged.size + " known findings.");
+        process.exit(0);
+    }
+    const known = existsSync(BASELINE_FILE) && !process.argv.includes("--no-baseline") ? new Set(JSON.parse(readFileSync(BASELINE_FILE, "utf8")).map(entry => plain(entry.key))) : null;
+    const shown = known ? failures.filter(failure => !known.has(keyOf(failure))) : failures;
+    shown.forEach(failure => console.log(JSON.stringify(failure)));
+    if (known) {
+        const now = new Set(failures.map(keyOf));
+        const ran = new Set(failures.map(failure => failure.example + "|" + failure.page));
+        const gone = JSON.parse(readFileSync(BASELINE_FILE, "utf8")).filter(entry => ran.has(entry.example + "|" + entry.page) && !now.has(plain(entry.key))).length;
+        console.log("Layout check: " + shown.length + " NEW findings (" + (failures.length - shown.length) + " known in the baseline" + (gone > 0 ? ", " + gone + " of the baseline gone: rewrite it with --write-baseline" : "") + ").");
+    } else {
+        console.log(failures.length === 0 ? "Layout check: 0 failures." : "Layout check: " + failures.length + " failures.");
+    }
+    process.exit(shown.length === 0 ? 0 : 1);
 }
