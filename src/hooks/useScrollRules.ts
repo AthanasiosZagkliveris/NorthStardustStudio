@@ -8,7 +8,7 @@ import { useEffect } from "react";
  *  2. Where a scroller's content is taller than the scroller (a long page, a dialog's grid, a tall card), its end can be scrolled up to a quarter of the window's
  *     height above the bottom (`data-reserve`, a bottom padding of 25vh), so the last lines are read and worked in the middle of the screen, not at the edge.
  */
-const RESERVE_SELECTOR = "main.conversation-content, .section-tile-dialog-body, .floating-card-host[data-tall] .floating-card-stack";
+const RESERVE_SELECTOR = "main.conversation-content, .section-tile-dialog-body, .floating-card-host";
 
 export default function useScrollRules() {
 
@@ -48,10 +48,27 @@ export default function useScrollRules() {
         function mark() {
             frame = 0;
             const reserve = window.innerHeight * 0.25;
+            // A dialog that is taller than the window is scrolled by its layer (the dialog's own body grows with its content, as the Theme card's does): the layer's scroll runs on to a quarter of the window past the dialog's end.
+            document.querySelectorAll<HTMLElement>(".section-tile-overlay").forEach(layer => {
+                const dialog = layer.querySelector<HTMLElement>(":scope > .section-tile-dialog");
+                if (!dialog) {
+                    return;
+                }
+                const end = dialog.offsetTop + dialog.offsetHeight;
+                if (end > layer.clientHeight + 2) {
+                    layer.setAttribute("data-reserve", "");
+                    layer.style.setProperty("--reserve-end", end + reserve + "px");
+                } else if (layer.hasAttribute("data-reserve")) {
+                    layer.removeAttribute("data-reserve");
+                    layer.style.removeProperty("--reserve-end");
+                }
+            });
             document.querySelectorAll<HTMLElement>(RESERVE_SELECTOR).forEach(node => {
                 const isPage = node.matches("main.conversation-content");
-                const total = isPage ? (document.scrollingElement?.scrollHeight ?? 0) : node.scrollHeight;
-                const room = isPage ? window.innerHeight : node.clientHeight;
+                // (A floating card stands in the layer that scrolls it: the layer is measured, the card carries the reserve.)
+                const scroller = node.matches(".floating-card-host") ? (node.parentElement ?? node) : node;
+                const total = isPage ? (document.scrollingElement?.scrollHeight ?? 0) : scroller.scrollHeight;
+                const room = isPage ? window.innerHeight : scroller.clientHeight;
                 const has = node.hasAttribute("data-reserve");
                 const without = has ? total - reserve : total;
                 const needs = without > room + 2;

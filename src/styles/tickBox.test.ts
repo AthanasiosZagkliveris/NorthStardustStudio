@@ -28,7 +28,8 @@ describe("one tick box", () => {
         // reacts the same, under the pointer on the box itself.
         expect(css).toContain(".brand-tick:has(> input[type=\"checkbox\"]:not(:disabled):hover) > :not(input) { text-decoration: underline;");
         expect(css).toContain(".brand-tick > input[type=\"checkbox\"]:not(:disabled):hover:not(:focus-visible) { border-radius: 3px;");
-        expect(css).toContain("box-shadow: 0 0 0 1px var(--line-primary), 0 0 0 5px color-mix(in srgb, var(--glow-color) 18%, transparent);");
+        // (Inverted: the glow is inside the box.)
+        expect(css).toContain("box-shadow: inset 0 0 0 1px var(--line-primary), inset 0 0 6px 2px color-mix(in srgb, var(--glow-color) 45%, transparent);");
     });
 
 });

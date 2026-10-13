@@ -49,6 +49,10 @@ export interface CardBox {
     /** A finished card (a completed activity): drawn grey. */
     inactive?: boolean;
 
+    /** Which of its lines are links, and what a press on one does (see CardTileProps). */
+    linkedLines?: readonly boolean[];
+    onLine?: (index: number, pointer: boolean) => void;
+
     /** Not used yet: half transparent, as a tile with no card in it. */
     faded?: boolean;
 
@@ -214,6 +218,8 @@ export default function CardBoxes({
                             name={item.name}
                             unnamed={item.unnamed}
                             number={item.plain ? undefined : item.number}
+                            linkedLines={item.linkedLines}
+                            onLine={item.onLine}
                             centred={item.plain || item.centred}
                             lines={item.lines ?? (item.summary && item.summary.trim().length > 0 ? [item.summary] : [])}
                             marks={item.marks}

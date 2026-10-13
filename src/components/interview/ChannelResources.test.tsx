@@ -254,9 +254,16 @@ describe("a channel's resources, in its cell", () => {
 
 describe("Typical costs for this channel (H4)", () => {
 
+    /** Every typical cost of the channel, one option at a time (there is no "all" option: each is its own, right after the Blank expense). */
     const press = (channel = "Channel 1") => {
         openMenu(channel);
-        fireEvent.click(screen.getByRole("button", { name: "Typical costs for " + channel }));
+        for (let guard = 0; guard < 30; guard += 1) {
+            const next = screen.queryAllByRole("button", { name: new RegExp("^Add new .* to " + channel + "$") })[0];
+            if (!next) {
+                break;
+            }
+            fireEvent.click(next);
+        }
     };
 
     it("one press makes every template (T1 to T10 and T12, no T11) in its group, the price blank, linked to the channel", () => {
@@ -272,7 +279,6 @@ describe("Typical costs for this channel (H4)", () => {
         expect(offering.resources.every(slot => slot.cost.price === "")).toBe(true);
         expect(offering.providers[2]).toMatchObject({ category: "suppliers", group: "agencies-influencers" });
         expect(saved.engagement.channelResources).toHaveLength(11);
-        expect(screen.queryByRole("list", { name: /list$/ })).toBeNull();
     });
 
     it("pressing again makes nothing twice", () => {
@@ -286,7 +292,7 @@ describe("Typical costs for this channel (H4)", () => {
         render(<Harness category="Other" />);
         press();
         // (Channel 1 made them all: Channel 2 is offered each one to link, and makes none.)
-        press("Channel 2");
+        openMenu("Channel 2");
         expect(saved.capability.offering.resources).toHaveLength(6);
         expect(screen.getAllByRole("button", { name: /^Link existing .* to Channel 2$/ })).toHaveLength(11);
         fireEvent.click(screen.getByRole("button", { name: "Link existing Platform or tool subscription to Channel 2" }));
@@ -301,7 +307,7 @@ describe("Typical costs for this channel (H4)", () => {
     it("an offered template can still be added as a new card", () => {
         render(<Harness category="Other" />);
         press();
-        press("Channel 2");
+        openMenu("Channel 2");
         fireEvent.click(screen.getByRole("button", { name: "Add new Ads and influencers to Channel 2" }));
         expect(saved.capability.offering.providers.filter(partner => partner.name === "Ads and influencers")).toHaveLength(2);
     });
@@ -322,7 +328,13 @@ describe("Typical costs are filtered by the channel's category", () => {
     it("a Social Media channel is offered only the templates that fit it", () => {
         render(<Harness />);
         fireEvent.click(screen.getByRole("button", { name: "Add expense to Channel 1" }));
-        fireEvent.click(screen.getByRole("button", { name: "Typical costs for Channel 1" }));
+        for (let guard = 0; guard < 30; guard += 1) {
+            const next = screen.queryAllByRole("button", { name: /^Add new .* to Channel 1$/ })[0];
+            if (!next) {
+                break;
+            }
+            fireEvent.click(next);
+        }
         expect(saved.engagement.channelResources.length).toBeGreaterThan(0);
         expect(saved.engagement.channelResources.length).toBeLessThan(11);
         expect(saved.capability.offering.resources.map(slot => slot.name)).not.toContain("Stall, pitch, stand or event fee");

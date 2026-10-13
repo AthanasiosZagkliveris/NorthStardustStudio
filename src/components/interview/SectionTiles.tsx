@@ -815,7 +815,8 @@ export default function SectionTiles({
             }
             const from = opener.current ?? document.body;
             if (request.card && found.cardFor) {
-                openFloating(found, request.card, from, "column", request.fresh === true, false, true);
+                // (Over the other column of the tile that holds it, where it stands on the page: at the one level of every card.)
+                openFloating(found, request.card, document.querySelector<HTMLElement>(`.section-tile[data-tile="${CSS.escape(found.id)}"]`) ?? from, "column", request.fresh === true, false, true);
             } else if (request.box) {
                 setFloating(null);
                 // (From its own tile where it stands on screen: the dialog takes its place and size from it, not from the page.)
@@ -1504,6 +1505,9 @@ const CAROUSEL_ARROW_WIDTH = 24;
 /** The least side of the squeezed Inventory and Completed tiles under the page's two cards. */
 export const SQUEEZED_ROW_MIN = 56;
 
+/** How far under the top of a page column's frame every floating card starts (the height of the column's title and its gap): all cards start at one level. */
+const CARD_LEVEL = 62;
+
 /** The space between a carousel arrow and the card or dialog it stands beside. */
 const CAROUSEL_ARROW_GAP = 12;
 
@@ -1521,9 +1525,10 @@ function translucentColour(colour: string): boolean {
 function tabColours(node: HTMLElement): { bg: string; edge: string; ink: string } | null {
     const opaque = (colour: string) => colour !== "" && colour !== "transparent" && !/rgba\([^)]*,\s*0\)$/.test(colour);
     // The layer's own ground: the first element, from the layer inward (a few levels), that has an opaque background and is as wide as a card -- a dialog's panel, a card's box.
-    let level: HTMLElement[] = [node];
+    // (A floating card is searched inside its own body: its caption and the tooltips are no ground.)
+    let level: HTMLElement[] = [node.querySelector<HTMLElement>(".floating-card-body") ?? node];
     let ground: HTMLElement | null = null;
-    for (let depth = 0; depth < 6 && !ground && level.length > 0; depth += 1) {
+    for (let depth = 0; depth < 14 && !ground && level.length > 0; depth += 1) {
         ground = level.find(candidate => opaque(getComputedStyle(candidate).backgroundColor) && !translucentColour(getComputedStyle(candidate).backgroundColor) && candidate.getBoundingClientRect().width >= 200) ?? null;
         level = level.flatMap(candidate => [...candidate.children].filter((child): child is HTMLElement => child instanceof HTMLElement));
     }
@@ -1536,27 +1541,16 @@ function tabColours(node: HTMLElement): { bg: string; edge: string; ink: string 
     return { bg: style.backgroundColor, edge: opaque(style.borderTopColor) && !translucent && parseFloat(style.borderTopWidth) > 0 ? style.borderTopColor : "hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent))", ink: style.color };
 }
 
-/** The top of a layer's own title (the first words in it that are not a control): the page tab's top stands level with it. */
+/** Where a layer's page tab starts: 12px under the top of the frame it is attached to (a floating card's own frame, never the box name above it; a dialog's panel). */
+const TAB_DROP = 12;
+
 function titleTopOf(node: HTMLElement): number {
-    const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
-    for (let text = walker.nextNode(); text; text = walker.nextNode()) {
-        const holder = text.parentElement;
-        if (!holder || text.textContent?.trim() === "" || holder.closest("button, input, textarea, select, [aria-hidden='true']")) {
-            continue;
-        }
-        const range = document.createRange();
-        range.selectNodeContents(text);
-        // (Where a range cannot be measured -- the test environment -- the layer's own top.)
-        const box = typeof range.getBoundingClientRect === "function" ? range.getBoundingClientRect() : null;
-        if (box && box.height > 0) {
-            return box.top;
-        }
-    }
-    return node.getBoundingClientRect().top;
+    const frame = node.querySelector<HTMLElement>(".floating-card-body") ?? node;
+    return frame.getBoundingClientRect().top + TAB_DROP;
 }
 
 function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLElement | null>; step: CarouselStep; hue: number; back?: () => void }) {
-    const [at, setAt] = useState<{ left: number; right: number; top: number; edge: number; titleTop: number; tab: { bg: string; edge: string; ink: string } | null } | null>(null);
+    const [at, setAt] = useState<{ left: number; right: number; top: number; edge: number; leftEdge: number; side: "left" | "right"; titleTop: number; tab: { bg: string; edge: string; ink: string } | null } | null>(null);
 
     // The tab's colours follow the reading mode (light, sepia, dark, auto) while the layer stays open: measured again when it changes.
     const [modeCount, setModeCount] = useState(0);
@@ -1585,7 +1579,9 @@ function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLEle
         const right = Math.max(4, window.innerWidth - box.right - CAROUSEL_ARROW_GAP - CAROUSEL_ARROW_WIDTH);
         const tab = tabColours(node);
         const titleTop = titleTopOf(node);
-        setAt(previous => previous && Math.abs(previous.left - left) < 0.5 && Math.abs(previous.right - right) < 0.5 && Math.abs(previous.top - top) < 0.5 && Math.abs(previous.titleTop - titleTop) < 0.5 && previous.tab?.bg === tab?.bg && previous.tab?.edge === tab?.edge && previous.tab?.ink === tab?.ink ? previous : { left, right, top, edge: box.right, titleTop, tab });
+        // (The tab stands on the side of the layer that is nearer its end of the page: a layer in the left half has it at its left, one in the right half at its right.)
+        const side: "left" | "right" = box.left + box.width / 2 < window.innerWidth / 2 ? "left" : "right";
+        setAt(previous => previous && Math.abs(previous.left - left) < 0.5 && Math.abs(previous.right - right) < 0.5 && Math.abs(previous.top - top) < 0.5 && Math.abs(previous.titleTop - titleTop) < 0.5 && previous.side === side && Math.abs(previous.leftEdge - box.left) < 0.5 && previous.tab?.bg === tab?.bg && previous.tab?.edge === tab?.edge && previous.tab?.ink === tab?.ink ? previous : { left, right, top, edge: box.right, leftEdge: box.left, side, titleTop, tab });
     });
 
     // (Measured again whenever the box or the window changes size.)
@@ -1632,6 +1628,21 @@ function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLEle
     const [gap, setGap] = useState<{ index: number; size: number } | null>(null);
     const [arrowOnTab, setArrowOnTab] = useState(false);
     const itemCount = step.items?.length ?? 0;
+    // (The tab measured again whenever it, or the window, changes size: names arriving, fonts loading, the layer moving.)
+    const [railSize, setRailSize] = useState(0);
+    useEffect(() => {
+        const rail = railRef.current;
+        const again = () => setRailSize(count => count + 1);
+        window.addEventListener("resize", again);
+        const observer = typeof ResizeObserver === "undefined" || !rail ? null : new ResizeObserver(again);
+        if (rail) {
+            observer?.observe(rail);
+        }
+        return () => {
+            window.removeEventListener("resize", again);
+            observer?.disconnect();
+        };
+    }, [at?.edge, at?.tab]);
     const railTop = at?.tab ? at.titleTop : null;
     const arrowTop = at?.top ?? 0;
     useLayoutEffect(() => {
@@ -1641,26 +1652,26 @@ function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLEle
             setArrowOnTab(false);
             return;
         }
-        const items = [...rail.querySelectorAll<HTMLElement>("ol > li:not(.bullet-rail-gap)")];
-        const list = rail.querySelector("ol");
-        const rowGap = list ? parseFloat(getComputedStyle(list).rowGap) || 0 : 0;
+        // (Every line of the tab -- the bullets, then Back -- as it stands without the gap: its measured top, less what the gap itself moved it.)
+        const lines = [...rail.querySelectorAll<HTMLElement>("ol > li, .carousel-rail-back")];
         const from = arrowTop - 22 - 8;
         const to = arrowTop + 22 + 8;
-        let y = railTop + 13;
         let index = -1;
-        let atY = 0;
-        for (let position = 0; position < items.length; position += 1) {
-            if (index < 0 && y + items[position].offsetHeight > from) {
+        let naturalTop = 0;
+        for (let position = 0; position < lines.length; position += 1) {
+            const box = lines[position].getBoundingClientRect();
+            const top = box.top - (gap && position >= gap.index ? gap.size : 0);
+            if (index < 0 && top + box.height > from) {
                 index = position;
-                atY = y;
+                naturalTop = top;
             }
-            y += items[position].offsetHeight + rowGap;
         }
-        const size = index < 0 ? 0 : Math.max(0, to - atY);
+        const size = index < 0 ? 0 : Math.max(0, to - naturalTop);
         const next = index >= 0 && size > 0 ? { index, size } : null;
         setGap(previous => previous?.index === next?.index && Math.abs((previous?.size ?? 0) - (next?.size ?? 0)) < 0.5 ? previous : next);
-        setArrowOnTab(index >= 0 && atY < to);
-    }, [railTop, arrowTop, itemCount, at?.edge, back]);
+        setArrowOnTab(index >= 0 && naturalTop < to);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [railTop, arrowTop, itemCount, at?.edge, back, gap?.index, gap?.size, railSize]);
 
     // Only the topmost layer shows its arrows and rail: the one under it stands at the same place, and its bullets would overlap the top one's.
     const [topmost, setTopmost] = useState(true);
@@ -1682,18 +1693,18 @@ function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLEle
         <>
             <button
                 type="button"
-                className="page-arrow carousel-arrow"
+                className={"page-arrow carousel-arrow" + (arrowOnTab && at.side === "left" ? " carousel-arrow-on-tab" : "")}
                 data-direction="previous"
                 aria-label={"Previous " + step.what}
                 title={"Previous " + step.what + " (←)"}
-                style={{ left: at.left, top: at.top, "--strategy-theme-hue": hue } as CSSProperties}
+                style={{ left: at.left, top: at.top, "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-edge": at.tab.edge } : {}) } as CSSProperties}
                 onClick={step.previous}
             >
                 ‹
             </button>
             <button
                 type="button"
-                className={"page-arrow carousel-arrow" + (arrowOnTab ? " carousel-arrow-on-tab" : "")}
+                className={"page-arrow carousel-arrow" + (arrowOnTab && at.side === "right" ? " carousel-arrow-on-tab" : "")}
                 data-direction="next"
                 aria-label={"Next " + step.what}
                 title={"Next " + step.what + " (→)"}
@@ -1706,9 +1717,9 @@ function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLEle
                 // The rail under the arrows (the right one's): a bullet for each of the list, this one's lit. A card's bullet says its name in a tooltip (a card is named by the user); a SECTION'S bullet has its name beside it (the tiles' names are given), where the window has the room for it.
                 <nav
                     ref={railRef}
-                    className={"carousel-rail" + (step.what === "section" && at.right >= 160 ? " carousel-rail-named" : "") + (at.tab ? " carousel-rail-tab" : "")}
+                    className={"carousel-rail" + (step.what === "section" && (at.tab && at.side === "left" ? at.left : at.right) >= 160 ? " carousel-rail-named" : "") + (at.tab ? " carousel-rail-tab" : "") + (at.tab && at.side === "left" ? " carousel-rail-tab-left" : "")}
                     aria-label={"Go to a " + step.what}
-                    style={{ left: at.edge, top: at.tab ? at.titleTop : at.top + 36, "--rail-label-room": Math.max(0, at.right - 8 - 24) + "px", "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-bg": at.tab.bg, "--tab-edge": at.tab.edge, "--tab-ink": at.tab.ink } : {}) } as unknown as CSSProperties}
+                    style={{ ...(at.tab && at.side === "left" ? { right: window.innerWidth - at.leftEdge } : { left: at.edge }), top: at.tab ? at.titleTop : at.top + 36, "--rail-label-room": Math.max(0, (at.tab && at.side === "left" ? at.left : at.right) - 8 - 24) + "px", "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-bg": at.tab.bg, "--tab-edge": at.tab.edge, "--tab-ink": at.tab.ink } : {}) } as unknown as CSSProperties}
                 >
                     <ol className="bullet-rail-list">
                         {step.items.map((item, position) => (
@@ -1728,8 +1739,8 @@ function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLEle
                     </ol>
                     {/* The way back stands in the tab, after the last option (the dialog's own foot no longer has it while the tab does). */}
                     {back && (
-                        <button type="button" className="carousel-rail-back" onClick={back} aria-label="Back" title="Back">
-                            <span aria-hidden="true">←</span>
+                        <button type="button" className="carousel-rail-back" style={gap && gap.index === itemCount ? { marginTop: 12 + gap.size } : undefined} onClick={back} aria-label="Back" title="Back">
+                            <span aria-hidden="true">&lt;</span>
                             <span className="carousel-rail-back-word">{" Back"}</span>
                         </button>
                     )}
@@ -1825,9 +1836,11 @@ export function FloatingCards({
             // (Its place in the host's own layout, not its place on the screen: the host may be scrolled.)
             const bodyOffset = body ? body.offsetTop - (body.offsetParent === node ? 0 : (body.offsetParent as HTMLElement | null)?.offsetTop ?? 0) : 0;
             let top: number;
-            if (row && body) {
-                const scrolled = row.closest<HTMLElement>(".card-scroll")?.scrollTop ?? 0;
-                top = row.getBoundingClientRect().top + scrolled - bodyOffset;
+            if (where && body) {
+                // EVERY card starts at one level: the first row of tiles of its column (a Workspace group's too) where that stands under the column's title, else where it would stand -- the frame's top plus the height of the title, whatever the column holds (a table, a dialog over it).
+                const frameTop = where.getBoundingClientRect().top;
+                const rowTop = row ? row.getBoundingClientRect().top : null;
+                top = (rowTop !== null && rowTop - frameTop >= 0 && rowTop - frameTop <= 120 ? rowTop : frameTop + CARD_LEVEL) - bodyOffset;
             } else {
                 top = bandTop + (bandBottom - bandTop - Math.min(node.scrollHeight, bandBottom - bandTop)) / 2;
             }
@@ -2172,7 +2185,7 @@ function TileDialog({
 
                 <div className="section-tile-dialog-foot">
                     <button type="button" className="section-tile-back" onClick={back}>
-                        <span aria-hidden="true">←</span>
+                        <span aria-hidden="true">&lt;</span>
                         {" Back"}
                     </button>
                 </div>

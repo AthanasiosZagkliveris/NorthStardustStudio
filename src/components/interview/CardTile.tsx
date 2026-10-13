@@ -1,6 +1,6 @@
 import { CSSProperties, DragEvent, RefObject, useLayoutEffect, useRef, useState } from "react";
 import { stableCardHue } from "../../framework/engine/AnswerUtils.ts";
-import { CHANNEL_TILE_HUE, TileFace, incompleteTitle, type ItemMark } from "./SectionTiles.tsx";
+import { CHANNEL_TILE_HUE, TileFace, TileList, incompleteTitle, type ItemMark } from "./SectionTiles.tsx";
 import { useAboveTip } from "./AboveTip.tsx";
 import type { FloorLink, FloorTone } from "./capabilityFloor.ts";
 import { rememberCardName } from "./cardNames.ts";
@@ -130,6 +130,9 @@ export interface CardTileProps {
     unnamed?: string;
     /** The card's number in its list, said before its name where it has one. */
     number?: number;
+    /** Which of its lines are LINKS (each opens what it names), and what a press on one does. */
+    linkedLines?: readonly boolean[];
+    onLine?: (index: number, pointer: boolean) => void;
     /** What the tile lists under its name. */
     lines: readonly string[];
     /** The mark of each line (a plain line has no bullet). */
@@ -170,7 +173,7 @@ export interface CardTileProps {
     };
 }
 
-export default function CardTile({ id, name, unnamed = "", number, lines, marks, links = [], tone, own, centred, inactive, faded, missing, label, onOpen, origin, focusId, onFocus, title, drag }: CardTileProps) {
+export default function CardTile({ id, name, unnamed = "", number, linkedLines, onLine, lines, marks, links = [], tone, own, centred, inactive, faded, missing, label, onOpen, origin, focusId, onFocus, title, drag }: CardTileProps) {
     const onCircle = useRef(false);
     const shown = name.trim() || unnamed;
     rememberCardName(id, shown);
@@ -180,7 +183,9 @@ export default function CardTile({ id, name, unnamed = "", number, lines, marks,
         (tone === "legal" ? " card-tile-legal" : "") +
         (centred ? " card-tile-centred" : "") +
         (inactive ? " section-tile-completed" : "");
-    const face = <TileFace title={(number !== undefined ? number + ". " : "") + shown} items={lines} marks={marks} />;
+    const linked = !!linkedLines && !!onLine && linkedLines.some(Boolean);
+    // (A tile with linked lines draws its list in a layer of its own over the tile, as a page tile does: a line is a control, the tile's button cannot hold it.)
+    const face = <TileFace title={(number !== undefined ? number + ". " : "") + shown} items={linked ? undefined : lines} marks={marks} />;
     return (
         <div
             className={"section-tile-slot card-tile-slot" + (faded ? " section-tile-slot-empty" : "") + (missing && missing.length > 0 ? " card-tile-incomplete" : "") + (drag ? " card-tile-movable" : "") + (drag?.dragging ? " card-tile-dragged" : "") + (drag?.over ? " card-tile-drop" : "")}
@@ -211,6 +216,18 @@ export default function CardTile({ id, name, unnamed = "", number, lines, marks,
                 )
                 : <div className={className} data-anchor={id} role="group" aria-label={label} title={(title ?? shown) + (missing && missing.length > 0 ? ". " + incompleteTitle(missing) : "")}>{face}</div>}
             <Dots id={id} name={shown} links={links} focusId={focusId} onFocus={onFocus} />
+            {linked && (
+                <div className="section-tile-links-layer">
+                    <TileList
+                        items={lines}
+                        marks={marks}
+                        links={lines.map((_, at) => linkedLines?.[at] ? { card: String(at) } : undefined)}
+                        title={shown}
+                        onLink={(link, _from, pointer) => onLine?.(Number((link as { card: string }).card), pointer)}
+                        onPlain={(event) => { (event.currentTarget as HTMLElement).closest(".section-tile-slot")?.querySelector<HTMLElement>(":scope > .section-tile")?.click(); }}
+                    />
+                </div>
+            )}
         </div>
     );
 }

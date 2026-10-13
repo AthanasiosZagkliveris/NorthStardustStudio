@@ -1184,10 +1184,12 @@ label:has(> input[type="checkbox"]:not(:disabled)):hover > :not(input),
   text-underline-offset: 0.2em;
 }
 
+/* (INVERTED: the glow is inside the box -- an inner edge and an inner shadow -- so nothing is drawn round it and no neighbour is touched.) */
+input[type="checkbox"]:not(:disabled):hover:not(:focus-visible),
 label:has(> input[type="checkbox"]:not(:disabled)):hover > input[type="checkbox"]:not(:focus-visible),
 .brand-tick > input[type="checkbox"]:not(:disabled):hover:not(:focus-visible) {
   border-radius: 3px;
-  box-shadow: 0 0 0 1px var(--line-primary), 0 0 0 5px color-mix(in srgb, var(--glow-color) 18%, transparent);
+  box-shadow: inset 0 0 0 1px var(--line-primary), inset 0 0 6px 2px color-mix(in srgb, var(--glow-color) 45%, transparent);
 }
 
 /* THE PAGE ARROWS (PageArrow.tsx): "‹" and "›", previous and next

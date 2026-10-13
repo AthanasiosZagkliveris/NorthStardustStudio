@@ -1,4 +1,4 @@
-import { KeyboardEvent, ReactNode, RefObject, useId, useLayoutEffect, useRef, useState } from "react";
+import { KeyboardEvent, MouseEvent, ReactNode, RefObject, useId, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 /**
@@ -6,13 +6,16 @@ import { createPortal } from "react-dom";
  * centred on it and kept inside the window; below it only where there is no room above. Escape closes it. Nothing but the label's text is the icon's
  * tooltip: the icon keeps its own accessible name.
  *
+ * Under the POINTER it stands a line above the hovered text -- 6px over its top, its middle under the cursor -- and never over the text; where there is no room above, 6px under the text. From the keyboard it stands centred on its icon.
+ *
  * Used as a hook: spread props on the icon and draw node anywhere next to it (it is drawn on the page body).
  */
 export function useAboveTip<T extends HTMLElement>(text: string): {
     props: {
         ref: RefObject<T | null>;
         "aria-describedby": string | undefined;
-        onMouseEnter: () => void;
+        onMouseEnter: (event?: MouseEvent<T>) => void;
+        onMouseMove: (event: MouseEvent<T>) => void;
         onMouseLeave: () => void;
         onFocus: () => void;
         onBlur: () => void;
@@ -26,6 +29,8 @@ export function useAboveTip<T extends HTMLElement>(text: string): {
     const tip = useRef<HTMLDivElement | null>(null);
     const [position, setPosition] = useState<{ left: number; top: number } | null>(null);
     const id = useId();
+    // Where the pointer is (null while the tip was opened from the keyboard).
+    const pointer = useRef<{ x: number; y: number } | null>(null);
 
     useLayoutEffect(() => {
         const icon = anchor.current;
@@ -38,9 +43,11 @@ export function useAboveTip<T extends HTMLElement>(text: string): {
             const at = icon.getBoundingClientRect();
             const size = panel.getBoundingClientRect();
             const gap = 6;
+            const point = pointer.current;
+            // ABOVE THE TEXT IT IS ABOUT, never over it: the tip's bottom is 6px over the hovered element's top (a line above), its middle under the cursor; where there is no room above, 6px under the element.
             const above = at.top - gap - size.height;
             setPosition({
-                left: Math.max(8, Math.min(at.left + at.width / 2 - size.width / 2, window.innerWidth - 8 - size.width)),
+                left: Math.max(8, Math.min((point ? point.x : at.left + at.width / 2) - size.width / 2, window.innerWidth - 8 - size.width)),
                 top: above >= 8 ? above : at.bottom + gap
             });
         };
@@ -57,9 +64,18 @@ export function useAboveTip<T extends HTMLElement>(text: string): {
         props: {
             ref: anchor,
             "aria-describedby": open ? id : undefined,
-            onMouseEnter: () => setOpen(true),
+            onMouseEnter: (event?: MouseEvent<T>) => {
+                pointer.current = event ? { x: event.clientX, y: event.clientY } : null;
+                setOpen(true);
+            },
+            onMouseMove: (event: MouseEvent<T>) => {
+                pointer.current = { x: event.clientX, y: event.clientY };
+            },
             onMouseLeave: () => setOpen(false),
-            onFocus: () => setOpen(true),
+            onFocus: () => {
+                pointer.current = null;
+                setOpen(true);
+            },
             onBlur: () => setOpen(false),
             onKeyDown: (event: KeyboardEvent) => {
                 if (event.key === "Escape" && open) {

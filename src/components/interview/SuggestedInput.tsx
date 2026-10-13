@@ -24,6 +24,9 @@ interface SuggestedInputProps {
 
     disabled?: boolean;
 
+    /** Takes the focus when it appears (the text box an "Other" opens). */
+    autoFocus?: boolean;
+
     onChange: (next: string) => void;
 
 }
@@ -62,6 +65,8 @@ export default function SuggestedInput({
 
     disabled = false,
 
+    autoFocus = false,
+
     onChange
 
 }: SuggestedInputProps) {
@@ -76,6 +81,12 @@ export default function SuggestedInput({
     // it wraps and the box grows, as a card's name does (CardNameInput),
     // rather than being cut off at the box's edge.
     useAutoGrow(inputRef, value);
+
+    useEffect(() => {
+        if (autoFocus) {
+            inputRef.current?.focus();
+        }
+    }, [autoFocus]);
     const triggerRef = useRef<HTMLButtonElement | null>(null);
 
     const { panelRef, panelStyle } = useFloatingPanel(open, containerRef);

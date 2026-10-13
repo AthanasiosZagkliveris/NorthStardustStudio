@@ -578,6 +578,8 @@ export interface BusinessTickOption {
     meaning?: string;
     /** A sub-option of the one above it: drawn indented. */
     indent?: boolean;
+    /** Cannot be ticked here: drawn grey, unticked, with this said beside it (what already uses it). */
+    blocked?: string;
 }
 
 /**
@@ -629,7 +631,7 @@ export function BusinessTicks({
         <>
             {options.map(option => row(option, (
 
-                <label className={"business-foundation-tick" + (option.indent ? " business-foundation-tick-indented" : "")} key={option.id}>
+                <label className={"business-foundation-tick" + (option.indent ? " business-foundation-tick-indented" : "") + (option.blocked ? " business-foundation-tick-blocked" : "")} key={option.id}>
 
                     <input
                         type="checkbox"
@@ -650,8 +652,8 @@ export function BusinessTicks({
                                 ? ""
                                 : ": " + option.meaning)
                         }
-                        disabled={disabled}
-                        checked={chosen.includes(option.id)}
+                        disabled={disabled || !!option.blocked}
+                        checked={!option.blocked && chosen.includes(option.id)}
                         onChange={(event) => onChange(
                             event.target.checked
                                 // Kept in the order the LIST gives,
@@ -679,6 +681,8 @@ export function BusinessTicks({
                                 </>
                             )}
                     </span>
+
+                    {option.blocked && <span className="business-foundation-tick-note">{option.blocked}</span>}
 
                 </label>
 

@@ -1,4 +1,5 @@
 import { KeyboardEvent, ReactNode, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useAboveTip } from "./AboveTip.tsx";
 
 import {
     type CostCard,
@@ -12,7 +13,6 @@ import {
     existingForTemplate,
     withLinkedExistingCard,
     withNewTemplateCost,
-    withTypicalCosts,
     holdsTemplate,
     templatesForCategory,
     withRenamedCard,
@@ -232,6 +232,21 @@ export default function ChannelResources(props: ChannelResourcesProps) {
     // The menu of the one "+ Add expense" button.
     const [menuOpen, setMenuOpen] = useState(false);
 
+    // The company's own cards that fit this channel and are not on it yet, each once.
+    const existingCosts = [...new Map(
+        fitting.flatMap(template => existingForTemplate(engagement, capability, segment.segmentId, channelId, template)).map(entry => [entry.id, entry] as const)
+    ).values()];
+    /** The channels a card already serves: "Already on: Website › Main Website, ...". */
+    const servedBy = (cardId: string) => {
+        const channels = engagement.segments.flatMap(entry => entry.channels);
+        const names = engagement.channelResources
+            .filter(link => link.resourceId === cardId)
+            .map(link => channels.find(channel => channel.id === link.channelId))
+            .filter((channel): channel is NonNullable<typeof channel> => channel !== undefined)
+            .map(channel => (channel.category.trim() ? channel.category + " › " : "") + (channel.name.trim() || "Unnamed channel"));
+        return names.length > 0 ? "Already on: " + [...new Set(names)].join(", ") : "Not on a channel yet";
+    };
+
     return (
         <div className={"business-channel-resources" + (props.heading ? " business-channel-resources-sectioned" : "")}>
 
@@ -368,21 +383,7 @@ export default function ChannelResources(props: ChannelResourcesProps) {
                                 <span className="notepad-suggestion-label">Blank expense</span>
                             </button>
                         </li>
-                        <li>
-                            <button
-                                type="button"
-                                className="notepad-suggestion"
-                                aria-label={"Typical costs for " + what}
-                                onClick={() => {
-                                    const made = withTypicalCosts(engagement, capability, segment.segmentId, channelId, fitting);
-                                    onWrite({ capability: made.capability, engagement: made.engagement });
-                                    // (What the company already has stays offered, to Link existing.)
-                                    setMenuOpen(made.offers.length > 0);
-                                }}
-                            >
-                                <span className="notepad-suggestion-label">All typical costs for this channel</span>
-                            </button>
-                        </li>
+                        {/* The typical costs of this channel's kind, each its own option, right after the Blank expense. */}
                         {fitting.filter(template => !holdsTemplate(engagement, capability, segment.segmentId, channelId, template)).map(template => (
                             <li key={template.id}>
                                 <button
@@ -396,21 +397,27 @@ export default function ChannelResources(props: ChannelResourcesProps) {
                                 >
                                     <span className="notepad-suggestion-label">{template.label}</span>
                                 </button>
-                                {existingForTemplate(engagement, capability, segment.segmentId, channelId, template).map(existing => (
-                                    <button
-                                        type="button"
-                                        key={existing.id}
-                                        className="notepad-suggestion"
-                                        aria-label={"Link existing " + existing.name + " to " + what}
-                                        onClick={() => {
-                                            onWrite({ engagement: withLinkedExistingCard(engagement, segment.segmentId, channelId, existing.id) });
-                                        }}
-                                    >
-                                        <span className="notepad-suggestion-label">{"Link existing: " + existing.name}</span>
-                                    </button>
-                                ))}
                             </li>
                         ))}
+                        {/* What the company already has, in ONE list under one name: pointing at one says which channels it already serves. */}
+                        {existingCosts.length > 0 && (
+                            <li className="notepad-suggestion-group" role="group" aria-label="Existing Links">
+                                <span className="notepad-suggestion-heading">Existing Links</span>
+                                <ul>
+                                    {existingCosts.map(existing => (
+                                        <ExistingLink
+                                            key={existing.id}
+                                            name={existing.name}
+                                            what={what}
+                                            servedBy={servedBy(existing.id)}
+                                            onLink={() => {
+                                                onWrite({ engagement: withLinkedExistingCard(engagement, segment.segmentId, channelId, existing.id) });
+                                            }}
+                                        />
+                                    ))}
+                                </ul>
+                            </li>
+                        )}
                     </ul>
                 </div>
             )}
@@ -418,6 +425,25 @@ export default function ChannelResources(props: ChannelResourcesProps) {
         </div>
     );
 
+}
+
+/** One of the company's cards that can be linked: a bullet, its name in the default blue, and -- under the pointer -- the app's tooltip, 6px over the cursor, saying which channels it already serves. */
+function ExistingLink({ name, what, servedBy, onLink }: { name: string; what: string; servedBy: string; onLink: () => void }) {
+    const tip = useAboveTip<HTMLButtonElement>(servedBy);
+    return (
+        <li className="notepad-suggestion-existing-item">
+            <button
+                type="button"
+                className="notepad-suggestion notepad-suggestion-existing"
+                aria-label={"Link existing " + name + " to " + what}
+                onClick={onLink}
+                {...tip.props}
+            >
+                <span className="notepad-suggestion-label">{name}</span>
+            </button>
+            {tip.node}
+        </li>
+    );
 }
 
 function ChannelResourceCard({
@@ -469,12 +495,16 @@ function ChannelResourceCard({
     const typedNumber = /^\d+$/.test(wanted) ? Number(wanted) : undefined;
     // Found by its number in the table ("12" or "#12": the exact number first, then numbers
     // that start with it) or by its words.
+    const ownActions = new Set(actionPlacements(segment).filter(entry => entry.channelId === channelId).map(entry => entry.actionId));
     const offered = tableActions
         .filter(id => !linkedActions.includes(id) && text(id).trim())
         .filter(id => text(id).toLowerCase().includes(wanted)
             || (typedNumber !== undefined && String(actionOrder(id, channelId) ?? "").startsWith(wanted)))
-        .sort((one, other) => Number(actionOrder(other, channelId) === typedNumber) - Number(actionOrder(one, channelId) === typedNumber))
-        .slice(0, 8);
+        // The number typed first, then THIS channel's own actions (in its stage order -- the table's), then the other channels' (in the table's order): what a resource of this channel is linked to is nearly always here.
+        .sort((one, other) =>
+            (Number(actionOrder(other, channelId) === typedNumber) - Number(actionOrder(one, channelId) === typedNumber))
+            || (Number(ownActions.has(other)) - Number(ownActions.has(one))))
+        .slice(0, 12);
     const isolating = isolated != null && isolated.segmentId === segment.segmentId;
     // Isolating this resource alone (from its card, or from an action linked only to it).
     const only = isolated?.kind === "resource" && isolating

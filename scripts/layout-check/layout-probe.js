@@ -2382,7 +2382,9 @@
             if (number && !rules.near(rect(number).left - edge.left - border, spec.cardPadding, tolerance + 0.5)) {
                 fail("a card's number stands at its padding edge (12px in)", number, { gap: rect(number).left - edge.left - border });
             }
-            if (number && !rules.near(nameBox.left - rect(number).right, 8, tolerance + 1.5)) {
+            // (The number is drawn INSIDE the name cell, over its left: the name's text starts after it. Only a number outside the cell keeps the 8px.)
+            const numberInside = number && rect(number).left >= nameBox.left - 0.5 && rect(number).right <= nameBox.right + 0.5;
+            if (number && !numberInside && !rules.near(nameBox.left - rect(number).right, 8, tolerance + 1.5)) {
                 fail("a card's number and its name are 8px apart", name, { gap: nameBox.left - rect(number).right });
             }
             const headTop = rect(head).top - edge.top - (parseFloat(getComputedStyle(card).borderTopWidth) || 0);

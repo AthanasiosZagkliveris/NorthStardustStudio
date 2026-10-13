@@ -1687,23 +1687,41 @@ export default function BusinessEngagementEditor({
             if (!channel) {
                 return "Subchannel";
             }
-            const at = answers.channels.filter(entry => entry.category === channel.category).findIndex(entry => entry.id === channel.id) + 1;
             return (
                 <div className="strategy-box-head business-subchannel-head">
-                    <span className="strategy-box-number"><span className="list-number">{at + "."}</span></span>
-                    {/* The tile chose the subchannel: its name is said, not picked again; a name of the user's own (none chosen yet) is typed. */}
-                    {channel.name.trim() !== ""
-                        ? <span className="business-subchannel-name">{channel.name}</span>
-                        : (
-                            <SuggestedInput
+                    {/* (No order number: it is for the code, not for the user.) */}
+                    {/* A CHANNEL (Social Media) HAS SUBCHANNELS (LinkedIn, Facebook ...). A new card's top cell is a DROP-DOWN of its channel's subchannels; "Other" turns it into a TEXT HOLDER for the user's own name. A name from the list is said, not asked again. */}
+                    {(() => {
+                        const known = channelNameOptions(channel.category, answers.channels.filter(candidate => candidate.id !== channel.id)).filter(option => option !== BUSINESS_CHANNEL_OTHER);
+                        const typed = channel.name.trim() !== "" && channel.name !== BUSINESS_CHANNEL_OTHER && !known.some(option => option.toLocaleLowerCase() === channel.name.trim().toLocaleLowerCase());
+                        if (channel.name.trim() !== "" && channel.name !== BUSINESS_CHANNEL_OTHER && !typed && channel.category !== BUSINESS_CHANNEL_OTHER) {
+                            return <span className="business-subchannel-name">{channel.name}</span>;
+                        }
+                        if (typed || channel.name === BUSINESS_CHANNEL_OTHER || channel.category === BUSINESS_CHANNEL_OTHER) {
+                            return (
+                                <SuggestedInput
+                                    label="Subchannel name"
+                                    placeholder="Name this subchannel"
+                                    options={[]}
+                                    disabled={disabled}
+                                    autoFocus={channel.name === BUSINESS_CHANNEL_OTHER}
+                                    value={channel.name === BUSINESS_CHANNEL_OTHER ? "" : channel.name}
+                                    onChange={(next) => updateChannel(segment.id, channel.id, { name: next })}
+                                />
+                            );
+                        }
+                        // (A DROP-DOWN ONLY: nothing is typed here; "Other" is the way to a name of the user's own.)
+                        return (
+                            <OptionPicker
                                 label="Subchannel name"
-                                placeholder={businessChannelNamePlaceholder(channel.category)}
+                                placeholder="Select a subchannel"
                                 options={channelNameOptions(channel.category, answers.channels.filter(candidate => candidate.id !== channel.id))}
                                 disabled={disabled}
                                 value={channel.name}
                                 onChange={(next) => updateChannel(segment.id, channel.id, { name: next })}
                             />
-                        )}
+                        );
+                    })()}
                     {/* The x, in the head, as every card's. */}
                     <BusinessRemove
                         what="Subchannel"
@@ -2084,6 +2102,17 @@ export default function BusinessEngagementEditor({
                                         BUSINESS_CHANNEL_ALL_OFFERINGS
                                     );
 
+                                    /* A SUBCHANNEL IS USED ONCE BY AN OFFERING (but may have many cards, each with its own actions and costs): the Offerings another card of this subchannel already serves are blocked here. */
+                                    const TAKEN_NOTE = "Already uses this subchannel";
+                                    const takenByOthers = new Set<string>(
+                                        channel.name.trim() === ""
+                                            ? []
+                                            : answers.channels
+                                                .filter(other => other.id !== channel.id && other.category === channel.category && other.name.trim().toLocaleLowerCase() === channel.name.trim().toLocaleLowerCase())
+                                                .flatMap(other => other.offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS) ? offeringOptions.map(option => option.id) : other.offerings)
+                                                .filter(id => !channel.offerings.includes(id) && !carriesAll)
+                                    );
+
                                     const offeringRows = carriesAll
                                         ? [BUSINESS_CHANNEL_ALL_OFFERINGS]
                                         : channel.offerings.length > 0
@@ -2255,12 +2284,21 @@ export default function BusinessEngagementEditor({
                                                                 name={"Offerings of Subchannel " + number}
                                                                 disabled={disabled}
                                                                 options={[
-                                                                    { id: BUSINESS_CHANNEL_ALL_OFFERINGS, label: ALL_OFFERINGS_LABEL },
-                                                                    ...offeringOptions.map(option => ({ id: option.id, label: option.label }))
+                                                                    { id: BUSINESS_CHANNEL_ALL_OFFERINGS, label: ALL_OFFERINGS_LABEL, blocked: takenByOthers.size > 0 ? TAKEN_NOTE : undefined },
+                                                                    ...offeringOptions.map(option => ({ id: option.id, label: option.label, blocked: takenByOthers.has(option.id) ? TAKEN_NOTE : undefined }))
                                                                 ]}
                                                                 // ("All Offerings" is ticked whenever every Offering is: carried as all, or each one ticked.)
                                                                 chosen={carriesAll || (offeringOptions.length > 0 && offeringOptions.every(option => channel.offerings.includes(option.id))) ? [BUSINESS_CHANNEL_ALL_OFFERINGS, ...offeringOptions.map(option => option.id)] : channel.offerings}
                                                                 onChange={(next) => {
+                                                                    // (Some Offerings already use this subchannel on another card: only the free ones can be chosen here.)
+                                                                    if (takenByOthers.size > 0) {
+                                                                        const free = next.filter(id => id !== BUSINESS_CHANNEL_ALL_OFFERINGS && !takenByOthers.has(id));
+                                                                        if (free.length > 0) {
+                                                                            change({ offerings: free });
+                                                                            offeringsOfMadeCards(channel.id, free, offeringOptions.map(option => option.id));
+                                                                        }
+                                                                        return;
+                                                                    }
                                                                     const every = offeringOptions.map(option => option.id);
                                                                     const put = (offerings: string[]) => {
                                                                         change({ offerings });
@@ -2497,6 +2535,7 @@ export default function BusinessEngagementEditor({
                                                                     " for Subchannel " + number
                                                                 }
                                                                 placeholder="Select a stage"
+                                                                hug
                                                                 /* It fills the track from the cell's
                                                                    left padding to the x (the width of
                                                                    the Add Journey Stage button under
@@ -2725,19 +2764,54 @@ export default function BusinessEngagementEditor({
                 // The channel's dialog: a tile for each subchannel, and, faded, the ones its category offers that are not used yet.
                 content: () => {
                     const category = BUSINESS_CHANNEL_CATEGORIES.find(entry => entry.label === group.label);
-                    const tileOf = (channel: BusinessChannelValue, at: number): CardBox => ({
-                        id: channel.id,
-                        number: at + 1,
-                        name: channel.name,
-                        unnamed: "Unnamed subchannel",
-                        own: true,
-                        content: () => null
-                    });
+                    // A SUBCHANNEL'S TILE lists ALL the Offerings, each a LINK: the ones a card of this subchannel serves open that card (numbered 1., 2. ... where the subchannel has several cards, the Offerings of one card sharing its number); the others are half transparent, and pressing one makes a card of this subchannel for it.
+                    const openCardOf = (cardId: string) => window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: channelTileId(segment.id, group.key), card: cardId } })), 80);
+                    const every = segment.offerings.map(offering => offering.id);
+                    const offeringLabel = (position: number) => segment.offerings[position].name.trim() || "Offering " + (position + 1) + ", not named yet";
+                    const served = (channel: BusinessChannelValue) => channel.offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS) ? every : channel.offerings;
+                    const seen = new Set<string>();
+                    const tileOf = (channel: BusinessChannelValue, at: number): CardBox | null => {
+                        const key = channel.name.trim().toLocaleLowerCase();
+                        if (key !== "") {
+                            if (seen.has(key)) {
+                                return null;
+                            }
+                            seen.add(key);
+                        }
+                        const cards = key === "" ? [channel] : group.channels.filter(candidate => candidate.name.trim().toLocaleLowerCase() === key);
+                        const cardFor = (offeringId: string) => cards.findIndex(card => served(card).includes(offeringId));
+                        return {
+                            id: channel.id,
+                            number: at + 1,
+                            plain: true,
+                            name: channel.name,
+                            unnamed: "Unnamed subchannel",
+                            lines: key === "" ? undefined : every.map((id, position) => {
+                                const owner = cardFor(id);
+                                return (cards.length > 1 && owner >= 0 ? (owner + 1) + ". " : "") + offeringLabel(position);
+                            }),
+                            marks: key === "" ? undefined : every.map(id => cardFor(id) >= 0 ? undefined : { empty: true }),
+                            linkedLines: key === "" ? undefined : every.map(() => true),
+                            onLine: (index: number) => {
+                                const owner = cardFor(every[index]);
+                                if (owner >= 0) {
+                                    openCardOf(cards[owner].id);
+                                } else {
+                                    const made = { ...createBusinessChannel(), category: group.label, name: channel.name, offerings: [every[index]] };
+                                    updateSegment(segment.id, { channels: [...answers.channels, made] });
+                                    openCardOf(made.id);
+                                }
+                            },
+                            own: true,
+                            content: () => null
+                        };
+                    };
                     const spare: CardBox[] = (category?.channels ?? [])
                         .filter(entry => !names.includes(entry.label))
                         .map((entry, at) => ({
                             id: "subchannel-inactive-" + group.key + "-" + at,
                             number: group.channels.length + at + 1,
+                            plain: true,
                             name: entry.label,
                             unnamed: entry.label,
                             own: true,
@@ -2755,7 +2829,7 @@ export default function BusinessEngagementEditor({
                                 label={"Subchannels of " + (group.label.trim() || "this channel")}
                                 what="Subchannel"
                                 autoStart={false}
-                                items={[...group.channels.map(tileOf), ...spare]}
+                                items={[...group.channels.map(tileOf).filter((entry): entry is CardBox => entry !== null), ...spare]}
                                 add={{
                                     label: "subchannel",
                                     disabled,

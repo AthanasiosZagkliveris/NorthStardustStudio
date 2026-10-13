@@ -8973,7 +8973,7 @@ table.business-relationship-table {
 /* THE END OF A SCROLLER CAN BE SCROLLED UP TO A QUARTER OF THE WINDOW ABOVE ITS BOTTOM (useScrollRules.ts: the attribute is set where the content is taller than the scroller). */
 main.conversation-content[data-reserve],
 .section-tile-dialog-body[data-reserve],
-.floating-card-host[data-tall] .floating-card-stack[data-reserve] {
+.floating-card-host[data-reserve] .floating-card-stack {
 
     padding-bottom: 25vh;
 
@@ -9234,7 +9234,7 @@ main.conversation-content[data-reserve],
 ========================================================== */
 .business-subchannel-card .business-channel-table-wrap {
 
-    margin: 12px -12px -12px;
+    margin: 0 -12px -12px;
 
     width: auto;
 
@@ -9274,7 +9274,7 @@ main.conversation-content[data-reserve],
 
     grid-column: 1 / -1;
 
-    margin: 12px -12px -12px !important;
+    margin: 0 -12px -12px !important;
 
     max-width: none !important;
 
@@ -9366,14 +9366,8 @@ main.conversation-content[data-reserve],
 
 .carousel-rail .carousel-rail-back:is(:hover, :focus-visible) {
 
-    /* The reaction the dialog's own Back had: its colour and the bold shadow (a shadow, so the word never changes width). */
-    color: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent)) 55%, var(--text-default));
-
+    /* Only bolder (a shadow, so the word never changes width): no underline, no other colour. */
     text-shadow: var(--hover-bold);
-
-    text-decoration: underline;
-
-    text-underline-offset: 0.2em;
 
 }
 
@@ -9478,7 +9472,7 @@ main.conversation-content[data-reserve],
 
     height: 0;
 
-    margin: -36px 0 36px !important;
+    margin: -44px 0 44px !important;
 
     padding: 0 12px 0 0 !important;
 
@@ -9754,5 +9748,611 @@ main.conversation-content[data-reserve],
 .business-subchannel-card .business-subchannel-name {
 
     margin-right: 12px;
+
+}
+
+/* A DIALOG TALLER THAN THE WINDOW is scrolled by its layer: the scroll runs on to a quarter of the window past the dialog's end (useScrollRules.ts sets where). */
+.section-tile-overlay[data-reserve]::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    top: var(--reserve-end, 0);
+
+    width: 1px;
+
+    height: 1px;
+
+    pointer-events: none;
+
+}
+
+/* THE TAB STANDS ON THE SIDE OF ITS LAYER NEARER THE WINDOW'S EDGE: a layer in the left half has it at its left (mirrored: its names -- where the room is -- outside the bullets, the bullets still 12px from the layer). */
+.carousel-rail.carousel-rail-tab.carousel-rail-tab-left {
+
+    border-left: 1px solid color-mix(in srgb, var(--tab-edge) 55%, transparent);
+
+    border-right: 0;
+
+    border-radius: 8px 0 0 8px;
+
+    box-shadow: -4px 4px 12px color-mix(in srgb, var(--tab-edge) 18%, transparent);
+
+    align-items: flex-end;
+
+}
+
+.carousel-rail.carousel-rail-tab-left .bullet-rail-list {
+
+    align-items: flex-end;
+
+}
+
+.carousel-rail.carousel-rail-tab-left .bullet-rail-item {
+
+    flex-direction: row-reverse;
+
+}
+
+.carousel-rail.carousel-rail-tab-left .carousel-rail-back {
+
+    align-self: flex-end;
+
+}
+
+/* A channel card's head: the name cell (a picker while blank) keeps 12px from its x, */
+.business-subchannel-card > .strategy-box-head > :has(+ .strategy-box-remove) {
+
+    margin-right: 12px;
+
+}
+
+/* A founder's card with no x (the one founder): its right margin is the card's 12px like every card's; only the left has the marker column. */
+.business-foundation-card.business-founder-open.business-founder-solo {
+
+    padding-right: var(--card-padding, 12px);
+
+}
+
+/* GLOBAL: A TICK BOX'S ROW IS AS TALL AS ITS BOX (18px): the gap between two tick boxes is the gap between two cells or two texts -- 12px, box edge to box edge. */
+label:has(> input[type="checkbox"]) {
+
+    line-height: 18px;
+
+}
+
+/* THE CHANNEL CARD'S VERTICAL RHYTHM: the head stands 12px over the Offerings (the grid's gap; the section has no tint, so no padding of its own on top), its label 6px over the first tick box, the tick boxes 12px apart, 12px under the last; every tinted band has 12px over and under what it holds. */
+.business-subchannel-card .business-channel-table th.business-channel-th-offerings {
+
+    margin: 0 0 6px !important;
+
+}
+
+.business-subchannel-card .business-channel-table td.business-channel-td-offerings {
+
+    padding: 0 12px 12px !important;
+
+}
+
+.business-subchannel-card .business-channel-td-offerings .business-foundation-tick {
+
+    margin: 0 0 12px !important;
+
+}
+
+.business-subchannel-card .business-channel-td-offerings .business-foundation-tick:last-child {
+
+    margin-bottom: 0 !important;
+
+}
+
+.business-subchannel-card .business-channel-table td.business-channel-td-stage {
+
+    padding-bottom: 12px !important;
+
+}
+
+.business-subchannel-card .business-channel-table td.business-channel-td-action {
+
+    padding-bottom: 0 !important;
+
+}
+
+label:has(> input[type="checkbox"]) > :not(input) {
+
+    line-height: 18px;
+
+}
+
+/* THE EXPENSES SECTION OF A CHANNEL CARD follows the card's margins: its content (the heading, the boxes, the x column) is 12px from the card's sides, the divider runs between those two edges (never outside the card), and every block under the heading -- an expense, the shared ones, the cost line -- stands 12px under the one above. */
+.business-subchannel-card .business-channel-expenses {
+
+    padding: 12px 56px 12px 12px !important;
+
+}
+
+.business-subchannel-card .business-channel-td-name .business-channel-expenses .business-channel-resources-head {
+
+    margin: 0 -44px 12px 0 !important;
+
+    padding: 0 0 6px !important;
+
+}
+
+.business-subchannel-card .business-channel-expenses .business-channel-resources {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+}
+
+.business-subchannel-card .business-channel-expenses .business-channel-resources > * {
+
+    margin-top: 0 !important;
+
+    margin-bottom: 0 !important;
+
+}
+
+.business-subchannel-card .business-channel-expenses .business-channel-resources > .business-channel-resources-head {
+
+    margin-bottom: 0 !important;
+
+}
+
+.business-subchannel-card .business-channel-expenses .business-channel-resource-row {
+
+    margin-right: -44px !important;
+
+}
+
+/* AN ACTION CELL (a channel card's action line) REACTS AS EVERY CELL DOES: under the pointer the same glow, while it is written in the same stronger one (the line's own textarea draws none; the row is the cell). Nothing moves. */
+.business-subchannel-card .business-channel-td-action .numbered-list-row:hover:not(:focus-within) {
+
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
+
+}
+
+.business-subchannel-card .business-channel-td-action .numbered-list-row:focus-within {
+
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+
+}
+
+/* THE DIVIDERS OF A CHANNEL CARD (under the Actions heading, between two Journey Stages) HAVE THE CARD'S MARGINS: each runs between two edges 12px from the card's sides, never to its edge. */
+.business-subchannel-card .business-channel-table th.business-channel-th-action {
+
+    border-bottom: 0 !important;
+
+    background-image: linear-gradient(var(--part-line), var(--part-line));
+
+    background-repeat: no-repeat;
+
+    background-size: calc(100% - 24px) 1px;
+
+    background-position: 12px 100%;
+
+}
+
+.business-subchannel-card .business-channel-table td.business-channel-td-action + td.business-channel-td-stage,
+.business-subchannel-card .business-channel-table tr + tr > td.business-channel-td-stage {
+
+    border-top: 0 !important;
+
+    background-image: linear-gradient(var(--part-line), var(--part-line));
+
+    background-repeat: no-repeat;
+
+    background-size: calc(100% - 24px) 1px;
+
+    background-position: 12px 0;
+
+}
+
+/* THE DIVIDERS OF A CHANNEL CARD run the band's whole width (never outside the card), all 1px, and have 12px of space over and under them (vertical margin only). */
+.business-subchannel-card .business-channel-table th.business-channel-th-action {
+
+    padding-bottom: 12px !important;
+
+    background-size: 100% 1px !important;
+
+    background-position: 0 100% !important;
+
+}
+
+.business-subchannel-card .business-channel-table td.business-channel-td-stage {
+
+    padding-top: 12px !important;
+
+}
+
+.business-subchannel-card .business-channel-table td.business-channel-td-action + td.business-channel-td-stage,
+.business-subchannel-card .business-channel-table tr + tr > td.business-channel-td-stage {
+
+    background-size: 100% 1px !important;
+
+    background-position: 0 0 !important;
+
+}
+
+.business-subchannel-card .business-channel-table td.business-channel-td-action:has(.numbered-list-row) {
+
+    padding-bottom: 12px !important;
+
+}
+
+.business-subchannel-card .business-channel-td-name .business-channel-expenses .business-channel-resources-head {
+
+    margin: 0 -56px 0 -12px !important;
+
+    padding: 0 12px 12px !important;
+
+    border-bottom: 1px solid var(--part-line) !important;
+
+}
+
+/* THE CHANNEL CARD, from the last review. */
+/* No order number: the name starts at the card's own edge (a typed name keeps a cell's inset); the head is as tall as its title, so the Offerings stand 12px under it. */
+.business-subchannel-card > .business-subchannel-head > .business-subchannel-name {
+
+    padding-left: 0 !important;
+
+    line-height: 32px !important;
+
+}
+
+.business-subchannel-card > .business-subchannel-head {
+
+    align-items: flex-start;
+
+}
+
+.business-subchannel-card > .business-subchannel-head > :is(.suggested-input, .suggested-input input) {
+
+    padding-left: 12px;
+
+}
+
+.business-subchannel-card > .business-subchannel-head > .strategy-box-remove {
+
+    margin-top: 0;
+
+}
+
+/* A divider under the Offerings label: the band's whole width, 1px, 12px of space under it (the label's own 12px over). */
+.business-subchannel-card .business-channel-td-offerings > .business-channel-field-label {
+
+    display: block;
+
+    margin: 0 -12px 12px;
+
+    padding: 0 12px 12px;
+
+    border-bottom: 1px solid var(--part-line);
+
+}
+
+/* Under the Expenses label, a divider only where there is something under it. */
+.business-subchannel-card .business-channel-resources-head:last-child {
+
+    border-bottom: 0 !important;
+
+    padding-bottom: 0 !important;
+
+}
+
+/* Where the "+" stands in a heading, the divider is 12px under the button (the heading is as tall as the button and its two 12px). */
+.business-subchannel-card .business-channel-table tr:has(td.business-channel-td-addstage) th.business-channel-th-action {
+
+    min-height: 56px;
+
+    box-sizing: border-box;
+
+}
+
+/* A stage picker hugs its longest option (the longest stage name), not the whole track. */
+.business-subchannel-card .business-channel-pick > .option-picker {
+
+    flex: 0 0 auto;
+
+}
+
+.business-subchannel-card .business-channel-resources-head:not(:has(~ .business-channel-resource-row, ~ .business-channel-resources-shared)) {
+
+    border-bottom: 0 !important;
+
+    padding-bottom: 0 !important;
+
+}
+
+/* THE JOURNEY STAGES ARE ALIGNED TO THE RIGHT: the hugging stage picker stands at the right of its track, 12px from the x beside it. */
+.business-subchannel-card .business-channel-pick {
+
+    justify-content: flex-end;
+
+}
+
+.business-subchannel-card .business-channel-pick > .option-picker {
+
+    margin-left: auto;
+
+}
+
+.business-subchannel-card .business-channel-table tr:has(td.business-channel-td-addstage) th.business-channel-th-action {
+
+    min-height: 56px !important;
+
+    box-sizing: border-box !important;
+
+}
+
+/* (The "+" is 32px tall, the label 27: the heading gives the divider 12px under the button.) */
+.business-subchannel-card .business-channel-table tr:has(td.business-channel-td-addstage) th.business-channel-th-action {
+
+    padding-bottom: 17px !important;
+
+}
+
+/* The name cell of a channel card (a typed name, a picker) starts at the card's content edge, like the static name and the labels; only its text is inset, as every cell's is. */
+.business-subchannel-card > .business-subchannel-head > .suggested-input {
+
+    padding-left: 0 !important;
+
+}
+
+.business-subchannel-card > .business-subchannel-head > .suggested-input :is(input, textarea) {
+
+    padding-left: 12px !important;
+
+}
+
+/* A name that is only said (no cell) starts where a cell's text does: 12px in from the content edge, so every channel card's name reads at one x. */
+.business-subchannel-card > .business-subchannel-head > .business-subchannel-name {
+
+    padding-left: 12px !important;
+
+}
+
+/* (Same chain as the rule that draws it, so it wins: no divider under "Expenses" where nothing stands under it.) */
+.business-subchannel-card .business-channel-td-name .business-channel-expenses .business-channel-resources-head:not(:has(~ .business-channel-resource-row, ~ .business-channel-resources-shared)) {
+
+    border-bottom: 0 !important;
+
+    padding-bottom: 0 !important;
+
+}
+
+.business-subchannel-card .business-channel-table:has(td.business-channel-td-addstage) th.business-channel-th-action {
+
+    padding-bottom: 17px !important;
+
+}
+
+/* The expense's x is centred on its name cell. */
+.business-subchannel-card .business-channel-expenses .business-channel-resource-row > .business-channel-resource-x {
+
+    margin-top: 22px !important;
+
+}
+
+/* The card's title, from the review: its text starts at the content edge (12px from the card's side, where the labels start), 12px from the card's top, and the head is as tall as the x beside it, so the Offerings stand 12px under. */
+.business-subchannel-card > .business-subchannel-head > .business-subchannel-name {
+
+    padding-left: 0 !important;
+
+    line-height: 32px !important;
+
+}
+
+.business-subchannel-card > .business-subchannel-head {
+
+    align-items: center;
+
+    min-height: 32px;
+
+}
+
+/* The Offerings label's own line is as tall as its text (18px), so the space round the divider under it is 12px of white, over and under. */
+.business-subchannel-card .business-channel-td-offerings > .business-channel-field-label {
+
+    line-height: 18px !important;
+
+}
+
+/* The expense's x is centred on its name cell (the same chain as the rule it replaces, so it wins). */
+.business-subchannel-card .business-channel-td-name .business-channel-expenses .business-channel-resource-row > .business-channel-resource-x {
+
+    margin: 14.5px 0 0 0 !important;
+
+}
+
+/* THE ADD-EXPENSE LIST: an option under the pointer gets bolder (a shadow: nothing moves); "Link existing" is ONE group under its own name, its cards in the default blue. */
+.business-channel-cost-add .notepad-suggestion:is(:hover, :focus-visible) .notepad-suggestion-label {
+
+    text-shadow: var(--hover-bold);
+
+}
+
+.business-channel-cost-add .notepad-suggestion-group {
+
+    margin-top: 6px;
+
+    padding-top: 6px;
+
+    border-top: 1px solid var(--part-line, var(--box-border));
+
+}
+
+.business-channel-cost-add .notepad-suggestion-group > ul {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+
+    margin: 0;
+
+    padding: 0;
+
+    list-style: none;
+
+}
+
+.business-channel-cost-add .notepad-suggestion-heading {
+
+    display: block;
+
+    padding: 0 8px 4px;
+
+    font-size: var(--font-small);
+
+    color: var(--text-subtle);
+
+}
+
+.business-channel-cost-add .notepad-suggestion-existing .notepad-suggestion-label {
+
+    color: var(--text-primary);
+
+}
+
+/* GLOBAL: THE NAME OF A CARD MADE AUTOMATICALLY AND LINKED TO ITS SOURCE (an expense made by a requirement, a card that opens the card it came from) looks one way: the default blue, plain at rest; under the pointer bolder and underlined. */
+.legal-entity-name-link,
+.business-capability-child-name {
+
+    color: var(--text-primary) !important;
+
+    text-decoration: underline transparent !important;
+
+    text-underline-offset: 3px;
+
+}
+
+.legal-entity-name-link:is(:hover, :focus-visible),
+.business-capability-child-name:is(:hover, :focus-visible) {
+
+    text-decoration-color: currentColor !important;
+
+    text-shadow: var(--hover-bold);
+
+}
+
+/* A Journey Stage cell and its Action cells are one part, top down: 6px between them. */
+.business-subchannel-card .business-channel-table td.business-channel-td-stage:has(+ td.business-channel-td-action .numbered-list-row) {
+
+    padding-bottom: 6px !important;
+
+}
+
+/* (The action cell's reaction drawn INSIDE the cell -- an edge and an inner glow -- so the list's own clipping never hides it.) */
+.business-subchannel-card .business-channel-td-action .numbered-list-row:hover:not(:focus-within) {
+
+    box-shadow: inset 0 0 0 1px var(--line-primary), inset 0 0 8px 1px color-mix(in srgb, var(--glow-color) 45%, transparent) !important;
+
+}
+
+.business-subchannel-card .business-channel-td-action .numbered-list-row:focus-within {
+
+    box-shadow: inset 0 0 0 2px var(--line-primary), inset 0 0 8px 1px color-mix(in srgb, var(--glow-color) 55%, transparent) !important;
+
+}
+
+/* THE ACTION CELL GETS THE DEFAULT CELL HOVER (the primary edge and the soft glow ring of every field) while it is written in, the stronger focus ring. */
+.business-subchannel-card .business-channel-td-action .numbered-list-row:hover:not(:focus-within) {
+
+    border-color: var(--line-primary) !important;
+
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent) !important;
+
+}
+
+.business-subchannel-card .business-channel-td-action .numbered-list-row:focus-within {
+
+    border-color: var(--line-primary) !important;
+
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent) !important;
+
+}
+
+/* (The list that holds the action cells must not clip the ring of a cell's hover and focus.) */
+.business-subchannel-card .business-channel-td-action .numbered-list {
+
+    overflow: visible;
+
+}
+
+/* "Existing Links": the heading is a label of the body size; each link has its bullet and its name in the default blue, at the size of the options above it. */
+.business-channel-cost-add .notepad-suggestion-heading {
+
+    padding: 0 8px 4px;
+
+    font-size: var(--font-body);
+
+    font-weight: 500;
+
+    color: var(--text-subtle);
+
+}
+
+.business-channel-cost-add .notepad-suggestion-existing {
+
+    flex-direction: row;
+
+    align-items: baseline;
+
+    gap: 8px;
+
+}
+
+.business-channel-cost-add .notepad-suggestion-existing::before {
+
+    content: "\2022";
+
+    color: var(--text-primary);
+
+}
+
+.business-channel-cost-add .notepad-suggestion-label {
+
+    font-size: var(--font-body);
+
+    letter-spacing: normal;
+
+}
+
+/* A tick box that cannot be ticked here (an Offering another card of the subchannel already serves): grey, with its reason beside it. */
+.business-foundation-tick-blocked {
+
+    opacity: 0.6;
+
+    cursor: not-allowed;
+
+}
+
+.business-foundation-tick-note {
+
+    margin-left: 8px;
+
+    font-size: var(--font-small);
+
+    font-style: italic;
+
+    color: var(--text-subtle);
+
+}
+
+/* The action cell being typed in has the common focus frame: 2px in the primary colour, drawn INSIDE the cell (an inward outline: nothing moves), with the default soft glow outside. */
+.business-subchannel-card .business-channel-td-action .numbered-list-row:focus-within {
+
+    outline: 2px solid var(--line-primary) !important;
+
+    outline-offset: -2px !important;
 
 }
