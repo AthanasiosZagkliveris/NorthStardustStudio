@@ -2532,6 +2532,28 @@
             }
         }
 
+        // A remove x never lies on a cell, and keeps 12px from the cell beside it (it stands in the x column): no text box, picker or text area of the same card overlaps it
+        // or ends less than 12px before it on its row.
+        for (const remove of [...document.querySelectorAll(".strategy-box-remove, .card-remove")].filter(visible)) {
+            const box = rect(remove);
+            const scope = remove.closest(".business-foundation-card, .legal-entity-card, .business-capability-slot, .business-relationship-block, .strategy-box") ?? remove.parentElement;
+            for (const cell of [...scope.querySelectorAll("input.interview-input, textarea.interview-input, .option-picker, .option-picker-trigger")].filter(visible)) {
+                if (remove.contains(cell) || cell.contains(remove)) {
+                    continue;
+                }
+                const other = rect(cell);
+                const overlapsRow = other.top < box.bottom && other.bottom > box.top;
+                if (!overlapsRow) {
+                    continue;
+                }
+                const gap = box.left - other.right;
+                const lies = other.left < box.right && other.right > box.left;
+                if (lies || (gap >= 0 && gap < 11.5)) {
+                    fail("a remove x keeps 12px from the cell beside it and never lies on one", remove, { gap, cell: [other.left, other.right], x: [box.left, box.right] });
+                    break;
+                }
+            }
+        }
 
         return failures;
     }

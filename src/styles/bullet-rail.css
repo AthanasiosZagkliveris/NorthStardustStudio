@@ -3,7 +3,7 @@
    the gutters beside the interview card, between the fixed
    header (80px) and the fixed Previous/Next bar + footer. Each
    rail is placed from the card's edge, not the screen's: its
-   bullets sit 20px outside the card, labels further out.
+   bullets sit 12px outside the card, labels further out.
 ========================================================== */
 
 :root {
@@ -15,7 +15,9 @@
     --rail-hover-ring: var(--bg-rail-hover-ring); /* and its thinner ring */
     --rail-status: var(--bg-status-ink);   /* a page status shape: 3:1 on the page (WCAG 1.4.11) */
     --rail-status-hover: var(--bg-status-ink-hover); /* the same under the pointer or focus */
-    --rail-gutter: 56px;          /* dots-only width */
+    --rail-gutter: 56px;
+    /* The distance of the arrows and of the rails from the frame they stand beside: 12px, the same on every page (and the dialog's arrows, SectionTiles.tsx, CAROUSEL_ARROW_GAP). */
+    --rail-offset: 12px;          /* dots-only width */
     /* The blank before a one-digit "N." in the number column: the column
        (--list-number-width, 3.1ch, global.css) less the number's ink (a
        digit, the full stop and the rail's 0.1em tracking twice, ~1.77ch)
@@ -76,15 +78,15 @@
 
 }
 
-/* From the screen edge to 20px short of the card, so the rail's
-   inner end (where the bullets are) is 20px from the card. */
+/* From the screen edge to 12px short of the card, so the rail's
+   inner end (where the bullets are) is 12px from the card. */
 .bullet-rail {
 
     display: flex;
     flex-direction: column;
 
     flex: none;
-    width: calc(50% - var(--card-width) / 2 - 20px);
+    width: calc(50% - var(--card-width) / 2 - var(--rail-offset));
     max-height: 100%;
 
 }
@@ -359,9 +361,10 @@
     .bullet-rail-right .bullet-rail-title { padding-left: 24px; }
 
     /* Level with the name's text edge (the title's 24px, above). */
-    .bullet-rail-left .bullet-rail-head > .page-arrow { margin-right: 24px; }
+    /* (The arrow stands at the rail's own edge, as far from the frame as the bullets are.) */
+    .bullet-rail-left .bullet-rail-head > .page-arrow { margin-right: 0; }
 
-    .bullet-rail-right .bullet-rail-head > .page-arrow { margin-left: 24px; }
+    .bullet-rail-right .bullet-rail-head > .page-arrow { margin-left: 0; }
 
     /* Many Themes on a short window scroll instead of clipping. Only
        here, where the labels sit inline: a scrolling list clips on
@@ -395,7 +398,7 @@
         position: static;
 
         min-width: 0;
-        max-width: calc((var(--view-width) - var(--card-width)) / 2 - 20px - 24px - 16px);
+        max-width: calc((var(--view-width) - var(--card-width)) / 2 - var(--rail-offset) - 24px - 16px);
         padding: 0;
 
         white-space: normal;
@@ -490,5 +493,187 @@
 
     .bullet-rail.bullet-rail-compact .bullet-rail-item:hover .bullet-rail-label,
     .bullet-rail.bullet-rail-compact .bullet-rail-item:focus-visible .bullet-rail-label { opacity: 1; }
+
+}
+
+/* ==========================================================
+   THE PAGE TAB: each rail (Pages at the left, Sections at the right) stands in a tab attached to the side of the page's frame -- hugging its bullets and their
+   names, touching the frame, round at its outer corners -- in the frame's own colours (useRailTab.ts sets them from the page as drawn). The bullets, as before,
+   stand 12px from the frame (inside the tab); the arrow keeps its place above it.
+========================================================== */
+.bullet-rails-row {
+
+    position: relative;
+
+    flex: 1 1 0;
+
+    min-height: 0;
+
+    max-height: none;
+
+}
+
+.bullet-rail {
+
+    position: absolute;
+
+    top: 0;
+
+    width: auto;
+
+    max-width: calc(50% - var(--card-width) / 2);
+
+    box-sizing: border-box;
+
+    margin: 0;
+
+}
+
+.bullet-rail-left {
+
+    right: calc(50% + var(--card-width) / 2);
+
+    padding: 12px var(--rail-offset) 12px 16px;
+
+    border-radius: 8px 0 0 8px;
+
+}
+
+.bullet-rail-right {
+
+    left: calc(50% + var(--card-width) / 2);
+
+    padding: 12px 16px 12px var(--rail-offset);
+
+    border-radius: 0 8px 8px 0;
+
+}
+
+/* The arrow stands 12px under the tab's top edge as before: it is lifted out of the tab by the tab's own padding as well. */
+.bullet-rail-head > .page-arrow {
+
+    margin-top: -58px;
+
+    margin-bottom: 58px;
+
+}
+
+:root[style*="--rail-left-bg"] .bullet-rail-left {
+
+    background: var(--rail-left-bg);
+
+    border: 1px solid var(--rail-left-edge);
+
+    border-right: 0;
+
+    box-shadow: -4px 4px 12px color-mix(in srgb, var(--rail-left-edge) 18%, transparent);
+
+    --rail-dot: color-mix(in srgb, var(--rail-left-edge) 38%, transparent);
+    --rail-dot-active: var(--rail-left-edge);
+    --rail-bloom: color-mix(in srgb, var(--rail-left-edge) 28%, transparent);
+    --rail-dot-hover: color-mix(in srgb, var(--rail-left-edge) 75%, transparent);
+
+}
+
+:root[style*="--rail-right-bg"] .bullet-rail-right {
+
+    background: var(--rail-right-bg);
+
+    border: 1px solid var(--rail-right-edge);
+
+    border-left: 0;
+
+    box-shadow: 4px 4px 12px color-mix(in srgb, var(--rail-right-edge) 18%, transparent);
+
+    --rail-dot: color-mix(in srgb, var(--rail-right-edge) 38%, transparent);
+    --rail-dot-active: var(--rail-right-edge);
+    --rail-bloom: color-mix(in srgb, var(--rail-right-edge) 28%, transparent);
+    --rail-dot-hover: color-mix(in srgb, var(--rail-right-edge) 75%, transparent);
+
+}
+
+:root[style*="--rail-left-ink"] .bullet-rail-left :is(.bullet-rail-title, .bullet-rail-item) {
+
+    color: color-mix(in srgb, var(--rail-left-ink) 72%, transparent);
+
+}
+
+:root[style*="--rail-left-ink"] .bullet-rail-left .bullet-rail-item.active {
+
+    color: var(--rail-left-ink);
+
+}
+
+:root[style*="--rail-right-ink"] .bullet-rail-right :is(.bullet-rail-title, .bullet-rail-item) {
+
+    color: color-mix(in srgb, var(--rail-right-ink) 72%, transparent);
+
+}
+
+:root[style*="--rail-right-ink"] .bullet-rail-right .bullet-rail-item.active {
+
+    color: var(--rail-right-ink);
+
+}
+
+/* (A tab as wide as its contents: nothing inside is limited to a percent of it.) */
+.bullet-rail .bullet-rail-list,
+.bullet-rail .bullet-rail-list > li,
+.bullet-rail .bullet-rail-item,
+.bullet-rail .bullet-rail-head,
+.bullet-rail .bullet-rail-title {
+
+    max-width: none;
+
+}
+
+.bullet-rail .bullet-rail-list {
+
+    max-width: none;
+
+}
+
+@media (min-width: 1700px) {
+
+    /* (A name takes the width of its words, up to the room the window leaves it: the tab is as wide as the longest.) */
+    .bullet-rail .bullet-rail-label {
+
+        width: max-content;
+
+    }
+
+}
+
+/* The arrow is out of the tab's flow (no blank at its top): level with the gap between the tile rows as ever, 12px from the frame. */
+.bullet-rail-head > .page-arrow {
+
+    position: absolute;
+
+    top: -46px;
+
+    margin: 0;
+
+}
+
+.bullet-rail-left .bullet-rail-head > .page-arrow {
+
+    right: var(--rail-offset);
+
+}
+
+.bullet-rail-right .bullet-rail-head > .page-arrow {
+
+    left: var(--rail-offset);
+
+}
+
+@media (min-width: 1700px) {
+
+    .bullet-rail-left .bullet-rail-head > .page-arrow,
+    .bullet-rail-right .bullet-rail-head > .page-arrow {
+
+        margin: 0;
+
+    }
 
 }

@@ -88,7 +88,7 @@ import SectionTiles, { DialogHeading, OPEN_EVENT, type OpenRequest, type Section
 import CardBoxes, { type CardBox } from "./CardBoxes.tsx";
 import ChannelResourceTable from "./ChannelResourceTable.tsx";
 import { buildChannelResourceTable } from "../../framework/engine/ChannelResourceTable.ts";
-import { asBusinessCapabilityValue } from "../../framework/engine/AnswerUtils.ts";
+import { asBusinessCapabilityValue, equalOfferingShares } from "../../framework/engine/AnswerUtils.ts";
 import { useItemFolds } from "./useItemFolds.ts";
 import FoldArrow from "./FoldArrow.tsx";
 import { toggledIn } from "./toggledIn.ts";
@@ -793,10 +793,33 @@ export default function BusinessEngagementEditor({
         window.setTimeout(() => document.querySelector<HTMLTextAreaElement>('textarea[data-field-id="' + actionId + '"]')?.focus(), 400);
     }
 
+    /**
+     * A CHANNEL AND THE CARDS IT MADE SHARE ITS OFFERINGS: when the channel's Offerings change, the Resource, Partner or Provider cards it made in
+     * Offering's Capability take the same ones ("All Offerings" is every Offering), with their shares started equal; on those cards the ticks are locked.
+     */
+    function offeringsOfMadeCards(channelId: string, offerings: readonly string[], every: readonly string[]) {
+        const ids = offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS) ? [...every] : [...offerings];
+        const made = new Set(engagement.channelResources.filter(link => link.channelId === channelId).map(link => link.resourceId));
+        if (!onChangeCapability || made.size === 0) {
+            return;
+        }
+        const retag = <T extends { id: string; offeringIds: string[]; offeringShares: Record<string, string> }>(card: T): T => made.has(card.id) ? { ...card, offeringIds: ids, offeringShares: equalOfferingShares(ids) } : card;
+        onChangeCapability({
+            ...capabilityValue,
+            offering: {
+                ...capabilityValue.offering,
+                resources: capabilityValue.offering.resources.map(retag),
+                professionals: capabilityValue.offering.professionals.map(retag),
+                providers: capabilityValue.offering.providers.map(retag)
+            }
+        });
+    }
+
     /** A channel's resources, in its cell: its small cards, its summary and "+ Add resource". */
-    function channelResources(answers: BusinessSegmentEngagementValue, channelId: string, what: string) {
+    function channelResources(answers: BusinessSegmentEngagementValue, channelId: string, what: string, heading?: string) {
         return (
             <ChannelResources
+                heading={heading}
                 segment={answers}
                 channelId={channelId}
                 what={what}
@@ -2201,8 +2224,10 @@ export default function BusinessEngagementEditor({
 
                                                     {/* What it needs: its resources, made in
                                                         3. Offering's Capability. */}
-                                                    {sub !== undefined && <span className="business-channel-field-label">Expenses</span>}
-                                                    {channelResources(answers, channel.id, "Subchannel " + number)}
+                                                    {/* (In a channel's card the section has its own heading, "Expenses", with its "+", and a regular x beside each expense.) */}
+                                                    {sub !== undefined
+                                                        ? <div className="business-channel-expenses">{channelResources(answers, channel.id, "Subchannel " + number, "Expenses")}</div>
+                                                        : channelResources(answers, channel.id, "Subchannel " + number)}
 
                                                 </div>
 
@@ -2223,7 +2248,50 @@ export default function BusinessEngagementEditor({
                                                             the Foundation page.
                                                         </BusinessEmpty>
                                                     )
-                                                    : offeringRows.map((offeringId, index) => (
+                                                    : sub !== undefined
+                                                        // A channel's CARD lists its Offerings as tick boxes (a set, not one value): "All Offerings" first -- one choice for the lot --, then each Offering; at least one stays ticked.
+                                                        ? (
+                                                            <BusinessTicks
+                                                                name={"Offerings of Subchannel " + number}
+                                                                disabled={disabled}
+                                                                options={[
+                                                                    { id: BUSINESS_CHANNEL_ALL_OFFERINGS, label: ALL_OFFERINGS_LABEL },
+                                                                    ...offeringOptions.map(option => ({ id: option.id, label: option.label }))
+                                                                ]}
+                                                                // ("All Offerings" is ticked whenever every Offering is: carried as all, or each one ticked.)
+                                                                chosen={carriesAll || (offeringOptions.length > 0 && offeringOptions.every(option => channel.offerings.includes(option.id))) ? [BUSINESS_CHANNEL_ALL_OFFERINGS, ...offeringOptions.map(option => option.id)] : channel.offerings}
+                                                                onChange={(next) => {
+                                                                    const every = offeringOptions.map(option => option.id);
+                                                                    const put = (offerings: string[]) => {
+                                                                        change({ offerings });
+                                                                        offeringsOfMadeCards(channel.id, offerings, every);
+                                                                    };
+                                                                    const allShown = carriesAll || (every.length > 0 && every.every(id => channel.offerings.includes(id)));
+                                                                    if (allShown) {
+                                                                        if (!next.includes(BUSINESS_CHANNEL_ALL_OFFERINGS)) {
+                                                                            // "All Offerings" unticked: the first Offering stays.
+                                                                            put(every.slice(0, 1));
+                                                                        } else {
+                                                                            // One Offering unticked while all were carried: all the others.
+                                                                            const left = every.filter(id => next.includes(id));
+                                                                            if (left.length > 0) {
+                                                                                put(left);
+                                                                            }
+                                                                        }
+                                                                        return;
+                                                                    }
+                                                                    if (next.includes(BUSINESS_CHANNEL_ALL_OFFERINGS) || (every.length > 0 && every.every(id => next.includes(id)))) {
+                                                                        // (Ticking the last one is ticking "All Offerings": one value, true as Offerings are added.)
+                                                                        put([BUSINESS_CHANNEL_ALL_OFFERINGS]);
+                                                                        return;
+                                                                    }
+                                                                    if (next.length > 0) {
+                                                                        put(next);
+                                                                    }
+                                                                }}
+                                                            />
+                                                        )
+                                                        : offeringRows.map((offeringId, index) => (
 
                                                         <div
                                                             className="business-channel-pick"
@@ -2369,31 +2437,33 @@ export default function BusinessEngagementEditor({
                                     const addStageOk = !isolating &&
                                         channel.stages.length > 0 &&
                                         channel.stages.length < stageOptionsFor(channel.category, channel).length;
+                                    const addStage = () => {
+                                        const free = stageOptionsFor(channel.category, channel)
+                                            .find(stage => !channel.stages.includes(stage.id));
+                                        if (free) {
+                                            change({ stages: [...channel.stages, free.id] });
+                                        }
+                                    };
                                     const addStageButton = (
                                         <BusinessStep
-                                                                    kind="add"
-                                                                    what="Journey Stage"
-                                                                    disabled={disabled}
-                                                                    onClick={() => {
-
-                                                                        const free = stageOptionsFor(
-                                                                            channel.category, channel
-                                                                        )
-                                                                            .find(stage =>
-                                                                                !channel.stages.includes(stage.id)
-                                                                            );
-
-                                                                        if (free) {
-                                                                            change({
-                                                                                stages: [
-                                                                                    ...channel.stages,
-                                                                                    free.id
-                                                                                ]
-                                                                            });
-                                                                        }
-
-                                                                    }}
-                                                                />
+                                            kind="add"
+                                            what="Journey Stage"
+                                            disabled={disabled}
+                                            onClick={addStage}
+                                        />
+                                    );
+                                    // (In a channel's card the "+" stands in the heading's row, above the stages' x column; it is not drawn once every stage is placed.)
+                                    const addStagePlus = (
+                                        <button
+                                            type="button"
+                                            className="strategy-box-add"
+                                            aria-label="Add Journey Stage"
+                                            title="Add Journey Stage"
+                                            disabled={disabled}
+                                            onClick={addStage}
+                                        >
+                                            +
+                                        </button>
                                     );
 
                                     return (
@@ -2529,7 +2599,7 @@ export default function BusinessEngagementEditor({
 
                                             {sub !== undefined && addStageOk && (
                                                 <tr>
-                                                    <td className="business-channel-td-addstage">{addStageButton}</td>
+                                                    <td className="business-channel-td-addstage">{addStagePlus}</td>
                                                 </tr>
                                             )}
 
@@ -3234,6 +3304,7 @@ export default function BusinessEngagementEditor({
                                                                             <OptionPicker
                                                                                 label={"Relationship Type for " + offeringName(offeringId)}
                                                                                 placeholder="Select a type"
+                                                                                hug
                                                                                 options={BUSINESS_RELATIONSHIP_TYPES
                                                                                     .filter(entryType => entryType.id === typeId || !kept.types.includes(entryType.id))
                                                                                     .map(entryType => entryType.label)}

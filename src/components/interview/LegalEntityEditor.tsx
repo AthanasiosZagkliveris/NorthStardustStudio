@@ -2158,6 +2158,7 @@ export default function LegalEntityEditor({
                                 label={"Legal requirement " + (index + 1) + " type"}
                                 options={LEGAL_REQUIREMENT_TYPES.map(type => type.label)}
                                 disabled={disabled}
+                                hug
                                 value={LEGAL_REQUIREMENT_TYPES.find(
                                     candidate => candidate.id === requirement.type
                                 )?.label ?? ""}

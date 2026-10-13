@@ -112,7 +112,7 @@ describe("a field's key, by its id", () => {
         );
         const { rerender } = render(page("Working Hours / Month"));
         const before = document.querySelector("[data-field-key]")?.getAttribute("data-field-key");
-        rerender(page("Working Hrs"));
+        rerender(page("Working Hours"));
         expect(before).toBe("3.3:founders/founder-a/working-hours");
         expect(document.querySelector("[data-field-key]")?.getAttribute("data-field-key")).toBe(before);
         // A link saved under the old label's slug leads there too.

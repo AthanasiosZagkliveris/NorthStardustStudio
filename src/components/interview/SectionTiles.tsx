@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 
 import { consumeKey } from "./consumeKey.ts";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
+import { cardNameOf } from "./cardNames.ts";
 
 import "../../styles/section-tiles.css";
 
@@ -106,6 +107,9 @@ export interface SectionTile {
 
     /** The same, by card, where a tile's cards are of several groups. */
     groupFor?: (id: string) => string;
+
+    /** A card's own name as its name cell holds it ("" where it has none yet): what its bullet in the carousel's rail says. */
+    nameFor?: (id: string) => string;
 
     /** A card that has a parent or a child (a requirement and the expense it made) is drawn with it: the parent above, the child under it, whichever was pressed. */
     pairOf?: (id: string) => { parent: { id: string; caption: string }; child: { id: string; caption: string } } | null;
@@ -434,7 +438,14 @@ interface InnerBackApi {
     /** The side of the tile that opened the dialog, in px (0 where unknown): a box never exceeds it. */
     tileSize: number;
     /** Registers (or clears) what the carousel arrows do first while an inner view is open: it steps within the dialog and says whether it did. */
-    setStep: (depth: number, step: ((direction: 1 | -1) => boolean) | null) => void;
+    setStep: (depth: number, step: ((direction: 1 | -1) => boolean) | null, rail?: DialogRail | null) => void;
+}
+
+/** The rail of an inner level of a dialog (the categories of a section, the groups of a category, a dialog's sections): its bullets say the names of the level's own tiles, and replace the page's while the level is open. */
+export interface DialogRail {
+    items: readonly { id: string; label: string }[];
+    current: number;
+    go: (id: string) => void;
 }
 
 const InnerBackContext = createContext<InnerBackApi | null>(null);
@@ -475,16 +486,21 @@ export function useDialogInnerBack(back: (() => void) | null, subtitle?: string,
  * The carousel arrows of a dialog whose content has sections of its own (the Registrations' three): while one is open, the arrows go to the next or the previous of
  * THEM first; at their end (the handler says it did nothing) they go on to the neighbouring tile of the page.
  */
-export function useDialogInnerStep(step: ((direction: 1 | -1) => boolean) | null) {
+export function useDialogInnerStep(step: ((direction: 1 | -1) => boolean) | null, rail?: DialogRail | null) {
     const context = useContext(InnerBackContext);
     const depth = useContext(InnerDepthContext);
     const latest = useRef(step);
     latest.current = step;
+    const latestRail = useRef(rail);
+    latestRail.current = rail;
     const active = step !== null;
+    // (The rail is data compared by value: its tiles' ids and names, and the one lit.)
+    const railKey = rail ? rail.current + "|" + rail.items.map(item => item.id + ":" + item.label).join("|") : "";
     useLayoutEffect(() => {
-        context?.setStep(depth, active ? (direction) => latest.current?.(direction) ?? false : null);
-        return () => context?.setStep(depth, null);
-    }, [context, depth, active]);
+        const shown = latestRail.current;
+        context?.setStep(depth, active ? (direction) => latest.current?.(direction) ?? false : null, active && shown ? { items: shown.items, current: shown.current, go: (id) => latestRail.current?.go(id) } : null);
+        return () => context?.setStep(depth, null, null);
+    }, [context, depth, active, railKey]);
 }
 
 /** The "i" note a view carries in the dialog's header: what it is called and its points (InfoNote). */
@@ -734,14 +750,14 @@ export default function SectionTiles({
 
     /* A floating card: THAT card alone, centred (FloatingCard). `centre` says over what: the page's card area, the card of the
        page the tile stands in (a card just added), or the tile's group (the Workspace). */
-    const openFloating = (tile: SectionTile, id: string, from: HTMLElement, centre: FloatingCentre, fresh = false, pointer = false) => {
+    const openFloating = (tile: SectionTile, id: string, from: HTMLElement, centre: FloatingCentre, fresh = false, pointer = false, linked = false) => {
         tile.opening?.();
         openedByPointer.current = pointer;
         // The column of the page the tile stands in (Infrastructure's card or Offering's Capability's), or -- the Workspace -- its tile group.
         const anchor = centre === "group"
             ? from.closest<HTMLElement>(".section-tiles-box")
             : otherColumn(sectionAnchor(from));
-        setFloating({ tileId: tile.id, id, opener: from, anchor, fresh });
+        setFloating({ tileId: tile.id, id, opener: from, anchor, fresh, linked });
     };
 
     /** What pressing a tile opens: its card (a tile of one), a new blank card (a tile of none), or its dialog. */
@@ -799,7 +815,7 @@ export default function SectionTiles({
             }
             const from = opener.current ?? document.body;
             if (request.card && found.cardFor) {
-                openFloating(found, request.card, from, "column", request.fresh === true);
+                openFloating(found, request.card, from, "column", request.fresh === true, false, true);
             } else if (request.box) {
                 setFloating(null);
                 // (From its own tile where it stands on screen: the dialog takes its place and size from it, not from the page.)
@@ -849,7 +865,7 @@ export default function SectionTiles({
         if (floating.fresh && remover?.isBlank(floating.id)) {
             remover.onRemove([floating.id]);
         }
-        setFloating({ ...floating, id: nextId, fresh: false });
+        setFloating({ ...floating, id: nextId, fresh: false, linked: false });
     };
     const stepFloating = (direction: 1 | -1) => {
         if (!floating || siblingCards.length < 2) {
@@ -859,7 +875,17 @@ export default function SectionTiles({
         goFloating(siblingCards[(at + direction + siblingCards.length) % siblingCards.length]);
     };
     // (A card's bullet says its place: the tile's own name for its cards, and its number.)
-    const floatingItems = siblingCards.map((id, at) => ({ id, label: (floatingTile?.groupFor?.(id) ?? floatingTile?.group ?? "Card") + " " + (at + 1) }));
+    // (A card's bullet says its NAME, as its name cell holds it -- the tile's own name for it, or the line of the tile that opens it -- and, while it has none, its group and number.)
+    const cardName = (id: string): string => {
+        const named = floatingTile?.nameFor?.(id)?.trim() || cardNameOf(id);
+        if (named) {
+            return named;
+        }
+        const at = floatingTile?.links?.findIndex(link => !!link && "card" in link && link.card === id) ?? -1;
+        const line = at >= 0 ? floatingTile?.items?.[at] : undefined;
+        return line ? plainTitle(line).replace(/\*\*/g, "").trim() : "";
+    };
+    const floatingItems = siblingCards.map((id, at) => ({ id, label: cardName(id) || (floatingTile?.groupFor?.(id) ?? floatingTile?.group ?? "Card") + " " + (at + 1) }));
     const floatingAt = floating ? siblingCards.findIndex(item => item === floating.id || item === "founder-" + floating.id) : -1;
     const steppable = tiles.filter(tile => !(cardsFloatOnly(tile) && !tile.view && tile.holds && tile.holds.length === 0 && tile.add) && !tile.direct);
     const goDialog = (next: SectionTile) => {
@@ -966,7 +992,7 @@ export default function SectionTiles({
                 // (A card chosen on a floating card -- an Objective on its Goal's card -- takes its place: the tile that holds both answers.)
                 <OpenCardContext.Provider value={(id, caption, remover, pointer, fresh) => {
                     openedByPointer.current = pointer;
-                    setFloating(current => current ? { ...current, id, caption, remover, fresh } : current);
+                    setFloating(current => current ? { ...current, id, caption, remover, fresh, linked: true } : current);
                 }}>
                 <FloatingCards
                     key={floating.tileId + ":" + floating.id}
@@ -977,7 +1003,8 @@ export default function SectionTiles({
                     attrs={{ "data-floating": floating.tileId, "data-card-id": floating.id }}
                     step={!floating.fresh && siblingCards.length > 1 && siblingCards.some(item => item === floating.id || item === "founder-" + floating.id) ? { what: "card", previous: () => stepFloating(-1), next: () => stepFloating(1), items: floatingItems, current: floatingAt, go: (id: string) => { if (id !== floating.id) { goFloating(id); } } } : undefined}
                     cards={(() => {
-                        const pair = floatingTile.pairOf?.(floating.id);
+                        // (A requirement and the expense it made are drawn together only where a LINK was pressed -- the tile's link, a card's link symbol; opened by its own tile or box, a card is alone.)
+                        const pair = floating.linked ? floatingTile.pairOf?.(floating.id) : null;
                         const one = (id: string, caption: string, node: ReactNode) => ({ key: id, caption, kind: floatingTile.kindFor?.(id) ?? floatingTile.cardKind ?? "card" as const, node, note: floatingTile.noteFor?.(id) ?? floatingTile.note });
                         if (pair) {
                             const parent = floatingTile.cardFor?.(pair.parent.id);
@@ -1008,6 +1035,8 @@ interface FloatingOpen {
     opener: HTMLElement;
     /** What it is centred over. */
     anchor: HTMLElement | null;
+    /** Opened by pressing a LINK (a tile's link line, a card's link symbol) rather than its own tile or box: a linked pair is then drawn together. */
+    linked?: boolean;
     /** Added by the "+" box a moment ago: removed again on closing while it is still completely blank. */
     fresh: boolean;
     /** What the box name above the card says where it is not the tile's title (a subcategory's name). */
@@ -1476,27 +1505,87 @@ const CAROUSEL_ARROW_WIDTH = 24;
 export const SQUEEZED_ROW_MIN = 56;
 
 /** The space between a carousel arrow and the card or dialog it stands beside. */
-const CAROUSEL_ARROW_GAP = 24;
+const CAROUSEL_ARROW_GAP = 12;
 
 /**
  * THE CAROUSEL ARROWS: a "‹" at the left and a "›" at the right of the card (or the opened section) that was opened last, which go to the previous or the next one of
  * the same list, in the list's own order and round its ends. They are measured from the box they flank and stand over the page, so they take no room in it.
  * (Alt + the left or right arrow does the same from the keyboard.)
  */
-function CarouselArrows({ target, step, hue }: { target: RefObject<HTMLElement | null>; step: CarouselStep; hue: number }) {
-    const [at, setAt] = useState<{ left: number; right: number; top: number } | null>(null);
+/** The ground, the edge and the ink of the card or dialog a carousel stands beside: its rail's tab takes them (the page tab's rule, on every layer). */
+/** A colour with an alpha under 1 (a caption's dark pill, a card's inner light): never a layer's ground. */
+function translucentColour(colour: string): boolean {
+    return /\/\s*0?\.\d+\)$|rgba\([^)]*,\s*0?\.\d+\)$/.test(colour);
+}
+
+function tabColours(node: HTMLElement): { bg: string; edge: string; ink: string } | null {
+    const opaque = (colour: string) => colour !== "" && colour !== "transparent" && !/rgba\([^)]*,\s*0\)$/.test(colour);
+    // The layer's own ground: the first element, from the layer inward (a few levels), that has an opaque background and is as wide as a card -- a dialog's panel, a card's box.
+    let level: HTMLElement[] = [node];
+    let ground: HTMLElement | null = null;
+    for (let depth = 0; depth < 6 && !ground && level.length > 0; depth += 1) {
+        ground = level.find(candidate => opaque(getComputedStyle(candidate).backgroundColor) && !translucentColour(getComputedStyle(candidate).backgroundColor) && candidate.getBoundingClientRect().width >= 200) ?? null;
+        level = level.flatMap(candidate => [...candidate.children].filter((child): child is HTMLElement => child instanceof HTMLElement));
+    }
+    if (!ground) {
+        return null;
+    }
+    const style = getComputedStyle(ground);
+    // (A hairline that is a translucent light -- a card's inner light -- is no colour to draw a tab or its bullets in: the layer's own line accent is, as a dialog's tab has it.)
+    const translucent = /\/\s*0?\.\d+\)$|rgba\([^)]*,\s*0?\.\d+\)$/.test(style.borderTopColor);
+    return { bg: style.backgroundColor, edge: opaque(style.borderTopColor) && !translucent && parseFloat(style.borderTopWidth) > 0 ? style.borderTopColor : "hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent))", ink: style.color };
+}
+
+/** The top of a layer's own title (the first words in it that are not a control): the page tab's top stands level with it. */
+function titleTopOf(node: HTMLElement): number {
+    const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+    for (let text = walker.nextNode(); text; text = walker.nextNode()) {
+        const holder = text.parentElement;
+        if (!holder || text.textContent?.trim() === "" || holder.closest("button, input, textarea, select, [aria-hidden='true']")) {
+            continue;
+        }
+        const range = document.createRange();
+        range.selectNodeContents(text);
+        // (Where a range cannot be measured -- the test environment -- the layer's own top.)
+        const box = typeof range.getBoundingClientRect === "function" ? range.getBoundingClientRect() : null;
+        if (box && box.height > 0) {
+            return box.top;
+        }
+    }
+    return node.getBoundingClientRect().top;
+}
+
+function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLElement | null>; step: CarouselStep; hue: number; back?: () => void }) {
+    const [at, setAt] = useState<{ left: number; right: number; top: number; edge: number; titleTop: number; tab: { bg: string; edge: string; ink: string } | null } | null>(null);
+
+    // The tab's colours follow the reading mode (light, sepia, dark, auto) while the layer stays open: measured again when it changes.
+    const [modeCount, setModeCount] = useState(0);
+    useEffect(() => {
+        const again = () => window.requestAnimationFrame(() => window.requestAnimationFrame(() => setModeCount(count => count + 1)));
+        const observer = new MutationObserver(again);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class"] });
+        const query = window.matchMedia?.("(prefers-color-scheme: dark)");
+        query?.addEventListener?.("change", again);
+        return () => {
+            observer.disconnect();
+            query?.removeEventListener?.("change", again);
+        };
+    }, []);
 
     useLayoutEffect(() => {
         const node = target.current;
         if (!node) {
             return;
         }
+        void modeCount;
         const box = node.getBoundingClientRect();
         // (At the page arrows' own level; the arrows never leave the window.)
         const top = arrowLevel() ?? window.innerHeight / 2;
         const left = Math.max(4, box.left - CAROUSEL_ARROW_GAP - CAROUSEL_ARROW_WIDTH);
         const right = Math.max(4, window.innerWidth - box.right - CAROUSEL_ARROW_GAP - CAROUSEL_ARROW_WIDTH);
-        setAt(previous => previous && Math.abs(previous.left - left) < 0.5 && Math.abs(previous.right - right) < 0.5 && Math.abs(previous.top - top) < 0.5 ? previous : { left, right, top });
+        const tab = tabColours(node);
+        const titleTop = titleTopOf(node);
+        setAt(previous => previous && Math.abs(previous.left - left) < 0.5 && Math.abs(previous.right - right) < 0.5 && Math.abs(previous.top - top) < 0.5 && Math.abs(previous.titleTop - titleTop) < 0.5 && previous.tab?.bg === tab?.bg && previous.tab?.edge === tab?.edge && previous.tab?.ink === tab?.ink ? previous : { left, right, top, edge: box.right, titleTop, tab });
     });
 
     // (Measured again whenever the box or the window changes size.)
@@ -1538,6 +1627,41 @@ function CarouselArrows({ target, step, hue }: { target: RefObject<HTMLElement |
         return () => document.removeEventListener("keydown", onKeyDown);
     }, [target]);
 
+    // THE TAB STANDS AT THE TOP OF ITS LAYER, level with the layer's title, and never hides the arrow: where the arrow stands in the tab's column, the bullets that would lie under it follow below it (a gap the arrow's size is left in the list).
+    const railRef = useRef<HTMLElement | null>(null);
+    const [gap, setGap] = useState<{ index: number; size: number } | null>(null);
+    const [arrowOnTab, setArrowOnTab] = useState(false);
+    const itemCount = step.items?.length ?? 0;
+    const railTop = at?.tab ? at.titleTop : null;
+    const arrowTop = at?.top ?? 0;
+    useLayoutEffect(() => {
+        const rail = railRef.current;
+        if (!rail || railTop === null) {
+            setGap(null);
+            setArrowOnTab(false);
+            return;
+        }
+        const items = [...rail.querySelectorAll<HTMLElement>("ol > li:not(.bullet-rail-gap)")];
+        const list = rail.querySelector("ol");
+        const rowGap = list ? parseFloat(getComputedStyle(list).rowGap) || 0 : 0;
+        const from = arrowTop - 22 - 8;
+        const to = arrowTop + 22 + 8;
+        let y = railTop + 13;
+        let index = -1;
+        let atY = 0;
+        for (let position = 0; position < items.length; position += 1) {
+            if (index < 0 && y + items[position].offsetHeight > from) {
+                index = position;
+                atY = y;
+            }
+            y += items[position].offsetHeight + rowGap;
+        }
+        const size = index < 0 ? 0 : Math.max(0, to - atY);
+        const next = index >= 0 && size > 0 ? { index, size } : null;
+        setGap(previous => previous?.index === next?.index && Math.abs((previous?.size ?? 0) - (next?.size ?? 0)) < 0.5 ? previous : next);
+        setArrowOnTab(index >= 0 && atY < to);
+    }, [railTop, arrowTop, itemCount, at?.edge, back]);
+
     // Only the topmost layer shows its arrows and rail: the one under it stands at the same place, and its bullets would overlap the top one's.
     const [topmost, setTopmost] = useState(true);
     useEffect(() => {
@@ -1569,25 +1693,26 @@ function CarouselArrows({ target, step, hue }: { target: RefObject<HTMLElement |
             </button>
             <button
                 type="button"
-                className="page-arrow carousel-arrow"
+                className={"page-arrow carousel-arrow" + (arrowOnTab ? " carousel-arrow-on-tab" : "")}
                 data-direction="next"
                 aria-label={"Next " + step.what}
                 title={"Next " + step.what + " (→)"}
-                style={{ right: at.right, top: at.top, "--strategy-theme-hue": hue } as CSSProperties}
+                style={{ right: at.right, top: at.top, "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-edge": at.tab.edge } : {}) } as CSSProperties}
                 onClick={step.next}
             >
                 ›
             </button>
             {step.items && step.items.length > 1 && step.go && (
-                // The rail under the arrows (the right one's): a bullet for each of the list, this one's lit; a tooltip with the name says where a bullet goes.
+                // The rail under the arrows (the right one's): a bullet for each of the list, this one's lit. A card's bullet says its name in a tooltip (a card is named by the user); a SECTION'S bullet has its name beside it (the tiles' names are given), where the window has the room for it.
                 <nav
-                    className="carousel-rail"
+                    ref={railRef}
+                    className={"carousel-rail" + (step.what === "section" && at.right >= 160 ? " carousel-rail-named" : "") + (at.tab ? " carousel-rail-tab" : "")}
                     aria-label={"Go to a " + step.what}
-                    style={{ right: at.right, top: at.top + 36, "--strategy-theme-hue": hue } as CSSProperties}
+                    style={{ left: at.edge, top: at.tab ? at.titleTop : at.top + 36, "--rail-label-room": Math.max(0, at.right - 8 - 24) + "px", "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-bg": at.tab.bg, "--tab-edge": at.tab.edge, "--tab-ink": at.tab.ink } : {}) } as unknown as CSSProperties}
                 >
                     <ol className="bullet-rail-list">
                         {step.items.map((item, position) => (
-                            <li key={item.id}>
+                            <li key={item.id} style={gap?.index === position ? { marginTop: gap.size } : undefined}>
                                 <button
                                     type="button"
                                     className={"bullet-rail-item" + (position === step.current ? " active" : "")}
@@ -1601,6 +1726,13 @@ function CarouselArrows({ target, step, hue }: { target: RefObject<HTMLElement |
                             </li>
                         ))}
                     </ol>
+                    {/* The way back stands in the tab, after the last option (the dialog's own foot no longer has it while the tab does). */}
+                    {back && (
+                        <button type="button" className="carousel-rail-back" onClick={back} aria-label="Back" title="Back">
+                            <span aria-hidden="true">←</span>
+                            <span className="carousel-rail-back-word">{" Back"}</span>
+                        </button>
+                    )}
                 </nav>
             )}
         </>
@@ -1891,6 +2023,8 @@ function TileDialog({
     const levels = useRef<({ back: () => void; name?: string; note?: CrumbNote } | null)[]>([]);
     const innerStep = useRef<((direction: 1 | -1) => boolean) | null>(null);
     const stepLevels = useRef<(((direction: 1 | -1) => boolean) | null)[]>([]);
+    const railLevels = useRef<(DialogRail | null)[]>([]);
+    const [innerRail, setInnerRail] = useState<DialogRail | null>(null);
     const innerContext = useRef<InnerBackApi>({
         set: (depth, back, name, note) => {
             levels.current[depth] = back ? { back, name, note } : null;
@@ -1909,10 +2043,17 @@ function TileDialog({
         },
         tileSize,
         // (Each inner view registers its own way of stepping at its depth; the deepest one answers the arrows.)
-        setStep: (depth, next) => {
+        setStep: (depth, next, rail) => {
             stepLevels.current[depth] = next;
+            railLevels.current[depth] = next ? rail ?? null : null;
             const shown = stepLevels.current.filter((level): level is (direction: 1 | -1) => boolean => level !== null && level !== undefined);
             innerStep.current = shown.length > 0 ? shown[shown.length - 1] : null;
+            // (The deepest level that has a rail of its own answers.)
+            const rails = railLevels.current.filter((level): level is DialogRail => level !== null && level !== undefined);
+            const deepest = rails.length > 0 ? rails[rails.length - 1] : null;
+            setInnerRail(previous => (previous === null && deepest === null) || (previous && deepest && previous.current === deepest.current && previous.items.length === deepest.items.length && previous.items.every((item, at) => item.id === deepest.items[at].id && item.label === deepest.items[at].label))
+                ? previous
+                : deepest);
         }
     });
     const back = () => (innerBack.current ? innerBack.current() : onClose());
@@ -2038,7 +2179,7 @@ function TileDialog({
 
             </div>
 
-            {step && <CarouselArrows target={panel} step={{ ...step, previous: () => { if (!innerStep.current?.(-1)) { step.previous(); } }, next: () => { if (!innerStep.current?.(1)) { step.next(); } } }} hue={hue} />}
+            {step && <CarouselArrows target={panel} step={{ ...step, ...(innerRail ? { items: innerRail.items, current: innerRail.current, go: innerRail.go } : {}), previous: () => { if (!innerStep.current?.(-1)) { step.previous(); } }, next: () => { if (!innerStep.current?.(1)) { step.next(); } } }} hue={hue} back={back} />}
         </div>,
         document.body
     );

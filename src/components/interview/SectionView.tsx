@@ -186,7 +186,9 @@ export default function SectionView({
             setOpenId(level[(at + direction + level.length) % level.length].id);
             return true;
         }
-        : null);
+        : null,
+        // (The rail follows the names of the categories while one is open.)
+        open ? { items: categories.filter(category => category.cards.length >= CATEGORY_TILE_MIN_CARDS).map(category => ({ id: category.id, label: plainTitle(category.title) })), current: categories.filter(category => category.cards.length >= CATEGORY_TILE_MIN_CARDS).findIndex(category => category.id === open.id), go: (id: string) => setOpenId(id) } : null);
 
     const grid = useRef<HTMLDivElement | null>(null);
     const side = useMemo(pageTileSide, []);
@@ -349,7 +351,7 @@ export function SubcategoryBoxes({
         }
     }, []);
 
-    useDialogInnerBack(open && items.length > 1 ? () => setOpenId(null) : null, open ? plainTitle(open.title) : undefined, open?.crumbInfo);
+    useDialogInnerBack(open ? () => setOpenId(null) : null, open ? plainTitle(open.title) : undefined, open?.crumbInfo);
     // The arrows keep to this level: with a group open they go to the next group of its category.
     useDialogInnerStep(open && items.length > 1
         ? (direction) => {
@@ -361,15 +363,15 @@ export function SubcategoryBoxes({
             setOpenId(level[(at + direction + level.length) % level.length].id);
             return true;
         }
-        : null);
+        : null,
+        // (The rail follows the names of the groups while one is open.)
+        open && items.length > 1 ? { items: items.filter(item => !item.blankUnnamed).map(item => ({ id: item.id, label: plainTitle(item.title) })), current: items.filter(item => !item.blankUnnamed).findIndex(item => item.id === open.id), go: (id: string) => setOpenId(id) } : null);
 
     const grid = useRef<HTMLDivElement | null>(null);
     const side = useMemo(pageTileSide, []);
     const across = useTilesAcross(grid, side);
 
-    if (items.length === 1 && !add) {
-        return <>{items[0].content()}</>;
-    }
+    // (A category with one group has that group's tile too, empty or not: the arrows that bring the user here never make a card.)
 
     if (open) {
         return <InnerLevel>{open.content()}</InnerLevel>;

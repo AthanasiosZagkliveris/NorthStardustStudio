@@ -518,7 +518,7 @@ describe("BusinessCapabilityEditor founders' roles", () => {
         const saved = renderWith();
 
         const labels = [...document.querySelectorAll(".business-founder-grid .field-label")].map(label => label.textContent?.replace(/i$/, "").trim());
-        expect(labels.slice(1)).toEqual(["Frequency", "Working Hrs", "Delivery Hrs"]);
+        expect(labels.slice(1)).toEqual(["Frequency", "Working Hours", "Delivery Hours"]);
         const frequency = screen.getByRole("button", { name: /^Ann frequency of salary and hours/ });
         fireEvent.click(frequency);
         expect(screen.getAllByRole("option").map(option => option.textContent)).toEqual(["Weekly", "Monthly", "Annually"]);

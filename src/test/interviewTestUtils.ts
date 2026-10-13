@@ -84,8 +84,27 @@ export function openTile(name: string | RegExp, box?: string | RegExp, card?: st
         openBox(box);
     }
     if (card !== undefined) {
+        descendSole();
         openCard(card);
     }
+}
+
+/** A category with one group shows that group's one tile (empty or not): the card tiles are one press further in. */
+export function descendSole(): number {
+    let levels = 0;
+    for (let level = 0; level < 2; level += 1) {
+        const dialog = grid();
+        if (dialog === null || floatingCardHost() !== null || dialog.querySelector(".card-tile") !== null) {
+            return levels;
+        }
+        const tiles = [...dialog.querySelectorAll<HTMLElement>("button.section-tile")];
+        if (tiles.length !== 1) {
+            return levels;
+        }
+        fireEvent.click(tiles[0]);
+        levels += 1;
+    }
+    return levels;
 }
 
 /** The name of the section tile of Infrastructure that holds a category. */
@@ -122,6 +141,7 @@ export function openBox(name: string | RegExp) {
 
 /** Opens a card box (a list of cards drawn as closed square boxes) inside the open dialog: "Resource 1" or its name. */
 export function openCard(name: string | RegExp) {
+    descendSole();
     const dialog = grid();
     if (dialog === null) {
         // (The box held one card: it floats already.)
@@ -142,7 +162,10 @@ export function openCard(name: string | RegExp) {
 }
 
 /** The card tiles in the open dialog, by their accessible names. */
-export const cardBoxes = () => [...(grid() ?? document.createElement("div")).querySelectorAll<HTMLElement>(".card-tile")].map(box => box.getAttribute("aria-label"));
+export const cardBoxes = () => {
+    descendSole();
+    return [...(grid() ?? document.createElement("div")).querySelectorAll<HTMLElement>(".card-tile")].map(box => box.getAttribute("aria-label"));
+};
 
 /** Presses the Back button of the top layer: the floating card's (back to the dialog it came from), else the dialog's (one level up). */
 export function closeTile() {

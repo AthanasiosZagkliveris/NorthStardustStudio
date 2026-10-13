@@ -74,6 +74,8 @@ import { sectionStatuses } from "../framework/engine/SectionStatus";
 import { scrollToRailSection, useActiveRailSection } from "../components/interview/rails/useActiveRailSection";
 import { toggledIn } from "../components/interview/toggledIn";
 
+import useRailTab from "../hooks/useRailTab.ts";
+import useScrollRules from "../hooks/useScrollRules.ts";
 import "../styles/conversation.css";
 import "../styles/conversation-layout.css";
 import "../styles/system-confirmation.css";
@@ -763,6 +765,9 @@ function withBold(text: string): ReactNode[] {
 }
 
 export default function Conversation() {
+
+    useScrollRules();
+    useRailTab();
 
     const location = useLocation();
     const navigate = useNavigate();

@@ -3,6 +3,7 @@ import { stableCardHue } from "../../framework/engine/AnswerUtils.ts";
 import { CHANNEL_TILE_HUE, TileFace, incompleteTitle, type ItemMark } from "./SectionTiles.tsx";
 import { useAboveTip } from "./AboveTip.tsx";
 import type { FloorLink, FloorTone } from "./capabilityFloor.ts";
+import { rememberCardName } from "./cardNames.ts";
 import "../../styles/card-tile.css";
 
 /*
@@ -172,6 +173,7 @@ export interface CardTileProps {
 export default function CardTile({ id, name, unnamed = "", number, lines, marks, links = [], tone, own, centred, inactive, faded, missing, label, onOpen, origin, focusId, onFocus, title, drag }: CardTileProps) {
     const onCircle = useRef(false);
     const shown = name.trim() || unnamed;
+    rememberCardName(id, shown);
     const style = { ...(tone === "legal" || own ? {} : { "--strategy-theme-hue": toneHue(tone) }), transformOrigin: origin } as CSSProperties;
     const className = "section-tile card-tile" +
         (tone === "channel" ? " section-tile-channel" : "") +

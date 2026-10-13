@@ -271,6 +271,8 @@ export function floorRows(
         const kind = partnerNoun(partner.category) === "Supplier" ? "provider" as const : "partner" as const;
         rows.push({
             id: partner.id, kind, name: partner.name.trim() || "Unnamed " + partnerNoun(partner.category),
+            // (Its dates first, as a resource's and an activity's tile has them.)
+            dates: periodLine(partner.startDate, partner.endDate, SCHEDULED.has(partner.cost.frequency)),
             // (Where it belongs: its CATEGORY -- Partners, Providers or one the user made.)
             path: [
                 section,

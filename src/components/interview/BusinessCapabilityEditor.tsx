@@ -958,7 +958,9 @@ export default function BusinessCapabilityEditor({
         onNext: (next: { offeringIds: string[]; offeringShares: Record<string, string> }) => void,
         name: string,
         empty: ReactNode,
-        shares: Record<string, string>
+        shares: Record<string, string>,
+        /** A card a Customer Channel made carries that channel's Offerings: they change on the channel, not here. */
+        locked = false
     ) {
         const total = offeringSharesTotal(current, shares);
         const inUnits = offeringSharesInUnits(shares);
@@ -1010,7 +1012,7 @@ export default function BusinessCapabilityEditor({
                             name={name}
                             options={offeringChoices.map(choice => ({ id: choice.id, label: choice.label }))}
                             chosen={current}
-                            disabled={disabled}
+                            disabled={disabled || locked}
                             // (Ticking starts the shares equal.)
                             onChange={(next) => onNext({ offeringIds: next, offeringShares: inUnits && next.length > 1 ? unitOfferingShares(next) : equalOfferingShares(next) })}
                             // With several Offerings, the percent of the card each carries stands at the end of its own row, in the x's column (a whole number, two digits at most).
@@ -1022,7 +1024,7 @@ export default function BusinessCapabilityEditor({
                                     aria-label={name + " share of " + (offeringChoices.find(choice => choice.id === id)?.label ?? "Offering")}
                                     placeholder={inUnits ? "1" : "%"}
                                     title={inUnits ? "Units of this Offering" : "Percent of this card"}
-                                    disabled={disabled}
+                                    disabled={disabled || locked}
                                     value={shares[id] ?? ""}
                                     onChange={(event) => onNext({ offeringIds: current, offeringShares: { ...shares, [id]: event.target.value.replace(/\D/g, "").slice(0, inUnits ? 3 : 2) } })}
                                 />
@@ -1083,8 +1085,8 @@ export default function BusinessCapabilityEditor({
         // PER UNIT IS ONE OPTION PER UNIT of the group ("Per hour", "Per kg", "Per unit"): choosing one sets the frequency AND the unit, so no list of units
         // follows the Frequency and every list says what it holds.
         const perUnitLabel = (unit: string) => "Per " + (unit || "unit");
-        // (A label that is long for the cell says "rev." for revenue and "proj." for project: "% of rev.", "Per proj.".)
-        const shortFrequency = (label: string) => label.length >= 11 ? label.replace(/revenue/i, "rev.").replace(/project/i, "proj.").replace(/hour/i, "hr") : label;
+        // (A label that is too long for the cell says "rev." for revenue and "proj." for project; where it has the room -- the cell is 160px wide -- the whole words are written.)
+        const shortFrequency = (label: string) => label.length >= 14 ? label.replace(/revenue/i, "rev.").replace(/project/i, "proj.").replace(/hour/i, "hr") : label;
         const frequencyChoices: { label: string; frequency: string; unit: string }[] = frequencyOptions.flatMap(entry => entry.id === "per-unit"
             ? (specificUnits.length > 0 ? specificUnits : ["unit"]).map(unit => ({ label: shortFrequency(perUnitLabel(unit)), frequency: "per-unit", unit }))
             : [{ label: shortFrequency(entry.label), frequency: entry.id, unit: "" }]);
@@ -1150,7 +1152,7 @@ export default function BusinessCapabilityEditor({
                         <BusinessField label="Frequency">
                             {(() => {
                                 const picker = soleFrequency
-                                    ? <span className="business-capability-static-value">{soleFrequency.label}</span>
+                                    ? <span className="business-capability-static-value" title={soleFrequency.label}>{soleFrequency.label}</span>
                                     : (
                                         <OptionPicker
                                             label={what + " payment frequency"}
@@ -1865,7 +1867,8 @@ export default function BusinessCapabilityEditor({
                         )}
                         .
                     </>,
-                    slot.offeringShares
+                    slot.offeringShares,
+                    channelMade(scope, slot.id)
                 )}
 
                 {/* THE CARDS THIS ONE LEADS TO OR IS USED BY (the resource it insures, the activities that list it): at the end of the card. */}
@@ -2210,7 +2213,7 @@ export default function BusinessCapabilityEditor({
 
                 {/* Pay and time, in the card's two columns (labels
                     above, tops level): Salary | Frequency, then
-                    Working Hrs | Delivery Hrs. The one Frequency is the
+                    Working Hours | Delivery Hours. The one Frequency is the
                     period of all three -- a salary and hours a week, a
                     month or a year -- and every calculation turns them
                     into a month. The delivery hours are what 4.
@@ -2248,7 +2251,7 @@ export default function BusinessCapabilityEditor({
                         />
                     </BusinessField>
 
-                    <BusinessField label="Working Hrs" info={DELIVERY_HELP.hours} fieldId="working-hours">
+                    <BusinessField label="Working Hours" info={DELIVERY_HELP.hours} fieldId="working-hours">
                         <input
                             type="text"
                             inputMode="decimal"
@@ -2263,7 +2266,7 @@ export default function BusinessCapabilityEditor({
                         />
                     </BusinessField>
 
-                    <BusinessField label="Delivery Hrs" info={DELIVERY_HELP.deliveryHours} fieldId="delivery-hours">
+                    <BusinessField label="Delivery Hours" info={DELIVERY_HELP.deliveryHours} fieldId="delivery-hours">
                         <input
                             type="text"
                             inputMode="decimal"
@@ -2740,7 +2743,7 @@ export default function BusinessCapabilityEditor({
                 {fixed && chosen !== ""
                     ? (
                         <BusinessField label="Cost option" side>
-                            <span className="business-capability-static-value">{chosen}</span>
+                            <span className="business-capability-static-value" title={chosen}>{chosen}</span>
                         </BusinessField>
                     )
                     : <BusinessField label="Cost option" side>
@@ -2756,7 +2759,7 @@ export default function BusinessCapabilityEditor({
                 </BusinessField>}
                 {billing !== "" && (
                     <BusinessField label="Billing type" side>
-                        <span className="business-capability-static-value">{BILLING_TYPES.find(entry => entry.id === billing)?.label}</span>
+                        <span className="business-capability-static-value" title={BILLING_TYPES.find(entry => entry.id === billing)?.label}>{BILLING_TYPES.find(entry => entry.id === billing)?.label}</span>
                     </BusinessField>
                 )}
             </>
@@ -3323,12 +3326,12 @@ export default function BusinessCapabilityEditor({
             <>
                 {category && (
                     <BusinessField label="Category" side>
-                        <span className="business-capability-static-value">{category.label}</span>
+                        <span className="business-capability-static-value" title={category.label}>{category.label}</span>
                     </BusinessField>
                 )}
                 {group && (
                     <BusinessField label="Group" side>
-                        <span className="business-capability-static-value">{group.label}</span>
+                        <span className="business-capability-static-value" title={group.label}>{group.label}</span>
                     </BusinessField>
                 )}
             </>
@@ -3519,7 +3522,7 @@ export default function BusinessCapabilityEditor({
         if (channelMade(scope, partner.id) && current) {
             return (
                 <BusinessField label="Group" side info={partnerGroupHelp(scope, partner.category, partner.group) ? [partnerGroupHelp(scope, partner.category, partner.group)] : undefined}>
-                    <span className="business-capability-static-value">{current.label}</span>
+                    <span className="business-capability-static-value" title={current.label}>{current.label}</span>
                 </BusinessField>
             );
         }
@@ -4299,7 +4302,8 @@ export default function BusinessCapabilityEditor({
                     (next) => change(next),
                     (partner.name.trim() || "Entry " + number) + " linked Offerings",
                     "Define an Offering on the Foundation page first.",
-                    partner.offeringShares
+                    partner.offeringShares,
+                    channelMade(scope, partner.id)
                 )}
 
                 {/* THE CARDS THAT USE IT (the resources that name it, the activities it performs): at the end of the card, a link each (above this one when opened). */}
@@ -4733,6 +4737,7 @@ export default function BusinessCapabilityEditor({
             // (Every card of the section: a resource, an activity, a partner or provider, the Workspace's form.)
             cardFor: (cardId: string) => parentCard(cardId)?.node ?? childCard(cardId)?.node ?? null,
             kindFor: () => "card",
+            nameFor: (cardId: string) => filled.flatMap(category => category.cards).find(card => card.id === cardId)?.name ?? "",
             add: args.add,
             content: () => tileSection(args.scope, args.title, args.note, () => (
                 <>

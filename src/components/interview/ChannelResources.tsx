@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { KeyboardEvent, ReactNode, useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import {
     type CostCard,
@@ -197,6 +197,8 @@ export interface ChannelResourcesProps {
     onIsolate?: (next: ActionIsolation, symbol?: HTMLElement) => void;
     /** Pointing at (or focusing) a resource lights its actions in the table. */
     onLit?: (lit: ActionLit) => void;
+    /** A channel's CARD says "Expenses" over its list, with the "+" that adds one in the corner (above the x column); each expense has its regular x beside it. */
+    heading?: string;
 }
 
 export default function ChannelResources(props: ChannelResourcesProps) {
@@ -231,7 +233,26 @@ export default function ChannelResources(props: ChannelResourcesProps) {
     const [menuOpen, setMenuOpen] = useState(false);
 
     return (
-        <div className="business-channel-resources">
+        <div className={"business-channel-resources" + (props.heading ? " business-channel-resources-sectioned" : "")}>
+
+            {props.heading && (
+                <div className="business-channel-resources-head">
+                    <span className="business-channel-field-label">{props.heading}</span>
+                    {!isolating && (
+                        <button
+                            type="button"
+                            className="strategy-box-add"
+                            aria-label={"Add expense to " + what}
+                            title="Add expense"
+                            aria-expanded={menuOpen}
+                            disabled={disabled}
+                            onClick={() => setMenuOpen(open => !open)}
+                        >
+                            +
+                        </button>
+                    )}
+                </div>
+            )}
 
             {linked.map(({ link, card }, index) => involved(link) && (
                 <ChannelResourceCard
@@ -314,7 +335,7 @@ export default function ChannelResources(props: ChannelResourcesProps) {
 
             {/* ONE BUTTON for every way of adding an expense: a blank one, every typical cost of the channel at once, one typical cost, or a card the company already has
                 (Link existing). The menu stays open for the next, and closes with its own "Done". */}
-            {!isolating && <div className="business-step-add-row">
+            {!isolating && !props.heading && <div className="business-step-add-row">
                 <button
                     type="button"
                     className="strategy-add-button"
@@ -415,6 +436,7 @@ function ChannelResourceCard({
     lit,
     onLit,
     isolated,
+    heading,
     link,
     card,
     label,
@@ -490,7 +512,26 @@ function ChannelResourceCard({
         }
     }
 
-    return (
+    const outerRemove = Boolean(heading);
+    const row = (content: ReactNode) => outerRemove
+        ? (
+            <div className="business-channel-resource-row">
+                {content}
+                <button
+                    type="button"
+                    className="strategy-box-remove card-remove business-channel-resource-x"
+                    aria-label={"Take " + label + " off the channel"}
+                    title="Take it off the channel (and its card off Offering's Capability)"
+                    disabled={disabled}
+                    onClick={onRemove}
+                >
+                    ×
+                </button>
+            </div>
+        )
+        : content;
+
+    return row(
         <div
             className={
                 "business-channel-resource " + markTint("resource", colour) +
@@ -518,16 +559,18 @@ function ChannelResourceCard({
                     value={name}
                     onChange={(event) => onWrite({ capability: withRenamedCard(capability, card.id, event.target.value) })}
                 />
-                <button
-                    type="button"
-                    className="notepad-chip-remove business-channel-resource-remove"
-                    aria-label={"Take " + label + " off the channel"}
-                    title="Take it off the channel (and its card off Offering's Capability)"
-                    disabled={disabled}
-                    onClick={onRemove}
-                >
-                    ×
-                </button>
+                {!outerRemove && (
+                    <button
+                        type="button"
+                        className="notepad-chip-remove business-channel-resource-remove"
+                        aria-label={"Take " + label + " off the channel"}
+                        title="Take it off the channel (and its card off Offering's Capability)"
+                        disabled={disabled}
+                        onClick={onRemove}
+                    >
+                        ×
+                    </button>
+                )}
             </div>
 
             {/* What it costs where it is recorded; a click opens it there. */}

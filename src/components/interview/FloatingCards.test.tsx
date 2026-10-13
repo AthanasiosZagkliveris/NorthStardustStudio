@@ -137,7 +137,7 @@ describe("the lists on the page tiles are real controls", () => {
         openCard("First");
         expect(floatingCardHost()).not.toBeNull();
         expect(document.querySelector(".floating-card-back")).toBeNull();
-        expect(screen.queryByRole("button", { name: /^Back$/ })?.closest(".floating-card-host") ?? null).toBeNull();
+        expect(screen.queryAllByRole("button", { name: /^Back$/ }).some(button => button.closest(".floating-card-host") !== null)).toBe(false);
         // A press on another tile goes on to open it in the card's place.
         const second = [...document.querySelectorAll<HTMLElement>(".section-tile-dialog .card-tile")].find(tile => (tile.getAttribute("aria-label") ?? "").includes("Second"))!;
         fireEvent.mouseDown(second);

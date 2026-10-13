@@ -58,7 +58,9 @@ export default function SubTiles({ tiles, label }: { tiles: readonly SubTile[]; 
             setOpenId(tiles[(tiles.findIndex(tile => tile.id === open.id) + direction + tiles.length) % tiles.length].id);
             return true;
         }
-        : null);
+        : null,
+        // (The rail follows the names of the dialog's sections while one is open.)
+        open ? { items: tiles.map(tile => ({ id: tile.id, label: tile.title })), current: tiles.findIndex(tile => tile.id === open.id), go: (id: string) => setOpenId(id) } : null);
 
     const grid = useRef<HTMLDivElement | null>(null);
     const side = useMemo(pageTileSide, []);

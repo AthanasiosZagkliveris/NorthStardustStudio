@@ -4,7 +4,7 @@ import { useState } from "react";
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 
 import BusinessCapabilityEditor from "./BusinessCapabilityEditor";
-import { cardBoxes, closeAllTiles, closeTile, floatingCardHost, infrastructureCard, offeringCard, openBox, openCard, openTile, tileButton, toggles, topDialog } from "../../test/interviewTestUtils";
+import { cardBoxes, closeAllTiles, closeTile, descendSole, floatingCardHost, infrastructureCard, offeringCard, openBox, openCard, openTile, tileButton, toggles, topDialog } from "../../test/interviewTestUtils";
 import { asBusinessCapabilityValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot } from "../../framework/engine/AnswerUtils";
 import { stylesheet } from "../../test/stylesheet";
 import { tableRows } from "./CapabilityOverview";
@@ -354,7 +354,8 @@ describe("an empty section shows a small + under its title", () => {
         const name = screen.getByRole("textbox", { name: "Activity 3 name" });
         expect(document.activeElement).toBe(name);
         fireEvent.change(name, { target: { value: "Third" } });
-        closeTile();
+        // (The category's one group has its tile, one level between the card and the page.)
+        closeAllTiles();
         expect((tileButton("Operational").getAttribute("data-holds") ?? "").split(" ").filter(Boolean)).toHaveLength(3);
     });
 
@@ -608,11 +609,10 @@ describe("cards made from a Customer Channel", () => {
         />);
         expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Delivery"]);
         expect(tilesOf("Infrastructure sections")).toEqual(["Founders", "Resources", "Activities", "Partners & Suppliers"]);
-        // (Infrastructure's Resources view holds the one card as a card tile, in the Utilities category where it was made.)
+        // (Infrastructure's Resources view holds the one card in the Utilities category where it was made: the category's one group has its tile, which lists it.)
         openTile("Resources", "Utilities", undefined, infrastructureCard());
-        const tile = topDialog().querySelector<HTMLElement>("button.card-tile")!;
-        expect(tile.getAttribute("aria-label")).toBe("Resource 1: Card reader");
-        expect([...tile.querySelectorAll("li")].slice(1, 3).map(item => item.textContent)).toEqual(["Infrastructure", "Utilities"]);
+        const tile = topDialog().querySelector<HTMLElement>("button.section-tile")!;
+        expect(tile.getAttribute("aria-label")).toContain("Card reader");
     });
 
 });
@@ -981,11 +981,16 @@ describe("a category with several groups opens on tiles", () => {
         render(<Harness initial={twoInEach()} />);
         for (const [tile, names] of Object.entries(kinds)) {
             openCategory(tile);
+            // (A category with one group shows that group's tile first: the cards are one press further in.)
+            const deeper = descendSole();
             const dialog = topDialog();
             expect(boxesIn()).toEqual(names);
             // The tile component in a left-aligned 12px grid; no card is drawn yet.
             expect(dialog.querySelector(".business-capability-subsection") === null).toBe(!["Utilities", "Workstation", "Equipment"].includes(tile));
             // (Back returns to the Resources view first, then closes the dialog.)
+            for (let back = 0; back < deeper; back += 1) {
+                closeTile();
+            }
             closeTile();
             expect(tileButton(tile)).toBeTruthy();
             closeTile();
@@ -1041,10 +1046,13 @@ describe("a category with several groups opens on tiles", () => {
         render(<Harness initial={{ ...twoInEach(), offering: { ...base.offering, professionals: [createBusinessPartner("Ann"), createBusinessPartner("Bo")] } }} />);
         const tiles = () => [...topDialog().querySelectorAll<HTMLElement>(".card-tile-grid > .section-tile-slot > .section-tile")];
         const grid = () => topDialog().querySelector(".card-tile-grid") as HTMLElement;
-        // (Utilities has the one group: its two cards stand as tiles.)
+        // (Utilities has the one group: its tile first, then its two cards as tiles.)
         openCategory("Utilities");
+        expect(tiles()).toHaveLength(1);
+        descendSole();
         expect(tiles()).toHaveLength(2);
         expect(grid().style.getPropertyValue("--section-tile-size")).toBe("215px");
+        closeTile();
         closeTile();
         closeTile();
         openCategory("Documents & Rights");
@@ -1065,8 +1073,9 @@ describe("a category with several groups opens on tiles", () => {
         expect(boxesIn()).toEqual(kinds["Digital Infrastructure"]);
         closeTile();
         closeTile();
-        // A category of one group opens on that group's cards, ending with the add tile: it adds a card, not a group.
+        // A category of one group opens on that group's tile; inside it, the cards end with the add tile: it adds a card, not a group.
         openTile("Equipment");
+        descendSole();
         const dialog = topDialog();
         const grid = dialog.querySelector(".card-tile-grid")!;
         const add = within(dialog).getByRole("button", { name: "Add Card" });
@@ -1089,6 +1098,7 @@ describe("a category with several groups opens on tiles", () => {
         closeAllTiles();
         expect(screen.queryByRole("dialog")).toBeNull();
         openTile("Equipment");
+        descendSole();
         expect(boxesIn()).toEqual(kinds.Equipment);
     });
 

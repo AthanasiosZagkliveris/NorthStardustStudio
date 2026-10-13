@@ -121,6 +121,7 @@ function HeadKind({ kind, help }: { kind: string; help: string }) {
 
 /** The Objective's date-sort funnel button: hidden for now. */
 const SHOW_OBJECTIVE_SORT = false;
+const THEMES_HELP = "A broad area the organisation intends to develop during the Strategic Period (for example Financial Stability, or a Recurring Client Base). A Theme holds Goals; a Goal holds Objectives, and an Objective its Initiatives and Metrics.";
 const GOALS_HELP ="What do you want to accomplish within each Strategic Theme, and why does it matter?";
 const OBJECTIVES_HELP = "Specific, measurable, and time-bound milestones that support a Goal.";
 const INITIATIVES_HELP = "Actions focused on major areas of work to achieve the Objectives.";
@@ -247,6 +248,7 @@ export default function StrategicPeriodEditor({
                                             onChange={(event) => onEditTheme(theme.id, { name: event.target.value })}
                                         />
                                     </NumberedName>
+                                    <HeadKind kind="Theme" help={THEMES_HELP} />
                                     <BoxActions label={"Strategic Theme " + (themeIndex + 1)} disabled={disabled} onAdd={onAddTheme} addLabel="Theme" onRemove={onRemoveTheme ? () => onRemoveTheme(theme.id) : undefined} />
                                 </div>
                                 <OptionalNote
