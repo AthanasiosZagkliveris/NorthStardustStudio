@@ -15,8 +15,8 @@ third subsection of whichever section the reader is in.
 side (stacked under 1100px). The column title ("1. INFRASTRUCTURE",
 "2. OFFERING'S CAPABILITY") is the card's one label and its first row, inside
 the card: the card has no head row or fold arrow of its own. This page has no
-"Hide Help" button: each title has a small arrow after it (the title's size,
-not the fold arrow's), pointing right while its help is hidden (the default) and
+"Hide Help" button: each title has a label arrow after it (a triangle
+the title's size, not the 36px fold arrow), pointing right while its help is hidden (the default) and
 down while open. Pressing it drops the help text down as a panel over the card,
 under the title, without moving anything below it; the arrow, Escape or a click
 outside closes it, and only one is open at a time. Nothing is saved about it.
@@ -105,7 +105,7 @@ and no fold behaviour.
 **A tile.** Its title stands so that its last line is centred on the line one third down the square
 (a long title grows upward; one that does not fit above that line drops to 14px, that title only), underlined
 by a hairline of its own. Under it a short list of what the section includes, in small muted text with the
-app's bullet, one line each cut by an ellipsis, as many lines as fit and then "+N more": the founders with the
+app's bullet, one line each cut by an ellipsis, every item of the list (a list the tile cannot hold scrolls; there is no "+N more" line): the founders with the
 names alone, the Workspace's type ("Not set" until chosen), the subcategories
 of Utilities, Workstation, Equipment and Digital Infrastructure (an added one too), the activities of an
 Activities tile, the partners and providers, the cards' names in Offering's Capability and the Offerings in
@@ -114,12 +114,12 @@ Delivery. The list block is centred under the title, inside the square, and star
 ("Utilities, Electricity, Internet"). A tile whose section holds no cards yet and has the "+" box shows no list and no glyph, only the box ("No items yet"); a box without that "+" box (a subcategory box in a dialog) shows a small "+" under its title instead of the list.
 
 **The lists on the tiles are selectable.** Each item of a list is a button, underlined under the pointer and the focus. Pressing a
-founder's name, an activity, a resource, a partner or a provider opens THAT card alone, as a **floating card** (480px wide, a founder's 297px) over the dimmed page, with a drop shadow, centred over the page's column with its top on the top of the first row of tiles; Back, Escape or a click outside closes it. Pressing
+founder's name, an activity, a resource, a partner or a provider opens THAT card alone, as a **floating card** (492px wide, `--open-card-width`; a founder's 297px) over the dimmed page, with a drop shadow, centred over the page's column with its top on the top of the first row of tiles; Back, Escape or a click outside closes it. Pressing
 the Workspace item (or the Workspace tile itself) opens only the Workspace form, floating, centred over the Resources tiles. Pressing a
 subcategory (Electricity, Internet ...) opens its card alone when it holds exactly one, the section's dialog on that subcategory when it holds several, and -- empty -- the dialog on it with a new blank card waiting. "+N more", and the tile outside its list, open the
 section's dialog as before. Delivery's list is plain text.
 
-**A tile grows when you point at it.** Under the pointer (not with the keyboard focus: that has its ring) the tile grows to 150%, without moving the other tiles,
+**A tile grows when you point at it.** Under the pointer (not with the keyboard focus: that has its ring) the tile grows to 110%, without moving the other tiles,
 overlapping them and throwing a drop shadow that grows with it. Pressing an item of its list never moves it from under the pointer; closing a card or a dialog (Escape, Back, a click outside) returns to the default page: no tile grown and, after a mouse click, no ring on the item that opened it. It grows inward -- the left column from its left edge, the right from its right, the
 middle from its centre, the top row from the top, the bottom row from the bottom -- so it never leaves its card. This does not apply to the boxes in a dialog.
 
@@ -133,7 +133,7 @@ is removed again.
 **The look of the boxes.** The boxes (page tiles, subcategory boxes, card boxes, the Completed box) have no stroke and no border: their edge is a light from the top left and a shade to the
 bottom right, inside, with no thin line outside it. The opened cards (founder, resource, Workspace, activity, partner, provider, Delivery), their cells (inputs, pickers, text boxes, name cells, the x) and the Back button take the same edge, the cells a lighter one;
 the focus ring stays. A tile's title and its underline stand one line higher than before (a title that then no longer fits drops to the small size), the list under it starting 12px under the underline.
-The "i" of a coloured card is the colour of the card with a stroke and its letter in the darker tint of its hue; under the pointer the stroke goes and the two swap. The arrows of a founder's card (Responsibilities, Completed) and the title arrows have no reaction under the pointer.
+The "i" of a coloured card is the colour of the card with a stroke and its letter in the darker tint of its hue; under the pointer the stroke goes and the two swap. The arrows of a founder's card (Responsibilities, Completed) and the title arrows are the label arrow: under the pointer and the keyboard focus their outline triangle fills; no ground, no ring.
 
 **A card opened from a list or a "+" box** stands centred over the page's column it belongs to (Infrastructure's or Offering's Capability's), its top on the top of the first row of tiles, with the name of its box (Operational, Providers, Workspace ...)
 centred above it, outside it, and the box's "i" after the name where the box has one. The page behind is only dimmed (a flat scrim).
@@ -183,11 +183,11 @@ list (no "Roles" label), Salary | Frequency, Working Hrs | Delivery Hrs (four ce
 example "70% of working hours"; nothing while the working hours are blank), and Responsibilities
 with only the rate beside it ("0/6"). Every text of the card starts at one left edge; the numbers, the bullets and the
 fold arrows hang to the left of it, at one x. The Responsibilities list is collapsed every time the
-dialog opens; opened, its "Completed N" row is in line with the Responsibilities heading, and both fold arrows are the app's standard arrow with its usual
-size and reactions.
+dialog opens; opened, its "Completed N" row is in line with the Responsibilities heading, and both fold arrows are the label arrow (an outline triangle that fills
+under the pointer and the keyboard focus).
 
-**The opened card.** A Resource, Activity, Partner or Provider card is centred, exactly 480px wide at most, and nothing in it is
-stretched: a picker is as wide as its longest option, the Quantity 80px, the Price 128px, the currency as wide as its
+**The opened card.** A Resource, Activity, Partner or Provider card is centred, exactly 492px wide at most (`--open-card-width`), and nothing in it is
+stretched: a picker is as wide as its longest option, the Quantity 56px (`--qty-w`), the Price 128px, the currency as wide as its
 code, Quantity, Price and currency on one row 12px apart; Frequency and Responsible are side-label rows in the
 one label column. On an Activity card the Performer and Responsible labels (the Responsible's with its tick) stand
 12px before their dropdowns, on one line, the two dropdowns at one x; the Performer's dropdown runs to the right edge of the name cell, and at the x's place stands a "+" box (the page's, at the x's size) that adds a performer, a further performer's row ending in an x; the Completed tick stands at the left with the other ticks. In every card the Responsible's tick, label and dropdown stay on one row, however narrow
@@ -509,7 +509,7 @@ Each slot should have:
 
   - **Corners.** Unchanged: every box, card and dialog keeps the radius it had (8px boxes and cards, 6px cells); nothing follows the box size.
   - **Recessed text and number cells.** A text or number input / textarea (not a picker, not a tick box) is the raised cell turned over: `--cell-inset-recess` (shade at the top left, light at the bottom right) on the cell edge (`--cell-edge`); a picker keeps `--cell-inset`; the focus ring stays over it; a disabled (frozen) cell is flat. The Workspace form and the Delivery cards take it through the same selector. The x (`.strategy-box-remove`), ticks, the "i", "+" boxes, arrows and other small buttons are NOT touched by the page-3 edges: the x is the app's one (remove-button.css) and no rule of `page-3-edges.css` names it; the probe checks every x at rest has no inset shadow and looks like every other.
-  - **Wired / filled arrows.** The founders' fold arrows (11 x 18 closed, 18 x 11 open) and the title arrows (long side `--title-arrow-size`, depth 0.61 of it) are a triangle drawn as a CSS mask over the ink colour: an outline (1.5px stroke) at rest, the same triangle filled under the pointer and keyboard focus. Box, margins and place are identical in both states, so nothing moves. No ground or ring on hover.
+  - **Wired / filled arrows.** The founders' fold arrows (11 x 18 closed, 18 x 11 open at an 18px label) and the title arrows are the label arrow (`LabelArrow.tsx`, `label-arrow.css`): an SVG triangle, an outline (2px line inside the shape) at rest, the same triangle filled under the pointer and keyboard focus. Box, margins and place are identical in both states, so nothing moves. No ground or ring on hover.
   - **The dropdown list** is a card of its own under the cell (above it where there is no room): 6px gap, no stroke (the boxes' inset light and shade plus the drop shadow), exactly the cell's width and left edge (inline width / min / max from the cell's box), a long option wrapping inside it with its full text as tooltip. A Status, Responsible or Provider picker `fill="fit"` runs from its label's gap to the right edge of the name cell.
   - **The opened card's columns** (Resource, Activity, Partner, Provider, channel cards; not Delivery, not the Workspace form): a grid of three columns -- the marker (the number, as wide as its digits), the content and the x (32px) -- 8px apart, the head on a subgrid. Everything under the head starts at the name cell's LEFT edge (x 245.9 at the 480px card) and ends at its RIGHT edge (634.3); the x column stays empty but for an Activity's "+" / x beside a performer; the Responsible row (Partner / Provider and Activity) ends at the name cell's edge; the Description box ends there too. A Partner's / Provider's Price (219 with its currency) and Frequency (hugging its longest option, 126px; the placeholder is just "Select") sit side by side while the content column has 358px (at the 480px card it has 388px), under each other below that. A child activity's head: the number at the card's padding edge (12px), 8px to the name, the name's text starting at the name column's left edge, both on one centre line (0.3px apart); the head 12px from the card's top. Probe rules 18c / 18f read all of it, including that no picker shows a cut value; the one exception is a Status picker holding its longest option (282px of text beside a 124px label in a 388px column), which ends in an ellipsis with its whole text in the list.
   - **Subcategory "+".** Each subcategory box of the four resource groups (fixed ones, and a founder's own Other) has a 36px "+" box at its lower right (in the box's own grid cell, 12px in) that makes a blank resource in that subcategory and opens it floating, captioned with the subcategory's name; left blank it is removed again (the subcategory stays). The four group tiles have no "+".
@@ -666,7 +666,7 @@ A card needs an answer in every field that is not behind an optional tick box. O
 ## The funnel's rhythm and fold arrows; the lists' height (latest)
 
 - **One rhythm in the funnel** (two rulebook tokens only): `--space-field` (12px) is the menu's padding, the gap between its blocks (Include, Belongs to, Status / Frequency, Costs, Sort), above and below a block's label, between a block's sub-lists and between the fields of the Status / Frequency / Costs blocks; `--space-label` (6px) is the gap between rows of ticks, from a select's or input's label to its control, between the two cost-order buttons and between the two Cost cells. The cost-order buttons ("High to low", "Low to high") are two small buttons side by side on one row; Linked and Costs are ticks at the other ticks' spacing.
-- **Fold arrows.** Include, Belongs to and Sort each carry the section cards' title arrow (small, right of the label; a button with `aria-expanded`, "Fold <block>" / "Unfold <block>"). All three are open at first; a click folds that block (Sort folds its orders) and the state is kept while the overview stays open. The menu's height stays capped to the window and scrolls inside.
+- **Fold arrows.** Include, Belongs to and Sort each carry the overview menu's title arrow (`title-arrow.css`: small, right of the label; a button with `aria-expanded`, "Fold <block>" / "Unfold <block>"). All three are open at first; a click folds that block (Sort folds its orders) and the state is kept while the overview stays open. The menu's height stays capped to the window and scrolls inside.
 - **A tile's list shows every whole line that fits** (up to the room under the title). Cause of the 1.17px overflow at 1366: the list measured where each line ends from the top of the tile's layer instead of from the top of the list, so the room looked used up by the title's height, a line was left out and the last shown line could stand 1.2px past the list's end. The measure is now from the list's top; the 4px under the last line (descenders) stays.
 
 ## Funnel order, cost arrows, the table, teal lines (latest)

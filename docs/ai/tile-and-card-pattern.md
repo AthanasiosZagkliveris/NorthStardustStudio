@@ -19,7 +19,7 @@ One pattern for every tile, frame and card of the app (Identity, Brand, Business
 
 ## The card that opens from a tile
 - Floating, 480px wide, one box: the tile's tint, a hairline in its hue, 8px corners, one shadow, 12px padding. Its head: the name cell with the order number inside it (drawn over its left, the name's text after it), and the ×; everything under the head starts and ends where the name does (the card's own 12px at the left; the × has its own column at the right); a label stands above its control or beside a single short one, to the name's right edge.
-- Drop-downs are the app's own; the "i", the Back button and the hover reactions take the tile's tint.
+- Drop-downs are the app's own; the "i" and the hover reactions take the tile's tint; so does a Back button under the pointer (see "Where the arrow stands in the tab" below).
 - A Theme's card stands in the centre under its section's title.
 
 ## Linkable content, headers and darkness
@@ -64,7 +64,7 @@ This file is the short, visual brief: what a tile, frame and card look like, for
 - **A fix with a global reach is made as a rule**, in a shared component, token or class (a rail, a head, a label, a scroll), and written here; never for one card only.
 - **A wired button has no fill at rest** (the "i", "+", x, an "Add ..." button): transparent, so it takes the colour behind it; its own fill returns under the pointer or when open (`section-tiles.css`, "GLOBAL: A WIRED BUTTON").
 - **A floating card has one ground**: round, with its hairline and shadow; the tile content that holds it (`.column-tile-content`, `.brand-style`, `.brand-inventory`) has none, so no square box shows behind its corners.
-- **A tab follows the reading mode and takes its edge from the layer's ink where the layer's hairline is a translucent light**; a name in it never changes width (it is lit by a shadow, not a heavier weight) and keeps 14px from its bullet. The Back button of a dialog stands in its tab after the last option, and the dialog's foot has none while the tab does.
+- **A tab follows the reading mode and takes its edge from the layer's ink where the layer's hairline is a translucent light**; a name in it never changes width (it is lit by a shadow, not a heavier weight) and keeps 12px from its bullet (the item's gap). The Back button of a dialog stands in its tab after the last option, and the dialog's foot has none while the tab does.
 - **A channel card is divided into sections by one tint**: Offerings and Links/Expenses on the card's ground, the Actions between them on 12% of the card's label colour, edge to edge, straight lines.
 - **A delete x of a block (a Relationship Type) stands at its top right corner**, 12px from both edges.
 
@@ -74,8 +74,8 @@ This file is the short, visual brief: what a tile, frame and card look like, for
 - **A founder's card narrower than its two pairs** (Salary | Frequency, Working Hours | Delivery Hours) stacks the pairs, each label beside its cell, instead of letting the second pair run out of the card (container query on `cost-fields`).
 - **Every floating card starts at one level**: the first row of tiles of its column where that stands under the column's title, else the frame's top plus the title's height (62px); a card opened by a link (a Legal Entity pair) stands over the other column of the tile that holds it, at the same level.
 - **A floating card's page tab is placed by the card's frame** (12px under its top), never by the box name that stands above it; its ground is the first fully opaque box inside the card's body (a caption pill or a tooltip is never one), so Identity, Brand and Business cards all have their tab.
-- **Where the arrow stands in the tab, the bullets AND the Back button continue below it**, and the arrow takes the bullets' tint.
-- **The Back of a layer is a plain "<" and a word; under the pointer it only gets bolder** (no underline, no other colour).
+- **Where the arrow stands in the tab, the bullets AND the Back button continue below it**, and the arrow over a tab is the tab's edge colour in a brighter version (55% of it mixed with white), in every reading mode.
+- **The Back in a layer's tab is built like a rail item** (`.carousel-rail-back`): an arrow box as wide as a bullet (12px, the arrow on the bullets' line), the item's 12px gap, then the word in capitals; at rest in the tab's edge colour (the card's mid tone); under the pointer and the focus in the colour of the card's "+" box (`--plus-fill`), bold (a shadow and the bold tracking, so the word never changes width), and the arrow grows 20% forward; no underline. A dialog with no tab has its Back at its foot (`.section-tile-back`): a "<" and the word in the default ink, which take the tile's tint and go bold under the pointer. The Back of a layer is described in the contract `src/library/assets/backButton.ts`.
 - **Every floating card scrolls up to a quarter of the window's height above its bottom** (`data-reserve` on the card's host, 25vh of padding at the end of its stack).
 - **The page tab stands on the side of its layer nearer the window's edge** (a layer in the left half: at its left, mirrored; its names beside the bullets only where that side has the room, else in tooltips). Every page tab starts 12px under the top of the frame it is attached to (a floating card's own frame, a dialog's panel).
 - **Hovering never moves anything**: a hover or focus reaction changes colour, shadow, text-shadow, outline or a transform (which takes no room) -- never a margin, padding, border width, size, font weight or letter spacing of something in a card. (Checked by hovering every control of an open card and comparing the boxes.)

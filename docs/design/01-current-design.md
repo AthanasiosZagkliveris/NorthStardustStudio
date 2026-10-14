@@ -81,6 +81,8 @@ Eleven of the thirteen chapters of the Foundation are drawn as Master Tiles. The
 
 This part records every kind of element the Foundation capability is built from, by layer, so that nothing is missing when the asset library is written (document 5). It comes from a read of the code on 2026-10-14. It was verified for structure and exports; CSS classes and runtime behaviour were not each checked. Paths: `I/` is `src/components/interview/`, `C/` is `src/components/`.
 
+Global rules that apply to every element (2026-10-14; the sizes and states are in the rulebook `docs/ai/layout-rules.md` and in the contracts under `src/library`): an "i" stands 6px after its label's last word (`--info-gap`); text that goes bold under the pointer, or is bold by default, is 0.05em wider (`--bold-tracking`); a wired button (the "i", the "+" box, the remove x, an "Add ..." button) has no fill at rest.
+
 ### C.0 The owner's vocabulary
 
 | Term | Meaning |
@@ -145,10 +147,12 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 |---|---|---|
 | Interview header | System number and name, em dash, page title; capability colour and icon | `I/InterviewHeader.tsx` |
 | Introduction page | Guiding question, what it covers (numbered list of page links), what it uses from earlier, thinking time, Start Interview arrow | `Conversation.tsx` |
-| Bullet rail | Bullets with names or tooltips and status shape; the active bullet blooms; the left Pages rail (Introduction first) and the right Sections rail | `I/rails/BulletRail.tsx`, `railItems.ts`, `useActiveRailSection.ts`, `styles/bullet-rail.css` |
+| Bullet rail | Bullets with names or tooltips and status shape; the active bullet blooms; the left Pages rail (Introduction first) and the right Sections rail. The rails are one system: a bullet and a label in one button, the lit item bold, a hovered item only underlined, below 1700px the bullets alone with the name as a tooltip | `I/rails/BulletRail.tsx`, `railItems.ts`, `useActiveRailSection.ts`, `styles/bullet-rail.css`; contract `src/library/assets/rails.ts` (the rails in a dialog's tab are not in the contract yet) |
 | Page arrow | Previous and next arrow above each rail; ← and → keys | `I/PageArrow.tsx` |
-| Title help arrow | Arrow that folds a title's guidance | `I/TitleHelpArrow.tsx`, `CardTitleHelp.tsx`, `ColumnHeads.tsx` |
+| Title help arrow | Arrow that folds a title's guidance: the label arrow after the column title and its "i" | `I/LabelArrow.tsx`, `CardTitleHelp.tsx`, `ColumnHeads.tsx` |
+| Label arrow | One frameless triangle in the label's colour and size beside a label or a title (outline at rest, filled under the pointer and the focus): the chapter titles of page 3, a founder's Responsibilities and Completed, a card's Links, the Initiatives. Every other fold arrow is the standard 36px arrow | `I/LabelArrow.tsx`, `styles/label-arrow.css`; contract `src/library/assets/labelArrow.ts` |
 | Help toggle | "Hide Help" or "Need Help?" | `Conversation.tsx` |
+| Back button of a dialog | "< Back" at the dialog's foot, or built like a rail item (an arrow on the bullets' line, the word in capitals) in the dialog's tab after the last option | `SectionTiles.tsx` (`.section-tile-back`, `.carousel-rail-back`); contract `src/library/assets/backButton.ts` |
 | Page group | Several frames side by side on one page | `Conversation.tsx` (`.page-group`), `PageGroups.ts` |
 | Field status line | Small status or hint under a field | `I/FieldStatusLine.tsx`, `fieldMarks.tsx` |
 | Fold all | Expand all or Collapse all for a group of cards | `I/FoldAllToggle.tsx`, `useItemFolds.ts` |
@@ -200,9 +204,9 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 |---|---|
 | Card head | `.fold-card-head`; `BusinessCard` (`BusinessCardFields.tsx`) |
 | Name cell | `CardNameInput.tsx` |
-| Fold arrow | `FoldArrow.tsx` |
+| Fold arrow | `FoldArrow.tsx` (the standard 36px arrow; an arrow beside a label or a title is the label arrow, above) |
 | Order number | `CardNumber.tsx` |
-| Remove × | `BusinessRemove`, `.strategy-box-remove`, `removal-marks` |
+| Remove × | `BusinessRemove`, `.strategy-box-remove`, `removal-marks`; contract `src/library/assets/removeX.ts` |
 | Link symbol and dots | `LinkSymbol`, `Dots` and `SYMBOLS` (`CardTile.tsx`), `ActionMarkers.tsx` |
 | Dates | `DateCellInput` |
 | Status | `status-shape.css`, `ResourceStatuses` |
@@ -230,7 +234,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 | Tick list and multi-tick | `BusinessTicks` |
 | Toggle (date format) | `date-format-toggle.css` |
 | Funnel menus | `CapabilityOverview` (`FunnelPicker`, `MenuHead`), `CalendarFunnel`, the sort funnel in `BoxActions` |
-| "+" box | `BusinessAddButton`; `AddThemeMenu`; `TileAdd` |
+| "+" box | `BusinessAddButton`; `AddThemeMenu`; `TileAdd`; the `.plus-box` button of the tiles; contract `src/library/assets/plusBox.ts` |
 | Step control | `BusinessStep` |
 | × | `.strategy-box-remove` |
 | Field kinds, searchable fields | `fieldKindOf` in `FieldRenderer.tsx`; `FieldRegistry`, `FieldKeys` (used by Notepad and Search) |
@@ -254,7 +258,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 
 | Element | File | Notes |
 |---|---|---|
-| Info note ("i"): up to 3 points (text, title and text, or a cited source); `fullList` lifts the cap | `I/InfoNote.tsx`, `InfoText` | About 100 uses |
+| Info note ("i"): up to 3 points (text, title and text, or a cited source); `fullList` lifts the cap. It stands 6px (`--info-gap`) after its label's last word, on that line's centre; a wired button (no fill at rest) | `I/InfoNote.tsx`, `InfoText`; contract `src/library/assets/infoNote.ts` | About 100 uses |
 | Above-tip tooltip | `I/AboveTip.tsx` | Also native `title` tooltips and the rail labels |
 | Floating panel hook | `hooks/useFloatingPanel.ts` | Used by funnel menus |
 | Option picker list | `OptionPicker.tsx` (`hug`, `tight`, `sizeFor`) | |
