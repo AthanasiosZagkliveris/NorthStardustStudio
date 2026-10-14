@@ -1248,8 +1248,8 @@ differs.
 One fold arrow (`LabelArrow.tsx`, `label-arrow.css`) for an arrow that stands beside a label or a text and shows or hides what belongs to it.
 Today: the chapter titles of 3. Infrastructure & Capability (right of the title and its "i"), a founder's Responsibilities and the Initiatives of an Objective (left of the label, inside it).
 - No frame and no ground: only the triangle. At rest an outline in the label's colour; under the pointer and the keyboard focus the same triangle filled.
-- The label's size: base and height are both 1em of the label. Pointing right while hidden, down while shown.
-- Inside a label it stands 8px before the words (the tick box's gap); its glyph starts at the content edge, like a tick box. The button is never under 24px; it overhangs the triangle and takes no more room.
+- The label's size: base and height are both the label's cap height (0.72em); the outline is 1px, inside the shape. Pointing right while hidden, down while shown.
+- Inside a label its glyph starts at the content edge, like a tick box, and the words start where a tick box's words start (26px). The button is never under 24px; it overhangs the triangle and takes no more room.
 - The other fold arrows (36px, `FoldArrow`: Completed, Links, cards, sections) are unchanged until the owner names them.
 
 ## 9. Tiles: kinds, titles, lists, marks, hover and size

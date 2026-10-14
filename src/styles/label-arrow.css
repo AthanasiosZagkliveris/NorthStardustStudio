@@ -3,7 +3,7 @@
    label or a text -- the chapter titles (1. Infrastructure), a founder's Responsibilities, the Initiatives.
    - no frame, no ground: only the triangle;
    - at rest an outline, in the label's colour; under the pointer and the keyboard focus the same triangle filled;
-   - the label's size: the triangle's base and its height are both 1em of the label (--label-arrow-size where the label is
+   - the label's size: the triangle's base and its height are both the label's cap height (0.72em) (--label-arrow-size where the label is
      not its parent); pointing right while hidden, down (turned a quarter) while open.
    The button is never under 24px (WCAG 2.2, target size) but takes no more room than the triangle: the box overhangs it.
 ========================================================== */
@@ -21,7 +21,7 @@
     width: var(--label-arrow-hit);
     height: var(--label-arrow-hit);
 
-    margin: 0 calc((1em - var(--label-arrow-hit)) / 2);
+    margin: 0 calc((0.72em - var(--label-arrow-hit)) / 2);
     padding: 0;
 
     border: 0;
@@ -48,15 +48,16 @@
     top: 50%;
     left: 50%;
 
-    width: 1em;
-    height: 1em;
+    /* The height of the label's capital letters (0.72em); base and height equal. */
+    width: 0.72em;
+    height: 0.72em;
 
-    margin: -0.5em 0 0 -0.5em;
+    margin: -0.36em 0 0 -0.36em;
 
     background: currentColor;
 
-    /* A triangle as wide as it is high, an outline: the outer triangle, a seam, the inner one turned the other way. */
-    clip-path: polygon(0 0, 100% 50%, 0 100%, 0 0, 9% 14.5%, 9% 85.5%, 80% 50%, 9% 14.5%, 0 0);
+    /* A 1px line inside the shape: the outer triangle, a seam, the inner one (the outer inset by 1px) turned the other way. */
+    clip-path: polygon(0 0, 100% 50%, 0 100%, 0 0, 1px 1.618px, 1px calc(100% - 1.618px), calc(100% - 2.236px) 50%, 1px 1.618px, 0 0);
 
 }
 
@@ -79,11 +80,11 @@
 
 }
 
-/* In a label: the arrow, then the words 8px after the triangle (the tick box's own gap to its words). */
+/* In a label: the arrow's glyph on the content edge, like a tick box, the words where a tick box's words start (26px from the edge: 18px box and 8px gap). */
 .field-label > .label-arrow,
 .strategy-box-number > .label-arrow {
 
-    margin-right: calc((1em - var(--label-arrow-hit)) / 2 + 8px);
+    margin-right: calc(26px - (0.72em + var(--label-arrow-hit)) / 2);
 
 }
 
