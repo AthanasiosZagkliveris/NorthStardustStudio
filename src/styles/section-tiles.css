@@ -7743,6 +7743,7 @@ table.business-relationship-table {
     --rail-dot-active: var(--nav-edge);
     --rail-bloom: color-mix(in srgb, var(--nav-edge) 28%, transparent);
     --rail-dot-hover: color-mix(in srgb, var(--nav-edge) 75%, transparent);
+    --rail-hover-ring: color-mix(in srgb, var(--nav-edge) 40%, transparent);
 
 }
 
@@ -8847,6 +8848,7 @@ main.conversation-content[data-reserve],
     --rail-dot-active: var(--tab-edge);
     --rail-bloom: color-mix(in srgb, var(--tab-edge) 28%, transparent);
     --rail-dot-hover: color-mix(in srgb, var(--tab-edge) 75%, transparent);
+    --rail-hover-ring: color-mix(in srgb, var(--tab-edge) 40%, transparent);
 
 }
 
@@ -9937,5 +9939,63 @@ label:has(> input[type="checkbox"]) > :not(input) {
 .business-foundation-label-info:has(> .business-foundation-tick) > .info-note {
 
     margin-block: -2px;
+
+}
+
+/* THE RAIL'S BACK BUTTON, built like a rail item: an arrow box as wide as a bullet (12px, the arrow centred on the bullets above), the item's own 14px gap, then the word in capitals -- so the word starts where the labels above start (mirrored on the left rail, where the labels end at the bullets). Arrow and word stand in the card's mid tone (the tab's edge, the bullets' colour); under the pointer and the focus both take the colour of the card's "+" box (--plus-fill: darker on a light card, brighter on a dark one) and the arrow grows 20% forward, as the page arrows do. */
+.carousel-rail .carousel-rail-back {
+
+    gap: 14px;
+
+    padding: 2px;
+
+    text-transform: uppercase;
+
+    color: var(--tab-edge, var(--nav-edge, currentColor));
+
+    transition: color .15s ease;
+
+}
+
+.carousel-rail .carousel-rail-back > .back-arrow {
+
+    flex: none;
+
+    margin: 0 calc((12px - 0.8em * 22 / 28) / 2);
+
+    transform-origin: right center;
+
+    transition: transform .15s ease;
+
+}
+
+.carousel-rail.carousel-rail-tab-left .carousel-rail-back {
+
+    flex-direction: row-reverse;
+
+}
+
+.carousel-rail .carousel-rail-back:is(:hover, :focus-visible) {
+
+    color: hsl(var(--strategy-theme-hue, 0) var(--plus-fill-saturation) var(--plus-fill-lightness));
+
+    text-shadow: none;
+
+}
+
+.carousel-rail .carousel-rail-back:is(:hover, :focus-visible) > .back-arrow {
+
+    transform: scale(1.2);
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .carousel-rail .carousel-rail-back,
+    .carousel-rail .carousel-rail-back > .back-arrow {
+
+        transition: none;
+
+    }
 
 }

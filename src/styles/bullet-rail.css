@@ -573,6 +573,8 @@
     --rail-bloom: color-mix(in srgb, var(--rail-left-edge) 28%, transparent);
     --rail-dot-hover: color-mix(in srgb, var(--rail-left-edge) 75%, transparent);
 
+    --rail-hover-ring: color-mix(in srgb, var(--rail-left-edge) 40%, transparent);
+
 }
 
 :root[style*="--rail-right-bg"] .bullet-rail-right {
@@ -589,6 +591,8 @@
     --rail-dot-active: var(--rail-right-edge);
     --rail-bloom: color-mix(in srgb, var(--rail-right-edge) 28%, transparent);
     --rail-dot-hover: color-mix(in srgb, var(--rail-right-edge) 75%, transparent);
+
+    --rail-hover-ring: color-mix(in srgb, var(--rail-right-edge) 40%, transparent);
 
 }
 

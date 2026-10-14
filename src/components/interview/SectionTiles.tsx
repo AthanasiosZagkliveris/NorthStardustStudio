@@ -1758,7 +1758,7 @@ function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLEle
                     {back && (
                         <button type="button" className="carousel-rail-back" style={gap && gap.index === itemCount ? { marginTop: 12 + gap.size } : undefined} onClick={back} aria-label="Back" title="Back">
                             <span className="back-arrow" aria-hidden="true" />
-                            <span className="carousel-rail-back-word">{" Back"}</span>
+                            <span className="carousel-rail-back-word">Back</span>
                         </button>
                     )}
                 </nav>
