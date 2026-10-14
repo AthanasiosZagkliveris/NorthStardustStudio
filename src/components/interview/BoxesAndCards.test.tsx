@@ -512,7 +512,7 @@ describe("page 3's rules are scoped to page 3 (the Financial pages carry .busine
 describe("the round of small controls: the x, the Back button, the lift, the ring, the numbers, the help, the titles, the lists", () => {
 
     const removeCss = stylesheet("remove-button.css");
-    const colours = stylesheet("colors.css");
+    const colours = stylesheet("colors.generated.css");
 
     it("gives the x the '+' box's swap of two colours: the card's ground, a 2px red stroke and X; filled red and the X in the ground under the pointer and the focus", () => {
         expect(removeCss).toMatch(/\.strategy-box-remove\.strategy-box-remove,[^{]*\{[^}]*color:var\(--x-red\);[^}]*border:2px solid var\(--x-red\);[^}]*background:var\(--x-ground, var\(--bg-surface\)\);/);
@@ -547,9 +547,9 @@ describe("the round of small controls: the x, the Back button, the lift, the rin
     });
 
     it("gives titles and captions their own inks, softer than the theme's extremes", () => {
-        expect(colours).toMatch(/:root \{\s*--title-ink: #303a49;/);
+        expect(colours).toMatch(/:root {[^}]*--title-ink: #303a49;/);
         expect(colours).toMatch(/:root\[data-theme="dark"\] \{[^}]*--title-ink: #cdd1d8;[^}]*--floating-caption-ink: #cdd1d8;/);
-        expect(colours).toMatch(/\.section-tile-title\.section-tile-title,[^{]*\{[^}]*color: var\(--title-ink\);/);
+        expect(stylesheet("colors.css")).toMatch(/\.section-tile-title\.section-tile-title,[^{]*\{[^}]*color: var\(--title-ink\);/);
     });
 
     it("lets the lists on the tiles scroll: every item, a thin themed scrollbar, no '+N more'", () => {

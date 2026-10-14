@@ -9,6 +9,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
+    "tokens": "node scripts/tokens/generate.mjs",
+    "tokens:check": "node scripts/tokens/generate.mjs --check",
     "tauri": "tauri",
     "check:layout": "node scripts/layout-check/run.mjs --quick",
     "check:layout:baseline": "node scripts/layout-check/run.mjs --quick --write-baseline",

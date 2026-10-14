@@ -11,12 +11,12 @@ export function stylesheet(name: string): string {
 }
 
 /**
- * One theme's token block in colors.css, folded as stylesheet() folds
+ * One theme's token block in colors.generated.css, folded as stylesheet() folds
  * it: the light tokens (the first rule), or the
  * :root[data-theme="dark"] or ="sepia" rule.
  */
 export function themeBlock(theme: "light" | "dark" | "sepia"): string {
-    const css = stylesheet("colors.css");
+    const css = stylesheet("colors.generated.css");
     const start = theme === "light" ? css.indexOf(":root,") : css.indexOf(":root[data-theme=\"" + theme + "\"] {");
     if (start < 0) throw new Error("no " + theme + " block");
     return css.slice(start, css.indexOf("}", start));

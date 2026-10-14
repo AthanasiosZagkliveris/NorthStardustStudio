@@ -504,7 +504,7 @@ Names and wording, the composition of a page (which assets sit together), and an
 4. **The lint is switched on after the codemods**, not before.
 5. **The generator is a small custom Node script** in `scripts/`, with no new dependency, not Style Dictionary (it has no built-in notion of themes, so the mode blocks would be custom formats anyway). Revisit only if the tokens must feed more platforms.
 
-Next step: build step 1 of the order above (token source and generator for colour, the generated CSS proven identical to today's by a diff). No layout checks until the library has unified the elements (owner, 2026-10-14).
+Step 1 of the order is built (2026-10-14): see the log, 4.4. Next: step 2, breakpoints, corners and gaps. No layout checks until the library has unified the elements (owner, 2026-10-14).
 
 ### Sources
 
