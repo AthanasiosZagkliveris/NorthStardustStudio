@@ -63,7 +63,7 @@ subsection's actual last field.
 
 **Cross-system sources.** Financial Foundation consolidates costs
 from four places, which it listed by name only. Each is now
-qualified: Legal Entity is **1. Identity System, Page 3**; the other
+qualified: Legal Entity is **1. Identity System, page 2 "Organization", chapter 1**; the other
 three are this System's own Page 3.
 
 Left alone deliberately: spelling and grammar inside the
@@ -82,7 +82,7 @@ corrected where they named the page itself — "Infrastruction" became
 
 - **`MultiPart` + `**Layout:** Columns`** — a page of equal-width
   columns, each with its own question bullets. What the Identity
-  System's Definition and Ethics pages and the Brand System's pages
+  System's Definition and Ethics page (two chapters) and the Brand System's page
   use. **Each column parses its own `Structure:`**, so columns can
   mix Free Text, Card List, Table and bespoke types.
 - **`**Numbering:** Nested`** — makes a page's sections number
@@ -271,7 +271,7 @@ One page, two sections, numbered **5.1–5.2**.
    and Page 3's costs are read by Page 4.
 4. **Page 5 reads Page 4** for cost behaviour and financial position,
    and Page 1 for Offerings.
-5. **Legal Entity (1. Identity System, Page 3) feeds Page 4's
+5. **Legal Entity (1. Identity System, page 2 "Organization", chapter 1) feeds Page 4's
    costs**, and its country sets **Page 3's default currency** —
    the two cross-System reads. The currency is resolved in
    `Conversation.tsx` (`organisationCurrency`) and handed down.
