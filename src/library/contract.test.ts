@@ -34,4 +34,20 @@ describe("the asset contracts", () => {
         expect(css).toContain("max(" + arrow.geometry.minTargetPx + "px, 1em)");
     });
 
+
+    it("gives the plus box the sizes and the swap its stylesheet draws", () => {
+        const box = assets.find(asset => asset.name === "Plus box")!;
+        const css = stylesheet("section-tiles.css");
+        const g = box.geometry;
+        expect(css).toContain("--plus-size: " + g.sizeTile + "px;");
+        expect(css).toContain("--plus-bar: " + g.barTile + "px;");
+        expect(css).toContain("--plus-size: " + g.sizeSmall + "px;");
+        expect(css).toContain("--plus-bar: " + g.barSmall + "px;");
+        expect(css).toContain("border: " + g.strokeWidth + "px solid var(--plus-fill);");
+        expect(css).toContain("border-radius: var(--radius-lg);");
+        expect(css).toContain("background-color .15s ease");
+        expect(css).toContain("outline: " + g.outlineWidth + "px solid var(--focus-ring-ink);");
+        expect(css).toContain("outline-offset: " + g.outlineOffset + "px;");
+    });
+
 });

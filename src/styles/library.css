@@ -56,3 +56,20 @@
     background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
+
+/* A sample that stands for a page tile: the box is placed at its lower right. */
+.library-plus-tile {
+
+    position: relative;
+
+    height: 96px;
+
+}
+
+.library-plus-inline {
+
+    display: flex;
+
+    align-items: center;
+
+}

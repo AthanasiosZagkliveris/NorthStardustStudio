@@ -12,32 +12,18 @@ export type AssetState = "rest" | "hover" | "focus" | "open" | "closed" | "disab
 export interface AssetVariant {
     readonly id: string;
     /** What surrounds it: the real class names of the app's own parents. */
-    readonly context: "field-label" | "title-row";
+    readonly context: string;
     /** The size of the label beside it, in px, as the stylesheets give it. The runner checks the browser agrees. */
-    readonly fontSizePx: number;
+    readonly fontSizePx?: number;
     readonly note: string;
 }
 
 /** A pair of colours that meet, measured in every reading mode and every palette hue. */
 export interface ContrastNeed {
     readonly ink: string;
-    readonly ground: "page" | "card";
+    readonly ground: string;
     /** 3 for a mark (WCAG 1.4.11), 4.5 for text (1.4.3). */
     readonly min: 3 | 4.5;
-}
-
-export interface ArrowGeometry {
-    /** The triangle's base and depth, in em of the label: 0.611 deep, 1 high pointing right. */
-    readonly glyphWidthEm: number;
-    readonly glyphHeightEm: number;
-    /** Open, the triangle is turned a quarter and shifted by this much (em) so its left edge keeps the content edge. */
-    readonly openShiftEm: number;
-    /** The line, inside the shape's edge. */
-    readonly lineWidthPx: number;
-    /** The button is never smaller than this (WCAG 2.2, 2.5.8). */
-    readonly minTargetPx: number;
-    /** How far a measurement may differ from the rule, in px. */
-    readonly tolerancePx: number;
 }
 
 export interface AssetContract {
@@ -52,11 +38,13 @@ export interface AssetContract {
     readonly variants: readonly AssetVariant[];
     /** The custom properties its stylesheet reads. */
     readonly tokens: readonly string[];
-    readonly geometry: ArrowGeometry;
+    /** The numbers the rulebook gives for this asset, by name; each asset's runner module says what each one measures. */
+    readonly geometry: Readonly<Record<string, number>>;
     readonly accessibility: {
         readonly contrast: readonly ContrastNeed[];
         /** The focus is shown by the filled triangle; no ring and no outline. */
-        readonly focusRing: false;
+        /** True when keyboard focus is shown by a ring or outline; false when the asset's own fill shows it. */
+        readonly focusRing: boolean;
         readonly accessibleName: string;
     };
     readonly uses: readonly string[];

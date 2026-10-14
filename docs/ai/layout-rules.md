@@ -89,6 +89,7 @@ below are these, made measurable.
 | `--qty-w` | 56px | `section-tiles.css` | Quantity box of the cost row. Older text says 80px |
 | Tile hover | `scale(1.1)` | `section-tiles.css` | Every tile. Older text says 150% for page tiles |
 | `--tile-radius` | 8px | `global.css` | |
+| The "+" box at rest | transparent with a 2px stroke (a disabled box keeps the ground colour) | `section-tiles.css`, "A WIRED BUTTON ..." | Older text in 5a says the ground colour; the global rule for wired buttons wins. Measured by the library runner |
 | `--card-padding` | 12px | `global.css` | |
 | `--space-label`, `--space-field` | 6px, 12px | `global.css` | |
 | `--floating-scrim` | transparent | `global.css` | A floating card never darkens the page; a dialog does (`--bg-overlay`) |
