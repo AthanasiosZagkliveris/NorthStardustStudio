@@ -12,6 +12,8 @@
     "tokens": "node scripts/tokens/generate.mjs",
     "tokens:check": "node scripts/tokens/generate.mjs --check",
     "library": "node scripts/library/run.mjs",
+    "docs:values": "node scripts/docs/sync-values.mjs",
+    "docs:values:check": "node scripts/docs/sync-values.mjs --check",
     "lint:styles": "node scripts/lint/lint-styles.mjs",
     "lint:styles:baseline": "node scripts/lint/lint-styles.mjs --write-baseline",
     "tauri": "tauri",
