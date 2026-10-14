@@ -8,8 +8,9 @@ import type { AssetContract } from "../contract.ts";
  * on that line's centre); three looks by where it stands:
  *   plain    the page's blue (line-primary, 1px stroke, white ground);
  *   tinted   in a card or tile of a hue: its edge and letter take the card's tint;
- *   page-3   on the page-3 cards: filled with the ground of the surface, a
- *            1.5px stroke and the letter in the card's darker tint, swapping
+ *   page-3   on the page-3 cards: no fill at rest (a wired button: the ground of
+ *            the surface shows through), a stroke (1.5px declared, drawn as 1px at
+ *            100% zoom on a 1x screen) and the letter in the card's darker tint, swapping
  *            under the pointer, the focus and while its note is open.
  * The numbers are the rulebook's.
  */

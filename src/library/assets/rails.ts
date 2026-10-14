@@ -11,6 +11,9 @@ import type { AssetContract } from "../contract.ts";
  * underlined and the bullet takes the hover blue with a 3px ring, grown 30%.
  * Below 1700px the rail shows its bullets only and the label is a tooltip on
  * hover and focus; from 1700px the labels stand beside the bullets.
+ * An unlit plain bullet is unlit on purpose (owner, 2026-10-15): its low contrast
+ * at rest (1.4 to 1.6:1) is an accepted design choice, so no contrast is asked of it;
+ * the lit and hover states and the page status shapes are checked.
  * This contract covers BulletRail (the pages and sections rails) only; the
  * carousel rails in dialogs and the rail tab are not covered yet.
  */
@@ -61,9 +64,6 @@ export const rails: AssetContract = {
         ],
         focusRing: true,
         accessibleName: "The label (with the status word on the Pages rail); aria-current on the lit item"
-    },
-    knownFindings: {
-        "plain-bullet-contrast": "The plain (no status) bullets are ice blue (--rail-dot) at rest and the lit one the app's blue; the ice blue holds less than 3:1 against the page. The rule for unlit rail bullets was proposed and dropped by the owner (docs/design/05, 5.12), so nothing was changed; the status shapes do hold 3:1."
     },
     uses: [
         "the Pages rail (left) and the Sections rail (right) beside the interview card"

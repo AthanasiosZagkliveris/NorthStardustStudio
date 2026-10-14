@@ -4,9 +4,9 @@ import type { AssetContract } from "../contract.ts";
  * The "+" box (.plus-box in section-tiles.css; rulebook 5a, "The + box"):
  * the small square that makes a new card or row. A swap of two colours
  * (150ms): at rest a 2px stroke and a "+" in the darker tone of the hue
- * (the box itself is transparent: the global rule for wired buttons, section
- * tiles stylesheet, "A WIRED BUTTON ... HAS NO FILL AT REST", overrides the
- * rulebook's older "the ground colour"; a disabled box keeps it); under the
+ * (the box itself is transparent: a wired button is an outline and a symbol
+ * with no fill, by the global rule in the section tiles stylesheet, "A WIRED
+ * BUTTON ... HAS NO FILL AT REST"; a disabled box keeps the ground); under the
  * pointer or the focus filled with the darker tone, no stroke, the "+" in the
  * ground colour. The box never changes size. The numbers are the rulebook's.
  */

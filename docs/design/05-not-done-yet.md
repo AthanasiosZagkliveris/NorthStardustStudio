@@ -440,7 +440,7 @@ No item in this list is a WCAG 2.2 AA failure.
 - **Old fold-arrow and title-arrow styles:** the styles of the 36px fold arrow stay in use (every other fold arrow); the `.title-arrow` styles still serve the capability overview menu only. Check for dead rules in the full clean-up (step 4).
 - **The page tab:** the owner saw about 29px between the longest name and the tab's edge; measured 17px (now 13px with the 12px padding) at every width from 2200px. Ask for the window width if it persists.
 - **Tracking:** every rule that sets a bold weight now adds `--bold-tracking`; rows that hold bold text on hover must be sized for it. The check will show any row that now wraps or overflows.
-- **Contrast of unlit rail bullets** (38% of the edge colour) was not measured against WCAG 1.4.11; the owner dropped the proposed global rule, so nothing was changed.
+- **Unlit rail bullets:** their low contrast at rest is by design (owner, 2026-10-15): they are unlit until hovered or current, so it is an accepted design choice, not a defect. This closes the item. Measured by the library runner: the ice-blue plain bullets hold 1.53:1 (light), 1.58 (dark) and 1.39 (sepia) on the page; the lit and hover states and the page status shapes keep their checks.
 - **PDF copies** of documents 04 and 05 (and the combined file) are older than these texts.
 
 ## 5.13 Library automation: the process (proposal, 2026-10-14)

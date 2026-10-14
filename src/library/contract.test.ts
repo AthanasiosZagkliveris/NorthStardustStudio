@@ -91,7 +91,7 @@ describe("the asset contracts", () => {
         expect(css).toContain("outline: " + g.outlineWidth + "px solid var(--line-primary); outline-offset: " + g.outlineOffset + "px;");
         expect(css).toContain("@media (min-width: " + g.wideFrom + "px)");
         expect(stylesheet("status-shape.css")).toContain("width: " + g.bullet + "px;");
-        expect(Object.keys(rails.knownFindings ?? {})).toEqual(["plain-bullet-contrast"]);
+        expect(rails.knownFindings).toBeUndefined();
     });
 
 

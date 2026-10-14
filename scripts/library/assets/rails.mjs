@@ -64,7 +64,7 @@ export async function run(page, contract, where, check) {
             if (item.status && !item.active) {
                 check(item.ratios.ink >= contract.accessibility.contrast[0].min, here, "a status shape holds " + contract.accessibility.contrast[0].min + ":1 on the page", item.ratios.ink.toFixed(2) + ":1");
             } else if (!item.active) {
-                check(item.ratios.ink >= 3, here, "an unlit plain bullet holds 3:1 on the page", item.ratios.ink.toFixed(2) + ":1", "plain-bullet-contrast");
+                // An unlit plain bullet is unlit on purpose (owner, 2026-10-15): no contrast is asked of it.
             } else {
                 check(item.ratios.ink >= 3, here, "the lit bullet holds 3:1 on the page", item.ratios.ink.toFixed(2) + ":1");
             }
