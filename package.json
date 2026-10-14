@@ -12,6 +12,8 @@
     "tokens": "node scripts/tokens/generate.mjs",
     "tokens:check": "node scripts/tokens/generate.mjs --check",
     "library": "node scripts/library/run.mjs",
+    "lint:styles": "node scripts/lint/lint-styles.mjs",
+    "lint:styles:baseline": "node scripts/lint/lint-styles.mjs --write-baseline",
     "tauri": "tauri",
     "check:layout": "node scripts/layout-check/run.mjs --quick",
     "check:layout:baseline": "node scripts/layout-check/run.mjs --quick --write-baseline",

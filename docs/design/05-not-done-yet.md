@@ -504,7 +504,7 @@ Names and wording, the composition of a page (which assets sit together), and an
 4. **The lint is switched on after the codemods**, not before.
 5. **The generator is a small custom Node script** in `scripts/`, with no new dependency, not Style Dictionary (it has no built-in notion of themes, so the mode blocks would be custom formats anyway). Revisit only if the tokens must feed more platforms.
 
-Steps 1 to 3 of the order are built (2026-10-14): see the log, 4.4, and the owner's list in 5.14. Step 3 covers six assets with a contract, a gallery entry and a runner module: the label arrow, the "+" box, the "i", the remove x, the rails (BulletRail only) and the Back button (`npm run library`). The findings the runner reports (known findings in the contracts, and the rulebook's values table) are for the owner. Next: step 4, the lint and the style-reading tests; asset by asset (step 5) and the page check last (step 6) follow.
+Steps 1 to 3 of the order are built (2026-10-14): see the log, 4.4, and the owner's list in 5.14. Step 3 covers six assets with a contract, a gallery entry and a runner module: the label arrow, the "+" box, the "i", the remove x, the rails (BulletRail only) and the Back button (`npm run library`). The findings the runner reports (known findings in the contracts, and the rulebook's values table) are for the owner. Step 4 is built in part (2026-10-15): the baselined style lint (`npm run lint:styles`); the asset-name rule and the conversion of the style-reading tests are left to define. Next: asset by asset (step 5), with those tests converted as each asset gets its contract, and the page check last (step 6).
 
 ### Sources
 
