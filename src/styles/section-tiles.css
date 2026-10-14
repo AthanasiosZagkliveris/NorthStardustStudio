@@ -9393,7 +9393,8 @@ main.conversation-content[data-reserve],
 
 .page-arrow.carousel-arrow.carousel-arrow-on-tab {
 
-    color: var(--tab-edge);
+    /* Over the page tab: the tab's edge colour in its brighter version. */
+    color: color-mix(in srgb, var(--tab-edge) 55%, white);
 
 }
 
