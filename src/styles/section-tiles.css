@@ -4311,7 +4311,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 :is(.business-founder-open, .business-capability-links) .business-capability-responsibilities-head > .strategy-box-toggle {
 
     margin-left: -12.5px;
-    margin-right: -16.5px;
+    margin-right: -9.5px;
 
 }
 
@@ -6825,7 +6825,7 @@ table.business-relationship-table {
 /* The Goal, the Objective and what is in them stand on the card's hue in every reading mode (never the neutral card ground). */
 .strategy-goal-card .strategy-goal-box,
 .strategy-goal-card .strategy-objective-box,
-.strategy-goal-card .strategy-goal-box [class*="strategy-"][class*="-box"]:not(.strategy-box-remove) {
+.strategy-goal-card .strategy-goal-box [class*="strategy-"][class*="-box"]:not(.strategy-box-remove):not(.strategy-box-toggle) {
 
     background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 

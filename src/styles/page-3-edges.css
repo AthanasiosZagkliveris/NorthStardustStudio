@@ -371,3 +371,39 @@
     --info-fill: #2b2b2b;
 
 }
+
+/* THE INITIATIVES FOLD ARROW: the same outlined arrow as the Responsibilities and Completed arrows (filled under the pointer and the focus). */
+.strategy-initiatives-box > .strategy-box-head > .strategy-box-toggle::before {
+    border-width: 0;
+    background: currentColor;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+}
+
+.strategy-initiatives-box > .strategy-box-head > .strategy-box-toggle[aria-expanded="false"]::before {
+    width: 11px;
+    height: 18px;
+    margin: -9px 0 0 -5.5px;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 18'%3E%3Cpath d='M.75.75 10.25 9 .75 17.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 18'%3E%3Cpath d='M.75.75 10.25 9 .75 17.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.strategy-initiatives-box > .strategy-box-head > .strategy-box-toggle[aria-expanded="false"]:is(:hover, :focus-visible)::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 18'%3E%3Cpath d='M.75.75 10.25 9 .75 17.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 18'%3E%3Cpath d='M.75.75 10.25 9 .75 17.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.strategy-initiatives-box > .strategy-box-head > .strategy-box-toggle[aria-expanded="true"]::before {
+    width: 18px;
+    height: 11px;
+    margin: -5.5px 0 0 -9px;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'%3E%3Cpath d='M.75.75 17.25.75 9 10.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'%3E%3Cpath d='M.75.75 17.25.75 9 10.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.strategy-initiatives-box > .strategy-box-head > .strategy-box-toggle[aria-expanded="true"]:is(:hover, :focus-visible)::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'%3E%3Cpath d='M.75.75 17.25.75 9 10.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'%3E%3Cpath d='M.75.75 17.25.75 9 10.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
