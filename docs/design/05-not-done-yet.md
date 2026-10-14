@@ -436,7 +436,7 @@ No item in this list is a WCAG 2.2 AA failure.
 
 ## 5.12 Open after the arrows, rails and spacing work (2026-10-14)
 
-- **The full layout check has not been run since** the label arrow, the rails, the Back button, the page tab padding and the global tracking rule. Run it, review the new findings, rewrite the baseline.
+- **The full layout check has not been run since** the label arrow, the rails, the Back button, the page tab padding and the global tracking rule. **Owner's decision (2026-10-14): no more checks for now; the asset library comes next and every kind of piece will follow one element each.** Run the check and rewrite the baseline once the library has unified the elements.
 - **Old fold-arrow and title-arrow styles:** the styles of the 36px fold arrow stay in use (every other fold arrow); the `.title-arrow` styles still serve the capability overview menu only. Check for dead rules in the full clean-up (step 4).
 - **The page tab:** the owner saw about 29px between the longest name and the tab's edge; measured 17px (now 13px with the 12px padding) at every width from 2200px. Ask for the window width if it persists.
 - **Tracking:** every rule that sets a bold weight now adds `--bold-tracking`; rows that hold bold text on hover must be sized for it. The check will show any row that now wraps or overflows.
