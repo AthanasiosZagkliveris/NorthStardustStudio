@@ -140,3 +140,24 @@
     padding-left: 280px;
 
 }
+
+/* The rail tab as a sample: in the flow, with the colours of the dialog's card standing in for what the app reads from its frame. */
+.library-sample .carousel-rail {
+
+    position: relative;
+
+}
+
+.library-tab {
+
+    --tab-edge: hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+    --tab-ink: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+    --tab-bg: var(--bg-page);
+
+}
+
+.library-ground-card .library-tab {
+
+    --tab-bg: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}

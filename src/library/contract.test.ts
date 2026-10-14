@@ -94,4 +94,17 @@ describe("the asset contracts", () => {
         expect(Object.keys(rails.knownFindings ?? {})).toEqual(["plain-bullet-contrast"]);
     });
 
+
+    it("gives the back button the arrow, the gaps and the rail form its stylesheets draw", () => {
+        const back = assets.find(asset => asset.name === "Back button")!;
+        const g = back.geometry;
+        const css = stylesheet("section-tiles.css");
+        expect(css).toContain(".section-tile-back { display: inline-flex; align-items: center; gap: var(--gap-" + g.footGap + "); padding: " + g.footPaddingY + "px 0;");
+        expect(css).toContain("outline: " + g.outlineWidth + "px solid var(--focus-ring-ink); outline-offset: " + g.outlineOffset + "px;");
+        expect(css).toContain(".carousel-rail .carousel-rail-back > .back-arrow { flex: none; margin: 0 calc((" + g.railArrowBox + "px - 0.8em * 22 / 28) / 2);");
+        expect(css).toContain("transform: scale(" + g.railArrowGrow + ");");
+        expect(css).toContain("text-transform: uppercase;");
+        expect(stylesheet("label-arrow.css")).toContain("width: calc(" + g.arrowHeightEm + "em * 22 / 28);");
+    });
+
 });
