@@ -1,5 +1,7 @@
 # Layout rules: the Foundation pages' rulebook
 
+Reconciled on 2026-10-14: one rule in one place. Sections 1 to 7 are the base rules (tokens, anatomy, sizes, alignment, tiles and dialogs, interactions, exceptions); sections 9 to 16 hold what the later rounds added, by topic; section 17 is the check. Rules that a later round replaced were moved, word for word, to Appendix A; Appendix B lists what is still to be settled. Where a rule gives a number and the table "Values as built" (section 8) gives another, the table is right: it is read from the code, which the tests check.
+
 The measured rules every card, field and list on the Foundation pages
 (Identity, Brand, Business and Strategy Systems) follows, the tokens and
 classes that carry them, the closed set of sizes, and the automated check
@@ -73,6 +75,24 @@ below are these, made measurable.
 | `--name-number-columns` | `minmax(0,1fr) min(var(--control-s),40%) 32px` | the Name / Number list |
 
 ---
+
+## 8. Values as built (read from the code on 2026-10-14)
+
+| Token | Value | Where | Note |
+|---|---|---|---|
+| `--open-card-width` | 492px | `global.css` | A test asserts 492. Older text in this rulebook says 480px (454px content): 492 is the value |
+| `--tile-title-top` | 0.25 (a quarter of the square) | `global.css` | A test asserts 0.25. Older text says a third (0.33333) |
+| `--card-label-col` | 177px | `global.css` | The label column of every side-label row |
+| `--side-label-short` | `var(--card-label-col)` (177px) | `global.css` | Older text says 124, 156 or 164px; they are replaced |
+| `--qty-w` | 56px | `section-tiles.css` | Quantity box of the cost row. Older text says 80px |
+| Tile hover | `scale(1.1)` | `section-tiles.css` | Every tile. Older text says 150% for page tiles |
+| `--tile-radius` | 8px | `global.css` | |
+| `--card-padding` | 12px | `global.css` | |
+| `--space-label`, `--space-field` | 6px, 12px | `global.css` | |
+| `--floating-scrim` | transparent | `global.css` | A floating card never darkens the page; a dialog does (`--bg-overlay`) |
+| A tile's list | holds every item and scrolls; there is no "+N more" line | `SectionTiles.tsx` | Older text in section 5a says the list ends with "+N more" |
+| `--card-side-label` | not defined | | A test asserts it is absent |
+| `--workspace-form-width`, `--workspace-label-width` | not defined | | The Workspace is a category of the resource card |
 
 ## 3. Anatomy
 
@@ -1203,7 +1223,241 @@ differs.
 
 ---
 
-## 8. The check
+## 8. Values as built (read from the code on 2026-10-14)
+
+| Token | Value | Where | Note |
+|---|---|---|---|
+| `--open-card-width` | 492px | `global.css` | A test asserts 492. Older text in this rulebook says 480px (454px content): 492 is the value |
+| `--tile-title-top` | 0.25 (a quarter of the square) | `global.css` | A test asserts 0.25. Older text says a third (0.33333) |
+| `--card-label-col` | 177px | `global.css` | The label column of every side-label row |
+| `--side-label-short` | `var(--card-label-col)` (177px) | `global.css` | Older text says 124, 156 or 164px; they are replaced |
+| `--qty-w` | 56px | `section-tiles.css` | Quantity box of the cost row. Older text says 80px |
+| Tile hover | `scale(1.1)` | `section-tiles.css` | Every tile. Older text says 150% for page tiles |
+| `--tile-radius` | 8px | `global.css` | |
+| `--card-padding` | 12px | `global.css` | |
+| `--space-label`, `--space-field` | 6px, 12px | `global.css` | |
+| `--floating-scrim` | transparent | `global.css` | A floating card never darkens the page; a dialog does (`--bg-overlay`) |
+| A tile's list | holds every item and scrolls; there is no "+N more" line | `SectionTiles.tsx` | Older text in section 5a says the list ends with "+N more" |
+| `--card-side-label` | not defined | | A test asserts it is absent |
+| `--workspace-form-width`, `--workspace-label-width` | not defined | | The Workspace is a category of the resource card |
+
+## 9. Tiles: kinds, titles, lists, marks, hover and size
+
+- Tile titles stand at `--tile-title-top` (0.25 of the square); a tile's list shows whole lines only, its scrollbar has no arrows and shows on hover.
+- **Incomplete card**: `card-tile-incomplete` on the slot (red flashing glow around the tile; steady under prefers-reduced-motion), `section-tile-list-alert` on a line of a page tile's list (red, bold, flashing, first in the list). The tooltip says "Missing: <fields> (not counted until it is fixed)".
+- Category/group titles uppercase (`.section-tile-category .section-tile-title`, `.dialog-heading-sub`); an empty group tile has opacity 0.5.
+- **Add Card**: ONE tile (`AddTile`, `.add-card-tile`) ends every section/category/group grid, labelled "Add Card" (tooltip names what it adds); half the tile side; at the bottom right (last grid column, the free place of the lowest row else a row of its own; right edge = last column's tiles', bottom = row bottom); no scale on hover, ground turns semi-transparent and its + grows 10%.
+- **Categories**: every category has its tile from the start (empty at 50%); Offering's Resources and Partners & Suppliers views add a CHANNEL category tile (channel teal, one constant `CHANNEL_TILE_HUE`); a channel-made card's floating card takes the same hue. Main page tile titles are capitals; dialog header wraps (no ellipsis), all names the title's size.
+- **Growth**: an area whose tiles do not fit grows down (page scrolls; dialogs have `min-height`, their overlay scrolls). The two page cards start their tiles 12px under their titles (no 36px spacer row).
+- Tiles per row: `useTilesAcross` (+2px tolerance) gives 3 across at every window width from 1280px (tile 176/191/203/215px at 1280/1366/1440/1600+).
+- **Page cards**: `.section-tiles-quad` (four tiles): side = min((box width - 12) / 2, window height left under the title) -- the dialogs' tile (`pageTileSide`) stays the three-across side; tile radius token `--tile-radius` (8px) for tiles and the Add Card. Costs row: label column 164px (`--side-label-short`), `--cost-x` 176px (Qty 56, Price 96, currency over the Status picker's left edge, Frequency to the name cell's right edge).
+- **Tile title** (`TileTitle`): `white-space: nowrap`, ellipsis, 18px on every tile, tooltip with the full text; the same top on every tile of a size (`--tile-lift` is the one margin). Page 4-tile blocks: list 18px from 250px a side, else 14px.
+- **Hover**: every tile scales `scale(1.1)`, `.15s ease`; the Add Card never scales; its hover is: stroke gone, fill `color-mix(currentColor 16%, transparent)`, label and "+" in the card's dark tint (`--plus-fill`).
+- A tile's list line can carry a mark (`SectionTile.itemMarks`): **empty** (the category has no card) `--list-empty-opacity` .7 (3:1 in every theme), text and bullet; **teal** (Offering's Resources: the Channel line) text and bullet in `--channel-marker`; **channel** (Offering's Activities / Partners & Suppliers: the line holds cards a channel made) two stacked bullets in the one bullet column, the line's own on top, the teal one 2px under it, both `--bullet-size`, centred on the line. No mark changes a line's text x or height; the probe's list-line rules hold.
+- A tile title cut by an ellipsis slides left under the pointer (a scroll of the title's box, `useTitleSlide`) and back on leave; its size and position never change; nothing moves under `prefers-reduced-motion`.
+- `TileList` measures each line's bottom from the top of the LIST (not of its layer), so the list ends at the foot of the last whole line that fits, plus 4px for descenders; no line is ever cut or taller than the list.
+- A list line of a card with the channel tone is teal (`--channel-marker`) unless it is incomplete (red); `--list-empty-opacity` (.7) for empty categories.
+- **The text on a column page's tile** (Definition, Ethics, Ambassador, Legal Entity ...) is plain text: no bullets, the lines running down to a line above the tile's foot, the last line fading (`.column-tiles-page .section-tile-list`). A press on it opens the tile.
+- **Large tiles** (`SectionTile.large`): two of them stand side by side, as large as the four of a 2 x 2 page. A tile's own picture (`SectionTile.picture`) fills its square under the title.
+  - Brand Style: Colours (every colour as a block on the tile) and Typography & Text Hierarchy (the typefaces). Their dialogs open boxes that are pictures (`PictureBoxes.tsx`): a colour's box is covered with the colour and carries its name, role and code; a typeface's box carries its name, role and a specimen. A box opens its card floating. The Text Hierarchy stays the table it was, under the typefaces, in the Typography dialog.
+- **A title with a forced break** (`\n`) is drawn on its lines (Typography & Text Hierarchy).
+- **A tile's lines**: a list (founders, registrations, expenses, themes, roles and skills) has a bullet on each line (`ItemMark.bullet`); text (Description, Philosophy, the gaps) has none; a line that stands alone is centred (`ItemMark.centre`). A line may carry bold words between pairs of asterisks. Text on a column page ends at a whole line, a line above the foot (no fading).
+- **A "+" on a tile** (`SectionTile.add`) adds a card and opens it: Expenses, the Strategic Period (a Theme), Colours, Typography, Brand Images. Where a kind has a fixed number of cards (the colours, the typefaces) the "+" is hidden once all are there and returns when one is removed.
+- **A title with a forced break** stands with its first line where the other titles stand.
+- **Business tiles**: a priced card's tile shows the price in bold and no longer says "Costs".
+- **Two columns on a tile** (a name and its share): an item with \u0001 between the parts; the second column starts at one x.
+- **A tile's title** stands with its first line at one level on every tile (a title of two lines has its rule, and what follows it, a line lower); its list or picture follows its rule. A frame's heading (a page of several sections) is in capitals, in the centre; the frames start and end where the Business System's do.
+- **A tile's content may be linkable** (`SectionTile.links`, `SectionTile.cardFor`): a listed line opens its card (expenses, requirements, themes) or a section of its dialog (`{ box }`: the Registrations tile's three lines open that sub tile); a block of a tile's picture names its card with `data-card` (a colour, an image, a typeface). A press anywhere else on the tile opens the tile. Text on a tile scrolls like a list.
+- **Sub tiles** (`SubTiles.tsx`) are category tiles one level in: one-line capital title, a linkable list, a "+" (`SubTile.add`) where they take cards (Additional legal requirements).
+- **The blocks of Colours and Brand Images** are squares with the same space around the set as between them; under the pointer a block takes the tile's own reaction (a 10% growth inwards, from the corner, edge or centre of its place, and the tile's drop shadow); a typeface is underlined.
+- **A Business card tile** lists, under its name, where it belongs (plain lines, no bullets), then what it says (status, dates, warranty, cost) with bullets (`tileMarks`). A card that names a partner or supplier in a further status row is linked to it as well (a circle each).
+- **A Business card tile lists its dates first** (`FloorRow.dates`): both days, or the Start date alone; "From" only where there is no End date and the cost runs on a schedule (monthly, quarterly, annually).
+- **Small tiles (`small` on SectionTiles).** The Themes of 2. Goals & Objectives and the Roadmap keep the page's small tile size whatever their number (four are not drawn as the 2 x 2 of large tiles); the grid stands in the middle of its card.
+- **Deactivated tiles** (a channel or subchannel not used yet) are drawn in the grey of every deactivated tile (`section-tile-completed`); pressing one makes it and opens it.
+- **Tables with equal columns** (the Engagement Strategy) set the width on the header cells and put the gap in the cells' padding; labels shared by every column (Goal, Approach) stand in a row of their own.
+- **A tile not used yet** (a channel, a subchannel the category offers) is half transparent, as every tile with no card in it (`section-tile-slot-empty`); pressing it makes the card.
+- **Values placed by the app** (`business-capability-static-value`) take the cell's height (44px), one line and an ellipsis with a tooltip.
+- **Partner and Supplier tiles** begin with their dates, as Resource and Activity tiles do (`capabilityFloor.ts`).
+
+## 10. Dialogs, floating cards, layers and the navigation stack
+
+- **Layers**: page -> section view -> category view -> group view -> floating card -> (stacked pair). A card floats over the view it was opened from, which stays mounted under it (inert). **Back** and a click on the dimmed backdrop remove the TOP layer only; a dialog's Back / backdrop go one level up (`useDialogInnerBack`). **Escape** dispatches `CLOSE_TILES_EVENT`: every layer closes (a blank card is removed as on closing); a popup open inside takes its own Escape first.
+- **Popups**: the "i" note is portaled to the dialog's overlay (else the body), so no clipping parent or glass `backdrop-filter` box cuts it; it keeps the hue of its button.
+- **Page-wide dialogs** (Inventory, Completed): from the top of the page cards to 12px above the footer, centred, scrolling inside their body; a section dialog grows down.
+- **Floating card**: no Back button; no `inert` on the page; the scrim (`.floating-overlay`) has `pointer-events: none`, the card and the notes in it `auto`; a `mousedown` outside the card (and outside a listbox/menu) closes the TOPMOST card (`FloatingCards`); a dialog's backdrop ignores a press while a card floats over it.
+- A dropdown list (`OptionPicker`) inside `.business-capability`, a tile dialog/overlay or a sort menu is drawn free (`useFloatingPanel(..., free)`): fixed, window-placed, never clipped by a scrolling box; the cell's width, flipped above or capped and scrolling when there is no room.
+- **The header over the layers:** with a dialog, floating card or Inventory open, `.app-header` has `z-index: 1001`, is never `inert`, and the element at its centre is its own (probe rule 17e2). A press in it does not close a floating card; Escape typed in it with a header popup open is the popup's.
+- Declared exceptions added to the picker rule: the Category pickers (` category:`), an activity's Resource pickers (` resource N:`) and a rent's supplier name (` rent:`), like the Group and Name pickers already named: a long list or a name the user gave may be wider than the 212px cell.
+- **A dialog over a card taller than the window** covers only what the window shows, under the header and above the footer (`dialogFrame`).
+- **One card**: every floating card is 480px wide, with the card ground, a hairline, 8px corners and the same padding; a colour's, a typeface's, a requirement's and an expense's card stand their rows on the name's columns, so everything under the name starts and ends where the name does. A drop-down is the app's own (OptionPicker), including a founder's Skills kind.
+- **A card is tinted by its tile**: a card floating over a tile, the "i" of a tile or a card, a Back button under the pointer, and the Text Hierarchy's box all take the tile's hue; a floating card is one box with 8px corners and one shadow.
+- **A dialog darkens the page behind it, a floating card does not** (`--bg-overlay`; `--floating-scrim` is clear). The names above the cards keep their own dark ground. Every floating card's box (Business, Legal Entity, Brand and Strategy) has the inner light and shade (`--box-inset`) and its drop shadow.
+- **A dialog's header is one row** (`DialogHeading`): the root name (Resources, Activities) keeps its size; the names after it are one size lower (`--font-body`); a trail too long for the row is cut at its left (the last name stays in view, the full text in the tooltip).
+- **The "i" takes its card's hue in every reading mode**: its stroke, letter and fill are set on the button itself (page-3-edges.css), so they read the hue of the card or tile the button stands in (a dialog's hue is set on the card inside it, below where the pair used to be set, which made the "i" red on a green or blue card). The caption above a floating card keeps its own pair. Checked on the Business, Identity, Brand and Strategy dialogs and cards, in light, sepia and dark.
+- **Carousel arrows** (`CarouselArrows`, SectionTiles.tsx): a "‹" at the left and a "›" at the right of the card or the opened section that was opened last, 44px circles over the page (fixed, measured from the box they flank). A floating card steps through the cards of its tile (of its box, where it was opened from one); an opened section steps through the section's tiles that have something to open; both round the ends. A dialog under a floating card has its arrows hidden (only the last-opened layer has them). Alt + ← / → does the same. A parent and child pair has none yet.
+- **Carousel arrows stand 24px from the card or dialog**, in a bright fill of the card's hue with a dark outline (contrast over the dimmed page in light, sepia and dark); none while a card is being made (fresh); a dialog with sections of its own (Registrations) steps through them first (`useDialogInnerStep`), then goes on to the next tile.
+- **Only the app header cuts a floating card**; it scrolls to the window's bottom.
+- **A rail whose names wrap** shows its bullets alone (class `bullet-rail-compact`): the title and names are hidden and a name appears beside the bullet under the pointer.
+- The carousel arrows are the card's ground outlined by its accent colour, and the page's own arrows are hidden while they show. Going back into a tile of sections opens its last section; from the Registrations grid the right arrow opens Formation.
+- A floating card's overlay starts under the app header and scrolls: the header is the only edge that cuts a card.
+- A picker's list starts at its cell's left edge and is as wide as its longest option (never narrower than the cell). Rail names appear inwards. The app header throws a drop shadow.
+- Carousel arrows step within the deepest open level (sections, categories, groups) before leaving it.
+- **A card opened from a floating card.** A tile inside a floating card (an Objective on its Goal's card) opens its own card in the same place (OpenCardContext is provided by the floating layer). A card alone shows its place in its list (Objective 3), and its x removes it (no blank put in its place).
+- **A section of a dialog stands on the dialog** (the Value Proposition, the Segment's Description): no frame of its own.
+- **A floating card has its tile's colour**: the hue of the section whose tile opened it (the dialog's), whatever hue its own content carries (`--floating-hue`, section-tiles.css).
+- **The "i" note opens above its "i"** where there is room, below where there is none.
+- **A floating card's ground is checked in all three themes** (light, sepia, dark): the card and the dialog it was opened from take their ground from the same hue, the card one step deeper; a card's own neutral ground (`--bg-card-tint`) is never drawn on it.
+- **A card's navigation** (Goal, Objective, Metric with two or more under one parent): the left arrow under the "+", the right under the x, the bullet rail under the right arrow (one bullet each, this card's lit), sticky while the card scrolls; an arrow or a bullet goes to that card (scrolled to where it stands, opened where it is a tile's floating card). Outside the card, beside its x, a symbol of four arrows pointing at the centre shows the cards as tiles (the Metrics of an Objective switch to tiles; a Goal's or an Objective's own floating card is closed).
+- **Global: arrows that step through a list carry a rail.** Under the carousel arrows of a card or a section dialog (`CarouselArrows`, SectionTiles.tsx), under the right arrow, a vertical rail has one bullet for each of the list (this one's lit); pressing a bullet goes there, and hovering it shows a tooltip with the name (a section's title; a card's group and number where the tile gives no name). Any new set of arrows that steps through a list gives the list's items (`CarouselStep.items`, `current`, `go`).
+- **Arrows and rails 12px from the frame**: `--rail-offset` (12px, `bullet-rail.css`) places the Pages and Sections rails' bullets and the page arrows; `CAROUSEL_ARROW_GAP` (12, `SectionTiles.tsx`) places a dialog's or card's arrows. The same on every page.
+- **Rails**: a card's carousel bullet names the card (`SectionTile.nameFor`, else the tile's line that opens it); a tile's bullet carries its name beside it (`.carousel-rail-named`, drawn on the tooltip's chip) where the room right of the arrows is 160px or more.
+- **Scrolling is global** (`useScrollRules.ts`): the wheel over an open layer scrolls the layer (also over a dialog's blank body, where `overscroll-behavior: contain` stops the chain), never the page; every scroller whose content is taller than itself (`main.conversation-content`, a dialog's body, a tall card's stack) gets `data-reserve`: 25vh of bottom padding.
+- **Page tab** (`bullet-rail.css`, `useRailTab.ts`; `.carousel-rail-tab`): a rail stands in a tab touching the frame (absolute, as wide as its names), `--rail-left-*` / `--rail-right-*` colours read from the frames.
+
+## 11. Business cards: Infrastructure & Capability, Customer Engagement
+
+- Cards' x (`.card-remove`, `.profile-card-remove`) is `--bg-danger-strong`; a cell's or field's x keeps `--x-red`.
+- The link line of a connected card (`.business-capability-card-link`) is a flex row: prefix, the name (a button the ellipsis cuts), closing quote; one line.
+- **Category cell** (Partner / Provider and Activity cards): ONE component (`categoryRow` in the editor): the `Category` label and its drop-down on one row under the name, the "Name the category" box only while a new category is being named.
+- **Widths reverted**: `--side-label-short` is 156px again and `.card-box-open { --card-side-label: 124px; }`; the user asked for no cell-width change.
+- One resource card (`resourceCard`); `workspaceBody` adds the Workspace fields in the card flow when the slot is in the `workspace` group: side-label rows for Workspace and Status (the label column and the 212px side cell as on every resource card), the cost row (Price 164 beside the currency at 176, Frequency to the name cell's right edge), the Deposit row (`.business-capability-deposit-row`: amount = the Price column, the currency text at the currency picker's x with its inner left padding). Removed with the merge: the standalone Workspace form (`workspaceFields`, `.workspace-form`, `.workspace-card`, `--workspace-label-width`, `--workspace-form-width`), the Workspace floating variant (`.floating-card-workspace`, `kind: "workspace"`, the "group" centre), the Workspace category tile/box logic and its Add Workspace, the `workspaces` list and `createBusinessWorkspace`, the FloorKind "workspace".
+- A new resource card is filed under `unassigned` (Category) / `unassigned` (Group): placeholder "Select", incomplete until chosen.
+- A new Activity / Partner / Provider card starts at Category "Select" (incomplete till chosen), like a Resource.
+- **Resources rows (activities)**: a row is a dropdown (`OptionPicker`) with the link symbol, one row per resource, "+" adds a row; never a tick list. Performers use the same row. A people card in Offering's Capability uses `.business-capability-people` in `section-tiles.css`.
+- **Group label order in a card**: Category, Group, Name. A partner or supplier card has no Category row.
+- **Cost row additions** (cost option, billing type, rate override, useful life, warranty, amortisation period, payment plan, extras, dated notes) sit inside the existing cost row on the same two-column label rhythm (`--space-field`, `--space-label`); the rate override's placeholder shows the Global Settings default.
+- **An activity's Resources list** is a list of rows like the Performer's (`.business-capability-resource-row`): dropdown, units box (56px, `.business-foundation .interview-input.business-capability-people`), link symbol (38.5px), and the "+" or × in the head's x column. Every row keeps the places of the units and of the link (`.business-capability-row-spacer`), so the dropdowns of a list end at one x; the field extends into the x column by the column's width and the gap (`margin-right`). The estimated cost of each linked card is a muted line under the list (with two or more, then the sum), never beside the row. The check tests it as "every Resource dropdown has one left and one right edge" and "the + or the x beside a Resource stands in the head's x column".
+- **The Performer's link symbol**: beside a partner or supplier performer, between the dropdown and the "+" or ×; the dropdown then ends one link place (38.5px and the 8px gap) before the name cell's right edge, in every row of the list.
+- **One label column** for the Performer and the Responsible stacks of an activity (`--activity-label-column`, 7.25em of the body size), so the Performer's dropdown and the Responsible's name start at one x.
+- **The link symbol stands at the LEFT of its dropdown.** It is drawn first in the row and its slot (38.5px and the 8px gap, `--link-slot`) hangs out to the left of the dropdown into the label column, which is wider by that slot in an activity (`--activity-label-column`). Every picker still starts at the column's edge; a row without a link keeps the empty slot (`.business-capability-row-spacer`). It applies to the Performer, the Resources of an activity and the Name rows of a status. A founder performer has a link too (it opens the founder's card).
+- **The Resources of an activity**: the tick, the label and the first dropdown are on ONE line (`OptionalField` with `inline`, subgrid of the activity stack); the dropdown starts at the Performer's and the Responsible's x. The cost lines stand under the dropdown.
+- **End date is optional**: a tick before its label (`BusinessField` with `tick`); the date field shows once ticked, and unticking clears the date.
+- **Linked Offerings**: with several, the percent each carries is a whole number of two digits (`.business-capability-share`, 56px) at the end of its own row, its right edge at the "+" and x column. The old rows below the list (a wide box and a text) are gone.
+- **Group, not Category, on a partner or supplier card** and on a resource's Partners & Suppliers status: ONE Group dropdown listing every group of the place (Partners' first, then Suppliers'); the group picked says which of the two the card is. The Type field of a Pre-Operational activity is removed.
+- **The payment plan** (`.business-capability-plan-row`): a payment is one row, amount | percent | date (an Instalment's order number before them: `1.5em 88px 80px 1fr`). Deposit & Balance: two rows. Instalments: a one-digit box (`.business-capability-plan-count`, 56px) beside the type makes that many numbered rows. Milestones: two rows each, the stage with the "+" (an x after the first) and then the values. The amount and the percent are one figure (typing either sets the other); the total must be 100%.
+- **A card's cells start at one left edge.** An activity's Start date, End date and Group start where its Performer and Responsible do (`--side-label-short` 177px for the card). A founder's Start date: its label ends where the Salary cell ends, its cell starts where the Frequency cell starts (`--founder-cell`, 108px, for both). A Legal expense's Date: its label's words end at the Cost cell's right edge, its cell starts where the Frequency cell starts; its Responsible picker starts there too.
+- **"Responsible" is the same field on every card**: a tick (on until taken off; off clears the choice) and the picker beside it (`BusinessField` with `tick`); the Legal expense's "Responsibility" is now that field, shown where there is more than one founder.
+- **One set of measures for a card's fields** (`global.css`): `--card-label-col` (177px, the label column of every side-label row, so Start date, Group, Performer, Responsible and Frequency start their cells at one x on every Business card), `--card-cell-gap`, `--card-cell-narrow` (108px, a founder's Salary | Frequency pair) and `--card-x-col` (the delete x's column). A card's content runs from the name's left edge to its right edge; a founder's card, with no name cell, keeps the same left (after the number) and right (the x's column clear).
+- **Links between cards, both ways**: an activity's Performer, Responsible and Resources rows open the founder, partner or resource (a pair of floating cards); a partner's card lists the activities that name it as performer, a resource's card the activities that list it, each a link.
+- **An optional field is a tick box** (`OptionalField`): the Legal requirement's Reference or Number, like its Description; a founder's Skills kind drop-down is one width on every row, the empty one included.
+- **Links between cards, checked in every direction** (Lumen & Loom, 62 cards): a resource links to its supplier, to the activity its status chooses and to the activities that list it; an activity to its performers, its Responsible founder, its partners and its resources, and back to the resource that chooses it; a partner or supplier to every resource that names it (by its status or a further status row) and every activity it performs; a founder's Responsibilities to its activities; a Customer Channel's card to its channel; a tile's circles show what a card is connected to. Each opens the other card with this one (a pair).
+- **The "Open ..." links of a card are last in it** (`linksSection`): one is the line itself; several are a folded section named Links, its label at the left with the other labels, the fold arrow after it and the count beside it. A card's circles (the linked indicators on its tile) match its links: every activity a resource is listed in, and every resource an activity lists, is a circle on both tiles (`floorRows`).
+- **The Links fold arrow stands at the left of its label**, hung in the margin, so the label starts where the card's other labels do.
+- **The Links of a card are laid out as a founder's Responsibilities**: the same row (fold arrow, label, count) and the list under it, its lines 6px apart. A field-by-field measurement of the card kinds is in `card-field-measures-report.md`.
+- **A link line is a kind letter, then the name**: R. Resource, A. Activity, P. Partner, S. Supplier (the noun's first letter, one fixed column), then the name as the link; no "Open", no quotes (its tooltip and accessible name keep the full "Open Resource “Name”").
+- **Every cell of a card is `--card-cell-height` (44px) high**, a date cell included. A Status picker is narrower than the other side-label cells on purpose: its "+" stands in the x column (159 + 40 = 199).
+- **A Legal requirement's or expense's floating card stands on the Business card's geometry**: the same three columns, name cell and side-label rows (label in `--card-label-col`, cell to the content's right edge). A colour's and a typeface's card share one label column (`--brand-label-col`). A card a Customer Channel made shows its Category and Group as text where the other cards' cells stand.
+- **Legal Entity links**: an expense shows a link symbol beside "Linked registration", a requirement beside "Add to Legal Entity Expenses", a linked number a symbol hung at its left; the tiles carry the second (link-coloured) bullet on linked lines (`OPEN_EVENT` opens the other card or section).
+- **The cost row**: the currency cell is 66px (its left edge stays at the label column), the Frequency takes the rest of the row, to the content's right edge.
+- A side-label cell (Category, Group, Responsible, Status) keeps its one fixed width and one line; a sole-option Group stays a disabled cell like the Category's, never plain text.
+- Linked resources of an activity: one line each (name left, cost right), "no price yet" where none; the Total ends the list. Rate override is optional (a tick).
+- Payment plan rows: [amount (what is left)] [percent: a 44px square, right-aligned] [the date cell, 198px]; 12px between cells; a milestone's name runs the card's name cell with its "+" in the x column. The date cell is 198px everywhere (the Start date cell).
+- A requirement ticked "Add to Legal Entity Expenses" makes one expense (named as it is, text-link name, no Linked registration); the two open together, the requirement above. A linked registration number carries its link symbol inside the right of its cell.
+- Activity costs: the partners and suppliers named as Performers are costed after the last performer; a rule stands over the Total.
+- Customer Engagement: "Channel" is the old Channel Category and "Subchannel" the old channel; "Channel expenses" (was Channel resources) has Cost (currency in its heading), Frequency, and a Channel column of channel / rule / subchannel.
+- Customer Relationship: per relationship type a block (type beside its label, Purpose, then the Engagement Strategy with the stages side by side, each Goal with its ticks under the label); "+ Add Relationship Type" follows the last block.
+- Channel expenses: "Channel Expense" column; a percentage's symbol is in the Frequency column ("% of revenue") and its behaviour is Variable; several subchannels are a bullet list; actions two to a row.
+- **A channel opens as tiles of its subchannels**, each opening a card with the table of that one subchannel (1300px or more wide, the width the table needs).
+- **A subchannel's card** names the subchannel in its table head ("Instagram"); its channel's row and the "+ Add Subchannel" row are not drawn; its x removes it.
+- **Goal & Approach** are one title with an "i" beside each word; the Engagement Strategy has no row of labels.
+- **A Delivery card follows the opened card's columns** (marker, content, x): everything under its head starts at the name's left edge; each person's hours stand in the label column and cell column of the card's other side-label rows. (This replaces the earlier exception that left the Delivery card out.)
+- **A subchannel made by pressing a tile not used yet** opens its card at once and, left with no name, no link and no stage, is taken away when the card is closed.
+- **A page of small tiles on a wide card** (the Roadmap) keeps the 215px tile of every page. **Demand & Conversion**: the channels that bring the customers stand in a row of their own under each Offering's sources (the ticks in a line), not in a column of the table.
+- **Order number inside the name cell (every opened card)**: the number is drawn over the left of the name cell (10px in) and the name's text starts at 38px; the marker column is gone (`--card-marker-col` and `--card-marker-gap` 0, `--card-x-column` 40px), so the name cell and everything under it start at the card's padding and the cells widen by the 40px the marker column took. The list of card kinds and their heads: `docs/ai/card-kinds.md`. The founder's card (no name cell) keeps its marker edge.
+- **Channel card without wires**: the parts of the card (Offerings, a Journey Stage with its Actions, links, expenses) have no border or padding; they stand on the card's 12px, end where the name cell does (40px before the card's padding; a stage's × stands in that column), 12px apart (6px between a stage's picker and its actions).
+- **A category with one group** shows that group's tile (`SubcategoryBoxes`), so arrow navigation into it never makes a blank card.
+- **Channel card**: Offerings are tick boxes (`BusinessTicks`: "All Offerings" first, at least one ticked); "Links" has its cell under its label; labels and part labels are the global label style; a name the app wrote is 18px semi-bold.
+- **A legal card has one ground**: the tile content around it has none (no square box behind its round corners).
+- **x column 44px** (`--card-x-column`), a channel card's parts are tinted bands (`--part-tint-a`, `--part-tint-b`) with a hairline between Journey Stages.
+
+## 12. The Inventory help tile
+
+- The Completed tile stands outside both sections (`.section-tiles-completed`, under Offering's Capability's card); while it exists the "Offering's Capability shows all its tiles without a bar" rule is waived (the card scrolls inside).
+- The floor (`.capability-floor`, `.capability-floor-open`) is fixed over the page: it takes no room from any card; its text is on the type scale (14px).
+- The row under Offering's Capability's card (Inventory, Completed) is 66% of the card's width.
+- **Funnel**: portal to the overlay, outward beside the dialog when there is room; Status / Frequency are `OptionPicker` (hug, tight).
+- **The Inventory funnel menu is 250px wide** (`.strategy-sort-menu-wide`; max `100vw - 24px`): long labels ("Digital Infrastructure", "Online Presence & Communication") wrap onto two lines, "Partners & Suppliers" stays on one, never widen the menu for a label. Its height is capped to the window (scrolls inside), it opens outward where there is room, and the Cost from / to cells are 6.5em (91px). Buttons read "High to low" / "Low to high", the tick "Linked".
+- The Inventory funnel menu uses only `--space-field` (12px: padding, between blocks, around a block's label, between sub-lists and fields) and `--space-label` (6px: between ticks, label to control, between the two cost buttons / cells). Include, Belongs to and Sort have a fold arrow (`title-arrow`, button, `aria-expanded`), open by default, the state kept while the overview is open; the menu is never taller than the window.
+- Funnel blocks: Include, Sort, Belongs to (folded at first, arrow right after the label), then Status / Frequency / Linked / Costs; cost order = two arrow buttons beside Costs; range labels From / To. Tick boxes: `align-items: center`, no margin on the box.
+- Inventory table columns exactly: Name, Type, Section, Category, Group, Cost, Frequency, Status, Linked; Linked only the link bullets; no sideways scroll at 1366.
+- A Customer Channel card's Group is "Channel" (table column, last tile line, funnel Group list).
+- **Table mode** uses `--table-ground`, `--table-ink`, `--table-line`, `--table-tint`, `--table-hover` per theme (ink at least 7:1), a sticky heading, and the sizes 14 / 18 / 24px (`--font-small`, `--font-body`, `--font-h3`).
+- **Inventory** (formerly All Tiles): the table has two more columns, Cost Nature and Behaviour, after Frequency (`inventoryClassification`: the same rules as the Financial Foundation). The legend says Supplier for what was Provider; "Partners and Providers" is "Partners and Suppliers" everywhere.
+- Inventory and Completed are 215px squares; only when the window's height asks, their height shrinks (rectangles). The gap between the four tiles follows their size from 12px.
+
+## 13. Identity, Brand and Strategy: column pages, Legal Entity, Brand Style, Founders Profile, Strategic Period
+
+- **Channel expenses (Page 2)**: "+ Add expenses" and "Typical costs for this channel" are card-list add buttons in the channel cell, same size as "+ Add Journey Stage"; template cards use the channel teal tone (`--channel-marker`) and the cascade link rules above.
+- **A column's guidance is the "i" beside its dialog title** (`DialogHeading info`), never bullets under it. The guidance of the Brand pages (Style, Inventory) and of the Themes (beside the Add Theme button) opens in a note of double the one width (`InfoNote size="double"`, 720px).
+- **A founder's card in its dialog** stands one field under the other (`.founders-profile-row`), so every row has the room it was drawn for.
+- **Legal Entity** is four large tiles: Organization, Founders & Ownership, Registrations, Expenses. Registrations holds 3. Formation & Registration, 4. Tax & Business Registration (both with no frame) and the Additional Legal Requirements as card tiles. Its tile lists the state and the names of the registration numbers; a requirement's card tile says its Type and whether it has expenses; an expense's says its start date and its registration.
+- **A legal requirement's or expense's card in its tile** is a grid of the head's own columns, and everything under the head stands in the name's column (`.column-tile-content .legal-entity-card`): the Type, the Date and the Responsibility have their label beside the control, to the name cell's right edge; the Reference or Number and the Linked registration are as wide as the name cell; the Cost and the Frequency share the row. "Add to Legal Entity Expenses" is one line.
+- **The Style page carries the Icon & Logo and the Brand Images** (the Inventory page is gone): four large tiles. The Inventory's answer is saved as the Style answer's `inventory` (StorageService moves a saved one; the examples were moved). The page's sections are `BRAND_STYLE_PAGE_SECTIONS`.
+- **Founders Profile**: a founder's tile lists the roles, a line (`TILE_DIVIDER`), then the skills and degrees, with bullets; the dialogs have no frame; the Skills' kind drop-down is half width.
+- **Help notes**: the Brand pages' and the Themes' note is 480px (`InfoNote size="double"`); the Strategic Period's title note holds the period and the Themes guidance, the one beside Add Theme the common Themes. The period's Start, End and the plan's dates stand in the dialog's second column.
+- **No Sections rail on a page drawn as tiles** (`drawnAsTiles`); the sections are still the page's (the rail items name them elsewhere).
+- **The colour map** (`WorkColours.ts`, docs/design/01-current-design.md, part I) colours the tile pages: Definition, Ambassador and Style Create (purple), Ethics Decide (orange), Legal Entity and Founders Profile Define (green), Situation & Direction Discover (blue).
+- **A page can hold several sections** (`PageGroups.ts`): Identity page 1 "Definition and Ethics" (the chapters Definition and Ethics), page 2 "Organization" (Legal Entity, Founders Profile); Brand's one page (Ambassador, Style) has no page name. Each section keeps its number, its title and its saved answer; the frames stand side by side, each with its heading ("1. Definition") on top of its tiles, as the Business System's Infrastructure & Capability page does. The first section is the page's own; the others are companions, not pages of their own (the pages rail, the arrows and "What it covers" skip them).
+- **Without a Sections rail, no rail title** (`BulletRail`).
+- **The Registrations dialog** shows its three sections as sub tiles (`SubTiles.tsx`): Formation & registration, Tax & business registration, Additional legal requirements. The Legal Entity's tiles are in sentence case, with no order numbers; card tiles of requirements and expenses have centred lines with no bullets.
+- **Column answers as parts**: Ethics' Values and Principles are numbered lists; the Ambassador's Imprint is two texts, the First and the Lasting impression (the one answer, "First impression: ... Lasting impression: ..."); the Founders' Capability is two texts, Gaps and Cover (`teamCover`).
+- **A page's name in the pages rail** is its group's (`PageGroups.ts`): Definition and Ethics, Organization, Brand System; its frames are numbered 1, 2 within the page, with their own names where given ("Founders & Capability").
+- **A frame's heading** (Identity and Brand pages of several sections) is the column title of the Business System: 28px, and its tiles start at the same distance below it.
+- **Registered is worked out, never chosen** (`formationStatusOf`): a registration number in the first row says Registered, none says not yet (a form with no company registry, a sole trader, counts as registered once it has a date). The Status is text; the Number is always asked; the Formation date shows once there is a number; the other numbers (a trade mark) never set the status. A number that looks short is questioned, not refused.
+- **The registration authority is the country's own, filled in and shown as text** (`registrationAuthorityFor`): the user cannot mistype it. A country the app does not know leaves it a cell to write.
+- **The Formation card**: no Status (the number registers it); the Date stands on the registrations' columns (its label ends where the registry's name, text, ends; its cell over the Number) and is no later than today; a list of further numbers takes at most five (`MAX_MORE_NUMBERS`), the registrations' and the tax registrations' alike.
+- **A registration number takes only what its country's numbers hold** (`registrationNumberRule`, from the stated shape): "8 digits" takes digits only, no more than 8; "8 characters" letters and digits, no more than 8; a shape with separators takes what it shows. Further numbers (a trade mark) take up to 30 characters. The UK's UTR (and Brazil's CNPJ) follow the same rule through `taxIdNumberHint` (10 and 14 digits).
+- **A founder's card, everything after the number**: the roles' bullets and the Responsibilities / Completed arrows start at the content edge (where a name's cell would), with their words after them, not hanging in the number's column. A founder's Skills kind drop-down is 14em on every row and its list as wide as the cell, so no kind takes more than two lines.
+- Foundation: each Segment frame has four tiles: Segment (Description and Profiles), Value Proposition, Competitors, Offerings. Legal Registrations' tiles and Expenses' tiles carry circles for what they are linked to.
+- Legal Entity arrows: between the page's four tiles (Organization, Founders & Ownership, Registrations, Expenses); inside Registrations between its three sections; between the requirement cards; between the expense cards. A second bullet in a list means a channel's cards only; a link is a circle.
+- Foundation: each Segment frame has Customers (Description and Profiles as sub-tiles), Value Proposition, Competitors and Offerings; every part is a floating card on its own tile.
+- Strategy: Goals & Objectives is a tile per Theme (several Goals: a tile per Goal, each floating); the Roadmap is one large tile. Delivery shows a tile per Offering's Delivery card.
+- Strategy cards (Goal, Objective, Metric) have no fold arrow and no grip; a card head is one row: number and "i", the name cell, its buttons. Generated tiles (Goals, Objectives) have a label above them; a Theme tile has a "+" to add a Goal. The Roadmap page has no Sections rail.
+- Value Proposition is a section of a Segment (a tile that opens a dialog and is stepped through by the arrows); a single founder is a section of Infrastructure, likewise.
+- **One founder**: Salary, Frequency, Working Hrs and Delivery Hrs stand beside their labels, in cells of the same width as before.
+- **Strategy cards (Theme, Goal, Objective, Metric) heads**: the order number stands inside the name cell, then the kind label with its "i" (capitals), a "+" and the x; the "+" adds a NEW CARD OF THE SAME KIND beside this one (a Theme, a Goal, an Objective, a Metric); there are no other "+ Add" buttons. What stands under a head starts at the name cell's left (12px) and ends 12px before the x (a 56px margin at the right). Two tints only (the Theme's and the Objective's), swapped from card to card; the x and the "i" have no fill at rest.
+- **The Strategy System is one page** ("4. Strategy System", no page number; its rail names it): its frame is headed "Situation & Direction", centred. The Strategic Period's Goals, Objectives, Initiatives and Metrics are written in each Theme's card; the old pages 2 (Goals & Objectives) and 3 (Roadmap) are hidden sections (`HIDDEN_SECTIONS`, PageGroups.ts): they keep the saved answer but no page, bullet or arrow shows them.
+- **The Strategic Period's tile** has a "+" (a Theme made and opened as a card with all its sections) and a hairline after its dates. Its dialog: the Start and the End side by side from the left edge, the Financial Plan in one line under them, then the tiles (the Roadmap, each Theme, and an "Add Card" tile of their size, which keeps the suggested Themes' menu). A Metric tile says the Objective's period, then its Baseline and Target.
+- **Founder's card in a page frame (labels beside cells)**: the four cells (Salary, Frequency, Working Hours, Delivery Hours) are 108px in two pairs; each label column is as wide as its widest label (at least 8.8 body-em, the Start date's column too), 12px before its cell, so no "i" runs under a cell.
+
+## 14. Financial pages and Global Settings
+
+New fields follow the rules above and reuse their neighbours' shapes; nothing here is a new pattern of its own.
+- **Costs table (Page 4)**: one more column, **Cost nature** (`.financial-cost-nature`), after When, with an i in its header (`business-foundation-label-info`) and an `OptionPicker` (hug) in the row, plus a muted `.financial-cost-source` line for the part before the opening. The Amount column (`.financial-cost-number`, header and cells) is right-aligned and holds the figures alone; the currency is written once, in its header ("Amount (EUR)"). The grid's template in `conversation.css` has the extra column; the row's remove cell stays last.
+- **Opening Date**: a date field beside Plan Start in the same row style, same label size and field width; no new row height.
+- **Funds** (`data-anchor="financial-funds"`, under Funding Need): the same cards as the funding-need cards (`.financial-need-card`) in the same grid; the Total Pre-operational Budget is a `.financial-total` line under the costs (`data-anchor="financial-pre-operational-budget"`). Without an Opening Date the block is replaced by one muted sentence.
+- **Global Settings** (`/settings`, `pages/GlobalSettings.tsx`, `styles/global-settings.css`): a page of ordinary cards and fields on the existing tokens, opened from the **Settings** button in `AppHeader` (`SettingsButton`), which takes the header's button size and spacing; no new sizes.
+- **Plan Start is never typed** (`derivedPlanStart`): the earlier of the Opening Date's month and the month of the earliest costed Business card; the Global Settings show it as a read-only line. A cost dated before it (a registration paid before the plan, for one) counts as already paid, as the model has always had it; the Legal Entity's expenses do not move it. It is kept in the Financial Foundation answer too, so the documents read the same month.
+- **The Opening Date** is the one date the user chooses; a warning says when it is before the company was formed.
+- **VAT is answered once, on the Legal Entity.** Not registered there: Global Settings says "Not registered" and offers no choice. Registered: the one choice left is Amounts including or excluding the tax (`effectiveVatBasis`).
+- **A "Per unit" frequency** is one option per unit of the group ("Per hour", "Per kg"); the plain "Per unit" is offered only where the group has no unit of its own.
+- **Default useful life** (Global Settings > Assets): every asset group has a default, from `UsefulLifeReferences.ts` (IRS Publication 946 and the Texas DFPS asset schedule, 2026-10-10); an "i" beside the title says what useful life is, and one beside each group lists its 6 to 8 popular items with both schedules' lives and the sources as links.
+- **Global Settings follows the Business style**: every detail is in an "i" beside its label; the Assets section is one table (capitalisation limit, each group's useful life, each asset's own years); Reset sets a group, or all of them, back to the default.
+- Global Settings: figure boxes are 112px; the Assets table has four fixed columns (Asset, Cost, Useful life, Reset); the Capitalisation limit sits in Cost.
+- Global Settings > Assets ends with "Intangible assets" (amortisation years by group, with FRS 102, IAS 38, US section 197 and common-practice sources).
+- Global Settings: Intangible assets list only the groups that hold a card, each card numbered under its group with its own years.
+- **Costs (4. Financial Foundation)**: three totals (Launch budget, Running costs a month, Cost of each sale), the Total Pre-operational Budget written as capital expenditure + startup + pre-operating, filters (group, Offering, nature, order), then one table under four headings, with "Not counted yet" last.
+
+## 15. Dates, order and formats
+
+- **A card's date is today when it is made or switched on** (`createBusiness*`, `createLegalEntityExpense`: Start date today; ticking End date sets today, or the Start date if later). Turning a Payment Plan on gives the card a Start and an End date (today) where it has none, since the plan's dates fall between them.
+- **The date defines the order, then the number** (`orderedByDate`, applied on every change of the Infrastructure & Capability page): each list of cards is kept in Start-date order (ties keep their place; no date goes last). The founders keep the Legal Entity's order.
+- **A day is shown in the reader's date format everywhere** (`isoToDisplay` with the preference): the date cells (`DateCellInput`, now also the Legal Entity's Formation date and expense Date, and the generic date field), the card tiles and the Registrations tile.
+- **Where a list has a date, the date defines the order**, then the number: the Business cards (Start date) and the Legal Entity's expenses (Date).
+- **The day in a date cell** is written at body size (`--font-body`), the size of the text around it.
+- **The Calendar lists every card date** (`CalendarCardDates.ts`) and has a funnel (`CalendarFunnel.tsx`): the period (Today, Tomorrow, This week, Next week, This month, This year, Xmas, the user's own) and the kinds of date (the recommended ones, all, or chosen).
+- **Dates are limited where they can conflict**: an End date is not before its Start (a Start after the End takes the End along), a payment falls between Start and End, a warranty is not before the Start (`min` / `max` of `DateCellInput`).
+- **A note's Date** is a tick; ticked, its label is the day to pick and the note stands on that day of the Calendar.
+
+## 16. Texts and names
+
+- **Text**: no em dash in any app text or source (`noEmDash.test.ts`).
+- **Notes (the side window)**: each note shows "Recorded <date and time>" (read-only, muted, 14px) under its text, and an "Add Date" text button beside "Link a field" (`.notepad-note-actions-text`) that adds today's date to the text on its own line. The Description of a card carries no stamp and no button.
+- **The "i" of a category's dialog** (Resources, Partners, Suppliers) says the help text of its groups from the help-texts document: the text of its one group, or one line for each group ("Company Vehicles: cars and bikes ..."). Opening one group of a category shows that group's own text.
+- **Names**: the Ambassador's "Attitude & Body Language" is "Body Language" (its saved key stays `attitude-body-language`).
+- **A drop-down with nothing chosen says "Select"** (the Legal expense's Frequency and Responsible, the Strategy's Responsible).
+
+## 17. The check
 
 **The progress line** (the thin bar under the Hide Help button) is hidden for now; one switch, `SHOW_PROGRESS_LINE` in `src/components/InterviewProgress.tsx` (false). No check or rule depends on it, and no gap is left behind.
 
@@ -1244,309 +1498,84 @@ with tiles; on a page without, it is the plain check.
 
 The probe's pure helpers are unit-tested in `src/test/layoutProbe.test.ts`.
 
-## Page 3, this round
-
-- The Completed tile stands outside both sections (`.section-tiles-completed`, under Offering's Capability's card); while it exists the "Offering's Capability shows all its tiles without a bar" rule is waived (the card scrolls inside).
-- Tile titles stand at `--tile-title-top` (0.25 of the square); a tile's list shows whole lines only, its scrollbar has no arrows and shows on hover.
-- The floor (`.capability-floor`, `.capability-floor-open`) is fixed over the page: it takes no room from any card; its text is on the type scale (14px).
-- Cards' x (`.card-remove`, `.profile-card-remove`) is `--bg-danger-strong`; a cell's or field's x keeps `--x-red`.
-
-- The link line of a connected card (`.business-capability-card-link`) is a flex row: prefix, the name (a button the ellipsis cuts), closing quote; one line.
-- The row under Offering's Capability's card (Inventory, Completed) is 66% of the card's width.
-- Costs rows (Financial Foundation) hold no control but the source link.
-
-- **Partner / Provider category cell**: under the name, `Category` label and drop-down on one row (a side field like Responsible, the picker hugging its longest option), then, only while a category the user made is being named, a "Name the category" box.
-
-- **Category cell** (Partner / Provider and Activity cards): ONE component (`categoryRow` in the editor): the `Category` label and its drop-down on one row under the name, the "Name the category" box only while a new category is being named.
-
-- **Incomplete card**: `card-tile-incomplete` on the slot (red flashing glow around the tile; steady under prefers-reduced-motion), `section-tile-list-alert` on a line of a page tile's list (red, bold, flashing, first in the list). The tooltip says "Missing: <fields> (not counted until it is fixed)".
-
-## Page 3, section views (latest)
-
-- **Widths reverted**: `--side-label-short` is 156px again and `.card-box-open { --card-side-label: 124px; }`; the user asked for no cell-width change.
-- **One tile everywhere**: category, group, card and Add tiles are the page tile's 215px square with its hover (110%, growing inwards); the Add tile is full size. `SectionView.tsx` (`SectionView`, `SubcategoryBoxes`) and `CardTile.tsx` are the only tile grids; the grid columns are `repeat(across, side)` from `useTilesAcross`.
-- **Dialog area**: a section dialog stands over its section card's rect (`dialogFrame(opener)`, class `section-tile-overlay-placed`); Inventory and Completed keep the page frame, centred.
 - **Probe**: hover is held (`holdHover`) so tile-geometry rules ignore the 110% scale; the dialog rules compare with the section card's rect; several Add tiles may end a grid; an empty group tile (`section-tile-slot-empty`, 50%) may list nothing.
-- Category/group titles uppercase (`.section-tile-category .section-tile-title`, `.dialog-heading-sub`); an empty group tile has opacity 0.5.
-
-## Page 3 (later in the same round)
-
-- **Add Card**: ONE tile (`AddTile`, `.add-card-tile`) ends every section/category/group grid, labelled "Add Card" (tooltip names what it adds); half the tile side; at the bottom right (last grid column, the free place of the lowest row else a row of its own; right edge = last column's tiles', bottom = row bottom); no scale on hover, ground turns semi-transparent and its + grows 10%.
-- **Categories**: every category has its tile from the start (empty at 50%); Offering's Resources and Partners & Suppliers views add a CHANNEL category tile (channel teal, one constant `CHANNEL_TILE_HUE`); a channel-made card's floating card takes the same hue. Main page tile titles are capitals; dialog header wraps (no ellipsis), all names the title's size.
-- **Growth**: an area whose tiles do not fit grows down (page scrolls; dialogs have `min-height`, their overlay scrolls). The two page cards start their tiles 12px under their titles (no 36px spacer row).
-- **Cost row**: `--cost-x: 176px` (Qty 56, Price 96, currency at 176, Frequency right-aligned) as the user approved it; it no longer follows `--side-label-short` (124px).
-- Tiles per row: `useTilesAcross` (+2px tolerance) gives 3 across at every window width from 1280px (tile 176/191/203/215px at 1280/1366/1440/1600+).
-
-## Navigation stack (latest; replaces the rule that Back / Escape / a click outside all return to the default page)
-
-- **Layers**: page -> section view -> category view -> group view -> floating card -> (stacked pair). A card floats over the view it was opened from, which stays mounted under it (inert). **Back** and a click on the dimmed backdrop remove the TOP layer only; a dialog's Back / backdrop go one level up (`useDialogInnerBack`). **Escape** dispatches `CLOSE_TILES_EVENT`: every layer closes (a blank card is removed as on closing); a popup open inside takes its own Escape first.
-- **Popups**: the "i" note is portaled to the dialog's overlay (else the body), so no clipping parent or glass `backdrop-filter` box cuts it; it keeps the hue of its button.
-- **Page cards**: `.section-tiles-quad` (four tiles): side = min((box width - 12) / 2, window height left under the title) -- the dialogs' tile (`pageTileSide`) stays the three-across side; tile radius token `--tile-radius` (8px) for tiles and the Add Card. Costs row: label column 164px (`--side-label-short`), `--cost-x` 176px (Qty 56, Price 96, currency over the Status picker's left edge, Frequency to the name cell's right edge).
-- **Page-wide dialogs** (Inventory, Completed): from the top of the page cards to 12px above the footer, centred, scrolling inside their body; a section dialog grows down.
-
-## Tiles and floating cards (latest)
-
-- **Floating card**: no Back button; no `inert` on the page; the scrim (`.floating-overlay`) has `pointer-events: none`, the card and the notes in it `auto`; a `mousedown` outside the card (and outside a listbox/menu) closes the TOPMOST card (`FloatingCards`); a dialog's backdrop ignores a press while a card floats over it.
-- **Tile title** (`TileTitle`): `white-space: nowrap`, ellipsis, 18px on every tile, tooltip with the full text; the same top on every tile of a size (`--tile-lift` is the one margin). Page 4-tile blocks: list 18px from 250px a side, else 14px.
-- **Hover**: every tile scales `scale(1.1)`, `.15s ease`; the Add Card never scales; its hover is: stroke gone, fill `color-mix(currentColor 16%, transparent)`, label and "+" in the card's dark tint (`--plus-fill`).
-- **Funnel**: portal to the overlay, outward beside the dialog when there is room; Status / Frequency are `OptionPicker` (hug, tight).
-
-## The Workspace is a Category of the Resource card (the old "Workspace form is frozen" rule is lifted by the user)
-
-- One resource card (`resourceCard`); `workspaceBody` adds the Workspace fields in the card flow when the slot is in the `workspace` group: side-label rows for Workspace and Status (the label column and the 212px side cell as on every resource card), the cost row (Price 164 beside the currency at 176, Frequency to the name cell's right edge), the Deposit row (`.business-capability-deposit-row`: amount = the Price column, the currency text at the currency picker's x with its inner left padding). Removed with the merge: the standalone Workspace form (`workspaceFields`, `.workspace-form`, `.workspace-card`, `--workspace-label-width`, `--workspace-form-width`), the Workspace floating variant (`.floating-card-workspace`, `kind: "workspace"`, the "group" centre), the Workspace category tile/box logic and its Add Workspace, the `workspaces` list and `createBusinessWorkspace`, the FloorKind "workspace".
-- A new resource card is filed under `unassigned` (Category) / `unassigned` (Group): placeholder "Select", incomplete until chosen.
-
-- **The Inventory funnel menu is 250px wide** (`.strategy-sort-menu-wide`; max `100vw - 24px`): long labels ("Digital Infrastructure", "Online Presence & Communication") wrap onto two lines, "Partners & Suppliers" stays on one, never widen the menu for a label. Its height is capped to the window (scrolls inside), it opens outward where there is room, and the Cost from / to cells are 6.5em (91px). Buttons read "High to low" / "Low to high", the tick "Linked".
-
-## Marks on the lines of a tile's list; the title's slide
-
-- A tile's list line can carry a mark (`SectionTile.itemMarks`): **empty** (the category has no card) `--list-empty-opacity` .7 (3:1 in every theme), text and bullet; **teal** (Offering's Resources: the Channel line) text and bullet in `--channel-marker`; **channel** (Offering's Activities / Partners & Suppliers: the line holds cards a channel made) two stacked bullets in the one bullet column, the line's own on top, the teal one 2px under it, both `--bullet-size`, centred on the line. No mark changes a line's text x or height; the probe's list-line rules hold.
-- A tile title cut by an ellipsis slides left under the pointer (a scroll of the title's box, `useTitleSlide`) and back on leave; its size and position never change; nothing moves under `prefers-reduced-motion`.
-- A new Activity / Partner / Provider card starts at Category "Select" (incomplete till chosen), like a Resource.
-
-## One rhythm in the funnel; list height
-
-- The Inventory funnel menu uses only `--space-field` (12px: padding, between blocks, around a block's label, between sub-lists and fields) and `--space-label` (6px: between ticks, label to control, between the two cost buttons / cells). Include, Belongs to and Sort have a fold arrow (`title-arrow`, button, `aria-expanded`), open by default, the state kept while the overview is open; the menu is never taller than the window.
-- `TileList` measures each line's bottom from the top of the LIST (not of its layer), so the list ends at the foot of the last whole line that fits, plus 4px for descenders; no line is ever cut or taller than the list.
-
-## Funnel order, table columns, teal card lines
-
-- Funnel blocks: Include, Sort, Belongs to (folded at first, arrow right after the label), then Status / Frequency / Linked / Costs; cost order = two arrow buttons beside Costs; range labels From / To. Tick boxes: `align-items: center`, no margin on the box.
-- Inventory table columns exactly: Name, Type, Section, Category, Group, Cost, Frequency, Status, Linked; Linked only the link bullets; no sideways scroll at 1366.
-- A list line of a card with the channel tone is teal (`--channel-marker`) unless it is incomplete (red); `--list-empty-opacity` (.7) for empty categories.
-
-- A dropdown list (`OptionPicker`) inside `.business-capability`, a tile dialog/overlay or a sort menu is drawn free (`useFloatingPanel(..., free)`): fixed, window-placed, never clipped by a scrolling box; the cell's width, flipped above or capped and scrolling when there is no room.
-- A Customer Channel card's Group is "Channel" (table column, last tile line, funnel Group list).
-
-## The header over the layers; the table surface
-
-- **The header over the layers:** with a dialog, floating card or Inventory open, `.app-header` has `z-index: 1001`, is never `inert`, and the element at its centre is its own (probe rule 17e2). A press in it does not close a floating card; Escape typed in it with a header popup open is the popup's.
-- **Table mode** uses `--table-ground`, `--table-ink`, `--table-line`, `--table-tint`, `--table-hover` per theme (ink at least 7:1), a sticky heading, and the sizes 14 / 18 / 24px (`--font-small`, `--font-body`, `--font-h3`).
-
-## Batches F to I: the cost nature column, funds, Opening Date, Global Settings, Resources rows
-
-New fields follow the rules above and reuse their neighbours' shapes; nothing here is a new pattern of its own.
-
-- **Costs table (Page 4)**: one more column, **Cost nature** (`.financial-cost-nature`), after When, with an i in its header (`business-foundation-label-info`) and an `OptionPicker` (hug) in the row, plus a muted `.financial-cost-source` line for the part before the opening. The Amount column (`.financial-cost-number`, header and cells) is right-aligned and holds the figures alone; the currency is written once, in its header ("Amount (EUR)"). The grid's template in `conversation.css` has the extra column; the row's remove cell stays last.
-- **Opening Date**: a date field beside Plan Start in the same row style, same label size and field width; no new row height.
-- **Funds** (`data-anchor="financial-funds"`, under Funding Need): the same cards as the funding-need cards (`.financial-need-card`) in the same grid; the Total Pre-operational Budget is a `.financial-total` line under the costs (`data-anchor="financial-pre-operational-budget"`). Without an Opening Date the block is replaced by one muted sentence.
-- **Global Settings** (`/settings`, `pages/GlobalSettings.tsx`, `styles/global-settings.css`): a page of ordinary cards and fields on the existing tokens, opened from the **Settings** button in `AppHeader` (`SettingsButton`), which takes the header's button size and spacing; no new sizes.
-- **Resources rows (activities)**: a row is a dropdown (`OptionPicker`) with the link symbol, one row per resource, "+" adds a row; never a tick list. Performers use the same row. A people card in Offering's Capability uses `.business-capability-people` in `section-tiles.css`.
-- **Group label order in a card**: Category, Group, Name. A partner or supplier card has no Category row.
-- **Cost row additions** (cost option, billing type, rate override, useful life, warranty, amortisation period, payment plan, extras, dated notes) sit inside the existing cost row on the same two-column label rhythm (`--space-field`, `--space-label`); the rate override's placeholder shows the Global Settings default.
-- **Channel expenses (Page 2)**: "+ Add expenses" and "Typical costs for this channel" are card-list add buttons in the channel cell, same size as "+ Add Journey Stage"; template cards use the channel teal tone (`--channel-marker`) and the cascade link rules above.
-- **Text**: no em dash in any app text or source (`noEmDash.test.ts`).
 - **The check**: the full layout check (`scripts/layout-check`) must be run once over these additions (task J3); they are not yet covered by a recorded run.
-
-## Batch J: activity rows, notes, help in the header
-
-- **An activity's Resources list** is a list of rows like the Performer's (`.business-capability-resource-row`): dropdown, units box (56px, `.business-foundation .interview-input.business-capability-people`), link symbol (38.5px), and the "+" or × in the head's x column. Every row keeps the places of the units and of the link (`.business-capability-row-spacer`), so the dropdowns of a list end at one x; the field extends into the x column by the column's width and the gap (`margin-right`). The estimated cost of each linked card is a muted line under the list (with two or more, then the sum), never beside the row. The check tests it as "every Resource dropdown has one left and one right edge" and "the + or the x beside a Resource stands in the head's x column".
-- **The Performer's link symbol**: beside a partner or supplier performer, between the dropdown and the "+" or ×; the dropdown then ends one link place (38.5px and the 8px gap) before the name cell's right edge, in every row of the list.
-- **One label column** for the Performer and the Responsible stacks of an activity (`--activity-label-column`, 7.25em of the body size), so the Performer's dropdown and the Responsible's name start at one x.
-- **Notes (the side window)**: each note shows "Recorded <date and time>" (read-only, muted, 14px) under its text, and an "Add Date" text button beside "Link a field" (`.notepad-note-actions-text`) that adds today's date to the text on its own line. The Description of a card carries no stamp and no button.
-- **The "i" of a category's dialog** (Resources, Partners, Suppliers) says the help text of its groups from the help-texts document: the text of its one group, or one line for each group ("Company Vehicles: cars and bikes ..."). Opening one group of a category shows that group's own text.
-- Declared exceptions added to the picker rule: the Category pickers (` category:`), an activity's Resource pickers (` resource N:`) and a rent's supplier name (` rent:`), like the Group and Name pickers already named: a long list or a name the user gave may be wider than the 212px cell.
-
-## Batch K0: the user's visual notes (payment plan, groups, links, dates)
-
-- **The link symbol stands at the LEFT of its dropdown.** It is drawn first in the row and its slot (38.5px and the 8px gap, `--link-slot`) hangs out to the left of the dropdown into the label column, which is wider by that slot in an activity (`--activity-label-column`). Every picker still starts at the column's edge; a row without a link keeps the empty slot (`.business-capability-row-spacer`). It applies to the Performer, the Resources of an activity and the Name rows of a status. A founder performer has a link too (it opens the founder's card).
-- **The Resources of an activity**: the tick, the label and the first dropdown are on ONE line (`OptionalField` with `inline`, subgrid of the activity stack); the dropdown starts at the Performer's and the Responsible's x. The cost lines stand under the dropdown.
-- **End date is optional**: a tick before its label (`BusinessField` with `tick`); the date field shows once ticked, and unticking clears the date.
-- **A founder's Start date**: in the narrow founder card the label takes the room its words need and the date cell the rest (`.business-founder-open > .business-field-side`).
-- **Linked Offerings**: with several, the percent each carries is a whole number of two digits (`.business-capability-share`, 56px) at the end of its own row, its right edge at the "+" and x column. The old rows below the list (a wide box and a text) are gone.
-- **Group, not Category, on a partner or supplier card** and on a resource's Partners & Suppliers status: ONE Group dropdown listing every group of the place (Partners' first, then Suppliers'); the group picked says which of the two the card is. The Type field of a Pre-Operational activity is removed.
-- **The payment plan** (`.business-capability-plan-row`): a payment is one row, amount | percent | date (an Instalment's order number before them: `1.5em 88px 80px 1fr`). Deposit & Balance: two rows. Instalments: a one-digit box (`.business-capability-plan-count`, 56px) beside the type makes that many numbered rows. Milestones: two rows each, the stage with the "+" (an x after the first) and then the values. The amount and the percent are one figure (typing either sets the other); the total must be 100%.
-- **Inventory** (formerly All Tiles): the table has two more columns, Cost Nature and Behaviour, after Frequency (`inventoryClassification`: the same rules as the Financial Foundation). The legend says Supplier for what was Provider; "Partners and Providers" is "Partners and Suppliers" everywhere.
-
-## Batch L: column pages drawn as tiles (the user's visual notes)
-
-- **The text on a column page's tile** (Definition, Ethics, Ambassador, Legal Entity ...) is plain text: no bullets, the lines running down to a line above the tile's foot, the last line fading (`.column-tiles-page .section-tile-list`). A press on it opens the tile.
-- **A column's guidance is the "i" beside its dialog title** (`DialogHeading info`), never bullets under it. The guidance of the Brand pages (Style, Inventory) and of the Themes (beside the Add Theme button) opens in a note of double the one width (`InfoNote size="double"`, 720px).
-- **Large tiles** (`SectionTile.large`): two of them stand side by side, as large as the four of a 2 x 2 page. A tile's own picture (`SectionTile.picture`) fills its square under the title.
-  - Brand Style: Colours (every colour as a block on the tile) and Typography & Text Hierarchy (the typefaces). Their dialogs open boxes that are pictures (`PictureBoxes.tsx`): a colour's box is covered with the colour and carries its name, role and code; a typeface's box carries its name, role and a specimen. A box opens its card floating. The Text Hierarchy stays the table it was, under the typefaces, in the Typography dialog.
-  - Brand Inventory: Icon & Logo (the icon in front; its dialog is the uploads) and Brand Images (each image a box covered with the image, its title on top).
-- **Legal Entity** is one tile for each of its six sections. Organization and Founders & Ownership open with no frame; Formation & Registration and Tax & Business Registration open in theirs; Additional Legal Requirements and Legal Entity Expenses open a card tile for each card with the "Add Card" box (as the Business System's cards do).
-- **A founder's card in its dialog** stands one field under the other (`.founders-profile-row`), so every row has the room it was drawn for.
-- **A dialog over a card taller than the window** covers only what the window shows, under the header and above the footer (`dialogFrame`).
-- **Names**: the Ambassador's "Attitude & Body Language" is "Body Language" (its saved key stays `attitude-body-language`).
 - **The check**: the layout check (`scripts/layout-check`) was not run over this round (the `playwright` package is not installed here).
-
-## Batch M: Legal Entity in four tiles, the Style page with the Inventory, the Strategic Period
-
-- **Legal Entity** is four large tiles: Organization, Founders & Ownership, Registrations, Expenses. Registrations holds 3. Formation & Registration, 4. Tax & Business Registration (both with no frame) and the Additional Legal Requirements as card tiles. Its tile lists the state and the names of the registration numbers; a requirement's card tile says its Type and whether it has expenses; an expense's says its start date and its registration.
-- **A legal requirement's or expense's card in its tile** is a grid of the head's own columns, and everything under the head stands in the name's column (`.column-tile-content .legal-entity-card`): the Type, the Date and the Responsibility have their label beside the control, to the name cell's right edge; the Reference or Number and the Linked registration are as wide as the name cell; the Cost and the Frequency share the row. "Add to Legal Entity Expenses" is one line.
-- **The Style page carries the Icon & Logo and the Brand Images** (the Inventory page is gone): four large tiles. The Inventory's answer is saved as the Style answer's `inventory` (StorageService moves a saved one; the examples were moved). The page's sections are `BRAND_STYLE_PAGE_SECTIONS`.
-- **Founders Profile**: a founder's tile lists the roles, a line (`TILE_DIVIDER`), then the skills and degrees, with bullets; the dialogs have no frame; the Skills' kind drop-down is half width.
-- **Help notes**: the Brand pages' and the Themes' note is 480px (`InfoNote size="double"`); the Strategic Period's title note holds the period and the Themes guidance, the one beside Add Theme the common Themes. The period's Start, End and the plan's dates stand in the dialog's second column.
-- **A title with a forced break** (`\n`) is drawn on its lines (Typography & Text Hierarchy).
-
-## Batch N: tiles that are lists or text, plus buttons, one card, no rail on tile pages
-
-- **A tile's lines**: a list (founders, registrations, expenses, themes, roles and skills) has a bullet on each line (`ItemMark.bullet`); text (Description, Philosophy, the gaps) has none; a line that stands alone is centred (`ItemMark.centre`). A line may carry bold words between pairs of asterisks. Text on a column page ends at a whole line, a line above the foot (no fading).
-- **A "+" on a tile** (`SectionTile.add`) adds a card and opens it: Expenses, the Strategic Period (a Theme), Colours, Typography, Brand Images. Where a kind has a fixed number of cards (the colours, the typefaces) the "+" is hidden once all are there and returns when one is removed.
-- **One card**: every floating card is 480px wide, with the card ground, a hairline, 8px corners and the same padding; a colour's, a typeface's, a requirement's and an expense's card stand their rows on the name's columns, so everything under the name starts and ends where the name does. A drop-down is the app's own (OptionPicker), including a founder's Skills kind.
-- **A title with a forced break** stands with its first line where the other titles stand.
-- **No Sections rail on a page drawn as tiles** (`drawnAsTiles`); the sections are still the page's (the rail items name them elsewhere).
-- **The colour map** (`WorkColours.ts`, docs/design/01-current-design.md, part I) colours the tile pages: Definition, Ambassador and Style Create (purple), Ethics Decide (orange), Legal Entity and Founders Profile Define (green), Situation & Direction Discover (blue).
-- **Business tiles**: a priced card's tile shows the price in bold and no longer says "Costs".
-
-## Batch O: pages of several sections, card tints, sub tiles
-
-- **A page can hold several sections** (`PageGroups.ts`): Identity page 1 "Definition and Ethics" (the chapters Definition and Ethics), page 2 "Organization" (Legal Entity, Founders Profile); Brand's one page (Ambassador, Style) has no page name. Each section keeps its number, its title and its saved answer; the frames stand side by side, each with its heading ("1. Definition") on top of its tiles, as the Business System's Infrastructure & Capability page does. The first section is the page's own; the others are companions, not pages of their own (the pages rail, the arrows and "What it covers" skip them).
-- **Without a Sections rail, no rail title** (`BulletRail`).
-- **A card is tinted by its tile**: a card floating over a tile, the "i" of a tile or a card, a Back button under the pointer, and the Text Hierarchy's box all take the tile's hue; a floating card is one box with 8px corners and one shadow.
-- **The Registrations dialog** shows its three sections as sub tiles (`SubTiles.tsx`): Formation & registration, Tax & business registration, Additional legal requirements. The Legal Entity's tiles are in sentence case, with no order numbers; card tiles of requirements and expenses have centred lines with no bullets.
-- **Two columns on a tile** (a name and its share): an item with \u0001 between the parts; the second column starts at one x.
-- **Tile titles stand half a line higher** (\`.section-tile-title\`).
-
-## Batch P: one level for the tiles' titles, frame headings, two texts where a column asked for two
-
-- **A tile's title** stands with its first line at one level on every tile (a title of two lines has its rule, and what follows it, a line lower); its list or picture follows its rule. A frame's heading (a page of several sections) is in capitals, in the centre; the frames start and end where the Business System's do.
-- **Column answers as parts**: Ethics' Values and Principles are numbered lists; the Ambassador's Imprint is two texts, the First and the Lasting impression (the one answer, "First impression: ... Lasting impression: ..."); the Founders' Capability is two texts, Gaps and Cover (`teamCover`).
-- **A page's name in the pages rail** is its group's (`PageGroups.ts`): Definition and Ethics, Organization, Brand System; its frames are numbered 1, 2 within the page, with their own names where given ("Founders & Capability").
-
-## Batch R: tile content that opens cards, one-row headers, no darkening behind a floating card
-
-- **A tile's content may be linkable** (`SectionTile.links`, `SectionTile.cardFor`): a listed line opens its card (expenses, requirements, themes) or a section of its dialog (`{ box }`: the Registrations tile's three lines open that sub tile); a block of a tile's picture names its card with `data-card` (a colour, an image, a typeface). A press anywhere else on the tile opens the tile. Text on a tile scrolls like a list.
-- **Sub tiles** (`SubTiles.tsx`) are category tiles one level in: one-line capital title, a linkable list, a "+" (`SubTile.add`) where they take cards (Additional legal requirements).
-- **The blocks of Colours and Brand Images** are squares with the same space around the set as between them; under the pointer a block takes the tile's own reaction (a 10% growth inwards, from the corner, edge or centre of its place, and the tile's drop shadow); a typeface is underlined.
-- **A Business card tile** lists, under its name, where it belongs (plain lines, no bullets), then what it says (status, dates, warranty, cost) with bullets (`tileMarks`). A card that names a partner or supplier in a further status row is linked to it as well (a circle each).
-- **A dialog darkens the page behind it, a floating card does not** (`--bg-overlay`; `--floating-scrim` is clear). The names above the cards keep their own dark ground. Every floating card's box (Business, Legal Entity, Brand and Strategy) has the inner light and shade (`--box-inset`) and its drop shadow.
-- **A dialog's header is one row** (`DialogHeading`): the root name (Resources, Activities) keeps its size; the names after it are one size lower (`--font-body`); a trail too long for the row is cut at its left (the last name stays in view, the full text in the tooltip).
-
-## Batch S: dates, ordering, no dim
-
-- **A card's date is today when it is made or switched on** (`createBusiness*`, `createLegalEntityExpense`: Start date today; ticking End date sets today, or the Start date if later). Turning a Payment Plan on gives the card a Start and an End date (today) where it has none, since the plan's dates fall between them.
-- **The date defines the order, then the number** (`orderedByDate`, applied on every change of the Infrastructure & Capability page): each list of cards is kept in Start-date order (ties keep their place; no date goes last). The founders keep the Legal Entity's order.
-- **A Business card tile lists its dates first** (`FloorRow.dates`): both days, or the Start date alone; "From" only where there is no End date and the cost runs on a schedule (monthly, quarterly, annually).
-- **A dialog (an open tile) darkens the page behind it; a floating card never does.**
-
-## Batch T: one date format, one frame heading
-
-- **A day is shown in the reader's date format everywhere** (`isoToDisplay` with the preference): the date cells (`DateCellInput`, now also the Legal Entity's Formation date and expense Date, and the generic date field), the card tiles and the Registrations tile.
-- **Where a list has a date, the date defines the order**, then the number: the Business cards (Start date) and the Legal Entity's expenses (Date).
-- **A frame's heading** (Identity and Brand pages of several sections) is the column title of the Business System: 28px, and its tiles start at the same distance below it.
-
-## Batch U: the plan's dates and VAT in one place
-
-- **Plan Start is never typed** (`derivedPlanStart`): the earlier of the Opening Date's month and the month of the earliest costed Business card; the Global Settings show it as a read-only line. A cost dated before it (a registration paid before the plan, for one) counts as already paid, as the model has always had it; the Legal Entity's expenses do not move it. It is kept in the Financial Foundation answer too, so the documents read the same month.
-- **The Opening Date** is the one date the user chooses; a warning says when it is before the company was formed.
-- **VAT is answered once, on the Legal Entity.** Not registered there: Global Settings says "Not registered" and offers no choice. Registered: the one choice left is Amounts including or excluding the tax (`effectiveVatBasis`).
-- **Registered is worked out, never chosen** (`formationStatusOf`): a registration number in the first row says Registered, none says not yet (a form with no company registry, a sole trader, counts as registered once it has a date). The Status is text; the Number is always asked; the Formation date shows once there is a number; the other numbers (a trade mark) never set the status. A number that looks short is questioned, not refused.
-- **The registration authority is the country's own, filled in and shown as text** (`registrationAuthorityFor`): the user cannot mistype it. A country the app does not know leaves it a cell to write.
-- **The Formation card**: no Status (the number registers it); the Date stands on the registrations' columns (its label ends where the registry's name, text, ends; its cell over the Number) and is no later than today; a list of further numbers takes at most five (`MAX_MORE_NUMBERS`), the registrations' and the tax registrations' alike.
-- **A registration number takes only what its country's numbers hold** (`registrationNumberRule`, from the stated shape): "8 digits" takes digits only, no more than 8; "8 characters" letters and digits, no more than 8; a shape with separators takes what it shows. Further numbers (a trade mark) take up to 30 characters. The UK's UTR (and Brazil's CNPJ) follow the same rule through `taxIdNumberHint` (10 and 14 digits).
-- **The day in a date cell** is written at body size (`--font-body`), the size of the text around it.
-
-## Batch V: one left edge for the cells of a card
-
-- **A card's cells start at one left edge.** An activity's Start date, End date and Group start where its Performer and Responsible do (`--side-label-short` 177px for the card). A founder's Start date: its label ends where the Salary cell ends, its cell starts where the Frequency cell starts (`--founder-cell`, 108px, for both). A Legal expense's Date: its label's words end at the Cost cell's right edge, its cell starts where the Frequency cell starts; its Responsible picker starts there too.
-- **"Responsible" is the same field on every card**: a tick (on until taken off; off clears the choice) and the picker beside it (`BusinessField` with `tick`); the Legal expense's "Responsibility" is now that field, shown where there is more than one founder.
-- **One set of measures for a card's fields** (`global.css`): `--card-label-col` (177px, the label column of every side-label row, so Start date, Group, Performer, Responsible and Frequency start their cells at one x on every Business card), `--card-cell-gap`, `--card-cell-narrow` (108px, a founder's Salary | Frequency pair) and `--card-x-col` (the delete x's column). A card's content runs from the name's left edge to its right edge; a founder's card, with no name cell, keeps the same left (after the number) and right (the x's column clear).
-- **Links between cards, both ways**: an activity's Performer, Responsible and Resources rows open the founder, partner or resource (a pair of floating cards); a partner's card lists the activities that name it as performer, a resource's card the activities that list it, each a link.
-- **A drop-down with nothing chosen says "Select"** (the Legal expense's Frequency and Responsible, the Strategy's Responsible).
-- **A dialog (an open tile) darkens the page behind it; a floating card does not** (`--bg-overlay` for the dialog, `--floating-scrim` clear).
-- **An optional field is a tick box** (`OptionalField`): the Legal requirement's Reference or Number, like its Description; a founder's Skills kind drop-down is one width on every row, the empty one included.
-- **A founder's card, everything after the number**: the roles' bullets and the Responsibilities / Completed arrows start at the content edge (where a name's cell would), with their words after them, not hanging in the number's column. A founder's Skills kind drop-down is 14em on every row and its list as wide as the cell, so no kind takes more than two lines.
-- **Links between cards, checked in every direction** (Lumen & Loom, 62 cards): a resource links to its supplier, to the activity its status chooses and to the activities that list it; an activity to its performers, its Responsible founder, its partners and its resources, and back to the resource that chooses it; a partner or supplier to every resource that names it (by its status or a further status row) and every activity it performs; a founder's Responsibilities to its activities; a Customer Channel's card to its channel; a tile's circles show what a card is connected to. Each opens the other card with this one (a pair).
-- **The "Open ..." links of a card are last in it** (`linksSection`): one is the line itself; several are a folded section named Links, its label at the left with the other labels, the fold arrow after it and the count beside it. A card's circles (the linked indicators on its tile) match its links: every activity a resource is listed in, and every resource an activity lists, is a circle on both tiles (`floorRows`).
-- **The "i" takes its card's hue in every reading mode**: its stroke, letter and fill are set on the button itself (page-3-edges.css), so they read the hue of the card or tile the button stands in (a dialog's hue is set on the card inside it, below where the pair used to be set, which made the "i" red on a green or blue card). The caption above a floating card keeps its own pair. Checked on the Business, Identity, Brand and Strategy dialogs and cards, in light, sepia and dark.
-- **The Links fold arrow stands at the left of its label**, hung in the margin, so the label starts where the card's other labels do.
-- **The Links of a card are laid out as a founder's Responsibilities**: the same row (fold arrow, label, count) and the list under it, its lines 6px apart. A field-by-field measurement of the card kinds is in `card-field-measures-report.md`.
-- **A link line is a kind letter, then the name**: R. Resource, A. Activity, P. Partner, S. Supplier (the noun's first letter, one fixed column), then the name as the link; no "Open", no quotes (its tooltip and accessible name keep the full "Open Resource “Name”").
-- **Every cell of a card is `--card-cell-height` (44px) high**, a date cell included. A Status picker is narrower than the other side-label cells on purpose: its "+" stands in the x column (159 + 40 = 199).
-- **Carousel arrows** (`CarouselArrows`, SectionTiles.tsx): a "‹" at the left and a "›" at the right of the card or the opened section that was opened last, 44px circles over the page (fixed, measured from the box they flank). A floating card steps through the cards of its tile (of its box, where it was opened from one); an opened section steps through the section's tiles that have something to open; both round the ends. A dialog under a floating card has its arrows hidden (only the last-opened layer has them). Alt + ← / → does the same. A parent and child pair has none yet.
-- **A "Per unit" frequency** is one option per unit of the group ("Per hour", "Per kg"); the plain "Per unit" is offered only where the group has no unit of its own.
-- **Default useful life** (Global Settings > Assets): every asset group has a default, from `UsefulLifeReferences.ts` (IRS Publication 946 and the Texas DFPS asset schedule, 2026-10-10); an "i" beside the title says what useful life is, and one beside each group lists its 6 to 8 popular items with both schedules' lives and the sources as links.
-- **The marker column of an opened card is always two digits wide** (`--card-marker-col`, 32px), so the name cell (388) and every cell are the same width on every card whatever its number ("1." or "11."); the card is `--open-card-width` 492px. A card's number in its tile and in the card itself is the same (`offeringNumberOf`: its own Group's list, or the Channel tile's).
-- **A Legal requirement's or expense's floating card stands on the Business card's geometry**: the same three columns, name cell and side-label rows (label in `--card-label-col`, cell to the content's right edge). A colour's and a typeface's card share one label column (`--brand-label-col`). A card a Customer Channel made shows its Category and Group as text where the other cards' cells stand.
-- **Carousel arrows are the page arrows' shape and level** (`.page-arrow.carousel-arrow`), 10% larger, outside the card on each side, in the card's own tint; their level is the page arrow's (`arrowLevel`). The page arrows are raised to the middle of the page's cards where the rail would hold them lower. Infrastructure & Capability shows no Sections rail (it is drawn as tiles).
-- **The Foundation page is a set of four tiles for each Segment** (Customers: Segment and Profiles; Value Proposition; Competitors; Offerings; two by two), each Segment's frame in its own colour, the frames side by side. A tile's dialog holds that Segment's part only.
-- **The Calendar lists every card date** (`CalendarCardDates.ts`) and has a funnel (`CalendarFunnel.tsx`): the period (Today, Tomorrow, This week, Next week, This month, This year, Xmas, the user's own) and the kinds of date (the recommended ones, all, or chosen).
-- **Carousel arrows stand 24px from the card or dialog**, in a bright fill of the card's hue with a dark outline (contrast over the dimmed page in light, sepia and dark); none while a card is being made (fresh); a dialog with sections of its own (Registrations) steps through them first (`useDialogInnerStep`), then goes on to the next tile.
-- **Only the app header cuts a floating card**; it scrolls to the window's bottom.
-- **A rail whose names wrap** shows its bullets alone (class `bullet-rail-compact`): the title and names are hidden and a name appears beside the bullet under the pointer.
-- **Dates are limited where they can conflict**: an End date is not before its Start (a Start after the End takes the End along), a payment falls between Start and End, a warranty is not before the Start (`min` / `max` of `DateCellInput`).
-- **Global Settings follows the Business style**: every detail is in an "i" beside its label; the Assets section is one table (capitalisation limit, each group's useful life, each asset's own years); Reset sets a group, or all of them, back to the default.
-- **The Foundation page**: a frame for each Segment (blue, the Discover colour of the colour map (docs/design/01-current-design.md, part I)), five tiles in it: Segment, Profiles, Value Proposition, Competitors, Offerings; the frame title is "Segment" until named, numbered with several; a long title scrolls sideways.
-- **Legal Entity links**: an expense shows a link symbol beside "Linked registration", a requirement beside "Add to Legal Entity Expenses", a linked number a symbol hung at its left; the tiles carry the second (link-coloured) bullet on linked lines (`OPEN_EVENT` opens the other card or section).
-- **A note's Date** is a tick; ticked, its label is the day to pick and the note stands on that day of the Calendar.
-- **3. Infrastructure & Capability is laid out like the other tile pages**: two cards of the same size in one row, their four tiles centred and as large as the card and the window allow; the Inventory and Completed tiles stand in a row under them, squeezed into the room that is left (never under `SQUEEZED_ROW_MIN`, 88px, titles only below 150px).
-- **The cost row**: the currency cell is 66px (its left edge stays at the label column), the Frequency takes the rest of the row, to the content's right edge.
-
-- A side-label cell (Category, Group, Responsible, Status) keeps its one fixed width and one line; a sole-option Group stays a disabled cell like the Category's, never plain text.
-- The carousel arrows are the card's ground outlined by its accent colour, and the page's own arrows are hidden while they show. Going back into a tile of sections opens its last section; from the Registrations grid the right arrow opens Formation.
-- A floating card's overlay starts under the app header and scrolls: the header is the only edge that cuts a card.
-- Global Settings: figure boxes are 112px; the Assets table has four fixed columns (Asset, Cost, Useful life, Reset); the Capitalisation limit sits in Cost.
-- Linked resources of an activity: one line each (name left, cost right), "no price yet" where none; the Total ends the list. Rate override is optional (a tick).
-- Foundation: each Segment frame has four tiles: Segment (Description and Profiles), Value Proposition, Competitors, Offerings. Legal Registrations' tiles and Expenses' tiles carry circles for what they are linked to.
-
-- Legal Entity arrows: between the page's four tiles (Organization, Founders & Ownership, Registrations, Expenses); inside Registrations between its three sections; between the requirement cards; between the expense cards. A second bullet in a list means a channel's cards only; a link is a circle.
-- The Foundation page is the nested frame of columns again (no tiles).
-- A picker's list starts at its cell's left edge and is as wide as its longest option (never narrower than the cell). Rail names appear inwards. The app header throws a drop shadow.
-- Inventory and Completed are rectangles in the footer's band on a wide page, so the two cards are as large as every other system's.
-
-- Payment plan rows: [amount (what is left)] [percent: a 44px square, right-aligned] [the date cell, 198px]; 12px between cells; a milestone's name runs the card's name cell with its "+" in the x column. The date cell is 198px everywhere (the Start date cell).
-- A requirement ticked "Add to Legal Entity Expenses" makes one expense (named as it is, text-link name, no Linked registration); the two open together, the requirement above. A linked registration number carries its link symbol inside the right of its cell.
-- Foundation: each Segment frame has Customers (Description and Profiles as sub-tiles), Value Proposition, Competitors and Offerings; every part is a floating card on its own tile.
-- Inventory and Completed are 215px squares; only when the window's height asks, their height shrinks (rectangles). The gap between the four tiles follows their size from 12px.
-- Activity costs: the partners and suppliers named as Performers are costed after the last performer; a rule stands over the Total.
-
-- Customer Engagement: "Channel" is the old Channel Category and "Subchannel" the old channel; "Channel expenses" (was Channel resources) has Cost (currency in its heading), Frequency, and a Channel column of channel / rule / subchannel.
-- Strategy: Goals & Objectives is a tile per Theme (several Goals: a tile per Goal, each floating); the Roadmap is one large tile. Delivery shows a tile per Offering's Delivery card.
-- Global Settings > Assets ends with "Intangible assets" (amortisation years by group, with FRS 102, IAS 38, US section 197 and common-practice sources).
-- Carousel arrows step within the deepest open level (sections, categories, groups) before leaving it.
-
-- Strategy cards (Goal, Objective, Metric) have no fold arrow and no grip; a card head is one row: number and "i", the name cell, its buttons. Generated tiles (Goals, Objectives) have a label above them; a Theme tile has a "+" to add a Goal. The Roadmap page has no Sections rail.
-- Value Proposition is a section of a Segment (a tile that opens a dialog and is stepped through by the arrows); a single founder is a section of Infrastructure, likewise.
-- Customer Relationship: per relationship type a block (type beside its label, Purpose, then the Engagement Strategy with the stages side by side, each Goal with its ticks under the label); "+ Add Relationship Type" follows the last block.
-- Channel expenses: "Channel Expense" column; a percentage's symbol is in the Frequency column ("% of revenue") and its behaviour is Variable; several subchannels are a bullet list; actions two to a row.
-- Global Settings: Intangible assets list only the groups that hold a card, each card numbered under its group with its own years.
-
-- **Small tiles (`small` on SectionTiles).** The Themes of 2. Goals & Objectives and the Roadmap keep the page's small tile size whatever their number (four are not drawn as the 2 x 2 of large tiles); the grid stands in the middle of its card.
-- **A card opened from a floating card.** A tile inside a floating card (an Objective on its Goal's card) opens its own card in the same place (OpenCardContext is provided by the floating layer). A card alone shows its place in its list (Objective 3), and its x removes it (no blank put in its place).
-- **Deactivated tiles** (a channel or subchannel not used yet) are drawn in the grey of every deactivated tile (`section-tile-completed`); pressing one makes it and opens it.
-- **A channel opens as tiles of its subchannels**, each opening a card with the table of that one subchannel (1300px or more wide, the width the table needs).
-- **Tables with equal columns** (the Engagement Strategy) set the width on the header cells and put the gap in the cells' padding; labels shared by every column (Goal, Approach) stand in a row of their own.
-- **Demand & Conversion** is one table for the Segment: an Offering's rows under its head (how it is bought), then its sources, "+ Add Customer Source", the result, and the assumptions beside the channels.
-- **A section of a dialog stands on the dialog** (the Value Proposition, the Segment's Description): no frame of its own.
-- **One founder**: Salary, Frequency, Working Hrs and Delivery Hrs stand beside their labels, in cells of the same width as before.
-- **A floating card has its tile's colour**: the hue of the section whose tile opened it (the dialog's), whatever hue its own content carries (`--floating-hue`, section-tiles.css).
-- **A tile not used yet** (a channel, a subchannel the category offers) is half transparent, as every tile with no card in it (`section-tile-slot-empty`); pressing it makes the card.
-- **A subchannel's card** names the subchannel in its table head ("Instagram"); its channel's row and the "+ Add Subchannel" row are not drawn; its x removes it.
-- **Goal & Approach** are one title with an "i" beside each word; the Engagement Strategy has no row of labels.
-- **Demand & Conversion** is one table: Offering, Customers Buy, Channels, then a row for each Customer Source (Source, Estimated, Figures, Basis, Result, x).
-- **The "i" note opens above its "i"** where there is room, below where there is none.
-- **Costs (4. Financial Foundation)**: three totals (Launch budget, Running costs a month, Cost of each sale), the Total Pre-operational Budget written as capital expenditure + startup + pre-operating, filters (group, Offering, nature, order), then one table under four headings, with "Not counted yet" last.
-- **A Delivery card follows the opened card's columns** (marker, content, x): everything under its head starts at the name's left edge; each person's hours stand in the label column and cell column of the card's other side-label rows. (This replaces the earlier exception that left the Delivery card out.)
-- **A subchannel made by pressing a tile not used yet** opens its card at once and, left with no name, no link and no stage, is taken away when the card is closed.
-- **A page of small tiles on a wide card** (the Roadmap) keeps the 215px tile of every page. **Demand & Conversion**: the channels that bring the customers stand in a row of their own under each Offering's sources (the ticks in a line), not in a column of the table.
-- **A floating card's ground is checked in all three themes** (light, sepia, dark): the card and the dialog it was opened from take their ground from the same hue, the card one step deeper; a card's own neutral ground (`--bg-card-tint`) is never drawn on it.
-
-- **Strategy cards (Theme, Goal, Objective, Metric) heads**: the order number stands inside the name cell, then the kind label with its "i" (capitals), a "+" and the x; the "+" adds a NEW CARD OF THE SAME KIND beside this one (a Theme, a Goal, an Objective, a Metric); there are no other "+ Add" buttons. What stands under a head starts at the name cell's left (12px) and ends 12px before the x (a 56px margin at the right). Two tints only (the Theme's and the Objective's), swapped from card to card; the x and the "i" have no fill at rest.
-- **A card's navigation** (Goal, Objective, Metric with two or more under one parent): the left arrow under the "+", the right under the x, the bullet rail under the right arrow (one bullet each, this card's lit), sticky while the card scrolls; an arrow or a bullet goes to that card (scrolled to where it stands, opened where it is a tile's floating card). Outside the card, beside its x, a symbol of four arrows pointing at the centre shows the cards as tiles (the Metrics of an Objective switch to tiles; a Goal's or an Objective's own floating card is closed).
-
-- **Global: arrows that step through a list carry a rail.** Under the carousel arrows of a card or a section dialog (`CarouselArrows`, SectionTiles.tsx), under the right arrow, a vertical rail has one bullet for each of the list (this one's lit); pressing a bullet goes there, and hovering it shows a tooltip with the name (a section's title; a card's group and number where the tile gives no name). Any new set of arrows that steps through a list gives the list's items (`CarouselStep.items`, `current`, `go`).
-
-- **The Strategy System is one page** ("4. Strategy System", no page number; its rail names it): its frame is headed "Situation & Direction", centred. The Strategic Period's Goals, Objectives, Initiatives and Metrics are written in each Theme's card; the old pages 2 (Goals & Objectives) and 3 (Roadmap) are hidden sections (`HIDDEN_SECTIONS`, PageGroups.ts): they keep the saved answer but no page, bullet or arrow shows them.
-- **The Strategic Period's tile** has a "+" (a Theme made and opened as a card with all its sections) and a hairline after its dates. Its dialog: the Start and the End side by side from the left edge, the Financial Plan in one line under them, then the tiles (the Roadmap, each Theme, and an "Add Card" tile of their size, which keeps the suggested Themes' menu). A Metric tile says the Objective's period, then its Baseline and Target.
-- **Order number inside the name cell (every opened card)**: the number is drawn over the left of the name cell (10px in) and the name's text starts at 38px; the marker column is gone (`--card-marker-col` and `--card-marker-gap` 0, `--card-x-column` 40px), so the name cell and everything under it start at the card's padding and the cells widen by the 40px the marker column took. The list of card kinds and their heads: `docs/ai/card-kinds.md`. The founder's card (no name cell) keeps its marker edge.
-- **Arrows and rails 12px from the frame**: `--rail-offset` (12px, `bullet-rail.css`) places the Pages and Sections rails' bullets and the page arrows; `CAROUSEL_ARROW_GAP` (12, `SectionTiles.tsx`) places a dialog's or card's arrows. The same on every page.
-- **Founder's card in a page frame (labels beside cells)**: the four cells (Salary, Frequency, Working Hours, Delivery Hours) are 108px in two pairs; each label column is as wide as its widest label (at least 8.8 body-em, the Start date's column too), 12px before its cell, so no "i" runs under a cell.
-- **Channel card without wires**: the parts of the card (Offerings, a Journey Stage with its Actions, links, expenses) have no border or padding; they stand on the card's 12px, end where the name cell does (40px before the card's padding; a stage's × stands in that column), 12px apart (6px between a stage's picker and its actions).
-- **Values placed by the app** (`business-capability-static-value`) take the cell's height (44px), one line and an ellipsis with a tooltip.
-- **Partner and Supplier tiles** begin with their dates, as Resource and Activity tiles do (`capabilityFloor.ts`).
-- **Scrolling (`src/hooks/useScrollRules.ts`, `data-reserve`)**: a wheel over an open dialog or card never scrolls the page; where content is taller than its scroller (the page, a dialog's body, a tall card's stack) the scroller gets 25vh of bottom padding.
-- **Rails**: a card's carousel bullet names the card (`SectionTile.nameFor`, else the tile's line that opens it); a tile's bullet carries its name beside it (`.carousel-rail-named`, drawn on the tooltip's chip) where the room right of the arrows is 160px or more.
-- **A category with one group** shows that group's tile (`SubcategoryBoxes`), so arrow navigation into it never makes a blank card.
-- **Channel card**: Offerings are tick boxes (`BusinessTicks`: "All Offerings" first, at least one ticked); "Links" has its cell under its label; labels and part labels are the global label style; a name the app wrote is 18px semi-bold.
-- **A legal card has one ground**: the tile content around it has none (no square box behind its round corners).
-- **Scrolling is global** (`useScrollRules.ts`): the wheel over an open layer scrolls the layer (also over a dialog's blank body, where `overscroll-behavior: contain` stops the chain), never the page; every scroller whose content is taller than itself (`main.conversation-content`, a dialog's body, a tall card's stack) gets `data-reserve`: 25vh of bottom padding.
-- **Page tab** (`bullet-rail.css`, `useRailTab.ts`; `.carousel-rail-tab`): a rail stands in a tab touching the frame (absolute, as wide as its names), `--rail-left-*` / `--rail-right-*` colours read from the frames.
-- **x column 44px** (`--card-x-column`), a channel card's parts are tinted bands (`--part-tint-a`, `--part-tint-b`) with a hairline between Journey Stages.
 - **Layout probe**: a remove x keeps 12px from the cell beside it and never lies on one.
+`npm run check:layout` runs the layout probe (`scripts/layout-check/`) on every page of the Quillfield example (1920 wide, light page) and fails only on a finding that is NOT in `scripts/layout-check/baseline.json` (the findings known and accepted so far; random ids of cards made by a "+" are ignored in a finding's key). It says how many known findings are gone. `npm run check:layout:baseline` rewrites the baseline after findings were fixed on purpose; `CHECK_PAGES="Customer Engagement" npm run check:layout` runs one page; without `--quick` (`node scripts/layout-check/run.mjs`) it runs every width, both themes and both examples. A full run takes about 25 minutes; a sub-pixel finding (a gap of 12.95 for 12) can come and go between runs.
 
-
-## The automatic check (after every layout change)
+### The automatic check (after every layout change)
 
 `npm run check:layout` runs the layout probe (`scripts/layout-check/`) on every page of the Quillfield example (1920 wide, light page) and fails only on a finding that is NOT in `scripts/layout-check/baseline.json` (the findings known and accepted so far; random ids of cards made by a "+" are ignored in a finding's key). It says how many known findings are gone. `npm run check:layout:baseline` rewrites the baseline after findings were fixed on purpose; `CHECK_PAGES="Customer Engagement" npm run check:layout` runs one page; without `--quick` (`node scripts/layout-check/run.mjs`) it runs every width, both themes and both examples. A full run takes about 25 minutes; a sub-pixel finding (a gap of 12.95 for 12) can come and go between runs.
+
+## Appendix A. Rules replaced by a later round (history, word for word)
+
+Each line below was replaced in full by a later rule (its number is the line in the file before the reconciliation of 2026-10-14). They are kept so that nothing is lost; they are not rules.
+
+- (was line 1256, Page 3, this round) Costs rows (Financial Foundation) hold no control but the source link.
+- (was line 1258, Page 3, this round) **Partner / Provider category cell**: under the name, `Category` label and drop-down on one row (a side field like Responsible, the picker hugging its longest option), then, only while a category the user made is being named, a "Name the category" box.
+- (was line 1267, Page 3, section views (latest)) **One tile everywhere**: category, group, card and Add tiles are the page tile's 215px square with its hover (110%, growing inwards); the Add tile is full size. `SectionView.tsx` (`SectionView`, `SubcategoryBoxes`) and `CardTile.tsx` are the only tile grids; the grid columns are `repeat(across, side)` from `useTilesAcross`.
+- (was line 1268, Page 3, section views (latest)) **Dialog area**: a section dialog stands over its section card's rect (`dialogFrame(opener)`, class `section-tile-overlay-placed`); Inventory and Completed keep the page frame, centred.
+- (was line 1277, Page 3 (later in same round)) **Cost row**: `--cost-x: 176px` (Qty 56, Price 96, currency at 176, Frequency right-aligned) as the user approved it; it no longer follows `--side-label-short` (124px).
+- (was line 1355, Batch K0) **A founder's Start date**: in the narrow founder card the label takes the room its words need and the date cell the rest (`.business-founder-open > .business-field-side`).
+- (was line 1367, Batch L) Brand Inventory: Icon & Logo (the icon in front; its dialog is the uploads) and Brand Images (each image a box covered with the image, its title on top).
+- (was line 1368, Batch L) **Legal Entity** is one tile for each of its six sections. Organization and Founders & Ownership open with no frame; Formation & Registration and Tax & Business Registration open in theirs; Additional Legal Requirements and Legal Entity Expenses open a card tile for each card with the "Add Card" box (as the Business System's cards do).
+- (was line 1400, Batch O) **Tile titles stand half a line higher** (\`.section-tile-title\`).
+- (was line 1422, Batch S) **A dialog (an open tile) darkens the page behind it; a floating card never does.**
+- (was line 1448, Batch V) **A dialog (an open tile) darkens the page behind it; a floating card does not** (`--bg-overlay` for the dialog, `--floating-scrim` clear).
+- (was line 1461, Batch V) **The marker column of an opened card is always two digits wide** (`--card-marker-col`, 32px), so the name cell (388) and every cell are the same width on every card whatever its number ("1." or "11."); the card is `--open-card-width` 492px. A card's number in its tile and in the card itself is the same (`offeringNumberOf`: its own Group's list, or the Channel tile's).
+- (was line 1463, Batch V) **Carousel arrows are the page arrows' shape and level** (`.page-arrow.carousel-arrow`), 10% larger, outside the card on each side, in the card's own tint; their level is the page arrow's (`arrowLevel`). The page arrows are raised to the middle of the page's cards where the rail would hold them lower. Infrastructure & Capability shows no Sections rail (it is drawn as tiles).
+- (was line 1464, Batch V) **The Foundation page is a set of four tiles for each Segment** (Customers: Segment and Profiles; Value Proposition; Competitors; Offerings; two by two), each Segment's frame in its own colour, the frames side by side. A tile's dialog holds that Segment's part only.
+- (was line 1471, Batch V) **The Foundation page**: a frame for each Segment (blue, the Discover colour of the colour map (docs/design/01-current-design.md, part I)), five tiles in it: Segment, Profiles, Value Proposition, Competitors, Offerings; the frame title is "Segment" until named, numbered with several; a long title scrolls sideways.
+- (was line 1474, Batch V) **3. Infrastructure & Capability is laid out like the other tile pages**: two cards of the same size in one row, their four tiles centred and as large as the card and the window allow; the Inventory and Completed tiles stand in a row under them, squeezed into the room that is left (never under `SQUEEZED_ROW_MIN`, 88px, titles only below 150px).
+- (was line 1485, Batch V) The Foundation page is the nested frame of columns again (no tiles).
+- (was line 1487, Batch V) Inventory and Completed are rectangles in the footer's band on a wide page, so the two cards are as large as every other system's.
+- (was line 1511, Batch V) **Demand & Conversion** is one table for the Segment: an Offering's rows under its head (how it is bought), then its sources, "+ Add Customer Source", the result, and the assumptions beside the channels.
+- (was line 1518, Batch V) **Demand & Conversion** is one table: Offering, Customers Buy, Channels, then a row for each Customer Source (Source, Estimated, Figures, Basis, Result, x).
+- (was line 1539, Scrolling) **Scrolling (`src/hooks/useScrollRules.ts`, `data-reserve`)**: a wheel over an open dialog or card never scrolls the page; where content is taller than its scroller (the page, a dialog's body, a tall card's stack) the scroller gets 25vh of bottom padding.
+
+## Appendix B. Still to settle
+
+**Rules kept that a later round replaced in part** (the part that stays is still a rule; the replaced part has to be cut from the text):
+
+- was line 1274: Add Card tile: half tile side, bottom right, no scale, semi-transparent ground, + grows 10% (superseded-by:1291; 1291 defines Add Card hover as stroke gone, 16% color-mix fill, dark tint label/plus; no-scale and placement still hold)
+- was line 1309: Funnel uses --space-field/--space-label; Include, Belongs to, Sort fold arrows open by default (superseded-by:1314; 1314 says Belongs to folded at first and sets block order Include, Sort, Belongs to; spacing tokens still hold)
+- was line 1334: Resources rows: dropdown with link symbol, '+' adds, never tick list; people card class (superseded-by:1343; row structure refined in 1343 (units box, spacer); keep sentence on Performers and .business-capability-people)
+- was line 1363: Column-page tile text plain, no bullets, last line fading, press opens tile (superseded-by:1385; 1385 says no fading, whole line above foot)
+- was line 1364: Column guidance is the i beside dialog title; Brand/Themes note 720px (superseded-by:1380; note width changed 720px -> 480px; rest (guidance as i, never bullets) stays)
+- was line 1466: Carousel arrows 24px from card, bright fill dark outline; none when fresh; inner step first (superseded-by:1534; 24px gap replaced by 12px (CAROUSEL_ARROW_GAP 12); fill replaced by 1478. Keep: none while fresh, dialog steps through its own sections first (useDialogInnerStep))
+- was line 1482: Foundation: four tiles per Segment; Registrations and Expenses tiles carry circles (superseded-by:1491; Foundation part only: Segment tile with Description and Profiles replaced by Customers with sub-tiles. Registrations/Expenses circles: keep (T13))
+- was line 1496: Strategy: tile per Theme/Goal; Roadmap one large tile; Delivery tile per Offering (superseded-by:1531; Pages 2 and 3 hidden in 1531; Roadmap large tile also by 1506/1523 small tile; Delivery tile per Offering: keep (T13))
+- was line 1500: Strategy cards: no fold arrow or grip; one-row head; generated tiles label; no Roadmap rail (superseded-by:1526; Head layout replaced by 1526; Theme tile '+' adds a Goal replaced by 1526/1532; no Roadmap Sections rail made moot by 1531. Keep: no fold arrow/grip, label above generated tiles)
+- was line 1508: Deactivated tiles drawn in grey section-tile-completed; pressing makes and opens (superseded-by:1515; Grey replaced by half-transparent (section-tile-slot-empty); pressing behaviour kept)
+- was line 1536: Channel card without wires: parts have no border; end 40px before padding; 12px apart (superseded-by:1546; 40px reserved column is now 44px (--card-x-column); no-wires rule stays)
+
+**Rules that conflict and that the ledger could not settle:**
+
+- was line 1260: Category cell: one component categoryRow, Name the category box only when naming (conflicts-with:1335; 1335 says partner or supplier card has no Category row; 1305 says Partner/Provider starts at Category Select)
+- was line 1266: Widths reverted: --side-label-short 156px, card-box-open side label 124px (conflicts-with:1284; 1284 says label column 164px (--side-label-short); base 45 says 164px; 156 vs 164 unresolved)
+- was line 1282: Layer stack; Back/backdrop remove top layer; Escape closes all; view under card inert (conflicts-with:1289; 1289 says no Back button, no inert, scrim pointer-events none, mousedown outside closes topmost; overrides base 770-773, 996, 871 (replaces return-to-default rule))
+- was line 1284: Quad page cards tile side; --tile-radius 8px; Costs row 164px label, cost-x 176 (conflicts-with:1266; 164px vs 1266's 156px; also contains cost-row positions (T11))
+- was line 1289: Floating card: no Back, no inert, scrim pointer-events none, mousedown outside closes topmost (conflicts-with:1282; overrides base 770, 773, 996 (Back button of floating card, dimmed inert page))
+- was line 1335: Group label order Category, Group, Name; partner/supplier card has no Category row (conflicts-with:1260; 1258/1260/1305 give Partner/Provider a Category cell)
+- was line 1435: Registered is derived from registration number; Status is text; Formation date after number (conflicts-with:1437; 1435 says Status is text, 1437 says Formation card has no Status)
+- was line 1437: Formation card: no Status, Date on registrations' columns, not after today; max five more numbers (conflicts-with:1435; Status presence unclear vs 1435)
+
+**Found in the base rules by the audit of 2026-10-14** (document against code; the code and its tests are the truth until the rule is rewritten):
+
+The line numbers below are those of the file before the reconciliation; they match the Appendix A and B "was line" numbers.
+
+- **Lists on tiles:** lines 719, 748, 962 and 1089 say a tile's list ends with "+N more"; line 1001 and the code say it holds every item and scrolls.
+- **Open card width:** lines 52, 777, 965 and 1198 say 480px; the code says 492px (see "Values as built").
+- **Tile title position:** lines 56, 710 to 713 and 1089 describe a third-down line; the code has 0.25. Lines 56 and 710 also describe different geometry for the title's last line.
+- **Side-label tokens:** lines 61 and 971 say `--card-side-label` is 124px and then 164px; the token is not defined and a test asserts it is absent.
+- **Dialog and cards:** lines 868 to 884 say the dialog is the page width and has no square; lines 964, 1097 and 1198 still say a pressed card box opens a card centred in the dialog; line 993 says cards are only floating cards. Lines 942 to 952 and 1090 to 1097 still describe card boxes opening a card in a dialog.
+- **Workspace Deposit:** lines 167 to 170 and 1052 say the amount is the Code step (128px); line 1004 says it has the Price box's width.
+- **Founder fold arrows:** line 1069 gives them a hover; lines 982, 1012 and 1123 say none.
+- **Help button:** lines 835 to 838 say the page has no Hide Help button; line 1208 and `InterviewSection.tsx` still have one on other pages.
+- **Quantity width:** line 1099 says Quantity 80 (XS); line 994 says 56.
+- **Marker column:** line 984 describes a three-column grid with a marker; later rounds (old lines 1461 and 1533) removed the marker of an opened card, except the founder card.
+- **Duplicates inside the base:** the "Tile grids: ONE SHAPE" rule (794 to 807, 926, 1098); the tail tile (808 to 811, 961, 962, 1196); the x colour swap (995, 1122, 1140); the "+" box swap (764 to 766, 1127); the founder card layout (325 to 328, 1055 to 1082); the Responsible tick (336 to 341, 626 to 647, 977); folded Capability cards (90 to 107, 657 to 661); the check list (1088 to 1104, 1216 to 1223); title sizes (729, 730, 1003, 1014 to 1020, 1098); the glass ground (62 to 64, 894 to 911, 1045). Line 794 has its heading twice.
+- **Names that no longer exist or no longer match:** `--workspace-form-width` and `--workspace-label-width` (lines 50, 51); `cardBoxLayout` (952, gone); "Partnerships" (992, still in four source files); "marker column" (53, 984, 1063 to 1067, 1195).
+- **Sections whose content does not match the heading:** section 5 "Alignment" holds the Customer Engagement tables, the action markers, Demand & Conversion and the Capability cards (lines 372 to 669); section 5a holds the Founders' dialog, the Workspace form, title sizes and the page scroll and several change-log blocks (lines 979 to 1002); section 4 holds the add buttons and the caps title; the table of section 6 is split by a paragraph at lines 1117 to 1120.
+- **Not yet checked against code:** the box counts in lines 797 to 803.
