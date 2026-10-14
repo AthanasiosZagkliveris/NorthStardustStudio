@@ -676,21 +676,21 @@ h1 {
      above it. Raising this cap would break that. */
   font-size: var(--font-h1);
   font-weight: 700;
-  letter-spacing: var(--bold-tracking);
+  letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
   line-height: 1.2;
 }
 
 h2 {
   font-size: var(--font-h3);
   font-weight: 700;
-  letter-spacing: var(--bold-tracking);
+  letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
   line-height: 1.25;
 }
 
 h3 {
   font-size: var(--font-h3);
   font-weight: 600;
-  letter-spacing: var(--bold-tracking);
+  letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
   line-height: 1.3;
 }
 
@@ -733,7 +733,7 @@ h3 {
   background: var(--bg-surface);
   color: var(--text-primary);
   font-weight: 600;
-  letter-spacing: var(--bold-tracking);
+  letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
   cursor: pointer;
 }
 
@@ -809,7 +809,8 @@ h3 {
    tracking can still say so.
 ========================================================== */
 button {
-  letter-spacing: 0.1em;
+  --rest-tracking: 0.1em;
+  letter-spacing: var(--rest-tracking);
 }
 
 /* ==========================================================
@@ -858,7 +859,8 @@ b, strong {
 :root {
   --hover-bold: 0.03em 0 0 currentColor, -0.03em 0 0 currentColor;
 
-  /* TRACKING FOLLOWS WEIGHT (the Capability and System list's rule, global): text that goes bold under the pointer, and text that is bold by default, is set 5% wider. Every rule that sets a bold weight or --hover-bold sets this with it. */
+  /* TRACKING FOLLOWS WEIGHT (the Capability and System list's rule, global): text that goes bold under the pointer, and text that is bold by default, is set 5% wider than it is at rest. Every rule that sets a bold weight or --hover-bold sets this with it. */
+  /* What bold ADDS to the tracking the element already has (--rest-tracking: a button's 0.1em; none elsewhere). */
   --bold-tracking: 0.05em;
 }
 
@@ -872,7 +874,7 @@ h3,
 h4,
 h5,
 h6 {
-  letter-spacing: var(--bold-tracking);
+  letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 }
 
 /* ==========================================================

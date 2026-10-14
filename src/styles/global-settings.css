@@ -29,7 +29,7 @@
 
     font-size:var(--font-body);
     font-weight:600;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color:var(--text-default);
 
@@ -117,7 +117,7 @@
 
     font-size:var(--font-body);
     font-weight:600;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color:var(--text-default);
 
@@ -420,7 +420,7 @@
 .settings-assets-group th{
 
     font-weight:600;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 

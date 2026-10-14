@@ -59,7 +59,7 @@
 
     color: var(--text-primary);
     text-shadow: var(--hover-bold);
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     transform: translateY(-3px);
 
@@ -203,7 +203,7 @@
 
     font-size: var(--font-h3);
     font-weight: 700;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color: var(--text-default);
 }
@@ -360,7 +360,7 @@
 
     font-size: var(--font-body);
     font-weight: 600;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     cursor: pointer;
 
@@ -428,7 +428,7 @@
     font: inherit;
     font-size: var(--font-body);
     font-weight: 600;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color: var(--text-default);
 

@@ -231,7 +231,7 @@
    the wide-window inline layout below overflowed the rail's own
    reserved max-width by a few pixels. */
 .bullet-rail-item.active { color: var(--text-strong); text-shadow: var(--hover-bold); 
- letter-spacing: var(--bold-tracking);}
+ letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));}
 
 .bullet-rail-item.active .bullet-rail-dot {
 

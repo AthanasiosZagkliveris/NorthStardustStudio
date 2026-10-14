@@ -38,7 +38,7 @@
        18 / Buttons 16). */
     font-size:var(--font-body);
     font-weight:700;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     cursor:pointer;
 

@@ -61,7 +61,7 @@
 
     font: inherit;
     font-weight: 700;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color: var(--text-primary);
 

@@ -288,7 +288,7 @@
     background: var(--bg-button-hover);
 
     font-weight: 600;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -377,7 +377,7 @@
 .capability-overview-costs-order button[aria-pressed="true"] {
 
     font-weight: 700;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
     text-decoration: underline;
 
 }
@@ -501,7 +501,7 @@
     background: var(--bg-button-hover);
 
     font-weight: 700;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
     text-decoration: none;
 
 }
@@ -711,7 +711,7 @@
     border-bottom: 2px solid var(--table-line);
 
     font-weight: 700;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     text-align: left;
 

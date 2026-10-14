@@ -69,7 +69,7 @@
        on a wide one (36px being the app's largest type size). */
     font-size: var(--font-h1);
     font-weight: 700;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
     line-height: 1.2;
 
     color: var(--text-default);

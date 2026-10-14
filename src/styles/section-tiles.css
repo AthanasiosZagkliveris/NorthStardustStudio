@@ -111,7 +111,7 @@
        --font-body, 18px. */
     font-size: var(--font-body);
     font-weight: 600;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
     text-align: center;
 
     cursor: pointer;
@@ -520,7 +520,7 @@
     color: var(--text-primary);
 
     text-shadow: var(--hover-bold);
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -672,7 +672,7 @@
 
     font-size: var(--font-small);
     font-weight: 600;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -2029,7 +2029,7 @@
     color: var(--text-primary);
 
     text-shadow: var(--hover-bold);
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -2135,7 +2135,7 @@
     font: inherit;
     font-size: var(--font-body);
     font-weight: 600;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
     line-height: 1.5;
     text-align: left;
     text-decoration: underline transparent;
@@ -2152,7 +2152,7 @@
     text-decoration-color: currentColor;
 
     text-shadow: var(--hover-bold);
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -2457,7 +2457,7 @@
 .business-capability-alarm:hover {
 
     text-shadow: var(--hover-bold);
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -2484,7 +2484,7 @@
 .business-capability-link:hover {
 
     text-shadow: var(--hover-bold);
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -3038,7 +3038,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
     font-size: var(--font-body);
     font-weight: 600;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color: var(--text-muted);
 
@@ -3176,7 +3176,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
     font-size: 44px;
     font-weight: 600;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color: var(--text-default);
 
@@ -3315,7 +3315,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
     font-size: var(--font-body);
     font-weight: 700;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
     line-height: 1.2;
 
 }
@@ -3341,7 +3341,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
     font-size: 44px;
     font-weight: 600;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
     line-height: 1;
 
 }
@@ -3422,7 +3422,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
     font-size: 30px;
     font-weight: 600;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
     line-height: 1.1;
 
     text-align: center;
@@ -4361,7 +4361,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
     flex: none;
     width: 1.5em;
     font-weight: 600;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 }
 
 /* A date cell in a card is as high as every other cell (the shared --card-cell-height), not 40px. */
@@ -5588,7 +5588,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     gap: 6px;
 
     font-weight: 700;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -5706,7 +5706,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     text-align: left;
 
     font-weight: 700;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -5730,7 +5730,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 .business-channel-category-static {
 
     font-weight: 600;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -6050,7 +6050,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 .financial-costs-ledger thead th {
 
     font-weight: 700;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -6085,7 +6085,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     padding-top: 14px;
 
     font-weight: 700;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     border-bottom: 2px solid var(--line-card);
 
@@ -6270,7 +6270,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 .business-subchannel-card .business-subchannel-name {
 
     font-weight: 700;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -6308,7 +6308,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 .business-relationship-strategy-table thead th {
 
     font-weight: 700;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
@@ -6416,7 +6416,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 .business-subchannel-card .business-channel-th-action {
 
     font-weight: 700;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -8906,17 +8906,17 @@ main.conversation-content[data-reserve],
 
     font-size: var(--font-body);
 
-    /* The pages rail's label: regular weight, tracked 0.1em. */
+    /* The pages rail's label: regular weight, the button's own tracking. */
     font-weight: 400;
 
-    letter-spacing: 0.1em;
+    letter-spacing: inherit;
 
 }
 
 .carousel-rail.carousel-rail-tab .bullet-rail-item.active .strategy-card-nav-tip {
 
     font-weight: 600;
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -9011,7 +9011,7 @@ main.conversation-content[data-reserve],
     font-weight: 400;
 
     text-shadow: var(--hover-bold);
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -9058,7 +9058,7 @@ main.conversation-content[data-reserve],
 
     /* Only bolder (a shadow, so the word never changes width): no underline, no other colour. */
     text-shadow: var(--hover-bold);
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -9765,7 +9765,7 @@ label:has(> input[type="checkbox"]) > :not(input) {
 .business-channel-cost-add .notepad-suggestion:is(:hover, :focus-visible) .notepad-suggestion-label {
 
     text-shadow: var(--hover-bold);
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -9825,7 +9825,7 @@ label:has(> input[type="checkbox"]) > :not(input) {
     text-decoration-color: currentColor !important;
 
     text-shadow: var(--hover-bold);
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 
@@ -10024,7 +10024,7 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
     /* Only Back is bold under the pointer (it is not a bullet): the bold shadow and the bold tracking. */
     text-shadow: var(--hover-bold);
-    letter-spacing: var(--bold-tracking);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
 

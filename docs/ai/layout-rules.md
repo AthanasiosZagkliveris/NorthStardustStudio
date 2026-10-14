@@ -1245,7 +1245,7 @@ differs.
 
 ### Tracking follows weight (2026-10-14)
 
-Text that goes bold under the pointer (`--hover-bold`) is set 5% wider (`--bold-tracking`, 0.05em), as the Capability and System list always was; text that is bold by default has the same tracking. Every CSS rule that sets a bold weight (600 and up) or `--hover-bold` sets `letter-spacing: var(--bold-tracking)` with it, unless it states its own tracking (the uppercase labels keep theirs); `strong`, `b`, `th` and `h1`-`h6` carry it by default. A glyph (a chip's ×) is not text and takes none. A row that holds bold text on hover must be sized for the wider text (one line, no re-wrap).
+Text that goes bold under the pointer (`--hover-bold`) gets 0.05em of tracking ON TOP of what the element already has (`--bold-tracking` added to `--rest-tracking`: a button's 0.1em, none elsewhere), as the Capability and System list always did; text that is bold by default has the same. Spacing comes with bold only: the lit rail item is wider than the others, never tighter. A bullet under the pointer is only underlined. Every CSS rule that sets a bold weight (600 and up) or `--hover-bold` sets `letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking))` with it, unless it states its own tracking (the uppercase labels keep theirs); `strong`, `b`, `th` and `h1`-`h6` carry it by default. A glyph (a chip's ×) is not text and takes none. A row that holds bold text on hover must be sized for the wider text (one line, no re-wrap).
 
 ### The label arrow (2026-10-14)
 
