@@ -39,37 +39,42 @@
 
 }
 
-.label-arrow::before {
-
-    content: "";
+/* The triangle (an SVG, rounded corners): the height of the label's capital letters (0.72em), base and height equal, a 1px line drawn inside its edge. */
+.label-arrow > svg {
 
     position: absolute;
 
     top: 50%;
     left: 50%;
 
-    /* The height of the label's capital letters (0.72em); base and height equal. */
     width: 0.72em;
     height: 0.72em;
 
     margin: -0.36em 0 0 -0.36em;
 
-    background: currentColor;
-
-    /* A 1px line inside the shape: the outer triangle, a seam, the inner one (the outer inset by 1px) turned the other way. */
-    clip-path: polygon(0 0, 100% 50%, 0 100%, 0 0, 1px 1.618px, 1px calc(100% - 1.618px), calc(100% - 2.236px) 50%, 1px 1.618px, 0 0);
+    overflow: visible;
 
 }
 
-.label-arrow[aria-expanded="true"]::before {
+.label-arrow > svg > path {
+
+    fill: none;
+
+    stroke: currentColor;
+    stroke-width: 1px;
+    stroke-linejoin: round;
+
+}
+
+.label-arrow[aria-expanded="true"] > svg {
 
     transform: rotate(90deg);
 
 }
 
-.label-arrow:is(:hover, :focus-visible)::before {
+.label-arrow:is(:hover, :focus-visible) > svg > path {
 
-    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    fill: currentColor;
 
 }
 
@@ -88,8 +93,8 @@
 
 }
 
-.field-label:has(> .label-arrow),
-.strategy-box-number:has(> .label-arrow) {
+.field-label.field-label.field-label:has(> .label-arrow),
+.strategy-box-number.strategy-box-number:has(> .label-arrow) {
 
     display: inline-flex;
 
