@@ -7840,8 +7840,6 @@ table.business-relationship-table {
 
 .carousel-rail .bullet-rail-list {
 
-    gap: 14px;
-
     align-items: center;
 
     overflow: visible;
@@ -7861,8 +7859,6 @@ table.business-relationship-table {
 .carousel-rail .bullet-rail-item {
 
     position: relative;
-
-    padding: 2px;
 
 }
 
@@ -8871,6 +8867,8 @@ main.conversation-content[data-reserve],
     --rail-bloom: color-mix(in srgb, var(--tab-edge) 28%, transparent);
     --rail-dot-hover: color-mix(in srgb, var(--tab-edge) 75%, transparent);
     --rail-hover-ring: color-mix(in srgb, var(--tab-edge) 40%, transparent);
+    --rail-status: var(--tab-edge);
+    --rail-status-hover: color-mix(in srgb, var(--tab-edge) 65%, var(--text-strong));
 
 }
 
@@ -8881,6 +8879,12 @@ main.conversation-content[data-reserve],
 }
 
 .carousel-rail.carousel-rail-tab .bullet-rail-item {
+
+    color: color-mix(in srgb, var(--tab-ink) 72%, transparent);
+
+}
+
+.carousel-rail.carousel-rail-tab .bullet-rail-item.active {
 
     color: var(--tab-ink);
 
@@ -8897,11 +8901,15 @@ main.conversation-content[data-reserve],
 
     box-shadow: none;
 
-    color: var(--tab-ink);
+    /* The item's own colour (the ink at 72% at rest, the full ink when lit), as the pages rail's. */
+    color: inherit;
 
     font-size: var(--font-body);
 
+    /* The pages rail's label: regular weight, tracked 0.1em. */
     font-weight: 400;
+
+    letter-spacing: 0.1em;
 
 }
 
@@ -8993,17 +9001,25 @@ main.conversation-content[data-reserve],
 /* A tab's names keep clear of their bullets (the lit one's ring is 6px wide), and a name never changes its width when it is lit or under the pointer: it is thickened by a shadow, as the page rail's are, not by a heavier weight. */
 .carousel-rail.carousel-rail-tab.carousel-rail-named .bullet-rail-item {
 
-    gap: 14px;
+    gap: 12px;
 
 }
 
-.carousel-rail.carousel-rail-tab .bullet-rail-item.active .strategy-card-nav-tip,
-.carousel-rail.carousel-rail-tab .bullet-rail-item:is(:hover, :focus-visible) .strategy-card-nav-tip {
+/* ONE RAIL SYSTEM (the pages rail's): the lit item is bold, a bullet under the pointer or the focus is only UNDERLINED, its name never bold. */
+.carousel-rail.carousel-rail-tab .bullet-rail-item.active .strategy-card-nav-tip {
 
     font-weight: 400;
 
     text-shadow: var(--hover-bold);
     letter-spacing: var(--bold-tracking);
+
+}
+
+.carousel-rail.carousel-rail-tab .bullet-rail-item:is(:hover, :focus-visible) .strategy-card-nav-tip {
+
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+    text-underline-offset: 0.2em;
 
 }
 
@@ -9972,9 +9988,9 @@ label:has(> input[type="checkbox"]) > :not(input) {
 /* THE RAIL'S BACK BUTTON, built like a rail item: an arrow box as wide as a bullet (12px, the arrow centred on the bullets above), the item's own 14px gap, then the word in capitals -- so the word starts where the labels above start (mirrored on the left rail, where the labels end at the bullets). Arrow and word stand in the card's mid tone (the tab's edge, the bullets' colour); under the pointer and the focus both take the colour of the card's "+" box (--plus-fill: darker on a light card, brighter on a dark one) and the arrow grows 20% forward, as the page arrows do. */
 .carousel-rail .carousel-rail-back {
 
-    gap: 14px;
+    gap: 12px;
 
-    padding: 2px;
+    padding: 2px 0;
 
     text-transform: uppercase;
 
@@ -10006,7 +10022,9 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
     color: hsl(var(--strategy-theme-hue, 0) var(--plus-fill-saturation) var(--plus-fill-lightness));
 
-    text-shadow: none;
+    /* Only Back is bold under the pointer (it is not a bullet): the bold shadow and the bold tracking. */
+    text-shadow: var(--hover-bold);
+    letter-spacing: var(--bold-tracking);
 
 }
 

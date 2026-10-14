@@ -575,6 +575,8 @@
     --rail-dot-hover: color-mix(in srgb, var(--rail-left-edge) 75%, transparent);
 
     --rail-hover-ring: color-mix(in srgb, var(--rail-left-edge) 40%, transparent);
+    --rail-status: var(--rail-left-edge);
+    --rail-status-hover: color-mix(in srgb, var(--rail-left-edge) 65%, var(--text-strong));
 
 }
 
@@ -594,6 +596,8 @@
     --rail-dot-hover: color-mix(in srgb, var(--rail-right-edge) 75%, transparent);
 
     --rail-hover-ring: color-mix(in srgb, var(--rail-right-edge) 40%, transparent);
+    --rail-status: var(--rail-right-edge);
+    --rail-status-hover: color-mix(in srgb, var(--rail-right-edge) 65%, var(--text-strong));
 
 }
 
