@@ -79,6 +79,7 @@
        on a wide one (36px being the app's largest type size). */
     font-size: var(--font-h1);
     font-weight: 700;
+    letter-spacing: var(--bold-tracking);
     line-height: 1.2;
 
     color: var(--text-default);
@@ -110,6 +111,7 @@
 
     font-size: var(--font-h3);
     font-weight: 700;
+    letter-spacing: var(--bold-tracking);
     line-height: 1.2;
 
 }
@@ -303,6 +305,7 @@
     /* See --hover-bold in global.css: thickened, not re-weighted,
        so the link does not change width under the pointer. */
     text-shadow: var(--hover-bold);
+    letter-spacing: var(--bold-tracking);
 
     text-decoration: none;
 
@@ -365,6 +368,7 @@
        --hover-bold in global.css), so the label does not shift
        inside the button either. */
     text-shadow: var(--hover-bold);
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -426,6 +430,7 @@
     --wired-ring: var(--accent-line);
 
     text-shadow: var(--hover-bold);
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -504,6 +509,7 @@
 .workspace-documents-button:hover{
     background: var(--bg-navy-hover);
     text-shadow: var(--hover-bold);
+    letter-spacing: var(--bold-tracking);
 }
 
 .workspace-documents-button:focus-visible{
@@ -541,6 +547,7 @@
     font: inherit;
     font-size: var(--font-body);
     font-weight: 600;
+    letter-spacing: var(--bold-tracking);
     line-height: 1.4;
 
     color: var(--text-primary);

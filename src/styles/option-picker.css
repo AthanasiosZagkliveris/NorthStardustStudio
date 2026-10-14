@@ -172,6 +172,7 @@
 .option-picker-option-chosen{
 
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--glow-color);
 

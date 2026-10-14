@@ -153,6 +153,7 @@ button.card-tile-symbol[aria-pressed="true"] {
     color: var(--text-danger);
 
     font-weight: 700;
+    letter-spacing: var(--bold-tracking);
 
     animation: card-incomplete-ink 1.4s ease-in-out infinite;
 
@@ -163,6 +164,7 @@ button.card-tile-symbol[aria-pressed="true"] {
     color: var(--text-danger);
 
     font-weight: 600;
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -233,6 +235,7 @@ button.card-tile-symbol[aria-pressed="true"] {
     font: inherit;
     font-size: var(--font-small);
     font-weight: 600;
+    letter-spacing: var(--bold-tracking);
     text-transform: uppercase;
 
 
@@ -303,6 +306,7 @@ button.card-tile-symbol[aria-pressed="true"] {
 
     font-size: var(--font-small);
     font-weight: 600;
+    letter-spacing: var(--bold-tracking);
     text-transform: uppercase;
     color: var(--text-muted);
 

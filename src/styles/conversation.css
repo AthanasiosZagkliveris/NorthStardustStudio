@@ -187,6 +187,7 @@ textarea:focus{
 
     font-size:var(--font-h1);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-default);
 
@@ -530,6 +531,7 @@ textarea:focus{
     --wired-ring:var(--accent-line);
 
     text-shadow:var(--hover-bold);
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -659,6 +661,7 @@ textarea:focus{
 
     font-size:var(--font-h3);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-strong);
 
@@ -970,6 +973,7 @@ textarea:focus{
     color:var(--text-primary);
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     transform:translateY(-6px);
 
@@ -982,6 +986,7 @@ textarea:focus{
     color:var(--text-primary);
 
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -1122,6 +1127,7 @@ textarea:focus{
     background:var(--bg-table-head);
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     white-space:nowrap;
 
@@ -1487,6 +1493,7 @@ textarea:focus{
 
     font-size:var(--font-small);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     background:var(--bg-add);
 
@@ -1517,6 +1524,7 @@ textarea:focus{
     background:var(--bg-table-head);
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     border-top:2px solid var(--line-totals);
 
@@ -1843,6 +1851,7 @@ textarea:focus{
 
     font-size:var(--font-body);
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
     line-height:1;
 
     cursor:pointer;
@@ -2025,6 +2034,7 @@ textarea:focus{
     color:var(--text-danger);
 
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     text-align:left;
 
@@ -2091,6 +2101,7 @@ textarea:focus{
 .export-options-label{
 
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-default);
 
@@ -2211,6 +2222,7 @@ textarea:focus{
 .export-options-picker-process-name{
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     font-size:var(--font-small);
 
@@ -2439,6 +2451,7 @@ textarea:focus{
     padding-right:38px;
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     transition:background-color .15s ease;
 
@@ -2733,6 +2746,7 @@ textarea:focus{
 .process-library-steps-table th{
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     white-space:nowrap;
 
@@ -3110,6 +3124,7 @@ td.process-library-col-number{
     font:inherit;
     font-size:var(--font-small);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-primary);
 
@@ -3191,6 +3206,7 @@ td.process-library-col-number{
     font:inherit;
     font-size:var(--font-small);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     padding:8px 14px;
 
@@ -3276,6 +3292,7 @@ td.process-library-col-number{
 
     font-size:var(--font-small);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-subtle);
 
@@ -3352,6 +3369,7 @@ td.process-library-col-number{
     font:inherit;
     font-size:var(--font-small);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     padding:8px 12px;
 
@@ -3414,6 +3432,7 @@ td.process-library-col-number{
     font:inherit;
     font-size:var(--font-small);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     padding:8px 12px;
 
@@ -3471,6 +3490,7 @@ td.process-library-col-number{
     background:var(--bg-table-head);
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     white-space:nowrap;
 
@@ -3637,6 +3657,7 @@ td.process-library-col-number{
     background:var(--bg-table-head);
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     white-space:nowrap;
 
@@ -3653,6 +3674,7 @@ td.process-library-col-number{
     vertical-align:middle;
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     width:220px;
 
@@ -4058,6 +4080,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-strong);
 
@@ -4381,6 +4404,7 @@ td.process-library-col-number{
     border-bottom:1px solid var(--line-rule);
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -4561,6 +4585,7 @@ td.process-library-col-number{
     --wired-ring:var(--accent-line);
 
     text-shadow:var(--hover-bold);
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -4573,6 +4598,7 @@ td.process-library-col-number{
     color:var(--text-danger);
 
     text-shadow:var(--hover-bold);
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -5057,6 +5083,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-muted);
 
@@ -5361,6 +5388,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-default);
 
@@ -5678,6 +5706,7 @@ td.process-library-col-number{
 .month-picker-cell-current{
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-primary-deep);
 
@@ -6180,6 +6209,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-muted);
 
@@ -6189,6 +6219,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-default);
 
@@ -6262,6 +6293,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
     text-align:center;
 
     color:var(--text-default);
@@ -6347,6 +6379,7 @@ td.process-library-col-number{
     font:inherit;
     font-size:var(--font-body);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
     text-align:left;
 
     border:1px solid var(--line-primary);
@@ -6837,6 +6870,7 @@ td.process-library-col-number{
 .roadmap-bar:hover{
 
     text-shadow:var(--hover-bold);
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -7988,6 +8022,7 @@ td.process-library-col-number{
     color:var(--text-on-fill);
 
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     /* The closed bar's own stroke, unchanged -- see
        `.roadmap-bar` above. */
@@ -8781,6 +8816,7 @@ td.process-library-col-number{
 
     font-size:var(--font-small);
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
     line-height:1;
 
 }
@@ -12669,6 +12705,7 @@ td.process-library-col-number{
     flex:none;
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -12698,6 +12735,7 @@ td.process-library-col-number{
 .business-channel-resource-actions .notepad-chip.is-picked .notepad-chip-description{
 
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--tint-ink);
 
@@ -12793,6 +12831,7 @@ td.process-library-col-number{
 .business-channel-resource-summary button[aria-pressed="true"]{
 
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     text-decoration:underline;
 
@@ -13921,6 +13960,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     font-size:var(--font-body);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     line-height:22px;
 
@@ -14279,6 +14319,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     font-size:var(--font-body);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-secondary);
 
@@ -14435,6 +14476,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     font-size:var(--font-body);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
 
 
@@ -14476,6 +14518,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
     line-height:1.5;
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -14561,6 +14604,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     font-size:var(--font-body);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-flag);
 
@@ -14717,6 +14761,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
     text-align:left;
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -14724,6 +14769,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     font-size:var(--font-body);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
 
 
@@ -14807,6 +14853,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
     color:var(--financial-risk);
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -14904,6 +14951,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     font-size:var(--font-body);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
     line-height:1.3;
 
     color:var(--text-muted);
@@ -14914,6 +14962,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     font-size:var(--font-h3);
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     font-variant-numeric:tabular-nums;
 
@@ -15137,6 +15186,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 .financial-obligation-month{
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -15146,6 +15196,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
     font-variant-numeric:tabular-nums;
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -15170,6 +15221,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
     border-top:1px solid var(--line-card);
 
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -15226,6 +15278,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     font-size:var(--font-small);
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-on-fill);
 
@@ -15363,6 +15416,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     font-size:var(--font-small);
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -16324,6 +16378,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     font-size:var(--font-h3);
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-default);
 
@@ -16754,6 +16809,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
     font-size:var(--font-body);
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     line-height:1.45;
 
@@ -16767,9 +16823,11 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 .financial-stress-verdict.financial-stress-good{ border-left-color:var(--line-holds); background:var(--bg-holds); }
 
-.financial-stress-short{ color:var(--text-danger-deep); font-weight:600; }
+.financial-stress-short{ color:var(--text-danger-deep); font-weight:600; 
+ letter-spacing: var(--bold-tracking);}
 
-.financial-stress-holds{ color:var(--text-holds); font-weight:600; }
+.financial-stress-holds{ color:var(--text-holds); font-weight:600; 
+ letter-spacing: var(--bold-tracking);}
 
 /* What it would take: one change a line. */
 .financial-take-list{

@@ -146,6 +146,7 @@
     font-size:var(--font-body);
 
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
 
 
@@ -182,6 +183,7 @@
     font-size:var(--font-body);
 
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-default);
 
@@ -194,6 +196,7 @@
     background:var(--bg-neutral);
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-faint);
 
@@ -359,6 +362,7 @@
     font-size:var(--font-body);
 
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     line-height:1.4;
 

@@ -56,7 +56,7 @@
 .capability-item.active {
     text-shadow: var(--hover-bold);
 
-    letter-spacing: 0.05em;
+    letter-spacing: var(--bold-tracking);
 }
 
 /* Its hover and selected grounds: the one Capability and System row

@@ -676,18 +676,21 @@ h1 {
      above it. Raising this cap would break that. */
   font-size: var(--font-h1);
   font-weight: 700;
+  letter-spacing: var(--bold-tracking);
   line-height: 1.2;
 }
 
 h2 {
   font-size: var(--font-h3);
   font-weight: 700;
+  letter-spacing: var(--bold-tracking);
   line-height: 1.25;
 }
 
 h3 {
   font-size: var(--font-h3);
   font-weight: 600;
+  letter-spacing: var(--bold-tracking);
   line-height: 1.3;
 }
 
@@ -730,6 +733,7 @@ h3 {
   background: var(--bg-surface);
   color: var(--text-primary);
   font-weight: 600;
+  letter-spacing: var(--bold-tracking);
   cursor: pointer;
 }
 
@@ -853,6 +857,22 @@ b, strong {
 ========================================================== */
 :root {
   --hover-bold: 0.03em 0 0 currentColor, -0.03em 0 0 currentColor;
+
+  /* TRACKING FOLLOWS WEIGHT (the Capability and System list's rule, global): text that goes bold under the pointer, and text that is bold by default, is set 5% wider. Every rule that sets a bold weight or --hover-bold sets this with it. */
+  --bold-tracking: 0.05em;
+}
+
+/* The elements that are bold by default carry the same tracking (a class that sets its own letter-spacing wins). */
+strong,
+b,
+th,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  letter-spacing: var(--bold-tracking);
 }
 
 /* ==========================================================

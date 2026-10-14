@@ -135,6 +135,7 @@
     padding-left:calc(var(--space-field) + 4px);
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -287,6 +288,7 @@
 
     font:inherit;
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--tint-ink);
 
@@ -314,6 +316,7 @@
 .channel-resource-summary-label{
 
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
 }
 

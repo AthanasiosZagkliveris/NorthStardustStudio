@@ -303,6 +303,7 @@
 
     font-size:var(--font-h3);
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-default);
 
@@ -392,6 +393,7 @@
 
     font-size:var(--font-body);
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-default);
 
@@ -420,6 +422,7 @@
     /* Text tier. */
     font-size:var(--font-body);
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-subtle);
 
@@ -527,6 +530,7 @@
     border-color:var(--line-primary);
 
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -589,6 +593,7 @@
 
     font-size:var(--font-body);
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
     line-height:1;
 
     color:var(--text-primary);
@@ -611,6 +616,7 @@
 
     font-size:var(--font-body);
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-default);
 
@@ -675,6 +681,7 @@
     /* Text tier. */
     font-size:var(--font-body);
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -692,6 +699,7 @@
     /* Button tier. */
     font-size:var(--font-body);
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     padding:0;
 
@@ -746,6 +754,7 @@
     /* Text tier. */
     font-size:var(--font-body);
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     text-transform:uppercase;
 
@@ -870,6 +879,7 @@
 .org-rail-capability-item:hover{
 
     text-shadow:var(--hover-bold);
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -927,6 +937,7 @@
 .org-rail-system-item:hover .org-rail-system-title{
 
     text-shadow:var(--hover-bold);
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -1275,6 +1286,7 @@
     flex:none;
 
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -1374,6 +1386,7 @@
 .org-calendar-task-kind{
 
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
 }
 

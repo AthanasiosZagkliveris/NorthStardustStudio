@@ -230,7 +230,8 @@
    global.css): a real weight change widens the label, which at
    the wide-window inline layout below overflowed the rail's own
    reserved max-width by a few pixels. */
-.bullet-rail-item.active { color: var(--text-strong); text-shadow: var(--hover-bold); }
+.bullet-rail-item.active { color: var(--text-strong); text-shadow: var(--hover-bold); 
+ letter-spacing: var(--bold-tracking);}
 
 .bullet-rail-item.active .bullet-rail-dot {
 

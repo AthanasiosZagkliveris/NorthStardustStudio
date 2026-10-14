@@ -1243,6 +1243,10 @@ differs.
 | `--card-side-label` | not defined | | A test asserts it is absent |
 | `--workspace-form-width`, `--workspace-label-width` | not defined | | The Workspace is a category of the resource card |
 
+### Tracking follows weight (2026-10-14)
+
+Text that goes bold under the pointer (`--hover-bold`) is set 5% wider (`--bold-tracking`, 0.05em), as the Capability and System list always was; text that is bold by default has the same tracking. Every CSS rule that sets a bold weight (600 and up) or `--hover-bold` sets `letter-spacing: var(--bold-tracking)` with it, unless it states its own tracking (the uppercase labels keep theirs); `strong`, `b`, `th` and `h1`-`h6` carry it by default. A glyph (a chip's ×) is not text and takes none. A row that holds bold text on hover must be sized for the wider text (one line, no re-wrap).
+
 ### The label arrow (2026-10-14)
 
 One fold arrow (`LabelArrow.tsx`, `label-arrow.css`) for an arrow that stands beside a label or a text and shows or hides what belongs to it.

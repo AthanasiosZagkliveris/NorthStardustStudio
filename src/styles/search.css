@@ -134,6 +134,7 @@
     background: var(--bg-primary-tint);
 
     font-weight: 700;
+    letter-spacing: var(--bold-tracking);
 
     color: inherit;
 

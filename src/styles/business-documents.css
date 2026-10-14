@@ -96,6 +96,7 @@
     font-family:inherit;
     font-size:var(--font-body);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-muted);
 
@@ -156,6 +157,7 @@
     background:var(--bg-primary-tint);
 
     text-shadow:var(--hover-bold);
+    letter-spacing: var(--bold-tracking);
 
 }
 
@@ -202,6 +204,7 @@
 .business-document h5{
 
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-default);
 
@@ -551,6 +554,7 @@
 
     font-size:var(--font-small);
     font-weight:600;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-secondary);
 
@@ -635,6 +639,7 @@
 
     font-size:var(--font-body);
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
     line-height:1.3;
 
     text-align:left;
@@ -675,6 +680,7 @@
 .business-forecast-table .business-forecast-subtotal{
 
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     background:var(--bg-neutral);
 
@@ -735,6 +741,7 @@
 .business-forecast-total td{
 
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     background:var(--bg-total);
 
@@ -782,6 +789,7 @@
     padding-top:12px;
 
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
     color:var(--text-default);
 
@@ -798,6 +806,7 @@
     text-align:left;
 
     font-weight:700;
+    letter-spacing: var(--bold-tracking);
 
 }
 
