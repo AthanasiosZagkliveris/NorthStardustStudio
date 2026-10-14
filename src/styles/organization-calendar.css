@@ -363,7 +363,7 @@
     justify-content:center;
 
     border:1px solid var(--line-box);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -405,7 +405,7 @@
 
     grid-template-columns:repeat(7, 1fr);
 
-    gap:4px;
+    gap:var(--gap-4);
 
 }
 
@@ -492,12 +492,12 @@
 
     justify-content:flex-start;
 
-    gap:2px;
+    gap:var(--gap-2);
 
     padding:4px 2px;
 
     border:1px solid var(--line-calendar);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -572,7 +572,7 @@
 
     /* 2px, not 3: three 6px dots plus the "+N" badge beside them
        have to stay inside the cell's own 50.5px of content. */
-    gap:2px;
+    gap:var(--gap-2);
 
     max-width:100%;
 
@@ -649,7 +649,7 @@
     margin-bottom:10px;
 
     border:1px solid var(--line-calendar);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-panel);
 
@@ -663,7 +663,7 @@
 
     justify-content:space-between;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     margin-bottom:4px;
 
@@ -734,7 +734,7 @@
 
     flex-direction:column;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     padding-top:8px;
 
@@ -749,7 +749,7 @@
 
     flex-direction:column;
 
-    gap:4px;
+    gap:var(--gap-4);
 
     /* Text tier. */
     font-size:var(--font-body);
@@ -820,7 +820,7 @@
 
     flex-direction:column;
 
-    gap:8px;
+    gap:var(--gap-8);
 
 }
 
@@ -849,7 +849,7 @@
     text-align:left;
 
     border:none;
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:none;
 
@@ -889,7 +889,7 @@
 
     flex-direction:column;
 
-    gap:6px;
+    gap:var(--gap-6);
 
 }
 
@@ -918,7 +918,7 @@
     text-align:left;
 
     border:none;
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:none;
 
@@ -1003,7 +1003,7 @@
     line-height:1.5;
 
     border:1px solid var(--line-box);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -1118,7 +1118,7 @@
     display:flex;
     flex-direction:column;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     margin-bottom:12px;
 
@@ -1130,7 +1130,7 @@
     flex-wrap:wrap;
     align-items:center;
 
-    gap:6px;
+    gap:var(--gap-6);
 
 }
 
@@ -1212,7 +1212,7 @@
     display:flex;
     flex-wrap:wrap;
 
-    gap:6px;
+    gap:var(--gap-6);
 
 }
 
@@ -1228,12 +1228,12 @@
 
     display:grid;
 
-    gap:4px;
+    gap:var(--gap-4);
 
     padding:8px 10px;
 
     border:1px solid var(--box-border);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
 }
 
@@ -1242,7 +1242,7 @@
     display:flex;
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     font-size:var(--font-small);
 
@@ -1271,7 +1271,7 @@
     flex-wrap:wrap;
     align-items:baseline;
 
-    gap:4px 10px;
+    gap:var(--gap-4) 10px;
 
     padding:6px 0 6px 10px;
 
@@ -1304,7 +1304,7 @@
     display:flex;
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     flex:0 1 auto;
 
@@ -1342,13 +1342,13 @@
 
     display:grid;
 
-    gap:6px;
+    gap:var(--gap-6);
 
     min-width:100%;
     padding:10px;
 
     border:1px solid var(--box-border);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -1360,7 +1360,7 @@
 
     display:flex;
 
-    gap:6px;
+    gap:var(--gap-6);
 
 }
 
@@ -1379,7 +1379,7 @@
     flex-wrap:wrap;
     align-items:baseline;
 
-    gap:4px 10px;
+    gap:var(--gap-4) 10px;
 
 }
 

@@ -504,7 +504,7 @@ Names and wording, the composition of a page (which assets sit together), and an
 4. **The lint is switched on after the codemods**, not before.
 5. **The generator is a small custom Node script** in `scripts/`, with no new dependency, not Style Dictionary (it has no built-in notion of themes, so the mode blocks would be custom formats anyway). Revisit only if the tokens must feed more platforms.
 
-Step 1 of the order is built (2026-10-14): see the log, 4.4. Next: step 2, breakpoints, corners and gaps. No layout checks until the library has unified the elements (owner, 2026-10-14).
+Steps 1 and 2 of the order are built (2026-10-14): see the log, 4.4, and the owner's list in 5.14. Next: step 3, the gallery and the trial asset. No layout checks until the library has unified the elements (owner, 2026-10-14).
 
 ### Sources
 
@@ -513,3 +513,51 @@ Step 1 of the order is built (2026-10-14): see the log, 4.4. Next: step 2, break
 - W3C, [CSS Color Module Level 5](https://www.w3.org/TR/css-color-5/): `color-mix()`, relative colour syntax, `light-dark()`; [web.dev, Color themes with Baseline CSS features](https://web.dev/articles/baseline-in-action-color-theme). The Baseline status (newly available in 2024) is from memory and was not confirmed.
 - Playwright, [visual comparisons](https://playwright.dev/docs/test-snapshots); Storybook, [automate accessibility tests](https://storybook.js.org/blog/automate-accessibility-tests-with-storybook); axe-core finds on average about 57% of WCAG issues automatically (its own README, quoted by a secondary source).
 - W3C, WCAG 2.2: success criteria 1.4.3 (contrast, text), 1.4.11 (non-text contrast), 2.5.8 (target size, minimum 24px).
+
+## 5.14 Library automation, step 2: sizes left for the owner (2026-10-14)
+
+Step 2 replaces only values that are identical to a token, so no page changes (corner steps 4, 6 and 8px; gap scale 2, 4, 6, 8, 12, 16 and 24px; `scripts/tokens/codemod-sizes.mjs`, a dry run unless `--write`). Everything else is left as written. **These are the values waiting for a decision**: for each, either it joins a step (and then moves by the difference, which is a visible change to check), or a step or scale value is added for it, or it stays a literal.
+
+### Corners and gaps
+
+| Property | Value | Why it is left | Uses | Main files |
+|---|---|---|---|---|
+| gap | `10px` | off the scale | 19 | conversation.css 11, organization-calendar.css 4, review.css 2 |
+| gap | `20px` | off the scale | 16 | conversation.css 6, global-settings.css 3, business-documents.css 2 |
+| gap | `14px` | off the scale | 10 | conversation.css 3, organization-calendar.css 2, capability-description.css 1 |
+| gap | `18px` | off the scale | 3 | conversation.css 2, bullet-rail.css 1 |
+| gap | `28px` | off the scale | 3 | review.css 2, conversation.css 1 |
+| gap | `32px` | off the scale | 2 | section-tiles.css 2 |
+| gap | `36px` | off the scale | 1 | business-documents.css 1 |
+| gap | `64px` | off the scale | 1 | conversation.css 1 |
+| gap | `3px` | off the scale | 1 | conversation.css 1 |
+| gap | `56px` | off the scale | 1 | workspace.css 1 |
+| gap | `40px` | off the scale | 1 | workspace.css 1 |
+| corner | `10px` | off the scale | 9 | conversation.css 4, app-header.css 1, business-documents.css 1 |
+| corner | `12px` | off the scale | 9 | organization-calendar.css 4, landing.css 2, capability-description.css 1 |
+| corner | `1px` | off the scale | 7 | conversation.css 3, section-tiles.css 2, landing.css 1 |
+| corner | `2px` | off the scale | 6 | conversation.css 2, section-tiles.css 2, numbered-list.css 1 |
+| corner | `3px` | off the scale | 4 | conversation.css 2, global.css 1, section-tiles.css 1 |
+| corner | `7px` | off the scale | 2 | conversation.css 2 |
+| corner | `24px` | off the scale | 1 | landing.css 1 |
+| gap | `var(--space-card, 12px)` | mixed with a token; the px part is left | 1 | card-tile.css 1 |
+| gap | `12px var(--space-cell)` | mixed with a token; the px part is left | 1 | conversation.css 1 |
+| gap | `var(--space-field) 12px` | mixed with a token; the px part is left | 1 | conversation.css 1 |
+| gap | `var(--space-field) 14px` | mixed with a token; the px part is left | 1 | conversation.css 1 |
+| gap | `var(--space-card) 24px` | mixed with a token; the px part is left | 1 | conversation.css 1 |
+| gap | `var(--space-field) 16px` | mixed with a token; the px part is left | 1 | demand.css 1 |
+| gap | `var(--space-field) 24px` | mixed with a token; the px part is left | 1 | section-tiles.css 1 |
+
+Not on the list because they need no decision: zero, `50%`, `999px` and `normal` (shapes and keywords), `em` and `vw` gaps (not px), and values that are entirely a token or a calculation.
+
+### Breakpoints
+
+The stylesheets use 13 window boundaries (one is a height) and 20 container boundaries (catalogue in `tokens.ts`: `viewportBreakpoints`, `containerBreakpoints`). CSS cannot read a variable inside `@media` or `@container`, so they stay as written. Three places are drawn twice within 2px; merging them moves a rule by 1 to 2px of width:
+
+| Kind | Wide from | Spellings (uses) |
+|---|---|---|
+| window | 1100 / 1101 | max-width: 1099px (2), min-width: 1100px (1) ; max-width: 1100px (2) |
+| container | 358 / 360 | max-width: 357.98px (1) ; max-width: 359.98px (1) |
+| container | 600 / 601 | max-width: 599.98px (2), max-width: 599px (2) ; max-width: 600px (1) |
+
+The decided set (768, 1200, heights 900 and 1250) is not yet used by any query; moving the queries to it changes the layout between the old and new widths, so it is a separate decision.

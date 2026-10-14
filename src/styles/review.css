@@ -83,7 +83,7 @@
     display:flex;
     align-items:baseline;
     justify-content:space-between;
-    gap:12px 24px;
+    gap:var(--gap-12) var(--gap-24);
 
     padding:12px 16px;
 
@@ -154,7 +154,7 @@
 
     display:flex;
     align-items:baseline;
-    gap:12px;
+    gap:var(--gap-12);
 
     width:100%;
     padding:0 0 8px;
@@ -222,7 +222,7 @@
 
     display:flex;
     flex-direction:column;
-    gap:8px;
+    gap:var(--gap-8);
 
 }
 

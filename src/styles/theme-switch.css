@@ -48,7 +48,7 @@
 
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--gap-8);
 
     white-space: nowrap;
 

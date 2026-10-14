@@ -62,7 +62,7 @@
 
     border:1px solid var(--line-note);
     border-left-width:6px;
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-note);
 
@@ -77,7 +77,7 @@
 
     display:flex;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     border-bottom:1px solid var(--line-sheet);
 
@@ -89,7 +89,7 @@
 
     border:1px solid transparent;
     border-bottom:none;
-    border-radius:8px 8px 0 0;
+    border-radius:var(--radius-lg) var(--radius-lg) 0 0;
 
     background:none;
 
@@ -130,7 +130,7 @@
 
     flex-wrap:wrap;
 
-    gap:12px;
+    gap:var(--gap-12);
 
 }
 
@@ -139,7 +139,7 @@
     padding:10px 20px;
 
     border:1px solid var(--line-primary);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -176,7 +176,7 @@
     padding:32px 40px;
 
     border:1px solid var(--line-sheet);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -379,7 +379,7 @@
 
     flex-direction:column;
 
-    gap:4px;
+    gap:var(--gap-4);
 
 }
 
@@ -419,7 +419,7 @@
         "partners partners resources  resources  propositions propositions channels      channels      segments segments"
         "costs    costs    costs      costs      costs        revenue      revenue       revenue       revenue  revenue";
 
-    gap:2px;
+    gap:var(--gap-2);
 
     padding:2px;
 
@@ -435,7 +435,7 @@
 
     flex-direction:column;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     min-width:0;
     min-height:160px;
@@ -496,10 +496,10 @@
 .business-canvas-costs{ grid-area:costs; }
 .business-canvas-revenue{ grid-area:revenue; }
 
-.business-canvas-partners{ border-radius:8px 0 0 0; }
-.business-canvas-segments{ border-radius:0 8px 0 0; }
-.business-canvas-costs{ border-radius:0 0 0 8px; }
-.business-canvas-revenue{ border-radius:0 0 8px 0; }
+.business-canvas-partners{ border-radius:var(--radius-lg) 0 0 0; }
+.business-canvas-segments{ border-radius:0 var(--radius-lg) 0 0; }
+.business-canvas-costs{ border-radius:0 0 0 var(--radius-lg); }
+.business-canvas-revenue{ border-radius:0 0 var(--radius-lg) 0; }
 
 /* Narrow windows: one box a row, in reading order. */
 @media (max-width: 900px){
@@ -548,7 +548,7 @@
 
     flex-direction:column;
 
-    gap:6px;
+    gap:var(--gap-6);
 
     min-width:220px;
 
@@ -574,7 +574,7 @@
     color:var(--text-default);
 
     border:1px solid var(--line-box);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background-color:var(--bg-surface);
 
@@ -603,7 +603,7 @@
     overflow-x:auto;
 
     border:1px solid var(--line-sheet);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -838,7 +838,7 @@
 
 .business-forecast-table-wrap::-webkit-scrollbar-thumb{
 
-    border-radius:4px;
+    border-radius:var(--radius-sm);
 
     background:var(--bg-quiet);
 
@@ -944,7 +944,7 @@
     padding:12px 16px;
 
     border:1px solid var(--line-sheet);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-mark-preview);
 
@@ -962,7 +962,7 @@
 
     grid-template-columns:repeat(2, minmax(0, 1fr));
 
-    gap:16px;
+    gap:var(--gap-16);
 
     margin:12px 0 16px;
 
@@ -974,7 +974,7 @@
 
     flex-direction:column;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     min-width:0;
 
@@ -994,7 +994,7 @@
     padding:12px;
 
     border:1px solid var(--line-sheet);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
 }
 
@@ -1013,7 +1013,7 @@
 
     flex-direction:column;
 
-    gap:2px;
+    gap:var(--gap-2);
 
     font-size:var(--font-small);
 

@@ -495,7 +495,7 @@
 
     align-items: center;
 
-    gap: 6px;
+    gap: var(--gap-6);
 
     padding: 6px 0;
 
@@ -1795,7 +1795,7 @@
     padding: 0;
 
     border: 2px solid var(--plus-fill);
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
     background: var(--plus-ground);
 
@@ -2003,12 +2003,12 @@
 
     align-items: center;
 
-    gap: 6px;
+    gap: var(--gap-6);
 
     padding: 6px 12px;
 
     border: 1px solid var(--line-card);
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
     background: var(--bg-surface);
 
@@ -2217,7 +2217,7 @@
 
     align-items: flex-start;
 
-    gap: 8px;
+    gap: var(--gap-8);
 
 }
 
@@ -2775,7 +2775,7 @@
 
     padding: 2px 12px;
 
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
     background: rgba(0, 0, 0, 0.55);
 
@@ -2990,7 +2990,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
     display: inline-flex;
     align-items: center;
 
-    gap: 6px;
+    gap: var(--gap-6);
 
     cursor: pointer;
 
@@ -3132,7 +3132,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 }
 
 /* The "i" of adding Themes stands beside the Add Theme button. */
-.strategy-add-menu:has(> .info-note, > .info-note-wrap) { display: flex; align-items: center; gap: 8px; }
+.strategy-add-menu:has(> .info-note, > .info-note-wrap) { display: flex; align-items: center; gap: var(--gap-8); }
 
 /* A TILE'S OWN PICTURE (a colour of the Brand's Style as a square block, a typeface's specimen): under the title, filling the rest of the square. */
 .section-tile-picture {
@@ -3149,7 +3149,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
     overflow: hidden;
 
-    border-radius: 6px;
+    border-radius: var(--radius-md);
 
     font-size: var(--font-small);
     line-height: 1.2;
@@ -3298,7 +3298,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
     align-items: center;
     justify-content: center;
 
-    gap: 4px;
+    gap: var(--gap-4);
 
     padding: var(--card-padding);
 
@@ -3386,7 +3386,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
     grid-template-columns: repeat(var(--mosaic-across, 2), minmax(0, 1fr));
     grid-auto-rows: 1fr;
 
-    gap: 4px;
+    gap: var(--gap-4);
 
     align-self: stretch;
     justify-self: stretch;
@@ -3398,7 +3398,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
 .brand-mosaic > span {
 
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
 
     box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--text-default) 20%, transparent);
 
@@ -3411,7 +3411,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
     align-items: center;
     justify-content: center;
 
-    gap: 6px;
+    gap: var(--gap-6);
 
     width: 100%;
     height: 100%;
@@ -3516,7 +3516,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
     display: grid;
     grid-template-columns: auto auto minmax(0, 1fr) auto;
 
-    column-gap: 8px;
+    column-gap: var(--gap-8);
     row-gap: var(--space-field);
 
 }
@@ -3713,7 +3713,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
     padding: var(--card-padding);
 
     border: 1px solid var(--line-card);
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
     background: var(--bg-card-tint);
 
@@ -3752,7 +3752,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
     box-sizing: border-box;
 
     border: 1px solid var(--line-card);
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
 }
 
@@ -4182,7 +4182,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
     align-content: center;
 
-    gap: 8px;
+    gap: var(--gap-8);
 
     box-sizing: border-box;
     padding: 8px;
@@ -4659,7 +4659,7 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
     display: flex;
     align-items: flex-start;
 
-    gap: 8px;
+    gap: var(--gap-8);
 
 }
 
@@ -4792,7 +4792,7 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
     display: flex;
 
-    gap: 8px;
+    gap: var(--gap-8);
 
 }
 
@@ -4841,7 +4841,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     align-items: baseline;
     justify-content: space-between;
 
-    gap: 12px;
+    gap: var(--gap-12);
 
 }
 
@@ -4913,7 +4913,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     display: flex;
     flex-direction: column;
 
-    gap: 2px;
+    gap: var(--gap-2);
 
 }
 
@@ -4999,7 +4999,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 .business-capability-plan-row {
 
     grid-template-columns: minmax(0, 1fr) var(--card-cell-height) 198px;
-    gap: 12px;
+    gap: var(--gap-12);
 
 }
 
@@ -5076,7 +5076,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--gap-8);
 
     grid-column: 1 / -1;
 
@@ -5142,7 +5142,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
 .business-foundation-frame-head {
     align-items: flex-start;
-    gap: 8px;
+    gap: var(--gap-8);
 
     overflow: visible;
 
@@ -5477,7 +5477,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     display: flex;
     align-items: center;
 
-    gap: 8px;
+    gap: var(--gap-8);
 
 }
 
@@ -5489,7 +5489,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     display: inline-flex;
     align-items: center;
 
-    gap: 6px;
+    gap: var(--gap-6);
 
 }
 
@@ -5533,7 +5533,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     display: flex;
     align-items: center;
 
-    gap: 12px;
+    gap: var(--gap-12);
 
 }
 
@@ -5563,7 +5563,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
     align-items: start;
 
-    gap: 12px;
+    gap: var(--gap-12);
 
     margin-top: var(--space-field);
 
@@ -5574,7 +5574,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     display: flex;
     flex-direction: column;
 
-    gap: 6px;
+    gap: var(--gap-6);
 
     min-width: 0;
 
@@ -5585,7 +5585,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     display: flex;
     align-items: center;
 
-    gap: 6px;
+    gap: var(--gap-6);
 
     font-weight: 700;
     letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
@@ -5611,7 +5611,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     align-items: center;
     flex-wrap: wrap;
 
-    gap: 8px 32px;
+    gap: var(--gap-8) 32px;
 
 }
 
@@ -5621,7 +5621,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     align-items: center;
     flex-wrap: wrap;
 
-    gap: 8px;
+    gap: var(--gap-8);
 
     font-weight: 400;
 
@@ -5633,7 +5633,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     display: grid;
     grid-template-columns: 280px minmax(0, 1fr);
 
-    gap: 12px;
+    gap: var(--gap-12);
 
 }
 
@@ -5649,7 +5649,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     display: flex;
     align-items: center;
 
-    gap: 8px;
+    gap: var(--gap-8);
 
 }
 
@@ -5720,7 +5720,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
     display: flex;
 
-    gap: 8px 12px;
+    gap: var(--gap-8) var(--gap-12);
 
 }
 
@@ -5817,7 +5817,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     flex-wrap: wrap;
     align-items: flex-end;
 
-    gap: 8px 24px;
+    gap: var(--gap-8) var(--gap-24);
 
 }
 
@@ -6111,7 +6111,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     flex-direction: row;
     flex-wrap: wrap;
 
-    gap: 4px 20px;
+    gap: var(--gap-4) 20px;
 
 }
 
@@ -6141,7 +6141,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     flex-wrap: wrap;
     align-items: center;
 
-    gap: 4px;
+    gap: var(--gap-4);
 
 }
 
@@ -6462,7 +6462,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
     margin: 12px 0 !important;
 
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
     overflow: hidden;
 
@@ -6493,7 +6493,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     padding: 12px;
 
     border: 1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
     background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
@@ -6504,7 +6504,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     display: flex;
     flex-direction: column;
 
-    gap: 12px;
+    gap: var(--gap-12);
 
 }
 
@@ -6540,13 +6540,13 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 .business-subchannel-card .business-channel-td-offerings,
 .business-subchannel-card .business-channel-td-name {
 
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
 }
 
 .business-subchannel-card .business-channel-td-stage {
 
-    border-radius: 8px 8px 0 0;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 
     border-bottom-width: 0;
 
@@ -6556,7 +6556,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
 .business-subchannel-card .business-channel-td-action {
 
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
 
     margin-top: -8px;
 
@@ -6672,7 +6672,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
     border-top-width: 0;
 
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
 
     padding-top: 12px;
 
@@ -6716,7 +6716,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     display: flex !important;
     flex-wrap: nowrap;
 
-    gap: 8px;
+    gap: var(--gap-8);
 
     grid-column: 1 / -1 !important;
 
@@ -6737,7 +6737,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 .floating-card-host .floating-card-body .strategy-goal-card,
 .floating-card-host .floating-card-body .strategy-goal-card > * {
 
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
 }
 
@@ -6757,7 +6757,7 @@ table.business-relationship-table {
     border-collapse: separate !important;
     border-spacing: 0 !important;
 
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
     overflow: hidden;
 
@@ -6765,7 +6765,7 @@ table.business-relationship-table {
 
 .business-channel-table-wrap:has(> table.business-relationship-table) {
 
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
     overflow: hidden;
 
@@ -6775,7 +6775,7 @@ table.business-relationship-table {
 
     align-items: start !important;
 
-    column-gap: 12px;
+    column-gap: var(--gap-12);
 
 }
 
@@ -6806,7 +6806,7 @@ table.business-relationship-table {
 
 }
 
-.business-relationship-type-field { gap: 12px !important; }
+.business-relationship-type-field { gap: var(--gap-12) !important; }
 
 /* THE THEME'S CARD (Foundation's Strategic Period): its head is a card's -- number, name cell, x -- and everything stands 12px from the edge and from the next. */
 .strategy-theme-fields {
@@ -6814,7 +6814,7 @@ table.business-relationship-table {
     display: flex;
     flex-direction: column;
 
-    gap: 12px;
+    gap: var(--gap-12);
 
 }
 
@@ -6823,7 +6823,7 @@ table.business-relationship-table {
     display: flex;
     align-items: center;
 
-    gap: 8px;
+    gap: var(--gap-8);
 
 }
 
@@ -6840,7 +6840,7 @@ table.business-relationship-table {
     display: flex;
     flex-direction: column;
 
-    gap: 12px;
+    gap: var(--gap-12);
 
 }
 
@@ -6851,7 +6851,7 @@ table.business-relationship-table {
 
     background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
 }
 
@@ -6887,7 +6887,7 @@ table.business-relationship-table {
 /* the stage and its actions: ONE frame (the section); the actions' area is a deeper tint (the subsection) */
 .business-subchannel-card .business-channel-table td.business-channel-td-stage {
 
-    border-radius: 8px 8px 0 0;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 
     overflow: visible;
 
@@ -6911,7 +6911,7 @@ table.business-relationship-table {
 .business-subchannel-card .business-channel-td-action .numbered-list-row,
 .business-subchannel-card .business-channel-td-action li {
 
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
 }
 
@@ -7023,7 +7023,7 @@ table.business-relationship-table {
 
     padding-inline: 0 !important;
 
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
 }
 
@@ -7181,7 +7181,7 @@ table.business-relationship-table {
 
     align-items: flex-start;
 
-    gap: 12px;
+    gap: var(--gap-12);
 
     padding: 0;
 
@@ -7326,7 +7326,7 @@ table.business-relationship-table {
 /* A date's label and its cell: 12px apart. The End stands at the right of the row, ending where the Description cell ends. */
 .strategy-objective-box .strategy-objective-when .month-picker {
 
-    gap: 12px;
+    gap: var(--gap-12);
 
 }
 
@@ -7372,7 +7372,7 @@ table.business-relationship-table {
 /* The Unit and its currency (a money Metric) share the Metric's field: the currency code only as wide as its own word, the Unit takes the rest so "Currency" is never cut. */
 :is(.strategy-theme-dialog, .strategy-goal-card) .strategy-metric-unit-currency {
 
-    gap: 4px;
+    gap: var(--gap-4);
 
 }
 
@@ -7415,7 +7415,7 @@ table.business-relationship-table {
 
     border: 2px solid var(--accent-ink, var(--text-default));
 
-    border-radius: 6px;
+    border-radius: var(--radius-md);
 
     background: transparent;
 
@@ -7487,7 +7487,7 @@ table.business-relationship-table {
 .strategy-box-actions:has(> .strategy-box-add) {
 
     /* (12px between the "+" and the x, as between the "i" and the "+".) */
-    gap: 12px;
+    gap: var(--gap-12);
 
 }
 
@@ -7538,7 +7538,7 @@ table.business-relationship-table {
 
     align-items: center;
 
-    gap: 12px;
+    gap: var(--gap-12);
 
 }
 
@@ -7649,7 +7649,7 @@ table.business-relationship-table {
 
     border: 2px solid var(--accent-ink, var(--text-default));
 
-    border-radius: 6px;
+    border-radius: var(--radius-md);
 
     background: transparent;
 
@@ -7785,7 +7785,7 @@ table.business-relationship-table {
 
     border: 1px solid var(--tooltip-border);
 
-    border-radius: 6px;
+    border-radius: var(--radius-md);
 
     background: var(--tooltip-bg);
 
@@ -7889,7 +7889,7 @@ table.business-relationship-table {
 
     align-items: flex-start;
 
-    gap: 12px;
+    gap: var(--gap-12);
 
     margin: 0;
 
@@ -7908,7 +7908,7 @@ table.business-relationship-table {
 
     align-items: center;
 
-    gap: 12px 32px;
+    gap: var(--gap-12) 32px;
 
     margin: 0;
 
@@ -7918,7 +7918,7 @@ table.business-relationship-table {
 
 .strategy-period-box .month-picker {
 
-    gap: 12px;
+    gap: var(--gap-12);
 
 }
 
@@ -7936,7 +7936,7 @@ table.business-relationship-table {
 
     grid-template-columns: repeat(3, 215px);
 
-    column-gap: 12px;
+    column-gap: var(--gap-12);
 
     align-items: baseline;
 
@@ -8027,7 +8027,7 @@ table.business-relationship-table {
 
     align-items: baseline;
 
-    column-gap: 24px;
+    column-gap: var(--gap-24);
 
 }
 
@@ -8039,7 +8039,7 @@ table.business-relationship-table {
 
     align-items: baseline;
 
-    gap: 0 8px;
+    gap: 0 var(--gap-8);
 
     margin: 0;
 
@@ -8053,7 +8053,7 @@ table.business-relationship-table {
 
     align-items: baseline;
 
-    gap: 8px;
+    gap: var(--gap-8);
 
 }
 
@@ -8067,7 +8067,7 @@ table.business-relationship-table {
 
     justify-content: flex-start;
 
-    gap: 12px;
+    gap: var(--gap-12);
 
     width: auto;
 
@@ -8158,7 +8158,7 @@ table.business-relationship-table {
 
     grid-template-columns: 215px 1fr;
 
-    column-gap: 12px;
+    column-gap: var(--gap-12);
 
     align-items: stretch;
 
@@ -8642,7 +8642,7 @@ table.business-relationship-table {
 
     align-items: center;
 
-    gap: 8px;
+    gap: var(--gap-8);
 
     max-width: var(--rail-label-room, 200px);
 
@@ -8669,7 +8669,7 @@ table.business-relationship-table {
 
     border: 1px solid var(--tooltip-border);
 
-    border-radius: 6px;
+    border-radius: var(--radius-md);
 
     background: var(--tooltip-bg);
 
@@ -8714,7 +8714,7 @@ main.conversation-content[data-reserve],
 
     align-items: stretch;
 
-    gap: 6px;
+    gap: var(--gap-6);
 
 }
 
@@ -8787,7 +8787,7 @@ main.conversation-content[data-reserve],
 
     padding: 12px 56px 12px 12px !important;
 
-    border-radius: 8px !important;
+    border-radius: var(--radius-lg) !important;
 
     background: var(--part-tint-a);
 
@@ -8809,7 +8809,7 @@ main.conversation-content[data-reserve],
 
     padding: 12px 56px 6px 12px !important;
 
-    border-radius: 8px 8px 0 0 !important;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;
 
 }
 
@@ -8837,7 +8837,7 @@ main.conversation-content[data-reserve],
 .business-subchannel-card .business-channel-table tbody > tr:last-child > td.business-channel-td-action,
 .business-subchannel-card .business-channel-table tbody > tr:last-child > td.business-channel-td-addstage {
 
-    border-radius: 0 0 8px 8px !important;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg) !important;
 
 }
 
@@ -8854,7 +8854,7 @@ main.conversation-content[data-reserve],
 
     border-left: 0;
 
-    border-radius: 0 8px 8px 0;
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
 
     background: var(--tab-bg);
 
@@ -8961,7 +8961,7 @@ main.conversation-content[data-reserve],
 
     padding-bottom: 24px !important;
 
-    border-radius: 0 0 8px 8px !important;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg) !important;
 
 }
 
@@ -9004,7 +9004,7 @@ main.conversation-content[data-reserve],
 /* A tab's names keep clear of their bullets (the lit one's ring is 6px wide), and a name never changes its width when it is lit or under the pointer: it is thickened by a shadow, as the page rail's are, not by a heavier weight. */
 .carousel-rail.carousel-rail-tab.carousel-rail-named .bullet-rail-item {
 
-    gap: 12px;
+    gap: var(--gap-12);
 
 }
 
@@ -9086,13 +9086,13 @@ main.conversation-content[data-reserve],
 
     box-shadow: none !important;
 
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
 }
 
 .floating-card-host .floating-card-body > .column-tile-content > * {
 
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
 }
 
@@ -9207,7 +9207,7 @@ main.conversation-content[data-reserve],
 
     background: var(--part-tint-b);
 
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
 
 }
 
@@ -9239,7 +9239,7 @@ main.conversation-content[data-reserve],
 
     align-items: flex-start;
 
-    gap: 12px;
+    gap: var(--gap-12);
 
     margin-right: -44px;
 
@@ -9290,7 +9290,7 @@ main.conversation-content[data-reserve],
 /* THE CUSTOMER RELATIONSHIP'S FIRST ROW: [Relationship Type: label over a cell as wide as its longest option] [Purpose: its label, then its cell beside it] [x], all on the cells' top line, 12px apart; the x in its own column, 12px from the block's edge. */
 .business-relationship-block .business-relationship-type-row {
 
-    column-gap: 12px !important;
+    column-gap: var(--gap-12) !important;
 
 }
 
@@ -9308,7 +9308,7 @@ main.conversation-content[data-reserve],
 
     align-items: flex-start;
 
-    gap: 12px;
+    gap: var(--gap-12);
 
 }
 
@@ -9432,7 +9432,7 @@ main.conversation-content[data-reserve],
 
     border-right: 0;
 
-    border-radius: 8px 0 0 8px;
+    border-radius: var(--radius-lg) 0 0 var(--radius-lg);
 
     box-shadow: -4px 4px 12px color-mix(in srgb, var(--tab-edge) 18%, transparent);
 
@@ -9535,7 +9535,7 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
     flex-direction: column;
 
-    gap: 12px;
+    gap: var(--gap-12);
 
 }
 
@@ -9790,7 +9790,7 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
     flex-direction: column;
 
-    gap: 2px;
+    gap: var(--gap-2);
 
     margin: 0;
 
@@ -9884,7 +9884,7 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
     align-items: baseline;
 
-    gap: 8px;
+    gap: var(--gap-8);
 
 }
 
@@ -9958,7 +9958,7 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
     align-items: flex-start !important;
 
-    gap: 12px !important;
+    gap: var(--gap-12) !important;
 
 }
 
@@ -9993,7 +9993,7 @@ label:has(> input[type="checkbox"]) > :not(input) {
 /* THE RAIL'S BACK BUTTON, built like a rail item: an arrow box as wide as a bullet (12px, the arrow centred on the bullets above), the item's own 14px gap, then the word in capitals -- so the word starts where the labels above start (mirrored on the left rail, where the labels end at the bullets). Arrow and word stand in the card's mid tone (the tab's edge, the bullets' colour); under the pointer and the focus both take the colour of the card's "+" box (--plus-fill: darker on a light card, brighter on a dark one) and the arrow grows 20% forward, as the page arrows do. */
 .carousel-rail .carousel-rail-back {
 
-    gap: 12px;
+    gap: var(--gap-12);
 
     padding: 2px 0;
 

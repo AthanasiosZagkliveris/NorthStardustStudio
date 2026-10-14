@@ -722,13 +722,13 @@ h3 {
 .error-boundary-actions {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: var(--gap-12);
   margin-top: 24px;
 }
 
 .error-boundary-actions button {
   padding: 10px 20px;
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   border: 2px solid var(--line-primary);
   background: var(--bg-surface);
   color: var(--text-primary);
@@ -989,7 +989,7 @@ h6 {
   padding: 4px 8px;
 
   border: 1px solid var(--tooltip-border);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   background: var(--tooltip-bg);
   box-shadow: var(--tooltip-shadow);
   color: var(--tooltip-text);
@@ -1024,7 +1024,7 @@ h6 {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 2px 12px;
+  gap: var(--gap-2) var(--gap-12);
   margin: 2px 0 0;
   font-size: var(--font-small);
   font-weight: 400;
@@ -1037,7 +1037,7 @@ h6 {
 .field-status-item {
   display: inline-flex;
   align-items: baseline;
-  gap: 4px;
+  gap: var(--gap-4);
   min-width: 0;
   overflow-wrap: anywhere;
 }
@@ -1116,7 +1116,7 @@ h6 {
 
     /* No gap of its own: the "i" keeps the one 8px every "i" keeps
        from its word (.info-note). */
-    row-gap:4px;
+    row-gap:var(--gap-4);
 
 }
 
@@ -1232,7 +1232,7 @@ label:has(> input[type="checkbox"]:not(:disabled)):hover > input[type="checkbox"
   height: 44px;
   padding: 0;
   border: 0;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   background: none;
   font-size: 0;
   color: var(--bg-primary);

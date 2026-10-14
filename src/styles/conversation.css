@@ -44,7 +44,7 @@ textarea{
 
     border:1px solid var(--box-border);
 
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
 }
 
@@ -504,7 +504,7 @@ textarea:focus{
     padding:0 20px;
 
     border:1px solid var(--box-border);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -542,7 +542,7 @@ textarea:focus{
     padding:20px;
 
     border:1px solid var(--line-rule);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-panel);
 
@@ -910,7 +910,7 @@ textarea:focus{
 
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     flex-shrink:0;
 
@@ -919,7 +919,7 @@ textarea:focus{
     padding:12px 20px;
 
     border:1px solid var(--box-border);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -1176,7 +1176,7 @@ textarea:focus{
 
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     white-space:nowrap;
 
@@ -1290,7 +1290,7 @@ textarea:focus{
     line-height:1.5;
 
     border:1px solid var(--box-border);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
 }
 
@@ -1337,7 +1337,7 @@ textarea:focus{
     line-height:1.5;
 
     border:1px solid var(--box-border);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -1377,7 +1377,7 @@ textarea:focus{
 
     flex-direction:column;
 
-    gap:6px;
+    gap:var(--gap-6);
 
     width:100%;
 
@@ -1394,7 +1394,7 @@ textarea:focus{
 
     flex-direction:column;
 
-    gap:8px;
+    gap:var(--gap-8);
 
 }
 
@@ -1408,7 +1408,7 @@ textarea:focus{
 
     flex-direction:column;
 
-    gap:8px;
+    gap:var(--gap-8);
 
 }
 
@@ -1418,7 +1418,7 @@ textarea:focus{
 
     align-items:center;
 
-    gap:6px;
+    gap:var(--gap-6);
 
 }
 
@@ -1489,7 +1489,7 @@ textarea:focus{
 
     padding:6px 10px;
 
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     font-size:var(--font-small);
     font-weight:600;
@@ -1556,11 +1556,11 @@ textarea:focus{
 
     align-items:center;
 
-    gap:6px;
+    gap:var(--gap-6);
 
     padding:4px 10px;
 
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     font-size:var(--font-small);
 
@@ -1592,13 +1592,13 @@ textarea:focus{
 
     align-items:center;
 
-    gap:4px;
+    gap:var(--gap-4);
 
     margin-top:6px;
 
     padding:2px 8px;
 
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     font-size:var(--font-small);
 
@@ -1618,7 +1618,7 @@ textarea:focus{
 
     align-items:center;
 
-    gap:6px;
+    gap:var(--gap-6);
 
 }
 
@@ -1633,7 +1633,7 @@ textarea:focus{
     padding:0 10px;
 
     border:1px solid var(--box-border);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -1700,7 +1700,7 @@ textarea:focus{
     justify-content:center;
 
     border:1px solid var(--box-border);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -1765,7 +1765,7 @@ textarea:focus{
 
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
 }
 
@@ -1778,7 +1778,7 @@ textarea:focus{
 
     align-items:center;
 
-    gap:6px;
+    gap:var(--gap-6);
 
 }
 
@@ -1920,7 +1920,7 @@ textarea:focus{
 
     align-items:center;
 
-    gap:12px;
+    gap:var(--gap-12);
 
 }
 
@@ -1942,7 +1942,7 @@ textarea:focus{
     padding:0 14px;
 
     border:1px solid var(--box-border);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     font:inherit;
     font-size:var(--font-body);
@@ -2153,7 +2153,7 @@ textarea:focus{
 
     border:1px solid var(--line-input-soft);
 
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     font:inherit;
     font-size:var(--font-body);
@@ -2189,7 +2189,7 @@ textarea:focus{
 
     border:1px solid var(--line-table);
 
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     padding:8px 12px;
 
@@ -2264,7 +2264,7 @@ textarea:focus{
 
     flex-direction:column;
 
-    gap:16px;
+    gap:var(--gap-16);
 
 }
 
@@ -2285,7 +2285,7 @@ textarea:focus{
 
     align-items:flex-start;
 
-    gap:16px;
+    gap:var(--gap-16);
 
     overflow-x:auto;
 
@@ -2404,7 +2404,7 @@ textarea:focus{
     justify-content:center;
 
     border:1px solid var(--box-border);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -2473,7 +2473,7 @@ textarea:focus{
 
     flex-direction:column;
 
-    gap:6px;
+    gap:var(--gap-6);
 
 }
 
@@ -2597,7 +2597,7 @@ textarea:focus{
     line-height:1.5;
 
     border:1px solid var(--box-border);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -3113,7 +3113,7 @@ td.process-library-col-number{
 
     align-items:center;
 
-    gap:4px;
+    gap:var(--gap-4);
 
     border:none;
 
@@ -3194,10 +3194,10 @@ td.process-library-col-number{
 
     align-items:center;
 
-    gap:6px;
+    gap:var(--gap-6);
 
     border:1px solid var(--line-add);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -3251,7 +3251,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--gap-12);
 
 }
 
@@ -3284,7 +3284,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:4px;
+    gap:var(--gap-4);
 
 }
 
@@ -3319,7 +3319,7 @@ td.process-library-col-number{
     align-items:center;
     align-self:center;
 
-    gap:6px;
+    gap:var(--gap-6);
 
     font-size:var(--font-small);
     color:var(--text-deep);
@@ -3353,14 +3353,14 @@ td.process-library-col-number{
 
     background:var(--bg-retention);
     border:1px solid var(--line-retention);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
 }
 
 .operational-log-delete-old{
 
     border:1px solid var(--box-border);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -3423,7 +3423,7 @@ td.process-library-col-number{
 .operational-log-clear-filters{
 
     border:1px solid var(--box-border);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -3516,7 +3516,7 @@ td.process-library-col-number{
     line-height:1.5;
 
     border:1px solid var(--box-border);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -3716,7 +3716,7 @@ td.process-library-col-number{
     line-height:1.5;
 
     border:1px solid var(--box-border);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -3859,7 +3859,7 @@ td.process-library-col-number{
     line-height:1.5;
 
     border:1px solid var(--box-border);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -3988,7 +3988,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--gap-12);
 
     min-width:0;
 
@@ -4029,7 +4029,7 @@ td.process-library-col-number{
 
     grid-template-columns:repeat(2, minmax(0, 1fr));
 
-    gap:12px;
+    gap:var(--gap-12);
 
 }
 
@@ -4040,7 +4040,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:6px;
+    gap:var(--gap-6);
 
     min-width:0;
 
@@ -4055,7 +4055,7 @@ td.process-library-col-number{
 
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     cursor:pointer;
 
@@ -4122,7 +4122,7 @@ td.process-library-col-number{
 
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     min-width:0;
 
@@ -4140,7 +4140,7 @@ td.process-library-col-number{
     padding:2px;
 
     border:1px solid var(--box-border);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -4181,7 +4181,7 @@ td.process-library-col-number{
 
     justify-content:space-between;
 
-    gap:12px;
+    gap:var(--gap-12);
 
     min-width:0;
 
@@ -4195,7 +4195,7 @@ td.process-library-col-number{
 
     align-items:center;
 
-    gap:6px;
+    gap:var(--gap-6);
 
 }
 
@@ -4252,7 +4252,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:6px;
+    gap:var(--gap-6);
 
     min-width:0;
 
@@ -4266,7 +4266,7 @@ td.process-library-col-number{
 
     justify-content:space-between;
 
-    gap:12px;
+    gap:var(--gap-12);
 
     min-width:0;
 
@@ -4431,7 +4431,7 @@ td.process-library-col-number{
     padding:10px 14px;
 
     border:1px solid var(--line-danger);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-danger-tint);
 
@@ -4452,7 +4452,7 @@ td.process-library-col-number{
     padding:8px;
 
     border:1px solid var(--box-border);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -4512,7 +4512,7 @@ td.process-library-col-number{
 
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     flex-wrap:wrap;
 
@@ -4555,7 +4555,7 @@ td.process-library-col-number{
     padding:8px 16px;
 
     border:1px solid var(--box-border);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -4660,7 +4660,7 @@ td.process-library-col-number{
     color:var(--text-default);
 
     border:1px solid var(--box-border);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -4970,7 +4970,7 @@ td.process-library-col-number{
     padding:0;
 
     border:1px solid var(--line-danger);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -5041,7 +5041,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:6px;
+    gap:var(--gap-6);
 
 }
 
@@ -5059,7 +5059,7 @@ td.process-library-col-number{
     padding:var(--card-padding);
 
     border:1px solid var(--box-border);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -5071,7 +5071,7 @@ td.process-library-col-number{
 
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     min-width:0;
 
@@ -5131,7 +5131,7 @@ td.process-library-col-number{
     color:var(--text-default);
 
     border:1px solid var(--box-border);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -5211,7 +5211,7 @@ td.process-library-col-number{
     color:var(--accent-ink);
 
     border:1px solid var(--accent-line);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--accent-ground);
 
@@ -5262,7 +5262,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--gap-12);
 
     padding:0 12px;
 
@@ -5283,12 +5283,12 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--gap-12);
 
     padding:12px;
 
     border:1px solid var(--box-border);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
 }
 
@@ -5303,7 +5303,7 @@ td.process-library-col-number{
     padding:var(--card-padding);
 
     border:1px solid var(--line-card);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-panel);
 
@@ -5320,7 +5320,7 @@ td.process-library-col-number{
     padding:var(--card-padding);
 
     border:1px solid var(--line-card);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -5332,12 +5332,12 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--gap-12);
 
     padding:12px;
 
     border:1px solid var(--line-card);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-panel);
 
@@ -5364,7 +5364,7 @@ td.process-library-col-number{
     color:var(--text-default);
 
     border:1px solid transparent;
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:transparent;
 
@@ -5451,7 +5451,7 @@ td.process-library-col-number{
 
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     min-width:0;
 
@@ -5497,7 +5497,7 @@ td.process-library-col-number{
     color:var(--text-default);
 
     border:1px solid var(--box-border);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -5557,10 +5557,10 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--gap-12);
 
     border:1px solid var(--box-border);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -5572,7 +5572,7 @@ td.process-library-col-number{
 
     display:flex;
 
-    gap:8px;
+    gap:var(--gap-8);
 
 }
 
@@ -5590,7 +5590,7 @@ td.process-library-col-number{
     color:var(--text-default);
 
     border:1px solid var(--box-border);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -5634,7 +5634,7 @@ td.process-library-col-number{
 
     display:grid;
 
-    gap:6px;
+    gap:var(--gap-6);
 
 }
 
@@ -5661,7 +5661,7 @@ td.process-library-col-number{
     color:var(--text-default);
 
     border:1px solid var(--box-border);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -5741,7 +5741,7 @@ td.process-library-col-number{
     align-content:start;
 
     border:1px solid var(--box-border);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -5917,7 +5917,7 @@ td.process-library-col-number{
 
     align-items:flex-end;
 
-    gap:12px;
+    gap:var(--gap-12);
 
 }
 
@@ -6131,7 +6131,7 @@ td.process-library-col-number{
     padding:16px 12px;
 
     border:1px solid var(--line-rule);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-panel);
 
@@ -6199,7 +6199,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:4px;
+    gap:var(--gap-4);
 
     min-width:0;
 
@@ -6383,7 +6383,7 @@ td.process-library-col-number{
     text-align:left;
 
     border:1px solid var(--line-primary);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     cursor:pointer;
 
@@ -6439,7 +6439,7 @@ td.process-library-col-number{
 
     display:flex;
 
-    gap:4px;
+    gap:var(--gap-4);
 
 }
 
@@ -6454,7 +6454,7 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
 
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     min-width:0;
 
@@ -6462,7 +6462,7 @@ td.process-library-col-number{
 
 .strategic-roadmap{
 
-    gap:24px;
+    gap:var(--gap-24);
 
 }
 
@@ -6498,7 +6498,7 @@ td.process-library-col-number{
 
     display:flex;
 
-    gap:24px;
+    gap:var(--gap-24);
 
 }
 
@@ -6547,7 +6547,7 @@ td.process-library-col-number{
     padding:4px;
 
     border:1px solid var(--box-border);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -6566,7 +6566,7 @@ td.process-library-col-number{
     color:var(--text-default);
 
     border:none;
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:transparent;
 
@@ -6640,7 +6640,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--gap-12);
 
 }
 
@@ -6649,7 +6649,7 @@ td.process-library-col-number{
 
     display:flex;
 
-    gap:24px;
+    gap:var(--gap-24);
 
 }
 
@@ -6660,7 +6660,7 @@ td.process-library-col-number{
     padding:12px;
 
     border:1px solid var(--box-border);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
 }
 
@@ -6959,7 +6959,7 @@ td.process-library-col-number{
    belonged to the last one. */
 .strategy-subsection{
 
-    gap:12px;
+    gap:var(--gap-12);
 
 }
 
@@ -7082,7 +7082,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:8px;
+    gap:var(--gap-8);
 
 }
 
@@ -7585,7 +7585,7 @@ td.process-library-col-number{
 
     grid-template-columns:auto auto minmax(0, 1fr) auto;
 
-    column-gap:8px;
+    column-gap:var(--gap-8);
 
     row-gap:var(--space-field);
 
@@ -7644,7 +7644,7 @@ td.process-library-col-number{
 
     align-items:end;
 
-    column-gap:12px;
+    column-gap:var(--gap-12);
 
     height:var(--level-height);
 
@@ -7723,7 +7723,7 @@ td.process-library-col-number{
 
     align-items:flex-end;
 
-    gap:2px;
+    gap:var(--gap-2);
 
 }
 
@@ -8099,7 +8099,7 @@ td.process-library-col-number{
     color:var(--text-default);
 
     border:1px solid var(--box-border);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -8559,7 +8559,7 @@ td.process-library-col-number{
     padding:16px var(--card-padding);
 
     border:1px solid var(--box-border);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-panel);
 
@@ -8659,7 +8659,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:6px;
+    gap:var(--gap-6);
 
     min-width:0;
 
@@ -8695,7 +8695,7 @@ td.process-library-col-number{
 
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     /* A tick row is its own line (its tick-to-tick gap is the field gap,
        --space-field); a row with a field beside it (the number rows)
@@ -8778,7 +8778,7 @@ td.process-library-col-number{
 
     border:1px solid var(--line-warn);
     border-left-width:4px;
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-warn);
 
@@ -9015,7 +9015,7 @@ td.process-library-col-number{
     padding:var(--card-padding);
 
     border:1px solid var(--line-card);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
 }
 
@@ -9037,7 +9037,7 @@ td.process-library-col-number{
 
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     cursor:pointer;
 
@@ -9147,7 +9147,7 @@ td.process-library-col-number{
 
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     padding:6px var(--total-badge-pad, 12px);
 
@@ -9924,7 +9924,7 @@ td.process-library-col-number{
     padding:12px 14px;
 
     border:1px solid var(--box-border);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -10109,7 +10109,7 @@ td.process-library-col-number{
     align-items:center;
     justify-content:space-between;
 
-    gap:12px;
+    gap:var(--gap-12);
 
     min-width:0;
 
@@ -10176,7 +10176,7 @@ td.process-library-col-number{
 
         grid-template-columns:minmax(0, 1fr);
 
-        row-gap:12px;
+        row-gap:var(--gap-12);
 
     }
 
@@ -10192,12 +10192,12 @@ td.process-library-col-number{
 
         align-items:start;
 
-        gap:6px 12px;
+        gap:var(--gap-6) var(--gap-12);
 
         padding:12px;
 
         border:1px solid var(--line-card);
-        border-radius:8px;
+        border-radius:var(--radius-lg);
 
         background:var(--bg-surface);
 
@@ -10365,8 +10365,8 @@ td.process-library-col-number{
        not sit under its own heading is worse than no card at all.
        The row gap only has to separate the head from the
        subsections under it. */
-    column-gap:24px;
-    row-gap:12px;
+    column-gap:var(--gap-24);
+    row-gap:var(--gap-12);
 
     /* The card is inset from the section by its border and padding
        (1px + 12px). The section gives back exactly that much, so
@@ -10617,7 +10617,7 @@ td.process-library-col-number{
     padding:var(--card-padding);
 
     border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
@@ -10722,7 +10722,7 @@ td.process-library-col-number{
     padding:var(--card-padding);
 
     border:1px solid var(--line-card);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     /* The neutral card ground (as .legal-entity-card); a card with a
        hue sets its own below. */
@@ -10978,7 +10978,7 @@ td.process-library-col-number{
     /* 24 across, and nothing down: the rule between the titles and
        the lists carries its own spacing, so a row gap here would be
        added to it twice. */
-    column-gap:24px;
+    column-gap:var(--gap-24);
     row-gap:0;
 
     /* Held in from the panel's edges, so the two lists read as
@@ -11204,7 +11204,7 @@ td.process-library-col-number{
 
     align-items:flex-start;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     min-height:0;
 
@@ -11281,7 +11281,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--gap-12);
 
     /* Undoes the `align-items:start` the Page 1 rule sets on the
        same element. There it holds four grid areas to their own
@@ -11397,7 +11397,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:6px;
+    gap:var(--gap-6);
 
     min-width:0;
 
@@ -11459,7 +11459,7 @@ td.process-library-col-number{
 
     /* Between one section and the next. Enough to see three of
        them as three. */
-    gap:8px;
+    gap:var(--gap-8);
 
     margin:2px 0 0;
 
@@ -11567,7 +11567,7 @@ td.process-library-col-number{
        name down, nor an unfolded item. */
     align-items:flex-start;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     min-width:0;
 
@@ -11661,7 +11661,7 @@ td.process-library-col-number{
     outline:2px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
     outline-offset:2px;
 
-    border-radius:4px;
+    border-radius:var(--radius-sm);
 
 }
 
@@ -11673,7 +11673,7 @@ td.process-library-col-number{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--gap-12);
 
 }
 
@@ -11818,7 +11818,7 @@ td.process-library-col-number{
 
     align-items:center;
 
-    gap:4px 16px;
+    gap:var(--gap-4) var(--gap-16);
 
 }
 
@@ -11869,7 +11869,7 @@ td.process-library-col-number{
 
     max-width:100%;
 
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
 }
 
@@ -11896,7 +11896,7 @@ td.process-library-col-number{
     border-top:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
     border-left:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     /* The widths are declared rather than derived, so the table
        does not reflow every time a name gets longer. Action takes
@@ -12132,14 +12132,14 @@ td.process-library-col-number{
 .business-channel-table > thead:first-child > tr:first-child > *:first-child,
 .business-relationship-table > tbody:first-of-type > tr:first-child > *:first-child{
 
-    border-top-left-radius:8px;
+    border-top-left-radius:var(--radius-lg);
 
 }
 
 .business-channel-table > thead:first-child > tr:first-child > *:last-child,
 .business-relationship-table > tbody:first-of-type > tr:first-child > *:last-child{
 
-    border-top-right-radius:8px;
+    border-top-right-radius:var(--radius-lg);
 
 }
 
@@ -12147,7 +12147,7 @@ td.process-library-col-number{
     > tbody:last-of-type > tr:last-child > *:first-child,
 .business-relationship-corner-bl{
 
-    border-bottom-left-radius:8px;
+    border-bottom-left-radius:var(--radius-lg);
 
 }
 
@@ -12155,7 +12155,7 @@ td.process-library-col-number{
     > tbody:last-of-type > tr:last-child > *:last-child,
 .business-relationship-corner-br{
 
-    border-bottom-right-radius:8px;
+    border-bottom-right-radius:var(--radius-lg);
 
 }
 
@@ -12283,7 +12283,7 @@ td.process-library-col-number{
 
     flex-wrap:wrap;
 
-    gap:4px 24px;
+    gap:var(--gap-4) var(--gap-24);
 
     list-style:none;
 
@@ -12642,7 +12642,7 @@ td.process-library-col-number{
     padding:8px;
 
     border:1px solid var(--box-border);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-panel);
 
@@ -12692,7 +12692,7 @@ td.process-library-col-number{
 
     flex-direction:row;
     align-items:baseline;
-    gap:6px;
+    gap:var(--gap-6);
 
     min-width:0;
 
@@ -13055,7 +13055,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
     padding:0;
 
     border:0;
-    border-radius:4px;
+    border-radius:var(--radius-sm);
 
     cursor:pointer;
 
@@ -13211,7 +13211,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:center;
 
-    gap:4px;
+    gap:var(--gap-4);
 
     flex:0 0 auto;
 
@@ -13418,7 +13418,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
 }
 
@@ -13600,7 +13600,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     grid-template-columns:repeat(2, minmax(0, 1fr));
 
-    column-gap:24px;
+    column-gap:var(--gap-24);
     row-gap:var(--space-card);
 
     padding-left:24px;
@@ -13670,7 +13670,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
 }
 
@@ -13702,7 +13702,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     flex-wrap:wrap;
 
-    gap:12px;
+    gap:var(--gap-12);
 
     min-width:0;
 
@@ -13735,7 +13735,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     min-width:0;
 
@@ -13819,12 +13819,12 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--gap-12);
 
     padding:12px;
 
     border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
@@ -13862,7 +13862,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     align-self:stretch;
 
@@ -13918,7 +13918,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:center;
 
-    column-gap:12px;
+    column-gap:var(--gap-12);
 
 }
 
@@ -13975,7 +13975,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     align-self:flex-end;
 
@@ -14031,7 +14031,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--gap-12);
 
     /* Its colour family, which everything in it inherits: labels
        in the neutral grey, and every outlined button -- + Add
@@ -14093,7 +14093,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--gap-12);
 
     /* The chart's two series and the balance line: slots 1 and 2 of
        the validated categorical palette, and ink for the line. */
@@ -14132,7 +14132,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
 }
 
@@ -14151,12 +14151,12 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:start;
 
-    gap:16px 24px;
+    gap:var(--gap-16) var(--gap-24);
 
     padding:12px 16px;
 
     border:1px solid var(--line-sheet);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-warm);
 
@@ -14273,7 +14273,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     flex-direction:column;
 
-    gap:12px;
+    gap:var(--gap-12);
 
 }
 
@@ -14294,7 +14294,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     flex-direction:column;
 
-    gap:16px;
+    gap:var(--gap-16);
 
     min-width:0;
 
@@ -14359,7 +14359,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     justify-content:space-between;
 
-    gap:8px 16px;
+    gap:var(--gap-8) var(--gap-16);
 
 }
 
@@ -14403,12 +14403,12 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:baseline;
 
-    gap:8px 10px;
+    gap:var(--gap-8) 10px;
 
     padding:var(--card-padding);
 
     border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-light));
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -14454,7 +14454,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     display:flex;
     flex-direction:column;
-    gap:4px;
+    gap:var(--gap-4);
 
     min-width:0;
 
@@ -14490,7 +14490,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     flex-direction:column;
 
-    gap:4px;
+    gap:var(--gap-4);
 
 }
 
@@ -14559,7 +14559,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:baseline;
 
-    gap:8px;
+    gap:var(--gap-8);
 
 }
 
@@ -14579,7 +14579,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     flex-wrap:wrap;
 
-    gap:12px;
+    gap:var(--gap-12);
 
 }
 
@@ -14701,11 +14701,11 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:flex-start;
 
-    gap:6px;
+    gap:var(--gap-6);
 
     padding:10px 12px;
 
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -14877,13 +14877,13 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     flex-direction:column;
 
-    gap:4px;
+    gap:var(--gap-4);
 
     padding:14px 16px;
 
     border:1px solid var(--line-sheet);
     border-left-width:6px;
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -14916,7 +14916,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     grid-template-columns:repeat(auto-fit, minmax(170px, 1fr));
 
-    gap:12px;
+    gap:var(--gap-12);
 
 }
 
@@ -14926,12 +14926,12 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     flex-direction:column;
 
-    gap:4px;
+    gap:var(--gap-4);
 
     padding:12px 14px;
 
     border:1px solid var(--line-sheet);
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -15054,7 +15054,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
     /* The first line: the shared rule above. */
     align-items:first baseline;
 
-    column-gap:12px;
+    column-gap:var(--gap-12);
 
 }
 
@@ -15070,7 +15070,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     height:8px;
 
-    border-radius:4px;
+    border-radius:var(--radius-sm);
 
     background:var(--bg-financial-grid);
 
@@ -15084,7 +15084,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     height:100%;
 
-    border-radius:4px;
+    border-radius:var(--radius-sm);
 
     background:var(--financial-in);
 
@@ -15095,7 +15095,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     display:flex;
 
-    gap:2px;
+    gap:var(--gap-2);
 
     height:16px;
 
@@ -15107,7 +15107,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     min-width:4px;
 
-    border-radius:4px;
+    border-radius:var(--radius-sm);
 
 }
 
@@ -15119,7 +15119,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:first baseline;
 
-    gap:8px;
+    gap:var(--gap-8);
 
 }
 
@@ -15175,7 +15175,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:first baseline;
 
-    gap:12px;
+    gap:var(--gap-12);
 
     padding:var(--space-row) 0;
 
@@ -15208,7 +15208,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     justify-content:space-between;
 
-    gap:12px;
+    gap:var(--gap-12);
 
     max-width:560px;
 
@@ -15233,7 +15233,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     flex-direction:column;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     margin:0;
 
@@ -15253,7 +15253,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     padding:10px 12px;
 
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
@@ -15299,11 +15299,11 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     flex-direction:column;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     padding:12px;
 
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:var(--bg-chart);
 
@@ -15319,7 +15319,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     justify-content:space-between;
 
-    gap:8px 16px;
+    gap:var(--gap-8) var(--gap-16);
 
 }
 
@@ -15329,7 +15329,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     flex-wrap:wrap;
 
-    gap:6px 18px;
+    gap:var(--gap-6) 18px;
 
     margin:0;
 
@@ -15449,12 +15449,12 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     flex-direction:column;
 
-    gap:2px;
+    gap:var(--gap-2);
 
     padding:8px 10px;
 
     border:1px solid var(--line-sheet);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -15935,7 +15935,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
 
-    gap:12px 16px;
+    gap:var(--gap-12) var(--gap-16);
 
     align-items:start;
 
@@ -16231,7 +16231,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:flex-start;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     min-width:0;
 
@@ -16270,7 +16270,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));
 
-    gap:12px;
+    gap:var(--gap-12);
 
 }
 
@@ -16280,7 +16280,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     flex-direction:column;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     min-width:0;
 
@@ -16288,7 +16288,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
     padding:14px var(--card-padding);
 
     border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-light));
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-card-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
 
@@ -16344,7 +16344,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
 
-    gap:12px;
+    gap:var(--gap-12);
 
 }
 
@@ -16354,7 +16354,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     flex-direction:column;
 
-    gap:6px;
+    gap:var(--gap-6);
 
     min-width:0;
 
@@ -16362,7 +16362,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
     padding:14px var(--card-padding);
 
     border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-light));
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-card-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
 
@@ -16484,7 +16484,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     grid-template-columns:repeat(auto-fit, minmax(min(var(--side-label-row), 100%), 1fr));
 
-    gap:12px 20px;
+    gap:var(--gap-12) 20px;
 
     align-items:start;
 
@@ -16500,7 +16500,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     grid-template-columns:repeat(4, minmax(0, 1fr));
 
-    gap:12px 20px;
+    gap:var(--gap-12) 20px;
 
     align-items:start;
 
@@ -16512,7 +16512,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:start;
 
-    gap:4px;
+    gap:var(--gap-4);
 
 }
 
@@ -16547,7 +16547,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:center;
 
-    column-gap:6px;
+    column-gap:var(--gap-6);
 
 }
 
@@ -16577,7 +16577,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     flex-direction:column;
 
-    gap:16px;
+    gap:var(--gap-16);
 
 }
 
@@ -16680,13 +16680,13 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     flex-wrap:wrap;
 
-    gap:6px 24px;
+    gap:var(--gap-6) var(--gap-24);
 
     margin:4px 0 0;
 
     padding:10px 14px;
 
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-result-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
 
@@ -16706,7 +16706,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:center;
 
-    gap:4px 14px;
+    gap:var(--gap-4) 14px;
 
     min-height:44px;
 
@@ -16729,7 +16729,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
     padding:10px 14px;
 
     border-left:4px solid var(--line-capacity-ok);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--bg-capacity-ok);
 
@@ -16802,7 +16802,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     border-left:4px solid var(--line-faint);
 
-    border-radius:4px;
+    border-radius:var(--radius-sm);
 
     background:var(--bg-neutral);
 
@@ -16854,7 +16854,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     justify-content:space-between;
 
-    gap:12px;
+    gap:var(--gap-12);
 
     margin-top:6px;
 
@@ -16884,7 +16884,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:baseline;
 
-    gap:4px 12px;
+    gap:var(--gap-4) var(--gap-12);
 
     margin:6px 0 10px;
 
@@ -16938,7 +16938,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     align-items:center;
 
-    gap:8px;
+    gap:var(--gap-8);
 
     font-family:inherit;
 

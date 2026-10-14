@@ -62,7 +62,7 @@
 .card-tile-symbols {
 
     display: inline-flex;
-    gap: 4px;
+    gap: var(--gap-4);
 
 }
 
@@ -219,7 +219,7 @@ button.card-tile-symbol[aria-pressed="true"] {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2px;
+    gap: var(--gap-2);
 
     box-sizing: border-box;
     width: 100%;

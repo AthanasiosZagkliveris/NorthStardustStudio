@@ -82,7 +82,7 @@
 
     justify-content: center;
 
-    gap: 16px;
+    gap: var(--gap-16);
 
     margin-top: 28px;
 
@@ -96,7 +96,7 @@
 
     border: 2px solid var(--line-primary);
 
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
     font-size: var(--font-body);
 

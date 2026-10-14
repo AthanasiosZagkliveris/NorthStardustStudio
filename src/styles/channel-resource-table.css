@@ -28,7 +28,7 @@
 
     overflow-x:auto;
 
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
 }
 
@@ -44,7 +44,7 @@
     border-top:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
     border-left:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
-    border-radius:8px;
+    border-radius:var(--radius-lg);
 
     table-layout:auto;
 
@@ -100,10 +100,10 @@
 }
 
 /* The four corners, on the cells that occupy them. */
-.channel-resource-table > thead > tr > :first-child{ border-top-left-radius:8px; }
-.channel-resource-table > thead > tr > :last-child{ border-top-right-radius:8px; }
-.channel-resource-table > tbody > tr:last-child > :first-child{ border-bottom-left-radius:8px; }
-.channel-resource-table > tbody > tr:last-child > :last-child{ border-bottom-right-radius:8px; }
+.channel-resource-table > thead > tr > :first-child{ border-top-left-radius:var(--radius-lg); }
+.channel-resource-table > thead > tr > :last-child{ border-top-right-radius:var(--radius-lg); }
+.channel-resource-table > tbody > tr:last-child > :first-child{ border-bottom-left-radius:var(--radius-lg); }
+.channel-resource-table > tbody > tr:last-child > :last-child{ border-bottom-right-radius:var(--radius-lg); }
 
 /* A row is on the cell ground, washed in its own colour when pointed at. */
 .channel-resource-table tbody td,
@@ -145,7 +145,7 @@
 
     align-items:baseline;
 
-    gap:6px;
+    gap:var(--gap-6);
 
     max-width:100%;
 
@@ -282,7 +282,7 @@
     padding:0 6px;
 
     border:1px solid var(--tint-mark);
-    border-radius:6px;
+    border-radius:var(--radius-md);
 
     background:var(--tint-ground);
 
@@ -360,7 +360,7 @@
 
     display:grid;
     grid-template-columns:repeat(2, max-content);
-    gap:6px;
+    gap:var(--gap-6);
 
 }
 

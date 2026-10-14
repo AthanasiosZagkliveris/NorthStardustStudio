@@ -16,7 +16,7 @@
     align-items: center;
     justify-content: center;
 
-    gap: 8px;
+    gap: var(--gap-8);
 
     min-width: 0;
 
@@ -54,7 +54,7 @@
     /* The help box (.answer-column-questions on the other pages), floating. */
     padding: 16px 12px;
 
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
 
     background: var(--bg-help);
 
@@ -82,7 +82,7 @@
     color: var(--text-strong);
 
     border: 1px solid transparent;
-    border-radius: 6px;
+    border-radius: var(--radius-md);
 
     background: transparent;
 

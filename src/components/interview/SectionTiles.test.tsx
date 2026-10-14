@@ -777,7 +777,7 @@ describe("the page's cards and titles", () => {
         expect(stylesheet("global.css")).toMatch(/--title-arrow-size: calc\(var\(--font-h2\) \* 0\.75\);/);
         expect(css).toMatch(/\.title-arrow \{[^}]*width: 28px;[^}]*height: 28px;/);
         expect(css).toContain("var(--title-arrow-size)");
-        expect(css).toMatch(/\.card-title-row \{[^}]*gap: 8px;/);
+        expect(css).toMatch(/\.card-title-row \{[^}]*gap: var\(--gap-8\);/);
     });
 
     it("sets the tile titles one step up the type scale, the body size (18px)", () => {
@@ -1609,7 +1609,7 @@ describe("the table mode: surface, columns, sizes", () => {
         for (const theme of ["dark", "sepia"]) {
             expect(css.includes(":root[data-theme=\"" + theme + "\"] { --table-ground:")).toBe(true);
         }
-        expect(css.includes(".capability-overview-table-mode .capability-overview-scroll { padding: 0 0 12px; border-radius: 8px; background: var(--table-ground); color: var(--table-ink); }")).toBe(true);
+        expect(css.includes(".capability-overview-table-mode .capability-overview-scroll { padding: 0 0 12px; border-radius: var(--radius-lg); background: var(--table-ground); color: var(--table-ink); }")).toBe(true);
         expect(css.includes(".capability-overview-table thead th { position: sticky; top: 0; z-index: 2; background: var(--table-ground);")).toBe(true);
         expect(css.includes(".capability-overview-table tbody tr:nth-child(even) > * { background: var(--table-tint); }")).toBe(true);
     });

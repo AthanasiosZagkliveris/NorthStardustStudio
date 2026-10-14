@@ -1002,3 +1002,76 @@ export const tintPairs: readonly TintPair[] = [
     { id: "theme-mark-ink on theme-bg-ground", ink: "theme-mark-ink", ground: "theme-bg-ground", min: 3, kind: "mark", why: "a System mark on the card ground" },
     { id: "theme-line-edge on theme-bg-ground", ink: "theme-line-edge", ground: "theme-bg-ground", min: 3, kind: "border", why: "a System card's edge on the card ground" }
 ];
+
+/* ==========================================================
+   Sizes (step 2 of the library automation)
+
+   Three corner steps and one gap scale, generated into
+   custom properties (sizes.generated.css), and the
+   catalogue of the breakpoints the stylesheets use today.
+   A value is only ever added here when a stylesheet already draws
+   exactly that value: nothing in this section changes how a page
+   looks.
+========================================================== */
+
+/** The corner steps, in px. A corner that is not one of these (a circle, a pill, 0, or 1, 2, 3, 10, 12px) keeps its literal until the owner decides. */
+export const corners = { "radius-sm": 4, "radius-md": 6, "radius-lg": 8 } as const;
+
+/** The gap scale, in px: --gap-<n> is n px. Named by value on purpose; the by-use names (--space-label, --space-field ...) stay as they are. */
+export const gaps = [2, 4, 6, 8, 12, 16, 24] as const;
+
+/**
+ * A place where a layout changes, as the stylesheets write it today.
+ * wideFrom is the first whole pixel width (or height) at which the
+ * wide side applies: max-width: N ends at N, so wide starts at N + 1;
+ * min-width: M starts at M. Queries that differ in spelling but
+ * share a wideFrom (max-width: 1000px and min-width: 1001px) are one
+ * place. CSS cannot read a variable inside @media or @container, so
+ * this is a catalogue, not a token the stylesheets use.
+ */
+export interface Boundary {
+    readonly axis: "width" | "height";
+    readonly wideFrom: number;
+    /** Each spelling and how many times the stylesheets use it. */
+    readonly queries: Readonly<Record<string, number>>;
+}
+
+export const viewportBreakpoints: readonly Boundary[] = [
+    { axis: "height", wideFrom: 560, queries: { "min-height: 560px": 1 } },
+    { axis: "width", wideFrom: 561, queries: { "max-width: 560px": 2 } },
+    { axis: "width", wideFrom: 601, queries: { "max-width: 600px": 1 } },
+    { axis: "width", wideFrom: 641, queries: { "max-width: 640px": 2 } },
+    { axis: "width", wideFrom: 701, queries: { "max-width: 700px": 2 } },
+    { axis: "width", wideFrom: 761, queries: { "max-width: 760px": 2 } },
+    { axis: "width", wideFrom: 901, queries: { "max-width: 900px": 12, "min-width: 900.02px": 1 } },
+    { axis: "width", wideFrom: 1001, queries: { "max-width: 1000px": 2, "min-width: 1001px": 1 } },
+    { axis: "width", wideFrom: 1100, queries: { "max-width: 1099px": 2, "min-width: 1100px": 1 } },
+    { axis: "width", wideFrom: 1101, queries: { "max-width: 1100px": 2 } },
+    { axis: "width", wideFrom: 1212, queries: { "min-width: 1212px": 1 } },
+    { axis: "width", wideFrom: 1501, queries: { "max-width: 1500px": 4, "min-width: 1501px": 1 } },
+    { axis: "width", wideFrom: 1700, queries: { "min-width: 1700px": 4 } },
+];
+
+export const containerBreakpoints: readonly Boundary[] = [
+    { axis: "width", wideFrom: 280, queries: { "min-width: 280px": 1 } },
+    { axis: "width", wideFrom: 300, queries: { "max-width: 299.98px": 1 } },
+    { axis: "width", wideFrom: 340, queries: { "max-width: 339.98px": 1 } },
+    { axis: "width", wideFrom: 358, queries: { "max-width: 357.98px": 1 } },
+    { axis: "width", wideFrom: 360, queries: { "max-width: 359.98px": 1 } },
+    { axis: "width", wideFrom: 396, queries: { "min-width: 396px": 2, "max-width: 395.98px": 1 } },
+    { axis: "width", wideFrom: 464, queries: { "max-width: 463.98px": 1 } },
+    { axis: "width", wideFrom: 480, queries: { "max-width: 479px": 1 } },
+    { axis: "width", wideFrom: 520, queries: { "max-width: 519.98px": 1 } },
+    { axis: "width", wideFrom: 560, queries: { "max-width: 559.98px": 1, "max-width: 559px": 1 } },
+    { axis: "width", wideFrom: 600, queries: { "max-width: 599.98px": 2, "max-width: 599px": 2 } },
+    { axis: "width", wideFrom: 601, queries: { "max-width: 600px": 1 } },
+    { axis: "width", wideFrom: 606, queries: { "max-width: 605.98px": 1 } },
+    { axis: "width", wideFrom: 700, queries: { "max-width: 699px": 1 } },
+    { axis: "width", wideFrom: 800, queries: { "max-width: 799px": 1 } },
+    { axis: "width", wideFrom: 915, queries: { "max-width: 914.98px": 1 } },
+    { axis: "width", wideFrom: 1000, queries: { "max-width: 999px": 1 } },
+    { axis: "width", wideFrom: 1100, queries: { "max-width: 1099.98px": 2, "max-width: 1099px": 1 } },
+    { axis: "width", wideFrom: 1224, queries: { "max-width: 1223.98px": 1 } },
+    { axis: "width", wideFrom: 1300, queries: { "min-width: 1300px": 2, "max-width: 1299px": 1 } },
+];
+

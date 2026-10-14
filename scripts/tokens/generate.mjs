@@ -1,6 +1,7 @@
 /**
  * Writes the generated colour files from src/styles/tokens/tokens.ts:
  *   src/styles/colors.generated.css
+ *   src/styles/sizes.generated.css
  *   src/styles/tokens/tokens.dtcg.json
  *   src/styles/tokens/contrast-report.md
  * and fails (exit code 1, nothing written) when a pair of colours
@@ -12,11 +13,12 @@
  * Needs Node 22.18 or later (it reads the TypeScript source directly).
  */
 import { readFileSync, writeFileSync } from "node:fs";
-import { generateCss, generateDtcg, generateReport, measureAll } from "./build.ts";
+import { generateCss, generateDtcg, generateReport, generateSizesCss, measureAll } from "./build.ts";
 
 const root = new URL("../../", import.meta.url);
 const files = {
     "src/styles/colors.generated.css": generateCss(),
+    "src/styles/sizes.generated.css": generateSizesCss(),
     "src/styles/tokens/tokens.dtcg.json": generateDtcg(),
     "src/styles/tokens/contrast-report.md": generateReport()
 };

@@ -135,7 +135,7 @@
 
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--gap-8);
 
     max-width: 100%;
     margin-bottom: 18px;
@@ -195,7 +195,7 @@
 
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: var(--gap-12);
 
     max-width: 100%;
     padding: 2px 0;
@@ -302,7 +302,7 @@
 
 }
 
-.bullet-rail-item:focus-visible { outline: 2px solid var(--line-primary); outline-offset: 4px; border-radius: 4px; }
+.bullet-rail-item:focus-visible { outline: 2px solid var(--line-primary); outline-offset: 4px; border-radius: var(--radius-sm); }
 
 /* Narrow windows: dots only; the label appears beside the dot on
    hover/focus, like a tooltip -- on the outer side, or over the
@@ -317,7 +317,7 @@
 
     /* The one tooltip's colours (colors.css --tooltip-*). */
     border: 1px solid var(--tooltip-border);
-    border-radius: 6px;
+    border-radius: var(--radius-md);
     background: var(--tooltip-bg);
     box-shadow: var(--tooltip-shadow);
     color: var(--tooltip-text);
@@ -469,7 +469,7 @@
         white-space: nowrap;
 
         border: 1px solid var(--tooltip-border);
-        border-radius: 6px;
+        border-radius: var(--radius-md);
         background: var(--tooltip-bg);
         box-shadow: var(--tooltip-shadow);
         color: var(--tooltip-text);
@@ -536,7 +536,7 @@
 
     padding: 12px var(--rail-offset) 12px var(--rail-offset);
 
-    border-radius: 8px 0 0 8px;
+    border-radius: var(--radius-lg) 0 0 var(--radius-lg);
 
 }
 
@@ -546,7 +546,7 @@
 
     padding: 12px var(--rail-offset);
 
-    border-radius: 0 8px 8px 0;
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
 
 }
 

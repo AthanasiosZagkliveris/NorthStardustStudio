@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { generateCss, generateDtcg, generateReport, measureAll, parseColour, resolveMode } from "../../../scripts/tokens/build.ts";
+import { generateCss, generateDtcg, generateReport, generateSizesCss, measureAll, parseColour, resolveMode } from "../../../scripts/tokens/build.ts";
 import { MODES, seeds } from "./tokens.ts";
 
 /* The generated colour files are committed; they must be exactly what
@@ -12,6 +12,10 @@ describe("the generated colour files", () => {
 
     it("colors.generated.css is what tokens.ts produces", () => {
         expect(onDisk("../colors.generated.css")).toBe(generateCss());
+    });
+
+    it("sizes.generated.css is what tokens.ts produces", () => {
+        expect(onDisk("../sizes.generated.css")).toBe(generateSizesCss());
     });
 
     it("tokens.dtcg.json is what tokens.ts produces", () => {

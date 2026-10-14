@@ -177,14 +177,14 @@
 
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: var(--gap-6);
 
     min-height: 36px;
     margin-left: 16px;
     padding: 4px 10px;
 
     border: 1px solid var(--box-border);
-    border-radius: 6px;
+    border-radius: var(--radius-md);
 
     background: none;
 
