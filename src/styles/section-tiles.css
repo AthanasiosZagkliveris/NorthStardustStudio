@@ -8893,7 +8893,10 @@ main.conversation-content[data-reserve],
 /* (In a tab the names are plain text on the tab's ground, as the page tab's are.) */
 .carousel-rail.carousel-rail-tab.carousel-rail-named .strategy-card-nav-tip {
 
-    padding: 0;
+    /* The name is clipped at its box (the ellipsis): 4px of room below it, taken back by the margin, so the hover underline (0.2em under the text) shows and the row is no taller. */
+    padding: 0 0 4px;
+
+    margin-bottom: -4px;
 
     border: 0;
 
