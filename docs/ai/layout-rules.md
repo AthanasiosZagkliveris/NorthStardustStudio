@@ -1387,7 +1387,7 @@ New fields follow the rules above and reuse their neighbours' shapes; nothing he
 - **One card**: every floating card is 480px wide, with the card ground, a hairline, 8px corners and the same padding; a colour's, a typeface's, a requirement's and an expense's card stand their rows on the name's columns, so everything under the name starts and ends where the name does. A drop-down is the app's own (OptionPicker), including a founder's Skills kind.
 - **A title with a forced break** stands with its first line where the other titles stand.
 - **No Sections rail on a page drawn as tiles** (`drawnAsTiles`); the sections are still the page's (the rail items name them elsewhere).
-- **The colour map** (`WorkColours.ts`, docs/ai/foundation-colour-map.html) colours the tile pages: Definition, Ambassador and Style Create (purple), Ethics Decide (orange), Legal Entity and Founders Profile Define (green), Situation & Direction Discover (blue).
+- **The colour map** (`WorkColours.ts`, docs/design/01-current-design.md, part I) colours the tile pages: Definition, Ambassador and Style Create (purple), Ethics Decide (orange), Legal Entity and Founders Profile Define (green), Situation & Direction Discover (blue).
 - **Business tiles**: a priced card's tile shows the price in bold and no longer says "Costs".
 
 ## Batch O: pages of several sections, card tints, sub tiles
@@ -1468,7 +1468,7 @@ New fields follow the rules above and reuse their neighbours' shapes; nothing he
 - **A rail whose names wrap** shows its bullets alone (class `bullet-rail-compact`): the title and names are hidden and a name appears beside the bullet under the pointer.
 - **Dates are limited where they can conflict**: an End date is not before its Start (a Start after the End takes the End along), a payment falls between Start and End, a warranty is not before the Start (`min` / `max` of `DateCellInput`).
 - **Global Settings follows the Business style**: every detail is in an "i" beside its label; the Assets section is one table (capitalisation limit, each group's useful life, each asset's own years); Reset sets a group, or all of them, back to the default.
-- **The Foundation page**: a frame for each Segment (blue, the Discover colour of `foundation-colour-map`), five tiles in it: Segment, Profiles, Value Proposition, Competitors, Offerings; the frame title is "Segment" until named, numbered with several; a long title scrolls sideways.
+- **The Foundation page**: a frame for each Segment (blue, the Discover colour of the colour map (docs/design/01-current-design.md, part I)), five tiles in it: Segment, Profiles, Value Proposition, Competitors, Offerings; the frame title is "Segment" until named, numbered with several; a long title scrolls sideways.
 - **Legal Entity links**: an expense shows a link symbol beside "Linked registration", a requirement beside "Add to Legal Entity Expenses", a linked number a symbol hung at its left; the tiles carry the second (link-coloured) bullet on linked lines (`OPEN_EVENT` opens the other card or section).
 - **A note's Date** is a tick; ticked, its label is the day to pick and the note stands on that day of the Calendar.
 - **3. Infrastructure & Capability is laid out like the other tile pages**: two cards of the same size in one row, their four tiles centred and as large as the card and the window allow; the Inventory and Completed tiles stand in a row under them, squeezed into the room that is left (never under `SQUEEZED_ROW_MIN`, 88px, titles only below 150px).

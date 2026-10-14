@@ -45,5 +45,3 @@ Desktop.ini
 /docs/ai/*.pdf
 /docs/ai/*.csv
 /.playwright-mcp/
-# (A test reads this one: it is a source, not a draft.)
-!/docs/ai/help-texts.html

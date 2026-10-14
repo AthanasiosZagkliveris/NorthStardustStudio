@@ -5,7 +5,7 @@ One pattern for every tile, frame and card of the app (Identity, Brand, Business
 ## The page
 - A page's frames start and end on the page title's underline, edge to edge, and are centred with it. Frames of one page are 12px apart (`.page-group` for a page of several sections, the Business page's grid for its two).
 - A frame: 12px padding, 8px corners, one hairline edge in its hue, its heading on top in capitals, centred, 28px semi-bold (`.answer-column-label`, `.tiles-frame-head`).
-- A page's colour says the work done in it (docs/ai/foundation-colour-map.html, `WorkColours.ts`); a tile, its dialog and its floating cards take that hue.
+- A page's colour says the work done in it (docs/design/01-current-design.md, part I, `WorkColours.ts`); a tile, its dialog and its floating cards take that hue.
 
 ## The tile
 - A square in the frame's tint with the box's inset light (top left) and shade (bottom right), the tile corners (`--tile-radius`), and a 110% rise under the pointer, growing inwards.
