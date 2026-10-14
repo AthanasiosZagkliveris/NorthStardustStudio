@@ -7119,6 +7119,13 @@ table.business-relationship-table {
 
 }
 
+/* The Initiatives' head: its "i" is 8px after the word, like every "i" (the head's own gap is 8px; the note's own 8px margin is not added to it). */
+.strategy-initiatives-box > .strategy-box-head > .info-note {
+
+    margin-left: 0;
+
+}
+
 .strategy-head-kind {
 
     flex: 0 0 auto;
