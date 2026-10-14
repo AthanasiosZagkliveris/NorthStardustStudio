@@ -38,8 +38,8 @@ export default function LabelArrow({
             aria-label={label}
             onClick={onToggle}
         >
-            <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-                <path d="M8 18 L8 82 Q8 92 17 87.5 L83 54.5 Q92 50 83 45.5 L17 12.5 Q8 8 8 18 Z" vectorEffect="non-scaling-stroke" />
+            <svg viewBox="0 0 22 28" aria-hidden="true" focusable="false">
+                <polygon points="2.4,2.4 19.6,14 2.4,25.6" vectorEffect="non-scaling-stroke" />
             </svg>
         </button>
     );

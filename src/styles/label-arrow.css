@@ -21,7 +21,7 @@
     width: var(--label-arrow-hit);
     height: var(--label-arrow-hit);
 
-    margin: 0 calc((0.73em - var(--label-arrow-hit)) / 2);
+    margin: 0 calc((0.574em - var(--label-arrow-hit)) / 2);
     padding: 0;
 
     border: 0;
@@ -40,7 +40,7 @@
 
 }
 
-/* The triangle (an SVG, rounded corners): the height of the label's capital letters (0.73em), base and height equal, a 2px line drawn inside its edge. */
+/* The triangle (an SVG): the shape of the navigation arrows (22 wide, 28 high, sharp corners). Its base is the height of the label's capital letters (0.73em), its depth 22/28 of that; a 2px line drawn inside its edge. */
 .label-arrow > svg {
 
     position: absolute;
@@ -48,16 +48,16 @@
     top: 50%;
     left: 50%;
 
-    width: 0.73em;
+    width: 0.574em;
     height: 0.73em;
 
-    margin: -0.365em 0 0 -0.365em;
+    margin: -0.365em 0 0 -0.287em;
 
     overflow: visible;
 
 }
 
-.label-arrow > svg > path {
+.label-arrow > svg > polygon {
 
     fill: none;
 
@@ -69,11 +69,12 @@
 
 .label-arrow[aria-expanded="true"] > svg {
 
-    transform: rotate(90deg);
+    /* Turned about its centre it is wider than it is deep: shifted by half the difference so its left edge stays on the content edge. */
+    transform: translateX(0.078em) rotate(90deg);
 
 }
 
-.label-arrow:is(:hover, :focus-visible) > svg > path {
+.label-arrow:is(:hover, :focus-visible) > svg > polygon {
 
     fill: currentColor;
 
@@ -90,7 +91,7 @@
 .field-label > .label-arrow,
 .strategy-box-number > .label-arrow {
 
-    margin-right: calc(26px - (0.73em + var(--label-arrow-hit)) / 2);
+    margin-right: calc(26px - (0.574em + var(--label-arrow-hit)) / 2);
 
 }
 
