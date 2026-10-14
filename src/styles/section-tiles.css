@@ -7481,7 +7481,7 @@ table.business-relationship-table {
     position: absolute;
 
     /* (The arrows stand on the Description label's centre line: 6px lower than the head's foot gap alone would put them.) */
-    top: 62px;
+    top: 63px;
 
     /* (The rail and the tiles symbol stand 12px from the card's edge, its 1px border counted.) */
     right: -45px;
@@ -7520,27 +7520,41 @@ table.business-relationship-table {
 
     width: 100%;
 
+    /* (The arrows are smaller than their old 32px boxes; the padding keeps their centres where they were.) */
+    padding: 0 calc((32px - 24px * 15 / 22) / 2);
+
+    box-sizing: border-box;
+
 }
 
+/* THE CARD'S ARROWS ARE THE PAGE ARROWS (global.css), exactly, at 15/22 of their size: the same triangle (22 x 28px there), the same box (24 x 44px there), the same
+   blue, the same grow-by-a-fifth and ring. Nothing here but the size. */
 .strategy-card-nav .page-arrow {
 
-    width: 32px;
+    --card-arrow-k: calc(15 / 22);
 
-    height: 32px;
+    width: calc(24px * var(--card-arrow-k));
+
+    height: calc(44px * var(--card-arrow-k));
 
     pointer-events: auto;
+
+    /* THE CAROUSEL ARROWS' LOOK (their colours, above): the card's own ground outlined by its edge colour, in every reading mode, not the primary blue. */
+    color: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    filter: drop-shadow(1px 0 0 hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent))) drop-shadow(-1px 0 0 hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent))) drop-shadow(0 1px 0 hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent))) drop-shadow(0 -1px 0 hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent)));
 
 }
 
 .strategy-card-nav .page-arrow::before {
 
-    border-width: 10px 15px 10px 0;
+    border-width: calc(14px * var(--card-arrow-k)) calc(22px * var(--card-arrow-k)) calc(14px * var(--card-arrow-k)) 0;
 
 }
 
 .strategy-card-nav .page-arrow[data-direction="next"]::before {
 
-    border-width: 10px 0 10px 15px;
+    border-width: calc(14px * var(--card-arrow-k)) 0 calc(14px * var(--card-arrow-k)) calc(22px * var(--card-arrow-k));
 
 }
 
@@ -7711,6 +7725,18 @@ table.business-relationship-table {
 .strategy-card-nav .bullet-rail-item {
 
     position: relative;
+
+}
+
+/* THE RAIL'S BULLETS AND THE ARROWS FOLLOW THE CARD'S TINT: its edge colour (the one outlining the arrows), as a page tab's bullets follow the tab's edge. */
+.strategy-card-nav {
+
+    --nav-edge: hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+
+    --rail-dot: color-mix(in srgb, var(--nav-edge) 38%, transparent);
+    --rail-dot-active: var(--nav-edge);
+    --rail-bloom: color-mix(in srgb, var(--nav-edge) 28%, transparent);
+    --rail-dot-hover: color-mix(in srgb, var(--nav-edge) 75%, transparent);
 
 }
 
