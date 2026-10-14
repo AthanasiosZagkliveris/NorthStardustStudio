@@ -1757,7 +1757,7 @@ function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLEle
                     {/* The way back stands in the tab, after the last option (the dialog's own foot no longer has it while the tab does). */}
                     {back && (
                         <button type="button" className="carousel-rail-back" style={gap && gap.index === itemCount ? { marginTop: 12 + gap.size } : undefined} onClick={back} aria-label="Back" title="Back">
-                            <span aria-hidden="true">&lt;</span>
+                            <span className="back-arrow" aria-hidden="true" />
                             <span className="carousel-rail-back-word">{" Back"}</span>
                         </button>
                     )}
@@ -2202,7 +2202,7 @@ function TileDialog({
 
                 <div className="section-tile-dialog-foot">
                     <button type="button" className="section-tile-back" onClick={back}>
-                        <span aria-hidden="true">&lt;</span>
+                        <span className="back-arrow" aria-hidden="true" />
                         {" Back"}
                     </button>
                 </div>

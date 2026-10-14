@@ -117,3 +117,19 @@
     margin-right: calc(26px - 12px - (0.611em + var(--label-arrow-hit)) / 2);
 
 }
+
+/* THE BACK ARROW (the "<" of the Back buttons): the navigation arrows' triangle, solid, pointing left, in the word's colour; 22 wide to 28 high, 0.8em high. */
+.back-arrow {
+
+    display: inline-block;
+
+    width: calc(0.8em * 22 / 28);
+    height: 0.8em;
+
+    vertical-align: -0.04em;
+
+    background: currentColor;
+
+    clip-path: polygon(100% 0, 0 50%, 100% 100%);
+
+}
