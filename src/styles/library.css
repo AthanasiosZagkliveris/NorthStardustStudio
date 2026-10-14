@@ -87,3 +87,10 @@
     display: block;
 
 }
+
+/* The card ground an x stands on, as the cards that set --x-ground set theirs. */
+.library-ground-card {
+
+    --x-ground: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}

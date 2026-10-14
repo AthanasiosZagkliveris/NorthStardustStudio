@@ -63,4 +63,18 @@ describe("the asset contracts", () => {
         expect(Object.keys(note.knownFindings ?? {})).toEqual(["tinted-rule-overridden"]);
     });
 
+
+    it("gives the remove x the size, the stroke, the bars and the swap its stylesheet draws", () => {
+        const x = assets.find(asset => asset.name === "Remove x")!;
+        const g = x.geometry;
+        const css = stylesheet("remove-button.css");
+        expect(css).toContain(".strategy-box-remove{ width:" + g.size + "px; height:" + g.size + "px;");
+        expect(css).toContain("border-radius:var(--radius-md);");
+        expect(css).toContain("width:" + g.barLength + "px; height:" + g.barThickness + "px;");
+        expect(css).toContain("transform:rotate(45deg);");
+        expect(css).toContain("transform:rotate(-45deg);");
+        expect(css).toContain("border:" + g.strokeWidth + "px solid var(--x-red);");
+        expect(css).toContain("outline:" + g.outlineWidth + "px solid var(--focus-ring-ink, var(--line-primary)); outline-offset:" + g.outlineOffset + "px;");
+    });
+
 });

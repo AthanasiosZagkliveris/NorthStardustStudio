@@ -91,6 +91,7 @@ below are these, made measurable.
 | `--tile-radius` | 8px | `global.css` | |
 | The "+" box at rest | transparent with a 2px stroke (a disabled box keeps the ground colour) | `section-tiles.css`, "A WIRED BUTTON ..." | Older text in 5a says the ground colour; the global rule for wired buttons wins. Measured by the library runner |
 | `--card-padding` | 12px | `global.css` | |
+| The remove x at rest | transparent with a 2px red stroke and X (a disabled x keeps the surface fill) | `section-tiles.css`, "A WIRED BUTTON ..." | Older text in `remove-button.css` and the rulebook says the fill is the card's ground (`--x-ground`). Measured by the library runner |
 | An "i" at rest | transparent in every look; the page-3 stroke of 1.5px is drawn as 1px on a 1x screen at 100% zoom | `section-tiles.css`, "A WIRED BUTTON ..." | Older text in the "i" of a coloured card says filled with the ground and 1.5px. The tint rule for other hue cards is overridden by `conversation.css`'s base rule (known finding in `src/library/assets/infoNote.ts`) |
 | `--space-label`, `--space-field` | 6px, 12px | `global.css` | |
 | `--floating-scrim` | transparent | `global.css` | A floating card never darkens the page; a dialog does (`--bg-overlay`) |

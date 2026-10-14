@@ -23,8 +23,9 @@ import { assets } from "../../src/library/index.ts";
 import * as labelArrow from "./assets/labelArrow.mjs";
 import * as plusBox from "./assets/plusBox.mjs";
 import * as infoNote from "./assets/infoNote.mjs";
+import * as removeX from "./assets/removeX.mjs";
 
-const modules = [labelArrow, plusBox, infoNote];
+const modules = [labelArrow, plusBox, infoNote, removeX];
 
 const base = process.argv.includes("--base") ? process.argv[process.argv.indexOf("--base") + 1] : "http://localhost:1420";
 const only = process.argv.includes("--asset") ? process.argv[process.argv.indexOf("--asset") + 1] : null;
