@@ -6,7 +6,7 @@ Status: **living list**, written 2026-10-14. Remove an item when it is done and 
 
 | Phase | Content |
 |---|---|
-| 1 | **Light clean-up now:** one rulebook, baseline triage, current page names in docs and checks, a wider layout check; the drafts are already converted (document 4, section 4.4). Asset library, first half: inventory, names and hierarchy, contracts. |
+| 1 | **Light clean-up now (steps 2, 3, 6 and 7 done in whole or in part on 2026-10-14, see 5.6 and 5.11):** one rulebook, baseline triage, current page names in docs and checks, a wider layout check; the drafts are already converted (document 4, section 4.4). Asset library, first half: inventory, names and hierarchy, contracts. |
 | 2 | **Finish the Tile System** on the three places that are not tiles yet (section 5.3). |
 | 3 | **Batches D and E** (section 5.4). |
 | 4 | **Full clean-up and optimisation** of the completed Foundation (section 5.6), plus the second half of the asset library (merge duplicates, fold the rules into the contracts). |
@@ -279,12 +279,12 @@ Two of the three biggest groups are contrast rules. They match the WCAG 2.2 AA r
 | # | Step | What exactly | Checked by | Risk |
 |---|---|---|---|---|
 | 1 | Treat the drafts | **Done 2026-10-14:** the current drafts were converted into documents 1 to 5; the HTML and PDF drafts were removed (document 4, section 4.4) | | |
-| 2 | Reconcile the rulebook | Fold every "Batch" addendum into the numbered sections 1–8, drop rules that a later one replaced, record the remaining ones once. Result: one rule, one place. Output of this step is the input of the asset library. | A diff list of "rule replaced by rule" for your review. Layout check passes. | Medium: a rule dropped by mistake. Keep the old file until you approve. |
-| 3 | Triage the 1,830 baseline findings | Group by rule (about 25). For each rule decide: fix in the shared component, change the rule because it is wrong, or accept as a declared exception. Fix the contrast rules first. Then regenerate the baseline. | Baseline count falls; no new findings; tokens used, no per-page overrides. | Medium: a fix changes how things look; each one needs your look at before/after. |
+| 2 | Reconcile the rulebook | **Done 2026-10-14** (`layout-rules.md` reconciled: topic sections 9 to 16, section 17 the check, Appendix A history, Appendix B still to settle) | | |
+| 3 | Triage the 1,830 baseline findings | **Done in part 2026-10-14** (section 5.11: probe corrected, baseline 1,830 to 677; real defects and owner decisions wait) | | |
 | 4 | Unused and duplicate CSS | Run a browser coverage pass over every page, both examples, all four modes; list selectors never used; remove them in small batches. Remove duplicate declarations in `conversation.css` as was done in `section-tiles.css`. Change the tests that read CSS text so they check behaviour or a token instead of exact text, where that can be done safely. | Coverage list reviewed; build size; layout check; screenshots. | **Highest.** CSS-reading tests and rarely opened floating cards. Batches must stay small. |
 | 5 | One colour source and one breakpoint set | Move the hard-coded colours into tokens in `colors.css`; gather the theme overrides in one file; align media/container rules to the agreed set (768, 1200, and the heights 900 and 1250 from the website). | Contrast report for light, sepia, dark; layout check in all modes. | Medium |
-| 6 | Docs and checks use the current structure | Update every place that still says "Foundation page", "Legal Entity is page 3", "Infrastructure (Page 2)": `layout-rules.md:1395`, `business-system/README.md` lines 19, 35, 66–67, 85 and 274, a test comment in `Conversation.test.tsx`. Extend `scripts/layout-check/run.mjs` to look at the Ethics frame, and at the Legal Entity and Founders & Capability frames, as separate parts. | Layout check passes with the new coverage. | Low |
-| 7 | Widen the layout check | Add the minimum width (768 × 1024), the laptop height class, and sepia and dark modes. Record the new baseline separately so old and new findings are not mixed. | Check runs end to end; known findings recorded. | Low, but the first run will list new findings to triage. |
+| 6 | Docs and checks use the current structure | **Done 2026-10-14** (docs, test comment, README). The layout check already covers every chapter of a compound page (Ethics, Legal Entity and Founders & Capability are part of their pages); it reports by page, not by chapter | | |
+| 7 | Widen the layout check | **Done in part 2026-10-14** (`npm run check:layout:wide` exists; the wide baseline is not written yet) | | |
 | 8 | Unused code | List exports no file imports (a tool such as `knip` or `ts-prune`; to be chosen), review, remove. | `tsc`, tests, build. | Low–Medium |
 | 9 | Close the round | Update `docs/ai/README.md`, `app-guide.md`, the memory notes, the example files if any interface changed, and write the result: files removed, bytes saved, findings before/after. | All gates green. | Low |
 
@@ -391,3 +391,46 @@ Still open:
 ## 5.10 What stayed in the project, and why
 
 - `docs/examples/`: the owner's own copy of the two examples; the app reads `src/data/examples`.
+
+## 5.11 Layout check: triage of the 1,830 known findings (2026-10-14)
+
+The baseline of the quick check (Quillfield, 1920 px, light) held 1,830 findings in 70 rules. Each rule was read in the probe (`scripts/layout-check/layout-probe.js`) and in the code that produces the finding, and put in one class.
+
+| Class | Meaning | Rules | Findings |
+|---|---|---|---|
+| A | Real defect: the UI breaks the intent of a right rule | 8 | 365 |
+| B | The probe measured the wrong thing or too strictly | 27 | 1,207 |
+| C | The rule or its number is stale against the code | 23 | 177 |
+| D | Accepted: a declared exception | 6 | 27 |
+| U | The owner decides | 6 | 54 |
+
+**Done (changes to the check and the rulebook only; nothing the user sees):**
+- An "i" and a "+" box are measured on the ground they stand on, not on their own transparent background. This cleared the 298 "i holds 3:1" and the 119 "+ box holds 3:1" findings; the real contrast of every "i" on the Business pages is 5.7:1 or more in light, sepia and dark (measured).
+- The squeezed Inventory and Completed row (titles only, by design), the text lists of the column pages, the Customer Engagement reference rows, the Legal Entity side fields and unframed sections, the Performer's picker (8px short of its x) and the focus on a card without a name box are declared exceptions in the probe.
+- The dialog header: the slash is 6px in the trail of views and 8px after the root title; the names are the body size (probe and rulebook).
+- The standard baseline was rewritten from 1,830 to 677 findings. One rule (the "i" contrast) gave 33 findings in one run and none in two others, so those 33 were removed as noise: that rule can flicker while a card is animating.
+- The wide check (`npm run check:layout:wide`) exists; its first sample (sepia, 768 × 1024 and 1440 × 864, one page) found 381 findings, so the **wide baseline has not been written yet**. A full wide run covers 3 modes × 7 windows × 2 examples and takes hours.
+
+**Real defects (class A), waiting for your approval because each changes what is seen:**
+
+| Rule | Findings | What | Fix (one line) | Visible |
+|---|---|---|---|---|
+| An "i" on its words' centre line | 255 | In the Customer Engagement reference rows the "i" sits 2.5px high (210); 42 are a link that wraps to two lines | One margin in `conversation.css` (about line 11548); the wrapped link needs your decision | 2.5px |
+| A tile's list stays clear of its "+" box | 40 | A scrolling list ends 3 to 7px below the top of the "+" | Cap the list height in `SectionTiles.tsx` | barely |
+| Under a card's head nothing ends right of the name cell; the Performer's dropdown ends where the name cell ends | 32 + 14 | The Activity card's performer picker ends 4px past the name cell | `section-tiles.css` (`.card-box-open .business-capability-performer`) | 4px |
+| A picker is as wide as its widest option | 7 | Currency pickers are 66px and need 74; the payment plan type 173 and needs 188 | Size them with `controlNeed` | 8–15px |
+| An "i" one gap after its words | 7 | Strategy card heads: the "i" is 4px after Goal, Objective, Metric, Theme; 16px after Initiatives | `.strategy-head-kind` gap 8px | 4–8px |
+| The Add Performer "+" holds 3:1 | 4 | The `.plus-box` colour is 2.82:1 on the activity card's ground | Darken `--plus-fill-lightness` in `global.css` (38% to about 32%) | slightly darker "+" |
+| Text beside a control on its centre line | 1 | The payment plan tick row is 1.6px low | `align-items: center` in `.business-capability-plan-type` | 1.6px |
+
+The "+" colour is the only item that is also a WCAG 2.2 AA finding (1.4.11 non-text contrast).
+
+**Owner decisions (class U):**
+1. **The remove x has two reds** (`#b00020` for a cell's x and `#d01818` for a card's x; 48 findings in two rules). Unify them (delete the override in `remove-button.css`, a small colour shift), or declare two kinds of x.
+2. The Strategic Period dialog has one 442px tile among 215px tiles: what is it (Roadmap or Add Card)?
+3. Head buttons of a Goal or Objective card made with "+" end 12px short of the padding edge: intended?
+4. A picker in the Founders Profile card wraps to two lines: which one?
+5. After Escape closes a card opened with the mouse, a focus ring shows on its opener (only at 1366 × 700): test with a mouse click on Back first.
+6. The Strategic Period tile title is 36px where tile titles are 18px.
+
+**Stale rules and probe gaps still to correct** (class B and C; they stay in the baseline until then): the Back button now stands in the tab rail (45 findings); the order number is drawn inside the name cell (26); the founder card was redesigned to the 492px card, so its 18 rules in probe section 17e and the rulebook describe the old 297px card (38 findings); the row-gap rule does not know the "+ Add Customer Source" block (74 raw); the dialog-size rules do not clamp a card taller than the window (16); Qty 56px is not in the width steps; the Delivery tile "+" adds an inline row, not a floating card; the card ground in a dialog is opaque, not glass; `--founder-card-min` and the two glass tokens are unused.

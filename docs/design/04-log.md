@@ -60,6 +60,7 @@ The drafts were HTML and PDF files in `docs/ai`, never committed to git. Only th
 
 | Date | Change |
 |---|---|
+| 2026-10-14 | **Light clean-up** on branch `chore/light-cleanup`: step 6 (current page names in the docs, a test comment and the specification README); step 2 (`layout-rules.md` reconciled: the addenda moved word for word into topic sections 9 to 16, the values as built in section 8, the check in section 17, 21 replaced rules in Appendix A, open items in Appendix B); step 7 (`npm run check:layout:wide`: sepia and seven window sizes); step 3 (the 1,830 baseline findings put in classes A to U, the probe corrected, the baseline rewritten to 677; real defects and owner decisions wait, see document 5, section 5.11). |
 | 2026-10-14 | The five documents created from the drafts and the 2026-10-14 analysis. HTML, PDF and early-version drafts removed from the project after PDF copies of the five documents were made. `help-texts.html` converted too: the test `PartnerGroupHelp.test.ts` reads document 1, part H, and the .gitignore exception was removed. The two CSV files were removed after their content had been kept in document 3 (R8, R9). |
 
 
