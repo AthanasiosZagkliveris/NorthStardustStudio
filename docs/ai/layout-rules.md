@@ -1390,7 +1390,8 @@ differs.
 
 ## 13. Identity, Brand and Strategy: column pages, Legal Entity, Brand Style, Founders Profile, Strategic Period
 
-- **A strategy card's navigation** (`CardNav`, in the margin lane at the card's right edge): the two arrows stand on the centre line of the card's Description label; the symbol of four arrows and the rail of bullets stand 12px from the card's edge (its 1px border counted). The arrows are the page arrows (the carousel arrows' look: the card's own ground outlined by its edge colour) at 15/22 of their size, with their grow-by-a-fifth and ring; the rail's bullets take the card's edge colour as a page tab's bullets take the tab's. Where an arrow stands relative to the head's "+" and x is not settled: see Appendix B.
+- **A strategy card's navigation** (`CardNav`, in the margin lane at the card's right edge): the two arrows are the page arrows at 15/22 of their size (their shape, box, grow-by-a-fifth and ring), in the colour of the head's "+" button (`--accent-ink`), not the card's ground, so they stand out from it; the rail's bullets take the same tint. The arrows stand on the centre line of the card's Description label; their vertical sides stand 12px from the card's edge, one on each side: the left arrow's on the x's right side, the right arrow's on the left side of the symbol of four arrows above it (the owner's marked picture, 2026-10-14). The symbol and the rail stand 12px from the card's edge.
+- **A strategy card's head**: the "i" is 8px after its word; the "+" is 12px after the "i" and the x 12px after the "+" (the owner, 2026-10-14).
 - **Channel expenses (Page 2)**: "+ Add expenses" and "Typical costs for this channel" are card-list add buttons in the channel cell, same size as "+ Add Journey Stage"; template cards use the channel teal tone (`--channel-marker`) and the cascade link rules above.
 - **A column's guidance is the "i" beside its dialog title** (`DialogHeading info`), never bullets under it. The guidance of the Brand pages (Style, Inventory) and of the Themes (beside the Add Theme button) opens in a note of double the one width (`InfoNote size="double"`, 720px).
 - **A founder's card in its dialog** stands one field under the other (`.founders-profile-row`), so every row has the room it was drawn for.
@@ -1553,8 +1554,6 @@ Each line below was replaced in full by a later rule (its number is the line in 
 - was line 1500: Strategy cards: no fold arrow or grip; one-row head; generated tiles label; no Roadmap rail (superseded-by:1526; Head layout replaced by 1526; Theme tile '+' adds a Goal replaced by 1526/1532; no Roadmap Sections rail made moot by 1531. Keep: no fold arrow/grip, label above generated tiles)
 - was line 1508: Deactivated tiles drawn in grey section-tile-completed; pressing makes and opens (superseded-by:1515; Grey replaced by half-transparent (section-tile-slot-empty); pressing behaviour kept)
 - was line 1536: Channel card without wires: parts have no border; end 40px before padding; 12px apart (superseded-by:1546; 40px reserved column is now 44px (--card-x-column); no-wires rule stays)
-
-**Open (the owner, 2026-10-14):** the card navigation's arrows. They stand under the head's x (left arrow) and under the tiles symbol (right arrow). The owner finds them "way too far" and wants their vertical side 12px from the card's edge, aligned with the sides of the buttons above them; what exactly is to move is to be marked on a picture.
 
 **Rules that conflict and that the ledger could not settle:**
 

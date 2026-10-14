@@ -15630,12 +15630,11 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 }
 
-/* A STRATEGY CARD'S HEAD BUTTONS: a cell gap after the name box (the
-   head's own gap is the 8px one, so 4px more), a cell gap apart, the
+/* A STRATEGY CARD'S HEAD BUTTONS: a cell gap (12px) after the "i" -- the head's own gap is already 12px -- a cell gap apart, the
    last at the card's side margin. */
 :is(.strategy-theme-box, .strategy-goal-box, .strategy-objective-box, .strategy-metric-box) > .strategy-box-head > .strategy-box-actions{
 
-    padding-left:calc(var(--space-cell) - 8px);
+    padding-left:0;
 
 }
 
