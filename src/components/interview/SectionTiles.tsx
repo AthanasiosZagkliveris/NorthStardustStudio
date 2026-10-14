@@ -1390,9 +1390,9 @@ export function TileList({
                 return;
             }
             const rows = getComputedStyle(layer).gridTemplateRows.split(" ").map(parseFloat);
-            // (Up to FIVE whole lines show without a scrollbar: the list may run 8px into the room kept for the "+" box, and ends 4px under its last line so a
+            // (The list may run 5px past the layer's second row, as far as the top of the "+" box and never under it, and ends 4px under its last line so a
             // descender (g, y, p) is never cut.)
-            const room = rows.length > 1 && Number.isFinite(rows[1]) ? rows[1] - (parseFloat(getComputedStyle(node).marginTop) || 0) + 8 : 0;
+            const room = rows.length > 1 && Number.isFinite(rows[1]) ? rows[1] - (parseFloat(getComputedStyle(node).marginTop) || 0) + 5 : 0;
             if (room <= 0) {
                 return;
             }

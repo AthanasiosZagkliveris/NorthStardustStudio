@@ -411,26 +411,25 @@ The baseline of the quick check (Quillfield, 1920 px, light) held 1,830 findings
 - The standard baseline was rewritten from 1,830 to 677 findings. One rule (the "i" contrast) gave 33 findings in one run and none in two others, so those 33 were removed as noise: that rule can flicker while a card is animating.
 - The wide check (`npm run check:layout:wide`) exists; its first sample (sepia, 768 × 1024 and 1440 × 864, one page) found 381 findings, so the **wide baseline has not been written yet**. A full wide run covers 3 modes × 7 windows × 2 examples and takes hours.
 
-**Real defects (class A), waiting for your approval because each changes what is seen:**
+**The real defects and the decisions, after checking each by hand (second pass, 2026-10-14).** The first pass took its numbers from the triage agents. Each was then measured in the running app (Quillfield, 1920 × 1000, light), and several were wrong.
 
-| Rule | Findings | What | Fix (one line) | Visible |
-|---|---|---|---|---|
-| An "i" on its words' centre line | 255 | In the Customer Engagement reference rows the "i" sits 2.5px high (210); 42 are a link that wraps to two lines | One margin in `conversation.css` (about line 11548); the wrapped link needs your decision | 2.5px |
-| A tile's list stays clear of its "+" box | 40 | A scrolling list ends 3 to 7px below the top of the "+" | Cap the list height in `SectionTiles.tsx` | barely |
-| Under a card's head nothing ends right of the name cell; the Performer's dropdown ends where the name cell ends | 32 + 14 | The Activity card's performer picker ends 4px past the name cell | `section-tiles.css` (`.card-box-open .business-capability-performer`) | 4px |
-| A picker is as wide as its widest option | 7 | Currency pickers are 66px and need 74; the payment plan type 173 and needs 188 | Size them with `controlNeed` | 8–15px |
-| An "i" one gap after its words | 7 | Strategy card heads: the "i" is 4px after Goal, Objective, Metric, Theme; 16px after Initiatives | `.strategy-head-kind` gap 8px | 4–8px |
-| The Add Performer "+" holds 3:1 | 4 | The `.plus-box` colour is 2.82:1 on the activity card's ground | Darken `--plus-fill-lightness` in `global.css` (38% to about 32%) | slightly darker "+" |
-| Text beside a control on its centre line | 1 | The payment plan tick row is 1.6px low | `align-items: center` in `.business-capability-plan-type` | 1.6px |
+| Item | What I measured | State |
+|---|---|---|
+| A tile's list stays clear of its "+" box | On the Resources tiles the list ended 3.3px below the top of the "+" (Infrastructure, Offering's Capability). | **Fixed.** The list may now run 5px past its row, to the top of the "+" and not under it (`SectionTiles.tsx`). One visible change: a Resources tile with nine items shows 6 whole lines, not 7; the rest scrolls. |
+| The remove x has two reds | A cell's x was `#b00020`; a card's x was `#d01818` (a rule kept "the previous default red"). The Goal, Objective and Metric x also had an 8px corner, caught by a rule meant for boxes (`[class*="strategy-"][class*="-box"]` matched the name `strategy-box-remove`), where every other x has 6px. | **Fixed.** One red for every x, the danger text red of the reading mode (`remove-button.css`, the override is deleted); one corner. The test that asserted the override now asserts there is none. |
+| The Performer's dropdown ends past the name cell | Name cell ends at x = 1502, the dropdown at 1506, the x or "+" begins at 1514. The dropdown is 4px past the name cell and 8px from the x; the name cell is 12px from the x. The rulebook says the dropdown ends where the name cell ends; the 12px rule says nothing ends closer than 12px to the x. Both are broken by 4px. | Verified; **waiting**. Fix: end the dropdown at the name cell's edge (`section-tiles.css`, `.card-box-open .business-capability-performer`). Visible: the dropdown 4px shorter. |
+| An "i" one gap (8px) after its words | In the Strategy card heads the "i" stands 4px after Theme, Goal, Objective and Metric. | Verified; **waiting**. Fix: `.strategy-head-kind` gap 8px. Visible: the "i" 4px further right. "Initiatives" (16px) is not verified. |
+| An "i" on its words' centre line | In the Customer Engagement reference lists (Profiles, Offerings) the "i" is 3px above the centre of the link on 5 of 15 rows; one row has a link that wraps to two lines and its "i" stays on the first line. | Verified in part; **waiting**. Fix: one margin in `conversation.css` (about line 11548). Visible: the "i" 3px lower. The wrapped row needs your decision. |
+| The Add Performer "+" holds 3:1 | Measured on the ground it stands on: 5.9:1 in light, 6.4:1 in sepia, 5.3:1 in dark. | **Refuted.** The 2.82:1 figure was wrong, and the four findings disappeared once the check measured the ground correctly. Nothing to fix. |
+| Payment plan row 1.6px low | The count box and the words beside it are both centred at 698.6px in the live app. | **Not confirmed**, probably an artefact of what the check measures as "the text". Not changed. |
+| Currency and payment-plan pickers narrower than their widest option | Not measured by hand. | Unverified; **waiting**. |
 
-The "+" colour is the only item that is also a WCAG 2.2 AA finding (1.4.11 non-text contrast).
+No item in this list is a WCAG 2.2 AA failure.
 
-**Owner decisions (class U):**
-1. **The remove x has two reds** (`#b00020` for a cell's x and `#d01818` for a card's x; 48 findings in two rules). Unify them (delete the override in `remove-button.css`, a small colour shift), or declare two kinds of x.
-2. The Strategic Period dialog has one 442px tile among 215px tiles: what is it (Roadmap or Add Card)?
-3. Head buttons of a Goal or Objective card made with "+" end 12px short of the padding edge: intended?
-4. A picker in the Founders Profile card wraps to two lines: which one?
-5. After Escape closes a card opened with the mouse, a focus ring shows on its opener (only at 1366 × 700): test with a mouse click on Back first.
-6. The Strategic Period tile title is 36px where tile titles are 18px.
+**Questions for you (class U), in plain words:**
+1. **Roadmap tile.** In the Strategic Period dialog the Roadmap tile is 442 × 102px with a 36px title, while the Theme tiles are 215px squares with 18px titles. Is the Roadmap tile meant to be a wide banner with a large title (as it is now), or a normal square tile? (Two findings, one cause.)
+2. **Goal and Objective head buttons.** In the head of a Goal or Objective card made with "+", the "+" and the x end 12px short of the card's right padding edge. Other cards' head buttons end at the edge. Is the 12px intended (room for the previous and next arrows)?
+3. **A picker that wraps.** In the Jordan Ellis card of Founders & Capability the check found one dropdown whose text takes two lines (54px high instead of 45). I could not reproduce it by hand; which dropdown is it, and should its text be shortened or the card let it grow?
+4. **Focus ring after Escape.** At 1366 × 700 the check opens a card with the mouse, closes it with the Escape key, and sees a focus ring on the opener. For a keyboard user that ring is right; for a mouse user it is not. The check should close the card with the mouse before judging. Nothing for you to decide unless you want the ring gone after Escape.
 
 **Stale rules and probe gaps still to correct** (class B and C; they stay in the baseline until then): the Back button now stands in the tab rail (45 findings); the order number is drawn inside the name cell (26); the founder card was redesigned to the 492px card, so its 18 rules in probe section 17e and the rulebook describe the old 297px card (38 findings); the row-gap rule does not know the "+ Add Customer Source" block (74 raw); the dialog-size rules do not clamp a card taller than the window (16); Qty 56px is not in the width steps; the Delivery tile "+" adds an inline row, not a floating card; the card ground in a dialog is opaque, not glass; `--founder-card-min` and the two glass tokens are unused.

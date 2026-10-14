@@ -517,7 +517,9 @@ describe("the round of small controls: the x, the Back button, the lift, the rin
     it("gives the x the '+' box's swap of two colours: the card's ground, a 2px red stroke and X; filled red and the X in the ground under the pointer and the focus", () => {
         expect(removeCss).toMatch(/\.strategy-box-remove\.strategy-box-remove,[^{]*\{[^}]*color:var\(--x-red\);[^}]*border:2px solid var\(--x-red\);[^}]*background:var\(--x-ground, var\(--bg-surface\)\);/);
         expect(removeCss).toMatch(/:is\(:hover, :focus-visible\):not\(:disabled\),[^{]*\{[^}]*color:var\(--x-ground, var\(--bg-surface\)\);[^}]*border-color:transparent;[^}]*background:var\(--x-red\);/);
-        expect(removeCss).toMatch(/--x-red:var\(--bg-danger-strong\);/);
+        // ONE red for every x (a card's too): the danger text red; no kind of x sets its own.
+        expect(removeCss).toMatch(/--x-red:var\(--text-danger\);/);
+        expect(removeCss).not.toMatch(/--x-red:var\(--bg-danger-strong\)/);
         // The grounds the cards set.
         expect(stylesheet("conversation.css")).toMatch(/--x-ground:var\(--bg-card-tint\);/);
     });
