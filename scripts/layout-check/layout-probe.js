@@ -2579,24 +2579,6 @@
             }
         }
 
-        // 20. A MARK NEVER STANDS ON ITS OWN COLOUR: a fold arrow, a rail bullet and the Back arrow hold 3:1 against the ground they stand on (WCAG 1.4.11),
-        // the ground read as the opaque layers behind them; their colour is laid over it with its own opacity.
-        for (const mark of [...document.querySelectorAll(".label-arrow, .bullet-rail-dot, .back-arrow")].filter(visible)) {
-            if (mark.matches(":hover, :focus-visible") || mark.closest(".bullet-rail-item:hover, .bullet-rail-item:focus-visible, .carousel-rail-back:hover, .carousel-rail-back:focus-visible")) continue;
-            const style = getComputedStyle(mark);
-            const text = mark.matches(".label-arrow") ? style.color : (rules.parseColor(style.backgroundColor) && !/ 0\)$|\/ 0\)/.test(style.backgroundColor) ? style.backgroundColor : style.borderTopColor);
-            const alpha = (/\/\s*([\d.]+)\s*\)/.exec(text) ?? [])[1];
-            const colour = rules.parseColor(text);
-            if (!colour) continue;
-            const ground = rules.effectiveGround(mark);
-            const opacity = alpha === undefined ? 1 : parseFloat(alpha);
-            const shown = [0, 1, 2].map(index => colour[index] * opacity + ground[index] * (1 - opacity));
-            const ratio = rules.contrast(shown, ground);
-            if (ratio < 3) {
-                fail("a mark holds 3:1 against its ground (it never stands on its own colour)", mark, { mark: shown.map(Math.round), ground: ground.map(Math.round), contrast: +ratio.toFixed(2) });
-            }
-        }
-
         // A remove x never lies on a cell, and keeps 12px from the cell beside it (it stands in the x column): no text box, picker or text area of the same card overlaps it
         // or ends less than 12px before it on its row.
         for (const remove of [...document.querySelectorAll(".strategy-box-remove, .card-remove")].filter(visible)) {

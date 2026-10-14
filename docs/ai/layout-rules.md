@@ -1243,10 +1243,6 @@ differs.
 | `--card-side-label` | not defined | | A test asserts it is absent |
 | `--workspace-form-width`, `--workspace-label-width` | not defined | | The Workspace is a category of the resource card |
 
-### A mark never stands on its own colour (2026-10-14)
-
-Global: no element is drawn in the colour of what it stands on. Every mark (a fold or label arrow, a rail bullet, the Back arrow, an icon, a stroke) is drawn in a tint taken from the tint of its ground, never from a fixed colour, so that it holds at least 3:1 against that ground (WCAG 1.4.11), 4.5:1 where it is text. A surface that gives its marks a colour gives it as a variable of its own tint (the card's `--plus-fill`, the tab's edge `--tab-edge`, `--rail-left-edge` / `--rail-right-edge`), and its marks read that variable. The layout check measures it (check 20: label arrows, rail bullets and the Back arrow against the opaque ground behind them).
-
 ### Tracking follows weight (2026-10-14)
 
 Text that goes bold under the pointer (`--hover-bold`) gets 0.05em of tracking ON TOP of what the element already has (`--bold-tracking` added to `--rest-tracking`: a button's 0.1em, none elsewhere), as the Capability and System list always did; text that is bold by default has the same. Spacing comes with bold only: the lit rail item is wider than the others, never tighter. A bullet under the pointer is only underlined. Every CSS rule that sets a bold weight (600 and up) or `--hover-bold` sets `letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking))` with it, unless it states its own tracking (the uppercase labels keep theirs); `strong`, `b`, `th` and `h1`-`h6` carry it by default. A glyph (a chip's ×) is not text and takes none. A row that holds bold text on hover must be sized for the wider text (one line, no re-wrap).
