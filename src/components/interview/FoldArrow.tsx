@@ -1,10 +1,7 @@
-import LabelArrow from "./LabelArrow.tsx";
-
 /**
- * The fold arrow every folding card, group and section head carries: named
- * "Minimize …" / "Maximize …" after what it folds. It is the Label Arrow
- * (LabelArrow.tsx, docs/ai/layout-rules.md "The label arrow"): one element, so
- * all of them stay the same control.
+ * The fold arrow every folding card, group and section head carries:
+ * ▾ open, ▸ folded, named "Minimize …" / "Maximize …" after what it
+ * folds. One component so all of them stay the same control.
  */
 export default function FoldArrow({
 
@@ -24,11 +21,15 @@ export default function FoldArrow({
 }) {
 
     return (
-        <LabelArrow
-            open={open}
-            label={(open ? "Minimize " : "Maximize ") + label}
-            onToggle={onToggle}
-        />
+        <button
+            type="button"
+            className="strategy-box-toggle"
+            aria-expanded={open}
+            aria-label={(open ? "Minimize " : "Maximize ") + label}
+            onClick={onToggle}
+        >
+            {open ? "▾" : "▸"}
+        </button>
     );
 
 }

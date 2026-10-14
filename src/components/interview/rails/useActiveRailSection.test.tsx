@@ -149,8 +149,8 @@ describe("scrollToRailSection", () => {
         window.scrollTo = vi.fn();
 
         const onClick = vi.fn(() => toggle.setAttribute("aria-expanded", "true"));
-        document.body.innerHTML = '<div data-rail="x"><div><button class="label-arrow" aria-expanded="false"></button></div></div>';
-        const toggle = document.querySelector<HTMLButtonElement>(".label-arrow")!;
+        document.body.innerHTML = '<div data-rail="x"><div><button class="strategy-box-toggle" aria-expanded="false"></button></div></div>';
+        const toggle = document.querySelector<HTMLButtonElement>(".strategy-box-toggle")!;
         toggle.onclick = onClick;
 
         scrollToRailSection("x");

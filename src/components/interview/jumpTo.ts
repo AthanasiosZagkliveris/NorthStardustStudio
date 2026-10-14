@@ -28,7 +28,7 @@ function find(token: string): HTMLElement | null {
 
 /** A container's own fold arrow: not one belonging to something inside it. */
 function ownToggle(element: HTMLElement): HTMLButtonElement | null {
-    return [...element.querySelectorAll<HTMLButtonElement>(".label-arrow")]
+    return [...element.querySelectorAll<HTMLButtonElement>(".strategy-box-toggle, .label-arrow")]
         .find(toggle => toggle.closest("[data-anchor]") === element) ?? null;
 }
 

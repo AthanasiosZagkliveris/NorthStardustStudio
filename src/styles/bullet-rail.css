@@ -534,7 +534,7 @@
 
     right: calc(50% + var(--card-width) / 2);
 
-    padding: 12px var(--rail-offset) 12px 16px;
+    padding: 12px var(--rail-offset) 12px var(--rail-offset);
 
     border-radius: 8px 0 0 8px;
 
@@ -544,7 +544,7 @@
 
     left: calc(50% + var(--card-width) / 2);
 
-    padding: 12px 16px 12px var(--rail-offset);
+    padding: 12px var(--rail-offset);
 
     border-radius: 0 8px 8px 0;
 

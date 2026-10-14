@@ -188,7 +188,7 @@ export function scrollToRailSection(id: string): void {
         return;
     }
 
-    const toggle = target.querySelector<HTMLButtonElement>(':scope > * > .label-arrow[aria-expanded="false"], :scope > .label-arrow[aria-expanded="false"]');
+    const toggle = target.querySelector<HTMLButtonElement>(':scope > * > .strategy-box-toggle[aria-expanded="false"], :scope > .strategy-box-toggle[aria-expanded="false"]');
     toggle?.click();
 
     // Next frame, so a section just opened above has its full height.

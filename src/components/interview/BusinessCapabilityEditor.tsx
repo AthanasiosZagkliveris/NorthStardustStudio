@@ -2402,14 +2402,14 @@ export default function BusinessCapabilityEditor({
                                     )}
                                     {done.length > 0 && (
                                         <div className="business-capability-completed">
-                                            {/* The same row as Responsibilities': the STANDARD fold arrow, then the label. */}
+                                            {/* The same row as Responsibilities': the label arrow, inside the label. */}
                                             <span className="business-foundation-label-info business-capability-responsibilities-head business-capability-completed-head">
-                                                <FoldArrow
-                                                    open={doneOpen}
-                                                    label={"completed responsibilities of " + founderLabel}
-                                                    onToggle={() => setCompletedOpen(current => toggledIn(current, doneKey))}
-                                                />
                                                 <span className="field-label business-foundation-label">
+                                                    <LabelArrow
+                                                        open={doneOpen}
+                                                        label={(doneOpen ? "Minimize " : "Maximize ") + "completed responsibilities of " + founderLabel}
+                                                        onToggle={() => setCompletedOpen(current => toggledIn(current, doneKey))}
+                                                    />
                                                     {"Completed " + done.length}
                                                 </span>
                                             </span>
@@ -3644,8 +3644,10 @@ export default function BusinessCapabilityEditor({
             <div className="business-foundation-field business-capability-links">
                 {/* The same row as a founder's Responsibilities: the fold arrow, the label, how many. */}
                 <span className="business-foundation-label-info business-capability-responsibilities-head business-capability-links-head">
-                    <FoldArrow open={open} label={"Links of this card"} onToggle={() => setLinksOpen(current => toggledIn(current, id))} />
-                    <span className="field-label business-foundation-label">Links</span>
+                    <span className="field-label business-foundation-label">
+                        <LabelArrow open={open} label={(open ? "Minimize " : "Maximize ") + "Links of this card"} onToggle={() => setLinksOpen(current => toggledIn(current, id))} />
+                        Links
+                    </span>
                     <span className="field-label field-label-muted business-capability-responsibilities-count">{links.length}</span>
                 </span>
                 {open && <div className="business-capability-links-list">{links.map(link => cardLink(link.key, link.noun, link.name, link.onOpen))}</div>}

@@ -965,8 +965,8 @@
         //     row) are set by its cells.
         {
             const HEADS = ".fold-card-head, .fold-group-head, .business-engagement-section-head, .business-capability-subsection-head, .financial-cost-group-head, .business-demand-head, .strategy-box-head";
-            const aside = element => element.closest(".label-arrow, .strategy-drag-handle, .fold-all-toggle, .info-note-panel, .option-picker-list, .month-picker-panel, .business-card-summary");
-            for (const arrow of [...document.querySelectorAll(".label-arrow")].filter(visible)) {
+            const aside = element => element.closest(".strategy-box-toggle, .label-arrow, .strategy-drag-handle, .fold-all-toggle, .info-note-panel, .option-picker-list, .month-picker-panel, .business-card-summary");
+            for (const arrow of [...document.querySelectorAll(".strategy-box-toggle")].filter(visible)) {
                 const head = arrow.closest(HEADS) ?? arrow.parentElement;
                 if (!head || head.matches("th, td, tr") || (head.parentElement && head.parentElement.matches("th, td, .brand-style-card"))) {
                     continue;
@@ -1147,9 +1147,9 @@
                 return first ? first.left : null;
             };
             const title = column.querySelector(".business-foundation-subhead");
-            const edge = title ? left(title.querySelector(".business-engagement-reference-number") || title.querySelector(":scope > span:not(.label-arrow)") || title) : null;
+            const edge = title ? left(title.querySelector(".business-engagement-reference-number") || title.querySelector(":scope > span:not(.strategy-box-toggle)") || title) : null;
             const parts = [
-                ...[...column.querySelectorAll(".business-engagement-reference-name-row > :not(.label-arrow):not(.info-note)")].map(left),
+                ...[...column.querySelectorAll(".business-engagement-reference-name-row > :not(.strategy-box-toggle):not(.info-note)")].map(left),
                 ...[...column.querySelectorAll(".business-engagement-reference-label, .business-engagement-reference-text")].map(left)
             ].filter(x => x !== null);
             if (edge !== null && parts.some(x => !rules.near(x, edge, 1))) {
@@ -1162,8 +1162,8 @@
         //     of the next column's hanging rule; the last column's: 12px short of
         //     the Segment card's right side).
         for (const row of [...document.querySelectorAll(".business-engagement-reference-name-row")].filter(visible)) {
-            const arrow = row.querySelector(":scope > .label-arrow");
-            const link = row.querySelector(":scope > :not(.label-arrow)");
+            const arrow = row.querySelector(":scope > .strategy-box-toggle");
+            const link = row.querySelector(":scope > :not(.strategy-box-toggle)");
             const column = row.closest(".business-engagement-reference-column");
             if (!arrow || !link || !column) continue;
             const range = document.createRange();
@@ -1193,7 +1193,7 @@
         {
             const kinds = new Map();
             for (const head of [...document.querySelectorAll(".fold-card-fixed")].filter(visible)) {
-                if (!head.querySelector(":scope > .label-arrow[aria-expanded='false']")) {
+                if (!head.querySelector(":scope > .strategy-box-toggle[aria-expanded='false']")) {
                     continue;
                 }
                 const name = head.querySelector(":scope > .strategy-name-static");
@@ -2017,8 +2017,8 @@
                 // THE TWO FOLD ARROWS (Responsibilities, Completed) are the STANDARD arrow, one component: the same size
                 // (36px, the app's default) and the same reaction (the same classes, so the same hover and focus rules); the
                 // GLYPHS (not their boxes) start at the markers' x, as the head number and the bullets do.
-                const arrow = card.querySelector(".business-capability-responsibilities-head:not(.business-capability-completed-head) > .label-arrow");
-                const completed = card.querySelector(".business-capability-completed-head > .label-arrow");
+                const arrow = card.querySelector(".business-capability-responsibilities-head:not(.business-capability-completed-head) > .strategy-box-toggle");
+                const completed = card.querySelector(".business-capability-completed-head > .strategy-box-toggle");
                 // (The box does not move when toggled, so the glyph turns about its centre: the closed glyph's left edge is the markers' x, the
                 // open one's 3.5px further left.)
                 const glyphLeft = (button) => {
@@ -2579,6 +2579,24 @@
             }
         }
 
+        // 20. A MARK NEVER STANDS ON ITS OWN COLOUR: a fold arrow, a rail bullet and the Back arrow hold 3:1 against the ground they stand on (WCAG 1.4.11),
+        // the ground read as the opaque layers behind them; their colour is laid over it with its own opacity.
+        for (const mark of [...document.querySelectorAll(".label-arrow, .bullet-rail-dot, .back-arrow")].filter(visible)) {
+            if (mark.matches(":hover, :focus-visible") || mark.closest(".bullet-rail-item:hover, .bullet-rail-item:focus-visible, .carousel-rail-back:hover, .carousel-rail-back:focus-visible")) continue;
+            const style = getComputedStyle(mark);
+            const text = mark.matches(".label-arrow") ? style.color : (rules.parseColor(style.backgroundColor) && !/ 0\)$|\/ 0\)/.test(style.backgroundColor) ? style.backgroundColor : style.borderTopColor);
+            const alpha = (/\/\s*([\d.]+)\s*\)/.exec(text) ?? [])[1];
+            const colour = rules.parseColor(text);
+            if (!colour) continue;
+            const ground = rules.effectiveGround(mark);
+            const opacity = alpha === undefined ? 1 : parseFloat(alpha);
+            const shown = [0, 1, 2].map(index => colour[index] * opacity + ground[index] * (1 - opacity));
+            const ratio = rules.contrast(shown, ground);
+            if (ratio < 3) {
+                fail("a mark holds 3:1 against its ground (it never stands on its own colour)", mark, { mark: shown.map(Math.round), ground: ground.map(Math.round), contrast: +ratio.toFixed(2) });
+            }
+        }
+
         // A remove x never lies on a cell, and keeps 12px from the cell beside it (it stands in the x column): no text box, picker or text area of the same card overlaps it
         // or ends less than 12px before it on its row.
         for (const remove of [...document.querySelectorAll(".strategy-box-remove, .card-remove")].filter(visible)) {
@@ -2650,7 +2668,7 @@
                 continue;
             }
             for (let round = 0; round < 3; round++) {
-                for (const button of dialog.querySelectorAll("button.fold-all-toggle, button.label-arrow[aria-expanded='false']")) {
+                for (const button of dialog.querySelectorAll("button.fold-all-toggle, button.strategy-box-toggle[aria-expanded='false'], button.label-arrow[aria-expanded='false']")) {
                     if (button.matches(".fold-all-toggle") && !/^Expand all/.test(button.getAttribute("aria-label") || "")) {
                         continue;
                     }
