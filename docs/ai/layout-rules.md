@@ -1508,6 +1508,220 @@ The probe's pure helpers are unit-tested in `src/test/layoutProbe.test.ts`.
 
 `npm run check:layout` runs the layout probe (`scripts/layout-check/`) on every page of the Quillfield example (1920 wide, light page) and fails only on a finding that is NOT in `scripts/layout-check/baseline.json` (the findings known and accepted so far; random ids of cards made by a "+" are ignored in a finding's key). It says how many known findings are gone. `npm run check:layout:baseline` rewrites the baseline after findings were fixed on purpose; `CHECK_PAGES="Customer Engagement" npm run check:layout` runs one page; without `--quick` (`node scripts/layout-check/run.mjs`) it runs every width, both themes and both examples. A full run takes about 25 minutes; a sub-pixel finding (a gap of 12.95 for 12) can come and go between runs.
 
+## 18. The assets (generated from the contracts)
+
+<!-- generated:assets (from src/library; do not edit; run npm run docs:assets) -->
+
+Written from the asset contracts in `src/library`; the library runner (`npm run library`) measures the app against them in light, dark and sepia at 768, 1440 and 1920 px wide. A number here is the contract's, so it is the app's.
+
+### Label arrow
+
+One frameless triangle beside a label or a title that shows or hides what belongs to it. Outline at rest, filled under the pointer and the keyboard focus; right while hidden, down while open.
+
+- **Kind:** fold arrow. **Code:** `src/components/interview/LabelArrow.tsx`. **Stylesheet:** `src/styles/label-arrow.css`.
+- **Parts:** button (the hit area); triangle (svg polygon, 2px line inside its edge).
+- **States:** rest, hover, focus, closed, open.
+- **Used in:** chapter titles of 3. Infrastructure & Capability; a founder's Responsibilities and Completed; a card's Links; the Initiatives of an Objective.
+- **Custom properties it reads:** `--label-arrow-size`, `--label-arrow-hit`, `--strategy-theme-hue`, `--plus-fill-saturation`, `--plus-fill-lightness`.
+
+| Variant | Where | Note |
+|---|---|---|
+| field-label (18px label) | field-label | inside a label, left of the words (a founder's Responsibilities, the Initiatives) |
+| title-row (28px label) | title-row | after a chapter title and its i, at the title's size (--label-arrow-size: --font-h2) |
+
+| Number | Value |
+|---|---|
+| glyphWidthEm | 0.611 |
+| glyphHeightEm | 1 |
+| openShiftEm | 0.1945 |
+| lineWidthPx | 2 |
+| minTargetPx | 24 |
+| tolerancePx | 0.6 |
+
+**Accessibility.** Keyboard focus is shown by the asset's own fill; no ring or outline. Name: Names what it shows or hides, and says which (Show/Hide ...). Contrast it must hold:
+- the arrow's tint (the + box's colour) (page): at least 3:1.
+- the arrow's tint (the + box's colour) (card): at least 3:1.
+
+### Plus box
+
+A square button with a drawn plus that adds a card or a row. A swap of two colours between rest and hover or focus (transparent with a stroke at rest, filled under the pointer); it never changes size.
+
+- **Kind:** add button. **Code:** `a <button className="plus-box"> in SectionTiles.tsx, SectionView.tsx, SubTiles.tsx, BusinessCapabilityEditor.tsx`. **Stylesheet:** `src/styles/section-tiles.css`.
+- **Parts:** button (the square, 2px stroke); two bars (::before, ::after) drawn from the middle of the box.
+- **States:** rest, hover, focus, disabled.
+- **Used in:** page tiles that take new cards (Operational, Production, Marketing, Utilities, Equipment ...); Offering's Capability: Resources, Activities, Partners & Suppliers; the Activity card's Add Performer (small).
+- **Custom properties it reads:** `--plus-ground`, `--plus-fill`, `--plus-size`, `--plus-bar`, `--plus-fill-saturation`, `--plus-fill-lightness`, `--strategy-theme-hue`, `--theme-bg-inner`, `--focus-ring-ink`, `--card-padding`.
+
+| Variant | Where | Note |
+|---|---|---|
+| tile | tile | 36px, bars 16px, at the lower right of a page tile, 12px from the edges (.plus-box.section-tile-plus) |
+| small | inline | 32px (the x's size), bars 14px, beside a row (.plus-box.plus-box-small: the Activity card's Add Performer) |
+
+| Number | Value |
+|---|---|
+| sizeTile | 36 |
+| sizeSmall | 32 |
+| barTile | 16 |
+| barSmall | 14 |
+| barThickness | 2 |
+| strokeWidth | 2 |
+| radius | 8 |
+| insetTile | 12 |
+| transitionMs | 150 |
+| disabledOpacity | 0.5 |
+| outlineWidth | 2 |
+| outlineOffset | 2 |
+| centreTolerancePx | 0.01 |
+| tolerancePx | 0.5 |
+
+**Accessibility.** Keyboard focus is shown by a ring or outline. Name: Add <Item> to <tile>. Contrast it must hold:
+- the plus and the stroke (the darker tone) against the page the box stands on (page): at least 3:1.
+- the plus and the stroke (the darker tone) against the card the box stands on (card): at least 3:1.
+- under the pointer: the plus (the ground colour) against the fill (fill): at least 3:1.
+
+### Info note
+
+A 22px round "i" after a label that opens a note. A swap of two colours under the pointer (the disc filled, the letter in the ground colour); it never changes size.
+
+- **Kind:** round button. **Code:** `src/components/interview/InfoNote.tsx`. **Stylesheet:** `src/styles/conversation.css` (also `src/styles/section-tiles.css`, `src/styles/page-3-edges.css`, `src/styles/global.css`).
+- **Parts:** button (22px disc with a stroke); the letter i (bold italic, small size); an invisible 24px hit area (::after).
+- **States:** rest, hover, focus, open.
+- **Used in:** after the label of nearly every field and every section or column title; dialog headers and the box names over a floating card; a tick box's label (outside it).
+- **Custom properties it reads:** `--info-gap`, `--font-small`, `--line-primary`, `--text-primary`, `--bg-surface`, `--bg-primary`, `--text-on-fill`, `--theme-line-accent`, `--info-ink`, `--info-fill`, `--glow-color`, `--strategy-theme-hue`.
+
+| Variant | Where | Note |
+|---|---|---|
+| plain | page | the base look: blue stroke and letter on a white disc, in a label outside any card of a hue |
+| tinted | hue | inside a card or tile of a hue: stroke and letter in the card's tint (section-tiles.css) |
+| page-3 | answer-columns business-capability | the page-3 card look: ground fill, 1.5px stroke, letter in --info-ink, a full swap on hover, focus and open (page-3-edges.css) |
+
+| Number | Value |
+|---|---|
+| disc | 22 |
+| hitArea | 24 |
+| gap | 6 |
+| strokePlain | 1 |
+| strokePage3 | 1.5 |
+| fontSizeVar | 14 |
+| fontWeight | 700 |
+| centreTolerancePx | 0.6 |
+| tolerancePx | 0.5 |
+
+**Accessibility.** Keyboard focus is shown by a ring or outline. Name: <label>: what this means (aria-expanded, aria-haspopup=dialog). Contrast it must hold:
+- the letter against the disc at rest (rest): at least 3:1.
+- the letter against the disc under the pointer, the focus and while open (swapped): at least 3:1.
+
+**Known findings** (measured, not changed; to decide):
+- `tinted-rule-overridden`: The rule that gives an "i" the tint of its card (section-tiles.css, ":where(.section-tile-overlay, [style*=--strategy-theme-hue]) .info-note-button", about line 3869) has the same specificity as the base ".info-note-button" rule in conversation.css, which the app loads after it, so the base wins: an "i" in a card of a hue that has no page-3 rule is drawn in the page blue, at rest and under the pointer. Measured with the stylesheets in the order the interview page loads them. Not changed; to decide.
+
+### Remove x
+
+A 32px square with a drawn X that removes a card or a row. Red stroke and X at rest, filled red under the pointer and the focus; it never changes size.
+
+- **Kind:** remove button. **Code:** `src/components/interview/BusinessCardFields.tsx (RemoveButton) and the other cards that use .strategy-box-remove`. **Stylesheet:** `src/styles/remove-button.css` (also `src/styles/section-tiles.css`, `src/styles/global.css`).
+- **Parts:** button (the square, 2px stroke); two bars (::before, ::after) turned +45 and -45 degrees, drawn from the middle of the box.
+- **States:** rest, hover, focus, disabled.
+- **Used in:** every card's delete and every row's remove (performers, milestones, costs, partners ...); the older removes that share its look: profile cards, brand holder clear, legal entity field remove.
+- **Custom properties it reads:** `--x-red`, `--x-ground`, `--bg-surface`, `--text-danger`, `--text-faint`, `--line-card`, `--radius-md`, `--focus-ring-ink`, `--line-primary`.
+
+| Variant | Where | Note |
+|---|---|---|
+| cell | row | an x beside a row inside a card's cell (a performer, a milestone): .strategy-box-remove |
+| card | card | a card's own delete: .strategy-box-remove.card-remove |
+
+| Number | Value |
+|---|---|
+| size | 32 |
+| barLength | 14 |
+| barThickness | 2 |
+| strokeWidth | 2 |
+| radius | 6 |
+| disabledStrokeWidth | 1 |
+| outlineWidth | 2 |
+| outlineOffset | 2 |
+| centreTolerancePx | 0.01 |
+| tolerancePx | 0.5 |
+
+**Accessibility.** Keyboard focus is shown by a ring or outline. Name: Remove <what> (aria-label and title). Contrast it must hold:
+- the red stroke and X against the ground behind the box (page): at least 3:1.
+- the red stroke and X against the ground behind the box (card): at least 3:1.
+- under the pointer: the X (the ground colour) against the red fill (fill): at least 3:1.
+
+### Rails
+
+The Pages and Sections rails: a column of items, each a bullet and a label in one button. Rest, lit and hover looks; bullets only below 1700px with the name as a tooltip, labels inline from 1700px.
+
+- **Kind:** navigation rail. **Code:** `src/components/interview/rails/BulletRail.tsx`. **Stylesheet:** `src/styles/bullet-rail.css` (also `src/styles/status-shape.css`, `src/styles/global.css`).
+- **Parts:** nav (the rail); list (18px between items); item button (label, 12px gap, bullet; 2px padding above and below); bullet (a plain dot, or a page status shape); label (tooltip below 1700px, inline from 1700px).
+- **States:** rest, hover, focus, open.
+- **Used in:** the Pages rail (left) and the Sections rail (right) beside the interview card.
+- **Custom properties it reads:** `--rail-dot`, `--rail-dot-active`, `--rail-bloom`, `--rail-dot-hover`, `--rail-hover-ring`, `--rail-status`, `--rail-status-hover`, `--text-subtle`, `--text-strong`, `--text-primary`, `--hover-bold`, `--bold-tracking`, `--line-primary`, `--tooltip-bg`, `--tooltip-text`, `--tooltip-border`.
+
+| Variant | Where | Note |
+|---|---|---|
+| pages-left | left | the Pages rail: label then bullet; page status shapes (not started, in progress, defined) and the Introduction in capitals; one lit item |
+| sections-right | right | the Sections rail: bullet then label; plain bullets; one lit item |
+
+| Number | Value |
+|---|---|
+| bullet | 12 |
+| itemGap | 12 |
+| itemPaddingY | 2 |
+| listGap | 18 |
+| activeScale | 1.45 |
+| hoverScale | 1.3 |
+| activeRing | 4 |
+| hoverRing | 3 |
+| outlineWidth | 2 |
+| outlineOffset | 4 |
+| wideFrom | 1700 |
+| tooltipOffset | 24 |
+| minTargetPx | 24 |
+| underlineOffsetEm | 0.2 |
+| tolerancePx | 0.5 |
+
+**Accessibility.** Keyboard focus is shown by a ring or outline. Name: The label (with the status word on the Pages rail); aria-current on the lit item. Contrast it must hold:
+- a page status shape (its ink) against the page (status): at least 3:1.
+- the label against the page, where labels stand inline (from 1700px) (label): at least 4.5:1.
+- the label under the pointer (the link colour) against the page (hover): at least 4.5:1.
+- the tooltip text against the tooltip block (tooltip): at least 4.5:1.
+
+### Back button
+
+The way back out of a dialog or card: a left-pointing triangle and the word Back. Plain at rest; the card's tint, thickened, under the pointer and the focus.
+
+- **Kind:** navigation button. **Code:** `src/components/interview/SectionTiles.tsx (the dialog foot's .section-tile-back, the rail tab's .carousel-rail-back`. **Stylesheet:** `src/styles/section-tiles.css` (also `src/styles/label-arrow.css`, `src/styles/global.css`).
+- **Parts:** button; back-arrow (a solid left-pointing triangle, 0.8em high); the word Back (capitals in the rail form).
+- **States:** rest, hover, focus.
+- **Used in:** the foot of every section dialog; the rail tab beside a dialog's card.
+- **Custom properties it reads:** `--text-default`, `--text-primary`, `--hover-bold`, `--bold-tracking`, `--rest-tracking`, `--font-body`, `--focus-ring-ink`, `--theme-line-accent`, `--plus-fill-saturation`, `--plus-fill-lightness`, `--tab-ink`, `--tab-edge`, `--gap-6`, `--gap-12`.
+
+| Variant | Where | Note |
+|---|---|---|
+| foot | dialog foot | < Back at the foot of a dialog: .section-tile-back |
+| rail | rail tab | the way back in the rail's tab: .carousel-rail-back, capitals, built like a rail item |
+
+| Number | Value |
+|---|---|
+| arrowHeightEm | 0.8 |
+| arrowRatio | 0.7857 |
+| footGap | 6 |
+| footPaddingY | 6 |
+| railGap | 12 |
+| railPaddingY | 2 |
+| railArrowBox | 12 |
+| railArrowGrow | 1.2 |
+| outlineWidth | 2 |
+| outlineOffset | 2 |
+| minTargetPx | 24 |
+| tolerancePx | 0.6 |
+
+**Accessibility.** Keyboard focus is shown by a ring or outline. Name: Back (the word, or aria-label and title Back in the rail form). Contrast it must hold:
+- the word and arrow at rest against the ground they stand on (rest): at least 4.5:1.
+- the word and arrow under the pointer and the focus against the ground (hover): at least 4.5:1.
+
+<!-- /generated:assets -->
+
 ## Appendix A. Rules replaced by a later round (history, word for word)
 
 Each line below was replaced in full by a later rule (its number is the line in the file before the reconciliation of 2026-10-14). They are kept so that nothing is lost; they are not rules.
