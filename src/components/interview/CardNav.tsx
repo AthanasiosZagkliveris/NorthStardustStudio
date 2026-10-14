@@ -4,7 +4,7 @@ import "../../styles/bullet-rail.css";
 /**
  * A strategy card's own navigation, as the page system has it: the previous / next arrows (the page arrow's look) and a rail of bullets, one for
  * each card under the same parent (the Goals of a Theme, the Objectives of a Goal, the Metrics of an Objective); this card's bullet is the lit
- * one. The left arrow stands under the card's "+", the right one under its x, the rail under the left arrow; the whole stays in view as the card
+ * one. The left arrow stands under the card's x, the right one under the symbol of four arrows, the rail under the right arrow; the whole stays in view as the card
  * scrolls (sticky). Beside the x, outside the card, a symbol of four arrows pointing at the centre shows the group as tiles. A card alone has none.
  *
  * One card is shown at a time: an arrow or a bullet brings that card forward in the place of this one (groupView.ts).

@@ -26,6 +26,8 @@ below are these, made measurable.
 | **Readability** | Text never overflows or is clipped; long names wrap and grow; text beside a control sits on the control's centre line; the order of fields is the order a founder thinks in. | Can every word be read without scrolling a box, and does the eye travel down one left edge? |
 | **Noise** | Nothing is drawn that carries no information: no headers over rows that name themselves, no empty boxes, no second border inside a card, one reaction per kind of element. | If this element were removed, would the reader lose anything? |
 
+**One margin: 12px** (the owner's rule, 2026-10-14). The side margins, the top and bottom margins and the gaps between things are all 12px (`--space-field`, `--card-padding`). The exceptions are the label of a field and its box (6px, `--space-label`) and the Description label with the text cell that opens under it.
+
 ---
 
 ## 2. Tokens
@@ -1243,6 +1245,7 @@ differs.
 
 ## 9. Tiles: kinds, titles, lists, marks, hover and size
 
+- **Diagram tile** (`SectionTile.diagram`, class `section-tile-diagram`), a category of Master Tile of its own (2026-10-14). It stands for a drawing that opens in its dialog, not for a list of what a section holds: today the Roadmap, a Gantt diagram. It is a wide banner (442 x 102px beside the Strategic Period's dates) with a large title (36px) and no list, not a square of the page tile size; the tile anatomy rules, the square rule and the one-size-per-group rule do not apply to it. Its dialog covers the page (`wide`).
 - Tile titles stand at `--tile-title-top` (0.25 of the square); a tile's list shows whole lines only, its scrollbar has no arrows and shows on hover.
 - **Incomplete card**: `card-tile-incomplete` on the slot (red flashing glow around the tile; steady under prefers-reduced-motion), `section-tile-list-alert` on a line of a page tile's list (red, bold, flashing, first in the list). The tooltip says "Missing: <fields> (not counted until it is fixed)".
 - Category/group titles uppercase (`.section-tile-category .section-tile-title`, `.dialog-heading-sub`); an empty group tile has opacity 0.5.
@@ -1387,6 +1390,7 @@ differs.
 
 ## 13. Identity, Brand and Strategy: column pages, Legal Entity, Brand Style, Founders Profile, Strategic Period
 
+- **A strategy card's navigation** (`CardNav`, in the margin lane at the card's right edge): the two arrows stand on the centre line of the card's Description label; the symbol of four arrows and the rail of bullets stand 12px from the card's edge (its 1px border counted). Where an arrow stands relative to the head's "+" and x is not settled: see Appendix B.
 - **Channel expenses (Page 2)**: "+ Add expenses" and "Typical costs for this channel" are card-list add buttons in the channel cell, same size as "+ Add Journey Stage"; template cards use the channel teal tone (`--channel-marker`) and the cascade link rules above.
 - **A column's guidance is the "i" beside its dialog title** (`DialogHeading info`), never bullets under it. The guidance of the Brand pages (Style, Inventory) and of the Themes (beside the Add Theme button) opens in a note of double the one width (`InfoNote size="double"`, 720px).
 - **A founder's card in its dialog** stands one field under the other (`.founders-profile-row`), so every row has the room it was drawn for.
@@ -1549,6 +1553,8 @@ Each line below was replaced in full by a later rule (its number is the line in 
 - was line 1500: Strategy cards: no fold arrow or grip; one-row head; generated tiles label; no Roadmap rail (superseded-by:1526; Head layout replaced by 1526; Theme tile '+' adds a Goal replaced by 1526/1532; no Roadmap Sections rail made moot by 1531. Keep: no fold arrow/grip, label above generated tiles)
 - was line 1508: Deactivated tiles drawn in grey section-tile-completed; pressing makes and opens (superseded-by:1515; Grey replaced by half-transparent (section-tile-slot-empty); pressing behaviour kept)
 - was line 1536: Channel card without wires: parts have no border; end 40px before padding; 12px apart (superseded-by:1546; 40px reserved column is now 44px (--card-x-column); no-wires rule stays)
+
+**Open (the owner, 2026-10-14):** the card navigation's arrows. They stand under the head's x (left arrow) and under the tiles symbol (right arrow). The owner finds them "way too far" and wants their vertical side 12px from the card's edge, aligned with the sides of the buttons above them; what exactly is to move is to be marked on a picture.
 
 **Rules that conflict and that the ledger could not settle:**
 

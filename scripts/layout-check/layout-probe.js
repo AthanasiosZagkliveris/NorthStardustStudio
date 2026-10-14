@@ -1234,6 +1234,8 @@
             for (const tile of tiles) {
                 // DECLARED: the squeezed row (Inventory, Completed) shows titles only, 57px high: not a square, no list, no anatomy.
                 if (tile.closest(".section-tiles-completed[data-squeezed]")) continue;
+                // DECLARED: a DIAGRAM tile (the Roadmap) is a category of its own: a wide banner with a large title, no list, not a square of the page tile size.
+                if (tile.matches(".section-tile-diagram")) continue;
                 const box = rect(tile);
                 const holder = tile.closest(".section-tiles-box");
                 // The Founders' closed boxes (more than 8 founders) are squares of their own fixed size
@@ -2133,7 +2135,7 @@
             expect([...document.querySelectorAll(".business-capability > .business-foundation-card:not(.section-tile-dialog) .answer-column-label")], h2, "a column title is the h2 size (28)");
             expect([...document.querySelectorAll(".business-capability-tiles-section > .business-engagement-section-head .field-group-title")].filter(title => !title.closest(".column-tiles-page")), h3, "a section heading is the h3 size (24)");
             expect([...document.querySelectorAll(".section-tile-dialog-body > div > .business-engagement-section-head .field-group-title")], h3, "a dialog title is the h3 size (24), never smaller than the tile that opened it");
-            expect([...document.querySelectorAll(".section-tile:not(.card-tile):not([data-title-small]) .section-tile-title:not(.card-box-add-words)")].filter(title => !title.closest(".section-tile-add, .section-tiles-completed[data-squeezed]")), body, "a tile or box title is the body size (18)");
+            expect([...document.querySelectorAll(".section-tile:not(.card-tile):not([data-title-small]) .section-tile-title:not(.card-box-add-words)")].filter(title => !title.closest(".section-tile-add, .section-tile-diagram, .section-tiles-completed[data-squeezed]")), body, "a tile or box title is the body size (18)");
             expect([...document.querySelectorAll(".section-tile[data-title-small] .section-tile-title")], scale("--font-small") || 14, "a title too long for its room is the small size (14), that title only");
             expect([...document.querySelectorAll(".section-tile-list > li, .section-tile-sub")].filter(item => !item.closest(".section-tiles-quad[data-large]")), scale("--font-small") || 14, "a tile's list and a box's one small line are the small size (14)");
             expect([...document.querySelectorAll(".section-tile-empty, .section-tile-add-plus")], h3, "the + of an empty section and of an add box is the h3 size (24)");
@@ -2586,7 +2588,6 @@
                 if (remove.contains(cell) || cell.contains(remove)) {
                     continue;
                 }
-                if (cell.closest(".business-capability-performer")) continue; // DECLARED: 8px short of the x
                 const other = rect(cell);
                 const overlapsRow = other.top < box.bottom && other.bottom > box.top;
                 if (!overlapsRow) {

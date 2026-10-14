@@ -1399,7 +1399,7 @@
 
 }
 
-/* An activity's performers: each picker runs from its label's gap to the right edge of the name cell above (the cell stops 8px short of the
+/* An activity's performers: each picker runs from its label's gap to the right edge of the name cell above (the name cell stops 12px short of the
    x; so does the picker), and the "+" (the first row) or the x (the rows after it) stands in the x's own column, the x's size (32px). */
 .card-box-open .business-capability-performers {
 
@@ -1412,6 +1412,9 @@
     flex: 1 1 auto;
 
     width: auto;
+
+    /* (The row leaves 8px before the x or the "+"; the name cell above leaves 12px, so the picker ends 4px short of the row's gap: at the name cell's right edge.) */
+    margin-inline-end: 4px;
 
 }
 
@@ -3604,13 +3607,16 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
 }
 
-/* A founder's Skills: the kind's drop-down is 14em wide on every row -- the longest kind ("Professional / Technical Expertise") takes two lines at most, the cell growing down. */
+/* A founder's Skills: the kind's drop-down is 14em wide on every row -- the longest kind ("Professional / Technical Expertise") is cut with an ellipsis on its one line. */
 .founders-profile .numbered-list-line-end {
 
     width: 14em;
     min-width: 0;
 
     margin-left: auto;
+
+    /* (The drop-down runs to the cell's edge: the 6px the list-end cell keeps elsewhere is not kept here.) */
+    padding-right: 0;
 
 }
 
@@ -3898,23 +3904,12 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
 }
 
-/* A Skills kind's drop-down shows its kind on one line, or on two where the skill beside it takes two or more. */
+/* A Skills kind's drop-down shows its kind on one line, cut with an ellipsis (the full kind is its tooltip and stands in the open list). */
 .founders-profile .numbered-list-line-end .option-picker-value {
 
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
-}
-
-.founders-profile .numbered-list-row[data-multiline] .numbered-list-line-end .option-picker-value {
-
-    display: -webkit-box;
-
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-
-    white-space: normal;
 
 }
 
@@ -7134,7 +7129,8 @@ table.business-relationship-table {
 
     height: 44px;
 
-    gap: 4px;
+    /* (One gap, 8px, from the last word to its "i".) */
+    gap: 8px;
 
     font-weight: 600;
 
@@ -7484,9 +7480,11 @@ table.business-relationship-table {
 
     position: absolute;
 
-    top: 56px;
+    /* (The arrows stand on the Description label's centre line: 6px lower than the head's foot gap alone would put them.) */
+    top: 62px;
 
-    right: -44px;
+    /* (The rail and the tiles symbol stand 12px from the card's edge, its 1px border counted.) */
+    right: -45px;
 
     bottom: 12px;
 
@@ -7591,7 +7589,7 @@ table.business-relationship-table {
 
     top: 19px;
 
-    left: calc(100% + 12px);
+    left: calc(100% + 13px);
 
     width: 32px;
 

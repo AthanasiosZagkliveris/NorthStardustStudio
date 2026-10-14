@@ -130,6 +130,11 @@ export interface SectionTile {
     inactive?: boolean;
     /** Its dialog covers the page (the Roadmap's), as wide as the widest dialogs are, not the width of the card the tile stands in. */
     wide?: boolean;
+    /**
+     * A DIAGRAM TILE: a category of its own among the Master Tiles. It stands for a drawing that opens in its dialog (the Roadmap, a Gantt diagram),
+     * not for a list of what the section holds: a wide banner with a large title and no list, not a square of the page's tile size.
+     */
+    diagram?: boolean;
     press?: () => void;
 
     /** The "+" makes the card and opens the tile's DIALOG on it (its box is the new card's id): the card stands where the dialog shows its cards, with no floating card. */
@@ -1115,7 +1120,7 @@ function TileSlot({
     return (
         <div
             ref={slot}
-            className={"section-tile-slot" + (tile.inactive ? " section-tile-slot-empty" : "") + ((tile.add && tile.cardFor) || tile.plus ? " section-tile-slot-plus" : "") + (tile.sentence ? " section-tile-slot-sentence" : "") + (anyAlert ? " card-tile-incomplete" : "")}
+            className={"section-tile-slot" + (tile.diagram ? " section-tile-slot-diagram" : "") + (tile.inactive ? " section-tile-slot-empty" : "") + ((tile.add && tile.cardFor) || tile.plus ? " section-tile-slot-plus" : "") + (tile.sentence ? " section-tile-slot-sentence" : "") + (anyAlert ? " card-tile-incomplete" : "")}
             style={style}
             data-column={at.column}
             data-row={at.row}
@@ -1126,7 +1131,7 @@ function TileSlot({
         >
             <button
                 type="button"
-                className={"section-tile" + (tile.inactive ? " section-tile-inactive" : "") + (tile.channel ? " section-tile-channel" : "") + (tile.completed ? " section-tile-completed" : "")}
+                className={"section-tile" + (tile.diagram ? " section-tile-diagram" : "") + (tile.inactive ? " section-tile-inactive" : "") + (tile.channel ? " section-tile-channel" : "") + (tile.completed ? " section-tile-completed" : "")}
                 data-tile={tile.id}
                 data-anchor={tile.anchor}
                 data-rail={tile.rail}

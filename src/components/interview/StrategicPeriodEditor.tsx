@@ -277,6 +277,7 @@ export default function StrategicPeriodEditor({
         id: "strategy-roadmap",
         title: "Roadmap",
         wide: true,
+        diagram: true,
         view: true,
         // (Its name alone: the Roadmap is drawn in its dialog, and its tile has no list.)
         items: [],

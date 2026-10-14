@@ -11554,6 +11554,19 @@ td.process-library-col-number{
 
 }
 
+/* The "i" (22px) stands on the centre line of the link's first line (28px): 3px down; where an arrow stands beside it, the line starts 4px down, so the "i" 7px. */
+.business-engagement-reference-name-row > .info-note{
+
+    margin-top:3px;
+
+}
+
+.business-engagement-reference-name-row:has(> .strategy-box-toggle) > .info-note{
+
+    margin-top:7px;
+
+}
+
 .business-engagement-reference-empty{
 
     margin:0;

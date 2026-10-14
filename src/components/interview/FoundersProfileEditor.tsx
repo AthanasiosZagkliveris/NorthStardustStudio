@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useEffect, useLayoutEffect, useRef } from "react";
+import { CSSProperties, ReactNode, useEffect } from "react";
 
 import {
     FOUNDER_CREDENTIAL_TYPES,
@@ -20,36 +20,6 @@ import FoldAllToggle from "./FoldAllToggle.tsx";
 import FoldArrow from "./FoldArrow.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 
-/**
- * The cell of a skill's kind: its drop-down shows the kind on two lines where the skill beside it is written on two or more (the row is that tall anyway),
- * and on one line where the skill is one line.
- */
-function SkillKind({ children }: { children: ReactNode }) {
-    const cell = useRef<HTMLDivElement | null>(null);
-    useLayoutEffect(() => {
-        const row = cell.current?.closest(".numbered-list-row");
-        const text = row?.querySelector("textarea");
-        if (!row || !text) {
-            return;
-        }
-        const fit = () => {
-            const line = parseFloat(getComputedStyle(text).lineHeight) || 20;
-            row.toggleAttribute("data-multiline", text.scrollHeight > line * 1.6);
-        };
-        fit();
-        text.addEventListener("input", fit);
-        if (typeof ResizeObserver === "undefined") {
-            return () => text.removeEventListener("input", fit);
-        }
-        const observer = new ResizeObserver(fit);
-        observer.observe(text);
-        return () => {
-            text.removeEventListener("input", fit);
-            observer.disconnect();
-        };
-    });
-    return <div ref={cell}>{children}</div>;
-}
 import InfoNote, { InfoText } from "./InfoNote.tsx";
 import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 import type { OpenPage } from "./jumpTo.ts";
@@ -326,9 +296,8 @@ export default function FoundersProfileEditor({
                     type: origins[index] >= 0 ? entries[origins[index]]?.type ?? "" : "",
                     text
                 })))}
-                // The kind of each line, in the app's own drop-down (a long kind wraps and grows the cell down).
+                // The kind of each line, in the app's own drop-down: one line, a long kind cut with an ellipsis (its full text is the tooltip and stands in the open list).
                 lineEnd={(index) => (
-                    <SkillKind>
                     <OptionPicker
                         label={who + " skills entry " + (index + 1) + " type"}
                         placeholder="Type"
@@ -340,7 +309,6 @@ export default function FoundersProfileEditor({
                             ? { ...entry, type: FOUNDER_CREDENTIAL_TYPES.find(kind => kind.label === next)?.id ?? "" }
                             : entry))}
                     />
-                    </SkillKind>
                 )}
             />
         );

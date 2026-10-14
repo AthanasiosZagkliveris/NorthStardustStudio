@@ -89,6 +89,7 @@ This part records every kind of element the Foundation capability is built from,
 | **Chapter** | A frame that contains Master Tiles |
 | **Master Tile** | A large tile on the main page (the `SectionTile` square drawn by `SectionTiles`, through `TileSlot` and `TileFace`) |
 | **Help tile** | A tile that holds no direct information and only filters and presents records (a cost table, linked Tiles and so on). **The Inventory tile and the Completed tile are help tiles, not Master Tiles.** |
+| **Diagram tile** | A category of Master Tile of its own (2026-10-14): a tile that stands for a drawing opening in its dialog, not for a list. Today the Roadmap (a Gantt diagram): a wide banner with a large title and no list. |
 | **Card** | An opened tile (an opened Activity tile is an Activity Card) |
 | **Floating Card** | A Card placed over the page; a placement, not a type |
 | **Nested Cards** | A Theme Card with Goal, Objective and Metric Cards and an Initiative list |
@@ -176,6 +177,7 @@ A "Chapter" has no named type in the code. Frames are classes:
 | Business Foundation tiles | Segment Description, Value Proposition and card boxes (Profile, Competitor, Offering) | `BusinessFoundationEditor` |
 | Engagement tiles | One per channel and subchannel (teal hue); `inactive` for an unused channel | `SectionTiles` |
 | Infrastructure group tiles | Founders; Resources, Activities, Partners & Suppliers (per chapter); Delivery; Workspace (`direct`) | `BusinessCapabilityEditor` |
+| **Diagram tile** | The Roadmap: a wide banner (442 × 102 px) with a 36 px title and no list; its dialog covers the page | `SectionTile.diagram`, `StrategicPeriodEditor` |
 | Strategy tiles | Current Situation, SWOT Analysis, Strategic Compass, Strategic Period; Goals and Objectives; Roadmap | `StrategyFoundationEditor`, `StrategicPeriodEditor` |
 | **Help tile: Inventory** | Counts of resources, activities, partners & suppliers; its dialog (`CapabilityOverview`) shows tiles or a cost table with a funnel, count bar and link legend | `BusinessCapabilityEditor`, `CapabilityOverview.tsx`, `capabilityFloor.ts` |
 | **Help tile: Completed** | Grey; lists completed activities; exists only while one is completed | `BusinessCapabilityEditor` |
