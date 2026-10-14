@@ -9391,9 +9391,10 @@ main.conversation-content[data-reserve],
 
 }
 
-.page-arrow.carousel-arrow.carousel-arrow-on-tab {
+.page-arrow.carousel-arrow.carousel-arrow-on-tab,
+:root[data-theme="dark"] .page-arrow.carousel-arrow.carousel-arrow-on-tab {
 
-    /* Over the page tab: the tab's edge colour in its brighter version. */
+    /* Over the page tab: the tab's edge colour in its brighter version (in every reading mode: the dark mode's own arrow colour is more specific, so it is named here too). */
     color: color-mix(in srgb, var(--tab-edge) 55%, white);
 
 }
