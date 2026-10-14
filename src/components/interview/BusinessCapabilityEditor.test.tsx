@@ -648,7 +648,7 @@ describe("BusinessCapabilityEditor founders' Responsibilities", () => {
         }
         const css = stylesheet("section-tiles.css");
         // No indent for the list the arrow folds any more.
-        expect(css).not.toMatch(/responsibilities-head:has\(> \.strategy-box-toggle\) ~ \*/);
+        expect(css).not.toMatch(/responsibilities-head:has\(> \.label-arrow\) ~ \*/);
         expect(css).not.toMatch(/margin-left: 44px/);
         expect(stylesheet("numbered-list.css")).toMatch(/\.numbered-list-static-flush > li::before ?\{[^}]*padding-left: ?0;[^}]*text-align: ?left;/);
     });

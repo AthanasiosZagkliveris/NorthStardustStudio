@@ -1497,7 +1497,7 @@ export default function BusinessEngagementEditor({
      * One of the card's two sections, with the arrow that folds it.
      *
      * The same arrow every card on this page and Page 1 carries
-     * (.strategy-box-toggle), in front of the same subhead -- so a
+     * (.label-arrow), in front of the same subhead -- so a
      * section folds the way a card does, and the control is the one
      * already learned.
      *

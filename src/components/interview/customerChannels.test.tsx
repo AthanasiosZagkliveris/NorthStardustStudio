@@ -194,7 +194,7 @@ describe("a Segment's shared channel actions, in the table", () => {
             return <BusinessEngagementEditor value={value} onChange={(next) => { saved = next; setValue(next); }} foundation={foundation} />;
         }
         render(<Harness />);
-        fireEvent.click(document.querySelector(".business-channel-category .strategy-box-toggle")!);
+        fireEvent.click(document.querySelector(".business-channel-category .label-arrow")!);
 
         const pinLine = screen.getByLabelText("Discover actions for Subchannel 2 1");
         fireEvent.change(pinLine, { target: { value: "Post" } });
@@ -238,7 +238,7 @@ describe("a Segment's shared channel actions, in the table", () => {
             return <BusinessEngagementEditor value={value} onChange={(next) => { holder.saved = next; setValue(next); }} foundation={foundation} />;
         }
         render(<Harness />);
-        fireEvent.click(document.querySelector(".business-channel-category .strategy-box-toggle")!);
+        fireEvent.click(document.querySelector(".business-channel-category .label-arrow")!);
         return holder;
     }
 
@@ -341,7 +341,7 @@ describe("action markers in the Customer Channel table", () => {
             return <BusinessEngagementEditor value={value} onChange={setValue} foundation={foundation} capability={capability} onChangeCapability={() => undefined} />;
         }
         render(<Harness />);
-        for (const toggle of document.querySelectorAll(".business-channel-category .strategy-box-toggle")) {
+        for (const toggle of document.querySelectorAll(".business-channel-category .label-arrow")) {
             fireEvent.click(toggle);
         }
     }

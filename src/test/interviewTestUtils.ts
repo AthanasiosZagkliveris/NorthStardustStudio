@@ -1,8 +1,8 @@
 import { fireEvent, screen, within } from "@testing-library/react";
 
-/** The fold arrows (.strategy-box-toggle) whose name matches `pattern`. */
+/** The fold arrows (.label-arrow) whose name matches `pattern`. */
 export const toggles = (pattern: RegExp) =>
-    screen.getAllByRole("button", { name: pattern }).filter(b => b.classList.contains("strategy-box-toggle"));
+    screen.getAllByRole("button", { name: pattern }).filter(b => b.classList.contains("label-arrow"));
 
 /** Types `text` one keystroke at a time, the way a number box's limits see it. */
 export function typeInto(input: HTMLInputElement, text: string) {

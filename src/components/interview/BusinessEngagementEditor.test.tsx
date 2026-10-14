@@ -78,7 +78,7 @@ describe("BusinessEngagementEditor folding", () => {
 
         render(<Harness />);
 
-        const all = screen.getAllByRole("button").filter(b => b.classList.contains("strategy-box-toggle"));
+        const all = screen.getAllByRole("button").filter(b => b.classList.contains("label-arrow"));
         const offeringBlocks = all.filter(b => /Audit|Retainer/.test(b.getAttribute("aria-label") ?? ""));
         const sections = all.filter(b => /Customer Channel|Customer Relationship/.test(b.getAttribute("aria-label") ?? ""));
 
@@ -107,7 +107,7 @@ describe("BusinessEngagementEditor folding", () => {
 
         expect(categories).toHaveLength(2);
         categories.forEach(b => {
-            expect(b.classList.contains("strategy-box-toggle")).toBe(true);
+            expect(b.classList.contains("label-arrow")).toBe(true);
             expect(b.getAttribute("aria-expanded")).toBe("false");
         });
 

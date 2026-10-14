@@ -965,8 +965,8 @@
         //     row) are set by its cells.
         {
             const HEADS = ".fold-card-head, .fold-group-head, .business-engagement-section-head, .business-capability-subsection-head, .financial-cost-group-head, .business-demand-head, .strategy-box-head";
-            const aside = element => element.closest(".strategy-box-toggle, .label-arrow, .strategy-drag-handle, .fold-all-toggle, .info-note-panel, .option-picker-list, .month-picker-panel, .business-card-summary");
-            for (const arrow of [...document.querySelectorAll(".strategy-box-toggle")].filter(visible)) {
+            const aside = element => element.closest(".label-arrow, .strategy-drag-handle, .fold-all-toggle, .info-note-panel, .option-picker-list, .month-picker-panel, .business-card-summary");
+            for (const arrow of [...document.querySelectorAll(".label-arrow")].filter(visible)) {
                 const head = arrow.closest(HEADS) ?? arrow.parentElement;
                 if (!head || head.matches("th, td, tr") || (head.parentElement && head.parentElement.matches("th, td, .brand-style-card"))) {
                     continue;
@@ -1147,9 +1147,9 @@
                 return first ? first.left : null;
             };
             const title = column.querySelector(".business-foundation-subhead");
-            const edge = title ? left(title.querySelector(".business-engagement-reference-number") || title.querySelector(":scope > span:not(.strategy-box-toggle)") || title) : null;
+            const edge = title ? left(title.querySelector(".business-engagement-reference-number") || title.querySelector(":scope > span:not(.label-arrow)") || title) : null;
             const parts = [
-                ...[...column.querySelectorAll(".business-engagement-reference-name-row > :not(.strategy-box-toggle):not(.info-note)")].map(left),
+                ...[...column.querySelectorAll(".business-engagement-reference-name-row > :not(.label-arrow):not(.info-note)")].map(left),
                 ...[...column.querySelectorAll(".business-engagement-reference-label, .business-engagement-reference-text")].map(left)
             ].filter(x => x !== null);
             if (edge !== null && parts.some(x => !rules.near(x, edge, 1))) {
@@ -1162,8 +1162,8 @@
         //     of the next column's hanging rule; the last column's: 12px short of
         //     the Segment card's right side).
         for (const row of [...document.querySelectorAll(".business-engagement-reference-name-row")].filter(visible)) {
-            const arrow = row.querySelector(":scope > .strategy-box-toggle");
-            const link = row.querySelector(":scope > :not(.strategy-box-toggle)");
+            const arrow = row.querySelector(":scope > .label-arrow");
+            const link = row.querySelector(":scope > :not(.label-arrow)");
             const column = row.closest(".business-engagement-reference-column");
             if (!arrow || !link || !column) continue;
             const range = document.createRange();
@@ -1193,7 +1193,7 @@
         {
             const kinds = new Map();
             for (const head of [...document.querySelectorAll(".fold-card-fixed")].filter(visible)) {
-                if (!head.querySelector(":scope > .strategy-box-toggle[aria-expanded='false']")) {
+                if (!head.querySelector(":scope > .label-arrow[aria-expanded='false']")) {
                     continue;
                 }
                 const name = head.querySelector(":scope > .strategy-name-static");
@@ -2017,8 +2017,8 @@
                 // THE TWO FOLD ARROWS (Responsibilities, Completed) are the STANDARD arrow, one component: the same size
                 // (36px, the app's default) and the same reaction (the same classes, so the same hover and focus rules); the
                 // GLYPHS (not their boxes) start at the markers' x, as the head number and the bullets do.
-                const arrow = card.querySelector(".business-capability-responsibilities-head:not(.business-capability-completed-head) > .strategy-box-toggle");
-                const completed = card.querySelector(".business-capability-completed-head > .strategy-box-toggle");
+                const arrow = card.querySelector(".business-capability-responsibilities-head:not(.business-capability-completed-head) > .label-arrow");
+                const completed = card.querySelector(".business-capability-completed-head > .label-arrow");
                 // (The box does not move when toggled, so the glyph turns about its centre: the closed glyph's left edge is the markers' x, the
                 // open one's 3.5px further left.)
                 const glyphLeft = (button) => {
@@ -2650,7 +2650,7 @@
                 continue;
             }
             for (let round = 0; round < 3; round++) {
-                for (const button of dialog.querySelectorAll("button.fold-all-toggle, button.strategy-box-toggle[aria-expanded='false']")) {
+                for (const button of dialog.querySelectorAll("button.fold-all-toggle, button.label-arrow[aria-expanded='false']")) {
                     if (button.matches(".fold-all-toggle") && !/^Expand all/.test(button.getAttribute("aria-label") || "")) {
                         continue;
                     }

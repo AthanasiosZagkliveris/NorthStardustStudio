@@ -16,7 +16,7 @@ function Harness() {
 }
 
 const toggles = () =>
-    screen.getAllByRole("button", { name: /Requirement \d+$/ }).filter(b => b.classList.contains("strategy-box-toggle"));
+    screen.getAllByRole("button", { name: /Requirement \d+$/ }).filter(b => b.classList.contains("label-arrow"));
 
 afterEach(cleanup);
 

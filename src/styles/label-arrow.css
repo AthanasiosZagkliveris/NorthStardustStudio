@@ -21,7 +21,7 @@
     width: var(--label-arrow-hit);
     height: var(--label-arrow-hit);
 
-    margin: 0 calc((11px - var(--label-arrow-hit)) / 2);
+    margin: 0 calc((0.611em - var(--label-arrow-hit)) / 2);
     padding: 0;
 
     border: 0;
@@ -40,7 +40,7 @@
 
 }
 
-/* The triangle (an SVG): the shape and size of the Completed arrow -- 11 wide and 18 high pointing right, 18 x 11 pointing down -- with a 2px line drawn inside its edge. */
+/* The triangle (an SVG): the Completed arrow's shape (11 wide, 18 high pointing right, 18 x 11 pointing down at an 18px label), scaled with the label's letters: 1em high, 0.611em deep; a 2px line drawn inside its edge. */
 .label-arrow > svg {
 
     position: absolute;
@@ -48,10 +48,10 @@
     top: 50%;
     left: 50%;
 
-    width: 11px;
-    height: 18px;
+    width: 0.611em;
+    height: 1em;
 
-    margin: -9px 0 0 -5.5px;
+    margin: -0.5em 0 0 -0.3055em;
 
     overflow: visible;
 
@@ -70,7 +70,7 @@
 .label-arrow[aria-expanded="true"] > svg {
 
     /* Turned about its centre it is wider than it is deep: shifted by half the difference so its left edge stays on the content edge. */
-    transform: translateX(3.5px) rotate(90deg);
+    transform: translateX(0.1945em) rotate(90deg);
 
 }
 
@@ -91,7 +91,7 @@
 .field-label > .label-arrow,
 .strategy-box-number > .label-arrow {
 
-    margin-right: calc(26px - (11px + var(--label-arrow-hit)) / 2);
+    margin-right: calc(26px - (0.611em + var(--label-arrow-hit)) / 2);
 
 }
 
@@ -108,5 +108,12 @@
 .card-title-row > .label-arrow {
 
     --label-arrow-size: var(--font-h2);
+
+}
+
+/* The arrow of a card head, a section head or a Completed / Links head stands BEFORE its label as a sibling: its glyph on the head's content edge; the words follow at the head's own gap. A founder's Completed and Links heads put the words where a tick box's words start (26px from the edge). */
+.business-capability-responsibilities-head > .label-arrow {
+
+    margin-right: calc(26px - 12px - (0.611em + var(--label-arrow-hit)) / 2);
 
 }

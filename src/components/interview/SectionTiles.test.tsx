@@ -693,7 +693,7 @@ describe("the page's cards and titles", () => {
             .toEqual(["1.Infrastructure", "2.Offering's Capability"]);
         expect(document.querySelector(".business-capability > .answer-column-label")).toBeNull();
         // No fold arrow at all on the page itself (the tiles are the grouping), nor "Expand all".
-        expect(toggles(/.*/)).toHaveLength(0);
+        expect(toggles(/.*/).filter(b => !/^(Show|Hide) help for /.test(b.getAttribute("aria-label") ?? ""))).toHaveLength(0);
         expect(screen.queryByRole("button", { name: /Expand all|Collapse all/ })).toBeNull();
         // The sections have no headings on the page (their tiles stand in for them); the heading is drawn in the section's dialog.
         expect(document.querySelectorAll(".business-capability-section > .business-engagement-section-head .business-foundation-subhead")).toHaveLength(0);
