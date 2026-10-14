@@ -22,8 +22,9 @@ import { INPAGE } from "./inpage.mjs";
 import { assets } from "../../src/library/index.ts";
 import * as labelArrow from "./assets/labelArrow.mjs";
 import * as plusBox from "./assets/plusBox.mjs";
+import * as infoNote from "./assets/infoNote.mjs";
 
-const modules = [labelArrow, plusBox];
+const modules = [labelArrow, plusBox, infoNote];
 
 const base = process.argv.includes("--base") ? process.argv[process.argv.indexOf("--base") + 1] : "http://localhost:1420";
 const only = process.argv.includes("--asset") ? process.argv[process.argv.indexOf("--asset") + 1] : null;
@@ -32,10 +33,20 @@ const MODES = ["light", "dark", "sepia"];
 const SIZES = [[768, 1024], [1440, 864], [1920, 1250]];
 
 const failures = [];
+const known = new Map();
 let checks = 0;
-const check = (ok, where, what, detail = "") => {
+let current = null;
+/** check(ok, where, what, detail, key): a check with a key listed in the contract's knownFindings is a KNOWN finding, not a failure. */
+const check = (ok, where, what, detail = "", key = "") => {
     checks++;
-    if (!ok) failures.push(where + ": " + what + (detail ? " (" + detail + ")" : ""));
+    const text = where + ": " + what + (detail ? " (" + detail + ")" : "");
+    const isKnown = key && current && current.knownFindings && key in current.knownFindings;
+    if (isKnown) {
+        if (ok) failures.push(text + " -- passes now: remove the known finding \"" + key + "\" from the contract");
+        else known.set(key, (known.get(key) ?? 0) + 1);
+    } else if (!ok) {
+        failures.push(text);
+    }
 };
 
 const run = assets.filter(asset => !only || asset.name === only);
@@ -61,6 +72,7 @@ try {
             check(theme === mode, mode + " " + width + "x" + height, "the page is drawn in " + mode, String(theme));
             for (const contract of run) {
                 const module = modules.find(item => item.name === contract.name);
+                current = contract;
                 await module.run(page, contract, contract.name + " / " + mode + " / " + width + "x" + height, check);
             }
         }
@@ -71,5 +83,6 @@ try {
 }
 
 for (const failure of failures) console.error("FAIL " + failure);
+for (const [key, count] of known) console.log("KNOWN " + key + ": " + count + " measurements below the rule (see the contract's knownFindings)");
 console.log(checks + " checks, " + failures.length + " failed (" + run.map(a => a.name).join(", ") + "; " + MODES.join(", ") + "; " + SIZES.map(s => s.join("x")).join(", ") + ").");
 process.exit(failures.length ? 1 : 0);

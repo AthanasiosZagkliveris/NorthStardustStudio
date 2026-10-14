@@ -73,3 +73,17 @@
     align-items: center;
 
 }
+
+/* A label's line in the gallery: one line, so the line's centre is the label's. */
+.library-label-line {
+
+    white-space: nowrap;
+
+}
+
+/* The page-3 wrapper keeps only the classes the "i" rules look for, not the page's grid. */
+.library-page-3.library-page-3 {
+
+    display: block;
+
+}

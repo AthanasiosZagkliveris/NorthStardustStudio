@@ -9,7 +9,8 @@ export const GROUNDS = ["page", "card"] as const;
  */
 export default function Sample({ variant, hue, ground, state, className, children }: {
     variant: string;
-    hue: number;
+    /** A palette hue, or null for a sample outside any card of a hue. */
+    hue: number | null;
     ground: string;
     state: string;
     className?: string;
@@ -20,10 +21,10 @@ export default function Sample({ variant, hue, ground, state, className, childre
             className={"library-sample library-ground-" + ground + (className ? " " + className : "")}
             data-sample=""
             data-variant={variant}
-            data-hue={hue}
+            data-hue={hue === null ? "none" : hue}
             data-ground={ground}
             data-state={state}
-            style={{ "--strategy-theme-hue": hue } as CSSProperties}
+            style={hue === null ? undefined : { "--strategy-theme-hue": hue } as CSSProperties}
         >
             {children}
         </div>

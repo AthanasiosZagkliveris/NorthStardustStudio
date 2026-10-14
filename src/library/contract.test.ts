@@ -19,7 +19,7 @@ describe("the asset contracts", () => {
 
     it("lists only custom properties its stylesheet reads", () => {
         for (const asset of assets) {
-            const css = stylesheet(asset.stylesheet.replace("src/styles/", ""));
+            const css = [asset.stylesheet, ...(asset.alsoStylesheets ?? [])].map(path => stylesheet(path.replace("src/styles/", ""))).join(" ");
             for (const token of asset.tokens) expect(css, asset.name + " " + token).toContain(token);
         }
     });
@@ -48,6 +48,19 @@ describe("the asset contracts", () => {
         expect(css).toContain("background-color .15s ease");
         expect(css).toContain("outline: " + g.outlineWidth + "px solid var(--focus-ring-ink);");
         expect(css).toContain("outline-offset: " + g.outlineOffset + "px;");
+    });
+
+
+    it("gives the info note the disc, the hit area, the gap and the page-3 stroke its stylesheets draw", () => {
+        const note = assets.find(asset => asset.name === "Info note")!;
+        const g = note.geometry;
+        const conversation = stylesheet("conversation.css");
+        expect(conversation).toContain(".info-note-button{ width:" + g.disc + "px; height:" + g.disc + "px;");
+        expect(conversation).toContain("width:" + g.hitArea + "px; height:" + g.hitArea + "px;");
+        expect(conversation).toContain("margin-left:var(--info-gap, " + g.gap + "px);");
+        expect(stylesheet("global.css")).toContain("--info-gap: " + g.gap + "px;");
+        expect(stylesheet("page-3-edges.css")).toContain("border: " + g.strokePage3 + "px solid var(--info-ink);");
+        expect(Object.keys(note.knownFindings ?? {})).toEqual(["tinted-rule-overridden"]);
     });
 
 });

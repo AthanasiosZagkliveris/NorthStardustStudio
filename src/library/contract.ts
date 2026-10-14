@@ -32,6 +32,8 @@ export interface AssetContract {
     readonly summary: string;
     readonly component: string;
     readonly stylesheet: string;
+    /** Other stylesheets that style it (the variants of an asset can live in several). */
+    readonly alsoStylesheets?: readonly string[];
     /** The parts of its anatomy. */
     readonly parts: readonly string[];
     readonly states: readonly AssetState[];
@@ -48,4 +50,11 @@ export interface AssetContract {
         readonly accessibleName: string;
     };
     readonly uses: readonly string[];
+    /**
+     * Findings the runner has measured and the owner has not decided on: the
+     * app does not meet its own rule or a standard here, and nothing was
+     * changed. A check named by a key here is reported as KNOWN instead of
+     * failing; if it starts to pass, the runner fails until the entry is removed.
+     */
+    readonly knownFindings?: Readonly<Record<string, string>>;
 }
