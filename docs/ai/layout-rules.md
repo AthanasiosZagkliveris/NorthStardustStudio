@@ -1254,11 +1254,11 @@ Text that goes bold under the pointer (`--hover-bold`) gets 0.05em of tracking O
 ### The label arrow (2026-10-14)
 
 One fold arrow (`LabelArrow.tsx`, `label-arrow.css`) for an arrow that stands beside a label or a text and shows or hides what belongs to it.
-Today: the chapter titles of 3. Infrastructure & Capability (right of the title and its "i"), a founder's Responsibilities and the Initiatives of an Objective (left of the label, inside it).
+Today: the chapter titles of 3. Infrastructure & Capability (right of the title and its "i"), and, left of the label and inside it, a founder's Responsibilities and Completed, a card's Links and the Initiatives of an Objective.
 - No frame and no ground: only the triangle. At rest an outline in the card's tint (the "+" box's colour); under the pointer and the keyboard focus the same triangle filled.
 - The shape is the Completed arrow's (11px wide and 18px high pointing right, 18 x 11px pointing down, at an 18px label); the size scales with the label's letters (1em high). The line is 2px, inside the shape, like the "+" box's. The colour is the card's tint (the "+" box's).
 - Inside a label its glyph starts at the content edge, like a tick box, and the words start where a tick box's words start (26px). The button is never under 24px; it overhangs the triangle and takes no more room.
-- Every fold arrow in the app is this one (`FoldArrow` renders it); the old 36px fold arrow with its frame is gone.
+- Only these use it: the chapter titles of 3. Infrastructure & Capability, the Initiatives, a founder's Responsibilities and Completed, and a card's Links. Every other fold arrow keeps the standard 36px arrow (`FoldArrow`).
 
 ## 9. Tiles: kinds, titles, lists, marks, hover and size
 
