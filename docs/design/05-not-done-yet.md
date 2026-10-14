@@ -263,7 +263,7 @@ Reading note: steps 1, 2, 3, 6 and 7 run **now** (they are prerequisites for the
 |---|---|
 | Rulebook | `docs/ai/layout-rules.md` is 194 KB, 1,552 lines. Sections 1–8 are the base rules; after them come about 25 appended "Batch" and "latest" addenda that sometimes restate or overrule earlier rules. |
 | Stylesheets | About 1.07 MB of CSS. `conversation.css` 439 KB, `section-tiles.css` 262 KB, `global.css` 55 KB, `organization-calendar.css` 33 KB, `colors.css` 34 KB. New rules were appended in blocks; duplicates were removed once from `section-tiles.css` (selectors that tests read were left in place). |
-| Colours | About 690 tokens in `colors.css`, but about 213 hard-coded colours outside it, and theme overrides spread over five other CSS files. Four reading modes: light, sepia, dark, auto. The layout probe checks light only. |
+| Colours | 233 distinct colour tokens in `colors.css`, written by hand once for each reading mode (about 690 declarations); **41** colour literals outside it (measured again on 2026-10-14; the earlier "about 213" was a rougher count); 222 `color-mix()` uses. Four reading modes: light, sepia, dark, auto. The layout probe checks light only. |
 | Breakpoints | About 55 media/container rules with inconsistent values; no stated minimum width until now (768 px is now decided). |
 | Layout check baseline | 1,830 known findings, all recorded on one example (Quillfield), at 1920 px, in light mode. |
 | Stale names | Docs, one test comment and the layout check still describe the old page structure (see step 6). |
@@ -442,3 +442,71 @@ No item in this list is a WCAG 2.2 AA failure.
 - **Tracking:** every rule that sets a bold weight now adds `--bold-tracking`; rows that hold bold text on hover must be sized for it. The check will show any row that now wraps or overflows.
 - **Contrast of unlit rail bullets** (38% of the edge colour) was not measured against WCAG 1.4.11; the owner dropped the proposed global rule, so nothing was changed.
 - **PDF copies** of documents 04 and 05 (and the combined file) are older than these texts.
+
+## 5.13 Library automation: the process (proposal, 2026-10-14)
+
+Goal: the asset library should not be built by hand, asset by asset, with every number written in several places. The proposal is a pipeline in which **a rule is written once and everything else follows from it**: the colours of every reading mode, the sizes for every use and screen size, the documentation, the checks and the gallery. It is a proposal for the owner's decision; nothing of it is built.
+
+### What was measured today (the case for it)
+
+| Area | Measured |
+|---|---|
+| Colours | 233 distinct tokens, hand-written for light, dark (231) and sepia (228). 37 of them are the card tint (`--theme-*`, a saturation and lightness pair per mode, completed by one hue per card). 41 colour literals outside `colors.css`. |
+| Sizes | Font sizes are tokens (399 uses of a variable, 9 literals). Gaps: 166 variables, **343 literals** in 18 distinct values. Corners: **4 variables, 219 literals** in 11 distinct values (8px x97, 6px x59, 4px x22, 10px x9, ...). |
+| Breakpoints | 14 distinct widths and heights in the media queries (560, 600, 640, 700, 760, 900, 900.02, 1000, 1001, 1099, 1100, 1500, 1501, 1700) and 12 container queries; the decided floor is 768. |
+| One rule, many places | Today's single rule "an \"i\" stands 6px after its label" touched a token, five style rules, the layout probe's expected value, the rulebook and a test. Every rule of the app is spread the same way. |
+| Checks | The layout probe measures page by page on fixture content; a run takes minutes (one page) to hours (wide); the baseline holds 677 known findings; five test files read style text. |
+
+### The principles
+
+1. **A rule is data.** Value, reason, the assets it governs, and its check, in one record (for example `info-gap = 6px`).
+2. **Everything else is generated from the record:** the CSS tokens (for all reading modes), the table in the rulebook, the constants of the probe, the contrast report, the gallery entries.
+3. **Check an asset once, in a gallery, not every page.** A page is then only checked for using assets and nothing else.
+4. **Make the bypass impossible:** a lint that refuses literal colours, corners, gaps and breakpoints outside the tokens, and a control that is not a known asset.
+
+### The pipeline
+
+| Layer | What it is | Generated from it |
+|---|---|---|
+| A. Token source | One typed file (`tokens.ts`), exported also as DTCG JSON. **Colour:** a few seeds per reading mode (paper, ink, neutral hue, accent) and, for each role (ground, inner, line, ink, mark, hover), a lightness and saturation per mode; a card's tint is then *hue x role x mode*. **Pairs:** every pair of roles that meet (ink on ground, mark on ground, "+" on card) with the ratio it must hold (4.5:1 text, 3:1 marks and borders). **Size:** the type scale, the spacing, three steps of corner, control sizes, the 24px hit area, and a table *size by use* (tile, card, rail, head) with *size by screen class* (S from 768, M from 1200, L from 1700; heights 900 and 1250 from the website). **Layout rules:** the numeric rules of the rulebook (12px margin, 6px label gap, "i" gap, arrow shapes, tracking) as records. | `colors.generated.css` (light, dark, sepia and auto in one pass), `sizes.generated.css` (the `@media` and `@container` blocks from the one breakpoint list), the types, the table "Values as built" of the rulebook (between markers), the probe's constants. |
+| B. Generator | A small Node script in `scripts/` (no new dependency). **It fails the build when any pair misses its ratio in any reading mode** and prints the contrast report. Style Dictionary is the known alternative; it has no built-in notion of themes, so the mode blocks would be custom formats anyway, which is why the script comes first. | The above, and the report for the owner. |
+| C. Asset contract | One typed record per asset (the contract of section 5.6, kept simple): name, kind, anatomy (parts), states (rest, hover, focus, open, disabled), variants, the tokens it reads, its sizes by use and screen class, its spacing, its accessibility needs (target size, contrast pairs). | The gallery entry, the asset's measured checks, its page in the documentation. |
+| D. Gallery | A development-only route (`/library`) that draws every asset in every state, in every reading mode and at each screen class, on fixture content. A Playwright run reads the contract and measures: sizes, gaps, centring, the hit area, contrast of each mark against the ground it stands on, no clipping or overflow, hover and focus. axe-core covers the generic accessibility rules (it finds only part of the WCAG problems, so it is a net and not a proof). Screenshots (`toHaveScreenshot`, strict tolerance) are the second check. | A check of seconds for one asset, in all modes and sizes, instead of a page run of minutes. |
+| E. Guardrails | A lint over the stylesheets (no literal colour, corner, gap or breakpoint; every control carries its asset name) and the five style-reading tests turned into tests of tokens and contracts. | The bypass closes. |
+| F. Codemods | A script over the stylesheets (PostCSS) that replaces literals by tokens where the value maps exactly (gaps 6 and 12 to the spacing tokens, corners to the three steps, the 41 colours to roles, the 14 breakpoints to the list of three widths and two heights), prints the ones it cannot map for decision, and runs in small commits. | The 343 gap literals, 219 corner literals, 41 colours and 14 breakpoints reduce to the token set. |
+
+### Order (each step one commit, as in the ground rules of 5.6)
+
+1. **Token source and generator for colour** (A, B): the existing values read into the new file, the generated CSS proven identical to today's by a diff, then the pair table and the contrast report. *First visible result: the contrast of all roles in all modes in one table.*
+2. **Breakpoints, corners and gaps** (A, B, F): one list, three corner steps; the codemod in dry run first.
+3. **Gallery and runner for one trial asset** (C, D): the label arrow, because it was defined today and has a measured contract. Then the "+" box, the "i", the remove x, the rails and the Back button.
+4. **Lint and the style-reading tests** (E).
+5. **Asset by asset**: each asset gets its contract and its gallery entry, its page code is changed to use it, and the page checks it replaces are deleted from the probe.
+6. **The page check last**: once the library covers the elements, the page check is run once, its baseline rewritten, and it shrinks to "pages use assets".
+
+### What is not automated
+
+Names and wording, the composition of a page (which assets sit together), and anything that is a decision of the owner. The pipeline only makes sure that a decision, once taken, is written once and cannot drift.
+
+### Risks and how they are met
+
+- **A generation step is added to the build.** The generated files are committed; a test fails when they differ from the source.
+- **The style-reading tests break when the CSS is generated.** Step 4 converts them first; until then the generator keeps the selectors they read.
+- **A contract measured on fixture content may miss a case of real content.** The gallery carries the worst-case fixtures (the longest names, nine items); the page check at the end stays as the net.
+- **Browser support.** The app already uses `color-mix()` 222 times. `light-dark()` is not used: it takes two schemes and the app has three reading modes.
+- **The token format is not a W3C standard.** The DTCG specification (Format, Color and Resolver modules, version 2025.10, 28 October 2025) is a Community Group report, called stable by the group. It is used as the export format so the tokens can move to the extracted app; the source stays the typed file.
+
+### Decisions for the owner
+
+1. Author the tokens in the typed file (recommended: the compiler checks every reference) or directly as DTCG JSON.
+2. The gallery as a development-only route in the app (recommended) or as a separate page.
+3. The trial asset: the label arrow (recommended), or another.
+4. Whether the lint is switched on at once (it would block any literal) or after the codemods.
+
+### Sources
+
+- Design Tokens Community Group, [Design Tokens Format Module 2025.10](https://www.w3.org/community/reports/design-tokens/CG-FINAL-format-20251028/), [Resolver Module 2025.10](https://www.w3.org/community/reports/design-tokens/CG-FINAL-resolver-20251028/) and [designtokens.org](https://designtokens.org/): first stable version, 28 October 2025; not a W3C standard.
+- Style Dictionary (secondary sources only; the official version 5 notes were not read): DTCG input, CSS custom property output, themes through custom formats ([Always Twisted](https://www.alwaystwisted.com/articles/a-design-tokens-workflow-part-10)).
+- W3C, [CSS Color Module Level 5](https://www.w3.org/TR/css-color-5/): `color-mix()`, relative colour syntax, `light-dark()`; [web.dev, Color themes with Baseline CSS features](https://web.dev/articles/baseline-in-action-color-theme). The Baseline status (newly available in 2024) is from memory and was not confirmed.
+- Playwright, [visual comparisons](https://playwright.dev/docs/test-snapshots); Storybook, [automate accessibility tests](https://storybook.js.org/blog/automate-accessibility-tests-with-storybook); axe-core finds on average about 57% of WCAG issues automatically (its own README, quoted by a secondary source).
+- W3C, WCAG 2.2: success criteria 1.4.3 (contrast, text), 1.4.11 (non-text contrast), 2.5.8 (target size, minimum 24px).
