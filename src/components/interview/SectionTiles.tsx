@@ -372,14 +372,16 @@ function brokenLines(text: string): string[] {
 
 /**
  * THE FOCUS COMES BACK to the control that opened a dialog or a floating card -- so the keyboard continues from where it was.
- * After a POINTER (a mouse click opened it) the focus is restored QUIETLY: no ring on the opener (`data-focus-quiet`) until the
- * keyboard is used or the focus moves on; after the keyboard (Enter) it shows its ring as a focused control does.
+ * The focus is restored QUIETLY, however the opener was opened (a mouse click or Enter): no ring on the opener (`data-focus-quiet`) until the
+ * next key is used or the focus moves on (the owner's rule, 2026-10-14: the ring does not exist after Escape or Back). `pointer` is kept for
+ * the callers; it no longer changes the result.
  */
 function restoreFocus(target: HTMLElement | null, pointer: boolean) {
     if (!target || !target.isConnected) {
         return;
     }
-    if (pointer) {
+    void pointer;
+    {
         target.setAttribute("data-focus-quiet", "");
         const release = () => {
             target.removeAttribute("data-focus-quiet");

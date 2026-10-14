@@ -729,7 +729,7 @@ describe("the point a page tile scales from is set once while the pointer stays"
 
 describe("closing a card or a dialog returns to the default page", () => {
 
-    it("gives the opener back its focus WITHOUT a ring after a click, and with one after the keyboard", () => {
+    it("gives the opener back its focus WITHOUT a ring after Escape or Back, however it was opened", () => {
         render(<Harness initial={seeded()} />);
         const link = () => within(slotOf("Activities")).getByRole("button", { name: "Operational" });
         // Opened with the pointer (a click has a detail).
@@ -742,11 +742,11 @@ describe("closing a card or a dialog returns to the default page", () => {
         // The keyboard takes the quiet away: the ring is the keyboard's.
         fireEvent.keyDown(window, { key: "Tab" });
         expect(link().hasAttribute("data-focus-quiet")).toBe(false);
-        // Opened with the keyboard (Enter on a button is a click with no detail): the ring stays.
+        // Opened with the keyboard (Enter on a button is a click with no detail): no ring either, until the next key.
         fireEvent.click(link(), { detail: 0 });
         fireEvent.keyDown(document, { key: "Escape" });
         expect(document.activeElement).toBe(link());
-        expect(link().hasAttribute("data-focus-quiet")).toBe(false);
+        expect(link().hasAttribute("data-focus-quiet")).toBe(true);
     });
 
     it("does the same for a tile opened into its dialog", () => {

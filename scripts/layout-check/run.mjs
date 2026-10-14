@@ -359,8 +359,8 @@ export async function checkRealMouse(page, where) {
                     if (back.grown.length > 0) {
                         fail("closing a keyboard-opened card grows no tile", { item: name, grown: back.grown });
                     }
-                    if (!back.ring || !back.ring.visible || back.ring.outline === "none") {
-                        fail("closing a keyboard-opened card leaves the ring on its opener", { item: name, ring: back.ring });
+                    if (back.ring && back.ring.visible && back.ring.outline !== "none") {
+                        fail("closing a keyboard-opened card draws no ring on its opener either (the owner's rule)", { item: name, ring: back.ring });
                     }
                 }
             }
