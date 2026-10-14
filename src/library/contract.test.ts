@@ -107,4 +107,17 @@ describe("the asset contracts", () => {
         expect(stylesheet("label-arrow.css")).toContain("width: calc(" + g.arrowHeightEm + "em * 22 / 28);");
     });
 
+
+    it("gives the fold arrow the size, the stroke, the triangle and the focus its stylesheets draw", () => {
+        const fold = assets.find(asset => asset.name === "Fold arrow")!;
+        const g = fold.geometry;
+        const css = stylesheet("conversation.css");
+        expect(css).toContain(".strategy-box-toggle{ position:relative; width:" + g.size + "px; height:" + g.size + "px;");
+        expect(css).toContain("border:" + g.strokeWidth + "px solid transparent; border-radius:var(--radius-md);");
+        expect(css).toContain("border-width:" + g.triangleLong / 2 + "px 0 " + g.triangleLong / 2 + "px " + g.triangleShort + "px;");
+        expect(css).toContain("border-width:" + g.triangleShort + "px " + g.triangleLong / 2 + "px 0 " + g.triangleLong / 2 + "px;");
+        expect(css).toContain(".strategy-box-toggle:hover{ border-color:var(--line-card); background:var(--bg-surface); }");
+        expect(css).toContain(".strategy-box-toggle:focus-visible{ outline:none; border-color:var(--line-primary);");
+    });
+
 });

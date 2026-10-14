@@ -1720,6 +1720,35 @@ The way back out of a dialog or card: a left-pointing triangle and the word Back
 - the word and arrow at rest against the ground they stand on (rest): at least 4.5:1.
 - the word and arrow under the pointer and the focus against the ground (hover): at least 4.5:1.
 
+### Fold arrow
+
+The standard 36px fold arrow: a solid triangle, right while folded and down while open. A ground and a card-line stroke under the pointer; a primary stroke under the keyboard focus.
+
+- **Kind:** fold arrow. **Code:** `src/components/interview/FoldArrow.tsx`. **Stylesheet:** `src/styles/conversation.css` (also `src/styles/card-folding.css`).
+- **Parts:** button (36px square, 1px stroke, transparent at rest); triangle (::before, drawn with borders from the button's middle).
+- **States:** rest, hover, focus, open, closed.
+- **Used in:** every folding card, group and section head; the Segment card's arrow column, the Relationship Type rows, the Customer Engagement reference rows.
+- **Custom properties it reads:** `--text-default`, `--line-card`, `--bg-surface`, `--line-primary`, `--glow-color`, `--radius-md`.
+
+| Variant | Where | Note |
+|---|---|---|
+| plain | any head | the arrow on its own; in a card head it also takes the body size and an invisible fallback glyph (card-folding.css) |
+
+| Number | Value |
+|---|---|
+| size | 36 |
+| triangleLong | 18 |
+| triangleShort | 11 |
+| strokeWidth | 1 |
+| radius | 6 |
+| centreTolerancePx | 0.01 |
+| minTargetPx | 24 |
+| tolerancePx | 0.5 |
+
+**Accessibility.** Keyboard focus is shown by a ring or outline. Name: Minimize <what> / Maximize <what> (aria-label), with aria-expanded. Contrast it must hold:
+- the triangle (the text colour) against the ground it stands on (page): at least 3:1.
+- the triangle (the text colour) against the ground it stands on (card): at least 3:1.
+
 <!-- /generated:assets -->
 
 ## Appendix A. Rules replaced by a later round (history, word for word)

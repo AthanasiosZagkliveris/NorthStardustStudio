@@ -26,8 +26,9 @@ import * as infoNote from "./assets/infoNote.mjs";
 import * as removeX from "./assets/removeX.mjs";
 import * as rails from "./assets/rails.mjs";
 import * as backButton from "./assets/backButton.mjs";
+import * as foldArrow from "./assets/foldArrow.mjs";
 
-const modules = [labelArrow, plusBox, infoNote, removeX, rails, backButton];
+const modules = [labelArrow, plusBox, infoNote, removeX, rails, backButton, foldArrow];
 
 const base = process.argv.includes("--base") ? process.argv[process.argv.indexOf("--base") + 1] : "http://localhost:1420";
 const only = process.argv.includes("--asset") ? process.argv[process.argv.indexOf("--asset") + 1] : null;
