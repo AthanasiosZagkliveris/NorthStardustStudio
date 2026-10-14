@@ -77,4 +77,21 @@ describe("the asset contracts", () => {
         expect(css).toContain("outline:" + g.outlineWidth + "px solid var(--focus-ring-ink, var(--line-primary)); outline-offset:" + g.outlineOffset + "px;");
     });
 
+
+    it("gives the rails the gaps, the growth, the rings and the wide breakpoint their stylesheet draws", () => {
+        const rails = assets.find(asset => asset.name === "Rails")!;
+        const g = rails.geometry;
+        const css = stylesheet("bullet-rail.css");
+        expect(css).toContain("gap: " + g.listGap + "px;");
+        expect(css).toContain("padding: " + g.itemPaddingY + "px 0;");
+        expect(css).toContain("transform: scale(" + g.activeScale + ");");
+        expect(css).toContain("transform: scale(" + g.hoverScale + ");");
+        expect(css).toContain("box-shadow: 0 0 0 " + g.activeRing + "px var(--rail-bloom);");
+        expect(css).toContain("box-shadow: 0 0 0 " + g.hoverRing + "px var(--rail-hover-ring);");
+        expect(css).toContain("outline: " + g.outlineWidth + "px solid var(--line-primary); outline-offset: " + g.outlineOffset + "px;");
+        expect(css).toContain("@media (min-width: " + g.wideFrom + "px)");
+        expect(stylesheet("status-shape.css")).toContain("width: " + g.bullet + "px;");
+        expect(Object.keys(rails.knownFindings ?? {})).toEqual(["plain-bullet-contrast"]);
+    });
+
 });

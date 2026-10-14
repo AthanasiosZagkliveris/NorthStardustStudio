@@ -94,3 +94,49 @@
     --x-ground: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
+
+/* The rails: a sample wide enough for a label and for the tooltip beside a bullet. */
+.library-grid-rails {
+
+    grid-template-columns: repeat(auto-fill, 680px);
+
+}
+
+.library-sample-rails {
+
+    width: 680px;
+    max-width: 100%;
+
+}
+
+.library-rail-stage {
+
+    display: flex;
+
+    padding: var(--gap-24) 0;
+
+}
+
+.library-rail-stage .bullet-rail {
+
+    width: auto;
+    max-height: none;
+    margin: 0;
+
+}
+
+.library-rail-left {
+
+    justify-content: flex-end;
+
+    padding-right: 280px;
+
+}
+
+.library-rail-right {
+
+    justify-content: flex-start;
+
+    padding-left: 280px;
+
+}

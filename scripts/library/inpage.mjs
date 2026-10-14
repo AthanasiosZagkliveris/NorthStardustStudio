@@ -37,6 +37,16 @@ export const INPAGE = `
         return Math.abs(x[0] - y[0]) < 1.5 && Math.abs(x[1] - y[1]) < 1.5 && Math.abs(x[2] - y[2]) < 1.5;
     };
     const transparent = value => rgba(value)[3] === 0;
-    window.__lib = { rgba, rgb, ratio, same, transparent };
+    /* A CSS colour expression (var(--x), hsl(...), color-mix(...)) as the browser computes it where "host" stands. */
+    const colour = (expression, host) => {
+        const probe = document.createElement("span");
+        host.appendChild(probe);
+        probe.style.color = "#000";
+        probe.style.color = expression;
+        const value = getComputedStyle(probe).color;
+        probe.remove();
+        return value;
+    };
+    window.__lib = { rgba, rgb, ratio, same, transparent, colour };
 })();
 `;
