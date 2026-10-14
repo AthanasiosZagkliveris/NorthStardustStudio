@@ -931,8 +931,8 @@ drawn only in a dialog that its tile opens.
   needs that table redone.
 - **The dialog header.** The section's heading is the dialog's title (title style, `--font-h3`, 24px); the views opened inside the
   dialog follow it ON THE SAME LINE after a slash -- "6. Digital Infrastructure / Software / Xero accounting", "Activities / Completed /
-  Finished one", "1. Founders / Maya Chen" (`DialogHeading`, fed by `useDialogInnerBack`): the slash 8px each side, the names the title's
-  size, regular weight, `--text-muted`, one line high; a long header cuts the names with an ellipsis (the full name is the tooltip) and keeps
+  Finished one", "1. Founders / Maya Chen" (`DialogHeading`, fed by `useDialogInnerBack`): the slash 8px each side after the root title and
+  6px each side inside the trail of views, the names the body size (18; a size under the root title), regular weight, `--text-muted`, one line high; a long header cuts the names with an ellipsis (the full name is the tooltip) and keeps
   the "i" after them. The "i" is the nearest note along the way (the subcategory's, else the title's). There is no separate subtitle row: a
   fixed subcategory has no head row of its own (an added "Other" subcategory keeps its name box and its x). The accessible name is
   "Title, Subtitle, ..." (the names joined by commas).

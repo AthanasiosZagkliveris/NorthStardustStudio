@@ -64,7 +64,7 @@ export const WIDE_THEMES = ["light", "sepia", "dark"];
 export const WIDE_SIZES = [[768, 1024], [1024, 768], [1366, 768], [1440, 864], [1440, 1024], [1920, 1000], [1920, 1300]];
 
 /** Opens a page of a System, from the System list. */
-async function openPage(page, base, system, pageName) {
+export async function openPage(page, base, system, pageName) {
     await page.goto(base + "/assistant");
     await page.waitForTimeout(600);
     await page.getByText("Foundation", { exact: true }).first().click();
@@ -289,6 +289,10 @@ export async function checkRealMouse(page, where) {
             await page.evaluate(() => document.querySelectorAll(".card-scroll").forEach(body => { body.scrollTop = 0; }));
             await page.waitForTimeout(200);
             const link = page.locator(".section-tile-slot").nth(at).locator("button.section-tile-link").nth(k);
+            // (The squeezed Inventory / Completed row shows titles only: its list items are not drawn.)
+            if (await page.locator(".section-tiles-completed[data-squeezed] .section-tile-slot").nth(0).count() && (await link.evaluate(node => !!node.closest(".section-tiles-completed[data-squeezed]")))) {
+                continue;
+            }
             const name = info.title + " > item " + (k + 1);
             let box = await link.boundingBox();
             if (!box) {

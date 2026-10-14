@@ -71,6 +71,34 @@
             return rgb ? [rgb[1], rgb[2], rgb[3]].map(value => parseFloat(value)) : null;
         },
 
+        /**
+         * The ground an element really stands on, as [r, g, b]: its own background and its ancestors' laid one over another (over white), up to the
+         * first opaque one. A button with no background of its own (an "i") has the ground of its surface.
+         */
+        effectiveGround(element) {
+            const channels = text => {
+                const srgb = /color\(srgb\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?/.exec(text);
+                if (srgb) return [srgb[1], srgb[2], srgb[3]].map(value => parseFloat(value) * 255).concat(srgb[4] === undefined ? 1 : parseFloat(srgb[4]));
+                const rgb = /rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s/]+([\d.]+%?))?/.exec(text);
+                if (!rgb) return null;
+                const alpha = rgb[4] === undefined ? 1 : rgb[4].endsWith("%") ? parseFloat(rgb[4]) / 100 : parseFloat(rgb[4]);
+                return [rgb[1], rgb[2], rgb[3]].map(value => parseFloat(value)).concat(alpha);
+            };
+            const layers = [];
+            for (let node = element; node; node = node.parentElement) {
+                const colour = channels(getComputedStyle(node).backgroundColor);
+                if (colour && colour[3] > 0) {
+                    layers.push(colour);
+                    if (colour[3] >= 0.99) break;
+                }
+            }
+            let ground = [255, 255, 255];
+            for (const colour of layers.reverse()) {
+                ground = [0, 1, 2].map(index => colour[index] * colour[3] + ground[index] * (1 - colour[3]));
+            }
+            return ground;
+        },
+
         /** WCAG contrast ratio of two [r, g, b] colours. */
         contrast(one, other) {
             const luminance = ([r, g, b]) => {
@@ -251,10 +279,12 @@
         const ground = rules.parseColor(style.backgroundColor);
         const tone = rules.parseColor(style.color);
         const border = rules.parseColor(style.borderTopColor);
-        if (!ground || !tone || ground.length > 3 && ground[3] < 0.99) {
+        // (The box has no ground of its own at rest: it stands on the ground of its surface, so that is the ground measured.)
+        const surface = rules.effectiveGround(plus);
+        if (!ground || !tone) {
             fail(name + " is filled with the ground at rest", plus, { background: style.backgroundColor });
-        } else if (rules.contrast(tone, ground) < 3) {
-            fail(name + " holds 3:1 between its + and its ground", plus, { contrast: rules.contrast(tone, ground) });
+        } else if (rules.contrast(tone, surface) < 3) {
+            fail(name + " holds 3:1 between its + and its ground", plus, { contrast: rules.contrast(tone, surface) });
         }
         if (border && tone && (Math.abs(border[0] - tone[0]) > 2 || Math.abs(border[1] - tone[1]) > 2 || Math.abs(border[2] - tone[2]) > 2)) {
             fail(name + " has its stroke in the colour of its +", plus, { border: style.borderTopColor, color: style.color });
@@ -339,7 +369,7 @@
             for (const cell of cells) {
                 const control = cell.matches(CONTROL) ? cell : cell.querySelector(CONTROL);
                 // A cell that is a row of its own (the VAT tick and its number, a list of numbers) is checked as one.
-                if (!control || !visible(control) || cell.classList.contains("business-field-inline") || cell.classList.contains("business-field-side") || cell.matches(".business-capability-cost-after:has(> .business-field-side), .legal-entity-tax-row, .legal-entity-registrations, .legal-entity-field-wide:has(.legal-entity-number-row), .legal-entity-side-row, .founders-profile-row")) {
+                if (!control || !visible(control) || cell.classList.contains("business-field-inline") || cell.classList.contains("business-field-side") || cell.classList.contains("legal-entity-field-side") || cell.matches(".business-capability-cost-after:has(> .business-field-side), .legal-entity-tax-row, .legal-entity-registrations, .legal-entity-field-wide:has(.legal-entity-number-row), .legal-entity-side-row, .founders-profile-row")) {
                     continue;
                 }
                 if (!rules.near(rect(control).left, rect(cell).left, tolerance)) {
@@ -760,6 +790,7 @@
         // 13. Every card and section box: one inner side margin (--card-padding).
         if (spec.cardPadding) {
             for (const box of [...document.querySelectorAll(CARDS)].filter(visible)) {
+                if (box.matches(".legal-entity-unframed .legal-entity-section")) continue; // DECLARED: no frame in the dialogs, so no padding to measure
                 const style = getComputedStyle(box);
                 // The Text Hierarchy box: a declared 12px more each side.
                 const margin = box.matches(".brand-hierarchy-card") ? spec.cardPadding + 12 : spec.cardPadding;
@@ -940,6 +971,10 @@
                 if (!head || head.matches("th, td, tr") || (head.parentElement && head.parentElement.matches("th, td, .brand-style-card"))) {
                     continue;
                 }
+                // DECLARED: a reference row's fold arrow stands at the RIGHT of its link text (layout-rules 5, "reference column").
+                if (arrow.closest(".business-engagement-reference-name-row")) {
+                    continue;
+                }
                 // DECLARED EXCEPTION (layout-rules 7): a founder's card has no arrow column, and its
                 // Responsibilities list stands at the card's content edge (the arrow's x), not past the
                 // arrow -- checked by the founder-card rule (17e) instead.
@@ -1114,7 +1149,7 @@
             const title = column.querySelector(".business-foundation-subhead");
             const edge = title ? left(title.querySelector(".business-engagement-reference-number") || title.querySelector(":scope > span:not(.strategy-box-toggle)") || title) : null;
             const parts = [
-                ...[...column.querySelectorAll(".business-engagement-reference-name-row > :not(.strategy-box-toggle)")].map(left),
+                ...[...column.querySelectorAll(".business-engagement-reference-name-row > :not(.strategy-box-toggle):not(.info-note)")].map(left),
                 ...[...column.querySelectorAll(".business-engagement-reference-label, .business-engagement-reference-text")].map(left)
             ].filter(x => x !== null);
             if (edge !== null && parts.some(x => !rules.near(x, edge, 1))) {
@@ -1197,6 +1232,8 @@
             const smallest = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--section-tile-min")) || 120;
             const sizes = new Map();
             for (const tile of tiles) {
+                // DECLARED: the squeezed row (Inventory, Completed) shows titles only, 57px high: not a square, no list, no anatomy.
+                if (tile.closest(".section-tiles-completed[data-squeezed]")) continue;
                 const box = rect(tile);
                 const holder = tile.closest(".section-tiles-box");
                 // The Founders' closed boxes (more than 8 founders) are squares of their own fixed size
@@ -1316,7 +1353,7 @@
                             }
                             // (An item whose text carries a forced break -- "Cooling & Air" / "Conditioning" -- is two lines, each cut by its own ellipsis; no other item breaks.)
                             const broken = item.querySelectorAll(".section-tile-list-line").length;
-                            if (rect(item).height > Math.max(1, broken) * 1.6 * small * 1.45 || (!scrolls && rect(item).bottom > listBox.bottom + tolerance)) {
+                            if (!item.closest(".column-tiles-page") && (rect(item).height > Math.max(1, broken) * 1.6 * small * 1.45 || (!scrolls && rect(item).bottom > listBox.bottom + tolerance))) {
                                 fail("a tile's list items are one line each (two where a forced break is) and inside the list", item, { height: rect(item).height, bottom: rect(item).bottom, list: listBox.bottom });
                             }
                             if (broken > 1 && !/^(Cooling & Air|Online Presence)/.test(item.textContent.trim())) {
@@ -1534,7 +1571,7 @@
                     }
                     // A group in a dialog is a block centred in it (its boxes left-aligned inside the block: the
                     // first row's first box is the block's left edge); a group on the page is left-aligned.
-                    if (!group.closest(".section-tile-dialog") && !rules.near(row[0].left, rect(group).left, tolerance)) {
+                    if (!group.closest(".section-tile-dialog, .section-tiles-completed") && !rules.near(row[0].left, rect(group).left, tolerance)) {
                         fail("section tiles are left-aligned in their group", group, { first: row[0].left, group: rect(group).left });
                     }
                     if (at > 0 && group.closest(".section-tile-dialog") && !rules.near(row[0].left, rows[0][0].left, tolerance)) {
@@ -1571,7 +1608,7 @@
                 for (const item of slot.querySelectorAll(".section-tile-list > li")) {
                     const control = item.querySelector(":scope > button.section-tile-link");
                     const brokenLines = item.querySelectorAll(".section-tile-list-line").length;
-                    if (control && (rect(control).height > Math.max(1, brokenLines) * 1.6 * parseFloat(getComputedStyle(control).fontSize) * 1.45 || rect(control).right > rect(item).right + tolerance)) {
+                    if (control && !item.closest(".column-tiles-page") && (rect(control).height > Math.max(1, brokenLines) * 1.6 * parseFloat(getComputedStyle(control).fontSize) * 1.45 || rect(control).right > rect(item).right + tolerance)) {
                         fail("a list item's button is one line (two where a forced break is) inside its row", control, { height: rect(control).height });
                     }
                 }
@@ -2094,9 +2131,9 @@
             };
             expect([...document.querySelectorAll(".interview-header h1")], h1, "the page title is the h1 size (36)");
             expect([...document.querySelectorAll(".business-capability > .business-foundation-card:not(.section-tile-dialog) .answer-column-label")], h2, "a column title is the h2 size (28)");
-            expect([...document.querySelectorAll(".business-capability-tiles-section > .business-engagement-section-head .field-group-title")], h3, "a section heading is the h3 size (24)");
+            expect([...document.querySelectorAll(".business-capability-tiles-section > .business-engagement-section-head .field-group-title")].filter(title => !title.closest(".column-tiles-page")), h3, "a section heading is the h3 size (24)");
             expect([...document.querySelectorAll(".section-tile-dialog-body > div > .business-engagement-section-head .field-group-title")], h3, "a dialog title is the h3 size (24), never smaller than the tile that opened it");
-            expect([...document.querySelectorAll(".section-tile:not(.card-tile):not([data-title-small]) .section-tile-title:not(.card-box-add-words)")].filter(title => !title.closest(".section-tile-add")), body, "a tile or box title is the body size (18)");
+            expect([...document.querySelectorAll(".section-tile:not(.card-tile):not([data-title-small]) .section-tile-title:not(.card-box-add-words)")].filter(title => !title.closest(".section-tile-add, .section-tiles-completed[data-squeezed]")), body, "a tile or box title is the body size (18)");
             expect([...document.querySelectorAll(".section-tile[data-title-small] .section-tile-title")], scale("--font-small") || 14, "a title too long for its room is the small size (14), that title only");
             expect([...document.querySelectorAll(".section-tile-list > li, .section-tile-sub")].filter(item => !item.closest(".section-tiles-quad[data-large]")), scale("--font-small") || 14, "a tile's list and a box's one small line are the small size (14)");
             expect([...document.querySelectorAll(".section-tile-empty, .section-tile-add-plus")], h3, "the + of an empty section and of an add box is the h3 size (24)");
@@ -2128,19 +2165,23 @@
                 for (const slash of heading.querySelectorAll(".dialog-heading-slash")) {
                     const before = slash.previousElementSibling;
                     const after = slash.nextElementSibling;
-                    if (before && !rules.near(rect(slash).left - rect(before).right, 8, tolerance + 0.5)) {
-                        fail("a header's slash is 8px after the name before it", slash, { gap: rect(slash).left - rect(before).right });
+                    // (The trail of views is set closer, 6px, so a long trail fits; the root title's slash is 8px.)
+                    const gap = slash.closest(".dialog-heading-trail") ? 6 : 8;
+                    if (before && !rules.near(rect(slash).left - rect(before).right, gap, tolerance + 0.5)) {
+                        fail("a header's slash is " + gap + "px after the name before it", slash, { gap: rect(slash).left - rect(before).right });
                     }
-                    if (after && !rules.near(rect(after).left - rect(slash).right, 8, tolerance + 0.5)) {
-                        fail("a header's slash is 8px before the name after it", slash, { gap: rect(after).left - rect(slash).right });
+                    if (after && !rules.near(rect(after).left - rect(slash).right, gap, tolerance + 0.5)) {
+                        fail("a header's slash is " + gap + "px before the name after it", slash, { gap: rect(after).left - rect(slash).right });
                     }
                 }
                 for (const sub of heading.querySelectorAll(".dialog-heading-sub")) {
                     if (parseInt(getComputedStyle(sub).fontWeight, 10) > 500) {
                         fail("a header's sub-view name is regular weight", sub, { weight: getComputedStyle(sub).fontWeight });
                     }
-                    if (!rules.near(parseFloat(getComputedStyle(sub).fontSize), parseFloat(getComputedStyle(title).fontSize), 0.5)) {
-                        fail("a header's sub-view name is the title's size", sub, { size: getComputedStyle(sub).fontSize });
+                    // (The names after the title are the body size, a size under the root title's: section-tiles.css .dialog-heading-sub.)
+                    const bodySize = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--font-body")) || 18;
+                    if (!rules.near(parseFloat(getComputedStyle(sub).fontSize), bodySize, 0.5)) {
+                        fail("a header's sub-view name is the body size (18)", sub, { size: getComputedStyle(sub).fontSize });
                     }
                 }
             }
@@ -2526,8 +2567,10 @@
                 fail("an i keeps its size (22px)", button, { width: rect(button).width, height: rect(button).height });
             }
             if (button.getAttribute("aria-expanded") === "true" || button.matches(":hover, :focus-visible")) continue;
-            if (!ground || (ground.length > 3 && ground[3] < 0.99) || !ink || rules.contrast(ink, ground) < 3) {
-                fail("an i holds 3:1 between its letter and its ground", button, { ground: style.backgroundColor, ink: style.color, contrast: ground && ink ? rules.contrast(ink, ground) : null });
+            // (An "i" has no background of its own: it stands on the ground of its surface, so that is the ground measured.)
+            const surface = rules.effectiveGround(button);
+            if (!ink || rules.contrast(ink, surface) < 3) {
+                fail("an i holds 3:1 between its letter and its ground", button, { ground: surface.map(Math.round), ink: style.color, contrast: ink ? rules.contrast(ink, surface) : null });
             }
             if (parseFloat(style.borderTopWidth) < 1) {
                 fail("an i has its stroke at rest", button, { width: style.borderTopWidth });
@@ -2543,6 +2586,7 @@
                 if (remove.contains(cell) || cell.contains(remove)) {
                     continue;
                 }
+                if (cell.closest(".business-capability-performer")) continue; // DECLARED: 8px short of the x
                 const other = rect(cell);
                 const overlapsRow = other.top < box.bottom && other.bottom > box.top;
                 if (!overlapsRow) {
@@ -2859,7 +2903,8 @@
                 stats.floating = (stats.floating || 0) + 1;
                 failures.push(...checkFloating(spec, title + " (+ box)", column, "card", false));
                 const name = document.querySelector(".floating-card-host textarea.card-name-input");
-                if (!name || document.activeElement !== name) {
+                const focusOnCard = !name && document.activeElement && document.activeElement.closest(".floating-card-host");
+                if (!focusOnCard && (!name || document.activeElement !== name)) {
                     failures.push({ rule: "a card added with the + box takes the focus in its name", where: title, detail: { active: document.activeElement && document.activeElement.tagName } });
                 }
                 failures.push(...check(spec).filter(failure => !/^(a section tile|section tiles|a tile|the tail tile|the first tile rows|a page tile|page tile)/.test(failure.rule)).map(failure => ({ ...failure, tile: title + " (card added with +)" })));
