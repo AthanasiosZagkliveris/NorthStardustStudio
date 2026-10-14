@@ -2,8 +2,8 @@
    THE LABEL ARROW (LabelArrow.tsx, docs/ai/layout-rules.md "The label arrow"): ONE fold arrow for the arrows that stand beside a
    label or a text -- the chapter titles (1. Infrastructure), a founder's Responsibilities, the Initiatives.
    - no frame, no ground: only the triangle;
-   - at rest an outline, in the label's colour; under the pointer and the keyboard focus the same triangle filled;
-   - the label's size: the triangle's base and its height are both the label's font size, 1em (--label-arrow-size where the label is
+   - at rest an outline, in the card's tint, the colour of its "+" box; under the pointer and the keyboard focus the same triangle filled;
+   - the label's size: the triangle's base and its height are both the label's capital-letter height, 0.73em (--label-arrow-size where the label is
      not its parent); pointing right while hidden, down (turned a quarter) while open.
    The button is never under 24px (WCAG 2.2, target size) but takes no more room than the triangle: the box overhangs it.
 ========================================================== */
@@ -21,7 +21,7 @@
     width: var(--label-arrow-hit);
     height: var(--label-arrow-hit);
 
-    margin: 0 calc((1em - var(--label-arrow-hit)) / 2);
+    margin: 0 calc((0.73em - var(--label-arrow-hit)) / 2);
     padding: 0;
 
     border: 0;
@@ -33,13 +33,14 @@
     font-size: var(--label-arrow-size, inherit);
     line-height: 1;
 
-    color: inherit;
+    /* The card's tint, the same as its "+" box (--plus-fill, section-tiles.css). */
+    color: hsl(var(--strategy-theme-hue, 0) var(--plus-fill-saturation) var(--plus-fill-lightness));
 
     cursor: pointer;
 
 }
 
-/* The triangle (an SVG, rounded corners): the label's font size, base and height equal, a 1px line drawn inside its edge. */
+/* The triangle (an SVG, rounded corners): the height of the label's capital letters (0.73em), base and height equal, a 2px line drawn inside its edge. */
 .label-arrow > svg {
 
     position: absolute;
@@ -47,10 +48,10 @@
     top: 50%;
     left: 50%;
 
-    width: 1em;
-    height: 1em;
+    width: 0.73em;
+    height: 0.73em;
 
-    margin: -0.5em 0 0 -0.5em;
+    margin: -0.365em 0 0 -0.365em;
 
     overflow: visible;
 
@@ -61,7 +62,7 @@
     fill: none;
 
     stroke: currentColor;
-    stroke-width: 1px;
+    stroke-width: 2px;
     stroke-linejoin: round;
 
 }
@@ -89,7 +90,7 @@
 .field-label > .label-arrow,
 .strategy-box-number > .label-arrow {
 
-    margin-right: calc(26px - (1em + var(--label-arrow-hit)) / 2);
+    margin-right: calc(26px - (0.73em + var(--label-arrow-hit)) / 2);
 
 }
 

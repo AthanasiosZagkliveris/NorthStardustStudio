@@ -39,7 +39,7 @@ export default function LabelArrow({
             onClick={onToggle}
         >
             <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-                <path d="M4 14 L4 86 Q4 96 13 91.5 L87 54.5 Q96 50 87 45.5 L13 8.5 Q4 4 4 14 Z" vectorEffect="non-scaling-stroke" />
+                <path d="M8 18 L8 82 Q8 92 17 87.5 L83 54.5 Q92 50 83 45.5 L17 12.5 Q8 8 8 18 Z" vectorEffect="non-scaling-stroke" />
             </svg>
         </button>
     );
