@@ -496,12 +496,14 @@ Names and wording, the composition of a page (which assets sit together), and an
 - **Browser support.** The app already uses `color-mix()` 222 times. `light-dark()` is not used: it takes two schemes and the app has three reading modes.
 - **The token format is not a W3C standard.** The DTCG specification (Format, Color and Resolver modules, version 2025.10, 28 October 2025) is a Community Group report, called stable by the group. It is used as the export format so the tokens can move to the extracted app; the source stays the typed file.
 
-### Decisions for the owner
+### Decisions of the owner (2026-10-14: "go with your recommendations")
 
-1. Author the tokens in the typed file (recommended: the compiler checks every reference) or directly as DTCG JSON.
-2. The gallery as a development-only route in the app (recommended) or as a separate page.
-3. The trial asset: the label arrow (recommended), or another.
-4. Whether the lint is switched on at once (it would block any literal) or after the codemods.
+1. **Tokens are authored in the typed file** (`tokens.ts`), exported also as DTCG JSON.
+2. **The gallery is a development-only route** in the app (`/library`).
+3. **The trial asset is the label arrow**, then the "+" box, the "i", the remove x, the rails and the Back button.
+4. **The lint is switched on after the codemods**, not before.
+
+Next step: build step 1 of the order above (token source and generator for colour, the generated CSS proven identical to today's by a diff). No layout checks until the library has unified the elements (owner, 2026-10-14).
 
 ### Sources
 
