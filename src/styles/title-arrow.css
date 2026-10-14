@@ -22,10 +22,10 @@
 
 }
 
-/* The column's "i" (what the column is) stands after the title at the row's one gap, the arrow after it: the row's gap is the "i"'s 8px. */
+/* The column's "i" (what the column is) stands after the title at the row's one gap, the arrow after it: the row's gap is 8px, the "i" takes 2px off it (one 6px gap). */
 .card-title-row > .info-note {
 
-    margin-left: 0;
+    margin-left: calc(var(--info-gap) - 8px);
 
 }
 

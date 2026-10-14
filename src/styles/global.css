@@ -128,6 +128,7 @@ body {
   /* The arrow beside a column title (title-arrow.css): its glyph's long side,
      three quarters of the title's size (--font-h3), not the 36px fold arrow. */
   --title-arrow-size: calc(var(--font-h2) * 0.75);
+  --info-gap: 6px;
   /* A section heading's height in a card of tiles (the old fold arrow's 36px). */
   --section-head-height: 36px;
   --section-tile-min: 120px;

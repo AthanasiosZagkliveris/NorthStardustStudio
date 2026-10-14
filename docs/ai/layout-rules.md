@@ -295,7 +295,7 @@ and Business Foundation's lower sections keep their own page layouts.
   centre line (a side label, "px" after a box, the words of a fixed list
   row). A second line hangs below.
 - **A tick box** is centred on its words' first line.
-- **An "i"** follows its words' last word at 8px, on that line's centre
+- **An "i"** follows its words' last word at 6px (`--info-gap`, one rule for every "i"), on that line's centre
   (glued to the last word, `.info-note-glue`); after a badge, on the
   badge's centre.
 - Exception: a Text Hierarchy level's row (see 7) centres the tick, the
@@ -1242,6 +1242,15 @@ differs.
 | A tile's list | holds every item and scrolls; there is no "+N more" line | `SectionTiles.tsx` | Older text in section 5a says the list ends with "+N more" |
 | `--card-side-label` | not defined | | A test asserts it is absent |
 | `--workspace-form-width`, `--workspace-label-width` | not defined | | The Workspace is a category of the resource card |
+
+### The label arrow (2026-10-14)
+
+One fold arrow (`LabelArrow.tsx`, `label-arrow.css`) for an arrow that stands beside a label or a text and shows or hides what belongs to it.
+Today: the chapter titles of 3. Infrastructure & Capability (right of the title and its "i"), a founder's Responsibilities and the Initiatives of an Objective (left of the label, inside it).
+- No frame and no ground: only the triangle. At rest an outline in the label's colour; under the pointer and the keyboard focus the same triangle filled.
+- The label's size: base and height are both 1em of the label. Pointing right while hidden, down while shown.
+- Inside a label it stands 8px before the words (the tick box's gap); its glyph starts at the content edge, like a tick box. The button is never under 24px; it overhangs the triangle and takes no more room.
+- The other fold arrows (36px, `FoldArrow`: Completed, Links, cards, sections) are unchanged until the owner names them.
 
 ## 9. Tiles: kinds, titles, lists, marks, hover and size
 

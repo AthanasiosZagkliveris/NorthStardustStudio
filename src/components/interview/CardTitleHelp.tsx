@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 
 import InfoNote, { InfoPoint } from "./InfoNote.tsx";
-import TitleHelpArrow from "./TitleHelpArrow.tsx";
+import LabelArrow from "./LabelArrow.tsx";
+import "../../styles/title-arrow.css";
 import { consumeKey } from "./consumeKey.ts";
 
 /**
@@ -62,7 +63,7 @@ export default function CardTitleHelp({
             }
             consumeKey(event);
             onClose();
-            block.current?.querySelector<HTMLElement>(".title-arrow")?.focus({ preventScroll: true });
+            block.current?.querySelector<HTMLElement>(".label-arrow")?.focus({ preventScroll: true });
         }
         function onPress(event: MouseEvent) {
             if (block.current && event.target instanceof Node && !block.current.contains(event.target)) {
@@ -94,9 +95,9 @@ export default function CardTitleHelp({
                 {note && note.length > 0 && <InfoNote label={title} points={note} fullList />}
 
                 {enabled && (
-                    <TitleHelpArrow
+                    <LabelArrow
                         open={open}
-                        title={title}
+                        label={(open ? "Hide help for " : "Show help for ") + title}
                         controls={panelId}
                         onToggle={onToggle}
                     />

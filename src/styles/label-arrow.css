@@ -1,0 +1,104 @@
+/* ==========================================================
+   THE LABEL ARROW (LabelArrow.tsx, docs/ai/layout-rules.md "The label arrow"): ONE fold arrow for the arrows that stand beside a
+   label or a text -- the chapter titles (1. Infrastructure), a founder's Responsibilities, the Initiatives.
+   - no frame, no ground: only the triangle;
+   - at rest an outline, in the label's colour; under the pointer and the keyboard focus the same triangle filled;
+   - the label's size: the triangle's base and its height are both 1em of the label (--label-arrow-size where the label is
+     not its parent); pointing right while hidden, down (turned a quarter) while open.
+   The button is never under 24px (WCAG 2.2, target size) but takes no more room than the triangle: the box overhangs it.
+========================================================== */
+.label-arrow {
+
+    --label-arrow-hit: max(24px, 1em);
+    /* The outline's line, in 1em (about 1.5px at 16px) -- the inner triangle below is the outer one inset by it. */
+
+    position: relative;
+
+    flex: none;
+
+    box-sizing: border-box;
+
+    width: var(--label-arrow-hit);
+    height: var(--label-arrow-hit);
+
+    margin: 0 calc((1em - var(--label-arrow-hit)) / 2);
+    padding: 0;
+
+    border: 0;
+    border-radius: 0;
+
+    background: none;
+    box-shadow: none;
+
+    font-size: var(--label-arrow-size, inherit);
+    line-height: 1;
+
+    color: inherit;
+
+    cursor: pointer;
+
+}
+
+.label-arrow::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 1em;
+    height: 1em;
+
+    margin: -0.5em 0 0 -0.5em;
+
+    background: currentColor;
+
+    /* A triangle as wide as it is high, an outline: the outer triangle, a seam, the inner one turned the other way. */
+    clip-path: polygon(0 0, 100% 50%, 0 100%, 0 0, 9% 14.5%, 9% 85.5%, 80% 50%, 9% 14.5%, 0 0);
+
+}
+
+.label-arrow[aria-expanded="true"]::before {
+
+    transform: rotate(90deg);
+
+}
+
+.label-arrow:is(:hover, :focus-visible)::before {
+
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+
+}
+
+/* The keyboard focus is the filled triangle: no ring, no frame. */
+.label-arrow:focus-visible {
+
+    outline: none;
+
+}
+
+/* In a label: the arrow, then the words 8px after the triangle (the tick box's own gap to its words). */
+.field-label > .label-arrow,
+.strategy-box-number > .label-arrow {
+
+    margin-right: calc((1em - var(--label-arrow-hit)) / 2 + 8px);
+
+}
+
+.field-label:has(> .label-arrow),
+.strategy-box-number:has(> .label-arrow) {
+
+    display: inline-flex;
+
+    align-items: center;
+
+}
+
+/* A chapter title's arrow: after the title and its "i", the title's size. */
+.card-title-row > .label-arrow {
+
+    --label-arrow-size: var(--font-h2);
+
+}

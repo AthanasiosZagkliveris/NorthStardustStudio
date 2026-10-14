@@ -146,6 +146,7 @@ import type { OpenPage } from "./jumpTo.ts";
 import { useItemFolds } from "./useItemFolds.ts";
 import FoldArrow from "./FoldArrow.tsx";
 import CardTitleHelp from "./CardTitleHelp.tsx";
+import LabelArrow from "./LabelArrow.tsx";
 import CapabilityOverview from "./CapabilityOverview.tsx";
 import { floorRows, tileLines, tileMarks } from "./capabilityFloor.ts";
 import CardNameInput from "./CardNameInput.tsx";
@@ -2343,17 +2344,16 @@ export default function BusinessCapabilityEditor({
 
                     <span className="business-foundation-label-info business-capability-responsibilities-head">
 
-                        {responsibilities.length > 0 && (
-                            <FoldArrow
-                                open={responsibilitiesOpen}
-                                label={"Responsibilities of " + founderLabel}
-                                onToggle={() => setResponsibilityFolds(current =>
-                                    new Map(current).set(founder.id, !responsibilitiesOpen)
-                                )}
-                            />
-                        )}
-
                         <span className="field-label business-foundation-label">
+                            {responsibilities.length > 0 && (
+                                <LabelArrow
+                                    open={responsibilitiesOpen}
+                                    label={(responsibilitiesOpen ? "Minimize " : "Maximize ") + "Responsibilities of " + founderLabel}
+                                    onToggle={() => setResponsibilityFolds(current =>
+                                        new Map(current).set(founder.id, !responsibilitiesOpen)
+                                    )}
+                                />
+                            )}
                             <InfoText text="Responsibilities">
                                 <InfoNote
                                     label="Responsibilities"

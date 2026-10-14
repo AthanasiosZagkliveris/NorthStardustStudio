@@ -31,7 +31,7 @@ import NumberedListInput from "./NumberedListInput.tsx";
 import InfoNote from "./InfoNote.tsx";
 import CardNameInput from "./CardNameInput.tsx";
 import CardNav from "./CardNav.tsx";
-import FoldArrow from "./FoldArrow.tsx";
+import LabelArrow from "./LabelArrow.tsx";
 import { useGroupView } from "./groupView.ts";
 import SectionTiles, { DialogHeading, type SectionTile } from "./SectionTiles.tsx";
 import CardBoxes, { type CardBox } from "./CardBoxes.tsx";
@@ -823,12 +823,14 @@ function ObjectiveList({
                                     <div className="strategy-metric-box strategy-initiatives-box">
 
                                         <div className="strategy-box-head">
-                                            <FoldArrow
-                                                open={!foldedInitiatives.includes(objective.id)}
-                                                label={`Objective ${objectiveIndex + 1} initiatives`}
-                                                onToggle={() => setFoldedInitiatives(current => current.includes(objective.id) ? current.filter(id => id !== objective.id) : [...current, objective.id])}
-                                            />
-                                            <span className="strategy-box-number">Initiatives</span>
+                                            <span className="strategy-box-number">
+                                                <LabelArrow
+                                                    open={!foldedInitiatives.includes(objective.id)}
+                                                    label={`${foldedInitiatives.includes(objective.id) ? "Maximize" : "Minimize"} Objective ${objectiveIndex + 1} initiatives`}
+                                                    onToggle={() => setFoldedInitiatives(current => current.includes(objective.id) ? current.filter(id => id !== objective.id) : [...current, objective.id])}
+                                                />
+                                                Initiatives
+                                            </span>
                                             <InfoNote label="Initiatives" points={[INITIATIVES_HELP]} />
                                         </div>
 

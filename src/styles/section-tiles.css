@@ -7119,10 +7119,10 @@ table.business-relationship-table {
 
 }
 
-/* The Initiatives' head: its "i" is 8px after the word, like every "i" (the head's own gap is 8px; the note's own 8px margin is not added to it). */
+/* The Initiatives' head: its "i" is one --info-gap (6px) after the word, like every "i" (the head's own gap is 8px: the note takes 2px off it). */
 .strategy-initiatives-box > .strategy-box-head > .info-note {
 
-    margin-left: 0;
+    margin-left: calc(var(--info-gap) - 8px);
 
 }
 
@@ -7136,8 +7136,8 @@ table.business-relationship-table {
 
     height: 44px;
 
-    /* (One gap, 8px, from the last word to its "i".) */
-    gap: 8px;
+    /* (One gap, 6px, from the last word to its "i".) */
+    gap: var(--info-gap);
 
     font-weight: 600;
 

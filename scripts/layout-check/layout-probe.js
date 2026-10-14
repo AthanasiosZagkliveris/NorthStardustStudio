@@ -663,7 +663,7 @@
             if (!rules.near(box.top + box.height / 2, words.top + words.height / 2, 1)) {
                 fail("an i on its words' centre line", button, { i: box.top + box.height / 2, words: words.top + words.height / 2 });
             }
-            if (Math.abs(box.top - words.top) < words.height && !rules.near(box.left - words.right, 8, 0.5)) {
+            if (Math.abs(box.top - words.top) < words.height && !rules.near(box.left - words.right, 6, 0.5)) {
                 fail("an i one gap after its words", button, { gap: box.left - words.right });
             }
         }
@@ -965,7 +965,7 @@
         //     row) are set by its cells.
         {
             const HEADS = ".fold-card-head, .fold-group-head, .business-engagement-section-head, .business-capability-subsection-head, .financial-cost-group-head, .business-demand-head, .strategy-box-head";
-            const aside = element => element.closest(".strategy-box-toggle, .strategy-drag-handle, .fold-all-toggle, .info-note-panel, .option-picker-list, .month-picker-panel, .business-card-summary");
+            const aside = element => element.closest(".strategy-box-toggle, .label-arrow, .strategy-drag-handle, .fold-all-toggle, .info-note-panel, .option-picker-list, .month-picker-panel, .business-card-summary");
             for (const arrow of [...document.querySelectorAll(".strategy-box-toggle")].filter(visible)) {
                 const head = arrow.closest(HEADS) ?? arrow.parentElement;
                 if (!head || head.matches("th, td, tr") || (head.parentElement && head.parentElement.matches("th, td, .brand-style-card"))) {
