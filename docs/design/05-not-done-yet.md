@@ -504,7 +504,7 @@ Names and wording, the composition of a page (which assets sit together), and an
 4. **The lint is switched on after the codemods**, not before.
 5. **The generator is a small custom Node script** in `scripts/`, with no new dependency, not Style Dictionary (it has no built-in notion of themes, so the mode blocks would be custom formats anyway). Revisit only if the tokens must feed more platforms.
 
-Steps 1 and 2 of the order are built (2026-10-14): see the log, 4.4, and the owner's list in 5.14. Next: step 3, the gallery and the trial asset. No layout checks until the library has unified the elements (owner, 2026-10-14).
+Steps 1 to 3 of the order are built (2026-10-14): see the log, 4.4, and the owner's list in 5.14. Next: step 3 continued (the "+" box, the "i", the remove x, the rails and the Back button as assets; axe-core and screenshots were left out of this step), then step 4. No layout checks until the library has unified the elements (owner, 2026-10-14).
 
 ### Sources
 

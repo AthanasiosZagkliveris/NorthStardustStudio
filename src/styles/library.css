@@ -1,0 +1,58 @@
+/* ==========================================================
+   THE LIBRARY GALLERY (src/pages/Library.tsx, development only).
+   Its own plain layout; the assets inside it keep their own styles.
+========================================================== */
+.library-page {
+
+    box-sizing: border-box;
+
+    max-width: 1100px;
+
+    margin: 0 auto;
+    padding: var(--gap-24);
+
+    color: var(--text-body);
+    background: var(--bg-page);
+
+}
+
+.library-asset {
+
+    margin-bottom: var(--gap-24);
+
+}
+
+.library-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fill, 420px);
+    gap: var(--gap-12);
+
+}
+
+.library-sample {
+
+    box-sizing: border-box;
+
+    width: 420px;
+
+    padding: var(--gap-12);
+
+    border: 1px solid var(--line-hairline);
+    border-radius: var(--radius-lg);
+
+}
+
+.library-ground-page {
+
+    background: var(--bg-page);
+
+}
+
+/* The card ground as the app draws a System card's. */
+.library-ground-card {
+
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}

@@ -17,6 +17,9 @@ const BusinessDocuments = lazy(() => import("./pages/BusinessDocuments"));
 const Review = lazy(() => import("./pages/Review"));
 const GlobalSettings = lazy(() => import("./pages/GlobalSettings"));
 
+// The asset library's gallery: development only (`npm run dev`), absent from the built app.
+const Library = import.meta.env.DEV ? lazy(() => import("./pages/Library")) : null;
+
 export default function App() {
 
     return (
@@ -64,6 +67,8 @@ export default function App() {
                     path="/generator"
                     element={<CapabilityGenerator />}
                 />
+
+                {Library && <Route path="/library" element={<Library />} />}
 
             </Routes>
 
