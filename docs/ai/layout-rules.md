@@ -48,7 +48,7 @@ below are these, made measurable.
 | `--side-label-gap` | 12px | a side label to its control |
 | `--side-label-short` | 164px | the SHORT side-label column (`BusinessField side`): wide enough for the tick, "Responsible" and its "i" on ONE line (22 + 8 + 100 + 8 + 22 = 160px), so the short labels of a Capability card (Frequency on a Resource, Responsible on a Partner / Provider) stand in one column and their dropdowns start at one x (see "Capability cards: short side labels") |
 | `--section-tile-size` | `max(--section-tile-min, (100cqw - (max(--tile-columns, 3) - 1) * 12px) / max(--tile-columns, 3))` | a section tile (see "Section tiles and dialog"): a true square, this wide and this high, in every group of tiles: up to three across a third of the tile box's width less the two gaps (a 3 x 3 set exactly fills it), four or more across the width less its gaps over their number, never under `--section-tile-min` (`100cqw` is the width of `.section-tiles-box`, the tiles' size container; `--tile-columns` is the group's shape, set by `SectionTiles`) |
-| `--title-arrow-size` | `calc(var(--font-h2) * 0.75)` (21px) | the long side of the glyph of the title arrow beside a card title (3. Infrastructure & Capability): about the title's cap height (the column title is `--font-h2`, 28px), not the 36px fold arrow |
+| `--title-arrow-size` | `calc(var(--font-h2) * 0.75)` (21px) | the long side of the glyph of the `.title-arrow` button of the capability overview menu (`title-arrow.css`); the arrows beside a label or a card title are the label arrow (`--label-arrow-size`), not this one |
 | `--section-head-height` | 36px | a section heading's height in a card of tiles (the height the old fold arrow gave it), and the height of the heading-height spacer that lines Offering's Capability's tiles up with Infrastructure's |
 | `--section-box-size` | 160px | a founder's closed square box (more than 8 founders): the tile component at this fixed side (the subcategory boxes are sized for two rows instead, "Subcategory boxes") |
 | `--workspace-form-width` | 560px | the Workspace dialog's card: centred, this wide at most (it is 364px: 12px, the label column, 12px, the pickers' column, 12px, and the border) |
@@ -244,7 +244,7 @@ track of the grid it stands in.
 
 - The x (remove): 32 x 32, on every row of a list in one column.
 - A tick box: 18 x 18.
-- The fold arrow: 36 x 36. (The one exception is the TITLE ARROW beside a card title on 3. Infrastructure & Capability: a glyph of three quarters of the title's size and a 28px hit area; see "Section tiles and dialog".)
+- The fold arrow: 36 x 36. (The exception is the label arrow beside a label or a title: a triangle of the label's own size with a hit area never under 24px; see "The label arrow" and "Section tiles and dialog".)
 ### The caps title
 
 Every capitalised card kind word and group heading takes ONE calm style,
@@ -659,7 +659,7 @@ and Business Foundation's lower sections keep their own page layouts.
   carries a tick box NEXT TO it (`BusinessField tick`: `label.business-foundation-tick` =
   the `brand-tick-box` then the label's words, centred on the label's first line; the "i"
   after the label, outside it), ticked by default. The tick, the words and the "i" are ONE
-  line (`white-space:nowrap`; the "i" 8px after the last word, all on one centre line), in the
+  line (`white-space:nowrap`; the "i" 6px (`--info-gap`) after the last word, all on one centre line), in the
   short side-label column beside the dropdown and in a stacked narrow card alike, never split
   across lines. Unticking removes the field for that card
   (an Activity, a Partner / Provider, a Strategy Objective): the dropdown goes, the tick and
@@ -857,17 +857,17 @@ drawn only in a dialog that its tile opens.
   section heading (36px) being the shared height. Measured at 1600px: the title
   row 12px under the card's top edge, its first tile row 277px from the page top
   in both cards, tiles 214.7px, gaps 12px.
-- **The title arrow and its drop-down help.** This page has NO "Hide Help" /
+- **The label arrow and its drop-down help.** This page has NO "Hide Help" /
   "Need Help?" button (`Conversation.tsx` passes the page's `titleHelpArrows`
-  condition; the other pages keep theirs). Each card title has a **title arrow**
-  (`TitleHelpArrow.tsx`, `title-arrow.css`) after its text, 8px away, centred on
+  condition; the other pages keep theirs). Each card title has a **label arrow**
+  (`LabelArrow.tsx`, `label-arrow.css`, drawn by `CardTitleHelp.tsx`) after its text
+  and its "i", 8px from the previous item of the title row, centred on
   the title's line: pointing right while the title's help is hidden (the default),
-  down while open. It is NOT the 36px fold arrow: its glyph is
-  `--title-arrow-size` = three quarters of the title's font size (18px beside the
-  24px title, about its cap height; the long side, the depth 0.61 of it), its
-  hit area 28px (never under 24px), `aria-expanded`, `aria-controls` and the
-  name "Show help for <title>" / "Hide help for <title>"; keyboard operable,
-  hover ground and focus ring as the fold arrow's. The help is a **drop-down
+  down while open. It is NOT the 36px fold arrow: it is the label arrow (see "The
+  label arrow"), a triangle the title's size (`--label-arrow-size: var(--font-h2)`),
+  its hit area never under 24px (28px at this title), `aria-expanded`, `aria-controls` and the
+  name "Show help for <title>" / "Hide help for <title>"; keyboard operable;
+  an outline at rest, filled under the pointer and the keyboard focus (no ground, no ring). The help is a **drop-down
   panel** (`CardTitleHelp.tsx`): absolutely positioned under the title row
   (6px, `--space-label`), the card content's width, the help box's ground
   (`--bg-help`, no stroke) with a shadow, `z-index: 20` above the tiles -- it
@@ -1004,7 +1004,7 @@ drawn only in a dialog that its tile opens.
 - **Page 3, the last round (rulebook entries).**
   - **Corners.** Unchanged: every box, card and dialog keeps the radius it had (8px boxes and cards, 6px cells); nothing follows the box size.
   - **Recessed text and number cells.** A text or number input / textarea (not a picker, not a tick box) is the raised cell turned over: `--cell-inset-recess` (shade at the top left, light at the bottom right) on the cell edge (`--cell-edge`); a picker keeps `--cell-inset`; the focus ring stays over it; a disabled (frozen) cell is flat. The Workspace form and the Delivery cards take it through the same selector. The x (`.strategy-box-remove`), ticks, the "i", "+" boxes, arrows and other small buttons are NOT touched by the page-3 edges: the x is the app's one (remove-button.css) and no rule of `page-3-edges.css` names it; the probe checks every x at rest has no inset shadow and looks like every other.
-  - **Wired / filled arrows.** The founders' fold arrows (11 x 18 closed, 18 x 11 open) and the title arrows (long side `--title-arrow-size`, depth 0.61 of it) are a triangle drawn as a CSS mask over the ink colour: an outline (1.5px stroke) at rest, the same triangle filled under the pointer and keyboard focus. Box, margins and place are identical in both states, so nothing moves. No ground or ring on hover.
+  - **Wired / filled arrows.** The founders' fold arrows (11 x 18 closed, 18 x 11 open at an 18px label) and the title arrows are the label arrow (see "The label arrow"): an SVG triangle, an outline (2px line inside the shape) at rest, the same triangle filled under the pointer and keyboard focus. Box, margins and place are identical in both states, so nothing moves. No ground or ring on hover.
   - **The dropdown list** is a card of its own under the cell (above it where there is no room): 6px gap, no stroke (the boxes' inset light and shade plus the drop shadow), exactly the cell's width and left edge (inline width / min / max from the cell's box), a long option wrapping inside it with its full text as tooltip. A Status, Responsible or Provider picker `fill="fit"` runs from its label's gap to the right edge of the name cell.
   - **The opened card's columns** (Resource, Activity, Partner, Provider, channel cards; not Delivery, not the Workspace form): a grid of three columns -- the marker (the number, as wide as its digits), the content and the x (32px) -- 8px apart, the head on a subgrid. Everything under the head starts at the name cell's LEFT edge (x 245.9 at the 480px card) and ends at its RIGHT edge (634.3); the x column stays empty but for an Activity's "+" / x beside a performer; the Responsible row (Partner / Provider and Activity) ends at the name cell's edge; the Description box ends there too. A Partner's / Provider's Price (219 with its currency) and Frequency (hugging its longest option, 126px; the placeholder is just "Select") sit side by side while the content column has 358px (at the 480px card it has 388px), under each other below that. A child activity's head: the number at the card's padding edge (12px), 8px to the name, the name's text starting at the name column's left edge, both on one centre line (0.3px apart); the head 12px from the card's top. Probe rules 18c / 18f read all of it, including that no picker shows a cut value; the one exception is a Status picker holding its longest option (282px of text beside a 124px label in a 388px column), which ends in an ellipsis with its whole text in the list.
   - **Subcategory "+".** Each subcategory box of the four resource groups (fixed ones, and a founder's own Other) has a 36px "+" box at its lower right (in the box's own grid cell, 12px in) that makes a blank resource in that subcategory and opens it floating, captioned with the subcategory's name; left blank it is removed again (the subcategory stays). The four group tiles have no "+".
@@ -1017,8 +1017,8 @@ drawn only in a dialog that its tile opens.
   - **Names.** Offering's Capability's third tile is **Partners & Suppliers**, and its grid has two boxes, **Partners** and **Providers**; Infrastructure's third section is "3. Partners & Suppliers" with the same two tiles, **Partners** (it was "External Professionals & Partners") and **Providers**. "Partnerships" is no longer said anywhere. The Status option "External Professionals & Partners" of a resource (an answer, not a section) keeps its words; stored keys are unchanged.
   - **One way to present a card.** A Resource, Activity, Partner or Provider card (channel-made, finished and the parent / child pair too) is ONLY a **floating card** on its section part of the page (top-aligned with the first tile row, its box name above it, a drop shadow, stacked when several are open), never shown inside a dialog and never centred in the page behind a blurred ground. A tile or subcategory box connected with exactly ONE card opens that card at once; one with none makes one blank card and opens it (taken away again if left blank); one that groups several opens the DIALOG, which is only a grid to choose from (subcategory boxes, card boxes with their add box; the glass look stays on that grid) -- pressing a card box closes the grid and opens the card floating. Back, Escape and the backdrop close a floating card and return to the page (not to the grid). Not these kinds, unchanged: the Founders dialog, the Workspace form (a floating card of its own) and the Delivery dialog (its cards in the dialog; its list links open one floating).
   - **The cost row** of a Resource, Partner or Provider card is ONE row: `[Qty] [Price .......] [currency] ... [Frequency]`, the labels (Qty, Price, Frequency) above their cells, the currency with none. Qty is the 56px of its label's column (`--qty-w`: three digits and the cell's padding), 12px to the Price, 12px from the Price to the currency; the currency's left edge is the side pickers' (Status's, Responsible's: the label column `--side-label-short`, 164px, and its 12px gap); the Frequency hugs its longest option (126px; its placeholder is just "Select") and ends at the name cell's right edge. Measured at the 480px card: Partner Price 245.9-409.9, currency 421.9-501.4, Frequency 507.9-634.3 (name cell 245.9-634.3); Resource Qty 951.9-1007.9, Price 1019.9-1115.9, currency 1127.9 (= the Status picker's left), Frequency to 1340.3 (= the name cell's right). Under 358px of content the Frequency goes under the row. The Resource's Status label column is therefore 164px (it was 124px): the Status picker is 212px, the longest option ends in an ellipsis there.
-  - **The x** (the one shared `.strategy-box-remove`, and the three older removes that share it) is a swap of two colours like the "+" box, app-wide: at rest the FILL is the ground of the card it stands on (`--x-ground`, set where each card kind sets its ground; the page surface where none does), the stroke 2px (the "+" box's) and the X both the danger red (`--x-red`, `--text-danger`: #b00020 light, #ff9b96 dark); under the pointer or the keyboard focus no stroke, filled red, the X in the ground colour. 32 x 32 as before, no inset light or shade (`page-3-edges.css` names no x).
-  - **The Back button of a floating card** is the same swap, in the colour of its card: the card's ground, a 2px stroke, the arrow and "Back" in the darker tone of the hue (`--plus-fill`: Infrastructure rose, Capability terracotta, channel teal; the grey of a finished card); filled with that tone and the words in the ground under the pointer or the focus. A dialog's Back keeps its plain words.
+  - **The x** (the one shared `.strategy-box-remove`, and the three older removes that share it) is a swap of two colours like the "+" box, app-wide: at rest it has NO fill (a wired button: transparent, it takes the colour of the card it stands on; `--x-ground` names that ground, set where each card kind sets its ground, the page surface where none does, and is the X's colour under the pointer), the stroke 2px (the "+" box's) and the X both the danger red (`--x-red`, `--text-danger`: #b00020 light, #ff9b96 dark); under the pointer or the keyboard focus no stroke, filled red, the X in the ground colour. 32 x 32 as before, no inset light or shade (`page-3-edges.css` names no x).
+  - **A floating card has no Back button**: it closes with a press outside it. The Back buttons that exist are the dialog foot's (`.section-tile-back`) and the one in the rail's tab (`.carousel-rail-back`); see "Navigation rails" and the Back button contract (`src/library/assets/backButton.ts`).
   - **The hover lift** of page 3 (the glow a tile, a cell, a list row takes under the pointer) is its old amount times `--hover-lift` (1.2): the tile and cell glow 18% -> 21.6%, the chosen list row 28% -> 33.6%.
   - **The focus ring.** The cell's focused edge was the primary line (`--line-primary`: #7aa7f5 in dark, a thin light-blue line round the cell). In the dark theme it is now a clean white (`--focus-ring-ink`: rgba(255,255,255,.9), 2px, no coloured glow; about 14:1 on the cell); light and sepia keep the primary line (#0b57d0, #3e5f7e) and the soft glow. The tiles', links', "+", x and Back outlines use the same token.
   - **Numbers on the right.** A numeric input of page 3 (inputmode decimal / numeric, type number: Qty, Price, Deposit, Salary, the hours) right-aligns its value with 12px of padding; text inputs are unchanged.
@@ -1028,14 +1028,14 @@ drawn only in a dialog that its tile opens.
   - **The type scale** on page 3: only 14 (`--font-small`: list text, summaries, a title that dropped a size), 18 (`--font-body`: tile titles, card names, labels, fields), 24 (`--font-h3`: section headings, dialog titles, captions), 28 (`--font-h2`: column titles) and 36 (`--font-h1`: the page title). The one deviation found, the dialog's visually hidden name at the browser's 16px, now takes 18. Probe rule 18i reads every text.
   - **The Workspace Deposit.** Its amount box has the Price box's left edge, width and height; its currency is plain text (the card's, taken from the Price) whose letters start where the letters "GBP" start in the Price row's currency picker (measured: both 545.3px, same centre line).
 
-- **The edge of an opened card, its cells and the Back button (no stroke).** The opened cards -- a founder's, a resource's, a partner's and a provider's, an activity's, and, named in the same request, the **Workspace form and the Delivery cards** -- their CELLS (inputs, pickers, text boxes, name cells, the x) and the Back button of a floating card have no stroke. The edge is the box's inset light and shade
-  (`--box-inset` for a card and the Back button, `--cell-inset` -- the lighter twin -- for a cell); the 1px border they keep for the box model (so nothing moves) is painted in the light on its top and left and the shade on its right and bottom (`--box-edge`, `--cell-edge`: `border-color` of four values), so the inset shadow runs on into it and there is no
+- **The edge of an opened card and its cells (no stroke).** The opened cards -- a founder's, a resource's, a partner's and a provider's, an activity's, and, named in the same request, the **Workspace form and the Delivery cards** -- their CELLS (inputs, pickers, text boxes, name cells, the x) have no stroke. The edge is the box's inset light and shade
+  (`--box-inset` for a card, `--cell-inset` -- the lighter twin -- for a cell); the 1px border they keep for the box model (so nothing moves) is painted in the light on its top and left and the shade on its right and bottom (`--box-edge`, `--cell-edge`: `border-color` of four values), so the inset shadow runs on into it and there is no
   hairline of plain ground outside it. Pointed at, a cell keeps the soft glow (18%) around it; focused, the ring (35%) -- accessibility -- over the inset edge; disabled, flat (no light, no shade); the x is filled red under the pointer, no stroke. Tick boxes keep their own box, the dashed add boxes their dashed edge. All in `page-3-edges.css`; the Workspace form's and the Delivery cards'
   share is ONE block at its foot ("THE WORKSPACE FORM AND THE DELIVERY CARDS"), with the same tokens, nothing else of them changed: delete that block and they have their strokes back.
 - **The "i" of a coloured card.** Every "i" on this page (`InfoNote`): at rest it has NO fill (a wired button: an outline and a letter; the ground of the surface it stands on shows through, and `--info-fill` names that ground: the page card's, the dialog's, an opened card's own; on a box name over the dimmed page, a dark ground) with a 1.5px stroke (drawn as 1px at 100% zoom on a 1x screen: a border is drawn in whole device pixels) and its letter in the darker tint of the card's hue
   (`--info-ink`, `--theme-text-ink`; white on the scrim); under the pointer or the focus (or while its note is open) the stroke is gone and the two swap -- filled with the tint, the letter in the ground colour. The size (22px) is unchanged. Letter against ground at least 3:1 in both states.
-- **The arrows have no hover.** The fold arrows of a founder's card (Responsibilities, Completed) and the title arrows (1. INFRASTRUCTURE, 2. OFFERING'S CAPABILITY) have no reaction under the pointer: no ground, no ring, no bolder glyph. They keep their size, their name, the ring of the keyboard focus, and -- the founder's -- no shift on a click.
-- **The column title's "i".** After the title's text, 8px, and before the title arrow: what the column is ("Existing or planned resources, activities, and partnerships & providers the organization needs ..."; Offering's: "What each Offering needs on top of ..."): the notes the page had before it was drawn as tiles. Where the old page had an "i" the tiles have it still: on the column titles, the section headings, the dialogs' headers (the tile's, then each subcategory's), the fields' labels; the Workspace's, which has no dialog header, and the other boxes' are said after the box name above a floating card.
+- **The label arrows have no ground, ring or bolder glyph under the pointer.** The label arrows of a founder's card (Responsibilities, Completed) and of the titles (1. INFRASTRUCTURE, 2. OFFERING'S CAPABILITY) only fill their outline triangle under the pointer and the keyboard focus (focus draws no ring: the filled triangle is the focus). They keep their size, their name, and -- the founder's -- no shift on a click.
+- **The column title's "i".** After the title's text, 6px (`--info-gap`, like every "i"; the title row's own gap is 8px and the note takes 2px off it), and before the label arrow: what the column is ("Existing or planned resources, activities, and partnerships & providers the organization needs ..."; Offering's: "What each Offering needs on top of ..."): the notes the page had before it was drawn as tiles. Where the old page had an "i" the tiles have it still: on the column titles, the section headings, the dialogs' headers (the tile's, then each subcategory's), the fields' labels; the Workspace's, which has no dialog header, and the other boxes' are said after the box name above a floating card.
 - **Title sizes** (type scale tokens only): page title 36 (`--font-h1`) > column title 28 (`--font-h2`; "1. INFRASTRUCTURE") > dialog title and
   section heading 24 (`--font-h3`; "6. Digital Infrastructure", "1. Resources") > tile, subcategory / card box title, subcategory heading, card
   name 18 (`--font-body`; weight 600 on tiles and boxes, 700 on headings; 14 for a title too long for its room and in a box under 120px) >
@@ -1091,12 +1091,8 @@ drawn only in a dialog that its tile opens.
   Responsibilities fold arrow, the list numbers and the Completed arrow all start at ONE x, the marker column's (17.2px from the card's edge, measured on the glyphs); a wrapped line of an
   item aligns under its first line's text (hanging). A two-digit number is wider than the column: the column grows and the list's text follows it. **The head:** the number and the name are on
   ONE line -- one line height (28px), so the same baseline (246.5) and vertical centre (240.2) -- and the number, in tabular figures (every single digit 18.3px), ends **8px** (measured
-  8.01) before the name. **Both fold arrows are the STANDARD arrow** (`FoldArrow`, 36px, the app's own reactions: white ground and the card-line edge under the pointer, the focus ring): the
-  Responsibilities row and the Completed row are the same row of one component (before, Completed was a drawn triangle in a text button with no reaction of its own, and the Responsibilities
-  arrow had been shrunk to a 24px box; neither is any more). **The arrow does not move when it is toggled:** open and closed it has ONE margin, so its box and the label after it stay where they are (measured
-  at rest, under the pointer, pressed, open and away again: box at x 4.67, label at 43.47 every time); the glyph turns about its centre, the closed one's left edge on the markers' x, the open one's 3.5px further left (before, the
-  box was moved 3.5px to keep the open glyph's edge on the markers' x, which is the shift that was seen). Their boxes reach 12.5px left of the glyph, inside the card thanks to `--founder-inset`, so the focus ring (4px)
-  stays inside the card (measured: box left at 4.7px from the card's edge). Lists: line height 1.45 (`--section-tile-line-height`, 26.1px at 18px), 6px between
+  8.01) before the name. **Both fold arrows are the label arrow** (`LabelArrow`, see "The label arrow": an outline triangle in the card's tint that fills under the pointer and the keyboard focus, no ground and no ring): the
+  Responsibilities row and the Completed row are the same row of one component. **The arrow does not move when it is toggled:** open and closed it has ONE margin, so its box and the label after it stay where they are; the glyph turns about its centre and is shifted by 0.1945em when open, so its left edge stays on the markers' x. The glyph starts on the markers' x and the label after it starts where a tick box's words start (26px from the edge). Lists: line height 1.45 (`--section-tile-line-height`, 26.1px at 18px), 6px between
   items (item pitch 32.1px, a wrapped item 52.2px + 6), 12px between blocks (the Completed block 12px under the list, its struck items 6px apart
   under it). The head: number, 8px, name; the roles 12px under it. **Four cells of one size** -- `--founder-cell` (108px, what "Annually" needs) x 45px
   high -- in two columns **12px apart, both at the left**: Salary | Frequency over Working Hrs | Delivery Hrs (the right column NOT pushed to the card's right edge; measured cells at x 43.5
@@ -1144,7 +1140,7 @@ wide as they are (`width: fit-content`), never the empty space beside
 them; Space toggles the focused box. A tick's "i" stands outside its label,
 so reading the note never toggles the tick.
 | Add button | its ground | focus ring | muted |
-| x (remove) | filled with the danger red (`--x-red`), no stroke, the X in the card's ground (`--x-ground`); at rest the card's ground, a 2px red stroke and a red X; the same on every x | outline, the focus ring ink, 2px, 2px off | muted |
+| x (remove) | filled with the danger red (`--x-red`), no stroke, the X in the card's ground (`--x-ground`); at rest transparent (no fill), a 2px red stroke and a red X; the same on every x | outline, the focus ring ink, 2px, 2px off | muted |
 | Fold arrow (`FoldArrow`, 36px) | its ground and the card-line edge -- **not** a founder's Responsibilities / Completed arrows, which have none | focus ring | n/a |
 | Page tile (its slot: button, list, "+") | grows to 150% about its aimed corner (set once per stay), above its neighbours, a drop shadow growing with it | a 2px primary outline on the control that holds it (no growth) | n/a |
 | Box in a dialog (subcategory, card, founder, add) | soft glow (18%) beside its inset light and shade (no stroke) | a 2px primary outline | n/a |
@@ -1153,7 +1149,7 @@ so reading the note never toggles the tick.
 | "i" of a coloured card | stroke gone, filled with the tint, the letter in the ground (a swap) | the same | n/a |
 | Line under a parent's Status ("Open Activity “...”", an alarm when the child holds details) | bold (a text-shadow, nothing moves) while the pointer is on the Status cell or on the line; its link underlined | outline on a link | n/a |
 | A child's name (the link to its parent) | underlined and bolder | a 2px outline | n/a |
-| Title arrow (beside a card title) | none | focus ring | n/a |
+| Label arrow (beside a label or a card title) | the outline triangle fills | the same fill (no ring) | n/a |
 
 The check hovers up to three of each kind on every page and fails a kind
 that does not react as its row says; it hovers up to twelve x and fails
@@ -1162,8 +1158,8 @@ if any two turn different colours (one reaction per kind).
 **The one x.** Every remove button is the shared `.strategy-box-remove`
 and nothing else (no second class adding a hover, a ring or a glyph size):
 the Strategy Theme, Goal, Objective and Metric x are the Legal Entity
-card's. Its look is the "+" box's swap of two colours (remove-button.css, app-wide): at rest the fill is the card's ground
-(`--x-ground`), the stroke 2px and the X the danger red (`--x-red`); under the pointer or the focus no stroke, filled red, the X in the ground. The check reads a Legal Entity card's x at rest, under the
+card's. Its look is the "+" box's swap of two colours (remove-button.css, app-wide): at rest there is no fill (transparent: the card's ground
+shows, `--x-ground`), the stroke 2px and the X the danger red (`--x-red`); under the pointer or the focus no stroke, filled red, the X in the ground. The check reads a Legal Entity card's x at rest, under the
 pointer and focused (square, edge, corners, ground, colour, ring,
 transition and the two drawn bars) and fails any x on any page that
 differs.
@@ -1226,25 +1222,9 @@ differs.
 - **The cost row's Frequency column** (a card with no group yet offers all seven frequencies, "% of revenue" the longest, 148px): the column gives way to the room left (`minmax(0, max-content)`), so the Frequency ends at the name cell's right edge, up to 16px narrower. A Per unit price with a Unit picker puts the Frequency and the Unit together under the row (`:has(.business-capability-frequency-unit)`), the currency keeping its place.
 - **An activity's Responsible stack**, which has no Performer list and so no x, has two columns and ends at the name cell's right edge (the Performer's stack keeps its third, the x's).
 
----
+## 8a. Added on 2026-10-14: tracking and the label arrow
 
-## 8. Values as built (read from the code on 2026-10-14)
-
-| Token | Value | Where | Note |
-|---|---|---|---|
-| `--open-card-width` | 492px | `global.css` | A test asserts 492. Older text in this rulebook says 480px (454px content): 492 is the value |
-| `--tile-title-top` | 0.25 (a quarter of the square) | `global.css` | A test asserts 0.25. Older text says a third (0.33333) |
-| `--card-label-col` | 177px | `global.css` | The label column of every side-label row |
-| `--side-label-short` | `var(--card-label-col)` (177px) | `global.css` | Older text says 124, 156 or 164px; they are replaced |
-| `--qty-w` | 56px | `section-tiles.css` | Quantity box of the cost row. Older text says 80px |
-| Tile hover | `scale(1.1)` | `section-tiles.css` | Every tile. Older text says 150% for page tiles |
-| `--tile-radius` | 8px | `global.css` | |
-| `--card-padding` | 12px | `global.css` | |
-| `--space-label`, `--space-field` | 6px, 12px | `global.css` | |
-| `--floating-scrim` | transparent | `global.css` | A floating card never darkens the page; a dialog does (`--bg-overlay`) |
-| A tile's list | holds every item and scrolls; there is no "+N more" line | `SectionTiles.tsx` | Older text in section 5a says the list ends with "+N more" |
-| `--card-side-label` | not defined | | A test asserts it is absent |
-| `--workspace-form-width`, `--workspace-label-width` | not defined | | The Workspace is a category of the resource card |
+(The table "Values as built" is section 8, above.)
 
 ### Tracking follows weight (2026-10-14)
 
@@ -1392,7 +1372,6 @@ Today: the chapter titles of 3. Infrastructure & Capability (right of the title 
 ## 12. The Inventory help tile
 
 - The Completed tile stands outside both sections (`.section-tiles-completed`, under Offering's Capability's card); while it exists the "Offering's Capability shows all its tiles without a bar" rule is waived (the card scrolls inside).
-- The floor (`.capability-floor`, `.capability-floor-open`) is fixed over the page: it takes no room from any card; its text is on the type scale (14px).
 - The row under Offering's Capability's card (Inventory, Completed) is 66% of the card's width.
 - **Funnel**: portal to the overlay, outward beside the dialog when there is room; Status / Frequency are `OptionPicker` (hug, tight).
 - **The Inventory funnel menu is 250px wide** (`.strategy-sort-menu-wide`; max `100vw - 24px`): long labels ("Digital Infrastructure", "Online Presence & Communication") wrap onto two lines, "Partners & Suppliers" stays on one, never widen the menu for a label. Its height is capped to the window (scrolls inside), it opens outward where there is room, and the Cost from / to cells are 6.5em (91px). Buttons read "High to low" / "Low to high", the tick "Linked".
@@ -1407,7 +1386,7 @@ Today: the chapter titles of 3. Infrastructure & Capability (right of the title 
 ## 13. Identity, Brand and Strategy: column pages, Legal Entity, Brand Style, Founders Profile, Strategic Period
 
 - **A strategy card's navigation** (`CardNav`, in the margin lane at the card's right edge): the two arrows are the page arrows at 15/22 of their size (their shape, box, grow-by-a-fifth and ring), in the colour of the head's "+" button (`--accent-ink`), not the card's ground, so they stand out from it; the rail's bullets take the same tint. The arrows stand on the centre line of the card's Description label; their vertical sides stand 12px from the card's edge, one on each side: the left arrow's on the x's right side, the right arrow's on the left side of the symbol of four arrows above it (the owner's marked picture, 2026-10-14). The symbol and the rail stand 12px from the card's edge.
-- **A strategy card's head**: the "i" is 8px after its word; the "+" is 12px after the "i" and the x 12px after the "+" (the owner, 2026-10-14).
+- **A strategy card's head**: the "i" is 6px (`--info-gap`) after its word, like every "i"; the "+" is 12px after the "i" and the x 12px after the "+" (the owner, 2026-10-14).
 - **Channel expenses (Page 2)**: "+ Add expenses" and "Typical costs for this channel" are card-list add buttons in the channel cell, same size as "+ Add Journey Stage"; template cards use the channel teal tone (`--channel-marker`) and the cascade link rules above.
 - **A column's guidance is the "i" beside its dialog title** (`DialogHeading info`), never bullets under it. The guidance of the Brand pages (Style, Inventory) and of the Themes (beside the Add Theme button) opens in a note of double the one width (`InfoNote size="double"`, 720px).
 - **A founder's card in its dialog** stands one field under the other (`.founders-profile-row`), so every row has the room it was drawn for.
@@ -1492,7 +1471,7 @@ Rules checked: number-left = body-left; number to name gap (8); control at
 its column's left edge; same-row tops; list x column; add button spans its
 list; side-by-side bottoms; text box not clipped and at least two lines;
 picker one line; nothing overflows its card or the page; text beside a
-control on its centre line; tick box on its words' first line; an "i" on its words' line, 8px after them; a hierarchy
+control on its centre line; tick box on its words' first line; an "i" on its words' line, 6px (`--info-gap`) after them; a hierarchy
 level on its row's centre line; control width is a size step; single-line
 control height; card side margin; page grid column, row and box gaps (12); label gap (6) and row gap (12, or 24
 across a dividing rule) in every card; section tiles (a square of `--section-tile-size` -- a third of the group's width less the gaps, one size per card, three across fill the group --, title centred, 12px apart, left-aligned) and everything inside each tile's opened dialog; and the hover reactions above.
