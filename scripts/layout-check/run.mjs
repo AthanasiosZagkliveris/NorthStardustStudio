@@ -21,7 +21,7 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 /** The findings known today (see the end of this file): the check fails only on one that is not in it. */
-const BASELINE_FILE = fileURLToPath(new URL("./baseline.json", import.meta.url));
+const STANDARD_BASELINE_FILE = fileURLToPath(new URL("./baseline.json", import.meta.url));
 
 export const SPEC = {
     /** From the end of a card's number ("1.", or "1. Goal") to its name: the one gap. */
@@ -51,6 +51,17 @@ export const PAGES = [
 
 export const WIDTHS = [1920, 1366, 768];
 export const THEMES = ["light", "dark"];
+
+/** A window is [width, height]; the standard check keeps the height at 1000. */
+export const SIZES = WIDTHS.map(width => [width, 1000]);
+
+/**
+ * THE WIDE CHECK (--wide): all three reading modes (sepia too) and the screen classes of the website's profiles and of the minimum width
+ * (768): Tablet 768 and 1024 wide; Laptop 1200 and wider and lower than 1250 (the 1440 x 864 and 1440 x 1024 reference cases, and 1366 x 768,
+ * the common laptop); Desktop 1200 and wider and 1250 or higher. Its findings are kept in baseline-wide.json, apart from the standard baseline.
+ */
+export const WIDE_THEMES = ["light", "sepia", "dark"];
+export const WIDE_SIZES = [[768, 1024], [1024, 768], [1366, 768], [1440, 864], [1440, 1024], [1920, 1000], [1920, 1300]];
 
 /** Opens a page of a System, from the System list. */
 async function openPage(page, base, system, pageName) {
@@ -357,7 +368,7 @@ export async function checkRealMouse(page, where) {
 }
 
 /** The whole check: a list of failures (empty is a pass). */
-export async function runLayoutCheck(page, { base = "http://localhost:1420", probe, pages = PAGES, widths = WIDTHS, themes = THEMES } = {}) {
+export async function runLayoutCheck(page, { base = "http://localhost:1420", probe, pages = PAGES, widths, sizes = (widths ?? WIDTHS).map(width => [width, 1000]), themes = THEMES } = {}) {
     const failures = [];
     // The reference x: the first Legal Entity card's.
     let referenceX = null;
@@ -381,13 +392,13 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
             }
             for (const theme of themes) {
                 await page.evaluate(value => document.documentElement.setAttribute("data-theme", value), theme);
-                for (const width of widths) {
-                    await page.setViewportSize({ width, height: 1000 });
+                for (const [width, height] of sizes) {
+                    await page.setViewportSize({ width, height });
                     await page.waitForTimeout(300);
                     // The page as drawn, then every section tile's dialog opened in turn
                     // (a page with no tiles is just the page).
                     const found = await page.evaluate(spec => window.__layoutProbe.checkWithTiles(spec), SPEC);
-                    failures.push(...found.map(failure => ({ page: system + " › " + name, theme, width, ...failure })));
+                    failures.push(...found.map(failure => ({ page: system + " › " + name, theme, width, ...(height !== 1000 ? { height } : {}), ...failure })));
                 }
             }
             // The real mouse on the list items of the first-row tiles (3. Infrastructure & Capability), in a tall and a low window.
@@ -422,18 +433,23 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     const only = (name) => process.env[name]?.split(",").map(entry => entry.trim()).filter(Boolean);
     const pageFilter = only("CHECK_PAGES");
     const pages = pageFilter ? PAGES.map(([system, names]) => [system, names.filter(name => pageFilter.some(entry => name.includes(entry)))]).filter(([, names]) => names.length > 0) : PAGES;
-    const widths = only("CHECK_WIDTHS")?.map(Number) ?? WIDTHS;
-    const themes = only("CHECK_THEMES") ?? THEMES;
+    // --wide: the three reading modes and the screen classes (WIDE_SIZES); CHECK_SIZES="768x1024,1440x864" picks the windows by hand.
+    const wide = process.argv.includes("--wide");
+    const sizeText = only("CHECK_SIZES")?.map(entry => entry.split("x").map(Number));
+    const widths = only("CHECK_WIDTHS")?.map(Number);
+    const sizes = sizeText ?? (widths ? widths.map(width => [width, 1000]) : wide ? WIDE_SIZES : SIZES);
+    const themes = only("CHECK_THEMES") ?? (wide ? WIDE_THEMES : THEMES);
     const exampleFilter = only("CHECK_EXAMPLES");
     for (const example of ["lumen-and-loom-studio.json", "quillfield-automation-llc.json"].filter(name => !exampleFilter || exampleFilter.some(entry => name.includes(entry)))) {
         await seedExample(page, base, readFileSync(new URL("../../src/data/examples/" + example, import.meta.url), "utf8"));
-        failures.push(...(await runLayoutCheck(page, { base, probe, pages, widths, themes })).map(failure => ({ example, ...failure })));
+        failures.push(...(await runLayoutCheck(page, { base, probe, pages, sizes, themes })).map(failure => ({ example, ...failure })));
     }
     await browser.close();
     // THE BASELINE: the findings known today (BASELINE_FILE). The check fails only on a finding that is NOT in it, so it can run after every change; a finding that is gone is said, and the baseline is rewritten with --write-baseline.
     // (A card made by a "+" gets a random id each run: an id -- eight letters and digits after a hyphen -- is not part of a finding's key.)
     const plain = text => text.replace(/(?<=-)[a-z0-9]{8}(?![a-z0-9])/g, "~");
-    const keyOf = failure => plain([failure.example, failure.page, failure.theme, failure.width, failure.rule, failure.where, failure.tile].join("|"));
+    const BASELINE_FILE = wide ? fileURLToPath(new URL("./baseline-wide.json", import.meta.url)) : STANDARD_BASELINE_FILE;
+    const keyOf = failure => plain([failure.example, failure.page, failure.theme, failure.width, ...(failure.height ? [failure.height] : []), failure.rule, failure.where, failure.tile].join("|"));
     if (process.argv.includes("--write-baseline")) {
         const merged = new Map();
         if (existsSync(BASELINE_FILE)) {

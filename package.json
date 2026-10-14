@@ -11,7 +11,9 @@
     "test:watch": "vitest",
     "tauri": "tauri",
     "check:layout": "node scripts/layout-check/run.mjs --quick",
-    "check:layout:baseline": "node scripts/layout-check/run.mjs --quick --write-baseline"
+    "check:layout:baseline": "node scripts/layout-check/run.mjs --quick --write-baseline",
+    "check:layout:wide": "node scripts/layout-check/run.mjs --wide",
+    "check:layout:wide:baseline": "node scripts/layout-check/run.mjs --wide --write-baseline"
   },
   "dependencies": {
     "@fontsource/inter": "^5.3.0",
