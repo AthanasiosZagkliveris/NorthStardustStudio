@@ -40,6 +40,8 @@ export type KindLetters = keyof typeof KINDS;
 export interface Look {
     /** null when the height follows the words. */
     height: number | null;
+    /** Set where the height follows the words but is never less than this (a free text, a name cell). */
+    minHeight?: number;
     /** Set where the width is part of the look (a square box); otherwise the width follows the layout. */
     width?: number;
     fontSize: number;

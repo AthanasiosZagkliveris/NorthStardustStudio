@@ -383,7 +383,7 @@ export const library: Library = {
     "Dropdown"
    ],
    "look": {
-    "height": 45,
+    "height": 44,
     "fontSize": 18,
     "fontWeight": "400",
     "corners": "6px",
@@ -394,7 +394,8 @@ export const library: Library = {
     "found": 493
    },
    "lookNotes": [
-    "merged by the owner's decision (owner, 2026-10-15): dropdown height 45, type 18, corners 6px, padding 6/8, border 1; found 43 times (8.7% of the default's 493); largest difference 2.0px"
+    "merged by the owner's decision (owner, 2026-10-15): dropdown height 45, type 18, corners 6px, padding 6/8, border 1; found 43 times (8.7% of the default's 493); largest difference 2.0px",
+    "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45)."
    ]
   },
   {
@@ -450,7 +451,7 @@ export const library: Library = {
      "edits": "A single line.",
      "values": {},
      "look": {
-      "height": 45,
+      "height": 44,
       "fontSize": 18,
       "fontWeight": "400",
       "corners": "6px",
@@ -476,7 +477,8 @@ export const library: Library = {
       "paddingTop": 8,
       "border": 1,
       "scale": "body 18",
-      "found": 282
+      "found": 282,
+      "minHeight": 44
      }
     },
     {
@@ -494,7 +496,8 @@ export const library: Library = {
       "paddingTop": 8,
       "border": 1,
       "scale": "body 18",
-      "found": 138
+      "found": 138,
+      "minHeight": 44
      }
     },
     {
@@ -519,7 +522,26 @@ export const library: Library = {
       "paddingTop": 8,
       "border": 0,
       "scale": "body 18",
-      "found": 129
+      "found": 129,
+      "minHeight": 44
+     }
+    },
+    {
+     "code": "TXT.TTL.001.006",
+     "name": "Title input",
+     "description": "The title of a chapter: a single line at the size of a column title. Every chapter has a title; a title that is too long moves horizontally.",
+     "edits": "One line, 28px; no cell edge; a long title scrolls sideways.",
+     "values": {},
+     "look": {
+      "height": 35,
+      "fontSize": 28,
+      "fontWeight": "400",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "h2 28",
+      "found": 1
      }
     }
    ],
@@ -529,7 +551,7 @@ export const library: Library = {
     "CO09"
    ],
    "look": {
-    "height": 45,
+    "height": 44,
     "fontSize": 18,
     "fontWeight": "400",
     "corners": "6px",
@@ -541,10 +563,11 @@ export const library: Library = {
    },
    "lookNotes": [
     "text box with square corners and no border (the name of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard text box.",
-    "kept, the owner decides: text box height 35, type 28, corners 0px, padding 0/0, border 0; found 1 times (4.2% of the default's 24); largest difference 10.0px",
     "moved to the name cell, by the owner's decision (owner, 2026-10-15): the text box with padding 38 (the theme name in Strategy, Strategic Period, Financial Stability; 1 found) is a name cell. It is counted in the standard name cell.",
     "free text with square corners and no border (the note of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard free text.",
-    "app error, by the owner's decision (owner, 2026-10-15): the name cell with padding 12 (the name with suggestions in Customer Engagement, Other, Referral partners; 2 found) is an error of the app and has to take the standard name cell look (padding 38, the number inside). It is counted in the standard name cell."
+    "app error, by the owner's decision (owner, 2026-10-15): the name cell with padding 12 (the name with suggestions in Customer Engagement, Other, Referral partners; 2 found) is an error of the app and has to take the standard name cell look (padding 38, the number inside). It is counted in the standard name cell.",
+    "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45 for the text box, 43 to 45 at least for the others). A free text, a name cell and a list line are at least 44px high and grow with their words.",
+    "title input: by the owner's decision (owner, 2026-10-15) every chapter has a title, a single line at the column title size (28px); a title that is too long moves horizontally. It is not a text box (the frame name in Business, 1. Foundation, 1 found)."
    ]
   },
   {
@@ -622,11 +645,11 @@ export const library: Library = {
      "code": "NUM.PCT.001.003",
      "name": "Percent",
      "description": "A number from 0 to 100 with a percent sign.",
-     "edits": "A square box, 45 by 45px, with a percent sign beside it.",
+     "edits": "A square box, 44 by 44px, with a percent sign beside it.",
      "values": {},
      "look": {
-      "height": 45,
-      "width": 45,
+      "height": 44,
+      "width": 44,
       "fontSize": 18,
       "fontWeight": "400",
       "corners": "6px",
@@ -650,7 +673,7 @@ export const library: Library = {
     "CO07"
    ],
    "look": {
-    "height": 45,
+    "height": 44,
     "fontSize": 18,
     "fontWeight": "400",
     "corners": "6px",
@@ -661,7 +684,8 @@ export const library: Library = {
     "found": 166
    },
    "lookNotes": [
-    "percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45)."
+    "percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45).",
+    "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px."
    ]
   },
   {
@@ -707,7 +731,9 @@ export const library: Library = {
     "scale": "body 18",
     "found": 166
    },
-   "lookNotes": []
+   "lookNotes": [
+    "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 44). Already 44px."
+   ]
   },
   {
    "code": "LBL.001",
@@ -825,6 +851,25 @@ export const library: Library = {
       "scale": "body 18",
       "found": 8
      }
+    },
+    {
+     "code": "ARW.TTL.002.002",
+     "name": "Title arrow",
+     "description": "The label arrow beside a chapter or column title (Infrastructure & Capability): the same frameless triangle, with the same function, at the size of the title.",
+     "edits": "The arrow is 28px, the size of a column title (h2), where the label arrow is 24px beside a field label.",
+     "values": {},
+     "look": {
+      "height": 28,
+      "width": 28,
+      "fontSize": 28,
+      "fontWeight": "400",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "h2 28",
+      "found": 2
+     }
     }
    ],
    "requires": [],
@@ -849,7 +894,7 @@ export const library: Library = {
    },
    "lookNotes": [
     "merged by the owner's decision (owner, 2026-10-15): fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px",
-    "kept, the owner decides: label arrow height 28, type 28, corners 0px, padding 0/0, border 0; found 2 times (25.0% of the default's 8); largest difference 10.0px"
+    "label arrow and title arrow are variants (the owner's decision, owner, 2026-10-15): the same component, function and style; the size follows the text beside it (24px beside a field label, 28px beside a title)."
    ]
   },
   {
@@ -1027,6 +1072,11 @@ export const library: Library = {
     {
      "asset": "BTN.002",
      "role": "the note of the chapter title"
+    },
+    {
+     "asset": "TXT.001",
+     "variant": "TXT.TTL.001.006",
+     "role": "the title of the chapter"
     }
    ],
    "catalogue": [

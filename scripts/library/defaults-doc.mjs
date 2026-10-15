@@ -41,14 +41,14 @@ const targetOf = (name, look) => {
     if (/box button|info|fold arrow|tick/.test(name)) return look.height >= 44 ? "meets 44" : look.height >= 24 ? "meets 24" : "under 24: needs the spacing exception";
     return look.height >= 24 ? "meets 24" : "under 24";
 };
-for (const [asset, variant, look] of rows) say("| " + cell(asset) + " | " + cell(variant) + " | " + (look.height === null ? "words" : look.width ? look.height + " high, " + look.width + " wide" : look.height) + " | " + look.fontSize + " | " + look.scale + " | " + look.corners + " | " + look.paddingLeft + "/" + look.paddingTop + " | " + look.border + " | " + look.found + " | " + targetOf(asset, look) + " |");
+for (const [asset, variant, look] of rows) say("| " + cell(asset) + " | " + cell(variant) + " | " + (look.height === null ? (look.minHeight ? "words, at least " + look.minHeight : "words") : look.width ? look.height + " high, " + look.width + " wide" : look.height) + " | " + look.fontSize + " | " + look.scale + " | " + look.corners + " | " + look.paddingLeft + "/" + look.paddingTop + " | " + look.border + " | " + look.found + " | " + targetOf(asset, look) + " |");
 say("");
 
 say("## Text holders", "",
     "Separated by purpose; each has its own default look.", "",
     "| Holder | Variant | What it is | Look |", "|---|---|---|---|");
 const txt = library.assets.find(a => a.code === "TXT.001");
-for (const v of txt.variants) say("| text input | " + v.code + " " + v.name + " | " + cell(v.description) + " | " + (v.look ? "height " + (v.look.height ?? "words") + ", type " + v.look.fontSize + ", corners " + v.look.corners + ", padding " + v.look.paddingLeft + "/" + v.look.paddingTop + ", border " + v.look.border + ", found " + v.look.found : "none") + " |");
+for (const v of txt.variants) say("| text input | " + v.code + " " + v.name + " | " + cell(v.description) + " | " + (v.look ? "height " + (v.look.height ?? (v.look.minHeight ? "words, at least " + v.look.minHeight : "words")) + ", type " + v.look.fontSize + ", corners " + v.look.corners + ", padding " + v.look.paddingLeft + "/" + v.look.paddingTop + ", border " + v.look.border + ", found " + v.look.found : "none") + " |");
 const lst = library.assets.find(a => a.code === "LST.001");
 for (const v of lst.variants) say("| list | " + v.code + " " + v.name + " | " + cell(v.description) + " | built from the list line |");
 say("");
