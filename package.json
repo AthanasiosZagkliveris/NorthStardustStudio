@@ -30,7 +30,9 @@
     "tables": "node scripts/catalogue/structure.mjs --md docs/design/07-structure-tables.md --ts src/library/tables",
     "tables:check": "node scripts/catalogue/structure.mjs --check --md docs/design/07-structure-tables.md --ts src/library/tables",
     "library:doc": "node scripts/library/generate-library-doc.mjs",
-    "library:doc:check": "node scripts/library/generate-library-doc.mjs --check"
+    "library:doc:check": "node scripts/library/generate-library-doc.mjs --check",
+    "library:check": "node scripts/library/library-log.mjs",
+    "library:log": "node scripts/library/library-log.mjs log"
   },
   "dependencies": {
     "@fontsource/inter": "^5.3.0",

@@ -82,6 +82,9 @@ export interface Asset {
     catalogue: readonly string[];
 }
 
+/** The marker of a component placed in the app that is not in the library: Placement.asset is NEW: and the component's name (case 3 of docs/design/08-library-system.md). */
+export const NOT_IN_LIBRARY = "NEW:";
+
 /** Where an asset stands in the app: a card, under a chapter, a page, a system. */
 export interface Placement {
     asset: string;

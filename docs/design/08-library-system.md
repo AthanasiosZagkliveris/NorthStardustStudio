@@ -1,6 +1,6 @@
 # The library system: tables, library, inventory and logs
 
-Status: **specification for the owner's approval (2026-10-15).** Nothing here is built yet. It records the owner's requirements as stated in chat, and how they will be met, step by step. The starting data is the catalogue (the card scan, the probes and document 01 Part F), printed in documents 06 and 07.
+Status: **approved by the owner (2026-10-15); steps 2 to 5 built, step 6 (the inventory) in progress.** It records the owner's requirements as stated in chat, and how they will be met, step by step. The starting data is the catalogue (the card scan, the probes and document 01 Part F), printed in documents 06 and 07.
 
 ## 1. What a variable is
 
@@ -67,7 +67,7 @@ The owner's decision: **the app changes the table.** The table follows the app i
 
 **How the three cases are told apart.** For every asset the sync finds in the app, it looks the asset up in the library. Found: case 1 or 2 (the library log has, or gets, its entry with where it is placed). Not found: case 3 (app structure log only, marked not in the library, and listed as a drift).
 
-**Checker.** npm run library:check (to be built) holds a snapshot of the last logged state of the library and the tables, lists every difference, classifies it, and fails when a change has no log entry. An assistant command writes the entries.
+**Checker.** npm run library:check (built) holds a snapshot of the last logged state of the library and the tables, lists every difference, classifies it, and fails when a change has no log entry. npm run library:log writes the entries (docs 10 and 11) and stores the state.
 
 **What the sync reads (recommendation; the owner may change it).** The running app: what the user sees, exact, and it needs the dev server running. A check of the source finds a component or class name that is in the app and not in the library. Reading only the source is faster, but the cards are separate builders today, so it cannot yet tell fields from components.
 

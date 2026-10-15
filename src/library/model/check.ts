@@ -1,8 +1,11 @@
-import { KINDS, type Library, type Placement } from "./types.ts";
+import { KINDS, NOT_IN_LIBRARY, type Library, type Placement } from "./types.ts";
 
 export const ASSET_CODE = /^([A-Z]{3})\.(\d{3})$/;
 export const VARIANT_CODE = /^([A-Z]{3})\.([A-Z]{3})\.(\d{3})\.(\d{3})$/;
 export const VARIABLE_CODE = /^VAR\d{3}$/;
+
+/** The components placed in the app that are not in the library (case 3), by their name. */
+export const driftOf = (placements: readonly Placement[]): Placement[] => placements.filter(p => p.asset.startsWith(NOT_IN_LIBRARY));
 
 const normal = (text: string) => text.trim().toLowerCase().replace(/\s+/g, " ");
 
@@ -82,6 +85,7 @@ export function checkLibrary(library: Library, placements: readonly Placement[] 
         }
     }
     for (const placement of placements) {
+        if (placement.asset.startsWith(NOT_IN_LIBRARY)) continue; // case 3: a drift, listed by driftOf, not an error
         const target = assets.get(placement.asset);
         if (!target) { problems.push("placement of " + placement.asset + " in " + placement.system + ": the asset is not in the library"); continue; }
         if (placement.variant && !target.variants.some(variant => variant.code === placement.variant)) problems.push("placement of " + placement.variant + ": not a variant of " + placement.asset);
