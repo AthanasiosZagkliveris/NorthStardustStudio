@@ -12,6 +12,9 @@ create table variant_rows (variant text, row integer, position integer, field te
 create table assets (name text primary key, kind text, summary text, component text, stylesheet text, variants text, states text, tokens text, has_sizes integer, has_anatomy integer, known_findings text);
 create table asset_map (thing text primary key, asset text);
 create table observations (scan text, id text, system text, page text, path text, kind text, type text, cls text, w real, h real, font real, weight text, radius text, padL real, padT real, padB real, border real, fill integer, shadow text, data text);
+create table probe_cards (probe text, system text, page text, path text, plus text, choice text, opened text, width integer, height integer, nfields integer, fields text, tiles_before integer, tiles_after integer);
+create table shell_controls (stage text, name text, tag text, cls text, role text, w real, h real, font real, weight text, radius text, border real, cursor text, hover text, focus text);
+create table shell_opens (stage text, control text, cls text, role text, box text, text text, navigated text);
 create index obs_type on observations (kind, type);
 create index vr_control on variant_rows (control);
 `;
@@ -36,6 +39,23 @@ export async function build(root = ".") {
     const scans = readdirSync(root + "/catalogue/scans").filter(name => name.endsWith(".json"));
     for (const name of scans) {
         for (const record of observationsFrom(root + "/catalogue/scans/" + name, name.replace(/\.json$/, ""))) insert("observations", record);
+    }
+    // The probes: cards found by pressing a "+" (add probe, dialog plus probe) and the shell around the systems.
+    const probeDir = root + "/catalogue/probes";
+    for (const name of readdirSync(probeDir).filter(file => file.endsWith(".json"))) {
+        const data = JSON.parse(readFileSync(probeDir + "/" + name, "utf8"));
+        const probe = name.split("-quillfield")[0];
+        for (const r of data.records) {
+            if (probe === "shell-probe") {
+                if (r.kind === "control") insert("shell_controls", { stage: r.stage, name: r.name, tag: r.tag, cls: r.cls, role: r.role, w: r.w, h: r.h, font: r.font, weight: r.weight, radius: r.radius, border: r.border, cursor: r.cursor, hover: r.hover?.light ?? "", focus: r.focus?.light ?? "" });
+                else insert("shell_opens", { stage: r.stage, control: r.control, cls: r.cls, role: r.role, box: r.box, text: r.text, navigated: r.navigated });
+            } else if (r.choice === "master tile" || r.choice?.endsWith("options")) continue;
+            else insert("probe_cards", {
+                probe, system: r.system, page: r.page, path: r.path ?? "", plus: r.plus, choice: r.choice ?? "(new)", opened: r.opened ?? (r.card ? "floating card" : "none"),
+                width: r.card?.width ?? null, height: r.card?.height ?? null, nfields: r.card?.fields.length ?? null, fields: r.card ? r.card.fields.join(" > ") : null,
+                tiles_before: r.tilesBefore ?? null, tiles_after: r.tilesAfter ?? null
+            });
+        }
     }
     db.exec("commit");
     return db;
