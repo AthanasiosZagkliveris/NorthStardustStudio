@@ -21,29 +21,30 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 
 | Asset | Variant | Height | Type | Hierarchy | Corners | Padding left/top | Border | Found | Target (WCAG 2.5.8, 24px) |
 |---|---|---|---|---|---|---|---|---|---|
-| BTN.001 box button | (asset) | 32 | 0 | symbol, no text | 6px | 0/0 | 2 | 237 | meets 24 |
-| BTN.001 box button | BTN.DLT.001.001 Delete | 32 | 0 | symbol, no text | 6px | 0/0 | 2 | 237 | meets 24 |
-| BTN.001 box button | BTN.ADD.001.002 Add | 32 | 0 | symbol, no text | 6px | 0/0 | 2 | 107 | meets 24 |
-| BTN.002 info button | (asset) | 24 high, 24 wide | 14 | small 14 | 50% | 0/0 | 1 | 567 | meets 24 |
-| BTN.004 wide add button | (asset) | 44 | 18 | body 18 | 6px | 14/8 | 1 | 15 | meets 24 |
-| DRP.001 dropdown | (asset) | 44 | 18 | body 18 | 6px | 8/8 | 1 | 493 | meets 24 |
-| TIK.001 tick box | (asset) | 24 high, 24 wide | 18 | body 18 | 0px | 0/0 | 0 | 721 | meets 24 |
-| TXT.001 text input | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 | meets 24 |
-| TXT.001 text input | TXT.BOX.001.001 Text box | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 | meets 24 |
-| TXT.001 text input | TXT.ARE.001.002 Free text | words, at least 44 | 18 | body 18 | 6px | 10/8 | 1 | 282 | follows the words (a field, not a button) |
+| BTN.001 box button | (asset) | 32 | 0 | symbol, no text | 6px | 0/0 | 2 | 237 in 11 places | meets 24 |
+| BTN.001 box button | BTN.DLT.001.001 Delete | 32 | 0 | symbol, no text | 6px | 0/0 | 2 | 237 in 11 places | meets 24 |
+| BTN.001 box button | BTN.ADD.001.002 Add | 32 | 0 | symbol, no text | 6px | 0/0 | 2 | 107 in 1 places | meets 24 |
+| BTN.002 info button | (asset) | 24 high, 24 wide | 14 | small 14 | 50% | 0/0 | 1 | 567 in 9 places | meets 24 |
+| BTN.004 wide add button | (asset) | 44 | 18 | body 18 | 6px | 14/8 | 1 | 15 in 4 places | meets 24 |
+| DRP.001 dropdown | (asset) | 44 | 18 | body 18 | 6px | 8/8 | 1 | 493 in 8 places | meets 24 |
+| TIK.001 tick box | (asset) | 24 high, 24 wide | 18 | body 18 | 0px | 0/0 | 0 | 721 in 8 places | meets 24 |
+| TXT.001 text input | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 in 4 places | meets 24 |
+| TXT.001 text input | TXT.BOX.001.001 Text box | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 in 4 places | meets 24 |
+| TXT.001 text input | TXT.ARE.001.002 Free text | words, at least 44 | 18 | body 18 | 6px | 10/8 | 1 | 282 in 19 places | follows the words (a field, not a button) |
 | TXT.001 text input | TXT.NAM.001.003 Name cell | words, at least 44 | 18 | body 18 | 6px | 38/8 | 1 | 138 | follows the words (a field, not a button) |
-| TXT.001 text input | TXT.LST.001.005 List line | words, at least 44 | 18 | body 18 | 8px | 12/8 | 0 | 129 | follows the words (a field, not a button) |
-| TXT.001 text input | TXT.TTL.001.006 Title input | 35 | 28 | h2 28 | 0px | 0/0 | 0 | 1 | meets 24 |
+| TXT.001 text input | TXT.LST.001.005 List line | words, at least 44 | 18 | body 18 | 8px | 12/8 | 0 | 129 in 5 places | follows the words (a field, not a button) |
+| TXT.001 text input | TXT.TTL.001.006 Title input | 35 | 28 | h2 28 | 0px | 0/0 | 0 | 1 in 1 places | meets 24 |
 | DIV.001 divider | (asset) | 1 | 0 | symbol, no text | 0px | 0/0 | 1 | 0 | under 24 |
-| NUM.001 number box | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 166 | meets 24 |
+| NUM.001 number box | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 166 in 2 places | meets 24 |
 | NUM.001 number box | NUM.PCT.001.003 Percent | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 12 | meets 24 |
 | NUM.001 number box | NUM.YRS.001.004 Years | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 8 | meets 24 |
-| DAT.001 date cell | (asset) | 44 | 18 | body 18 | 6px | 10/0 | 1 | 166 | meets 24 |
-| DAT.002 calendar popup | (asset) | words | 18 | body 18 | 8px | 12/12 | 1 | 0 | follows the words (a field, not a button) |
-| LBL.001 label | (asset) | words | 18 | body 18 | 0px | 0/0 | 0 | 1223 | follows the words (a field, not a button) |
-| ARW.002 fold arrow | (asset) | 36 | 0 | symbol, no text | 6px | 0/0 | 1 | 11 | meets 24 |
-| ARW.002 fold arrow | ARW.LAB.002.001 Label arrow | 24 | 18 | body 18 | 0px | 0/0 | 0 | 8 | meets 24 |
-| ARW.002 fold arrow | ARW.TTL.002.002 Title arrow | 28 high, 28 wide | 28 | h2 28 | 0px | 0/0 | 0 | 2 | meets 24 |
+| NUM.001 number box | NUM.MON.001.005 Months | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 1 in 1 places | meets 24 |
+| DAT.001 date cell | (asset) | 44 | 18 | body 18 | 6px | 10/0 | 1 | 166 in 2 places | meets 24 |
+| DAT.002 calendar popup | (asset) | words | 18 | body 18 | 6px | 12/12 | 1 | 0 | follows the words (a field, not a button) |
+| LBL.001 label | (asset) | words | 18 | body 18 | 0px | 0/0 | 0 | 1223 in 16 places | follows the words (a field, not a button) |
+| ARW.002 fold arrow | (asset) | 36 | 0 | symbol, no text | 6px | 0/0 | 1 | 11 in 1 places | meets 24 |
+| ARW.002 fold arrow | ARW.LAB.002.001 Label arrow | 24 | 18 | body 18 | 0px | 0/0 | 0 | 8 in 2 places | meets 24 |
+| ARW.002 fold arrow | ARW.TTL.002.002 Title arrow | 28 high, 28 wide | 28 | h2 28 | 0px | 0/0 | 0 | 2 in 1 places | meets 24 |
 
 ## Text holders
 
@@ -108,6 +109,7 @@ Separated by purpose; each has its own default look.
 - percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45).
 - cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px.
 - years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).
+- months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner).
 
 ### DAT.001 date cell
 
@@ -116,16 +118,24 @@ Separated by purpose; each has its own default look.
 
 ### DAT.002 calendar popup
 
-- rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners, the 8px of a card. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.
+- rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners of 6px, like the cells. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.
+
+### LBL.001 label
+
+- position: by the owner's decision (owner, 2026-10-15) a label has no variants for its position (above, at the side); that information belongs to the field (the variable label position of the field assets).
 
 ### ARW.002 fold arrow
 
 - merged by the owner's decision (owner, 2026-10-15): fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px
 - label arrow and title arrow are variants (the owner's decision, owner, 2026-10-15): the same component, function and style; the size follows the text beside it (24px beside a field label, 28px beside a title).
 
-### RAL.001 rail
+### BUL.001 bullet
 
-- kinds corrected (owner, 2026-10-15): the earlier variants Sections rail and Named rail mixed up the kind of rail and how much of it shows. The kinds are by what the rail moves between; how much shows is the variable rail display. The scan at 1920px found the Pages rail with bullets only for three or more pages and with names for two; the rulebook says names show from 1700px; which rule decides is not settled.
+- the one bullet of every page tag (the owner, owner, 2026-10-15): there is one type of bullet.
+
+### TIL.002 open tile
+
+- title: by the owner's decision (owner, 2026-10-15) the tiles that floating cards generate (the Resources tiles) show the title on one line, and a title that is too long moves horizontally instead of being cut off.
 
 ### CRD.003 Infrastructure Activity
 
@@ -134,6 +144,10 @@ Separated by purpose; each has its own default look.
 ### CRD.007 Offering Activity
 
 - order, by the owner's decision (owner, 2026-10-15): a divider line above Completed, and the Links (Linked to) last, after Completed.
+
+### FLD.106 page tag
+
+- moved from the components (owner, 2026-10-15): the rail is not a component. The bullet (BUL.001) is the component; the page tag is a field made of bullets, names, the arrow and the Back button.
 
 ## What the app has to change (the owner's decisions)
 
@@ -157,11 +171,14 @@ The looks the app has today that the decisions change when the assets replace th
 - NUM.001 number box: percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45).
 - NUM.001 number box: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px.
 - NUM.001 number box: years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).
+- NUM.001 number box: months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner).
 - DAT.001 date cell: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 44). Already 44px.
 - DAT.001 date cell: dates in the Strategic Period, the Objective cards of a Theme and the Revenue card (Begins): by the owner's decision (owner, 2026-10-15) they are this date cell with a calendar and the choice of a day or only a month; they are month pickers with their own look today (bold, wide-spaced type that cuts the year off: 'September 202').
-- DAT.002 calendar popup: rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners, the 8px of a card. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.
+- DAT.002 calendar popup: rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners of 6px, like the cells. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.
+- LBL.001 label: position: by the owner's decision (owner, 2026-10-15) a label has no variants for its position (above, at the side); that information belongs to the field (the variable label position of the field assets).
 - ARW.002 fold arrow: merged by the owner's decision (owner, 2026-10-15): fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px
 - ARW.002 fold arrow: label arrow and title arrow are variants (the owner's decision, owner, 2026-10-15): the same component, function and style; the size follows the text beside it (24px beside a field label, 28px beside a title).
+- TIL.002 open tile: title: by the owner's decision (owner, 2026-10-15) the tiles that floating cards generate (the Resources tiles) show the title on one line, and a title that is too long moves horizontally instead of being cut off.
 - CRD.003 Infrastructure Activity: order, by the owner's decision (owner, 2026-10-15): a divider line above Completed, and the Links (Linked to) last, after Completed.
 - CRD.007 Offering Activity: order, by the owner's decision (owner, 2026-10-15): a divider line above Completed, and the Links (Linked to) last, after Completed.
 

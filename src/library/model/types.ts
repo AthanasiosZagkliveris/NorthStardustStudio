@@ -23,7 +23,6 @@ export const KINDS = {
     DAT: { name: "date cell", category: "component" },
     LBL: { name: "label", category: "component" },
     ARW: { name: "arrow", category: "component" },
-    RAL: { name: "rail", category: "component" },
     BUL: { name: "bullet", category: "component" },
     FLD: { name: "field", category: "field" },
     TIL: { name: "tile", category: "tile" },
@@ -53,8 +52,10 @@ export interface Look {
     border: number;
     /** "body 18", "small 14", or "off the scale: 16". */
     scale: string;
-    /** How many of this look the scan found. */
+    /** How many of this look the scan found (instances in the example organisation). */
     found: number;
+    /** In how many places of the app's UI it stands: distinct pages and classes, not instances. */
+    places?: number;
 }
 
 /** One value a variable can take. */

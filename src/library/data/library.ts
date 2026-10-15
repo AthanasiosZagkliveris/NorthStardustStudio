@@ -243,7 +243,8 @@ export const library: Library = {
       "paddingTop": 0,
       "border": 2,
       "scale": "symbol, no text",
-      "found": 237
+      "found": 237,
+      "places": 11
      }
     },
     {
@@ -261,7 +262,8 @@ export const library: Library = {
       "paddingTop": 0,
       "border": 2,
       "scale": "symbol, no text",
-      "found": 107
+      "found": 107,
+      "places": 1
      }
     }
    ],
@@ -283,7 +285,8 @@ export const library: Library = {
     "paddingTop": 0,
     "border": 2,
     "scale": "symbol, no text",
-    "found": 237
+    "found": 237,
+    "places": 11
    },
    "lookNotes": [
     "merged by the owner's decision (owner, 2026-10-15): x height 32, type 18, corners 6px, padding 0/0, border 2; found 20 times (8.4% of the default's 237); largest difference 18.0px",
@@ -321,7 +324,8 @@ export const library: Library = {
     "border": 1,
     "scale": "small 14",
     "found": 567,
-    "width": 24
+    "width": 24,
+    "places": 9
    },
    "lookNotes": [
     "merged by the owner's decision (owner, 2026-10-15): info height 22, type 18, corners 50%, padding 0/0, border 1; found 70 times (12.3% of the default's 567); largest difference 4.0px",
@@ -377,7 +381,8 @@ export const library: Library = {
     "paddingTop": 8,
     "border": 1,
     "scale": "body 18",
-    "found": 15
+    "found": 15,
+    "places": 4
    },
    "lookNotes": [
     "found 15 times: Customer Engagement 7, Financial Foundation 3, Foundation 1, Identity (Founders and Registrations) 4; 39px high, type 18, padding 14/8, border 1. They are not a plus box; the one look measured.",
@@ -428,7 +433,8 @@ export const library: Library = {
     "paddingTop": 8,
     "border": 1,
     "scale": "body 18",
-    "found": 493
+    "found": 493,
+    "places": 8
    },
    "lookNotes": [
     "merged by the owner's decision (owner, 2026-10-15): dropdown height 45, type 18, corners 6px, padding 6/8, border 1; found 43 times (8.7% of the default's 493); largest difference 2.0px",
@@ -461,7 +467,8 @@ export const library: Library = {
     "border": 0,
     "scale": "body 18",
     "found": 721,
-    "width": 24
+    "width": 24,
+    "places": 8
    },
    "lookNotes": [
     "merged into the default: tick box height 18, type 16, corners 0px, padding 0/0, border 0; found 5 times (0.7% of the default's 721); largest difference 2.0px",
@@ -496,7 +503,8 @@ export const library: Library = {
       "paddingTop": 8,
       "border": 1,
       "scale": "body 18",
-      "found": 24
+      "found": 24,
+      "places": 4
      }
     },
     {
@@ -515,7 +523,8 @@ export const library: Library = {
       "border": 1,
       "scale": "body 18",
       "found": 282,
-      "minHeight": 44
+      "minHeight": 44,
+      "places": 19
      }
     },
     {
@@ -560,7 +569,8 @@ export const library: Library = {
       "border": 0,
       "scale": "body 18",
       "found": 129,
-      "minHeight": 44
+      "minHeight": 44,
+      "places": 5
      }
     },
     {
@@ -578,7 +588,8 @@ export const library: Library = {
       "paddingTop": 0,
       "border": 0,
       "scale": "h2 28",
-      "found": 1
+      "found": 1,
+      "places": 1
      }
     }
    ],
@@ -596,7 +607,8 @@ export const library: Library = {
     "paddingTop": 8,
     "border": 1,
     "scale": "body 18",
-    "found": 24
+    "found": 24,
+    "places": 4
    },
    "lookNotes": [
     "text box with square corners and no border (the name of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard text box.",
@@ -741,6 +753,26 @@ export const library: Library = {
       "scale": "body 18",
       "found": 8
      }
+    },
+    {
+     "code": "NUM.MON.001.005",
+     "name": "Months",
+     "description": "A number of months (Target operating reserve: 3 months).",
+     "edits": "A square box, 44 by 44px, with the word months beside it.",
+     "values": {},
+     "look": {
+      "height": 44,
+      "width": 44,
+      "fontSize": 18,
+      "fontWeight": "400",
+      "corners": "6px",
+      "paddingLeft": 4,
+      "paddingTop": 8,
+      "border": 1,
+      "scale": "body 18",
+      "found": 1,
+      "places": 1
+     }
     }
    ],
    "requires": [],
@@ -756,12 +788,14 @@ export const library: Library = {
     "paddingTop": 8,
     "border": 1,
     "scale": "body 18",
-    "found": 166
+    "found": 166,
+    "places": 2
    },
    "lookNotes": [
     "percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45).",
     "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px.",
-    "years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period)."
+    "years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).",
+    "months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner)."
    ]
   },
   {
@@ -815,7 +849,8 @@ export const library: Library = {
     "paddingTop": 0,
     "border": 1,
     "scale": "body 18",
-    "found": 166
+    "found": 166,
+    "places": 2
    },
    "lookNotes": [
     "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 44). Already 44px.",
@@ -826,7 +861,7 @@ export const library: Library = {
    "code": "DAT.002",
    "name": "calendar popup",
    "category": "component",
-   "summary": "The window that opens under a date cell: the calendar of days, or the months and years. Rounded corners, the corners of a card (8px).",
+   "summary": "The window that opens under a date cell: the calendar of days, or the months and years. Rounded corners, 6px like the cells.",
    "variables": [
     "VAR001",
     "VAR003",
@@ -859,7 +894,7 @@ export const library: Library = {
     "height": null,
     "fontSize": 18,
     "fontWeight": "400",
-    "corners": "8px",
+    "corners": "6px",
     "paddingLeft": 12,
     "paddingTop": 12,
     "border": 1,
@@ -867,39 +902,24 @@ export const library: Library = {
     "found": 0
    },
    "lookNotes": [
-    "rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners, the 8px of a card. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already."
+    "rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners of 6px, like the cells. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already."
    ]
   },
   {
    "code": "LBL.001",
    "name": "label",
    "category": "component",
-   "summary": "The words that name a field or a group. Muted colour for a field, bold for a group heading.",
+   "summary": "The words that name a field or a group, in a muted colour. Where it stands against its control (above it, or in a column at the side) belongs to the field, not to the label.",
    "variables": [
     "VAR001",
     "VAR003",
-    "VAR004",
-    "VAR008"
+    "VAR004"
    ],
    "variants": [
     {
-     "code": "LBL.SID.001.001",
-     "name": "Side label",
-     "description": "A label in a column at the left of its control.",
-     "edits": "It stands in the label column (177px) beside the control.",
-     "values": {}
-    },
-    {
-     "code": "LBL.ABV.001.002",
-     "name": "Label above",
-     "description": "A label above its control, 6px from it.",
-     "edits": "It stands above the control.",
-     "values": {}
-    },
-    {
-     "code": "LBL.HEA.001.003",
+     "code": "LBL.HEA.001.001",
      "name": "Heading",
-     "description": "A bold heading over a group of fields (Description, SWOT Analysis).",
+     "description": "A bold heading over a group of fields (Description, SWOT Analysis); it differs in style, not in position.",
      "edits": "Bold, with the group's rule.",
      "values": {}
     }
@@ -917,9 +937,12 @@ export const library: Library = {
     "paddingTop": 0,
     "border": 0,
     "scale": "body 18",
-    "found": 1223
+    "found": 1223,
+    "places": 16
    },
-   "lookNotes": []
+   "lookNotes": [
+    "position: by the owner's decision (owner, 2026-10-15) a label has no variants for its position (above, at the side); that information belongs to the field (the variable label position of the field assets)."
+   ]
   },
   {
    "code": "ARW.001",
@@ -984,7 +1007,8 @@ export const library: Library = {
       "paddingTop": 0,
       "border": 0,
       "scale": "body 18",
-      "found": 8
+      "found": 8,
+      "places": 2
      }
     },
     {
@@ -1003,7 +1027,8 @@ export const library: Library = {
       "paddingTop": 0,
       "border": 0,
       "scale": "h2 28",
-      "found": 2
+      "found": 2,
+      "places": 1
      }
     }
    ],
@@ -1025,7 +1050,8 @@ export const library: Library = {
     "paddingTop": 0,
     "border": 1,
     "scale": "symbol, no text",
-    "found": 11
+    "found": 11,
+    "places": 1
    },
    "lookNotes": [
     "merged by the owner's decision (owner, 2026-10-15): fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px",
@@ -1051,75 +1077,9 @@ export const library: Library = {
    ],
    "contracts": [
     "Rails"
-   ]
-  },
-  {
-   "code": "RAL.001",
-   "name": "rail",
-   "category": "component",
-   "summary": "A column of bullets that moves between the pages, the sections of a page, the views or cards of a dialog or a floating card, or the Objectives of a nested card. It holds the bullets, the arrow and the Back button. It shows bullets only or the names too (the variable rail display); its height follows the number of items.",
-   "variables": [
-    "VAR001",
-    "VAR002",
-    "VAR003",
-    "VAR004",
-    "VAR007",
-    "VAR011"
-   ],
-   "variants": [
-    {
-     "code": "RAL.PAG.001.001",
-     "name": "Pages rail",
-     "description": "The rail at the left of the page: one bullet per page of the system. Bullets only: 37px wide (94px high for two pages, 128px for three, 230px for six); with names: 209 to 229px wide, 133px high for two pages.",
-     "edits": "At the left of the page, with the page arrows.",
-     "values": {}
-    },
-    {
-     "code": "RAL.SEC.001.002",
-     "name": "Sections rail",
-     "description": "The rail at the right of the page: one bullet per section of the page (Customer Channel, Customer Relationship). Bullets only: 37px wide (94px high for two sections, 162px for four); with names: 190px wide, 133px high for two. A page with no sections has only the Next arrow there, 25 by 44px.",
-     "edits": "At the right of the page.",
-     "values": {}
-    },
-    {
-     "code": "RAL.CAR.001.003",
-     "name": "Card rail",
-     "description": "The rail beside a dialog or a floating card: one bullet per view or card in it. Bullets only: a 37px tab (76px high for two items, 110 for three, 144 for four, 178 for five, 351 for eight); with names: 145 to 217px wide (131px high for two items, 174 for three, 217 for four, 502 for nine, 668 for thirteen).",
-     "edits": "Beside a dialog or a floating card.",
-     "values": {}
-    },
-    {
-     "code": "RAL.NST.001.004",
-     "name": "Nested card rail",
-     "description": "The rail of a nested card (Goal, Objective, Metric): 88 by 88px, two arrows and the bullets, without a tab.",
-     "edits": "Inside a nested card; two arrows and the bullets.",
-     "values": {}
-    }
-   ],
-   "requires": [
-    {
-     "asset": "BUL.001",
-     "role": "one bullet per item"
-    },
-    {
-     "asset": "ARW.001",
-     "variant": "ARW.PAG.001.001",
-     "role": "the page arrows"
-    },
-    {
-     "asset": "BTN.003",
-     "role": "returns to the view before"
-    }
-   ],
-   "catalogue": [
-    "CO15",
-    "CO19"
-   ],
-   "contracts": [
-    "Rails"
    ],
    "lookNotes": [
-    "kinds corrected (owner, 2026-10-15): the earlier variants Sections rail and Named rail mixed up the kind of rail and how much of it shows. The kinds are by what the rail moves between; how much shows is the variable rail display. The scan at 1920px found the Pages rail with bullets only for three or more pages and with names for two; the rulebook says names show from 1700px; which rule decides is not settled."
+    "the one bullet of every page tag (the owner, owner, 2026-10-15): there is one type of bullet."
    ]
   },
   {
@@ -1149,7 +1109,7 @@ export const library: Library = {
    "code": "TIL.002",
    "name": "open tile",
    "category": "tile",
-   "summary": "A tile inside a dialog view that opens a card or a view.",
+   "summary": "A tile inside a dialog view that opens a card or a view. A tile that a floating card generates (a Resource) shows its title on one line, and a title that is too long moves horizontally.",
    "variables": [
     "VAR001",
     "VAR002",
@@ -1161,6 +1121,9 @@ export const library: Library = {
    "requires": [],
    "catalogue": [
     "CO24"
+   ],
+   "lookNotes": [
+    "title: by the owner's decision (owner, 2026-10-15) the tiles that floating cards generate (the Resources tiles) show the title on one line, and a title that is too long moves horizontally instead of being cut off."
    ]
   },
   {
@@ -1234,8 +1197,8 @@ export const library: Library = {
    "variants": [],
    "requires": [
     {
-     "asset": "RAL.001",
-     "variant": "RAL.PAG.001.001",
+     "asset": "FLD.106",
+     "variant": "FLD.PAG.106.001",
      "role": "moves between the pages"
     },
     {
@@ -1260,8 +1223,8 @@ export const library: Library = {
    "variants": [],
    "requires": [
     {
-     "asset": "RAL.001",
-     "variant": "RAL.CAR.001.003",
+     "asset": "FLD.106",
+     "variant": "FLD.CAR.106.003",
      "role": "moves between the views or cards"
     },
     {
@@ -7363,6 +7326,71 @@ export const library: Library = {
     "K066",
     "K067",
     "K068"
+   ]
+  },
+  {
+   "code": "FLD.106",
+   "name": "page tag",
+   "category": "field",
+   "summary": "The page tag: the bullets that move between the pages, the sections of a page, the views or cards of a dialog or a floating card, or the Objectives of a nested card, with their names, the arrow and the Back button. It shows bullets only or the names too (the variable rail display); its height follows the number of items and the elements it holds, and its width the length of the names.",
+   "variables": [
+    "VAR001",
+    "VAR003",
+    "VAR004",
+    "VAR011"
+   ],
+   "catalogue": [],
+   "variants": [
+    {
+     "code": "FLD.PAG.106.001",
+     "name": "Pages rail",
+     "description": "The rail at the left of the page: one bullet per page of the system. Bullets only: 37px wide (94px high for two pages, 128px for three, 230px for six); with names: 209 to 229px wide, 133px high for two pages.",
+     "edits": "At the left of the page, with the page arrows.",
+     "values": {}
+    },
+    {
+     "code": "FLD.SEC.106.002",
+     "name": "Sections rail",
+     "description": "The rail at the right of the page: one bullet per section of the page (Customer Channel, Customer Relationship). Bullets only: 37px wide (94px high for two sections, 162px for four); with names: 190px wide, 133px high for two. A page with no sections has only the Next arrow there, 25 by 44px.",
+     "edits": "At the right of the page.",
+     "values": {}
+    },
+    {
+     "code": "FLD.CAR.106.003",
+     "name": "Card rail",
+     "description": "The rail beside a dialog or a floating card: one bullet per view or card in it. Bullets only: a 37px tab (76px high for two items, 110 for three, 144 for four, 178 for five, 351 for eight); with names: 145 to 217px wide (131px high for two items, 174 for three, 217 for four, 502 for nine, 668 for thirteen).",
+     "edits": "Beside a dialog or a floating card.",
+     "values": {}
+    },
+    {
+     "code": "FLD.NST.106.004",
+     "name": "Nested card rail",
+     "description": "The rail of a nested card (Goal, Objective, Metric): 88 by 88px, two arrows and the bullets, without a tab.",
+     "edits": "Inside a nested card; two arrows and the bullets.",
+     "values": {}
+    }
+   ],
+   "requires": [
+    {
+     "asset": "BUL.001",
+     "role": "one bullet per item; the bullet colour follows the card's colour and the reaction"
+    },
+    {
+     "asset": "ARW.001",
+     "variant": "ARW.PAG.001.001",
+     "role": "the arrow placed in the tag"
+    },
+    {
+     "asset": "BTN.003",
+     "role": "the Back button, where the tag has one"
+    },
+    {
+     "asset": "LBL.001",
+     "role": "the names of the items; the title of the tag"
+    }
+   ],
+   "lookNotes": [
+    "moved from the components (owner, 2026-10-15): the rail is not a component. The bullet (BUL.001) is the component; the page tag is a field made of bullets, names, the arrow and the Back button."
    ]
   }
  ]

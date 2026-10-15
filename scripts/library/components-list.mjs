@@ -23,17 +23,13 @@ const EXTRA = {
     "BTN.003": { height: "25 px", width: "76 px", note: "measured by the scan: the Back button and its word" },
     "ARW.001": { height: "44 px", width: "24 px", note: "measured by the scan: page arrow and carousel arrow; each grows 1.2 times on hover" },
     "BUL.001": { height: "12 px (17.4 px when selected)", width: "12 px (17.4 px when selected)", note: "measured by the scan; the one bullet of every rail" },
-    "RAL.PAG.001.001": { height: "94 px (2 pages), 128 px (3), 230 px (6); 133 px with names", width: "37 px (bullets only); 209 to 229 px (with names)", note: "measured by the scan" },
-    "RAL.SEC.001.002": { height: "94 px (2 sections), 162 px (4); 133 px with names", width: "37 px (bullets only); 190 px (with names)", note: "measured by the scan; with no sections only the Next arrow stands there, 25 by 44 px" },
-    "RAL.CAR.001.003": { height: "76 px (2 items), 110 px (3), 144 px (4), 178 px (5), 351 px (8); 131 to 668 px with names", width: "37 px (bullets only); 145 to 217 px (with names)", note: "measured by the scan" },
-    "RAL.NST.001.004": { height: "88 px", width: "88 px", note: "measured by the scan: two arrows and the bullets of a nested card" }
 };
 /** The width of the components whose width is not a number of their own. */
 const WIDTH = {
     "BTN.001": "32 px (a square)", "BTN.002": "24 px (a circle)", "BTN.003": "76 px", "BTN.004": "fills its column",
     "DRP.001": "set by the layout (fills its column)", "TIK.001": "24 px (a square)", "TXT.001": "set by the layout (fills its column)",
     "LST.001": "fills its column", "NUM.001": "set by the layout", "DAT.001": "set by the layout", "DAT.002": "fits its calendar",
-    "DIV.001": "fills its column", "LBL.001": "fits its words", "ARW.002": "36 px (the fold arrow)", "ARW.LAB.002.001": "24 px", "ARW.TTL.002.002": "28 px", "RAL.001": "see the variants"
+    "DIV.001": "fills its column", "LBL.001": "fits its words", "ARW.002": "36 px (the fold arrow)", "ARW.LAB.002.001": "24 px", "ARW.TTL.002.002": "28 px"
 };
 /** What happens under the pointer and the keyboard, in words (measured: docs/design/06-catalogue-record.md). */
 const REACTION = {
@@ -53,7 +49,6 @@ const REACTION = {
     "ARW.001": "Hover and focus: the arrow grows 1.2 times; focus adds a 2 px blue outline.",
     "ARW.002": "Outline at rest; filled under the pointer and the focus.",
     "BUL.001": "Default, hover, selected: the bullet changes colour or opacity with the card's colour; the selected bullet is larger.",
-    "RAL.001": "Bullets only: the name shows as a tooltip on hover. With names: the name is inline and is underlined on hover."
 };
 /** Where the scan found each asset or variant (a condition on the scan's records). */
 const FOUND = {
@@ -101,11 +96,11 @@ for (const a of components) for (const v of a.variants) {
 }
 say("");
 
-say("## Corners and sizes", "", "The size of the rounded corners, and which components and surfaces have it.", "",
+say("## Corners and sizes", "", "The size of the rounded corners, and which components and surfaces have it. Components with square corners are not listed.", "",
     "| Corners | Components and variants |", "|---|---|");
 const byCorner = new Map();
 for (const r of rows) { const key = corner(r.l); byCorner.set(key, [...(byCorner.get(key) ?? []), r.code + " " + r.name + " (" + (r.l.height === null ? "words" : px(r.l.height)) + (r.l.width ? " by " + px(r.l.width) : "") + ")"]); }
-for (const [c, list] of [...byCorner].sort((a, b) => parseFloat(a[0]) - parseFloat(b[0]))) say("| " + c + " | " + list.join("; ") + " |");
+for (const [c, list] of [...byCorner].filter(([c]) => parseFloat(c) > 0).sort((a, b) => parseFloat(a[0]) - parseFloat(b[0]))) say("| " + c + " | " + list.join("; ") + " |");
 say("", "Surfaces (measured by the scan, 1920 px wide window):", "",
     "| Surface | Corners | Width | Padding |", "|---|---|---|---|",
     "| Floating card (CRD.001) | 8 px | 492 px (founder: 297 px) | 12 px on every side |",
@@ -126,7 +121,7 @@ for (const a of components) {
     } else if (ex) say("**Size**", "- Height: " + ex.height, "- Width: " + ex.width, "- Source: " + ex.note, "");
     if (REACTION[a.code]) say("**Reaction**", "- " + REACTION[a.code], "");
     const here = whereFound(a.code);
-    if (a.look?.found || here) say("**Use**", "- Found: " + (here ?? a.look.found + " times in the four systems"), "");
+    if (a.look?.found || here) say("**Use**", "- Found: " + (here ?? a.look.found + " times in the example organisation"), ...(a.look?.places ? ["- Places in the app: " + a.look.places + " (distinct pages and classes; the count of the UI, not of the example)"] : []), "");
     if (a.variants.length) {
         say("**Variants**", "");
         for (const v of a.variants) {

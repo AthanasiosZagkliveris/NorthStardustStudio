@@ -23,7 +23,20 @@ function Variables({ asset }: { asset: Asset }) {
 }
 
 function Built({ asset }: { asset: Asset }) {
-    if (asset.category === "field") return <FieldBuild asset={asset} />;
+    if (asset.category === "field") {
+        return (
+            <>
+                <FieldBuild asset={asset} />
+                {asset.variants.map(variant => (
+                    <div key={variant.code} className="inventory-variant" data-variant={variant.code}>
+                        <h4>{variant.code} {variant.name}</h4>
+                        <p>{variant.edits}</p>
+                        {part(asset.code, variant.code)}
+                    </div>
+                ))}
+            </>
+        );
+    }
     if (asset.category === "card") {
         return (
             <>

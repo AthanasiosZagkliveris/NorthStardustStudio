@@ -41,7 +41,7 @@ const targetOf = (name, look) => {
     if (/box button|info|fold arrow|tick/.test(name)) return look.height >= 44 ? "meets 44" : look.height >= 24 ? "meets 24" : "under 24: needs the spacing exception";
     return look.height >= 24 ? "meets 24" : "under 24";
 };
-for (const [asset, variant, look] of rows) say("| " + cell(asset) + " | " + cell(variant) + " | " + (look.height === null ? (look.minHeight ? "words, at least " + look.minHeight : "words") : look.width ? look.height + " high, " + look.width + " wide" : look.height) + " | " + look.fontSize + " | " + look.scale + " | " + look.corners + " | " + look.paddingLeft + "/" + look.paddingTop + " | " + look.border + " | " + look.found + " | " + targetOf(asset, look) + " |");
+for (const [asset, variant, look] of rows) say("| " + cell(asset) + " | " + cell(variant) + " | " + (look.height === null ? (look.minHeight ? "words, at least " + look.minHeight : "words") : look.width ? look.height + " high, " + look.width + " wide" : look.height) + " | " + look.fontSize + " | " + look.scale + " | " + look.corners + " | " + look.paddingLeft + "/" + look.paddingTop + " | " + look.border + " | " + look.found + (look.places ? " in " + look.places + " places" : "") + " | " + targetOf(asset, look) + " |");
 say("");
 
 say("## Text holders", "",
