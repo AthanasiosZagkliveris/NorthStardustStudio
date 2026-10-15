@@ -198,6 +198,21 @@ export const library: Library = {
      "description": "Only a month and a year (the day is not asked)."
     }
    ]
+  },
+  {
+   "code": "VAR011",
+   "name": "rail display",
+   "description": "How much of a rail shows.",
+   "values": [
+    {
+     "name": "bullets only",
+     "description": "A narrow tab (37px wide) of bullets; each name shows as a tooltip on hover."
+    },
+    {
+     "name": "with names",
+     "description": "The names stand beside the bullets; the rail is as wide as its longest name (145 to 229px measured)."
+    }
+   ]
   }
  ],
  "assets": [
@@ -712,8 +727,20 @@ export const library: Library = {
      "code": "NUM.YRS.001.004",
      "name": "Years",
      "description": "A number of years.",
-     "edits": "Whole numbers with the unit years.",
-     "values": {}
+     "edits": "A square box, 44 by 44px, with the word years beside it.",
+     "values": {},
+     "look": {
+      "height": 44,
+      "width": 44,
+      "fontSize": 18,
+      "fontWeight": "400",
+      "corners": "6px",
+      "paddingLeft": 4,
+      "paddingTop": 8,
+      "border": 1,
+      "scale": "body 18",
+      "found": 8
+     }
     }
    ],
    "requires": [],
@@ -733,7 +760,8 @@ export const library: Library = {
    },
    "lookNotes": [
     "percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45).",
-    "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px."
+    "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px.",
+    "years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period)."
    ]
   },
   {
@@ -1029,41 +1057,42 @@ export const library: Library = {
    "code": "RAL.001",
    "name": "rail",
    "category": "component",
-   "summary": "A column of bullets and names that moves between the pages, the sections or the cards. It holds the bullets, the arrow, and the Back button.",
+   "summary": "A column of bullets that moves between the pages, the sections of a page, the views or cards of a dialog or a floating card, or the Objectives of a nested card. It holds the bullets, the arrow and the Back button. It shows bullets only or the names too (the variable rail display); its height follows the number of items.",
    "variables": [
     "VAR001",
     "VAR002",
     "VAR003",
     "VAR004",
-    "VAR007"
+    "VAR007",
+    "VAR011"
    ],
    "variants": [
     {
      "code": "RAL.PAG.001.001",
      "name": "Pages rail",
-     "description": "The left rail of the page: one bullet per page, the page names inline from 1700px.",
-     "edits": "On the left of the page, with the page arrows.",
+     "description": "The rail at the left of the page: one bullet per page of the system. Bullets only: 37px wide (94px high for two pages, 128px for three, 230px for six); with names: 209 to 229px wide, 133px high for two pages.",
+     "edits": "At the left of the page, with the page arrows.",
      "values": {}
     },
     {
      "code": "RAL.SEC.001.002",
      "name": "Sections rail",
-     "description": "The rail beside a dialog or a floating card: a 37px tab below 1700px, the names shown as tooltips.",
-     "edits": "A 37px tab; the names appear on hover.",
+     "description": "The rail at the right of the page: one bullet per section of the page (Customer Channel, Customer Relationship). Bullets only: 37px wide (94px high for two sections, 162px for four); with names: 190px wide, 133px high for two. A page with no sections has only the Next arrow there, 25 by 44px.",
+     "edits": "At the right of the page.",
      "values": {}
     },
     {
-     "code": "RAL.NAM.001.003",
-     "name": "Named rail",
-     "description": "The rail beside a dialog or a card from 1700px: 217px wide with the names shown.",
-     "edits": "217px wide with the names inline.",
+     "code": "RAL.CAR.001.003",
+     "name": "Card rail",
+     "description": "The rail beside a dialog or a floating card: one bullet per view or card in it. Bullets only: a 37px tab (76px high for two items, 110 for three, 144 for four, 178 for five, 351 for eight); with names: 145 to 217px wide (131px high for two items, 174 for three, 217 for four, 502 for nine, 668 for thirteen).",
+     "edits": "Beside a dialog or a floating card.",
      "values": {}
     },
     {
      "code": "RAL.NST.001.004",
      "name": "Nested card rail",
-     "description": "The rail of a nested card (Goal, Objective, Metric): 88px square with two arrows and the bullets.",
-     "edits": "No tab; two arrows and the bullets.",
+     "description": "The rail of a nested card (Goal, Objective, Metric): 88 by 88px, two arrows and the bullets, without a tab.",
+     "edits": "Inside a nested card; two arrows and the bullets.",
      "values": {}
     }
    ],
@@ -1088,6 +1117,9 @@ export const library: Library = {
    ],
    "contracts": [
     "Rails"
+   ],
+   "lookNotes": [
+    "kinds corrected (owner, 2026-10-15): the earlier variants Sections rail and Named rail mixed up the kind of rail and how much of it shows. The kinds are by what the rail moves between; how much shows is the variable rail display. The scan at 1920px found the Pages rail with bullets only for three or more pages and with names for two; the rulebook says names show from 1700px; which rule decides is not settled."
    ]
   },
   {
@@ -1229,8 +1261,8 @@ export const library: Library = {
    "requires": [
     {
      "asset": "RAL.001",
-     "variant": "RAL.SEC.001.002",
-     "role": "moves between the views"
+     "variant": "RAL.CAR.001.003",
+     "role": "moves between the views or cards"
     },
     {
      "asset": "BTN.003",

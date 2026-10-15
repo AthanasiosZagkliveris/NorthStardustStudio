@@ -113,7 +113,7 @@ export const parts: Record<string, (text?: string) => ReactNode> = {
     "RAL.001": () => <Box><BulletRail items={SECTIONS} activeId="one" onSelect={() => undefined} side="right" label="Sections" /></Box>,
     "RAL.PAG.001.001": () => <Box><BulletRail items={PAGES} activeId="organization" onSelect={() => undefined} side="left" label="Pages" /></Box>,
     "RAL.SEC.001.002": () => <Box><BulletRail items={SECTIONS} activeId="one" onSelect={() => undefined} side="right" label="Sections" /></Box>,
-    "RAL.NAM.001.003": () => <Box><BulletRail items={SECTIONS} activeId="two" onSelect={() => undefined} side="right" label="Sections (named)" /></Box>,
+    "RAL.CAR.001.003": () => <Box><BulletRail items={SECTIONS} activeId="two" onSelect={() => undefined} side="right" label="Views" /></Box>,
     "RAL.NST.001.004": () => <Box><BulletRail items={SECTIONS.slice(0, 2)} activeId="one" onSelect={() => undefined} side="right" label="Objectives" /></Box>,
     "TIL.001": () => <Box><div className="section-tile-slot"><button type="button" className="section-tile"><span className="section-tile-title">Resources</span><span>Workspace, Utilities</span></button></div></Box>,
     "TIL.002": () => <Box><div className="section-tile-slot"><button type="button" className="section-tile"><span className="section-tile-title">Electricity</span><span>01/01/2027</span></button></div></Box>,

@@ -177,3 +177,6 @@ Every change to an asset of the library: added, edited, placed (and where), move
 | L0171 | 2026-10-15 | CRD.003 | edited | Infrastructure Activity: lookNotes, requires |  | the owner's fourth decisions: dates as a calendar with day or month, the calendar popup with rounded corners, the wide add button 44px, the Activity card divider and Links last |
 | L0172 | 2026-10-15 | CRD.007 | edited | Offering Activity: lookNotes, requires |  | the owner's fourth decisions: dates as a calendar with day or month, the calendar popup with rounded corners, the wide add button 44px, the Activity card divider and Links last |
 | L0173 | 2026-10-15 | BTN.004 | edited | wide add button: lookNotes, requires, summary |  | the owner's decision on the wide add button: 44px high, the plus like the plus box |
+| L0174 | 2026-10-15 | NUM.001 | edited | number box: lookNotes, variants |  | the owner's corrections: years boxes square, the rails by kind with the display as a variable |
+| L0175 | 2026-10-15 | RAL.001 | edited | rail: lookNotes, summary, variables, variants |  | the owner's corrections: years boxes square, the rails by kind with the display as a variable |
+| L0176 | 2026-10-15 | FRM.003 | edited | dialog view: requires |  | the owner's corrections: years boxes square, the rails by kind with the display as a variable |

@@ -37,6 +37,7 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | DIV.001 divider | (asset) | 1 | 0 | symbol, no text | 0px | 0/0 | 1 | 0 | under 24 |
 | NUM.001 number box | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 166 | meets 24 |
 | NUM.001 number box | NUM.PCT.001.003 Percent | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 12 | meets 24 |
+| NUM.001 number box | NUM.YRS.001.004 Years | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 8 | meets 24 |
 | DAT.001 date cell | (asset) | 44 | 18 | body 18 | 6px | 10/0 | 1 | 166 | meets 24 |
 | DAT.002 calendar popup | (asset) | words | 18 | body 18 | 8px | 12/12 | 1 | 0 | follows the words (a field, not a button) |
 | LBL.001 label | (asset) | words | 18 | body 18 | 0px | 0/0 | 0 | 1223 | follows the words (a field, not a button) |
@@ -106,6 +107,7 @@ Separated by purpose; each has its own default look.
 
 - percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45).
 - cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px.
+- years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).
 
 ### DAT.001 date cell
 
@@ -120,6 +122,10 @@ Separated by purpose; each has its own default look.
 
 - merged by the owner's decision (owner, 2026-10-15): fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px
 - label arrow and title arrow are variants (the owner's decision, owner, 2026-10-15): the same component, function and style; the size follows the text beside it (24px beside a field label, 28px beside a title).
+
+### RAL.001 rail
+
+- kinds corrected (owner, 2026-10-15): the earlier variants Sections rail and Named rail mixed up the kind of rail and how much of it shows. The kinds are by what the rail moves between; how much shows is the variable rail display. The scan at 1920px found the Pages rail with bullets only for three or more pages and with names for two; the rulebook says names show from 1700px; which rule decides is not settled.
 
 ### CRD.003 Infrastructure Activity
 
@@ -150,6 +156,7 @@ The looks the app has today that the decisions change when the assets replace th
 - TXT.001 text input: title input: by the owner's decision (owner, 2026-10-15) every chapter has a title, a single line at the column title size (28px); a title that is too long moves horizontally. It is not a text box (the frame name in Business, 1. Foundation, 1 found).
 - NUM.001 number box: percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45).
 - NUM.001 number box: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px.
+- NUM.001 number box: years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).
 - DAT.001 date cell: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 44). Already 44px.
 - DAT.001 date cell: dates in the Strategic Period, the Objective cards of a Theme and the Revenue card (Begins): by the owner's decision (owner, 2026-10-15) they are this date cell with a calendar and the choice of a day or only a month; they are month pickers with their own look today (bold, wide-spaced type that cuts the year off: 'September 202').
 - DAT.002 calendar popup: rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners, the 8px of a card. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.

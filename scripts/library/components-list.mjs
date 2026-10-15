@@ -1,28 +1,31 @@
 /**
  * Writes the list of the components (docs/design/14-components-list.md) in a form that is easy to read:
- * one table to scan, then one block per component with its facts grouped under titles (Size, Text, Shape,
- * Spacing, Reaction, Use), one fact per line, a label before every value, full words (Height, Width) and
- * the unit after every number. The layout follows Baymard's finding on spec sheets (group the specs under
- * subheadings, a single column of label and value) and DITA's properties model (property, value, description).
+ * tables to scan (the components, the variants, the corners), then one block per component with its facts
+ * grouped under titles (Size, Text, Shape, Spacing, Reaction, Use), one fact per line, a label before every
+ * value, full words (Height, Width) and the unit after every number. The layout follows Baymard's finding on
+ * spec sheets (group the specs under subheadings, a single column of label and value) and DITA's properties
+ * model (property, value, description).
  *
  *   node scripts/library/components-list.mjs [--check]
  */
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { build } from "../catalogue/build.mjs";
 import { library } from "../../src/library/data/library.ts";
 
 const file = "docs/design/14-components-list.md";
+const db = await build(".");
 const out = [];
 const say = (...lines) => out.push(...lines);
 const px = n => (n === null || n === undefined ? "" : n + " px");
 
-/** Sizes measured by the scan for components that have no look of their own (the navigation and the symbols). */
+/** Sizes measured by the scan for components that have no look of their own. */
 const EXTRA = {
     "BTN.003": { height: "25 px", width: "76 px", note: "measured by the scan: the Back button and its word" },
     "ARW.001": { height: "44 px", width: "24 px", note: "measured by the scan: page arrow and carousel arrow; each grows 1.2 times on hover" },
     "BUL.001": { height: "12 px (17.4 px when selected)", width: "12 px (17.4 px when selected)", note: "measured by the scan; the one bullet of every rail" },
-    "RAL.PAG.001.001": { height: "follows the items (230 px for six pages)", width: "37 px", note: "measured by the scan" },
-    "RAL.SEC.001.002": { height: "follows the items (76 to 174 px)", width: "37 px (a tab, below 1700 px wide windows)", note: "measured by the scan" },
-    "RAL.NAM.001.003": { height: "follows the items (110 to 668 px)", width: "217 px (from 1700 px wide windows)", note: "measured by the scan" },
+    "RAL.PAG.001.001": { height: "94 px (2 pages), 128 px (3), 230 px (6); 133 px with names", width: "37 px (bullets only); 209 to 229 px (with names)", note: "measured by the scan" },
+    "RAL.SEC.001.002": { height: "94 px (2 sections), 162 px (4); 133 px with names", width: "37 px (bullets only); 190 px (with names)", note: "measured by the scan; with no sections only the Next arrow stands there, 25 by 44 px" },
+    "RAL.CAR.001.003": { height: "76 px (2 items), 110 px (3), 144 px (4), 178 px (5), 351 px (8); 131 to 668 px with names", width: "37 px (bullets only); 145 to 217 px (with names)", note: "measured by the scan" },
     "RAL.NST.001.004": { height: "88 px", width: "88 px", note: "measured by the scan: two arrows and the bullets of a nested card" }
 };
 /** The width of the components whose width is not a number of their own. */
@@ -50,54 +53,91 @@ const REACTION = {
     "ARW.001": "Hover and focus: the arrow grows 1.2 times; focus adds a 2 px blue outline.",
     "ARW.002": "Outline at rest; filled under the pointer and the focus.",
     "BUL.001": "Default, hover, selected: the bullet changes colour or opacity with the card's colour; the selected bullet is larger.",
-    "RAL.001": "Below 1700 px the name shows as a tooltip on hover; from 1700 px the name is inline and is underlined on hover."
+    "RAL.001": "Bullets only: the name shows as a tooltip on hover. With names: the name is inline and is underlined on hover."
+};
+/** Where the scan found each asset or variant (a condition on the scan's records). */
+const FOUND = {
+    "BTN.DLT.001.001": "type = 'x'", "BTN.ADD.001.002": "type = 'plus' and cls like '%plus-box%'", "BTN.002": "type = 'info'",
+    "BTN.004": "type = 'plus' and cls like '%strategy-add-button%'", "DRP.001": "type = 'dropdown'", "TIK.001": "type = 'tick box'",
+    "TXT.BOX.001.001": "type = 'text box' and cls not like '%date-cell-input%'",
+    "TXT.ARE.001.002": "type = 'text area' and (cls like '%business-foundation-note%' or cls like '%legal-entity-note%' or cls like '%brand-image-note%' or cls = 'interview-input')",
+    "TXT.NAM.001.003": "type = 'text area' and (cls like '%card-name-input%' or cls like '%suggested-input%')",
+    "TXT.LST.001.005": "type = 'text area' and cls like '%numbered-list-input%'",
+    "NUM.001": "type = 'number box'", "DAT.001": "type = 'text box' and cls like '%date-cell-input%'", "LBL.001": "type = 'label'",
+    "ARW.002": "type = 'fold arrow'", "ARW.LAB.002.001": "type = 'label arrow' and h = 24", "ARW.TTL.002.002": "type = 'label arrow' and h = 28"
+};
+const whereFound = code => {
+    if (!FOUND[code]) return null;
+    const rows = db.prepare("select system, page, count(*) n from observations where kind = 'control' and " + FOUND[code] + " group by system, page order by n desc").all();
+    if (!rows.length) return null;
+    const total = rows.reduce((s, r) => s + r.n, 0);
+    return total + " in all: " + rows.map(r => r.system.replace(" System", "") + ", " + r.page + " " + r.n).join("; ");
 };
 
-const lookLines = (l, name) => {
-    if (!l) return [];
-    const lines = ["**Size**", "- Height: " + (name === "DAT.002" ? "fits its calendar" : l.height === null ? "follows the words" + (l.minHeight ? ", at least " + l.minHeight + " px" : "") : px(l.height))];
-    lines.push("- Width: " + (l.width ? px(l.width) : WIDTH[name] ?? "set by the layout"));
-    lines.push("", "**Text**", "- Size: " + (l.fontSize ? l.fontSize + " px" : "no text (a symbol)") + (l.fontSize ? " (" + l.scale + ")" : ""), "- Weight: " + l.fontWeight);
-    lines.push("", "**Shape**", "- Corners: " + l.corners.replace("px", " px"), "- Border: " + l.border + " px");
-    lines.push("", "**Spacing**", "- Padding left: " + l.paddingLeft + " px", "- Padding top: " + l.paddingTop + " px");
-    if (l.found) lines.push("", "**Use**", "- Found: " + l.found + " times in the four systems");
-    return lines;
-};
+const heightText = (l, code) => (code === "DAT.002" || (code.startsWith("DAT.") && code.split(".")[2] === "002") ? "fits its calendar" : l.height === null ? "follows the words" + (l.minHeight ? ", at least " + l.minHeight + " px" : "") : px(l.height));
+const widthText = (l, code, parent) => (l.width ? px(l.width) : WIDTH[code] ?? (parent ? WIDTH[parent] : undefined) ?? "set by the layout");
+const textSize = l => (l.fontSize ? l.fontSize + " px (" + l.scale + ")" : "no text (a symbol)");
+const corner = l => l.corners.replace("px", " px");
 
 const components = library.assets.filter(a => a.category === "component");
-say("# The components", "",
-    "Generated by `node scripts/library/components-list.mjs` from the library. Do not edit by hand. " + components.length + " components. Each block gives the facts in the same order: Size, Text, Shape, Spacing, Reaction, Use, Variants. Height and Width are in pixels (px). A look is the most used one measured, after the owner's decisions of 2026-10-15 (docs/design/13-component-defaults.md).", "",
-    "## At a glance", "",
-    "| Code | Name | Height | Width | Variants |", "|---|---|---|---|---|");
+const rows = [];
 for (const a of components) {
-    const l = a.look;
-    const extra = EXTRA[a.code];
-    const h = a.code === "DAT.002" ? "fits its calendar" : l ? (l.height === null ? "follows the words" + (l.minHeight ? " (at least " + l.minHeight + " px)" : "") : px(l.height)) : extra?.height ?? "see the variants";
-    const w = l?.width ? px(l.width) : WIDTH[a.code] ?? extra?.width ?? "set by the layout";
-    say("| " + a.code + " | " + a.name + " | " + h + " | " + w + " | " + (a.variants.length ? a.variants.map(v => v.name).join(", ") : "none") + " |");
+    if (a.look) rows.push({ code: a.code, name: a.name, kind: "component", l: a.look });
+    for (const v of a.variants) if (v.look) rows.push({ code: v.code, name: a.name + ", " + v.name, kind: "variant", l: v.look });
+}
+
+say("# The components", "",
+    "Generated by `node scripts/library/components-list.mjs` from the library. Do not edit by hand. " + components.length + " components. Height and Width are in pixels (px). A look is the most used one measured, after the owner's decisions of 2026-10-15 (docs/design/13-component-defaults.md). Each block gives the facts in the same order: Size, Text, Shape, Spacing, Reaction, Use, Variants.", "",
+    "## At a glance", "",
+    "| Code | Name | Height | Width | Corners | Variants |", "|---|---|---|---|---|---|");
+for (const a of components) {
+    const l = a.look, ex = EXTRA[a.code];
+    say("| " + a.code + " | " + a.name + " | " + (l ? heightText(l, a.code) : ex?.height ?? "see the variants") + " | " + (l ? widthText(l, a.code) : WIDTH[a.code] ?? ex?.width ?? "set by the layout") + " | " + (l ? corner(l) : "none") + " | " + (a.variants.length ? a.variants.map(v => v.name).join(", ") : "none") + " |");
+}
+say("", "## Every variant at a glance", "", "| Code | Name | Height | Width | Corners | Text size |", "|---|---|---|---|---|---|");
+for (const a of components) for (const v of a.variants) {
+    const l = v.look ?? a.look, ex = EXTRA[v.code];
+    say("| " + v.code + " | " + a.name + ", " + v.name + " | " + (l ? heightText(l, v.code) : ex?.height ?? "see the asset") + " | " + (l ? widthText(l, v.code, a.code) : WIDTH[v.code] ?? ex?.width ?? "see the asset") + " | " + (l ? corner(l) : "none") + " | " + (l ? textSize(l) : "none") + " |");
 }
 say("");
 
+say("## Corners and sizes", "", "The size of the rounded corners, and which components and surfaces have it.", "",
+    "| Corners | Components and variants |", "|---|---|");
+const byCorner = new Map();
+for (const r of rows) { const key = corner(r.l); byCorner.set(key, [...(byCorner.get(key) ?? []), r.code + " " + r.name + " (" + (r.l.height === null ? "words" : px(r.l.height)) + (r.l.width ? " by " + px(r.l.width) : "") + ")"]); }
+for (const [c, list] of [...byCorner].sort((a, b) => parseFloat(a[0]) - parseFloat(b[0]))) say("| " + c + " | " + list.join("; ") + " |");
+say("", "Surfaces (measured by the scan, 1920 px wide window):", "",
+    "| Surface | Corners | Width | Padding |", "|---|---|---|---|",
+    "| Floating card (CRD.001) | 8 px | 492 px (founder: 297 px) | 12 px on every side |",
+    "| Master tile (TIL.001) | 8 px | 328 px | 13 px |",
+    "| Open tile (TIL.002) | 8 px | 214 px | 13 px |",
+    "| Calendar popup (DAT.002) | 8 px | fits its calendar | 12 px |",
+    "| Dialog view (FRM.003) and page (FRM.002) | 0 px | the width of the page | none |", "");
+
 for (const a of components) {
     say("## " + a.code + " " + a.name[0].toUpperCase() + a.name.slice(1), "", a.summary, "");
-    const extra = EXTRA[a.code];
-    if (a.look) say(...lookLines(a.look, a.code), "");
-    else if (extra) say("**Size**", "- Height: " + extra.height, "- Width: " + extra.width, "- Source: " + extra.note, "");
+    const ex = EXTRA[a.code];
+    if (a.look) {
+        const l = a.look;
+        say("**Size**", "- Height: " + heightText(l, a.code), "- Width: " + widthText(l, a.code), "",
+            "**Text**", "- Size: " + textSize(l), "- Weight: " + l.fontWeight, "",
+            "**Shape**", "- Corners: " + corner(l), "- Border: " + l.border + " px", "",
+            "**Spacing**", "- Padding left: " + l.paddingLeft + " px", "- Padding top: " + l.paddingTop + " px", "");
+    } else if (ex) say("**Size**", "- Height: " + ex.height, "- Width: " + ex.width, "- Source: " + ex.note, "");
     if (REACTION[a.code]) say("**Reaction**", "- " + REACTION[a.code], "");
+    const here = whereFound(a.code);
+    if (a.look?.found || here) say("**Use**", "- Found: " + (here ?? a.look.found + " times in the four systems"), "");
     if (a.variants.length) {
         say("**Variants**", "");
         for (const v of a.variants) {
-            const l = v.look;
-            const ex = EXTRA[v.code];
-            say("### " + v.code + " " + v.name, "", v.description, "");
-            say("- What changes: " + v.edits);
+            const l = v.look ?? a.look, vx = EXTRA[v.code];
+            say("### " + v.code + " " + v.name, "", v.description, "", "- What changes: " + v.edits);
             if (l) {
-                say("- Height: " + (l.height === null ? "follows the words" + (l.minHeight ? ", at least " + l.minHeight + " px" : "") : px(l.height)));
-                say("- Width: " + (l.width ? px(l.width) : WIDTH[v.code] ?? "set by the layout"));
-                say("- Text size: " + (l.fontSize ? l.fontSize + " px (" + l.scale + ")" : "no text (a symbol)"));
-                say("- Corners: " + l.corners.replace("px", " px") + "; Border: " + l.border + " px; Padding left: " + l.paddingLeft + " px; Padding top: " + l.paddingTop + " px");
-                if (l.found) say("- Found: " + l.found + " times");
-            } else if (ex) say("- Height: " + ex.height, "- Width: " + ex.width, "- Source: " + ex.note);
+                say("- Height: " + heightText(l, v.code), "- Width: " + widthText(l, v.code, a.code), "- Text size: " + textSize(l),
+                    "- Corners: " + corner(l) + "; Border: " + l.border + " px; Padding left: " + l.paddingLeft + " px; Padding top: " + l.paddingTop + " px");
+            } else if (vx) say("- Height: " + vx.height, "- Width: " + vx.width, "- Source: " + vx.note);
+            const w = whereFound(v.code);
+            if (w) say("- Found: " + w);
             say("");
         }
     }
