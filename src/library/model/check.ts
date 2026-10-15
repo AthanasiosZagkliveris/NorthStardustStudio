@@ -73,7 +73,8 @@ export function checkLibrary(library: Library, placements: readonly Placement[] 
     }
 
     for (const asset of library.assets) {
-        for (const need of asset.requires) {
+        const needs = [...asset.requires, ...asset.variants.flatMap(variant => variant.requires ?? [])];
+        for (const need of needs) {
             const target = assets.get(need.asset);
             if (!target) { problems.push(asset.code + ": requires " + need.asset + ", which does not exist"); continue; }
             if (need.variant && !target.variants.some(variant => variant.code === need.variant)) problems.push(asset.code + ": requires " + need.variant + ", which is not a variant of " + need.asset);

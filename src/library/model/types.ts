@@ -55,6 +55,8 @@ export interface Variant {
     edits: string;
     /** The value of each variable this variant fixes (variable code -> value name). */
     values: Readonly<Record<string, string>>;
+    /** The parts this variant has that differ from the main asset (a card kind's own fields, for example). */
+    requires?: readonly Requirement[];
 }
 
 /** A part an asset is made of: another asset, in a variant, in a role. */
@@ -74,8 +76,8 @@ export interface Asset {
     variables: readonly string[];
     variants: readonly Variant[];
     requires: readonly Requirement[];
-    /** The measured contract of src/library/assets this asset is described by, if there is one. */
-    contract?: string;
+    /** The measured contracts of src/library/assets that describe this asset (by their names), if there are any. */
+    contracts?: readonly string[];
     /** The ids of the catalogue it was made from (docs/design/07-structure-tables.md). */
     catalogue: readonly string[];
 }
