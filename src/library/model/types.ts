@@ -93,6 +93,10 @@ export interface Variant {
     look?: Look;
     /** The parts this variant has that differ from the main asset (a card kind's own fields, for example). */
     requires?: readonly Requirement[];
+    /** What kind of thing it is (a cell you fill in, numbers only; a text you read, generated), where it differs from the asset's. */
+    kind?: string;
+    /** The frames, pages and cards it is placed in (the fields that use it are read from the catalogue). */
+    belongs?: string;
 }
 
 /** A part an asset is made of: another asset, in a variant, in a role. */
@@ -118,6 +122,10 @@ export interface Asset {
     lookNotes?: readonly string[];
     /** The group the component belongs to (HOLD.CEL): every component has one. */
     group?: string;
+    /** What kind of thing it is, in plain words (a cell you fill in; a text you read, prefilled or generated; a button that acts). */
+    kind?: string;
+    /** The frames, pages and cards it is placed in (the fields that use it are read from the catalogue). */
+    belongs?: string;
     /** The measured contracts of src/library/assets that describe this asset (by their names), if there are any. */
     contracts?: readonly string[];
     /** The ids of the catalogue it was made from (docs/design/07-structure-tables.md). */

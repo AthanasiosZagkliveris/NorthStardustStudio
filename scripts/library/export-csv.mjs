@@ -13,7 +13,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { build } from "../catalogue/build.mjs";
 import { library } from "../../src/library/data/library.ts";
-import { sizeOf, variantSizeOf } from "./specs.mjs";
+import { fieldsOf, sizeOf, variantSizeOf } from "./specs.mjs";
 import { writeXlsx } from "./xlsx.mjs";
 
 const check = process.argv.includes("--check");
@@ -46,18 +46,18 @@ const where = code => {
 };
 
 const short = t => { const s = String(t ?? "").split(". ")[0]; return s.length > 140 ? s.slice(0, 137) + "..." : s; };
-const head = ["Family / Group", "Code", "Name", "Height", "Width", "Text size", "Corners", "What it is", "Found (instances)", "Places in the app", "Where found (top pages)"];
+const head = ["Family / Group", "Code", "Name", "Kind", "Height", "Width", "Text size", "Corners", "What it is", "Found (instances)", "Places in the app", "Where found (top pages)", "Placed in", "Fields that use it"];
 const rows = [head];
 const sheet = [];
 for (const a of library.assets.filter(x => x.category === "component" || x.group)) {
     const home = groupOf.get(a.group);
     const s = sizeOf(a);
-    const cells = [(home?.family.name ?? "") + " / " + (home?.group.name ?? ""), a.code, a.name, s.height, s.width, s.text, s.corners, short(a.summary), a.look?.found ?? "", a.look?.places ?? "", where(a.code)];
+    const cells = [(home?.family.name ?? "") + " / " + (home?.group.name ?? ""), a.code, a.name, a.kind ?? "", s.height, s.width, s.text, s.corners, short(a.summary), a.look?.found ?? "", a.look?.places ?? "", where(a.code), a.belongs ?? "", fieldsOf(db, a.code) ?? ""];
     rows.push(cells);
     sheet.push({ cells, bold: true });
     for (const v of a.variants) {
         const vs = variantSizeOf(a, v);
-        const vc = ["", v.code, "   " + v.name, vs.height, vs.width, vs.text, vs.corners, short(v.description), v.look?.found ?? "", "", ""];
+        const vc = ["", v.code, "   " + v.name, v.kind ?? a.kind ?? "", vs.height, vs.width, vs.text, vs.corners, short(v.description), v.look?.found ?? "", "", "", v.belongs ?? a.belongs ?? "", fieldsOf(db, v.code) ?? ""];
         rows.push(vc);
         sheet.push({ cells: vc, level: 1 });
     }
@@ -94,7 +94,7 @@ for (const r of fieldRows) {
 put("catalogue/exports/dropdowns.csv", csv(drop));
 if (!check) {
     mkdirSync("exports", { recursive: true });
-    writeXlsx("exports/The-components.xlsx", { name: "Components", header: head, rows: sheet, widths: [28, 20, 26, 22, 26, 16, 10, 60, 12, 12, 50] });
+    writeXlsx("exports/The-components.xlsx", { name: "Components", header: head, rows: sheet, widths: [28, 20, 24, 40, 20, 26, 16, 10, 60, 12, 12, 50, 40, 50] });
     writeXlsx("exports/The-dropdowns.xlsx", { name: "Dropdowns", header: drop[0], rows: drop.slice(1).map(cells => ({ cells })), widths: [24, 24, 8, 12, 24, 60, 60, 60] });
 }
 if (check) { if (stale) { console.error("run npm run library:csv"); process.exit(1); } console.log("the CSV files are up to date"); }

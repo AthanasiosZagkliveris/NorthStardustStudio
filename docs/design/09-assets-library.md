@@ -234,11 +234,17 @@ A round button with an i: it shows the note of the label or title beside it. It 
 
 ### BTN.003 back button
 
-The Back button of a dialog, a card stack or a rail: a small triangle and the word Back, placed at the end of the rail or at the bottom of the view.
+The button that goes back: a word with an arrow or a triangle. The main Back is the one in the footer of every page; the section Back is the one of a dialog, a card stack or a description.
 
 - **Variables:** VAR001, VAR002, VAR003, VAR004
+  - two backs (the owner, owner, 2026-10-15): the main Back of the footer, measured 83 by 22px, 18px, weight 500, capitals, tracking 0.1em; the Back of a dialog or a description, 25 by 76px, 18px, weight 400.
 - **Measured contract:** Back button
 - **Catalogue:** CO13
+
+| Variant | Name | Edits in the main asset | Own parts | Default look |
+|---|---|---|---|---|
+| BTN.MAN.003.001 | Main back | An arrow and capitals; weight 500. |  | height 22, width 83, type 18 (body 18), corners 0px, padding 0/0, border 0, found 8 |
+| BTN.SEC.003.002 | Section back | A triangle, the word in the body weight. |  | height 25, width 76, type 18 (body 18), corners 0px, padding 0/0, border 0, found 6 |
 
 ### BTN.004 wide add button
 
@@ -279,7 +285,7 @@ A button of the app header: an icon with a word. Hover and focus tint it. Its va
 
 ### DRP.001 dropdown
 
-A cell that opens a list to choose one value from. 45px high, 6px corners, a border, an inset edge.
+A cell that opens a list to choose one value from. 44px high, 6px corners, a border, an inset edge. The plain dropdown is a short list of prefilled or generated choices (Status, Group, Category). Its two variants add one thing each: a search box for a long list, or a last choice Other.
 
 - **Variables:** VAR001, VAR002, VAR003, VAR004, VAR006, VAR016
 - **Default look:** height 44, type 18 (body 18), corners 6px, padding 8/8, border 1, found 493
@@ -321,6 +327,7 @@ The cell a person fills in with text or numbers, in the body size. Its size can 
   - years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).
   - months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner).
   - digits: by the owner's description (owner, 2026-10-15) a number cell accepts only numbers, and no more digits than the field requires.
+  - the percent, years and months boxes are one variant, the square number (the owner, owner, 2026-10-15): 44 by 44px; the unit is beside it.
 - **Catalogue:** CO10, CO09
 
 | Variant | Name | Edits in the main asset | Own parts | Default look |
@@ -330,9 +337,7 @@ The cell a person fills in with text or numbers, in the body size. Its size can 
 | TXT.NAM.001.003 | Name cell | At the top of a card; the order number is automatic and inside the cell; it wraps and grows. |  | height at least 44, type 18 (body 18), corners 6px, padding 38/8, border 1, found 138 |
 | TXT.WHL.001.004 | Whole number | Numbers only; the digit limit is set by the field. |  |  |
 | TXT.DEC.001.005 | Decimal | Numbers and the decimal point. |  |  |
-| TXT.PCT.001.006 | Percent | A square box with a percent sign beside it. |  | height 44, width 44, type 18 (body 18), corners 6px, padding 4/8, border 1, found 12 |
-| TXT.YRS.001.007 | Years | A square box with the word years beside it. |  | height 44, width 44, type 18 (body 18), corners 6px, padding 4/8, border 1, found 8 |
-| TXT.MON.001.008 | Months | A square box with the word months beside it. |  | height 44, width 44, type 18 (body 18), corners 6px, padding 4/8, border 1, found 1 |
+| TXT.SQR.001.006 | Square number | A square box; the unit (%, years, months) stands beside it. |  | height 44, width 44, type 18 (body 18), corners 6px, padding 4/8, border 1, found 12 |
 
 ### LST.001 list
 
@@ -348,11 +353,12 @@ A thin line that divides two groups of rows inside a card, with 12px of space ab
 
 - **Variables:** VAR003
   - horizontal: the page rule measured 2px (interview-divider); the card rule is 1px (the card rules); the vertical line (answer-columns-divider) was not measured.
+  - measured 2026-10-15: the page rule is 2px high and 1400px wide (.interview-divider); the vertical line (1px) exists only in the handbook card, not in the four systems.
 
 | Variant | Name | Edits in the main asset | Own parts | Default look |
 |---|---|---|---|---|
 | DIV.HOR.001.001 | Horizontal | Runs across. |  | height 2, type 0 (symbol, no text), corners 0px, padding 0/0, border 0, found 1 |
-| DIV.VER.001.002 | Vertical | Runs down. Not measured yet. |  |  |
+| DIV.VER.001.002 | Vertical | Runs down, 1px wide. Found only in the handbook card, not in the four systems. |  | type 0 (symbol, no text), corners 0px, padding 0/0, border 0, found 0 |
 
 ### DAT.001 date cell
 
@@ -442,12 +448,13 @@ A short text that tells the person something about what they entered: that a tot
 
 - **Variables:** VAR003, VAR004, VAR012
   - verification measured from the card rules (docs/ai/layout-rules.md: the missing note is 14px); the indicator and the reminder were not measured.
+  - measured 2026-10-15: the verification is 14px, the danger colour, 4px under the cell (card-tile.css); it appears only after a missed fill, so none was found in the default pages. The reminder reads 18px (the Start and End of the Financial Plan, 18px, weight 400); the indicator (a unit word) was not found in the four systems.
 
 | Variant | Name | Edits in the main asset | Own parts | Default look |
 |---|---|---|---|---|
 | MSG.VER.001.001 | Verification | Danger colour; small; under the cell it is about. |  | type 14 (small 14), corners 0px, padding 0/0, border 0, found 0 |
 | MSG.IND.001.002 | Indicator | Plain text after the cell. |  |  |
-| MSG.REM.001.003 | Reminder | A label and a value on one line. |  |  |
+| MSG.REM.001.003 | Reminder | A label and a value on one line. |  | height 27, type 18 (body 18), corners 0px, padding 0/0, border 0, found 2 |
 
 ### LNK.001 link
 
@@ -839,7 +846,7 @@ The Channel card: a floating card with 7 common fields in a fixed order and 8 ki
 | FLD.016 | Qty | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TXT.DEC.001.005 (number) | 31 | F022 |
 | FLD.017 | Frequency | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); HLP.VAL.001.005 (shown, not edited); DRP.001 (choice) | 50 | F023, F026 |
 | FLD.018 | Unit | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); DRP.001 (choice); HLP.VAL.001.005 (shown, not edited) | 25 | F024, F029 |
-| FLD.019 | Useful life | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TXT.YRS.001.007 (number) | 7 | F025 |
+| FLD.019 | Useful life | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TXT.SQR.001.006 (number) | 7 | F025 |
 | FLD.020 | Warranty | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TIK.001 (tick) | 3 | F027 |
 | FLD.021 | Warranty until | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); DAT.CAL.001.001 (date) | 3 | F028 |
 | FLD.022 | Extra: Road tax (when bought) | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TIK.001 (tick); TXT.WHL.001.004 (number) | 2 | F030 |
@@ -847,12 +854,12 @@ The Channel card: a floating card with 7 common fields in a fixed order and 8 ki
 | FLD.024 | Billing type | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); HLP.VAL.001.005 (shown, not edited) | 7 | F032 |
 | FLD.025 | Payment Plan | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TIK.001 (tick) | 12 | F033 |
 | FLD.026 | Plan | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); DRP.001 (choice) | 12 | F034 |
-| FLD.027 | Deposit % | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TXT.PCT.001.006 (number) | 12 | F035 |
+| FLD.027 | Deposit % | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TXT.SQR.001.006 (number) | 12 | F035 |
 | FLD.028 | Balance date | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); DAT.CAL.001.001 (date) | 12 | F036 |
 | FLD.029 | Instalments | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TXT.WHL.001.004 (number) | 12 | F037 |
 | FLD.030 | Instalment lines | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); DAT.CAL.001.001 (date) | 12 | F038 |
 | FLD.031 | Milestone | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TXT.BOX.001.001 (text) | 12 | F039 |
-| FLD.032 | Milestone % | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TXT.PCT.001.006 (number) | 12 | F040 |
+| FLD.032 | Milestone % | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TXT.SQR.001.006 (number) | 12 | F040 |
 | FLD.033 | Milestone date | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); DAT.CAL.001.001 (date) | 12 | F041 |
 | FLD.034 | Allowance | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TXT.WHL.001.004 (number) | 3 | F042 |
 | FLD.035 | Extra: Commission | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TIK.001 (tick); TXT.WHL.001.004 (number) | 3 | F043 |
@@ -874,9 +881,9 @@ The Channel card: a floating card with 7 common fields in a fixed order and 8 ki
 | FLD.051 | Extra: Service charge | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TIK.001 (tick); TXT.WHL.001.004 (number) | 2 | F060 |
 | FLD.052 | Extra: Commercial property tax | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TIK.001 (tick); TXT.WHL.001.004 (number) | 2 | F061 |
 | FLD.053 | Extra: Road tax | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TIK.001 (tick); TXT.WHL.001.004 (number) | 2 | F062 |
-| FLD.054 | Linked to | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TIK.001 (one tick per entry); TXT.PCT.001.006 (the share of each ticked entry) | 29 | F063 |
-| FLD.055 | Rate override | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TXT.PCT.001.006 (number) | 2 | F064 |
-| FLD.056 | Amortisation period | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TXT.YRS.001.007 (number) | 1 | F065 |
+| FLD.054 | Linked to | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TIK.001 (one tick per entry); TXT.SQR.001.006 (the share of each ticked entry) | 29 | F063 |
+| FLD.055 | Rate override | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TXT.SQR.001.006 (number) | 2 | F064 |
+| FLD.056 | Amortisation period | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TXT.SQR.001.006 (number) | 1 | F065 |
 | FLD.057 | Extra: Minimum order | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TIK.001 (tick); TXT.WHL.001.004 (number) | 1 | F066 |
 | FLD.058 | Extra: Customs duty | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TIK.001 (tick); TXT.WHL.001.004 (number) | 1 | F067 |
 | FLD.059 | Extra: Clearance and handling | VAR005, VAR006, VAR008 | LBL.001 (the label of the field); TIK.001 (tick); TXT.WHL.001.004 (number) | 1 | F068 |

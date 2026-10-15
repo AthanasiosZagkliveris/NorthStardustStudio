@@ -329,7 +329,7 @@ export const library: Library = {
     {
      "code": "HOLD.CEL",
      "name": "Cell holders",
-     "description": "The cells the person writes or chooses in: the holder (text and numbers), the list, the date cell, the dropdown.",
+     "description": "The cells the person writes or chooses in: the holder (text and numbers), the list and the dropdown.",
      "characteristics": [
       "Body text, 18px",
       "6px corners, 1px edge",
@@ -340,6 +340,15 @@ export const library: Library = {
       "corners": "6px",
       "border": 1
      }
+    },
+    {
+     "code": "HOLD.DAT",
+     "name": "Date cells",
+     "description": "The cell that holds a date, with its calendar popup.",
+     "characteristics": [
+      "A date, chosen in a calendar or written",
+      "The calendar opens under the cell"
+     ]
     },
     {
      "code": "HOLD.TIK",
@@ -431,17 +440,27 @@ export const library: Library = {
    ],
    "groups": [
     {
-     "code": "CTRL.BTN",
-     "name": "Buttons",
-     "description": "The buttons: the box button (delete, add, shrink), the info button, Back, the add buttons, the tool buttons.",
+     "code": "CTRL.ACT",
+     "name": "Action buttons",
+     "description": "The buttons that act on a card, a row or a list: the box button (delete, add, shrink), the info button, the wide add button and the Add Card tile.",
      "characteristics": [
-      "An outlined box or a word, with no fill at rest"
+      "Pressed to do something to the content",
+      "Fills with its colour under the pointer and the focus"
+     ]
+    },
+    {
+     "code": "CTRL.TOOL",
+     "name": "Tool buttons",
+     "description": "The buttons of the app header: an icon with a word.",
+     "characteristics": [
+      "An icon and a word, in the header",
+      "Tinted under the pointer and the focus"
      ]
     },
     {
      "code": "CTRL.NAV",
      "name": "Navigation controls",
-     "description": "What moves a person between pages, sections, views and cards: the bullets of the page tags and the arrows.",
+     "description": "What moves a person between pages, sections, views and cards: the Back, the arrows and the bullets of the page tags.",
      "characteristics": [
       "Shows where the person is and moves them on",
       "The arrow grows under the pointer; the bullet changes colour or opacity, and the selected bullet is larger"
@@ -554,7 +573,9 @@ export const library: Library = {
       "scale": "symbol, no text",
       "found": 237,
       "places": 11
-     }
+     },
+     "kind": "Button that removes",
+     "belongs": "Floating card, nested card, image holder (the x at the corner)"
     },
     {
      "code": "BTN.ADD.001.002",
@@ -573,7 +594,9 @@ export const library: Library = {
       "scale": "symbol, no text",
       "found": 107,
       "places": 1
-     }
+     },
+     "kind": "Button that adds",
+     "belongs": "Master tile heads, nested card heads, rows of lists"
     },
     {
      "code": "BTN.SHR.001.003",
@@ -592,7 +615,9 @@ export const library: Library = {
       "border": 2,
       "scale": "symbol, no text",
       "found": 3
-     }
+     },
+     "kind": "Button that changes a view (cards to tiles)",
+     "belongs": "Nested card heads (Goals, Objectives, Metrics)"
     }
    ],
    "requires": [],
@@ -623,7 +648,8 @@ export const library: Library = {
     "plus corners: the corners of the x, 6px, by the owner's decision (owner, 2026-10-15); the plus measured 8px (107 found).",
     "shrink button (make it tiles): measured 32 by 32px, 8px corners, 2px border, with an icon; by the one rule of the box button (the owner's decision on the x and the plus, owner, 2026-10-15) its corners are 6px."
    ],
-   "group": "CTRL.BTN"
+   "group": "CTRL.ACT",
+   "kind": "Button, a box with a symbol: acts on a card or a row"
   },
   {
    "code": "BTN.002",
@@ -661,20 +687,63 @@ export const library: Library = {
     "merged by the owner's decision (owner, 2026-10-15): info height 22, type 18, corners 50%, padding 0/0, border 1; found 70 times (12.3% of the default's 567); largest difference 4.0px",
     "enlarged, by the owner's decision (owner, 2026-10-15): from 22px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (567 found at 22px)."
    ],
-   "group": "CTRL.BTN"
+   "group": "CTRL.ACT",
+   "kind": "Button, round: shows a note",
+   "belongs": "Beside the labels and titles of cards, tiles and dialogs"
   },
   {
    "code": "BTN.003",
    "name": "back button",
    "category": "component",
-   "summary": "The Back button of a dialog, a card stack or a rail: a small triangle and the word Back, placed at the end of the rail or at the bottom of the view.",
+   "summary": "The button that goes back: a word with an arrow or a triangle. The main Back is the one in the footer of every page; the section Back is the one of a dialog, a card stack or a description.",
    "variables": [
     "VAR001",
     "VAR002",
     "VAR003",
     "VAR004"
    ],
-   "variants": [],
+   "variants": [
+    {
+     "code": "BTN.MAN.003.001",
+     "name": "Main back",
+     "description": "The Back of the footer of every page: an arrow, the word BACK in capitals, 18px, weight 500, spaced 0.1em, 83 by 22px, at the left of the footer band. Goes to the page before.",
+     "edits": "An arrow and capitals; weight 500.",
+     "values": {},
+     "look": {
+      "height": 22,
+      "width": 83,
+      "fontSize": 18,
+      "fontWeight": "500",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "body 18",
+      "found": 8
+     },
+     "belongs": "The footer of every page"
+    },
+    {
+     "code": "BTN.SEC.003.002",
+     "name": "Section back",
+     "description": "The Back of a dialog or a description: a small triangle and the word Back, 18px, weight 400, 25 by 76px. Goes back one view inside the dialog.",
+     "edits": "A triangle, the word in the body weight.",
+     "values": {},
+     "look": {
+      "height": 25,
+      "width": 76,
+      "fontSize": 18,
+      "fontWeight": "400",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "body 18",
+      "found": 6
+     },
+     "belongs": "Dialogs and descriptions"
+    }
+   ],
    "requires": [],
    "catalogue": [
     "CO13"
@@ -682,7 +751,11 @@ export const library: Library = {
    "contracts": [
     "Back button"
    ],
-   "group": "CTRL.BTN"
+   "group": "CTRL.NAV",
+   "lookNotes": [
+    "two backs (the owner, owner, 2026-10-15): the main Back of the footer, measured 83 by 22px, 18px, weight 500, capitals, tracking 0.1em; the Back of a dialog or a description, 25 by 76px, 18px, weight 400."
+   ],
+   "kind": "Button, a word: goes back"
   },
   {
    "code": "BTN.004",
@@ -720,13 +793,15 @@ export const library: Library = {
     "found 15 times: Customer Engagement 7, Financial Foundation 3, Foundation 1, Identity (Founders and Registrations) 4; 39px high, type 18, padding 14/8, border 1. They are not a plus box; the one look measured.",
     "height and plus: by the owner's decision (owner, 2026-10-15) the button looks like a cell, so it is 44px high like every cell (it measured 39px); the plus inside it has the size and the place of the plus box, 32px, at the left, like the plus box."
    ],
-   "group": "CTRL.BTN"
+   "group": "CTRL.ACT",
+   "kind": "Button, wide with words: adds a row to a list",
+   "belongs": "Lists in cards (+ ADD CHANNEL, + ADD REGISTRATION NUMBER)"
   },
   {
    "code": "BTN.005",
    "name": "add card tile",
    "category": "component",
-   "group": "CTRL.BTN",
+   "group": "CTRL.ACT",
    "summary": "The button that ends every grid of tiles in an opened tile view: a dashed square with a plus and the words ADD CARD. One component for every kind of card.",
    "variables": [
     "VAR001",
@@ -751,13 +826,15 @@ export const library: Library = {
    },
    "lookNotes": [
     "measured 107.5 by 107.5px, a dashed 1px edge, 8px corners, 14px bold words under the plus (the Add Card tile moved from the tiles to the buttons, owner, 2026-10-15)."
-   ]
+   ],
+   "kind": "Button, a tile: adds a card",
+   "belongs": "The end of the grid in an opened tile view"
   },
   {
    "code": "BTN.006",
    "name": "tool button",
    "category": "component",
-   "group": "CTRL.BTN",
+   "group": "CTRL.TOOL",
    "summary": "A button of the app header: an icon with a word. Hover and focus tint it. Its variants are the tools: the reading mode, Focus, Search, Notes, Review (with the number of items), Settings, and Refresh (it reloads the app). The Start Interview button of an introduction is the primary variant.",
    "variables": [
     "VAR001",
@@ -849,13 +926,15 @@ export const library: Library = {
    },
    "lookNotes": [
     "measured: 36px high, 100 to 135px wide (it follows its words), 14px type, 6px corners, 1px border (header tools; Reload 109 by 36px)."
-   ]
+   ],
+   "kind": "Button, an icon with a word: a tool of the app",
+   "belongs": "The app header"
   },
   {
    "code": "DRP.001",
    "name": "dropdown",
    "category": "component",
-   "summary": "A cell that opens a list to choose one value from. 45px high, 6px corners, a border, an inset edge.",
+   "summary": "A cell that opens a list to choose one value from. 44px high, 6px corners, a border, an inset edge. The plain dropdown is a short list of prefilled or generated choices (Status, Group, Category). Its two variants add one thing each: a search box for a long list, or a last choice Other.",
    "variables": [
     "VAR001",
     "VAR002",
@@ -868,16 +947,18 @@ export const library: Library = {
     {
      "code": "DRP.SRC.001.001",
      "name": "Searchable",
-     "description": "A dropdown with a search box in its list (currency, long lists).",
+     "description": "The same dropdown with a search box at the top of its list, for a long list: the person types and the list narrows (Currency).",
      "edits": "The list has a search box.",
-     "values": {}
+     "values": {},
+     "kind": "Cell you choose in; the list has a search box"
     },
     {
      "code": "DRP.OTH.001.002",
      "name": "With Other",
-     "description": "A dropdown whose last choice is Other, which opens a text box.",
+     "description": "The same dropdown whose last choice is Other: choosing it opens a text box under the cell where the person writes a choice that is not in the list (Activity, Name, Rent).",
      "edits": "The last choice is Other and it opens a text box under the cell.",
-     "values": {}
+     "values": {},
+     "kind": "Cell you choose in; the last choice, Other, opens a text box"
     }
    ],
    "requires": [],
@@ -904,7 +985,9 @@ export const library: Library = {
     "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45).",
     "options source (the owner asked how dropdowns are divided, owner, 2026-10-15): prefilled (Status, Frequency, Currency, Unit, Plan, Cost option, Category, Type), dependent (Group), generated (Performer, Activity, Resource, Responsibility, Linked registration); With Other adds free entry to a list. The list of every dropdown cell is in catalogue/exports/dropdowns.csv."
    ],
-   "group": "HOLD.CEL"
+   "group": "HOLD.CEL",
+   "kind": "Cell you choose in: one value from a list",
+   "belongs": "Cards"
   },
   {
    "code": "TIK.001",
@@ -939,7 +1022,9 @@ export const library: Library = {
     "merged into the default: tick box height 18, type 16, corners 0px, padding 0/0, border 0; found 5 times (0.7% of the default's 721); largest difference 2.0px",
     "enlarged, by the owner's decision (owner, 2026-10-15): from 18px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (721 found at 18px)."
    ],
-   "group": "HOLD.TIK"
+   "group": "HOLD.TIK",
+   "kind": "Tick box: yes or no, with words beside it",
+   "belongs": "Cards"
   },
   {
    "code": "TXT.001",
@@ -977,7 +1062,8 @@ export const library: Library = {
       "scale": "body 18",
       "found": 24,
       "places": 4
-     }
+     },
+     "kind": "Text cell: one line, fixed space"
     },
     {
      "code": "TXT.ARE.001.002",
@@ -1000,7 +1086,8 @@ export const library: Library = {
       "found": 282,
       "minHeight": 44,
       "places": 19
-     }
+     },
+     "kind": "Text cell: grows down as you type"
     },
     {
      "code": "TXT.NAM.001.003",
@@ -1022,7 +1109,8 @@ export const library: Library = {
       "scale": "body 18",
       "found": 138,
       "minHeight": 44
-     }
+     },
+     "kind": "Text cell: the name of a card, with its automatic number inside"
     },
     {
      "code": "TXT.WHL.001.004",
@@ -1033,7 +1121,8 @@ export const library: Library = {
       "VAR017": "numbers only",
       "VAR015": "as required",
       "VAR014": "fixed space"
-     }
+     },
+     "kind": "Numbers-only cell: whole numbers, limited digits"
     },
     {
      "code": "TXT.DEC.001.005",
@@ -1044,13 +1133,14 @@ export const library: Library = {
       "VAR017": "numbers only",
       "VAR015": "as required",
       "VAR014": "fixed space"
-     }
+     },
+     "kind": "Numbers-only cell: with decimals, limited digits"
     },
     {
-     "code": "TXT.PCT.001.006",
-     "name": "Percent",
-     "description": "A number from 0 to 100 with a percent sign beside it; a square box, 44 by 44px.",
-     "edits": "A square box with a percent sign beside it.",
+     "code": "TXT.SQR.001.006",
+     "name": "Square number",
+     "description": "A number in a square box, 44 by 44px, with its unit beside it: % (Deposit %, Milestone %), years (Useful life, Amortisation period) or months (Target operating reserve). Numbers only; the digit limit is set by the field.",
+     "edits": "A square box; the unit (%, years, months) stands beside it.",
      "values": {
       "VAR017": "numbers only",
       "VAR015": "as required",
@@ -1067,54 +1157,8 @@ export const library: Library = {
       "border": 1,
       "scale": "body 18",
       "found": 12
-     }
-    },
-    {
-     "code": "TXT.YRS.001.007",
-     "name": "Years",
-     "description": "A number of years; a square box, 44 by 44px.",
-     "edits": "A square box with the word years beside it.",
-     "values": {
-      "VAR017": "numbers only",
-      "VAR015": "as required",
-      "VAR014": "fixed space"
      },
-     "look": {
-      "height": 44,
-      "width": 44,
-      "fontSize": 18,
-      "fontWeight": "400",
-      "corners": "6px",
-      "paddingLeft": 4,
-      "paddingTop": 8,
-      "border": 1,
-      "scale": "body 18",
-      "found": 8
-     }
-    },
-    {
-     "code": "TXT.MON.001.008",
-     "name": "Months",
-     "description": "A number of months (Target operating reserve: 3 months); a square box, 44 by 44px.",
-     "edits": "A square box with the word months beside it.",
-     "values": {
-      "VAR017": "numbers only",
-      "VAR015": "as required",
-      "VAR014": "fixed space"
-     },
-     "look": {
-      "height": 44,
-      "width": 44,
-      "fontSize": 18,
-      "fontWeight": "400",
-      "corners": "6px",
-      "paddingLeft": 4,
-      "paddingTop": 8,
-      "border": 1,
-      "scale": "body 18",
-      "found": 1,
-      "places": 1
-     }
+     "kind": "Numbers-only cell: square, with its unit beside it"
     }
    ],
    "requires": [],
@@ -1145,9 +1189,12 @@ export const library: Library = {
     "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px.",
     "years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).",
     "months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner).",
-    "digits: by the owner's description (owner, 2026-10-15) a number cell accepts only numbers, and no more digits than the field requires."
+    "digits: by the owner's description (owner, 2026-10-15) a number cell accepts only numbers, and no more digits than the field requires.",
+    "the percent, years and months boxes are one variant, the square number (the owner, owner, 2026-10-15): 44 by 44px; the unit is beside it."
    ],
-   "group": "HOLD.CEL"
+   "group": "HOLD.CEL",
+   "kind": "Cell you fill in: text or numbers",
+   "belongs": "Cards, chapters, the Workspace"
   },
   {
    "code": "LST.001",
@@ -1181,7 +1228,9 @@ export const library: Library = {
    "lookNotes": [
     "measured (the owner's description, owner, 2026-10-15): the list is one cell, 6px corners and a 1px border; each row is at least 43 to 44px high, divided from the next by a thin line, with its number inside the cell at the left and the text wrapping; the row's own box has 8px corners and no border (inside the cell). The earlier reading, a single line with its number outside the cell, was wrong."
    ],
-   "group": "HOLD.CEL"
+   "group": "HOLD.CEL",
+   "kind": "Text cell with numbered rows: grows down, the numbers inside",
+   "belongs": "Cards: Values, Principles, SWOT points, Initiatives"
   },
   {
    "code": "DIV.001",
@@ -1209,21 +1258,37 @@ export const library: Library = {
       "border": 0,
       "scale": "symbol, no text",
       "found": 1
-     }
+     },
+     "belongs": "The page, and between two groups of rows in a card"
     },
     {
      "code": "DIV.VER.001.002",
      "name": "Vertical",
      "description": "A line between two columns (answer columns).",
-     "edits": "Runs down. Not measured yet.",
-     "values": {}
+     "edits": "Runs down, 1px wide. Found only in the handbook card, not in the four systems.",
+     "values": {},
+     "look": {
+      "height": null,
+      "width": 1,
+      "fontSize": 0,
+      "fontWeight": "400",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "symbol, no text",
+      "found": 0
+     },
+     "belongs": "The handbook card only"
     }
    ],
    "requires": [],
    "lookNotes": [
-    "horizontal: the page rule measured 2px (interview-divider); the card rule is 1px (the card rules); the vertical line (answer-columns-divider) was not measured."
+    "horizontal: the page rule measured 2px (interview-divider); the card rule is 1px (the card rules); the vertical line (answer-columns-divider) was not measured.",
+    "measured 2026-10-15: the page rule is 2px high and 1400px wide (.interview-divider); the vertical line (1px) exists only in the handbook card, not in the four systems."
    ],
-   "group": "MARK.DIV"
+   "group": "MARK.DIV",
+   "kind": "Line that divides"
   },
   {
    "code": "DAT.001",
@@ -1246,7 +1311,8 @@ export const library: Library = {
      "edits": "The calendar button opens a day calendar.",
      "values": {
       "VAR010": "day"
-     }
+     },
+     "kind": "Date cell: a day"
     },
     {
      "code": "DAT.MON.001.002",
@@ -1255,7 +1321,8 @@ export const library: Library = {
      "edits": "The calendar asks for a month and a year; the day is not asked.",
      "values": {
       "VAR010": "month"
-     }
+     },
+     "kind": "Date cell: a month"
     }
    ],
    "requires": [
@@ -1283,7 +1350,9 @@ export const library: Library = {
     "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 44). Already 44px.",
     "dates in the Strategic Period, the Objective cards of a Theme and the Revenue card (Begins): by the owner's decision (owner, 2026-10-15) they are this date cell with a calendar and the choice of a day or only a month; they are month pickers with their own look today (bold, wide-spaced type that cuts the year off: 'September 202')."
    ],
-   "group": "HOLD.CEL"
+   "group": "HOLD.DAT",
+   "kind": "Date cell with a calendar button",
+   "belongs": "Cards: dates"
   },
   {
    "code": "DAT.002",
@@ -1305,7 +1374,8 @@ export const library: Library = {
      "edits": "A grid of days.",
      "values": {
       "VAR010": "day"
-     }
+     },
+     "kind": "Popup: a grid of days"
     },
     {
      "code": "DAT.MON.002.002",
@@ -1314,7 +1384,8 @@ export const library: Library = {
      "edits": "A grid of months and a Month and Year switch.",
      "values": {
       "VAR010": "month"
-     }
+     },
+     "kind": "Popup: a grid of months"
     }
    ],
    "requires": [],
@@ -1332,7 +1403,9 @@ export const library: Library = {
    "lookNotes": [
     "rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners of 6px, like the cells. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already."
    ],
-   "group": "HOLD.CEL"
+   "group": "HOLD.DAT",
+   "kind": "Popup of a date cell (not a cell you fill)",
+   "belongs": "Under a date cell"
   },
   {
    "code": "PCK.001",
@@ -1370,7 +1443,9 @@ export const library: Library = {
    },
    "lookNotes": [
     "measured 44 by 45px, 8px corners, a dashed 1px edge while empty; by the owner's rules (every cell 44px, the corners of the cells) it is 44 by 44px with 6px corners."
-   ]
+   ],
+   "kind": "Colour chooser: a swatch and a hex cell",
+   "belongs": "Brand: Colours card"
   },
   {
    "code": "IMG.001",
@@ -1407,7 +1482,9 @@ export const library: Library = {
    },
    "lookNotes": [
     "measured 448 by 252px in a card of 492px; the layout of the Brand Images card will change (the owner, owner, 2026-10-15)."
-   ]
+   ],
+   "kind": "Image holder: a picture with a name and a note",
+   "belongs": "Brand: Images card"
   },
   {
    "code": "LBL.001",
@@ -1466,7 +1543,9 @@ export const library: Library = {
     "position: by the owner's decision (owner, 2026-10-15) a label has no variants for its position (above, at the side); that information belongs to the field (the variable label position of the field assets).",
     "the label is prefilled text that is read, not filled in; the layout around it is arranged in the field, so what matters here is its size and style (owner, 2026-10-15)."
    ],
-   "group": "READ.LBL"
+   "group": "READ.LBL",
+   "kind": "Text you read: prefilled, names a field or a group",
+   "belongs": "In front of the fields of cards, tiles and chapters"
   },
   {
    "code": "TTL.001",
@@ -1499,7 +1578,8 @@ export const library: Library = {
       "border": 0,
       "scale": "h1 36",
       "found": 0
-     }
+     },
+     "belongs": "The page header"
     },
     {
      "code": "TTL.CHP.001.002",
@@ -1520,7 +1600,8 @@ export const library: Library = {
       "border": 0,
       "scale": "h2 28",
       "found": 0
-     }
+     },
+     "belongs": "The chapter frame"
     },
     {
      "code": "TTL.DLG.001.003",
@@ -1540,7 +1621,8 @@ export const library: Library = {
       "border": 0,
       "scale": "h3 24",
       "found": 0
-     }
+     },
+     "belongs": "The dialog view and the section heading"
     },
     {
      "code": "TTL.BOX.001.004",
@@ -1560,7 +1642,8 @@ export const library: Library = {
       "border": 0,
       "scale": "h3 24",
       "found": 0
-     }
+     },
+     "belongs": "Above a floating card"
     },
     {
      "code": "TTL.MTL.001.005",
@@ -1581,7 +1664,8 @@ export const library: Library = {
       "border": 0,
       "scale": "body 18",
       "found": 0
-     }
+     },
+     "belongs": "Master tile"
     },
     {
      "code": "TTL.TIL.001.006",
@@ -1602,7 +1686,9 @@ export const library: Library = {
       "border": 0,
       "scale": "body 18",
       "found": 0
-     }
+     },
+     "kind": "Title, generated by another input",
+     "belongs": "Tiles of generated cards (Resource tiles)"
     },
     {
      "code": "TTL.CRD.001.007",
@@ -1623,7 +1709,9 @@ export const library: Library = {
       "border": 0,
       "scale": "body 18",
       "found": 0
-     }
+     },
+     "kind": "Title, generated; a link to its input",
+     "belongs": "Cards, in place of the name cell"
     },
     {
      "code": "TTL.OPT.001.008",
@@ -1644,7 +1732,9 @@ export const library: Library = {
       "border": 0,
       "scale": "body 18",
       "found": 0
-     }
+     },
+     "kind": "Title, generated; one line",
+     "belongs": "Dropdown lists in cards"
     },
     {
      "code": "TTL.SYS.001.009",
@@ -1664,7 +1754,8 @@ export const library: Library = {
       "border": 0,
       "scale": "h1 36",
       "found": 0
-     }
+     },
+     "belongs": "The page header, after the system icon"
     },
     {
      "code": "TTL.INT.001.010",
@@ -1684,14 +1775,16 @@ export const library: Library = {
       "border": 0,
       "scale": "h3 24",
       "found": 4
-     }
+     },
+     "belongs": "Introduction pages"
     }
    ],
    "requires": [],
    "lookNotes": [
     "sizes from the app's text hierarchy (docs/ai/layout-rules.md, Title sizes: page 36, column 28, dialog and section 24, tile and card names 18; weight 600 on tiles and boxes, 700 on headings); not measured by the scan. The owner's rules (owner, 2026-10-15): two categories, prefilled and generated; a title in a master tile wraps; on a tile or a chapter it moves; as a link or a dropdown option in a card it uses one line and the rest is cut."
    ],
-   "group": "READ.TTL"
+   "group": "READ.TTL",
+   "kind": "Text you read: prefilled or generated, names a page, chapter, tile or card"
   },
   {
    "code": "MSG.001",
@@ -1724,7 +1817,9 @@ export const library: Library = {
       "border": 0,
       "scale": "small 14",
       "found": 0
-     }
+     },
+     "kind": "Message, generated: a total or a choice is not complete",
+     "belongs": "Under the cell, in a card, after a missed fill"
     },
     {
      "code": "MSG.IND.001.002",
@@ -1733,7 +1828,9 @@ export const library: Library = {
      "edits": "Plain text after the cell.",
      "values": {
       "VAR012": "prefilled"
-     }
+     },
+     "kind": "Message, a unit word beside a number",
+     "belongs": "After a number cell"
     },
     {
      "code": "MSG.REM.001.003",
@@ -1742,13 +1839,28 @@ export const library: Library = {
      "edits": "A label and a value on one line.",
      "values": {
       "VAR012": "generated"
-     }
+     },
+     "look": {
+      "height": 27,
+      "fontSize": 18,
+      "fontWeight": "400",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "body 18",
+      "found": 2
+     },
+     "kind": "Message, information always true on the page",
+     "belongs": "Strategy: Strategic Period (Financial Plan)"
     }
    ],
    "requires": [],
    "lookNotes": [
-    "verification measured from the card rules (docs/ai/layout-rules.md: the missing note is 14px); the indicator and the reminder were not measured."
-   ]
+    "verification measured from the card rules (docs/ai/layout-rules.md: the missing note is 14px); the indicator and the reminder were not measured.",
+    "measured 2026-10-15: the verification is 14px, the danger colour, 4px under the cell (card-tile.css); it appears only after a missed fill, so none was found in the default pages. The reminder reads 18px (the Start and End of the Financial Plan, 18px, weight 400); the indicator (a unit word) was not found in the four systems."
+   ],
+   "kind": "Text you read: a message about what was entered"
   },
   {
    "code": "LNK.001",
@@ -1784,7 +1896,8 @@ export const library: Library = {
       "fontSize": 18,
       "scale": "body 18",
       "found": 12
-     }
+     },
+     "belongs": "Master tiles; cards (the link to the parent)"
     },
     {
      "code": "LNK.BLU.001.002",
@@ -1804,7 +1917,8 @@ export const library: Library = {
       "fontSize": 18,
       "scale": "body 18",
       "found": 9
-     }
+     },
+     "belongs": "Introduction pages (the list of pages)"
     },
     {
      "code": "LNK.SYM.001.003",
@@ -1813,14 +1927,17 @@ export const library: Library = {
      "edits": "A symbol, no words.",
      "values": {
       "VAR012": "generated"
-     }
+     },
+     "kind": "Symbol you press; generated",
+     "belongs": "Beside a dropdown choice in a card"
     }
    ],
    "requires": [],
    "lookNotes": [
     "variants and uses (owner, 2026-10-15): a place where a link is used is not a variant. The variants differ in style and function (underlined text, blue text, a symbol). The uses: the tile link (inside a master tile, opens a view or a card), the card name link (a child's name links to its parent card), the page link (the list of pages of an introduction), the link symbol (beside a dropdown choice)."
    ],
-   "group": "READ.LNK"
+   "group": "READ.LNK",
+   "kind": "Text or symbol you read and press"
   },
   {
    "code": "HLP.001",
@@ -1841,7 +1958,8 @@ export const library: Library = {
      "edits": "Shown in a note, not in the page.",
      "values": {
       "VAR012": "prefilled"
-     }
+     },
+     "belongs": "The note of an info button"
     },
     {
      "code": "HLP.BUL.001.002",
@@ -1861,7 +1979,9 @@ export const library: Library = {
       "border": 0,
       "scale": "small 14",
       "found": 0
-     }
+     },
+     "kind": "List you read: bullets",
+     "belongs": "Tiles"
     },
     {
      "code": "HLP.NUM.001.003",
@@ -1870,7 +1990,9 @@ export const library: Library = {
      "edits": "Numbers; no cell.",
      "values": {
       "VAR012": "generated"
-     }
+     },
+     "kind": "List you read: numbers",
+     "belongs": "Cards that recall a profile"
     },
     {
      "code": "HLP.SUM.001.004",
@@ -1890,7 +2012,8 @@ export const library: Library = {
       "border": 0,
       "scale": "small 14",
       "found": 0
-     }
+     },
+     "belongs": "Cards and tiles"
     },
     {
      "code": "HLP.VAL.001.005",
@@ -1899,7 +2022,8 @@ export const library: Library = {
      "edits": "Plain text, not a cell.",
      "values": {
       "VAR012": "generated"
-     }
+     },
+     "belongs": "Cards (the group, a total)"
     },
     {
      "code": "HLP.BGR.001.006",
@@ -1919,7 +2043,9 @@ export const library: Library = {
       "border": 0,
       "scale": "body 18",
       "found": 0
-     }
+     },
+     "kind": "Hint inside an empty cell; goes when you write",
+     "belongs": "Inside the holder cells of cards"
     },
     {
      "code": "HLP.GEN.001.007",
@@ -1928,7 +2054,9 @@ export const library: Library = {
      "edits": "Generated by the app; plain text under or beside what it explains.",
      "values": {
       "VAR012": "generated"
-     }
+     },
+     "kind": "Help text, generated by the app",
+     "belongs": "Business, Infrastructure (capacity)"
     },
     {
      "code": "HLP.LIN.001.008",
@@ -1937,7 +2065,9 @@ export const library: Library = {
      "edits": "Rows divided by lines; no cell edge.",
      "values": {
       "VAR012": "generated"
-     }
+     },
+     "kind": "List you read: rows divided by lines",
+     "belongs": "Cards"
     },
     {
      "code": "HLP.INT.001.009",
@@ -1957,7 +2087,8 @@ export const library: Library = {
       "border": 0,
       "scale": "body 18",
       "found": 17
-     }
+     },
+     "belongs": "Introduction pages"
     }
    ],
    "requires": [],
@@ -1975,7 +2106,8 @@ export const library: Library = {
    "lookNotes": [
     "small text (14px) for lists, summaries and notes: the app's text hierarchy (docs/ai/layout-rules.md, Title sizes). Only the bulleted list and the summary line carry a measured look here."
    ],
-   "group": "READ.HLP"
+   "group": "READ.HLP",
+   "kind": "Text you read: help, shown or hinted"
   },
   {
    "code": "ARW.001",
@@ -1994,14 +2126,16 @@ export const library: Library = {
      "name": "Page arrow",
      "description": "Moves to the previous or the next page.",
      "edits": "Sits at the sides of the page.",
-     "values": {}
+     "values": {},
+     "belongs": "The sides of a page"
     },
     {
      "code": "ARW.CAR.001.002",
      "name": "Carousel arrow",
      "description": "Moves to the previous or the next card or view inside a dialog or card.",
      "edits": "Sits at the sides of the dialog or the card.",
-     "values": {}
+     "values": {},
+     "belongs": "The sides of a dialog or a card"
     }
    ],
    "requires": [],
@@ -2012,7 +2146,9 @@ export const library: Library = {
    "contracts": [
     "Rails"
    ],
-   "group": "CTRL.NAV"
+   "group": "CTRL.NAV",
+   "kind": "Navigation control: a triangle that moves to the next or the previous",
+   "belongs": "Pages, dialogs, cards"
   },
   {
    "code": "ARW.002",
@@ -2043,7 +2179,8 @@ export const library: Library = {
       "scale": "body 18",
       "found": 8,
       "places": 2
-     }
+     },
+     "belongs": "Beside a label"
     },
     {
      "code": "ARW.TTL.002.002",
@@ -2063,7 +2200,8 @@ export const library: Library = {
       "scale": "h2 28",
       "found": 2,
       "places": 1
-     }
+     },
+     "belongs": "Beside a chapter or column title"
     }
    ],
    "requires": [],
@@ -2091,7 +2229,9 @@ export const library: Library = {
     "merged by the owner's decision (owner, 2026-10-15): fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px",
     "label arrow and title arrow are variants (the owner's decision, owner, 2026-10-15): the same component, function and style; the size follows the text beside it (24px beside a field label, 28px beside a title)."
    ],
-   "group": "CTRL.FLD"
+   "group": "CTRL.FLD",
+   "kind": "Fold control: a triangle that folds and unfolds",
+   "belongs": "Cards, lists, labels"
   },
   {
    "code": "BUL.001",
@@ -2117,7 +2257,9 @@ export const library: Library = {
     "the one bullet of every page tag (the owner, owner, 2026-10-15): there is one type of bullet.",
     "the bullets are navigation controls (the owner, owner, 2026-10-15): they move between pages, sections, views and cards, like the page and carousel arrows."
    ],
-   "group": "CTRL.NAV"
+   "group": "CTRL.NAV",
+   "kind": "Navigation control: a dot that shows and moves to a page",
+   "belongs": "The page tags of chapters, cards, nested cards and floating cards"
   },
   {
    "code": "ICN.001",
@@ -2147,7 +2289,9 @@ export const library: Library = {
    },
    "lookNotes": [
     "measured 36 by 36px (one per system)."
-   ]
+   ],
+   "kind": "Picture, not a button",
+   "belongs": "The header, before the system's title"
   },
   {
    "code": "CAL.001",
@@ -2171,20 +2315,26 @@ export const library: Library = {
      "name": "Handle",
      "description": "The handle that opens a section of the side panel (Calendar, Capabilities, Systems): a tab 44px wide and 160px high, with its word written sideways.",
      "edits": "A tab at the left edge of the window.",
-     "values": {}
+     "values": {},
+     "belongs": "The left edge of the window",
+     "kind": "Side panel handle: a tab that opens a section"
     },
     {
      "code": "CAL.PNL.001.002",
      "name": "Panel",
      "description": "The panel that opens: the calendar of the organisation, the capabilities or the systems. Its content was not recorded.",
      "edits": "The opened side panel; not measured.",
-     "values": {}
+     "values": {},
+     "belongs": "The side panel",
+     "kind": "Side panel: the opened panel"
     }
    ],
    "requires": [],
    "lookNotes": [
     "handles measured: 44 by 160px, 16px type; the calendar content is not recorded (the owner: record only, no library work until the single calendar is designed)."
-   ]
+   ],
+   "kind": "Side panel: the calendar of the organisation",
+   "belongs": "The window"
   },
   {
    "code": "TIL.001",
@@ -2299,7 +2449,8 @@ export const library: Library = {
        "variant": "TTL.CHP.001.002",
        "role": "the title of the chapter"
       }
-     ]
+     ],
+     "belongs": "A page"
     },
     {
      "code": "FRM.MTL.001.002",
@@ -2317,7 +2468,8 @@ export const library: Library = {
       "border": 0,
       "scale": "symbol, no text",
       "found": 53
-     }
+     },
+     "belongs": "A chapter"
     },
     {
      "code": "FRM.NTL.001.003",
@@ -2335,7 +2487,8 @@ export const library: Library = {
       "border": 0,
       "scale": "symbol, no text",
       "found": 188
-     }
+     },
+     "belongs": "A dialog view"
     },
     {
      "code": "FRM.FLC.001.004",
@@ -2353,7 +2506,8 @@ export const library: Library = {
       "border": 1,
       "scale": "symbol, no text",
       "found": 186
-     }
+     },
+     "belongs": "Over the dimmed page"
     },
     {
      "code": "FRM.NSC.001.005",
@@ -2371,7 +2525,8 @@ export const library: Library = {
       "border": 1,
       "scale": "symbol, no text",
       "found": 12
-     }
+     },
+     "belongs": "Inside a card (Strategy)"
     },
     {
      "code": "FRM.TAG.001.006",
@@ -2389,7 +2544,8 @@ export const library: Library = {
       "border": 1,
       "scale": "symbol, no text",
       "found": 0
-     }
+     },
+     "belongs": "The side of a page or a card"
     },
     {
      "code": "FRM.TIL.001.007",
@@ -2407,7 +2563,8 @@ export const library: Library = {
       "border": 0,
       "scale": "symbol, no text",
       "found": 0
-     }
+     },
+     "belongs": "A chapter or a dialog view"
     },
     {
      "code": "FRM.CRD.001.008",
@@ -2425,7 +2582,8 @@ export const library: Library = {
       "border": 1,
       "scale": "symbol, no text",
       "found": 0
-     }
+     },
+     "belongs": "A page or a dialog view"
     }
    ],
    "requires": [],
@@ -2439,7 +2597,8 @@ export const library: Library = {
    "lookNotes": [
     "one frame (the owner, owner, 2026-10-15): chapter, tile (master, nested), card (floating, nested) and tag are its variants; corners 8px (measured on the chapter, the tiles and the cards; the tag was not measured).",
     "the frame also has a regular tile and a regular card, and the tag is the page tag (the owner, owner, 2026-10-15)."
-   ]
+   ],
+   "kind": "Surface that carries information and tools"
   },
   {
    "code": "FRM.002",
@@ -2471,7 +2630,9 @@ export const library: Library = {
    "catalogue": [
     "CO25"
    ],
-   "group": "FRAME.LAY"
+   "group": "FRAME.LAY",
+   "kind": "Layout: a page of a system",
+   "belongs": "Every system"
   },
   {
    "code": "FRM.003",
@@ -2502,7 +2663,9 @@ export const library: Library = {
    "catalogue": [
     "CO21"
    ],
-   "group": "FRAME.LAY"
+   "group": "FRAME.LAY",
+   "kind": "Layout: a view that opens over the page",
+   "belongs": "Every master tile"
   },
   {
    "code": "FLD.001",
@@ -3032,7 +3195,7 @@ export const library: Library = {
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.YRS.001.007",
+     "variant": "TXT.SQR.001.006",
      "role": "number"
     }
    ],
@@ -3240,7 +3403,7 @@ export const library: Library = {
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.PCT.001.006",
+     "variant": "TXT.SQR.001.006",
      "role": "number"
     }
    ],
@@ -3370,7 +3533,7 @@ export const library: Library = {
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.PCT.001.006",
+     "variant": "TXT.SQR.001.006",
      "role": "number"
     }
    ],
@@ -3982,7 +4145,7 @@ export const library: Library = {
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.PCT.001.006",
+     "variant": "TXT.SQR.001.006",
      "role": "the share of each ticked entry"
     }
    ],
@@ -4008,7 +4171,7 @@ export const library: Library = {
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.PCT.001.006",
+     "variant": "TXT.SQR.001.006",
      "role": "number"
     }
    ],
@@ -4034,7 +4197,7 @@ export const library: Library = {
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.YRS.001.007",
+     "variant": "TXT.SQR.001.006",
      "role": "number"
     }
    ],

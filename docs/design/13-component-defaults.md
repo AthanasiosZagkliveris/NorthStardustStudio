@@ -26,6 +26,8 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | BTN.001 box button | BTN.ADD.001.002 Add | 32 | 0 | symbol, no text | 6px | 0/0 | 2 | 107 in 1 places | meets 24 |
 | BTN.001 box button | BTN.SHR.001.003 Shrink | 32 high, 32 wide | 0 | symbol, no text | 6px | 0/0 | 2 | 3 | meets 24 |
 | BTN.002 info button | (asset) | 24 high, 24 wide | 14 | small 14 | 50% | 0/0 | 1 | 567 in 9 places | meets 24 |
+| BTN.003 back button | BTN.MAN.003.001 Main back | 22 high, 83 wide | 18 | body 18 | 0px | 0/0 | 0 | 8 | under 24 |
+| BTN.003 back button | BTN.SEC.003.002 Section back | 25 high, 76 wide | 18 | body 18 | 0px | 0/0 | 0 | 6 | meets 24 |
 | BTN.004 wide add button | (asset) | 44 | 18 | body 18 | 6px | 14/8 | 1 | 15 in 4 places | meets 24 |
 | BTN.005 add card tile | (asset) | 107.5 high, 107.5 wide | 14 | small 14 | 8px | 0/0 | 1 | 2 | meets 24 |
 | BTN.006 tool button | (asset) | 36 | 14 | small 14 | 6px | 0/0 | 1 | 0 | meets 24 |
@@ -36,11 +38,10 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | TXT.001 holder | TXT.BOX.001.001 Text box | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 in 4 places | meets 24 |
 | TXT.001 holder | TXT.ARE.001.002 Free text | words, at least 44 | 18 | body 18 | 6px | 10/8 | 1 | 282 in 19 places | follows the words (a field, not a button) |
 | TXT.001 holder | TXT.NAM.001.003 Name cell | words, at least 44 | 18 | body 18 | 6px | 38/8 | 1 | 138 | follows the words (a field, not a button) |
-| TXT.001 holder | TXT.PCT.001.006 Percent | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 12 | meets 24 |
-| TXT.001 holder | TXT.YRS.001.007 Years | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 8 | meets 24 |
-| TXT.001 holder | TXT.MON.001.008 Months | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 1 in 1 places | meets 24 |
+| TXT.001 holder | TXT.SQR.001.006 Square number | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 12 | meets 24 |
 | LST.001 list | (asset) | words, at least 44 | 18 | body 18 | 6px | 12/8 | 1 | 129 in 5 places | follows the words (a field, not a button) |
 | DIV.001 divider | DIV.HOR.001.001 Horizontal | 2 | 0 | symbol, no text | 0px | 0/0 | 0 | 1 | under 24 |
+| DIV.001 divider | DIV.VER.001.002 Vertical | words | 0 | symbol, no text | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
 | DAT.001 date cell | (asset) | 44 | 18 | body 18 | 6px | 10/0 | 1 | 166 in 2 places | meets 24 |
 | DAT.002 calendar popup | (asset) | words | 18 | body 18 | 6px | 12/12 | 1 | 0 | follows the words (a field, not a button) |
 | PCK.001 colour picker | (asset) | 44 high, 44 wide | 14 | small 14 | 6px | 0/0 | 1 | 1 in 1 places | meets 24 |
@@ -58,6 +59,7 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | TTL.001 title | TTL.SYS.001.009 System title | words | 36 | h1 36 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
 | TTL.001 title | TTL.INT.001.010 Guiding question | words | 24 | h3 24 | 0px | 0/0 | 0 | 4 | follows the words (a field, not a button) |
 | MSG.001 message | MSG.VER.001.001 Verification | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| MSG.001 message | MSG.REM.001.003 Reminder | 27 | 18 | body 18 | 0px | 0/0 | 0 | 2 | meets 24 |
 | LNK.001 link | LNK.UND.001.001 Underlined text link | words | 18 | body 18 | 0px | 0/0 | 0 | 12 | follows the words (a field, not a button) |
 | LNK.001 link | LNK.BLU.001.002 Blue text link | words | 18 | body 18 | 0px | 0/0 | 0 | 9 | follows the words (a field, not a button) |
 | HLP.001 help text | (asset) | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
@@ -89,9 +91,7 @@ Separated by purpose; each has its own default look.
 | text input | TXT.NAM.001.003 Name cell | The name of a card, on top of the card. The order number is generated automatically and stands inside the cell. | height words, at least 44, type 18, corners 6px, padding 38/8, border 1, found 138 |
 | text input | TXT.WHL.001.004 Whole number | Whole numbers only; no more digits than the field requires. | none |
 | text input | TXT.DEC.001.005 Decimal | A number with decimals; no more digits than the field requires. | none |
-| text input | TXT.PCT.001.006 Percent | A number from 0 to 100 with a percent sign beside it; a square box, 44 by 44px. | height 44, type 18, corners 6px, padding 4/8, border 1, found 12 |
-| text input | TXT.YRS.001.007 Years | A number of years; a square box, 44 by 44px. | height 44, type 18, corners 6px, padding 4/8, border 1, found 8 |
-| text input | TXT.MON.001.008 Months | A number of months (Target operating reserve: 3 months); a square box, 44 by 44px. | height 44, type 18, corners 6px, padding 4/8, border 1, found 1 |
+| text input | TXT.SQR.001.006 Square number | A number in a square box, 44 by 44px, with its unit beside it: % (Deposit %, Milestone %), years (Useful life, Amortisation period) or months (Target operating reserve). Numbers only; the digit limit is set by the field. | height 44, type 18, corners 6px, padding 4/8, border 1, found 12 |
 | list | LST.001 list | A text that needs a list is ONE cell that holds numbered rows divided by thin lines, the numbers inside the cell (Values, Principles, SWOT points, Initiatives, Responsibilities). It grows as rows are added; Enter opens the next row; the rows can be moved and removed. | min height 44, type 18, corners 6px, border 1, found 129 |
 
 ## Looks merged and looks kept
@@ -108,6 +108,10 @@ Separated by purpose; each has its own default look.
 
 - merged by the owner's decision (owner, 2026-10-15): info height 22, type 18, corners 50%, padding 0/0, border 1; found 70 times (12.3% of the default's 567); largest difference 4.0px
 - enlarged, by the owner's decision (owner, 2026-10-15): from 22px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (567 found at 22px).
+
+### BTN.003 back button
+
+- two backs (the owner, owner, 2026-10-15): the main Back of the footer, measured 83 by 22px, 18px, weight 500, capitals, tracking 0.1em; the Back of a dialog or a description, 25 by 76px, 18px, weight 400.
 
 ### BTN.004 wide add button
 
@@ -146,6 +150,7 @@ Separated by purpose; each has its own default look.
 - years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).
 - months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner).
 - digits: by the owner's description (owner, 2026-10-15) a number cell accepts only numbers, and no more digits than the field requires.
+- the percent, years and months boxes are one variant, the square number (the owner, owner, 2026-10-15): 44 by 44px; the unit is beside it.
 
 ### LST.001 list
 
@@ -154,6 +159,7 @@ Separated by purpose; each has its own default look.
 ### DIV.001 divider
 
 - horizontal: the page rule measured 2px (interview-divider); the card rule is 1px (the card rules); the vertical line (answer-columns-divider) was not measured.
+- measured 2026-10-15: the page rule is 2px high and 1400px wide (.interview-divider); the vertical line (1px) exists only in the handbook card, not in the four systems.
 
 ### DAT.001 date cell
 
@@ -184,6 +190,7 @@ Separated by purpose; each has its own default look.
 ### MSG.001 message
 
 - verification measured from the card rules (docs/ai/layout-rules.md: the missing note is 14px); the indicator and the reminder were not measured.
+- measured 2026-10-15: the verification is 14px, the danger colour, 4px under the cell (card-tile.css); it appears only after a missed fill, so none was found in the default pages. The reminder reads 18px (the Start and End of the Financial Plan, 18px, weight 400); the indicator (a unit word) was not found in the four systems.
 
 ### LNK.001 link
 

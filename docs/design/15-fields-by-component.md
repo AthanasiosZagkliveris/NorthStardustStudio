@@ -38,6 +38,14 @@ Used by no field or card yet.
 
 **Other assets:** FRM.003 dialog view.
 
+### BTN.MAN.003.001 Main back
+
+Used by no field or card yet.
+
+### BTN.SEC.003.002 Section back
+
+Used by no field or card yet.
+
 ## BTN.004 wide add button
 
 0 assets use it: .
@@ -146,21 +154,11 @@ Used by no field or card yet.
 
 **Fields (2):** Price; Qty.
 
-### TXT.PCT.001.006 Percent
+### TXT.SQR.001.006 Square number
 
-4 assets use it.
+6 assets use it.
 
-**Fields (4):** Deposit %; Linked to; Milestone %; Rate override.
-
-### TXT.YRS.001.007 Years
-
-2 assets use it.
-
-**Fields (2):** Amortisation period; Useful life.
-
-### TXT.MON.001.008 Months
-
-Used by no field or card yet.
+**Fields (6):** Amortisation period; Deposit %; Linked to; Milestone %; Rate override; Useful life.
 
 ## LST.001 list
 

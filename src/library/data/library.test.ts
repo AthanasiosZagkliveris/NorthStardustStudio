@@ -25,6 +25,16 @@ describe("the assets library", () => {
         expect(frame?.variants.map(v => v.name)).toEqual(["Chapter", "Master tile", "Nested tile", "Floating card", "Nested card", "Tag", "Tile", "Card"]);
     });
 
+    it("says what kind every component is, and where each variant belongs", () => {
+        for (const asset of library.assets.filter(a => a.category === "component")) {
+            expect(asset.kind, asset.code + " has a kind").toBeTruthy();
+            for (const v of asset.variants) expect(v.belongs ?? v.kind ?? asset.belongs ?? asset.kind, v.code + " says where it belongs").toBeTruthy();
+        }
+        const holder = library.assets.find(a => a.code === "TXT.001");
+        expect(holder?.variants.map(v => v.name)).toEqual(["Text box", "Free text", "Name cell", "Whole number", "Decimal", "Square number"]);
+        expect(library.assets.find(a => a.code === "BTN.003")?.variants.map(v => v.name)).toEqual(["Main back", "Section back"]);
+    });
+
     it("has every category, and no asset twice", () => {
         const categories = new Set(library.assets.map(a => a.category));
         expect([...categories].sort()).toEqual(["card", "component", "field", "frame", "tile"]);

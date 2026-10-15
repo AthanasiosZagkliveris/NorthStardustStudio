@@ -63,6 +63,7 @@ h1 { font-size: 24pt; margin: 0 0 4mm; }
 h2 { font-size: 15pt; margin: 8mm 0 2mm; border-bottom: 1.5px solid #374151; padding-bottom: 1mm; }
 h2.part { page-break-before: always; font-size: 18pt; }
 h2 { page-break-before: always; }
+h1 + p + h2.part { page-break-before: auto; }
 h3 { font-size: 14pt; margin: 7mm 0 1mm; page-break-after: avoid; }
 h4 { font-size: 12pt; margin: 6mm 0 1mm; page-break-after: avoid; }
 h5 { font-size: 10.5pt; margin: 3mm 0 1mm; page-break-after: avoid; }
