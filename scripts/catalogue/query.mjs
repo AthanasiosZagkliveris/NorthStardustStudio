@@ -9,7 +9,7 @@
  *   node scripts/catalogue/query.mjs sql "select ..."       any query
  *   add --md FILE to write the output as Markdown
  */
-import { writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { build } from "./build.mjs";
 
 const args = process.argv.slice(2).filter(item => !item.startsWith("--") && item !== process.argv[process.argv.indexOf("--md") + 1]);
@@ -96,24 +96,19 @@ if (command === "summary") {
         from probe_cards where choice = '(new)' and fields is not null order by head, system, page`));
     show("Control looks found by the scan (distinct looks per type; 1 = one look)", all(`select type, count(distinct h || '|' || font || '|' || radius || '|' || padL || '|' || border) as distinct_looks, count(*) as found from observations where kind = 'control' group by type order by distinct_looks desc`));
     show("Every card opened has this width (scan and probes)", all(`select width, count(*) as n from probe_cards where width is not null group by width`));
+    show("Hover effects found by kind of control (one instance per kind, light mode; the shell's own are in the next table)", all(`select case when hover is null then '(not read)' when hover = '' then '(no change)' else substr(hover, 1, 170) end as hover_effect, count(*) as places, group_concat(distinct kind) as kinds, group_concat(distinct where_) as pages
+        from reactions where theme = 'light' and found = 1 group by hover order by places desc`));
+    show("Kinds of control looked for and not found on the pages probed", all(`select distinct kind, where_ from reactions where theme = 'light' and found = 0 order by kind`));
+    show("The strategy boxes (Theme, Goal, Objective, Initiatives, Metric) and the three content tiles", all(`select type, replace(box, char(10), ' ') as box, depth, count(*) as found, min(w) as width, min(radius) as corners, max(nfields) as fields from strategy_boxes group by type, box, depth`));
     show("The shell: controls, sizes and reactions", all(`select stage, name, tag, w, h, font, radius, border, cursor, hover, focus from shell_controls order by stage`));
     show("The shell: what each press opens", all(`select stage, control, role, cls, box, navigated, substr(text, 1, 80) as shows from shell_opens`));
     show("Inconsistency: a \"+\" that changes the page in place (no card, no dialog) or opens nothing", all(`select system, page, path, plus, opened, tiles_before, tiles_after from probe_cards where choice = '(new)' and opened in ('in place', 'none') order by system, page`));
     show("Inconsistency: cards whose head is not the name cell with the x", all(`select system, page, plus, substr(fields, 1, 90) as head from probe_cards where choice = '(new)' and fields is not null and not (fields like 'text area:% > x:%') order by system, page`));
     show("Inconsistency: card layouts of Part F that no probe or scan reached", all(`select v.title from variants v where not exists (select 1 from observations o where o.kind = 'placement' and o.path like '%' || v.grp || '%')
         and not exists (select 1 from probe_cards p where p.plus like '%' || v.grp || '%') order by v.title`));
-    out.push("### Questions for the owner", "",
-        "1. Cards whose head is not a name cell (the Subchannel card starts with a dropdown, the Image card with an unlabelled text box, Competitor and Offering name the cell \"Type\"): is the name cell the rule, or are these the exceptions by design?",
-        "2. Colour and Typeface cards have no Start or End date: is the date pair standard for every card, or only for Resource, Activity, Partner, Provider and Expense?",
-        "3. The \"+\" on Add Subchannel (Community, Marketplace, Physical Delivery, Retail & Wholesale, Referral & Affiliates) and Add Relationship Type changes nothing on the page in the example organisation. Is that the intended result, or does it need something first?",
-        "4. \"Add Segment\", \"Add Channel\" and \"Add Funding Source\" add inside the page (a tile or a card appears) with no floating card: should these also use the floating card base?",
-        "5. Cards that open from Inventory, Founders and Delivery have no name cell (the name is inherited). Should they show the name as a fixed title, in the same place as the name cell?",
-        "6. The header's tools, the calendar rail and the landing cards each react differently on hover and keyboard focus (a fill, a ring, a lift). Which of them is the standard reaction to keep?",
-        "7. The Calendar, Capabilities and Systems handles on the left do not open a new layer (they are tabs of the same side panel). Is the calendar's own content (dates, events) in scope for the library, or only the handles?",
-        "", "### Not recorded yet", "",
-        "- The header, calendar and landing page in the dark and sepia modes were measured for reactions only; their openings (menu, search, notes) were opened in the light mode only.",
-        "- Strategy: only the Theme card and the Roadmap dialog were reached; the SWOT cards and nested Strategy cards need a walk through their tiles.",
-        "- The Customer Engagement channel cards below the first level (the walk lost the view after several of them).",
+    out.push(readFileSync("catalogue/owner-answers.md", "utf8").split("\r").join(""), "", "### Not recorded yet", "",
+        "- The Strategy SWOT cards and the nested Strategy cards (Objective, Metric, Initiative), the Roadmap; the Customer Engagement channel cards below the first level; Financial Foundation and Sustainability (all four pages will change, so they are recorded as they are today).",
+        "- Hover and focus in the cards and tiles of the four systems are in the reactions table (one instance per kind, three reading modes), not per card.",
         "- Link looks and destinations are recorded as what they open, not as a link component.",
         "");
 } else if (command === "sql") {

@@ -15,6 +15,8 @@ create table observations (scan text, id text, system text, page text, path text
 create table probe_cards (probe text, system text, page text, path text, plus text, choice text, opened text, width integer, height integer, nfields integer, fields text, tiles_before integer, tiles_after integer);
 create table shell_controls (stage text, name text, tag text, cls text, role text, w real, h real, font real, weight text, radius text, border real, cursor text, hover text, focus text);
 create table shell_opens (stage text, control text, cls text, role text, box text, text text, navigated text);
+create table reactions (where_ text, theme text, kind text, found integer, hover text, focus text, transition text, note text);
+create table strategy_boxes (view text, type text, box text, depth integer, w real, h real, radius text, padL real, border real, nfields integer, fields text);
 create index obs_type on observations (kind, type);
 create index vr_control on variant_rows (control);
 `;
@@ -46,7 +48,11 @@ export async function build(root = ".") {
         const data = JSON.parse(readFileSync(probeDir + "/" + name, "utf8"));
         const probe = name.split("-quillfield")[0];
         for (const r of data.records) {
-            if (probe === "shell-probe") {
+            if (probe === "strategy-walk") {
+                insert("strategy_boxes", { view: r.view, type: r.type ?? r.kind, box: r.kind === "content tile" ? r.view : r.kind, depth: r.depth ?? 0, w: r.w ?? null, h: r.h ?? null, radius: r.radius ?? null, padL: r.padL ?? null, border: r.border ?? null, nfields: (r.fields ?? []).length, fields: (r.fields ?? []).join(" > ") });
+            } else if (probe === "reactions") {
+                insert("reactions", { where_: r.where, theme: r.theme, kind: r.kind, found: r.found ? 1 : 0, hover: r.hover ?? null, focus: r.focus ?? null, transition: r.transition ?? null, note: r.note ?? null });
+            } else if (probe === "shell-probe") {
                 if (r.kind === "control") insert("shell_controls", { stage: r.stage, name: r.name, tag: r.tag, cls: r.cls, role: r.role, w: r.w, h: r.h, font: r.font, weight: r.weight, radius: r.radius, border: r.border, cursor: r.cursor, hover: r.hover?.light ?? "", focus: r.focus?.light ?? "" });
                 else insert("shell_opens", { stage: r.stage, control: r.control, cls: r.cls, role: r.role, box: r.box, text: r.text, navigated: r.navigated });
             } else if (r.choice === "master tile" || r.choice?.endsWith("options")) continue;
