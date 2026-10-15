@@ -26,7 +26,7 @@ const flagsOf = (asset, rawNames, fromPartF) => {
     if (/^\d|\d$/.test(asset.name)) flags.push("has a number");
     if (/ i$| i /.test(asset.name)) flags.push("an info letter in the name");
     if (rawNames.length > 1) flags.push("made from " + rawNames.length + " names");
-    if (asset.requires.filter(r => !r.asset.startsWith("LBL.")).length > 2) flags.push("more than two components");
+    if (asset.requires.filter(r => !r.asset.startsWith("TXS.")).length > 2) flags.push("more than two components");
     if (/^(tick box|text box|text area|number box|dropdown|date cell)$/i.test(asset.name)) flags.push("named after its control");
     return flags;
 };

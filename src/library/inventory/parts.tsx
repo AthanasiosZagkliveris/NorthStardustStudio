@@ -5,9 +5,7 @@ import DateCellInput from "../../components/interview/DateCellInput";
 import FoldArrow from "../../components/interview/FoldArrow";
 import InfoNote, { InfoText } from "../../components/interview/InfoNote";
 import LabelArrow from "../../components/interview/LabelArrow";
-import BulletListStatic from "../../components/interview/BulletListStatic";
 import NumberedListInput from "../../components/interview/NumberedListInput";
-import NumberedListStatic from "../../components/interview/NumberedListStatic";
 import OptionPicker from "../../components/interview/OptionPicker";
 import BulletRail from "../../components/interview/rails/BulletRail";
 import type { RailItem } from "../../components/interview/rails/railItems";
@@ -63,6 +61,9 @@ function MonthPopup() {
 }
 
 const Box = ({ children }: { children: ReactNode }) => <div className="inventory-part">{children}</div>;
+const TextSample = ({ size, weight, italic, underline, capitals }: { size: number; weight: number; italic?: boolean; underline?: boolean; capitals?: boolean }) => (
+    <span style={{ fontSize: size, fontWeight: weight, fontStyle: italic ? "italic" : "normal", textDecoration: underline ? "underline" : "none", textTransform: capitals ? "uppercase" : "none" }}>Sample text</span>
+);
 
 /** The part of an asset or variant, by code. */
 export const parts: Record<string, (text?: string) => ReactNode> = {
@@ -74,9 +75,34 @@ export const parts: Record<string, (text?: string) => ReactNode> = {
     "BTN.MAN.003.001": () => <Box><button type="button" className="back-link" style={{ position: "static", margin: 0 }}>{"← Back"}</button></Box>,
     "BTN.SEC.003.002": () => <Box><button type="button" className="section-tile-back"><span className="back-arrow" aria-hidden="true" />{" Back"}</button></Box>,
     "BTN.004": () => <Box><button type="button" className="business-add-button">+ Add channel</button></Box>,
+    "TXS.001": () => <Box><TextSample size={18} weight={400} /></Box>,
+    "TXS.BDY.001.001": () => <Box><TextSample size={18} weight={400} italic={false} underline={false} capitals={false} /></Box>,
+    "TXS.BMD.001.002": () => <Box><TextSample size={18} weight={500} italic={false} underline={false} capitals={false} /></Box>,
+    "TXS.BSM.001.003": () => <Box><TextSample size={18} weight={600} italic={false} underline={false} capitals={false} /></Box>,
+    "TXS.BBD.001.004": () => <Box><TextSample size={18} weight={700} italic={false} underline={false} capitals={false} /></Box>,
+    "TXS.BUL.001.005": () => <Box><TextSample size={18} weight={400} italic={false} underline={false} capitals={false} /></Box>,
+    "TXS.BUC.001.006": () => <Box><TextSample size={18} weight={700} italic={false} underline={true} capitals={false} /></Box>,
+    "TXS.BSC.001.007": () => <Box><TextSample size={18} weight={600} italic={false} underline={false} capitals={false} /></Box>,
+    "TXS.BMC.001.008": () => <Box><TextSample size={18} weight={500} italic={false} underline={false} capitals={false} /></Box>,
+    "TXS.BRC.001.009": () => <Box><TextSample size={18} weight={400} italic={false} underline={false} capitals={false} /></Box>,
+    "TXS.SML.001.010": () => <Box><TextSample size={14} weight={400} italic={false} underline={false} capitals={false} /></Box>,
+    "TXS.SCP.001.011": () => <Box><TextSample size={14} weight={400} italic={false} underline={false} capitals={false} /></Box>,
+    "TXS.SBI.001.012": () => <Box><TextSample size={14} weight={700} italic={true} underline={false} capitals={false} /></Box>,
+    "TXS.SBD.001.013": () => <Box><TextSample size={14} weight={700} italic={false} underline={false} capitals={false} /></Box>,
+    "TXS.HTB.001.014": () => <Box><TextSample size={24} weight={700} italic={false} underline={false} capitals={false} /></Box>,
+    "TXS.HTC.001.015": () => <Box><TextSample size={24} weight={700} italic={false} underline={false} capitals={false} /></Box>,
+    "TXS.HTS.001.016": () => <Box><TextSample size={24} weight={600} italic={false} underline={false} capitals={false} /></Box>,
+    "TXS.HTI.001.017": () => <Box><TextSample size={24} weight={500} italic={true} underline={false} capitals={false} /></Box>,
+    "TXS.HDS.001.018": () => <Box><TextSample size={28} weight={600} italic={false} underline={false} capitals={false} /></Box>,
+    "TXS.HOB.001.019": () => <Box><TextSample size={36} weight={700} italic={false} underline={false} capitals={false} /></Box>,
+    "TXS.HOC.001.020": () => <Box><TextSample size={36} weight={400} italic={false} underline={false} capitals={false} /></Box>,
+    "TXS.HOR.001.021": () => <Box><TextSample size={36} weight={400} italic={false} underline={false} capitals={false} /></Box>,
+    "BTN.007": () => <Box><span className="inventory-link-button" role="img" aria-label="Link">{"↗"}</span></Box>,
+    "BTN.HUG.004.001": () => <Box><button type="button" className="strategy-add-button">+ Add channel</button></Box>,
+    "BTN.ROW.004.002": () => <Box><button type="button" className="strategy-add-button card-list-add">+ Add registration number</button></Box>,
+    "BTN.SML.004.003": () => <Box><button type="button" className="strategy-add-button notepad-add">+ Add note</button></Box>,
     "DRP.001": () => <Box><Picker label="Choice" options={["Annually", "Monthly", "Quarterly"]} /></Box>,
     "DRP.SRC.001.001": () => <Box><Picker label="Currency" options={["USD", "EUR", "GBP"]} /></Box>,
-    "DRP.GEN.001.002": () => <Box><Picker label="Activity" options={["Design the brand", "Ship the first order", "Other…"]} /></Box>,
     "TIK.001": () => <Box><label><input type="checkbox" className="brand-tick-box" defaultChecked /> End date</label></Box>,
     "TXT.001": () => <Box><input className="interview-input" defaultValue="Text" aria-label="Text" /></Box>,
     "TXT.BOX.001.001": () => <Box><input className="interview-input" defaultValue="Text box" aria-label="Text box" /></Box>,
@@ -84,9 +110,6 @@ export const parts: Record<string, (text?: string) => ReactNode> = {
     "TXT.WHL.001.004": () => <Box><input className="interview-input" inputMode="numeric" defaultValue="12" aria-label="Whole number" /></Box>,
     "TXT.DEC.001.005": () => <Box><input className="interview-input" inputMode="decimal" defaultValue="12.5" aria-label="Decimal" /></Box>,
     "TXT.SQR.001.006": () => <Box><input className="interview-input" inputMode="numeric" defaultValue="40" aria-label="Percent" style={{ width: 44, height: 44, paddingLeft: 4, paddingRight: 4, textAlign: "center" }} /> % <span style={{ marginLeft: 16 }} /> <input className="interview-input" inputMode="numeric" defaultValue="5" aria-label="Years" style={{ width: 44, height: 44, paddingLeft: 4, paddingRight: 4, textAlign: "center" }} /> years <span style={{ marginLeft: 16 }} /> <input className="interview-input" inputMode="numeric" defaultValue="3" aria-label="Months" style={{ width: 44, height: 44, paddingLeft: 4, paddingRight: 4, textAlign: "center" }} /> months</Box>,
-    "LNK.UND.001.001": () => <Box><button type="button" className="section-tile-link">Workspace</button></Box>,
-    "LNK.BLU.001.002": () => <Box><button type="button" className="intro-page-link">Definition and Ethics</button></Box>,
-    "LNK.SYM.001.003": () => <Box><span className="inventory-link-symbol" aria-label="link">&#128279;</span></Box>,
     "TXT.NAM.001.003": () => <Box><Name /></Box>,
     "LST.001": () => <Box><EditableList /></Box>,
     "DAT.001": () => <Box><Date /></Box>,
@@ -95,22 +118,6 @@ export const parts: Record<string, (text?: string) => ReactNode> = {
     "DAT.002": () => <Box><DayPopup /> <MonthPopup /></Box>,
     "DAT.DAY.002.001": () => <Box><DayPopup /></Box>,
     "DAT.MON.002.002": () => <Box><MonthPopup /></Box>,
-    "HLP.001": () => <Box><span className="inventory-help">A text that is already there and helps.</span></Box>,
-    "HLP.INF.001.001": () => <Box><span className="field-label"><InfoText text="Legal form"><InfoNote label="Legal form" points={["A short note."]} /></InfoText></span></Box>,
-    "HLP.BUL.001.002": () => <Box><BulletListStatic label="Includes" lines={[{ key: "a", text: "Workspace" }, { key: "b", text: "Utilities" }]} /></Box>,
-    "HLP.NUM.001.003": () => <Box><NumberedListStatic lines={[{ key: "a", text: "Founder and consultant" }, { key: "b", text: "Solutions architect" }]} /></Box>,
-    "HLP.SUM.001.004": () => <Box><span className="inventory-help">01/01/2027 · Infrastructure · Exists / Free</span></Box>,
-    "HLP.VAL.001.005": () => <Box><span className="field-value">Premises</span></Box>,
-    "TTL.001": () => <Box><span className="inventory-title" style={{ fontSize: 24, fontWeight: 700 }}>Resources</span></Box>,
-    "TTL.PAG.001.001": () => <Box><span className="inventory-title" style={{ fontSize: 36 }}>3. Business System &#8212; 3. Infrastructure</span></Box>,
-    "TTL.CHP.001.002": () => <Box><span className="inventory-title inventory-title-moves" style={{ fontSize: 28 }}>1. Infrastructure &amp; Capability</span></Box>,
-    "TTL.DLG.001.003": () => <Box><span className="inventory-title" style={{ fontSize: 24, fontWeight: 700 }}>Resources / Digital Infrastructure</span></Box>,
-    "TTL.BOX.001.004": () => <Box><span className="inventory-title" style={{ fontSize: 24, fontWeight: 700 }}>Activities</span></Box>,
-    "TTL.MTL.001.005": () => <Box><span className="inventory-title inventory-title-wraps" style={{ fontSize: 18, fontWeight: 600 }}>Typography &amp; Text Hierarchy</span></Box>,
-    "TTL.TIL.001.006": () => <Box><span className="inventory-title inventory-title-moves" style={{ fontSize: 18, fontWeight: 600 }}>Brooklyn coworking space (hot desk membership)</span></Box>,
-    "TTL.CRD.001.007": () => <Box><button type="button" className="inventory-title inventory-title-cut section-tile-link" style={{ fontSize: 18, fontWeight: 600 }}>Brooklyn coworking space (hot desk membership)</button></Box>,
-    "TTL.OPT.001.008": () => <Box><span className="inventory-title inventory-title-cut" style={{ fontSize: 18 }}>Brooklyn coworking space (hot desk membership)</span></Box>,
-    "LNK.001": () => <Box><button type="button" className="section-tile-link">Workspace</button></Box>,
     "BTN.SHR.001.003": () => <Box><button type="button" className="strategy-box-tiles" aria-label="Show as tiles" /></Box>,
     "BTN.005": () => <Box><button type="button" className="add-card-tile"><span className="add-card-plus" aria-hidden="true">+</span><span className="add-card-words">Add Card</span></button></Box>,
     "BTN.006": () => <Box><button type="button" className="header-tool"><span className="header-tool-word">Search</span></button></Box>,
@@ -127,21 +134,10 @@ export const parts: Record<string, (text?: string) => ReactNode> = {
     "IMG.LOG.001.001": () => <Box><span className="inventory-image" role="img" aria-label="Logo, 668 by 216 px" style={{ width: 334, height: 108 }}>Logo, 668 by 216 px</span></Box>,
     "IMG.ICO.001.002": () => <Box><span className="inventory-image" role="img" aria-label="Icon, 249 by 249 px" style={{ width: 125, height: 125 }}>Icon, 249 by 249 px</span></Box>,
     "IMG.BRD.001.003": () => <Box><span className="inventory-image" role="img" aria-label="Brand image, 448 by 252 px" style={{ width: 224, height: 126 }}>Brand image, 448 by 252 px</span></Box>,
-    "MSG.001": () => <Box><span className="inventory-help">The payments must total 100%.</span></Box>,
-    "MSG.VER.001.001": () => <Box><span className="business-field-missing-note">The payments must total 100%.</span></Box>,
-    "MSG.IND.001.002": () => <Box><input className="interview-input" inputMode="numeric" defaultValue="3" aria-label="Months" style={{ width: 44, height: 44, paddingLeft: 4, paddingRight: 4, textAlign: "center" }} /> months</Box>,
-    "MSG.REM.001.003": () => <Box><span className="field-label">Financial Plan:</span> <strong>Jan 2027 &#8211; Dec 2029</strong></Box>,
     "ICN.001": () => <Box><span className="inventory-icon" role="img" aria-label="System icon">36 px icon</span></Box>,
     "DIV.001": () => <Box><hr className="inventory-divider" /></Box>,
     "DIV.HOR.001.001": () => <Box><hr className="inventory-divider" /></Box>,
     "DIV.VER.001.002": () => <Box><span className="inventory-divider-vertical" /></Box>,
-    "HLP.BGR.001.006": () => <Box><input className="interview-input" placeholder="Resource name" aria-label="Background text" /></Box>,
-    "HLP.GEN.001.007": () => <Box><span className="inventory-help">Founders' delivery capacity: about 96 hours a month.</span></Box>,
-    "HLP.LIN.001.008": () => <Box><ul className="inventory-lined"><li>Workspace</li><li>Utilities</li></ul></Box>,
-    "HLP.INT.001.009": () => <Box><span className="intro-sentence">First, sets out what your organization does. <strong>Definition</strong> comes first.</span></Box>,
-    "TTL.SYS.001.009": () => <Box><span className="inventory-title" style={{ fontSize: 36, fontWeight: 700 }}>4. Strategy System</span></Box>,
-    "TTL.INT.001.010": () => <Box><span className="intro-guiding-question">Who are we, and why do we exist?</span></Box>,
-    "LBL.SUB.001.002": () => <Box><span className="intro-fact-label">What it covers</span></Box>,
     "FRM.001": () => <Box><span className="inventory-frame">A rounded surface, 8 px corners</span></Box>,
     "FRM.CHP.001.001": () => <Box><span className="inventory-frame">Chapter</span></Box>,
     "FRM.MTL.001.002": () => <Box><span className="inventory-frame">Master tile</span></Box>,
@@ -149,13 +145,8 @@ export const parts: Record<string, (text?: string) => ReactNode> = {
     "FRM.FLC.001.004": () => <Box><span className="inventory-frame">Floating card</span></Box>,
     "FRM.NSC.001.005": () => <Box><span className="inventory-frame">Nested card</span></Box>,
     "FRM.TAG.001.006": () => <Box><span className="inventory-frame">Tag</span></Box>,
-    "CAL.001": () => <Box><span className="inventory-frame">Calendar, Capabilities, Systems</span></Box>,
-    "CAL.HND.001.001": () => <Box><span className="inventory-frame">Calendar</span></Box>,
-    "CAL.PNL.001.002": () => <Box><span className="inventory-frame">The side panel</span></Box>,
     "FRM.TIL.001.007": () => <Box><span className="inventory-frame">Tile</span></Box>,
     "FRM.CRD.001.008": () => <Box><span className="inventory-frame">Card</span></Box>,
-    "LBL.001": text => <Box><span className="field-label">{text ?? "Start date"}</span></Box>,
-    "LBL.HEA.001.001": text => <Box><span className="field-label field-label-heading">{text ?? "Description"}</span></Box>,
     "ARW.001": () => <Box><button type="button" className="page-arrow" aria-label="Next page" /> <button type="button" className="page-arrow carousel-arrow" aria-label="Next card" /></Box>,
     "ARW.PAG.001.001": () => <Box><button type="button" className="page-arrow" aria-label="Next page" /></Box>,
     "ARW.CAR.001.002": () => <Box><button type="button" className="page-arrow carousel-arrow" aria-label="Next card" /></Box>,
@@ -169,8 +160,6 @@ export const parts: Record<string, (text?: string) => ReactNode> = {
     "FLD.NST.106.004": () => <Box><BulletRail items={SECTIONS.slice(0, 2)} activeId="one" onSelect={() => undefined} side="right" label="Objectives" /></Box>,
     "TIL.001": () => <Box><div className="section-tile-slot"><button type="button" className="section-tile"><span className="section-tile-title">Resources</span><span>Workspace, Utilities</span></button></div></Box>,
     "TIL.002": () => <Box><div className="section-tile-slot"><button type="button" className="section-tile"><span className="section-tile-title">Electricity</span><span>01/01/2027</span></button></div></Box>,
-    "FRM.002": () => <Box><h1 className="inventory-page-title">3. Business System &#8212; 3. Infrastructure &amp; Capability</h1></Box>,
-    "FRM.003": () => <Box><div className="section-tile-dialog-foot"><button type="button" className="section-tile-back"><span className="back-arrow" aria-hidden="true" />{" Back"}</button></div></Box>,
 };
 
 /** The part of an asset's variant if it has its own, else the asset's. */

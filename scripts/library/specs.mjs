@@ -14,7 +14,7 @@ export const EXTRA = {
 /** The width of the components whose width is not a number of their own. */
 export const WIDTH = {
     "BTN.001": "32 px (a square)", "BTN.002": "24 px (a circle)", "BTN.004": "fills its column", "BTN.005": "107.5 px (a square)", "BTN.006": "follows its words (100 to 135 px)",
-    "DRP.001": "control = 'dropdown' and function not like '%Searchable%' and field not in ('Activity', 'Performer', 'Resource', 'Responsibility', 'Linked registration', 'Rent')", "DRP.SRC.001.001": "control = 'dropdown' and function like '%Searchable%'", "DRP.GEN.001.002": "control = 'dropdown' and field in ('Activity', 'Performer', 'Resource', 'Responsibility', 'Linked registration', 'Rent')",
+    "DRP.001": "control = 'dropdown' and function not like '%Searchable%'", "DRP.SRC.001.001": "control = 'dropdown' and function like '%Searchable%'",
     "PCK.001": "44 px (a square)", "IMG.001": "448 px (the width of the card less its padding)", "DIV.001": "fills its column", "LBL.001": "fits its words", "TTL.001": "fits its words", "LNK.001": "fits its words", "HLP.001": "fits its words", "MSG.001": "fits its words",
     "ARW.002": "36 px (the fold arrow)", "ARW.LAB.002.001": "24 px", "ARW.TTL.002.002": "28 px", "ICN.001": "36 px",
     "FRM.CHP.001.001": "the width of the page (1400 px)", "FRM.MTL.001.002": "328 px", "FRM.NTL.001.003": "214 px", "FRM.FLC.001.004": "492 px (a founder's 297 px)", "FRM.NSC.001.005": "the width of the chapter (624, 554, 484 px by depth)", "FRM.TAG.001.006": "hugs its content (adjustable): 37 px with bullets only", "FRM.TIL.001.007": "set by the layout", "FRM.CRD.001.008": "set by the layout",

@@ -24,7 +24,9 @@ const REACTION = {
     "BTN.001": "Hover and focus: the box fills with its colour and the symbol turns light.",
     "BTN.002": "Hover and focus: the circle fills with its colour and the i turns light.",
     "BTN.003": "Hover and focus: the text turns blue.",
-    "BTN.004": "Not read yet.",
+    "BTN.004": "Hover: the ground takes its hover tone and a 4px glow (18%) appears. Focus: the glow only (28%), no outline. Disabled: faint words, the card's line, the not-allowed cursor.",
+    "BTN.005": "Hover and focus: the dashed line goes, the ground becomes 16% of the tile's colour, the plus and the words take the card's dark tint; nothing scales. Disabled: 60% opaque, not-allowed cursor.",
+    "BTN.007": "Not read yet.",
     "DRP.001": "Hover: the inset edge glows. Focus: a blue ring. In use: the glow and a wire in the contrast colour.",
     "TIK.001": "Hover: a blue ring inside the box. Focus: the browser's outline.",
     "TXT.001": "Hover: the inset edge glows. Focus: a blue ring. While typing: the glow and a wire in the contrast colour. A number box: no change under the pointer.",
@@ -38,7 +40,7 @@ const REACTION = {
     "HLP.001": "None.",
     "ARW.001": "Hover and focus: the arrow grows 1.2 times; focus adds a 2 px blue outline.",
     "ARW.002": "Outline at rest; filled under the pointer and the focus.",
-    "BUL.001": "Default, hover, selected: the bullet changes colour or opacity with the card's colour; the selected bullet is larger."
+    "BUL.001": "Rest 12px. Hover and focus: 15.6px (1.3 times) with a 3px ring, the label underlined. Selected: 17.4px (1.45 times) with a 4px bloom and a bold label. The colour follows the card's tint."
 };
 /** Where the scan found each asset or variant (a condition on the scan's records). */
 const FOUND = {
@@ -125,7 +127,7 @@ for (const t of measuredTexts) {
     e.n++; e.cls[t.cls || t.tag] = (e.cls[t.cls || t.tag] ?? 0) + 1;
     styles.set(key, e);
 }
-say("## Text styles: the presentation of every text read (analysis)", "", "The texts of the readers (labels, titles, links, help texts, messages) could be one component, the text, with variants by **presentation** only (size, weight, capitals, italics, underline), and the purpose given in the field. Measured: " + styles.size + " different presentations cover all " + measuredTexts.length + " texts of the four systems; the first five cover " + Math.round([...styles.values()].sort((x, y) => y.n - x.n).slice(0, 5).reduce((s2, e) => s2 + e.n, 0) / measuredTexts.length * 100) + "%. Not yet in the library: it waits for the owner's decision.", "",
+say("## Text styles: the presentation of every text read (analysis)", "", "The texts of the readers (labels, titles, links, help texts, messages) could be one component, the text, with variants by **presentation** only (size, weight, capitals, italics, underline), and the purpose given in the field. Measured: " + styles.size + " different presentations cover all " + measuredTexts.length + " texts of the four systems; the first five cover " + Math.round([...styles.values()].sort((x, y) => y.n - x.n).slice(0, 5).reduce((s2, e) => s2 + e.n, 0) / measuredTexts.length * 100) + "%. This is now the text component TXS.001, one variant per presentation, each with its old purposes and where it was seen.", "",
     "| Presentation | Texts | Classes seen most |", "|---|---|---|");
 for (const [k, e] of [...styles].sort((x, y) => y[1].n - x[1].n)) say("| " + k + " | " + e.n + " | " + Object.entries(e.cls).sort((x, y) => y[1] - x[1]).slice(0, 3).map(([c, n]) => c + " " + n).join("; ") + " |");
 say("");

@@ -29,9 +29,35 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | BTN.003 back button | BTN.MAN.003.001 Main back | 22 high, 83 wide | 18 | body 18 | 0px | 0/0 | 0 | 8 | under 24 |
 | BTN.003 back button | BTN.SEC.003.002 Section back | 25 high, 76 wide | 18 | body 18 | 0px | 0/0 | 0 | 6 | meets 24 |
 | BTN.004 wide add button | (asset) | 44 | 18 | body 18 | 6px | 14/8 | 1 | 15 in 4 places | meets 24 |
+| BTN.004 wide add button | BTN.HUG.004.001 Add | 44 | 18 | body 18 | 6px | 14/8 | 1 | 3 | meets 24 |
+| BTN.004 wide add button | BTN.ROW.004.002 Full-row add | 44 | 18 | body 18 | 6px | 14/8 | 1 | 0 | meets 24 |
+| BTN.004 wide add button | BTN.SML.004.003 Small add | 32 | 14 | small 14 | 6px | 10/4 | 1 | 0 | meets 24 |
 | BTN.005 add card tile | (asset) | 107.5 high, 107.5 wide | 14 | small 14 | 8px | 0/0 | 1 | 2 | meets 24 |
 | BTN.006 tool button | (asset) | 36 | 14 | small 14 | 6px | 0/0 | 1 | 62 | meets 24 |
 | BTN.006 tool button | BTN.STR.006.008 Start Interview | 52 high, 269 wide | 18 | body 18 | 6px | 0/0 | 0 | 4 | meets 24 |
+| BTN.007 link button | (asset) | 24 high, 24 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 72 | meets 24 |
+| TXS.001 text | (asset) | words | 18 | body 18 | 0px | 0/0 | 0 | 239 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BDY.001.001 Body | words | 18 | body 18 | 0px | 0/0 | 0 | 239 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BMD.001.002 Body medium | words | 18 | body 18 | 0px | 0/0 | 0 | 15 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BSM.001.003 Body semibold | words | 18 | body 18 | 0px | 0/0 | 0 | 82 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BBD.001.004 Body bold | words | 18 | body 18 | 0px | 0/0 | 0 | 70 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BUL.001.005 Body underlined | words | 18 | body 18 | 0px | 0/0 | 0 | 11 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BUC.001.006 Body bold underlined capitals | words | 18 | body 18 | 0px | 0/0 | 0 | 15 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BSC.001.007 Body semibold capitals | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BMC.001.008 Body medium capitals | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BRC.001.009 Body capitals | words | 18 | body 18 | 0px | 0/0 | 0 | 11 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.SML.001.010 Small | words | 14 | small 14 | 0px | 0/0 | 0 | 29 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.SCP.001.011 Small capitals | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.SBI.001.012 Small bold italic | words | 14 | small 14 | 0px | 0/0 | 0 | 20 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.SBD.001.013 Small bold | words | 14 | small 14 | 0px | 0/0 | 0 | 4 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HTB.001.014 Heading 3 bold | words | 24 | h3 24 | 0px | 0/0 | 0 | 6 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HTC.001.015 Heading 3 bold capitals | words | 24 | h3 24 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HTS.001.016 Heading 3 semibold capitals | words | 24 | h3 24 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HTI.001.017 Heading 3 medium italic | words | 24 | h3 24 | 0px | 0/0 | 0 | 4 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HDS.001.018 Heading 2 semibold capitals | words | 28 | h2 28 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HOB.001.019 Heading 1 bold | words | 36 | h1 36 | 0px | 0/0 | 0 | 8 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HOC.001.020 Heading 1 capitals | words | 36 | h1 36 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HOR.001.021 Heading 1 | words | 36 | h1 36 | 0px | 0/0 | 0 | 2 | follows the words (a field, not a button) |
 | DRP.001 dropdown | (asset) | 44 | 18 | body 18 | 6px | 8/8 | 1 | 493 in 8 places | meets 24 |
 | TIK.001 tick box | (asset) | 24 high, 24 wide | 18 | body 18 | 0px | 0/0 | 0 | 721 in 8 places | meets 24 |
 | TXT.001 holder | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 in 4 places | meets 24 |
@@ -49,28 +75,6 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | IMG.001 image holder | IMG.LOG.001.001 Logo | 216 high, 668 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 1 | meets 24 |
 | IMG.001 image holder | IMG.ICO.001.002 Icon | 249 high, 249 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 1 | meets 24 |
 | IMG.001 image holder | IMG.BRD.001.003 Brand image | 252 high, 448 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 3 | meets 24 |
-| LBL.001 label | (asset) | words | 18 | body 18 | 0px | 0/0 | 0 | 1223 in 16 places | follows the words (a field, not a button) |
-| LBL.001 label | LBL.SUB.001.002 Underlined subtitle | words | 18 | body 18 | 0px | 0/0 | 0 | 8 | follows the words (a field, not a button) |
-| TTL.001 title | TTL.PAG.001.001 Page title | words | 36 | h1 36 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| TTL.001 title | TTL.CHP.001.002 Chapter title | words | 28 | h2 28 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| TTL.001 title | TTL.DLG.001.003 Dialog title | words | 24 | h3 24 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| TTL.001 title | TTL.BOX.001.004 Box name | words | 24 | h3 24 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| TTL.001 title | TTL.MTL.001.005 Master tile title | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| TTL.001 title | TTL.TIL.001.006 Tile title | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| TTL.001 title | TTL.CRD.001.007 Card title | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| TTL.001 title | TTL.OPT.001.008 Option title | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| TTL.001 title | TTL.SYS.001.009 System title | words | 36 | h1 36 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| TTL.001 title | TTL.INT.001.010 Guiding question | words | 24 | h3 24 | 0px | 0/0 | 0 | 4 | follows the words (a field, not a button) |
-| MSG.001 message | MSG.VER.001.001 Verification | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| MSG.001 message | MSG.REM.001.003 Reminder | 27 | 18 | body 18 | 0px | 0/0 | 0 | 2 | meets 24 |
-| LNK.001 link | LNK.UND.001.001 Underlined text link | words | 18 | body 18 | 0px | 0/0 | 0 | 12 | follows the words (a field, not a button) |
-| LNK.001 link | LNK.BLU.001.002 Blue text link | words | 18 | body 18 | 0px | 0/0 | 0 | 9 | follows the words (a field, not a button) |
-| LNK.001 link | LNK.SYM.001.003 Symbol link | 24 high, 24 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 72 | meets 24 |
-| HLP.001 help text | (asset) | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| HLP.001 help text | HLP.BUL.001.002 Bulleted list | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| HLP.001 help text | HLP.SUM.001.004 Summary line | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| HLP.001 help text | HLP.BGR.001.006 Background text | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| HLP.001 help text | HLP.INT.001.009 Introduction text | words | 18 | body 18 | 0px | 0/0 | 0 | 17 | follows the words (a field, not a button) |
 | ARW.002 fold arrow | (asset) | 36 | 0 | symbol, no text | 6px | 0/0 | 1 | 11 in 1 places | meets 24 |
 | ARW.002 fold arrow | ARW.LAB.002.001 Label arrow | 24 | 18 | body 18 | 0px | 0/0 | 0 | 8 in 2 places | meets 24 |
 | ARW.002 fold arrow | ARW.TTL.002.002 Title arrow | 28 high, 28 wide | 28 | h2 28 | 0px | 0/0 | 0 | 2 in 1 places | meets 24 |
@@ -121,15 +125,25 @@ Separated by purpose; each has its own default look.
 
 - found 15 times: Customer Engagement 7, Financial Foundation 3, Foundation 1, Identity (Founders and Registrations) 4; 39px high, type 18, padding 14/8, border 1. They are not a plus box; the one look measured.
 - height and plus: by the owner's decision (owner, 2026-10-15) the button looks like a cell, so it is 44px high like every cell (it measured 39px); the plus inside it has the size and the place of the plus box, 32px, at the left, like the plus box.
+- measured 2026-10-16: + Add Channel is 196.95 by 39px in the app today (the 44px height is the owner's decision, with the plus box at the left); text capitals, 18px, weight 500; centred label; the button is left aligned in its column (align-self start); the full-row versions are stretched to 100% with centred words (global.css .card-list-add, .legal-entity-list-add); the notes panel version is 14px with padding 4/10; line 1px solid, radius 6px.
 
 ### BTN.005 add card tile
 
 - measured 107.5 by 107.5px, a dashed 1px edge, 8px corners, 14px bold words under the plus (the Add Card tile moved from the tiles to the buttons, owner, 2026-10-15).
+- line measured 2026-10-16 (card-tile.css): 1px dashed, in the theme's line colour; the plus is 24px (h3); the words 14px, weight 600, capitals; hover and focus: the line turns transparent, ground 16% of the tile colour, nothing scales.
 
 ### BTN.006 tool button
 
 - measured: 36px high, 100 to 135px wide (it follows its words), 14px type, 6px corners, 1px border (header tools; Reload 109 by 36px).
 - found 62 header tool words on 11 pages, measured 2026-10-16.
+
+### BTN.007 link button
+
+- 24px, by the owner's decision (owner, 2026-10-16); found 72 times in the card tables (the link symbol rows); it stands between the dropdown and the plus box.
+
+### TXS.001 text
+
+- simplified (the owner, owner, 2026-10-16): the label, title, link, help text and message are no longer components; one text with 21 presentations covers all 619 texts measured on the four systems. The old purposes stay in each variant's note, so that it is known in which field, card or tile a style was used.
 
 ### DRP.001 dropdown
 
@@ -137,6 +151,7 @@ Separated by purpose; each has its own default look.
 - cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45).
 - options source (the owner asked how dropdowns are divided, owner, 2026-10-15): prefilled (Status, Frequency, Currency, Unit, Plan, Cost option, Category, Type), dependent (Group), generated (Performer, Activity, Resource, Responsibility, Linked registration); With Other adds free entry to a list. The list of every dropdown cell is in catalogue/exports/dropdowns.csv.
 - Other is a reaction of an option, not a variant (the owner, owner, 2026-10-16); the generated list (Registrations, Expenses) is the variant.
+- default and searchable only (the owner, owner, 2026-10-16); other forms (a generated list, With Other) are not variants for now, the names can be added later.
 
 ### TIK.001 tick box
 
@@ -189,46 +204,21 @@ Separated by purpose; each has its own default look.
 - measured 448 by 252px in a card of 492px; the layout of the Brand Images card will change (the owner, owner, 2026-10-15).
 - three sizes measured 2026-10-16 (Lumen & Loom, 1920px): the logo slot 668 by 216px (picture 650 by 122px), the icon 249 by 249px in a slot 668 by 300px, the brand image 448 by 252px (Quillfield). They differ because the cards differ; the sizes are not yet one rule.
 
-### LBL.001 label
-
-- position: by the owner's decision (owner, 2026-10-15) a label has no variants for its position (above, at the side); that information belongs to the field (the variable label position of the field assets).
-- the label is prefilled text that is read, not filled in; the layout around it is arranged in the field, so what matters here is its size and style (owner, 2026-10-15).
-
-### TTL.001 title
-
-- sizes from the app's text hierarchy (docs/ai/layout-rules.md, Title sizes: page 36, column 28, dialog and section 24, tile and card names 18; weight 600 on tiles and boxes, 700 on headings); not measured by the scan. The owner's rules (owner, 2026-10-15): two categories, prefilled and generated; a title in a master tile wraps; on a tile or a chapter it moves; as a link or a dropdown option in a card it uses one line and the rest is cut.
-
-### MSG.001 message
-
-- verification measured from the card rules (docs/ai/layout-rules.md: the missing note is 14px); the indicator and the reminder were not measured.
-- measured 2026-10-15: the verification is 14px, the danger colour, 4px under the cell (card-tile.css); it appears only after a missed fill, so none was found in the default pages. The reminder reads 18px (the Start and End of the Financial Plan, 18px, weight 400); the indicator (a unit word) was not found in the four systems.
-
-### LNK.001 link
-
-- variants and uses (owner, 2026-10-15): a place where a link is used is not a variant. The variants differ in style and function (underlined text, blue text, a symbol). The uses: the tile link (inside a master tile, opens a view or a card), the card name link (a child's name links to its parent card), the page link (the list of pages of an introduction), the link symbol (beside a dropdown choice).
-- the link symbol is 24px (the owner, owner, 2026-10-16); its place was cut off in the message and is not recorded yet.
-
-### HLP.001 help text
-
-- small text (14px) for lists, summaries and notes: the app's text hierarchy (docs/ai/layout-rules.md, Title sizes). Only the bulleted list and the summary line carry a measured look here.
-
 ### ARW.002 fold arrow
 
 - merged by the owner's decision (owner, 2026-10-15): fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px
 - label arrow and title arrow are variants (the owner's decision, owner, 2026-10-15): the same component, function and style; the size follows the text beside it (24px beside a field label, 28px beside a title).
+- found by the scan 2026-10-16: 21 fold arrows of 36px, on the Business pages (Customer Engagement 11, Financial Foundation 5, Sustainability 5); and 10 label arrows of 24 to 28px. They are the triangles that fold a card or a list (the toggles measured in Arial, not in the app's font).
 
 ### BUL.001 bullet
 
 - the one bullet of every page tag (the owner, owner, 2026-10-15): there is one type of bullet.
 - the bullets are navigation controls (the owner, owner, 2026-10-15): they move between pages, sections, views and cards, like the page and carousel arrows.
+- states measured 2026-10-16 on the Business page tag: rest 12px; hover and focus 15.6px (scale 1.3) with a 3px ring of 40% opacity; selected 17.4px (scale 1.45) with a 4px bloom of 28% opacity. The owner says the selection is much bigger and that this size should be the hovering: waiting for the answer, not applied.
 
 ### ICN.001 system icon
 
 - measured 36 by 36px (one per system).
-
-### CAL.001 calendar box
-
-- handles measured: 44 by 160px, 16px type; the calendar content is not recorded (the owner: record only, no library work until the single calendar is designed).
 
 ### TIL.002 open tile
 
@@ -264,6 +254,8 @@ The looks the app has today that the decisions change when the assets replace th
 - BTN.002 info button: merged by the owner's decision (owner, 2026-10-15): info height 22, type 18, corners 50%, padding 0/0, border 1; found 70 times (12.3% of the default's 567); largest difference 4.0px
 - BTN.002 info button: enlarged, by the owner's decision (owner, 2026-10-15): from 22px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (567 found at 22px).
 - BTN.004 wide add button: height and plus: by the owner's decision (owner, 2026-10-15) the button looks like a cell, so it is 44px high like every cell (it measured 39px); the plus inside it has the size and the place of the plus box, 32px, at the left, like the plus box.
+- BTN.004 wide add button: measured 2026-10-16: + Add Channel is 196.95 by 39px in the app today (the 44px height is the owner's decision, with the plus box at the left); text capitals, 18px, weight 500; centred label; the button is left aligned in its column (align-self start); the full-row versions are stretched to 100% with centred words (global.css .card-list-add, .legal-entity-list-add); the notes panel version is 14px with padding 4/10; line 1px solid, radius 6px.
+- BTN.007 link button: 24px, by the owner's decision (owner, 2026-10-16); found 72 times in the card tables (the link symbol rows); it stands between the dropdown and the plus box.
 - DRP.001 dropdown: merged by the owner's decision (owner, 2026-10-15): dropdown height 45, type 18, corners 6px, padding 6/8, border 1; found 43 times (8.7% of the default's 493); largest difference 2.0px
 - DRP.001 dropdown: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45).
 - TIK.001 tick box: enlarged, by the owner's decision (owner, 2026-10-15): from 18px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (721 found at 18px).
@@ -278,7 +270,6 @@ The looks the app has today that the decisions change when the assets replace th
 - DAT.001 date cell: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 44). Already 44px.
 - DAT.001 date cell: dates in the Strategic Period, the Objective cards of a Theme and the Revenue card (Begins): by the owner's decision (owner, 2026-10-15) they are this date cell with a calendar and the choice of a day or only a month; they are month pickers with their own look today (bold, wide-spaced type that cuts the year off: 'September 202').
 - DAT.002 calendar popup: rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners of 6px, like the cells. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.
-- LBL.001 label: position: by the owner's decision (owner, 2026-10-15) a label has no variants for its position (above, at the side); that information belongs to the field (the variable label position of the field assets).
 - ARW.002 fold arrow: merged by the owner's decision (owner, 2026-10-15): fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px
 - ARW.002 fold arrow: label arrow and title arrow are variants (the owner's decision, owner, 2026-10-15): the same component, function and style; the size follows the text beside it (24px beside a field label, 28px beside a title).
 - TIL.002 open tile: title: by the owner's decision (owner, 2026-10-15) the tiles that floating cards generate (the Resources tiles) show the title on one line, and a title that is too long moves horizontally instead of being cut off.

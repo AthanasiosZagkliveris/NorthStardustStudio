@@ -7977,51 +7977,6 @@ export const placements: readonly Placement[] = [
   "position": 7
  },
  {
-  "asset": "FRM.002",
-  "system": "Identity System",
-  "page": "1. Definition"
- },
- {
-  "asset": "FRM.002",
-  "system": "Identity System",
-  "page": "2. Organization"
- },
- {
-  "asset": "FRM.002",
-  "system": "Brand System",
-  "page": "Brand System"
- },
- {
-  "asset": "FRM.002",
-  "system": "Business System",
-  "page": "1. Foundation"
- },
- {
-  "asset": "FRM.002",
-  "system": "Business System",
-  "page": "Customer Engagement"
- },
- {
-  "asset": "FRM.002",
-  "system": "Business System",
-  "page": "Infrastructure"
- },
- {
-  "asset": "FRM.002",
-  "system": "Business System",
-  "page": "Financial Foundation"
- },
- {
-  "asset": "FRM.002",
-  "system": "Business System",
-  "page": "Sustainability"
- },
- {
-  "asset": "FRM.002",
-  "system": "Strategy System",
-  "page": "Strategy System"
- },
- {
   "asset": "FRM.001",
   "system": "Identity System",
   "page": "1. Definition",

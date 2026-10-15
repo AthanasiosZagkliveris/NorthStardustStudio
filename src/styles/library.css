@@ -318,3 +318,10 @@
     padding: var(--space-label) 0;
     border-bottom: 1px solid var(--line-hairline);
 }
+.inventory-link-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}

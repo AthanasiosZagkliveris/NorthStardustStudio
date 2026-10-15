@@ -32,6 +32,9 @@ describe("the assets library", () => {
         }
         const holder = library.assets.find(a => a.code === "TXT.001");
         expect(holder?.variants.map(v => v.name)).toEqual(["Text box", "Free text", "Name cell", "Whole number", "Decimal", "Square number"]);
+        expect(library.assets.find(a => a.code === "DRP.001")?.variants.map(v => v.name)).toEqual(["Searchable"]);
+        expect(library.assets.some(a => ["FRM.002", "FRM.003", "CAL.001", "LBL.001", "TTL.001", "LNK.001", "HLP.001", "MSG.001"].includes(a.code))).toBe(false);
+        expect(library.assets.find(a => a.code === "TXS.001")?.variants.length).toBe(21);
         expect(library.assets.find(a => a.code === "BTN.003")?.variants.map(v => v.name)).toEqual(["Main back", "Section back"]);
     });
 
@@ -44,7 +47,7 @@ describe("the assets library", () => {
 
     it("builds fields from components and cards from fields", () => {
         const field = library.assets.find(a => a.category === "field");
-        expect(field?.requires.some(r => r.asset.startsWith("LBL"))).toBe(true);
+        expect(field?.requires.some(r => r.asset.startsWith("TXS"))).toBe(true);
         const card = library.assets.find(a => a.category === "card" && a.name !== "floating card");
         expect(card?.requires.some(r => r.asset.startsWith("CRD"))).toBe(true);
         expect(card?.requires.some(r => r.asset.startsWith("FLD"))).toBe(true);
