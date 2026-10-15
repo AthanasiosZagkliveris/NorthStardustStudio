@@ -102,11 +102,11 @@ Used by no field or card yet.
 
 **Fields (1):** Currency.
 
-### DRP.OTH.001.002 With Other
+### DRP.GEN.001.002 Generated list
 
-3 assets use it.
+2 assets use it.
 
-**Fields (3):** Activity; Name; Rent.
+**Fields (2):** Activity; Rent.
 
 ## TIK.001 tick box
 
@@ -218,6 +218,18 @@ Used by no field or card yet.
 
 0 assets use it: .
 
+### IMG.LOG.001.001 Logo
+
+Used by no field or card yet.
+
+### IMG.ICO.001.002 Icon
+
+Used by no field or card yet.
+
+### IMG.BRD.001.003 Brand image
+
+Used by no field or card yet.
+
 ## LBL.001 label
 
 106 assets use it: 106 fields.
@@ -298,7 +310,7 @@ Used by no field or card yet.
 
 Used by no field or card yet.
 
-### MSG.IND.001.002 Indicator
+### MSG.IND.001.002 Unit word
 
 Used by no field or card yet.
 

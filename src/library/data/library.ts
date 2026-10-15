@@ -922,10 +922,11 @@ export const library: Library = {
     "paddingTop": 0,
     "border": 1,
     "scale": "small 14",
-    "found": 0
+    "found": 62
    },
    "lookNotes": [
-    "measured: 36px high, 100 to 135px wide (it follows its words), 14px type, 6px corners, 1px border (header tools; Reload 109 by 36px)."
+    "measured: 36px high, 100 to 135px wide (it follows its words), 14px type, 6px corners, 1px border (header tools; Reload 109 by 36px).",
+    "found 62 header tool words on 11 pages, measured 2026-10-16."
    ],
    "kind": "Button, an icon with a word: a tool of the app",
    "belongs": "The app header"
@@ -934,14 +935,15 @@ export const library: Library = {
    "code": "DRP.001",
    "name": "dropdown",
    "category": "component",
-   "summary": "A cell that opens a list to choose one value from. 44px high, 6px corners, a border, an inset edge. The plain dropdown is a short list of prefilled or generated choices (Status, Group, Category). Its two variants add one thing each: a search box for a long list, or a last choice Other.",
+   "summary": "A cell that opens a list to choose one value from. 44px high, 6px corners, a border, an inset edge. The plain dropdown has a prefilled list (Status, Group, Category, Frequency). Its variants change the list: a search box for a long list (Currency), or a list generated from what the user entered. Any option may have a reaction: choosing Other opens a text box under the cell. That reaction belongs to the option, not to a variant.",
    "variables": [
     "VAR001",
     "VAR002",
     "VAR003",
     "VAR004",
     "VAR006",
-    "VAR016"
+    "VAR016",
+    "VAR012"
    ],
    "variants": [
     {
@@ -953,12 +955,15 @@ export const library: Library = {
      "kind": "Cell you choose in; the list has a search box"
     },
     {
-     "code": "DRP.OTH.001.002",
-     "name": "With Other",
-     "description": "The same dropdown whose last choice is Other: choosing it opens a text box under the cell where the person writes a choice that is not in the list (Activity, Name, Rent).",
-     "edits": "The last choice is Other and it opens a text box under the cell.",
-     "values": {},
-     "kind": "Cell you choose in; the last choice, Other, opens a text box"
+     "code": "DRP.GEN.001.002",
+     "name": "Generated list",
+     "description": "A dropdown whose list is made from what the user entered elsewhere, not prefilled: the Registrations and Expenses of the page, and the Activities, Resources, Performers and Responsibilities of a place (Activity, Resource, Performer, Linked registration, Rent).",
+     "edits": "The options come from the user's own entries.",
+     "values": {
+      "VAR012": "generated"
+     },
+     "kind": "Cell you choose in; the list is generated from the user's entries",
+     "belongs": "Cards that link to what the user entered"
     }
    ],
    "requires": [],
@@ -983,7 +988,8 @@ export const library: Library = {
    "lookNotes": [
     "merged by the owner's decision (owner, 2026-10-15): dropdown height 45, type 18, corners 6px, padding 6/8, border 1; found 43 times (8.7% of the default's 493); largest difference 2.0px",
     "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45).",
-    "options source (the owner asked how dropdowns are divided, owner, 2026-10-15): prefilled (Status, Frequency, Currency, Unit, Plan, Cost option, Category, Type), dependent (Group), generated (Performer, Activity, Resource, Responsibility, Linked registration); With Other adds free entry to a list. The list of every dropdown cell is in catalogue/exports/dropdowns.csv."
+    "options source (the owner asked how dropdowns are divided, owner, 2026-10-15): prefilled (Status, Frequency, Currency, Unit, Plan, Cost option, Category, Type), dependent (Group), generated (Performer, Activity, Resource, Responsibility, Linked registration); With Other adds free entry to a list. The list of every dropdown cell is in catalogue/exports/dropdowns.csv.",
+    "Other is a reaction of an option, not a variant (the owner, owner, 2026-10-16); the generated list (Registrations, Expenses) is the variant."
    ],
    "group": "HOLD.CEL",
    "kind": "Cell you choose in: one value from a list",
@@ -993,7 +999,7 @@ export const library: Library = {
    "code": "TIK.001",
    "name": "tick box",
    "category": "component",
-   "summary": "A square box with a tick, with its words beside it on one line. 18px.",
+   "summary": "A square box with a tick, 24px. Only the box is the component; the words beside it are a label, and the box with its label is a field.",
    "variables": [
     "VAR001",
     "VAR002",
@@ -1020,10 +1026,11 @@ export const library: Library = {
    },
    "lookNotes": [
     "merged into the default: tick box height 18, type 16, corners 0px, padding 0/0, border 0; found 5 times (0.7% of the default's 721); largest difference 2.0px",
-    "enlarged, by the owner's decision (owner, 2026-10-15): from 18px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (721 found at 18px)."
+    "enlarged, by the owner's decision (owner, 2026-10-15): from 18px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (721 found at 18px).",
+    "the box with its words is a field, not a component (the owner, owner, 2026-10-16): the words are a label."
    ],
    "group": "HOLD.TIK",
-   "kind": "Tick box: yes or no, with words beside it",
+   "kind": "Tick box: yes or no",
    "belongs": "Cards"
   },
   {
@@ -1348,7 +1355,8 @@ export const library: Library = {
    },
    "lookNotes": [
     "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 44). Already 44px.",
-    "dates in the Strategic Period, the Objective cards of a Theme and the Revenue card (Begins): by the owner's decision (owner, 2026-10-15) they are this date cell with a calendar and the choice of a day or only a month; they are month pickers with their own look today (bold, wide-spaced type that cuts the year off: 'September 202')."
+    "dates in the Strategic Period, the Objective cards of a Theme and the Revenue card (Begins): by the owner's decision (owner, 2026-10-15) they are this date cell with a calendar and the choice of a day or only a month; they are month pickers with their own look today (bold, wide-spaced type that cuts the year off: 'September 202').",
+    "proposal (the owner, owner, 2026-10-16), not applied: the calendar sits inside the cell, not in a separate square; its button is 32px high, like the box buttons; the cell works exactly as a dropdown, with the picture of a calendar in place of the arrow, and the list has two choices, days or months of a year."
    ],
    "group": "HOLD.DAT",
    "kind": "Date cell with a calendar button",
@@ -1401,7 +1409,8 @@ export const library: Library = {
     "found": 0
    },
    "lookNotes": [
-    "rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners of 6px, like the cells. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already."
+    "rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners of 6px, like the cells. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.",
+    "measured 2026-10-16: the day popup is the browser's own calendar (a date input), so its text size and corners are the browser's and cannot be measured or styled; only the month popup of the Strategy pages is the app's own."
    ],
    "group": "HOLD.DAT",
    "kind": "Popup of a date cell (not a cell you fill)",
@@ -1412,7 +1421,7 @@ export const library: Library = {
    "name": "colour picker",
    "category": "component",
    "group": "HOLD.PIC",
-   "summary": "A square swatch that opens the colour picker of the browser; beside it stands the hex holder, a text box that takes #000000. Dashed while empty.",
+   "summary": "A square swatch that opens the colour picker of the browser, 44 by 44px, dashed while empty. The hex cell beside it is a holder (a text box that takes #000000); the swatch, the hex cell and their label make the Colour field.",
    "variables": [
     "VAR001",
     "VAR003",
@@ -1442,9 +1451,10 @@ export const library: Library = {
     "places": 1
    },
    "lookNotes": [
-    "measured 44 by 45px, 8px corners, a dashed 1px edge while empty; by the owner's rules (every cell 44px, the corners of the cells) it is 44 by 44px with 6px corners."
+    "measured 44 by 45px, 8px corners, a dashed 1px edge while empty; by the owner's rules (every cell 44px, the corners of the cells) it is 44 by 44px with 6px corners.",
+    "the swatch with its hex holder and label is a field, not a component (the owner, owner, 2026-10-16)."
    ],
-   "kind": "Colour chooser: a swatch and a hex cell",
+   "kind": "Colour chooser: a swatch",
    "belongs": "Brand: Colours card"
   },
   {
@@ -1459,7 +1469,71 @@ export const library: Library = {
     "VAR006"
    ],
    "catalogue": [],
-   "variants": [],
+   "variants": [
+    {
+     "code": "IMG.LOG.001.001",
+     "name": "Logo",
+     "description": "The logo of the brand: a wide picture in a slot as wide as the card (668px by 216px); the picture is 650px wide and keeps its own proportions (about 122px high).",
+     "edits": "A wide slot; the x at its corner.",
+     "values": {},
+     "look": {
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "fontSize": 0,
+      "fontWeight": "400",
+      "scale": "symbol, no text",
+      "height": 216,
+      "width": 668,
+      "found": 1
+     },
+     "kind": "Image holder: a picture",
+     "belongs": "Brand: Icon & Logo card"
+    },
+    {
+     "code": "IMG.ICO.001.002",
+     "name": "Icon",
+     "description": "The icon of the brand: a square picture, about 249px by 249px, in a slot 300px high with the description cell beside it.",
+     "edits": "A square picture; the description beside it.",
+     "values": {},
+     "look": {
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "fontSize": 0,
+      "fontWeight": "400",
+      "scale": "symbol, no text",
+      "height": 249,
+      "width": 249,
+      "found": 1
+     },
+     "kind": "Image holder: a picture",
+     "belongs": "Brand: Icon & Logo card"
+    },
+    {
+     "code": "IMG.BRD.001.003",
+     "name": "Brand image",
+     "description": "A picture of the brand (a product, a pattern): 448px by 252px in a card of 492px, with its name and note under it.",
+     "edits": "A 16 by 9 picture; the name and the note stand under it.",
+     "values": {},
+     "look": {
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "fontSize": 0,
+      "fontWeight": "400",
+      "scale": "symbol, no text",
+      "height": 252,
+      "width": 448,
+      "found": 3
+     },
+     "kind": "Image holder: a picture",
+     "belongs": "Brand: Images card"
+    }
+   ],
    "requires": [
     {
      "asset": "BTN.001",
@@ -1481,7 +1555,8 @@ export const library: Library = {
     "places": 1
    },
    "lookNotes": [
-    "measured 448 by 252px in a card of 492px; the layout of the Brand Images card will change (the owner, owner, 2026-10-15)."
+    "measured 448 by 252px in a card of 492px; the layout of the Brand Images card will change (the owner, owner, 2026-10-15).",
+    "three sizes measured 2026-10-16 (Lumen & Loom, 1920px): the logo slot 668 by 216px (picture 650 by 122px), the icon 249 by 249px in a slot 668 by 300px, the brand image 448 by 252px (Quillfield). They differ because the cards differ; the sizes are not yet one rule."
    ],
    "kind": "Image holder: a picture with a name and a note",
    "belongs": "Brand: Images card"
@@ -1823,9 +1898,9 @@ export const library: Library = {
     },
     {
      "code": "MSG.IND.001.002",
-     "name": "Indicator",
-     "description": "A word beside a number that says its unit: %, px, a currency, months, years.",
-     "edits": "Plain text after the cell.",
+     "name": "Unit word",
+     "description": "The word that says what a number is in, written after the number cell: %, years, months, month, a currency (Deposit %, Useful life, Target operating reserve, Fixed costs $5,231 / month). Read, not filled in.",
+     "edits": "A word after a number; plain text.",
      "values": {
       "VAR012": "prefilled"
      },
@@ -1924,17 +1999,30 @@ export const library: Library = {
      "code": "LNK.SYM.001.003",
      "name": "Symbol link",
      "description": "A symbol with no words that shows a choice is a link to another card (beside a dropdown choice).",
-     "edits": "A symbol, no words.",
+     "edits": "A symbol, no words; 24px.",
      "values": {
       "VAR012": "generated"
      },
      "kind": "Symbol you press; generated",
-     "belongs": "Beside a dropdown choice in a card"
+     "belongs": "Beside a dropdown choice in a card",
+     "look": {
+      "height": 24,
+      "width": 24,
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "fontSize": 0,
+      "fontWeight": "400",
+      "scale": "symbol, no text",
+      "found": 72
+     }
     }
    ],
    "requires": [],
    "lookNotes": [
-    "variants and uses (owner, 2026-10-15): a place where a link is used is not a variant. The variants differ in style and function (underlined text, blue text, a symbol). The uses: the tile link (inside a master tile, opens a view or a card), the card name link (a child's name links to its parent card), the page link (the list of pages of an introduction), the link symbol (beside a dropdown choice)."
+    "variants and uses (owner, 2026-10-15): a place where a link is used is not a variant. The variants differ in style and function (underlined text, blue text, a symbol). The uses: the tile link (inside a master tile, opens a view or a card), the card name link (a child's name links to its parent card), the page link (the list of pages of an introduction), the link symbol (beside a dropdown choice).",
+    "the link symbol is 24px (the owner, owner, 2026-10-16); its place was cut off in the message and is not recorded yet."
    ],
    "group": "READ.LNK",
    "kind": "Text or symbol you read and press"
@@ -2463,8 +2551,8 @@ export const library: Library = {
       "fontSize": 0,
       "fontWeight": "400",
       "corners": "8px",
-      "paddingLeft": 13,
-      "paddingTop": 1,
+      "paddingLeft": 12,
+      "paddingTop": 12,
       "border": 0,
       "scale": "symbol, no text",
       "found": 53
@@ -2482,8 +2570,8 @@ export const library: Library = {
       "fontSize": 0,
       "fontWeight": "400",
       "corners": "8px",
-      "paddingLeft": 13,
-      "paddingTop": 1,
+      "paddingLeft": 12,
+      "paddingTop": 12,
       "border": 0,
       "scale": "symbol, no text",
       "found": 188
@@ -2531,8 +2619,8 @@ export const library: Library = {
     {
      "code": "FRM.TAG.001.006",
      "name": "Tag",
-     "description": "The surface of the page tag (the tab behind the bullets of a page tag): bullets only, a 37px tab.",
-     "edits": "A tab at the side of a page or a card; it holds the page tag. Not measured.",
+     "description": "The surface of the page tag (the tab behind the bullets of a page tag). It hugs its content, so it has no standard size and is adjustable: 37px wide with the bullets only (the pages of a system, measured on the Business pages), and as wide as its longest page name when the names are shown (the name box of 3. Infrastructure & Capability is 360px).",
+     "edits": "Hugs its content: width and height follow the bullets and the names.",
      "values": {},
      "look": {
       "height": null,
@@ -2545,7 +2633,7 @@ export const library: Library = {
       "scale": "symbol, no text",
       "found": 0
      },
-     "belongs": "The side of a page or a card"
+     "belongs": "The side of a page or a card; a single card (a Resource card) has no tag of its own"
     },
     {
      "code": "FRM.TIL.001.007",
@@ -2596,7 +2684,9 @@ export const library: Library = {
    "group": "FRAME.SUR",
    "lookNotes": [
     "one frame (the owner, owner, 2026-10-15): chapter, tile (master, nested), card (floating, nested) and tag are its variants; corners 8px (measured on the chapter, the tiles and the cards; the tag was not measured).",
-    "the frame also has a regular tile and a regular card, and the tag is the page tag (the owner, owner, 2026-10-15)."
+    "the frame also has a regular tile and a regular card, and the tag is the page tag (the owner, owner, 2026-10-15).",
+    "the master tile and the nested tile have 12px of padding, by the owner's decision (owner, 2026-10-16); measured 13px on every side.",
+    "the tag hugs its content (the owner, owner, 2026-10-16): measured 37px wide with bullets only (Business pages, 230px high for 5 pages), 360px for the longest name box; a card stack's tag is 12px wide and 16px per card."
    ],
    "kind": "Surface that carries information and tools"
   },
@@ -2716,7 +2806,6 @@ export const library: Library = {
     },
     {
      "asset": "DRP.001",
-     "variant": "DRP.OTH.001.002",
      "role": "choice"
     },
     {
@@ -2882,7 +2971,7 @@ export const library: Library = {
     },
     {
      "asset": "DRP.001",
-     "variant": "DRP.OTH.001.002",
+     "variant": "DRP.GEN.001.002",
      "role": "choice"
     }
    ],
@@ -2908,7 +2997,7 @@ export const library: Library = {
     },
     {
      "asset": "DRP.001",
-     "variant": "DRP.OTH.001.002",
+     "variant": "DRP.GEN.001.002",
      "role": "choice"
     }
    ],

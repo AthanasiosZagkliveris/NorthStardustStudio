@@ -30,7 +30,7 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | BTN.003 back button | BTN.SEC.003.002 Section back | 25 high, 76 wide | 18 | body 18 | 0px | 0/0 | 0 | 6 | meets 24 |
 | BTN.004 wide add button | (asset) | 44 | 18 | body 18 | 6px | 14/8 | 1 | 15 in 4 places | meets 24 |
 | BTN.005 add card tile | (asset) | 107.5 high, 107.5 wide | 14 | small 14 | 8px | 0/0 | 1 | 2 | meets 24 |
-| BTN.006 tool button | (asset) | 36 | 14 | small 14 | 6px | 0/0 | 1 | 0 | meets 24 |
+| BTN.006 tool button | (asset) | 36 | 14 | small 14 | 6px | 0/0 | 1 | 62 | meets 24 |
 | BTN.006 tool button | BTN.STR.006.008 Start Interview | 52 high, 269 wide | 18 | body 18 | 6px | 0/0 | 0 | 4 | meets 24 |
 | DRP.001 dropdown | (asset) | 44 | 18 | body 18 | 6px | 8/8 | 1 | 493 in 8 places | meets 24 |
 | TIK.001 tick box | (asset) | 24 high, 24 wide | 18 | body 18 | 0px | 0/0 | 0 | 721 in 8 places | meets 24 |
@@ -46,6 +46,9 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | DAT.002 calendar popup | (asset) | words | 18 | body 18 | 6px | 12/12 | 1 | 0 | follows the words (a field, not a button) |
 | PCK.001 colour picker | (asset) | 44 high, 44 wide | 14 | small 14 | 6px | 0/0 | 1 | 1 in 1 places | meets 24 |
 | IMG.001 image holder | (asset) | 252 high, 448 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 3 in 1 places | meets 24 |
+| IMG.001 image holder | IMG.LOG.001.001 Logo | 216 high, 668 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 1 | meets 24 |
+| IMG.001 image holder | IMG.ICO.001.002 Icon | 249 high, 249 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 1 | meets 24 |
+| IMG.001 image holder | IMG.BRD.001.003 Brand image | 252 high, 448 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 3 | meets 24 |
 | LBL.001 label | (asset) | words | 18 | body 18 | 0px | 0/0 | 0 | 1223 in 16 places | follows the words (a field, not a button) |
 | LBL.001 label | LBL.SUB.001.002 Underlined subtitle | words | 18 | body 18 | 0px | 0/0 | 0 | 8 | follows the words (a field, not a button) |
 | TTL.001 title | TTL.PAG.001.001 Page title | words | 36 | h1 36 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
@@ -62,6 +65,7 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | MSG.001 message | MSG.REM.001.003 Reminder | 27 | 18 | body 18 | 0px | 0/0 | 0 | 2 | meets 24 |
 | LNK.001 link | LNK.UND.001.001 Underlined text link | words | 18 | body 18 | 0px | 0/0 | 0 | 12 | follows the words (a field, not a button) |
 | LNK.001 link | LNK.BLU.001.002 Blue text link | words | 18 | body 18 | 0px | 0/0 | 0 | 9 | follows the words (a field, not a button) |
+| LNK.001 link | LNK.SYM.001.003 Symbol link | 24 high, 24 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 72 | meets 24 |
 | HLP.001 help text | (asset) | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
 | HLP.001 help text | HLP.BUL.001.002 Bulleted list | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
 | HLP.001 help text | HLP.SUM.001.004 Summary line | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
@@ -72,8 +76,8 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | ARW.002 fold arrow | ARW.TTL.002.002 Title arrow | 28 high, 28 wide | 28 | h2 28 | 0px | 0/0 | 0 | 2 in 1 places | meets 24 |
 | ICN.001 system icon | (asset) | 36 high, 36 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 4 in 4 places | meets 24 |
 | FRM.001 frame | FRM.CHP.001.001 Chapter | words | 0 | symbol, no text | 8px | 12/12 | 1 | 53 | follows the words (a field, not a button) |
-| FRM.001 frame | FRM.MTL.001.002 Master tile | words | 0 | symbol, no text | 8px | 13/1 | 0 | 53 | follows the words (a field, not a button) |
-| FRM.001 frame | FRM.NTL.001.003 Nested tile | words | 0 | symbol, no text | 8px | 13/1 | 0 | 188 | follows the words (a field, not a button) |
+| FRM.001 frame | FRM.MTL.001.002 Master tile | words | 0 | symbol, no text | 8px | 12/12 | 0 | 53 | follows the words (a field, not a button) |
+| FRM.001 frame | FRM.NTL.001.003 Nested tile | words | 0 | symbol, no text | 8px | 12/12 | 0 | 188 | follows the words (a field, not a button) |
 | FRM.001 frame | FRM.FLC.001.004 Floating card | words | 0 | symbol, no text | 8px | 12/12 | 1 | 186 | follows the words (a field, not a button) |
 | FRM.001 frame | FRM.NSC.001.005 Nested card | words | 0 | symbol, no text | 8px | 12/12 | 1 | 12 | follows the words (a field, not a button) |
 | FRM.001 frame | FRM.TAG.001.006 Tag | words | 0 | symbol, no text | 8px | 12/12 | 1 | 0 | follows the words (a field, not a button) |
@@ -125,17 +129,20 @@ Separated by purpose; each has its own default look.
 ### BTN.006 tool button
 
 - measured: 36px high, 100 to 135px wide (it follows its words), 14px type, 6px corners, 1px border (header tools; Reload 109 by 36px).
+- found 62 header tool words on 11 pages, measured 2026-10-16.
 
 ### DRP.001 dropdown
 
 - merged by the owner's decision (owner, 2026-10-15): dropdown height 45, type 18, corners 6px, padding 6/8, border 1; found 43 times (8.7% of the default's 493); largest difference 2.0px
 - cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45).
 - options source (the owner asked how dropdowns are divided, owner, 2026-10-15): prefilled (Status, Frequency, Currency, Unit, Plan, Cost option, Category, Type), dependent (Group), generated (Performer, Activity, Resource, Responsibility, Linked registration); With Other adds free entry to a list. The list of every dropdown cell is in catalogue/exports/dropdowns.csv.
+- Other is a reaction of an option, not a variant (the owner, owner, 2026-10-16); the generated list (Registrations, Expenses) is the variant.
 
 ### TIK.001 tick box
 
 - merged into the default: tick box height 18, type 16, corners 0px, padding 0/0, border 0; found 5 times (0.7% of the default's 721); largest difference 2.0px
 - enlarged, by the owner's decision (owner, 2026-10-15): from 18px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (721 found at 18px).
+- the box with its words is a field, not a component (the owner, owner, 2026-10-16): the words are a label.
 
 ### TXT.001 holder
 
@@ -165,18 +172,22 @@ Separated by purpose; each has its own default look.
 
 - cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 44). Already 44px.
 - dates in the Strategic Period, the Objective cards of a Theme and the Revenue card (Begins): by the owner's decision (owner, 2026-10-15) they are this date cell with a calendar and the choice of a day or only a month; they are month pickers with their own look today (bold, wide-spaced type that cuts the year off: 'September 202').
+- proposal (the owner, owner, 2026-10-16), not applied: the calendar sits inside the cell, not in a separate square; its button is 32px high, like the box buttons; the cell works exactly as a dropdown, with the picture of a calendar in place of the arrow, and the list has two choices, days or months of a year.
 
 ### DAT.002 calendar popup
 
 - rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners of 6px, like the cells. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.
+- measured 2026-10-16: the day popup is the browser's own calendar (a date input), so its text size and corners are the browser's and cannot be measured or styled; only the month popup of the Strategy pages is the app's own.
 
 ### PCK.001 colour picker
 
 - measured 44 by 45px, 8px corners, a dashed 1px edge while empty; by the owner's rules (every cell 44px, the corners of the cells) it is 44 by 44px with 6px corners.
+- the swatch with its hex holder and label is a field, not a component (the owner, owner, 2026-10-16).
 
 ### IMG.001 image holder
 
 - measured 448 by 252px in a card of 492px; the layout of the Brand Images card will change (the owner, owner, 2026-10-15).
+- three sizes measured 2026-10-16 (Lumen & Loom, 1920px): the logo slot 668 by 216px (picture 650 by 122px), the icon 249 by 249px in a slot 668 by 300px, the brand image 448 by 252px (Quillfield). They differ because the cards differ; the sizes are not yet one rule.
 
 ### LBL.001 label
 
@@ -195,6 +206,7 @@ Separated by purpose; each has its own default look.
 ### LNK.001 link
 
 - variants and uses (owner, 2026-10-15): a place where a link is used is not a variant. The variants differ in style and function (underlined text, blue text, a symbol). The uses: the tile link (inside a master tile, opens a view or a card), the card name link (a child's name links to its parent card), the page link (the list of pages of an introduction), the link symbol (beside a dropdown choice).
+- the link symbol is 24px (the owner, owner, 2026-10-16); its place was cut off in the message and is not recorded yet.
 
 ### HLP.001 help text
 
@@ -226,6 +238,8 @@ Separated by purpose; each has its own default look.
 
 - one frame (the owner, owner, 2026-10-15): chapter, tile (master, nested), card (floating, nested) and tag are its variants; corners 8px (measured on the chapter, the tiles and the cards; the tag was not measured).
 - the frame also has a regular tile and a regular card, and the tag is the page tag (the owner, owner, 2026-10-15).
+- the master tile and the nested tile have 12px of padding, by the owner's decision (owner, 2026-10-16); measured 13px on every side.
+- the tag hugs its content (the owner, owner, 2026-10-16): measured 37px wide with bullets only (Business pages, 230px high for 5 pages), 360px for the longest name box; a card stack's tag is 12px wide and 16px per card.
 
 ### CRD.003 Infrastructure Activity
 
@@ -268,6 +282,7 @@ The looks the app has today that the decisions change when the assets replace th
 - ARW.002 fold arrow: merged by the owner's decision (owner, 2026-10-15): fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px
 - ARW.002 fold arrow: label arrow and title arrow are variants (the owner's decision, owner, 2026-10-15): the same component, function and style; the size follows the text beside it (24px beside a field label, 28px beside a title).
 - TIL.002 open tile: title: by the owner's decision (owner, 2026-10-15) the tiles that floating cards generate (the Resources tiles) show the title on one line, and a title that is too long moves horizontally instead of being cut off.
+- FRM.001 frame: the master tile and the nested tile have 12px of padding, by the owner's decision (owner, 2026-10-16); measured 13px on every side.
 - CRD.003 Infrastructure Activity: order, by the owner's decision (owner, 2026-10-15): a divider line above Completed, and the Links (Linked to) last, after Completed.
 - CRD.007 Offering Activity: order, by the owner's decision (owner, 2026-10-15): a divider line above Completed, and the Links (Linked to) last, after Completed.
 

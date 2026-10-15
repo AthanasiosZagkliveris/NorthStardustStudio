@@ -80,7 +80,7 @@ for (const a of components) {
     say("| " + a.code + " | **" + a.name + "** | " + (a.kind ?? "") + " | " + s.height + " | " + s.width + " | " + s.text + " |");
     for (const v of a.variants) {
         const vs = variantSizeOf(a, v);
-        say("| ↳ " + v.code + " | " + v.name + " | " + (v.kind ?? a.kind ?? "") + " | " + vs.height + " | " + vs.width + " | " + vs.text + " |");
+        say("| ↳ " + v.code + " | " + v.name + " | " + (v.kind ?? "") + " | " + vs.height + " | " + vs.width + " | " + vs.text + " |");
     }
 }
 say("");
@@ -105,6 +105,40 @@ for (const t of off) { const k = t.size + " px: " + (t.cls || t.tag) + " (" + t.
 say("", "**Off the scale:** " + (off.length ? Object.entries(offBy).map(([k, n]) => k + " x" + n).join("; ") : "none") + ". The two 30 px texts are the typeface specimens of the Brand page (the sample of a font shown in its own size); the 0 px are the glyph of the page arrow (an icon, not read as text); the 24 px arrow is a symbol. The side panel handles were measured at 16 px earlier (the browser default, off the scale): flagged for the owner.");
 const offLooks = rows.filter(r => r.l.fontSize && !onScale.has(r.l.fontSize)).map(r => r.code + " " + r.l.fontSize + " px");
 say("", "**Components with a text size off the scale:** " + (offLooks.length ? offLooks.join("; ") : "none") + ".", "");
+
+const parts = existsSync("catalogue/measures/parts-quillfield-1920.json") ? JSON.parse(readFileSync("catalogue/measures/parts-quillfield-1920.json", "utf8")) : { fonts: [], pressable: [], tags: [], images: [], units: [] };
+// the fonts
+const fonts = {};
+for (const p of parts.fonts) for (const [k, v] of Object.entries(p.fonts)) fonts[k] = (fonts[k] ?? 0) + v;
+say("## Fonts", "", "Measured on " + parts.fonts.length + " pages: " + Object.entries(fonts).sort((x, y) => y[1] - x[1]).map(([k, v]) => k + " " + v + " texts").join("; ") + ". The app's font is Inter (docs/ai/layout-rules.md). Manrope and Source Sans 3 are the Brand page's typeface specimens. Arial is the browser's default for a button that does not inherit the font: the page arrow glyph, the fold arrows and the Expand all button of the Business page, so they are not in Inter.", "");
+
+// the defaults that exist in the app
+const none = components.filter(a => a.look && !a.look.found).map(a => a.code + " " + a.name);
+say("## Defaults that exist in the app", "", "A default look is the most used one measured, so it should exist somewhere in the app. " + (components.filter(a => a.look).length - none.length) + " of " + components.filter(a => a.look).length + " defaults were found in the example organisation. **Not found:** " + (none.length ? none.join("; ") : "none") + ".", "");
+
+// the text styles: every text read, by its expression
+const measuredTexts = measured.texts.filter(t => !t.holder);
+const styles = new Map();
+for (const t of measuredTexts) {
+    const key = [t.size + " px", t.weight, t.italic ? "italic" : "", t.underline ? "underlined" : "", t.transform === "uppercase" ? "capitals" : ""].filter(Boolean).join(", ");
+    const e = styles.get(key) ?? { n: 0, cls: {} };
+    e.n++; e.cls[t.cls || t.tag] = (e.cls[t.cls || t.tag] ?? 0) + 1;
+    styles.set(key, e);
+}
+say("## Text styles: the presentation of every text read (analysis)", "", "The texts of the readers (labels, titles, links, help texts, messages) could be one component, the text, with variants by **presentation** only (size, weight, capitals, italics, underline), and the purpose given in the field. Measured: " + styles.size + " different presentations cover all " + measuredTexts.length + " texts of the four systems; the first five cover " + Math.round([...styles.values()].sort((x, y) => y.n - x.n).slice(0, 5).reduce((s2, e) => s2 + e.n, 0) / measuredTexts.length * 100) + "%. Not yet in the library: it waits for the owner's decision.", "",
+    "| Presentation | Texts | Classes seen most |", "|---|---|---|");
+for (const [k, e] of [...styles].sort((x, y) => y[1].n - x[1].n)) say("| " + k + " | " + e.n + " | " + Object.entries(e.cls).sort((x, y) => y[1] - x[1]).slice(0, 3).map(([c, n]) => c + " " + n).join("; ") + " |");
+say("");
+
+// the texts that can be pressed
+const pressed = new Map();
+for (const p of parts.pressable) {
+    const key = [p.size + " px", p.weight, p.italic ? "italic" : "", p.underline ? "underlined" : "", p.transform === "uppercase" ? "capitals" : "", p.cls || p.tag].filter(Boolean).join(", ");
+    pressed.set(key, (pressed.get(key) ?? 0) + 1);
+}
+say("## Texts that can be pressed (analysis of the gap in the links)", "", "Every text that is a link, a button or has a pointer cursor, with its presentation. The library has three links (underlined, blue, symbol); the app has many more pressable texts. " + parts.pressable.length + " found on " + parts.fonts.length + " pages.", "", "| Presentation and class | Found |", "|---|---|");
+for (const [k, n] of [...pressed].sort((x, y) => y[1] - x[1]).slice(0, 30)) say("| " + k + " | " + n + " |");
+say("");
 
 let lastFamily = "";
 lastGroup = "";

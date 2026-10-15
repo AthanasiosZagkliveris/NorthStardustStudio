@@ -14,15 +14,15 @@ export const EXTRA = {
 /** The width of the components whose width is not a number of their own. */
 export const WIDTH = {
     "BTN.001": "32 px (a square)", "BTN.002": "24 px (a circle)", "BTN.004": "fills its column", "BTN.005": "107.5 px (a square)", "BTN.006": "follows its words (100 to 135 px)",
-    "DRP.001": "set by the layout (fills its column)", "TIK.001": "24 px (a square)", "TXT.001": "set by the layout (fills its column)", "LST.001": "fills its column", "DAT.001": "set by the layout", "DAT.002": "fits its calendar",
+    "DRP.001": "control = 'dropdown' and function not like '%Searchable%' and field not in ('Activity', 'Performer', 'Resource', 'Responsibility', 'Linked registration', 'Rent')", "DRP.SRC.001.001": "control = 'dropdown' and function like '%Searchable%'", "DRP.GEN.001.002": "control = 'dropdown' and field in ('Activity', 'Performer', 'Resource', 'Responsibility', 'Linked registration', 'Rent')",
     "PCK.001": "44 px (a square)", "IMG.001": "448 px (the width of the card less its padding)", "DIV.001": "fills its column", "LBL.001": "fits its words", "TTL.001": "fits its words", "LNK.001": "fits its words", "HLP.001": "fits its words", "MSG.001": "fits its words",
     "ARW.002": "36 px (the fold arrow)", "ARW.LAB.002.001": "24 px", "ARW.TTL.002.002": "28 px", "ICN.001": "36 px",
-    "FRM.CHP.001.001": "the width of the page (1400 px)", "FRM.MTL.001.002": "328 px", "FRM.NTL.001.003": "214 px", "FRM.FLC.001.004": "492 px (a founder's 297 px)", "FRM.NSC.001.005": "the width of the chapter (624, 554, 484 px by depth)", "FRM.TAG.001.006": "37 px (bullets only)", "FRM.TIL.001.007": "set by the layout", "FRM.CRD.001.008": "set by the layout",
+    "FRM.CHP.001.001": "the width of the page (1400 px)", "FRM.MTL.001.002": "328 px", "FRM.NTL.001.003": "214 px", "FRM.FLC.001.004": "492 px (a founder's 297 px)", "FRM.NSC.001.005": "the width of the chapter (624, 554, 484 px by depth)", "FRM.TAG.001.006": "hugs its content (adjustable): 37 px with bullets only", "FRM.TIL.001.007": "set by the layout", "FRM.CRD.001.008": "set by the layout",
     "FRM.002": "the width of the page", "FRM.003": "the width of the page", "FRM.001": "per variant"
 };
 /** The height of what has no height of its own. */
 export const HEIGHT = {
-    "FRM.CHP.001.001": "follows its contents", "FRM.MTL.001.002": "328 px (a square)", "FRM.NTL.001.003": "214 px (a square)", "FRM.FLC.001.004": "follows its contents", "FRM.NSC.001.005": "follows its contents", "FRM.TAG.001.006": "follows the items (76 to 351 px)",
+    "FRM.CHP.001.001": "follows its contents", "FRM.MTL.001.002": "328 px (a square)", "FRM.NTL.001.003": "214 px (a square)", "FRM.FLC.001.004": "follows its contents", "FRM.NSC.001.005": "follows its contents", "FRM.TAG.001.006": "hugs its content (adjustable)",
     "FRM.TIL.001.007": "set by the layout", "FRM.CRD.001.008": "follows its contents", "FRM.002": "follows its contents", "FRM.003": "follows its contents", "FRM.001": "per variant", "DAT.002": "fits its calendar", "DAT.DAY.002.001": "fits its calendar", "DAT.MON.002.002": "fits its calendar",
     "CAL.PNL.001.002": "not measured"
 };
