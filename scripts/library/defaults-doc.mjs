@@ -27,7 +27,7 @@ say("## Reference sizes", "",
     "| Text input height | 40px (Carbon medium, default; 32 small, 48 large); USWDS 2.5rem (40px) | [IBM Carbon, text input](https://carbondesignsystem.com/components/text-input/usage/); USWDS compiled CSS | Carbon from its documentation; USWDS from compiled CSS |",
     "| Text field height, Material | 56dp (Compose default) | developer reports, not the M3 specification | Weak; check m3.material.io |",
     "| Text hierarchy of this app | 14 small, 18 body, 24 h3, 28 h2, 36 h1 | docs/ai/layout-rules.md, Title sizes | The app's own rule |", "",
-    "The measured controls of this app are 44 to 45px high (text inputs), 32px (x and plus), 22px (the i) and 18px (the tick box): the text inputs are above the 40px of the design systems; the 18px tick box and the 22px i are under the 24px minimum.", "");
+    "The measured controls of this app are 44 to 45px high (text inputs), 32px (x and plus), 22px (the i) and 18px (the tick box): the text inputs are above the 40px of the design systems. The i and the tick box were under the 24px minimum; the owner enlarged both to 24px (2026-10-15). The reference sources were accepted by the owner (2026-10-15).", "");
 
 say("## Defaults, component by component", "",
     "| Asset | Variant | Height | Type | Hierarchy | Corners | Padding left/top | Border | Found | Target (WCAG 2.5.8, 24px) |", "|---|---|---|---|---|---|---|---|---|---|");
@@ -59,6 +59,11 @@ for (const a of library.assets.filter(x => x.lookNotes?.length)) {
     for (const n of a.lookNotes) say("- " + n);
     say("");
 }
+
+say("## What the app has to change (the owner's decisions)", "",
+    "The looks the app has today that the decisions change when the assets replace the old ones.", "");
+for (const a of library.assets) for (const n of a.lookNotes ?? []) if (/owner's decision|app error/.test(n)) say("- " + a.code + " " + a.name + ": " + n);
+say("");
 
 say("## Outside the text hierarchy", "");
 const off = rows.filter(([, , l]) => l.scale.startsWith("off"));

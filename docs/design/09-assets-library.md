@@ -143,8 +143,9 @@ A square button with a symbol in it: the x that deletes and the plus that adds. 
 A round button with an i: it shows the note of the label or title beside it. It is not the box button: its function, shape and purpose differ. It shares only its hover reaction (fills with its colour).
 
 - **Variables:** VAR001, VAR002, VAR003, VAR004
-- **Default look:** height 22, type 14 (small 14), corners 50%, padding 0/0, border 1, found 567
+- **Default look:** height 24, width 24, type 14 (small 14), corners 50%, padding 0/0, border 1, found 567
   - merged by the owner's decision (owner, 2026-10-15): info height 22, type 18, corners 50%, padding 0/0, border 1; found 70 times (12.3% of the default's 567); largest difference 4.0px
+  - enlarged, by the owner's decision (owner, 2026-10-15): from 22px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (567 found at 22px).
 - **Measured contract:** Info note
 - **Catalogue:** CO04
 
@@ -184,8 +185,9 @@ A cell that opens a list to choose one value from. 45px high, 6px corners, a bor
 A square box with a tick, with its words beside it on one line. 18px.
 
 - **Variables:** VAR001, VAR002, VAR003, VAR004
-- **Default look:** height 18, type 18 (body 18), corners 0px, padding 0/0, border 0, found 721
+- **Default look:** height 24, width 24, type 18 (body 18), corners 0px, padding 0/0, border 0, found 721
   - merged into the default: tick box height 18, type 16, corners 0px, padding 0/0, border 0; found 5 times (0.7% of the default's 721); largest difference 2.0px
+  - enlarged, by the owner's decision (owner, 2026-10-15): from 18px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (721 found at 18px).
 - **Catalogue:** CO11
 
 ### TXT.001 text input
@@ -196,16 +198,16 @@ A cell the person types text in: one line (text box), free text (a note), one li
 - **Default look:** height 45, type 18 (body 18), corners 6px, padding 10/8, border 1, found 24
   - text box with square corners and no border (the name of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard text box.
   - kept, the owner decides: text box height 35, type 28, corners 0px, padding 0/0, border 0; found 1 times (4.2% of the default's 24); largest difference 10.0px
-  - kept, the owner decides: text box height 45, type 18, corners 6px, padding 38/8, border 1; found 1 times (4.2% of the default's 24); largest difference 28.0px
+  - moved to the name cell, by the owner's decision (owner, 2026-10-15): the text box with padding 38 (the theme name in Strategy, Strategic Period, Financial Stability; 1 found) is a name cell. It is counted in the standard name cell.
   - free text with square corners and no border (the note of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard free text.
-  - name cell: kept, the owner decides: name cell type 18, corners 6px, padding 12/8, border 1; found 2 times (1.5% of the default's 135); largest difference 26.0px
+  - app error, by the owner's decision (owner, 2026-10-15): the name cell with padding 12 (the name with suggestions in Customer Engagement, Other, Referral partners; 2 found) is an error of the app and has to take the standard name cell look (padding 38, the number inside). It is counted in the standard name cell.
 - **Catalogue:** CO10, CO09
 
 | Variant | Name | Edits in the main asset | Own parts | Default look |
 |---|---|---|---|---|
 | TXT.BOX.001.001 | Text box | A single line. |  | height 45, type 18 (body 18), corners 6px, padding 10/8, border 1, found 24 |
 | TXT.ARE.001.002 | Free text | Several lines; it grows to fit; Enter adds a line inside it. |  | type 18 (body 18), corners 6px, padding 10/8, border 1, found 282 |
-| TXT.NAM.001.003 | Name cell | A text area with the order number inside the cell at its left. |  | type 18 (body 18), corners 6px, padding 38/8, border 1, found 135 |
+| TXT.NAM.001.003 | Name cell | A text area with the order number inside the cell at its left. |  | type 18 (body 18), corners 6px, padding 38/8, border 1, found 138 |
 | TXT.RDO.001.004 | Read-only text | No cell edge; the text is plain. |  |  |
 | TXT.LST.001.005 | List line | One sentence per line; Enter opens the next line; the lines are numbered and can be moved. |  | type 18 (body 18), corners 8px, padding 12/8, border 0, found 129 |
 

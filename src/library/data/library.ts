@@ -282,7 +282,7 @@ export const library: Library = {
     "Info note"
    ],
    "look": {
-    "height": 22,
+    "height": 24,
     "fontSize": 14,
     "fontWeight": "700",
     "corners": "50%",
@@ -290,10 +290,12 @@ export const library: Library = {
     "paddingTop": 0,
     "border": 1,
     "scale": "small 14",
-    "found": 567
+    "found": 567,
+    "width": 24
    },
    "lookNotes": [
-    "merged by the owner's decision (owner, 2026-10-15): info height 22, type 18, corners 50%, padding 0/0, border 1; found 70 times (12.3% of the default's 567); largest difference 4.0px"
+    "merged by the owner's decision (owner, 2026-10-15): info height 22, type 18, corners 50%, padding 0/0, border 1; found 70 times (12.3% of the default's 567); largest difference 4.0px",
+    "enlarged, by the owner's decision (owner, 2026-10-15): from 22px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (567 found at 22px)."
    ]
   },
   {
@@ -412,7 +414,7 @@ export const library: Library = {
     "CO11"
    ],
    "look": {
-    "height": 18,
+    "height": 24,
     "fontSize": 18,
     "fontWeight": "400",
     "corners": "0px",
@@ -420,10 +422,12 @@ export const library: Library = {
     "paddingTop": 0,
     "border": 0,
     "scale": "body 18",
-    "found": 721
+    "found": 721,
+    "width": 24
    },
    "lookNotes": [
-    "merged into the default: tick box height 18, type 16, corners 0px, padding 0/0, border 0; found 5 times (0.7% of the default's 721); largest difference 2.0px"
+    "merged into the default: tick box height 18, type 16, corners 0px, padding 0/0, border 0; found 5 times (0.7% of the default's 721); largest difference 2.0px",
+    "enlarged, by the owner's decision (owner, 2026-10-15): from 18px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (721 found at 18px)."
    ]
   },
   {
@@ -490,7 +494,7 @@ export const library: Library = {
       "paddingTop": 8,
       "border": 1,
       "scale": "body 18",
-      "found": 135
+      "found": 138
      }
     },
     {
@@ -538,9 +542,9 @@ export const library: Library = {
    "lookNotes": [
     "text box with square corners and no border (the name of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard text box.",
     "kept, the owner decides: text box height 35, type 28, corners 0px, padding 0/0, border 0; found 1 times (4.2% of the default's 24); largest difference 10.0px",
-    "kept, the owner decides: text box height 45, type 18, corners 6px, padding 38/8, border 1; found 1 times (4.2% of the default's 24); largest difference 28.0px",
+    "moved to the name cell, by the owner's decision (owner, 2026-10-15): the text box with padding 38 (the theme name in Strategy, Strategic Period, Financial Stability; 1 found) is a name cell. It is counted in the standard name cell.",
     "free text with square corners and no border (the note of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard free text.",
-    "name cell: kept, the owner decides: name cell type 18, corners 6px, padding 12/8, border 1; found 2 times (1.5% of the default's 135); largest difference 26.0px"
+    "app error, by the owner's decision (owner, 2026-10-15): the name cell with padding 12 (the name with suggestions in Customer Engagement, Other, Referral partners; 2 found) is an error of the app and has to take the standard name cell look (padding 38, the number inside). It is counted in the standard name cell."
    ]
   },
   {
