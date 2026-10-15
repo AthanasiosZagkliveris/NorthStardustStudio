@@ -281,3 +281,40 @@
 .inventory-underline {
     text-decoration: underline;
 }
+.inventory-frame {
+    display: inline-block;
+    padding: var(--space-field);
+    border: 1px solid var(--line-hairline);
+    border-radius: var(--radius-lg);
+}
+.inventory-image,
+.inventory-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--line-hairline);
+}
+.inventory-image {
+    width: 448px;
+    height: 120px;
+}
+.inventory-icon {
+    width: 36px;
+    height: 36px;
+    font-size: var(--font-small);
+}
+.inventory-divider-vertical {
+    display: inline-block;
+    width: 0;
+    height: 60px;
+    border-left: 1px solid var(--line-hairline);
+}
+.inventory-lined {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.inventory-lined li {
+    padding: var(--space-label) 0;
+    border-bottom: 1px solid var(--line-hairline);
+}

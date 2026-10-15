@@ -21,6 +21,8 @@ create table rails (place text, width integer, theme text, rail text, w real, h 
 create table card_actions (probe text, card text, action text, w integer, h integer, nfields integer, d_height integer, change text);
 create table tool_steps (tool text, step text, url text, layers text, text text, controls text);
 create table missing_states (card text, step text, missing text, lacks text, flashing text, value text);
+create table intro_elements (system text, tag text, cls text, text text, size real, weight text, italic integer, underline integer, colour text, interactive integer, w real, h real);
+create table extras (where_ text, name text, count integer, tag text, cls text, text text, w real, h real, size real, weight text, radius text, border text, fill text, colour text);
 create index obs_type on observations (kind, type);
 create index vr_control on variant_rows (control);
 `;
@@ -52,7 +54,12 @@ export async function build(root = ".") {
         const data = JSON.parse(readFileSync(probeDir + "/" + name, "utf8"));
         const probe = name.split("-quillfield")[0];
         for (const r of data.records) {
-            if (probe === "rails") {
+            if (probe === "intro-probe") {
+                insert("intro_elements", { system: r.system, tag: r.tag, cls: r.cls, text: r.text, size: r.size, weight: r.weight, italic: r.italic ? 1 : 0, underline: r.underline ? 1 : 0, colour: r.colour, interactive: r.interactive ? 1 : 0, w: r.w, h: r.h });
+            } else if (probe === "extras-probe") {
+                const i = (r.items ?? [])[0] ?? {};
+                insert("extras", { where_: r.where, name: r.name, count: r.count ?? 0, tag: i.tag ?? null, cls: i.cls ?? null, text: i.text ?? null, w: i.w ?? null, h: i.h ?? null, size: i.size ?? null, weight: i.weight ?? null, radius: i.radius ?? null, border: i.border ?? null, fill: i.fill ?? null, colour: i.colour ?? null });
+            } else if (probe === "rails") {
                 const hv = e => (e ? e.hover : "");
                 insert("rails", { place: r.place, width: r.width, theme: r.theme, rail: r.rail, w: r.box.w, h: r.box.h, tab: r.tab, radius: r.radius, holds: r.holds, items: r.items, dots: r.dot, hover_plain: hv(r.reactions?.plain), hover_lit: hv(r.reactions?.lit), focus_plain: r.reactions?.plain?.focus ?? "" });
             } else if (probe === "subchannel" || probe === "combos") {

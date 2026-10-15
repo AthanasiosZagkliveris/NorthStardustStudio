@@ -84,6 +84,34 @@ export function checkLibrary(library: Library, placements: readonly Placement[] 
             if (!need.role.trim()) problems.push(asset.code + ": a requirement of " + need.asset + " needs a role");
         }
     }
+    // The families and groups: every component has a group, and what a level shares is shared by its components.
+    const groups = new Map<string, { family: (typeof library.families & {})[number]; group: (typeof library.families & {})[number]["groups"][number] }>();
+    for (const family of library.families ?? []) {
+        if (!/^[A-Z]{3,5}$/.test(family.code)) problems.push("family code is not three to five capital letters: " + family.code);
+        for (const group of family.groups) {
+            if (!group.code.startsWith(family.code + ".")) problems.push("group " + group.code + " does not start with its family code " + family.code);
+            if (groups.has(group.code)) problems.push("group code used twice: " + group.code);
+            groups.set(group.code, { family, group });
+            if (!group.name.trim() || !group.description.trim()) problems.push(group.code + ": a group needs a name and a description");
+        }
+        if (!family.name.trim() || !family.description.trim() || family.characteristics.length === 0) problems.push(family.code + ": a family needs a name, a description and its characteristics");
+    }
+    if (library.families) {
+        for (const asset of library.assets) {
+            if (asset.category !== "component" && !asset.group) continue;
+            const home = asset.group ? groups.get(asset.group) : undefined;
+            if (!home) { problems.push(asset.code + ": a component needs a group of a family" + (asset.group ? " (" + asset.group + " does not exist)" : "")); continue; }
+            const shared = { ...home.family.shared, ...home.group.shared } as Record<string, string | number>;
+            const looks = [["", asset.look], ...asset.variants.map(v => [v.code, v.look] as const)] as const;
+            for (const [code, look] of looks) {
+                if (!look) continue;
+                for (const [key, value] of Object.entries(shared)) {
+                    const have = (look as unknown as Record<string, string | number>)[key];
+                    if (have !== value) problems.push((code || asset.code) + ": " + key + " is " + have + ", but every component of " + home.group.code + " shares " + value);
+                }
+            }
+        }
+    }
     for (const placement of placements) {
         if (placement.asset.startsWith(NOT_IN_LIBRARY)) continue; // case 3: a drift, listed by driftOf, not an error
         const target = assets.get(placement.asset);

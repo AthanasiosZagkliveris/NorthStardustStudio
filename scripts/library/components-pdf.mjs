@@ -42,12 +42,12 @@ for (let i = 0; i < lines.length; i++) {
         continue;
     }
     flush();
-    const h = /^(#{1,4}) (.+)$/.exec(line);
+    const h = /^(#{1,5}) (.+)$/.exec(line);
     if (h) {
         const level = h[1].length;
         html.push("<h" + level + (level === 2 ? ' class="part"' : "") + ">" + inline(h[2]) + "</h" + level + ">");
         const code = /^([A-Z]{3}\.\d{3}) /.exec(h[2]);
-        if (level === 3 && code && pictures.has(code[1])) html.push("<img src='data:image/png;base64," + pictures.get(code[1]) + "'>");
+        if (level === 4 && code && pictures.has(code[1])) html.push("<img src='data:image/png;base64," + pictures.get(code[1]) + "'>");
         continue;
     }
     if (line.startsWith("- ")) { if (!list) { html.push("<ul>"); list = true; } html.push("<li>" + inline(line.slice(2)) + "</li>"); continue; }
@@ -62,8 +62,10 @@ body { font: 10.5pt/1.5 "Segoe UI", Arial, sans-serif; color: #1f2937; }
 h1 { font-size: 24pt; margin: 0 0 4mm; }
 h2 { font-size: 15pt; margin: 8mm 0 2mm; border-bottom: 1.5px solid #374151; padding-bottom: 1mm; }
 h2.part { page-break-before: always; font-size: 18pt; }
-h3 { font-size: 13pt; margin: 7mm 0 1mm; page-break-after: avoid; }
-h4 { font-size: 11pt; margin: 4mm 0 1mm; page-break-after: avoid; }
+h2 { page-break-before: always; }
+h3 { font-size: 14pt; margin: 7mm 0 1mm; page-break-after: avoid; }
+h4 { font-size: 12pt; margin: 6mm 0 1mm; page-break-after: avoid; }
+h5 { font-size: 10.5pt; margin: 3mm 0 1mm; page-break-after: avoid; }
 p { margin: 0 0 2mm; }
 ul { margin: 0 0 3mm 5mm; padding: 0; }
 li { margin: 0; }

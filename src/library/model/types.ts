@@ -22,6 +22,10 @@ export const KINDS = {
     HLP: { name: "help text", category: "component" },
     TTL: { name: "title", category: "component" },
     LNK: { name: "link", category: "component" },
+    PCK: { name: "picker", category: "component" },
+    IMG: { name: "image holder", category: "component" },
+    MSG: { name: "message", category: "component" },
+    ICN: { name: "icon", category: "component" },
     NUM: { name: "number box", category: "component" },
     DAT: { name: "date cell", category: "component" },
     LBL: { name: "label", category: "component" },
@@ -112,6 +116,8 @@ export interface Asset {
     look?: Look;
     /** The other looks measured: merged into the default (a few uses, within 2px) or kept (the owner decides). */
     lookNotes?: readonly string[];
+    /** The group the component belongs to (HOLD.CEL): every component has one. */
+    group?: string;
     /** The measured contracts of src/library/assets that describe this asset (by their names), if there are any. */
     contracts?: readonly string[];
     /** The ids of the catalogue it was made from (docs/design/07-structure-tables.md). */
@@ -133,9 +139,35 @@ export interface Placement {
     position?: number;
 }
 
+/**
+ * The levels above the assets. A family is the first level: every component in it has the same characteristics.
+ * A group is the second level inside a family: its components share more. Below the group are the asset and its
+ * variants, which differ further. `shared` are the parts of the look that every component of the level has; they
+ * are checked against the looks of the components.
+ */
+export interface Group {
+    /** HOLD.CEL: the family code, a dot and three capital letters. */
+    code: string;
+    name: string;
+    description: string;
+    characteristics: readonly string[];
+    shared?: Partial<Pick<Look, "fontSize" | "corners" | "border">>;
+}
+
+export interface Family {
+    /** HOLD, READ, CTRL, MARK, FRAME. */
+    code: string;
+    name: string;
+    description: string;
+    characteristics: readonly string[];
+    shared?: Partial<Pick<Look, "fontSize" | "corners" | "border">>;
+    groups: readonly Group[];
+}
+
 export interface Library {
     variables: readonly Variable[];
     assets: readonly Asset[];
+    families?: readonly Family[];
 }
 
 /** One line of the library log: every change to an asset (added, edited, placed, moved, removed). */

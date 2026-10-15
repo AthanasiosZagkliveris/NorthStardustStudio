@@ -12,9 +12,17 @@ describe("the assets library", () => {
         const box = library.assets.find(a => a.name === "box button");
         const info = library.assets.find(a => a.name === "info button");
         expect(box?.code).toBe("BTN.001");
-        expect(box?.variants.map(v => v.code)).toEqual(["BTN.DLT.001.001", "BTN.ADD.001.002"]);
+        expect(box?.variants.map(v => v.code)).toEqual(["BTN.DLT.001.001", "BTN.ADD.001.002", "BTN.SHR.001.003"]);
         expect(info?.code).toBe("BTN.002");
         expect(info?.variants).toEqual([]);
+    });
+
+    it("has the families of the owner, every component in a group, and the frame with its variants", () => {
+        expect(library.families?.map(f => f.code)).toEqual(["HOLD", "READ", "CTRL", "MARK", "FRAME"]);
+        const groups = new Set(library.families?.flatMap(f => f.groups.map(g => g.code)));
+        for (const asset of library.assets.filter(a => a.category === "component")) expect(groups.has(asset.group ?? ""), asset.code + " has a group").toBe(true);
+        const frame = library.assets.find(a => a.code === "FRM.001");
+        expect(frame?.variants.map(v => v.name)).toEqual(["Chapter", "Master tile", "Nested tile", "Floating card", "Nested card", "Tag"]);
     });
 
     it("has every category, and no asset twice", () => {

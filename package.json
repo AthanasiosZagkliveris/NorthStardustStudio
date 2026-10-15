@@ -40,7 +40,9 @@
     "library:components": "node scripts/library/components-list.mjs",
     "library:components:check": "node scripts/library/components-list.mjs --check",
     "library:usage": "node scripts/library/fields-by-component.mjs",
-    "library:usage:check": "node scripts/library/fields-by-component.mjs --check"
+    "library:usage:check": "node scripts/library/fields-by-component.mjs --check",
+    "library:csv": "node scripts/library/export-csv.mjs",
+    "library:csv:check": "node scripts/library/export-csv.mjs --check"
   },
   "dependencies": {
     "@fontsource/inter": "^5.3.0",

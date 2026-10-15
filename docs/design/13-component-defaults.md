@@ -24,8 +24,12 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | BTN.001 box button | (asset) | 32 | 0 | symbol, no text | 6px | 0/0 | 2 | 237 in 11 places | meets 24 |
 | BTN.001 box button | BTN.DLT.001.001 Delete | 32 | 0 | symbol, no text | 6px | 0/0 | 2 | 237 in 11 places | meets 24 |
 | BTN.001 box button | BTN.ADD.001.002 Add | 32 | 0 | symbol, no text | 6px | 0/0 | 2 | 107 in 1 places | meets 24 |
+| BTN.001 box button | BTN.SHR.001.003 Shrink | 32 high, 32 wide | 0 | symbol, no text | 6px | 0/0 | 2 | 3 | meets 24 |
 | BTN.002 info button | (asset) | 24 high, 24 wide | 14 | small 14 | 50% | 0/0 | 1 | 567 in 9 places | meets 24 |
 | BTN.004 wide add button | (asset) | 44 | 18 | body 18 | 6px | 14/8 | 1 | 15 in 4 places | meets 24 |
+| BTN.005 add card tile | (asset) | 107.5 high, 107.5 wide | 14 | small 14 | 8px | 0/0 | 1 | 2 | meets 24 |
+| BTN.006 tool button | (asset) | 36 | 14 | small 14 | 6px | 0/0 | 1 | 0 | meets 24 |
+| BTN.006 tool button | BTN.STR.006.008 Start Interview | 52 high, 269 wide | 18 | body 18 | 6px | 0/0 | 0 | 4 | meets 24 |
 | DRP.001 dropdown | (asset) | 44 | 18 | body 18 | 6px | 8/8 | 1 | 493 in 8 places | meets 24 |
 | TIK.001 tick box | (asset) | 24 high, 24 wide | 18 | body 18 | 0px | 0/0 | 0 | 721 in 8 places | meets 24 |
 | TXT.001 text holder | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 in 4 places | meets 24 |
@@ -33,14 +37,17 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | TXT.001 text holder | TXT.ARE.001.002 Free text | words, at least 44 | 18 | body 18 | 6px | 10/8 | 1 | 282 in 19 places | follows the words (a field, not a button) |
 | TXT.001 text holder | TXT.NAM.001.003 Name cell | words, at least 44 | 18 | body 18 | 6px | 38/8 | 1 | 138 | follows the words (a field, not a button) |
 | LST.001 list | (asset) | words, at least 44 | 18 | body 18 | 6px | 12/8 | 1 | 129 in 5 places | follows the words (a field, not a button) |
-| DIV.001 divider | (asset) | 1 | 0 | symbol, no text | 0px | 0/0 | 1 | 0 | under 24 |
+| DIV.001 divider | DIV.HOR.001.001 Horizontal | 2 | 0 | symbol, no text | 0px | 0/0 | 0 | 1 | under 24 |
 | NUM.001 number box | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 166 in 2 places | meets 24 |
 | NUM.001 number box | NUM.PCT.001.003 Percent | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 12 | meets 24 |
 | NUM.001 number box | NUM.YRS.001.004 Years | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 8 | meets 24 |
 | NUM.001 number box | NUM.MON.001.005 Months | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 1 in 1 places | meets 24 |
 | DAT.001 date cell | (asset) | 44 | 18 | body 18 | 6px | 10/0 | 1 | 166 in 2 places | meets 24 |
 | DAT.002 calendar popup | (asset) | words | 18 | body 18 | 6px | 12/12 | 1 | 0 | follows the words (a field, not a button) |
+| PCK.001 colour picker | (asset) | 44 high, 44 wide | 14 | small 14 | 6px | 0/0 | 1 | 1 in 1 places | meets 24 |
+| IMG.001 image holder | (asset) | 252 high, 448 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 3 in 1 places | meets 24 |
 | LBL.001 label | (asset) | words | 18 | body 18 | 0px | 0/0 | 0 | 1223 in 16 places | follows the words (a field, not a button) |
+| LBL.001 label | LBL.SUB.001.002 Underlined subtitle | words | 18 | body 18 | 0px | 0/0 | 0 | 8 | follows the words (a field, not a button) |
 | TTL.001 title | TTL.PAG.001.001 Page title | words | 36 | h1 36 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
 | TTL.001 title | TTL.CHP.001.002 Chapter title | words | 28 | h2 28 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
 | TTL.001 title | TTL.DLG.001.003 Dialog title | words | 24 | h3 24 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
@@ -49,12 +56,25 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | TTL.001 title | TTL.TIL.001.006 Tile title | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
 | TTL.001 title | TTL.CRD.001.007 Card title | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
 | TTL.001 title | TTL.OPT.001.008 Option title | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TTL.001 title | TTL.SYS.001.009 System title | words | 36 | h1 36 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TTL.001 title | TTL.INT.001.010 Guiding question | words | 24 | h3 24 | 0px | 0/0 | 0 | 4 | follows the words (a field, not a button) |
+| MSG.001 message | MSG.VER.001.001 Verification | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| LNK.001 link | LNK.PAG.001.004 Page link | words | 18 | body 18 | 0px | 0/0 | 0 | 9 | follows the words (a field, not a button) |
 | HLP.001 help text | (asset) | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
 | HLP.001 help text | HLP.BUL.001.002 Bulleted list | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
 | HLP.001 help text | HLP.SUM.001.004 Summary line | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| HLP.001 help text | HLP.BGR.001.006 Background text | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| HLP.001 help text | HLP.INT.001.009 Introduction text | words | 18 | body 18 | 0px | 0/0 | 0 | 17 | follows the words (a field, not a button) |
 | ARW.002 fold arrow | (asset) | 36 | 0 | symbol, no text | 6px | 0/0 | 1 | 11 in 1 places | meets 24 |
 | ARW.002 fold arrow | ARW.LAB.002.001 Label arrow | 24 | 18 | body 18 | 0px | 0/0 | 0 | 8 in 2 places | meets 24 |
 | ARW.002 fold arrow | ARW.TTL.002.002 Title arrow | 28 high, 28 wide | 28 | h2 28 | 0px | 0/0 | 0 | 2 in 1 places | meets 24 |
+| ICN.001 system icon | (asset) | 36 high, 36 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 4 in 4 places | meets 24 |
+| FRM.001 frame | FRM.CHP.001.001 Chapter | words | 0 | symbol, no text | 8px | 12/12 | 1 | 53 | follows the words (a field, not a button) |
+| FRM.001 frame | FRM.MTL.001.002 Master tile | words | 0 | symbol, no text | 8px | 13/1 | 0 | 53 | follows the words (a field, not a button) |
+| FRM.001 frame | FRM.NTL.001.003 Nested tile | words | 0 | symbol, no text | 8px | 13/1 | 0 | 188 | follows the words (a field, not a button) |
+| FRM.001 frame | FRM.FLC.001.004 Floating card | words | 0 | symbol, no text | 8px | 12/12 | 1 | 186 | follows the words (a field, not a button) |
+| FRM.001 frame | FRM.NSC.001.005 Nested card | words | 0 | symbol, no text | 8px | 12/12 | 1 | 12 | follows the words (a field, not a button) |
+| FRM.001 frame | FRM.TAG.001.006 Tag | words | 0 | symbol, no text | 8px | 12/12 | 1 | 0 | follows the words (a field, not a button) |
 
 ## Text holders
 
@@ -75,6 +95,7 @@ Separated by purpose; each has its own default look.
 - merged into the default: x height 32, type 0, corners 6px, padding 0/0, border 1; found 4 times (1.7% of the default's 237); largest difference 1.0px
 - plus: one size, by the owner's decision (owner, 2026-10-15): 32px, the size of the x and of the plus in cards (107 found). The plus on a master tile (36px, 55 found: Customer Engagement 13, Infrastructure Resources 9, Infrastructure 5, Brand 3, Foundation 3 in the five largest places) takes this size.
 - plus corners: the corners of the x, 6px, by the owner's decision (owner, 2026-10-15); the plus measured 8px (107 found).
+- shrink button (make it tiles): measured 32 by 32px, 8px corners, 2px border, with an icon; by the one rule of the box button (the owner's decision on the x and the plus, owner, 2026-10-15) its corners are 6px.
 
 ### BTN.002 info button
 
@@ -86,10 +107,19 @@ Separated by purpose; each has its own default look.
 - found 15 times: Customer Engagement 7, Financial Foundation 3, Foundation 1, Identity (Founders and Registrations) 4; 39px high, type 18, padding 14/8, border 1. They are not a plus box; the one look measured.
 - height and plus: by the owner's decision (owner, 2026-10-15) the button looks like a cell, so it is 44px high like every cell (it measured 39px); the plus inside it has the size and the place of the plus box, 32px, at the left, like the plus box.
 
+### BTN.005 add card tile
+
+- measured 107.5 by 107.5px, a dashed 1px edge, 8px corners, 14px bold words under the plus (the Add Card tile moved from the tiles to the buttons, owner, 2026-10-15).
+
+### BTN.006 tool button
+
+- measured: 36px high, 100 to 135px wide (it follows its words), 14px type, 6px corners, 1px border (header tools; Reload 109 by 36px).
+
 ### DRP.001 dropdown
 
 - merged by the owner's decision (owner, 2026-10-15): dropdown height 45, type 18, corners 6px, padding 6/8, border 1; found 43 times (8.7% of the default's 493); largest difference 2.0px
 - cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45).
+- options source (the owner asked how dropdowns are divided, owner, 2026-10-15): prefilled (Status, Frequency, Currency, Unit, Plan, Cost option, Category, Type), dependent (Group), generated (Performer, Activity, Resource, Responsibility, Linked registration); With Other adds free entry to a list. The list of every dropdown cell is in catalogue/exports/dropdowns.csv.
 
 ### TIK.001 tick box
 
@@ -110,7 +140,7 @@ Separated by purpose; each has its own default look.
 
 ### DIV.001 divider
 
-- from the card rules (two groups divided by a rule, 12px either side); not a separate element in the scan.
+- horizontal: the page rule measured 2px (interview-divider); the card rule is 1px (the card rules); the vertical line (answer-columns-divider) was not measured.
 
 ### NUM.001 number box
 
@@ -129,6 +159,14 @@ Separated by purpose; each has its own default look.
 
 - rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners of 6px, like the cells. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.
 
+### PCK.001 colour picker
+
+- measured 44 by 45px, 8px corners, a dashed 1px edge while empty; by the owner's rules (every cell 44px, the corners of the cells) it is 44 by 44px with 6px corners.
+
+### IMG.001 image holder
+
+- measured 448 by 252px in a card of 492px; the layout of the Brand Images card will change (the owner, owner, 2026-10-15).
+
 ### LBL.001 label
 
 - position: by the owner's decision (owner, 2026-10-15) a label has no variants for its position (above, at the side); that information belongs to the field (the variable label position of the field assets).
@@ -137,6 +175,10 @@ Separated by purpose; each has its own default look.
 ### TTL.001 title
 
 - sizes from the app's text hierarchy (docs/ai/layout-rules.md, Title sizes: page 36, column 28, dialog and section 24, tile and card names 18; weight 600 on tiles and boxes, 700 on headings); not measured by the scan. The owner's rules (owner, 2026-10-15): two categories, prefilled and generated; a title in a master tile wraps; on a tile or a chapter it moves; as a link or a dropdown option in a card it uses one line and the rest is cut.
+
+### MSG.001 message
+
+- verification measured from the card rules (docs/ai/layout-rules.md: the missing note is 14px); the indicator and the reminder were not measured.
 
 ### LNK.001 link
 
@@ -155,9 +197,17 @@ Separated by purpose; each has its own default look.
 
 - the one bullet of every page tag (the owner, owner, 2026-10-15): there is one type of bullet.
 
+### ICN.001 system icon
+
+- measured 36 by 36px (one per system).
+
 ### TIL.002 open tile
 
 - title: by the owner's decision (owner, 2026-10-15) the tiles that floating cards generate (the Resources tiles) show the title on one line, and a title that is too long moves horizontally instead of being cut off.
+
+### FRM.001 frame
+
+- one frame (the owner, owner, 2026-10-15): chapter, tile (master, nested), card (floating, nested) and tag are its variants; corners 8px (measured on the chapter, the tiles and the cards; the tag was not measured).
 
 ### CRD.003 Infrastructure Activity
 
@@ -178,6 +228,7 @@ The looks the app has today that the decisions change when the assets replace th
 - BTN.001 box button: merged by the owner's decision (owner, 2026-10-15): x height 32, type 18, corners 6px, padding 0/0, border 2; found 20 times (8.4% of the default's 237); largest difference 18.0px
 - BTN.001 box button: plus: one size, by the owner's decision (owner, 2026-10-15): 32px, the size of the x and of the plus in cards (107 found). The plus on a master tile (36px, 55 found: Customer Engagement 13, Infrastructure Resources 9, Infrastructure 5, Brand 3, Foundation 3 in the five largest places) takes this size.
 - BTN.001 box button: plus corners: the corners of the x, 6px, by the owner's decision (owner, 2026-10-15); the plus measured 8px (107 found).
+- BTN.001 box button: shrink button (make it tiles): measured 32 by 32px, 8px corners, 2px border, with an icon; by the one rule of the box button (the owner's decision on the x and the plus, owner, 2026-10-15) its corners are 6px.
 - BTN.002 info button: merged by the owner's decision (owner, 2026-10-15): info height 22, type 18, corners 50%, padding 0/0, border 1; found 70 times (12.3% of the default's 567); largest difference 4.0px
 - BTN.002 info button: enlarged, by the owner's decision (owner, 2026-10-15): from 22px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (567 found at 22px).
 - BTN.004 wide add button: height and plus: by the owner's decision (owner, 2026-10-15) the button looks like a cell, so it is 44px high like every cell (it measured 39px); the plus inside it has the size and the place of the plus box, 32px, at the left, like the plus box.
