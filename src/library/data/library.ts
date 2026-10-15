@@ -213,6 +213,66 @@ export const library: Library = {
      "description": "The names stand beside the bullets; the rail is as wide as its longest name (145 to 229px measured)."
     }
    ]
+  },
+  {
+   "code": "VAR012",
+   "name": "origin",
+   "description": "Where the words of a reading text come from.",
+   "values": [
+    {
+     "name": "prefilled",
+     "description": "The words are written in the app."
+    },
+    {
+     "name": "generated",
+     "description": "The words come from another input (a card's name, a tile that a card generates) and link to it."
+    }
+   ]
+  },
+  {
+   "code": "VAR013",
+   "name": "long text",
+   "description": "What a text does when it is too long for its room.",
+   "values": [
+    {
+     "name": "wraps",
+     "description": "It continues on the next line."
+    },
+    {
+     "name": "moves",
+     "description": "It stays on one line and moves horizontally."
+    },
+    {
+     "name": "one line, cut",
+     "description": "It stays on one line and the rest is cut."
+    }
+   ]
+  },
+  {
+   "code": "VAR014",
+   "name": "growth",
+   "description": "Whether a holder grows as the person writes.",
+   "values": [
+    {
+     "name": "grows",
+     "description": "The cell grows as you type or press Enter."
+    },
+    {
+     "name": "fixed space",
+     "description": "The cell keeps the space it has."
+    }
+   ]
+  },
+  {
+   "code": "VAR015",
+   "name": "digit limit",
+   "description": "How many digits a number cell accepts.",
+   "values": [
+    {
+     "name": "as required",
+     "description": "Only digits can be typed, and no more digits than the field requires; the limit is set by the field."
+    }
+   ]
   }
  ],
  "assets": [
@@ -477,23 +537,26 @@ export const library: Library = {
   },
   {
    "code": "TXT.001",
-   "name": "text input",
+   "name": "text holder",
    "category": "component",
-   "summary": "A cell the person types text in: one line (text box), free text (a note), one line of a numbered list (list line), or the name of a card (name cell). Each has its own look; a read-only text is shown, not edited.",
+   "summary": "A cell the person fills in with text (letters or numbers), in the body size. A text box keeps its space; a free text grows as you type or press Enter; a name cell stands on top of a card and its order number is generated automatically. A text that is only read is not a holder (see the help text, label, title and link).",
    "variables": [
     "VAR001",
     "VAR002",
     "VAR003",
     "VAR004",
+    "VAR014",
     "VAR006"
    ],
    "variants": [
     {
      "code": "TXT.BOX.001.001",
      "name": "Text box",
-     "description": "One line of text, 44px high.",
-     "edits": "A single line.",
-     "values": {},
+     "description": "One line of text in a cell that keeps its space.",
+     "edits": "A single line; fixed space.",
+     "values": {
+      "VAR014": "fixed space"
+     },
      "look": {
       "height": 44,
       "fontSize": 18,
@@ -510,9 +573,11 @@ export const library: Library = {
     {
      "code": "TXT.ARE.001.002",
      "name": "Free text",
-     "description": "A note: several lines of free words that grow with what is written (Description, Offerings, Strengths).",
-     "edits": "Several lines; it grows to fit; Enter adds a line inside it.",
-     "values": {},
+     "description": "A description text: the cell gets bigger as you type or press Enter (Description, Offerings, Market).",
+     "edits": "Grows with the words; Enter adds a line inside it.",
+     "values": {
+      "VAR014": "grows"
+     },
      "look": {
       "height": null,
       "fontSize": 18,
@@ -530,9 +595,11 @@ export const library: Library = {
     {
      "code": "TXT.NAM.001.003",
      "name": "Name cell",
-     "description": "The name of a card in its head, with the order number inside the cell.",
-     "edits": "A text area with the order number inside the cell at its left.",
-     "values": {},
+     "description": "The name of a card, on top of the card. The order number is generated automatically and stands inside the cell.",
+     "edits": "At the top of a card; the order number is automatic and inside the cell; it wraps and grows.",
+     "values": {
+      "VAR014": "grows"
+     },
      "look": {
       "height": null,
       "fontSize": 18,
@@ -544,52 +611,6 @@ export const library: Library = {
       "scale": "body 18",
       "found": 138,
       "minHeight": 44
-     }
-    },
-    {
-     "code": "TXT.RDO.001.004",
-     "name": "Read-only text",
-     "description": "Text the person cannot edit (a number or a name the app fills in).",
-     "edits": "No cell edge; the text is plain.",
-     "values": {}
-    },
-    {
-     "code": "TXT.LST.001.005",
-     "name": "List line",
-     "description": "One entry of a numbered list: a sentence that wraps, with its number outside the cell. Enter opens the next line.",
-     "edits": "One sentence per line; Enter opens the next line; the lines are numbered and can be moved.",
-     "values": {},
-     "look": {
-      "height": null,
-      "fontSize": 18,
-      "fontWeight": "400",
-      "corners": "8px",
-      "paddingLeft": 12,
-      "paddingTop": 8,
-      "border": 0,
-      "scale": "body 18",
-      "found": 129,
-      "minHeight": 44,
-      "places": 5
-     }
-    },
-    {
-     "code": "TXT.TTL.001.006",
-     "name": "Title input",
-     "description": "The title of a chapter: a single line at the size of a column title. Every chapter has a title; a title that is too long moves horizontally.",
-     "edits": "One line, 28px; no cell edge; a long title scrolls sideways.",
-     "values": {},
-     "look": {
-      "height": 35,
-      "fontSize": 28,
-      "fontWeight": "400",
-      "corners": "0px",
-      "paddingLeft": 0,
-      "paddingTop": 0,
-      "border": 0,
-      "scale": "h2 28",
-      "found": 1,
-      "places": 1
      }
     }
    ],
@@ -615,52 +636,40 @@ export const library: Library = {
     "moved to the name cell, by the owner's decision (owner, 2026-10-15): the text box with padding 38 (the theme name in Strategy, Strategic Period, Financial Stability; 1 found) is a name cell. It is counted in the standard name cell.",
     "free text with square corners and no border (the note of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard free text.",
     "app error, by the owner's decision (owner, 2026-10-15): the name cell with padding 12 (the name with suggestions in Customer Engagement, Other, Referral partners; 2 found) is an error of the app and has to take the standard name cell look (padding 38, the number inside). It is counted in the standard name cell.",
-    "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45 for the text box, 43 to 45 at least for the others). A free text, a name cell and a list line are at least 44px high and grow with their words.",
-    "title input: by the owner's decision (owner, 2026-10-15) every chapter has a title, a single line at the column title size (28px); a title that is too long moves horizontally. It is not a text box (the frame name in Business, 1. Foundation, 1 found)."
+    "the holders (owner, 2026-10-15): text and number holders all use the body text (18px); their variants depend on their function. A text that is only read is not a holder."
    ]
   },
   {
    "code": "LST.001",
-   "name": "numbered list",
+   "name": "list",
    "category": "component",
-   "summary": "A list of entries the person writes, one sentence each, numbered, in order, that can be moved and removed (Values, Principles, SWOT points, Initiatives, Responsibilities). Enter opens the next line.",
+   "summary": "A text that needs a list is ONE cell that holds numbered rows divided by thin lines, the numbers inside the cell (Values, Principles, SWOT points, Initiatives, Responsibilities). It grows as rows are added; Enter opens the next row; the rows can be moved and removed.",
    "variables": [
     "VAR001",
     "VAR002",
     "VAR003",
     "VAR004",
-    "VAR006"
+    "VAR006",
+    "VAR014"
    ],
    "catalogue": [],
-   "variants": [
-    {
-     "code": "LST.EDT.001.001",
-     "name": "Editable list",
-     "description": "The list the person writes.",
-     "edits": "Lines are list lines in cells.",
-     "values": {}
-    },
-    {
-     "code": "LST.NUM.001.002",
-     "name": "Read-only numbered list",
-     "description": "A numbered list that is shown (a founder's roles recalled from the profile).",
-     "edits": "No cells; the number and the text.",
-     "values": {}
-    },
-    {
-     "code": "LST.BUL.001.003",
-     "name": "Read-only bullet list",
-     "description": "A bulleted list that is shown (the list of what a tile includes).",
-     "edits": "Bullets instead of numbers; 14px.",
-     "values": {}
-    }
-   ],
-   "requires": [
-    {
-     "asset": "TXT.001",
-     "variant": "TXT.LST.001.005",
-     "role": "one list line per entry"
-    }
+   "variants": [],
+   "requires": [],
+   "look": {
+    "height": null,
+    "minHeight": 44,
+    "fontSize": 18,
+    "fontWeight": "400",
+    "corners": "6px",
+    "paddingLeft": 12,
+    "paddingTop": 8,
+    "border": 1,
+    "scale": "body 18",
+    "found": 129,
+    "places": 5
+   },
+   "lookNotes": [
+    "measured (the owner's description, owner, 2026-10-15): the list is one cell, 6px corners and a 1px border; each row is at least 43 to 44px high, divided from the next by a thin line, with its number inside the cell at the left and the text wrapping; the row's own box has 8px corners and no border (inside the cell). The earlier reading, a single line with its number outside the cell, was wrong."
    ]
   },
   {
@@ -693,13 +702,14 @@ export const library: Library = {
    "code": "NUM.001",
    "name": "number box",
    "category": "component",
-   "summary": "A cell for a number, right-aligned, 45px high.",
+   "summary": "A cell for a number: only digits can be typed, and no more digits than the field requires. In the body size, 44px high. The percent, years and months boxes are squares.",
    "variables": [
     "VAR001",
     "VAR002",
     "VAR003",
     "VAR004",
-    "VAR006"
+    "VAR006",
+    "VAR015"
    ],
    "variants": [
     {
@@ -795,7 +805,8 @@ export const library: Library = {
     "percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45).",
     "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px.",
     "years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).",
-    "months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner)."
+    "months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner).",
+    "digits: by the owner's description (owner, 2026-10-15) a number cell accepts only numbers, and no more digits than the field requires."
    ]
   },
   {
@@ -941,7 +952,326 @@ export const library: Library = {
     "places": 16
    },
    "lookNotes": [
-    "position: by the owner's decision (owner, 2026-10-15) a label has no variants for its position (above, at the side); that information belongs to the field (the variable label position of the field assets)."
+    "position: by the owner's decision (owner, 2026-10-15) a label has no variants for its position (above, at the side); that information belongs to the field (the variable label position of the field assets).",
+    "the label is prefilled text that is read, not filled in; the layout around it is arranged in the field, so what matters here is its size and style (owner, 2026-10-15)."
+   ]
+  },
+  {
+   "code": "TTL.001",
+   "name": "title",
+   "category": "component",
+   "summary": "The name of a page, a chapter, a view, a box, a tile or a card, read and not filled in. A title is prefilled, or generated by another input; in a card a generated title replaces the name cell and is a link to the input that generates it. A title that is too long wraps, moves, or keeps one line and is cut, by where it stands.",
+   "variables": [
+    "VAR003",
+    "VAR004",
+    "VAR012",
+    "VAR013"
+   ],
+   "catalogue": [],
+   "variants": [
+    {
+     "code": "TTL.PAG.001.001",
+     "name": "Page title",
+     "description": "The title of the page in the header (3. Business System, 3. Infrastructure & Capability).",
+     "edits": "The largest title: 36px (h1).",
+     "values": {
+      "VAR012": "prefilled"
+     },
+     "look": {
+      "height": null,
+      "fontSize": 36,
+      "fontWeight": "400",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "h1 36",
+      "found": 0
+     }
+    },
+    {
+     "code": "TTL.CHP.001.002",
+     "name": "Chapter title",
+     "description": "The title of a chapter (1. Infrastructure & Capability). Every chapter has a title.",
+     "edits": "28px (h2); a title that is too long moves horizontally.",
+     "values": {
+      "VAR012": "prefilled",
+      "VAR013": "moves"
+     },
+     "look": {
+      "height": null,
+      "fontSize": 28,
+      "fontWeight": "400",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "h2 28",
+      "found": 0
+     }
+    },
+    {
+     "code": "TTL.DLG.001.003",
+     "name": "Dialog title",
+     "description": "The title of a dialog and of a section heading (Resources / Digital Infrastructure).",
+     "edits": "24px (h3), bold.",
+     "values": {
+      "VAR012": "prefilled"
+     },
+     "look": {
+      "height": null,
+      "fontSize": 24,
+      "fontWeight": "700",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "h3 24",
+      "found": 0
+     }
+    },
+    {
+     "code": "TTL.BOX.001.004",
+     "name": "Box name",
+     "description": "The name of the tile or box a floating card belongs to, above the card.",
+     "edits": "24px (h3), bold; outside the card.",
+     "values": {
+      "VAR012": "prefilled"
+     },
+     "look": {
+      "height": null,
+      "fontSize": 24,
+      "fontWeight": "700",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "h3 24",
+      "found": 0
+     }
+    },
+    {
+     "code": "TTL.MTL.001.005",
+     "name": "Master tile title",
+     "description": "The title of a master tile, underlined by a rule.",
+     "edits": "18px (body), weight 600; a long title wraps (Typography and Text Hierarchy).",
+     "values": {
+      "VAR012": "prefilled",
+      "VAR013": "wraps"
+     },
+     "look": {
+      "height": null,
+      "fontSize": 18,
+      "fontWeight": "600",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "body 18",
+      "found": 0
+     }
+    },
+    {
+     "code": "TTL.TIL.001.006",
+     "name": "Tile title",
+     "description": "The title of a tile that a floating card generates (a Resource tile); it takes the name of the input that generates it.",
+     "edits": "18px, weight 600; generated; a long title moves horizontally.",
+     "values": {
+      "VAR012": "generated",
+      "VAR013": "moves"
+     },
+     "look": {
+      "height": null,
+      "fontSize": 18,
+      "fontWeight": "600",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "body 18",
+      "found": 0
+     }
+    },
+    {
+     "code": "TTL.CRD.001.007",
+     "name": "Card title",
+     "description": "The title in a card that replaces the name cell (a generated title): the name is a link to the input that generates it.",
+     "edits": "18px; generated; a link to its input; one line, the rest is cut.",
+     "values": {
+      "VAR012": "generated",
+      "VAR013": "one line, cut"
+     },
+     "look": {
+      "height": null,
+      "fontSize": 18,
+      "fontWeight": "600",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "body 18",
+      "found": 0
+     }
+    },
+    {
+     "code": "TTL.OPT.001.008",
+     "name": "Option title",
+     "description": "A title as a dropdown option in a card.",
+     "edits": "18px; generated; one line, the rest is cut.",
+     "values": {
+      "VAR012": "generated",
+      "VAR013": "one line, cut"
+     },
+     "look": {
+      "height": null,
+      "fontSize": 18,
+      "fontWeight": "400",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "body 18",
+      "found": 0
+     }
+    }
+   ],
+   "requires": [],
+   "lookNotes": [
+    "sizes from the app's text hierarchy (docs/ai/layout-rules.md, Title sizes: page 36, column 28, dialog and section 24, tile and card names 18; weight 600 on tiles and boxes, 700 on headings); not measured by the scan. The owner's rules (owner, 2026-10-15): two categories, prefilled and generated; a title in a master tile wraps; on a tile or a chapter it moves; as a link or a dropdown option in a card it uses one line and the rest is cut."
+   ]
+  },
+  {
+   "code": "LNK.001",
+   "name": "link",
+   "category": "component",
+   "summary": "A text or a symbol that opens something: a tile, a card, a view. It is read and pressed, not filled in; its style varies with its function.",
+   "variables": [
+    "VAR001",
+    "VAR002",
+    "VAR003",
+    "VAR004",
+    "VAR012"
+   ],
+   "catalogue": [
+    "CO17"
+   ],
+   "variants": [
+    {
+     "code": "LNK.TIL.001.001",
+     "name": "Tile link",
+     "description": "A link inside a master tile that opens one of the things the tile lists.",
+     "edits": "Text inside a tile; opens a view or a card.",
+     "values": {
+      "VAR012": "prefilled"
+     }
+    },
+    {
+     "code": "LNK.CRD.001.002",
+     "name": "Card name link",
+     "description": "The name of a card that is a link to the card that generates it (a child's name links to its parent card): underlined, bolder under the pointer and the focus.",
+     "edits": "Underlined; generated; opens the parent card.",
+     "values": {
+      "VAR012": "generated"
+     }
+    },
+    {
+     "code": "LNK.SYM.001.003",
+     "name": "Link symbol",
+     "description": "The small symbol beside a dropdown choice that shows the choice is a link to another card.",
+     "edits": "A symbol, no words.",
+     "values": {
+      "VAR012": "generated"
+     }
+    }
+   ],
+   "requires": [],
+   "lookNotes": [
+    "the tile link (TIL.004) is a variant of the link (owner, 2026-10-15): labels, links and titles are read, not filled in."
+   ]
+  },
+  {
+   "code": "HLP.001",
+   "name": "help text",
+   "category": "component",
+   "summary": "A text that is already there and is not a label or a title: it helps, explains or shows. It is read, not filled in. Its variants follow its style.",
+   "variables": [
+    "VAR003",
+    "VAR004"
+   ],
+   "catalogue": [],
+   "variants": [
+    {
+     "code": "HLP.INF.001.001",
+     "name": "Info text",
+     "description": "The note that the i shows (a short sentence or a few points).",
+     "edits": "Shown in a note, not in the page.",
+     "values": {}
+    },
+    {
+     "code": "HLP.BUL.001.002",
+     "name": "Bulleted list",
+     "description": "A read-only list of what something includes or holds (the list on a tile).",
+     "edits": "Bullets; small text.",
+     "values": {},
+     "look": {
+      "height": null,
+      "fontSize": 14,
+      "fontWeight": "400",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "small 14",
+      "found": 0
+     }
+    },
+    {
+     "code": "HLP.NUM.001.003",
+     "name": "Numbered list",
+     "description": "A read-only numbered list (a founder's roles recalled from the profile).",
+     "edits": "Numbers; no cell.",
+     "values": {}
+    },
+    {
+     "code": "HLP.SUM.001.004",
+     "name": "Summary line",
+     "description": "A line that summarises a card or a tile (dates, status, price).",
+     "edits": "One short line; small and muted.",
+     "values": {},
+     "look": {
+      "height": null,
+      "fontSize": 14,
+      "fontWeight": "400",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "small 14",
+      "found": 0
+     }
+    },
+    {
+     "code": "HLP.VAL.001.005",
+     "name": "Shown value",
+     "description": "A value the app fills in and shows beside a label (the group of a card, a total).",
+     "edits": "Plain text, not a cell.",
+     "values": {}
+    }
+   ],
+   "requires": [],
+   "look": {
+    "height": null,
+    "fontSize": 14,
+    "fontWeight": "400",
+    "corners": "0px",
+    "paddingLeft": 0,
+    "paddingTop": 0,
+    "border": 0,
+    "scale": "small 14",
+    "found": 0
+   },
+   "lookNotes": [
+    "small text (14px) for lists, summaries and notes: the app's text hierarchy (docs/ai/layout-rules.md, Title sizes). Only the bulleted list and the summary line carry a measured look here."
    ]
   },
   {
@@ -1099,6 +1429,16 @@ export const library: Library = {
      "asset": "BTN.001",
      "variant": "BTN.ADD.001.002",
      "role": "adds to the list the tile holds"
+    },
+    {
+     "asset": "TTL.001",
+     "variant": "TTL.MTL.001.005",
+     "role": "the title of the tile"
+    },
+    {
+     "asset": "LNK.001",
+     "variant": "LNK.TIL.001.001",
+     "role": "the links it lists"
     }
    ],
    "catalogue": [
@@ -1118,7 +1458,13 @@ export const library: Library = {
     "VAR006"
    ],
    "variants": [],
-   "requires": [],
+   "requires": [
+    {
+     "asset": "TTL.001",
+     "variant": "TTL.TIL.001.006",
+     "role": "the title, generated by the card"
+    }
+   ],
    "catalogue": [
     "CO24"
    ],
@@ -1141,22 +1487,6 @@ export const library: Library = {
    "catalogue": []
   },
   {
-   "code": "TIL.004",
-   "name": "tile link",
-   "category": "tile",
-   "summary": "A link inside a master tile that opens one of the things it lists.",
-   "variables": [
-    "VAR001",
-    "VAR002",
-    "VAR003"
-   ],
-   "variants": [],
-   "requires": [],
-   "catalogue": [
-    "CO17"
-   ]
-  },
-  {
    "code": "FRM.001",
    "name": "chapter frame",
    "category": "frame",
@@ -1176,8 +1506,8 @@ export const library: Library = {
      "role": "the note of the chapter title"
     },
     {
-     "asset": "TXT.001",
-     "variant": "TXT.TTL.001.006",
+     "asset": "TTL.001",
+     "variant": "TTL.CHP.001.002",
      "role": "the title of the chapter"
     }
    ],
@@ -1205,6 +1535,11 @@ export const library: Library = {
      "asset": "ARW.001",
      "variant": "ARW.PAG.001.001",
      "role": "moves to the next or previous page"
+    },
+    {
+     "asset": "TTL.001",
+     "variant": "TTL.PAG.001.001",
+     "role": "the title of the page"
     }
    ],
    "catalogue": [
@@ -1230,6 +1565,11 @@ export const library: Library = {
     {
      "asset": "BTN.003",
      "role": "returns to the page"
+    },
+    {
+     "asset": "TTL.001",
+     "variant": "TTL.DLG.001.003",
+     "role": "the title of the dialog"
     }
    ],
    "catalogue": [
@@ -1245,7 +1585,13 @@ export const library: Library = {
     "VAR003"
    ],
    "variants": [],
-   "requires": [],
+   "requires": [
+    {
+     "asset": "TTL.001",
+     "variant": "TTL.BOX.001.004",
+     "role": "the name of the tile or box"
+    }
+   ],
    "catalogue": [
     "CO20"
    ]
@@ -1267,8 +1613,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "TXT.001",
-     "variant": "TXT.RDO.001.004",
+     "asset": "HLP.001",
+     "variant": "HLP.VAL.001.005",
      "role": "shown, not edited"
     }
    ],
@@ -1303,8 +1649,8 @@ export const library: Library = {
      "role": "choice"
     },
     {
-     "asset": "TXT.001",
-     "variant": "TXT.RDO.001.004",
+     "asset": "HLP.001",
+     "variant": "HLP.VAL.001.005",
      "role": "shown, not edited"
     }
    ],
@@ -1408,8 +1754,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "TXT.001",
-     "variant": "TXT.RDO.001.004",
+     "asset": "HLP.001",
+     "variant": "HLP.VAL.001.005",
      "role": "shown, not edited"
     },
     {
@@ -1661,8 +2007,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "TXT.001",
-     "variant": "TXT.RDO.001.004",
+     "asset": "HLP.001",
+     "variant": "HLP.VAL.001.005",
      "role": "shown, not edited"
     }
    ],
@@ -1713,8 +2059,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "TXT.001",
-     "variant": "TXT.RDO.001.004",
+     "asset": "HLP.001",
+     "variant": "HLP.VAL.001.005",
      "role": "shown, not edited"
     },
     {
@@ -1748,8 +2094,8 @@ export const library: Library = {
      "role": "choice"
     },
     {
-     "asset": "TXT.001",
-     "variant": "TXT.RDO.001.004",
+     "asset": "HLP.001",
+     "variant": "HLP.VAL.001.005",
      "role": "shown, not edited"
     }
    ],
@@ -1906,8 +2252,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "TXT.001",
-     "variant": "TXT.RDO.001.004",
+     "asset": "HLP.001",
+     "variant": "HLP.VAL.001.005",
      "role": "shown, not edited"
     }
    ],
@@ -2248,8 +2594,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "TXT.001",
-     "variant": "TXT.RDO.001.004",
+     "asset": "HLP.001",
+     "variant": "HLP.VAL.001.005",
      "role": "shown, not edited"
     }
    ],
@@ -2352,8 +2698,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "TXT.001",
-     "variant": "TXT.RDO.001.004",
+     "asset": "HLP.001",
+     "variant": "HLP.VAL.001.005",
      "role": "shown, not edited"
     }
    ],
@@ -2512,8 +2858,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "TXT.001",
-     "variant": "TXT.RDO.001.004",
+     "asset": "HLP.001",
+     "variant": "HLP.VAL.001.005",
      "role": "shown, not edited"
     },
     {
@@ -3707,9 +4053,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
-     "role": "text"
+     "asset": "LST.001",
+     "role": "the list of strengths (numbered rows in one cell)"
     }
    ],
    "catalogue": [
@@ -3733,9 +4078,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
-     "role": "text"
+     "asset": "LST.001",
+     "role": "the list of weaknesses (numbered rows in one cell)"
     }
    ],
    "catalogue": [
@@ -3759,9 +4103,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
-     "role": "text"
+     "asset": "LST.001",
+     "role": "the list of opportunities (numbered rows in one cell)"
     }
    ],
    "catalogue": [
@@ -3785,9 +4128,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
-     "role": "text"
+     "asset": "LST.001",
+     "role": "the list of threats (numbered rows in one cell)"
     }
    ],
    "catalogue": [

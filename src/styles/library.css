@@ -260,3 +260,24 @@
     border: 0;
     border-top: 1px solid var(--line-hairline);
 }
+.inventory-help {
+    font-size: var(--font-small);
+}
+.inventory-title {
+    display: inline-block;
+    max-width: 280px;
+}
+.inventory-title-wraps {
+    white-space: normal;
+}
+.inventory-title-moves,
+.inventory-title-cut {
+    white-space: nowrap;
+    overflow: hidden;
+}
+.inventory-title-cut {
+    text-overflow: ellipsis;
+}
+.inventory-underline {
+    text-decoration: underline;
+}

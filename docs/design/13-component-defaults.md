@@ -28,12 +28,11 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | BTN.004 wide add button | (asset) | 44 | 18 | body 18 | 6px | 14/8 | 1 | 15 in 4 places | meets 24 |
 | DRP.001 dropdown | (asset) | 44 | 18 | body 18 | 6px | 8/8 | 1 | 493 in 8 places | meets 24 |
 | TIK.001 tick box | (asset) | 24 high, 24 wide | 18 | body 18 | 0px | 0/0 | 0 | 721 in 8 places | meets 24 |
-| TXT.001 text input | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 in 4 places | meets 24 |
-| TXT.001 text input | TXT.BOX.001.001 Text box | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 in 4 places | meets 24 |
-| TXT.001 text input | TXT.ARE.001.002 Free text | words, at least 44 | 18 | body 18 | 6px | 10/8 | 1 | 282 in 19 places | follows the words (a field, not a button) |
-| TXT.001 text input | TXT.NAM.001.003 Name cell | words, at least 44 | 18 | body 18 | 6px | 38/8 | 1 | 138 | follows the words (a field, not a button) |
-| TXT.001 text input | TXT.LST.001.005 List line | words, at least 44 | 18 | body 18 | 8px | 12/8 | 0 | 129 in 5 places | follows the words (a field, not a button) |
-| TXT.001 text input | TXT.TTL.001.006 Title input | 35 | 28 | h2 28 | 0px | 0/0 | 0 | 1 in 1 places | meets 24 |
+| TXT.001 text holder | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 in 4 places | meets 24 |
+| TXT.001 text holder | TXT.BOX.001.001 Text box | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 in 4 places | meets 24 |
+| TXT.001 text holder | TXT.ARE.001.002 Free text | words, at least 44 | 18 | body 18 | 6px | 10/8 | 1 | 282 in 19 places | follows the words (a field, not a button) |
+| TXT.001 text holder | TXT.NAM.001.003 Name cell | words, at least 44 | 18 | body 18 | 6px | 38/8 | 1 | 138 | follows the words (a field, not a button) |
+| LST.001 list | (asset) | words, at least 44 | 18 | body 18 | 6px | 12/8 | 1 | 129 in 5 places | follows the words (a field, not a button) |
 | DIV.001 divider | (asset) | 1 | 0 | symbol, no text | 0px | 0/0 | 1 | 0 | under 24 |
 | NUM.001 number box | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 166 in 2 places | meets 24 |
 | NUM.001 number box | NUM.PCT.001.003 Percent | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 12 | meets 24 |
@@ -42,6 +41,17 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | DAT.001 date cell | (asset) | 44 | 18 | body 18 | 6px | 10/0 | 1 | 166 in 2 places | meets 24 |
 | DAT.002 calendar popup | (asset) | words | 18 | body 18 | 6px | 12/12 | 1 | 0 | follows the words (a field, not a button) |
 | LBL.001 label | (asset) | words | 18 | body 18 | 0px | 0/0 | 0 | 1223 in 16 places | follows the words (a field, not a button) |
+| TTL.001 title | TTL.PAG.001.001 Page title | words | 36 | h1 36 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TTL.001 title | TTL.CHP.001.002 Chapter title | words | 28 | h2 28 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TTL.001 title | TTL.DLG.001.003 Dialog title | words | 24 | h3 24 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TTL.001 title | TTL.BOX.001.004 Box name | words | 24 | h3 24 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TTL.001 title | TTL.MTL.001.005 Master tile title | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TTL.001 title | TTL.TIL.001.006 Tile title | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TTL.001 title | TTL.CRD.001.007 Card title | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TTL.001 title | TTL.OPT.001.008 Option title | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| HLP.001 help text | (asset) | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| HLP.001 help text | HLP.BUL.001.002 Bulleted list | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| HLP.001 help text | HLP.SUM.001.004 Summary line | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
 | ARW.002 fold arrow | (asset) | 36 | 0 | symbol, no text | 6px | 0/0 | 1 | 11 in 1 places | meets 24 |
 | ARW.002 fold arrow | ARW.LAB.002.001 Label arrow | 24 | 18 | body 18 | 0px | 0/0 | 0 | 8 in 2 places | meets 24 |
 | ARW.002 fold arrow | ARW.TTL.002.002 Title arrow | 28 high, 28 wide | 28 | h2 28 | 0px | 0/0 | 0 | 2 in 1 places | meets 24 |
@@ -52,15 +62,10 @@ Separated by purpose; each has its own default look.
 
 | Holder | Variant | What it is | Look |
 |---|---|---|---|
-| text input | TXT.BOX.001.001 Text box | One line of text, 44px high. | height 44, type 18, corners 6px, padding 10/8, border 1, found 24 |
-| text input | TXT.ARE.001.002 Free text | A note: several lines of free words that grow with what is written (Description, Offerings, Strengths). | height words, at least 44, type 18, corners 6px, padding 10/8, border 1, found 282 |
-| text input | TXT.NAM.001.003 Name cell | The name of a card in its head, with the order number inside the cell. | height words, at least 44, type 18, corners 6px, padding 38/8, border 1, found 138 |
-| text input | TXT.RDO.001.004 Read-only text | Text the person cannot edit (a number or a name the app fills in). | none |
-| text input | TXT.LST.001.005 List line | One entry of a numbered list: a sentence that wraps, with its number outside the cell. Enter opens the next line. | height words, at least 44, type 18, corners 8px, padding 12/8, border 0, found 129 |
-| text input | TXT.TTL.001.006 Title input | The title of a chapter: a single line at the size of a column title. Every chapter has a title; a title that is too long moves horizontally. | height 35, type 28, corners 0px, padding 0/0, border 0, found 1 |
-| list | LST.EDT.001.001 Editable list | The list the person writes. | built from the list line |
-| list | LST.NUM.001.002 Read-only numbered list | A numbered list that is shown (a founder's roles recalled from the profile). | built from the list line |
-| list | LST.BUL.001.003 Read-only bullet list | A bulleted list that is shown (the list of what a tile includes). | built from the list line |
+| text input | TXT.BOX.001.001 Text box | One line of text in a cell that keeps its space. | height 44, type 18, corners 6px, padding 10/8, border 1, found 24 |
+| text input | TXT.ARE.001.002 Free text | A description text: the cell gets bigger as you type or press Enter (Description, Offerings, Market). | height words, at least 44, type 18, corners 6px, padding 10/8, border 1, found 282 |
+| text input | TXT.NAM.001.003 Name cell | The name of a card, on top of the card. The order number is generated automatically and stands inside the cell. | height words, at least 44, type 18, corners 6px, padding 38/8, border 1, found 138 |
+| list | LST.001 list | A text that needs a list is ONE cell that holds numbered rows divided by thin lines, the numbers inside the cell (Values, Principles, SWOT points, Initiatives, Responsibilities). It grows as rows are added; Enter opens the next row; the rows can be moved and removed. | min height 44, type 18, corners 6px, border 1, found 129 |
 
 ## Looks merged and looks kept
 
@@ -91,14 +96,17 @@ Separated by purpose; each has its own default look.
 - merged into the default: tick box height 18, type 16, corners 0px, padding 0/0, border 0; found 5 times (0.7% of the default's 721); largest difference 2.0px
 - enlarged, by the owner's decision (owner, 2026-10-15): from 18px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (721 found at 18px).
 
-### TXT.001 text input
+### TXT.001 text holder
 
 - text box with square corners and no border (the name of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard text box.
 - moved to the name cell, by the owner's decision (owner, 2026-10-15): the text box with padding 38 (the theme name in Strategy, Strategic Period, Financial Stability; 1 found) is a name cell. It is counted in the standard name cell.
 - free text with square corners and no border (the note of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard free text.
 - app error, by the owner's decision (owner, 2026-10-15): the name cell with padding 12 (the name with suggestions in Customer Engagement, Other, Referral partners; 2 found) is an error of the app and has to take the standard name cell look (padding 38, the number inside). It is counted in the standard name cell.
-- cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45 for the text box, 43 to 45 at least for the others). A free text, a name cell and a list line are at least 44px high and grow with their words.
-- title input: by the owner's decision (owner, 2026-10-15) every chapter has a title, a single line at the column title size (28px); a title that is too long moves horizontally. It is not a text box (the frame name in Business, 1. Foundation, 1 found).
+- the holders (owner, 2026-10-15): text and number holders all use the body text (18px); their variants depend on their function. A text that is only read is not a holder.
+
+### LST.001 list
+
+- measured (the owner's description, owner, 2026-10-15): the list is one cell, 6px corners and a 1px border; each row is at least 43 to 44px high, divided from the next by a thin line, with its number inside the cell at the left and the text wrapping; the row's own box has 8px corners and no border (inside the cell). The earlier reading, a single line with its number outside the cell, was wrong.
 
 ### DIV.001 divider
 
@@ -110,6 +118,7 @@ Separated by purpose; each has its own default look.
 - cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px.
 - years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).
 - months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner).
+- digits: by the owner's description (owner, 2026-10-15) a number cell accepts only numbers, and no more digits than the field requires.
 
 ### DAT.001 date cell
 
@@ -123,6 +132,19 @@ Separated by purpose; each has its own default look.
 ### LBL.001 label
 
 - position: by the owner's decision (owner, 2026-10-15) a label has no variants for its position (above, at the side); that information belongs to the field (the variable label position of the field assets).
+- the label is prefilled text that is read, not filled in; the layout around it is arranged in the field, so what matters here is its size and style (owner, 2026-10-15).
+
+### TTL.001 title
+
+- sizes from the app's text hierarchy (docs/ai/layout-rules.md, Title sizes: page 36, column 28, dialog and section 24, tile and card names 18; weight 600 on tiles and boxes, 700 on headings); not measured by the scan. The owner's rules (owner, 2026-10-15): two categories, prefilled and generated; a title in a master tile wraps; on a tile or a chapter it moves; as a link or a dropdown option in a card it uses one line and the rest is cut.
+
+### LNK.001 link
+
+- the tile link (TIL.004) is a variant of the link (owner, 2026-10-15): labels, links and titles are read, not filled in.
+
+### HLP.001 help text
+
+- small text (14px) for lists, summaries and notes: the app's text hierarchy (docs/ai/layout-rules.md, Title sizes). Only the bulleted list and the summary line carry a measured look here.
 
 ### ARW.002 fold arrow
 
@@ -162,12 +184,10 @@ The looks the app has today that the decisions change when the assets replace th
 - DRP.001 dropdown: merged by the owner's decision (owner, 2026-10-15): dropdown height 45, type 18, corners 6px, padding 6/8, border 1; found 43 times (8.7% of the default's 493); largest difference 2.0px
 - DRP.001 dropdown: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45).
 - TIK.001 tick box: enlarged, by the owner's decision (owner, 2026-10-15): from 18px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (721 found at 18px).
-- TXT.001 text input: text box with square corners and no border (the name of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard text box.
-- TXT.001 text input: moved to the name cell, by the owner's decision (owner, 2026-10-15): the text box with padding 38 (the theme name in Strategy, Strategic Period, Financial Stability; 1 found) is a name cell. It is counted in the standard name cell.
-- TXT.001 text input: free text with square corners and no border (the note of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard free text.
-- TXT.001 text input: app error, by the owner's decision (owner, 2026-10-15): the name cell with padding 12 (the name with suggestions in Customer Engagement, Other, Referral partners; 2 found) is an error of the app and has to take the standard name cell look (padding 38, the number inside). It is counted in the standard name cell.
-- TXT.001 text input: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45 for the text box, 43 to 45 at least for the others). A free text, a name cell and a list line are at least 44px high and grow with their words.
-- TXT.001 text input: title input: by the owner's decision (owner, 2026-10-15) every chapter has a title, a single line at the column title size (28px); a title that is too long moves horizontally. It is not a text box (the frame name in Business, 1. Foundation, 1 found).
+- TXT.001 text holder: text box with square corners and no border (the name of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard text box.
+- TXT.001 text holder: moved to the name cell, by the owner's decision (owner, 2026-10-15): the text box with padding 38 (the theme name in Strategy, Strategic Period, Financial Stability; 1 found) is a name cell. It is counted in the standard name cell.
+- TXT.001 text holder: free text with square corners and no border (the note of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard free text.
+- TXT.001 text holder: app error, by the owner's decision (owner, 2026-10-15): the name cell with padding 12 (the name with suggestions in Customer Engagement, Other, Referral partners; 2 found) is an error of the app and has to take the standard name cell look (padding 38, the number inside). It is counted in the standard name cell.
 - NUM.001 number box: percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45).
 - NUM.001 number box: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px.
 - NUM.001 number box: years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).

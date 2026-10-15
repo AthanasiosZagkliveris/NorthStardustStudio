@@ -50,7 +50,7 @@ say("## Text holders", "",
 const txt = library.assets.find(a => a.code === "TXT.001");
 for (const v of txt.variants) say("| text input | " + v.code + " " + v.name + " | " + cell(v.description) + " | " + (v.look ? "height " + (v.look.height ?? (v.look.minHeight ? "words, at least " + v.look.minHeight : "words")) + ", type " + v.look.fontSize + ", corners " + v.look.corners + ", padding " + v.look.paddingLeft + "/" + v.look.paddingTop + ", border " + v.look.border + ", found " + v.look.found : "none") + " |");
 const lst = library.assets.find(a => a.code === "LST.001");
-for (const v of lst.variants) say("| list | " + v.code + " " + v.name + " | " + cell(v.description) + " | built from the list line |");
+say("| list | " + lst.code + " " + lst.name + " | " + cell(lst.summary) + " | " + (lst.look ? "min height " + lst.look.minHeight + ", type " + lst.look.fontSize + ", corners " + lst.look.corners + ", border " + lst.look.border + ", found " + lst.look.found : "none") + " |");
 say("");
 
 say("## Looks merged and looks kept", "");
