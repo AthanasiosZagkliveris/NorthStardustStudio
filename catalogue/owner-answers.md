@@ -8,3 +8,28 @@
 7. **Calendar.** Even the Calendar needs changes: there will be a single calendar. The Calendar, Capabilities and Systems handles are only to be recorded, with no library assets. The buttons on the calendar may be replaced later; not a priority.
 
 The owner's instruction: continue with the rest of the cards.
+
+### The owner's second set of statements (2026-10-15, with screenshots)
+
+- **Reactions.** The most common hover is a glow; on active (typing, in use) a glow plus a wire in the contrast colour (text areas, screenshots 1 and 2). Some elements also change on active or selection. Page tabs and rail bullets have three states: default, hover (the text underlined) and selection (the bullet and the spacing of the text). Every recorded hover effect is necessary: record each with the element it belongs to.
+- **Nested cards.** A nested card is a category: it uses the same style and common components, but it is a nested variant, and other cards and tiles may exist inside it. It receives the width of the chapter (the frame that holds the four master tiles), and every nested card follows the layout rules of a card, plus these: when there is more than one Goal, Objective or Metric card, each nested card has navigation arrows, rail bullets and a shrink (make it a tile) button; to keep three tiles in a row, the tiles scale down equally and follow the layout rules of a card.
+- **Channel cards** (likely to change). The journey fields use a dropdown with a list cell of two lines. That field and the Description field each hold two connected elements one above the other (a tick box with its text below, or a dropdown cell with its text below): the gap between them is 6px.
+- **Questions the owner asked** (answered in chat): where the dark and sepia summaries are recorded; whether the Subchannel card was interacted with (offerings ticks, journey stages, links, expenses); whether the rails and page tabs were checked on chapters, cards, nested cards and floating cards, and at other screen sizes; whether every option of the Resource, Activity and Partner & Supplier cards was checked (category, group, status, cost option, billing type, frequency, payment plan); whether the effects of a missed fill or an error were checked; whether Notes, Calendar, Search, Review, Global Settings, Inventory and Completed were interacted with.
+
+### Rules review: the owner's statements against the rulebook (docs/ai/layout-rules.md)
+
+| Statement | In the rulebook? | Where or what is missing |
+|---|---|---|
+| One margin, 12px, on every side and between things | Yes | The "One margin: 12px" rule and `--space-field`, `--card-padding` |
+| A label is 6px from its control | Yes | Proximity rule, `--space-label` |
+| Two connected elements one above the other (tick and text, dropdown and text): 6px | Partly | `--space-label` and `--space-row` are 6px, but no rule names this pair; to be added as one rule |
+| Three tiles in a row | Yes | `useTilesAcross`: 3 across from 1280px |
+| Hover is a glow | Yes | The tile, cell and list-row glow rules (the hover lift 1.2); the 4px soft glow beside the inset |
+| Active (typing) adds a wire in the contrast colour to the glow | Partly | The focus ring is written (a 2px primary outline, a 35% ring over the inset edge); "a wire in the contrast colour" is the owner's new wording; to be checked against the ring |
+| Page tab and rail bullet: default, hover (text underlined), selection (bullet and spacing) | Partly | The rail's states and custom properties are written (rest, hover, focus, open); the underline on hover and the spacing on selection are not |
+| A nested card takes the chapter's width | No | Nested cards appear once, in the left-edge rule; no width rule |
+| A nested card with more than one sibling has arrows, rail bullets and a shrink button | No | To be added |
+| Tiles in a nested card scale down equally to keep three in a row | No | To be added |
+| End date is optional, switched on only when the project ends | Yes | The End date tick rule (the End date is optional) |
+| Names inherited by Founder, Delivery, generated Channel and Expense cards | Partly | Document 01 describes the cards; no single rule says which cards inherit their name |
+| One calendar; handles recorded only | Decision | Not a layout rule; kept in the owner's answers |
