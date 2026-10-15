@@ -37,27 +37,24 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | BTN.006 tool button | BTN.STR.006.008 Start Interview | 52 high, 269 wide | 18 | body 18 | 6px | 0/0 | 0 | 4 | meets 24 |
 | BTN.007 link button | (asset) | 24 high, 24 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 72 | meets 24 |
 | TXS.001 text | (asset) | words | 18 | body 18 | 0px | 0/0 | 0 | 239 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.BDY.001.001 Body | words | 18 | body 18 | 0px | 0/0 | 0 | 239 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BDY.001.001 Body | words | 18 | body 18 | 0px | 0/0 | 0 | 227 | follows the words (a field, not a button) |
 | TXS.001 text | TXS.BMD.001.002 Body medium | words | 18 | body 18 | 0px | 0/0 | 0 | 15 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.BSM.001.003 Body semibold | words | 18 | body 18 | 0px | 0/0 | 0 | 82 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.BBD.001.004 Body bold | words | 18 | body 18 | 0px | 0/0 | 0 | 70 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.BUL.001.005 Body underlined | words | 18 | body 18 | 0px | 0/0 | 0 | 11 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.BUC.001.006 Body bold underlined capitals | words | 18 | body 18 | 0px | 0/0 | 0 | 15 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.BSC.001.007 Body semibold capitals | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.BMC.001.008 Body medium capitals | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.BRC.001.009 Body capitals | words | 18 | body 18 | 0px | 0/0 | 0 | 11 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.SML.001.010 Small | words | 14 | small 14 | 0px | 0/0 | 0 | 29 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.SCP.001.011 Small capitals | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.SBI.001.012 Small bold italic | words | 14 | small 14 | 0px | 0/0 | 0 | 20 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.SBD.001.013 Small bold | words | 14 | small 14 | 0px | 0/0 | 0 | 4 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.HTB.001.014 Heading 3 bold | words | 24 | h3 24 | 0px | 0/0 | 0 | 6 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.HTC.001.015 Heading 3 bold capitals | words | 24 | h3 24 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.HTS.001.016 Heading 3 semibold capitals | words | 24 | h3 24 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.HTI.001.017 Heading 3 medium italic | words | 24 | h3 24 | 0px | 0/0 | 0 | 4 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.HDS.001.018 Heading 2 semibold capitals | words | 28 | h2 28 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.HOB.001.019 Heading 1 bold | words | 36 | h1 36 | 0px | 0/0 | 0 | 8 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.HOC.001.020 Heading 1 capitals | words | 36 | h1 36 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.HOR.001.021 Heading 1 | words | 36 | h1 36 | 0px | 0/0 | 0 | 2 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BBD.001.003 Body bold | words | 18 | body 18 | 0px | 0/0 | 0 | 130 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BUL.001.004 Body underlined | words | 18 | body 18 | 0px | 0/0 | 0 | 11 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BUC.001.005 Body bold underlined capitals | words | 18 | body 18 | 0px | 0/0 | 0 | 15 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BBC.001.006 Body bold capitals | words | 18 | body 18 | 0px | 0/0 | 0 | 18 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BMC.001.007 Body medium capitals | words | 18 | body 18 | 0px | 0/0 | 0 | 14 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BDN.001.008 Body done | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.SML.001.009 Small | words | 14 | small 14 | 0px | 0/0 | 0 | 13 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.SCP.001.010 Small capitals | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.SBI.001.011 Small bold italic | words | 14 | small 14 | 0px | 0/0 | 0 | 20 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HTB.001.012 Heading 3 bold | words | 24 | h3 24 | 0px | 0/0 | 0 | 1 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HTC.001.013 Heading 3 bold capitals | words | 24 | h3 24 | 0px | 0/0 | 0 | 12 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HTI.001.014 Heading 3 medium italic | words | 24 | h3 24 | 0px | 0/0 | 0 | 4 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HDC.001.015 Heading 2 bold capitals | words | 28 | h2 28 | 0px | 0/0 | 0 | 5 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HOB.001.016 Heading 1 bold | words | 36 | h1 36 | 0px | 0/0 | 0 | 8 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HOC.001.017 Heading 1 capitals | words | 36 | h1 36 | 0px | 0/0 | 0 | 4 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HOR.001.018 Heading 1 | words | 36 | h1 36 | 0px | 0/0 | 0 | 2 | follows the words (a field, not a button) |
 | DRP.001 dropdown | (asset) | 44 | 18 | body 18 | 6px | 8/8 | 1 | 493 in 8 places | meets 24 |
 | TIK.001 tick box | (asset) | 24 high, 24 wide | 18 | body 18 | 0px | 0/0 | 0 | 721 in 8 places | meets 24 |
 | TXT.001 holder | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 in 4 places | meets 24 |
@@ -69,7 +66,6 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | DIV.001 divider | DIV.HOR.001.001 Horizontal | 2 | 0 | symbol, no text | 0px | 0/0 | 0 | 1 | under 24 |
 | DIV.001 divider | DIV.VER.001.002 Vertical | words | 0 | symbol, no text | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
 | DAT.001 date cell | (asset) | 44 | 18 | body 18 | 6px | 10/0 | 1 | 166 in 2 places | meets 24 |
-| DAT.002 calendar popup | (asset) | words | 18 | body 18 | 6px | 12/12 | 1 | 0 | follows the words (a field, not a button) |
 | PCK.001 colour picker | (asset) | 44 high, 44 wide | 14 | small 14 | 6px | 0/0 | 1 | 1 in 1 places | meets 24 |
 | IMG.001 image holder | (asset) | 252 high, 448 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 3 in 1 places | meets 24 |
 | IMG.001 image holder | IMG.LOG.001.001 Logo | 216 high, 668 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 1 | meets 24 |
@@ -140,10 +136,12 @@ Separated by purpose; each has its own default look.
 ### BTN.007 link button
 
 - 24px, by the owner's decision (owner, 2026-10-16); found 72 times in the card tables (the link symbol rows); it stands between the dropdown and the plus box.
+- the symbol today is the emoji 🔗, which looks different on every platform; no proper icon exists in the app yet. To do: a 24px chain-link drawn in the text colour (an SVG), in place of the emoji; the calendar symbol 📅 of the date cell is an emoji in the same way.
 
 ### TXS.001 text
 
 - simplified (the owner, owner, 2026-10-16): the label, title, link, help text and message are no longer components; one text with 21 presentations covers all 619 texts measured on the four systems. The old purposes stay in each variant's note, so that it is known in which field, card or tile a style was used.
+- optimised (the owner, owner, 2026-10-16): 18 presentations; three weights (400, 500, 700; 600 merged into 700); the styles seen only in the Financial sections are left out because they will change (the data excludes the financial classes); a style was added for a completed responsibility; two rare styles (18px capitals, 14px bold) are merged into their neighbours.
 
 ### DRP.001 dropdown
 
@@ -173,6 +171,7 @@ Separated by purpose; each has its own default look.
 - months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner).
 - digits: by the owner's description (owner, 2026-10-15) a number cell accepts only numbers, and no more digits than the field requires.
 - the percent, years and months boxes are one variant, the square number (the owner, owner, 2026-10-15): 44 by 44px; the unit is beside it.
+- the default is the text box, which exists in the app with specific characteristics (the owner, owner, 2026-10-16): 44px high, 6px corners, 1 line, fixed space.
 
 ### LST.001 list
 
@@ -187,12 +186,7 @@ Separated by purpose; each has its own default look.
 
 - cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 44). Already 44px.
 - dates in the Strategic Period, the Objective cards of a Theme and the Revenue card (Begins): by the owner's decision (owner, 2026-10-15) they are this date cell with a calendar and the choice of a day or only a month; they are month pickers with their own look today (bold, wide-spaced type that cuts the year off: 'September 202').
-- proposal (the owner, owner, 2026-10-16), not applied: the calendar sits inside the cell, not in a separate square; its button is 32px high, like the box buttons; the cell works exactly as a dropdown, with the picture of a calendar in place of the arrow, and the list has two choices, days or months of a year.
-
-### DAT.002 calendar popup
-
-- rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners of 6px, like the cells. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.
-- measured 2026-10-16: the day popup is the browser's own calendar (a date input), so its text size and corners are the browser's and cannot be measured or styled; only the month popup of the Strategy pages is the app's own.
+- decided by the owner, owner, 2026-10-16: the long cell and the square calendar symbol are unified (the symbol inside the cell, 32px high); one default for days, months and years, and one for months and years only; the cell works as a dropdown. The day popup today is the browser's own calendar and the symbol is the emoji 📅; both are to be replaced by the app's own.
 
 ### PCK.001 colour picker
 
@@ -203,6 +197,7 @@ Separated by purpose; each has its own default look.
 
 - measured 448 by 252px in a card of 492px; the layout of the Brand Images card will change (the owner, owner, 2026-10-15).
 - three sizes measured 2026-10-16 (Lumen & Loom, 1920px): the logo slot 668 by 216px (picture 650 by 122px), the icon 249 by 249px in a slot 668 by 300px, the brand image 448 by 252px (Quillfield). They differ because the cards differ; the sizes are not yet one rule.
+- the default is the brand image (448 by 252px), the one image holder measured in a card's own list of images (the owner, owner, 2026-10-16).
 
 ### ARW.002 fold arrow
 
@@ -270,7 +265,6 @@ The looks the app has today that the decisions change when the assets replace th
 - TXT.001 holder: months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner).
 - DAT.001 date cell: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 44). Already 44px.
 - DAT.001 date cell: dates in the Strategic Period, the Objective cards of a Theme and the Revenue card (Begins): by the owner's decision (owner, 2026-10-15) they are this date cell with a calendar and the choice of a day or only a month; they are month pickers with their own look today (bold, wide-spaced type that cuts the year off: 'September 202').
-- DAT.002 calendar popup: rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners of 6px, like the cells. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.
 - ARW.002 fold arrow: merged by the owner's decision (owner, 2026-10-15): fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px
 - ARW.002 fold arrow: label arrow and title arrow are variants (the owner's decision, owner, 2026-10-15): the same component, function and style; the size follows the text beside it (24px beside a field label, 28px beside a title).
 - TIL.002 open tile: title: by the owner's decision (owner, 2026-10-15) the tiles that floating cards generate (the Resources tiles) show the title on one line, and a title that is too long moves horizontally instead of being cut off.

@@ -112,6 +112,9 @@ export function checkLibrary(library: Library, placements: readonly Placement[] 
             }
         }
     }
+    for (const asset of library.assets) {
+        if (asset.defaultVariant && !asset.variants.some(v => v.code === asset.defaultVariant)) problems.push(asset.code + ": the default variant " + asset.defaultVariant + " is not one of its variants");
+    }
     for (const placement of placements) {
         if (placement.asset.startsWith(NOT_IN_LIBRARY)) continue; // case 3: a drift, listed by driftOf, not an error
         const target = assets.get(placement.asset);

@@ -82,7 +82,7 @@ for (const a of components) {
     say("| " + a.code + " | **" + a.name + "** | " + (a.kind ?? "") + " | " + s.height + " | " + s.width + " | " + s.text + " |");
     for (const v of a.variants) {
         const vs = variantSizeOf(a, v);
-        say("| ↳ " + v.code + " | " + v.name + " | " + (v.kind ?? "") + " | " + vs.height + " | " + vs.width + " | " + vs.text + " |");
+        say("| ↳ " + v.code + " | " + v.name + (a.defaultVariant === v.code ? " (default)" : "") + " | " + (v.kind ?? "") + " | " + vs.height + " | " + vs.width + " | " + vs.text + " |");
     }
 }
 say("");
@@ -127,6 +127,12 @@ for (const t of measuredTexts) {
     e.n++; e.cls[t.cls || t.tag] = (e.cls[t.cls || t.tag] ?? 0) + 1;
     styles.set(key, e);
 }
+say("## Text weights", "", "A weight is how thick the letters are. The scale runs from 100 (thin) to 900 (black); the app uses four steps. Inter, the app's font, shows each clearly, but 500, 600 and 700 are close, so the library keeps three that can be told apart.", "",
+    "| Weight | Name | How it looks | Used for | In the library |", "|---|---|---|---|---|",
+    "| 400 | Regular | The ordinary reading weight | body text, labels, options, small text | kept |",
+    "| 500 | Medium | A touch heavier than regular; hard to tell from 600 | list numbers, the words of buttons and rails, the guiding question | kept |",
+    "| 600 | Semibold | Between medium and bold | table heads, titles of tiles and cards, column labels | merged into 700 |",
+    "| 700 | Bold | Clearly heavy | headings, strong words, the system title | kept |", "");
 say("## Text styles: the presentation of every text read (analysis)", "", "The texts of the readers (labels, titles, links, help texts, messages) could be one component, the text, with variants by **presentation** only (size, weight, capitals, italics, underline), and the purpose given in the field. Measured: " + styles.size + " different presentations cover all " + measuredTexts.length + " texts of the four systems; the first five cover " + Math.round([...styles.values()].sort((x, y) => y.n - x.n).slice(0, 5).reduce((s2, e) => s2 + e.n, 0) / measuredTexts.length * 100) + "%. This is now the text component TXS.001, one variant per presentation, each with its old purposes and where it was seen.", "",
     "| Presentation | Texts | Classes seen most |", "|---|---|---|");
 for (const [k, e] of [...styles].sort((x, y) => y[1].n - x[1].n)) say("| " + k + " | " + e.n + " | " + Object.entries(e.cls).sort((x, y) => y[1] - x[1]).slice(0, 3).map(([c, n]) => c + " " + n).join("; ") + " |");
@@ -154,7 +160,7 @@ for (const a of components) {
         lastGroup = home.group.code;
         say("### " + home.group.name + " (" + home.group.code + ")", "", home.group.description, "", "**What every component of this group has, besides the family's**", ...home.group.characteristics.map(c => "- " + c), "");
     }
-    say("#### " + a.code + " " + a.name[0].toUpperCase() + a.name.slice(1), "", a.summary, "");
+    say("#### " + a.code + " " + a.name[0].toUpperCase() + a.name.slice(1), "", a.summary, "", ...(a.defaultVariant ? ["**Default variant:** " + a.variants.find(v => v.code === a.defaultVariant).name + " (" + a.defaultVariant + "), the one that exists in the app with specific characteristics.", ""] : []));
     say("**Kind and place**", "- Kind: " + (a.kind ?? ""), ...(a.belongs ? ["- Placed in: " + a.belongs] : []), ...(fieldsOf(a.code) ? ["- Fields: " + fieldsOf(a.code)] : []), "");
     const ex = EXTRA[a.code];
     if (a.look) {
@@ -180,7 +186,10 @@ for (const a of components) {
             say("");
         }
     }
-    if (a.requires.length) say("**Built from**", ...a.requires.map(r => "- " + (r.variant ?? r.asset) + ": " + r.role), "");
+    if (a.requires.length) {
+        const nameOf = r => { const target = library.assets.find(x => x.code === r.asset); const v = target?.variants.find(x => x.code === r.variant); return (v ? v.name + " (" + v.code + ")" : target ? target.name + " (" + target.code + ")" : r.asset); };
+        say("**Made of** (the other library parts this one contains, and what each does here)", ...a.requires.map(r => "- " + nameOf(r) + ": " + r.role), "");
+    }
 }
 
 const text = out.join("\n") + "\n";

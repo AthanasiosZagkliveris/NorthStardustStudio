@@ -34,7 +34,9 @@ describe("the assets library", () => {
         expect(holder?.variants.map(v => v.name)).toEqual(["Text box", "Free text", "Name cell", "Whole number", "Decimal", "Square number"]);
         expect(library.assets.find(a => a.code === "DRP.001")?.variants.map(v => v.name)).toEqual(["Searchable"]);
         expect(library.assets.some(a => ["FRM.002", "FRM.003", "CAL.001", "LBL.001", "TTL.001", "LNK.001", "HLP.001", "MSG.001"].includes(a.code))).toBe(false);
-        expect(library.assets.find(a => a.code === "TXS.001")?.variants.length).toBe(21);
+        expect(library.assets.find(a => a.code === "TXS.001")?.variants.length).toBe(18);
+        expect(library.assets.find(a => a.code === "TXT.001")?.defaultVariant).toBe("TXT.BOX.001.001");
+        expect(library.assets.find(a => a.code === "IMG.001")?.defaultVariant).toBe("IMG.BRD.001.003");
         expect(library.assets.find(a => a.code === "BTN.003")?.variants.map(v => v.name)).toEqual(["Main back", "Section back"]);
     });
 

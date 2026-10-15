@@ -122,89 +122,77 @@ Used by no field or card yet.
 
 Used by no field or card yet.
 
-### TXS.BSM.001.003 Body semibold
+### TXS.BBD.001.003 Body bold
 
 1 assets use it.
 
 **Other assets:** TIL.002 open tile.
 
-### TXS.BBD.001.004 Body bold
-
-Used by no field or card yet.
-
-### TXS.BUL.001.005 Body underlined
+### TXS.BUL.001.004 Body underlined
 
 1 assets use it.
 
 **Other assets:** TIL.001 master tile.
 
-### TXS.BUC.001.006 Body bold underlined capitals
+### TXS.BUC.001.005 Body bold underlined capitals
 
 Used by no field or card yet.
 
-### TXS.BSC.001.007 Body semibold capitals
+### TXS.BBC.001.006 Body bold capitals
 
 1 assets use it.
 
 **Other assets:** TIL.001 master tile.
 
-### TXS.BMC.001.008 Body medium capitals
+### TXS.BMC.001.007 Body medium capitals
 
 Used by no field or card yet.
 
-### TXS.BRC.001.009 Body capitals
+### TXS.BDN.001.008 Body done
 
 Used by no field or card yet.
 
-### TXS.SML.001.010 Small
+### TXS.SML.001.009 Small
 
 Used by no field or card yet.
 
-### TXS.SCP.001.011 Small capitals
+### TXS.SCP.001.010 Small capitals
 
 Used by no field or card yet.
 
-### TXS.SBI.001.012 Small bold italic
+### TXS.SBI.001.011 Small bold italic
 
 Used by no field or card yet.
 
-### TXS.SBD.001.013 Small bold
-
-Used by no field or card yet.
-
-### TXS.HTB.001.014 Heading 3 bold
+### TXS.HTB.001.012 Heading 3 bold
 
 1 assets use it.
 
 **Other assets:** CRD.001 floating card.
 
-### TXS.HTC.001.015 Heading 3 bold capitals
+### TXS.HTC.001.013 Heading 3 bold capitals
 
 Used by no field or card yet.
 
-### TXS.HTS.001.016 Heading 3 semibold capitals
+### TXS.HTI.001.014 Heading 3 medium italic
 
 Used by no field or card yet.
 
-### TXS.HTI.001.017 Heading 3 medium italic
-
-Used by no field or card yet.
-
-### TXS.HDS.001.018 Heading 2 semibold capitals
+### TXS.HDC.001.015 Heading 2 bold capitals
 
 1 assets use it.
 
 **Other assets:** FRM.001 frame.
 
-### TXS.HOB.001.019 Heading 1 bold
+### TXS.HOB.001.016 Heading 1 bold
 
 Used by no field or card yet.
 
-### TXS.HOC.001.020 Heading 1 capitals
+### TXS.HOC.001.017 Heading 1 capitals
 
 Used by no field or card yet.
 
-### TXS.HOR.001.021 Heading 1
+### TXS.HOR.001.018 Heading 1
 
 Used by no field or card yet.
 
@@ -298,27 +286,13 @@ Used by no field or card yet.
 
 **Fields (7):** Balance date; Date; End date; Instalment lines; Milestone date; Start date; Warranty until.
 
-### DAT.CAL.001.001 Day calendar
+### DAT.CAL.001.001 Day, month and year
 
 7 assets use it.
 
 **Fields (7):** Balance date; Date; End date; Instalment lines; Milestone date; Start date; Warranty until.
 
-### DAT.MON.001.002 Month calendar
-
-Used by no field or card yet.
-
-## DAT.002 calendar popup
-
-1 assets use it: 1 component.
-
-**Other assets:** DAT.001 date cell.
-
-### DAT.DAY.002.001 Day popup
-
-Used by no field or card yet.
-
-### DAT.MON.002.002 Month popup
+### DAT.MON.001.002 Month and year
 
 Used by no field or card yet.
 

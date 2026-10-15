@@ -359,7 +359,7 @@ export const library: Library = {
     {
      "code": "HOLD.DAT",
      "name": "Date cells",
-     "description": "The cell that holds a date, with its calendar popup.",
+     "description": "The date cell, with its calendar inside it.",
      "characteristics": [
       "A date, chosen in a calendar or written",
       "The calendar opens under the cell"
@@ -613,7 +613,8 @@ export const library: Library = {
     "shrink button (make it tiles): measured 32 by 32px, 8px corners, 2px border, with an icon; by the one rule of the box button (the owner's decision on the x and the plus, owner, 2026-10-15) its corners are 6px."
    ],
    "group": "CTRL.ACT",
-   "kind": "Button, a box with a symbol: acts on a card or a row"
+   "kind": "Button, a box with a symbol: acts on a card or a row",
+   "defaultVariant": "BTN.DLT.001.001"
   },
   {
    "code": "BTN.002",
@@ -719,7 +720,8 @@ export const library: Library = {
    "lookNotes": [
     "two backs (the owner, owner, 2026-10-15): the main Back of the footer, measured 83 by 22px, 18px, weight 500, capitals, tracking 0.1em; the Back of a dialog or a description, 25 by 76px, 18px, weight 400."
    ],
-   "kind": "Button, a word: goes back"
+   "kind": "Button, a word: goes back",
+   "defaultVariant": "BTN.MAN.003.001"
   },
   {
    "code": "BTN.004",
@@ -821,7 +823,8 @@ export const library: Library = {
    ],
    "group": "CTRL.ACT",
    "kind": "Button, wide with words: adds a row to a list",
-   "belongs": "Lists in cards (+ ADD CHANNEL, + ADD REGISTRATION NUMBER)"
+   "belongs": "Lists in cards (+ ADD CHANNEL, + ADD REGISTRATION NUMBER)",
+   "defaultVariant": "BTN.HUG.004.001"
   },
   {
    "code": "BTN.005",
@@ -956,7 +959,8 @@ export const library: Library = {
     "found 62 header tool words on 11 pages, measured 2026-10-16."
    ],
    "kind": "Button, an icon with a word: a tool of the app",
-   "belongs": "The app header"
+   "belongs": "The app header",
+   "defaultVariant": "BTN.RDM.006.001"
   },
   {
    "code": "BTN.007",
@@ -987,7 +991,8 @@ export const library: Library = {
    "kind": "Button, a symbol: opens the linked card",
    "belongs": "Beside a dropdown choice in a card, between the dropdown and the plus box",
    "lookNotes": [
-    "24px, by the owner's decision (owner, 2026-10-16); found 72 times in the card tables (the link symbol rows); it stands between the dropdown and the plus box."
+    "24px, by the owner's decision (owner, 2026-10-16); found 72 times in the card tables (the link symbol rows); it stands between the dropdown and the plus box.",
+    "the symbol today is the emoji 🔗, which looks different on every platform; no proper icon exists in the app yet. To do: a 24px chain-link drawn in the text colour (an SVG), in place of the emoji; the calendar symbol 📅 of the date cell is an emoji in the same way."
    ]
   },
   {
@@ -995,7 +1000,7 @@ export const library: Library = {
    "name": "text",
    "category": "component",
    "group": "READ.TXT",
-   "summary": "Every text that is only read: a label, a title, a link, a help text, a message, a unit word. It is one component; its variants differ only in presentation (size, weight, capitals, italics, underline). The purpose of a text (label, title, help text, message) and its reaction (a link, a toggle) are given in the field or card that uses it, not here. Each variant records where its style was seen.",
+   "summary": "Every text that is only read: a label, a title, a link, a help text, a message, a unit word. It is one component; its variants differ only in presentation: size (14, 18, 24, 28, 36), weight, capitals, italics, underline, struck through. The purpose of a text (label, title, help text, message) and its reaction (a link, a toggle) are given in the field or card that uses it. Weights: regular 400 is the ordinary reading weight; medium 500 is a touch heavier (numbers, buttons); bold 700 is clearly heavy (headings, emphasis). Semibold 600 was merged into bold, to keep three steps that can be told apart. Each variant records where its style was seen.",
    "variables": [
     "VAR001",
     "VAR003",
@@ -1021,14 +1026,15 @@ export const library: Library = {
     "found": 239
    },
    "lookNotes": [
-    "simplified (the owner, owner, 2026-10-16): the label, title, link, help text and message are no longer components; one text with 21 presentations covers all 619 texts measured on the four systems. The old purposes stay in each variant's note, so that it is known in which field, card or tile a style was used."
+    "simplified (the owner, owner, 2026-10-16): the label, title, link, help text and message are no longer components; one text with 21 presentations covers all 619 texts measured on the four systems. The old purposes stay in each variant's note, so that it is known in which field, card or tile a style was used.",
+    "optimised (the owner, owner, 2026-10-16): 18 presentations; three weights (400, 500, 700; 600 merged into 700); the styles seen only in the Financial sections are left out because they will change (the data excludes the financial classes); a style was added for a completed responsibility; two rare styles (18px capitals, 14px bold) are merged into their neighbours."
    ],
    "variants": [
     {
      "code": "TXS.BDY.001.001",
      "name": "Body",
-     "description": "The body text: the label of a field, an introduction sentence, an option, the hint behind an empty cell, a shown value, a unit word.",
-     "edits": "18px, weight 400, in the text colour or a muted one.",
+     "description": "The reading text: the label of a field, an introduction sentence, an option, the hint inside an empty cell, a shown value, a unit word, the title of a generated card.",
+     "edits": "Regular (400).",
      "values": {
       "VAR012": "prefilled"
      },
@@ -1041,16 +1047,16 @@ export const library: Library = {
       "paddingTop": 0,
       "border": 0,
       "scale": "body 18",
-      "found": 239
+      "found": 227
      },
      "kind": "Text you read",
-     "belongs": "Used as: Labels (of every field), introduction text, options of a dropdown, the hint inside an empty cell, shown values and generated help text, the unit words of the Global Settings page (%, USD, months: 18px, muted). Seen on: Identity, Brand, Business, Strategy; classes td 73; span 55; section-tile-list-line 35; intro-sentence 18; 101 of its texts can be pressed."
+     "belongs": "Used as: Labels of every field, introduction text, options of a dropdown, the hint inside an empty cell, shown values, generated help text, unit words (the Global Settings page: %, USD, months). Seen on: Identity, Brand, Business, Strategy; classes td 73; span 55; section-tile-list-line 35; intro-sentence 18; 101 of its texts can be pressed."
     },
     {
      "code": "TXS.BMD.001.002",
      "name": "Body medium",
-     "description": "The body text a little heavier: list numbers, the names of a page tag, the help toggle.",
-     "edits": "Weight 500.",
+     "description": "A touch heavier than the body: list numbers, the names in a page tag, the help toggle.",
+     "edits": "Medium (500).",
      "values": {
       "VAR012": "prefilled"
      },
@@ -1069,32 +1075,10 @@ export const library: Library = {
      "belongs": "Used as: List numbers, the names in a page tag, the help toggle. Seen on: Identity, Business; classes list-number 7; bullet-rail-label-text 7; interview-help-toggle.interview-instructions-toggle 1; 54 of its texts can be pressed."
     },
     {
-     "code": "TXS.BSM.001.003",
-     "name": "Body semibold",
-     "description": "The body text semibold: table heads, the title of a card or tile generated by another input, the info note.",
-     "edits": "Weight 600.",
-     "values": {
-      "VAR012": "prefilled"
-     },
-     "look": {
-      "height": null,
-      "fontSize": 18,
-      "fontWeight": "600",
-      "corners": "0px",
-      "paddingLeft": 0,
-      "paddingTop": 0,
-      "border": 0,
-      "scale": "body 18",
-      "found": 82
-     },
-     "kind": "Text you read",
-     "belongs": "Used as: Table heads, the title of a generated tile or card (a link to its input), info notes. Seen on: Business; classes th 53; info-note-glue 7; financial-stress-short 6; list-number 5."
-    },
-    {
-     "code": "TXS.BBD.001.004",
+     "code": "TXS.BBD.001.003",
      "name": "Body bold",
-     "description": "The body text bold: a heading over a group of fields, a strong word, a subhead.",
-     "edits": "Weight 700.",
+     "description": "Clearly heavy: table heads, a heading over a group of fields, the title of a generated tile or card, a strong word, an info note. (Semibold 600 is merged into it.)",
+     "edits": "Bold (700).",
      "values": {
       "VAR012": "prefilled"
      },
@@ -1107,16 +1091,16 @@ export const library: Library = {
       "paddingTop": 0,
       "border": 0,
       "scale": "body 18",
-      "found": 70
+      "found": 130
      },
      "kind": "Text you read",
-     "belongs": "Used as: Heading of a group of fields (Description, SWOT Analysis), strong words, the subheads of a business page. Seen on: Identity, Brand, Business, Strategy; classes strong 22; span 17; info-note-glue 12; business-capability-subhead 10; 2 of its texts can be pressed."
+     "belongs": "Used as: Table heads, headings of a group of fields, the title of a generated tile or card (a link to its input), strong words, info notes. Seen on: Identity, Brand, Business, Strategy; classes th 53; strong 22; info-note-glue 19; span 17; 2 of its texts can be pressed."
     },
     {
-     "code": "TXS.BUL.001.005",
+     "code": "TXS.BUL.001.004",
      "name": "Body underlined",
-     "description": "The body text underlined: a link that opens a page or a view (the pages of an introduction, an engagement link).",
-     "edits": "Underlined; the colour is the muted text colour or blue.",
+     "description": "A text that opens a page or a view: underlined (the pages of an introduction, an engagement link).",
+     "edits": "Regular, underlined.",
      "values": {
       "VAR012": "prefilled"
      },
@@ -1131,14 +1115,14 @@ export const library: Library = {
       "scale": "body 18",
       "found": 11
      },
-     "kind": "Text you read",
+     "kind": "Text you read, underlined",
      "belongs": "Used as: Page links of an introduction, engagement links. Seen on: Identity, Brand, Business, Strategy; classes intro-page-link 9; business-engagement-link 2; 12 of its texts can be pressed."
     },
     {
-     "code": "TXS.BUC.001.006",
+     "code": "TXS.BUC.001.005",
      "name": "Body bold underlined capitals",
-     "description": "A subtitle: bold, underlined, in capitals (What it covers, Uses from earlier, the title of a page tag).",
-     "edits": "Weight 700, underlined, capitals.",
+     "description": "A subtitle: bold, underlined, capitals (What it covers, Uses from earlier, the title of a page tag).",
+     "edits": "Bold, underlined, capitals.",
      "values": {
       "VAR012": "prefilled"
      },
@@ -1153,36 +1137,36 @@ export const library: Library = {
       "scale": "body 18",
       "found": 15
      },
-     "kind": "Text you read, underlined",
+     "kind": "Text you read, underlined, capitals",
      "belongs": "Used as: Underlined subtitles of an introduction, the title of a rail. Seen on: Identity, Brand, Business, Strategy; classes intro-fact-label 8; intro-fact-label.intro-covers-label 4; bullet-rail-title 3."
     },
     {
-     "code": "TXS.BSC.001.007",
-     "name": "Body semibold capitals",
-     "description": "The title of a master tile: semibold, capitals; a long title wraps.",
-     "edits": "Weight 600, capitals.",
+     "code": "TXS.BBC.001.006",
+     "name": "Body bold capitals",
+     "description": "The title of a master tile: bold capitals; a long title wraps. (Semibold 600 is merged into bold.)",
+     "edits": "Bold, capitals.",
      "values": {
       "VAR012": "prefilled"
      },
      "look": {
       "height": null,
       "fontSize": 18,
-      "fontWeight": "600",
+      "fontWeight": "700",
       "corners": "0px",
       "paddingLeft": 0,
       "paddingTop": 0,
       "border": 0,
       "scale": "body 18",
-      "found": 0
+      "found": 18
      },
-     "kind": "Text you read",
-     "belongs": "Used as: Master tile titles. Seen on: not found in the default pages."
+     "kind": "Text you read, capitals",
+     "belongs": "Used as: Master tile titles. Seen on: Identity, Brand, Strategy; classes section-tile-title 17; section-tile-title.section-tile-title-broken 1; 34 of its texts can be pressed."
     },
     {
-     "code": "TXS.BMC.001.008",
+     "code": "TXS.BMC.001.007",
      "name": "Body medium capitals",
-     "description": "The words of a button or a rail: medium, capitals, spaced 0.1em (Back, Start Interview, Add).",
-     "edits": "Weight 500, capitals, tracking 0.1em.",
+     "description": "The words of a button or a rail: medium capitals, spaced 0.1em (Back, Start Interview, Add, the rail labels).",
+     "edits": "Medium, capitals, tracking 0.1em.",
      "values": {
       "VAR012": "prefilled"
      },
@@ -1195,16 +1179,16 @@ export const library: Library = {
       "paddingTop": 0,
       "border": 0,
       "scale": "body 18",
-      "found": 0
+      "found": 14
      },
-     "kind": "Text you read",
-     "belongs": "Used as: Back, Start Interview, the words of the add buttons, the rail labels. Seen on: not found in the default pages."
+     "kind": "Text you read, capitals",
+     "belongs": "Used as: Back, Start Interview, the words of the add buttons, the rail labels. Seen on: Identity, Brand, Business, Strategy; classes back-link 8; primary-button.start-arrow-button 4; bullet-rail-label 2; 23 of its texts can be pressed."
     },
     {
-     "code": "TXS.BRC.001.009",
-     "name": "Body capitals",
-     "description": "Body text in capitals (a few rail labels).",
-     "edits": "Capitals.",
+     "code": "TXS.BDN.001.008",
+     "name": "Body done",
+     "description": "A completed responsibility: the text is muted and struck through; a tag in the Completed fold's grey says so in words, because the strike-through alone reads as cancelled (the tag is not a text style).",
+     "edits": "Regular, muted, struck through.",
      "values": {
       "VAR012": "prefilled"
      },
@@ -1217,16 +1201,16 @@ export const library: Library = {
       "paddingTop": 0,
       "border": 0,
       "scale": "body 18",
-      "found": 11
+      "found": 0
      },
-     "kind": "Text you read",
-     "belongs": "Used as: A few rail labels. Seen on: Identity, Brand, Business, Strategy; classes intro-page-link 9; business-engagement-link 2; 12 of its texts can be pressed."
+     "kind": "Text you read, struck through",
+     "belongs": "Used as: A founder's completed responsibility (business-capability-responsibility-done). Seen on: not in the default pages."
     },
     {
-     "code": "TXS.SML.001.010",
+     "code": "TXS.SML.001.009",
      "name": "Small",
-     "description": "The small text: a summary, an axis, a save status, a note, the verification under a cell (danger colour).",
-     "edits": "14px, weight 400.",
+     "description": "The small text: a summary, a save status, a note, a bulleted list, the verification under a cell (danger colour).",
+     "edits": "Regular, 14px.",
      "values": {
       "VAR012": "prefilled"
      },
@@ -1239,16 +1223,16 @@ export const library: Library = {
       "paddingTop": 0,
       "border": 0,
       "scale": "small 14",
-      "found": 29
+      "found": 13
      },
      "kind": "Text you read",
-     "belongs": "Used as: Summary lines, bulleted lists of a tile, chart axes, the save status, notes, the verification message (danger colour, under the cell, after a missed fill). Seen on: Identity, Brand, Business, Strategy; classes financial-axis-text 16; save-status-text 8; business-card-summary 3; brand-specimens-note 1; 4 of its texts can be pressed."
+     "belongs": "Used as: Summary lines, bulleted lists of a tile, the save status, notes, the verification message (danger colour, under the cell, after a missed fill). Seen on: Identity, Brand, Business, Strategy; classes save-status-text 8; business-card-summary 3; brand-specimens-note 1; fold-all-toggle 1; 4 of its texts can be pressed."
     },
     {
-     "code": "TXS.SCP.001.011",
+     "code": "TXS.SCP.001.010",
      "name": "Small capitals",
      "description": "The words of the header tools and their counts.",
-     "edits": "14px, capitals.",
+     "edits": "Regular, capitals, 14px.",
      "values": {
       "VAR012": "prefilled"
      },
@@ -1263,14 +1247,14 @@ export const library: Library = {
       "scale": "small 14",
       "found": 0
      },
-     "kind": "Text you read",
-     "belongs": "Used as: Tool button words and counts. Seen on: not found in the default pages."
+     "kind": "Text you read, underlined",
+     "belongs": "Used as: Tool button words and counts. Seen on: not in the default pages."
     },
     {
-     "code": "TXS.SBI.001.012",
+     "code": "TXS.SBI.001.011",
      "name": "Small bold italic",
      "description": "The i of the info button.",
-     "edits": "14px, weight 700, italic.",
+     "edits": "Bold, italic, 14px.",
      "values": {
       "VAR012": "prefilled"
      },
@@ -1289,32 +1273,10 @@ export const library: Library = {
      "belongs": "Used as: The i of the info button. Seen on: Business; classes info-note-button 20; 56 of its texts can be pressed."
     },
     {
-     "code": "TXS.SBD.001.013",
-     "name": "Small bold",
-     "description": "A small bold mark (a signal icon, a status letter).",
-     "edits": "14px, weight 700.",
-     "values": {
-      "VAR012": "prefilled"
-     },
-     "look": {
-      "height": null,
-      "fontSize": 14,
-      "fontWeight": "700",
-      "corners": "0px",
-      "paddingLeft": 0,
-      "paddingTop": 0,
-      "border": 0,
-      "scale": "small 14",
-      "found": 4
-     },
-     "kind": "Text you read",
-     "belongs": "Used as: Status marks. Seen on: Business; classes text 2; financial-signal-icon 2."
-    },
-    {
-     "code": "TXS.HTB.001.014",
+     "code": "TXS.HTB.001.012",
      "name": "Heading 3 bold",
-     "description": "A section heading: a dialog title, a box name, a shown total.",
-     "edits": "24px, weight 700.",
+     "description": "A section heading: a dialog title, a box name above a floating card.",
+     "edits": "Bold, 24px.",
      "values": {
       "VAR012": "prefilled"
      },
@@ -1327,16 +1289,16 @@ export const library: Library = {
       "paddingTop": 0,
       "border": 0,
       "scale": "h3 24",
-      "found": 6
+      "found": 1
      },
      "kind": "Text you read",
-     "belongs": "Used as: Dialog titles, box names above a floating card, the shown values of the Financial Foundation. Seen on: Business; classes financial-tile-value 5; strong 1."
+     "belongs": "Used as: Dialog titles, box names above a floating card. Seen on: Business; classes strong 1."
     },
     {
-     "code": "TXS.HTC.001.015",
+     "code": "TXS.HTC.001.013",
      "name": "Heading 3 bold capitals",
-     "description": "The name of the organisation in the header.",
-     "edits": "24px, weight 700, capitals.",
+     "description": "The name of the organisation in the header and the answer column labels. (Semibold 600 is merged into bold.)",
+     "edits": "Bold, capitals, 24px.",
      "values": {
       "VAR012": "prefilled"
      },
@@ -1349,38 +1311,16 @@ export const library: Library = {
       "paddingTop": 0,
       "border": 0,
       "scale": "h3 24",
-      "found": 0
+      "found": 12
      },
-     "kind": "Text you read",
-     "belongs": "Used as: The organisation name in the header. Seen on: not found in the default pages."
+     "kind": "Text you read, capitals",
+     "belongs": "Used as: The organisation name in the header, answer column labels. Seen on: Identity, Brand, Business, Strategy; classes app-header-organization-name 8; answer-column-label-number 2; answer-column-label-text 2."
     },
     {
-     "code": "TXS.HTS.001.016",
-     "name": "Heading 3 semibold capitals",
-     "description": "A column label with its number (the answer columns).",
-     "edits": "24px, weight 600, capitals.",
-     "values": {
-      "VAR012": "prefilled"
-     },
-     "look": {
-      "height": null,
-      "fontSize": 24,
-      "fontWeight": "600",
-      "corners": "0px",
-      "paddingLeft": 0,
-      "paddingTop": 0,
-      "border": 0,
-      "scale": "h3 24",
-      "found": 0
-     },
-     "kind": "Text you read",
-     "belongs": "Used as: Answer column labels. Seen on: not found in the default pages."
-    },
-    {
-     "code": "TXS.HTI.001.017",
+     "code": "TXS.HTI.001.014",
      "name": "Heading 3 medium italic",
      "description": "The guiding question that opens an introduction.",
-     "edits": "24px, weight 500, italic.",
+     "edits": "Medium, italic, 24px.",
      "values": {
       "VAR012": "prefilled"
      },
@@ -1399,32 +1339,32 @@ export const library: Library = {
      "belongs": "Used as: The guiding question of an introduction. Seen on: Identity, Brand, Business, Strategy; classes intro-guiding-question 4."
     },
     {
-     "code": "TXS.HDS.001.018",
-     "name": "Heading 2 semibold capitals",
-     "description": "A chapter or column title and the subhead of a business foundation card.",
-     "edits": "28px, weight 600, capitals; a long title moves horizontally.",
+     "code": "TXS.HDC.001.015",
+     "name": "Heading 2 bold capitals",
+     "description": "A chapter or column title and the subhead of a card. (Semibold 600 is merged into bold.)",
+     "edits": "Bold, capitals, 28px; a long title moves horizontally.",
      "values": {
       "VAR012": "prefilled"
      },
      "look": {
       "height": null,
       "fontSize": 28,
-      "fontWeight": "600",
+      "fontWeight": "700",
       "corners": "0px",
       "paddingLeft": 0,
       "paddingTop": 0,
       "border": 0,
       "scale": "h2 28",
-      "found": 0
+      "found": 5
      },
-     "kind": "Text you read",
-     "belongs": "Used as: Chapter titles, column titles, field group subheads. Seen on: not found in the default pages."
+     "kind": "Text you read, capitals",
+     "belongs": "Used as: Chapter titles, column titles, field group subheads. Seen on: Identity, Brand, Strategy; classes field-group-title.business-foundation-subhead 5."
     },
     {
-     "code": "TXS.HOB.001.019",
+     "code": "TXS.HOB.001.016",
      "name": "Heading 1 bold",
-     "description": "The title of the system in the header and the main heading.",
-     "edits": "36px, weight 700.",
+     "description": "The title of the system in the header.",
+     "edits": "Bold, 36px.",
      "values": {
       "VAR012": "prefilled"
      },
@@ -1443,10 +1383,10 @@ export const library: Library = {
      "belongs": "Used as: The system title (after the system icon). Seen on: Identity, Brand, Business, Strategy; classes h1 8."
     },
     {
-     "code": "TXS.HOC.001.020",
+     "code": "TXS.HOC.001.017",
      "name": "Heading 1 capitals",
      "description": "The page title in capitals.",
-     "edits": "36px, weight 400, capitals.",
+     "edits": "Regular, capitals, 36px.",
      "values": {
       "VAR012": "prefilled"
      },
@@ -1459,16 +1399,16 @@ export const library: Library = {
       "paddingTop": 0,
       "border": 0,
       "scale": "h1 36",
-      "found": 0
+      "found": 4
      },
-     "kind": "Text you read",
-     "belongs": "Used as: The page title. Seen on: not found in the default pages."
+     "kind": "Text you read, capitals",
+     "belongs": "Used as: The page title. Seen on: Identity, Brand, Business, Strategy; classes interview-header-page-title.interview-header-page-title-capitals 4."
     },
     {
-     "code": "TXS.HOR.001.021",
+     "code": "TXS.HOR.001.018",
      "name": "Heading 1",
      "description": "The page title in plain letters.",
-     "edits": "36px, weight 400.",
+     "edits": "Regular, 36px.",
      "values": {
       "VAR012": "prefilled"
      },
@@ -1487,7 +1427,8 @@ export const library: Library = {
      "belongs": "Used as: The page title. Seen on: Identity, Business; classes interview-header-page-title 2."
     }
    ],
-   "requires": []
+   "requires": [],
+   "defaultVariant": "TXS.BDY.001.001"
   },
   {
    "code": "DRP.001",
@@ -1584,7 +1525,7 @@ export const library: Library = {
    "code": "TXT.001",
    "name": "holder",
    "category": "component",
-   "summary": "The cell a person fills in with text or numbers, in the body size. Its size can change and it takes different features: what can be typed (text, or numbers only), how many digits are accepted, and whether it keeps its space, grows down as you write, or grows under conditions. A text that is only read is not a holder (see the help text, label, title and link).",
+   "summary": "The cell a person fills in with text or numbers, in the body size. The default is the text box (one line, fixed space); the other variants change what can be typed (free text that grows, the name cell, numbers only) and how the cell grows. A text that is only read is not a holder (see the text).",
    "variables": [
     "VAR001",
     "VAR002",
@@ -1744,11 +1685,13 @@ export const library: Library = {
     "years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).",
     "months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner).",
     "digits: by the owner's description (owner, 2026-10-15) a number cell accepts only numbers, and no more digits than the field requires.",
-    "the percent, years and months boxes are one variant, the square number (the owner, owner, 2026-10-15): 44 by 44px; the unit is beside it."
+    "the percent, years and months boxes are one variant, the square number (the owner, owner, 2026-10-15): 44 by 44px; the unit is beside it.",
+    "the default is the text box, which exists in the app with specific characteristics (the owner, owner, 2026-10-16): 44px high, 6px corners, 1 line, fixed space."
    ],
    "group": "HOLD.CEL",
    "kind": "Cell you fill in: text or numbers",
-   "belongs": "Cards, chapters, the Workspace"
+   "belongs": "Cards, chapters, the Workspace",
+   "defaultVariant": "TXT.BOX.001.001"
   },
   {
    "code": "LST.001",
@@ -1842,13 +1785,14 @@ export const library: Library = {
     "measured 2026-10-15: the page rule is 2px high and 1400px wide (.interview-divider); the vertical line (1px) exists only in the handbook card, not in the four systems."
    ],
    "group": "MARK.DIV",
-   "kind": "Line that divides"
+   "kind": "Line that divides",
+   "defaultVariant": "DIV.HOR.001.001"
   },
   {
    "code": "DAT.001",
    "name": "date cell",
    "category": "component",
-   "summary": "A cell that holds a date, with a calendar button that opens a calendar. The calendar lets the person choose a day, or only a month (the variable date precision). 44px high.",
+   "summary": "A date cell: one long cell that holds the date, with the calendar symbol inside the cell at its right (a button 32px high, like the box buttons), not in a separate square. The cell works as a dropdown: the calendar symbol takes the place of the arrow and the calendar opens under the cell. The default is day, month and year; the other form asks only for a month and a year. The popup is part of the cell.",
    "variables": [
     "VAR001",
     "VAR002",
@@ -1860,9 +1804,9 @@ export const library: Library = {
    "variants": [
     {
      "code": "DAT.CAL.001.001",
-     "name": "Day calendar",
-     "description": "A day, month and year chosen in a calendar.",
-     "edits": "The calendar button opens a day calendar.",
+     "name": "Day, month and year",
+     "description": "The default: the calendar of days (with Clear and Today) chooses a day, a month and a year (Start date, End date, Balance date).",
+     "edits": "The calendar offers days.",
      "values": {
       "VAR010": "day"
      },
@@ -1870,21 +1814,16 @@ export const library: Library = {
     },
     {
      "code": "DAT.MON.001.002",
-     "name": "Month calendar",
-     "description": "The same calendar, set to choose only a month and a year.",
-     "edits": "The calendar asks for a month and a year; the day is not asked.",
+     "name": "Month and year",
+     "description": "Only a month and a year are asked, in a calendar of months with a Month and Year switch (the Strategic Period, the Financial Plan).",
+     "edits": "The calendar offers months; the day is not asked.",
      "values": {
       "VAR010": "month"
      },
      "kind": "Date cell: a month"
     }
    ],
-   "requires": [
-    {
-     "asset": "DAT.002",
-     "role": "the calendar that opens under the cell"
-    }
-   ],
+   "requires": [],
    "catalogue": [
     "CO01"
    ],
@@ -1903,65 +1842,12 @@ export const library: Library = {
    "lookNotes": [
     "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 44). Already 44px.",
     "dates in the Strategic Period, the Objective cards of a Theme and the Revenue card (Begins): by the owner's decision (owner, 2026-10-15) they are this date cell with a calendar and the choice of a day or only a month; they are month pickers with their own look today (bold, wide-spaced type that cuts the year off: 'September 202').",
-    "proposal (the owner, owner, 2026-10-16), not applied: the calendar sits inside the cell, not in a separate square; its button is 32px high, like the box buttons; the cell works exactly as a dropdown, with the picture of a calendar in place of the arrow, and the list has two choices, days or months of a year."
+    "decided by the owner, owner, 2026-10-16: the long cell and the square calendar symbol are unified (the symbol inside the cell, 32px high); one default for days, months and years, and one for months and years only; the cell works as a dropdown. The day popup today is the browser's own calendar and the symbol is the emoji 📅; both are to be replaced by the app's own."
    ],
    "group": "HOLD.DAT",
    "kind": "Date cell with a calendar button",
-   "belongs": "Cards: dates"
-  },
-  {
-   "code": "DAT.002",
-   "name": "calendar popup",
-   "category": "component",
-   "summary": "The window that opens under a date cell: the calendar of days, or the months and years. Rounded corners, 6px like the cells.",
-   "variables": [
-    "VAR001",
-    "VAR003",
-    "VAR004",
-    "VAR010"
-   ],
-   "catalogue": [],
-   "variants": [
-    {
-     "code": "DAT.DAY.002.001",
-     "name": "Day popup",
-     "description": "The calendar of days with Clear and Today.",
-     "edits": "A grid of days.",
-     "values": {
-      "VAR010": "day"
-     },
-     "kind": "Popup: a grid of days"
-    },
-    {
-     "code": "DAT.MON.002.002",
-     "name": "Month popup",
-     "description": "The months of a year, with a Month and Year switch.",
-     "edits": "A grid of months and a Month and Year switch.",
-     "values": {
-      "VAR010": "month"
-     },
-     "kind": "Popup: a grid of months"
-    }
-   ],
-   "requires": [],
-   "look": {
-    "height": null,
-    "fontSize": 18,
-    "fontWeight": "400",
-    "corners": "6px",
-    "paddingLeft": 12,
-    "paddingTop": 12,
-    "border": 1,
-    "scale": "body 18",
-    "found": 0
-   },
-   "lookNotes": [
-    "rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners of 6px, like the cells. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.",
-    "measured 2026-10-16: the day popup is the browser's own calendar (a date input), so its text size and corners are the browser's and cannot be measured or styled; only the month popup of the Strategy pages is the app's own."
-   ],
-   "group": "HOLD.DAT",
-   "kind": "Popup of a date cell (not a cell you fill)",
-   "belongs": "Under a date cell"
+   "belongs": "Cards: dates",
+   "defaultVariant": "DAT.CAL.001.001"
   },
   {
    "code": "PCK.001",
@@ -2103,10 +1989,12 @@ export const library: Library = {
    },
    "lookNotes": [
     "measured 448 by 252px in a card of 492px; the layout of the Brand Images card will change (the owner, owner, 2026-10-15).",
-    "three sizes measured 2026-10-16 (Lumen & Loom, 1920px): the logo slot 668 by 216px (picture 650 by 122px), the icon 249 by 249px in a slot 668 by 300px, the brand image 448 by 252px (Quillfield). They differ because the cards differ; the sizes are not yet one rule."
+    "three sizes measured 2026-10-16 (Lumen & Loom, 1920px): the logo slot 668 by 216px (picture 650 by 122px), the icon 249 by 249px in a slot 668 by 300px, the brand image 448 by 252px (Quillfield). They differ because the cards differ; the sizes are not yet one rule.",
+    "the default is the brand image (448 by 252px), the one image holder measured in a card's own list of images (the owner, owner, 2026-10-16)."
    ],
    "kind": "Image holder: a picture with a name and a note",
-   "belongs": "Brand: Images card"
+   "belongs": "Brand: Images card",
+   "defaultVariant": "IMG.BRD.001.003"
   },
   {
    "code": "ARW.001",
@@ -2147,7 +2035,8 @@ export const library: Library = {
    ],
    "group": "CTRL.NAV",
    "kind": "Navigation control: a triangle that moves to the next or the previous",
-   "belongs": "Pages, dialogs, cards"
+   "belongs": "Pages, dialogs, cards",
+   "defaultVariant": "ARW.PAG.001.001"
   },
   {
    "code": "ARW.002",
@@ -2231,7 +2120,8 @@ export const library: Library = {
    ],
    "group": "CTRL.FLD",
    "kind": "Fold control: a triangle that folds and unfolds",
-   "belongs": "Cards, lists, labels"
+   "belongs": "Cards, lists, labels",
+   "defaultVariant": "ARW.LAB.002.001"
   },
   {
    "code": "BUL.001",
@@ -2320,12 +2210,12 @@ export const library: Library = {
     },
     {
      "asset": "TXS.001",
-     "variant": "TXS.BSC.001.007",
+     "variant": "TXS.BBC.001.006",
      "role": "the title of the tile"
     },
     {
      "asset": "TXS.001",
-     "variant": "TXS.BUL.001.005",
+     "variant": "TXS.BUL.001.004",
      "role": "the links it lists"
     }
    ],
@@ -2354,7 +2244,7 @@ export const library: Library = {
     },
     {
      "asset": "TXS.001",
-     "variant": "TXS.BSM.001.003",
+     "variant": "TXS.BBD.001.003",
      "role": "the title, generated by the card"
     }
    ],
@@ -2405,7 +2295,7 @@ export const library: Library = {
       },
       {
        "asset": "TXS.001",
-       "variant": "TXS.HDS.001.018",
+       "variant": "TXS.HDC.001.015",
        "role": "the title of the chapter"
       }
      ],
@@ -5573,7 +5463,7 @@ export const library: Library = {
     },
     {
      "asset": "TXS.001",
-     "variant": "TXS.HTB.001.014",
+     "variant": "TXS.HTB.001.012",
      "role": "the name of the tile or box above the card"
     },
     {

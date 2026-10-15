@@ -119,6 +119,8 @@ export interface Asset {
     group?: string;
     /** What kind of thing it is, in plain words (a cell you fill in; a text you read, prefilled or generated; a button that acts). */
     kind?: string;
+    /** The variant that is the default of a generic asset: the one that exists in the app with specific characteristics (the text box for the holder). */
+    defaultVariant?: string;
     /** The frames, pages and cards it is placed in (the fields that use it are read from the catalogue). */
     belongs?: string;
     /** The measured contracts of src/library/assets that describe this asset (by their names), if there are any. */
