@@ -161,3 +161,24 @@
     --tab-bg: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
+
+/* A dropdown sample leaves room under the trigger for its list to open downwards. */
+.library-dropdown {
+
+    min-height: 280px;
+
+}
+
+/* The widest dropdown step (420px) needs a sample wider than the usual one. */
+.library-grid:has(.library-dropdown) {
+
+    grid-template-columns: repeat(auto-fill, 560px);
+
+}
+
+.library-dropdown {
+
+    width: 560px;
+    max-width: 100%;
+
+}

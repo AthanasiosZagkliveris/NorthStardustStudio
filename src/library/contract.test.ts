@@ -120,4 +120,21 @@ describe("the asset contracts", () => {
         expect(css).toContain(".strategy-box-toggle:focus-visible{ outline:none; border-color:var(--line-primary);");
     });
 
+
+    it("gives the dropdown the steps, the list and the options its stylesheets draw", () => {
+        const dropdown = assets.find(asset => asset.name === "Dropdown")!;
+        const g = dropdown.geometry;
+        const picker = stylesheet("option-picker.css");
+        const global = stylesheet("global.css");
+        expect(global).toContain("--control-s: " + g.stepS + "px;");
+        expect(global).toContain("--control-m: " + g.stepM + "px;");
+        expect(global).toContain("--control-l: " + g.stepL + "px;");
+        expect(global).toContain("--control-square: " + g.height + "px;");
+        expect(picker).toContain("background-size:" + g.chevronWidth + "px " + g.chevronHeight + "px;");
+        expect(picker).toContain("margin-top:" + g.listGap + "px; padding:" + g.listPadding + "px;");
+        expect(picker).toContain("border-radius:var(--radius-lg);");
+        expect(picker).toContain(".option-picker-option{ padding:" + g.optionPaddingY + "px " + g.optionPaddingX + "px;");
+        expect(picker).toContain("font-weight:" + g.chosenWeight + ";");
+    });
+
 });

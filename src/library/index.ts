@@ -6,6 +6,7 @@ import { removeX } from "./assets/removeX.ts";
 import { rails } from "./assets/rails.ts";
 import { backButton } from "./assets/backButton.ts";
 import { foldArrow } from "./assets/foldArrow.ts";
+import { dropdown } from "./assets/dropdown.ts";
 
 /** Every asset of the library that has a contract. */
-export const assets: readonly AssetContract[] = [labelArrow, plusBox, infoNote, removeX, rails, backButton, foldArrow];
+export const assets: readonly AssetContract[] = [labelArrow, plusBox, infoNote, removeX, rails, backButton, foldArrow, dropdown];

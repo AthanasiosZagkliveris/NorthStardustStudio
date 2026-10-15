@@ -1749,6 +1749,49 @@ The standard 36px fold arrow: a solid triangle, right while folded and down whil
 - the triangle (the text colour) against the ground it stands on (page): at least 3:1.
 - the triangle (the text colour) against the ground it stands on (card): at least 3:1.
 
+### Dropdown
+
+A drawn dropdown: a 45px trigger in one of the standard widths (or hugging its widest option) with a chevron, and a floating list of 43px options exactly as wide as the trigger.
+
+- **Kind:** dropdown. **Code:** `src/components/interview/OptionPicker.tsx`. **Stylesheet:** `src/styles/option-picker.css` (also `src/styles/global.css`, `src/styles/conversation.css`).
+- **Parts:** trigger (button.interview-input with the value, a hidden copy of every option, and a drawn chevron); list (role listbox, floating under the trigger); option (role option; the chosen one bold, aria-selected).
+- **States:** rest, hover, focus, open, disabled.
+- **Used in:** every choice of one value on the Foundation pages and in the cards; frequencies, statuses, types, currencies, countries (searchable).
+- **Custom properties it reads:** `--control-s`, `--control-m`, `--control-l`, `--control-square`, `--select-padding-left`, `--select-padding-right`, `--select-chevron`, `--select-chevron-inset`, `--bg-surface`, `--text-default`, `--text-faint`, `--line-card`, `--glow-color`, `--box-inset`.
+
+| Variant | Where | Note |
+|---|---|---|
+| step-s | step s | short options (Yes / No): the trigger is --control-s wide |
+| step-m | step m | a typical choice ("No tax at business level"): --control-m wide |
+| step-l | step l | a long choice ("Private Company Limited by Shares"): --control-l wide |
+| hug | hug | as wide as its widest option exactly, no wider (a side-label picker's allowed exception) |
+| disabled | disabled | a disabled trigger: faint text, the card-line edge, not-allowed cursor |
+
+| Number | Value |
+|---|---|
+| height | 45 |
+| stepS | 220 |
+| stepM | 300 |
+| stepL | 420 |
+| chevronWidth | 12 |
+| chevronHeight | 8 |
+| fontSize | 18 |
+| listGap | 6 |
+| listPadding | 4 |
+| listRadius | 8 |
+| optionHeight | 43 |
+| optionPaddingY | 8 |
+| optionPaddingX | 10 |
+| chosenWeight | 700 |
+| minTargetPx | 24 |
+| hugTolerancePx | 2 |
+| tolerancePx | 0.6 |
+
+**Accessibility.** Keyboard focus is shown by a ring or outline. Name: <label>: <value> (aria-label), aria-haspopup=listbox, aria-expanded. Contrast it must hold:
+- the value against the trigger's ground (page): at least 4.5:1.
+- the value against the trigger's ground (card): at least 4.5:1.
+- an option against the list's surface (list): at least 4.5:1.
+
 <!-- /generated:assets -->
 
 ## Appendix A. Rules replaced by a later round (history, word for word)
