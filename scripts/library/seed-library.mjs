@@ -169,11 +169,13 @@ const fieldCode = new Map();
 const byName = new Map();
 for (const f of table("F").rows) {
     if (SKIP_CONTROLS.has(String(f.component))) continue;
-    const key = String(f.name).trim().toLowerCase();
+    // The probe's labels carry the info letter glued to the name ("Typei") and the number of the card ("Expense 4 name").
+    const clean = String(f.name).trim().replace(/ d+ /g, " ").replace(/([a-z])i$/, "$1");
+    const key = clean.toLowerCase();
     const fns = String(f.functions).split(", ").filter(s => s && s !== "-").map(id => fnText.get(id) ?? "");
     const parts = requiresOf(String(f.component), fns);
     if (!parts) continue;
-    if (!byName.has(key)) byName.set(key, { name: String(f.name).trim(), ids: [], parts: [], controls: new Set() });
+    if (!byName.has(key)) byName.set(key, { name: clean, ids: [], parts: [], controls: new Set() });
     const entry = byName.get(key);
     entry.ids.push(String(f.id));
     entry.controls.add(String(f.component));

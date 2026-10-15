@@ -1,6 +1,6 @@
 # The library system: tables, library, inventory and logs
 
-Status: **approved by the owner (2026-10-15); steps 2 to 5 built, step 6 (the inventory) in progress.** It records the owner's requirements as stated in chat, and how they will be met, step by step. The starting data is the catalogue (the card scan, the probes and document 01 Part F), printed in documents 06 and 07.
+Status: **approved by the owner (2026-10-15); steps 2 to 6 built (the sync, step 7, waits for the owner).** It records the owner's requirements as stated in chat, and how they will be met, step by step. The starting data is the catalogue (the card scan, the probes and document 01 Part F), printed in documents 06 and 07.
 
 ## 1. What a variable is
 

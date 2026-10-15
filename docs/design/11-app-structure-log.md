@@ -10,7 +10,7 @@ Every change of the tables, that is, of the structure of the app: a placement pl
 | A0004 | 2026-10-15 | placed | table MT |  |  | initial record: 53 rows from the catalogue | the first record, from the catalogue |
 | A0005 | 2026-10-15 | placed | table V |  |  | initial record: 255 rows from the catalogue | the first record, from the catalogue |
 | A0006 | 2026-10-15 | placed | table K |  |  | initial record: 69 rows from the catalogue | the first record, from the catalogue |
-| A0007 | 2026-10-15 | placed | table T |  |  | initial record: 13 rows from the catalogue | the first record, from the catalogue |
+| A0007 | 2026-10-15 | placed | table T |  |  | initial record: 12 rows from the catalogue | the first record, from the catalogue |
 | A0008 | 2026-10-15 | placed | table CAT |  |  | initial record: 24 rows from the catalogue | the first record, from the catalogue |
 | A0009 | 2026-10-15 | placed | table G |  |  | initial record: 53 rows from the catalogue | the first record, from the catalogue |
 | A0010 | 2026-10-15 | placed | table O |  |  | initial record: 6 rows from the catalogue | the first record, from the catalogue |

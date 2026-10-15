@@ -19,6 +19,7 @@ const GlobalSettings = lazy(() => import("./pages/GlobalSettings"));
 
 // The asset library's gallery: development only (`npm run dev`), absent from the built app.
 const Library = import.meta.env.DEV ? lazy(() => import("./pages/Library")) : null;
+const Inventory = import.meta.env.DEV ? lazy(() => import("./pages/Inventory")) : null;
 
 export default function App() {
 
@@ -69,6 +70,8 @@ export default function App() {
                 />
 
                 {Library && <Route path="/library" element={<Library />} />}
+
+                {Inventory && <Route path="/library/inventory" element={<Inventory />} />}
 
             </Routes>
 

@@ -4238,7 +4238,7 @@ export const foundationTables: readonly TableData[] = [
    },
    {
     "id": "K069",
-    "card_type": "other",
+    "card_type": "Legal Entity card",
     "name": "Add Legal requirement to Additional legal requirements",
     "category": "",
     "group": "",
@@ -4301,7 +4301,7 @@ export const foundationTables: readonly TableData[] = [
    {
     "id": "T09",
     "type": "Legal Entity card",
-    "kinds": "K053 K054"
+    "kinds": "K053 K054 K069"
    },
    {
     "id": "T10",
@@ -4317,11 +4317,6 @@ export const foundationTables: readonly TableData[] = [
     "id": "T12",
     "type": "Channel card",
     "kinds": "K061 K062 K063 K064 K065 K066 K067 K068"
-   },
-   {
-    "id": "T13",
-    "type": "other",
-    "kinds": "K069"
    }
   ]
  },

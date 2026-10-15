@@ -182,3 +182,37 @@
     max-width: 100%;
 
 }
+
+/* The inventory (src/pages/Inventory.tsx): assets built from the library, one block each. */
+.inventory-asset {
+    margin: 16px 0;
+    padding: 12px;
+    border: 1px solid var(--line-hairline);
+    border-radius: var(--radius-lg);
+}
+.inventory-variant {
+    margin: var(--space-field) 0 0 var(--space-field);
+}
+.inventory-part {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-field);
+    padding: 6px 0;
+}
+.inventory-field {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-field);
+}
+.inventory-card-head {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-field);
+}
+.inventory-mode[aria-pressed="true"] {
+    font-weight: 700;
+}
+.inventory-field > .inventory-field-part:first-child {
+    flex: 0 0 177px;
+}

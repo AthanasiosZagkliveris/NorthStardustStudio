@@ -722,7 +722,7 @@ A card kind lists its fields (F ids) top to bottom. The standard order: head (nu
 | K066 | Channel card | Add Subchannel to Direct Payment |  |  | 10 | F153 F154 F155 F156 F157 F184 F185 F186 F187 F188 | add probe (a new card) |
 | K067 | Channel card | Add Subchannel to Online / Live |  |  | 10 | F153 F154 F155 F156 F157 F189 F190 F191 F192 F193 | add probe (a new card) |
 | K068 | Channel card | Add Subchannel to File Delivery |  |  | 10 | F153 F154 F155 F156 F157 F194 F195 F196 F197 F198 | add probe (a new card) |
-| K069 | other | Add Legal requirement to Additional legal requirements |  |  | 7 | F199 F200 F201 F119 F120 F202 F082 | add probe (a new card) |
+| K069 | Legal Entity card | Add Legal requirement to Additional legal requirements |  |  | 7 | F199 F200 F201 F119 F120 F202 F082 | add probe (a new card) |
 
 ### H. App header
 
@@ -816,11 +816,10 @@ Each distinct effect once. used_by lists the components (CO ids). A change is sh
 | T06 | Offering Activity card | K041 K042 K043 |
 | T07 | Offering Partner card | K044 K045 |
 | T08 | Offering Supplier card | K046 K047 K048 K049 K050 K051 K052 |
-| T09 | Legal Entity card | K053 K054 |
+| T09 | Legal Entity card | K053 K054 K069 |
 | T10 | Brand card | K055 K056 K057 |
 | T11 | Foundation card | K058 K059 K060 |
 | T12 | Channel card | K061 K062 K063 K064 K065 K066 K067 K068 |
-| T13 | other | K069 |
 
 ### CAT. Categories (in order)
 

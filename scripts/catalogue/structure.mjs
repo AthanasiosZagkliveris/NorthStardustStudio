@@ -231,7 +231,7 @@ for (const k of probeKinds) {
         fieldTable.find(x => x.id === id).used_in++;
         return id;
     });
-    kindRows.push({ id: "", title: k.plus.replace(/^\+ /, ""), type: /Subchannel/.test(k.plus) ? "Channel card" : /Competitor|Offering|Profile|Segment/.test(k.plus) ? "Foundation card" : /Colour|Typeface|Image/.test(k.plus) ? "Brand card" : /Expense/.test(k.plus) ? "Legal Entity card" : "other", category: "", group: "", fields: ids, source: "add probe (a new card)" });
+    kindRows.push({ id: "", title: k.plus.replace(/^\+ /, ""), type: /Subchannel/.test(k.plus) ? "Channel card" : /Competitor|Offering|Profile|Segment/.test(k.plus) ? "Foundation card" : /Colour|Typeface|Image/.test(k.plus) ? "Brand card" : /Expense|Legal requirement/.test(k.plus) ? "Legal Entity card" : "other", category: "", group: "", fields: ids, source: "add probe (a new card)" });
 }
 kindRows.forEach((k, i) => { k.id = pad("K", i + 1); });
 table("F. Fields", "Each field once, with the component it uses (CO) and the functions it carries (FN). used_in counts the card kinds that hold it.", fieldTable.map(f => ({ id: f.id, name: f.name, component: f.component, component_id: f.component_id, functions: [...f.functions].join(", ") || "-", used_in: f.used_in })));
