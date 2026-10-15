@@ -215,6 +215,7 @@ Separated by purpose; each has its own default look.
 - the one bullet of every page tag (the owner, owner, 2026-10-15): there is one type of bullet.
 - the bullets are navigation controls (the owner, owner, 2026-10-15): they move between pages, sections, views and cards, like the page and carousel arrows.
 - states measured 2026-10-16 on the Business page tag: rest 12px; hover and focus 15.6px (scale 1.3) with a 3px ring of 40% opacity; selected 17.4px (scale 1.45) with a 4px bloom of 28% opacity. The owner says the selection is much bigger and that this size should be the hovering: waiting for the answer, not applied.
+- reactions read 2026-10-16 in the app (Business page tag, 1920px): rest 12px, fill rgb(139, 85, 108); hover 15.6px, fill rgb(101, 70, 89), ring 3px; selected 17.4px, fill rgb(139, 85, 108), bloom 4px; transitions 0.2s for size, colour and ring. In the pictures the selected bullet reads as much larger than the hovered one (25px against 22px with its ring).
 
 ### ICN.001 system icon
 

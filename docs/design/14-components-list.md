@@ -1451,7 +1451,7 @@ Moves to the previous or the next card or view inside a dialog or card.
 
 #### BUL.001 Bullet
 
-The one dot of every page tag. Rest: 12px. Hover and focus: 15.6px (1.3 times) with a 3px ring; the label is underlined. Selected: 17.4px (1.45 times) with a 4px bloom and a bold label. Its colour follows the tint of the card.
+The one dot of every page tag. Rest: 12px, the card's tint, no ring. Hover and focus: 15.6px (1.3 times), the fill turns darker, a 3px ring of the tint appears, the label is underlined and, in the compact tag, its name shows as a tooltip. Selected: 17.4px (1.45 times), the fill stays the tint, a 4px light bloom surrounds it (25px in all, the largest mark of the tag) and the label is bold. Hovering the selected bullet only underlines its label. All changes run in 0.2 seconds.
 
 **Kind and place**
 - Kind: Navigation control: a dot that shows and moves to a page
@@ -1463,7 +1463,7 @@ The one dot of every page tag. Rest: 12px. Hover and focus: 15.6px (1.3 times) w
 - Source: measured by the scan; the one bullet of every page tag
 
 **Reaction**
-- Rest 12px. Hover and focus: 15.6px (1.3 times) with a 3px ring, the label underlined. Selected: 17.4px (1.45 times) with a 4px bloom and a bold label. The colour follows the card's tint.
+- Rest 12px. Hover and focus: 15.6px, a darker fill, a 3px ring, the label underlined (a tooltip in the compact tag). Selected: 17.4px, a 4px bloom (25px in all), a bold label. All in 0.2s.
 
 ### Fold controls (CTRL.FLD)
 

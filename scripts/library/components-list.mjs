@@ -40,7 +40,7 @@ const REACTION = {
     "HLP.001": "None.",
     "ARW.001": "Hover and focus: the arrow grows 1.2 times; focus adds a 2 px blue outline.",
     "ARW.002": "Outline at rest; filled under the pointer and the focus.",
-    "BUL.001": "Rest 12px. Hover and focus: 15.6px (1.3 times) with a 3px ring, the label underlined. Selected: 17.4px (1.45 times) with a 4px bloom and a bold label. The colour follows the card's tint."
+    "BUL.001": "Rest 12px. Hover and focus: 15.6px, a darker fill, a 3px ring, the label underlined (a tooltip in the compact tag). Selected: 17.4px, a 4px bloom (25px in all), a bold label. All in 0.2s."
 };
 /** Where the scan found each asset or variant (a condition on the scan's records). */
 const FOUND = {
