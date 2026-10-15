@@ -26,8 +26,23 @@ export function renderAsset(asset: AssetContract): string {
     for (const variant of asset.variants) out.push("| " + cell(variant.id) + (variant.fontSizePx ? " (" + variant.fontSizePx + "px label)" : "") + " | " + cell(variant.context) + " | " + cell(variant.note) + " |");
     out.push("", "| Number | Value |", "|---|---|");
     for (const [name, value] of Object.entries(asset.geometry)) out.push("| " + name + " | " + String(Math.round(value * 1e4) / 1e4) + " |");
+    if (asset.sizes) {
+        out.push("", "**Sizes by screen class** (one custom property each; the same in every class until the owner sets them apart):", "", "| Use | Property | Tablet | Laptop | Desktop |", "|---|---|---|---|---|");
+        for (const row of asset.sizes) {
+            const value = (n: number) => n + row.unit;
+            out.push("| " + cell(row.use + (row.note ? " (" + row.note + ")" : "")) + " | " + (row.token ? "`" + row.token + "`" : "(none yet)") + " | " + value(row.values.tablet) + " | " + value(row.values.laptop) + " | " + value(row.values.desktop) + " |");
+        }
+    }
+    if (asset.anatomy) {
+        out.push("", "**From top to bottom:**", "");
+        asset.anatomy.forEach((part, index) => out.push((index + 1) + ". **" + part.part + "**" + (part.gapAbove ? " (" + part.gapAbove.px + "px above, `" + part.gapAbove.token + "`)" : "") + ": " + part.note));
+    }
     out.push("", "**Accessibility.** " + (asset.accessibility.focusRing ? "Keyboard focus is shown by a ring or outline." : "Keyboard focus is shown by the asset's own fill; no ring or outline.") + " Name: " + asset.accessibility.accessibleName + ". Contrast it must hold:");
     for (const need of asset.accessibility.contrast) out.push("- " + need.ink + " (" + need.ground + "): at least " + need.min + ":1.");
+    if (asset.accessibility.criteria) {
+        out.push("", "**WCAG 2.2 criteria it must meet:**");
+        for (const criterion of asset.accessibility.criteria) out.push("- **" + criterion.id + " " + criterion.name + ".** " + criterion.how);
+    }
     if (asset.knownFindings) {
         out.push("", "**Known findings** (measured, not changed; to decide):");
         for (const [key, text] of Object.entries(asset.knownFindings)) out.push("- `" + key + "`: " + text);

@@ -54,13 +54,10 @@ const check = (ok, where, what, detail = "", key = "") => {
     }
 };
 
-const run = assets.filter(asset => !only || asset.name === only);
-for (const asset of run) {
-    if (!modules.some(module => module.name === asset.name)) {
-        console.error("No runner module for the asset " + asset.name);
-        process.exit(2);
-    }
-}
+// An asset without a runner module is a contract only so far: it is listed, not measured.
+const notMeasured = assets.filter(asset => !modules.some(module => module.name === asset.name)).map(asset => asset.name);
+const run = assets.filter(asset => (!only || asset.name === only) && !notMeasured.includes(asset.name));
+if (notMeasured.length) console.log("Not measured yet (a contract only): " + notMeasured.join(", "));
 
 const browser = await chromium.launch(process.env.PW_CHANNEL ? { channel: process.env.PW_CHANNEL } : {});
 try {

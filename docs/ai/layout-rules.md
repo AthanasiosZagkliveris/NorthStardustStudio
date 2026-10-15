@@ -1792,6 +1792,69 @@ A drawn dropdown: a 45px trigger in one of the standard widths (or hugging its w
 - the value against the trigger's ground (card): at least 4.5:1.
 - an option against the list's surface (list): at least 4.5:1.
 
+### Floating card
+
+The one surface every floating card stands on: 492px wide (a founder's 297px), 8px corners, 12px padding and 12px between everything, a height that follows its contents, an inset light and shade edge and a drop shadow, in the tint of its tile and the colours of the reading mode.
+
+- **Kind:** card base. **Code:** `src/components/interview/SectionTiles.tsx, the FloatingCards component`. **Stylesheet:** `src/styles/section-tiles.css` (also `src/styles/page-3-edges.css`, `src/styles/global.css`).
+- **Parts:** host (a dialog over the dimmed page, placed by its tile); stack (one card, or a parent above its child); item (the box name, then the card); caption (the box name, with the box's "i"); body (the card: its ground, edge and shadow).
+- **States:** rest, open.
+- **Used in:** every floating card on the Foundation pages (Identity, Brand, Business, Strategy); the Resource, Activity, Partner, Provider, Founder, Legal Entity and Brand cards.
+- **Custom properties it reads:** `--open-card-width`, `--founder-card-min`, `--radius-lg`, `--card-padding`, `--space-field`, `--space-label`, `--control-square`, `--card-label-col`, `--theme-bg-inner`, `--theme-ground-weight`, `--theme-ground-paper`, `--theme-line-edge`, `--theme-line-accent`, `--strategy-theme-hue`, `--shadow-18`, `--shadow-12`, `--box-inset`.
+
+| Variant | Where | Note |
+|---|---|---|
+| card | kind card | a Resource, Activity, Partner, Provider or any other card: --open-card-width wide |
+| founder | kind founder | a founder's card: --founder-card-min wide |
+
+| Number | Value |
+|---|---|
+| cardWidth | 492 |
+| founderWidth | 297 |
+| radius | 8 |
+| padding | 12 |
+| gap | 12 |
+| labelGap | 6 |
+| cellHeight | 45 |
+| labelColumn | 177 |
+| windowMargin | 16 |
+| tolerancePx | 0.6 |
+
+**Sizes by screen class** (one custom property each; the same in every class until the owner sets them apart):
+
+| Use | Property | Tablet | Laptop | Desktop |
+|---|---|---|---|---|
+| Card width (kind card) (at most the window less the window margin) | `--open-card-width` | 492px | 492px | 492px |
+| Founder card width | `--founder-card-min` | 297px | 297px | 297px |
+| Card corners | `--radius-lg` | 8px | 8px | 8px |
+| Card padding, side, top and bottom | `--card-padding` | 12px | 12px | 12px |
+| Gap between rows, and between the box name and the card | `--space-field` | 12px | 12px | 12px |
+| Gap from a label to the control it names | `--space-label` | 6px | 6px | 6px |
+| Height of a single-line control (a cell) | `--control-square` | 45px | 45px | 45px |
+| Label column of a side-label row | `--card-label-col` | 177px | 177px | 177px |
+| Window margin (a card is never closer to the window's edge) (written in the width rule as calc(100vw - 16px), not a custom property yet) | (none yet) | 16px | 16px | 16px |
+
+**From top to bottom:**
+
+1. **Box name**: A centred caption above the card, outside it: the name of the tile or box the card belongs to, with the box's "i" where the box has a note.
+2. **Card top padding** (12px above, `--card-padding`): The card's own padding above its first row.
+3. **Head row**: The order number inside the name cell (45px high), then the x (32px) 12px from the cell. Everything under the head starts and ends where the name cell does.
+4. **Rows** (12px above, `--space-field`): One row per field, 12px apart: a side-label row (the label in the 177px column, then the control), a label above its control (6px), a tick row (the tick and its words on one line), an optional field (the tick, then a growing box under it), a tick list (one tick per line, 12px box to box).
+5. **Groups** (12px above, `--space-field`): Two groups are divided by a rule, 12px either side of it.
+6. **Card bottom padding** (12px above, `--card-padding`): The card's own padding under its last row; the height follows the contents.
+
+**Accessibility.** Keyboard focus is shown by a ring or outline. Name: role dialog, aria-modal, aria-label (the box name). Contrast it must hold:
+- the card's text against the card's ground (card): at least 4.5:1.
+- a control's border and marks against the card's ground (card): at least 3:1.
+
+**WCAG 2.2 criteria it must meet:**
+- **1.4.3 Contrast (minimum).** Every text holds 4.5:1 on the card ground in light, dark and sepia.
+- **1.4.11 Non-text contrast.** Every border, mark and ring that identifies a control holds 3:1 on the card ground.
+- **2.4.7 Focus visible.** Every control shows its keyboard focus (a ring, or the asset's filled state).
+- **2.5.8 Target size (minimum).** Every control is at least 24px, or has the spacing exception.
+- **1.4.10 Reflow.** The card is never wider than the window less the window margin and its content wraps; the 768px floor is a declared exception until the owner rules on 320px (docs/design/05, 5.8).
+- **4.1.2 Name, role, value.** The host is a dialog with aria-modal and a name; the focus returns to the control that opened it; Escape and a press outside close it.
+
 <!-- /generated:assets -->
 
 ## Appendix A. Rules replaced by a later round (history, word for word)

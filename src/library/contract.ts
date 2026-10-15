@@ -26,6 +26,35 @@ export interface ContrastNeed {
     readonly min: 3 | 4.5;
 }
 
+/** The screen classes of the website's profiles (docs/design/05): Tablet 768-1199 wide; Laptop 1200 and wider, under 1250 high; Desktop 1200 and wider, 1250 high and over. */
+export const SCREEN_CLASSES = ["tablet", "laptop", "desktop"] as const;
+export type ScreenClass = (typeof SCREEN_CLASSES)[number];
+
+/** A size by use and by screen class: one custom property, and its value in each class (the same in every class until the owner sets them apart). */
+export interface SizeRow {
+    readonly use: string;
+    /** The custom property that holds it, when there is one. */
+    readonly token?: string;
+    readonly unit: "px" | "";
+    readonly values: Readonly<Record<ScreenClass, number>>;
+    readonly note?: string;
+}
+
+/** One part of an asset from top to bottom: what it is, and the gap above it. */
+export interface AnatomyPart {
+    readonly part: string;
+    readonly note: string;
+    /** The gap above this part in px, with the custom property that holds it. */
+    readonly gapAbove?: { readonly px: number; readonly token: string };
+}
+
+/** A WCAG 2.2 success criterion the asset must meet, and how it is met here. */
+export interface Criterion {
+    readonly id: string;
+    readonly name: string;
+    readonly how: string;
+}
+
 export interface AssetContract {
     readonly name: string;
     readonly kind: string;
@@ -48,7 +77,13 @@ export interface AssetContract {
         /** True when keyboard focus is shown by a ring or outline; false when the asset's own fill shows it. */
         readonly focusRing: boolean;
         readonly accessibleName: string;
+        /** The success criteria that apply to the asset as a whole (a card, a dialog), beyond its contrast and focus. */
+        readonly criteria?: readonly Criterion[];
     };
+    /** Sizes by use and screen class (the asset's own custom properties). */
+    readonly sizes?: readonly SizeRow[];
+    /** The asset's parts from top to bottom, with the gaps between them. */
+    readonly anatomy?: readonly AnatomyPart[];
     readonly uses: readonly string[];
     /**
      * Findings the runner has measured and the owner has not decided on: the
