@@ -17,6 +17,10 @@ create table shell_controls (stage text, name text, tag text, cls text, role tex
 create table shell_opens (stage text, control text, cls text, role text, box text, text text, navigated text);
 create table reactions (where_ text, theme text, kind text, found integer, hover text, focus text, transition text, note text);
 create table strategy_boxes (view text, type text, box text, depth integer, w real, h real, radius text, padL real, border real, nfields integer, fields text);
+create table rails (place text, width integer, theme text, rail text, w real, h real, tab text, radius text, holds text, items integer, dots text, hover_plain text, hover_lit text, focus_plain text);
+create table card_actions (probe text, card text, action text, w integer, h integer, nfields integer, d_height integer, change text);
+create table tool_steps (tool text, step text, url text, layers text, text text, controls text);
+create table missing_states (card text, step text, missing text, lacks text, flashing text, value text);
 create index obs_type on observations (kind, type);
 create index vr_control on variant_rows (control);
 `;
@@ -48,7 +52,16 @@ export async function build(root = ".") {
         const data = JSON.parse(readFileSync(probeDir + "/" + name, "utf8"));
         const probe = name.split("-quillfield")[0];
         for (const r of data.records) {
-            if (probe === "strategy-walk") {
+            if (probe === "rails") {
+                const hv = e => (e ? e.hover : "");
+                insert("rails", { place: r.place, width: r.width, theme: r.theme, rail: r.rail, w: r.box.w, h: r.box.h, tab: r.tab, radius: r.radius, holds: r.holds, items: r.items, dots: r.dot, hover_plain: hv(r.reactions?.plain), hover_lit: hv(r.reactions?.lit), focus_plain: r.reactions?.plain?.focus ?? "" });
+            } else if (probe === "subchannel" || probe === "combos") {
+                insert("card_actions", { probe, card: r.card, action: r.action, w: r.width ?? null, h: r.height ?? null, nfields: r.fields ? r.fields.length : null, d_height: r.dHeight ?? null, change: r.change ?? "" });
+            } else if (probe === "tools" || probe === "review") {
+                insert("tool_steps", { tool: r.tool ?? "Review", step: r.step ?? ("item " + r.item), url: r.url, layers: r.layers, text: r.text, controls: (r.controls ?? []).join(" | ") });
+            } else if (probe === "missing") {
+                insert("missing_states", { card: r.card, step: r.step, missing: (r.missingFields ?? []).join(", "), lacks: r.lacks ?? "", flashing: (r.flashing ?? []).join(", "), value: r.value ?? null });
+            } else if (probe === "strategy-walk") {
                 insert("strategy_boxes", { view: r.view, type: r.type ?? r.kind, box: r.kind === "content tile" ? r.view : r.kind, depth: r.depth ?? 0, w: r.w ?? null, h: r.h ?? null, radius: r.radius ?? null, padL: r.padL ?? null, border: r.border ?? null, nfields: (r.fields ?? []).length, fields: (r.fields ?? []).join(" > ") });
             } else if (probe === "reactions") {
                 insert("reactions", { where_: r.where, theme: r.theme, kind: r.kind, found: r.found ? 1 : 0, hover: r.hover ?? null, focus: r.focus ?? null, transition: r.transition ?? null, note: r.note ?? null });

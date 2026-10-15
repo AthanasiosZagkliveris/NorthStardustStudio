@@ -33,3 +33,11 @@ The owner's instruction: continue with the rest of the cards.
 | End date is optional, switched on only when the project ends | Yes | The End date tick rule (the End date is optional) |
 | Names inherited by Founder, Delivery, generated Channel and Expense cards | Partly | Document 01 describes the cards; no single rule says which cards inherit their name |
 | One calendar; handles recorded only | Decision | Not a layout rule; kept in the owner's answers |
+
+### The owner's third set of statements (2026-10-15, with screenshots of a Resources dialog and a Theme card)
+
+- **Tint.** Some buttons receive the card's colour tint, and the colours change in each reading mode.
+- **Rail bullets.** All rail bullets react the same: there should be only one type of bullet. Page tags include the rail bullets. Their states are default, hover and selection; other elements exist or are placed in a rail (the Back button; the navigation arrow placed inside the rail, changing its colour, with the listed items following after the arrow). A bullet's colour depends on the card's colour and on the reaction phase (colour or opacity).
+- **Page tags on floating cards** do not show names: the name appears on hover as a tooltip (also on small screens). A page tag's height follows the number of listed items and the elements it holds (list, title, Back button, perhaps the navigation arrow); its width follows the length of the listed names.
+- **Theme box:** looks fine.
+- **Instruction:** run all the listed probes, and report.
