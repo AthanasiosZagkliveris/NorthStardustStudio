@@ -47,24 +47,25 @@ Case 3 keeps the record honest: the app log shows the asset, the library log doe
 
 ## 6. How the tables are connected to the app
 
-The owner's wording: the tables are connected to the app so that a change is updated in real time, and the two logs record it. What is connected to what:
+The owner's wording: the table is connected to the app so that changes are updated in real time. Assets are placed in the **Foundation Capability table** (or the **App table**): an asset is placed in a card, under a chapter, a page and a system. The app is connected to these tables: when a placement in a table changes, the app shows the change at once.
 
-**The app** is the running application (its pages, chapters, tiles and cards, and the code in src that builds them). **The Foundation Capability table and the App table** record the structure of the app: for every system, page, chapter, tile and card, which assets stand in it, in which order and in which variant (a placement: asset id, the card, chapter, page and system it stands in, its position, its variant). **The library** records the assets and their variables. The library does not know where an asset is placed; the tables do.
+**What each part holds.** The library holds every asset and its variables, and not where it is placed. The inventory holds the assets built from the library. The tables hold the placements: for every system, page, chapter, tile and card, which assets stand in it, in which order and in which variant. The app is built from the tables, the library and the inventory.
 
-| Change | Where it happens | What is updated | Which log |
-|---|---|---|---|
-| A new asset is added to the library | The library | The library; the inventory builds it | Library log |
-| An asset (new or existing) is placed in a card, under a chapter, page, system | The app | The Foundation Capability table (or the App table) takes the placement | App structure log; and the library log with the extra placement, if the asset is in the library |
-| An existing asset is moved or removed | The app | The table takes the new place, or drops the placement | App structure log; and the library log with the move or removal |
-| A component is placed in the app that is not in the library | The app | The table takes the placement, marked as not in the library | App structure log only |
+**The two logs.** The **library log** records the changes of the library, and the placements of library assets (an extra placement, a move, a removal). The **app structure log** records the changes of the tables, that is, of the structure of the app.
 
-**How a change in the app reaches the table.** A sync reads the running app (the same crawl as the scanner: pages, chapters, tiles, cards, their fields and components, by class and kind), compares what it finds with the placements in the table, and for every difference updates the table and writes the app structure log entry (the three cases of section 5). It runs on demand for the whole app, and in watch mode during development: when a file in src changes, the dev server reloads, and the sync re-reads the pages that file affects and updates the table within seconds. The watch mode is the "real time".
+| What the owner does | Library | Library log | Table (and so the app) | App structure log |
+|---|---|---|---|---|
+| 1. Adds a new asset to the library, creates it in the inventory, places it in a card, under a chapter, page, system | New asset added | Entry: asset added (and where it is placed) | Placement added | Entry: placed |
+| 2. Places an existing asset in a card, or moves it, or removes it | Unchanged | Entry: the extra placement, the move or the removal of that asset | Placement added, moved or removed | Entry: placed, moved or removed |
+| 3. By speed, accident or mistake, places a new component directly in a card, without placing it in the library first | Unchanged | **No entry** | Placement added | Entry: placed, marked **not in the library** |
 
-**How a change in the library reaches its log.** The checker holds a snapshot of the last logged state of the library and the tables, lists every difference, classifies each as case 1, 2 or 3, and fails when a change has no log entry. An assistant command writes the entries.
+The checker lists every placement whose asset is not in the library (case 3) until the asset is added to the library; the library log then gets its entry and the app structure log notes that the asset is now in the library.
 
-**The reverse direction (placing from the table).** Once the assets have replaced the old ones (phase 3), a card kind is described in the table by its placements and the app builds the card from them. Until then the table follows the app, and a placement written in the table first is reported as "in the table, not yet in the app" until the app shows it.
+**Real time.** The tables are data files read by the app. The dev server reloads when a table, the library or the inventory changes, so a placement written in a table shows in the app within seconds.
 
-**Open point for the owner:** whether the sync reads the running app (what the user sees: exact, needs the dev server) or the source code (faster, but the cards are written as separate builders, so it cannot yet tell fields and components apart). The recommendation is the running app, with a source check that finds a component or class name that is not in the library.
+**The transition.** Today the app is built by hand: its cards are separate builders. A system is moved to being built from the tables one at a time (step 7). Until a system has been moved, its table describes it and does not drive it, and the checker compares the table with what the scan finds in the app.
+
+**Checker.** npm run library:check (to be built) holds a snapshot of the last logged state of the library and the tables, lists every difference, classifies each as case 1, 2 or 3, and fails when a change has no log entry. An assistant command writes the entries.
 
 ## 7. The steps (one commit each)
 
@@ -74,6 +75,6 @@ The owner's wording: the tables are connected to the app so that a change is upd
 4. The library: every asset once, with variables (id, name, description) and variants, and what each requires. The owner decides the defaults where there are several looks.
 5. The two logs and the checker (snapshot, the three cases, the drift list).
 6. The inventory: the components built from the library, then the fields, then the cards and tiles, shown on a gallery page.
-7. The sync between the app and the tables (on demand, then watch mode), then replacing the assets system by system.
+7. The app built from the tables, the library and the inventory: one system at a time (the dev server reloads when a table changes), then replacing the assets system by system.
 
 Not in this work: the Customer Engagement, Financial Foundation and Sustainability pages (they will change as a whole), and layout checks (the owner's rule until the library has unified the elements).
