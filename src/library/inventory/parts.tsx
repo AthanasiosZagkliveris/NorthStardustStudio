@@ -52,6 +52,16 @@ function Fold({ label }: { label: boolean }) {
     return label ? <span className="field-label"><LabelArrow open={open} label="Responsibilities" onToggle={() => setOpen(!open)} />Responsibilities</span> : <FoldArrow open={open} label="Initiatives" onToggle={() => setOpen(!open)} />;
 }
 
+function DayPopup() {
+    const days = Array.from({ length: 35 }, (_, i) => i + 1);
+    return <div className="inventory-popup"><strong>October 2026</strong><div className="inventory-popup-grid">{days.map(d => <span key={d} className={d === 15 ? "inventory-popup-day inventory-popup-day-on" : "inventory-popup-day"}>{d > 31 ? d - 31 : d}</span>)}</div></div>;
+}
+
+function MonthPopup() {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    return <div className="inventory-popup"><strong>MONTH | YEAR</strong><div className="inventory-popup-grid inventory-popup-months">{months.map(m => <span key={m} className={m === "Sep" ? "inventory-popup-day inventory-popup-day-on" : "inventory-popup-day"}>{m}</span>)}</div></div>;
+}
+
 const Box = ({ children }: { children: ReactNode }) => <div className="inventory-part">{children}</div>;
 
 /** The part of an asset or variant, by code. */
@@ -85,6 +95,10 @@ export const parts: Record<string, (text?: string) => ReactNode> = {
     "DAT.001": () => <Box><Date /></Box>,
     "DAT.CAL.001.001": () => <Box><Date /></Box>,
     "DAT.MON.001.002": () => <Box><Date month /></Box>,
+    "DAT.002": () => <Box><DayPopup /> <MonthPopup /></Box>,
+    "DAT.DAY.002.001": () => <Box><DayPopup /></Box>,
+    "DAT.MON.002.002": () => <Box><MonthPopup /></Box>,
+    "DIV.001": () => <Box><hr className="inventory-divider" /></Box>,
     "LBL.001": text => <Box><span className="field-label">{text ?? "Start date"}</span></Box>,
     "LBL.SID.001.001": text => <Box><span className="field-label">{text ?? "Start date"}</span></Box>,
     "LBL.ABV.001.002": text => <Box><span className="field-label">{text ?? "Price"}</span></Box>,

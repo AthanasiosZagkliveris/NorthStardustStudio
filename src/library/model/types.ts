@@ -18,6 +18,7 @@ export const KINDS = {
     TIK: { name: "tick box", category: "component" },
     TXT: { name: "text input", category: "component" },
     LST: { name: "list", category: "component" },
+    DIV: { name: "divider", category: "component" },
     NUM: { name: "number box", category: "component" },
     DAT: { name: "date cell", category: "component" },
     LBL: { name: "label", category: "component" },

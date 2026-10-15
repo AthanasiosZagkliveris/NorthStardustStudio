@@ -230,3 +230,33 @@
     flex: 1 1 320px;
     margin: 0;
 }
+.inventory-popup {
+    display: inline-block;
+    padding: var(--space-field);
+    border: 1px solid var(--line-hairline);
+    border-radius: var(--radius-lg);
+}
+.inventory-popup-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--space-label);
+    margin-top: var(--space-field);
+}
+.inventory-popup-months {
+    grid-template-columns: repeat(4, 1fr);
+}
+.inventory-popup-day {
+    padding: var(--space-label);
+    text-align: center;
+}
+.inventory-popup-day-on {
+    font-weight: 700;
+    border: 1px solid var(--line-hairline);
+    border-radius: var(--radius-lg);
+}
+.inventory-divider {
+    width: 240px;
+    margin: var(--space-field) 0;
+    border: 0;
+    border-top: 1px solid var(--line-hairline);
+}

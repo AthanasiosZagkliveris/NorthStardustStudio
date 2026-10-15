@@ -337,6 +337,7 @@ and Business Foundation's lower sections keep their own page layouts.
   field (a tick row in a Brand Style column keeps 45px so the columns share
   a line; the gap between row boxes is still 12px). The probe checks
   `.legal-entity-links` and a field's stacked tick options.
+- **Activity cards: Completed and the Links** (the owner's rule, 2026-10-15): a **divider line** stands above the Completed tick, 12px (`--space-field`) of space above and below it, and the **Links** ("Linked to", the Offerings the activity is linked to) come last, **after Completed**. Wherever an Activity card is opened (Infrastructure, Offering's Capability, the Completed tile) the order is: the fields, Description, the divider, Completed, the Links. To be applied in the app when the Activity card is built from the library (docs/design/09-assets-library.md, DIV.001 and CRD.003, CRD.007).
 - **Navigation rails** (`bullet-rail.css`, wide windows): the two rails are
   mirrors of each other and share every rule: the name 18px over its list, rows
   18px apart, the dot 20px from the card, the text 12px
@@ -1841,7 +1842,8 @@ The one surface every floating card stands on: 492px wide (a founder's 297px), 8
 3. **Head row**: The order number inside the name cell (45px high), then the x (32px) 12px from the cell. Everything under the head starts and ends where the name cell does.
 4. **Rows** (12px above, `--space-field`): One row per field, 12px apart: a side-label row (the label in the 177px column, then the control), a label above its control (6px), a tick row (the tick and its words on one line), an optional field (the tick, then a growing box under it), a tick list (one tick per line, 12px box to box).
 5. **Groups** (12px above, `--space-field`): Two groups are divided by a rule, 12px either side of it.
-6. **Card bottom padding** (12px above, `--card-padding`): The card's own padding under its last row; the height follows the contents.
+6. **Completed row (Activity cards)** (12px above, `--space-field`): A divider line stands above the Completed tick, 12px either side of it, and the Links (Linked to) come last, after Completed (the owner, 2026-10-15).
+7. **Card bottom padding** (12px above, `--card-padding`): The card's own padding under its last row; the height follows the contents.
 
 **Accessibility.** Keyboard focus is shown by a ring or outline. Name: role dialog, aria-modal, aria-label (the box name). Contrast it must hold:
 - the card's text against the card's ground (card): at least 4.5:1.

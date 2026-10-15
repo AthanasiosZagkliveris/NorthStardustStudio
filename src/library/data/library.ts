@@ -183,6 +183,21 @@ export const library: Library = {
      "description": "The name comes from elsewhere and is shown, not edited."
     }
    ]
+  },
+  {
+   "code": "VAR010",
+   "name": "date precision",
+   "description": "What the person chooses in a calendar: a day, or only a month.",
+   "values": [
+    {
+     "name": "day",
+     "description": "A day, month and year."
+    },
+    {
+     "name": "month",
+     "description": "Only a month and a year (the day is not asked)."
+    }
+   ]
   }
  ],
  "assets": [
@@ -333,7 +348,7 @@ export const library: Library = {
    "requires": [],
    "catalogue": [],
    "look": {
-    "height": 39,
+    "height": 44,
     "fontSize": 18,
     "fontWeight": "400",
     "corners": "6px",
@@ -344,7 +359,8 @@ export const library: Library = {
     "found": 15
    },
    "lookNotes": [
-    "found 15 times: Customer Engagement 7, Financial Foundation 3, Foundation 1, Identity (Founders and Registrations) 4; 39px high, type 18, padding 14/8, border 1. They are not a plus box; the one look measured."
+    "found 15 times: Customer Engagement 7, Financial Foundation 3, Foundation 1, Identity (Founders and Registrations) 4; 39px high, type 18, padding 14/8, border 1. They are not a plus box; the one look measured.",
+    "height: by the owner's decision (owner, 2026-10-15) it looks like a cell, so it is 44px high like every cell (it measured 39px). The size and place of its plus, and whether it follows the text size, are not decided yet."
    ]
   },
   {
@@ -615,6 +631,32 @@ export const library: Library = {
    ]
   },
   {
+   "code": "DIV.001",
+   "name": "divider",
+   "category": "component",
+   "summary": "A thin line that divides two groups of rows inside a card, with 12px of space above and below it.",
+   "variables": [
+    "VAR003"
+   ],
+   "catalogue": [],
+   "variants": [],
+   "requires": [],
+   "look": {
+    "height": 1,
+    "fontSize": 0,
+    "fontWeight": "400",
+    "corners": "0px",
+    "paddingLeft": 0,
+    "paddingTop": 0,
+    "border": 1,
+    "scale": "symbol, no text",
+    "found": 0
+   },
+   "lookNotes": [
+    "from the card rules (two groups divided by a rule, 12px either side); not a separate element in the scan."
+   ]
+  },
+  {
    "code": "NUM.001",
    "name": "number box",
    "category": "component",
@@ -692,31 +734,41 @@ export const library: Library = {
    "code": "DAT.001",
    "name": "date cell",
    "category": "component",
-   "summary": "A cell that holds a date, with a calendar button that opens a calendar. 44px high.",
+   "summary": "A cell that holds a date, with a calendar button that opens a calendar. The calendar lets the person choose a day, or only a month (the variable date precision). 44px high.",
    "variables": [
     "VAR001",
     "VAR002",
     "VAR003",
     "VAR004",
-    "VAR006"
+    "VAR006",
+    "VAR010"
    ],
    "variants": [
     {
      "code": "DAT.CAL.001.001",
-     "name": "Calendar",
-     "description": "A day, month and year with a calendar button.",
+     "name": "Day calendar",
+     "description": "A day, month and year chosen in a calendar.",
      "edits": "The calendar button opens a day calendar.",
-     "values": {}
+     "values": {
+      "VAR010": "day"
+     }
     },
     {
      "code": "DAT.MON.001.002",
-     "name": "Month",
-     "description": "A month and year (January 2027) chosen from a month picker.",
-     "edits": "The list is a month picker with no days.",
-     "values": {}
+     "name": "Month calendar",
+     "description": "The same calendar, set to choose only a month and a year.",
+     "edits": "The calendar asks for a month and a year; the day is not asked.",
+     "values": {
+      "VAR010": "month"
+     }
     }
    ],
-   "requires": [],
+   "requires": [
+    {
+     "asset": "DAT.002",
+     "role": "the calendar that opens under the cell"
+    }
+   ],
    "catalogue": [
     "CO01"
    ],
@@ -732,7 +784,56 @@ export const library: Library = {
     "found": 166
    },
    "lookNotes": [
-    "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 44). Already 44px."
+    "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 44). Already 44px.",
+    "dates in the Strategic Period, the Objective cards of a Theme and the Revenue card (Begins): by the owner's decision (owner, 2026-10-15) they are this date cell with a calendar and the choice of a day or only a month; they are month pickers with their own look today (bold, wide-spaced type that cuts the year off: 'September 202')."
+   ]
+  },
+  {
+   "code": "DAT.002",
+   "name": "calendar popup",
+   "category": "component",
+   "summary": "The window that opens under a date cell: the calendar of days, or the months and years. Rounded corners, the corners of a card (8px).",
+   "variables": [
+    "VAR001",
+    "VAR003",
+    "VAR004",
+    "VAR010"
+   ],
+   "catalogue": [],
+   "variants": [
+    {
+     "code": "DAT.DAY.002.001",
+     "name": "Day popup",
+     "description": "The calendar of days with Clear and Today.",
+     "edits": "A grid of days.",
+     "values": {
+      "VAR010": "day"
+     }
+    },
+    {
+     "code": "DAT.MON.002.002",
+     "name": "Month popup",
+     "description": "The months of a year, with a Month and Year switch.",
+     "edits": "A grid of months and a Month and Year switch.",
+     "values": {
+      "VAR010": "month"
+     }
+    }
+   ],
+   "requires": [],
+   "look": {
+    "height": null,
+    "fontSize": 18,
+    "fontWeight": "400",
+    "corners": "8px",
+    "paddingLeft": 12,
+    "paddingTop": 12,
+    "border": 1,
+    "scale": "body 18",
+    "found": 0
+   },
+   "lookNotes": [
+    "rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners, the 8px of a card. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already."
    ]
   },
   {
@@ -5123,6 +5224,10 @@ export const library: Library = {
      "role": "common field"
     },
     {
+     "asset": "DIV.001",
+     "role": "divides Completed from the fields above it"
+    },
+    {
      "asset": "FLD.049",
      "role": "common field"
     }
@@ -5130,6 +5235,9 @@ export const library: Library = {
    "catalogue": [
     "K016",
     "K017"
+   ],
+   "lookNotes": [
+    "order, by the owner's decision (owner, 2026-10-15): a divider line above Completed, and the Links (Linked to) last, after Completed."
    ]
   },
   {
@@ -6229,11 +6337,15 @@ export const library: Library = {
      "role": "common field"
     },
     {
-     "asset": "FLD.054",
-     "role": "common field"
+     "asset": "DIV.001",
+     "role": "divides Completed from the fields above it"
     },
     {
      "asset": "FLD.049",
+     "role": "common field"
+    },
+    {
+     "asset": "FLD.054",
      "role": "common field"
     }
    ],
@@ -6241,6 +6353,9 @@ export const library: Library = {
     "K041",
     "K042",
     "K043"
+   ],
+   "lookNotes": [
+    "order, by the owner's decision (owner, 2026-10-15): a divider line above Completed, and the Links (Linked to) last, after Completed."
    ]
   },
   {

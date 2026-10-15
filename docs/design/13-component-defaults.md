@@ -25,7 +25,7 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | BTN.001 box button | BTN.DLT.001.001 Delete | 32 | 0 | symbol, no text | 6px | 0/0 | 2 | 237 | meets 24 |
 | BTN.001 box button | BTN.ADD.001.002 Add | 32 | 0 | symbol, no text | 6px | 0/0 | 2 | 107 | meets 24 |
 | BTN.002 info button | (asset) | 24 high, 24 wide | 14 | small 14 | 50% | 0/0 | 1 | 567 | meets 24 |
-| BTN.004 wide add button | (asset) | 39 | 18 | body 18 | 6px | 14/8 | 1 | 15 | meets 24 |
+| BTN.004 wide add button | (asset) | 44 | 18 | body 18 | 6px | 14/8 | 1 | 15 | meets 24 |
 | DRP.001 dropdown | (asset) | 44 | 18 | body 18 | 6px | 8/8 | 1 | 493 | meets 24 |
 | TIK.001 tick box | (asset) | 24 high, 24 wide | 18 | body 18 | 0px | 0/0 | 0 | 721 | meets 24 |
 | TXT.001 text input | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 | meets 24 |
@@ -34,9 +34,11 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | TXT.001 text input | TXT.NAM.001.003 Name cell | words, at least 44 | 18 | body 18 | 6px | 38/8 | 1 | 138 | follows the words (a field, not a button) |
 | TXT.001 text input | TXT.LST.001.005 List line | words, at least 44 | 18 | body 18 | 8px | 12/8 | 0 | 129 | follows the words (a field, not a button) |
 | TXT.001 text input | TXT.TTL.001.006 Title input | 35 | 28 | h2 28 | 0px | 0/0 | 0 | 1 | meets 24 |
+| DIV.001 divider | (asset) | 1 | 0 | symbol, no text | 0px | 0/0 | 1 | 0 | under 24 |
 | NUM.001 number box | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 166 | meets 24 |
 | NUM.001 number box | NUM.PCT.001.003 Percent | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 12 | meets 24 |
 | DAT.001 date cell | (asset) | 44 | 18 | body 18 | 6px | 10/0 | 1 | 166 | meets 24 |
+| DAT.002 calendar popup | (asset) | words | 18 | body 18 | 8px | 12/12 | 1 | 0 | follows the words (a field, not a button) |
 | LBL.001 label | (asset) | words | 18 | body 18 | 0px | 0/0 | 0 | 1223 | follows the words (a field, not a button) |
 | ARW.002 fold arrow | (asset) | 36 | 0 | symbol, no text | 6px | 0/0 | 1 | 11 | meets 24 |
 | ARW.002 fold arrow | ARW.LAB.002.001 Label arrow | 24 | 18 | body 18 | 0px | 0/0 | 0 | 8 | meets 24 |
@@ -75,6 +77,7 @@ Separated by purpose; each has its own default look.
 ### BTN.004 wide add button
 
 - found 15 times: Customer Engagement 7, Financial Foundation 3, Foundation 1, Identity (Founders and Registrations) 4; 39px high, type 18, padding 14/8, border 1. They are not a plus box; the one look measured.
+- height: by the owner's decision (owner, 2026-10-15) it looks like a cell, so it is 44px high like every cell (it measured 39px). The size and place of its plus, and whether it follows the text size, are not decided yet.
 
 ### DRP.001 dropdown
 
@@ -95,6 +98,10 @@ Separated by purpose; each has its own default look.
 - cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45 for the text box, 43 to 45 at least for the others). A free text, a name cell and a list line are at least 44px high and grow with their words.
 - title input: by the owner's decision (owner, 2026-10-15) every chapter has a title, a single line at the column title size (28px); a title that is too long moves horizontally. It is not a text box (the frame name in Business, 1. Foundation, 1 found).
 
+### DIV.001 divider
+
+- from the card rules (two groups divided by a rule, 12px either side); not a separate element in the scan.
+
 ### NUM.001 number box
 
 - percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45).
@@ -103,11 +110,24 @@ Separated by purpose; each has its own default look.
 ### DAT.001 date cell
 
 - cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 44). Already 44px.
+- dates in the Strategic Period, the Objective cards of a Theme and the Revenue card (Begins): by the owner's decision (owner, 2026-10-15) they are this date cell with a calendar and the choice of a day or only a month; they are month pickers with their own look today (bold, wide-spaced type that cuts the year off: 'September 202').
+
+### DAT.002 calendar popup
+
+- rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners, the 8px of a card. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.
 
 ### ARW.002 fold arrow
 
 - merged by the owner's decision (owner, 2026-10-15): fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px
 - label arrow and title arrow are variants (the owner's decision, owner, 2026-10-15): the same component, function and style; the size follows the text beside it (24px beside a field label, 28px beside a title).
+
+### CRD.003 Infrastructure Activity
+
+- order, by the owner's decision (owner, 2026-10-15): a divider line above Completed, and the Links (Linked to) last, after Completed.
+
+### CRD.007 Offering Activity
+
+- order, by the owner's decision (owner, 2026-10-15): a divider line above Completed, and the Links (Linked to) last, after Completed.
 
 ## What the app has to change (the owner's decisions)
 
@@ -118,6 +138,7 @@ The looks the app has today that the decisions change when the assets replace th
 - BTN.001 box button: plus corners: the corners of the x, 6px, by the owner's decision (owner, 2026-10-15); the plus measured 8px (107 found).
 - BTN.002 info button: merged by the owner's decision (owner, 2026-10-15): info height 22, type 18, corners 50%, padding 0/0, border 1; found 70 times (12.3% of the default's 567); largest difference 4.0px
 - BTN.002 info button: enlarged, by the owner's decision (owner, 2026-10-15): from 22px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (567 found at 22px).
+- BTN.004 wide add button: height: by the owner's decision (owner, 2026-10-15) it looks like a cell, so it is 44px high like every cell (it measured 39px). The size and place of its plus, and whether it follows the text size, are not decided yet.
 - DRP.001 dropdown: merged by the owner's decision (owner, 2026-10-15): dropdown height 45, type 18, corners 6px, padding 6/8, border 1; found 43 times (8.7% of the default's 493); largest difference 2.0px
 - DRP.001 dropdown: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45).
 - TIK.001 tick box: enlarged, by the owner's decision (owner, 2026-10-15): from 18px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (721 found at 18px).
@@ -130,8 +151,12 @@ The looks the app has today that the decisions change when the assets replace th
 - NUM.001 number box: percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45).
 - NUM.001 number box: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px.
 - DAT.001 date cell: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 44). Already 44px.
+- DAT.001 date cell: dates in the Strategic Period, the Objective cards of a Theme and the Revenue card (Begins): by the owner's decision (owner, 2026-10-15) they are this date cell with a calendar and the choice of a day or only a month; they are month pickers with their own look today (bold, wide-spaced type that cuts the year off: 'September 202').
+- DAT.002 calendar popup: rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners, the 8px of a card. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.
 - ARW.002 fold arrow: merged by the owner's decision (owner, 2026-10-15): fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px
 - ARW.002 fold arrow: label arrow and title arrow are variants (the owner's decision, owner, 2026-10-15): the same component, function and style; the size follows the text beside it (24px beside a field label, 28px beside a title).
+- CRD.003 Infrastructure Activity: order, by the owner's decision (owner, 2026-10-15): a divider line above Completed, and the Links (Linked to) last, after Completed.
+- CRD.007 Offering Activity: order, by the owner's decision (owner, 2026-10-15): a divider line above Completed, and the Links (Linked to) last, after Completed.
 
 ## Outside the text hierarchy
 

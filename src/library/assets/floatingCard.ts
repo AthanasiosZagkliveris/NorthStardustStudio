@@ -67,6 +67,7 @@ export const floatingCard: AssetContract = {
         { part: "Head row", note: "The order number inside the name cell (45px high), then the x (32px) 12px from the cell. Everything under the head starts and ends where the name cell does." },
         { part: "Rows", note: "One row per field, 12px apart: a side-label row (the label in the 177px column, then the control), a label above its control (6px), a tick row (the tick and its words on one line), an optional field (the tick, then a growing box under it), a tick list (one tick per line, 12px box to box).", gapAbove: { px: 12, token: "--space-field" } },
         { part: "Groups", note: "Two groups are divided by a rule, 12px either side of it.", gapAbove: { px: 12, token: "--space-field" } },
+        { part: "Completed row (Activity cards)", note: "A divider line stands above the Completed tick, 12px either side of it, and the Links (Linked to) come last, after Completed (the owner, 2026-10-15).", gapAbove: { px: 12, token: "--space-field" } },
         { part: "Card bottom padding", note: "The card's own padding under its last row; the height follows the contents.", gapAbove: { px: 12, token: "--card-padding" } }
     ],
     accessibility: {

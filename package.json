@@ -36,7 +36,9 @@
     "library:fields": "node scripts/library/field-names.mjs",
     "library:looks": "node scripts/library/looks.mjs",
     "library:defaults": "node scripts/library/defaults-doc.mjs",
-    "library:defaults:check": "node scripts/library/defaults-doc.mjs --check"
+    "library:defaults:check": "node scripts/library/defaults-doc.mjs --check",
+    "library:components": "node scripts/library/components-list.mjs",
+    "library:components:check": "node scripts/library/components-list.mjs --check"
   },
   "dependencies": {
     "@fontsource/inter": "^5.3.0",
