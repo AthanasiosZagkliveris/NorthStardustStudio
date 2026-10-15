@@ -49,14 +49,14 @@ Case 3 keeps the record honest: the app log shows the asset, the library log doe
 
 The owner's wording: the table is connected to the app so that changes are updated in real time. Assets are placed in the **Foundation Capability table** (or the **App table**): an asset is placed in a card, under a chapter, a page and a system. The app is connected to these tables: when a placement in a table changes, the app shows the change at once.
 
-**What each part holds.** The library holds every asset and its variables, and not where it is placed. The inventory holds the assets built from the library. The tables hold the placements: for every system, page, chapter, tile and card, which assets stand in it, in which order and in which variant. The app is built from the tables, the library and the inventory.
+**What each part holds.** The **Foundation Capability table** holds all the information of the four systems (per system, page, chapter, master tile, master card, sub tile, sub card, nested tile, nested card and floating card): its name, type, category, group, function, characteristics, fields and components, links, reactions and effects, and which assets stand in it (in which order and variant). The **App table** holds the same for the header and its tags, the calendar, the landing page and the system selection page. The library holds every asset and its variables. The inventory holds the assets built from the library. The app is connected to the tables (below).
 
 **The two logs.** The **library log** records the changes of the library, and the placements of library assets (an extra placement, a move, a removal). The **app structure log** records the changes of the tables, that is, of the structure of the app.
 
 | What the owner does | Library | Library log | Table (and so the app) | App structure log |
 |---|---|---|---|---|
-| 1. Adds a new asset to the library, creates it in the inventory, places it in a card, under a chapter, page, system | New asset added | Entry: asset added (and where it is placed) | Placement added | Entry: placed |
-| 2. Places an existing asset in a card, or moves it, or removes it | Unchanged | Entry: the extra placement, the move or the removal of that asset | Placement added, moved or removed | Entry: placed, moved or removed |
+| 1. Adds a new asset to the library, creates it in the inventory, places it in a card, under a chapter, page, system | New asset added | Entry: asset added, and where it is placed (card, chapter, page, system) | Placement added | Entry: placed, and where |
+| 2. Places an existing asset in a card, or moves it, or removes it | Unchanged | Entry: the extra asset and **where it is placed** (card, chapter, page, system), or where the existing asset moved from and to, or where it was removed from | Placement added, moved or removed | Entry: placed, moved or removed, and where |
 | 3. By speed, accident or mistake, places a new component directly in a card, without placing it in the library first | Unchanged | **No entry** | Placement added | Entry: placed, marked **not in the library** |
 
 The checker lists every placement whose asset is not in the library (case 3) until the asset is added to the library; the library log then gets its entry and the app structure log notes that the asset is now in the library.
