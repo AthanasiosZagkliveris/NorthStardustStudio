@@ -19,13 +19,21 @@ Variables of this app, by kind (the first set, to be confirmed by the owner): ki
 | **Library log** | One entry per change of the library | Kept by the checker |
 | **App structure log** | One entry per change of the Foundation Capability table or the App table (where an asset is placed in the app) | Kept by the checker |
 
-## 3. Ids and unique assets
+## 3. Codes and unique assets
 
-Every component, field, card type, tile, variable and chapter has an **id (a number) and a name**, for example CO012 x button, F031 Start date, K007 Resource card, VAR004 state.
+**Asset code:** three capital letters for the kind of asset, a dot, and a three-digit number in the order the assets were created, for example BTN.001: the first button asset that was created.
 
-Categories of asset: **component** (x, "+", "i", dropdown, tick box, text area, rail bullet, arrow, Back...), **field** (a label with its components: Start date, Category, Price...), **card type** (made of fields and components), **tile** (master tile, tile, open tile, add tile), **frame** (chapter, page, dialog view).
+**Variant code:** the asset's letters, the variant's three capital letters, then the asset's number and the variant's number: BTN.DLT.001.001 is the first variant (Delete) of the first button asset BTN.001. A variant is an **edited version of the main asset**; it belongs to that asset.
 
-**Every asset is unique.** An asset's key is its category plus its name. If the same asset appears more than once in the scan it is one asset, and the places it appears are recorded as placements, not as copies. Where one asset has more than one look today (the text area has 22 looks, the label 8, the text box 6) those looks are listed with their counts and the owner decides which is the default; the others become variants or are retired.
+**What is one asset and what is a variant.** The x (Delete) and the "+" (Add) are the same box button with a different function and symbol: one asset, BTN.001, with the variants BTN.DLT.001.001 and BTN.ADD.001.002. The "i" in a circle is **not** the same asset: it has a different function, shape and purpose, so it is another asset (for example BTN.002). The x box button and the circle "i" share their hover reaction, and nothing else: a shared reaction does not connect assets (the reaction is a variable of each).
+
+**Letters of the kinds (proposal; the owner decides):** BTN button, DRP dropdown, TIK tick box, TXT text input (box and area), NUM number box, DAT date cell, LBL label, ARW arrow, RAL rail, BUL bullet, FLD field, TIL tile, CRD card, FRM frame (chapter, page, dialog view). A new kind of asset gets a new three-letter code, written in the library first.
+
+Every variable has an id, a name and a description (VAR followed by a three-digit number until the owner decides otherwise). The ids in document 07 (CO, F, K...) are working ids of the catalogue; the library assigns the codes above.
+
+Categories of asset: **component**, **field** (a label with its components), **card type** (made of fields and components), **tile** (master tile, tile, open tile, add tile), **frame** (chapter, page, dialog view).
+
+**Every asset is unique.** An asset's key is its code. If the same asset appears more than once in the scan it is one asset, and the places it appears are recorded as placements, not as copies. Where one asset has more than one look today (the text area has 22 looks, the label 8, the text box 6) those looks are listed with their counts and the owner decides which is the default; the others become variants or are retired.
 
 ## 4. Adding or changing something: the order
 
@@ -37,35 +45,33 @@ A new component, field, card, tile or variable follows this order:
 
 ## 5. The three cases of logging
 
+**Every change is a change:** adding, editing, moving and removing. The **library log states every change to an asset** of the library: it is added, its variable or variant is edited, it is placed (and where), it is moved (from where to where), it is removed.
+
 | Case | What happened | Library log | App structure log |
 |---|---|---|---|
-| 1. A new asset, placed | The asset is new: added to the library, built in the inventory, placed in a card | Entry: asset added | Entry: placed in card / chapter / page / system |
-| 2. An existing asset, placed, moved or removed | The asset exists; it is placed in a card, moved, or removed | Entry: the extra placement (or the move, or the removal) of the asset | Entry: the placement, move or removal |
+| 1. A new asset, placed | The asset is new: added to the library, built in the inventory, placed in a card, under a chapter, page, system | Entry: asset added (its code), and where it is placed (card, chapter, page, system) | Entry: placed, and where |
+| 2. An existing asset, placed, moved or removed | The asset exists; it is placed in a card, under a chapter, page, system, or moved, or removed | Entry: the extra asset and **where it is placed**, or where it moved from and to, or where it was removed from | Entry: placed, moved or removed, and where |
 | 3. A new component placed directly, without the library | By speed, accident or mistake a component is placed in a card that is not in the library | **No entry** (the library did not change) | Entry: placed, marked **not in the library** |
 
 Case 3 keeps the record honest: the app log shows the asset, the library log does not, and the checker reports every such asset as a **drift** until it is added to the library (then case 1 applies to it).
 
 ## 6. How the tables are connected to the app
 
-The owner's wording: the table is connected to the app so that changes are updated in real time. Assets are placed in the **Foundation Capability table** (or the **App table**): an asset is placed in a card, under a chapter, a page and a system. The app is connected to these tables: when a placement in a table changes, the app shows the change at once.
+The owner's decision: **the app changes the table.** The table follows the app in real time: when the app changes (an asset is placed in a card, under a chapter, page, system; moved; removed), the Foundation Capability table (or the App table) is updated, and the logs record it.
 
-**What each part holds.** The **Foundation Capability table** holds all the information of the four systems (per system, page, chapter, master tile, master card, sub tile, sub card, nested tile, nested card and floating card): its name, type, category, group, function, characteristics, fields and components, links, reactions and effects, and which assets stand in it (in which order and variant). The **App table** holds the same for the header and its tags, the calendar, the landing page and the system selection page. The library holds every asset and its variables. The inventory holds the assets built from the library. The app is connected to the tables (below).
+**What each part holds.** The **Foundation Capability table** holds all the information of the four systems (per system, page, chapter, master tile, master card, sub tile, sub card, nested tile, nested card and floating card): its name, type, category, group, function, characteristics, fields and components, links, reactions and effects, and which assets stand in it (in which order and variant). The **App table** holds the same for the header and its tags, the calendar, the landing page and the system selection page. The **library** holds every asset and its variables and variants. The **inventory** holds the assets built from the library.
 
-**The two logs.** The **library log** records the changes of the library, and the placements of library assets (an extra placement, a move, a removal). The **app structure log** records the changes of the tables, that is, of the structure of the app.
+**The two logs.** The **library log** states every change to the assets of the library (section 5). The **app structure log** records every change of the tables, that is, of the structure of the app (what stands where).
 
-| What the owner does | Library | Library log | Table (and so the app) | App structure log |
-|---|---|---|---|---|
-| 1. Adds a new asset to the library, creates it in the inventory, places it in a card, under a chapter, page, system | New asset added | Entry: asset added, and where it is placed (card, chapter, page, system) | Placement added | Entry: placed, and where |
-| 2. Places an existing asset in a card, or moves it, or removes it | Unchanged | Entry: the extra asset and **where it is placed** (card, chapter, page, system), or where the existing asset moved from and to, or where it was removed from | Placement added, moved or removed | Entry: placed, moved or removed, and where |
-| 3. By speed, accident or mistake, places a new component directly in a card, without placing it in the library first | Unchanged | **No entry** | Placement added | Entry: placed, marked **not in the library** |
+**How a change in the app reaches the table.** A sync reads the app, compares what it finds with the table, and for every difference updates the table and writes the app structure log entry. It runs on demand for the whole app, and in watch mode during development: when a file in src changes and the dev server reloads, the sync re-reads the pages that file affects and updates the table within seconds. That is the "real time".
 
-The checker lists every placement whose asset is not in the library (case 3) until the asset is added to the library; the library log then gets its entry and the app structure log notes that the asset is now in the library.
+**How the three cases are told apart.** For every asset the sync finds in the app, it looks the asset up in the library. Found: case 1 or 2 (the library log has, or gets, its entry with where it is placed). Not found: case 3 (app structure log only, marked not in the library, and listed as a drift).
 
-**Real time.** The tables are data files read by the app. The dev server reloads when a table, the library or the inventory changes, so a placement written in a table shows in the app within seconds.
+**Checker.** npm run library:check (to be built) holds a snapshot of the last logged state of the library and the tables, lists every difference, classifies it, and fails when a change has no log entry. An assistant command writes the entries.
 
-**The transition.** Today the app is built by hand: its cards are separate builders. A system is moved to being built from the tables one at a time (step 7). Until a system has been moved, its table describes it and does not drive it, and the checker compares the table with what the scan finds in the app.
+**What the sync reads (recommendation; the owner may change it).** The running app: what the user sees, exact, and it needs the dev server running. A check of the source finds a component or class name that is in the app and not in the library. Reading only the source is faster, but the cards are separate builders today, so it cannot yet tell fields from components.
 
-**Checker.** npm run library:check (to be built) holds a snapshot of the last logged state of the library and the tables, lists every difference, classifies each as case 1, 2 or 3, and fails when a change has no log entry. An assistant command writes the entries.
+**Later.** Once an asset has replaced the old one (phase 3), the app is built from the library for that asset, and the sync then finds the asset where the library put it.
 
 ## 7. The steps (one commit each)
 
@@ -75,6 +81,6 @@ The checker lists every placement whose asset is not in the library (case 3) unt
 4. The library: every asset once, with variables (id, name, description) and variants, and what each requires. The owner decides the defaults where there are several looks.
 5. The two logs and the checker (snapshot, the three cases, the drift list).
 6. The inventory: the components built from the library, then the fields, then the cards and tiles, shown on a gallery page.
-7. The app built from the tables, the library and the inventory: one system at a time (the dev server reloads when a table changes), then replacing the assets system by system.
+7. The sync between the app and the tables (on demand, then watch mode), then replacing the assets system by system.
 
 Not in this work: the Customer Engagement, Financial Foundation and Sustainability pages (they will change as a whole), and layout checks (the owner's rule until the library has unified the elements).
