@@ -7242,14 +7242,14 @@ export const placements: readonly Placement[] = [
   "position": 7
  },
  {
-  "asset": "FLD.145",
+  "asset": "FLD.104",
   "system": "Identity System",
   "page": "2. Organization",
   "card": "CRD.010/CRD.ALR.010.003",
   "position": 1
  },
  {
-  "asset": "FLD.146",
+  "asset": "FLD.105",
   "system": "Identity System",
   "page": "2. Organization",
   "card": "CRD.010/CRD.ALR.010.003",
@@ -7263,18 +7263,11 @@ export const placements: readonly Placement[] = [
   "position": 3
  },
  {
-  "asset": "FLD.147",
-  "system": "Identity System",
-  "page": "2. Organization",
-  "card": "CRD.010/CRD.ALR.010.003",
-  "position": 4
- },
- {
   "asset": "FLD.014",
   "system": "Identity System",
   "page": "2. Organization",
   "card": "CRD.010/CRD.ALR.010.003",
-  "position": 5
+  "position": 4
  },
  {
   "asset": "FLD.068",
@@ -7350,84 +7343,77 @@ export const placements: readonly Placement[] = [
   "asset": "FLD.075",
   "system": "Business System",
   "page": "Infrastructure",
-  "card": "CRD.011/CRD.AIT.011.003",
-  "position": 3
+  "card": "CRD.012/CRD.ADD.012.001",
+  "position": 1
  },
  {
   "asset": "FLD.076",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.ADD.012.001",
-  "position": 1
+  "position": 2
  },
  {
   "asset": "FLD.077",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.ADD.012.001",
-  "position": 2
+  "position": 3
  },
  {
   "asset": "FLD.078",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.ADD.012.001",
-  "position": 3
+  "position": 4
  },
  {
   "asset": "FLD.079",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.ADD.012.001",
-  "position": 4
+  "position": 5
  },
  {
   "asset": "FLD.080",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.ADD.012.001",
-  "position": 5
+  "position": 6
  },
  {
   "asset": "FLD.081",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.ADD.012.001",
-  "position": 6
+  "position": 7
  },
  {
   "asset": "FLD.082",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.ADD.012.001",
-  "position": 7
+  "position": 8
  },
  {
   "asset": "FLD.083",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.ADD.012.001",
-  "position": 8
+  "position": 9
  },
  {
   "asset": "FLD.084",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.ADD.012.001",
-  "position": 9
+  "position": 10
  },
  {
   "asset": "FLD.085",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.ADD.012.001",
-  "position": 10
- },
- {
-  "asset": "FLD.086",
-  "system": "Business System",
-  "page": "Infrastructure",
-  "card": "CRD.012/CRD.ADD.012.001",
   "position": 11
  },
  {
@@ -7443,61 +7429,61 @@ export const placements: readonly Placement[] = [
   "page": "Infrastructure",
   "card": "CRD.012/CRD.ACT.012.002",
   "position": 2
+ },
+ {
+  "asset": "FLD.086",
+  "system": "Business System",
+  "page": "Infrastructure",
+  "card": "CRD.012/CRD.ACT.012.002",
+  "position": 3
  },
  {
   "asset": "FLD.087",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.ACT.012.002",
-  "position": 3
+  "position": 4
  },
  {
   "asset": "FLD.088",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.ACT.012.002",
-  "position": 4
+  "position": 5
  },
  {
   "asset": "FLD.089",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.ACT.012.002",
-  "position": 5
+  "position": 6
  },
  {
   "asset": "FLD.090",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.ACT.012.002",
-  "position": 6
+  "position": 7
  },
  {
   "asset": "FLD.091",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.ACT.012.002",
-  "position": 7
+  "position": 8
  },
  {
   "asset": "FLD.092",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.ACT.012.002",
-  "position": 8
+  "position": 9
  },
  {
   "asset": "FLD.093",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.ACT.012.002",
-  "position": 9
- },
- {
-  "asset": "FLD.094",
-  "system": "Business System",
-  "page": "Infrastructure",
-  "card": "CRD.012/CRD.ACT.012.002",
   "position": 10
  },
  {
@@ -7522,469 +7508,469 @@ export const placements: readonly Placement[] = [
   "position": 2
  },
  {
-  "asset": "FLD.095",
+  "asset": "FLD.094",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.AOT.012.003",
   "position": 3
  },
  {
-  "asset": "FLD.095",
+  "asset": "FLD.094",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.AOT.012.003",
   "position": 4
  },
  {
-  "asset": "FLD.095",
+  "asset": "FLD.094",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.AOT.012.003",
   "position": 5
  },
  {
-  "asset": "FLD.095",
+  "asset": "FLD.094",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.AOT.012.003",
   "position": 6
  },
  {
-  "asset": "FLD.095",
+  "asset": "FLD.094",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.AOT.012.003",
   "position": 7
  },
  {
-  "asset": "FLD.096",
+  "asset": "FLD.095",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.AOT.012.003",
   "position": 8
  },
  {
-  "asset": "FLD.097",
+  "asset": "FLD.096",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.AOT.012.003",
   "position": 9
  },
  {
-  "asset": "FLD.098",
+  "asset": "FLD.097",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.AOT.012.003",
   "position": 10
  },
  {
-  "asset": "FLD.099",
+  "asset": "FLD.098",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.AOT.012.003",
   "position": 11
  },
  {
-  "asset": "FLD.100",
+  "asset": "FLD.099",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.AOT.012.003",
   "position": 12
  },
  {
-  "asset": "FLD.101",
+  "asset": "FLD.100",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.012/CRD.AOT.012.003",
   "position": 13
  },
  {
-  "asset": "FLD.102",
+  "asset": "FLD.101",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.ADD.013.001",
   "position": 1
  },
  {
-  "asset": "FLD.103",
+  "asset": "FLD.102",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.ADD.013.001",
   "position": 2
  },
  {
-  "asset": "FLD.104",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.ADD.013.001",
   "position": 3
  },
  {
-  "asset": "FLD.105",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.ADD.013.001",
   "position": 4
  },
  {
-  "asset": "FLD.106",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.ADD.013.001",
   "position": 5
  },
  {
-  "asset": "FLD.107",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.ADD.013.001",
   "position": 6
  },
  {
-  "asset": "FLD.108",
+  "asset": "FLD.103",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.ADD.013.001",
   "position": 7
  },
  {
-  "asset": "FLD.102",
+  "asset": "FLD.101",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AST.013.002",
   "position": 1
  },
  {
-  "asset": "FLD.103",
+  "asset": "FLD.102",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AST.013.002",
   "position": 2
  },
  {
-  "asset": "FLD.109",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AST.013.002",
   "position": 3
  },
  {
-  "asset": "FLD.110",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AST.013.002",
   "position": 4
  },
  {
-  "asset": "FLD.111",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AST.013.002",
   "position": 5
  },
  {
-  "asset": "FLD.112",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AST.013.002",
   "position": 6
  },
  {
-  "asset": "FLD.113",
+  "asset": "FLD.103",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AST.013.002",
   "position": 7
  },
  {
-  "asset": "FLD.102",
+  "asset": "FLD.101",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAA.013.003",
   "position": 1
  },
  {
-  "asset": "FLD.103",
+  "asset": "FLD.102",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAA.013.003",
   "position": 2
  },
  {
-  "asset": "FLD.114",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAA.013.003",
   "position": 3
  },
  {
-  "asset": "FLD.115",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAA.013.003",
   "position": 4
  },
  {
-  "asset": "FLD.116",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAA.013.003",
   "position": 5
  },
  {
-  "asset": "FLD.117",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAA.013.003",
   "position": 6
  },
  {
-  "asset": "FLD.118",
+  "asset": "FLD.103",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAA.013.003",
   "position": 7
  },
  {
-  "asset": "FLD.119",
+  "asset": "FLD.101",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAB.013.004",
   "position": 1
  },
  {
-  "asset": "FLD.103",
+  "asset": "FLD.102",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAB.013.004",
   "position": 2
  },
  {
-  "asset": "FLD.120",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAB.013.004",
   "position": 3
  },
  {
-  "asset": "FLD.121",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAB.013.004",
   "position": 4
  },
  {
-  "asset": "FLD.122",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAB.013.004",
   "position": 5
  },
  {
-  "asset": "FLD.123",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAB.013.004",
   "position": 6
  },
  {
-  "asset": "FLD.124",
+  "asset": "FLD.103",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAB.013.004",
   "position": 7
  },
  {
-  "asset": "FLD.102",
+  "asset": "FLD.101",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAC.013.005",
   "position": 1
  },
  {
-  "asset": "FLD.103",
+  "asset": "FLD.102",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAC.013.005",
   "position": 2
  },
  {
-  "asset": "FLD.125",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAC.013.005",
   "position": 3
  },
  {
-  "asset": "FLD.126",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAC.013.005",
   "position": 4
  },
  {
-  "asset": "FLD.127",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAC.013.005",
   "position": 5
  },
  {
-  "asset": "FLD.128",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAC.013.005",
   "position": 6
  },
  {
-  "asset": "FLD.129",
+  "asset": "FLD.103",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAC.013.005",
   "position": 7
  },
  {
-  "asset": "FLD.102",
+  "asset": "FLD.101",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAD.013.006",
   "position": 1
  },
  {
-  "asset": "FLD.103",
+  "asset": "FLD.102",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAD.013.006",
   "position": 2
  },
  {
-  "asset": "FLD.130",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAD.013.006",
   "position": 3
  },
  {
-  "asset": "FLD.131",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAD.013.006",
   "position": 4
  },
  {
-  "asset": "FLD.132",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAD.013.006",
   "position": 5
  },
  {
-  "asset": "FLD.133",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAD.013.006",
   "position": 6
  },
  {
-  "asset": "FLD.134",
+  "asset": "FLD.103",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAD.013.006",
   "position": 7
  },
  {
-  "asset": "FLD.102",
+  "asset": "FLD.101",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAE.013.007",
   "position": 1
  },
  {
-  "asset": "FLD.103",
+  "asset": "FLD.102",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAE.013.007",
   "position": 2
  },
  {
-  "asset": "FLD.135",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAE.013.007",
   "position": 3
  },
  {
-  "asset": "FLD.136",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAE.013.007",
   "position": 4
  },
  {
-  "asset": "FLD.137",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAE.013.007",
   "position": 5
  },
  {
-  "asset": "FLD.138",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAE.013.007",
   "position": 6
  },
  {
-  "asset": "FLD.139",
+  "asset": "FLD.103",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAE.013.007",
   "position": 7
  },
  {
-  "asset": "FLD.102",
+  "asset": "FLD.101",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAF.013.008",
   "position": 1
  },
  {
-  "asset": "FLD.103",
+  "asset": "FLD.102",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAF.013.008",
   "position": 2
  },
  {
-  "asset": "FLD.140",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAF.013.008",
   "position": 3
  },
  {
-  "asset": "FLD.141",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAF.013.008",
   "position": 4
  },
  {
-  "asset": "FLD.142",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAF.013.008",
   "position": 5
  },
  {
-  "asset": "FLD.143",
+  "asset": "FLD.086",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAF.013.008",
   "position": 6
  },
  {
-  "asset": "FLD.144",
+  "asset": "FLD.103",
   "system": "Business System",
   "page": "Infrastructure",
   "card": "CRD.013/CRD.AAF.013.008",

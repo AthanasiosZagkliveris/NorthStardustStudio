@@ -2593,9 +2593,9 @@ export const library: Library = {
   },
   {
    "code": "FLD.066",
-   "name": "Expense 4 name",
+   "name": "Expense name",
    "category": "field",
-   "summary": "The Expense 4 name field: a label and text area.",
+   "summary": "The Expense name field: a label and text area.",
    "variables": [
     "VAR005",
     "VAR006",
@@ -2645,9 +2645,9 @@ export const library: Library = {
   },
   {
    "code": "FLD.068",
-   "name": "Colour 4 name",
+   "name": "Colour name",
    "category": "field",
-   "summary": "The Colour 4 name field: a label and text area.",
+   "summary": "The Colour name field: a label and text area.",
    "variables": [
     "VAR005",
     "VAR006",
@@ -2747,9 +2747,9 @@ export const library: Library = {
   },
   {
    "code": "FLD.072",
-   "name": "Typeface 3 name",
+   "name": "Typeface name",
    "category": "field",
-   "summary": "The Typeface 3 name field: a label and text area.",
+   "summary": "The Typeface name field: a label and text area.",
    "variables": [
     "VAR005",
     "VAR006",
@@ -2773,35 +2773,9 @@ export const library: Library = {
   },
   {
    "code": "FLD.073",
-   "name": "text box",
+   "name": "Image name",
    "category": "field",
-   "summary": "The text box field: a label and text box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TXT.001",
-     "variant": "TXT.BOX.001.001",
-     "role": "text"
-    }
-   ],
-   "catalogue": [
-    "F092"
-   ]
-  },
-  {
-   "code": "FLD.074",
-   "name": "Image 4 name",
-   "category": "field",
-   "summary": "The Image 4 name field: a label and text box.",
+   "summary": "The Image name field: a label and text box.",
    "variables": [
     "VAR005",
     "VAR006",
@@ -2824,10 +2798,10 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.075",
-   "name": "Image 4 description",
+   "code": "FLD.074",
+   "name": "Image description",
    "category": "field",
-   "summary": "The Image 4 description field: a label and text area.",
+   "summary": "The Image description field: a label and text area.",
    "variables": [
     "VAR005",
     "VAR006",
@@ -2850,10 +2824,10 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.076",
-   "name": "Segment 1, Profile 3 name",
+   "code": "FLD.075",
+   "name": "Segment, Profile name",
    "category": "field",
-   "summary": "The Segment 1, Profile 3 name field: a label and text area.",
+   "summary": "The Segment, Profile name field: a label and text area.",
    "variables": [
     "VAR005",
     "VAR006",
@@ -2876,7 +2850,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.077",
+   "code": "FLD.076",
    "name": "Specific Personal Information",
    "category": "field",
    "summary": "The Specific Personal Information field: a label and text area.",
@@ -2902,7 +2876,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.078",
+   "code": "FLD.077",
    "name": "Psychographics",
    "category": "field",
    "summary": "The Psychographics field: a label and text area.",
@@ -2928,7 +2902,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.079",
+   "code": "FLD.078",
    "name": "Social & Interest Hubs",
    "category": "field",
    "summary": "The Social & Interest Hubs field: a label and text area.",
@@ -2954,7 +2928,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.080",
+   "code": "FLD.079",
    "name": "Information & Shopping Habits",
    "category": "field",
    "summary": "The Information & Shopping Habits field: a label and text area.",
@@ -2980,7 +2954,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.081",
+   "code": "FLD.080",
    "name": "Goals & Desires",
    "category": "field",
    "summary": "The Goals & Desires field: a label and text area.",
@@ -3006,7 +2980,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.082",
+   "code": "FLD.081",
    "name": "Challenges & Problems",
    "category": "field",
    "summary": "The Challenges & Problems field: a label and text area.",
@@ -3032,7 +3006,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.083",
+   "code": "FLD.082",
    "name": "Objections",
    "category": "field",
    "summary": "The Objections field: a label and text area.",
@@ -3058,7 +3032,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.084",
+   "code": "FLD.083",
    "name": "Functional",
    "category": "field",
    "summary": "The Functional field: a label and text area.",
@@ -3084,7 +3058,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.085",
+   "code": "FLD.084",
    "name": "Emotional",
    "category": "field",
    "summary": "The Emotional field: a label and text area.",
@@ -3110,7 +3084,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.086",
+   "code": "FLD.085",
    "name": "Social",
    "category": "field",
    "summary": "The Social field: a label and text area.",
@@ -3136,10 +3110,10 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.087",
+   "code": "FLD.086",
    "name": "Offerings",
    "category": "field",
-   "summary": "The Offerings field: a label and text area.",
+   "summary": "The Offerings field: a label and text area, tick box.",
    "variables": [
     "VAR005",
     "VAR006",
@@ -3155,14 +3129,50 @@ export const library: Library = {
      "asset": "TXT.001",
      "variant": "TXT.ARE.001.002",
      "role": "text"
+    },
+    {
+     "asset": "TIK.001",
+     "role": "tick"
     }
    ],
    "catalogue": [
-    "F122"
+    "F122",
+    "F158",
+    "F159",
+    "F160",
+    "F161",
+    "F163",
+    "F164",
+    "F165",
+    "F166",
+    "F168",
+    "F169",
+    "F170",
+    "F171",
+    "F174",
+    "F175",
+    "F176",
+    "F177",
+    "F179",
+    "F180",
+    "F181",
+    "F182",
+    "F184",
+    "F185",
+    "F186",
+    "F187",
+    "F189",
+    "F190",
+    "F191",
+    "F192",
+    "F194",
+    "F195",
+    "F196",
+    "F197"
    ]
   },
   {
-   "code": "FLD.088",
+   "code": "FLD.087",
    "name": "Market",
    "category": "field",
    "summary": "The Market field: a label and text area.",
@@ -3188,7 +3198,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.089",
+   "code": "FLD.088",
    "name": "Customer Acquisition",
    "category": "field",
    "summary": "The Customer Acquisition field: a label and text area.",
@@ -3214,7 +3224,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.090",
+   "code": "FLD.089",
    "name": "Customer Experience",
    "category": "field",
    "summary": "The Customer Experience field: a label and text area.",
@@ -3240,7 +3250,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.091",
+   "code": "FLD.090",
    "name": "Strengths",
    "category": "field",
    "summary": "The Strengths field: a label and text area.",
@@ -3266,7 +3276,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.092",
+   "code": "FLD.091",
    "name": "Weaknesses",
    "category": "field",
    "summary": "The Weaknesses field: a label and text area.",
@@ -3292,7 +3302,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.093",
+   "code": "FLD.092",
    "name": "Opportunities",
    "category": "field",
    "summary": "The Opportunities field: a label and text area.",
@@ -3318,7 +3328,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.094",
+   "code": "FLD.093",
    "name": "Threats",
    "category": "field",
    "summary": "The Threats field: a label and text area.",
@@ -3344,7 +3354,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.095",
+   "code": "FLD.094",
    "name": "Functional Needs Addressed",
    "category": "field",
    "summary": "The Functional Needs Addressed field: a label and tick box.",
@@ -3369,7 +3379,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.096",
+   "code": "FLD.095",
    "name": "Function",
    "category": "field",
    "summary": "The Function field: a label and text area.",
@@ -3395,7 +3405,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.097",
+   "code": "FLD.096",
    "name": "Customer Benefit",
    "category": "field",
    "summary": "The Customer Benefit field: a label and text area.",
@@ -3421,7 +3431,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.098",
+   "code": "FLD.097",
    "name": "Content & Scope",
    "category": "field",
    "summary": "The Content & Scope field: a label and text area.",
@@ -3447,7 +3457,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.099",
+   "code": "FLD.098",
    "name": "Purchase & Delivery",
    "category": "field",
    "summary": "The Purchase & Delivery field: a label and text area.",
@@ -3473,7 +3483,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.100",
+   "code": "FLD.099",
    "name": "Support & Communication",
    "category": "field",
    "summary": "The Support & Communication field: a label and text area.",
@@ -3499,7 +3509,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.101",
+   "code": "FLD.100",
    "name": "Requirements & Conditions",
    "category": "field",
    "summary": "The Requirements & Conditions field: a label and text area.",
@@ -3525,10 +3535,10 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.102",
-   "name": "Subchannel name: Select a subchannel",
+   "code": "FLD.101",
+   "name": "Subchannel name",
    "category": "field",
-   "summary": "The Subchannel name: Select a subchannel field: a label and dropdown.",
+   "summary": "The Subchannel name field: a label and dropdown, text area.",
    "variables": [
     "VAR005",
     "VAR006",
@@ -3543,14 +3553,20 @@ export const library: Library = {
     {
      "asset": "DRP.001",
      "role": "choice"
+    },
+    {
+     "asset": "TXT.001",
+     "variant": "TXT.ARE.001.002",
+     "role": "text"
     }
    ],
    "catalogue": [
-    "F153"
+    "F153",
+    "F173"
    ]
   },
   {
-   "code": "FLD.103",
+   "code": "FLD.102",
    "name": "Links",
    "category": "field",
    "summary": "The Links field: a label and tick box.",
@@ -3575,110 +3591,10 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.104",
-   "name": "Offerings of Subchannel 2: All Offerings",
+   "code": "FLD.103",
+   "name": "Journey Stage",
    "category": "field",
-   "summary": "The Offerings of Subchannel 2: All Offerings field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F158"
-   ]
-  },
-  {
-   "code": "FLD.105",
-   "name": "Offerings of Subchannel 2: AI Workflow A",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 2: AI Workflow A field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F159"
-   ]
-  },
-  {
-   "code": "FLD.106",
-   "name": "Offerings of Subchannel 2: Automation Bu",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 2: Automation Bu field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F160"
-   ]
-  },
-  {
-   "code": "FLD.107",
-   "name": "Offerings of Subchannel 2: Automation Ca",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 2: Automation Ca field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F161"
-   ]
-  },
-  {
-   "code": "FLD.108",
-   "name": "Journey Stage 1 for Subchannel 2: Select",
-   "category": "field",
-   "summary": "The Journey Stage 1 for Subchannel 2: Select field: a label and dropdown.",
+   "summary": "The Journey Stage field: a label and dropdown.",
    "variables": [
     "VAR005",
     "VAR006",
@@ -3696,915 +3612,21 @@ export const library: Library = {
     }
    ],
    "catalogue": [
-    "F162"
-   ]
-  },
-  {
-   "code": "FLD.109",
-   "name": "Offerings of Subchannel 4: All Offerings",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 4: All Offerings field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F163"
-   ]
-  },
-  {
-   "code": "FLD.110",
-   "name": "Offerings of Subchannel 4: AI Workflow A",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 4: AI Workflow A field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F164"
-   ]
-  },
-  {
-   "code": "FLD.111",
-   "name": "Offerings of Subchannel 4: Automation Bu",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 4: Automation Bu field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F165"
-   ]
-  },
-  {
-   "code": "FLD.112",
-   "name": "Offerings of Subchannel 4: Automation Ca",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 4: Automation Ca field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F166"
-   ]
-  },
-  {
-   "code": "FLD.113",
-   "name": "Journey Stage 1 for Subchannel 4: Select",
-   "category": "field",
-   "summary": "The Journey Stage 1 for Subchannel 4: Select field: a label and dropdown.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "DRP.001",
-     "role": "choice"
-    }
-   ],
-   "catalogue": [
-    "F167"
-   ]
-  },
-  {
-   "code": "FLD.114",
-   "name": "Offerings of Subchannel 6: All Offerings",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 6: All Offerings field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F168"
-   ]
-  },
-  {
-   "code": "FLD.115",
-   "name": "Offerings of Subchannel 6: AI Workflow A",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 6: AI Workflow A field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F169"
-   ]
-  },
-  {
-   "code": "FLD.116",
-   "name": "Offerings of Subchannel 6: Automation Bu",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 6: Automation Bu field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F170"
-   ]
-  },
-  {
-   "code": "FLD.117",
-   "name": "Offerings of Subchannel 6: Automation Ca",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 6: Automation Ca field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F171"
-   ]
-  },
-  {
-   "code": "FLD.118",
-   "name": "Journey Stage 1 for Subchannel 6: Select",
-   "category": "field",
-   "summary": "The Journey Stage 1 for Subchannel 6: Select field: a label and dropdown.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "DRP.001",
-     "role": "choice"
-    }
-   ],
-   "catalogue": [
-    "F172"
-   ]
-  },
-  {
-   "code": "FLD.119",
-   "name": "Subchannel name",
-   "category": "field",
-   "summary": "The Subchannel name field: a label and text area.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
-     "role": "text"
-    }
-   ],
-   "catalogue": [
-    "F173"
-   ]
-  },
-  {
-   "code": "FLD.120",
-   "name": "Offerings of Subchannel 7: All Offerings",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 7: All Offerings field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F174"
-   ]
-  },
-  {
-   "code": "FLD.121",
-   "name": "Offerings of Subchannel 7: AI Workflow A",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 7: AI Workflow A field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F175"
-   ]
-  },
-  {
-   "code": "FLD.122",
-   "name": "Offerings of Subchannel 7: Automation Bu",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 7: Automation Bu field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F176"
-   ]
-  },
-  {
-   "code": "FLD.123",
-   "name": "Offerings of Subchannel 7: Automation Ca",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 7: Automation Ca field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F177"
-   ]
-  },
-  {
-   "code": "FLD.124",
-   "name": "Journey Stage 1 for Subchannel 7: Select",
-   "category": "field",
-   "summary": "The Journey Stage 1 for Subchannel 7: Select field: a label and dropdown.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "DRP.001",
-     "role": "choice"
-    }
-   ],
-   "catalogue": [
-    "F178"
-   ]
-  },
-  {
-   "code": "FLD.125",
-   "name": "Offerings of Subchannel 8: All Offerings",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 8: All Offerings field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F179"
-   ]
-  },
-  {
-   "code": "FLD.126",
-   "name": "Offerings of Subchannel 8: AI Workflow A",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 8: AI Workflow A field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F180"
-   ]
-  },
-  {
-   "code": "FLD.127",
-   "name": "Offerings of Subchannel 8: Automation Bu",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 8: Automation Bu field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F181"
-   ]
-  },
-  {
-   "code": "FLD.128",
-   "name": "Offerings of Subchannel 8: Automation Ca",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 8: Automation Ca field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F182"
-   ]
-  },
-  {
-   "code": "FLD.129",
-   "name": "Journey Stage 1 for Subchannel 8: Select",
-   "category": "field",
-   "summary": "The Journey Stage 1 for Subchannel 8: Select field: a label and dropdown.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "DRP.001",
-     "role": "choice"
-    }
-   ],
-   "catalogue": [
-    "F183"
-   ]
-  },
-  {
-   "code": "FLD.130",
-   "name": "Offerings of Subchannel 9: All Offerings",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 9: All Offerings field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F184"
-   ]
-  },
-  {
-   "code": "FLD.131",
-   "name": "Offerings of Subchannel 9: AI Workflow A",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 9: AI Workflow A field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F185"
-   ]
-  },
-  {
-   "code": "FLD.132",
-   "name": "Offerings of Subchannel 9: Automation Bu",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 9: Automation Bu field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F186"
-   ]
-  },
-  {
-   "code": "FLD.133",
-   "name": "Offerings of Subchannel 9: Automation Ca",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 9: Automation Ca field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F187"
-   ]
-  },
-  {
-   "code": "FLD.134",
-   "name": "Journey Stage 1 for Subchannel 9: Select",
-   "category": "field",
-   "summary": "The Journey Stage 1 for Subchannel 9: Select field: a label and dropdown.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "DRP.001",
-     "role": "choice"
-    }
-   ],
-   "catalogue": [
-    "F188"
-   ]
-  },
-  {
-   "code": "FLD.135",
-   "name": "Offerings of Subchannel 10: All Offering",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 10: All Offering field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F189"
-   ]
-  },
-  {
-   "code": "FLD.136",
-   "name": "Offerings of Subchannel 10: AI Workflow",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 10: AI Workflow field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F190"
-   ]
-  },
-  {
-   "code": "FLD.137",
-   "name": "Offerings of Subchannel 10: Automation B",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 10: Automation B field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F191"
-   ]
-  },
-  {
-   "code": "FLD.138",
-   "name": "Offerings of Subchannel 10: Automation C",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 10: Automation C field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F192"
-   ]
-  },
-  {
-   "code": "FLD.139",
-   "name": "Journey Stage 1 for Subchannel 10: Selec",
-   "category": "field",
-   "summary": "The Journey Stage 1 for Subchannel 10: Selec field: a label and dropdown.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "DRP.001",
-     "role": "choice"
-    }
-   ],
-   "catalogue": [
-    "F193"
-   ]
-  },
-  {
-   "code": "FLD.140",
-   "name": "Offerings of Subchannel 11: All Offering",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 11: All Offering field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F194"
-   ]
-  },
-  {
-   "code": "FLD.141",
-   "name": "Offerings of Subchannel 11: AI Workflow",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 11: AI Workflow field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F195"
-   ]
-  },
-  {
-   "code": "FLD.142",
-   "name": "Offerings of Subchannel 11: Automation B",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 11: Automation B field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F196"
-   ]
-  },
-  {
-   "code": "FLD.143",
-   "name": "Offerings of Subchannel 11: Automation C",
-   "category": "field",
-   "summary": "The Offerings of Subchannel 11: Automation C field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F197"
-   ]
-  },
-  {
-   "code": "FLD.144",
-   "name": "Journey Stage 1 for Subchannel 11: Selec",
-   "category": "field",
-   "summary": "The Journey Stage 1 for Subchannel 11: Selec field: a label and dropdown.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "DRP.001",
-     "role": "choice"
-    }
-   ],
-   "catalogue": [
+    "F162",
+    "F167",
+    "F172",
+    "F178",
+    "F183",
+    "F188",
+    "F193",
     "F198"
    ]
   },
   {
-   "code": "FLD.145",
-   "name": "Legal requirement 6 name",
+   "code": "FLD.104",
+   "name": "Legal requirement name",
    "category": "field",
-   "summary": "The Legal requirement 6 name field: a label and text area.",
+   "summary": "The Legal requirement name field: a label and text area.",
    "variables": [
     "VAR005",
     "VAR006",
@@ -4627,7 +3649,7 @@ export const library: Library = {
    ]
   },
   {
-   "code": "FLD.146",
+   "code": "FLD.105",
    "name": "Reference or Number",
    "category": "field",
    "summary": "The Reference or Number field: a label and tick box.",
@@ -4649,31 +3671,6 @@ export const library: Library = {
    ],
    "catalogue": [
     "F201"
-   ]
-  },
-  {
-   "code": "FLD.147",
-   "name": "tick box",
-   "category": "field",
-   "summary": "The tick box field: a label and tick box.",
-   "variables": [
-    "VAR005",
-    "VAR006",
-    "VAR008"
-   ],
-   "variants": [],
-   "requires": [
-    {
-     "asset": "LBL.001",
-     "role": "the label of the field"
-    },
-    {
-     "asset": "TIK.001",
-     "role": "tick"
-    }
-   ],
-   "catalogue": [
-    "F202"
    ]
   },
   {
@@ -7458,23 +6455,19 @@ export const library: Library = {
      "code": "CRD.ALR.010.003",
      "name": "Add Legal requirement to Additional legal requirements",
      "description": "The Add Legal requirement to Additional legal requirements kind of the Legal Entity card (no category).",
-     "edits": "Adds the fields FLD.145, FLD.146, FLD.042, FLD.147 to the common fields.",
+     "edits": "Adds the fields FLD.104, FLD.105, FLD.042 to the common fields.",
      "values": {},
      "requires": [
       {
-       "asset": "FLD.145",
+       "asset": "FLD.104",
        "role": "field of this kind"
       },
       {
-       "asset": "FLD.146",
+       "asset": "FLD.105",
        "role": "field of this kind"
       },
       {
        "asset": "FLD.042",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.147",
        "role": "field of this kind"
       }
      ]
@@ -7561,7 +6554,7 @@ export const library: Library = {
      "code": "CRD.AIT.011.003",
      "name": "Add Image to Brand Images",
      "description": "The Add Image to Brand Images kind of the Brand card (no category).",
-     "edits": "Adds the fields FLD.073, FLD.074, FLD.075 to the common fields.",
+     "edits": "Adds the fields FLD.073, FLD.074 to the common fields.",
      "values": {},
      "requires": [
       {
@@ -7570,10 +6563,6 @@ export const library: Library = {
       },
       {
        "asset": "FLD.074",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.075",
        "role": "field of this kind"
       }
      ]
@@ -7610,9 +6599,13 @@ export const library: Library = {
      "code": "CRD.ADD.012.001",
      "name": "Add Profile to Segment Description",
      "description": "The Add Profile to Segment Description kind of the Foundation card (no category).",
-     "edits": "Adds the fields FLD.076, FLD.077, FLD.078, FLD.079, FLD.080, FLD.081, FLD.082, FLD.083, FLD.084, FLD.085, FLD.086 to the common fields.",
+     "edits": "Adds the fields FLD.075, FLD.076, FLD.077, FLD.078, FLD.079, FLD.080, FLD.081, FLD.082, FLD.083, FLD.084, FLD.085 to the common fields.",
      "values": {},
      "requires": [
+      {
+       "asset": "FLD.075",
+       "role": "field of this kind"
+      },
       {
        "asset": "FLD.076",
        "role": "field of this kind"
@@ -7652,10 +6645,6 @@ export const library: Library = {
       {
        "asset": "FLD.085",
        "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.086",
-       "role": "field of this kind"
       }
      ]
     },
@@ -7663,11 +6652,15 @@ export const library: Library = {
      "code": "CRD.ACT.012.002",
      "name": "Add Competitor to Competitors",
      "description": "The Add Competitor to Competitors kind of the Foundation card (no category).",
-     "edits": "Adds the fields FLD.042, FLD.087, FLD.088, FLD.089, FLD.090, FLD.091, FLD.092, FLD.093, FLD.094 to the common fields.",
+     "edits": "Adds the fields FLD.042, FLD.086, FLD.087, FLD.088, FLD.089, FLD.090, FLD.091, FLD.092, FLD.093 to the common fields.",
      "values": {},
      "requires": [
       {
        "asset": "FLD.042",
+       "role": "field of this kind"
+      },
+      {
+       "asset": "FLD.086",
        "role": "field of this kind"
       },
       {
@@ -7697,10 +6690,6 @@ export const library: Library = {
       {
        "asset": "FLD.093",
        "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.094",
-       "role": "field of this kind"
       }
      ]
     },
@@ -7708,11 +6697,15 @@ export const library: Library = {
      "code": "CRD.AOT.012.003",
      "name": "Add Offering to Offerings",
      "description": "The Add Offering to Offerings kind of the Foundation card (no category).",
-     "edits": "Adds the fields FLD.042, FLD.095, FLD.096, FLD.097, FLD.098, FLD.099, FLD.100, FLD.101 to the common fields.",
+     "edits": "Adds the fields FLD.042, FLD.094, FLD.095, FLD.096, FLD.097, FLD.098, FLD.099, FLD.100 to the common fields.",
      "values": {},
      "requires": [
       {
        "asset": "FLD.042",
+       "role": "field of this kind"
+      },
+      {
+       "asset": "FLD.094",
        "role": "field of this kind"
       },
       {
@@ -7738,10 +6731,6 @@ export const library: Library = {
       {
        "asset": "FLD.100",
        "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.101",
-       "role": "field of this kind"
       }
      ]
     }
@@ -7763,7 +6752,7 @@ export const library: Library = {
    "code": "CRD.013",
    "name": "Channel",
    "category": "card",
-   "summary": "The Channel card: a floating card with 1 common fields in a fixed order and 8 kinds that add their own.",
+   "summary": "The Channel card: a floating card with 7 common fields in a fixed order and 8 kinds that add their own.",
    "variables": [
     "VAR002",
     "VAR003",
@@ -7777,265 +6766,65 @@ export const library: Library = {
      "code": "CRD.ADD.013.001",
      "name": "Add Subchannel to Social Media",
      "description": "The Add Subchannel to Social Media kind of the Channel card (no category).",
-     "edits": "Adds the fields FLD.102, FLD.104, FLD.105, FLD.106, FLD.107, FLD.108 to the common fields.",
+     "edits": "Has the common fields only.",
      "values": {},
-     "requires": [
-      {
-       "asset": "FLD.102",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.104",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.105",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.106",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.107",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.108",
-       "role": "field of this kind"
-      }
-     ]
+     "requires": []
     },
     {
      "code": "CRD.AST.013.002",
      "name": "Add Subchannel to Website",
      "description": "The Add Subchannel to Website kind of the Channel card (no category).",
-     "edits": "Adds the fields FLD.102, FLD.109, FLD.110, FLD.111, FLD.112, FLD.113 to the common fields.",
+     "edits": "Has the common fields only.",
      "values": {},
-     "requires": [
-      {
-       "asset": "FLD.102",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.109",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.110",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.111",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.112",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.113",
-       "role": "field of this kind"
-      }
-     ]
+     "requires": []
     },
     {
      "code": "CRD.AAA.013.003",
      "name": "Add Subchannel to Email",
      "description": "The Add Subchannel to Email kind of the Channel card (no category).",
-     "edits": "Adds the fields FLD.102, FLD.114, FLD.115, FLD.116, FLD.117, FLD.118 to the common fields.",
+     "edits": "Has the common fields only.",
      "values": {},
-     "requires": [
-      {
-       "asset": "FLD.102",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.114",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.115",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.116",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.117",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.118",
-       "role": "field of this kind"
-      }
-     ]
+     "requires": []
     },
     {
      "code": "CRD.AAB.013.004",
      "name": "Add Subchannel to Other",
      "description": "The Add Subchannel to Other kind of the Channel card (no category).",
-     "edits": "Adds the fields FLD.119, FLD.120, FLD.121, FLD.122, FLD.123, FLD.124 to the common fields.",
+     "edits": "Has the common fields only.",
      "values": {},
-     "requires": [
-      {
-       "asset": "FLD.119",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.120",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.121",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.122",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.123",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.124",
-       "role": "field of this kind"
-      }
-     ]
+     "requires": []
     },
     {
      "code": "CRD.AAC.013.005",
      "name": "Add Subchannel to In Person",
      "description": "The Add Subchannel to In Person kind of the Channel card (no category).",
-     "edits": "Adds the fields FLD.102, FLD.125, FLD.126, FLD.127, FLD.128, FLD.129 to the common fields.",
+     "edits": "Has the common fields only.",
      "values": {},
-     "requires": [
-      {
-       "asset": "FLD.102",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.125",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.126",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.127",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.128",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.129",
-       "role": "field of this kind"
-      }
-     ]
+     "requires": []
     },
     {
      "code": "CRD.AAD.013.006",
      "name": "Add Subchannel to Direct Payment",
      "description": "The Add Subchannel to Direct Payment kind of the Channel card (no category).",
-     "edits": "Adds the fields FLD.102, FLD.130, FLD.131, FLD.132, FLD.133, FLD.134 to the common fields.",
+     "edits": "Has the common fields only.",
      "values": {},
-     "requires": [
-      {
-       "asset": "FLD.102",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.130",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.131",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.132",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.133",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.134",
-       "role": "field of this kind"
-      }
-     ]
+     "requires": []
     },
     {
      "code": "CRD.AAE.013.007",
      "name": "Add Subchannel to Online / Live",
      "description": "The Add Subchannel to Online / Live kind of the Channel card (no category).",
-     "edits": "Adds the fields FLD.102, FLD.135, FLD.136, FLD.137, FLD.138, FLD.139 to the common fields.",
+     "edits": "Has the common fields only.",
      "values": {},
-     "requires": [
-      {
-       "asset": "FLD.102",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.135",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.136",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.137",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.138",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.139",
-       "role": "field of this kind"
-      }
-     ]
+     "requires": []
     },
     {
      "code": "CRD.AAF.013.008",
      "name": "Add Subchannel to File Delivery",
      "description": "The Add Subchannel to File Delivery kind of the Channel card (no category).",
-     "edits": "Adds the fields FLD.102, FLD.140, FLD.141, FLD.142, FLD.143, FLD.144 to the common fields.",
+     "edits": "Has the common fields only.",
      "values": {},
-     "requires": [
-      {
-       "asset": "FLD.102",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.140",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.141",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.142",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.143",
-       "role": "field of this kind"
-      },
-      {
-       "asset": "FLD.144",
-       "role": "field of this kind"
-      }
-     ]
+     "requires": []
     }
    ],
    "requires": [
@@ -8043,6 +6832,30 @@ export const library: Library = {
      "asset": "CRD.001",
      "variant": "CRD.CRD.001.001",
      "role": "the surface it stands on"
+    },
+    {
+     "asset": "FLD.101",
+     "role": "common field"
+    },
+    {
+     "asset": "FLD.102",
+     "role": "common field"
+    },
+    {
+     "asset": "FLD.086",
+     "role": "common field"
+    },
+    {
+     "asset": "FLD.086",
+     "role": "common field"
+    },
+    {
+     "asset": "FLD.086",
+     "role": "common field"
+    },
+    {
+     "asset": "FLD.086",
+     "role": "common field"
     },
     {
      "asset": "FLD.103",

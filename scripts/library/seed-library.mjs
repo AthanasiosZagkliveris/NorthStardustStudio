@@ -170,8 +170,10 @@ const byName = new Map();
 for (const f of table("F").rows) {
     if (SKIP_CONTROLS.has(String(f.component))) continue;
     // The probe's labels carry the info letter glued to the name ("Typei") and the number of the card ("Expense 4 name").
-    const clean = String(f.name).trim().replace(/ d+ /g, " ").replace(/([a-z])i$/, "$1");
+    const cleaned = String(f.name).trim().replace(/\b\d+\b/g, "").replace(/\s+,/g, ",").replace(/\s+/g, " ").replace(/\s+:/g, ":").trim().replace(/([a-z])i$/, "$1");
+    const clean = cleaned.replace(/^Offerings of Subchannel.*$/, "Offerings").replace(/^Journey Stage for Subchannel.*$/, "Journey Stage").replace(/^Subchannel name.*$/, "Subchannel name");
     const key = clean.toLowerCase();
+    if (/^(tick box|text box|text area|number box|dropdown|date cell)$/.test(key)) continue; // an unlabelled control is a part of a field, not a field
     const fns = String(f.functions).split(", ").filter(s => s && s !== "-").map(id => fnText.get(id) ?? "");
     const parts = requiresOf(String(f.component), fns);
     if (!parts) continue;

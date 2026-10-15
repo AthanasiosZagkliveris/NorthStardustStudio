@@ -216,3 +216,17 @@
 .inventory-field > .inventory-field-part:first-child {
     flex: 0 0 177px;
 }
+.looks-look {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-field);
+    margin: var(--space-field) 0;
+}
+.looks-sample {
+    flex: 0 0 240px;
+}
+.looks-facts {
+    flex: 1 1 320px;
+    margin: 0;
+}

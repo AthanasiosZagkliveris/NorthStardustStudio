@@ -32,7 +32,9 @@
     "library:doc": "node scripts/library/generate-library-doc.mjs",
     "library:doc:check": "node scripts/library/generate-library-doc.mjs --check",
     "library:check": "node scripts/library/library-log.mjs",
-    "library:log": "node scripts/library/library-log.mjs log"
+    "library:log": "node scripts/library/library-log.mjs log",
+    "library:fields": "node scripts/library/field-names.mjs",
+    "library:looks": "node scripts/library/looks.mjs"
   },
   "dependencies": {
     "@fontsource/inter": "^5.3.0",
