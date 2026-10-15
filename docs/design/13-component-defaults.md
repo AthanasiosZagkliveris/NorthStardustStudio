@@ -32,16 +32,15 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | BTN.006 tool button | BTN.STR.006.008 Start Interview | 52 high, 269 wide | 18 | body 18 | 6px | 0/0 | 0 | 4 | meets 24 |
 | DRP.001 dropdown | (asset) | 44 | 18 | body 18 | 6px | 8/8 | 1 | 493 in 8 places | meets 24 |
 | TIK.001 tick box | (asset) | 24 high, 24 wide | 18 | body 18 | 0px | 0/0 | 0 | 721 in 8 places | meets 24 |
-| TXT.001 text holder | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 in 4 places | meets 24 |
-| TXT.001 text holder | TXT.BOX.001.001 Text box | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 in 4 places | meets 24 |
-| TXT.001 text holder | TXT.ARE.001.002 Free text | words, at least 44 | 18 | body 18 | 6px | 10/8 | 1 | 282 in 19 places | follows the words (a field, not a button) |
-| TXT.001 text holder | TXT.NAM.001.003 Name cell | words, at least 44 | 18 | body 18 | 6px | 38/8 | 1 | 138 | follows the words (a field, not a button) |
+| TXT.001 holder | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 in 4 places | meets 24 |
+| TXT.001 holder | TXT.BOX.001.001 Text box | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 in 4 places | meets 24 |
+| TXT.001 holder | TXT.ARE.001.002 Free text | words, at least 44 | 18 | body 18 | 6px | 10/8 | 1 | 282 in 19 places | follows the words (a field, not a button) |
+| TXT.001 holder | TXT.NAM.001.003 Name cell | words, at least 44 | 18 | body 18 | 6px | 38/8 | 1 | 138 | follows the words (a field, not a button) |
+| TXT.001 holder | TXT.PCT.001.006 Percent | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 12 | meets 24 |
+| TXT.001 holder | TXT.YRS.001.007 Years | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 8 | meets 24 |
+| TXT.001 holder | TXT.MON.001.008 Months | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 1 in 1 places | meets 24 |
 | LST.001 list | (asset) | words, at least 44 | 18 | body 18 | 6px | 12/8 | 1 | 129 in 5 places | follows the words (a field, not a button) |
 | DIV.001 divider | DIV.HOR.001.001 Horizontal | 2 | 0 | symbol, no text | 0px | 0/0 | 0 | 1 | under 24 |
-| NUM.001 number box | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 166 in 2 places | meets 24 |
-| NUM.001 number box | NUM.PCT.001.003 Percent | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 12 | meets 24 |
-| NUM.001 number box | NUM.YRS.001.004 Years | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 8 | meets 24 |
-| NUM.001 number box | NUM.MON.001.005 Months | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 1 in 1 places | meets 24 |
 | DAT.001 date cell | (asset) | 44 | 18 | body 18 | 6px | 10/0 | 1 | 166 in 2 places | meets 24 |
 | DAT.002 calendar popup | (asset) | words | 18 | body 18 | 6px | 12/12 | 1 | 0 | follows the words (a field, not a button) |
 | PCK.001 colour picker | (asset) | 44 high, 44 wide | 14 | small 14 | 6px | 0/0 | 1 | 1 in 1 places | meets 24 |
@@ -59,7 +58,8 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | TTL.001 title | TTL.SYS.001.009 System title | words | 36 | h1 36 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
 | TTL.001 title | TTL.INT.001.010 Guiding question | words | 24 | h3 24 | 0px | 0/0 | 0 | 4 | follows the words (a field, not a button) |
 | MSG.001 message | MSG.VER.001.001 Verification | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| LNK.001 link | LNK.PAG.001.004 Page link | words | 18 | body 18 | 0px | 0/0 | 0 | 9 | follows the words (a field, not a button) |
+| LNK.001 link | LNK.UND.001.001 Underlined text link | words | 18 | body 18 | 0px | 0/0 | 0 | 12 | follows the words (a field, not a button) |
+| LNK.001 link | LNK.BLU.001.002 Blue text link | words | 18 | body 18 | 0px | 0/0 | 0 | 9 | follows the words (a field, not a button) |
 | HLP.001 help text | (asset) | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
 | HLP.001 help text | HLP.BUL.001.002 Bulleted list | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
 | HLP.001 help text | HLP.SUM.001.004 Summary line | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
@@ -87,6 +87,11 @@ Separated by purpose; each has its own default look.
 | text input | TXT.BOX.001.001 Text box | One line of text in a cell that keeps its space. | height 44, type 18, corners 6px, padding 10/8, border 1, found 24 |
 | text input | TXT.ARE.001.002 Free text | A description text: the cell gets bigger as you type or press Enter (Description, Offerings, Market). | height words, at least 44, type 18, corners 6px, padding 10/8, border 1, found 282 |
 | text input | TXT.NAM.001.003 Name cell | The name of a card, on top of the card. The order number is generated automatically and stands inside the cell. | height words, at least 44, type 18, corners 6px, padding 38/8, border 1, found 138 |
+| text input | TXT.WHL.001.004 Whole number | Whole numbers only; no more digits than the field requires. | none |
+| text input | TXT.DEC.001.005 Decimal | A number with decimals; no more digits than the field requires. | none |
+| text input | TXT.PCT.001.006 Percent | A number from 0 to 100 with a percent sign beside it; a square box, 44 by 44px. | height 44, type 18, corners 6px, padding 4/8, border 1, found 12 |
+| text input | TXT.YRS.001.007 Years | A number of years; a square box, 44 by 44px. | height 44, type 18, corners 6px, padding 4/8, border 1, found 8 |
+| text input | TXT.MON.001.008 Months | A number of months (Target operating reserve: 3 months); a square box, 44 by 44px. | height 44, type 18, corners 6px, padding 4/8, border 1, found 1 |
 | list | LST.001 list | A text that needs a list is ONE cell that holds numbered rows divided by thin lines, the numbers inside the cell (Values, Principles, SWOT points, Initiatives, Responsibilities). It grows as rows are added; Enter opens the next row; the rows can be moved and removed. | min height 44, type 18, corners 6px, border 1, found 129 |
 
 ## Looks merged and looks kept
@@ -128,13 +133,19 @@ Separated by purpose; each has its own default look.
 - merged into the default: tick box height 18, type 16, corners 0px, padding 0/0, border 0; found 5 times (0.7% of the default's 721); largest difference 2.0px
 - enlarged, by the owner's decision (owner, 2026-10-15): from 18px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (721 found at 18px).
 
-### TXT.001 text holder
+### TXT.001 holder
 
 - text box with square corners and no border (the name of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard text box.
 - moved to the name cell, by the owner's decision (owner, 2026-10-15): the text box with padding 38 (the theme name in Strategy, Strategic Period, Financial Stability; 1 found) is a name cell. It is counted in the standard name cell.
 - free text with square corners and no border (the note of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard free text.
 - app error, by the owner's decision (owner, 2026-10-15): the name cell with padding 12 (the name with suggestions in Customer Engagement, Other, Referral partners; 2 found) is an error of the app and has to take the standard name cell look (padding 38, the number inside). It is counted in the standard name cell.
 - the holders (owner, 2026-10-15): text and number holders all use the body text (18px); their variants depend on their function. A text that is only read is not a holder.
+- a holder is one asset with variants (owner, 2026-10-15): its size can change and it takes features (only numbers, the amount of digits, growing down, growing under conditions); the number box is therefore a set of variants of the holder. Measured defaults of the number box: 44px high, 6px corners, padding 10/8 (166 found in 11 places); the percent, years and months boxes are squares of 44 by 44px.
+- percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45).
+- cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px.
+- years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).
+- months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner).
+- digits: by the owner's description (owner, 2026-10-15) a number cell accepts only numbers, and no more digits than the field requires.
 
 ### LST.001 list
 
@@ -143,14 +154,6 @@ Separated by purpose; each has its own default look.
 ### DIV.001 divider
 
 - horizontal: the page rule measured 2px (interview-divider); the card rule is 1px (the card rules); the vertical line (answer-columns-divider) was not measured.
-
-### NUM.001 number box
-
-- percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45).
-- cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px.
-- years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).
-- months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner).
-- digits: by the owner's description (owner, 2026-10-15) a number cell accepts only numbers, and no more digits than the field requires.
 
 ### DAT.001 date cell
 
@@ -184,7 +187,7 @@ Separated by purpose; each has its own default look.
 
 ### LNK.001 link
 
-- the tile link (TIL.004) is a variant of the link (owner, 2026-10-15): labels, links and titles are read, not filled in.
+- variants and uses (owner, 2026-10-15): a place where a link is used is not a variant. The variants differ in style and function (underlined text, blue text, a symbol). The uses: the tile link (inside a master tile, opens a view or a card), the card name link (a child's name links to its parent card), the page link (the list of pages of an introduction), the link symbol (beside a dropdown choice).
 
 ### HLP.001 help text
 
@@ -243,14 +246,14 @@ The looks the app has today that the decisions change when the assets replace th
 - DRP.001 dropdown: merged by the owner's decision (owner, 2026-10-15): dropdown height 45, type 18, corners 6px, padding 6/8, border 1; found 43 times (8.7% of the default's 493); largest difference 2.0px
 - DRP.001 dropdown: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45).
 - TIK.001 tick box: enlarged, by the owner's decision (owner, 2026-10-15): from 18px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (721 found at 18px).
-- TXT.001 text holder: text box with square corners and no border (the name of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard text box.
-- TXT.001 text holder: moved to the name cell, by the owner's decision (owner, 2026-10-15): the text box with padding 38 (the theme name in Strategy, Strategic Period, Financial Stability; 1 found) is a name cell. It is counted in the standard name cell.
-- TXT.001 text holder: free text with square corners and no border (the note of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard free text.
-- TXT.001 text holder: app error, by the owner's decision (owner, 2026-10-15): the name cell with padding 12 (the name with suggestions in Customer Engagement, Other, Referral partners; 2 found) is an error of the app and has to take the standard name cell look (padding 38, the number inside). It is counted in the standard name cell.
-- NUM.001 number box: percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45).
-- NUM.001 number box: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px.
-- NUM.001 number box: years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).
-- NUM.001 number box: months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner).
+- TXT.001 holder: text box with square corners and no border (the name of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard text box.
+- TXT.001 holder: moved to the name cell, by the owner's decision (owner, 2026-10-15): the text box with padding 38 (the theme name in Strategy, Strategic Period, Financial Stability; 1 found) is a name cell. It is counted in the standard name cell.
+- TXT.001 holder: free text with square corners and no border (the note of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard free text.
+- TXT.001 holder: app error, by the owner's decision (owner, 2026-10-15): the name cell with padding 12 (the name with suggestions in Customer Engagement, Other, Referral partners; 2 found) is an error of the app and has to take the standard name cell look (padding 38, the number inside). It is counted in the standard name cell.
+- TXT.001 holder: percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45).
+- TXT.001 holder: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px.
+- TXT.001 holder: years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).
+- TXT.001 holder: months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner).
 - DAT.001 date cell: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 44). Already 44px.
 - DAT.001 date cell: dates in the Strategic Period, the Objective cards of a Theme and the Revenue card (Begins): by the owner's decision (owner, 2026-10-15) they are this date cell with a calendar and the choice of a day or only a month; they are month pickers with their own look today (bold, wide-spaced type that cuts the year off: 'September 202').
 - DAT.002 calendar popup: rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners of 6px, like the cells. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.

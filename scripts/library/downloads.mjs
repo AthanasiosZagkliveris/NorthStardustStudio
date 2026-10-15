@@ -13,4 +13,4 @@ execFileSync(process.execPath, ["scripts/library/export-csv.mjs"], { stdio: "inh
 copyFileSync("catalogue/exports/components.csv", "exports/The-components.csv");
 copyFileSync("catalogue/exports/dropdowns.csv", "exports/The-dropdowns.csv");
 execFileSync(process.execPath, ["scripts/library/components-pdf.mjs", "exports/The-components.pdf"], { stdio: "inherit" });
-console.log("downloadable versions in exports/: The-components.pdf, The-components.csv, The-dropdowns.csv");
+console.log("downloadable versions in exports/: The-components.pdf, The-components.xlsx, The-dropdowns.xlsx, The-components.csv, The-dropdowns.csv");

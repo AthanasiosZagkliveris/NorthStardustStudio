@@ -106,11 +106,11 @@ Used by no field or card yet.
 
 **Fields (26):** Completed; Description / Relevant Information; Extra: Bonus; Extra: Clearance and handling; Extra: Commercial property tax; Extra: Commercial property tax (when bought); Extra: Commission; Extra: Customs duty; Extra: Deposit; Extra: Handling per pallet; Extra: Minimum order; Extra: Other duties; Extra: Road tax; Extra: Road tax (when bought); Extra: Service charge; Extra: Service charge (when bought); Functional Needs Addressed; Linked to; Links; Offerings; Payment Plan; Reference or Number; Resources; Responsible; Usage; Warranty.
 
-## TXT.001 text holder
+## TXT.001 holder
 
-35 assets use it: 1 component, 33 fields, 1 card.
+66 assets use it: 1 component, 64 fields, 1 card.
 
-**Fields (33):** Challenges & Problems; Colour; Colour name; Content & Scope; Customer Acquisition; Customer Benefit; Customer Experience; Description / Relevant Information; Emotional; Expense name; Function; Functional; Goals & Desires; Image description; Image name; Information & Shopping Habits; Legal requirement name; Market; Milestone; Name; Objections; Offerings; Psychographics; Purchase & Delivery; Requirements & Conditions; Segment, Profile name; Social; Social & Interest Hubs; Specific Personal Information; Subchannel name; Support & Communication; Type; Typeface name.
+**Fields (64):** Allowance; Amortisation period; Challenges & Problems; Colour; Colour name; Content & Scope; Cost; Cost ($); Customer Acquisition; Customer Benefit; Customer Experience; Date; Delivery Hrs; Deposit %; Description / Relevant Information; Emotional; Expense name; Extra: Bonus; Extra: Clearance and handling; Extra: Commercial property tax; Extra: Commercial property tax (when bought); Extra: Commission; Extra: Customs duty; Extra: Deposit; Extra: Handling per pallet; Extra: Minimum order; Extra: Other duties; Extra: Road tax; Extra: Road tax (when bought); Extra: Service charge; Extra: Service charge (when bought); Function; Functional; Goals & Desires; Image description; Image name; Information & Shopping Habits; Instalments; Legal requirement name; Linked to; Market; Milestone; Milestone %; Name; Objections; Offerings; Price; Psychographics; Purchase & Delivery; Qty; Rate override; Requirements & Conditions; Salary; Segment, Profile name; Social; Social & Interest Hubs; Specific Personal Information; Subchannel name; Support & Communication; Type; Typeface name; Units; Useful life; Working Hrs.
 
 **Other assets:** PCK.001 colour picker; CRD.001 floating card.
 
@@ -134,6 +134,34 @@ Used by no field or card yet.
 
 **Other assets:** CRD.001 floating card.
 
+### TXT.WHL.001.004 Whole number
+
+23 assets use it.
+
+**Fields (23):** Allowance; Cost; Cost ($); Date; Delivery Hrs; Extra: Bonus; Extra: Clearance and handling; Extra: Commercial property tax; Extra: Commercial property tax (when bought); Extra: Commission; Extra: Customs duty; Extra: Deposit; Extra: Handling per pallet; Extra: Minimum order; Extra: Other duties; Extra: Road tax; Extra: Road tax (when bought); Extra: Service charge; Extra: Service charge (when bought); Instalments; Salary; Units; Working Hrs.
+
+### TXT.DEC.001.005 Decimal
+
+2 assets use it.
+
+**Fields (2):** Price; Qty.
+
+### TXT.PCT.001.006 Percent
+
+4 assets use it.
+
+**Fields (4):** Deposit %; Linked to; Milestone %; Rate override.
+
+### TXT.YRS.001.007 Years
+
+2 assets use it.
+
+**Fields (2):** Amortisation period; Useful life.
+
+### TXT.MON.001.008 Months
+
+Used by no field or card yet.
+
 ## LST.001 list
 
 4 assets use it: 4 fields.
@@ -151,40 +179,6 @@ Used by no field or card yet.
 Used by no field or card yet.
 
 ### DIV.VER.001.002 Vertical
-
-Used by no field or card yet.
-
-## NUM.001 number box
-
-31 assets use it: 31 fields.
-
-**Fields (31):** Allowance; Amortisation period; Cost; Cost ($); Date; Delivery Hrs; Deposit %; Extra: Bonus; Extra: Clearance and handling; Extra: Commercial property tax; Extra: Commercial property tax (when bought); Extra: Commission; Extra: Customs duty; Extra: Deposit; Extra: Handling per pallet; Extra: Minimum order; Extra: Other duties; Extra: Road tax; Extra: Road tax (when bought); Extra: Service charge; Extra: Service charge (when bought); Instalments; Linked to; Milestone %; Price; Qty; Rate override; Salary; Units; Useful life; Working Hrs.
-
-### NUM.WHL.001.001 Whole number
-
-9 assets use it.
-
-**Fields (9):** Allowance; Cost; Cost ($); Date; Delivery Hrs; Instalments; Salary; Units; Working Hrs.
-
-### NUM.DEC.001.002 Decimal
-
-2 assets use it.
-
-**Fields (2):** Price; Qty.
-
-### NUM.PCT.001.003 Percent
-
-4 assets use it.
-
-**Fields (4):** Deposit %; Linked to; Milestone %; Rate override.
-
-### NUM.YRS.001.004 Years
-
-2 assets use it.
-
-**Fields (2):** Amortisation period; Useful life.
-
-### NUM.MON.001.005 Months
 
 Used by no field or card yet.
 
@@ -320,21 +314,17 @@ Used by no field or card yet.
 
 **Other assets:** TIL.001 master tile.
 
-### LNK.TIL.001.001 Tile link
+### LNK.UND.001.001 Underlined text link
 
 1 assets use it.
 
 **Other assets:** TIL.001 master tile.
 
-### LNK.CRD.001.002 Card name link
+### LNK.BLU.001.002 Blue text link
 
 Used by no field or card yet.
 
-### LNK.SYM.001.003 Link symbol
-
-Used by no field or card yet.
-
-### LNK.PAG.001.004 Page link
+### LNK.SYM.001.003 Symbol link
 
 Used by no field or card yet.
 

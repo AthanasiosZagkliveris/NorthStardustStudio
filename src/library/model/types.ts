@@ -27,7 +27,6 @@ export const KINDS = {
     MSG: { name: "message", category: "component" },
     ICN: { name: "icon", category: "component" },
     CAL: { name: "calendar box", category: "component" },
-    NUM: { name: "number box", category: "component" },
     DAT: { name: "date cell", category: "component" },
     LBL: { name: "label", category: "component" },
     ARW: { name: "arrow", category: "component" },

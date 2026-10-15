@@ -251,15 +251,19 @@ export const library: Library = {
   {
    "code": "VAR014",
    "name": "growth",
-   "description": "Whether a holder grows as the person writes.",
+   "description": "How a holder takes more room as the person writes.",
    "values": [
-    {
-     "name": "grows",
-     "description": "The cell grows as you type or press Enter."
-    },
     {
      "name": "fixed space",
      "description": "The cell keeps the space it has."
+    },
+    {
+     "name": "grows down",
+     "description": "The cell gets bigger downwards as you type or press Enter."
+    },
+    {
+     "name": "grows under conditions",
+     "description": "The cell appears or grows only when a condition is met (a tick opens it, a status shows it)."
     }
    ]
   },
@@ -292,6 +296,21 @@ export const library: Library = {
      "description": "The options come from other inputs (the founders, the activities, the resources, the registrations of the page)."
     }
    ]
+  },
+  {
+   "code": "VAR017",
+   "name": "input",
+   "description": "What the person can type in a holder.",
+   "values": [
+    {
+     "name": "text",
+     "description": "Letters, numbers and signs."
+    },
+    {
+     "name": "numbers only",
+     "description": "Only digits can be typed (a decimal also takes the point)."
+    }
+   ]
   }
  ],
  "families": [
@@ -310,7 +329,7 @@ export const library: Library = {
     {
      "code": "HOLD.CEL",
      "name": "Cell holders",
-     "description": "The cells the person writes or chooses in: text, list, number, date, dropdown.",
+     "description": "The cells the person writes or chooses in: the holder (text and numbers), the list, the date cell, the dropdown.",
      "characteristics": [
       "Body text, 18px",
       "6px corners, 1px edge",
@@ -924,16 +943,18 @@ export const library: Library = {
   },
   {
    "code": "TXT.001",
-   "name": "text holder",
+   "name": "holder",
    "category": "component",
-   "summary": "A cell the person fills in with text (letters or numbers), in the body size. A text box keeps its space; a free text grows as you type or press Enter; a name cell stands on top of a card and its order number is generated automatically. A text that is only read is not a holder (see the help text, label, title and link).",
+   "summary": "The cell a person fills in with text or numbers, in the body size. Its size can change and it takes different features: what can be typed (text, or numbers only), how many digits are accepted, and whether it keeps its space, grows down as you write, or grows under conditions. A text that is only read is not a holder (see the help text, label, title and link).",
    "variables": [
     "VAR001",
     "VAR002",
     "VAR003",
     "VAR004",
+    "VAR006",
     "VAR014",
-    "VAR006"
+    "VAR015",
+    "VAR017"
    ],
    "variants": [
     {
@@ -942,6 +963,7 @@ export const library: Library = {
      "description": "One line of text in a cell that keeps its space.",
      "edits": "A single line; fixed space.",
      "values": {
+      "VAR017": "text",
       "VAR014": "fixed space"
      },
      "look": {
@@ -963,7 +985,8 @@ export const library: Library = {
      "description": "A description text: the cell gets bigger as you type or press Enter (Description, Offerings, Market).",
      "edits": "Grows with the words; Enter adds a line inside it.",
      "values": {
-      "VAR014": "grows"
+      "VAR017": "text",
+      "VAR014": "grows down"
      },
      "look": {
       "height": null,
@@ -985,7 +1008,8 @@ export const library: Library = {
      "description": "The name of a card, on top of the card. The order number is generated automatically and stands inside the cell.",
      "edits": "At the top of a card; the order number is automatic and inside the cell; it wraps and grows.",
      "values": {
-      "VAR014": "grows"
+      "VAR017": "text",
+      "VAR014": "grows down"
      },
      "look": {
       "height": null,
@@ -998,6 +1022,98 @@ export const library: Library = {
       "scale": "body 18",
       "found": 138,
       "minHeight": 44
+     }
+    },
+    {
+     "code": "TXT.WHL.001.004",
+     "name": "Whole number",
+     "description": "Whole numbers only; no more digits than the field requires.",
+     "edits": "Numbers only; the digit limit is set by the field.",
+     "values": {
+      "VAR017": "numbers only",
+      "VAR015": "as required",
+      "VAR014": "fixed space"
+     }
+    },
+    {
+     "code": "TXT.DEC.001.005",
+     "name": "Decimal",
+     "description": "A number with decimals; no more digits than the field requires.",
+     "edits": "Numbers and the decimal point.",
+     "values": {
+      "VAR017": "numbers only",
+      "VAR015": "as required",
+      "VAR014": "fixed space"
+     }
+    },
+    {
+     "code": "TXT.PCT.001.006",
+     "name": "Percent",
+     "description": "A number from 0 to 100 with a percent sign beside it; a square box, 44 by 44px.",
+     "edits": "A square box with a percent sign beside it.",
+     "values": {
+      "VAR017": "numbers only",
+      "VAR015": "as required",
+      "VAR014": "fixed space"
+     },
+     "look": {
+      "height": 44,
+      "width": 44,
+      "fontSize": 18,
+      "fontWeight": "400",
+      "corners": "6px",
+      "paddingLeft": 4,
+      "paddingTop": 8,
+      "border": 1,
+      "scale": "body 18",
+      "found": 12
+     }
+    },
+    {
+     "code": "TXT.YRS.001.007",
+     "name": "Years",
+     "description": "A number of years; a square box, 44 by 44px.",
+     "edits": "A square box with the word years beside it.",
+     "values": {
+      "VAR017": "numbers only",
+      "VAR015": "as required",
+      "VAR014": "fixed space"
+     },
+     "look": {
+      "height": 44,
+      "width": 44,
+      "fontSize": 18,
+      "fontWeight": "400",
+      "corners": "6px",
+      "paddingLeft": 4,
+      "paddingTop": 8,
+      "border": 1,
+      "scale": "body 18",
+      "found": 8
+     }
+    },
+    {
+     "code": "TXT.MON.001.008",
+     "name": "Months",
+     "description": "A number of months (Target operating reserve: 3 months); a square box, 44 by 44px.",
+     "edits": "A square box with the word months beside it.",
+     "values": {
+      "VAR017": "numbers only",
+      "VAR015": "as required",
+      "VAR014": "fixed space"
+     },
+     "look": {
+      "height": 44,
+      "width": 44,
+      "fontSize": 18,
+      "fontWeight": "400",
+      "corners": "6px",
+      "paddingLeft": 4,
+      "paddingTop": 8,
+      "border": 1,
+      "scale": "body 18",
+      "found": 1,
+      "places": 1
      }
     }
    ],
@@ -1023,7 +1139,13 @@ export const library: Library = {
     "moved to the name cell, by the owner's decision (owner, 2026-10-15): the text box with padding 38 (the theme name in Strategy, Strategic Period, Financial Stability; 1 found) is a name cell. It is counted in the standard name cell.",
     "free text with square corners and no border (the note of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard free text.",
     "app error, by the owner's decision (owner, 2026-10-15): the name cell with padding 12 (the name with suggestions in Customer Engagement, Other, Referral partners; 2 found) is an error of the app and has to take the standard name cell look (padding 38, the number inside). It is counted in the standard name cell.",
-    "the holders (owner, 2026-10-15): text and number holders all use the body text (18px); their variants depend on their function. A text that is only read is not a holder."
+    "the holders (owner, 2026-10-15): text and number holders all use the body text (18px); their variants depend on their function. A text that is only read is not a holder.",
+    "a holder is one asset with variants (owner, 2026-10-15): its size can change and it takes features (only numbers, the amount of digits, growing down, growing under conditions); the number box is therefore a set of variants of the holder. Measured defaults of the number box: 44px high, 6px corners, padding 10/8 (166 found in 11 places); the percent, years and months boxes are squares of 44 by 44px.",
+    "percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45).",
+    "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px.",
+    "years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).",
+    "months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner).",
+    "digits: by the owner's description (owner, 2026-10-15) a number cell accepts only numbers, and no more digits than the field requires."
    ],
    "group": "HOLD.CEL"
   },
@@ -1102,118 +1224,6 @@ export const library: Library = {
     "horizontal: the page rule measured 2px (interview-divider); the card rule is 1px (the card rules); the vertical line (answer-columns-divider) was not measured."
    ],
    "group": "MARK.DIV"
-  },
-  {
-   "code": "NUM.001",
-   "name": "number box",
-   "category": "component",
-   "summary": "A cell for a number: only digits can be typed, and no more digits than the field requires. In the body size, 44px high. The percent, years and months boxes are squares.",
-   "variables": [
-    "VAR001",
-    "VAR002",
-    "VAR003",
-    "VAR004",
-    "VAR006",
-    "VAR015"
-   ],
-   "variants": [
-    {
-     "code": "NUM.WHL.001.001",
-     "name": "Whole number",
-     "description": "Whole numbers only.",
-     "edits": "No decimals.",
-     "values": {}
-    },
-    {
-     "code": "NUM.DEC.001.002",
-     "name": "Decimal",
-     "description": "A number with decimals.",
-     "edits": "Decimals allowed.",
-     "values": {}
-    },
-    {
-     "code": "NUM.PCT.001.003",
-     "name": "Percent",
-     "description": "A number from 0 to 100 with a percent sign.",
-     "edits": "A square box, 44 by 44px, with a percent sign beside it.",
-     "values": {},
-     "look": {
-      "height": 44,
-      "width": 44,
-      "fontSize": 18,
-      "fontWeight": "400",
-      "corners": "6px",
-      "paddingLeft": 4,
-      "paddingTop": 8,
-      "border": 1,
-      "scale": "body 18",
-      "found": 12
-     }
-    },
-    {
-     "code": "NUM.YRS.001.004",
-     "name": "Years",
-     "description": "A number of years.",
-     "edits": "A square box, 44 by 44px, with the word years beside it.",
-     "values": {},
-     "look": {
-      "height": 44,
-      "width": 44,
-      "fontSize": 18,
-      "fontWeight": "400",
-      "corners": "6px",
-      "paddingLeft": 4,
-      "paddingTop": 8,
-      "border": 1,
-      "scale": "body 18",
-      "found": 8
-     }
-    },
-    {
-     "code": "NUM.MON.001.005",
-     "name": "Months",
-     "description": "A number of months (Target operating reserve: 3 months).",
-     "edits": "A square box, 44 by 44px, with the word months beside it.",
-     "values": {},
-     "look": {
-      "height": 44,
-      "width": 44,
-      "fontSize": 18,
-      "fontWeight": "400",
-      "corners": "6px",
-      "paddingLeft": 4,
-      "paddingTop": 8,
-      "border": 1,
-      "scale": "body 18",
-      "found": 1,
-      "places": 1
-     }
-    }
-   ],
-   "requires": [],
-   "catalogue": [
-    "CO07"
-   ],
-   "look": {
-    "height": 44,
-    "fontSize": 18,
-    "fontWeight": "400",
-    "corners": "6px",
-    "paddingLeft": 10,
-    "paddingTop": 8,
-    "border": 1,
-    "scale": "body 18",
-    "found": 166,
-    "places": 2
-   },
-   "lookNotes": [
-    "percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45).",
-    "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px.",
-    "years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).",
-    "months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner).",
-    "digits: by the owner's description (owner, 2026-10-15) a number cell accepts only numbers, and no more digits than the field requires."
-   ],
-   "group": "HOLD.CEL"
   },
   {
    "code": "DAT.001",
@@ -1757,56 +1767,58 @@ export const library: Library = {
    ],
    "variants": [
     {
-     "code": "LNK.TIL.001.001",
-     "name": "Tile link",
-     "description": "A link inside a master tile that opens one of the things the tile lists.",
-     "edits": "Text inside a tile; opens a view or a card.",
-     "values": {
-      "VAR012": "prefilled"
-     }
-    },
-    {
-     "code": "LNK.CRD.001.002",
-     "name": "Card name link",
-     "description": "The name of a card that is a link to the card that generates it (a child's name links to its parent card): underlined, bolder under the pointer and the focus.",
-     "edits": "Underlined; generated; opens the parent card.",
-     "values": {
-      "VAR012": "generated"
-     }
-    },
-    {
-     "code": "LNK.SYM.001.003",
-     "name": "Link symbol",
-     "description": "The small symbol beside a dropdown choice that shows the choice is a link to another card.",
-     "edits": "A symbol, no words.",
-     "values": {
-      "VAR012": "generated"
-     }
-    },
-    {
-     "code": "LNK.PAG.001.004",
-     "name": "Page link",
-     "description": "A link to a page in the list of pages of an introduction (Definition and Ethics, Organization): blue, underlined, 18px.",
-     "edits": "Blue, underlined; one per page in a list.",
+     "code": "LNK.UND.001.001",
+     "name": "Underlined text link",
+     "description": "A text that opens something, underlined, in the muted text colour, 18px (the links inside a master tile; a card's name that links to the card that generates it, bolder under the pointer and the focus).",
+     "edits": "Underlined, muted colour.",
      "values": {
       "VAR012": "prefilled"
      },
      "look": {
       "height": null,
-      "fontSize": 18,
       "fontWeight": "400",
       "corners": "0px",
       "paddingLeft": 0,
       "paddingTop": 0,
       "border": 0,
+      "fontSize": 18,
+      "scale": "body 18",
+      "found": 12
+     }
+    },
+    {
+     "code": "LNK.BLU.001.002",
+     "name": "Blue text link",
+     "description": "A text that opens something, underlined, in blue, 18px (the page links of an introduction).",
+     "edits": "Underlined, blue.",
+     "values": {
+      "VAR012": "prefilled"
+     },
+     "look": {
+      "height": null,
+      "fontWeight": "400",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "fontSize": 18,
       "scale": "body 18",
       "found": 9
+     }
+    },
+    {
+     "code": "LNK.SYM.001.003",
+     "name": "Symbol link",
+     "description": "A symbol with no words that shows a choice is a link to another card (beside a dropdown choice).",
+     "edits": "A symbol, no words.",
+     "values": {
+      "VAR012": "generated"
      }
     }
    ],
    "requires": [],
    "lookNotes": [
-    "the tile link (TIL.004) is a variant of the link (owner, 2026-10-15): labels, links and titles are read, not filled in."
+    "variants and uses (owner, 2026-10-15): a place where a link is used is not a variant. The variants differ in style and function (underlined text, blue text, a symbol). The uses: the tile link (inside a master tile, opens a view or a card), the card name link (a child's name links to its parent card), the page link (the list of pages of an introduction), the link symbol (beside a dropdown choice)."
    ],
    "group": "READ.LNK"
   },
@@ -2204,7 +2216,7 @@ export const library: Library = {
     },
     {
      "asset": "LNK.001",
-     "variant": "LNK.TIL.001.001",
+     "variant": "LNK.UND.001.001",
      "role": "the links it lists"
     }
    ],
@@ -2758,8 +2770,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "NUM.001",
-     "variant": "NUM.DEC.001.002",
+     "asset": "TXT.001",
+     "variant": "TXT.DEC.001.005",
      "role": "number"
     }
    ],
@@ -2814,8 +2826,9 @@ export const library: Library = {
      "role": "tick"
     },
     {
-     "asset": "NUM.001",
-     "role": "number"
+     "asset": "TXT.001",
+     "role": "number",
+     "variant": "TXT.WHL.001.004"
     }
    ],
    "catalogue": [
@@ -2843,8 +2856,9 @@ export const library: Library = {
      "role": "tick"
     },
     {
-     "asset": "NUM.001",
-     "role": "number"
+     "asset": "TXT.001",
+     "role": "number",
+     "variant": "TXT.WHL.001.004"
     }
    ],
    "catalogue": [
@@ -2929,8 +2943,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "NUM.001",
-     "variant": "NUM.DEC.001.002",
+     "asset": "TXT.001",
+     "variant": "TXT.DEC.001.005",
      "role": "number"
     }
    ],
@@ -3017,8 +3031,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "NUM.001",
-     "variant": "NUM.YRS.001.004",
+     "asset": "TXT.001",
+     "variant": "TXT.YRS.001.007",
      "role": "number"
     }
    ],
@@ -3098,8 +3112,9 @@ export const library: Library = {
      "role": "tick"
     },
     {
-     "asset": "NUM.001",
-     "role": "number"
+     "asset": "TXT.001",
+     "role": "number",
+     "variant": "TXT.WHL.001.004"
     }
    ],
    "catalogue": [
@@ -3224,8 +3239,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "NUM.001",
-     "variant": "NUM.PCT.001.003",
+     "asset": "TXT.001",
+     "variant": "TXT.PCT.001.006",
      "role": "number"
     }
    ],
@@ -3276,8 +3291,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "NUM.001",
-     "variant": "NUM.WHL.001.001",
+     "asset": "TXT.001",
+     "variant": "TXT.WHL.001.004",
      "role": "number"
     }
    ],
@@ -3354,8 +3369,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "NUM.001",
-     "variant": "NUM.PCT.001.003",
+     "asset": "TXT.001",
+     "variant": "TXT.PCT.001.006",
      "role": "number"
     }
    ],
@@ -3406,8 +3421,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "NUM.001",
-     "variant": "NUM.WHL.001.001",
+     "asset": "TXT.001",
+     "variant": "TXT.WHL.001.004",
      "role": "number"
     }
    ],
@@ -3436,8 +3451,9 @@ export const library: Library = {
      "role": "tick"
     },
     {
-     "asset": "NUM.001",
-     "role": "number"
+     "asset": "TXT.001",
+     "role": "number",
+     "variant": "TXT.WHL.001.004"
     }
    ],
    "catalogue": [
@@ -3465,8 +3481,9 @@ export const library: Library = {
      "role": "tick"
     },
     {
-     "asset": "NUM.001",
-     "role": "number"
+     "asset": "TXT.001",
+     "role": "number",
+     "variant": "TXT.WHL.001.004"
     }
    ],
    "catalogue": [
@@ -3516,8 +3533,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "NUM.001",
-     "variant": "NUM.WHL.001.001",
+     "asset": "TXT.001",
+     "variant": "TXT.WHL.001.004",
      "role": "number"
     }
    ],
@@ -3542,8 +3559,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "NUM.001",
-     "variant": "NUM.WHL.001.001",
+     "asset": "TXT.001",
+     "variant": "TXT.WHL.001.004",
      "role": "number"
     }
    ],
@@ -3568,8 +3585,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "NUM.001",
-     "variant": "NUM.WHL.001.001",
+     "asset": "TXT.001",
+     "variant": "TXT.WHL.001.004",
      "role": "number"
     }
    ],
@@ -3728,8 +3745,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "NUM.001",
-     "variant": "NUM.WHL.001.001",
+     "asset": "TXT.001",
+     "variant": "TXT.WHL.001.004",
      "role": "number"
     }
    ],
@@ -3759,8 +3776,8 @@ export const library: Library = {
      "role": "shown, not edited"
     },
     {
-     "asset": "NUM.001",
-     "variant": "NUM.WHL.001.001",
+     "asset": "TXT.001",
+     "variant": "TXT.WHL.001.004",
      "role": "number"
     }
    ],
@@ -3844,8 +3861,9 @@ export const library: Library = {
      "role": "tick"
     },
     {
-     "asset": "NUM.001",
-     "role": "number"
+     "asset": "TXT.001",
+     "role": "number",
+     "variant": "TXT.WHL.001.004"
     }
    ],
    "catalogue": [
@@ -3873,8 +3891,9 @@ export const library: Library = {
      "role": "tick"
     },
     {
-     "asset": "NUM.001",
-     "role": "number"
+     "asset": "TXT.001",
+     "role": "number",
+     "variant": "TXT.WHL.001.004"
     }
    ],
    "catalogue": [
@@ -3902,8 +3921,9 @@ export const library: Library = {
      "role": "tick"
     },
     {
-     "asset": "NUM.001",
-     "role": "number"
+     "asset": "TXT.001",
+     "role": "number",
+     "variant": "TXT.WHL.001.004"
     }
    ],
    "catalogue": [
@@ -3931,8 +3951,9 @@ export const library: Library = {
      "role": "tick"
     },
     {
-     "asset": "NUM.001",
-     "role": "number"
+     "asset": "TXT.001",
+     "role": "number",
+     "variant": "TXT.WHL.001.004"
     }
    ],
    "catalogue": [
@@ -3960,8 +3981,8 @@ export const library: Library = {
      "role": "one tick per entry"
     },
     {
-     "asset": "NUM.001",
-     "variant": "NUM.PCT.001.003",
+     "asset": "TXT.001",
+     "variant": "TXT.PCT.001.006",
      "role": "the share of each ticked entry"
     }
    ],
@@ -3986,8 +4007,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "NUM.001",
-     "variant": "NUM.PCT.001.003",
+     "asset": "TXT.001",
+     "variant": "TXT.PCT.001.006",
      "role": "number"
     }
    ],
@@ -4012,8 +4033,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "NUM.001",
-     "variant": "NUM.YRS.001.004",
+     "asset": "TXT.001",
+     "variant": "TXT.YRS.001.007",
      "role": "number"
     }
    ],
@@ -4042,8 +4063,9 @@ export const library: Library = {
      "role": "tick"
     },
     {
-     "asset": "NUM.001",
-     "role": "number"
+     "asset": "TXT.001",
+     "role": "number",
+     "variant": "TXT.WHL.001.004"
     }
    ],
    "catalogue": [
@@ -4071,8 +4093,9 @@ export const library: Library = {
      "role": "tick"
     },
     {
-     "asset": "NUM.001",
-     "role": "number"
+     "asset": "TXT.001",
+     "role": "number",
+     "variant": "TXT.WHL.001.004"
     }
    ],
    "catalogue": [
@@ -4100,8 +4123,9 @@ export const library: Library = {
      "role": "tick"
     },
     {
-     "asset": "NUM.001",
-     "role": "number"
+     "asset": "TXT.001",
+     "role": "number",
+     "variant": "TXT.WHL.001.004"
     }
    ],
    "catalogue": [
@@ -4129,8 +4153,9 @@ export const library: Library = {
      "role": "tick"
     },
     {
-     "asset": "NUM.001",
-     "role": "number"
+     "asset": "TXT.001",
+     "role": "number",
+     "variant": "TXT.WHL.001.004"
     }
    ],
    "catalogue": [
@@ -4183,8 +4208,9 @@ export const library: Library = {
      "role": "tick"
     },
     {
-     "asset": "NUM.001",
-     "role": "number"
+     "asset": "TXT.001",
+     "role": "number",
+     "variant": "TXT.WHL.001.004"
     }
    ],
    "catalogue": [
@@ -4213,8 +4239,8 @@ export const library: Library = {
      "role": "date"
     },
     {
-     "asset": "NUM.001",
-     "variant": "NUM.WHL.001.001",
+     "asset": "TXT.001",
+     "variant": "TXT.WHL.001.004",
      "role": "number"
     }
    ],
@@ -4317,8 +4343,8 @@ export const library: Library = {
      "role": "the label of the field"
     },
     {
-     "asset": "NUM.001",
-     "variant": "NUM.WHL.001.001",
+     "asset": "TXT.001",
+     "variant": "TXT.WHL.001.004",
      "role": "number"
     }
    ],

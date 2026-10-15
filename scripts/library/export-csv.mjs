@@ -1,6 +1,6 @@
 /**
- * Writes two files that open in Excel, one row per thing, with the variants collapsed into one cell so that
- * nothing needs scrolling down (UTF-8 with a byte order mark, comma separated, every cell quoted):
+ * Writes files that open in Excel: one row per asset and, directly under it, one row per variant (the Excel file
+ * folds the variants under their asset with the little minus at the left) (UTF-8 with a byte order mark, comma separated, every cell quoted):
  *
  *   catalogue/exports/components.csv   one row per component (and frame): family, group, code, name, what it is,
  *                                      its default size, text, shape and spacing, where it is found, its variables,
@@ -13,6 +13,8 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { build } from "../catalogue/build.mjs";
 import { library } from "../../src/library/data/library.ts";
+import { sizeOf, variantSizeOf } from "./specs.mjs";
+import { writeXlsx } from "./xlsx.mjs";
 
 const check = process.argv.includes("--check");
 mkdirSync("catalogue/exports", { recursive: true });
@@ -43,11 +45,22 @@ const where = code => {
     return rows.map(r => r.system.replace(" System", "") + ", " + r.page + " " + r.n).join("; ");
 };
 
-const rows = [["Family", "Group", "Code", "Name", "What it is", "Height", "Width", "Text size", "Weight", "Corners", "Border", "Padding left / top", "Found (instances)", "Places in the app", "Where found (top pages)", "Variables", "Variants", "Variants collapsed", "Built from", "Notes"]];
+const short = t => { const s = String(t ?? "").split(". ")[0]; return s.length > 140 ? s.slice(0, 137) + "..." : s; };
+const head = ["Family / Group", "Code", "Name", "Height", "Width", "Text size", "Corners", "What it is", "Found (instances)", "Places in the app", "Where found (top pages)"];
+const rows = [head];
+const sheet = [];
 for (const a of library.assets.filter(x => x.category === "component" || x.group)) {
     const home = groupOf.get(a.group);
-    rows.push([home?.family.name ?? "", home?.group.name ?? "", a.code, a.name, a.summary, ...lookCells(a.look), where(a.code), a.variables.map(c => variableName.get(c)).join(", "), a.variants.length, a.variants.map(variantText).join(" | "),
-        [...a.requires, ...a.variants.flatMap(v => v.requires ?? [])].map(r => (r.variant ?? r.asset) + " (" + r.role + ")").filter((x, i, l) => l.indexOf(x) === i).join("; "), (a.lookNotes ?? []).join(" | ")]);
+    const s = sizeOf(a);
+    const cells = [(home?.family.name ?? "") + " / " + (home?.group.name ?? ""), a.code, a.name, s.height, s.width, s.text, s.corners, short(a.summary), a.look?.found ?? "", a.look?.places ?? "", where(a.code)];
+    rows.push(cells);
+    sheet.push({ cells, bold: true });
+    for (const v of a.variants) {
+        const vs = variantSizeOf(a, v);
+        const vc = ["", v.code, "   " + v.name, vs.height, vs.width, vs.text, vs.corners, short(v.description), v.look?.found ?? "", "", ""];
+        rows.push(vc);
+        sheet.push({ cells: vc, level: 1 });
+    }
 }
 put("catalogue/exports/components.csv", csv(rows));
 
@@ -79,5 +92,10 @@ for (const r of fieldRows) {
     drop.push([label, r.function, r.n, r.kinds, SOURCE[label] ?? "not classified", DETAIL[label] ?? "", opts.slice(0, 12).join("; "), (r.what ?? "").slice(0, 300)]);
 }
 put("catalogue/exports/dropdowns.csv", csv(drop));
+if (!check) {
+    mkdirSync("exports", { recursive: true });
+    writeXlsx("exports/The-components.xlsx", { name: "Components", header: head, rows: sheet, widths: [28, 20, 26, 22, 26, 16, 10, 60, 12, 12, 50] });
+    writeXlsx("exports/The-dropdowns.xlsx", { name: "Dropdowns", header: drop[0], rows: drop.slice(1).map(cells => ({ cells })), widths: [24, 24, 8, 12, 24, 60, 60, 60] });
+}
 if (check) { if (stale) { console.error("run npm run library:csv"); process.exit(1); } console.log("the CSV files are up to date"); }
 else console.log("wrote catalogue/exports/components.csv (" + (rows.length - 1) + " components) and dropdowns.csv (" + (drop.length - 1) + " dropdown cells)");
