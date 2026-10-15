@@ -60,6 +60,21 @@ if (command === "summary") {
     show("Assets in the library without sizes table or anatomy", all("select name, has_sizes, has_anatomy from assets where has_sizes = 0 or has_anatomy = 0"));
     show("Variants of Part F that no scan reached (title words not in a scanned path)", all(`select v.title from variants v where not exists
         (select 1 from observations o where o.kind = 'placement' and o.path like '%' || v.grp || '%') order by v.title`));
+} else if (command === "tour") {
+    // In the order the scan opened them: every view and card, how it opened ("/" in the path: a link was pressed,
+    // ">" a tile), what navigation shows in it, and whether its head holds a name cell.
+    const system = rest.join(" ");
+    show("Tour of " + (system || "all systems"), all(`select o.system, o.page, o.path,
+        case when p.path is not null then 'card' else 'dialog view' end as opens,
+        case when o.path like '%/%' then 'link' else 'tile' end as pressed,
+        group_concat(distinct case when n.type in ('back') then 'Back' when n.type = 'carousel arrow' then 'arrows' when n.type = 'carousel rail' then 'carousel rail' end) as nav,
+        case when exists (select 1 from observations c where c.system = o.system and c.page = o.page and c.path = o.path and c.cls like '%card-name-input%') then 'name cell'
+             when exists (select 1 from observations c where c.system = o.system and c.page = o.page and c.path = o.path and c.cls like '%channel-resource-name%') then 'name box'
+             when p.path is not null then 'no name cell' else '' end as head
+        from (select system, page, path, min(rowid) as r from observations where path <> '' ${system ? "and system like ?" : ""} group by system, page, path) o
+        left join (select distinct system, page, path from observations where kind = 'placement') p on p.system = o.system and p.page = o.page and p.path = o.path
+        left join observations n on n.system = o.system and n.page = o.page and n.path = o.path and n.kind = 'nav'
+        group by o.system, o.page, o.path order by o.r`, ...(system ? ["%" + system + "%"] : [])));
 } else if (command === "sql") {
     show("Result", all(rest.join(" ")));
 } else {
