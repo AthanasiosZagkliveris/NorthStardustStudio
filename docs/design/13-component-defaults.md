@@ -77,7 +77,7 @@ Separated by purpose; each has its own default look.
 ### BTN.004 wide add button
 
 - found 15 times: Customer Engagement 7, Financial Foundation 3, Foundation 1, Identity (Founders and Registrations) 4; 39px high, type 18, padding 14/8, border 1. They are not a plus box; the one look measured.
-- height: by the owner's decision (owner, 2026-10-15) it looks like a cell, so it is 44px high like every cell (it measured 39px). The size and place of its plus, and whether it follows the text size, are not decided yet.
+- height and plus: by the owner's decision (owner, 2026-10-15) the button looks like a cell, so it is 44px high like every cell (it measured 39px); the plus inside it has the size and the place of the plus box, 32px, at the left, like the plus box.
 
 ### DRP.001 dropdown
 
@@ -138,7 +138,7 @@ The looks the app has today that the decisions change when the assets replace th
 - BTN.001 box button: plus corners: the corners of the x, 6px, by the owner's decision (owner, 2026-10-15); the plus measured 8px (107 found).
 - BTN.002 info button: merged by the owner's decision (owner, 2026-10-15): info height 22, type 18, corners 50%, padding 0/0, border 1; found 70 times (12.3% of the default's 567); largest difference 4.0px
 - BTN.002 info button: enlarged, by the owner's decision (owner, 2026-10-15): from 22px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (567 found at 22px).
-- BTN.004 wide add button: height: by the owner's decision (owner, 2026-10-15) it looks like a cell, so it is 44px high like every cell (it measured 39px). The size and place of its plus, and whether it follows the text size, are not decided yet.
+- BTN.004 wide add button: height and plus: by the owner's decision (owner, 2026-10-15) the button looks like a cell, so it is 44px high like every cell (it measured 39px); the plus inside it has the size and the place of the plus box, 32px, at the left, like the plus box.
 - DRP.001 dropdown: merged by the owner's decision (owner, 2026-10-15): dropdown height 45, type 18, corners 6px, padding 6/8, border 1; found 43 times (8.7% of the default's 493); largest difference 2.0px
 - DRP.001 dropdown: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45).
 - TIK.001 tick box: enlarged, by the owner's decision (owner, 2026-10-15): from 18px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (721 found at 18px).

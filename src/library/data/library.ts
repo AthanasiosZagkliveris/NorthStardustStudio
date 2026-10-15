@@ -337,7 +337,7 @@ export const library: Library = {
    "code": "BTN.004",
    "name": "wide add button",
    "category": "component",
-   "summary": "A wide text button that adds a row to a list (+ ADD CHANNEL, + ADD REGISTRATION NUMBER). Measured size not recorded yet.",
+   "summary": "A wide text button that adds a row to a list (+ ADD CHANNEL, + ADD REGISTRATION NUMBER): 44px high, with the plus box at its left and its words after it.",
    "variables": [
     "VAR001",
     "VAR002",
@@ -345,7 +345,13 @@ export const library: Library = {
     "VAR004"
    ],
    "variants": [],
-   "requires": [],
+   "requires": [
+    {
+     "asset": "BTN.001",
+     "variant": "BTN.ADD.001.002",
+     "role": "the plus: 32px, at the left of the button, like the plus box"
+    }
+   ],
    "catalogue": [],
    "look": {
     "height": 44,
@@ -360,7 +366,7 @@ export const library: Library = {
    },
    "lookNotes": [
     "found 15 times: Customer Engagement 7, Financial Foundation 3, Foundation 1, Identity (Founders and Registrations) 4; 39px high, type 18, padding 14/8, border 1. They are not a plus box; the one look measured.",
-    "height: by the owner's decision (owner, 2026-10-15) it looks like a cell, so it is 44px high like every cell (it measured 39px). The size and place of its plus, and whether it follows the text size, are not decided yet."
+    "height and plus: by the owner's decision (owner, 2026-10-15) the button looks like a cell, so it is 44px high like every cell (it measured 39px); the plus inside it has the size and the place of the plus box, 32px, at the left, like the plus box."
    ]
   },
   {

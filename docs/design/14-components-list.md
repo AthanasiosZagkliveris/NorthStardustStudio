@@ -114,7 +114,7 @@ The Back button of a dialog, a card stack or a rail: a small triangle and the wo
 
 ## BTN.004 Wide add button
 
-A wide text button that adds a row to a list (+ ADD CHANNEL, + ADD REGISTRATION NUMBER). Measured size not recorded yet.
+A wide text button that adds a row to a list (+ ADD CHANNEL, + ADD REGISTRATION NUMBER): 44px high, with the plus box at its left and its words after it.
 
 **Size**
 - Height: 44 px
@@ -137,6 +137,9 @@ A wide text button that adds a row to a list (+ ADD CHANNEL, + ADD REGISTRATION 
 
 **Reaction**
 - Not read yet.
+
+**Built from**
+- BTN.ADD.001.002: the plus: 32px, at the left of the button, like the plus box
 
 ## DRP.001 Dropdown
 
