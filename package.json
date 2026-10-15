@@ -26,7 +26,9 @@
     "check:layout": "node scripts/layout-check/run.mjs --quick",
     "check:layout:baseline": "node scripts/layout-check/run.mjs --quick --write-baseline",
     "check:layout:wide": "node scripts/layout-check/run.mjs --wide",
-    "check:layout:wide:baseline": "node scripts/layout-check/run.mjs --wide --write-baseline"
+    "check:layout:wide:baseline": "node scripts/layout-check/run.mjs --wide --write-baseline",
+    "tables": "node scripts/catalogue/structure.mjs --md docs/design/07-structure-tables.md --ts src/library/tables",
+    "tables:check": "node scripts/catalogue/structure.mjs --check --md docs/design/07-structure-tables.md --ts src/library/tables"
   },
   "dependencies": {
     "@fontsource/inter": "^5.3.0",
