@@ -4,49 +4,26 @@ export interface Look { type: string; font: number; weight: string; radius: stri
 export const looks: readonly Look[] = [
  {
   "type": "date cell",
-  "font": 16,
+  "font": 18,
   "weight": "400",
-  "radius": "0px",
-  "padL": 0,
+  "radius": "6px",
+  "padL": 10,
   "padT": 0,
-  "border": 0,
+  "border": 1,
   "height": 44,
   "count": 166,
   "classes": [
-   "date-cell x166"
+   "date-cell-input x166"
   ],
   "places": [
    "Business / Infrastructure / Inventory > Meetup and event costs",
    "Business / Infrastructure / Activities > Pre-Operational > 1. Standard client contract templates",
    "Business / Infrastructure / Activities > Pre-Operational > 2. Launch the website with booking"
   ],
-  "wMin": 198,
-  "wMax": 198,
+  "wMin": 160,
+  "wMax": 160,
   "hMin": 44,
   "hMax": 44
- },
- {
-  "type": "date cell",
-  "font": 18,
-  "weight": "400",
-  "radius": "6px",
-  "padL": 12,
-  "padT": 8,
-  "border": 1,
-  "height": 45,
-  "count": 9,
-  "classes": [
-   "month-picker-trigger x9"
-  ],
-  "places": [
-   "Business / Sustainability",
-   "Business / Financial Foundation",
-   "Strategy / Strategy System / Strategic Period"
-  ],
-  "wMin": 168,
-  "wMax": 220,
-  "hMin": 45,
-  "hMax": 45
  },
  {
   "type": "dropdown",
@@ -508,29 +485,6 @@ export const looks: readonly Look[] = [
   "wMax": 422,
   "hMin": 72,
   "hMax": 72
- },
- {
-  "type": "text box",
-  "font": 18,
-  "weight": "400",
-  "radius": "6px",
-  "padL": 10,
-  "padT": 0,
-  "border": 1,
-  "height": 44,
-  "count": 166,
-  "classes": [
-   "date-cell-input x166"
-  ],
-  "places": [
-   "Business / Infrastructure / Inventory > Meetup and event costs",
-   "Business / Infrastructure / Activities > Pre-Operational > 1. Standard client contract templates",
-   "Business / Infrastructure / Activities > Pre-Operational > 2. Launch the website with booking"
-  ],
-  "wMin": 160,
-  "wMax": 160,
-  "hMin": 44,
-  "hMax": 44
  },
  {
   "type": "text box",

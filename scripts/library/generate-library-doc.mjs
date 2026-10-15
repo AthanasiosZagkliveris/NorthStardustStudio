@@ -44,14 +44,17 @@ for (const category of ["component", "tile", "frame", "card", "field"]) {
     for (const a of mine) {
         say("### " + a.code + " " + a.name, "", a.summary, "");
         say("- **Variables:** " + (a.variables.join(", ") || "none"));
+        const lookText = l => (l.height !== null ? "height " + l.height + ", " : "") + "type " + l.fontSize + " (" + l.scale + "), corners " + l.corners + ", padding " + l.paddingLeft + "/" + l.paddingTop + ", border " + l.border + ", found " + l.found;
+        if (a.look) say("- **Default look:** " + lookText(a.look));
+        for (const n of a.lookNotes ?? []) say("  - " + n);
         if (a.contracts?.length) say("- **Measured contract:** " + a.contracts.join(", "));
         if (a.catalogue.length) say("- **Catalogue:** " + a.catalogue.join(", "));
         if (count.get(a.code)) say("- **Placements:** " + count.get(a.code));
         if (a.requires.length) say("- **Requires:** " + a.requires.map(r => (r.variant ?? r.asset) + " (" + r.role + ")").join("; "));
         say("");
         if (a.variants.length) {
-            say("| Variant | Name | Edits in the main asset | Own parts |", "|---|---|---|---|");
-            for (const v of a.variants) say("| " + v.code + " | " + cell(v.name) + " | " + cell(v.edits) + " | " + (v.requires ?? []).map(r => r.asset).join(", ") + " |");
+            say("| Variant | Name | Edits in the main asset | Own parts | Default look |", "|---|---|---|---|---|");
+            for (const v of a.variants) say("| " + v.code + " | " + cell(v.name) + " | " + cell(v.edits) + " | " + (v.requires ?? []).map(r => r.asset).join(", ") + " | " + (v.look ? lookText(v.look) : "") + " |");
             say("");
         }
     }

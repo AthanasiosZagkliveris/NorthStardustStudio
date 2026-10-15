@@ -27,7 +27,7 @@ Variables of this app, by kind (the first set, to be confirmed by the owner): ki
 
 **What is one asset and what is a variant.** The x (Delete) and the "+" (Add) are the same box button with a different function and symbol: one asset, BTN.001, with the variants BTN.DLT.001.001 and BTN.ADD.001.002. The "i" in a circle is **not** the same asset: it has a different function, shape and purpose, so it is another asset (for example BTN.002). The x box button and the circle "i" share their hover reaction, and nothing else: a shared reaction does not connect assets (the reaction is a variable of each).
 
-**Letters of the kinds (proposal; the owner decides):** BTN button, DRP dropdown, TIK tick box, TXT text input (box and area), NUM number box, DAT date cell, LBL label, ARW arrow, RAL rail, BUL bullet, FLD field, TIL tile, CRD card, FRM frame (chapter, page, dialog view). A new kind of asset gets a new three-letter code, written in the library first.
+**Letters of the kinds (approved by the owner; LST added 2026-10-15 for the lists, to be confirmed):** BTN button, LST list, DRP dropdown, TIK tick box, TXT text input (box and area), NUM number box, DAT date cell, LBL label, ARW arrow, RAL rail, BUL bullet, FLD field, TIL tile, CRD card, FRM frame (chapter, page, dialog view). A new kind of asset gets a new three-letter code, written in the library first.
 
 Every variable has an id, a name and a description (VAR followed by a three-digit number until the owner decides otherwise). The ids in document 07 (CO, F, K...) are working ids of the catalogue; the library assigns the codes above.
 

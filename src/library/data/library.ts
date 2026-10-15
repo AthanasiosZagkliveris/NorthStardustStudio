@@ -1,5 +1,6 @@
 // The assets library, seeded once by scripts/library/seed-library.mjs from the catalogue (docs/design/07-structure-tables.md).
 // From now on the library is the source: it is changed by the procedure of docs/design/08-library-system.md (check, library, library log, inventory, placement, app log).
+
 import type { Library } from "../model/types.ts";
 
 export const library: Library = {
@@ -202,14 +203,36 @@ export const library: Library = {
      "name": "Delete",
      "description": "The x: removes the card or the field it stands in.",
      "edits": "The symbol is an x and the colour is the red of the card tint.",
-     "values": {}
+     "values": {},
+     "look": {
+      "height": 32,
+      "fontSize": 0,
+      "fontWeight": "400",
+      "corners": "6px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 2,
+      "scale": "symbol, no text",
+      "found": 237
+     }
     },
     {
      "code": "BTN.ADD.001.002",
      "name": "Add",
      "description": "The plus: adds a card, a row or an entry.",
      "edits": "The symbol is a plus and the colour is the card tint.",
-     "values": {}
+     "values": {},
+     "look": {
+      "height": 32,
+      "fontSize": 0,
+      "fontWeight": "400",
+      "corners": "8px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 2,
+      "scale": "symbol, no text",
+      "found": 107
+     }
     }
    ],
    "requires": [],
@@ -220,6 +243,25 @@ export const library: Library = {
    "contracts": [
     "Remove x",
     "Plus box"
+   ],
+   "look": {
+    "height": 32,
+    "fontSize": 0,
+    "fontWeight": "400",
+    "corners": "6px",
+    "paddingLeft": 0,
+    "paddingTop": 0,
+    "border": 2,
+    "scale": "symbol, no text",
+    "found": 237
+   },
+   "lookNotes": [
+    "kept, the owner decides: x height 32, type 18, corners 6px, padding 0/0, border 2; found 20 times (8.4% of the default's 237); largest difference 18.0px",
+    "merged into the default: x height 32, type 0, corners 6px, padding 0/0, border 1; found 4 times (1.7% of the default's 237); largest difference 1.0px",
+    "plus: chosen to match the x (the same 32px size): height 32, type 0, corners 8px, padding 0/0, border 2; found 107 times; the plus is the one that matches the x in size, its corners are 8px against the x's 6px",
+    "plus, kept or merged: height 36, type 0, corners 8px, padding 0/0, border 2; found 55 times (51.4% of the chosen plus)",
+    "plus, kept or merged: height 39, type 18, corners 6px, padding 14/8, border 1; found 15 times (14.0% of the chosen plus)",
+    "plus, kept or merged: height 39.2, type 0, corners 8px, padding 0/0, border 2; found 1 times (0.9% of the chosen plus)"
    ]
   },
   {
@@ -240,6 +282,20 @@ export const library: Library = {
    ],
    "contracts": [
     "Info note"
+   ],
+   "look": {
+    "height": 22,
+    "fontSize": 14,
+    "fontWeight": "700",
+    "corners": "50%",
+    "paddingLeft": 0,
+    "paddingTop": 0,
+    "border": 1,
+    "scale": "small 14",
+    "found": 567
+   },
+   "lookNotes": [
+    "kept, the owner decides: info height 22, type 18, corners 50%, padding 0/0, border 1; found 70 times (12.3% of the default's 567); largest difference 4.0px"
    ]
   },
   {
@@ -311,6 +367,20 @@ export const library: Library = {
    ],
    "contracts": [
     "Dropdown"
+   ],
+   "look": {
+    "height": 45,
+    "fontSize": 18,
+    "fontWeight": "400",
+    "corners": "6px",
+    "paddingLeft": 8,
+    "paddingTop": 8,
+    "border": 1,
+    "scale": "body 18",
+    "found": 493
+   },
+   "lookNotes": [
+    "kept, the owner decides: dropdown height 45, type 18, corners 6px, padding 6/8, border 1; found 43 times (8.7% of the default's 493); largest difference 2.0px"
    ]
   },
   {
@@ -328,13 +398,27 @@ export const library: Library = {
    "requires": [],
    "catalogue": [
     "CO11"
+   ],
+   "look": {
+    "height": 18,
+    "fontSize": 18,
+    "fontWeight": "400",
+    "corners": "0px",
+    "paddingLeft": 0,
+    "paddingTop": 0,
+    "border": 0,
+    "scale": "body 18",
+    "found": 721
+   },
+   "lookNotes": [
+    "merged into the default: tick box height 18, type 16, corners 0px, padding 0/0, border 0; found 5 times (0.7% of the default's 721); largest difference 2.0px"
    ]
   },
   {
    "code": "TXT.001",
    "name": "text input",
    "category": "component",
-   "summary": "A cell the person types text in: a cell with an inset edge and 6px corners.",
+   "summary": "A cell the person types text in: one line (text box), free text (a note), one line of a numbered list (list line), or the name of a card (name cell). Each has its own look; a read-only text is shown, not edited.",
    "variables": [
     "VAR001",
     "VAR002",
@@ -348,21 +432,54 @@ export const library: Library = {
      "name": "Text box",
      "description": "One line of text, 44px high.",
      "edits": "A single line.",
-     "values": {}
+     "values": {},
+     "look": {
+      "height": 45,
+      "fontSize": 18,
+      "fontWeight": "400",
+      "corners": "6px",
+      "paddingLeft": 10,
+      "paddingTop": 8,
+      "border": 1,
+      "scale": "body 18",
+      "found": 24
+     }
     },
     {
      "code": "TXT.ARE.001.002",
-     "name": "Text area",
-     "description": "Text that grows with its words and wraps.",
-     "edits": "Several lines; it grows to fit.",
-     "values": {}
+     "name": "Free text",
+     "description": "A note: several lines of free words that grow with what is written (Description, Offerings, Strengths).",
+     "edits": "Several lines; it grows to fit; Enter adds a line inside it.",
+     "values": {},
+     "look": {
+      "height": null,
+      "fontSize": 18,
+      "fontWeight": "400",
+      "corners": "6px",
+      "paddingLeft": 10,
+      "paddingTop": 8,
+      "border": 1,
+      "scale": "body 18",
+      "found": 282
+     }
     },
     {
      "code": "TXT.NAM.001.003",
      "name": "Name cell",
      "description": "The name of a card in its head, with the order number inside the cell.",
      "edits": "A text area with the order number inside the cell at its left.",
-     "values": {}
+     "values": {},
+     "look": {
+      "height": null,
+      "fontSize": 18,
+      "fontWeight": "400",
+      "corners": "6px",
+      "paddingLeft": 38,
+      "paddingTop": 8,
+      "border": 1,
+      "scale": "body 18",
+      "found": 135
+     }
     },
     {
      "code": "TXT.RDO.001.004",
@@ -370,12 +487,92 @@ export const library: Library = {
      "description": "Text the person cannot edit (a number or a name the app fills in).",
      "edits": "No cell edge; the text is plain.",
      "values": {}
+    },
+    {
+     "code": "TXT.LST.001.005",
+     "name": "List line",
+     "description": "One entry of a numbered list: a sentence that wraps, with its number outside the cell. Enter opens the next line.",
+     "edits": "One sentence per line; Enter opens the next line; the lines are numbered and can be moved.",
+     "values": {},
+     "look": {
+      "height": null,
+      "fontSize": 18,
+      "fontWeight": "400",
+      "corners": "8px",
+      "paddingLeft": 12,
+      "paddingTop": 8,
+      "border": 0,
+      "scale": "body 18",
+      "found": 129
+     }
     }
    ],
    "requires": [],
    "catalogue": [
     "CO10",
     "CO09"
+   ],
+   "look": {
+    "height": 45,
+    "fontSize": 18,
+    "fontWeight": "400",
+    "corners": "6px",
+    "paddingLeft": 10,
+    "paddingTop": 8,
+    "border": 1,
+    "scale": "body 18",
+    "found": 24
+   },
+   "lookNotes": [
+    "kept, the owner decides: text box height 44, type 18, corners 0px, padding 10/8, border 0; found 3 times (12.5% of the default's 24); largest difference 6.0px",
+    "kept, the owner decides: text box height 35, type 28, corners 0px, padding 0/0, border 0; found 1 times (4.2% of the default's 24); largest difference 10.0px",
+    "kept, the owner decides: text box height 45, type 18, corners 6px, padding 38/8, border 1; found 1 times (4.2% of the default's 24); largest difference 28.0px",
+    "free text: kept, the owner decides: free text type 18, corners 0px, padding 10/8, border 0; found 3 times (1.1% of the default's 282); largest difference 6.0px",
+    "name cell: kept, the owner decides: name cell type 18, corners 6px, padding 12/8, border 1; found 2 times (1.5% of the default's 135); largest difference 26.0px"
+   ]
+  },
+  {
+   "code": "LST.001",
+   "name": "numbered list",
+   "category": "component",
+   "summary": "A list of entries the person writes, one sentence each, numbered, in order, that can be moved and removed (Values, Principles, SWOT points, Initiatives, Responsibilities). Enter opens the next line.",
+   "variables": [
+    "VAR001",
+    "VAR002",
+    "VAR003",
+    "VAR004",
+    "VAR006"
+   ],
+   "catalogue": [],
+   "variants": [
+    {
+     "code": "LST.EDT.001.001",
+     "name": "Editable list",
+     "description": "The list the person writes.",
+     "edits": "Lines are list lines in cells.",
+     "values": {}
+    },
+    {
+     "code": "LST.NUM.001.002",
+     "name": "Read-only numbered list",
+     "description": "A numbered list that is shown (a founder's roles recalled from the profile).",
+     "edits": "No cells; the number and the text.",
+     "values": {}
+    },
+    {
+     "code": "LST.BUL.001.003",
+     "name": "Read-only bullet list",
+     "description": "A bulleted list that is shown (the list of what a tile includes).",
+     "edits": "Bullets instead of numbers; 14px.",
+     "values": {}
+    }
+   ],
+   "requires": [
+    {
+     "asset": "TXT.001",
+     "variant": "TXT.LST.001.005",
+     "role": "one list line per entry"
+    }
    ]
   },
   {
@@ -423,6 +620,20 @@ export const library: Library = {
    "requires": [],
    "catalogue": [
     "CO07"
+   ],
+   "look": {
+    "height": 45,
+    "fontSize": 18,
+    "fontWeight": "400",
+    "corners": "6px",
+    "paddingLeft": 10,
+    "paddingTop": 8,
+    "border": 1,
+    "scale": "body 18",
+    "found": 166
+   },
+   "lookNotes": [
+    "kept, the owner decides: number box height 45, type 18, corners 6px, padding 4/8, border 1; found 20 times (12.0% of the default's 166); largest difference 6.0px"
    ]
   },
   {
@@ -456,7 +667,19 @@ export const library: Library = {
    "requires": [],
    "catalogue": [
     "CO01"
-   ]
+   ],
+   "look": {
+    "height": 44,
+    "fontSize": 18,
+    "fontWeight": "400",
+    "corners": "6px",
+    "paddingLeft": 10,
+    "paddingTop": 0,
+    "border": 1,
+    "scale": "body 18",
+    "found": 166
+   },
+   "lookNotes": []
   },
   {
    "code": "LBL.001",
@@ -495,7 +718,19 @@ export const library: Library = {
    "requires": [],
    "catalogue": [
     "CO05"
-   ]
+   ],
+   "look": {
+    "height": null,
+    "fontSize": 18,
+    "fontWeight": "400",
+    "corners": "0px",
+    "paddingLeft": 0,
+    "paddingTop": 0,
+    "border": 0,
+    "scale": "body 18",
+    "found": 1223
+   },
+   "lookNotes": []
   },
   {
    "code": "ARW.001",
@@ -550,7 +785,18 @@ export const library: Library = {
      "name": "Label arrow",
      "description": "A frameless arrow beside a label that opens a list under it.",
      "edits": "No frame; sits 6px from the label.",
-     "values": {}
+     "values": {},
+     "look": {
+      "height": 24,
+      "fontSize": 18,
+      "fontWeight": "400",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "body 18",
+      "found": 8
+     }
     }
    ],
    "requires": [],
@@ -561,6 +807,21 @@ export const library: Library = {
    "contracts": [
     "Fold arrow",
     "Label arrow"
+   ],
+   "look": {
+    "height": 36,
+    "fontSize": 0,
+    "fontWeight": "400",
+    "corners": "6px",
+    "paddingLeft": 0,
+    "paddingTop": 0,
+    "border": 1,
+    "scale": "symbol, no text",
+    "found": 11
+   },
+   "lookNotes": [
+    "kept, the owner decides: fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px",
+    "kept, the owner decides: label arrow height 28, type 28, corners 0px, padding 0/0, border 0; found 2 times (25.0% of the default's 8); largest difference 10.0px"
    ]
   },
   {

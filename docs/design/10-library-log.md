@@ -144,3 +144,13 @@ Every change to an asset of the library: added, edited, placed (and where), move
 | L0138 | 2026-10-15 | CRD.011 | added | Brand |  | the first record, from the catalogue |
 | L0139 | 2026-10-15 | CRD.012 | added | Foundation |  | the first record, from the catalogue |
 | L0140 | 2026-10-15 | CRD.013 | added | Channel |  | the first record, from the catalogue |
+| L0141 | 2026-10-15 | BTN.001 | edited | box button: look, lookNotes, variants |  | defaults from the most used looks, the text holders separated, the lists added (the owner's criteria of 2026-10-15) |
+| L0142 | 2026-10-15 | BTN.002 | edited | info button: look, lookNotes |  | defaults from the most used looks, the text holders separated, the lists added (the owner's criteria of 2026-10-15) |
+| L0143 | 2026-10-15 | DRP.001 | edited | dropdown: look, lookNotes |  | defaults from the most used looks, the text holders separated, the lists added (the owner's criteria of 2026-10-15) |
+| L0144 | 2026-10-15 | TIK.001 | edited | tick box: look, lookNotes |  | defaults from the most used looks, the text holders separated, the lists added (the owner's criteria of 2026-10-15) |
+| L0145 | 2026-10-15 | TXT.001 | edited | text input: look, lookNotes, summary, variants |  | defaults from the most used looks, the text holders separated, the lists added (the owner's criteria of 2026-10-15) |
+| L0146 | 2026-10-15 | LST.001 | added | numbered list |  | defaults from the most used looks, the text holders separated, the lists added (the owner's criteria of 2026-10-15) |
+| L0147 | 2026-10-15 | NUM.001 | edited | number box: look, lookNotes |  | defaults from the most used looks, the text holders separated, the lists added (the owner's criteria of 2026-10-15) |
+| L0148 | 2026-10-15 | DAT.001 | edited | date cell: look, lookNotes |  | defaults from the most used looks, the text holders separated, the lists added (the owner's criteria of 2026-10-15) |
+| L0149 | 2026-10-15 | LBL.001 | edited | label: look, lookNotes |  | defaults from the most used looks, the text holders separated, the lists added (the owner's criteria of 2026-10-15) |
+| L0150 | 2026-10-15 | ARW.002 | edited | fold arrow: look, lookNotes, variants |  | defaults from the most used looks, the text holders separated, the lists added (the owner's criteria of 2026-10-15) |

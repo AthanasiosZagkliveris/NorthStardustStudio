@@ -22,3 +22,4 @@ Every change of the tables, that is, of the structure of the app: a placement pl
 | A0016 | 2026-10-15 | placed | table FN |  |  | initial record: 28 rows from the catalogue | the first record, from the catalogue |
 | A0017 | 2026-10-15 | placed | table R |  |  | initial record: 29 rows from the catalogue | the first record, from the catalogue |
 | A0018 | 2026-10-15 | placed | all cards, chapters, pages |  |  | initial record: 1067 placements of library assets | the first record, from the catalogue |
+

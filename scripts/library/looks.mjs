@@ -16,7 +16,9 @@ const GROWS = new Set(["text area", "label"]);
 const types = db.prepare("select distinct type from observations where kind = 'control' order by type").all().map(r => r.type);
 const looks = [];
 for (const type of types) {
-    const rows = db.prepare("select cls, h, w, font, weight, radius, padL, padT, border, fill, system, page, path from observations where kind = 'control' and type = ?").all(type);
+    // A date cell is its input (class date-cell-input, counted as a text box by the scan) inside a wrapper: its look is the input's.
+    const rows = db.prepare("select cls, h, w, font, weight, radius, padL, padT, border, fill, system, page, path from observations where kind = 'control' and type = ?").all(type === 'date cell' ? 'text box' : type).filter(r => (type === 'date cell') === r.cls.includes('date-cell-input'));
+    if (type === 'date cell' && rows.length === 0) continue;
     const groups = new Map();
     for (const r of rows) {
         const key = [r.font, r.weight, r.radius, r.padL, r.padT, r.border, GROWS.has(type) ? "" : r.h].join("|");

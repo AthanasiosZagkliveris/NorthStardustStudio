@@ -17,6 +17,7 @@ export const KINDS = {
     DRP: { name: "dropdown", category: "component" },
     TIK: { name: "tick box", category: "component" },
     TXT: { name: "text input", category: "component" },
+    LST: { name: "list", category: "component" },
     NUM: { name: "number box", category: "component" },
     DAT: { name: "date cell", category: "component" },
     LBL: { name: "label", category: "component" },
@@ -30,6 +31,26 @@ export const KINDS = {
 } as const satisfies Record<string, { name: string; category: AssetCategory }>;
 
 export type KindLetters = keyof typeof KINDS;
+
+/**
+ * The look an asset has by default: the most used one that the card scan measured. The text
+ * hierarchy of the app is 14 (small), 18 (body), 24 (h3), 28 (h2) and 36 (h1); scale says where
+ * the type size stands against it.
+ */
+export interface Look {
+    /** null when the height follows the words. */
+    height: number | null;
+    fontSize: number;
+    fontWeight: string;
+    corners: string;
+    paddingLeft: number;
+    paddingTop: number;
+    border: number;
+    /** "body 18", "small 14", or "off the scale: 16". */
+    scale: string;
+    /** How many of this look the scan found. */
+    found: number;
+}
 
 /** One value a variable can take. */
 export interface VariableValue {
@@ -55,6 +76,8 @@ export interface Variant {
     edits: string;
     /** The value of each variable this variant fixes (variable code -> value name). */
     values: Readonly<Record<string, string>>;
+    /** The default look of this variant, where it differs from the asset's. */
+    look?: Look;
     /** The parts this variant has that differ from the main asset (a card kind's own fields, for example). */
     requires?: readonly Requirement[];
 }
@@ -76,6 +99,10 @@ export interface Asset {
     variables: readonly string[];
     variants: readonly Variant[];
     requires: readonly Requirement[];
+    /** The default look of the asset (the most used one measured). */
+    look?: Look;
+    /** The other looks measured: merged into the default (a few uses, within 2px) or kept (the owner decides). */
+    lookNotes?: readonly string[];
     /** The measured contracts of src/library/assets that describe this asset (by their names), if there are any. */
     contracts?: readonly string[];
     /** The ids of the catalogue it was made from (docs/design/07-structure-tables.md). */

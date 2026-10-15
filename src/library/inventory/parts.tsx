@@ -5,6 +5,9 @@ import DateCellInput from "../../components/interview/DateCellInput";
 import FoldArrow from "../../components/interview/FoldArrow";
 import InfoNote, { InfoText } from "../../components/interview/InfoNote";
 import LabelArrow from "../../components/interview/LabelArrow";
+import BulletListStatic from "../../components/interview/BulletListStatic";
+import NumberedListInput from "../../components/interview/NumberedListInput";
+import NumberedListStatic from "../../components/interview/NumberedListStatic";
 import OptionPicker from "../../components/interview/OptionPicker";
 import BulletRail from "../../components/interview/rails/BulletRail";
 import type { RailItem } from "../../components/interview/rails/railItems";
@@ -27,6 +30,11 @@ const SECTIONS: RailItem[] = [{ id: "one", label: "1. First" }, { id: "two", lab
 function Picker({ options, label }: { options: string[]; label: string }) {
     const [value, setValue] = useState(options[0]);
     return <OptionPicker label={label} options={options} value={value} onChange={setValue} />;
+}
+
+function EditableList() {
+    const [items, setItems] = useState(["Reusable templates", "A standard handover"]);
+    return <NumberedListInput label="Initiatives" items={items} onChange={setItems} />;
 }
 
 function Name() {
@@ -62,6 +70,11 @@ export const parts: Record<string, (text?: string) => ReactNode> = {
     "TXT.BOX.001.001": () => <Box><input className="interview-input" defaultValue="Text box" aria-label="Text box" /></Box>,
     "TXT.ARE.001.002": () => <Box><textarea className="interview-input" defaultValue="A text area that grows with its words." aria-label="Text area" rows={2} /></Box>,
     "TXT.NAM.001.003": () => <Box><Name /></Box>,
+    "TXT.LST.001.005": () => <Box><textarea className="numbered-list-input" defaultValue="One entry of a numbered list, a sentence that wraps." aria-label="List line" rows={2} /></Box>,
+    "LST.001": () => <Box><EditableList /></Box>,
+    "LST.EDT.001.001": () => <Box><EditableList /></Box>,
+    "LST.NUM.001.002": () => <Box><NumberedListStatic lines={[{ key: "a", text: "Founder and consultant" }, { key: "b", text: "Solutions architect" }]} /></Box>,
+    "LST.BUL.001.003": () => <Box><BulletListStatic label="Includes" lines={[{ key: "a", text: "Workspace" }, { key: "b", text: "Utilities" }]} /></Box>,
     "TXT.RDO.001.004": text => <Box><span className="field-value">{text ?? "Read-only text"}</span></Box>,
     "NUM.001": () => <Box><input className="interview-input" inputMode="decimal" defaultValue="12" aria-label="Number" /></Box>,
     "NUM.WHL.001.001": () => <Box><input className="interview-input" inputMode="numeric" defaultValue="12" aria-label="Whole number" /></Box>,
