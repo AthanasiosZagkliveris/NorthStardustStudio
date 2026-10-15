@@ -426,3 +426,15 @@ Used by no field or card yet.
 
 0 assets use it: .
 
+## CAL.001 calendar box
+
+0 assets use it: .
+
+### CAL.HND.001.001 Handle
+
+Used by no field or card yet.
+
+### CAL.PNL.001.002 Panel
+
+Used by no field or card yet.
+

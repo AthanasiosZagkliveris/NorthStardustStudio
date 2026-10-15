@@ -75,6 +75,8 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | FRM.001 frame | FRM.FLC.001.004 Floating card | words | 0 | symbol, no text | 8px | 12/12 | 1 | 186 | follows the words (a field, not a button) |
 | FRM.001 frame | FRM.NSC.001.005 Nested card | words | 0 | symbol, no text | 8px | 12/12 | 1 | 12 | follows the words (a field, not a button) |
 | FRM.001 frame | FRM.TAG.001.006 Tag | words | 0 | symbol, no text | 8px | 12/12 | 1 | 0 | follows the words (a field, not a button) |
+| FRM.001 frame | FRM.TIL.001.007 Tile | words | 0 | symbol, no text | 8px | 12/12 | 0 | 0 | follows the words (a field, not a button) |
+| FRM.001 frame | FRM.CRD.001.008 Card | words | 0 | symbol, no text | 8px | 12/12 | 1 | 0 | follows the words (a field, not a button) |
 
 ## Text holders
 
@@ -196,10 +198,15 @@ Separated by purpose; each has its own default look.
 ### BUL.001 bullet
 
 - the one bullet of every page tag (the owner, owner, 2026-10-15): there is one type of bullet.
+- the bullets are navigation controls (the owner, owner, 2026-10-15): they move between pages, sections, views and cards, like the page and carousel arrows.
 
 ### ICN.001 system icon
 
 - measured 36 by 36px (one per system).
+
+### CAL.001 calendar box
+
+- handles measured: 44 by 160px, 16px type; the calendar content is not recorded (the owner: record only, no library work until the single calendar is designed).
 
 ### TIL.002 open tile
 
@@ -208,6 +215,7 @@ Separated by purpose; each has its own default look.
 ### FRM.001 frame
 
 - one frame (the owner, owner, 2026-10-15): chapter, tile (master, nested), card (floating, nested) and tag are its variants; corners 8px (measured on the chapter, the tiles and the cards; the tag was not measured).
+- the frame also has a regular tile and a regular card, and the tag is the page tag (the owner, owner, 2026-10-15).
 
 ### CRD.003 Infrastructure Activity
 

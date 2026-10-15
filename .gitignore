@@ -45,3 +45,6 @@ Desktop.ini
 /docs/ai/*.pdf
 /docs/ai/*.csv
 /.playwright-mcp/
+
+# Downloadable versions of the library documents (npm run library:downloads)
+exports/

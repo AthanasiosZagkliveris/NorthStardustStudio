@@ -420,9 +420,18 @@ export const library: Library = {
      ]
     },
     {
-     "code": "CTRL.ARW",
-     "name": "Arrows",
-     "description": "The triangles that move or fold.",
+     "code": "CTRL.NAV",
+     "name": "Navigation controls",
+     "description": "What moves a person between pages, sections, views and cards: the bullets of the page tags and the arrows.",
+     "characteristics": [
+      "Shows where the person is and moves them on",
+      "The arrow grows under the pointer; the bullet changes colour or opacity, and the selected bullet is larger"
+     ]
+    },
+    {
+     "code": "CTRL.FLD",
+     "name": "Fold controls",
+     "description": "The triangles that fold and unfold a card, a list or a label.",
      "characteristics": [
       "A triangle; outline at rest, filled under the pointer"
      ]
@@ -438,14 +447,6 @@ export const library: Library = {
     "Takes the colour of the card or the reading mode"
    ],
    "groups": [
-    {
-     "code": "MARK.BUL",
-     "name": "Bullets",
-     "description": "The one bullet of every page tag.",
-     "characteristics": [
-      "12px; 17.4px when selected"
-     ]
-    },
     {
      "code": "MARK.ICN",
      "name": "Icons",
@@ -491,6 +492,14 @@ export const library: Library = {
      "description": "The page and the dialog view, the frames of the layout.",
      "characteristics": [
       "Take the width of the page"
+     ]
+    },
+    {
+     "code": "FRAME.PNL",
+     "name": "Side panels",
+     "description": "The panels at the side of the app that open over the page: the calendar box (with the Capabilities and Systems handles).",
+     "characteristics": [
+      "Opens from a handle at the side of the window"
      ]
     }
    ]
@@ -1991,7 +2000,7 @@ export const library: Library = {
    "contracts": [
     "Rails"
    ],
-   "group": "CTRL.ARW"
+   "group": "CTRL.NAV"
   },
   {
    "code": "ARW.002",
@@ -2070,7 +2079,7 @@ export const library: Library = {
     "merged by the owner's decision (owner, 2026-10-15): fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px",
     "label arrow and title arrow are variants (the owner's decision, owner, 2026-10-15): the same component, function and style; the size follows the text beside it (24px beside a field label, 28px beside a title)."
    ],
-   "group": "CTRL.ARW"
+   "group": "CTRL.FLD"
   },
   {
    "code": "BUL.001",
@@ -2093,9 +2102,10 @@ export const library: Library = {
     "Rails"
    ],
    "lookNotes": [
-    "the one bullet of every page tag (the owner, owner, 2026-10-15): there is one type of bullet."
+    "the one bullet of every page tag (the owner, owner, 2026-10-15): there is one type of bullet.",
+    "the bullets are navigation controls (the owner, owner, 2026-10-15): they move between pages, sections, views and cards, like the page and carousel arrows."
    ],
-   "group": "MARK.BUL"
+   "group": "CTRL.NAV"
   },
   {
    "code": "ICN.001",
@@ -2125,6 +2135,43 @@ export const library: Library = {
    },
    "lookNotes": [
     "measured 36 by 36px (one per system)."
+   ]
+  },
+  {
+   "code": "CAL.001",
+   "name": "calendar box",
+   "category": "component",
+   "group": "FRAME.PNL",
+   "summary": "The calendar of the side panel (the organisation calendar), opened from a handle at the left of the window. Recorded only: there will be one calendar, and the handles of Calendar, Capabilities and Systems are to be replaced later (the owner, owner, 2026-10-15).",
+   "variables": [
+    "VAR001",
+    "VAR003",
+    "VAR004"
+   ],
+   "catalogue": [
+    "CA01",
+    "CA02",
+    "CA03"
+   ],
+   "variants": [
+    {
+     "code": "CAL.HND.001.001",
+     "name": "Handle",
+     "description": "The handle that opens a section of the side panel (Calendar, Capabilities, Systems): a tab 44px wide and 160px high, with its word written sideways.",
+     "edits": "A tab at the left edge of the window.",
+     "values": {}
+    },
+    {
+     "code": "CAL.PNL.001.002",
+     "name": "Panel",
+     "description": "The panel that opens: the calendar of the organisation, the capabilities or the systems. Its content was not recorded.",
+     "edits": "The opened side panel; not measured.",
+     "values": {}
+    }
+   ],
+   "requires": [],
+   "lookNotes": [
+    "handles measured: 44 by 160px, 16px type; the calendar content is not recorded (the owner: record only, no library work until the single calendar is designed)."
    ]
   },
   {
@@ -2317,8 +2364,44 @@ export const library: Library = {
     {
      "code": "FRM.TAG.001.006",
      "name": "Tag",
-     "description": "The surface of a page tag (the tab behind a rail): bullets only, a 37px tab.",
-     "edits": "A tab at the side of a page or card. Not measured.",
+     "description": "The surface of the page tag (the tab behind the bullets of a page tag): bullets only, a 37px tab.",
+     "edits": "A tab at the side of a page or a card; it holds the page tag. Not measured.",
+     "values": {},
+     "look": {
+      "height": null,
+      "fontSize": 0,
+      "fontWeight": "400",
+      "corners": "8px",
+      "paddingLeft": 12,
+      "paddingTop": 12,
+      "border": 1,
+      "scale": "symbol, no text",
+      "found": 0
+     }
+    },
+    {
+     "code": "FRM.TIL.001.007",
+     "name": "Tile",
+     "description": "The regular tile: a rounded, coloured surface that carries a title and what it holds. The master tile and the nested tile are its variants by where they stand.",
+     "edits": "The regular tile surface; 8px corners.",
+     "values": {},
+     "look": {
+      "height": null,
+      "fontSize": 0,
+      "fontWeight": "400",
+      "corners": "8px",
+      "paddingLeft": 12,
+      "paddingTop": 12,
+      "border": 0,
+      "scale": "symbol, no text",
+      "found": 0
+     }
+    },
+    {
+     "code": "FRM.CRD.001.008",
+     "name": "Card",
+     "description": "The regular card: a rounded, coloured surface that carries fields and tools. The floating card and the nested card are its variants by where they stand.",
+     "edits": "The regular card surface; 8px corners.",
      "values": {},
      "look": {
       "height": null,
@@ -2342,7 +2425,8 @@ export const library: Library = {
    ],
    "group": "FRAME.SUR",
    "lookNotes": [
-    "one frame (the owner, owner, 2026-10-15): chapter, tile (master, nested), card (floating, nested) and tag are its variants; corners 8px (measured on the chapter, the tiles and the cards; the tag was not measured)."
+    "one frame (the owner, owner, 2026-10-15): chapter, tile (master, nested), card (floating, nested) and tag are its variants; corners 8px (measured on the chapter, the tiles and the cards; the tag was not measured).",
+    "the frame also has a regular tile and a regular card, and the tag is the page tag (the owner, owner, 2026-10-15)."
    ]
   },
   {

@@ -42,7 +42,8 @@
     "library:usage": "node scripts/library/fields-by-component.mjs",
     "library:usage:check": "node scripts/library/fields-by-component.mjs --check",
     "library:csv": "node scripts/library/export-csv.mjs",
-    "library:csv:check": "node scripts/library/export-csv.mjs --check"
+    "library:csv:check": "node scripts/library/export-csv.mjs --check",
+    "library:downloads": "node scripts/library/downloads.mjs"
   },
   "dependencies": {
     "@fontsource/inter": "^5.3.0",

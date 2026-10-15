@@ -22,7 +22,7 @@ describe("the assets library", () => {
         const groups = new Set(library.families?.flatMap(f => f.groups.map(g => g.code)));
         for (const asset of library.assets.filter(a => a.category === "component")) expect(groups.has(asset.group ?? ""), asset.code + " has a group").toBe(true);
         const frame = library.assets.find(a => a.code === "FRM.001");
-        expect(frame?.variants.map(v => v.name)).toEqual(["Chapter", "Master tile", "Nested tile", "Floating card", "Nested card", "Tag"]);
+        expect(frame?.variants.map(v => v.name)).toEqual(["Chapter", "Master tile", "Nested tile", "Floating card", "Nested card", "Tag", "Tile", "Card"]);
     });
 
     it("has every category, and no asset twice", () => {
