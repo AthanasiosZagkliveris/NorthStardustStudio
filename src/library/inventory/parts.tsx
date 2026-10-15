@@ -79,7 +79,7 @@ export const parts: Record<string, (text?: string) => ReactNode> = {
     "NUM.001": () => <Box><input className="interview-input" inputMode="decimal" defaultValue="12" aria-label="Number" /></Box>,
     "NUM.WHL.001.001": () => <Box><input className="interview-input" inputMode="numeric" defaultValue="12" aria-label="Whole number" /></Box>,
     "NUM.DEC.001.002": () => <Box><input className="interview-input" inputMode="decimal" defaultValue="12.5" aria-label="Decimal" /></Box>,
-    "NUM.PCT.001.003": () => <Box><input className="interview-input" inputMode="decimal" defaultValue="40" aria-label="Percent" /> %</Box>,
+    "NUM.PCT.001.003": () => <Box><input className="interview-input" inputMode="decimal" defaultValue="40" aria-label="Percent" style={{ width: 45, height: 45, paddingLeft: 4, paddingRight: 4, textAlign: "center" }} /> %</Box>,
     "NUM.YRS.001.004": () => <Box><input className="interview-input" inputMode="numeric" defaultValue="5" aria-label="Years" /> years</Box>,
     "DAT.001": () => <Box><Date /></Box>,
     "DAT.CAL.001.001": () => <Box><Date /></Box>,

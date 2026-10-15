@@ -44,7 +44,7 @@ for (const category of ["component", "tile", "frame", "card", "field"]) {
     for (const a of mine) {
         say("### " + a.code + " " + a.name, "", a.summary, "");
         say("- **Variables:** " + (a.variables.join(", ") || "none"));
-        const lookText = l => (l.height !== null ? "height " + l.height + ", " : "") + "type " + l.fontSize + " (" + l.scale + "), corners " + l.corners + ", padding " + l.paddingLeft + "/" + l.paddingTop + ", border " + l.border + ", found " + l.found;
+        const lookText = l => (l.height !== null ? "height " + l.height + (l.width ? ", width " + l.width : "") + ", " : "") + "type " + l.fontSize + " (" + l.scale + "), corners " + l.corners + ", padding " + l.paddingLeft + "/" + l.paddingTop + ", border " + l.border + ", found " + l.found;
         if (a.look) say("- **Default look:** " + lookText(a.look));
         for (const n of a.lookNotes ?? []) say("  - " + n);
         if (a.contracts?.length) say("- **Measured contract:** " + a.contracts.join(", "));

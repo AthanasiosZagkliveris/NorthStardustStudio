@@ -226,7 +226,7 @@ export const library: Library = {
       "height": 32,
       "fontSize": 0,
       "fontWeight": "400",
-      "corners": "8px",
+      "corners": "6px",
       "paddingLeft": 0,
       "paddingTop": 0,
       "border": 2,
@@ -256,12 +256,10 @@ export const library: Library = {
     "found": 237
    },
    "lookNotes": [
-    "kept, the owner decides: x height 32, type 18, corners 6px, padding 0/0, border 2; found 20 times (8.4% of the default's 237); largest difference 18.0px",
+    "merged by the owner's decision (owner, 2026-10-15): x height 32, type 18, corners 6px, padding 0/0, border 2; found 20 times (8.4% of the default's 237); largest difference 18.0px",
     "merged into the default: x height 32, type 0, corners 6px, padding 0/0, border 1; found 4 times (1.7% of the default's 237); largest difference 1.0px",
-    "plus: chosen to match the x (the same 32px size): height 32, type 0, corners 8px, padding 0/0, border 2; found 107 times; the plus is the one that matches the x in size, its corners are 8px against the x's 6px",
-    "plus, kept or merged: height 36, type 0, corners 8px, padding 0/0, border 2; found 55 times (51.4% of the chosen plus)",
-    "plus, kept or merged: height 39, type 18, corners 6px, padding 14/8, border 1; found 15 times (14.0% of the chosen plus)",
-    "plus, kept or merged: height 39.2, type 0, corners 8px, padding 0/0, border 2; found 1 times (0.9% of the chosen plus)"
+    "plus: one size, by the owner's decision (owner, 2026-10-15): 32px, the size of the x and of the plus in cards (107 found). The plus on a master tile (36px, 55 found: Customer Engagement 13, Infrastructure Resources 9, Infrastructure 5, Brand 3, Foundation 3 in the five largest places) takes this size.",
+    "plus corners: the corners of the x, 6px, by the owner's decision (owner, 2026-10-15); the plus measured 8px (107 found)."
    ]
   },
   {
@@ -295,7 +293,7 @@ export const library: Library = {
     "found": 567
    },
    "lookNotes": [
-    "kept, the owner decides: info height 22, type 18, corners 50%, padding 0/0, border 1; found 70 times (12.3% of the default's 567); largest difference 4.0px"
+    "merged by the owner's decision (owner, 2026-10-15): info height 22, type 18, corners 50%, padding 0/0, border 1; found 70 times (12.3% of the default's 567); largest difference 4.0px"
    ]
   },
   {
@@ -331,7 +329,21 @@ export const library: Library = {
    ],
    "variants": [],
    "requires": [],
-   "catalogue": []
+   "catalogue": [],
+   "look": {
+    "height": 39,
+    "fontSize": 18,
+    "fontWeight": "400",
+    "corners": "6px",
+    "paddingLeft": 14,
+    "paddingTop": 8,
+    "border": 1,
+    "scale": "body 18",
+    "found": 15
+   },
+   "lookNotes": [
+    "found 15 times: Customer Engagement 7, Financial Foundation 3, Foundation 1, Identity (Founders and Registrations) 4; 39px high, type 18, padding 14/8, border 1. They are not a plus box; the one look measured."
+   ]
   },
   {
    "code": "DRP.001",
@@ -380,7 +392,7 @@ export const library: Library = {
     "found": 493
    },
    "lookNotes": [
-    "kept, the owner decides: dropdown height 45, type 18, corners 6px, padding 6/8, border 1; found 43 times (8.7% of the default's 493); largest difference 2.0px"
+    "merged by the owner's decision (owner, 2026-10-15): dropdown height 45, type 18, corners 6px, padding 6/8, border 1; found 43 times (8.7% of the default's 493); largest difference 2.0px"
    ]
   },
   {
@@ -524,10 +536,10 @@ export const library: Library = {
     "found": 24
    },
    "lookNotes": [
-    "kept, the owner decides: text box height 44, type 18, corners 0px, padding 10/8, border 0; found 3 times (12.5% of the default's 24); largest difference 6.0px",
+    "text box with square corners and no border (the name of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard text box.",
     "kept, the owner decides: text box height 35, type 28, corners 0px, padding 0/0, border 0; found 1 times (4.2% of the default's 24); largest difference 10.0px",
     "kept, the owner decides: text box height 45, type 18, corners 6px, padding 38/8, border 1; found 1 times (4.2% of the default's 24); largest difference 28.0px",
-    "free text: kept, the owner decides: free text type 18, corners 0px, padding 10/8, border 0; found 3 times (1.1% of the default's 282); largest difference 6.0px",
+    "free text with square corners and no border (the note of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard free text.",
     "name cell: kept, the owner decides: name cell type 18, corners 6px, padding 12/8, border 1; found 2 times (1.5% of the default's 135); largest difference 26.0px"
    ]
   },
@@ -606,8 +618,20 @@ export const library: Library = {
      "code": "NUM.PCT.001.003",
      "name": "Percent",
      "description": "A number from 0 to 100 with a percent sign.",
-     "edits": "Shows a percent sign after it.",
-     "values": {}
+     "edits": "A square box, 45 by 45px, with a percent sign beside it.",
+     "values": {},
+     "look": {
+      "height": 45,
+      "width": 45,
+      "fontSize": 18,
+      "fontWeight": "400",
+      "corners": "6px",
+      "paddingLeft": 4,
+      "paddingTop": 8,
+      "border": 1,
+      "scale": "body 18",
+      "found": 12
+     }
     },
     {
      "code": "NUM.YRS.001.004",
@@ -633,7 +657,7 @@ export const library: Library = {
     "found": 166
    },
    "lookNotes": [
-    "kept, the owner decides: number box height 45, type 18, corners 6px, padding 4/8, border 1; found 20 times (12.0% of the default's 166); largest difference 6.0px"
+    "percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45)."
    ]
   },
   {
@@ -820,7 +844,7 @@ export const library: Library = {
     "found": 11
    },
    "lookNotes": [
-    "kept, the owner decides: fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px",
+    "merged by the owner's decision (owner, 2026-10-15): fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px",
     "kept, the owner decides: label arrow height 28, type 28, corners 0px, padding 0/0, border 0; found 2 times (25.0% of the default's 8); largest difference 10.0px"
    ]
   },
