@@ -4135,12 +4135,12 @@ td.process-library-col-number{
     flex-shrink:0;
 
     width:44px;
-    height:38px;
+    height:44px;
 
     padding:2px;
 
     border:1px solid var(--box-border);
-    border-radius:var(--radius-lg);
+    border-radius:var(--radius-md);
 
     background:var(--bg-surface);
 
@@ -4651,7 +4651,7 @@ td.process-library-col-number{
 
     box-sizing:border-box;
 
-    padding:8px 10px;
+    padding:7.5px 10px;
 
     font:inherit;
     font-size:var(--font-body);
@@ -4872,8 +4872,8 @@ td.process-library-col-number{
        checkbox does not inherit its font-size from the label
        wrapping it, so 1em measured the form default and came out
        at 16. */
-    width:18px;
-    height:18px;
+    width:24px;
+    height:24px;
 
     margin:0;
 
@@ -5200,6 +5200,7 @@ td.process-library-col-number{
 
     align-self:flex-start;
 
+    min-height:44px;
     padding:8px 14px;
 
     font-size:var(--font-body);
@@ -7615,7 +7616,7 @@ td.process-library-col-number{
     /* The first square stands at its row's foot, the room above it kept
        for a large H1; the box keeps as much under the last square, so the
        squares sit as far from the top border as from the bottom. */
-    padding-bottom:calc(var(--card-padding) + var(--level-height, 45px) - var(--control-square));
+    padding-bottom:calc(var(--card-padding) + var(--level-height, 44px) - var(--control-square));
 
 }
 
@@ -7662,7 +7663,7 @@ td.process-library-col-number{
 /* The tick on the square's centre line. */
 .brand-hierarchy-card .brand-hierarchy-row > .brand-tick > .brand-tick-box{
 
-    margin:0 0 calc((var(--control-square) - 18px) / 2);
+    margin:0 0 calc((var(--control-square) - 24px) / 2);
 
 }
 
@@ -9797,8 +9798,8 @@ td.process-library-col-number{
 
 .info-note-button{
 
-    width:22px;
-    height:22px;
+    width:24px;
+    height:24px;
 
     display:inline-flex;
     align-items:center;

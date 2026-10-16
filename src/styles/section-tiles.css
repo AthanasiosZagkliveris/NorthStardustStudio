@@ -1597,7 +1597,7 @@
 
     /* (The title's row, shared with the list laid over the square.) */
     --tile-title-row: calc(var(--section-tile-size) * var(--tile-title-top) - 1px + 5px + var(--section-tile-line-height) * 0.5em);
-    --plus-size: 36px;
+    --plus-size: 32px;
 
     transform-origin: 50% 50%;
 
@@ -1779,8 +1779,8 @@
 
     --plus-ground: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
     --plus-fill: hsl(var(--strategy-theme-hue, 0) var(--plus-fill-saturation) var(--plus-fill-lightness));
-    --plus-size: 36px;
-    --plus-bar: 16px;
+    --plus-size: 32px;
+    --plus-bar: 14px;
 
     position: relative;
 
@@ -1795,7 +1795,7 @@
     padding: 0;
 
     border: 2px solid var(--plus-fill);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
 
     background: var(--plus-ground);
 

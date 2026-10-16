@@ -52,7 +52,7 @@
 
     /* The app's one select padding (global.css): tighter than a
        field's 10px, and only 24px on the chevron side. */
-    padding:8px var(--select-padding-right) 8px var(--select-padding-left);
+    padding:7.5px var(--select-padding-right) 7.5px var(--select-padding-left);
 
     /* A value, not a button label. Buttons carry 10% tracking
        app-wide, which on a <select>'s own text is both wrong to

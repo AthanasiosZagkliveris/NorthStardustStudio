@@ -73,7 +73,7 @@ below are these, made measurable.
 | `--control-s` | 220px | S width step |
 | `--control-m` | 300px | M width step |
 | `--control-l` | 420px | L width step |
-| `--control-square` | 45px | the square variant; also the one control height |
+| `--control-square` | 44px | the square variant; also the one control height |
 | `--name-number-columns` | `minmax(0,1fr) min(var(--control-s),40%) 32px` | the Name / Number list |
 
 ---
@@ -231,7 +231,7 @@ track of the grid it stands in.
 
 - **One single-line control height: 45px** (drawn 44.33px, the 1px border
   snapped by the browser). Inputs, pickers, date inputs.
-- **Square** (`--control-square`, 45 x 45): a 2-3 digit value with its unit
+- **Square** (`--control-square`, 44 x 44): a 2-3 digit value with its unit
   after it; the Text Hierarchy's px boxes. Value centred.
 - **Text boxes** grow with their text and are never resized by hand:
   at least **2 lines** for a written answer, **2 lines** for the Legal
@@ -1555,18 +1555,18 @@ A square button with a drawn plus that adds a card or a row. A swap of two colou
 
 | Variant | Where | Note |
 |---|---|---|
-| tile | tile | 36px, bars 16px, at the lower right of a page tile, 12px from the edges (.plus-box.section-tile-plus) |
+| tile | tile | 32px, bars 14px, at the lower right of a page tile, 12px from the edges (.plus-box.section-tile-plus) |
 | small | inline | 32px (the x's size), bars 14px, beside a row (.plus-box.plus-box-small: the Activity card's Add Performer) |
 
 | Number | Value |
 |---|---|
-| sizeTile | 36 |
+| sizeTile | 32 |
 | sizeSmall | 32 |
-| barTile | 16 |
+| barTile | 14 |
 | barSmall | 14 |
 | barThickness | 2 |
 | strokeWidth | 2 |
-| radius | 8 |
+| radius | 6 |
 | insetTile | 12 |
 | transitionMs | 150 |
 | disabledOpacity | 0.5 |
@@ -1582,10 +1582,10 @@ A square button with a drawn plus that adds a card or a row. A swap of two colou
 
 ### Info note
 
-A 22px round "i" after a label that opens a note. A swap of two colours under the pointer (the disc filled, the letter in the ground colour); it never changes size.
+A 24px round "i" after a label that opens a note. A swap of two colours under the pointer (the disc filled, the letter in the ground colour); it never changes size.
 
 - **Kind:** round button. **Code:** `src/components/interview/InfoNote.tsx`. **Stylesheet:** `src/styles/conversation.css` (also `src/styles/section-tiles.css`, `src/styles/page-3-edges.css`, `src/styles/global.css`).
-- **Parts:** button (22px disc with a stroke); the letter i (bold italic, small size); an invisible 24px hit area (::after).
+- **Parts:** button (24px disc with a stroke); the letter i (bold italic, small size); an invisible 24px hit area (::after).
 - **States:** rest, hover, focus, open.
 - **Used in:** after the label of nearly every field and every section or column title; dialog headers and the box names over a floating card; a tick box's label (outside it).
 - **Custom properties it reads:** `--info-gap`, `--font-small`, `--line-primary`, `--text-primary`, `--bg-surface`, `--bg-primary`, `--text-on-fill`, `--theme-line-accent`, `--info-ink`, `--info-fill`, `--glow-color`, `--strategy-theme-hue`.
@@ -1598,7 +1598,7 @@ A 22px round "i" after a label that opens a note. A swap of two colours under th
 
 | Number | Value |
 |---|---|
-| disc | 22 |
+| disc | 24 |
 | hitArea | 24 |
 | gap | 6 |
 | strokePlain | 1 |
@@ -1752,7 +1752,7 @@ The standard 36px fold arrow: a solid triangle, right while folded and down whil
 
 ### Dropdown
 
-A drawn dropdown: a 45px trigger in one of the standard widths (or hugging its widest option) with a chevron, and a floating list of 43px options exactly as wide as the trigger.
+A drawn dropdown: a 44px trigger in one of the standard widths (or hugging its widest option) with a chevron, and a floating list of 43px options exactly as wide as the trigger.
 
 - **Kind:** dropdown. **Code:** `src/components/interview/OptionPicker.tsx`. **Stylesheet:** `src/styles/option-picker.css` (also `src/styles/global.css`, `src/styles/conversation.css`).
 - **Parts:** trigger (button.interview-input with the value, a hidden copy of every option, and a drawn chevron); list (role listbox, floating under the trigger); option (role option; the chosen one bold, aria-selected).
@@ -1770,7 +1770,7 @@ A drawn dropdown: a 45px trigger in one of the standard widths (or hugging its w
 
 | Number | Value |
 |---|---|
-| height | 45 |
+| height | 44 |
 | stepS | 220 |
 | stepM | 300 |
 | stepL | 420 |
@@ -1816,7 +1816,7 @@ The one surface every floating card stands on: 492px wide (a founder's 297px), 8
 | padding | 12 |
 | gap | 12 |
 | labelGap | 6 |
-| cellHeight | 45 |
+| cellHeight | 44 |
 | labelColumn | 177 |
 | windowMargin | 16 |
 | tolerancePx | 0.6 |
@@ -1831,7 +1831,7 @@ The one surface every floating card stands on: 492px wide (a founder's 297px), 8
 | Card padding, side, top and bottom | `--card-padding` | 12px | 12px | 12px |
 | Gap between rows, and between the box name and the card | `--space-field` | 12px | 12px | 12px |
 | Gap from a label to the control it names | `--space-label` | 6px | 6px | 6px |
-| Height of a single-line control (a cell) | `--control-square` | 45px | 45px | 45px |
+| Height of a single-line control (a cell) | `--control-square` | 44px | 44px | 44px |
 | Label column of a side-label row | `--card-label-col` | 177px | 177px | 177px |
 | Window margin (a card is never closer to the window's edge) (written in the width rule as calc(100vw - 16px), not a custom property yet) | (none yet) | 16px | 16px | 16px |
 
@@ -1839,7 +1839,7 @@ The one surface every floating card stands on: 492px wide (a founder's 297px), 8
 
 1. **Box name**: A centred caption above the card, outside it: the name of the tile or box the card belongs to, with the box's "i" where the box has a note.
 2. **Card top padding** (12px above, `--card-padding`): The card's own padding above its first row.
-3. **Head row**: The order number inside the name cell (45px high), then the x (32px) 12px from the cell. Everything under the head starts and ends where the name cell does.
+3. **Head row**: The order number inside the name cell (44px high), then the x (32px) 12px from the cell. Everything under the head starts and ends where the name cell does.
 4. **Rows** (12px above, `--space-field`): One row per field, 12px apart: a side-label row (the label in the 177px column, then the control), a label above its control (6px), a tick row (the tick and its words on one line), an optional field (the tick, then a growing box under it), a tick list (one tick per line, 12px box to box).
 5. **Groups** (12px above, `--space-field`): Two groups are divided by a rule, 12px either side of it.
 6. **Completed row (Activity cards)** (12px above, `--space-field`): A divider line stands above the Completed tick, 12px either side of it, and the Links (Linked to) come last, after Completed (the owner, 2026-10-15).

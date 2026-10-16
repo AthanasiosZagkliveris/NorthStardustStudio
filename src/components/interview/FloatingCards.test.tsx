@@ -661,7 +661,7 @@ describe("the stylesheet of the page tiles, the floating cards and the dialog gr
 
     it("draws the + box a 36px square at the tile's lower right, 12px from the edges, with its own hover", () => {
         expect(css).toMatch(/\.section-tile-plus \{[^}]*position: absolute;[^}]*right: var\(--card-padding\);[^}]*bottom: var\(--card-padding\);/);
-        expect(css).toMatch(/\.plus-box \{[^}]*--plus-size: 36px;[^}]*width: var\(--plus-size\);[^}]*height: var\(--plus-size\);/);
+        expect(css).toMatch(/\.plus-box \{[^}]*--plus-size: 32px;[^}]*width: var\(--plus-size\);[^}]*height: var\(--plus-size\);/);
         // A swap of two colours. At rest: the ground of what it stands on, a 2px stroke and the "+" in the darker tone;
         // under the pointer or the focus: filled with the tone, no stroke, the "+" in the ground.
         expect(css).toMatch(/\.plus-box \{[^}]*border: 2px solid var\(--plus-fill\);[^}]*background: var\(--plus-ground\);[^}]*color: var\(--plus-fill\);[^}]*transition: background-color \.15s ease, border-color \.15s ease, color \.15s ease;/);

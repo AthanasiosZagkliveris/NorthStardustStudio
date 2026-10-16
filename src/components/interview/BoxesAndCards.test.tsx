@@ -354,7 +354,7 @@ describe("the + box", () => {
         expect(css).toMatch(/\.plus-box::before,\s*\.plus-box::after \{[^}]*top: 50%;[^}]*left: 50%;[^}]*transform: translate\(-50%, -50%\);/);
         expect(css).toMatch(/\.plus-box::before \{[^}]*width: var\(--plus-bar\);[^}]*height: 2px;/);
         expect(css).toMatch(/\.plus-box::after \{[^}]*width: 2px;[^}]*height: var\(--plus-bar\);/);
-        expect(css).toMatch(/--plus-bar: 16px;/);
+        expect(css).toMatch(/--plus-bar: 14px;/);
     });
 
     it("swaps its two colours: the ground, a 2px stroke and the darker tone at rest; the tone filled, no stroke, the ground for the + under the pointer", () => {

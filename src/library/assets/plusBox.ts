@@ -19,18 +19,18 @@ export const plusBox: AssetContract = {
     parts: ["button (the square, 2px stroke)", "two bars (::before, ::after) drawn from the middle of the box"],
     states: ["rest", "hover", "focus", "disabled"],
     variants: [
-        { id: "tile", context: "tile", note: "36px, bars 16px, at the lower right of a page tile, 12px from the edges (.plus-box.section-tile-plus)" },
+        { id: "tile", context: "tile", note: "32px, bars 14px, at the lower right of a page tile, 12px from the edges (.plus-box.section-tile-plus)" },
         { id: "small", context: "inline", note: "32px (the x's size), bars 14px, beside a row (.plus-box.plus-box-small: the Activity card's Add Performer)" }
     ],
     tokens: ["--plus-ground", "--plus-fill", "--plus-size", "--plus-bar", "--plus-fill-saturation", "--plus-fill-lightness", "--strategy-theme-hue", "--theme-bg-inner", "--focus-ring-ink", "--card-padding"],
     geometry: {
-        sizeTile: 36,
+        sizeTile: 32,
         sizeSmall: 32,
-        barTile: 16,
+        barTile: 14,
         barSmall: 14,
         barThickness: 2,
         strokeWidth: 2,
-        radius: 8,
+        radius: 6,
         /** Distance of a tile's box from the tile's right and bottom edges. */
         insetTile: 12,
         transitionMs: 150,

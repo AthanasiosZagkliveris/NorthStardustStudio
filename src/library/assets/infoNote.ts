@@ -17,11 +17,11 @@ import type { AssetContract } from "../contract.ts";
 export const infoNote: AssetContract = {
     name: "Info note",
     kind: "round button",
-    summary: "A 22px round \"i\" after a label that opens a note. A swap of two colours under the pointer (the disc filled, the letter in the ground colour); it never changes size.",
+    summary: "A 24px round \"i\" after a label that opens a note. A swap of two colours under the pointer (the disc filled, the letter in the ground colour); it never changes size.",
     component: "src/components/interview/InfoNote.tsx",
     stylesheet: "src/styles/conversation.css",
     alsoStylesheets: ["src/styles/section-tiles.css", "src/styles/page-3-edges.css", "src/styles/global.css"],
-    parts: ["button (22px disc with a stroke)", "the letter i (bold italic, small size)", "an invisible 24px hit area (::after)"],
+    parts: ["button (24px disc with a stroke)", "the letter i (bold italic, small size)", "an invisible 24px hit area (::after)"],
     states: ["rest", "hover", "focus", "open"],
     variants: [
         { id: "plain", context: "page", note: "the base look: blue stroke and letter on a white disc, in a label outside any card of a hue" },
@@ -30,7 +30,7 @@ export const infoNote: AssetContract = {
     ],
     tokens: ["--info-gap", "--font-small", "--line-primary", "--text-primary", "--bg-surface", "--bg-primary", "--text-on-fill", "--theme-line-accent", "--info-ink", "--info-fill", "--glow-color", "--strategy-theme-hue"],
     geometry: {
-        disc: 22,
+        disc: 24,
         hitArea: 24,
         /** The gap from the label's last word to the disc. */
         gap: 6,

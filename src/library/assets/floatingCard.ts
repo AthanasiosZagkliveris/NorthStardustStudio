@@ -44,7 +44,7 @@ export const floatingCard: AssetContract = {
         padding: 12,
         gap: 12,
         labelGap: 6,
-        cellHeight: 45,
+        cellHeight: 44,
         labelColumn: 177,
         /** A card never stands closer than this to the window's edge. */
         windowMargin: 16,
@@ -57,14 +57,14 @@ export const floatingCard: AssetContract = {
         { use: "Card padding, side, top and bottom", token: "--card-padding", unit: "px", values: { tablet: 12, laptop: 12, desktop: 12 } },
         { use: "Gap between rows, and between the box name and the card", token: "--space-field", unit: "px", values: { tablet: 12, laptop: 12, desktop: 12 } },
         { use: "Gap from a label to the control it names", token: "--space-label", unit: "px", values: { tablet: 6, laptop: 6, desktop: 6 } },
-        { use: "Height of a single-line control (a cell)", token: "--control-square", unit: "px", values: { tablet: 45, laptop: 45, desktop: 45 } },
+        { use: "Height of a single-line control (a cell)", token: "--control-square", unit: "px", values: { tablet: 44, laptop: 44, desktop: 44 } },
         { use: "Label column of a side-label row", token: "--card-label-col", unit: "px", values: { tablet: 177, laptop: 177, desktop: 177 } },
         { use: "Window margin (a card is never closer to the window's edge)", unit: "px", values: { tablet: 16, laptop: 16, desktop: 16 }, note: "written in the width rule as calc(100vw - 16px), not a custom property yet" }
     ],
     anatomy: [
         { part: "Box name", note: "A centred caption above the card, outside it: the name of the tile or box the card belongs to, with the box's \"i\" where the box has a note." },
         { part: "Card top padding", note: "The card's own padding above its first row.", gapAbove: { px: 12, token: "--card-padding" } },
-        { part: "Head row", note: "The order number inside the name cell (45px high), then the x (32px) 12px from the cell. Everything under the head starts and ends where the name cell does." },
+        { part: "Head row", note: "The order number inside the name cell (44px high), then the x (32px) 12px from the cell. Everything under the head starts and ends where the name cell does." },
         { part: "Rows", note: "One row per field, 12px apart: a side-label row (the label in the 177px column, then the control), a label above its control (6px), a tick row (the tick and its words on one line), an optional field (the tick, then a growing box under it), a tick list (one tick per line, 12px box to box).", gapAbove: { px: 12, token: "--space-field" } },
         { part: "Groups", note: "Two groups are divided by a rule, 12px either side of it.", gapAbove: { px: 12, token: "--space-field" } },
         { part: "Completed row (Activity cards)", note: "A divider line stands above the Completed tick, 12px either side of it, and the Links (Linked to) come last, after Completed (the owner, 2026-10-15).", gapAbove: { px: 12, token: "--space-field" } },

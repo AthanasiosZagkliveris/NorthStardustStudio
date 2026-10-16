@@ -596,7 +596,7 @@ body {
   --control-code: 128px;
   /* A box as wide as a control is tall: a 2-3 digit value with its
      unit after it (a Text Hierarchy level's px). */
-  --control-square: 45px;
+  --control-square: 44px;
   /* THE DATE step: the widest month and year a month picker shows
      ("September 2030", 143px at body size) and its 12px insets. */
   --control-date: 170px;
@@ -1170,8 +1170,8 @@ h6 {
    label's type, so 1lh is that first line. */
 input[type="checkbox"] {
   flex: none;
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   margin: 0;
   font: inherit;
   line-height: inherit;

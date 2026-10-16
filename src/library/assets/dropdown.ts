@@ -4,7 +4,7 @@ import type { AssetContract } from "../contract.ts";
  * The dropdown (OptionPicker.tsx, option-picker.css; the trigger wears
  * .interview-input; rulebook "Sizes: the closed set" and "Picker options"):
  * the app's drawn dropdown, used for every choice of one value (86 uses in 16
- * files). A trigger as tall as every single-line control (45px), as wide as the
+ * files). A trigger as tall as every single-line control (44px), as wide as the
  * smallest standard width that holds its widest option (220, 300 or 420px) or
  * hugging it, with a drawn chevron; its list floats under it, exactly as wide,
  * 6px below, a card of 4px padding and 8px corners with 43px options. The
@@ -13,7 +13,7 @@ import type { AssetContract } from "../contract.ts";
 export const dropdown: AssetContract = {
     name: "Dropdown",
     kind: "dropdown",
-    summary: "A drawn dropdown: a 45px trigger in one of the standard widths (or hugging its widest option) with a chevron, and a floating list of 43px options exactly as wide as the trigger.",
+    summary: "A drawn dropdown: a 44px trigger in one of the standard widths (or hugging its widest option) with a chevron, and a floating list of 43px options exactly as wide as the trigger.",
     component: "src/components/interview/OptionPicker.tsx",
     stylesheet: "src/styles/option-picker.css",
     alsoStylesheets: ["src/styles/global.css", "src/styles/conversation.css"],
@@ -28,7 +28,7 @@ export const dropdown: AssetContract = {
     ],
     tokens: ["--control-s", "--control-m", "--control-l", "--control-square", "--select-padding-left", "--select-padding-right", "--select-chevron", "--select-chevron-inset", "--bg-surface", "--text-default", "--text-faint", "--line-card", "--glow-color", "--box-inset"],
     geometry: {
-        height: 45,
+        height: 44,
         stepS: 220,
         stepM: 300,
         stepL: 420,
