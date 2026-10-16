@@ -304,6 +304,25 @@ and Business Foundation's lower sections keep their own page layouts.
 - Exception: a Text Hierarchy level's row (see 7) centres the tick, the
   name's whole block and the px box on the row's centre line.
 
+### Connected components align as one (2026-10-16)
+
+Components that belong together align as one, wherever they stand: side by side in one row, or joined to one field
+(a label and its cell; a cell and its x, plus, calendar, link symbol or unit word; a tick and its words; a price with its
+currency and its frequency; a date cell and its calendar).
+
+1. **One centre line.** Their centres are on the same horizontal line, whatever their heights (the Responsible row: the tick, its words, the "i" and the dropdown cell share one middle, within 1px): a cell is 44px, a box button
+   32px, a link symbol 24px, a tick 24px, an "i" 24px; each is centred on the row's centre line, and a text on its first line.
+2. **Same height, same top.** Components of the same height in a row (the cells: 44px) share one top edge and one bottom edge.
+3. **One gap.** The gap between connected components is the in-row gap (12px); an "i" and a label gap are 6px (see above).
+4. **Column lines.** A connected component starts and ends on the card's column lines: the control column starts at one x in
+   every row, and a row that holds several cells splits that width between them.
+5. **No special case.** A component placed beside another follows this rule without an exception; a new component is
+   checked against it before it is placed (docs/design/08-library-system.md).
+
+The check: `node scripts/catalogue/align-check.mjs` opens every master tile and the first two cards of each view, and lists
+every pair of controls side by side whose centres differ by more than 1px, or whose tops differ when their heights are equal.
+It must list none.
+
 ### Grids and lists
 
 - **Page grids** (`.answer-columns`: Identity's, Strategy's; `.brand-style` /

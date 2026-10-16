@@ -1162,7 +1162,7 @@ h6 {
   overflow: visible;
 }
 
-/* ONE TICK BOX: every checkbox in the app is the same fixed 18px box
+/* ONE TICK BOX: every checkbox in the app is the same fixed 24px box
    (the text tier it sits beside), never squeezed by a label that
    wraps (flex: none), in the app's blue. It stands beside the FIRST
    line of its label -- centred on that line, as a field's × and
@@ -1195,7 +1195,7 @@ label:has(> input[type="checkbox"]) {
 }
 
 label:has(> input[type="checkbox"]) > input[type="checkbox"] {
-  margin-top: calc((1lh - 18px) / 2);
+  margin-top: calc((1lh - 24px) / 2);
 }
 
 /* A TICK-BOX OPTION UNDER THE POINTER: its words underlined, and its

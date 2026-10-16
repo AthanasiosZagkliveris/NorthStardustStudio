@@ -8,7 +8,7 @@ describe("one tick box", () => {
         const css = stylesheet("global.css");
         expect(css).toContain("input[type=\"checkbox\"] { flex: none; width: 24px; height: 24px; margin: 0; font: inherit; line-height: inherit;");
         expect(css).toContain("label:has(> input[type=\"checkbox\"]) { align-items: flex-start;");
-        expect(css).toContain("label:has(> input[type=\"checkbox\"]) > input[type=\"checkbox\"] { margin-top: calc((1lh - 18px) / 2); }");
+        expect(css).toContain("label:has(> input[type=\"checkbox\"]) > input[type=\"checkbox\"] { margin-top: calc((1lh - 24px) / 2); }");
     });
 
     it("leaves no checkbox a size of its own", () => {

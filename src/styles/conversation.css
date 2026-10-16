@@ -9785,14 +9785,14 @@ td.process-library-col-number{
 }
 
 /* AN "i" ON ITS WORDS' CENTRE LINE: from the top of the line, down by
-   half of what the line has over the 22px button, so its middle is
+   half of what the line has over the 24px button, so its middle is
    the line's -- where the words' middle is, whatever the line height. */
 .info-note-glue > .info-note,
 .business-engagement-reference-name-row > span > .info-note{
 
     vertical-align:top;
 
-    margin-top:calc((1lh - 22px) / 2);
+    margin-top:calc((1lh - 24px) / 2);
 
 }
 
@@ -9838,6 +9838,11 @@ td.process-library-col-number{
 /* 22px is under the 24px SC 2.5.8 asks of a target, so the button
    claims the rest as invisible padding rather than growing the
    disc and pushing the label's line taller. */
+/* An "i" that follows a tick box's label in a label row stands on the row's centre line: the tick, its words, the "i" and the cell beside them share one middle (the middle alignment leaves the disc 1.5px under it). */
+.business-foundation-label-info > .info-note{
+    position:relative;
+    top:-1.5px;
+}
 .info-note-button::after{
 
     content:"";
@@ -10093,7 +10098,7 @@ td.process-library-col-number{
    the first line of the words: that line is the label's 1.5 line. */
 .legal-entity-switch-row > .info-note{
 
-    margin-top:calc((var(--font-body) * 1.5 - 22px) / 2);
+    margin-top:calc((var(--font-body) * 1.5 - 24px) / 2);
 
 }
 
@@ -11591,16 +11596,16 @@ td.process-library-col-number{
 
 }
 
-/* The "i" (22px) stands on the centre line of the link's first line (28px): 3px down; where an arrow stands beside it, the line starts 4px down, so the "i" 7px. */
+/* The "i" (24px) stands on the centre line of the link's first line (28px): 2px down; where an arrow stands beside it, the line starts 4px down, so the "i" 6px. */
 .business-engagement-reference-name-row > .info-note{
 
-    margin-top:3px;
+    margin-top:2px;
 
 }
 
 .business-engagement-reference-name-row:has(> .strategy-box-toggle) > .info-note{
 
-    margin-top:7px;
+    margin-top:6px;
 
 }
 
