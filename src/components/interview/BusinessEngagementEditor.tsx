@@ -2758,6 +2758,7 @@ export default function BusinessEngagementEditor({
                     window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: channelTileId(segment.id, group.key), card: made.id, fresh: true } })), 80);
                 },
                 holds: group.channels.map(channel => channel.id),
+                note: channelCategoryHelp(group.label),
                 cardFor: (id: string) => answers.channels.some(channel => channel.id === id)
                     ? <div className="column-tile-content" style={{ "--strategy-theme-hue": segmentHue(segment) } as CSSProperties}><div className="business-foundation-input business-foundation-card business-subchannel-card">{channelsFor(segment, group.key, id)}</div></div>
                     : null,

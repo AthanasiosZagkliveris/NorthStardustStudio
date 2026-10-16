@@ -2767,7 +2767,7 @@ export default function LegalEntityEditor({
                 )
             },
             {
-                id: "legal-entity-expenses", title: "Expenses", large: true, rail: rail(5), view: true,
+                id: "legal-entity-expenses", title: "Expenses", large: true, rail: rail(5), view: true, note: INFO.expenses,
                 items: expenseEntries.map(expense => expense.name.trim()),
                 itemMarks: expenseEntries.map(() => ({ bullet: true })),
                 links: expenseEntries.map(expense => ({ card: expense.id })),

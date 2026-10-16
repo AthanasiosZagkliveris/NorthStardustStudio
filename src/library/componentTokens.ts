@@ -41,7 +41,7 @@ const px = (n: number) => n + "px";
 /** Components that share one size and must agree in the library. */
 const SAME: readonly (readonly [string, readonly string[]])[] = [
     ["--size-mark", ["BTN.002", "TIK.001", "BTN.007"]],
-    ["--card-cell-height", ["TXT.001", "DRP.001", "DAT.001", "PCK.001"]],
+    ["--card-cell-height", ["TXT.001", "DRP.001", "DAT.001"]],
     ["--size-box-button", ["BTN.001", "BTN.ADD.001.001"]]
 ];
 

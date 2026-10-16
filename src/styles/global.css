@@ -233,8 +233,6 @@ body {
      column, so the short labels of a Capability card stand in one
      column and their dropdowns start at one x. */
   --side-label-short: var(--card-label-col);
-  /* The label column of a colour's or a typeface's card (Role, Colour): the same on both. */
-  --brand-label-col: 87px;
   /* The delete x of a card's head and the gap before it: the content
      under the name ends where the name's cell does, so a card with no
      name cell (a founder's) keeps this much clear on its right. */
@@ -1191,35 +1189,37 @@ input[type="checkbox"] {
   font: inherit;
   line-height: inherit;
   accent-color: var(--bg-primary);
-  /* Drawn, not the browser's: a 24px box with rounded corners (--tick-radius, the library's TIK.001). */
+  /* Drawn, not the browser's: a 24px box with rounded corners (--tick-radius, the library's TIK.001) in a text input's own look: no stroke, the recessed
+     inset, the soft glow under the pointer, the ring when active. Ticked, it is filled with the app's blue and the check stands in its centre. */
   appearance: none;
   box-sizing: border-box;
-  display: inline-grid;
-  place-content: center;
-  border: 2px solid var(--text-muted);
+  border: 1px solid transparent;
   border-radius: var(--tick-radius);
-  background: var(--bg-surface);
+  background: var(--bg-surface) center / 70% no-repeat;
+  box-shadow: var(--cell-inset-recess);
   cursor: pointer;
+  transition: background-color .15s ease, box-shadow .15s ease;
+}
+
+input[type="checkbox"]:hover:not(:disabled):not(:focus-visible) {
+  box-shadow: var(--cell-inset-recess), 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
+}
+
+input[type="checkbox"]:focus-visible {
+  outline: none;
+  border-color: var(--line-primary);
+  box-shadow: var(--cell-inset-recess), 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
 }
 
 input[type="checkbox"]:checked {
-  border-color: var(--bg-primary);
-  background: var(--bg-primary);
-}
-
-input[type="checkbox"]:checked::after {
-  content: "";
-  width: 6px;
-  height: 12px;
-  margin-top: -2px;
-  border: solid var(--text-on-fill);
-  border-width: 0 2.5px 2.5px 0;
-  transform: rotate(45deg);
+  background-color: var(--bg-primary);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5.5 12.5l4.2 4.2 8.8-9.4' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
 input[type="checkbox"]:disabled {
   cursor: not-allowed;
   opacity: 0.55;
+  box-shadow: none;
 }
 
 /* The text tier on one line height, where a label says nothing else

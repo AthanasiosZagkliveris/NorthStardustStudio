@@ -664,9 +664,13 @@
 .strategy-period-box .month-picker-trigger,
 .strategy-objective-when .month-picker-trigger{
 
-    width:var(--control-date);
+    /* The date step at most; where the box is narrower, what is left after the label. */
+    width:auto;
+    max-width:var(--control-date);
 
-    flex:none;
+    flex:1 1 0;
+
+    min-width:0;
 
 }
 

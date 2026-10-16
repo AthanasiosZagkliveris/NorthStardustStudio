@@ -9,14 +9,8 @@
 
 }
 
-/* The x above the picture stands in the card's x column, level with the head's x, 12px after the picture's right edge. */
-.brand-image-card-body .brand-slot-label-row-x {
-
-    position: relative;
-
-}
-
-.brand-image-card-body .brand-slot-label-row-x > .strategy-box-remove {
+/* The x of the picture stands in the card's x column, level with the picture's top, 12px after its right edge. */
+.brand-image-card-body .brand-holder-wrap > .strategy-box-remove {
 
     position: absolute;
     left: calc(100% + var(--gap-12));

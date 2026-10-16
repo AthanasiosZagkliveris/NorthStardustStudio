@@ -660,28 +660,32 @@ export default function BrandStyleEditor({
                             >
                                 <div className="brand-colour-row">
 
-                                    <input
-                                        type="color"
-                                        className={`brand-colour-picker${swatch ? "" : " brand-colour-picker-empty"}`}
-                                        aria-label={`${slot.label} colour picker`}
-                                        disabled={disabled}
-                                        value={swatch ?? "#ffffff"}
-                                        onChange={(event) => updateColour(index, { hex: event.target.value })}
-                                    />
+                                    {/* The colour is a 32px box INSIDE the cell, at its right end, 6px from its top, bottom and right, as the date cell's calendar button is. */}
+                                    <div className="date-cell-field brand-colour-cell">
 
-                                    <input
-                                        type="text"
-                                        className="interview-input brand-hex-input"
-                                        aria-label={`${slot.label} HEX`}
-                                        placeholder="#000000"
-                                        disabled={disabled}
-                                        value={colour.hex}
-                                        onChange={(event) => updateColour(index, { hex: limitedHexText(event.target.value, colour.hex) })}
-                                    />
+                                        <input
+                                            type="text"
+                                            className="interview-input brand-hex-input"
+                                            aria-label={`${slot.label} HEX`}
+                                            placeholder="#000000"
+                                            disabled={disabled}
+                                            value={colour.hex}
+                                            onChange={(event) => updateColour(index, { hex: limitedHexText(event.target.value, colour.hex) })}
+                                        />
+
+                                        <input
+                                            type="color"
+                                            className={`brand-colour-picker${swatch ? "" : " brand-colour-picker-empty"}`}
+                                            aria-label={`${slot.label} colour picker`}
+                                            disabled={disabled}
+                                            value={swatch ?? "#ffffff"}
+                                            onChange={(event) => updateColour(index, { hex: event.target.value })}
+                                        />
+
+                                    </div>
 
                                     <BusinessRemove
                                         what={slot.label + " colour"}
-
                                         disabled={disabled || !colour.hex}
                                         onRemove={() => updateColour(index, { hex: "" })}
                                     />
@@ -931,6 +935,7 @@ export default function BrandStyleEditor({
 
         const colourTile: SectionTile = {
             id: "brand-style-colours",
+            note: info[0],
             title: BRAND_STYLE_SECTIONS[0],
             large: true,
             view: true,
@@ -959,6 +964,7 @@ export default function BrandStyleEditor({
         const levels = BRAND_HIERARCHY_LEVELS.filter(level => style.hierarchy[level.id].enabled).length;
         const typographyTile: SectionTile = {
             id: "brand-style-typography",
+            note: info[1],
             title: BRAND_STYLE_SECTIONS[1] + " &\n" + BRAND_STYLE_SECTIONS[2],
             large: true,
             view: true,

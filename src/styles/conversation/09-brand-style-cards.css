@@ -98,8 +98,8 @@
 
     display:grid;
 
-    /* (One label column on a colour's card and on a typeface's: the width of "Colour (i)", not of the words that happen to be on the card.) */
-    grid-template-columns:var(--brand-label-col) minmax(0, 1fr);
+    /* (One label column on a colour's card and on a typeface's: as wide as its longest label, then the 12px gap, the cells ending together at the name cell's right edge.) */
+    grid-template-columns:max-content minmax(0, 1fr);
 
     align-items:center;
 
@@ -608,6 +608,7 @@
 /* The x that clears the colour stands in the card's x column: 12px after the hex field's right edge (the name box's), level with the head's x. */
 .brand-colour-row{
     position:relative;
+    min-width:0;
 }
 
 .brand-colour-row > .strategy-box-remove{

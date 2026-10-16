@@ -230,41 +230,44 @@
 /* The native colour input IS the swatch: one control, so the
    colour you can see is the one you click to change. */
 .brand-colour-picker{
-
-    flex-shrink:0;
-
-    width:44px;
-    height:44px;
-
-    padding:2px;
-
+    position:absolute;
+    top:50%;
+    right:6px;
+    transform:translateY(-50%);
+    box-sizing:border-box;
+    width:var(--size-box-button);
+    height:var(--size-box-button);
+    padding:0;
     border:1px solid var(--box-border);
     border-radius:var(--radius-md);
-
-    background:var(--bg-surface);
-
-    /* The control shows no text of its own, but browsers still
-       give a form control a font-size (their 13.333px default)
-       with nothing here to say otherwise. */
+    background:transparent;
     font-size:var(--font-small);
-
     cursor:pointer;
-
 }
 
-/* The cell is a square with rounded corners (the box's), and the colour in it a square with rounded corners too, one step smaller. */
+/* The colour cell: the hex field with the colour box inside it at the right (room for it in the field's padding). */
+.brand-colour-cell{
+    flex:1 1 auto;
+    min-width:0;
+}
+
+.brand-colour-cell > .brand-hex-input{
+    padding-right:calc(var(--size-box-button) + 12px);
+}
+
+/* The colour is a 32px square with rounded corners, filling its box. */
 .brand-colour-picker::-webkit-color-swatch-wrapper{
     padding:0;
 }
 
 .brand-colour-picker::-webkit-color-swatch{
     border:0;
-    border-radius:calc(var(--box-radius) - 2px);
+    border-radius:calc(var(--radius-md) - 1px);
 }
 
 .brand-colour-picker::-moz-color-swatch{
     border:0;
-    border-radius:calc(var(--box-radius) - 2px);
+    border-radius:calc(var(--radius-md) - 1px);
 }
 
 .brand-colour-picker:disabled{
@@ -823,15 +826,6 @@
     text-align:center;
 
     flex:0 0 auto;
-
-}
-
-/* Matched to the 45px the HEX field beside it now stands at, so
-   the swatch and its field read as one control rather than the
-   picker sitting short in the row. */
-.brand-style .brand-colour-picker{
-
-    height:var(--card-cell-height);
 
 }
 

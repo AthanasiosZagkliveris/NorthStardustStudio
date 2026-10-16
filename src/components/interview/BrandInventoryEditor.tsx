@@ -475,6 +475,7 @@ export default function BrandInventoryEditor({
                         label="Image"
                         hint={image.fileName || undefined}
                         onClear={() => removeImage(index)}
+                        clearBeside
                         shape="image"
                         accept="image/*"
                         disabled={disabled}
@@ -639,6 +640,7 @@ export default function BrandInventoryEditor({
             : undefined;
         const imagesTile: SectionTile = {
             id: "brand-inventory-1",
+            note: guidance[1],
             title: BRAND_INVENTORY_SECTIONS[1],
             large: true,
             view: true,
@@ -839,7 +841,9 @@ function DropZone({
 
     aside,
 
-    bare = false
+    bare = false,
+
+    clearBeside = false
 
 }: {
 
@@ -877,6 +881,9 @@ function DropZone({
     /** No label row above the holder: a card that names it in its head. */
     bare?: boolean;
 
+    /** The x stands beside the holder, level with its top (in the card's x column), not on a row above it. */
+    clearBeside?: boolean;
+
 }) {
 
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -901,10 +908,10 @@ function DropZone({
 
         <div className={"brand-asset-slot brand-asset-slot-" + shape}>
 
-            {(!bare || onClear) && (
-                <div className={"brand-slot-label-row" + (onClear ? " brand-slot-label-row-x" : "")}>
+            {(!bare || (onClear && !clearBeside)) && (
+                <div className={"brand-slot-label-row" + (onClear && !clearBeside ? " brand-slot-label-row-x" : "")}>
                     {!bare && <span className="brand-slot-label">{label}</span>}
-                    {asset && onClear && <BusinessRemove what={label} disabled={disabled} onRemove={onClear} />}
+                    {asset && onClear && !clearBeside && <BusinessRemove what={label} disabled={disabled} onRemove={onClear} />}
                 </div>
             )}
 
@@ -946,6 +953,8 @@ function DropZone({
 
                     </button>
 
+
+                    {asset && onClear && clearBeside && <BusinessRemove what={label} disabled={disabled} onRemove={onClear} />}
 
                     {/*
                         The file input -- kept visually hidden and out

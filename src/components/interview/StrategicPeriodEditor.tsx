@@ -226,6 +226,7 @@ export default function StrategicPeriodEditor({
         return {
             id: theme.id,
             title: strategyThemeName(theme),
+            note: theme.description.trim() ? [theme.description.trim()] : undefined,
             view: true,
             rail: theme.id,
             items: named,

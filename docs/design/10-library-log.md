@@ -646,3 +646,8 @@ Every change to an asset of the library: added, edited, placed (and where), move
 | L0640 | 2026-10-16 | DAT.002 | edited | calendar list: lookNotes |  | Tick box 4px corners, colour picker square with rounded colour, date and month cells one component with one calendar, Logo holder width limit, x above holders |
 | L0641 | 2026-10-16 | PCK.001 | edited | colour picker: lookNotes |  | Tick box 4px corners, colour picker square with rounded colour, date and month cells one component with one calendar, Logo holder width limit, x above holders |
 | L0642 | 2026-10-16 | TIK.001 | edited | tick box: look, lookNotes |  | Tick box line 2px (drawn box) |
+| L0643 | 2026-10-16 | TIK.001 | edited | tick box: look, lookNotes |  | Tick box and date cell in a text input's look, calendar button as the + box, months Sept/June/July, colour box inside the hex cell |
+| L0644 | 2026-10-16 | DAT.001 | edited | date cell: lookNotes |  | Tick box and date cell in a text input's look, calendar button as the + box, months Sept/June/July, colour box inside the hex cell |
+| L0645 | 2026-10-16 | DAT.002 | edited | calendar list: lookNotes |  | Tick box and date cell in a text input's look, calendar button as the + box, months Sept/June/July, colour box inside the hex cell |
+| L0646 | 2026-10-16 | PCK.001 | edited | colour picker: lookNotes |  | Tick box and date cell in a text input's look, calendar button as the + box, months Sept/June/July, colour box inside the hex cell |
+| L0647 | 2026-10-16 | PCK.001 | edited | colour picker: look, lookNotes |  | Colour box 32px |

@@ -11,6 +11,9 @@ import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
 
 import { consumeKey } from "./consumeKey.ts";
 
+/** The months as the calendar and the cell write them: short, and June, July and Sept in four or more letters. */
+export const MONTH_LABELS = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+
 interface MonthYearPickerProps {
 
     label: string;
@@ -101,11 +104,11 @@ export default function MonthYearPicker({
             }
         }
 
-        document.addEventListener("mousedown", onPointerDown);
+        document.addEventListener("mousedown", onPointerDown, true);
         document.addEventListener("keydown", onKeyDown);
 
         return () => {
-            document.removeEventListener("mousedown", onPointerDown);
+            document.removeEventListener("mousedown", onPointerDown, true);
             document.removeEventListener("keydown", onKeyDown);
         };
 
@@ -136,6 +139,9 @@ export default function MonthYearPicker({
     const thisYear = now.getFullYear();
 
     const display = isMonthSet(value)
+        ? `${MONTH_LABELS[Number(value.month) - 1]} ${value.year}`
+        : "Select";
+    const spoken = isMonthSet(value)
         ? `${STRATEGY_MONTH_NAMES[Number(value.month) - 1]} ${value.year}`
         : "Select";
 
@@ -153,7 +159,7 @@ export default function MonthYearPicker({
                 ref={triggerRef}
                 type="button"
                 className="date-cell-input month-picker-trigger"
-                aria-label={`${label}: ${display}`}
+                aria-label={`${label}: ${spoken}`}
                 aria-expanded={open}
                 aria-haspopup="dialog"
                 disabled={disabled}
@@ -202,7 +208,7 @@ export default function MonthYearPicker({
                                     disabled={!isAllowed(month, shownYear)}
                                     onClick={() => choose(month, shownYear)}
                                 >
-                                    {name.slice(0, 3)}
+                                    {MONTH_LABELS[index]}
                                 </button>
                             );
 

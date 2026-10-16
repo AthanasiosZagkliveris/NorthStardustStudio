@@ -978,74 +978,96 @@
     display:block;
 }
 
-/* THE CELL: one long cell, the calendar button INSIDE it at the right end where a dropdown has its arrow. */
+/* THE CELL: one long cell, the calendar button INSIDE it at the right end where a dropdown has its arrow. It is a text input's own look: no stroke,
+   the recessed inset, the soft glow under the pointer, the ring when active (the cards' rules for .interview-input say the same, and win in a card). */
 .date-cell-field{
     position:relative;
     display:flex;
     align-items:center;
 }
 
+.date-cell-field > .date-cell-input,
 .date-cell-input{
     flex:1;
     width:100%;
     min-width:0;
     height:var(--card-cell-height);
+    box-sizing:border-box;
     /* Room at the right for the button (its 32px and a 6px inset each side). */
     padding:0 calc(var(--size-box-button) + 12px) 0 10px;
-    border:1px solid var(--box-border);
+    border:1px solid transparent;
     border-radius:var(--radius-md);
     background:var(--bg-surface);
+    box-shadow:var(--cell-inset-recess);
     font:inherit;
+    font-size:var(--font-body);
+    letter-spacing:normal;
     color:var(--text-default);
 }
 
-.date-cell-input:focus{
-    outline:none;
-    border-color:var(--line-primary);
-    /* Focus ring, not just a border-colour swap. The unfocused
-       border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
-       apart, so colour alone was a weak focus cue (WCAG 2.2 SC
-       2.4.11 wants 3:1 against the unfocused state). The ring is
-       independent of the border colour, adds no layout (box-shadow
-       does not affect flow), and matches the ring .user-name-input
-       and the Free Text textarea already use. */
-    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+.date-cell-input:hover:not(:focus):not(:disabled){
+    box-shadow:var(--cell-inset-recess), 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
 }
 
-/* The calendar button: a box button (32px, the x's and the plus's), laid over the end of the cell. */
+.date-cell-input:focus,
+.date-cell-input:active:not(:disabled){
+    outline:none;
+    border-color:var(--line-primary);
+    /* Focus ring, not just a border-colour swap (WCAG 2.2 SC 2.4.11): independent of the border colour, no layout. */
+    box-shadow:var(--cell-inset-recess), 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+}
+
+.date-cell-input:disabled{
+    border-color:transparent;
+    box-shadow:none;
+}
+
+/* The calendar button is the "+" box (BTN.ADD.001.001): the ground of what it stands on, a 2px stroke and the symbol in the darker tone of the hue; under
+   the pointer or the focus it is filled with that tone and the symbol takes the ground. 32px, the size of the x, 6px from the cell's top, bottom and right. */
 .date-cell-calendar-button,
 .month-picker-calendar{
     position:absolute;
     top:50%;
     right:6px;
     transform:translateY(-50%);
+    box-sizing:border-box;
     width:var(--size-box-button);
     height:var(--size-box-button);
+    margin:0;
     padding:0;
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    border:1px solid var(--box-border);
+    border:2px solid var(--plus-fill);
     border-radius:var(--radius-md);
-    background:var(--bg-surface);
-    color:var(--text-default);
+    background:var(--plus-ground);
+    color:var(--plus-fill);
     line-height:1;
     cursor:pointer;
-    transition:background-color .2s ease, border-color .2s ease;
+    transition:background-color .15s ease, border-color .15s ease, color .15s ease;
 }
 
 .date-cell-calendar-button:hover:not(:disabled),
-.month-picker-trigger:hover:not(:disabled) .month-picker-calendar{
-    background:var(--bg-primary-tint);
-    border-color:var(--line-primary);
+.date-cell-calendar-button:focus-visible,
+.month-picker-trigger:hover:not(:disabled) .month-picker-calendar,
+.month-picker-trigger:focus-visible .month-picker-calendar{
+    border-color:transparent;
+    background:var(--plus-fill);
+    color:var(--plus-ground);
 }
 
-.date-cell-calendar-button:disabled{
-    color:var(--text-faint);
-    cursor:default;
+.date-cell-calendar-button:focus-visible{
+    outline:2px solid var(--focus-ring-ink);
+    outline-offset:2px;
 }
 
-/* THE POPUP: the calendar list of the cell, a card of its own under it like a dropdown's list. */
+.date-cell-calendar-button:disabled,
+.month-picker-trigger:disabled .month-picker-calendar{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
+/* THE POPUP: the calendar card of the cell, under it like a dropdown's list, on the ground of the card it opens from, its type the cell's. */
 .date-cell-popup{
     position:absolute;
     top:100%;
@@ -1061,10 +1083,11 @@
     gap:var(--gap-8);
     border:0;
     border-radius:var(--radius-md);
-    background:var(--bg-surface);
+    background:var(--plus-ground);
     box-shadow:var(--box-inset), 0 12px 28px var(--shadow-ink-18);
     color:var(--text-default);
     font-size:var(--font-body);
+    letter-spacing:normal;
 }
 
 .date-cell-popup-head{
@@ -1094,23 +1117,30 @@
 .date-cell-popup-weekday{
     text-align:center;
     color:var(--text-muted);
-    font-size:var(--font-small);
+    font-size:var(--font-body);
     line-height:var(--size-box-button);
 }
 
+/* Every button of the card has the same 2px frame (transparent at rest), so hovering or choosing never changes a button's size; no bold. */
 .date-cell-popup-step,
 .date-cell-popup-day,
 .date-cell-popup-action{
+    box-sizing:border-box;
     display:inline-flex;
     align-items:center;
     justify-content:center;
     padding:0;
-    border:1px solid transparent;
+    border:2px solid transparent;
     border-radius:var(--radius-md);
-    background:var(--bg-surface);
+    background:transparent;
     color:var(--text-default);
     font:inherit;
+    font-size:var(--font-body);
+    font-weight:400;
+    letter-spacing:normal;
+    text-shadow:none;
     cursor:pointer;
+    transition:background-color .15s ease, border-color .15s ease, color .15s ease;
 }
 
 .date-cell-popup-step,
@@ -1119,43 +1149,48 @@
     height:var(--size-box-button);
 }
 
+.date-cell-popup-months .date-cell-popup-day{
+    width:auto;
+}
+
 .date-cell-popup-action{
     height:var(--size-box-button);
     padding:0 12px;
-    border-color:var(--box-border);
+    border-color:var(--plus-fill);
+    color:var(--plus-fill);
 }
 
 .date-cell-popup-step:hover:not(:disabled),
 .date-cell-popup-day:hover:not(:disabled),
 .date-cell-popup-action:hover:not(:disabled){
-    border-color:var(--line-primary);
-    background:var(--bg-primary-tint-hover);
+    border-color:transparent;
+    background:var(--plus-fill);
+    color:var(--plus-ground);
 }
 
 .date-cell-popup-step:focus-visible,
 .date-cell-popup-day:focus-visible,
 .date-cell-popup-action:focus-visible{
-    outline:none;
-    border-color:var(--line-primary);
-    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
+    outline:2px solid var(--focus-ring-ink);
+    outline-offset:1px;
 }
 
 .date-cell-popup-day:disabled,
 .date-cell-popup-action:disabled{
     color:var(--text-faint);
+    border-color:transparent;
     cursor:not-allowed;
 }
 
-/* Today is ringed and the chosen day filled and ringed twice as thick: neither rests on colour alone. */
+/* Today is framed; the chosen day is filled (neither rests on colour alone). */
 .date-cell-popup-day-today{
-    border-color:var(--box-border);
+    border-color:var(--plus-fill);
 }
 
 .date-cell-popup-day-current{
-    border-color:var(--line-primary);
-    border-width:2px;
-    background:var(--bg-primary-tint-hover);
-    color:var(--text-primary-deep);
+    border-color:transparent;
+    background:var(--plus-fill);
+    color:var(--plus-ground);
 }
 
 .date-cell-popup-foot{
