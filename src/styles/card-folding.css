@@ -51,18 +51,6 @@
 
 }
 
-.fold-card-head.fold-card-head-grip {
-
-    grid-template-columns: auto auto auto minmax(0, 1fr) auto;
-
-}
-
-.fold-card-head > .strategy-drag-handle {
-
-    grid-column: 1;
-
-}
-
 .fold-card-head > .strategy-box-toggle {
 
     grid-column: 1;
@@ -78,8 +66,7 @@
    for the × at the end of a row of a table, which sits on the
    row's line of text. */
 .fold-card-head > .strategy-box-toggle,
-.fold-card-head .strategy-box-remove,
-.financial-cost-remove > .strategy-box-remove {
+.fold-card-head .strategy-box-remove {
 
     font-size: var(--font-body);
 
@@ -166,42 +153,10 @@
 
 }
 
-.fold-card-head-grip > .strategy-box-toggle {
-
-    grid-column: 2;
-
-}
-
-.fold-card-head-grip > .strategy-box-number {
-
-    grid-column: 3;
-
-}
-
-.fold-card-head-grip > .strategy-name-input,
-.fold-card-head-grip > .strategy-name-static {
-
-    grid-column: 4;
-
-}
-
-.fold-card-head-grip > .strategy-box-remove,
-.fold-card-head-grip > .strategy-box-actions {
-
-    grid-column: 5;
-
-}
-
 .fold-card-head > .business-card-summary {
 
     grid-column: 3 / -1;
     grid-row: 2;
-
-}
-
-.fold-card-head-grip > .business-card-summary {
-
-    grid-column: 4 / -1;
 
 }
 
@@ -338,12 +293,6 @@
 .fold-card-head ~ :not(.fold-card-head) {
 
     margin-left: var(--card-body-indent);
-
-}
-
-.fold-card-head-grip ~ :not(.fold-card-head) {
-
-    margin-left: calc(24px + 8px + var(--card-body-indent));
 
 }
 

@@ -25,7 +25,7 @@ describe("the button colour family", () => {
     });
 
     it("is set by a Segment, Theme or section card from its palette colour", () => {
-        const card = rule(global, ".business-foundation-input, .strategy-theme-panel, .strategy-theme-box, .roadmap-theme-box {");
+        const card = rule(global, ".business-foundation-input, .strategy-theme-box, .roadmap-theme-box {");
         // A ground is the hue mixed toward the page's paper (colors.css).
         for (const name of family) expect(card).toMatch(new RegExp(name + ": (color-mix\\(in srgb, )?hsl\\(var\\(--strategy-theme-hue, 0\\)"));
     });

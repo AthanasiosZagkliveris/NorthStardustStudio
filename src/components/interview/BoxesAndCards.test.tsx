@@ -55,10 +55,6 @@ describe("the boxes have no stroke: an inset light and an inset shade", () => {
         expect(css).not.toMatch(/\.section-tile:hover[^{]*\{[^}]*border-color/);
     });
 
-    it("leaves the dashed add box its own edge", () => {
-        expect(css).toMatch(/\.section-tile-add \{[^}]*border: 1px dashed hsl\(var\(--strategy-theme-hue, 0\) var\(--theme-line-edge\)\);[^}]*box-shadow: none;/);
-    });
-
 });
 
 describe("the opened cards, their cells and the Back button have no stroke either", () => {

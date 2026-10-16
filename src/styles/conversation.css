@@ -1036,9 +1036,7 @@ textarea:focus{
 .answer-variant-cards,
 .profile-cards-row,
 .dynamic-table-scroll,
-.strategy-drag-handle,
-.numbered-list-number,
-.business-capability-handle{
+.numbered-list-number{
 
     cursor:url("../assets/cursors/grab.svg") 32 32, grab;
     cursor:image-set(url("../assets/cursors/grab.svg") 1x, url("../assets/cursors/grab-2x.png") 2x) 32 32, grab;
@@ -1048,9 +1046,7 @@ textarea:focus{
 .answer-variant-cards.drag-scrolling,
 .profile-cards-row.drag-scrolling,
 .dynamic-table-scroll.drag-scrolling,
-.strategy-drag-handle:active,
-.numbered-list-number:active,
-.business-capability-handle:active{
+.numbered-list-number:active{
 
     cursor:url("../assets/cursors/grabbing.svg") 32 32, grabbing;
     cursor:image-set(url("../assets/cursors/grabbing.svg") 1x, url("../assets/cursors/grabbing-2x.png") 2x) 32 32, grabbing;
@@ -5172,19 +5168,6 @@ td.process-library-col-number{
 /* A grip, not a control: the up/down buttons beside it do the
    same job for anyone not using a pointer, so it is hidden from
    assistive technology (see useListDrag.handleProps). */
-.strategy-drag-handle{
-
-    flex:0 0 auto;
-
-    font-size:var(--font-body);
-
-    color:var(--text-faint);
-
-    /* The drag hand: see "THE DRAG HAND". */
-
-    user-select:none;
-
-}
 
 .strategy-drop-target{
 
@@ -5272,26 +5255,6 @@ td.process-library-col-number{
 /* This page's four headings carry no numbers -- it expands the
    Foundation page's fourth section rather than adding sections
    of its own -- so the number box is simply absent. */
-.strategy-unnumbered-heading{
-
-    justify-content:center;
-
-}
-
-.strategy-theme-panel{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:var(--gap-12);
-
-    padding:12px;
-
-    border:1px solid var(--box-border);
-    border-radius:var(--radius-lg);
-
-}
 
 .strategy-goal-box{
 
@@ -5398,16 +5361,6 @@ td.process-library-col-number{
 /* Text that belongs to another page and is shown here only for
    context. Not a field, and deliberately does not look like
    one. */
-.strategy-inherited-text{
-
-    margin:0;
-
-    font-size:var(--font-body);
-    line-height:1.5;
-
-    color:var(--text-muted);
-
-}
 
 .strategy-subsection{
 
@@ -5912,15 +5865,6 @@ td.process-library-col-number{
 
 /* An Objective's period sits beside its label, so it stays
    readable while the box is minimized. */
-.strategy-objective-period{
-
-    display:flex;
-
-    align-items:flex-end;
-
-    gap:var(--gap-12);
-
-}
 
 /* Initiatives and Metrics side by side: they are written
    together -- a metric is how an initiative's objective is
@@ -6027,22 +5971,8 @@ td.process-library-col-number{
 /* Both pickers on one line beside the label. Sized to its own
    content rather than sharing the row -- the name field beside it
    is what absorbs the leftover width. */
-.strategy-objective-period{
-
-    flex:0 0 auto;
-
-    /* The pair wraps where the box is too narrow for both S steps. */
-    flex-wrap:wrap;
-    max-width:100%;
-
-}
 
 /* An Objective's From and To, each the S step, as every month. */
-.strategy-objective-period .month-picker-trigger{
-
-    width:var(--control-s);
-
-}
 
 /* ==========================================================
    Instructions toggle
@@ -6126,8 +6056,7 @@ td.process-library-col-number{
 ========================================================== */
 
 .answer-columns > .answer-column-questions,
-.brand-style-head > .answer-column-questions,
-.strategy-roadmap-head > .answer-column-questions{
+.brand-style-head > .answer-column-questions{
 
     padding:16px 12px;
 
@@ -6469,15 +6398,6 @@ td.process-library-col-number{
 
 /* Fixed width so the indent below can be arithmetic rather than
    a guess at how wide the grip glyph happens to render. */
-.strategy-drag-handle{
-
-    width:24px;
-
-    padding:0;
-
-    text-align:center;
-
-}
 
 .roadmap-empty-row{
 
@@ -6968,11 +6888,6 @@ td.process-library-col-number{
    4.63:1, but a Theme box draws it on a tint, which took it to
    4.27:1 -- under the 4.5:1 minimum. #4b5563 clears it on every
    tint the palette can produce. */
-.strategy-drag-handle{
-
-    color:var(--text-muted);
-
-}
 
 /* ==========================================================
    Metric fields -- pairing
@@ -7019,8 +6934,7 @@ td.process-library-col-number{
    better than it was on white.
 ========================================================== */
 
-.strategy-subsection > .strategy-add-button,
-.strategy-theme-panel > .strategy-box-body > .strategy-add-button{
+.strategy-subsection > .strategy-add-button{
 
     background:var(--bg-panel);
 
@@ -7032,11 +6946,6 @@ td.process-library-col-number{
    `.strategy-theme-panel .strategy-objective-box`) instead of the
    white it inherited, so it reads as the next Objective in the
    stack rather than a control sitting on the Goal box. */
-.strategy-theme-panel .strategy-goal-box > .strategy-box-body > .strategy-add-button{
-
-    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
-
-}
 
 /* Its hover ground is set with every other add button's, under
    "Theme colour on the controls" at the end of this file. */
@@ -7103,48 +7012,7 @@ td.process-library-col-number{
    #4b5563 above 6:1 on every hue the palette can produce.
 ========================================================== */
 
-.strategy-theme-panel{
-
-    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
-
-}
-
-.strategy-theme-panel .strategy-goal-box{
-
-    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
-
-    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
-
-}
-
-.strategy-theme-panel .strategy-objective-box{
-
-    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
-
-    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
-
-}
-
-.strategy-theme-panel .strategy-metric-box{
-
-    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-raised)) var(--theme-ground-weight), var(--theme-ground-paper));
-
-    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
-
-}
-
 /* An add button keeps taking the ground of the thing it adds. */
-.strategy-theme-panel .strategy-subsection > .strategy-add-button{
-
-    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-raised)) var(--theme-ground-weight), var(--theme-ground-paper));
-
-}
-
-.strategy-theme-panel > .strategy-box-body > .strategy-add-button{
-
-    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
-
-}
 
 /* ==========================================================
    Hover, consistently
@@ -7763,7 +7631,6 @@ td.process-library-col-number{
 
 .answer-columns > .answer-column-questions,
 .brand-style-head > .answer-column-questions,
-.strategy-roadmap-head > .answer-column-questions,
 .interview-help-panel{
 
     /* #F7E7BA taken half the remaining distance to white twice
@@ -8232,14 +8099,6 @@ td.process-library-col-number{
    than it did, which costs nothing.
 ========================================================== */
 
-.strategy-theme-panel .strategy-goal-box,
-.strategy-theme-panel .strategy-objective-box,
-.strategy-theme-panel .strategy-metric-box{
-
-    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
-
-}
-
 /* The add buttons' label, stroke and hover ground come from the
    Theme's colour family (--accent-* on .strategy-theme-panel,
    global.css): the ink above, and one hover ground for all three,
@@ -8247,11 +8106,6 @@ td.process-library-col-number{
    4.61:1 for the label at the worst hue. Named again here only to
    outrank the per-level grounds above, which would otherwise hold
    under the pointer too. */
-.strategy-theme-panel .strategy-add-button:hover:not(:disabled){
-
-    background:var(--accent-ground-hover);
-
-}
 
 /* ==========================================================
    The glow, inside a Theme
@@ -8275,7 +8129,6 @@ td.process-library-col-number{
    satisfied by.
 ========================================================== */
 
-.strategy-theme-panel,
 .strategy-theme-box,
 .roadmap-theme-box{
 
@@ -8295,14 +8148,6 @@ td.process-library-col-number{
 /* Only the border needs saying here -- the ring these boxes
    already draw on hover and focus now takes the Theme's colour
    on its own. */
-.strategy-theme-panel .strategy-goal-box:hover,
-.strategy-theme-panel .strategy-objective-box:hover,
-.strategy-theme-panel .strategy-metric-box:hover,
-.strategy-theme-panel .numbered-list:hover,
-.strategy-theme-panel .strategy-goal-box:focus,
-.strategy-theme-panel .strategy-objective-box:focus,
-.strategy-theme-panel .strategy-metric-box:focus,
-.strategy-theme-panel .numbered-list:focus-within,
 .strategy-theme-box:hover,
 .strategy-theme-box:focus{
 
@@ -8313,13 +8158,6 @@ td.process-library-col-number{
 /* The open/close arrow takes a stroke on hover as well as its
    white ground -- the same line colour the boxes around it are
    drawn in, so the button reads as belonging to its own box. */
-.strategy-theme-panel .strategy-box-toggle:hover{
-
-    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
-
-    background:var(--bg-surface);
-
-}
 
 /* ==========================================================
    Wired buttons -- a doubled stroke on hover
@@ -8377,26 +8215,6 @@ td.process-library-col-number{
    any say. It does, and it is the last rule in the file, which
    is what settles the tie.
 ========================================================== */
-
-.brand-style .strategy-theme-panel :is(
-    .strategy-goal-box,
-    .strategy-objective-box,
-    .strategy-metric-box:not(.strategy-initiatives-box),
-    .interview-input,
-    .numbered-list,
-    .month-picker-trigger
-):is(:hover, :focus, :focus-visible, :focus-within):not(:disabled),
-.brand-style .strategy-theme-panel :is(
-    .strategy-add-button,
-    .strategy-box-action,
-    .strategy-box-toggle,
-    .month-picker-step,
-    .month-picker-cell
-):focus-visible:not(:disabled){
-
-    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
-
-}
 /* ==========================================================
    The Initiatives box
 
@@ -8412,18 +8230,6 @@ td.process-library-col-number{
    -- it is what the typing goes into -- so it is the one that
    stays.
 ========================================================== */
-
-.strategy-theme-panel .strategy-metric-box.strategy-initiatives-box:hover,
-.strategy-theme-panel .strategy-metric-box.strategy-initiatives-box:focus,
-.strategy-theme-panel .strategy-metric-box.strategy-initiatives-box:focus-within{
-
-    /* The resting border, restated -- the shared hover rule
-       darkens it, and that is a reaction too. */
-    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
-
-    box-shadow:none;
-
-}
 /* ==========================================================
    Choosing, in the Theme's colour
 
@@ -8447,55 +8253,10 @@ td.process-library-col-number{
    accent still tints the chosen row.
 ========================================================== */
 
-.strategy-theme-panel{
-
-    accent-color:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-accent-deep));
-
-}
-
-.strategy-theme-panel select.interview-input option:checked{
-
-    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-accent-deeper));
-
-    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
-
-}
-
-.strategy-theme-panel .month-picker-step-active{
-
-    color:var(--text-on-fill);
-
-    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent-deep));
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-accent-deep));
-
-}
-
 /* `:not(:disabled)` so a cell that holds the current value AND
    has since fallen out of range keeps the plain white ground
    `.month-picker-cell:disabled` gives it -- the grey label needs
    it to stay legible. */
-.strategy-theme-panel .month-picker-cell-current:not(:disabled){
-
-    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-accent-deeper));
-
-    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
-    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
-
-}
-
-.strategy-theme-panel .month-picker-cell:hover:not(:disabled){
-
-    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
-    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
-
-}
-
-.strategy-theme-panel .month-picker-step:focus-visible,
-.strategy-theme-panel .month-picker-cell:focus-visible{
-
-    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
-
-}
 /* ==========================================================
    Floating panels sit above the furniture
 
@@ -11457,49 +11218,11 @@ td.process-library-col-number{
 /* Held in from the name above it, so a column of names stays a
    column of names and what belongs to each is plainly beneath it
    rather than beside it. */
-.business-engagement-reference-facts{
-
-    display:flex;
-
-    flex-direction:column;
-
-    /* Between one section and the next. Enough to see three of
-       them as three. */
-    gap:var(--gap-8);
-
-    margin:2px 0 0;
-
-    /* The rule hangs in the arrow column (12px before the text edge, like
-       every hanging rule), so the text starts at the column's edge. */
-    position:relative;
-
-}
-
-.business-engagement-reference-facts::before{
-
-    content:"";
-
-    position:absolute;
-
-    top:0;
-    bottom:0;
-    left:-12px;
-
-    border-left:2px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
-
-}
 
 /* ONE SECTION PER QUESTION, under the Page 1 heading its answer is
    written beneath. Three answers run together with middle dots
    between them read as a paragraph; under their own headings they
    read as three things. */
-.business-engagement-reference-section{
-
-    display:flex;
-
-    flex-direction:column;
-
-}
 
 /* The heading. Smaller than the body it introduces, and in the
    card's own control colour, so it labels the answer without
@@ -11538,20 +11261,6 @@ td.process-library-col-number{
    bulleted and numbered lines, and collapsing their breaks turned
    every one of them into a paragraph. `pre-line` keeps the breaks
    the founder typed and still wraps long lines normally. */
-.business-engagement-reference-text{
-
-    margin:0;
-
-    white-space:pre-line;
-
-    overflow-wrap:break-word;
-
-    font-size:var(--font-body);
-    line-height:1.5;
-
-    color:var(--text-default);
-
-}
 
 /* The name; the fold arrow at the right of its text (8px after it, the
    head gap) folds what is written under it. The arrow is 36px and the link's
@@ -11726,20 +11435,6 @@ td.process-library-col-number{
    Drawn as text rather than in a box, because a box is a promise
    that something can be typed into it. These say what A. Customer
    Channel already records; changing them means changing it. */
-.business-engagement-derived{
-
-    display:block;
-
-    font-size:var(--font-body);
-    font-weight:600;
-
-    letter-spacing:0.05em;
-
-    line-height:28px;
-
-    color:var(--text-default);
-
-}
 
 /* EVERY CHANNEL OF ONE KIND used at one stage, listed under the
    category that names them. They share a row because they share an
@@ -11790,25 +11485,6 @@ td.process-library-col-number{
 /* The kind of channel, beside the stage it is used at: the same
    value one step quieter, so the pair reads as "when / through
    what" across the two columns. */
-.business-engagement-derived-second{
-
-    display:block;
-
-    font-size:var(--font-body);
-
-    line-height:28px;
-
-    /* #4b5563 on the derived ground is 7.2:1. */
-    color:var(--text-muted);
-
-    /* UNDERLINED, the way every other heading over a list on this
-       page is: the category names the channels under it, and the
-       line says the list belongs to it rather than to the stage
-       above. The offset keeps the rule clear of the descenders. */
-    text-decoration:underline;
-    text-underline-offset:3px;
-
-}
 
 /* The goals, under the Approach they belong to. */
 /* THE GOAL AND ITS THREE WORDS ON ONE LINE. "Goal: Get Keep
@@ -12199,21 +11875,6 @@ td.process-library-col-number{
    stands in the band row, on the stage's own line -- the band's 36px line
    (the fold arrow's height) with the Goal centred on it, as the stage name is
    -- on the band's ground, in the regular weight and the answers' own case. */
-.business-engagement-band-goal{
-
-    font-weight:400;
-
-    letter-spacing:normal;
-
-    vertical-align:top;
-
-}
-
-.business-engagement-band-goal .business-engagement-goal{
-
-    min-height:36px;
-
-}
 
 /* THE LEVELS OF THE TABLE, told apart by where they start rather
    than by shades nobody can rank by eye. Each one begins a step in
@@ -12333,26 +11994,6 @@ td.process-library-col-number{
    The first of the two is indented to the Relationship Types it
    heads, so it stands directly over them. The second heads two
    columns and starts at the first of them. */
-.business-relationship-heading{
-
-    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
-
-    font-size:var(--font-body);
-    font-weight:700;
-
-    letter-spacing:0.05em;
-
-    line-height:28px;
-
-    color:var(--text-default);
-
-}
-
-.business-relationship-heading:first-child{
-
-    padding-left:36px;
-
-}
 
 /* One kind of channel, under the journey stage it is used at. */
 .business-relationship-channels-cell{
@@ -12364,11 +12005,6 @@ td.process-library-col-number{
 /* Starts at the journey stage's TEXT (the band's 12px inset, the fold
    arrow's 36px, its 4px gap): the kind of channel and its list stand under
    the stage's name, not under its arrow. */
-.business-relationship-table .business-relationship-stage-cell{
-
-    padding-left:var(--offering-number-indent);
-
-}
 
 /* A SECTION OR GROUP AT ITS CARD'S BODY EDGE HANGS ITS ARROW IN THE CARD'S
    ARROW COLUMN (content starts at the number, docs/ai/layout-rules.md):
@@ -12390,8 +12026,7 @@ td.process-library-col-number{
    title's text, the arrow in front (36px and the head's 8px gap):
    Infrastructure's subsections ("Electricity") inside their columns and
    Financial Foundation's cost groups ("Establishment", "Operating"). */
-.business-capability-subsection > :not(.business-capability-subsection-head),
-.financial-cost-group > :not(.financial-cost-group-head){
+.business-capability-subsection > :not(.business-capability-subsection-head){
 
     margin-left:calc(36px + 8px);
 
@@ -12407,8 +12042,7 @@ td.process-library-col-number{
 
 }
 
-.business-relationship-table .business-relationship-profiles,
-.business-relationship-table .business-relationship-heading:first-child{
+.business-relationship-table .business-relationship-profiles{
 
     padding-left:var(--offering-number-indent);
 
@@ -12478,21 +12112,6 @@ td.process-library-col-number{
    what is done at each step of it. The stage named the way every
    heading over an answer on this page is named, and the answer
    under it, keeping the line breaks it was written with. */
-.business-engagement-folded-stages{
-
-    list-style:none;
-
-    margin:0;
-
-    padding:0;
-
-}
-
-.business-engagement-folded-stages li + li{
-
-    margin-top:12px;
-
-}
 
 /* The kind of thing the band names, in front of the name itself --
    "1. Profile -", "1. Offering -". Quieter than the name, because
@@ -12926,15 +12545,6 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 /* "For channel: Social Media › Instagram" on a Resource card a channel
    holds (Infrastructure & Capability): read only, quiet. */
-.business-capability-channel-line{
-
-    margin:0;
-
-    font-size:var(--font-small);
-
-    color:var(--text-subtle);
-
-}
 
 
 .business-channel-cost-summary{
@@ -13600,56 +13210,12 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
    every level on Page 2 takes from the arrow above it -- so the
    sections' own arrows read as inside the group's rather than
    level with it. */
-.business-capability-columns{
-
-    display:grid;
-
-    grid-template-columns:repeat(2, minmax(0, 1fr));
-
-    column-gap:var(--gap-24);
-    row-gap:var(--space-card);
-
-    padding-left:24px;
-
-}
-
-.business-capability-columns-3{
-
-    grid-template-columns:repeat(3, minmax(0, 1fr));
-
-}
 
 /* Cards laid across a section, with no group arrow above them to
    step in from. */
-.business-capability-columns.business-capability-columns-flush{
-
-    padding-left:0;
-
-}
 
 /* (Offering's Capability 1. Resources and 2. Activities lay their cards out
    in independent columns: .card-columns, card-folding.css / CardColumns.) */
-
-@media (max-width: 1500px){
-
-    .business-capability-columns-3{
-
-        grid-template-columns:repeat(2, minmax(0, 1fr));
-
-    }
-
-}
-
-@media (max-width: 900px){
-
-    .business-capability-columns,
-    .business-capability-columns-3{
-
-        grid-template-columns:minmax(0, 1fr);
-
-    }
-
-}
 
 /* And a subsection of a section one step further -- Furniture
    inside 4. Workstation. No border here: three nested rules would be
@@ -13953,27 +13519,6 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 }
 
-.business-capability-done-tag{
-
-    display:inline-block;
-
-    padding:0 8px;
-
-    border:1px solid var(--line-completed);
-    border-radius:999px;
-
-    background:var(--bg-completed-ground);
-
-    font-size:var(--font-body);
-    font-weight:600;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-    line-height:22px;
-
-    color:var(--text-completed-ink);
-
-}
-
 /* Completed, at the bottom right of the row. */
 .business-capability-done{
 
@@ -13995,11 +13540,6 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 /* The number is the grip: dragging starts here, so a drag begun in
    a text field selects text as it normally would. */
-.business-capability-handle{
-
-    /* The drag hand: see "THE DRAG HAND". */
-
-}
 
 /* What is LEFT TO DO, which is the number that means something on
    this page.
@@ -14007,18 +13547,6 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
    Red, as the specification asks. #b3261e holds above 4.5:1 on
    both card grounds and on white, which the app's own red already
    had to. */
-.business-capability-active{
-
-    font-size:var(--font-body);
-    font-weight:700;
-
-    letter-spacing:0.05em;
-
-    line-height:28px;
-
-    color:var(--text-danger-alt);
-
-}
 
 /* What is done, folded away behind its own count and drawn in the
    neutral grey of everything completed (--*-completed-*,
@@ -14076,7 +13604,6 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
    width of a word. */
 @media (max-width: 900px){
 
-    .business-capability-columns,
     .business-capability-subsection{
 
         padding-left:8px;
@@ -14132,15 +13659,6 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 /* A cost group's arrow and title (its "i" inside the title, see
    .info-note) on one line, as every folding group on Pages 1 to 3
    has them. */
-.financial-cost-group-head > .business-foundation-label-info{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:var(--gap-8);
-
-}
 
 /* Financial Foundation's settings, once for the page: Plan Start,
    Plan Length, Amounts and Income Tax (the plan's months are in the
@@ -14208,58 +13726,6 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 /* Income Tax at a rate: the choice and the rate share the column,
    the rate a compact box that fits "100.00", its "%" after the
    figure; the choice takes the rest, on one line. */
-.financial-income-tax-pair > .option-picker{
-
-    flex:1 1 auto;
-
-    min-width:0;
-
-}
-
-.financial-income-tax-pair > .option-picker > .option-picker-trigger.interview-input{
-
-    display:grid;
-
-    width:100%;
-
-}
-
-.financial-rate-entry{
-
-    position:relative;
-
-    flex:none;
-
-    display:inline-flex;
-
-}
-
-.financial-plan-bar .financial-rate-entry > .financial-rate-input.interview-input{
-
-    width:calc(6ch + 40px);
-
-    padding-right:28px;
-
-    text-align:right;
-
-}
-
-.financial-rate-suffix{
-
-    position:absolute;
-
-    top:50%;
-    right:10px;
-
-    translate:0 -50%;
-
-    font-size:var(--font-body);
-
-    color:var(--text-muted);
-
-    pointer-events:none;
-
-}
 
 /* A note on the bar (a missing setting, where the rest comes
    from) runs across it, under the columns. */
@@ -14318,7 +13784,6 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 }
 
-.financial-subtotal,
 .financial-standing{
 
     margin:0;
@@ -14345,30 +13810,6 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 /* ---------- 1. Costs ---------- */
 
-.financial-cost-group{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:10px;
-
-}
-
-.financial-cost-group-head{
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    align-items:baseline;
-
-    justify-content:space-between;
-
-    gap:var(--gap-8) var(--gap-16);
-
-}
-
 /* A table of costs, drawn as a grid so every row shares the same
    columns and a row's details can span all of them.
 
@@ -14379,242 +13820,27 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
    holds "Change" and the × (--row-actions-width), with the card's
    own padding to its right, so the × is inside the row, never on its
    edge. */
-.financial-cost-table{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:var(--space-row);
-
-    min-width:0;
-
-    /* Its rows reflow on the TABLE's width (see "The cost table's
-       rows stack"), not the window's. */
-    container:cost-table / inline-size;
-
-}
-
-.financial-cost-row{
-
-    display:grid;
-
-    grid-template-columns:
-        minmax(0, 2.6fr)
-        minmax(0, 1fr)
-        minmax(0, 1fr)
-        minmax(0, 1.1fr)
-        minmax(0, 1.2fr)
-        var(--row-actions-width);
-
-    align-items:baseline;
-
-    gap:var(--gap-8) 10px;
-
-    padding:var(--card-padding);
-
-    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-light));
-    border-radius:var(--radius-lg);
-
-    background:var(--bg-surface);
-
-    font-size:var(--font-body);
-
-}
 
 /* The Offering group adds how each cost moves with sales, and its Offering. */
-.financial-cost-table-offering .financial-cost-row{
-
-    grid-template-columns:
-        minmax(0, 2.4fr)
-        minmax(0, 1fr)
-        minmax(0, 1fr)
-        minmax(0, 1.1fr)
-        minmax(0, 1fr)
-        minmax(0, 1.4fr)
-        minmax(0, 1.2fr)
-        var(--row-actions-width);
-
-}
 
 /* Establishment: one-time costs, so no Frequency column. */
-.financial-cost-table-one-time .financial-cost-row{
-
-    grid-template-columns:
-        minmax(0, 2.6fr)
-        minmax(0, 1fr)
-        minmax(0, 1.2fr)
-        minmax(0, 1.2fr)
-        var(--row-actions-width);
-
-}
 
 /* Amounts align to the right (the currency is in the column header); the cost nature is a short dropdown with a muted line under it. */
-.financial-cost-number{
-
-    text-align:right;
-
-}
-
-.financial-cost-nature{
-
-    display:flex;
-    flex-direction:column;
-    gap:var(--gap-4);
-
-    min-width:0;
-
-}
-
-.financial-cost-row > *{
-
-    min-width:0;
-
-}
-
-.financial-cost-header{
-
-    padding-block:0;
-
-    border:0;
-
-    background:none;
-
-    font-size:var(--font-body);
-    font-weight:600;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-
-
-    color:var(--text-muted);
-
-}
-
-.financial-cost-name{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:var(--gap-4);
-
-}
-
-.financial-cost-title{
-
-    line-height:1.5;
-
-    color:var(--text-default);
-
-}
-
-.financial-cost-source{
-
-    font-size:var(--font-body);
-    line-height:1.3;
-
-    color:var(--text-muted);
-
-}
-
-.financial-cost-amount{
-
-    display:inline-block;
-
-    line-height:1.5;
-
-    font-weight:600;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-}
 
 /* Plain text in a cell: the body's own line, so the row's baselines
    put it on the text line of the boxes beside it. */
-.financial-cost-row [role="cell"]:not(.financial-cost-name) > span:not(.financial-flag){
-
-    line-height:1.5;
-
-}
 
 /* Under an amount: how many, at what price each. */
-.financial-cost-row [role="cell"]:not(.financial-cost-name) > span.financial-cost-source{
-
-    display:block;
-
-    line-height:1.3;
-
-}
-
-.financial-cost-change{
-
-    line-height:1.5;
-
-    font-size:var(--font-body);
-
-}
 
 /* The × slot is reserved whether or not this row has one (only an
    added cost does): a fixed 32px second column, present or empty,
    so "Change" ends at the same x on every row instead of hopping
    left by the ×'s own width on the rows that have one. */
-.financial-cost-remove{
-
-    display:grid;
-
-    grid-template-columns:auto 32px;
-
-    align-items:baseline;
-
-    gap:var(--gap-8);
-
-}
-
-.financial-cost-remove > .financial-cost-change{
-
-    justify-self:end;
-
-}
 
 /* What some costs need on a line of their own: a semi-variable
    cost's two parts, an added cost's description. */
-.financial-cost-detail{
-
-    grid-column:1 / -1;
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:var(--gap-12);
-
-}
-
-.financial-cost-detail > .business-foundation-field{
-
-    flex:1 1 220px;
-
-}
-
-.financial-inline-input{
-
-    margin-top:6px;
-
-}
 
 /* Words, not colour: it says what is wrong. */
-.financial-flag{
-
-    display:block;
-
-    margin-top:4px;
-
-    font-size:var(--font-body);
-    font-weight:600;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-    color:var(--text-flag);
-
-}
 
 /* ---------- 2. Funding Need, 3. Capital & Funding ---------- */
 
@@ -14676,16 +13902,14 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 /* A month picker in a grid cell takes the cell, and no more. */
 .financial-schedule-row > .month-picker,
-.financial-milestone > .month-picker,
-.financial-cost-row .month-picker{
+.financial-milestone > .month-picker{
 
     min-width:0;
 
 }
 
 .financial-schedule-row .month-picker-trigger,
-.financial-milestone .month-picker-trigger,
-.financial-cost-row .month-picker-trigger{
+.financial-milestone .month-picker-trigger{
 
     width:100%;
 
@@ -15496,73 +14720,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
    the row. */
 @container cost-table (max-width: 1099px){
 
-    .financial-cost-table-offering .financial-cost-row{
-
-        grid-template-columns:repeat(2, minmax(0, 1fr));
-
-    }
-
-    .financial-cost-table-offering .financial-cost-header{
-
-        display:none;
-
-    }
-
-    .financial-cost-table-offering .financial-cost-name,
-    .financial-cost-table-offering .financial-cost-detail{
-
-        grid-column:1 / -1;
-
-    }
-
     /* "Change" and the × on a line of their own, at the right. */
-    .financial-cost-table-offering .financial-cost-remove{
-
-        grid-column:1 / -1;
-
-        justify-self:end;
-
-    }
-
-}
-
-@container cost-table (max-width: 799px){
-
-    .financial-cost-table .financial-cost-row{
-
-        grid-template-columns:repeat(2, minmax(0, 1fr));
-
-    }
-
-    .financial-cost-table .financial-cost-header{
-
-        display:none;
-
-    }
-
-    .financial-cost-table .financial-cost-name,
-    .financial-cost-table .financial-cost-detail,
-    .financial-cost-table .financial-cost-remove{
-
-        grid-column:1 / -1;
-
-    }
-
-    .financial-cost-table .financial-cost-remove{
-
-        justify-self:end;
-
-    }
-
-}
-
-@container cost-table (max-width: 479px){
-
-    .financial-cost-table .financial-cost-row{
-
-        grid-template-columns:minmax(0, 1fr);
-
-    }
 
 }
 
@@ -15598,7 +14756,6 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 }
 
-.financial-section .financial-cost-row:not(.financial-cost-header),
 .financial-section .financial-tile,
 .financial-section .financial-signal{
 
@@ -15651,8 +14808,7 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 /* Headings inside a section in its own darker shade, as a
    subsection heading is on Infrastructure & Capability. */
 .financial-section .financial-tile-label,
-.financial-section .financial-table thead th,
-.financial-section .financial-cost-header{
+.financial-section .financial-table thead th{
 
     color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink-deep));
 
@@ -15776,12 +14932,6 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
     margin:0;
 
     font-size:var(--font-body);
-
-}
-
-.financial-cost-group-head .strategy-box-toggle{
-
-    align-self:center;
 
 }
 
@@ -16088,12 +15238,6 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 }
 
-.business-capability-cost-grid-quantity > .business-capability-quantity-price{
-
-    grid-column:1 / -1;
-
-}
-
 .business-founder-grid,
 .card-field-pairs-grid{
 
@@ -16136,7 +15280,6 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
     }
 
-    .business-capability-cost-grid-quantity > .business-capability-price-only,
     .business-capability-cost-grid-quantity > .business-foundation-field:not(.business-field-side){
 
         width:min(100%, var(--control-s));
@@ -16231,42 +15374,10 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 /* Quantity | Price | currency: the Quantity a short number
    (--control-xs), the Price taking the rest beside its compact
    currency. */
-.business-capability-quantity-price{
-
-    display:flex;
-
-    align-items:flex-start;
-
-    gap:var(--gap-8);
-
-    min-width:0;
-
-}
-
-.business-capability-quantity-price > .business-foundation-field:first-child{
-
-    flex:0 0 var(--control-xs);
-
-    min-width:0;
-
-}
-
-.business-capability-quantity-price > .business-foundation-field + .business-foundation-field{
-
-    flex:1 1 auto;
-
-    min-width:0;
-
-}
 
 /* The Price and its currency fill the rest of the row, to column 2's
    right edge -- not the one step (--control-m) an amount with a
    currency takes standing alone (global.css). */
-.business-capability-cost-grid-quantity > .business-capability-quantity-price > .business-foundation-field > .business-capability-price{
-
-    width:100%;
-
-}
 
 /* ---------- Each Offering's costs (Sustainability) ---------- */
 
@@ -16911,20 +16022,6 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 }
 
-.strategy-plan-dates-differ{
-
-    /* Its lines still start where "Start" and "End" do: the 45px,
-       less its 3px rule. */
-    padding:6px 10px 6px 42px;
-
-    border-left:3px solid var(--line-caution);
-
-    background:var(--bg-caution-tint);
-
-    color:var(--text-caution-ink);
-
-}
-
 /* Strategy 1.4: "+ Add Theme", one menu for the founder's own
    Theme or a common one. The page's typeface (Inter) throughout:
    a <button> does not inherit it on its own, and fell back to Arial.
@@ -16950,113 +16047,17 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 
 }
 
-.strategy-add-caret{
-
-    width:0;
-    height:0;
-
-    border-left:5px solid transparent;
-    border-right:5px solid transparent;
-    border-top:6px solid currentColor;
-
-    transition:transform .15s ease;
-
-}
-
-.strategy-add-button[aria-expanded="true"] .strategy-add-caret{
-
-    transform:rotate(180deg);
-
-}
-
-.strategy-add-menu-panel{
-
-    min-width:280px;
-
-    padding:6px;
-
-}
-
-.strategy-add-menu-panel .strategy-sort-option{
-
-    padding:8px 12px;
-
-    font-family:inherit;
-    font-size:var(--font-body);
-    font-weight:400;
-    line-height:1.4;
-    letter-spacing:normal;
-    text-transform:none;
-
-}
-
 /* "Write your own": an action, in the button's blue, not a second
    bold row competing with the heading. */
-.strategy-add-menu-panel .strategy-add-own{
-
-    font-weight:500;
-
-    color:var(--text-primary);
-
-}
-
-.strategy-add-menu-panel [role="group"]{
-
-    display:flex;
-
-    flex-direction:column;
-
-}
 
 /* "or choose one below": a plain line in black, not a heading; the
    choices under it are the blue actions, as "Write your own" is. */
-.strategy-add-menu-heading{
-
-    margin:6px 12px 2px;
-    padding-top:10px;
-
-    border-top:1px solid var(--line-divider);
-
-    font-size:var(--font-body);
-    font-weight:400;
-    line-height:1.4;
-    letter-spacing:normal;
-
-    color:var(--text-default);
-
-}
-
-.strategy-add-menu-panel [role="group"] .strategy-sort-option:not(:disabled){
-
-    font-weight:500;
-
-    color:var(--text-primary);
-
-}
 
 .strategy-sort-option:disabled{
 
     color:var(--text-muted);
 
     cursor:default;
-
-}
-
-.strategy-add-done{
-
-    font-size:var(--font-body);
-
-    color:var(--text-added);
-
-}
-
-.strategy-theme-count{
-
-    margin:0 0 8px;
-
-    font-size:var(--font-body);
-
-    color:var(--text-caution-ink);
 
 }
 
@@ -17228,36 +16229,6 @@ html.action-picking .business-channel-table textarea[data-pick-hover]{
 }
 
 /* THE COSTS SUMMARY of 4. Financial Foundation: a row for each group of costs -- its name (with its "i"), how many, and what they come to. */
-.financial-cost-summary{
-
-    display:flex;
-    flex-direction:column;
-
-    gap:var(--space-field);
-
-}
-
-.financial-cost-summary-row{
-
-    display:grid;
-    grid-template-columns:minmax(0, 1fr) auto auto;
-    align-items:baseline;
-
-    gap:var(--space-cell);
-
-    padding-bottom:var(--space-field);
-
-    border-bottom:1px solid var(--line-card);
-
-}
-
-.financial-cost-summary-row .financial-subtotal{
-
-    justify-self:end;
-
-    text-align:right;
-
-}
 
 /* A third wider than the one width and a half (InfoNote size="double", 480px): the guidance of the Brand pages and of the Themes. */
 .info-note-panel.info-note-panel-double{

@@ -69,46 +69,62 @@ body {
 }
 
 /* ==========================================================
-   Type Scale
+   TOKENS
+   Every custom property this file defines, in one place and in
+   seven groups. A token is named for what it measures or colours;
+   a component reads it with var() and states no number of its own
+   where a token exists. The colours are not here: they are the
+   generated tokens of colors.generated.css (src/styles/tokens), and
+   the corner steps and the gap scale are sizes.generated.css.
 
-   The strict 5-step type scale used everywhere in the app.
-   Every font-size declaration in every stylesheet and component
-   resolves to one of these five tokens.
-
-   One hard-coded copy: AXIS_TICK_FONT in FinancialParts.tsx
-   measures chart tick labels on a canvas at --font-small's 14px,
-   so a change to --font-small has to be made there as well.
+     1. Page and type        the window and the five type sizes
+     2. Spacing              the few distances every card is built from
+     3. Controls             the heights and widths of cells and boxes
+     4. Labels and fields    the label column and the cells of a card
+     5. Tiles, cards, dialogs  the squares, the founder's card, the glass
+     6. Surfaces and effects the insets, the hover, the focus, the glow
+     7. Colour families      the card hues and the colours of a button
+   The reading modes' own values of a few of them follow at the end
+   of this section.
 ========================================================== */
-/* The page's width: the window's (the Notepad lies over the page and
-   takes none of it). Layout that sizes itself on the window reads
-   this rather than 100vw. */
-:root {
-  --view-width: 100vw;
-}
+
+/* 1. PAGE AND TYPE ------------------------------------------------ */
 
 :root {
+  /* The page's width: the window's (the Notepad lies over the page and
+     takes none of it). Layout that sizes itself on the window reads
+     this rather than 100vw. */
+  --view-width: 100vw;
+
+  /* The strict five-step type scale: every font-size declaration in
+     every stylesheet and component resolves to one of these tokens.
+     One hard-coded copy: AXIS_TICK_FONT in FinancialParts.tsx measures
+     chart tick labels on a canvas at --font-small's 14px, so a change
+     to --font-small has to be made there as well. */
   --font-h1: 36px;
   --font-h2: 28px;
   --font-h3: 24px;
   --font-body: 18px;
   --font-small: 14px;
+
+  /* The line height of running text read as prose (a System's opening
+     screen: its introduction and its facts alike). */
+  --body-line: 1.6;
 }
 
-/* ==========================================================
-   Spacing
+/* 2. SPACING ------------------------------------------------------ */
 
-   The few distances every card and form in the interview is
-   built from. Taken from what the pages already used most, so a
-   page moved onto them keeps its rhythm:
-
+/* The few distances every card and form in the interview is built
+   from, taken from what the pages already used most, so a page moved
+   onto them keeps its rhythm:
      --space-label   a label to the control it names
      --space-field   one field (label and control) to the next
      --space-card    one card to the next in a list
      --card-padding  inside a card, from its border to its content
      --space-row     one row of a table or list of rows to the next
      --space-cell    one cell of a row to the next, inside a card (a
-                     field grid's columns, a pair row, a list's cells)
-========================================================== */
+                     field grid's columns, a pair row, a list's cells) */
+
 :root {
   --space-label: 6px;
   --space-field: 12px;
@@ -120,24 +136,147 @@ body {
      Segment's three columns, its Description's two): a card gap, so a
      card is the same distance from its neighbour across as down. */
   --space-column: var(--space-card);
+  /* The "i" to the last word of its label: one gap for every "i". */
+  --info-gap: 6px;
+  /* The gap between a tile's title and its list, and between a list's
+     bullet and its text. */
+  --tile-list-gap: 8px;
+  /* A section heading's height in a card of tiles (the old fold arrow's 36px). */
+  --section-head-height: 36px;
+  /* The end of a row of a table: a text control ("Change", "Done",
+     5em holds either at the body size), 8px, and the 32px x --
+     reserved on every row, so the columns before it stay put. */
+  --row-actions-width: calc(5em + 8px + 32px);
+  /* The numbers of the lists. ONE rule for every number that counts
+     the lines of a list or the cards of a stack (see List numbers):
+     tabular digits in a column wide enough for "10.". "10." in
+     tabular figures is widest in the rails, regular with their 0.1em
+     tracking, at 2.96ch, so 3.1ch holds it in every list. */
+  --list-number-width: 3.1ch;
+  /* Every numbered list, editable or shown: the number's right edge to
+     its text (the default 12px gap). */
+  --list-number-gap: 12px;
+  /* A shown (read-only) bulleted list: the bullet dot, and the gap from
+     its right edge to the text (the default 12px gap). */
+  --bullet-size: 6px;
+  --bullet-gap: 12px;
+}
+
+/* 3. CONTROLS ----------------------------------------------------- */
+
+/* THE SIZES OF A CONTROL. One height for every single-line cell and
+   three sizes of what stands beside it, so a cell and its x, plus,
+   calendar, link symbol, tick or "i" can be centred on one line:
+
+     --card-cell-height  every single-line cell: a text box, a picker,
+                         a date, a name cell (44px)
+     --size-box-button   the box buttons: the x, the plus, the calendar
+                         (32px)
+     --size-mark         the marks: the "i", the tick box, the link
+                         symbol (24px, the WCAG 2.5.8 target size) */
+
+:root {
+  --card-cell-height: 44px;
+  --size-box-button: 32px;
+  --size-mark: 24px;
+
+  /* A box as wide as a control is tall: a 2-3 digit value with its
+     unit after it (a Text Hierarchy level's px). */
+  --control-square: 44px; /* the same as --card-cell-height: one cell height */
+  /* A short number beside its neighbours (a Quantity). */
+  --control-xs: 80px;
+  /* The CODE step: a short code or figure of up to 10 characters (a
+     postcode or ZIP, "10001-1234" is 98px and ten digits 107px at body
+     size; a founder's capital, "£250,000"), plus the box's padding and
+     border. */
+  --control-code: 128px;
+  /* THE DATE step: the widest month and year a month picker shows
+     ("September 2030", 143px at body size) and its 12px insets. */
+  --control-date: 170px;
+  /* The standard widths of a choice (see ONE CONTROL-SIZING RULE). */
+  --control-s: 220px;
+  --control-m: 300px;
+  --control-l: 420px;
+  /* THE NAME | NUMBER LIST (a Legal Entity's registrations and tax
+     registrations, and the Status | Date row above them): the name
+     the rest, the number the S step (18 characters at body size:
+     "UK00004012345" is 146px, "HRB 123456 B" 122px) or two fifths of
+     a narrow list, and the x column kept on every row. */
+  --name-number-columns: minmax(0, 1fr) min(var(--control-s), 40%) 32px;
+
+  /* A box a value is typed or chosen in: its border, its corners, and
+     a select's padding and chevron (8px before the value, 24px on the
+     chevron side: 6px inset + its 12px + 6px clear of the value). */
+  --box-border: var(--line-box);
+  --box-radius: 6px;
+  --select-padding-left: 8px;
+  --select-padding-right: 24px;
+  --select-chevron-inset: 6px;
+  --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23111827' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+/* 4. LABELS AND FIELDS -------------------------------------------- */
+
+/* One label for every field (see Field labels), and ONE SET OF
+   MEASURES for the cells of a card (Business cards, the Legal Entity's,
+   the Founders'): every cell of a card starts at one of these lines,
+   so no card can be a few pixels off another.
+     --card-label-col   the label column of a side-label row (Start date,
+                        Group, Performer, Responsible, Frequency): wide
+                        enough for a tick, its word and its "i"
+     --card-cell-gap    the space between two cells of a row (and between
+                        a label and its cell)
+     --card-cell-narrow the narrow cell of a pair (Salary | Frequency,
+                        Working | Delivery hours) */
+
+:root {
+  --label-color: var(--text-muted);
+  --text-color: var(--text-default);
+  --label-line: 28px;
+  --side-label-width: 232px;
+  --side-label-gap: 12px;
+  --card-label-col: 177px;
+  --card-cell-gap: var(--space-cell);
+  --card-cell-narrow: 108px;
+  /* The SHORT side-label column (BusinessField side): the card's label
+     column, so the short labels of a Capability card stand in one
+     column and their dropdowns start at one x. */
+  --side-label-short: var(--card-label-col);
+  /* The label column of a colour's or a typeface's card (Role, Colour): the same on both. */
+  --brand-label-col: 87px;
+  /* The delete x of a card's head and the gap before it: the content
+     under the name ends where the name's cell does, so a card with no
+     name cell (a founder's) keeps this much clear on its right. */
+  --card-x-col: 40px;
+  /* The side-label column itself: the full width while the control
+     keeps 9rem, then giving way down to half the field, never less. */
+  --side-label-column: min(var(--side-label-width), max(50%, 100% - var(--side-label-gap) - 9rem));
+  /* The least a grid of side-labelled fields gives each one: the
+     label column, its gap and 9rem for a few digits or a short
+     choice -- so the grid wraps to fewer columns before a label
+     has to. */
+  --side-label-row: calc(var(--side-label-width) + var(--side-label-gap) + 9rem);
+}
+
+/* 5. TILES, CARDS, DIALOGS ---------------------------------------- */
+
+:root {
+  --tile-radius: 8px;
   /* A section tile (SectionTiles): a true square, this wide and this high,
      in every group of tiles (3. Infrastructure & Capability): a third of the
      group's width less its two gaps (100cqw is the width of the tile box,
      section-tiles.css), so three across fill it, and never under the minimum.
      The hundredth of a pixel keeps three across from being rounded out of the row. */
-  /* The arrow beside a column title (title-arrow.css): its glyph's long side,
-     three quarters of the title's size (--font-h3), not the 36px fold arrow. */
-  --title-arrow-size: calc(var(--font-h2) * 0.75);
-  --info-gap: 6px;
-  /* A section heading's height in a card of tiles (the old fold arrow's 36px). */
-  --section-head-height: 36px;
   --section-tile-min: 120px;
+  --section-tile-size: max(var(--section-tile-min), calc((100cqw - (max(var(--tile-columns, 3), 3) - 1) * var(--space-card)) / max(var(--tile-columns, 3), 3) - 0.01px));
   /* A tile title that wraps: room between its lines (a single line is unchanged). */
   --section-tile-line-height: 1.45;
+  /* A tile's or box's title: the centre of its LAST line stands this fraction of the way down the square
+     (a third: about two thirds of the square lie below the title line). One token; 0.66667 would put it
+     two thirds down. */
+  --tile-title-top: 0.25;
   /* A closed founder's box and a subcategory box (SubcategoryBoxes): the tile at this fixed side. */
   --section-box-size: 160px;
-  /* The Workspace dialog's form block (section-tiles.css): centred, this wide at most. */
-  /* The Workspace form's label column: as wide as the widest label of the form (max-content), no wider. */
   /* An open card in a dialog (a card box pressed): centred, this wide at most. */
   --open-card-width: 492px;
   /* A founder's card: the marker column left of the content edge (a bullet, a number, the
@@ -153,59 +292,117 @@ body {
      (the second as wide as the label "Frequency (i)", 120px) 12px apart, the right padding and the border. */
   --founder-cell: var(--card-cell-narrow);
   --founder-card-min: 297px;
+  /* The arrow beside a column title (title-arrow.css): its glyph's long side,
+     three quarters of the title's size (--font-h2), not the 36px fold arrow. */
+  --title-arrow-size: calc(var(--font-h2) * 0.75);
   /* THE ONE DIALOG GROUND and the glass cards inside it (section-tiles.css): the alpha
      of the card's ground (the rest lets the dimmed page show through) and the blur
      behind it. Text over them stays at 4.5:1 or more on the worst ground, per theme
      (layout-rules 5a). */
   --dialog-ground-alpha: 20%;
+  --dialog-blur: 14px;
+  --card-glass-alpha: 62%;
+  --card-glass-blur: 8px;
   /* The page behind the dialog, lifted: it is dimmed by the overlay (35% black), and dark text or a dark smear of it under
      the translucent ground would take the muted texts under 4.5:1. 1.7 undoes the dimming and a little more (light, sepia);
      the dark theme needs none. */
   --dialog-backdrop-brightness: 1.7;
+  /* THE PAGE BEHIND A FLOATING CARD: a flat dark scrim and the white ink of the box names standing on it (7:1 or more over the brightest page of any theme). */
+  --floating-scrim: transparent;
+  --floating-caption-ink: #ffffff;
+  /* The caps title's colour (see THE CAPS TITLE): the muted text colour,
+     4.5:1 or more on every ground a caps title stands on (5.8:1 at the
+     least, sepia, on a Goal card and the Value Proposition panel). */
+  --caps-title-color: var(--text-muted);
+}
+
+/* 6. SURFACES AND EFFECTS ----------------------------------------- */
+
+:root {
   /* A BOX (page tile, subcategory box, card box, Completed box) has no stroke: an inset light from the top left and an inset
      shade to the bottom right are its edge. Per theme. */
   --box-light: rgba(255, 255, 255, 0.75);
   --box-shade: rgba(0, 0, 0, 0.18);
   --box-inset: inset 3px 3px 6px var(--box-light), inset -3px -3px 6px var(--box-shade);
-  /* The "+" box's fill: the darker tone of the tile's hue (the card's hue at this saturation and lightness). */
-  --plus-fill-saturation: 36%;
-  --plus-fill-lightness: 38%;
-  /* THE PAGE BEHIND A FLOATING CARD: a flat dark scrim and the white ink of the box names standing on it (7:1 or more over the brightest page of any theme). */
-  --floating-scrim: transparent;
-  --floating-caption-ink: #ffffff;
   /* THE CELLS of an opened card (inputs, pickers, text boxes, name cells, Back; not the x, which keeps its own look) have no stroke either: a lighter light and shade, inside. */
   --cell-light: rgba(255, 255, 255, 0.5);
   --cell-shade: rgba(0, 0, 0, 0.12);
   --cell-inset: inset 2px 2px 3px var(--cell-light), inset -2px -2px 3px var(--cell-shade);
   /* A TEXT OR NUMBER CELL reads as a deeper part of its card: the same light and shade, the other way round (the shade at the top left, the light at the bottom right). */
   --cell-inset-recess: inset 2px 2px 3px var(--cell-shade), inset -2px -2px 3px var(--cell-light);
+  /* The "+" box's fill: the darker tone of the tile's hue (the card's hue at this saturation and lightness). */
+  --plus-fill-saturation: 36%;
+  --plus-fill-lightness: 38%;
   /* THE HOVER LIFT of page 3: the glow a tile, a cell or a list row takes under the pointer is its old amount (18%, 28%) times this. One place to change it. */
   --hover-lift: 1.2;
   /* THE FOCUS RING INK of page 3 (cells, tiles, links, "+", x): the primary line in light and sepia; in dark a clean white, never the light blue (the dark
      primary, #7aa7f5, drew a thin blue line round a focused cell). */
   --focus-ring-ink: var(--line-primary);
+  /* THE GLOW: every hover and focus ring in the app is drawn in this one
+     colour, as color-mix(in srgb, var(--glow-color) N%, transparent). Changing
+     it is one line; and because a custom property inherits, a subtree can hand
+     its own descendants a different glow by redeclaring it (everything inside a
+     Strategic Theme glows in that Theme's own colour). */
+  --glow-color: var(--line-primary);
+  /* Bold on hover without the resize: the text drawn twice, a third of a pixel
+     either side of itself (see Bold on hover, without the resize). */
+  --hover-bold: 0.03em 0 0 currentColor, -0.03em 0 0 currentColor;
+  /* TRACKING FOLLOWS WEIGHT (the Capability and System list's rule, global): text that goes bold under the pointer, and text that is bold by default, is set 5% wider than it is at rest. Every rule that sets a bold weight or --hover-bold sets this with it. */
+  /* What bold ADDS to the tracking the element already has (--rest-tracking: a button's 0.1em; none elsewhere). */
+  --bold-tracking: 0.05em;
+}
 
-  --dialog-blur: 14px;
-  --card-glass-alpha: 62%;
-  --card-glass-blur: 8px;
-  --section-tile-size: max(var(--section-tile-min), calc((100cqw - (max(var(--tile-columns, 3), 3) - 1) * var(--space-card)) / max(var(--tile-columns, 3), 3) - 0.01px));
-  /* A tile's or box's title: the centre of its LAST line stands this fraction of the way down the square
-     (a third: about two thirds of the square lie below the title line). One token; 0.66667 would put it
-     two thirds down. */
-  --tile-title-top: 0.25;
-  /* The gap between a tile's title and its list, and between a list's bullet and its text. */
-  --tile-list-gap: 8px;
-  /* The caps title's colour (see THE CAPS TITLE): the muted text colour,
-     4.5:1 or more on every ground a caps title stands on (5.8:1 at the
-     least, sepia, on a Goal card and the Value Proposition panel). */
-  --caps-title-color: var(--text-muted);
-  /* The line height of running text read as prose (a System's
-     opening screen: its introduction and its facts alike). */
-  --body-line: 1.6;
-  /* The end of a row of a table: a text control ("Change", "Done",
-     5em holds either at the body size), 8px, and the 32px × --
-     reserved on every row, so the columns before it stay put. */
-  --row-actions-width: calc(5em + 8px + 32px);
+/* 7. COLOUR FAMILIES ---------------------------------------------- */
+
+/* ACTION MARKERS' COLOURS (Customer Channel): the hues of the shared
+   (cool) and resource (warm) actions, cycling; see the .tint-* classes. */
+
+:root {
+  --shared-hue-1: 190;
+  --shared-hue-2: 210;
+  --shared-hue-3: 232;
+  --shared-hue-4: 254;
+  --shared-hue-5: 272;
+  --shared-hue-6: 292;
+  --resource-hue-1: 46;
+  --resource-hue-2: 28;
+  --resource-hue-3: 12;
+  --resource-hue-4: 356;
+  --resource-hue-5: 340;
+  --resource-hue-6: 322;
+}
+
+/* THE COLOUR FAMILY A BUTTON IS DRAWN IN (see below): out on the page,
+   in no card of a colour of its own, the family is the app's blue. */
+
+:root {
+  --accent-ink: var(--text-primary);
+  --accent-line: var(--line-primary);
+  --accent-ground: var(--bg-surface);
+  --accent-ground-hover: var(--bg-button-hover);
+  --accent-hover-ink: var(--text-button-hover);
+}
+
+/* READING MODES: the values of the tokens above that differ from light. */
+
+:root[data-theme="dark"] {
+  /* The dark theme dims the page less visibly (its text is light): the backdrop needs no lift. */
+  --dialog-backdrop-brightness: 1;
+  --box-light: rgba(255, 255, 255, 0.1);
+  --box-shade: rgba(0, 0, 0, 0.5);
+  --cell-light: rgba(255, 255, 255, 0.07);
+  --cell-shade: rgba(0, 0, 0, 0.45);
+  --plus-fill-saturation: 42%;
+  --plus-fill-lightness: 68%;
+}
+
+:root[data-theme="sepia"] {
+  --box-light: rgba(255, 252, 244, 0.8);
+  --box-shade: rgba(60, 40, 20, 0.2);
+  --cell-light: rgba(255, 252, 244, 0.55);
+  --cell-shade: rgba(60, 40, 20, 0.14);
+  --plus-fill-saturation: 34%;
+  --plus-fill-lightness: 36%;
 }
 
 /* ==========================================================
@@ -213,17 +410,18 @@ body {
 
    ONE label for every field in the interview: body size,
    regular, in the page's label colour (--label-color, below), on
-   a 28px line (which holds the 26px "i"
+   a 28px line (which holds the 24px "i"
    that some labels carry, so a label with a note is no taller
    than one without). The "i" follows the label's last word at
-   the one 8px gap every "i" has (.info-note).
+   the one 6px gap every "i" has (--info-gap, .info-note).
 
    A label sits ABOVE its field, --space-label from it. A short
    single-value row -- a number, an amount, one choice, a shown
    value -- may put it BESIDE the control instead
    (.business-field-inline): then every such label takes the one
    --side-label-width column, wide enough for "Working Hours /
-   Month" and its "i" on one line at 18px (198 + 8 + 26 = 232px),
+   Month" and its "i" on one line at 18px (198 + 6 + 24 = 228px, in the
+   232px column),
    and sits on the control's FIRST line of text, never centred
    on a tall control. In a NARROW CARD -- one without room for the
    indent, that column and a readable choice -- the label goes
@@ -234,44 +432,6 @@ body {
    A group of fields inside a card is named by .field-group-title:
    the same size, bold, in the text colour.
 ========================================================== */
-:root {
-  --label-color: var(--text-muted);
-  --label-line: 28px;
-  --side-label-width: 232px;
-  --side-label-gap: 12px;
-  /* The SHORT side-label column (BusinessField side): wide enough for
-     "Responsibility" and its "i" (118px + 8px + 26px = 152px, 4px slack:
-     the longer of the two short labels a Capability card sets beside a
-     dropdown, with "Frequency"), so the two
-     labels stand in one column and their dropdowns start at one x. With a
-     TICK BOX before it (Responsible: 22px box + 8px gap + 100px word + 8px +
-     22px "i" = 160px) the column still holds tick, word and "i" on ONE line. */
-  /* THE FIELDS OF A CARD, ONE SET OF MEASURES (Business cards, the Legal Entity's, the Founders'): every cell of a card starts at one of these lines, so no card
-     can be a few pixels off another.
-       --card-label-col   the label column of a side-label row (Start date, Group, Performer, Responsible, Frequency): wide enough for a tick, its word and its "i"
-       --card-cell-gap    the space between two cells of a row (and between a label and its cell)
-       --card-cell-narrow the narrow cell of a pair (Salary | Frequency, Working | Delivery hours) */
-  --card-label-col: 177px;
-  --card-cell-gap: var(--space-cell);
-  --card-cell-narrow: 108px;
-  /* The label column of a colour's or a typeface's card (Role, Colour): the same on both. */
-  --brand-label-col: 87px;
-  /* The height of every cell of a card (a text box, a picker, a date): 44px. */
-  --card-cell-height: 44px;
-  /* The delete x of a card's head and the gap before it: the content under the name ends where the name's cell does, so a card with no name cell (a founder's) keeps this much clear on its right. */
-  --card-x-col: 40px;
-  --side-label-short: var(--card-label-col);
-  --tile-radius: 8px;
-  /* The column itself: the full width while the control keeps 9rem,
-     then giving way down to half the field, never less. */
-  --side-label-column: min(var(--side-label-width), max(50%, 100% - var(--side-label-gap) - 9rem));
-  /* The least a grid of side-labelled fields gives each one: the
-     label column, its gap and 9rem for a few digits or a short
-     choice -- so the grid wraps to fewer columns before a label
-     has to. */
-  --side-label-row: calc(var(--side-label-width) + var(--side-label-gap) + 9rem);
-  --text-color: var(--text-default);
-}
 
 .field-label {
   font-size: var(--font-body);
@@ -357,7 +517,6 @@ body {
      the card at 96%  5.02:1     the inner card at 92%  4.82:1
      a third level at 88%  4.62:1      #4b5563 on white  7.56:1 */
 .business-foundation-input,
-.strategy-theme-panel,
 .strategy-theme-box,
 .roadmap-theme-box {
   --label-color: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
@@ -390,20 +549,6 @@ body {
      --tint-wash    a row or card lit by its twin / its resource
    The connection lines read --shared-hue-N / --resource-hue-N with
    --theme-mark-ink directly (BusinessEngagementEditor). */
-:root {
-  --shared-hue-1: 190;
-  --shared-hue-2: 210;
-  --shared-hue-3: 232;
-  --shared-hue-4: 254;
-  --shared-hue-5: 272;
-  --shared-hue-6: 292;
-  --resource-hue-1: 46;
-  --resource-hue-2: 28;
-  --resource-hue-3: 12;
-  --resource-hue-4: 356;
-  --resource-hue-5: 340;
-  --resource-hue-6: 322;
-}
 
 .tint-shared-1 { --tint-hue: var(--shared-hue-1); }
 .tint-shared-2 { --tint-hue: var(--shared-hue-2); }
@@ -473,13 +618,6 @@ body {
    neutral button's label stays light (colors.css,
    --bg-button-hover / --text-button-hover), where it used to jump
    to the pale link blue over a ground one step off its own. */
-:root {
-  --accent-ink: var(--text-primary);
-  --accent-line: var(--line-primary);
-  --accent-ground: var(--bg-surface);
-  --accent-ground-hover: var(--bg-button-hover);
-  --accent-hover-ink: var(--text-button-hover);
-}
 
 /* A NARROW CARD PUTS EVERY LABEL ABOVE ITS FIELD. Measured on the
    card's own width, so the same card is laid out the same way
@@ -586,30 +724,6 @@ body {
    columns: .financial-plan-bar), a currency beside an amount, and
    the controls inside tables.
 ========================================================== */
-:root {
-  /* A short number beside its neighbours (a Quantity). */
-  --control-xs: 80px;
-  /* The CODE step: a short code or figure of up to 10 characters (a
-     postcode or ZIP, "10001-1234" is 98px and ten digits 107px at body
-     size; a founder's capital, "£250,000"), plus the box's padding and
-     border. */
-  --control-code: 128px;
-  /* A box as wide as a control is tall: a 2-3 digit value with its
-     unit after it (a Text Hierarchy level's px). */
-  --control-square: 44px;
-  /* THE DATE step: the widest month and year a month picker shows
-     ("September 2030", 143px at body size) and its 12px insets. */
-  --control-date: 170px;
-  /* THE NAME | NUMBER LIST (a Legal Entity's registrations and tax
-     registrations, and the Status | Date row above them): the name
-     the rest, the number the S step (18 characters at body size:
-     "UK00004012345" is 146px, "HRB 123456 B" 122px) or two fifths of
-     a narrow list, and the x column kept on every row. */
-  --name-number-columns: minmax(0, 1fr) min(var(--control-s), 40%) 32px;
-  --control-s: 220px;
-  --control-m: 300px;
-  --control-l: 420px;
-}
 
 :where(.option-picker[data-size="s"]) { width: min(100%, var(--control-s)); }
 :where(.option-picker[data-size="m"]) { width: min(100%, var(--control-m)); }
@@ -645,15 +759,6 @@ body {
 
 :is(.business-foundation-field, .legal-entity-field) > .business-capability-price:not(:has(> .option-picker)) {
   width: min(100%, var(--control-s));
-}
-
-:root {
-  --box-border: var(--line-box);
-  --box-radius: 6px;
-  --select-padding-left: 8px;
-  --select-padding-right: 24px;
-  --select-chevron-inset: 6px;
-  --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23111827' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
 h1, h2, h3 {
@@ -742,53 +847,21 @@ h3 {
 }
 
 /* ==========================================================
-   Shared "Notes" field convention -- see NotesField.tsx (the ONE
-   shared component every actual Notes-purpose column/window in the
-   app renders through: Operational Log's Notes column, Roles &
-   Responsibilities' Notes column, the Organization Calendar's
-   per-task Note, and -- "I meant Notes column or card." -- every
-   plain, no-type-suffix Table column literally titled "Notes" that
-   a System's own markdown declares (see resolveColumnType in
-   AnswerRenderer.tsx and the "notes" case in DynamicTable.tsx),
-   e.g. the Client System's Relationships table, and the Publishing,
-   Research, and Asset Systems' own Tables). Declared here in the
-   app-wide stylesheet (loaded unconditionally from main.tsx), rather
-   than in any one page's own scoped stylesheet, specifically so it
-   applies identically no matter which page/CSS bundle happens to be
-   loaded first -- a Notes field rendered from the Organization
-   Calendar (System Selection page, organization-calendar.css) needs
-   the exact same base rule as one rendered from the Operations
-   System's interview flow or a Framework-authored Table's own Notes
-   column (both conversation.css), and neither page's own CSS is
-   guaranteed to have loaded before the other's.
+   Notes field
 
-   `font-weight:400 !important` (regular) is the actual fix for
-   "should be regular not bold" -- the Calendar's own "Notes"
-   CAPTION label wraps its textarea in one shared element for layout
-   purposes (`.org-calendar-task-annotation-notes`, in organization-
-   calendar.css), and that label's own bold caption styling cascaded
-   straight down into the typed note text too, since every scope's
-   own `.interview-input` rule sets `font:inherit`. The `!important`
-   here is deliberate, not a shortcut: every per-scope
-   `.<scope> .interview-input{font:inherit; ...}` rule already
-   carries TWO classes' worth of specificity (conversation.css,
-   organization-calendar.css, etc each redeclare their own copy --
-   see those files' own comments on why), which otherwise beats a
-   plain `.notes-field{font-weight:400}` outright regardless of
-   source order, silently undoing this fix in exactly the one scope
-   (an ancestor that itself happens to be bold) where it actually
-   matters. This is the ONE property this rule needs to unconditionally
-   win on, in every scope, forever -- "regular not bold" is the whole
-   point of the rule existing. `resize:none`/`overflow:hidden`/
-   `min-height:38px` match every pre-existing per-scope "autogrow"
-   rule this consolidates (see `.operational-log-autogrow-field`/
-   `.roles-responsibilities-autogrow-field` in conversation.css) --
-   NotesField computes its own height in JS on every keystroke, so
-   the box is never meant to be manually resized or to scroll
-   internally; these don't need `!important` since nothing else in
-   the app currently declares them for a `.notes-field` element, but
-   they're grouped with the property that does need it since they're
-   all part of the same one shared convention. */
+   The one base rule of every Notes field (NotesField.tsx: the Operational
+   Log's, the Roles & Responsibilities', the Organization Calendar's, and
+   every plain "Notes" column a System's own table declares). It lives in
+   this app-wide stylesheet, not in a page's own, so it holds whichever page
+   loads first.
+
+   Regular weight, never bold, in every scope: a per-scope
+   `.interview-input { font: inherit }` rule would otherwise pass a bold
+   caption down into the typed note, and it outranks a plain class, so the
+   weight is `!important` -- the one property this rule must win everywhere.
+   NotesField sets its own height in JS on every keystroke, so the box is
+   never resized by hand or scrolled inside.
+========================================================== */
 .notes-field {
   resize: none;
   overflow: hidden;
@@ -856,13 +929,6 @@ b, strong {
    `currentColor` so it follows whatever colour the hover state
    also sets.
 ========================================================== */
-:root {
-  --hover-bold: 0.03em 0 0 currentColor, -0.03em 0 0 currentColor;
-
-  /* TRACKING FOLLOWS WEIGHT (the Capability and System list's rule, global): text that goes bold under the pointer, and text that is bold by default, is set 5% wider than it is at rest. Every rule that sets a bold weight or --hover-bold sets this with it. */
-  /* What bold ADDS to the tracking the element already has (--rest-tracking: a button's 0.1em; none elsewhere). */
-  --bold-tracking: 0.05em;
-}
 
 /* The elements that are bold by default carry the same tracking (a class that sets its own letter-spacing wins). */
 strong,
@@ -875,27 +941,6 @@ h4,
 h5,
 h6 {
   letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-}
-
-/* ==========================================================
-   The glow
-
-   Every hover and focus ring in the app is drawn in this one
-   colour, as `color-mix(in srgb, var(--glow-color) N%,
-   transparent)`. It is the accent blue, as it always was -- but
-   it used to be written out long-hand in fifty places.
-
-   Naming it does two things. Changing it is one line. And
-   because a custom property INHERITS, a subtree can hand its
-   own descendants a different glow just by redeclaring it --
-   which is how everything inside a Strategic Theme glows in
-   that Theme's own generated colour without a single ring
-   rule knowing Themes exist (see .strategy-theme-panel /
-   .strategy-theme-box / .roadmap-theme-box in
-   conversation.css).
-========================================================== */
-:root {
-  --glow-color: var(--line-primary);
 }
 
 /* ==========================================================
@@ -917,7 +962,6 @@ h6 {
      the cost-table and channel-table container rules,
      conversation.css) -- all read on the container's own width.
 ========================================================== */
-.financial-cost-row > *,
 .financial-cost-inputs > li > *,
 .business-channel-cell,
 .fold-card-head > * {
@@ -945,16 +989,6 @@ h6 {
    numbered lists keep the 40px column they already had (it holds
    "10." at the body size), and take the tabular digits.
 ========================================================== */
-:root {
-  --list-number-width: 3.1ch;
-  /* Every numbered list, editable or shown: the number's right edge to
-     its text (the default 12px gap). */
-  --list-number-gap: 12px;
-  /* A shown (read-only) bulleted list: the bullet dot, and the gap from
-     its right edge to the text (the default 12px gap). */
-  --bullet-size: 6px;
-  --bullet-gap: 12px;
-}
 
 .list-number {
   display: inline-block;
@@ -1040,10 +1074,6 @@ h6 {
   gap: var(--gap-4);
   min-width: 0;
   overflow-wrap: anywhere;
-}
-
-.field-status-mark {
-  flex: none;
 }
 
 .field-status-reset {
@@ -1162,8 +1192,8 @@ h6 {
   overflow: visible;
 }
 
-/* ONE TICK BOX: every checkbox in the app is the same fixed 24px box
-   (the text tier it sits beside), never squeezed by a label that
+/* ONE TICK BOX: every checkbox in the app is the same fixed box (--size-mark,
+   24px), never squeezed by a label that
    wraps (flex: none), in the app's blue. It stands beside the FIRST
    line of its label -- centred on that line, as a field's × and
    markers are -- the label wrapping beside it. The box takes its
@@ -1285,21 +1315,3 @@ label:has(> input[type="checkbox"]:not(:disabled)):hover > input[type="checkbox"
 }
 
 /* The dark theme dims the page less visibly (its text is light): the backdrop needs no lift. */
-:root[data-theme="dark"] {
-  --dialog-backdrop-brightness: 1;
-  --box-light: rgba(255, 255, 255, 0.1);
-  --box-shade: rgba(0, 0, 0, 0.5);
-  --cell-light: rgba(255, 255, 255, 0.07);
-  --cell-shade: rgba(0, 0, 0, 0.45);
-  --plus-fill-saturation: 42%;
-  --plus-fill-lightness: 68%;
-}
-
-:root[data-theme="sepia"] {
-  --box-light: rgba(255, 252, 244, 0.8);
-  --box-shade: rgba(60, 40, 20, 0.2);
-  --cell-light: rgba(255, 252, 244, 0.55);
-  --cell-shade: rgba(60, 40, 20, 0.14);
-  --plus-fill-saturation: 34%;
-  --plus-fill-lightness: 36%;
-}

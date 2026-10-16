@@ -4,34 +4,11 @@
    Channel Fee Table. Numbers align to the right.
 ========================================================== */
 
-.settings-intro{
-
-    margin:0;
-
-    font-size:var(--font-body);
-    line-height:1.5;
-
-    color:var(--text-muted);
-
-}
-
 .settings-section{
 
     display:flex;
     flex-direction:column;
     gap:14px;
-
-}
-
-.settings-subtitle{
-
-    margin:8px 0 0;
-
-    font-size:var(--font-body);
-    font-weight:600;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-    color:var(--text-default);
 
 }
 
@@ -205,22 +182,6 @@
 
 }
 
-.settings-subtitle-row{
-
-    display:flex;
-    align-items:center;
-    gap:var(--gap-16);
-
-    margin-top:8px;
-
-}
-
-.settings-subtitle-row > .settings-subtitle{
-
-    margin:0;
-
-}
-
 .settings-reset{
 
     padding:4px 12px;
@@ -245,40 +206,6 @@
     color:var(--text-faint);
 
     cursor:default;
-
-}
-
-.settings-life-category{
-
-    display:flex;
-    flex-direction:column;
-
-    gap:var(--gap-12);
-
-    padding:12px 0 0;
-
-}
-
-.settings-category-title{
-
-    margin:0;
-
-    font-size:var(--font-body);
-    font-weight:700;
-
-    text-transform:uppercase;
-    letter-spacing:0.08em;
-
-    color:var(--text-subtle);
-
-}
-
-.settings-life-group{
-
-    display:flex;
-    flex-direction:column;
-
-    gap:var(--gap-8);
 
 }
 
@@ -312,14 +239,6 @@
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
-
-}
-
-.settings-asset-cost{
-
-    font-size:var(--font-body);
-
-    color:var(--text-muted);
 
 }
 
@@ -477,12 +396,6 @@
 .settings-page .settings-assets-table .settings-number-column{
 
     text-align:left;
-
-}
-
-.settings-page .settings-assets-cost-cell{
-
-    font-size:var(--font-body);
 
 }
 

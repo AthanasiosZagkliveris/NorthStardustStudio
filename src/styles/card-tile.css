@@ -326,19 +326,6 @@ button.card-tile-symbol[aria-pressed="true"] {
 
 }
 
-.business-field-missing-note {
-
-    grid-column: 1 / -1;
-
-    margin: 4px 0 0;
-
-    font-size: var(--font-small);
-    line-height: 1.4;
-
-    color: var(--text-danger);
-
-}
-
 @media (prefers-reduced-motion: reduce) {
 
     .business-field-missing :is(.interview-input, .option-picker-trigger, .date-cell, .brand-tick-box),

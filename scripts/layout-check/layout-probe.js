@@ -440,7 +440,7 @@
                     add.parentElement.style.width = "";
                     if (style === null) { add.removeAttribute("style"); } else { add.setAttribute("style", style); }
                     wanted = Math.max(wanted, Math.ceil(natural + 2) + padding);
-                    if (rect(add).height > 45) {
+                    if (rect(add).height > 44.5) {
                         fail("journey stage add button on one line", add, { height: rect(add).height });
                     }
                 }

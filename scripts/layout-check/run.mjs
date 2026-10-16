@@ -36,7 +36,7 @@ export const SPEC = {
     /** Every card's and section box's inner side margin (--card-padding). */
     cardPadding: 12,
     /** The one single-line control height. */
-    controlHeight: 45,
+    controlHeight: 44,
     tolerance: 0.5
 };
 

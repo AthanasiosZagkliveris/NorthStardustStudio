@@ -635,71 +635,12 @@
    never more than a third of the content width and never so large that two rows do not fit the
    dialog's height (less the heading, the Back row and the paddings: 160px, and the row gap).
    True squares, left-aligned, 12px apart. */
-.section-tiles-boxes {
-
-    --section-tile-size: min(
-        calc((100cqw - (var(--sub-columns, 3) - 1) * var(--space-card)) / var(--sub-columns, 3)),
-        calc(100cqw / 3),
-        calc((var(--section-dialog-height, 88vh) - 160px - (var(--sub-rows, 2) - 1) * var(--space-card)) / var(--sub-rows, 2))
-    );
-
-    grid-template-columns: repeat(var(--sub-columns, 3), var(--section-tile-size));
-
-}
 
 /* THE ADD BOX ("Add other"): an action, so a dashed, lighter edge and a plain ground; HALF the
    side of the other boxes (a quarter of their area), at the top left of its cell, so its top and
    left edges are the boxes' own. A "+" over its words, centred. */
-.section-tile-add {
-
-    flex-direction: column;
-    justify-content: center;
-    gap: var(--space-label);
-
-    /* (An Add tile is a tile of the page's size, like every other.) */
-    width: var(--section-tile-size);
-    height: var(--section-tile-size);
-
-    align-self: start;
-    justify-self: start;
-
-    padding: var(--space-label);
-
-    border: 1px dashed hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
-    box-shadow: none;
-
-    background: transparent;
-
-    font-size: var(--font-small);
-    font-weight: 600;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-}
-
-.section-tile-add .section-tile-add-plus {
-
-    font-size: var(--font-h3);
-    font-weight: 400;
-    line-height: 1;
-
-}
 
 /* (The add box is an action, not a section: its words are centred with no rule under them.) */
-.section-tile-add .section-tile-title {
-
-    padding-bottom: 0;
-
-    border-bottom: 0;
-
-}
-
-.section-tile-add:disabled {
-
-    cursor: not-allowed;
-
-    opacity: .6;
-
-}
 
 /* ==========================================================
    THE "+" OF AN EMPTY SECTION (TileFace): a small "+" under the title of a tile or box whose
@@ -1879,20 +1820,6 @@
 }
 
 /* A SUBCATEGORY BOX's "+" (SubcategoryBoxes): shares the box's grid cell, at its lower right, 12px from the edges (not absolute: the cell is the frame). */
-.section-tile-plus.section-box-plus {
-
-    position: relative;
-    right: auto;
-    bottom: auto;
-
-    align-self: end;
-    justify-self: end;
-
-    margin: 0 var(--card-padding) var(--card-padding) 0;
-
-    z-index: 1;
-
-}
 
 /* The same box at the size of the x (32px) beside an Activity's Performer: its bars shorter. */
 .plus-box.plus-box-small {
@@ -2106,11 +2033,6 @@
 
 /* THE CHILD OF A STATUS: its name is a link on the line where the name cell was -- no cell, the same height (the one-line name cell's,
    --card-name-line) and the same left edge, so the number stays on the first line, and a long name wraps. */
-.business-capability-child-head {
-
-    align-items: flex-start;
-
-}
 
 .business-capability-child-name {
 
@@ -3124,13 +3046,6 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
 }
 
-.column-tile-content .strategy-add-menu .strategy-add-menu-panel {
-
-    left: 0;
-    right: auto;
-
-}
-
 /* The "i" of adding Themes stands beside the Add Theme button. */
 .strategy-add-menu:has(> .info-note, > .info-note-wrap) { display: flex; align-items: center; gap: var(--gap-8); }
 
@@ -3172,34 +3087,7 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
 }
 
-.section-tile-picture-specimen {
-
-    font-size: 44px;
-    font-weight: 600;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-    color: var(--text-default);
-
-}
-
-.column-tiles-group {
-
-    display: grid;
-
-    gap: var(--space-field);
-
-    min-width: 0;
-
-}
-
-.column-tiles-group + .column-tiles-group {
-
-    margin-top: var(--space-card);
-
-}
-
-.section-tile-picture-colour,
-.section-tile-picture-specimen {
+.section-tile-picture-colour {
 
     align-self: stretch;
     justify-self: stretch;
@@ -3853,18 +3741,6 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
 }
 
-.section-tile-list-pair-left {
-
-    text-align: right;
-
-}
-
-.section-tile-list-pair-right {
-
-    text-align: left;
-
-}
-
 /* THE "i" TAKES THE TINT OF THE CARD OR TILE IT STANDS IN: its edge and its letter, and its reaction, in that card's colour. */
 :where(.section-tile-overlay, [style*="--strategy-theme-hue"]) .info-note-button {
 
@@ -4125,22 +4001,6 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 }
 
 /* A Theme's card floating under its section's title: the card's own width, in the centre. */
-.strategy-theme-floating {
-
-    width: var(--open-card-width, 480px);
-    max-width: 100%;
-
-    margin-inline: auto;
-
-}
-
-.strategy-theme-floating .strategy-theme-box {
-
-    aspect-ratio: auto;
-
-    width: 100%;
-
-}
 
 /* A block of a tile's picture that opens its card (a colour, an image, a typeface): the blocks take the tile's own hover (the soft glow); a typeface is underlined. */
 .section-tile [data-card] {
@@ -5111,54 +4971,12 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 }
 
 /* A Segment's groups of card tiles: a small title over each group, the tiles centred, 12px apart. */
-.business-foundation-tile-group {
-
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-
-    gap: var(--space-field);
-
-    margin-top: var(--space-card);
-
-}
-
-.business-foundation-tile-group .section-tiles-box {
-
-    width: 100%;
-
-}
-
-.business-foundation-tile-group .section-tiles {
-
-    --tile-columns: 3;
-
-    grid-template-columns: repeat(auto-fill, var(--section-tile-size));
-    justify-content: start;
-
-    gap: var(--space-card);
-
-}
 
 .business-foundation-frame-head {
     align-items: flex-start;
     gap: var(--gap-8);
 
     overflow: visible;
-
-}
-
-.business-foundation-tile-group .section-tiles-box {
-
-    --section-tile-size: 208px;
-
-}
-
-.business-foundation-tile-group .section-tiles {
-
-    margin-inline: 0;
-
-    max-width: none;
 
 }
 
@@ -5481,8 +5299,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
 }
 
-.strategy-card-head-flat > .strategy-box-number,
-.strategy-card-head-flat > .strategy-card-head-label {
+.strategy-card-head-flat > .strategy-box-number {
 
     flex: none;
 
@@ -5528,21 +5345,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
 }
 
-.business-relationship-type-line {
-
-    display: flex;
-    align-items: center;
-
-    gap: var(--gap-12);
-
-}
-
-.business-relationship-type-line .option-picker {
-
-    flex: 0 1 280px;
-
-}
-
 .business-relationship-purpose,
 .business-relationship-strategy-title {
 
@@ -5557,17 +5359,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 }
 
 /* The stages stand next to each other; each column is as wide as the Goal's three ticks, and its Approach is that wide. */
-.business-relationship-stages {
-
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    align-items: start;
-
-    gap: var(--gap-12);
-
-    margin-top: var(--space-field);
-
-}
 
 .business-relationship-stage {
 
@@ -5692,37 +5483,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 }
 
 /* DEMAND & CONVERSION AS A TABLE */
-.business-demand-table {
-
-    width: 100%;
-
-    border-collapse: separate;
-    border-spacing: 12px 8px;
-
-}
-
-.business-demand-table th {
-
-    text-align: left;
-
-    font-weight: 700;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-}
-
-.business-demand-table td {
-
-    vertical-align: top;
-
-}
-
-.business-demand-table .business-demand-fields {
-
-    display: flex;
-
-    gap: var(--gap-8) var(--gap-12);
-
-}
 
 /* A channel the Segment does not use yet: a faded tile; pressed, it becomes one. */
 /* (Drawn in the grey of everything deactivated, section-tile-completed.) */
@@ -5743,28 +5503,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 }
 
 /* THE STRATEGIC PERIOD'S DIALOG: the dates and, beside them, the Roadmap's tile; under them the Themes, as the tiles of 2. Goals & Objectives. */
-.brand-style-body > .strategy-period-row {
-
-    grid-column: 1 / -1;
-
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-
-    gap: var(--space-card);
-
-}
-
-.brand-style-body > .strategy-period-row > .strategy-period-column {
-
-    display: flex;
-    flex-direction: column;
-
-    gap: var(--space-field);
-
-    min-width: 0;
-
-}
 
 .brand-style-body > .strategy-tiles-label,
 .brand-style-body > .card-boxes {
@@ -5796,36 +5534,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
 }
 
-.business-relationship-strategy-table > tbody > tr.business-relationship-label-row > th {
-
-    padding-top: 6px;
-
-}
-
 /* DEMAND & CONVERSION: one table for the Segment, an Offering at a time. */
-.business-demand-table > tbody.business-demand-group > tr.business-demand-offering-row > th {
-
-    padding-top: 14px;
-
-    text-align: left;
-
-}
-
-.business-demand-offering-head {
-
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-
-    gap: var(--gap-8) var(--gap-24);
-
-}
-
-.business-demand-table > tbody.business-demand-group td {
-
-    text-align: left;
-
-}
 
 /* ONE FOUNDER: the card has the width, so Salary, Frequency, Working Hrs and Delivery Hrs stand each beside its label, in cells of one width (the card does not grow). */
 .business-founder-open.business-founder-solo .business-founder-grid {
@@ -5875,25 +5584,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     padding: 0;
 
     box-shadow: none;
-
-}
-
-.business-demand-table {
-
-    table-layout: fixed;
-
-}
-
-.business-demand-table .business-demand-fields {
-
-    flex-wrap: wrap;
-
-}
-
-.business-demand-table .business-demand-fields .option-picker {
-
-    width: auto;
-    min-width: 160px;
 
 }
 
@@ -5964,34 +5654,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 }
 
 /* Demand & Conversion as one table: an Offering's own cells (the Offering, how it is bought, its channels) span its rows; a line under each Offering. */
-.business-demand-table > tbody.business-demand-group > tr > th.business-demand-offering-cell {
-
-    vertical-align: top;
-
-    padding-top: 8px;
-
-    text-align: left;
-
-}
-
-.business-demand-table > tbody.business-demand-group {
-
-    border-top: 1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
-
-}
-
-.business-demand-table .business-demand-buying {
-
-    flex-direction: column;
-    align-items: stretch;
-
-}
-
-.business-demand-table .business-demand-ticks {
-
-    display: flex;
-
-}
 
 /* A DELIVERY CARD: the hours of each person stand as the card's other side-label rows do -- the name in the label column, its cell in the column every cell starts in. */
 @container card (min-width: 396px) {
@@ -6106,23 +5768,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
 }
 
-.business-demand-table .business-demand-ticks {
-
-    flex-direction: row;
-    flex-wrap: wrap;
-
-    gap: var(--gap-4) 20px;
-
-}
-
-.business-demand-table .business-demand-channels-row .business-foundation-label {
-
-    display: block;
-
-    margin-bottom: 4px;
-
-}
-
 /* ...and its GROUND is that hue's, in every theme (light, sepia, dark): the neutral card ground (--bg-card-tint) some cards carry is not drawn on a floating card. */
 .floating-card-host .floating-card-body > *,
 .floating-card-host .floating-card-body > * > .business-foundation-card,
@@ -6135,21 +5780,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 }
 
 /* Demand & Conversion's cells show what they hold: a result wraps rather than runs under the x, a picker is as wide as its value. */
-.business-demand-table .business-demand-figure {
-
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-
-    gap: var(--gap-4);
-
-}
-
-.business-demand-table .business-demand-pill {
-
-    white-space: normal;
-
-}
 
 /* THE CURRENCY CELL of a price starts in the column every cell of the card starts in (the Start date's, the Rate override's): its picker is not set in by the 6px its wrapper keeps. */
 .business-capability-cost-currency > .option-picker {
@@ -6159,23 +5789,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 }
 
 /* The tiles of 2. Goals & Objectives and of the Roadmap stand beside the Strategic Period's dates. */
-.strategy-period-row > .strategy-period-tiles {
-
-    min-width: 0;
-
-}
-
-.strategy-period-tiles .strategy-embedded-tiles .section-tiles-box {
-
-    margin: 0;
-
-}
-
-.strategy-period-row > .strategy-period-tiles {
-
-    flex: 0 0 215px;
-
-}
 
 .brand-style-body > .strategy-period-themes {
 
@@ -6201,11 +5814,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 }
 
 /* The Roadmap's tile stands at the right end of the dates' row, on the right edge of the Themes' tiles. */
-.strategy-period-row {
-
-    justify-content: space-between;
-
-}
 
 /* The Themes' tiles stand three across, from the dialog's left edge to its right: the Roadmap's tile above them ends on the same edge. */
 .strategy-period-themes .section-tiles {
@@ -6221,8 +5829,7 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 }
 
 /* The Segment Description's dialog: its heading is the dialog's own (the "Description" group title is not said again), and every field -- Business Data too -- has its label above its cell. */
-.section-tile-dialog-body .business-foundation-description > .field-group-title:first-child,
-.section-tile-dialog-body .business-foundation-description > .business-foundation-group-title:first-child {
+.section-tile-dialog-body .business-foundation-description > .field-group-title:first-child {
 
     display: none;
 
@@ -6256,14 +5863,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 .business-subchannel-card {
 
     position: relative;
-
-}
-
-.business-subchannel-card .business-subchannel-remove {
-    top: 8px;
-    right: 8px;
-
-    z-index: 2;
 
 }
 
@@ -6434,8 +6033,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 }
 
 .business-subchannel-card .business-channel-th-name { display: none !important; }
-
-.business-subchannel-card .business-subchannel-remove { position: static; }
 
 /* THE RELATIONSHIP BLOCK'S LABELS are one style: the body size, the regular weight, the label colour (Relationship Type, Purpose, Goal & Approach, the stages, Get / Keep / Grow). The table's corners are round (8px) and it stands 12px from what is around it. */
 .business-relationship-block .field-label,
@@ -8088,8 +7685,7 @@ table.business-relationship-table {
 
 }
 
-.business-engagement-section-head > .strategy-plan-dates,
-.business-engagement-section-head > .strategy-plan-dates.strategy-plan-dates-differ {
+.business-engagement-section-head > .strategy-plan-dates {
 
     padding: 0;
 
@@ -8497,7 +8093,6 @@ table.business-relationship-table {
 
 }
 
-.column-tile-content .legal-entity-card:not(.floating-card-body *) > .fold-card-head > .fold-arrow,
 .column-tile-content .legal-entity-card:not(.floating-card-body *) > .fold-card-head > .strategy-box-toggle {
 
     margin-right: 8px;

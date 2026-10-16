@@ -123,7 +123,7 @@
       "14px": 1
     },
     "conversation.css": {
-      "10px": 11,
+      "10px": 9,
       "12px": 2,
       "14px": 4,
       "18px": 2,
@@ -136,7 +136,7 @@
     "demand.css": {
       "10px": 1,
       "16px": 1,
-      "20px": 2
+      "20px": 1
     },
     "global-settings.css": {
       "14px": 1,
@@ -159,7 +159,6 @@
     "section-tiles.css": {
       "0.4em": 2,
       "14px": 1,
-      "20px": 1,
       "24px": 1,
       "32px": 2
     },

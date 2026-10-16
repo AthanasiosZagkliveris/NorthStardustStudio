@@ -59,39 +59,10 @@
 
 }
 
-
-.business-demand-purpose{
-
-    margin:0;
-
-    font-size:var(--font-body);
-
-    line-height:1.4;
-
-    color:var(--text-muted);
-
-}
-
 /* The model picker: label beside it, no wider than its labels need. */
-.business-demand-model .business-field-inline{
-
-    grid-template-columns:var(--side-label-column) minmax(0, 20rem);
-
-}
 
 /* SEVERAL FIGURES TO A LINE, each label beside its box: the same idea
    as the Sustainability inline grid, sized for short numbers. */
-.business-demand-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit, minmax(min(var(--side-label-row), 100%), 1fr));
-
-    gap:var(--gap-8) 20px;
-
-    align-items:start;
-
-}
 
 .business-demand-number{
 
@@ -255,13 +226,6 @@
 }
 
 /* A calculation's inputs start a new row. */
-.business-demand-break{
-
-    grid-column:1 / -1;
-
-    height:0;
-
-}
 
 /* A SOURCE'S FIELDS ON ONE ROW: Customer Source, Estimated, then the
    figure or the calculation's figures, each as narrow as it can be (the
@@ -371,8 +335,7 @@
 }
 
 .business-demand-working,
-.business-demand-result-empty,
-.business-demand-footnote{
+.business-demand-result-empty{
 
     font-size:var(--font-body);
 
@@ -405,30 +368,5 @@
 .business-demand-ticks > .business-foundation-tick{
 
     flex:0 0 auto;
-
-}
-
-.business-demand-footnote{
-
-    margin:0;
-
-
-}
-
-@media (max-width:640px){
-
-    .business-demand-grid .business-field-inline,
-    .business-demand-model .business-field-inline{
-
-        grid-template-columns:minmax(0, 1fr);
-
-    }
-
-    .business-demand-grid .business-field-inline > :not(:first-child),
-    .business-demand-model .business-field-inline > :not(:first-child){
-
-        grid-column:1;
-
-    }
 
 }

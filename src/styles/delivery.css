@@ -268,26 +268,3 @@
 .delivery-budget-fill-short{ background:var(--bg-danger-deep); }
 
 /* THE DELIVERY CARDS in their dialog: each card is 360px wide (as an opened card is), side by side as many as fit, wrapping, 12px apart. */
-.business-capability-delivery-cards {
-
-    display: flex;
-
-    flex-wrap: wrap;
-
-    align-items: flex-start;
-
-    gap: var(--space-card);
-
-    min-width: 0;
-
-}
-
-.business-capability-delivery-cards > .delivery-card {
-
-    flex: 0 0 auto;
-
-    box-sizing: border-box;
-
-    width: min(360px, 100%);
-
-}
