@@ -14,7 +14,6 @@ import "@fontsource/inter/700.css";
 
 import "./styles/colors.generated.css";
 import "./styles/sizes.generated.css";
-import "./styles/components.generated.css";
 import "./styles/colors.css";
 import "./styles/global.css";
 import "./styles/remove-button.css";

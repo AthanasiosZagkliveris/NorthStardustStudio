@@ -456,7 +456,7 @@ describe("the cards of a resource group", () => {
             }
             openCard(name);
             const host = topDialog();
-            expect(host.querySelector(".strategy-box-toggle, .fold-card-head, [aria-expanded]:not(.info-note-button):not(.option-picker-trigger)"), tile).toBeNull();
+            expect(host.querySelector(".strategy-box-toggle, .fold-card-head, [aria-expanded]:not(.info-note-button):not(.option-picker-trigger):not(.date-cell-calendar-button)"), tile).toBeNull();
             expect(within(host).queryByRole("button", { name: /Back/ })).toBeNull();
             closeTile();
         }

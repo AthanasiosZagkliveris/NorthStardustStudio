@@ -445,6 +445,7 @@ A date cell: one long cell that holds the date, with the calendar symbol inside 
   - cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 44). Already 44px.
   - dates in the Strategic Period, the Objective cards of a Theme and the Revenue card (Begins): by the owner's decision (owner, 2026-10-15) they are this date cell with a calendar and the choice of a day or only a month; they are month pickers with their own look today (bold, wide-spaced type that cuts the year off: 'September 202').
   - decided by the owner, owner, 2026-10-16: the long cell and the square calendar symbol are unified (the symbol inside the cell, 32px high); one default for days, months and years, and one for months and years only; the cell works as a dropdown. The day popup today is the browser's own calendar and the symbol is the emoji 📅; both are to be replaced by the app's own.
+  - done 2026-10-16: the calendar button is inside the cell, 32px high with a drawn calendar symbol (an SVG in the text colour, not an emoji); the month-and-year form (the Strategic Period, the Financial Plan) is the same cell with the same symbol inside; the browser's native date input is no longer used.
 - **Catalogue:** CO01
 - **Requires:** DAT.002 (the list that opens under the cell, where the day or the month is chosen)
 
@@ -460,6 +461,7 @@ The list a date cell opens, like the list of a dropdown: the person chooses the 
 - **Default look:** type 18 (body 18), corners 6px, padding 12/12, border 1, found 0
   - rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners of 6px, like the cells. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.
   - measured 2026-10-16: the day popup is the browser's own calendar (a date input), so its text size and corners are the browser's and cannot be measured or styled; only the month popup of the Strategy pages is the app's own.
+  - done 2026-10-16: the day calendar is the app's own (the list under the date cell: month and year with previous and next arrows, the days from Monday, Today and Clear, 6px corners, a day after the latest or before the earliest allowed is dimmed and cannot be chosen); it closes on a choice, on Escape and on a click elsewhere, as a dropdown's list does.
 
 | Variant | Name | Edits in the main asset | Own parts | Default look |
 |---|---|---|---|---|

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { componentTokens, lookHeight, renderComponentTokens } from "./componentTokens.ts";
-import { stylesheet } from "../test/stylesheet.ts";
+import { sheetSource, stylesheet } from "../test/stylesheet.ts";
 
 /* The sizes of the components are written once, in the library, and the stylesheets read them
    (src/styles/components.generated.css, written by npm run library:tokens). */
@@ -21,7 +21,9 @@ describe("the component tokens", () => {
     });
 
     it("are read by the stylesheets and written by none of them", () => {
-        const global = stylesheet("global.css");
+        const source = sheetSource("global.css");
+        expect(source.startsWith("/* Generated"), "global.css loads the generated tokens first").toBe(true);
+        const global = source.slice(source.indexOf("* {"));
         for (const token of ["--card-cell-height", "--size-box-button", "--size-mark", "--control-square", "--box-radius", "--fold-arrow-size"]) {
             expect(global.includes(token + ":"), token + " is defined in global.css").toBe(false);
         }

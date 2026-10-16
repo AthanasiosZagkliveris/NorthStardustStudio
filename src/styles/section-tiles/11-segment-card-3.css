@@ -503,7 +503,7 @@
 
 .strategy-period-column .strategy-period-box .month-picker-trigger {
 
-    width: 168px;
+    width: var(--control-date);
 
     min-width: 0;
 

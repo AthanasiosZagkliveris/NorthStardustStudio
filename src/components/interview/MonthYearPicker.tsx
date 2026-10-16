@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
+import CalendarIcon from "./CalendarIcon.tsx";
 import {
     STRATEGY_MONTH_NAMES,
     StrategyMonthValue,
@@ -200,7 +201,8 @@ export default function MonthYearPicker({
                 disabled={disabled}
                 onClick={() => open ? setOpen(false) : start()}
             >
-                {display}
+                <span className="month-picker-value">{display}</span>
+                <span className="month-picker-calendar" aria-hidden="true"><CalendarIcon /></span>
             </button>
 
             {open && (

@@ -69,7 +69,7 @@ below are these, made measurable.
 | `--section-tile-min` | 120px | the smallest a section tile gets: a group too narrow for three of them wraps to fewer across |
 | `--control-xs` | 80px | XS width step |
 | `--control-code` | 128px | Code width step |
-| `--control-date` | 170px | Date width step |
+| `--control-date` | 198px | Date width step |
 | `--control-s` | 220px | S width step |
 | `--control-m` | 300px | M width step |
 | `--control-l` | 420px | L width step |

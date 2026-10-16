@@ -492,6 +492,40 @@
 
 }
 
+/* The date cell's look: the calendar button INSIDE the cell at its right end, where a dropdown has its arrow (a 32px box button, as the date
+   cell's). The value leaves it room. */
+.month-picker-trigger{
+    position:relative;
+}
+
+.month-picker-value{
+    display:block;
+    padding-right:calc(var(--size-box-button) + 6px);
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.month-picker-calendar{
+    position:absolute;
+    top:50%;
+    right:6px;
+    transform:translateY(-50%);
+    width:var(--size-box-button);
+    height:var(--size-box-button);
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-md);
+    background:var(--bg-surface);
+    color:var(--text-default);
+    pointer-events:none;
+}
+
+.month-picker-trigger:disabled .month-picker-calendar{
+    color:var(--text-faint);
+}
+
 /* Floated over the page rather than pushing it around: a picker
    sits inside a box that is already laid out, and growing it by
    the height of a grid every time one opens would move everything

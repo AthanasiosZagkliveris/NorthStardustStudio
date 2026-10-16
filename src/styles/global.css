@@ -1,3 +1,5 @@
+@import "./components.generated.css";
+
 * {
   margin: 0;
   padding: 0;
@@ -180,9 +182,9 @@ body {
      size; a founder's capital, "£250,000"), plus the box's padding and
      border. */
   --control-code: 128px;
-  /* THE DATE step: the widest month and year a month picker shows
-     ("September 2030", 143px at body size) and its 12px insets. */
-  --control-date: 170px;
+  /* THE DATE step: the width of the one date cell (198px): the widest month and year a month picker shows
+     ("September 2030", 143px at body size), its 12px inset and the 32px calendar button inside the cell. */
+  --control-date: 198px;
   /* The standard widths of a choice (see ONE CONTROL-SIZING RULE). */
   --control-s: 220px;
   --control-m: 300px;

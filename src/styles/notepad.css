@@ -722,74 +722,7 @@ html.notepad-picking [data-pick-hover] {
 
 }
 
-/* The note's day (a date cell, as every card's): the box, the calendar button and the hidden native picker, on one row. */
-.notepad-panel .date-cell{
-
-    position:relative;
-
-    display:flex;
-    align-items:center;
-
-    gap:var(--gap-6);
-
-}
-
-.notepad-panel .date-cell-input{
-
-    flex:1;
-
-    width:104px;
-    min-width:0;
-    height:32px;
-
-    padding:0 8px;
-
-    border:1px solid var(--box-border);
-    border-radius:var(--radius-md);
-
-    background:var(--bg-surface);
-    color:var(--text-default);
-
-    font:inherit;
-    font-size:var(--font-small);
-
-}
-
-.notepad-panel .date-cell-native-picker{
-
-    position:absolute;
-
-    width:0;
-    height:0;
-
-    padding:0;
-    margin:0;
-
-    border:none;
-
-    opacity:0;
-
-    pointer-events:none;
-
-}
-
-.notepad-panel .date-cell-calendar-button{
-
-    flex-shrink:0;
-
-    width:32px;
-    height:32px;
-
-    padding:0;
-
-    border:1px solid var(--box-border);
-    border-radius:var(--radius-md);
-
-    background:var(--bg-surface);
-
-    cursor:pointer;
-
-}
+/* The note's day is the one date cell (the calendar button inside it), at the width of its row. */
 
 /* ABOVE THE TEXT, AT THE RIGHT: when the note was recorded, and the note's ×. */
 .notepad-note-top {

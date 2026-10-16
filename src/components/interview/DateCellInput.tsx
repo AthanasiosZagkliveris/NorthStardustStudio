@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
+import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
 import { DateFormat, PreferencesService } from "../../services/PreferencesService.ts";
+import CalendarIcon from "./CalendarIcon.tsx";
+import { consumeKey } from "./consumeKey.ts";
 
 interface DateCellInputProps {
 
@@ -99,24 +102,21 @@ function displayToIso(display: string, format: DateFormat): string | null {
 
 }
 
+const WEEKDAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+const pad = (n: number) => String(n).padStart(2, "0");
+const isoOf = (year: number, month: number, day: number) => `${year}-${pad(month)}-${pad(day)}`;
+
 /**
- * A date cell with:
- *  - a text field the user can type into directly, shown
- *    in whichever presentation is currently selected;
- *  - a calendar button that opens the browser's own
- *    native date picker (via a visually-hidden
- *    <input type="date"> and its showPicker() API).
+ * A date cell: one long cell with
+ *  - the date typed straight into it, shown in whichever presentation is selected;
+ *  - the calendar button INSIDE the cell, at its right end, where a dropdown has its arrow (a 32px box button);
+ *  - a popup of its own under the cell, a calendar list that works as a dropdown does (it opens on the cell, closes
+ *    on a choice, on Escape and on a click elsewhere). The browser's own date picker is not used.
  *
- * The US (MM/DD/YYYY) / EU (DD/MM/YYYY) toggle itself
- * lives once on the column's header, not repeated on
- * every cell -- this component just reacts to it, the
- * same way every date cell everywhere in the app does.
- *
- * Formatting is done in JS rather than relying on the
- * browser's own locale handling of type="date" inputs,
- * so the toggle is guaranteed to actually change what's
- * displayed. The underlying stored value always stays
- * ISO ("YYYY-MM-DD") for consistent data/export.
+ * The US (MM/DD/YYYY) / EU (DD/MM/YYYY) toggle lives once on the column's header; this component just reacts to it.
+ * The stored value always stays ISO ("YYYY-MM-DD").
  */
 export default function DateCellInput({
 
@@ -136,8 +136,16 @@ export default function DateCellInput({
 
     const [format, setFormat] = useState<DateFormat>(PreferencesService.getDateFormat());
     const [text, setText] = useState<string>(() => isoToDisplay(value, format));
+    const [open, setOpen] = useState(false);
+    const [free, setFree] = useState(false);
 
-    const pickerRef = useRef<HTMLInputElement | null>(null);
+    // The month the popup shows (the first of it), not yet a choice.
+    const [shown, setShown] = useState<{ year: number; month: number }>(() => monthOf(value));
+
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const cellRef = useRef<HTMLDivElement | null>(null);
+
+    const { panelRef, panelStyle } = useFloatingPanel(open, cellRef, undefined, free);
 
     useEffect(() => {
 
@@ -152,6 +160,35 @@ export default function DateCellInput({
         setText(isoToDisplay(value, format));
 
     }, [value, format]);
+
+    useEffect(() => {
+
+        if (!open) {
+            return;
+        }
+
+        function onPointerDown(event: MouseEvent) {
+            if (!containerRef.current?.contains(event.target as Node)) {
+                setOpen(false);
+            }
+        }
+
+        function onKeyDown(event: KeyboardEvent) {
+            if (event.key === "Escape") {
+                consumeKey(event);
+                setOpen(false);
+            }
+        }
+
+        document.addEventListener("mousedown", onPointerDown);
+        document.addEventListener("keydown", onKeyDown);
+
+        return () => {
+            document.removeEventListener("mousedown", onPointerDown);
+            document.removeEventListener("keydown", onKeyDown);
+        };
+
+    }, [open]);
 
     function commit() {
 
@@ -172,104 +209,181 @@ export default function DateCellInput({
 
     }
 
-    function openCalendar() {
+    function toggle() {
 
         if (disabled) {
             return;
         }
 
-        const picker = pickerRef.current;
-
-        if (!picker) {
+        if (open) {
+            setOpen(false);
             return;
         }
 
-        if (typeof picker.showPicker === "function") {
-
-            try {
-                picker.showPicker();
-            } catch {
-                picker.focus();
-            }
-
-        } else {
-
-            picker.focus();
-
-        }
+        setShown(monthOf(value));
+        setFree(!!cellRef.current?.closest(".business-capability, .section-tile-overlay, .section-tile-dialog, .strategy-sort-menu"));
+        setOpen(true);
 
     }
 
+    function choose(iso: string) {
+        onChange(iso);
+        setOpen(false);
+    }
+
+    function step(months: number) {
+
+        setShown(previous => {
+            const index = previous.year * 12 + (previous.month - 1) + months;
+            return { year: Math.floor(index / 12), month: (index % 12) + 1 };
+        });
+
+    }
+
+    const today = new Date();
+    const todayIso = isoOf(today.getFullYear(), today.getMonth() + 1, today.getDate());
+
+    // Monday first: the weekday of the 1st, then the days of the month.
+    const lead = (new Date(shown.year, shown.month - 1, 1).getDay() + 6) % 7;
+    const days = new Date(shown.year, shown.month, 0).getDate();
+    const cells: (number | null)[] = [
+        ...Array.from({ length: lead }, () => null),
+        ...Array.from({ length: days }, (_entry, index) => index + 1)
+    ];
+
+    const refused = (iso: string) => !!((max && iso > max) || (min && iso < min));
+
     return (
 
-        <div className="date-cell">
+        <div className="date-cell" ref={containerRef}>
 
-            <input
+            <div className="date-cell-field" ref={cellRef}>
 
-                type="text"
+                <input
 
-                inputMode="numeric"
+                    type="text"
 
-                className="date-cell-input"
+                    inputMode="numeric"
 
-                aria-label={ariaLabel}
+                    className="date-cell-input"
 
-                placeholder={format === "US" ? "MM/DD/YYYY" : "DD/MM/YYYY"}
+                    aria-label={ariaLabel}
 
-                disabled={disabled}
+                    placeholder={format === "US" ? "MM/DD/YYYY" : "DD/MM/YYYY"}
 
-                value={text}
+                    disabled={disabled}
 
-                onChange={(event) => setText(event.target.value)}
+                    value={text}
 
-                onBlur={commit}
+                    onChange={(event) => setText(event.target.value)}
 
-            />
+                    onBlur={commit}
 
-            <button
+                />
 
-                type="button"
+                <button
 
-                className="date-cell-calendar-button"
+                    type="button"
 
-                aria-label="Open calendar"
+                    className="date-cell-calendar-button"
 
-                title="Open calendar"
+                    aria-label="Open calendar"
 
-                disabled={disabled}
+                    title="Open calendar"
 
-                onClick={openCalendar}
+                    aria-expanded={open}
 
-            >
-                📅
-            </button>
+                    aria-haspopup="dialog"
 
-            <input
+                    disabled={disabled}
 
-                ref={pickerRef}
+                    onClick={toggle}
 
-                type="date"
+                >
+                    <CalendarIcon />
+                </button>
 
-                tabIndex={-1}
+            </div>
 
-                aria-hidden="true"
+            {open && (
 
-                className="date-cell-native-picker"
+                <div ref={panelRef} className="date-cell-popup" style={free ? { ...panelStyle, width: "max-content", minWidth: cellRef.current?.getBoundingClientRect().width, maxWidth: "min(560px, 92vw)" } : panelStyle} role="dialog" aria-label="Calendar">
 
-                disabled={disabled}
+                    <div className="date-cell-popup-head">
 
-                max={max}
+                        <button type="button" className="date-cell-popup-step" aria-label="Previous year" onClick={() => step(-12)}>«</button>
+                        <button type="button" className="date-cell-popup-step" aria-label="Previous month" onClick={() => step(-1)}>‹</button>
 
-                min={min}
+                        <span className="date-cell-popup-title" aria-live="polite">{MONTH_NAMES[shown.month - 1]} {shown.year}</span>
 
-                value={value ?? ""}
+                        <button type="button" className="date-cell-popup-step" aria-label="Next month" onClick={() => step(1)}>›</button>
+                        <button type="button" className="date-cell-popup-step" aria-label="Next year" onClick={() => step(12)}>»</button>
 
-                onChange={(event) => onChange(event.target.value)}
+                    </div>
 
-            />
+                    <div className="date-cell-popup-grid" role="grid">
+
+                        {WEEKDAYS.map(name => (
+                            <span key={name} className="date-cell-popup-weekday" role="columnheader">{name}</span>
+                        ))}
+
+                        {cells.map((day, index) => {
+
+                            if (day === null) {
+                                return <span key={"blank-" + index} />;
+                            }
+
+                            const iso = isoOf(shown.year, shown.month, day);
+
+                            return (
+                                <button
+                                    key={iso}
+                                    type="button"
+                                    className={
+                                        "date-cell-popup-day" +
+                                        (iso === value ? " date-cell-popup-day-current" : "") +
+                                        (iso === todayIso ? " date-cell-popup-day-today" : "")
+                                    }
+                                    aria-pressed={iso === value}
+                                    disabled={refused(iso)}
+                                    onClick={() => choose(iso)}
+                                >
+                                    {day}
+                                </button>
+                            );
+
+                        })}
+
+                    </div>
+
+                    <div className="date-cell-popup-foot">
+
+                        <button type="button" className="date-cell-popup-action" disabled={refused(todayIso)} onClick={() => choose(todayIso)}>Today</button>
+                        <button type="button" className="date-cell-popup-action" onClick={() => choose("")}>Clear</button>
+
+                    </div>
+
+                </div>
+
+            )}
 
         </div>
 
     );
+
+}
+
+/** The month a value falls in (this month when it holds no day). */
+function monthOf(iso: string): { year: number; month: number } {
+
+    const match = /^(\d{4})-(\d{2})-\d{2}$/.exec((iso ?? "").trim());
+
+    if (match) {
+        return { year: Number(match[1]), month: Number(match[2]) };
+    }
+
+    const now = new Date();
+
+    return { year: now.getFullYear(), month: now.getMonth() + 1 };
 
 }

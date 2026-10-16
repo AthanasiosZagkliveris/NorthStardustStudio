@@ -2,6 +2,8 @@ import { useState, type ReactNode } from "react";
 
 import CardNameInput from "../../components/interview/CardNameInput";
 import DateCellInput from "../../components/interview/DateCellInput";
+import MonthYearPicker from "../../components/interview/MonthYearPicker";
+import type { StrategyMonthValue } from "../../framework/engine/AnswerUtils.ts";
 import FoldArrow from "../../components/interview/FoldArrow";
 import InfoNote, { InfoText } from "../../components/interview/InfoNote";
 import LabelArrow from "../../components/interview/LabelArrow";
@@ -42,7 +44,10 @@ function Name() {
 
 function Date({ month }: { month?: boolean }) {
     const [value, setValue] = useState("2027-01-01");
-    return month ? <span className="date-cell">January 2027</span> : <DateCellInput ariaLabel="Start date" value={value} onChange={setValue} />;
+    const [period, setPeriod] = useState<StrategyMonthValue>({ month: "01", year: "2027" });
+    return month
+        ? <MonthYearPicker label="Start" hideLabel value={period} onChange={setPeriod} isAllowed={() => true} firstYear={2026} />
+        : <DateCellInput ariaLabel="Start date" value={value} onChange={setValue} />;
 }
 
 function Fold({ label }: { label: boolean }) {
@@ -51,8 +56,19 @@ function Fold({ label }: { label: boolean }) {
 }
 
 function DayPopup() {
-    const days = Array.from({ length: 35 }, (_, i) => i + 1);
-    return <div className="inventory-popup"><strong>October 2026</strong><div className="inventory-popup-grid">{days.map(d => <span key={d} className={d === 15 ? "inventory-popup-day inventory-popup-day-on" : "inventory-popup-day"}>{d > 31 ? d - 31 : d}</span>)}</div></div>;
+    const days = Array.from({ length: 31 }, (_, i) => i + 1);
+    const lead = Array.from({ length: 3 }, (_, i) => <span key={"b" + i} />);
+    return (
+        <div className="date-cell-popup" style={{ position: "static", margin: 0 }}>
+            <div className="date-cell-popup-head"><span className="date-cell-popup-step">{"«"}</span><span className="date-cell-popup-step">{"‹"}</span><span className="date-cell-popup-title">October 2026</span><span className="date-cell-popup-step">{"›"}</span><span className="date-cell-popup-step">{"»"}</span></div>
+            <div className="date-cell-popup-grid">
+                {["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map(d => <span key={d} className="date-cell-popup-weekday">{d}</span>)}
+                {lead}
+                {days.map(d => <span key={d} className={"date-cell-popup-day" + (d === 15 ? " date-cell-popup-day-current" : "")}>{d}</span>)}
+            </div>
+            <div className="date-cell-popup-foot"><span className="date-cell-popup-action">Today</span><span className="date-cell-popup-action">Clear</span></div>
+        </div>
+    );
 }
 
 function MonthPopup() {

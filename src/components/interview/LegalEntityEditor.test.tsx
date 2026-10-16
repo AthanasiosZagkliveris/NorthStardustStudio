@@ -113,12 +113,14 @@ describe("LegalEntityEditor number limits", () => {
         }
         render(<Formed />);
 
-        const today = new Date();
-        const limit = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        const iso = limit.getFullYear() + "-" + String(limit.getMonth() + 1).padStart(2, "0") + "-" +
-            String(limit.getDate()).padStart(2, "0");
+        // The popup calendar refuses every day after today: two years past this year, no day can be chosen.
+        const cell = screen.getByLabelText("Formation date").closest(".date-cell")!;
+        fireEvent.click(cell.querySelector(".date-cell-calendar-button")!);
+        for (let i = 0; i < new Date().getFullYear() - 2026 + 2; i++) fireEvent.click(screen.getByLabelText("Next year"));
+        const days = [...cell.querySelectorAll<HTMLButtonElement>(".date-cell-popup-day")];
+        expect(days.length).toBeGreaterThan(27);
+        expect(days.every(day => day.disabled)).toBe(true);
 
-        expect(screen.getByLabelText("Formation date").closest(".date-cell")!.querySelector(".date-cell-native-picker")!.getAttribute("max")).toBe(iso);
 
     });
 
