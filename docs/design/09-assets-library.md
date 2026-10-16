@@ -351,6 +351,7 @@ A cell that opens a list to choose one value from. 44px high, 6px corners, a bor
   - options source (the owner asked how dropdowns are divided, owner, 2026-10-15): prefilled (Status, Frequency, Currency, Unit, Plan, Cost option, Category, Type), dependent (Group), generated (Performer, Activity, Resource, Responsibility, Linked registration); With Other adds free entry to a list. The list of every dropdown cell is in catalogue/exports/dropdowns.csv.
   - Other is a reaction of an option, not a variant (the owner, owner, 2026-10-16); the generated list (Registrations, Expenses) is the variant.
   - default and searchable only (the owner, owner, 2026-10-16); other forms (a generated list, With Other) are not variants for now, the names can be added later.
+  - an option may be + Add at the end of a list (the activities): choosing it makes an ordinary activity, chooses it and asks its name (a reaction of the option, scanned 2026-10-16).
 - **Measured contract:** Dropdown
 - **Catalogue:** CO02
 

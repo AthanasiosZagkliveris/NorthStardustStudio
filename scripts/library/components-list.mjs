@@ -11,7 +11,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { build } from "../catalogue/build.mjs";
 import { library } from "../../src/library/data/library.ts";
-import { EXTRA, fieldsOf as fieldsIn, heightText, widthText, textSize, corner, sizeOf, variantSizeOf } from "./specs.mjs";
+import { EXTRA, REACTION, fieldsOf as fieldsIn, heightText, widthText, textSize, corner, sizeOf, variantSizeOf } from "./specs.mjs";
 
 const file = "docs/design/14-components-list.md";
 const db = await build(".");
@@ -20,28 +20,6 @@ const out = [];
 const say = (...lines) => out.push(...lines);
 
 /** What happens under the pointer and the keyboard, in words (measured: docs/design/06-catalogue-record.md). */
-const REACTION = {
-    "BTN.001": "Hover and focus: the box fills with its colour and the symbol turns light.",
-    "BTN.002": "Hover and focus: the circle fills with its colour and the i turns light.",
-    "BTN.003": "Hover and focus: the text turns blue.",
-    "BTN.004": "Hover: the ground takes its hover tone and a 4px glow (18%) appears. Focus: the glow only (28%), no outline. Disabled: faint words, the card's line, the not-allowed cursor.",
-    "BTN.005": "Hover and focus: the dashed line goes, the ground becomes 16% of the tile's colour, the plus and the words take the card's dark tint; nothing scales. Disabled: 60% opaque, not-allowed cursor.",
-    "BTN.007": "Not read yet.",
-    "DRP.001": "Hover: the inset edge glows. Focus: a blue ring. In use: the glow and a wire in the contrast colour.",
-    "TIK.001": "Hover: a blue ring inside the box. Focus: the browser's outline.",
-    "TXT.001": "Hover: the inset edge glows. Focus: a blue ring. While typing: the glow and a wire in the contrast colour. A number box: no change under the pointer.",
-    "LST.001": "Like the holders: the edge glows under the pointer, a blue ring on focus; Enter opens the next row.",
-    "DAT.001": "The calendar button fills with a light blue and takes a blue border on hover.",
-    "DAT.002": "Not read yet.",
-    "DIV.001": "None.",
-    "LBL.001": "None.",
-    "TTL.001": "None, except the card title: it is a link (underlined and bolder under the pointer and the focus).",
-    "LNK.001": "Underlined and bolder under the pointer and the focus.",
-    "HLP.001": "None.",
-    "ARW.001": "Hover and focus: the arrow grows 1.2 times; focus adds a 2 px blue outline.",
-    "ARW.002": "Outline at rest; filled under the pointer and the focus.",
-    "BUL.001": "Rest 12px. Hover and focus: 15.6px, a darker fill, a 3px ring, the label underlined (a tooltip in the compact tag). Selected: 17.4px, a 4px bloom (25px in all), a bold label. All in 0.2s."
-};
 /** Where the scan found each asset or variant (a condition on the scan's records). */
 const FOUND = {
     "BTN.001": "type = 'x'", "BTN.ADD.001.001": "type = 'plus' and cls like '%plus-box%'", "BTN.002": "type = 'info'",

@@ -626,3 +626,7 @@ Every change to an asset of the library: added, edited, placed (and where), move
 | L0620 | 2026-10-16 | FLD.105 | edited | Reference or Number: requires |  | Defaults are the main assets, calendar list back, no weight 600, add buttons updated, bullet contrast recorded |
 | L0621 | 2026-10-16 | CRD.001 | edited | floating card: requires |  | Defaults are the main assets, calendar list back, no weight 600, add buttons updated, bullet contrast recorded |
 | L0622 | 2026-10-16 | FLD.106 | edited | page tag: requires |  | Defaults are the main assets, calendar list back, no weight 600, add buttons updated, bullet contrast recorded |
+| L0623 | 2026-10-16 | BTN.001 | edited | box button: belongs |  | The ADD buttons scanned in the source: their words recorded in the components |
+| L0624 | 2026-10-16 | BTN.004 | edited | wide add button: belongs, variants |  | The ADD buttons scanned in the source: their words recorded in the components |
+| L0625 | 2026-10-16 | BTN.005 | edited | add card tile: belongs |  | The ADD buttons scanned in the source: their words recorded in the components |
+| L0626 | 2026-10-16 | DRP.001 | edited | dropdown: lookNotes |  | The ADD buttons scanned in the source: their words recorded in the components |

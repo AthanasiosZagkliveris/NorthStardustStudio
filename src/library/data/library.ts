@@ -594,7 +594,7 @@ export const library: Library = {
    ],
    "group": "CTRL.ACT",
    "kind": "Button that removes",
-   "belongs": "Floating card, nested card, image holder (the x at the corner)"
+   "belongs": "The x of cards and fields; the plus of rows and tiles (Add {card} to {tile}, Add {status} to {card}, Add row, Add item, Add entry, Add another {column}); the shrink of nested cards"
   },
   {
    "code": "BTN.002",
@@ -725,7 +725,7 @@ export const library: Library = {
       "found": 7
      },
      "kind": "Button, wide with words: adds",
-     "belongs": "Identity: Legal Entity card (lists); a chapter's lists"
+     "belongs": "Words: + Add legal requirement, + Add registration number, + Add tax registration (the Legal Entity card's lists)"
     },
     {
      "code": "BTN.SML.004.002",
@@ -745,7 +745,7 @@ export const library: Library = {
       "found": 2
      },
      "kind": "Button, small with words: adds a date or links a field",
-     "belongs": "The notes panel: Add Date, Link a field"
+     "belongs": "The notes panel: + Add note, Add Date, Link a field"
     }
    ],
    "requires": [
@@ -775,7 +775,7 @@ export const library: Library = {
    ],
    "group": "CTRL.ACT",
    "kind": "Button, wide with words: adds",
-   "belongs": "Business: Customer Engagement (Add Channel); Strategy: Theme, Goal, Objective, Metric boxes"
+   "belongs": "Words: + Add founder, + Add expense, + Add Colour, + Add Typeface, + Add Offering, + Add Journey Stage, + Add Relationship Type, + Add resource, + Add channel, + Add expenses (opens a menu), and + Add with the kind of nested card in Strategy (Goal, Objective, Metric, Initiative)"
   },
   {
    "code": "BTN.005",
@@ -832,7 +832,7 @@ export const library: Library = {
     "second version found 2026-10-16: the add tile of the profile cards (profile-card-add-tile): 180px wide, 120px high at least, 1px dashed, 10px corners, a single plus of 28px."
    ],
    "kind": "Button, a tile: adds a card",
-   "belongs": "The end of the grid in an opened tile view"
+   "belongs": "The end of the grid in an opened tile view (+ Add Card); the profile pages (the plus tile)"
   },
   {
    "code": "BTN.006",
@@ -1427,7 +1427,8 @@ export const library: Library = {
     "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45).",
     "options source (the owner asked how dropdowns are divided, owner, 2026-10-15): prefilled (Status, Frequency, Currency, Unit, Plan, Cost option, Category, Type), dependent (Group), generated (Performer, Activity, Resource, Responsibility, Linked registration); With Other adds free entry to a list. The list of every dropdown cell is in catalogue/exports/dropdowns.csv.",
     "Other is a reaction of an option, not a variant (the owner, owner, 2026-10-16); the generated list (Registrations, Expenses) is the variant.",
-    "default and searchable only (the owner, owner, 2026-10-16); other forms (a generated list, With Other) are not variants for now, the names can be added later."
+    "default and searchable only (the owner, owner, 2026-10-16); other forms (a generated list, With Other) are not variants for now, the names can be added later.",
+    "an option may be + Add at the end of a list (the activities): choosing it makes an ordinary activity, chooses it and asks its name (a reaction of the option, scanned 2026-10-16)."
    ],
    "group": "HOLD.CEL",
    "kind": "Cell you choose in: one value from a list",

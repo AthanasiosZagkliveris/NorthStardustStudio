@@ -41,6 +41,8 @@
     "library:components:check": "node scripts/library/components-list.mjs --check",
     "library:usage": "node scripts/library/fields-by-component.mjs",
     "library:usage:check": "node scripts/library/fields-by-component.mjs --check",
+    "library:fields-list": "node scripts/library/fields-list.mjs",
+    "library:fields-list:check": "node scripts/library/fields-list.mjs --check",
     "library:csv": "node scripts/library/export-csv.mjs",
     "library:csv:check": "node scripts/library/export-csv.mjs --check",
     "library:downloads": "node scripts/library/downloads.mjs"

@@ -75,3 +75,39 @@ export const fieldsOf = (db, code) => {
     return names.join(", ") + (rows.length > 12 ? " and " + (rows.length - 12) + " more" : "");
 };
 
+
+/** What happens under the pointer and the keyboard, in words (measured: docs/design/06-catalogue-record.md). */
+export const REACTION = {
+    "BTN.001": "Hover and focus: the box fills with its colour and the symbol turns light.",
+    "BTN.002": "Hover and focus: the circle fills with its colour and the i turns light.",
+    "BTN.003": "Hover and focus: the text turns blue.",
+    "BTN.004": "Hover: the ground takes its hover tone and a 4px glow (18%) appears. Focus: the glow only (28%), no outline. Disabled: faint words, the card's line, the not-allowed cursor.",
+    "BTN.005": "Hover and focus: the dashed line goes, the ground becomes 16% of the tile's colour, the plus and the words take the card's dark tint; nothing scales. Disabled: 60% opaque, not-allowed cursor.",
+    "BTN.007": "Not read yet.",
+    "DRP.001": "Hover: the inset edge glows. Focus: a blue ring. In use: the glow and a wire in the contrast colour.",
+    "TIK.001": "Hover: a blue ring inside the box. Focus: the browser's outline.",
+    "TXT.001": "Hover: the inset edge glows. Focus: a blue ring. While typing: the glow and a wire in the contrast colour. A number box: no change under the pointer.",
+    "LST.001": "Like the holders: the edge glows under the pointer, a blue ring on focus; Enter opens the next row.",
+    "DAT.001": "The calendar button fills with a light blue and takes a blue border on hover.",
+    "DAT.002": "Not read yet.",
+    "DIV.001": "None.",
+    "LBL.001": "None.",
+    "TTL.001": "None, except the card title: it is a link (underlined and bolder under the pointer and the focus).",
+    "LNK.001": "Underlined and bolder under the pointer and the focus.",
+    "HLP.001": "None.",
+    "ARW.001": "Hover and focus: the arrow grows 1.2 times; focus adds a 2 px blue outline.",
+    "ARW.002": "Outline at rest; filled under the pointer and the focus.",
+    "BUL.001": "Rest 12px. Hover and focus: 15.6px, a darker fill, a 3px ring, the label underlined (a tooltip in the compact tag). Selected: 17.4px, a 4px bloom (25px in all), a bold label. All in 0.2s."
+};
+
+/** Where the options of a dropdown come from. */
+export const SOURCE = {
+    Status: "prefilled", Frequency: "prefilled", Currency: "prefilled", Unit: "prefilled", Plan: "prefilled", "Cost option": "prefilled", "Cost options": "prefilled", Type: "prefilled", Category: "prefilled",
+    Group: "dependent", Activity: "generated", Performer: "generated", Resource: "generated", Responsibility: "generated", "Linked registration": "generated", Name: "prefilled suggestions; the option Other opens a text box", Rent: "generated; the option Other opens a text box"
+};
+export const DETAIL = {
+    Group: "The groups of the chosen Category in this place (the list depends on the Category).", Category: "The categories of this place.", Activity: "The activities that have not ended at the card's Start date, with their category (generated from the activities of the place).",
+    Performer: "The founders first, then the partners and suppliers of the same place (generated from the founders and the partners).", Resource: "The resources of the place (generated from the Resources).", Responsibility: "The founders; shown when there is more than one founder.",
+    "Linked registration": "The registrations and requirements already recorded on the page; only one can be chosen.", Rent: "The suppliers in Property, Vehicles & Facilities; opens or creates a card; Other adds a new one.", Name: "Suggested partners or suppliers of the chosen group; Other adds a name.",
+    Status: "Exists / Free; Rent; Activity; Buy (the options follow the card).", Frequency: "Weekly, Monthly or Annually (a project: Per project).", Currency: "A searchable list of currencies.", Unit: "The units of a quantity.", Plan: "The payment plan options.", "Cost option": "The cost options of the group (Percentage, Fixed amount, Lump sum...).", Type: "Capital Expenditure; Start-up Expenses."
+};

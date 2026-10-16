@@ -13,7 +13,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { build } from "../catalogue/build.mjs";
 import { library } from "../../src/library/data/library.ts";
-import { fieldsOf, sizeOf, variantSizeOf } from "./specs.mjs";
+import { DETAIL, SOURCE, fieldsOf, sizeOf, variantSizeOf } from "./specs.mjs";
 import { writeXlsx } from "./xlsx.mjs";
 
 const check = process.argv.includes("--check");
@@ -65,16 +65,6 @@ for (const a of library.assets.filter(x => x.category === "component" || x.group
 put("catalogue/exports/components.csv", csv(rows));
 
 // ---- the dropdowns: where the options come from
-const SOURCE = {
-    Status: "prefilled", Frequency: "prefilled", Currency: "prefilled", Unit: "prefilled", Plan: "prefilled", "Cost option": "prefilled", "Cost options": "prefilled", Type: "prefilled", Category: "prefilled",
-    Group: "dependent", Activity: "generated", Performer: "generated", Resource: "generated", Responsibility: "generated", "Linked registration": "generated", Name: "prefilled suggestions and free entry (With Other)", Rent: "generated, with free entry (With Other)"
-};
-const DETAIL = {
-    Group: "The groups of the chosen Category in this place (the list depends on the Category).", Category: "The categories of this place.", Activity: "The activities that have not ended at the card's Start date, with their category (generated from the activities of the place).",
-    Performer: "The founders first, then the partners and suppliers of the same place (generated from the founders and the partners).", Resource: "The resources of the place (generated from the Resources).", Responsibility: "The founders; shown when there is more than one founder.",
-    "Linked registration": "The registrations and requirements already recorded on the page; only one can be chosen.", Rent: "The suppliers in Property, Vehicles & Facilities; opens or creates a card; Other adds a new one.", Name: "Suggested partners or suppliers of the chosen group; Other adds a name.",
-    Status: "Exists / Free; Rent; Activity; Buy (the options follow the card).", Frequency: "Weekly, Monthly or Annually (a project: Per project).", Currency: "A searchable list of currencies.", Unit: "The units of a quantity.", Plan: "The payment plan options.", "Cost option": "The cost options of the group (Percentage, Fixed amount, Lump sum...).", Type: "Capital Expenditure; Start-up Expenses."
-};
 const probeFile = JSON.parse(readFileSync("catalogue/probes/add-probe-quillfield-1920-light.json", "utf8")).records;
 const optionsOf = new Map();
 for (const card of probeFile.filter(r => r.choice === "(new)" && r.card)) {

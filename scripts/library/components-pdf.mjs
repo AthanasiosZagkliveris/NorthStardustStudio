@@ -10,7 +10,7 @@ import { chromium } from "playwright";
 
 const output = process.argv[2];
 if (!output) { console.error("usage: node scripts/library/components-pdf.mjs OUTPUT.pdf"); process.exit(1); }
-const markdown = readFileSync("docs/design/14-components-list.md", "utf8").split("\r").join("");
+const markdown = readFileSync(process.env.DOC ?? "docs/design/14-components-list.md", "utf8").split("\r").join("");
 const escape = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const inline = s => escape(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/`([^`]+)`/g, "<code>$1</code>");
 
@@ -82,6 +82,6 @@ if (process.argv[3]) writeFileSync(process.argv[3], page);
 const doc = await context.newPage();
 await doc.setContent(page);
 await doc.waitForTimeout(500);
-await doc.pdf({ path: output, format: "A4", printBackground: true, displayHeaderFooter: true, headerTemplate: "<span></span>", footerTemplate: "<div style='font:8pt Arial;width:100%;text-align:center;color:#6b7280'>The components - page <span class='pageNumber'></span> of <span class='totalPages'></span></div>", margin: { top: "18mm", bottom: "18mm", left: "16mm", right: "16mm" } });
+await doc.pdf({ path: output, format: "A4", landscape: process.env.LANDSCAPE === "1", printBackground: true, displayHeaderFooter: true, headerTemplate: "<span></span>", footerTemplate: "<div style='font:8pt Arial;width:100%;text-align:center;color:#6b7280'>" + (process.env.TITLE ?? "The components") + " - page <span class='pageNumber'></span> of <span class='totalPages'></span></div>", margin: { top: "18mm", bottom: "18mm", left: "16mm", right: "16mm" } });
 await browser.close();
 console.log("wrote " + output + " (" + pictures.size + " pictures)");

@@ -911,7 +911,7 @@ The box button: a square of 32px with a symbol in it, outlined with no fill at r
 
 **Kind and place**
 - Kind: Button that removes
-- Placed in: Floating card, nested card, image holder (the x at the corner)
+- Placed in: The x of cards and fields; the plus of rows and tiles (Add {card} to {tile}, Add {status} to {card}, Add row, Add item, Add entry, Add another {column}); the shrink of nested cards
 - Fields: Remove ×
 
 **Size**
@@ -1002,7 +1002,7 @@ A text button that adds a row, a card or an entry (+ ADD CHANNEL, + ADD OFFERING
 
 **Kind and place**
 - Kind: Button, wide with words: adds
-- Placed in: Business: Customer Engagement (Add Channel); Strategy: Theme, Goal, Objective, Metric boxes
+- Placed in: Words: + Add founder, + Add expense, + Add Colour, + Add Typeface, + Add Offering, + Add Journey Stage, + Add Relationship Type, + Add resource, + Add channel, + Add expenses (opens a menu), and + Add with the kind of nested card in Strategy (Goal, Objective, Metric, Initiative)
 
 **Size**
 - Height: 44 px
@@ -1033,7 +1033,7 @@ A text button that adds a row, a card or an entry (+ ADD CHANNEL, + ADD OFFERING
 The add button across a whole column (width 100%), the words centred: 668px in the list of the Legal Entity card, 1304px across a chapter (card-list-add and legal-entity-list-add).
 
 - Kind: Button, wide with words: adds
-- Placed in: Identity: Legal Entity card (lists); a chapter's lists
+- Placed in: Words: + Add legal requirement, + Add registration number, + Add tax registration (the Legal Entity card's lists)
 - What changes: Fills its column; the words are centred.
 - Height: 44 px
 - Width: fills its column
@@ -1045,7 +1045,7 @@ The add button across a whole column (width 100%), the words centred: 668px in t
 The small text buttons of a note in the notes panel: Add Date and Link a field, side by side, 14px, padding 4px by 10px (notepad-add).
 
 - Kind: Button, small with words: adds a date or links a field
-- Placed in: The notes panel: Add Date, Link a field
+- Placed in: The notes panel: + Add note, Add Date, Link a field
 - Fields: Add Date
 - What changes: 14px text, smaller padding.
 - Height: 32 px
@@ -1062,7 +1062,7 @@ The button that ends every grid of tiles in an opened tile view: a square tile w
 
 **Kind and place**
 - Kind: Button, a tile: adds a card
-- Placed in: The end of the grid in an opened tile view
+- Placed in: The end of the grid in an opened tile view (+ Add Card); the profile pages (the plus tile)
 
 **Size**
 - Height: 107.5 px
