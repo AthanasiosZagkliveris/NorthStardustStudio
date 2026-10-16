@@ -7,6 +7,7 @@ import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import AssetPreviewImage from "./AssetPreviewImage.tsx";
 import { ColumnHeading, GuidanceBullets } from "./ColumnHeads.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
+import { BusinessCard, BusinessRemove } from "./BusinessCardFields.tsx";
 
 import {
     BRAND_IMAGE_MAX,
@@ -434,6 +435,47 @@ export default function BrandInventoryEditor({
         );
     }
 
+    /**
+     * An image's floating card, built as every card is: the head holds the order number inside the name cell and the x at its right (the x takes the
+     * image away, as it did in the picture's corner, and keeps the words), then the picture across the card and its words under it.
+     */
+    function imageCard(image: BrandInventoryAnswerValue["images"][number], index: number) {
+        const what = "Image " + (index + 1);
+        return (
+            <BusinessCard
+                key={index}
+                className="brand-style-card"
+                kind="Image"
+                number={index + 1}
+                name={image.name}
+                onName={(name) => updateImage(index, { name })}
+                open
+                disabled={disabled}
+                actions={<BusinessRemove what={what} disabled={disabled} onRemove={() => removeImage(index)} />}
+            >
+                <div className="brand-inventory brand-image-card-body">
+                    <DropZone
+                        label={what}
+                        bare
+                        shape="image"
+                        accept="image/*"
+                        disabled={disabled}
+                        asset={image.dataUrl ? image : undefined}
+                        onFile={(file) => acceptFile(file, "any", (asset) => updateImage(index, asset))}
+                    />
+                    <StrategyTextArea
+                        className="interview-input brand-image-note"
+                        ariaLabel={what + " description"}
+                        placeholder="Short description"
+                        disabled={disabled}
+                        value={image.description}
+                        onChange={(next) => updateImage(index, { description: next })}
+                    />
+                </div>
+            </BusinessCard>
+        );
+    }
+
     /* ---------- The page as tiles: each section's guidance and uploads ---------- */
 
     /** Each section's guidance as the "i" beside its title. */
@@ -521,10 +563,8 @@ export default function BrandInventoryEditor({
         const imageIndex = (id: string) => id.startsWith("brand-image-") ? Number(id.slice("brand-image-".length)) : -1;
         /** A card floating over its tile keeps the page's scope (its holder, its fields). */
         const floating = (card: ReactNode) => (
-            <div className="column-tile-content brand-inventory">
-                <div className="brand-image-card">
-                    <div className="brand-style-body brand-inventory-rows" style={{ "--inventory-rows": 1 } as CSSProperties}>{card}</div>
-                </div>
+            <div className="brand-style brand-style-columns" style={{ "--answer-column-count": 1 } as CSSProperties}>
+                <div className="brand-style-body brand-style-cards">{card}</div>
             </div>
         );
 
@@ -588,7 +628,7 @@ export default function BrandInventoryEditor({
             add: imageAdd,
             cardFor: (id: string) => {
                 const index = imageIndex(id);
-                return index >= 0 && index < inventory.images.length ? floating(imageZone(inventory.images[index], index)) : null;
+                return index >= 0 && index < inventory.images.length ? floating(imageCard(inventory.images[index], index)) : null;
             },
             picture: inventory.images.some(image => image.dataUrl)
                 ? (
@@ -778,7 +818,9 @@ function DropZone({
 
     hint,
 
-    aside
+    aside,
+
+    bare = false
 
 }: {
 
@@ -813,6 +855,9 @@ function DropZone({
      */
     aside?: ReactNode;
 
+    /** No label row above the holder: a card that names it in its head. */
+    bare?: boolean;
+
 }) {
 
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -837,10 +882,12 @@ function DropZone({
 
         <div className={"brand-asset-slot brand-asset-slot-" + shape}>
 
-            <div className="brand-slot-label-row">
-                <span className="brand-slot-label">{label}</span>
-                {hint && <span className="brand-slot-hint">{hint}</span>}
-            </div>
+            {!bare && (
+                <div className="brand-slot-label-row">
+                    <span className="brand-slot-label">{label}</span>
+                    {hint && <span className="brand-slot-hint">{hint}</span>}
+                </div>
+            )}
 
             <div className="brand-slot-row">
 

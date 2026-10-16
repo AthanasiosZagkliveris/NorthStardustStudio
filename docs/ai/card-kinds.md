@@ -17,7 +17,7 @@ Every card that opens from a tile (floating, or in a tile's dialog), by kind: wh
 | 11 | Founders' profile | Identity: Organization, a founder's tile | `FoundersProfileEditor.tsx` | as 9 (name is plain text, no x) | yes |
 | 12 | Brand colour | Brand: Colours | `BrandStyleEditor.tsx` `colourCard` | `.brand-style-card` | yes |
 | 13 | Brand typeface | Brand: Typography | `BrandStyleEditor.tsx` `typefaceCard` | as 12 | yes |
-| 14 | Brand image | Brand: Brand Images | `BrandInventoryEditor.tsx` | none: a drop zone with a name field, no number, no x | no head |
+| 14 | Brand image | Brand: Brand Images | `BrandInventoryEditor.tsx` `imageCard` -> `BusinessCard` | as 12 (name cell with the number inside, the x at the right; under it the picture across the card, then its words) | yes |
 | 15 | Strategy: Theme, Goal, Objective, Metric | Strategy System: Strategic Period | `StrategicPeriodEditor.tsx` (`NumberedName`) | `.strategy-box-head` | yes (the model for the others) |
 | 16 | Strategy: Initiatives | inside an Objective | `StrategicPeriodEditor.tsx` | a box with a list, not a card | no head |
 

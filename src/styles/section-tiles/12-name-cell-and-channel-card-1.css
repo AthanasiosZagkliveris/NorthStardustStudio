@@ -813,7 +813,7 @@ main.conversation-content[data-reserve],
 }
 
 /* GLOBAL: A CARD STANDS ON ITS TILE'S OWN TINT, whatever it is and wherever it is drawn (floating over a tile, or in a dialog): the Brand cards (a colour, a typeface, an image, the Text Hierarchy's box) too. Their page's rule for a neutral card ground (--bg-card-tint) is for a card on the page, not for one opened from a tile. */
-.floating-card-body :is(.brand-style-card, .brand-image-card, .legal-entity-card, .business-subchannel-card),
+.floating-card-body :is(.brand-style-card, .legal-entity-card, .business-subchannel-card),
 .floating-card-body .brand-style-columns .business-foundation-card.brand-style-card,
 .section-tile-dialog .brand-style-columns .business-foundation-card.brand-style-card,
 .section-tile-dialog .brand-hierarchy-card {

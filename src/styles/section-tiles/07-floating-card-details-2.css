@@ -1,26 +1,22 @@
 /* (The icon and the images stand in the same box of their tiles, each in its middle: their centres are one line.) */
 
-/* AN IMAGE'S CARD (floating): as wide as every card, space around it, the image across the card and its name and words under it. */
-.brand-image-card {
+/* AN IMAGE'S CARD (floating) is a card as the others: its head (number inside the name cell, the x) and under it the picture across the card and its words. */
+.brand-image-card-body {
 
-    box-sizing: border-box;
-
-    padding: var(--card-padding);
-
-    border: 1px solid var(--line-card);
-    border-radius: var(--radius-lg);
-
-    background: var(--bg-card-tint);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-12);
 
 }
 
-.brand-image-card .brand-slot-row {
+.brand-image-card-body .brand-slot-row {
 
     flex-direction: column;
 
 }
 
-.brand-image-card .brand-asset-slot-image .brand-slot-row > .brand-holder-wrap {
+.brand-image-card-body .brand-asset-slot-image,
+.brand-image-card-body .brand-asset-slot-image .brand-slot-row > .brand-holder-wrap {
 
     flex: 0 0 auto;
 
@@ -28,7 +24,7 @@
 
 }
 
-.brand-image-card .brand-asset-slot-image .brand-slot-row .brand-asset-preview {
+.brand-image-card-body .brand-asset-slot-image .brand-slot-row .brand-asset-preview {
 
     min-height: 200px;
 
@@ -42,7 +38,7 @@
 }
 
 /* ONE CARD, wherever it floats: the card ground, a hairline edge, rounded corners of 8px and the card's own padding. */
-.floating-card-body :is(.legal-entity-card, .brand-image-card, .brand-style-card, .strategy-theme-box) {
+.floating-card-body :is(.legal-entity-card, .brand-style-card, .strategy-theme-box) {
 
     box-sizing: border-box;
 
@@ -51,7 +47,7 @@
 
 }
 
-.floating-card-body :is(.legal-entity-card, .brand-image-card) {
+.floating-card-body .legal-entity-card {
 
     padding: var(--card-padding);
 
@@ -188,7 +184,7 @@
 
 }
 
-.floating-card-body :is(.legal-entity-card, .brand-image-card, .brand-style-card, .strategy-theme-box) {
+.floating-card-body :is(.legal-entity-card, .brand-style-card, .strategy-theme-box) {
 
     box-shadow: var(--box-inset), 0 24px 56px var(--shadow-18), 0 8px 20px var(--shadow-12);
 
@@ -216,7 +212,7 @@
 }
 
 /* THE CARD TAKES THE TINT OF ITS TILE: a card floating over a tile, and the Text Hierarchy's box in its dialog, stand on the tile's own ground (its hue), not on a neutral grey. */
-.floating-card-body :is(.legal-entity-card, .brand-image-card, .brand-style-card),
+.floating-card-body :is(.legal-entity-card, .brand-style-card),
 .section-tile-dialog .brand-hierarchy-card {
 
     background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
