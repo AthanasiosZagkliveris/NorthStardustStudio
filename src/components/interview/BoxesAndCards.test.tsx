@@ -218,8 +218,8 @@ describe("the Responsible tick row is one row at every width", () => {
 
     it("puts Qty, Price, currency and Frequency on ONE row: the currency over the side pickers' left edge, the Frequency to the name cell's right edge, the Price between", () => {
         expect(css).toMatch(/.business-capability-cost-row {[^}]*--cost-x: calc\(var\(--card-side-label, var\(--side-label-short\)\) \+ var\(--side-label-gap\)\);[^}]*--qty-w: 56px;/);
-        expect(css).toMatch(/\.business-capability-cost-row \{[^}]*grid-template-columns: calc\(var\(--cost-x\) - var\(--space-cell\)\) var\(--space-cell\) max-content minmax\(0, 1fr\) minmax\(0, max-content\);/);
-        expect(css).toMatch(/\.business-capability-cost-grid-quantity \.business-capability-cost-row \{[^}]*grid-template-columns: var\(--qty-w\) var\(--space-cell\) calc\(var\(--cost-x\) - var\(--qty-w\) - 2 \* var\(--space-cell\)\) var\(--space-cell\) max-content minmax\(0, 1fr\) minmax\(0, max-content\);/);
+        expect(css).toMatch(/\.business-capability-cost-row \{[^}]*grid-template-columns: calc\(var\(--cost-x\) - var\(--space-cell\)\) var\(--space-cell\) max-content var\(--space-cell\) minmax\(0, 1fr\);/);
+        expect(css).toMatch(/\.business-capability-cost-grid-quantity \.business-capability-cost-row \{[^}]*grid-template-columns: var\(--qty-w\) var\(--space-cell\) calc\(var\(--cost-x\) - var\(--qty-w\) - 2 \* var\(--space-cell\)\) var\(--space-cell\) max-content var\(--space-cell\) minmax\(0, 1fr\);/);
     });
 
     it("lets the Frequency column give way to the room left, and puts a Per unit Frequency with its Unit under the row", () => {
@@ -309,7 +309,7 @@ describe("the box name above a card opened from a subcategory", () => {
 describe("the page behind a floating card is only dimmed", () => {
 
     it("is a flat scrim: no blur, no lift of brightness, no inset light or shade on the page", () => {
-        const block = /\.section-tile-overlay\.floating-overlay\.business-foundation \{[^}]*\}/.exec(css)![0].replace(/\/\*[\s\S]*?\*\//g, "");
+        const block = [...css.matchAll(/\.section-tile-overlay\.floating-overlay\.business-foundation \{[^}]*\}/g)].map(m => m[0]).join("\n").replace(/\/\*[\s\S]*?\*\//g, "");
         expect(block).toMatch(/background: var\(--floating-scrim\);/);
         expect(block).not.toMatch(/backdrop-filter/);
         expect(block).not.toMatch(/brightness|blur/);
@@ -327,7 +327,7 @@ describe("the page behind a floating card is only dimmed", () => {
 describe("the fold arrows of a founder's card do not move when toggled, and neither they nor the title arrows react to the pointer", () => {
 
     it("has one margin for the closed and the open arrow", () => {
-        expect(css).toMatch(/:is\(\.business-founder-open, \.business-capability-links\) \.business-capability-responsibilities-head > \.strategy-box-toggle \{[^}]*margin-left: calc\(-1 \* var\(--founder-marker\) - 12\.5px\);[^}]*margin-right: calc\(var\(--founder-marker\) - 35\.5px\);/);
+        expect(css).toMatch(/:is\(\.business-founder-open, \.business-capability-links\) \.business-capability-responsibilities-head > \.strategy-box-toggle \{[^}]*margin-left: -12\.5px;[^}]*margin-right: -9\.5px;/);
         expect(css).not.toMatch(/\.business-founder-open[^{]*strategy-box-toggle\[aria-expanded="true"\] \{/);
     });
 

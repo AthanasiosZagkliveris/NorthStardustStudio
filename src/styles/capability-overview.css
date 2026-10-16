@@ -103,9 +103,6 @@
 
     display: flex;
     flex-direction: column;
-    gap: var(--gap-8);
-
-    padding: 8px 10px;
 
     font-size: var(--font-small);
 
@@ -115,7 +112,6 @@
 
     display: flex;
     flex-direction: column;
-    gap: var(--gap-4);
 
 }
 
@@ -178,14 +174,6 @@
 
 }
 
-.capability-overview-menu-sort {
-
-    padding-top: 4px;
-
-    border-top: 1px solid var(--line-divider);
-
-}
-
 .strategy-sort-menu-wide .strategy-sort-option {
 
     font-size: var(--font-small);
@@ -196,20 +184,7 @@
 
     width: 100%;
 
-    border-collapse: collapse;
-
     text-align: left;
-
-}
-
-.capability-overview-table th,
-.capability-overview-table td {
-
-    padding: 4px 8px;
-
-    border-bottom: 1px solid var(--line-divider);
-
-    vertical-align: top;
 
 }
 
@@ -358,29 +333,6 @@
 }
 
 /* THE COSTS of the tiles shown, with the cost order and range under them. */
-.capability-overview-costs-order,
-.capability-overview-costs-range {
-
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--gap-8);
-
-}
-
-.capability-overview-costs-order button {
-
-    font: inherit;
-    text-transform: uppercase;
-
-}
-
-.capability-overview-costs-order button[aria-pressed="true"] {
-
-    font-weight: 700;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-    text-decoration: underline;
-
-}
 
 .capability-overview-costs-range input[type="text"] {
 
@@ -473,11 +425,7 @@
 }
 
 .capability-overview-costs-order button {
-
-    flex: 1 1 0;
     min-width: 0;
-
-    padding: 2px 4px;
 
     border: 1px solid var(--line-card);
     border-radius: var(--radius-sm);
@@ -487,7 +435,6 @@
     color: inherit;
 
     font: inherit;
-    font-size: 12px;
     text-transform: uppercase;
     white-space: nowrap;
     text-decoration: none;
@@ -511,7 +458,6 @@
 
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: var(--space-label);
 
     /* (The arrow's 24px hit area does not make the row taller than the label.) */
@@ -581,23 +527,12 @@
 
     table-layout: auto;
 
-    font-size: var(--font-small);
-
 }
 
 .capability-overview-table th,
 .capability-overview-table td {
 
-    padding: 4px 6px;
-
     overflow-wrap: anywhere;
-
-}
-
-.capability-overview-table-extra th,
-.capability-overview-table-extra td {
-
-    color: var(--text-secondary);
 
 }
 

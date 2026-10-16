@@ -69,12 +69,8 @@
    band, its height is definite, so a rail's max-height resolves). */
 .bullet-rails-row {
 
-    flex: none;
-
     display: flex;
     align-items: flex-start;
-
-    max-height: 100%;
 
 }
 
@@ -86,7 +82,6 @@
     flex-direction: column;
 
     flex: none;
-    width: calc(50% - var(--card-width) / 2 - var(--rail-offset));
     max-height: 100%;
 
 }
@@ -153,10 +148,6 @@
 /* The arrow one row higher than the head it heads (a rail row: an
    item's 28px line and the list's 18px gap), the title and the list
    staying where they are. */
-.bullet-rail-head > .page-arrow {
-  margin-top: -46px;
-  margin-bottom: 46px;
-}
 
 /* The Introduction, heading the pages: in capitals (the word stays
    "Introduction" for assistive technology). */

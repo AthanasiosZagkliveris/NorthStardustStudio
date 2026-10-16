@@ -187,7 +187,6 @@ textarea:focus{
 
     font-size:var(--font-h1);
     font-weight:600;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color:var(--text-default);
 
@@ -1634,7 +1633,6 @@ textarea:focus{
     background:var(--bg-surface);
 
     font:inherit;
-    font-size:var(--font-small);
 
     color:var(--text-default);
 
@@ -2030,7 +2028,6 @@ textarea:focus{
     color:var(--text-danger);
 
     font-weight:700;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     text-align:left;
 
@@ -4076,7 +4073,6 @@ td.process-library-col-number{
 
     font-size:var(--font-body);
     font-weight:600;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     color:var(--text-strong);
 
@@ -4713,7 +4709,7 @@ td.process-library-col-number{
    picker sitting short in the row. */
 .brand-style .brand-colour-picker{
 
-    height:45px;
+    height:var(--card-cell-height);
 
 }
 
@@ -4823,7 +4819,7 @@ td.process-library-col-number{
 
 .brand-style .brand-tick{
 
-    min-height:45px;
+    min-height:var(--card-cell-height);
 
     align-items:center;
 
@@ -7356,7 +7352,7 @@ td.process-library-col-number{
    column, so there is nothing underneath for it to disturb. */
 .brand-style .brand-tick-stacked{
 
-    height:45px;
+    height:var(--card-cell-height);
 
 }
 
@@ -8741,7 +8737,7 @@ td.process-library-col-number{
 /* The tick row keeps the rows' height when unticked (no number box). */
 .legal-entity-number-row.legal-entity-tax-row{
 
-    min-height:45px;
+    min-height:var(--card-cell-height);
 
 }
 
@@ -9916,7 +9912,7 @@ td.process-library-col-number{
    Authority: two fields on one row, 47px and 45px. */
 .legal-entity input[type="date"].interview-input{
 
-    height:45px;
+    height:var(--card-cell-height);
 
 }
 
@@ -10434,11 +10430,6 @@ td.process-library-col-number{
 
 /* On the title itself, not the row: the row also holds the "i",
    and the note it opens is a descendant of it. */
-.business-foundation-proposition > .business-foundation-label-info
-> .business-foundation-subhead{
-
-
-}
 
 .business-foundation-offerings{
 

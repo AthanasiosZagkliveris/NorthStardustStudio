@@ -112,8 +112,6 @@
     top:100%;
     left:0;
 
-    z-index:20;
-
     /* EXACTLY THE CELL'S WIDTH (OptionPicker sets the width, the least and the most, and the left edge, from the cell's own box): the list's
        left and right edges are the cell's. A long option wraps inside that width (its full text is the tooltip). */
     min-width:100%;

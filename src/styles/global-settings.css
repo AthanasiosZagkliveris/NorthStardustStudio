@@ -146,8 +146,6 @@
    Every box and picker is as high as a card's cell (--card-cell-height) and its text the body size; the label column, the cell column and the hint stand on the same
    three columns in every section. */
 .settings-page .settings-field{
-
-    grid-template-columns:minmax(0, 340px) 240px minmax(0, 1fr);
     gap:var(--gap-8) 20px;
 
 }
@@ -157,12 +155,6 @@
     display:flex;
     align-items:center;
     gap:var(--gap-8);
-
-}
-
-.settings-page .settings-number{
-
-    width:140px;
 
 }
 
@@ -364,17 +356,10 @@
 /* ---- CELLS THE SIZE OF THEIR FIGURES ----
    A figure box is 112px (a card's short cell), never a column's whole width; the Assets table has four columns of fixed widths -- the asset, its cost, its
    useful life, the reset -- and is as wide as they are. */
-.settings-page .settings-number{
-
-    width:112px;
-
-}
 
 .settings-page .settings-number-column .settings-number,
 .settings-page .settings-table .settings-number,
 .settings-page .settings-assets-table .settings-number{
-
-    width:96px;
     min-width:0;
 
 }
@@ -389,9 +374,6 @@
 }
 
 .settings-page .settings-assets-table col.settings-col-asset{ width:340px; }
-.settings-page .settings-assets-table col.settings-col-cost{ width:150px; }
-.settings-page .settings-assets-table col.settings-col-life{ width:132px; }
-.settings-page .settings-assets-table col.settings-col-reset{ width:90px; }
 
 .settings-page .settings-assets-table .settings-number-column{
 

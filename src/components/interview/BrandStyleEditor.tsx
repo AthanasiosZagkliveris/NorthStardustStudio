@@ -128,7 +128,7 @@ export function levelHeight(): number {
     // needs at the largest size its range allows (lines at 1.25, which hold
     // the type's whole height), and never
     // under the px box's square, which stands at the row's foot.
-    return Math.max(45, ...BRAND_HIERARCHY_LEVELS.map(level =>
+    return Math.max(44, ...BRAND_HIERARCHY_LEVELS.map(level =>
         Math.ceil((pixelRange(level.range)?.max ?? 18) * 1.25 * level.label.split(" / ").length)));
 }
 

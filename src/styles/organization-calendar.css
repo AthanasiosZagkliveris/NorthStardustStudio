@@ -644,8 +644,6 @@
    Log entry, edited from its own System, can make it disappear. */
 .org-calendar-task{
 
-    padding:10px 12px;
-
     margin-bottom:10px;
 
     border:1px solid var(--line-calendar);

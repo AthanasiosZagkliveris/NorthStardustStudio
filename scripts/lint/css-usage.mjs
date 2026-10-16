@@ -3,7 +3,7 @@
  * that appears nowhere in the source of the app (src, tests left out), neither whole nor as the start of a class built
  * in code ("card-tile-symbol-" + type). Reports per file; with --remove FILE it deletes the dead rules of that file.
  *
- *   node scripts/lint/css-usage.mjs [--remove src/styles/global.css]
+ *   node scripts/lint/css-usage.mjs [--remove src/styles/global.css | --check]
  */
 import { readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -53,3 +53,4 @@ for (const file of files) {
     if (remove && (dead || pruned)) writeFileSync(file, root.toString());
 }
 console.log("total " + totalRules + " rules, " + totalDead + " dead, " + pruned + " dead alternatives in rules that stay");
+if (process.argv.includes("--check") && (totalDead || pruned)) { console.error("dead CSS left: run node scripts/lint/css-usage.mjs --remove FILE on the files above"); process.exit(1); }

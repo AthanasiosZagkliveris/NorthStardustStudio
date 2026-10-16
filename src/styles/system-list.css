@@ -147,7 +147,6 @@
 .system-item:hover .system-number,
 .system-item:hover .system-title {
     text-shadow: var(--hover-bold);
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 }
 /* ==========================================================
    Tracking follows weight

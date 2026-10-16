@@ -138,7 +138,6 @@
 
     font-size: var(--font-small);
     font-weight: 700;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     text-transform: uppercase;
 

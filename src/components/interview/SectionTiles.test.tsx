@@ -918,19 +918,21 @@ describe("the Founders tile: the founders are tiles, and a card opens floating, 
         expect(css).toMatch(/\.business-foundation-card\.business-founder-open \{[^}]*padding-left: calc\(var\(--card-padding\) \+ var\(--founder-inset\) \+ var\(--founder-marker\)\);/);
         expect(css).toMatch(/\.business-founder-open > \.strategy-box-head \{[^}]*margin-left: calc\(-1 \* var\(--founder-marker\)\);/);
         expect(css).toMatch(/\.business-founder-open > \.strategy-box-head > \.strategy-box-number > \.list-number \{[^}]*font-variant-numeric: tabular-nums;[^}]*line-height: 28px;/);
-        expect(css).toMatch(/\.business-founder-open :is\(\.bullet-list-static, \.numbered-list-static\) \{[^}]*margin-left: calc\(-1 \* var\(--founder-marker\)\);[^}]*row-gap: var\(--space-row\);[^}]*line-height: var\(--section-tile-line-height\);/);
-        expect(css).toMatch(/\.business-founder-open \.bullet-list-static > li \{[^}]*padding-left: var\(--founder-marker\);/);
+        expect(css).toMatch(/\.business-founder-open :is\(\.bullet-list-static, \.numbered-list-static\) \{[^}]*row-gap: var\(--space-row\);[^}]*line-height: var\(--section-tile-line-height\);/);
+        expect(css).toMatch(/\.business-founder-open :is\(\.bullet-list-static, \.numbered-list-static\) \{[^}]*margin-left: 0;/);
+        expect(css).toMatch(/\.business-founder-open \.bullet-list-static > li \{[^}]*padding-left: calc\(var\(--bullet-size\) \+ var\(--bullet-gap\)\);/);
         expect(css).toMatch(/\.business-founder-open \.numbered-list-static \{[^}]*grid-template-columns: minmax\(var\(--founder-marker\), max-content\) minmax\(0, 1fr\) auto;/);
         expect(css).toMatch(/\.business-founder-open \.numbered-list-static-text \{[^}]*padding-left: 0;/);
         // The fold arrows are the STANDARD 36px arrow (size and reactions untouched), hung so the glyph's left edge is the markers' x:
         // its box reaches 12.5px left of a closed glyph (9px of an open one).
-        expect(css).toMatch(/:is\(\.business-founder-open, \.business-capability-links\) \.business-capability-responsibilities-head > \.strategy-box-toggle \{[^}]*margin-left: calc\(-1 \* var\(--founder-marker\) - 12\.5px\);/);
+        expect(css).toMatch(/:is\(\.business-founder-open, \.business-capability-links\) \.business-capability-responsibilities-head > \.strategy-box-toggle \{[^}]*margin-left: -12\.5px;/);
         expect(css).not.toMatch(/\.business-founder-open \.business-capability-responsibilities-head > \.strategy-box-toggle \{[^}]*width: 24px/);
         // One position for both states: the arrow does not move when it is toggled.
         expect(css).not.toMatch(/\.business-founder-open \.business-capability-responsibilities-head > \.strategy-box-toggle\[aria-expanded="true"\]/);
-        // The four cells are one size (--founder-cell), side by side 12px apart at the left; the two hours labels are two lines.
+        // The four cells are one size (--founder-cell) in two equal columns 12px apart; the two hours labels are two lines.
         expect(stylesheet("global.css")).toMatch(/--card-cell-narrow: 108px;/);
-        expect(css).toMatch(/\.business-founder-open \.business-founder-grid \{[^}]*grid-template-columns: var\(--founder-cell\) max-content;[^}]*justify-content: start;/);
+        expect(css).toMatch(/\.business-founder-open \.business-founder-grid \{[^}]*justify-content: start;/);
+        expect(css).toMatch(/\.business-founder-open \.business-founder-grid \{[^}]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);/);
         expect(css).toMatch(/\.business-founder-open \.business-founder-grid > \.business-foundation-field:nth-child\(n\+3\) > :first-child \{[^}]*width: var\(--founder-cell\);[^}]*white-space: normal;/);
         expect(css).not.toMatch(/translate: min\(0px, calc\(var\(--founder-cell\)/);
         // "Completed N" is a block of its own, a field gap under the list above it.
@@ -1506,7 +1508,7 @@ describe("the Inventory table", () => {
         fireEvent.mouseLeave(bullets[0]);
         expect(screen.queryByRole("tooltip")).toBeNull();
         const css = stylesheet("capability-overview.css");
-        expect(css.includes(".capability-overview-table-extra th, .capability-overview-table-extra td { color: var(--text-secondary); }")).toBe(true);
+        expect(css).toMatch(/\.capability-overview-table-extra td \{\s*color: color-mix\(in srgb, var\(--table-ink\) 72%, transparent\);/);
     });
 
 });

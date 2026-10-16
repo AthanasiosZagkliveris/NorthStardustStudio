@@ -245,11 +245,7 @@
 
 /* The Actions cell: no bullets; the buttons side by side, wrapping between them. */
 .channel-resource-chips{
-
-    display:flex;
     flex-wrap:wrap;
-
-    gap:var(--space-label);
 
 }
 
@@ -269,7 +265,6 @@
 .channel-resource-col-channel{ width:17%; min-width:180px; }
 .channel-resource-col-offerings{ width:18%; min-width:170px; }
 .channel-resource-col-stages{ width:13%; min-width:140px; }
-.channel-resource-col-actions{ width:11%; min-width:130px; }
 
 .channel-resource-table td.channel-resource-cost,
 .channel-resource-table td.channel-resource-behaviour{ white-space:nowrap; }
