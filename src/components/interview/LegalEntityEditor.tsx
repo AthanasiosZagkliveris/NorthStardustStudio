@@ -2360,7 +2360,7 @@ export default function LegalEntityEditor({
                             undefined,
                             undefined,
                             undefined,
-                            true
+                            false
                         )}
 
                         {field(
@@ -2382,7 +2382,7 @@ export default function LegalEntityEditor({
                             undefined,
                             undefined,
                             undefined,
-                            true
+                            false
                         )}
 
                         {/*

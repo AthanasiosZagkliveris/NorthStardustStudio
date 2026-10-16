@@ -1041,7 +1041,6 @@ main.conversation-content[data-reserve],
 /* A FOUNDER'S CARD NARROWER THAN ITS TWO PAIRS NEED (a floated card, a small window): the pairs stand one under the other, each label beside its cell, instead of the second pair running out of the card (one width for both: the Salary's and the Working Hours' labels). */
 @container cost-fields (max-width: 599.98px) {
 
-    .business-founder-open .business-founder-grid,
     .business-founder-open.business-founder-solo .business-founder-grid,
     .business-founder-open:not(.floating-card-body *) .business-founder-grid {
 
