@@ -590,7 +590,8 @@ export const library: Library = {
     "plus: one size, by the owner's decision (owner, 2026-10-15): 32px, the size of the x and of the plus in cards (107 found). The plus on a master tile (36px, 55 found: Customer Engagement 13, Infrastructure Resources 9, Infrastructure 5, Brand 3, Foundation 3 in the five largest places) takes this size.",
     "plus corners: the corners of the x, 6px, by the owner's decision (owner, 2026-10-15); the plus measured 8px (107 found).",
     "shrink button (make it tiles): measured 32 by 32px, 8px corners, 2px border, with an icon; by the one rule of the box button (the owner's decision on the x and the plus, owner, 2026-10-15) its corners are 6px.",
-    "plus boxes measured 2026-10-16: 32px in cards and rows (107 found) and 36px on the tiles (55, and one of 39px), 8px corners and a 2px line today; the owner's decision is one size, 32px with 6px corners."
+    "plus boxes measured 2026-10-16: 32px in cards and rows (107 found) and 36px on the tiles (55, and one of 39px), 8px corners and a 2px line today; the owner's decision is one size, 32px with 6px corners.",
+    "walk of the running app 2026-10-16: the plus box on a tile is 36px (about 2,000 found; 39.6px in a few); the plus of a nested head (strategy-box-add) and of a card row (plus-box-small) 32px (the owner's decision: one size, 32px); the x of a nested head 32px (strategy-box-remove) and the x of a list 32px (numbered-list-remove)."
    ],
    "group": "CTRL.ACT",
    "kind": "Button that removes",
@@ -630,7 +631,8 @@ export const library: Library = {
    },
    "lookNotes": [
     "merged by the owner's decision (owner, 2026-10-15): info height 22, type 18, corners 50%, padding 0/0, border 1; found 70 times (12.3% of the default's 567); largest difference 4.0px",
-    "enlarged, by the owner's decision (owner, 2026-10-15): from 22px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (567 found at 22px)."
+    "enlarged, by the owner's decision (owner, 2026-10-15): from 22px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (567 found at 22px).",
+    "walk of the running app 2026-10-16: the info button (info-note-button) is 22 by 22px today (816 found); the owner's decision is 24px."
    ],
    "group": "CTRL.ACT",
    "kind": "Button, round: shows a note",
@@ -678,7 +680,8 @@ export const library: Library = {
    ],
    "group": "CTRL.NAV",
    "lookNotes": [
-    "two backs (the owner, owner, 2026-10-15): the main Back of the footer, measured 83 by 22px, 18px, weight 500, capitals, tracking 0.1em; the Back of a dialog or a description, 25 by 76px, 18px, weight 400."
+    "two backs (the owner, owner, 2026-10-15): the main Back of the footer, measured 83 by 22px, 18px, weight 500, capitals, tracking 0.1em; the Back of a dialog or a description, 25 by 76px, 18px, weight 400.",
+    "walk of the running app 2026-10-16: the Back of the carousel (carousel-rail-back) is 75.69 by 25px, the Back of a tile view (section-tile-back) 66.56 by 33px, both 18px, weight 400; the main Back 83 by 22px."
    ],
    "kind": "Button, a word: goes back",
    "look": {
@@ -771,7 +774,8 @@ export const library: Library = {
     "found 15 times: Customer Engagement 7, Financial Foundation 3, Foundation 1, Identity (Founders and Registrations) 4; 39px high, type 18, padding 14/8, border 1. They are not a plus box; the one look measured.",
     "height and plus: by the owner's decision (owner, 2026-10-15) the button looks like a cell, so it is 44px high like every cell (it measured 39px); the plus inside it has the size and the place of the plus box, 32px, at the left, like the plus box.",
     "measured 2026-10-16: + Add Channel is 196.95 by 39px in the app today (the 44px height is the owner's decision, with the plus box at the left); text capitals, 18px, weight 500; centred label; the button is left aligned in its column (align-self start); the full-row versions are stretched to 100% with centred words (global.css .card-list-add, .legal-entity-list-add); the notes panel version is 14px with padding 4/10; line 1px solid, radius 6px.",
-    "measured 2026-10-16: 39px high today (the 44px is the owner's decision); widths 196.95, 199.94, 287.53, 310.02 (hugging), 668 (the Legal Entity list) and 1304 (a chapter); the notes panel's Add Date and Link a field are 14px with padding 4/10; also found: the option + Add at the end of a dropdown list (an option, not a button) and the plus boxes of the rows."
+    "measured 2026-10-16: 39px high today (the 44px is the owner's decision); widths 196.95, 199.94, 287.53, 310.02 (hugging), 668 (the Legal Entity list) and 1304 (a chapter); the notes panel's Add Date and Link a field are 14px with padding 4/10; also found: the option + Add at the end of a dropdown list (an option, not a button) and the plus boxes of the rows.",
+    "walk of the running app 2026-10-16: the text add buttons found are + Add Channel (196.95px, 29 pages and cards), + Add Segment (199.94px, Business: Foundation), + Add Funding Source (287.53px, Financial Foundation), and + Add founder, + Add registration number, + Add tax registration (668px, across the column, Identity: Organization); all 39px high, 18px, weight 500, capitals. Words found only in the source, not reached by the walk: + Add Offering, + Add Relationship Type, + Add resource, + Add Colour, + Add Typeface, + Add expense(s)."
    ],
    "group": "CTRL.ACT",
    "kind": "Button, wide with words: adds",
@@ -969,6 +973,38 @@ export const library: Library = {
    ]
   },
   {
+   "code": "BTN.008",
+   "name": "text toggle",
+   "category": "component",
+   "group": "CTRL.ACT",
+   "summary": "A small text button that folds or unfolds every card of a place at once: Expand all and Collapse all, 14px, weight 400, 95 by 20px, no frame. The words change with its state. (The help toggle, Hide Help, is a toggle too: 18px, weight 500.)",
+   "variables": [
+    "VAR001",
+    "VAR003",
+    "VAR004"
+   ],
+   "catalogue": [],
+   "variants": [],
+   "requires": [],
+   "look": {
+    "height": 20,
+    "width": 95,
+    "corners": "0px",
+    "paddingLeft": 0,
+    "paddingTop": 0,
+    "border": 0,
+    "fontSize": 14,
+    "fontWeight": "400",
+    "scale": "small 14",
+    "found": 59
+   },
+   "kind": "Button, small text: toggles all the folds",
+   "belongs": "Business: the pages with folding cards (Expand all, Collapse all); the help toggle of the pages",
+   "lookNotes": [
+    "found 59 times by the walk of the running app (fold-all-toggle, Expand all, 95.39 by 20px, 14px, weight 400); its reactions are not read yet."
+   ]
+  },
+  {
    "code": "TXS.001",
    "name": "text",
    "category": "component",
@@ -1000,7 +1036,8 @@ export const library: Library = {
    },
    "lookNotes": [
     "simplified (the owner, owner, 2026-10-16): the label, title, link, help text and message are no longer components; one text with 21 presentations covers all 619 texts measured on the four systems. The old purposes stay in each variant's note, so that it is known in which field, card or tile a style was used.",
-    "optimised (the owner, owner, 2026-10-16): 18 presentations; three weights (400, 500, 700; 600 merged into 700); the styles seen only in the Financial sections are left out because they will change (the data excludes the financial classes); a style was added for a completed responsibility; two rare styles (18px capitals, 14px bold) are merged into their neighbours."
+    "optimised (the owner, owner, 2026-10-16): 18 presentations; three weights (400, 500, 700; 600 merged into 700); the styles seen only in the Financial sections are left out because they will change (the data excludes the financial classes); a style was added for a completed responsibility; two rare styles (18px capitals, 14px bold) are merged into their neighbours.",
+    "walk of the running app 2026-10-16: the unit word px stands after the number cells of Brand: Typography & Text Hierarchy (brand-hierarchy-unit, 18px, weight 400, 15 found); the dropdown values of currencies and periods (USD, Per unit) are body text; the channel table's resource buttons are 14px, weight 600 (the library: 700) and are pressed."
    ],
    "variants": [
     {
@@ -1376,6 +1413,28 @@ export const library: Library = {
      },
      "kind": "Text you read",
      "belongs": "Used as: The page title. Seen on: Identity, Business; classes interview-header-page-title 2."
+    },
+    {
+     "code": "TXS.SBD.001.018",
+     "name": "Small bold",
+     "values": {
+      "VAR012": "generated"
+     },
+     "description": "A small bold text that opens something: the names of the linked resources in a channel's table (Squarespace Core, Calendly Standard) and their numbers (#12). Weight 600 today, 700 in the library.",
+     "edits": "Bold, 14px; pressed.",
+     "look": {
+      "height": null,
+      "fontSize": 14,
+      "fontWeight": "700",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "small 14",
+      "found": 290
+     },
+     "kind": "Text you read, pressed",
+     "belongs": "Used as: the linked resources of a channel (channel-resource-open, channel-resource-action). Seen on: Business, Customer Engagement; 290 found by the walk."
     }
    ],
    "requires": []
@@ -2097,6 +2156,38 @@ export const library: Library = {
    ],
    "kind": "Picture, not a button",
    "belongs": "The header, before the system's title"
+  },
+  {
+   "code": "SYM.001",
+   "name": "card symbol",
+   "category": "component",
+   "group": "MARK.ICN",
+   "summary": "A round dot of 12px on a card tile that stands for a linked resource or activity (its aria name says which: Activity: Set up bookkeeping, Resource: Domain). It is pressed and opens the linked card. Its colour is the kind's.",
+   "variables": [
+    "VAR001",
+    "VAR003",
+    "VAR004"
+   ],
+   "catalogue": [],
+   "variants": [],
+   "requires": [],
+   "look": {
+    "height": 12,
+    "width": 12,
+    "corners": "50%",
+    "paddingLeft": 0,
+    "paddingTop": 0,
+    "border": 0,
+    "fontSize": 0,
+    "fontWeight": "400",
+    "scale": "symbol, no text",
+    "found": 63
+   },
+   "kind": "Symbol on a tile, pressed: opens the linked card",
+   "belongs": "The card tiles of Business: Infrastructure (activities and resources) and Customer Engagement",
+   "lookNotes": [
+    "found 63 times by the walk of the running app 2026-10-16 (card-tile-symbol: 33 activity, 30 resource), 12 by 12px, round; its reactions are not read yet."
+   ]
   },
   {
    "code": "TIL.001",

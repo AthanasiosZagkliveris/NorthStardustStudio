@@ -35,6 +35,7 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | BTN.006 tool button | (asset) | 36 | 14 | small 14 | 6px | 0/0 | 1 | 62 | meets 24 |
 | BTN.006 tool button | BTN.STR.006.008 Start Interview | 52 high, 269 wide | 18 | body 18 | 6px | 0/0 | 0 | 4 | meets 24 |
 | BTN.007 link button | (asset) | 24 high, 24 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 72 | meets 24 |
+| BTN.008 text toggle | (asset) | 20 high, 95 wide | 14 | small 14 | 0px | 0/0 | 0 | 59 | under 24 |
 | TXS.001 text | (asset) | words | 18 | body 18 | 0px | 0/0 | 0 | 227 | follows the words (a field, not a button) |
 | TXS.001 text | TXS.BMD.001.001 Body medium | words | 18 | body 18 | 0px | 0/0 | 0 | 15 | follows the words (a field, not a button) |
 | TXS.001 text | TXS.BBD.001.002 Body bold | words | 18 | body 18 | 0px | 0/0 | 0 | 130 | follows the words (a field, not a button) |
@@ -53,6 +54,7 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | TXS.001 text | TXS.HOB.001.015 Heading 1 bold | words | 36 | h1 36 | 0px | 0/0 | 0 | 8 | follows the words (a field, not a button) |
 | TXS.001 text | TXS.HOC.001.016 Heading 1 capitals | words | 36 | h1 36 | 0px | 0/0 | 0 | 4 | follows the words (a field, not a button) |
 | TXS.001 text | TXS.HOR.001.017 Heading 1 | words | 36 | h1 36 | 0px | 0/0 | 0 | 2 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.SBD.001.018 Small bold | words | 14 | small 14 | 0px | 0/0 | 0 | 290 | follows the words (a field, not a button) |
 | DRP.001 dropdown | (asset) | 44 | 18 | body 18 | 6px | 8/8 | 1 | 493 in 8 places | meets 24 |
 | TIK.001 tick box | (asset) | 24 high, 24 wide | 18 | body 18 | 0px | 0/0 | 0 | 721 in 8 places | meets 24 |
 | TXT.001 text box | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 in 4 places | meets 24 |
@@ -71,6 +73,7 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | ARW.002 fold arrow | (asset) | 24 | 18 | body 18 | 0px | 0/0 | 0 | 8 in 2 places | meets 24 |
 | ARW.002 fold arrow | ARW.TTL.002.001 Title arrow | 28 high, 28 wide | 28 | h2 28 | 0px | 0/0 | 0 | 2 in 1 places | meets 24 |
 | ICN.001 system icon | (asset) | 36 high, 36 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 4 in 4 places | meets 24 |
+| SYM.001 card symbol | (asset) | 12 high, 12 wide | 0 | symbol, no text | 50% | 0/0 | 0 | 63 | under 24 |
 | FRM.001 frame | FRM.CHP.001.001 Chapter | words | 0 | symbol, no text | 8px | 12/12 | 1 | 53 | follows the words (a field, not a button) |
 | FRM.001 frame | FRM.MTL.001.002 Master tile | words | 0 | symbol, no text | 8px | 12/12 | 0 | 53 | follows the words (a field, not a button) |
 | FRM.001 frame | FRM.NTL.001.003 Nested tile | words | 0 | symbol, no text | 8px | 12/12 | 0 | 188 | follows the words (a field, not a button) |
@@ -103,15 +106,18 @@ Separated by purpose; each has its own default look.
 - plus corners: the corners of the x, 6px, by the owner's decision (owner, 2026-10-15); the plus measured 8px (107 found).
 - shrink button (make it tiles): measured 32 by 32px, 8px corners, 2px border, with an icon; by the one rule of the box button (the owner's decision on the x and the plus, owner, 2026-10-15) its corners are 6px.
 - plus boxes measured 2026-10-16: 32px in cards and rows (107 found) and 36px on the tiles (55, and one of 39px), 8px corners and a 2px line today; the owner's decision is one size, 32px with 6px corners.
+- walk of the running app 2026-10-16: the plus box on a tile is 36px (about 2,000 found; 39.6px in a few); the plus of a nested head (strategy-box-add) and of a card row (plus-box-small) 32px (the owner's decision: one size, 32px); the x of a nested head 32px (strategy-box-remove) and the x of a list 32px (numbered-list-remove).
 
 ### BTN.002 info button
 
 - merged by the owner's decision (owner, 2026-10-15): info height 22, type 18, corners 50%, padding 0/0, border 1; found 70 times (12.3% of the default's 567); largest difference 4.0px
 - enlarged, by the owner's decision (owner, 2026-10-15): from 22px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (567 found at 22px).
+- walk of the running app 2026-10-16: the info button (info-note-button) is 22 by 22px today (816 found); the owner's decision is 24px.
 
 ### BTN.003 back button
 
 - two backs (the owner, owner, 2026-10-15): the main Back of the footer, measured 83 by 22px, 18px, weight 500, capitals, tracking 0.1em; the Back of a dialog or a description, 25 by 76px, 18px, weight 400.
+- walk of the running app 2026-10-16: the Back of the carousel (carousel-rail-back) is 75.69 by 25px, the Back of a tile view (section-tile-back) 66.56 by 33px, both 18px, weight 400; the main Back 83 by 22px.
 
 ### BTN.004 wide add button
 
@@ -119,6 +125,7 @@ Separated by purpose; each has its own default look.
 - height and plus: by the owner's decision (owner, 2026-10-15) the button looks like a cell, so it is 44px high like every cell (it measured 39px); the plus inside it has the size and the place of the plus box, 32px, at the left, like the plus box.
 - measured 2026-10-16: + Add Channel is 196.95 by 39px in the app today (the 44px height is the owner's decision, with the plus box at the left); text capitals, 18px, weight 500; centred label; the button is left aligned in its column (align-self start); the full-row versions are stretched to 100% with centred words (global.css .card-list-add, .legal-entity-list-add); the notes panel version is 14px with padding 4/10; line 1px solid, radius 6px.
 - measured 2026-10-16: 39px high today (the 44px is the owner's decision); widths 196.95, 199.94, 287.53, 310.02 (hugging), 668 (the Legal Entity list) and 1304 (a chapter); the notes panel's Add Date and Link a field are 14px with padding 4/10; also found: the option + Add at the end of a dropdown list (an option, not a button) and the plus boxes of the rows.
+- walk of the running app 2026-10-16: the text add buttons found are + Add Channel (196.95px, 29 pages and cards), + Add Segment (199.94px, Business: Foundation), + Add Funding Source (287.53px, Financial Foundation), and + Add founder, + Add registration number, + Add tax registration (668px, across the column, Identity: Organization); all 39px high, 18px, weight 500, capitals. Words found only in the source, not reached by the walk: + Add Offering, + Add Relationship Type, + Add resource, + Add Colour, + Add Typeface, + Add expense(s).
 
 ### BTN.005 add card tile
 
@@ -136,10 +143,15 @@ Separated by purpose; each has its own default look.
 - 24px, by the owner's decision (owner, 2026-10-16); found 72 times in the card tables (the link symbol rows); it stands between the dropdown and the plus box.
 - the symbol today is the emoji 🔗, which looks different on every platform; no proper icon exists in the app yet. To do: a 24px chain-link drawn in the text colour (an SVG), in place of the emoji; the calendar symbol 📅 of the date cell is an emoji in the same way.
 
+### BTN.008 text toggle
+
+- found 59 times by the walk of the running app (fold-all-toggle, Expand all, 95.39 by 20px, 14px, weight 400); its reactions are not read yet.
+
 ### TXS.001 text
 
 - simplified (the owner, owner, 2026-10-16): the label, title, link, help text and message are no longer components; one text with 21 presentations covers all 619 texts measured on the four systems. The old purposes stay in each variant's note, so that it is known in which field, card or tile a style was used.
 - optimised (the owner, owner, 2026-10-16): 18 presentations; three weights (400, 500, 700; 600 merged into 700); the styles seen only in the Financial sections are left out because they will change (the data excludes the financial classes); a style was added for a completed responsibility; two rare styles (18px capitals, 14px bold) are merged into their neighbours.
+- walk of the running app 2026-10-16: the unit word px stands after the number cells of Brand: Typography & Text Hierarchy (brand-hierarchy-unit, 18px, weight 400, 15 found); the dropdown values of currencies and periods (USD, Per unit) are body text; the channel table's resource buttons are 14px, weight 600 (the library: 700) and are pressed.
 
 ### DRP.001 dropdown
 
@@ -221,6 +233,10 @@ Separated by purpose; each has its own default look.
 
 - measured 36 by 36px (one per system).
 
+### SYM.001 card symbol
+
+- found 63 times by the walk of the running app 2026-10-16 (card-tile-symbol: 33 activity, 30 resource), 12 by 12px, round; its reactions are not read yet.
+
 ### TIL.002 open tile
 
 - title: by the owner's decision (owner, 2026-10-15) the tiles that floating cards generate (the Resources tiles) show the title on one line, and a title that is too long moves horizontally instead of being cut off.
@@ -253,8 +269,10 @@ The looks the app has today that the decisions change when the assets replace th
 - BTN.001 box button: plus corners: the corners of the x, 6px, by the owner's decision (owner, 2026-10-15); the plus measured 8px (107 found).
 - BTN.001 box button: shrink button (make it tiles): measured 32 by 32px, 8px corners, 2px border, with an icon; by the one rule of the box button (the owner's decision on the x and the plus, owner, 2026-10-15) its corners are 6px.
 - BTN.001 box button: plus boxes measured 2026-10-16: 32px in cards and rows (107 found) and 36px on the tiles (55, and one of 39px), 8px corners and a 2px line today; the owner's decision is one size, 32px with 6px corners.
+- BTN.001 box button: walk of the running app 2026-10-16: the plus box on a tile is 36px (about 2,000 found; 39.6px in a few); the plus of a nested head (strategy-box-add) and of a card row (plus-box-small) 32px (the owner's decision: one size, 32px); the x of a nested head 32px (strategy-box-remove) and the x of a list 32px (numbered-list-remove).
 - BTN.002 info button: merged by the owner's decision (owner, 2026-10-15): info height 22, type 18, corners 50%, padding 0/0, border 1; found 70 times (12.3% of the default's 567); largest difference 4.0px
 - BTN.002 info button: enlarged, by the owner's decision (owner, 2026-10-15): from 22px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (567 found at 22px).
+- BTN.002 info button: walk of the running app 2026-10-16: the info button (info-note-button) is 22 by 22px today (816 found); the owner's decision is 24px.
 - BTN.004 wide add button: height and plus: by the owner's decision (owner, 2026-10-15) the button looks like a cell, so it is 44px high like every cell (it measured 39px); the plus inside it has the size and the place of the plus box, 32px, at the left, like the plus box.
 - BTN.004 wide add button: measured 2026-10-16: + Add Channel is 196.95 by 39px in the app today (the 44px height is the owner's decision, with the plus box at the left); text capitals, 18px, weight 500; centred label; the button is left aligned in its column (align-self start); the full-row versions are stretched to 100% with centred words (global.css .card-list-add, .legal-entity-list-add); the notes panel version is 14px with padding 4/10; line 1px solid, radius 6px.
 - BTN.004 wide add button: measured 2026-10-16: 39px high today (the 44px is the owner's decision); widths 196.95, 199.94, 287.53, 310.02 (hugging), 668 (the Legal Entity list) and 1304 (a chapter); the notes panel's Add Date and Link a field are 14px with padding 4/10; also found: the option + Add at the end of a dropdown list (an option, not a button) and the plus boxes of the rows.

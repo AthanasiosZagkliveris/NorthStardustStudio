@@ -20,6 +20,7 @@ export const KINDS = {
     LST: { name: "list", category: "component" },
     DIV: { name: "divider", category: "component" },
     TXS: { name: "text", category: "component" },
+    SYM: { name: "card symbol", category: "component" },
     PCK: { name: "picker", category: "component" },
     IMG: { name: "image holder", category: "component" },
     ICN: { name: "icon", category: "component" },

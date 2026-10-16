@@ -94,6 +94,10 @@ Used by no field or card yet.
 
 0 assets use it: .
 
+## BTN.008 text toggle
+
+0 assets use it: .
+
 ## TXS.001 text
 
 110 assets use it: 2 tiles, 1 frame, 106 fields, 1 card.
@@ -177,6 +181,10 @@ Used by no field or card yet.
 Used by no field or card yet.
 
 ### TXS.HOR.001.017 Heading 1
+
+Used by no field or card yet.
+
+### TXS.SBD.001.018 Small bold
 
 Used by no field or card yet.
 
@@ -319,6 +327,10 @@ Used by no field or card yet.
 **Fields (1):** page tag.
 
 ## ICN.001 system icon
+
+0 assets use it: .
+
+## SYM.001 card symbol
 
 0 assets use it: .
 

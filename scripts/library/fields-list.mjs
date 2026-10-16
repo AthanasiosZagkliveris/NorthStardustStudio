@@ -27,24 +27,34 @@ const assetOf = code => (code.split(".").length === 4 ? code.split(".")[0] + "."
 const plural = (n, w) => n + " " + w + (n === 1 ? "" : "s");
 const short = (t, n = 260) => (t.length > n ? t.slice(0, n - 1) + "…" : t);
 
-// ---- the add buttons that exist in the four systems (scanned in the source on 2026-10-16)
-const ADDS = [
-    ["+ Add legal requirement; + Add registration number; + Add tax registration", "Identity: the Legal Entity card (the lists)", "BTN.ROW.004.001", "Adds a row to the list; the lists run the whole width of the column."],
-    ["+ Add founder; + Add expense", "Identity: the Legal Entity card", "BTN.004", "Adds a founder or an expense."],
-    ["+ Add Colour; + Add Typeface", "Brand: the Colours and the Typefaces", "BTN.004", "Opens the first free role."],
-    ["+ Add Profile (the plus tile)", "Brand and Identity: the pages that list profile cards", "BTN.PLS.005.001", "Adds a profile card; a tile with only a plus."],
-    ["+ Add Offering; + Add Journey Stage; + Add Relationship Type; + Add resource", "Business: Customer Engagement and its cards", "BTN.004", "Adds an offering, a stage, a relationship type or a resource."],
-    ["+ Add channel", "Business: Customer Engagement", "BTN.004", "Adds a channel."],
-    ["+ Add expense; + Add expenses", "Business: the cards of a channel and of a place", "BTN.004", "Opens a menu: a blank expense, all the typical costs, one of them, or a card to link."],
-    ["+ Add (with the name of what is added: Goal, Objective, Metric, Initiative)", "Strategy: the Theme, Goal, Objective and Metric boxes", "BTN.004", "Adds the next nested card; the words are made from the kind of card."],
-    ["Add {card} to {tile} (a plus box, 36px on the tile today)", "Every master tile and every tile view", "BTN.ADD.001.001", "Adds a card of that kind and opens it."],
-    ["Add {status} to {card} (a plus box, 32px)", "The rows inside a card (a new status row, a new line)", "BTN.ADD.001.001", "Adds a row."],
-    ["Add row; Add item; Add entry; Add another {column}", "The tables of the pages", "BTN.ADD.001.001", "Adds a row to the table."],
-    ["+ Add Card (a tile of words and a plus)", "The end of the grid in an opened tile view", "BTN.005", "Adds a card of any kind the view holds."],
-    ["+ Add (an option at the end of a dropdown list, not a button)", "The dropdowns of cards (Activity, Performer ...)", "DRP.001", "An option with a reaction: it makes an ordinary activity, chooses it and asks its name."],
-    ["+ Add note; Add Date; Link a field", "The notes panel", "BTN.SML.004.002", "Adds a note, a date to the note, or a link to a field."]
+// ---- the add buttons found by the walk of the running app (scripts/catalogue/app-crawl.mjs, 2026-10-16)
+const crawl = existsSync("catalogue/measures/crawl-quillfield-1920.json") ? JSON.parse(readFileSync("catalogue/measures/crawl-quillfield-1920.json", "utf8")) : { scenes: [] };
+const ADD_CLASSES = [
+    [/legal-entity-list-add/, "BTN.ROW.004.001", "wide add button across the column"],
+    [/strategy-add-button/, "BTN.004", "wide add button, hugging"],
+    [/plus-box.*section-tile-plus/, "BTN.ADD.001.001", "plus box on a tile"],
+    [/plus-box-small/, "BTN.ADD.001.001", "plus box in a card row"],
+    [/strategy-box-add/, "BTN.ADD.001.001", "plus in a nested head"],
+    [/profile-card-add-tile/, "BTN.PLS.005.001", "plus tile of the profile pages"],
+    [/add-card-tile/, "BTN.005", "add tile of words and a plus"]
 ];
-const NOT_FOUNDATION = "Outside the four systems (not in the library): + Add Organization (the landing page), + Add channel (Global Settings), + Add Process and + Add SOP (the Process Library).";
+const found = new Map();
+for (const scene of crawl.scenes) {
+    for (const item of scene.items) {
+        const hit = ADD_CLASSES.find(([re]) => re.test(item.cls));
+        if (!hit) continue;
+        const key = hit[2];
+        if (!found.has(key)) found.set(key, { code: hit[1], sizes: new Set(), words: new Set(), views: new Set(), n: new Set() });
+        const e = found.get(key);
+        e.sizes.add(item.w + " by " + item.h + " px");
+        e.words.add(item.aria && /^Add /.test(item.aria) ? item.aria : item.text.replace(/^\+\s*/, "+ "));
+        e.views.add(scene.where);
+        e.n.add(scene.where + "|" + item.cls + "|" + item.aria + "|" + item.text);
+    }
+}
+const ADDS = [...found].map(([label, e]) => [label, nameOf(e.code), [...e.sizes].slice(0, 4).join("; "), e.words.size + " different words, for example: " + [...e.words].slice(0, 8).join("; "), "seen in " + e.views.size + " views of the walk"]);
+const IN_SOURCE = "In the source of the app, but not reached by the walk (a deeper card, or built from a label): + Add Offering, + Add Relationship Type, + Add resource, + Add Colour, + Add Typeface, + Add expense and + Add expenses (opens a menu), + Add with the kind of nested card in Strategy, + Add note, Add Date and Link a field (the notes panel), the option + Add at the end of a dropdown list (it makes an ordinary activity, chooses it and asks its name). Outside the four systems: + Add Organization (the landing page), + Add channel (Global Settings), + Add Process and + Add SOP (the Process Library).";
+const WALK = "The walk opened every page of the four systems, every master tile, and the first two cards of each view (" + crawl.scenes.length + " views); a card deeper than that was not opened.";
 
 // ---- the components of a form of a field, from the control the card tables name
 const componentsOf = r => {
@@ -100,10 +110,10 @@ const flat = [["Code", "Field", "Kind", "Components", "Words", "Reaction", "Effe
 say("# The fields", "",
     "Generated by `node scripts/library/fields-list.mjs` from the library and the card tables (docs/design/07-structure-tables.md, " + rows.length + " rows). Do not edit by hand. For each of the " + fields.length + " fields: the components it uses, its words (the label and the shown values; the options of a dropdown), its reaction (what the person does, and what the component does under the pointer and the keyboard) and its effect (what it does to the card). Under a field stand its variants: the forms it takes in the cards, each with its own components, words and the card kinds that show it. A field that no card table names (found only by a probe) has no variants. The reactions are those measured on 2026-10-15 and 2026-10-16.", "",
     "## The ADD buttons that exist", "",
-    "Scanned in the source of the app on 2026-10-16; every form is already a component. The plus box (BTN.001, Add) stands in rows, heads of tiles and tables; the wide add button (BTN.004) carries words and has the full-row and the small versions; the add tile (BTN.005) has the plus tile; the option + Add of a dropdown is a reaction of an option, not a button.", "",
-    "| Words | Where | Component | What it does |", "|---|---|---|---|");
-for (const [words, where, code, does] of ADDS) say("| " + words + " | " + where + " | " + nameOf(code) + " | " + does + " |");
-say("", NOT_FOUNDATION, "", "## The fields", "",
+    "Found by walking the running app on 2026-10-16. " + WALK + " The plus box (BTN.001, Add) stands in rows, heads of tiles and nested boxes; the wide add button (BTN.004) carries words and has the full-row and the small versions; the add tile (BTN.005) has the plus tile.", "",
+    "| Kind of control | Library component | Size | Words | Seen |", "|---|---|---|---|---|");
+for (const row of ADDS) say("| " + row.join(" | ") + " |");
+say("", IN_SOURCE, "", "## The fields", "",
     "| Code | Field | Components | Words | Reaction | Effect |", "|---|---|---|---|---|---|");
 
 for (const f of fields) {
@@ -158,8 +168,8 @@ if (process.argv.includes("--check")) {
         mkdirSync("exports", { recursive: true });
         writeFileSync("exports/The-fields.csv", csv(flat));
         writeXlsx("exports/The-fields.xlsx", { name: "Fields", header: flat[0], rows: sheet, widths: [10, 26, 18, 48, 48, 44, 60, 22] });
-        const addRows = [["Words", "Where", "Component", "What it does"], ...ADDS.map(([w, wh, c, d]) => [w, wh, nameOf(c), d])];
-        writeXlsx("exports/The-add-buttons.xlsx", { name: "Add buttons", header: addRows[0], rows: addRows.slice(1).map(cells => ({ cells })), widths: [60, 48, 36, 70] });
+        const addRows = [["Kind of control", "Library component", "Size", "Words", "Seen"], ...ADDS];
+        writeXlsx("exports/The-add-buttons.xlsx", { name: "Add buttons", header: addRows[0], rows: addRows.slice(1).map(cells => ({ cells })), widths: [36, 40, 30, 90, 24] });
         console.log("wrote exports/The-fields.xlsx, The-fields.csv and The-add-buttons.xlsx");
     }
 }

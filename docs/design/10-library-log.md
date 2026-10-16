@@ -630,3 +630,10 @@ Every change to an asset of the library: added, edited, placed (and where), move
 | L0624 | 2026-10-16 | BTN.004 | edited | wide add button: belongs, variants |  | The ADD buttons scanned in the source: their words recorded in the components |
 | L0625 | 2026-10-16 | BTN.005 | edited | add card tile: belongs |  | The ADD buttons scanned in the source: their words recorded in the components |
 | L0626 | 2026-10-16 | DRP.001 | edited | dropdown: lookNotes |  | The ADD buttons scanned in the source: their words recorded in the components |
+| L0627 | 2026-10-16 | BTN.001 | edited | box button: lookNotes |  | The walk of the running app: unit word px, small bold text, text toggle, card symbol, add buttons and backs as found |
+| L0628 | 2026-10-16 | BTN.002 | edited | info button: lookNotes |  | The walk of the running app: unit word px, small bold text, text toggle, card symbol, add buttons and backs as found |
+| L0629 | 2026-10-16 | BTN.003 | edited | back button: lookNotes |  | The walk of the running app: unit word px, small bold text, text toggle, card symbol, add buttons and backs as found |
+| L0630 | 2026-10-16 | BTN.004 | edited | wide add button: lookNotes |  | The walk of the running app: unit word px, small bold text, text toggle, card symbol, add buttons and backs as found |
+| L0631 | 2026-10-16 | BTN.008 | added | text toggle |  | The walk of the running app: unit word px, small bold text, text toggle, card symbol, add buttons and backs as found |
+| L0632 | 2026-10-16 | TXS.001 | edited | text: lookNotes, variants |  | The walk of the running app: unit word px, small bold text, text toggle, card symbol, add buttons and backs as found |
+| L0633 | 2026-10-16 | SYM.001 | added | card symbol |  | The walk of the running app: unit word px, small bold text, text toggle, card symbol, add buttons and backs as found |
