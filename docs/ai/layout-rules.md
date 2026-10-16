@@ -1526,7 +1526,7 @@ The probe's pure helpers are unit-tested in `src/test/layoutProbe.test.ts`.
 
 ### The stylesheets stay clean (2026-10-16)
 
-`npm run lint:css` fails when a stylesheet holds a rule for a class that no component draws, or a declaration that a later one of the same selector always overrides (`scripts/lint/css-usage.mjs`, `css-shadowed.mjs`; `--remove FILE` deletes what they list). `node scripts/catalogue/style-snapshot.mjs --out A.json.gz` writes the box and the computed style of every element of every page, opened tile and first card, in light and dark at 1920px and light at 768px (about 107,000 elements); `--compare A B` lists what differs between two snapshots, so a clean-up can be proved to change nothing. A few elements move between two runs of the same code (the Registrations tile of Identity: Organization, the carousel arrows at 768px): those are timing, not the change.
+`npm run lint:css` fails when a stylesheet holds a rule for a class that no component draws, or a declaration that a later one of the same selector always overrides (`scripts/lint/css-usage.mjs`, `css-shadowed.mjs`; the flag remove, with a file, deletes what they list). `node scripts/catalogue/style-snapshot.mjs` with the flag out and a file name writes the box and the computed style of every element of every page, opened tile and first card, in light and dark at 1920px and light at 768px (about 107,000 elements); the flag compare, with two snapshots, lists what differs between two snapshots, so a clean-up can be proved to change nothing. A few elements move between two runs of the same code (the Registrations tile of Identity: Organization, the carousel arrows at 768px): those are timing, not the change.
 
 ### The automatic check (after every layout change)
 
