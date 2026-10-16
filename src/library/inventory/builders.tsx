@@ -27,7 +27,7 @@ export function CardBuild({ asset, extra }: { asset: Asset; extra?: readonly Req
     return (
         <div className="business-foundation answer-columns business-capability library-page-3 inventory-card" data-asset={asset.code}>
             <div className="business-foundation-card">
-                <div className="inventory-card-head">{part("TXT.NAM.001.003")}{part("BTN.DLT.001.001")}</div>
+                <div className="inventory-card-head">{part("TXT.NAM.001.002")}{part("BTN.001")}</div>
                 {fields}
             </div>
         </div>

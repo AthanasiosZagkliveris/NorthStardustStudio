@@ -22,58 +22,54 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | Asset | Variant | Height | Type | Hierarchy | Corners | Padding left/top | Border | Found | Target (WCAG 2.5.8, 24px) |
 |---|---|---|---|---|---|---|---|---|---|
 | BTN.001 box button | (asset) | 32 | 0 | symbol, no text | 6px | 0/0 | 2 | 237 in 11 places | meets 24 |
-| BTN.001 box button | BTN.DLT.001.001 Delete | 32 | 0 | symbol, no text | 6px | 0/0 | 2 | 237 in 11 places | meets 24 |
-| BTN.001 box button | BTN.ADD.001.002 Add | 32 | 0 | symbol, no text | 6px | 0/0 | 2 | 107 in 1 places | meets 24 |
-| BTN.001 box button | BTN.SHR.001.003 Shrink | 32 high, 32 wide | 0 | symbol, no text | 6px | 0/0 | 2 | 3 | meets 24 |
+| BTN.001 box button | BTN.ADD.001.001 Add | 32 | 0 | symbol, no text | 6px | 0/0 | 2 | 107 in 1 places | meets 24 |
+| BTN.001 box button | BTN.SHR.001.002 Shrink | 32 high, 32 wide | 0 | symbol, no text | 6px | 0/0 | 2 | 3 | meets 24 |
 | BTN.002 info button | (asset) | 24 high, 24 wide | 14 | small 14 | 50% | 0/0 | 1 | 567 in 9 places | meets 24 |
-| BTN.003 back button | BTN.MAN.003.001 Main back | 22 high, 83 wide | 18 | body 18 | 0px | 0/0 | 0 | 8 | under 24 |
-| BTN.003 back button | BTN.SEC.003.002 Section back | 25 high, 76 wide | 18 | body 18 | 0px | 0/0 | 0 | 6 | meets 24 |
-| BTN.004 wide add button | (asset) | 44 | 18 | body 18 | 6px | 14/8 | 1 | 15 in 4 places | meets 24 |
-| BTN.004 wide add button | BTN.HUG.004.001 Add | 44 | 18 | body 18 | 6px | 14/8 | 1 | 3 | meets 24 |
-| BTN.004 wide add button | BTN.ROW.004.002 Full-row add | 44 | 18 | body 18 | 6px | 14/8 | 1 | 0 | meets 24 |
-| BTN.004 wide add button | BTN.SML.004.003 Small add | 32 | 14 | small 14 | 6px | 10/4 | 1 | 0 | meets 24 |
+| BTN.003 back button | (asset) | 22 high, 83 wide | 18 | body 18 | 0px | 0/0 | 0 | 8 | under 24 |
+| BTN.003 back button | BTN.SEC.003.001 Section back | 25 high, 76 wide | 18 | body 18 | 0px | 0/0 | 0 | 6 | meets 24 |
+| BTN.004 wide add button | (asset) | 44 | 18 | body 18 | 6px | 14/8 | 1 | 12 | meets 24 |
+| BTN.004 wide add button | BTN.ROW.004.001 Full-row add | 44 | 18 | body 18 | 6px | 14/8 | 1 | 7 | meets 24 |
+| BTN.004 wide add button | BTN.SML.004.002 Small add | 32 | 14 | small 14 | 6px | 10/4 | 1 | 2 | meets 24 |
 | BTN.005 add card tile | (asset) | 107.5 high, 107.5 wide | 14 | small 14 | 8px | 0/0 | 1 | 2 | meets 24 |
+| BTN.005 add card tile | BTN.PLS.005.001 Plus tile | 120 high, 180 wide | 28 | h2 28 | 10px | 0/0 | 1 | 1 | meets 24 |
 | BTN.006 tool button | (asset) | 36 | 14 | small 14 | 6px | 0/0 | 1 | 62 | meets 24 |
 | BTN.006 tool button | BTN.STR.006.008 Start Interview | 52 high, 269 wide | 18 | body 18 | 6px | 0/0 | 0 | 4 | meets 24 |
 | BTN.007 link button | (asset) | 24 high, 24 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 72 | meets 24 |
-| TXS.001 text | (asset) | words | 18 | body 18 | 0px | 0/0 | 0 | 239 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.BDY.001.001 Body | words | 18 | body 18 | 0px | 0/0 | 0 | 227 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.BMD.001.002 Body medium | words | 18 | body 18 | 0px | 0/0 | 0 | 15 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.BBD.001.003 Body bold | words | 18 | body 18 | 0px | 0/0 | 0 | 130 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.BUL.001.004 Body underlined | words | 18 | body 18 | 0px | 0/0 | 0 | 11 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.BUC.001.005 Body bold underlined capitals | words | 18 | body 18 | 0px | 0/0 | 0 | 15 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.BBC.001.006 Body bold capitals | words | 18 | body 18 | 0px | 0/0 | 0 | 18 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.BMC.001.007 Body medium capitals | words | 18 | body 18 | 0px | 0/0 | 0 | 14 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.BDN.001.008 Body done | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.SML.001.009 Small | words | 14 | small 14 | 0px | 0/0 | 0 | 13 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.SCP.001.010 Small capitals | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.SBI.001.011 Small bold italic | words | 14 | small 14 | 0px | 0/0 | 0 | 20 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.HTB.001.012 Heading 3 bold | words | 24 | h3 24 | 0px | 0/0 | 0 | 1 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.HTC.001.013 Heading 3 bold capitals | words | 24 | h3 24 | 0px | 0/0 | 0 | 12 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.HTI.001.014 Heading 3 medium italic | words | 24 | h3 24 | 0px | 0/0 | 0 | 4 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.HDC.001.015 Heading 2 bold capitals | words | 28 | h2 28 | 0px | 0/0 | 0 | 5 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.HOB.001.016 Heading 1 bold | words | 36 | h1 36 | 0px | 0/0 | 0 | 8 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.HOC.001.017 Heading 1 capitals | words | 36 | h1 36 | 0px | 0/0 | 0 | 4 | follows the words (a field, not a button) |
-| TXS.001 text | TXS.HOR.001.018 Heading 1 | words | 36 | h1 36 | 0px | 0/0 | 0 | 2 | follows the words (a field, not a button) |
+| TXS.001 text | (asset) | words | 18 | body 18 | 0px | 0/0 | 0 | 227 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BMD.001.001 Body medium | words | 18 | body 18 | 0px | 0/0 | 0 | 15 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BBD.001.002 Body bold | words | 18 | body 18 | 0px | 0/0 | 0 | 130 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BUL.001.003 Body underlined | words | 18 | body 18 | 0px | 0/0 | 0 | 11 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BUC.001.004 Body bold underlined capitals | words | 18 | body 18 | 0px | 0/0 | 0 | 15 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BBC.001.005 Body bold capitals | words | 18 | body 18 | 0px | 0/0 | 0 | 18 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BMC.001.006 Body medium capitals | words | 18 | body 18 | 0px | 0/0 | 0 | 14 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.BDN.001.007 Body done | words | 18 | body 18 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.SML.001.008 Small | words | 14 | small 14 | 0px | 0/0 | 0 | 13 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.SCP.001.009 Small capitals | words | 14 | small 14 | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.SBI.001.010 Small bold italic | words | 14 | small 14 | 0px | 0/0 | 0 | 20 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HTB.001.011 Heading 3 bold | words | 24 | h3 24 | 0px | 0/0 | 0 | 1 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HTC.001.012 Heading 3 bold capitals | words | 24 | h3 24 | 0px | 0/0 | 0 | 12 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HTI.001.013 Heading 3 medium italic | words | 24 | h3 24 | 0px | 0/0 | 0 | 4 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HDC.001.014 Heading 2 bold capitals | words | 28 | h2 28 | 0px | 0/0 | 0 | 5 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HOB.001.015 Heading 1 bold | words | 36 | h1 36 | 0px | 0/0 | 0 | 8 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HOC.001.016 Heading 1 capitals | words | 36 | h1 36 | 0px | 0/0 | 0 | 4 | follows the words (a field, not a button) |
+| TXS.001 text | TXS.HOR.001.017 Heading 1 | words | 36 | h1 36 | 0px | 0/0 | 0 | 2 | follows the words (a field, not a button) |
 | DRP.001 dropdown | (asset) | 44 | 18 | body 18 | 6px | 8/8 | 1 | 493 in 8 places | meets 24 |
 | TIK.001 tick box | (asset) | 24 high, 24 wide | 18 | body 18 | 0px | 0/0 | 0 | 721 in 8 places | meets 24 |
-| TXT.001 holder | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 in 4 places | meets 24 |
-| TXT.001 holder | TXT.BOX.001.001 Text box | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 in 4 places | meets 24 |
-| TXT.001 holder | TXT.ARE.001.002 Free text | words, at least 44 | 18 | body 18 | 6px | 10/8 | 1 | 282 in 19 places | follows the words (a field, not a button) |
-| TXT.001 holder | TXT.NAM.001.003 Name cell | words, at least 44 | 18 | body 18 | 6px | 38/8 | 1 | 138 | follows the words (a field, not a button) |
-| TXT.001 holder | TXT.SQR.001.006 Square number | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 12 | meets 24 |
+| TXT.001 text box | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 in 4 places | meets 24 |
+| TXT.001 text box | TXT.ARE.001.001 Free text | words, at least 44 | 18 | body 18 | 6px | 10/8 | 1 | 282 in 19 places | follows the words (a field, not a button) |
+| TXT.001 text box | TXT.NAM.001.002 Name cell | words, at least 44 | 18 | body 18 | 6px | 38/8 | 1 | 138 | follows the words (a field, not a button) |
+| TXT.001 text box | TXT.SQR.001.005 Square number | 44 high, 44 wide | 18 | body 18 | 6px | 4/8 | 1 | 12 | meets 24 |
 | LST.001 list | (asset) | words, at least 44 | 18 | body 18 | 6px | 12/8 | 1 | 129 in 5 places | follows the words (a field, not a button) |
-| DIV.001 divider | DIV.HOR.001.001 Horizontal | 2 | 0 | symbol, no text | 0px | 0/0 | 0 | 1 | under 24 |
-| DIV.001 divider | DIV.VER.001.002 Vertical | words | 0 | symbol, no text | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
+| DIV.001 divider | (asset) | 2 | 0 | symbol, no text | 0px | 0/0 | 0 | 1 | under 24 |
+| DIV.001 divider | DIV.VER.001.001 Vertical | words | 0 | symbol, no text | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
 | DAT.001 date cell | (asset) | 44 | 18 | body 18 | 6px | 10/0 | 1 | 166 in 2 places | meets 24 |
+| DAT.002 calendar list | (asset) | words | 18 | body 18 | 6px | 12/12 | 1 | 0 | follows the words (a field, not a button) |
 | PCK.001 colour picker | (asset) | 44 high, 44 wide | 14 | small 14 | 6px | 0/0 | 1 | 1 in 1 places | meets 24 |
-| IMG.001 image holder | (asset) | 252 high, 448 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 3 in 1 places | meets 24 |
+| IMG.001 image holder | (asset) | 252 high, 448 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 3 | meets 24 |
 | IMG.001 image holder | IMG.LOG.001.001 Logo | 216 high, 668 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 1 | meets 24 |
 | IMG.001 image holder | IMG.ICO.001.002 Icon | 249 high, 249 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 1 | meets 24 |
-| IMG.001 image holder | IMG.BRD.001.003 Brand image | 252 high, 448 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 3 | meets 24 |
-| ARW.002 fold arrow | (asset) | 36 | 0 | symbol, no text | 6px | 0/0 | 1 | 11 in 1 places | meets 24 |
-| ARW.002 fold arrow | ARW.LAB.002.001 Label arrow | 24 | 18 | body 18 | 0px | 0/0 | 0 | 8 in 2 places | meets 24 |
-| ARW.002 fold arrow | ARW.TTL.002.002 Title arrow | 28 high, 28 wide | 28 | h2 28 | 0px | 0/0 | 0 | 2 in 1 places | meets 24 |
+| ARW.002 fold arrow | (asset) | 24 | 18 | body 18 | 0px | 0/0 | 0 | 8 in 2 places | meets 24 |
+| ARW.002 fold arrow | ARW.TTL.002.001 Title arrow | 28 high, 28 wide | 28 | h2 28 | 0px | 0/0 | 0 | 2 in 1 places | meets 24 |
 | ICN.001 system icon | (asset) | 36 high, 36 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 4 in 4 places | meets 24 |
 | FRM.001 frame | FRM.CHP.001.001 Chapter | words | 0 | symbol, no text | 8px | 12/12 | 1 | 53 | follows the words (a field, not a button) |
 | FRM.001 frame | FRM.MTL.001.002 Master tile | words | 0 | symbol, no text | 8px | 12/12 | 0 | 53 | follows the words (a field, not a button) |
@@ -90,12 +86,11 @@ Separated by purpose; each has its own default look.
 
 | Holder | Variant | What it is | Look |
 |---|---|---|---|
-| text input | TXT.BOX.001.001 Text box | One line of text in a cell that keeps its space. | height 44, type 18, corners 6px, padding 10/8, border 1, found 24 |
-| text input | TXT.ARE.001.002 Free text | A description text: the cell gets bigger as you type or press Enter (Description, Offerings, Market). | height words, at least 44, type 18, corners 6px, padding 10/8, border 1, found 282 |
-| text input | TXT.NAM.001.003 Name cell | The name of a card, on top of the card. The order number is generated automatically and stands inside the cell. | height words, at least 44, type 18, corners 6px, padding 38/8, border 1, found 138 |
-| text input | TXT.WHL.001.004 Whole number | Whole numbers only; no more digits than the field requires. | none |
-| text input | TXT.DEC.001.005 Decimal | A number with decimals; no more digits than the field requires. | none |
-| text input | TXT.SQR.001.006 Square number | A number in a square box, 44 by 44px, with its unit beside it: % (Deposit %, Milestone %), years (Useful life, Amortisation period) or months (Target operating reserve). Numbers only; the digit limit is set by the field. | height 44, type 18, corners 6px, padding 4/8, border 1, found 12 |
+| text input | TXT.ARE.001.001 Free text | A description text: the cell gets bigger as you type or press Enter (Description, Offerings, Market). | height words, at least 44, type 18, corners 6px, padding 10/8, border 1, found 282 |
+| text input | TXT.NAM.001.002 Name cell | The name of a card, on top of the card. The order number is generated automatically and stands inside the cell. | height words, at least 44, type 18, corners 6px, padding 38/8, border 1, found 138 |
+| text input | TXT.WHL.001.003 Whole number | Whole numbers only; no more digits than the field requires. | none |
+| text input | TXT.DEC.001.004 Decimal | A number with decimals; no more digits than the field requires. | none |
+| text input | TXT.SQR.001.005 Square number | A number in a square box, 44 by 44px, with its unit beside it: % (Deposit %, Milestone %), years (Useful life, Amortisation period) or months (Target operating reserve). Numbers only; the digit limit is set by the field. | height 44, type 18, corners 6px, padding 4/8, border 1, found 12 |
 | list | LST.001 list | A text that needs a list is ONE cell that holds numbered rows divided by thin lines, the numbers inside the cell (Values, Principles, SWOT points, Initiatives, Responsibilities). It grows as rows are added; Enter opens the next row; the rows can be moved and removed. | min height 44, type 18, corners 6px, border 1, found 129 |
 
 ## Looks merged and looks kept
@@ -107,6 +102,7 @@ Separated by purpose; each has its own default look.
 - plus: one size, by the owner's decision (owner, 2026-10-15): 32px, the size of the x and of the plus in cards (107 found). The plus on a master tile (36px, 55 found: Customer Engagement 13, Infrastructure Resources 9, Infrastructure 5, Brand 3, Foundation 3 in the five largest places) takes this size.
 - plus corners: the corners of the x, 6px, by the owner's decision (owner, 2026-10-15); the plus measured 8px (107 found).
 - shrink button (make it tiles): measured 32 by 32px, 8px corners, 2px border, with an icon; by the one rule of the box button (the owner's decision on the x and the plus, owner, 2026-10-15) its corners are 6px.
+- plus boxes measured 2026-10-16: 32px in cards and rows (107 found) and 36px on the tiles (55, and one of 39px), 8px corners and a 2px line today; the owner's decision is one size, 32px with 6px corners.
 
 ### BTN.002 info button
 
@@ -122,11 +118,13 @@ Separated by purpose; each has its own default look.
 - found 15 times: Customer Engagement 7, Financial Foundation 3, Foundation 1, Identity (Founders and Registrations) 4; 39px high, type 18, padding 14/8, border 1. They are not a plus box; the one look measured.
 - height and plus: by the owner's decision (owner, 2026-10-15) the button looks like a cell, so it is 44px high like every cell (it measured 39px); the plus inside it has the size and the place of the plus box, 32px, at the left, like the plus box.
 - measured 2026-10-16: + Add Channel is 196.95 by 39px in the app today (the 44px height is the owner's decision, with the plus box at the left); text capitals, 18px, weight 500; centred label; the button is left aligned in its column (align-self start); the full-row versions are stretched to 100% with centred words (global.css .card-list-add, .legal-entity-list-add); the notes panel version is 14px with padding 4/10; line 1px solid, radius 6px.
+- measured 2026-10-16: 39px high today (the 44px is the owner's decision); widths 196.95, 199.94, 287.53, 310.02 (hugging), 668 (the Legal Entity list) and 1304 (a chapter); the notes panel's Add Date and Link a field are 14px with padding 4/10; also found: the option + Add at the end of a dropdown list (an option, not a button) and the plus boxes of the rows.
 
 ### BTN.005 add card tile
 
 - measured 107.5 by 107.5px, a dashed 1px edge, 8px corners, 14px bold words under the plus (the Add Card tile moved from the tiles to the buttons, owner, 2026-10-15).
 - line measured 2026-10-16 (card-tile.css): 1px dashed, in the theme's line colour; the plus is 24px (h3); the words 14px, weight 600, capitals; hover and focus: the line turns transparent, ground 16% of the tile colour, nothing scales.
+- second version found 2026-10-16: the add tile of the profile cards (profile-card-add-tile): 180px wide, 120px high at least, 1px dashed, 10px corners, a single plus of 28px.
 
 ### BTN.006 tool button
 
@@ -157,7 +155,7 @@ Separated by purpose; each has its own default look.
 - enlarged, by the owner's decision (owner, 2026-10-15): from 18px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (721 found at 18px).
 - the box with its words is a field, not a component (the owner, owner, 2026-10-16): the words are a label.
 
-### TXT.001 holder
+### TXT.001 text box
 
 - text box with square corners and no border (the name of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard text box.
 - moved to the name cell, by the owner's decision (owner, 2026-10-15): the text box with padding 38 (the theme name in Strategy, Strategic Period, Financial Stability; 1 found) is a name cell. It is counted in the standard name cell.
@@ -188,6 +186,11 @@ Separated by purpose; each has its own default look.
 - dates in the Strategic Period, the Objective cards of a Theme and the Revenue card (Begins): by the owner's decision (owner, 2026-10-15) they are this date cell with a calendar and the choice of a day or only a month; they are month pickers with their own look today (bold, wide-spaced type that cuts the year off: 'September 202').
 - decided by the owner, owner, 2026-10-16: the long cell and the square calendar symbol are unified (the symbol inside the cell, 32px high); one default for days, months and years, and one for months and years only; the cell works as a dropdown. The day popup today is the browser's own calendar and the symbol is the emoji 📅; both are to be replaced by the app's own.
 
+### DAT.002 calendar list
+
+- rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners of 6px, like the cells. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.
+- measured 2026-10-16: the day popup is the browser's own calendar (a date input), so its text size and corners are the browser's and cannot be measured or styled; only the month popup of the Strategy pages is the app's own.
+
 ### PCK.001 colour picker
 
 - measured 44 by 45px, 8px corners, a dashed 1px edge while empty; by the owner's rules (every cell 44px, the corners of the cells) it is 44 by 44px with 6px corners.
@@ -211,6 +214,7 @@ Separated by purpose; each has its own default look.
 - the bullets are navigation controls (the owner, owner, 2026-10-15): they move between pages, sections, views and cards, like the page and carousel arrows.
 - states measured 2026-10-16 on the Business page tag: rest 12px; hover and focus 15.6px (scale 1.3) with a 3px ring of 40% opacity; selected 17.4px (scale 1.45) with a 4px bloom of 28% opacity. The owner says the selection is much bigger and that this size should be the hovering: waiting for the answer, not applied.
 - reactions read 2026-10-16 in the app (Business page tag, 1920px): rest 12px, fill rgb(139, 85, 108); hover 15.6px, fill rgb(101, 70, 89), ring 3px; selected 17.4px, fill rgb(139, 85, 108), bloom 4px; transitions 0.2s for size, colour and ring. In the pictures the selected bullet reads as much larger than the hovered one (25px against 22px with its ring).
+- contrast measured 2026-10-16 against the rail's own ground (Business page tag, light, dark and sepia): plain 1.70, 1.85, 1.67; status 5.17, 4.87, 4.94; hover 7.28, 6.55, 6.61; selected 5.17, 4.87, 4.94. The plain dot (--rail-dot, the ice blue) fails 3:1: the owner asks that no bullet has a contrast problem, so the rest ink of every bullet becomes the status ink; to be applied in the app.
 
 ### ICN.001 system icon
 
@@ -247,24 +251,27 @@ The looks the app has today that the decisions change when the assets replace th
 - BTN.001 box button: plus: one size, by the owner's decision (owner, 2026-10-15): 32px, the size of the x and of the plus in cards (107 found). The plus on a master tile (36px, 55 found: Customer Engagement 13, Infrastructure Resources 9, Infrastructure 5, Brand 3, Foundation 3 in the five largest places) takes this size.
 - BTN.001 box button: plus corners: the corners of the x, 6px, by the owner's decision (owner, 2026-10-15); the plus measured 8px (107 found).
 - BTN.001 box button: shrink button (make it tiles): measured 32 by 32px, 8px corners, 2px border, with an icon; by the one rule of the box button (the owner's decision on the x and the plus, owner, 2026-10-15) its corners are 6px.
+- BTN.001 box button: plus boxes measured 2026-10-16: 32px in cards and rows (107 found) and 36px on the tiles (55, and one of 39px), 8px corners and a 2px line today; the owner's decision is one size, 32px with 6px corners.
 - BTN.002 info button: merged by the owner's decision (owner, 2026-10-15): info height 22, type 18, corners 50%, padding 0/0, border 1; found 70 times (12.3% of the default's 567); largest difference 4.0px
 - BTN.002 info button: enlarged, by the owner's decision (owner, 2026-10-15): from 22px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (567 found at 22px).
 - BTN.004 wide add button: height and plus: by the owner's decision (owner, 2026-10-15) the button looks like a cell, so it is 44px high like every cell (it measured 39px); the plus inside it has the size and the place of the plus box, 32px, at the left, like the plus box.
 - BTN.004 wide add button: measured 2026-10-16: + Add Channel is 196.95 by 39px in the app today (the 44px height is the owner's decision, with the plus box at the left); text capitals, 18px, weight 500; centred label; the button is left aligned in its column (align-self start); the full-row versions are stretched to 100% with centred words (global.css .card-list-add, .legal-entity-list-add); the notes panel version is 14px with padding 4/10; line 1px solid, radius 6px.
+- BTN.004 wide add button: measured 2026-10-16: 39px high today (the 44px is the owner's decision); widths 196.95, 199.94, 287.53, 310.02 (hugging), 668 (the Legal Entity list) and 1304 (a chapter); the notes panel's Add Date and Link a field are 14px with padding 4/10; also found: the option + Add at the end of a dropdown list (an option, not a button) and the plus boxes of the rows.
 - BTN.007 link button: 24px, by the owner's decision (owner, 2026-10-16); found 72 times in the card tables (the link symbol rows); it stands between the dropdown and the plus box.
 - DRP.001 dropdown: merged by the owner's decision (owner, 2026-10-15): dropdown height 45, type 18, corners 6px, padding 6/8, border 1; found 43 times (8.7% of the default's 493); largest difference 2.0px
 - DRP.001 dropdown: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45).
 - TIK.001 tick box: enlarged, by the owner's decision (owner, 2026-10-15): from 18px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (721 found at 18px).
-- TXT.001 holder: text box with square corners and no border (the name of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard text box.
-- TXT.001 holder: moved to the name cell, by the owner's decision (owner, 2026-10-15): the text box with padding 38 (the theme name in Strategy, Strategic Period, Financial Stability; 1 found) is a name cell. It is counted in the standard name cell.
-- TXT.001 holder: free text with square corners and no border (the note of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard free text.
-- TXT.001 holder: app error, by the owner's decision (owner, 2026-10-15): the name cell with padding 12 (the name with suggestions in Customer Engagement, Other, Referral partners; 2 found) is an error of the app and has to take the standard name cell look (padding 38, the number inside). It is counted in the standard name cell.
-- TXT.001 holder: percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45).
-- TXT.001 holder: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px.
-- TXT.001 holder: years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).
-- TXT.001 holder: months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner).
+- TXT.001 text box: text box with square corners and no border (the name of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard text box.
+- TXT.001 text box: moved to the name cell, by the owner's decision (owner, 2026-10-15): the text box with padding 38 (the theme name in Strategy, Strategic Period, Financial Stability; 1 found) is a name cell. It is counted in the standard name cell.
+- TXT.001 text box: free text with square corners and no border (the note of Brand Images 1 to 3, 3 found): by the owner's decision (owner, 2026-10-15) the Brand Images follow the new layout, that is, the standard free text.
+- TXT.001 text box: app error, by the owner's decision (owner, 2026-10-15): the name cell with padding 12 (the name with suggestions in Customer Engagement, Other, Referral partners; 2 found) is an error of the app and has to take the standard name cell look (padding 38, the number inside). It is counted in the standard name cell.
+- TXT.001 text box: percent boxes: by the owner's decision (owner, 2026-10-15) they are squares, 45 by 45px, padding 4/8 (the 12 percent boxes of Meetup and event costs measured 44 by 45; the 5 size boxes of Typography and Text Hierarchy measured 45 by 45; 2 people boxes 44 by 45; 1 count box 48 by 45).
+- TXT.001 text box: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 45). The percent box is a square of 44 by 44px.
+- TXT.001 text box: years boxes: by the owner's decision (owner, 2026-10-15) they are squares, 44 by 44px, like the percent boxes (8 found: Useful life and Amortisation period).
+- TXT.001 text box: months box: by the owner's decision (owner, 2026-10-15) months boxes are squares, 44 by 44px, like the percent and years boxes (Target operating reserve in Business, Financial Foundation: the catalogue has no scan of that field, so 1 is the one named by the owner).
 - DAT.001 date cell: cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 44). Already 44px.
 - DAT.001 date cell: dates in the Strategic Period, the Objective cards of a Theme and the Revenue card (Begins): by the owner's decision (owner, 2026-10-15) they are this date cell with a calendar and the choice of a day or only a month; they are month pickers with their own look today (bold, wide-spaced type that cuts the year off: 'September 202').
+- DAT.002 calendar list: rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners of 6px, like the cells. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.
 - ARW.002 fold arrow: merged by the owner's decision (owner, 2026-10-15): fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px
 - ARW.002 fold arrow: label arrow and title arrow are variants (the owner's decision, owner, 2026-10-15): the same component, function and style; the size follows the text beside it (24px beside a field label, 28px beside a title).
 - TIL.002 open tile: title: by the owner's decision (owner, 2026-10-15) the tiles that floating cards generate (the Resources tiles) show the title on one line, and a title that is too long moves horizontally instead of being cut off.

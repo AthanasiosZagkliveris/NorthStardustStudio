@@ -12,7 +12,7 @@ describe("the assets library", () => {
         const box = library.assets.find(a => a.name === "box button");
         const info = library.assets.find(a => a.name === "info button");
         expect(box?.code).toBe("BTN.001");
-        expect(box?.variants.map(v => v.code)).toEqual(["BTN.DLT.001.001", "BTN.ADD.001.002", "BTN.SHR.001.003"]);
+        expect(box?.variants.map(v => v.code)).toEqual(["BTN.ADD.001.001", "BTN.SHR.001.002"]);
         expect(info?.code).toBe("BTN.002");
         expect(info?.variants).toEqual([]);
     });
@@ -31,13 +31,13 @@ describe("the assets library", () => {
             for (const v of asset.variants) expect(v.belongs ?? v.kind ?? asset.belongs ?? asset.kind, v.code + " says where it belongs").toBeTruthy();
         }
         const holder = library.assets.find(a => a.code === "TXT.001");
-        expect(holder?.variants.map(v => v.name)).toEqual(["Text box", "Free text", "Name cell", "Whole number", "Decimal", "Square number"]);
+        expect(holder?.variants.map(v => v.name)).toEqual(["Free text", "Name cell", "Whole number", "Decimal", "Square number"]);
         expect(library.assets.find(a => a.code === "DRP.001")?.variants.map(v => v.name)).toEqual(["Searchable"]);
         expect(library.assets.some(a => ["FRM.002", "FRM.003", "CAL.001", "LBL.001", "TTL.001", "LNK.001", "HLP.001", "MSG.001"].includes(a.code))).toBe(false);
-        expect(library.assets.find(a => a.code === "TXS.001")?.variants.length).toBe(18);
-        expect(library.assets.find(a => a.code === "TXT.001")?.defaultVariant).toBe("TXT.BOX.001.001");
-        expect(library.assets.find(a => a.code === "IMG.001")?.defaultVariant).toBe("IMG.BRD.001.003");
-        expect(library.assets.find(a => a.code === "BTN.003")?.variants.map(v => v.name)).toEqual(["Main back", "Section back"]);
+        expect(library.assets.find(a => a.code === "TXS.001")?.variants.length).toBe(17);
+        expect(holder?.name).toBe("text box");
+        expect(library.assets.find(a => a.code === "IMG.001")?.variants.map(v => v.name)).toEqual(["Logo", "Icon"]);
+        expect(library.assets.find(a => a.code === "BTN.003")?.variants.map(v => v.name)).toEqual(["Section back"]);
     });
 
     it("has every category, and no asset twice", () => {

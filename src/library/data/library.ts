@@ -512,7 +512,7 @@ export const library: Library = {
    "code": "BTN.001",
    "name": "box button",
    "category": "component",
-   "summary": "A square button with a symbol in it: the x that deletes and the plus that adds. Its look is outlined, with no fill at rest, and it fills with its colour on hover.",
+   "summary": "The box button: a square of 32px with a symbol in it, outlined with no fill at rest, which fills with its colour under the pointer. By default it is the x that removes a card or a field; its variants are the plus that adds and the shrink that shows the nested cards as tiles.",
    "variables": [
     "VAR001",
     "VAR002",
@@ -521,28 +521,7 @@ export const library: Library = {
    ],
    "variants": [
     {
-     "code": "BTN.DLT.001.001",
-     "name": "Delete",
-     "description": "The x: removes the card or the field it stands in.",
-     "edits": "The symbol is an x and the colour is the red of the card tint.",
-     "values": {},
-     "look": {
-      "height": 32,
-      "fontSize": 0,
-      "fontWeight": "400",
-      "corners": "6px",
-      "paddingLeft": 0,
-      "paddingTop": 0,
-      "border": 2,
-      "scale": "symbol, no text",
-      "found": 237,
-      "places": 11
-     },
-     "kind": "Button that removes",
-     "belongs": "Floating card, nested card, image holder (the x at the corner)"
-    },
-    {
-     "code": "BTN.ADD.001.002",
+     "code": "BTN.ADD.001.001",
      "name": "Add",
      "description": "The plus: adds a card, a row or an entry.",
      "edits": "The symbol is a plus and the colour is the card tint.",
@@ -563,7 +542,7 @@ export const library: Library = {
      "belongs": "Master tile heads, nested card heads, rows of lists"
     },
     {
-     "code": "BTN.SHR.001.003",
+     "code": "BTN.SHR.001.002",
      "name": "Shrink",
      "description": "Shows the nested cards of a card as tiles (\"Show the Objectives as tiles\"): the same box with an icon of arrows pointing in.",
      "edits": "The symbol is the shrink icon.",
@@ -610,11 +589,12 @@ export const library: Library = {
     "merged into the default: x height 32, type 0, corners 6px, padding 0/0, border 1; found 4 times (1.7% of the default's 237); largest difference 1.0px",
     "plus: one size, by the owner's decision (owner, 2026-10-15): 32px, the size of the x and of the plus in cards (107 found). The plus on a master tile (36px, 55 found: Customer Engagement 13, Infrastructure Resources 9, Infrastructure 5, Brand 3, Foundation 3 in the five largest places) takes this size.",
     "plus corners: the corners of the x, 6px, by the owner's decision (owner, 2026-10-15); the plus measured 8px (107 found).",
-    "shrink button (make it tiles): measured 32 by 32px, 8px corners, 2px border, with an icon; by the one rule of the box button (the owner's decision on the x and the plus, owner, 2026-10-15) its corners are 6px."
+    "shrink button (make it tiles): measured 32 by 32px, 8px corners, 2px border, with an icon; by the one rule of the box button (the owner's decision on the x and the plus, owner, 2026-10-15) its corners are 6px.",
+    "plus boxes measured 2026-10-16: 32px in cards and rows (107 found) and 36px on the tiles (55, and one of 39px), 8px corners and a 2px line today; the owner's decision is one size, 32px with 6px corners."
    ],
    "group": "CTRL.ACT",
-   "kind": "Button, a box with a symbol: acts on a card or a row",
-   "defaultVariant": "BTN.DLT.001.001"
+   "kind": "Button that removes",
+   "belongs": "Floating card, nested card, image holder (the x at the corner)"
   },
   {
    "code": "BTN.002",
@@ -660,7 +640,7 @@ export const library: Library = {
    "code": "BTN.003",
    "name": "back button",
    "category": "component",
-   "summary": "The button that goes back: a word with an arrow or a triangle. The main Back is the one in the footer of every page; the section Back is the one of a dialog, a card stack or a description.",
+   "summary": "The button that goes back: a word with an arrow or a triangle. By default it is the main Back of the footer of every page (an arrow, BACK in capitals, 18px, weight 500, 83 by 22px); its variant is the section Back of a dialog or a description.",
    "variables": [
     "VAR001",
     "VAR002",
@@ -669,27 +649,7 @@ export const library: Library = {
    ],
    "variants": [
     {
-     "code": "BTN.MAN.003.001",
-     "name": "Main back",
-     "description": "The Back of the footer of every page: an arrow, the word BACK in capitals, 18px, weight 500, spaced 0.1em, 83 by 22px, at the left of the footer band. Goes to the page before.",
-     "edits": "An arrow and capitals; weight 500.",
-     "values": {},
-     "look": {
-      "height": 22,
-      "width": 83,
-      "fontSize": 18,
-      "fontWeight": "500",
-      "corners": "0px",
-      "paddingLeft": 0,
-      "paddingTop": 0,
-      "border": 0,
-      "scale": "body 18",
-      "found": 8
-     },
-     "belongs": "The footer of every page"
-    },
-    {
-     "code": "BTN.SEC.003.002",
+     "code": "BTN.SEC.003.001",
      "name": "Section back",
      "description": "The Back of a dialog or a description: a small triangle and the word Back, 18px, weight 400, 25 by 76px. Goes back one view inside the dialog.",
      "edits": "A triangle, the word in the body weight.",
@@ -721,13 +681,25 @@ export const library: Library = {
     "two backs (the owner, owner, 2026-10-15): the main Back of the footer, measured 83 by 22px, 18px, weight 500, capitals, tracking 0.1em; the Back of a dialog or a description, 25 by 76px, 18px, weight 400."
    ],
    "kind": "Button, a word: goes back",
-   "defaultVariant": "BTN.MAN.003.001"
+   "look": {
+    "height": 22,
+    "width": 83,
+    "fontSize": 18,
+    "fontWeight": "500",
+    "corners": "0px",
+    "paddingLeft": 0,
+    "paddingTop": 0,
+    "border": 0,
+    "scale": "body 18",
+    "found": 8
+   },
+   "belongs": "The footer of every page"
   },
   {
    "code": "BTN.004",
    "name": "wide add button",
    "category": "component",
-   "summary": "A text button that adds a row, a card or an entry to a list (+ ADD CHANNEL, + ADD REGISTRATION NUMBER, + ADD GOAL): the plus box (32px) at its left and its words after it, 44px high. The words are capitals (18px, weight 500, spaced 0.1em), centred in the button; the line is 1px solid in the colour family of the place, with 6px corners and a ground of that family. Under the pointer the ground takes its hover tone and a 4px glow (18%) appears; on the focus only the glow (28%), no outline; disabled it is faint, with the card's line and the not-allowed cursor. Its versions differ in width and size.",
+   "summary": "A text button that adds a row, a card or an entry (+ ADD CHANNEL, + ADD OFFERING, + ADD REGISTRATION NUMBER, + ADD JOURNEY STAGE): 44px high, the words in capitals (18px, weight 500, spaced 0.1em), centred in the button; a 1px solid line in the colour family of the place, 6px corners, a ground of that family. It hugs its words and stands at the left of its column (196 to 310px wide today). Under the pointer the ground takes its hover tone and a 4px glow (18%) appears; on the focus only the glow (28%), no outline; disabled it is faint, with the card's line and the not-allowed cursor. Its variants: the add button across a whole column, and the small text buttons of the notes panel.",
    "variables": [
     "VAR001",
     "VAR002",
@@ -736,29 +708,9 @@ export const library: Library = {
    ],
    "variants": [
     {
-     "code": "BTN.HUG.004.001",
-     "name": "Add",
-     "description": "The add button that hugs its words and stands at the left of its column (align-self start): + ADD CHANNEL, + ADD GOAL, + ADD OBJECTIVE. Its ground follows the place: plain grey, or the tint of the Theme it sits in.",
-     "edits": "Hugs its words; left of the column.",
-     "values": {},
-     "look": {
-      "height": 44,
-      "fontSize": 18,
-      "fontWeight": "500",
-      "corners": "6px",
-      "paddingLeft": 14,
-      "paddingTop": 8,
-      "border": 1,
-      "scale": "body 18",
-      "found": 3
-     },
-     "kind": "Button, wide with words: adds",
-     "belongs": "Business: Customer Engagement (Add Channel); Strategy: Theme, Goal, Objective, Metric boxes"
-    },
-    {
-     "code": "BTN.ROW.004.002",
+     "code": "BTN.ROW.004.001",
      "name": "Full-row add",
-     "description": "The add button across the whole column (width 100%), words centred: the list of a card (+ ADD REGISTRATION NUMBER in the Legal Entity card; the card lists).",
+     "description": "The add button across a whole column (width 100%), the words centred: 668px in the list of the Legal Entity card, 1304px across a chapter (card-list-add and legal-entity-list-add).",
      "edits": "Fills its column; the words are centred.",
      "values": {},
      "look": {
@@ -770,15 +722,15 @@ export const library: Library = {
       "paddingTop": 8,
       "border": 1,
       "scale": "body 18",
-      "found": 0
+      "found": 7
      },
      "kind": "Button, wide with words: adds",
-     "belongs": "Identity: Legal Entity card (lists); cards with lists"
+     "belongs": "Identity: Legal Entity card (lists); a chapter's lists"
     },
     {
-     "code": "BTN.SML.004.003",
+     "code": "BTN.SML.004.002",
      "name": "Small add",
-     "description": "The small add button of the notes panel: 14px, padding 4px by 10px.",
+     "description": "The small text buttons of a note in the notes panel: Add Date and Link a field, side by side, 14px, padding 4px by 10px (notepad-add).",
      "edits": "14px text, smaller padding.",
      "values": {},
      "look": {
@@ -790,16 +742,16 @@ export const library: Library = {
       "paddingTop": 4,
       "border": 1,
       "scale": "small 14",
-      "found": 0
+      "found": 2
      },
-     "kind": "Button, wide with words: adds",
-     "belongs": "The notes panel"
+     "kind": "Button, small with words: adds a date or links a field",
+     "belongs": "The notes panel: Add Date, Link a field"
     }
    ],
    "requires": [
     {
      "asset": "BTN.001",
-     "variant": "BTN.ADD.001.002",
+     "variant": "BTN.ADD.001.001",
      "role": "the plus: 32px, at the left of the button, like the plus box"
     }
    ],
@@ -807,31 +759,30 @@ export const library: Library = {
    "look": {
     "height": 44,
     "fontSize": 18,
-    "fontWeight": "400",
+    "fontWeight": "500",
     "corners": "6px",
     "paddingLeft": 14,
     "paddingTop": 8,
     "border": 1,
     "scale": "body 18",
-    "found": 15,
-    "places": 4
+    "found": 12
    },
    "lookNotes": [
     "found 15 times: Customer Engagement 7, Financial Foundation 3, Foundation 1, Identity (Founders and Registrations) 4; 39px high, type 18, padding 14/8, border 1. They are not a plus box; the one look measured.",
     "height and plus: by the owner's decision (owner, 2026-10-15) the button looks like a cell, so it is 44px high like every cell (it measured 39px); the plus inside it has the size and the place of the plus box, 32px, at the left, like the plus box.",
-    "measured 2026-10-16: + Add Channel is 196.95 by 39px in the app today (the 44px height is the owner's decision, with the plus box at the left); text capitals, 18px, weight 500; centred label; the button is left aligned in its column (align-self start); the full-row versions are stretched to 100% with centred words (global.css .card-list-add, .legal-entity-list-add); the notes panel version is 14px with padding 4/10; line 1px solid, radius 6px."
+    "measured 2026-10-16: + Add Channel is 196.95 by 39px in the app today (the 44px height is the owner's decision, with the plus box at the left); text capitals, 18px, weight 500; centred label; the button is left aligned in its column (align-self start); the full-row versions are stretched to 100% with centred words (global.css .card-list-add, .legal-entity-list-add); the notes panel version is 14px with padding 4/10; line 1px solid, radius 6px.",
+    "measured 2026-10-16: 39px high today (the 44px is the owner's decision); widths 196.95, 199.94, 287.53, 310.02 (hugging), 668 (the Legal Entity list) and 1304 (a chapter); the notes panel's Add Date and Link a field are 14px with padding 4/10; also found: the option + Add at the end of a dropdown list (an option, not a button) and the plus boxes of the rows."
    ],
    "group": "CTRL.ACT",
-   "kind": "Button, wide with words: adds a row to a list",
-   "belongs": "Lists in cards (+ ADD CHANNEL, + ADD REGISTRATION NUMBER)",
-   "defaultVariant": "BTN.HUG.004.001"
+   "kind": "Button, wide with words: adds",
+   "belongs": "Business: Customer Engagement (Add Channel); Strategy: Theme, Goal, Objective, Metric boxes"
   },
   {
    "code": "BTN.005",
    "name": "add card tile",
    "category": "component",
    "group": "CTRL.ACT",
-   "summary": "The button that ends every grid of tiles in an opened tile view: a square tile with a dashed 1px line (the theme's line colour), 8px corners, a plus (24px, weight 400) above the words ADD CARD (14px, weight 600, capitals, the bold tracking), centred both ways. Under the pointer and the focus the dashed line goes, the ground becomes 16% of the tile's colour and the plus and the words take the dark tint of the card's colour; nothing scales. Disabled it is 60% opaque with the not-allowed cursor. One component for every kind of card.",
+   "summary": "The button that ends every grid of tiles in an opened tile view: a square tile with a dashed 1px line (the theme's line colour), 8px corners, a plus (24px, weight 400) above the words ADD CARD (14px, weight 700, capitals, the bold tracking), centred both ways. Under the pointer and the focus the dashed line goes, the ground becomes 16% of the tile's colour and the plus and the words take the dark tint of the card's colour; nothing scales. Disabled it is 60% opaque with the not-allowed cursor. One component for every kind of card.",
    "variables": [
     "VAR001",
     "VAR002",
@@ -839,13 +790,35 @@ export const library: Library = {
     "VAR004"
    ],
    "catalogue": [],
-   "variants": [],
+   "variants": [
+    {
+     "code": "BTN.PLS.005.001",
+     "name": "Plus tile",
+     "description": "The add tile of the profile cards (Identity and Brand): 180px wide, at least 120px high, a dashed 1px line, 10px corners, only a plus in the size of a column title (28px, weight 400); hover: the ground and the line take the colour family's hover tone and the plus its ink.",
+     "edits": "Only a plus, wider and with 10px corners.",
+     "values": {},
+     "look": {
+      "height": 120,
+      "width": 180,
+      "fontSize": 28,
+      "fontWeight": "400",
+      "corners": "10px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 1,
+      "scale": "h2 28",
+      "found": 1
+     },
+     "kind": "Button, a tile: adds a card",
+     "belongs": "Identity and Brand pages that list profile cards"
+    }
+   ],
    "requires": [],
    "look": {
     "height": 107.5,
     "width": 107.5,
     "fontSize": 14,
-    "fontWeight": "600",
+    "fontWeight": "700",
     "corners": "8px",
     "paddingLeft": 0,
     "paddingTop": 0,
@@ -855,7 +828,8 @@ export const library: Library = {
    },
    "lookNotes": [
     "measured 107.5 by 107.5px, a dashed 1px edge, 8px corners, 14px bold words under the plus (the Add Card tile moved from the tiles to the buttons, owner, 2026-10-15).",
-    "line measured 2026-10-16 (card-tile.css): 1px dashed, in the theme's line colour; the plus is 24px (h3); the words 14px, weight 600, capitals; hover and focus: the line turns transparent, ground 16% of the tile colour, nothing scales."
+    "line measured 2026-10-16 (card-tile.css): 1px dashed, in the theme's line colour; the plus is 24px (h3); the words 14px, weight 600, capitals; hover and focus: the line turns transparent, ground 16% of the tile colour, nothing scales.",
+    "second version found 2026-10-16: the add tile of the profile cards (profile-card-add-tile): 180px wide, 120px high at least, 1px dashed, 10px corners, a single plus of 28px."
    ],
    "kind": "Button, a tile: adds a card",
    "belongs": "The end of the grid in an opened tile view"
@@ -959,8 +933,7 @@ export const library: Library = {
     "found 62 header tool words on 11 pages, measured 2026-10-16."
    ],
    "kind": "Button, an icon with a word: a tool of the app",
-   "belongs": "The app header",
-   "defaultVariant": "BTN.RDM.006.001"
+   "belongs": "The app header"
   },
   {
    "code": "BTN.007",
@@ -1000,7 +973,7 @@ export const library: Library = {
    "name": "text",
    "category": "component",
    "group": "READ.TXT",
-   "summary": "Every text that is only read: a label, a title, a link, a help text, a message, a unit word. It is one component; its variants differ only in presentation: size (14, 18, 24, 28, 36), weight, capitals, italics, underline, struck through. The purpose of a text (label, title, help text, message) and its reaction (a link, a toggle) are given in the field or card that uses it. Weights: regular 400 is the ordinary reading weight; medium 500 is a touch heavier (numbers, buttons); bold 700 is clearly heavy (headings, emphasis). Semibold 600 was merged into bold, to keep three steps that can be told apart. Each variant records where its style was seen.",
+   "summary": "By default the body text (18px, regular). Every text that is only read: a label, a title, a link, a help text, a message, a unit word. It is one component; its variants differ only in presentation: size (14, 18, 24, 28, 36), weight, capitals, italics, underline, struck through. The purpose of a text (label, title, help text, message) and its reaction (a link, a toggle) are given in the field or card that uses it. Weights: regular 400 is the ordinary reading weight; medium 500 is a touch heavier (numbers, buttons); bold 700 is clearly heavy (headings, emphasis). Semibold 600 was merged into bold, to keep three steps that can be told apart. Each variant records where its style was seen.",
    "variables": [
     "VAR001",
     "VAR003",
@@ -1012,8 +985,8 @@ export const library: Library = {
    "catalogue": [
     "T01"
    ],
-   "kind": "Text you read: one style of presentation",
-   "belongs": "Everywhere: labels, titles, links, help texts, messages",
+   "kind": "Text you read",
+   "belongs": "Used as: Labels of every field, introduction text, options of a dropdown, the hint inside an empty cell, shown values, generated help text, unit words (the Global Settings page: %, USD, months). Seen on: Identity, Brand, Business, Strategy; classes td 73; span 55; section-tile-list-line 35; intro-sentence 18; 101 of its texts can be pressed.",
    "look": {
     "height": null,
     "fontSize": 18,
@@ -1023,7 +996,7 @@ export const library: Library = {
     "paddingTop": 0,
     "border": 0,
     "scale": "body 18",
-    "found": 239
+    "found": 227
    },
    "lookNotes": [
     "simplified (the owner, owner, 2026-10-16): the label, title, link, help text and message are no longer components; one text with 21 presentations covers all 619 texts measured on the four systems. The old purposes stay in each variant's note, so that it is known in which field, card or tile a style was used.",
@@ -1031,29 +1004,7 @@ export const library: Library = {
    ],
    "variants": [
     {
-     "code": "TXS.BDY.001.001",
-     "name": "Body",
-     "description": "The reading text: the label of a field, an introduction sentence, an option, the hint inside an empty cell, a shown value, a unit word, the title of a generated card.",
-     "edits": "Regular (400).",
-     "values": {
-      "VAR012": "prefilled"
-     },
-     "look": {
-      "height": null,
-      "fontSize": 18,
-      "fontWeight": "400",
-      "corners": "0px",
-      "paddingLeft": 0,
-      "paddingTop": 0,
-      "border": 0,
-      "scale": "body 18",
-      "found": 227
-     },
-     "kind": "Text you read",
-     "belongs": "Used as: Labels of every field, introduction text, options of a dropdown, the hint inside an empty cell, shown values, generated help text, unit words (the Global Settings page: %, USD, months). Seen on: Identity, Brand, Business, Strategy; classes td 73; span 55; section-tile-list-line 35; intro-sentence 18; 101 of its texts can be pressed."
-    },
-    {
-     "code": "TXS.BMD.001.002",
+     "code": "TXS.BMD.001.001",
      "name": "Body medium",
      "description": "A touch heavier than the body: list numbers, the names in a page tag, the help toggle.",
      "edits": "Medium (500).",
@@ -1075,7 +1026,7 @@ export const library: Library = {
      "belongs": "Used as: List numbers, the names in a page tag, the help toggle. Seen on: Identity, Business; classes list-number 7; bullet-rail-label-text 7; interview-help-toggle.interview-instructions-toggle 1; 54 of its texts can be pressed."
     },
     {
-     "code": "TXS.BBD.001.003",
+     "code": "TXS.BBD.001.002",
      "name": "Body bold",
      "description": "Clearly heavy: table heads, a heading over a group of fields, the title of a generated tile or card, a strong word, an info note. (Semibold 600 is merged into it.)",
      "edits": "Bold (700).",
@@ -1097,7 +1048,7 @@ export const library: Library = {
      "belongs": "Used as: Table heads, headings of a group of fields, the title of a generated tile or card (a link to its input), strong words, info notes. Seen on: Identity, Brand, Business, Strategy; classes th 53; strong 22; info-note-glue 19; span 17; 2 of its texts can be pressed."
     },
     {
-     "code": "TXS.BUL.001.004",
+     "code": "TXS.BUL.001.003",
      "name": "Body underlined",
      "description": "A text that opens a page or a view: underlined (the pages of an introduction, an engagement link).",
      "edits": "Regular, underlined.",
@@ -1119,7 +1070,7 @@ export const library: Library = {
      "belongs": "Used as: Page links of an introduction, engagement links. Seen on: Identity, Brand, Business, Strategy; classes intro-page-link 9; business-engagement-link 2; 12 of its texts can be pressed."
     },
     {
-     "code": "TXS.BUC.001.005",
+     "code": "TXS.BUC.001.004",
      "name": "Body bold underlined capitals",
      "description": "A subtitle: bold, underlined, capitals (What it covers, Uses from earlier, the title of a page tag).",
      "edits": "Bold, underlined, capitals.",
@@ -1141,7 +1092,7 @@ export const library: Library = {
      "belongs": "Used as: Underlined subtitles of an introduction, the title of a rail. Seen on: Identity, Brand, Business, Strategy; classes intro-fact-label 8; intro-fact-label.intro-covers-label 4; bullet-rail-title 3."
     },
     {
-     "code": "TXS.BBC.001.006",
+     "code": "TXS.BBC.001.005",
      "name": "Body bold capitals",
      "description": "The title of a master tile: bold capitals; a long title wraps. (Semibold 600 is merged into bold.)",
      "edits": "Bold, capitals.",
@@ -1163,7 +1114,7 @@ export const library: Library = {
      "belongs": "Used as: Master tile titles. Seen on: Identity, Brand, Strategy; classes section-tile-title 17; section-tile-title.section-tile-title-broken 1; 34 of its texts can be pressed."
     },
     {
-     "code": "TXS.BMC.001.007",
+     "code": "TXS.BMC.001.006",
      "name": "Body medium capitals",
      "description": "The words of a button or a rail: medium capitals, spaced 0.1em (Back, Start Interview, Add, the rail labels).",
      "edits": "Medium, capitals, tracking 0.1em.",
@@ -1185,7 +1136,7 @@ export const library: Library = {
      "belongs": "Used as: Back, Start Interview, the words of the add buttons, the rail labels. Seen on: Identity, Brand, Business, Strategy; classes back-link 8; primary-button.start-arrow-button 4; bullet-rail-label 2; 23 of its texts can be pressed."
     },
     {
-     "code": "TXS.BDN.001.008",
+     "code": "TXS.BDN.001.007",
      "name": "Body done",
      "description": "A completed responsibility: the text is muted and struck through; a tag in the Completed fold's grey says so in words, because the strike-through alone reads as cancelled (the tag is not a text style).",
      "edits": "Regular, muted, struck through.",
@@ -1207,7 +1158,7 @@ export const library: Library = {
      "belongs": "Used as: A founder's completed responsibility (business-capability-responsibility-done). Seen on: not in the default pages."
     },
     {
-     "code": "TXS.SML.001.009",
+     "code": "TXS.SML.001.008",
      "name": "Small",
      "description": "The small text: a summary, a save status, a note, a bulleted list, the verification under a cell (danger colour).",
      "edits": "Regular, 14px.",
@@ -1229,7 +1180,7 @@ export const library: Library = {
      "belongs": "Used as: Summary lines, bulleted lists of a tile, the save status, notes, the verification message (danger colour, under the cell, after a missed fill). Seen on: Identity, Brand, Business, Strategy; classes save-status-text 8; business-card-summary 3; brand-specimens-note 1; fold-all-toggle 1; 4 of its texts can be pressed."
     },
     {
-     "code": "TXS.SCP.001.010",
+     "code": "TXS.SCP.001.009",
      "name": "Small capitals",
      "description": "The words of the header tools and their counts.",
      "edits": "Regular, capitals, 14px.",
@@ -1251,7 +1202,7 @@ export const library: Library = {
      "belongs": "Used as: Tool button words and counts. Seen on: not in the default pages."
     },
     {
-     "code": "TXS.SBI.001.011",
+     "code": "TXS.SBI.001.010",
      "name": "Small bold italic",
      "description": "The i of the info button.",
      "edits": "Bold, italic, 14px.",
@@ -1273,7 +1224,7 @@ export const library: Library = {
      "belongs": "Used as: The i of the info button. Seen on: Business; classes info-note-button 20; 56 of its texts can be pressed."
     },
     {
-     "code": "TXS.HTB.001.012",
+     "code": "TXS.HTB.001.011",
      "name": "Heading 3 bold",
      "description": "A section heading: a dialog title, a box name above a floating card.",
      "edits": "Bold, 24px.",
@@ -1295,7 +1246,7 @@ export const library: Library = {
      "belongs": "Used as: Dialog titles, box names above a floating card. Seen on: Business; classes strong 1."
     },
     {
-     "code": "TXS.HTC.001.013",
+     "code": "TXS.HTC.001.012",
      "name": "Heading 3 bold capitals",
      "description": "The name of the organisation in the header and the answer column labels. (Semibold 600 is merged into bold.)",
      "edits": "Bold, capitals, 24px.",
@@ -1317,7 +1268,7 @@ export const library: Library = {
      "belongs": "Used as: The organisation name in the header, answer column labels. Seen on: Identity, Brand, Business, Strategy; classes app-header-organization-name 8; answer-column-label-number 2; answer-column-label-text 2."
     },
     {
-     "code": "TXS.HTI.001.014",
+     "code": "TXS.HTI.001.013",
      "name": "Heading 3 medium italic",
      "description": "The guiding question that opens an introduction.",
      "edits": "Medium, italic, 24px.",
@@ -1339,7 +1290,7 @@ export const library: Library = {
      "belongs": "Used as: The guiding question of an introduction. Seen on: Identity, Brand, Business, Strategy; classes intro-guiding-question 4."
     },
     {
-     "code": "TXS.HDC.001.015",
+     "code": "TXS.HDC.001.014",
      "name": "Heading 2 bold capitals",
      "description": "A chapter or column title and the subhead of a card. (Semibold 600 is merged into bold.)",
      "edits": "Bold, capitals, 28px; a long title moves horizontally.",
@@ -1361,7 +1312,7 @@ export const library: Library = {
      "belongs": "Used as: Chapter titles, column titles, field group subheads. Seen on: Identity, Brand, Strategy; classes field-group-title.business-foundation-subhead 5."
     },
     {
-     "code": "TXS.HOB.001.016",
+     "code": "TXS.HOB.001.015",
      "name": "Heading 1 bold",
      "description": "The title of the system in the header.",
      "edits": "Bold, 36px.",
@@ -1383,7 +1334,7 @@ export const library: Library = {
      "belongs": "Used as: The system title (after the system icon). Seen on: Identity, Brand, Business, Strategy; classes h1 8."
     },
     {
-     "code": "TXS.HOC.001.017",
+     "code": "TXS.HOC.001.016",
      "name": "Heading 1 capitals",
      "description": "The page title in capitals.",
      "edits": "Regular, capitals, 36px.",
@@ -1405,7 +1356,7 @@ export const library: Library = {
      "belongs": "Used as: The page title. Seen on: Identity, Brand, Business, Strategy; classes interview-header-page-title.interview-header-page-title-capitals 4."
     },
     {
-     "code": "TXS.HOR.001.018",
+     "code": "TXS.HOR.001.017",
      "name": "Heading 1",
      "description": "The page title in plain letters.",
      "edits": "Regular, 36px.",
@@ -1427,8 +1378,7 @@ export const library: Library = {
      "belongs": "Used as: The page title. Seen on: Identity, Business; classes interview-header-page-title 2."
     }
    ],
-   "requires": [],
-   "defaultVariant": "TXS.BDY.001.001"
+   "requires": []
   },
   {
    "code": "DRP.001",
@@ -1523,9 +1473,9 @@ export const library: Library = {
   },
   {
    "code": "TXT.001",
-   "name": "holder",
+   "name": "text box",
    "category": "component",
-   "summary": "The cell a person fills in with text or numbers, in the body size. The default is the text box (one line, fixed space); the other variants change what can be typed (free text that grows, the name cell, numbers only) and how the cell grows. A text that is only read is not a holder (see the text).",
+   "summary": "The default holder: a one-line cell for text, in the body size, 44px high, 6px corners, a border and an inset edge, fixed space. Its variants change what can be typed and how it grows: free text that grows down, the name cell, whole numbers, decimals and the square number. A text that is only read is not a holder (see the text).",
    "variables": [
     "VAR001",
     "VAR002",
@@ -1538,30 +1488,7 @@ export const library: Library = {
    ],
    "variants": [
     {
-     "code": "TXT.BOX.001.001",
-     "name": "Text box",
-     "description": "One line of text in a cell that keeps its space.",
-     "edits": "A single line; fixed space.",
-     "values": {
-      "VAR017": "text",
-      "VAR014": "fixed space"
-     },
-     "look": {
-      "height": 44,
-      "fontSize": 18,
-      "fontWeight": "400",
-      "corners": "6px",
-      "paddingLeft": 10,
-      "paddingTop": 8,
-      "border": 1,
-      "scale": "body 18",
-      "found": 24,
-      "places": 4
-     },
-     "kind": "Text cell: one line, fixed space"
-    },
-    {
-     "code": "TXT.ARE.001.002",
+     "code": "TXT.ARE.001.001",
      "name": "Free text",
      "description": "A description text: the cell gets bigger as you type or press Enter (Description, Offerings, Market).",
      "edits": "Grows with the words; Enter adds a line inside it.",
@@ -1585,7 +1512,7 @@ export const library: Library = {
      "kind": "Text cell: grows down as you type"
     },
     {
-     "code": "TXT.NAM.001.003",
+     "code": "TXT.NAM.001.002",
      "name": "Name cell",
      "description": "The name of a card, on top of the card. The order number is generated automatically and stands inside the cell.",
      "edits": "At the top of a card; the order number is automatic and inside the cell; it wraps and grows.",
@@ -1608,7 +1535,7 @@ export const library: Library = {
      "kind": "Text cell: the name of a card, with its automatic number inside"
     },
     {
-     "code": "TXT.WHL.001.004",
+     "code": "TXT.WHL.001.003",
      "name": "Whole number",
      "description": "Whole numbers only; no more digits than the field requires.",
      "edits": "Numbers only; the digit limit is set by the field.",
@@ -1620,7 +1547,7 @@ export const library: Library = {
      "kind": "Numbers-only cell: whole numbers, limited digits"
     },
     {
-     "code": "TXT.DEC.001.005",
+     "code": "TXT.DEC.001.004",
      "name": "Decimal",
      "description": "A number with decimals; no more digits than the field requires.",
      "edits": "Numbers and the decimal point.",
@@ -1632,7 +1559,7 @@ export const library: Library = {
      "kind": "Numbers-only cell: with decimals, limited digits"
     },
     {
-     "code": "TXT.SQR.001.006",
+     "code": "TXT.SQR.001.005",
      "name": "Square number",
      "description": "A number in a square box, 44 by 44px, with its unit beside it: % (Deposit %, Milestone %), years (Useful life, Amortisation period) or months (Target operating reserve). Numbers only; the digit limit is set by the field.",
      "edits": "A square box; the unit (%, years, months) stands beside it.",
@@ -1689,9 +1616,8 @@ export const library: Library = {
     "the default is the text box, which exists in the app with specific characteristics (the owner, owner, 2026-10-16): 44px high, 6px corners, 1 line, fixed space."
    ],
    "group": "HOLD.CEL",
-   "kind": "Cell you fill in: text or numbers",
-   "belongs": "Cards, chapters, the Workspace",
-   "defaultVariant": "TXT.BOX.001.001"
+   "kind": "Text cell: one line, fixed space",
+   "belongs": "Cards, chapters, the Workspace"
   },
   {
    "code": "LST.001",
@@ -1733,33 +1659,14 @@ export const library: Library = {
    "code": "DIV.001",
    "name": "divider",
    "category": "component",
-   "summary": "A thin line that divides two groups of rows inside a card, with 12px of space above and below it.",
+   "summary": "A thin line that divides two groups. By default it is the horizontal line (the page rule, 2px high, and the rule between two groups of rows in a card, 1px, with 12px of space either side); its variant is the vertical line between two columns.",
    "variables": [
     "VAR003"
    ],
    "catalogue": [],
    "variants": [
     {
-     "code": "DIV.HOR.001.001",
-     "name": "Horizontal",
-     "description": "A line across a column or a card: the page rule under the title (2px high, the width of the page) and the rule between two groups of rows in a card (1px, 12px of space either side).",
-     "edits": "Runs across.",
-     "values": {},
-     "look": {
-      "height": 2,
-      "fontSize": 0,
-      "fontWeight": "400",
-      "corners": "0px",
-      "paddingLeft": 0,
-      "paddingTop": 0,
-      "border": 0,
-      "scale": "symbol, no text",
-      "found": 1
-     },
-     "belongs": "The page, and between two groups of rows in a card"
-    },
-    {
-     "code": "DIV.VER.001.002",
+     "code": "DIV.VER.001.001",
      "name": "Vertical",
      "description": "A line between two columns (answer columns).",
      "edits": "Runs down, 1px wide. Found only in the handbook card, not in the four systems.",
@@ -1786,13 +1693,24 @@ export const library: Library = {
    ],
    "group": "MARK.DIV",
    "kind": "Line that divides",
-   "defaultVariant": "DIV.HOR.001.001"
+   "look": {
+    "height": 2,
+    "fontSize": 0,
+    "fontWeight": "400",
+    "corners": "0px",
+    "paddingLeft": 0,
+    "paddingTop": 0,
+    "border": 0,
+    "scale": "symbol, no text",
+    "found": 1
+   },
+   "belongs": "The page, and between two groups of rows in a card"
   },
   {
    "code": "DAT.001",
    "name": "date cell",
    "category": "component",
-   "summary": "A date cell: one long cell that holds the date, with the calendar symbol inside the cell at its right (a button 32px high, like the box buttons), not in a separate square. The cell works as a dropdown: the calendar symbol takes the place of the arrow and the calendar opens under the cell. The default is day, month and year; the other form asks only for a month and a year. The popup is part of the cell.",
+   "summary": "A date cell: one long cell that holds the date, with the calendar symbol inside the cell at its right (a button 32px high, like the box buttons), not in a separate square. The cell works as a dropdown: the calendar symbol takes the place of the arrow and the calendar list opens under the cell, where the person chooses. By default it asks for a day, a month and a year; its variant asks only for a month and a year.",
    "variables": [
     "VAR001",
     "VAR002",
@@ -1803,17 +1721,7 @@ export const library: Library = {
    ],
    "variants": [
     {
-     "code": "DAT.CAL.001.001",
-     "name": "Day, month and year",
-     "description": "The default: the calendar of days (with Clear and Today) chooses a day, a month and a year (Start date, End date, Balance date).",
-     "edits": "The calendar offers days.",
-     "values": {
-      "VAR010": "day"
-     },
-     "kind": "Date cell: a day"
-    },
-    {
-     "code": "DAT.MON.001.002",
+     "code": "DAT.MON.001.001",
      "name": "Month and year",
      "description": "Only a month and a year are asked, in a calendar of months with a Month and Year switch (the Strategic Period, the Financial Plan).",
      "edits": "The calendar offers months; the day is not asked.",
@@ -1823,7 +1731,12 @@ export const library: Library = {
      "kind": "Date cell: a month"
     }
    ],
-   "requires": [],
+   "requires": [
+    {
+     "asset": "DAT.002",
+     "role": "the list that opens under the cell, where the day or the month is chosen"
+    }
+   ],
    "catalogue": [
     "CO01"
    ],
@@ -1845,9 +1758,62 @@ export const library: Library = {
     "decided by the owner, owner, 2026-10-16: the long cell and the square calendar symbol are unified (the symbol inside the cell, 32px high); one default for days, months and years, and one for months and years only; the cell works as a dropdown. The day popup today is the browser's own calendar and the symbol is the emoji 📅; both are to be replaced by the app's own."
    ],
    "group": "HOLD.DAT",
-   "kind": "Date cell with a calendar button",
-   "belongs": "Cards: dates",
-   "defaultVariant": "DAT.CAL.001.001"
+   "kind": "Date cell: a day",
+   "belongs": "Cards: dates"
+  },
+  {
+   "code": "DAT.002",
+   "name": "calendar list",
+   "category": "component",
+   "summary": "The list a date cell opens, like the list of a dropdown: the person chooses the day (a calendar of days, with Clear and Today) or the month (a calendar of months with a Month and Year switch). It opens under the cell and has rounded corners, 6px like the cells. Today the day list is the browser's own calendar, so its text size and corners are the browser's and cannot be measured or styled; only the month list is the app's own.",
+   "variables": [
+    "VAR001",
+    "VAR003",
+    "VAR004",
+    "VAR010"
+   ],
+   "catalogue": [],
+   "variants": [
+    {
+     "code": "DAT.DAY.002.001",
+     "name": "Days",
+     "description": "The calendar of days with Clear and Today.",
+     "edits": "A grid of days.",
+     "values": {
+      "VAR010": "day"
+     },
+     "kind": "List of a date cell: a calendar of days"
+    },
+    {
+     "code": "DAT.MON.002.002",
+     "name": "Months",
+     "description": "The months of a year, with a Month and Year switch.",
+     "edits": "A grid of months and a Month and Year switch.",
+     "values": {
+      "VAR010": "month"
+     },
+     "kind": "List of a date cell: a calendar of months"
+    }
+   ],
+   "requires": [],
+   "look": {
+    "height": null,
+    "fontSize": 18,
+    "fontWeight": "400",
+    "corners": "6px",
+    "paddingLeft": 12,
+    "paddingTop": 12,
+    "border": 1,
+    "scale": "body 18",
+    "found": 0
+   },
+   "lookNotes": [
+    "rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners of 6px, like the cells. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.",
+    "measured 2026-10-16: the day popup is the browser's own calendar (a date input), so its text size and corners are the browser's and cannot be measured or styled; only the month popup of the Strategy pages is the app's own."
+   ],
+   "group": "HOLD.DAT",
+   "kind": "List of a date cell: where the day or the month is chosen",
+   "belongs": "Under a date cell"
   },
   {
    "code": "PCK.001",
@@ -1866,7 +1832,6 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXT.001",
-     "variant": "TXT.BOX.001.001",
      "role": "the hex holder beside the swatch"
     }
    ],
@@ -1895,7 +1860,7 @@ export const library: Library = {
    "name": "image holder",
    "category": "component",
    "group": "HOLD.PIC",
-   "summary": "The picture of a Brand Images card: the image fills the width of the card, with the x at its corner; the name and the note stand under it.",
+   "summary": "The picture of a brand: by default the brand image, 448 by 252px in a card of 492px, with the x at its corner, its name and note under it. Its variants are the logo and the icon, which are other sizes.",
    "variables": [
     "VAR003",
     "VAR004",
@@ -1944,63 +1909,39 @@ export const library: Library = {
      },
      "kind": "Image holder: a picture",
      "belongs": "Brand: Icon & Logo card"
-    },
-    {
-     "code": "IMG.BRD.001.003",
-     "name": "Brand image",
-     "description": "A picture of the brand (a product, a pattern): 448px by 252px in a card of 492px, with its name and note under it.",
-     "edits": "A 16 by 9 picture; the name and the note stand under it.",
-     "values": {},
-     "look": {
-      "corners": "0px",
-      "paddingLeft": 0,
-      "paddingTop": 0,
-      "border": 0,
-      "fontSize": 0,
-      "fontWeight": "400",
-      "scale": "symbol, no text",
-      "height": 252,
-      "width": 448,
-      "found": 3
-     },
-     "kind": "Image holder: a picture",
-     "belongs": "Brand: Images card"
     }
    ],
    "requires": [
     {
      "asset": "BTN.001",
-     "variant": "BTN.DLT.001.001",
      "role": "removes the image"
     }
    ],
    "look": {
-    "height": 252,
-    "width": 448,
-    "fontSize": 0,
-    "fontWeight": "400",
     "corners": "0px",
     "paddingLeft": 0,
     "paddingTop": 0,
     "border": 0,
+    "fontSize": 0,
+    "fontWeight": "400",
     "scale": "symbol, no text",
-    "found": 3,
-    "places": 1
+    "height": 252,
+    "width": 448,
+    "found": 3
    },
    "lookNotes": [
     "measured 448 by 252px in a card of 492px; the layout of the Brand Images card will change (the owner, owner, 2026-10-15).",
     "three sizes measured 2026-10-16 (Lumen & Loom, 1920px): the logo slot 668 by 216px (picture 650 by 122px), the icon 249 by 249px in a slot 668 by 300px, the brand image 448 by 252px (Quillfield). They differ because the cards differ; the sizes are not yet one rule.",
     "the default is the brand image (448 by 252px), the one image holder measured in a card's own list of images (the owner, owner, 2026-10-16)."
    ],
-   "kind": "Image holder: a picture with a name and a note",
-   "belongs": "Brand: Images card",
-   "defaultVariant": "IMG.BRD.001.003"
+   "kind": "Image holder: a picture",
+   "belongs": "Brand: Images card"
   },
   {
    "code": "ARW.001",
    "name": "arrow",
    "category": "component",
-   "summary": "A triangle button that moves to the next or the previous one. 24px wide and 44px high; it grows 1.2 times on hover.",
+   "summary": "A triangle button that moves to the next or the previous one, 24px wide and 44px high; it grows 1.2 times on hover. By default it is the page arrow at the sides of a page; its variant is the carousel arrow of a dialog or a card.",
    "variables": [
     "VAR001",
     "VAR002",
@@ -2009,15 +1950,7 @@ export const library: Library = {
    ],
    "variants": [
     {
-     "code": "ARW.PAG.001.001",
-     "name": "Page arrow",
-     "description": "Moves to the previous or the next page.",
-     "edits": "Sits at the sides of the page.",
-     "values": {},
-     "belongs": "The sides of a page"
-    },
-    {
-     "code": "ARW.CAR.001.002",
+     "code": "ARW.CAR.001.001",
      "name": "Carousel arrow",
      "description": "Moves to the previous or the next card or view inside a dialog or card.",
      "edits": "Sits at the sides of the dialog or the card.",
@@ -2035,14 +1968,13 @@ export const library: Library = {
    ],
    "group": "CTRL.NAV",
    "kind": "Navigation control: a triangle that moves to the next or the previous",
-   "belongs": "Pages, dialogs, cards",
-   "defaultVariant": "ARW.PAG.001.001"
+   "belongs": "The sides of a page"
   },
   {
    "code": "ARW.002",
    "name": "fold arrow",
    "category": "component",
-   "summary": "A small triangle that folds and unfolds a card or a list.",
+   "summary": "A small triangle that folds and unfolds a card, a list or a label. By default it is the frameless label arrow beside a label, 6px from it; its variant is the title arrow beside a chapter or column title.",
    "variables": [
     "VAR001",
     "VAR002",
@@ -2051,27 +1983,7 @@ export const library: Library = {
    ],
    "variants": [
     {
-     "code": "ARW.LAB.002.001",
-     "name": "Label arrow",
-     "description": "A frameless arrow beside a label that opens a list under it.",
-     "edits": "No frame; sits 6px from the label.",
-     "values": {},
-     "look": {
-      "height": 24,
-      "fontSize": 18,
-      "fontWeight": "400",
-      "corners": "0px",
-      "paddingLeft": 0,
-      "paddingTop": 0,
-      "border": 0,
-      "scale": "body 18",
-      "found": 8,
-      "places": 2
-     },
-     "belongs": "Beside a label"
-    },
-    {
-     "code": "ARW.TTL.002.002",
+     "code": "ARW.TTL.002.001",
      "name": "Title arrow",
      "description": "The label arrow beside a chapter or column title (Infrastructure & Capability): the same frameless triangle, with the same function, at the size of the title.",
      "edits": "The arrow is 28px, the size of a column title (h2), where the label arrow is 24px beside a field label.",
@@ -2102,16 +2014,16 @@ export const library: Library = {
     "Label arrow"
    ],
    "look": {
-    "height": 36,
-    "fontSize": 0,
+    "height": 24,
+    "fontSize": 18,
     "fontWeight": "400",
-    "corners": "6px",
+    "corners": "0px",
     "paddingLeft": 0,
     "paddingTop": 0,
-    "border": 1,
-    "scale": "symbol, no text",
-    "found": 11,
-    "places": 1
+    "border": 0,
+    "scale": "body 18",
+    "found": 8,
+    "places": 2
    },
    "lookNotes": [
     "merged by the owner's decision (owner, 2026-10-15): fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px",
@@ -2120,14 +2032,13 @@ export const library: Library = {
    ],
    "group": "CTRL.FLD",
    "kind": "Fold control: a triangle that folds and unfolds",
-   "belongs": "Cards, lists, labels",
-   "defaultVariant": "ARW.LAB.002.001"
+   "belongs": "Beside a label"
   },
   {
    "code": "BUL.001",
    "name": "bullet",
    "category": "component",
-   "summary": "The one dot of every page tag. Rest: 12px, the card's tint, no ring. Hover and focus: 15.6px (1.3 times), the fill turns darker, a 3px ring of the tint appears, the label is underlined and, in the compact tag, its name shows as a tooltip. Selected: 17.4px (1.45 times), the fill stays the tint, a 4px light bloom surrounds it (25px in all, the largest mark of the tag) and the label is bold. Hovering the selected bullet only underlines its label. All changes run in 0.2 seconds.",
+   "summary": "The one dot of every page tag. Rest: 12px, the card's tint, no ring. Hover and focus: 15.6px (1.3 times), the fill turns darker, a 3px ring of the tint appears, the label is underlined and, in the compact tag, its name shows as a tooltip. Selected: 17.4px (1.45 times), the fill stays the tint, a 4px light bloom surrounds it (25px in all, the largest mark of the tag) and the label is bold. Hovering the selected bullet only underlines its label. All changes run in 0.2 seconds. Contrast (WCAG 1.4.11, 3:1): the plain dot, used for the Introduction and for every bullet of a card stack, has only 1.7:1 in light, 1.85:1 in dark and 1.7:1 in sepia against the rail, so it fails; the status dot has 5.2, 4.9 and 4.9:1, the hovered dot 7.3, 6.6 and 6.6:1 and the selected dot 5.2, 4.9 and 4.9:1. The rule: every bullet takes at least the status ink at rest.",
    "variables": [
     "VAR001",
     "VAR002",
@@ -2147,7 +2058,8 @@ export const library: Library = {
     "the one bullet of every page tag (the owner, owner, 2026-10-15): there is one type of bullet.",
     "the bullets are navigation controls (the owner, owner, 2026-10-15): they move between pages, sections, views and cards, like the page and carousel arrows.",
     "states measured 2026-10-16 on the Business page tag: rest 12px; hover and focus 15.6px (scale 1.3) with a 3px ring of 40% opacity; selected 17.4px (scale 1.45) with a 4px bloom of 28% opacity. The owner says the selection is much bigger and that this size should be the hovering: waiting for the answer, not applied.",
-    "reactions read 2026-10-16 in the app (Business page tag, 1920px): rest 12px, fill rgb(139, 85, 108); hover 15.6px, fill rgb(101, 70, 89), ring 3px; selected 17.4px, fill rgb(139, 85, 108), bloom 4px; transitions 0.2s for size, colour and ring. In the pictures the selected bullet reads as much larger than the hovered one (25px against 22px with its ring)."
+    "reactions read 2026-10-16 in the app (Business page tag, 1920px): rest 12px, fill rgb(139, 85, 108); hover 15.6px, fill rgb(101, 70, 89), ring 3px; selected 17.4px, fill rgb(139, 85, 108), bloom 4px; transitions 0.2s for size, colour and ring. In the pictures the selected bullet reads as much larger than the hovered one (25px against 22px with its ring).",
+    "contrast measured 2026-10-16 against the rail's own ground (Business page tag, light, dark and sepia): plain 1.70, 1.85, 1.67; status 5.17, 4.87, 4.94; hover 7.28, 6.55, 6.61; selected 5.17, 4.87, 4.94. The plain dot (--rail-dot, the ice blue) fails 3:1: the owner asks that no bullet has a contrast problem, so the rest ink of every bullet becomes the status ink; to be applied in the app."
    ],
    "group": "CTRL.NAV",
    "kind": "Navigation control: a dot that shows and moves to a page",
@@ -2205,17 +2117,17 @@ export const library: Library = {
     },
     {
      "asset": "BTN.001",
-     "variant": "BTN.ADD.001.002",
+     "variant": "BTN.ADD.001.001",
      "role": "adds to the list the tile holds"
     },
     {
      "asset": "TXS.001",
-     "variant": "TXS.BBC.001.006",
+     "variant": "TXS.BBC.001.005",
      "role": "the title of the tile"
     },
     {
      "asset": "TXS.001",
-     "variant": "TXS.BUL.001.004",
+     "variant": "TXS.BUL.001.003",
      "role": "the links it lists"
     }
    ],
@@ -2244,7 +2156,7 @@ export const library: Library = {
     },
     {
      "asset": "TXS.001",
-     "variant": "TXS.BBD.001.003",
+     "variant": "TXS.BBD.001.002",
      "role": "the title, generated by the card"
     }
    ],
@@ -2295,7 +2207,7 @@ export const library: Library = {
       },
       {
        "asset": "TXS.001",
-       "variant": "TXS.HDC.001.015",
+       "variant": "TXS.HDC.001.014",
        "role": "the title of the chapter"
       }
      ],
@@ -2465,12 +2377,10 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXS.001",
-     "variant": "TXS.BDY.001.001",
      "role": "shown, not edited"
     }
    ],
@@ -2492,12 +2402,10 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.BOX.001.001",
      "role": "text"
     },
     {
@@ -2506,7 +2414,6 @@ export const library: Library = {
     },
     {
      "asset": "TXS.001",
-     "variant": "TXS.BDY.001.001",
      "role": "shown, not edited"
     }
    ],
@@ -2530,12 +2437,10 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DAT.001",
-     "variant": "DAT.CAL.001.001",
      "role": "date"
     }
    ],
@@ -2557,12 +2462,10 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DAT.001",
-     "variant": "DAT.CAL.001.001",
      "role": "date"
     }
    ],
@@ -2584,8 +2487,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DRP.001",
@@ -2610,12 +2512,10 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXS.001",
-     "variant": "TXS.BDY.001.001",
      "role": "shown, not edited"
     },
     {
@@ -2642,8 +2542,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DRP.001",
@@ -2668,8 +2567,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DRP.001",
@@ -2694,8 +2592,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DRP.001",
@@ -2720,12 +2617,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.DEC.001.005",
+     "variant": "TXT.DEC.001.004",
      "role": "number"
     }
    ],
@@ -2747,8 +2643,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DRP.001",
@@ -2774,8 +2669,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -2784,7 +2678,7 @@ export const library: Library = {
     {
      "asset": "TXT.001",
      "role": "number",
-     "variant": "TXT.WHL.001.004"
+     "variant": "TXT.WHL.001.003"
     }
    ],
    "catalogue": [
@@ -2805,8 +2699,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -2815,7 +2708,7 @@ export const library: Library = {
     {
      "asset": "TXT.001",
      "role": "number",
-     "variant": "TXT.WHL.001.004"
+     "variant": "TXT.WHL.001.003"
     }
    ],
    "catalogue": [
@@ -2836,8 +2729,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -2845,7 +2737,7 @@ export const library: Library = {
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "the note"
     },
     {
@@ -2872,12 +2764,10 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXS.001",
-     "variant": "TXS.BDY.001.001",
      "role": "shown, not edited"
     }
    ],
@@ -2899,12 +2789,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.DEC.001.005",
+     "variant": "TXT.DEC.001.004",
      "role": "number"
     }
    ],
@@ -2926,12 +2815,10 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXS.001",
-     "variant": "TXS.BDY.001.001",
      "role": "shown, not edited"
     },
     {
@@ -2958,8 +2845,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DRP.001",
@@ -2967,7 +2853,6 @@ export const library: Library = {
     },
     {
      "asset": "TXS.001",
-     "variant": "TXS.BDY.001.001",
      "role": "shown, not edited"
     }
    ],
@@ -2990,12 +2875,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.SQR.001.006",
+     "variant": "TXT.SQR.001.005",
      "role": "number"
     }
    ],
@@ -3017,8 +2901,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -3043,12 +2926,10 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DAT.001",
-     "variant": "DAT.CAL.001.001",
      "role": "date"
     }
    ],
@@ -3070,8 +2951,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -3080,7 +2960,7 @@ export const library: Library = {
     {
      "asset": "TXT.001",
      "role": "number",
-     "variant": "TXT.WHL.001.004"
+     "variant": "TXT.WHL.001.003"
     }
    ],
    "catalogue": [
@@ -3101,8 +2981,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DRP.001",
@@ -3127,12 +3006,10 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXS.001",
-     "variant": "TXS.BDY.001.001",
      "role": "shown, not edited"
     }
    ],
@@ -3154,8 +3031,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -3180,8 +3056,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DRP.001",
@@ -3206,12 +3081,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.SQR.001.006",
+     "variant": "TXT.SQR.001.005",
      "role": "number"
     }
    ],
@@ -3233,12 +3107,10 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DAT.001",
-     "variant": "DAT.CAL.001.001",
      "role": "date"
     }
    ],
@@ -3260,12 +3132,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.WHL.001.004",
+     "variant": "TXT.WHL.001.003",
      "role": "number"
     }
    ],
@@ -3287,12 +3158,10 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DAT.001",
-     "variant": "DAT.CAL.001.001",
      "role": "date"
     }
    ],
@@ -3314,12 +3183,10 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.BOX.001.001",
      "role": "text"
     }
    ],
@@ -3341,12 +3208,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.SQR.001.006",
+     "variant": "TXT.SQR.001.005",
      "role": "number"
     }
    ],
@@ -3368,12 +3234,10 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DAT.001",
-     "variant": "DAT.CAL.001.001",
      "role": "date"
     }
    ],
@@ -3395,12 +3259,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.WHL.001.004",
+     "variant": "TXT.WHL.001.003",
      "role": "number"
     }
    ],
@@ -3422,8 +3285,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -3432,7 +3294,7 @@ export const library: Library = {
     {
      "asset": "TXT.001",
      "role": "number",
-     "variant": "TXT.WHL.001.004"
+     "variant": "TXT.WHL.001.003"
     }
    ],
    "catalogue": [
@@ -3453,8 +3315,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -3463,7 +3324,7 @@ export const library: Library = {
     {
      "asset": "TXT.001",
      "role": "number",
-     "variant": "TXT.WHL.001.004"
+     "variant": "TXT.WHL.001.003"
     }
    ],
    "catalogue": [
@@ -3484,12 +3345,10 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXS.001",
-     "variant": "TXS.BDY.001.001",
      "role": "shown, not edited"
     }
    ],
@@ -3511,12 +3370,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.WHL.001.004",
+     "variant": "TXT.WHL.001.003",
      "role": "number"
     }
    ],
@@ -3538,12 +3396,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.WHL.001.004",
+     "variant": "TXT.WHL.001.003",
      "role": "number"
     }
    ],
@@ -3565,12 +3422,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.WHL.001.004",
+     "variant": "TXT.WHL.001.003",
      "role": "number"
     }
    ],
@@ -3592,12 +3448,10 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXS.001",
-     "variant": "TXS.BDY.001.001",
      "role": "shown, not edited"
     }
    ],
@@ -3619,8 +3473,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DRP.001",
@@ -3628,7 +3481,7 @@ export const library: Library = {
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -3653,8 +3506,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DRP.001",
@@ -3679,8 +3531,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -3705,8 +3556,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DRP.001",
@@ -3731,12 +3581,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.WHL.001.004",
+     "variant": "TXT.WHL.001.003",
      "role": "number"
     }
    ],
@@ -3758,17 +3607,15 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXS.001",
-     "variant": "TXS.BDY.001.001",
      "role": "shown, not edited"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.WHL.001.004",
+     "variant": "TXT.WHL.001.003",
      "role": "number"
     }
    ],
@@ -3791,8 +3638,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -3821,8 +3667,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -3847,8 +3692,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -3857,7 +3701,7 @@ export const library: Library = {
     {
      "asset": "TXT.001",
      "role": "number",
-     "variant": "TXT.WHL.001.004"
+     "variant": "TXT.WHL.001.003"
     }
    ],
    "catalogue": [
@@ -3878,8 +3722,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -3888,7 +3731,7 @@ export const library: Library = {
     {
      "asset": "TXT.001",
      "role": "number",
-     "variant": "TXT.WHL.001.004"
+     "variant": "TXT.WHL.001.003"
     }
    ],
    "catalogue": [
@@ -3909,8 +3752,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -3919,7 +3761,7 @@ export const library: Library = {
     {
      "asset": "TXT.001",
      "role": "number",
-     "variant": "TXT.WHL.001.004"
+     "variant": "TXT.WHL.001.003"
     }
    ],
    "catalogue": [
@@ -3940,8 +3782,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -3950,7 +3791,7 @@ export const library: Library = {
     {
      "asset": "TXT.001",
      "role": "number",
-     "variant": "TXT.WHL.001.004"
+     "variant": "TXT.WHL.001.003"
     }
    ],
    "catalogue": [
@@ -3971,8 +3812,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -3980,7 +3820,7 @@ export const library: Library = {
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.SQR.001.006",
+     "variant": "TXT.SQR.001.005",
      "role": "the share of each ticked entry"
     }
    ],
@@ -4002,12 +3842,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.SQR.001.006",
+     "variant": "TXT.SQR.001.005",
      "role": "number"
     }
    ],
@@ -4029,12 +3868,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.SQR.001.006",
+     "variant": "TXT.SQR.001.005",
      "role": "number"
     }
    ],
@@ -4056,8 +3894,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -4066,7 +3903,7 @@ export const library: Library = {
     {
      "asset": "TXT.001",
      "role": "number",
-     "variant": "TXT.WHL.001.004"
+     "variant": "TXT.WHL.001.003"
     }
    ],
    "catalogue": [
@@ -4087,8 +3924,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -4097,7 +3933,7 @@ export const library: Library = {
     {
      "asset": "TXT.001",
      "role": "number",
-     "variant": "TXT.WHL.001.004"
+     "variant": "TXT.WHL.001.003"
     }
    ],
    "catalogue": [
@@ -4118,8 +3954,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -4128,7 +3963,7 @@ export const library: Library = {
     {
      "asset": "TXT.001",
      "role": "number",
-     "variant": "TXT.WHL.001.004"
+     "variant": "TXT.WHL.001.003"
     }
    ],
    "catalogue": [
@@ -4149,8 +3984,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -4159,7 +3993,7 @@ export const library: Library = {
     {
      "asset": "TXT.001",
      "role": "number",
-     "variant": "TXT.WHL.001.004"
+     "variant": "TXT.WHL.001.003"
     }
    ],
    "catalogue": [
@@ -4180,8 +4014,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DRP.001",
@@ -4206,8 +4039,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -4216,7 +4048,7 @@ export const library: Library = {
     {
      "asset": "TXT.001",
      "role": "number",
-     "variant": "TXT.WHL.001.004"
+     "variant": "TXT.WHL.001.003"
     }
    ],
    "catalogue": [
@@ -4237,17 +4069,15 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DAT.001",
-     "variant": "DAT.CAL.001.001",
      "role": "date"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.WHL.001.004",
+     "variant": "TXT.WHL.001.003",
      "role": "number"
     }
    ],
@@ -4270,8 +4100,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DRP.001",
@@ -4296,8 +4125,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DRP.001",
@@ -4323,12 +4151,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -4350,12 +4177,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.WHL.001.004",
+     "variant": "TXT.WHL.001.003",
      "role": "number"
     }
    ],
@@ -4377,12 +4203,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -4404,8 +4229,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DRP.001",
@@ -4430,12 +4254,10 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.BOX.001.001",
      "role": "text"
     }
    ],
@@ -4457,8 +4279,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -4483,12 +4304,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -4510,12 +4330,10 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.BOX.001.001",
      "role": "text"
     }
    ],
@@ -4537,12 +4355,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -4564,12 +4381,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -4591,12 +4407,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -4618,12 +4433,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -4645,12 +4459,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -4672,12 +4485,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -4699,12 +4511,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -4726,12 +4537,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -4753,12 +4563,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -4780,12 +4589,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -4807,12 +4615,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -4834,12 +4641,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -4861,12 +4667,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     },
     {
@@ -4924,12 +4729,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -4951,12 +4755,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -4978,12 +4781,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -5005,8 +4807,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "LST.001",
@@ -5031,8 +4832,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "LST.001",
@@ -5057,8 +4857,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "LST.001",
@@ -5083,8 +4882,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "LST.001",
@@ -5109,8 +4907,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -5135,12 +4932,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -5162,12 +4958,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -5189,12 +4984,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -5216,12 +5010,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -5243,12 +5036,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -5270,12 +5062,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -5297,8 +5088,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DRP.001",
@@ -5306,7 +5096,7 @@ export const library: Library = {
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -5329,8 +5119,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -5355,8 +5144,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "DRP.001",
@@ -5388,12 +5176,11 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.ARE.001.002",
+     "variant": "TXT.ARE.001.001",
      "role": "text"
     }
    ],
@@ -5415,8 +5202,7 @@ export const library: Library = {
    "requires": [
     {
      "asset": "TXS.001",
-     "role": "the label of the field",
-     "variant": "TXS.BDY.001.001"
+     "role": "the label of the field"
     },
     {
      "asset": "TIK.001",
@@ -5463,17 +5249,16 @@ export const library: Library = {
     },
     {
      "asset": "TXS.001",
-     "variant": "TXS.HTB.001.012",
+     "variant": "TXS.HTB.001.011",
      "role": "the name of the tile or box above the card"
     },
     {
      "asset": "TXT.001",
-     "variant": "TXT.NAM.001.003",
+     "variant": "TXT.NAM.001.002",
      "role": "the name of the card"
     },
     {
      "asset": "BTN.001",
-     "variant": "BTN.DLT.001.001",
      "role": "removes the card"
     }
    ],
@@ -8668,7 +8453,6 @@ export const library: Library = {
     },
     {
      "asset": "ARW.001",
-     "variant": "ARW.PAG.001.001",
      "role": "the arrow placed in the tag"
     },
     {
@@ -8677,8 +8461,7 @@ export const library: Library = {
     },
     {
      "asset": "TXS.001",
-     "role": "the names of the items; the title of the tag",
-     "variant": "TXS.BDY.001.001"
+     "role": "the names of the items; the title of the tag"
     }
    ],
    "lookNotes": [

@@ -44,14 +44,14 @@ const REACTION = {
 };
 /** Where the scan found each asset or variant (a condition on the scan's records). */
 const FOUND = {
-    "BTN.DLT.001.001": "type = 'x'", "BTN.ADD.001.002": "type = 'plus' and cls like '%plus-box%'", "BTN.002": "type = 'info'",
+    "BTN.001": "type = 'x'", "BTN.ADD.001.001": "type = 'plus' and cls like '%plus-box%'", "BTN.002": "type = 'info'",
     "BTN.004": "type = 'plus' and cls like '%strategy-add-button%'", "DRP.001": "type = 'dropdown'", "TIK.001": "type = 'tick box'",
-    "TXT.BOX.001.001": "type = 'text box' and cls not like '%date-cell-input%'",
-    "TXT.ARE.001.002": "type = 'text area' and (cls like '%business-foundation-note%' or cls like '%legal-entity-note%' or cls like '%brand-image-note%' or cls = 'interview-input')",
-    "TXT.NAM.001.003": "type = 'text area' and (cls like '%card-name-input%' or cls like '%suggested-input%')",
-    "TXT.WHL.001.004": "type = 'number box'",
+    "TXT.001": "type = 'text box' and cls not like '%date-cell-input%'",
+    "TXT.ARE.001.001": "type = 'text area' and (cls like '%business-foundation-note%' or cls like '%legal-entity-note%' or cls like '%brand-image-note%' or cls = 'interview-input')",
+    "TXT.NAM.001.002": "type = 'text area' and (cls like '%card-name-input%' or cls like '%suggested-input%')",
+    "TXT.WHL.001.003": "type = 'number box'",
     "LST.001": "type = 'text area' and cls like '%numbered-list-input%'", "DAT.001": "type = 'text box' and cls like '%date-cell-input%'", "LBL.001": "type = 'label'",
-    "ARW.002": "type = 'fold arrow'", "ARW.LAB.002.001": "type = 'label arrow' and h = 24", "ARW.TTL.002.002": "type = 'label arrow' and h = 28"
+    "ARW.002": "type = 'fold arrow'", "ARW.002": "type = 'label arrow' and h = 24", "ARW.TTL.002.001": "type = 'label arrow' and h = 28"
 };
 const whereFound = code => {
     if (!FOUND[code]) return null;
@@ -82,7 +82,7 @@ for (const a of components) {
     say("| " + a.code + " | **" + a.name + "** | " + (a.kind ?? "") + " | " + s.height + " | " + s.width + " | " + s.text + " |");
     for (const v of a.variants) {
         const vs = variantSizeOf(a, v);
-        say("| ↳ " + v.code + " | " + v.name + (a.defaultVariant === v.code ? " (default)" : "") + " | " + (v.kind ?? "") + " | " + vs.height + " | " + vs.width + " | " + vs.text + " |");
+        say("| ↳ " + v.code + " | " + v.name + " | " + (v.kind ?? "") + " | " + vs.height + " | " + vs.width + " | " + vs.text + " |");
     }
 }
 say("");
@@ -119,10 +119,11 @@ const none = components.filter(a => a.look && !a.look.found).map(a => a.code + "
 say("## Defaults that exist in the app", "", "A default look is the most used one measured, so it should exist somewhere in the app. " + (components.filter(a => a.look).length - none.length) + " of " + components.filter(a => a.look).length + " defaults were found in the example organisation. **Not found:** " + (none.length ? none.join("; ") : "none") + ".", "");
 
 // the text styles: every text read, by its expression
-const measuredTexts = measured.texts.filter(t => !t.holder);
+const merge = w => (w === "600" ? "700" : w);
+const measuredTexts = measured.texts.filter(t => !t.holder && !/financial/.test(t.cls) && t.size !== 30);
 const styles = new Map();
 for (const t of measuredTexts) {
-    const key = [t.size + " px", t.weight, t.italic ? "italic" : "", t.underline ? "underlined" : "", t.transform === "uppercase" ? "capitals" : ""].filter(Boolean).join(", ");
+    const key = [t.size + " px", merge(String(t.weight)), t.italic ? "italic" : "", t.underline ? "underlined" : "", t.transform === "uppercase" ? "capitals" : ""].filter(Boolean).join(", ");
     const e = styles.get(key) ?? { n: 0, cls: {} };
     e.n++; e.cls[t.cls || t.tag] = (e.cls[t.cls || t.tag] ?? 0) + 1;
     styles.set(key, e);
@@ -133,15 +134,15 @@ say("## Text weights", "", "A weight is how thick the letters are. The scale run
     "| 500 | Medium | A touch heavier than regular; hard to tell from 600 | list numbers, the words of buttons and rails, the guiding question | kept |",
     "| 600 | Semibold | Between medium and bold | table heads, titles of tiles and cards, column labels | merged into 700 |",
     "| 700 | Bold | Clearly heavy | headings, strong words, the system title | kept |", "");
-say("## Text styles: the presentation of every text read (analysis)", "", "The texts of the readers (labels, titles, links, help texts, messages) could be one component, the text, with variants by **presentation** only (size, weight, capitals, italics, underline), and the purpose given in the field. Measured: " + styles.size + " different presentations cover all " + measuredTexts.length + " texts of the four systems; the first five cover " + Math.round([...styles.values()].sort((x, y) => y.n - x.n).slice(0, 5).reduce((s2, e) => s2 + e.n, 0) / measuredTexts.length * 100) + "%. This is now the text component TXS.001, one variant per presentation, each with its old purposes and where it was seen.", "",
+say("## Text styles: the presentation of every text read (analysis)", "", "The texts of the readers (labels, titles, links, help texts, messages) could be one component, the text, with variants by **presentation** only (size, weight, capitals, italics, underline), and the purpose given in the field. Measured: " + styles.size + " different presentations cover the " + measuredTexts.length + " texts of the four systems that are not in the Financial sections (which will change); the weight 600 is counted as 700; the first five cover " + Math.round([...styles.values()].sort((x, y) => y.n - x.n).slice(0, 5).reduce((s2, e) => s2 + e.n, 0) / measuredTexts.length * 100) + "%. This is now the text component TXS.001, one variant per presentation, each with its old purposes and where it was seen.", "",
     "| Presentation | Texts | Classes seen most |", "|---|---|---|");
 for (const [k, e] of [...styles].sort((x, y) => y[1].n - x[1].n)) say("| " + k + " | " + e.n + " | " + Object.entries(e.cls).sort((x, y) => y[1] - x[1]).slice(0, 3).map(([c, n]) => c + " " + n).join("; ") + " |");
 say("");
 
 // the texts that can be pressed
 const pressed = new Map();
-for (const p of parts.pressable) {
-    const key = [p.size + " px", p.weight, p.italic ? "italic" : "", p.underline ? "underlined" : "", p.transform === "uppercase" ? "capitals" : "", p.cls || p.tag].filter(Boolean).join(", ");
+for (const p of parts.pressable.filter(x => !/financial/.test(x.cls))) {
+    const key = [p.size + " px", merge(String(p.weight)), p.italic ? "italic" : "", p.underline ? "underlined" : "", p.transform === "uppercase" ? "capitals" : "", p.cls || p.tag].filter(Boolean).join(", ");
     pressed.set(key, (pressed.get(key) ?? 0) + 1);
 }
 say("## Texts that can be pressed (analysis of the gap in the links)", "", "Every text that is a link, a button or has a pointer cursor, with its presentation. The library has three links (underlined, blue, symbol); the app has many more pressable texts. " + parts.pressable.length + " found on " + parts.fonts.length + " pages.", "", "| Presentation and class | Found |", "|---|---|");
@@ -160,7 +161,7 @@ for (const a of components) {
         lastGroup = home.group.code;
         say("### " + home.group.name + " (" + home.group.code + ")", "", home.group.description, "", "**What every component of this group has, besides the family's**", ...home.group.characteristics.map(c => "- " + c), "");
     }
-    say("#### " + a.code + " " + a.name[0].toUpperCase() + a.name.slice(1), "", a.summary, "", ...(a.defaultVariant ? ["**Default variant:** " + a.variants.find(v => v.code === a.defaultVariant).name + " (" + a.defaultVariant + "), the one that exists in the app with specific characteristics.", ""] : []));
+    say("#### " + a.code + " " + a.name[0].toUpperCase() + a.name.slice(1), "", a.summary, "");
     say("**Kind and place**", "- Kind: " + (a.kind ?? ""), ...(a.belongs ? ["- Placed in: " + a.belongs] : []), ...(fieldsOf(a.code) ? ["- Fields: " + fieldsOf(a.code)] : []), "");
     const ex = EXTRA[a.code];
     if (a.look) {
