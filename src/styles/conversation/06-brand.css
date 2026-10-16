@@ -167,8 +167,8 @@
 
     flex-shrink:0;
 
-    width:18px;
-    height:18px;
+    width:var(--size-mark);
+    height:var(--size-mark);
 
     accent-color:var(--bg-primary);
 
@@ -971,8 +971,8 @@
        checkbox does not inherit its font-size from the label
        wrapping it, so 1em measured the form default and came out
        at 16. */
-    width:24px;
-    height:24px;
+    width:var(--size-mark);
+    height:var(--size-mark);
 
     margin:0;
 

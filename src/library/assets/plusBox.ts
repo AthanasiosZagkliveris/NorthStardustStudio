@@ -1,4 +1,5 @@
 import type { AssetContract } from "../contract.ts";
+import { lookHeight } from "../componentTokens.ts";
 
 /**
  * The "+" box (.plus-box in section-tiles.css; rulebook 5a, "The + box"):
@@ -24,8 +25,8 @@ export const plusBox: AssetContract = {
     ],
     tokens: ["--plus-ground", "--plus-fill", "--plus-size", "--plus-bar", "--plus-fill-saturation", "--plus-fill-lightness", "--strategy-theme-hue", "--theme-bg-inner", "--focus-ring-ink", "--card-padding"],
     geometry: {
-        sizeTile: 32,
-        sizeSmall: 32,
+        sizeTile: lookHeight("BTN.001"),
+        sizeSmall: lookHeight("BTN.001"),
         barTile: 14,
         barSmall: 14,
         barThickness: 2,

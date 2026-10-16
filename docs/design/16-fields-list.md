@@ -8,10 +8,10 @@ Found by walking the running app on 2026-10-16. The walk opened every page of th
 
 | Kind of control | Library component | Size | Words | Seen |
 |---|---|---|---|---|
-| plus box on a tile | box button, Add (BTN.ADD.001.001) | 36 by 36 px; 39.6 by 39.6 px | 46 different words, for example: Add Expense to Expenses; Add Legal requirement to Additional legal requir; Add Colour to Colours; Add Typeface to Typography & Text Hierarchy; Add Image to Brand Images; Add Profile to Segment Description; Add Competitor to Competitors; Add Offering to Offerings | seen in 93 views of the walk |
-| wide add button across the column | wide add button, Full-row add (BTN.ROW.004.001) | 668 by 39 px | 3 different words, for example: + Add founder; + Add registration number; + Add tax registration | seen in 3 views of the walk |
+| plus box on a tile | box button, Add (BTN.ADD.001.001) | 32 by 32 px; 35.2 by 35.2 px | 46 different words, for example: Add Expense to Expenses; Add Legal requirement to Additional legal requir; Add Colour to Colours; Add Typeface to Typography & Text Hierarchy; Add Image to Brand Images; Add Profile to Segment Description; Add Competitor to Competitors; Add Offering to Offerings | seen in 93 views of the walk |
+| wide add button across the column | wide add button, Full-row add (BTN.ROW.004.001) | 668 by 44 px | 3 different words, for example: + Add founder; + Add registration number; + Add tax registration | seen in 3 views of the walk |
 | add tile of words and a plus | add card tile (BTN.005) | 107 by 107 px; 107.5 by 107.5 px | 1 different words, for example: Add Card | seen in 54 views of the walk |
-| wide add button, hugging | wide add button (BTN.004) | 199.94 by 39 px; 196.95 by 39 px; 287.53 by 39 px | 3 different words, for example: + Add Segment; + Add Channel; + Add Funding Source | seen in 41 views of the walk |
+| wide add button, hugging | wide add button (BTN.004) | 199.94 by 44 px; 196.95 by 44 px; 287.53 by 44 px | 3 different words, for example: + Add Segment; + Add Channel; + Add Funding Source | seen in 41 views of the walk |
 | plus in a nested head | box button, Add (BTN.ADD.001.001) | 32 by 32 px | 16 different words, for example: Add expense to Subchannel 1; Add expense to Subchannel 2; Add Journey Stage; Add expense to Subchannel 3; Add expense to Subchannel 4; Add expense to Subchannel 5; Add expense to Subchannel 6; Add expense to Subchannel 7 | seen in 21 views of the walk |
 | plus box in a card row | box button, Add (BTN.ADD.001.001) | 32 by 32 px | 4 different words, for example: Add Status to Resource 1; Add Status to Resource 2; Add Performer to Activity 1; Add Performer to Activity 2 | seen in 4 views of the walk |
 

@@ -337,7 +337,7 @@ table.business-relationship-table {
 /* The Goal, the Objective and what is in them stand on the card's hue in every reading mode (never the neutral card ground). */
 .strategy-goal-card .strategy-goal-box,
 .strategy-goal-card .strategy-objective-box,
-.strategy-goal-card .strategy-goal-box [class*="strategy-"][class*="-box"]:not(.strategy-box-remove):not(.strategy-box-toggle) {
+.strategy-goal-card .strategy-goal-box [class*="strategy-"][class*="-box"]:not(.strategy-box-remove):not(.strategy-box-toggle):not(.strategy-box-add):not(.strategy-box-tiles) {
 
     background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
@@ -354,7 +354,7 @@ table.business-relationship-table {
 
 .business-subchannel-card .business-channel-field-label,
 .business-subchannel-card .business-channel-th-actions-per-stage,
-.business-subchannel-card .business-channel-th-actions-per-stage *,
+.business-subchannel-card .business-channel-th-actions-per-stage *:not(.info-note-button),
 .business-subchannel-card .business-channel-td-name .field-label,
 .business-subchannel-card .business-channel-td-name .business-foundation-label {
 
@@ -887,9 +887,9 @@ table.business-relationship-table {
 
     position: relative;
 
-    width: 32px;
+    width: var(--size-box-button);
 
-    height: 32px;
+    height: var(--size-box-button);
 
     flex: none;
 

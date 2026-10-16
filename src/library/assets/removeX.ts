@@ -1,4 +1,5 @@
 import type { AssetContract } from "../contract.ts";
+import { lookHeight } from "../componentTokens.ts";
 
 /**
  * The remove x (.strategy-box-remove in remove-button.css; rulebook "The x,
@@ -23,7 +24,7 @@ export const removeX: AssetContract = {
     ],
     tokens: ["--x-red", "--x-ground", "--bg-surface", "--text-danger", "--text-faint", "--line-card", "--radius-md", "--focus-ring-ink", "--line-primary"],
     geometry: {
-        size: 32,
+        size: lookHeight("BTN.001"),
         barLength: 14,
         barThickness: 2,
         strokeWidth: 2,

@@ -316,7 +316,11 @@ Used by no field or card yet.
 
 **Other assets:** FRM.001 frame.
 
-### ARW.TTL.002.001 Title arrow
+### ARW.LAB.002.001 Label arrow
+
+Used by no field or card yet.
+
+### ARW.TTL.002.002 Title arrow
 
 Used by no field or card yet.
 

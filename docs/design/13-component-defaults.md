@@ -35,7 +35,7 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | BTN.006 tool button | (asset) | 36 | 14 | small 14 | 6px | 0/0 | 1 | 62 | meets 24 |
 | BTN.006 tool button | BTN.STR.006.008 Start Interview | 52 high, 269 wide | 18 | body 18 | 6px | 0/0 | 0 | 4 | meets 24 |
 | BTN.007 link button | (asset) | 24 high, 24 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 72 | meets 24 |
-| BTN.008 text toggle | (asset) | 20 high, 95 wide | 14 | small 14 | 0px | 0/0 | 0 | 59 | under 24 |
+| BTN.008 text toggle | (asset) | 20 high, 95 wide | 14 | small 14 | 4px | 0/0 | 0 | 59 | under 24 |
 | TXS.001 text | (asset) | words | 18 | body 18 | 0px | 0/0 | 0 | 227 | follows the words (a field, not a button) |
 | TXS.001 text | TXS.BMD.001.001 Body medium | words | 18 | body 18 | 0px | 0/0 | 0 | 15 | follows the words (a field, not a button) |
 | TXS.001 text | TXS.BBD.001.002 Body bold | words | 18 | body 18 | 0px | 0/0 | 0 | 130 | follows the words (a field, not a button) |
@@ -70,8 +70,9 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | IMG.001 image holder | (asset) | 252 high, 448 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 3 | meets 24 |
 | IMG.001 image holder | IMG.LOG.001.001 Logo | 216 high, 668 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 1 | meets 24 |
 | IMG.001 image holder | IMG.ICO.001.002 Icon | 249 high, 249 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 1 | meets 24 |
-| ARW.002 fold arrow | (asset) | 24 | 18 | body 18 | 0px | 0/0 | 0 | 8 in 2 places | meets 24 |
-| ARW.002 fold arrow | ARW.TTL.002.001 Title arrow | 28 high, 28 wide | 28 | h2 28 | 0px | 0/0 | 0 | 2 in 1 places | meets 24 |
+| ARW.002 fold arrow | (asset) | 36 high, 36 wide | 0 | symbol, no text | 6px | 0/0 | 1 | 319 in 3 places | meets 24 |
+| ARW.002 fold arrow | ARW.LAB.002.001 Label arrow | 24 high, 24 wide | 18 | body 18 | 0px | 0/0 | 0 | 8 in 2 places | meets 24 |
+| ARW.002 fold arrow | ARW.TTL.002.002 Title arrow | 28 high, 28 wide | 28 | h2 28 | 0px | 0/0 | 0 | 2 in 1 places | meets 24 |
 | ICN.001 system icon | (asset) | 36 high, 36 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 4 in 4 places | meets 24 |
 | SYM.001 card symbol | (asset) | 12 high, 12 wide | 0 | symbol, no text | 50% | 0/0 | 0 | 63 | under 24 |
 | FRM.001 frame | FRM.CHP.001.001 Chapter | words | 0 | symbol, no text | 8px | 12/12 | 1 | 53 | follows the words (a field, not a button) |
@@ -146,6 +147,7 @@ Separated by purpose; each has its own default look.
 ### BTN.008 text toggle
 
 - found 59 times by the walk of the running app (fold-all-toggle, Expand all, 95.39 by 20px, 14px, weight 400); its reactions are not read yet.
+- corners corrected 2026-10-16: 4px, as the walk of the app measured them (the library had 0 by assumption).
 
 ### TXS.001 text
 
@@ -220,6 +222,7 @@ Separated by purpose; each has its own default look.
 - merged by the owner's decision (owner, 2026-10-15): fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px
 - label arrow and title arrow are variants (the owner's decision, owner, 2026-10-15): the same component, function and style; the size follows the text beside it (24px beside a field label, 28px beside a title).
 - found by the scan 2026-10-16: 21 fold arrows of 36px, on the Business pages (Customer Engagement 11, Financial Foundation 5, Sustainability 5); and 10 label arrows of 24 to 28px. They are the triangles that fold a card or a list (the toggles measured in Arial, not in the app's font).
+- corrected 2026-10-16: the default is the 36px fold arrow of a card (319 found by the walk of the app, strategy-box-toggle, 36 by 36px, 6px corners, a 1px line); the label arrow and the title arrow are its variants, as decided on 2026-10-15. The default merge had made the label arrow the main asset.
 
 ### BUL.001 bullet
 

@@ -195,7 +195,7 @@ describe("BrandStyleEditor Text Hierarchy", () => {
     it("asks each size in a square box, the value centred", () => {
         const css = stylesheet("conversation.css");
         expect(css).toMatch(/\.brand-style \.brand-size-input\{[^}]*width:var\(--control-square\);\s*height:var\(--control-square\);[^}]*text-align:center;/);
-        expect(stylesheet("global.css")).toContain("--control-square: 44px;");
+        expect(stylesheet("components.generated.css")).toContain("--control-square: 44px;");
     });
 
 });

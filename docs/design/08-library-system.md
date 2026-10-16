@@ -73,6 +73,16 @@ The owner's decision: **the app changes the table.** The table follows the app i
 
 **Later.** Once an asset has replaced the old one (phase 3), the app is built from the library for that asset, and the sync then finds the asset where the library put it.
 
+## 6a. From the library to the app: one source for a size (2026-10-16)
+
+The size of a component is written once, in the library (the look of the asset or of its variant). Three things follow from it, and the app is not allowed to say otherwise:
+
+1. **The tokens.** `src/library/componentTokens.ts` reads the looks and gives the custom properties the stylesheets read with var(): the height of a cell (--card-cell-height, from TXT.001), of a box button (--size-box-button, BTN.001), of a mark (--size-mark, BTN.002, which TIK.001 and BTN.007 must equal), the square number (--control-square), the corners of a cell (--box-radius), the wide add button (--add-button-height), the tool button, the fold arrow (--fold-arrow-size) and the card symbol. `npm run library:tokens` writes them into `src/styles/components.generated.css`; no other stylesheet defines them. Two components that share a size and disagree in the library stop the generator.
+2. **The contracts.** The older asset contracts of `src/library/assets` (plus box, info note, remove x, fold arrow, dropdown, floating card) take their sizes from the same place, so a size is not written twice there either.
+3. **The comparison.** `npm run library:compare` (`scripts/library/app-compare.mjs`) puts the library's look of every component beside what the walk of the running app measured, and writes `docs/design/17-library-vs-app.md`; with the flag check it fails when the app differs from the library and the difference is not a known one. The walk is `scripts/catalogue/app-crawl.mjs`.
+
+To change a size: change the look in the library (section 4), run `npm run library:tokens`, walk the app and run the comparison. A component that differs is fixed in the stylesheet at the root (the one rule that draws it), not by a rule on top of it.
+
 ## 7. The steps (one commit each)
 
 1. This specification, approved by the owner.

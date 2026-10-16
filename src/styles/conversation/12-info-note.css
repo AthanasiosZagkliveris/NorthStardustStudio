@@ -91,14 +91,14 @@
 
     vertical-align:top;
 
-    margin-top:calc((1lh - 24px) / 2);
+    margin-top:calc((1lh - var(--size-mark)) / 2);
 
 }
 
 .info-note-button{
 
-    width:24px;
-    height:24px;
+    width:var(--size-mark);
+    height:var(--size-mark);
 
     display:inline-flex;
     align-items:center;
@@ -151,8 +151,8 @@
     top:50%;
     left:50%;
 
-    width:24px;
-    height:24px;
+    width:var(--size-mark);
+    height:var(--size-mark);
 
     transform:translate(-50%, -50%);
 

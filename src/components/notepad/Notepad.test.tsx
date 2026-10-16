@@ -322,7 +322,7 @@ describe("what can be clicked in the Notepad", () => {
         expect(css).toContain(".notepad-chip-remove:hover { font-weight: 700; }");
         expect(css).not.toContain(".notepad-chip:is(:hover, :focus-within) > .notepad-chip-remove");
         expect(css).not.toMatch(/.notepad-note-remove[,:{ ]/);
-        expect(stylesheet("remove-button.css")).toContain(".strategy-box-remove{ width:32px; height:32px;");
+        expect(stylesheet("remove-button.css")).toContain(".strategy-box-remove{ width:var(--size-box-button); height:var(--size-box-button);");
     });
 
 });

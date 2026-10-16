@@ -164,25 +164,15 @@ body {
 
 /* 3. CONTROLS ----------------------------------------------------- */
 
-/* THE SIZES OF A CONTROL. One height for every single-line cell and
-   three sizes of what stands beside it, so a cell and its x, plus,
-   calendar, link symbol, tick or "i" can be centred on one line:
-
-     --card-cell-height  every single-line cell: a text box, a picker,
-                         a date, a name cell (44px)
-     --size-box-button   the box buttons: the x, the plus, the calendar
-                         (32px)
-     --size-mark         the marks: the "i", the tick box, the link
-                         symbol (24px, the WCAG 2.5.8 target size) */
+/* THE SIZES OF A CONTROL come from the library (components.generated.css, written by
+   scripts/library/component-tokens.mjs from src/library/data/library.ts): one height for
+   every single-line cell (--card-cell-height), one for the box buttons (--size-box-button)
+   and one for the marks (--size-mark), so a cell and its x, plus, calendar, link symbol,
+   tick or "i" can be centred on one line; and --control-square, --box-radius,
+   --add-button-height, --tool-button-height, --fold-arrow-size and --card-symbol-size.
+   They are not written here: a size is changed in the library. */
 
 :root {
-  --card-cell-height: 44px;
-  --size-box-button: 32px;
-  --size-mark: 24px;
-
-  /* A box as wide as a control is tall: a 2-3 digit value with its
-     unit after it (a Text Hierarchy level's px). */
-  --control-square: 44px; /* the same as --card-cell-height: one cell height */
   /* A short number beside its neighbours (a Quantity). */
   --control-xs: 80px;
   /* The CODE step: a short code or figure of up to 10 characters (a
@@ -208,7 +198,6 @@ body {
      a select's padding and chevron (8px before the value, 24px on the
      chevron side: 6px inset + its 12px + 6px clear of the value). */
   --box-border: var(--line-box);
-  --box-radius: 6px;
   --select-padding-left: 8px;
   --select-padding-right: 24px;
   --select-chevron-inset: 6px;
@@ -1200,8 +1189,8 @@ h6 {
    label's type, so 1lh is that first line. */
 input[type="checkbox"] {
   flex: none;
-  width: 24px;
-  height: 24px;
+  width: var(--size-mark);
+  height: var(--size-mark);
   margin: 0;
   font: inherit;
   line-height: inherit;
@@ -1225,7 +1214,7 @@ label:has(> input[type="checkbox"]) {
 }
 
 label:has(> input[type="checkbox"]) > input[type="checkbox"] {
-  margin-top: calc((1lh - 24px) / 2);
+  margin-top: calc((1lh - var(--size-mark)) / 2);
 }
 
 /* A TICK-BOX OPTION UNDER THE POINTER: its words underlined, and its

@@ -989,7 +989,7 @@ export const library: Library = {
    "look": {
     "height": 20,
     "width": 95,
-    "corners": "0px",
+    "corners": "4px",
     "paddingLeft": 0,
     "paddingTop": 0,
     "border": 0,
@@ -1001,7 +1001,8 @@ export const library: Library = {
    "kind": "Button, small text: toggles all the folds",
    "belongs": "Business: the pages with folding cards (Expand all, Collapse all); the help toggle of the pages",
    "lookNotes": [
-    "found 59 times by the walk of the running app (fold-all-toggle, Expand all, 95.39 by 20px, 14px, weight 400); its reactions are not read yet."
+    "found 59 times by the walk of the running app (fold-all-toggle, Expand all, 95.39 by 20px, 14px, weight 400); its reactions are not read yet.",
+    "corners corrected 2026-10-16: 4px, as the walk of the app measured them (the library had 0 by assumption)."
    ]
   },
   {
@@ -2034,7 +2035,7 @@ export const library: Library = {
    "code": "ARW.002",
    "name": "fold arrow",
    "category": "component",
-   "summary": "A small triangle that folds and unfolds a card, a list or a label. By default it is the frameless label arrow beside a label, 6px from it; its variant is the title arrow beside a chapter or column title.",
+   "summary": "A triangle that folds and unfolds a card, a list or a label. By default it is the fold arrow of a card: 36px, a 1px line, 6px corners (the toggle of a nested card, a section, an expanded list). Its variants are the frameless label arrow beside a field label (24px, 6px from the label) and the title arrow beside a chapter or column title (28px).",
    "variables": [
     "VAR001",
     "VAR002",
@@ -2043,7 +2044,29 @@ export const library: Library = {
    ],
    "variants": [
     {
-     "code": "ARW.TTL.002.001",
+     "code": "ARW.LAB.002.001",
+     "name": "Label arrow",
+     "description": "A frameless arrow beside a label that opens a list under it.",
+     "edits": "No frame; 24px; sits 6px from the label.",
+     "values": {},
+     "look": {
+      "height": 24,
+      "fontSize": 18,
+      "fontWeight": "400",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "body 18",
+      "found": 8,
+      "places": 2,
+      "width": 24
+     },
+     "kind": "Fold control, frameless: beside a label",
+     "belongs": "Beside a label"
+    },
+    {
+     "code": "ARW.TTL.002.002",
      "name": "Title arrow",
      "description": "The label arrow beside a chapter or column title (Infrastructure & Capability): the same frameless triangle, with the same function, at the size of the title.",
      "edits": "The arrow is 28px, the size of a column title (h2), where the label arrow is 24px beside a field label.",
@@ -2074,25 +2097,27 @@ export const library: Library = {
     "Label arrow"
    ],
    "look": {
-    "height": 24,
-    "fontSize": 18,
+    "height": 36,
+    "width": 36,
+    "fontSize": 0,
     "fontWeight": "400",
-    "corners": "0px",
+    "corners": "6px",
     "paddingLeft": 0,
     "paddingTop": 0,
-    "border": 0,
-    "scale": "body 18",
-    "found": 8,
-    "places": 2
+    "border": 1,
+    "scale": "symbol, no text",
+    "found": 319,
+    "places": 3
    },
    "lookNotes": [
     "merged by the owner's decision (owner, 2026-10-15): fold arrow height 36, type 18, corners 6px, padding 0/0, border 1; found 10 times (90.9% of the default's 11); largest difference 18.0px",
     "label arrow and title arrow are variants (the owner's decision, owner, 2026-10-15): the same component, function and style; the size follows the text beside it (24px beside a field label, 28px beside a title).",
-    "found by the scan 2026-10-16: 21 fold arrows of 36px, on the Business pages (Customer Engagement 11, Financial Foundation 5, Sustainability 5); and 10 label arrows of 24 to 28px. They are the triangles that fold a card or a list (the toggles measured in Arial, not in the app's font)."
+    "found by the scan 2026-10-16: 21 fold arrows of 36px, on the Business pages (Customer Engagement 11, Financial Foundation 5, Sustainability 5); and 10 label arrows of 24 to 28px. They are the triangles that fold a card or a list (the toggles measured in Arial, not in the app's font).",
+    "corrected 2026-10-16: the default is the 36px fold arrow of a card (319 found by the walk of the app, strategy-box-toggle, 36 by 36px, 6px corners, a 1px line); the label arrow and the title arrow are its variants, as decided on 2026-10-15. The default merge had made the label arrow the main asset."
    ],
    "group": "CTRL.FLD",
    "kind": "Fold control: a triangle that folds and unfolds",
-   "belongs": "Beside a label"
+   "belongs": "Cards, nested boxes, lists and labels"
   },
   {
    "code": "BUL.001",

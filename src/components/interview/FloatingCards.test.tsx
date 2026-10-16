@@ -659,9 +659,9 @@ describe("the stylesheet of the page tiles, the floating cards and the dialog gr
         expect(stylesheet("card-tile.css")).toMatch(/\.card-tile-slot:hover \{[^}]*transform: scale\(1\.1\);/);
     });
 
-    it("draws the + box a 36px square at the tile's lower right, 12px from the edges, with its own hover", () => {
+    it("draws the + box a square of the library's size at the tile's lower right, 12px from the edges, with its own hover", () => {
         expect(css).toMatch(/\.section-tile-plus \{[^}]*position: absolute;[^}]*right: var\(--card-padding\);[^}]*bottom: var\(--card-padding\);/);
-        expect(css).toMatch(/\.plus-box \{[^}]*--plus-size: 32px;[^}]*width: var\(--plus-size\);[^}]*height: var\(--plus-size\);/);
+        expect(css).toMatch(/\.plus-box \{[^}]*--plus-size: var\(--size-box-button\);[^}]*width: var\(--plus-size\);[^}]*height: var\(--plus-size\);/);
         // A swap of two colours. At rest: the ground of what it stands on, a 2px stroke and the "+" in the darker tone;
         // under the pointer or the focus: filled with the tone, no stroke, the "+" in the ground.
         expect(css).toMatch(/\.plus-box \{[^}]*border: 2px solid var\(--plus-fill\);[^}]*background: var\(--plus-ground\);[^}]*color: var\(--plus-fill\);[^}]*transition: background-color \.15s ease, border-color \.15s ease, color \.15s ease;/);
@@ -669,7 +669,7 @@ describe("the stylesheet of the page tiles, the floating cards and the dialog gr
         expect(css).not.toMatch(/\.plus-box[^{]*\{[^}]*transform: scale/);
         // The "+" is two bars drawn from the middle of the box (an even length, 2px thick): its centre is the box's.
         expect(css).toMatch(/\.plus-box::before,\s*\.plus-box::after \{[^}]*top: 50%;[^}]*left: 50%;[^}]*transform: translate\(-50%, -50%\);/);
-        expect(css).toMatch(/\.plus-box\.plus-box-small \{[^}]*--plus-size: 32px;/);
+        expect(css).toMatch(/\.plus-box\.plus-box-small \{[^}]*--plus-size: var\(--size-box-button\);/);
     });
 
     it("underlines a list item under the pointer and the focus", () => {

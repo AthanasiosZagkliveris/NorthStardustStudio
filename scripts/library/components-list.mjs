@@ -29,7 +29,7 @@ const FOUND = {
     "TXT.NAM.001.002": "type = 'text area' and (cls like '%card-name-input%' or cls like '%suggested-input%')",
     "TXT.WHL.001.003": "type = 'number box'",
     "LST.001": "type = 'text area' and cls like '%numbered-list-input%'", "DAT.001": "type = 'text box' and cls like '%date-cell-input%'", "LBL.001": "type = 'label'",
-    "ARW.002": "type = 'fold arrow'", "ARW.002": "type = 'label arrow' and h = 24", "ARW.TTL.002.001": "type = 'label arrow' and h = 28"
+    "ARW.002": "type = 'fold arrow'", "ARW.LAB.002.001": "type = 'label arrow' and h = 24", "ARW.TTL.002.002": "type = 'label arrow' and h = 28"
 };
 const whereFound = code => {
     if (!FOUND[code]) return null;

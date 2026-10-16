@@ -637,3 +637,5 @@ Every change to an asset of the library: added, edited, placed (and where), move
 | L0631 | 2026-10-16 | BTN.008 | added | text toggle |  | The walk of the running app: unit word px, small bold text, text toggle, card symbol, add buttons and backs as found |
 | L0632 | 2026-10-16 | TXS.001 | edited | text: lookNotes, variants |  | The walk of the running app: unit word px, small bold text, text toggle, card symbol, add buttons and backs as found |
 | L0633 | 2026-10-16 | SYM.001 | added | card symbol |  | The walk of the running app: unit word px, small bold text, text toggle, card symbol, add buttons and backs as found |
+| L0634 | 2026-10-16 | BTN.008 | edited | text toggle: look, lookNotes |  | The fold arrow is the 36px card toggle again (label and title arrows its variants), the text toggle's corners are the measured 4px |
+| L0635 | 2026-10-16 | ARW.002 | edited | fold arrow: belongs, look, lookNotes, summary, variants |  | The fold arrow is the 36px card toggle again (label and title arrows its variants), the text toggle's corners are the measured 4px |

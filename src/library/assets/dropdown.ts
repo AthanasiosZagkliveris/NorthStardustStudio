@@ -1,4 +1,5 @@
 import type { AssetContract } from "../contract.ts";
+import { lookHeight } from "../componentTokens.ts";
 
 /**
  * The dropdown (OptionPicker.tsx, option-picker.css; the trigger wears
@@ -28,7 +29,7 @@ export const dropdown: AssetContract = {
     ],
     tokens: ["--control-s", "--control-m", "--control-l", "--control-square", "--select-padding-left", "--select-padding-right", "--select-chevron", "--select-chevron-inset", "--bg-surface", "--text-default", "--text-faint", "--line-card", "--glow-color", "--box-inset"],
     geometry: {
-        height: 44,
+        height: lookHeight("TXT.001"),
         stepS: 220,
         stepM: 300,
         stepL: 420,

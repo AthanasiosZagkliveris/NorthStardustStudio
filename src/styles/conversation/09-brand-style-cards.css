@@ -223,7 +223,7 @@
 /* The tick on the square's centre line. */
 .brand-hierarchy-card .brand-hierarchy-row > .brand-tick > .brand-tick-box{
 
-    margin:0 0 calc((var(--control-square) - 24px) / 2);
+    margin:0 0 calc((var(--control-square) - var(--size-mark)) / 2);
 
 }
 
@@ -358,8 +358,8 @@
 
     position:relative;
 
-    width:36px;
-    height:36px;
+    width:var(--fold-arrow-size);
+    height:var(--fold-arrow-size);
 
     font-size:0;
 

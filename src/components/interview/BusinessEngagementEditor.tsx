@@ -1121,7 +1121,7 @@ export default function BusinessEngagementEditor({
                             )}
                             <button
                                 type="button"
-                                className="numbered-list-remove"
+                                className="strategy-box-remove numbered-list-remove"
                                 aria-label={"Remove action " + (line + 1) + " from " + label}
                                 title={"Remove action " + (line + 1) + " from this row"}
                                 disabled={disabled}
@@ -1130,9 +1130,7 @@ export default function BusinessEngagementEditor({
                                     items.filter((_text, index) => index !== line),
                                     items.map((_text, index) => index).filter(index => index !== line)
                                 ))}
-                            >
-                                ×
-                            </button>
+                            />
                         </>
                     );
                 }}

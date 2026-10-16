@@ -1,4 +1,5 @@
 import type { AssetContract } from "../contract.ts";
+import { lookHeight } from "../componentTokens.ts";
 
 /**
  * The fold arrow (FoldArrow.tsx, .strategy-box-toggle in conversation.css):
@@ -23,7 +24,7 @@ export const foldArrow: AssetContract = {
     ],
     tokens: ["--text-default", "--line-card", "--bg-surface", "--line-primary", "--glow-color", "--radius-md"],
     geometry: {
-        size: 36,
+        size: lookHeight("ARW.002"),
         triangleLong: 18,
         triangleShort: 11,
         strokeWidth: 1,

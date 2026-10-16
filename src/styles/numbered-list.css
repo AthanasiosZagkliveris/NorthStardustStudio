@@ -618,43 +618,8 @@
 
 }
 
-/* 32 x 32 (the rulebook's ×), centred on the line's first line: the
-   line is 8px + 27px + 8px, so the × stands (43 - 32) / 2 under its top. */
+/* The x of a list row is the app's one remove button (.strategy-box-remove, remove-button.css): this rule only
+   places it, centred on the line's first line (the line is 8px + 27px + 8px). */
 .numbered-list-remove{
-
-    flex:none;
-
-    width:32px;
-    height:32px;
-    margin-top:calc((43px - 32px) / 2);
-    padding:0;
-
-    border:0;
-    border-radius:var(--radius-sm);
-
-    background:none;
-
-    font:inherit;
-    font-size:var(--font-body);
-    line-height:32px;
-
-    color:var(--text-subtle);
-
-    cursor:pointer;
-
-}
-
-.numbered-list-remove:hover:not(:disabled){
-
-    background:var(--accent-ground-hover);
-
-    color:var(--text-default);
-
-}
-
-.numbered-list-remove:focus-visible{
-
-    outline:2px solid var(--line-primary);
-    outline-offset:1px;
-
+    margin-top:calc((43px - var(--size-box-button)) / 2);
 }

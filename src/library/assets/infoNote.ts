@@ -1,4 +1,5 @@
 import type { AssetContract } from "../contract.ts";
+import { lookHeight } from "../componentTokens.ts";
 
 /**
  * The "i" (InfoNote.tsx, .info-note-button in conversation.css, section-tiles.css
@@ -30,8 +31,8 @@ export const infoNote: AssetContract = {
     ],
     tokens: ["--info-gap", "--font-small", "--line-primary", "--text-primary", "--bg-surface", "--bg-primary", "--text-on-fill", "--theme-line-accent", "--info-ink", "--info-fill", "--glow-color", "--strategy-theme-hue"],
     geometry: {
-        disc: 24,
-        hitArea: 24,
+        disc: lookHeight("BTN.002"),
+        hitArea: lookHeight("BTN.002"),
         /** The gap from the label's last word to the disc. */
         gap: 6,
         strokePlain: 1,

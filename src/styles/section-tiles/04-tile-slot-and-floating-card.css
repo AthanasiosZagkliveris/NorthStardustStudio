@@ -13,7 +13,7 @@
 
     /* (The title's row, shared with the list laid over the square.) */
     --tile-title-row: calc(var(--section-tile-size) * var(--tile-title-top) - 1px + 5px + var(--section-tile-line-height) * 0.5em);
-    --plus-size: 32px;
+    --plus-size: var(--size-box-button);
 
     transform-origin: 50% 50%;
 
@@ -195,7 +195,7 @@
 
     --plus-ground: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
     --plus-fill: hsl(var(--strategy-theme-hue, 0) var(--plus-fill-saturation) var(--plus-fill-lightness));
-    --plus-size: 32px;
+    --plus-size: var(--size-box-button);
     --plus-bar: 14px;
 
     position: relative;
@@ -299,7 +299,7 @@
 /* The same box at the size of the x (32px) beside an Activity's Performer: its bars shorter. */
 .plus-box.plus-box-small {
 
-    --plus-size: 32px;
+    --plus-size: var(--size-box-button);
     --plus-bar: 14px;
 
 }

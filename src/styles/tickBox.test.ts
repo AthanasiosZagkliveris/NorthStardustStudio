@@ -6,9 +6,9 @@ describe("one tick box", () => {
 
     it("gives every checkbox one fixed size that a wrapping label cannot squeeze, beside its label's first line", () => {
         const css = stylesheet("global.css");
-        expect(css).toContain("input[type=\"checkbox\"] { flex: none; width: 24px; height: 24px; margin: 0; font: inherit; line-height: inherit;");
+        expect(css).toContain("input[type=\"checkbox\"] { flex: none; width: var(--size-mark); height: var(--size-mark); margin: 0; font: inherit; line-height: inherit;");
         expect(css).toContain("label:has(> input[type=\"checkbox\"]) { align-items: flex-start;");
-        expect(css).toContain("label:has(> input[type=\"checkbox\"]) > input[type=\"checkbox\"] { margin-top: calc((1lh - 24px) / 2); }");
+        expect(css).toContain("label:has(> input[type=\"checkbox\"]) > input[type=\"checkbox\"] { margin-top: calc((1lh - var(--size-mark)) / 2); }");
     });
 
     it("leaves no checkbox a size of its own", () => {

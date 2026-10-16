@@ -44,6 +44,10 @@
     "library:usage:check": "node scripts/library/fields-by-component.mjs --check",
     "library:fields-list": "node scripts/library/fields-list.mjs",
     "library:fields-list:check": "node scripts/library/fields-list.mjs --check",
+    "library:compare": "node scripts/library/app-compare.mjs",
+    "library:compare:check": "node scripts/library/app-compare.mjs --check",
+    "library:tokens": "node scripts/library/component-tokens.mjs",
+    "library:tokens:check": "node scripts/library/component-tokens.mjs --check",
     "library:csv": "node scripts/library/export-csv.mjs",
     "library:csv:check": "node scripts/library/export-csv.mjs --check",
     "library:downloads": "node scripts/library/downloads.mjs"
