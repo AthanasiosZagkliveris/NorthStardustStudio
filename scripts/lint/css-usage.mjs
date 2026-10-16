@@ -24,7 +24,7 @@ const stripGroups = selector => { let out = selector, before; do { before = out;
 const classesOf = selector => [...stripGroups(selector).matchAll(/\.(-?[_a-zA-Z][_a-zA-Z0-9-]*)/g)].map(m => m[1]);
 
 const DIR = process.argv.includes("--dir") ? process.argv[process.argv.indexOf("--dir") + 1] : "src/styles";
-const files = process.argv.includes("--remove") ? [process.argv[process.argv.indexOf("--remove") + 1]] : readdirSync(DIR).filter(f => f.endsWith(".css")).map(f => DIR + "/" + f);
+const files = process.argv.includes("--remove") ? [process.argv[process.argv.indexOf("--remove") + 1]] : walk(DIR).filter(f => f.endsWith(".css"));
 const remove = process.argv.includes("--remove");
 let totalRules = 0, totalDead = 0, pruned = 0;
 for (const file of files) {
@@ -49,7 +49,7 @@ for (const file of files) {
         }
     });
     totalRules += rules; totalDead += dead;
-    console.log(file.split("/").pop().padEnd(34) + String(rules).padStart(6) + " rules, " + String(dead).padStart(4) + " dead (" + deadLines + " lines)" + (dead && !remove ? "  e.g. ." + [...deadClasses].slice(0, 4).join(" .") : ""));
+    console.log(file.replace(DIR + "/", "").replace(/^src\/styles\//, "").padEnd(44) + String(rules).padStart(6) + " rules, " + String(dead).padStart(4) + " dead (" + deadLines + " lines)" + (dead && !remove ? "  e.g. ." + [...deadClasses].slice(0, 4).join(" .") : ""));
     if (remove && (dead || pruned)) writeFileSync(file, root.toString());
 }
 console.log("total " + totalRules + " rules, " + totalDead + " dead, " + pruned + " dead alternatives in rules that stay");

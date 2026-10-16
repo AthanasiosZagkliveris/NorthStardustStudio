@@ -1,0 +1,518 @@
+/* ==========================================================
+   AN ACTIVITY CARD'S TWO PICKER ROWS (Performer, Responsible): the label (the Responsible's with its tick) and its
+   dropdown stand next to each other, --space-cell (12px) apart, on one centre line. Both rows share one label column --
+   as wide as the wider of the two labels, tick included -- so the two dropdowns still start at one x, now close to their
+   labels. (A Performer with a second picker or "+ Add Performer" keeps its label above, as every multi-line field does.)
+========================================================== */
+.card-box-open .business-capability-stack.business-capability-activity-fields {
+
+    grid-template-columns: var(--activity-label-column) minmax(0, 1fr);
+
+    column-gap: var(--space-cell);
+
+}
+
+.card-box-open .business-capability-activity-fields > .business-field-inline {
+
+    display: grid;
+
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+
+    align-items: center;
+
+    column-gap: var(--space-cell);
+
+}
+
+.card-box-open .business-capability-activity-fields > .business-field-inline > :not(:first-child) {
+
+    grid-column: 2;
+
+    min-width: 0;
+
+}
+
+/* The Responsible's row (a tick, its words, then the dropdown) shares the stack's two columns with the Performer's, so the two dropdowns start at one x
+   (it had its own two columns, set for the narrow rows of the other cards; the rule it answers is the long one in conversation.css). */
+.card-box-open .business-capability-activity-fields > .business-foundation-field.business-foundation-field.business-foundation-field.business-foundation-field:not(.optional-field):has(> .business-foundation-label-info > .business-foundation-tick-inline) {
+
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+
+}
+
+/* The fieldset that freezes a finished activity's fields takes no box of its own: they stay the card's own children, with its gap. */
+.business-capability-frozen {
+
+    display: contents;
+
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+
+}
+
+/* Completed, with the other ticks: at the card's left (the tick column), not the right. */
+.business-capability-activity .business-capability-done {
+
+    align-self: flex-start;
+
+}
+
+/* THE CHILD OF A STATUS: its name is a link on the line where the name cell was -- no cell, the same height (the one-line name cell's,
+   --card-name-line) and the same left edge, so the number stays on the first line, and a long name wraps. */
+
+.business-capability-child-name {
+
+    flex: 1 1 auto;
+
+    min-width: 0;
+
+    box-sizing: border-box;
+
+    /* (The x's column of the card's grid stays empty: the name wraps where a cell's would.) */
+    margin: 0;
+    /* The text's first line stands on the number's centre line (the number is centred in the one-line name cell's height, --card-name-line), its
+       left edge on the name cell's: no border, no side padding, so the number, 8px (the head's gap), and the name's text are one row. */
+    padding: calc((var(--card-name-line, 44.3px) - 1lh) / 2) 0;
+
+    border: 0;
+
+    background: none;
+
+    color: var(--text-primary);
+
+    font: inherit;
+    font-size: var(--font-body);
+    font-weight: 600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+    line-height: 1.5;
+    text-align: left;
+    text-decoration: underline transparent;
+    text-underline-offset: 3px;
+    overflow-wrap: anywhere;
+
+    cursor: pointer;
+
+}
+
+.business-capability-child-name:hover,
+.business-capability-child-name:focus-visible {
+
+    text-decoration-color: currentColor;
+
+    text-shadow: var(--hover-bold);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.business-capability-child-name:focus-visible {
+
+    outline: 2px solid var(--focus-ring-ink);
+    outline-offset: 2px;
+
+}
+
+/* A FROZEN (finished) activity: nothing in it answers the pointer; its fields are flat, in the grey of everything completed (4.5:1 on that
+   ground). Only the Completed tick is the card's own. */
+.business-capability-activity[data-frozen] .business-capability-frozen :disabled {
+
+    cursor: default;
+
+}
+
+.business-capability-activity[data-frozen] .business-capability-automatic {
+
+    color: var(--text-completed-ink);
+
+}
+
+.business-capability-activity[data-frozen] .business-capability-frozen :is(.interview-input, .option-picker-trigger):disabled {
+
+    background-color: var(--bg-completed-ground);
+
+    color: var(--text-completed-ink);
+
+    -webkit-text-fill-color: var(--text-completed-ink);
+
+    opacity: 1;
+
+}
+
+.business-capability-activity[data-frozen] .business-capability-frozen :is(.strategy-box-remove, .plus-box):disabled {
+
+    opacity: 1;
+
+    color: var(--text-completed-ink);
+
+}
+
+.business-capability-activity[data-frozen] .business-capability-frozen .plus-box:disabled {
+
+    --plus-fill: var(--text-completed-ink);
+    --plus-ground: var(--bg-completed-ground);
+
+}
+
+
+/* ==========================================================
+   THE HEAD OF AN OPENED CARD (Resource, Activity, Partner, Provider; in a dialog or floating): [number] [name cell] [x]. The arrow that
+   once stood before the number is gone, so the number starts at the card's content edge (no indent of its own: left-aligned, as wide as
+   its digits) and the name cell takes the rest. The number and the x are centred on the name cell's FIRST line (a box as high as the
+   one-line name cell, --card-name-line) and keep that place when the name wraps: the cell grows downward only.
+========================================================== */
+.card-box-open .strategy-box-head {
+
+    --card-name-line: 44.3px;
+
+    align-items: flex-start;
+
+    gap: var(--gap-8);
+
+}
+
+.card-box-open .strategy-box-head > .strategy-box-number {
+
+    display: flex;
+
+    align-items: center;
+
+    min-width: 0;
+    height: var(--card-name-line);
+
+}
+
+.card-box-open .strategy-box-head > .strategy-box-number > .list-number {
+
+    min-width: 0;
+
+    text-align: left;
+
+    font-variant-numeric: tabular-nums;
+
+}
+
+.card-box-open .strategy-box-head > .strategy-box-remove {
+
+    flex: none;
+
+    margin-top: calc((var(--card-name-line) - 32px) / 2);
+
+}
+
+/* A CARD A CUSTOMER CHANNEL MADE (auto-generated): no name cell and no x -- its name is plain text at the name column's left edge, its first line on the
+   number's centre line (the number is centred in the one-line name cell's height), a long name wrapping downward. */
+.card-box-open > .business-capability-slot:not(.delivery-card) .strategy-box-head > .strategy-name-static {
+
+    min-width: 0;
+
+    padding: calc((var(--card-name-line, 44.3px) - 1lh) / 2) 0;
+
+    overflow-wrap: anywhere;
+
+}
+
+/* A DELIVERY CARD'S ORDER NUMBER stands at the card's padding edge (12px in), as every other card's marker does: it was held in a 44px box (the
+   old minimum that kept the name from shifting), right-aligned, which left an empty space before it in the dialog. Nothing else of the card changes. */
+.delivery-card .strategy-box-head > .strategy-box-number {
+
+    min-width: 0;
+
+}
+
+.delivery-card .strategy-box-head > .strategy-box-number > .list-number {
+
+    min-width: 0;
+
+    text-align: left;
+
+}
+
+/* ==========================================================
+   THE OPENED CARD'S COLUMNS (Resource, Activity, Partner, Provider; layout-rules 5a): three columns -- the MARKER (the number, as wide as its
+   digits), the CONTENT (the name cell and everything under it) and the x (32px), the markers' and the x's column 8px from the content.
+   The head is [number] [name cell] [x]; EVERYTHING under it starts at the name cell's LEFT edge and ends at its RIGHT edge (the marker
+   and the x columns stay empty under it), except what belongs to the x's column (an Activity's "+" / x beside a performer), which stands in it.
+   Nothing clips: a field that wants more than the column takes ellipsis (a picker) or wraps (a text).
+========================================================== */
+.card-box-open > .business-capability-slot {
+
+    --card-x-column: 32px;
+    --card-marker-gap: 8px;
+    /* THE MARKER COLUMN is always as wide as a two-digit number ("99."), so every card's content is the same width whatever its number: "1." and "11." alike. */
+    --card-marker-col: 32px;
+
+    display: grid;
+
+    grid-template-columns: minmax(var(--card-marker-col), max-content) minmax(0, 1fr) var(--card-x-column);
+    column-gap: var(--card-marker-gap);
+    row-gap: var(--space-field);
+
+    align-content: start;
+
+}
+
+.card-box-open > .business-capability-slot > *,
+.card-box-open > .business-capability-slot > .business-capability-frozen > * {
+
+    grid-column: 2;
+
+    min-width: 0;
+
+}
+
+.card-box-open > .business-capability-slot > .strategy-box-head,
+.card-box-open > .business-capability-slot > .business-capability-frozen > .strategy-box-head {
+
+    display: grid;
+
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+
+    column-gap: var(--card-marker-gap);
+
+}
+
+/* An Activity's stack of pickers: its own columns -- label, picker, and the x's place -- over the content and the x columns. */
+.card-box-open > .business-capability-slot:not(.delivery-card) .business-capability-stack.business-capability-activity-fields {
+
+    --stack-x-column: calc(var(--card-x-column) + var(--card-marker-gap) - var(--space-cell));
+
+    grid-column: 2 / -1;
+    grid-template-columns: var(--activity-label-column) minmax(0, 1fr) var(--stack-x-column);
+
+}
+
+/* (A stack with no Performer list, the Responsible's, has no x: it ends at the content column's edge, the name cell's.) */
+.card-box-open > .business-capability-slot:not(.delivery-card) .business-capability-stack.business-capability-activity-fields:not(:has(.business-capability-performers)) {
+
+    grid-column: 2;
+    grid-template-columns: var(--activity-label-column) minmax(0, 1fr);
+
+}
+
+/* (What is not a picker row ends at the content column's edge, the name cell's.) */
+.card-box-open .business-capability-activity-fields > .business-foundation-field:not(.business-field-inline) {
+
+    grid-column: 1 / 3;
+
+}
+
+.card-box-open .business-capability-activity-fields > .business-field-inline > .business-capability-performers {
+
+    grid-column: 2 / -1;
+
+}
+
+/* ==========================================================
+   A COMPLETED ACTIVITY'S CARD IS GREY wherever it is opened (a card box of the Completed box, the Completed tile's list, a category's
+   finished ones): the Completed tint for its ground and edge, the muted grey for its text (4.5:1 on that ground).
+========================================================== */
+.business-capability-activity.business-capability-activity-completed {
+
+    border-color: var(--line-completed);
+
+    background: var(--bg-completed-card);
+
+    --x-ground: var(--bg-completed-card);
+
+    --label-color: var(--text-muted);
+    --accent-ink: var(--text-completed-ink);
+    --accent-line: var(--line-completed);
+    --accent-ground: var(--bg-completed-ground);
+    --accent-ground-hover: var(--bg-completed-hover);
+    --accent-hover-ink: var(--text-completed-ink);
+
+}
+
+/* ==========================================================
+   THE STACK OF A FLOATING CARD: each card has the name of its box (the tile it belongs to: "Operational", "Providers", "Workspace") centred
+   ABOVE it as a plain title -- on the backdrop, outside the card, not in a cell -- 12px over it; a pair (a parent and its child) is two such
+   items one above the other, the PARENT first, 12px apart, on one centre line.
+========================================================== */
+.floating-card-host.floating-card-host {
+
+    width: fit-content;
+
+    align-items: center;
+
+}
+
+.floating-card-stack {
+
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+
+    gap: var(--space-card);
+
+}
+
+.floating-card-item {
+
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+
+    gap: var(--space-card);
+
+}
+
+.floating-card-caption {
+
+    max-width: min(var(--open-card-width), calc(100vw - 16px));
+
+    font-size: var(--font-h3);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+    text-align: center;
+
+    color: var(--floating-caption-ink);
+
+    overflow-wrap: anywhere;
+
+}
+
+.floating-card-back {
+
+    align-self: flex-start;
+
+}
+
+/* ==========================================================
+   A STATUS AND THE ACTIVITY IT CREATED (parent -> child). Under the parent's Status ONE line leads to the child: Open Activity “Investigate ...”
+   (the name is the link). When the child holds details of the user's the line is an alarm: under the pointer on the Status cell (the picker) it
+   turns bold (a text-shadow, so no letter moves). The child's card has no name cell: its name, as plain text, is the link to the parent.
+========================================================== */
+.business-capability-alarm,
+.business-capability-activity-line {
+
+    margin: 0;
+
+    font-size: var(--font-body);
+    line-height: 1.5;
+
+    color: var(--text-default);
+
+    text-shadow: 0 0 0 transparent;
+
+    transition: text-shadow .15s ease;
+
+}
+
+.business-foundation-field:has(.option-picker:hover) + .business-capability-alarm,
+.business-capability-alarm:hover {
+
+    text-shadow: var(--hover-bold);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.business-capability-link {
+
+    padding: 0;
+
+    border: 0;
+    border-radius: 2px;
+
+    background: none;
+
+    color: var(--text-primary);
+
+    font: inherit;
+
+    text-decoration: underline;
+    text-underline-offset: 3px;
+
+    cursor: pointer;
+
+}
+
+.business-capability-link:hover {
+
+    text-shadow: var(--hover-bold);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.business-capability-link:focus-visible {
+
+    outline: 2px solid var(--focus-ring-ink);
+    outline-offset: 2px;
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .business-capability-alarm,
+    .business-capability-activity-line {
+
+        transition: none;
+
+    }
+
+}
+
+@container cost-fields (max-width: 357.98px) {
+
+    .business-capability-cost-row {
+
+        grid-template-columns: minmax(0, 1fr) var(--space-cell) max-content;
+
+        row-gap: var(--space-field);
+
+    }
+
+    .business-capability-cost-grid-quantity .business-capability-cost-row {
+
+        grid-template-columns: var(--qty-w) var(--space-cell) minmax(0, 1fr) var(--space-cell) max-content;
+
+    }
+
+    .business-capability-cost-row > .business-foundation-field:nth-child(3) { grid-column: 1 / -1; justify-self: start; }
+    .business-capability-cost-grid-quantity .business-capability-cost-row > .business-foundation-field:nth-child(4) { grid-column: 1 / -1; justify-self: start; }
+
+}
+
+/* A stack taller than the room under its top (the footer's) scrolls in itself -- the captions and the cards -- and the Back button stays in view
+   under it, never over a card. (The side padding leaves the cards' drop shadows room inside the scroller.) */
+.floating-card-host[data-tall] .floating-card-stack {
+
+    min-height: 0;
+
+    margin: 0 -28px;
+    padding: 0 28px;
+
+    overflow-y: auto;
+
+    overscroll-behavior: contain;
+
+}
+
+.floating-card-host[data-tall] .floating-card-back {
+
+    flex: none;
+
+}
+
+/* THE SECTION'S HELP DROP-DOWN (1. Infrastructure, 2. Offering's Capability; CardTitleHelp): exactly 480px wide (the card's width where that is less),
+   centred under the title row as it was. */
+.answer-columns.business-capability .card-title-block > .card-title-help {
+
+    --help-width: 480px;
+
+    left: 50%;
+    right: auto;
+
+    width: min(var(--help-width), 100%);
+
+    transform: translateX(-50%);
+
+}
+

@@ -10,6 +10,7 @@
  */
 import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { compareWithBaseline, lintStyles, toBaseline } from "./styles.ts";
+import { expandImports } from "./css-imports.ts";
 
 const styles = new URL("../../src/styles/", import.meta.url);
 const baselineUrl = new URL("./styles-baseline.json", import.meta.url);
@@ -17,7 +18,7 @@ const baselineUrl = new URL("./styles-baseline.json", import.meta.url);
 const files = readdirSync(styles)
     .filter(name => name.endsWith(".css"))
     .sort()
-    .map(name => ({ name, text: readFileSync(new URL(name, styles), "utf8").replace(/\r\n/g, "\n") }));
+    .map(name => ({ name, text: expandImports(readFileSync(new URL(name, styles), "utf8").replace(/\r\n/g, "\n"), path => readFileSync(new URL(path, styles), "utf8")) }));
 const findings = lintStyles(files);
 
 if (process.argv.includes("--write-baseline")) {

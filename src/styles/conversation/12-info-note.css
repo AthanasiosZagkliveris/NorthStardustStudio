@@ -1,0 +1,575 @@
+/* ==========================================================
+   The "i" note
+
+   A label, and the button that explains it sitting immediately
+   after the words rather than at the far edge -- the opposite of
+   the remove × below, which belongs to the FIELD and lines up
+   with its right-hand end. This belongs to the label, so it stays
+   attached to it.
+========================================================== */
+
+/* A label and the "i" that explains it.
+
+   The icon FLOWS WITH THE WORDS rather than sitting beside the
+   label as its own column. A flex row put it after the label's
+   BOX, which for a label that wraps means level with the middle
+   of two lines and far from the last word -- what happened to
+   "Prioritise Insights and Differentiate". Inline, it follows
+   "Differentiate" itself, wherever that word ends up.
+
+   One rule for both pages, so the distance is the same wherever
+   an "i" appears. */
+.legal-entity-label-info,
+.business-foundation-label-info{
+
+    display:block;
+
+    min-width:0;
+
+}
+
+/* The label itself stops being a block so the icon can sit on
+   the end of its last line. A subhead can carry an "i" the same
+   way -- the Value Proposition asks its whole question under its
+   title, so the title is what the "i" belongs to. */
+.legal-entity-label-info > .legal-entity-label,
+.business-foundation-label-info > .business-foundation-label,
+.business-foundation-label-info > .business-foundation-subhead{
+
+    display:inline;
+
+}
+
+/* A frozen field's hint ("Choose a country first.") stands NEXT TO its
+   label on the label's own line, right of the label and its "i", in the
+   small hint style -- not on a line of its own, so the label-to-box gap
+   stays the standard 6px and the box does not move. */
+.legal-entity-label .field-status,
+.legal-entity-label .field-status-line{
+
+    display:inline-flex;
+
+    margin:0 0 0 12px;
+
+    vertical-align:middle;
+
+}
+
+/* ONE GAP FOR EVERY "i": 8px from the word it explains, whatever
+   holds it -- a label, a subhead, a sentence, a tile, a result pill.
+   On the note itself, so no container's own gap or spacing decides
+   it; containers leave the "i" to this rule (see InfoText, which
+   glues it to its last word). On the text's own middle when it sits
+   in a line of words. */
+.info-note{
+
+    position:relative;
+
+    display:inline-flex;
+
+    flex:0 0 auto;
+
+    vertical-align:middle;
+
+    margin-left:var(--info-gap, 6px);
+
+}
+
+/* The last word of a label and its "i", which never part (see
+   InfoText). */
+.info-note-glue{
+
+    white-space:nowrap;
+
+}
+
+/* AN "i" ON ITS WORDS' CENTRE LINE: from the top of the line, down by
+   half of what the line has over the 24px button, so its middle is
+   the line's -- where the words' middle is, whatever the line height. */
+.info-note-glue > .info-note,
+.business-engagement-reference-name-row > span > .info-note{
+
+    vertical-align:top;
+
+    margin-top:calc((1lh - 24px) / 2);
+
+}
+
+.info-note-button{
+
+    width:24px;
+    height:24px;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:0;
+
+    border:1px solid var(--line-primary);
+    border-radius:50%;
+
+    background:var(--bg-surface);
+
+    /* #0b57d0 on white is 6.4:1. */
+    color:var(--text-primary);
+
+    font:inherit;
+    font-size:var(--font-small);
+    font-weight:700;
+    font-style:italic;
+    line-height:1;
+
+    /* The app's buttons track at 10%; a single letter in a disc
+       would sit off-centre under it. */
+    letter-spacing:normal;
+
+    /* It sits inside its label now (see InfoText), and some labels
+       are set in capitals: the letter stays an "i". */
+    text-transform:none;
+
+    cursor:pointer;
+
+    transition:background-color .15s ease, color .15s ease;
+
+}
+
+/* 22px is under the 24px SC 2.5.8 asks of a target, so the button
+   claims the rest as invisible padding rather than growing the
+   disc and pushing the label's line taller. */
+/* An "i" that follows a tick box's label in a label row stands on the row's centre line: the tick, its words, the "i" and the cell beside them share one middle (the middle alignment leaves the disc 1.5px under it). */
+.business-foundation-label-info > .info-note{
+    position:relative;
+    top:-1.5px;
+}
+.info-note-button::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:50%;
+    left:50%;
+
+    width:24px;
+    height:24px;
+
+    transform:translate(-50%, -50%);
+
+}
+
+.info-note-button:hover{
+
+    background:var(--bg-primary);
+
+    color:var(--text-on-fill);
+
+}
+
+.info-note-button:focus-visible{
+
+    outline:none;
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
+
+}
+
+/* Floated over the page for the reason every other panel here is:
+   the fields are already laid out, and asking what a label means
+   should not move what is under it. */
+.info-note-panel{
+
+    position:absolute;
+
+    top:100%;
+    left:0;
+
+    z-index:30;
+
+    /* A floating panel keeps ITS OWN typography, whatever it
+       opens from. It can open from anywhere on the page, so it
+       is the panel that has to say no to what it inherits.
+
+       text-indent, because these open from inside bulleted
+       instruction lines, which hang their wrapped text with
+       padding-left:1.15em/text-indent:-1.15em -- the panel
+       inherited that negative indent and pulled its own first
+       line ~20px left, out through its own border.
+
+       text-transform, because the Value Proposition's title is
+       set in capitals and its note opens from that title -- so
+       the note came out shouting a paragraph.
+
+       font-weight and letter-spacing, because the Channels table's
+       notes open from its COLUMN HEADINGS, which are bold and
+       tracked out 5% -- so those two notes came out bold and
+       spaced while every other note on the page was neither. A
+       note is body text wherever it is opened from; the bold
+       inside it belongs to the <strong> that names a point. */
+    text-indent:0;
+
+    text-transform:none;
+
+    font-weight:400;
+
+    letter-spacing:normal;
+
+    /* One width for every note, long or short, so the panels
+       read as the same thing wherever an "i" is opened.
+
+       Not max-content: box-sizing is border-box here, so sizing to
+       the text made the BORDER box the width of the words and left
+       the padding nowhere to go -- which is what pushed the first
+       word out through the left edge. */
+    width:360px;
+    max-width:calc(100vw - 24px);
+
+    margin-top:6px;
+
+    padding:12px 14px;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-surface);
+
+    box-shadow:0 8px 24px var(--shadow-ink-16);
+
+
+    /* Its text always wraps inside it, even where the label it belongs
+       to is kept on one line (the Revenue Stream and Demand cards). */
+    white-space:normal;
+
+}
+
+/* The wide note (InfoNote size="wide"): 1.5 times the one width, for
+   the Customer Channel categories and channels -- still inside the
+   window. */
+.info-note-panel.info-note-panel-wide{
+
+    width:540px;
+
+}
+
+.info-note-panel:focus-visible{
+
+    outline:none;
+
+    box-shadow:0 8px 24px var(--shadow-ink-16),
+        0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
+
+}
+
+/* An ordinary list, deliberately NOT a flex column.
+
+   Flex blockifies every item and takes the markers out of normal
+   list layout, which drew each bullet over the first letter of its
+   own line instead of in the margin beside it. Normal flow puts
+   them back where a list marker belongs; the spacing between
+   points comes from the items own margin. */
+.info-note-points{
+
+    margin:0;
+
+    padding:0 0 0 20px;
+
+}
+
+.info-note-points li + li{
+
+    margin-top:8px;
+
+}
+
+/* A note with one thing to say is that thing, not a list of one.
+   A single bullet floating beside a single sentence is a list
+   pretending to be longer than it is. */
+.info-note-single{
+
+    margin:0;
+
+    font-size:var(--font-body);
+    line-height:1.45;
+
+    color:var(--text-secondary);
+
+    letter-spacing:normal;
+
+}
+
+/* The name of a parameter, ahead of the question behind it. Bold
+   so five of them can be scanned rather than read, and tracked at
+   5% like every other bold run in the app -- bold sets tighter
+   than regular at the same size. */
+.info-note-point-title{
+
+    font-weight:700;
+
+    letter-spacing:0.05em;
+
+    color:var(--text-default);
+
+}
+
+.info-note-points li{
+
+    font-size:var(--font-body);
+    line-height:1.45;
+
+    /* #374151 on white is 10.3:1. */
+    color:var(--text-secondary);
+
+    letter-spacing:normal;
+
+}
+
+/* A NOTE WHOSE CONTENT WAS READ RATHER THAN WRITTEN -- see
+   InfoNote's `asReference`.
+
+   Not a list of footnotes but a set of named sections, drawn the
+   way the same sections were drawn when they sat in the table's
+   own column: the heading on its own line, underlined, and what is
+   recorded under it beneath. No bullets, because a heading with an
+   answer under it is not an item in a list of points. */
+.info-note-points-reference{
+
+    list-style:none;
+
+    padding-left:0;
+
+}
+
+.info-note-points-reference li + li{
+
+    margin-top:12px;
+
+}
+
+.info-note-point-heading{
+
+    display:block;
+
+    font-size:var(--font-body);
+    font-weight:700;
+
+    letter-spacing:0.05em;
+
+    line-height:24px;
+
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+
+    text-decoration:underline;
+    text-underline-offset:3px;
+
+}
+
+/* WHAT WAS WRITTEN AS A LIST STAYS A LIST: a Page 1 box holding
+   one item a line reads as one here too. */
+.info-note-point-text,
+.info-note-pre-line{
+
+    margin:4px 0 0;
+
+    white-space:pre-line;
+
+    font-size:var(--font-body);
+    line-height:1.45;
+
+    /* #374151 on white is 10.3:1. */
+    color:var(--text-secondary);
+
+    letter-spacing:normal;
+
+}
+
+/* The capital tick and the "i" that explains it, on one line, 8px
+   apart by the "i"'s own rule (see .info-note), not a gap of the
+   row's. */
+.legal-entity-switch-row{
+
+    display:flex;
+
+    align-items:flex-start;
+
+}
+
+/* Its "i" (outside the label, so its note never toggles the tick) on
+   the first line of the words: that line is the label's 1.5 line. */
+.legal-entity-switch-row > .info-note{
+
+    margin-top:calc((var(--font-body) * 1.5 - 24px) / 2);
+
+}
+
+/* An optional field the user opened: its label, and at the end of
+   the same line the × that sends it away again. Pushed to the
+   far edge rather than sitting beside the words, so it lines up
+   with the right edge of the field under it and with the delete
+   buttons on the cards -- which is where this page has taught the
+   eye to look for a remove. */
+.legal-entity-label-row{
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    gap:var(--gap-12);
+
+    min-width:0;
+
+}
+
+/* The box, glyph, hover, focus and disabled states are the app's
+   delete button (see "Delete controls"): the same × as every other
+   remove. This positions its two strokes. */
+.legal-entity-field-remove{
+
+    position:relative;
+
+}
+
+/* 1. A picker filled its widest OPTION, not its cell. Country
+   stopped 106px short of the Organisation Name above it, Type
+   177px short, and Frequency sat at 110px beside a 290px Cost --
+   so a column of fields had three right edges.
+
+   The intrinsic width exists so the button never resizes as the
+   value changes (see `.option-picker .option-picker-trigger`).
+   Filling the cell keeps that promise and squares the column:
+   the cell does not change width either. Scoped to this page,
+   since a picker inline in a Strategy Metric row still wants to
+   be as wide as its content and no wider. */
+.legal-entity .option-picker .option-picker-trigger,
+.business-foundation .option-picker .option-picker-trigger{
+
+    display:grid;
+
+    width:100%;
+
+}
+
+/* 2. The native date control carries two pixels of its own, which
+   showed the moment Formation Date was put beside Registration
+   Authority: two fields on one row, 47px and 45px. */
+.legal-entity input[type="date"].interview-input{
+
+    height:var(--card-cell-height);
+
+}
+
+/* 3. The founder table never stacked. Its 150px Ownership column
+   held its width while the flexible ones gave up theirs, so on a
+   narrow window Name and Role fell to 50px, then to 22px -- a
+   field with room for no characters at all.
+
+   Below 700px each founder becomes a block of labelled fields
+   instead, which is where a four-column table was always going
+   to end up. The inline labels below replace the column heads,
+   and above 700px they are not generated at all -- so the row
+   still holds exactly its cells and its subgrid still lines up
+   with the heads. */
+.legal-entity-founder-label{
+
+    display:none;
+
+}
+
+@media (max-width: 700px){
+
+    .legal-entity-founders{
+
+        grid-template-columns:minmax(0, 1fr);
+
+        row-gap:var(--gap-12);
+
+    }
+
+    .legal-entity-founders .legal-entity-column-head{
+
+        display:none;
+
+    }
+
+    .legal-entity-founder-row{
+
+        grid-template-columns:minmax(0, 1fr) 32px;
+
+        align-items:start;
+
+        gap:var(--gap-6) var(--gap-12);
+
+        padding:12px;
+
+        border:1px solid var(--line-card);
+        border-radius:var(--radius-lg);
+
+        background:var(--bg-surface);
+
+    }
+
+    .legal-entity-founder-label{
+
+        display:block;
+
+        font-size:var(--font-body);
+        font-weight:400;
+
+        line-height:var(--label-line);
+
+        color:var(--label-color);
+
+    }
+
+    /* The delete button's cell steps out of the way here, so the
+       button becomes an item of the row's own grid again, and the
+       rules below can place it where a stack wants it rather than
+       where a table did. */
+    .legal-entity-founder-end{
+
+        display:contents;
+
+    }
+
+    /* The label and its field take the first column; the delete
+       button keeps the second, beside the first label. */
+    .legal-entity-founder-row .interview-input,
+    .legal-entity-founder-row .legal-entity-founder-label{
+
+        grid-column:1;
+
+    }
+
+    /* Each figure under its own label, from the left, at its step. */
+    .legal-entity-founder-row > .interview-input[inputmode="decimal"]{
+
+        justify-self:start;
+
+        width:var(--control-xs);
+
+    }
+
+    .legal-entity-founders-capital .legal-entity-founder-row > .interview-input[inputmode="decimal"]:last-of-type{
+
+        width:var(--control-code);
+
+    }
+
+    .legal-entity-founder-row .strategy-box-remove{
+
+        grid-column:2;
+        grid-row:1;
+
+    }
+
+    /* No columns left to centre in: here each number sits under a
+       label of its own at the left margin, and a centred value
+       would read as adrift from it. */
+    .legal-entity-founders .legal-entity-column-centre{
+
+        text-align:left;
+
+    }
+
+}
+

@@ -1,0 +1,1105 @@
+/* ---------- Colour: each section in its own hue ----------
+
+   The earlier Business pages tell their cards apart by colour --
+   every card on its hue at 96%, the cards inside it at 92% (see
+   .business-foundation > .business-foundation-input). The Financial
+   pages' sections carry a hue each (SECTION_HUES in the two
+   editors), and here every surface inside a section takes it:
+
+     the section                        96%
+       rows, cards, tiles, signals      92%
+         tables, the chart, the loan    98%  -- the lightest, so the
+                                               figures and the chart's
+                                               series read on it as
+                                               they do on white
+
+   Pinned to the same saturation and lightness as the earlier pages,
+   which keeps body text above 15:1 on every hue.
+
+   Written against .financial-section, not as a child of the page,
+   because Page 4's sections sit inside a flow step (the arrow that
+   joins them) and the earlier pages' child selector does not reach
+   them. */
+.financial-page .financial-section{
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+    --glow-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+
+}
+
+.financial-section .financial-tile,
+.financial-section .financial-signal{
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-soft));
+
+}
+
+.financial-section .financial-headline{
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    border-top-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-soft));
+    border-right-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-soft));
+    border-bottom-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-soft));
+
+}
+
+/* The headline's left edge says good or bad; a neutral one takes
+   the section's own colour. */
+.financial-section .financial-headline-neutral{
+
+    border-left-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+}
+
+.financial-section .financial-table,
+.financial-section .financial-chart,
+.financial-section .financial-loan-summary{
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+.financial-section .financial-table th,
+.financial-section .financial-table td,
+.financial-section .financial-obligations > li{
+
+    border-bottom-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-rule-light));
+
+}
+
+.financial-section .financial-meter{
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-meter)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+/* Headings inside a section in its own darker shade, as a
+   subsection heading is on Infrastructure & Capability. */
+.financial-section .financial-tile-label,
+.financial-section .financial-table thead th{
+
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink-deep));
+
+}
+
+/* ---------- Sustainability: break-even activity ---------- */
+
+/* Break-even activity: one Offering a line. */
+.financial-activity-list{
+
+    margin:4px 0 0;
+
+    padding-left:20px;
+
+}
+
+.financial-activity-list > li + li{
+
+    margin-top:2px;
+
+}
+
+/* In a table cell, the list sits flush with the figures, one line
+   each and no bullets: a right-aligned cell leaves a bullet stranded
+   far from its line. */
+.financial-table td > .financial-activity-list{
+
+    margin:0;
+
+    padding-left:0;
+
+    list-style:none;
+
+    white-space:normal;
+
+}
+
+/* A STRATEGY CARD'S HEAD BUTTONS: a cell gap (12px) after the "i" -- the head's own gap is already 12px -- a cell gap apart, the
+   last at the card's side margin. */
+:is(.strategy-theme-box, .strategy-goal-box, .strategy-objective-box, .strategy-metric-box) > .strategy-box-head > .strategy-box-actions{
+
+    padding-left:0;
+
+}
+
+/* A METRIC'S x UNDER ITS OBJECTIVE'S FILTER BUTTON: the Metric box ends
+   one action, and its gap, before the Objective's edge, less its own
+   padding and edge. */
+.strategy-objective-columns > :nth-child(2) .strategy-metric-box:not(.strategy-initiatives-box){
+
+    margin-right:calc(32px + var(--space-cell) - var(--card-padding) - 1px);
+
+}
+
+/* A METRIC'S BODY STARTS WHERE ITS NUMBER STARTS (number-left =
+   body-left): after the grip (24px) and the head's 8px gap. */
+.strategy-metric-box:not(.strategy-initiatives-box) > :not(.strategy-box-head){
+
+    margin-left:calc(24px + 8px);
+
+}
+
+/* Stacked (one column), the Description and the period a field apart. */
+.strategy-objective-columns.strategy-objective-top{
+
+    row-gap:var(--space-field);
+
+}
+
+/* THE PERIOD AND WHO SEES IT THROUGH, beside the Description, from the
+   Metric column's left edge: "Start [month]" over "End [month]" (the
+   Strategic Period's pair, the S step each), and under them -- only where
+   there are several founders -- "Responsible", the Capability cards' own
+   side-label row (.business-field-side: the label in --side-label-short,
+   --side-label-gap, the hugging dropdown, one centre line). "Start" stands
+   on the Description label's line (the label set down by half of what a box
+   has over that line). */
+.strategy-objective-when{
+
+    display:grid;
+
+    grid-template-columns:auto;
+
+    align-items:center;
+
+    justify-content:start;
+
+    gap:var(--space-field) var(--side-label-gap);
+
+    min-width:0;
+
+}
+
+/* Beside the Description (two columns): the Start box a head gap under
+   the head, as every card's first row, and the Description's label set
+   down onto the Start box's centre line (half of what a box has over a
+   label's line). */
+@media (min-width: 900.02px){
+
+    .strategy-objective-columns.strategy-objective-top > :first-child{
+
+        margin-top:calc((var(--control-square) - var(--font-body) * 1.5) / 2);
+
+    }
+
+}
+
+/* A source or a Page 3 link inside a cost row: a plain small line,
+   not a button's spaced-out capitals. */
+.financial-cost-link{
+
+    font-size:var(--font-body);
+    line-height:1.3;
+
+    letter-spacing:normal;
+
+}
+
+.financial-cost-note{
+
+    margin:0;
+
+    font-size:var(--font-body);
+
+}
+
+/* ---------- A label beside its control ----------
+
+   A short single-value answer (a quantity, a price, one choice, a
+   shown value) reads better on one line with its label than
+   stacked under it. Every such label takes the app's one side-label
+   column (--side-label-column, global.css), so the controls line
+   up, and sits on the control's FIRST line of text: baselines, not
+   centres, so a label beside a tall control stays on its first
+   line. Anything after the control (a total, a note) stays in the
+   control's column. */
+.business-field-inline{
+
+    display:grid;
+
+    grid-template-columns:var(--side-label-column) minmax(0, 1fr);
+
+    align-items:baseline;
+
+    gap:var(--space-label) var(--side-label-gap);
+
+}
+
+.business-field-inline > :not(:first-child){
+
+    grid-column:2;
+
+}
+
+/* In a narrow card (under 600px, see "A NARROW CARD" in global.css)
+   every label goes above its field. */
+@container card (max-width: 599px){
+
+    .business-field-inline,
+    .strategy-metric-field{
+
+        grid-template-columns:minmax(0, 1fr);
+
+        row-gap:var(--space-label);
+
+    }
+
+    .business-field-inline > :not(:first-child),
+    .strategy-metric-field > :not(:first-child){
+
+        grid-column:1;
+
+    }
+
+}
+
+/* A COMPACT SIDE LABEL: a short label ("Role") beside its one
+   control, the label only as wide as its words -- so it stays beside
+   the control in a narrow card too, down to 280px, where the side-
+   label column above would have put it on top. Its own run
+   (.business-field-run-compact). */
+@container card (min-width: 280px){
+
+    .business-field-run-compact > .business-field-inline{
+
+        grid-template-columns:auto minmax(0, 1fr);
+
+        row-gap:var(--space-label);
+
+    }
+
+    .business-field-run-compact > .business-field-inline > :not(:first-child){
+
+        grid-column:2;
+
+    }
+
+}
+
+/* ONE LABEL PLACEMENT AMONG FIELDS THAT BELONG TOGETHER. A label
+   beside its field is for a run of short single values that all take
+   it (a Founder's Salary and Hours); among fields whose labels are
+   above -- a Performer with its + Add, a Linked to list, a
+   Description -- one side label reads as an odd one out, its value
+   stranded far to the right. So where a field with its label above
+   shares a card, or a run of fields, with side-labelled ones, those
+   take their labels above too. Side labels stay only on a run of
+   short single values that ALL take them, held in a parent of their
+   own marked .business-field-run (a Founder's Salary and Hours) --
+   there they line up on the one side-label column. */
+:is(:has(> .fold-card-head):has(.business-foundation-field:not(.business-field-inline)) .business-field-inline:not(.business-field-run *),
+:has(> .business-foundation-field:not(.business-field-inline)) > .business-field-inline){
+
+    grid-template-columns:minmax(0, 1fr);
+
+    row-gap:var(--space-label);
+
+}
+
+:is(:has(> .fold-card-head):has(.business-foundation-field:not(.business-field-inline)) .business-field-inline:not(.business-field-run *),
+:has(> .business-foundation-field:not(.business-field-inline)) > .business-field-inline) > :not(:first-child){
+
+    grid-column:1;
+
+}
+
+/*
+    CAPITAL & FUNDING (Financial Foundation): Internal, External and
+    Other each across the section, their sources side by side. A
+    source's terms are rows of short figures, labels above, two or
+    three to a row, as every row of figures in the Business System.
+*/
+.financial-funding-categories{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+.financial-funding-category{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:10px;
+
+}
+
+.financial-funding-cards{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit, minmax(440px, 1fr));
+
+    gap:var(--space-card) 24px;
+
+    align-items:start;
+
+    width:100%;
+
+}
+
+@media (max-width:640px){
+
+    .financial-funding-cards{ grid-template-columns:minmax(0, 1fr); }
+
+}
+
+/* A source's details, and a loan's terms: one grid each, the rows
+   dissolved into it, so the fields flow across the card's width. */
+.financial-funding-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+
+    gap:var(--gap-12) var(--gap-16);
+
+    align-items:start;
+
+}
+
+.financial-funding-grid > .business-capability-row{
+
+    display:contents;
+
+}
+
+/* A funding source card's fields are this grid's cells, paired left
+   then right in its columns (Funding Schedule beside Expected, under
+   Funding Type and Total Amount); the standing line and a list of
+   milestones take a row of their own. */
+.financial-funding-grid > .financial-standing,
+.financial-funding-grid > .financial-funding-wide{
+
+    grid-column:1 / -1;
+
+}
+
+.business-field-inline .business-capability-total{
+
+    margin:0;
+
+}
+
+/* A currency is three capitals: its picker as narrow as that. */
+.business-capability-price > .option-picker .option-picker-trigger{
+
+    width:auto;
+
+    min-width:0;
+
+}
+
+.business-capability-stack{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    min-width:0;
+
+}
+
+/* An Activity's Performer (its list and "+ Add Performer") and its
+   Responsibility, side by side in the card's two columns, tops level;
+   one under the other where the card is under 600px wide. The card is
+   the container measured, so the rule is the same in every list. */
+.business-capability-activity{
+
+    container:activity-card / inline-size;
+
+}
+
+.business-capability-stack.business-capability-activity-fields{
+
+    display:grid;
+
+    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
+
+    column-gap:var(--space-cell);
+    row-gap:var(--space-field);
+
+    align-items:start;
+
+}
+
+@container activity-card (max-width: 600px){
+
+    .business-capability-stack.business-capability-activity-fields{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+}
+
+/* ---------- A cost's fields ----------
+
+   A resource at Costs, a provider, a professional or partner: the
+   fields sit on the card's column grid, so every edge lines up with
+   the controls above and below. A column is one standard control
+   wide (--control-s, the Responsibility picker's width), the second
+   starting 24px after it:
+
+     Responsibility
+     Price [currency]      Frequency
+
+   The Price and its compact currency together are exactly one
+   column wide. A resource's Quantity | Price | currency row spans
+   BOTH columns -- one column could not hold three controls -- so its
+   left edge is column 1's and its right edge column 2's, with
+   Frequency under it in column 1.
+
+   Where the fields have less than the two columns (464px, a container
+   query on their own box), one column: a control stays one column
+   wide, and the Quantity row takes the whole width. Tops level:
+   labels above, all of them.
+
+   A Founder's pay and time use the same grid (.business-founder-
+   fields), as does any card's pair of fields (.card-field-pairs, a
+   Brand colour's Role | Colour): Salary | Frequency, then Working
+   Hrs | Delivery Hrs --
+   its columns a standard control wide at most, narrower in a narrow
+   card (a Founder card is), so the pairs stay side by side down to
+   300px. */
+.business-capability-costs,
+.business-founder-fields,
+.card-field-pairs{
+
+    container:cost-fields / inline-size;
+
+    min-width:0;
+
+}
+
+.business-capability-cost-grid,
+.business-founder-grid,
+.card-field-pairs-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2, var(--control-s));
+
+    justify-content:start;
+
+    column-gap:var(--space-cell);
+    row-gap:var(--space-field);
+
+    align-items:start;
+
+}
+
+.business-capability-cost-grid > *,
+.business-founder-grid > *,
+.card-field-pairs-grid > *{
+
+    min-width:0;
+
+}
+
+.business-founder-grid,
+.card-field-pairs-grid{
+
+    grid-template-columns:repeat(2, minmax(0, var(--control-s)));
+
+}
+
+/* A Founder's hours take their column's width like the Salary and
+   Frequency above them -- not the short box an hours figure has
+   elsewhere (.delivery-number) -- so each column's controls share
+   both edges. */
+.business-founder-grid .delivery-number.interview-input{
+
+    max-width:none;
+
+}
+
+@container cost-fields (max-width: 299.98px){
+
+    .business-founder-grid,
+    .card-field-pairs-grid{
+
+        grid-template-columns:minmax(0, var(--control-s));
+
+    }
+
+}
+
+@container cost-fields (max-width: 463.98px){
+
+    .business-capability-cost-grid{
+
+        grid-template-columns:minmax(0, var(--control-s));
+
+    }
+
+    .business-capability-cost-grid-quantity{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+    .business-capability-cost-grid-quantity > .business-foundation-field:not(.business-field-side){
+
+        width:min(100%, var(--control-s));
+
+    }
+
+}
+
+/* A PARTNER'S CARD (Partners & Suppliers): the two columns fill
+   the card -- Price with its currency in the first (the price box
+   growing, the currency compact at its right end), Frequency in the
+   second, and the Responsibility under the Price, one column wide,
+   as wide as the Frequency -- so a long founder's name fits. One
+   column under 360px. */
+.business-capability-cost-grid.business-capability-cost-grid-wide{
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+}
+
+.business-capability-cost-grid-wide .business-foundation-field > .business-capability-price,
+.business-capability-cost-grid-wide .business-foundation-field > .option-picker{
+
+    width:100%;
+
+}
+
+@container cost-fields (max-width: 359.98px){
+
+    .business-capability-cost-grid.business-capability-cost-grid-wide{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+}
+
+/* A SHORT SIDE LABEL beside its dropdown (BusinessField side): Frequency in
+   every cost grid (a Resource's, a partner's), Responsibility on a partner's
+   card. The label sits in the one short column (--side-label-short, global.css),
+   then --side-label-gap, then the dropdown (as wide as its longest option);
+   label and dropdown on ONE centre line. The two fields therefore start their
+   dropdowns at the same x. The row spans the grid. Under 340px (the cost
+   fields' own box) the label goes above, as every side label does in a narrow
+   card. */
+.business-field-side{
+
+    display:grid;
+
+    grid-template-columns:var(--side-label-short) minmax(0, 1fr);
+
+    column-gap:var(--side-label-gap);
+    row-gap:var(--space-label);
+
+    align-items:center;
+
+}
+
+.business-field-side > :not(:first-child){
+
+    grid-column:2;
+
+    min-width:0;
+
+}
+
+.business-capability-cost-grid > .business-field-side,
+.business-capability-cost-grid-wide > .business-capability-cost-after{
+
+    grid-column:1 / -1;
+
+}
+
+@container cost-fields (max-width: 339.98px){
+
+    .business-capability-cost-grid .business-field-side{
+
+        grid-template-columns:minmax(0, 1fr);
+
+        align-items:start;
+
+    }
+
+    .business-capability-cost-grid .business-field-side > :not(:first-child){
+
+        grid-column:1;
+
+    }
+
+}
+
+/* Quantity | Price | currency: the Quantity a short number
+   (--control-xs), the Price taking the rest beside its compact
+   currency. */
+
+/* The Price and its currency fill the rest of the row, to column 2's
+   right edge -- not the one step (--control-m) an amount with a
+   currency takes standing alone (global.css). */
+
+/* ---------- Each Offering's costs (Sustainability) ---------- */
+
+.financial-offering-costs{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));
+
+    gap:var(--gap-12);
+
+}
+
+.financial-offering-cost-card{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-8);
+
+    min-width:0;
+
+    /* A card's side margin (--card-padding). */
+    padding:14px var(--card-padding);
+
+    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-light));
+    border-radius:var(--radius-lg);
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-card-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+.financial-offering-cost-name{
+
+    font-size:var(--font-body);
+
+}
+
+.financial-offering-cost-subhead{
+
+    margin-top:4px;
+
+}
+
+.financial-offering-cost-card .financial-cost-inputs > li{
+
+    max-width:none;
+
+}
+
+/* The figure takes what it needs and wraps, rather than pushing
+   past the card's edge ("$2,460 (98% of the price)" beside its
+   label in a narrow card). */
+.financial-offering-cost-card .financial-cost-inputs > li > span:last-child{
+
+    min-width:0;
+
+    text-align:right;
+
+}
+
+.financial-offering-cost-result{
+
+    margin-top:4px;
+
+}
+
+/* ---------- The Funding Need, calculated (Financial Foundation) ---------- */
+
+/* The one-time needs in a row, the Operating need across the whole
+   width under them with its months. Each card is as tall as its own
+   content (the card grids' rule, card-folding.css), and every card
+   has the same title, amount and date lines, so their lists start
+   level. */
+.financial-need-cards{
+
+    display:grid;
+
+    grid-auto-flow:dense;
+
+    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+
+    gap:var(--gap-12);
+
+}
+
+.financial-need-card{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-6);
+
+    min-width:0;
+
+    /* A card's side margin (--card-padding). */
+    padding:14px var(--card-padding);
+
+    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-light));
+    border-radius:var(--radius-lg);
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-card-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+.financial-need-name{
+
+    font-size:var(--font-body);
+
+}
+
+.financial-need-amount{
+
+    font-size:var(--font-h3);
+    font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    color:var(--text-default);
+
+}
+
+.financial-need-card .financial-cost-inputs,
+.financial-need-card > .financial-table-scroll{
+
+    /* The list of costs, or the Operating need's months: one start line. */
+    margin-top:4px;
+
+    font-size:var(--font-body);
+
+}
+
+.financial-need-card .financial-cost-inputs > li{
+
+    max-width:none;
+
+}
+
+.financial-need-card .financial-cost-inputs > li > span:last-child{
+
+    flex-shrink:0;
+
+}
+
+.financial-need-note{
+
+    margin:0;
+
+    font-size:var(--font-body);
+
+}
+
+/* The operating need carries its first year, month by month: the
+   whole width, with the other three needs beside one another below. */
+.financial-need-card-wide{
+
+    grid-column:1 / -1;
+
+}
+
+.financial-need-months td,
+.financial-need-months th{
+
+    white-space:nowrap;
+
+}
+
+.financial-need-months td{
+
+    text-align:right;
+
+}
+
+.financial-need-months tfoot th,
+.financial-need-months tfoot td{
+
+    border-top:2px solid var(--line-quiet);
+
+}
+
+/* ---------- Where a link landed (see jumpTo.ts) ----------
+
+   A card opened from a link on another page glows once, so the eye
+   finds it in a page full of cards. */
+.jump-highlight{
+
+    animation:jump-highlight 1.8s ease-out;
+
+}
+
+@keyframes jump-highlight{
+
+    0%, 35%{ box-shadow:0 0 0 3px var(--line-primary), 0 0 0 7px var(--line-primary-a25); }
+
+    100%{ box-shadow:0 0 0 0 transparent; }
+
+}
+
+@media (prefers-reduced-motion: reduce){
+
+    .jump-highlight{
+
+        animation:none;
+
+        outline:3px solid var(--line-primary);
+        outline-offset:2px;
+
+    }
+
+}
+
+/* ---------- A short form: labels beside answers, several to a line ----------
+
+   A revenue stream's answers are short (a price, a unit, a month), so
+   they sit with their labels beside them, as many to a line as fit:
+   three across a full-width card, fewer as the window narrows. */
+.financial-inline-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit, minmax(min(var(--side-label-row), 100%), 1fr));
+
+    gap:var(--gap-12) 20px;
+
+    align-items:start;
+
+}
+
+/*
+    A REVENUE STREAM CARD: every group (Price, Sales Volume, Begins
+    and Payment, Orders & Delivery) on the same four columns, each
+    label above its answer, so fields line up from group to group
+    and no label wraps.
+*/
+.financial-stream-grid{
+
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+
+    gap:var(--gap-12) 20px;
+
+    align-items:start;
+
+}
+
+.financial-stream-grid .business-field-inline{
+
+    grid-template-columns:minmax(0, 1fr);
+
+    align-items:start;
+
+    gap:var(--gap-4);
+
+}
+
+.financial-stream-grid .business-field-inline > :not(:first-child){
+
+    grid-column:1;
+
+}
+
+.financial-stream-grid .business-field-inline > .business-foundation-label,
+.financial-stream-grid .business-field-inline > .business-foundation-label-info{
+
+    white-space:nowrap;
+
+    min-height:28px;
+
+    display:flex;
+
+    align-items:center;
+
+}
+
+/* A figure taken from another page sits at the height of an input
+   (44px, see .financial-derived below). */
+.financial-stream-grid .financial-derived{
+
+    min-height:44px;
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:center;
+
+    column-gap:var(--gap-6);
+
+}
+
+.financial-stream-grid .financial-derived .financial-cost-link{
+
+    flex-basis:100%;
+
+    text-align:left;
+
+}
+
+@media (max-width:1000px){
+
+    .financial-stream-grid{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+
+}
+
+@media (max-width:560px){
+
+    .financial-stream-grid{ grid-template-columns:minmax(0, 1fr); }
+
+}
+
+.financial-stream-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-16);
+
+}
+
+
+/* ---------- A revenue stream in four short groups ---------- */
+
+.financial-stream-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+    padding-top:12px;
+
+    border-top:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-rule-light));
+
+}
+
+.financial-stream-group:first-of-type{
+
+    padding-top:0;
+
+    border-top:0;
+
+}
+
+/* When the money arrives and its orders (FinancialSustainabilityEditor):
+   two groups like the others, one under the other at the card's own
+   gap, unless paired. */
+.financial-stream-band{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    min-width:0;
+
+}
+
+.financial-stream-band > .financial-stream-group{
+
+    padding-top:12px;
+
+    border-top:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-rule-light));
+
+}
+
+/* Paired: one band under one rule, each group in two of the card's
+   four columns, its own grid two columns of the same width and gap,
+   so each field sits in the column of the field above it. */
+@media (min-width:1001px){
+
+    .financial-stream-band-paired{
+
+        display:grid;
+
+        grid-template-columns:repeat(4, minmax(0, 1fr));
+
+        column-gap:20px;
+
+        padding-top:12px;
+
+        border-top:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-rule-light));
+
+    }
+
+    .financial-stream-band-paired > .financial-stream-group{
+
+        grid-column:span 2;
+
+        padding-top:0;
+
+        border-top:0;
+
+    }
+
+    .financial-stream-band-paired .financial-stream-grid{
+
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    }
+
+}
+
+.financial-stream-subhead-row{
+
+    display:flex;
+
+    align-items:center;
+
+}
+
+.financial-stream-result{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:var(--gap-6) var(--gap-24);
+
+    margin:4px 0 0;
+
+    padding:10px 14px;
+
+    border-radius:var(--radius-lg);
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-result-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    font-size:var(--font-body);
+
+}
+
+/* ---------- Expected sales from Demand & Conversion; the capacity check ---------- */
+
+/* A figure taken from another page: shown, with the link to where
+   it is set, at the 44px height of the input row it stands in for. */
+.financial-derived{
+
+    display:inline-flex;
+
+    flex-wrap:wrap;
+
+    align-items:center;
+
+    gap:var(--gap-4) 14px;
+
+    min-height:44px;
+
+}
+

@@ -1,0 +1,283 @@
+/* ==========================================================
+   THE OPENED CARD'S PROPORTIONS (a card box pressed: Resource, Activity, Partner, Provider, channel-origin; layout-rules
+   5a, "The opened card"): the card is --open-card-width (560px) at most, centred; inside it nothing is stretched. A
+   picker hugs its longest option (Status, Performer, Responsible, Provider, Frequency); a number is its step (Quantity XS
+   80px, Price the Code step 128px); the currency hugs its code; Quantity, Price and currency stand on one row,
+   --space-cell (12px) apart, their labels 6px above; Price and Frequency on a Partner / Provider card side by side the
+   same way; the side-label rows (Frequency, Responsible) keep the one label column of --side-label-short.
+========================================================== */
+/* THE COST ROW of a Resource, Partner or Provider card: ONE row, [Qty] [Price ......] [currency] ... [Frequency] -- the labels (Qty, Price, Frequency) above their
+   cells, the currency with none, on the cells' line. The currency's left edge is the side-label pickers' (Status's, Responsible's: the label column, 164px, and
+   its 12px), the Frequency (hugging its longest option) ends at the name cell's right edge, the Price takes what is left: 12px from the Qty, 12px from the
+   currency. The Qty is as wide as its label allows, not under --qty-w (56px: three digits and the cell's padding). Under 358px of content the Frequency goes under. */
+.card-box-open .business-capability-cost-grid.business-capability-cost-grid {
+
+    grid-template-columns: minmax(0, 1fr);
+
+    justify-content: stretch;
+
+}
+
+.business-capability-cost-row {
+
+    /* The currency's left edge is the side pickers' (the label column, 164px, and its 12px = 176px): Qty 56 + 12 + Price 96 + 12. */
+    --cost-x: calc(var(--card-side-label, var(--side-label-short)) + var(--side-label-gap));
+    --qty-w: 56px;
+
+    display: grid;
+
+    align-items: end;
+
+    /* (The Frequency's column may give way to the room that is left: a card with no group yet offers all seven frequencies, "% of revenue" the longest, and
+       the row is 388px in the 480px card, 16px short of the 404px they ask for. The Frequency then ends at the name cell's right edge, a little narrower.) */
+
+}
+
+.business-capability-cost-row > .business-foundation-field {
+
+    min-width: 0;
+
+}
+
+.business-capability-cost-row > .business-foundation-field > .interview-input {
+
+    width: 100%;
+    max-width: none;
+
+}
+
+/* Without a Qty: Price, currency, Frequency in columns 1, 3, 5. */
+.business-capability-cost-row > .business-foundation-field:nth-child(1) { grid-column: 1; }
+.business-capability-cost-row > .business-capability-cost-currency { grid-column: 3; }
+.business-capability-cost-row > .business-foundation-field:nth-child(3) { grid-column: 5; justify-self: end; }
+
+/* With a Qty: Qty, Price, currency, Frequency in columns 1, 3, 5, 7. */
+.business-capability-cost-grid-quantity .business-capability-cost-row > .business-foundation-field:nth-child(1) { grid-column: 1; width: var(--qty-w); }
+.business-capability-cost-grid-quantity .business-capability-cost-row > .business-foundation-field:nth-child(2) { grid-column: 3; }
+.business-capability-cost-grid-quantity .business-capability-cost-row > .business-capability-cost-currency { grid-column: 5; }
+
+.business-capability-cost-currency {
+
+    min-width: 0;
+
+}
+
+/* A Per unit price with a Unit picker: Frequency and Unit together are wider than the room left of the currency in the 480px card (388px of content), so
+   they go under the row, as under 358px (the currency keeps its place). */
+.business-capability-cost-row:has(.business-capability-frequency-unit) {
+
+    grid-template-columns: calc(var(--cost-x) - var(--space-cell)) var(--space-cell) max-content;
+
+    row-gap: var(--space-field);
+
+}
+
+.business-capability-cost-grid-quantity .business-capability-cost-row:has(.business-capability-frequency-unit) {
+
+    grid-template-columns: var(--qty-w) var(--space-cell) calc(var(--cost-x) - var(--qty-w) - 2 * var(--space-cell)) var(--space-cell) max-content;
+
+}
+
+.business-capability-cost-row.business-capability-cost-row:has(.business-capability-frequency-unit) > .business-foundation-field:nth-child(3):not(.business-capability-cost-currency),
+.business-capability-cost-grid-quantity .business-capability-cost-row.business-capability-cost-row:has(.business-capability-frequency-unit) > .business-foundation-field:nth-child(4) {
+
+    grid-column: 1 / -1;
+    justify-self: start;
+
+}
+
+.business-capability-cost-currency > .option-picker,
+.business-capability-cost-currency > .option-picker .option-picker-trigger.interview-input {
+
+    display: inline-grid;
+
+    width: auto;
+
+}
+
+.card-box-open .business-capability-cost-grid-wide .business-foundation-field > .option-picker {
+
+    width: auto;
+
+}
+
+/* An activity's performers: each picker runs from its label's gap to the right edge of the name cell above (the name cell stops 12px short of the
+   x; so does the picker), and the "+" (the first row) or the x (the rows after it) stands in the x's own column, the x's size (32px). */
+.card-box-open .business-capability-performers {
+
+    align-items: stretch;
+
+}
+
+.card-box-open .business-capability-performer > .option-picker {
+
+    flex: 1 1 auto;
+
+    width: auto;
+
+    /* (The row leaves 8px before the x or the "+"; the name cell above leaves 12px, so the picker ends 4px short of the row's gap: at the name cell's right edge.) */
+    margin-inline-end: 4px;
+
+}
+
+.card-box-open .business-capability-performer > :is(.plus-box, .strategy-box-remove, .business-capability-performer-slot) {
+
+    flex: none;
+
+    width: 32px;
+    height: 32px;
+
+}
+
+/* (A row with neither: the place stays empty, so the pickers all end at one x.) */
+.business-capability-performer-slot {
+
+    display: block;
+
+}
+
+/* The label stands on the first picker's centre line, whatever number of rows follow. */
+.card-box-open .business-capability-activity-fields > .business-field-inline.business-capability-performer-field {
+
+    align-items: start;
+
+}
+
+.card-box-open .business-capability-performer-field > .business-foundation-label {
+
+    /* (The label's line is centred on the first picker's: it comes down by what the picker has over a line.) */
+    margin-top: calc((var(--control-square) - 1lh) / 2);
+
+}
+
+/* ==========================================================
+   THE DIALOG HEADER (DialogHeading): "6. Digital Infrastructure / Software (i)" on ONE line -- the views opened inside
+   the dialog follow the title after a slash, the slash 8px either side, the names the title's size, regular, muted;
+   a long header cuts the names with an ellipsis, the "i" stays after them.
+========================================================== */
+.dialog-heading {
+
+    min-width: 0;
+    max-width: 100%;
+
+}
+
+.dialog-heading.business-foundation-label-info > .dialog-heading-line {
+
+    flex: 0 1 auto;
+
+    display: flex;
+
+    /* A long header stays on ONE row (its names slide to the left: .dialog-heading-trail). */
+    flex-wrap: nowrap;
+
+    align-items: center;
+
+    min-width: 0;
+
+}
+
+.dialog-heading-title {
+
+    flex: none;
+
+}
+
+.dialog-heading-slash {
+
+    flex: none;
+
+    margin-inline: 8px;
+
+    font-weight: 400;
+
+    color: var(--text-muted);
+
+}
+
+.dialog-heading-sub {
+
+    flex: 0 1 auto;
+
+    min-width: 0;
+
+    /* (The names are a size under the root's: an H lower.) */
+    font-size: var(--font-body);
+    line-height: inherit;
+    font-weight: 400;
+
+    color: var(--text-muted);
+
+}
+
+.dialog-heading-trail {
+
+    flex: 0 1 auto;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    /* (Right to left, so that a trail too long for the row is cut at its LEFT, and its last name stays in view.) */
+    direction: rtl;
+    text-overflow: ellipsis;
+    text-align: left;
+
+}
+
+.dialog-heading-trail-text {
+
+    direction: ltr;
+    unicode-bidi: isolate;
+
+}
+
+.dialog-heading-trail .dialog-heading-slash {
+
+    margin-inline: 6px;
+
+}
+
+.dialog-heading-sub:last-child {
+
+    flex-shrink: 1;
+
+}
+
+.dialog-heading.business-foundation-label-info {
+
+    display: flex;
+
+    flex-wrap: nowrap;
+
+    align-items: center;
+
+    /* (The "i" brings its own 8px.) */
+    gap: 0;
+
+}
+
+/* A row that spans a Partner's grid (the Responsible under the Price and Frequency) never sets the columns: its width is theirs. */
+.card-box-open .business-capability-cost-grid-wide > .business-capability-cost-after {
+
+    width: 0;
+    min-width: 100%;
+
+}
+
+.dialog-heading .dialog-heading-title {
+
+    flex: none;
+
+    white-space: nowrap;
+
+}
+
+.dialog-heading .dialog-heading-slash {
+
+    flex: none;
+
+}
+

@@ -1,0 +1,1106 @@
+/* ==================================================================
+   Business System -- Customer Engagement (Page 2)
+
+   Page 2 IS Page 1, continued: the same section shell, the same
+   input card, the same cards, fields, labels, "i"s, add and delete
+   controls, and the same per-Segment colour on the same Segment. So
+   the editor renders .business-foundation as well as
+   .business-engagement, and everything above applies unchanged.
+
+   What follows is only what Page 2 has and Page 1 does not: two
+   sections that STACK rather than sitting side by side, a reference
+   header carrying what Page 1 already says, and a tree deep enough
+   to need a way of showing depth.
+================================================================== */
+
+/* The card is a stack, not the three-track grid Page 1 lays its
+   four subsections out on. Its two sections run one after the
+   other -- "not columns; the sections run one after the other" --
+   and each takes the full width, because a channel row and a
+   four-level relationship both need it.
+
+   Everything else the Segment card is, it stays: the same 96%
+   ground, the same hue, the same border and focus ring, all set
+   above on .business-foundation > .business-foundation-input. */
+.business-engagement > .business-engagement-input{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-12);
+
+    /* Undoes the `align-items:start` the Page 1 rule sets on the
+       same element. There it holds four grid areas to their own
+       heights; here the axis it acts on is the WIDTH, and it left
+       the reference header and both sections shrunk to their
+       contents in the middle of a card twice as wide. */
+    align-items:stretch;
+
+}
+
+/* ---------- The reference header ---------- */
+
+/* What Page 1 already says about this Segment, drawn as a panel one
+   step lighter than the card -- the same treatment, and the same
+   two colours, the Value Proposition panel has on Page 1.
+
+   A reference area, not a second input form: nothing in it can be
+   typed into, and every name in it is a link back to the page that
+   owns it. */
+/* (The panel's own box -- .business-engagement-reference -- is gone: the
+   three columns stand straight on the Segment card.) */
+
+/* The card's number before the SEGMENT label: "1. SEGMENT", the number
+   then the kind word at the head's one 8px gap. */
+.business-engagement-reference-number{
+
+    margin-right:8px;
+
+    font-variant-numeric:tabular-nums;
+
+}
+
+/* A .business-engagement-reference-head was here, laying out an
+   "Information / References" title and its "i" above the three
+   columns. Both are gone -- three columns of linked names under
+   the Segment's own head are plainly references -- so nothing
+   renders it. */
+
+/* "Create three equal-width columns." */
+.business-engagement-reference-columns{
+
+    display:grid;
+
+    /* ONE CONTENT EDGE PER COLUMN: the title, every link's text and every
+       details block's text start at it. No arrow stands in front of the
+       links (each link's fold arrow stands after its text); only the details' vertical
+       rule hangs 12px before the text edge, so the Profiles and the Offerings
+       reserve that one 12px strip inside their tracks (the Segment's hangs
+       in the card's arrow column). The three contents are equal: A. */
+    grid-template-columns:
+        minmax(0, calc((100% - 4 * var(--space-column)) / 3))
+        minmax(0, calc((100% - 4 * var(--space-column)) / 3 + var(--space-column)))
+        minmax(0, calc((100% - 4 * var(--space-column)) / 3 + var(--space-column)));
+
+    column-gap:var(--space-column);
+    row-gap:var(--space-field);
+
+}
+
+.business-engagement-reference-column + .business-engagement-reference-column{
+
+    padding-left:var(--space-column);
+
+}
+
+/* The Segment card has no head row: its references (and, folded, its
+   one heading row) start at the card body's edge, like everything else
+   under a card head (--card-body-indent), and its two sections follow. */
+.business-engagement-input > .business-engagement-references,
+.business-engagement-input > .business-engagement-section{
+
+    margin-left:var(--card-body-indent);
+
+}
+
+/* THE CARD'S FOLD ARROW STANDS NEXT TO "1. SEGMENT": in the card's arrow
+   column (the 36px arrow and the 8px gap before the number), centred on
+   the heading's line. Absolute, so the heading keeps its own line and the
+   three columns share one top and baseline. */
+.business-engagement-reference-column > .business-foundation-label-info > .business-foundation-subhead,
+.business-engagement-segment-folded > .business-foundation-label-info > .business-foundation-subhead{
+
+    position:relative;
+
+}
+
+.business-engagement-reference-column > .business-foundation-label-info > .business-foundation-subhead > .strategy-box-toggle,
+.business-engagement-segment-folded > .business-foundation-label-info > .business-foundation-subhead > .strategy-box-toggle{
+
+    position:absolute;
+
+    left:calc(-1 * var(--card-body-indent));
+    top:50%;
+
+    margin-top:-18px;
+
+}
+
+/* A folded Segment: its heading and, after it, its name. */
+.business-engagement-segment-folded{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--space-field);
+
+}
+
+.business-engagement-reference-column{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-6);
+
+    min-width:0;
+
+}
+
+/* One thing Page 1 names, and what it says about it. The name
+   leads, its information follows directly under it -- never a list
+   of names and a separate list of facts to be matched up by eye. */
+.business-engagement-reference-entry{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    min-width:0;
+
+}
+
+/* The column's 6px gap plus this: the next item stands 12px under the
+   previous one's last line or fold arrow. */
+.business-engagement-reference-entry + .business-engagement-reference-entry{
+
+    margin-top:var(--space-label);
+
+}
+
+/* A name Page 1 has not been given yet. Said plainly rather than
+   left blank, and NOT drawn as a link: there is nothing behind it
+   to read. */
+.business-engagement-reference-name{
+
+    font-size:var(--font-body);
+    line-height:28px;
+
+    color:var(--text-muted);
+
+}
+
+/* WHAT PAGE 1 ACTUALLY SAYS, on the page.
+
+   "The actual relevant information should be displayed underneath
+   the title where appropriate." It used to live only behind the
+   "i", and a reference area whose content is hidden behind an icon
+   is one nobody reads while they work -- which is the only time it
+   is any use.
+
+   One entry per thing named, bulleted so several read as several.
+   The questions each answer belongs to stay behind the "i". */
+/* Held in from the name above it, so a column of names stays a
+   column of names and what belongs to each is plainly beneath it
+   rather than beside it. */
+
+/* ONE SECTION PER QUESTION, under the Page 1 heading its answer is
+   written beneath. Three answers run together with middle dots
+   between them read as a paragraph; under their own headings they
+   read as three things. */
+
+/* The heading. Smaller than the body it introduces, and in the
+   card's own control colour, so it labels the answer without
+   competing with it. Bold, and so at the 5% every bold run in this
+   app takes.
+
+   UNDERLINED, which is what separates one section from the next
+   inside an entry -- three answers of three or four lines each
+   need a line between them, not just a gap. */
+/* EVERY LABEL ON THIS PAGE IS 18px, like everything beside it.
+   At 16 it was the one size on the page that matched nothing --
+   most visibly on the Customer Profiles row, where a 16px label
+   sat next to 18px names on the same line. The line-height is the
+   28 every other row uses, so a row carrying one of these is the
+   same height as a row that does not. */
+.business-engagement-reference-label{
+
+    font-size:var(--font-body);
+    font-weight:700;
+
+    letter-spacing:0.05em;
+
+    line-height:28px;
+
+    /* THE ONE LABEL COLOUR on this page: the Segment's own, which
+       every control here already borders and draws its arrows in.
+       hsl(h 28% 34%) is 7.4:1 on the card. */
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+
+    text-decoration:underline;
+    text-underline-offset:3px;
+
+}
+
+/* WHAT WAS WRITTEN AS A LIST STAYS A LIST. Page 1's boxes hold
+   bulleted and numbered lines, and collapsing their breaks turned
+   every one of them into a paragraph. `pre-line` keeps the breaks
+   the founder typed and still wraps long lines normally. */
+
+/* The name; the fold arrow at the right of its text (8px after it, the
+   head gap) folds what is written under it. The arrow is 36px and the link's
+   line 28px: the row is top-aligned with the link 4px down, so the link's
+   first line is centred on the arrow, and a name that wraps keeps the arrow
+   on that first line, at the link box's right edge. */
+.business-engagement-reference-name-row{
+
+    /* THE ARROW'S ROOM: its 36px and the 8px gap before it. The arrow's right
+       edge may go no further than the column's right edge, which is 12px
+       (--space-column) short of the next column's hanging rule (the last
+       column: 12px short of the card's right side), so a link is at most the column
+       less this room and wraps inside it. */
+    --reference-arrow-room:calc(36px + 8px);
+
+    display:flex;
+
+    /* The arrow stays on the link's FIRST line: it never follows a wrapped
+       name down, nor an unfolded item. */
+    align-items:flex-start;
+
+    gap:var(--gap-8);
+
+    min-width:0;
+
+    min-height:28px;
+
+}
+
+.business-engagement-reference-name-row:has(> .strategy-box-toggle){
+
+    min-height:36px;
+
+}
+
+.business-engagement-reference-name-row:has(> .strategy-box-toggle) > :not(.strategy-box-toggle){
+
+    /* the 28px first line centred on the 36px arrow */
+    margin-top:4px;
+
+    max-width:calc(100% - var(--reference-arrow-room));
+
+}
+
+/* The "i" (24px) stands on the centre line of the link's first line (28px): 2px down; where an arrow stands beside it, the line starts 4px down, so the "i" 6px. */
+.business-engagement-reference-name-row > .info-note{
+
+    margin-top:2px;
+
+}
+
+.business-engagement-reference-name-row:has(> .strategy-box-toggle) > .info-note{
+
+    margin-top:6px;
+
+}
+
+.business-engagement-reference-empty{
+
+    margin:0;
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:var(--text-muted);
+
+}
+
+/* A name answered on Page 1, and the way back to it.
+
+   A button that looks like a link, because that is what it is: it
+   moves the interview to another Section rather than following a
+   URL. Drawn in the card's own control colour (hue 28% 34%, the
+   value every other control on a tinted card takes), which holds
+   above 4.5:1 on both grounds it is ever drawn on.
+
+   Underlined, so it is not colour alone that says it is a link --
+   SC 1.4.1. The 28px line gives it the height SC 2.5.8 asks of a
+   target; every name it ever carries is wider than 24px. */
+.business-engagement-link{
+
+    padding:0;
+
+    border:0;
+
+    background:none;
+
+    font-family:inherit;
+    font-size:var(--font-body);
+    line-height:28px;
+
+    text-align:left;
+
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+
+    text-decoration:underline;
+    text-underline-offset:3px;
+
+    cursor:pointer;
+
+}
+
+/* Thicker rather than gone: removing the underline on hover would
+   take away the thing that says it is a link. */
+.business-engagement-link:hover{
+
+    text-decoration-thickness:2px;
+
+}
+
+.business-engagement-link:focus-visible{
+
+    outline:2px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-ink));
+    outline-offset:2px;
+
+    border-radius:var(--radius-sm);
+
+}
+
+/* ---------- The two sections ---------- */
+
+.business-engagement-section{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-12);
+
+}
+
+/* A channel category, and the level of a relationship tree.
+
+   ONE affordance for both, because they are the same thing: a
+   heading with what belongs to it underneath. The rule down the
+   left says "these are inside that" without spending a fourth
+   ground or a fourth border on it -- the card grounds stop at two
+   levels on Page 1 and stop at two here, and depth past that is
+   drawn rather than filled.
+
+   Drawn in the Segment's own hue at the stroke value every border
+   on the card uses, so the tree reads as part of the card rather
+   than as scaffolding laid over it. */
+/* A .business-engagement-branch was here: the indented, left-ruled
+   block that drew each level of Customer Relationships when that
+   section was a nested tree. It is a five-column table now, where
+   the levels are spans rather than indents, so nothing renders it.
+   (The Capability page's groups drew the same rule; they are section
+   tiles now, with no rule.) */
+
+/* ---------- The Customer Relationships table ---------- */
+
+/* The same table the Channels section uses, with its own column
+   widths: the first holds a Relationship Type and its Purpose,
+   under the Profile and Offering they belong to, and the Approach
+   holds a written answer and three goals -- which is why it takes
+   the most.
+
+   DECLARED ON THE COLUMNS, NOT THE HEADINGS. The Profile and the
+   Offering are bands across all three and the journey stage a band
+   across the last two, and a cell that spans cannot say how the
+   columns under it divide. A colgroup also settles the argument
+   the Channels table's own widths used to win on source order
+   alone, since the element carries both classes. */
+.business-relationship-col-type{ width:32%; }
+.business-relationship-col-channels{ width:24%; }
+.business-relationship-col-approach{ width:44%; }
+
+/* A VALUE READ OFF THE CHANNELS TABLE, not chosen here -- the
+   Offering, the journey stage and the channel of one interaction.
+
+   Drawn as text rather than in a box, because a box is a promise
+   that something can be typed into it. These say what A. Customer
+   Channel already records; changing them means changing it. */
+
+/* EVERY CHANNEL OF ONE KIND used at one stage, listed under the
+   category that names them. They share a row because they share an
+   Approach: an organisation approaches a customer through social
+   media, not differently on each platform. */
+.business-engagement-channel-list{
+
+    margin:0;
+
+    padding:0;
+
+    list-style:none;
+
+    font-size:var(--font-body);
+    line-height:28px;
+
+    color:var(--text-muted);
+
+}
+
+/* The bullet is drawn, not the browser's marker: its left edge is the
+   list's left edge (the kind of channel above it and the stage's name
+   start there too) and the text stands --bullet-gap from its right edge. */
+.business-engagement-channel-list > li{
+
+    position:relative;
+
+    padding-left:calc(var(--bullet-size) + var(--bullet-gap));
+
+}
+
+.business-engagement-channel-list > li::before{
+
+    content:"";
+
+    position:absolute;
+    left:0;
+    top:calc((28px - var(--bullet-size)) / 2);
+
+    width:var(--bullet-size);
+    height:var(--bullet-size);
+
+    border-radius:50%;
+    background:currentColor;
+
+}
+
+/* The kind of channel, beside the stage it is used at: the same
+   value one step quieter, so the pair reads as "when / through
+   what" across the two columns. */
+
+/* The goals, under the Approach they belong to. */
+/* THE GOAL AND ITS THREE WORDS ON ONE LINE. "Goal: Get Keep
+   Grow" is a label and its answer, not a heading over a block --
+   and a cell that holds two answers has room for only so many
+   lines. They drop to a second line together if the column is ever
+   too narrow. */
+.business-engagement-goal{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:center;
+
+    gap:var(--gap-4) var(--gap-16);
+
+}
+
+/* ALL THREE ON ONE LINE. They are three words now that their
+   meanings have moved behind the "i", and three words do not need
+   three rows. They wrap together if the column is ever too narrow
+   to hold them. */
+.business-engagement-goal-ticks{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:var(--space-field) 14px;
+
+}
+
+.business-engagement-goal-ticks > .business-foundation-tick{
+
+    flex:0 0 auto;
+
+}
+
+/* ---------- The Channels table ---------- */
+
+/* Five columns -- Channel, Links, Offerings, Journey Stage, Action
+   -- which is the shape the specification draws for this section
+   twice over, and the reading it supports is across rather than
+   down.
+
+   It scrolls SIDEWAYS INSIDE ITS OWN BOX rather than making the
+   page do it. Five columns have a width below which they stop
+   being five columns, and nothing else on the page has any reason
+   to move with them. */
+/* NOTHING HERE CLIPS.
+
+   This box used to scroll sideways, and a scrolling box is a
+   clipping box: every dropdown opened in a cell was cut off at the
+   table's own edge, because a floating panel is drawn inside the
+   cell it belongs to and cannot escape an ancestor that hides its
+   overflow. Five columns that fit are worth more than five columns
+   that scroll and take every dropdown with them.
+
+   So the table FITS instead -- `table-layout:fixed` with widths
+   that add to 100 -- and is never wider than the card it sits
+   in. */
+.business-channel-table-wrap{
+
+    max-width:100%;
+
+    border-radius:var(--radius-lg);
+
+}
+
+.business-channel-table{
+
+    width:100%;
+
+    /* SEPARATE, SO THE CORNERS CAN BE ROUNDED. A collapsed table
+       draws its outer cells' square corners over any radius the
+       table is given, and the usual escape -- clipping the wrap --
+       is closed here: every dropdown on this page is an absolutely
+       positioned panel inside a cell, and a clipping box would cut
+       them off.
+
+       Separate would draw every interior line twice, so the work
+       is divided instead: the TABLE draws the top and left edges,
+       and EVERY CELL draws its own right and bottom. No line is
+       drawn by two things, and nothing depends on knowing which
+       cell is in the last column -- which a table full of rowspans
+       cannot say. */
+    border-collapse:separate;
+    border-spacing:0;
+
+    border-top:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+    border-left:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+    border-radius:var(--radius-lg);
+
+    /* The widths are declared rather than derived, so the table
+       does not reflow every time a name gets longer. Action takes
+       the most: it is the only column holding sentences. */
+    table-layout:fixed;
+
+}
+
+.business-channel-table col,
+.business-channel-table th,
+.business-channel-table td{
+
+    text-align:left;
+
+    vertical-align:top;
+
+}
+
+/* Channel (with its links under the name), Offerings, Journey
+   Stage, Action: FOUR EQUAL COLUMNS, so the table reads as one grid.
+   At the narrowest table that keeps four columns (1300px) each is
+   325px, 301px inside the cell's 12px padding: room for a 210px
+   dropdown with its × (248px of content) and "+ Add Journey Stage"
+   on one line (271px). (The Relationships table has three columns
+   of its own, below.) */
+.business-channel-table th:nth-child(-n + 4){ width:25%; }
+
+/* The head is the darkest of the three grounds, the category row
+   one step lighter, and the cells white -- so the table reads as
+   heading, container, content, and every input in it sits on the
+   plain ground inputs sit on everywhere else. */
+.business-channel-table thead th{
+
+    padding:8px 12px;
+
+    /* No border of its own: every cell draws only its right and
+       bottom edge (the rule below), the table its top and left. A
+       head cell drawing all four doubled the table's top line and
+       every line between the heads. */
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    font-size:var(--font-body);
+    font-weight:700;
+
+    letter-spacing:0.05em;
+
+    line-height:28px;
+
+    color:var(--text-default);
+
+}
+
+/* The container a channel is nested under -- "Social Media", then
+   LinkedIn and Instagram beneath it. ONE ROW ACROSS THE TABLE,
+   drawn once: "the category is a container and should not be
+   repeated for every row". */
+.business-channel-category-row th{
+
+    /* 8px at the sides, as the channels' cells below: the pickers get
+       the room for a name such as "Physical Delivery" on one line. */
+    padding:8px;
+
+    /* Its edges are every cell's (the rule below): no border of its
+       own to double them. */
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    font-size:var(--font-body);
+    font-weight:700;
+
+    letter-spacing:0.05em;
+
+    line-height:28px;
+
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+
+}
+
+/* The picker that names the group. It sits in the CHANNEL COLUMN'S
+   own cell, so filling that cell lines it up exactly with the
+   channel names beneath it -- which is what makes the group read as
+   the heading of those channels rather than as a control laid
+   across the table. */
+/* ONE ROW SHAPE FOR A CATEGORY AND FOR EACH OF ITS CHANNELS, so their
+   pickers start at one x and end at one x: the category's fold arrow
+   and a channel's ↳ in one 36px column, the picker, its "i", and the
+   × in one 32px column (kept where there is no ×). Every mark sits on
+   the picker's first line (the 44px box). */
+.business-channel-category,
+.business-channel-name{
+
+    display:grid;
+
+    grid-template-columns:[lead] 36px [control] minmax(0, 1fr) [info] auto [remove] 32px [end];
+
+    /* The mark / arrow, the picker, its "i" and the x: cells of a row, a
+       cell gap (12px) apart; what stacks under the row is a field gap
+       (12px) under it. */
+    column-gap:var(--space-cell);
+    row-gap:var(--space-field);
+
+    align-items:start;
+
+    width:100%;
+    min-width:0;
+
+}
+
+.business-channel-category > .strategy-box-toggle{
+
+    grid-column:lead;
+
+    margin-top:4px;
+
+}
+
+.business-channel-category > .suggested-input{
+
+    grid-column:control;
+
+    min-width:0;
+
+}
+
+.business-channel-category > .info-note,
+.business-channel-name > .info-note{
+
+    grid-column:info;
+
+    margin-top:11px;
+
+    /* The grid's one 8px gap is the gap to the picker: none of its
+       own, so the picker reaches right up to it. */
+    margin-left:0;
+
+}
+
+.business-channel-category > .strategy-box-remove{
+
+    grid-column:remove;
+
+    margin-top:6px;
+
+}
+
+/* The four columns the category row does not use. It carries the
+   row's own ground and nothing else. */
+.business-channel-category-row td{
+
+    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+.business-channel-cell{
+
+    padding:8px 12px;
+
+    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+    /* THE CARD'S OWN GROUND, ONE STEP OFF WHITE. White cells the
+       width of a table read as holes in it; tinted, the table is
+       one surface and the boxes are set into it.
+
+       WHITE IS STILL WHERE YOU WRITE -- it moved in one level, to
+       the field itself. Every control here keeps its white fill and
+       its border, so what can be typed into is as plain as it was;
+       a cell that only shows something (see -derived) is a step
+       darker again. */
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    /* A COLUMN IS AS NARROW AS ITS SHARE OF THE TABLE, and what is
+       written in it has to fit that. Without these, one long word
+       or a pasted URL held its column open and pushed the ones
+       beside it out of shape. */
+    overflow-wrap:break-word;
+
+    word-break:break-word;
+
+}
+
+/* Everything inside a cell may shrink with it. A flex or grid
+   child will not go below its own content unless it is told it
+   may, which is how a long value escapes its column. */
+.business-channel-cell *{
+
+    min-width:0;
+
+}
+
+/* A CELL THAT SHOWS RATHER THAN ASKS.
+
+   Customer Relationships has three of them -- the Profile, the
+   Offering and the Interaction Context are all read off Page 1 and
+   the Channels table, and nothing in them can be typed into. They
+   take the Segment card's own ground, which is what the rest of the
+   page is drawn on, while a cell holding a field stays white.
+
+   White is where you write. That is the whole of the rule, and it
+   is worth more than any label saying the same thing. */
+.business-channel-cell-derived{
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+/* EVERY CELL DRAWS ITS RIGHT AND BOTTOM EDGE, and only those --
+   the table draws the top and left (see .business-channel-table).
+   One 1px hairline of one colour between any two cells and round
+   the table, never two borders side by side. Head and category
+   cells included: no rule may give a cell a border of its own. */
+.business-channel-table th,
+.business-channel-table td{
+
+    border-style:solid;
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+    border-width:0 1px 1px 0;
+
+}
+
+/* THE FOUR CORNERS, rounded on the cells that occupy them: the
+   table's own radius rounds its border, but a cell's background is
+   square unless the cell is told otherwise.
+
+   The top two are the first row of each table, which is one cell
+   across in the Relationships table and the head row in the
+   Channels table -- either way its first and last child are the
+   corners. The bottom two are marked where the rows are built,
+   because a table full of rowspans cannot say in CSS which cell
+   reaches its bottom corner. */
+.business-channel-table > thead:first-child > tr:first-child > *:first-child,
+.business-relationship-table > tbody:first-of-type > tr:first-child > *:first-child{
+
+    border-top-left-radius:var(--radius-lg);
+
+}
+
+.business-channel-table > thead:first-child > tr:first-child > *:last-child,
+.business-relationship-table > tbody:first-of-type > tr:first-child > *:last-child{
+
+    border-top-right-radius:var(--radius-lg);
+
+}
+
+.business-channel-table:not(.business-relationship-table)
+    > tbody:last-of-type > tr:last-child > *:first-child,
+.business-relationship-corner-bl{
+
+    border-bottom-left-radius:var(--radius-lg);
+
+}
+
+.business-channel-table:not(.business-relationship-table)
+    > tbody:last-of-type > tr:last-child > *:last-child,
+.business-relationship-corner-br{
+
+    border-bottom-right-radius:var(--radius-lg);
+
+}
+
+/* A CONTAINER OF THE ROWS BENEATH IT, written once rather than
+   repeated down a column: the Customer Profile across the whole
+   table, and the journey stage across the two columns its
+   interactions fill.
+
+   A heading for those rows -- scope="rowgroup", so a screen reader
+   announces "Maria" and "Discovery" with each of them -- drawn the
+   way A. Customer Channel draws a channel category, since it is
+   the same thing. The two levels are told apart by where they
+   start, not by colour: the Profile from the left edge, the stage
+   two columns in.
+
+   After .business-channel-cell, because it takes that cell's
+   word-breaking and its own ground. */
+.business-engagement-band{
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    font-size:var(--font-body);
+    font-weight:700;
+
+    letter-spacing:0.05em;
+
+    line-height:28px;
+
+    color:var(--text-default);
+
+}
+
+/* THE GOAL BESIDE THE JOURNEY STAGE: the Engagement Strategy is two parts,
+   the stage (with the channels under it) and its Goal / Approach. The Goal
+   stands in the band row, on the stage's own line -- the band's 36px line
+   (the fold arrow's height) with the Goal centred on it, as the stage name is
+   -- on the band's ground, in the regular weight and the answers' own case. */
+
+/* THE LEVELS OF THE TABLE, told apart by where they start rather
+   than by shades nobody can rank by eye. Each one begins a step in
+   from the arrow that folds the level above it, so the structure
+   is read down the left edge:
+
+     1. Offering - Make Up Masterclass      12px
+        Customer Profiles                   36px
+        Relationship Type and Purpose       36px
+
+   and, in the Interaction Context column beside them:
+
+     Discovery                              12px
+        Social Media                        36px
+
+   24px a step: enough to read as a level, little enough that a
+   picker or a written answer two levels down still has a column to
+   sit in.
+
+   The Offering takes the darkest of the grounds, being the
+   outermost -- the same step the Channels table already makes
+   between its head and its category rows. */
+.business-engagement-band-offering{
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+/* WHO THE OFFERING IS SOLD TO: read off Page 1, listed a step in
+   under the Offering, and answered nowhere.
+
+   THE LABEL AND THE NAMES ON ONE LINE -- "Customer Profiles Maria
+   Tina Joe". Three names are a line, not a list under a heading,
+   and a reference row should cost one row. */
+/* NOT display:flex ON THE CELL. A table cell told to be a flex
+   container stops being a table cell: it drops out of the column
+   layout, so a cell spanning three columns came out the width of
+   one and everything in it wrapped. The label and the names are
+   laid out inline INSIDE the cell instead. */
+.business-relationship-profiles{
+
+    padding-left:36px;
+
+}
+
+/* THE LABEL AND THE NAMES ON ONE LINE, both inline so the cell
+   itself stays a table cell.
+
+   NO UNDERLINE ON THIS ONE: the rule under a reference label
+   belongs to a heading standing over a block; inline, in front of
+   the names it introduces, it is a second underline on a line that
+   already has one under every name. */
+.business-relationship-profiles > .business-engagement-reference-label{
+
+    display:inline-flex;
+
+    vertical-align:top;
+
+    margin-right:16px;
+
+    text-decoration:none;
+
+}
+
+.business-relationship-profile-list{
+
+    display:inline-flex;
+
+    font-size:var(--font-body);
+    line-height:28px;
+
+    vertical-align:top;
+
+    flex-wrap:wrap;
+
+    gap:var(--gap-4) var(--gap-24);
+
+    list-style:none;
+
+    margin:0 !important;
+
+    padding:0;
+
+}
+
+/* The Relationship Type, under the Offering it is kept about --
+   one step in, the same as the Profiles listed above it.
+
+   ON THE CARD'S OWN GROUND rather than white. The column held one
+   picker and one written answer on a white field the width of the
+   table, which read as a gap between the Offering above it and the
+   Engagement Strategy beside it. Tinted, the two answer columns
+   read as one block with the boxes set into it.
+
+   WHITE IS STILL WHERE YOU WRITE -- it just moved in one level.
+   The picker and the Purpose keep their white fields and their
+   borders, so what can be typed into is as plain as it was; what
+   changed is the ground they sit on. */
+.business-relationship-type-cell{
+
+    padding-left:36px;
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+/* WHAT THE COLUMNS HOLD, said under the Offering they are answered
+   about rather than once at the top of a table that runs to a
+   dozen of them.
+
+   The LIGHTEST of the three grounds, because it is the innermost:
+   the Profile's band at 88%, the Offering's at 92%, and the
+   headings under them at 96%. A head that was darker than the
+   bands would read as the start of a new table rather than as part
+   of what is open above it.
+
+   The first of the two is indented to the Relationship Types it
+   heads, so it stands directly over them. The second heads two
+   columns and starts at the first of them. */
+
+/* One kind of channel, under the journey stage it is used at. */
+.business-relationship-channels-cell{
+
+    padding-left:36px;
+
+}
+
+/* Starts at the journey stage's TEXT (the band's 12px inset, the fold
+   arrow's 36px, its 4px gap): the kind of channel and its list stand under
+   the stage's name, not under its arrow. */
+
+/* A SECTION OR GROUP AT ITS CARD'S BODY EDGE HANGS ITS ARROW IN THE CARD'S
+   ARROW COLUMN (content starts at the number, docs/ai/layout-rules.md):
+   Customer Engagement's "1. Customer Channel" and "2. Customer
+   Relationship" under their Segment's arrow, Infrastructure's sections
+   ("1. Resources") and groups ("Organizational Resources") under their
+   capability card's -- so their numbers and titles stand where the
+   card's number stands, and their content starts there too. */
+.business-engagement:not(.business-capability) .business-engagement-section > .business-engagement-section-head > .strategy-box-toggle,
+.business-capability-section > .business-engagement-section-head > .strategy-box-toggle{
+
+    flex:none;
+
+    margin-left:calc(-1 * var(--card-body-indent));
+
+}
+
+/* A FOLDING BLOCK WITH NO ARROW COLUMN BEFORE IT starts its content at its
+   title's text, the arrow in front (36px and the head's 8px gap):
+   Infrastructure's subsections ("Electricity") inside their columns and
+   Financial Foundation's cost groups ("Establishment", "Operating"). */
+.business-capability-subsection > :not(.business-capability-subsection-head){
+
+    margin-left:calc(36px + 8px);
+
+}
+
+/* AN OFFERING'S BLOCK STARTS AT ITS NUMBER (number-left = body-left):
+   the Customer Profiles row and the Relationship | Engagement columns'
+   first cells start at the "1." of "1. Offering -" -- past the band's
+   12px inset, its 36px arrow and the arrow's 4px gap. */
+.business-relationship-table{
+
+    --offering-number-indent:calc(var(--space-cell) + 36px + 4px);
+
+}
+
+.business-relationship-table .business-relationship-profiles{
+
+    padding-left:var(--offering-number-indent);
+
+}
+
+/* A Relationship Type's arrow under its Offering's (the band's 12px
+   inset, the same 36px arrow), so the picker, its x, the Purpose and the
+   + Add for one more start at the Offering's number, past the arrow and
+   its 4px gap. */
+.business-relationship-table .business-relationship-type-cell{
+
+    padding-left:var(--space-cell);
+
+    /* The picker stands a field gap (12px) under the cell's top edge. */
+    padding-top:var(--space-field);
+
+}
+
+/* The cells of this column stand a field gap apart (12px): the picker
+   row, the Purpose (its label stays --space-label from its box) and the
+   + Add; and the × stands a cell gap from its picker. */
+.business-relationship-table .business-relationship-type-cell > * + *{
+
+    margin-top:var(--space-field);
+
+}
+
+.business-relationship-table .business-relationship-type-cell .business-channel-pick > .business-channel-steps{
+
+    margin-left:var(--space-cell);
+
+}
+
+/* Its arrow's gap, the band's 4px (not a pick row's 6px), so the picker
+   starts at the number as the Purpose does. */
+.business-relationship-table .business-relationship-type-cell > .business-channel-pick > .strategy-box-toggle{
+
+    margin-right:4px;
+
+}
+
+/* THE PURPOSE STARTS WHERE ITS TYPE STARTS -- past the arrow
+   that folds them both, so the two read as one answer rather than
+   as a picker and a loose box under it. The arrow is 36 wide and
+   the row that holds it has a 4px gap. */
+.business-relationship-purpose{
+
+    padding-left:40px;
+
+}
+
+/* THE ADD FOR ONE MORE TYPE, UNDER THE PURPOSE: from the picker's edge
+   (past the arrow, as the Purpose) to the x's, closing the cell. */
+.business-relationship-add{
+
+    padding-left:40px;
+
+}
+
+.business-relationship-add:empty{
+
+    display:none;
+
+}
+
+/* WHAT A FOLDED RELATIONSHIP TYPE STILL SHOWS: the journey, and
+   what is done at each step of it. The stage named the way every
+   heading over an answer on this page is named, and the answer
+   under it, keeping the line breaks it was written with. */
+
+/* The kind of thing the band names, in front of the name itself --
+   "1. Profile -", "1. Offering -". Quieter than the name, because
+   the name is what is being looked for. */
+.business-engagement-band-kind{
+
+    flex:0 0 auto;
+
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+
+}
+

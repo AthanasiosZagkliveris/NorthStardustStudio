@@ -1,0 +1,281 @@
+.business-capability-cost-name {
+
+    flex: 1 1 auto;
+    min-width: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+}
+
+.business-capability-cost-amount {
+
+    flex: none;
+
+    white-space: nowrap;
+    text-align: right;
+
+}
+
+/* ---- ROUND THREE OF THE CARD CELLS ---- */
+/* A frequency (or any one-option value) set as text keeps a cell's height, so its label stands level with the labels beside it (Qty, Price). */
+.business-capability-cost-row .business-capability-static-value {
+
+    display: flex;
+    align-items: center;
+
+    min-height: var(--card-cell-height);
+
+}
+
+/* The Instalments' number: two digits. */
+.business-capability-plan-type > .interview-input.interview-input.business-capability-plan-count {
+
+    flex: 0 0 48px;
+
+    width: 48px;
+    max-width: 48px;
+
+}
+
+.business-capability-plan-row .date-cell {
+
+    min-width: 0;
+
+}
+
+/* The units of a resource an activity takes: a square cell of two digits, the resource's picker taking the room that frees. */
+.business-capability-resource-row .interview-input.interview-input.business-capability-people {
+
+    flex: 0 0 var(--card-cell-height);
+
+    width: var(--card-cell-height);
+    min-width: var(--card-cell-height);
+
+    padding-left: 4px;
+    padding-right: 4px;
+
+    text-align: center;
+
+}
+
+/* THE COSTS OF AN ACTIVITY'S RESOURCES: the card's whole content width, name at the left, cost at the right. */
+.business-capability-resource-costs {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--gap-2);
+
+}
+
+/* THE INVENTORY AND COMPLETED TILES are rectangles (wider than high), centred under the two cards, so the cards above keep their size. */
+.section-tiles-completed .section-tiles {
+
+    grid-template-columns: repeat(2, 215px);
+
+    max-width: none;
+
+}
+
+.section-tiles-completed .section-tile-slot,
+.section-tiles-completed .section-tile-slot > .section-tile {
+
+    width: 215px;
+    height: var(--section-tile-size);
+
+    aspect-ratio: auto;
+
+}
+
+.section-tiles-completed[data-squeezed] .section-tile-slot > .section-tile {
+
+    grid-template-rows: minmax(0, 1fr);
+    align-content: center;
+
+}
+
+.section-tiles-completed[data-squeezed] .section-tile-title {
+
+    font-size: var(--font-small);
+
+    letter-spacing: 0.06em;
+
+}
+
+
+.section-tiles-completed[data-squeezed] .section-tile-slot > .section-tile {
+
+    padding: 0 8px;
+
+    align-items: center;
+
+}
+
+.section-tiles-completed[data-squeezed] .section-tile-slot > .section-tile .section-tile-title {
+
+    align-self: center;
+
+    margin: 0;
+
+}
+
+.business-capability-resource-costs,
+.business-capability-resource-costs > .business-capability-cost-line {
+
+    width: 100%;
+    max-width: none;
+
+    box-sizing: border-box;
+
+}
+
+.business-capability-resource-costs {
+
+    grid-column: 1 / -1;
+
+}
+
+/* (Stopping at the card's name cell's right edge, where the x column begins.) */
+.business-capability-resource-costs {
+
+    width: auto;
+
+    margin-right: calc(var(--card-x-column) + var(--card-marker-gap));
+
+}
+
+/* ---- PAYMENT PLAN ROWS (one distribution for the three plans) ----
+   [the amount, taking what is left] [the percent: a 44px square, right-aligned] [the date: the Start date's own cell, 198px with its calendar]; 12px between cells.
+   An Instalments row begins with its order number in 18px. */
+.business-capability-plan-row {
+
+    grid-template-columns: minmax(0, 1fr) var(--card-cell-height) 198px;
+    gap: var(--gap-12);
+
+}
+
+.business-capability-plan-row-numbered {
+
+    grid-template-columns: 18px minmax(0, 1fr) var(--card-cell-height) 198px;
+
+}
+
+.business-capability-plan-row .interview-input.business-capability-plan-percent {
+
+    width: var(--card-cell-height);
+    min-width: 0;
+
+    padding-left: 4px;
+    padding-right: 6px;
+
+    text-align: right;
+
+}
+
+.business-capability-plan-row .date-cell {
+
+    width: 198px;
+
+}
+
+/* A milestone's name: the whole of the card's name cell, its "+" (or x) in the card's x column. */
+.business-capability-plan-row.business-capability-plan-stage {
+
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 1fr) var(--card-x-column);
+    column-gap: var(--card-marker-gap);
+
+    margin-right: calc(-1 * (var(--card-x-column) + var(--card-marker-gap)));
+
+}
+
+/* A registration number linked to an expense: its link symbol stands at the right of the number's cell, inside it; the cell's text gives way (scales inward). */
+.legal-entity-link-hang {
+
+    left: auto;
+
+    z-index: 1;
+
+}
+
+.legal-entity-number-row:has(.legal-entity-link-hang) :is(textarea, input[type="text"]):last-of-type {
+
+    padding-right: 44px;
+
+}
+
+.legal-entity-subview { padding-left: 0; }
+
+/* The total of an activity's costs: a rule over it, between the last cost and the sum. A partner's cost under its resource is indented. */
+.business-capability-cost-line.business-capability-cost-total {
+
+    margin-top: 4px;
+    padding-top: 6px;
+
+    border-top: 1px solid var(--line-faint, var(--box-border));
+
+}
+
+.business-capability-cost-line.business-capability-cost-sub {
+
+    padding-left: 16px;
+
+}
+
+/* "Add to Legal Entity Expenses" and the link symbol to the expense it made, on one line. */
+.legal-entity-offer-line {
+
+    display: flex;
+    align-items: center;
+    gap: var(--gap-8);
+
+    grid-column: 1 / -1;
+
+}
+
+/* The name of an expense made by a requirement: text, not a cell, and a link to the requirement. */
+.legal-entity-card-head .legal-entity-name-link {
+
+    flex: 1 1 auto;
+    min-width: 0;
+
+    padding: 0;
+
+    border: 0;
+    background: none;
+    box-shadow: none;
+
+    text-align: left;
+    text-decoration: underline;
+
+    color: var(--text-link, var(--line-primary));
+
+    cursor: pointer;
+
+}
+
+/* The link symbol of a registration number stands inside its cell, left of the row's x (the x column and its gap are not the cell's). */
+.legal-entity-link-hang {
+
+    right: calc(var(--card-x-column, 32px) + var(--card-marker-gap, 8px) + 10px);
+
+}
+
+/* A Segment's groups of card tiles: a small title over each group, the tiles centred, 12px apart. */
+
+.business-foundation-frame-head {
+    align-items: flex-start;
+    gap: var(--gap-8);
+
+    overflow: visible;
+
+}
+
+.business-foundation-frame-head.strategy-box-head {
+
+    align-items: center;
+
+}
+

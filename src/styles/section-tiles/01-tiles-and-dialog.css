@@ -1,0 +1,533 @@
+/* ==========================================================
+   Section tiles and their dialog (SectionTiles.tsx,
+   docs/ai/layout-rules.md "Section tiles and dialog")
+
+   A section of 3. Infrastructure & Capability is a tile: a true
+   square (--section-tile-size) with the section's name at a third of
+   its height, underlined, and under it a short list of what the
+   section includes. Pressing it opens the section in a dialog.
+========================================================== */
+
+/* THE SIZE: a third of the width the tiles have, less the two gaps, so a
+   3 x 3 set exactly fills it (never under --section-tile-min: a group too
+   narrow for three of those wraps to fewer across). The box is the size
+   container: 100cqw is the width of the tile group (the card's content,
+   less its body indent), the same in every group of a card. The hundredth
+   of a pixel keeps three across from being rounded out of the row. */
+.section-tiles-box {
+
+    container: section-tiles / inline-size;
+
+    min-width: 0;
+
+}
+
+/* THE GRID: squares of one size, left-aligned, --space-card (12px) apart every way, in the ONE
+   SHAPE every set of tiles or boxes takes (SectionTiles.tsx, gridColumns): 1 to 3 in a single row,
+   exactly 4 as a 2 x 2 square, 5 or more in TWO rows (ceil(n / 2) across, the last row possibly
+   shorter). --tile-columns is that number across; a row that cannot fit wraps to fewer, and each tile
+   stays square. */
+/* THE FOUR TILES OF A PAGE CARD (2 x 2): scaled up to fill the card's width, squares 12px apart, the block centred in the card. */
+.section-tiles-quad {
+
+    --section-tile-size: min(calc((100cqw - var(--space-card)) / 2 - 0.01px), var(--quad-max-side, 9999px));
+
+}
+
+.section-tiles-quad > .section-tiles {
+
+    justify-content: center;
+
+}
+
+/* The type of the four tiles: every tile title is the body step (18px), on every kind of tile; from 250px a side their list is the body step (18px), under it 14px. */
+.section-tiles-quad[data-large] .section-tile-list {
+
+    font-size: var(--font-body);
+
+}
+
+.section-tiles {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fill, var(--section-tile-size));
+
+    justify-content: start;
+
+    gap: var(--space-card);
+
+    max-width: calc(var(--tile-columns, 3) * var(--section-tile-size) + (var(--tile-columns, 3) - 1) * var(--space-card));
+
+}
+
+/* THE TILE: the card's inner ground and edge in the hue of the card it sits in (a channel tile sets
+   its own hue). THE TITLE stands at ONE THIRD of the square's height (--tile-title-top: the centre of
+   its first line, so about two thirds of the square lie below it), underlined by a hairline of its own
+   (a rule on the title, so a wrapped title has one rule under its last line); under it a short LIST of
+   what the section includes (TileList) -- or, while the section holds nothing, the small "+". Long
+   titles wrap inside the square. */
+.section-tile {
+
+    /* (The containing block of the visually hidden notes inside it, so a card's scrolling body clips them.) */
+    position: relative;
+
+    /* Two rows: the title's, ending on the title line, and the rest (the list, the "+", the one small line). */
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: var(--tile-title-row) minmax(0, 1fr);
+
+    justify-items: center;
+
+    box-sizing: border-box;
+
+    width: var(--section-tile-size);
+    height: var(--section-tile-size);
+    aspect-ratio: 1 / 1;
+
+    /* The title row is a third of the square (less the border, plus the rule and half a line) and the title
+       stands at its foot: the title's LAST line is centred on the line one third down the square (--tile-title-top),
+       whatever the number of lines -- a long title grows upward. */
+    --tile-title-row: calc(var(--section-tile-size) * var(--tile-title-top) - 1px + 5px + var(--section-tile-line-height) * 0.5em);
+
+    /* NO STROKE, AND NO BORDER: the edge is the light and the shade of the box itself -- an inset light from the top left and an
+       inset shade to the bottom right (--box-light, --box-shade). (A transparent 1px border left a hairline of the plain ground
+       OUTSIDE the inset shadow, light where the shade is and dark where the light is: gone. The padding takes the pixel the border
+       had, so every position inside the box is where it was.) */
+    padding: 1px calc(var(--card-padding) + 1px) calc(var(--card-padding) + 1px);
+
+    border: 0;
+    border-radius: var(--tile-radius);
+
+    box-shadow: var(--box-inset);
+
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    color: var(--text-default);
+
+    font: inherit;
+    /* The next size up the type scale from the 16px it inherited (which is not on it):
+       --font-body, 18px. */
+    font-size: var(--font-body);
+    font-weight: 600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+    text-align: center;
+
+    cursor: pointer;
+
+    transition: box-shadow .15s ease;
+
+}
+
+.section-tile-title {
+
+    align-self: start;
+
+    box-sizing: border-box;
+
+    min-width: 0;
+    max-width: 100%;
+
+    overflow-wrap: anywhere;
+
+    /* ONE LINE, ONE SIZE, ONE PLACE: a title too long for the tile is cut with an ellipsis (its full text is the tile's tooltip); it never wraps and never
+       drops a size, so every title of every kind of tile stands on the same line. */
+    display: block;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    overflow: hidden;
+
+    /* The title's own rule, under its last line, in the title's colour at 40%. */
+    padding-bottom: 4px;
+
+    border-bottom: 1px solid color-mix(in srgb, currentColor 40%, transparent);
+
+    /* A title that wraps has room between its lines: 1.45 (a single line is the same
+       as before). An "&" is joined to the word after it in the markup (drawnTitle). */
+    line-height: var(--section-tile-line-height);
+
+    /* THE TITLE (with its line) STANDS ONE LINE HIGHER than the third-down line: it is lifted by one line of its own size
+       (--tile-title-lift, 1.45 x the title's font size = 26.1px at 18px), the list under it keeping its place -- so the gap from the
+       underline to the list is a line wider. Never more than leaves a single line 12px from the top of a small box. */
+    --tile-title-lift: calc(var(--section-tile-line-height) * 1em);
+
+    /* EVERY TITLE'S FIRST LINE STANDS AT ONE DISTANCE FROM ITS TILE'S TOP (--tile-title-gap), on every tile of every size (where a one-line title stood): its rule, and the list after it, follow its last line. */
+    margin-bottom: 0;
+    margin-top: var(--tile-title-gap, 24px);
+
+}
+
+/* What the section includes, under the title: small, muted, bulleted (the app's drawn bullet), one
+   line each cut by an ellipsis, as many lines as fit and then "+N more" (TileList). */
+.section-tile-list {
+
+    /* A block as wide as its longest item (at most the tile's inner width), centred under the title; its
+       lines are left-aligned inside it. */
+    align-self: stretch;
+    justify-self: center;
+
+    width: fit-content;
+    max-width: 100%;
+
+    min-height: 0;
+
+    /* THE LIST STARTS 12px UNDER THE TITLE'S UNDERLINE: the title (with its line) stands --tile-lift higher than the row's foot (TileTitle
+       measures it, per tile), so the list comes up by the same. */
+    margin: calc(var(--space-card) - var(--tile-lift, 0px)) 0 0;
+    padding: 0;
+
+    /* EVERY item is in the list; it scrolls inside its bounds (under the title, above the "+" box) with a thin themed scrollbar, and the wheel scrolls it
+       before the card behind. */
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    overscroll-behavior: contain;
+
+    list-style: none;
+
+    font-size: var(--font-small);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: var(--section-tile-line-height);
+
+    text-align: left;
+
+    color: var(--text-muted);
+
+}
+
+.section-tile-list > li {
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding-left: calc(var(--bullet-size) + var(--tile-list-gap));
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+}
+
+/* An item is one line cut by an ellipsis -- or, where its text carries a forced break ("Cooling & Air" / "Conditioning"), two, each cut by
+   its own; the bullet stays on the first line. */
+.section-tile-list-line {
+
+    display: block;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+}
+
+.section-tile-list > li::before {
+
+    content: "";
+
+    position: absolute;
+    left: 0;
+    top: calc((var(--section-tile-line-height) * 1em - var(--bullet-size)) / 2);
+
+    width: var(--bullet-size);
+    height: var(--bullet-size);
+
+    border-radius: 50%;
+    background: currentColor;
+
+}
+
+/* THE LIST'S SCROLLBAR: thin, no up / down arrows, a thumb of at least about two bullet lines (40px), drawn only while the pointer is over the list. */
+.section-tile-list::-webkit-scrollbar {
+
+    /* Overrides the app-wide `*::-webkit-scrollbar { display: none; width: 0 }` (global.css). */
+    display: block;
+    width: 6px;
+
+}
+
+.section-tile-list::-webkit-scrollbar-button {
+
+    display: none;
+
+    width: 0;
+    height: 0;
+
+}
+
+.section-tile-list::-webkit-scrollbar-track {
+
+    background: transparent;
+
+}
+
+.section-tile-list::-webkit-scrollbar-thumb {
+
+    min-height: 40px;
+
+    border-radius: 3px;
+
+    background: transparent;
+
+}
+
+.section-tile-list:hover::-webkit-scrollbar-thumb {
+
+    background: color-mix(in srgb, currentColor 45%, transparent);
+
+}
+
+/* The list that scrolls takes the wheel and the touch (its layer takes no clicks otherwise: a click on the tile's blank is the tile's own). */
+.section-tile-links-layer > .section-tile-list[data-scrolls] {
+
+    pointer-events: auto;
+
+}
+
+.section-tile-list[data-scrolls]:focus-visible {
+
+    outline: 2px solid var(--focus-ring-ink);
+    outline-offset: 2px;
+
+}
+
+/* One reaction, as a text box's: the primary edge and the soft glow;
+   focused, the stronger ring. */
+.section-tile:hover:not(:focus-visible) {
+
+    box-shadow: var(--box-inset), 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift)), transparent);
+
+}
+
+.section-tile:focus-visible {
+
+    outline: 2px solid var(--focus-ring-ink);
+    outline-offset: 2px;
+
+}
+
+/* THE DIALOG: centred, the page behind dimmed (and inert). */
+.section-tile-overlay.business-foundation {
+
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 16px;
+
+    /* A dialog taller than the window scrolls with its overlay. */
+    overflow-y: auto;
+
+    background: var(--bg-overlay);
+
+}
+
+/* Measured (SectionTiles.tsx, dialogFrame): the dialog starts at the
+   page heading's underline and ends at the footer, so it is placed from the
+   top (--section-dialog-top) and the overlay has no padding of its own. */
+.section-tile-overlay.business-foundation.section-tile-overlay-measured {
+
+    align-items: flex-start;
+
+    padding: 0;
+
+}
+
+/* A dialog over the card of its SECTION stands at that card's left edge (--section-dialog-left); every other dialog (Inventory, Completed, a card's)
+   stays centred across the page. */
+.section-tile-overlay.business-foundation.section-tile-overlay-placed {
+
+    justify-content: flex-start;
+
+}
+
+/* THE ONE DIALOG GROUND (every dialog: Founders, Workspace, Utilities, Activities,
+   Partnerships, the Capability sections, the channel tiles): as wide as the page's
+   card area (--section-dialog-width), from the page heading's underline to the
+   footer (--section-dialog-height); unmeasured the least of 92vw and 1400px wide,
+   88vh high. The ground is the card's own, TRANSLUCENT (--dialog-ground-alpha) and
+   BLURRED (--dialog-blur, global.css), so the dimmed page shows softly through;
+   only the hue differs (the card's, the channel teal). What is taller scrolls
+   inside its body only; its Back button is always in view at the lower left. */
+.section-tile-overlay.business-foundation > .section-tile-dialog.business-foundation-card {
+
+    /* (Not the Segment card's grid: the overlay stands in for the page
+       the section sits on, so the rule for a .business-foundation's
+       direct .business-foundation-input would lay the panel out as a
+       Segment.) */
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: var(--space-field);
+
+    box-sizing: border-box;
+
+    width: var(--section-dialog-width, min(92vw, 1400px));
+    /* The area of its card at least; it GROWS DOWN when its tiles do not fit. */
+    min-height: var(--section-dialog-height, 88vh);
+    flex-shrink: 0;
+
+    padding: var(--card-padding);
+
+    /* The card's ground at --dialog-ground-alpha (20%: the background colour is 80% transparent). The page behind it shows through
+       blurred (--dialog-blur) and lifted (--dialog-backdrop-brightness: it undoes the dimming of the page, light and sepia), so
+       every text keeps 4.5:1 over the worst smear of the page (layout-rules 5a, "The dialog ground"). */
+    /* (A frame that has text on it is never transparent: the ground is solid, nothing of the page shows through.) */
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+
+    border-color: hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+    --glow-color: hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+
+    box-shadow: 0 16px 40px var(--shadow-18);
+
+}
+
+/* Placed from the top, and centred across: the page's card margins (a column
+   card's 13px bleed, set on the last child of a .business-foundation) are not
+   the dialog's. */
+.section-tile-overlay.business-foundation.business-engagement.business-capability > .section-tile-dialog.business-foundation-card.business-foundation-input {
+
+    margin: var(--section-dialog-top, 0) auto 0;
+
+}
+
+.section-tile-overlay.section-tile-overlay-placed.business-foundation.business-engagement.business-capability > .section-tile-dialog.business-foundation-card.business-foundation-input {
+
+    margin: var(--section-dialog-top, 0) 0 0 var(--section-dialog-left, 0);
+
+}
+
+/* THE CARDS INSIDE ANY DIALOG (a founder's, a resource's, an activity's, a partner's):
+   one card ground, the same glass as the dialog's step further on -- the card's inner
+   tint at --card-glass-alpha, blurred by --card-glass-blur, so the dialog's ground
+   shows softly through. Text colours stay at 4.5:1 on the worst ground (layout-rules
+   5a). */
+.section-tile-overlay .section-tile-dialog .business-foundation-card {
+
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+
+    border-color: hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+}
+
+.section-tile-dialog:focus {
+
+    outline: none;
+
+}
+
+/* The section's name, for assistive technology: its own title is drawn
+   in the content. */
+.section-tile-dialog-name {
+
+    position: absolute;
+
+    /* (Read by assistive technology only, but on the type scale all the same: the body size, not the browser's 16px.) */
+    font-size: var(--font-body);
+
+    width: 1px;
+    height: 1px;
+
+    overflow: hidden;
+
+    clip-path: inset(50%);
+
+    white-space: nowrap;
+
+}
+
+/* The only part that scrolls. Its padding gives the focus rings of the
+   first and last controls room; the negative margin takes it back. */
+.section-tile-dialog-body {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: var(--space-card);
+
+    flex: 1 1 auto;
+
+    min-height: 0;
+
+    margin: -6px;
+    padding: 6px;
+
+    overflow-y: auto;
+
+    overscroll-behavior: contain;
+
+}
+
+.section-tile-dialog-foot {
+
+    display: flex;
+
+    justify-content: flex-start;
+
+    flex: none;
+
+}
+
+/* ← Back, as every Back of the app: plain words, a thickening under the pointer. */
+.section-tile-back {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: var(--gap-6);
+
+    padding: 6px 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: var(--text-default);
+
+    font: inherit;
+    font-size: var(--font-body);
+
+    cursor: pointer;
+
+    transition: color .15s ease;
+
+}
+
+.section-tile-back:hover,
+.section-tile-back:focus-visible {
+
+    color: var(--text-primary);
+
+    text-shadow: var(--hover-bold);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.section-tile-back:focus-visible {
+
+    outline: 2px solid var(--focus-ring-ink);
+    outline-offset: 2px;
+
+}
+

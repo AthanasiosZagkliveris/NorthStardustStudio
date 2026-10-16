@@ -7,11 +7,13 @@
  *
  *   node scripts/lint/css-shadowed.mjs [--remove src/styles/conversation.css | --check]
  */
-import { readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 import postcss from "postcss";
 
 const remove = process.argv.includes("--remove");
-const files = remove ? [process.argv[process.argv.indexOf("--remove") + 1]] : readdirSync("src/styles").filter(f => f.endsWith(".css") && !f.includes("generated")).map(f => "src/styles/" + f);
+const walk = dir => readdirSync(dir).flatMap(name => { const p = join(dir, name).replace(/\\/g, "/"); return statSync(p).isDirectory() ? walk(p) : [p]; });
+const files = remove ? [process.argv[process.argv.indexOf("--remove") + 1]] : walk("src/styles").filter(f => f.endsWith(".css") && !f.includes("generated"));
 const context = rule => { const parts = []; for (let p = rule.parent; p && p.type !== "root"; p = p.parent) if (p.type === "atrule") parts.push("@" + p.name + " " + p.params); return parts.join(" > "); };
 const norm = s => s.replace(/\s+/g, " ").trim();
 let total = 0;
@@ -36,7 +38,7 @@ for (const file of files) {
     // a declaration is shadowed only if a later declaration of the same property is not weaker (an !important later one still wins)
     const real = shadowed.filter(e => true);
     total += real.length;
-    console.log(file.split("/").pop().padEnd(32) + String(real.length).padStart(5) + " shadowed declarations" + (real.length && !remove ? "  e.g. " + real.slice(0, 2).map(e => norm(e.rule.selector).slice(0, 50) + " { " + e.decl.prop + " }").join("; ") : ""));
+    console.log(file.replace("src/styles/", "").padEnd(44) + String(real.length).padStart(5) + " shadowed declarations" + (real.length && !remove ? "  e.g. " + real.slice(0, 2).map(e => norm(e.rule.selector).slice(0, 50) + " { " + e.decl.prop + " }").join("; ") : ""));
     if (remove) {
         for (const e of real) e.decl.remove();
         // a rule left with no declaration (only a comment about what was removed) draws nothing: it goes too

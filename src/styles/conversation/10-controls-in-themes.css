@@ -1,0 +1,369 @@
+/* ==========================================================
+   Delete controls
+
+   One look for every "remove this card / box" button in the
+   app: the Profile Card's, the Brand image holder's, the
+   Strategy Theme/Goal/Objective/Metric boxes', and the
+   Organization row's on the Landing page (that one is defined
+   in landing.css, which this file cannot reach -- the values
+   there are kept identical by hand).
+
+   They had drifted into four different sizes and three
+   different glyphs -- a minus in some places, a multiplication
+   sign in others -- which read as four unrelated controls
+   rather than one action.
+
+   The X is DRAWN, not typed. A character can only ever be
+   centred as a line box, and its ink sits wherever the font puts
+   it: "x" (U+00D7) in Inter Bold at 20px has an 11px ink height
+   whose centre lands 1.5px below the button's own centre, and
+   buttons carry 10% tracking app-wide -- added after the last
+   character too -- which pushes a lone glyph off-centre
+   horizontally as well. Two rotated bars positioned from the
+   button's own 50%/50% are exactly centred at any size, in any
+   font. The character stays in the markup as a fallback (and
+   every one of these buttons carries its own aria-label), hidden
+   here by `font-size:0`.
+
+   Hover fills solid #d01818 rather than tinting: this is the
+   one destructive control on a card, and white on that red is
+   5.5:1. At rest it stays neutral (#111827 on white, 17:1,
+   inside a var(--box-border) border at 3.0:1) so a page full of cards is
+   not a page full of red.
+========================================================== */
+
+.profile-card-remove,
+.brand-holder-clear,
+.legal-entity-field-remove{
+
+    width:32px;
+    height:32px;
+
+    /* The same square in every row: a flex row never squeezes it
+       (an Activity's performer × and a cost's × beside "Change"
+       were narrowed to 29px and 19px). */
+    flex:none;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:0;
+
+    color:var(--text-default);
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-md);
+
+    background:var(--bg-surface);
+
+    font:inherit;
+    font-size:0;
+    line-height:1;
+
+    cursor:pointer;
+
+    transition:background-color .15s ease, border-color .15s ease, color .15s ease;
+
+}
+
+/* The two strokes of the X.
+   `currentColor` so they follow the button's own colour through
+   rest, hover and disabled. */
+.profile-card-remove::before,
+.profile-card-remove::after,
+.brand-holder-clear::before,
+.brand-holder-clear::after,
+.legal-entity-field-remove::before,
+.legal-entity-field-remove::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:50%;
+    left:50%;
+
+    width:14px;
+    height:2px;
+
+    margin:-1px 0 0 -7px;
+
+    border-radius:1px;
+
+    background:currentColor;
+
+}
+
+.profile-card-remove::before,
+.brand-holder-clear::before,
+.legal-entity-field-remove::before{
+
+    transform:rotate(45deg);
+
+}
+
+.profile-card-remove::after,
+.brand-holder-clear::after,
+.legal-entity-field-remove::after{
+
+    transform:rotate(-45deg);
+
+}
+
+.profile-card-remove:hover:not(:disabled),
+.brand-holder-clear:hover:not(:disabled),
+.legal-entity-field-remove:hover:not(:disabled){
+
+    color:var(--text-on-fill);
+
+    border-color:var(--line-danger-strong);
+    background:var(--bg-danger-strong);
+
+    /* No ring: the fill IS the reaction, and the box these sit
+       on already glows on its own hover. */
+    box-shadow:none;
+
+}
+
+.profile-card-remove:focus-visible,
+.brand-holder-clear:focus-visible,
+.legal-entity-field-remove:focus-visible{
+
+    outline:none;
+
+    border-color:var(--line-primary);
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
+
+}
+
+.profile-card-remove:disabled,
+.brand-holder-clear:disabled,
+.legal-entity-field-remove:disabled{
+
+    /* Colour rather than opacity, so the glyph stays legible --
+       the same choice `.strategy-box-action:disabled` documents. */
+    opacity:1;
+
+    color:var(--text-faint);
+    border-color:var(--line-card);
+
+    background:var(--bg-surface);
+
+    cursor:not-allowed;
+
+}
+
+/* The card's own header has to clear the button's new width:
+   32px of button at `right:10px`, plus a gap. */
+.profile-card-fixed-label,
+.profile-card-title-input{
+
+    padding-right:48px;
+
+}
+
+/* ==========================================================
+   Theme colour on the controls
+
+   Inside a Theme panel nothing is blue any more. The Goal,
+   Objective and Metric boxes, the "+ Add" button that fills
+   each of them, and the glow a box shows on hover and focus all
+   draw from that Theme's own generated hue -- so a box and the
+   button that adds to it are visibly the same thing, and the
+   page reads as one Theme rather than as a Theme with the app's
+   accent colour laid over it.
+
+   One line colour does all of it: `hsl(h 28% 34%)`. It is the
+   box stroke AND the add button's text and stroke, which is
+   what makes the pairing legible. 34% lightness rather than the
+   44% the strokes used before, because the button's LABEL is
+   drawn in it: at 44% the worst hue measured 3.26:1 on the
+   button's own ground, under the 4.5:1 text needs. At 34% the
+   worst measures 4.81:1, and the stroke reads slightly stronger
+   than it did, which costs nothing.
+========================================================== */
+
+/* The add buttons' label, stroke and hover ground come from the
+   Theme's colour family (--accent-* on .strategy-theme-panel,
+   global.css): the ink above, and one hover ground for all three,
+   a step darker than the lightest ground any of them rests on --
+   4.61:1 for the label at the worst hue. Named again here only to
+   outrank the per-level grounds above, which would otherwise hold
+   under the pointer too. */
+
+/* ==========================================================
+   The glow, inside a Theme
+
+   Everything that glows within a Theme glows in that Theme's own
+   colour -- the nested boxes, the text holders, the pickers, the
+   selection buttons, all of it -- and so does a Theme card on the
+   Foundation page and a Theme's band on the Roadmap.
+
+   Not one ring rule had to learn about Themes for this. Custom
+   properties inherit, so redeclaring --glow-color here hands the
+   Theme's colour to every descendant that draws a ring (see the
+   token's own note in global.css).
+
+   34% lightness rather than the 44% the strokes used: these
+   rings are washes, mixed down to 18-35% of the colour, and a
+   pale hue washed that far over an already pale ground stops
+   registering. As everywhere else in the app, the ring
+   reinforces the focus state rather than carrying it -- the
+   border-colour change beneath it is what SC 2.4.11 is
+   satisfied by.
+========================================================== */
+
+.strategy-theme-box,
+.roadmap-theme-box{
+
+    --glow-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+
+}
+
+/* The Theme card's own ground, derived from the same hue rather
+   than handed in as a finished colour (see StrategyFoundationEditor).
+   The same 96% every Theme panel uses on the page after it. */
+.strategy-theme-box{
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+/* Only the border needs saying here -- the ring these boxes
+   already draw on hover and focus now takes the Theme's colour
+   on its own. */
+.strategy-theme-box:hover,
+.strategy-theme-box:focus{
+
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent-deeper));
+
+}
+
+/* The open/close arrow takes a stroke on hover as well as its
+   white ground -- the same line colour the boxes around it are
+   drawn in, so the button reads as belonging to its own box. */
+
+/* ==========================================================
+   Wired buttons -- a doubled stroke on hover
+
+   An outlined button with a label answers the pointer by
+   thickening its own outline to 2px. Drawn INSIDE, as an inset
+   shadow rather than a wider border, so the button does not
+   grow and nothing beside it moves -- the same reason its label
+   thickens instead of changing weight (see --hover-bold in
+   global.css).
+
+   `currentColor` because most of these set their label and
+   their border to the same colour on hover, including the
+   Theme-coloured add buttons above. A neutral button whose label
+   stays light in dark mode while its border turns the family's
+   colour names that border as --wired-ring instead.
+========================================================== */
+
+.interview-help-toggle:hover,
+.brand-file-button:hover:not(:disabled),
+.brand-remove-button:hover:not(:disabled),
+.strategy-add-button:hover:not(:disabled),
+.operational-log-delete-old:hover:not(:disabled){
+
+    box-shadow:inset 0 0 0 1px var(--wired-ring, currentColor);
+
+}
+/* ==========================================================
+   One glow per Theme
+
+   Inside a Theme panel every ring is now the same ring: 4px
+   wide, at 28% of the Theme's colour, whether it is a box, a
+   text holder, a date button or a selection button, and whether
+   it is hovered or focused.
+
+   They had drifted apart -- boxes glowed 4px at 18% on hover and
+   32% on focus, text holders 3px at 35%, buttons 4px at 28% --
+   which read as several different kinds of highlight competing
+   inside one Theme rather than one panel answering the pointer.
+
+   The colour comes from --glow-color, which the Theme redeclares
+   (see "The glow, inside a Theme"), so this says nothing about
+   hue at all.
+
+   Deliberately NOT here: the hover states that are not glows --
+   the delete button fills, the arrow takes a white ground, and a
+   wired button doubles its own stroke. Those are separate
+   languages, each used once.
+
+   The `.brand-style` ancestor and the `:not(:disabled)` are as
+   much about the cascade as about meaning. The text holders'
+   own hover ring is written
+   `.brand-style .interview-input:hover:not(:focus):not(:disabled)`
+   -- five simple selectors -- and this has to match it to have
+   any say. It does, and it is the last rule in the file, which
+   is what settles the tie.
+========================================================== */
+/* ==========================================================
+   The Initiatives box
+
+   It wears the Metric box's frame so the two columns beside
+   each other match, but it is not a Metric box: there is
+   nothing to select, reorder or remove here, just a container
+   around one list.
+
+   So it answers the pointer with nothing of its own. The list
+   inside it already has its own ring (see `.numbered-list`),
+   and with the box glowing too, one pointer lit two rings
+   nested inside each other. The inner one is the real control
+   -- it is what the typing goes into -- so it is the one that
+   stays.
+========================================================== */
+/* ==========================================================
+   Choosing, in the Theme's colour
+
+   The three controls where picking a value marks it -- the two
+   date buttons' popover, and the Measurement Frequency and Unit
+   dropdowns -- still marked the choice in the app's accent blue
+   while everything around them had moved to the Theme's own
+   colour.
+
+   Contrast held to the same bars the blue met: white on the
+   active step measures 5.27:1 at the worst hue (the blue's
+   6.3:1), the chosen cell's label 6.04:1 on its tint, and its
+   2px border 3.93:1 against that tint. Both states also carry
+   aria-current or aria-selected, so neither is signalled by
+   colour alone.
+
+   `accent-color` is what reaches INTO a native control: it is
+   the one hook a page has on the parts of a <select> the
+   browser draws for itself. `option:checked` is set beside it
+   for the platforms that honour it -- where they do not, the
+   accent still tints the chosen row.
+========================================================== */
+
+/* `:not(:disabled)` so a cell that holds the current value AND
+   has since fallen out of range keeps the plain white ground
+   `.month-picker-cell:disabled` gives it -- the grey label needs
+   it to stay legible. */
+/* ==========================================================
+   Floating panels sit above the furniture
+
+   A dropdown, a date grid or a menu is on top of the page by
+   definition -- it is the thing being read. All three shared
+   `z-index:20` with the fixed navigation bar and lost to it on
+   source order, so a list opened near the bottom of a page had
+   its last options hidden behind PREVIOUS / NEXT.
+
+   30 rather than 21, to leave room between the bar and the
+   panels for anything that has to sit between them later.
+
+   Where a panel OPENS is decided in useFloatingPanel: below the
+   control if it fits, above it if it does not, capped and
+   scrolling if it fits neither. That is the rule; this is only
+   what keeps it in front once it is placed.
+========================================================== */
+
+.month-picker-panel,
+.strategy-sort-menu{
+
+    z-index:30;
+
+}

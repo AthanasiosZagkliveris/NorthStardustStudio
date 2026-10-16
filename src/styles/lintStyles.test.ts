@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { sheetSource } from "../test/stylesheet.ts";
 import { describe, expect, it } from "vitest";
 import baselineFile from "../../scripts/lint/styles-baseline.json";
 import { compareWithBaseline, lintFile, lintStyles, toBaseline, type Baseline } from "../../scripts/lint/styles.ts";
@@ -78,7 +78,7 @@ describe("the stylesheets", () => {
 
     // Every stylesheet of src/styles: the glob lists the names (a plain CSS import is an empty module in the test runner, and so is a raw one), the files are read from disk.
     const names = Object.keys(import.meta.glob("./*.css")).sort().map(path => path.replace("./", ""));
-    const files = names.map(name => ({ name, text: readFileSync(new URL("./" + name, import.meta.url), "utf8").replace(/\r\n/g, "\n") }));
+    const files = names.map(name => ({ name, text: sheetSource(name) }));
     const baseline = baselineFile as Baseline;
 
     it("are all read (the lint is not run on nothing)", () => {

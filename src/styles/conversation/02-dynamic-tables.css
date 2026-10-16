@@ -1,0 +1,1330 @@
+/* ==========================================================
+   Dynamic Table
+========================================================== */
+
+/* ==========================================================
+   Multi-Part Answers (see AnswerType.MultiPart) -- an ordered
+   sequence of otherwise-independent parts (Table, Free Text,
+   ...) rendered one after another under the same Section, each
+   with its own small label heading. Example: the Finance
+   System's Financial Risk, which is a Description table, an
+   Evaluation table, a Mitigation Measures table, and a
+   Contingency Plan table, one after another.
+========================================================== */
+
+.answer-multi-part{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:28px;
+
+}
+
+.answer-part-label{
+
+    margin:0 0 10px;
+
+    font-size:var(--font-h3);
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    color:var(--text-strong);
+
+}
+
+/* ==========================================================
+   Multi-Part Answers -- Column Layout (see
+   AnswerDefinition.columns). Every part sits side by side in
+   its own column instead of stacking, each column carrying its
+   own label, its own question text and its own editor.
+   Example: the Identity System's three pages, each four Free
+   Text columns wide.
+========================================================== */
+
+.answer-columns{
+
+    display:grid;
+
+    /* Every column gets an identical share of the row, whatever
+       its own label or question text needs -- `1fr` alone would
+       still let a long unbroken word push one column wider than
+       its siblings, so each track is floored at `minmax(0, ...)`
+       to keep the split exactly even. The count comes from the
+       Section's own part count (set inline by the renderer)
+       rather than being hardcoded to 4, so a 3- or 5-part
+       Section laid out this way still divides evenly. */
+    grid-template-columns:repeat(var(--answer-column-count, 4), minmax(0, 1fr));
+
+    /* Laid out as four auto-placed ROWS rather than columns of
+       self-contained blocks: every column's title fills row 1,
+       every column's question text row 2, the full-width divider
+       row 3, and every column's editor row 4.
+
+       Splitting them this way is what lets a single continuous
+       line run between the question text and the answer boxes --
+       and, because a grid row sizes to its tallest item, it also
+       aligns all four titles, all four question blocks and all
+       four editors on their own shared baselines for free. A title
+       that wraps to two lines therefore no longer pushes its own
+       column's question text below its neighbours'. */
+
+    /* 12px between rows (question texts -> progress line -> answer
+       boxes) and 12px between columns (--space-column): a column is
+       the same distance from its neighbour across as a card is down. */
+    gap:var(--space-field) var(--space-column);
+
+}
+
+.answer-column-editor{
+
+    min-width:0;
+
+}
+
+/* Spans every column, so whatever sits inside it (the interview's
+   progress line) reads as one unbroken horizontal band across the
+   whole answer area rather than as a per-column rule. */
+.answer-columns-divider{
+
+    grid-column:1 / -1;
+
+}
+
+.answer-column-label{
+
+    /* No bottom margin -- the grid's own 12px row gap is the single
+       source of spacing between the title row and the question row
+       below it. */
+    margin:0;
+
+    min-width:0;
+
+    /* Centred in its column, as plain centred text rather than a
+       flex row. A flex row was tried first so the number could be
+       its own track, but a flex item that wraps takes the FULL
+       remaining width and centres its lines inside that -- which
+       left the number stranded at the far-left column edge, yards
+       from its own centred title. Centred text keeps the number
+       inline with the first line where it belongs.
+       Centring also supersedes the earlier hanging-indent rule: a
+       wrapped line is centred rather than aligned under anything,
+       so it can no longer tuck back under the number. */
+    text-align:center;
+
+    /* A single-word title ("AESTHETICS", "POSITIONING") has no
+       space to wrap at, so without these it would overflow its
+       column and collide with the neighbouring title once the
+       window is narrow enough. */
+    hyphens:auto;
+    overflow-wrap:break-word;
+
+    /* Matches the 24px a page title (h2) uses -- these column
+       titles read as the page's real headings now that the
+       Section's own title has moved up into the Interview
+       Header. */
+    font-size:var(--font-h3);
+    font-weight:600;
+
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+
+    color:var(--text-strong);
+
+}
+
+/* Sits inline immediately before the title. The margin supplies
+   the space after the "." -- JSX drops the whitespace between the
+   two sibling spans, so without it they would run together. */
+.answer-column-label-number{
+
+    margin-right:0.3em;
+
+}
+
+/* min-width:0 lets this flex item actually shrink to the column's
+   width so its text wraps inside its own box, instead of forcing
+   the row wider (flex items default to min-width:auto).
+
+   `overflow-wrap` matters just as much here: a title that is a
+   single long word ("AESTHETICS", "POSITIONING") has no space to
+   wrap at, so without it the word overflows its column and
+   collides with the next column's title once the window is narrow
+   enough -- confirmed by direct observation, not assumed. Same
+   pairing the question lines use. */
+/* Kept as its own span so the title text stays addressable
+   separately from its number (and so bindLabelAroundAmpersand's
+   output is scoped to the title alone). Wrapping and alignment are
+   handled by .answer-column-label above, now that this is inline
+   rather than a flex item. */
+
+.answer-column-questions{
+
+    /* Vertical spacing comes from the grid's own row gap, not from
+       a margin here. The 12px left/right inset is this text's own,
+       holding it clear of the column edges (and of the neighbouring
+       column's text across the 24px column gap). */
+    margin:0;
+
+    padding:0 12px;
+
+    min-width:0;
+
+    /* Body text in the app's type scale: Headings 36 / Subheadings
+       24 / Text 18 / Buttons 16. */
+    font-size:var(--font-body);
+    line-height:1.5;
+
+    color:var(--text-muted);
+
+}
+
+/* Each authored question/explanation is its own block (rendered
+   line by line rather than as one "pre-line" run) so the two can
+   wrap differently -- see the hanging-indent rule below.
+
+   `hyphens:auto` asks the browser to break a long word across
+   lines with a real hyphen rather than shoving the whole word
+   down; these columns are narrow enough that one long word
+   otherwise leaves a ragged hole in the line above it. It needs
+   the document's `lang` to select a hyphenation dictionary --
+   index.html declares `lang="en"`.
+
+   CAVEAT, measured rather than assumed: auto-hyphenation produced
+   NO change in the Chromium build this was tested in (identical
+   line counts for `hyphens:auto` vs `hyphens:none` on a word too
+   long for its line), i.e. no dictionary was applied there. The
+   property is kept because it is the correct standards-compliant
+   way to ask, and it costs nothing where unsupported -- but don't
+   assume hyphens are actually rendering without re-checking in
+   the packaged app's own WebView2.
+
+   `overflow-wrap:break-word` is therefore doing the load-bearing
+   work: it guarantees an over-long token (or a URL) breaks rather
+   than overflowing the column, though it breaks WITHOUT a
+   hyphen. */
+.answer-question-line{
+
+    display:block;
+
+    /* Never a word split with a hyphen: broken words are hard to
+       read, particularly with dyslexia. An over-long word still
+       wraps rather than overflowing (overflow-wrap). */
+    hyphens:manual;
+    overflow-wrap:break-word;
+
+}
+
+/* ONLY a bullet line hangs its wrap under its own text:
+   `padding-left` pushes the whole line across and `text-indent`
+   pulls just the first line back, so the second line starts under
+   the words rather than under the "•". 1.15em matches the width
+   of the "• " prefix the interpreter emits.
+
+   An explanation line deliberately does NOT get this -- it has no
+   bullet to align to, so it stays flush to the margin on every
+   line, wrapped included, rather than being indented to a bullet
+   it doesn't have. */
+.answer-question-line-bullet{
+
+    padding-left:1.15em;
+    text-indent:-1.15em;
+
+}
+
+/* ==========================================================
+   Fixed Variant Text -- Cards
+========================================================== */
+
+.answer-variant-cards-wrapper{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+/* Rendered as a single row of overlapping "stacked
+   file" tabs -- each card sits partially behind the
+   one before it, and lifts to the front on hover /
+   when active, like flipping through a folder of
+   files. flex-wrap stays "nowrap" so the whole stack
+   is always on one line; if there are more cards than
+   fit the available width, the row scrolls
+   horizontally rather than wrapping. */
+.answer-variant-cards{
+
+    display:flex;
+
+    flex-wrap:nowrap;
+
+    align-items:flex-end;
+
+    overflow-x:auto;
+
+    padding:6px 6px 10px 2px;
+
+}
+
+.answer-variant-card{
+
+    position:relative;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:var(--gap-8);
+
+    flex-shrink:0;
+
+    margin-left:-16px;
+
+    padding:12px 20px;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-surface);
+
+    color:var(--text-default);
+
+    font:inherit;
+    font-size:var(--font-body);
+    font-weight:500;
+
+    cursor:pointer;
+
+    box-shadow:0 1px 3px var(--shadow-ink-12);
+
+    transition:background-color .2s ease, border-color .2s ease,
+        color .2s ease, box-shadow .2s ease, transform .2s ease;
+
+}
+
+.answer-variant-card:first-child{
+
+    margin-left:0;
+
+}
+
+.answer-variant-card:hover{
+
+    z-index:5;
+
+    background:var(--bg-hover);
+
+    transform:translateY(-4px);
+
+    box-shadow:0 4px 10px var(--shadow-ink-16);
+
+}
+
+.answer-variant-card.filled{
+
+    border-color:var(--line-primary-soft);
+
+}
+
+.answer-variant-card.active{
+
+    z-index:10;
+
+    border-color:var(--line-primary);
+
+    background:var(--bg-primary-tint);
+
+    color:var(--text-primary);
+
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    transform:translateY(-6px);
+
+    box-shadow:0 6px 14px var(--line-primary-a22);
+
+}
+
+.answer-variant-card-check{
+
+    color:var(--text-primary);
+
+    font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
+.answer-variant-card.active .answer-variant-card-check{
+
+    color:var(--text-primary);
+
+}
+
+.answer-variant-editor{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+/* Every horizontally-scrollable container in the app (the variant/
+   card selector tabs, the Customer Profile / Competitor Analysis
+   card row, and the data table below) supports press-and-drag
+   scrolling via useDragToScroll -- a plain hand/grab cursor invites
+   that, and swaps to a "grabbing" fist plus disabled text selection
+   for the duration of an actual drag (see the .drag-scrolling class
+   the hook toggles). Child controls (inputs, selects, buttons,
+   links) keep their own normal cursors regardless, since the
+   browser resolves their default `cursor:auto` independently of
+   this ancestor's grab cursor. */
+.answer-variant-cards.drag-scrolling,
+.profile-cards-row.drag-scrolling,
+.dynamic-table-scroll.drag-scrolling{
+
+    user-select:none;
+
+}
+
+/* THE DRAG HAND, one rule for everything that is dragged: the
+   scrolling rows above, and every grip -- a card's ⠿ handle, a
+   numbered line's number, an Activity's number. The browser's own
+   grab hand is a small bitmap that looks pixelated beside the
+   system's pointing hand, so it is drawn instead (src/assets/
+   cursors): an SVG, sharp at 100%, and a PNG made from it at twice
+   the size for a 2x screen, both 64px with the hotspot at their
+   centre, 32 32. The open hand is a glyph 34px wide and 40 tall with
+   a 2px outline, the closed hand 33 by 32 at the same scale -- large
+   enough to read at a glance over a grip. The browser's own hand stays as the fallback, and the
+   first line is the fallback for a browser without image-set. */
+.answer-variant-cards,
+.profile-cards-row,
+.dynamic-table-scroll,
+.numbered-list-number{
+
+    cursor:url("../../assets/cursors/grab.svg") 32 32, grab;
+    cursor:image-set(url("../../assets/cursors/grab.svg") 1x, url("../../assets/cursors/grab-2x.png") 2x) 32 32, grab;
+
+}
+
+.answer-variant-cards.drag-scrolling,
+.profile-cards-row.drag-scrolling,
+.dynamic-table-scroll.drag-scrolling,
+.numbered-list-number:active{
+
+    cursor:url("../../assets/cursors/grabbing.svg") 32 32, grabbing;
+    cursor:image-set(url("../../assets/cursors/grabbing.svg") 1x, url("../../assets/cursors/grabbing-2x.png") 2x) 32 32, grabbing;
+
+}
+
+/* The data table and the Up/Down/Add/Remove actions table sit
+   side by side as independent flex children -- only the data
+   table scrolls (see .dynamic-table-scroll below); the actions
+   table is a completely separate element next to it, so nothing
+   that happens inside the data table (resizing a column,
+   scrolling it horizontally) can move, resize, or otherwise
+   touch the row controls. */
+.dynamic-table{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    width:100%;
+
+}
+
+.dynamic-table-scroll{
+
+    flex:1 1 auto;
+
+    /* Without this a flex item's default min-width:auto stops
+       it from ever shrinking below its content's intrinsic
+       width -- which, for a very wide table, would push the
+       whole card wider than the page instead of scrolling
+       internally. */
+    min-width:0;
+
+    /* Once columns have been manually resized the table's own
+       width becomes the exact sum of its columns (see
+       DynamicTable.tsx) rather than always 100% -- if that sum
+       is wider than the available space, this scrolls
+       horizontally instead of squeezing every column back down
+       to fit. */
+    overflow-x:auto;
+
+}
+
+.dynamic-table-scroll table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-bottom:15px;
+
+}
+
+.dynamic-table-scroll th,
+.dynamic-table-scroll td{
+
+    border:1px solid var(--line-table);
+
+    padding:10px;
+
+    text-align:left;
+
+    vertical-align:top;
+
+    overflow-wrap:anywhere;
+
+}
+
+.dynamic-table-scroll th{
+
+    position:relative;
+
+    background:var(--bg-table-head);
+
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    white-space:nowrap;
+
+    user-select:none;
+
+}
+
+/*
+   Row-selection support (Product Development System's Product
+   Register acting as a Product picker -- see DynamicTable's
+   `rowSelection` prop). Deliberately background-color based
+   rather than transform:scale(), since scaling a <tr> risks
+   clipping/overlap inside .dynamic-table-scroll's overflow
+   container and against the pinned .dynamic-table-actions-table
+   sibling.
+*/
+.dynamic-table-row-selectable{
+
+    cursor:pointer;
+
+    transition:background-color .15s ease;
+
+}
+
+.dynamic-table-row-selectable:hover td{
+
+    background:var(--bg-primary-tint-hover);
+
+}
+
+.dynamic-table-row-selected td{
+
+    background:var(--bg-primary-selected);
+
+}
+
+.dynamic-table-row-selectable.dynamic-table-row-selected:hover td{
+
+    background:var(--bg-primary-selected-hover);
+
+}
+
+.dynamic-table-row-number-cell{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--gap-8);
+
+    white-space:nowrap;
+
+}
+
+.dynamic-table-row-select-bullet{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    width:20px;
+
+    height:20px;
+
+    padding:0;
+
+    border:1.5px solid var(--line-slate);
+
+    border-radius:50%;
+
+    background:var(--bg-surface);
+
+    color:var(--text-primary);
+
+    font-size:var(--font-small);
+
+    line-height:1;
+
+    cursor:pointer;
+
+    transition:border-color .15s ease, background-color .15s ease, color .15s ease;
+
+}
+
+.dynamic-table-row-select-bullet:hover{
+
+    border-color:var(--line-primary);
+
+    background:var(--bg-primary-tint-hover);
+
+}
+
+.dynamic-table-row-select-bullet-selected{
+
+    border-color:var(--line-primary);
+
+    background:var(--bg-primary);
+
+    color:var(--text-on-fill);
+
+}
+
+.dynamic-table-header-label{
+
+    display:inline-block;
+
+}
+
+/* Drag handle on the right edge of each header cell --
+   dragging it resizes that column, but never narrower
+   than the column's own title (enforced in JS from the
+   title's natural rendered width). */
+.col-resize-handle{
+
+    position:absolute;
+
+    top:0;
+    right:-3px;
+    bottom:0;
+
+    width:6px;
+
+    cursor:col-resize;
+
+    z-index:2;
+
+}
+
+.col-resize-handle:hover,
+.col-resize-handle:active{
+
+    background:var(--bg-primary-a35);
+
+}
+
+/* Cells auto-grow vertically to fit their full content --
+   no internal scrolling, no manual drag-resize. The row
+   itself becomes taller since a table row's height
+   already follows its tallest cell. */
+.dynamic-table-textarea{
+
+    display:block;
+
+    width:100%;
+
+    min-height:40px;
+
+    resize:none;
+
+    overflow:hidden;
+
+    box-sizing:border-box;
+
+    padding:8px 10px;
+
+    font:inherit;
+    font-size:var(--font-small);
+    line-height:1.5;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-md);
+
+}
+
+.dynamic-table-textarea:focus{
+
+    outline:none;
+
+    border-color:var(--line-primary);
+
+    /* Focus ring, not just a border-colour swap. The unfocused
+       border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
+       apart, so colour alone was a weak focus cue (WCAG 2.2 SC
+       2.4.11 wants 3:1 against the unfocused state). The ring is
+       independent of the border colour, adds no layout (box-shadow
+       does not affect flow), and matches the ring .user-name-input
+       and the Free Text textarea already use. */
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+
+}
+
+/* ==========================================================
+   Table Cell -- Field (dropdown) / Number
+========================================================== */
+
+/* .interview-input is deliberately unstyled by InterviewInput.tsx
+   itself (so the same component still works, unstyled, outside a
+   table -- see AnswerRenderer.tsx). Inside a table cell that meant
+   the <select>/<input> rendered at its browser-default intrinsic
+   width instead of filling the fixed-width column, leaving visible
+   dead space next to it. Scoping the fill/border/padding to table
+   cells only fixes that without touching its non-table usage. */
+.dynamic-table-scroll .interview-input{
+
+    display:block;
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    padding:8px 10px;
+
+    font:inherit;
+    font-size:var(--font-small);
+    line-height:1.5;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-md);
+
+    background:var(--bg-surface);
+
+}
+
+.dynamic-table-scroll .interview-input:focus{
+
+    outline:none;
+
+    border-color:var(--line-primary);
+
+    /* Focus ring, not just a border-colour swap. The unfocused
+       border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
+       apart, so colour alone was a weak focus cue (WCAG 2.2 SC
+       2.4.11 wants 3:1 against the unfocused state). The ring is
+       independent of the border colour, adds no layout (box-shadow
+       does not affect flow), and matches the ring .user-name-input
+       and the Free Text textarea already use. */
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+
+}
+
+.dynamic-table-scroll select.interview-input{
+
+    cursor:pointer;
+
+}
+
+/* A `field.allowCustom` Field (currently just the Platform Field --
+   see FieldRenderer.tsx's SelectFieldWithCustom) stacks its select
+   and, once "Other" is picked, a free-text input directly beneath
+   it -- same vertical stacking idea as a `repeatable` column's own
+   list of entries just below. */
+.field-select-with-custom{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-6);
+
+    width:100%;
+
+}
+
+/* A `repeatable` column's cell (see DynamicTable's
+   `column.repeatable`, e.g. Revenue Method) renders its own
+   vertical list of entries -- one Revenue Stream now always lives
+   on exactly one table row, so this list (rather than extra table
+   rows) is how it holds more than one Method. */
+.dynamic-table-repeatable-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-8);
+
+}
+
+/* A `repeatableValue` column's cell (e.g. Method Mix %) renders a
+   matching vertical list, kept the same length -- and each item
+   the same height -- as its paired `repeatable` driver column's
+   own list, so the two line up entry-for-entry side by side. */
+.dynamic-table-repeatable-value-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-8);
+
+}
+
+.dynamic-table-repeatable-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--gap-6);
+
+}
+
+.dynamic-table-repeatable-item-control{
+
+    flex:1;
+
+    min-width:0;
+
+}
+
+.dynamic-table-repeatable-value-item{
+
+    display:flex;
+
+    align-items:stretch;
+
+}
+
+.dynamic-table-repeatable-value-item .interview-input,
+.dynamic-table-repeatable-value-item .dynamic-table-textarea{
+
+    width:100%;
+
+}
+
+.dynamic-table-repeatable-add,
+.dynamic-table-repeatable-remove{
+
+    flex:0 0 auto;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:none;
+
+    color:var(--text-on-fill);
+
+    cursor:pointer;
+
+    transition:filter 0.15s ease;
+
+}
+
+/* The per-entry "-" sits right next to that entry's own control,
+   sized to match a single line of it. The trailing "add another"
+   control spans the full width of the list, below the last entry,
+   so it reads as "add one more" rather than as another entry of
+   its own. */
+.dynamic-table-repeatable-remove{
+
+    width:28px;
+    height:28px;
+
+    border-radius:50%;
+
+    font-size:var(--font-small);
+    line-height:1;
+
+    background:var(--bg-remove);
+
+}
+
+.dynamic-table-repeatable-add{
+
+    width:100%;
+
+    padding:6px 10px;
+
+    border-radius:var(--radius-md);
+
+    font-size:var(--font-small);
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    background:var(--bg-add);
+
+}
+
+.dynamic-table-repeatable-add:hover:not(:disabled),
+.dynamic-table-repeatable-remove:hover:not(:disabled){
+
+    filter:brightness(1.1);
+
+}
+
+.dynamic-table-repeatable-add:disabled,
+.dynamic-table-repeatable-remove:disabled{
+
+    opacity:0.5;
+
+    cursor:default;
+
+}
+
+/* The totals row sits beneath a table's data rows (only
+   rendered when at least one column is marked `sumCheck`,
+   currently just the Revenue Matrix's Stream Mix %) and sums
+   every row's value, flagging whether that sum reaches 100. */
+.dynamic-table-totals-row td{
+
+    background:var(--bg-table-head);
+
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    border-top:2px solid var(--line-totals);
+
+}
+
+.dynamic-table-totals-label{
+
+    color:var(--text-subtle);
+
+    text-transform:uppercase;
+
+    font-size:var(--font-small);
+
+    letter-spacing:.04em;
+
+    white-space:nowrap;
+
+}
+
+.dynamic-table-totals-value-cell{
+
+    white-space:nowrap;
+
+}
+
+.dynamic-table-totals-value{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:var(--gap-6);
+
+    padding:4px 10px;
+
+    border-radius:var(--radius-md);
+
+    font-size:var(--font-small);
+
+}
+
+.dynamic-table-totals-ok{
+
+    color:var(--text-totals-ok);
+
+    background:var(--bg-totals-ok);
+
+}
+
+.dynamic-table-totals-warn{
+
+    color:var(--text-danger);
+
+    background:var(--bg-totals-warn);
+
+}
+
+/* A `groupSumCheck` column's per-row badge (e.g. Method Mix %
+   under each Stream's own list of Methods) -- sits right under
+   that row's own list, reusing the same ok/warn colors as the
+   whole-table totals row above. */
+.dynamic-table-group-check{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:var(--gap-4);
+
+    margin-top:6px;
+
+    padding:2px 8px;
+
+    border-radius:var(--radius-md);
+
+    font-size:var(--font-small);
+
+    white-space:nowrap;
+
+}
+
+/* ==========================================================
+   Table Cell -- Date
+========================================================== */
+
+.date-cell{
+
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--gap-6);
+
+}
+
+.date-cell-input{
+
+    flex:1;
+
+    min-width:0;
+
+    height:40px;
+
+    padding:0 10px;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-md);
+
+    background:var(--bg-surface);
+
+    font:inherit;
+
+    color:var(--text-default);
+
+}
+
+.date-cell-input:focus{
+
+    outline:none;
+
+    border-color:var(--line-primary);
+
+    /* Focus ring, not just a border-colour swap. The unfocused
+       border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
+       apart, so colour alone was a weak focus cue (WCAG 2.2 SC
+       2.4.11 wants 3:1 against the unfocused state). The ring is
+       independent of the border colour, adds no layout (box-shadow
+       does not affect flow), and matches the ring .user-name-input
+       and the Free Text textarea already use. */
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+
+}
+
+/* Visually hidden -- only exists so its native
+   showPicker() can be invoked from the calendar
+   button below, giving the cell a real browser
+   calendar without handing display formatting over
+   to the browser (which the visible text field and
+   toggle control instead). */
+.date-cell-native-picker{
+
+    position:absolute;
+
+    width:0;
+    height:0;
+
+    padding:0;
+    margin:0;
+
+    border:none;
+
+    opacity:0;
+
+    pointer-events:none;
+
+}
+
+.date-cell-calendar-button{
+
+    flex-shrink:0;
+
+    width:32px;
+    height:32px;
+
+    padding:0;
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-md);
+
+    background:var(--bg-surface);
+
+    font-size:var(--font-small);
+    line-height:1;
+
+    cursor:pointer;
+
+    transition:background-color .2s ease, border-color .2s ease;
+
+}
+
+.date-cell-calendar-button:hover{
+
+    background:var(--bg-primary-tint);
+
+    border-color:var(--line-primary);
+
+}
+
+/* ==========================================================
+   Table Row Actions -- Remove / Add
+========================================================== */
+
+/* This is a second, completely separate <table> next to the
+   scrollable data table (see .dynamic-table-scroll above and
+   DynamicTable.tsx) -- not a column inside it -- so the row
+   controls never look like "one more cell" of the data grid:
+   no shared grid lines, no header shading, nothing that ties
+   its position to any data column's width. Each row's height
+   is set inline from JS to match its counterpart data row
+   exactly (see DynamicTable.tsx), which is what keeps a row's
+   controls level with that row without the two tables sharing
+   any markup. */
+.dynamic-table-actions-table{
+
+    flex:0 0 auto;
+
+    border-collapse:collapse;
+
+    margin-bottom:15px;
+
+}
+
+.dynamic-table-row-actions-cell{
+
+    border:none !important;
+
+    background:transparent !important;
+
+    padding:10px 0 10px 10px !important;
+
+    vertical-align:middle;
+
+}
+
+.dynamic-table-row-actions{
+
+    display:flex;
+
+    flex-direction:row;
+
+    align-items:center;
+
+    gap:var(--gap-8);
+
+}
+
+.dynamic-table-row-move,
+.dynamic-table-row-delete-add{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:var(--gap-6);
+
+}
+
+.dynamic-table-row-move-up,
+.dynamic-table-row-move-down{
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    width:22px;
+    height:22px;
+
+    flex-shrink:0;
+
+    border:1px solid var(--box-border);
+    border-radius:50%;
+
+    background:var(--bg-surface);
+
+    color:var(--text-subtle);
+
+    font-size:var(--font-small);
+    line-height:1;
+
+    cursor:pointer;
+
+    transition:background-color .15s ease, border-color .15s ease, color .15s ease, opacity .15s ease;
+
+}
+
+.dynamic-table-row-move-up:hover:not(:disabled),
+.dynamic-table-row-move-down:hover:not(:disabled){
+
+    background:var(--bg-primary-tint);
+
+    border-color:var(--line-primary);
+
+    color:var(--text-primary);
+
+}
+
+.dynamic-table-row-move-up:disabled,
+.dynamic-table-row-move-down:disabled{
+
+    opacity:.35;
+
+    cursor:not-allowed;
+
+}
+
+.dynamic-table-row-remove,
+.dynamic-table-row-add{
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    width:28px;
+    height:28px;
+
+    flex-shrink:0;
+
+    border:none;
+    border-radius:50%;
+
+    color:var(--text-on-fill);
+
+    font-size:var(--font-body);
+    font-weight:700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+    line-height:1;
+
+    cursor:pointer;
+
+    transition:filter .15s ease, opacity .15s ease;
+
+}
+
+.dynamic-table-row-remove{
+
+    background:var(--bg-remove);
+
+}
+
+.dynamic-table-row-remove:hover:not(:disabled){
+
+    filter:brightness(1.1);
+
+}
+
+.dynamic-table-row-remove:disabled{
+
+    background:var(--bg-remove-disabled);
+
+    cursor:not-allowed;
+
+}
+
+.dynamic-table-row-add{
+
+    background:var(--bg-add);
+
+}
+
+.dynamic-table-row-add:hover:not(:disabled){
+
+    filter:brightness(1.1);
+
+}
+
+.dynamic-table-row-add:disabled{
+
+    opacity:.45;
+
+    cursor:not-allowed;
+
+}
+
+/* ==========================================================
+   Checklist
+========================================================== */
+
+.answer-checklist{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+.answer-checklist-row{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--gap-12);
+
+}
+
+/* Its size, from the one tick box (global.css). */
+.answer-checklist-checkbox{
+
+    cursor:pointer;
+
+}
+
+.answer-checklist-input{
+
+    flex:1;
+
+    min-width:0;
+
+    height:44px;
+
+    padding:0 14px;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-lg);
+
+    font:inherit;
+    font-size:var(--font-body);
+
+}
+
+.answer-checklist-input:focus{
+
+    outline:none;
+
+    border-color:var(--line-primary);
+
+    /* Focus ring, not just a border-colour swap. The unfocused
+       border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
+       apart, so colour alone was a weak focus cue (WCAG 2.2 SC
+       2.4.11 wants 3:1 against the unfocused state). The ring is
+       independent of the border colour, adds no layout (box-shadow
+       does not affect flow), and matches the ring .user-name-input
+       and the Free Text textarea already use. */
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+
+}
+

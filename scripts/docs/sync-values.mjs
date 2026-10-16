@@ -11,10 +11,12 @@
  */
 import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { collectDefinitions, sync } from "./values.ts";
+import { expandImports } from "../lint/css-imports.ts";
 
 const root = new URL("../../", import.meta.url);
 const styles = new URL("src/styles/", root);
-const sheets = readdirSync(styles).filter(name => name.endsWith(".css")).map(name => ({ name, text: readFileSync(new URL(name, styles), "utf8").replace(/\r\n/g, "\n") }));
+const readSheet = path => readFileSync(new URL(path, styles), "utf8");
+const sheets = readdirSync(styles).filter(name => name.endsWith(".css")).map(name => ({ name, text: expandImports(readSheet(name).replace(/\r\n/g, "\n"), readSheet) }));
 const defs = collectDefinitions(sheets);
 
 const DOCUMENTS = ["docs/ai/layout-rules.md"];

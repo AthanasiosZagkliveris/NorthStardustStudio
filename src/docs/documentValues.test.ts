@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { collectDefinitions, differences, evaluate, sync, tokenRows, valuesOf } from "../../scripts/docs/values.ts";
+import { sheetSource } from "../test/stylesheet.ts";
 
 /* The numbers in the rulebook's token tables must be what the stylesheets give
    (scripts/docs/values.ts). When this fails: run `npm run docs:values` and
@@ -11,7 +12,7 @@ import { collectDefinitions, differences, evaluate, sync, tokenRows, valuesOf } 
 const NOT_DEFINED = ["--card-side-label", "--workspace-form-width", "--workspace-label-width"];
 
 const names = Object.keys(import.meta.glob("../styles/*.css")).map(path => path.split("/").pop() as string);
-const sheets = names.map(name => ({ name, text: readFileSync(new URL("../styles/" + name, import.meta.url), "utf8").replace(/\r\n/g, "\n") }));
+const sheets = names.map(name => ({ name, text: sheetSource(name) }));
 const defs = collectDefinitions(sheets);
 // (a built path, not a literal: Vite turns new URL("literal", import.meta.url) into an asset URL)
 const RULEBOOK = "docs/ai/layout-rules.md";

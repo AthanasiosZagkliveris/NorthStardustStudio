@@ -1,0 +1,666 @@
+/* ==========================================================
+   Process Library (Process -> SOPs -> Steps)
+
+   `.interview-input`'s base look is normally scoped under
+   `.dynamic-table-scroll` (see that rule above) -- these
+   tables live outside any DynamicTable, so the same look is
+   redeclared here under `.process-library` instead, rather
+   than reusing/widening the DynamicTable-scoped rule (which
+   also carries DynamicTable-only behavior, like drag-to-
+   scroll, that has no place here).
+========================================================== */
+
+.process-library .interview-input{
+
+    display:block;
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    padding:8px 10px;
+
+    font:inherit;
+    font-size:var(--font-small);
+    line-height:1.5;
+
+    border:1px solid var(--box-border);
+    border-radius:var(--radius-md);
+
+    background:var(--bg-surface);
+
+}
+
+.process-library .interview-input:focus{
+
+    outline:none;
+
+    border-color:var(--line-primary);
+
+    /* Focus ring, not just a border-colour swap. The unfocused
+       border is var(--box-border) and the focused one #0b57d0 -- only 1.5:1
+       apart, so colour alone was a weak focus cue (WCAG 2.2 SC
+       2.4.11 wants 3:1 against the unfocused state). The ring is
+       independent of the border colour, adds no layout (box-shadow
+       does not affect flow), and matches the ring .user-name-input
+       and the Free Text textarea already use. */
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+
+}
+
+.process-library select.interview-input{
+
+    cursor:pointer;
+
+}
+
+/* Process/SOP/Step name, purpose, "who", "how often", and Step
+   action fields all auto-grow to fit their content (see
+   AutoGrowField in ProcessLibraryEditor.tsx) instead of clipping
+   long text -- textarea-specific overrides on top of the shared
+   `.interview-input` look above. */
+.process-library-autogrow-field{
+
+    resize:none;
+    overflow:hidden;
+
+    min-height:38px;
+
+}
+
+.process-library-table,
+.process-library-sops-table,
+.process-library-steps-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-bottom:12px;
+
+}
+
+/* A purely defensive fallback around the top-level Process table --
+   every column below now has an explicit, shared width that adds up
+   to comfortably LESS than the interview card's 850px cap (no need
+   to burn extra horizontal space; the white/pale-blue/blue tint per
+   nesting level is what actually shows Process vs SOP vs Step, see
+   the background rules below), so this normally never needs to
+   scroll at all. It only kicks in if the card's own available width
+   ever ends up narrower than the columns' own minimums (e.g. a very
+   narrow viewport), scrolling horizontally rather than squeezing
+   text down to clipping -- the same `.dynamic-table-scroll`
+   convention already used elsewhere in this app. Wraps only the
+   outer table; the nested SOPs/Steps tables sit inside it (in the
+   expansion row) and share the same scroll area, no wrapper of
+   their own needed. */
+.process-library-table-scroll{
+
+    overflow-x:auto;
+
+    margin-bottom:12px;
+
+}
+
+.process-library-table-scroll .process-library-table{
+
+    margin-bottom:0;
+
+}
+
+/* Fixed layout on BOTH the top-level Process table and the nested
+   SOPs table (not just the outer one) -- this is what actually
+   makes their shared columns (#, ID, Name, Purpose, Owner, How
+   Often) come out the SAME width at both levels, so a SOP's row
+   lines up under its Process's own columns instead of drifting out
+   of alignment the moment Owner/How Often need more or less room
+   than the browser's auto layout would otherwise give them at each
+   level independently. The innermost Steps table keeps its own
+   default auto layout -- it has no columns in common with the other
+   two levels to align against.
+
+   Each table also gets its own EXACT pixel `width` (overriding the
+   `width:100%` both tables also match above) -- not `width:100%`
+   and not `width:auto`. Either of those left the browser free to
+   size the table itself first and only THEN distribute leftover/
+   typed-content pressure across columns, which (a) stretched the
+   two tables' shared columns by two different factors, since
+   Process's extra Status column and SOPs' extra Steps+spacer
+   columns give the two tables different total column-width sums,
+   and (b) let a long typed Name/Purpose value push its own column
+   wider still. Pinning the table to its columns' exact sum removes
+   both: there is no leftover width left for the browser to
+   redistribute, so every shared column renders at precisely its
+   declared width in both tables, always.
+
+   That exact width is now computed in JS, not fixed here in CSS --
+   see computeProcessLibraryTableWidth in ProcessLibraryEditor.tsx --
+   because Name/Purpose are user-resizable (ColumnResizeHandle) and
+   Owner auto-fits whatever's currently typed (computeOwnerColumnWidth),
+   so the correct total changes as the user types or drags. Both
+   components set the table's own `width` via inline style every
+   render; the static value below (858px = the width at every
+   column's DEFAULT size: 40 # + 104 ID + 122 Name + 122 Purpose +
+   110 Owner + 140 How Often + 130 Status/Steps+spacer + 90 actions)
+   is only a pre-hydration fallback and is never what actually
+   renders once React has painted. */
+.process-library-table,
+.process-library-sops-table{
+
+    table-layout:fixed;
+    width:858px;
+
+}
+
+.process-library-table th,
+.process-library-table td,
+.process-library-sops-table th,
+.process-library-sops-table td,
+.process-library-steps-table th,
+.process-library-steps-table td{
+
+    border:1px solid var(--line-table);
+
+    padding:10px;
+
+    text-align:left;
+
+    vertical-align:top;
+
+}
+
+.process-library-table th,
+.process-library-sops-table th,
+.process-library-steps-table th{
+
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    white-space:nowrap;
+
+}
+
+/* Each nesting level gets its own background tint, so the depth
+   of a row (Process, SOP, or Step) is visible at a glance without
+   reading its position in the page: Process stays plain white
+   (the outermost, "home base" level), SOPs get a pale 50%-tinted
+   blue, and Steps -- the innermost, most zoomed-in level -- get a
+   fuller light blue. Header and body cells share the same tint
+   per table; the header's own bold weight (above) is what
+   distinguishes it from the body, not a separate color. */
+.process-library-table th,
+.process-library-table td{
+
+    background:var(--bg-surface);
+
+}
+
+.process-library-sops-table th,
+.process-library-sops-table td{
+
+    background:var(--bg-primary-tint-head);
+
+}
+
+.process-library-steps-table th,
+.process-library-steps-table td{
+
+    background:var(--bg-primary-selected);
+
+}
+
+/* Every one of these column-width rules is now UNSCOPED -- it
+   applies identically to the top-level Process table AND the nested
+   SOPs table (both `table-layout:fixed` now, see above), which is
+   what actually keeps a SOP row's columns lined up under its
+   Process's own columns. Chosen so the columns Process/SOPs actually
+   share (#, ID, Name, Purpose, Owner, How Often) sum to comfortably
+   under the interview card's 850px cap even with Status (Process-
+   only) or Steps (SOPs-only) added on top -- no horizontal scrolling
+   needed in normal use; the background tint per nesting level (see
+   above) is what actually distinguishes Process/SOP/Step, not extra
+   width. */
+/* 56px, matching NUMBER_COLUMN_WIDTH in ProcessLibraryEditor.tsx --
+   this column never gets a per-render inline `style={{width:...}}`
+   override the way Name/Purpose/Owner/Status do (its width never
+   actually needs to change), so this plain CSS value IS the real,
+   only source of its width, not just a pre-hydration fallback. Must
+   stay in sync with NUMBER_COLUMN_WIDTH by hand: table-layout:fixed
+   sizes each column from its own first-row cell's own width, so
+   bumping the JS constant alone (which only fed into the TABLE's
+   own total declared width, not this column's own CSS) previously
+   left a mismatch -- the table claimed 16px more total width than
+   its columns actually summed to, and the "#" column itself stayed
+   at the old, now too-narrow 40px, spilling its own toggle button
+   into the ID column next to it. */
+.process-library-col-number{
+
+    width:56px;
+
+    white-space:nowrap;
+
+}
+
+/* A little extra breathing room specifically on this, the very
+   first (leftmost) column -- the shared `padding:10px` every other
+   cell gets (see the th/td rule above, `.process-library-table th,
+   .process-library-table td{padding:10px}`) still left the "#"
+   itself sitting visually flush against the table's own left edge/
+   border, with none of the other columns' relative "room to
+   breathe" around their own content. Needs the extra `td`/`th` type
+   selector (not just `.process-library-col-number` alone) to
+   out-specify that shared shorthand `padding:10px` rule -- a lone
+   class selector here would lose that specificity fight and this
+   would silently do nothing. */
+th.process-library-col-number,
+td.process-library-col-number{
+
+    padding-left:16px;
+
+}
+
+/* Wide enough for the full move-up/move-down + remove/add icon
+   cluster (see .dynamic-table-row-actions and its children below)
+   without any of the 4 circular buttons overflowing or clipping
+   against the cell edge -- the old 60px budget was narrower than
+   the icons' own minimum footprint (58px content + 20px padding),
+   which is what made the controls look cramped/cut off. `position:
+   sticky` pins this column to the right edge of the table's own
+   horizontal-scroll container (`.process-library-table-scroll`
+   below) so the row's controls stay reachable even in the rare
+   case a very narrow viewport still forces that scrollbar --
+   "always visible, never scrolled out of reach" -- while costing
+   nothing when (as in normal use) the table never needs to scroll
+   at all. Every cell in this column already inherits its correct
+   per-nesting-level background (white/pale-blue/blue, see the
+   Process/SOPs/Steps table background rules above), so the sticky
+   cell never shows see-through content scrolling underneath it. */
+.process-library-col-actions{
+
+    width:90px;
+
+    white-space:nowrap;
+
+    text-align:center;
+
+    position:sticky;
+    right:0;
+    z-index:2;
+
+}
+
+/* Default/fallback only -- the actual width is computed in JS from
+   whatever's currently typed into any Owner field and set via
+   inline style every render (see computeOwnerColumnWidth in
+   ProcessLibraryEditor.tsx); this value is just OWNER_COLUMN_MIN_WIDTH,
+   what an empty Process Library starts at. */
+.process-library-col-owner{
+
+    width:110px;
+
+}
+
+.process-library-col-frequency{
+
+    width:140px;
+
+}
+
+/* Wide enough that "Retired" -- the longest PROCESS_STATUS_OPTIONS
+   value -- and its native <select> arrow never clip. Also set via
+   inline style (STATUS_COLUMN_WIDTH in ProcessLibraryEditor.tsx);
+   kept here too as the pre-hydration fallback. */
+.process-library-col-status{
+
+    width:130px;
+
+}
+
+/* A blank, unlabeled column that exists ONLY in the SOPs table, not
+   the Process table -- see SOPS_SPACER_COLUMN_WIDTH's comment in
+   ProcessLibraryEditor.tsx for why: it makes up the width difference
+   between this table's (deliberately compact) Steps column and the
+   Process table's own (deliberately roomy) Status column, so the
+   two tables land at the exact same total width and their trailing
+   Actions columns -- move/remove/add -- stay lined up at the same
+   horizontal position in both. Its own width is set via inline
+   style, computed from STATUS_COLUMN_WIDTH/SOPS_STEPS_COLUMN_WIDTH,
+   never hardcoded here. */
+.process-library-col-spacer{
+
+    white-space:nowrap;
+
+}
+
+/* A resizable column header (Process/SOP Name, Purpose) needs
+   `position:relative` so its own ColumnResizeHandle child -- an
+   `position:absolute` strip pinned to the header's right edge --
+   positions itself against THIS cell, not some more distant
+   ancestor. */
+.process-library-col-resizable{
+
+    position:relative;
+
+}
+
+/* The actual draggable strip -- a few transparent pixels straddling
+   the column's right border so it's easy to grab without requiring
+   pixel-perfect aim, `cursor:col-resize` signals what it does before
+   the user even clicks, and it only shows a visible highlight on
+   hover/drag rather than sitting there as a permanent visual seam
+   the rest of the time. */
+.process-library-col-resize-handle{
+
+    position:absolute;
+
+    top:0;
+    right:-4px;
+    bottom:0;
+
+    width:8px;
+
+    cursor:col-resize;
+
+    z-index:3;
+
+    touch-action:none;
+
+}
+
+.process-library-col-resize-handle:hover,
+.process-library-col-resize-handle:active{
+
+    background:var(--bg-primary);
+    opacity:.35;
+
+}
+
+/* The Steps table's own first column -- same role as
+   `.process-library-col-number` above (shows the Step's
+   position), but its header reads "Steps" instead of a bare
+   "#" (more descriptive, since this table's rows -- unlike
+   Process/SOP rows -- have no name of their own to label the
+   table by). "Steps" is the longest thing this column ever
+   needs to fit, so it gets an explicit min-width rather than
+   the bare `width:1%` hint the number-only columns use --
+   `white-space:nowrap` alone stops it wrapping, but a
+   generous min-width is what actually guarantees the header
+   word is never visually cramped against its neighboring
+   column. */
+.process-library-col-step-number{
+
+    width:1%;
+    min-width:52px;
+
+    white-space:nowrap;
+
+}
+
+.process-library-col-id{
+
+    /* A fixed width (not the `width:1%` auto-sizing hint the
+       plain "#" columns use) -- an auto-grow textarea filling
+       a `width:1%` cell has no natural content-based size of
+       its own to size the column BY, so without a fixed width
+       here the browser's table layout has nothing sensible to
+       shrink it down to and the column ends up far wider than
+       an ID tag ever needs, stealing space from Name/Purpose. Kept
+    narrow now that the auto-generated number sits INLINE next to
+    the initials input (see `.process-library-id-field-inline`
+    below) as a short "-02"-style 2-digit suffix, not stacked on a
+    second line and not 3 digits. */
+    width:104px;
+
+    color:var(--text-subtle);
+
+    font-variant-numeric:tabular-nums;
+
+}
+
+.process-library-id-field{
+
+    padding:8px !important;
+
+    font-size:var(--font-small);
+
+}
+
+/* Puts the ID input and its auto-generated number span on the
+   SAME line (a flex ROW, not the old flex-column stack) -- see
+   `.process-library-id-number` below for why. */
+.process-library-id-field-inline{
+
+    display:flex;
+    align-items:center;
+    gap:3px;
+
+}
+
+/* Narrow -- the input only ever holds a few letters of initials
+   now that the auto-generated number lives in its own sibling
+   span (see `.process-library-id-number` below) rather than
+   inside the input itself. Two class selectors deep (matching
+   `.process-library-id-field-inline`'s own child) so this out-
+   specifies `.process-library .interview-input`'s own `width:100%`
+   above -- a single-class `.process-library-id-field{width:...}`
+   rule alone loses that specificity fight and the input silently
+   stays full-width, pushing the number span outside the column. */
+.process-library-id-field-inline .process-library-id-field{
+
+    width:52px;
+    flex:0 0 auto;
+
+}
+
+/* The auto-generated number (initials + position-based count,
+   e.g. "-02"), shown inline immediately after the initials
+   input -- initials and number always read as one connected
+   "PRC-02"-style tag, dash included, with no second line
+   underneath. The input itself only ever holds the initials the
+   user typed; this span is the only place the generated number
+   is actually visible. */
+.process-library-id-number{
+
+    padding-left:1px;
+
+    font-size:var(--font-small);
+    color:var(--text-subtle);
+    font-variant-numeric:tabular-nums;
+    white-space:nowrap;
+
+}
+
+/* Process/SOP Name and Purpose deliberately carry the SAME width
+   value (rather than each auto-sizing to its own content, which
+   would leave Purpose -- usually the longer text -- crowding
+   Name) so the two columns always line up evenly regardless of
+   what's typed into either one -- shared (unscoped) across both
+   the Process and SOPs tables now (see `.process-library-col-
+   owner`/`-frequency`/`-status` above) so a SOP's Name/Purpose
+   columns line up under its Process's own, not just within their
+   own table. */
+.process-library-col-name,
+.process-library-col-purpose{
+
+    width:122px;
+
+}
+
+/* The Weekly/Bi-Weekly weekday picker, or the Monthly/Quarterly/
+   Semi-Annually/Annually/Custom date picker (see FrequencyCell in
+   ProcessLibraryEditor.tsx) -- stacks under the frequency dropdown
+   with a little breathing room; deliberately NOT `display:flex` on
+   the <td> itself, since overriding a <td>'s display away from
+   `table-cell` breaks its participation in the table's column grid,
+   and both elements already render as block-level (see
+   `.process-library select.interview-input` / `.interview-input`
+   above) so they naturally stack with no extra layout needed. */
+.process-library-frequency-schedule-field{
+
+    margin-top:6px;
+
+}
+
+/* SOPs-table-only (the Process table has no equivalent -- its own
+   last content column before Actions is Status instead, see
+   `.process-library-col-status` above). */
+.process-library-col-steps{
+
+    width:60px;
+
+    white-space:nowrap;
+
+    text-align:center;
+
+}
+
+/* Marks the first row of a new "initials group" -- i.e. a Process
+   (or SOP) row whose own ID initials differ from the row directly
+   above it, e.g. where a run of "COS-01/-02" rows gives way to a
+   "NOC-01" row. A plain, thin `border-top` between every row already
+   exists (see the shared th/td border rule above); this widens and
+   darkens JUST that top border on a group's first row, so the eye
+   catches the transition between differently-prefixed ID groups at a
+   glance, without needing to actually read every initials tag. Set
+   in JS (see `process-library-row-group-start` in
+   ProcessLibraryEditor.tsx), not detected here in CSS, since only
+   the component actually knows each row's neighbor. */
+.process-library-row-group-start > td{
+
+    border-top:3px solid var(--line-group);
+
+}
+
+/* The chevron+number toggle doubling as the "#" cell -- a
+   real <button> (not a row-wide onClick) so clicking any of
+   the editable fields in the same row never accidentally
+   expands/collapses it. */
+.process-library-expand-toggle{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:var(--gap-4);
+
+    border:none;
+
+    background:transparent;
+
+    padding:2px 4px;
+
+    font:inherit;
+    font-size:var(--font-small);
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    color:var(--text-primary);
+
+    cursor:pointer;
+
+    white-space:nowrap;
+
+}
+
+.process-library-expand-toggle:hover{
+
+    text-decoration:underline;
+
+}
+
+/* The expansion panel spans the full row width, directly
+   under the Process/SOP row it belongs to -- "expands in
+   place", rather than navigating anywhere else. Scoped to the
+   DIRECT child `<td>` only (not just any descendant `td`) --
+   the expansion row's own single wrapping cell always is one,
+   but so is every cell of whatever nested table it wraps (the
+   Steps table, or the SOPs table), and a plain descendant `td`
+   selector here would win the cascade over those nested
+   tables' own per-level background colors (see .process-
+   library-sops-table / .process-library-steps-table above),
+   painting every nesting level the same flat color. */
+.process-library-expansion-row > td{
+
+    background:var(--bg-table-expansion);
+
+    /* No padding at all -- "remove the gaps between tables and
+       nested tables". The nested table's own top/bottom borders
+       (see .process-library-sops-table/.process-library-steps-table
+       above) already give a clean, thin seam against the row it
+       expands from; there's no horizontal padding either, same
+       reasoning as before -- any left inset here would push the
+       nested SOPs/Steps table's own left edge in from the outer
+       Process table's left edge, throwing every shared column (#,
+       ID, Name, Purpose, Owner, How Often) out of alignment with the
+       row it belongs to even though both tables use the exact same
+       column-width classes (see the unscoped `.process-library-col-*`
+       rules above) -- flush left/top/bottom is what actually makes
+       everything line up with no visible gap. */
+    padding:0;
+
+}
+
+.process-library-expansion-row-process > td{
+
+    /* Stays plain white, matching the Process table's own "White"
+       color grade -- the nested SOPs/Steps tables inside carry
+       their own tint (see .process-library-sops-table / .process-
+       library-steps-table above) once they render. */
+    background:var(--bg-surface);
+
+}
+
+.process-library-sops{
+
+    margin-top:0;
+
+}
+
+.process-library-add-link{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:var(--gap-6);
+
+    border:1px solid var(--line-add);
+    border-radius:var(--radius-md);
+
+    background:var(--bg-surface);
+
+    color:var(--text-add);
+
+    font:inherit;
+    font-size:var(--font-small);
+    font-weight:600;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    padding:8px 14px;
+
+    cursor:pointer;
+
+    transition:background-color .15s ease;
+
+}
+
+.process-library-add-link:hover:not(:disabled){
+
+    background:var(--bg-add-tint);
+
+}
+
+.process-library-add-link:disabled{
+
+    opacity:.45;
+
+    cursor:not-allowed;
+
+}
+
+.process-library-add-sop-link{
+
+    margin-top:10px;
+
+}
+

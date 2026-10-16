@@ -1,0 +1,601 @@
+/* ==================================================================
+   Business System -- Infrastructure & Capability (Page 3)
+
+   Page 2's card, one level deeper. The page renders
+   .business-foundation and .business-engagement as well as its own
+   class, so the section shell, the input card, the cards, fields,
+   labels, "i"s and controls are all the ones above -- what follows
+   is only what this page has and the other two do not.
+================================================================== */
+
+/* Its two sections -- 1. Resources, 2. Activities, 3. Partnerships
+   & Providers -- and the groups inside them. Both are plain
+   stacks; the nesting is read from the subheads and the indent,
+   the way the rest of the System reads it. */
+/* A section's own head: the arrow that folds it, then its title.
+   The same arrow every card carries, so a section folds the way a
+   card does. */
+.business-engagement-section-head{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--gap-8);
+
+}
+
+/* THE PAGE'S TWO CARDS, SIDE BY SIDE: 1. Infrastructure and 2. Offering's
+   Capability each take one of the page's two equal columns (the tracks the
+   headings and guidance above them are in, --space-column apart), tops
+   level, each as tall as its own content. Each card still takes the 13px of
+   the page's side padding on its OUTER side only (as a card does when it
+   spans the page), so the two are equally wide, one column gap apart and
+   neither over the other. Stacked, Infrastructure above Capability, only
+   when the page is under 1100px wide: each then spans the page. */
+.answer-columns.business-foundation.business-engagement.business-capability > .business-foundation-card{
+
+    grid-column:auto;
+
+    align-self:start;
+
+}
+
+.answer-columns.business-foundation.business-engagement.business-capability > .business-foundation-card:nth-child(1){
+
+    margin-right:0;
+
+}
+
+.answer-columns.business-foundation.business-engagement.business-capability > .business-foundation-card:nth-child(2){
+
+    margin-left:0;
+
+}
+
+@container page-card (max-width: 1099.98px){
+
+    .answer-columns.business-foundation.business-engagement.business-capability > .business-foundation-card:is(:nth-child(1), :nth-child(2)){
+
+        grid-column:1 / -1;
+
+        margin-inline:-13px;
+
+    }
+
+}
+
+/* PAGE 3 SCROLLS IN ITS CARDS (docs/ai/layout-rules.md, "Section tiles and dialog"):
+   with the two cards side by side (the page card 1100px wide or more: a window from
+   1212px) the page does not scroll. The app header, the page heading with its
+   underline and the footer stay where they are; each card keeps its title row (its
+   "N. NAME" with the arrow) fixed at its top and its BODY (.card-scroll) scrolls on
+   its own, between the title row and the card's bottom -- what scrolls up is clipped at
+   the body's top edge, under the title row, never behind or over it. The cards are as
+   tall as their content, at most the space from the heading's underline to the footer
+   (12px above it): Offering's Capability, whose tiles are fewer, shows all of them
+   without a bar unless the window is too small. Stacked (a narrower window) or in a
+   window under 560px high the page scrolls as the other pages do. */
+.card-scroll{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    min-width:0;
+
+}
+
+@media (min-width: 1212px) and (min-height: 560px){
+
+    /* An area whose tiles do not fit GROWS DOWN: the page scrolls, nothing is clipped inside a card. */
+    .conversation-page:has(.answer-columns.business-capability){
+
+        min-height:100vh;
+
+    }
+
+    .conversation-page:has(.answer-columns.business-capability) > .conversation-content{
+
+        box-sizing:border-box;
+
+        min-height:0;
+
+        /* The fixed footer (64px) and a 12px gap above it. */
+        padding-bottom:calc(64px + var(--space-card));
+
+    }
+
+    .conversation-page:has(.answer-columns.business-capability) .conversation-card{
+
+        min-height:100%;
+
+    }
+
+    .conversation-card .answer-columns.business-capability{
+
+        flex:1 1 auto;
+
+        min-height:0;
+
+        grid-template-rows:auto;
+
+    }
+
+    .answer-columns.business-capability > .business-foundation-card{
+
+        max-height:none;
+
+        min-height:0;
+
+    }
+
+    /* The card's own scroll: its padding and negative margin give the tiles' hover
+       glow (4px) and focus ring room inside the clip; the top edge is the clip line,
+       under the title row. */
+    .answer-columns.business-capability > .business-foundation-card > .card-scroll{
+
+        flex:1 1 auto;
+
+        min-height:0;
+
+        margin:-6px;
+        padding:6px;
+
+        overflow:visible;
+
+    }
+
+}
+
+/* A heading row of a card of tiles keeps the height the fold arrow gave it
+   (36px, --section-head-height), so the heading-to-tiles distance is the
+   same with or without the arrow; Offering's Capability has the same row
+   with no title (a spacer), so the first tile row of the two cards starts at
+   one y. */
+.business-capability-tiles-section > .business-engagement-section-head{
+
+    min-height:var(--section-head-height);
+
+}
+
+/* The two page cards (Infrastructure, Offering's Capability) have no heading row of the 36px between their title and their tiles: the tiles start the
+   card's own gap (12px, --space-field) under the title, as every card's content does. */
+.business-capability-heading-spacer{
+
+    display:none;
+
+}
+
+.business-capability-section,
+.business-capability-column{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-card);
+
+    min-width:0;
+
+}
+
+/* (No group of sections draws a rule down its left side any more:
+   Infrastructure's resources, activities and partners are section
+   tiles, section-tiles.css.) */
+
+/* A GROUP'S SECTIONS, SIDE BY SIDE -- Founders, Workspace and
+   Utilities across one row; Operational beside Production.
+
+   The grid Page 2's reference header lays its three columns out
+   on, with the same 24px between them and the same way down: three
+   become two at 1500px, and everything is one column at 900px.
+
+   A step in from the arrow that folds the group, 24px, the step
+   every level on Page 2 takes from the arrow above it -- so the
+   sections' own arrows read as inside the group's rather than
+   level with it. */
+
+/* Cards laid across a section, with no group arrow above them to
+   step in from. */
+
+/* (Offering's Capability 1. Resources and 2. Activities lay their cards out
+   in independent columns: .card-columns, card-folding.css / CardColumns.) */
+
+/* And a subsection of a section one step further -- Furniture
+   inside 4. Workstation. No border here: three nested rules would be
+   scaffolding rather than structure, and the heading plus the
+   indent already say it. */
+.business-capability-subsection{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-card);
+
+    min-width:0;
+
+    padding-left:16px;
+
+}
+
+/* Its title, and the delete an ADDED subsection carries. */
+.business-capability-subsection-head{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--gap-8);
+
+}
+
+/* A rank below .business-foundation-subhead: still bold, but the
+   card's own control colour rather than the body black, so a group
+   and the subsection inside it are told apart by more than
+   indent. */
+.business-capability-subhead{
+
+    font-size:var(--font-body);
+    font-weight:700;
+
+    letter-spacing:0.05em;
+
+    line-height:28px;
+
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+
+}
+
+/* Fields the specification puts beside one another -- Quantity
+   next to the Name, Status next to the Quantity, Price next to the
+   Frequency. They share a row while there is room for one and wrap
+   when there is not, rather than being pinned to widths that only
+   work at one size. */
+.business-capability-row{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:var(--gap-12);
+
+    min-width:0;
+
+}
+
+.business-capability-row > .business-foundation-field{
+
+    flex:1 1 220px;
+
+    min-width:0;
+
+}
+
+/* A Price: the amount, and the currency it is in on the same line.
+   The box takes what is left; the currency picker is as wide as its
+   longest option (see OptionPicker) and no wider. */
+.business-capability-total{
+
+    margin:6px 0 0;
+
+    font-size:var(--font-body);
+
+    color:var(--text-muted);
+
+}
+
+.business-capability-price{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--gap-8);
+
+    min-width:0;
+
+}
+
+.business-capability-price > .interview-input{
+
+    flex:1 1 auto;
+
+    min-width:0;
+
+}
+
+.business-capability-price > .option-picker{
+
+    flex:0 0 auto;
+
+    /* As wide as its code, not a standard control width: the
+       currency beside an amount is the exception there. */
+    width:auto;
+
+}
+
+.business-capability-price > .option-picker[data-size] > .option-picker-trigger.interview-input{
+
+    display:inline-grid;
+
+    width:auto;
+
+}
+
+/* A money Metric's Unit and its currency, one pair on the Unit's row
+   as wide as the Target field above (a number's standard width): the
+   Unit takes what the compact currency picker leaves. */
+.strategy-metric-field > .strategy-metric-unit-currency{
+
+    width:min(100%, var(--control-s));
+
+}
+
+.strategy-metric-unit-currency > .option-picker:first-child{
+
+    flex:1 1 auto;
+
+    min-width:0;
+
+}
+
+.strategy-metric-unit-currency > .option-picker:first-child > .option-picker-trigger.interview-input{
+
+    display:grid;
+
+    width:100%;
+
+}
+
+/* A currency that is fixed (the organization's) is named in the
+   label instead of a box beside the amount: "Salary (£)"
+   (labelWithCurrency, Currencies.ts). */
+
+/* An "Other" subsection's name, typed where a fixed subsection's
+   title stands -- the box takes the line, the × stays at its end. */
+.business-capability-subsection-name{
+
+    flex:1 1 auto;
+
+    min-width:0;
+
+}
+
+/* ---------- Activities ---------- */
+
+/* An activity is a ROW rather than a card: it has four short
+   fields and a description, and a page that can hold thirty of
+   them cannot spend a bordered box on each. It takes the ground
+   the cards take, so a list of them still reads as a list of
+   things. */
+.business-capability-activity{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-12);
+
+    padding:12px;
+
+    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+    border-radius:var(--radius-lg);
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    min-width:0;
+
+}
+
+/* Laid out by .fold-card-head, the head every folding card shares. */
+.business-capability-activity-head{
+
+    min-width:0;
+
+}
+
+/* An activity's performers: a picker per person, stacked, each with
+   its × once there is more than one. */
+.business-capability-performers{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    /* One list row to the next: the rhythm's field gap. */
+    gap:var(--space-field);
+
+    min-width:0;
+
+}
+
+.business-capability-performer{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--gap-8);
+
+    align-self:stretch;
+
+    min-width:0;
+
+}
+
+/* "+ Add Performer" under the pickers: as wide as a picker and its ×
+   together, the same full row every add under a list of pickers
+   takes (see .business-channel-pick). */
+.business-capability-performers > .strategy-add-button{
+
+    align-self:stretch;
+
+}
+
+.business-capability-performer > .option-picker{
+
+    flex:1 1 auto;
+
+    /* A list row: the picker fills it up to the ×. */
+    width:auto;
+
+    min-width:0;
+
+}
+
+/* A Responsibility a rule decides: the founder's name where the
+   picker would be, on the picker's own height. */
+.business-capability-automatic{
+
+    display:flex;
+
+    align-items:center;
+
+    min-height:40px;
+
+    font-size:var(--font-body);
+
+    color:var(--text-default);
+
+}
+
+/* A founder's Responsibilities label line: the fold arrow, the
+   label with its "i", then "Completed n/m". The arrow hangs in the
+   card body's indent, where the card's own arrow sits above it, so
+   the label stays on the column every other label starts on. */
+.business-capability-responsibilities-head{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:center;
+
+    column-gap:var(--gap-12);
+
+}
+
+.business-capability-responsibilities-head > .strategy-box-toggle{
+
+    margin-left:-44px;
+
+    margin-right:-4px;
+
+}
+
+/* A founder's responsibility that is done: struck through, with a
+   tag in the Completed fold's grey saying so in words -- strike-
+   through alone reads as "cancelled". The line (number and text)
+   greys; only the text is struck, the tag at the end of the line
+   (see .numbered-list-static) is not. */
+.business-capability-responsibility-done{
+
+    color:var(--text-muted);
+
+}
+
+.business-capability-responsibility-done > .numbered-list-static-text{
+
+    text-decoration:line-through;
+
+}
+
+/* Completed, at the bottom right of the row. */
+.business-capability-done{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--gap-8);
+
+    align-self:flex-end;
+
+    /* Otherwise the "Completed" text sits at the browser's own
+       16px default -- nothing else here sets it. */
+    font-size:var(--font-body);
+
+    cursor:pointer;
+
+}
+
+/* The number is the grip: dragging starts here, so a drag begun in
+   a text field selects text as it normally would. */
+
+/* What is LEFT TO DO, which is the number that means something on
+   this page.
+
+   Red, as the specification asks. #b3261e holds above 4.5:1 on
+   both card grounds and on white, which the app's own red already
+   had to. */
+
+/* What is done, folded away behind its own count and drawn in the
+   neutral grey of everything completed (--*-completed-*,
+   colors.css) -- a colour that belongs to no Segment, because
+   "finished" is not a category of work. */
+/* No frame and no ground of its own: the fold arrow and its grey
+   "Completed N", then the completed cards, each in its own grey
+   tint. Its cards run the FULL width of the list, exactly as the
+   active cards above do, so a completed card is as wide as an
+   active one, sits at the same x, and makes the same
+   label-above-or-beside decision (a card's own width decides it --
+   "A NARROW CARD", global.css). */
+.business-capability-completed{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--gap-12);
+
+    /* Its colour family, which everything in it inherits: labels
+       in the neutral grey, and every outlined button -- + Add
+       Performer, Expand all -- drawn in the grey too (see THE
+       COLOUR FAMILY A BUTTON IS DRAWN IN, global.css), not in
+       the colour of the section around it. */
+    --label-color: var(--text-muted);
+    --accent-ink: var(--text-completed-ink);
+    --accent-line: var(--line-completed);
+    --accent-ground: var(--bg-completed-ground);
+    --accent-ground-hover: var(--bg-completed-hover);
+    --accent-hover-ink: var(--text-completed-ink);
+
+}
+
+/* (Its head is the same row as a founder's Responsibilities: the standard fold arrow, then the label, in the grey of everything
+   completed -- see .business-founder-open in section-tiles.css.) */
+.business-capability-completed .business-foundation-label{
+
+    color:var(--text-completed-ink);
+
+}
+
+/* A completed activity takes the grey rather than its Segment's
+   colour, so the fold reads as one block of finished work. */
+.business-capability-completed .business-capability-activity{
+
+    border-color:var(--line-completed);
+
+    background:var(--bg-completed-card);
+
+}
+
+/* The indents give back at the narrow end: four levels of 16px
+   inside a card that is already indented 44px leaves a field the
+   width of a word. */
+@media (max-width: 900px){
+
+    .business-capability-subsection{
+
+        padding-left:8px;
+
+    }
+
+}
+

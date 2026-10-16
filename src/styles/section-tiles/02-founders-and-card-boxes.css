@@ -1,0 +1,684 @@
+/* ==========================================================
+   The Founders' dialog (FounderCards.tsx): the wide exception
+========================================================== */
+
+/* OPEN CARDS (1 to 8 founders): every card one width, --founder-card-min (297px: what the content needs and no
+   more), --space-card (12px) apart. The row is --founders-per-row cards wide (the count up to four; two balanced rows
+   beyond) and centred, so an incomplete last row stands in the middle. As many cards stand across as the dialog's
+   content holds: four from 1224px (4 x 297 + 3 gaps), three from 915px, two from 606px, else one (--founder-across). */
+.founder-rows {
+
+    container: founder-rows / inline-size;
+
+    min-width: 0;
+
+}
+
+.founder-row {
+
+    --founder-across: 4;
+
+    --founder-card-width: var(--founder-card-min);
+
+    --founder-columns: min(var(--founders-per-row, 1), var(--founder-across));
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    align-items: flex-start;
+
+    gap: var(--space-card);
+
+    box-sizing: border-box;
+
+    width: calc(var(--founder-columns) * var(--founder-card-width) + (var(--founder-columns) - 1) * var(--space-card));
+    max-width: 100%;
+
+    margin-inline: auto;
+
+}
+
+@container founder-rows (max-width: 1223.98px) {
+
+    .founder-row {
+
+        --founder-across: 3;
+
+    }
+
+}
+
+@container founder-rows (max-width: 914.98px) {
+
+    .founder-row {
+
+        --founder-across: 2;
+
+    }
+
+}
+
+@container founder-rows (max-width: 605.98px) {
+
+    .founder-row {
+
+        --founder-across: 1;
+
+    }
+
+}
+
+.founder-row > .business-foundation-card {
+
+    flex: 0 0 var(--founder-card-width);
+
+    box-sizing: border-box;
+
+    min-width: 0;
+
+    margin: 0;
+
+}
+
+/* CLOSED SQUARE BOXES (more than 8 founders): the tile component at --section-box-size
+   (global.css), as many across as fit the dialog's width, left-aligned like every
+   group of tiles, 12px apart. */
+.section-tiles-founders {
+
+    /* Not a third of the dialog's width (the dialog is the page's width): a box of
+       --section-box-size, as many across as fit. */
+    --section-tile-size: var(--section-box-size);
+
+    grid-template-columns: repeat(auto-fill, var(--section-tile-size));
+
+}
+
+/* SUBCATEGORY BOXES (SubcategoryBoxes): the whole set -- the boxes and the half-size add box
+   counted as one -- stands in TWO ROWS across the dialog's content width: --sub-columns =
+   ceil(n / 2) columns. The side of a box is the width left after the gaps, over the columns,
+   never more than a third of the content width and never so large that two rows do not fit the
+   dialog's height (less the heading, the Back row and the paddings: 160px, and the row gap).
+   True squares, left-aligned, 12px apart. */
+
+/* THE ADD BOX ("Add other"): an action, so a dashed, lighter edge and a plain ground; HALF the
+   side of the other boxes (a quarter of their area), at the top left of its cell, so its top and
+   left edges are the boxes' own. A "+" over its words, centred. */
+
+/* (The add box is an action, not a section: its words are centred with no rule under them.) */
+
+/* ==========================================================
+   THE "+" OF AN EMPTY SECTION (TileFace): a small "+" under the title of a tile or box whose
+   section holds no cards yet, where the list would be, centred, in the title's colour.
+   Decorative (aria-hidden); the button is described as "No items yet".
+========================================================== */
+.section-tile-empty {
+
+    align-self: start;
+
+    margin-top: var(--tile-list-gap);
+
+    font-size: var(--font-h3);
+    font-weight: 400;
+    line-height: 1;
+
+}
+
+.section-tile-empty-note {
+
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    overflow: hidden;
+
+    clip-path: inset(50%);
+
+    white-space: nowrap;
+
+}
+
+/* ==========================================================
+   CARD BOXES (CardBoxes.tsx, layout-rules 5a "Card boxes"): a list of cards inside a dialog
+   is a grid of closed square boxes -- the section tile's look -- ONE side for all of them
+   (--card-box-side, measured: the largest at which the cards and the add box fit the dialog,
+   at most the opening tile's side, at least 96px), --card-box-columns across, the block
+   centred in the dialog and its boxes left-aligned inside it, 12px apart.
+========================================================== */
+.card-boxes {
+
+    min-width: 0;
+
+}
+
+/* The add box of a list of cards: half the side of the boxes, a "+" and the words ("Add resource");
+   too small for the words (under 72px), the "+" alone. */
+.card-box-add .card-box-add-words {
+
+    font-size: var(--font-small);
+
+}
+
+.card-box-add[data-plain] .card-box-add-words {
+
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    overflow: hidden;
+
+    clip-path: inset(50%);
+
+}
+
+/* AN OPEN CARD in a dialog (a card box pressed): the card itself, centred, not stretched across the dialog. */
+.card-box-open {
+
+    box-sizing: border-box;
+
+    width: min(100%, var(--open-card-width));
+
+    margin-inline: auto;
+
+}
+
+/* A box's second line: the founder's role, small and plain under the name. */
+.section-tile-sub {
+
+    align-self: start;
+
+    min-width: 0;
+    max-width: 100%;
+
+    margin-top: var(--tile-list-gap);
+
+    font-size: var(--font-small);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: var(--section-tile-line-height);
+
+    overflow-wrap: anywhere;
+
+}
+
+/* A title too long for the room above its line (a third of the square) drops to the small size -- that
+   title only (TileFace measures it). */
+.section-tile[data-title-small] {
+
+    font-size: var(--font-small);
+
+}
+
+/* ==========================================================
+   A FOUNDER'S CARD: ONE LEFT EDGE (layout-rules 5a). Every text of the card -- the name, the
+   roles, the labels (Salary, Working Hrs ...), the left edge of the cells under them, the
+   Responsibilities label, the list items' text, "Completed N" and the share line -- starts at
+   the same x, the CONTENT EDGE: the card's padding (12px) plus the marker column
+   (--founder-marker, 32px) = --card-body-indent (44px). Bullets and numbers are not text:
+   they HANG in the marker column to the left of that edge (the head's "1.", the roles'
+   bullets, the list numbers, the fold arrow of Responsibilities / Completed), and a wrapped
+   line of an item aligns under the first line's text, never under its marker.
+========================================================== */
+.business-foundation-card.business-founder-open {
+
+    padding-left: calc(var(--card-padding) + var(--founder-inset) + var(--founder-marker));
+
+}
+
+/* The head: the number in the marker column, the name (after the head's one 8px gap) at the content edge. */
+.business-founder-open > .strategy-box-head {
+
+    margin-left: calc(-1 * var(--founder-marker));
+
+}
+
+.business-founder-open > .strategy-box-head > .strategy-box-number {
+
+    min-width: calc(var(--founder-marker) - 8px);
+
+}
+
+/* The head: the number and the name are on ONE line -- one line height (the name's, 28px), so one baseline and one
+   vertical centre -- and the number is in tabular figures, so every single-digit number is 18.3px wide and stands exactly
+   8px (the head's gap) before the name, which is at the content edge. */
+.business-founder-open > .strategy-box-head > .strategy-box-number > .list-number {
+
+    min-width: 0;
+
+    text-align: left;
+
+    font-variant-numeric: tabular-nums;
+
+    line-height: 28px;
+
+}
+
+/* THE FOUR CELLS (Salary, Frequency, Working Hrs, Delivery Hrs) are ONE size: the width the Frequency picker's longest
+   option ("Annually") needs with its padding, chevron and border (--founder-cell, 108px), 45px high. Two columns side by
+   side, --space-cell (12px) apart, the left column's cells at the content edge. A label stands above its cell,
+   left-aligned to it: "Salary" and "Frequency" on one line, "Working Hrs (i)" and "Delivery Hrs (i)" on TWO ("Working" /
+   "Hrs (i)"; the "i" is glued to the last word). The second column is as wide as its widest label ("Frequency (i)", 120px,
+   wider than its cell by 12px), so nothing leaves the card. */
+.business-founder-open .business-founder-grid {
+
+    justify-content: start;
+
+}
+
+.business-founder-open .business-founder-grid > .business-foundation-field:nth-child(n+3) > :first-child {
+
+    width: var(--founder-cell);
+
+    white-space: normal;
+
+}
+
+.business-founder-open .business-founder-grid .interview-input.interview-input,
+.business-founder-open .business-founder-grid .option-picker {
+
+    width: var(--founder-cell);
+    max-width: var(--founder-cell);
+
+}
+
+/* The lists (roles, responsibilities): hanging markers, line height 1.45 (as a tile title's), 6px
+   (--space-row) from one item to the next. */
+.business-founder-open :is(.bullet-list-static, .numbered-list-static) {
+
+    row-gap: var(--space-row);
+
+    line-height: var(--section-tile-line-height);
+
+}
+
+.business-founder-open .bullet-list-static > li::before {
+
+    top: calc((var(--section-tile-line-height) * 1em - var(--bullet-size)) / 2);
+
+}
+
+.business-founder-open .numbered-list-static {
+
+    /* (A two-digit number is wider than the column: the column grows and the whole list's text follows it.) */
+    grid-template-columns: minmax(var(--founder-marker), max-content) minmax(0, 1fr) auto;
+
+    font-variant-numeric: tabular-nums;
+
+}
+
+.business-founder-open .numbered-list-static > li::before {
+
+    padding-left: 0;
+
+    text-align: left;
+
+}
+
+.business-founder-open .numbered-list-static-text {
+
+    padding-left: 0;
+
+}
+
+/* Responsibilities and Completed: the STANDARD fold arrow (FoldArrow, 36px, its usual reactions), the same component
+   in both rows, hung so that the CLOSED glyph's left edge is the marker column's -- the x of the head number, the bullets and the
+   list numbers; its box reaches 12.5px left of the glyph, inside the card thanks to --founder-inset. Open or closed, the box stays put. The label
+   follows at the content edge (the row's 12px gap is part of the distance). In a card this narrow the rate ("0/6")
+   may not fit beside the label: it wraps under it, a field gap (12px) from the label's box. */
+
+:is(.business-founder-open, .business-capability-links) .business-capability-responsibilities-head {
+
+    row-gap: var(--space-field);
+
+}
+
+/* "Completed N": a block of its own, a field gap (12px) under the list above it, its row the same as Responsibilities'
+   (the standard arrow, then the label, here in the grey of everything completed). The struck-through items under it are
+   the list's own rows (6px apart). */
+.business-founder-open .numbered-list-static + .business-capability-completed {
+
+    margin-top: var(--space-field);
+
+}
+
+.business-founder-open .business-capability-completed {
+
+    gap: var(--space-label);
+
+}
+
+.business-founder-open .business-capability-completed .business-foundation-label {
+
+    color: var(--text-completed-ink);
+
+}
+
+/* The share of the working hours (one short muted line under the hours): no margin of its own,
+   the card's 12px gap places it. */
+.business-founder-share {
+
+    margin: 0;
+
+}
+
+/* The link symbol beside a chosen name: it takes the place of the × / + of the row (one box wide), and opens the card. */
+.business-link-symbol {
+
+    flex: 0 0 auto;
+
+    margin: 0;
+    padding: 0 6px;
+
+    border: 0;
+    background: transparent;
+
+    font-size: var(--font-body);
+    line-height: 1;
+
+    cursor: pointer;
+
+}
+
+/* (The Business pages' box width, 100%, is for a box that fills its row: this one is 56px, whatever the page.) */
+.business-foundation .interview-input.business-capability-people {
+
+    width: 56px;
+
+}
+
+/* THE LABEL COLUMN of an activity's picker rows (Performer, Responsible): one width in both stacks (the Responsible's label carries its tick, 7.25em of the body
+   size), so the Performer's dropdown and the Responsible's name start at one x. */
+.business-capability-activity-fields {
+
+    --activity-label-column: calc(var(--font-body) * 7.25 + var(--link-slot));
+
+}
+
+/* THE LINK SYMBOL STANDS AT THE LEFT of its dropdown, in the label's column (which is wider by its slot where a link can stand): it is drawn first, and its
+   slot -- its own width and the gap -- hangs out to the left of the picker, so every picker still starts at the column's edge. A row with no link keeps the
+   empty slot (the spacer) so that all rows are the same. */
+.business-capability-performer > .business-link-symbol,
+.business-capability-performer > .business-capability-row-spacer:not(.business-capability-row-spacer-units) {
+
+    order: -1;
+
+    margin-left: calc(-1 * var(--link-slot));
+
+}
+
+/* The place a row keeps for something only some rows have (a link symbol, the units): the dropdowns of the rows then end at one x. */
+.business-capability-row-spacer {
+
+    flex: none;
+
+    width: 38.5px;
+    height: 1px;
+
+}
+
+.business-capability-row-spacer-units {
+
+    width: 56px;
+
+}
+
+/* The Frequency and, when it is Per unit, its Unit side by side (the Unit has no label, like the currency). */
+.business-capability-frequency-unit {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: var(--space-cell);
+
+}
+
+/* A number of years or a percent: a short box, not the card's width. */
+.business-capability-years {
+
+    width: 96px;
+    max-width: 100%;
+
+}
+
+/* THE PAYMENT PLAN's ROWS: a payment is one row -- its amount, its percent and its date (an Instalment's number before them) -- the boxes only as wide as their
+   figures need. A Milestone's stage is a row of its own above: the title and, at the end, the "+" (the first) or the x (any other), the size of a Performer's. */
+.business-capability-plan-row {
+
+    display: grid;
+    align-items: center;
+
+}
+
+.business-capability-plan-stage {
+
+    grid-template-columns: minmax(0, 1fr) auto;
+
+}
+
+.business-capability-plan-row .interview-input {
+
+    width: 100%;
+    max-width: none;
+
+}
+
+.business-capability-plan-amount,
+.business-capability-plan-percent {
+
+    text-align: right;
+
+}
+
+.business-capability-plan-order {
+
+    color: var(--text-muted, var(--text-default));
+
+}
+
+/* The plan's type and, for Instalments, the small box that says how many (one digit). */
+.business-capability-plan-type {
+
+    display: flex;
+    align-items: center;
+
+    gap: var(--space-cell);
+
+}
+
+.business-capability-plan-type > .option-picker {
+
+    flex: 1 1 auto;
+
+    min-width: 0;
+
+}
+
+.business-capability-plan-type > .interview-input.interview-input.business-capability-plan-count {
+
+    padding-left: 4px;
+    padding-right: 4px;
+
+    text-align: center;
+
+}
+
+/* How many people a performer is: a short box beside the picker. */
+.business-capability-people {
+
+    flex: 0 0 auto;
+
+    width: 56px;
+
+    text-align: right;
+
+}
+
+/* A dropdown with ONE option shown as text (a single Group, the one Status a further status row can have): the letters start where the letters of a picker start. */
+.business-capability-static-value {
+
+    flex: 0 1 auto;
+
+    padding-left: 8.67px;
+
+    font-size: var(--font-body);
+    font-weight: 400;
+    line-height: 1.5;
+
+    color: var(--text-default);
+
+}
+
+/* The Deposit of a Workspace card: its currency is plain text taken from the Price, beside the amount. */
+.business-capability-deposit-currency {
+
+    flex: 0 0 auto;
+
+    /* (Its letters start where the letters of the currency picker start: the picker's inner left padding.) */
+    padding-left: 8.67px;
+
+    font-size: var(--font-body);
+    font-weight: 400;
+    line-height: 1.5;
+
+    color: var(--text-muted);
+
+}
+
+/* ==========================================================
+   CONTENT OF A DIALOG: CENTRED, AT THE TOP (layout-rules 5a). The content block of every
+   dialog -- a grid of tiles or boxes, the open cards, a form, a founder's cards, an empty
+   message -- is centred across the dialog and starts at the top (12px under the title row);
+   a box grid is left-aligned inside its own block, the block centred. What is taller scrolls
+   in the body. (The title row of a section keeps its place at the dialog's left.)
+========================================================== */
+.section-tile-dialog-body {
+
+    justify-content: flex-start;
+
+}
+
+.section-tile-dialog .section-tiles {
+
+    justify-content: center;
+
+    /* (The width limit of a group on the page does not apply: a grid in a dialog is as wide as the dialog's content,
+       its tracks centred in it.) */
+    max-width: none;
+
+}
+
+.section-tile-dialog-body > div > .business-foundation-empty {
+
+    box-sizing: border-box;
+
+    width: fit-content;
+    max-width: min(100%, var(--open-card-width));
+
+    margin-inline: auto;
+
+    text-align: center;
+
+}
+
+/* A subsection (Furniture, Internet ...) in a dialog has no fold arrow, so nothing is held in past one:
+   its content starts at the dialog's content edge and is centred like the rest. */
+.section-tile-dialog .business-capability-subsection {
+
+    padding-left: 0;
+
+}
+
+.section-tile-dialog .business-capability-subsection > :not(.business-capability-subsection-head) {
+
+    margin-left: 0;
+
+}
+
+.section-tile-dialog .business-capability-subsection > .card-box-open {
+
+    margin-inline: auto;
+
+}
+
+/* ==========================================================
+   TITLE SIZES OF PAGE 3 (layout-rules 5a, "Title sizes"): the type scale only
+   (--font-small 14, --font-body 18, --font-h3 24, --font-h2 28, --font-h1 36).
+     page title            36  (--font-h1)
+     column title          28  (--font-h2)   1. INFRASTRUCTURE, 2. OFFERING'S CAPABILITY
+     dialog title          24  (--font-h3)   the section heading at the head of a dialog
+     section heading       24  (--font-h3)   1. Resources ... in a card of tiles
+     tile / box title      18  (--font-body, 600; 14 in a box under 120px)
+     subcategory heading, card head name  18  (--font-body)
+     labels, text          18, notes and summaries 14
+========================================================== */
+.answer-columns.business-capability > .business-foundation-card:not(.section-tile-dialog) .answer-column-label {
+
+    font-size: var(--font-h2);
+
+}
+
+.business-capability-tiles-section > .business-engagement-section-head .field-group-title,
+.section-tile-dialog-body > div > .business-engagement-section-head .field-group-title {
+
+    font-size: var(--font-h3);
+
+}
+
+/* ==========================================================
+   THE GREY OF THE FINISHED ONES (layout-rules 5a, "Completed activities"): the Completed tile, its dialog and the
+   boxes and cards in it take the neutral grey of everything completed (--*-completed-*, colors.css), no category hue,
+   the text a grey that still holds 4.5:1 on its ground, so that it looks deactivated.
+========================================================== */
+.section-tile-completed {
+
+    background: var(--bg-completed-card);
+
+    color: var(--text-completed-ink);
+
+    --glow-color: var(--line-completed);
+
+}
+
+.section-tile-completed .section-tile-list,
+.section-tile-completed .section-tile-sub {
+
+    color: var(--text-completed-ink);
+
+}
+
+.section-tile-overlay.business-foundation > .section-tile-dialog-completed.business-foundation-card {
+
+    background: var(--bg-completed-card);
+
+    border-color: var(--line-completed);
+
+    --glow-color: var(--line-completed);
+
+}
+
+.section-tile-dialog-completed,
+.card-boxes-completed {
+
+    --label-color: var(--text-muted);
+    --accent-ink: var(--text-completed-ink);
+    --accent-line: var(--line-completed);
+    --accent-ground: var(--bg-completed-ground);
+    --accent-ground-hover: var(--bg-completed-hover);
+    --accent-hover-ink: var(--text-completed-ink);
+
+}
+
+.section-tile-dialog-completed .business-capability-activity,
+.card-boxes-completed .business-capability-activity {
+
+    border-color: var(--line-completed);
+
+    background: var(--bg-completed-card);
+
+}
+

@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { sheetSource } from "../test/stylesheet.ts";
 import { describe, expect, it } from "vitest";
 import { collectDefinitions, valuesOf } from "../../scripts/docs/values.ts";
 import { assets } from "./index.ts";
@@ -10,7 +10,7 @@ import { SCREEN_CLASSES } from "./contract.ts";
 
 const floatingCard = assets.find(asset => asset.name === "Floating card")!;
 const names = Object.keys(import.meta.glob("../styles/*.css")).map(path => path.split("/").pop() as string);
-const defs = collectDefinitions(names.map(name => ({ name, text: readFileSync(new URL("../styles/" + name, import.meta.url), "utf8").replace(/\r\n/g, "\n") })));
+const defs = collectDefinitions(names.map(name => ({ name, text: sheetSource(name) })));
 
 describe("the floating card base's contract", () => {
 
