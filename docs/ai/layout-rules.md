@@ -69,7 +69,7 @@ below are these, made measurable.
 | `--section-tile-min` | 120px | the smallest a section tile gets: a group too narrow for three of them wraps to fewer across |
 | `--control-xs` | 80px | XS width step |
 | `--control-code` | 128px | Code width step |
-| `--control-date` | 198px | Date width step |
+| `--control-date` | 212px | Date width step |
 | `--control-s` | 220px | S width step |
 | `--control-m` | 300px | M width step |
 | `--control-l` | 420px | L width step |
@@ -322,6 +322,12 @@ currency and its frequency; a date cell and its calendar).
 The check: `node scripts/catalogue/align-check.mjs` opens every master tile and the first two cards of each view, and lists
 every pair of controls side by side whose centres differ by more than 1px, or whose tops differ when their heights are equal.
 It must list none.
+
+### One dropdown alone in a row, and fields that pair (2026-10-16, owner)
+
+6. **A dropdown alone in its row takes the row.** When a card's row holds one field and it is a dropdown, its right side is the available space's: 12px after the x's left side, which is the name cell's right edge, or, on a card with no x, 56px (12px gap + the 32px x + 12px side gap) from the card's right edge. It does not size to its longest option. (Built in `OptionPicker`: a hugging picker with no other control in its row is "full".)
+7. **A field with the label above its holder usually has a partner beside it.** The common pairs: Working Hours with Delivery Hours; Salary, Cost, Price or Expense with its Frequency. A currency dropdown, where there is one, comes after the amount; a quantity (QTY) cell, where there is one, comes before it. (Rule recorded; applying it card by card is a survey of every card still to do.)
+8. **The common fields are one thing everywhere.** A field kind (text cell, dropdown, date or month cell, number, tick, colour, x, plus, i) has one style, behaviour, size, shape and layout in every system, page and card; a difference is a defect, and is fixed in the library and the shared component, not in the page.
 
 ### Grids and lists
 
@@ -1370,7 +1376,7 @@ Today: the chapter titles of 3. Infrastructure & Capability (right of the title 
 - **The cost row**: the currency cell is 66px (its left edge stays at the label column), the Frequency takes the rest of the row, to the content's right edge.
 - A side-label cell (Category, Group, Responsible, Status) keeps its one fixed width and one line; a sole-option Group stays a disabled cell like the Category's, never plain text.
 - Linked resources of an activity: one line each (name left, cost right), "no price yet" where none; the Total ends the list. Rate override is optional (a tick).
-- Payment plan rows: [amount (what is left)] [percent: a 44px square, right-aligned] [the date cell, 198px]; 12px between cells; a milestone's name runs the card's name cell with its "+" in the x column. The date cell is 198px everywhere (the Start date cell).
+- Payment plan rows: [amount (what is left)] [percent: a 44px square, right-aligned] [the date cell, 212px]; 12px between cells; a milestone's name runs the card's name cell with its "+" in the x column. The date cell is 212px everywhere (the Start date cell).
 - A requirement ticked "Add to Legal Entity Expenses" makes one expense (named as it is, text-link name, no Linked registration); the two open together, the requirement above. A linked registration number carries its link symbol inside the right of its cell.
 - Activity costs: the partners and suppliers named as Performers are costed after the last performer; a rule stands over the Total.
 - Customer Engagement: "Channel" is the old Channel Category and "Subchannel" the old channel; "Channel expenses" (was Channel resources) has Cost (currency in its heading), Frequency, and a Channel column of channel / rule / subchannel.

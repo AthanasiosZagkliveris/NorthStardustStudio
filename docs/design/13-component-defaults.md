@@ -56,7 +56,7 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | TXS.001 text | TXS.HOR.001.017 Heading 1 | words | 36 | h1 36 | 0px | 0/0 | 0 | 2 | follows the words (a field, not a button) |
 | TXS.001 text | TXS.SBD.001.018 Small bold | words | 14 | small 14 | 0px | 0/0 | 0 | 290 | follows the words (a field, not a button) |
 | DRP.001 dropdown | (asset) | 44 | 18 | body 18 | 6px | 8/8 | 1 | 493 in 8 places | meets 24 |
-| TIK.001 tick box | (asset) | 24 high, 24 wide | 18 | body 18 | 0px | 0/0 | 0 | 721 in 8 places | meets 24 |
+| TIK.001 tick box | (asset) | 24 high, 24 wide | 18 | body 18 | 4px | 0/0 | 2 | 721 in 8 places | meets 24 |
 | TXT.001 text box | (asset) | 44 | 18 | body 18 | 6px | 10/8 | 1 | 24 in 4 places | meets 24 |
 | TXT.001 text box | TXT.ARE.001.001 Free text | words, at least 44 | 18 | body 18 | 6px | 10/8 | 1 | 282 in 19 places | follows the words (a field, not a button) |
 | TXT.001 text box | TXT.NAM.001.002 Name cell | words, at least 44 | 18 | body 18 | 6px | 38/8 | 1 | 138 | follows the words (a field, not a button) |
@@ -169,6 +169,8 @@ Separated by purpose; each has its own default look.
 - merged into the default: tick box height 18, type 16, corners 0px, padding 0/0, border 0; found 5 times (0.7% of the default's 721); largest difference 2.0px
 - enlarged, by the owner's decision (owner, 2026-10-15): from 18px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (721 found at 18px).
 - the box with its words is a field, not a component (the owner, owner, 2026-10-16): the words are a label.
+- decided 2026-10-16 (owner): the tick box is 24px with rounded corners of 4px, drawn by the app (not the browser's box); the check is white on the fill.
+- line corrected 2026-10-16: the drawn tick box has a 2px line in the text colour (the fill when ticked).
 
 ### TXT.001 text box
 
@@ -201,17 +203,20 @@ Separated by purpose; each has its own default look.
 - dates in the Strategic Period, the Objective cards of a Theme and the Revenue card (Begins): by the owner's decision (owner, 2026-10-15) they are this date cell with a calendar and the choice of a day or only a month; they are month pickers with their own look today (bold, wide-spaced type that cuts the year off: 'September 202').
 - decided by the owner, owner, 2026-10-16: the long cell and the square calendar symbol are unified (the symbol inside the cell, 32px high); one default for days, months and years, and one for months and years only; the cell works as a dropdown. The day popup today is the browser's own calendar and the symbol is the emoji 📅; both are to be replaced by the app's own.
 - done 2026-10-16: the calendar button is inside the cell, 32px high with a drawn calendar symbol (an SVG in the text colour, not an emoji); the month-and-year form (the Strategic Period, the Financial Plan) is the same cell with the same symbol inside; the browser's native date input is no longer used.
+- decided 2026-10-16 (owner): the day cell and the month-and-year cell are one component in two forms: the same cell, width, calendar button (24px symbol on a 32px button), calendar card, arrows, keys and closing; only the grid differs (days, or the months of a year).
 
 ### DAT.002 calendar list
 
 - rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners of 6px, like the cells. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.
 - measured 2026-10-16: the day popup is the browser's own calendar (a date input), so its text size and corners are the browser's and cannot be measured or styled; only the month popup of the Strategy pages is the app's own.
 - done 2026-10-16: the day calendar is the app's own (the list under the date cell: month and year with previous and next arrows, the days from Monday, Today and Clear, 6px corners, a day after the latest or before the earliest allowed is dimmed and cannot be chosen); it closes on a choice, on Escape and on a click elsewhere, as a dropdown's list does.
+- decided 2026-10-16 (owner): the month calendar is the day calendar's card (head with the double and single arrows and the title, the grid in the same width, a foot), the grid being the twelve months of the year in four columns; its foot offers This month.
 
 ### PCK.001 colour picker
 
 - measured 44 by 45px, 8px corners, a dashed 1px edge while empty; by the owner's rules (every cell 44px, the corners of the cells) it is 44 by 44px with 6px corners.
 - the swatch with its hex holder and label is a field, not a component (the owner, owner, 2026-10-16).
+- decided 2026-10-16 (owner): the cell is a square (44px) with rounded corners, and the colour in it is a square with rounded corners (one step smaller).
 
 ### IMG.001 image holder
 

@@ -1514,10 +1514,10 @@ export const library: Library = {
     "height": 24,
     "fontSize": 18,
     "fontWeight": "400",
-    "corners": "0px",
+    "corners": "4px",
     "paddingLeft": 0,
     "paddingTop": 0,
-    "border": 0,
+    "border": 2,
     "scale": "body 18",
     "found": 721,
     "width": 24,
@@ -1526,7 +1526,9 @@ export const library: Library = {
    "lookNotes": [
     "merged into the default: tick box height 18, type 16, corners 0px, padding 0/0, border 0; found 5 times (0.7% of the default's 721); largest difference 2.0px",
     "enlarged, by the owner's decision (owner, 2026-10-15): from 18px to 24px, the WCAG 2.5.8 minimum, so that it no longer needs the spacing exception (721 found at 18px).",
-    "the box with its words is a field, not a component (the owner, owner, 2026-10-16): the words are a label."
+    "the box with its words is a field, not a component (the owner, owner, 2026-10-16): the words are a label.",
+    "decided 2026-10-16 (owner): the tick box is 24px with rounded corners of 4px, drawn by the app (not the browser's box); the check is white on the fill.",
+    "line corrected 2026-10-16: the drawn tick box has a 2px line in the text colour (the fill when ticked)."
    ],
    "group": "HOLD.TIK",
    "kind": "Tick box: yes or no",
@@ -1817,7 +1819,8 @@ export const library: Library = {
     "cell height, by the owner's decision (owner, 2026-10-15): every cell is 44px high (it measured 44). Already 44px.",
     "dates in the Strategic Period, the Objective cards of a Theme and the Revenue card (Begins): by the owner's decision (owner, 2026-10-15) they are this date cell with a calendar and the choice of a day or only a month; they are month pickers with their own look today (bold, wide-spaced type that cuts the year off: 'September 202').",
     "decided by the owner, owner, 2026-10-16: the long cell and the square calendar symbol are unified (the symbol inside the cell, 32px high); one default for days, months and years, and one for months and years only; the cell works as a dropdown. The day popup today is the browser's own calendar and the symbol is the emoji 📅; both are to be replaced by the app's own.",
-    "done 2026-10-16: the calendar button is inside the cell, 32px high with a drawn calendar symbol (an SVG in the text colour, not an emoji); the month-and-year form (the Strategic Period, the Financial Plan) is the same cell with the same symbol inside; the browser's native date input is no longer used."
+    "done 2026-10-16: the calendar button is inside the cell, 32px high with a drawn calendar symbol (an SVG in the text colour, not an emoji); the month-and-year form (the Strategic Period, the Financial Plan) is the same cell with the same symbol inside; the browser's native date input is no longer used.",
+    "decided 2026-10-16 (owner): the day cell and the month-and-year cell are one component in two forms: the same cell, width, calendar button (24px symbol on a 32px button), calendar card, arrows, keys and closing; only the grid differs (days, or the months of a year)."
    ],
    "group": "HOLD.DAT",
    "kind": "Date cell: a day",
@@ -1872,7 +1875,8 @@ export const library: Library = {
    "lookNotes": [
     "rounded corners: by the owner's decision (owner, 2026-10-15) the popup window has rounded corners of 6px, like the cells. The day popup is the browser's own picker today (square corners, and it cannot be styled), so the app needs its own day calendar to give it rounded corners; the month popup has rounded corners already.",
     "measured 2026-10-16: the day popup is the browser's own calendar (a date input), so its text size and corners are the browser's and cannot be measured or styled; only the month popup of the Strategy pages is the app's own.",
-    "done 2026-10-16: the day calendar is the app's own (the list under the date cell: month and year with previous and next arrows, the days from Monday, Today and Clear, 6px corners, a day after the latest or before the earliest allowed is dimmed and cannot be chosen); it closes on a choice, on Escape and on a click elsewhere, as a dropdown's list does."
+    "done 2026-10-16: the day calendar is the app's own (the list under the date cell: month and year with previous and next arrows, the days from Monday, Today and Clear, 6px corners, a day after the latest or before the earliest allowed is dimmed and cannot be chosen); it closes on a choice, on Escape and on a click elsewhere, as a dropdown's list does.",
+    "decided 2026-10-16 (owner): the month calendar is the day calendar's card (head with the double and single arrows and the title, the grid in the same width, a foot), the grid being the twelve months of the year in four columns; its foot offers This month."
    ],
    "group": "HOLD.DAT",
    "kind": "List of a date cell: where the day or the month is chosen",
@@ -1913,7 +1917,8 @@ export const library: Library = {
    },
    "lookNotes": [
     "measured 44 by 45px, 8px corners, a dashed 1px edge while empty; by the owner's rules (every cell 44px, the corners of the cells) it is 44 by 44px with 6px corners.",
-    "the swatch with its hex holder and label is a field, not a component (the owner, owner, 2026-10-16)."
+    "the swatch with its hex holder and label is a field, not a component (the owner, owner, 2026-10-16).",
+    "decided 2026-10-16 (owner): the cell is a square (44px) with rounded corners, and the colour in it is a square with rounded corners (one step smaller)."
    ],
    "kind": "Colour chooser: a swatch",
    "belongs": "Brand: Colours card"

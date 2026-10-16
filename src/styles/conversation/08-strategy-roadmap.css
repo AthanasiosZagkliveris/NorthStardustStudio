@@ -658,19 +658,6 @@
 
 }
 
-/* The date reads from the right, so two buttons stacked above
-   each other end on the same character rather than starting on
-   one -- the Strategic Period box's own Start/End pair. Scoped
-   there: written as a bare `.month-picker-trigger` this quietly
-   right-aligned every month picker in the app, unlike the
-   `.interview-input` fields beside them everywhere else. */
-.strategy-period-box .month-picker-trigger,
-.strategy-objective-when .month-picker-trigger{
-
-    text-align:right;
-
-}
-
 /* ONE START / END PAIR IN STRATEGY: the Strategic Period's and every
    Objective's, the same picker at the Date step, its label in a 48px
    column beside it. */
@@ -810,8 +797,6 @@
 .strategy-box-toggle:hover,
 .strategy-sort-option:hover,
 .month-picker-trigger:hover:not(:disabled),
-.month-picker-step:hover:not(:disabled),
-.month-picker-cell:hover:not(:disabled),
 .roadmap-bar:hover{
 
     text-shadow:var(--hover-bold);
@@ -1056,8 +1041,6 @@
 .strategy-add-button:hover:not(:disabled),
 .strategy-box-action:hover:not(:disabled),
 .strategy-box-toggle:hover,
-.month-picker-step:hover:not(:disabled),
-.month-picker-cell:hover:not(:disabled),
 .roadmap-bar:hover{
 
     box-shadow:none;
@@ -1303,8 +1286,7 @@
 .profile-card-title-input,
 .profile-card-fixed-label,
 .profile-card-subtitle,
-.handbook-t-card-label,
-.month-picker-cell-current{
+.handbook-t-card-label{
 
     letter-spacing:0.05em;
 

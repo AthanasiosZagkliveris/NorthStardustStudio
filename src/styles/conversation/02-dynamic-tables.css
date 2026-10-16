@@ -1013,7 +1013,8 @@
 }
 
 /* The calendar button: a box button (32px, the x's and the plus's), laid over the end of the cell. */
-.date-cell-calendar-button{
+.date-cell-calendar-button,
+.month-picker-calendar{
     position:absolute;
     top:50%;
     right:6px;
@@ -1033,7 +1034,8 @@
     transition:background-color .2s ease, border-color .2s ease;
 }
 
-.date-cell-calendar-button:hover:not(:disabled){
+.date-cell-calendar-button:hover:not(:disabled),
+.month-picker-trigger:hover:not(:disabled) .month-picker-calendar{
     background:var(--bg-primary-tint);
     border-color:var(--line-primary);
 }
@@ -1080,8 +1082,13 @@
 .date-cell-popup-grid{
     display:grid;
     grid-template-columns:repeat(7, var(--size-box-button));
+    width:calc(7 * var(--size-box-button) + 6 * var(--gap-2));
     gap:var(--gap-2);
     justify-content:center;
+}
+
+.date-cell-popup-months{
+    grid-template-columns:repeat(4, 1fr);
 }
 
 .date-cell-popup-weekday{

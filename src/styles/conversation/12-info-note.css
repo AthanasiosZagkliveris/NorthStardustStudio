@@ -393,11 +393,17 @@
 
 }
 
-/* Its "i" (outside the label, so its note never toggles the tick) on
-   the first line of the words: that line is the label's 1.5 line. */
+/* Its "i" (outside the label, so its note never toggles the tick) is centred on the first line of the words, as the tick is (the same 1lh, the row set at the label's size): one centre. */
+.legal-entity-switch-row{
+
+    font-size:var(--font-body);
+    line-height:1;
+
+}
+
 .legal-entity-switch-row > .info-note{
 
-    margin-top:calc((var(--font-body) * 1.5 - 24px) / 2);
+    margin-top:calc((1lh - var(--size-mark)) / 2);
 
 }
 

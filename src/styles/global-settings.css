@@ -485,7 +485,7 @@
 /* A date cell on the page is the one date cell (the Start date cell's size). */
 .settings-page .date-cell{
 
-    width:198px;
+    width:var(--control-date);
 
 }
 

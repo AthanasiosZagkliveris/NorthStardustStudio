@@ -2,12 +2,13 @@ import { CSSProperties, DragEvent, ReactNode, useRef, useState } from "react";
 import SectionTiles, { DialogHeading, type SectionTile } from "./SectionTiles.tsx";
 import PictureBoxes, { type PictureBox } from "./PictureBoxes.tsx";
 import type { CardBoxAdd } from "./CardBoxes.tsx";
+import { UndoService } from "../../services/UndoService";
 import { stableCardHue } from "../../framework/engine/AnswerUtils.ts";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import AssetPreviewImage from "./AssetPreviewImage.tsx";
 import { ColumnHeading, GuidanceBullets } from "./ColumnHeads.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
-import { BusinessCard, BusinessRemove } from "./BusinessCardFields.tsx";
+import { BusinessCard, BusinessRemove, OptionalNote } from "./BusinessCardFields.tsx";
 
 import {
     BRAND_IMAGE_MAX,
@@ -325,6 +326,22 @@ export default function BrandInventoryEditor({
      * back, and it destroys nothing, because there is nothing left
      * in it to destroy.
      */
+    /**
+     * The card's own x (in its head): the whole image goes, its words with it, and the undo toast offers it back. Below the least number of
+     * images the slot stays, emptied.
+     */
+    function removeWholeImage(index: number) {
+        const before = inventory.images;
+        const emptied = { dataUrl: "", fileName: "", name: "", description: "" };
+        onChange({
+            ...inventory,
+            images: before.length > BRAND_IMAGE_MIN
+                ? before.filter((_other, position) => position !== index)
+                : before.map((image, position) => position === index ? emptied : image)
+        });
+        UndoService.offer("Image " + (index + 1) + " removed.", () => latest.current.onChange({ ...latest.current.inventory, images: before }));
+    }
+
     function removeImage(index: number) {
 
         const image = inventory.images[index];
@@ -451,22 +468,24 @@ export default function BrandInventoryEditor({
                 onName={(name) => updateImage(index, { name })}
                 open
                 disabled={disabled}
-                actions={<BusinessRemove what={what} disabled={disabled} onRemove={() => removeImage(index)} />}
+                actions={<BusinessRemove what={what} disabled={disabled} onRemove={() => removeWholeImage(index)} />}
             >
                 <div className="brand-inventory brand-image-card-body">
                     <DropZone
-                        label={what}
-                        bare
+                        label="Image"
+                        hint={image.fileName || undefined}
+                        onClear={() => removeImage(index)}
                         shape="image"
                         accept="image/*"
                         disabled={disabled}
                         asset={image.dataUrl ? image : undefined}
                         onFile={(file) => acceptFile(file, "any", (asset) => updateImage(index, asset))}
                     />
-                    <StrategyTextArea
-                        className="interview-input brand-image-note"
-                        ariaLabel={what + " description"}
-                        placeholder="Short description"
+                    <OptionalNote
+                        label="Usage"
+                        fieldId="Description"
+                        ariaLabel={what + " usage"}
+                        placeholder="What the image is used for"
                         disabled={disabled}
                         value={image.description}
                         onChange={(next) => updateImage(index, { description: next })}
@@ -882,10 +901,10 @@ function DropZone({
 
         <div className={"brand-asset-slot brand-asset-slot-" + shape}>
 
-            {!bare && (
-                <div className="brand-slot-label-row">
-                    <span className="brand-slot-label">{label}</span>
-                    {hint && <span className="brand-slot-hint">{hint}</span>}
+            {(!bare || onClear) && (
+                <div className={"brand-slot-label-row" + (onClear ? " brand-slot-label-row-x" : "")}>
+                    {!bare && <span className="brand-slot-label">{label}</span>}
+                    {asset && onClear && <BusinessRemove what={label} disabled={disabled} onRemove={onClear} />}
                 </div>
             )}
 
@@ -927,17 +946,6 @@ function DropZone({
 
                     </button>
 
-                    {asset && onClear && (
-                        <button
-                            type="button"
-                            className="brand-holder-clear"
-                            aria-label={`Remove ${label}`}
-                            disabled={disabled}
-                            onClick={onClear}
-                        >
-                            ×
-                        </button>
-                    )}
 
                     {/*
                         The file input -- kept visually hidden and out
@@ -966,6 +974,8 @@ function DropZone({
                 )}
 
             </div>
+
+            {hint && <span className="brand-slot-hint">{hint}</span>}
 
         </div>
 

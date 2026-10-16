@@ -182,9 +182,9 @@ body {
      size; a founder's capital, "£250,000"), plus the box's padding and
      border. */
   --control-code: 128px;
-  /* THE DATE step: the width of the one date cell (198px): the widest month and year a month picker shows
-     ("September 2030", 143px at body size), its 12px inset and the 32px calendar button inside the cell. */
-  --control-date: 198px;
+  /* THE DATE step: the width of the one date cell, the day cell and the month cell alike: the widest month and year a month picker
+     shows ("September 2030", 143px at body size), its 10px inset and the room of the 32px calendar button inside the cell. */
+  --control-date: 212px;
   /* The standard widths of a choice (see ONE CONTROL-SIZING RULE). */
   --control-s: 220px;
   --control-m: 300px;
@@ -732,11 +732,6 @@ body {
   width: 100%;
 }
 
-/* A month, and a number or amount standing alone in a field. */
-.month-picker-trigger {
-  width: min(100%, var(--control-s));
-}
-
 :is(.business-foundation-field, .legal-entity-field, .legal-entity-pair, .strategy-metric-field) > input.interview-input:is([inputmode="decimal"], [inputmode="numeric"]) {
   width: min(100%, var(--control-s));
 }
@@ -1119,7 +1114,6 @@ h6 {
 .app-tooltip,
 .info-note-panel,
 .option-picker-list,
-.month-picker-panel,
 .strategy-sort-menu {
   text-align: start;
 }
@@ -1197,6 +1191,35 @@ input[type="checkbox"] {
   font: inherit;
   line-height: inherit;
   accent-color: var(--bg-primary);
+  /* Drawn, not the browser's: a 24px box with rounded corners (--tick-radius, the library's TIK.001). */
+  appearance: none;
+  box-sizing: border-box;
+  display: inline-grid;
+  place-content: center;
+  border: 2px solid var(--text-muted);
+  border-radius: var(--tick-radius);
+  background: var(--bg-surface);
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+  border-color: var(--bg-primary);
+  background: var(--bg-primary);
+}
+
+input[type="checkbox"]:checked::after {
+  content: "";
+  width: 6px;
+  height: 12px;
+  margin-top: -2px;
+  border: solid var(--text-on-fill);
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+}
+
+input[type="checkbox"]:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 /* The text tier on one line height, where a label says nothing else

@@ -604,3 +604,15 @@
 
 }
 
+
+/* The x that clears the colour stands in the card's x column: 12px after the hex field's right edge (the name box's), level with the head's x. */
+.brand-colour-row{
+    position:relative;
+}
+
+.brand-colour-row > .strategy-box-remove{
+    position:absolute;
+    left:calc(100% + var(--gap-12));
+    top:50%;
+    transform:translateY(-50%);
+}

@@ -679,6 +679,13 @@ export default function BrandStyleEditor({
                                         onChange={(event) => updateColour(index, { hex: limitedHexText(event.target.value, colour.hex) })}
                                     />
 
+                                    <BusinessRemove
+                                        what={slot.label + " colour"}
+
+                                        disabled={disabled || !colour.hex}
+                                        onRemove={() => updateColour(index, { hex: "" })}
+                                    />
+
                                 </div>
 
                             </BusinessField>

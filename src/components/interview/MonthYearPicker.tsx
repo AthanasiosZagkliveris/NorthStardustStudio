@@ -11,12 +11,6 @@ import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
 
 import { consumeKey } from "./consumeKey.ts";
 
-/** Every month number, for testing a year against any of them. */
-const MONTHS = Array.from({ length: 12 }, (_entry, index) => index + 1);
-
-/** Years offered at once: the current one and the eight after it. */
-const YEAR_GRID = 9;
-
 interface MonthYearPickerProps {
 
     label: string;
@@ -35,7 +29,7 @@ interface MonthYearPickerProps {
      */
     isAllowed: (month: number, year: number) => boolean;
 
-    /** The first year the grid starts from. */
+    /** The year the calendar opens on when no month is set yet. */
     firstYear: number;
 
     /**
@@ -47,14 +41,12 @@ interface MonthYearPickerProps {
 }
 
 /**
- * One control for a month AND a year.
+ * One control for a month AND a year: the date cell's other form (DateCellInput), the same cell and the same calendar.
  *
- * A single button rather than two dropdowns: picking a month from
- * one <select> and a year from another let the two disagree (a month
- * already past, in a year still to come), which then had to be
- * caught and corrected after the fact. Here the two are chosen in
- * order inside one popover -- months first, then years -- so an
- * impossible pair is never offered in the first place.
+ * The cell is a button that shows the month and year, with the calendar button inside it at its right end. It opens the
+ * calendar list of the date cell (the same card, size, arrows, keys and closing): the year's months in a grid, the arrows
+ * stepping the year (the double arrows ten years), and a choice closing it. A pair that is not allowed is shown but cannot
+ * be chosen, so an impossible pair is never offered.
  */
 export default function MonthYearPicker({
 
@@ -75,28 +67,19 @@ export default function MonthYearPicker({
 }: MonthYearPickerProps) {
 
     const [open, setOpen] = useState(false);
+    const [free, setFree] = useState(false);
 
-    const [step, setStep] = useState<"month" | "year">("month");
-
-    // Held until BOTH halves are chosen -- nothing is committed on
-    // a half-made choice, so cancelling leaves the previous value
-    // exactly as it was. Either half may be picked first: a period
-    // is often thought of as "some time in 2028" as readily as
-    // "March of whenever", and forcing one order made the second
-    // way of thinking take an extra step.
-    const [pendingMonth, setPendingMonth] = useState<number>(0);
-    const [pendingYear, setPendingYear] = useState<number>(0);
+    // The year the calendar shows, not yet a choice.
+    const [shownYear, setShownYear] = useState<number>(0);
 
     const containerRef = useRef<HTMLDivElement | null>(null);
     const triggerRef = useRef<HTMLButtonElement | null>(null);
 
-    // See useFloatingPanel: the grid opens upwards rather than off
+    // See useFloatingPanel: the calendar opens upwards rather than off
     // the bottom of the window when that is where the room is.
-    const { panelRef, panelStyle } = useFloatingPanel(open, triggerRef);
+    const { panelRef, panelStyle } = useFloatingPanel(open, triggerRef, undefined, free);
 
-    // Clicking anywhere else, or pressing Escape, abandons the
-    // choice. Both are what a popover is expected to do, and without
-    // them the only way out would be to complete it.
+    // Clicking anywhere else, or pressing Escape, closes it.
     useEffect(() => {
 
         if (!open) {
@@ -128,54 +111,29 @@ export default function MonthYearPicker({
 
     }, [open]);
 
-    const years = Array.from({ length: YEAR_GRID }, (_entry, offset) => firstYear + offset);
+    function toggle() {
 
-    function start() {
-        setStep("month");
-        // Opens holding whatever is already set, so reopening to
-        // change only the year does not make the month be picked
-        // again.
-        setPendingMonth(Number(value.month) || 0);
-        setPendingYear(Number(value.year) || 0);
-        setOpen(true);
-    }
-
-    /** Commits once both halves are held, and not before. */
-    function commit(month: number, year: number) {
-
-        if (!month || !year) {
-            return false;
+        if (open) {
+            setOpen(false);
+            return;
         }
 
+        // Opens on the year already set, so reopening to change only
+        // the month does not start from somewhere else.
+        setShownYear(Number(value.year) || firstYear);
+        setFree(!!triggerRef.current?.closest(".business-capability, .section-tile-overlay, .section-tile-dialog, .strategy-sort-menu"));
+        setOpen(true);
+
+    }
+
+    function choose(month: number, year: number) {
         onChange({ month: String(month).padStart(2, "0"), year: String(year) });
         setOpen(false);
-
-        return true;
-
     }
 
-    function chooseMonth(month: number) {
-
-        setPendingMonth(month);
-
-        // Straight to the year grid when that is what is still
-        // missing; otherwise the pair is complete and the panel
-        // closes.
-        if (!commit(month, pendingYear)) {
-            setStep("year");
-        }
-
-    }
-
-    function chooseYear(year: number) {
-
-        setPendingYear(year);
-
-        if (!commit(pendingMonth, year)) {
-            setStep("month");
-        }
-
-    }
+    const now = new Date();
+    const thisMonth = now.getMonth() + 1;
+    const thisYear = now.getFullYear();
 
     const display = isMonthSet(value)
         ? `${STRATEGY_MONTH_NAMES[Number(value.month) - 1]} ${value.year}`
@@ -194,118 +152,69 @@ export default function MonthYearPicker({
             <button
                 ref={triggerRef}
                 type="button"
-                className="month-picker-trigger"
+                className="date-cell-input month-picker-trigger"
                 aria-label={`${label}: ${display}`}
                 aria-expanded={open}
                 aria-haspopup="dialog"
                 disabled={disabled}
-                onClick={() => open ? setOpen(false) : start()}
+                onClick={toggle}
             >
                 <span className="month-picker-value">{display}</span>
-                <span className="month-picker-calendar" aria-hidden="true"><CalendarIcon /></span>
+                <span className="date-cell-calendar-button month-picker-calendar" aria-hidden="true"><CalendarIcon /></span>
             </button>
 
             {open && (
 
                 <div
                     ref={panelRef}
-                    className="month-picker-panel"
-                    style={panelStyle}
+                    className="date-cell-popup"
+                    style={free ? { ...panelStyle, width: "max-content", minWidth: triggerRef.current?.getBoundingClientRect().width, maxWidth: "min(560px, 92vw)" } : panelStyle}
                     role="dialog"
                     aria-label={label}
                 >
 
-                    {/*
-                        Both steps are always named, so the panel
-                        says where it is rather than leaving the two
-                        grids to be told apart by their contents.
-                    */}
-                    <div className="month-picker-steps">
+                    <div className="date-cell-popup-head">
 
-                        <button
-                            type="button"
-                            className={
-                                "month-picker-step" +
-                                (step === "month" ? " month-picker-step-active" : "")
-                            }
-                            aria-current={step === "month"}
-                            onClick={() => setStep("month")}
-                        >
-                            Month
-                        </button>
+                        <button type="button" className="date-cell-popup-step" aria-label="Previous 10 years" onClick={() => setShownYear(year => year - 10)}>«</button>
+                        <button type="button" className="date-cell-popup-step" aria-label="Previous year" onClick={() => setShownYear(year => year - 1)}>‹</button>
 
-                        <button
-                            type="button"
-                            className={
-                                "month-picker-step" +
-                                (step === "year" ? " month-picker-step-active" : "")
-                            }
-                            aria-current={step === "year"}
-                            onClick={() => setStep("year")}
-                        >
-                            Year
-                        </button>
+                        <span className="date-cell-popup-title" aria-live="polite">{shownYear}</span>
+
+                        <button type="button" className="date-cell-popup-step" aria-label="Next year" onClick={() => setShownYear(year => year + 1)}>›</button>
+                        <button type="button" className="date-cell-popup-step" aria-label="Next 10 years" onClick={() => setShownYear(year => year + 10)}>»</button>
 
                     </div>
 
-                    {step === "month" ? (
+                    <div className="date-cell-popup-grid date-cell-popup-months" role="grid">
 
-                        <div className="month-picker-grid month-picker-months">
+                        {STRATEGY_MONTH_NAMES.map((name, index) => {
 
-                            {STRATEGY_MONTH_NAMES.map((name, index) => {
+                            const month = index + 1;
+                            const current = Number(value.month) === month && Number(value.year) === shownYear;
 
-                                const month = index + 1;
-
-                                // Offered when ANY year in the grid
-                                // could take it; the year step then
-                                // narrows it to the ones that can.
-                                const allowed = pendingYear
-                                    ? isAllowed(month, pendingYear)
-                                    : years.some(year => isAllowed(month, year));
-
-                                return (
-                                    <button
-                                        key={name}
-                                        type="button"
-                                        className={
-                                            "month-picker-cell" +
-                                            (Number(value.month) === month ? " month-picker-cell-current" : "")
-                                        }
-                                        disabled={!allowed}
-                                        onClick={() => chooseMonth(month)}
-                                    >
-                                        {name.slice(0, 3)}
-                                    </button>
-                                );
-
-                            })}
-
-                        </div>
-
-                    ) : (
-
-                        <div className="month-picker-grid month-picker-years">
-
-                            {years.map(year => (
+                            return (
                                 <button
-                                    key={year}
+                                    key={name}
                                     type="button"
-                                    className={
-                                        "month-picker-cell" +
-                                        (Number(value.year) === year ? " month-picker-cell-current" : "")
-                                    }
-                                    disabled={pendingMonth
-                                        ? !isAllowed(pendingMonth, year)
-                                        : !MONTHS.some(month => isAllowed(month, year))}
-                                    onClick={() => chooseYear(year)}
+                                    className={"date-cell-popup-day" + (current ? " date-cell-popup-day-current" : "")}
+                                    aria-pressed={current}
+                                    aria-label={name + " " + shownYear}
+                                    disabled={!isAllowed(month, shownYear)}
+                                    onClick={() => choose(month, shownYear)}
                                 >
-                                    {year}
+                                    {name.slice(0, 3)}
                                 </button>
-                            ))}
+                            );
 
-                        </div>
+                        })}
 
-                    )}
+                    </div>
+
+                    <div className="date-cell-popup-foot">
+
+                        <button type="button" className="date-cell-popup-action" disabled={!isAllowed(thisMonth, thisYear)} onClick={() => choose(thisMonth, thisYear)}>This month</button>
+
+                    </div>
 
                 </div>
 

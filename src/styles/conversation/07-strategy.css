@@ -419,293 +419,48 @@
 
 }
 
-.month-picker-trigger{
-
-    /* Sized to the widest value it can ever show. "September
-       2030" measures 169px as this button actually renders it --
-       Inter at 18px WITH the 10% tracking every button carries,
-       which is 25px of the total and the part the first two
-       attempts at this width both missed. Plus the 12px inset on
-       each side and the 1px borders: 195. So the button never
-       resizes as the date changes, and two of them side by side
-       always match. Left over now that letter-spacing is normal
-       (below), so the button stays at least as wide as it needs
-       to be rather than exactly it. That is the smallest standard
-       control width, --control-s (220px, "One control-sizing rule",
-       global.css). */
-    width:min(100%, var(--control-s));
-
-    white-space:nowrap;
-
-    padding:8px 12px;
-
-    /* This shows a date, the same job an `.interview-input` does --
-       so it reads left-aligned, at normal letter-spacing, like
-       every other field beside it, rather than centred and
-       tracked-out the way the app's action buttons are. */
-    text-align:left;
-    letter-spacing:normal;
-
-    font:inherit;
-    font-size:var(--font-body);
-    line-height:1.5;
-
-    color:var(--text-default);
-
-    border:1px solid var(--box-border);
-    border-radius:var(--radius-md);
-
-    background:var(--bg-surface);
-
-    cursor:pointer;
-
-    transition:border-color .15s ease, box-shadow .15s ease;
-
-}
-
-/* The stroke stays exactly where it is: this button shows the
-   date it holds, and swapping its outline under the pointer read
-   as the value changing rather than as the control responding.
-   The glow alone answers the hover. */
-.month-picker-trigger:hover:not(:disabled){
-
-    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 32%, transparent);
-
-}
-
-.month-picker-trigger:focus-visible{
-
-    outline:none;
-
-    border-color:var(--line-primary);
-
-    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
-
-}
-
-.month-picker-trigger:disabled{
-
-    color:var(--text-faint);
-    border-color:var(--line-card);
-
-    cursor:not-allowed;
-
-}
-
-/* The date cell's look: the calendar button INSIDE the cell at its right end, where a dropdown has its arrow (a 32px box button, as the date
-   cell's). The value leaves it room. */
+/* THE MONTH CELL is the date cell's other form: it wears the date cell's own look (.date-cell-input, 02-dynamic-tables.css: the one cell height, corners,
+   line, type and focus ring, the calendar button inside at the right) and adds only what a button needs: its value left-aligned and its width, the date step. */
 .month-picker-trigger{
     position:relative;
+    width:var(--control-date);
+    max-width:100%;
+    white-space:nowrap;
+    text-align:left;
+    letter-spacing:normal;
+    cursor:pointer;
 }
 
 .month-picker-value{
     display:block;
-    padding-right:calc(var(--size-box-button) + 6px);
     overflow:hidden;
     text-overflow:ellipsis;
 }
 
 .month-picker-calendar{
-    position:absolute;
-    top:50%;
-    right:6px;
-    transform:translateY(-50%);
-    width:var(--size-box-button);
-    height:var(--size-box-button);
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    border:1px solid var(--box-border);
-    border-radius:var(--radius-md);
-    background:var(--bg-surface);
-    color:var(--text-default);
     pointer-events:none;
 }
 
-.month-picker-trigger:disabled .month-picker-calendar{
+.month-picker-trigger:disabled{
     color:var(--text-faint);
+    cursor:not-allowed;
 }
 
 /* Floated over the page rather than pushing it around: a picker
    sits inside a box that is already laid out, and growing it by
    the height of a grid every time one opens would move everything
    below it. */
-.month-picker-panel{
-
-    position:absolute;
-
-    top:100%;
-    left:0;
-
-    z-index:20;
-
-    margin-top:6px;
-
-    padding:12px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:var(--gap-12);
-
-    border:1px solid var(--box-border);
-    border-radius:var(--radius-lg);
-
-    background:var(--bg-surface);
-
-    box-shadow:0 8px 24px var(--shadow-ink-18);
-
-}
-
-.month-picker-steps{
-
-    display:flex;
-
-    gap:var(--gap-8);
-
-}
-
-.month-picker-step{
-
-    flex:1 1 0;
-
-    padding:6px 10px;
-
-    font-size:var(--font-body);
-    font-weight:500;
-    letter-spacing:0.1em;
-    text-transform:uppercase;
-
-    color:var(--text-default);
-
-    border:1px solid var(--box-border);
-    border-radius:var(--radius-md);
-
-    background:var(--bg-surface);
-
-    cursor:pointer;
-
-}
-
-.month-picker-step:disabled{
-
-    color:var(--text-faint);
-    border-color:var(--line-card);
-
-    cursor:not-allowed;
-
-}
-
-.month-picker-step:focus-visible{
-
-    outline:none;
-
-    border-color:var(--line-primary);
-
-    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
-
-}
 
 /* Which step the panel is on. White on #0b57d0 is 6.3:1, and the
    button also carries aria-current, so the state is not signalled
    by colour alone. */
-.month-picker-step-active{
-
-    color:var(--text-on-fill);
-
-    border-color:var(--line-primary);
-
-    background:var(--bg-primary);
-
-}
-
-.month-picker-grid{
-
-    display:grid;
-
-    gap:var(--gap-6);
-
-}
 
 /* Twelve months as 4 x 3. */
-.month-picker-months{
-
-    grid-template-columns:repeat(4, 64px);
-
-}
 
 /* Nine years as the 3 x 3 the page asks for. */
-.month-picker-years{
-
-    grid-template-columns:repeat(3, 86px);
-
-}
-
-.month-picker-cell{
-
-    padding:8px 4px;
-
-    font-size:var(--font-body);
-
-    color:var(--text-default);
-
-    border:1px solid var(--box-border);
-    border-radius:var(--radius-md);
-
-    background:var(--bg-surface);
-
-    cursor:pointer;
-
-}
-
-.month-picker-cell:hover:not(:disabled){
-
-    border-color:var(--line-primary);
-
-    background:var(--bg-primary-tint-hover);
-
-}
-
-.month-picker-cell:focus-visible{
-
-    outline:none;
-
-    border-color:var(--line-primary);
-
-    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
-
-}
-
-.month-picker-cell:disabled{
-
-    color:var(--text-faint);
-    border-color:var(--line-hairline);
-
-    /* Explicitly white, because the cell holding the CURRENT
-       value can also be the one now out of range. On that tint
-       the grey fell to 4.29:1; on white it is 4.83:1. */
-    background:var(--bg-surface);
-
-    cursor:not-allowed;
-
-}
 
 /* What is currently chosen. Marked with weight and a solid border
    as well as colour, so it does not depend on colour alone. */
-.month-picker-cell-current{
-
-    font-weight:600;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-    color:var(--text-primary-deep);
-
-    border-color:var(--line-primary);
-    border-width:2px;
-
-    background:var(--bg-primary-tint-hover);
-
-}
 
 /* ==========================================================
    Numbered list

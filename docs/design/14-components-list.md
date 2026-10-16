@@ -533,8 +533,8 @@ A square box with a tick, 24px. Only the box is the component; the words beside 
 - Weight: 400
 
 **Shape**
-- Corners: –
-- Border: 0 px
+- Corners: 4 px
+- Border: 2 px
 
 **Spacing**
 - Padding left: 0 px

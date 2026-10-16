@@ -24,6 +24,15 @@
     /* a tool button of the header (BTN.006) */
     --tool-button-height: 36px;
 
+    /* the Logo holder at its widest: it scales down with its card, never past this (IMG.LOG.001.001) */
+    --logo-holder-width: 668px;
+
+    /* the Logo holder's width to height, kept as it scales (IMG.LOG.001.001) */
+    --logo-holder-ratio: 668 / 216;
+
+    /* the corners of a tick box (TIK.001) */
+    --tick-radius: 4px;
+
     /* the fold arrow of a card (ARW.002) */
     --fold-arrow-size: 36px;
 

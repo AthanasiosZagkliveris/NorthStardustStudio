@@ -175,7 +175,7 @@
 /* THE ONE DATE CELL: the size of a card's Start date cell (the input, the calendar button and the gap between them), wherever a date is asked. */
 .date-cell{
 
-    width:198px;
+    width:var(--control-date);
     max-width:100%;
 
     box-sizing:border-box;

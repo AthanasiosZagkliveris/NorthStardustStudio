@@ -252,6 +252,21 @@
 
 }
 
+/* The cell is a square with rounded corners (the box's), and the colour in it a square with rounded corners too, one step smaller. */
+.brand-colour-picker::-webkit-color-swatch-wrapper{
+    padding:0;
+}
+
+.brand-colour-picker::-webkit-color-swatch{
+    border:0;
+    border-radius:calc(var(--box-radius) - 2px);
+}
+
+.brand-colour-picker::-moz-color-swatch{
+    border:0;
+    border-radius:calc(var(--box-radius) - 2px);
+}
+
 .brand-colour-picker:disabled{
 
     cursor:not-allowed;
@@ -830,13 +845,12 @@
 
 }
 
-/* On an Icon or Logo slot's label line, at its end: the file it
-   holds, or what it takes while empty ("SVG or PNG, up to 50 KB"). */
+/* Under an Icon or Logo holder: the file it holds, or what it takes while empty ("SVG or PNG, up to 50 KB"). */
 .brand-slot-hint{
 
     min-width:0;
 
-    text-align:right;
+    text-align:left;
 
     font-size:var(--font-small);
 

@@ -151,14 +151,14 @@
    An Instalments row begins with its order number in 18px. */
 .business-capability-plan-row {
 
-    grid-template-columns: minmax(0, 1fr) var(--card-cell-height) 198px;
+    grid-template-columns: minmax(0, 1fr) var(--card-cell-height) var(--control-date);
     gap: var(--gap-12);
 
 }
 
 .business-capability-plan-row-numbered {
 
-    grid-template-columns: 18px minmax(0, 1fr) var(--card-cell-height) 198px;
+    grid-template-columns: 18px minmax(0, 1fr) var(--card-cell-height) var(--control-date);
 
 }
 
@@ -176,7 +176,7 @@
 
 .business-capability-plan-row .date-cell {
 
-    width: 198px;
+    width: var(--control-date);
 
 }
 

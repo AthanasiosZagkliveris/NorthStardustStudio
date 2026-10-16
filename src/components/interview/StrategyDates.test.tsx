@@ -68,9 +68,9 @@ describe("StrategicPeriodEditor Objective dates", () => {
         );
         openTheme();
 
-        // The picker opens holding 2027, so choosing a month commits.
+        // The calendar opens on 2027, so choosing a month commits.
         fireEvent.click(screen.getByRole("button", { name: "Start: March 2027" }));
-        fireEvent.click(screen.getByRole("button", { name: "Sep" }));
+        fireEvent.click(screen.getByRole("button", { name: "September 2027" }));
 
         const objective = saved!.goalsByTheme["theme-1"][0].objectives[0];
 
@@ -93,7 +93,7 @@ describe("StrategicPeriodEditor Objective dates", () => {
         openTheme();
 
         fireEvent.click(screen.getByRole("button", { name: "Start: March 2027" }));
-        fireEvent.click(screen.getByRole("button", { name: "May" }));
+        fireEvent.click(screen.getByRole("button", { name: "May 2027" }));
 
         const objective = saved!.goalsByTheme["theme-1"][0].objectives[0];
 
@@ -185,11 +185,11 @@ describe("StrategicPeriodEditor Objective Responsible", () => {
         return result;
     };
 
-    it("is the Capability cards' side-label row (label beside a hugging dropdown) with several founders", () => {
+    it("is the Capability cards' side-label row (label beside a dropdown that takes the row) with several founders", () => {
         show(["Ann", "Bo", "Cy"]);
         const field = document.querySelector(".strategy-objective-when > .business-field-side")!;
         expect(field.querySelector(".field-label")?.textContent).toMatch(/^Responsible/);
-        expect(field.querySelector(".option-picker")?.getAttribute("data-size")).toBe("hug");
+        expect(field.querySelector(".option-picker")?.getAttribute("data-size")).toBe("full");
         expect(document.querySelector(".strategy-objective-when")?.children).toHaveLength(3);
     });
 

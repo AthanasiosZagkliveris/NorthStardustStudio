@@ -222,6 +222,18 @@ export default function OptionPicker({
     const [step, setStep] = useState<ControlStep>("s");
     // Hugging: the width its widest option needs (0 until measured).
     const [hugWidth, setHugWidth] = useState(0);
+
+    /* A dropdown that is the ONLY control in its row takes the row: its right side is the available space's (12px after the card's x, or 56px from the card's right edge where there is none), whatever its options say. */
+    const [alone, setAlone] = useState(false);
+    useLayoutEffect(() => {
+        const row = containerRef.current?.parentElement;
+        if (!row || !hug) {
+            return;
+        }
+        const others = [...row.querySelectorAll("input:not([type=checkbox]):not([type=file]), textarea, select, .date-cell, .month-picker, .option-picker")]
+            .filter(control => !containerRef.current!.contains(control));
+        setAlone(others.length === 0);
+    });
     const optionsKey = [placeholder, ...options, "\u0001", ...sizeFor, tight ? "tight" : ""].join("\u0000");
 
     useLayoutEffect(() => {
@@ -472,8 +484,8 @@ export default function OptionPicker({
 
         <div
             className="option-picker"
-            data-size={fill === "fit" ? "fit" : fill ? "fill" : hug ? "hug" : step}
-            style={hug && hugWidth > 0 ? { width: "min(100%, " + hugWidth + "px)" } : undefined}
+            data-size={fill === "fit" ? "fit" : fill ? "fill" : hug && alone ? "full" : hug ? "hug" : step}
+            style={hug && !alone && hugWidth > 0 ? { width: "min(100%, " + hugWidth + "px)" } : undefined}
             ref={containerRef}
         >
 

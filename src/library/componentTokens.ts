@@ -60,6 +60,9 @@ export function componentTokens(): ComponentToken[] {
         { token: "--size-mark", value: px(lookHeight("BTN.002")), code: "BTN.002", what: "the marks: the i, the tick box, the link symbol" },
         { token: "--add-button-height", value: px(lookHeight("BTN.004")), code: "BTN.004", what: "the wide add button" },
         { token: "--tool-button-height", value: px(lookHeight("BTN.006")), code: "BTN.006", what: "a tool button of the header" },
+        { token: "--logo-holder-width", value: px(lookWidth("IMG.LOG.001.001")), code: "IMG.LOG.001.001", what: "the Logo holder at its widest: it scales down with its card, never past this" },
+        { token: "--logo-holder-ratio", value: lookWidth("IMG.LOG.001.001") + " / " + lookHeight("IMG.LOG.001.001"), code: "IMG.LOG.001.001", what: "the Logo holder's width to height, kept as it scales" },
+        { token: "--tick-radius", value: lookOf("TIK.001").corners, code: "TIK.001", what: "the corners of a tick box" },
         { token: "--fold-arrow-size", value: px(lookHeight("ARW.002")), code: "ARW.002", what: "the fold arrow of a card" },
         { token: "--card-symbol-size", value: px(lookHeight("SYM.001")), code: "SYM.001", what: "the symbol on a card tile" }
     ];
