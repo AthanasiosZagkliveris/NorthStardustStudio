@@ -482,13 +482,14 @@ The list a date cell opens, like the list of a dropdown: the person chooses the 
 A square swatch that opens the colour picker of the browser, 44 by 44px, dashed while empty. The hex cell beside it is a holder (a text box that takes #000000); the swatch, the hex cell and their label make the Colour field.
 
 - **Variables:** VAR001, VAR003, VAR004, VAR006
-- **Default look:** height 32, width 32, type 14 (small 14), corners 6px, padding 0/0, border 1, found 1
+- **Default look:** height 32, width 32, type 0 (symbol, no text), corners 6px, padding 0/0, border 0, found 1
   - measured 44 by 45px, 8px corners, a dashed 1px edge while empty; by the owner's rules (every cell 44px, the corners of the cells) it is 44 by 44px with 6px corners.
   - the swatch with its hex holder and label is a field, not a component (the owner, owner, 2026-10-16).
   - decided 2026-10-16 (owner): the cell is a square (44px) with rounded corners, and the colour in it is a square with rounded corners (one step smaller).
   - decided 2026-10-16 (owner): the colour is a 32px square with rounded corners INSIDE the hex cell at its right end, 6px from the top, bottom and right (as the date cell's calendar button); an x beside the cell, in the card's x column, clears the colour.
   - size corrected 2026-10-16: the colour is a 32 by 32px box inside the 44px hex cell (the 44px square cell it was is now the hex cell).
   - decided 2026-10-17 (owner): the colour picker opens a card of the app's own (a square of shades, the hue bar and the R, G and B numbers) on the ground of the card, with the calendar card's corners and closing; the box has no frame.
+  - corrected 2026-10-17: the colour box has no frame (the owner took the wire off) and no text.
 - **Requires:** TXT.001 (the hex holder beside the swatch)
 
 ### IMG.001 image holder

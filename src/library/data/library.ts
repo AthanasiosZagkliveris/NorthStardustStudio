@@ -1910,13 +1910,13 @@ export const library: Library = {
    "look": {
     "height": 32,
     "width": 32,
-    "fontSize": 14,
+    "fontSize": 0,
     "fontWeight": "400",
     "corners": "6px",
     "paddingLeft": 0,
     "paddingTop": 0,
-    "border": 1,
-    "scale": "small 14",
+    "border": 0,
+    "scale": "symbol, no text",
     "found": 1,
     "places": 1
    },
@@ -1926,7 +1926,8 @@ export const library: Library = {
     "decided 2026-10-16 (owner): the cell is a square (44px) with rounded corners, and the colour in it is a square with rounded corners (one step smaller).",
     "decided 2026-10-16 (owner): the colour is a 32px square with rounded corners INSIDE the hex cell at its right end, 6px from the top, bottom and right (as the date cell's calendar button); an x beside the cell, in the card's x column, clears the colour.",
     "size corrected 2026-10-16: the colour is a 32 by 32px box inside the 44px hex cell (the 44px square cell it was is now the hex cell).",
-    "decided 2026-10-17 (owner): the colour picker opens a card of the app's own (a square of shades, the hue bar and the R, G and B numbers) on the ground of the card, with the calendar card's corners and closing; the box has no frame."
+    "decided 2026-10-17 (owner): the colour picker opens a card of the app's own (a square of shades, the hue bar and the R, G and B numbers) on the ground of the card, with the calendar card's corners and closing; the box has no frame.",
+    "corrected 2026-10-17: the colour box has no frame (the owner took the wire off) and no text."
    ],
    "kind": "Colour chooser: a swatch",
    "belongs": "Brand: Colours card"

@@ -66,7 +66,7 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | DIV.001 divider | DIV.VER.001.001 Vertical | words | 0 | symbol, no text | 0px | 0/0 | 0 | 0 | follows the words (a field, not a button) |
 | DAT.001 date cell | (asset) | 44 | 18 | body 18 | 6px | 10/0 | 1 | 166 in 2 places | meets 24 |
 | DAT.002 calendar list | (asset) | words | 18 | body 18 | 6px | 12/12 | 1 | 0 | follows the words (a field, not a button) |
-| PCK.001 colour picker | (asset) | 32 high, 32 wide | 14 | small 14 | 6px | 0/0 | 1 | 1 in 1 places | meets 24 |
+| PCK.001 colour picker | (asset) | 32 high, 32 wide | 0 | symbol, no text | 6px | 0/0 | 0 | 1 in 1 places | meets 24 |
 | IMG.001 image holder | (asset) | 252 high, 448 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 3 | meets 24 |
 | IMG.001 image holder | IMG.LOG.001.001 Logo | 216 high, 668 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 1 | meets 24 |
 | IMG.001 image holder | IMG.ICO.001.002 Icon | 249 high, 249 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 1 | meets 24 |
@@ -225,6 +225,7 @@ Separated by purpose; each has its own default look.
 - decided 2026-10-16 (owner): the colour is a 32px square with rounded corners INSIDE the hex cell at its right end, 6px from the top, bottom and right (as the date cell's calendar button); an x beside the cell, in the card's x column, clears the colour.
 - size corrected 2026-10-16: the colour is a 32 by 32px box inside the 44px hex cell (the 44px square cell it was is now the hex cell).
 - decided 2026-10-17 (owner): the colour picker opens a card of the app's own (a square of shades, the hue bar and the R, G and B numbers) on the ground of the card, with the calendar card's corners and closing; the box has no frame.
+- corrected 2026-10-17: the colour box has no frame (the owner took the wire off) and no text.
 
 ### IMG.001 image holder
 

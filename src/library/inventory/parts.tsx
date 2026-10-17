@@ -2,6 +2,7 @@ import { useState, type ReactNode } from "react";
 
 import CardNameInput from "../../components/interview/CardNameInput";
 import DateCellInput from "../../components/interview/DateCellInput";
+import ColourPicker from "../../components/interview/ColourPicker";
 import MonthYearPicker from "../../components/interview/MonthYearPicker";
 import type { StrategyMonthValue } from "../../framework/engine/AnswerUtils.ts";
 import FoldArrow from "../../components/interview/FoldArrow";
@@ -48,6 +49,17 @@ function Date({ month }: { month?: boolean }) {
     return month
         ? <MonthYearPicker label="Start" hideLabel value={period} onChange={setPeriod} isAllowed={() => true} firstYear={2026} />
         : <DateCellInput ariaLabel="Start date" value={value} onChange={setValue} />;
+}
+
+/** The colour box inside its hex cell, as a colour card draws it. */
+function ColourBox() {
+    const [hex, setHex] = useState("#3e847a");
+    return (
+        <div className="date-cell-field brand-colour-cell">
+            <input className="interview-input brand-hex-input" placeholder="#000000" aria-label="Hex" value={hex} onChange={(event) => setHex(event.target.value)} />
+            <ColourPicker ariaLabel="Colour picker" value={hex} onChange={setHex} />
+        </div>
+    );
 }
 
 function Fold({ label }: { label: boolean }) {
@@ -138,7 +150,7 @@ export const parts: Record<string, (text?: string) => ReactNode> = {
     "BTN.SET.006.006": () => <Box><button type="button" className="header-tool"><span className="header-tool-word">Settings</span></button></Box>,
     "BTN.RFR.006.007": () => <Box><button type="button" className="header-tool app-reload"><span className="header-tool-word">Reload</span></button></Box>,
     "BTN.STR.006.008": () => <Box><button type="button" className="primary-button start-arrow-button">Start Interview</button></Box>,
-    "PCK.001": () => <Box><input type="color" className="brand-colour-picker" aria-label="Colour picker" defaultValue="#3e847a" /> <input className="interview-input brand-hex-input" placeholder="#000000" aria-label="Hex" defaultValue="#3E847A" /></Box>,
+    "PCK.001": () => <Box><ColourBox /></Box>,
     "IMG.001": () => <Box><span className="inventory-image" role="img" aria-label="Brand image, 448 by 252 px" style={{ width: 224, height: 126 }}>Brand image, 448 by 252 px</span></Box>,
     "IMG.LOG.001.001": () => <Box><span className="inventory-image" role="img" aria-label="Logo, 668 by 216 px" style={{ width: 334, height: 108 }}>Logo, 668 by 216 px</span></Box>,
     "IMG.ICO.001.002": () => <Box><span className="inventory-image" role="img" aria-label="Icon, 249 by 249 px" style={{ width: 125, height: 125 }}>Icon, 249 by 249 px</span></Box>,

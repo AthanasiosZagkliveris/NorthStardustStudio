@@ -655,3 +655,4 @@ Every change to an asset of the library: added, edited, placed (and where), move
 | L0649 | 2026-10-17 | TIK.001 | edited | tick box: lookNotes |  | Link symbol drawn and 20% on hover, tick box flat when ticked, colour picker card, the Linked to field is Offerings |
 | L0650 | 2026-10-17 | PCK.001 | edited | colour picker: lookNotes |  | Link symbol drawn and 20% on hover, tick box flat when ticked, colour picker card, the Linked to field is Offerings |
 | L0651 | 2026-10-17 | FLD.054 | edited | Linked Offerings: name, summary |  | Link symbol drawn and 20% on hover, tick box flat when ticked, colour picker card, the Linked to field is Offerings |
+| L0652 | 2026-10-17 | PCK.001 | edited | colour picker: look, lookNotes |  | Colour box: no frame |

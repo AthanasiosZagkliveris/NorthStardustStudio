@@ -1159,7 +1159,14 @@ drawn only in a dialog that its tile opens.
 | Text box (input, textarea) | primary edge + soft glow (18%) | primary edge + stronger ring (28%) | muted, no reaction |
 | Text holder (an image's name and description, one box) | as a text box, on the holder | as a text box | as a text box |
 | Picker | as a text box | as a text box | as a text box |
-| Tick box | its words underlined, the box's glow ring (whether or not the words are in its label: `.brand-tick` too) | focus ring | not-allowed cursor |
+| Tick box | its words underlined, the box's glow ring (the field's, 4px at 18%, no wire; whether or not the words are in its label: `.brand-tick` too); ticked, the box is flat (no inner light or shade) and keeps the glow | focus ring | not-allowed cursor |
+| Date cell, month cell | as a text box (no stroke, recessed, glow, ring); never bold | as a text box | muted, no reaction |
+| Calendar button (inside a date or month cell) | the "+" box's swap: ground, 2px stroke and symbol in the card's tone, filled under the pointer (outside a coloured card, the tone every cell has) | the same and a 2px outline | 50% |
+| Calendar card, colour picker card | its day, month and arrow buttons: the "+" box's swap, every button with the same 2px frame so none changes size; no bold | outline | the day dimmed; a click outside, or Escape, closes the card |
+| Text link (every one: `text-links.css`) | bold and underlined (the line 1px under the descenders); a text longer than its place moves right to left | outline | grey in a completed card |
+| Link symbol | 20% larger about its centre, nothing moves; drawn in the card's tone | the same | n/a |
+| Funnel (founder's Responsibilities) | the "+" box's swap | outline | n/a |
+| The tile or box that opened the open card | a steady halo in the card's tint (not flashing); a link that opened it is bold | - | n/a |
 
 A tick box toggles only from the box itself or its words: its label is as
 wide as they are (`width: fit-content`), never the empty space beside
