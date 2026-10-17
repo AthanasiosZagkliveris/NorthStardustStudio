@@ -4,6 +4,7 @@ import { markTint } from "../../framework/engine/ActionOrder.ts";
 import type { ActionLit } from "./ActionMarkers.tsx";
 
 import "../../styles/channel-resource-table.css";
+import TextLink from "./TextLink.tsx";
 
 /*
     THE CHANNEL RESOURCES TABLE (ChannelResourceTable.ts): a Segment's
@@ -109,7 +110,7 @@ export default function ChannelResourceTable({ table, segmentName, onOpenCard, o
                             >
 
                                 <th scope="row" className="channel-resource-name">
-                                    <button
+                                    <TextLink
                                         type="button"
                                         className="channel-resource-open"
                                         disabled={!onOpenCard}
@@ -118,7 +119,7 @@ export default function ChannelResourceTable({ table, segmentName, onOpenCard, o
                                     >
                                         <span className="channel-resource-dot" aria-hidden="true" />
                                         <span>{row.name}</span>
-                                    </button>
+                                    </TextLink>
                                 </th>
 
                                 <td className="channel-resource-cost">

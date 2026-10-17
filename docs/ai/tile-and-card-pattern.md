@@ -97,3 +97,5 @@ This file is the short, visual brief: what a tile, frame and card look like, for
 - **A Customer Relationship block's first row is one row**: [Relationship Type label + its drop-down] [Purpose label + its cell, the rest of the width] [x], level with the cells' first line, 12px apart.
 
 - **A channel card's Actions and Expenses headings** have the "+" at the right (above the x column), a full-width 1px divider under the heading with 12px over and under the "+" button, no "Add ..." button, and the divider under "Expenses" only where an expense stands under it.
+- **A floating card's caption is the same whichever way it is opened** (its own tile, the link on its group's tile, another card's link): its section's name ("Resources", "Activities", "Partners & Suppliers", "Founders"), never its group's (Utilities, Operational). The opener passes no name of its own.
+- **Every text link is one component** (`TextLink.tsx`, the look in `text-links.css`): a place passes only where it stands; a link is never a bare `<button className="...-link">`.

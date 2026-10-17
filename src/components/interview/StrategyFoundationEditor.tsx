@@ -24,6 +24,7 @@ import { AnswerType } from "../../framework/enums/AnswerType.ts";
 import MonthYearPicker from "./MonthYearPicker.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
+import TextLink from "./TextLink.tsx";
 
 interface StrategyFoundationEditorProps {
 
@@ -308,14 +309,14 @@ export default function StrategyFoundationEditor({
                                 ? "Filled in from the Business System. Edit it freely."
                                 : "Your own text. Refresh brings back the draft from the Business System."}
                     </span>
-                    <button
+                    <TextLink
                         type="button"
                         className="business-engagement-link"
                         disabled={disabled || !situationDraft}
                         onClick={refreshSituation}
                     >
                         Refresh
-                    </button>
+                    </TextLink>
                 </div>
 
             </>

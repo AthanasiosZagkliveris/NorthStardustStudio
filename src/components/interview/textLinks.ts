@@ -7,6 +7,7 @@
  * the text is wider than its place, set as --link-shift on the link.
  */
 export const TEXT_LINK_CLASSES = [
+    "text-link",
     "business-engagement-link",
     "channel-resource-open",
     "notepad-text-button",

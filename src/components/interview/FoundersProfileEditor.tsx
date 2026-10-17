@@ -26,6 +26,7 @@ import type { OpenPage } from "./jumpTo.ts";
 import NumberedListInput from "./NumberedListInput.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
+import TextLink from "./TextLink.tsx";
 
 
 /**
@@ -555,13 +556,13 @@ export default function FoundersProfileEditor({
                                 Add founders under{" "}
                                 {onOpenLegalEntity
                                     ? (
-                                        <button
+                                        <TextLink
                                             type="button"
                                             className="business-engagement-link"
                                             onClick={() => onOpenLegalEntity(["legal-section-1"])}
                                         >
                                             1. Identity System → 3. Legal Entity → 2. Founders & Ownership
-                                        </button>
+                                        </TextLink>
                                     )
                                     : "1. Identity System → 3. Legal Entity → 2. Founders & Ownership"}
                                 {" "}and they appear here.

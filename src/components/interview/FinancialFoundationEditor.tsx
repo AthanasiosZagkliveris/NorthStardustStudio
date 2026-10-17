@@ -93,6 +93,7 @@ import type { OpenPage } from "./jumpTo.ts";
 import { railId } from "./rails/railItems.ts";
 import { useItemFolds } from "./useItemFolds.ts";
 import { toggledIn } from "./toggledIn.ts";
+import TextLink from "./TextLink.tsx";
 
 /* ==========================================================
    What the page says
@@ -1101,14 +1102,14 @@ export default function FinancialFoundationEditor({
                                     </InfoText>
                                 </p>
                             )}
-                            <button
+                            <TextLink
                                 type="button"
                                 className="business-engagement-link"
                                 aria-expanded={showing}
                                 onClick={() => setSchedulesOpen(current => toggledIn(current, source.id))}
                             >
                                 {showing ? "Hide repayment schedule" : "Show repayment schedule"}
-                            </button>
+                            </TextLink>
                             {showing && (
                                 <div className="financial-table-scroll">
                                     <FigureTable>
@@ -1553,9 +1554,9 @@ export default function FinancialFoundationEditor({
                 {offerings.length === 0 && onOpenFoundation && (
                     <span className="financial-plan-meta">
                         No Offerings yet:{" "}
-                        <button type="button" className="business-engagement-link" onClick={() => onOpenFoundation()}>
+                        <TextLink type="button" className="business-engagement-link" onClick={() => onOpenFoundation()}>
                             define them on Foundation
-                        </button>
+                        </TextLink>
                     </span>
                 )}
             </div>

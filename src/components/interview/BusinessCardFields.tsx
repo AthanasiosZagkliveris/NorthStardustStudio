@@ -11,6 +11,7 @@ import CardNameInput from "./CardNameInput.tsx";
 import { UndoService } from "../../services/UndoService";
 
 import "../../styles/card-folding.css";
+import TextLink from "./TextLink.tsx";
 
 /**
  * The pieces every Business System page is built out of.
@@ -1056,7 +1057,7 @@ export function BusinessCard({
                     )
                     : nameLink && name.trim().length > 0
                     ? (
-                        <button
+                        <TextLink
                             type="button"
                             className="business-capability-child-name"
                             title={nameLink.title}
@@ -1064,7 +1065,7 @@ export function BusinessCard({
                             onClick={nameLink.onClick}
                         >
                             {name}
-                        </button>
+                        </TextLink>
                     )
                     : (
                         /* Shown, not asked. It fills the same slot

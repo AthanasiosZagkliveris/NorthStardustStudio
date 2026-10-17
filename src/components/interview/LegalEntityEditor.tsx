@@ -63,6 +63,7 @@ import { OptionalField, OptionalNote } from "./BusinessCardFields.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
 import FoldArrow from "./FoldArrow.tsx";
 import { labelWithCurrency, nameWithCurrency } from "../../framework/engine/Currencies.ts";
+import TextLink from "./TextLink.tsx";
 
 /**
  * The last entry in every Legal Form list. The brief forbids
@@ -2257,14 +2258,14 @@ export default function LegalEntityEditor({
                         {expense.fromRequirement !== ""
                             ? (
                                 /* Made by a requirement: named as it is, said as text and a link to it. */
-                                <button
+                                <TextLink
                                     type="button"
                                     className="strategy-name-static legal-entity-name-link"
                                     title={"Open the requirement " + expense.name.trim()}
                                     onClick={() => openOnPage({ tile: "legal-entity-registrations", card: expense.fromRequirement })}
                                 >
                                     {expense.name.trim() || "Unnamed requirement"}
-                                </button>
+                                </TextLink>
                             )
                             : open
                             ? (

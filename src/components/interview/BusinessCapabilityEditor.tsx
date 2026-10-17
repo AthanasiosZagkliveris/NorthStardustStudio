@@ -162,6 +162,7 @@ import { toggledIn } from "./toggledIn.ts";
 
 import "../../styles/delivery.css";
 import "../../styles/page-3-edges.css";
+import TextLink from "./TextLink.tsx";
 
 /**
  * The guidance and help this page carries.
@@ -1869,13 +1870,13 @@ export default function BusinessCapabilityEditor({
                         {onOpenFoundation && (
                             <>
                                 {": "}
-                                <button
+                                <TextLink
                                     type="button"
                                     className="business-engagement-link"
                                     onClick={() => onOpenFoundation()}
                                 >
                                     open it
-                                </button>
+                                </TextLink>
                             </>
                         )}
                         .
@@ -3217,12 +3218,13 @@ export default function BusinessCapabilityEditor({
         if (founderAt >= 0) {
             return { caption: "Founders", scope: "infrastructure", kind: "card", node: founderCard(founders[founderAt], founderAt, true) };
         }
-        for (const [groupId, subsections] of Object.entries(capability.resources)) {
+        for (const subsections of Object.values(capability.resources)) {
             for (const subsection of subsections) {
                 const at = subsection.slots.findIndex(candidate => candidate.id === id);
                 if (at >= 0) {
                     return {
-                        caption: BUSINESS_RESOURCE_GROUPS.find(group => group.id === groupId)?.label ?? groupId,
+                        // (The same title whichever way the card is opened: its section's, never its group's.)
+                        caption: "Resources",
                         scope: "infrastructure",
                         kind: "card",
                         node: resourceCard("infrastructure", subsection.slots[at], at + 1, (base, patch) => patchSlot(base, id, patch), () => onChange(removeSlot(capability, id)))
@@ -3255,7 +3257,7 @@ export default function BusinessCapabilityEditor({
         for (const category of capability.activities) {
             if (category.activities.some(activity => activity.id === id)) {
                 const node = activityCardFor("infrastructure", category.activities, (next) => setCategoryActivities(category.id, next), id);
-                return node ? { caption: categoryTitle(category.id), node } : null;
+                return node ? { caption: "Activities", node } : null;
             }
         }
         const node = activityCardFor("offering", capability.offering.activities, (next) => onChange({
@@ -3665,9 +3667,9 @@ export default function BusinessCapabilityEditor({
             >
                 {/* The kind as its first letter (R. Resource, A. Activity, P. Partner, S. Supplier), then the name as the link. */}
                 <span className="business-capability-card-link-kind" aria-hidden="true">{noun.charAt(0).toUpperCase() + "."}</span>
-                <button type="button" className="business-capability-link" aria-label={"Open " + noun + " “" + name + "”"} onClick={onOpen}>
+                <TextLink type="button" className="business-capability-link" aria-label={"Open " + noun + " “" + name + "”"} onClick={onOpen}>
                     {name}
-                </button>
+                </TextLink>
             </p>
         );
     }
@@ -3724,14 +3726,14 @@ export default function BusinessCapabilityEditor({
             <span className={"business-capability-responsibility-line" + (done ? " business-capability-responsibility-line-done" : "")}>
                 {/* The kind as its first letter, as on the other cards' links (A. Activity). */}
                 <span className="business-capability-card-link-kind" aria-hidden="true">{letter}</span>
-                <button
+                <TextLink
                     type="button"
                     className="section-tile-link business-capability-responsibility-link"
                     title={"Open “" + entry.name + "”"}
                     onClick={() => entry.kind === "legal" ? openLegalExpense(entry.id) : openPair(founderId, entry.id)}
                 >
                     {entry.name}
-                </button>
+                </TextLink>
             </span>
         );
     }
@@ -4007,7 +4009,7 @@ export default function BusinessCapabilityEditor({
                 {madeFrom
                     ? (
                         /* Made by a card's Activity status: its name is written on that card, and here it is a link to it (as a Customer Channel's card is). */
-                        <button
+                        <TextLink
                             type="button"
                             className="business-capability-child-name"
                             title={"Open " + madeFrom.name}
@@ -4015,7 +4017,7 @@ export default function BusinessCapabilityEditor({
                             onClick={() => openPair(activity.id, madeFrom.id)}
                         >
                             {activity.name.trim() || "Unnamed activity"}
-                        </button>
+                        </TextLink>
                     )
                     : (
                         <CardNameInput

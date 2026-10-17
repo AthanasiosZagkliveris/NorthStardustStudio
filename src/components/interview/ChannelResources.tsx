@@ -31,6 +31,7 @@ import type { ActionIsolation, ActionLit } from "./ActionMarkers.tsx";
 import { actionPlacements, markTint, resourceColours, tableActionIds } from "../../framework/engine/ActionOrder.ts";
 
 import "../../styles/notepad.css";
+import TextLink from "./TextLink.tsx";
 
 /*
     A CHANNEL'S RESOURCES (ChannelResources.ts), in its cell of the
@@ -699,7 +700,7 @@ function ChannelResourceCard({
                                 </li>
                             ))}
                         </ul>
-                        <button
+                        <TextLink
                             type="button"
                             className="notepad-text-button"
                             onMouseDown={(event) => event.preventDefault()}
@@ -713,11 +714,11 @@ function ChannelResourceCard({
                             }}
                         >
                             Link an action
-                        </button>
+                        </TextLink>
                     </div>
                 )
                 : (
-                    <button
+                    <TextLink
                         type="button"
                         className="notepad-text-button"
                         aria-label={"Link an action to " + label}
@@ -725,7 +726,7 @@ function ChannelResourceCard({
                         onClick={() => setAdding(true)}
                     >
                         # Link an action
-                    </button>
+                    </TextLink>
                 )}
 
         </div>
@@ -739,7 +740,7 @@ function ChannelResourceCard({
  */
 function ViaActionLink({ words, order, text, onOpen }: { words: string; order: number | undefined; text: string; onOpen: () => void }) {
     return (
-        <button
+        <TextLink
             type="button"
             className="notepad-text-button business-channel-via-link"
             title={"#" + (order ?? "") + (text ? " " + text : "")}
@@ -747,7 +748,7 @@ function ViaActionLink({ words, order, text, onOpen }: { words: string; order: n
             onClick={onOpen}
         >
             {words}
-        </button>
+        </TextLink>
     );
 }
 

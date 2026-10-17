@@ -82,6 +82,7 @@ import { railId } from "./rails/railItems.ts";
 import { useItemFolds } from "./useItemFolds.ts";
 import { toggledIn } from "./toggledIn.ts";
 import { labelWithCurrency, nameWithCurrency } from "../../framework/engine/Currencies.ts";
+import TextLink from "./TextLink.tsx";
 
 /** How to estimate each group of a revenue stream: the "i" beside its title. */
 const STREAM_HELP: Record<"price" | "volume" | "timing", InfoPoint[]> = {
@@ -734,13 +735,13 @@ export default function FinancialSustainabilityEditor({
                                     <strong className="business-demand-pill">{formatUnits(fromDemand.expected)}</strong>
                                     {recurring ? "" : " a month"}
                                     {onOpenEngagement && (
-                                        <button
+                                        <TextLink
                                             type="button"
                                             className="business-engagement-link financial-cost-link"
                                             onClick={() => onOpenEngagement(demandPath(stream.offeringId))}
                                         >
                                             from Demand & Conversion
-                                        </button>
+                                        </TextLink>
                                     )}
                                 </span>
                             </BusinessField>
@@ -957,13 +958,13 @@ export default function FinancialSustainabilityEditor({
     function capacityBlock() {
 
         const toDelivery = onOpenCapability && (
-            <button
+            <TextLink
                 type="button"
                 className="business-engagement-link financial-cost-link"
                 onClick={() => onOpenCapability(["section-offering-delivery", "capability-offering-capability"])}
             >
                 Delivery on Infrastructure & Capability
-            </button>
+            </TextLink>
         );
 
         const info = [
@@ -1079,9 +1080,9 @@ export default function FinancialSustainabilityEditor({
                             {onOpenFoundation && (
                                 <>
                                     {": "}
-                                    <button type="button" className="business-engagement-link" onClick={() => onOpenFoundation()}>
+                                    <TextLink type="button" className="business-engagement-link" onClick={() => onOpenFoundation()}>
                                         open it
-                                    </button>
+                                    </TextLink>
                                 </>
                             )}
                             .
@@ -1466,9 +1467,9 @@ export default function FinancialSustainabilityEditor({
                     </ul>
                     {inputs.caveats.map(caveat => <p className="financial-muted" key={caveat}>Estimate: {caveat}</p>)}
                     {onOpenFinancialFoundation && (
-                        <button type="button" className="business-engagement-link" onClick={() => onOpenFinancialFoundation(["financial-costs"])}>
+                        <TextLink type="button" className="business-engagement-link" onClick={() => onOpenFinancialFoundation(["financial-costs"])}>
                             Review the costs on Financial Foundation
-                        </button>
+                        </TextLink>
                     )}
                 </FinancialBlock>
 

@@ -11,6 +11,7 @@ import DateCellInput, { isoToDisplay } from "../interview/DateCellInput";
 import { PreferencesService } from "../../services/PreferencesService";
 
 import "../../styles/notepad.css";
+import TextLink from "../interview/TextLink.tsx";
 
 /*
     THE NOTEPAD (NotepadService.ts): the header's "Notes" button, the
@@ -325,14 +326,14 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
                 <div className="notepad-note-actions-text">
                 {canPick
                     ? (
-                        <button
+                        <TextLink
                             type="button"
                             className="notepad-text-button"
                             aria-pressed={picking}
                             onClick={() => NotepadService.pick(picking ? null : note.id)}
                         >
                             {picking ? "Picking: click a field or card" : "Link a field"}
-                        </button>
+                        </TextLink>
                     )
                     : null}
                 {/* The Date: a tick; ticked, its label becomes the day to pick, and the note stands on that day of the Calendar. */}

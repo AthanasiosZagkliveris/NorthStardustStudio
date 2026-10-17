@@ -14,6 +14,7 @@ import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 import MonthYearPicker from "./MonthYearPicker.tsx";
 import FoldArrow from "./FoldArrow.tsx";
 import CardNumber from "./CardNumber.tsx";
+import TextLink from "./TextLink.tsx";
 
 /*
     The pieces the two Financial pages share: a month within the
@@ -378,13 +379,13 @@ export function CashTimelineChart({
                     <li><span className="financial-swatch financial-swatch-out" />{outLabel}</li>
                     <li><span className="financial-swatch financial-swatch-balance" />Balance</li>
                 </ul>
-                <button
+                <TextLink
                     type="button"
                     className="business-engagement-link"
                     onClick={() => setAsTable(current => !current)}
                 >
                     {asTable ? "Show as chart" : "Show as table"}
-                </button>
+                </TextLink>
             </div>
 
             {asTable

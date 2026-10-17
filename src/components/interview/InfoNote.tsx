@@ -8,6 +8,7 @@ import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
 import { isAcceptedUrl, Source, sourceLabel } from "../../framework/engine/Sources.ts";
 
 import { consumeKey } from "./consumeKey.ts";
+import TextLink from "./TextLink.tsx";
 
 /**
  * Opens a source link in the reader's own browser, never inside the
@@ -301,7 +302,7 @@ export default function InfoNote({
                                                 {" "}
                                                 {isAcceptedUrl(point.source.url)
                                                     ? (
-                                                        <a
+                                                        <TextLink as="a"
                                                             className="business-engagement-link info-note-link"
                                                             href={point.source.url}
                                                             target="_blank"
@@ -312,7 +313,7 @@ export default function InfoNote({
                                                             }}
                                                         >
                                                             {sourceLabel(point.source)}
-                                                        </a>
+                                                        </TextLink>
                                                     )
                                                     : sourceLabel(point.source)}
                                             </li>
@@ -337,13 +338,13 @@ export default function InfoNote({
                                         ? (
                                             /* A link to where it is answered. */
                                             <li key={point.title}>
-                                                <button
+                                                <TextLink
                                                     type="button"
                                                     className="business-engagement-link info-note-link"
                                                     onClick={point.onOpen}
                                                 >
                                                     {point.title}
-                                                </button>
+                                                </TextLink>
                                                 {point.text ? " " + point.text : ""}
                                             </li>
                                         )

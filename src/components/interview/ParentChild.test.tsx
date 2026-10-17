@@ -225,7 +225,7 @@ describe("the Activity row under the card's Status", () => {
         expect(stack.getAttribute("data-pair")).toBe("resource-mill");
         const items = [...stack.querySelectorAll(".floating-card-item")];
         expect(items).toHaveLength(2);
-        expect(items.map(item => item.querySelector(".floating-card-caption")!.textContent!.replace(/i$/, ""))).toEqual(["Human Resources", "Operational"]);
+        expect(items.map(item => item.querySelector(".floating-card-caption")!.textContent!.replace(/i$/, ""))).toEqual(["Resources", "Activities"]);
         // The card first (above), the activity after it.
         expect(items[0].querySelector("textarea")!.getAttribute("aria-label")).toBe("Resource 1 name");
         expect(items[1].querySelector("textarea")!.getAttribute("aria-label")).toBe("Activity 1 name");

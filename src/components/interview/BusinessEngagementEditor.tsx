@@ -94,6 +94,7 @@ import FoldArrow from "./FoldArrow.tsx";
 import { toggledIn } from "./toggledIn.ts";
 
 import "../../styles/demand.css";
+import TextLink from "./TextLink.tsx";
 
 /** How high each of Demand's counts can go; its percentages stop at 100. */
 const DEMAND_COUNT_LIMITS: Record<string, NumberLimit> = {
@@ -1368,7 +1369,7 @@ export default function BusinessEngagementEditor({
         }
 
         return (
-            <button
+            <TextLink
                 type="button"
                 className="business-engagement-link"
                 aria-label={"Open the Foundation page, where the " + what +
@@ -1376,7 +1377,7 @@ export default function BusinessEngagementEditor({
                 onClick={() => onOpenFoundation(id ? foundationPath(id) : undefined)}
             >
                 {shown}
-            </button>
+            </TextLink>
         );
 
     }
