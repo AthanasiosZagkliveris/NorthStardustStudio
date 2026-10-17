@@ -12,6 +12,12 @@
   "rule": "a list item of a first-row tile has a box at the top of the page"
  },
  {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure (1366 x 700)|||closing a mouse-opened card draws no ring on its opener||",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure (1366 x 700)",
+  "rule": "closing a mouse-opened card draws no ring on its opener"
+ },
+ {
   "key": "quillfield-automation-llc.json|Identity System › ^1\\. Definition|light|1920|a tile's list starts 12px under the title's underline|column-tiles › Description, Quillfield Automation LLC is a one-person automation studio in Broo|",
   "example": "quillfield-automation-llc.json",
   "page": "Identity System › ^1\\. Definition",
@@ -76,12 +82,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Identity System › ^2\\. Organization",
   "rule": "a dialog's Back button stands at its lower left"
- },
- {
-  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|an i on its words' centre line|legal-section-1 › Founders contribute capital: what this means|Founders & Ownership",
-  "example": "quillfield-automation-llc.json",
-  "page": "Identity System › ^2\\. Organization",
-  "rule": "an i on its words' centre line"
  },
  {
   "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|row gap|legal-section-1 › legal-entity-column-head|Founders & Ownership",
@@ -184,12 +184,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Identity System › ^2\\. Organization",
   "rule": "control at its column's left edge"
- },
- {
-  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|picker one line|founder-profile-founder-~ › option-picker|Jordan Ellis",
-  "example": "quillfield-automation-llc.json",
-  "page": "Identity System › ^2\\. Organization",
-  "rule": "picker one line"
  },
  {
   "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|card side margin|founder-profile-founder-~ › Rolesi|Jordan Ellis",
@@ -390,12 +384,6 @@
   "rule": "every text of page 3 is on the type scale (14, 18, 24, 28, 36)"
  },
  {
-  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|side-by-side bottoms equal|brand-slot-row|Brand Images (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Brand System › Brand System",
-  "rule": "side-by-side bottoms equal"
- },
- {
   "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|column-tiles › SPAN|Brand Images (card added with +)",
   "example": "quillfield-automation-llc.json",
   "page": "Brand System › Brand System",
@@ -540,12 +528,6 @@
   "rule": "number → name gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|||one reaction per kind: remove||",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "one reaction per kind: remove"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -580,18 +562,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
   "rule": "an i on its words' centre line"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section dialog is the page card area's width, from the heading's underline to the footer|Social Media|",
@@ -648,18 +618,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Social Media",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Social Media",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Social Media > Subchannel 1: LinkedIn",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -696,18 +654,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Social Media > Subchannel 1: LinkedIn",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Social Media > Subchannel 1: LinkedIn",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Social Media > Subchannel 2: Instagram",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -742,18 +688,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
   "rule": "an i on its words' centre line"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Social Media > Subchannel 2: Instagram",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Social Media > Subchannel 2: Instagram",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section dialog is the page card area's width, from the heading's underline to the footer|Website|",
@@ -810,18 +744,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Website",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Website",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Website > Subchannel 1: Main Website",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -858,18 +780,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Website > Subchannel 1: Main Website",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Website > Subchannel 1: Main Website",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Website > Subchannel 2: Booking / Registration Page",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -904,18 +814,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
   "rule": "an i on its words' centre line"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Website > Subchannel 2: Booking / Registration Page",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Website > Subchannel 2: Booking / Registration Page",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section dialog is the page card area's width, from the heading's underline to the footer|Email|",
@@ -972,18 +870,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Email",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Email",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Email > Subchannel 1: Newsletter",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -1020,18 +906,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Email > Subchannel 1: Newsletter",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Email > Subchannel 1: Newsletter",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Email > Subchannel 2: Direct Email",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -1066,18 +940,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
   "rule": "an i on its words' centre line"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Email > Subchannel 2: Direct Email",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Email > Subchannel 2: Direct Email",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section dialog is the page card area's width, from the heading's underline to the footer|Other|",
@@ -1134,18 +996,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Other",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Other",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Other > Subchannel 1: Referral partners (bookkeepers and IT providers)",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -1180,18 +1030,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
   "rule": "an i on its words' centre line"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Other > Subchannel 1: Referral partners (bookkeepers and IT providers)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Other > Subchannel 1: Referral partners (bookkeepers and IT providers)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section dialog is the page card area's width, from the heading's underline to the footer|In Person|",
@@ -1248,18 +1086,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|In Person",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|In Person",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|In Person > Subchannel 1: Event / Talk",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -1296,18 +1122,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|In Person > Subchannel 1: Event / Talk",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|In Person > Subchannel 1: Event / Talk",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|In Person > Subchannel 2: Studio / Shop",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -1342,18 +1156,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
   "rule": "an i on its words' centre line"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|In Person > Subchannel 2: Studio / Shop",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|In Person > Subchannel 2: Studio / Shop",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section dialog is the page card area's width, from the heading's underline to the footer|Direct Payment|",
@@ -1410,18 +1212,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Direct Payment",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Direct Payment",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Direct Payment > Subchannel 1: Invoice",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -1458,18 +1248,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Direct Payment > Subchannel 1: Invoice",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Direct Payment > Subchannel 1: Invoice",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Direct Payment > Subchannel 2: Card",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -1504,18 +1282,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
   "rule": "an i on its words' centre line"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Direct Payment > Subchannel 2: Card",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Direct Payment > Subchannel 2: Card",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section dialog is the page card area's width, from the heading's underline to the footer|Online / Live|",
@@ -1572,18 +1338,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Online / Live",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Online / Live",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Online / Live > Subchannel 1: Zoom",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -1620,18 +1374,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Online / Live > Subchannel 1: Zoom",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Online / Live > Subchannel 1: Zoom",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Online / Live > Subchannel 2: Google Meet",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -1666,18 +1408,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
   "rule": "an i on its words' centre line"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Online / Live > Subchannel 2: Google Meet",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Online / Live > Subchannel 2: Google Meet",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a section dialog is the page card area's width, from the heading's underline to the footer|File Delivery|",
@@ -1734,18 +1464,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|File Delivery",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|File Delivery",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|File Delivery > Subchannel 1: Client Portal",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -1780,18 +1498,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
   "rule": "an i on its words' centre line"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|File Delivery > Subchannel 1: Client Portal",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|File Delivery > Subchannel 1: Client Portal",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|File Delivery > Subchannel 2: WeTransfer",
@@ -1830,18 +1536,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|File Delivery > Subchannel 2: WeTransfer",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|File Delivery > Subchannel 2: WeTransfer",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Community (floating card)",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -1876,18 +1570,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
   "rule": "an i on its words' centre line"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Community (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Community (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Marketplace (floating card)",
@@ -1926,18 +1608,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Marketplace (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Marketplace (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Physical Delivery (floating card)",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -1972,18 +1642,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
   "rule": "an i on its words' centre line"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Physical Delivery (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Physical Delivery (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Retail & Wholesale (floating card)",
@@ -2022,18 +1680,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Retail & Wholesale (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Retail & Wholesale (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Referral & Affiliates (floating card)",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -2068,18 +1714,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
   "rule": "an i on its words' centre line"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Referral & Affiliates (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Referral & Affiliates (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Social Media (card added with +)",
@@ -2118,18 +1752,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Social Media (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Social Media (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Website (card added with +)",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -2164,18 +1786,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
   "rule": "an i on its words' centre line"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Website (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Website (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Email (card added with +)",
@@ -2214,18 +1824,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Email (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Email (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Other (card added with +)",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -2260,18 +1858,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
   "rule": "an i on its words' centre line"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Other (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Other (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|In Person (card added with +)",
@@ -2310,18 +1896,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|In Person (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|In Person (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Direct Payment (card added with +)",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -2356,18 +1930,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
   "rule": "an i on its words' centre line"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Direct Payment (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Direct Payment (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|Online / Live (card added with +)",
@@ -2406,18 +1968,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Online / Live (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Online / Live (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|an i on its words' centre line|engagement-segment-segment-~ › Small professional-~ firms in New York City: what this means|File Delivery (card added with +)",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -2452,18 +2002,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
   "rule": "an i on its words' centre line"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|File Delivery (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|File Delivery (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a floating card opens|Community (+ box)|",
@@ -2514,18 +2052,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Community (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Community (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a floating card opens|Marketplace (+ box)|",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -2572,18 +2098,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
   "rule": "an i on its words' centre line"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Marketplace (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Marketplace (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a floating card opens|Physical Delivery (+ box)|",
@@ -2634,18 +2148,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Physical Delivery (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Physical Delivery (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a floating card opens|Retail & Wholesale (+ box)|",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
@@ -2692,18 +2194,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Customer Engagement",
   "rule": "an i on its words' centre line"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Retail & Wholesale (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Retail & Wholesale (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a floating card opens|Referral & Affiliates (+ box)|",
@@ -2754,18 +2244,6 @@
   "rule": "an i on its words' centre line"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|row gap|demand-~-~ › strategy-add-button|Referral & Affiliates (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|every x looks the same at rest|relationship-~-~-~ › Remove this Personal Assistance Relationship Type for AI Workflow Audit|Referral & Affiliates (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Customer Engagement",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|section tiles are 12px apart|capability-infrastructure › Infrastructure sections|",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
@@ -2776,18 +2254,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "section tiles are 12px apart"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-infrastructure › Add Resource to Resources|",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-~-capability › Add Resource to Resources|",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a dialog's Back button stands at its lower left|Founders|",
@@ -2806,18 +2272,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "row gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-infrastructure › Add Resource to Resources|Founders",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-~-capability › Add Resource to Resources|Founders",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's roles (text) start at the card's content edge|founder-founder-~ › bullet-list-static-text|Founders",
@@ -2856,18 +2310,6 @@
   "rule": "a founder's Responsibilities text starts at the card's content edge (further right only by a two-digit number)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's fold arrow starts at the markers' x (numbers, bullets)|founder-founder-~ › Minimize Responsibilities of Jordan Ellis|Founders",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a founder's fold arrow starts at the markers' x (numbers, bullets)"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's fold arrow starts at the markers' x (numbers, bullets)|founder-founder-~ › Minimize completed responsibilities of Jordan Ellis|Founders",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a founder's fold arrow starts at the markers' x (numbers, bullets)"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's Completed label starts at the card's content edge|founder-founder-~ › field-label business-foundation-label|Founders",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
@@ -2880,88 +2322,10 @@
   "rule": "a dialog's Back button stands at its lower left"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-infrastructure › Add Resource to Resources|Resources",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-~-capability › Add Resource to Resources|Resources",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|Add Resource to Digital Infrastructure|Resources",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-infrastructure › Add Resource to Resources|Resources > Workspace, Coworking Space",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-~-capability › Add Resource to Resources|Resources > Workspace, Coworking Space",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-infrastructure › Add Resource to Resources|Resources > Utilities, Electricity, High-speed Wi-Fi, Air conditioning",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-~-capability › Add Resource to Resources|Resources > Utilities, Electricity, High-speed Wi-Fi, Air conditioning",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-infrastructure › Add Resource to Resources|Resources > Utilities, Electricity, High-speed Wi-Fi, Air conditioning > Premises Utilities, Electricity, High-speed Wi-Fi, Air conditioning",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-~-capability › Add Resource to Resources|Resources > Utilities, Electricity, High-speed Wi-Fi, Air conditioning > Premises Utilities, Electricity, High-speed Wi-Fi, Air conditioning",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a dialog's Back button stands at its lower left|Activities|",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "a dialog's Back button stands at its lower left"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-infrastructure › Add Resource to Resources|Activities",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-~-capability › Add Resource to Resources|Activities",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-infrastructure › Add Resource to Resources|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes…",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-~-capability › Add Resource to Resources|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes…",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 1: Standard client contract templates",
@@ -2976,30 +2340,6 @@
   "rule": "the Performer's dropdown ends where the name cell ends"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › option-picker|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 1: Standard client contract templates",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › Activity 1 performer 1: Jordan Ellis|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 1: Standard client contract templates",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › Activity 1 performer 2: Lawyer|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 1: Standard client contract templates",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|every x looks the same at rest|activity-~ › Remove Activity 1|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 1: Standard client contract templates",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 2: Launch the website with booking",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
@@ -3010,30 +2350,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "the Performer's dropdown ends where the name cell ends"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › option-picker|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 2: Launch the website with booking",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › Activity 2 performer 1: Jordan Ellis|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 2: Launch the website with booking",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › Activity 2 performer 2: Copywriting and web design for launch|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 2: Launch the website with booking",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|every x looks the same at rest|activity-~ › Remove Activity 2|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 2: Launch the website with booking",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "every x looks the same at rest"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 3: Set up bookkeeping and quarterly estimated taxes",
@@ -3048,42 +2364,6 @@
   "rule": "the Performer's dropdown ends where the name cell ends"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › option-picker|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 3: Set up bookkeeping and quarterly estimated taxes",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › Activity 3 performer 1: Jordan Ellis|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 3: Set up bookkeeping and quarterly estimated taxes",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › Activity 3 performer 2: Accountant (CPA)|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 3: Set up bookkeeping and quarterly estimated taxes",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|every x looks the same at rest|activity-~ › Remove Activity 3|Activities > Pre-Operational, Standard client contract templates, Launch the website with booking, Set up bookkeeping and quarterly estimated taxes… > Activity 3: Set up bookkeeping and quarterly estimated taxes",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "every x looks the same at rest"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-infrastructure › Add Resource to Resources|Activities > Operational, Investigate Password and credential vault for client logins",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-~-capability › Add Resource to Resources|Activities > Operational, Investigate Password and credential vault for client logins",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities > Operational, Investigate Password and credential vault for client logins > Activity 1: Investigate Password and credential vault for client logins",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
@@ -3096,58 +2376,16 @@
   "rule": "the Performer's dropdown ends where the name cell ends"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › option-picker|Activities > Operational, Investigate Password and credential vault for client logins > Activity 1: Investigate Password and credential vault for client logins",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › Activity 1 performer 1: Jordan Ellis|Activities > Operational, Investigate Password and credential vault for client logins > Activity 1: Investigate Password and credential vault for client logins",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a dialog's Back button stands at its lower left|Partners & Suppliers|",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "a dialog's Back button stands at its lower left"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-infrastructure › Add Resource to Resources|Partners & Suppliers",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-~-capability › Add Resource to Resources|Partners & Suppliers",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a picker is as wide as its widest option|partner-~ › Entry 1 currency: USD|Partners & Suppliers > Partners",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "a picker is as wide as its widest option"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-infrastructure › Add Resource to Resources|Resources > Workspace, Meetup and event costs",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-~-capability › Add Resource to Resources|Resources > Workspace, Meetup and event costs",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|text beside a control on its centre line|resource-~ › Resource 1 number of instalments|Resources > Workspace, Meetup and event costs > Site Hire, Meetup and event costs",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "text beside a control on its centre line"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|resource-~ › Resource 1 number of instalments|Resources > Workspace, Meetup and event costs > Site Hire, Meetup and event costs",
@@ -3180,30 +2418,6 @@
   "rule": "every text of page 3 is on the type scale (14, 18, 24, 28, 36)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-infrastructure › Add Resource to Resources|Resources > Utilities",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-~-capability › Add Resource to Resources|Resources > Utilities",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-infrastructure › Add Resource to Resources|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build…",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-~-capability › Add Resource to Resources|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build…",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|activity-~ › Activity 1 linked Offerings share of Automation Build|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 1: Build a reusable automation component library",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
@@ -3234,30 +2448,6 @@
   "rule": "the Performer's dropdown ends where the name cell ends"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › option-picker|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 1: Build a reusable automation component library",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › Activity 1 performer 1: Jordan Ellis|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 1: Build a reusable automation component library",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › Activity 1 performer 2: Freelance developer (overflow)|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 1: Build a reusable automation component library",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|every x looks the same at rest|activity-~ › Remove Activity 1|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 1: Build a reusable automation component library",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "every x looks the same at rest"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 2: Create the audit interview guide and roadmap template",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
@@ -3270,18 +2460,6 @@
   "rule": "the Performer's dropdown ends where the name cell ends"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › option-picker|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 2: Create the audit interview guide and roadmap template",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › Activity 2 performer 1: Jordan Ellis|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 2: Create the audit interview guide and roadmap template",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 3: Define the build handover pack",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
@@ -3292,30 +2470,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "the Performer's dropdown ends where the name cell ends"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › option-picker|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 3: Define the build handover pack",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › Activity 3 performer 1: Jordan Ellis|Activities > Production, Build a reusable automation component library, Create the audit interview guide and roadmap template, Define the build… > Activity 3: Define the build handover pack",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-infrastructure › Add Resource to Resources|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-~-capability › Add Resource to Resources|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|activity-~ › Activity 1 linked Offerings share of AI Workflow Audit|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 1: LinkedIn content plan",
@@ -3366,18 +2520,6 @@
   "rule": "the Performer's dropdown ends where the name cell ends"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › option-picker|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 1: LinkedIn content plan",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › Activity 1 performer 1: Jordan Ellis|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 1: LinkedIn content plan",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control width is a size step|activity-~ › Activity 2 linked Offerings share of AI Workflow Audit|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 2: Start the monthly newsletter",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
@@ -3426,18 +2568,6 @@
   "rule": "the Performer's dropdown ends where the name cell ends"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › option-picker|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 2: Start the monthly newsletter",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › Activity 2 performer 1: Jordan Ellis|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 2: Start the monthly newsletter",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 3: Publish three case studies",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
@@ -3450,30 +2580,6 @@
   "rule": "the Performer's dropdown ends where the name cell ends"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › option-picker|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 3: Publish three case studies",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › Activity 3 performer 1: Jordan Ellis|Activities > Marketing, LinkedIn content plan, Start the monthly newsletter, Publish three case studies > Activity 3: Publish three case studies",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-infrastructure › Add Resource to Resources|Partners & Suppliers > Partners, Referral partners (10% of a referred audit)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-~-capability › Add Resource to Resources|Partners & Suppliers > Partners, Referral partners (10% of a referred audit)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|partner-qf-~ › field-label business-foundation-label|Partners & Suppliers > Partners, Referral partners (10% of a referred audit) > Partner 1: Referral partners (10% of a referred audit)",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
@@ -3484,18 +2590,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "a picker is as wide as its widest option"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-infrastructure › Add Resource to Resources|Partners & Suppliers > Suppliers, Freelance developer (overflow), Card and ACH processing (QuickBooks Payments)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-~-capability › Add Resource to Resources|Partners & Suppliers > Suppliers, Freelance developer (overflow), Card and ACH processing (QuickBooks Payments)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a picker is as wide as its widest option|partner-~ › Freelance developer (overflow) currency: USD|Partners & Suppliers > Suppliers, Freelance developer (overflow), Card and ACH processing (QuickBooks Payments) > Supplier 1: Freelance developer (overflow)",
@@ -3540,28 +2634,10 @@
   "rule": "a dialog's Back button stands at its lower left"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-infrastructure › Add Resource to Resources|Delivery",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-~-capability › Add Resource to Resources|Delivery",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the content of a dialog starts at its top (not in the middle)|Delivery|Delivery",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "the content of a dialog starts at its top (not in the middle)"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|delivery-~-~ › Referral partners (10% of a referred audit) hours per unit of AI Workflow Audit |Delivery > Delivery 1: AI Workflow Audit",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "row gap"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the content of a dialog starts at its top (not in the middle)|Delivery|Delivery > Delivery 1: AI Workflow Audit",
@@ -3594,34 +2670,10 @@
   "rule": "a dialog's Back button stands at its lower left"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-infrastructure › Add Resource to Resources|Inventory",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-~-capability › Add Resource to Resources|Inventory",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a dialog's Back button stands at its lower left|Completed|",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "a dialog's Back button stands at its lower left"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-infrastructure › Add Resource to Resources|Completed",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a tile's list stays clear of its + box|capability-~-capability › Add Resource to Resources|Completed",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a tile's list stays clear of its + box"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Completed > Activity 1: Form the LLC and get an EIN",
@@ -3636,18 +2688,6 @@
   "rule": "the Performer's dropdown ends where the name cell ends"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › option-picker|Completed > Activity 1: Form the LLC and get an EIN",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › Activity 1 performer 1: Jordan Ellis|Completed > Activity 1: Form the LLC and get an EIN",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Completed > Activity 2: Open a business bank account",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
@@ -3658,18 +2698,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "the Performer's dropdown ends where the name cell ends"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › option-picker|Completed > Activity 2: Open a business bank account",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › Activity 2 performer 1: Jordan Ellis|Completed > Activity 2: Open a business bank account",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a floating founder's card is the founder card width|Founders (list item)|",
@@ -3798,12 +2826,6 @@
   "rule": "a founder's label is left-aligned to its cell"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's fold arrow starts at the markers' x (numbers, bullets)|founder-founder-~ › Maximize Responsibilities of Jordan Ellis|Founders (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a founder's fold arrow starts at the markers' x (numbers, bullets)"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities (card added with +)",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
@@ -3816,34 +2838,10 @@
   "rule": "row gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "the Performer's dropdown ends where the name cell ends"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › option-picker|Activities (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › Activity 1 performer 1: Select|Activities (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a picker is as wide as its widest option|partner-~ › Entry 1 currency: USD|Partners & Suppliers (card added with +)",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "a picker is as wide as its widest option"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|delivery-~-~ › Referral partners (10% of a referred audit) hours per unit of AI Workflow Audit |Delivery (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "row gap"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a Delivery card's number is left-aligned in its box (no space before it)|delivery-~-~ › list-number|Delivery (floating card)",
@@ -3862,24 +2860,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "the Performer's dropdown ends where the name cell ends"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › option-picker|Completed (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|under a card's head, nothing ends right of the name cell|activity-~ › Activity 1 performer 1: Jordan Ellis|Completed (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "under a card's head, nothing ends right of the name cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure (1366 x 700)|||closing a mouse-opened card draws no ring on its opener||",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure (1366 x 700)",
-  "rule": "closing a mouse-opened card draws no ring on its opener"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Financial Foundation|light|1920|a remove x keeps 12px from the cell beside it and never lies on one|funding-~ › Remove SBA Microloan|",
@@ -3924,18 +2904,6 @@
   "rule": "an i one gap after its words"
  },
  {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|every group of tiles in a card uses one tile size|Financial Plan:|Strategic Period",
-  "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "every group of tiles in a card uses one tile size"
- },
- {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|a tile or box title is the body size (18)|section-tile-title|Strategic Period",
-  "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "a tile or box title is the body size (18)"
- },
- {
   "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|a floating card opens|Strategic Period (+ box)|",
   "example": "quillfield-automation-llc.json",
   "page": "Strategy System › Strategy System",
@@ -3960,36 +2928,6 @@
   "rule": "an i one gap after its words"
  },
  {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|an i one gap after its words|Theme: what this means|Strategic Period (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "an i one gap after its words"
- },
- {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|an i one gap after its words|theme-~-goal-1 › Goal: what this means|Strategic Period (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "an i one gap after its words"
- },
- {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|an i one gap after its words|theme-~-objective-1 › Objective: what this means|Strategic Period (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "an i one gap after its words"
- },
- {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|an i one gap after its words|theme-~-objective-1 › Initiatives: what this means|Strategic Period (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "an i one gap after its words"
- },
- {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|an i one gap after its words|theme-~-metric-1 › Metric: what this means|Strategic Period (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "an i one gap after its words"
- },
- {
   "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|label gap|theme-~-objective-1 › Start: Select|Strategic Period (card added with +)",
   "example": "quillfield-automation-llc.json",
   "page": "Strategy System › Strategy System",
@@ -4008,30 +2946,6 @@
   "rule": "card side margin"
  },
  {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|action buttons a cell gap apart|strategy-box-actions|Strategic Period (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "action buttons a cell gap apart"
- },
- {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|action buttons a cell gap apart|theme-~-goal-1 › strategy-box-actions|Strategic Period (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "action buttons a cell gap apart"
- },
- {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|action buttons a cell gap apart|theme-~-objective-1 › strategy-box-actions|Strategic Period (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "action buttons a cell gap apart"
- },
- {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|action buttons a cell gap apart|theme-~-metric-1 › strategy-box-actions|Strategic Period (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "action buttons a cell gap apart"
- },
- {
   "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|head buttons at the side margin|theme-~-goal-1 › strategy-box-head strategy-card-head-flat|Strategic Period (card added with +)",
   "example": "quillfield-automation-llc.json",
   "page": "Strategy System › Strategy System",
@@ -4042,23 +2956,5 @@
   "example": "quillfield-automation-llc.json",
   "page": "Strategy System › Strategy System",
   "rule": "head buttons at the side margin"
- },
- {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|content starts at the title|theme-~-objective-1 › strategy-box-head|Strategic Period (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "content starts at the title"
- },
- {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|every group of tiles in a card uses one tile size|Financial Plan:|Strategic Period (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "every group of tiles in a card uses one tile size"
- },
- {
-  "key": "quillfield-automation-llc.json|Strategy System › Strategy System|light|1920|every x looks the same at rest|Remove Strategic Theme 4|Strategic Period (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Strategy System › Strategy System",
-  "rule": "every x looks the same at rest"
  }
 ]
