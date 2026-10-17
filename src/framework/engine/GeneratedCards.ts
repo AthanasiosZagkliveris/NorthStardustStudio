@@ -38,15 +38,17 @@ export function orphanedCards(before: BusinessCapabilityValue, after: BusinessCa
     const namedBefore = new Map<string, Set<string>>(slotsOf(before).map(slot => [slot.id, new Set(namedBy(slot))]));
     const namedAfter = named(after);
     const parents = new Set(slotsOf(after).map(slot => slot.id));
+    // A parent that is gone altogether leaves its generated cards with no use too.
+    const gone = (parentId: string) => namedBefore.has(parentId) && !parents.has(parentId);
     const stillNamedByParent = (parentId: string, id: string) => slotsOf(after).some(slot => slot.id === parentId && namedBy(slot).includes(id));
     const orphans: GeneratedCard[] = [];
     for (const activity of activitiesOf(after)) {
-        if (activity.madeBy !== "" && parents.has(activity.madeBy) && namedBefore.get(activity.madeBy)?.has(activity.id) && !stillNamedByParent(activity.madeBy, activity.id) && !namedAfter.has(activity.id)) {
+        if (activity.madeBy !== "" && namedBefore.get(activity.madeBy)?.has(activity.id) && (gone(activity.madeBy) || !stillNamedByParent(activity.madeBy, activity.id)) && !namedAfter.has(activity.id)) {
             orphans.push({ id: activity.id, kind: "activity", name: activity.name.trim() || "Unnamed activity" });
         }
     }
     for (const partner of partnersOf(after)) {
-        if (partner.madeBy !== "" && parents.has(partner.madeBy) && namedBefore.get(partner.madeBy)?.has(partner.id) && !stillNamedByParent(partner.madeBy, partner.id) && !namedAfter.has(partner.id)) {
+        if (partner.madeBy !== "" && namedBefore.get(partner.madeBy)?.has(partner.id) && (gone(partner.madeBy) || !stillNamedByParent(partner.madeBy, partner.id)) && !namedAfter.has(partner.id)) {
             orphans.push({ id: partner.id, kind: "partner", name: partner.name.trim() || "Unnamed " + (partner.category === "suppliers" ? "supplier" : "partner") });
         }
     }
@@ -70,4 +72,32 @@ export function withoutCards(value: BusinessCapabilityValue, ids: readonly strin
             providers: keepPartners(value.offering.providers)
         }
     };
+}
+
+/**
+ * A generated card (made by a card's Status) SERVES THE OFFERINGS ITS PARENT SERVES: whenever the parent's Offerings change, the generated card's follow, with the
+ * share each carries. (Only in Offering's Capability: Infrastructure's cards serve no Offering.)
+ */
+export function withInheritedOfferings(value: BusinessCapabilityValue): BusinessCapabilityValue {
+    const parents = new Map(value.offering.resources.map(slot => [slot.id, slot] as const));
+    const same = (a: readonly string[], b: readonly string[]) => a.length === b.length && a.every((id, at) => id === b[at]);
+    let changed = false;
+    const follow = <T extends { madeBy: string; offeringIds: string[]; offeringShares: Record<string, string> }>(card: T): T => {
+        const parent = card.madeBy !== "" ? parents.get(card.madeBy) : undefined;
+        if (!parent || (same(card.offeringIds, parent.offeringIds) && JSON.stringify(card.offeringShares) === JSON.stringify(parent.offeringShares))) {
+            return card;
+        }
+        changed = true;
+        return { ...card, offeringIds: [...parent.offeringIds], offeringShares: { ...parent.offeringShares } };
+    };
+    const next: BusinessCapabilityValue = {
+        ...value,
+        offering: {
+            ...value.offering,
+            activities: value.offering.activities.map(follow),
+            professionals: value.offering.professionals.map(follow),
+            providers: value.offering.providers.map(follow)
+        }
+    };
+    return changed ? next : value;
 }

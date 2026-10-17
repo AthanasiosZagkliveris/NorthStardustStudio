@@ -1,6 +1,6 @@
 import "../../styles/system-confirmation.css";
 import LegalEntityEditor from "./LegalEntityEditor.tsx";
-import { orphanedCards, withoutCards, type GeneratedCard } from "../../framework/engine/GeneratedCards.ts";
+import { orphanedCards, withInheritedOfferings, withoutCards, type GeneratedCard } from "../../framework/engine/GeneratedCards.ts";
 import { CSSProperties, Fragment, ReactNode, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import ResponsibilityFilter from "./ResponsibilityFilter.tsx";
@@ -513,7 +513,9 @@ export default function BusinessCapabilityEditor({
     };
     // A CHANGE THAT LEAVES A GENERATED CARD WITH NO CARD NAMING IT (a Status, Activity, Partner or Supplier changed) is asked about first: Continue removes that card.
     const [pending, setPending] = useState<{ next: BusinessCapabilityValue; orphans: GeneratedCard[] } | null>(null);
-    const onChange = (next: BusinessCapabilityValue) => {
+    const onChange = (changed: BusinessCapabilityValue) => {
+        // (A generated card serves the Offerings its parent serves.)
+        const next = withInheritedOfferings(changed);
         const orphans = orphanedCards(stored, next);
         if (orphans.length > 0) {
             setPending({ next, orphans });
@@ -3759,7 +3761,7 @@ export default function BusinessCapabilityEditor({
                 <span className="business-capability-card-link-kind" aria-hidden="true">{letter}</span>
                 <TextLink
                     type="button"
-                    className="section-tile-link business-capability-responsibility-link"
+                    className="business-capability-responsibility-link"
                     title={"Open “" + entry.name + "”"}
                     onClick={() => entry.kind === "legal" ? openLegalExpense(entry.id) : openPair(founderId, entry.id)}
                 >

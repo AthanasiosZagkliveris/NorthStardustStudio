@@ -366,7 +366,7 @@ describe("an empty section shows a small + under its title", () => {
         openBox("Cloud & Security");
         const card = screen.getByRole("dialog", { name: "Resources" });
         expect(card.classList.contains("floating-card-host")).toBe(true);
-        expect(card.querySelector(".floating-card-caption")!.textContent).toContain("Cloud & Security");
+        expect(card.querySelector(".floating-card-caption")!.textContent).toContain("Resources");
         const name = screen.getByRole("textbox", { name: "Resource 1 name" });
         expect(document.activeElement).toBe(name);
         fireEvent.change(name, { target: { value: "Fibre" } });

@@ -35,3 +35,20 @@ describe("generated cards", () => {
     });
 
 });
+
+describe("generated cards and their parent's removal and Offerings", () => {
+
+    it("asks about a generated card whose parent was removed", () => {
+        const { value } = base();
+        const after = { ...value, offering: { ...value.offering, resources: [] } };
+        expect(orphanedCards(value, after).map(card => card.id)).toEqual(["p1"]);
+    });
+
+    it("makes a generated card serve the Offerings of its parent", async () => {
+        const { withInheritedOfferings } = await import("./GeneratedCards.ts");
+        const { parent, made, value } = base();
+        const next = withInheritedOfferings({ ...value, offering: { ...value.offering, resources: [{ ...parent, offeringIds: ["o1"], offeringShares: { o1: "100" } }], providers: [made] }, providers: [] });
+        expect(next.offering.providers[0].offeringIds).toEqual(["o1"]);
+    });
+
+});

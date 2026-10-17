@@ -284,14 +284,6 @@ button.card-tile-symbol[aria-pressed="true"] {
     letter-spacing: 0.02em;
 }
 
-/* A line of a founder's Responsibilities is a link with a tile list item's reaction (underline under the pointer and the focus); a long name wraps. */
-.business-capability-responsibility-link {
-    display: inline;
-    overflow: visible;
-    white-space: normal;
-    text-overflow: clip;
-}
-
 /* The circles are pointers: the pointer cursor even on a tile that can be dragged (the tile's grab cursor is for the tile). */
 .card-tile-symbols,
 .card-tile-symbol,
