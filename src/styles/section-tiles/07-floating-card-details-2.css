@@ -1275,3 +1275,13 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     padding-bottom: calc(var(--card-padding) + var(--plus-size) + 5px);
 
 }
+
+/* THE TYPEFACES OF THE TYPOGRAPHY TILE are a list under the title: each name in its own typeface at a list's reading size (the body's, 18px), not a picture's; the note under them stays small. */
+.brand-specimens {
+
+    gap: var(--gap-8);
+
+    font-size: var(--font-body);
+    font-weight: 600;
+
+}
