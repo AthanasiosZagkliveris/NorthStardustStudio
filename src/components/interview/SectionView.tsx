@@ -401,7 +401,7 @@ export function SubcategoryBoxes({
                             anchor={item.anchor}
                             names={order.map(at => item.items![at])}
                             ids={item.holds && item.holds.length === (item.items ?? []).length ? order.map(at => item.holds![at]) : undefined}
-                            onCard={(cardId, pointer) => openCard?.(cardId, plainTitle(item.title), undefined, pointer, false)}
+                            onCard={(cardId, pointer) => openCard?.(cardId, undefined, undefined, pointer, false)}
                             alerts={item.alerts ? order.map(at => item.alerts![at]) : undefined}
                             marks={item.itemMarks ? order.map(at => item.itemMarks![at]) : undefined}
                             origin={inwardOrigin(index, total, across)}
@@ -414,7 +414,7 @@ export function SubcategoryBoxes({
                                 } else if (openCard && item.holds && item.holds.length === 0 && item.add) {
                                     // A box with none: one blank card is made and opened (taken away again if left blank).
                                     const adder = item.add as TileAdd;
-                                    openCard(adder.onAdd(), plainTitle(item.title), adder, pointer, true);
+                                    openCard(adder.onAdd(), undefined, adder, pointer, true);
                                 } else {
                                     setOpenId(item.id);
                                 }
@@ -422,7 +422,7 @@ export function SubcategoryBoxes({
                             onAdd={(pointer) => {
                                 const adder = item.add as TileAdd;
                                 if (openCard) {
-                                    openCard(adder.onAdd(), plainTitle(item.title), adder, pointer, true);
+                                    openCard(adder.onAdd(), undefined, adder, pointer, true);
                                 }
                             }}
                         />

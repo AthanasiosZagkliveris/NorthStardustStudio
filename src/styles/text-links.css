@@ -77,3 +77,10 @@
     padding-left: 38px !important;
     clip-path: inset(0 0 0 38px);
 }
+
+/* A link that has the keyboard's focus without the pointer (a card's name link as the card opens) is bold and underlined but does not slide: its text starts where it stands. */
+:is(.text-link, .business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):focus-visible:not(:hover) {
+    text-overflow: ellipsis !important;
+    text-indent: 0;
+    transition: none;
+}

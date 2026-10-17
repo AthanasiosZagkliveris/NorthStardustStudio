@@ -203,6 +203,27 @@ export function otherColumn(anchor: HTMLElement | null): HTMLElement | null {
     return across[0] ?? anchor;
 }
 
+/**
+ * THE OTHER HALF, FROM A TILE IN A DIALOG: a card opened from a tile inside a dialog (a category's, the Inventory's, the Completed's) stands over the frame on the half of the
+ * page the pressed tile is NOT in -- a tile on the left opens its card on the right, one on the right on the left -- whatever frame the dialog itself covers.
+ */
+export function acrossFrom(pressed: HTMLElement | null): HTMLElement | null {
+    if (!pressed || !pressed.closest(".section-tile-overlay")) {
+        return null;
+    }
+    const frames = Array.from(document.querySelectorAll<HTMLElement>(".business-foundation-input[data-anchor]"))
+        .filter(frame => !frame.closest(".section-tile-overlay") && frame.getBoundingClientRect().width > 0);
+    if (frames.length < 2) {
+        return null;
+    }
+    const boxes = frames.map(frame => frame.getBoundingClientRect());
+    const middle = (Math.min(...boxes.map(box => box.left)) + Math.max(...boxes.map(box => box.right))) / 2;
+    const here = pressed.getBoundingClientRect();
+    const leftHalf = here.left + here.width / 2 < middle;
+    const across = frames.filter((_frame, at) => (boxes[at].left + boxes[at].width / 2 < middle) !== leftHalf);
+    return across[0] ?? null;
+}
+
 /** What an incomplete card lacks, as a tooltip: "Missing: Price, Payment Frequency (not counted until it is fixed)". */
 export function incompleteTitle(missing: readonly string[]): string {
     return "Missing: " + [...new Set(missing)].join(", ") + " (not counted until it is fixed)";
@@ -1074,7 +1095,7 @@ export default function SectionTiles({
                         const from = opener.current ?? document.body;
                         openedByPointer.current = pointer;
                         open.opening?.();
-                        setFloating({ tileId: open.id, id, opener: from, pressed: lastPressed.current, anchor: otherColumn(sectionAnchor(from)), fresh, caption, remover });
+                        setFloating({ tileId: open.id, id, opener: from, pressed: lastPressed.current, anchor: acrossFrom(lastPressed.current) ?? otherColumn(sectionAnchor(from)), fresh, caption, remover });
                     } : null}
                 />
             )}
@@ -1973,7 +1994,9 @@ export function FloatingCards({
             top = Math.min(Math.max(top, bandTop + 8), Math.max(bandTop + 8, bandBottom - 200));
             const left = Math.max(8, Math.min(centreX - width / 2, window.innerWidth - 8 - width));
             const frameBox = where?.getBoundingClientRect();
-            setShade(where && frameBox && frameBox.width > 0 ? { left: frameBox.left, top: frameBox.top - bandTop, width: frameBox.width, height: frameBox.height, radius: getComputedStyle(where).borderRadius } : null);
+            // (Where a dialog stands under the card, it is shaded already: the card adds none.)
+            const shaded = document.querySelector(".section-tile-overlay:not(.floating-overlay)") !== null;
+            setShade(!shaded && where && frameBox && frameBox.width > 0 ? { left: frameBox.left, top: frameBox.top - bandTop, width: frameBox.width, height: frameBox.height, radius: getComputedStyle(where).borderRadius } : null);
             setPlace(previous => previous && Math.abs(previous.band - bandTop) < 0.5 && Math.abs(previous.left - left) < 0.5 && Math.abs(previous.top - top) < 0.5 ? previous : { left, top, band: bandTop });
         };
         position();
