@@ -60,7 +60,7 @@ describe("a space or a vehicle", () => {
         expect(statusOptions()).toEqual(["Harbour Estates", "Other…"]);
         fireEvent.click(screen.getByRole("option", { name: "Harbour Estates" }));
         expect(latest!.resources.workspace[0].slots[0].providerId).toBe("land");
-        expect(screen.getByRole("button", { name: "Open Supplier “Harbour Estates”" }).textContent).toBe("🔗");
+        expect(screen.getByRole("button", { name: "Open Supplier “Harbour Estates”" }).querySelector("svg.business-link-symbol-icon")).not.toBeNull();
         // "Other…" makes a new card of that group and chooses it.
         fireEvent.click(screen.getByLabelText(/Resource 1 rent: /));
         fireEvent.click(screen.getByRole("option", { name: "Other…" }));

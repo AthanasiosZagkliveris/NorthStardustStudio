@@ -6850,6 +6850,11 @@ export function instalmentLines(count: number, startDate: string, endDate: strin
 
 /** The payments of a plan as they fall: the first of Deposit & Balance on the Start date, the second on its own date else the End date. */
 export function paymentPlanLines(plan: BusinessPaymentPlan, startDate: string, endDate: string): BusinessPaymentLine[] {
+    if (plan.type === "instalments" && plan.lines.length > 0) {
+        // Instalments are dated evenly from the Start date to the End date, and follow them when they change.
+        const dated = instalmentLines(plan.lines.length, startDate, endDate);
+        return plan.lines.map((line, at) => ({ ...line, date: dated[at].date }));
+    }
     return plan.type === "deposit-balance"
         ? plan.lines.slice(0, 2).map((line, at) => ({ ...line, date: at === 0 ? startDate : line.date || endDate }))
         : plan.lines;
@@ -8817,13 +8822,14 @@ function businessAllActivities(
 export function businessFounderResponsibilities(
     capability: BusinessCapabilityValue,
     founderId: string
-): { id: string; name: string; completed: boolean }[] {
+): { id: string; name: string; completed: boolean; scope: "infrastructure" | "offering"; kind: "activity" }[] {
 
     if (founderId.length === 0) {
         return [];
     }
 
     const founderIds = capability.founders.map(founder => founder.id);
+    const offeringIds = new Set(capability.offering.activities.map(activity => activity.id));
 
     return businessAllActivities(capability)
         .filter(activity =>
@@ -8833,7 +8839,9 @@ export function businessFounderResponsibilities(
         .map(activity => ({
             id: activity.id,
             name: activity.name.trim(),
-            completed: activity.completed
+            completed: activity.completed,
+            scope: offeringIds.has(activity.id) ? "offering" as const : "infrastructure" as const,
+            kind: "activity" as const
         }));
 
 }

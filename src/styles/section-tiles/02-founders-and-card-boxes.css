@@ -379,7 +379,26 @@
     font-size: var(--font-body);
     line-height: 1;
 
+    /* The tone of the card it stands in (the "+"'s), drawn in the text colour of the symbol. */
+    color: var(--plus-fill);
+
     cursor: pointer;
+
+}
+
+.business-link-symbol-icon {
+
+    display: block;
+
+    transition: transform .15s ease;
+
+}
+
+/* Under the pointer the symbol is 20% larger about its centre; the box it stands in does not change, so nothing moves. */
+.business-link-symbol:hover:not(:disabled) .business-link-symbol-icon,
+.business-link-symbol:focus-visible .business-link-symbol-icon {
+
+    transform: scale(1.2);
 
 }
 

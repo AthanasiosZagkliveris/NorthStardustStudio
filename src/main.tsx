@@ -19,12 +19,16 @@ import "./styles/global.css";
 import "./styles/remove-button.css";
 
 import App from "./App";
+// (After the App and every stylesheet it brings: the one look of the text links outranks the older rules of the pages.)
+import "./styles/text-links.css";
+import { installTextLinkMarquee } from "./components/interview/textLinks.ts";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { ThemeService } from "./services/ThemeService";
 
 // The theme is already on <html> (index.html); from here Auto also
 // follows the system's setting while the app is open.
 ThemeService.start();
+installTextLinkMarquee();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>

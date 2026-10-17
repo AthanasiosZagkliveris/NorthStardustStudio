@@ -63,7 +63,7 @@ describe("Category, Group, Name", () => {
         fireEvent.click(screen.getByRole("option", { name: "Bolt Ltd" }));
         expect(value().resources.equipment[0].slots[0].providerId).toBe("bolt");
         const symbol = screen.getByRole("button", { name: "Open Supplier “Bolt Ltd”" });
-        expect(symbol.textContent).toBe("🔗");
+        expect(symbol.querySelector("svg.business-link-symbol-icon")).not.toBeNull();
         expect(document.querySelector(".business-capability-card-link")).toBeNull();
         fireEvent.click(symbol);
         expect(document.querySelector("[data-pair]")).toBeTruthy();

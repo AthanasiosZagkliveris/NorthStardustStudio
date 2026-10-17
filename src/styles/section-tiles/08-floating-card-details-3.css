@@ -180,14 +180,14 @@
 
 }
 
-/* A milestone's name: the whole of the card's name cell, its "+" (or x) in the card's x column. */
+/* A milestone's name: the whole of the card's name cell, its "+" (or x) 12px after it, in the card's x column, level with the head's x. */
 .business-capability-plan-row.business-capability-plan-stage {
 
     grid-column: 1 / -1;
-    grid-template-columns: minmax(0, 1fr) var(--card-x-column);
-    column-gap: var(--card-marker-gap);
+    grid-template-columns: minmax(0, 1fr) var(--size-box-button);
+    column-gap: var(--gap-12);
 
-    margin-right: calc(-1 * (var(--card-x-column) + var(--card-marker-gap)));
+    margin-right: calc(-1 * (var(--size-box-button) + var(--gap-12)));
 
 }
 

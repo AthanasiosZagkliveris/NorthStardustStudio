@@ -1,5 +1,7 @@
-import { CSSProperties, Fragment, ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { CSSProperties, Fragment, ReactNode, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 
+import ResponsibilityFilter from "./ResponsibilityFilter.tsx";
+import { freshCards } from "./freshCards.ts";
 import {
     BUSINESS_ACTIVITY_CATEGORIES,
     activityGroupsOf,
@@ -38,6 +40,7 @@ import {
     type BusinessPaymentPlan,
     type BusinessPaymentLine,
     instalmentLines,
+    paymentPlanLines,
     paymentPlanTotal,
     BUSINESS_EXTRAS,
     type BusinessExtraKey,
@@ -582,6 +585,8 @@ export default function BusinessCapabilityEditor({
      * long as the page is open, like every other fold on it.
      */
     const [responsibilityFolds, setResponsibilityFolds] = useState<ReadonlyMap<string, boolean>>(new Map());
+    /** The options of a founder's Responsibilities filter ticked OFF (by founder): none, until one is. */
+    const [responsibilityOff, setResponsibilityOff] = useState<ReadonlyMap<string, ReadonlySet<string>>>(new Map());
 
     /* A resource and the activity its status created, shown together (the link in either): the PARENT above, the CHILD below. */
     const [pair, setPair] = useState<{ parentId: string; childId: string } | null>(null);
@@ -705,6 +710,8 @@ export default function BusinessCapabilityEditor({
      * WHAT A CARD TILE SAYS (CardTile.tsx -- the same lines as in Inventory): where the card belongs, its status and its cost, its links as circles, the
      * colour of its section. Read from the floor's rows, so the grids of cards and the overlay can never differ.
      */
+    // (A card just made and still open is not flagged: the floor reads freshCards, and this renders again when that changes.)
+    useSyncExternalStore(freshCards.subscribe, freshCards.snapshot);
     const floor = floorRows(capability, legalExpenses, channelToneIds);
     const missingById = new Map(floor.filter(row => row.missing).map(row => [row.id, row.missing!] as const));
     const floorById = new Map(floor.map(row => [row.id, row]));
@@ -2140,6 +2147,10 @@ export default function BusinessCapabilityEditor({
 
         const tally = businessResponsibilitiesTally(responsibilities);
 
+        /* The funnel: where a responsibility stands (Infrastructure, Offerings) and what it is (Activities; Resources and Legal have none yet). */
+        const filterOff = responsibilityOff.get(founder.id) ?? new Set<string>();
+        const shownResponsibilities = responsibilities.filter(entry => !filterOff.has(entry.scope === "offering" ? "Offerings" : "Infrastructure") && !filterOff.has("Activities"));
+
         /* COLLAPSED each time the dialog (or a founder's box) opens: FounderCards
            clears these folds on opening; toggling inside an open dialog works. */
         const responsibilitiesOpen = responsibilityFolds.get(founder.id) ?? false;
@@ -2370,6 +2381,18 @@ export default function BusinessCapabilityEditor({
                             </span>
                         )}
 
+                        {responsibilities.length > 0 && (
+                            <ResponsibilityFilter
+                                label={"Filter the Responsibilities of " + founderLabel}
+                                off={filterOff}
+                                onToggle={(option) => setResponsibilityOff(current => {
+                                    const next = new Set(current.get(founder.id) ?? []);
+                                    if (next.has(option)) { next.delete(option); } else { next.add(option); }
+                                    return new Map(current).set(founder.id, next);
+                                })}
+                            />
+                        )}
+
                     </span>
 
                     {responsibilities.length === 0
@@ -2386,8 +2409,8 @@ export default function BusinessCapabilityEditor({
                                Completed group under 2. Activities --
                                its numbers carrying on from the list's.
                                The order is the Activities'. */
-                            const active = responsibilities.filter(entry => !entry.completed);
-                            const done = responsibilities.filter(entry => entry.completed);
+                            const active = shownResponsibilities.filter(entry => !entry.completed);
+                            const done = shownResponsibilities.filter(entry => entry.completed);
                             const doneKey = "responsibilities-done-" + founder.id;
                             const doneOpen = completedOpen.has(doneKey);
                             return (
@@ -2397,7 +2420,7 @@ export default function BusinessCapabilityEditor({
                                             flush
                                             lines={active.map((entry, position) => ({
                                                 key: entry.id + position,
-                                                text: responsibilityLink(founder.id, entry)
+                                                text: responsibilityLink(founder.id, entry, false)
                                             }))}
                                         />
                                     )}
@@ -2418,10 +2441,9 @@ export default function BusinessCapabilityEditor({
                                                 <div id={doneKey}>
                                                     <NumberedListStatic
                                                         flush
-                                                        start={active.length + 1}
                                                         lines={done.map((entry, position) => ({
                                                             key: entry.id + position,
-                                                            text: responsibilityLink(founder.id, entry),
+                                                            text: responsibilityLink(founder.id, entry, true),
                                                             className: "business-capability-responsibility-done"
                                                         }))}
                                                     />
@@ -2493,7 +2515,7 @@ export default function BusinessCapabilityEditor({
         const stepCount = (by: number) => setCount(String(Math.min(99, Math.max(1, (Number(plan.count) || 0) + by))));
         const amountOf = (percent: string) => total === null || parseAmount(percent) === null ? "" : String(Math.round(total * (parseAmount(percent) ?? 0)) / 100);
         // The percent and the amount of a payment are one figure written two ways: typing either sets the other. (The amount being typed is kept as typed.)
-        const valueRow = (line: BusinessPaymentLine, label: string, order: string, mode: "free" | "balance" | "deposit") => {
+        const valueRow = (line: BusinessPaymentLine, label: string, order: string, mode: "free" | "balance" | "deposit" | "instalment") => {
             const draft = amountDraft?.id === line.id ? amountDraft.text : null;
             const setPercent = (next: string) => {
                 if (mode === "deposit") {
@@ -2538,8 +2560,8 @@ export default function BusinessCapabilityEditor({
                         ariaLabel={label + " date"}
                         min={startDate || undefined}
                         max={endDate || undefined}
-                        disabled={disabled || mode === "deposit"}
-                        value={mode === "deposit" ? startDate : line.date || (mode === "balance" ? endDate : "")}
+                        disabled={disabled || mode === "deposit" || mode === "instalment"}
+                        value={mode === "deposit" ? startDate : mode === "instalment" ? (paymentPlanLines(plan, startDate, endDate).find(entry => entry.id === line.id)?.date ?? "") : line.date || (mode === "balance" ? endDate : "")}
                         onChange={(next) => {
                             if (next !== "" && endDate !== "" && next > endDate) {
                                 setDateNotice({ owner: what, text: "A payment cannot fall after the card's End date (" + isoToDisplay(endDate, PreferencesService.getDateFormat()) + ")." });
@@ -2617,7 +2639,7 @@ export default function BusinessCapabilityEditor({
                 {plan.on && plan.type === "deposit-balance" && plan.lines.slice(0, 2).map((line, at) => valueRow(line, what + " " + (at === 0 ? "deposit" : "balance"), "", at === 0 ? "deposit" : "balance"))}
 
                 {/* INSTALMENTS: a row each, numbered. */}
-                {plan.on && plan.type === "instalments" && plan.lines.map((line, at) => valueRow(line, what + " instalment " + (at + 1), (at + 1) + ".", "free"))}
+                {plan.on && plan.type === "instalments" && plan.lines.map((line, at) => valueRow(line, what + " instalment " + (at + 1), (at + 1) + ".", "instalment"))}
 
                 {/* MILESTONES: two rows each -- the stage, with the "+" (the first) or the x (any other) -- then its amount, percent and date. */}
                 {plan.on && plan.type === "milestones" && plan.lines.flatMap((line, at) => {
@@ -3638,10 +3660,12 @@ export default function BusinessCapabilityEditor({
             return null;
         }
         if (links.length === 1) {
-            return cardLink(links[0].key, links[0].noun, links[0].name, links[0].onOpen);
+            return <>{cardRule()}{cardLink(links[0].key, links[0].noun, links[0].name, links[0].onOpen)}</>;
         }
         const open = linksOpen.has(id);
         return (
+            <>
+            {cardRule()}
             <div className="business-foundation-field business-capability-links">
                 {/* The same row as a founder's Responsibilities: the fold arrow, the label, how many. */}
                 <span className="business-foundation-label-info business-capability-responsibilities-head business-capability-links-head">
@@ -3653,20 +3677,30 @@ export default function BusinessCapabilityEditor({
                 </span>
                 {open && <div className="business-capability-links-list">{links.map(link => cardLink(link.key, link.noun, link.name, link.onOpen))}</div>}
             </div>
+            </>
         );
     }
 
+    /** A dividing line across the card: above its Completed row and above the links at its foot. */
+    function cardRule() {
+        return <div className="business-capability-card-rule" role="separator" />;
+    }
+
     /** A line of a founder's Responsibilities: a link that opens the activity's card (under the founder's), with a tile list item's reaction. */
-    function responsibilityLink(founderId: string, entry: { id: string; name: string }) {
+    function responsibilityLink(founderId: string, entry: { id: string; name: string }, done: boolean) {
         return (
-            <button
-                type="button"
-                className="section-tile-link business-capability-responsibility-link"
-                title={"Open “" + entry.name + "”"}
-                onClick={() => openPair(founderId, entry.id)}
-            >
-                {entry.name}
-            </button>
+            <span className={"business-capability-responsibility-line" + (done ? " business-capability-responsibility-line-done" : "")}>
+                {/* The kind as its first letter, as on the other cards' links (A. Activity). */}
+                <span className="business-capability-card-link-kind" aria-hidden="true">A.</span>
+                <button
+                    type="button"
+                    className="section-tile-link business-capability-responsibility-link"
+                    title={"Open “" + entry.name + "”"}
+                    onClick={() => openPair(founderId, entry.id)}
+                >
+                    {entry.name}
+                </button>
+            </span>
         );
     }
 
@@ -4066,10 +4100,8 @@ export default function BusinessCapabilityEditor({
 
                 </fieldset>
 
-                {/* THE CARDS THAT CHOOSE THIS ACTIVITY (a resource whose status is Activity or Needs Activity): a link each, unless the name already is the link to the one that made it. */}
-                {linksSection(activity.id, [...Object.values(capability.resources).flat().flatMap(entry => entry.slots), ...capability.offering.resources]
-                    .filter(slot => slot.id !== madeFrom?.id && (slot.activityId === activity.id || (slot.extraStatuses ?? []).some(row => row.activityId === activity.id)))
-                    .map(slot => ({ key: slot.id + ":chooses", noun: "Resource", name: slot.name.trim() || "Unnamed Resource", onOpen: () => openPair(activity.id, slot.id) })))}
+                {/* A line, then the card's state (Completed), then its links under it. */}
+                {cardRule()}
 
                 {/* Done, at the very end (the one card order: fields,
                     Description, links, then the card's state), on the left with the other ticks. */}
@@ -4086,6 +4118,11 @@ export default function BusinessCapabilityEditor({
                     />
                     <span>Completed</span>
                 </label>
+
+                {/* THE CARDS THAT CHOOSE THIS ACTIVITY (a resource whose status is Activity or Needs Activity): a link each, unless the name already is the link to the one that made it. */}
+                {linksSection(activity.id, [...Object.values(capability.resources).flat().flatMap(entry => entry.slots), ...capability.offering.resources]
+                    .filter(slot => slot.id !== madeFrom?.id && (slot.activityId === activity.id || (slot.extraStatuses ?? []).some(row => row.activityId === activity.id)))
+                    .map(slot => ({ key: slot.id + ":chooses", noun: "Resource", name: slot.name.trim() || "Unnamed Resource", onOpen: () => openPair(activity.id, slot.id) })))}
 
             </div>
             )}</MissingScope>

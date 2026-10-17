@@ -408,7 +408,7 @@ describe("a resource's links to the cards it is connected with", () => {
         openOfferingResource("Loom");
         // The link is the symbol beside the chosen name (no "Open ..." line); a click opens that card.
         const symbol = screen.getByRole("button", { name: "Open Supplier “Hackney Wick Maker Yard”" });
-        expect(symbol.textContent).toBe("🔗");
+        expect(symbol.querySelector("svg.business-link-symbol-icon")).not.toBeNull();
         expect(symbol.getAttribute("title")).toBe("Open Supplier “Hackney Wick Maker Yard”");
         expect([...document.querySelectorAll<HTMLElement>(".business-capability-card-link")].some(node => /^S[.]/.test(node.textContent ?? ""))).toBe(false);
         fireEvent.click(symbol);

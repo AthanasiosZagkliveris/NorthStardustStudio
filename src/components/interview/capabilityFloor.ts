@@ -25,6 +25,7 @@ import { parseAmount } from "../../framework/engine/Amounts.ts";
 import { PreferencesService } from "../../services/PreferencesService.ts";
 import { isoToDisplay } from "./DateCellInput.tsx";
 import { incompleteCards } from "../../framework/engine/CardCompleteness.ts";
+import { freshCards } from "./freshCards.ts";
 import { founderMonthlySalary } from "../../framework/engine/DemandCapacity.ts";
 
 /*
@@ -326,7 +327,7 @@ export function floorRows(
     const lacking = incompleteCards(capability);
     return rows.map(row => ({
         ...row,
-        ...(lacking.has(row.id) ? { missing: lacking.get(row.id) } : {}),
+        ...(lacking.has(row.id) && !freshCards.has(row.id) ? { missing: lacking.get(row.id) } : {}),
         tone: row.kind === "legal"
             ? "legal" as const
             : channelIds.has(row.id) ? "channel" as const : row.path[0] === OFFERING ? "offering" as const : "infrastructure" as const

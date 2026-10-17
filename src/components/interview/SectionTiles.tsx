@@ -1,4 +1,5 @@
 import { createContext, CSSProperties, Fragment, MouseEvent as ReactMouseEvent, ReactNode, RefObject, useContext, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { freshCards } from "./freshCards.ts";
 import { createPortal } from "react-dom";
 
 import { consumeKey } from "./consumeKey.ts";
@@ -678,6 +679,16 @@ export default function SectionTiles({
     // The subcategory the dialog opens on (a list item of "Utilities" that names one), if any.
     const [openBox, setOpenBox] = useState<string | null>(null);
     const [floating, setFloating] = useState<FloatingOpen | null>(null);
+
+    // A card made a moment ago and still open carries no error indicator (freshCards.ts).
+    const freshId = floating?.fresh ? floating.id : null;
+    useEffect(() => {
+        if (!freshId) {
+            return;
+        }
+        freshCards.add(freshId);
+        return () => freshCards.remove(freshId);
+    }, [freshId]);
     const opener = useRef<HTMLElement | null>(null);
     // Whether what is open was opened with the pointer (a mouse click) or the keyboard: the focus comes back to its opener
     // with a visible ring only after the keyboard.

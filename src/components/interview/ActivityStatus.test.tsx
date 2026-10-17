@@ -68,7 +68,7 @@ describe("the Activity status", () => {
         expect(latest().resources.equipment[0].slots[0].activityId).toBe("a1");
         expect(latest().activities.flatMap(category => category.activities)).toHaveLength(1);
         const symbol = screen.getByRole("button", { name: "Open Activity “Install the oven”" });
-        expect(symbol.textContent).toBe("🔗");
+        expect(symbol.querySelector("svg.business-link-symbol-icon")).not.toBeNull();
         fireEvent.click(symbol);
         expect(document.querySelector("[data-pair]")).toBeTruthy();
     });

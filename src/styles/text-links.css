@@ -1,0 +1,68 @@
+/* ==========================================================
+   THE TEXT LINKS (src/components/interview/textLinks.ts lists their classes; a test says this list and that one agree).
+   Every link in text, wherever it stands, is one thing:
+   - at rest: the default blue, regular weight, the body size, the letter spacing of a bold (the text does not move when it goes bold), no underline;
+   - one row only (a longer text is cut by an ellipsis at rest);
+   - under the pointer or the keyboard: bold (the app's thickened letters, --hover-bold) and underlined, the line 1px under the descenders; a text longer than
+     its place moves across it, right to left (--link-shift, measured as the pointer arrives), to be read whole.
+   Loaded after every other stylesheet (main.tsx), so no page's older rule for its own link outranks it.
+========================================================== */
+:is(.business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span) {
+    display: inline-block;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 0;
+    border: 0;
+    background: none;
+    vertical-align: bottom;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: left;
+    color: var(--text-primary);
+    font: inherit;
+    font-size: var(--font-body);
+    font-weight: 400;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+    text-decoration: none;
+    text-shadow: none;
+    text-indent: 0;
+    cursor: pointer;
+    transition: text-indent 0s;
+}
+
+:is(.business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):is(:hover, :focus-visible):not(:disabled) {
+    font-weight: 400;
+    text-shadow: var(--hover-bold);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-position: under;
+    text-underline-offset: 1px;
+    text-overflow: clip;
+    text-indent: calc(-1 * var(--link-shift, 0px));
+    transition: text-indent 1.6s linear .2s;
+}
+
+:is(.business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):focus-visible {
+    outline: 2px solid var(--focus-ring-ink);
+    outline-offset: 2px;
+}
+
+:is(.business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):disabled {
+    color: var(--text-faint);
+    cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :is(.business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):is(:hover, :focus-visible) {
+        transition: none;
+        text-indent: 0;
+        text-overflow: ellipsis;
+    }
+}
+
+/* A link in what is done or deactivated stays grey (it goes bold and underlined under the pointer all the same). */
+.business-capability-responsibility-line-done > .business-capability-responsibility-link:not(:hover):not(:focus-visible) {
+    color: var(--text-muted);
+}

@@ -589,7 +589,7 @@ describe("BusinessCapabilityEditor founders' Responsibilities", () => {
     }
 
     const lines = (container: HTMLElement) =>
-        [...container.querySelectorAll(".business-capability-responsibilities-head ~ div .numbered-list-static-text")].map(line => line.textContent);
+        [...container.querySelectorAll(".business-capability-responsibilities-head ~ div .numbered-list-static-text .business-capability-responsibility-link")].map(line => line.textContent);
 
     it("counts what is done of all of them, beside the label", () => {
         const { container } = renderWith(["A", "B", "C", "D", "E", "F", "G"], 3);
@@ -627,9 +627,10 @@ describe("BusinessCapabilityEditor founders' Responsibilities", () => {
         expect(completed.getAttribute("aria-expanded")).toBe("false");
         fireEvent.click(completed);
         expect(lines(container)).toEqual(["C", "D", "A", "B"]);
-        // Numbered on from the list above.
+        // Its own numbers, from 1; each line says what it is (A. Activity) before its link.
         const done = container.querySelectorAll(".business-capability-completed .numbered-list-static");
-        expect(done[done.length - 1].getAttribute("start")).toBe("3");
+        expect(done[done.length - 1].getAttribute("start")).toBe("1");
+        expect(container.querySelector(".business-capability-completed .business-capability-card-link-kind")?.textContent).toBe("A.");
         expect(container.querySelector(".business-capability-responsibilities-count")?.textContent).toBe("2/4");
     });
 

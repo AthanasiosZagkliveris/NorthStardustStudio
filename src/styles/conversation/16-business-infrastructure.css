@@ -599,3 +599,76 @@
 
 }
 
+
+/* THE FUNNEL of a founder's Responsibilities (ResponsibilityFilter.tsx): a "+"-style box at the right of the row, and the short list of ticks under it. */
+.responsibility-filter{
+    position:relative;
+    margin-left:auto;
+}
+
+.funnel-box::before,
+.funnel-box::after{
+    display:none;
+}
+
+.funnel-box{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* A filter that leaves something out shows its box filled, as under the pointer. */
+.funnel-box[data-active]{
+    border-color:transparent;
+    background:var(--plus-fill);
+    color:var(--plus-ground);
+}
+
+.responsibility-filter-panel{
+    position:absolute;
+    top:100%;
+    right:0;
+    z-index:30;
+    margin-top:6px;
+    padding:12px;
+    display:flex;
+    flex-direction:column;
+    gap:var(--gap-8);
+    border-radius:var(--radius-md);
+    background:var(--plus-ground);
+    box-shadow:var(--box-inset), 0 12px 28px var(--shadow-ink-18);
+    white-space:nowrap;
+}
+
+.responsibility-filter-option{
+    display:flex;
+    align-items:center;
+    gap:var(--gap-8);
+    cursor:pointer;
+}
+
+/* A line of a founder's Responsibilities: the kind letter, then the link on one row. */
+.business-capability-responsibility-line{
+    display:flex;
+    align-items:baseline;
+    gap:var(--gap-6);
+    min-width:0;
+}
+
+.business-capability-responsibility-line > .business-capability-card-link-kind{
+    flex:none;
+    font-weight:600;
+    letter-spacing:calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+}
+
+/* What is done is deactivated: the letter and the link in the muted grey (the number and the line through the words are the list's own). */
+.business-capability-responsibility-line-done > .business-capability-card-link-kind{
+    color:var(--text-muted);
+}
+
+/* A line across a card, between its fields and the rows of its state and its links. */
+.business-capability-card-rule{
+    height:1px;
+    margin:0;
+    background:var(--line-rule);
+}
