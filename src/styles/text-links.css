@@ -70,3 +70,10 @@
 .business-capability-activity-completed :is(.text-link, .business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):not(:hover):not(:focus-visible) {
     color: var(--completed-dim, var(--text-completed-ink)) !important;
 }
+
+/* A NAME THAT IS A LINK IN A CARD'S HEAD (a card made by another card: its name opens its parent) is a name cell like any other: the order number stands over its left
+   edge and the text starts after it (38px); a text longer than its place slides, and goes behind the number (clipped at the number's right edge), never over it. */
+:is(.strategy-box-head, .legal-entity-card-head) > :is(.business-capability-child-name, .legal-entity-name-link) {
+    padding-left: 38px !important;
+    clip-path: inset(0 0 0 38px);
+}

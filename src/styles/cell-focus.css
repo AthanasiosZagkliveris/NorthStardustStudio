@@ -4,7 +4,7 @@
    A numbered list's box and a date or month cell's box own the ring (the line or the button inside draws none). Loaded after every other stylesheet
    (main.tsx), so no page's older rule for its own focus outranks it.
 ========================================================== */
-:is(textarea, input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"]), .option-picker-trigger):is(:focus, :focus-visible, :active):not(:disabled, .numbered-list-input, .date-cell-input) {
+:is(textarea, input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"]), .option-picker-trigger):is(:focus, :focus-visible, :active):not(:disabled, .numbered-list-input, .date-cell-input, .date-cell-field :is(input, textarea), .numbered-list textarea) {
     outline: none !important;
     border-color: var(--line-primary) !important;
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent) !important;
@@ -16,6 +16,8 @@
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent) !important;
 }
 
-:is(.numbered-list-input, .date-cell-input):is(:focus, :focus-visible) {
+:is(.numbered-list-input, .date-cell-input, .date-cell-field :is(input, textarea), .numbered-list textarea):is(:focus, :focus-visible) {
     outline: none !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
 }
