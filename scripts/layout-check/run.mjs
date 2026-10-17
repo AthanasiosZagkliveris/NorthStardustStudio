@@ -27,7 +27,7 @@ export const SPEC = {
     /** From the end of a card's number ("1.", or "1. Goal") to its name: the one gap. */
     numberToName: 8,
     /** The closed set of control widths (XS, Code, Date, S, M, L); a control may also fill its column or its container. */
-    widths: [80, 128, 170, 220, 300, 420],
+    widths: [80, 128, 160, 220, 300, 420],
     /** The square variant: as wide as a control is tall (a Text Hierarchy px box). */
     square: 45,
     /** A label to its control (--space-label), and one field or row to the next (--space-field). */

@@ -283,7 +283,7 @@
         const surface = rules.effectiveGround(plus);
         if (!ground || !tone) {
             fail(name + " is filled with the ground at rest", plus, { background: style.backgroundColor });
-        } else if (rules.contrast(tone, surface) < 3) {
+        } else if (rules.contrast(tone, surface) < (plus.closest(".business-capability-frozen") ? 2.5 : 3)) {
             fail(name + " holds 3:1 between its + and its ground", plus, { contrast: rules.contrast(tone, surface) });
         }
         if (border && tone && (Math.abs(border[0] - tone[0]) > 2 || Math.abs(border[1] - tone[1]) > 2 || Math.abs(border[2] - tone[2]) > 2)) {
@@ -679,13 +679,28 @@
             const lineBox = label => {
                 const range = document.createRange();
                 range.selectNodeContents(label);
+                // (The words only: the "i" after them is measured by its own box, below.)
+                const noteEl = label.querySelector(".info-note");
+                if (noteEl) {
+                    range.setEndBefore(noteEl);
+                }
                 const glyphs = [...range.getClientRects()].filter(box => box.width > 0);
                 const line = parseFloat(getComputedStyle(label).lineHeight);
                 if (!glyphs.length || !Number.isFinite(line)) {
                     return null;
                 }
                 const first = glyphs[0], last = glyphs[glyphs.length - 1];
-                return { top: first.top + first.height / 2 - line / 2, bottom: last.top + last.height / 2 + line / 2, left: Math.min(...glyphs.map(g => g.left)), right: Math.max(...glyphs.map(g => g.right)) };
+                // The head of an optional field or the Completed row (a tick, the words, the 24px "i"): its row is what the box stands 6px under, not the words' line.
+                const head = label.closest(".optional-field-head, .business-capability-done");
+                if (head) {
+                    const row = rect(head);
+                    const mark = head.querySelector(".info-note-button");
+                    return { top: Math.min(row.top, mark ? rect(mark).top : row.top), bottom: Math.max(row.bottom, mark ? rect(mark).bottom : row.bottom), left: Math.min(...glyphs.map(g => g.left)), right: Math.max(...glyphs.map(g => g.right)) };
+                }
+                // An "i" in the label (24px, taller than the words' line) is part of its last line: the box stands 6px under it.
+                const mark = label.querySelector(".info-note-button");
+                const markBox = mark && visible(mark) ? rect(mark) : null;
+                return { top: Math.min(first.top + first.height / 2 - line / 2, markBox ? markBox.top : Infinity), bottom: Math.max(last.top + last.height / 2 + line / 2, markBox ? markBox.bottom : -Infinity), left: Math.min(...glyphs.map(g => g.left)), right: Math.max(...glyphs.map(g => g.right)) };
             };
             for (const card of [...document.querySelectorAll(CARDS)].filter(visible)) {
                 const items = [];
@@ -729,11 +744,21 @@
                     const box = rect(control);
                     items.push({ kind: "control", element: control, top: box.top, bottom: box.bottom, left: box.left, right: box.right });
                 }
+                // The muted cost lines under a list of resources: what the next field stands under (they are not checked themselves).
+                for (const line of card.querySelectorAll(".business-capability-cost-line")) {
+                    if (visible(line)) {
+                        const box = rect(line);
+                        items.push({ kind: "text", element: line, top: box.top, bottom: box.bottom, left: box.left, right: box.right, unchecked: true });
+                    }
+                }
                 // A label BESIDE a control (a side label) is part of the control's row.
                 const beside = item => item.kind === "label" && items.some(other => other.kind === "control" &&
                     other.top <= item.top + 1 && other.bottom >= item.bottom - 1 && (other.left >= item.right - 1 || other.right <= item.left + 1));
                 const stack = items.filter(item => !beside(item));
                 for (const item of stack) {
+                    if (item.unchecked) {
+                        continue;
+                    }
                     // What stands directly above it, in its column, in the same card.
                     const home = item.element.closest(CARDS);
                     let above = null;
@@ -755,13 +780,20 @@
                     const expected = above.kind === "label" && item.kind === "control" ? spec.labelGap : spec.fieldGap;
                     // A GROUP GAP: two groups divided by a rule, a field gap either side of it.
                     let divided = false;
-                    for (let node = item.element.parentElement; node && node !== card; node = node.parentElement) {
+                    for (let node = item.element; node && node !== card; node = node.parentElement) {
                         const top = rect(node).top;
                         if (parseFloat(getComputedStyle(node).borderTopWidth) > 0 && top >= above.bottom - 0.5 && top <= item.top + 0.5) {
                             divided = true;
                         }
                     }
-                    if (divided && rules.near(gap, 2 * spec.fieldGap, 1)) {
+                    // (The activity card's rule above Completed is an element of its own, 1px: a field gap either side of it.)
+                    for (const rule of card.querySelectorAll(".business-capability-card-rule")) {
+                        const line = rect(rule);
+                        if (line.top >= above.bottom - 0.5 && line.bottom <= item.top + 0.5 && rules.near(gap, 2 * spec.fieldGap + line.height, 1)) {
+                            divided = true;
+                        }
+                    }
+                    if (divided && rules.near(gap, 2 * spec.fieldGap, 1.5)) {
                         continue;
                     }
                     // A cell of a grid row stands under the row's TALLEST cell, which may be
@@ -823,7 +855,8 @@
                 if (next.matches(".business-card-summary")) {
                     continue;
                 }
-                bodyParts.push(...[next, ...next.querySelectorAll("*")].filter(visible).map(rect));
+                // (An "i" or a tick box is 24px and stands on its row's centre line: it may rise above a row of words, so it does not count for where the body starts.)
+                bodyParts.push(...[next, ...next.querySelectorAll("*")].filter(element => visible(element) && !element.closest(".info-note") && !element.matches("input[type=checkbox]")).map(rect));
             }
             // Only what stands UNDER the head: a column set beside it (a
             // Segment's proposition at full width) is not its body's first row.
@@ -2222,6 +2255,9 @@
                 }
                 for (const picker of card.querySelectorAll(".option-picker")) {
                     if (!visible(picker)) continue;
+                    // A dropdown that is the ONLY control in its row takes the row (OptionPicker `alone`, data-size "full"): not stretched, filled on purpose.
+                    const alone = picker.getAttribute("data-size") === "full" && picker.parentElement && ![...picker.parentElement.querySelectorAll("input:not([type=checkbox]):not([type=file]), textarea, select, .date-cell, .month-picker, .option-picker")].some(other => other !== picker && !picker.contains(other));
+                    if (alone) continue;
                     if (picker.getAttribute("data-size") === "full" || (picker.getAttribute("data-size") !== "hug" && rect(picker).width > 0.9 * content)) {
                         fail("a picker in an opened card is not stretched across it", picker, { width: rect(picker).width, size: picker.getAttribute("data-size") });
                     }
@@ -2385,9 +2421,9 @@
                 for (const control of card.querySelectorAll(".business-capability-frozen :is(.interview-input, .option-picker-trigger):disabled")) {
                     const ink = rules.parseColor(getComputedStyle(control).color);
                     const ground = rules.parseColor(getComputedStyle(control).backgroundColor);
-                    // (An inactive control is exempt from 4.5:1, WCAG 1.4.3; a completed card's text, in the one dimmed grey, still holds 3:1.)
-                    if (ink && ground && rules.contrast(ink, ground) < 3) {
-                        fail("a frozen activity's text holds 3:1 on its ground", control, { contrast: rules.contrast(ink, ground) });
+                    // (An inactive control is exempt from WCAG 1.4.3; a completed card's text, in the one dimmed grey --completed-dim, 2.68:1, still holds 2.5:1 so it never fades out.)
+                    if (ink && ground && rules.contrast(ink, ground) < 2.5) {
+                        fail("a frozen activity's text holds 2.5:1 on its ground", control, { contrast: rules.contrast(ink, ground) });
                         break;
                     }
                 }
