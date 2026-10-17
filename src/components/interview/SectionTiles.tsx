@@ -185,7 +185,22 @@ export function otherColumn(anchor: HTMLElement | null): HTMLElement | null {
         return anchor;
     }
     const columns = Array.from(document.querySelectorAll<HTMLElement>(".answer-columns.business-capability > .business-foundation-card"));
-    return columns.length === 2 && columns.includes(anchor) ? columns[columns[0] === anchor ? 1 : 0] : anchor;
+    if (columns.length === 2 && columns.includes(anchor)) {
+        return columns[columns[0] === anchor ? 1 : 0];
+    }
+    // EVERY OTHER PAGE: the page is divided, inside, into a left and a right half, and a card opens on the half its tile is NOT in: over the frame on the other half
+    // (the Brand System's Ambassador and Style, the Identity System's frames). A page of one frame, or frames one under the other, keeps its frame.
+    const frames = Array.from(document.querySelectorAll<HTMLElement>(".business-foundation-input[data-anchor]"))
+        .filter(frame => !frame.closest(".section-tile-overlay") && frame.getBoundingClientRect().width > 0);
+    if (frames.length < 2 || !frames.includes(anchor)) {
+        return anchor;
+    }
+    const boxes = frames.map(frame => frame.getBoundingClientRect());
+    const middle = (Math.min(...boxes.map(box => box.left)) + Math.max(...boxes.map(box => box.right))) / 2;
+    const here = anchor.getBoundingClientRect();
+    const leftHalf = here.left + here.width / 2 < middle;
+    const across = frames.filter((_frame, at) => (boxes[at].left + boxes[at].width / 2 < middle) !== leftHalf && Math.abs(boxes[at].top - here.top) < here.height);
+    return across[0] ?? anchor;
 }
 
 /** What an incomplete card lacks, as a tooltip: "Missing: Price, Payment Frequency (not counted until it is fixed)". */
