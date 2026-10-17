@@ -25,6 +25,9 @@ export interface PictureBox {
     /** What is drawn on the box: its texts. */
     children: ReactNode;
 
+    /** Its place in a grid whose boxes keep their places (the Colours: a column for each of Primary, Secondary and Neutral, its A over its B). */
+    cell?: { column: number; row: number };
+
     /** What the card behind it still lacks (SystemCardCompleteness.ts): the box glows red, flashing, while the card has something written and is not complete. */
     missing?: readonly string[];
 
@@ -35,13 +38,17 @@ export interface PictureBox {
  * the card holds. Pressing one closes the dialog and opens THAT card floating on its section part of the page (OpenCardContext), as a card tile does; the
  * add box (dashed, last) adds a card and opens it at once.
  */
-export default function PictureBoxes({ items, label, add }: { items: readonly PictureBox[]; label: string; add?: CardBoxAdd }) {
+export default function PictureBoxes({ items, label, add, columns, addCell }: { items: readonly PictureBox[]; label: string; add?: CardBoxAdd; /** The columns the boxes' own places (`cell`) divide the grid into, while the window has the room for them all. */ columns?: number; /** Where the add box stands: the place of the box it will add. */ addCell?: { column: number; row: number } }) {
 
     const openCard = useContext(OpenCardContext);
     useSyncExternalStore(freshCards.subscribe, freshCards.snapshot);
     const grid = useRef<HTMLDivElement | null>(null);
     const side = useMemo(pageTileSide, []);
-    const across = useTilesAcross(grid, side);
+    const fitting = useTilesAcross(grid, side);
+    // Boxes that keep their places need their columns all; a window with room for fewer lets them follow one another.
+    const placed = columns !== undefined && fitting >= columns;
+    const across = placed ? columns : fitting;
+    const rows = Math.max(1, ...items.map(item => item.cell?.row ?? 1));
 
     return (
         <div className="card-boxes picture-boxes">
@@ -53,7 +60,7 @@ export default function PictureBoxes({ items, label, add }: { items: readonly Pi
                 style={{ "--section-tile-size": side + "px", gridTemplateColumns: "repeat(" + across + ", " + side + "px)", maxWidth: "none" } as CSSProperties}
             >
                 {items.map((item, index) => (
-                    <div key={item.id} className={"section-tile-slot" + (item.missing && item.missing.length > 0 && !freshCards.has(item.id) ? " card-tile-incomplete" : "")} style={{ transformOrigin: inwardOrigin(index, items.length, across) }}>
+                    <div key={item.id} className={"section-tile-slot" + (item.missing && item.missing.length > 0 && !freshCards.has(item.id) ? " card-tile-incomplete" : "")} style={{ transformOrigin: placed && item.cell ? inwardOrigin((item.cell.row - 1) * across + item.cell.column - 1, rows * across, across) : inwardOrigin(index, items.length, across), ...(placed && item.cell ? { gridColumn: item.cell.column, gridRow: item.cell.row } : {}) }}>
                         <button
                             type="button"
                             className={"section-tile picture-box" + (item.className ? " " + item.className : "")}
@@ -71,6 +78,8 @@ export default function PictureBoxes({ items, label, add }: { items: readonly Pi
                         label={add.label}
                         disabled={add.disabled}
                         across={across}
+                        column={placed ? addCell?.column : undefined}
+                        row={placed ? addCell?.row : undefined}
                         onAdd={(pointer) => {
                             if (openCard) {
                                 openCard(add.onAdd(), undefined, add, pointer, true);

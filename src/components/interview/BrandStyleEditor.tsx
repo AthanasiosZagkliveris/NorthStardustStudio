@@ -905,19 +905,22 @@ export default function BrandStyleEditor({
 
         // The A colours on the top row, the B colours under them.
         const inPairs = [...colourCards.filter(entry => /A$/.test(entry.slot.label)), ...colourCards.filter(entry => !/A$/.test(entry.slot.label))];
+        // In the dialog every colour keeps its place: a column for each of Primary, Secondary and Neutral, its A over its B (so removing one leaves its place empty).
+        const cellOf = (slotIndex: number) => ({ column: Math.floor(slotIndex / 2) + 1, row: (slotIndex % 2) + 1 });
         const colourBoxes: PictureBox[] = inPairs.map((entry) => {
             const position = colourCards.indexOf(entry);
             const colour = style.colours[entry.index];
             const swatch = normalizeHex(colour.hex);
             return {
                 id: colourId(entry.slot.id),
+                cell: cellOf(entry.index),
                 missing: missingById.get(colourId(entry.slot.id)),
                 label: "Colour " + (position + 1) + ": " + (colour.name.trim() || entry.slot.label),
                 style: swatch ? { background: swatch, color: inkOf(swatch) } : undefined,
                 children: (
                     <>
-                        <span className="picture-box-name">{colour.name.trim() || "Unnamed colour"}</span>
                         <span className="picture-box-line">{entry.slot.label}</span>
+                        <span className="picture-box-name">{colour.name.trim() || "Unnamed colour"}</span>
                         <span className="picture-box-line picture-box-code">{swatch ? swatch.toUpperCase() : "No colour yet"}</span>
                     </>
                 )
@@ -955,14 +958,14 @@ export default function BrandStyleEditor({
             picture: colourCards.length > 0
                 ? (
                     <span className="brand-mosaic" style={{ "--mosaic-across": 3 } as CSSProperties}>
-                        {inPairs.map((entry, at) => <span key={entry.slot.id} data-card={colourId(entry.slot.id)} style={{ transformOrigin: inwardOrigin(at, inPairs.length, 3), background: normalizeHex(style.colours[entry.index].hex) ?? "transparent" }} />)}
+                        {inPairs.map((entry) => <span key={entry.slot.id} data-card={colourId(entry.slot.id)} style={{ transformOrigin: inwardOrigin(cellOf(entry.index).row * 3 - 3 + cellOf(entry.index).column - 1, 6, 3), gridColumn: cellOf(entry.index).column, gridRow: cellOf(entry.index).row, background: normalizeHex(style.colours[entry.index].hex) ?? "transparent" }} />)}
                     </span>
                 )
                 : <span className="section-tile-picture-colour section-tile-picture-colour-empty">No colours yet</span>,
             content: () => (
                 <div className="column-tile-content brand-style" data-rail={rail(0)}>
                     <div className="business-engagement-section-head"><DialogHeading title={BRAND_STYLE_SECTIONS[0]} info={info[0]} noteSize="double" /></div>
-                    <PictureBoxes label="Colours" items={colourBoxes} add={addOf("colours", "colour", "colour")} />
+                    <PictureBoxes label="Colours" items={colourBoxes} add={addOf("colours", "colour", "colour")} columns={3} addCell={(() => { const at = nextFree(BRAND_COLOUR_SLOTS, style.colours); return at === null ? undefined : cellOf(at); })()} />
                 </div>
             )
         };

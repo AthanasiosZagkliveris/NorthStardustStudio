@@ -1212,3 +1212,17 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     border-radius: var(--radius-md);
 
 }
+
+/* THE BLOCKS OF A MASTER TILE show their whole reaction: the picture does not clip the growth and the drop shadow of a block at the tile's rim. In a dialog the blocks
+   stand 6px from the edge of the scrolled body, so there a block throws a shadow that fits that room. */
+.section-tile-picture:has(> .brand-mosaic) {
+
+    overflow: visible;
+
+}
+
+.picture-boxes .section-tile.picture-box:hover {
+
+    box-shadow: var(--box-inset), 0 4px 6px var(--shadow-18);
+
+}
