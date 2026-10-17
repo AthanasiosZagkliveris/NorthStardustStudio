@@ -19,9 +19,8 @@
 
     /* Fills the column rather than sitting at the 2-line
        default: this column holds one long answer and nothing
-       else, so there is no reason to make the user scroll
-       inside a small box. */
-    min-height:320px;
+       else (a Long text: eight lines, as every one). */
+    min-height:calc(8lh + 22px);
 
 }
 

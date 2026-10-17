@@ -248,7 +248,7 @@ export default function FieldRenderer({
 
                     value={String(value ?? "")}
 
-                    rows={6}
+                    rows={8}
 
                     placeholder={field.placeholder}
 

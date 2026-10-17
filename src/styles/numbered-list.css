@@ -280,8 +280,8 @@
    (absolute) so nothing moves on hover. */
 .numbered-list-row.is-action-line .numbered-list-input{
 
-    /* Two text lines. */
-    min-height:70px;
+    /* One text line, as every list line (a longer text grows it). */
+    min-height:0;
 
 }
 

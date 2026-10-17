@@ -394,11 +394,11 @@
             }
         }
 
-        // 5b. Action lines (Customer Channel): at least two text lines high, symbols 24 x 24 and clear of the x.
+        // 5b. Action lines (Customer Channel): at least one text line high, symbols 24 x 24 and clear of the x.
         for (const row of [...document.querySelectorAll(".numbered-list-row.is-action-line:not(.is-collapsed)")].filter(visible)) {
             const field = row.querySelector("textarea");
-            if (field && rect(field).height < 69.5) {
-                fail("action line two lines high", field, { height: rect(field).height });
+            if (field && rect(field).height < 42.5) {
+                fail("action line one line high", field, { height: rect(field).height });
             }
             const x = row.querySelector(".numbered-list-remove");
             for (const symbol of row.querySelectorAll(".action-symbol")) {
@@ -3071,7 +3071,9 @@
         // (Kept inside the window: the card with its Back button under it is held 8px from every edge.)
         const hostBox = box(host);
         const clampedX = hostBox.left <= 8.5 || hostBox.right >= window.innerWidth - 8.5;
-        if (!clampedX && Math.abs(x - centreX) > 2) {
+        // (A card opened from a tile inside a dialog stands over the frame on the other half from that tile: either column's centre is right.)
+        const overEitherColumn = columns.length === 2 && columns.some(column => Math.abs(x - (box(column).left + box(column).width / 2)) <= 2);
+        if (!clampedX && !overEitherColumn && Math.abs(x - centreX) > 2) {
             fail("a floating card is centred horizontally over its anchor", { card: x, anchor: centreX });
         }
         // THE TOP of the first card stands on the top of the first row of tiles of its page's column as the page rests (scrolled up): that row's top now

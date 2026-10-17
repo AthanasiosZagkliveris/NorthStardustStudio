@@ -102,12 +102,6 @@
   "rule": "a dialog's Back button stands at its lower left"
  },
  {
-  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a tile's list stays clear of its + box|Add Legal requirement to Additional legal requirements|Registrations",
-  "example": "quillfield-automation-llc.json",
-  "page": "Identity System › ^2\\. Organization",
-  "rule": "a tile's list stays clear of its + box"
- },
- {
   "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a tile's + box is named 'Add <Item> to <tile>'|Add Legal requirement to Additional legal requirements|Registrations",
   "example": "quillfield-automation-llc.json",
   "page": "Identity System › ^2\\. Organization",
@@ -246,22 +240,10 @@
   "rule": "a picker in an opened card is not stretched across it"
  },
  {
-  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|column-tiles › SPAN|",
-  "example": "quillfield-automation-llc.json",
-  "page": "Brand System › Brand System",
-  "rule": "every text of page 3 is on the type scale (14, 18, 24, 28, 36)"
- },
- {
   "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|a dialog's Back button stands at its lower left|Aesthetics|",
   "example": "quillfield-automation-llc.json",
   "page": "Brand System › Brand System",
   "rule": "a dialog's Back button stands at its lower left"
- },
- {
-  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|column-tiles › SPAN|Aesthetics",
-  "example": "quillfield-automation-llc.json",
-  "page": "Brand System › Brand System",
-  "rule": "every text of page 3 is on the type scale (14, 18, 24, 28, 36)"
  },
  {
   "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|a dialog's Back button stands at its lower left|Body Language|",
@@ -270,22 +252,10 @@
   "rule": "a dialog's Back button stands at its lower left"
  },
  {
-  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|column-tiles › SPAN|Body Language",
-  "example": "quillfield-automation-llc.json",
-  "page": "Brand System › Brand System",
-  "rule": "every text of page 3 is on the type scale (14, 18, 24, 28, 36)"
- },
- {
   "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|a dialog's Back button stands at its lower left|Communication & Voice|",
   "example": "quillfield-automation-llc.json",
   "page": "Brand System › Brand System",
   "rule": "a dialog's Back button stands at its lower left"
- },
- {
-  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|column-tiles › SPAN|Communication & Voice",
-  "example": "quillfield-automation-llc.json",
-  "page": "Brand System › Brand System",
-  "rule": "every text of page 3 is on the type scale (14, 18, 24, 28, 36)"
  },
  {
   "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|a dialog's Back button stands at its lower left|Imprint|",
@@ -300,22 +270,10 @@
   "rule": "row gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|column-tiles › SPAN|Imprint",
-  "example": "quillfield-automation-llc.json",
-  "page": "Brand System › Brand System",
-  "rule": "every text of page 3 is on the type scale (14, 18, 24, 28, 36)"
- },
- {
   "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|a dialog's Back button stands at its lower left|Colours|",
   "example": "quillfield-automation-llc.json",
   "page": "Brand System › Brand System",
   "rule": "a dialog's Back button stands at its lower left"
- },
- {
-  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|column-tiles › SPAN|Colours",
-  "example": "quillfield-automation-llc.json",
-  "page": "Brand System › Brand System",
-  "rule": "every text of page 3 is on the type scale (14, 18, 24, 28, 36)"
  },
  {
   "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|a dialog's Back button stands at its lower left|Typography &Text Hierarchy|",
@@ -328,12 +286,6 @@
   "example": "quillfield-automation-llc.json",
   "page": "Brand System › Brand System",
   "rule": "a card in a dialog has the shared glass ground (translucent, blurred)"
- },
- {
-  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|column-tiles › SPAN|Typography &Text Hierarchy",
-  "example": "quillfield-automation-llc.json",
-  "page": "Brand System › Brand System",
-  "rule": "every text of page 3 is on the type scale (14, 18, 24, 28, 36)"
  },
  {
   "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|picture-box-~|Typography &Text Hierarchy",
@@ -354,40 +306,10 @@
   "rule": "a dialog's Back button stands at its lower left"
  },
  {
-  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|column-tiles › SPAN|Icon & Logo",
-  "example": "quillfield-automation-llc.json",
-  "page": "Brand System › Brand System",
-  "rule": "every text of page 3 is on the type scale (14, 18, 24, 28, 36)"
- },
- {
   "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|a dialog's Back button stands at its lower left|Brand Images|",
   "example": "quillfield-automation-llc.json",
   "page": "Brand System › Brand System",
   "rule": "a dialog's Back button stands at its lower left"
- },
- {
-  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|column-tiles › SPAN|Brand Images",
-  "example": "quillfield-automation-llc.json",
-  "page": "Brand System › Brand System",
-  "rule": "every text of page 3 is on the type scale (14, 18, 24, 28, 36)"
- },
- {
-  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|column-tiles › SPAN|Colours (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Brand System › Brand System",
-  "rule": "every text of page 3 is on the type scale (14, 18, 24, 28, 36)"
- },
- {
-  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|column-tiles › SPAN|Typography &Text Hierarchy (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Brand System › Brand System",
-  "rule": "every text of page 3 is on the type scale (14, 18, 24, 28, 36)"
- },
- {
-  "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|every text of page 3 is on the type scale (14, 18, 24, 28, 36)|column-tiles › SPAN|Brand Images (card added with +)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Brand System › Brand System",
-  "rule": "every text of page 3 is on the type scale (14, 18, 24, 28, 36)"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › ^1\\. Foundation|light|1920|a dialog's Back button stands at its lower left|Segment Description|",
@@ -2706,30 +2628,6 @@
   "rule": "a floating founder's card is the founder card width"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control at its column's left edge|founder-founder-~ › Jordan Ellis salary a month (USD)|Founders (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "control at its column's left edge"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control at its column's left edge|founder-founder-~ › option-picker|Founders (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "control at its column's left edge"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control at its column's left edge|founder-founder-~ › Jordan Ellis working hours a month|Founders (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "control at its column's left edge"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|control at its column's left edge|founder-founder-~ › Jordan Ellis delivery hours a month|Founders (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "control at its column's left edge"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|founder-founder-~ › field-label business-foundation-label|Founders (floating card)",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
@@ -2766,18 +2664,6 @@
   "rule": "a founder's text starts at the card's content edge"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's left cells start at the card's content edge|founder-founder-~ › Jordan Ellis salary a month (USD)|Founders (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a founder's left cells start at the card's content edge"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's left cells start at the card's content edge|founder-founder-~ › Jordan Ellis working hours a month|Founders (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a founder's left cells start at the card's content edge"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's two columns of cells are 12px apart (the right one moved to the left)|founder-founder-~ › option-picker|Founders (floating card)",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
@@ -2790,40 +2676,16 @@
   "rule": "a founder's two columns of cells are 12px apart (the right one moved to the left)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's label is left-aligned to its cell|founder-founder-~ › field-label business-foundation-label|Founders (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a founder's label is left-aligned to its cell"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's label is left-aligned to its cell|founder-founder-~ › Frequencyi|Founders (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a founder's label is left-aligned to its cell"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's Working Hrs and Delivery Hrs labels are two lines, Salary and Frequency one|founder-founder-~ › Working Hoursi|Founders (floating card)",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "a founder's Working Hrs and Delivery Hrs labels are two lines, Salary and Frequency one"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's label is left-aligned to its cell|founder-founder-~ › Working Hoursi|Founders (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a founder's label is left-aligned to its cell"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's Working Hrs and Delivery Hrs labels are two lines, Salary and Frequency one|founder-founder-~ › Delivery Hoursi|Founders (floating card)",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "a founder's Working Hrs and Delivery Hrs labels are two lines, Salary and Frequency one"
- },
- {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a founder's label is left-aligned to its cell|founder-founder-~ › Delivery Hoursi|Founders (floating card)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "a founder's label is left-aligned to its cell"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities (card added with +)",

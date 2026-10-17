@@ -1134,3 +1134,13 @@ main.conversation-content[data-reserve],
     grid-template-columns: max-content minmax(0, 1fr) !important;
 
 }
+
+@container cost-fields (max-width: 599.98px) {
+
+    .floating-card-body .business-founder-open .business-founder-grid > .business-foundation-field > :not(:first-child) {
+
+        width: var(--founder-cell) !important;
+
+    }
+
+}
