@@ -541,7 +541,7 @@
 
     display: grid;
 
-    grid-template-columns: 215px 1fr;
+    grid-template-columns: minmax(0, 215px) minmax(0, 1fr);
 
     column-gap: var(--gap-12);
 
@@ -669,3 +669,13 @@
 
 }
 
+
+/* The Strategic Period's column and its top row never grow past the dialog: their content (the Roadmap's tile) takes what is left. */
+.strategy-period-column,
+.strategy-period-top {
+
+    min-width: 0;
+
+    max-width: 100%;
+
+}

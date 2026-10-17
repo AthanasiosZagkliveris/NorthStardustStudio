@@ -1128,8 +1128,3 @@
 
 }
 
-.strategy-period-top {
-
-    grid-template-columns: minmax(0, 215px) minmax(0, 1fr);
-
-}
