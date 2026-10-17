@@ -17,6 +17,13 @@ import { asLegalEntityValue } from "../../framework/engine/AnswerUtils";
 import { toggles, typeInto } from "../../test/interviewTestUtils";
 import { asFinancialFoundationValue, asFinancialSustainabilityValue, createFundingSource } from "../../framework/engine/FinancialModel";
 
+/** Opens a fold that is closed; where the item starts OPEN (Customer Engagement, the financial pages) it is left as it is. */
+function openFold(toggle: Element) {
+    if (toggle.getAttribute("aria-expanded") !== "true") {
+        fireEvent.click(toggle);
+    }
+}
+
 function Harness({ initial }: { initial: unknown }) {
     const [value, setValue] = useState<unknown>(initial);
     return <FinancialFoundationEditor value={value} onChange={setValue} />;
@@ -27,7 +34,7 @@ afterEach(cleanup);
 
 describe("FinancialFoundationEditor folding", () => {
 
-    it("starts funding sources collapsed and opens a new one", () => {
+    it("starts funding sources open (they are content) and opens a new one", () => {
 
         const initial = {
             ...asFinancialFoundationValue(undefined),
@@ -36,7 +43,7 @@ describe("FinancialFoundationEditor folding", () => {
 
         render(<Harness initial={initial} />);
 
-        toggles(/Source \d+$/).forEach(t => expect(t.getAttribute("aria-expanded")).toBe("false"));
+        toggles(/Source \d+$/).forEach(t => expect(t.getAttribute("aria-expanded")).toBe("true"));
 
         fireEvent.click(screen.getAllByRole("button", { name: /\+ Add/ }).find(b => /source/i.test(b.textContent ?? ""))!);
 
@@ -62,7 +69,7 @@ describe("FinancialSustainabilityEditor folding", () => {
         }]
     };
 
-    it("starts revenue streams collapsed", () => {
+    it("starts revenue streams open", () => {
 
         render(
             <FinancialSustainabilityEditor
@@ -74,7 +81,7 @@ describe("FinancialSustainabilityEditor folding", () => {
 
         const streams = toggles(/Revenue Stream \d+$/);
         expect(streams.length).toBe(2);
-        streams.forEach(t => expect(t.getAttribute("aria-expanded")).toBe("false"));
+        streams.forEach(t => expect(t.getAttribute("aria-expanded")).toBe("true"));
 
     });
 
@@ -94,6 +101,7 @@ describe("FinancialSustainabilityEditor folding", () => {
             />
         );
 
+        toggles(/Revenue Stream \d+$/).forEach(t => fireEvent.click(t));
         expect(screen.getByText(/1\D?200 \/ Client · Monthly/)).toBeTruthy();
         expect(screen.queryByText(/· monthly$/)).toBeNull();
 
@@ -117,6 +125,7 @@ describe("FinancialSustainabilityEditor folding", () => {
             />
         );
 
+        toggles(/Revenue Stream \d+$/).forEach(t => fireEvent.click(t));
         expect(screen.getByText("£1,200 / Client · Monthly")).toBeTruthy();
         expect(screen.getByText("£80 · Monthly")).toBeTruthy();
 
@@ -177,7 +186,7 @@ describe("FinancialSustainabilityEditor number limits", () => {
 
         render(<StreamHarness />);
 
-        fireEvent.click(toggles(/Revenue Stream 1$/)[0]);
+        openFold(toggles(/Revenue Stream 1$/)[0]);
 
         const upfront = screen.getByLabelText(/percent paid at start$/) as HTMLInputElement;
         typeInto(upfront, "101");
@@ -269,7 +278,7 @@ describe("a revenue stream's Begins and Payment and Orders & Delivery", () => {
                 onChange={() => {}}
             />
         );
-        fireEvent.click(toggles(/Revenue Stream 1$/)[0]);
+        openFold(toggles(/Revenue Stream 1$/)[0]);
         return container.querySelector(".financial-stream-band")!;
     }
 

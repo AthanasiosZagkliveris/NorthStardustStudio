@@ -864,7 +864,7 @@ export default function BusinessEngagementEditor({
      * structural sections and per-type folds around them, which are on
      * `expanded` and start closed too (every fold arrow starts closed).
      */
-    const folds = useItemFolds();
+    const folds = useItemFolds(true);
 
     /* A CATEGORY FOLDS ITS CHANNELS AWAY. Keyed by the group's first
        channel, for the same reason the group itself is (see

@@ -307,7 +307,7 @@ export default function FinancialSustainabilityEditor({
      * CLOSED -- see useItemFolds -- unlike the structural sections
      * around them, which stay on `expanded` and start closed too (every fold arrow starts closed).
      */
-    const folds = useItemFolds();
+    const folds = useItemFolds(true);
 
 
     function toggle(key: string) {

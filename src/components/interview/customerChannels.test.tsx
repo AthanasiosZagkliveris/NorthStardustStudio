@@ -28,6 +28,21 @@ import {
     createBusinessSegmentEngagement
 } from "../../framework/engine/AnswerUtils";
 
+/** Opens a fold that is closed; where the item starts OPEN (Customer Engagement, the financial pages) it is left as it is. */
+function openFold(toggle: Element) {
+    if (toggle.getAttribute("aria-expanded") !== "true") {
+        fireEvent.click(toggle);
+    }
+}
+
+/** Opens every fold that starts closed: Customer Engagement's items start OPEN, and then there is nothing to expand (the button says Collapse all). */
+function expandAll(name: string) {
+    const button = screen.queryByRole("button", { name });
+    if (button) {
+        fireEvent.click(button);
+    }
+}
+
 /** The Customer Channels specification (final taxonomy), as one table: each category's channels and stages. */
 const SPEC: [string, string[], string[]][] = [
     ["Social Media", ["Instagram", "Facebook", "LinkedIn", "YouTube", "TikTok", "Pinterest", "X (Twitter)"], ["Discover", "Evaluation", "Support & Follow Up"]],
@@ -160,7 +175,7 @@ describe("the examples, on the new categories", () => {
             return <BusinessEngagementEditor value={value} onChange={setValue} foundation={foundation} />;
         }
         render(<Harness />);
-        fireEvent.click(screen.getByRole("button", { name: "Expand all channel categories" }));
+        expandAll("Expand all channel categories");
         expect(screen.getAllByText("Not usual for this category")).toHaveLength(1);
         // Each category and each channel picker has its "i"; the two rows share one shape.
         expect(screen.getAllByRole("button", { name: "Channel: what this means" })).toHaveLength(2);
@@ -202,7 +217,7 @@ describe("a Segment's shared channel actions, in the table", () => {
             return <BusinessEngagementEditor value={value} onChange={(next) => { saved = next; setValue(next); }} foundation={foundation} />;
         }
         render(<Harness />);
-        fireEvent.click(document.querySelector(".business-channel-category .strategy-box-toggle")!);
+        openFold(document.querySelector(".business-channel-category .strategy-box-toggle")!);
 
         const pinLine = screen.getByLabelText("Discover actions for Subchannel 2 1");
         fireEvent.change(pinLine, { target: { value: "Post" } });
@@ -246,7 +261,7 @@ describe("a Segment's shared channel actions, in the table", () => {
             return <BusinessEngagementEditor value={value} onChange={(next) => { holder.saved = next; setValue(next); }} foundation={foundation} />;
         }
         render(<Harness />);
-        fireEvent.click(document.querySelector(".business-channel-category .strategy-box-toggle")!);
+        openFold(document.querySelector(".business-channel-category .strategy-box-toggle")!);
         return holder;
     }
 
@@ -350,7 +365,7 @@ describe("action markers in the Customer Channel table", () => {
         }
         render(<Harness />);
         for (const toggle of document.querySelectorAll(".business-channel-category .strategy-box-toggle")) {
-            fireEvent.click(toggle);
+            openFold(toggle);
         }
     }
 
@@ -358,7 +373,8 @@ describe("action markers in the Customer Channel table", () => {
     const shared = () => screen.getAllByRole("button", { name: "Shared in 2 places" });
     const resource = () => screen.getAllByRole("button", { name: "Linked to Shopify Basic" });
     const collapsed = (id: string) => rowOf(id).map(row => row.classList.contains("is-collapsed"));
-    const adds = () => document.querySelectorAll(".business-channel-table-wrap .strategy-add-button");
+    // (The Relationship Types' own Add is not the table's: it is open now that the page starts open.)
+    const adds = () => [...document.querySelectorAll(".business-channel-table-wrap .strategy-add-button")].filter(button => !/Relationship Type/.test(button.textContent ?? ""));
 
     it("puts a link symbol on every row of a shared action and a tag symbol on a linked one, each in its own colour, with a line at the cell's edge", () => {
         renderTable();

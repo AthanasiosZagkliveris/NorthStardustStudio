@@ -354,7 +354,7 @@ export default function FinancialFoundationEditor({
      * and categories around them, which are on `expanded` and start
      * closed too (every fold arrow starts closed).
      */
-    const folds = useItemFolds();
+    const folds = useItemFolds(true);
 
     /* The Costs table's filters (by group, by Offering, by nature) and its order. */
     const [costFilter, setCostFilter] = useState({ group: "", offering: "", nature: "", sort: "amount" });

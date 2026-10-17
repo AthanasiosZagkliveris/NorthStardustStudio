@@ -21,6 +21,23 @@ import {
     createBusinessSegmentEngagement
 } from "../../framework/engine/AnswerUtils";
 
+/** Opens a fold that is closed (its button says Maximize); the items of this page start OPEN, and then there is nothing to do. */
+function maximize(name: string | RegExp) {
+    const button = screen.queryAllByRole("button", { name })[0];
+    if (button) {
+        fireEvent.click(button);
+    }
+}
+
+
+/** Opens every fold that starts closed: Customer Engagement's items start OPEN, and then there is nothing to expand (the button says Collapse all). */
+function expandAll(name: string) {
+    const button = screen.queryByRole("button", { name });
+    if (button) {
+        fireEvent.click(button);
+    }
+}
+
 /**
  * A Segment with two named Offerings, and one Channel that carries
  * both of them at the first Journey Stage -- so both Offerings get
@@ -82,7 +99,7 @@ afterEach(cleanup);
 
 describe("BusinessEngagementEditor folding", () => {
 
-    it("folds per-Offering blocks but keeps the page sections open", () => {
+    it("starts the per-Offering blocks and the page sections open (they are content)", () => {
 
         render(<Harness />);
 
@@ -91,23 +108,23 @@ describe("BusinessEngagementEditor folding", () => {
         const sections = all.filter(b => /Customer Channel|Customer Relationship/.test(b.getAttribute("aria-label") ?? ""));
 
         expect(offeringBlocks.length).toBeGreaterThan(0);
-        offeringBlocks.forEach(b => expect(b.getAttribute("aria-expanded")).toBe("false"));
+        offeringBlocks.forEach(b => expect(b.getAttribute("aria-expanded")).toBe("true"));
         sections.forEach(b => expect(b.getAttribute("aria-expanded")).toBe("true"));
 
     });
 
     // "2. Customer Relationship" has one Expand all, in its head --
     // the second one over the relationship table is gone.
-    it("has a single Expand all for Customer Relationship", () => {
+    it("has a single Collapse all for Customer Relationship (the items start open)", () => {
 
         render(<Harness />);
 
-        expect(screen.getAllByRole("button", { name: "Expand all offerings" })).toHaveLength(1);
+        expect(screen.getAllByRole("button", { name: "Collapse all offerings" })).toHaveLength(1);
         expect(screen.queryByRole("button", { name: /demand and conversion blocks/ })).toBeNull();
 
     });
 
-    it("starts Channel Categories collapsed, with a subchannel count", () => {
+    it("starts Channel Categories open, with a subchannel count", () => {
 
         render(<Harness />);
 
@@ -116,25 +133,19 @@ describe("BusinessEngagementEditor folding", () => {
         expect(categories).toHaveLength(2);
         categories.forEach(b => {
             expect(b.classList.contains("strategy-box-toggle")).toBe(true);
-            expect(b.getAttribute("aria-expanded")).toBe("false");
+            expect(b.getAttribute("aria-expanded")).toBe("true");
         });
 
-        expect(screen.getByText("1 subchannel")).toBeTruthy();
-        expect(screen.getByText("2 subchannels")).toBeTruthy();
-
-        // On its own line below the category select, not squeezed
-        // into the row beside it.
-        const count = screen.getByText("2 subchannels");
-        expect(count.closest(".business-channel-category")).toBeNull();
-        expect(count.previousElementSibling?.classList.contains("business-channel-category")).toBe(true);
+        // (The subchannel count is the summary of a FOLDED category: an open one shows its channels instead.)
+        expect(screen.queryByText("1 subchannel")).toBeNull();
 
     });
 
-    it("opens every Channel Category with Expand all channel categories", () => {
+    it("folds and opens every Channel Category with Collapse all and Expand all channel categories", () => {
 
         render(<Harness />);
 
-        fireEvent.click(screen.getByRole("button", { name: "Expand all channel categories" }));
+        expandAll("Expand all channel categories");
 
         screen.getAllByRole("button", { name: /^(Maximize|Minimize) (Website|Email)$/ })
             .forEach(b => expect(b.getAttribute("aria-expanded")).toBe("true"));
@@ -220,7 +231,7 @@ describe("BusinessEngagementEditor number limits", () => {
         render(<DemandHarness />);
 
         // Expand all cascades into the Demand & Conversion blocks.
-        fireEvent.click(screen.getByRole("button", { name: "Expand all offerings" }));
+        expandAll("Expand all offerings");
 
         const buy = screen.getByLabelText("Buy (%), customer source 1 for Audit") as HTMLInputElement;
         ["1", "15", "150"].forEach(value => fireEvent.change(buy, { target: { value } }));
@@ -265,7 +276,7 @@ describe("BusinessEngagementEditor formula references", () => {
         render(<DemandHarness />);
 
         // Expand all cascades into the Demand & Conversion blocks.
-        fireEvent.click(screen.getByRole("button", { name: "Expand all offerings" }));
+        expandAll("Expand all offerings");
 
         fireEvent.click(screen.getByRole("button", { name: "Sales funnel result: what this means" }));
 
@@ -317,7 +328,7 @@ describe("BusinessEngagementEditor offering picker", () => {
 
         render(<PickHarness />);
 
-        fireEvent.click(screen.getByRole("button", { name: "Maximize Website" }));
+        maximize("Maximize Website");
         fireEvent.click(screen.getByRole("button", { name: /^Offering 1 for Subchannel \d+:/ }));
 
         const options = screen.getAllByRole("option").map(option => option.textContent);
@@ -337,7 +348,7 @@ describe("BusinessEngagementEditor offering picker", () => {
 
         render(<Harness />);
 
-        fireEvent.click(screen.getByRole("button", { name: "Maximize Website" }));
+        maximize("Maximize Website");
 
         // Two carried: each can go.
         expect(screen.getAllByRole("button", { name: "Remove this Offering" })).toHaveLength(2);
@@ -354,7 +365,7 @@ describe("BusinessEngagementEditor offering picker", () => {
 
         render(<Harness />);
 
-        fireEvent.click(screen.getByRole("button", { name: "Maximize Email" }));
+        maximize("Maximize Email");
 
         expect(screen.getAllByRole("button", { name: /^Offering 1 for Subchannel \d+: All Offerings$/ }).length).toBeGreaterThan(0);
 
@@ -383,7 +394,11 @@ describe("BusinessEngagementEditor Engagement Strategy (2. Customer Relationship
 
     function openAudit() {
         const view = render(<StrategyHarness />);
-        fireEvent.click(screen.getAllByRole("button", { name: /^Maximize (?!Demand).*Audit/ })[0]);
+        // (The Offering blocks start open.)
+        const closed = screen.queryAllByRole("button", { name: /^Maximize (?!Demand).*Audit/ })[0];
+        if (closed) {
+            fireEvent.click(closed);
+        }
         return view;
     }
 
