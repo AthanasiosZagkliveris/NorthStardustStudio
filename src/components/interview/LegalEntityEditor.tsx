@@ -2753,12 +2753,11 @@ export default function LegalEntityEditor({
                 content: () => dialogOf(5, INFO.expenses, <CardBoxes items={expenseBoxes} label="Expenses" what="Expense" add={addOf("expense")} />)
             }
         ];
+        if (cardsOnly) {
+            return <SectionTiles label={LEGAL_ENTITY_SECTIONS.join(", ")} hue={workHue("define")} tiles={tiles} incomplete={missingById} cardsOnly />;
+        }
         return (
-            <div
-                className={cardsOnly ? "business-foundation business-engagement legal-entity-cards-only" : "answer-columns business-foundation business-engagement business-capability column-tiles-page"}
-                style={{ "--answer-column-count": 1, ...(cardsOnly ? { display: "none" } : {}) } as CSSProperties}
-                aria-hidden={cardsOnly ? true : undefined}
-            >
+            <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
                 <div
                     className="business-foundation-input business-foundation-card business-engagement-input"
                     data-anchor="column-tiles"

@@ -1099,3 +1099,31 @@ main.conversation-content[data-reserve],
 
 }
 
+
+/* A FOUNDER'S FLOATING CARD keeps its pairs side by side whatever its width (Salary | Frequency, Working Hours | Delivery Hours): where the card cannot hold each label beside its cell, the label stands over its cell (6px), as every card's pair of fields does. */
+@container cost-fields (max-width: 599.98px) {
+
+    .floating-card-body .business-founder-open .business-founder-grid {
+
+        grid-template-columns: repeat(2, minmax(0, max-content)) !important;
+        column-gap: calc(var(--space-cell) * 2);
+        row-gap: var(--space-field);
+
+    }
+
+    .floating-card-body .business-founder-open .business-founder-grid > .business-foundation-field {
+
+        display: flex !important;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-label);
+
+    }
+
+    .floating-card-body .business-founder-open .business-founder-grid > .business-foundation-field > :first-child {
+
+        margin-left: 0 !important;
+
+    }
+
+}

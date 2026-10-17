@@ -184,11 +184,7 @@ export function otherColumn(anchor: HTMLElement | null): HTMLElement | null {
     if (!anchor) {
         return anchor;
     }
-    const columns = Array.from(document.querySelectorAll<HTMLElement>(".answer-columns.business-capability > .business-foundation-card")).filter(column => !column.closest(".legal-entity-cards-only"));
-    // A card called from a page that has no tile of its own for it (a legal card on 3. Infrastructure & Capability: its tiles are not drawn): over the page's second column.
-    if (columns.length === 2 && anchor.closest(".legal-entity-cards-only")) {
-        return columns[1];
-    }
+    const columns = Array.from(document.querySelectorAll<HTMLElement>(".answer-columns.business-capability > .business-foundation-card"));
     if (columns.length === 2 && columns.includes(anchor)) {
         return columns[columns[0] === anchor ? 1 : 0];
     }
@@ -666,9 +662,14 @@ export default function SectionTiles({
 
     small = false,
 
-    trailing
+    trailing,
+
+    cardsOnly = false
 
 }: {
+
+    /** No tiles are drawn: only their dialogs and floating cards, called for from elsewhere (a legal card on 3. Infrastructure & Capability). */
+    cardsOnly?: boolean;
 
     /** Something that stands in the grid after the last tile, as a tile does (the Strategic Period's "Add Card"). */
     trailing?: ReactNode;
@@ -854,7 +855,8 @@ export default function SectionTiles({
             if (!found) {
                 return;
             }
-            const from = opener.current ?? document.body;
+            // (Where the tiles are not drawn, the card is called from the page's first column: it opens over the second.)
+            const from = opener.current ?? (cardsOnly ? document.querySelector<HTMLElement>(".answer-columns.business-capability > .business-foundation-card") : null) ?? document.body;
             if (request.card && found.cardFor) {
                 // (Over the other column of the tile that holds it, where it stands on the page: at the one level of every card.)
                 openFloating(found, request.card, document.querySelector<HTMLElement>(`.section-tile[data-tile="${CSS.escape(found.id)}"]`) ?? from, "column", request.fresh === true, false, true);
@@ -1007,6 +1009,7 @@ export default function SectionTiles({
 
             {/* The box is the size container the tiles measure (a third of its width, less
                 the gaps); the group inside is the grid. */}
+            {!cardsOnly && (
             <div ref={quadBox} className={"section-tiles-box" + (big ? " section-tiles-quad" : "") + (small ? " section-tiles-small" : "")}>
             <div
                 className="section-tiles"
@@ -1053,6 +1056,7 @@ export default function SectionTiles({
                 {trailing}
             </div>
             </div>
+            )}
 
             {open && (
                 <TileDialog
