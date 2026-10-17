@@ -35,3 +35,8 @@
     border-color: transparent !important;
     box-shadow: none !important;
 }
+
+/* The box that draws the ring has the corners of the cell inside it, so the ring is round as every cell's is. */
+.date-cell-field {
+    border-radius: var(--radius-md);
+}
