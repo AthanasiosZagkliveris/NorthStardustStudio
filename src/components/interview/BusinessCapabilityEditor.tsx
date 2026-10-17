@@ -1570,7 +1570,7 @@ export default function BusinessCapabilityEditor({
                 })}
 
                 {((type && group) || viaWorkspace) && (
-                    <BusinessField label="Name" side>
+                    <BusinessField label={noun} side>
                         <div className="business-capability-performers">
                             <div className="business-capability-performer">
                                 <OptionPicker
