@@ -1712,6 +1712,19 @@ function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLEle
         return () => document.removeEventListener("keydown", onKeyDown);
     }, [target]);
 
+    // Only the topmost layer shows its arrows and rail: the one under it stands at the same place, and its bullets would overlap the top one's.
+    const [topmost, setTopmost] = useState(true);
+    useEffect(() => {
+        const check = () => {
+            const layers = document.querySelectorAll("[data-carousel]");
+            setTopmost(layers.length === 0 || !!layers[layers.length - 1]?.contains(target.current));
+        };
+        check();
+        const observer = typeof MutationObserver === "undefined" ? null : new MutationObserver(check);
+        observer?.observe(document.body, { childList: true });
+        return () => observer?.disconnect();
+    }, [target]);
+
     // THE TAB STANDS AT THE TOP OF ITS LAYER, level with the layer's title, and never hides the arrow: where the arrow stands in the tab's column, the bullets that would lie under it follow below it (a gap the arrow's size is left in the list).
     const railRef = useRef<HTMLElement | null>(null);
     const [gap, setGap] = useState<{ index: number; size: number } | null>(null);
@@ -1731,7 +1744,7 @@ function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLEle
             window.removeEventListener("resize", again);
             observer?.disconnect();
         };
-    }, [at?.edge, at?.tab]);
+    }, [at?.edge, at?.tab, topmost]);
     const railTop = at?.tab ? at.titleTop : null;
     const arrowTop = at?.top ?? 0;
     useLayoutEffect(() => {
@@ -1760,20 +1773,7 @@ function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLEle
         setGap(previous => previous?.index === next?.index && Math.abs((previous?.size ?? 0) - (next?.size ?? 0)) < 0.5 ? previous : next);
         setArrowOnTab(index >= 0 && naturalTop < to);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [railTop, arrowTop, itemCount, at?.edge, back, gap?.index, gap?.size, railSize]);
-
-    // Only the topmost layer shows its arrows and rail: the one under it stands at the same place, and its bullets would overlap the top one's.
-    const [topmost, setTopmost] = useState(true);
-    useEffect(() => {
-        const check = () => {
-            const layers = document.querySelectorAll("[data-carousel]");
-            setTopmost(layers.length === 0 || !!layers[layers.length - 1]?.contains(target.current));
-        };
-        check();
-        const observer = typeof MutationObserver === "undefined" ? null : new MutationObserver(check);
-        observer?.observe(document.body, { childList: true });
-        return () => observer?.disconnect();
-    }, [target]);
+    }, [railTop, arrowTop, itemCount, at?.edge, back, gap?.index, gap?.size, railSize, topmost]);
 
     if (!at || !topmost) {
         return null;
