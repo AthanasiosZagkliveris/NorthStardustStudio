@@ -1226,3 +1226,31 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     box-shadow: var(--box-inset), 0 4px 6px var(--shadow-18);
 
 }
+
+/* A NUMBERED TITLE (a card tile's "2. Adobe Creative Cloud"): the order number stays where it stands; a longer text is cut after it and slides behind it. */
+.section-tile-title:has(> .section-tile-title-number) {
+
+    display: flex;
+    justify-content: center;
+
+}
+
+.section-tile-title-number {
+
+    flex: none;
+
+    white-space: pre;
+
+}
+
+.section-tile-title-text {
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+
+}

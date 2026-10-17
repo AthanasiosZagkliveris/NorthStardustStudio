@@ -528,10 +528,11 @@ describe("the round of small controls: the x, the Back button, the lift, the rin
         expect(edges).toMatch(/calc\(28% \* var\(--hover-lift\)\)/);
     });
 
-    it("rings a focused cell in the dark theme with a clean white, one token", () => {
-        expect(global).toMatch(/--focus-ring-ink: var\(--line-primary\);/);
-        expect(edges).toMatch(/:root\[data-theme="dark"\] \{[^}]*--focus-ring-ink: rgba\(255, 255, 255, 0\.9\);/);
-        expect(edges).toMatch(/:root\[data-theme="dark"\] [^{]*:focus \{[^}]*border-color: var\(--focus-ring-ink\) !important;[^}]*0 0 0 1px var\(--focus-ring-ink\)/);
+    it("rings a focused cell one way in every mode: the primary edge and a 3px ring at 35% (cell-focus.css)", () => {
+        const ring = stylesheet("cell-focus.css");
+        expect(ring).toContain("border-color: var(--line-primary) !important;");
+        expect(ring).toContain("box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent) !important;");
+        expect(edges).not.toMatch(/:root\[data-theme="dark"\] [^{]*:focus \{/);
     });
 
     it("right-aligns the numbers of page 3 and leaves the text inputs", () => {

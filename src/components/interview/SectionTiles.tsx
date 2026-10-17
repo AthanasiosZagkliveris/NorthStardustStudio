@@ -1319,7 +1319,8 @@ export function TileFace({ title, empty, items, glyph = true, alerts, marks }: {
  */
 export function useTitleSlide(ref: RefObject<HTMLElement | null>) {
     useEffect(() => {
-        const node = ref.current;
+        // (A numbered title slides its TEXT: the order number stays where it stands and the text goes behind it.)
+        const node = ref.current?.querySelector<HTMLElement>(".section-tile-title-text") ?? ref.current;
         const host = node?.closest<HTMLElement>(".section-tile-slot") ?? node?.closest<HTMLElement>("button, .section-tile");
         if (!node || !host || typeof requestAnimationFrame === "undefined") {
             return;
@@ -1418,7 +1419,12 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
         observer.observe(tile);
         return () => observer.disconnect();
     });
-    return <span ref={title} className={"section-tile-title" + (className ? " " + className : "")}>{children}</span>;
+    const numbered = typeof children === "string" ? /^(\d+\.)\s([\s\S]*)$/.exec(children) : null;
+    return (
+        <span ref={title} className={"section-tile-title" + (className ? " " + className : "")}>
+            {numbered ? <><span className="section-tile-title-number">{numbered[1] + " "}</span><span className="section-tile-title-text">{numbered[2]}</span></> : children}
+        </span>
+    );
 }
 
 /**
