@@ -1,6 +1,6 @@
 # Layout rules: the Foundation pages' rulebook
 
-Reconciled on 2026-10-14: one rule in one place. Sections 1 to 7 are the base rules (tokens, anatomy, sizes, alignment, tiles and dialogs, interactions, exceptions); sections 9 to 16 hold what the later rounds added, by topic; section 17 is the check. Rules that a later round replaced were moved, word for word, to Appendix A; Appendix B lists what is still to be settled. Where a rule gives a number and the table "Values as built" (section 8) gives another, the table is right: it is read from the code, which the tests check.
+Reconciled on 2026-10-14: one rule in one place. Sections 1 to 7 are the base rules (tokens, anatomy, sizes, alignment, tiles and dialogs, interactions, exceptions); sections 9 to 16 hold what the later rounds added, by topic; section 17 is the check. Rules that a later round replaced were moved, word for word, to Appendix A; Appendix B lists what is still to be settled. Where a rule gives a number and the table "Values as built" (section 8, which stands after section 2 in the file) gives another, the table is right: it is read from the code, which the tests check.
 
 The measured rules every card, field and list on the Foundation pages
 (Identity, Brand, Business and Strategy Systems) follows, the tokens and
@@ -334,6 +334,12 @@ It must list none.
 11. **An incomplete card lights its tile in every system** (`SystemCardCompleteness.ts`, `CardCompleteness.ts`): a card with something written but not what it needs makes its tile flash red; a card just made and still open, or one holding nothing, is not flagged.
 12. **While a payment plan is ticked** the card has no Start or End date: the plan's dates are the card's (the earliest and the latest payment); an Instalments plan writes its first and last dates and the ones between follow.
 13. **The active (typed-in) text holder shows one effect**: the primary edge and a ring of 3px at 35% (a text box, a list's box, a date or month cell, a note, a settings field, a name in a frame).
+14. **A completed card is an ordinary card in four greys.** The ground (`--bg-completed-card`), the cells' ground (`--bg-completed-ground`), the line (`--line-completed`) and the text (`--completed-dim`, the card's own ink only on the Completed row). Its cells keep the shapes of an open card (recessed text cells, pickers with their chevron, the "+", x and calendar buttons, the tick boxes); "cannot be changed" is told by the cursor, not by flattening them. This is the one case where a disabled cell is not flat.
+15. **What stands with a card takes the card's tone.** The tab, its bullets, the carousel arrows and the halo of the tile that opened it are measured from the open card (its ground, its edge, its ink); a completed card gives them the Completed greys (`COMPLETED_CARD` in `SectionTiles.tsx`). A new kind of companion is drawn from the same measure, never from the tile's hue.
+16. **The halo and the underline follow the card.** While the arrows step through cards, the halo is on the tile or box that holds the card now shown (a founder's card is held as `founder-` and its id: both are looked for), and the line of the tile's list that opens it is bold and underlined; a card with no line of its own leaves them where the card was opened from.
+17. **"No category" opens a card.** The line of a tile's list that names the cards still to be filed opens the first of them, floating; the arrows go through the others.
+18. **A divider line runs from edge to edge of its card**: across every column of the card's grid, the x column too (`.business-capability-card-rule`).
+19. **A milestone's name cell ends where every cell ends; its "+" (or x) stands in the x's column**, level with the head's x. A milestone with no date of its own takes the card's: the first the Start date, the last the End date, the ones between spread evenly (`paymentPlanLines`); a date typed stays.
 
 ### Grids and lists
 
@@ -1162,7 +1168,7 @@ drawn only in a dialog that its tile opens.
 
 | Kind | Hover | Focus | Disabled |
 |---|---|---|---|
-| Text box (input, textarea) | primary edge + soft glow (18%) | primary edge + stronger ring (28%) | muted, no reaction |
+| Text box (input, textarea) | primary edge + soft glow (18%) | primary edge + ring (3px at 35%, the one effect of every text holder) | muted, no reaction (a completed card's cells keep their shape: rule 14) |
 | Text holder (an image's name and description, one box) | as a text box, on the holder | as a text box | as a text box |
 | Picker | as a text box | as a text box | as a text box |
 | Tick box | its words underlined, the box's glow ring (the field's, 4px at 18%, no wire; whether or not the words are in its label: `.brand-tick` too); ticked, the box is flat (no inner light or shade) and keeps the glow | focus ring | not-allowed cursor |
@@ -1174,10 +1180,6 @@ drawn only in a dialog that its tile opens.
 | Funnel (founder's Responsibilities) | the "+" box's swap | outline | n/a |
 | The tile or box that opened the open card | a steady halo in the card's tint (not flashing); a link that opened it is bold | - | n/a |
 
-A tick box toggles only from the box itself or its words: its label is as
-wide as they are (`width: fit-content`), never the empty space beside
-them; Space toggles the focused box. A tick's "i" stands outside its label,
-so reading the note never toggles the tick.
 | Add button | its ground | focus ring | muted |
 | x (remove) | filled with the danger red (`--x-red`), no stroke, the X in the card's ground (`--x-ground`); at rest transparent (no fill), a 2px red stroke and a red X; the same on every x | outline, the focus ring ink, 2px, 2px off | muted |
 | Fold arrow (`FoldArrow`, 36px) | its ground and the card-line edge -- **not** a founder's Responsibilities / Completed arrows, which have none | focus ring | n/a |
@@ -1189,6 +1191,11 @@ so reading the note never toggles the tick.
 | Line under a parent's Status ("Open Activity “...”", an alarm when the child holds details) | bold (a text-shadow, nothing moves) while the pointer is on the Status cell or on the line; its link underlined | outline on a link | n/a |
 | A child's name (the link to its parent) | underlined and bolder | a 2px outline | n/a |
 | Label arrow (beside a label or a card title) | the outline triangle fills | the same fill (no ring) | n/a |
+
+A tick box toggles only from the box itself or its words: its label is as
+wide as they are (`width: fit-content`), never the empty space beside
+them; Space toggles the focused box. A tick's "i" stands outside its label,
+so reading the note never toggles the tick.
 
 The check hovers up to three of each kind on every page and fails a kind
 that does not react as its row says; it hovers up to twelve x and fails

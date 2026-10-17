@@ -187,8 +187,6 @@
     grid-template-columns: minmax(0, 1fr) var(--size-box-button);
     column-gap: var(--gap-12);
 
-    margin-right: calc(-1 * (var(--size-box-button) + var(--gap-12)));
-
 }
 
 /* A registration number linked to an expense: its link symbol stands at the right of the number's cell, inside it; the cell's text gives way (scales inward). */

@@ -15,9 +15,9 @@ What the app does when a part of it is pointed at, pressed, focused, ticked, ope
 | R7 | **Bold** (titles and labels) | The letters thicken, nothing moves (the bold's letter spacing is already there). | Tile titles, buttons, the label of a tick option. |
 | R8 | **Grow** (tiles and blocks) | A tile grows about its aimed corner, edge or centre, above its neighbours, a drop shadow growing with it; a colour or image block grows 10% inwards. | Page tiles, boxes of a dialog, the blocks of a master tile. |
 | R9 | **Grow 20%** (the link symbol) | The symbol is 20% larger about its centre; the box it stands in does not change. | Nothing moves. |
-| R10 | **Halo** (the tile that opened a card) | A steady ring 2px and a glow in the opened card's tint round the tile or box that opened it, while the card is open; a link that opened it is bold. | Not flashing: the flashing glow is only the error. |
+| R10 | **Halo** (the tile that opened a card) | A steady ring 2px and a glow in the opened card's tint (the Completed grey for a completed card) round the tile or box that holds the card now shown, while the card is open; the list line that opens it is bold and underlined. It follows the card when the arrows step. | Not flashing: the flashing glow is only the error. |
 | R11 | **Error glow** (an incomplete card) | The tile flashes a red glow; its line in a tile's list is red, bold and flashing and comes first. | A card just made and still open is not flagged. |
-| R12 | **Deactivated** (disabled, frozen, completed) | Flat, no reaction, the Completed grey for ground, ink and links; buttons and ticks at 55%; the not-allowed cursor. | A completed card is grey wherever it floats; only its Completed row is live. |
+| R12 | **Deactivated** (disabled, frozen, completed) | Flat, no reaction, the muted ground; the not-allowed cursor. | A **completed card** is the exception: it keeps the shapes of an open card in four greys only (card ground, cells' ground, line, text), its tab, bullets, arrows and halo grey too; only its Completed row is live. |
 | R13 | **Close** (a card that pops up) | A click anywhere outside it, and Escape, close it. | Calendars, the colour picker, a dropdown's list, the funnel, notes, the tile views. |
 
 ## 2. By component
@@ -56,7 +56,7 @@ What the app does when a part of it is pointed at, pressed, focused, ticked, ope
 |---|---|
 | A card just made (still open) | No error indicator (R11 is held back until it is closed). |
 | An incomplete card | R11 on its tile and its line in the tile's list. |
-| A completed activity | The card is grey (R12) wherever it floats; its fields flat, its labels, links, buttons and boxes grey; the Completed row is live. |
+| A completed activity | The card is grey (R12) wherever it floats, in four greys; its cells keep their shapes; the Completed row is live. |
 | A card that opened another | The tile or box that opened the open card has R10. |
 | A card that is open | R13 for what pops up inside it; Escape closes the popup first, then the card. |
 | A section with a fold arrow | Starts closed (the fold arrow shows the way). |

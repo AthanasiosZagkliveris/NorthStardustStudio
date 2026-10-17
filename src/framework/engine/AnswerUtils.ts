@@ -6861,6 +6861,15 @@ export function paymentPlanLines(plan: BusinessPaymentPlan, startDate: string, e
         const dated = instalmentLines(count, first, last);
         return plan.lines.map((line, at) => ({ ...line, date: dated[at].date }));
     }
+    if (plan.type === "milestones" && plan.lines.length > 0) {
+        // Milestones with no date of their own take the card's: the first the Start date, the last the End date, the ones between spread evenly.
+        const count = plan.lines.length;
+        const first = plan.lines[0].date || startDate;
+        const last = plan.lines[count - 1].date || endDate || first;
+        const spread = instalmentLines(count, first, last);
+        return plan.lines.map((line, at) => ({ ...line, date: line.date || spread[at].date }));
+    }
+
     return plan.type === "deposit-balance"
         ? plan.lines.slice(0, 2).map((line, at) => ({ ...line, date: line.date || (at === 0 ? startDate : endDate) }))
         : plan.lines;

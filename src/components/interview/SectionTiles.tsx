@@ -895,16 +895,21 @@ export default function SectionTiles({
             return;
         }
         // The tile or box that holds the card now open (it follows the card when the arrows step to another): found by the card's id; else the control that opened it.
-        const key = floatingId ? CSS.escape(floatingId) : "";
-        const box = key ? document.querySelector<HTMLElement>(`[data-card-box="${key}"]`) : null;
-        const block = key ? document.querySelector<HTMLElement>(`.section-tile [data-card="${key}"]`) : null;
-        const tile = box ?? openerEl.closest<HTMLElement>(".section-tile") ?? openerEl.closest(".section-tile-slot")?.querySelector<HTMLElement>(".section-tile") ?? null;
+        // (A founder's card is held as "founder-" and its id; its box and its line are named by the id alone.)
+        const keys = floatingId ? [floatingId, floatingId.replace(/^founder-/, "")].map(id => CSS.escape(id)) : [];
+        const find = (build: (key: string) => string) => keys.map(key => document.querySelector<HTMLElement>(build(key))).find(element => !!element) ?? null;
+        const box = find(key => `[data-card-box="${key}"]`);
+        const block = find(key => `.section-tile [data-card="${key}"]`);
+        // The line of a tile's list that opens this card: the underline moves with the card as the arrows step.
+        const line = find(key => `.section-tile [data-link="${key}"]`);
+        const own = openerEl.closest<HTMLElement>(".section-tile") ?? openerEl.closest(".section-tile-slot")?.querySelector<HTMLElement>(".section-tile") ?? null;
+        const tile = box ?? line?.closest<HTMLElement>(".section-tile") ?? own;
         const marked = [tile, block].filter((element): element is HTMLElement => !!element);
         marked.forEach(element => {
             element.setAttribute("data-opener-tile", "");
             element.style.setProperty("--opener-hue", String(openerHue));
         });
-        const link = box ? null : openerEl;
+        const link = box ? null : line ?? openerEl;
         link?.setAttribute("data-opener", "");
         return () => {
             marked.forEach(element => {
@@ -1588,6 +1593,9 @@ function translucentColour(colour: string): boolean {
     return /\/\s*0?\.\d+\)$|rgba\([^)]*,\s*0?\.\d+\)$/.test(colour);
 }
 
+/** What marks a completed activity's card. */
+const COMPLETED_CARD = ".business-capability-activity-completed";
+
 function tabColours(node: HTMLElement): { bg: string; edge: string; ink: string } | null {
     const opaque = (colour: string) => colour !== "" && colour !== "transparent" && !/rgba\([^)]*,\s*0\)$/.test(colour);
     // The layer's own ground: the first element, from the layer inward (a few levels), that has an opaque background and is as wide as a card -- a dialog's panel, a card's box.
@@ -1602,6 +1610,11 @@ function tabColours(node: HTMLElement): { bg: string; edge: string; ink: string 
         return null;
     }
     const style = getComputedStyle(ground);
+    // A completed card is grey, and so is what stands with it (the tab, its bullets, the arrows): the Completed line, whatever hue the tile gives its neighbours.
+    if (node.querySelector(COMPLETED_CARD)) {
+        const root = getComputedStyle(document.documentElement);
+        return { bg: style.backgroundColor, edge: root.getPropertyValue("--line-completed").trim() || style.borderTopColor, ink: root.getPropertyValue("--text-completed-ink").trim() || style.color };
+    }
     // (A hairline that is a translucent light -- a card's inner light -- is no colour to draw a tab or its bullets in: the layer's own line accent is, as a dialog's tab has it.)
     const translucent = /\/\s*0?\.\d+\)$|rgba\([^)]*,\s*0?\.\d+\)$/.test(style.borderTopColor);
     return { bg: style.backgroundColor, edge: opaque(style.borderTopColor) && !translucent && parseFloat(style.borderTopWidth) > 0 ? style.borderTopColor : "hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent))", ink: style.color };
@@ -1646,7 +1659,7 @@ function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLEle
         const left = Math.max(4, box.left - CAROUSEL_ARROW_GAP - CAROUSEL_ARROW_WIDTH);
         const right = Math.max(4, window.innerWidth - box.right - CAROUSEL_ARROW_GAP - CAROUSEL_ARROW_WIDTH);
         // (The tab's colours walk the layer's boxes and read their styles: kept until the layer is resized, the reading mode changes or the layer is another, not read again at every render -- typing in a card renders it at every key.)
-        const key = modeCount + ":" + measureTick.current + ":" + Math.round(box.width) + ":" + node.className;
+        const key = (node.querySelector(COMPLETED_CARD) ? "done:" : "") + modeCount + ":" + measureTick.current + ":" + Math.round(box.width) + ":" + node.className;
         if (tabCache.current?.key !== key) {
             tabCache.current = { key, value: tabColours(node) };
         }
@@ -1770,6 +1783,7 @@ function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLEle
             <button
                 type="button"
                 className={"page-arrow carousel-arrow" + (arrowOnTab && at.side === "left" ? " carousel-arrow-on-tab" : "")}
+                data-completed={target.current?.querySelector(COMPLETED_CARD) ? "" : undefined}
                 data-direction="previous"
                 aria-label={"Previous " + step.what}
                 title={"Previous " + step.what + " (←)"}
@@ -1781,6 +1795,7 @@ function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLEle
             <button
                 type="button"
                 className={"page-arrow carousel-arrow" + (arrowOnTab && at.side === "right" ? " carousel-arrow-on-tab" : "")}
+                data-completed={target.current?.querySelector(COMPLETED_CARD) ? "" : undefined}
                 data-direction="next"
                 aria-label={"Next " + step.what}
                 title={"Next " + step.what + " (→)"}

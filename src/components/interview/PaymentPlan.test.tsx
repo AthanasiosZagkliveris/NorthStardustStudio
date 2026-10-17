@@ -57,7 +57,10 @@ describe("the rules of a payment plan", () => {
         expect(incomplete(plan("", []))).toBe(true);
         expect(incomplete(plan("milestones", [line("40", "2027-01-01"), line("60", "2027-02-01")]))).toBe(false);
         expect(incomplete(plan("milestones", [line("40", "2027-01-01"), line("50", "2027-02-01")]))).toBe(true);
-        expect(incomplete(plan("milestones", [line("40", "2027-01-01"), line("60")]))).toBe(true);
+        // (A milestone with no date takes the card's: the first the Start date, the last the End date -- there is a gap only where neither exists.)
+        expect(incomplete(plan("milestones", [line("40", "2027-01-01"), line("60")]))).toBe(false);
+        expect(incomplete(plan("milestones", [line("40"), line("60")]), "", "")).toBe(true);
+        expect(paymentPlanLines(plan("milestones", [line("40"), line("30"), line("30")]), "2027-01-01", "2027-01-11").map(entry => entry.date)).toEqual(["2027-01-01", "2027-01-06", "2027-01-11"]);
         expect(incomplete(plan("deposit-balance", [line("50"), line("50")]))).toBe(false);
         expect(incomplete(plan("deposit-balance", [line("50"), line("50")]), "", "2027-12-31")).toBe(true);
         expect(incomplete(plan("deposit-balance", [line("50"), line("50")]), "2027-01-01", "")).toBe(true);

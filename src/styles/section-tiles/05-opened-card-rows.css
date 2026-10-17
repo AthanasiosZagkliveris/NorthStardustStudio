@@ -581,3 +581,76 @@
     opacity: 1;
 
 }
+
+/* ==========================================================
+   A COMPLETED ACTIVITY'S CARD LOOKS LIKE ANY OTHER CARD, in four greys and no other tone: the card's ground (--bg-completed-card), the cells' ground
+   (--bg-completed-ground), the line (--line-completed) and the text (--completed-dim; the Completed row keeps the card's ink). Its cells keep the shapes
+   of an open card (recessed text cells, raised pickers with their chevron, the "+", x and calendar buttons, the tick boxes), only grey; "cannot be
+   changed" is told by the cursor, not by flattening them.
+========================================================== */
+.business-capability-activity-completed {
+
+    --glow-color: var(--line-completed);
+    --plus-fill: var(--completed-dim);
+    --plus-ground: var(--bg-completed-ground);
+    --x-ground: var(--bg-completed-card);
+    --cell-edge: transparent;
+
+}
+
+.business-capability-activity-completed :is(input.interview-input:not([type=checkbox]), textarea.interview-input, .date-cell-input):disabled {
+
+    background-color: var(--bg-completed-ground) !important;
+
+    box-shadow: var(--cell-inset-recess) !important;
+
+    border-color: transparent;
+
+    cursor: default;
+
+}
+
+.business-capability-activity-completed .option-picker-trigger.interview-input:disabled {
+
+    background-color: var(--bg-completed-ground) !important;
+
+    /* (The disabled shorthand of the page rules wipes the chevron and its place: put back whole.) */
+    background-image: var(--select-chevron);
+    background-repeat: no-repeat;
+    background-position: right var(--select-chevron-inset) center;
+    background-size: 12px 8px;
+
+    box-shadow: var(--cell-inset) !important;
+
+    border-color: transparent;
+
+    cursor: default;
+
+}
+
+.business-capability-activity-completed input[type="checkbox"]:not(:checked):disabled:not(.business-capability-done input) {
+
+    background-color: var(--bg-completed-ground);
+
+    box-shadow: var(--cell-inset-recess);
+
+}
+
+.business-capability-activity-completed :is(.plus-box, .strategy-box-remove, .date-cell-calendar-button, .month-picker-calendar, .business-link-symbol, .responsibility-filter):not(.business-capability-done *) {
+
+    opacity: 1 !important;
+
+    border-color: var(--completed-dim);
+
+    background: var(--bg-completed-ground);
+
+}
+
+/* THE CAROUSEL ARROWS OF A COMPLETED CARD are in its greys too (the tab and its bullets take theirs from the card's measured ground and the Completed line). */
+body .floating-overlay .page-arrow.carousel-arrow[data-completed] {
+
+    color: var(--bg-completed-card);
+
+    filter: drop-shadow(1px 0 0 var(--line-completed)) drop-shadow(-1px 0 0 var(--line-completed)) drop-shadow(0 1px 0 var(--line-completed)) drop-shadow(0 -1px 0 var(--line-completed));
+
+}

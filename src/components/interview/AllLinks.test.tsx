@@ -112,6 +112,9 @@ function walkEveryLink(): number {
                     const shown = field ? field.value : card.querySelector(".strategy-name-static")!.textContent!;
                     if (title === "Founders" || title === "Completed") {
                         expect(shown, where).toBe(text);
+                    } else if (text === "No category") {
+                        // (The line of the cards still to be filed opens the first of them, floating.)
+                        expect(shown, where).not.toBe("");
                     } else {
                         // (A category link opens its view; only a category with no card yet makes ONE blank card and opens it floating -- Back takes it away again.)
                         expect(shown, where).toBe("");

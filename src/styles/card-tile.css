@@ -355,6 +355,8 @@ button.card-tile-symbol[aria-pressed="true"] {
 
     text-shadow: var(--hover-bold);
     letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+    text-decoration: underline;
+    text-underline-offset: 1px;
 
 }
 
@@ -364,5 +366,13 @@ button.card-tile-symbol[aria-pressed="true"] {
     --opener-tone: hsl(var(--opener-hue, 0) var(--plus-fill-saturation, 60%) var(--plus-fill-lightness, 40%));
 
     box-shadow: 0 0 0 2px var(--opener-tone), 0 0 10px 2px color-mix(in srgb, var(--opener-tone) 55%, transparent) !important;
+
+}
+
+/* ...and the halo of a completed card is the Completed grey, like the card, its tab and its arrows. */
+body:has(.floating-card-host .business-capability-activity-completed) .section-tile[data-opener-tile],
+body:has(.floating-card-host .business-capability-activity-completed) .section-tile [data-card][data-opener-tile] {
+
+    --opener-tone: var(--line-completed);
 
 }

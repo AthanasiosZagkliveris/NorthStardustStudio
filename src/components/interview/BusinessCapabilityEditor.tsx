@@ -2574,7 +2574,7 @@ export default function BusinessCapabilityEditor({
                         ariaLabel={label + " date"}
                         // (No Start or End date bounds the payments: the payments are the card's dates. Instalments: the first and the last are written, the ones between follow them.)
                         disabled={disabled || (mode === "instalment" && !edge)}
-                        value={mode === "instalment" ? (paymentPlanLines(plan, startDate, endDate).find(entry => entry.id === line.id)?.date ?? "") : line.date || (mode === "balance" ? endDate : mode === "deposit" ? startDate : "")}
+                        value={paymentPlanLines(plan, startDate, endDate).find(entry => entry.id === line.id)?.date ?? ""}
                         onChange={(next) => {
                             setDateNotice(null);
                             setLine(line.id, { date: next });
@@ -4810,7 +4810,8 @@ export default function BusinessCapabilityEditor({
                     channel: args.scope === "offering" && args.id !== "resources" && category.cards.some(card => channelToneIds.has(card.id))
                 }]
                 : category.cards.map((card): ItemMark => ({ teal: card.tone === "channel" }))),
-            links: filled.flatMap((category): TileLink[] => big(category) ? [{ box: category.id }] : category.cards.map(card => ({ card: card.id }))),
+            // ("No category" holds the cards still to be filed: its line opens the first card floating, the arrows going through the others.)
+            links: filled.flatMap((category): TileLink[] => big(category) ? [category.id === UNASSIGNED_CATEGORY && category.cards.length > 0 ? { card: category.cards[0].id } : { box: category.id }] : category.cards.map(card => ({ card: card.id }))),
             boxHolds: Object.fromEntries(filled.filter(big).map(category => [category.id, category.cards.map(card => card.id)])),
             // (Every card of the section: a resource, an activity, a partner or provider, the Workspace's form.)
             cardFor: (cardId: string) => parentCard(cardId)?.node ?? childCard(cardId)?.node ?? null,

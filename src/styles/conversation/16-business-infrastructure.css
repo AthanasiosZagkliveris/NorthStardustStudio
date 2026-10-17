@@ -673,3 +673,7 @@
     margin:0 calc(-1 * var(--card-padding));
     background:var(--line-rule);
 }
+/* (A grid card: across every column, the x's too, so the line runs from edge to edge.) */
+.business-capability-slot > .business-capability-card-rule.business-capability-card-rule{
+    grid-column:1 / -1;
+}
