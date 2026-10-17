@@ -39,6 +39,8 @@ export interface OrganizationDocument {
     systems: Record<string, unknown>;
     products: unknown[];
     selectedProductId?: string;
+    /** When each card was first made or opened (ms), by card id: the "Recorded ..." line under a floating card. Travels with the document, so an export carries it. */
+    cardTimes?: Record<string, number>;
     /**
      * Set once the Business and Strategy Systems' saved state has
      * traded places, after the Business System became System 3 and
