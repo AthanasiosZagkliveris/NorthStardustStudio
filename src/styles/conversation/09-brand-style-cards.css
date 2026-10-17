@@ -617,3 +617,18 @@
     top:50%;
     transform:translateY(-50%);
 }
+
+/* A COLOUR OR TYPEFACE CARD'S ROLE AND COLOUR cells are one width, the Date step: just room for the code (# and six digits) and the colour box, with their gaps; they start at one x, under each other. The x stays in the card's x column. */
+.brand-side-rows .option-picker{
+
+    width:var(--control-date);
+    max-width:100%;
+
+}
+
+.brand-side-rows .brand-colour-row > .brand-colour-cell{
+
+    flex:0 0 var(--control-date);
+    max-width:100%;
+
+}

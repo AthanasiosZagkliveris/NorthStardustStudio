@@ -1492,3 +1492,17 @@
     text-align:center;
     padding:0 4px;
 }
+
+/* The colour picker's code: a picker (HEX, RGB, HSL) over the cells of that code; the hex is one cell as wide as the card. */
+.colour-popup-code{
+    margin-bottom:var(--gap-8);
+}
+
+.colour-popup-channels.colour-popup-channels-one{
+    grid-template-columns:minmax(0, 1fr);
+}
+
+.colour-popup-channels-one .colour-popup-channel .interview-input{
+    text-align:left;
+    padding:0 12px;
+}

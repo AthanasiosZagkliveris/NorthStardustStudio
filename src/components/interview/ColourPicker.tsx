@@ -2,6 +2,7 @@ import { CSSProperties, PointerEvent as ReactPointerEvent, useEffect, useRef, us
 
 import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
 import { consumeKey } from "./consumeKey.ts";
+import OptionPicker from "./OptionPicker.tsx";
 
 /**
  * THE COLOUR PICKER: the colour as a 32px box (inside the hex cell), and, opened, a card of the app's own in place of the browser's: a square of the colour's
@@ -46,6 +47,26 @@ export function hsvToRgb({ h, s, v }: Hsv): [number, number, number] {
     return [(r + m) * 255, (g + m) * 255, (b + m) * 255];
 }
 
+export function rgbToHsl(r: number, g: number, b: number): [number, number, number] {
+    const red = r / 255, green = g / 255, blue = b / 255;
+    const max = Math.max(red, green, blue), min = Math.min(red, green, blue), delta = max - min;
+    const l = (max + min) / 2;
+    const { h } = rgbToHsv(r, g, b);
+    const s = delta === 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+    return [h, s * 100, l * 100];
+}
+
+export function hslToRgb(h: number, s: number, l: number): [number, number, number] {
+    const sat = clamp(s, 0, 100) / 100, light = clamp(l, 0, 100) / 100;
+    const c = (1 - Math.abs(2 * light - 1)) * sat, x = c * (1 - Math.abs(((h / 60) % 2) - 1)), m = light - c / 2;
+    const [r, g, b] = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x] : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x];
+    return [(r + m) * 255, (g + m) * 255, (b + m) * 255];
+}
+
+/** The ways the picker writes a colour's code. */
+const CODES = ["HEX", "RGB", "HSL"] as const;
+type Code = typeof CODES[number];
+
 export default function ColourPicker({
     value,
     onChange,
@@ -62,6 +83,7 @@ export default function ColourPicker({
     const rgb = hexToRgb(value);
     const [open, setOpen] = useState(false);
     const [free, setFree] = useState(false);
+    const [code, setCode] = useState<Code>("HEX");
 
     // The hue is kept apart from the colour: a grey or a black has none of its own, and dragging across one must not lose it.
     const [hsv, setHsv] = useState<Hsv>(() => rgb ? rgbToHsv(...rgb) : { h: 0, s: 0, v: 1 });
@@ -190,8 +212,38 @@ export default function ColourPicker({
                         <span className="colour-popup-handle" style={{ left: (hsv.h / 360) * 100 + "%", top: "50%" }} />
                     </div>
 
-                    <div className="colour-popup-channels">
-                        {names.map((name, index) => (
+                    {/* The code the colour is written in: its hex (# and six digits), its red, green and blue, or its hue, saturation and lightness. */}
+                    <div className="colour-popup-code">
+                        <OptionPicker
+                            label={ariaLabel + " code"}
+                            options={[...CODES]}
+                            value={code}
+                            disabled={disabled}
+                            fill
+                            onChange={(next) => setCode(next as Code)}
+                        />
+                    </div>
+
+                    <div className={"colour-popup-channels" + (code === "HEX" ? " colour-popup-channels-one" : "")}>
+                        {code === "HEX" && (
+                            <label className="colour-popup-channel">
+                                <span>HEX</span>
+                                <input
+                                    type="text"
+                                    className="interview-input"
+                                    aria-label={ariaLabel + " hex"}
+                                    disabled={disabled}
+                                    value={rgbToHex(...channels).toUpperCase()}
+                                    onChange={(event) => {
+                                        const typed = hexToRgb(event.target.value);
+                                        if (typed) {
+                                            commit(rgbToHsv(...typed));
+                                        }
+                                    }}
+                                />
+                            </label>
+                        )}
+                        {code === "RGB" && names.map((name, index) => (
                             <label key={name} className="colour-popup-channel">
                                 <span>{name}</span>
                                 <input
@@ -205,6 +257,27 @@ export default function ColourPicker({
                                 />
                             </label>
                         ))}
+                        {code === "HSL" && (["H", "S", "L"] as const).map((name, index) => {
+                            const hsl = rgbToHsl(...channels);
+                            return (
+                                <label key={name} className="colour-popup-channel">
+                                    <span>{name}</span>
+                                    <input
+                                        type="text"
+                                        inputMode="numeric"
+                                        className="interview-input"
+                                        aria-label={ariaLabel + " " + name}
+                                        disabled={disabled}
+                                        value={String(Math.round(hsl[index]))}
+                                        onChange={(event) => {
+                                            const next = [...hsl] as [number, number, number];
+                                            next[index] = clamp(Number(event.target.value.replace(/\D/g, "").slice(0, 3)) || 0, 0, index === 0 ? 360 : 100);
+                                            onChange(rgbToHex(...hslToRgb(...next)));
+                                        }}
+                                    />
+                                </label>
+                            );
+                        })}
                     </div>
 
                 </div>
