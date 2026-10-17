@@ -1120,3 +1120,16 @@
 
 }
 
+
+/* THE STRATEGIC PERIOD'S DIALOG: its Themes' tiles keep the page's size where the dialog has room for three, and shrink with the dialog where it has not (never cut off at its edge). */
+.column-tile-content .strategy-period-themes .section-tiles-box.section-tiles-small > .section-tiles {
+
+    --section-tile-size: min(215px, calc((100cqw - 2 * var(--space-card)) / 3 - 0.01px));
+
+}
+
+.strategy-period-top {
+
+    grid-template-columns: minmax(0, 215px) minmax(0, 1fr);
+
+}
