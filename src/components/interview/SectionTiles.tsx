@@ -1,4 +1,6 @@
-import { createContext, CSSProperties, Fragment, MouseEvent as ReactMouseEvent, ReactNode, RefObject, useContext, useEffect, useId, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
+import { createContext, CSSProperties, Fragment, MouseEvent as ReactMouseEvent, ReactNode, RefObject, useContext, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { CardRecordService } from "../../services/CardRecordService.ts";
+import { noteMomentText } from "../notepad/Notepad.tsx";
 import { freshCards } from "./freshCards.ts";
 import { createPortal } from "react-dom";
 
@@ -1891,6 +1893,12 @@ function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLEle
     );
 }
 
+/** The record time of a card, under it, as a note's ("Recorded 17/10/2026 14:13"). */
+function FloatingRecord({ id }: { id: string }) {
+    const at = useMemo(() => CardRecordService.recordedAt(id), [id]);
+    return at > 0 ? <p className="floating-card-recorded">{"Recorded " + noteMomentText(at)}</p> : null;
+}
+
 /** One card of a floating stack: the box name above it (its caption), its kind (its width) and the card. */
 export interface FloatingItem {
     key: string;
@@ -2107,6 +2115,7 @@ export function FloatingCards({
                                 </InfoText>
                             </div>
                             <div className={"floating-card-body floating-card-" + card.kind + (card.kind === "card" ? " card-box-open" : "")}>{card.node}</div>
+                            <FloatingRecord id={card.key} />
                         </div>
                     ))}
                 </div>

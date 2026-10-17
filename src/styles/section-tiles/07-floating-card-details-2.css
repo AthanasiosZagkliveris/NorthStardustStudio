@@ -1285,3 +1285,16 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     font-weight: 600;
 
 }
+
+/* THE RECORD TIME under a floating card, as a note's: small, muted, on the card's own ground. */
+.floating-card-recorded {
+
+    width: fit-content;
+
+    margin: var(--gap-8) auto 0;
+
+    font-size: var(--font-small);
+
+    color: var(--floating-caption-ink);
+
+}
