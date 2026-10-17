@@ -1123,6 +1123,8 @@ main.conversation-content[data-reserve],
     .floating-card-body .business-founder-open .business-founder-grid > .business-foundation-field > :first-child {
 
         margin-left: 0 !important;
+        width: auto !important;
+        white-space: nowrap;
 
     }
 

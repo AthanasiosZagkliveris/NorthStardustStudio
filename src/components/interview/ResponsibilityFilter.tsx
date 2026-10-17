@@ -51,7 +51,7 @@ export default function ResponsibilityFilter({
 
     }, [open]);
 
-    // THE FUNNEL ENDS WHERE THE CELLS ABOVE IT END: its right edge on the right edge of the last cell of the founder's pay and hours (the card's x column where there is none).
+    // THE FUNNEL ENDS WHERE THE CALENDAR BOX ENDS: its right edge on the right edge of the founder's Start date box (moved by a transform: the row it stands in does not change).
     useLayoutEffect(() => {
         const node = box.current;
         const card = node?.closest<HTMLElement>(".business-founder-open");
@@ -59,12 +59,12 @@ export default function ResponsibilityFilter({
             return;
         }
         const align = () => {
-            node.style.marginRight = "";
-            const cells = [...card.querySelectorAll<HTMLElement>(".business-founder-grid input, .business-founder-grid .option-picker-trigger")];
-            const right = Math.max(0, ...cells.map(cell => cell.getBoundingClientRect().right));
+            node.style.transform = "";
+            const calendar = card.querySelector<HTMLElement>(".date-cell-field");
+            const right = calendar ? calendar.getBoundingClientRect().right : 0;
             const mine = node.getBoundingClientRect().right;
             if (right > 0 && mine > right + 0.5) {
-                node.style.marginRight = Math.round(mine - right) + "px";
+                node.style.transform = "translateX(" + -Math.round(mine - right) + "px)";
             }
         };
         align();
