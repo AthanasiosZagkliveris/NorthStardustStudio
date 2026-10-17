@@ -391,6 +391,8 @@ interface AnswerRendererProps {
      * reads Page 4. Ignored by every other Answer Structure.
      */
     legalEntity?: LegalEntityValue;
+    /** Saves the Legal Entity page's answer from another page (3. Infrastructure & Capability's floating legal cards). */
+    onChangeLegalEntity?: (value: unknown) => void;
     businessCapability?: unknown;
     financialFoundation?: unknown;
     /** The Opening Date (an ISO date) of the Global Settings, for the pages that place costs around it. */
@@ -1159,6 +1161,7 @@ function SingleAnswerRenderer({
     legalEntityFounders,
     foundersProfile,
     legalEntity,
+    onChangeLegalEntity,
     businessCapability,
     financialFoundation,
     openingDate,
@@ -2228,6 +2231,9 @@ function SingleAnswerRenderer({
                     legalEntityFounders={legalEntityFounders}
                     legalExpenses={legalEntity?.expenses}
                     onOpenLegalEntity={onOpenLegalEntity}
+                    legalEntity={legalEntity}
+                    onChangeLegalEntity={onChangeLegalEntity}
+                    legalEntityPrefill={legalEntityPrefill}
                     foundersProfile={foundersProfile}
                     engagement={businessEngagement}
                     financialFoundation={financialFoundation}

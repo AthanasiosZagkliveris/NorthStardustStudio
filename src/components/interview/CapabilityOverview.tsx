@@ -144,7 +144,7 @@ export const TABLE_SIZES = [
 /** A number for the table's Cost column: no currency sign (the header says it), at most two decimals. */
 const plainAmount = (amount: number) => amount.toLocaleString(undefined, { maximumFractionDigits: 2 });
 
-export default function CapabilityOverview({ rows, format = String, currency = "" }: { rows: readonly FloorRow[]; format?: (amount: number) => string; currency?: string }) {
+export default function CapabilityOverview({ rows, format = String, currency = "", onOpenLegal }: { rows: readonly FloorRow[]; format?: (amount: number) => string; currency?: string; /** Opens a legal expense's card (it floats here, over this page): without it a legal tile is shown, not opened. */ onOpenLegal?: (id: string) => void }) {
 
     const openCard = useContext(OpenCardContext);
     const [view, setView] = useState<"tiles" | "table">("tiles");
@@ -198,7 +198,9 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     const patch = (next: Partial<FloorFilter>) => setFilter(current => ({ ...current, ...next }));
 
     const open = (row: FloorRow, pointer: boolean) => {
-        if (row.kind !== "legal") {
+        if (row.kind === "legal") {
+            onOpenLegal?.(row.id);
+        } else {
             // (The box name above the card is the card's own section -- Founders, Resources, Activities, Partners & Suppliers -- not "Inventory".)
             openCard?.(row.id, SECTION_OF_KIND[kindClass(row)], undefined, pointer, false);
         }
@@ -474,9 +476,9 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                                 tone={row.tone}
                                 missing={row.missing}
                                 label={kindName(row) + ": " + tileName(plainTitle(row.name), tileLines(row, format))}
-                                title={row.kind === "legal" ? "Recorded under 1. Identity System, Legal Entity" : undefined}
+                                title={row.kind === "legal" && !onOpenLegal ? "Recorded under 1. Identity System, Legal Entity" : undefined}
                                 origin={inwardOrigin(index, shown.length, across)}
-                                onOpen={row.kind === "legal" ? undefined : (pointer) => open(row, pointer)}
+                                onOpen={row.kind === "legal" && !onOpenLegal ? undefined : (pointer) => open(row, pointer)}
                                 focusId={focus?.id ?? null}
                                 onFocus={row.links.length > 0 ? onFocus : undefined}
                             />

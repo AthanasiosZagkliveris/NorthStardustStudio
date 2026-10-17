@@ -1,4 +1,5 @@
 import "../../styles/system-confirmation.css";
+import LegalEntityEditor from "./LegalEntityEditor.tsx";
 import { orphanedCards, withoutCards, type GeneratedCard } from "../../framework/engine/GeneratedCards.ts";
 import { CSSProperties, Fragment, ReactNode, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 
@@ -429,6 +430,10 @@ interface BusinessCapabilityEditorProps {
     legalExpenses?: readonly LegalEntityExpenseValue[];
     /** Opens the Identity System's Legal Entity page (a legal expense a founder is responsible for). */
     onOpenLegalEntity?: OpenPage;
+    /** The Legal Entity page's answer and how to save it (it belongs to the Identity System): a legal card called from this page floats here, and is edited here. */
+    legalEntity?: unknown;
+    onChangeLegalEntity?: (value: unknown) => void;
+    legalEntityPrefill?: { organisationName: string; founderName: string };
     /** 1. Identity System — 4. Founders Profile, as saved: each founder's Roles. */
     foundersProfile?: unknown;
     /** Customer Engagement: its Demand & Conversion gives each Offering's expected sales. */
@@ -481,6 +486,9 @@ export default function BusinessCapabilityEditor({
 
     legalExpenses = [],
     onOpenLegalEntity,
+    legalEntity,
+    onChangeLegalEntity,
+    legalEntityPrefill,
 
     foundersProfile,
 
@@ -3763,6 +3771,11 @@ export default function BusinessCapabilityEditor({
 
     /** A legal expense belongs to the Identity System: its page opens, and the card with it. */
     function openLegalExpense(id: string) {
+        // (Where this page can save the Legal Entity's answer, the card floats here: over the page, as every card.)
+        if (legalEntity !== undefined && onChangeLegalEntity) {
+            document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: "legal-entity-expenses", card: id } }));
+            return;
+        }
         onOpenLegalEntity?.();
         window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: "legal-entity-expenses", card: id } })), 700);
     }
@@ -4567,7 +4580,7 @@ export default function BusinessCapabilityEditor({
                 const classes = inventoryClassification(
                     capability, legalEntityFounders, legalExpenses, asFinancialFoundationValue(financialFoundation), organisationCurrency, openingDate, globalSettings
                 );
-                return <CapabilityOverview rows={rows.map(row => ({ ...row, ...(classes.get(row.id) ?? classes.get("salary-" + row.id) ?? classes.get("legal-" + row.id)) }))} format={moneyFormatter(organisationCurrency)} currency={organisationCurrency} />;
+                return <CapabilityOverview rows={rows.map(row => ({ ...row, ...(classes.get(row.id) ?? classes.get("salary-" + row.id) ?? classes.get("legal-" + row.id)) }))} format={moneyFormatter(organisationCurrency)} currency={organisationCurrency} onOpenLegal={legalEntity !== undefined && onChangeLegalEntity ? openLegalExpense : undefined} />;
             }
         };
     }
@@ -5739,6 +5752,9 @@ export default function BusinessCapabilityEditor({
     return (
 
         <MissingMapContext.Provider value={missingById}>
+        {legalEntity !== undefined && onChangeLegalEntity && (
+            <LegalEntityEditor value={legalEntity} onChange={onChangeLegalEntity} prefill={legalEntityPrefill} foundersProfile={foundersProfile} openingDate={openingDate} asTiles cardsOnly disabled={disabled} />
+        )}
         {pending && (
             <div className="confirmation-overlay" onClick={() => setPending(null)}>
                 <div className="confirmation-dialog" role="alertdialog" aria-modal="true" aria-label="Remove the card made for this one?" onClick={(event) => event.stopPropagation()}>

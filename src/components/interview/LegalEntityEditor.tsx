@@ -192,6 +192,9 @@ interface LegalEntityEditorProps {
     /** The page drawn as four tiles (the page's tile system) instead of one long page; the app draws it so, the editor's own tests the whole page. */
     asTiles?: boolean;
 
+    /** Only the floating cards of the page (a legal card called from another page, e.g. 3. Infrastructure & Capability): the tiles themselves are not drawn. */
+    cardsOnly?: boolean;
+
     /** The frame's heading, on top of its tiles (a page of several sections). */
     frameTitle?: string;
 
@@ -332,6 +335,8 @@ export default function LegalEntityEditor({
     frameTitle,
 
     asTiles = false,
+
+    cardsOnly = false,
 
     prefill,
 
@@ -2749,7 +2754,11 @@ export default function LegalEntityEditor({
             }
         ];
         return (
-            <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
+            <div
+                className={cardsOnly ? "business-foundation business-engagement legal-entity-cards-only" : "answer-columns business-foundation business-engagement business-capability column-tiles-page"}
+                style={{ "--answer-column-count": 1, ...(cardsOnly ? { display: "none" } : {}) } as CSSProperties}
+                aria-hidden={cardsOnly ? true : undefined}
+            >
                 <div
                     className="business-foundation-input business-foundation-card business-engagement-input"
                     data-anchor="column-tiles"

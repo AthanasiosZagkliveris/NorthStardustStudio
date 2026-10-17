@@ -184,7 +184,11 @@ export function otherColumn(anchor: HTMLElement | null): HTMLElement | null {
     if (!anchor) {
         return anchor;
     }
-    const columns = Array.from(document.querySelectorAll<HTMLElement>(".answer-columns.business-capability > .business-foundation-card"));
+    const columns = Array.from(document.querySelectorAll<HTMLElement>(".answer-columns.business-capability > .business-foundation-card")).filter(column => !column.closest(".legal-entity-cards-only"));
+    // A card called from a page that has no tile of its own for it (a legal card on 3. Infrastructure & Capability: its tiles are not drawn): over the page's second column.
+    if (columns.length === 2 && anchor.closest(".legal-entity-cards-only")) {
+        return columns[1];
+    }
     if (columns.length === 2 && columns.includes(anchor)) {
         return columns[columns[0] === anchor ? 1 : 0];
     }

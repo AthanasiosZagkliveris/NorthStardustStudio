@@ -2340,6 +2340,20 @@ export default function Conversation() {
         ? frameworkRegistry.getFramework(identitySystem.id).sections
             .find(candidate => candidate.answer?.type === AnswerType.LegalEntity)
         : undefined;
+    /** Saves the Legal Entity page's answer (the Identity System's) from the Business System, where its legal cards float over 3. Infrastructure & Capability. */
+    const changeLegalEntity = identitySystem && legalEntitySection && organizationId
+        ? (next: unknown) => {
+            const state = OrganizationService.loadSystemState(organizationId, IDENTITY_SYSTEM_NUMBER) as { responses?: Array<{ sectionNumber: number; value?: unknown }> } | null;
+            if (!state?.responses) {
+                return;
+            }
+            OrganizationService.saveSystemState(organizationId, IDENTITY_SYSTEM_NUMBER, {
+                ...state,
+                responses: state.responses.map(response => response.sectionNumber === legalEntitySection.number ? { ...response, value: next } : response)
+            });
+            redraw();
+        }
+        : undefined;
     const openLegalEntity: OpenPage | undefined = identitySystem && legalEntitySection
         ? (path) => {
             if (organizationId) {
@@ -2715,6 +2729,7 @@ export default function Conversation() {
                                     : undefined}
                                 onOpenFinancialFoundation={openBusinessSection(AnswerType.FinancialFoundation)}
                                 onOpenLegalEntity={openLegalEntity}
+                                onChangeLegalEntity={changeLegalEntity}
                                 strategy={strategyContext}
                                 showInstructions={!focusMode && (titleHelpArrows || instructionsOpen)}
                                 columnsDivider={
