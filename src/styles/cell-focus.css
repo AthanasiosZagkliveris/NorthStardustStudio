@@ -1,23 +1,37 @@
 /* ==========================================================
    THE RING OF A CELL (docs/design/20-reactions.md, R2): one reaction for every cell you write or choose in, wherever it stands and in every reading mode.
-   Focused, or pressed and held: the primary edge and a ring 3px wide at 35% of the card's glow colour -- nothing else (no white outline, no second ring).
-   A numbered list's box and a date or month cell's box own the ring (the line or the button inside draws none). Loaded after every other stylesheet
-   (main.tsx), so no page's older rule for its own focus outranks it.
+   Focused, or pressed and held: the primary edge (1px) and a ring 3px wide at 35% of the card's glow colour -- nothing else (no white outline, no second ring).
+   Where a box holds the field (a date cell: its text and its calendar button; a numbered list's lines) the BOX draws the ring and what is inside draws none.
+   Loaded after every other stylesheet (main.tsx), so no page's older rule for its own focus outranks it.
 ========================================================== */
-:is(textarea, input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"]), .option-picker-trigger):is(:focus, :focus-visible, :active):not(:disabled, .numbered-list-input, .date-cell-input, .date-cell-field :is(input, textarea), .numbered-list textarea) {
+:is(textarea, input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"]), .option-picker-trigger, .month-picker-trigger):is(:focus, :focus-visible, :active):not(:disabled, .numbered-list-input, .date-cell-field :is(input, textarea)) {
     outline: none !important;
     border-color: var(--line-primary) !important;
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent) !important;
 }
 
-:is(.numbered-list, .date-cell-field):is(:focus-within):not(:has(:disabled)) {
+/* A box with no edge of its own (a date cell, the colour cell): the edge is drawn with the ring, round the box. */
+.date-cell-field:focus-within:not(:has(:disabled)) {
+    outline: none !important;
+    box-shadow: 0 0 0 1px var(--line-primary), 0 0 0 4px color-mix(in srgb, var(--glow-color) 35%, transparent) !important;
+}
+
+/* A box with an edge of its own (a numbered list). */
+.numbered-list:focus-within:not(:has(:disabled)) {
     outline: none !important;
     border-color: var(--line-primary) !important;
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent) !important;
 }
 
-:is(.numbered-list-input, .date-cell-input, .date-cell-field :is(input, textarea), .numbered-list textarea):is(:focus, :focus-visible) {
+/* What is inside a box that draws the ring draws no edge and no outline: a date or colour cell's text keeps its recess, a list's line has none. */
+.date-cell-field :is(input, textarea):is(:focus, :focus-visible) {
     outline: none !important;
-    box-shadow: none !important;
     border-color: transparent !important;
+    box-shadow: var(--cell-inset-recess) !important;
+}
+
+:is(.numbered-list-input, .numbered-list textarea):is(:focus, :focus-visible) {
+    outline: none !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
 }
