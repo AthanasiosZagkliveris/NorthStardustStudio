@@ -304,11 +304,7 @@
 
 }
 
-/* ==========================================================
-   THE FOCUS RING IN THE DARK THEME: a clean white (--focus-ring-ink), 2px, no coloured glow, on a cell's edge and round it -- the dark primary line (#7aa7f5)
-   drew a thin light-blue line round a focused cell. Light and sepia keep the ring they have (the primary line and the soft glow). White at 90% holds
-   about 14:1 on the cell's ground.
-========================================================== */
+/* The focus ring of a cell is one rule for every page and mode: cell-focus.css. (--focus-ring-ink stays the colour of the keyboard outline on buttons and links.) */
 :root {
 
     --focus-ring-ink: var(--line-primary);
@@ -318,20 +314,6 @@
 :root[data-theme="dark"] {
 
     --focus-ring-ink: rgba(255, 255, 255, 0.9);
-
-}
-
-:root[data-theme="dark"] .section-tile-overlay.business-capability :is(.interview-input, .option-picker-trigger):focus {
-
-    border-color: var(--focus-ring-ink) !important;
-
-    box-shadow: var(--cell-inset), 0 0 0 1px var(--focus-ring-ink) !important;
-
-}
-
-:root[data-theme="dark"] .section-tile-overlay.business-capability :is(input.interview-input:not([type=checkbox]), textarea.interview-input):not(.option-picker-trigger):focus {
-
-    box-shadow: var(--cell-inset-recess), 0 0 0 1px var(--focus-ring-ink) !important;
 
 }
 
