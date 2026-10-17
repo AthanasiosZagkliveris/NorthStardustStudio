@@ -1127,3 +1127,10 @@ main.conversation-content[data-reserve],
     }
 
 }
+
+/* A legal requirement's Type: the label takes its own width (its "i" included) and the cell takes ALL the rest of the row, to the name cell's right edge. */
+.floating-card-body .legal-entity-grid-requirement > .legal-entity-field.legal-entity-field-side {
+
+    grid-template-columns: max-content minmax(0, 1fr) !important;
+
+}
