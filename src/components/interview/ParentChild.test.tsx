@@ -471,3 +471,19 @@ describe("a generated card its parent stops naming", () => {
     });
 
 });
+
+describe("a generated card replaced by another", () => {
+
+    it("keeps the screen as the data is while the question is asked: Cancel leaves the first activity chosen", () => {
+        const seen: Capability[] = [];
+        render(<Spy initial={seeded({ child: { madeBy: "resource-mill" } })} spy={value => seen.push(value)} />);
+        openAdminCard();
+        fireEvent.click(screen.getByRole("button", { name: /^Resource 1 activity/ }));
+        fireEvent.click(screen.getByRole("option", { name: "+ Add" }));
+        expect(screen.getByRole("alertdialog")).not.toBeNull();
+        fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+        expect(activitiesOf(seen[seen.length - 1]).map(activity => activity.id)).toEqual(["activity-mill"]);
+        expect((screen.getByRole("button", { name: /^Resource 1 activity/ }).textContent ?? "")).toContain("Set up the mill");
+    });
+
+});

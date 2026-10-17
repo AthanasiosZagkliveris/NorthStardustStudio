@@ -512,16 +512,18 @@ export default function BusinessCapabilityEditor({
         onChangeProp(orderedByDate(withNewInsurances(stored, next)));
     };
     // A CHANGE THAT LEAVES A GENERATED CARD WITH NO CARD NAMING IT (a Status, Activity, Partner or Supplier changed) is asked about first: Continue removes that card.
-    const [pending, setPending] = useState<{ next: BusinessCapabilityValue; orphans: GeneratedCard[] } | null>(null);
-    const onChange = (changed: BusinessCapabilityValue) => {
+    const [pending, setPending] = useState<{ next: BusinessCapabilityValue; orphans: GeneratedCard[]; after?: () => void } | null>(null);
+    /** `after` is what goes with the change on the screen (a name box opening): it follows the change only where the change is made, never while it is asked about, and not at all when it is cancelled. */
+    const onChange = (changed: BusinessCapabilityValue, after?: () => void) => {
         // (A generated card serves the Offerings its parent serves.)
         const next = withInheritedOfferings(changed);
         const orphans = orphanedCards(stored, next);
         if (orphans.length > 0) {
-            setPending({ next, orphans });
+            setPending({ next, orphans, after });
             return;
         }
         write(next);
+        after?.();
     };
 
     /* The founders as the Legal Entity names them, with the Roles
@@ -1466,18 +1468,16 @@ export default function BusinessCapabilityEditor({
                                 onChange={(next) => {
 
                                     if (next !== ADD_ACTIVITY) {
-                                        setNaming(current => {
+                                        onChange(apply(capability, choices.find(choice => choice.label === next)?.id ?? ""), () => setNaming(current => {
                                             const kept = new Set(current);
                                             kept.delete(key);
                                             return kept;
-                                        });
-                                        onChange(apply(capability, choices.find(choice => choice.label === next)?.id ?? ""));
+                                        }));
                                         return;
                                     }
 
                                     const made = newActivityFor(scope, startDate, offeringIds, founders.filter(founder => founder.name.trim().length > 0).map(founder => founder.id), ownerId);
-                                    onChange(apply(withActivity(capability, scope, made), made.id));
-                                    setNaming(current => new Set(current).add(key));
+                                    onChange(apply(withActivity(capability, scope, made), made.id), () => setNaming(current => new Set(current).add(key)));
 
                                 }}
                             />
@@ -1569,9 +1569,12 @@ export default function BusinessCapabilityEditor({
         const owner = what + " supplier";
         const noun = type === "partners" ? "Partner" : "Supplier";
 
-        const clearName = () => {
+        /** Takes the chosen name away (a new Group asks for another), then does `after` once that is done (asked about first where a generated card would be left with no use). */
+        const clearName = (after: () => void) => {
             if (providerId) {
-                onChange(apply(capability, ""));
+                onChange(apply(capability, ""), after);
+            } else {
+                after();
             }
         };
 
@@ -1590,8 +1593,7 @@ export default function BusinessCapabilityEditor({
                     onPick: (id) => {
                         const entry = groupOptions.find(option => option.id === id);
                         if (entry && (id !== group || entry.type !== type)) {
-                            setCascade(current => ({ ...current, [key]: { category: entry.type, group: id } }));
-                            clearName();
+                            clearName(() => setCascade(current => ({ ...current, [key]: { category: entry.type, group: id } })));
                         }
                     },
                     onNew: () => undefined,
@@ -1614,12 +1616,11 @@ export default function BusinessCapabilityEditor({
                                     onChange={(next) => {
 
                                         if (next !== OTHER_PARTNER) {
-                                            setNaming(current => {
+                                            onChange(apply(capability, [...choices, ...offeredWorkspace].find(choice => choice.label === next)?.id ?? ""), () => setNaming(current => {
                                                 const kept = new Set(current);
                                                 kept.delete(key);
                                                 return kept;
-                                            });
-                                            onChange(apply(capability, [...choices, ...offeredWorkspace].find(choice => choice.label === next)?.id ?? ""));
+                                            }));
                                             return;
                                         }
 
@@ -1640,9 +1641,7 @@ export default function BusinessCapabilityEditor({
                                         onChange(apply(
                                             withPartners(capability, scope, stored, [...partnersOf(scope, stored), made]),
                                             made.id
-                                        ));
-
-                                        setNaming(current => new Set(current).add(key));
+                                        ), () => setNaming(current => new Set(current).add(key)));
 
                                     }}
                                 />
@@ -1713,12 +1712,11 @@ export default function BusinessCapabilityEditor({
                                 onChange={(next) => {
 
                                     if (next !== OTHER_PARTNER) {
-                                        setNaming(current => {
+                                        onChange(apply(capability, choices.find(choice => choice.label === next)?.id ?? ""), () => setNaming(current => {
                                             const kept = new Set(current);
                                             kept.delete(key);
                                             return kept;
-                                        });
-                                        onChange(apply(capability, choices.find(choice => choice.label === next)?.id ?? ""));
+                                        }));
                                         return;
                                     }
 
@@ -1731,9 +1729,7 @@ export default function BusinessCapabilityEditor({
                                         offeringIds: scope === "offering" ? [...offeringIds] : []
                                     };
 
-                                    onChange(apply(withPartners(capability, scope, "providers", [...partnersOf(scope, "providers"), made]), made.id));
-
-                                    setNaming(current => new Set(current).add(key));
+                                    onChange(apply(withPartners(capability, scope, "providers", [...partnersOf(scope, "providers"), made]), made.id), () => setNaming(current => new Set(current).add(key)));
 
                                 }}
                             />
@@ -5768,7 +5764,7 @@ export default function BusinessCapabilityEditor({
                     </p>
                     <div className="confirmation-actions">
                         <button type="button" className="confirmation-button secondary" autoFocus onClick={() => setPending(null)}>Cancel</button>
-                        <button type="button" className="confirmation-button danger" onClick={() => { const { next, orphans } = pending; setPending(null); write(withoutCards(next, orphans.map(card => card.id))); }}>Continue</button>
+                        <button type="button" className="confirmation-button danger" onClick={() => { const { next, orphans, after } = pending; setPending(null); write(withoutCards(next, orphans.map(card => card.id))); after?.(); }}>Continue</button>
                     </div>
                 </div>
             </div>
