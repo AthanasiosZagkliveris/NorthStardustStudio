@@ -13,7 +13,7 @@ What the app does when a part of it is pointed at, pressed, focused, ticked, ope
 | R5 | **Bold and underline** (text links) | The letters thicken (the app's bold, no change of width) and a line 1px under the descenders. | Every text link; list items of a tile are underlined only. |
 | R6 | **Marquee** (a long text link) | The text moves across its place, right to left, to be read whole (1.6s, after 0.2s). | One row only; at rest an ellipsis. |
 | R7 | **Bold** (titles and labels) | The letters thicken, nothing moves (the bold's letter spacing is already there). | Tile titles, buttons, the label of a tick option. |
-| R8 | **Grow** (tiles and blocks) | A tile grows about its aimed corner, edge or centre, above its neighbours, a drop shadow growing with it; a colour or image block grows 10% inwards. | Page tiles, boxes of a dialog, the blocks of a master tile. |
+| R8 | **Grow** (tiles and blocks) | A tile grows about its aimed corner, edge or centre, above its neighbours, a drop shadow growing with it; a colour or image block (6px corners) grows 10% inwards and keeps its inset light and shade. | Page tiles, boxes of a dialog, the blocks of a master tile. |
 | R9 | **Grow 20%** (the link symbol) | The symbol is 20% larger about its centre; the box it stands in does not change. | Nothing moves. |
 | R10 | **Halo** (the tile that opened a card) | A steady ring 2px and a glow in the opened card's tint (the Completed grey for a completed card) round the tile or box that holds the card now shown, while the card is open; the list line that opens it is bold and underlined. It follows the card when the arrows step. | Not flashing: the flashing glow is only the error. |
 | R11 | **Error glow** (an incomplete card) | The tile flashes a red glow; its line in a tile's list is red, bold and flashing and comes first. | A card just made and still open is not flagged. |
@@ -45,7 +45,8 @@ What the app does when a part of it is pointed at, pressed, focused, ticked, ope
 | Label arrow (beside a label) | the outline triangle | the triangle fills | the same | open or closed (every one starts closed) | n/a |
 | Master tile (page tile) | the tile, its list | R8 | outline | R10 while its card is open | n/a |
 | Box in a dialog (subcategory, card, founder, add) | inset light and shade | R1 | outline | R10 while its card is open | n/a |
-| Colour or image block of a master tile | a tile (inset light and shade) | R8 (10% inwards) | outline | R10 | n/a |
+| Colour or image block of a master tile | a tile (inset light and shade), 6px corners | R8 (10% inwards, inset kept) | outline | R10 | n/a |
+| Typeface of the Typography tile | text | underlined | underlined and outline | underlined while its card is open (no halo) | n/a |
 | List item of a tile | plain | R5 (underlined) | underlined and outline | - | n/a |
 | Page and carousel arrows | the blue triangle | grows 20% along its direction | the same | - | n/a |
 | Back button, tool buttons of the header | the ground, a line | R7 | outline | the open one marked | R12 |

@@ -1,16 +1,33 @@
 # Layout rules: the Foundation pages' rulebook
 
-Reconciled on 2026-10-14: one rule in one place. Sections 1 to 7 are the base rules (tokens, anatomy, sizes, alignment, tiles and dialogs, interactions, exceptions); sections 9 to 16 hold what the later rounds added, by topic; section 17 is the check. Rules that a later round replaced were moved, word for word, to Appendix A; Appendix B lists what is still to be settled. Where a rule gives a number and the table "Values as built" (section 8, which stands after section 2 in the file) gives another, the table is right: it is read from the code, which the tests check.
+The measured rules every card, field and list on the Foundation pages (Identity, Brand, Business and Strategy Systems) follows, the tokens and classes that carry them, the closed set of sizes, and the automated check that proves them. A page that breaks a rule here is a bug; a new pattern is added here first, then built. Every rule is carried by a shared token or class (`src/styles/global.css`, `card-folding.css`, the folders `conversation/` and `section-tiles/`), never by a per-page number: to change a rule, change its token.
 
-The measured rules every card, field and list on the Foundation pages
-(Identity, Brand, Business and Strategy Systems) follows, the tokens and
-classes that carry them, the closed set of sizes, and the automated check
-that proves them. A page that breaks a rule here is a bug; a new pattern
-is added here first, then built.
+Reconciled on 2026-10-17: one rule in one place, one numbering in reading order, one token table (section 2, kept equal to the stylesheets by `npm run docs:values:check`), current values only. The history of what an earlier round said is in git, not in this file. The Customer Engagement tables and the action markers have a document of their own (`docs/ai/customer-engagement-layout.md`).
 
-Every rule is carried by a shared token or class (`src/styles/global.css`,
-`card-folding.css`, `conversation.css`), never by a per-page number: to
-change a rule, change its token.
+Where the rules need a decision the code could not give, section 20 lists it.
+
+## Contents
+
+- 1. Principles
+- 2. Tokens
+- 3. Anatomy
+- 4. Sizes: the closed set
+- 5. Alignment
+- 6. Shared components and states
+- 7. Lists, grids and card layouts
+- 8. Section tiles and dialog
+- 9. Tiles: kinds, titles, lists, marks, hover and size
+- 10. Dialogs, floating cards, layers and the navigation stack
+- 11. Business cards: Infrastructure & Capability, Customer Engagement
+- 12. The Inventory help tile
+- 13. Identity, Brand and Strategy: column pages, Legal Entity, Brand Style, Founders Profile, Strategic Period
+- 14. Financial pages and Global Settings
+- 15. Dates, order and formats
+- 16. Texts and names
+- 17. Declared exceptions
+- 18. The check
+- 19. The assets (generated from the contracts)
+- 20. Still to settle
 
 ---
 
@@ -44,6 +61,13 @@ below are these, made measurable.
 | `--space-column` | 12px (= `--space-card`) | one column to the next, wherever columns stand side by side: a page's answer columns (Identity's four, Brand's three, Strategy's four, Inventory's two), Legal Entity's paired section boxes, a Segment's three columns, its Description's two: a column is the same distance from its neighbour across as a card is down |
 | `--list-number-gap` | 12px | every numbered list in a cell, editable (`NumberedListInput`: Roles, Skills, Action list, Initiatives, SWOT...) or shown (`NumberedListStatic`, the Value Proposition's Needs): the number's right edge to its text. The number starts `--space-cell` (12px) from the list box's inside left edge and is right-aligned in a column as wide as that list's widest number (the rows share the list's grid, subgrid), so a list under ten has its first digit at 12px, "10." widens the column for every row, and all texts of a list start at one x. (The Needs lists shown on Business Foundation are held 12px in by their own margin, so no extra inset. A card head's number-to-name stays 8px.) |
 | `--bullet-size` / `--bullet-gap` | 6px / 12px | a shown (read-only) bulleted list (`.business-engagement-channel-list`: Customer Profiles, relationship types, channels per stage): the dot is drawn (`li::before`), its left edge is the list's left edge, and its right edge is `--bullet-gap` from the text |
+| `--card-label-col` / `--side-label-short` | 177px | the label column of every side-label row, so Start date, Group, Performer, Responsible and Frequency start their cells at one x on every Business card; `--side-label-short` is this token |
+| `--qty-w` | 56px | the Quantity box of the cost row (three digits and the cell's padding) |
+| `--tile-radius` | 8px | a tile, a box and the Add Card tile |
+| `--card-x-column` | 32px (44px on a channel card) | the x's column of an opened card |
+| `--tick-radius` | 4px | the corner of a tick box (the box is 24px) |
+| `--hover-lift` | 1.2 | the factor of the glow a tile, a cell or a list row takes under the pointer (18% becomes 21.6%) |
+| `--completed-dim` | the Completed ink at 55% over the Completed card ground | the one text tone inside a completed card |
 | `--card-body-indent` | 44px | a card body's left edge from the head's left (the arrow's 36px plus 8px) |
 | `--side-label-gap` | 12px | a side label to its control |
 | `--side-label-short` | 177px | the SHORT side-label column (`BusinessField side`): wide enough for the tick, "Responsible" and its "i" on ONE line (22 + 8 + 100 + 8 + 22 = 160px), so the short labels of a Capability card (Frequency on a Resource, Responsible on a Partner / Provider) stand in one column and their dropdowns start at one x (see "Capability cards: short side labels") |
@@ -51,18 +75,15 @@ below are these, made measurable.
 | `--title-arrow-size` | `calc(var(--font-h2) * 0.75)` (21px) | the long side of the glyph of the `.title-arrow` button of the capability overview menu (`title-arrow.css`); the arrows beside a label or a card title are the label arrow (`--label-arrow-size`), not this one |
 | `--section-head-height` | 36px | a section heading's height in a card of tiles (the height the old fold arrow gave it), and the height of the heading-height spacer that lines Offering's Capability's tiles up with Infrastructure's |
 | `--section-box-size` | 160px | a founder's closed square box (more than 8 founders): the tile component at this fixed side (the subcategory boxes are sized for two rows instead, "Subcategory boxes") |
-| `--workspace-form-width` | 560px | the Workspace dialog's card: centred, this wide at most (it is 364px: 12px, the label column, 12px, the pickers' column, 12px, and the border) |
-| `--workspace-label-width` | 97px | the Workspace form's label column: the widest label of the form ("Workspace", 96px; with its tick "Deposit" 91px) and no wider |
-| `--open-card-width` | 492px | an opened card in a dialog (a card box pressed): centred, this wide at most |
+| `--open-card-width` | 492px | an opened card (a floating card, a card box pressed): centred, this wide at most; the content is 466px |
 | `--founder-marker` / `--founder-inset` | 35.5px / 4.5px | a founder's marker column, left of the content edge, where the head's number, the roles' bullets, the fold arrows and the list numbers hang: a single-digit head number in tabular figures (18.3px) plus the head's 8px gap, so the number stands exactly 8px before the name; the inset keeps the standard 36px fold arrow's 4px focus ring inside the card (its box reaches 12.5px left of its glyph). The card's left padding is `--card-padding` + `--founder-inset` + `--founder-marker` (42.8px) |
 | `--founder-cell` / `--founder-card-min` | 108px / 297px | a founder's four cells (Salary, Frequency, Working Hrs, Delivery Hrs), one width: what the Frequency picker's longest option ("Annually") needs with padding, chevron and border; and the width of a founder's card: what its content needs and no more (42.8px + 108 + 12 + 120, the second column as wide as the label "Frequency (i)", + 12 + the 2px border) |
 | `--section-tile-line-height` | 1.45 | a tile title (and a box title) that wraps, a tile's list, a founder's list items: room between lines; a single line looks the same |
-| `--tile-title-top` / `--tile-list-gap` | 0.25 / 8px | a tile's or box's title: the centre of its LAST line stands this fraction down the square (a third; 0.66667 would put it two thirds down); the gap from a list's bullet to its text (the list itself starts 12px under the title's rule: `--space-card` less the tile's `--tile-lift`, which `TileTitle` measures) |
+| `--tile-title-top` / `--tile-list-gap` | 0.25 / 8px | a tile's or box's title: the centre of its LAST line stands this fraction (a quarter) down the square; the gap from a list's bullet to its text (the list itself starts 12px under the title's rule: `--space-card` less the tile's `--tile-lift`, which `TileTitle` measures) |
 | `--box-light` / `--box-shade` / `--box-inset` | white 75% / black 18% (dark: white 10% / black 50%; sepia: cream 80% / brown 20%) / `inset 3px 3px 6px light, inset -3px -3px 6px shade` | THE EDGE OF A BOX (page tile, subcategory box, card box, Completed box): no stroke, an inset light from the top left and an inset shade to the bottom right |
 | `--plus-fill-saturation` / `--plus-fill-lightness` | 36% / 38% (sepia 34% / 36%; dark 42% / 68%) | the darker tone of a tile's hue: the stroke and the "+" of a "+" box at rest, its fill under the pointer (the hue is the tile's own) |
 | `--cell-light` / `--cell-shade` / `--cell-inset` | white 50% / black 12% (dark: white 7% / black 45%; sepia: cream 55% / brown 14%) / `inset 2px 2px 3px light, inset -2px -2px 3px shade` | THE EDGE OF A CELL (an input, a picker, a text box, a name cell, the x) in an opened card of page 3: the lighter twin of the box's edge, no stroke |
-| `--floating-scrim` / `--floating-caption-ink` | black 60% / #fff | the page behind a floating card: a FLAT dim, no blur, no lifted brightness; and the ink of the box names standing on it (6.26:1 light, 6.31 sepia, 19.1 dark over the worst pixel behind a name) |
-| `--card-side-label` | 124px | the label column of the side-label rows (Status, Frequency) of an opened card: as wide as "Frequency (i)" (120px) needs, so the Status dropdown can be as wide as its longest option (316px) in the card's 454px |
+| `--floating-scrim` / `--floating-caption-ink` | transparent / per theme | a floating card never darkens the page (a dialog does: `--bg-overlay`); the ink of the box names standing over it (13.1:1 dark, 5.7 light, 6.4 sepia over the worst pixel behind a name) |
 | `--dialog-ground-alpha` / `--dialog-blur` | 20% / 14px | THE ONE DIALOG GROUND: the card ground of every open section dialog at this alpha (the background colour is 80% transparent) over the dimmed page, blurred this much behind it (`backdrop-filter`) |
 | `--dialog-backdrop-brightness` | 1.7 (dark: 1) | the page behind the dialog, lifted (`backdrop-filter: brightness()`): it undoes the overlay's dimming so every text keeps 4.5:1 over the worst smear of the page behind the 80%-transparent ground (see "One ground for every dialog") |
 | `--card-glass-alpha` / `--card-glass-blur` | 62% / 8px | the glass ground of every card inside an open dialog (a founder's, a resource's, an activity's, a partner's): the card's inner tint at this alpha, blurred this much |
@@ -76,28 +97,9 @@ below are these, made measurable.
 | `--control-square` | 44px | the square variant; also the one control height |
 | `--name-number-columns` | `minmax(0,1fr) min(var(--control-s),40%) 32px` | the Name / Number list |
 
+The numbers in this table are read from the stylesheets and kept equal to them (`npm run docs:values:check`); a row says what the code has, never what an older round said.
+
 ---
-
-## 8. Values as built (read from the code on 2026-10-14)
-
-| Token | Value | Where | Note |
-|---|---|---|---|
-| `--open-card-width` | 492px | `global.css` | A test asserts 492. Older text in this rulebook says 480px (454px content): 492 is the value |
-| `--tile-title-top` | 0.25 (a quarter of the square) | `global.css` | A test asserts 0.25. Older text says a third (0.33333) |
-| `--card-label-col` | 177px | `global.css` | The label column of every side-label row |
-| `--side-label-short` | `var(--card-label-col)` (177px) | `global.css` | Older text says 124, 156 or 164px; they are replaced |
-| `--qty-w` | 56px | `section-tiles.css` | Quantity box of the cost row. Older text says 80px |
-| Tile hover | `scale(1.1)` | `section-tiles.css` | Every tile. Older text says 150% for page tiles |
-| `--tile-radius` | 8px | `global.css` | |
-| The "+" box at rest | transparent with a 2px stroke (a disabled box keeps the ground colour) | `section-tiles.css`, "A WIRED BUTTON ..." | The global rule for wired buttons: no fill at rest, an outline and a symbol. Measured by the library runner |
-| `--card-padding` | 12px | `global.css` | |
-| The remove x at rest | transparent with a 2px red stroke and X (a disabled x keeps the surface fill) | `section-tiles.css`, "A WIRED BUTTON ..." | Older text in `remove-button.css` and the rulebook says the fill is the card's ground (`--x-ground`). Measured by the library runner |
-| An "i" at rest | transparent in every look; the page-3 stroke of 1.5px is drawn as 1px on a 1x screen at 100% zoom | `section-tiles.css`, "A WIRED BUTTON ..." | A wired button: no fill at rest, an outline and a letter. The tint rule for other hue cards is overridden by `conversation.css`'s base rule (known finding in `src/library/assets/infoNote.ts`) |
-| `--space-label`, `--space-field` | 6px, 12px | `global.css` | |
-| `--floating-scrim` | transparent | `global.css` | A floating card never darkens the page; a dialog does (`--bg-overlay`) |
-| A tile's list | holds every item and scrolls; there is no "+N more" line | `SectionTiles.tsx` | Older text in section 5a says the list ends with "+N more" |
-| `--card-side-label` | not defined | | A test asserts it is absent |
-| `--workspace-form-width`, `--workspace-label-width` | not defined | | The Workspace is a category of the resource card |
 
 ## 3. Anatomy
 
@@ -210,8 +212,8 @@ the same inner side margin: `--card-padding` (12px).
 |---|---|---|---|
 | XS | 80px | 3-4 digits, or "33.333" | Quantity, a person's hours, calendar weeks (`.delivery-number`), a founder's Ownership % |
 | Code | 128px | 10 characters ("10001-1234" 98px, ten digits 107px, "£250,000") | a founder's Capital, the activity code, the Workspace's Deposit amount |
-| Date | 170px | the longest month and year ("September 2030" 143px) and its insets | every Start / End month picker in Strategy: the Strategic Period's and every Objective's |
-| S | 220px | 18 characters, or a whole date with its calendar button (159px) | numbers and amounts in fields, dates, short pickers (Status, Role, Responsible), month pickers outside Strategy, the Number column of a Name / Number list |
+| Date | 160px (`--control-date`) | a whole date with its calendar button, or a month and year with its calendar button ("Sept 2027") | every date cell and month cell in every card, wherever it stands |
+| S | 220px | 18 characters | numbers and amounts in fields, short pickers (Status, Role, Responsible), the Number column of a Name / Number list |
 | M | 300px | an amount with its currency | price + currency pairs |
 | L | 420px | a long option | pickers whose longest option needs it (OptionPicker picks S, M or L itself) |
 | Column | its column | anything | text fields and pickers that fill their column (Country, State / Region, the Address) |
@@ -242,8 +244,8 @@ track of the grid it stands in.
 
 ### Compact items
 
-- The x (remove): 32 x 32, on every row of a list in one column.
-- A tick box: 18 x 18.
+- The x (remove) and the "+" (small): 32 x 32, on every row of a list in one column. The calendar button inside a date cell is the same box.
+- A tick box: 24 x 24, corners 4px (`--tick-radius`).
 - The fold arrow: 36 x 36. (The exception is the label arrow beside a label or a title: a triangle of the label's own size with a hit area never under 24px; see "The label arrow" and "Section tiles and dialog".)
 ### The caps title
 
@@ -301,7 +303,7 @@ and Business Foundation's lower sections keep their own page layouts.
 - **An "i"** follows its words' last word at 6px (`--info-gap`, one rule for every "i"), on that line's centre
   (glued to the last word, `.info-note-glue`); after a badge, on the
   badge's centre.
-- Exception: a Text Hierarchy level's row (see 7) centres the tick, the
+- Exception: a Text Hierarchy level's row (see "Declared exceptions") centres the tick, the
   name's whole block and the px box on the row's centre line.
 
 ### Connected components align as one (2026-10-16)
@@ -323,7 +325,15 @@ The check: `node scripts/catalogue/align-check.mjs` opens every master tile and 
 every pair of controls side by side whose centres differ by more than 1px, or whose tops differ when their heights are equal.
 It must list none.
 
-### One dropdown alone in a row, and fields that pair (2026-10-16, owner)
+---
+
+## 6. Shared components and states
+
+The owner's rules of 2026-10-16 and 2026-10-17 on the components every card shares, then the reactions of each kind, the picker options, tracking and the label arrow.
+
+### The shared components (rules 6 to 20)
+
+Rules 6 and 7 are about a dropdown alone in a row and fields that pair; 8 to 20 about what every kind of field, card and tile has in common.
 
 6. **A dropdown alone in its row takes the row.** When a card's row holds one field and it is a dropdown, its right side is the available space's: 12px after the x's left side, which is the name cell's right edge, or, on a card with no x, 56px (12px gap + the 32px x + 12px side gap) from the card's right edge. It does not size to its longest option. (Built in `OptionPicker`: a hugging picker with no other control in its row is "full".)
 7. **A field with the label above its holder usually has a partner beside it.** The common pairs: Working Hours with Delivery Hours; Salary, Cost, Price or Expense with its Frequency. A currency dropdown, where there is one, comes after the amount; a quantity (QTY) cell, where there is one, comes before it. (Rule recorded; applying it card by card is a survey of every card still to do.)
@@ -340,6 +350,88 @@ It must list none.
 17. **"No category" opens a card.** The line of a tile's list that names the cards still to be filed opens the first of them, floating; the arrows go through the others.
 18. **A divider line runs from edge to edge of its card**: across every column of the card's grid, the x column too (`.business-capability-card-rule`).
 19. **A milestone's name cell ends where every cell ends; its "+" (or x) stands in the x's column**, level with the head's x. A milestone with no date of its own takes the card's: the first the Start date, the last the End date, the ones between spread evenly (`paymentPlanLines`); a date typed stays.
+20. **The blocks of a master tile** (a colour, an image) are tiles with one corner, 6px; under the pointer a block grows 10% inwards and keeps its inset light and shade (the drop shadow is added to them, nothing is lost). A typeface on the Typography tile is a text: under the pointer, and while its card is open, it is underlined and has no halo or block. The colour blocks stand in the order of the Colours card (the A colours first, then the B colours), three across.
+
+### Interactions: one set of reactions per kind
+
+| Kind | Hover | Focus | Disabled |
+|---|---|---|---|
+| Text box (input, textarea) | primary edge + soft glow (18%) | primary edge + ring (3px at 35%, the one effect of every text holder) | muted, no reaction (a completed card's cells keep their shape: rule 14) |
+| Text holder (an image's name and description, one box) | as a text box, on the holder | as a text box | as a text box |
+| Picker | as a text box | as a text box | as a text box |
+| Tick box | its words underlined, the box's glow ring (the field's, 4px at 18%, no wire; whether or not the words are in its label: `.brand-tick` too); ticked, the box is flat (no inner light or shade) and keeps the glow | focus ring | not-allowed cursor |
+| Date cell, month cell | as a text box (no stroke, recessed, glow, ring); never bold | as a text box | muted, no reaction |
+| Calendar button (inside a date or month cell) | the "+" box's swap: ground, 2px stroke and symbol in the card's tone, filled under the pointer (outside a coloured card, the tone every cell has) | the same and a 2px outline | 50% |
+| Calendar card, colour picker card | its day, month and arrow buttons: the "+" box's swap, every button with the same 2px frame so none changes size; no bold | outline | the day dimmed; a click outside, or Escape, closes the card |
+| Text link (every one: `text-links.css`) | bold and underlined (the line 1px under the descenders); a text longer than its place moves right to left | outline | grey in a completed card |
+| Link symbol | 20% larger about its centre, nothing moves; drawn in the card's tone | the same | n/a |
+| Funnel (founder's Responsibilities) | the "+" box's swap | outline | n/a |
+| The tile or box that opened the open card | a steady halo in the card's tint (not flashing); a link that opened it is bold | - | n/a |
+
+| Add button | its ground | focus ring | muted |
+| x (remove) | filled with the danger red (`--x-red`), no stroke, the X in the card's ground (`--x-ground`); at rest transparent (no fill), a 2px red stroke and a red X; the same on every x | outline, the focus ring ink, 2px, 2px off | muted |
+| Fold arrow (`FoldArrow`, 36px) | its ground and the card-line edge -- **not** a founder's Responsibilities / Completed arrows, which have none | focus ring | n/a |
+| Page tile (its slot: button, list, "+") | grows to 110% about its aimed corner (set once per stay), above its neighbours, a drop shadow growing with it | a 2px primary outline on the control that holds it (no growth) | n/a |
+| Box in a dialog (subcategory, card, founder, add) | soft glow (18%) beside its inset light and shade (no stroke) | a 2px primary outline | n/a |
+| Item of a page tile's list | underlined | underlined and a 2px primary outline | n/a |
+| "+" box (a page tile's, 36px; the Activity card's Add Performer, 32px) | the colours swap (150ms): at rest the ground, a 2px stroke and the "+" in the darker tone; under the pointer the darker tone filled, no stroke, the "+" in the ground | the same and a 2px outline | muted, not-allowed |
+| "i" of a coloured card | stroke gone, filled with the tint, the letter in the ground (a swap) | the same | n/a |
+| Line under a parent's Status ("Open Activity “...”", an alarm when the child holds details) | bold (a text-shadow, nothing moves) while the pointer is on the Status cell or on the line; its link underlined | outline on a link | n/a |
+| A child's name (the link to its parent) | underlined and bolder | a 2px outline | n/a |
+| Label arrow (beside a label or a card title) | the outline triangle fills | the same fill (no ring) | n/a |
+
+A tick box toggles only from the box itself or its words: its label is as
+wide as they are (`width: fit-content`), never the empty space beside
+them; Space toggles the focused box. A tick's "i" stands outside its label,
+so reading the note never toggles the tick.
+
+The check hovers up to three of each kind on every page and fails a kind
+that does not react as its row says; it hovers up to twelve x and fails
+if any two turn different colours (one reaction per kind).
+
+**The one x.** Every remove button is the shared `.strategy-box-remove`
+and nothing else (no second class adding a hover, a ring or a glyph size):
+the Strategy Theme, Goal, Objective and Metric x are the Legal Entity
+card's. Its look is the "+" box's swap of two colours (remove-button.css, app-wide): at rest there is no fill (transparent: the card's ground
+shows, `--x-ground`), the stroke 2px and the X the danger red (`--x-red`); under the pointer or the focus no stroke, filled red, the X in the ground. The check reads a Legal Entity card's x at rest, under the
+pointer and focused (square, edge, corners, ground, colour, ring,
+transition and the two drawn bars) and fails any x on any page that
+differs.
+
+### Picker options
+
+- **No bracketed text in an option.** A hint, a note or an explanation
+  ("(common here)", "(not listed)") goes in the field's "i" instead:
+  a Legal Requirement's Type says "Usually required here: ..." in its note;
+  "Other (not listed)" reads "Other" (the field that follows names it; the
+  saved value is unchanged).
+- **Exception: an abbreviation in brackets stays** ("Private Company
+  Limited by Shares (Ltd)", "Limited Liability Company (LLC)", a currency
+  code). Stored values never change for a wording; documents keep full
+  names.
+- **Exception: official and legal names stay as written**, brackets and
+  all: legal forms ("Toiminimi (sole proprietorship)", "Corporation
+  (federal)", "Empresario individual (autónomo)", "Stichting
+  (foundation)", "Unternehmergesellschaft (UG, haftungsbeschränkt)"), a
+  tax's official name ("VAT (USt)") and a platform's name ("X
+  (Twitter)").
+
+### Tracking follows weight (2026-10-14)
+
+Text that goes bold under the pointer (`--hover-bold`) gets 0.05em of tracking ON TOP of what the element already has (`--bold-tracking` added to `--rest-tracking`: a button's 0.1em, none elsewhere), as the Capability and System list always did; text that is bold by default has the same. Spacing comes with bold only: the lit rail item is wider than the others, never tighter. A bullet under the pointer is only underlined. Every CSS rule that sets a bold weight (600 and up) or `--hover-bold` sets `letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking))` with it, unless it states its own tracking (the uppercase labels keep theirs); `strong`, `b`, `th` and `h1`-`h6` carry it by default. A glyph (a chip's ×) is not text and takes none. A row that holds bold text on hover must be sized for the wider text (one line, no re-wrap).
+
+### The label arrow (2026-10-14)
+
+One fold arrow (`LabelArrow.tsx`, `label-arrow.css`) for an arrow that stands beside a label or a text and shows or hides what belongs to it.
+Today: the chapter titles of 3. Infrastructure & Capability (right of the title and its "i"), and, left of the label and inside it, a founder's Responsibilities and Completed, a card's Links and the Initiatives of an Objective.
+- No frame and no ground: only the triangle. At rest an outline in the card's tint (the "+" box's colour); under the pointer and the keyboard focus the same triangle filled.
+- The shape is the Completed arrow's (11px wide and 18px high pointing right, 18 x 11px pointing down, at an 18px label); the size scales with the label's letters (1em high). The line is 2px, inside the shape, like the "+" box's. The colour is the card's tint (the "+" box's).
+- Inside a label its glyph starts at the content edge, like a tick box, and the words start where a tick box's words start (26px). The button is never under 24px; it overhangs the triangle and takes no more room.
+- Only these use it: the chapter titles of 3. Infrastructure & Capability, the Initiatives, a founder's Responsibilities and Completed, and a card's Links. Every other fold arrow keeps the standard 36px arrow (`FoldArrow`).
+
+---
+
+## 7. Lists, grids and card layouts
 
 ### Grids and lists
 
@@ -432,222 +524,7 @@ It must list none.
   12px above the body. The label and the picker keep their sizes (the
   picker hugs its longest option, see the hug exception); the pair is
   right-aligned.
-- **Customer Engagement**: "1. Customer Channel" and "2. Customer
-  Relationship" hang their fold arrows in the Segment card's arrow column
-  (under its arrow), so their numbers stand at the Segment's number. In
-  the Customer Channel table every cell (heads, category rows, nested
-  channels, cells) has 12px (`--space-field`) between its edge and what
-  stands in it, at the sides and top and bottom. While that table has its four
-  columns (its box 1300px or wider) JOURNEY STAGE and CHANNEL are FITTED to their
-  dropdowns: the Journey Stage picker is as wide as its longest option ("Support &
-  Follow Up", hugging, sized for every stage so it does not change width as stages
-  are chosen) and its column exactly that picker, the 12px gap, the x and the 12px
-  cell padding at both sides; the Channel column fits the widest category or channel
-  name preset ("Booking / Registration Page", the nested mark, the "i" and the x
-  beside it) the same way; the Journey Stage column is also never narrower than its
-  "+ Add Journey Stage" button on ONE line (the button's measured width, 272px at 18px,
-  and the cell padding at both sides: 299px). A stage row is ONE block: the dropdown
-  FILLS the track from the cell's 12px padding to the x (never narrower than its
-  longest option; it does not hug), the x 12px from it, and the Add button spans from the
-  dropdown's left edge to the x's right edge, the same widths on every row; OFFERINGS and ACTION share the rest, 45% / 55%. The widths
-  are MEASURED in the font the table is drawn in (`useChannelColumns.ts`, sums in
-  `ChannelTableColumns.ts`, set as `--col-channel`, `--col-stage`,
-  `--col-offerings`, `--col-action` on the table and again on resize), never
-  guessed; no picker shows a cut word. They are measured from a hidden copy of one
-  stage row, so they are the same whether or not any category is open (a table with
-  every category folded has no stage row to read) and the Channel Category picker
-  ("Physical Delivery", the widest) never wraps in its category row. Narrower, the table stacks as before. The
-  Customer Relationship table keeps its own columns. Under that table, "Channel
-  resources" is a fold of its own (the section-head pattern: arrow in the
-  card's arrow column, caps title, the table starting at the title's text;
-  open by default, not drawn when the Segment has no channel resource): a
-  read-only table (`.channel-resource-table`, derived by
-  `buildChannelResourceTable`, never stored or counted) on the channel
-  table's ground, hairlines and 8px corners, 12px (`--space-field`) from
-  every cell's edge to its text, text wrapping, scrolling only inside its
-  own box under 1050px; its columns are Resource, Cost,
-  Behaviour, Channel, Offerings, Journey stages and Actions (no Status,
-  "Where it lives" or "Also reaches" column). A cell holding two or more
-  values (the Channel cell: the channel the resource was made on first, then
-  each other channel it shows in through an action; Offerings; Journey
-  stages) lists them one under the other as bullets
-  (`.channel-resource-bullets`: the drawn bullet, `--bullet-size` /
-  `--bullet-gap`), every item styled alike; a single value is plain text with
-  no bullet, indented by the bullet's width and gap (`.channel-resource-single`)
-  so the text of every cell of a column starts at ONE x. The Actions cell has NO
-  bullets: its "#N" buttons sit side by side and wrap between buttons
-  (`.channel-resource-chips`), each button one line (`white-space:nowrap`). Column
-  widths come from the content (`.channel-resource-col-*` minimums; Cost and
-  Behaviour on one line); the table fits 1600px with no inner scroll and wraps
-  inside its box below that. A row's name carries the
-  resource's warm colour
-  (4px stripe and dot) and a hover wash, and its footer line is a summary
-  of the rows, not a forecast (its Offerings
-  column names only the Offerings the card links, "—" for none or for an
-  Infrastructure / Workspace card, never "All Offerings"). In
-  the Customer Relationship table, an Offering's block starts at the "1."
-  of "1. OFFERING -" (the PROFILES: row and the Relationship column's
-  cells); the kind word and "PROFILES:" (colon right after, 16px before
-  the first link) are caps titles, and the Offering's name is an
-  underlined link to it on the Foundation page, like a Profile's name; a Relationship Type's arrow stands under the
-  Offering's (the band's 12px inset, the same 36px arrow, its 4px gap),
-  and its picker [x], then its Purpose, then "+ Add Relationship Type"
-  (from the picker's edge to the x's) start at that number; those cells
-  stand 12px apart (the Purpose's label 6px from its box) and the x 12px
-  from its picker. The Engagement Strategy
-  is two parts (the table's second and third columns): the Journey Stage and
-  its Goal / Approach. The stage band (fold arrow, name) and the GOAL (the
-  "Goal" label with its "i", then Get / Keep / Grow) are cells of ONE row,
-  the Goal centred on the band's 36px line like the stage name (mid-line
-  rule), in the band's ground; the Approach (label and text box) follows
-  under the Goal in the same column, beside the kind-of-channel lists. Under
-  a journey stage, the kind of channel ("Social Media") and its list start at the
-  stage's TEXT ("Discover", past its fold arrow and gap): the label's text
-  and each bullet's left edge stand on that x. A stage's fold arrow folds ONLY
-  those kind-of-channel lists; the Goal and the Approach stay (a folded stage
-  keeps one row, with the Approach in the second part). Every Journey Stage band
-  STARTS FOLDED (the item folds, `useItemFolds`: closed until opened; the choice is
-  kept for the session as the other item folds are).
-  The Segment card has NO head row of its own: its fold arrow (which still
-  folds the whole card) stands in the card's arrow column next to "1.
-  SEGMENT", the first reference column's heading, and the card's body
-  (the references, then the two sections) starts at the body edge, as under
-  any head. The references stand straight on the card in no box and have no
-  Show / Hide button: three columns, 12px apart (`--space-column`), SEGMENT
-  (the card's number before it, "1. SEGMENT", number then word at the 8px
-  head gap), PROFILES and OFFERINGS, all caps titles, headings on one line
-  and baseline; every arrow, the Segment's too, starts folded. Each column
-  has ONE left edge: its title's text ("1." / PROFILES / OFFERINGS), every
-  link's text and every details block's text (headings and paragraphs)
-  start at it. Each link's fold is the ordinary 36px fold arrow at the RIGHT
-  of the link's text (8px after it, centred on the link's FIRST line; if
-  the name wraps it stays on that first line, at the link box's right edge,
-  and never follows the name or the unfolded details down). Its right edge
-  never passes the column's right edge, which is 12px (`--space-column`)
-  short of the next column's hanging rule (the last column, Offerings: 12px
-  short of the Segment card's right side, inside its border -- the same
-  12px rule): the link is at most the column less `--reference-arrow-room`
-  (36px + 8px) and wraps inside that. Not an arrow in front of it,
-  so no arrow column is reserved; the details stand directly under the link,
-  and their vertical rule is not content: it hangs 12px before the text
-  edge (the Segment's in the card's arrow column; the Profiles' and
-  Offerings' in a 12px strip reserved in their tracks). The three contents are equal in
-  width, the columns 12px apart. Folded, the card is one row: its arrow, "1. SEGMENT" and the
-  Segment's name (so it stays identifiable); its accessible names are the
-  arrow's "Segment N" and the card's group name "Segment N: name". In an Action list the x (32 x 32) is pinned to the box's right
-  edge on every row, 6px in from the top and right; the row's
-  symbols stand under it (see Action markers).
-- **Action markers** (Customer Channel, `ActionMarkers.tsx`, `ActionOrder.ts`,
-  `numbered-list.css`). SHAPE says the kind of tie, COLOUR says which one.
-  A SHARED symbol (link icon) stands on every row of an action placed in more
-  than one row; a LINKED-TO-RESOURCE symbol (tag icon) on every action linked
-  to a resource (a resource's own card has NO symbol: its summary line says
-  "no actions", "action" or "N actions" in words). Each shared action takes one of
-  six COOL hues (`--shared-hue-1..6`: teal, blues, violets; position among the
-  Segment's shared actions in table order), each resource one of six
-  WARM hues (`--resource-hue-1..6`: amber, orange, rust, red, rose, pink;
-  position among the Segment's linked resources), as `.tint-shared-N`
-  / `.tint-resource-N` (global.css; the card-family tokens `--tint-ink`,
-  `--tint-mark`, `--tint-ground`, `--tint-wash` from `--theme-*`, never a
-  per-theme value). Glyphs and lines >= 3:1 and chip text >= 4.5:1 in light,
-  sepia and dark (greens are left out of the palettes: they fall under 3:1).
-  PAST SIX the hues come round in a PATTERN with a contrasting second colour
-  (`--pattern-alt`, colors.css: dark ink in light / sepia, light ink in dark, >= 3:1
-  on the surface, as every hue's ink is; `actionPattern.test.ts`): the 7th to
-  12th place in diagonal 4px STRIPES (`.tint-pattern-stripes`: the hue against
-  `--pattern-alt`, repeating-linear-gradient 45deg, 4px bands), the 13th to 18th
-  in a CROSS-HATCH (`.tint-pattern-hatch`), then round again (`markHue`,
-  `markPattern`, `markTint`, `connectionPaint` in ActionOrder.ts; the paint is
-  `--tint-fill`). The pattern is on the symbol (a 2px ring of it round the
-  glyph), the 4px lines, the resource card's stripe, its chips' left edge and
-  the Channel resources table's stripe and dot.
-  The same colour is on the symbol, on a 4px CONNECTION LINE inside the action
-  cell (shared action: the RIGHT edge, identical on every row it stands in;
-  resource: the LEFT edge, one segment per resource, split top to bottom in equal
-  parts when an action has two or more; both lines when it is both) and, for a
-  resource, on its card (4px left stripe, tinted chips). Never colour alone:
-  the shapes differ and every symbol has an aria-label.
-  An ACTION LINE is two text lines high at least (70px), and under its list
-  number stands its TOTAL ACTION ORDER NUMBER ("#12", small, muted, bottom of the
-  cell): the count of the Segment's DISTINCT actions down the table (category,
-  channel, stage, line), a shared action numbered where it first appears and
-  showing that SAME number on every row it stands in (1..N, no gaps); numbers
-  never change while rows are folded or isolated. Typing "#12" (hash and digits)
-  in an action line offers action 12 as its one suggestion and Enter or a click
-  shares it there (the same action; a number that refers to nothing, or to an
-  action the row already holds, offers nothing and the text stays as typed).
-  A line left EMPTY disappears when focus leaves it (a moment later, so a click
-  beside it is not lost) unless it is the row's only line, which keeps its one
-  empty line; Enter still opens a new line to type in. The x (32 x 32) stays 6px in from the top and right and the
-  SYMBOLS (24 x 24 hit area, 16px glyph, absolutely placed so nothing moves on
-  hover) stand UNDER it: one symbol directly under; two, text of 1 or 2 lines:
-  side by side under it; two, 3+ lines: one under the other; two, one line that
-  fits with both beside the x: side by side level with it (the list sets
-  `data-marks` = under | pair | stack | beside on the row from the text's measured
-  size, at a width that does not depend on the placement, so it cannot flip
-  back and forth). The text keeps its full width except the 16px (pair) or 48px
-  (beside) the symbols need. Pointing at (or focusing) a symbol shows the app's
-  tooltip (`.app-tooltip`) ABOVE its ACTION CELL (the line's box), its RIGHT edge
-  on the cell's right edge (below the cell only with no room above, still right
-  aligned), nowrap, hugging its one line -- "Shared in N places", "Linked to
-  <resource>", "Linked to N resources" -- and Escape closes it.
-  A CLICK ISOLATES (one at a time; a second click, Escape (consumed, so it is not
-  Back) or the note in the title row restores everything and returns the keyboard
-  to the symbol; `aria-pressed` on the pressed one): every action line not
-  involved collapses (height and opacity, ~.2s, none under reduced motion; hidden
-  to the keyboard once shut), the stage rows, channels and categories left with
-  none are not drawn (categories folded shut are shown open meanwhile, their fold
-  untouched), and EVERY Add button/row of the Segment's table goes (+ Add
-  resource, offering, journey stage, channel, channel category, Link an action).
-  NOTHING IS CREATED while a Segment is isolated: no creation path works in its
-  table (Enter in an action line opens no new line, the Links tick of a channel
-  cannot open a new box and its list takes no new line, a click-to-pick "Link an
-  action" in progress ends); the text already there stays editable. A CLICK ON
-  EMPTY SPACE also restores everything (focus back on the symbol, as the other
-  exits): anywhere that is not a control or a cell's content -- the page's
-  background, the table's head, a blank part of a cell. A button, field, action
-  line (number, text and symbols), resource card or chip, list, tooltip or label
-  keeps the isolation; so does a press that began on one and was let go outside it.
-  Shared isolation also hides the resource cards and "Costs: ..." lines not linked
-  to the action. Resource isolation (from an action's symbol, or the "action" / "N actions" words
-  of a resource card's summary line) draws only the isolated
-  resource card(s) in the channel cells (no other card, no cost summary), each
-  with ALL its actions as chips, the chip of the action clicked from ringed in
-  the resource colour and bolder (none, if clicked from the card). The note at the
-  title row's far end names everything, wrapping rather than cutting:
-  "Shared: Instagram, Pinterest x" (the channels holding the action, in table
-  order) or "Linked: Shopify Basic, Klaviyo x". A resource card's chips read
-  "#<total order number> <action words>" on one line, ellipsised (the full text is
-  the title); typing "#12" or just "12" in "Link an action" finds an action of the
-  Segment's WHOLE table -- any channel's, not only the card's own (the exact number first
-  and selected, then numbers that start with it, then words); the click-to-pick takes any
-  action line of that Segment's table. A resource may so be linked to an action that stands
-  only in another channel: its card stays in its own channel's cell and shows in the cell of
-  every channel whose rows hold the action. A card shared into another channel's cell reads
-  its name and cost, then "via shared action" under them, in words (no symbol): "shared action" is a
-  link (the notepad-text-button style of "# Link an action") that goes to that action's line
-  and puts the caret in it, the same jump as the "#N" buttons of the Channel resources table;
-  shared through several actions it reads "via shared actions #3 #7", one such link each.
-  Isolating a SHARED action shows every card linked to it in every channel kept: at home in
-  the channel it was made on, "via shared action" in the others. Starting an isolation takes the top of that Segment's Customer
-  Channel section (its title row, with the note) to just under the app header
-  (smooth, none under reduced motion); ending one scrolls nothing.
-  Pointing at a shared row lights its twins, and at a resource card or symbol its
-  actions, on the tint's wash.
-- **Demand & Conversion** (Customer Engagement): what the block is for
-  and where its Expected Sales are used are the points of one "i" on its
-  title, not paragraphs around its fields.
-  A Customer Source card's fields stand on one row (Customer Source,
-  Estimated, then the figure or the calculation's figures), each as narrow
-  as it can be: the pickers hug their longest option, a number takes the
-  step its largest value needs (XS to six characters, Code to ten), a cell
-  gap apart, labels above, tops aligned; a row too long for the card wraps
-  from the same left edge (at 768px every type with a calculation does,
-  "Other" does not). The Basis stays under them at the card's width.
-  Under the sources and their add button, one row: Customers Buy (its
-  picker hugging its longest option) and, for an Offering kept until
-  cancelled, Cancel / Month (%) (XS), labels above, tops aligned; then
-  the Expected Sales, Assumptions and Channels That Bring Them.
+- **Customer Engagement** (the Channel table, the Channel resources table, the action markers, Demand & Conversion): see `docs/ai/customer-engagement-layout.md`.
 - **Additional Legal Requirement card**: Reference or Number | Type on one
   row of the card's two columns, the Type at the width its longest option
   needs.
@@ -679,7 +556,7 @@ It must list none.
   Provider card are `BusinessField side` rows (an Activity's Responsible keeps its own
   side label, and a Partner / Provider's own Frequency is unchanged: its label above its
   dropdown, beside the Price): the label in the one short column (`--side-label-short`,
-  164px, the width of the tick, "Responsible" and its "i"), `--side-label-gap` (12px), then the
+  177px, the width of the tick, "Responsible" and its "i"), `--side-label-gap` (12px), then the
   dropdown, which HUGS its longest option (the hug exception), the label centred on the
   dropdown's centre line (`align-items:center`). The two dropdowns therefore start at the
   same x (the card body's left + 164 + 12). A Resource's Frequency row spans the fields
@@ -756,7 +633,7 @@ none).
 
 ---
 
-## 5a. Section tiles and dialog
+## 8. Section tiles and dialog
 
 3. Business System › Infrastructure & Capability draws its sections as
 **tiles** (`SectionTiles.tsx`, `section-tiles.css`); the section itself is
@@ -770,17 +647,16 @@ drawn only in a dialog that its tile opens.
   `--section-tile-min` (120px) and always counted as at least three across, so a group of up to three keeps the
   three-across size (about 215px at 1600px wide, 190px at 1366px) and one of four or more across shrinks to fit. The
   cards have no head and nothing in them folds, so there is no body indent: a 3 x 3 set exactly fills the card's content width.
-  **Tile anatomy** (the tile is a two-row grid: the title's row and the rest): the title (with its rule) stands **one line above** the line one
-  third down the square: its **last line is centred one line (`--tile-title-lift`, 1.45 x the title's own font size: 26.1px at 18px, 20.3px at 14px) above
-  the third-down line** (`--tile-title-top`; the title's row is that third less the border, plus the rule and half a line; the lift is the title's bottom
+  **Tile anatomy** (the tile is a two-row grid: the title's row and the rest): the title (with its rule) stands **one line above** the line a
+  quarter down the square: its **last line is centred one line (`--tile-title-lift`, 1.45 x the title's own font size: 26.1px at 18px, 20.3px at 14px) above
+  the quarter-down line** (`--tile-title-top`; the title's row is that quarter less the border, plus the rule and half a line; the lift is the title's bottom
   margin, so the list under it keeps its place and the gap from the rule to the list is a line wider), whatever the number of lines -- a long title grows upward --
   **underlined** by a rule of its own (a 1px bottom border on the title element, in the title's colour at 40%, 4px under
   its last line), at most three lines (fewer where the room above the line holds fewer) then an ellipsis. A title too long for the room
   above its line (first line at least 12px from the square's top) drops to `--font-small` (14px), **that title only**
   (`TileTitle` measures it; the tile takes `data-title-small`). Under the rule, **12px** down (`--space-card`; the list moves up with the lifted title: `TileTitle` writes the tile's lift into `--tile-lift` and the list's top margin is `12px - --tile-lift`, so the gap from the rule to the list is 12px whatever the lift or the title's size),
   the **list of what the section includes** (`TileList`): small text (`--font-small`), `--text-muted` (5.56:1 at the
-  least, sepia), the app's drawn bullet, one line per item cut by an ellipsis -- an item whose text carries a forced break (`\n`: "Cooling & Air" / "Conditioning", "Online Presence" / "& Communication", the only two) is TWO lines, each cut by its own ellipsis, the bullet on the first, and the text hangs under the text, not the bullet -- as many lines as the room holds and then
-  "+N more" as the last line (no bullet); a block as wide as its longest item (at most the tile's inner width, 12px in
+  least, sepia), the app's drawn bullet, one line per item cut by an ellipsis -- an item whose text carries a forced break (`\n`: "Cooling & Air" / "Conditioning", "Online Presence" / "& Communication", the only two) is TWO lines, each cut by its own ellipsis, the bullet on the first, and the text hangs under the text, not the bullet -- the list scrolls inside its bounds (there is no "+N more" line); a block as wide as its longest item (at most the tile's inner width, 12px in
   from each side), **centred under the title**, its lines left-aligned inside it; on a page tile every item is a real control (see
   "The page tile's slot"), and the tile's **accessible name** says it again: the title and the first six items joined by commas, cut at about
   140 characters ("Utilities, Electricity, Internet, Heating & Gas ..."). What each tile lists: the Founders tile each founder
@@ -788,7 +664,7 @@ drawn only in a dialog that its tile opens.
   Equipment / Digital Infrastructure their subcategory names, always (an added one too, and a subcategory that holds no card yet), an Activities tile its active
   activities, the partner tiles their partners and providers, Offering's Capability's tiles the names of their cards
   (Delivery: the Offerings), a subcategory box its cards' names. An EMPTY section (no cards yet) that has the "+" box shows no list and no glyph, only the box (the tile is still described as "No items yet"); an empty box WITHOUT a "+" box (a subcategory box in a dialog) keeps the small "+" (24px,
-  `--font-h3`, the title's colour, decorative) where the list would be. Founders, the Workspace and Delivery are not lists of cards and never show either. Measured at 1600 x 1000 (tile 214.9px): a one-line title (18px) tops at 32.8px, its rule is at 63.6px (last line centred 45.5px) and the LIST STARTS AT 75.6px -- 12.00px under the rule; a title that drops to 14px ("Digital Infrastructure"): top 41.5px, rule 66.5px, list 78.5px, still 12.00px; the three-line "External Professionals & Partners" (14px) tops at 21.2px. At 1366 x 800 (tile 190.5px): 24.7px / rule 55.5px / list 67.5px, and 13.1px / 58.4px / 70.4px for the small ones: 12.00px every time.
+  `--font-h3`, the title's colour, decorative) where the list would be. Founders, the Workspace and Delivery are not lists of cards and never show either.
   The title is the body size (18px), weight 600 and the button tracking (0.1em); the type scale is `--font-small` 14px,
   `--font-body` 18px, `--font-h3` 24px, `--font-h2` 28px, `--font-h1` 36px (see "Title sizes"). The longest word
   ("Infrastructure", 145px at 18px) fits a tile from about 171px wide; in a narrower tile a long word breaks inside the square
@@ -808,21 +684,20 @@ drawn only in a dialog that its tile opens.
   - **List items are controls.** Each item that leads somewhere is a `button.section-tile-link` (focusable, its own accessible name = its text),
     underlined under the pointer and the focus (`text-decoration-color` from transparent to the text colour, offset 3px; focus: a 2px primary outline
     inside the row). Pressing it opens THAT item ALONE as a **floating card** (see below): a founder's name that founder's card, an activity /
-    resource / partner / provider the card's editor, the Workspace's item the Workspace form. A subcategory name (Utilities > Electricity ...) opens its ONE card alone, floating, when it holds exactly one; the section's dialog ON that subcategory when it holds several (a grid is not a card; Back returns to the boxes); and, empty, the dialog on it, where a blank card is made and waits (the first-open rule). "+N more" opens the section's dialog. Delivery's
+    resource / partner / provider the card's editor, A subcategory name (Utilities > Electricity ...) opens its ONE card alone, floating, when it holds exactly one; the section's dialog ON that subcategory when it holds several (a grid is not a card; Back returns to the boxes); and, empty, the dialog on it, where a blank card is made and waits (the first-open rule). Delivery's
     list stays plain text, hidden from assistive technology, as it was.
-  - **The reaction (hover).** Under the pointer ONLY -- not with the focus: a tile that holds the focus has its ring, it does not grow -- the whole slot grows to **150%**
-    (`transform: scale(1.5)`, `transition: transform .15s`, none under `prefers-reduced-motion`): no layout change, the other tiles stay, the grown tile is
+  - **The reaction (hover).** Under the pointer ONLY -- not with the focus: a tile that holds the focus has its ring, it does not grow -- the whole slot grows to **110%**
+    (`transform: scale(1.1)`, `transition: transform .15s`, none under `prefers-reduced-motion`): no layout change, the other tiles stay, the grown tile is
     above them (`z-index: 6`) and overlaps them, and a drop shadow grows with it (`0 10px 22px --shadow-18` and `0 3px 8px --shadow-12`, scaled with the tile).
     It grows INWARD from the corner it stands in: the left column from its left edge, the right from its right, the middle from its centre; the top
     row from the top, the bottom from the bottom; a single row or column from the centre (`scaleOrigin()`, set ONCE when the pointer arrives and never again while it stays: the slot is measured as it rests -- its scale and transition switched off for the measure -- on `pointerenter` / the first `pointermove`, and forgotten on `pointerleave`). **The bug this fixed:** a press on a list item moves the focus, and the old code measured the slot again on focus, with the tile already at 150% and the transition's first frame still the grown one; it took the grown tile for its size, set another origin and slid the tile (40.8px at 1600 x 780) between the press and the release, so the click never landed -- only on the tiles whose origin is moved to keep them inside the card, i.e. the first row of Offering's Capability in a low window and Infrastructure's Activities near the foot of its card. Where the card is
     too narrow for that (the grown tile would leave the scrolling body of its card) the origin moves toward the centre by exactly as much as it takes, so the
-    grown tile is always inside the card's body (measured at 1600 x 1000 and 1366 x 800 for every tile of both cards: 322 x 322 for a 215 tile, inside the
-    card on every side). The text inside grows with it (it is a transform of the whole tile). This does NOT apply to the boxes in a dialog. Hovering the "+" box
+    grown tile is always inside the card's body (a 215 tile grows to 237 x 237, inside the card on every side). The text inside grows with it (it is a transform of the whole tile). This does NOT apply to the boxes in a dialog. Hovering the "+" box
     or a list item is hovering the tile. **Closing returns to the default page:** after a dialog or a floating card closes (Escape, Back, a click outside) no tile is grown even if the pointer rests on one (`data-tiles-settled` on the root, until the pointer moves 3px), and the focus comes back to the opener WITHOUT a ring after a mouse click (`data-focus-quiet`, until the keyboard is used); after the keyboard (Enter) it shows its ring, and still no tile grows. The real-mouse check (`checkRealMouse` in `run.mjs`) presses every list item of every first-row tile at the top of the page in a tall and a low window and tests all of this (the old code fails it with 38 failures at 1600 x 780).
   - **The "+" box** (`.plus-box`, on a page tile `.section-tile-plus`) is on the tiles that take new cards, and only on them: Infrastructure's Operational, Production, Marketing, Sales & Customer
     (and any category tile the founder added), Partners and Suppliers, **Utilities, Workstation, Equipment and Digital Infrastructure**; Offering's Capability's Resources, Activities and Partners & Suppliers
     (one "+" for the tile: it adds a partner). NOT on Completed (either), Founders, Workspace, Delivery or a channel tile.
-    A 36px square (radius 8px) at the tile's LOWER RIGHT, 12px from the edges; the list keeps clear above it (the layer's bottom padding grows by the box and 5px). The "+" is two 2px bars 16px long drawn from the
+    A 32px square (radius 8px, the x's size) at the tile's LOWER RIGHT, 12px from the edges; the list keeps clear above it (the layer's bottom padding grows by the box and 5px). The "+" is two 2px bars 16px long drawn from the
     middle of the box (`::before`, `::after` at `top/left: 50%`, `translate(-50%, -50%)`): no glyph of text, so its centre IS the box's (the bars' computed centres equal the box's to 0.01px; the ink, measured on a screenshot, is
     within 0.5px). **A swap of two colours** (150ms): at REST it is TRANSPARENT (a wired button: an outline and a symbol, no fill; it takes the colour of what it stands on, `--plus-ground`: the tile's, the card's) with a 2px stroke and the "+" in the darker tone of the hue (`--plus-fill`:
     36% saturation, 38% lightness; the lighter tone in dark); under the pointer or the focus it is FILLED with the darker tone, no stroke (the border turns transparent: the fill shows under it, nothing moves) and the "+" is the ground
@@ -832,16 +707,15 @@ drawn only in a dialog that its tile opens.
     with the subsection the "+" made for it. The same box at the x's size (`.plus-box-small`, 32px, bars 14px) is the Activity card's Add Performer (below). The small "+" glyph of an empty tile is gone from every tile that has the box.
 - **Floating cards** (`FloatingCards`). One card alone, or a parent and its child stacked (below), in a portal over the dimmed, inert page: a `role="dialog"` `aria-modal`, each card in an opaque ground (the page card's own, in the hue
   of the card the tile stands in) with a **drop shadow** (`0 24px 56px --shadow-18`, `0 8px 20px --shadow-12`), a "← Back" button under the stack. **The page behind is only dimmed**: a flat scrim (`--floating-scrim`, black 60%) -- no blur, no lifted
-  brightness, no inset light or shade on the page behind (those are the grouped boxes' own); the dialog keeps its own glass ground, which the user asked for (the 80%-transparent ground below). Back, Escape and a click on the dimmed space close
+  brightness, no inset light or shade on the page behind (those are the grouped boxes' own); the dialog keeps its own glass ground (the 80%-transparent ground below). Back, Escape and a click on the dimmed space close
   it (an open picker or "i" takes its own Escape first); the focus returns to the control that opened it (once the page is no longer inert: after the render; quietly after a click, see the reaction). **The box name above each card:** a centred caption, 12px over the
   card, outside it -- the name of the tile or box it belongs to ("Operational", "Providers", "Founders", "Workspace"; a child's: its tile's) -- as plain title text (`--font-h3`, bold, `--floating-caption-ink`, white) on the backdrop, not in a cell, box or
   input, **with the box's "i" after it** where the box has a note (the same note its dialog's header carries; the Workspace's, which has no dialog header, is only here). Contrast of the name on the scrim, over the worst pixel of the page behind it
   (measured with the text hidden): light 6.26:1, sepia 6.31, dark 19.1.
-  Width: any card 480px (`--open-card-width`, at most the window less 16px), a founder's `--founder-card-min` (297px), the Workspace form its own (364px). **Placed on the first row:** the TOP of the first card stands on the top of the first row of tiles of its
+  Width: any card `--open-card-width` (492px, at most the window less 16px), a founder's `--founder-card-min` (297px). **Placed on the first row:** the TOP of the first card stands on the top of the first row of tiles of its
   page column as the page rests (scrolled up) -- that row's top now plus how far the column's body is scrolled, so the same y however the page was scrolled -- and the box name stands above that line (over the column's first heading); horizontally it is centred over the
   card of the page it belongs to (Infrastructure's or Offering's Capability's rectangle; the Workspace over the tile group of 1. Resources). A taller stack extends downward and, once it would pass the footer, scrolls inside itself (the captions and the cards
   scroll; the Back button stays in view under them, never over a card); it is kept 8px inside the window. Where that first row is out of view -- the cards stacked under 1100px and the page scrolled -- the stack stands at the top of the band instead (8px under the page heading's underline, never lower than 200px above the footer). jumpTo / Review / search / the Financial links to the Workspace press its tile, which opens the form alone.
-  Measured at 1600 x 1000: every card of a first-row y 282.3 (the Founders / Resources row's top), its caption 12px over it; a founder's card 297 wide, centred on the Infrastructure card's x 447; a provider card over the Offering's Capability card's centre.
 - **A status and the activity it creates: PARENT -> CHILD.** A resource (or the Workspace) whose Status is "Needs Activity" or "Needs Investigation" has ONE child activity (its `sourceId` is the parent's
   id; the same two statuses as before). The tie (`syncDerivedActivities`, applied on every render and written back):
   - the child's name follows the parent's ("Investigate <name>", "Set up <name>") and is not the user's: the child's card has **no name cell and no x** -- its number and its name stand as plain text where the cell was (the same metrics, the x's place left empty so a long
@@ -854,15 +728,15 @@ drawn only in a dialog that its tile opens.
   - a link either way opens BOTH as floating cards, stacked: the **parent above the child**, 12px apart (each with its own box name above it, the caption of the child 12px over it), on one centre line, the parent's top on the first row's top; whatever was open gives way; Back or
     Escape closes both; if either is gone (the Status changed in the open parent) the pair closes.
   The Workspace is the parent of the same tie but its form is FROZEN: it gets no link line (its own line "Recorded under 2. Activities as ..." stays as it is, in the form); its child links back to it.
-- **Tile grids: ONE SHAPE.**- **Tile grids: ONE SHAPE.** Every set of tiles, subcategory boxes and card boxes takes the same shape
+- **Tile grids: ONE SHAPE.** Every set of tiles, subcategory boxes and card boxes takes the same shape
   (`gridColumns(n)`, mirrored by the probe): **one to three in a single row, exactly four as a 2 x 2 square, five or more
   in TWO rows** (`ceil(n / 2)` across, the last row possibly shorter). On the page the groups are left-aligned, 12px apart every way,
   the tiles square and never stretched, a group too narrow for its row wrapping to fewer across: Infrastructure ›
   1. Resources: six tiles, 3 x 2 (Founders, Workspace, Utilities, Workstation, Equipment, Digital Infrastructure), with no
   "Organizational / Operational Resources" headings and no rule down the left; 2. Activities: Operational, Production,
   Marketing, Sales & Customer as a **2 x 2 square** (a category the founder added earlier is one more tile while it holds
-  activities: five tiles are 3 x 2, six 3 x 2, seven 4 x 2 ...) and the grey **Completed** tile (below); 3. Partnerships &
-  Providers: Partners, Providers (one row of two). Offering's Capability: Resources, Activities,
+  activities: five tiles are 3 x 2, six 3 x 2, seven 4 x 2 ...) and the grey **Completed** tile (below); 3. Partners &
+  Suppliers: Partners, Providers (one row of two). Offering's Capability: Resources, Activities,
   Partners & Suppliers, Delivery as a 2 x 2 square; with channel tiles 5 or 6 tiles are 3 x 2 and 7 or more two rows with more
   across (4 x 2, 5 x 2 ...; each channel tile after its category). Where the old rule ("up to 3 x 3") gave another shape:
   the Activities group with five categories or more was a column of two across (three rows) and is now two rows; Offering's
@@ -939,9 +813,7 @@ drawn only in a dialog that its tile opens.
   window that holds "← Back"; its top edge), and it is as wide as the page's **card area**
   (`.conversation-card`, the width the two page cards share: 1400px at 1600, 1254px at
   1366, at most 92vw), centred across the window. There is no square dialog and no wide
-  exception any more (the tiles and the subcategory/founder boxes stay true squares). Measured at
-  1600 x 1000: 1400 x 775px, top 161px (the underline) to 936px (the footer's top); at
-  1366 x 800: 1254 x 575px. It is measured when it opens (`dialogFrame()`,
+  exception any more (the tiles and the subcategory/founder boxes stay true squares). It is measured when it opens (`dialogFrame()`,
   `SectionTiles.tsx`) so the text boxes inside lay out at their final width, and again when the
   window is resized; without those lines (a test, a page without the heading) the CSS
   fallback is the least of 92vw and 1400px wide, 88vh high, centred. It scrolls inside its
@@ -1023,29 +895,29 @@ drawn only in a dialog that its tile opens.
   an activity becomes completed by ticking, not by adding); more than 8 first show BOXES named after the categories that hold finished ones
   (the four defaults as a 2 x 2 square, plus custom ones), each opening that category's finished ones. The tile exists only while an activity is completed (no
   "+"); un-ticking the last one closes the dialog by itself. **Offering's Capability has the same grey Completed TILE** (the tail tile, placed by the one grid rule: with the four tiles of a 2 x 2 square in a third column of the second row, with six (3 x 2) on a new row under the first column; no "+" box; the same look, list, "+N more", links to frozen cards, dialog of grey card boxes; present only while one is completed); it replaces the nested "Completed" box the Activities dialog used to end with (`CardBoxes folder`, removed), and a completed Offering activity leaves the Activities tile's list. Its floating card stays open when the tick is taken off (the activity goes back to the Activities tile).
-  **A completed activity is FROZEN** wherever it is opened (both sections): every field of its card sits in a disabled `fieldset.business-capability-frozen` (`display: contents`: it takes no box) -- the name, the performers and their "+" / x, the Responsible and its tick, the Description and its tick, the linked Offerings, the x -- and only the **Completed tick** is outside it, live and normal, so it can be unticked (which unfreezes the card and files it back in its category). The frozen look: the fields flat in the grey of everything completed (`--text-completed-ink` on `--bg-completed-ground`, no light or shade, no stroke), `cursor: default`, no hover reaction (the hover rules all exclude `:disabled`), the "+" box grey; text still 4.5:1 or more on its ground. (A child activity's name link to its parent stays live: it is a way to another card, not a field.)
+  **A completed activity is FROZEN** wherever it is opened (both sections): every field of its card sits in a disabled `fieldset.business-capability-frozen` (`display: contents`: it takes no box) -- the name, the performers and their "+" / x, the Responsible and its tick, the Description and its tick, the linked Offerings, the x -- and only the **Completed tick** is outside it, live and normal, so it can be unticked (which unfreezes the card and files it back in its category). The frozen look is rule 14 of section 6 (an ordinary card in four greys, `cursor: default`, no hover reaction: the hover rules all exclude `:disabled`). (A child activity's name link to its parent stays live: it is a way to another card, not a field.)
 - **The opened card** (a card box pressed, or a floating card; Resource of Infrastructure or Offering's Capability, Activity, Partner, Provider, channel-origin card).
-  Centred, `--open-card-width` (**480px**, at most the window) wide, 12px padding (a 454px content width), label gap 6px, field gap 12px. **The head:** [number] [name cell] [x]: the arrow that once stood before the number is
+  Centred, `--open-card-width` (**492px**, at most the window) wide, 12px padding (a 466px content width), label gap 6px, field gap 12px. **The head:** [number] [name cell] [x]: the arrow that once stood before the number is
   gone, so the number starts at the card's content edge (x 12.7 in the card, where the labels start; left-aligned, as wide as its digits) and the name cell takes the rest; the number and the x are boxes as high as
   the one-line name cell (`--card-name-line`, 44.3px), centred in it, so they stay centred on the name's FIRST line and do not move when the name wraps: the cell grows downward only (measured with a 110-character name,
   one line 44.3px to three lines 98.3px: the number's and the x's centres at 34.8px both times, the first line's at 34.9px). **Nothing is stretched**: a picker (Status, Performer, Responsible, Provider / Partner, Frequency) is as
   wide as its longest OPTION and no wider (the placeholder, "Select", is shorter than any option and is always shown whole): the Resource's Status 316px (its longest option 282.3px + 33.3px of padding, chevron and border), Frequency 127px ("Per project" 93.1px
   + 33.3px), measured to within 0.6px; the cost row is `[Qty] [Price] [currency] ... [Frequency]` (see "The cost row" below). **The side-label
-  row** of a Resource -- the Status -- is a label (the "i" glued to it) beside the dropdown, mid-aligned, `--side-label-gap` (12px) apart, in the label column (`--card-side-label` = `--side-label-short`, 164px), so the Status and the Responsible
+  row** of a Resource -- the Status -- is a label (the "i" glued to it) beside the dropdown, mid-aligned, `--side-label-gap` (12px) apart, in the label column (`--side-label-short`, 177px), so the Status and the Responsible
   dropdowns start at one x (the currency stands over it). Under 358px of content the Frequency goes under the row; the Description box at the card's content width, two lines at least; rows 12px apart; every control starts at the one left edge (x 13 in the card). **The Responsible tick row is ONE ROW at every width**: the tick, its
-  words and "i" in a column as wide as they need up to `--side-label-short` (164px), then the dropdown, which hugs and is cut to what is left -- never under the tick row (measured on an Activity, a Partner and a Provider in cards 480,
+  words and "i" in a column as wide as they need up to `--side-label-short` (177px), then the dropdown, which hugs and is cut to what is left -- never under the tick row (measured on an Activity, a Partner and a Provider in cards 480,
   440, 400 and 342px wide; the narrow-card rules that put a label above its field do not apply to a field with a tick, the Deposit and the optional notes excepted). **An Activity's Performer and Responsible rows:** the label (the
   Responsible's with its tick) and its dropdown stand next to each other, 12px apart, on one centre line, in one shared column (the Responsible's row shares the stack's two columns: `grid-template-columns: subgrid`), so both dropdowns start at one x. **The Performer's dropdown runs from
   its label's gap to the right edge of the name cell above it** (it is not limited to its longest option here: `OptionPicker fill="fit"`; the head's name cell ends 8px short of the x, and so does the dropdown), and at the x's own place -- the x's column, its size (32px), centred on the dropdown -- stands the **"+" box** (`.plus-box-small`, the page's "+" box at the x's size,
   named "Add Performer to Activity 1", replacing the old "+ Add Performer" rectangle) on the FIRST row while another performer can be added; a further performer's row repeats the label's empty place, the dropdown and, in the x's column, an x (32px) that takes it away. The label stands on the first dropdown's centre line. **The Completed tick** is the card's last row, at the left with the other ticks (the Responsible's and the Description's: one x). The single-founder hiding and the tick are unchanged.
-  Measured on an Activity card at 1600 x 1000: the label-to-dropdown gap 12.00px; the dropdown's right edge = the name cell's (difference 0.00px) = the x's left edge less 8px; the "+" and the x at one x (0.00px apart), 32 x 32; the "+" centred on the dropdown (0.00px); the Responsible's dropdown at the Performer's x (0.00px); the Completed, Responsible and Description ticks at one x (0.00px). Nothing runs out of the card at 480, 440, 400 or 342px.
+  Everything above is read in the app as one card; the next block holds the rounds of page 3.
 - **Page 3, the last round (rulebook entries).**
   - **Corners.** Unchanged: every box, card and dialog keeps the radius it had (8px boxes and cards, 6px cells); nothing follows the box size.
   - **Recessed text and number cells.** A text or number input / textarea (not a picker, not a tick box) is the raised cell turned over: `--cell-inset-recess` (shade at the top left, light at the bottom right) on the cell edge (`--cell-edge`); a picker keeps `--cell-inset`; the focus ring stays over it; a disabled (frozen) cell is flat. The Workspace form and the Delivery cards take it through the same selector. The x (`.strategy-box-remove`), ticks, the "i", "+" boxes, arrows and other small buttons are NOT touched by the page-3 edges: the x is the app's one (remove-button.css) and no rule of `page-3-edges.css` names it; the probe checks every x at rest has no inset shadow and looks like every other.
   - **Wired / filled arrows.** The founders' fold arrows (11 x 18 closed, 18 x 11 open at an 18px label) and the title arrows are the label arrow (see "The label arrow"): an SVG triangle, an outline (2px line inside the shape) at rest, the same triangle filled under the pointer and keyboard focus. Box, margins and place are identical in both states, so nothing moves. No ground or ring on hover.
   - **The dropdown list** is a card of its own under the cell (above it where there is no room): 6px gap, no stroke (the boxes' inset light and shade plus the drop shadow), exactly the cell's width and left edge (inline width / min / max from the cell's box), a long option wrapping inside it with its full text as tooltip. A Status, Responsible or Provider picker `fill="fit"` runs from its label's gap to the right edge of the name cell.
-  - **The opened card's columns** (Resource, Activity, Partner, Provider, channel cards; not Delivery, not the Workspace form): a grid of three columns -- the marker (the number, as wide as its digits), the content and the x (32px) -- 8px apart, the head on a subgrid. Everything under the head starts at the name cell's LEFT edge (x 245.9 at the 480px card) and ends at its RIGHT edge (634.3); the x column stays empty but for an Activity's "+" / x beside a performer; the Responsible row (Partner / Provider and Activity) ends at the name cell's edge; the Description box ends there too. A Partner's / Provider's Price (219 with its currency) and Frequency (hugging its longest option, 126px; the placeholder is just "Select") sit side by side while the content column has 358px (at the 480px card it has 388px), under each other below that. A child activity's head: the number at the card's padding edge (12px), 8px to the name, the name's text starting at the name column's left edge, both on one centre line (0.3px apart); the head 12px from the card's top. Probe rules 18c / 18f read all of it, including that no picker shows a cut value; the one exception is a Status picker holding its longest option (282px of text beside a 124px label in a 388px column), which ends in an ellipsis with its whole text in the list.
-  - **Subcategory "+".** Each subcategory box of the four resource groups (fixed ones, and a founder's own Other) has a 36px "+" box at its lower right (in the box's own grid cell, 12px in) that makes a blank resource in that subcategory and opens it floating, captioned with the subcategory's name; left blank it is removed again (the subcategory stays). The four group tiles have no "+".
+  - **The opened card's columns** (Resource, Activity, Partner, Provider, channel cards; not Delivery): a grid of three columns -- the marker (the number, as wide as its digits), the content and the x (32px) -- 8px apart, the head on a subgrid. Everything under the head starts at the name cell's LEFT edge (x 245.9 at the 480px card) and ends at its RIGHT edge (634.3); the x column stays empty but for an Activity's "+" / x beside a performer; the Responsible row (Partner / Provider and Activity) ends at the name cell's edge; the Description box ends there too. A Partner's / Provider's Price (219 with its currency) and Frequency (hugging its longest option, 126px; the placeholder is just "Select") sit side by side while the content column has 358px (at the 480px card it has 388px), under each other below that. A child activity's head: the number at the card's padding edge (12px), 8px to the name, the name's text starting at the name column's left edge, both on one centre line (0.3px apart); the head 12px from the card's top. Probe rules 18c / 18f read all of it, including that no picker shows a cut value; the one exception is a Status picker holding its longest option (282px of text beside a 124px label in a 388px column), which ends in an ellipsis with its whole text in the list.
+  - **Subcategory "+".** Each subcategory box of the four resource groups (fixed ones, and a founder's own Other) has a 32px "+" box at its lower right (in the box's own grid cell, 12px in) that makes a blank resource in that subcategory and opens it floating, captioned with the subcategory's name; left blank it is removed again (the subcategory stays). The four group tiles have no "+".
   - **Completed tile** (Infrastructure and Offering's Capability) exists only while at least one activity is completed; un-ticking the last one closes the dialog by itself. No "None yet".
   - **Founders tile** lists the names alone. **Delivery tile** items are links: each opens that Offering's Delivery card floating, captioned "Delivery". A Delivery card's order number stands at the card's padding edge (12px in, left-aligned); a person's "(founder)" / "(external)" is in the tooltip and the input's accessible name, not drawn. Opened floating, a Delivery card keeps its own wide label column (`--side-label-short`).
   - **Channel cards** (a Resource, partner or provider a Customer Channel made, in Offering's Capability) are auto-generated: no name cell and no x -- the number and the name are plain text (the name from the channel's cell, where it is renamed and where the card is removed); their other fields stay editable; the "For channel: ... Go there" line stays. A card of Infrastructure only linked from a channel is the user's own and keeps its name cell and x.
@@ -1053,8 +925,8 @@ drawn only in a dialog that its tile opens.
 
 - **Page 3, the round after it (rulebook entries).**
   - **Names.** Offering's Capability's third tile is **Partners & Suppliers**, and its grid has two boxes, **Partners** and **Providers**; Infrastructure's third section is "3. Partners & Suppliers" with the same two tiles, **Partners** (it was "External Professionals & Partners") and **Providers**. "Partnerships" is no longer said anywhere. The Status option "External Professionals & Partners" of a resource (an answer, not a section) keeps its words; stored keys are unchanged.
-  - **One way to present a card.** A Resource, Activity, Partner or Provider card (channel-made, finished and the parent / child pair too) is ONLY a **floating card** on its section part of the page (top-aligned with the first tile row, its box name above it, a drop shadow, stacked when several are open), never shown inside a dialog and never centred in the page behind a blurred ground. A tile or subcategory box connected with exactly ONE card opens that card at once; one with none makes one blank card and opens it (taken away again if left blank); one that groups several opens the DIALOG, which is only a grid to choose from (subcategory boxes, card boxes with their add box; the glass look stays on that grid) -- pressing a card box closes the grid and opens the card floating. Back, Escape and the backdrop close a floating card and return to the page (not to the grid). Not these kinds, unchanged: the Founders dialog, the Workspace form (a floating card of its own) and the Delivery dialog (its cards in the dialog; its list links open one floating).
-  - **The cost row** of a Resource, Partner or Provider card is ONE row: `[Qty] [Price .......] [currency] ... [Frequency]`, the labels (Qty, Price, Frequency) above their cells, the currency with none. Qty is the 56px of its label's column (`--qty-w`: three digits and the cell's padding), 12px to the Price, 12px from the Price to the currency; the currency's left edge is the side pickers' (Status's, Responsible's: the label column `--side-label-short`, 164px, and its 12px gap); the Frequency hugs its longest option (126px; its placeholder is just "Select") and ends at the name cell's right edge. Measured at the 480px card: Partner Price 245.9-409.9, currency 421.9-501.4, Frequency 507.9-634.3 (name cell 245.9-634.3); Resource Qty 951.9-1007.9, Price 1019.9-1115.9, currency 1127.9 (= the Status picker's left), Frequency to 1340.3 (= the name cell's right). Under 358px of content the Frequency goes under the row. The Resource's Status label column is therefore 164px (it was 124px): the Status picker is 212px, the longest option ends in an ellipsis there.
+  - **One way to present a card.** A Resource, Activity, Partner or Provider card (channel-made, finished and the parent / child pair too) is ONLY a **floating card** on its section part of the page (top-aligned with the first tile row, its box name above it, a drop shadow, stacked when several are open), never shown inside a dialog and never centred in the page behind a blurred ground. A tile or subcategory box connected with exactly ONE card opens that card at once; one with none makes one blank card and opens it (taken away again if left blank); one that groups several opens the DIALOG, which is only a grid to choose from (subcategory boxes, card boxes with their add box; the glass look stays on that grid) -- pressing a card box closes the grid and opens the card floating. Back, Escape and the backdrop close a floating card and return to the page (not to the grid). Not these kinds, unchanged: the Founders dialog and the Delivery dialog (its cards in the dialog; its list links open one floating).
+  - **The cost row** of a Resource, Partner or Provider card is ONE row: `[Qty] [Price .......] [currency] ... [Frequency]`, the labels (Qty, Price, Frequency) above their cells, the currency with none. Qty is the 56px of its label's column (`--qty-w`: three digits and the cell's padding), 12px to the Price, 12px from the Price to the currency; the currency's left edge is the side pickers' (Status's, Responsible's: the label column `--side-label-short`, 177px, and its 12px gap); the Frequency hugs its longest option (126px; its placeholder is just "Select") and ends at the name cell's right edge. Measured at the 480px card: Partner Price 245.9-409.9, currency 421.9-501.4, Frequency 507.9-634.3 (name cell 245.9-634.3); Resource Qty 951.9-1007.9, Price 1019.9-1115.9, currency 1127.9 (= the Status picker's left), Frequency to 1340.3 (= the name cell's right). Under 358px of content the Frequency goes under the row. The Resource's Status label column is 177px: the Status picker is 212px, the longest option ends in an ellipsis there.
   - **The x** (the one shared `.strategy-box-remove`, and the three older removes that share it) is a swap of two colours like the "+" box, app-wide: at rest it has NO fill (a wired button: transparent, it takes the colour of the card it stands on; `--x-ground` names that ground, set where each card kind sets its ground, the page surface where none does, and is the X's colour under the pointer), the stroke 2px (the "+" box's) and the X both the danger red (`--x-red`, `--text-danger`: #b00020 light, #ff9b96 dark); under the pointer or the keyboard focus no stroke, filled red, the X in the ground colour. 32 x 32 as before, no inset light or shade (`page-3-edges.css` names no x).
   - **A floating card has no Back button**: it closes with a press outside it. The Back buttons that exist are the dialog foot's (`.section-tile-back`) and the one in the rail's tab (`.carousel-rail-back`); see "Navigation rails" and the Back button contract (`src/library/assets/backButton.ts`).
   - **The hover lift** of page 3 (the glow a tile, a cell, a list row takes under the pointer) is its old amount times `--hover-lift` (1.2): the tile and cell glow 18% -> 21.6%, the chosen list row 28% -> 33.6%.
@@ -1064,14 +936,12 @@ drawn only in a dialog that its tile opens.
   - **Lists on the tiles** hold every item and scroll inside their bounds (under the title's underline, above the "+" box): a thin themed scrollbar, the wheel scrolls the list before the card behind, the keyboard walks the links; there is no "+N more".
   - **Titles and captions** (app-wide): `--title-ink` for the page title, column titles, section headings, tile and dialog titles and the header's name, `--floating-caption-ink` for the caption: light #303a49 (was #111827 / #1f2937), sepia #3b2f25 (unchanged), dark #cdd1d8 (was #e6e8eb; the caption was #ffffff). Measured contrast, before -> after: light column title 13.0 -> 10.2, section heading 15.7 -> 10.2, tile title 14.0 -> 9.1; dark column title 10.7 -> 9.7, section heading 12.1 -> 9.7, tile title 11.4 -> 9.1, caption on the scrim 20.0 -> 13.1; sepia 10.5-11.3 (kept). The caption in light and sepia stays white: it stands on the dimmed page (5.7 and 6.4:1). Body text keeps its ink.
   - **The type scale** on page 3: only 14 (`--font-small`: list text, summaries, a title that dropped a size), 18 (`--font-body`: tile titles, card names, labels, fields), 24 (`--font-h3`: section headings, dialog titles, captions), 28 (`--font-h2`: column titles) and 36 (`--font-h1`: the page title). The one deviation found, the dialog's visually hidden name at the browser's 16px, now takes 18. Probe rule 18i reads every text.
-  - **The Workspace Deposit.** Its amount box has the Price box's left edge, width and height; its currency is plain text (the card's, taken from the Price) whose letters start where the letters "GBP" start in the Price row's currency picker (measured: both 545.3px, same centre line).
-
 - **The edge of an opened card and its cells (no stroke).** The opened cards -- a founder's, a resource's, a partner's and a provider's, an activity's, and, named in the same request, the **Workspace form and the Delivery cards** -- their CELLS (inputs, pickers, text boxes, name cells, the x) have no stroke. The edge is the box's inset light and shade
   (`--box-inset` for a card, `--cell-inset` -- the lighter twin -- for a cell); the 1px border they keep for the box model (so nothing moves) is painted in the light on its top and left and the shade on its right and bottom (`--box-edge`, `--cell-edge`: `border-color` of four values), so the inset shadow runs on into it and there is no
   hairline of plain ground outside it. Pointed at, a cell keeps the soft glow (18%) around it; focused, the ring (35%) -- accessibility -- over the inset edge; disabled, flat (no light, no shade); the x is filled red under the pointer, no stroke. Tick boxes keep their own box, the dashed add boxes their dashed edge. All in `page-3-edges.css`; the Workspace form's and the Delivery cards'
   share is ONE block at its foot ("THE WORKSPACE FORM AND THE DELIVERY CARDS"), with the same tokens, nothing else of them changed: delete that block and they have their strokes back.
 - **The "i" of a coloured card.** Every "i" on this page (`InfoNote`): at rest it has NO fill (a wired button: an outline and a letter; the ground of the surface it stands on shows through, and `--info-fill` names that ground: the page card's, the dialog's, an opened card's own; on a box name over the dimmed page, a dark ground) with a 1.5px stroke (drawn as 1px at 100% zoom on a 1x screen: a border is drawn in whole device pixels) and its letter in the darker tint of the card's hue
-  (`--info-ink`, `--theme-text-ink`; white on the scrim); under the pointer or the focus (or while its note is open) the stroke is gone and the two swap -- filled with the tint, the letter in the ground colour. The size (22px) is unchanged. Letter against ground at least 3:1 in both states.
+  (`--info-ink`, `--theme-text-ink`; white on the scrim); under the pointer or the focus (or while its note is open) the stroke is gone and the two swap -- filled with the tint, the letter in the ground colour. The size (24px, the library's) is unchanged. Letter against ground at least 3:1 in both states.
 - **The label arrows have no ground, ring or bolder glyph under the pointer.** The label arrows of a founder's card (Responsibilities, Completed) and of the titles (1. INFRASTRUCTURE, 2. OFFERING'S CAPABILITY) only fill their outline triangle under the pointer and the keyboard focus (focus draws no ring: the filled triangle is the focus). They keep their size, their name, and -- the founder's -- no shift on a click.
 - **The column title's "i".** After the title's text, 6px (`--info-gap`, like every "i"; the title row's own gap is 8px and the note takes 2px off it), and before the label arrow: what the column is ("Existing or planned resources, activities, and partnerships & providers the organization needs ..."; Offering's: "What each Offering needs on top of ..."): the notes the page had before it was drawn as tiles. Where the old page had an "i" the tiles have it still: on the column titles, the section headings, the dialogs' headers (the tile's, then each subcategory's), the fields' labels; the Workspace's, which has no dialog header, and the other boxes' are said after the box name above a floating card.
 - **Title sizes** (type scale tokens only): page title 36 (`--font-h1`) > column title 28 (`--font-h2`; "1. INFRASTRUCTURE") > dialog title and
@@ -1104,17 +974,6 @@ drawn only in a dialog that its tile opens.
   at most, the card's). Rails and links: a rail bullet scrolls its card's body to the
   top; `jumpTo` scrolls the element into view inside its `.card-scroll`. Stacked (under 1212px)
   or in a window under 560px high the page scrolls as the other pages do and the body does not.
-- **The Workspace form card (FROZEN: its markup, CSS, cells and tests are not to be changed again -- only how it is opened).** (`.workspace-card` > `.workspace-form`, `workspaceFields`). It is opened ALONE as a floating card (see "Floating cards"), centred over the group of 1. Resources, with no dialog and no title bar around it. The form sits in a CARD -- the shared glass card
-  ground (`--card-glass-alpha` / `--card-glass-blur`, 12px padding, the card edge), centred across the dialog and at its top, hugging its content (364 x 296px
-  at Costs; label text 6.5:1 at the least on the worst ground, light) -- on two tracks: a label column (`--workspace-label-width`, 97px: the widest
-  label) then `--side-label-gap` (12px) and the control column, which is **as wide as the widest option of the three pickers (Workspace type, Status,
-  Frequency)**: every picker is exactly that wide (`OptionPicker fill`, made wide enough for the union of the three lists), 229px; the Price row (the box
-  at what the currency leaves, 142px, 8px, the currency 79px) ends on the same right edge; the provider / professional picker fills the column and cuts a
-  longer name with an ellipsis. Rows 12px apart, every label beside its control on one centre line. The **Deposit** is a row like the others: its tick and
-  label in the label column (the tick at the column's left edge), the row **45px high ticked or not** (the amount reserves its place), so the label's x
-  and y are the same before and after ticking (measured: x 630.8, y 460.4, tick 464.9 either way); ticked, the amount (the Code step) and the currency
-  text on its line in the control column. Fields, behaviour and the Status-dependent fields are unchanged. (Measured: label column x 630.8 to 727.8 at
-  1600, controls 739.8 to 969.2; at 1366 x 513.8 and 622.8 to 852.2; the card centred on the dialog's centre, 800 and 683.)
 - **The Founders' dialog.** The same frame as every dialog. Its content (`FounderCards.tsx`) depends on the number of founders: **1 to 4** founders:
   every founder's card OPEN (no fold arrow), side by side in ONE row, the row centred; **5 to 8**: two balanced rows of open cards (5 is 3 + 2, 6 is
   3 + 3, 7 is 4 + 3, 8 is 4 + 4), an incomplete last row centred; every open card is one width, **`--founder-card-min` (297px: what the content needs and no more)**, 12px apart. As many
@@ -1144,146 +1003,24 @@ drawn only in a dialog that its tile opens.
   re-created. A link to a card inside a tile (Review, search, a channel's
   "Go there", the Financial pages) presses the tile first (`data-holds` and
   `data-anchor` on the tile, `jumpTo.ts`).
-- **The check** (section 8) measures the tiles (a square of `--section-tile-size`, one size per card, the group's shape -- a row of up to three, a 2 x 2 square,
+- **The check** (section 18) measures the tiles (a square of `--section-tile-size`, one size per card, the group's shape -- a row of up to three, a 2 x 2 square,
   two rows -- and the tail tile's place; the title's last line on the third-down line, at least 12px from the top, underlined; the list a small muted
-  centred block inside the square, contrast 4.5:1; the "+" of an empty section under the title, 24px, "No items yet"; the Completed tile's grey; every part of a page tile -- title, list, items, "+" box -- inside its square (no overflow); the "+" box 36px at the lower right, 12px from the edges, the list clear of it; each tile grown to 150% inside its card), the title
+  centred block inside the square, contrast 4.5:1; the "+" of an empty section under the title, 24px, "No items yet"; the Completed tile's grey; every part of a page tile -- title, list, items, "+" box -- inside its square (no overflow); the "+" box 32px at the lower right, 12px from the edges, the list clear of it; each tile grown to 110% inside its card), the title
   arrows (hit area, 8px after the title, centred on its line, glyph size, the card's title first and 12px above its content, an open help floating and
   taking no room), the first tile rows of the side-by-side cards (one y), and opens every tile's dialog in turn
   (`__layoutProbe.checkWithTiles(spec, { settle, only })`), measures it (a rectangle from the underline to the footer, centred; Back at its lower left; the
   header one line with its slashes; the content centred across and at the top), unfolds everything in it, checks the dialog's cards against every rule, and opens
   the boxes level by level -- the first two founders' boxes of a 9+ set, EVERY subcategory box of Utilities, Workstation, Equipment, Digital Infrastructure and
   Offering's Partners & Suppliers, and the first three card boxes of each list -- measured, unfolded and checked, then Back to the level it came from; an
-  empty list opens on its blank card, which is checked too and removed with Back. Then each page tile's first list item and its "+" box are pressed in turn (`checkFloating`; a child activity's link opens the stacked pair, which is checked: parent above child, 12px, one centre line, a disabled name, no x): a floating card is a modal dialog with a drop shadow, the dimmed backdrop and a Back button, wholly in the window, 480px (a founder's 297px) wide, its box name centred 12px above it and outside it, centred over its page column (or the tile group for the Workspace), a card added with the "+" has its Name focused and, left blank, is removed again; the Workspace tile opens its form alone. It checks the card boxes (one side, the largest that fits, centred block,
+  empty list opens on its blank card, which is checked too and removed with Back. Then each page tile's first list item and its "+" box are pressed in turn (`checkFloating`; a child activity's link opens the stacked pair, which is checked: parent above child, 12px, one centre line, a disabled name, no x): a floating card is a modal dialog with a drop shadow, the dimmed backdrop and a Back button, wholly in the window, `--open-card-width` (a founder's 297px) wide, its box name centred 12px above it and outside it, centred over its page column (or the tile group for the Workspace), a card added with the "+" has its Name focused and, left blank, is removed again; the Workspace tile opens its form alone. It checks the card boxes (one side, the largest that fits, centred block,
   12px apart, the add box half the side at the top left of its cell and last, the shape of the group), the title sizes (page 36, column 28, dialog and section
-  24, tiles / boxes / names 18 or 14, lists 14, the "+" 24), the opened card's controls (Quantity 80, Price 128, nothing stretched, 480px at most, centred), the
+  24, tiles / boxes / names 18 or 14, lists 14, the "+" 24), the opened card's controls (Quantity 56, Price 128, nothing stretched, `--open-card-width` at most, centred), the
   glass ground of the dialog and of its cards (translucent alpha < 1 and a blur), the one dialog frame, page 3's scroll, the founder card (every text at the
   content edge, markers and fold-arrow glyphs at the marker column, the head number and name on one baseline and centre with 8px between, both fold arrows the standard 36px with their ring inside the card, four cells of 108px x 45px, left cells at the content edge, the right column 12px after the left, Salary / Frequency labels one line and Working Hrs / Delivery Hrs two, labels never touching, lists 1.45 with
-  6px between items), and the Workspace card (<= 560px, centred, label column no wider than its widest label, every picker and the price row on one right edge, the
-  Deposit row 45px). Rules measure inside the scroll containers (a body is measured at its top). `checkWithTiles` leaves what it opened in
+  6px between items), and the opened card of a resource. Rules measure inside the scroll containers (a body is measured at its top). `checkWithTiles` leaves what it opened in
   `__layoutProbe.stats`.
 
 ---
-
-## 6. Interactions: one set of reactions per kind
-
-| Kind | Hover | Focus | Disabled |
-|---|---|---|---|
-| Text box (input, textarea) | primary edge + soft glow (18%) | primary edge + ring (3px at 35%, the one effect of every text holder) | muted, no reaction (a completed card's cells keep their shape: rule 14) |
-| Text holder (an image's name and description, one box) | as a text box, on the holder | as a text box | as a text box |
-| Picker | as a text box | as a text box | as a text box |
-| Tick box | its words underlined, the box's glow ring (the field's, 4px at 18%, no wire; whether or not the words are in its label: `.brand-tick` too); ticked, the box is flat (no inner light or shade) and keeps the glow | focus ring | not-allowed cursor |
-| Date cell, month cell | as a text box (no stroke, recessed, glow, ring); never bold | as a text box | muted, no reaction |
-| Calendar button (inside a date or month cell) | the "+" box's swap: ground, 2px stroke and symbol in the card's tone, filled under the pointer (outside a coloured card, the tone every cell has) | the same and a 2px outline | 50% |
-| Calendar card, colour picker card | its day, month and arrow buttons: the "+" box's swap, every button with the same 2px frame so none changes size; no bold | outline | the day dimmed; a click outside, or Escape, closes the card |
-| Text link (every one: `text-links.css`) | bold and underlined (the line 1px under the descenders); a text longer than its place moves right to left | outline | grey in a completed card |
-| Link symbol | 20% larger about its centre, nothing moves; drawn in the card's tone | the same | n/a |
-| Funnel (founder's Responsibilities) | the "+" box's swap | outline | n/a |
-| The tile or box that opened the open card | a steady halo in the card's tint (not flashing); a link that opened it is bold | - | n/a |
-
-| Add button | its ground | focus ring | muted |
-| x (remove) | filled with the danger red (`--x-red`), no stroke, the X in the card's ground (`--x-ground`); at rest transparent (no fill), a 2px red stroke and a red X; the same on every x | outline, the focus ring ink, 2px, 2px off | muted |
-| Fold arrow (`FoldArrow`, 36px) | its ground and the card-line edge -- **not** a founder's Responsibilities / Completed arrows, which have none | focus ring | n/a |
-| Page tile (its slot: button, list, "+") | grows to 150% about its aimed corner (set once per stay), above its neighbours, a drop shadow growing with it | a 2px primary outline on the control that holds it (no growth) | n/a |
-| Box in a dialog (subcategory, card, founder, add) | soft glow (18%) beside its inset light and shade (no stroke) | a 2px primary outline | n/a |
-| Item of a page tile's list | underlined | underlined and a 2px primary outline | n/a |
-| "+" box (a page tile's, 36px; the Activity card's Add Performer, 32px) | the colours swap (150ms): at rest the ground, a 2px stroke and the "+" in the darker tone; under the pointer the darker tone filled, no stroke, the "+" in the ground | the same and a 2px outline | muted, not-allowed |
-| "i" of a coloured card | stroke gone, filled with the tint, the letter in the ground (a swap) | the same | n/a |
-| Line under a parent's Status ("Open Activity “...”", an alarm when the child holds details) | bold (a text-shadow, nothing moves) while the pointer is on the Status cell or on the line; its link underlined | outline on a link | n/a |
-| A child's name (the link to its parent) | underlined and bolder | a 2px outline | n/a |
-| Label arrow (beside a label or a card title) | the outline triangle fills | the same fill (no ring) | n/a |
-
-A tick box toggles only from the box itself or its words: its label is as
-wide as they are (`width: fit-content`), never the empty space beside
-them; Space toggles the focused box. A tick's "i" stands outside its label,
-so reading the note never toggles the tick.
-
-The check hovers up to three of each kind on every page and fails a kind
-that does not react as its row says; it hovers up to twelve x and fails
-if any two turn different colours (one reaction per kind).
-
-**The one x.** Every remove button is the shared `.strategy-box-remove`
-and nothing else (no second class adding a hover, a ring or a glyph size):
-the Strategy Theme, Goal, Objective and Metric x are the Legal Entity
-card's. Its look is the "+" box's swap of two colours (remove-button.css, app-wide): at rest there is no fill (transparent: the card's ground
-shows, `--x-ground`), the stroke 2px and the X the danger red (`--x-red`); under the pointer or the focus no stroke, filled red, the X in the ground. The check reads a Legal Entity card's x at rest, under the
-pointer and focused (square, edge, corners, ground, colour, ring,
-transition and the two drawn bars) and fails any x on any page that
-differs.
-
----
-
-## 6a. Picker options
-
-- **No bracketed text in an option.** A hint, a note or an explanation
-  ("(common here)", "(not listed)") goes in the field's "i" instead:
-  a Legal Requirement's Type says "Usually required here: ..." in its note;
-  "Other (not listed)" reads "Other" (the field that follows names it; the
-  saved value is unchanged).
-- **Exception: an abbreviation in brackets stays** ("Private Company
-  Limited by Shares (Ltd)", "Limited Liability Company (LLC)", a currency
-  code). Stored values never change for a wording; documents keep full
-  names.
-- **Exception: official and legal names stay as written**, brackets and
-  all: legal forms ("Toiminimi (sole proprietorship)", "Corporation
-  (federal)", "Empresario individual (autónomo)", "Stichting
-  (foundation)", "Unternehmergesellschaft (UG, haftungsbeschränkt)"), a
-  tax's official name ("VAT (USt)") and a platform's name ("X
-  (Twitter)").
-
----
-
-## 7. Declared exceptions
-
-- **Text Hierarchy box**: every row is one height, the room H1 needs at
-  its largest size (lines at 1.25), 12px apart, so the px squares stand at
-  one equal pitch and the box never changes size. Each square stands at its
-  row's foot with its tick on its centre line. A name is centred on its
-  square while no taller than it, then keeps its foot on the square's foot
-  and grows upward only: never below its square, never into the row above
-  (checked at every size of every range). The box takes 12px more inside
-  each side (24px), and as much room under the last square as above the
-  first (the first row's reserve is matched at the foot).
-- **Colour and Typeface cards: the body under the name box.** Their rows
-  (Role, Colour, Usage) start at the name box's left edge and end at its
-  right edge, not at the number's x and the card's edge (the card is a
-  grid whose head shares its columns). Role and Colour are side-label rows
-  (`.brand-side-rows`): labels in one column on their controls' centre
-  line, controls to the right edge; a colour's contrast is the first point
-  of the Colour's "i". Every other card keeps the number-left rule; the
-  check tests this exception as "body under the name box".
-- **Composite groups** measured as one control: price + currency, swatch +
-  HEX, a list row with its x, month side-label rows, the channel pick and
-  resource rows, the founders table (see `GROUPS` in the probe).
-- **Boxes that are not cards**: the Financial Foundation's settings bar,
-  headline and tiles, a demand source and a channel resource keep their
-  own inner margins.
-- **Tables** (`table` elements, numbered lists, the Notepad) size their
-  own cells.
-- **A founder's card** (the Founders' dialog): its left padding is the card padding plus the inset and the marker column (4.5px + 26.3px), the head's number, the bullets, the fold arrows and the list numbers hang in that column (the "number-left = body-left" and "content starts at the title" rules are replaced by the founder-card rule of the check: text at the content edge, markers at the marker column, the head number 8px before the name). Its four cells are `--founder-cell` wide, a width of their own (the Frequency picker's longest option), whatever their column; the two hours labels are two lines. **The Workspace card's controls** fill the form's control column (the widest of its three pickers; the amounts the Code step), measured against the form's second track; the form is FROZEN.
-- **The tail tile** (Infrastructure's Completed tile) is not counted in its group's shape: see "Tile grids".
-- **A side label whose control is the empty message** ("Add a founder under ...", a card of an organization with no founder yet) is centred on that message, which may wrap to two lines: the row-gap rule skips it.
-- **A card in a dialog, opened** (a card box pressed) is centred and `--open-card-width` (480px) wide, not stretched across the dialog.
-- **A page tile at 150%** (hover or focus) overlaps its neighbours (declared): it is above them (`z-index: 6`) and inside its card's body; the check scales each one and measures it.
-- **Pickers whose list is wider than their cell** (opened cards): the rule that a picker is as wide as its longest option, and shows its whole text, has these named exceptions besides the Status picker. A supplier or partner cascade's Group and Name pickers (a group name such as "Landlords, Leasing & Warehouses" is 322px with its padding; a name the user gave is any length), an activity's Performer pickers (a person's name and role, or a partner's), and the Group picker of a Resource, Partner or Provider card. Each is as wide as its 212px cell and ends in an ellipsis there; the whole text is in its list, its tooltip and its accessible name. The check skips them by their accessible name ("... supplier group: ...", "... supplier: ...", "... performer N: ...", "... group: ...").
-- **The cost row's Frequency column** (a card with no group yet offers all seven frequencies, "% of Rev" the longest, 148px): the column gives way to the room left (`minmax(0, max-content)`), so the Frequency ends at the name cell's right edge, up to 16px narrower. A Per unit price with a Unit picker puts the Frequency and the Unit together under the row (`:has(.business-capability-frequency-unit)`), the currency keeping its place.
-- **An activity's Responsible stack**, which has no Performer list and so no x, has two columns and ends at the name cell's right edge (the Performer's stack keeps its third, the x's).
-
-## 8a. Added on 2026-10-14: tracking and the label arrow
-
-(The table "Values as built" is section 8, above.)
-
-### Tracking follows weight (2026-10-14)
-
-Text that goes bold under the pointer (`--hover-bold`) gets 0.05em of tracking ON TOP of what the element already has (`--bold-tracking` added to `--rest-tracking`: a button's 0.1em, none elsewhere), as the Capability and System list always did; text that is bold by default has the same. Spacing comes with bold only: the lit rail item is wider than the others, never tighter. A bullet under the pointer is only underlined. Every CSS rule that sets a bold weight (600 and up) or `--hover-bold` sets `letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking))` with it, unless it states its own tracking (the uppercase labels keep theirs); `strong`, `b`, `th` and `h1`-`h6` carry it by default. A glyph (a chip's ×) is not text and takes none. A row that holds bold text on hover must be sized for the wider text (one line, no re-wrap).
-
-### The label arrow (2026-10-14)
-
-One fold arrow (`LabelArrow.tsx`, `label-arrow.css`) for an arrow that stands beside a label or a text and shows or hides what belongs to it.
-Today: the chapter titles of 3. Infrastructure & Capability (right of the title and its "i"), and, left of the label and inside it, a founder's Responsibilities and Completed, a card's Links and the Initiatives of an Objective.
-- No frame and no ground: only the triangle. At rest an outline in the card's tint (the "+" box's colour); under the pointer and the keyboard focus the same triangle filled.
-- The shape is the Completed arrow's (11px wide and 18px high pointing right, 18 x 11px pointing down, at an 18px label); the size scales with the label's letters (1em high). The line is 2px, inside the shape, like the "+" box's. The colour is the card's tint (the "+" box's).
-- Inside a label its glyph starts at the content edge, like a tick box, and the words start where a tick box's words start (26px). The button is never under 24px; it overhangs the triangle and takes no more room.
-- Only these use it: the chapter titles of 3. Infrastructure & Capability, the Initiatives, a founder's Responsibilities and Completed, and a card's Links. Every other fold arrow keeps the standard 36px arrow (`FoldArrow`).
 
 ## 9. Tiles: kinds, titles, lists, marks, hover and size
 
@@ -1295,7 +1032,7 @@ Today: the chapter titles of 3. Infrastructure & Capability (right of the title 
 - **Categories**: every category has its tile from the start (empty at 50%); Offering's Resources and Partners & Suppliers views add a CHANNEL category tile (channel teal, one constant `CHANNEL_TILE_HUE`); a channel-made card's floating card takes the same hue. Main page tile titles are capitals; dialog header wraps (no ellipsis), all names the title's size.
 - **Growth**: an area whose tiles do not fit grows down (page scrolls; dialogs have `min-height`, their overlay scrolls). The two page cards start their tiles 12px under their titles (no 36px spacer row).
 - Tiles per row: `useTilesAcross` (+2px tolerance) gives 3 across at every window width from 1280px (tile 176/191/203/215px at 1280/1366/1440/1600+).
-- **Page cards**: `.section-tiles-quad` (four tiles): side = min((box width - 12) / 2, window height left under the title) -- the dialogs' tile (`pageTileSide`) stays the three-across side; tile radius token `--tile-radius` (8px) for tiles and the Add Card. Costs row: label column 164px (`--side-label-short`), `--cost-x` 176px (Qty 56, Price 96, currency over the Status picker's left edge, Frequency to the name cell's right edge).
+- **Page cards**: `.section-tiles-quad` (four tiles): side = min((box width - 12) / 2, window height left under the title) -- the dialogs' tile (`pageTileSide`) stays the three-across side; tile radius token `--tile-radius` (8px) for tiles and the Add Card. Costs row: `--cost-x` is the label column and its gap (189px; Qty 56, the currency over the Status picker's left edge, Frequency to the name cell's right edge).
 - **Tile title** (`TileTitle`): `white-space: nowrap`, ellipsis, 18px on every tile, tooltip with the full text; the same top on every tile of a size (`--tile-lift` is the one margin). Page 4-tile blocks: list 18px from 250px a side, else 14px.
 - **Hover**: every tile scales `scale(1.1)`, `.15s ease`; the Add Card never scales; its hover is: stroke gone, fill `color-mix(currentColor 16%, transparent)`, label and "+" in the card's dark tint (`--plus-fill`).
 - A tile's list line can carry a mark (`SectionTile.itemMarks`): **empty** (the category has no card) `--list-empty-opacity` .7 (3:1 in every theme), text and bullet; **teal** (Offering's Resources: the Channel line) text and bullet in `--channel-marker`; **channel** (Offering's Activities / Partners & Suppliers: the line holds cards a channel made) two stacked bullets in the one bullet column, the line's own on top, the teal one 2px under it, both `--bullet-size`, centred on the line. No mark changes a line's text x or height; the probe's list-line rules hold.
@@ -1324,6 +1061,8 @@ Today: the chapter titles of 3. Infrastructure & Capability (right of the title 
 - **Values placed by the app** (`business-capability-static-value`) take the cell's height (44px), one line and an ellipsis with a tooltip.
 - **Partner and Supplier tiles** begin with their dates, as Resource and Activity tiles do (`capabilityFloor.ts`).
 
+---
+
 ## 10. Dialogs, floating cards, layers and the navigation stack
 
 - **Layers**: page -> section view -> category view -> group view -> floating card -> (stacked pair). A card floats over the view it was opened from, which stays mounted under it (inert). **Back** and a click on the dimmed backdrop remove the TOP layer only; a dialog's Back / backdrop go one level up (`useDialogInnerBack`). **Escape** dispatches `CLOSE_TILES_EVENT`: every layer closes (a blank card is removed as on closing); a popup open inside takes its own Escape first.
@@ -1334,13 +1073,13 @@ Today: the chapter titles of 3. Infrastructure & Capability (right of the title 
 - **The header over the layers:** with a dialog, floating card or Inventory open, `.app-header` has `z-index: 1001`, is never `inert`, and the element at its centre is its own (probe rule 17e2). A press in it does not close a floating card; Escape typed in it with a header popup open is the popup's.
 - Declared exceptions added to the picker rule: the Category pickers (` category:`), an activity's Resource pickers (` resource N:`) and a rent's supplier name (` rent:`), like the Group and Name pickers already named: a long list or a name the user gave may be wider than the 212px cell.
 - **A dialog over a card taller than the window** covers only what the window shows, under the header and above the footer (`dialogFrame`).
-- **One card**: every floating card is 480px wide, with the card ground, a hairline, 8px corners and the same padding; a colour's, a typeface's, a requirement's and an expense's card stand their rows on the name's columns, so everything under the name starts and ends where the name does. A drop-down is the app's own (OptionPicker), including a founder's Skills kind.
+- **One card**: every floating card is `--open-card-width` (492px) wide, with the card ground, a hairline, 8px corners and the same padding; a colour's, a typeface's, a requirement's and an expense's card stand their rows on the name's columns, so everything under the name starts and ends where the name does. A drop-down is the app's own (OptionPicker), including a founder's Skills kind.
 - **A card is tinted by its tile**: a card floating over a tile, the "i" of a tile or a card, a Back button under the pointer, and the Text Hierarchy's box all take the tile's hue; a floating card is one box with 8px corners and one shadow.
 - **A dialog darkens the page behind it, a floating card does not** (`--bg-overlay`; `--floating-scrim` is clear). The names above the cards keep their own dark ground. Every floating card's box (Business, Legal Entity, Brand and Strategy) has the inner light and shade (`--box-inset`) and its drop shadow.
 - **A dialog's header is one row** (`DialogHeading`): the root name (Resources, Activities) keeps its size; the names after it are one size lower (`--font-body`); a trail too long for the row is cut at its left (the last name stays in view, the full text in the tooltip).
 - **The "i" takes its card's hue in every reading mode**: its stroke, letter and fill are set on the button itself (page-3-edges.css), so they read the hue of the card or tile the button stands in (a dialog's hue is set on the card inside it, below where the pair used to be set, which made the "i" red on a green or blue card). The caption above a floating card keeps its own pair. Checked on the Business, Identity, Brand and Strategy dialogs and cards, in light, sepia and dark.
 - **Carousel arrows** (`CarouselArrows`, SectionTiles.tsx): a "‹" at the left and a "›" at the right of the card or the opened section that was opened last, 44px circles over the page (fixed, measured from the box they flank). A floating card steps through the cards of its tile (of its box, where it was opened from one); an opened section steps through the section's tiles that have something to open; both round the ends. A dialog under a floating card has its arrows hidden (only the last-opened layer has them). Alt + ← / → does the same. A parent and child pair has none yet.
-- **Carousel arrows stand 24px from the card or dialog**, in a bright fill of the card's hue with a dark outline (contrast over the dimmed page in light, sepia and dark); none while a card is being made (fresh); a dialog with sections of its own (Registrations) steps through them first (`useDialogInnerStep`), then goes on to the next tile.
+- **Carousel arrows stand `CAROUSEL_ARROW_GAP` (12px) from the card or dialog**, in the card's ground outlined by its edge (rule 15); none while a card is being made (fresh); a dialog with sections of its own (Registrations) steps through them first (`useDialogInnerStep`), then goes on to the next tile.
 - **Only the app header cuts a floating card**; it scrolls to the window's bottom.
 - **A rail whose names wrap** shows its bullets alone (class `bullet-rail-compact`): the title and names are hidden and a name appears beside the bullet under the pointer.
 - The carousel arrows are the card's ground outlined by its accent colour, and the page's own arrows are hidden while they show. Going back into a tile of sections opens its last section; from the Registrations grid the right arrow opens Formation.
@@ -1359,17 +1098,17 @@ Today: the chapter titles of 3. Infrastructure & Capability (right of the title 
 - **Scrolling is global** (`useScrollRules.ts`): the wheel over an open layer scrolls the layer (also over a dialog's blank body, where `overscroll-behavior: contain` stops the chain), never the page; every scroller whose content is taller than itself (`main.conversation-content`, a dialog's body, a tall card's stack) gets `data-reserve`: 25vh of bottom padding.
 - **Page tab** (`bullet-rail.css`, `useRailTab.ts`; `.carousel-rail-tab`): a rail stands in a tab touching the frame (absolute, as wide as its names), `--rail-left-*` / `--rail-right-*` colours read from the frames.
 
+---
+
 ## 11. Business cards: Infrastructure & Capability, Customer Engagement
 
 - Cards' x (`.card-remove`, `.profile-card-remove`) is `--bg-danger-strong`; a cell's or field's x keeps `--x-red`.
 - The link line of a connected card (`.business-capability-card-link`) is a flex row: prefix, the name (a button the ellipsis cuts), closing quote; one line.
-- **Category cell** (Partner / Provider and Activity cards): ONE component (`categoryRow` in the editor): the `Category` label and its drop-down on one row under the name, the "Name the category" box only while a new category is being named.
-- **Widths reverted**: `--side-label-short` is 156px again and `.card-box-open { --card-side-label: 124px; }`; the user asked for no cell-width change.
-- One resource card (`resourceCard`); `workspaceBody` adds the Workspace fields in the card flow when the slot is in the `workspace` group: side-label rows for Workspace and Status (the label column and the 212px side cell as on every resource card), the cost row (Price 164 beside the currency at 176, Frequency to the name cell's right edge), the Deposit row (`.business-capability-deposit-row`: amount = the Price column, the currency text at the currency picker's x with its inner left padding). Removed with the merge: the standalone Workspace form (`workspaceFields`, `.workspace-form`, `.workspace-card`, `--workspace-label-width`, `--workspace-form-width`), the Workspace floating variant (`.floating-card-workspace`, `kind: "workspace"`, the "group" centre), the Workspace category tile/box logic and its Add Workspace, the `workspaces` list and `createBusinessWorkspace`, the FloorKind "workspace".
+- One resource card (`resourceCard`); the Workspace is a category of it (its fields stand in the card flow like the others').
 - A new resource card is filed under `unassigned` (Category) / `unassigned` (Group): placeholder "Select", incomplete until chosen.
 - A new Activity / Partner / Provider card starts at Category "Select" (incomplete till chosen), like a Resource.
 - **Resources rows (activities)**: a row is a dropdown (`OptionPicker`) with the link symbol, one row per resource, "+" adds a row; never a tick list. Performers use the same row. A people card in Offering's Capability uses `.business-capability-people` in `section-tiles.css`.
-- **Group label order in a card**: Category, Group, Name. A partner or supplier card has no Category row.
+- **Group label order in a card**: Category, Group, Name. A partner or supplier card has one Group dropdown and no Category row (see "Group, not Category" below).
 - **Cost row additions** (cost option, billing type, rate override, useful life, warranty, amortisation period, payment plan, extras, dated notes) sit inside the existing cost row on the same two-column label rhythm (`--space-field`, `--space-label`); the rate override's placeholder shows the Global Settings default.
 - **An activity's Resources list** is a list of rows like the Performer's (`.business-capability-resource-row`): dropdown, units box (56px, `.business-foundation .interview-input.business-capability-people`), link symbol (38.5px), and the "+" or × in the head's x column. Every row keeps the places of the units and of the link (`.business-capability-row-spacer`), so the dropdowns of a list end at one x; the field extends into the x column by the column's width and the gap (`margin-right`). The estimated cost of each linked card is a muted line under the list (with two or more, then the sum), never beside the row. The check tests it as "every Resource dropdown has one left and one right edge" and "the + or the x beside a Resource stands in the head's x column".
 - **The Performer's link symbol**: beside a partner or supplier performer, between the dropdown and the "+" or ×; the dropdown then ends one link place (38.5px and the 8px gap) before the name cell's right edge, in every row of the list.
@@ -1415,6 +1154,8 @@ Today: the chapter titles of 3. Infrastructure & Capability (right of the title 
 - **A legal card has one ground**: the tile content around it has none (no square box behind its round corners).
 - **x column 44px** (`--card-x-column`), a channel card's parts are tinted bands (`--part-tint-a`, `--part-tint-b`) with a hairline between Journey Stages.
 
+---
+
 ## 12. The Inventory help tile
 
 - The Completed tile stands outside both sections (`.section-tiles-completed`, under Offering's Capability's card); while it exists the "Offering's Capability shows all its tiles without a bar" rule is waived (the card scrolls inside).
@@ -1429,12 +1170,14 @@ Today: the chapter titles of 3. Infrastructure & Capability (right of the title 
 - **Inventory** (formerly All Tiles): the table has two more columns, Cost Nature and Behaviour, after Frequency (`inventoryClassification`: the same rules as the Financial Foundation). The legend says Supplier for what was Provider; "Partners and Providers" is "Partners and Suppliers" everywhere.
 - Inventory and Completed are 215px squares; only when the window's height asks, their height shrinks (rectangles). The gap between the four tiles follows their size from 12px.
 
+---
+
 ## 13. Identity, Brand and Strategy: column pages, Legal Entity, Brand Style, Founders Profile, Strategic Period
 
 - **A strategy card's navigation** (`CardNav`, in the margin lane at the card's right edge): the two arrows are the page arrows at 15/22 of their size (their shape, box, grow-by-a-fifth and ring), in the colour of the head's "+" button (`--accent-ink`), not the card's ground, so they stand out from it; the rail's bullets take the same tint. The arrows stand on the centre line of the card's Description label; their vertical sides stand 12px from the card's edge, one on each side: the left arrow's on the x's right side, the right arrow's on the left side of the symbol of four arrows above it (the owner's marked picture, 2026-10-14). The symbol and the rail stand 12px from the card's edge.
 - **A strategy card's head**: the "i" is 6px (`--info-gap`) after its word, like every "i"; the "+" is 12px after the "i" and the x 12px after the "+" (the owner, 2026-10-14).
 - **Channel expenses (Page 2)**: "+ Add expenses" and "Typical costs for this channel" are card-list add buttons in the channel cell, same size as "+ Add Journey Stage"; template cards use the channel teal tone (`--channel-marker`) and the cascade link rules above.
-- **A column's guidance is the "i" beside its dialog title** (`DialogHeading info`), never bullets under it. The guidance of the Brand pages (Style, Inventory) and of the Themes (beside the Add Theme button) opens in a note of double the one width (`InfoNote size="double"`, 720px).
+- **A column's guidance is the "i" beside its dialog title** (`DialogHeading info`), never bullets under it. The guidance of the Brand pages (Style, Inventory) and of the Themes (beside the Add Theme button) opens in a note of double width (`InfoNote size="double"`, 480px).
 - **A founder's card in its dialog** stands one field under the other (`.founders-profile-row`), so every row has the room it was drawn for.
 - **Legal Entity** is four large tiles: Organization, Founders & Ownership, Registrations, Expenses. Registrations holds 3. Formation & Registration, 4. Tax & Business Registration (both with no frame) and the Additional Legal Requirements as card tiles. Its tile lists the state and the names of the registration numbers; a requirement's card tile says its Type and whether it has expenses; an expense's says its start date and its registration.
 - **A legal requirement's or expense's card in its tile** is a grid of the head's own columns, and everything under the head stands in the name's column (`.column-tile-content .legal-entity-card`): the Type, the Date and the Responsibility have their label beside the control, to the name cell's right edge; the Reference or Number and the Linked registration are as wide as the name cell; the Cost and the Frequency share the row. "Add to Legal Entity Expenses" is one line.
@@ -1466,6 +1209,8 @@ Today: the chapter titles of 3. Infrastructure & Capability (right of the title 
 - **The Strategic Period's tile** has a "+" (a Theme made and opened as a card with all its sections) and a hairline after its dates. Its dialog: the Start and the End side by side from the left edge, the Financial Plan in one line under them, then the tiles (the Roadmap, each Theme, and an "Add Card" tile of their size, which keeps the suggested Themes' menu). A Metric tile says the Objective's period, then its Baseline and Target.
 - **Founder's card in a page frame (labels beside cells)**: the four cells (Salary, Frequency, Working Hours, Delivery Hours) are 108px in two pairs; each label column is as wide as its widest label (at least 8.8 body-em, the Start date's column too), 12px before its cell, so no "i" runs under a cell.
 
+---
+
 ## 14. Financial pages and Global Settings
 
 New fields follow the rules above and reuse their neighbours' shapes; nothing here is a new pattern of its own.
@@ -1484,6 +1229,8 @@ New fields follow the rules above and reuse their neighbours' shapes; nothing he
 - Global Settings: Intangible assets list only the groups that hold a card, each card numbered under its group with its own years.
 - **Costs (4. Financial Foundation)**: three totals (Launch budget, Running costs a month, Cost of each sale), the Total Pre-operational Budget written as capital expenditure + startup + pre-operating, filters (group, Offering, nature, order), then one table under four headings, with "Not counted yet" last.
 
+---
+
 ## 15. Dates, order and formats
 
 - **A card's date is today when it is made or switched on** (`createBusiness*`, `createLegalEntityExpense`: Start date today; ticking End date sets today, or the Start date if later). Turning a Payment Plan on gives the card a Start and an End date (today) where it has none, since the plan's dates fall between them.
@@ -1495,6 +1242,8 @@ New fields follow the rules above and reuse their neighbours' shapes; nothing he
 - **Dates are limited where they can conflict**: an End date is not before its Start (a Start after the End takes the End along), a payment falls between Start and End, a warranty is not before the Start (`min` / `max` of `DateCellInput`).
 - **A note's Date** is a tick; ticked, its label is the day to pick and the note stands on that day of the Calendar.
 
+---
+
 ## 16. Texts and names
 
 - **Text**: no em dash in any app text or source (`noEmDash.test.ts`).
@@ -1503,7 +1252,47 @@ New fields follow the rules above and reuse their neighbours' shapes; nothing he
 - **Names**: the Ambassador's "Attitude & Body Language" is "Body Language" (its saved key stays `attitude-body-language`).
 - **A drop-down with nothing chosen says "Select"** (the Legal expense's Frequency and Responsible, the Strategy's Responsible).
 
-## 17. The check
+---
+
+## 17. Declared exceptions
+
+- **Text Hierarchy box**: every row is one height, the room H1 needs at
+  its largest size (lines at 1.25), 12px apart, so the px squares stand at
+  one equal pitch and the box never changes size. Each square stands at its
+  row's foot with its tick on its centre line. A name is centred on its
+  square while no taller than it, then keeps its foot on the square's foot
+  and grows upward only: never below its square, never into the row above
+  (checked at every size of every range). The box takes 12px more inside
+  each side (24px), and as much room under the last square as above the
+  first (the first row's reserve is matched at the foot).
+- **Colour and Typeface cards: the body under the name box.** Their rows
+  (Role, Colour, Usage) start at the name box's left edge and end at its
+  right edge, not at the number's x and the card's edge (the card is a
+  grid whose head shares its columns). Role and Colour are side-label rows
+  (`.brand-side-rows`): labels in one column on their controls' centre
+  line, controls to the right edge; a colour's contrast is the first point
+  of the Colour's "i". Every other card keeps the number-left rule; the
+  check tests this exception as "body under the name box".
+- **Composite groups** measured as one control: price + currency, swatch +
+  HEX, a list row with its x, month side-label rows, the channel pick and
+  resource rows, the founders table (see `GROUPS` in the probe).
+- **Boxes that are not cards**: the Financial Foundation's settings bar,
+  headline and tiles, a demand source and a channel resource keep their
+  own inner margins.
+- **Tables** (`table` elements, numbered lists, the Notepad) size their
+  own cells.
+- **A founder's card** (the Founders' dialog): its left padding is the card padding plus the inset and the marker column (4.5px + 26.3px), the head's number, the bullets, the fold arrows and the list numbers hang in that column (the "number-left = body-left" and "content starts at the title" rules are replaced by the founder-card rule of the check: text at the content edge, markers at the marker column, the head number 8px before the name). Its four cells are `--founder-cell` wide, a width of their own (the Frequency picker's longest option), whatever their column; the two hours labels are two lines. 
+- **The tail tile** (Infrastructure's Completed tile) is not counted in its group's shape: see "Tile grids".
+- **A side label whose control is the empty message** ("Add a founder under ...", a card of an organization with no founder yet) is centred on that message, which may wrap to two lines: the row-gap rule skips it.
+- **A card in a dialog, opened** (a card box pressed) is centred and `--open-card-width` (492px) wide, not stretched across the dialog.
+- **A page tile at 110%** (hover) overlaps its neighbours (declared): it is above them (`z-index: 6`) and inside its card's body; the check scales each one and measures it.
+- **Pickers whose list is wider than their cell** (opened cards): the rule that a picker is as wide as its longest option, and shows its whole text, has these named exceptions besides the Status picker. A supplier or partner cascade's Group and Name pickers (a group name such as "Landlords, Leasing & Warehouses" is 322px with its padding; a name the user gave is any length), an activity's Performer pickers (a person's name and role, or a partner's), and the Group picker of a Resource, Partner or Provider card. Each is as wide as its 212px cell and ends in an ellipsis there; the whole text is in its list, its tooltip and its accessible name. The check skips them by their accessible name ("... supplier group: ...", "... supplier: ...", "... performer N: ...", "... group: ...").
+- **The cost row's Frequency column** (a card with no group yet offers all seven frequencies, "% of Rev" the longest, 148px): the column gives way to the room left (`minmax(0, max-content)`), so the Frequency ends at the name cell's right edge, up to 16px narrower. A Per unit price with a Unit picker puts the Frequency and the Unit together under the row (`:has(.business-capability-frequency-unit)`), the currency keeping its place.
+- **An activity's Responsible stack**, which has no Performer list and so no x, has two columns and ends at the name cell's right edge (the Performer's stack keeps its third, the x's).
+
+---
+
+## 18. The check
 
 **The progress line** (the thin bar under the Hide Help button) is hidden for now; one switch, `SHOW_PROGRESS_LINE` in `src/components/InterviewProgress.tsx` (false). No check or rule depends on it, and no gap is left behind.
 
@@ -1545,10 +1334,7 @@ with tiles; on a page without, it is the plain check.
 The probe's pure helpers are unit-tested in `src/test/layoutProbe.test.ts`.
 
 - **Probe**: hover is held (`holdHover`) so tile-geometry rules ignore the 110% scale; the dialog rules compare with the section card's rect; several Add tiles may end a grid; an empty group tile (`section-tile-slot-empty`, 50%) may list nothing.
-- **The check**: the full layout check (`scripts/layout-check`) must be run once over these additions (task J3); they are not yet covered by a recorded run.
-- **The check**: the layout check (`scripts/layout-check`) was not run over this round (the `playwright` package is not installed here).
 - **Layout probe**: a remove x keeps 12px from the cell beside it and never lies on one.
-`npm run check:layout` runs the layout probe (`scripts/layout-check/`) on every page of the Quillfield example (1920 wide, light page) and fails only on a finding that is NOT in `scripts/layout-check/baseline.json` (the findings known and accepted so far; random ids of cards made by a "+" are ignored in a finding's key). It says how many known findings are gone. `npm run check:layout:baseline` rewrites the baseline after findings were fixed on purpose; `CHECK_PAGES="Customer Engagement" npm run check:layout` runs one page; without `--quick` (`node scripts/layout-check/run.mjs`) it runs every width, both themes and both examples. A full run takes about 25 minutes; a sub-pixel finding (a gap of 12.95 for 12) can come and go between runs.
 
 ### The stylesheets stay clean (2026-10-16)
 
@@ -1558,7 +1344,9 @@ The probe's pure helpers are unit-tested in `src/test/layoutProbe.test.ts`.
 
 `npm run check:layout` runs the layout probe (`scripts/layout-check/`) on every page of the Quillfield example (1920 wide, light page) and fails only on a finding that is NOT in `scripts/layout-check/baseline.json` (the findings known and accepted so far; random ids of cards made by a "+" are ignored in a finding's key). It says how many known findings are gone. `npm run check:layout:baseline` rewrites the baseline after findings were fixed on purpose; `CHECK_PAGES="Customer Engagement" npm run check:layout` runs one page; without `--quick` (`node scripts/layout-check/run.mjs`) it runs every width, both themes and both examples. A full run takes about 25 minutes; a sub-pixel finding (a gap of 12.95 for 12) can come and go between runs.
 
-## 18. The assets (generated from the contracts)
+---
+
+## 19. The assets (generated from the contracts)
 
 <!-- generated:assets (from src/library; do not edit; run npm run docs:assets) -->
 
@@ -1908,74 +1696,15 @@ The one surface every floating card stands on: 492px wide (a founder's 297px), 8
 
 <!-- /generated:assets -->
 
-## Appendix A. Rules replaced by a later round (history, word for word)
+---
 
-Each line below was replaced in full by a later rule (its number is the line in the file before the reconciliation of 2026-10-14). They are kept so that nothing is lost; they are not rules.
+## 20. Still to settle
 
-- (was line 1256, Page 3, this round) Costs rows (Financial Foundation) hold no control but the source link.
-- (was line 1258, Page 3, this round) **Partner / Provider category cell**: under the name, `Category` label and drop-down on one row (a side field like Responsible, the picker hugging its longest option), then, only while a category the user made is being named, a "Name the category" box.
-- (was line 1267, Page 3, section views (latest)) **One tile everywhere**: category, group, card and Add tiles are the page tile's 215px square with its hover (110%, growing inwards); the Add tile is full size. `SectionView.tsx` (`SectionView`, `SubcategoryBoxes`) and `CardTile.tsx` are the only tile grids; the grid columns are `repeat(across, side)` from `useTilesAcross`.
-- (was line 1268, Page 3, section views (latest)) **Dialog area**: a section dialog stands over its section card's rect (`dialogFrame(opener)`, class `section-tile-overlay-placed`); Inventory and Completed keep the page frame, centred.
-- (was line 1277, Page 3 (later in same round)) **Cost row**: `--cost-x: 176px` (Qty 56, Price 96, currency at 176, Frequency right-aligned) as the user approved it; it no longer follows `--side-label-short` (124px).
-- (was line 1355, Batch K0) **A founder's Start date**: in the narrow founder card the label takes the room its words need and the date cell the rest (`.business-founder-open > .business-field-side`).
-- (was line 1367, Batch L) Brand Inventory: Icon & Logo (the icon in front; its dialog is the uploads) and Brand Images (each image a box covered with the image, its title on top).
-- (was line 1368, Batch L) **Legal Entity** is one tile for each of its six sections. Organization and Founders & Ownership open with no frame; Formation & Registration and Tax & Business Registration open in theirs; Additional Legal Requirements and Legal Entity Expenses open a card tile for each card with the "Add Card" box (as the Business System's cards do).
-- (was line 1400, Batch O) **Tile titles stand half a line higher** (\`.section-tile-title\`).
-- (was line 1422, Batch S) **A dialog (an open tile) darkens the page behind it; a floating card never does.**
-- (was line 1448, Batch V) **A dialog (an open tile) darkens the page behind it; a floating card does not** (`--bg-overlay` for the dialog, `--floating-scrim` clear).
-- (was line 1461, Batch V) **The marker column of an opened card is always two digits wide** (`--card-marker-col`, 32px), so the name cell (388) and every cell are the same width on every card whatever its number ("1." or "11."); the card is `--open-card-width` 492px. A card's number in its tile and in the card itself is the same (`offeringNumberOf`: its own Group's list, or the Channel tile's).
-- (was line 1463, Batch V) **Carousel arrows are the page arrows' shape and level** (`.page-arrow.carousel-arrow`), 10% larger, outside the card on each side, in the card's own tint; their level is the page arrow's (`arrowLevel`). The page arrows are raised to the middle of the page's cards where the rail would hold them lower. Infrastructure & Capability shows no Sections rail (it is drawn as tiles).
-- (was line 1464, Batch V) **The Foundation page is a set of four tiles for each Segment** (Customers: Segment and Profiles; Value Proposition; Competitors; Offerings; two by two), each Segment's frame in its own colour, the frames side by side. A tile's dialog holds that Segment's part only.
-- (was line 1471, Batch V) **The Foundation page**: a frame for each Segment (blue, the Discover colour of the colour map (docs/design/01-current-design.md, part I)), five tiles in it: Segment, Profiles, Value Proposition, Competitors, Offerings; the frame title is "Segment" until named, numbered with several; a long title scrolls sideways.
-- (was line 1474, Batch V) **3. Infrastructure & Capability is laid out like the other tile pages**: two cards of the same size in one row, their four tiles centred and as large as the card and the window allow; the Inventory and Completed tiles stand in a row under them, squeezed into the room that is left (never under `SQUEEZED_ROW_MIN`, 88px, titles only below 150px).
-- (was line 1485, Batch V) The Foundation page is the nested frame of columns again (no tiles).
-- (was line 1487, Batch V) Inventory and Completed are rectangles in the footer's band on a wide page, so the two cards are as large as every other system's.
-- (was line 1511, Batch V) **Demand & Conversion** is one table for the Segment: an Offering's rows under its head (how it is bought), then its sources, "+ Add Customer Source", the result, and the assumptions beside the channels.
-- (was line 1518, Batch V) **Demand & Conversion** is one table: Offering, Customers Buy, Channels, then a row for each Customer Source (Source, Estimated, Figures, Basis, Result, x).
-- (was line 1539, Scrolling) **Scrolling (`src/hooks/useScrollRules.ts`, `data-reserve`)**: a wheel over an open dialog or card never scrolls the page; where content is taller than its scroller (the page, a dialog's body, a tall card's stack) the scroller gets 25vh of bottom padding.
+These are open. Everything the earlier rounds left as "conflicting" or "replaced in part" was settled by the code and its tests (the values in section 2 are the code's), and the history is in git.
 
-## Appendix B. Still to settle
-
-**Rules kept that a later round replaced in part** (the part that stays is still a rule; the replaced part has to be cut from the text):
-
-- was line 1274: Add Card tile: half tile side, bottom right, no scale, semi-transparent ground, + grows 10% (superseded-by:1291; 1291 defines Add Card hover as stroke gone, 16% color-mix fill, dark tint label/plus; no-scale and placement still hold)
-- was line 1309: Funnel uses --space-field/--space-label; Include, Belongs to, Sort fold arrows open by default (superseded-by:1314; 1314 says Belongs to folded at first and sets block order Include, Sort, Belongs to; spacing tokens still hold)
-- was line 1334: Resources rows: dropdown with link symbol, '+' adds, never tick list; people card class (superseded-by:1343; row structure refined in 1343 (units box, spacer); keep sentence on Performers and .business-capability-people)
-- was line 1363: Column-page tile text plain, no bullets, last line fading, press opens tile (superseded-by:1385; 1385 says no fading, whole line above foot)
-- was line 1364: Column guidance is the i beside dialog title; Brand/Themes note 720px (superseded-by:1380; note width changed 720px -> 480px; rest (guidance as i, never bullets) stays)
-- was line 1466: Carousel arrows 24px from card, bright fill dark outline; none when fresh; inner step first (superseded-by:1534; 24px gap replaced by 12px (CAROUSEL_ARROW_GAP 12); fill replaced by 1478. Keep: none while fresh, dialog steps through its own sections first (useDialogInnerStep))
-- was line 1482: Foundation: four tiles per Segment; Registrations and Expenses tiles carry circles (superseded-by:1491; Foundation part only: Segment tile with Description and Profiles replaced by Customers with sub-tiles. Registrations/Expenses circles: keep (T13))
-- was line 1496: Strategy: tile per Theme/Goal; Roadmap one large tile; Delivery tile per Offering (superseded-by:1531; Pages 2 and 3 hidden in 1531; Roadmap large tile also by 1506/1523 small tile; Delivery tile per Offering: keep (T13))
-- was line 1500: Strategy cards: no fold arrow or grip; one-row head; generated tiles label; no Roadmap rail (superseded-by:1526; Head layout replaced by 1526; Theme tile '+' adds a Goal replaced by 1526/1532; no Roadmap Sections rail made moot by 1531. Keep: no fold arrow/grip, label above generated tiles)
-- was line 1508: Deactivated tiles drawn in grey section-tile-completed; pressing makes and opens (superseded-by:1515; Grey replaced by half-transparent (section-tile-slot-empty); pressing behaviour kept)
-- was line 1536: Channel card without wires: parts have no border; end 40px before padding; 12px apart (superseded-by:1546; 40px reserved column is now 44px (--card-x-column); no-wires rule stays)
-
-**Rules that conflict and that the ledger could not settle:**
-
-- was line 1260: Category cell: one component categoryRow, Name the category box only when naming (conflicts-with:1335; 1335 says partner or supplier card has no Category row; 1305 says Partner/Provider starts at Category Select)
-- was line 1266: Widths reverted: --side-label-short 156px, card-box-open side label 124px (conflicts-with:1284; 1284 says label column 164px (--side-label-short); base 45 says 164px; 156 vs 164 unresolved)
-- was line 1282: Layer stack; Back/backdrop remove top layer; Escape closes all; view under card inert (conflicts-with:1289; 1289 says no Back button, no inert, scrim pointer-events none, mousedown outside closes topmost; overrides base 770-773, 996, 871 (replaces return-to-default rule))
-- was line 1284: Quad page cards tile side; --tile-radius 8px; Costs row 164px label, cost-x 176 (conflicts-with:1266; 164px vs 1266's 156px; also contains cost-row positions (T11))
-- was line 1289: Floating card: no Back, no inert, scrim pointer-events none, mousedown outside closes topmost (conflicts-with:1282; overrides base 770, 773, 996 (Back button of floating card, dimmed inert page))
-- was line 1335: Group label order Category, Group, Name; partner/supplier card has no Category row (conflicts-with:1260; 1258/1260/1305 give Partner/Provider a Category cell)
-- was line 1435: Registered is derived from registration number; Status is text; Formation date after number (conflicts-with:1437; 1435 says Status is text, 1437 says Formation card has no Status)
-- was line 1437: Formation card: no Status, Date on registrations' columns, not after today; max five more numbers (conflicts-with:1435; Status presence unclear vs 1435)
-
-**Found in the base rules by the audit of 2026-10-14** (document against code; the code and its tests are the truth until the rule is rewritten):
-
-The line numbers below are those of the file before the reconciliation; they match the Appendix A and B "was line" numbers.
-
-- **Lists on tiles:** lines 719, 748, 962 and 1089 say a tile's list ends with "+N more"; line 1001 and the code say it holds every item and scrolls.
-- **Open card width:** lines 52, 777, 965 and 1198 say 480px; the code says 492px (see "Values as built").
-- **Tile title position:** lines 56, 710 to 713 and 1089 describe a third-down line; the code has 0.25. Lines 56 and 710 also describe different geometry for the title's last line.
-- **Side-label tokens:** lines 61 and 971 say `--card-side-label` is 124px and then 164px; the token is not defined and a test asserts it is absent.
-- **Dialog and cards:** lines 868 to 884 say the dialog is the page width and has no square; lines 964, 1097 and 1198 still say a pressed card box opens a card centred in the dialog; line 993 says cards are only floating cards. Lines 942 to 952 and 1090 to 1097 still describe card boxes opening a card in a dialog.
-- **Workspace Deposit:** lines 167 to 170 and 1052 say the amount is the Code step (128px); line 1004 says it has the Price box's width.
-- **Founder fold arrows:** line 1069 gives them a hover; lines 982, 1012 and 1123 say none.
-- **Help button:** lines 835 to 838 say the page has no Hide Help button; line 1208 and `InterviewSection.tsx` still have one on other pages.
-- **Quantity width:** line 1099 says Quantity 80 (XS); line 994 says 56.
-- **Marker column:** line 984 describes a three-column grid with a marker; later rounds (old lines 1461 and 1533) removed the marker of an opened card, except the founder card.
-- **Duplicates inside the base:** the "Tile grids: ONE SHAPE" rule (794 to 807, 926, 1098); the tail tile (808 to 811, 961, 962, 1196); the x colour swap (995, 1122, 1140); the "+" box swap (764 to 766, 1127); the founder card layout (325 to 328, 1055 to 1082); the Responsible tick (336 to 341, 626 to 647, 977); folded Capability cards (90 to 107, 657 to 661); the check list (1088 to 1104, 1216 to 1223); title sizes (729, 730, 1003, 1014 to 1020, 1098); the glass ground (62 to 64, 894 to 911, 1045). Line 794 has its heading twice.
-- **Names that no longer exist or no longer match:** `--workspace-form-width` and `--workspace-label-width` (lines 50, 51); `cardBoxLayout` (952, gone); "Partnerships" (992, still in four source files); "marker column" (53, 984, 1063 to 1067, 1195).
-- **Sections whose content does not match the heading:** section 5 "Alignment" holds the Customer Engagement tables, the action markers, Demand & Conversion and the Capability cards (lines 372 to 669); section 5a holds the Founders' dialog, the Workspace form, title sizes and the page scroll and several change-log blocks (lines 979 to 1002); section 4 holds the add buttons and the caps title; the table of section 6 is split by a paragraph at lines 1117 to 1120.
-- **Not yet checked against code:** the box counts in lines 797 to 803.
+- **Strategy Objective owners** are not read into a founder's Responsibilities: the Strategy answers are not available on the Infrastructure page (rule 9).
+- **Incomplete-card flashing** does not cover Customer Engagement's channel and subchannel cards or the Founders Profile cards (rule 11).
+- **Pairs** (rule 7): the survey of every card for the fields that usually have a partner (Working and Delivery Hours; Salary, Cost, Price or Expense with its Frequency) is run by `scripts/catalogue/pair-survey.mjs`; applying it card by card is still to do.
+- **Hide Help**: the page of 3. Infrastructure & Capability has none; the other pages keep their text button, which starts open.
+- **Reflow at 320px** (WCAG 1.4.10): the 768px floor is a declared exception until the owner rules on it (docs/design/05, 5.8).
+- **The completed card's dropdown chevron** is drawn in the theme's ink, not in `--completed-dim` (a fifth tone in a card of four greys).

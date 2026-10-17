@@ -579,3 +579,17 @@
 
 }
 
+
+/* THE "i" OF A DIALOG'S HEADING: the heading is a centred flex row, and its words' middle is 2px under the row's, so the note, centred on the row, stands 2px high; 4px of margin on top moves a centred item down by half of it. */
+.dialog-heading > .dialog-heading-line + .info-note{
+
+    margin-top:4px;
+
+}
+
+/* A link symbol on the line of a label (a Legal expense's "Linked registration"): centred on the line like the "i", so it does not push the line's top up and leave the "i" above its words' middle. */
+.legal-entity-label .business-link-symbol{
+
+    vertical-align:middle;
+
+}

@@ -1617,8 +1617,8 @@
                 const plus = slot.querySelector(":scope > .section-tile-plus");
                 if (plus) {
                     const p = rect(plus);
-                    if (!rules.near(p.width, 36, tolerance) || !rules.near(p.height, 36, tolerance)) {
-                        fail("a tile's + box is a 36px square", plus, { width: p.width, height: p.height });
+                    if (!rules.near(p.width, 32, tolerance) || !rules.near(p.height, 32, tolerance)) {
+                        fail("a tile's + box is a 32px square", plus, { width: p.width, height: p.height });
                     }
                     if (!rules.near(box.right - p.right, spec.cardPadding, tolerance + 1) || !rules.near(box.bottom - p.bottom, spec.cardPadding, tolerance + 1)) {
                         fail("a tile's + box stands at its lower right, 12px from the edges", plus, { right: box.right - p.right, bottom: box.bottom - p.bottom });
@@ -2385,8 +2385,9 @@
                 for (const control of card.querySelectorAll(".business-capability-frozen :is(.interview-input, .option-picker-trigger):disabled")) {
                     const ink = rules.parseColor(getComputedStyle(control).color);
                     const ground = rules.parseColor(getComputedStyle(control).backgroundColor);
-                    if (ink && ground && rules.contrast(ink, ground) < 4.5) {
-                        fail("a frozen activity's text holds 4.5:1 on its ground", control, { contrast: rules.contrast(ink, ground) });
+                    // (An inactive control is exempt from 4.5:1, WCAG 1.4.3; a completed card's text, in the one dimmed grey, still holds 3:1.)
+                    if (ink && ground && rules.contrast(ink, ground) < 3) {
+                        fail("a frozen activity's text holds 3:1 on its ground", control, { contrast: rules.contrast(ink, ground) });
                         break;
                     }
                 }
@@ -2445,7 +2446,8 @@
                 }
             }
             for (const element of card.querySelectorAll("*")) {
-                if (head.contains(element) || element.closest(".option-picker-list") || !visible(element)) continue;
+                // (A divider line runs across the whole card, the x column too: rule 18.)
+                if (head.contains(element) || element.closest(".option-picker-list") || element.matches(".business-capability-card-rule") || !visible(element)) continue;
                 const style = getComputedStyle(element);
                 if (style.display === "contents" || style.display === "none") continue;
                 const box = rect(element);
@@ -2560,13 +2562,13 @@
                 }
             }
         }
-        // 19. THE "i" of a coloured card: the ground of its surface (opaque), a stroke and its letter in the darker tint, 3:1 between them, 22px.
+        // 19. THE "i" of a coloured card: the ground of its surface (opaque), a stroke and its letter in the darker tint, 3:1 between them, 24px (the library's contract for the "i").
         for (const button of [...document.querySelectorAll(".business-capability .info-note-button, .business-capability.info-note-button")].filter(visible)) {
             const style = getComputedStyle(button);
             const ground = rules.parseColor(style.backgroundColor);
             const ink = rules.parseColor(style.color);
-            if (!rules.near(rect(button).width, 22, 0.75) || !rules.near(rect(button).height, 22, 0.75)) {
-                fail("an i keeps its size (22px)", button, { width: rect(button).width, height: rect(button).height });
+            if (!rules.near(rect(button).width, 24, 0.75) || !rules.near(rect(button).height, 24, 0.75)) {
+                fail("an i keeps its size (24px)", button, { width: rect(button).width, height: rect(button).height });
             }
             if (button.getAttribute("aria-expanded") === "true" || button.matches(":hover, :focus-visible")) continue;
             // (An "i" has no background of its own: it stands on the ground of its surface, so that is the ground measured.)

@@ -9,7 +9,7 @@ import { sheetSource } from "../test/stylesheet.ts";
    property the code does not define is listed in NOT_DEFINED until the row is
    removed from the rulebook. */
 
-const NOT_DEFINED = ["--card-side-label", "--workspace-form-width", "--workspace-label-width"];
+const NOT_DEFINED: string[] = [];
 
 const names = Object.keys(import.meta.glob("../styles/*.css")).map(path => path.split("/").pop() as string);
 const sheets = names.map(name => ({ name, text: sheetSource(name) }));

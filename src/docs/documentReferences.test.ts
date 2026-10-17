@@ -12,6 +12,7 @@ import { definedProperties, extractReferences, missingReferences, type Code } fr
 
 const DOCUMENTS = [
     "docs/ai/layout-rules.md",
+    "docs/ai/customer-engagement-layout.md",
     "docs/ai/tile-and-card-pattern.md",
     "docs/specifications/business-system/page-3-infrastructure-and-capability.md",
     "docs/design/01-current-design.md",
@@ -25,18 +26,10 @@ const ALLOWED = new Map<string, string>([
 
 /**
  * What each document names today that the code does not have: stale text still
- * to be fixed. The rulebook still describes the Workspace form card and two
- * of its tokens (the Workspace is now a category of the resource card), and
- * lists the absent --card-side-label in its token table.
+ * to be fixed. None today: the rulebook was cleaned on 2026-10-17.
  */
 const NONE = { properties: [], classes: [], files: [] };
-const KNOWN_STALE: Record<string, { properties: string[]; classes: string[]; files: string[] }> = {
-    "docs/ai/layout-rules.md": {
-        properties: ["--card-side-label", "--workspace-form-width", "--workspace-label-width"],
-        classes: ["floating-card-workspace", "workspace-card", "workspace-form"],
-        files: []
-    }
-};
+const KNOWN_STALE: Record<string, { properties: string[]; classes: string[]; files: string[] }> = {};
 
 /* The code: every stylesheet, component and script (names from the glob, text read from disk: a raw import is empty in the test runner). */
 const codePaths = Object.keys(import.meta.glob("../**/*.{css,ts,tsx,json}"));

@@ -901,9 +901,9 @@ export default function SectionTiles({
         const box = find(key => `[data-card-box="${key}"]`);
         const block = find(key => `.section-tile [data-card="${key}"]`);
         // The line of a tile's list that opens this card: the underline moves with the card as the arrows step.
-        const line = find(key => `.section-tile [data-link="${key}"]`);
+        const line = find(key => `.section-tile-link[data-link="${key}"]`);
         const own = openerEl.closest<HTMLElement>(".section-tile") ?? openerEl.closest(".section-tile-slot")?.querySelector<HTMLElement>(".section-tile") ?? null;
-        const tile = box ?? line?.closest<HTMLElement>(".section-tile") ?? own;
+        const tile = box ?? line?.closest(".section-tile-slot")?.querySelector<HTMLElement>(".section-tile") ?? own;
         const marked = [tile, block].filter((element): element is HTMLElement => !!element);
         marked.forEach(element => {
             element.setAttribute("data-opener-tile", "");

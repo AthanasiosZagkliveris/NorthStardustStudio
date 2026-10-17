@@ -12,6 +12,7 @@ This folder is NorthStardustStudio's shared knowledge for AI assistants (Claude,
 - **`framework-dsl-grammar.md`** — authoring or editing a System's content? Read this before touching any Markdown file.
 - **`framework-conventions-and-patterns.md`** — the non-obvious architectural patterns (cross-Section sharing, auto-ordering, the tabbed layout, the three justified special-case editors) and the data model. Read alongside the grammar reference for any non-trivial content change.
 - **`layout-rules.md`** — changing how a Foundation page's cards, fields or lists are laid out? The measured rulebook (tokens, the closed set of sizes, alignment, interactions) and the automated layout check that must pass.
+- **`customer-engagement-layout.md`** — the layout of the Customer Engagement page's tables, the Channel resources table and the action markers (moved out of the rulebook).
 - **`tile-and-card-pattern.md`** — how tiles, cards, rails (the page tab) and dialogs are built, and the rules that are global. Read it with `layout-rules.md` when changing a tile, a card or a rail.
 - **`card-kinds.md`** — the list of the kinds of card, where each one's code is and how its head is built.
 - **`verification-and-regression-playbook.md`** — after any change, before calling it done. Contains the living list of currently-known expected test failures and why each one is expected.

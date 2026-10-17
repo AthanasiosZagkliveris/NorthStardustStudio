@@ -376,3 +376,13 @@ body:has(.floating-card-host .business-capability-activity-completed) .section-t
     --opener-tone: var(--line-completed);
 
 }
+
+/* A typeface of the Typography tile is a text, not a block: while its card is open it stays underlined, with no halo. */
+.section-tile .brand-specimens > [data-card][data-opener-tile] {
+
+    box-shadow: none !important;
+
+    text-decoration: underline;
+    text-underline-offset: 4px;
+
+}

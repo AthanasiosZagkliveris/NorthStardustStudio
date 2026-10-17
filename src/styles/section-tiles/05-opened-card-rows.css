@@ -593,7 +593,8 @@
     --glow-color: var(--line-completed);
     --plus-fill: var(--completed-dim);
     --plus-ground: var(--bg-completed-ground);
-    --x-ground: var(--bg-completed-card);
+    --x-ground: var(--bg-completed-ground);
+    --x-red: var(--completed-dim);
     --cell-edge: transparent;
 
 }
@@ -636,13 +637,14 @@
 
 }
 
-.business-capability-activity-completed :is(.plus-box, .strategy-box-remove, .date-cell-calendar-button, .month-picker-calendar, .business-link-symbol, .responsibility-filter):not(.business-capability-done *) {
+.business-capability-activity-completed :is(.plus-box, .strategy-box-remove, .date-cell-calendar-button, .month-picker-calendar):not(.business-capability-done *) {
 
     opacity: 1 !important;
 
-    border-color: var(--completed-dim);
+    /* (The "+", the x and the calendar button are one component: the same 2px stroke, ground and tone.) */
+    border: 2px solid var(--completed-dim) !important;
 
-    background: var(--bg-completed-ground);
+    background: var(--bg-completed-ground) !important;
 
 }
 
@@ -652,5 +654,12 @@ body .floating-overlay .page-arrow.carousel-arrow[data-completed] {
     color: var(--bg-completed-card);
 
     filter: drop-shadow(1px 0 0 var(--line-completed)) drop-shadow(-1px 0 0 var(--line-completed)) drop-shadow(0 1px 0 var(--line-completed)) drop-shadow(0 -1px 0 var(--line-completed));
+
+}
+
+/* The divider line of a completed card is the Completed line, the third of its four greys. */
+.business-capability-activity-completed .business-capability-card-rule {
+
+    background: var(--line-completed);
 
 }

@@ -434,7 +434,8 @@
 
     z-index: 2;
 
-    box-shadow: 0 10px 22px var(--shadow-18), 0 3px 8px var(--shadow-12);
+    /* (The block keeps its inset light and shade -- it is a tile -- and the drop shadow is added to them.) */
+    box-shadow: var(--box-inset), 0 10px 22px var(--shadow-18), 0 3px 8px var(--shadow-12);
 
 }
 
@@ -1201,5 +1202,13 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 .brand-mosaic.brand-mosaic-images > .brand-mosaic-image {
 
     aspect-ratio: 1;
+
+}
+
+/* THE BLOCKS OF A MASTER TILE (colours, images) have one corner: 6px. */
+.section-tile .brand-mosaic > span,
+.section-tile .brand-mosaic.brand-mosaic-images > .brand-mosaic-image {
+
+    border-radius: var(--radius-md);
 
 }
