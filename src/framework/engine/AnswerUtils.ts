@@ -7040,6 +7040,7 @@ export function withNewInsurances(previous: BusinessCapabilityValue, next: Busin
             name: "Insurance for " + slot.name.trim(),
             status: "costs",
             insuresId: slot.id,
+            startDate: slot.startDate || todayIsoDate(),
             cost: { ...createBusinessCost(), frequency: slot.group === "site-hire" ? "per-project" : "annually" },
             ...(offering ? { category: "documents", group: "insurances", offeringIds: [...slot.offeringIds], offeringShares: { ...slot.offeringShares } } : {})
         };
@@ -7883,6 +7884,8 @@ export interface BusinessPartnerValue {
     paymentPlan: BusinessPaymentPlan;
     /** The share of the card each linked Offering carries, by Offering id, when several are linked (they total 100%). */
     offeringShares: Record<string, string>;
+    /** The card whose Status made it with "Other…" (made for that card's Offerings and start); "" for one made on its own. */
+    madeBy: string;
     /** The day it starts (an ISO date); asked on every card. */
     startDate: string;
     /** The day it ends (an ISO date); optional. */
@@ -8178,6 +8181,7 @@ export function createBusinessPartner(name = "", category = ""): BusinessPartner
         extras: {},
         paymentPlan: emptyPaymentPlan(),
         offeringShares: {},
+        madeBy: "",
         startDate: todayIsoDate(),
         endDate: "",
         name,
@@ -8522,6 +8526,7 @@ function asBusinessPartner(
         extras: asBusinessExtras(partner.extras),
         paymentPlan: asPaymentPlan(partner.paymentPlan),
         offeringShares: asOfferingShares(partner.offeringShares, offeringIdsOf(partner)),
+        madeBy: asText(partner.madeBy),
         startDate: isoDateText(partner.startDate),
         endDate: isoDateText(partner.endDate),
         name: asText(partner.name),

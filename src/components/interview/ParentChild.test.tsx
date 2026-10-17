@@ -439,4 +439,35 @@ describe("a new Resource card is filed with no Category", () => {
         expect(within(card).getByLabelText(/category: /).textContent).toContain("Select");
     });
 
+
+});
+
+describe("a generated card its parent stops naming", () => {
+
+    it("asks first; Cancel keeps both, Continue removes the generated card", () => {
+        const seen: Capability[] = [];
+        render(<Spy initial={seeded({ child: { madeBy: "resource-mill" } })} spy={value => seen.push(value)} />);
+        openAdminCard();
+        const before = seen.length;
+        chooseStatus("Partners & Suppliers");
+        expect(screen.getByRole("alertdialog")).not.toBeNull();
+        expect(seen).toHaveLength(before);
+        fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+        expect(screen.queryByRole("alertdialog")).toBeNull();
+        expect(seen).toHaveLength(before);
+        chooseStatus("Partners & Suppliers");
+        fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+        const last = seen[seen.length - 1];
+        expect(activitiesOf(last).map(activity => activity.id)).not.toContain("activity-mill");
+    });
+
+    it("does not ask about an activity the user made on their own", () => {
+        const seen: Capability[] = [];
+        render(<Spy initial={seeded()} spy={value => seen.push(value)} />);
+        openAdminCard();
+        chooseStatus("Partners & Suppliers");
+        expect(screen.queryByRole("alertdialog")).toBeNull();
+        expect(activitiesOf(seen[seen.length - 1]).map(activity => activity.id)).toContain("activity-mill");
+    });
+
 });

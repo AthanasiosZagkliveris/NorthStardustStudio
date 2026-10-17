@@ -1,3 +1,5 @@
+import "../../styles/system-confirmation.css";
+import { orphanedCards, withoutCards, type GeneratedCard } from "../../framework/engine/GeneratedCards.ts";
 import { CSSProperties, Fragment, ReactNode, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import ResponsibilityFilter from "./ResponsibilityFilter.tsx";
@@ -327,6 +329,13 @@ export function newActivityFor(scope: Scope, startDate: string, offeringIds: rea
     };
 }
 
+/** The day a card starts (a resource, an activity), "" where it is not found: what a card MADE from it starts on. */
+function startOfCard(capability: BusinessCapabilityValue, id: string): string {
+    const slots = [...Object.values(capability.resources).flatMap(subsections => subsections.flatMap(subsection => subsection.slots)), ...capability.offering.resources];
+    const activities = [...capability.activities.flatMap(category => category.activities), ...capability.offering.activities];
+    return slots.find(slot => slot.id === id)?.startDate ?? activities.find(activity => activity.id === id)?.startDate ?? "";
+}
+
 /** The page with an activity added to its place. */
 function withActivity(capability: BusinessCapabilityValue, scope: Scope, activity: BusinessActivityValue): BusinessCapabilityValue {
     if (scope === "offering") {
@@ -489,10 +498,20 @@ export default function BusinessCapabilityEditor({
     const wrote = useRef(false);
     wrote.current = false;
     const stored = orderedByDate(asBusinessCapabilityValue(value));
-    const onChange = (next: BusinessCapabilityValue) => {
+    const write = (next: BusinessCapabilityValue) => {
         wrote.current = true;
         // (A premises, vehicle, workshop, machine or event made by this change gets its Insurances card.)
         onChangeProp(orderedByDate(withNewInsurances(stored, next)));
+    };
+    // A CHANGE THAT LEAVES A GENERATED CARD WITH NO CARD NAMING IT (a Status, Activity, Partner or Supplier changed) is asked about first: Continue removes that card.
+    const [pending, setPending] = useState<{ next: BusinessCapabilityValue; orphans: GeneratedCard[] } | null>(null);
+    const onChange = (next: BusinessCapabilityValue) => {
+        const orphans = orphanedCards(stored, next);
+        if (orphans.length > 0) {
+            setPending({ next, orphans });
+            return;
+        }
+        write(next);
     };
 
     /* The founders as the Legal Entity names them, with the Roles
@@ -1602,6 +1621,8 @@ export default function BusinessCapabilityEditor({
                                         const made: BusinessPartnerValue = {
                                             ...createBusinessPartner("", type),
                                             group: group === NO_GROUP ? "" : group,
+                                            startDate: startOfCard(capability, ownerId) || todayIsoDate(),
+                                            madeBy: ownerId,
                                             offeringIds: scope === "offering" ? [...offeringIds] : []
                                         };
                                         const stored = type === "suppliers" ? "providers" : "professionals";
@@ -1695,6 +1716,8 @@ export default function BusinessCapabilityEditor({
                                     const made: BusinessPartnerValue = {
                                         ...createBusinessPartner("", "suppliers"),
                                         group,
+                                        startDate: startOfCard(capability, ownerId) || todayIsoDate(),
+                                            madeBy: ownerId,
                                         offeringIds: scope === "offering" ? [...offeringIds] : []
                                     };
 
@@ -5716,6 +5739,20 @@ export default function BusinessCapabilityEditor({
     return (
 
         <MissingMapContext.Provider value={missingById}>
+        {pending && (
+            <div className="confirmation-overlay" onClick={() => setPending(null)}>
+                <div className="confirmation-dialog" role="alertdialog" aria-modal="true" aria-label="Remove the card made for this one?" onClick={(event) => event.stopPropagation()}>
+                    <h2 className="confirmation-title">This change leaves {pending.orphans.length === 1 ? "a card" : "cards"} with no use.</h2>
+                    <p className="confirmation-question">
+                        {pending.orphans.map(card => "“" + card.name + "”").join(", ")} {pending.orphans.length === 1 ? "was" : "were"} made for this card and no other card is linked to {pending.orphans.length === 1 ? "it" : "them"}. If you continue, {pending.orphans.length === 1 ? "it is" : "they are"} removed.
+                    </p>
+                    <div className="confirmation-actions">
+                        <button type="button" className="confirmation-button secondary" autoFocus onClick={() => setPending(null)}>Cancel</button>
+                        <button type="button" className="confirmation-button danger" onClick={() => { const { next, orphans } = pending; setPending(null); write(withoutCards(next, orphans.map(card => card.id))); }}>Continue</button>
+                    </div>
+                </div>
+            </div>
+        )}
         <div
             className="answer-columns business-foundation business-engagement business-capability"
             style={{ "--answer-column-count": 2 } as CSSProperties}
