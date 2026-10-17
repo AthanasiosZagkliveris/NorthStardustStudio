@@ -25,7 +25,7 @@ One pattern for every tile, frame and card of the app (Identity, Brand, Business
 ## Linkable content, headers and darkness
 - A line of a tile that names a card opens it; a block of a picture (colour, image, typeface) opens its card; elsewhere a press opens the tile. Colour and image blocks are squares, evenly spaced, and grow inwards with a drop shadow as a tile does; a typeface is underlined.
 - Business card tiles: where it belongs in plain lines, then bulleted status, dates, warranty and cost.
-- A floating card does not darken the page behind it and has the same inner light and shade as every card.
+- A floating card shades only the chapter (frame) it stands over, the size and shape of that frame, and freezes it (a press on the shade closes the card); the rest of the page is not darkened. It has the same inner light and shade as every card.
 - A dialog header is one row: the root name, then the names one size lower; a long trail slides off to the left.
 
 ## The two documents

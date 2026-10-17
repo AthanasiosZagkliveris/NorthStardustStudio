@@ -1906,6 +1906,8 @@ export function FloatingCards({
     const overlay = useRef<HTMLDivElement | null>(null);
     const panel = useRef<HTMLDivElement | null>(null);
     const [place, setPlace] = useState<{ left: number; top: number; band: number } | null>(null);
+    // THE SHADE OF THE CHAPTER BEHIND: the frame the card stands over (its anchor), as it stands, with its own corners.
+    const [shade, setShade] = useState<{ left: number; top: number; width: number; height: number; radius: string } | null>(null);
     const closeRef = useRef(onClose);
     closeRef.current = onClose;
     const anchorRef = useRef(anchor);
@@ -1947,6 +1949,8 @@ export function FloatingCards({
             // under the page heading's underline, never below the point where 200px of it would still show.)
             top = Math.min(Math.max(top, bandTop + 8), Math.max(bandTop + 8, bandBottom - 200));
             const left = Math.max(8, Math.min(centreX - width / 2, window.innerWidth - 8 - width));
+            const frameBox = where?.getBoundingClientRect();
+            setShade(where && frameBox && frameBox.width > 0 ? { left: frameBox.left, top: frameBox.top - bandTop, width: frameBox.width, height: frameBox.height, radius: getComputedStyle(where).borderRadius } : null);
             setPlace(previous => previous && Math.abs(previous.band - bandTop) < 0.5 && Math.abs(previous.left - left) < 0.5 && Math.abs(previous.top - top) < 0.5 ? previous : { left, top, band: bandTop });
         };
         position();
@@ -2029,6 +2033,8 @@ export function FloatingCards({
             // (The overlay starts under the app header and scrolls: the header is the only edge that cuts a card.)
             style={place ? { top: place.band } : undefined}
         >
+            {/* The chapter behind the card is shaded, the size and shape of its frame, and frozen: a press on it closes the card and does nothing else. */}
+            {shade && <div className="floating-chapter-shade" aria-hidden="true" style={{ left: shade.left, top: shade.top, width: shade.width, height: shade.height, borderRadius: shade.radius }} onMouseDown={() => closeRef.current()} />}
             {step && place && <CarouselArrows target={panel} step={step} hue={hue} />}
             <div
                 ref={panel}
