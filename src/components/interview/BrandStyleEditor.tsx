@@ -698,7 +698,8 @@ export default function BrandStyleEditor({
 
                             {/* A growing box behind its tick, as every optional field. */}
                             <OptionalNote
-                                label="Usage"
+                                label="Notes"
+                                fieldId="Usage"
                                 ariaLabel={`${slot.label} usage`}
                                 placeholder="Where the colour is used"
                                 disabled={disabled}
@@ -756,7 +757,7 @@ export default function BrandStyleEditor({
                                 field: "Usage", as a colour's; its key stays
                                 "Purpose". */}
                             <OptionalNote
-                                label="Usage"
+                                label="Notes"
                                 fieldId="Purpose"
                                 ariaLabel={`${slot.label} usage`}
                                 placeholder="What the typeface is used for"

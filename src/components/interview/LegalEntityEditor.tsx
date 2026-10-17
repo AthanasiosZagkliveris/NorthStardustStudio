@@ -2207,7 +2207,7 @@ export default function LegalEntityEditor({
                         {/* Named as 6.'s expenses name theirs; its key
                             stays "Relevant Information". */}
                         {optionalNote(
-                            "Description / Relevant Information",
+                            "Notes",
                             "Legal requirement " + (index + 1) + " notes",
                             requirement.notes,
                             (next) => update({
@@ -2460,7 +2460,7 @@ export default function LegalEntityEditor({
                             )}
 
                         {optionalNote(
-                            "Description / Relevant Information",
+                            "Notes",
                             "Expense " + (index + 1) + " description",
                             expense.description,
                             (next) => update({

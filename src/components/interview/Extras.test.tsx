@@ -30,7 +30,7 @@ const base = () => asBusinessCapabilityValue(undefined);
 const cost = (price: string, frequency: string) => ({ price, frequency, frequencyOther: "", unit: "", currency: "" });
 const card = (name: string, fields: Record<string, unknown> = {}) => ({ ...createBusinessResourceSlot(), name, status: "buy", ...fields });
 const supplier = (id: string, name: string, group: string, fields: Record<string, unknown> = {}) => ({ ...createBusinessPartner(name, "suppliers"), id, group, cost: cost("900", "monthly"), ...fields });
-const labelsOf = () => [...document.querySelectorAll(".optional-field .field-label")].map(node => node.textContent?.replace(/i$/, "").trim()).filter(label => label !== "Description / Relevant Information");
+const labelsOf = () => [...document.querySelectorAll(".optional-field .field-label")].map(node => node.textContent?.replace(/i$/, "").trim()).filter(label => label !== "Notes");
 
 describe("where an extra is offered", () => {
 

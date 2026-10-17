@@ -646,7 +646,7 @@ describe("LegalEntityEditor requirement note", () => {
         for (const arrow of screen.queryAllByRole("button", { name: /^Maximize/ })) {
             fireEvent.click(arrow);
         }
-        expect(screen.getAllByText("Description / Relevant Information").length).toBeGreaterThan(0);
+        expect(screen.getAllByText("Notes").length).toBeGreaterThan(0);
         expect(screen.queryByText("Relevant Information", { exact: true })).toBeNull();
     });
 

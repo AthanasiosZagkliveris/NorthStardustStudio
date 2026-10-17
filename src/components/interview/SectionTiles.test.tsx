@@ -301,7 +301,7 @@ describe("an empty section shows a small + under its title", () => {
         expect(document.activeElement).toBe(name);
         expect(name.value).toBe("");
         // The card is the creation interface: its normal fields.
-        expect(screen.getByRole("checkbox", { name: /Description/ })).toBeTruthy();
+        expect(screen.getByRole("checkbox", { name: /Notes/ })).toBeTruthy();
 
         // Back from the blank card removes it: the page again, the section still holds no card.
         closeAllTiles();
@@ -336,7 +336,7 @@ describe("an empty section shows a small + under its title", () => {
     it("keeps a card that holds any input other than its name", () => {
         render(<Harness />);
         openTile("Activities", "Marketing");
-        fireEvent.click(screen.getByRole("checkbox", { name: /Description/ }));
+        fireEvent.click(screen.getByRole("checkbox", { name: /Notes/ }));
         fireEvent.change(screen.getByLabelText("Activity 1 description"), { target: { value: "Plan the autumn mailing" } });
         closeTile();
         expect((tileButton("Activities", offeringCard()).getAttribute("data-holds") ?? "").split(" ").filter(Boolean)).toHaveLength(1);

@@ -1885,7 +1885,8 @@ export default function BusinessCapabilityEditor({
                 {extrasFields("Resource " + number, slotExtraKeys(groupId, slot.status), slot.extras, slot.cost.currency || organisationCurrency, (next) => onSlot({ extras: next }))}
 
                 <OptionalNote
-                    label="Description / Relevant Information"
+                    label="Notes"
+                    fieldId="Description / Relevant Information"
                     ariaLabel={"Resource " + number + " description"}
                     placeholder={noteHint(groupId)}
                     disabled={disabled}
@@ -4159,7 +4160,7 @@ export default function BusinessCapabilityEditor({
                 </div>
 
                 <OptionalNote
-                    label="Description / Relevant Information"
+                    label="Notes"
                     fieldId="description"
                     ariaLabel={"Activity " + number + " description"}
                     disabled={disabled}
@@ -4406,7 +4407,8 @@ export default function BusinessCapabilityEditor({
                 )}
 
                 <OptionalNote
-                    label="Description / Relevant Information"
+                    label="Notes"
+                    fieldId="Description / Relevant Information"
                     ariaLabel={"Entry " + number + " description"}
                     placeholder={noteHint(partner.group)}
                     disabled={disabled}

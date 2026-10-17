@@ -275,7 +275,7 @@ describe("BrandStyleEditor colour and typeface cards", () => {
         render(<Harness />);
         openAll();
         const card = document.querySelector('[data-anchor^="brand-typeface"]')!;
-        expect(card.textContent).toContain("Usage");
+        expect(card.textContent).toContain("Notes");
         expect(card.textContent).not.toContain("Purpose");
     });
 

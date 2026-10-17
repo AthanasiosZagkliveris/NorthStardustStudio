@@ -484,7 +484,7 @@ export default function BrandInventoryEditor({
                         onFile={(file) => acceptFile(file, "any", (asset) => updateImage(index, asset))}
                     />
                     <OptionalNote
-                        label="Usage"
+                        label="Notes"
                         fieldId="Description"
                         ariaLabel={what + " usage"}
                         placeholder="What the image is used for"
