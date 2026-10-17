@@ -1268,3 +1268,10 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     cursor: default;
 
 }
+
+/* ONE RULE FOR EVERY TILE WITH A "+" BOX, wherever it stands (a page's tile, a dialog's tile, a category's): its list keeps clear of the box, the list's last line ending above it. */
+.section-tile-slot:has(.plus-box) > .section-tile-links-layer {
+
+    padding-bottom: calc(var(--card-padding) + var(--plus-size) + 5px);
+
+}
