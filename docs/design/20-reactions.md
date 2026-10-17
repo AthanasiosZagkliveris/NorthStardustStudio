@@ -7,7 +7,7 @@ What the app does when a part of it is pointed at, pressed, focused, ticked, ope
 | # | Reaction | What is seen | Notes |
 |---|---|---|---|
 | R1 | **Glow** (pointer on a field) | A soft ring, 4px wide, in the card's glow colour at 18% round the field. No border change. | The field keeps its recessed look; nothing moves. |
-| R2 | **Ring** (focus, or pressed and held) | A ring 3px wide at 35% and the primary edge. | Keyboard focus and the active field; independent of the border colour (accessibility). |
+| R2 | **Ring** (focus, or pressed and held) | The primary edge and a ring 3px wide at 35%, one rule for every cell in every mode (`cell-focus.css`); a box that holds a field (a date cell, the colour cell, a numbered list) draws it round the box, with the cell's corners, and the field inside draws none. | Keyboard focus and the active field; independent of the border colour (accessibility). |
 | R3 | **Recess** (rest) | Fields rest recessed: no stroke, the inset shade at the top left and light at the bottom right. Pickers rest raised. | A field that cannot be changed is flat. |
 | R4 | **Fill** (the "+" family) | At rest the ground of what it stands on, a 2px stroke and the symbol in the card's darker tone; under the pointer or the keyboard the tone fills the box, the stroke goes, the symbol takes the ground (150ms). | The +, the calendar button, the funnel, the day, month and arrow buttons of the calendar card. The x does the same in danger red. |
 | R5 | **Bold and underline** (text links) | The letters thicken (the app's bold, no change of width) and a line 1px under the descenders. | Every text link; list items of a tile are underlined only. |
@@ -41,8 +41,8 @@ What the app does when a part of it is pointed at, pressed, focused, ticked, ope
 | Funnel (founder's Responsibilities) | R4 at rest | R4 filled | outline | filled while it leaves something out; its list opens (R13) | n/a |
 | Link symbol | a drawn chain in the card's tone | R9 | R9 | - | n/a |
 | Text link | R5 at rest: blue, regular, no underline | R5 and R6 | R5 and outline | - | grey |
-| Fold arrow (card, 36px) | the ground and the card-line edge | its ground | focus ring | open or closed (every one starts closed) | n/a |
-| Label arrow (beside a label) | the outline triangle | the triangle fills | the same | open or closed (every one starts closed) | n/a |
+| Fold arrow (card, 36px) | the ground and the card-line edge | its ground | focus ring | open or closed (information, help and links start closed; content starts open) | n/a |
+| Label arrow (beside a label) | the outline triangle | the triangle fills | the same | open or closed (information, help and links start closed; content starts open) | n/a |
 | Master tile (page tile) | the tile, its list | R8 | outline | R10 while its card is open | n/a |
 | Box in a dialog (subcategory, card, founder, add) | inset light and shade | R1 | outline | R10 while its card is open | n/a |
 | Colour or image block of a master tile | a tile (inset light and shade), 6px corners | R8 (10% inwards, inset kept) | outline | R10 | n/a |

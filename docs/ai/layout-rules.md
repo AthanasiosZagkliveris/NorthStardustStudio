@@ -28,6 +28,7 @@ Where the rules need a decision the code could not give, section 20 lists it.
 - 18. The check
 - 19. The assets (generated from the contracts)
 - 20. Still to settle
+- 21. Rules of 2026-10-17 (floating cards, generated cards, notes, folds, cells)
 
 ---
 
@@ -1710,3 +1711,37 @@ These are open. Everything the earlier rounds left as "conflicting" or "replaced
 - **Hide Help**: the page of 3. Infrastructure & Capability has none; the other pages keep their text button, which starts open.
 - **Reflow at 320px** (WCAG 1.4.10): the 768px floor is a declared exception until the owner rules on it (docs/design/05, 5.8).
 - **The completed card's dropdown chevron** is drawn in the theme's ink, not in `--completed-dim` (a fifth tone in a card of four greys).
+
+---
+
+## 21. Rules of 2026-10-17 (floating cards, generated cards, notes, folds, cells)
+
+The owner's rules of one round, each global: made in a shared component, token or class, never for one card. The checks are the tests and `npm run check:layout`.
+
+**Floating cards**
+1. **The caption is the section's name** however the card is opened (its tile, its group's tile, another card's link): "Resources", "Activities", "Partners & Suppliers", "Founders". Never a group's name.
+2. **A card opens on the half of the page its tile is not in** (`otherColumn`, `acrossFrom`): over the frame on the other half; a card opened from a tile inside a dialog (a category's, the Inventory's, the Completed's) goes by that tile's place.
+3. **The chapter behind a card is shaded and frozen** (`.floating-chapter-shade`: the frame's size and corners; two layers of `--shadow-18`): a press on it closes the card. Where a dialog already shades what is under the card, the card adds none.
+4. **A legal card floats on 3. Infrastructure & Capability** (a founder's "L." link, an Inventory tile): the Legal Entity editor is mounted with its tiles not drawn (`cardsOnly`), and what is typed is saved to the Identity System's answer (`changeLegalEntity`).
+5. **Every floating card shows its record time under it** ("Recorded 17/10/2026 14:13", `CardRecordService`): set the first time the card is made or opened, kept in the organization's document (`cardTimes`).
+6. **A founder's floating card keeps its pairs side by side** (Salary | Frequency, Working Hours | Delivery Hours): where the card is too narrow for each label beside its cell, the label stands over its cell. The funnel ends where the Start date's calendar box ends.
+7. **A legal requirement's Type cell** takes all the room after its label.
+
+**Generated cards**
+8. **A card made by another card's Status** (a Partner, Supplier or Activity made with "Other…") carries `madeBy` (the parent's id), starts on the parent's Start date, and serves the Offerings its parent serves, following them as they change (`withInheritedOfferings`).
+9. **A change that leaves a generated card with no use** (the parent's Status, Activity, Partner or Supplier changes, or the parent is removed, and no other card names it) is asked about first; Continue removes the generated card, Cancel changes nothing. What goes with a change on the screen (a name box opening) follows only once it is made (`onChange(next, after)`).
+
+**Notes, texts and names**
+10. **Four free texts** (docs/design/22): short text; list line (one row by default, everywhere, the channel's action lines too); note (every optional text is labelled **Notes**, its key unchanged); long text (eight rows).
+11. **The Notes panel lists every card's Notes** under a funnel that chooses pages; a press opens the card (`CardNotesService`).
+12. **A name takes two rows at most** (`CardNameInput`), then scrolls. **A long name never covers its number**: on a tile or a card's head the number stays and the text slides behind it.
+13. **Every text link is one component** (`TextLink`); a link with the keyboard's focus is bold and underlined but does not slide.
+
+**Folds**
+14. **Information, help and links start closed; content starts open** (`useItemFolds(openByDefault)`): Customer Engagement's items, the financial items and an Objective's Initiatives start open.
+
+**Cells and controls**
+15. **One ring** for every cell (`cell-focus.css`): the primary edge and a 3px ring at 35%; a box that holds a field (a date cell, the colour cell, a numbered list) draws it round the box with the cell's corners, and the field inside draws none. The pointer on such a box gives it the glow.
+16. **A colour or typeface card's Role and Colour cells** are one width (the Date step) and start together; the colour is written as a hex (# and six digits); the picker also writes it as RGB or HSL. The Typography tile sets its typeface names at the body size.
+17. **A tile with a "+" box keeps its list clear of it**, on every tile.
+18. **The Strategic Period dialog's tiles and top row end where the Themes' tiles end**, at any width.

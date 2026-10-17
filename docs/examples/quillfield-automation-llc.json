@@ -35,6 +35,7 @@
               "legalFormOther": "",
               "mainActivity": "Design and build of AI-assisted workflow automations for small professional-services firms (law, accounting, architecture and marketing firms of 5 to 50 staff), with automation audits and monthly care retainers (NAICS 541512: Computer Systems Design Services).",
               "activityCode": "541512",
+              "activityCodeOn": true,
               "addressLine1": "120 Clinton Street, Suite 3R\nBrooklyn\n11201",
               "addressLine2": "",
               "city": "",
@@ -46,7 +47,11 @@
                 "id": "founder-q7m2x4ke",
                 "name": "Jordan Ellis",
                 "ownership": "100",
-                "capital": "12000"
+                "capital": "12000",
+                "roles": [
+                  ""
+                ],
+                "experience": ""
               }
             ],
             "formation": {
@@ -68,41 +73,47 @@
                 "type": "additional",
                 "name": "LLC publication requirement (NY LLC Law, Section 206)",
                 "reference": "Certificate of Publication filed 2026-12-04",
-                "notes": "Notice of formation published once a week for six consecutive weeks in two newspapers (one daily, one weekly) chosen by the Kings County Clerk, within 120 days of formation; the Certificate of Publication, with the publishers' affidavits, is then filed with the Department of State."
+                "notes": "Notice of formation published once a week for six consecutive weeks in two newspapers (one daily, one weekly) chosen by the Kings County Clerk, within 120 days of formation; the Certificate of Publication, with the publishers' affidavits, is then filed with the Department of State.",
+                "offerInExpenses": true
               },
               {
                 "id": "requirement-o9a3g6mk",
                 "type": "other",
                 "name": "Operating Agreement (single-member)",
                 "reference": "Signed 2026-09-10",
-                "notes": "New York expects an LLC to adopt a written operating agreement within 90 days of filing its Articles of Organization, even with one member."
+                "notes": "New York expects an LLC to adopt a written operating agreement within 90 days of filing its Articles of Organization, even with one member.",
+                "offerInExpenses": false
               },
               {
                 "id": "requirement-f6e1d8yw",
                 "type": "additional",
                 "name": "NYS LLC annual filing fee (Form IT-204-LL)",
                 "reference": "First filing due with the 2027 tax year",
-                "notes": "A single-member LLC with New York income pays the fee each year. It is $25 while New York gross income stays at or under $100,000 and rises by income band above that; confirm the band each year with the accountant."
+                "notes": "A single-member LLC with New York income pays the fee each year. It is $25 while New York gross income stays at or under $100,000 and rises by income band above that; confirm the band each year with the accountant.",
+                "offerInExpenses": true
               },
               {
                 "id": "requirement-t2x7s4ve",
                 "type": "other",
                 "name": "New York State sales tax",
                 "reference": "Not registered",
-                "notes": "Consulting and custom automation services are generally not subject to New York sales tax, so no Certificate of Authority is held. Reselling software licenses or pre-written software would change this. To be confirmed with the accountant."
+                "notes": "Consulting and custom automation services are generally not subject to New York sales tax, so no Certificate of Authority is held. Reselling software licenses or pre-written software would change this. To be confirmed with the accountant.",
+                "offerInExpenses": false
               },
               {
                 "id": "requirement-u5b8t2rz",
                 "type": "additional",
                 "name": "NYC Unincorporated Business Tax (UBT)",
                 "reference": "Not yet required",
-                "notes": "A single-member LLC doing business in New York City may owe UBT once its business income passes the exemption threshold. To be confirmed with the accountant each year."
+                "notes": "A single-member LLC doing business in New York City may owe UBT once its business income passes the exemption threshold. To be confirmed with the accountant each year.",
+                "offerInExpenses": false
               }
             ],
             "expenses": [
               {
                 "id": "expense-a1r7t3oz",
                 "name": "NY Articles of Organization filing",
+                "date": "2026-08-17",
                 "responsibility": "founder-q7m2x4ke",
                 "cost": "200",
                 "frequency": "One time",
@@ -110,11 +121,12 @@
                   "formation-registration-number"
                 ],
                 "description": "Department of State filing fee, paid online at formation.",
-                "date": "2026-08-17"
+                "fromRequirement": ""
               },
               {
                 "id": "expense-p5b2n8wk",
                 "name": "LLC publication in two Brooklyn newspapers",
+                "date": "2026-09-30",
                 "responsibility": "founder-q7m2x4ke",
                 "cost": "1100",
                 "frequency": "One time",
@@ -122,11 +134,12 @@
                   "requirement-p3u8b1lc"
                 ],
                 "description": "Six weeks in a daily and a weekly newspaper. Publication costs vary a lot by county in New York City; Kings County quotes ranged from about $900 to $1,500.",
-                "date": "2026-09-30"
+                "fromRequirement": ""
               },
               {
                 "id": "expense-c4f9e6mj",
                 "name": "Certificate of Publication filing",
+                "date": "2026-10-05",
                 "responsibility": "founder-q7m2x4ke",
                 "cost": "50",
                 "frequency": "One time",
@@ -134,11 +147,12 @@
                   "requirement-p3u8b1lc"
                 ],
                 "description": "Department of State fee for filing the Certificate of Publication.",
-                "date": "2026-10-05"
+                "fromRequirement": ""
               },
               {
                 "id": "expense-n3y8s1qv",
                 "name": "NYS LLC annual filing fee",
+                "date": "2027-01-05",
                 "responsibility": "founder-q7m2x4ke",
                 "cost": "25",
                 "frequency": "Annually",
@@ -146,7 +160,7 @@
                   "requirement-f6e1d8yw"
                 ],
                 "description": "Form IT-204-LL at the lowest income band; higher once New York gross income passes $100,000.",
-                "date": "2027-01-05"
+                "fromRequirement": ""
               }
             ]
           }
@@ -191,7 +205,8 @@
                 ]
               }
             ],
-            "teamGaps": "As a one-person LLC, Quillfield has no one with a sales and marketing background, no in-house bookkeeping or legal expertise, and no cover for holidays or illness. Bookkeeping and taxes are covered by our Brooklyn CPA practice and contracts by a small-business attorney. A freelance automation specialist, trained on our templates, will cover urgent Care Retainer work when Jordan is away, and Jordan meets a SCORE mentor monthly on sales and marketing."
+            "teamGaps": "As a one-person LLC, Quillfield has no one with a sales and marketing background, no in-house bookkeeping or legal expertise, and no cover for holidays or illness. Bookkeeping and taxes are covered by our Brooklyn CPA practice and contracts by a small-business attorney. A freelance automation specialist, trained on our templates, will cover urgent Care Retainer work when Jordan is away, and Jordan meets a SCORE mentor monthly on sales and marketing.",
+            "teamCover": ""
           }
         }
       ],
@@ -313,6 +328,7 @@
                   "fileName": "quillfield-logo.svg"
                 }
               },
+              "markDescription": "",
               "images": [
                 {
                   "dataUrl": "data:image/png;base64,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8RtRpTjPshvHLo5hHMs4pnFsnePWN6xvoAADAACAAgwAAAAKMAAAACjAAAAAoAADAACgAAMAAIACDAAAAAowAAAAKMAAAACgAAMAAIACDAAAAAowAAAAKMAAAACgAAMAAKAAAwAAgAIMAAAACjAAAAAowAAAAKAAAwAAgAIMAAAACjAAAAAowAAAAKAAAwAAoAADAACAAgwAAAAKMAAAACjAAAAAoAADAACAAgwAAAAKMAAAACjAAAAAoAADAACgAAMAAIACDAAAAAowAAAAKMAAAACgAAMAAIACDAAAAAowAAAAKMAAAACgAAMAAKAAAwAAgAIMAAAACjAAAAAowAAAAKAAAwAAgAIMAAAACjAAAAAowAAAAKAAAwAAoAADAACAAgwAAAAKMAAAACjAAAAAoAADAACAAgwAAAAKMAAAACjAAAAAKMCGAAAAgAIMAAAACjAAAAAowAAAAKAAAwAAgAIMAAAACjAAAAAowAAAAKAAAwAAoAADAACAAgwAAAAKMAAAACjAAAAAoAADAACAAgwAAAAKMAAAACjAAAAAoAADAACgAAMAAIACDAAAAAowAAAAKMAAAACgAAMAAIACDAAAAAowAAAAKMAAAACgAAMAAKAAAwAAgAIMAAAACjAAAAAowAAAAKAAAwAAgAIMAAAACjAAAAAowAAAAKAAAwAAoAADAACAAgwAAAAKMAAAACjAAAAAoAADAACAAgwAAAAKMAAAACjAAAAAoAADAACgAAMAAIACDAAAAAowAAAAKMAAAACgAAMAAIACDAAAAAowAAAAKMAAAACgAAMAAKAAAwAAgAIMAAAACjAAAAAowAAAAKAAAwAAgAIMAAAACjAAAAAowAAAAKAAAwAAoAADAABAWf4PQj7HS2vpmaMAAAAASUVORK5CYII=",
@@ -578,6 +594,20 @@
                       "support": [
                         "action-segment-qf3n8d2w-channel-support-1"
                       ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Post three times a week: before-and-after workflows, hours saved, short demos",
+                        "Comment on posts by NYC firm owners and operations managers",
+                        "Publish one practical article a month per profession (SEO)"
+                      ],
+                      "evaluation": [
+                        "Feature case studies and client quotes on the profile",
+                        "Answer questions by direct message within one business day"
+                      ],
+                      "support": [
+                        "Share tips for clients' teams on getting more from their automations"
+                      ]
                     }
                   },
                   {
@@ -606,6 +636,18 @@
                       "purchase": [
                         "action-channel-w8e2b5sq-purchase-2"
                       ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Publish one practical article a month per profession (SEO)"
+                      ],
+                      "evaluation": [
+                        "Service pages with fixed prices, case studies and an FAQ on data privacy",
+                        "Hours-saved calculator"
+                      ],
+                      "purchase": [
+                        "Accept the proposal online with a signature, so the work starts on an agreed scope and price"
+                      ]
                     }
                   },
                   {
@@ -625,6 +667,11 @@
                     "actionIds": {
                       "evaluation": [
                         "action-channel-qfbook01-evaluation-1"
+                      ]
+                    },
+                    "actions": {
+                      "evaluation": [
+                        "Book a free 30-minute discovery call through Calendly, so a firm can talk to Jordan before it commits to an audit"
                       ]
                     }
                   },
@@ -648,6 +695,14 @@
                       ],
                       "support": [
                         "action-channel-n6l3t9rd-support-2"
+                      ]
+                    },
+                    "actions": {
+                      "evaluation": [
+                        "Send The Quill monthly, with one workflow teardown and one quick win, so subscribers see the quality of the work before they book a call"
+                      ],
+                      "support": [
+                        "Invite past clients to new offers, so a finished audit or build leads to the next one"
                       ]
                     }
                   },
@@ -676,6 +731,17 @@
                       "support": [
                         "action-channel-qfemail01-support-1"
                       ]
+                    },
+                    "actions": {
+                      "evaluation": [
+                        "Send the proposal or statement of work within two business days of the call, with scope, fixed price and dates, so the firm can decide with everything in writing"
+                      ],
+                      "delivery": [
+                        "Send a weekly project update during audits and builds, so the client always knows progress and nothing comes as a surprise"
+                      ],
+                      "support": [
+                        "Send retainer clients a monthly usage report of what ran, what failed and what was fixed, so they can see what the retainer delivers"
+                      ]
                     }
                   },
                   {
@@ -702,6 +768,16 @@
                         "action-channel-r4f7p1xk-evaluation-1",
                         "action-channel-m2u5e8gv-evaluation-1"
                       ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Recruit three bookkeeping firms and two managed IT providers who serve small firms",
+                        "Give partners a one-page introduction and a 10% referral fee on audits"
+                      ],
+                      "evaluation": [
+                        "Joint introduction call with the partner present",
+                        "Follow up within 48 hours with a relevant case study"
+                      ]
                     }
                   },
                   {
@@ -726,6 +802,15 @@
                       "evaluation": [
                         "action-channel-m2u5e8gv-evaluation-1"
                       ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Attend two meetups a month (Brooklyn Tech Meetup, chamber of commerce events) to meet firm owners who are curious about AI",
+                        "Offer a 20-minute talk on practical AI for small firms"
+                      ],
+                      "evaluation": [
+                        "Follow up within 48 hours with a relevant case study"
+                      ]
                     }
                   },
                   {
@@ -745,6 +830,12 @@
                       "purchase": [
                         "action-channel-s9t3r6pw-purchase-1",
                         "action-channel-s9t3r6pw-purchase-2"
+                      ]
+                    },
+                    "actions": {
+                      "purchase": [
+                        "Send QuickBooks invoices payable by card or ACH transfer, so clients pay in one click and the books match themselves",
+                        "Bill retainers automatically each month by card or ACH through QuickBooks recurring invoices, so nobody has to chase a payment"
                       ]
                     }
                   },
@@ -776,6 +867,18 @@
                       "support": [
                         "action-channel-qfzoom01-support-1"
                       ]
+                    },
+                    "actions": {
+                      "evaluation": [
+                        "Run the free 30-minute discovery call on video, with a live example workflow"
+                      ],
+                      "delivery": [
+                        "Run audit sessions and handover calls on video, mapping the workflow live in Miro",
+                        "Record the handover call and share the Loom walkthrough"
+                      ],
+                      "support": [
+                        "Hold monthly retainer check-ins on video"
+                      ]
                     }
                   },
                   {
@@ -797,7 +900,127 @@
                         "action-channel-qfportal1-delivery-1",
                         "action-channel-qfzoom01-delivery-2"
                       ]
+                    },
+                    "actions": {
+                      "delivery": [
+                        "Share reports and handover packs in a shared client folder",
+                        "Record the handover call and share the Loom walkthrough"
+                      ]
                     }
+                  }
+                ],
+                "actions": [
+                  {
+                    "id": "action-segment-qf3n8d2w-channel-discovery-1",
+                    "text": "Post three times a week: before-and-after workflows, hours saved, short demos"
+                  },
+                  {
+                    "id": "action-segment-qf3n8d2w-channel-discovery-2",
+                    "text": "Comment on posts by NYC firm owners and operations managers"
+                  },
+                  {
+                    "id": "action-segment-qf3n8d2w-channel-evaluation-1",
+                    "text": "Feature case studies and client quotes on the profile"
+                  },
+                  {
+                    "id": "action-segment-qf3n8d2w-channel-evaluation-2",
+                    "text": "Answer questions by direct message within one business day"
+                  },
+                  {
+                    "id": "action-segment-qf3n8d2w-channel-support-1",
+                    "text": "Share tips for clients' teams on getting more from their automations"
+                  },
+                  {
+                    "id": "action-channel-w8e2b5sq-discovery-1",
+                    "text": "Publish one practical article a month per profession (SEO)"
+                  },
+                  {
+                    "id": "action-channel-w8e2b5sq-evaluation-1",
+                    "text": "Service pages with fixed prices, case studies and an FAQ on data privacy"
+                  },
+                  {
+                    "id": "action-channel-w8e2b5sq-evaluation-2",
+                    "text": "Hours-saved calculator"
+                  },
+                  {
+                    "id": "action-channel-w8e2b5sq-purchase-2",
+                    "text": "Accept the proposal online with a signature, so the work starts on an agreed scope and price"
+                  },
+                  {
+                    "id": "action-channel-n6l3t9rd-evaluation-1",
+                    "text": "Send The Quill monthly, with one workflow teardown and one quick win, so subscribers see the quality of the work before they book a call"
+                  },
+                  {
+                    "id": "action-channel-n6l3t9rd-support-2",
+                    "text": "Invite past clients to new offers, so a finished audit or build leads to the next one"
+                  },
+                  {
+                    "id": "action-channel-r4f7p1xk-discovery-1",
+                    "text": "Recruit three bookkeeping firms and two managed IT providers who serve small firms"
+                  },
+                  {
+                    "id": "action-channel-r4f7p1xk-discovery-2",
+                    "text": "Give partners a one-page introduction and a 10% referral fee on audits"
+                  },
+                  {
+                    "id": "action-channel-r4f7p1xk-evaluation-1",
+                    "text": "Joint introduction call with the partner present"
+                  },
+                  {
+                    "id": "action-channel-m2u5e8gv-discovery-1",
+                    "text": "Attend two meetups a month (Brooklyn Tech Meetup, chamber of commerce events) to meet firm owners who are curious about AI"
+                  },
+                  {
+                    "id": "action-channel-m2u5e8gv-discovery-2",
+                    "text": "Offer a 20-minute talk on practical AI for small firms"
+                  },
+                  {
+                    "id": "action-channel-m2u5e8gv-evaluation-1",
+                    "text": "Follow up within 48 hours with a relevant case study"
+                  },
+                  {
+                    "id": "action-channel-s9t3r6pw-purchase-1",
+                    "text": "Send QuickBooks invoices payable by card or ACH transfer, so clients pay in one click and the books match themselves"
+                  },
+                  {
+                    "id": "action-channel-s9t3r6pw-purchase-2",
+                    "text": "Bill retainers automatically each month by card or ACH through QuickBooks recurring invoices, so nobody has to chase a payment"
+                  },
+                  {
+                    "id": "action-channel-qfzoom01-evaluation-1",
+                    "text": "Run the free 30-minute discovery call on video, with a live example workflow"
+                  },
+                  {
+                    "id": "action-channel-qfzoom01-delivery-1",
+                    "text": "Run audit sessions and handover calls on video, mapping the workflow live in Miro"
+                  },
+                  {
+                    "id": "action-channel-qfzoom01-delivery-2",
+                    "text": "Record the handover call and share the Loom walkthrough"
+                  },
+                  {
+                    "id": "action-channel-qfzoom01-support-1",
+                    "text": "Hold monthly retainer check-ins on video"
+                  },
+                  {
+                    "id": "action-channel-qfportal1-delivery-1",
+                    "text": "Share reports and handover packs in a shared client folder"
+                  },
+                  {
+                    "id": "action-channel-qfbook01-evaluation-1",
+                    "text": "Book a free 30-minute discovery call through Calendly, so a firm can talk to Jordan before it commits to an audit"
+                  },
+                  {
+                    "id": "action-channel-qfemail01-evaluation-1",
+                    "text": "Send the proposal or statement of work within two business days of the call, with scope, fixed price and dates, so the firm can decide with everything in writing"
+                  },
+                  {
+                    "id": "action-channel-qfemail01-delivery-1",
+                    "text": "Send a weekly project update during audits and builds, so the client always knows progress and nothing comes as a surprise"
+                  },
+                  {
+                    "id": "action-channel-qfemail01-support-1",
+                    "text": "Send retainer clients a monthly usage report of what ran, what failed and what was fixed, so they can see what the retainer delivers"
                   }
                 ],
                 "offerings": [
@@ -935,121 +1158,7 @@
                     }
                   }
                 ],
-                "profiles": [],
-                "actions": [
-                  {
-                    "id": "action-segment-qf3n8d2w-channel-discovery-1",
-                    "text": "Post three times a week: before-and-after workflows, hours saved, short demos"
-                  },
-                  {
-                    "id": "action-segment-qf3n8d2w-channel-discovery-2",
-                    "text": "Comment on posts by NYC firm owners and operations managers"
-                  },
-                  {
-                    "id": "action-segment-qf3n8d2w-channel-evaluation-1",
-                    "text": "Feature case studies and client quotes on the profile"
-                  },
-                  {
-                    "id": "action-segment-qf3n8d2w-channel-evaluation-2",
-                    "text": "Answer questions by direct message within one business day"
-                  },
-                  {
-                    "id": "action-segment-qf3n8d2w-channel-support-1",
-                    "text": "Share tips for clients' teams on getting more from their automations"
-                  },
-                  {
-                    "id": "action-channel-w8e2b5sq-discovery-1",
-                    "text": "Publish one practical article a month per profession (SEO)"
-                  },
-                  {
-                    "id": "action-channel-w8e2b5sq-evaluation-1",
-                    "text": "Service pages with fixed prices, case studies and an FAQ on data privacy"
-                  },
-                  {
-                    "id": "action-channel-w8e2b5sq-evaluation-2",
-                    "text": "Hours-saved calculator"
-                  },
-                  {
-                    "id": "action-channel-w8e2b5sq-purchase-2",
-                    "text": "Accept the proposal online with a signature, so the work starts on an agreed scope and price"
-                  },
-                  {
-                    "id": "action-channel-n6l3t9rd-evaluation-1",
-                    "text": "Send The Quill monthly, with one workflow teardown and one quick win, so subscribers see the quality of the work before they book a call"
-                  },
-                  {
-                    "id": "action-channel-n6l3t9rd-support-2",
-                    "text": "Invite past clients to new offers, so a finished audit or build leads to the next one"
-                  },
-                  {
-                    "id": "action-channel-r4f7p1xk-discovery-1",
-                    "text": "Recruit three bookkeeping firms and two managed IT providers who serve small firms"
-                  },
-                  {
-                    "id": "action-channel-r4f7p1xk-discovery-2",
-                    "text": "Give partners a one-page introduction and a 10% referral fee on audits"
-                  },
-                  {
-                    "id": "action-channel-r4f7p1xk-evaluation-1",
-                    "text": "Joint introduction call with the partner present"
-                  },
-                  {
-                    "id": "action-channel-m2u5e8gv-discovery-1",
-                    "text": "Attend two meetups a month (Brooklyn Tech Meetup, chamber of commerce events) to meet firm owners who are curious about AI"
-                  },
-                  {
-                    "id": "action-channel-m2u5e8gv-discovery-2",
-                    "text": "Offer a 20-minute talk on practical AI for small firms"
-                  },
-                  {
-                    "id": "action-channel-m2u5e8gv-evaluation-1",
-                    "text": "Follow up within 48 hours with a relevant case study"
-                  },
-                  {
-                    "id": "action-channel-s9t3r6pw-purchase-1",
-                    "text": "Send QuickBooks invoices payable by card or ACH transfer, so clients pay in one click and the books match themselves"
-                  },
-                  {
-                    "id": "action-channel-s9t3r6pw-purchase-2",
-                    "text": "Bill retainers automatically each month by card or ACH through QuickBooks recurring invoices, so nobody has to chase a payment"
-                  },
-                  {
-                    "id": "action-channel-qfzoom01-evaluation-1",
-                    "text": "Run the free 30-minute discovery call on video, with a live example workflow"
-                  },
-                  {
-                    "id": "action-channel-qfzoom01-delivery-1",
-                    "text": "Run audit sessions and handover calls on video, mapping the workflow live in Miro"
-                  },
-                  {
-                    "id": "action-channel-qfzoom01-delivery-2",
-                    "text": "Record the handover call and share the Loom walkthrough"
-                  },
-                  {
-                    "id": "action-channel-qfzoom01-support-1",
-                    "text": "Hold monthly retainer check-ins on video"
-                  },
-                  {
-                    "id": "action-channel-qfportal1-delivery-1",
-                    "text": "Share reports and handover packs in a shared client folder"
-                  },
-                  {
-                    "id": "action-channel-qfbook01-evaluation-1",
-                    "text": "Book a free 30-minute discovery call through Calendly, so a firm can talk to Jordan before it commits to an audit"
-                  },
-                  {
-                    "id": "action-channel-qfemail01-evaluation-1",
-                    "text": "Send the proposal or statement of work within two business days of the call, with scope, fixed price and dates, so the firm can decide with everything in writing"
-                  },
-                  {
-                    "id": "action-channel-qfemail01-delivery-1",
-                    "text": "Send a weekly project update during audits and builds, so the client always knows progress and nothing comes as a surprise"
-                  },
-                  {
-                    "id": "action-channel-qfemail01-support-1",
-                    "text": "Send retainer clients a monthly usage report of what ran, what failed and what was fixed, so they can see what the retainer delivers"
-                  }
-                ]
+                "profiles": []
               }
             ],
             "demand": {
@@ -2006,6 +2115,7 @@
                     "completed": true,
                     "offeringIds": [],
                     "type": "startup",
+                    "madeBy": "",
                     "startDate": "2026-08-10",
                     "endDate": "2026-08-17",
                     "offeringShares": {},
@@ -2024,6 +2134,7 @@
                     "completed": true,
                     "offeringIds": [],
                     "type": "startup",
+                    "madeBy": "",
                     "startDate": "2026-08-18",
                     "endDate": "2026-08-28",
                     "offeringShares": {},
@@ -2042,6 +2153,7 @@
                     "completed": true,
                     "offeringIds": [],
                     "type": "startup",
+                    "madeBy": "",
                     "startDate": "2026-09-01",
                     "endDate": "2026-10-05",
                     "offeringShares": {},
@@ -2061,6 +2173,7 @@
                     "completed": false,
                     "offeringIds": [],
                     "type": "startup",
+                    "madeBy": "",
                     "startDate": "2027-01-04",
                     "endDate": "2027-01-22",
                     "offeringShares": {},
@@ -2080,6 +2193,7 @@
                     "completed": false,
                     "offeringIds": [],
                     "type": "startup",
+                    "madeBy": "",
                     "startDate": "2027-01-11",
                     "endDate": "2027-01-29",
                     "offeringShares": {},
@@ -2099,6 +2213,7 @@
                     "completed": false,
                     "offeringIds": [],
                     "type": "capex",
+                    "madeBy": "",
                     "startDate": "2027-01-04",
                     "endDate": "2027-01-29",
                     "offeringShares": {},
@@ -2123,6 +2238,7 @@
                     "completed": false,
                     "offeringIds": [],
                     "type": "startup",
+                    "madeBy": "",
                     "startDate": "2027-01-04",
                     "endDate": "2027-01-29",
                     "offeringShares": {},
@@ -2152,6 +2268,7 @@
                     "completed": false,
                     "offeringIds": [],
                     "type": "",
+                    "madeBy": "",
                     "startDate": "2027-02-08",
                     "endDate": "2027-02-19",
                     "offeringShares": {},
@@ -2179,6 +2296,7 @@
                   "lines": []
                 },
                 "offeringShares": {},
+                "madeBy": "",
                 "startDate": "2027-01-01",
                 "endDate": "",
                 "name": "Accountant (CPA)",
@@ -2208,6 +2326,7 @@
                   "lines": []
                 },
                 "offeringShares": {},
+                "madeBy": "",
                 "startDate": "2027-01-04",
                 "endDate": "",
                 "name": "Lawyer",
@@ -2237,6 +2356,7 @@
                   "lines": []
                 },
                 "offeringShares": {},
+                "madeBy": "",
                 "startDate": "2027-01-04",
                 "endDate": "",
                 "name": "Copywriting and web design for launch",
@@ -2266,6 +2386,7 @@
                   "lines": []
                 },
                 "offeringShares": {},
+                "madeBy": "",
                 "startDate": "2027-01-01",
                 "endDate": "",
                 "name": "Brooklyn coworking space (hot desk membership)",
@@ -2790,6 +2911,7 @@
                     "offering-c2p8j6nv"
                   ],
                   "type": "",
+                  "madeBy": "",
                   "startDate": "2027-01-04",
                   "endDate": "2027-03-31",
                   "offeringShares": {
@@ -2813,6 +2935,7 @@
                     "offering-a4k9r2td"
                   ],
                   "type": "",
+                  "madeBy": "",
                   "startDate": "2027-01-04",
                   "endDate": "2027-01-29",
                   "offeringShares": {},
@@ -2833,6 +2956,7 @@
                     "offering-b7w3m5qx"
                   ],
                   "type": "",
+                  "madeBy": "",
                   "startDate": "2027-01-11",
                   "endDate": "2027-02-26",
                   "offeringShares": {},
@@ -2853,6 +2977,7 @@
                     "offering-c2p8j6nv"
                   ],
                   "type": "",
+                  "madeBy": "",
                   "startDate": "2027-01-18",
                   "endDate": "2027-04-02",
                   "offeringShares": {},
@@ -2880,6 +3005,7 @@
                     "offering-c2p8j6nv"
                   ],
                   "type": "",
+                  "madeBy": "",
                   "startDate": "2027-01-04",
                   "endDate": "",
                   "offeringShares": {
@@ -2911,6 +3037,7 @@
                     "offering-c2p8j6nv"
                   ],
                   "type": "",
+                  "madeBy": "",
                   "startDate": "2027-02-01",
                   "endDate": "",
                   "offeringShares": {
@@ -2940,6 +3067,7 @@
                     "offering-a4k9r2td"
                   ],
                   "type": "",
+                  "madeBy": "",
                   "startDate": "2027-03-01",
                   "endDate": "2027-05-28",
                   "offeringShares": {},
@@ -2961,6 +3089,7 @@
                     "offering-b7w3m5qx"
                   ],
                   "type": "",
+                  "madeBy": "",
                   "startDate": "2027-02-08",
                   "endDate": "2027-03-05",
                   "offeringShares": {
@@ -2984,6 +3113,7 @@
                     "offering-a4k9r2td"
                   ],
                   "type": "",
+                  "madeBy": "",
                   "startDate": "2027-02-15",
                   "endDate": "2027-04-30",
                   "offeringShares": {},
@@ -3007,6 +3137,7 @@
                     "lines": []
                   },
                   "offeringShares": {},
+                  "madeBy": "",
                   "startDate": "2027-01-01",
                   "endDate": "",
                   "name": "Referral partners (10% of a referred audit)",
@@ -3040,6 +3171,7 @@
                     "lines": []
                   },
                   "offeringShares": {},
+                  "madeBy": "",
                   "startDate": "2027-01-01",
                   "endDate": "",
                   "name": "Freelance developer (overflow)",
@@ -3075,6 +3207,7 @@
                     "offering-b7w3m5qx": "33",
                     "offering-c2p8j6nv": "33"
                   },
+                  "madeBy": "",
                   "startDate": "2027-01-01",
                   "endDate": "",
                   "name": "Card and ACH processing (QuickBooks Payments)",
@@ -3141,9 +3274,9 @@
               "year": "2027"
             },
             "planYears": "3",
+            "vatBasis": "",
             "incomeTax": "pass-through",
             "incomeTaxRate": "",
-            "vatBasis": "",
             "classified": {},
             "costs": [],
             "needs": [],
@@ -3223,12 +3356,12 @@
                 "rampMonths": "9",
                 "detailed": [],
                 "variableCost": "",
+                "itemsPerOrder": "",
+                "deliveryCharge": "",
                 "paymentTiming": "upfront",
                 "paymentDelay": "",
                 "firstPercent": "",
-                "description": "Assumptions: the first audit in February 2027 and about one every two months at first, growing to three every two months over nine months as referrals and case studies build up; fixed price paid in full at booking.",
-                "itemsPerOrder": "",
-                "deliveryCharge": ""
+                "description": "Assumptions: the first audit in February 2027 and about one every two months at first, growing to three every two months over nine months as referrals and case studies build up; fixed price paid in full at booking."
               },
               {
                 "id": "stream-offering-b7w3m5qx",
@@ -3249,12 +3382,12 @@
                 "rampMonths": "12",
                 "detailed": [],
                 "variableCost": "",
+                "itemsPerOrder": "",
+                "deliveryCharge": "",
                 "paymentTiming": "split",
                 "paymentDelay": "2",
                 "firstPercent": "50",
-                "description": "Assumptions: the first builds from May 2027; about 40% of audits turn into a build of two to four automations; average $7,500; 50% at signing and the rest on handover about two months later.",
-                "itemsPerOrder": "",
-                "deliveryCharge": ""
+                "description": "Assumptions: the first builds from May 2027; about 40% of audits turn into a build of two to four automations; average $7,500; 50% at signing and the rest on handover about two months later."
               },
               {
                 "id": "stream-offering-c2p8j6nv",
@@ -3275,12 +3408,12 @@
                 "rampMonths": "22",
                 "detailed": [],
                 "variableCost": "",
+                "itemsPerOrder": "",
+                "deliveryCharge": "",
                 "paymentTiming": "",
                 "paymentDelay": "",
                 "firstPercent": "",
-                "description": "Assumptions: the first retainer client from July 2027, as builds are handed over; about 0.5 new clients a month and 10% cancelling level off at about five active clients within about 22 months; billed monthly.",
-                "itemsPerOrder": "",
-                "deliveryCharge": ""
+                "description": "Assumptions: the first retainer client from July 2027, as builds are handed over; about 0.5 new clients a month and 10% cancelling level off at about five active clients within about 22 months; billed monthly."
               }
             ]
           }
@@ -3388,12 +3521,12 @@
                         {
                           "id": "metric-qf7fund1",
                           "name": "Confirmed funding",
-                          "description": "External funding received or formally approved",
                           "baseline": "0",
                           "target": "15000",
                           "frequency": "Monthly",
                           "unit": "Currency",
-                          "currency": ""
+                          "currency": "",
+                          "description": "External funding received or formally approved"
                         }
                       ],
                       "ownerId": "founder-q7m2x4ke"
@@ -3421,22 +3554,22 @@
                         {
                           "id": "metric-qf7mrev3",
                           "name": "Monthly revenue",
-                          "description": "Revenue invoiced in the month",
                           "baseline": "0",
                           "target": "14250",
                           "frequency": "Monthly",
                           "unit": "Currency",
-                          "currency": ""
+                          "currency": "",
+                          "description": "Revenue invoiced in the month"
                         },
                         {
                           "id": "metric-qf7resv4",
                           "name": "Cash reserve (months of costs)",
-                          "description": "Cash at month end divided by average monthly running costs",
                           "baseline": "0",
                           "target": "3",
                           "frequency": "Quarterly",
                           "unit": "Number",
-                          "currency": ""
+                          "currency": "",
+                          "description": "Cash at month end divided by average monthly running costs"
                         }
                       ],
                       "ownerId": "founder-q7m2x4ke"
@@ -3473,22 +3606,22 @@
                         {
                           "id": "metric-qf7conv5",
                           "name": "Build clients on a retainer",
-                          "description": "Share of completed Builds that move to a Care Retainer",
                           "baseline": "0",
                           "target": "70",
                           "frequency": "Quarterly",
                           "unit": "Percentage",
-                          "currency": ""
+                          "currency": "",
+                          "description": "Share of completed Builds that move to a Care Retainer"
                         },
                         {
                           "id": "metric-qf7actv6",
                           "name": "Active Care Retainers",
-                          "description": "Clients on a Care Retainer at month end",
                           "baseline": "0",
                           "target": "12",
                           "frequency": "Monthly",
                           "unit": "Number",
-                          "currency": ""
+                          "currency": "",
+                          "description": "Clients on a Care Retainer at month end"
                         }
                       ],
                       "ownerId": "founder-q7m2x4ke"
@@ -3516,12 +3649,12 @@
                         {
                           "id": "metric-qf7refs8",
                           "name": "New clients from referrals",
-                          "description": "Share of new clients who came through a referral",
                           "baseline": "0",
                           "target": "50",
                           "frequency": "Quarterly",
                           "unit": "Percentage",
-                          "currency": ""
+                          "currency": "",
+                          "description": "Share of new clients who came through a referral"
                         }
                       ],
                       "ownerId": "founder-q7m2x4ke"
@@ -3558,12 +3691,12 @@
                         {
                           "id": "metric-qf7hour9",
                           "name": "Founder hours per Build",
-                          "description": "Hours Jordan spends on an average Automation Build",
                           "baseline": "40",
                           "target": "30",
                           "frequency": "Quarterly",
                           "unit": "Number",
-                          "currency": ""
+                          "currency": "",
+                          "description": "Hours Jordan spends on an average Automation Build"
                         }
                       ],
                       "ownerId": "founder-q7m2x4ke"
@@ -3591,22 +3724,22 @@
                         {
                           "id": "metric-qf7proj11",
                           "name": "Builds delivered per quarter",
-                          "description": "Automation Builds handed over in the quarter",
                           "baseline": "3",
                           "target": "6",
                           "frequency": "Quarterly",
                           "unit": "Number",
-                          "currency": ""
+                          "currency": "",
+                          "description": "Automation Builds handed over in the quarter"
                         },
                         {
                           "id": "metric-qf7time12",
                           "name": "Builds delivered on time",
-                          "description": "Share of Builds handed over by the agreed date",
                           "baseline": "0",
                           "target": "95",
                           "frequency": "Quarterly",
                           "unit": "Percentage",
-                          "currency": ""
+                          "currency": "",
+                          "description": "Share of Builds handed over by the agreed date"
                         }
                       ],
                       "ownerId": "founder-q7m2x4ke"

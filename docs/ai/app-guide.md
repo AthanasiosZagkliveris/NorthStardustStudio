@@ -6,7 +6,7 @@ One page to find your way: what each part of the app is for, what it holds, and 
 1. **Organizations** (home): create, import or export an Organization; the two examples are in `src/data/examples/` (Lumen & Loom Studio, Quillfield Automation).
 2. **System Selection**: Capabilities (Foundation, Deliver Value, Manage Information, Manage the Organization, Communicate, Measure & Improve) and their Systems. Left rail: Calendar, Capabilities, Systems.
 3. **A System's pages**: an Introduction, then its pages. The left rail lists the pages (Pages), the page arrows go previous / next, and the arrow keys do the same where nothing else uses them. A page drawn as tiles has no Sections rail.
-4. **Header**: reading mode, Focus, Search, Notes, Review (what is incomplete), Settings (Global Settings).
+4. **Header**: reading mode, Focus, Search, Notes (the user's own notes, and under them **Card notes**: every card's Notes text by page, with a funnel that chooses the pages; a press opens the card -- `CardNotesService.ts`), Review (what is incomplete), Settings (Global Settings).
 
 ## The Foundation systems
 | System | Pages | What it records |
