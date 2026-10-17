@@ -2227,6 +2227,7 @@ function SingleAnswerRenderer({
                     organisationCurrency={organisationCurrency}
                     legalEntityFounders={legalEntityFounders}
                     legalExpenses={legalEntity?.expenses}
+                    onOpenLegalEntity={onOpenLegalEntity}
                     foundersProfile={foundersProfile}
                     engagement={businessEngagement}
                     financialFoundation={financialFoundation}

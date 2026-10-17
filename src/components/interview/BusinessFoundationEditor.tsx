@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useRef, useState } from "react";
 
+import { cardNameMissing } from "../../framework/engine/SystemCardCompleteness.ts";
 import { workHue } from "../../framework/engine/WorkColours.ts";
 import CardBoxes, { type CardBox } from "./CardBoxes.tsx";
 import SectionTiles, { DialogHeading, type SectionTile, type TileAdd } from "./SectionTiles.tsx";
@@ -1505,6 +1506,14 @@ export default function BusinessFoundationEditor({
         type Kind = "profiles" | "competitors" | "offerings";
         const listOf = (segment: BusinessCustomerSegmentValue, kind: Kind): { id: string; name: string }[] => segment[kind];
         const NOUN: Record<Kind, string> = { profiles: "Profile", competitors: "Competitor", offerings: "Offering" };
+        // WHAT A CARD STILL LACKS (SystemCardCompleteness.ts): a card with something written but no name lights its tile, flashing red.
+        const missingFoundation = new Map<string, readonly string[]>();
+        foundation.segments.forEach(segment => (["profiles", "competitors", "offerings"] as const).forEach(kind => (segment[kind] as unknown as ({ id: string; name: string } & Record<string, unknown>)[]).forEach(entry => {
+            const lacks = cardNameMissing(entry);
+            if (lacks.length > 0) {
+                missingFoundation.set(entry.id, lacks);
+            }
+        })));
         const addOf = (segmentId: string, kind: Kind): TileAdd => ({
             label: NOUN[kind],
             disabled,
@@ -1542,6 +1551,7 @@ export default function BusinessFoundationEditor({
         const written = (names: readonly string[], count = 6) => names.map(name => name.trim()).filter(name => name.length > 0).slice(0, count);
         const boxesOf = (segment: BusinessCustomerSegmentValue, kind: Kind): CardBox[] => listOf(segment, kind).map((entry, at) => ({
             id: entry.id,
+            missing: missingFoundation.get(entry.id),
             number: at + 1,
             name: entry.name,
             unnamed: "Unnamed " + NOUN[kind].toLowerCase(),
@@ -1665,7 +1675,7 @@ export default function BusinessFoundationEditor({
                                             () => update({ segments: foundation.segments.filter((_candidate, position) => position !== index) })
                                         )}
                                     </div>
-                                    <SectionTiles label={frameName(segment, index) + ": Customers, Value Proposition, Competitors, Offerings"} hue={workHue("discover")} tiles={tilesOf(segment, index)} />
+                                    <SectionTiles label={frameName(segment, index) + ": Customers, Value Proposition, Competitors, Offerings"} hue={workHue("discover")} tiles={tilesOf(segment, index)} incomplete={missingFoundation} />
                                 </div>
                             </div>
                         </div>

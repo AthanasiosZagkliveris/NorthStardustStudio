@@ -1,7 +1,8 @@
-import { CSSProperties, ReactNode, useEffect, useRef, useState } from "react";
+import { CSSProperties, ReactNode, useEffect, useRef } from "react";
+import { legalExpenseMissing, legalRequirementMissing } from "../../framework/engine/SystemCardCompleteness.ts";
 import type { FloorLink } from "./capabilityFloor.ts";
 import SectionTiles, { DialogHeading, OPEN_EVENT, TILE_DIVIDER, type OpenRequest, type SectionTile, type TileLink } from "./SectionTiles.tsx";
-import { LinkSymbol } from "./BusinessCardFields.tsx";
+import { LinkSymbol, ResponsibleField } from "./BusinessCardFields.tsx";
 import CardBoxes, { type CardBox, type CardBoxAdd } from "./CardBoxes.tsx";
 import SubTiles from "./SubTiles.tsx";
 import DateCellInput, { isoToDisplay } from "./DateCellInput.tsx";
@@ -58,7 +59,7 @@ import OptionPicker from "./OptionPicker.tsx";
 import { SOURCES } from "../../framework/engine/Sources.ts";
 import { UndoService } from "../../services/UndoService";
 import StrategyTextArea from "./StrategyTextArea.tsx";
-import { BusinessField, OptionalField, OptionalNote } from "./BusinessCardFields.tsx";
+import { OptionalField, OptionalNote } from "./BusinessCardFields.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
 import FoldArrow from "./FoldArrow.tsx";
 import { labelWithCurrency, nameWithCurrency } from "../../framework/engine/Currencies.ts";
@@ -396,8 +397,6 @@ export default function LegalEntityEditor({
         return nameWithCurrency(base, currency);
     }
 
-    /** The expenses whose "Responsible" tick is off (it is on until it is taken off). */
-    const [noResponsible, setNoResponsible] = useState<ReadonlySet<string>>(new Set());
 
     function update(patch: Partial<LegalEntityValue>) {
         onChange(withExpensesInOrder(withAutoExpenses({ ...entity, ...patch })));
@@ -2401,54 +2400,17 @@ export default function LegalEntityEditor({
                         */}
                         {/* "Responsible", as on every other card: a tick, and the picker beside it while it is ticked (unticked, the choice goes). */}
                         {namedFounders.length > 1 && (
-                            <BusinessField
-                                label="Responsible"
-                                inline
-                                fieldId="Responsibility"
+                            <ResponsibleField
+                                what={"Expense " + (index + 1)}
+                                layout="inline"
                                 className="legal-entity-field-wide"
-                                tick={{
-                                    on: !noResponsible.has(expense.id),
-                                    onChange: (on) => {
-                                        setNoResponsible(current => {
-                                            const next = new Set(current);
-                                            if (on) {
-                                                next.delete(expense.id);
-                                            } else {
-                                                next.add(expense.id);
-                                            }
-                                            return next;
-                                        });
-                                        if (!on && expense.responsibility !== "") {
-                                            update({ expenses: entity.expenses.map((candidate, position) => position === index ? { ...candidate, responsibility: "" } : candidate) });
-                                        }
-                                    },
-                                    disabled,
-                                    ariaLabel: "Expense " + (index + 1) + " has a responsible"
-                                }}
-                            >
-                            {!noResponsible.has(expense.id) && <OptionPicker
-                                label={"Expense " + (index + 1) + " responsibility"}
-                                options={namedFounders.map(founder => founder.name)}
+                                founders={namedFounders.map(founder => ({ id: founder.id, label: founder.name }))}
+                                value={expense.responsibility}
+                                off={expense.responsibleOff === true}
                                 disabled={disabled}
-                                value={
-                                    namedFounders.find(
-                                        founder => founder.id === expense.responsibility
-                                    )?.name ?? ""
-                                }
-                                onChange={(next) => update({
-                                    expenses: entity.expenses.map(
-                                        (candidate, position) => position === index
-                                            ? {
-                                                ...candidate,
-                                                responsibility: namedFounders.find(
-                                                    founder => founder.name === next
-                                                )?.id ?? ""
-                                            }
-                                            : candidate
-                                    )
-                                })}
-                            />}
-                            </BusinessField>
+                                onChange={(id) => update({ expenses: entity.expenses.map((candidate, position) => position === index ? { ...candidate, responsibility: id } : candidate) })}
+                                onOff={(off) => update({ expenses: entity.expenses.map((candidate, position) => position === index ? (off ? { ...candidate, responsibleOff: true, responsibility: "" } : { ...candidate, responsibleOff: undefined }) : candidate) })}
+                            />
                         )}
 
                         {/*
@@ -2613,8 +2575,13 @@ export default function LegalEntityEditor({
         const registrationCircles = (expense: LegalEntityValue["expenses"][number]): FloorLink[] => linkTargets
             .filter(target => expense.links.includes(target.id))
             .map(target => ({ id: target.id, name: target.label, type: "registration" as const }));
+        // WHAT A CARD STILL LACKS (SystemCardCompleteness.ts): a card with something written but not what it needs lights its tile, flashing red.
+        const missingById = new Map<string, readonly string[]>();
+        entity.requirements.forEach(requirement => { const lacks = legalRequirementMissing(requirement); if (lacks.length > 0) { missingById.set(requirement.id, lacks); } });
+        entity.expenses.forEach(expense => { const lacks = legalExpenseMissing(expense); if (lacks.length > 0) { missingById.set(expense.id, lacks); } });
         const requirementBoxes: CardBox[] = entity.requirements.map((requirement, index) => ({
             id: requirement.id,
+            missing: missingById.get(requirement.id),
             number: index + 1,
             name: requirement.name,
             unnamed: "Unnamed requirement",
@@ -2630,6 +2597,7 @@ export default function LegalEntityEditor({
         const linkedLabel = (expense: LegalEntityValue["expenses"][number]) => linkTargets.find(target => expense.links.includes(target.id))?.label ?? "";
         const expenseBoxes: CardBox[] = entity.expenses.map((expense, index) => ({
             id: expense.id,
+            missing: missingById.get(expense.id),
             number: index + 1,
             name: expense.name,
             unnamed: "Unnamed expense",
@@ -2725,6 +2693,7 @@ export default function LegalEntityEditor({
                 itemMarks: [{ bullet: true }, { bullet: true }, { bullet: true }],
                 links: [{ box: "formation" }, { box: "tax" }, { box: "requirements" }],
                 holds: entity.requirements.map(requirement => requirement.id),
+                boxHolds: { requirements: entity.requirements.map(requirement => requirement.id) },
                 cardFor: cardOf,
                 pairOf,
                 content: () => (
@@ -2788,7 +2757,7 @@ export default function LegalEntityEditor({
                     <div className="card-scroll">
                         <div className="business-capability-section business-capability-tiles-section">
                             {frameTitle ? <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">{frameTitle}</span></div> : <div className="business-capability-heading-spacer" aria-hidden="true" />}
-                            <SectionTiles label={LEGAL_ENTITY_SECTIONS.join(", ")} hue={workHue("define")} tiles={tiles} />
+                            <SectionTiles label={LEGAL_ENTITY_SECTIONS.join(", ")} hue={workHue("define")} tiles={tiles} incomplete={missingById} />
                         </div>
                     </div>
                 </div>

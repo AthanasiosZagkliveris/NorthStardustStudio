@@ -131,9 +131,9 @@ describe("the plan on the card", () => {
         // Typing the amount sets the percent (the same figure written the other way).
         fireEvent.change(screen.getByLabelText("Resource 1 deposit amount"), { target: { value: "300" } });
         expect(slot().paymentPlan.lines.map(entry => entry.percent)).toEqual(["25", "75"]);
-        // (The balance's figures are the rest; the deposit's date is the card's Start date, not asked.)
+        // (The balance's figures are the rest; each payment has its own date: the card has no Start or End date while it has a plan.)
         expect((screen.getByLabelText("Resource 1 balance percent") as HTMLInputElement).readOnly).toBe(true);
-        expect((screen.getByLabelText("Resource 1 deposit date") as HTMLInputElement).disabled).toBe(true);
+        expect((screen.getByLabelText("Resource 1 deposit date") as HTMLInputElement).disabled).toBe(false);
         expect(screen.getByText("Total 100%")).toBeTruthy();
     });
 

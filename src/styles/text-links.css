@@ -16,30 +16,29 @@
     border: 0;
     background: none;
     vertical-align: bottom;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
     text-align: left;
-    color: var(--text-primary);
+    color: var(--text-primary) !important;
     font: inherit;
-    font-size: var(--font-body);
-    font-weight: 400;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-    text-decoration: none;
-    text-shadow: none;
+    font-size: var(--font-body) !important;
+    font-weight: 400 !important;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking)) !important;
+    text-decoration: none !important;
+    text-shadow: none !important;
     text-indent: 0;
     cursor: pointer;
     transition: text-indent 0s;
 }
 
 :is(.business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):is(:hover, :focus-visible):not(:disabled) {
-    font-weight: 400;
-    text-shadow: var(--hover-bold);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
+    text-shadow: var(--hover-bold) !important;
+    text-decoration: underline !important;
+    text-decoration-thickness: 1px !important;
     text-underline-position: under;
-    text-underline-offset: 1px;
-    text-overflow: clip;
+    text-underline-offset: 1px !important;
+    text-overflow: clip !important;
     text-indent: calc(-1 * var(--link-shift, 0px));
     transition: text-indent 1.6s linear .2s;
 }
@@ -50,7 +49,7 @@
 }
 
 :is(.business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):disabled {
-    color: var(--text-faint);
+    color: var(--text-faint) !important;
     cursor: not-allowed;
 }
 
@@ -58,16 +57,16 @@
     :is(.business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):is(:hover, :focus-visible) {
         transition: none;
         text-indent: 0;
-        text-overflow: ellipsis;
+        text-overflow: ellipsis !important;
     }
 }
 
 /* A link in what is done or deactivated stays grey (it goes bold and underlined under the pointer all the same). */
 .business-capability-responsibility-line-done > .business-capability-responsibility-link:not(:hover):not(:focus-visible) {
-    color: var(--text-muted);
+    color: var(--text-muted) !important;
 }
 
 /* A completed card is deactivated: its links are grey until the pointer is on them. */
 .business-capability-activity-completed :is(.business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):not(:hover):not(:focus-visible) {
-    color: var(--text-completed-ink);
+    color: var(--completed-dim, var(--text-completed-ink)) !important;
 }

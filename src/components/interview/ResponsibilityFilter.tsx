@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 
 import { consumeKey } from "./consumeKey.ts";
 
-/** What a founder's Responsibilities can be told apart by: where they stand (Infrastructure, Offerings) and what they are (Resources, Activities, Legal). */
-export const RESPONSIBILITY_FILTER_OPTIONS = ["Infrastructure", "Offerings", "Resources", "Activities", "Legal"] as const;
+/** What a founder's Responsibilities can be told apart by: where they stand (Infrastructure, Offerings) and what they are (Activities, Partners & Suppliers, Legal). */
+export const RESPONSIBILITY_FILTER_OPTIONS = ["Infrastructure", "Offerings", "Activities", "Partners & Suppliers", "Legal"] as const;
 
 /**
  * THE FUNNEL: a box button in the "+"'s style (the card's tone, filled under the pointer) at the right of the Responsibilities row. It opens a short list of

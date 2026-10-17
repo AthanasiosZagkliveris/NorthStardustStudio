@@ -1,4 +1,5 @@
 import { CSSProperties, DragEvent, ReactNode, useRef, useState } from "react";
+import { brandImageMissing } from "../../framework/engine/SystemCardCompleteness.ts";
 import SectionTiles, { DialogHeading, type SectionTile } from "./SectionTiles.tsx";
 import PictureBoxes, { type PictureBox } from "./PictureBoxes.tsx";
 import type { CardBoxAdd } from "./CardBoxes.tsx";
@@ -47,7 +48,7 @@ interface BrandInventoryEditorProps {
     asTiles?: boolean;
 
     /** With `asTiles`: the tiles are handed to the page that holds them (the Style page, which carries the Icon & Logo and the Brand Images) instead of being a page of their own. */
-    renderTiles?: (tiles: SectionTile[]) => ReactNode;
+    renderTiles?: (tiles: SectionTile[], missing: ReadonlyMap<string, readonly string[]>) => ReactNode;
 
 }
 
@@ -607,8 +608,12 @@ export default function BrandInventoryEditor({
             )
         };
 
+        // WHAT A CARD STILL LACKS (SystemCardCompleteness.ts): an image with something written but not its picture and name lights its box and its tile.
+        const missingById = new Map<string, readonly string[]>();
+        inventory.images.forEach((image, index) => { const lacks = brandImageMissing(image); if (lacks.length > 0) { missingById.set(imageId(index), lacks); } });
         const imageBoxes: PictureBox[] = inventory.images.map((image, index) => ({
             id: imageId(index),
+            missing: missingById.get(imageId(index)),
             label: "Image " + (index + 1) + ": " + (image.name.trim() || image.fileName || "no image yet"),
             style: image.dataUrl ? { backgroundImage: "url(" + image.dataUrl + ")" } : undefined,
             className: "picture-box-image" + (image.dataUrl ? "" : " picture-box-image-empty"),
@@ -653,8 +658,8 @@ export default function BrandInventoryEditor({
             },
             picture: inventory.images.some(image => image.dataUrl)
                 ? (
-                    <span className="brand-mosaic brand-mosaic-images" style={{ "--mosaic-across": inventory.images.length <= 3 ? inventory.images.length : Math.ceil(inventory.images.length / 2) } as CSSProperties}>
-                        {inventory.images.map((image, index) => <span key={index} className="brand-mosaic-image" data-card={imageId(index)} style={{ transformOrigin: inwardOrigin(index, inventory.images.length, inventory.images.length <= 3 ? inventory.images.length : Math.ceil(inventory.images.length / 2)), ...(image.dataUrl ? { backgroundImage: "url(" + image.dataUrl + ")" } : {}) }} />)}
+                    <span className="brand-mosaic brand-mosaic-images" style={{ "--mosaic-across": Math.ceil(Math.sqrt(inventory.images.length)), "--mosaic-rows": Math.ceil(inventory.images.length / Math.ceil(Math.sqrt(inventory.images.length))) } as CSSProperties}>
+                        {inventory.images.map((image, index) => <span key={index} className="brand-mosaic-image" data-card={imageId(index)} style={{ transformOrigin: inwardOrigin(index, inventory.images.length, Math.ceil(Math.sqrt(inventory.images.length))), ...(image.dataUrl ? { backgroundImage: "url(" + image.dataUrl + ")" } : {}) }} />)}
                     </span>
                 )
                 : <span className="section-tile-picture-colour section-tile-picture-colour-empty">No images yet</span>,
@@ -668,7 +673,7 @@ export default function BrandInventoryEditor({
         };
 
         if (renderTiles) {
-            return <>{renderTiles([markTile, imagesTile])}</>;
+            return <>{renderTiles([markTile, imagesTile], missingById)}</>;
         }
         return (
             <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
@@ -680,7 +685,7 @@ export default function BrandInventoryEditor({
                     <div className="card-scroll">
                         <div className="business-capability-section business-capability-tiles-section">
                             <div className="business-capability-heading-spacer" aria-hidden="true" />
-                            <SectionTiles label="Inventory" hue={stableCardHue("column-tiles-brand-inventory")} tiles={[markTile, imagesTile]} />
+                            <SectionTiles label="Inventory" hue={stableCardHue("column-tiles-brand-inventory")} tiles={[markTile, imagesTile]} incomplete={missingById} />
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useState } from "react";
 
+import { cardNameMissing } from "../../framework/engine/SystemCardCompleteness.ts";
 import {
     STRATEGY_METRIC_CURRENCY_UNIT,
     STRATEGY_METRIC_FREQUENCIES,
@@ -25,7 +26,7 @@ import BoxActions, { reorder, useMovableBox } from "./ReorderControls.tsx";
 import MonthYearPicker from "./MonthYearPicker.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../framework/engine/Currencies.ts";
-import { BusinessField, OptionalNote } from "./BusinessCardFields.tsx";
+import { OptionalNote, ResponsibleField } from "./BusinessCardFields.tsx";
 import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
 import InfoNote from "./InfoNote.tsx";
@@ -220,6 +221,18 @@ export default function StrategicPeriodEditor({
     }
 
     /** THE PAGE AS TILES: each Strategic Theme is a tile (its Goals listed on it) opening its dialog; a Theme with several Goals shows a tile for each, and each Goal opens as a floating card. */
+    // WHAT A CARD STILL LACKS (SystemCardCompleteness.ts): a Goal, Objective or Metric with something written but no name lights its Theme's tile, flashing red.
+    const strategyMissing = new Map<string, readonly string[]>();
+    const heldBy = new Map<string, string[]>();
+    themes.forEach(theme => goalsFor(theme.id).forEach(goal => {
+        const note = (card: { id: string; name: string }) => {
+            heldBy.set(theme.id, [...(heldBy.get(theme.id) ?? []), card.id]);
+            const lacks = cardNameMissing(card as never, ["objectives", "metrics", "initiatives"]);
+            if (lacks.length > 0) { strategyMissing.set(card.id, lacks); }
+        };
+        note(goal);
+        goal.objectives.forEach(objective => { note(objective); objective.metrics.forEach(note); });
+    }));
     const tiles: SectionTile[] = themes.map((theme, themeIndex): SectionTile => {
         const goals = goalsFor(theme.id);
         const named = goals.map(goal => goal.name.trim()).filter(name => name.length > 0).slice(0, 6);
@@ -227,6 +240,7 @@ export default function StrategicPeriodEditor({
             id: theme.id,
             title: strategyThemeName(theme),
             note: theme.description.trim() ? [theme.description.trim()] : undefined,
+            holds: heldBy.get(theme.id) ?? [],
             view: true,
             rail: theme.id,
             items: named,
@@ -317,7 +331,7 @@ export default function StrategicPeriodEditor({
                 <div className="card-scroll">
                     <div className="business-capability-section business-capability-tiles-section">
                         <div className="business-capability-heading-spacer" aria-hidden="true" />
-                        <SectionTiles small label="Strategic Themes" hue={pageHue} tiles={tiles} />
+                        <SectionTiles small label="Strategic Themes" hue={pageHue} tiles={tiles} incomplete={strategyMissing} />
                     </div>
                 </div>
             </div>
@@ -392,7 +406,7 @@ function GoalList({
     if (view.tiles) {
         const items = goals.map((goal, at): CardBox => {
             const lines = goal.objectives.map(objective => objective.name.trim()).filter(name => name !== "").slice(0, 4);
-            return { id: goal.id, number: at + 1, name: goal.name, unnamed: "Unnamed goal", own: true, lines, marks: lines.map(() => ({ bullet: true })), press: () => view.select(goal.id), content: () => null };
+            return { id: goal.id, missing: cardNameMissing(goal as never, ["objectives"]), number: at + 1, name: goal.name, unnamed: "Unnamed goal", own: true, lines, marks: lines.map(() => ({ bullet: true })), press: () => view.select(goal.id), content: () => null };
         });
         const add = {
             label: "goal",
@@ -601,7 +615,7 @@ function ObjectiveList({
     if (view.tiles) {
         const items = objectives.map((objective, at): CardBox => {
             const lines = objective.initiatives.filter(item => item.trim() !== "").slice(0, 4);
-            return { id: objective.id, number: at + 1, name: objective.name, unnamed: "Unnamed objective", own: true, lines, marks: lines.map(() => ({ bullet: true })), press: () => view.select(objective.id), content: () => null };
+            return { id: objective.id, missing: cardNameMissing(objective as never, ["metrics", "initiatives"]), number: at + 1, name: objective.name, unnamed: "Unnamed objective", own: true, lines, marks: lines.map(() => ({ bullet: true })), press: () => view.select(objective.id), content: () => null };
         });
         const add = {
             label: "objective",
@@ -766,32 +780,16 @@ function ObjectiveList({
                                 />
 
                                 {founders.length > 1 && (
-                                    <BusinessField
-                                        label="Responsible"
-                                        side
-                                        tick={{
-                                            on: objective.responsibleOff !== true,
-                                            disabled,
-                                            ariaLabel: "Objective " + (objectiveIndex + 1) + " has a responsible",
-                                            // Unticked: no responsible by choice, the choice cleared.
-                                            onChange: (on) => updateObjective(objectiveIndex, on
-                                                ? { responsibleOff: undefined }
-                                                : { responsibleOff: true, ownerId: "" })
-                                        }}
-                                    >
-                                        {objective.responsibleOff === true ? null : (
-                                        <OptionPicker
-                                            label={"Objective " + (objectiveIndex + 1) + " responsible"}
-                                            hug
-                                            options={founders.map(founder => founder.name)}
-                                            disabled={disabled}
-                                            value={founders.find(founder => founder.id === objective.ownerId)?.name ?? ""}
-                                            onChange={(next) => updateObjective(objectiveIndex, {
-                                                ownerId: founders.find(founder => founder.name === next)?.id ?? ""
-                                            })}
-                                        />
-                                        )}
-                                    </BusinessField>
+                                    <ResponsibleField
+                                        what={"Objective " + (objectiveIndex + 1)}
+                                        founders={founders.map(founder => ({ id: founder.id, label: founder.name }))}
+                                        value={objective.ownerId}
+                                        off={objective.responsibleOff === true}
+                                        disabled={disabled}
+                                        onChange={(id) => updateObjective(objectiveIndex, { ownerId: id })}
+                                        // Unticked: no responsible by choice, the choice cleared.
+                                        onOff={(off) => updateObjective(objectiveIndex, off ? { responsibleOff: true, ownerId: "" } : { responsibleOff: undefined })}
+                                    />
                                 )}
 
                                 </div>
@@ -944,7 +942,7 @@ function MetricList({
                 metric.baseline.trim() !== "" ? "Baseline: " + metric.baseline.trim() : "",
                 metric.target.trim() !== "" ? "Target: " + metric.target.trim() : ""
             ].filter(line => line !== "");
-            return { id: metric.id, number: at + 1, name: metric.name, unnamed: "Unnamed metric", own: true, lines, marks: lines.map(() => ({ bullet: true })), press: () => view.select(metric.id), content: () => null };
+            return { id: metric.id, missing: cardNameMissing(metric as never), number: at + 1, name: metric.name, unnamed: "Unnamed metric", own: true, lines, marks: lines.map(() => ({ bullet: true })), press: () => view.select(metric.id), content: () => null };
         });
         const add = {
             label: "metric",

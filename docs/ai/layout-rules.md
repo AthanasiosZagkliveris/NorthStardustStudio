@@ -329,6 +329,12 @@ It must list none.
 7. **A field with the label above its holder usually has a partner beside it.** The common pairs: Working Hours with Delivery Hours; Salary, Cost, Price or Expense with its Frequency. A currency dropdown, where there is one, comes after the amount; a quantity (QTY) cell, where there is one, comes before it. (Rule recorded; applying it card by card is a survey of every card still to do.)
 8. **The common fields are one thing everywhere.** A field kind (text cell, dropdown, date or month cell, number, tick, colour, x, plus, i) has one style, behaviour, size, shape and layout in every system, page and card; a difference is a defect, and is fixed in the library and the shared component, not in the page.
 
+9. **One Responsible field** (`ResponsibleField`, `BusinessCardFields.tsx`): the label with its tick on the side-label row and the founders' dropdown, on an Activity, a Partner or Supplier, a Legal expense and a Strategy Objective alike. What a founder is responsible for is read back from them into the founder's Responsibilities: Activities, Partners & Suppliers and Legal expenses (an Objective's owner is on the Strategy page and is not read back yet). A line says what it is with its letter (A. Activity, P. Partner, S. Supplier, L. Legal).
+10. **A card opened from another keeps its own colour**: an Offering's card opened from a founder is the Offering's, a channel's card the channel's teal (`FloatingItem.hue`).
+11. **An incomplete card lights its tile in every system** (`SystemCardCompleteness.ts`, `CardCompleteness.ts`): a card with something written but not what it needs makes its tile flash red; a card just made and still open, or one holding nothing, is not flagged.
+12. **While a payment plan is ticked** the card has no Start or End date: the plan's dates are the card's (the earliest and the latest payment); an Instalments plan writes its first and last dates and the ones between follow.
+13. **The active (typed-in) text holder shows one effect**: the primary edge and a ring of 3px at 35% (a text box, a list's box, a date or month cell, a note, a settings field, a name in a frame).
+
 ### Grids and lists
 
 - **Page grids** (`.answer-columns`: Identity's, Strategy's; `.brand-style` /

@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useLayoutEffect, useRef, useState } from "react";
 
+import { brandColourMissing, brandTypefaceMissing } from "../../framework/engine/SystemCardCompleteness.ts";
 import ColourPicker from "./ColourPicker.tsx";
 import {
     BRAND_COLOUR_SLOTS,
@@ -863,6 +864,10 @@ export default function BrandStyleEditor({
         const rail = (section: number) => railId(BRAND_STYLE_SECTIONS[section]);
         const colourId = (slotId: string) => cardId("colour", slotId);
         const typefaceId = (slotId: string) => cardId("typeface", slotId);
+        // WHAT A CARD STILL LACKS (SystemCardCompleteness.ts): a card with something written but not what it needs lights its box and its tile, flashing red.
+        const missingById = new Map<string, readonly string[]>();
+        colourCards.forEach(entry => { const lacks = brandColourMissing(style.colours[entry.index]); if (lacks.length > 0) { missingById.set(colourId(entry.slot.id), lacks); } });
+        typefaceCards.forEach(entry => { const lacks = brandTypefaceMissing(style.typefaces[entry.index]); if (lacks.length > 0) { missingById.set(typefaceId(entry.slot.id), lacks); } });
         /** A card floating over its tile keeps the page's Style scope (its pickers, its roles). */
         const floating = (card: ReactNode) => (
             <div className="brand-style brand-style-columns" style={{ "--answer-column-count": 1 } as CSSProperties}>
@@ -906,6 +911,7 @@ export default function BrandStyleEditor({
             const swatch = normalizeHex(colour.hex);
             return {
                 id: colourId(entry.slot.id),
+                missing: missingById.get(colourId(entry.slot.id)),
                 label: "Colour " + (position + 1) + ": " + (colour.name.trim() || entry.slot.label),
                 style: swatch ? { background: swatch, color: inkOf(swatch) } : undefined,
                 children: (
@@ -921,6 +927,7 @@ export default function BrandStyleEditor({
             const typeface = style.typefaces[entry.index];
             return {
                 id: typefaceId(entry.slot.id),
+                missing: missingById.get(typefaceId(entry.slot.id)),
                 label: "Typeface " + (position + 1) + ": " + (typeface.font.trim() || entry.slot.label),
                 children: (
                     <>
@@ -996,7 +1003,7 @@ export default function BrandStyleEditor({
         };
 
         // The page: the Colours, the Typography & Text Hierarchy, then the Icon & Logo and the Brand Images (the Inventory editor hands over its two tiles).
-        const page = (inventoryTiles: SectionTile[]) => (
+        const page = (inventoryTiles: SectionTile[], imagesMissing: ReadonlyMap<string, readonly string[]> = new Map()) => (
             <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
                 <div
                     className="business-foundation-input business-foundation-card business-engagement-input"
@@ -1006,7 +1013,7 @@ export default function BrandStyleEditor({
                     <div className="card-scroll">
                         <div className="business-capability-section business-capability-tiles-section">
                             {frameTitle ? <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">{frameTitle}</span></div> : <div className="business-capability-heading-spacer" aria-hidden="true" />}
-                            <SectionTiles label="Style" hue={workHue("create")} tiles={[colourTile, typographyTile, ...inventoryTiles]} />
+                            <SectionTiles label="Style" hue={workHue("create")} tiles={[colourTile, typographyTile, ...inventoryTiles]} incomplete={new Map([...missingById, ...imagesMissing])} />
                         </div>
                     </div>
                 </div>

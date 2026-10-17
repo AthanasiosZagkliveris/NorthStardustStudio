@@ -205,6 +205,7 @@ export default function CardTile({ id, name, unnamed = "", number, linkedLines, 
                         className={className}
                         data-own={own ? "" : undefined}
                         data-anchor={id}
+                        data-card-box={id}
                         data-opens=""
                         aria-label={label}
                         aria-description={missing && missing.length > 0 ? incompleteTitle(missing) : undefined}
@@ -214,7 +215,7 @@ export default function CardTile({ id, name, unnamed = "", number, linkedLines, 
                         {face}
                     </button>
                 )
-                : <div className={className} data-anchor={id} role="group" aria-label={label} title={(title ?? shown) + (missing && missing.length > 0 ? ". " + incompleteTitle(missing) : "")}>{face}</div>}
+                : <div className={className} data-anchor={id} data-card-box={id} role="group" aria-label={label} title={(title ?? shown) + (missing && missing.length > 0 ? ". " + incompleteTitle(missing) : "")}>{face}</div>}
             <Dots id={id} name={shown} links={links} focusId={focusId} onFocus={onFocus} />
             {linked && (
                 <div className="section-tile-links-layer">

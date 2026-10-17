@@ -106,6 +106,7 @@ import {
     MissingMapContext,
     MissingScope,
     LinkSymbol,
+    ResponsibleField,
     BusinessEmpty,
     BusinessField,
     BusinessFieldTick,
@@ -139,7 +140,7 @@ import { railId } from "./rails/railItems.ts";
 
 import { summaryText } from "./cardSummary.ts";
 import CardBoxes, { CardBox } from "./CardBoxes.tsx";
-import SectionTiles, { SQUEEZED_ROW_MIN, CHANNEL_TILE_HUE, otherColumn, ActiveCount, CrumbNote, DialogHeading, FloatingCards, ItemMark, SectionTile, TileAdd, TileLink } from "./SectionTiles.tsx";
+import SectionTiles, { SQUEEZED_ROW_MIN, CHANNEL_TILE_HUE, otherColumn, ActiveCount, CrumbNote, DialogHeading, FloatingCards, ItemMark, SectionTile, TileAdd, TileLink, OPEN_EVENT, type OpenRequest } from "./SectionTiles.tsx";
 import SectionView, { CATEGORY_TILE_MIN_CARDS, SubcategoryBox, SubcategoryBoxes, ViewCategory } from "./SectionView.tsx";
 import { resourceChannels, resourceReach } from "../../framework/engine/ChannelResources.ts";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
@@ -416,6 +417,8 @@ interface BusinessCapabilityEditorProps {
     legalEntityFounders?: readonly LegalEntityFounderValue[];
     /** 1. Identity System — 3. Legal Entity's expenses: shown (not opened) among the "Inventory". */
     legalExpenses?: readonly LegalEntityExpenseValue[];
+    /** Opens the Identity System's Legal Entity page (a legal expense a founder is responsible for). */
+    onOpenLegalEntity?: OpenPage;
     /** 1. Identity System — 4. Founders Profile, as saved: each founder's Roles. */
     foundersProfile?: unknown;
     /** Customer Engagement: its Demand & Conversion gives each Offering's expected sales. */
@@ -467,6 +470,7 @@ export default function BusinessCapabilityEditor({
     legalEntityFounders = [],
 
     legalExpenses = [],
+    onOpenLegalEntity,
 
     foundersProfile,
 
@@ -1770,7 +1774,7 @@ export default function BusinessCapabilityEditor({
                 )}
             >
 
-                {cardDates("Resource " + number, slot.startDate, slot.endDate, onSlot, false, latestPaymentOf(slot.cost.frequency, slot.paymentPlan))}
+                {cardDates("Resource " + number, slot.startDate, slot.endDate, onSlot, false, latestPaymentOf(slot.cost.frequency, slot.paymentPlan), slot.cost.frequency === "per-project" && slot.paymentPlan.on)}
 
                 {/* Its category and group (Infrastructure's resources): the group it is filed in and its subsection. */}
                 {scope === "infrastructure" && resourceCategoryCells(slot)}
@@ -2142,14 +2146,15 @@ export default function BusinessCapabilityEditor({
         });
 
         const responsibilities = businessFounderResponsibilities(
-            capability, founder.id
+            capability, founder.id, legalExpenses
         );
 
         const tally = businessResponsibilitiesTally(responsibilities);
 
         /* The funnel: where a responsibility stands (Infrastructure, Offerings) and what it is (Activities; Resources and Legal have none yet). */
         const filterOff = responsibilityOff.get(founder.id) ?? new Set<string>();
-        const shownResponsibilities = responsibilities.filter(entry => !filterOff.has(entry.scope === "offering" ? "Offerings" : "Infrastructure") && !filterOff.has("Activities"));
+        const KIND_OPTION = { activity: "Activities", partner: "Partners & Suppliers", supplier: "Partners & Suppliers", legal: "Legal" } as const;
+        const shownResponsibilities = responsibilities.filter(entry => !filterOff.has(KIND_OPTION[entry.kind]) && (entry.scope === "legal" || !filterOff.has(entry.scope === "offering" ? "Offerings" : "Infrastructure")));
 
         /* COLLAPSED each time the dialog (or a founder's box) opens: FounderCards
            clears these folds on opening; toggling inside an open dialog works. */
@@ -2492,7 +2497,12 @@ export default function BusinessCapabilityEditor({
         /** What the card costs altogether (the price times its Qty); null while the price is not typed: the amount cells then wait for it. */
         total: number | null
     ) {
-        const set = (patch: Partial<BusinessPaymentPlan>, dates?: { startDate?: string; endDate?: string }) => onNext({ ...plan, ...patch }, dates);
+        // While a plan is ticked the card's Start and End date are the earliest and the latest payment (they are not asked).
+        const set = (patch: Partial<BusinessPaymentPlan>, dates?: { startDate?: string; endDate?: string }) => {
+            const next = { ...plan, ...patch };
+            const days = next.on ? paymentPlanLines(next, startDate, endDate).map(line => line.date).filter(Boolean).sort() : [];
+            onNext(next, days.length > 0 ? { startDate: days[0], endDate: days[days.length - 1], ...dates } : dates);
+        };
         const setLine = (id: string, patch: Partial<BusinessPaymentPlan["lines"][number]>) => set({ lines: plan.lines.map(line => line.id === id ? { ...line, ...patch } : line) });
         const sum = paymentPlanTotal(plan);
         const blank = () => ({ id: randomId("payment"), title: "", percent: "", date: "" });
@@ -2509,13 +2519,17 @@ export default function BusinessCapabilityEditor({
         const setCount = (count: string) => {
             const n = Number(count);
             if (count !== plan.count) {
-                set(n >= 1 ? { count, lines: instalmentLines(n, startDate, endDate) } : { count: "", lines: [] });
+                {
+                const first = plan.lines[0]?.date || startDate || todayIsoDate();
+                const last = plan.lines[plan.lines.length - 1]?.date || endDate || first;
+                set(n >= 1 ? { count, lines: instalmentLines(n, first, last) } : { count: "", lines: [] });
+            }
             }
         };
         const stepCount = (by: number) => setCount(String(Math.min(99, Math.max(1, (Number(plan.count) || 0) + by))));
         const amountOf = (percent: string) => total === null || parseAmount(percent) === null ? "" : String(Math.round(total * (parseAmount(percent) ?? 0)) / 100);
         // The percent and the amount of a payment are one figure written two ways: typing either sets the other. (The amount being typed is kept as typed.)
-        const valueRow = (line: BusinessPaymentLine, label: string, order: string, mode: "free" | "balance" | "deposit" | "instalment") => {
+        const valueRow = (line: BusinessPaymentLine, label: string, order: string, mode: "free" | "balance" | "deposit" | "instalment", edge = true) => {
             const draft = amountDraft?.id === line.id ? amountDraft.text : null;
             const setPercent = (next: string) => {
                 if (mode === "deposit") {
@@ -2558,15 +2572,10 @@ export default function BusinessCapabilityEditor({
                     />
                     <DateCellInput
                         ariaLabel={label + " date"}
-                        min={startDate || undefined}
-                        max={endDate || undefined}
-                        disabled={disabled || mode === "deposit" || mode === "instalment"}
-                        value={mode === "deposit" ? startDate : mode === "instalment" ? (paymentPlanLines(plan, startDate, endDate).find(entry => entry.id === line.id)?.date ?? "") : line.date || (mode === "balance" ? endDate : "")}
+                        // (No Start or End date bounds the payments: the payments are the card's dates. Instalments: the first and the last are written, the ones between follow them.)
+                        disabled={disabled || (mode === "instalment" && !edge)}
+                        value={mode === "instalment" ? (paymentPlanLines(plan, startDate, endDate).find(entry => entry.id === line.id)?.date ?? "") : line.date || (mode === "balance" ? endDate : mode === "deposit" ? startDate : "")}
                         onChange={(next) => {
-                            if (next !== "" && endDate !== "" && next > endDate) {
-                                setDateNotice({ owner: what, text: "A payment cannot fall after the card's End date (" + isoToDisplay(endDate, PreferencesService.getDateFormat()) + ")." });
-                                return;
-                            }
                             setDateNotice(null);
                             setLine(line.id, { date: next });
                         }}
@@ -2639,7 +2648,7 @@ export default function BusinessCapabilityEditor({
                 {plan.on && plan.type === "deposit-balance" && plan.lines.slice(0, 2).map((line, at) => valueRow(line, what + " " + (at === 0 ? "deposit" : "balance"), "", at === 0 ? "deposit" : "balance"))}
 
                 {/* INSTALMENTS: a row each, numbered. */}
-                {plan.on && plan.type === "instalments" && plan.lines.map((line, at) => valueRow(line, what + " instalment " + (at + 1), (at + 1) + ".", "instalment"))}
+                {plan.on && plan.type === "instalments" && plan.lines.map((line, at) => valueRow(line, what + " instalment " + (at + 1), (at + 1) + ".", "instalment", at === 0 || at === plan.lines.length - 1))}
 
                 {/* MILESTONES: two rows each -- the stage, with the "+" (the first) or the x (any other) -- then its amount, percent and date. */}
                 {plan.on && plan.type === "milestones" && plan.lines.flatMap((line, at) => {
@@ -2909,8 +2918,13 @@ export default function BusinessCapabilityEditor({
         onDates: (patch: { startDate?: string; endDate?: string }) => void,
         startOnly = false,
         /** The latest date of the card's payment plan (a Per project card): the End date cannot be earlier. */
-        latestPayment = ""
+        latestPayment = "",
+        /** The card has a payment plan: the plan's own dates stand in for the card's Start and End date, which are not asked. */
+        planDriven = false
     ) {
+        if (planDriven) {
+            return null;
+        }
         return (
             <>
                 <BusinessField label="Start date" side>
@@ -3143,6 +3157,23 @@ export default function BusinessCapabilityEditor({
             disabled,
             ariaLabel: what ? what + " has a responsible" : undefined
         };
+
+        // The shared field (BusinessCardFields.tsx) where a card has the Responsible tick and nothing decides who is responsible by rule.
+        if (responsible && automatic.length === 0 && founderChoices.length > 0) {
+            return (
+                <ResponsibleField
+                    what={what ?? "Card"}
+                    founders={founderChoices}
+                    value={current}
+                    off={responsible.off}
+                    disabled={disabled}
+                    info={info}
+                    layout={side ? "side" : "inline"}
+                    onChange={onNext}
+                    onOff={responsible.onChange}
+                />
+            );
+        }
 
         if (tick && !tick.on) {
             return (
@@ -3687,21 +3718,28 @@ export default function BusinessCapabilityEditor({
     }
 
     /** A line of a founder's Responsibilities: a link that opens the activity's card (under the founder's), with a tile list item's reaction. */
-    function responsibilityLink(founderId: string, entry: { id: string; name: string }, done: boolean) {
+    function responsibilityLink(founderId: string, entry: { id: string; name: string; kind?: "activity" | "partner" | "supplier" | "legal" }, done: boolean) {
+        const letter = entry.kind === "partner" ? "P." : entry.kind === "supplier" ? "S." : entry.kind === "legal" ? "L." : "A.";
         return (
             <span className={"business-capability-responsibility-line" + (done ? " business-capability-responsibility-line-done" : "")}>
                 {/* The kind as its first letter, as on the other cards' links (A. Activity). */}
-                <span className="business-capability-card-link-kind" aria-hidden="true">A.</span>
+                <span className="business-capability-card-link-kind" aria-hidden="true">{letter}</span>
                 <button
                     type="button"
                     className="section-tile-link business-capability-responsibility-link"
                     title={"Open “" + entry.name + "”"}
-                    onClick={() => openPair(founderId, entry.id)}
+                    onClick={() => entry.kind === "legal" ? openLegalExpense(entry.id) : openPair(founderId, entry.id)}
                 >
                     {entry.name}
                 </button>
             </span>
         );
+    }
+
+    /** A legal expense belongs to the Identity System: its page opens, and the card with it. */
+    function openLegalExpense(id: string) {
+        onOpenLegalEntity?.();
+        window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: "legal-entity-expenses", card: id } })), 700);
     }
 
     /** Opens a parent and its child together, stacked, over whatever is open (Back returns to it). */
@@ -4255,7 +4293,7 @@ export default function BusinessCapabilityEditor({
                 )}
             >
 
-                {cardDates(partner.name.trim() || "Entry " + number, partner.startDate, partner.endDate, change, false, latestPaymentOf(partner.cost.frequency, partner.paymentPlan))}
+                {cardDates(partner.name.trim() || "Entry " + number, partner.startDate, partner.endDate, change, false, latestPaymentOf(partner.cost.frequency, partner.paymentPlan), partner.cost.frequency === "per-project" && partner.paymentPlan.on)}
 
                 {/* (No Category row: the tile says whether it is a Partner or a Supplier. A card with no type yet, from an earlier answer, keeps the row so it can be given one.) */}
                 {capability.partnerCategories.some(entry => entry.id === partner.category) && partnerCategoryCell(partner, partner.name.trim() || "Entry " + number)}
@@ -5658,6 +5696,10 @@ export default function BusinessCapabilityEditor({
     const completed = completedTile();
     const overview = overviewTile();
 
+    /** Each card of a pair keeps its own colour: the Offering's, Infrastructure's or a channel's teal. */
+    const offeringOwns = (id: string) => capability.offering.activities.some(entry => entry.id === id) || capability.offering.professionals.some(entry => entry.id === id) ||
+        capability.offering.providers.some(entry => entry.id === id) || capability.offering.resources.some(entry => entry.id === id);
+    const pairHue = (id: string) => channelToneIds.has(id) ? CHANNEL_TILE_HUE : stableCardHue(offeringOwns(id) ? "offering-capability" : "infrastructure");
     const pairParent = pair ? parentCard(pair.parentId) : null;
     // (The card below may be any card: an activity or a partner, and also a founder or a resource -- what a Performer, a Responsible or a Resource row of an activity leads to.)
     const pairChild = pair ? childCard(pair.childId) ?? parentCard(pair.childId) : null;
@@ -5743,8 +5785,8 @@ export default function BusinessCapabilityEditor({
                     label={pairParent.caption + " and " + pairChild.caption}
                     attrs={{ "data-pair": pair.parentId }}
                     cards={[
-                        { key: pair.parentId, caption: pairParent.caption, kind: pairParent.kind, node: pairParent.node },
-                        { key: pair.childId, caption: pairChild.caption, kind: pairChild.kind ?? "card", node: pairChild.node }
+                        { key: pair.parentId, caption: pairParent.caption, kind: pairParent.kind, node: pairParent.node, hue: pairHue(pair.parentId) },
+                        { key: pair.childId, caption: pairChild.caption, kind: pairChild.kind ?? "card", node: pairChild.node, hue: pairHue(pair.childId) }
                     ]}
                     onClose={() => setPair(null)}
                 />

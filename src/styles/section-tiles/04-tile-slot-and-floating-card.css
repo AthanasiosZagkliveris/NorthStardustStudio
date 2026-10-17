@@ -192,7 +192,7 @@
    drawn from the middle of the box (an even length, 2px thick), so its centre is the box's centre to the pixel, and the box never changes size: the
    stroke is the 2px border, which turns transparent over the fill. 150ms. */
 /* The ground and the stroke tone of a "+", of the date cell's calendar button and of the calendar card (one pair, read from the card's hue). */
-:is(.plus-box, .date-cell, .month-picker, .business-link-symbol, .responsibility-filter, .colour-picker) {
+:is(.plus-box, .date-cell, .month-picker, .business-link-symbol, .responsibility-filter, .colour-picker, .roadmap-zoomed) {
 
     --plus-ground: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
     --plus-fill: hsl(var(--strategy-theme-hue, 0) var(--plus-fill-saturation) var(--plus-fill-lightness));

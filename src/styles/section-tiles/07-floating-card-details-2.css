@@ -1158,3 +1158,48 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
     box-shadow: var(--box-inset);
 
 }
+
+/* THE IMAGES OF THE Brand Images TILE fit the room the tile leaves above its "+": they share it by their number (one row of up to three, two rows beyond), each
+   filling its cell. */
+
+.brand-mosaic.brand-mosaic-images > .brand-mosaic-image {
+
+    min-height: 0;
+
+}
+
+.section-tile-picture:has(> .brand-mosaic-images) {
+
+    grid-template-rows: minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
+    place-items: stretch;
+
+}
+
+/* The images are SQUARES as large as the room allows: the cell is the least of the room\x27s width and height shared among the images. */
+.section-tile-picture:has(> .brand-mosaic-images) {
+
+    container-type: size;
+
+}
+
+.brand-mosaic.brand-mosaic-images {
+
+    --cell: min(calc((100cqw - (var(--mosaic-across, 1) - 1) * 8px) / var(--mosaic-across, 1)), calc((100cqh - (var(--mosaic-rows, 1) - 1) * 8px) / var(--mosaic-rows, 1)));
+
+    width: auto;
+    height: auto;
+
+    grid-template-columns: repeat(var(--mosaic-across, 1), var(--cell));
+    grid-template-rows: repeat(var(--mosaic-rows, 1), var(--cell));
+
+    justify-content: center;
+    align-content: start;
+
+}
+
+.brand-mosaic.brand-mosaic-images > .brand-mosaic-image {
+
+    aspect-ratio: 1;
+
+}

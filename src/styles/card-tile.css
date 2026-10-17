@@ -357,3 +357,12 @@ button.card-tile-symbol[aria-pressed="true"] {
     letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
 }
+
+/* A block of a master tile (a colour, a typeface, an image) that opened the card now open: the same halo, on the block. */
+.section-tile [data-card][data-opener-tile] {
+
+    --opener-tone: hsl(var(--opener-hue, 0) var(--plus-fill-saturation, 60%) var(--plus-fill-lightness, 40%));
+
+    box-shadow: 0 0 0 2px var(--opener-tone), 0 0 10px 2px color-mix(in srgb, var(--opener-tone) 55%, transparent) !important;
+
+}

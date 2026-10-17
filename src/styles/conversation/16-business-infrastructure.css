@@ -667,8 +667,9 @@
 }
 
 /* A line across a card, between its fields and the rows of its state and its links. */
+/* Across the card's whole width: edge to edge, through its padding. */
 .business-capability-card-rule{
     height:1px;
-    margin:0;
+    margin:0 calc(-1 * var(--card-padding));
     background:var(--line-rule);
 }

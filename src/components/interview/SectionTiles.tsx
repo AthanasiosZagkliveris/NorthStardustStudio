@@ -1,4 +1,4 @@
-import { createContext, CSSProperties, Fragment, MouseEvent as ReactMouseEvent, ReactNode, RefObject, useContext, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { createContext, CSSProperties, Fragment, MouseEvent as ReactMouseEvent, ReactNode, RefObject, useContext, useEffect, useId, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import { freshCards } from "./freshCards.ts";
 import { createPortal } from "react-dom";
 
@@ -680,6 +680,10 @@ export default function SectionTiles({
     const [openBox, setOpenBox] = useState<string | null>(null);
     const [floating, setFloating] = useState<FloatingOpen | null>(null);
 
+    // (A card just made and still open is not flagged: freshCards.ts.)
+    useSyncExternalStore(freshCards.subscribe, freshCards.snapshot);
+    const shownIncomplete = incomplete ? new Map([...incomplete].filter(([id]) => !freshCards.has(id))) : undefined;
+
     // A card made a moment ago and still open carries no error indicator (freshCards.ts).
     const freshId = floating?.fresh ? floating.id : null;
     useEffect(() => {
@@ -885,20 +889,31 @@ export default function SectionTiles({
     // that opened it is bold.
     const openerHue = floatingTile?.channel || (floating && floatingTile?.isChannelCard?.(floating.id)) ? CHANNEL_TILE_HUE : hue;
     const openerEl = floating?.pressed?.isConnected ? floating.pressed : floating?.opener ?? null;
+    const floatingId = floating?.id ?? null;
     useEffect(() => {
         if (!openerEl || !openerEl.isConnected) {
             return;
         }
-        const tile = openerEl.closest<HTMLElement>(".section-tile") ?? openerEl.closest(".section-tile-slot")?.querySelector<HTMLElement>(".section-tile") ?? null;
-        tile?.setAttribute("data-opener-tile", "");
-        tile?.style.setProperty("--opener-hue", String(openerHue));
-        openerEl.setAttribute("data-opener", "");
+        // The tile or box that holds the card now open (it follows the card when the arrows step to another): found by the card's id; else the control that opened it.
+        const key = floatingId ? CSS.escape(floatingId) : "";
+        const box = key ? document.querySelector<HTMLElement>(`[data-card-box="${key}"]`) : null;
+        const block = key ? document.querySelector<HTMLElement>(`.section-tile [data-card="${key}"]`) : null;
+        const tile = box ?? openerEl.closest<HTMLElement>(".section-tile") ?? openerEl.closest(".section-tile-slot")?.querySelector<HTMLElement>(".section-tile") ?? null;
+        const marked = [tile, block].filter((element): element is HTMLElement => !!element);
+        marked.forEach(element => {
+            element.setAttribute("data-opener-tile", "");
+            element.style.setProperty("--opener-hue", String(openerHue));
+        });
+        const link = box ? null : openerEl;
+        link?.setAttribute("data-opener", "");
         return () => {
-            tile?.removeAttribute("data-opener-tile");
-            tile?.style.removeProperty("--opener-hue");
-            openerEl.removeAttribute("data-opener");
+            marked.forEach(element => {
+                element.removeAttribute("data-opener-tile");
+                element.style.removeProperty("--opener-hue");
+            });
+            link?.removeAttribute("data-opener");
         };
-    }, [openerEl, openerHue]);
+    }, [openerEl, openerHue, floatingId]);
 
     // THE CAROUSEL: the arrows beside the layer opened last. A floating card goes through the cards of its tile (or of its box, where it was opened from one); a
     // dialog goes through the tiles of the section, the ones that have something to open (a tile of none would make a blank card).
@@ -984,7 +999,7 @@ export default function SectionTiles({
                         <TileSlot
                             key={tile.id}
                             tile={tile}
-                            incomplete={incomplete}
+                            incomplete={shownIncomplete}
                             at={at}
                             columns={columns}
                             rows={rows}
@@ -1159,7 +1174,9 @@ function TileSlot({
     const orderedLinks = baseItems && tile.links ? order.map(index => tile.links![index]) : tile.links;
     const alerts = baseItems ? order.map(index => missingAt(index)) : undefined;
     const marks = baseItems && tile.itemMarks ? order.map(index => tile.itemMarks![index]) : undefined;
-    const anyAlert = !!alerts && alerts.some(entry => !!entry);
+    // (A card the tile holds that is not on a line of it -- one with no name yet -- lights the tile all the same.)
+    const held = [...(tile.holds ?? []), ...Object.values(tile.boxHolds ?? {}).flat()];
+    const anyAlert = (!!alerts && alerts.some(entry => !!entry)) || (!!incomplete && held.some(id => incomplete.has(id)));
 
     return (
         <div
@@ -1816,6 +1833,8 @@ export interface FloatingItem {
     caption: string;
     kind: "card" | "founder";
     node: ReactNode;
+    /** The card's own colour where it differs from its stack's (a card of Offering's Capability opened from a founder's card keeps the Offering's). */
+    hue?: number;
     /** The box's "i" note, after the caption's words (what the dialog's header carries when the box is opened that way). */
     note?: InfoPoint[];
 }
@@ -2008,7 +2027,7 @@ export function FloatingCards({
             >
                 <div className="floating-card-stack">
                     {cards.map(card => (
-                        <div className="floating-card-item" key={card.key} data-kind={card.kind}>
+                        <div className="floating-card-item" key={card.key} data-kind={card.kind} style={card.hue !== undefined ? { "--strategy-theme-hue": card.hue, "--floating-hue": card.hue } as CSSProperties : undefined}>
                             <div className="floating-card-caption">
                                 <InfoText text={card.caption}>
                                     {card.note && card.note.length > 0 && <InfoNote label={card.caption} points={card.note} fullList />}

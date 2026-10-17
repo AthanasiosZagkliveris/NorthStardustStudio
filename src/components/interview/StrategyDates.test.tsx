@@ -189,7 +189,7 @@ describe("StrategicPeriodEditor Objective Responsible", () => {
         show(["Ann", "Bo", "Cy"]);
         const field = document.querySelector(".strategy-objective-when > .business-field-side")!;
         expect(field.querySelector(".field-label")?.textContent).toMatch(/^Responsible/);
-        expect(field.querySelector(".option-picker")?.getAttribute("data-size")).toBe("full");
+        expect(field.querySelector(".option-picker")?.getAttribute("data-size")).toBe("fit");
         expect(document.querySelector(".strategy-objective-when")?.children).toHaveLength(3);
     });
 

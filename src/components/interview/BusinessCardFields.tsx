@@ -1,5 +1,6 @@
 import { createContext, CSSProperties, ReactNode, useContext, useEffect, useRef, useState } from "react";
 
+import OptionPicker from "./OptionPicker.tsx";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
@@ -1102,4 +1103,60 @@ export function BusinessCard({
         )}</MissingScope>
     );
 
+}
+
+
+/**
+ * THE RESPONSIBLE FIELD, one for every card that has one (an Activity, a Partner or Supplier, a Legal expense, a Strategy Objective): the label "Responsible"
+ * with its tick on the side-label row, and, ticked, the dropdown of the founders at the right (a dropdown alone in its row takes the row). Unticked, the choice
+ * goes. What a founder is responsible for is read back from these fields, into the founder's Responsibilities (businessFounderResponsibilities).
+ */
+export function ResponsibleField({
+    what,
+    founders,
+    value,
+    off,
+    onChange,
+    onOff,
+    disabled = false,
+    info,
+    layout = "side",
+    className
+}: {
+    /** Which card, for assistive technology: "Expense 2", "Objective 1". */
+    what: string;
+    founders: readonly { id: string; label: string }[];
+    value: string;
+    off: boolean;
+    onChange: (founderId: string) => void;
+    onOff: (off: boolean) => void;
+    disabled?: boolean;
+    info?: InfoPoint[];
+    /** Where the card lays out its rows: the short side-label column (default), or a label and its control inline. */
+    layout?: "side" | "inline";
+    className?: string;
+}) {
+    return (
+        <BusinessField
+            label="Responsible"
+            side={layout === "side"}
+            inline={layout === "inline"}
+            className={className}
+            info={info}
+            fieldId="Responsibility"
+            tick={{ on: !off, onChange: (on) => onOff(!on), disabled, ariaLabel: what + " has a responsible" }}
+        >
+            {off ? null : (
+                <OptionPicker
+                    label={what + " responsible"}
+                    fill="fit"
+                    placeholder="Select"
+                    options={founders.map(founder => founder.label)}
+                    disabled={disabled}
+                    value={founders.find(founder => founder.id === value)?.label ?? ""}
+                    onChange={(next) => onChange(founders.find(founder => founder.label === next)?.id ?? "")}
+                />
+            )}
+        </BusinessField>
+    );
 }

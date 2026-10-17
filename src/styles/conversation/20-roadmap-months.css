@@ -81,11 +81,11 @@
 
 }
 
-/* The corner over the names has no box: it only needs the page's
-   own white, from the top of the timeline down to the first box. */
+/* The corner over the names has no box: it only needs the ground of the card the roadmap stands on (not the page's own white, which on a dark or
+   tinted card is a black block), from the top of the timeline down to the first box. */
 .roadmap-zoomed .roadmap-head-spacer{
 
-    background-color:var(--bg-surface);
+    background-color:color-mix(in srgb, var(--plus-ground) 76%, var(--bg-page));
 
 }
 

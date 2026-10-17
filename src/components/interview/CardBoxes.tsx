@@ -1,6 +1,7 @@
-import { ReactNode, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { ReactNode, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import type { CSSProperties } from "react";
 
+import { freshCards } from "./freshCards.ts";
 import { OpenCardContext, type ItemMark } from "./SectionTiles.tsx";
 import CardTile, { TILE_GAP, inwardOrigin, pageTileSide, useTilesAcross } from "./CardTile.tsx";
 import { AddTile } from "./SectionView.tsx";
@@ -144,6 +145,7 @@ export default function CardBoxes({
 }) {
 
     const openCard = useContext(OpenCardContext);
+    useSyncExternalStore(freshCards.subscribe, freshCards.snapshot);
     // The tile being dragged and the one it is over.
     const [drag, setDrag] = useState<{ from: number; over: number | null } | null>(null);
 
@@ -228,7 +230,7 @@ export default function CardBoxes({
                             own={item.own}
                             inactive={item.inactive}
                             faded={item.faded}
-                            missing={item.missing}
+                            missing={freshCards.has(item.id) ? undefined : item.missing}
                             label={what + " " + item.number + ": " + name}
                             origin={inwardOrigin(index, items.length, across)}
                             onOpen={(pointer) => item.press ? item.press() : openCard?.(item.id, undefined, undefined, pointer, false)}

@@ -71,7 +71,7 @@ textarea:focus{
        removes the browser default, so without this a keyboard user
        would get a weaker affordance than a mouse user gets on
        hover. */
-    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
 
 }
 

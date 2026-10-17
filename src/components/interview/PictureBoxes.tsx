@@ -1,5 +1,6 @@
-import { CSSProperties, ReactNode, useContext, useMemo, useRef } from "react";
+import { CSSProperties, ReactNode, useContext, useMemo, useRef, useSyncExternalStore } from "react";
 
+import { freshCards } from "./freshCards.ts";
 import { OpenCardContext } from "./SectionTiles.tsx";
 import { pageTileSide, useTilesAcross, inwardOrigin } from "./CardTile.tsx";
 import { AddTile } from "./SectionView.tsx";
@@ -24,6 +25,9 @@ export interface PictureBox {
     /** What is drawn on the box: its texts. */
     children: ReactNode;
 
+    /** What the card behind it still lacks (SystemCardCompleteness.ts): the box glows red, flashing, while the card has something written and is not complete. */
+    missing?: readonly string[];
+
 }
 
 /**
@@ -34,6 +38,7 @@ export interface PictureBox {
 export default function PictureBoxes({ items, label, add }: { items: readonly PictureBox[]; label: string; add?: CardBoxAdd }) {
 
     const openCard = useContext(OpenCardContext);
+    useSyncExternalStore(freshCards.subscribe, freshCards.snapshot);
     const grid = useRef<HTMLDivElement | null>(null);
     const side = useMemo(pageTileSide, []);
     const across = useTilesAcross(grid, side);
@@ -48,11 +53,12 @@ export default function PictureBoxes({ items, label, add }: { items: readonly Pi
                 style={{ "--section-tile-size": side + "px", gridTemplateColumns: "repeat(" + across + ", " + side + "px)", maxWidth: "none" } as CSSProperties}
             >
                 {items.map((item, index) => (
-                    <div key={item.id} className="section-tile-slot" style={{ transformOrigin: inwardOrigin(index, items.length, across) }}>
+                    <div key={item.id} className={"section-tile-slot" + (item.missing && item.missing.length > 0 && !freshCards.has(item.id) ? " card-tile-incomplete" : "")} style={{ transformOrigin: inwardOrigin(index, items.length, across) }}>
                         <button
                             type="button"
                             className={"section-tile picture-box" + (item.className ? " " + item.className : "")}
                             aria-label={item.label}
+                            data-card-box={item.id}
                             style={item.style}
                             onClick={(event) => openCard?.(item.id, undefined, undefined, event.detail > 0, false)}
                         >

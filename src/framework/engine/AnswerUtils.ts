@@ -3697,6 +3697,8 @@ export interface LegalEntityExpenseValue {
     date: string;
     /** A founder id, so renaming a founder renames this too. */
     responsibility: string;
+    /** The Responsible tick, unticked: no responsible by choice (absent = ticked), as on every card. */
+    responsibleOff?: boolean;
     cost: string;
     /** One of LEGAL_ENTITY_EXPENSE_FREQUENCIES. */
     frequency: string;
@@ -3871,6 +3873,7 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
             name: asText(row.name),
             date: isoDateText(row.date),
             responsibility: asText(row.responsibility),
+            ...(row.responsibleOff === true ? { responsibleOff: true } : {}),
             cost: asText(row.cost),
             frequency: asText(row.frequency),
             // (One registration only: an earlier answer's several keep the first.)
@@ -6851,12 +6854,15 @@ export function instalmentLines(count: number, startDate: string, endDate: strin
 /** The payments of a plan as they fall: the first of Deposit & Balance on the Start date, the second on its own date else the End date. */
 export function paymentPlanLines(plan: BusinessPaymentPlan, startDate: string, endDate: string): BusinessPaymentLine[] {
     if (plan.type === "instalments" && plan.lines.length > 0) {
-        // Instalments are dated evenly from the Start date to the End date, and follow them when they change.
-        const dated = instalmentLines(plan.lines.length, startDate, endDate);
+        // Instalments are dated evenly from the first to the last: those two are the plan's own dates (the card has no Start or End date while it has a plan), the ones between follow them.
+        const count = plan.lines.length;
+        const first = plan.lines[0].date || startDate;
+        const last = plan.lines[count - 1].date || endDate || first;
+        const dated = instalmentLines(count, first, last);
         return plan.lines.map((line, at) => ({ ...line, date: dated[at].date }));
     }
     return plan.type === "deposit-balance"
-        ? plan.lines.slice(0, 2).map((line, at) => ({ ...line, date: at === 0 ? startDate : line.date || endDate }))
+        ? plan.lines.slice(0, 2).map((line, at) => ({ ...line, date: line.date || (at === 0 ? startDate : endDate) }))
         : plan.lines;
 }
 
@@ -8819,10 +8825,21 @@ function businessAllActivities(
  * activities, or the same fact would be recorded twice and be free
  * to disagree with itself.
  */
+/** One thing a founder is responsible for: where it stands (Infrastructure, Offering, the Legal Entity) and what it is. */
+export interface FounderResponsibility {
+    id: string;
+    name: string;
+    completed: boolean;
+    scope: "infrastructure" | "offering" | "legal";
+    kind: "activity" | "partner" | "supplier" | "legal";
+}
+
 export function businessFounderResponsibilities(
     capability: BusinessCapabilityValue,
-    founderId: string
-): { id: string; name: string; completed: boolean; scope: "infrastructure" | "offering"; kind: "activity" }[] {
+    founderId: string,
+    /** The Legal Entity's expenses: an expense names the founder responsible for it. */
+    legalExpenses: readonly { id: string; name: string; responsibility: string; responsibleOff?: boolean }[] = []
+): FounderResponsibility[] {
 
     if (founderId.length === 0) {
         return [];
@@ -8831,7 +8848,7 @@ export function businessFounderResponsibilities(
     const founderIds = capability.founders.map(founder => founder.id);
     const offeringIds = new Set(capability.offering.activities.map(activity => activity.id));
 
-    return businessAllActivities(capability)
+    const activities = businessAllActivities(capability)
         .filter(activity =>
             businessResponsibleId(activity, founderIds) === founderId &&
             activity.name.trim().length > 0
@@ -8843,6 +8860,23 @@ export function businessFounderResponsibilities(
             scope: offeringIds.has(activity.id) ? "offering" as const : "infrastructure" as const,
             kind: "activity" as const
         }));
+
+    const partners = (list: readonly BusinessPartnerValue[], scope: "infrastructure" | "offering", kind: "partner" | "supplier") => list
+        .filter(partner => businessPartnerResponsibleId(partner, founderIds) === founderId && partner.name.trim().length > 0)
+        .map(partner => ({ id: partner.id, name: partner.name.trim(), completed: false, scope, kind }));
+
+    const legal = legalExpenses
+        .filter(expense => expense.responsibleOff !== true && expense.responsibility === founderId && expense.name.trim().length > 0)
+        .map(expense => ({ id: expense.id, name: expense.name.trim(), completed: false, scope: "legal" as const, kind: "legal" as const }));
+
+    return [
+        ...activities,
+        ...partners(capability.professionals, "infrastructure", "partner"),
+        ...partners(capability.providers, "infrastructure", "supplier"),
+        ...partners(capability.offering.professionals, "offering", "partner"),
+        ...partners(capability.offering.providers, "offering", "supplier"),
+        ...legal
+    ];
 
 }
 

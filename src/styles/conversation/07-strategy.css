@@ -519,7 +519,7 @@
 
     border-color:var(--line-primary);
 
-    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
 
 }
 

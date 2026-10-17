@@ -207,6 +207,13 @@
 
 }
 
+/* Typed in, it shows the ring every text holder shows. */
+.business-foundation-frame-name:focus {
+    border-bottom-color: transparent;
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+}
+
 .business-foundation-frame-name::placeholder {
 
     color: var(--text-muted);

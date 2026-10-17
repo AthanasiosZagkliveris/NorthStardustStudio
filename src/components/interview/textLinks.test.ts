@@ -17,11 +17,11 @@ describe("the text links", () => {
     });
 
     it("rest regular and plain and go bold and underlined under the pointer", () => {
-        expect(css).toContain("font-weight: 400;");
-        expect(css).toContain("text-decoration: none;");
-        expect(css).toContain("text-shadow: var(--hover-bold);");
-        expect(css).toContain("text-decoration: underline;");
-        expect(css).toContain("text-underline-offset: 1px;");
+        expect(css).toContain("font-weight: 400 !important;");
+        expect(css).toContain("text-decoration: none !important;");
+        expect(css).toContain("text-shadow: var(--hover-bold) !important;");
+        expect(css).toContain("text-decoration: underline !important;");
+        expect(css).toContain("text-underline-offset: 1px !important;");
     });
 
 });

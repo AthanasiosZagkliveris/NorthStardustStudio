@@ -550,3 +550,34 @@
     color: var(--text-default);
 
 }
+
+/* A COMPLETED ACTIVITY'S CONTENT IS DEACTIVATED: every word is in the Completed grey (what the owner sees is a card that is done), and a ticked box is grey, not blue.
+   Its Completed row is the card's own live control, so it keeps the card's ink and the blue tick. */
+.business-capability-activity-completed {
+
+    /* What is done and deactivated: the Completed grey, dimmed towards the card's ground (an inactive control is exempt from the 4.5:1). */
+    --completed-dim: color-mix(in srgb, var(--text-completed-ink) 55%, var(--bg-completed-card));
+
+}
+
+.business-capability-activity-completed :is(*):not(.business-capability-done, .business-capability-done *, svg, path) {
+
+    color: var(--completed-dim) !important;
+
+    -webkit-text-fill-color: var(--completed-dim) !important;
+
+}
+
+.business-capability-activity-completed input[type="checkbox"]:checked:not(.business-capability-done input) {
+
+    background-color: var(--completed-dim);
+
+    opacity: 1;
+
+}
+
+.business-capability-activity-completed input[type="checkbox"]:disabled:not(.business-capability-done input) {
+
+    opacity: 1;
+
+}
