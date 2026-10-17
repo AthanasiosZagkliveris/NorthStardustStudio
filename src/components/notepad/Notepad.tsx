@@ -1,10 +1,12 @@
-import { KeyboardEvent, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
+import { KeyboardEvent, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { NotepadService, type Note, type NoteLink } from "../../services/NotepadService";
 import { UndoService } from "../../services/UndoService";
 import { markFieldsHot } from "./NotedHover";
 import { OrganizationService } from "../../services/OrganizationService";
+import { CardNotesService } from "../../services/CardNotesService";
+import ResponsibilityFilter from "../interview/ResponsibilityFilter.tsx";
 import { parseFieldKey, registeredFields } from "../../framework/engine/FieldKeys";
 import { consumeKey } from "../interview/consumeKey";
 import DateCellInput, { isoToDisplay } from "../interview/DateCellInput";
@@ -465,6 +467,8 @@ export function NotepadPanel() {
                 </button>
             </div>
 
+            <CardNotes />
+
             {notes.length === 0
                 ? <p className="notepad-empty">No notes yet. Add one, and link it to any page, card or field.</p>
                 : (
@@ -614,6 +618,68 @@ export function NotepadPicker() {
         <div className="notepad-pick-banner" role="status">
             Click a field or card to link it · Esc to cancel
         </div>
+    );
+
+}
+
+/** The event a card is asked for by (SectionTiles.tsx, OPEN_EVENT): the same string, so this file need not import the tiles. */
+const OPEN_CARD_EVENT = "section-tiles:open";
+
+/**
+ * THE CARD NOTES: the Notes text of every card of the organization, one row each (the card's name, the page it stands on, the text), under a funnel that chooses
+ * which pages to show. A press opens the card on its page.
+ */
+function CardNotes() {
+
+    const organizationId = OrganizationService.getSelected() ?? "";
+    const navigate = useNavigate();
+    const [open, setOpen] = useState(false);
+    const [off, setOff] = useState<ReadonlySet<string>>(new Set());
+    const all = useMemo(() => organizationId ? CardNotesService.collect(organizationId) : [], [organizationId, open]);
+    const pages = [...new Set(all.map(note => note.page))];
+    const shown = all.filter(note => !off.has(note.page));
+
+    if (all.length === 0) {
+        return null;
+    }
+
+    return (
+        <section className="notepad-group notepad-card-notes" aria-label="Card notes">
+            <div className="notepad-card-notes-head">
+                <button type="button" className="notepad-group-head" aria-expanded={open} onClick={() => setOpen(current => !current)}>
+                    <span className="notepad-group-name">Card notes</span>
+                    <span className="notepad-group-count">{shown.length}</span>
+                </button>
+                {open && pages.length > 1 && (
+                    <ResponsibilityFilter
+                        off={off}
+                        options={pages}
+                        label="Choose the pages whose card notes show"
+                        onToggle={(page) => setOff(current => { const next = new Set(current); if (!next.delete(page)) { next.add(page); } return next; })}
+                    />
+                )}
+            </div>
+            {open && (
+                <div className="notepad-group-notes">
+                    {shown.map(note => (
+                        <button
+                            key={note.cardId}
+                            type="button"
+                            className="notepad-card-note"
+                            title={"Open " + note.name}
+                            onClick={() => places().then(module => {
+                                module.openLink(navigate, { organizationId, kind: "page", systemNumber: note.systemNumber, sectionNumber: note.sectionNumber, label: note.page, place: "", id: note.cardId });
+                                window.setTimeout(() => document.dispatchEvent(new CustomEvent(OPEN_CARD_EVENT, { detail: { card: note.cardId } })), 900);
+                            })}
+                        >
+                            <span className="notepad-card-note-name">{note.name}</span>
+                            <span className="notepad-card-note-page">{note.page}</span>
+                            <span className="notepad-card-note-text">{note.text}</span>
+                        </button>
+                    ))}
+                </div>
+            )}
+        </section>
     );
 
 }

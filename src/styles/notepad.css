@@ -742,3 +742,70 @@ html.notepad-picking [data-pick-hover] {
 }
 
 .notepad-panel .date-cell{ width:auto; }
+
+/* THE CARD NOTES under the notes: a head with its count and the funnel, then one button for each card (its name, its page, its text in three lines at most). */
+.notepad-card-notes-head {
+
+    display: flex;
+    align-items: center;
+    gap: var(--gap-8);
+
+}
+
+.notepad-card-notes-head > .notepad-group-head {
+
+    flex: 1 1 auto;
+
+}
+
+.notepad-card-note {
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--gap-4);
+
+    width: 100%;
+    padding: var(--gap-8) var(--gap-12);
+
+    border: 1px solid var(--box-border);
+    border-radius: var(--radius-md);
+    background: none;
+
+    color: var(--text-default);
+    text-align: left;
+    cursor: pointer;
+
+}
+
+.notepad-card-note:hover,
+.notepad-card-note:focus-visible {
+
+    border-color: var(--line-primary);
+
+}
+
+.notepad-card-note-name {
+
+    font-weight: 600;
+
+}
+
+.notepad-card-note-page {
+
+    font-size: var(--font-small);
+
+    color: var(--text-muted);
+
+}
+
+.notepad-card-note-text {
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+
+    font-size: var(--font-small);
+
+}

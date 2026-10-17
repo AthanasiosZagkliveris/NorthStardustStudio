@@ -12,8 +12,11 @@ export const RESPONSIBILITY_FILTER_OPTIONS = ["Infrastructure", "Offerings", "Ac
 export default function ResponsibilityFilter({
     off,
     onToggle,
-    label
+    label,
+    options = RESPONSIBILITY_FILTER_OPTIONS
 }: {
+    /** The choices (a founder's Responsibilities by default). */
+    options?: readonly string[];
     /** The options ticked off. */
     off: ReadonlySet<string>;
     onToggle: (option: string) => void;
@@ -96,7 +99,7 @@ export default function ResponsibilityFilter({
 
             {open && (
                 <div className="responsibility-filter-panel" role="group" aria-label={label}>
-                    {RESPONSIBILITY_FILTER_OPTIONS.map(option => (
+                    {options.map(option => (
                         <label key={option} className="responsibility-filter-option">
                             <input type="checkbox" checked={!off.has(option)} onChange={() => onToggle(option)} />
                             <span>{option}</span>

@@ -42,5 +42,5 @@ The four add up to 183: 7 + 87 + 75 + 14. The notes of category 3 are 58 in floa
 - **List line**: one row by default, everywhere (the channel card's action lines too); a longer text grows it.
 - **Note**: every optional text (Description / Relevant Information, Usage, Notes) is labelled **Notes**; the keys under it do not change.
 - **Long text**: eight rows by default (a tile's text, the strategy statements); the Value Proposition keeps the height its column needs.
-- **Not built yet**: all notes gathered under the Notes button, with a funnel in its side window, as a summary of every card's Notes.
+- **Card notes**: the Notes panel lists every card's Notes (name, page, text) under a funnel that chooses the pages; a press opens the card (`CardNotesService.ts`).
 - **Record time**: each floating card shows "Recorded <date> <time>" under it, as a note does (kept per organization in the browser, set the first time the card is made or opened).
