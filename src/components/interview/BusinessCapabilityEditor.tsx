@@ -973,7 +973,7 @@ export default function BusinessCapabilityEditor({
         const total = offeringSharesTotal(current, shares);
         const inUnits = offeringSharesInUnits(shares);
         return (
-            <BusinessField label="Linked to" className="business-offering-field">
+            <BusinessField label="Offerings" className="business-offering-field">
                 {/* With several Offerings: what the shares count in -- Units (each starts at 1) or 100% (each starts equal). */}
                 {offeringChoices.length > 0 && current.length > 1 && (
                     <div className="business-offering-mode" role="radiogroup" aria-label={name + " shares count in"}>
@@ -997,7 +997,7 @@ export default function BusinessCapabilityEditor({
                                 checked={!inUnits}
                                 onChange={() => onNext({ offeringIds: current, offeringShares: equalOfferingShares(current) })}
                             />
-                            <span>100%</span>
+                            <span>%</span>
                         </label>
                     </div>
                 )}

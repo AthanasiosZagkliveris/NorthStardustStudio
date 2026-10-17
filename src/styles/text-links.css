@@ -66,3 +66,8 @@
 .business-capability-responsibility-line-done > .business-capability-responsibility-link:not(:hover):not(:focus-visible) {
     color: var(--text-muted);
 }
+
+/* A completed card is deactivated: its links are grey until the pointer is on them. */
+.business-capability-activity-completed :is(.business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):not(:hover):not(:focus-visible) {
+    color: var(--text-completed-ink);
+}

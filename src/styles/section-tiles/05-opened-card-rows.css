@@ -144,7 +144,7 @@
 
 .business-capability-activity[data-frozen] .business-capability-frozen :is(.strategy-box-remove, .plus-box):disabled {
 
-    opacity: 1;
+    opacity: .55;
 
     color: var(--text-completed-ink);
 
@@ -516,3 +516,37 @@
 
 }
 
+
+/* A COMPLETED ACTIVITY'S CARD IS GREY WHEREVER IT FLOATS OR IS OPENED, whatever hue its tile gives the other cards (the rules of the opened and floating cards,
+   which tint a card by its tile, are outranked by the name of the class and the card's own). What it holds looks deactivated -- the fields flat, the
+   labels, links and boxes in the Completed grey -- except its Completed row, which is the card's own control. */
+.business-capability-activity.business-capability-activity-completed.business-capability-slot {
+
+    border-color: var(--line-completed);
+
+    background: var(--bg-completed-card);
+
+    --glow-color: var(--line-completed);
+
+}
+
+.business-capability-activity-completed :is(.plus-box, .date-cell, .month-picker, .business-link-symbol, .responsibility-filter) {
+
+    --plus-fill: var(--text-completed-ink);
+    --plus-ground: var(--bg-completed-ground);
+
+}
+
+.business-capability-activity-completed .field-label,
+.business-capability-activity-completed .business-foundation-label {
+
+    color: var(--text-completed-ink);
+
+}
+
+.business-capability-activity-completed .business-capability-done,
+.business-capability-activity-completed .business-capability-done > span {
+
+    color: var(--text-default);
+
+}

@@ -1117,3 +1117,44 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
 }
 
+
+/* ---- THE STYLE PAGE'S MASTER TILES: one gap under the title's rule, the blocks as tiles ----
+   What a tile pictures (the colours, the typefaces, the icon, the images) starts under the rule of its title, 12px down as a list does, not centred in what
+   is left; a tile with a "+" keeps its picture above the "+" box. The colour and image blocks are tiles themselves: the inset light and shade, no frame. */
+.section-tile-picture:has(> :is(.brand-mosaic, .brand-specimens, .brand-tile-icon)) {
+
+    place-items: start center;
+    align-content: start;
+
+}
+
+.brand-mosaic,
+.brand-mosaic.brand-mosaic-images {
+
+    align-content: start;
+
+    padding: 0;
+
+    height: auto;
+
+}
+
+.brand-specimens {
+
+    justify-content: flex-start;
+
+    height: auto;
+
+}
+
+.section-tile-slot-plus .section-tile-picture {
+
+    margin-bottom: calc(var(--plus-size) + 5px);
+
+}
+
+.brand-mosaic > span {
+
+    box-shadow: var(--box-inset);
+
+}

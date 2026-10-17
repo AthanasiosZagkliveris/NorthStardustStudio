@@ -1,6 +1,14 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render as renderBase, screen } from "@testing-library/react";
+import { openFolds } from "../../test/openFolds.ts";
+
+/** The page as it opens, its structural sections opened (every fold arrow starts closed: see openFolds). */
+function render(ui: Parameters<typeof renderBase>[0], options?: Parameters<typeof renderBase>[1]) {
+    const result = renderBase(ui, options);
+    openFolds(result.container);
+    return result;
+}
 
 import BusinessEngagementEditor from "./BusinessEngagementEditor";
 import {

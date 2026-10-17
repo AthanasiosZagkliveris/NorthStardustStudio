@@ -314,6 +314,7 @@ A 24px symbol that stands beside a chosen dropdown option and opens the card tha
 - **Default look:** height 24, width 24, type 0 (symbol, no text), corners 0px, padding 0/0, border 0, found 72
   - 24px, by the owner's decision (owner, 2026-10-16); found 72 times in the card tables (the link symbol rows); it stands between the dropdown and the plus box.
   - the symbol today is the emoji 🔗, which looks different on every platform; no proper icon exists in the app yet. To do: a 24px chain-link drawn in the text colour (an SVG), in place of the emoji; the calendar symbol 📅 of the date cell is an emoji in the same way.
+  - decided 2026-10-17 (owner): the symbol is a drawn chain (an SVG, 24px), not an emoji, in the tone of the card it stands in (the + box's tone); under the pointer or the keyboard it is 20% larger about its centre, and the box it stands in does not change, so nothing moves.
 
 ### BTN.008 text toggle
 
@@ -387,6 +388,7 @@ A square box with a tick, 24px. Only the box is the component; the words beside 
   - decided 2026-10-16 (owner): the tick box is 24px with rounded corners of 4px, drawn by the app (not the browser's box); the check is white on the fill.
   - line corrected 2026-10-16: the drawn tick box has a 2px line in the text colour (the fill when ticked).
   - decided 2026-10-16 (owner): the tick box has a text input's look: no visible stroke (a 1px transparent line), the recessed inset, the soft glow under the pointer and the ring when active; ticked it is filled with the app's blue with a white check in its exact centre; no bold on hover.
+  - decided 2026-10-17 (owner): ticked, the box is flat (the fill and the check, no inner light or shade); under the pointer it takes a field's soft glow, with no wire drawn on it.
 - **Catalogue:** CO11
 
 ### TXT.001 text box
@@ -486,6 +488,7 @@ A square swatch that opens the colour picker of the browser, 44 by 44px, dashed 
   - decided 2026-10-16 (owner): the cell is a square (44px) with rounded corners, and the colour in it is a square with rounded corners (one step smaller).
   - decided 2026-10-16 (owner): the colour is a 32px square with rounded corners INSIDE the hex cell at its right end, 6px from the top, bottom and right (as the date cell's calendar button); an x beside the cell, in the card's x column, clears the colour.
   - size corrected 2026-10-16: the colour is a 32 by 32px box inside the 44px hex cell (the 44px square cell it was is now the hex cell).
+  - decided 2026-10-17 (owner): the colour picker opens a card of the app's own (a square of shades, the hue bar and the R, G and B numbers) on the ground of the card, with the calendar card's corners and closing; the box has no frame.
 - **Requires:** TXT.001 (the hex holder beside the swatch)
 
 ### IMG.001 image holder
@@ -879,7 +882,7 @@ The Channel card: a floating card with 7 common fields in a fixed order and 8 ki
 | FLD.051 | Extra: Service charge | VAR005, VAR006, VAR008 | TXS.001 (the label of the field); TIK.001 (tick); TXT.WHL.001.003 (number) | 2 | F060 |
 | FLD.052 | Extra: Commercial property tax | VAR005, VAR006, VAR008 | TXS.001 (the label of the field); TIK.001 (tick); TXT.WHL.001.003 (number) | 2 | F061 |
 | FLD.053 | Extra: Road tax | VAR005, VAR006, VAR008 | TXS.001 (the label of the field); TIK.001 (tick); TXT.WHL.001.003 (number) | 2 | F062 |
-| FLD.054 | Linked to | VAR005, VAR006, VAR008 | TXS.001 (the label of the field); TIK.001 (one tick per entry); TXT.SQR.001.005 (the share of each ticked entry) | 29 | F063 |
+| FLD.054 | Linked Offerings | VAR005, VAR006, VAR008 | TXS.001 (the label of the field); TIK.001 (one tick per entry); TXT.SQR.001.005 (the share of each ticked entry) | 29 | F063 |
 | FLD.055 | Rate override | VAR005, VAR006, VAR008 | TXS.001 (the label of the field); TXT.SQR.001.005 (number) | 2 | F064 |
 | FLD.056 | Amortisation period | VAR005, VAR006, VAR008 | TXS.001 (the label of the field); TXT.SQR.001.005 (number) | 1 | F065 |
 | FLD.057 | Extra: Minimum order | VAR005, VAR006, VAR008 | TXS.001 (the label of the field); TIK.001 (tick); TXT.WHL.001.003 (number) | 1 | F066 |

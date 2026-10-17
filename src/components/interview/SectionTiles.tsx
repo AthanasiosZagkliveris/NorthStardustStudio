@@ -871,6 +871,35 @@ export default function SectionTiles({
     const floatingTile = floating ? tiles.find(tile => tile.id === floating.tileId) ?? null : null;
     const floatingCard = floating && floatingTile?.cardFor ? floatingTile.cardFor(floating.id) : null;
 
+    // The button last pressed, kept so that a card opened from a dialog's box knows which box it was.
+    const lastPressed = useRef<HTMLElement | null>(null);
+    useEffect(() => {
+        const press = (event: MouseEvent) => {
+            lastPressed.current = (event.target as HTMLElement | null)?.closest?.<HTMLElement>("button, [role=button]") ?? null;
+        };
+        document.addEventListener("click", press, true);
+        return () => document.removeEventListener("click", press, true);
+    }, []);
+
+    // THE TILE THAT OPENED A CARD stands out while the card is open: a steady halo in the card's tint (the incomplete card's glow, not flashing), and a link
+    // that opened it is bold.
+    const openerHue = floatingTile?.channel || (floating && floatingTile?.isChannelCard?.(floating.id)) ? CHANNEL_TILE_HUE : hue;
+    const openerEl = floating?.pressed?.isConnected ? floating.pressed : floating?.opener ?? null;
+    useEffect(() => {
+        if (!openerEl || !openerEl.isConnected) {
+            return;
+        }
+        const tile = openerEl.closest<HTMLElement>(".section-tile") ?? openerEl.closest(".section-tile-slot")?.querySelector<HTMLElement>(".section-tile") ?? null;
+        tile?.setAttribute("data-opener-tile", "");
+        tile?.style.setProperty("--opener-hue", String(openerHue));
+        openerEl.setAttribute("data-opener", "");
+        return () => {
+            tile?.removeAttribute("data-opener-tile");
+            tile?.style.removeProperty("--opener-hue");
+            openerEl.removeAttribute("data-opener");
+        };
+    }, [openerEl, openerHue]);
+
     // THE CAROUSEL: the arrows beside the layer opened last. A floating card goes through the cards of its tile (or of its box, where it was opened from one); a
     // dialog goes through the tiles of the section, the ones that have something to open (a tile of none would make a blank card).
     const boxCards = floating && floatingTile ? Object.values(floatingTile.boxHolds ?? {}).find(ids => ids.includes(floating.id)) : undefined;
@@ -1002,7 +1031,7 @@ export default function SectionTiles({
                         const from = opener.current ?? document.body;
                         openedByPointer.current = pointer;
                         open.opening?.();
-                        setFloating({ tileId: open.id, id, opener: from, anchor: otherColumn(sectionAnchor(from)), fresh, caption, remover });
+                        setFloating({ tileId: open.id, id, opener: from, pressed: lastPressed.current, anchor: otherColumn(sectionAnchor(from)), fresh, caption, remover });
                     } : null}
                 />
             )}
@@ -1052,6 +1081,8 @@ interface FloatingOpen {
     id: string;
     /** The control that opened it: the focus returns to it. */
     opener: HTMLElement;
+    /** The button pressed to open it where that was inside a dialog (a card's box): the one that carries the halo while the card is open. */
+    pressed?: HTMLElement | null;
     /** What it is centred over. */
     anchor: HTMLElement | null;
     /** Opened by pressing a LINK (a tile's link line, a card's link symbol) rather than its own tile or box: a linked pair is then drawn together. */

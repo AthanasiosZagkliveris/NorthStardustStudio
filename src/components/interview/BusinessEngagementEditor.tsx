@@ -853,15 +853,15 @@ export default function BusinessEngagementEditor({
     /** The cards folded away, by key. Not stored with the answer:
      *  which cards a reader has closed is how they are looking at
      *  the page, not part of what they have said. */
-    const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
+    const [expanded, setExpanded] = useState<ReadonlySet<string>>(new Set());
 
     /**
      * Which reference headers, Offering reference entries, Channel
      * Categories, per-Offering relationship blocks, Demand &
      * Conversion blocks and Engagement Strategy Journey Stage bands are
      * open. These start CLOSED -- see useItemFolds -- unlike the
-     * structural sections and per-type folds around them, which stay
-     * on `collapsed` and so start open.
+     * structural sections and per-type folds around them, which are on
+     * `expanded` and start closed too (every fold arrow starts closed).
      */
     const folds = useItemFolds();
 
@@ -900,7 +900,7 @@ export default function BusinessEngagementEditor({
     }
 
     function toggle(key: string) {
-        setCollapsed(current => toggledIn(current, key));
+        setExpanded(current => toggledIn(current, key));
     }
 
     /* ---------- Reading and writing one Segment's answer ---------- */
@@ -1516,7 +1516,7 @@ export default function BusinessEngagementEditor({
         titleExtra?: ReactNode
     ) {
 
-        const open = !collapsed.has(key);
+        const open = expanded.has(key);
 
         return (
             <div
@@ -1571,7 +1571,7 @@ export default function BusinessEngagementEditor({
         }
 
         const key = segment.id + "-channel-resources";
-        const open = !collapsed.has(key);
+        const open = expanded.has(key);
 
         return (
             <div className="business-engagement-section business-channel-resources-section" data-anchor={"engagement-section-" + key}>
@@ -4047,7 +4047,7 @@ export default function BusinessEngagementEditor({
 
                 const key = "engagement-" + segment.id;
 
-                const open = !collapsed.has(key);
+                const open = expanded.has(key);
 
                 const segmentArrow = (
                     <FoldArrow

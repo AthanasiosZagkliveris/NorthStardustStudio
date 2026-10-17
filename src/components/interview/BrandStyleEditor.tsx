@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useLayoutEffect, useRef, useState } from "react";
 
+import ColourPicker from "./ColourPicker.tsx";
 import {
     BRAND_COLOUR_SLOTS,
     BRAND_HIERARCHY_LEVELS,
@@ -673,13 +674,11 @@ export default function BrandStyleEditor({
                                             onChange={(event) => updateColour(index, { hex: limitedHexText(event.target.value, colour.hex) })}
                                         />
 
-                                        <input
-                                            type="color"
-                                            className={`brand-colour-picker${swatch ? "" : " brand-colour-picker-empty"}`}
-                                            aria-label={`${slot.label} colour picker`}
+                                        <ColourPicker
+                                            ariaLabel={`${slot.label} colour picker`}
                                             disabled={disabled}
-                                            value={swatch ?? "#ffffff"}
-                                            onChange={(event) => updateColour(index, { hex: event.target.value })}
+                                            value={swatch ?? ""}
+                                            onChange={(hex) => updateColour(index, { hex })}
                                         />
 
                                     </div>
@@ -948,8 +947,8 @@ export default function BrandStyleEditor({
             },
             picture: colourCards.length > 0
                 ? (
-                    <span className="brand-mosaic" style={{ "--mosaic-across": Math.max(1, Math.ceil(colourCards.length / 2)) } as CSSProperties}>
-                        {inPairs.map((entry, at) => <span key={entry.slot.id} data-card={colourId(entry.slot.id)} style={{ transformOrigin: inwardOrigin(at, inPairs.length, Math.max(1, Math.ceil(colourCards.length / 2))), background: normalizeHex(style.colours[entry.index].hex) ?? "transparent" }} />)}
+                    <span className="brand-mosaic" style={{ "--mosaic-across": 3 } as CSSProperties}>
+                        {inPairs.map((entry, at) => <span key={entry.slot.id} data-card={colourId(entry.slot.id)} style={{ transformOrigin: inwardOrigin(at, inPairs.length, 3), background: normalizeHex(style.colours[entry.index].hex) ?? "transparent" }} />)}
                     </span>
                 )
                 : <span className="section-tile-picture-colour section-tile-picture-colour-empty">No colours yet</span>,

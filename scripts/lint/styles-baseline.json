@@ -21,7 +21,17 @@
       "rgba(61, 49, 34, 0.18)": 1
     },
     "conversation.css": {
-      "hsl( var(--strategy-theme-hue, 0) 36% var(--strategy-bar-lightness, 34%) )": 1
+      "#000": 1,
+      "#0006": 2,
+      "#00f": 1,
+      "#0f0": 1,
+      "#0ff": 1,
+      "#f00": 2,
+      "#f0f": 1,
+      "#ff0": 1,
+      "#fff": 2,
+      "hsl( var(--strategy-theme-hue, 0) 36% var(--strategy-bar-lightness, 34%) )": 1,
+      "hsl(var(--colour-hue, 0) 100% 50%)": 1
     },
     "global.css": {
       "#ffffff": 1,

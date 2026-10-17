@@ -781,6 +781,15 @@
 
 }
 
+/* ...except a COMPLETED activity's card: it is grey (the Completed tiles' ground) wherever it floats. */
+.floating-card-host .floating-card-body > .business-capability-activity.business-capability-activity-completed {
+
+    background: var(--bg-completed-card) !important;
+
+    --x-ground: var(--bg-completed-card);
+
+}
+
 /* Demand & Conversion's cells show what they hold: a result wraps rather than runs under the x, a picker is as wide as its value. */
 
 /* THE CURRENCY CELL of a price starts in the column every cell of the card starts in (the Start date's, the Rate override's): its picker is not set in by the 6px its wrapper keeps. */

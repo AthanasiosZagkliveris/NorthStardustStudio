@@ -551,8 +551,8 @@ function ObjectiveList({
 
 }) {
 
-    // The Objectives whose Initiatives are folded shut (the fold arrow before the title).
-    const [foldedInitiatives, setFoldedInitiatives] = useState<readonly string[]>([]);
+    // The Objectives whose Initiatives are open (every fold arrow starts closed).
+    const [expandedInitiatives, setExpandedInitiatives] = useState<readonly string[]>([]);
 
     const ids = objectives.map(entry => entry.id);
 
@@ -826,16 +826,16 @@ function ObjectiveList({
                                         <div className="strategy-box-head">
                                             <span className="strategy-box-number">
                                                 <LabelArrow
-                                                    open={!foldedInitiatives.includes(objective.id)}
-                                                    label={`${foldedInitiatives.includes(objective.id) ? "Maximize" : "Minimize"} Objective ${objectiveIndex + 1} initiatives`}
-                                                    onToggle={() => setFoldedInitiatives(current => current.includes(objective.id) ? current.filter(id => id !== objective.id) : [...current, objective.id])}
+                                                    open={expandedInitiatives.includes(objective.id)}
+                                                    label={`${expandedInitiatives.includes(objective.id) ? "Minimize" : "Maximize"} Objective ${objectiveIndex + 1} initiatives`}
+                                                    onToggle={() => setExpandedInitiatives(current => current.includes(objective.id) ? current.filter(id => id !== objective.id) : [...current, objective.id])}
                                                 />
                                                 Initiatives
                                             </span>
                                             <InfoNote label="Initiatives" points={[INITIATIVES_HELP]} />
                                         </div>
 
-                                        {!foldedInitiatives.includes(objective.id) && (
+                                        {expandedInitiatives.includes(objective.id) && (
                                         <NumberedListInput
                                             label={`Objective ${objectiveIndex + 1} initiative`}
                                             items={objective.initiatives}

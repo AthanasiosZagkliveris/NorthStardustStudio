@@ -299,18 +299,18 @@ export default function FinancialSustainabilityEditor({
         "Unnamed offering"
     );
 
-    const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
+    const [expanded, setExpanded] = useState<ReadonlySet<string>>(new Set());
 
     /**
      * Which Revenue Stream cards are open. Revenue streams start
      * CLOSED -- see useItemFolds -- unlike the structural sections
-     * around them, which stay on `collapsed` and so start open.
+     * around them, which stay on `expanded` and start closed too (every fold arrow starts closed).
      */
     const folds = useItemFolds();
 
 
     function toggle(key: string) {
-        setCollapsed(current => toggledIn(current, key));
+        setExpanded(current => toggledIn(current, key));
     }
 
     /*
@@ -604,7 +604,7 @@ export default function FinancialSustainabilityEditor({
                 number={sectionIndex + 1}
                 section={section}
                 hue={SECTION_HUES[id] ?? 0}
-                open={!collapsed.has(id)}
+                open={expanded.has(id)}
                 onToggle={() => toggle(id)}
                 body={body}
                 // The section's own "Expand all", at the far end of its title row.

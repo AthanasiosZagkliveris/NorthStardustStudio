@@ -969,7 +969,8 @@ export const library: Library = {
    "belongs": "Beside a dropdown choice in a card, between the dropdown and the plus box",
    "lookNotes": [
     "24px, by the owner's decision (owner, 2026-10-16); found 72 times in the card tables (the link symbol rows); it stands between the dropdown and the plus box.",
-    "the symbol today is the emoji 🔗, which looks different on every platform; no proper icon exists in the app yet. To do: a 24px chain-link drawn in the text colour (an SVG), in place of the emoji; the calendar symbol 📅 of the date cell is an emoji in the same way."
+    "the symbol today is the emoji 🔗, which looks different on every platform; no proper icon exists in the app yet. To do: a 24px chain-link drawn in the text colour (an SVG), in place of the emoji; the calendar symbol 📅 of the date cell is an emoji in the same way.",
+    "decided 2026-10-17 (owner): the symbol is a drawn chain (an SVG, 24px), not an emoji, in the tone of the card it stands in (the + box's tone); under the pointer or the keyboard it is 20% larger about its centre, and the box it stands in does not change, so nothing moves."
    ]
   },
   {
@@ -1529,7 +1530,8 @@ export const library: Library = {
     "the box with its words is a field, not a component (the owner, owner, 2026-10-16): the words are a label.",
     "decided 2026-10-16 (owner): the tick box is 24px with rounded corners of 4px, drawn by the app (not the browser's box); the check is white on the fill.",
     "line corrected 2026-10-16: the drawn tick box has a 2px line in the text colour (the fill when ticked).",
-    "decided 2026-10-16 (owner): the tick box has a text input's look: no visible stroke (a 1px transparent line), the recessed inset, the soft glow under the pointer and the ring when active; ticked it is filled with the app's blue with a white check in its exact centre; no bold on hover."
+    "decided 2026-10-16 (owner): the tick box has a text input's look: no visible stroke (a 1px transparent line), the recessed inset, the soft glow under the pointer and the ring when active; ticked it is filled with the app's blue with a white check in its exact centre; no bold on hover.",
+    "decided 2026-10-17 (owner): ticked, the box is flat (the fill and the check, no inner light or shade); under the pointer it takes a field's soft glow, with no wire drawn on it."
    ],
    "group": "HOLD.TIK",
    "kind": "Tick box: yes or no",
@@ -1923,7 +1925,8 @@ export const library: Library = {
     "the swatch with its hex holder and label is a field, not a component (the owner, owner, 2026-10-16).",
     "decided 2026-10-16 (owner): the cell is a square (44px) with rounded corners, and the colour in it is a square with rounded corners (one step smaller).",
     "decided 2026-10-16 (owner): the colour is a 32px square with rounded corners INSIDE the hex cell at its right end, 6px from the top, bottom and right (as the date cell's calendar button); an x beside the cell, in the card's x column, clears the colour.",
-    "size corrected 2026-10-16: the colour is a 32 by 32px box inside the 44px hex cell (the 44px square cell it was is now the hex cell)."
+    "size corrected 2026-10-16: the colour is a 32 by 32px box inside the 44px hex cell (the 44px square cell it was is now the hex cell).",
+    "decided 2026-10-17 (owner): the colour picker opens a card of the app's own (a square of shades, the hue bar and the R, G and B numbers) on the ground of the card, with the calendar card's corners and closing; the box has no frame."
    ],
    "kind": "Colour chooser: a swatch",
    "belongs": "Brand: Colours card"
@@ -3929,9 +3932,9 @@ export const library: Library = {
   },
   {
    "code": "FLD.054",
-   "name": "Linked to",
+   "name": "Linked Offerings",
    "category": "field",
-   "summary": "The Linked to field: a label and tick list (+ number).",
+   "summary": "The Offerings field of a card (its label says Offerings): a label and tick list (+ number); with several Offerings the shares count in Units or in %.",
    "variables": [
     "VAR005",
     "VAR006",

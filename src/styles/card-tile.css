@@ -338,3 +338,22 @@ button.card-tile-symbol[aria-pressed="true"] {
     }
 
 }
+
+/* THE TILE THAT OPENED A CARD, while the card is open (SectionTiles.tsx sets data-opener-tile, in the card's hue): the incomplete card's glow, steady and in the
+   card's tint; the link that opened it is bold. */
+.section-tile[data-opener-tile] {
+
+    --opener-tone: hsl(var(--opener-hue, 0) var(--plus-fill-saturation, 60%) var(--plus-fill-lightness, 40%));
+
+    /* (Over the tile's own reactions: the pointer is usually still on it.) */
+    box-shadow: var(--box-inset), 0 0 0 2px var(--opener-tone), 0 0 12px 3px color-mix(in srgb, var(--opener-tone) 55%, transparent) !important;
+
+}
+
+[data-opener].section-tile-link,
+.section-tile-link[data-opener] {
+
+    text-shadow: var(--hover-bold);
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
