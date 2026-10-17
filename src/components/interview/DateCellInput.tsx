@@ -161,6 +161,29 @@ export default function DateCellInput({
 
     }, [value, format]);
 
+    // A date field shows the current day by default: an empty one takes today (or the nearest day it allows) when it appears.
+    useEffect(() => {
+
+        if (value || disabled) {
+            return;
+        }
+
+        const now = new Date();
+        let day = isoOf(now.getFullYear(), now.getMonth() + 1, now.getDate());
+
+        if (max && day > max) {
+            day = max;
+        }
+
+        if (min && day < min) {
+            day = min;
+        }
+
+        onChange(day);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     useEffect(() => {
 
         if (!open) {
@@ -240,8 +263,6 @@ export default function DateCellInput({
 
     }
 
-    const today = new Date();
-    const todayIso = isoOf(today.getFullYear(), today.getMonth() + 1, today.getDate());
 
     // Monday first: the weekday of the 1st, then the days of the month.
     const lead = (new Date(shown.year, shown.month - 1, 1).getDay() + 6) % 7;
@@ -250,6 +271,9 @@ export default function DateCellInput({
         ...Array.from({ length: lead }, () => null),
         ...Array.from({ length: days }, (_entry, index) => index + 1)
     ];
+
+    const todayNow = new Date();
+    const todayIso = isoOf(todayNow.getFullYear(), todayNow.getMonth() + 1, todayNow.getDate());
 
     const refused = (iso: string) => !!((max && iso > max) || (min && iso < min));
 
@@ -307,7 +331,7 @@ export default function DateCellInput({
 
             {open && (
 
-                <div ref={panelRef} className="date-cell-popup" style={free ? { ...panelStyle, width: "max-content", minWidth: cellRef.current?.getBoundingClientRect().width, maxWidth: "min(560px, 92vw)" } : panelStyle} role="dialog" aria-label="Calendar">
+                <div ref={panelRef} className="date-cell-popup" style={panelStyle} role="dialog" aria-label="Calendar">
 
                     <div className="date-cell-popup-head">
 
@@ -356,12 +380,6 @@ export default function DateCellInput({
 
                     </div>
 
-                    <div className="date-cell-popup-foot">
-
-                        <button type="button" className="date-cell-popup-action" disabled={refused(todayIso)} onClick={() => choose(todayIso)}>Today</button>
-                        <button type="button" className="date-cell-popup-action" onClick={() => choose("")}>Clear</button>
-
-                    </div>
 
                 </div>
 

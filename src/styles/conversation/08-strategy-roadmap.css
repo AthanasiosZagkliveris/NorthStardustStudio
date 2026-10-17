@@ -800,7 +800,6 @@
 .strategy-box-action:hover:not(:disabled),
 .strategy-box-toggle:hover,
 .strategy-sort-option:hover,
-.month-picker-trigger:hover:not(:disabled),
 .roadmap-bar:hover{
 
     text-shadow:var(--hover-bold);

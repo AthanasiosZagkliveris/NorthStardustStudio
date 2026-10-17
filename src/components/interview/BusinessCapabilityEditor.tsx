@@ -1137,6 +1137,7 @@ export default function BusinessCapabilityEditor({
                             label={what + " currency"}
                             placeholder="Code"
                             options={CURRENCY_CODES}
+                            currency
                             searchable
                             searchPlaceholder="Type"
                             searchAliases={CURRENCY_SEARCH_ALIASES}
@@ -2685,7 +2686,7 @@ export default function BusinessCapabilityEditor({
     ) {
         const counted: Record<string, string> = {
             "monthly": "a month", "annually": "a year", "one-time": "", "per-unit": "each", "per-project": "a shipment",
-            "percent-revenue": "% of revenue", "percent-cost": "% of cost"
+            "percent-revenue": "% of Rev", "percent-cost": "% of cost"
         };
         return keys.map(key => {
             const definition = BUSINESS_EXTRAS[key];

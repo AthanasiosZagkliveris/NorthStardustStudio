@@ -857,6 +857,6 @@ Minimum-order floor, customs and other duty lines, percentage commission/bonus e
 ## 30.7 Batch J additions
 
 - **Dates place the cost.** A card's Start date puts a one-time cost in its month, starts a recurring one (monthly, quarterly, annually) in that month, and its End date stops it; a Per project card with a Start date or a plan is one dated payment.
-- **A rate is shown as a rate**: a Percentage cost (a payment fee, a royalty, a commission) reads "4%" under "Amount" and "% of revenue" under Frequency, never as money.
+- **A rate is shown as a rate**: a Percentage cost (a payment fee, a royalty, a commission) reads "4%" under "Amount" and "% of Rev" under Frequency, never as money.
 - **Rate and floor extras**: Customs duty and Other duties add a line of the goods' own kind (price times the rate); a person's Commission is a calculated line of the revenue it follows; a Minimum order makes a month's purchases at least that many units, the excess carried as stock.
 - **The examples** (Lumen & Loom, Quillfield) are in the current structure: every card in its category and group, dated, linked to its Offerings, with their suppliers, activities, Opening Date and Global Settings.

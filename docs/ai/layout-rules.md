@@ -69,7 +69,7 @@ below are these, made measurable.
 | `--section-tile-min` | 120px | the smallest a section tile gets: a group too narrow for three of them wraps to fewer across |
 | `--control-xs` | 80px | XS width step |
 | `--control-code` | 128px | Code width step |
-| `--control-date` | 212px | Date width step |
+| `--control-date` | 160px | Date width step |
 | `--control-s` | 220px | S width step |
 | `--control-m` | 300px | M width step |
 | `--control-l` | 420px | L width step |
@@ -1245,7 +1245,7 @@ differs.
 - **A card in a dialog, opened** (a card box pressed) is centred and `--open-card-width` (480px) wide, not stretched across the dialog.
 - **A page tile at 150%** (hover or focus) overlaps its neighbours (declared): it is above them (`z-index: 6`) and inside its card's body; the check scales each one and measures it.
 - **Pickers whose list is wider than their cell** (opened cards): the rule that a picker is as wide as its longest option, and shows its whole text, has these named exceptions besides the Status picker. A supplier or partner cascade's Group and Name pickers (a group name such as "Landlords, Leasing & Warehouses" is 322px with its padding; a name the user gave is any length), an activity's Performer pickers (a person's name and role, or a partner's), and the Group picker of a Resource, Partner or Provider card. Each is as wide as its 212px cell and ends in an ellipsis there; the whole text is in its list, its tooltip and its accessible name. The check skips them by their accessible name ("... supplier group: ...", "... supplier: ...", "... performer N: ...", "... group: ...").
-- **The cost row's Frequency column** (a card with no group yet offers all seven frequencies, "% of revenue" the longest, 148px): the column gives way to the room left (`minmax(0, max-content)`), so the Frequency ends at the name cell's right edge, up to 16px narrower. A Per unit price with a Unit picker puts the Frequency and the Unit together under the row (`:has(.business-capability-frequency-unit)`), the currency keeping its place.
+- **The cost row's Frequency column** (a card with no group yet offers all seven frequencies, "% of Rev" the longest, 148px): the column gives way to the room left (`minmax(0, max-content)`), so the Frequency ends at the name cell's right edge, up to 16px narrower. A Per unit price with a Unit picker puts the Frequency and the Unit together under the row (`:has(.business-capability-frequency-unit)`), the currency keeping its place.
 - **An activity's Responsible stack**, which has no Performer list and so no x, has two columns and ends at the name cell's right edge (the Performer's stack keeps its third, the x's).
 
 ## 8a. Added on 2026-10-14: tracking and the label arrow
@@ -1376,12 +1376,12 @@ Today: the chapter titles of 3. Infrastructure & Capability (right of the title 
 - **The cost row**: the currency cell is 66px (its left edge stays at the label column), the Frequency takes the rest of the row, to the content's right edge.
 - A side-label cell (Category, Group, Responsible, Status) keeps its one fixed width and one line; a sole-option Group stays a disabled cell like the Category's, never plain text.
 - Linked resources of an activity: one line each (name left, cost right), "no price yet" where none; the Total ends the list. Rate override is optional (a tick).
-- Payment plan rows: [amount (what is left)] [percent: a 44px square, right-aligned] [the date cell, 212px]; 12px between cells; a milestone's name runs the card's name cell with its "+" in the x column. The date cell is 212px everywhere (the Start date cell).
+- Payment plan rows: [amount (what is left)] [percent: a 44px square, right-aligned] [the date cell, 160px]; 12px between cells; a milestone's name runs the card's name cell with its "+" in the x column. The date cell is 160px everywhere (the Start date cell).
 - A requirement ticked "Add to Legal Entity Expenses" makes one expense (named as it is, text-link name, no Linked registration); the two open together, the requirement above. A linked registration number carries its link symbol inside the right of its cell.
 - Activity costs: the partners and suppliers named as Performers are costed after the last performer; a rule stands over the Total.
 - Customer Engagement: "Channel" is the old Channel Category and "Subchannel" the old channel; "Channel expenses" (was Channel resources) has Cost (currency in its heading), Frequency, and a Channel column of channel / rule / subchannel.
 - Customer Relationship: per relationship type a block (type beside its label, Purpose, then the Engagement Strategy with the stages side by side, each Goal with its ticks under the label); "+ Add Relationship Type" follows the last block.
-- Channel expenses: "Channel Expense" column; a percentage's symbol is in the Frequency column ("% of revenue") and its behaviour is Variable; several subchannels are a bullet list; actions two to a row.
+- Channel expenses: "Channel Expense" column; a percentage's symbol is in the Frequency column ("% of Rev") and its behaviour is Variable; several subchannels are a bullet list; actions two to a row.
 - **A channel opens as tiles of its subchannels**, each opening a card with the table of that one subchannel (1300px or more wide, the width the table needs).
 - **A subchannel's card** names the subchannel in its table head ("Instagram"); its channel's row and the "+ Add Subchannel" row are not drawn; its x removes it.
 - **Goal & Approach** are one title with an "i" beside each word; the Engagement Strategy has no row of labels.

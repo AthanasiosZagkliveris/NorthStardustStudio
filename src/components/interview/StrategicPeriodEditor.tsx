@@ -1082,6 +1082,7 @@ function MetricList({
                                                 label={`Metric ${metricIndex + 1} currency`}
                                                 placeholder="Code"
                                                 options={CURRENCY_CODES}
+                                                currency
                                                 searchable
                                                 searchAliases={CURRENCY_SEARCH_ALIASES}
                                                 disabled={disabled}

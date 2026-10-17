@@ -134,10 +134,6 @@ export default function MonthYearPicker({
         setOpen(false);
     }
 
-    const now = new Date();
-    const thisMonth = now.getMonth() + 1;
-    const thisYear = now.getFullYear();
-
     const display = isMonthSet(value)
         ? `${MONTH_LABELS[Number(value.month) - 1]} ${value.year}`
         : "Select";
@@ -174,7 +170,7 @@ export default function MonthYearPicker({
                 <div
                     ref={panelRef}
                     className="date-cell-popup"
-                    style={free ? { ...panelStyle, width: "max-content", minWidth: triggerRef.current?.getBoundingClientRect().width, maxWidth: "min(560px, 92vw)" } : panelStyle}
+                    style={panelStyle}
                     role="dialog"
                     aria-label={label}
                 >
@@ -216,11 +212,6 @@ export default function MonthYearPicker({
 
                     </div>
 
-                    <div className="date-cell-popup-foot">
-
-                        <button type="button" className="date-cell-popup-action" disabled={!isAllowed(thisMonth, thisYear)} onClick={() => choose(thisMonth, thisYear)}>This month</button>
-
-                    </div>
 
                 </div>
 

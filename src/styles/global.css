@@ -182,9 +182,11 @@ body {
      size; a founder's capital, "£250,000"), plus the box's padding and
      border. */
   --control-code: 128px;
+  /* A currency code's cell and its list: three letters, the arrow, and the cell's padding. */
+  --control-currency: 84px;
   /* THE DATE step: the width of the one date cell, the day cell and the month cell alike: the widest month and year a month picker
-     shows ("September 2030", 143px at body size), its 10px inset and the room of the 32px calendar button inside the cell. */
-  --control-date: 212px;
+     shows ("September 2030", 143px at body size), the 12px gap before it, 6px, the 32px calendar button and 6px ("00/00/0000", the longest text a date cell shows, is 103px at body size). */
+  --control-date: 160px;
   /* The standard widths of a choice (see ONE CONTROL-SIZING RULE). */
   --control-s: 220px;
   --control-m: 300px;
@@ -719,6 +721,15 @@ body {
 :where(.option-picker[data-size="l"]) { width: min(100%, var(--control-l)); }
 :where(.option-picker[data-size="full"]) { width: 100%; }
 
+/* EVERY CURRENCY PICKER is one size: a cell, and a list, wide enough for a three-letter code ("GBP") and its arrow. */
+.option-picker[data-size="currency"] { width: var(--control-currency); flex: none; }
+
+.option-picker[data-size="currency"] .option-picker-list {
+  width: var(--control-currency);
+  min-width: var(--control-currency);
+  max-width: var(--control-currency);
+}
+
 /* The trigger fills the width its step gives the picker. A CLOSED
    PICKER IS ONE LINE, always: where its column is narrower than the
    chosen text, the text ends in "…" (option-picker.css) -- the open
@@ -1211,7 +1222,17 @@ input[type="checkbox"]:focus-visible {
   box-shadow: var(--cell-inset-recess), 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
 }
 
+input[type="checkbox"]:checked:hover:not(:disabled):not(:focus-visible) {
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
+}
+
+input[type="checkbox"]:checked:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+}
+
+/* Ticked, the box is FLAT: the fill, no inner light or shade (the glow of the pointer and the ring of the keyboard still show). */
 input[type="checkbox"]:checked {
+  box-shadow: none;
   background-color: var(--bg-primary);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5.5 12.5l4.2 4.2 8.8-9.4' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
@@ -1249,14 +1270,6 @@ label:has(> input[type="checkbox"]:not(:disabled)):hover > :not(input),
 .brand-tick:has(> input[type="checkbox"]:not(:disabled):hover) > :not(input) {
   text-decoration: underline;
   text-underline-offset: 0.2em;
-}
-
-/* (INVERTED: the glow is inside the box -- an inner edge and an inner shadow -- so nothing is drawn round it and no neighbour is touched.) */
-input[type="checkbox"]:not(:disabled):hover:not(:focus-visible),
-label:has(> input[type="checkbox"]:not(:disabled)):hover > input[type="checkbox"]:not(:focus-visible),
-.brand-tick > input[type="checkbox"]:not(:disabled):hover:not(:focus-visible) {
-  border-radius: 3px;
-  box-shadow: inset 0 0 0 1px var(--line-primary), inset 0 0 6px 2px color-mix(in srgb, var(--glow-color) 45%, transparent);
 }
 
 /* THE PAGE ARROWS (PageArrow.tsx): "‹" and "›", previous and next

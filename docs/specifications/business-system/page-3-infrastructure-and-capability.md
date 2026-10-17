@@ -71,7 +71,7 @@ Partners and suppliers are two kinds of card, each with fixed groups per section
 
 ### The cost row
 
-- **Frequencies** (7): One-time, Monthly, Quarterly, Annually, Per unit, Per project, % of revenue. **Units** by group (hour, metre, litre, kWh are decimal; items are whole). **Qty** follows the group's rule.
+- **Frequencies** (7): One-time, Monthly, Quarterly, Annually, Per unit, Per project, % of Rev. **Units** by group (hour, metre, litre, kWh are decimal; items are whole). **Qty** follows the group's rule.
 - **Cost options** and **billing types** for the groups that have them (for example a licence billed as a one-off, a subscription or a percentage); a Percentage billing line has a **rate override** whose placeholder is the Global Settings default.
 - **Payment plan** (on a Per project price): Deposit & Balance, Instalments or Milestones, with percents that must total 100% and dates; incomplete plans are flagged and the whole price is then paid on the Start date.
 - **Extras** (for example delivery, installation, warranty) and **dated notes**, each with a hint per group.

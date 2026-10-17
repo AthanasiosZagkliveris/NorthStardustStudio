@@ -993,8 +993,8 @@
     min-width:0;
     height:var(--card-cell-height);
     box-sizing:border-box;
-    /* Room at the right for the button (its 32px and a 6px inset each side). */
-    padding:0 calc(var(--size-box-button) + 12px) 0 10px;
+    /* 12px, the date, 6px, the 32px button, 6px (the cell hugs the longest date it shows: --control-date). */
+    padding:0 calc(var(--size-box-button) + 12px) 0 12px;
     border:1px solid transparent;
     border-radius:var(--radius-md);
     background:var(--bg-surface);
@@ -1074,8 +1074,9 @@
     left:0;
     z-index:30;
     box-sizing:border-box;
-    width:max-content;
-    min-width:100%;
+    /* ONE width for both calendars: the grid (seven 32px days and their gaps) and the 12px round it. */
+    width:calc(7 * var(--size-box-button) + 6 * var(--gap-2) + 24px);
+    max-width:92vw;
     margin-top:6px;
     padding:12px;
     display:flex;
@@ -1123,8 +1124,7 @@
 
 /* Every button of the card has the same 2px frame (transparent at rest), so hovering or choosing never changes a button's size; no bold. */
 .date-cell-popup-step,
-.date-cell-popup-day,
-.date-cell-popup-action{
+.date-cell-popup-day{
     box-sizing:border-box;
     display:inline-flex;
     align-items:center;
@@ -1153,30 +1153,20 @@
     width:auto;
 }
 
-.date-cell-popup-action{
-    height:var(--size-box-button);
-    padding:0 12px;
-    border-color:var(--plus-fill);
-    color:var(--plus-fill);
-}
-
 .date-cell-popup-step:hover:not(:disabled),
-.date-cell-popup-day:hover:not(:disabled),
-.date-cell-popup-action:hover:not(:disabled){
+.date-cell-popup-day:hover:not(:disabled){
     border-color:transparent;
     background:var(--plus-fill);
     color:var(--plus-ground);
 }
 
 .date-cell-popup-step:focus-visible,
-.date-cell-popup-day:focus-visible,
-.date-cell-popup-action:focus-visible{
+.date-cell-popup-day:focus-visible{
     outline:2px solid var(--focus-ring-ink);
     outline-offset:1px;
 }
 
-.date-cell-popup-day:disabled,
-.date-cell-popup-action:disabled{
+.date-cell-popup-day:disabled{
     color:var(--text-faint);
     border-color:transparent;
     cursor:not-allowed;
@@ -1193,11 +1183,6 @@
     color:var(--plus-ground);
 }
 
-.date-cell-popup-foot{
-    display:flex;
-    justify-content:space-between;
-    gap:var(--gap-8);
-}
 
 /* ==========================================================
    Table Row Actions -- Remove / Add
@@ -1444,3 +1429,9 @@
 
 }
 
+
+/* A date field outside a coloured card (Global Settings, the Notes panel) has no hue to take: its calendar button is the colour every cell has. */
+:is(.settings-page, .notepad-panel) :is(.date-cell, .month-picker){
+    --plus-ground: var(--bg-surface);
+    --plus-fill: var(--text-default);
+}

@@ -6543,7 +6543,7 @@ export const BUSINESS_COST_FREQUENCIES = [
     { id: "annually", label: "Annually" },
     { id: "per-unit", label: "Per unit" },
     { id: "per-project", label: "Per project" },
-    { id: "percent-revenue", label: "% of revenue" }
+    { id: "percent-revenue", label: "% of Rev" }
 ] as const;
 
 interface BusinessResourceKind { id: string; label: string; help: string }
@@ -7167,7 +7167,7 @@ const GROUP_FREQUENCIES: Record<string, readonly string[]> = {
  * a ready-made option: the option sets the billing type, the billing type sets the driver, and the financial engine routes the cost. (A courier and a
  * campaign are priced one way a card, by an option of their own; they have no billing type.)
  *
- * - Percentage: a rate of the revenue it follows. The driver is locked to % of revenue (a calculated COGS line).
+ * - Percentage: a rate of the revenue it follows. The driver is locked to % of Rev (a calculated COGS line).
  * - Fixed amount: an amount a month or a year. The driver is Monthly or Annually (an OpEx line).
  * - Lump sum: one amount at the start. The driver is One-time (a Start-up expense, or an intangible asset amortised automatically).
  */
@@ -7244,7 +7244,7 @@ export const costOptionOf = (place: "infrastructure" | "offering", groupId: stri
 /** The billing type an option sets ("" for a card with no option, or an option with none). */
 export const billingOf = (place: "infrastructure" | "offering", groupId: string, optionId: string): BillingType => costOptionOf(place, groupId, optionId)?.billing ?? "";
 
-/** The drivers a chosen option allows: Percentage is % of revenue, a Lump sum One-time, a Fixed amount Monthly or Annually (as the group offers). */
+/** The drivers a chosen option allows: Percentage is % of Rev, a Lump sum One-time, a Fixed amount Monthly or Annually (as the group offers). */
 export function optionFrequenciesOf(place: "infrastructure" | "offering", groupId: string, optionId: string): readonly string[] | null {
     const option = costOptionOf(place, groupId, optionId);
     if (!option) {

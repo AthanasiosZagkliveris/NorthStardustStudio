@@ -102,6 +102,9 @@ interface OptionPickerProps {
      */
     searchable?: boolean;
 
+    /** A currency code: the one cell width and the one list width every currency picker has (three letters). */
+    currency?: boolean;
+
     /**
      * Extra words each option can be found by, keyed by the option
      * itself -- a country code, a state abbreviation. Typing "CA"
@@ -184,6 +187,7 @@ export default function OptionPicker({
     disabled = false,
 
     searchable = false,
+    currency = false,
 
     searchAliases,
     searchPlaceholder = "Type to search",
@@ -484,8 +488,8 @@ export default function OptionPicker({
 
         <div
             className="option-picker"
-            data-size={fill === "fit" ? "fit" : fill ? "fill" : hug && alone ? "full" : hug ? "hug" : step}
-            style={hug && !alone && hugWidth > 0 ? { width: "min(100%, " + hugWidth + "px)" } : undefined}
+            data-size={currency ? "currency" : fill === "fit" ? "fit" : fill ? "fill" : hug && alone ? "full" : hug ? "hug" : step}
+            style={!currency && hug && !alone && hugWidth > 0 ? { width: "min(100%, " + hugWidth + "px)" } : undefined}
             ref={containerRef}
         >
 
@@ -536,7 +540,7 @@ export default function OptionPicker({
                         ...panelStyle,
                         // (Not shifted sideways: the width and the left edge are the cell's.)
                         transform: undefined,
-                        ...(free
+                        ...(currency ? {} : free
                             // (Free: its left edge is placed by hand, at the cell's; only its width is the cell's.)
                             ? (() => {
                                 const width = triggerRef.current?.getBoundingClientRect().width;

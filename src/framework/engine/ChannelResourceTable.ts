@@ -197,7 +197,7 @@ export function buildChannelResourceTable(
                     ? [format(amount), period].filter(Boolean).join(" ")
                     : card.status === "exists" ? "Free" : "No cost yet",
                 amountText: amount !== null ? format(amount).replace(/^[^0-9-]+/, "").replace(/[^0-9.,-]+$/, "") : card.status === "exists" ? "Free" : "No cost yet",
-                // (A percentage says its symbol here: "% of revenue".)
+                // (A percentage says its symbol here: "% of Rev".)
                 frequencyText: amount !== null ? (isPercent ? "% " : "") + period : "",
                 costDetail,
                 behaviour: amount === null

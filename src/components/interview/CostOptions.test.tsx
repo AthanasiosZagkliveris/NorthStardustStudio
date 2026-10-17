@@ -53,7 +53,7 @@ describe("the options of the cost model", () => {
         expect(billingOf("offering", "royalties", "fixed-royalty")).toBe("fixed");
     });
 
-    it("the billing type locks the driver: Percentage is % of revenue, a Lump sum is One-time, a Fixed amount Monthly or Annually", () => {
+    it("the billing type locks the driver: Percentage is % of Rev, a Lump sum is One-time, a Fixed amount Monthly or Annually", () => {
         expect(optionFrequenciesOf("offering", "royalties", "royalty-on-sales")).toEqual(["percent-revenue"]);
         expect(optionFrequenciesOf("offering", "royalties", "franchise-fee")).toEqual(["one-time"]);
         expect(optionFrequenciesOf("offering", "royalties", "fixed-royalty")).toEqual(["monthly", "annually"]);

@@ -324,7 +324,7 @@ export const COST_FREQUENCIES = [
     { id: "per-project", label: "Per project" },
     { id: "per-unit", label: "Per unit" },
     { id: "per-order", label: "Per order" },
-    { id: "usage-based", label: "% of revenue" },
+    { id: "usage-based", label: "% of Rev" },
     { id: "other", label: "Other" }
 ] as const;
 
@@ -1675,7 +1675,7 @@ export function isScheduled(line: CostLine): boolean {
 }
 
 /** Whether a frequency is paid per unit of activity (per unit, order or project): a variable cost. */
-/** Whether a cost is a rate of the revenue it follows (Percentage billing, or the % of revenue driver): its amount is a percent, not money. */
+/** Whether a cost is a rate of the revenue it follows (Percentage billing, or the % of Rev driver): its amount is a percent, not money. */
 export function isPercentLine(line: Pick<CostLine, "billing" | "frequency">): boolean {
     return line.billing === "percentage" || line.frequency === "usage-based";
 }
@@ -1820,7 +1820,7 @@ const isRecurring = (frequency: CostFrequency) => frequency === "monthly" || fre
  * THE NATURE OF A COST FROM THE OPENING DATE, or with no date (steps 2 and 5 of the rules): the first rule that fits.
  *
  * - C2: a service linked to an asset is part of it: CapEx, before or after the opening.
- * - C5: a Percentage billing type, or a % of revenue driver: a calculated COGS line.
+ * - C5: a Percentage billing type, or a % of Rev driver: a calculated COGS line.
  * - C3: a lump sum by its cost option: an upfront franchise fee is an intangible asset (CapEx, amortised); a set-up fee, legal drafting or an initial licence
  *   is a one-time OpEx. The capitalisation limit never applies to an intangible right.
  * - C4: a purchase of a physical asset: CapEx when the cost of one unit, with its linked services, is at or above the limit; else OpEx.
@@ -1980,7 +1980,7 @@ export function splitAtOpening(line: CostLine, openingDate: string): { before: n
         const perMonth = monthlyEquivalent(line.amount, line.frequency);
         return { before: Math.round(perMonth * months * 100) / 100, startsBefore: true, runsPast };
     }
-    // (Per unit, per order and % of revenue follow the sales, not the calendar: the forecast places them.)
+    // (Per unit, per order and % of Rev follow the sales, not the calendar: the forecast places them.)
     return { before: 0, startsBefore: true, runsPast };
 }
 

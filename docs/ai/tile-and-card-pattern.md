@@ -43,7 +43,7 @@ This file is the short, visual brief: what a tile, frame and card look like, for
 - **Rows.** A label stands above its control (6px) or beside a single short one in the label column (177px) with the cell after it; rows are 12px apart; every cell is 44px high with 18px text; the cells of a column share one left edge (a label column is as wide as its widest label, never narrower, so an "i" never touches a cell).
 - **Parts are not wired.** A card's sections (Offerings, a Journey Stage with its Actions, links, expenses) have no border of their own: spacing and the label's colour say what belongs together (6px inside a part, 12px between parts).
 - **A value the app placed** (a Group, a Cost option, a Billing type fixed by a channel or a rule) is presented as the cell it stands in: that cell's height, its one line, its letters where a picker's start, an ellipsis with the whole text as the tooltip.
-- **Words are written whole where the cell has room** ("% of revenue", "Per project", "Working Hours"); a short form ("rev.", "proj.") only for a label over 14 characters.
+- **Words are written whole where the cell has room** ("% of Rev", "Per project", "Working Hours"); a short form ("rev.", "proj.") only for a label over 14 characters.
 - **The tile of a card** tells what the card holds in one order: its dates (both days, or the start alone), where it belongs, then status, warranty and cost; a Partner or Supplier tile does so as a Resource's and an Activity's do.
 
 ## Labels, titles, alignment and scrolling (global rules)

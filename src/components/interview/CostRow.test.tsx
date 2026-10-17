@@ -175,7 +175,7 @@ describe("the lower rows", () => {
         expect(latest!.resources.equipment[0].slots[0]).toMatchObject({ warranty: false, warrantyUntil: "" });
     });
 
-    it("a Rate override is a contract\x27s own percent, for a % of revenue price of Royalties and of a Revenue Partner", () => {
+    it("a Rate override is a contract\x27s own percent, for a % of Rev price of Royalties and of a Revenue Partner", () => {
         const value = base();
         let latest: Value | undefined;
         render(<Harness

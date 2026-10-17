@@ -493,7 +493,7 @@ export default function FinancialFoundationEditor({
                 const nature = split.after;
                 if (nature === "cogs" || line.behaviour === "variable") {
                     const percent = line.frequency === "usage-based";
-                    rows.push({ key: line.id + ":sale", line, bucket: "sale", amount: line.amount, text: percent ? line.amountText + " % of revenue" : format(line.variablePerUnit ?? line.amount) + " " + frequencyLabel(line).toLowerCase(), when: percent ? "With revenue" : frequencyLabel(line), nature });
+                    rows.push({ key: line.id + ":sale", line, bucket: "sale", amount: line.amount, text: percent ? line.amountText + " % of Rev" : format(line.variablePerUnit ?? line.amount) + " " + frequencyLabel(line).toLowerCase(), when: percent ? "With revenue" : frequencyLabel(line), nature });
                 } else if (line.frequency === "one-time" || line.frequency === "per-project" || nature === "capex" || nature === "startup" || nature === "pre-operating" || nature === "inventory") {
                     rows.push({ key: line.id + ":later", line, bucket: "later", amount: line.amount, text: format(line.amount), when: line.startDate ? line.startDate : frequencyLabel(line), nature });
                 } else {
@@ -528,7 +528,7 @@ export default function FinancialFoundationEditor({
         const sales = rows.filter(row => row.bucket === "sale");
         const perSale = sales.filter(row => row.line.frequency !== "usage-based").reduce((sum, row) => sum + (row.line.variablePerUnit ?? row.amount), 0);
         const percentCosts = sales.filter(row => row.line.frequency === "usage-based").length;
-        const saleText = sales.length === 0 ? format(0) : format(perSale) + (percentCosts > 0 ? " + " + percentCosts + " % of revenue" : "");
+        const saleText = sales.length === 0 ? format(0) : format(perSale) + (percentCosts > 0 ? " + " + percentCosts + " % of Rev" : "");
 
         const filterOptions = (list: readonly { id: string; label: string }[], all: string) => [{ id: "", label: all }, ...list];
         const groupInfo = COST_GROUPS.map(group => ({ title: group.label, text: group.explanation }));
