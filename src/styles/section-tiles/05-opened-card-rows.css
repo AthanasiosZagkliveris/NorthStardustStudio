@@ -663,3 +663,11 @@ body .floating-overlay .page-arrow.carousel-arrow[data-completed] {
     background: var(--line-completed);
 
 }
+
+/* A stack with nothing in it (an activity with no Responsible and no list to show) takes no place: its box would still add a row gap to the grid it stands in. */
+.card-box-open .business-capability-stack.business-capability-activity-fields:empty,
+.business-capability-stack:empty {
+
+    display: none;
+
+}

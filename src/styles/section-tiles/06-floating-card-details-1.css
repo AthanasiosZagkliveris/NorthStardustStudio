@@ -257,8 +257,9 @@ body:has([data-pair]) .floating-overlay:not(:has([data-pair])) {
 
 /* The teal of a Customer Channel's cards (CHANNEL_TILE_HUE, 172). */
 :root {
-    /* A link symbol's slot beside a dropdown: its own width (38.5px) and the row's gap (8px). */
-    --link-slot: 46.5px;
+    /* A link symbol's slot beside a dropdown: its own width (36px: the 24px symbol and 6px each side) and the row's gap (8px). */
+    --link-symbol-width: 36px;
+    --link-slot: calc(var(--link-symbol-width) + 8px);
 
     --channel-marker: hsl(172 55% 33%);
 

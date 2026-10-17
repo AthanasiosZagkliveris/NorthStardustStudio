@@ -409,11 +409,11 @@
 
 }
 
-/* THE LABEL COLUMN of an activity's picker rows (Performer, Responsible): one width in both stacks (the Responsible's label carries its tick, 7.25em of the body
+/* THE LABEL COLUMN of an activity's picker rows (Performer, Responsible): one width in both stacks (the Responsible's label carries its tick, --card-label-col, 177px
    size), so the Performer's dropdown and the Responsible's name start at one x. */
 .business-capability-activity-fields {
 
-    --activity-label-column: calc(var(--font-body) * 7.25 + var(--link-slot));
+    --activity-label-column: var(--card-label-col);
 
 }
 
@@ -434,7 +434,7 @@
 
     flex: none;
 
-    width: 38.5px;
+    width: var(--link-symbol-width);
     height: 1px;
 
 }

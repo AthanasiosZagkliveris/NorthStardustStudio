@@ -360,3 +360,11 @@
 }
 
 .channel-resource-col-actions{ width:12%; min-width:150px; }
+
+/* THE NAME COLUMN TAKES WHAT THE OTHERS LEAVE: its link is one row cut by an ellipsis (text-links.css), so its text must not ask the table for its whole length (max-width 0: no
+   demand of its own, the column fills the room that is left). */
+.channel-resource-table tbody th.channel-resource-name{
+
+    max-width:0;
+
+}

@@ -454,10 +454,10 @@ table.business-relationship-table {
 
 }
 
-/* A name and its "i" (the Segment, the Profiles, the Offerings of a page's reference): the row's own gap, one gap -- not that and the "i"'s own margin. */
+/* A name and its "i" (the Segment, the Profiles, the Offerings of a page's reference): one --info-gap (6px) after the name, like every "i": the row's own gap is 8px, the "i" takes 2px off it. */
 .business-engagement-reference-name-row > .info-note {
 
-    margin-left: 0;
+    margin-left: calc(var(--info-gap) - var(--gap-8));
 
 }
 
@@ -1098,3 +1098,11 @@ table.business-relationship-table {
 
 }
 
+
+/* An Objective's Start and End cells are the date step wide (--control-date), as every date cell is; they give way (down to nothing) only where the card is narrower. */
+.strategy-objective-box .strategy-objective-when .month-picker-trigger {
+
+    width: var(--control-date);
+    flex: 0 1 var(--control-date);
+
+}
