@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import lumen from "../data/examples/lumen-and-loom-studio.json";
 import quillfield from "../data/examples/quillfield-automation-llc.json";
 import {
-    asBrandInventoryValue, asBrandStyleValue, asBusinessCapabilityValue, asBusinessEngagementValue, asBusinessFoundationValue, asFoundersProfileValue,
+    asBrandStyleValue, asBusinessCapabilityValue, asBusinessEngagementValue, asBusinessFoundationValue, asFoundersProfileValue,
     asLegalEntityValue, asStrategicPeriodValue, asStrategyFoundationValue
 } from "../framework/engine/AnswerUtils";
 import { asFinancialFoundationValue, asFinancialSustainabilityValue } from "../framework/engine/FinancialModel";
@@ -24,6 +24,9 @@ const PAGES: { system: number; section: number; name: string; read: (value: unkn
     { system: 4, section: 1, name: "Situation & Direction", read: asStrategyFoundationValue },
     { system: 4, section: 2, name: "Goals & Objectives", read: asStrategicPeriodValue }
 ];
+
+/** The environment the update command is asked in (the tests are not typed against Node). */
+const ENV = (globalThis as unknown as { process?: { env: Record<string, string | undefined> } }).process?.env ?? {};
 
 /** The paths where `read` differs from `saved`: added, removed or changed (the first few of each). */
 function differences(saved: unknown, read: unknown, path = "", out: string[] = []): string[] {
@@ -74,10 +77,10 @@ describe.each([["Lumen & Loom Studio", lumen], ["Quillfield Automation LLC", qui
  * UPDATING THE EXAMPLES: \`UPDATE_EXAMPLES=1 npx vitest run src/services/ExampleDrift.test.ts\` writes every page of both examples as the app reads it, into src/data/examples and
  * docs/examples (the owner's copy). Without the variable nothing is written.
  */
-describe.skipIf(!process.env.UPDATE_EXAMPLES)("updating the examples", () => {
+describe.skipIf(!ENV.UPDATE_EXAMPLES)("updating the examples", () => {
 
     it("writes the examples as the app reads them", async () => {
-        const { writeFileSync } = await import("node:fs");
+        const { writeFileSync } = (await import("node:fs")) as unknown as { writeFileSync: (path: string, text: string) => void };
         for (const [file, example] of [["lumen-and-loom-studio.json", lumen], ["quillfield-automation-llc.json", quillfield]] as const) {
             const copy = JSON.parse(JSON.stringify(example)) as { systems: Record<string, { responses: { sectionNumber: number; value: unknown }[] }> };
             for (const page of PAGES) {

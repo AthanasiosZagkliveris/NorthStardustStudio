@@ -390,7 +390,7 @@ Still open:
 
 ## 5.10 What stayed in the project, and why
 
-- `docs/examples/`: the owner's own copy of the two examples; the app reads `src/data/examples`.
+- `docs/examples/`: the owner's own copy of the two examples; the app reads `src/data/examples`. `UPDATE_EXAMPLES=1 npx vitest run src/services/ExampleDrift.test.ts` writes both from the app's own readers; the drift and review tests fail when an example is behind the interface.
 
 ## 5.11 Layout check: triage of the 1,830 known findings (2026-10-14)
 

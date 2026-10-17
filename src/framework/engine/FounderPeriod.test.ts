@@ -225,6 +225,27 @@ describe("a founder's Frequency, migrated", () => {
         expect(now[name].exported).toBe(before[name].exported);
     });
 
+    /**
+     * REWRITING THE DOCUMENTS' WORDS: `WRITE_GOLDEN=1 npx vitest run src/framework/engine/FounderPeriod.test.ts` writes the Business Plan's and the export's digests (and the weekly
+     * fixture's shapes and numbers) again from the examples as they are now. Done deliberately, when the examples' or the documents' words change and no figure does: the
+     * founders' tables and the forecast (every row, to the cent) are not rewritten, so a figure that moved still fails.
+     */
+    test.skipIf(!(globalThis as unknown as { process?: { env: Record<string, string | undefined> } }).process?.env.WRITE_GOLDEN)("rewrites the documents' words", async () => {
+        const { writeFileSync } = (await import("node:fs")) as unknown as { writeFileSync: (path: string, text: string) => void };
+        const NUMBER = /-?\d[\d,]*(?:\.\d+)?/g;
+        const next = JSON.parse(goldenText) as Record<string, Record<string, unknown>>;
+        for (const name of ["lumen", "quillfield"]) {
+            next[name].plan = now[name].plan;
+            next[name].exported = now[name].exported;
+        }
+        for (const part of ["plan", "exported"] as const) {
+            const text = now["lumen-weekly"].texts[part];
+            next["lumen-weekly"][part + "Shape"] = digest(text.replace(NUMBER, "#"));
+            next["lumen-weekly"][part + "Numbers"] = (text.match(NUMBER) ?? []).map(number => Number(number.replace(/,/g, "")));
+        }
+        writeFileSync("src/framework/engine/founder-period-golden.json", JSON.stringify(next, null, 2) + "\n");
+    });
+
     test("the weekly fixture, its salary kept to the cent, calculates what it did within that", () => {
         const old = before["lumen-weekly"];
         expect(now["lumen-weekly"].founders).toBe(old.founders);

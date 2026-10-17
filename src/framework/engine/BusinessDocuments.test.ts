@@ -858,7 +858,9 @@ describe("the optional answers in the documents", () => {
             "- Professional / Technical Expertise: Data security and access control for client records\n" +
             "- Degree / Qualification: BS in Information Systems\n" +
             "- Certification: Certified in Microsoft Power Platform and Zapier\n");
-        expect(given).toContain("### Capability Gaps and Cover\n\nAs a one-person LLC");
+        expect(given).toContain("### Capability Gaps and Cover");
+        expect(given).toContain("As a one-person LLC");
+        expect(given).toContain("Brooklyn CPA practice");
     });
 
     test("every achievement reaches the plan, and untyped skills come last, as written", () => {
@@ -903,7 +905,9 @@ describe("the optional answers in the documents", () => {
         expect(profile).toContain("**Key Achievements:** \n\n- Designed an invoice-intake automation");
         expect(profile).toContain("**Skills, Expertise & Qualifications:** \n\n- Skill: Python and API integration\n");
         expect(profile).toContain("- Certification: Certified in Microsoft Power Platform and Zapier");
-        expect(profile).toContain("### Capability Gaps & Cover\n\nAs a one-person LLC");
+        expect(profile).toContain("### Capability Gaps & Cover");
+        expect(profile).toContain("As a one-person LLC");
+        expect(profile).toContain("Brooklyn CPA practice");
 
         const legacy = legacyIdentity();
         expect(new MarkdownExporter().toMarkdown(legacy, "Foundation", buildExportContent(legacy, "Foundation")))

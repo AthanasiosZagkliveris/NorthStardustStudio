@@ -2286,12 +2286,6 @@
   "rule": "the Performer's dropdown ends where the name cell ends"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Activities > Operational, Investigate Password and credential vault for client logins > Activity 1: Investigate Password and credential vault for client logins",
-  "example": "quillfield-automation-llc.json",
-  "page": "Business System › Infrastructure",
-  "rule": "row gap"
- },
- {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Activities > Operational, Investigate Password and credential vault for client logins > Activity 1: Investigate Password and credential vault for client logins",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
