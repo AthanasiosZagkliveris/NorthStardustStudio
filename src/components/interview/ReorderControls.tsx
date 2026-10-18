@@ -1,4 +1,5 @@
 import { DragEvent, KeyboardEvent, MouseEvent, ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
+import FunnelButton from "../FunnelButton.tsx";
 import { createPortal } from "react-dom";
 
 import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
@@ -163,35 +164,15 @@ export default function BoxActions({
 
                 <div className="strategy-sort" ref={menuRef}>
 
-                    <button
+                    <FunnelButton
                         ref={sortButtonRef}
-                        type="button"
-                        className="strategy-box-action"
                         aria-label={`Sort ${label}`}
                         title={`Sort ${label}`}
                         aria-expanded={menuOpen}
                         aria-haspopup="menu"
                         disabled={disabled}
                         onClick={() => setMenuOpen(open => !open)}
-                    >
-                        {/*
-                            Drawn rather than typed: no character in
-                            the font is a funnel, and the nearest ones
-                            read as a plain triangle next to the "−"
-                            beside them.
-                        */}
-                        <svg
-                            className="strategy-funnel-icon"
-                            viewBox="0 0 16 16"
-                            aria-hidden="true"
-                            focusable="false"
-                        >
-                            <path
-                                d="M2 3h12l-4.6 5.4v4.2L6.6 14V8.4L2 3z"
-                                fill="currentColor"
-                            />
-                        </svg>
-                    </button>
+                    />
 
                     {menuOpen && (() => {
                         const menuNode = (

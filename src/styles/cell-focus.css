@@ -166,12 +166,7 @@
     margin-top: var(--gap-12);
 }
 
-/* A FLOATING CARD THAT LACKS AN ANSWER says so as its tile does: a red edge round the card, and its bullet in the rail red (a card just made and still open is not flagged). */
-.floating-card-host[data-incomplete] {
-    outline: 2px solid var(--line-danger-strong);
-    outline-offset: 0;
-}
-
+/* A FLOATING CARD THAT LACKS AN ANSWER says so in the FIELD it lacks (it flashes, as the tile does: card-tile.css), and by its red bullet in the rail -- not by a frame round the whole card. */
 .bullet-rail-item[data-missing] .bullet-rail-dot {
     background: var(--bg-danger-strong);
     border-color: var(--line-danger-strong);
@@ -223,4 +218,10 @@
     text-underline-position: under !important;
     text-underline-offset: 1px !important;
     text-decoration-thickness: 1px !important;
+}
+
+/* A TEXT THAT UNDERLINES BUT CLIPS ITS OWN OVERFLOW (a typeface of the Typography tile) has the room for its line: 3px under its letters, taken back by its margin, so the underline 1px under the descenders is never cut. */
+.section-tile .brand-specimens > [data-card] {
+    padding-bottom: 3px;
+    margin-bottom: -3px;
 }

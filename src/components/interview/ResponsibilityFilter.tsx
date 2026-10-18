@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useLayoutEffect } from "react";
 
+import FunnelButton from "../FunnelButton.tsx";
 import { consumeKey } from "./consumeKey.ts";
 
 /** What a founder's Responsibilities can be told apart by: where they stand (Infrastructure, Offerings) and what they are (Activities, Partners & Suppliers, Legal). */
@@ -82,20 +83,14 @@ export default function ResponsibilityFilter({
     return (
         <div className="responsibility-filter" ref={box}>
 
-            <button
-                type="button"
-                className="plus-box plus-box-small funnel-box"
+            <FunnelButton
                 aria-label={label}
                 title={label}
                 aria-expanded={open}
                 aria-haspopup="true"
-                data-active={off.size > 0 ? "" : undefined}
+                active={off.size > 0}
                 onClick={() => setOpen(current => !current)}
-            >
-                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
-                    <path d="M4 5h16l-6.2 7.4V19l-3.6-2v-4.6z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
-                </svg>
-            </button>
+            />
 
             {open && (
                 <div className="responsibility-filter-panel" role="group" aria-label={label}>
