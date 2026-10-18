@@ -1,4 +1,5 @@
 import { countedCapability } from "../../framework/engine/CardCompleteness.ts";
+import NumberCell from "../NumberCell.tsx";
 import { calculatedLines } from "../../framework/engine/CalculatedLines.ts";
 import { contingencyFunds, launchNeedOf } from "../../framework/engine/ContingencyFunds.ts";
 import { ownersTakeDrawings } from "../../framework/engine/FinancialForecast.ts";
@@ -974,10 +975,8 @@ export default function FinancialFoundationEditor({
                                                     ? { ...entry, condition: event.target.value } : entry)
                                             })}
                                         />
-                                        <input
-                                            type="text"
-                                            inputMode="decimal"
-                                            className="interview-input"
+                                        <NumberCell
+                                            
                                             aria-label={what + " milestone " + (position + 1) + " amount"}
                                             placeholder={amountPlaceholder}
                                             disabled={disabled}

@@ -1,4 +1,5 @@
 import { countedCapability } from "../../framework/engine/CardCompleteness.ts";
+import NumberCell from "../NumberCell.tsx";
 import { ReactNode, useState } from "react";
 
 import {
@@ -412,10 +413,8 @@ export default function FinancialSustainabilityEditor({
         return (
             <BusinessField label={labelWithCurrency(label, currency)} info={info} inline>
                 <div className="business-capability-price">
-                    <input
-                        type="text"
-                        inputMode="decimal"
-                        className="interview-input"
+                    <NumberCell
+                        
                         aria-label={nameWithCurrency(ariaLabel, currency)}
                         placeholder={placeholder}
                         disabled={disabled}
@@ -804,10 +803,8 @@ export default function FinancialSustainabilityEditor({
                                             detailed: stream.detailed.map(other => other.id === item.id ? { ...other, month: next } : other)
                                         })}
                                     />
-                                    <input
-                                        type="text"
-                                        inputMode="decimal"
-                                        className="interview-input"
+                                    <NumberCell
+                                        
                                         aria-label={what + " volume change " + (position + 1) + " volume"}
                                         placeholder={plural(unit, 2) + " per month"}
                                         disabled={disabled}

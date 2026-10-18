@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useState } from "react";
 
+import NumberCell from "../NumberCell.tsx";
 import { cardNameMissing } from "../../framework/engine/SystemCardCompleteness.ts";
 import {
     STRATEGY_METRIC_CURRENCY_UNIT,
@@ -1109,10 +1110,8 @@ function MetricList({
                                     <FieldMark label={`Metric ${metricIndex + 1} baseline`} keyLabel="baseline" />
                                 </span>
                                 <FieldStatus label={`Metric ${metricIndex + 1} baseline`} keyLabel="baseline" />
-                                <input
-                                    type="text"
-                                    inputMode="decimal"
-                                    className="interview-input"
+                                <NumberCell
+                                    
                                     aria-label={`Metric ${metricIndex + 1} baseline`}
                                     disabled={disabled}
                                     value={metric.baseline}
@@ -1126,10 +1125,8 @@ function MetricList({
                                 <span className="field-label strategy-field-label">
                                     {`Target (${formatMonthShort(objective.period.end)})`}
                                 </span>
-                                <input
-                                    type="text"
-                                    inputMode="decimal"
-                                    className="interview-input"
+                                <NumberCell
+                                    
                                     aria-label={`Metric ${metricIndex + 1} target`}
                                     disabled={disabled}
                                     value={metric.target}

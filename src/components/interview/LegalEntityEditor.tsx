@@ -1,4 +1,5 @@
 import { CSSProperties, ReactNode, useEffect, useRef } from "react";
+import NumberCell from "../NumberCell.tsx";
 import RemoveButton from "../RemoveButton.tsx";
 import { legalExpenseMissing, legalRequirementMissing } from "../../framework/engine/SystemCardCompleteness.ts";
 import type { FloorLink } from "./capabilityFloor.ts";
@@ -1576,10 +1577,8 @@ export default function LegalEntityEditor({
                             <>
                                 {founderLabel("Ownership %")}
 
-                                <input
-                                    type="text"
-                                    inputMode="decimal"
-                                    className="interview-input legal-entity-column-centre"
+                                <NumberCell
+                                    className="legal-entity-column-centre"
                                     aria-label={"Founder " + (index + 1) + " ownership percentage"}
                                     placeholder="%"
                                     disabled={disabled}
@@ -1595,10 +1594,8 @@ export default function LegalEntityEditor({
                             <>
                                 {founderLabel(amountLabel("Capital"))}
 
-                                <input
-                                    type="text"
-                                    inputMode="decimal"
-                                    className="interview-input legal-entity-column-centre"
+                                <NumberCell
+                                    className="legal-entity-column-centre"
                                     aria-label={"Founder " + (index + 1) + " " + amountName("capital")}
                                     placeholder={currency || "Amount"}
                                     disabled={disabled}

@@ -1,4 +1,5 @@
 import { toneHue } from "./CardTile.tsx";
+import NumberCell from "../NumberCell.tsx";
 import "../../styles/system-confirmation.css";
 import LegalEntityEditor from "./LegalEntityEditor.tsx";
 import { connectedOfferings, orphanedCards, withInheritedOfferings, withoutCards, type GeneratedCard } from "../../framework/engine/GeneratedCards.ts";
@@ -1070,10 +1071,8 @@ export default function BusinessCapabilityEditor({
                             }}
                             // With several Offerings, the percent of the card each carries stands at the end of its own row, in the x's column (a whole number, two digits at most).
                             trailing={current.length > 1 ? Object.fromEntries(current.map(id => [id, (
-                                <input
-                                    type="text"
-                                    inputMode="numeric"
-                                    className="interview-input business-capability-share"
+                                <NumberCell kind="int"
+                                    className="business-capability-share"
                                     aria-label={name + " share of " + (offeringChoices.find(choice => choice.id === id)?.label ?? "Offering")}
                                     placeholder={inUnits ? "1" : "%"}
                                     title={inUnits ? "Units of this Offering" : "Percent of this card"}
@@ -1176,10 +1175,8 @@ export default function BusinessCapabilityEditor({
 
                     <BusinessField label="Price">
                         {/* A number and nothing else: the currency is beside it, and "per month" is Frequency. */}
-                        <input
-                            type="text"
-                            inputMode="decimal"
-                            className="interview-input"
+                        <NumberCell
+                            
                             aria-label={what + " price"}
                             disabled={disabled}
                             value={cost.price}
@@ -1841,10 +1838,8 @@ export default function BusinessCapabilityEditor({
                            the caret, but counts as 1 and says so. */
                         field: (
                             <BusinessField label="Qty">
-                                <input
-                                    type="text"
-                                    inputMode="decimal"
-                                    className="interview-input"
+                                <NumberCell
+                                    
                                     aria-label={"Resource " + number + " quantity"}
                                     placeholder="1"
                                     disabled={disabled}
@@ -2287,10 +2282,8 @@ export default function BusinessCapabilityEditor({
                 <div className="business-founder-grid">
 
                     <BusinessField label={labelWithCurrency("Salary", organisationCurrency)} fieldId="salary">
-                        <input
-                            type="text"
-                            inputMode="decimal"
-                            className="interview-input"
+                        <NumberCell
+                            
                             aria-label={nameWithCurrency(founderLabel + " salary " + per, organisationCurrency)}
                             placeholder={"Salary " + per}
                             disabled={disabled}
@@ -2315,10 +2308,8 @@ export default function BusinessCapabilityEditor({
                     </BusinessField>
 
                     <BusinessField label="Working Hours" info={DELIVERY_HELP.hours} fieldId="working-hours">
-                        <input
-                            type="text"
-                            inputMode="decimal"
-                            className="interview-input delivery-number"
+                        <NumberCell
+                            className="delivery-number"
                             aria-label={founderLabel + " working hours " + per}
                             placeholder={period === "week" ? "40" : period === "year" ? "2080" : "173"}
                             disabled={disabled}
@@ -2330,10 +2321,8 @@ export default function BusinessCapabilityEditor({
                     </BusinessField>
 
                     <BusinessField label="Delivery Hours" info={DELIVERY_HELP.deliveryHours} fieldId="delivery-hours">
-                        <input
-                            type="text"
-                            inputMode="decimal"
-                            className="interview-input delivery-number"
+                        <NumberCell
+                            className="delivery-number"
                             aria-label={founderLabel + " delivery hours " + per}
                             placeholder={period === "week" ? "e.g. 22" : period === "year" ? "e.g. 1150" : "e.g. 96"}
                             disabled={disabled}
@@ -2354,10 +2343,8 @@ export default function BusinessCapabilityEditor({
                         can still be read and converted. */}
                     {legacyShare && (
                         <BusinessField label="Delivering (%)" info={DELIVERY_HELP.share}>
-                            <input
-                                type="text"
-                                inputMode="decimal"
-                                className="interview-input delivery-number"
+                            <NumberCell
+                                className="delivery-number"
                                 aria-label={founderLabel + " share of working hours spent delivering, percent"}
                                 placeholder="60"
                                 disabled={disabled}
@@ -2587,10 +2574,8 @@ export default function BusinessCapabilityEditor({
             return (
                 <div className={"business-capability-plan-row" + (order ? " business-capability-plan-row-numbered" : "")} key={line.id + ":values"}>
                     {order && <span className="business-capability-plan-order">{order}</span>}
-                    <input
-                        type="text"
-                        inputMode="decimal"
-                        className="interview-input business-capability-plan-amount"
+                    <NumberCell
+                        className="business-capability-plan-amount"
                         aria-label={label + " amount"}
                         placeholder={total === null ? "Price?" : "0"}
                         disabled={disabled || total === null}
@@ -2604,10 +2589,8 @@ export default function BusinessCapabilityEditor({
                         }}
                         onBlur={() => setAmountDraft(null)}
                     />
-                    <input
-                        type="text"
-                        inputMode="decimal"
-                        className="interview-input business-capability-plan-percent"
+                    <NumberCell
+                        className="business-capability-plan-percent"
                         aria-label={label + " percent"}
                         placeholder="%"
                         disabled={disabled}
@@ -2651,10 +2634,8 @@ export default function BusinessCapabilityEditor({
                         <div className="business-capability-plan-type">
                             {/* INSTALMENTS: how many (two digits, 1 to 99) stands beside the type; a number makes that many rows, and a new number makes them again. */}
                             {plan.type === "instalments" && (
-                                <input
-                                    type="text"
-                                    inputMode="numeric"
-                                    className="interview-input business-capability-plan-count"
+                                <NumberCell kind="int"
+                                    className="business-capability-plan-count"
                                     aria-label={what + " number of instalments"}
                                     title="Number of instalments (1 to 99)"
                                     placeholder="No."
@@ -2868,10 +2849,8 @@ export default function BusinessCapabilityEditor({
     function amortisationField(what: string, value: string, onNext: (next: string) => void) {
         return (
             <BusinessField label="Amortisation period" side>
-                <input
-                    type="text"
-                    inputMode="numeric"
-                    className="interview-input business-capability-years"
+                <NumberCell kind="int"
+                    className="business-capability-years"
                     aria-label={what + " amortisation period in years"}
                     placeholder="Years"
                     disabled={disabled}
@@ -2901,10 +2880,8 @@ export default function BusinessCapabilityEditor({
     function rateOverrideField(what: string, value: string, onNext: (next: string) => void, defaultRate = "") {
         return (
             <OptionalField label="Rate override" inline filled={value.trim() !== ""} onClear={() => onNext("")} disabled={disabled}>
-                <input
-                    type="text"
-                    inputMode="decimal"
-                    className="interview-input business-capability-years"
+                <NumberCell
+                    className="business-capability-years"
                     aria-label={what + " rate override in percent"}
                     placeholder={defaultRate !== "" ? defaultRate + "%" : "%"}
                     disabled={disabled}
@@ -2931,10 +2908,8 @@ export default function BusinessCapabilityEditor({
                 disabled={disabled}
             >
                 <div className="business-capability-deposit-row">
-                    <input
-                        type="text"
-                        inputMode="decimal"
-                        className="interview-input"
+                    <NumberCell
+                        
                         aria-label="Workspace deposit"
                         disabled={disabled}
                         value={slot.deposit}
@@ -3102,10 +3077,8 @@ export default function BusinessCapabilityEditor({
 
                                     {/* A performer that stands for several people (a team): how many. */}
                                     {onPeople && id !== "" && (unitsCapOf(holds[id] ?? "") ?? 1) > 1 && (
-                                        <input
-                                            type="text"
-                                            inputMode="numeric"
-                                            className="interview-input business-capability-people"
+                                        <NumberCell kind="int"
+                                            className="business-capability-people"
                                             aria-label={what + " performer " + (position + 1) + " people"}
                                             placeholder="1"
                                             title="People"
@@ -3948,10 +3921,8 @@ export default function BusinessCapabilityEditor({
                                         {/* (Every row keeps the places of the units and of the link, so the dropdowns end at one x.) */}
                                         {anyUnits && !hasUnits && <span className="business-capability-row-spacer business-capability-row-spacer-units" aria-hidden="true" />}
                                         {slot && hasUnits && (
-                                            <input
-                                                type="text"
-                                                inputMode="numeric"
-                                                className="interview-input business-capability-people"
+                                            <NumberCell kind="int"
+                                                className="business-capability-people"
                                                 aria-label={what + " units of " + nameOf(slot)}
                                                 placeholder="1"
                                                 title={slot.cost.unit || "unit"}
@@ -4368,10 +4339,8 @@ export default function BusinessCapabilityEditor({
                         ? {
                             field: (
                                 <BusinessField label="Qty">
-                                    <input
-                                        type="text"
-                                        inputMode="numeric"
-                                        className="interview-input"
+                                    <NumberCell kind="int"
+                                        
                                         aria-label={(partner.name.trim() || "Entry " + number) + " quantity"}
                                         placeholder="1"
                                         disabled={disabled}
@@ -5461,10 +5430,8 @@ export default function BusinessCapabilityEditor({
                                         <span className="delivery-person-name" title={row.label + (row.external ? " (external)" : " (founder)")}>
                                             {row.label}
                                         </span>
-                                        <input
-                                            type="text"
-                                            inputMode="decimal"
-                                            className="interview-input delivery-number delivery-person-hours"
+                                        <NumberCell
+                                            className="delivery-number delivery-person-hours"
                                             aria-label={row.label + " hours" + perUnit + " of " + offering.label + (row.external ? " (external)" : " (founder)")}
                                             placeholder="0"
                                             disabled={disabled}
@@ -5511,10 +5478,8 @@ export default function BusinessCapabilityEditor({
 
                 {!recurring && (
                     <BusinessField label="Calendar Time (weeks)" info={DELIVERY_HELP.duration} side>
-                        <input
-                            type="text"
-                            inputMode="decimal"
-                            className="interview-input delivery-number"
+                        <NumberCell
+                            className="delivery-number"
                             aria-label={offering.label + " calendar time, weeks"}
                             placeholder="e.g. 2"
                             disabled={disabled}

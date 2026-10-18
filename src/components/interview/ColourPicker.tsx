@@ -1,5 +1,6 @@
 import { CSSProperties, PointerEvent as ReactPointerEvent, useEffect, useRef, useState } from "react";
 
+import NumberCell from "../NumberCell.tsx";
 import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
 import { consumeKey } from "./consumeKey.ts";
 import OptionPicker from "./OptionPicker.tsx";
@@ -243,10 +244,8 @@ export default function ColourPicker({
                         {code === "RGB" && names.map((name, index) => (
                             <label key={name} className="colour-popup-channel">
                                 <span>{name}</span>
-                                <input
-                                    type="text"
-                                    inputMode="numeric"
-                                    className="interview-input"
+                                <NumberCell kind="int"
+                                    
                                     aria-label={ariaLabel + " " + name}
                                     disabled={disabled}
                                     value={String(Math.round(channels[index]))}
@@ -259,10 +258,8 @@ export default function ColourPicker({
                             return (
                                 <label key={name} className="colour-popup-channel">
                                     <span>{name}</span>
-                                    <input
-                                        type="text"
-                                        inputMode="numeric"
-                                        className="interview-input"
+                                    <NumberCell kind="int"
+                                        
                                         aria-label={ariaLabel + " " + name}
                                         disabled={disabled}
                                         value={String(Math.round(hsl[index]))}

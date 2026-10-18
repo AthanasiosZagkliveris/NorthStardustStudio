@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
+import NumberCell from "../NumberCell.tsx";
 import { relativeLuminance } from "../../framework/engine/AnswerUtils.ts";
 import { NUMBER_LIMITS, limitedNumberText } from "./numberInput.ts";
 
@@ -174,11 +175,9 @@ export function LevelSize({
 
             <span className="brand-hierarchy-size">
 
-                <input
+                <NumberCell kind="int"
                     ref={box}
-                    type="text"
-                    inputMode="numeric"
-                    className="interview-input brand-size-input"
+                    className="brand-size-input"
                     aria-label={`${label} size in pixels, recommended ${range}`}
                     // No range written inside: a square holds three digits,
                     // not "36–48". It is in the box's name, its tooltip
