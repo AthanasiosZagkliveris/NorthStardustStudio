@@ -1427,7 +1427,7 @@ describe("the Inventory funnel menu", () => {
         // (The arrow is the label's next sibling in one row that starts at the left.)
         expect(heads.every(head => head.querySelector("strong")!.nextElementSibling === head.querySelector("button"))).toBe(true);
         expect(stylesheet("capability-overview.css").includes(".capability-overview-menu-head { justify-content: flex-start; }")).toBe(true);
-        const arrows = heads.map(head => head.querySelector<HTMLElement>(".title-arrow")!);
+        const arrows = heads.map(head => head.querySelector<HTMLElement>(".label-arrow")!);
         expect(arrows.map(arrow => arrow.getAttribute("aria-label"))).toEqual(["Unfold Include", "Unfold Sort", "Unfold Belongs to", "Unfold Columns"]);
         expect(arrows.every(arrow => arrow.tagName === "BUTTON" && arrow.getAttribute("aria-expanded") === "false")).toBe(true);
         expect(within(menu).queryByLabelText("Include: Founders")).toBeNull();

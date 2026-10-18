@@ -1,4 +1,5 @@
 import { CSSProperties, useContext, useMemo, useRef, useState } from "react";
+import LabelArrow from "./LabelArrow.tsx";
 import { BUSINESS_COST_FREQUENCIES, BUSINESS_RESOURCE_STATUSES } from "../../framework/engine/AnswerUtils.ts";
 import { OpenCardContext, plainTitle, tileName } from "./SectionTiles.tsx";
 import CardTile, { Dots, SYMBOLS, inwardOrigin, pageTileSide, useTilesAcross } from "./CardTile.tsx";
@@ -71,16 +72,7 @@ function MenuHead({ title, open, onToggle, controls }: { title: string; open: bo
     return (
         <div className="capability-overview-menu-head">
             <strong>{title}</strong>
-            <button
-                type="button"
-                className="title-arrow"
-                aria-expanded={open}
-                aria-controls={controls}
-                aria-label={(open ? "Fold " : "Unfold ") + title}
-                onClick={onToggle}
-            >
-                {open ? "▾" : "▸"}
-            </button>
+            <LabelArrow open={open} controls={controls} label={(open ? "Fold " : "Unfold ") + title} onToggle={onToggle} />
         </div>
     );
 }

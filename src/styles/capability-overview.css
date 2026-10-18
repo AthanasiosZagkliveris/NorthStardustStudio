@@ -465,12 +465,9 @@
 
 }
 
-.capability-overview-menu .title-arrow {
+.capability-overview-menu .label-arrow {
 
-    --title-arrow-size: 14px;
-
-    width: 24px;
-    height: 24px;
+    --label-arrow-size: 14px;
 
 }
 
