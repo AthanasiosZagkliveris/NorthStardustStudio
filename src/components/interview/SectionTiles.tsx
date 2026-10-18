@@ -1,3 +1,4 @@
+import BackButton from "../BackButton.tsx";
 import { createContext, CSSProperties, Fragment, MouseEvent as ReactMouseEvent, ReactNode, RefObject, useContext, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { CardRecordService } from "../../services/CardRecordService.ts";
 import { noteMomentText } from "../notepad/Notepad.tsx";
@@ -110,6 +111,9 @@ export interface SectionTile {
 
     /** The same, by card, where a tile's cards are of several groups. */
     groupFor?: (id: string) => string;
+
+    /** A card's own hue where its tile holds cards of several origins (the Inventory's: Infrastructure's, Offering's, a channel's): the card floats in the hue its tile has. */
+    hueFor?: (id: string) => number | undefined;
 
     /** A card's own name as its name cell holds it ("" where it has none yet): what its bullet in the carousel's rail says. */
     nameFor?: (id: string) => string;
@@ -997,7 +1001,12 @@ export default function SectionTiles({
         const line = at >= 0 ? floatingTile?.items?.[at] : undefined;
         return line ? plainTitle(line).replace(/\*\*/g, "").trim() : "";
     };
-    const floatingItems = siblingCards.map((id, at) => ({ id, label: cardName(id) || (floatingTile?.groupFor?.(id) ?? floatingTile?.group ?? "Card") + " " + (at + 1) }));
+    // (Never "Card 2": a card with no name of its own takes the line of the tile that lists it, in the tile's order; else its group's name.)
+    const lineAt = (at: number): string => {
+        const line = floatingTile?.items && floatingTile.items.length === siblingCards.length ? floatingTile.items[at] : undefined;
+        return line ? plainTitle(line).replace(/\*\*/g, "").trim() : "";
+    };
+    const floatingItems = siblingCards.map((id, at) => ({ id, label: cardName(id) || cardName(id.replace(/^founder-/, "")) || lineAt(at) || (floatingTile?.groupFor?.(id) ?? floatingTile?.group ?? floatingTile?.title ?? "") }));
     const floatingAt = floating ? siblingCards.findIndex(item => item === floating.id || item === "founder-" + floating.id) : -1;
     const steppable = tiles.filter(tile => !(cardsFloatOnly(tile) && !tile.view && tile.holds && tile.holds.length === 0 && tile.add) && !tile.direct);
     const goDialog = (next: SectionTile) => {
@@ -1112,7 +1121,7 @@ export default function SectionTiles({
                     key={floating.tileId + ":" + floating.id}
                     anchor={floating.anchor}
                     fresh={floating.fresh}
-                    hue={floatingTile.channel || floatingTile.isChannelCard?.(floating.id) ? CHANNEL_TILE_HUE : hue}
+                    hue={floatingTile.channel || floatingTile.isChannelCard?.(floating.id) ? CHANNEL_TILE_HUE : floatingTile.hueFor?.(floating.id) ?? hue}
                     label={floatingTile.title}
                     attrs={{ "data-floating": floating.tileId, "data-card-id": floating.id }}
                     step={!floating.fresh && siblingCards.length > 1 && siblingCards.some(item => item === floating.id || item === "founder-" + floating.id) ? { what: "card", previous: () => stepFloating(-1), next: () => stepFloating(1), items: floatingItems, current: floatingAt, go: (id: string) => { if (id !== floating.id) { goFloating(id); } } } : undefined}
@@ -1881,10 +1890,7 @@ function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLEle
                     </ol>
                     {/* The way back stands in the tab, after the last option (the dialog's own foot no longer has it while the tab does). */}
                     {back && (
-                        <button type="button" className="carousel-rail-back" style={gap && gap.index === itemCount ? { marginTop: 12 + gap.size } : undefined} onClick={back} aria-label="Back" title="Back">
-                            <span className="back-arrow" aria-hidden="true" />
-                            <span className="carousel-rail-back-word">Back</span>
-                        </button>
+                        <BackButton className="carousel-rail-back" style={gap && gap.index === itemCount ? { marginTop: 12 + gap.size } : undefined} onClick={back} aria-label="Back" title="Back" />
                     )}
                 </nav>
             )}
@@ -1974,11 +1980,16 @@ export function FloatingCards({
         const measureShade = () => {
             const dialogs = [...document.querySelectorAll<HTMLElement>(".section-tile-overlay:not(.floating-overlay) > .section-tile-dialog")];
             const under = dialogs[dialogs.length - 1] ?? anchorRef.current;
-            const box = under?.getBoundingClientRect();
+            // (Only the TILES under the card are shaded -- not the title, the filter or the page round them: the tile grid, as far as the dialog or the frame shows it.)
+            const grid = under?.querySelector<HTMLElement>(".card-tile-grid, .section-tiles");
+            const frame = under?.getBoundingClientRect();
+            const box = (grid ?? under)?.getBoundingClientRect();
             const header = document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom ?? 0;
-            const top = box ? Math.max(box.top, header) : 0;
-            const bottom = box ? Math.min(box.bottom, window.innerHeight) : 0;
-            const next = under && box && box.width > 0 && bottom - top > 0 ? { left: box.left, top, width: box.width, height: bottom - top, radius: getComputedStyle(under).borderRadius } : null;
+            const left = box && frame ? Math.max(box.left, frame.left) : 0;
+            const right = box && frame ? Math.min(box.right, frame.right) : 0;
+            const top = box && frame ? Math.max(box.top, frame.top, header) : 0;
+            const bottom = box && frame ? Math.min(box.bottom, frame.bottom, window.innerHeight) : 0;
+            const next = under && right - left > 0 && bottom - top > 0 ? { left, top, width: right - left, height: bottom - top, radius: grid ? "0px" : getComputedStyle(under).borderRadius } : null;
             setShade(previous => previous && next && previous.left === next.left && previous.top === next.top && previous.width === next.width && previous.height === next.height ? previous : next);
         };
         const position = () => {
@@ -2356,10 +2367,7 @@ function TileDialog({
                 </div>
 
                 <div className="section-tile-dialog-foot">
-                    <button type="button" className="section-tile-back" onClick={back}>
-                        <span className="back-arrow" aria-hidden="true" />
-                        {" Back"}
-                    </button>
+                    <BackButton className="section-tile-back" onClick={back} />
                 </div>
 
             </div>

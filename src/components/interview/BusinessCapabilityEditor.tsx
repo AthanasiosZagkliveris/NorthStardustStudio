@@ -1,3 +1,4 @@
+import { toneHue } from "./CardTile.tsx";
 import "../../styles/system-confirmation.css";
 import LegalEntityEditor from "./LegalEntityEditor.tsx";
 import { orphanedCards, withInheritedOfferings, withoutCards, type GeneratedCard } from "../../framework/engine/GeneratedCards.ts";
@@ -4568,6 +4569,11 @@ export default function BusinessCapabilityEditor({
                 .map(kinds => floor.filter(row => kinds.includes(row.kind) && row.missing).flatMap(row => row.missing!))
                 .map(lacking => lacking.length > 0 ? lacking : undefined),
             isChannelCard: (cardId: string) => channelToneIds.has(cardId),
+            // (A card floats in the hue of its tile: Infrastructure's, Offering's, a channel's.)
+            hueFor: (cardId: string) => {
+                const row = rows.find(entry => entry.id === cardId);
+                return row && row.tone !== "legal" ? toneHue(row.tone) : undefined;
+            },
             kindFor: () => "card",
             cardFor: (cardId: string) => {
                 const index = founders.findIndex(founder => founder.id === cardId);
@@ -4621,6 +4627,8 @@ export default function BusinessCapabilityEditor({
             items: namesOf(all, "Unnamed Activity"),
             itemAlerts: all.map(activity => missingById.get(activity.id)),
             links: cardLinks(all),
+            // (The hue of the section the activity belongs to.)
+            hueFor: (cardId: string) => stableCardHue(groups.some(entry => entry.list.some(activity => activity.id === cardId)) ? "infrastructure" : "offering-capability"),
             // (A card stays open when its Completed tick is taken off: it goes back to its own tile.)
             cardFor: (cardId: string) => {
                 const group = groups.find(entry => entry.list.some(activity => activity.id === cardId));

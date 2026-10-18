@@ -42,3 +42,8 @@ A survey of 2026-10-17 (grep counts over `src`, non-test `.tsx`; a class may be 
 10. Raw `<select>` (9) and the day/month popup copy; then the text links (7 classes).
 
 This session starts with the text links (`TextLink`) and the name cell; the rest wait for the owner's order.
+
+## Added 2026-10-18
+
+- **BackButton** (`src/components/BackButton.tsx`, `back-button.css`): every Back (the card tab's, a dialog's foot, the page footer, the Capability description). One look: the solid arrow, the word in capitals, the tab's mid tone; bold and the "+" box colour under the pointer, the arrow growing 20%.
+- **TextLink**'s long-text slide is drawn by the scroll of the link's box (`textLinks.ts`), as a tile's long title is, and ignores the reduce-motion setting (it moves only under the pointer).

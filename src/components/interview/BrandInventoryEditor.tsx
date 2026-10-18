@@ -476,7 +476,6 @@ export default function BrandInventoryEditor({
                         label="Image"
                         hint={image.fileName || undefined}
                         onClear={() => removeImage(index)}
-                        clearBeside
                         shape="image"
                         accept="image/*"
                         disabled={disabled}

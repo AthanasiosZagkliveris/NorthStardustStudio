@@ -39,8 +39,7 @@
     text-underline-position: under;
     text-underline-offset: 1px !important;
     text-overflow: clip !important;
-    text-indent: calc(-1 * var(--link-shift, 0px));
-    transition: text-indent 1.6s linear .2s;
+    /* (The text moves across by the scroll of the link's box: textLinks.ts.) */
 }
 
 :is(.text-link, .business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):focus-visible {

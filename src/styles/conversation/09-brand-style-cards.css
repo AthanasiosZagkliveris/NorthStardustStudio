@@ -99,7 +99,6 @@
     display:grid;
 
     /* (One label column on a colour's card and on a typeface's: as wide as its longest label, then the 12px gap, the cells ending together at the name cell's right edge.) */
-    grid-template-columns:max-content minmax(0, 1fr);
 
     align-items:center;
 
@@ -633,15 +632,24 @@
 
 }
 
-/* The ROLE AND COLOUR cells stand at the RIGHT of their rows: each one's right edge is the name cell's right edge (the label keeps the left). */
-.brand-side-rows .option-picker{
+/* The ROLE AND COLOUR ROWS stand at the RIGHT, whole (label and cell together): the label column is as wide as its longest label, the cells are one width, and the pair ends where the name cell ends. */
+.brand-side-rows{
 
-    justify-self:end;
+    grid-template-columns:max-content var(--control-date);
+
+    justify-content:end;
+
+}
+
+.brand-side-rows .option-picker,
+.brand-side-rows .brand-colour-row{
+
+    justify-self:stretch;
 
 }
 
 .brand-side-rows .brand-colour-row{
 
-    justify-content:flex-end;
+    justify-content:flex-start;
 
 }

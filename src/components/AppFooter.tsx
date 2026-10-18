@@ -1,3 +1,4 @@
+import BackButton from "./BackButton.tsx";
 import "../styles/workspace.css";
 
 interface AppFooterProps {
@@ -40,13 +41,7 @@ export default function AppFooter({
 
         <footer className="workspace-footer">
 
-            <button
-                type="button"
-                className="back-link"
-                onClick={onBack}
-            >
-                ← Back
-            </button>
+            <BackButton className="back-link" onClick={onBack} />
 
             <div className="workspace-footer-actions">
 

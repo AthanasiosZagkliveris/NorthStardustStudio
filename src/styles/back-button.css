@@ -1,0 +1,55 @@
+/* ==========================================================
+   THE BACK BUTTON (src/components/BackButton.tsx): one look wherever it stands -- the tab's: the solid arrow, then the word in capitals, in the card's mid tone;
+   under the pointer or the keyboard, bold and the colour of the "+" box, the arrow growing 20% forward. Loaded after every other stylesheet, so no older rule of a
+   place's own Back outranks it.
+========================================================== */
+.back-button.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gap-12);
+    min-height: 0;
+    min-width: 0;
+    height: auto;
+    margin: 0;
+    padding: 2px 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    font: inherit;
+    font-size: var(--font-body);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: calc(var(--rest-tracking, 0.1em));
+    text-decoration: none;
+    color: var(--tab-edge, var(--nav-edge, var(--text-default)));
+    cursor: pointer;
+    transition: color .15s ease;
+}
+
+.back-button.back-button > .back-arrow {
+    flex: none;
+    margin: 0 calc((12px - 0.8em * 22 / 28) / 2);
+    transform-origin: right center;
+    transition: transform .15s ease;
+}
+
+.back-button.back-button:is(:hover, :focus-visible):not(:disabled) {
+    color: hsl(var(--strategy-theme-hue, 0) var(--plus-fill-saturation, 40%) var(--plus-fill-lightness, 30%));
+    text-shadow: var(--hover-bold);
+    letter-spacing: var(--rest-tracking, 0.1em) !important;
+}
+
+.back-button.back-button:is(:hover, :focus-visible):not(:disabled) > .back-arrow {
+    transform: scale(1.2);
+}
+
+.back-button.back-button:focus-visible {
+    outline: 2px solid var(--focus-ring-ink);
+    outline-offset: 2px;
+}
+
+/* On the right-hand tab the arrow stands after the word, as the tab's other items. */
+.carousel-rail.carousel-rail-tab-left .back-button {
+    flex-direction: row-reverse;
+}

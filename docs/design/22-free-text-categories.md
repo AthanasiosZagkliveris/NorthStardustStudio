@@ -44,3 +44,7 @@ The four add up to 183: 7 + 87 + 75 + 14. The notes of category 3 are 58 in floa
 - **Long text**: eight rows by default (a tile's text, the strategy statements); the Value Proposition keeps the height its column needs.
 - **Card notes**: the Notes panel lists every card's Notes (name, page, text) under a funnel that chooses the pages; a press opens the card (`CardNotesService.ts`).
 - **Record time**: each floating card shows "Recorded <date> <time>" under it, as a note does (kept per organization in the browser, set the first time the card is made or opened).
+
+## Where the holders stand on 2026-10-18
+
+By rule there are **four** categories (short text, list line, note, long text). In the styles there are still more classes than that: notes are drawn by five classes (`business-foundation-note`, `legal-entity-note`, `strategy-note`, `brand-mark-note`, `notepad-note-text`), long texts by three (`interview-input` at eight rows, `strategy-prose`, `business-foundation-proposition-input`). One component per category is still to be made. A list you write in (a numbered list), an image's holder and the holder of an image's name and note are drawn as a text box now (recessed, no stroke at rest).

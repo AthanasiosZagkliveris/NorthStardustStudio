@@ -4,7 +4,7 @@
    Where a box holds the field (a date cell: its text and its calendar button; a numbered list's lines) the BOX draws the ring and what is inside draws none.
    Loaded after every other stylesheet (main.tsx), so no page's older rule for its own focus outranks it.
 ========================================================== */
-:is(textarea, input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"]), .option-picker-trigger, .month-picker-trigger):is(:focus, :focus-visible, :active):not(:disabled, .numbered-list-input, .date-cell-field :is(input, textarea)) {
+:is(textarea, input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"]), .option-picker-trigger, .month-picker-trigger):is(:focus, :focus-visible, :active):not(:disabled, .numbered-list-input, .date-cell-field > :is(input, textarea)) {
     outline: none !important;
     border-color: var(--line-primary) !important;
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent) !important;
@@ -24,7 +24,7 @@
 }
 
 /* What is inside a box that draws the ring draws no edge and no outline: a date or colour cell's text keeps its recess, a list's line has none. */
-.date-cell-field :is(input, textarea):is(:focus, :focus-visible) {
+.date-cell-field > :is(input, textarea):is(:focus, :focus-visible) {
     outline: none !important;
     border-color: transparent !important;
     box-shadow: var(--cell-inset-recess) !important;
@@ -46,7 +46,7 @@
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
 }
 
-.date-cell-field :is(input, textarea):hover:not(:focus) {
+.date-cell-field > :is(input, textarea):hover:not(:focus) {
     border-color: transparent !important;
     box-shadow: var(--cell-inset-recess) !important;
 }
@@ -55,4 +55,76 @@
    changes its weight, and on a button it made the whole button wider. The tracking stays what it is at rest, so the button's box never changes. */
 :is(.primary-button, .secondary-button, .back-link, .strategy-add-button, .interview-help-toggle, .workspace-documents-button, .business-documents-button, .confirmation-button, .start-arrow-button):is(:hover, :focus-visible, :active):not(:disabled) {
     letter-spacing: var(--rest-tracking, 0.1em) !important;
+}
+
+/* THE COLOUR BOX (the swatch inside a colour cell) answers the pointer with its own halo, the glow round the box, and the keyboard with the ring round it. */
+.brand-colour-picker:hover:not(:disabled) {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 35%, transparent);
+}
+
+.brand-colour-picker:focus-visible:not(:disabled) {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--line-primary), 0 0 0 4px color-mix(in srgb, var(--glow-color) 35%, transparent);
+}
+
+/* NO WIREFRAME AT REST: a list you write in, an image's holder and the holder of an image's name and note have no stroke and no dashes: they are drawn as a text box is
+   (the recessed field). A holder that holds a picture is FLAT (the picture on its paper, no inset), as a tick box ticked is. Hover is the glow, focus the ring. */
+.numbered-list.numbered-list,
+.brand-asset-preview.brand-asset-preview,
+.brand-image-text.brand-image-text {
+    border: 1px solid transparent;
+    box-shadow: var(--cell-inset-recess);
+}
+
+.brand-asset-preview.brand-asset-preview:has(img) {
+    box-shadow: none;
+}
+
+.numbered-list.numbered-list:hover:not(:focus-within, :has(:disabled)),
+.brand-image-text.brand-image-text:hover:not(:focus-within),
+.brand-holder-button.brand-holder-button:hover:not(:disabled, :focus-visible, .brand-dropzone-active) {
+    border-color: transparent;
+    box-shadow: var(--cell-inset-recess), 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
+}
+
+.brand-holder-button.brand-holder-button:has(img):hover:not(:disabled, :focus-visible, .brand-dropzone-active) {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
+}
+
+.brand-holder-button.brand-holder-button:focus-visible,
+.brand-image-text.brand-image-text:focus-within {
+    border-color: var(--line-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
+}
+
+/* THE TEXT HIERARCHY's rows answer the pointer: the tick takes the glow, the sample text goes bold and underlined, as a tick option's words do. */
+.brand-hierarchy-row:hover:not(:has(:disabled)) .brand-tick-box {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
+}
+
+.brand-hierarchy-row:hover:not(:has(:disabled)) .brand-slot-label {
+    text-shadow: var(--hover-bold);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+/* IMAGE, ICON AND LOGO are image holders and have ONE layout: the label row (the label on the centre line of its x), the holder, the file's name under it, and where it has words, a Notes field. */
+.brand-slot-label-row.brand-slot-label-row {
+    align-items: center;
+    min-height: var(--size-box-button);
+}
+
+.brand-slot-aside > .optional-field > .optional-field-head {
+    margin-top: 3px;
+}
+
+/* THE COLOUR PICKER CARD's gaps: one gap (12px) between its parts -- the square, the hue bar, the code's picker, the cells -- and 4px between a cell and its small label. */
+.colour-popup.colour-popup {
+    gap: var(--gap-12);
+    padding: var(--gap-12);
+}
+
+.colour-popup-code.colour-popup-code {
+    margin-bottom: 0;
 }

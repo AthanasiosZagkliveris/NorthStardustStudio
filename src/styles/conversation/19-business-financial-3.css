@@ -136,23 +136,13 @@
 
     display:flex;
 
-    align-items:baseline;
+    align-items:center;
 
-    justify-content:space-between;
+    justify-content:flex-start;
 
-    gap:var(--gap-12);
+    gap:0;
 
     margin-top:6px;
-
-}
-
-.strategy-situation-note{
-
-    font-size:var(--font-body);
-
-    line-height:1.4;
-
-    color:var(--text-muted);
 
 }
 
@@ -239,3 +229,10 @@
 
 }
 
+
+/* Refresh is a header tool button (the app header's own look), with its "i" beside it; the note it carried is in the "i". */
+.strategy-situation-source > .strategy-situation-refresh{
+
+    margin-left:0;
+
+}

@@ -1,3 +1,4 @@
+import BackButton from "./BackButton.tsx";
 import { Capability } from "../types/capability";
 import { CapabilityDescription } from "../framework/engine/CapabilityDescriptions.ts";
 import { getCapabilityIcon } from "../data/capabilityIcons.ts";
@@ -92,13 +93,7 @@ export default function CapabilityDescriptionDialog({
 
                 <div className="capability-description-actions">
 
-                    <button
-                        type="button"
-                        className="capability-description-back"
-                        onClick={onBack}
-                    >
-                        ← Back
-                    </button>
+                    <BackButton className="capability-description-back" onClick={onBack} />
 
                 </div>
 

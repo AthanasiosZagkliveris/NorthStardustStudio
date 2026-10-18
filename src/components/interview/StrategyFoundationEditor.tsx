@@ -17,14 +17,13 @@ import { railId } from "./rails/railItems.ts";
 import { workHue } from "../../framework/engine/WorkColours.ts";
 import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 
-import { InfoPoint } from "./InfoNote.tsx";
+import InfoNote, { InfoPoint } from "./InfoNote.tsx";
 import SectionTiles, { DialogHeading, OPEN_EVENT, type OpenRequest, type SectionTile, type TileAdd } from "./SectionTiles.tsx";
 import AddThemeMenu from "./AddThemeMenu.tsx";
 import { AnswerType } from "../../framework/enums/AnswerType.ts";
 import MonthYearPicker from "./MonthYearPicker.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import NumberedListInput from "./NumberedListInput.tsx";
-import TextLink from "./TextLink.tsx";
 
 interface StrategyFoundationEditorProps {
 
@@ -302,21 +301,22 @@ export default function StrategyFoundationEditor({
 
                 {/* Where the text came from, and the way back to the draft. */}
                 <div className="strategy-situation-source">
-                    <span className="strategy-situation-note">
-                        {!situationDraft
-                            ? "Filled in from the Business System once it records your Offerings, Channels and finances."
-                            : foundation.situationSource === "auto"
-                                ? "Filled in from the Business System. Edit it freely."
-                                : "Your own text. Refresh brings back the draft from the Business System."}
-                    </span>
-                    <TextLink
+                    <button
                         type="button"
-                        className="business-engagement-link"
+                        className="header-tool strategy-situation-refresh"
                         disabled={disabled || !situationDraft}
                         onClick={refreshSituation}
                     >
-                        Refresh
-                    </TextLink>
+                        <span className="header-tool-word">Refresh</span>
+                    </button>
+                    <InfoNote
+                        label="Refresh"
+                        points={[!situationDraft
+                            ? "Filled in from the Business System once it records your Offerings, Channels and finances."
+                            : foundation.situationSource === "auto"
+                                ? "Filled in from the Business System. Edit it freely."
+                                : "Your own text. Refresh brings back the draft from the Business System."]}
+                    />
                 </div>
 
             </>

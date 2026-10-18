@@ -30,6 +30,7 @@ Where the rules need a decision the code could not give, section 20 lists it.
 - 20. Still to settle
 - 21. Rules of 2026-10-17 (floating cards, generated cards, notes, folds, cells)
 - 22. Rules of 2026-10-18 (colour picker, brand cards, hover, shade, links)
+- 23. Rules of 2026-10-18, second round (cells, rows, holders, back, shade, colours)
 
 ---
 
@@ -1760,3 +1761,20 @@ Each is global: the shared component, token or class carries it.
 7. **The shade behind a floating card stays on the chapter**: it is fixed to the window and measured again whenever the page or a box scrolls or the window changes; it covers the topmost dialog under the card (Inventory, Completed, a category's), else the frame the card was opened from. A press on it closes the card.
 8. **A long text link moves under the pointer whatever the system's motion setting** (the Responsibilities, the Links, a tile's title): it moves only while the pointer is on it, and moving is the one way to read a text its place cuts.
 9. **Quillfield (the example) is a sole proprietorship**: the Certificate of Assumed Name is its registration; the owner's savings are a funding source (Owner's savings), not a company's capital.
+
+## 23. Rules of 2026-10-18, second round (cells, rows, holders, back, shade, colours)
+
+1. **Every cell inside a pop-up has every reaction** (hover glow, ring): a pop-up that stands inside a box that draws the ring (the colour picker inside the colour cell) is not part of that box (`.date-cell-field > input`, not any input under it). The colour box (swatch) has its own halo under the pointer and its own ring.
+2. **A row that stands at the right stands whole** (label and cell together): the Role and Colour rows of a colour or typeface card end at the name cell's right edge, the label beside its cell.
+3. **The Text Hierarchy's rows answer the pointer**: the tick glows, the sample text goes bold and underlined.
+4. **Every card is checked for its gaps when it is made**: the colour picker's parts stand 12px apart, the cell and its small label 4px.
+5. **Customer Engagement's Segment, its sections and the channel expenses start open** (their work is inside them); only information, help and links start closed.
+6. **A card's bullet in the rail never says "Card 2"**: it says the card's name, else the line of the tile that lists it.
+7. **A long text link slides by the scroll of its box** (`textLinks.ts`), like a tile's long title, under the pointer only, whatever the motion setting. A name that is a link keeps its number, the text goes behind it.
+8. **Image, Icon and Logo are image holders with one layout**: the label row (the label on the centre line of its x), the holder, the file's name, a Notes field where there are words. A Notes tick stands level with the top of its holder.
+9. **No wireframe at rest**: a list, an image's holder and the holder of an image's name and note have no stroke or dashes; they are drawn as a text box (recessed). A holder with a picture is flat. Hover is the glow, focus the ring.
+10. **The shade of a floating card covers the tiles under it** (the tile grid of the dialog or the frame), not the title, the filter or the page round them; it stays fixed as the page scrolls.
+11. **A card floats in the hue of its tile**: the Inventory's and the Completed's cards take the hue of their origin (Infrastructure's, Offering's, a channel's).
+12. **Refresh is a header-tool button** with an "i" beside it that holds the note.
+13. **There is one Back**: `BackButton` (the card tab's look) wherever a Back stands: the tab, a dialog's foot, the page's footer, the Capability description.
+14. **Pop-ups are six categories** with their own characteristics: docs/design/25 (the pop-ups).
