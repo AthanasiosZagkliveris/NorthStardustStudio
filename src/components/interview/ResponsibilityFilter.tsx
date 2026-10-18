@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useLayoutEffect } from "react";
 
+import TickBox from "../TickBox.tsx";
 import FunnelButton from "../FunnelButton.tsx";
 import { consumeKey } from "./consumeKey.ts";
 
@@ -96,7 +97,7 @@ export default function ResponsibilityFilter({
                 <div className="responsibility-filter-panel" role="group" aria-label={label}>
                     {options.map(option => (
                         <label key={option} className="responsibility-filter-option">
-                            <input type="checkbox" checked={!off.has(option)} onChange={() => onToggle(option)} />
+                            <TickBox checked={!off.has(option)} onChange={() => onToggle(option)} />
                             <span>{option}</span>
                         </label>
                     ))}

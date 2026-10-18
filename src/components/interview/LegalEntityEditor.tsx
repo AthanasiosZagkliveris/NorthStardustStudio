@@ -1,4 +1,5 @@
 import { CSSProperties, ReactNode, useEffect, useRef } from "react";
+import TickBox from "../TickBox.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import NumberCell from "../NumberCell.tsx";
 import RemoveButton from "../RemoveButton.tsx";
@@ -1272,9 +1273,7 @@ export default function LegalEntityEditor({
                         <div className="legal-entity-activity-code-tick">
                             <span className="legal-entity-switch-cell">
                                 <label className="legal-entity-switch">
-                                    <input
-                                        type="checkbox"
-                                        className="brand-tick-box"
+                                    <TickBox
                                         aria-label={"Has a " + profile.activityCode}
                                         disabled={disabled}
                                         checked={entity.organisation.activityCodeOn}
@@ -1488,9 +1487,7 @@ export default function LegalEntityEditor({
             <div className="legal-entity-switch-row">
 
                 <label className="legal-entity-switch">
-                    <input
-                        type="checkbox"
-                        className="brand-tick-box"
+                    <TickBox
                         disabled={disabled}
                         checked={entity.capitalApplies}
                         onChange={(event) => update({
@@ -1966,9 +1963,7 @@ export default function LegalEntityEditor({
                             label, so reading the note never toggles the tick. */}
                         <span className="legal-entity-switch-cell">
                         <label className="legal-entity-switch">
-                            <input
-                                type="checkbox"
-                                className="brand-tick-box"
+                            <TickBox
                                 aria-label={"Registered for " + profile.consumptionTax}
                                 disabled={disabled}
                                 checked={entity.tax.consumptionTaxStatus === "yes"}
@@ -2174,9 +2169,7 @@ export default function LegalEntityEditor({
                             offered this requirement in their Links. */}
                         <div className="legal-entity-offer-line">
                         <label className="legal-entity-switch legal-entity-offer">
-                            <input
-                                type="checkbox"
-                                className="brand-tick-box"
+                            <TickBox
                                 disabled={disabled}
                                 checked={requirement.offerInExpenses}
                                 onChange={(event) => offerInExpenses(index, event.target.checked)}

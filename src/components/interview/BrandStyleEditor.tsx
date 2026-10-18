@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useLayoutEffect, useRef, useState } from "react";
 
+import TickBox from "../TickBox.tsx";
 import { brandColourMissing, brandTypefaceMissing } from "../../framework/engine/SystemCardCompleteness.ts";
 import ColourPicker from "./ColourPicker.tsx";
 import {
@@ -559,9 +560,7 @@ export default function BrandStyleEditor({
                 }
                 title={blocked}
             >
-                <input
-                    type="checkbox"
-                    className="brand-tick-box"
+                <TickBox
                     aria-label={label}
                     checked={enabled}
                     disabled={disabled || !!blocked}

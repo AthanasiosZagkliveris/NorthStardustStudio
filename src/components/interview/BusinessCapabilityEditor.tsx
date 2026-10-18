@@ -1,4 +1,5 @@
 import { toneHue } from "./CardTile.tsx";
+import TickBox from "../TickBox.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import NumberCell from "../NumberCell.tsx";
 import "../../styles/system-confirmation.css";
@@ -4169,9 +4170,7 @@ export default function BusinessCapabilityEditor({
                 {/* Done, at the very end (the one card order: fields,
                     Description, links, then the card's state), on the left with the other ticks. */}
                 <label className="business-capability-done">
-                    <input
-                        type="checkbox"
-                        className="brand-tick-box"
+                    <TickBox
                         aria-label={"Activity " + number + " completed"}
                         disabled={disabled}
                         checked={activity.completed}

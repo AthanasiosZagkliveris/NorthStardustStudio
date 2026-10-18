@@ -1,5 +1,6 @@
 import { createContext, CSSProperties, ReactNode, useContext, useEffect, useRef, useState } from "react";
 
+import TickBox from "../TickBox.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import RemoveButton from "../RemoveButton.tsx";
 import OptionPicker from "./OptionPicker.tsx";
@@ -173,9 +174,7 @@ export function BusinessField({
                     <>
                         <span className="business-foundation-label-info">
                             <label className="business-foundation-tick business-foundation-tick-inline">
-                                <input
-                                    type="checkbox"
-                                    className="brand-tick-box"
+                                <TickBox
                                     aria-label={tick.ariaLabel}
                                     disabled={tick.disabled}
                                     checked={tick.on}
@@ -477,9 +476,7 @@ export function OptionalField({
             */}
             <span className="business-foundation-label-info optional-field-head">
                 <label className="business-foundation-tick business-foundation-tick-inline">
-                    <input
-                        type="checkbox"
-                        className="brand-tick-box"
+                    <TickBox
                         disabled={disabled}
                         checked={shown}
                         onChange={(event) => {
@@ -637,9 +634,7 @@ export function BusinessTicks({
 
                 <label className={"business-foundation-tick" + (option.indent ? " business-foundation-tick-indented" : "") + (option.blocked ? " business-foundation-tick-blocked" : "")} key={option.id}>
 
-                    <input
-                        type="checkbox"
-                        className="brand-tick-box"
+                    <TickBox
                         /* The group's name in front of the box's
                            own, because a page can hold the same
                            five stages a dozen times over and

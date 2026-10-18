@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useRef, useState } from "react";
 
+import TickBox from "../TickBox.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import { cardNameMissing } from "../../framework/engine/SystemCardCompleteness.ts";
 import { workHue } from "../../framework/engine/WorkColours.ts";
@@ -639,9 +640,7 @@ export default function BusinessFoundationEditor({
                                 meant.
                             */
                             <label className="business-foundation-tick business-foundation-tick-inline">
-                                <input
-                                    type="checkbox"
-                                    className="brand-tick-box"
+                                <TickBox
                                     disabled={disabled}
                                     checked={asked}
                                     onChange={(event) => {
@@ -1428,9 +1427,7 @@ export default function BusinessFoundationEditor({
                                         className="business-foundation-tick"
                                         key={need}
                                     >
-                                        <input
-                                            type="checkbox"
-                                            className="brand-tick-box"
+                                        <TickBox
                                             disabled={disabled}
                                             checked={
                                                 offering.needsAddressed.includes(need)

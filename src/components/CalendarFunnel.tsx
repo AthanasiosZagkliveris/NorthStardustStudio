@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import TickBox from "./TickBox.tsx";
 import DateCellInput from "./interview/DateCellInput";
 
 import { CARD_DATE_KINDS, type CardDateKind } from "../framework/engine/CalendarCardDates";
@@ -61,8 +62,7 @@ function MultiPick<T extends string>({
                     </div>
                     {options.map(option => (
                         <label key={option.id} className="org-calendar-funnel-kind">
-                            <input
-                                type="checkbox"
+                            <TickBox
                                 checked={selected.has(option.id)}
                                 onChange={(event) => {
                                     const next = new Set(selected);

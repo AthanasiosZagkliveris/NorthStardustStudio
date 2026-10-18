@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import TickBox from "../TickBox.tsx";
 import {
     OperationalLogAnswerValue,
     ProcessRecordValue,
@@ -358,8 +359,7 @@ export default function OperationalLogEditor({
 
                 <label className="operational-log-filter operational-log-filter-checkbox">
 
-                    <input
-                        type="checkbox"
+                    <TickBox
                         checked={showLatestOnly}
                         onChange={(event) => setShowLatestOnly(event.target.checked)}
                     />

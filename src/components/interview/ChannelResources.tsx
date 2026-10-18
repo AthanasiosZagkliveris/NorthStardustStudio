@@ -1,3 +1,4 @@
+import FieldLabel from "../FieldLabel.tsx";
 import { KeyboardEvent, ReactNode, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import RemoveButton from "../RemoveButton.tsx";
 import { useAboveTip } from "./AboveTip.tsx";
@@ -254,7 +255,7 @@ export default function ChannelResources(props: ChannelResourcesProps) {
 
             {props.heading && (
                 <div className="business-channel-resources-head">
-                    <span className="business-channel-field-label">{props.heading}</span>
+                    <FieldLabel className="business-channel-field-label">{props.heading}</FieldLabel>
                     {!isolating && (
                         <button
                             type="button"

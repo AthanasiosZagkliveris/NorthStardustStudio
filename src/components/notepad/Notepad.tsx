@@ -1,4 +1,5 @@
 import { KeyboardEvent, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import TickBox from "../TickBox.tsx";
 import RemoveButton from "../RemoveButton.tsx";
 import { useNavigate } from "react-router-dom";
 
@@ -337,9 +338,7 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
                     : null}
                 {/* The Date: a tick; ticked, its label becomes the day to pick, and the note stands on that day of the Calendar. */}
                 <span className="notepad-date">
-                    <input
-                        type="checkbox"
-                        className="brand-tick-box"
+                    <TickBox
                         aria-label="Date"
                         checked={!!note.date}
                         onChange={(event) => {
