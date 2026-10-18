@@ -1,4 +1,5 @@
 import { CSSProperties, ReactNode, useEffect, useRef } from "react";
+import AddButton from "../AddButton.tsx";
 import TickBox from "../TickBox.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import NumberCell from "../NumberCell.tsx";
@@ -1646,16 +1647,14 @@ export default function LegalEntityEditor({
                 is a question the user has to answer.
             */}
             {!soleFounderForm && (
-                <button
-                    type="button"
-                    className="strategy-add-button legal-entity-list-add"
+                <AddButton className="legal-entity-list-add"
                     disabled={disabled}
                     onClick={() => update({
                         founders: [...entity.founders, createLegalEntityFounder()]
                     })}
                 >
                     + Add founder
-                </button>
+                </AddButton>
             )}
 
             {/* Nothing to total where neither is asked. */}
@@ -1887,9 +1886,7 @@ export default function LegalEntityEditor({
                 {/* At the end of the list: the list-end add
                     button, the list's whole width. */}
                 {!(entity.formation.status === "planned") && entity.formation.additionalNumbers.length < MAX_MORE_NUMBERS && (
-                    <button
-                        type="button"
-                        className="strategy-add-button legal-entity-list-add"
+                    <AddButton className="legal-entity-list-add"
                         disabled={disabled}
                         onClick={() => updateFormation({
                             additionalNumbers: [
@@ -1899,7 +1896,7 @@ export default function LegalEntityEditor({
                         })}
                     >
                         + Add registration number
-                    </button>
+                    </AddButton>
                 )}
 
             </div>
@@ -2007,9 +2004,7 @@ export default function LegalEntityEditor({
                     "Tax registration"
                 )}
 
-                {entity.tax.additionalRegistrations.length < MAX_MORE_NUMBERS && <button
-                    type="button"
-                    className="strategy-add-button legal-entity-list-add"
+                {entity.tax.additionalRegistrations.length < MAX_MORE_NUMBERS && <AddButton className="legal-entity-list-add"
                     disabled={disabled}
                     onClick={() => updateTax({
                         additionalRegistrations: [
@@ -2019,7 +2014,7 @@ export default function LegalEntityEditor({
                     })}
                 >
                     + Add tax registration
-                </button>}
+                </AddButton>}
 
             </div>
 
@@ -2459,9 +2454,7 @@ export default function LegalEntityEditor({
 
             {entity.requirements.map((requirement, index) => requirementCard(requirement, index))}
 
-            <button
-                type="button"
-                className="strategy-add-button card-list-add"
+            <AddButton className="card-list-add"
                 disabled={disabled}
                 onClick={() => {
                     const requirement = createLegalEntityRequirement();
@@ -2475,7 +2468,7 @@ export default function LegalEntityEditor({
                 }}
             >
                 + Add legal requirement
-            </button>
+            </AddButton>
 
         </>
     ), undefined, (
@@ -2493,9 +2486,7 @@ export default function LegalEntityEditor({
 
             {entity.expenses.map((expense, index) => expenseCard(expense, index))}
 
-            <button
-                type="button"
-                className="strategy-add-button card-list-add"
+            <AddButton className="card-list-add"
                 disabled={disabled}
                 onClick={() => {
                     const expense = createLegalEntityExpense();
@@ -2506,7 +2497,7 @@ export default function LegalEntityEditor({
                 }}
             >
                 + Add expense
-            </button>
+            </AddButton>
 
         </>
     ), undefined, (

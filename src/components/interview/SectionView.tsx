@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useContext, useEffect, useMemo, useRef, useState } from "react";
 
+import AddButton from "../AddButton.tsx";
 import {
     CHANNEL_TILE_HUE,
     CrumbNote,
@@ -87,9 +88,7 @@ function CategoryTile({
                 </div>
             )}
             {add && (
-                <button
-                    type="button"
-                    className="plus-box section-tile-plus"
+                <AddButton shape="box" className="section-tile-plus"
                     aria-label={"Add " + what + " to " + plainTitle(title)}
                     onClick={(event) => onAdd(event.detail > 0)}
                 />
@@ -107,17 +106,12 @@ export function AddTile({ label, disabled, across, onAdd, after, column, row }: 
     return (
         // (In the LAST column of the grid: the empty place at the end of the lowest row of tiles, else a row of its own under them -- at the bottom right.)
         <div className="add-card-slot" style={{ ...(row !== undefined ? { gridRow: row } : {}), gridColumn: column ?? (after === undefined ? across : (after % Math.max(across, 1)) + 1), ...(after !== undefined ? { justifySelf: "start", alignSelf: "start" } : {}) }}>
-            <button
-                type="button"
-                className="add-card-tile"
+            <AddButton shape="tile"
                 aria-label="Add Card"
                 title={"Add " + label}
                 disabled={disabled}
                 onClick={(event) => onAdd(event.detail > 0)}
-            >
-                <span className="add-card-plus" aria-hidden="true">+</span>
-                <span className="add-card-words">Add Card</span>
-            </button>
+            />
         </div>
     );
 }

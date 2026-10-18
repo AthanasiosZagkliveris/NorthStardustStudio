@@ -1,4 +1,5 @@
 import FieldLabel from "../FieldLabel.tsx";
+import AddButton from "../AddButton.tsx";
 import { KeyboardEvent, ReactNode, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import RemoveButton from "../RemoveButton.tsx";
 import { useAboveTip } from "./AboveTip.tsx";
@@ -354,16 +355,14 @@ export default function ChannelResources(props: ChannelResourcesProps) {
             {/* ONE BUTTON for every way of adding an expense: a blank one, every typical cost of the channel at once, one typical cost, or a card the company already has
                 (Link existing). The menu stays open for the next, and closes with its own "Done". */}
             {!isolating && !props.heading && <div className="business-step-add-row">
-                <button
-                    type="button"
-                    className="strategy-add-button"
+                <AddButton
                     aria-label={"Add expense to " + what}
                     aria-expanded={menuOpen}
                     disabled={disabled}
                     onClick={() => setMenuOpen(open => !open)}
                 >
                     + Add expense
-                </button>
+                </AddButton>
             </div>}
 
             {!isolating && menuOpen && (

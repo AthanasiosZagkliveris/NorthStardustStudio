@@ -1,5 +1,6 @@
 import { createContext, CSSProperties, ReactNode, useContext, useEffect, useRef, useState } from "react";
 
+import AddButton from "../AddButton.tsx";
 import TickBox from "../TickBox.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import RemoveButton from "../RemoveButton.tsx";
@@ -838,9 +839,7 @@ export function BusinessStep({
     if (adding) {
         return (
             <div className="business-step-add-row">
-                <button
-                    type="button"
-                    className="strategy-add-button"
+                <AddButton
                     /* Its name starts with the words it shows, then says
                        which one: "Add Relationship Type for …". */
                     aria-label={"Add " + what}
@@ -848,7 +847,7 @@ export function BusinessStep({
                     onClick={onClick}
                 >
                     {"+ Add " + (label ?? what)}
-                </button>
+                </AddButton>
             </div>
         );
     }

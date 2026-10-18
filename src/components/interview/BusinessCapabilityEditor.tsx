@@ -1,4 +1,5 @@
 import { toneHue } from "./CardTile.tsx";
+import AddButton from "../AddButton.tsx";
 import TickBox from "../TickBox.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import NumberCell from "../NumberCell.tsx";
@@ -1342,9 +1343,7 @@ export default function BusinessCapabilityEditor({
                     <div className="business-capability-performers">
                         <div className="business-capability-performer">
                             {statusPicker}
-                            <button
-                                type="button"
-                                className="plus-box plus-box-small"
+                            <AddButton shape="box" small
                                 aria-label={"Add Status to " + what}
                                 title="Add Status"
                                 disabled={disabled}
@@ -2694,9 +2693,7 @@ export default function BusinessCapabilityEditor({
                             />
                             {at === 0
                                 ? (
-                                    <button
-                                        type="button"
-                                        className="plus-box plus-box-small"
+                                    <AddButton shape="box" small
                                         aria-label={"Add milestone to " + what}
                                         title="Add milestone"
                                         disabled={disabled || plan.lines.length >= 20}
@@ -3111,9 +3108,7 @@ export default function BusinessCapabilityEditor({
                                         )
                                         : canAdd
                                             ? (
-                                                <button
-                                                    type="button"
-                                                    className="plus-box plus-box-small"
+                                                <AddButton shape="box" small
                                                     aria-label={"Add Performer to " + what}
                                                     title="Add Performer"
                                                     disabled={disabled}
@@ -3947,9 +3942,7 @@ export default function BusinessCapabilityEditor({
                                             )
                                             : canAdd
                                                 ? (
-                                                    <button
-                                                        type="button"
-                                                        className="plus-box plus-box-small"
+                                                    <AddButton shape="box" small
                                                         aria-label={"Add Resource to " + what}
                                                         title="Add Resource"
                                                         disabled={disabled}

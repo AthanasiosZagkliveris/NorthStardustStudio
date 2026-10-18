@@ -1,3 +1,4 @@
+import AddButton from "../AddButton.tsx";
 import InfoNote, { InfoPoint } from "./InfoNote.tsx";
 
 interface AddThemeMenuProps {
@@ -22,17 +23,12 @@ export default function AddThemeMenu({ disabled = false, info, onAdd }: AddTheme
 
         <div className="strategy-add-menu add-card-slot" style={{ gridColumn: -2 }}>
 
-            <button
-                type="button"
-                className="add-card-tile"
+            <AddButton shape="tile"
                 aria-label="Add Card"
                 title="Add Theme"
                 disabled={disabled}
                 onClick={onAdd}
-            >
-                <span className="add-card-plus" aria-hidden="true">+</span>
-                <span className="add-card-words">Add Card</span>
-            </button>
+            />
 
             {info && info.length > 0 && <InfoNote label="Adding Themes" points={info} fullList size="double" />}
 

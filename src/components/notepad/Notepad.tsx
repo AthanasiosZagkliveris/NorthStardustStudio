@@ -1,4 +1,5 @@
 import { KeyboardEvent, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import AddButton from "../AddButton.tsx";
 import TickBox from "../TickBox.tsx";
 import RemoveButton from "../RemoveButton.tsx";
 import { useNavigate } from "react-router-dom";
@@ -442,16 +443,14 @@ export function NotepadPanel() {
 
             <div className="notepad-head">
                 <h2 className="notepad-title">Notes</h2>
-                <button
-                    type="button"
-                    className="strategy-add-button notepad-add"
+                <AddButton className="notepad-add"
                     onClick={() => {
                         NotepadService.addNote(OrganizationService.getSelected() ?? "");
                         window.setTimeout(() => panel.current?.querySelector<HTMLTextAreaElement>(".notepad-note-text")?.focus(), 0);
                     }}
                 >
                     + Add note
-                </button>
+                </AddButton>
                 <button
                     type="button"
                     className="notepad-close"

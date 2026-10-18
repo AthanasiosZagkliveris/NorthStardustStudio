@@ -1,4 +1,5 @@
 import BackButton from "../BackButton.tsx";
+import AddButton from "../AddButton.tsx";
 import { createContext, CSSProperties, Fragment, MouseEvent as ReactMouseEvent, ReactNode, RefObject, useContext, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { CardRecordService } from "../../services/CardRecordService.ts";
 import { noteMomentText } from "../notepad/Notepad.tsx";
@@ -1294,18 +1295,14 @@ function TileSlot({
                 </div>
             )}
             {tile.add && (tile.cardFor || tile.addOpensDialog) && (
-                <button
-                    type="button"
-                    className="plus-box section-tile-plus"
+                <AddButton shape="box" className="section-tile-plus"
                     aria-label={"Add " + tile.add.label.charAt(0).toUpperCase() + tile.add.label.slice(1) + " to " + plainTitle(tile.title)}
                     disabled={tile.add.disabled}
                     onClick={(event) => onAdd(event.currentTarget, event.detail > 0)}
                 />
             )}
             {tile.plus && (
-                <button
-                    type="button"
-                    className="plus-box section-tile-plus"
+                <AddButton shape="box" className="section-tile-plus"
                     aria-label={"Add Subchannel to " + plainTitle(tile.title)}
                     onClick={(event) => { tile.plus?.(); if (!tile.press) { onOpen(event.currentTarget.parentElement?.querySelector<HTMLElement>(":scope > .section-tile") ?? event.currentTarget, event.detail > 0); } }}
                 />

@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useContext, useMemo, useRef, useState } from "react";
 
+import AddButton from "../AddButton.tsx";
 import { InitialBoxContext, InnerLevel, OpenCardContext, TileFace, TileList, useDialogInnerBack, useDialogInnerStep, type ItemMark, type TileAdd, type TileLink } from "./SectionTiles.tsx";
 import { Dots, inwardOrigin, pageTileSide, useTilesAcross } from "./CardTile.tsx";
 import type { FloorLink } from "./capabilityFloor.ts";
@@ -110,9 +111,7 @@ export default function SubTiles({ tiles, label }: { tiles: readonly SubTile[]; 
                         )}
                         {tile.circles && tile.circles.length > 0 && <Dots id={tile.id} name={tile.title} links={tile.circles} />}
                         {tile.add && (
-                            <button
-                                type="button"
-                                className="plus-box section-tile-plus"
+                            <AddButton shape="box" className="section-tile-plus"
                                 aria-label={"Add " + tile.add.label.charAt(0).toUpperCase() + tile.add.label.slice(1) + " to " + tile.title}
                                 disabled={tile.add.disabled}
                                 onClick={(event) => { if (tile.add) { openCard?.(tile.add.onAdd(), undefined, undefined, event.detail > 0, true); } }}
