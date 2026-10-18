@@ -29,9 +29,7 @@ Where the rules need a decision the code could not give, section 20 lists it.
 - 19. The assets (generated from the contracts)
 - 20. Still to settle
 - 21. Rules of 2026-10-17 (floating cards, generated cards, notes, folds, cells)
-- 22. Rules of 2026-10-18 (colour picker, brand cards, hover, shade, links)
-- 23. Rules of 2026-10-18, second round (cells, rows, holders, back, shade, colours)
-- 24. Rules of 2026-10-18, third round (shade, colour picker, holders, labels, dates, lines)
+- 22. Rules of 2026-10-18 (cells, holders, shade, links, dates, lines), by topic
 
 ---
 
@@ -1724,7 +1722,7 @@ The owner's rules of one round, each global: made in a shared component, token o
 **Floating cards**
 1. **The caption is the section's name** however the card is opened (its tile, its group's tile, another card's link): "Resources", "Activities", "Partners & Suppliers", "Founders". Never a group's name.
 2. **A card opens on the half of the page its tile is not in** (`otherColumn`, `acrossFrom`): over the frame on the other half; a card opened from a tile inside a dialog (a category's, the Inventory's, the Completed's) goes by that tile's place.
-3. **The background of a floating card is shaded once, and only where nothing shades it already** (`.floating-chapter-shade`, see rule 24.1): a press on it closes the card.
+3. **The background of a floating card is shaded once, and only where nothing shades it already** (`.floating-chapter-shade`, see rule 22.16): a press on it closes the card.
 4. **A legal card floats on 3. Infrastructure & Capability** (a founder's "L." link, an Inventory tile): the Legal Entity editor is mounted with its tiles not drawn (`cardsOnly`), and what is typed is saved to the Identity System's answer (`changeLegalEntity`).
 5. **Every floating card shows its record time under it** ("Recorded 17/10/2026 14:13", `CardRecordService`): set the first time the card is made or opened, kept in the organization's document (`cardTimes`).
 6. **A founder's floating card keeps its pairs side by side** (Salary | Frequency, Working Hours | Delivery Hours): where the card is too narrow for each label beside its cell, the label stands over its cell. The funnel ends where the Start date's calendar box ends.
@@ -1749,47 +1747,37 @@ The owner's rules of one round, each global: made in a shared component, token o
 17. **A tile with a "+" box keeps its list clear of it**, on every tile.
 18. **The Strategic Period dialog's tiles and top row end where the Themes' tiles end**, at any width.
 
-## 22. Rules of 2026-10-18 (colour picker, brand cards, hover, shade, links)
+## 22. Rules of 2026-10-18 (cells, holders, shade, links, dates, lines), by topic
 
-Each is global: the shared component, token or class carries it.
+One section for the three rounds of the day, merged by topic; each rule is global (a shared component, token or class carries it).
 
-1. **The colour picker card is one size of cell**: the code's picker (HEX, RGB, HSL; a short cell, `--control-xs`, its list exactly as wide), the hex and the three channels are every one a cell `--card-cell-height` (44px) tall with the one look of a cell. The colour cell and its colour box answer the pointer with the glow (R1), as every cell.
-2. **A colour or typeface card's Role and Colour cells stand at the right**: each one's right edge is the name cell's right edge; the labels keep the left.
-3. **The Icon's description is a Notes field** behind its tick (`OptionalNote`), as every card's optional text; it keeps its key.
-4. **A generated coloured box matches its card's colour exactly**: the Roadmap's corner over the Theme names (zoomed to months) takes the card's own ground formula, not a mix of it.
-5. **The pointer on a field is the glow only** (R1: 4px at 18%, no change of the edge, the recess kept); the primary edge belongs to the ring (R2). One rule for text boxes, text areas, name cells, pickers, number cells, date and month cells, colour cells, notes and lists.
-6. **A labelled button never changes size under the pointer** (`.primary-button`, `.secondary-button`, `.back-link`, the add and documents buttons, Start Interview): it goes bold by the thickening drawn on its letters; its tracking stays what it is at rest.
-7. **The shade behind a floating card stays on the chapter**: it is fixed to the window and measured again whenever the page or a box scrolls or the window changes; it covers the topmost dialog under the card (Inventory, Completed, a category's), else the frame the card was opened from. A press on it closes the card.
-8. **A long text link moves under the pointer whatever the system's motion setting** (the Responsibilities, the Links, a tile's title): it moves only while the pointer is on it, and moving is the one way to read a text its place cuts.
-9. **Quillfield (the example) is a sole proprietorship**: the Certificate of Assumed Name is its registration; the owner's savings are a funding source (Owner's savings), not a company's capital.
+**Cells and reactions**
+1. **The pointer on a field is the glow only** (R1: 4px at 18%, the edge never changes, the recess kept); the primary edge is the ring's (R2). One rule for text boxes, text areas, name cells, pickers, number, date, month and colour cells, notes and lists.
+2. **Every cell in a pop-up has every reaction.** A pop-up inside a box that draws the ring (the colour picker in the colour cell) is not part of that box (`.date-cell-field > input`). The colour box (swatch) has its own halo and ring.
+3. **No wireframe at rest**: a list, an image's holder and the holder of an image's name and note have no stroke or dashes, drawn as a text box (recessed); a holder with a picture is flat; hover is the glow, focus the ring. **The Global Settings' cells are the Systems' cells** (recessed, no stroke, on the card ground).
+4. **A card that holds nested boxes answers the pointer as they do** (the Text Hierarchy's card as a Goal, an Objective, a Metric: edge and glow); its rows do nothing of their own.
+5. **A labelled button never changes size under the pointer** (bold by the thickening drawn on its letters; tracking stays). **There is one Back** (`BackButton`). **Refresh is a header-tool button** with an "i" holding its note, 12px under the text.
+6. **One label**: every label (an image holder's included) is the field label (regular, the card's label colour, the body size).
+7. **One date field and one month field** (`DateCellInput`, `MonthYearPicker`), `--control-date` wide wherever asked (the calendar's funnel, the Notes panel, Global Settings included); no native date box. A note's actions wrap inside the note: the date cell goes to its own row where the row is narrow; nothing stands outside the note's box.
 
-## 23. Rules of 2026-10-18, second round (cells, rows, holders, back, shade, colours)
+**Gaps and rows**
+8. **Gaps are 12px (the common one) or 6px (vertically connected: a label and its cell, a name over its page over its text)**; a card is checked for them when it is made (the colour picker's parts 12px, a cell and its small label 6px).
+9. **A row that stands at the right stands whole** (label and cell together): the Role and Colour rows end at the name cell's right edge.
+10. **The colour picker's hex** stands beside the code's picker (80px picker, the hex the rest of the row, both 44px) with no label. The code's picker, the hex and the channels are cells of one height.
 
-1. **Every cell inside a pop-up has every reaction** (hover glow, ring): a pop-up that stands inside a box that draws the ring (the colour picker inside the colour cell) is not part of that box (`.date-cell-field > input`, not any input under it). The colour box (swatch) has its own halo under the pointer and its own ring.
-2. **A row that stands at the right stands whole** (label and cell together): the Role and Colour rows of a colour or typeface card end at the name cell's right edge, the label beside its cell.
-3. **The Text Hierarchy's rows answer the pointer**: the tick glows, the sample text goes bold and underlined.
-4. **Every card is checked for its gaps when it is made**: the colour picker's parts stand 12px apart, the cell and its small label 4px.
-5. **Customer Engagement's Segment, its sections and the channel expenses start open** (their work is inside them); only information, help and links start closed.
-6. **A card's bullet in the rail never says "Card 2"**: it says the card's name, else the line of the tile that lists it.
-7. **A long text link slides by the scroll of its box** (`textLinks.ts`), like a tile's long title, under the pointer only, whatever the motion setting. A name that is a link keeps its number, the text goes behind it.
-8. **Image, Icon and Logo are image holders with one layout**: the label row (the label on the centre line of its x), the holder, the file's name, a Notes field where there are words. A Notes tick stands level with the top of its holder.
-9. **No wireframe at rest**: a list, an image's holder and the holder of an image's name and note have no stroke or dashes; they are drawn as a text box (recessed). A holder with a picture is flat. Hover is the glow, focus the ring.
-10. **The shade of a floating card covers the tiles under it** (the tile grid of the dialog or the frame), not the title, the filter or the page round them; it stays fixed as the page scrolls.
-11. **A card floats in the hue of its tile**: the Inventory's and the Completed's cards take the hue of their origin (Infrastructure's, Offering's, a channel's).
-12. **Refresh is a header-tool button** with an "i" beside it that holds the note.
-13. **There is one Back**: `BackButton` (the card tab's look) wherever a Back stands: the tab, a dialog's foot, the page's footer, the Capability description.
-14. **Pop-ups are six categories** with their own characteristics: docs/design/25 (the pop-ups).
+**Holders and cards**
+11. **Image, Icon and Logo have one layout**: the label over, the holder with its x beside it (12px after its right edge, level with its top; in an image's card the x stands in the card's x column), the file's name under, a Notes field last. A wide picture scales in proportion.
+12. **The Icon's description is a Notes field** behind its tick. **A generated coloured box matches its card's colour exactly** (the Roadmap's corner takes the card's ground formula).
+13. **A card's bullet in the rail never says "Card 2"**: its name, else the line of the tile that lists it. **A floating card lacking an answer** has a red edge and a red bullet (a card just made and still open is not flagged). **A card floats in the hue of its tile** (Inventory and Completed cards take their origin's). **The cards of the Inventory step with arrows and a rail.**
+14. **The Card notes of the Notes panel are notes**: a note's box (12px padding, corners, ground), name, page and text 6px apart, no tracking on the text.
+15. **Customer Engagement's, Financial Foundation's and Sustainability's sections start open** (their work is in them); only information, help and links start closed.
 
-## 24. Rules of 2026-10-18, third round (shade, colour picker, holders, labels, dates, lines)
+**Floating cards' background (the shade)**
+16. **Shaded once, and only where nothing shades it already** (`measureShade`, `data-tile` on the dialog): (a) over a chapter: the chapter's frame, with its corners; (b) over the Inventory's or the Completed's tiles: the whole tiles that lie behind the card, as one rounded block, or, with no tile behind it, the card and 12px round it; (c) beside a category's dialog: the dialog's own dim, the card adds none. Fixed to the window, measured again on scroll; a press on it closes the card.
 
-1. **The shade of a floating card's background.** Where nothing shades the background already: (a) the card's background is a chapter: the chapter's frame is shaded, with the chapter's corners; (b) it is not a chapter (the Inventory, the Completed): the TILES under the card are shaded, with the corners of their dialog; (c) a category's dialog stands beside the chapter the card is over: that chapter is shaded by the dialog's own dim, the card adds none. The shade is fixed to the window and measured again as the page scrolls (`measureShade` in SectionTiles.tsx; the dialog says its tile in `data-tile`).
-2. **The colour picker's hex** stands beside the code's picker on one row (the picker 80px, the hex the rest of the row, both 44px tall) and has no label: the picker says HEX. R G B and H S L take a row of three, each with its small label 6px over its cell.
-3. **Gaps are 12px (the common one) or 6px (vertically connected: a label and its cell, a name over its page over its text).** A card is checked for them when it is made.
-4. **The Text Hierarchy's card answers the pointer as a nested card of the Strategy (a Goal, an Objective, a Metric) does** (the primary edge and the glow); its rows do nothing of their own.
-5. **One label**: an image holder's label (Logo, Icon, Image) is the field label of every cell (regular, the card's label colour, the body size).
-6. **The sections of the Financial Foundation and Sustainability pages start open**, as the Customer Engagement's do.
-7. **Image holders (Logo, Icon, Image)**: the holder with its x BESIDE it, 12px after its right edge and level with the holder's top; the holder takes the room the x leaves (a wide picture scales down in proportion); the file's name under; a Notes field, as every card's, last.
-8. **A text link's underline is never cut**: the link has 3px under its letters (taken back by its margin), so a name that is a link underlines in every card.
-9. **The Card notes of the Notes panel are notes**: the box of a note (12px padding, a note's corners and ground), the name, page and text 6px apart, no tracking on the text.
-10. **One date field and one month field**: the DateCellInput and the MonthYearPicker, the date step wide (`--control-date`), wherever a date or a month is asked (the calendar's funnel, the Notes panel and Global Settings included). No native date box.
-11. **Lines are seen**: the divider, rule, hairline and heading rule tokens, and the System cards' rules, hold 3:1 on their grounds in every reading mode (`tokens.ts` pairs); 609 measurements, none below.
+**Text links**
+17. **A long text link slides by the scroll of its box** (`textLinks.ts`), under the pointer only, whatever the motion setting; a name that is a link keeps its number and the text goes behind it. **Its underline is never cut** (3px under the letters, taken back by the margin).
+
+**Contrast and lines**
+18. **Lines are seen**: the divider, rule, hairline and heading-rule tokens and the System cards' rules hold 3:1 on their grounds in every reading mode (`tokens.ts` pairs).
+19. **Quillfield (the example) is a sole proprietorship**; **pop-ups are six categories** (docs/design/25 (the pop-ups)).

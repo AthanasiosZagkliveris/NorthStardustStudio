@@ -813,3 +813,26 @@ html.notepad-picking [data-pick-hover] {
     letter-spacing: normal;
 
 }
+
+/* A note's actions wrap inside the note: the date cell (the one date cell, its own width) goes to its own row where the row is too narrow, 12px under; nothing stands outside the note's box. */
+.notepad-note-actions {
+
+    flex-wrap: wrap;
+    min-width: 0;
+
+}
+
+.notepad-note-actions-text {
+
+    flex-wrap: wrap;
+    min-width: 0;
+    max-width: 100%;
+
+}
+
+.notepad-date {
+
+    max-width: 100%;
+    flex-wrap: wrap;
+
+}
