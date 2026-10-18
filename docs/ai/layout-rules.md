@@ -1768,7 +1768,7 @@ One section for the three rounds of the day, merged by topic; each rule is globa
 **Holders and cards**
 11. **Image, Icon and Logo have one layout**: the label over, the holder with its x beside it (12px after its right edge, level with its top; in an image's card the x stands in the card's x column), the file's name under, a Notes field last. A wide picture scales in proportion.
 12. **The Icon's description is a Notes field** behind its tick. **A generated coloured box matches its card's colour exactly** (the Roadmap's corner takes the card's ground formula).
-13. **A card's bullet in the rail never says "Card 2"**: its name, else the line of the tile that lists it. **A floating card lacking an answer** has a red edge and a red bullet (a card just made and still open is not flagged). **A card floats in the hue of its tile** (Inventory and Completed cards take their origin's). **The cards of the Inventory step with arrows and a rail.**
+13. **A card's bullet in the rail never says "Card 2"**: its name, else the line of the tile that lists it. **A floating card lacking an answer** has a red edge and a red bullet (a card just made and still open is not flagged). **A card floats in the hue of its tile** (Inventory and Completed cards take their origin's). **A card opened from the Inventory or the Completed has no arrows and no rail.**
 14. **The Card notes of the Notes panel are notes**: a note's box (12px padding, corners, ground), name, page and text 6px apart, no tracking on the text.
 15. **Customer Engagement's, Financial Foundation's and Sustainability's sections start open** (their work is in them); only information, help and links start closed.
 
@@ -1776,8 +1776,17 @@ One section for the three rounds of the day, merged by topic; each rule is globa
 16. **Shaded once, and only where nothing shades it already** (`measureShade`, `data-tile` on the dialog): (a) over a chapter: the chapter's frame, with its corners; (b) over the Inventory's or the Completed's tiles: the whole tiles that lie behind the card, as one rounded block, or, with no tile behind it, the card and 12px round it; (c) beside a category's dialog: the dialog's own dim, the card adds none. Fixed to the window, measured again on scroll; a press on it closes the card.
 
 **Text links**
-17. **A long text link slides by the scroll of its box** (`textLinks.ts`), under the pointer only, whatever the motion setting; a name that is a link keeps its number and the text goes behind it. **Its underline is never cut** (3px under the letters, taken back by the margin).
+17. **One underline everywhere**: 1px thick, 1px under the lowest descender (`cell-focus.css`, `*`; no place sets an offset of its own). **A long text link slides by the scroll of its box** (`textLinks.ts`), under the pointer only, whatever the motion setting; a name that is a link keeps its number and the text goes behind it. **Its underline is never cut** (3px under the letters, taken back by the margin).
 
 **Contrast and lines**
 18. **Lines are seen**: the divider, rule, hairline and heading-rule tokens and the System cards' rules hold 3:1 on their grounds in every reading mode (`tokens.ts` pairs).
 19. **Quillfield (the example) is a sole proprietorship**; **pop-ups are six categories** (docs/design/25 (the pop-ups)).
+
+**More rules of 2026-10-19**
+20. **The funnel that leaves something out is always seen**: filled, its funnel in the card's ground; the global rule that clears every wired button at rest leaves a button that is switched on (`data-active`) alone.
+21. **A generated card adds, never removes**: it serves what the cards connected to it serve (the card that made it, every other card that names it), the user may add others, and nothing a connected card serves is taken off it (the ticks keep them); what it gains never changes those cards (`connectedOfferings`, `withInheritedOfferings`).
+22. **A frequency belongs to its group**: a card offers only what its group offers (a card with no group the groups of its master tile together); one the group lacks moves to the group's first (docs/design/19). A hand-made landlord or lessor card shows its group's own extras.
+23. **One Notes panel column**: the card notes and the notes of each Organization stand in one scrolling column, 16px padded; a card note is a note's box (12px padding, 6px between its lines, glow on the pointer, ring on the focus).
+24. **Shared components**: Back (`BackButton`), remove (`RemoveButton`), date (`DateCellInput`), month (`MonthYearPicker`), text link (`TextLink`), optional note (`OptionalNote`, one note class: `business-foundation-note`).
+
+**Where the rules of the fields are** (labels, cells, gaps): sizes of cells and the closed set of widths, section 4; alignment of labels and cells, section 5; shared components and states (rest, hover, focus, disabled), section 6; lists, grids and card layouts, section 7; dates and formats, section 15; texts and names, section 16; and rules 22.1 to 22.11 above (the one reaction of a cell, the gaps 12 and 6, the one label, the one date and month field). The reactions are tabulated in docs/design/20-reactions.md.

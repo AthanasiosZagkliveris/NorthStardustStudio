@@ -1,7 +1,7 @@
 import { toneHue } from "./CardTile.tsx";
 import "../../styles/system-confirmation.css";
 import LegalEntityEditor from "./LegalEntityEditor.tsx";
-import { orphanedCards, withInheritedOfferings, withoutCards, type GeneratedCard } from "../../framework/engine/GeneratedCards.ts";
+import { connectedOfferings, orphanedCards, withInheritedOfferings, withoutCards, type GeneratedCard } from "../../framework/engine/GeneratedCards.ts";
 import { CSSProperties, Fragment, ReactNode, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import ResponsibilityFilter from "./ResponsibilityFilter.tsx";
@@ -1005,7 +1005,9 @@ export default function BusinessCapabilityEditor({
         empty: ReactNode,
         shares: Record<string, string>,
         /** A card a Customer Channel made carries that channel's Offerings: they change on the channel, not here. */
-        locked = false
+        locked = false,
+        /** A generated card keeps the Offerings its connected cards serve (adding is free, removing these is not). */
+        kept: readonly string[] = []
     ) {
         const total = offeringSharesTotal(current, shares);
         const inUnits = offeringSharesInUnits(shares);
@@ -1050,6 +1052,9 @@ export default function BusinessCapabilityEditor({
                             )}
                     </>
                 )}
+                {kept.length > 0 && (
+                    <p className="business-capability-total">{"Kept while a card connected to it serves them: " + kept.map(id => offeringChoices.find(choice => choice.id === id)?.label ?? "").filter(Boolean).join(", ") + "."}</p>
+                )}
                 {offeringChoices.length === 0
                     ? <BusinessEmpty>{empty}</BusinessEmpty>
                     : (
@@ -1059,7 +1064,10 @@ export default function BusinessCapabilityEditor({
                             chosen={current}
                             disabled={disabled || locked}
                             // (Ticking starts the shares equal.)
-                            onChange={(next) => onNext({ offeringIds: next, offeringShares: inUnits && next.length > 1 ? unitOfferingShares(next) : equalOfferingShares(next) })}
+                            onChange={(requested) => {
+                                const next = [...new Set([...requested, ...kept])];
+                                onNext({ offeringIds: next, offeringShares: inUnits && next.length > 1 ? unitOfferingShares(next) : equalOfferingShares(next) });
+                            }}
                             // With several Offerings, the percent of the card each carries stands at the end of its own row, in the x's column (a whole number, two digits at most).
                             trailing={current.length > 1 ? Object.fromEntries(current.map(id => [id, (
                                 <input
@@ -4176,7 +4184,9 @@ export default function BusinessCapabilityEditor({
                     (next) => onActivity(next),
                     "Activity " + number + " linked Offerings",
                     "Define an Offering on the Foundation page first.",
-                    activity.offeringShares
+                    activity.offeringShares,
+                    false,
+                    activity.madeBy !== "" ? connectedOfferings(capability, activity).ids : []
                 )}
 
                 </fieldset>
@@ -4425,7 +4435,8 @@ export default function BusinessCapabilityEditor({
                     (partner.name.trim() || "Entry " + number) + " linked Offerings",
                     "Define an Offering on the Foundation page first.",
                     partner.offeringShares,
-                    channelMade(scope, partner.id)
+                    channelMade(scope, partner.id),
+                    partner.madeBy !== "" ? connectedOfferings(capability, partner).ids : []
                 )}
 
                 {/* THE CARDS THAT USE IT (the resources that name it, the activities it performs): at the end of the card, a link each (above this one when opened). */}
@@ -4564,8 +4575,6 @@ export default function BusinessCapabilityEditor({
             id: "overview",
             title: "Inventory",
             anchor: "section-overview",
-            // (Its cards go through one after another, in the table's order: the arrows and the rail of a card opened from the Inventory.)
-            holds: rows.filter(row => row.kind !== "legal").map(row => row.id),
             items: [
                 counts(["resource", "workspace", "founder"]) + " resources",
                 counts(["activity"]) + " activities",

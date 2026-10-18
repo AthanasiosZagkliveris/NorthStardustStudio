@@ -1125,7 +1125,7 @@ export default function SectionTiles({
                     incomplete={!!shownIncomplete?.has(floating.id)}
                     label={floatingTile.title}
                     attrs={{ "data-floating": floating.tileId, "data-card-id": floating.id }}
-                    step={!floating.fresh && siblingCards.length > 1 && siblingCards.some(item => item === floating.id || item === "founder-" + floating.id) ? { what: "card", previous: () => stepFloating(-1), next: () => stepFloating(1), items: floatingItems, current: floatingAt, go: (id: string) => { if (id !== floating.id) { goFloating(id); } } } : undefined}
+                    step={!floating.fresh && floatingTile.id !== "overview" && floatingTile.id !== "completed" && siblingCards.length > 1 && siblingCards.some(item => item === floating.id || item === "founder-" + floating.id) ? { what: "card", previous: () => stepFloating(-1), next: () => stepFloating(1), items: floatingItems, current: floatingAt, go: (id: string) => { if (id !== floating.id) { goFloating(id); } } } : undefined}
                     cards={(() => {
                         // (A requirement and the expense it made are drawn together only where a LINK was pressed -- the tile's link, a card's link symbol; opened by its own tile or box, a card is alone.)
                         const pair = floating.linked ? floatingTile.pairOf?.(floating.id) : null;
@@ -2005,9 +2005,16 @@ export function FloatingCards({
                 const card = node.getBoundingClientRect();
                 const covered = [...dialog.querySelectorAll<HTMLElement>(".card-tile, .section-tile, .card-box")].map(tile => tile.getBoundingClientRect())
                     .filter(tile => tile.width > 0 && tile.left < card.right && tile.right > card.left && tile.top < card.bottom && tile.bottom > card.top);
+                const dialogBox = dialog.getBoundingClientRect();
+                // (The tiles behind the card, whole, as far as the dialog shows them; with none behind it, the card and 12px round it, as far as the window shows.)
                 const sides = covered.length > 0
-                    ? { left: Math.min(...covered.map(tile => tile.left)), right: Math.max(...covered.map(tile => tile.right)), top: Math.min(...covered.map(tile => tile.top)), bottom: Math.max(...covered.map(tile => tile.bottom)) }
-                    : { left: card.left - 12, right: card.right + 12, top: card.top - 12, bottom: card.bottom + 12 };
+                    ? {
+                        left: Math.max(dialogBox.left, Math.min(...covered.map(tile => tile.left))),
+                        right: Math.min(dialogBox.right, Math.max(...covered.map(tile => tile.right))),
+                        top: Math.max(dialogBox.top, Math.min(...covered.map(tile => tile.top))),
+                        bottom: Math.min(dialogBox.bottom, Math.max(...covered.map(tile => tile.bottom)))
+                    }
+                    : { left: Math.max(0, card.left - 12), right: Math.min(window.innerWidth, card.right + 12), top: card.top - 12, bottom: Math.min(window.innerHeight, card.bottom + 12) };
                 const shape = { ...sides, width: sides.right - sides.left, height: sides.bottom - sides.top, x: sides.left, y: sides.top, toJSON: () => ({}) } as DOMRect;
                 box = shape;
                 frame = shape;

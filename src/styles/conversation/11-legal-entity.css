@@ -144,14 +144,6 @@
 
 }
 
-.legal-entity-note{
-
-    /* The app floors every textarea at 180px for its long Notes
-       fields. These are a few lines, not a note. */
-    min-height:0;
-
-}
-
 .legal-entity-note-line,
 .legal-entity-empty-note{
 

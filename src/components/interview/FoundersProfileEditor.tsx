@@ -387,7 +387,7 @@ export default function FoundersProfileEditor({
 
                         {field("Relevant Industry Experience", INFO.industryExperience, (
                             <StrategyTextArea
-                                className="interview-input legal-entity-note"
+                                className="interview-input business-foundation-note"
                                 ariaLabel={who + " relevant industry experience"}
                                 placeholder="Relevant companies, sectors, positions, projects, markets or professional experience"
                                 disabled={disabled}
@@ -398,7 +398,7 @@ export default function FoundersProfileEditor({
 
                         {field("Management Experience", INFO.managementExperience, (
                             <StrategyTextArea
-                                className="interview-input legal-entity-note"
+                                className="interview-input business-foundation-note"
                                 ariaLabel={who + " management experience"}
                                 placeholder="Leading people, projects, budgets, businesses or operations"
                                 disabled={disabled}
@@ -468,7 +468,7 @@ export default function FoundersProfileEditor({
                         <div className="legal-entity-body">
                             {field("Gaps", [INFO.teamGaps[0]], (
                                 <StrategyTextArea
-                                    className="interview-input legal-entity-note"
+                                    className="interview-input business-foundation-note"
                                     ariaLabel="Capability gaps"
                                     placeholder="The capabilities the team lacks"
                                     disabled={disabled}
@@ -478,7 +478,7 @@ export default function FoundersProfileEditor({
                             ), true)}
                             {field("Cover", [INFO.teamGaps[1], INFO.teamGaps[2]], (
                                 <StrategyTextArea
-                                    className="interview-input legal-entity-note"
+                                    className="interview-input business-foundation-note"
                                     ariaLabel="Capability cover"
                                     placeholder="How each will be covered: planned hires, advisors, mentors, partners, contractors, training"
                                     disabled={disabled}
@@ -580,7 +580,7 @@ export default function FoundersProfileEditor({
 
                 {subsection(1, (
                     <StrategyTextArea
-                        className="interview-input legal-entity-note"
+                        className="interview-input business-foundation-note"
                         ariaLabel="Capability Gaps & Cover"
                         placeholder="The capabilities the team lacks, and how each will be covered: planned hires, advisors, mentors, partners, contractors, training"
                         disabled={disabled}

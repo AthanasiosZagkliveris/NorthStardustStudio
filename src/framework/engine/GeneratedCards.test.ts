@@ -51,4 +51,21 @@ describe("generated cards and their parent's removal and Offerings", () => {
         expect(next.offering.providers[0].offeringIds).toEqual(["o1"]);
     });
 
+    it("adds, never removes: another connected card's Offerings are added, the user's own stay, and the parent's change does not take them off", async () => {
+        const { withInheritedOfferings, connectedOfferings } = await import("./GeneratedCards.ts");
+        const { parent, made, value } = base();
+        const other = { ...createBusinessResourceSlot(), id: "r2", status: "partners-suppliers", providerId: "p1", offeringIds: ["o2"], offeringShares: { o2: "100" } };
+        const own = { ...made, offeringIds: ["o9"], offeringShares: { o9: "100" } };
+        const before = { ...value, providers: [], offering: { ...value.offering, resources: [{ ...parent, offeringIds: ["o1"], offeringShares: { o1: "100" } }, other], providers: [own] } };
+        const next = withInheritedOfferings(before);
+        // (The user's o9 stays; the parent's o1 and the other card's o2 are added.)
+        expect(next.offering.providers[0].offeringIds.sort()).toEqual(["o1", "o2", "o9"]);
+        expect(connectedOfferings(next, next.offering.providers[0]).ids.sort()).toEqual(["o1", "o2"]);
+        // (The parent stops serving o1 and a connected card still serves o2: the generated card keeps all it had.)
+        const dropped = { ...next, offering: { ...next.offering, resources: next.offering.resources.map(slot => slot.id === "r1" ? { ...slot, offeringIds: [], offeringShares: {} } : slot) } };
+        expect(withInheritedOfferings(dropped).offering.providers[0].offeringIds.sort()).toEqual(["o1", "o2", "o9"]);
+        // (And what the card gained did not touch its parent.)
+        expect(next.offering.resources.find(slot => slot.id === "r1")!.offeringIds).toEqual(["o1"]);
+    });
+
 });

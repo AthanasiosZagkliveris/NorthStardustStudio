@@ -1034,7 +1034,7 @@ export default function LegalEntityEditor({
                 <OptionalNote
                     label={label}
                     fieldId={fieldId}
-                    className="interview-input legal-entity-note"
+                    className="interview-input business-foundation-note"
                     ariaLabel={ariaLabel}
                     disabled={disabled}
                     value={current}
@@ -1247,7 +1247,7 @@ export default function LegalEntityEditor({
                 {labelled(
                     "Main Activity",
                     <StrategyTextArea
-                        className="interview-input legal-entity-note legal-entity-activity"
+                        className="interview-input business-foundation-note legal-entity-activity"
                         ariaLabel="Main Activity"
                         placeholder="What the organization does, in plain words"
                         disabled={disabled}
@@ -1424,7 +1424,7 @@ export default function LegalEntityEditor({
                 {labelled(
                     "Address",
                     <StrategyTextArea
-                        className="interview-input legal-entity-note legal-entity-address"
+                        className="interview-input business-foundation-note legal-entity-address"
                         ariaLabel="Address"
                         placeholder={["City", postalLabel ? "Street and " + postalLabel : "Street"].join("\n")}
                         disabled={disabled}

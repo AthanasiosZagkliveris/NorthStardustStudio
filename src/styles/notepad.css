@@ -135,7 +135,7 @@
 .notepad-empty {
 
     margin: 0;
-    padding: 16px;
+    padding: 0;
 
     font-size: var(--font-body);
     line-height: 1.5;
@@ -740,18 +740,29 @@ html.notepad-picking [data-pick-hover] {
 }
 
 
-/* THE CARD NOTES under the notes: a head with its count and the funnel, then one button for each card (its name, its page, its text in three lines at most). */
+/* THE CARD NOTES (Notepad.tsx, CardNotes): a group like the Organization's, then one note-box for each card -- its name, its page, its text. The panel's one column is padded 16px; a
+   head is its fold arrow, its name, its count and the funnel on one line (12px apart, the funnel ending where the boxes end); a box is a note's box (12px padding, a note's corners and
+   ground), its three lines 6px apart, set as a note's text is (the body size, no tracking). The pointer on a box is the glow; the keyboard's focus, the ring. */
 .notepad-card-notes-head {
 
     display: flex;
     align-items: center;
-    gap: var(--gap-8);
+    gap: var(--gap-12);
+    min-width: 0;
 
 }
 
 .notepad-card-notes-head > .notepad-group-head {
 
-    flex: 1 1 auto;
+    flex: 1 1 0;
+    min-width: 0;
+
+}
+
+.notepad-card-notes-head > .responsibility-filter {
+
+    flex: none;
+    margin-left: 0;
 
 }
 
@@ -760,10 +771,11 @@ html.notepad-picking [data-pick-hover] {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    /* (A name, its page and its text are vertically connected: 6px. The box is a note's: 12px padding, a note's corners and ground; the text is the body's, set as a note's is -- a button's tracking is not.) */
     gap: var(--gap-6);
 
+    box-sizing: border-box;
     width: 100%;
+    min-width: 0;
     padding: var(--gap-12);
 
     border: 1px solid var(--box-border);
@@ -779,14 +791,24 @@ html.notepad-picking [data-pick-hover] {
 
 }
 
-.notepad-card-note:hover,
+.notepad-card-note:hover:not(:focus-visible) {
+
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
+
+}
+
 .notepad-card-note:focus-visible {
 
+    outline: none;
     border-color: var(--line-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
 
 }
 
 .notepad-card-note-name {
+
+    max-width: 100%;
+    overflow-wrap: anywhere;
 
     font-weight: 600;
     letter-spacing: normal;
@@ -808,6 +830,9 @@ html.notepad-picking [data-pick-hover] {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
+
+    max-width: 100%;
+    overflow-wrap: anywhere;
 
     font-size: var(--font-body);
     letter-spacing: normal;

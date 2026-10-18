@@ -692,9 +692,9 @@ main.conversation-content[data-reserve],
 
 /* ==========================================================
    GLOBAL: A WIRED BUTTON (the "i", the "+", the x, an "Add ..." button -- one drawn by its outline) HAS NO FILL AT REST: it is transparent, so it takes the colour of
-   whatever stands behind it (a card, a tinted band, a tile). Under the pointer, or open, its own fill returns.
+   whatever stands behind it (a card, a tinted band, a tile). Under the pointer, or open, or switched on (a funnel that leaves something out: data-active), its own fill returns.
 ========================================================== */
-:is(button.info-note-button, button.plus-box, button.strategy-box-remove, button.card-remove, button.strategy-box-add, button.numbered-list-remove, button.add-card-tile, button.strategy-add-button, button[class*="-add-button"], button[class*="-remove"], button.business-step):not(:hover):not(:focus-visible):not(:active):not([aria-expanded="true"]):not(:disabled) {
+:is(button.info-note-button, button.plus-box, button.strategy-box-remove, button.card-remove, button.strategy-box-add, button.numbered-list-remove, button.add-card-tile, button.strategy-add-button, button[class*="-add-button"], button[class*="-remove"], button.business-step):not(:hover):not(:focus-visible):not(:active):not([aria-expanded="true"]):not([data-active]):not(:disabled) {
 
     background: transparent !important;
 

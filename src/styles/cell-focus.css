@@ -215,3 +215,12 @@
 .plus-box.funnel-box[data-active] svg path {
     stroke: currentColor;
 }
+
+/* ONE UNDERLINE, EVERYWHERE: 1px thick, drawn 1px under the lowest descender of its letters (q, y, p, g, j ...), whatever the text (a link, a title, a label, a list item). No place sets an offset of its own. */
+*,
+*::before,
+*::after {
+    text-underline-position: under !important;
+    text-underline-offset: 1px !important;
+    text-decoration-thickness: 1px !important;
+}

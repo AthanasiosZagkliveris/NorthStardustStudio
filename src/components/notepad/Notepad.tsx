@@ -464,17 +464,15 @@ export function NotepadPanel() {
                 </button>
             </div>
 
-            <CardNotes />
-
-            {notes.length === 0
-                ? <p className="notepad-empty">No notes yet. Add one, and link it to any page, card or field.</p>
-                : (
-                    <div className="notepad-list">
-                        {noteGroups(notes).map(group => (
-                            <NoteGroup key={group.id || "general"} group={group} focusNoteIds={view.focusNoteIds} />
-                        ))}
-                    </div>
-                )}
+            {/* ONE scrolling column, padded as every card is: the card notes, then the notes of each Organization. */}
+            <div className="notepad-list">
+                <CardNotes />
+                {notes.length === 0
+                    ? <p className="notepad-empty">No notes yet. Add one, and link it to any page, card or field.</p>
+                    : noteGroups(notes).map(group => (
+                        <NoteGroup key={group.id || "general"} group={group} focusNoteIds={view.focusNoteIds} />
+                    ))}
+            </div>
 
         </aside>
     );

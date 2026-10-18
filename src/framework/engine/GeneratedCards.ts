@@ -75,20 +75,47 @@ export function withoutCards(value: BusinessCapabilityValue, ids: readonly strin
 }
 
 /**
- * A generated card (made by a card's Status) SERVES THE OFFERINGS ITS PARENT SERVES: whenever the parent's Offerings change, the generated card's follow, with the
- * share each carries. (Only in Offering's Capability: Infrastructure's cards serve no Offering.)
+ * The Offerings every card connected to a generated card serves, by Offering id, with the share each carries: the card that made it and every other card of Offering's
+ * Capability that names it (a Status, an activity's performers). These cannot be taken off the generated card while the connection stands.
+ */
+export function connectedOfferings(value: BusinessCapabilityValue, card: { id: string; madeBy: string }): { ids: string[]; shares: Record<string, string> } {
+    const ids: string[] = [];
+    const shares: Record<string, string> = {};
+    for (const slot of value.offering.resources) {
+        if (slot.id === card.madeBy || namedBy(slot).includes(card.id)) {
+            for (const id of slot.offeringIds) {
+                if (!ids.includes(id)) {
+                    ids.push(id);
+                    if (slot.offeringShares[id] !== undefined) {
+                        shares[id] = slot.offeringShares[id];
+                    }
+                }
+            }
+        }
+    }
+    return { ids, shares };
+}
+
+/**
+ * A generated card (made by a card's Status) SERVES THE OFFERINGS OF THE CARDS CONNECTED TO IT, and more: whatever a connected card serves is added to it (with the
+ * share it carries there), and the user may add others; ADDING, NEVER REMOVING -- nothing a connected card serves is taken off it, and what it gains from one card never
+ * changes that card. (Only in Offering's Capability: Infrastructure's cards serve no Offering.)
  */
 export function withInheritedOfferings(value: BusinessCapabilityValue): BusinessCapabilityValue {
-    const parents = new Map(value.offering.resources.map(slot => [slot.id, slot] as const));
-    const same = (a: readonly string[], b: readonly string[]) => a.length === b.length && a.every((id, at) => id === b[at]);
     let changed = false;
-    const follow = <T extends { madeBy: string; offeringIds: string[]; offeringShares: Record<string, string> }>(card: T): T => {
-        const parent = card.madeBy !== "" ? parents.get(card.madeBy) : undefined;
-        if (!parent || (same(card.offeringIds, parent.offeringIds) && JSON.stringify(card.offeringShares) === JSON.stringify(parent.offeringShares))) {
+    const follow = <T extends { id: string; madeBy: string; offeringIds: string[]; offeringShares: Record<string, string> }>(card: T): T => {
+        if (card.madeBy === "") {
+            return card;
+        }
+        const connected = connectedOfferings(value, card);
+        const missing = connected.ids.filter(id => !card.offeringIds.includes(id));
+        if (missing.length === 0) {
             return card;
         }
         changed = true;
-        return { ...card, offeringIds: [...parent.offeringIds], offeringShares: { ...parent.offeringShares } };
+        const shares = { ...card.offeringShares };
+        missing.forEach(id => { if (connected.shares[id] !== undefined) { shares[id] = connected.shares[id]; } });
+        return { ...card, offeringIds: [...card.offeringIds, ...missing], offeringShares: shares };
     };
     const next: BusinessCapabilityValue = {
         ...value,
