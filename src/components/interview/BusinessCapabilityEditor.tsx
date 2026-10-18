@@ -4559,6 +4559,8 @@ export default function BusinessCapabilityEditor({
             id: "overview",
             title: "Inventory",
             anchor: "section-overview",
+            // (Its cards go through one after another, in the table's order: the arrows and the rail of a card opened from the Inventory.)
+            holds: rows.filter(row => row.kind !== "legal").map(row => row.id),
             items: [
                 counts(["resource", "workspace", "founder"]) + " resources",
                 counts(["activity"]) + " activities",

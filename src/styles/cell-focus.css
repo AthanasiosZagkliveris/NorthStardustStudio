@@ -165,3 +165,22 @@
 .brand-asset-slot-icon > .brand-slot-aside {
     margin-top: var(--gap-12);
 }
+
+/* A FLOATING CARD THAT LACKS AN ANSWER says so as its tile does: a red edge round the card, and its bullet in the rail red (a card just made and still open is not flagged). */
+.floating-card-host[data-incomplete] {
+    outline: 2px solid var(--line-danger-strong);
+    outline-offset: 0;
+}
+
+.bullet-rail-item[data-missing] .bullet-rail-dot {
+    background: var(--bg-danger-strong);
+    border-color: var(--line-danger-strong);
+    color: var(--bg-danger-strong);
+}
+
+/* AN IMAGE'S CARD: the picture goes across the card, and its x stands in the card's x column, level with the picture's top (under the x of the card's head). */
+.brand-image-card-body .brand-holder-wrap.brand-holder-wrap > .strategy-box-remove {
+    position: absolute;
+    left: calc(100% + var(--gap-12));
+    top: 0;
+}

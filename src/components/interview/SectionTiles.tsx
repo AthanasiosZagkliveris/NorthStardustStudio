@@ -1006,7 +1006,7 @@ export default function SectionTiles({
         const line = floatingTile?.items && floatingTile.items.length === siblingCards.length ? floatingTile.items[at] : undefined;
         return line ? plainTitle(line).replace(/\*\*/g, "").trim() : "";
     };
-    const floatingItems = siblingCards.map((id, at) => ({ id, label: cardName(id) || cardName(id.replace(/^founder-/, "")) || lineAt(at) || (floatingTile?.groupFor?.(id) ?? floatingTile?.group ?? floatingTile?.title ?? "") }));
+    const floatingItems = siblingCards.map((id, at) => ({ id, missing: !!shownIncomplete?.has(id) || !!shownIncomplete?.has(id.replace(/^founder-/, "")), label: cardName(id) || cardName(id.replace(/^founder-/, "")) || lineAt(at) || (floatingTile?.groupFor?.(id) ?? floatingTile?.group ?? floatingTile?.title ?? "") }));
     const floatingAt = floating ? siblingCards.findIndex(item => item === floating.id || item === "founder-" + floating.id) : -1;
     const steppable = tiles.filter(tile => !(cardsFloatOnly(tile) && !tile.view && tile.holds && tile.holds.length === 0 && tile.add) && !tile.direct);
     const goDialog = (next: SectionTile) => {
@@ -1122,6 +1122,7 @@ export default function SectionTiles({
                     anchor={floating.anchor}
                     fresh={floating.fresh}
                     hue={floatingTile.channel || floatingTile.isChannelCard?.(floating.id) ? CHANNEL_TILE_HUE : floatingTile.hueFor?.(floating.id) ?? hue}
+                    incomplete={!!shownIncomplete?.has(floating.id)}
                     label={floatingTile.title}
                     attrs={{ "data-floating": floating.tileId, "data-card-id": floating.id }}
                     step={!floating.fresh && siblingCards.length > 1 && siblingCards.some(item => item === floating.id || item === "founder-" + floating.id) ? { what: "card", previous: () => stepFloating(-1), next: () => stepFloating(1), items: floatingItems, current: floatingAt, go: (id: string) => { if (id !== floating.id) { goFloating(id); } } } : undefined}
@@ -1624,7 +1625,7 @@ export interface CarouselStep {
      * Every one of the list, in its order, with the name its bullet's tooltip says: the rail of bullets under the arrows (one for each; this one's lit),
      * as the page's own rails -- any arrows that step through a list carry one.
      */
-    items?: readonly { id: string; label: string }[];
+    items?: readonly { id: string; label: string; missing?: boolean }[];
     /** This one's place in `items`. */
     current?: number;
     /** Goes to the one of `items` with this id. */
@@ -1879,7 +1880,8 @@ function CarouselArrows({ target, step, hue, back }: { target: RefObject<HTMLEle
                                     type="button"
                                     className={"bullet-rail-item" + (position === step.current ? " active" : "")}
                                     aria-current={position === step.current ? "true" : undefined}
-                                    aria-label={item.label}
+                                    aria-label={item.label + (item.missing ? " (something is missing)" : "")}
+                                    data-missing={item.missing ? "" : undefined}
                                     onClick={() => step.go?.(item.id)}
                                 >
                                     <span className="bullet-rail-dot status-shape" aria-hidden="true" />
@@ -1946,7 +1948,7 @@ export const CLOSE_TILES_EVENT = "section-tiles:close";
  * that part of the anchor.
  */
 export function FloatingCards({
-    cards, anchor, fresh = false, pair = false, hue, label, attrs, step, onClose
+    cards, anchor, fresh = false, pair = false, hue, label, attrs, step, onClose, incomplete = false
 }: {
     cards: FloatingItem[];
     /** The arrows beside the card that go to the previous or the next card of its list (none where it stands alone). */
@@ -1958,6 +1960,8 @@ export function FloatingCards({
     hue: number;
     label: string;
     attrs?: Record<string, string>;
+    /** The card lacks an answer: its frame says so (as its tile does). */
+    incomplete?: boolean;
     onClose: () => void;
 }) {
     const overlay = useRef<HTMLDivElement | null>(null);
@@ -1993,14 +1997,28 @@ export function FloatingCards({
                 under = dialog;
                 area = dialog.querySelector<HTMLElement>(".card-tile-grid, .card-boxes, .section-tiles");
             }
-            const frame = under?.getBoundingClientRect();
-            const box = area?.getBoundingClientRect();
+            let frame = under?.getBoundingClientRect();
+            let box = area?.getBoundingClientRect();
+            let radius = under ? getComputedStyle(under).borderRadius : "0px";
+            // (Where the card stands over TILES -- the Inventory, the Completed -- the shade is the tiles it covers, whole, as one block; with no tile behind it, the card and 12px round it.)
+            if (dialog && under === dialog && node) {
+                const card = node.getBoundingClientRect();
+                const covered = [...dialog.querySelectorAll<HTMLElement>(".card-tile, .section-tile, .card-box")].map(tile => tile.getBoundingClientRect())
+                    .filter(tile => tile.width > 0 && tile.left < card.right && tile.right > card.left && tile.top < card.bottom && tile.bottom > card.top);
+                const sides = covered.length > 0
+                    ? { left: Math.min(...covered.map(tile => tile.left)), right: Math.max(...covered.map(tile => tile.right)), top: Math.min(...covered.map(tile => tile.top)), bottom: Math.max(...covered.map(tile => tile.bottom)) }
+                    : { left: card.left - 12, right: card.right + 12, top: card.top - 12, bottom: card.bottom + 12 };
+                const shape = { ...sides, width: sides.right - sides.left, height: sides.bottom - sides.top, x: sides.left, y: sides.top, toJSON: () => ({}) } as DOMRect;
+                box = shape;
+                frame = shape;
+                radius = getComputedStyle(under).borderRadius === "0px" ? "12px" : getComputedStyle(under).borderRadius;
+            }
             const header = document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom ?? 0;
             const left = box && frame ? Math.max(box.left, frame.left) : 0;
             const right = box && frame ? Math.min(box.right, frame.right) : 0;
             const top = box && frame ? Math.max(box.top, frame.top, header) : 0;
             const bottom = box && frame ? Math.min(box.bottom, frame.bottom, window.innerHeight) : 0;
-            const next = under && right - left > 0 && bottom - top > 0 ? { left, top, width: right - left, height: bottom - top, radius: getComputedStyle(under).borderRadius } : null;
+            const next = under && right - left > 0 && bottom - top > 0 ? { left, top, width: right - left, height: bottom - top, radius } : null;
             setShade(previous => previous && next && previous.left === next.left && previous.top === next.top && previous.width === next.width && previous.height === next.height ? previous : next);
         };
         const position = () => {
@@ -2127,6 +2145,7 @@ export function FloatingCards({
             <div
                 ref={panel}
                 className={"floating-card-host floating-card-" + cards[0].kind}
+                data-incomplete={incomplete ? "" : undefined}
                 role="dialog"
                 aria-modal="true"
                 aria-label={label}
