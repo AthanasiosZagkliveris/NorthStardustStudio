@@ -6,13 +6,13 @@ What the app does when a part of it is pointed at, pressed, focused, ticked, ope
 
 | # | Reaction | What is seen | Notes |
 |---|---|---|---|
-| R1 | **Glow** (pointer on a field) | A soft ring, 4px wide, in the card's glow colour at 18% round the field. No border change. | The field keeps its recessed look; nothing moves. |
+| R1 | **Glow** (pointer on a field) | A soft ring, 4px wide, in the card's glow colour at 18% round the field. No border change. | The field keeps its recessed look; nothing moves. One rule for every field kind: the edge never changes under the pointer (the primary edge is the ring's). |
 | R2 | **Ring** (focus, or pressed and held) | The primary edge and a ring 3px wide at 35%, one rule for every cell in every mode (`cell-focus.css`); a box that holds a field (a date cell, the colour cell, a numbered list) draws it round the box, with the cell's corners, and the field inside draws none. | Keyboard focus and the active field; independent of the border colour (accessibility). |
 | R3 | **Recess** (rest) | Fields rest recessed: no stroke, the inset shade at the top left and light at the bottom right. Pickers rest raised. | A field that cannot be changed is flat. |
 | R4 | **Fill** (the "+" family) | At rest the ground of what it stands on, a 2px stroke and the symbol in the card's darker tone; under the pointer or the keyboard the tone fills the box, the stroke goes, the symbol takes the ground (150ms). | The +, the calendar button, the funnel, the day, month and arrow buttons of the calendar card. The x does the same in danger red. |
 | R5 | **Bold and underline** (text links) | The letters thicken (the app's bold, no change of width) and a line 1px under the descenders. | Every text link; list items of a tile are underlined only. |
-| R6 | **Marquee** (a long text link) | The text moves across its place, right to left, to be read whole (1.6s, after 0.2s). | One row only; at rest an ellipsis. |
-| R7 | **Bold** (titles and labels) | The letters thicken, nothing moves (the bold's letter spacing is already there). | Tile titles, buttons, the label of a tick option. |
+| R6 | **Marquee** (a long text link) | The text moves across its place, right to left, to be read whole (1.6s, after 0.2s). | One row only; at rest an ellipsis. It moves whatever the system's motion setting (only while the pointer is on it; it is the one way to read the cut text). |
+| R7 | **Bold** (titles and labels) | The letters thicken, nothing moves (the bold's letter spacing is already there). | Tile titles, buttons, the label of a tick option. A labelled button keeps its size: the thickening takes no room and its tracking stays what it is at rest. |
 | R8 | **Grow** (tiles and blocks) | A tile grows about its aimed corner, edge or centre, above its neighbours, a drop shadow growing with it; a colour or image block (6px corners) grows 10% inwards and keeps its inset light and shade. | Page tiles, boxes of a dialog, the blocks of a master tile. |
 | R9 | **Grow 20%** (the link symbol) | The symbol is 20% larger about its centre; the box it stands in does not change. | Nothing moves. |
 | R10 | **Halo** (the tile that opened a card) | A steady ring 2px and a glow in the opened card's tint (the Completed grey for a completed card) round the tile or box that holds the card now shown, while the card is open; the list line that opens it is bold and underlined. It follows the card when the arrows step. | Not flashing: the flashing glow is only the error. |
@@ -32,7 +32,7 @@ What the app does when a part of it is pointed at, pressed, focused, ticked, ope
 | Calendar button (inside the cell) | R4 at rest | R4 filled | R4 filled and a 2px outline | the calendar is open | 55% |
 | Calendar card, its day, month and arrow buttons | transparent, a 2px clear frame | R4 filled | outline | today framed, the chosen day filled | the day dimmed, not chosen |
 | Colour box (inside the hex cell) | the colour, no frame | - | R2 on the cell | the colour card opens (R13) | R12 |
-| Colour picker card | the square of shades, the hue bar, R G B cells | the cells R1 | the cells R2 | - | R12 |
+| Colour picker card | the square of shades, the hue bar, the code's picker (a short cell) and the hex or R G B / H S L cells, every cell 44px tall | the cells R1 | the cells R2 | - | R12 |
 | Tick box | R3, 24px, 4px corners | R1 (and its words underlined) | R2 | flat, filled with the blue, the check centred | 55% |
 | Radio (Units / %) | the browser's | its glow | focus ring | the chosen one filled | not-allowed |
 | "+" box | R4 at rest | R4 filled | R4 filled and outline | - | 50% |

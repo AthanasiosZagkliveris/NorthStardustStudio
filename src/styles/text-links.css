@@ -53,13 +53,8 @@
     cursor: not-allowed;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    :is(.text-link, .business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):is(:hover, :focus-visible) {
-        transition: none;
-        text-indent: 0;
-        text-overflow: ellipsis !important;
-    }
-}
+/* (No exception for "reduce motion": the text moves only while the pointer is on it, and moving is the one way to read a text the place cuts. With the motion switched off
+   the long links of a list -- the Responsibilities, the Links -- stood still, cut by their ellipsis, and could not be read.) */
 
 /* A link in what is done or deactivated stays grey (it goes bold and underlined under the pointer all the same). */
 .business-capability-responsibility-line-done > .business-capability-responsibility-link:not(:hover):not(:focus-visible) {

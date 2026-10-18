@@ -237,6 +237,11 @@ describe("a founder's Frequency, migrated", () => {
         for (const name of ["lumen", "quillfield"]) {
             next[name].plan = now[name].plan;
             next[name].exported = now[name].exported;
+            // (WRITE_GOLDEN=all: an example's FIGURES changed on purpose -- its founders' table and its forecast are written again too.)
+            if ((globalThis as unknown as { process?: { env: Record<string, string | undefined> } }).process?.env.WRITE_GOLDEN === "all") {
+                next[name].founders = now[name].founders;
+                next[name].forecast = now[name].forecast;
+            }
         }
         for (const part of ["plan", "exported"] as const) {
             const text = now["lumen-weekly"].texts[part];

@@ -1360,8 +1360,7 @@ export function TileFace({ title, empty, items, glyph = true, alerts, marks }: {
 
 /**
  * THE LONG TITLE'S SLIDE: a title cut by an ellipsis slides to the left under the pointer (over its tile) to show its whole name, and slides back when the pointer
- * leaves. The title keeps its box -- its size, its place and its rule do not change, only what the box shows (its scroll). Nothing moves for people who ask for
- * reduced motion (the full name is still the title's tooltip).
+ * leaves. The title keeps its box -- its size, its place and its rule do not change, only what the box shows (its scroll). It slides whatever the motion setting (it moves only under the pointer, and is the one way to read the cut name).
  */
 export function useTitleSlide(ref: RefObject<HTMLElement | null>) {
     useEffect(() => {
@@ -1399,7 +1398,7 @@ export function useTitleSlide(ref: RefObject<HTMLElement | null>) {
         };
         const enter = () => {
             const room = node.scrollWidth - node.clientWidth;
-            if (room > 1 && !(typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches)) {
+            if (room > 1) {
                 node.style.textOverflow = "clip";
                 // (The distance is measured now, so a resize or a font change is always counted: the last letter ends at the title's right edge.)
                 slideTo(Math.ceil(node.scrollWidth - node.clientWidth));
@@ -1971,6 +1970,17 @@ export function FloatingCards({
         if (!node) {
             return;
         }
+        // THE SHADE stays where the chapter is: what the card stands over (the topmost dialog under it, else the frame it was opened from), measured again whenever the page or a box scrolls or the window changes -- never where it was when the card opened.
+        const measureShade = () => {
+            const dialogs = [...document.querySelectorAll<HTMLElement>(".section-tile-overlay:not(.floating-overlay) > .section-tile-dialog")];
+            const under = dialogs[dialogs.length - 1] ?? anchorRef.current;
+            const box = under?.getBoundingClientRect();
+            const header = document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom ?? 0;
+            const top = box ? Math.max(box.top, header) : 0;
+            const bottom = box ? Math.min(box.bottom, window.innerHeight) : 0;
+            const next = under && box && box.width > 0 && bottom - top > 0 ? { left: box.left, top, width: box.width, height: bottom - top, radius: getComputedStyle(under).borderRadius } : null;
+            setShade(previous => previous && next && previous.left === next.left && previous.top === next.top && previous.width === next.width && previous.height === next.height ? previous : next);
+        };
         const position = () => {
             const width = node.offsetWidth;
             const frame = dialogFrame();
@@ -2001,21 +2011,23 @@ export function FloatingCards({
             // under the page heading's underline, never below the point where 200px of it would still show.)
             top = Math.min(Math.max(top, bandTop + 8), Math.max(bandTop + 8, bandBottom - 200));
             const left = Math.max(8, Math.min(centreX - width / 2, window.innerWidth - 8 - width));
-            const frameBox = where?.getBoundingClientRect();
-            // (Where a dialog stands under the card, it is shaded already: the card adds none.)
-            const shaded = document.querySelector(".section-tile-overlay:not(.floating-overlay)") !== null;
-            setShade(!shaded && where && frameBox && frameBox.width > 0 ? { left: frameBox.left, top: frameBox.top - bandTop, width: frameBox.width, height: frameBox.height, radius: getComputedStyle(where).borderRadius } : null);
+            measureShade();
             setPlace(previous => previous && Math.abs(previous.band - bandTop) < 0.5 && Math.abs(previous.left - left) < 0.5 && Math.abs(previous.top - top) < 0.5 ? previous : { left, top, band: bandTop });
         };
         position();
         window.addEventListener("resize", position);
+        window.addEventListener("scroll", measureShade, true);
         if (typeof ResizeObserver === "undefined") {
-            return () => window.removeEventListener("resize", position);
+            return () => {
+                window.removeEventListener("resize", position);
+                window.removeEventListener("scroll", measureShade, true);
+            };
         }
         const observer = new ResizeObserver(position);
         observer.observe(node);
         return () => {
             window.removeEventListener("resize", position);
+            window.removeEventListener("scroll", measureShade, true);
             observer.disconnect();
         };
     }, []);

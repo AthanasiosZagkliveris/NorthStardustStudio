@@ -632,3 +632,16 @@
     max-width:100%;
 
 }
+
+/* The ROLE AND COLOUR cells stand at the RIGHT of their rows: each one's right edge is the name cell's right edge (the label keeps the left). */
+.brand-side-rows .option-picker{
+
+    justify-self:end;
+
+}
+
+.brand-side-rows .brand-colour-row{
+
+    justify-content:flex-end;
+
+}

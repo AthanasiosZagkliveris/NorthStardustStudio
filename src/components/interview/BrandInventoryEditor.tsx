@@ -525,8 +525,9 @@ export default function BrandInventoryEditor({
                     how they are used -- its top and bottom level with
                     the Icon's box. */}
                 {renderMarkSlot("icon", (
-                    <StrategyTextArea
-                        className="interview-input brand-mark-note"
+                    <OptionalNote
+                        label="Notes"
+                        fieldId="Description"
                         ariaLabel="Icon and logo description"
                         placeholder="What the logo and icon show, what they mean, and how they should be used"
                         disabled={disabled}
@@ -760,8 +761,9 @@ export default function BrandInventoryEditor({
                     how they are used -- its top and bottom level with
                     the Icon's box. */}
                 {renderMarkSlot("icon", (
-                    <StrategyTextArea
-                        className="interview-input brand-mark-note"
+                    <OptionalNote
+                        label="Notes"
+                        fieldId="Description"
                         ariaLabel="Icon and logo description"
                         placeholder="What the logo and icon show, what they mean, and how they should be used"
                         disabled={disabled}

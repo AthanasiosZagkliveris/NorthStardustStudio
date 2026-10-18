@@ -1255,10 +1255,11 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
 }
 
-/* THE CHAPTER BEHIND A FLOATING CARD is shaded and frozen: a layer the size and shape of the frame the card stands over (SectionTiles.tsx, FloatingCards), under the card and its arrows. */
+/* THE CHAPTER BEHIND A FLOATING CARD is shaded and frozen: a layer the size and shape of what the card stands over -- the dialog under it, else the frame it was opened from (SectionTiles.tsx, FloatingCards), under the card and its arrows. */
 .floating-chapter-shade {
 
-    position: absolute;
+    /* (Fixed to the window and measured again as the page scrolls: it stays on the chapter, whatever the card does.) */
+    position: fixed;
 
     /* (Two layers of the shadow tone: about a third black in light and sepia, more in dark.) */
     background: linear-gradient(var(--shadow-18), var(--shadow-18)), linear-gradient(var(--shadow-18), var(--shadow-18));

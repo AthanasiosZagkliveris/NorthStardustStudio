@@ -29,6 +29,7 @@ Where the rules need a decision the code could not give, section 20 lists it.
 - 19. The assets (generated from the contracts)
 - 20. Still to settle
 - 21. Rules of 2026-10-17 (floating cards, generated cards, notes, folds, cells)
+- 22. Rules of 2026-10-18 (colour picker, brand cards, hover, shade, links)
 
 ---
 
@@ -1745,3 +1746,17 @@ The owner's rules of one round, each global: made in a shared component, token o
 16. **A colour or typeface card's Role and Colour cells** are one width (the Date step) and start together; the colour is written as a hex (# and six digits); the picker also writes it as RGB or HSL. The Typography tile sets its typeface names at the body size.
 17. **A tile with a "+" box keeps its list clear of it**, on every tile.
 18. **The Strategic Period dialog's tiles and top row end where the Themes' tiles end**, at any width.
+
+## 22. Rules of 2026-10-18 (colour picker, brand cards, hover, shade, links)
+
+Each is global: the shared component, token or class carries it.
+
+1. **The colour picker card is one size of cell**: the code's picker (HEX, RGB, HSL; a short cell, `--control-xs`, its list exactly as wide), the hex and the three channels are every one a cell `--card-cell-height` (44px) tall with the one look of a cell. The colour cell and its colour box answer the pointer with the glow (R1), as every cell.
+2. **A colour or typeface card's Role and Colour cells stand at the right**: each one's right edge is the name cell's right edge; the labels keep the left.
+3. **The Icon's description is a Notes field** behind its tick (`OptionalNote`), as every card's optional text; it keeps its key.
+4. **A generated coloured box matches its card's colour exactly**: the Roadmap's corner over the Theme names (zoomed to months) takes the card's own ground formula, not a mix of it.
+5. **The pointer on a field is the glow only** (R1: 4px at 18%, no change of the edge, the recess kept); the primary edge belongs to the ring (R2). One rule for text boxes, text areas, name cells, pickers, number cells, date and month cells, colour cells, notes and lists.
+6. **A labelled button never changes size under the pointer** (`.primary-button`, `.secondary-button`, `.back-link`, the add and documents buttons, Start Interview): it goes bold by the thickening drawn on its letters; its tracking stays what it is at rest.
+7. **The shade behind a floating card stays on the chapter**: it is fixed to the window and measured again whenever the page or a box scrolls or the window changes; it covers the topmost dialog under the card (Inventory, Completed, a category's), else the frame the card was opened from. A press on it closes the card.
+8. **A long text link moves under the pointer whatever the system's motion setting** (the Responsibilities, the Links, a tile's title): it moves only while the pointer is on it, and moving is the one way to read a text its place cuts.
+9. **Quillfield (the example) is a sole proprietorship**: the Certificate of Assumed Name is its registration; the owner's savings are a funding source (Owner's savings), not a company's capital.

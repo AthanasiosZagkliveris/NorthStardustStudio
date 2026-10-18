@@ -428,7 +428,7 @@ Each field once, with the component it uses (CO) and the functions it carries (F
 | F014 | Currency | dropdown | CO02 | FN10 | 46 |
 | F015 | Extra: Commercial property tax (when bought) | extra (tick + number) | - | FN11 | 2 |
 | F016 | Extra: Service charge (when bought) | extra (tick + number) | - | FN11 | 2 |
-| F017 | Description / Relevant Information | optional note | CO09 | FN12 | 52 |
+| F017 | Notes | optional note | CO09 | FN12 | 52 |
 | F018 | Record date and time | read-only | - | FN13 | 52 |
 | F019 | Add Date | button | - | FN03 | 52 |
 | F020 | Group | dropdown | CO02 | FN05 | 67 |

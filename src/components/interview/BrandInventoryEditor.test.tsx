@@ -68,8 +68,10 @@ describe("BrandInventoryEditor, Icon & Logo", () => {
         expect(saved().logo.svg).toEqual(svg);
     });
 
-    it("keeps a description of the logo and icon", () => {
+    it("keeps a description of the logo and icon, a Notes field behind its tick", () => {
         const { saved } = renderWith(undefined);
+        expect(screen.queryByRole("textbox", { name: "Icon and logo description" })).toBeNull();
+        fireEvent.click(screen.getByRole("checkbox", { name: /Notes/ }));
         const box = screen.getByRole("textbox", { name: "Icon and logo description" });
         expect(box.getAttribute("placeholder")).toBe("What the logo and icon show, what they mean, and how they should be used");
         fireEvent.change(box, { target: { value: "A quill: writing, care." } });
@@ -101,7 +103,7 @@ describe("BrandInventoryEditor layout", () => {
     it("sets the Icon's description beside the Icon, and shares the rows across the columns", () => {
         const { container } = renderWith({ images: [{ dataUrl: "data:image/png;base64,AA", fileName: "a", name: "", description: "" }, { dataUrl: "data:image/png;base64,AA", fileName: "b", name: "", description: "" }, { dataUrl: "data:image/png;base64,AA", fileName: "c", name: "", description: "" }] });
         const icon = container.querySelector(".brand-asset-slot-icon")!;
-        expect(icon.querySelector(".brand-slot-aside textarea[aria-label=\"Icon and logo description\"]")).not.toBeNull();
+        expect(icon.querySelector(".brand-slot-aside .optional-field input[type=checkbox]")).not.toBeNull();
         // Three images and the slot for a fourth: four rows, on both sides.
         container.querySelectorAll<HTMLElement>(".brand-inventory-rows").forEach(column => expect(column.style.getPropertyValue("--inventory-rows")).toBe("4"));
     });

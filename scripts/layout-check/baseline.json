@@ -18,7 +18,7 @@
   "rule": "closing a mouse-opened card draws no ring on its opener"
  },
  {
-  "key": "quillfield-automation-llc.json|Identity System › ^1\\. Definition|light|1920|a tile's list starts 12px under the title's underline|column-tiles › Description, Quillfield Automation LLC is a one-person automation studio in Broo|",
+  "key": "quillfield-automation-llc.json|Identity System › ^1\\. Definition|light|1920|a tile's list starts 12px under the title's underline|column-tiles › Description, Quillfield Automation is a one-person automation studio in Brooklyn|",
   "example": "quillfield-automation-llc.json",
   "page": "Identity System › ^1\\. Definition",
   "rule": "a tile's list starts 12px under the title's underline"
@@ -90,12 +90,6 @@
   "rule": "row gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|row gap|legal-section-1 › legal-entity-column-head legal-entity-column-centre|Founders & Ownership",
-  "example": "quillfield-automation-llc.json",
-  "page": "Identity System › ^2\\. Organization",
-  "rule": "row gap"
- },
- {
   "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a dialog's Back button stands at its lower left|Registrations|",
   "example": "quillfield-automation-llc.json",
   "page": "Identity System › ^2\\. Organization",
@@ -114,46 +108,28 @@
   "rule": "a dialog's Back button stands at its lower left"
  },
  {
-  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|number-left = body-left|legal-expense-expense-~ › legal-entity-card-head fold-card-head fold-card-fixed|Expenses > Expense 1: NY Articles of Organization filing",
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|number-left = body-left|legal-expense-expense-~ › legal-entity-card-head fold-card-head fold-card-fixed|Expenses > Expense 1: Certificate of Assumed Name filing",
   "example": "quillfield-automation-llc.json",
   "page": "Identity System › ^2\\. Organization",
   "rule": "number-left = body-left"
  },
  {
-  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|number → name gap|legal-expense-expense-~ › legal-entity-card-head fold-card-head fold-card-fixed|Expenses > Expense 1: NY Articles of Organization filing",
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|number → name gap|legal-expense-expense-~ › legal-entity-card-head fold-card-head fold-card-fixed|Expenses > Expense 1: Certificate of Assumed Name filing",
   "example": "quillfield-automation-llc.json",
   "page": "Identity System › ^2\\. Organization",
   "rule": "number → name gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|card side margin|legal-expense-expense-~ › Date|Expenses > Expense 1: NY Articles of Organization filing",
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|card side margin|legal-expense-expense-~ › Date|Expenses > Expense 1: Certificate of Assumed Name filing",
   "example": "quillfield-automation-llc.json",
   "page": "Identity System › ^2\\. Organization",
   "rule": "card side margin"
  },
  {
-  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a picker in an opened card is not stretched across it|legal-expense-expense-~ › option-picker|Expenses > Expense 1: NY Articles of Organization filing",
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a picker shows its whole displayed text|legal-expense-expense-~ › Expense 1 linked registration: New York Department of State: KC-2026-0817|Expenses > Expense 1: Certificate of Assumed Name filing",
   "example": "quillfield-automation-llc.json",
   "page": "Identity System › ^2\\. Organization",
-  "rule": "a picker in an opened card is not stretched across it"
- },
- {
-  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|number-left = body-left|legal-expense-expense-~ › legal-entity-card-head fold-card-head fold-card-fixed|Expenses > Expense 2: LLC publication requirement (NY LLC Law, Section 206)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Identity System › ^2\\. Organization",
-  "rule": "number-left = body-left"
- },
- {
-  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|number → name gap|legal-expense-expense-~ › legal-entity-card-head fold-card-head fold-card-fixed|Expenses > Expense 2: LLC publication requirement (NY LLC Law, Section 206)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Identity System › ^2\\. Organization",
-  "rule": "number → name gap"
- },
- {
-  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|card side margin|legal-expense-expense-~ › Date|Expenses > Expense 2: LLC publication requirement (NY LLC Law, Section 206)",
-  "example": "quillfield-automation-llc.json",
-  "page": "Identity System › ^2\\. Organization",
-  "rule": "card side margin"
+  "rule": "a picker shows its whole displayed text"
  },
  {
   "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a dialog's Back button stands at its lower left|Jordan Ellis|",
@@ -210,10 +186,10 @@
   "rule": "card side margin"
  },
  {
-  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a picker in an opened card is not stretched across it|legal-expense-expense-~ › option-picker|Expenses (floating card)",
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a picker shows its whole displayed text|legal-expense-expense-~ › Expense 1 linked registration: New York Department of State: KC-2026-0817|Expenses (floating card)",
   "example": "quillfield-automation-llc.json",
   "page": "Identity System › ^2\\. Organization",
-  "rule": "a picker in an opened card is not stretched across it"
+  "rule": "a picker shows its whole displayed text"
  },
  {
   "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|number-left = body-left|legal-expense-expense-~ › legal-entity-card-head fold-card-head fold-card-fixed|Expenses (card added with +)",
@@ -234,10 +210,10 @@
   "rule": "card side margin"
  },
  {
-  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a picker in an opened card is not stretched across it|legal-expense-expense-~ › option-picker|Expenses (card added with +)",
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Organization|light|1920|a card added with the + box and left blank is removed again|Expenses|",
   "example": "quillfield-automation-llc.json",
   "page": "Identity System › ^2\\. Organization",
-  "rule": "a picker in an opened card is not stretched across it"
+  "rule": "a card added with the + box and left blank is removed again"
  },
  {
   "key": "quillfield-automation-llc.json|Brand System › Brand System|light|1920|a dialog's Back button stands at its lower left|Aesthetics|",
@@ -2592,13 +2568,13 @@
   "rule": "a dialog's Back button stands at its lower left"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Completed > Activity 1: Form the LLC and get an EIN",
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|row gap|activity-~ › field-label business-foundation-label|Completed > Activity 1: Register the business name and get an EIN",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "row gap"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Completed > Activity 1: Form the LLC and get an EIN",
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|the Performer's dropdown ends where the name cell ends|activity-~ › option-picker|Completed > Activity 1: Register the business name and get an EIN",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "the Performer's dropdown ends where the name cell ends"
@@ -2716,6 +2692,12 @@
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "the Performer's dropdown ends where the name cell ends"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Financial Foundation|light|1920|a remove x keeps 12px from the cell beside it and never lies on one|funding-~ › Remove Owner's savings|",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Financial Foundation",
+  "rule": "a remove x keeps 12px from the cell beside it and never lies on one"
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Financial Foundation|light|1920|a remove x keeps 12px from the cell beside it and never lies on one|funding-~ › Remove SBA Microloan|",

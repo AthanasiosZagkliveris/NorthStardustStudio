@@ -122,12 +122,12 @@ export async function seedExample(page, base, exampleText) {
 export const REACTIONS = [
     // A tick box: under the pointer, the box's glow ring.
     { kind: "tick box", selector: "input[type=checkbox]:not(:disabled)", property: "boxShadow", on: "self" },
-    // A box you write into: its edge takes the primary colour. (An image's
+    // A box you write into: the glow round it (R1: the edge never changes under the pointer; the primary edge is the ring's). (An image's
     // name and description react as their one holder, .brand-image-text.)
-    { kind: "text box", selector: "input.interview-input:not([type=checkbox]):not(:disabled):not(:focus):not(.brand-image-text *), textarea.interview-input:not(:disabled):not(:focus):not(.brand-image-text *)", property: "borderColor", on: "self" },
-    { kind: "text holder", selector: ".brand-image-text", property: "borderColor", on: "self" },
-    // A picker: its edge, as a box you write into.
-    { kind: "picker", selector: ".option-picker-trigger:not(:disabled)", property: "borderColor", on: "self" },
+    { kind: "text box", selector: "input.interview-input:not([type=checkbox]):not(:disabled):not(:focus):not(.brand-image-text *), textarea.interview-input:not(:disabled):not(:focus):not(.brand-image-text *)", property: "boxShadow", on: "self" },
+    { kind: "text holder", selector: ".brand-image-text", property: "boxShadow", on: "self" },
+    // A picker: the glow, as a box you write into.
+    { kind: "picker", selector: ".option-picker-trigger:not(:disabled)", property: "boxShadow", on: "self" },
     // An add button: its ground.
     { kind: "add button", selector: ".strategy-add-button:not(:disabled)", property: "backgroundColor", on: "self" },
     // A card's ×: its ground.

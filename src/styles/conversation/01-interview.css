@@ -55,9 +55,7 @@ textarea{
    hover never fights the focus state. */
 textarea:hover:not(:focus):not(:disabled){
 
-    border-color:var(--line-primary);
-
-    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
+    box-shadow:var(--cell-inset-recess), 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
 
 }
 

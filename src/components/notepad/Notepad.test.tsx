@@ -317,7 +317,7 @@ describe("what can be clicked in the Notepad", () => {
 
     it("gives a note and a chip a field's hover, \"Link a field\" a thicker underline, a chip's × a bold glyph, and a note the app's one ×", () => {
         const css = stylesheet("notepad.css");
-        expect(css).toContain(".notepad-note:hover, .notepad-chip:not(.notepad-chip-gone):hover { border-color: var(--line-primary); box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent); }");
+        expect(css).toContain(".notepad-note:hover, .notepad-chip:not(.notepad-chip-gone):hover { box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent); }");
         expect(css).toContain(".notepad-text-button:hover { text-decoration-thickness: 2px; }");
         expect(css).toContain(".notepad-chip-remove:hover { font-weight: 700; }");
         expect(css).not.toContain(".notepad-chip:is(:hover, :focus-within) > .notepad-chip-remove");

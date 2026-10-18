@@ -561,3 +561,8 @@ The stylesheets use 13 window boundaries (one is a height) and 20 container boun
 | container | 600 / 601 | max-width: 599.98px (2), max-width: 599px (2) ; max-width: 600px (1) |
 
 The decided set (768, 1200, heights 900 and 1250) is not yet used by any query; moving the queries to it changes the layout between the old and new widths, so it is a separate decision.
+
+## Left after 2026-10-18
+
+- The catalogue records (`docs/design/06-catalogue-record.md` and the crawl behind it) still show Quillfield as an LLC (its "Form the LLC and get an EIN" activity and the publication requirement); the next full crawl rewrites them. `npm run tables` was run, so the structure tables and the library tables follow the example.
+- The legal-form change moves Quillfield's figures: the Funding Need is $24,734, the cash in hand $10,675 and the amount still short after the SBA loan's repayments $1,208 (golden: `WRITE_GOLDEN=all`).

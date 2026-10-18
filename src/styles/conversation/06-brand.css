@@ -453,6 +453,17 @@
 
     display:flex;
 
+    align-items:flex-start;
+
+    min-width:0;
+
+}
+
+/* The Icon's description is a Notes field: its tick on top, its box under it, the width of the space beside the Icon, as every card's. */
+.brand-slot-aside > .optional-field{
+
+    flex:1 1 auto;
+
     min-width:0;
 
 }
@@ -493,8 +504,6 @@
 }
 
 .brand-image-text:hover:not(:focus-within){
-
-    border-color:var(--line-primary);
 
     box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
 
@@ -871,9 +880,7 @@
 .brand-inventory .interview-input:hover:not(:focus):not(:disabled),
 .business-foundation .interview-input:hover:not(:focus):not(:disabled){
 
-    border-color:var(--line-primary);
-
-    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
+    box-shadow:var(--cell-inset-recess), 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
 
 }
 

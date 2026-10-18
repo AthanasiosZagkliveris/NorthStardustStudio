@@ -219,7 +219,6 @@ export default function ColourPicker({
                             options={[...CODES]}
                             value={code}
                             disabled={disabled}
-                            fill
                             onChange={(next) => setCode(next as Code)}
                         />
                     </div>

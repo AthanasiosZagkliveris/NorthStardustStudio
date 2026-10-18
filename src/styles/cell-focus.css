@@ -50,3 +50,9 @@
     border-color: transparent !important;
     box-shadow: var(--cell-inset-recess) !important;
 }
+
+/* A LABELLED BUTTON KEEPS ITS SIZE UNDER THE POINTER: it goes bold by the thickening drawn on its letters (--hover-bold), which takes no room; the wider tracking of bold text is for text that
+   changes its weight, and on a button it made the whole button wider. The tracking stays what it is at rest, so the button's box never changes. */
+:is(.primary-button, .secondary-button, .back-link, .strategy-add-button, .interview-help-toggle, .workspace-documents-button, .business-documents-button, .confirmation-button, .start-arrow-button):is(:hover, :focus-visible, :active):not(:disabled) {
+    letter-spacing: var(--rest-tracking, 0.1em) !important;
+}

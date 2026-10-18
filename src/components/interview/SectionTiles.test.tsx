@@ -1374,7 +1374,7 @@ describe("the slide of a long title", () => {
         vi.unstubAllGlobals();
     });
 
-    it("does not move a title that fits, nor any title for people who ask for reduced motion (its tooltip stays)", () => {
+    it("does not move a title that fits; one that is cut slides whatever the motion setting (it moves only under the pointer, and is the one way to read it)", () => {
         instantFrames();
         vi.stubGlobal("matchMedia", (query: string) => ({ matches: query.includes("reduce"), media: query, addEventListener: () => undefined, removeEventListener: () => undefined }));
         render(<Harness />);
@@ -1384,7 +1384,7 @@ describe("the slide of a long title", () => {
         expect(node.scrollLeft).toBe(0);
         cut(node);
         fireEvent.pointerEnter(slot);
-        expect(node.scrollLeft).toBe(0);
+        expect(node.scrollLeft).toBe(50);
         expect(node.title).toBe("Activities");
         vi.unstubAllGlobals();
     });

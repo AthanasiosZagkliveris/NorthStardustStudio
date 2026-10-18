@@ -9,7 +9,7 @@
         {
           "sectionNumber": 1,
           "value": {
-            "description": "Quillfield Automation LLC is a one-person automation studio in Brooklyn, New York, founded in 2026 by Jordan Ellis. We design and build AI-assisted workflow automations for small professional-services firms: law, accounting, architecture and marketing firms of 5 to 50 staff. We provide three services. The AI Workflow Audit finds the repetitive work worth automating. The Automation Build puts the chosen workflows into daily use. The Automation Care Retainer keeps them running, secure and up to date.",
+            "description": "Quillfield Automation is a one-person automation studio in Brooklyn, New York, founded in 2026 by Jordan Ellis. We design and build AI-assisted workflow automations for small professional-services firms: law, accounting, architecture and marketing firms of 5 to 50 staff. We provide three services. The AI Workflow Audit finds the repetitive work worth automating. The Automation Build puts the chosen workflows into daily use. The Automation Care Retainer keeps them running, secure and up to date.",
             "mission": "To give small professional firms back the hours they lose to repetitive admin. Many small firms spend a large part of each week copying data between tools, chasing documents and writing the same emails again and again. Large consultancies do not serve them, and ready-made AI tools rarely fit how they work. We build reliable, well-documented automations around the tools a firm already uses, so its people can spend their time on client work. This matters because small firms compete on care and expertise, not on admin capacity.",
             "positioning": "For owners and office managers of small professional-services firms who know automation could help but have no technical staff, Quillfield Automation is a hands-on automation partner in the small-business IT and consulting market. Unlike larger agencies, clients work directly with the person who designs and builds their system, at fixed project prices. Unlike do-it-yourself AI tools, we map the workflow first, build on the firm's existing software, document every step and stay on to maintain it.",
             "vision": "A future in which every small professional firm can use automation and AI as safely and confidently as a large one. Ten years from now, Quillfield is a trusted name for practical automation among small firms across the north-east United States: a small team of automation specialists, a library of proven and well-documented workflows, and hundreds of client firms whose staff spend their days on skilled work rather than admin. Success means clients who stay for years, recommend us to their peers and never feel locked in."
@@ -28,10 +28,10 @@
           "sectionNumber": 3,
           "value": {
             "organisation": {
-              "name": "Quillfield Automation LLC",
+              "name": "Quillfield Automation",
               "country": "US",
               "subdivision": "New York",
-              "legalForm": "Limited Liability Company (LLC)",
+              "legalForm": "Sole Proprietorship",
               "legalFormOther": "",
               "mainActivity": "Design and build of AI-assisted workflow automations for small professional-services firms (law, accounting, architecture and marketing firms of 5 to 50 staff), with automation audits and monthly care retainers (NAICS 541512: Computer Systems Design Services).",
               "activityCode": "541512",
@@ -41,13 +41,13 @@
               "city": "",
               "postalCode": ""
             },
-            "capitalApplies": true,
+            "capitalApplies": false,
             "founders": [
               {
                 "id": "founder-q7m2x4ke",
                 "name": "Jordan Ellis",
                 "ownership": "100",
-                "capital": "12000",
+                "capital": "",
                 "roles": [
                   ""
                 ],
@@ -57,8 +57,8 @@
             "formation": {
               "status": "registered",
               "date": "2026-08-17",
-              "authority": "New York Department of State",
-              "registrationNumber": "7194826",
+              "authority": "Kings County Clerk (New York)",
+              "registrationNumber": "KC-2026-0817",
               "additionalNumbers": []
             },
             "tax": {
@@ -71,26 +71,18 @@
               {
                 "id": "requirement-p3u8b1lc",
                 "type": "additional",
-                "name": "LLC publication requirement (NY LLC Law, Section 206)",
-                "reference": "Certificate of Publication filed 2026-12-04",
-                "notes": "Notice of formation published once a week for six consecutive weeks in two newspapers (one daily, one weekly) chosen by the Kings County Clerk, within 120 days of formation; the Certificate of Publication, with the publishers' affidavits, is then filed with the Department of State.",
+                "name": "Certificate of Assumed Name (NY General Business Law, Section 130)",
+                "reference": "Filed with the Kings County Clerk on 2026-08-17",
+                "notes": "A sole proprietor who trades under a name other than their own files a certificate of assumed name with the county clerk before using it. It is the only registration a sole proprietorship needs in New York: no state filing, no publication, no annual fee. The Kings County Clerk's fee is $25.",
                 "offerInExpenses": true
               },
               {
                 "id": "requirement-o9a3g6mk",
                 "type": "other",
-                "name": "Operating Agreement (single-member)",
-                "reference": "Signed 2026-09-10",
-                "notes": "New York expects an LLC to adopt a written operating agreement within 90 days of filing its Articles of Organization, even with one member.",
+                "name": "Self-employment tax and estimated payments (IRS Schedule SE, Form 1040-ES)",
+                "reference": "First estimated payment due 2027-01-15",
+                "notes": "As a sole proprietor, Jordan pays income tax and self-employment tax (Social Security and Medicare, about 15.3% of net earnings) personally, in quarterly estimated payments. The business itself pays no income tax. To be confirmed with the accountant.",
                 "offerInExpenses": false
-              },
-              {
-                "id": "requirement-f6e1d8yw",
-                "type": "additional",
-                "name": "NYS LLC annual filing fee (Form IT-204-LL)",
-                "reference": "First filing due with the 2027 tax year",
-                "notes": "A single-member LLC with New York income pays the fee each year. It is $25 while New York gross income stays at or under $100,000 and rises by income band above that; confirm the band each year with the accountant.",
-                "offerInExpenses": true
               },
               {
                 "id": "requirement-t2x7s4ve",
@@ -105,61 +97,22 @@
                 "type": "additional",
                 "name": "NYC Unincorporated Business Tax (UBT)",
                 "reference": "Not yet required",
-                "notes": "A single-member LLC doing business in New York City may owe UBT once its business income passes the exemption threshold. To be confirmed with the accountant each year.",
+                "notes": "A sole proprietor doing business in New York City may owe the Unincorporated Business Tax (UBT) once business income passes the exemption threshold. To be confirmed with the accountant each year.",
                 "offerInExpenses": false
               }
             ],
             "expenses": [
               {
                 "id": "expense-a1r7t3oz",
-                "name": "NY Articles of Organization filing",
+                "name": "Certificate of Assumed Name filing",
                 "date": "2026-08-17",
                 "responsibility": "founder-q7m2x4ke",
-                "cost": "200",
+                "cost": "25",
                 "frequency": "One time",
                 "links": [
                   "formation-registration-number"
                 ],
-                "description": "Department of State filing fee, paid online at formation.",
-                "fromRequirement": ""
-              },
-              {
-                "id": "expense-p5b2n8wk",
-                "name": "LLC publication in two Brooklyn newspapers",
-                "date": "2026-09-30",
-                "responsibility": "founder-q7m2x4ke",
-                "cost": "1100",
-                "frequency": "One time",
-                "links": [
-                  "requirement-p3u8b1lc"
-                ],
-                "description": "Six weeks in a daily and a weekly newspaper. Publication costs vary a lot by county in New York City; Kings County quotes ranged from about $900 to $1,500.",
-                "fromRequirement": ""
-              },
-              {
-                "id": "expense-c4f9e6mj",
-                "name": "Certificate of Publication filing",
-                "date": "2026-10-05",
-                "responsibility": "founder-q7m2x4ke",
-                "cost": "50",
-                "frequency": "One time",
-                "links": [
-                  "requirement-p3u8b1lc"
-                ],
-                "description": "Department of State fee for filing the Certificate of Publication.",
-                "fromRequirement": ""
-              },
-              {
-                "id": "expense-n3y8s1qv",
-                "name": "NYS LLC annual filing fee",
-                "date": "2027-01-05",
-                "responsibility": "founder-q7m2x4ke",
-                "cost": "25",
-                "frequency": "Annually",
-                "links": [
-                  "requirement-f6e1d8yw"
-                ],
-                "description": "Form IT-204-LL at the lowest income band; higher once New York gross income passes $100,000.",
+                "description": "Kings County Clerk's fee, paid at filing in August 2026.",
                 "fromRequirement": ""
               }
             ]
@@ -205,7 +158,7 @@
                 ]
               }
             ],
-            "teamGaps": "As a one-person LLC, Quillfield has no one with a sales and marketing background, no in-house bookkeeping or legal expertise, and no cover for holidays or illness.",
+            "teamGaps": "As a one-person business, Quillfield has no one with a sales and marketing background, no in-house bookkeeping or legal expertise, and no cover for holidays or illness.",
             "teamCover": "Bookkeeping and taxes are covered by our Brooklyn CPA practice and contracts by a small-business attorney. A freelance automation specialist, trained on our templates, will cover urgent Care Retainer work when Jordan is away, and Jordan meets a SCORE mentor monthly on sales and marketing."
           }
         }
@@ -2106,8 +2059,8 @@
                   {
                     "id": "activity-f2l8c4ow",
                     "category": "pre-operational",
-                    "name": "Form the LLC and get an EIN",
-                    "description": "Articles of Organization filed with the New York Department of State in August 2026; EIN issued by the IRS the same week.",
+                    "name": "Register the business name and get an EIN",
+                    "description": "Certificate of Assumed Name filed with the Kings County Clerk in August 2026; EIN issued by the IRS the same week.",
                     "performerIds": [
                       "founder-q7m2x4ke"
                     ],
@@ -2137,25 +2090,6 @@
                     "madeBy": "",
                     "startDate": "2026-08-18",
                     "endDate": "2026-08-28",
-                    "offeringShares": {},
-                    "resources": [],
-                    "performerPeople": {}
-                  },
-                  {
-                    "id": "activity-p4u7b3lq",
-                    "category": "pre-operational",
-                    "name": "Complete the LLC publication",
-                    "description": "Six weeks in two Brooklyn newspapers, then file the Certificate of Publication.",
-                    "performerIds": [
-                      "founder-q7m2x4ke"
-                    ],
-                    "responsibleId": "founder-q7m2x4ke",
-                    "completed": true,
-                    "offeringIds": [],
-                    "type": "startup",
-                    "madeBy": "",
-                    "startDate": "2026-09-01",
-                    "endDate": "2026-10-05",
                     "offeringShares": {},
                     "resources": [],
                     "performerPeople": {}
@@ -2269,7 +2203,7 @@
                     "offeringIds": [],
                     "type": "",
                     "madeBy": "resource-x3v8a2ip",
-                    "startDate": "2027-02-01",
+                    "startDate": "2027-02-08",
                     "endDate": "2027-02-19",
                     "offeringShares": {},
                     "resources": [],
@@ -3282,6 +3216,51 @@
             "needs": [],
             "funding": [
               {
+                "id": "funding-j4o8w1sv",
+                "name": "Owner's savings",
+                "category": "internal",
+                "type": "founder-capital",
+                "provider": "Jordan Ellis",
+                "amount": "10700",
+                "status": "received",
+                "received": "",
+                "schedule": {
+                  "kind": "one-time",
+                  "month": {
+                    "month": "",
+                    "year": ""
+                  },
+                  "periodAmount": "",
+                  "frequency": "monthly",
+                  "start": {
+                    "month": "",
+                    "year": ""
+                  },
+                  "periods": "",
+                  "milestones": [],
+                  "note": ""
+                },
+                "purpose": "Jordan's own savings, paid into the business account before the plan starts: with the $25 certificate paid, the opening cash.",
+                "needIds": [],
+                "conditions": "",
+                "equity": "",
+                "loan": {
+                  "rate": "",
+                  "interestType": "",
+                  "start": {
+                    "month": "",
+                    "year": ""
+                  },
+                  "repaymentStart": {
+                    "month": "",
+                    "year": ""
+                  },
+                  "frequency": "monthly",
+                  "payments": "",
+                  "method": "annuity"
+                }
+              },
+              {
                 "id": "funding-s8b3a6mq",
                 "name": "SBA Microloan",
                 "category": "external",
@@ -3306,7 +3285,7 @@
                   "milestones": [],
                   "note": ""
                 },
-                "purpose": "Covers the launch months until audits, builds and retainers pay the running costs: the Funding Gap of about $13,500, with a small buffer.",
+                "purpose": "Covers the launch months until audits, builds and retainers pay the running costs: the Funding Gap of about $14,000, with a small buffer.",
                 "needIds": [
                   "establishment",
                   "initial-operating"

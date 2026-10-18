@@ -685,8 +685,6 @@ html.notepad-picking [data-pick-hover] {
 .notepad-note:hover,
 .notepad-chip:not(.notepad-chip-gone):hover {
 
-    border-color: var(--line-primary);
-
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
 
 }

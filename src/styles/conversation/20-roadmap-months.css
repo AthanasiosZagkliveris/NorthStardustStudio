@@ -85,7 +85,8 @@
    tinted card is a black block), from the top of the timeline down to the first box. */
 .roadmap-zoomed .roadmap-head-spacer{
 
-    background-color:color-mix(in srgb, var(--plus-ground) 76%, var(--bg-page));
+    /* EXACTLY the card's ground (the formula the card, the Theme boxes and every panel use: the card's hue), not a mix of it: a mix is a different colour. */
+    background-color:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
