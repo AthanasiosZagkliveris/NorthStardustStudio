@@ -1,4 +1,3 @@
-import FieldLabel from "../FieldLabel.tsx";
 import { CSSProperties, DragEvent, ReactNode, useRef, useState } from "react";
 import { brandImageMissing } from "../../framework/engine/SystemCardCompleteness.ts";
 import SectionTiles, { DialogHeading, type SectionTile } from "./SectionTiles.tsx";
@@ -914,7 +913,7 @@ function DropZone({
 
             {!bare && (
                 <div className="brand-slot-label-row">
-                    <FieldLabel className="brand-slot-label">{label}</FieldLabel>
+                    <span className="brand-slot-label">{label}</span>
                 </div>
             )}
 
