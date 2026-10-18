@@ -1,4 +1,5 @@
 import { CSSProperties, ReactNode, useEffect, useRef } from "react";
+import RemoveButton from "../RemoveButton.tsx";
 import { legalExpenseMissing, legalRequirementMissing } from "../../framework/engine/SystemCardCompleteness.ts";
 import type { FloorLink } from "./capabilityFloor.ts";
 import SectionTiles, { DialogHeading, OPEN_EVENT, TILE_DIVIDER, type OpenRequest, type SectionTile, type TileLink } from "./SectionTiles.tsx";
@@ -1201,18 +1202,14 @@ export default function LegalEntityEditor({
                     ))}
                 />
 
-                <button
-                    type="button"
-                    className="strategy-box-remove"
+                <RemoveButton
                     aria-label={"Remove " + noun.toLowerCase() + " " + (index + 1)}
                     title={"Remove " + noun.toLowerCase() + " " + (index + 1)}
                     disabled={disabled}
                     onClick={() => onNext(entries.filter(
                         (_candidate, position) => position !== index
                     ))}
-                >
-                    ×
-                </button>
+                />
 
             </div>
 
@@ -1632,16 +1629,12 @@ export default function LegalEntityEditor({
                         */}
                         {!soleFounderSettled && (
                             <div className="legal-entity-founder-end">
-                                <button
-                                    type="button"
-                                    className="strategy-box-remove card-remove"
+                                <RemoveButton className="card-remove"
                                     aria-label={"Remove founder " + (index + 1)}
                                     title={"Remove founder " + (index + 1)}
                                     disabled={disabled}
                                     onClick={() => removeFounder(index)}
-                                >
-                                    ×
-                                </button>
+                />
                             </div>
                         )}
 
@@ -1866,9 +1859,7 @@ export default function LegalEntityEditor({
                     />
 
                     {entity.formation.registrationNumber.trim() !== "" && (
-                        <button
-                            type="button"
-                            className="strategy-box-remove"
+                        <RemoveButton
                             aria-label="Remove registration number"
                             title="Remove registration number"
                             disabled={disabled}
@@ -1879,9 +1870,7 @@ export default function LegalEntityEditor({
                                     ? { registrationNumber: next.number, additionalNumbers: rest }
                                     : { registrationNumber: "" });
                             }}
-                        >
-                            ×
-                        </button>
+                />
                     )}
 
                 </div>
@@ -2101,9 +2090,7 @@ export default function LegalEntityEditor({
                                 </span>
                             )}
 
-                        <button
-                            type="button"
-                            className="strategy-box-remove card-remove"
+                        <RemoveButton className="card-remove"
                             aria-label={"Remove legal requirement " + (index + 1)}
                             title={"Remove legal requirement " + (index + 1)}
                             disabled={disabled}
@@ -2112,9 +2099,7 @@ export default function LegalEntityEditor({
                                     (_candidate, position) => position !== index
                                 )
                             })}
-                        >
-                            ×
-                        </button>
+                />
 
                         {/* The rest, on a row of its own under
                             the name (see .fold-card-head). */}
@@ -2294,9 +2279,7 @@ export default function LegalEntityEditor({
                                 </span>
                             )}
 
-                        {expense.fromRequirement === "" && <button
-                            type="button"
-                            className="strategy-box-remove card-remove"
+                        {expense.fromRequirement === "" && <RemoveButton className="card-remove"
                             aria-label={"Remove expense " + (index + 1)}
                             title={"Remove expense " + (index + 1)}
                             disabled={disabled}
@@ -2305,9 +2288,7 @@ export default function LegalEntityEditor({
                                     (_candidate, position) => position !== index
                                 )
                             })}
-                        >
-                            ×
-                        </button>}
+                />}
 
                         {/* The rest, on a row of its own under
                             the name (see .fold-card-head). */}

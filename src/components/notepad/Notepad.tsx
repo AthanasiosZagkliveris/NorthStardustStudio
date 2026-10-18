@@ -1,4 +1,5 @@
 import { KeyboardEvent, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import RemoveButton from "../RemoveButton.tsx";
 import { useNavigate } from "react-router-dom";
 
 import { NotepadService, type Note, type NoteLink } from "../../services/NotepadService";
@@ -244,9 +245,7 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
             {/* Above the text, at the right: when the note was written (automatic, read-only), then the note's ×. At once, and the undo toast offers it back; an empty note just goes. */}
             <div className="notepad-note-top">
                 {note.createdAt > 0 && <p className="notepad-note-recorded">{"Recorded " + noteMomentText(note.createdAt)}</p>}
-                <button
-                    type="button"
-                    className="strategy-box-remove card-remove notepad-note-remove"
+                <RemoveButton className="card-remove notepad-note-remove"
                     aria-label="Delete note"
                     onClick={() => {
                         const removed = NotepadService.removeNote(note.id);
@@ -254,9 +253,7 @@ function NoteCard({ note, focused }: { note: Note; focused: boolean }) {
                             UndoService.offer("Note removed.", () => NotepadService.restoreNote(removed.note, removed.index));
                         }
                     }}
-                >
-                    ×
-                </button>
+                />
             </div>
 
             <NoteText note={note} onKey={onKey} textRef={(element) => { box.current = element; }} />

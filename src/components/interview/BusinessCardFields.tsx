@@ -1,5 +1,6 @@
 import { createContext, CSSProperties, ReactNode, useContext, useEffect, useRef, useState } from "react";
 
+import RemoveButton from "../RemoveButton.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
@@ -857,19 +858,12 @@ export function BusinessStep({
     }
 
     return (
-        <button
-            type="button"
-            /* The remove is the app's one remove control, the 32px ×
-               every card carries (.strategy-box-remove), not a small
-               minus of its own. */
-            className="strategy-box-remove"
+        <RemoveButton
             aria-label={"Remove this " + what}
             title={"Remove this " + what}
             disabled={disabled}
             onClick={onClick}
-        >
-            ×
-        </button>
+        />
     );
 
 }

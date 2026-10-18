@@ -202,3 +202,16 @@
     border-color: transparent;
     box-shadow: var(--cell-inset-recess), 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
 }
+
+/* THE FUNNEL that leaves something out is always seen: filled, its funnel in the card's ground (never both in one colour, whatever the card's own rules say). */
+.plus-box.funnel-box.funnel-box[data-active] {
+    border-color: transparent;
+    background-color: var(--plus-fill, var(--text-default));
+    color: var(--plus-ground, var(--bg-surface));
+    opacity: 1;
+    visibility: visible;
+}
+
+.plus-box.funnel-box[data-active] svg path {
+    stroke: currentColor;
+}

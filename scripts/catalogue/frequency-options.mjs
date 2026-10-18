@@ -63,5 +63,20 @@ for (const place of ["infrastructure", "offering"]) {
     }
 }
 out.push("");
+out.push("## The rules (2026-10-19)", "",
+    "1. **A card offers only what its group offers.** A frequency kept from another group, or set before the group was chosen, that the group does not offer is not listed: the card takes the group's first frequency (a group with one has it as text).",
+    "2. **A card with no group yet offers what the groups of its master tile offer, together** (Infrastructure's or Offering's), never one no group of it has.",
+    "3. **Per hour is a Per unit with the unit hour.** Every team group offers Monthly and Per hour: Admin Team (Infrastructure) now as Delivery Team (Offering) does.",
+    "",
+    "## Proposed (to decide)", "",
+    "| Related groups | Today | Proposal |",
+    "|---|---|---|",
+    "| Insurances: Infrastructure / Offering | Annually, Monthly / Annually, Per project | Both: Annually, Monthly, Per project (a policy can be paid monthly in both) |",
+    "| Certificates: Infrastructure / Offering | One-time, Annually / Per project, Annually | Both: One-time, Annually, Per project |",
+    "| Licences: Infrastructure / Offering | One-time, Annually, Per unit (both) | none: consistent |",
+    "| Contractors & Advisers (Offering) / Technical Support (Infrastructure) | Per project, Per hour / Per project, Per unit (visit, hour), Annually | Add Per hour to both by their units |",
+    "| Business Services, Creative & IT Services (Infrastructure Suppliers) | Monthly, Annually, Per project / Per project, Monthly | Add Per hour to both (consultants bill by the hour) |",
+    "| Tickets & Trip Costs | Per unit, Per project (both) | none: consistent |",
+    "");
 writeFileSync("docs/design/19-frequency-options.md", out.join("\n"));
 console.log("wrote docs/design/19-frequency-options.md");

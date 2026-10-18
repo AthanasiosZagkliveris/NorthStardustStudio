@@ -50,7 +50,7 @@ import {
     type BusinessExtraKey,
     type BusinessExtrasValue,
     PEOPLE_EXTRA_KEYS,
-    partnerExtraKeys,
+    partnerExtraFieldKeys,
     supplierConnections,
     servicesOfAsset,
     BILLING_TYPES,
@@ -1121,7 +1121,12 @@ export default function BusinessCapabilityEditor({
         const offered = where
             ? optionFrequenciesOf(place, groupId, where.costOption ?? "") ?? frequencyIdsOf(place, groupId)
             : BUSINESS_COST_FREQUENCIES.map(entry => entry.id);
-        const frequencyOptions = BUSINESS_COST_FREQUENCIES.filter(entry => offered.includes(entry.id) || entry.id === cost.frequency);
+        // (Only what the group offers: a frequency set before its group, or kept from another group, that this group does not offer is not listed -- it moves to the group's own, or to its only one.)
+        const frequencyOptions = BUSINESS_COST_FREQUENCIES.filter(entry => offered.includes(entry.id));
+        if (where && cost.frequency !== "" && !offered.includes(cost.frequency) && offered.length > 0) {
+            const fallback = offered[0];
+            queueMicrotask(() => onNext({ ...cost, frequency: fallback, unit: fallback === "per-unit" ? (unitsOf(place, groupId)[0] ?? "unit") : "" }));
+        }
 
         // THE UNIT of a Per unit price, a dropdown of the group's units beside the Frequency, with no label (the currency's way); one unit besides "unit" is text.
         const units = unitsOf(place, groupId);
@@ -4378,7 +4383,7 @@ export default function BusinessCapabilityEditor({
                 {/* The extras by what is connected: a landlord's deposit, service charge and property tax, a lessor's road tax; a producer's duties. */}
                 {extrasFields(
                     partner.name.trim() || "Entry " + number,
-                    partnerExtraKeys(partner.group, supplierConnections(capability, partner.id)),
+                    partnerExtraFieldKeys(partner.group, supplierConnections(capability, partner.id)),
                     partner.extras, partner.cost.currency || organisationCurrency, (next) => change({ extras: next })
                 )}
 

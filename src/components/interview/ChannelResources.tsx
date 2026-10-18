@@ -1,4 +1,5 @@
 import { KeyboardEvent, ReactNode, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import RemoveButton from "../RemoveButton.tsx";
 import { useAboveTip } from "./AboveTip.tsx";
 
 import {
@@ -548,16 +549,12 @@ function ChannelResourceCard({
         ? (
             <div className="business-channel-resource-row">
                 {content}
-                <button
-                    type="button"
-                    className="strategy-box-remove card-remove business-channel-resource-x"
+                <RemoveButton className="card-remove business-channel-resource-x"
                     aria-label={"Take " + label + " off the channel"}
                     title="Take it off the channel (and its card off Offering's Capability)"
                     disabled={disabled}
                     onClick={onRemove}
-                >
-                    ×
-                </button>
+                />
             </div>
         )
         : content;

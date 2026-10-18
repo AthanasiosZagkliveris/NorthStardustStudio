@@ -187,7 +187,7 @@ describe("the extras on the cards", () => {
         render(<Harness initial={{ ...value, providers: [supplier("idle", "Idle Estates", "property-vehicles-facilities")] }} />);
         openTile("Suppliers");
         openCard("Idle Estates");
-        expect(labelsOf()).toEqual([]);
+        expect(labelsOf()).toEqual(["Deposit", "Service charge", "Commercial property tax"]);
         expect(screen.queryByLabelText("Idle Estates quantity")).toBeNull();
     });
 

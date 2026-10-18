@@ -53,3 +53,27 @@ Everything in the app that appears over the page when something is pressed, poin
 
 - P2's panels are 260px wide today for the calendar and the colour card; a menu is as wide as its longest line. One width for every P2 panel would be simpler: say if wanted.
 - A P4 tip is not announced to a screen reader except by the control's own label; the label already says it.
+
+## 5. Where each category appears: placement and the order of fallbacks
+
+Words: **below / above** (vertical, outside the control), **beside** (left or right of it), **inwards** (over what stands behind it, towards the middle of the page), **outwards** (towards the nearest edge of the window), **inside the border** (within the frame of its owner: a card, a dialog, a chapter), **overlay** (over the page, shading it).
+
+| Category | Content | Preferred place | Aligned to | If there is not room (in this order) | Never |
+|---|---|---|---|---|---|
+| P1 List | Structure: a column of options | Below its cell | Its cell's left and right edges | 1. above the cell; 2. below, capped to the window and scrolling | Wider than its cell (a long option wraps); covering its own cell |
+| P2 Panel | Content: a calendar, a colour card, filters, a menu | Below its control | Its control's left edge | 1. above; 2. shifted inwards until it is inside the window (its width never changes); 3. capped and scrolling | Moving the page; covering its control |
+| P3 Note | Content: text and bullets | Below its "i", the text glued to the label | The label's left edge | 1. above; 2. inwards (the nearest edge of its owner or the window); 3. capped and scrolling | Controls inside; staying open when another opens |
+| P4 Tip | Content: one line | Above the pointer or its target | Centred on the target | 1. below; 2. beside, on the side with room; 3. shifted inwards | Covering the pointer; taking a press |
+| P5 Layer: dialog | Structure: a section's tiles | Overlay, over the area of its section (inside its chapter's border) | The section's edges | 1. the part of the section the window shows (under the header, above the footer); 2. the whole window | Covering the app header |
+| P5 Layer: floating card | Content: one card or a pair, its rail and arrows | Over the OTHER half of the page than its tile (outwards from its tile), its top on the first row of tiles | Centred on that half | 1. the other half's nearest column; 2. below the header (the stack scrolls inside); 3. the window, centred | Covering its own tile's half; moving the page |
+| P5 Layer: side panel (Notes) | Content: a list | Overlay from the right edge, full height | The window's right edge | 1. its own width (`--notepad-width`); 2. the window's width minus 32px | Pushing the page |
+| P5 Layer: search | Content: a field and its results | Centred, overlay | The window's centre | 1. 640px; 2. the window's width | |
+| P6 Message: confirmation | Content: a question and two buttons | Centred over a shade | The window's centre | 460px, then the window's width minus the gutters | Anything but a button closing it |
+| P6 Message: toast | Content: one line and an action | The foot of the page, inside the window | The left gutter | Stacked, newest on top | Covering a field being written in |
+
+**The hierarchy of restrictions**, the same for every category, from the strongest:
+1. **The window**: nothing stands outside it (nothing is cut by the left, right or bottom edge; only the app header cuts a layer).
+2. **The owner's frame**: a pop-up of a card stays inside the card's chapter or dialog where it can; it leaves it only to stay inside the window.
+3. **Its control**: it never covers the control that opened it (a List and a Panel go above when below has no room).
+4. **Its own size**: its width is kept; its height is capped and scrolls when no side has room.
+5. **The reading order**: where two places are free, the one below or to the right (the way the page is read) wins.

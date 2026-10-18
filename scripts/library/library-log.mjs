@@ -45,9 +45,12 @@ const unlogged = libraryEntries.length + appEntries.length;
 const cell = value => String(value ?? "").replace(/\|/g, "/").replace(/\s+/g, " ").trim();
 function append(file, title, intro, header, prefix, rows) {
     const text = existsSync(file) ? readFileSync(file, "utf8").split("\r").join("") : "# " + title + "\n\n" + intro + "\n\n" + header + "\n";
-    const last = [...text.matchAll(new RegExp("^\\| " + prefix + "(\\d{4}) ", "gm"))].map(m => Number(m[1])).pop() ?? 0;
+    const last = Math.max(0, ...[...text.matchAll(new RegExp("^\\| " + prefix + "(\\d{4}) ", "gm"))].map(m => Number(m[1])));
     const lines = rows.map((row, i) => "| " + prefix + String(last + i + 1).padStart(4, "0") + " | " + row.map(cell).join(" | ") + " |");
-    writeFileSync(file, text.replace(/\n*$/, "\n") + lines.join("\n") + "\n");
+    // (NEWEST FIRST: the new rows stand on top, the highest id first, under the table's header.)
+    const at = text.indexOf("\n|---");
+    const end = text.indexOf("\n", at + 1);
+    writeFileSync(file, text.slice(0, end + 1) + lines.reverse().join("\n") + (lines.length ? "\n" : "") + text.slice(end + 1));
 }
 
 if (mode === "log") {

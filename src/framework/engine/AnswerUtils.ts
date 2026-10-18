@@ -6960,7 +6960,7 @@ export function supplierConnections(capability: BusinessCapabilityValue, partner
     };
 }
 
-/** The extras a PARTNER or SUPPLIER card offers: a producer's duties and minimum, a landlord's by what is connected to it. */
+/** The extras a PARTNER or SUPPLIER card COSTS: a producer's duties and minimum, a landlord's by what is connected to it. */
 export function partnerExtraKeys(group: string, connections: SupplierConnections): readonly BusinessExtraKey[] {
     if (group === "producers-wholesalers") {
         return ["minimum-order", "customs-duty", "clearance-handling", "other-duties"];
@@ -6973,6 +6973,17 @@ export function partnerExtraKeys(group: string, connections: SupplierConnections
         ];
     }
     return [];
+}
+
+/**
+ * The extras a PARTNER or SUPPLIER card SHOWS (the fields): the same as it costs, but a landlord's or lessor's card made by hand and filed in the group, with nothing yet
+ * connected to it, shows the group's own (as the card a resource made does); what counts in the costs is still only what is connected.
+ */
+export function partnerExtraFieldKeys(group: string, connections: SupplierConnections): readonly BusinessExtraKey[] {
+    if ((group === "property-vehicles-facilities" || group === "landlords-leasing-warehouses") && !connections.space && !connections.workshop && !connections.vehicle) {
+        return group === "landlords-leasing-warehouses" ? ["deposit", "service-charge", "property-tax", "handling-pallet"] : ["deposit", "service-charge", "property-tax"];
+    }
+    return partnerExtraKeys(group, connections);
 }
 
 /**
@@ -7148,7 +7159,7 @@ const GROUP_FREQUENCIES: Record<string, readonly string[]> = {
     "infrastructure:licences": ["one-time", "annually", "per-unit"],
     "infrastructure:certificates": ["one-time", "annually"],
     "infrastructure:tickets-trips": ["per-unit", "per-project"],
-    "infrastructure:admin-team": ["monthly"],
+    "infrastructure:admin-team": ["monthly", "per-unit"],
     "infrastructure:alliances-networks": ["annually"],
     "infrastructure:goods-equipment": ["per-unit"],
     "infrastructure:business-services": ["monthly", "annually", "per-project"],
@@ -7306,7 +7317,10 @@ const validCostOption = (place: "infrastructure" | "offering", groupId: string, 
 
 /** The frequencies a group offers, in the order of the seven; all seven for a group the list does not know. */
 export function frequencyIdsOf(place: "infrastructure" | "offering", groupId: string): readonly string[] {
-    const offered = GROUP_FREQUENCIES[place + ":" + groupId];
+    // A card with no group yet offers what the groups of its master tile offer, together (never one no group of it has).
+    const offered = groupId === ""
+        ? [...new Set(Object.entries(GROUP_FREQUENCIES).filter(([key]) => key.startsWith(place + ":")).flatMap(([, ids]) => ids))]
+        : GROUP_FREQUENCIES[place + ":" + groupId];
     return offered === undefined ? BUSINESS_COST_FREQUENCIES.map(entry => entry.id) : BUSINESS_COST_FREQUENCIES.map(entry => entry.id).filter(id => offered.includes(id));
 }
 
@@ -7336,6 +7350,7 @@ const GROUP_UNITS: Record<string, readonly string[]> = {
     "offering:licences": ["seat", "licence", "user"],
     "offering:tickets-trips": ["trip", "ticket", "night", "person"],
     "offering:delivery-team": ["hour"],
+    "infrastructure:admin-team": ["hour"],
     "offering:producers-wholesalers": ["kg", "metre", "piece", "order"],
     "offering:logistics-fulfilment": ["parcel", "pallet", "order"],
     "offering:contractors-advisers": ["hour", "day"],
