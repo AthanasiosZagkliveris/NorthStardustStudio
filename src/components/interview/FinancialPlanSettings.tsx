@@ -7,6 +7,7 @@ import {
     vatBases,
     type FinancialFoundationValue
 } from "../../framework/engine/FinancialModel.ts";
+import FieldLabel from "../FieldLabel.tsx";
 import type { LegalEntityValue, StrategyMonthValue } from "../../framework/engine/AnswerUtils.ts";
 import { jurisdictionProfile } from "../../framework/engine/LegalEntityJurisdictions.ts";
 
@@ -48,10 +49,10 @@ export default function FinancialPlanSettings({
 
     const row = (label: string, hint: string[], control: React.ReactNode, alarm = "") => (
         <div className="settings-field">
-            <span className="field-label settings-label">
+            <FieldLabel className="settings-label">
                 {label}
                 <InfoNote label={label} points={hint} />
-            </span>
+            </FieldLabel>
             <span className="settings-control">{control}</span>
             <span className={"settings-hint" + (alarm ? " settings-alarm" : "")} role={alarm ? "alert" : undefined}>{alarm}</span>
         </div>

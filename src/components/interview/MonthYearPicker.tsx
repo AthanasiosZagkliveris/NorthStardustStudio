@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
+import FieldLabel from "../FieldLabel.tsx";
 import CalendarIcon from "./CalendarIcon.tsx";
 import {
     STRATEGY_MONTH_NAMES,
@@ -148,7 +149,7 @@ export default function MonthYearPicker({
             {/* Beside the button, not above it: the pair reads as one
                 phrase -- "Start October 2026". */}
             {!hideLabel && (
-                <span className="field-label strategy-field-label month-picker-label">{label}</span>
+                <FieldLabel className="strategy-field-label month-picker-label">{label}</FieldLabel>
             )}
 
             <button

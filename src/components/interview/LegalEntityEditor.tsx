@@ -1,4 +1,5 @@
 import { CSSProperties, ReactNode, useEffect, useRef } from "react";
+import FieldLabel from "../FieldLabel.tsx";
 import NumberCell from "../NumberCell.tsx";
 import RemoveButton from "../RemoveButton.tsx";
 import { legalExpenseMissing, legalRequirementMissing } from "../../framework/engine/SystemCardCompleteness.ts";
@@ -954,7 +955,7 @@ export default function LegalEntityEditor({
                                 (nested ? " legal-entity-label-nested" : "")
                             }
                         >
-                            <span className="field-label legal-entity-label">{label}<FieldMark label={label} /><FieldStatus label={label} /></span>
+                            <FieldLabel className="legal-entity-label">{label}<FieldMark label={label} /><FieldStatus label={label} /></FieldLabel>
                             {removeFieldButton(label, onRemove)}
                         </span>
                     )
@@ -966,13 +967,13 @@ export default function LegalEntityEditor({
                                     (nested ? " legal-entity-label-nested" : "")
                                 }
                             >
-                                <span className="field-label legal-entity-label">
+                                <FieldLabel className="legal-entity-label">
                                     <InfoText text={label}>
                                         <InfoNote label={label} points={info} />
                                     </InfoText>
                                     <FieldMark label={label} />
                                     <FieldStatus label={label} />
-                                </span>
+                                </FieldLabel>
                             </span>
                         )
                         : (
@@ -1130,33 +1131,33 @@ export default function LegalEntityEditor({
                             {info
                                 ? (
                                     <span className="legal-entity-label-info">
-                                        <span className="field-label legal-entity-label">
+                                        <FieldLabel className="legal-entity-label">
                                             <InfoText text={label}>
                                                 <InfoNote label={label} points={info} fullList />
                                             </InfoText>
                                             <FieldMark label={label} />
                                             <FieldStatus label={label} keyLabel={keyLabel} />
-                                        </span>
+                                        </FieldLabel>
                                     </span>
                                 )
-                                : <span className="field-label legal-entity-label">{label}<FieldMark label={label} /><FieldStatus label={label} keyLabel={keyLabel} /></span>}
+                                : <FieldLabel className="legal-entity-label">{label}<FieldMark label={label} /><FieldStatus label={label} keyLabel={keyLabel} /></FieldLabel>}
                             {removeFieldButton(label, onRemove)}
                         </span>
                     )
                     : info
                         ? (
                             <span className="legal-entity-label-info">
-                                <span className="field-label legal-entity-label">
+                                <FieldLabel className="legal-entity-label">
                                     <InfoText text={label}>
                                         <InfoNote label={label} points={info} />
                                     </InfoText>
                                     <FieldMark label={label} keyLabel={keyLabel} />
                                     <FieldStatus label={label} keyLabel={keyLabel} />
                                     {labelExtra}
-                                </span>
+                                </FieldLabel>
                             </span>
                         )
-                        : <span className="field-label legal-entity-label">{label}<FieldMark label={label} keyLabel={keyLabel} /><FieldStatus label={label} keyLabel={keyLabel} />{labelExtra}</span>}
+                        : <FieldLabel className="legal-entity-label">{label}<FieldMark label={label} keyLabel={keyLabel} /><FieldStatus label={label} keyLabel={keyLabel} />{labelExtra}</FieldLabel>}
                 {control}
             </div>
         );
@@ -1816,13 +1817,13 @@ export default function LegalEntityEditor({
 
                 <div className="legal-entity-number-row legal-entity-number-head">
                     <span className="legal-entity-label-info">
-                        <span className="field-label legal-entity-label">
+                        <FieldLabel className="legal-entity-label">
                             <InfoText text="Authority / Name">
                                 <InfoNote label="Authority / Name" points={INFO.registrationAuthority} />
                             </InfoText>
-                        </span>
+                        </FieldLabel>
                     </span>
-                    <span className="field-label legal-entity-label">Number</span>
+                    <FieldLabel className="legal-entity-label">Number</FieldLabel>
                 </div>
 
                 <div className="legal-entity-number-row">
@@ -1918,7 +1919,7 @@ export default function LegalEntityEditor({
 
                 <div className="legal-entity-number-row">
                     <span className="legal-entity-label-info legal-entity-row-label">
-                        <span className="field-label legal-entity-label">
+                        <FieldLabel className="legal-entity-label">
                             <InfoText text={(profile.taxIdName
                                     ? "Tax Identification Number (" + profile.taxIdName + ")"
                                     : "Tax Identification Number")}>
@@ -1926,7 +1927,7 @@ export default function LegalEntityEditor({
                                     ? "Tax Identification Number (" + profile.taxIdName + ")"
                                     : "Tax Identification Number")} points={INFO.taxNumber} />
                             </InfoText>
-                        </span>
+                        </FieldLabel>
                     </span>
                     <CardNameInput
                         ariaLabel={(profile.taxIdName
@@ -1999,8 +2000,8 @@ export default function LegalEntityEditor({
                     with only those has no heads at all. */}
                 {entity.tax.additionalRegistrations.length > 0 && (
                     <div className="legal-entity-number-row legal-entity-number-head">
-                        <span className="field-label legal-entity-label">Tax / Registration</span>
-                        <span className="field-label legal-entity-label">Number</span>
+                        <FieldLabel className="legal-entity-label">Tax / Registration</FieldLabel>
+                        <FieldLabel className="legal-entity-label">Number</FieldLabel>
                     </div>
                 )}
 

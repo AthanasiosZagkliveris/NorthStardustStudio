@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useRef, useState } from "react";
 
+import FieldLabel from "../FieldLabel.tsx";
 import { cardNameMissing } from "../../framework/engine/SystemCardCompleteness.ts";
 import { workHue } from "../../framework/engine/WorkColours.ts";
 import CardBoxes, { type CardBox } from "./CardBoxes.tsx";
@@ -653,14 +654,14 @@ export default function BusinessFoundationEditor({
                                         onNext(next);
                                     }}
                                 />
-                                <span className="field-label business-foundation-label">
+                                <FieldLabel className="business-foundation-label">
                                     {part.title}
-                                </span>
+                                </FieldLabel>
                             </label>
                         ) : (
                             /* Glued to the name's last word, as every
                                label's "i" is (see InfoText). */
-                            <span className="field-label business-foundation-label">
+                            <FieldLabel className="business-foundation-label">
                                 <InfoText text={part.title}>
                                     <InfoNote
                                         label={part.title}
@@ -669,7 +670,7 @@ export default function BusinessFoundationEditor({
                                     />
                                 </InfoText>
                                 <FieldMark label={part.title} anchor={anchor} />
-                            </span>
+                            </FieldLabel>
                         )}
 
                         {optional && (
@@ -1005,7 +1006,7 @@ export default function BusinessFoundationEditor({
                             >
 
                                 <span className="business-foundation-label-info">
-                                    <span className="field-label business-foundation-label">
+                                    <FieldLabel className="business-foundation-label">
                                         <InfoText text={kind.title}>
                                             <InfoNote
                                                 label={kind.title}
@@ -1014,7 +1015,7 @@ export default function BusinessFoundationEditor({
                                             />
                                         </InfoText>
                                         <FieldMark label={kind.title} />
-                                    </span>
+                                    </FieldLabel>
                                     <FieldStatus label={kind.title} />
                                 </span>
 
@@ -1302,13 +1303,13 @@ export default function BusinessFoundationEditor({
                     return (
                         <div className="business-foundation-needs-recall">
 
-                            <span className="field-label business-foundation-label">
+                            <FieldLabel className="business-foundation-label">
                                 Emotional Needs
-                            </span>
+                            </FieldLabel>
 
-                            <span className="field-label business-foundation-label">
+                            <FieldLabel className="business-foundation-label">
                                 Social Needs
-                            </span>
+                            </FieldLabel>
 
                             <div
                                 className="business-foundation-needs-recall-rule"
@@ -1413,9 +1414,9 @@ export default function BusinessFoundationEditor({
                                 two are shown there, beneath it. */}
                             <div className="business-foundation-field">
 
-                                <span className="field-label business-foundation-label">
+                                <FieldLabel className="business-foundation-label">
                                     Functional Needs Addressed
-                                </span>
+                                </FieldLabel>
 
                                 {needs.length === 0 ? (
                                     <p className="business-foundation-empty">

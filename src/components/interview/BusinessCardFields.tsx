@@ -1,5 +1,6 @@
 import { createContext, CSSProperties, ReactNode, useContext, useEffect, useRef, useState } from "react";
 
+import FieldLabel from "../FieldLabel.tsx";
 import RemoveButton from "../RemoveButton.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
@@ -180,10 +181,10 @@ export function BusinessField({
                                     checked={tick.on}
                                     onChange={(event) => tick.onChange(event.target.checked)}
                                 />
-                                <span className="field-label business-foundation-label">
+                                <FieldLabel className="business-foundation-label">
                                     {label}
                                     <FieldMark label={label} keyLabel={fieldId} />
-                                </span>
+                                </FieldLabel>
                             </label>
                             {info && <InfoNote label={label} points={info} fullList />}
                         </span>
@@ -193,21 +194,21 @@ export function BusinessField({
                 : info
                 ? (
                     <span className="business-foundation-label-info">
-                        <span className="field-label business-foundation-label">
+                        <FieldLabel className="business-foundation-label">
                             <InfoText text={label}>
                                 <InfoNote label={label} points={info} fullList />
                             </InfoText>
                             <FieldMark label={label} keyLabel={fieldId} />
-                        </span>
+                        </FieldLabel>
                         <FieldStatus label={label} keyLabel={fieldId} />
                     </span>
                 )
                 : (
-                    <span className="field-label business-foundation-label">
+                    <FieldLabel className="business-foundation-label">
                         {label}
                         <FieldMark label={label} keyLabel={fieldId} />
                         <FieldStatus label={label} keyLabel={fieldId} />
-                    </span>
+                    </FieldLabel>
                 )}
 
             {children}
@@ -492,10 +493,10 @@ export function OptionalField({
                             }
                         }}
                     />
-                    <span className="field-label business-foundation-label">
+                    <FieldLabel className="business-foundation-label">
                         {label}
                         <FieldMark label={label} keyLabel={fieldId} />
-                    </span>
+                    </FieldLabel>
                 </label>
                 {info && <InfoNote label={label} points={info} fullList />}
             </span>

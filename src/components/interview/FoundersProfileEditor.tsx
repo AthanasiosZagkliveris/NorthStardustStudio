@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useEffect } from "react";
 
+import FieldLabel from "../FieldLabel.tsx";
 import {
     FOUNDER_CREDENTIAL_TYPES,
     FOUNDERS_PROFILE_SECTIONS,
@@ -252,12 +253,12 @@ export default function FoundersProfileEditor({
     function label(text: string, info: string[]) {
         return (
             <span className="legal-entity-label-info">
-                <span className="field-label legal-entity-label">
+                <FieldLabel className="legal-entity-label">
                     <InfoText text={text}>
                         <InfoNote label={text} points={info} />
                     </InfoText>
                     <FieldMark label={text} />
-                </span>
+                </FieldLabel>
                 <FieldStatus label={text} />
             </span>
         );

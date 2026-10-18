@@ -1,5 +1,6 @@
 import { CSSProperties, FocusEvent, Fragment, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
+import FieldLabel from "../FieldLabel.tsx";
 import {
     BUSINESS_CHANNEL_ALL_OFFERINGS,
     BUSINESS_CHANNEL_CATEGORIES,
@@ -3941,9 +3942,9 @@ export default function BusinessEngagementEditor({
                 />
 
                 <div className="business-demand-channels">
-                    <span className="field-label business-foundation-label">
+                    <FieldLabel className="business-foundation-label">
                         Channels That Bring Them
-                    </span>
+                    </FieldLabel>
                     {channelOptions.length === 0
                         ? (
                             <BusinessEmpty>

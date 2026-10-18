@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useEffect, useRef } from "react";
 
+import FieldLabel from "../FieldLabel.tsx";
 import {
     STRATEGY_FOUNDATION_SECTIONS,
     STRATEGY_SWOT_QUADRANTS,
@@ -280,7 +281,7 @@ export default function StrategyFoundationEditor({
     const planNote: ReactNode = financialPlan ? (
         <div className="strategy-plan-dates" role="note">
             <span className="strategy-plan-dates-text">
-                <span className="field-label">Financial Plan:</span>
+                <FieldLabel>Financial Plan:</FieldLabel>
                 <strong>{formatRangeAbbrev(financialPlan)}</strong>
             </span>
         </div>
@@ -328,10 +329,10 @@ export default function StrategyFoundationEditor({
 
                     <div className="strategy-swot-quadrant" key={quadrant.id} data-field-holder="">
 
-                        <span className="field-label strategy-field-label">
+                        <FieldLabel className="strategy-field-label">
                             {quadrant.label}
                             <FieldMark label={quadrant.label} />
-                        </span>
+                        </FieldLabel>
                         <FieldStatus label={quadrant.label} />
 
                         <NumberedListInput

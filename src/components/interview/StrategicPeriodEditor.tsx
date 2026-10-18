@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useState } from "react";
 
+import FieldLabel from "../FieldLabel.tsx";
 import NumberCell from "../NumberCell.tsx";
 import { cardNameMissing } from "../../framework/engine/SystemCardCompleteness.ts";
 import {
@@ -1041,9 +1042,9 @@ function MetricList({
                         <div className="strategy-metric-fields">
 
                             <div className="strategy-metric-field">
-                                <span className="field-label strategy-field-label strategy-field-label-wrap">
+                                <FieldLabel className="strategy-field-label strategy-field-label-wrap">
                                     Frequency
-                                </span>
+                                </FieldLabel>
                                 <OptionPicker
                                     label={`Metric ${metricIndex + 1} measurement frequency`}
                                     options={STRATEGY_METRIC_FREQUENCIES}
@@ -1067,7 +1068,7 @@ function MetricList({
                                 country again.
                             */}
                             <div className="strategy-metric-field">
-                                <span className="field-label strategy-field-label">Unit</span>
+                                <FieldLabel className="strategy-field-label">Unit</FieldLabel>
                                 {metric.unit === STRATEGY_METRIC_CURRENCY_UNIT
                                     ? (
                                         <div className="business-capability-price strategy-metric-unit-currency">
@@ -1105,10 +1106,10 @@ function MetricList({
                             </div>
 
                             <div className="strategy-metric-field" data-field-holder="">
-                                <span className="field-label strategy-field-label">
+                                <FieldLabel className="strategy-field-label">
                                     {`Baseline (${formatMonthShort(objective.period.start)})`}
                                     <FieldMark label={`Metric ${metricIndex + 1} baseline`} keyLabel="baseline" />
-                                </span>
+                                </FieldLabel>
                                 <FieldStatus label={`Metric ${metricIndex + 1} baseline`} keyLabel="baseline" />
                                 <NumberCell
                                     
@@ -1122,9 +1123,9 @@ function MetricList({
                             </div>
 
                             <div className="strategy-metric-field">
-                                <span className="field-label strategy-field-label">
+                                <FieldLabel className="strategy-field-label">
                                     {`Target (${formatMonthShort(objective.period.end)})`}
-                                </span>
+                                </FieldLabel>
                                 <NumberCell
                                     
                                     aria-label={`Metric ${metricIndex + 1} target`}

@@ -1,4 +1,5 @@
 import { toneHue } from "./CardTile.tsx";
+import FieldLabel from "../FieldLabel.tsx";
 import NumberCell from "../NumberCell.tsx";
 import "../../styles/system-confirmation.css";
 import LegalEntityEditor from "./LegalEntityEditor.tsx";
@@ -2393,7 +2394,7 @@ export default function BusinessCapabilityEditor({
 
                     <span className="business-foundation-label-info business-capability-responsibilities-head">
 
-                        <span className="field-label business-foundation-label">
+                        <FieldLabel className="business-foundation-label">
                             {responsibilities.length > 0 && (
                                 <LabelArrow
                                     open={responsibilitiesOpen}
@@ -2410,12 +2411,12 @@ export default function BusinessCapabilityEditor({
                                     fullList
                                 />
                             </InfoText>
-                        </span>
+                        </FieldLabel>
 
                         {responsibilities.length > 0 && (
-                            <span className="field-label field-label-muted business-capability-responsibilities-count">
+                            <FieldLabel className="field-label-muted business-capability-responsibilities-count">
                                 {tally.completed + "/" + tally.total}
-                            </span>
+                            </FieldLabel>
                         )}
 
                         {responsibilities.length > 0 && (
@@ -2465,14 +2466,14 @@ export default function BusinessCapabilityEditor({
                                         <div className="business-capability-completed">
                                             {/* The same row as Responsibilities': the label arrow, inside the label. */}
                                             <span className="business-foundation-label-info business-capability-responsibilities-head business-capability-completed-head">
-                                                <span className="field-label business-foundation-label">
+                                                <FieldLabel className="business-foundation-label">
                                                     <LabelArrow
                                                         open={doneOpen}
                                                         label={(doneOpen ? "Minimize " : "Maximize ") + "completed responsibilities of " + founderLabel}
                                                         onToggle={() => setCompletedOpen(current => toggledIn(current, doneKey))}
                                                     />
                                                     {"Completed " + done.length}
-                                                </span>
+                                                </FieldLabel>
                                             </span>
                                             {doneOpen && (
                                                 <div id={doneKey}>
@@ -3719,11 +3720,11 @@ export default function BusinessCapabilityEditor({
             <div className="business-foundation-field business-capability-links">
                 {/* The same row as a founder's Responsibilities: the fold arrow, the label, how many. */}
                 <span className="business-foundation-label-info business-capability-responsibilities-head business-capability-links-head">
-                    <span className="field-label business-foundation-label">
+                    <FieldLabel className="business-foundation-label">
                         <LabelArrow open={open} label={(open ? "Minimize " : "Maximize ") + "Links of this card"} onToggle={() => setLinksOpen(current => toggledIn(current, id))} />
                         Links
-                    </span>
-                    <span className="field-label field-label-muted business-capability-responsibilities-count">{links.length}</span>
+                    </FieldLabel>
+                    <FieldLabel className="field-label-muted business-capability-responsibilities-count">{links.length}</FieldLabel>
                 </span>
                 {open && <div className="business-capability-links-list">{links.map(link => cardLink(link.key, link.noun, link.name, link.onOpen))}</div>}
             </div>

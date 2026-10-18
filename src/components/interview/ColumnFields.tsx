@@ -1,4 +1,5 @@
 import NumberedListInput from "./NumberedListInput.tsx";
+import FieldLabel from "../FieldLabel.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 
 /** A line of a list as written, without the number or bullet it may start with. */
@@ -45,7 +46,7 @@ export function ImprintFields({ value, onChange, disabled }: { value: unknown; o
     const { first, lasting } = splitImprint(value);
     return (
         <div className="column-fields">
-            <label className="field-label">First impression</label>
+            <FieldLabel as="label">First impression</FieldLabel>
             <StrategyTextArea
                 className="interview-input"
                 ariaLabel="First impression"
@@ -54,7 +55,7 @@ export function ImprintFields({ value, onChange, disabled }: { value: unknown; o
                 value={first}
                 onChange={(next) => onChange(joinImprint(next, lasting))}
             />
-            <label className="field-label">Lasting impression</label>
+            <FieldLabel as="label">Lasting impression</FieldLabel>
             <StrategyTextArea
                 className="interview-input"
                 ariaLabel="Lasting impression"
