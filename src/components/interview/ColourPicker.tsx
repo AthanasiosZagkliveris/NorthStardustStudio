@@ -211,8 +211,8 @@ export default function ColourPicker({
                     >
                         <span className="colour-popup-handle" style={{ left: (hsv.h / 360) * 100 + "%", top: "50%" }} />
                     </div>
-
                     {/* The code the colour is written in: its hex (# and six digits), its red, green and blue, or its hue, saturation and lightness. */}
+                    {/* The code the colour is written in -- its hex (# and six digits), its red, green and blue, or its hue, saturation and lightness. The hex stands beside the code's picker (it needs no label: the picker says HEX); the other two take a row of three. */}
                     <div className="colour-popup-code">
                         <OptionPicker
                             label={ariaLabel + " code"}
@@ -221,27 +221,25 @@ export default function ColourPicker({
                             disabled={disabled}
                             onChange={(next) => setCode(next as Code)}
                         />
+                        {code === "HEX" && (
+                            <input
+                                type="text"
+                                className="interview-input colour-popup-hex"
+                                aria-label={ariaLabel + " hex"}
+                                disabled={disabled}
+                                value={rgbToHex(...channels).toUpperCase()}
+                                onChange={(event) => {
+                                    const typed = hexToRgb(event.target.value);
+                                    if (typed) {
+                                        commit(rgbToHsv(...typed));
+                                    }
+                                }}
+                            />
+                        )}
                     </div>
 
-                    <div className={"colour-popup-channels" + (code === "HEX" ? " colour-popup-channels-one" : "")}>
-                        {code === "HEX" && (
-                            <label className="colour-popup-channel">
-                                <span>HEX</span>
-                                <input
-                                    type="text"
-                                    className="interview-input"
-                                    aria-label={ariaLabel + " hex"}
-                                    disabled={disabled}
-                                    value={rgbToHex(...channels).toUpperCase()}
-                                    onChange={(event) => {
-                                        const typed = hexToRgb(event.target.value);
-                                        if (typed) {
-                                            commit(rgbToHsv(...typed));
-                                        }
-                                    }}
-                                />
-                            </label>
-                        )}
+                    {code !== "HEX" && (
+                    <div className="colour-popup-channels">
                         {code === "RGB" && names.map((name, index) => (
                             <label key={name} className="colour-popup-channel">
                                 <span>{name}</span>
@@ -278,6 +276,7 @@ export default function ColourPicker({
                             );
                         })}
                     </div>
+                    )}
 
                 </div>
             )}

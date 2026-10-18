@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import DateCellInput from "./interview/DateCellInput";
 
 import { CARD_DATE_KINDS, type CardDateKind } from "../framework/engine/CalendarCardDates";
 import { newCustomPeriod, type CalendarPeriod } from "../services/CalendarPeriods";
@@ -175,8 +176,8 @@ export default function CalendarFunnel({
                         value={name}
                         onChange={(event) => setName(event.target.value)}
                     />
-                    <input type="date" className="interview-input" aria-label="Period from" value={from} onChange={(event) => setFrom(event.target.value)} />
-                    <input type="date" className="interview-input" aria-label="Period to" value={to} onChange={(event) => setTo(event.target.value)} />
+                    <DateCellInput ariaLabel="Period from" value={from} onChange={setFrom} />
+                    <DateCellInput ariaLabel="Period to" value={to} onChange={setTo} />
                     <button type="button" className="org-calendar-chip" disabled={!from || !to} onClick={save}>Save</button>
                     <button type="button" className="org-calendar-chip" onClick={() => setAdding(false)}>Cancel</button>
                 </div>

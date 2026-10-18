@@ -1475,14 +1475,15 @@
 .colour-popup-channels{
     display:grid;
     grid-template-columns:repeat(3, minmax(0, 1fr));
-    gap:var(--gap-8);
+    gap:var(--gap-12);
 }
 
+/* A cell and its small label are vertically connected: 6px. */
 .colour-popup-channel{
     display:flex;
     flex-direction:column;
     align-items:center;
-    gap:var(--gap-4);
+    gap:var(--gap-6);
     color:var(--text-muted);
     font-size:var(--font-small);
 }
@@ -1493,31 +1494,31 @@
     padding:0 4px;
 }
 
-/* The colour picker's code: ONE SIZE OF CELL in the card -- the code's picker, the hex and the three channels are every one a cell as tall as a card's cell, with one look (the recessed
-   field, 18px text). The picker is a short cell (its list is as wide as it, three words long), the channels are a third each, the hex is as wide as the card. */
+/* The colour picker's code: ONE SIZE OF CELL in the card -- the code's picker (a short cell, its list as wide as it), the hex beside it (the rest of the row; it needs no label: the picker says HEX), and the
+   three channels of RGB or HSL are every one a cell as tall as a card's cell, with one look (the recessed field, 18px text). */
 .colour-popup-code{
     display:flex;
-    justify-content:flex-start;
-    margin-bottom:var(--gap-8);
+    align-items:center;
+    gap:var(--gap-12);
 }
 
 .colour-popup-code .option-picker{
+    flex:none;
     width:var(--control-xs) !important;
     margin:0;
 }
 
 .colour-popup-code .option-picker-trigger.interview-input,
-.colour-popup-channel .interview-input{
+.colour-popup-channel .interview-input,
+.colour-popup-hex{
     box-sizing:border-box;
     height:var(--card-cell-height, 44px);
     font-size:var(--font-body);
 }
 
-.colour-popup-channels.colour-popup-channels-one{
-    grid-template-columns:minmax(0, 1fr);
-}
-
-.colour-popup-channels-one .colour-popup-channel .interview-input{
-    text-align:left;
+.colour-popup-hex{
+    flex:1 1 0;
+    min-width:0;
     padding:0 12px;
+    text-align:left;
 }

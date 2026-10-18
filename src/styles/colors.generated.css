@@ -193,7 +193,7 @@
     --line-danger-strong: #d01818;
     --line-disabled: #9aa3ae;
     --line-capability-input: #767676;
-    --line-divider: #d1d5db;
+    --line-divider: #868b93;
     --line-completed: #868c95;
     --line-completed-ink: #374151;
     --line-faint: #6b7280;
@@ -202,8 +202,8 @@
     --line-good: #0a7d0a;
     --line-grid: #d7d7d7;
     --line-group: #9aa0a6;
-    --line-hairline: #e5e7eb;
-    --line-heading-rule: #d6d6d6;
+    --line-hairline: #868b93;
+    --line-heading-rule: #868b93;
     --line-holds: #15803d;
     --line-input-soft: #8a8f98;
     --line-met: #1f6b3a;
@@ -218,7 +218,7 @@
     --line-primary-soft: #8ab4f8;
     --line-quiet: #9ca3af;
     --line-retention: #f0dfc8;
-    --line-rule: #ececec;
+    --line-rule: #868b93;
     --line-sheet: #d6d3cc;
     --line-short: #c2410c;
     --line-slate: #94a3b8;
@@ -305,8 +305,8 @@
     --theme-mark-ink: 62% 38%;
     --theme-line-meter: 30% 84%;
     --theme-line-result-edge: 40% 44%;
-    --theme-line-rule: 24% 80%;
-    --theme-line-rule-light: 24% 84%;
+    --theme-line-rule: 24% 40%;
+    --theme-line-rule-light: 24% 42%;
 
 }
 
@@ -495,7 +495,7 @@
     --line-danger-strong: #e47568;
     --line-disabled: #83868b;
     --line-capability-input: #686d75;
-    --line-divider: #686d75;
+    --line-divider: #7a7f87;
     --line-completed: #6f747c;
     --line-completed-ink: #c4c8ce;
     --line-faint: #979aa0;
@@ -504,8 +504,8 @@
     --line-good: #68b562;
     --line-grid: #474747;
     --line-group: #848689;
-    --line-hairline: #3f4041;
-    --line-heading-rule: #474747;
+    --line-hairline: #7a7f87;
+    --line-heading-rule: #7a7f87;
     --line-holds: #55b56e;
     --line-input-soft: #898b8e;
     --line-met: #71ba84;
@@ -520,7 +520,7 @@
     --line-primary-soft: #475874;
     --line-quiet: #84868b;
     --line-retention: #47413a;
-    --line-rule: #3d3d3d;
+    --line-rule: #7a7f87;
     --line-sheet: #494846;
     --line-short: #e17756;
     --line-slate: #81878f;
@@ -596,8 +596,8 @@
     --theme-mark-ink: 62% 64%;
     --theme-line-meter: 18% 33.6%;
     --theme-line-result-edge: 40% 61.6%;
-    --theme-line-rule: 14% 36%;
-    --theme-line-rule-light: 14% 33.6%;
+    --theme-line-rule: 14% 52%;
+    --theme-line-rule-light: 14% 50%;
 
 }
 
@@ -784,7 +784,7 @@
     --line-danger-strong: #a8493f;
     --line-disabled: #8e7f70;
     --line-capability-input: #8f7b66;
-    --line-divider: #ccbfaf;
+    --line-divider: #85796a;
     --line-completed: #837466;
     --line-completed-ink: #5c4f41;
     --line-faint: #766859;
@@ -793,8 +793,8 @@
     --line-good: #3b6f38;
     --line-grid: #cec2b2;
     --line-group: #8c7e6f;
-    --line-hairline: #ded1c1;
-    --line-heading-rule: #cdc1b1;
+    --line-hairline: #85796a;
+    --line-heading-rule: #85796a;
     --line-holds: #40734c;
     --line-input-soft: #847667;
     --line-met: #395f43;
@@ -809,7 +809,7 @@
     --line-primary-soft: #95aed6;
     --line-quiet: #8e7f71;
     --line-retention: #d8ccbc;
-    --line-rule: #e2d3bd;
+    --line-rule: #85796a;
     --line-sheet: #cabeae;
     --line-short: #9f553e;
     --line-slate: #8d7f70;
@@ -871,7 +871,7 @@
     --theme-mark-ink: 55% 36%;
     --theme-line-meter: 24% 78%;
     --theme-line-result-edge: 30% 44%;
-    --theme-line-rule: 20% 76%;
-    --theme-line-rule-light: 20% 80%;
+    --theme-line-rule: 20% 38%;
+    --theme-line-rule-light: 20% 40%;
 
 }

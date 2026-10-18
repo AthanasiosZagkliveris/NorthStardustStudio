@@ -346,7 +346,7 @@ export default function FinancialFoundationEditor({
         "Unnamed offering"
     );
 
-    const [expanded, setExpanded] = useState<ReadonlySet<string>>(new Set());
+    const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
 
     /**
      * Which Funding Source cards are open. Funding sources start
@@ -361,7 +361,7 @@ export default function FinancialFoundationEditor({
 
     const [schedulesOpen, setSchedulesOpen] = useState<ReadonlySet<string>>(new Set());
     function toggle(key: string) {
-        setExpanded(current => toggledIn(current, key));
+        setCollapsed(current => toggledIn(current, key));
     }
 
     /* Writes go to what is STORED, so an unchosen plan start stays unchosen. */
@@ -458,7 +458,7 @@ export default function FinancialFoundationEditor({
                 number={sectionIndex + 1}
                 section={section}
                 hue={SECTION_HUES[id] ?? 0}
-                open={expanded.has(id)}
+                open={!collapsed.has(id)}
                 onToggle={() => toggle(id)}
                 body={body}
             />

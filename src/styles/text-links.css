@@ -12,7 +12,9 @@
     max-width: 100%;
     min-width: 0;
     box-sizing: border-box;
-    padding: 0;
+    /* (3px under the letters, taken back by the margin: the underline, 1px under the descenders, is drawn inside the box and is never cut by its overflow.) */
+    padding: 0 0 3px;
+    margin-bottom: -3px;
     border: 0;
     background: none;
     vertical-align: bottom;

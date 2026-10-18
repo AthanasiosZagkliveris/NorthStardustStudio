@@ -31,6 +31,7 @@ Where the rules need a decision the code could not give, section 20 lists it.
 - 21. Rules of 2026-10-17 (floating cards, generated cards, notes, folds, cells)
 - 22. Rules of 2026-10-18 (colour picker, brand cards, hover, shade, links)
 - 23. Rules of 2026-10-18, second round (cells, rows, holders, back, shade, colours)
+- 24. Rules of 2026-10-18, third round (shade, colour picker, holders, labels, dates, lines)
 
 ---
 
@@ -1723,7 +1724,7 @@ The owner's rules of one round, each global: made in a shared component, token o
 **Floating cards**
 1. **The caption is the section's name** however the card is opened (its tile, its group's tile, another card's link): "Resources", "Activities", "Partners & Suppliers", "Founders". Never a group's name.
 2. **A card opens on the half of the page its tile is not in** (`otherColumn`, `acrossFrom`): over the frame on the other half; a card opened from a tile inside a dialog (a category's, the Inventory's, the Completed's) goes by that tile's place.
-3. **The chapter behind a card is shaded and frozen** (`.floating-chapter-shade`: the frame's size and corners; two layers of `--shadow-18`): a press on it closes the card. Where a dialog already shades what is under the card, the card adds none.
+3. **The background of a floating card is shaded once, and only where nothing shades it already** (`.floating-chapter-shade`, see rule 24.1): a press on it closes the card.
 4. **A legal card floats on 3. Infrastructure & Capability** (a founder's "L." link, an Inventory tile): the Legal Entity editor is mounted with its tiles not drawn (`cardsOnly`), and what is typed is saved to the Identity System's answer (`changeLegalEntity`).
 5. **Every floating card shows its record time under it** ("Recorded 17/10/2026 14:13", `CardRecordService`): set the first time the card is made or opened, kept in the organization's document (`cardTimes`).
 6. **A founder's floating card keeps its pairs side by side** (Salary | Frequency, Working Hours | Delivery Hours): where the card is too narrow for each label beside its cell, the label stands over its cell. The funnel ends where the Start date's calendar box ends.
@@ -1778,3 +1779,17 @@ Each is global: the shared component, token or class carries it.
 12. **Refresh is a header-tool button** with an "i" beside it that holds the note.
 13. **There is one Back**: `BackButton` (the card tab's look) wherever a Back stands: the tab, a dialog's foot, the page's footer, the Capability description.
 14. **Pop-ups are six categories** with their own characteristics: docs/design/25 (the pop-ups).
+
+## 24. Rules of 2026-10-18, third round (shade, colour picker, holders, labels, dates, lines)
+
+1. **The shade of a floating card's background.** Where nothing shades the background already: (a) the card's background is a chapter: the chapter's frame is shaded, with the chapter's corners; (b) it is not a chapter (the Inventory, the Completed): the TILES under the card are shaded, with the corners of their dialog; (c) a category's dialog stands beside the chapter the card is over: that chapter is shaded by the dialog's own dim, the card adds none. The shade is fixed to the window and measured again as the page scrolls (`measureShade` in SectionTiles.tsx; the dialog says its tile in `data-tile`).
+2. **The colour picker's hex** stands beside the code's picker on one row (the picker 80px, the hex the rest of the row, both 44px tall) and has no label: the picker says HEX. R G B and H S L take a row of three, each with its small label 6px over its cell.
+3. **Gaps are 12px (the common one) or 6px (vertically connected: a label and its cell, a name over its page over its text).** A card is checked for them when it is made.
+4. **The Text Hierarchy's card answers the pointer as a nested card of the Strategy (a Goal, an Objective, a Metric) does** (the primary edge and the glow); its rows do nothing of their own.
+5. **One label**: an image holder's label (Logo, Icon, Image) is the field label of every cell (regular, the card's label colour, the body size).
+6. **The sections of the Financial Foundation and Sustainability pages start open**, as the Customer Engagement's do.
+7. **Image holders (Logo, Icon, Image)**: the holder with its x BESIDE it, 12px after its right edge and level with the holder's top; the holder takes the room the x leaves (a wide picture scales down in proportion); the file's name under; a Notes field, as every card's, last.
+8. **A text link's underline is never cut**: the link has 3px under its letters (taken back by its margin), so a name that is a link underlines in every card.
+9. **The Card notes of the Notes panel are notes**: the box of a note (12px padding, a note's corners and ground), the name, page and text 6px apart, no tracking on the text.
+10. **One date field and one month field**: the DateCellInput and the MonthYearPicker, the date step wide (`--control-date`), wherever a date or a month is asked (the calendar's funnel, the Notes panel and Global Settings included). No native date box.
+11. **Lines are seen**: the divider, rule, hairline and heading rule tokens, and the System cards' rules, hold 3:1 on their grounds in every reading mode (`tokens.ts` pairs); 609 measurements, none below.

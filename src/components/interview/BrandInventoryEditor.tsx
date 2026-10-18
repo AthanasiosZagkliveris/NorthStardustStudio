@@ -847,9 +847,7 @@ function DropZone({
 
     aside,
 
-    bare = false,
-
-    clearBeside = false
+    bare = false
 
 }: {
 
@@ -888,7 +886,6 @@ function DropZone({
     bare?: boolean;
 
     /** The x stands beside the holder, level with its top (in the card's x column), not on a row above it. */
-    clearBeside?: boolean;
 
 }) {
 
@@ -914,10 +911,9 @@ function DropZone({
 
         <div className={"brand-asset-slot brand-asset-slot-" + shape}>
 
-            {(!bare || (onClear && !clearBeside)) && (
-                <div className={"brand-slot-label-row" + (onClear && !clearBeside ? " brand-slot-label-row-x" : "")}>
-                    {!bare && <span className="brand-slot-label">{label}</span>}
-                    {asset && onClear && !clearBeside && <BusinessRemove what={label} disabled={disabled} onRemove={onClear} />}
+            {!bare && (
+                <div className="brand-slot-label-row">
+                    <span className="brand-slot-label">{label}</span>
                 </div>
             )}
 
@@ -960,7 +956,7 @@ function DropZone({
                     </button>
 
 
-                    {asset && onClear && clearBeside && <BusinessRemove what={label} disabled={disabled} onRemove={onClear} />}
+                    {asset && onClear && <BusinessRemove what={label} disabled={disabled} onRemove={onClear} />}
 
                     {/*
                         The file input -- kept visually hidden and out
@@ -984,13 +980,18 @@ function DropZone({
 
                 </div>
 
-                {aside && (
+                {/* An image's name and description stand beside it; the Icon's Notes field stands last (below). */}
+                {aside && shape === "image" && (
                     <div className="brand-slot-aside">{aside}</div>
                 )}
 
             </div>
 
             {hint && <span className="brand-slot-hint">{hint}</span>}
+
+            {aside && shape !== "image" && (
+                <div className="brand-slot-aside">{aside}</div>
+            )}
 
         </div>
 

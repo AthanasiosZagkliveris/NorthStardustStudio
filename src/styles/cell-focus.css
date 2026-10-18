@@ -97,16 +97,10 @@
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
 }
 
-/* THE TEXT HIERARCHY's rows answer the pointer: the tick takes the glow, the sample text goes bold and underlined, as a tick option's words do. */
-.brand-hierarchy-row:hover:not(:has(:disabled)) .brand-tick-box {
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) calc(18% * var(--hover-lift, 1)), transparent);
-}
-
-.brand-hierarchy-row:hover:not(:has(:disabled)) .brand-slot-label {
-    text-shadow: var(--hover-bold);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
+/* THE TEXT HIERARCHY's CARD answers the pointer as the nested cards of the Strategy (a Goal, an Objective, a Metric) do: the primary edge and the glow round the card. */
+.brand-hierarchy-card:hover {
+    border-color: var(--line-primary);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
 }
 
 /* IMAGE, ICON AND LOGO are image holders and have ONE layout: the label row (the label on the centre line of its x), the holder, the file's name under it, and where it has words, a Notes field. */
@@ -127,4 +121,47 @@
 
 .colour-popup-code.colour-popup-code {
     margin-bottom: 0;
+}
+
+/* ONE LABEL: the label of an image holder (Logo, Icon, Image) is the field label every cell has (regular, the card's label colour, the body size, no extra tracking). */
+.brand-slot-label-row.brand-slot-label-row > .brand-slot-label {
+    font-size: var(--font-body);
+    font-weight: 400;
+    letter-spacing: normal;
+    color: var(--label-color);
+}
+
+/* THE IMAGE HOLDERS' STRUCTURE (Logo, Icon, Image): the holder, and its x BESIDE it, 12px after its right edge, the x's top level with the holder's top. The holder takes the room the x leaves, so a wide picture (the Logo) is scaled down in proportion
+   (it is contained, never cropped). The label stands over them, the file's name under, and a Notes field, as every card's, last. */
+.brand-holder-wrap.brand-holder-wrap {
+    gap: var(--gap-12);
+    align-items: flex-start;
+}
+
+.brand-holder-wrap.brand-holder-wrap > .brand-asset-preview {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.brand-holder-wrap.brand-holder-wrap > .strategy-box-remove {
+    position: relative;
+    flex: none;
+    margin: 0;
+}
+
+.brand-asset-slot-icon .brand-slot-row > .brand-holder-wrap.brand-holder-wrap {
+    flex: 1 1 auto;
+    aspect-ratio: auto;
+    max-width: none;
+}
+
+.brand-asset-slot-icon .brand-holder-wrap.brand-holder-wrap > .brand-asset-preview {
+    flex: 0 1 265px;
+    aspect-ratio: 1 / 1;
+    min-height: 0;
+    max-width: calc(100% - var(--size-box-button) - var(--gap-12));
+}
+
+.brand-asset-slot-icon > .brand-slot-aside {
+    margin-top: var(--gap-12);
 }

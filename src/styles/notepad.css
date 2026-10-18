@@ -739,7 +739,6 @@ html.notepad-picking [data-pick-hover] {
 
 }
 
-.notepad-panel .date-cell{ width:auto; }
 
 /* THE CARD NOTES under the notes: a head with its count and the funnel, then one button for each card (its name, its page, its text in three lines at most). */
 .notepad-card-notes-head {
@@ -761,15 +760,19 @@ html.notepad-picking [data-pick-hover] {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--gap-4);
+    /* (A name, its page and its text are vertically connected: 6px. The box is a note's: 12px padding, a note's corners and ground; the text is the body's, set as a note's is -- a button's tracking is not.) */
+    gap: var(--gap-6);
 
     width: 100%;
-    padding: var(--gap-8) var(--gap-12);
+    padding: var(--gap-12);
 
     border: 1px solid var(--box-border);
-    border-radius: var(--radius-md);
-    background: none;
+    border-radius: var(--radius-lg);
+    background: var(--bg-panel);
 
+    font: inherit;
+    font-size: var(--font-body);
+    letter-spacing: normal;
     color: var(--text-default);
     text-align: left;
     cursor: pointer;
@@ -786,12 +789,14 @@ html.notepad-picking [data-pick-hover] {
 .notepad-card-note-name {
 
     font-weight: 600;
+    letter-spacing: normal;
 
 }
 
 .notepad-card-note-page {
 
     font-size: var(--font-small);
+    letter-spacing: normal;
 
     color: var(--text-muted);
 
@@ -804,6 +809,7 @@ html.notepad-picking [data-pick-hover] {
     -webkit-line-clamp: 3;
     overflow: hidden;
 
-    font-size: var(--font-small);
+    font-size: var(--font-body);
+    letter-spacing: normal;
 
 }

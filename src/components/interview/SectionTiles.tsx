@@ -1976,20 +1976,31 @@ export function FloatingCards({
         if (!node) {
             return;
         }
-        // THE SHADE stays where the chapter is: what the card stands over (the topmost dialog under it, else the frame it was opened from), measured again whenever the page or a box scrolls or the window changes -- never where it was when the card opened.
+        // THE SHADE of what a floating card stands over, once, and only where nothing shades it already:
+        //  1. the card stands over a CHAPTER (no dialog): the chapter's frame is shaded, with the chapter's own corners;
+        //  2. the card stands over a dialog that is not a chapter (the Inventory, the Completed): its TILES are shaded, with the corners of the dialog;
+        //  3. the card stands over a chapter beside a dialog of a category: that chapter is already shaded by the dialog's own shade -- the card adds none.
+        // It is measured again whenever the page or a box scrolls or the window changes, so it stays where the chapter is.
         const measureShade = () => {
             const dialogs = [...document.querySelectorAll<HTMLElement>(".section-tile-overlay:not(.floating-overlay) > .section-tile-dialog")];
-            const under = dialogs[dialogs.length - 1] ?? anchorRef.current;
-            // (Only the TILES under the card are shaded -- not the title, the filter or the page round them: the tile grid, as far as the dialog or the frame shows it.)
-            const grid = under?.querySelector<HTMLElement>(".card-tile-grid, .section-tiles");
+            const dialog = dialogs[dialogs.length - 1];
+            let under: HTMLElement | null = null;
+            let area: HTMLElement | null = null;
+            if (!dialog) {
+                under = anchorRef.current;
+                area = under;
+            } else if (dialog.dataset.tile === "overview" || dialog.dataset.tile === "completed") {
+                under = dialog;
+                area = dialog.querySelector<HTMLElement>(".card-tile-grid, .card-boxes, .section-tiles");
+            }
             const frame = under?.getBoundingClientRect();
-            const box = (grid ?? under)?.getBoundingClientRect();
+            const box = area?.getBoundingClientRect();
             const header = document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom ?? 0;
             const left = box && frame ? Math.max(box.left, frame.left) : 0;
             const right = box && frame ? Math.min(box.right, frame.right) : 0;
             const top = box && frame ? Math.max(box.top, frame.top, header) : 0;
             const bottom = box && frame ? Math.min(box.bottom, frame.bottom, window.innerHeight) : 0;
-            const next = under && right - left > 0 && bottom - top > 0 ? { left, top, width: right - left, height: bottom - top, radius: grid ? "0px" : getComputedStyle(under).borderRadius } : null;
+            const next = under && right - left > 0 && bottom - top > 0 ? { left, top, width: right - left, height: bottom - top, radius: getComputedStyle(under).borderRadius } : null;
             setShade(previous => previous && next && previous.left === next.left && previous.top === next.top && previous.width === next.width && previous.height === next.height ? previous : next);
         };
         const position = () => {
@@ -2346,6 +2357,7 @@ function TileDialog({
                 ref={panel}
                 className={"section-tile-dialog business-foundation-input business-foundation-card" + (tile.channel ? " section-tile-dialog-channel" : "") + (tile.completed ? " section-tile-dialog-completed" : "")}
                 role="dialog"
+                data-tile={tile.id}
                 aria-modal="true"
                 aria-labelledby={nameId}
                 tabIndex={-1}

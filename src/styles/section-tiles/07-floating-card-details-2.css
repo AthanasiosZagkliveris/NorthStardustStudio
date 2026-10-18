@@ -9,15 +9,6 @@
 
 }
 
-/* The x of the picture stands in the card's x column, level with the picture's top, 12px after its right edge. */
-.brand-image-card-body .brand-holder-wrap > .strategy-box-remove {
-
-    position: absolute;
-    left: calc(100% + var(--gap-12));
-    top: 0;
-
-}
-
 .brand-image-card-body .brand-slot-row {
 
     flex-direction: column;
