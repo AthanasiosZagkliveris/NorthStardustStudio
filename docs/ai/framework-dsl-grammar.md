@@ -1,5 +1,7 @@
 # Framework Content DSL — Grammar Reference
 
+Status: **reference**, updated 2026-09-28.
+
 This is the complete syntax for authoring a System's content in plain Markdown. Every rule below was confirmed directly against `framework/parser/AnswerParser.ts` — if this file and the parser ever disagree, the parser wins and this file is out of date and needs fixing.
 
 Read this instead of the parser source when authoring or auditing System content. Only open the parser itself if this reference doesn't answer the question.

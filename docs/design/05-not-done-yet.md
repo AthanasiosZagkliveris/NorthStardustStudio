@@ -2,6 +2,29 @@
 
 Status: **living list**, written 2026-10-14. Remove an item when it is done and record it in document 4. Everything here is a plan or a proposal unless it says "decided". Nothing in sections 5.3 to 5.6 is built.
 
+## Open now (2026-10-19)
+
+**To unify** (the counted list, with the reasons, is in `23-shared-components.md`, "What is left"):
+- The tile drawings: the page tile (`TileSlot`), the `SubTiles` tile, the category tile and `CardTile`. Their repeated parts are shared (the links layer, the "+", the hover origin); the skeleton is not, because the copies differ in what they carry (hover origin, data attributes, classes), so one component would need a flag for each difference.
+- The Legal Entity cards' bodies and their own CSS (`legal-entity-*`), and their own number markup.
+- The grids of `CardBoxes` (three across) and `CapabilityOverview` (the Inventory): they measure for themselves.
+- Not copies, so not joined: `NumberedListInput` and `SuggestedInput` (editors), the fold arrow and the label arrow (two controls by decision), the image-holder label, the sub-channel head, the Brand column headings.
+
+**Not looked at in a browser**: the tooltips (the Roadmap bars, the action symbols, the noted fields, the card tiles' tips) and the Process library and Operational log pages (they are not reachable in this version of the app). The tests cover them.
+
+**Waiting for the owner**: the proposals in `19-frequency-options.md` (frequency groups); the generated cards' inputs beyond "adding, not removing"; trying the branch once.
+
+**The release**: the branch `chore/light-cleanup` is not pushed and `main` has not moved since 478da24. After the owner has tried it once: merge, push and tag; then extract the Foundation web app (5.7).
+
+**The documents**: every document has its kind and date under its title and `README.md` indexes them; the changes are written in the log only (`04-log.md`). The content of the documents written on 2026-10-14 (`01`, `02`, `03`, and 5.1 to 5.14 below) is not re-checked line by line: where the log says an item is done, it is done.
+
+## Left after 2026-10-18
+
+- The catalogue records (`docs/design/06-catalogue-record.md` and the crawl behind it) still show Quillfield as an LLC (its "Form the LLC and get an EIN" activity and the publication requirement); the next full crawl rewrites them. `npm run tables` was run, so the structure tables and the library tables follow the example.
+- The legal-form change moves Quillfield's figures: the Funding Need is $24,734, the cash in hand $10,675 and the amount still short after the SBA loan's repayments $1,208 (golden: `WRITE_GOLDEN=all`).
+
+> Sections 5.1 to 5.14 were written on 2026-10-14 and are kept as the record of those plans. Check an item against the log (`04-log.md`) before acting on it.
+
 ## 5.1 The road (decided 2026-10-14)
 
 | Phase | Content |
@@ -40,7 +63,7 @@ Eleven of thirteen chapters are drawn as tiles. The rest:
 
 ## 5.4 Workspace batches D and E: checked against the code on 2026-10-14
 
-The briefs (written 2026-09-29, in `docs/superpowers/plans/`) say D and E wait until the structure is stable; it now is, and the order is decided (after the Tile System).
+The briefs (written 2026-09-29, in `docs/archive/plans/`) say D and E wait until the structure is stable; it now is, and the order is decided (after the Tile System).
 
 **Already built** (the briefs asked to reuse them): `FieldKey`, `openField`, the field status line (with the unused "Changed in … · Reset" parts), the Review page, the Notepad, the undo toast, search, and `Sources.ts`. **Absent:** `planOutcomes`, scenarios, duplicate organization and card, the Compare route, the lender check, the One-Pager, the glossary.
 
@@ -561,12 +584,3 @@ The stylesheets use 13 window boundaries (one is a height) and 20 container boun
 | container | 600 / 601 | max-width: 599.98px (2), max-width: 599px (2) ; max-width: 600px (1) |
 
 The decided set (768, 1200, heights 900 and 1250) is not yet used by any query; moving the queries to it changes the layout between the old and new widths, so it is a separate decision.
-
-## Left after 2026-10-20 (the unifications)
-
-The counted list is in `docs/design/23-shared-components.md`, section "What is left on 2026-10-20": the raw selects (11), the date and month popups, the lists, the one-line text box (about 40 in the components), the two remaining tile grids, the three tile drawings, the Legal Entity card bodies. Done in the same session: BackButton, RemoveButton, FunnelButton, AddButton, NumberCell, FieldLabel, TickBox, LabelArrow, TextField, NameCell, CardHead, StrategyHead, Tooltip, CardShell, TileGrid, and the split of `SectionTiles.tsx` (see the log).
-
-## Left after 2026-10-18
-
-- The catalogue records (`docs/design/06-catalogue-record.md` and the crawl behind it) still show Quillfield as an LLC (its "Form the LLC and get an EIN" activity and the publication requirement); the next full crawl rewrites them. `npm run tables` was run, so the structure tables and the library tables follow the example.
-- The legal-form change moves Quillfield's figures: the Funding Need is $24,734, the cash in hand $10,675 and the amount still short after the SBA loan's repayments $1,208 (golden: `WRITE_GOLDEN=all`).

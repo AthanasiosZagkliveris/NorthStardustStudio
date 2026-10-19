@@ -1,5 +1,7 @@
 # Engineering Phase Completion Report
 
+Status: **archive**, updated 2026-08-02.
+
 **Project:** North Stardust Studio
 **Milestone:** Conclusion of the Engineering Phase; transition to Application Development Mode
 **Date:** 2 August 2026

@@ -1,5 +1,7 @@
 # Customer Engagement: the tables and the action markers
 
+Status: **rules**, updated 2026-10-17.
+
 The layout of the Customer Engagement page's tables, moved from the layout rulebook (`docs/ai/layout-rules.md`, section 7) on 2026-10-17 so the rulebook holds rules and this holds the page's specification. The rules of the rulebook (sizes, gaps, the one x, the reactions) apply to everything here.
 
 - **Customer Engagement**: "1. Customer Channel" and "2. Customer

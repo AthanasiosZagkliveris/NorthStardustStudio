@@ -1,5 +1,7 @@
 # The kinds of card (internal list)
 
+Status: **reference**, updated 2026-10-16.
+
 Every card that opens from a tile (floating, or in a tile's dialog), by kind: where its code is and how its head is built. **The order number stands inside the name cell** on every card that has a name cell (drawn over the name's left, 10px in; the name's text starts at 38px); the marker column is gone, so the name cell and everything under it start at the card's own 12px padding, and the x has its own 32px column (+8px) at the right.
 
 | # | Card | Opens from | Code | Head | Number inside the name cell |

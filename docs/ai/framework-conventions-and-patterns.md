@@ -1,5 +1,7 @@
 # Framework Conventions & Patterns Reference
 
+Status: **reference**, updated 2026-09-30.
+
 Non-obvious architectural patterns that govern how content and structure interact — not covered by the DSL grammar itself, and not discoverable from any single file. Each entry exists because it was actually rediscovered the hard way at least once; add a new entry the same session a new pattern like this gets established, while the reasoning is still fresh.
 
 ## Data model, in order

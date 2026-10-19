@@ -1,5 +1,7 @@
 # Verification & Regression Playbook
 
+Status: **playbook**, updated 2026-08-02.
+
 The procedure lives in the Environment & Toolchain Playbook. This file is the part that actually saves time: a maintained, reasoned record of which test failures are expected and why — so that reasoning doesn't get re-derived from scratch on every verification run. Read this *before* concluding any red result is a real regression, and *before* concluding a green run means nothing needs a second look.
 
 ## How to use this file

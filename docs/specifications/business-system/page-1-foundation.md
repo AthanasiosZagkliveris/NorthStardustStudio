@@ -1,5 +1,7 @@
 # Business System — Page 1: Foundation
 
+Status: **specification**, updated 2026-09-27.
+
 > **3. Business System — Page 1 of 5.**
 > Pages: **1. Foundation** · 2. Customers Engagement ·
 > 3. Infrastructure & Capability · 4. Financial Foundation ·

@@ -1,5 +1,7 @@
 # NorthStardust: guide to the app (navigation, purpose, content)
 
+Status: **reference**, updated 2026-10-17.
+
 One page to find your way: what each part of the app is for, what it holds, and where the data and the rules live. The rules of layout are in `layout-rules.md` and `tile-and-card-pattern.md`; the cost rules in `cost-model.html`; this file is the map.
 
 ## How the app is entered

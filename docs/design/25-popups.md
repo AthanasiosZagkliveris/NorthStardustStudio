@@ -1,5 +1,7 @@
 # Pop-ups: six categories
 
+Status: **current design**, updated 2026-10-19.
+
 Everything in the app that appears over the page when something is pressed, pointed at or happens, gathered from the code as of 2026-10-18 and placed in **six categories**. Each category has one set of characteristics (position, trigger, size, style, how it closes); a new pop-up joins the category it fits and takes its characteristics, it does not invent its own. The reactions of what is inside a pop-up are in `20-reactions.md`.
 
 ## 1. The six categories

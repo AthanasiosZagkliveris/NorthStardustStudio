@@ -1,5 +1,7 @@
 # Workspace features D — duplicate, scenarios, compare (user-approved 2026-09-29)
 
+Status: **archive**, updated 2026-10-01.
+
 Same repo, branch, conventions, verification rules (NO screenshots; tests, `tsc`, `build`, and the check scripts ONLY on the screens this batch touches, at 1920 in light and dark (768 only where a layout reflows); the full light/sepia/dark × 1920/1366/768 sweep runs once in the final overall check, not per batch; localStorage backup/restore) and hard rule as `workspace-A-brief.md` in this folder — read its header first. Batches A–C are committed; build on them (store interface, format version, status, annotations/flags/notes, Review page, undo toast, search). DO NOT merge, push or switch branches. One commit per item.
 
 Principles: one Current plan always, clearly marked; alternatives are named and visible; nothing is lost when switching or adopting; at most three choices per control; quiet by default. Terminology for users: **Current plan**, **Scenario**, **Compare**, **Duplicate**. (A *version* — past state — is NOT built in this batch.)

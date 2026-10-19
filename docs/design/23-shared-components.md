@@ -2,24 +2,28 @@
 
 This document describes the current situation, one dated section per state, the newest on top. What changed, and when, is written in the log (`04-log.md`), not here.
 
-## What is left on 2026-10-20
+## What is left on 2026-10-19
 
 The survey below was re-counted in the code on this date; two of its figures were out of date (no raw date inputs are left; the plain text boxes are about 40 in the components, not 106).
 
-| # | Family | Counted in the code on 2026-10-20 | One component | Risk |
+| # | Family | Counted in the code on 2026-10-19 | One component | Risk |
 |---|---|---|---|---|
-| 1 | Raw `<select>` | Done 2026-10-20: none is left (8 were raw: `ProcessLibraryEditor` 3, `OperationalLogEditor` 3, `CalendarFunnel` 1, `DynamicTable` 1, and the select mode of `InterviewInput`, which `FieldRenderer` uses twice; the first count of 11 included comments) | `OptionPicker`; `ValuePicker` for choices whose value is not their words | Done |
-| 2 | Date and month popups | Done 2026-10-20 as far as the popup goes: `DateCellInput` (14 uses) and `MonthYearPicker` (8 uses) share `DatePopup.tsx` (`useDatePopup`: opening, placement, close on a press outside and on Escape; `DatePopupHead`: the four steps around the title) and its `date-cell-popup-*` classes; each still draws its own days or months | `DatePopup`; a single `DateCell` with a month setting is not done: the two cells differ (typed text and a calendar button against a button with the month's name) | Done (the cell itself: decide) |
-| 3 | Lists | Done 2026-10-20: the read-only lists are one `ListStatic` (`marker` number or bullet; 5 uses), and the name's text area (`CardNameInput`, 14 uses) is a `TextField` (`maxLines={2}`, `list={false}`). Left: `NumberedListInput` (708 lines, 10 uses: the editor, with its own drag, add and remove per line) and `SuggestedInput` (3 uses: a text area with a suggestion list), which are different controls, not copies | `ListStatic`; `TextField` | Done (the editors: decide) |
-| 4 | One-line text box | Done 2026-10-20 for the components and pages: 28 plain text inputs are `TextBox` and 12 numeric ones that computed their keyboard (from the number's limits) are `NumberCell` (which now takes `inputMode`). Left, on purpose: the filter boxes of `CapabilityOverview` (bare, styled by their menu), the date cell's own text (`DateCellInput`), the option picker's search box, the search dialog's combobox, the native `type="number"` and `type="time"` inputs, the library's demo parts and the Looks page | `TextBox` | Done |
+| 1 | Raw `<select>` | Done 2026-10-19: none is left (8 were raw: `ProcessLibraryEditor` 3, `OperationalLogEditor` 3, `CalendarFunnel` 1, `DynamicTable` 1, and the select mode of `InterviewInput`, which `FieldRenderer` uses twice; the first count of 11 included comments) | `OptionPicker`; `ValuePicker` for choices whose value is not their words | Done |
+| 2 | Date and month popups | Done 2026-10-19 as far as the popup goes: `DateCellInput` (14 uses) and `MonthYearPicker` (8 uses) share `DatePopup.tsx` (`useDatePopup`: opening, placement, close on a press outside and on Escape; `DatePopupHead`: the four steps around the title) and its `date-cell-popup-*` classes; each still draws its own days or months | `DatePopup`; a single `DateCell` with a month setting is not done: the two cells differ (typed text and a calendar button against a button with the month's name) | Done (the cell itself: decide) |
+| 3 | Lists | Done 2026-10-19: the read-only lists are one `ListStatic` (`marker` number or bullet; 5 uses), and the name's text area (`CardNameInput`, 14 uses) is a `TextField` (`maxLines={2}`, `list={false}`). Left: `NumberedListInput` (708 lines, 10 uses: the editor, with its own drag, add and remove per line) and `SuggestedInput` (3 uses: a text area with a suggestion list), which are different controls, not copies | `ListStatic`; `TextField` | Done (the editors: decide) |
+| 4 | One-line text box | Done 2026-10-19 for the components and pages: 28 plain text inputs are `TextBox` and 12 numeric ones that computed their keyboard (from the number's limits) are `NumberCell` (which now takes `inputMode`). Left, on purpose: the filter boxes of `CapabilityOverview` (bare, styled by their menu), the date cell's own text (`DateCellInput`), the option picker's search box, the search dialog's combobox, the native `type="number"` and `type="time"` inputs, the library's demo parts and the Looks page | `TextBox` | Done |
 | 5 | Grids | `CardBoxes` (three across, its own measuring) and `CapabilityOverview` (the Inventory's own scroll and filters) still draw their own; `TileGrid` has the other 4 | `TileGrid` with those two options | Low to medium |
-| 6 | Tiles | 6 uses of the three drawings: `TileSlot` (page tile, with its hover origin and incomplete-lines-first order), the `SubTiles` tile and `CategoryTile` (simpler copies), `CardTile` | One `Tile` | High: hover origin and ordering must not change |
+| 6 | Tiles | Partly done 2026-10-20: the repeated parts of the four drawings are shared (`TileLinks`: the links layer; `TilePlus`: the "+" named "Add <what> to <title>"; `useTileAim`: the hover origin of the page tile). The skeletons stay separate: the page tile (`TileSlot`), the `SubTiles` tile, the category tile and `CardTile` differ in data attributes, classes, labels, the hover origin (measured, or passed in) and what they carry (drag, dots, a period label), so one component would need a flag for each difference | `TileLinks`, `TilePlus`, `useTileAim` | The skeleton: decide |
 | 7 | Card bodies | The Legal Entity page keeps its `legal-entity-*` CSS and its number markup (`legal`); the Strategy boxes have no fold arrow and their own CSS | `BusinessCard` for the Legal Entity cards | Medium to high: many `>` child selectors |
 | 8 | Not joined, by decision | The fold arrow (36px) and the label arrow; the image-holder label; the sub-channel head; the Brand column headings | none | none |
 
-Checked in a browser on 2026-10-20 (the build before the unifications, 840ce91, beside this one, on the 9 pages of the layout check at 1400 wide, every card open): the position, size and 11 computed styles of every add button, tick box, number cell, field label, card head, name, tile grid and slot, card box, text cell and dropdown are the same (one difference found and fixed: two cells that are a number only when the field has limits had become number cells). Clicked: the add button adds a card, a tick box toggles, a number cell takes its number. Not looked at: the tooltips (the Roadmap bars, the action symbols, the noted fields and the card tiles' tips are not on a reachable page of this example; their tests pass) and the Process library and Operational log pages (not reachable in this app version).
+Checked in a browser on 2026-10-19 (the build before the unifications, 840ce91, beside this one, on the 9 pages of the layout check at 1400 wide, every card open): the position, size and 11 computed styles of every add button, tick box, number cell, field label, card head, name, tile grid and slot, card box, text cell and dropdown are the same (one difference found and fixed: two cells that are a number only when the field has limits had become number cells). Clicked: the add button adds a card, a tick box toggles, a number cell takes its number. Not looked at: the tooltips (the Roadmap bars, the action symbols, the noted fields and the card tiles' tips are not on a reachable page of this example; their tests pass) and the Process library and Operational log pages (not reachable in this app version).
 
 ## State on 2026-10-20
+
+The tiles share their links layer (`TileLinks`), their "+" (`TilePlus`) and the page tile's hover origin (`useTileAim`), all in `TileParts.tsx`. Checked in a browser against the build before this change: the rest and hover rectangle, origin, transform, lines and markup of 96 tiles of the 9 pages and their dialogs are the same.
+
+## State on 2026-10-19
 
 Every one-line text cell is a `TextBox` (a plain text input; the place's class gives the look) and every number a `NumberCell`, with the exceptions in the list below.
 
@@ -45,7 +49,7 @@ As 2026-10-19, and the free text cells, the names, the card heads, the tooltips,
 | `CardShell` | `interview/CardShell.tsx` | The outer box of every card and section panel: `business-foundation-input`, `business-foundation-card`, `business-engagement-input` (each switched off only where a box never had it), the place's own `className`, its anchors, rail and hue. `legal`: the Legal Entity and Founder cards' own box (`legal-entity-card`) | 17 section panels and cards, the shared `BusinessCard` itself, 3 Legal Entity and Founder cards |
 | `TileGrid` | `interview/TileGrid.tsx` | The grid of tiles of a dialog or page view: the page's tile size, as many across as fit, the grid box and its `card-boxes` outer box; its tiles are a function of `across` (and `placed`, for a grid whose boxes keep their places: `columns`) | SubTiles, PictureBoxes, the section view and the category view of `SectionView` (4) |
 
-`SectionTiles.tsx` (2,415 lines until 2026-10-20) is now the page tile and its slot (643 lines), with its parts in their own files and re-exported from it, so no import changed: `SectionTileTypes.ts` (the tile, link, add, mark, crumb and floating types), `SectionTileGeometry.tsx` (columns, anchors, frames, titles), `DialogLevels.tsx` (the dialog's inner levels, crumbs, heading, contexts, focus return), `TileParts.tsx` (face, title, list), `CarouselArrows.tsx`, `FloatingCards.tsx` (the floating cards and the tile dialog).
+`SectionTiles.tsx` (2,415 lines until 2026-10-19) is now the page tile and its slot (643 lines), with its parts in their own files and re-exported from it, so no import changed: `SectionTileTypes.ts` (the tile, link, add, mark, crumb and floating types), `SectionTileGeometry.tsx` (columns, anchors, frames, titles), `DialogLevels.tsx` (the dialog's inner levels, crumbs, heading, contexts, focus return), `TileParts.tsx` (face, title, list), `CarouselArrows.tsx`, `FloatingCards.tsx` (the floating cards and the tile dialog).
 
 Not joined to `CardHead`, on purpose: the Strategy boxes' heads (they have no fold arrow and carry a kind label, in their own CSS), the sub-channel's head (no number; its name is a drop-down or a text box), and the Brand page's column headings (`brand-style-head`: a title with bullets, not a card's head). Forcing them into the folding card's head would change their markup and CSS for no shared behaviour.
 
@@ -71,7 +75,7 @@ Every place that needs one of these uses the component, never its own markup (ru
 
 Left as they are, on purpose: the image-holder label keeps its own line (a layout rule measures it).
 
-What is left is listed, counted, in "What is left on 2026-10-20" below.
+What is left is listed, counted, in "What is left on 2026-10-19" below.
 
 ## State on 2026-10-17 (the survey)
 

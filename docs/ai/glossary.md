@@ -1,5 +1,7 @@
 # Glossary
 
+Status: **reference**, updated 2026-08-02.
+
 Canonical, one-line definitions. Each term has exactly one owner document, linked below — read that document for the full explanation; this file exists for fast lookup and to keep terminology consistent across every other document and Skill, not to explain anything itself.
 
 ## Project domain

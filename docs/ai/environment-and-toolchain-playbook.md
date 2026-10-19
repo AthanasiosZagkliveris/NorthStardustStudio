@@ -1,5 +1,7 @@
 # Environment & Toolchain Playbook
 
+Status: **playbook**, updated 2026-08-02.
+
 Read this first, every session. It's the exact procedure — not a description of one — for working on NorthStardustStudio's frontend. Everything here was verified by direct use, not inferred.
 
 ## Repo layout for this workflow

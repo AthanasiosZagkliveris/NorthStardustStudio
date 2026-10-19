@@ -1,0 +1,88 @@
+# The documents of NorthStardustStudio
+
+Status: **index**, updated 2026-10-19. One line per document: where it is, what kind it is, what it holds, when it last changed (the date of its last commit).
+
+## How the documents are kept
+
+- **A change is written in the log** (`design/04-log.md`), newest row on top, and nowhere else. The other documents **describe the present**: each says what is true now, under a dated heading, the newest on top, with its own status line (kind and date) under the title.
+- **Kinds**: *rules* (what must hold; a check enforces most of them), *reference* (how things are, to look up), *current design* (what the app is today), *living list* (an open list: an item leaves it when done and the log records it), *log*, *proposal* (nothing built), *specification* (what a page asks and shows), *playbook* (a procedure), *generated* (written by a script; never edit by hand, run its command), *snapshot* (a measured picture on a date; not updated), *archive* (finished or older; kept for the record).
+- **Where the code and a document disagree, the code is right** and the document is the one to fix. The checks that keep them honest: `npm run docs:check` (generated sections), `npm run tables:check`, `npm run library:check`, and the document-reference test (the six rule documents name only properties, classes and files the code has).
+- **Who reads what**: an assistant starts with `ai/README.md`; the owner starts with `design/05-not-done-yet.md` (what is open) and `design/04-log.md` (what changed).
+
+## For the assistant and the rules (`ai/`)
+
+| Document | Kind | What it holds | Updated |
+|---|---|---|---|
+| [ai/README.md](ai/README.md) | index | The map of this folder: what to read first, what to read for a task. | 2026-10-17 |
+| [ai/ai-collaboration-rules.md](ai/ai-collaboration-rules.md) | rules | Standing behavioural rules for an AI assistant: when to ask, when to push, what done requires. | 2026-08-02 |
+| [ai/environment-and-toolchain-playbook.md](ai/environment-and-toolchain-playbook.md) | playbook | The toolchain procedure: sync, typecheck, build, preview, verify. | 2026-08-02 |
+| [ai/verification-and-regression-playbook.md](ai/verification-and-regression-playbook.md) | playbook | What to run after a change; the living list of expected test failures. | 2026-08-02 |
+| [ai/ai-development-methodology.md](ai/ai-development-methodology.md) | reference | How a change flows from request to integration; when to create or reuse knowledge. | 2026-08-02 |
+| [ai/framework-dsl-grammar.md](ai/framework-dsl-grammar.md) | reference | Grammar of the Markdown that defines a System's content. | 2026-09-28 |
+| [ai/framework-conventions-and-patterns.md](ai/framework-conventions-and-patterns.md) | reference | The architectural patterns and the data model of the framework. | 2026-09-30 |
+| [ai/glossary.md](ai/glossary.md) | reference | One line per project term, with a pointer to where it is explained. | 2026-08-02 |
+| [ai/app-guide.md](ai/app-guide.md) | reference | Where each part of the app is, what it is for, with the code locations. | 2026-10-17 |
+| [ai/layout-rules.md](ai/layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-10-19 |
+| [ai/tile-and-card-pattern.md](ai/tile-and-card-pattern.md) | rules | How tiles, frames, cards, rails and dialogs are built; the global rules. | 2026-10-17 |
+| [ai/card-kinds.md](ai/card-kinds.md) | reference | The kinds of card, where each one's code is, how its head is built. | 2026-10-16 |
+| [ai/customer-engagement-layout.md](ai/customer-engagement-layout.md) | rules | Layout of the Customer Engagement tables, the channel resources and the action markers. | 2026-10-17 |
+| [ai/card-field-measures-report.md](ai/card-field-measures-report.md) | snapshot | A measured report of the sizes and set-up of the card fields. | 2026-10-12 |
+| [ai/outstanding-findings.md](ai/outstanding-findings.md) | living list | Confirmed problems found by diagnostic skills and not yet fixed. | 2026-08-02 |
+| [ai/cost-section-proposal.md](ai/cost-section-proposal.md) | proposal | What the Cost section should record and how it should look. | 2026-10-12 |
+| [ai/segment-by-selection-proposal.md](ai/segment-by-selection-proposal.md) | proposal | Building a Customer Segment by selection. | 2026-10-12 |
+
+## The design of the app (`design/`)
+
+| Document | Kind | What it holds | Updated |
+|---|---|---|---|
+| [design/01-current-design.md](design/01-current-design.md) | current design | Every kind of element the Foundation capability is built from, by layer. | 2026-10-19 |
+| [design/02-references.md](design/02-references.md) | reference | Every decision in the app and the source behind it. | 2026-10-14 |
+| [design/03-research.md](design/03-research.md) | reference | The research record: sources, findings, how they were weighed. | 2026-10-14 |
+| [design/04-log.md](design/04-log.md) | log | History, changes and updates, newest on top. Every change is written here, nowhere else. | 2026-10-19 |
+| [design/05-not-done-yet.md](design/05-not-done-yet.md) | living list | The road, the plans and what has not been done yet. | 2026-10-19 |
+| [design/06-catalogue-record.md](design/06-catalogue-record.md) | generated | The catalogue record of the app's pages, fields and cards. | 2026-10-15 |
+| [design/07-structure-tables.md](design/07-structure-tables.md) | generated | The structure tables (npm run tables). | 2026-10-18 |
+| [design/08-library-system.md](design/08-library-system.md) | current design | The library system: tables, library, inventory and logs. | 2026-10-16 |
+| [design/09-assets-library.md](design/09-assets-library.md) | generated | The assets library: every asset, its variants and contract. | 2026-10-17 |
+| [design/10-library-log.md](design/10-library-log.md) | log | The library log, newest rows on top (npm run library:log). | 2026-10-19 |
+| [design/10-library-log-archive.md](design/10-library-log-archive.md) | archive | Older rows of the library log. | 2026-10-19 |
+| [design/11-app-structure-log.md](design/11-app-structure-log.md) | log | The app structure log. | 2026-10-19 |
+| [design/12-field-names.md](design/12-field-names.md) | generated | The field names. | 2026-10-17 |
+| [design/13-component-defaults.md](design/13-component-defaults.md) | generated | Component defaults. | 2026-10-17 |
+| [design/14-components-list.md](design/14-components-list.md) | generated | The components. | 2026-10-17 |
+| [design/15-fields-by-component.md](design/15-fields-by-component.md) | generated | Fields and cards by component. | 2026-10-17 |
+| [design/16-fields-list.md](design/16-fields-list.md) | generated | The fields. | 2026-10-17 |
+| [design/17-library-vs-app.md](design/17-library-vs-app.md) | reference | The library measured against the app. | 2026-10-17 |
+| [design/18-text-holders.md](design/18-text-holders.md) | current design | The text holders: sizes and rules. | 2026-10-17 |
+| [design/19-frequency-options.md](design/19-frequency-options.md) | current design | The Frequency options by group, and the open proposals. | 2026-10-19 |
+| [design/20-reactions.md](design/20-reactions.md) | current design | How elements react to the pointer and the keyboard. | 2026-10-18 |
+| [design/21-text-links.md](design/21-text-links.md) | current design | The text link: look and behaviour. | 2026-10-17 |
+| [design/22-free-text-categories.md](design/22-free-text-categories.md) | current design | Free texts in four categories. | 2026-10-18 |
+| [design/23-shared-components.md](design/23-shared-components.md) | current design | Which components are shared, which are not, what is left to unify. Dated states, newest on top. | 2026-10-19 |
+| [design/24-help-texts.md](design/24-help-texts.md) | current design | The help texts of the app. | 2026-10-17 |
+| [design/25-popups.md](design/25-popups.md) | current design | Pop-ups in six categories, with their placement rules. | 2026-10-19 |
+| [design/card-scan-2026-10-15.md](design/card-scan-2026-10-15.md) | snapshot | A snapshot of every card written by scripts/cards/report.mjs. | 2026-10-15 |
+
+## The specifications (`specifications/`)
+
+| Document | Kind | What it holds | Updated |
+|---|---|---|---|
+| [specifications/business-system/README.md](specifications/business-system/README.md) | specification | The Business System: index of the pages and the editor mapping. | 2026-10-14 |
+| [specifications/business-system/page-1-foundation.md](specifications/business-system/page-1-foundation.md) | specification | Page 1: Foundation. | 2026-09-27 |
+| [specifications/business-system/page-2-section-1-channels.md](specifications/business-system/page-2-section-1-channels.md) | specification | Page 2, section 1: the channels. | 2026-10-12 |
+| [specifications/business-system/page-2-section-2-customer-relationships.md](specifications/business-system/page-2-section-2-customer-relationships.md) | specification | Page 2, section 2: customer relationships. | 2026-09-27 |
+| [specifications/business-system/page-2-section-2-customer-relationships-worked-example.md](specifications/business-system/page-2-section-2-customer-relationships-worked-example.md) | specification | A worked example of the customer relationships section. | 2026-09-27 |
+| [specifications/business-system/page-3-infrastructure-and-capability.md](specifications/business-system/page-3-infrastructure-and-capability.md) | specification | Page 3: Infrastructure and Capability. | 2026-10-17 |
+| [specifications/business-system/page-4-financial-foundation.md](specifications/business-system/page-4-financial-foundation.md) | specification | Page 4: Financial Foundation. | 2026-10-17 |
+| [specifications/business-system/page-5-financial-sustainability.md](specifications/business-system/page-5-financial-sustainability.md) | specification | Page 5: Financial Sustainability. | 2026-09-27 |
+| [specifications/shared-workspace/README.md](specifications/shared-workspace/README.md) | proposal | Shared Workspace: working together without a server. Nothing built. | 2026-09-27 |
+
+## Examples and archive
+
+| Document | Kind | What it holds | Updated |
+|---|---|---|---|
+| [examples/](examples/) | data | The two example organizations (Quillfield Automation, Lumen & Loom Studio) as JSON; the same files are in `src/data/examples/`. | 2026-10-18 |
+| [archive/engineering-phase-completion.md](archive/engineering-phase-completion.md) | archive | The engineering phase completion report. | 2026-10-19 |
+| [archive/plans/2026-09-27-navigation-rails-and-folding.md](archive/plans/2026-09-27-navigation-rails-and-folding.md) | archive | Plan: navigation rails and card folding (done). | 2026-10-19 |
+| [archive/plans/2026-09-29-workspace-D-duplicate-scenarios-compare.md](archive/plans/2026-09-29-workspace-D-duplicate-scenarios-compare.md) | archive | Brief: workspace features D, duplicate, scenarios, compare (not started). | 2026-10-19 |
+| [archive/plans/2026-09-29-workspace-E-founder-helpers.md](archive/plans/2026-09-29-workspace-E-founder-helpers.md) | archive | Brief: workspace features E, helpers for founders (not started). | 2026-10-19 |

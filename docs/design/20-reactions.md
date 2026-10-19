@@ -1,5 +1,7 @@
 # The reactions
 
+Status: **current design**, updated 2026-10-18.
+
 What the app does when a part of it is pointed at, pressed, focused, ticked, opened or switched off: the kinds of reaction, and which fields and components take which. Written from the stylesheets as of 2026-10-17. The rulebook (`docs/ai/layout-rules.md`, section 6) holds the same rules as checks; this is the table to read.
 
 ## 1. The kinds of reaction

@@ -1,5 +1,7 @@
 # The tile, frame and card pattern
 
+Status: **rules**, updated 2026-10-17.
+
 One pattern for every tile, frame and card of the app (Identity, Brand, Business, Strategy). A new tile or card takes it from the shared styles (`section-tiles.css`, `card-tile.css`); nothing is drawn for one page alone.
 
 ## The page

@@ -1,5 +1,7 @@
 # Workspace features E — helpers for founders (user-approved 2026-09-29)
 
+Status: **archive**, updated 2026-10-01.
+
 Same repo, branch, conventions, verification rules (NO screenshots; tests, `tsc`, `build`, and the check scripts ONLY on the screens this batch touches, at 1920 in light and dark (768 only where a layout reflows); the full sweep runs once in the final overall check; localStorage backup/restore) and hard rule as `workspace-A-brief.md` in this folder — read its header first. Batches A–D are committed; build on them. DO NOT merge, push or switch branches. One commit per item.
 
 **Reuse, don't rebuild:** `planOutcomes(values)` and the scenario model (D), `FieldKey`/`openField`/field status line (B0), the Review page (B3), the undo toast (C1), the document engine (BusinessDocuments/ExportRenderers/PdfExporter/MarkdownExporter), the app tooltip (`.app-tooltip`), InfoNote.

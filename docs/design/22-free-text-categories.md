@@ -1,5 +1,7 @@
 # Free texts: four categories
 
+Status: **current design**, updated 2026-10-18.
+
 A proposal, for the owner to confirm. It reads `docs/design/18-text-holders.md` (183 text holders found by the walk of the running app: 176 text areas and 7 text fields; the Quillfield example, 1920px, light theme). No text holder has a character limit today (no `maxLength` anywhere), so the "limit" column below is a proposal, set from the longest text the example holds and rounded up.
 
 Name cells, numbers, dates, colours and search boxes are not free texts (they have their own components); the Text Hierarchy's px boxes are numbers.

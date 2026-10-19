@@ -1,5 +1,7 @@
 # 3. Business System — specification index and editor mapping
 
+Status: **specification**, updated 2026-10-14.
+
 The seven specification documents for the Business System, reconciled
 into one page sequence, plus the definitive mapping of each page to
 the editor and data structure it needs.

@@ -1,5 +1,7 @@
 # Navigation Rails and Card Folding Implementation Plan
 
+Status: **archive**, updated 2026-09-27.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Make the Foundation interview simpler to move around and far shorter to scroll: fewer clicks to enter a System, remembered capability on Back, repeatable cards collapsed by default, and two fixed bullet rails (pages left, sections right).

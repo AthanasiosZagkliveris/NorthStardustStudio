@@ -1,5 +1,7 @@
 # AI Collaboration Rules
 
+Status: **rules**, updated 2026-08-02.
+
 Standing rules for any AI assistant working on this project. These come from explicit developer instruction, not inference — treat them as binding, not as defaults to weigh against convenience.
 
 ## Always

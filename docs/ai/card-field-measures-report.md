@@ -1,5 +1,7 @@
 # Card fields: sizes and set-up, measured
 
+Status: **snapshot**, updated 2026-10-12.
+
 Measured in the browser on the Lumen & Loom example (an opened card, 480px wide, 18px text). Positions are from the left edge of the card's name cell; widths and heights in px.
 
 ## The standard (what most cards already do)

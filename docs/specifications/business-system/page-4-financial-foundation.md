@@ -1,4 +1,6 @@
 # Business System — Page 4: Financial Foundation
+
+Status: **specification**, updated 2026-10-17.
 ## Design & Development Prompt
 
 > **3. Business System — Page 4 of 5.**

@@ -1,5 +1,7 @@
 # Outstanding Findings
 
+Status: **living list**, updated 2026-08-02.
+
 A durable, living record of real problems a diagnostic Skill found but did not fix — because fixing wasn't explicitly authorized in that turn, per `ai-collaboration-rules.md`. Without this file, a confirmed finding exists only in one conversation's history and is lost the moment a new session starts; this file exists so it doesn't have to be rediscovered by re-running the same scan later. Any Skill whose job is to diagnose (not author or fix) should record what it finds here, not let it evaporate at the end of its report.
 
 ## How this file works

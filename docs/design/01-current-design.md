@@ -2,6 +2,8 @@
 
 Status of this document: **current**, written 2026-10-14. It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. It replaces the design drafts that were kept as HTML and PDF files (those were converted into the parts below, and only the current version of each was kept).
 
+**Since 2026-10-14** (newest first; the changes themselves are in document 4, the log): on 2026-10-19 the repeated parts of the interface became shared components (the back, remove, funnel, add and tick controls, the number, text and one-line cells, the field label, the free text, the card head and outer box, the name cell, the tooltip, the tile grid, the dropdown and the date popup), and `SectionTiles.tsx` was split into its parts; what is shared and what is left is in document 23. The tables of elements below are the 2026-10-14 reading; where a file or class named here has moved, document 23 and the code are right.
+
 The five documents of this set:
 
 | Document | Holds |
@@ -259,7 +261,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 | Element | File | Notes |
 |---|---|---|
 | Info note ("i"): up to 3 points (text, title and text, or a cited source); `fullList` lifts the cap. It stands 6px (`--info-gap`) after its label's last word, on that line's centre; a wired button (no fill at rest) | `I/InfoNote.tsx`, `InfoText`; contract `src/library/assets/infoNote.ts` | About 100 uses |
-| Tooltip | `C/Tooltip.tsx` (`useAboveTip`, `TooltipBox`; since 2026-10-20 every tooltip box is `TooltipBox`: the icons, the action symbols, the Roadmap bars, the noted fields) | Also native `title` tooltips and the rail labels |
+| Tooltip | `C/Tooltip.tsx` (`useAboveTip`, `TooltipBox`; since 2026-10-19 every tooltip box is `TooltipBox`: the icons, the action symbols, the Roadmap bars, the noted fields) | Also native `title` tooltips and the rail labels |
 | Floating panel hook | `hooks/useFloatingPanel.ts` | Used by funnel menus |
 | Option picker list | `OptionPicker.tsx` (`hug`, `tight`, `sizeFor`) | |
 | Funnel menu | `CapabilityOverview`, `CalendarFunnel` | Two separate funnels |

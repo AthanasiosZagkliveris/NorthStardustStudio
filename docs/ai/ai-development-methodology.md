@@ -1,5 +1,7 @@
 # AI Development Methodology
 
+Status: **reference**, updated 2026-08-02.
+
 This owns the *shape* of how AI-assisted work happens on this project — the lifecycle, the context-loading strategy, and the rules for when new shared knowledge should be created. It does not own specific technical facts (those live in the technical references) or turn-level behavioral rules (those live in `ai-collaboration-rules.md`). Read this when building or evolving a Skill, or when deciding whether something just learned should become a permanent reference.
 
 ## Philosophy

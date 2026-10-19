@@ -1,5 +1,7 @@
 # Business System — Page 3: Infrastructure & Capability
 
+Status: **specification**, updated 2026-10-17.
+
 > **3. Business System — Page 3 of 5.**
 > Was labelled "(Page 2)"; Page 2 is Customers Engagement.
 
