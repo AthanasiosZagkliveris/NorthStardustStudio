@@ -1,4 +1,5 @@
 import { CSSProperties, DragEvent, ReactNode, useRef, useState } from "react";
+import TextBox from "../TextBox.tsx";
 import CardShell from "./CardShell.tsx";
 import { brandImageMissing } from "../../framework/engine/SystemCardCompleteness.ts";
 import SectionTiles, { DialogHeading, type SectionTile } from "./SectionTiles.tsx";
@@ -431,8 +432,7 @@ export default function BrandInventoryEditor({
                             onClear={() => removeImage(index)}
                             aside={
                                 <div className="brand-image-text">
-                                    <input
-                                        type="text"
+                                    <TextBox
                                         className="interview-input brand-image-name"
                                         aria-label={`Image ${index + 1} name`}
                                         placeholder="Name"

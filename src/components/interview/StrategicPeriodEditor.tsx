@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useState } from "react";
 
+import TextBox from "../TextBox.tsx";
 import CardShell from "./CardShell.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import NumberCell from "../NumberCell.tsx";
@@ -271,8 +272,7 @@ export default function StrategicPeriodEditor({
                                     kind="Theme"
                                     help={THEMES_HELP}
                                     name={(
-                                        <input
-                                            type="text"
+                                        <TextBox
                                             className="interview-input strategy-theme-name"
                                             aria-label={"Strategic Theme " + (themeIndex + 1) + " name"}
                                             placeholder="Theme name"

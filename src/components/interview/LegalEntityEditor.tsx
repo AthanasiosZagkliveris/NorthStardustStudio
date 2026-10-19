@@ -1,4 +1,5 @@
 import { CSSProperties, ReactNode, useEffect, useRef } from "react";
+import TextBox from "../TextBox.tsx";
 import CardShell from "./CardShell.tsx";
 import CardHead from "./CardHead.tsx";
 import NameCell from "./NameCell.tsx";
@@ -1072,8 +1073,7 @@ export default function LegalEntityEditor({
         placeholder?: string
     ) {
         return (
-            <input
-                type="text"
+            <TextBox
                 className="interview-input"
                 aria-label={ariaLabel}
                 placeholder={placeholder}
@@ -2281,10 +2281,8 @@ export default function LegalEntityEditor({
 
                         {field(
                             amountLabel("Cost"),
-                            <input
-                                type="text"
+                            <NumberCell
                                 inputMode={numberInputMode(NUMBER_LIMITS.money)}
-                                className="interview-input"
                                 aria-label={"Expense " + (index + 1) + " cost"}
                                 placeholder={currency || "Amount"}
                                 disabled={disabled}

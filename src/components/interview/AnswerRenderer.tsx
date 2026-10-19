@@ -1,4 +1,5 @@
 import { CSSProperties, ReactNode, useEffect, useMemo, useState } from "react";
+import TextBox from "../TextBox.tsx";
 import CardShell from "./CardShell.tsx";
 import TextField from "../TextField.tsx";
 import type { OpenPage } from "./jumpTo.ts";
@@ -1537,8 +1538,7 @@ function SingleAnswerRenderer({
                                 }
                             />
 
-                            <input
-                                type="text"
+                            <TextBox
                                 className="answer-checklist-input"
                                 placeholder="Checklist item"
                                 disabled={disabled}
@@ -1751,8 +1751,7 @@ function SingleAnswerRenderer({
 
                                 <div key={item.id} className="answer-checklist-row">
 
-                                    <input
-                                        type="text"
+                                    <TextBox
                                         className="answer-checklist-input"
                                         placeholder={`${activeCard.title} entry`}
                                         disabled={disabled}
@@ -1955,8 +1954,7 @@ function SingleAnswerRenderer({
                                         {cardLabel} {index + 1}
                                     </div>
 
-                                    <input
-                                        type="text"
+                                    <TextBox
                                         className="answer-checklist-input profile-card-title-input"
                                         placeholder="Add a title..."
                                         disabled={disabled}

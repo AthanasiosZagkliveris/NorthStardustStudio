@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import TextBox from "../components/TextBox.tsx";
 import { useNavigate } from "react-router-dom";
 
 import AppHeader from "../components/AppHeader";
@@ -302,9 +303,8 @@ export default function Landing() {
               User Name
           </label>
 
-          <input
+          <TextBox
               id="user-name-input"
-              type="text"
               className="user-name-input"
               placeholder="Enter your name"
               value={userName}
@@ -373,8 +373,7 @@ export default function Landing() {
                                 {index + 1}.
                             </span>
 
-                            <input
-                                type="text"
+                            <TextBox
                                 className="organization-name-input"
                                 aria-label={`Organization ${index + 1} name`}
                                 placeholder="Organization name"

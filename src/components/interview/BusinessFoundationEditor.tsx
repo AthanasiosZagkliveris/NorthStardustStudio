@@ -1,4 +1,5 @@
 import ListStatic from "./ListStatic.tsx";
+import TextBox from "../TextBox.tsx";
 import { CSSProperties, ReactNode, useRef, useState } from "react";
 
 import CardShell from "./CardShell.tsx";
@@ -1658,8 +1659,7 @@ export default function BusinessFoundationEditor({
                                     <div className="business-engagement-section-head tiles-frame-head business-foundation-frame-head">
                                         <span className="field-group-title business-foundation-subhead business-foundation-frame-title">
                                             {foundation.segments.length > 1 && <span className="business-foundation-frame-number">{(index + 1) + "."}</span>}
-                                            <input
-                                                type="text"
+                                            <TextBox
                                                 className="business-foundation-frame-name"
                                                 aria-label={"Segment " + (index + 1) + " name"}
                                                 placeholder="Segment name"

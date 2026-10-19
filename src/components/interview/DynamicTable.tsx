@@ -1,5 +1,6 @@
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
+import TextBox from "../TextBox.tsx";
 import TextField from "../TextField.tsx";
 import FieldRenderer from "./FieldRenderer";
 import OptionPicker from "./OptionPicker.tsx";
@@ -1249,9 +1250,7 @@ function DynamicTable({
 
                     <>
 
-                        <input
-
-                            type="text"
+                        <TextBox
 
                             list={datalistId}
 

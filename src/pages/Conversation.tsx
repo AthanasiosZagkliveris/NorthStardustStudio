@@ -1,4 +1,5 @@
 import { Fragment, ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import TextBox from "../components/TextBox.tsx";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import AppHeader from "../components/AppHeader";
@@ -3296,8 +3297,7 @@ export default function Conversation() {
                             </label>
 
                             {capabilityChoice === "other" && (
-                                <input
-                                    type="text"
+                                <TextBox
                                     className="export-options-text-input"
                                     placeholder="Capability name"
                                     value={otherCapabilityName}

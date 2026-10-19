@@ -1,5 +1,6 @@
 import { createContext, CSSProperties, ReactNode, useContext, useEffect, useRef, useState } from "react";
 
+import TextBox from "../TextBox.tsx";
 import CardShell from "./CardShell.tsx";
 import CardHead from "./CardHead.tsx";
 import NameCell from "./NameCell.tsx";
@@ -336,8 +337,7 @@ export function BusinessText({
 
     return (
         <BusinessField label={label} info={info} inline={inline}>
-            <input
-                type="text"
+            <TextBox
                 className="interview-input"
                 aria-label={ariaLabel ?? label}
                 placeholder={placeholder}

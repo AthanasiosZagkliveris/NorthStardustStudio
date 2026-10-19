@@ -385,10 +385,8 @@ export default function FinancialSustainabilityEditor({
     ) {
         return (
             <BusinessField label={label} info={info} inline={inline}>
-                <input
-                    type="text"
+                <NumberCell
                     inputMode={limits ? numberInputMode(limits) : undefined}
-                    className="interview-input"
                     aria-label={ariaLabel}
                     placeholder={placeholder}
                     disabled={disabled}

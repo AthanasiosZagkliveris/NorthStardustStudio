@@ -1,4 +1,5 @@
 import { countedCapability } from "../../framework/engine/CardCompleteness.ts";
+import TextBox from "../TextBox.tsx";
 import NumberCell from "../NumberCell.tsx";
 import { calculatedLines } from "../../framework/engine/CalculatedLines.ts";
 import { contingencyFunds, launchNeedOf } from "../../framework/engine/ContingencyFunds.ts";
@@ -407,10 +408,8 @@ export default function FinancialFoundationEditor({
     ) {
         return (
             <BusinessField label={label} info={info}>
-                <input
-                    type="text"
+                <NumberCell
                     inputMode={limits ? numberInputMode(limits) : undefined}
-                    className="interview-input"
                     aria-label={ariaLabel}
                     placeholder={placeholder}
                     disabled={disabled}
@@ -963,8 +962,7 @@ export default function FinancialFoundationEditor({
                             <div className="financial-schedule">
                                 {schedule.milestones.map((milestone, position) => (
                                     <div className="financial-milestone" key={milestone.id}>
-                                        <input
-                                            type="text"
+                                        <TextBox
                                             className="interview-input"
                                             aria-label={what + " milestone " + (position + 1) + " condition"}
                                             placeholder="Milestone / condition"

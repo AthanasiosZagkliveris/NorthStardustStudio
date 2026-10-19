@@ -1,5 +1,6 @@
 import { Fragment, FocusEvent, MouseEvent, useCallback, useEffect, useMemo, useState } from "react";
 
+import TextBox from "../TextBox.tsx";
 import OptionPicker, { ValuePicker } from "./OptionPicker.tsx";
 import TextField from "../TextField.tsx";
 import {
@@ -930,8 +931,7 @@ function SopsTable({
                                 </td>
                                 <td className="process-library-col-id">
                                     <div className="process-library-id-field-inline">
-                                        <input
-                                            type="text"
+                                        <TextBox
                                             className="interview-input process-library-id-field"
                                             placeholder="SOP"
                                             value={sop.id ?? ""}
@@ -960,8 +960,7 @@ function SopsTable({
                                     />
                                 </td>
                                 <td className="process-library-col-owner">
-                                    <input
-                                        type="text"
+                                    <TextBox
                                         className="interview-input"
                                         list={OWNER_SUGGESTIONS_DATALIST_ID}
                                         aria-label="Owner"
@@ -1808,8 +1807,7 @@ export default function ProcessLibraryEditor({
                                     </td>
                                     <td className="process-library-col-id">
                                         <div className="process-library-id-field-inline">
-                                            <input
-                                                type="text"
+                                            <TextBox
                                                 className="interview-input process-library-id-field"
                                                 aria-label="Process ID prefix"
                                             placeholder="PRC"
@@ -1846,8 +1844,7 @@ export default function ProcessLibraryEditor({
                                         />
                                     </td>
                                     <td className="process-library-col-owner">
-                                        <input
-                                            type="text"
+                                        <TextBox
                                             className="interview-input"
                                             list={OWNER_SUGGESTIONS_DATALIST_ID}
                                             aria-label="Owner"

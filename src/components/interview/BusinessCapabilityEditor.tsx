@@ -1,4 +1,5 @@
 import ListStatic from "./ListStatic.tsx";
+import TextBox from "../TextBox.tsx";
 import { toneHue } from "./CardTile.tsx";
 import CardShell from "./CardShell.tsx";
 import AddButton from "../AddButton.tsx";
@@ -2033,8 +2034,7 @@ export default function BusinessCapabilityEditor({
                         {/* NAMED WHERE IT IS READ, the way a card takes its name in its own head: the box sits where
                             the title of a fixed subsection does, so "Lighting" added under Workstation reads as one of
                             Furniture's kind. */}
-                        <input
-                            type="text"
+                        <TextBox
                             className="interview-input business-capability-subsection-name"
                             aria-label={own.ariaLabel}
                             placeholder="Name this subsection"
@@ -2682,8 +2682,7 @@ export default function BusinessCapabilityEditor({
                     const label = what + " milestone " + (at + 1);
                     return [
                         <div className="business-capability-plan-row business-capability-plan-stage" key={line.id + ":stage"}>
-                            <input
-                                type="text"
+                            <TextBox
                                 className="interview-input"
                                 aria-label={label + " title"}
                                 placeholder="Milestone"
@@ -2759,10 +2758,8 @@ export default function BusinessCapabilityEditor({
                     disabled={disabled}
                 >
                     <div className="business-capability-deposit-row">
-                        <input
-                            type="text"
+                        <NumberCell
                             inputMode={definition.kind === "quantity" ? "numeric" : "decimal"}
-                            className="interview-input"
                             aria-label={what + " " + definition.label.toLowerCase()}
                             disabled={disabled}
                             value={value}

@@ -1,4 +1,5 @@
 import FieldLabel from "../FieldLabel.tsx";
+import TextBox from "../TextBox.tsx";
 import AddButton from "../AddButton.tsx";
 import { KeyboardEvent, ReactNode, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import RemoveButton from "../RemoveButton.tsx";
@@ -578,8 +579,7 @@ function ChannelResourceCard({
 
             <div className="business-channel-resource-head">
                 {/* The Resource card's own name: renamed here, it is renamed there. */}
-                <input
-                    type="text"
+                <TextBox
                     className="interview-input business-channel-resource-name"
                     aria-label={label + " name"}
                     placeholder="Resource name"
@@ -665,9 +665,8 @@ function ChannelResourceCard({
                 : adding
                 ? (
                     <div className="business-channel-cost-add">
-                        <input
+                        <TextBox
                             ref={box}
-                            type="text"
                             className="interview-input"
                             aria-label={"Action for " + label + ": type # and its words"}
                             placeholder="# Action"

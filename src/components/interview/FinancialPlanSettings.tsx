@@ -7,6 +7,7 @@ import {
     vatBases,
     type FinancialFoundationValue
 } from "../../framework/engine/FinancialModel.ts";
+import NumberCell from "../NumberCell.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import type { LegalEntityValue, StrategyMonthValue } from "../../framework/engine/AnswerUtils.ts";
 import { jurisdictionProfile } from "../../framework/engine/LegalEntityJurisdictions.ts";
@@ -123,10 +124,9 @@ export default function FinancialPlanSettings({
                     />
                     {value.incomeTax === "rate" && (
                         <>
-                            <input
-                                type="text"
+                            <NumberCell
                                 inputMode={numberInputMode(NUMBER_LIMITS.percent)}
-                                className="interview-input settings-number settings-percent"
+                                className="settings-number settings-percent"
                                 aria-label="Tax rate (%)"
                                 placeholder="25"
                                 value={value.incomeTaxRate}

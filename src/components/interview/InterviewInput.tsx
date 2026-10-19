@@ -1,4 +1,5 @@
 import OptionPicker from "./OptionPicker.tsx";
+import TextBox from "../TextBox.tsx";
 import TextField from "../TextField.tsx";
 
 interface InterviewInputProps {
@@ -54,10 +55,9 @@ export default function InterviewInput({
 
     if (mode === "input") {
         return (
-            <input
+            <TextBox
                 className={className}
                 aria-label={ariaLabel}
-                type="text"
                 value={value}
                 placeholder={placeholder}
                 disabled={disabled}

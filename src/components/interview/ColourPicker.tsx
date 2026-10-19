@@ -1,5 +1,6 @@
 import { CSSProperties, PointerEvent as ReactPointerEvent, useEffect, useRef, useState } from "react";
 
+import TextBox from "../TextBox.tsx";
 import NumberCell from "../NumberCell.tsx";
 import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
 import { consumeKey } from "./consumeKey.ts";
@@ -223,8 +224,7 @@ export default function ColourPicker({
                             onChange={(next) => setCode(next as Code)}
                         />
                         {code === "HEX" && (
-                            <input
-                                type="text"
+                            <TextBox
                                 className="interview-input colour-popup-hex"
                                 aria-label={ariaLabel + " hex"}
                                 disabled={disabled}

@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useLayoutEffect, useRef, useState } from "react";
 
+import TextBox from "../TextBox.tsx";
 import CardShell from "./CardShell.tsx";
 import TickBox from "../TickBox.tsx";
 import { brandColourMissing, brandTypefaceMissing } from "../../framework/engine/SystemCardCompleteness.ts";
@@ -665,8 +666,7 @@ export default function BrandStyleEditor({
                                     {/* The colour is a 32px box INSIDE the cell, at its right end, 6px from its top, bottom and right, as the date cell's calendar button is. */}
                                     <div className="date-cell-field brand-colour-cell">
 
-                                        <input
-                                            type="text"
+                                        <TextBox
                                             className="interview-input brand-hex-input"
                                             aria-label={`${slot.label} HEX`}
                                             placeholder="#000000"

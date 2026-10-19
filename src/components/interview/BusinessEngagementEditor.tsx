@@ -1,5 +1,6 @@
 import { CSSProperties, FocusEvent, Fragment, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
+import NumberCell from "../NumberCell.tsx";
 import CardShell from "./CardShell.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import {
@@ -3640,10 +3641,9 @@ export default function BusinessEngagementEditor({
         ) {
             return (
                 <BusinessField key={label} label={label} info={[help]}>
-                    <input
-                        type="text"
+                    <NumberCell
                         inputMode={numberInputMode(limits)}
-                        className="interview-input business-demand-number"
+                        className="business-demand-number"
                         data-size={numberStep(limits)}
                         aria-label={ariaLabel}
                         placeholder={placeholder}

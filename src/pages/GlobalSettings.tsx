@@ -1,4 +1,6 @@
 import { Fragment, useEffect, useMemo, useState } from "react";
+import NumberCell from "../components/NumberCell.tsx";
+import TextBox from "../components/TextBox.tsx";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import AppFooter from "../components/AppFooter";
@@ -179,10 +181,9 @@ export default function GlobalSettings() {
                     {note}
                 </span>
                 <span className="settings-control">
-                    <input
-                        type="text"
+                    <NumberCell
                         inputMode={numberInputMode(limits)}
-                        className={"interview-input settings-number" + (unit === "%" || unit === "months" ? " settings-percent" : "")}
+                        className={"settings-number" + (unit === "%" || unit === "months" ? " settings-percent" : "")}
                         aria-label={label}
                         value={value}
                         onChange={(event) => onNext(limitedNumberText(event.target.value, value, limits))}
@@ -196,10 +197,9 @@ export default function GlobalSettings() {
     const orgCurrency = countryCurrency(legalEntity.organisation.country);
 
     const feeCell = (rowId: string, field: "commission" | "fixedFee" | "chargeback", label: string, limits: NumberLimit, value: string) => (
-        <input
-            type="text"
+        <NumberCell
             inputMode={numberInputMode(limits)}
-            className={"interview-input settings-number" + (limits === NUMBER_LIMITS.percent ? " settings-percent" : "")}
+            className={"settings-number" + (limits === NUMBER_LIMITS.percent ? " settings-percent" : "")}
             aria-label={label}
             value={value}
             onChange={(event) => change({
@@ -310,10 +310,9 @@ export default function GlobalSettings() {
                                                         <td />
                                                         <td />
                                                         <td className="settings-number-column">
-                                                            <input
-                                                                type="text"
+                                                            <NumberCell
                                                                 inputMode="decimal"
-                                                                className="interview-input settings-number settings-percent"
+                                                                className="settings-number settings-percent"
                                                                 aria-label={group.label}
                                                                 value={groupYears}
                                                                 onChange={(event) => change({ usefulLife: { ...settings.usefulLife, [group.id]: limitedNumberText(event.target.value, groupYears, { max: 100, decimals: 1 }) } })}
@@ -350,10 +349,9 @@ export default function GlobalSettings() {
                                                                 );
                                                             })()}
                                                             <td className="settings-number-column">
-                                                                <input
-                                                                    type="text"
+                                                                <NumberCell
                                                                     inputMode="numeric"
-                                                                    className="interview-input settings-number settings-percent"
+                                                                    className="settings-number settings-percent"
                                                                     aria-label={(slot.name.trim() || "Resource") + " useful life in years"}
                                                                     placeholder={groupYears !== "" ? groupYears : "Years"}
                                                                     value={slot.usefulLife}
@@ -389,10 +387,9 @@ export default function GlobalSettings() {
                                                 <td />
                                                 <td />
                                                 <td className="settings-number-column">
-                                                    <input
-                                                        type="text"
+                                                    <NumberCell
                                                         inputMode="decimal"
-                                                        className="interview-input settings-number settings-percent"
+                                                        className="settings-number settings-percent"
                                                         aria-label={group.label + " amortisation in years"}
                                                         value={years}
                                                         onChange={(event) => change({ amortisation: { ...settings.amortisation, [group.id]: limitedNumberText(event.target.value, years, { max: 100, decimals: 1 }) } })}
@@ -423,10 +420,9 @@ export default function GlobalSettings() {
                                                         <td className="settings-number-column">{amount.replace(/^[^0-9-]+/, "")}</td>
                                                         <td>{rest.join(" ")}</td>
                                                         <td className="settings-number-column">
-                                                            <input
-                                                                type="text"
+                                                            <NumberCell
                                                                 inputMode="decimal"
-                                                                className="interview-input settings-number settings-percent"
+                                                                className="settings-number settings-percent"
                                                                 aria-label={(slot.name.trim() || "Resource") + " amortisation in years"}
                                                                 placeholder={years !== "" ? years : "Years"}
                                                                 value={slot.amortisationYears}
@@ -485,8 +481,7 @@ export default function GlobalSettings() {
                                 {settings.channelFees.map((row, index) => (
                                     <tr key={row.id}>
                                         <td>
-                                            <input
-                                                type="text"
+                                            <TextBox
                                                 className="interview-input"
                                                 aria-label={"Channel " + (index + 1)}
                                                 value={row.channel}
@@ -497,8 +492,7 @@ export default function GlobalSettings() {
                                         <td className="settings-number-column">{feeCell(row.id, "fixedFee", "Channel " + (index + 1) + " fixed fee", NUMBER_LIMITS.money, row.fixedFee)}</td>
                                         <td className="settings-number-column">{feeCell(row.id, "chargeback", "Channel " + (index + 1) + " risk allowance", NUMBER_LIMITS.percent, row.chargeback)}</td>
                                         <td>
-                                            <input
-                                                type="text"
+                                            <TextBox
                                                 className="interview-input"
                                                 aria-label={"Channel " + (index + 1) + " note"}
                                                 value={row.note}

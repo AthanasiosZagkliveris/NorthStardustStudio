@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import TextBox from "./TextBox.tsx";
 import OptionPicker from "./interview/OptionPicker.tsx";
 import TickBox from "./TickBox.tsx";
 import DateCellInput from "./interview/DateCellInput";
@@ -166,8 +167,7 @@ export default function CalendarFunnel({
 
             {adding && (
                 <div className="org-calendar-funnel-form">
-                    <input
-                        type="text"
+                    <TextBox
                         className="interview-input"
                         aria-label="Period name"
                         placeholder="Name (optional)"
