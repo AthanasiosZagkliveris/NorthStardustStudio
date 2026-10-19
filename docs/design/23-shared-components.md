@@ -15,6 +15,10 @@ As 2026-10-19, and the free text cells, the names, the card heads and the toolti
 
 | `Tooltip` | `src/components/Tooltip.tsx` | The dark tooltip label: `TooltipBox` is the one box every tooltip is drawn in (on the page body, hidden until placed; `className` only adds a place's inside look). `useAboveTip(text, { box, alignRight })` is the hook of an icon or symbol: above the hovered text, 6px over it, its middle under the pointer (or its right edge on the box's right edge), under it where there is no room above | the card tiles' and the channel resources' tips, the action symbols, the Roadmap's bars (its own placement), the noted fields' notes (their own placement and content): 5 families, 3 hand-built boxes removed |
 
+| `StrategyHead` | `interview/StrategicPeriodEditor.tsx` | The head of a Strategy box (Theme, Goal, Objective, Metric): the number with the name (`NumberedName`), the kind with its "i" (`HeadKind`), the box's actions (`BoxActions`) | 4 heads |
+
+Not joined to `CardHead`, on purpose: the Strategy boxes' heads (they have no fold arrow and carry a kind label, in their own CSS), the sub-channel's head (no number; its name is a drop-down or a text box), and the Brand page's column headings (`brand-style-head`: a title with bullets, not a card's head). Forcing them into the folding card's head would change their markup and CSS for no shared behaviour.
+
 Still their own: the rail labels (a CSS label beside a bullet), the native `title` tooltips; the Legal Entity heads keep their own number markup (`legal`: `legal-entity-card-number`, its own CSS, until the two numbers are one); the heads that are not folding cards (the brand style head, the Strategic Period's boxes, the sub-channel head); the suggestions box (`SuggestedInput`) and the numbered list (`NumberedListInput`), which join with `ListField`.
 
 ## State on 2026-10-19
@@ -37,7 +41,7 @@ Every place that needs one of these uses the component, never its own markup (ru
 
 Left as they are, on purpose: the image-holder label keeps its own line (a layout rule measures it).
 
-Not yet shared (the owner decides the order): the other heads, cards and tiles as one component each, the one-line text box, the raw `<select>`s.
+Not yet shared (the owner decides the order): cards and tiles as one component each, the one-line text box, the raw `<select>`s.
 
 ## State on 2026-10-17 (the survey)
 

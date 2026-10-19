@@ -122,6 +122,17 @@ function HeadKind({ kind, help }: { kind: string; help: string }) {
     );
 }
 
+/** THE HEAD of a Strategy box (Theme, Goal, Objective, Metric): the number with the name, the kind with its "i", the box's actions. */
+function StrategyHead({ className, number, kind, help, name, actions }: { className: string; number: number; kind: string; help: string; name: ReactNode; actions: ReactNode }) {
+    return (
+        <div className={className}>
+            <NumberedName number={number}>{name}</NumberedName>
+            <HeadKind kind={kind} help={help} />
+            {actions}
+        </div>
+    );
+}
+
 /** The Objective's date-sort funnel button: hidden for now. */
 const SHOW_OBJECTIVE_SORT = false;
 const THEMES_HELP = "A broad area the organisation intends to develop during the Strategic Period (for example Financial Stability, or a Recurring Client Base). A Theme holds Goals; a Goal holds Objectives, and an Objective its Initiatives and Metrics.";
@@ -253,8 +264,12 @@ export default function StrategicPeriodEditor({
                     {onEditTheme
                         ? (
                             <div className="strategy-theme-fields">
-                                <div className="strategy-box-head strategy-theme-head">
-                                    <NumberedName number={themeIndex + 1}>
+                                <StrategyHead
+                                    className="strategy-box-head strategy-theme-head"
+                                    number={themeIndex + 1}
+                                    kind="Theme"
+                                    help={THEMES_HELP}
+                                    name={(
                                         <input
                                             type="text"
                                             className="interview-input strategy-theme-name"
@@ -264,10 +279,9 @@ export default function StrategicPeriodEditor({
                                             value={theme.name}
                                             onChange={(event) => onEditTheme(theme.id, { name: event.target.value })}
                                         />
-                                    </NumberedName>
-                                    <HeadKind kind="Theme" help={THEMES_HELP} />
-                                    <BoxActions label={"Strategic Theme " + (themeIndex + 1)} disabled={disabled} onAdd={onAddTheme} addLabel="Theme" onRemove={onRemoveTheme ? () => onRemoveTheme(theme.id) : undefined} />
-                                </div>
+                                    )}
+                                    actions={<BoxActions label={"Strategic Theme " + (themeIndex + 1)} disabled={disabled} onAdd={onAddTheme} addLabel="Theme" onRemove={onRemoveTheme ? () => onRemoveTheme(theme.id) : undefined} />}
+                                />
                                 <OptionalNote
                                     label="Description"
                                     ariaLabel={"Strategic Theme " + (themeIndex + 1) + " description"}
@@ -452,9 +466,12 @@ function GoalList({
                         className={`strategy-goal-box ${props.className}`}
                     >
 
-                        <div className="strategy-box-head strategy-card-head-flat">
-
-                            <NumberedName number={goalIndex + 1}>
+                        <StrategyHead
+                            className="strategy-box-head strategy-card-head-flat"
+                            number={goalIndex + 1}
+                            kind="Goal"
+                            help={GOALS_HELP}
+                            name={(
                                 <CardNameInput
                                     ariaLabel={`Goal ${goalIndex + 1} name`}
                                     placeholder="Goal name"
@@ -462,11 +479,9 @@ function GoalList({
                                     value={goal.name}
                                     onChange={(name) => updateGoal(goalIndex, { name })}
                                 />
-                            </NumberedName>
-
-                            <HeadKind kind="Goal" help={GOALS_HELP} />
-
-                            <BoxActions
+                            )}
+                            actions={(
+                                <BoxActions
                                 label={`Goal ${goalIndex + 1}`}
                                 disabled={disabled}
                                 addLabel="Goal"
@@ -482,8 +497,8 @@ function GoalList({
                                         : [createStrategyGoal()]
                                 )}
                             />
-
-                        </div>
+                            )}
+                        />
 
                         <CardNav kind="Goal" ids={ids} names={goals.map(entry => entry.name)} index={view.index} onGo={view.select} onTiles={() => view.setTiles(true)} />
 
@@ -668,9 +683,12 @@ function ObjectiveList({
                         className={`strategy-objective-box ${props.className}`}
                     >
 
-                        <div className="strategy-box-head strategy-card-head-flat">
-
-                            <NumberedName number={objectiveIndex + 1}>
+                        <StrategyHead
+                            className="strategy-box-head strategy-card-head-flat"
+                            number={objectiveIndex + 1}
+                            kind="Objective"
+                            help={OBJECTIVES_HELP}
+                            name={(
                                 <CardNameInput
                                     ariaLabel={`Objective ${objectiveIndex + 1} name`}
                                     placeholder="Objective name"
@@ -678,11 +696,9 @@ function ObjectiveList({
                                     value={objective.name}
                                     onChange={(name) => updateObjective(objectiveIndex, { name })}
                                 />
-                            </NumberedName>
-
-                            <HeadKind kind="Objective" help={OBJECTIVES_HELP} />
-
-                            <BoxActions
+                            )}
+                            actions={(
+                                <BoxActions
                                 label={`Objective ${objectiveIndex + 1}`}
                                 disabled={disabled}
                                 addLabel="Objective"
@@ -705,8 +721,8 @@ function ObjectiveList({
                                         : [createStrategyObjective()]
                                 )}
                             />
-
-                        </div>
+                            )}
+                        />
 
                         <CardNav kind="Objective" ids={ids} names={objectives.map(entry => entry.name)} index={view.index} onGo={view.select} onTiles={() => view.setTiles(true)} />
 
@@ -989,9 +1005,12 @@ function MetricList({
                         className={`strategy-metric-box ${props.className}`}
                     >
 
-                        <div className="strategy-box-head">
-
-                            <NumberedName number={metricIndex + 1}>
+                        <StrategyHead
+                            className="strategy-box-head"
+                            number={metricIndex + 1}
+                            kind="Metric"
+                            help={METRICS_HELP}
+                            name={(
                                 <CardNameInput
                                     ariaLabel={`Objective ${objectiveNumber} metric ${metricIndex + 1} name`}
                                     placeholder="Metric name"
@@ -999,11 +1018,9 @@ function MetricList({
                                     value={metric.name}
                                     onChange={(name) => updateMetric(metricIndex, { name })}
                                 />
-                            </NumberedName>
-
-                            <HeadKind kind="Metric" help={METRICS_HELP} />
-
-                            <BoxActions
+                            )}
+                            actions={(
+                                <BoxActions
                                 label={`Metric ${metricIndex + 1}`}
                                 disabled={disabled}
                                 addLabel="Metric"
@@ -1015,8 +1032,8 @@ function MetricList({
                                 }}
                                 onRemove={() => removeAt(metricIndex)}
                             />
-
-                        </div>
+                            )}
+                        />
 
                         <CardNav kind="Metric" ids={ids} names={metrics.map(entry => entry.name)} index={view.index} onGo={view.select} onTiles={() => view.setTiles(true)} />
 
