@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
+import { DatePopupHead, useDatePopup } from "./DatePopup.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import CalendarIcon from "./CalendarIcon.tsx";
 import {
@@ -8,9 +9,7 @@ import {
     isMonthSet
 } from "../../framework/engine/AnswerUtils.ts";
 
-import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
 
-import { consumeKey } from "./consumeKey.ts";
 
 /** The months as the calendar and the cell write them: short, and June, July and Sept in four or more letters. */
 export const MONTH_LABELS = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
@@ -70,69 +69,23 @@ export default function MonthYearPicker({
 
 }: MonthYearPickerProps) {
 
-    const [open, setOpen] = useState(false);
-    const [free, setFree] = useState(false);
 
     // The year the calendar shows, not yet a choice.
     const [shownYear, setShownYear] = useState<number>(0);
 
-    const containerRef = useRef<HTMLDivElement | null>(null);
     const triggerRef = useRef<HTMLButtonElement | null>(null);
 
-    // See useFloatingPanel: the calendar opens upwards rather than off
-    // the bottom of the window when that is where the room is.
-    const { panelRef, panelStyle } = useFloatingPanel(open, triggerRef, undefined, free);
-
-    // Clicking anywhere else, or pressing Escape, closes it.
-    useEffect(() => {
-
-        if (!open) {
-            return;
-        }
-
-        function onPointerDown(event: MouseEvent) {
-            if (!containerRef.current?.contains(event.target as Node)) {
-                setOpen(false);
-            }
-        }
-
-        function onKeyDown(event: KeyboardEvent) {
-            if (event.key === "Escape") {
-                // Consumed, or it closes the picker and leaves the
-                // page in one press (see consumeKey).
-                consumeKey(event);
-                setOpen(false);
-            }
-        }
-
-        document.addEventListener("mousedown", onPointerDown, true);
-        document.addEventListener("keydown", onKeyDown);
-
-        return () => {
-            document.removeEventListener("mousedown", onPointerDown, true);
-            document.removeEventListener("keydown", onKeyDown);
-        };
-
-    }, [open]);
+    // The popup's opening, closing and placement: see DatePopup.
+    const { open, close, toggle: togglePopup, containerRef, panelRef, panelStyle } = useDatePopup(triggerRef);
 
     function toggle() {
-
-        if (open) {
-            setOpen(false);
-            return;
-        }
-
-        // Opens on the year already set, so reopening to change only
-        // the month does not start from somewhere else.
-        setShownYear(Number(value.year) || firstYear);
-        setFree(!!triggerRef.current?.closest(".business-capability, .section-tile-overlay, .section-tile-dialog, .strategy-sort-menu"));
-        setOpen(true);
-
+        // Opens on the year already set, so reopening to change only the month does not start from somewhere else.
+        togglePopup(() => setShownYear(Number(value.year) || firstYear));
     }
 
     function choose(month: number, year: number) {
         onChange({ month: String(month).padStart(2, "0"), year: String(year) });
-        setOpen(false);
+        close();
     }
 
     const display = isMonthSet(value)
@@ -176,17 +129,13 @@ export default function MonthYearPicker({
                     aria-label={label}
                 >
 
-                    <div className="date-cell-popup-head">
-
-                        <button type="button" className="date-cell-popup-step" aria-label="Previous 10 years" onClick={() => setShownYear(year => year - 10)}>«</button>
-                        <button type="button" className="date-cell-popup-step" aria-label="Previous year" onClick={() => setShownYear(year => year - 1)}>‹</button>
-
-                        <span className="date-cell-popup-title" aria-live="polite">{shownYear}</span>
-
-                        <button type="button" className="date-cell-popup-step" aria-label="Next year" onClick={() => setShownYear(year => year + 1)}>›</button>
-                        <button type="button" className="date-cell-popup-step" aria-label="Next 10 years" onClick={() => setShownYear(year => year + 10)}>»</button>
-
-                    </div>
+                    <DatePopupHead
+                        title={shownYear}
+                        backLong={{ label: "Previous 10 years", onClick: () => setShownYear(year => year - 10) }}
+                        back={{ label: "Previous year", onClick: () => setShownYear(year => year - 1) }}
+                        forward={{ label: "Next year", onClick: () => setShownYear(year => year + 1) }}
+                        forwardLong={{ label: "Next 10 years", onClick: () => setShownYear(year => year + 10) }}
+                    />
 
                     <div className="date-cell-popup-grid date-cell-popup-months" role="grid">
 

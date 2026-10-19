@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
-import { useFloatingPanel } from "../../hooks/useFloatingPanel.ts";
+import { DatePopupHead, useDatePopup } from "./DatePopup.tsx";
 import { DateFormat, PreferencesService } from "../../services/PreferencesService.ts";
 import CalendarIcon from "./CalendarIcon.tsx";
-import { consumeKey } from "./consumeKey.ts";
 
 interface DateCellInputProps {
 
@@ -136,16 +135,13 @@ export default function DateCellInput({
 
     const [format, setFormat] = useState<DateFormat>(PreferencesService.getDateFormat());
     const [text, setText] = useState<string>(() => isoToDisplay(value, format));
-    const [open, setOpen] = useState(false);
-    const [free, setFree] = useState(false);
 
     // The month the popup shows (the first of it), not yet a choice.
     const [shown, setShown] = useState<{ year: number; month: number }>(() => monthOf(value));
 
-    const containerRef = useRef<HTMLDivElement | null>(null);
     const cellRef = useRef<HTMLDivElement | null>(null);
 
-    const { panelRef, panelStyle } = useFloatingPanel(open, cellRef, undefined, free);
+    const { open, close, toggle: togglePopup, containerRef, panelRef, panelStyle } = useDatePopup(cellRef);
 
     useEffect(() => {
 
@@ -184,34 +180,6 @@ export default function DateCellInput({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    useEffect(() => {
-
-        if (!open) {
-            return;
-        }
-
-        function onPointerDown(event: MouseEvent) {
-            if (!containerRef.current?.contains(event.target as Node)) {
-                setOpen(false);
-            }
-        }
-
-        function onKeyDown(event: KeyboardEvent) {
-            if (event.key === "Escape") {
-                consumeKey(event);
-                setOpen(false);
-            }
-        }
-
-        document.addEventListener("mousedown", onPointerDown, true);
-        document.addEventListener("keydown", onKeyDown);
-
-        return () => {
-            document.removeEventListener("mousedown", onPointerDown, true);
-            document.removeEventListener("keydown", onKeyDown);
-        };
-
-    }, [open]);
 
     function commit() {
 
@@ -238,20 +206,13 @@ export default function DateCellInput({
             return;
         }
 
-        if (open) {
-            setOpen(false);
-            return;
-        }
-
-        setShown(monthOf(value));
-        setFree(!!cellRef.current?.closest(".business-capability, .section-tile-overlay, .section-tile-dialog, .strategy-sort-menu"));
-        setOpen(true);
+        togglePopup(() => setShown(monthOf(value)));
 
     }
 
     function choose(iso: string) {
         onChange(iso);
-        setOpen(false);
+        close();
     }
 
     function step(months: number) {
@@ -333,17 +294,13 @@ export default function DateCellInput({
 
                 <div ref={panelRef} className="date-cell-popup" style={panelStyle} role="dialog" aria-label="Calendar">
 
-                    <div className="date-cell-popup-head">
-
-                        <button type="button" className="date-cell-popup-step" aria-label="Previous year" onClick={() => step(-12)}>«</button>
-                        <button type="button" className="date-cell-popup-step" aria-label="Previous month" onClick={() => step(-1)}>‹</button>
-
-                        <span className="date-cell-popup-title" aria-live="polite">{MONTH_NAMES[shown.month - 1]} {shown.year}</span>
-
-                        <button type="button" className="date-cell-popup-step" aria-label="Next month" onClick={() => step(1)}>›</button>
-                        <button type="button" className="date-cell-popup-step" aria-label="Next year" onClick={() => step(12)}>»</button>
-
-                    </div>
+                    <DatePopupHead
+                        title={<>{MONTH_NAMES[shown.month - 1]} {shown.year}</>}
+                        backLong={{ label: "Previous year", onClick: () => step(-12) }}
+                        back={{ label: "Previous month", onClick: () => step(-1) }}
+                        forward={{ label: "Next month", onClick: () => step(1) }}
+                        forwardLong={{ label: "Next year", onClick: () => step(12) }}
+                    />
 
                     <div className="date-cell-popup-grid" role="grid">
 
