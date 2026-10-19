@@ -1,5 +1,31 @@
 # Similar components, fields, cards and tiles: which share one component
 
+This document describes the current situation, one dated section per state, the newest on top. What changed, and when, is written in the log (`04-log.md`), not here.
+
+## State on 2026-10-19
+
+Every place that needs one of these uses the component, never its own markup (rule 22.24 of `docs/ai/layout-rules.md`).
+
+| Component | File | Draws | Places |
+|---|---|---|---|
+| `BackButton` | `src/components/BackButton.tsx`, `back-button.css` | Every Back (card tab, dialog foot, page footer, Capability description): the solid arrow, the word in capitals, the tab's mid tone; bold and the "+" box colour under the pointer, the arrow growing 20% | all |
+| `RemoveButton` | `RemoveButton.tsx` | The 32px x of cards, rows and notes | 8 |
+| `FunnelButton` | `FunnelButton.tsx` | The one funnel (Responsibilities, Inventory and sort); filled while a filter is active | 2 |
+| `AddButton` | `AddButton.tsx` | The wide "+ Add ..." button, the "+" box (`small` too) and the dashed Add Card tile (`shape` wide, box, tile) | 18 |
+| `NumberCell` | `NumberCell.tsx` | Every numeric cell (`kind` int or decimal); width and alignment still come from the place's own class | 28 |
+| `FieldLabel` | `FieldLabel.tsx` | Every `field-label` (`as` span or label) | 38, plus the channel resources' label |
+| `TickBox` | `TickBox.tsx` | Every tick (class `brand-tick-box`), the bare ticks of the filters included | 15 |
+| `LabelArrow` | `interview/LabelArrow.tsx` | The arrow beside a label, the Inventory menu's titles included | 4 menus + labels |
+| `FoldArrow` | card and section code | The 36px fold arrow of cards and sections | by decision a second control, not merged with the label arrow |
+| `TextLink` | `TextLink.tsx`, `text-links.css` | The text link; its long-text slide is the scroll of the link's box (`textLinks.ts`), as a tile's long title is, and ignores the reduce-motion setting because it moves only under the pointer | about 25 |
+| `DateCellInput`, `MonthYearPicker`, `OptionPicker`, `OptionalNote`, `InfoNote` | their own files | Date, month, dropdown, optional note (one class: `business-foundation-note`), info "i" | as in the survey below |
+
+Left as they are, on purpose: the image-holder label keeps its own line (a layout rule measures it).
+
+Not yet shared (the owner decides the order): free text and note cells (`TextField` categories), the name cell (`NameCell`), tooltips, the card head (`CardHead`), cards and tiles as one component each, the one-line text box, the raw `<select>`s.
+
+## State on 2026-10-17 (the survey)
+
 A survey of 2026-10-17 (grep counts over `src`, non-test `.tsx`; a class may be shared in a way a count cannot see, so confirm one family before changing it). The owner's aim: all similar things share ONE component. Per `docs/design/17-library-vs-app.md` the looks already agree (24 of 25 library components match the app; only the Back of a tile view differs: 66 x 33 against 76 x 25); what is not shared is the code that draws them.
 
 "Shared" says: **Yes** one component draws every one; **Partly** one component plus hand-built copies; **No** several.
@@ -28,7 +54,7 @@ A survey of 2026-10-17 (grep counts over `src`, non-test `.tsx`; a class may be 
 | Dialog headers | component | `DialogHeading` (25 uses, in `SectionTiles.tsx`) plus three dialogs with their own | Partly | Info note, size | `DialogHeader` in its own file |
 | Rails and tabs | component | `BulletRail` family, `carousel-rail-*` | Partly | Dot rail only | `BulletRail` |
 
-## The ten biggest groups to join
+### The ten biggest groups to join
 
 1. Free texts: 15 text areas in 12 files.
 2. One-line text boxes: 106 inputs in 31 files.
@@ -40,24 +66,3 @@ A survey of 2026-10-17 (grep counts over `src`, non-test `.tsx`; a class may be 
 8. Card heads: 8 classes.
 9. Back buttons: 5 classes, 3 sizes.
 10. Raw `<select>` (9) and the day/month popup copy; then the text links (7 classes).
-
-This session starts with the text links (`TextLink`) and the name cell; the rest wait for the owner's order.
-
-## Added 2026-10-18
-
-- **BackButton** (`src/components/BackButton.tsx`, `back-button.css`): every Back (the card tab's, a dialog's foot, the page footer, the Capability description). One look: the solid arrow, the word in capitals, the tab's mid tone; bold and the "+" box colour under the pointer, the arrow growing 20%.
-- **TextLink**'s long-text slide is drawn by the scroll of the link's box (`textLinks.ts`), as a tile's long title is, and ignores the reduce-motion setting (it moves only under the pointer).
-
-## Added 2026-10-19 (the safe unifications)
-
-| Component | File | Replaces | Places |
-|---|---|---|---|
-| NumberCell | `src/components/NumberCell.tsx` | every `<input inputMode="numeric|decimal">` with the text cell's class | 28 |
-| FieldLabel | `src/components/FieldLabel.tsx` | every `<span|label className="field-label ...">` | 38 (+ the channel resources' label) |
-| TickBox | `src/components/TickBox.tsx` | every `<input type="checkbox" className="brand-tick-box">` (and the bare ticks of the filters) | 15 |
-| AddButton | `src/components/AddButton.tsx` | the "+ Add ..." button, the "+" box and the dashed Add Card tile | 18 |
-| FunnelButton | `src/components/FunnelButton.tsx` | the Responsibilities funnel and the Inventory / sort funnel | 2 |
-| RemoveButton | `src/components/RemoveButton.tsx` | the 32px x of cards, rows and notes | 8 |
-| LabelArrow | `src/components/interview/LabelArrow.tsx` | the Inventory menu's own title arrow | 4 |
-
-Left as they are, on purpose: the image-holder label keeps its own line (a layout rule measures it); the fold arrow (a card's, 36px) and the label arrow (beside a label) are two controls by decision.
