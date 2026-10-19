@@ -47,3 +47,17 @@ This session starts with the text links (`TextLink`) and the name cell; the rest
 
 - **BackButton** (`src/components/BackButton.tsx`, `back-button.css`): every Back (the card tab's, a dialog's foot, the page footer, the Capability description). One look: the solid arrow, the word in capitals, the tab's mid tone; bold and the "+" box colour under the pointer, the arrow growing 20%.
 - **TextLink**'s long-text slide is drawn by the scroll of the link's box (`textLinks.ts`), as a tile's long title is, and ignores the reduce-motion setting (it moves only under the pointer).
+
+## Added 2026-10-19 (the safe unifications)
+
+| Component | File | Replaces | Places |
+|---|---|---|---|
+| NumberCell | `src/components/NumberCell.tsx` | every `<input inputMode="numeric|decimal">` with the text cell's class | 28 |
+| FieldLabel | `src/components/FieldLabel.tsx` | every `<span|label className="field-label ...">` | 38 (+ the channel resources' label) |
+| TickBox | `src/components/TickBox.tsx` | every `<input type="checkbox" className="brand-tick-box">` (and the bare ticks of the filters) | 15 |
+| AddButton | `src/components/AddButton.tsx` | the "+ Add ..." button, the "+" box and the dashed Add Card tile | 18 |
+| FunnelButton | `src/components/FunnelButton.tsx` | the Responsibilities funnel and the Inventory / sort funnel | 2 |
+| RemoveButton | `src/components/RemoveButton.tsx` | the 32px x of cards, rows and notes | 8 |
+| LabelArrow | `src/components/interview/LabelArrow.tsx` | the Inventory menu's own title arrow | 4 |
+
+Left as they are, on purpose: the image-holder label keeps its own line (a layout rule measures it); the fold arrow (a card's, 36px) and the label arrow (beside a label) are two controls by decision.
