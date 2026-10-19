@@ -1,4 +1,5 @@
-import { CSSProperties, ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, ReactNode, useEffect, useMemo, useState } from "react";
+import TextField from "../TextField.tsx";
 import type { OpenPage } from "./jumpTo.ts";
 
 import InterviewInput from "./InterviewInput.tsx";
@@ -45,7 +46,6 @@ import {
     strategyThemeName
 } from "../../framework/engine/AnswerUtils.ts";
 import { useDragToScroll } from "../../hooks/useDragToScroll.ts";
-import { useListAutoFormat } from "../../hooks/useListAutoFormat.ts";
 import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 import SectionTiles, { DialogHeading, type SectionTile } from "./SectionTiles.tsx";
 import { ImprintFields, NumberedTextList } from "./ColumnFields.tsx";
@@ -93,109 +93,6 @@ function createProfileCardId(): string {
     profileCardCounter += 1;
 
     return `profile-card-${Date.now()}-${profileCardCounter}`;
-
-}
-
-/**
- * A Profile Card's textarea that grows tall enough to
- * show its entire value with no internal scrolling --
- * matches DynamicTable's AutoGrowTextarea, so a long
- * answer stretches the card's *natural* content height
- * (which ProfileCardInner then measures) instead of
- * scrolling inside a fixed-size box.
- */
-function AutoGrowTextarea({
-
-    className,
-
-    value,
-
-    placeholder,
-
-    disabled,
-
-    onChange
-
-}: {
-
-    className: string;
-
-    value: string;
-
-    placeholder?: string;
-
-    disabled?: boolean;
-
-    onChange: (value: string) => void;
-
-}) {
-
-    const ref = useRef<HTMLTextAreaElement | null>(null);
-
-    // "* "/"- " -> bullet, "1. " -> numbered list, Enter continues
-    // or exits the current list line -- see useListAutoFormat.ts.
-    const listAutoFormat = useListAutoFormat(value, onChange);
-
-    // A stable merged-ref callback (not a fresh arrow function every
-    // render) -- both `ref` and `listAutoFormat.textareaRef` are
-    // themselves stable (useRef's own object identity never
-    // changes), so this only needs to be created once. Without this,
-    // React would call the old ref callback with `null` and the new
-    // one with the element on every single keystroke (a fresh
-    // function reference each render reads as "a different ref" to
-    // React), which is harmless here but pure churn.
-    const setRefs = useCallback((el: HTMLTextAreaElement | null) => {
-        ref.current = el;
-        listAutoFormat.textareaRef.current = el;
-    }, [listAutoFormat.textareaRef]);
-
-    function resize(el: HTMLTextAreaElement | null) {
-
-        if (!el) {
-            return;
-        }
-
-        el.style.height = "auto";
-
-        el.style.height = `${el.scrollHeight}px`;
-
-    }
-
-    useLayoutEffect(() => {
-
-        resize(ref.current);
-
-    }, [value]);
-
-    return (
-
-        <textarea
-
-            ref={setRefs}
-
-            className={className}
-
-            rows={1}
-
-            placeholder={placeholder}
-
-            disabled={disabled}
-
-            value={value}
-
-            onChange={(event) => {
-
-                listAutoFormat.onChange(event);
-
-                resize(event.target);
-
-            }}
-
-            onKeyDown={listAutoFormat.onKeyDown}
-
-        />
-
-    );
 
 }
 
@@ -1460,7 +1357,7 @@ function SingleAnswerRenderer({
 
                             <div className="handbook-t-card-label">{topVariant.title}</div>
 
-                            <AutoGrowTextarea
+                            <TextField
                                 className="handbook-t-card-textarea handbook-t-card-textarea-top"
                                 placeholder={`Write ${topVariant.title.toLowerCase()}...`}
                                 disabled={disabled}
@@ -1486,7 +1383,7 @@ function SingleAnswerRenderer({
 
                                         <div className="handbook-t-card-label">{leftVariant.title}</div>
 
-                                        <AutoGrowTextarea
+                                        <TextField
                                             className="handbook-t-card-textarea"
                                             placeholder={`Write ${leftVariant.title.toLowerCase()}...`}
                                             disabled={disabled}
@@ -1508,7 +1405,7 @@ function SingleAnswerRenderer({
 
                                         <div className="handbook-t-card-label">{rightVariant.title}</div>
 
-                                        <AutoGrowTextarea
+                                        <TextField
                                             className="handbook-t-card-textarea"
                                             placeholder={`Write ${rightVariant.title.toLowerCase()}...`}
                                             disabled={disabled}
@@ -2074,7 +1971,7 @@ function SingleAnswerRenderer({
                                                 {subtitle.title}
                                             </div>
 
-                                            <AutoGrowTextarea
+                                            <TextField
                                                 className="profile-card-subtitle-textarea"
                                                 placeholder={`Describe ${subtitle.title.toLowerCase()}...`}
                                                 disabled={disabled}
@@ -2123,7 +2020,7 @@ function SingleAnswerRenderer({
                                     </p>
                                 )}
 
-                                <AutoGrowTextarea
+                                <TextField
                                     className="profile-card-subtitle-textarea"
                                     placeholder={trailing.placeholder}
                                     disabled={disabled}

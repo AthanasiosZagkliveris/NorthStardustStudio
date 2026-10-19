@@ -1,5 +1,6 @@
-import { Fragment, FocusEvent, MouseEvent, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { Fragment, FocusEvent, MouseEvent, useCallback, useEffect, useMemo, useState } from "react";
 
+import TextField from "../TextField.tsx";
 import {
     ProcessLibraryAnswerValue,
     ProcessRecordValue,
@@ -454,104 +455,6 @@ function FrequencyCell({
 }
 
 /**
- * A single-line-by-default text field that grows taller to fit
- * its own content instead of clipping or scrolling -- the same
- * "no internal scrolling, the row just gets taller" convention
- * DynamicTable's own AutoGrowTextarea (and AnswerRenderer's
- * matching copy for Profile Cards) already uses everywhere else
- * in this app. Process/SOP/Step fields render as plain <input>
- * elsewhere in the app's Tables, but a Process/SOP name or a
- * Step's action text can easily run longer than one line, and
- * clipping that silently (an <input> just scrolls its overflow
- * out of view) hides real content from the user.
- */
-function AutoGrowField({
-
-    ariaLabel,
-
-    value,
-
-    placeholder,
-
-    disabled,
-
-    className,
-
-    onChange
-
-}: {
-
-    value: string;
-
-    ariaLabel?: string;
-
-    placeholder?: string;
-
-    disabled?: boolean;
-
-    className?: string;
-
-    onChange: (value: string) => void;
-
-}) {
-
-    const ref = useRef<HTMLTextAreaElement | null>(null);
-
-    function resize(el: HTMLTextAreaElement | null) {
-
-        if (!el) {
-            return;
-        }
-
-        el.style.height = "auto";
-
-        el.style.height = `${el.scrollHeight}px`;
-
-    }
-
-    const setRef = useCallback((el: HTMLTextAreaElement | null) => {
-        ref.current = el;
-    }, []);
-
-    useLayoutEffect(() => {
-
-        resize(ref.current);
-
-    }, [value]);
-
-    return (
-
-        <textarea
-
-            ref={setRef}
-
-            className={`interview-input process-library-autogrow-field${className ? ` ${className}` : ""}`}
-
-            aria-label={ariaLabel}
-
-            rows={1}
-
-            placeholder={placeholder}
-
-            disabled={disabled}
-
-            value={value}
-
-            onChange={(event) => {
-
-                onChange(event.target.value);
-
-                resize(event.target);
-
-            }}
-
-        />
-
-    );
-
-}
-
-/**
  * The move-up/move-down/remove/add button cluster every other
  * row-based editor in this app already uses (DynamicTable's own
  * Table rows, and the matching copy Checklist/Card List/Profile
@@ -773,7 +676,7 @@ function StepsTable({
                         <tr key={index} data-step-row={index}>
                             <td className="process-library-col-step-number">{index + 1}</td>
                             <td>
-                                <AutoGrowField
+                                <TextField list={false} className="interview-input process-library-autogrow-field"
                                     ariaLabel="Step action"
                                             placeholder="What happens in this step"
                                     value={step.action}
@@ -1055,7 +958,7 @@ function SopsTable({
                                     </div>
                                 </td>
                                 <td className="process-library-col-name">
-                                    <AutoGrowField
+                                    <TextField list={false} className="interview-input process-library-autogrow-field"
                                         placeholder="SOP Name"
                                         value={sop.name}
                                         disabled={disabled}
@@ -1063,7 +966,7 @@ function SopsTable({
                                     />
                                 </td>
                                 <td className="process-library-col-purpose">
-                                    <AutoGrowField
+                                    <TextField list={false} className="interview-input process-library-autogrow-field"
                                         placeholder="What this SOP is for"
                                         value={sop.purpose}
                                         disabled={disabled}
@@ -1939,7 +1842,7 @@ export default function ProcessLibraryEditor({
                                         </div>
                                     </td>
                                     <td className="process-library-col-name">
-                                        <AutoGrowField
+                                        <TextField list={false} className="interview-input process-library-autogrow-field"
                                             ariaLabel="Process name"
                                             placeholder="Process Name"
                                             value={process.name}
@@ -1948,7 +1851,7 @@ export default function ProcessLibraryEditor({
                                         />
                                     </td>
                                     <td className="process-library-col-purpose">
-                                        <AutoGrowField
+                                        <TextField list={false} className="interview-input process-library-autogrow-field"
                                             ariaLabel="Process purpose"
                                             placeholder="One line"
                                             value={process.purpose}

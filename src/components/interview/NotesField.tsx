@@ -1,6 +1,4 @@
-import { useCallback, useLayoutEffect } from "react";
-
-import { useListAutoFormat } from "../../hooks/useListAutoFormat.ts";
+import TextField from "../TextField.tsx";
 
 interface NotesFieldProps {
 
@@ -89,52 +87,13 @@ export default function NotesField({
 
 }: NotesFieldProps) {
 
-    const listAutoFormat = useListAutoFormat(value, onChange);
-
-    function resize(el: HTMLTextAreaElement | null) {
-
-        if (!el) {
-            return;
-        }
-
-        el.style.height = "auto";
-
-        el.style.height = `${el.scrollHeight}px`;
-
-    }
-
-    const setRef = useCallback((el: HTMLTextAreaElement | null) => {
-
-        // Merges this component's own auto-grow ref with the one
-        // useListAutoFormat needs to restore the cursor after a
-        // bullet/number rewrite -- see that hook's own doc comment
-        // ("merge the returned textareaRef into whatever ref the
-        // caller already attaches").
-        listAutoFormat.textareaRef.current = el;
-
-        resize(el);
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    useLayoutEffect(() => {
-
-        resize(listAutoFormat.textareaRef.current);
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [value]);
-
     return (
 
-        <textarea
-
-            ref={setRef}
+        <TextField
 
             className={`interview-input notes-field${className ? ` ${className}` : ""}`}
 
-            aria-label={ariaLabel}
-
-            rows={1}
+            ariaLabel={ariaLabel}
 
             placeholder={placeholder}
 
@@ -142,15 +101,7 @@ export default function NotesField({
 
             value={value}
 
-            onChange={(event) => {
-
-                listAutoFormat.onChange(event);
-
-                resize(event.target);
-
-            }}
-
-            onKeyDown={listAutoFormat.onKeyDown}
+            onChange={onChange}
 
         />
 

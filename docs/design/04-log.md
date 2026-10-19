@@ -60,6 +60,7 @@ The drafts were HTML and PDF files in `docs/ai`, never committed to git. Only th
 
 | Date | Change |
 |---|---|
+| 2026-10-20 | `TextField`: the five hand-written auto-grow text areas (the answer renderer's, the table cell's, the process library's, the Notes field's, the Notes panel's) and the Strategy text area and interview input now draw one component; `useAutoGrow` keeps the box's CSS height as its floor. Tests, build, lints, layout check (0 new) pass. |
 | 2026-10-19 | The safe unifications, all five: `NumberCell` (28), `FieldLabel` (38), `TickBox` (15), `LabelArrow` for the Inventory menu (4), `AddButton` (18); with the earlier `RemoveButton`, `FunnelButton`, `BackButton`. Table in `23-shared-components.md`; rule 22.24. |
 | 2026-10-19 | Sixth round: the Typography tile's underline (its box clipped it), one `FunnelButton`, the incomplete tile keeps flashing while its card is open, the error shown on the field not the card (Offerings ticks), the vertical label gap measured (6px, all pairs); rules 22.25 to 22.27. |
 | 2026-10-19 | Fifth round: the funnel's fill (an old rule cleared it), the Notes panel made up (one padded column, note-box card notes), one underline rule, no arrows or rail on Inventory and Completed cards, the Inventory shade clamped to its dialog, generated cards that add and never remove Offerings, the legal-entity notes on the one note class; rules 22.20 to 22.24 and the index of where the field rules are. |

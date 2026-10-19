@@ -2,6 +2,16 @@
 
 This document describes the current situation, one dated section per state, the newest on top. What changed, and when, is written in the log (`04-log.md`), not here.
 
+## State on 2026-10-20
+
+As 2026-10-19, and the free text cells are one component:
+
+| Component | File | Draws | Places |
+|---|---|---|---|
+| `TextField` | `src/components/TextField.tsx` | Every free-text cell: a text area that grows with its words and never scrolls inside itself (the shared `useAutoGrow`; its own CSS height or `rows` is the floor), with the list writing ("- " or "1. " at the start of a line; Enter continues). `list={false}` for a name or a one-line purpose, `grow={false}` for a fixed height, `onKeyDown` for a place's own keys (the Notes panel's #), `elementRef` for a place that moves the focus | the Notes field, the Strategy text area, the interview input's text area, the table cells, the answer renderer's subtitles, the process library's cells, the Notes panel's notes (7 families, 5 hand-written copies removed) |
+
+Still their own: the name cell's text area (`CardNameInput`), the suggestions box (`SuggestedInput`) and the numbered list (`NumberedListInput`); they join with `NameCell` and `ListField`.
+
 ## State on 2026-10-19
 
 Every place that needs one of these uses the component, never its own markup (rule 22.24 of `docs/ai/layout-rules.md`).
@@ -22,7 +32,7 @@ Every place that needs one of these uses the component, never its own markup (ru
 
 Left as they are, on purpose: the image-holder label keeps its own line (a layout rule measures it).
 
-Not yet shared (the owner decides the order): free text and note cells (`TextField` categories), the name cell (`NameCell`), tooltips, the card head (`CardHead`), cards and tiles as one component each, the one-line text box, the raw `<select>`s.
+Not yet shared (the owner decides the order): the name cell (`NameCell`), tooltips, the card head (`CardHead`), cards and tiles as one component each, the one-line text box, the raw `<select>`s.
 
 ## State on 2026-10-17 (the survey)
 

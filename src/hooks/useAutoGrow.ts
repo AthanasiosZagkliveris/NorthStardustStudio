@@ -20,7 +20,13 @@ function fit(el: HTMLTextAreaElement | null) {
 
     el.style.overflowY = "hidden";
 
-    el.style.height = "auto";
+    // Hand the box back to its own CSS first (its rows or its designed
+    // height: that is the floor), then only grow when something is clipped.
+    el.style.height = "";
+
+    if (el.scrollHeight <= el.clientHeight) {
+        return;
+    }
 
     el.style.height = `${el.scrollHeight + adjustment}px`;
 

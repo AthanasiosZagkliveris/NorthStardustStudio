@@ -1,12 +1,12 @@
-import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
+import TextField from "../TextField.tsx";
 import FieldRenderer from "./FieldRenderer";
 import DateCellInput from "./DateCellInput.tsx";
 import NotesField from "./NotesField.tsx";
 
 import { FieldDefinition } from "../../framework/model/FieldDefinition.ts";
 import { useDragToScroll } from "../../hooks/useDragToScroll.ts";
-import { useListAutoFormat } from "../../hooks/useListAutoFormat.ts";
 
 export interface TableColumn {
 
@@ -288,104 +288,6 @@ function computedFont(el: Element | null | undefined, fallback: string): string 
     const style = window.getComputedStyle(el);
 
     return `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-
-}
-
-/**
- * A <textarea> that grows tall enough to show its
- * entire value with no internal scrolling -- the
- * surrounding table row simply becomes taller, since
- * a table row's height already follows its tallest
- * cell.
- */
-function AutoGrowTextarea({
-
-    ariaLabel,
-
-    value,
-
-    disabled,
-
-    onChange
-
-}: {
-
-    value: string;
-
-    disabled?: boolean;
-
-    onChange: (value: string) => void;
-
-    ariaLabel?: string;
-
-}) {
-
-    const ref = useRef<HTMLTextAreaElement | null>(null);
-
-    // "* "/"- " -> bullet, "1. " -> numbered list, Enter continues
-    // or exits the current list line -- see useListAutoFormat.ts.
-    const listAutoFormat = useListAutoFormat(value, onChange);
-
-    // A stable merged-ref callback (not a fresh arrow function every
-    // render) -- both `ref` and `listAutoFormat.textareaRef` are
-    // themselves stable (useRef's own object identity never
-    // changes), so this only needs to be created once. Without this,
-    // React would call the old ref callback with `null` and the new
-    // one with the element on every single keystroke (a fresh
-    // function reference each render reads as "a different ref" to
-    // React), which is harmless here but pure churn.
-    const setRefs = useCallback((el: HTMLTextAreaElement | null) => {
-        ref.current = el;
-        listAutoFormat.textareaRef.current = el;
-    }, [listAutoFormat.textareaRef]);
-
-    function resize(el: HTMLTextAreaElement | null) {
-
-        if (!el) {
-            return;
-        }
-
-        el.style.height = "auto";
-
-        el.style.height = `${el.scrollHeight}px`;
-
-    }
-
-    useLayoutEffect(() => {
-
-        resize(ref.current);
-
-    }, [value]);
-
-    return (
-
-        <textarea
-
-            ref={setRefs}
-
-            className="dynamic-table-textarea"
-
-            aria-label={ariaLabel}
-
-            rows={1}
-
-            disabled={disabled}
-
-            value={value}
-
-            onChange={(event) => {
-
-                listAutoFormat.onChange(event);
-
-                resize(event.target);
-
-            }}
-
-            onKeyDown={listAutoFormat.onKeyDown}
-
-        />
-
-    );
 
 }
 
@@ -1446,7 +1348,7 @@ function DynamicTable({
 
                 return (
 
-                    <AutoGrowTextarea
+                    <TextField className="dynamic-table-textarea"
 
                         ariaLabel={cellLabel}
 

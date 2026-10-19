@@ -1,5 +1,4 @@
-import { useListAutoFormat } from "../../hooks/useListAutoFormat.ts";
-import { useAutoGrow } from "../../hooks/useAutoGrow.ts";
+import TextField from "../TextField.tsx";
 
 interface InterviewInputProps {
     value: string;
@@ -52,15 +51,6 @@ export default function InterviewInput({
     autoGrow = true
 }: InterviewInputProps) {
 
-    // Called unconditionally (mode can switch, and the "input"/"select"
-    // branches below return early) -- the hook itself is a no-op for
-    // those, since only the textarea JSX further down attaches its
-    // ref/handlers.
-    const listAutoFormat = useListAutoFormat(value, onChange);
-
-    // Same ref, same reasoning: only the textarea attaches it.
-    useAutoGrow(listAutoFormat.textareaRef, value, autoGrow && mode === "textarea");
-
     if (mode === "input") {
         return (
             <input
@@ -106,16 +96,15 @@ export default function InterviewInput({
     }
 
     return (
-        <textarea
-            ref={listAutoFormat.textareaRef}
+        <TextField
             className={className}
-            aria-label={ariaLabel}
+            ariaLabel={ariaLabel}
             value={value}
             rows={rows}
             placeholder={placeholder}
             disabled={disabled}
-            onChange={listAutoFormat.onChange}
-            onKeyDown={listAutoFormat.onKeyDown}
+            grow={autoGrow}
+            onChange={onChange}
         />
     );
 }

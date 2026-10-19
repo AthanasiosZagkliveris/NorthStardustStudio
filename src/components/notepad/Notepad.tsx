@@ -1,4 +1,5 @@
-import { KeyboardEvent, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { KeyboardEvent, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import TextField from "../TextField.tsx";
 import AddButton from "../AddButton.tsx";
 import TickBox from "../TickBox.tsx";
 import RemoveButton from "../RemoveButton.tsx";
@@ -81,28 +82,16 @@ function NoteText({ note, onKey, textRef }: {
     textRef: (element: HTMLTextAreaElement | null) => void;
 }) {
 
-    const element = useRef<HTMLTextAreaElement | null>(null);
-
-    useLayoutEffect(() => {
-        const box = element.current;
-        if (!box) {
-            return;
-        }
-        box.style.height = "";
-        if (box.scrollHeight > box.clientHeight) {
-            box.style.height = (box.scrollHeight + box.offsetHeight - box.clientHeight) + "px";
-        }
-    }, [note.text]);
-
     return (
-        <textarea
-            ref={(box) => { element.current = box; textRef(box); }}
+        <TextField
+            elementRef={textRef}
             className="interview-input notepad-note-text"
-            aria-label="Note"
+            ariaLabel="Note"
             placeholder="Write a note. Type # to link a place."
             rows={2}
+            list={false}
             value={note.text}
-            onChange={(event) => NotepadService.setText(note.id, event.target.value)}
+            onChange={(text) => NotepadService.setText(note.id, text)}
             onKeyDown={(event) => {
                 if (onKey(event, event.currentTarget)) {
                     consumeKey(event);
