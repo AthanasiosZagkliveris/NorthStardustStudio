@@ -1,4 +1,5 @@
 import { toneHue } from "./CardTile.tsx";
+import CardShell from "./CardShell.tsx";
 import AddButton from "../AddButton.tsx";
 import TickBox from "../TickBox.tsx";
 import FieldLabel from "../FieldLabel.tsx";
@@ -5772,8 +5773,8 @@ export default function BusinessCapabilityEditor({
                 const head = heads[cardIndex];
 
                 return (
-                    <div
-                        className="business-foundation-input business-foundation-card business-engagement-input"
+                    <CardShell
+                        
                         key={card.id}
                         data-anchor={"capability-" + card.id}
                         data-rail={railId(BUSINESS_CAPABILITY_SECTIONS[cardIndex])}
@@ -5798,7 +5799,7 @@ export default function BusinessCapabilityEditor({
                             {card.body()}
                         </div>
 
-                    </div>
+                    </CardShell>
                 );
 
             })}

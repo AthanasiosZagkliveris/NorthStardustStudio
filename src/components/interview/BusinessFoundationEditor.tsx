@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useRef, useState } from "react";
 
+import CardShell from "./CardShell.tsx";
 import CardHead from "./CardHead.tsx";
 import NameCell from "./NameCell.tsx";
 import TickBox from "../TickBox.tsx";
@@ -1535,11 +1536,11 @@ export default function BusinessFoundationEditor({
         const ownCard = (segment: BusinessCustomerSegmentValue, index: number, which: "description" | "proposition"): ReactNode => (
             // (Only the section itself: the Segment's number, name and x are the frame's, outside the tiles.)
             <div className="column-tile-content" style={{ "--strategy-theme-hue": workHue("discover") } as CSSProperties}>
-                <div className="business-foundation-input business-foundation-card" data-anchor={segment.id + ":" + (which === "description" ? 0 : 2)}>
+                <CardShell engagement={false} data-anchor={segment.id + ":" + (which === "description" ? 0 : 2)}>
                     {which === "description"
                         ? <div className="business-foundation-description" data-rail={rail(0)}>{subsectionsFor(segment, index).segmentDescription}</div>
                         : <div className="business-foundation-proposition" data-rail={rail(2)}>{subsectionsFor(segment, index).valueProposition}</div>}
-                </div>
+                </CardShell>
             </div>
         );
         const DESCRIPTION = ":description";
@@ -1645,8 +1646,8 @@ export default function BusinessFoundationEditor({
             <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
                 <div className="business-foundation-segment-frames">
                     {foundation.segments.map((segment, index) => (
-                        <div
-                            className="business-foundation-input business-foundation-card business-engagement-input"
+                        <CardShell
+                            
                             key={segment.id}
                             data-anchor={segment.id}
                             style={{ "--strategy-theme-hue": workHue("discover") } as CSSProperties}
@@ -1675,7 +1676,7 @@ export default function BusinessFoundationEditor({
                                     <SectionTiles label={frameName(segment, index) + ": Customers, Value Proposition, Competitors, Offerings"} hue={workHue("discover")} tiles={tilesOf(segment, index)} incomplete={missingFoundation} />
                                 </div>
                             </div>
-                        </div>
+                        </CardShell>
                     ))}
                 </div>
                 {segmentAdd}
@@ -1763,8 +1764,8 @@ export default function BusinessFoundationEditor({
                 const open = !collapsed.has(segment.id);
 
                 return (
-                    <div
-                        className="business-foundation-input business-foundation-card"
+                    <CardShell
+                        engagement={false}
                         key={segment.id}
                         data-anchor={segment.id}
                         /* The colour belongs to THIS Segment: chosen
@@ -1919,7 +1920,7 @@ export default function BusinessFoundationEditor({
 
                         })()}
 
-                    </div>
+                    </CardShell>
                 );
 
             })}

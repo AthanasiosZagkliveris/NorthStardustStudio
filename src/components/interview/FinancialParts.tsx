@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useLayoutEffect, useRef, useState } from "react";
 
+import CardShell from "./CardShell.tsx";
 import CardHead from "./CardHead.tsx";
 import type { StrategyMonthValue } from "../../framework/engine/AnswerUtils.ts";
 import {
@@ -640,8 +641,8 @@ export function FinancialSectionCard({
 }) {
 
     return (
-        <div
-            className="business-foundation-input business-foundation-card business-engagement-input financial-section"
+        <CardShell
+            className="financial-section"
             data-anchor={anchor}
             data-rail={rail}
             style={{ "--strategy-theme-hue": hue } as CSSProperties}
@@ -672,7 +673,7 @@ export function FinancialSectionCard({
 
             {open && body()}
 
-        </div>
+        </CardShell>
     );
 
 }

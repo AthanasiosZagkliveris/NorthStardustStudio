@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useState } from "react";
 
+import CardShell from "./CardShell.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import NumberCell from "../NumberCell.tsx";
 import { cardNameMissing } from "../../framework/engine/SystemCardCompleteness.ts";
@@ -339,8 +340,8 @@ export default function StrategicPeriodEditor({
 
     return (
         <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
-            <div
-                className="business-foundation-input business-foundation-card business-engagement-input"
+            <CardShell
+                
                 data-anchor="column-tiles"
                 style={{ "--strategy-theme-hue": pageHue } as CSSProperties}
             >
@@ -350,7 +351,7 @@ export default function StrategicPeriodEditor({
                         <SectionTiles small label="Strategic Themes" hue={pageHue} tiles={tiles} incomplete={strategyMissing} />
                     </div>
                 </div>
-            </div>
+            </CardShell>
         </div>
     );
 

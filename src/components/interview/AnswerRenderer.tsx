@@ -1,4 +1,5 @@
 import { CSSProperties, ReactNode, useEffect, useMemo, useState } from "react";
+import CardShell from "./CardShell.tsx";
 import TextField from "../TextField.tsx";
 import type { OpenPage } from "./jumpTo.ts";
 
@@ -774,8 +775,8 @@ function MultiPartAnswerRenderer({
                 className="answer-columns business-foundation business-engagement business-capability column-tiles-page"
                 style={{ "--answer-column-count": 1 } as CSSProperties}
             >
-                <div
-                    className="business-foundation-input business-foundation-card business-engagement-input"
+                <CardShell
+                    
                     data-anchor="column-tiles"
                     style={{ "--strategy-theme-hue": (parts[0]?.id === "philosophy" ? workHue("decide") : workHue("create")) } as CSSProperties}
                 >
@@ -785,7 +786,7 @@ function MultiPartAnswerRenderer({
                             <SectionTiles label={parts.map(part => part.label).join(", ")} hue={(parts[0]?.id === "philosophy" ? workHue("decide") : workHue("create"))} tiles={tiles} />
                         </div>
                     </div>
-                </div>
+                </CardShell>
             </div>
         );
 
@@ -2343,8 +2344,8 @@ function SingleAnswerRenderer({
             // The Roadmap is one large tile of its own, opening the roadmap in its dialog.
             return (
                 <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page column-tiles-page-wide" style={{ "--answer-column-count": 1 } as CSSProperties}>
-                    <div
-                        className="business-foundation-input business-foundation-card business-engagement-input"
+                    <CardShell
+                        
                         data-anchor="column-tiles"
                         style={{ "--strategy-theme-hue": workHue("decide") } as CSSProperties}
                     >
@@ -2375,7 +2376,7 @@ function SingleAnswerRenderer({
                                 />
                             </div>
                         </div>
-                    </div>
+                    </CardShell>
                 </div>
             );
 

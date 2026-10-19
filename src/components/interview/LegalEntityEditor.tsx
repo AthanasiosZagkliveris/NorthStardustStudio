@@ -1,4 +1,5 @@
 import { CSSProperties, ReactNode, useEffect, useRef } from "react";
+import CardShell from "./CardShell.tsx";
 import CardHead from "./CardHead.tsx";
 import NameCell from "./NameCell.tsx";
 import AddButton from "../AddButton.tsx";
@@ -2689,8 +2690,8 @@ export default function LegalEntityEditor({
         }
         return (
             <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
-                <div
-                    className="business-foundation-input business-foundation-card business-engagement-input"
+                <CardShell
+                    
                     data-anchor="column-tiles"
                     style={{ "--strategy-theme-hue": workHue("define") } as CSSProperties}
                 >
@@ -2700,7 +2701,7 @@ export default function LegalEntityEditor({
                             <SectionTiles label={LEGAL_ENTITY_SECTIONS.join(", ")} hue={workHue("define")} tiles={tiles} incomplete={missingById} />
                         </div>
                     </div>
-                </div>
+                </CardShell>
             </div>
         );
     }

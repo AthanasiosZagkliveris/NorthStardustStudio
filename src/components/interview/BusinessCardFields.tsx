@@ -1,5 +1,6 @@
 import { createContext, CSSProperties, ReactNode, useContext, useEffect, useRef, useState } from "react";
 
+import CardShell from "./CardShell.tsx";
 import CardHead from "./CardHead.tsx";
 import NameCell from "./NameCell.tsx";
 import AddButton from "../AddButton.tsx";
@@ -1009,10 +1010,10 @@ export function BusinessCard({
 
     return (
         <MissingScope lacking={stored}>{(lacking) => (
-        <div
-            className={
-                "business-foundation-card" + (className ? " " + className : "")
-            }
+        <CardShell
+            input={false}
+            engagement={false}
+            className={className}
             data-anchor={anchor}
             data-lacks={lacking.length > 0 ? "|" + lacking.join("|") + "|" : undefined}
             style={style}
@@ -1066,7 +1067,7 @@ export function BusinessCard({
 
             {open && children}
 
-        </div>
+        </CardShell>
         )}</MissingScope>
     );
 

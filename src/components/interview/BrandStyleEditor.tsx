@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useLayoutEffect, useRef, useState } from "react";
 
+import CardShell from "./CardShell.tsx";
 import TickBox from "../TickBox.tsx";
 import { brandColourMissing, brandTypefaceMissing } from "../../framework/engine/SystemCardCompleteness.ts";
 import ColourPicker from "./ColourPicker.tsx";
@@ -773,9 +774,9 @@ export default function BrandStyleEditor({
     /** The Text Hierarchy's one box, a row for each level. */
     function hierarchyTable() {
         return (
-                    <div
+                    <CardShell
                         ref={setHierarchyNode}
-                        className="business-foundation-card brand-style-card brand-hierarchy-card"
+                        input={false} engagement={false} className="brand-style-card brand-hierarchy-card"
                         data-anchor={HIERARCHY_CARD}
                         style={{ "--level-height": levelHeight() + "px" } as CSSProperties}
                     >
@@ -838,7 +839,7 @@ export default function BrandStyleEditor({
     
                         </div>
     
-                    </div>
+                    </CardShell>
         );
     }
 
@@ -1008,8 +1009,8 @@ export default function BrandStyleEditor({
         // The page: the Colours, the Typography & Text Hierarchy, then the Icon & Logo and the Brand Images (the Inventory editor hands over its two tiles).
         const page = (inventoryTiles: SectionTile[], imagesMissing: ReadonlyMap<string, readonly string[]> = new Map()) => (
             <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
-                <div
-                    className="business-foundation-input business-foundation-card business-engagement-input"
+                <CardShell
+                    
                     data-anchor="column-tiles"
                     style={{ "--strategy-theme-hue": workHue("create") } as CSSProperties}
                 >
@@ -1019,7 +1020,7 @@ export default function BrandStyleEditor({
                             <SectionTiles label="Style" hue={workHue("create")} tiles={[colourTile, typographyTile, ...inventoryTiles]} incomplete={new Map([...missingById, ...imagesMissing])} />
                         </div>
                     </div>
-                </div>
+                </CardShell>
             </div>
         );
         return (

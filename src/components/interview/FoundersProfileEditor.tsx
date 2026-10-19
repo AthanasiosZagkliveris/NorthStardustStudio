@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useEffect } from "react";
 
+import CardShell from "./CardShell.tsx";
 import CardHead from "./CardHead.tsx";
 import NameCell from "./NameCell.tsx";
 import FieldLabel from "../FieldLabel.tsx";
@@ -486,8 +487,8 @@ export default function FoundersProfileEditor({
         ];
         return (
             <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
-                <div
-                    className="business-foundation-input business-foundation-card business-engagement-input"
+                <CardShell
+                    
                     data-anchor="column-tiles"
                     style={{ "--strategy-theme-hue": workHue("define") } as CSSProperties}
                 >
@@ -500,7 +501,7 @@ export default function FoundersProfileEditor({
                             <SectionTiles label="Founders Profile" hue={workHue("define")} tiles={tiles} />
                         </div>
                     </div>
-                </div>
+                </CardShell>
             </div>
         );
     }

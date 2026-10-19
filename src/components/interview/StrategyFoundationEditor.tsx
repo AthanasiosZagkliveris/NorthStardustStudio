@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useEffect, useRef } from "react";
 
+import CardShell from "./CardShell.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import {
     STRATEGY_FOUNDATION_SECTIONS,
@@ -517,8 +518,8 @@ export default function StrategyFoundationEditor({
     return (
 
         <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page strategy-single-frame" style={{ "--answer-column-count": 1 } as CSSProperties}>
-            <div
-                className="business-foundation-input business-foundation-card business-engagement-input"
+            <CardShell
+                
                 data-anchor="column-tiles"
                 style={{ "--strategy-theme-hue": workHue("discover") } as CSSProperties}
             >
@@ -529,7 +530,7 @@ export default function StrategyFoundationEditor({
                         <SectionTiles label={STRATEGY_FOUNDATION_SECTIONS.join(", ")} hue={workHue("discover")} tiles={tiles} />
                     </div>
                 </div>
-            </div>
+            </CardShell>
         </div>
 
     );

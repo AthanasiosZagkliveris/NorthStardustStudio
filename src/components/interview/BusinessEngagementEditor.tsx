@@ -1,5 +1,6 @@
 import { CSSProperties, FocusEvent, Fragment, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
+import CardShell from "./CardShell.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import {
     BUSINESS_CHANNEL_ALL_OFFERINGS,
@@ -2762,7 +2763,7 @@ export default function BusinessEngagementEditor({
                 holds: group.channels.map(channel => channel.id),
                 note: channelCategoryHelp(group.label),
                 cardFor: (id: string) => answers.channels.some(channel => channel.id === id)
-                    ? <div className="column-tile-content" style={{ "--strategy-theme-hue": segmentHue(segment) } as CSSProperties}><div className="business-foundation-input business-foundation-card business-subchannel-card">{channelsFor(segment, group.key, id)}</div></div>
+                    ? <div className="column-tile-content" style={{ "--strategy-theme-hue": segmentHue(segment) } as CSSProperties}><CardShell engagement={false} className="business-subchannel-card">{channelsFor(segment, group.key, id)}</CardShell></div>
                     : null,
                 // The channel's dialog: a tile for each subchannel, and, faded, the ones its category offers that are not used yet.
                 content: () => {
@@ -4060,8 +4061,8 @@ export default function BusinessEngagementEditor({
                 );
 
                 return (
-                    <div
-                        className="business-foundation-input business-foundation-card business-engagement-input"
+                    <CardShell
+                        
                         key={segment.id}
                         data-anchor={"engagement-segment-" + segment.id}
                         role="group"
@@ -4219,7 +4220,7 @@ export default function BusinessEngagementEditor({
                         </>
                         )}
 
-                    </div>
+                    </CardShell>
                 );
 
             })}

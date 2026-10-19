@@ -1,4 +1,5 @@
 import { CSSProperties, DragEvent, ReactNode, useRef, useState } from "react";
+import CardShell from "./CardShell.tsx";
 import { brandImageMissing } from "../../framework/engine/SystemCardCompleteness.ts";
 import SectionTiles, { DialogHeading, type SectionTile } from "./SectionTiles.tsx";
 import PictureBoxes, { type PictureBox } from "./PictureBoxes.tsx";
@@ -677,8 +678,8 @@ export default function BrandInventoryEditor({
         }
         return (
             <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
-                <div
-                    className="business-foundation-input business-foundation-card business-engagement-input"
+                <CardShell
+                    
                     data-anchor="column-tiles"
                     style={{ "--strategy-theme-hue": stableCardHue("column-tiles-brand-inventory") } as CSSProperties}
                 >
@@ -688,7 +689,7 @@ export default function BrandInventoryEditor({
                             <SectionTiles label="Inventory" hue={stableCardHue("column-tiles-brand-inventory")} tiles={[markTile, imagesTile]} incomplete={missingById} />
                         </div>
                     </div>
-                </div>
+                </CardShell>
             </div>
         );
     }
