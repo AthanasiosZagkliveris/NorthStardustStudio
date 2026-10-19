@@ -2,6 +2,8 @@
 
 This folder is NorthStardustStudio's shared knowledge for AI assistants (Claude, ChatGPT, or any other coding assistant working on this project). It exists so an assistant doesn't have to re-derive facts about this codebase from source every session. This file is the map — it doesn't explain any project concept itself; every concept below is owned by exactly one other file.
 
+The index of every document of the project (design, specifications, archive), with its kind and date, is `../README.md`.
+
 ## Read this first, every session
 
 1. **`ai-collaboration-rules.md`** — standing behavioral rules (when to push automatically, when to ask before acting, what "done" requires). Short, meant to be re-read every session.
@@ -22,6 +24,11 @@ This folder is NorthStardustStudio's shared knowledge for AI assistants (Claude,
 
 - **`ai-development-methodology.md`** — how a change is expected to flow end to end (request → implement → validate → integrate), how AI assistants should load context progressively, and when new reusable knowledge should be created versus reused. Read this when building or evolving a Skill, not for routine tasks.
 - **`glossary.md`** — fast lookup for project-specific terms (System, Section, Field, dynamicSource, Pack, Skill, and others). Each entry is one line plus a pointer to whichever file above actually explains it in depth.
+
+## Proposals and reports (nothing here is a rule)
+
+- **`cost-section-proposal.md`** and **`segment-by-selection-proposal.md`**: proposals with the owner's answers; nothing built.
+- **`card-field-measures-report.md`**: a measured report of the card fields' sizes, as a record.
 
 ## How these files relate
 
