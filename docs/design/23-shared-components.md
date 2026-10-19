@@ -20,6 +20,8 @@ As 2026-10-19, and the free text cells, the names, the card heads, the tooltips,
 | `CardShell` | `interview/CardShell.tsx` | The outer box of every card and section panel: `business-foundation-input`, `business-foundation-card`, `business-engagement-input` (each switched off only where a box never had it), the place's own `className`, its anchors, rail and hue. `legal`: the Legal Entity and Founder cards' own box (`legal-entity-card`) | 17 section panels and cards, the shared `BusinessCard` itself, 3 Legal Entity and Founder cards |
 | `TileGrid` | `interview/TileGrid.tsx` | The grid of tiles of a dialog or page view: the page's tile size, as many across as fit, the grid box and its `card-boxes` outer box; its tiles are a function of `across` (and `placed`, for a grid whose boxes keep their places: `columns`) | SubTiles, PictureBoxes, the section view and the category view of `SectionView` (4) |
 
+`SectionTiles.tsx` (2,415 lines until 2026-10-20) is now the page tile and its slot (643 lines), with its parts in their own files and re-exported from it, so no import changed: `SectionTileTypes.ts` (the tile, link, add, mark, crumb and floating types), `SectionTileGeometry.tsx` (columns, anchors, frames, titles), `DialogLevels.tsx` (the dialog's inner levels, crumbs, heading, contexts, focus return), `TileParts.tsx` (face, title, list), `CarouselArrows.tsx`, `FloatingCards.tsx` (the floating cards and the tile dialog).
+
 Not joined to `CardHead`, on purpose: the Strategy boxes' heads (they have no fold arrow and carry a kind label, in their own CSS), the sub-channel's head (no number; its name is a drop-down or a text box), and the Brand page's column headings (`brand-style-head`: a title with bullets, not a card's head). Forcing them into the folding card's head would change their markup and CSS for no shared behaviour.
 
 Still their own: the rail labels (a CSS label beside a bullet), the native `title` tooltips; the Legal Entity heads keep their own number markup (`legal`: `legal-entity-card-number`, its own CSS, until the two numbers are one); the heads that are not folding cards (the brand style head, the Strategic Period's boxes, the sub-channel head); the suggestions box (`SuggestedInput`) and the numbered list (`NumberedListInput`), which join with `ListField`.
@@ -44,7 +46,7 @@ Every place that needs one of these uses the component, never its own markup (ru
 
 Left as they are, on purpose: the image-holder label keeps its own line (a layout rule measures it).
 
-Not yet shared (the owner decides the order): the tile grids of `CardBoxes` (three across, its own measuring) and `CapabilityOverview` (the Inventory's own scroll and filters), the tiles themselves (`SectionTiles`, 2,415 lines: page tiles, dialogs and floating cards in one file, to be split before it is joined), the cards' bodies and CSS (the Legal Entity page's own `legal-entity-*` rules), cards and tiles as one component each, the one-line text box, the raw `<select>`s.
+Not yet shared (the owner decides the order): the tile grids of `CardBoxes` (three across, its own measuring) and `CapabilityOverview` (the Inventory's own scroll and filters), the tiles themselves (`SectionTiles` page tile and `TileSlot`, `CardTile`, the category tile of `SectionView`: three drawings of one tile, to be joined now that the file is split), the cards' bodies and CSS (the Legal Entity page's own `legal-entity-*` rules), cards and tiles as one component each, the one-line text box, the raw `<select>`s.
 
 ## State on 2026-10-17 (the survey)
 
