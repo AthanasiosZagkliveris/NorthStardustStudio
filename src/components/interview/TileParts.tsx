@@ -1,6 +1,7 @@
-import { Fragment, MouseEvent as ReactMouseEvent, ReactNode, RefObject, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { ComponentProps, Fragment, MouseEvent as ReactMouseEvent, ReactNode, RefObject, useEffect, useLayoutEffect, useRef, useState } from "react";
+import AddButton from "../AddButton.tsx";
 import { type TileLink, type ItemMark } from "./SectionTileTypes.ts";
-import { incompleteTitle, TILE_DIVIDER, drawnTitle, plainTitle, brokenLines, boldWords } from "./SectionTileGeometry.tsx";
+import { incompleteTitle, TILE_DIVIDER, drawnTitle, plainTitle, brokenLines, boldWords, scaleOrigin } from "./SectionTileGeometry.tsx";
 
 /**
  * What a tile or a box shows: its title, centred, and -- while the section holds nothing yet --
@@ -273,4 +274,61 @@ export function TileList({
             })}
         </ul>
     );
+}
+
+/**
+ * THE LINKS LAYER OF A TILE: the list of what the tile includes, as real controls laid over the tile (the same props as `TileList`). Every tile that lists its cards or lines draws it here.
+ */
+export function TileLinks(props: ComponentProps<typeof TileList>) {
+    return (
+        <div className="section-tile-links-layer">
+            <TileList {...props} />
+        </div>
+    );
+}
+
+/**
+ * THE "+" OF A TILE: the add box at its lower right, named "Add <what> to <the tile's title>".
+ */
+export function TilePlus({ what, title, disabled, onClick }: { what: string; title: string; disabled?: boolean; onClick: (event: ReactMouseEvent<HTMLButtonElement>) => void }) {
+    return (
+        <AddButton shape="box" className="section-tile-plus"
+            aria-label={"Add " + what.charAt(0).toUpperCase() + what.slice(1) + " to " + plainTitle(title)}
+            disabled={disabled}
+            onClick={onClick}
+        />
+    );
+}
+
+/**
+ * WHERE A PAGE TILE SCALES FROM, set once for each stay of the pointer: its place in the group (`at`, of `columns` by `rows`) says the corner, edge or centre, moved to fit where the card is too narrow. Put `slot` on the tile's slot and spread `aimHandlers` on it.
+ */
+export function useTileAim(at: { row: number; column: number }, columns: number, rows: number) {
+    const slot = useRef<HTMLDivElement | null>(null);
+    // Whether the pointer has been on the tile since it came: its origin is set ONCE for that stay, never again while the pointer is on it.
+    const pointed = useRef(false);
+
+    /* THE POINT IT SCALES FROM, set once when the pointer arrives: the corner, edge or centre of its place in the group; moved
+       to fit if the card is too narrow. It is measured as the tile RESTS -- its scale and its transition off for the moment --
+       and never again while the pointer stays: a press on a list item moves the focus, and measuring then (the tile already
+       at 150%, the transition's first frame still the scaled one) took the grown tile for its size, set another origin and
+       slid the tile under the pointer between the press and the release, so the click never landed. */
+    const aim = () => {
+        const node = slot.current;
+        if (!node || pointed.current) {
+            return;
+        }
+        pointed.current = true;
+        const transform = node.style.transform;
+        const transition = node.style.transition;
+        node.style.transition = "none";
+        node.style.transform = "none";
+        const box = node.getBoundingClientRect();
+        node.style.transform = transform;
+        node.style.transition = transition;
+        const room = (node.closest<HTMLElement>(".card-scroll") ?? node.closest<HTMLElement>(".section-tiles-box"))?.getBoundingClientRect();
+        node.style.transformOrigin = scaleOrigin(box, room ?? null, at, columns, rows);
+    };
+
+    return { slot, aimHandlers: { onPointerEnter: aim, onPointerMove: aim, onPointerLeave: () => { pointed.current = false; }, onPointerCancel: () => { pointed.current = false; } } };
 }

@@ -1,6 +1,6 @@
 import { CSSProperties, DragEvent, RefObject, useLayoutEffect, useRef, useState } from "react";
 import { stableCardHue } from "../../framework/engine/AnswerUtils.ts";
-import { CHANNEL_TILE_HUE, TileFace, TileList, incompleteTitle, type ItemMark } from "./SectionTiles.tsx";
+import { CHANNEL_TILE_HUE, TileFace, TileLinks, incompleteTitle, type ItemMark } from "./SectionTiles.tsx";
 import { useAboveTip } from "../Tooltip.tsx";
 import type { FloorLink, FloorTone } from "./capabilityFloor.ts";
 import { rememberCardName } from "./cardNames.ts";
@@ -218,8 +218,7 @@ export default function CardTile({ id, name, unnamed = "", number, linkedLines, 
                 : <div className={className} data-anchor={id} data-card-box={id} role="group" aria-label={label} title={(title ?? shown) + (missing && missing.length > 0 ? ". " + incompleteTitle(missing) : "")}>{face}</div>}
             <Dots id={id} name={shown} links={links} focusId={focusId} onFocus={onFocus} />
             {linked && (
-                <div className="section-tile-links-layer">
-                    <TileList
+                <TileLinks
                         items={lines}
                         marks={marks}
                         links={lines.map((_, at) => linkedLines?.[at] ? { card: String(at) } : undefined)}
@@ -227,7 +226,6 @@ export default function CardTile({ id, name, unnamed = "", number, linkedLines, 
                         onLink={(link, _from, pointer) => onLine?.(Number((link as { card: string }).card), pointer)}
                         onPlain={(event) => { (event.currentTarget as HTMLElement).closest(".section-tile-slot")?.querySelector<HTMLElement>(":scope > .section-tile")?.click(); }}
                     />
-                </div>
             )}
         </div>
     );

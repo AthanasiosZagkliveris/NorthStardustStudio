@@ -1,12 +1,11 @@
-import AddButton from "../AddButton.tsx";
 import { CSSProperties, ReactNode, useContext, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import { freshCards } from "./freshCards.ts";
 import { cardNameOf } from "./cardNames.ts";
 import "../../styles/section-tiles.css";
 import { type SectionTile, type TileLink, type TileAdd, type OpenRequest, type FloatingCentre, type FloatingOpen } from "./SectionTileTypes.ts";
-import { cardsFloatOnly, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, scaleOrigin, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
+import { cardsFloatOnly, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
 import { restoreFocus, trackPointer, OpenCardContext, InitialBoxContext } from "./DialogLevels.tsx";
-import { TileFace, TileList } from "./TileParts.tsx";
+import { TileFace, TileLinks, TilePlus, useTileAim } from "./TileParts.tsx";
 import { SQUEEZED_ROW_MIN } from "./CarouselArrows.tsx";
 import { OPEN_EVENT, FloatingCards, TileDialog } from "./FloatingCards.tsx";
 
@@ -523,31 +522,8 @@ function TileSlot({
     onLink: (link: TileLink, from: HTMLElement, pointer: boolean) => void;
     onAdd: (from: HTMLElement, pointer: boolean) => void;
 }) {
-    const slot = useRef<HTMLDivElement | null>(null);
-    // Whether the pointer has been on the tile since it came: its origin is set ONCE for that stay, never again while the pointer is on it.
-    const pointed = useRef(false);
-
-    /* THE POINT IT SCALES FROM, set once when the pointer arrives: the corner, edge or centre of its place in the group; moved
-       to fit if the card is too narrow. It is measured as the tile RESTS -- its scale and its transition off for the moment --
-       and never again while the pointer stays: a press on a list item moves the focus, and measuring then (the tile already
-       at 150%, the transition's first frame still the scaled one) took the grown tile for its size, set another origin and
-       slid the tile under the pointer between the press and the release, so the click never landed. */
-    const aim = () => {
-        const node = slot.current;
-        if (!node || pointed.current) {
-            return;
-        }
-        pointed.current = true;
-        const transform = node.style.transform;
-        const transition = node.style.transition;
-        node.style.transition = "none";
-        node.style.transform = "none";
-        const box = node.getBoundingClientRect();
-        node.style.transform = transform;
-        node.style.transition = transition;
-        const room = (node.closest<HTMLElement>(".card-scroll") ?? node.closest<HTMLElement>(".section-tiles-box"))?.getBoundingClientRect();
-        node.style.transformOrigin = scaleOrigin(box, room ?? null, at, columns, rows);
-    };
+    // Where it scales from (see useTileAim): the corner, edge or centre of its place in the group.
+    const { slot, aimHandlers } = useTileAim(at, columns, rows);
 
     // The lines that hold an incomplete card go FIRST (the order of the links follows), each with what is missing.
     const baseItems = !tile.empty && tile.items && tile.items.length > 0 ? tile.items : null;
@@ -578,10 +554,7 @@ function TileSlot({
             style={style}
             data-column={at.column}
             data-row={at.row}
-            onPointerEnter={aim}
-            onPointerMove={aim}
-            onPointerLeave={() => { pointed.current = false; }}
-            onPointerCancel={() => { pointed.current = false; }}
+            {...aimHandlers}
         >
             <button
                 type="button"
@@ -607,8 +580,7 @@ function TileSlot({
                 {tile.picture && <span className="section-tile-picture" aria-hidden="true">{tile.picture}</span>}
             </button>
             {items && (
-                <div className="section-tile-links-layer">
-                    <TileList
+                <TileLinks
                         items={items}
                         links={orderedLinks}
                         alerts={alerts}
@@ -623,18 +595,19 @@ function TileSlot({
                             }
                         }}
                     />
-                </div>
             )}
             {tile.add && (tile.cardFor || tile.addOpensDialog) && (
-                <AddButton shape="box" className="section-tile-plus"
-                    aria-label={"Add " + tile.add.label.charAt(0).toUpperCase() + tile.add.label.slice(1) + " to " + plainTitle(tile.title)}
+                <TilePlus
+                    what={tile.add.label}
+                    title={tile.title}
                     disabled={tile.add.disabled}
                     onClick={(event) => onAdd(event.currentTarget, event.detail > 0)}
                 />
             )}
             {tile.plus && (
-                <AddButton shape="box" className="section-tile-plus"
-                    aria-label={"Add Subchannel to " + plainTitle(tile.title)}
+                <TilePlus
+                    what="Subchannel"
+                    title={tile.title}
                     onClick={(event) => { tile.plus?.(); if (!tile.press) { onOpen(event.currentTarget.parentElement?.querySelector<HTMLElement>(":scope > .section-tile") ?? event.currentTarget, event.detail > 0); } }}
                 />
             )}

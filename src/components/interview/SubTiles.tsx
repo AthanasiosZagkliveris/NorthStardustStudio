@@ -1,8 +1,7 @@
 import { ReactNode, useContext, useState } from "react";
 
 import TileGrid from "./TileGrid.tsx";
-import AddButton from "../AddButton.tsx";
-import { InitialBoxContext, InnerLevel, OpenCardContext, TileFace, TileList, useDialogInnerBack, useDialogInnerStep, type ItemMark, type TileAdd, type TileLink } from "./SectionTiles.tsx";
+import { InitialBoxContext, InnerLevel, OpenCardContext, TileFace, TileLinks, TilePlus, useDialogInnerBack, useDialogInnerStep, type ItemMark, type TileAdd, type TileLink } from "./SectionTiles.tsx";
 import { Dots, inwardOrigin } from "./CardTile.tsx";
 import type { FloorLink } from "./capabilityFloor.ts";
 
@@ -91,8 +90,7 @@ export default function SubTiles({ tiles, label }: { tiles: readonly SubTile[]; 
                             <TileFace title={tile.title} glyph={false} />
                         </button>
                         {tile.items && tile.items.length > 0 && (
-                            <div className="section-tile-links-layer">
-                                <TileList
+                            <TileLinks
                                     items={tile.items}
                                     marks={tile.itemMarks}
                                     links={tile.links}
@@ -100,12 +98,12 @@ export default function SubTiles({ tiles, label }: { tiles: readonly SubTile[]; 
                                     onLink={(link, _from, pointer) => { if ("card" in link) { openCard?.(link.card, undefined, undefined, pointer, false); } }}
                                     onPlain={() => setOpenId(tile.id)}
                                 />
-                            </div>
                         )}
                         {tile.circles && tile.circles.length > 0 && <Dots id={tile.id} name={tile.title} links={tile.circles} />}
                         {tile.add && (
-                            <AddButton shape="box" className="section-tile-plus"
-                                aria-label={"Add " + tile.add.label.charAt(0).toUpperCase() + tile.add.label.slice(1) + " to " + tile.title}
+                            <TilePlus
+                                what={tile.add.label}
+                                title={tile.title}
                                 disabled={tile.add.disabled}
                                 onClick={(event) => { if (tile.add) { openCard?.(tile.add.onAdd(), undefined, undefined, event.detail > 0, true); } }}
                             />

@@ -12,7 +12,8 @@ import {
     TileAdd,
     TileFace,
     TileLink,
-    TileList,
+    TileLinks,
+    TilePlus,
     plainTitle,
     tileName,
     useDialogInnerBack,
@@ -77,8 +78,7 @@ function CategoryTile({
             </button>
             {period && <span className="section-tile-period">{period}</span>}
             {names.length > 0 && (
-                <div className="section-tile-links-layer">
-                    <TileList
+                <TileLinks
                         items={names}
                         links={ids && onCard ? ids.map((card): TileLink => ({ card })) : undefined}
                         alerts={alerts}
@@ -86,11 +86,11 @@ function CategoryTile({
                         title={title}
                         onLink={(link, _from, pointer) => "card" in link && onCard?.(link.card, pointer)}
                     />
-                </div>
             )}
             {add && (
-                <AddButton shape="box" className="section-tile-plus"
-                    aria-label={"Add " + what + " to " + plainTitle(title)}
+                <TilePlus
+                    what={what}
+                    title={title}
                     onClick={(event) => onAdd(event.detail > 0)}
                 />
             )}
