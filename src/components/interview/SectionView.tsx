@@ -1,5 +1,6 @@
-import { CSSProperties, ReactNode, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, ReactNode, useContext, useEffect, useRef, useState } from "react";
 
+import TileGrid from "./TileGrid.tsx";
 import AddButton from "../AddButton.tsx";
 import {
     CHANNEL_TILE_HUE,
@@ -17,7 +18,7 @@ import {
     useDialogInnerBack,
     useDialogInnerStep
 } from "./SectionTiles.tsx";
-import CardTile, { inwardOrigin, pageTileSide, useTilesAcross } from "./CardTile.tsx";
+import CardTile, { inwardOrigin } from "./CardTile.tsx";
 import type { CardBox } from "./CardBoxes.tsx";
 import "../../styles/card-tile.css";
 
@@ -184,9 +185,6 @@ export default function SectionView({
         // (The rail follows the names of the categories while one is open.)
         open ? { items: categories.filter(category => category.cards.length >= CATEGORY_TILE_MIN_CARDS).map(category => ({ id: category.id, label: plainTitle(category.title) })), current: categories.filter(category => category.cards.length >= CATEGORY_TILE_MIN_CARDS).findIndex(category => category.id === open.id), go: (id: string) => setOpenId(id) } : null);
 
-    const grid = useRef<HTMLDivElement | null>(null);
-    const side = useMemo(pageTileSide, []);
-    const across = useTilesAcross(grid, side);
 
     if (open) {
         return <InnerLevel>{open.content()}</InnerLevel>;
@@ -206,14 +204,9 @@ export default function SectionView({
     };
 
     return (
-        <div className="card-boxes">
-            <div
-                ref={grid}
-                className="section-tiles card-tile-grid"
-                role="group"
-                aria-label={label}
-                style={{ "--section-tile-size": side + "px", gridTemplateColumns: "repeat(" + across + ", " + side + "px)", maxWidth: "none" } as CSSProperties}
-            >
+        <TileGrid label={label}>
+            {({ across }) => (
+            <>
                 {entries.map((entry, index) => {
                     const origin = inwardOrigin(index, total, across);
                     if (entry.card) {
@@ -259,8 +252,9 @@ export default function SectionView({
                     );
                 })}
                 {add && <AddTile label={add.label} disabled={add.disabled} across={across} onAdd={(pointer) => create(add, pointer)} />}
-            </div>
-        </div>
+    </>
+    )}
+        </TileGrid>
     );
 }
 
@@ -361,9 +355,6 @@ export function SubcategoryBoxes({
         // (The rail follows the names of the groups while one is open.)
         open && items.length > 1 ? { items: items.filter(item => !item.blankUnnamed).map(item => ({ id: item.id, label: plainTitle(item.title) })), current: items.filter(item => !item.blankUnnamed).findIndex(item => item.id === open.id), go: (id: string) => setOpenId(id) } : null);
 
-    const grid = useRef<HTMLDivElement | null>(null);
-    const side = useMemo(pageTileSide, []);
-    const across = useTilesAcross(grid, side);
 
     // (A category with one group has that group's tile too, empty or not: the arrows that bring the user here never make a card.)
 
@@ -376,14 +367,9 @@ export function SubcategoryBoxes({
     const total = shown.length + (add ? 1 : 0);
 
     return (
-        <div className="card-boxes">
-            <div
-                ref={grid}
-                className="section-tiles card-tile-grid"
-                role="group"
-                aria-label={label}
-                style={{ "--section-tile-size": side + "px", gridTemplateColumns: "repeat(" + across + ", " + side + "px)", maxWidth: "none" } as CSSProperties}
-            >
+        <TileGrid label={label}>
+            {({ across }) => (
+            <>
                 {shown.map((item, index) => {
                     // The lines that hold an incomplete card first.
                     const order = (item.items ?? []).map((_, at) => at).sort((one, other) => Number(!!item.alerts?.[other]?.length) - Number(!!item.alerts?.[one]?.length) || one - other);
@@ -423,8 +409,9 @@ export function SubcategoryBoxes({
                     );
                 })}
                 {add && <AddTile label={add.label} disabled={add.disabled} across={across} onAdd={() => setOpenId(add.onAdd())} />}
-            </div>
-        </div>
+    </>
+    )}
+        </TileGrid>
     );
 
 }

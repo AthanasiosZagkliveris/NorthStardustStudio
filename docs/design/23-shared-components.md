@@ -4,7 +4,7 @@ This document describes the current situation, one dated section per state, the 
 
 ## State on 2026-10-20
 
-As 2026-10-19, and the free text cells, the names, the card heads and the tooltips are components:
+As 2026-10-19, and the free text cells, the names, the card heads, the tooltips, the cards' outer boxes and the tile grids are components:
 
 | Component | File | Draws | Places |
 |---|---|---|---|
@@ -16,6 +16,9 @@ As 2026-10-19, and the free text cells, the names, the card heads and the toolti
 | `Tooltip` | `src/components/Tooltip.tsx` | The dark tooltip label: `TooltipBox` is the one box every tooltip is drawn in (on the page body, hidden until placed; `className` only adds a place's inside look). `useAboveTip(text, { box, alignRight })` is the hook of an icon or symbol: above the hovered text, 6px over it, its middle under the pointer (or its right edge on the box's right edge), under it where there is no room above | the card tiles' and the channel resources' tips, the action symbols, the Roadmap's bars (its own placement), the noted fields' notes (their own placement and content): 5 families, 3 hand-built boxes removed |
 
 | `StrategyHead` | `interview/StrategicPeriodEditor.tsx` | The head of a Strategy box (Theme, Goal, Objective, Metric): the number with the name (`NumberedName`), the kind with its "i" (`HeadKind`), the box's actions (`BoxActions`) | 4 heads |
+
+| `CardShell` | `interview/CardShell.tsx` | The outer box of every card and section panel: `business-foundation-input`, `business-foundation-card`, `business-engagement-input` (each switched off only where a box never had it), the place's own `className`, its anchors, rail and hue. `legal`: the Legal Entity and Founder cards' own box (`legal-entity-card`) | 17 section panels and cards, the shared `BusinessCard` itself, 3 Legal Entity and Founder cards |
+| `TileGrid` | `interview/TileGrid.tsx` | The grid of tiles of a dialog or page view: the page's tile size, as many across as fit, the grid box and its `card-boxes` outer box; its tiles are a function of `across` (and `placed`, for a grid whose boxes keep their places: `columns`) | SubTiles, PictureBoxes, the section view and the category view of `SectionView` (4) |
 
 Not joined to `CardHead`, on purpose: the Strategy boxes' heads (they have no fold arrow and carry a kind label, in their own CSS), the sub-channel's head (no number; its name is a drop-down or a text box), and the Brand page's column headings (`brand-style-head`: a title with bullets, not a card's head). Forcing them into the folding card's head would change their markup and CSS for no shared behaviour.
 
@@ -41,7 +44,7 @@ Every place that needs one of these uses the component, never its own markup (ru
 
 Left as they are, on purpose: the image-holder label keeps its own line (a layout rule measures it).
 
-Not yet shared (the owner decides the order): cards and tiles as one component each, the one-line text box, the raw `<select>`s.
+Not yet shared (the owner decides the order): the tile grids of `CardBoxes` (three across, its own measuring) and `CapabilityOverview` (the Inventory's own scroll and filters), the tiles themselves (`SectionTiles`, 2,415 lines: page tiles, dialogs and floating cards in one file, to be split before it is joined), the cards' bodies and CSS (the Legal Entity page's own `legal-entity-*` rules), cards and tiles as one component each, the one-line text box, the raw `<select>`s.
 
 ## State on 2026-10-17 (the survey)
 

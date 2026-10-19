@@ -1,8 +1,9 @@
-import { CSSProperties, ReactNode, useContext, useMemo, useRef, useSyncExternalStore } from "react";
+import { CSSProperties, ReactNode, useContext, useSyncExternalStore } from "react";
 
+import TileGrid from "./TileGrid.tsx";
 import { freshCards } from "./freshCards.ts";
 import { OpenCardContext } from "./SectionTiles.tsx";
-import { pageTileSide, useTilesAcross, inwardOrigin } from "./CardTile.tsx";
+import { inwardOrigin } from "./CardTile.tsx";
 import { AddTile } from "./SectionView.tsx";
 import type { CardBoxAdd } from "./CardBoxes.tsx";
 
@@ -42,23 +43,12 @@ export default function PictureBoxes({ items, label, add, columns, addCell }: { 
 
     const openCard = useContext(OpenCardContext);
     useSyncExternalStore(freshCards.subscribe, freshCards.snapshot);
-    const grid = useRef<HTMLDivElement | null>(null);
-    const side = useMemo(pageTileSide, []);
-    const fitting = useTilesAcross(grid, side);
-    // Boxes that keep their places need their columns all; a window with room for fewer lets them follow one another.
-    const placed = columns !== undefined && fitting >= columns;
-    const across = placed ? columns : fitting;
     const rows = Math.max(1, ...items.map(item => item.cell?.row ?? 1));
 
     return (
-        <div className="card-boxes picture-boxes">
-            <div
-                ref={grid}
-                className="section-tiles card-tile-grid"
-                role="group"
-                aria-label={label}
-                style={{ "--section-tile-size": side + "px", gridTemplateColumns: "repeat(" + across + ", " + side + "px)", maxWidth: "none" } as CSSProperties}
-            >
+        <TileGrid label={label} className="picture-boxes" columns={columns}>
+            {({ across, placed }) => (
+            <>
                 {items.map((item, index) => (
                     <div key={item.id} className={"section-tile-slot" + (item.missing && item.missing.length > 0 && !freshCards.has(item.id) ? " card-tile-incomplete" : "")} style={{ transformOrigin: placed && item.cell ? inwardOrigin((item.cell.row - 1) * across + item.cell.column - 1, rows * across, across) : inwardOrigin(index, items.length, across), ...(placed && item.cell ? { gridColumn: item.cell.column, gridRow: item.cell.row } : {}) }}>
                         <button
@@ -87,8 +77,9 @@ export default function PictureBoxes({ items, label, add, columns, addCell }: { 
                         }}
                     />
                 )}
-            </div>
-        </div>
+    </>
+    )}
+        </TileGrid>
     );
 
 }

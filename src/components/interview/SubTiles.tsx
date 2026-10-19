@@ -1,8 +1,9 @@
-import { CSSProperties, ReactNode, useContext, useMemo, useRef, useState } from "react";
+import { ReactNode, useContext, useState } from "react";
 
+import TileGrid from "./TileGrid.tsx";
 import AddButton from "../AddButton.tsx";
 import { InitialBoxContext, InnerLevel, OpenCardContext, TileFace, TileList, useDialogInnerBack, useDialogInnerStep, type ItemMark, type TileAdd, type TileLink } from "./SectionTiles.tsx";
-import { Dots, inwardOrigin, pageTileSide, useTilesAcross } from "./CardTile.tsx";
+import { Dots, inwardOrigin } from "./CardTile.tsx";
 import type { FloorLink } from "./capabilityFloor.ts";
 
 import "../../styles/section-tiles.css";
@@ -63,23 +64,15 @@ export default function SubTiles({ tiles, label }: { tiles: readonly SubTile[]; 
         // (The rail follows the names of the dialog's sections while one is open.)
         open ? { items: tiles.map(tile => ({ id: tile.id, label: tile.title })), current: tiles.findIndex(tile => tile.id === open.id), go: (id: string) => setOpenId(id) } : null);
 
-    const grid = useRef<HTMLDivElement | null>(null);
-    const side = useMemo(pageTileSide, []);
-    const across = useTilesAcross(grid, side);
 
     if (open) {
         return <InnerLevel>{open.content()}</InnerLevel>;
     }
 
     return (
-        <div className="card-boxes">
-            <div
-                ref={grid}
-                className="section-tiles card-tile-grid"
-                role="group"
-                aria-label={label}
-                style={{ "--section-tile-size": side + "px", gridTemplateColumns: "repeat(" + across + ", " + side + "px)", maxWidth: "none" } as CSSProperties}
-            >
+        <TileGrid label={label}>
+            {({ across }) => (
+            <>
                 {tiles.map((tile, index) => (
                     <div
                         key={tile.id}
@@ -119,8 +112,9 @@ export default function SubTiles({ tiles, label }: { tiles: readonly SubTile[]; 
                         )}
                     </div>
                 ))}
-            </div>
-        </div>
+    </>
+    )}
+        </TileGrid>
     );
 
 }
