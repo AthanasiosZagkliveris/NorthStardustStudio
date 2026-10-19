@@ -1,6 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
-
-import { useAutoGrow } from "../../hooks/useAutoGrow.ts";
+import TextField from "../TextField.tsx";
 
 /**
  * A card's name, asked in its head: an Activity, a resource, a
@@ -21,59 +19,23 @@ import { useAutoGrow } from "../../hooks/useAutoGrow.ts";
  * the text input it replaces, and keeps that input's classes -- the
  * same box, the same focus ring.
  */
-export default function CardNameInput({
-
-    ariaLabel,
-
-    placeholder,
-
-    disabled = false,
-
-    value,
-
-    onChange
-
-}: {
-
+export default function CardNameInput({ ariaLabel, placeholder, disabled = false, value, onChange }: {
     ariaLabel: string;
-
     placeholder: string;
-
     disabled?: boolean;
-
     value: string;
-
     onChange: (value: string) => void;
-
 }) {
-
-    const element = useRef<HTMLTextAreaElement | null>(null);
-
-    useAutoGrow(element, value);
-
-    // Two rows at most: the height of two lines of the name's own text, its padding and its edge; past them the box scrolls.
-    useLayoutEffect(() => {
-        const box = element.current;
-        if (!box) {
-            return;
-        }
-        const style = getComputedStyle(box);
-        const line = parseFloat(style.lineHeight) || parseFloat(style.fontSize) * 1.25;
-        const room = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) + parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth);
-        box.style.maxHeight = (2 * line + room) + "px";
-        box.style.overflowY = box.scrollHeight > box.clientHeight + 1 ? "auto" : "hidden";
-    }, [value]);
-
     return (
-        <textarea
-            ref={element}
-            rows={1}
+        <TextField
             className="interview-input strategy-name-input card-name-input"
-            aria-label={ariaLabel}
+            ariaLabel={ariaLabel}
             placeholder={placeholder}
             disabled={disabled}
             value={value}
-            onChange={(event) => onChange(event.target.value.replace(/\r?\n/g, " "))}
+            list={false}
+            maxLines={2}
+            onChange={(next) => onChange(next.replace(/\r?\n/g, " "))}
             onKeyDown={(event) => {
                 if (event.key === "Enter") {
                     event.preventDefault();
@@ -81,5 +43,4 @@ export default function CardNameInput({
             }}
         />
     );
-
 }

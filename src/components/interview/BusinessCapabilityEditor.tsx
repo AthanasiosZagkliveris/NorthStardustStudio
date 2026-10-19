@@ -1,3 +1,4 @@
+import ListStatic from "./ListStatic.tsx";
 import { toneHue } from "./CardTile.tsx";
 import CardShell from "./CardShell.tsx";
 import AddButton from "../AddButton.tsx";
@@ -164,8 +165,6 @@ import CapabilityOverview from "./CapabilityOverview.tsx";
 import { floorRows, tileLines, tileMarks } from "./capabilityFloor.ts";
 import CardNameInput from "./CardNameInput.tsx";
 import CardNumber from "./CardNumber.tsx";
-import NumberedListStatic from "./NumberedListStatic.tsx";
-import BulletListStatic from "./BulletListStatic.tsx";
 import { CAPACITY_UTILISATION_HELP } from "./FinancialParts.tsx";
 import { toggledIn } from "./toggledIn.ts";
 
@@ -2260,7 +2259,7 @@ export default function BusinessCapabilityEditor({
                             </BusinessEmpty>
                         )
                         : (
-                            <BulletListStatic
+                            <ListStatic marker="bullet"
                                 label="Roles"
                                 lines={founder.roles.map((role, position) => ({
                                     key: role + position,
@@ -2455,7 +2454,7 @@ export default function BusinessCapabilityEditor({
                             return (
                                 <div id={responsibilitiesId}>
                                     {active.length > 0 && (
-                                        <NumberedListStatic
+                                        <ListStatic
                                             flush
                                             lines={active.map((entry, position) => ({
                                                 key: entry.id + position,
@@ -2478,7 +2477,7 @@ export default function BusinessCapabilityEditor({
                                             </span>
                                             {doneOpen && (
                                                 <div id={doneKey}>
-                                                    <NumberedListStatic
+                                                    <ListStatic
                                                         flush
                                                         lines={done.map((entry, position) => ({
                                                             key: entry.id + position,

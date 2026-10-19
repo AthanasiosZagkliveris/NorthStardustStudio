@@ -10,7 +10,7 @@ The survey below was re-counted in the code on this date; two of its figures wer
 |---|---|---|---|---|
 | 1 | Raw `<select>` | Done 2026-10-20: none is left (8 were raw: `ProcessLibraryEditor` 3, `OperationalLogEditor` 3, `CalendarFunnel` 1, `DynamicTable` 1, and the select mode of `InterviewInput`, which `FieldRenderer` uses twice; the first count of 11 included comments) | `OptionPicker`; `ValuePicker` for choices whose value is not their words | Done |
 | 2 | Date and month popups | Done 2026-10-20 as far as the popup goes: `DateCellInput` (14 uses) and `MonthYearPicker` (8 uses) share `DatePopup.tsx` (`useDatePopup`: opening, placement, close on a press outside and on Escape; `DatePopupHead`: the four steps around the title) and its `date-cell-popup-*` classes; each still draws its own days or months | `DatePopup`; a single `DateCell` with a month setting is not done: the two cells differ (typed text and a calendar button against a button with the month's name) | Done (the cell itself: decide) |
-| 3 | Lists | `NumberedListInput` (708 lines, 10 uses), `NumberedListStatic` (4), `BulletListStatic` (1); `SuggestedInput` (3 uses) and `CardNameInput` (14 uses) are text areas of their own | `ListField` (edit and read), the two text areas as presets of `TextField` | Medium |
+| 3 | Lists | Done 2026-10-20: the read-only lists are one `ListStatic` (`marker` number or bullet; 5 uses), and the name's text area (`CardNameInput`, 14 uses) is a `TextField` (`maxLines={2}`, `list={false}`). Left: `NumberedListInput` (708 lines, 10 uses: the editor, with its own drag, add and remove per line) and `SuggestedInput` (3 uses: a text area with a suggestion list), which are different controls, not copies | `ListStatic`; `TextField` | Done (the editors: decide) |
 | 4 | One-line text box | 46 `type="text"` and 74 text-like `<input>`s in all, of which 22 are on the pages (`Conversation` 14, `GlobalSettings` 8, `Landing` 3) and 7 in the library's own demo parts; about 40 are in the components | `TextBox` | Low, a big sweep with little visible change |
 | 5 | Grids | `CardBoxes` (three across, its own measuring) and `CapabilityOverview` (the Inventory's own scroll and filters) still draw their own; `TileGrid` has the other 4 | `TileGrid` with those two options | Low to medium |
 | 6 | Tiles | 6 uses of the three drawings: `TileSlot` (page tile, with its hover origin and incomplete-lines-first order), the `SubTiles` tile and `CategoryTile` (simpler copies), `CardTile` | One `Tile` | High: hover origin and ordering must not change |
@@ -20,6 +20,8 @@ The survey below was re-counted in the code on this date; two of its figures wer
 Not checked in a browser (tests and the layout check only): the add buttons, tick boxes, number cells, field labels, tooltips, Strategy heads, tile grids and the Segment card.
 
 ## State on 2026-10-20
+
+The read-only lists are `ListStatic` (a numbered or a bullet list); a card's name is a `TextField` with `maxLines={2}` (`CardNameInput`).
 
 The date cell and the month picker open, place and close their popup through `DatePopup` (`useDatePopup`, `DatePopupHead`).
 

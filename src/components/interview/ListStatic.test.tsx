@@ -1,15 +1,15 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 
-import NumberedListStatic from "./NumberedListStatic";
+import ListStatic from "./ListStatic";
 
 afterEach(cleanup);
 
-describe("NumberedListStatic", () => {
+describe("ListStatic", () => {
 
     it("is an ordered list, one item a line, in order", () => {
 
-        render(<NumberedListStatic lines={[
+        render(<ListStatic lines={[
             { key: "a", text: "Founder & Automation Consultant" },
             { key: "b", text: "Solutions Architect" }
         ]} />);
@@ -26,7 +26,7 @@ describe("NumberedListStatic", () => {
 
     it("puts a line's badge at the end of the same line, after its text", () => {
 
-        render(<NumberedListStatic lines={[
+        render(<ListStatic lines={[
             {
                 key: "a",
                 text: "Form the LLC and get an EIN",

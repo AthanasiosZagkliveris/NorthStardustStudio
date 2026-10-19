@@ -1,3 +1,4 @@
+import ListStatic from "./ListStatic.tsx";
 import { CSSProperties, ReactNode, useRef, useState } from "react";
 
 import CardShell from "./CardShell.tsx";
@@ -49,7 +50,6 @@ import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
 import { toggledIn } from "./toggledIn.ts";
-import NumberedListStatic from "./NumberedListStatic.tsx";
 
 /**
  * The instruction bullets for each subsection, and the parameter
@@ -1281,7 +1281,7 @@ export default function BusinessFoundationEditor({
 
                     const entriesOf = (entries: string[]) => (
                         entries.length > 0 ? (
-                            <NumberedListStatic
+                            <ListStatic
                                 lines={entries.map(entry => ({ key: entry, text: entry }))}
                             />
                         ) : (

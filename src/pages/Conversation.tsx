@@ -67,7 +67,7 @@ import PageArrow, { pageKey } from "../components/interview/PageArrow";
 
 /** The Introduction's place on the PAGES rail, above "1. …". */
 const INTRODUCTION_RAIL_ID = "introduction";
-import NumberedListStatic from "../components/interview/NumberedListStatic";
+import ListStatic from "../components/interview/ListStatic";
 import { drawnAsTiles, pageIndexFromRailId, pageRailItems, sectionRailItems } from "../components/interview/rails/railItems";
 import { pageStatuses } from "../framework/engine/PageStatus";
 import { sectionStatuses } from "../framework/engine/SectionStatus";
@@ -2850,7 +2850,7 @@ export default function Conversation() {
                                     {/* The app's one shown-not-asked
                                         numbered list: its number column,
                                         its indent and its gap. */}
-                                    <NumberedListStatic
+                                    <ListStatic
                                         lines={railPages.map(page => ({
                                             key: page.id,
                                             className: "intro-page",
