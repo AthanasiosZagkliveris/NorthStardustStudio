@@ -17,7 +17,7 @@ The survey below was re-counted in the code on this date; two of its figures wer
 | 7 | Card bodies | The Legal Entity page keeps its `legal-entity-*` CSS and its number markup (`legal`); the Strategy boxes have no fold arrow and their own CSS | `BusinessCard` for the Legal Entity cards | Medium to high: many `>` child selectors |
 | 8 | Not joined, by decision | The fold arrow (36px) and the label arrow; the image-holder label; the sub-channel head; the Brand column headings | none | none |
 
-Not checked in a browser (tests and the layout check only): the add buttons, tick boxes, number cells, field labels, tooltips, Strategy heads, tile grids and the Segment card.
+Checked in a browser on 2026-10-20 (the build before the unifications, 840ce91, beside this one, on the 9 pages of the layout check at 1400 wide, every card open): the position, size and 11 computed styles of every add button, tick box, number cell, field label, card head, name, tile grid and slot, card box, text cell and dropdown are the same (one difference found and fixed: two cells that are a number only when the field has limits had become number cells). Clicked: the add button adds a card, a tick box toggles, a number cell takes its number. Not looked at: the tooltips (the Roadmap bars, the action symbols, the noted fields and the card tiles' tips are not on a reachable page of this example; their tests pass) and the Process library and Operational log pages (not reachable in this app version).
 
 ## State on 2026-10-20
 

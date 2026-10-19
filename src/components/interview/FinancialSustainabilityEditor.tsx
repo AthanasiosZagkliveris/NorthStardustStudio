@@ -1,4 +1,5 @@
 import { countedCapability } from "../../framework/engine/CardCompleteness.ts";
+import TextBox from "../TextBox.tsx";
 import NumberCell from "../NumberCell.tsx";
 import { ReactNode, useState } from "react";
 
@@ -385,16 +386,31 @@ export default function FinancialSustainabilityEditor({
     ) {
         return (
             <BusinessField label={label} info={info} inline={inline}>
-                <NumberCell
-                    inputMode={limits ? numberInputMode(limits) : undefined}
-                    aria-label={ariaLabel}
-                    placeholder={placeholder}
-                    disabled={disabled}
-                    value={current}
-                    onChange={(event) => onNext(limits
-                        ? limitedNumberText(event.target.value, current, limits)
-                        : event.target.value)}
-                />
+                {limits
+                    ? (
+                        <NumberCell
+                            inputMode={numberInputMode(limits)}
+                            aria-label={ariaLabel}
+                            placeholder={placeholder}
+                            disabled={disabled}
+                            value={current}
+                            onChange={(event) => onNext(limits
+                                ? limitedNumberText(event.target.value, current, limits)
+                                : event.target.value)}
+                        />
+                    )
+                    : (
+                        <TextBox
+                            className="interview-input"
+                            aria-label={ariaLabel}
+                            placeholder={placeholder}
+                            disabled={disabled}
+                            value={current}
+                            onChange={(event) => onNext(limits
+                                ? limitedNumberText(event.target.value, current, limits)
+                                : event.target.value)}
+                        />
+                    )}
             </BusinessField>
         );
     }
@@ -412,7 +428,6 @@ export default function FinancialSustainabilityEditor({
             <BusinessField label={labelWithCurrency(label, currency)} info={info} inline>
                 <div className="business-capability-price">
                     <NumberCell
-                        
                         aria-label={nameWithCurrency(ariaLabel, currency)}
                         placeholder={placeholder}
                         disabled={disabled}
@@ -802,7 +817,6 @@ export default function FinancialSustainabilityEditor({
                                         })}
                                     />
                                     <NumberCell
-                                        
                                         aria-label={what + " volume change " + (position + 1) + " volume"}
                                         placeholder={plural(unit, 2) + " per month"}
                                         disabled={disabled}

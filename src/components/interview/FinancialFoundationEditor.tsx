@@ -408,16 +408,31 @@ export default function FinancialFoundationEditor({
     ) {
         return (
             <BusinessField label={label} info={info}>
-                <NumberCell
-                    inputMode={limits ? numberInputMode(limits) : undefined}
-                    aria-label={ariaLabel}
-                    placeholder={placeholder}
-                    disabled={disabled}
-                    value={current}
-                    onChange={(event) => onNext(limits
-                        ? limitedNumberText(event.target.value, current, limits)
-                        : event.target.value)}
-                />
+                {limits
+                    ? (
+                        <NumberCell
+                            inputMode={numberInputMode(limits)}
+                            aria-label={ariaLabel}
+                            placeholder={placeholder}
+                            disabled={disabled}
+                            value={current}
+                            onChange={(event) => onNext(limits
+                                ? limitedNumberText(event.target.value, current, limits)
+                                : event.target.value)}
+                        />
+                    )
+                    : (
+                        <TextBox
+                            className="interview-input"
+                            aria-label={ariaLabel}
+                            placeholder={placeholder}
+                            disabled={disabled}
+                            value={current}
+                            onChange={(event) => onNext(limits
+                                ? limitedNumberText(event.target.value, current, limits)
+                                : event.target.value)}
+                        />
+                    )}
             </BusinessField>
         );
     }
@@ -974,7 +989,6 @@ export default function FinancialFoundationEditor({
                                             })}
                                         />
                                         <NumberCell
-                                            
                                             aria-label={what + " milestone " + (position + 1) + " amount"}
                                             placeholder={amountPlaceholder}
                                             disabled={disabled}
