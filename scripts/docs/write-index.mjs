@@ -86,7 +86,7 @@ Status: **index**, updated ${new Date().toISOString().slice(0, 10)}. One line pe
 - **A change is written in the log** (\`design/04-log.md\`), newest row on top, and nowhere else. The other documents **describe the present**: each says what is true now, under a dated heading, the newest on top, with its own status line (kind and date) under the title.
 - **Kinds**: *rules* (what must hold; a check enforces most of them), *reference* (how things are, to look up), *current design* (what the app is today), *living list* (an open list: an item leaves it when done and the log records it), *log*, *proposal* (nothing built), *specification* (what a page asks and shows), *playbook* (a procedure), *generated* (written by a script; never edit by hand, run its command), *snapshot* (a measured picture on a date; not updated), *archive* (finished or older; kept for the record).
 - **Where the code and a document disagree, the code is right** and the document is the one to fix. The checks that keep them honest: \`npm run docs:check\` (generated sections), \`npm run tables:check\`, \`npm run library:check\`, and the document-reference test (the six rule documents name only properties, classes and files the code has).
-- **This index is written by `npm run docs:index`** (the lists are in `scripts/docs/write-index.mjs`; a new document is added there). Do not edit it by hand.
+- **This index is written by \`npm run docs:index\`** (the lists are in \`scripts/docs/write-index.mjs\`; a new document is added there). Do not edit it by hand.
 - **Who reads what**: an assistant starts with \`ai/README.md\`; the owner starts with \`design/05-not-done-yet.md\` (what is open) and \`design/04-log.md\` (what changed).
 
 ## For the assistant and the rules (\`ai/\`)
