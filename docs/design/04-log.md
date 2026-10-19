@@ -60,6 +60,7 @@ The drafts were HTML and PDF files in `docs/ai`, never committed to git. Only th
 
 | Date | Change |
 |---|---|
+| 2026-10-20 | `NameCell` (asked, linked or shown) and `CardHead` (arrow, number, mark, name, actions, summary) draw the heads of the shared business card, the Segment, the financial sections, the Legal Entity requirement and expense cards and the founders' cards (6 heads). The Legal Entity heads keep their number markup. Tests, build, lints and layout check (0 new) pass. |
 | 2026-10-20 | `TextField`: the five hand-written auto-grow text areas (the answer renderer's, the table cell's, the process library's, the Notes field's, the Notes panel's) and the Strategy text area and interview input now draw one component; `useAutoGrow` keeps the box's CSS height as its floor. Tests, build, lints, layout check (0 new) pass. |
 | 2026-10-19 | The safe unifications, all five: `NumberCell` (28), `FieldLabel` (38), `TickBox` (15), `LabelArrow` for the Inventory menu (4), `AddButton` (18); with the earlier `RemoveButton`, `FunnelButton`, `BackButton`. Table in `23-shared-components.md`; rule 22.24. |
 | 2026-10-19 | Sixth round: the Typography tile's underline (its box clipped it), one `FunnelButton`, the incomplete tile keeps flashing while its card is open, the error shown on the field not the card (Offerings ticks), the vertical label gap measured (6px, all pairs); rules 22.25 to 22.27. |

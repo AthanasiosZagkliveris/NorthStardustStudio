@@ -4,13 +4,16 @@ This document describes the current situation, one dated section per state, the 
 
 ## State on 2026-10-20
 
-As 2026-10-19, and the free text cells are one component:
+As 2026-10-19, and the free text cells, the names and the card heads are components:
 
 | Component | File | Draws | Places |
 |---|---|---|---|
 | `TextField` | `src/components/TextField.tsx` | Every free-text cell: a text area that grows with its words and never scrolls inside itself (the shared `useAutoGrow`; its own CSS height or `rows` is the floor), with the list writing ("- " or "1. " at the start of a line; Enter continues). `list={false}` for a name or a one-line purpose, `grow={false}` for a fixed height, `onKeyDown` for a place's own keys (the Notes panel's #), `elementRef` for a place that moves the focus | the Notes field, the Strategy text area, the interview input's text area, the table cells, the answer renderer's subtitles, the process library's cells, the Notes panel's notes (7 families, 5 hand-written copies removed) |
 
-Still their own: the name cell's text area (`CardNameInput`), the suggestions box (`SuggestedInput`) and the numbered list (`NumberedListInput`); they join with `NameCell` and `ListField`.
+| `NameCell` | `interview/NameCell.tsx` | A card's name in its head, one slot for three ways: asked (`editing`: the name's box, `CardNameInput`, two rows at most), a link (`link`: the name opens another place) or shown as text (`empty` when there is none) | 6 heads |
+| `CardHead` | `interview/CardHead.tsx` | The head of a folding card, always in this order: fold arrow (absent when the card does not fold), number (`CardNumber`), the card's mark, the name (a `NameCell` or the section's title), the actions (x, handle), then the row under the name (the summary). The classes stay the card kind's own (`className`, with `fold-card-head`) | 6 heads: the shared business card, Segment, the financial sections, the Legal Entity requirement and expense cards, the founders' cards |
+
+Still their own: the Legal Entity heads keep their own number markup (`legal`: `legal-entity-card-number`, its own CSS, until the two numbers are one); the heads that are not folding cards (the brand style head, the Strategic Period's boxes, the sub-channel head); the suggestions box (`SuggestedInput`) and the numbered list (`NumberedListInput`), which join with `ListField`.
 
 ## State on 2026-10-19
 
@@ -32,7 +35,7 @@ Every place that needs one of these uses the component, never its own markup (ru
 
 Left as they are, on purpose: the image-holder label keeps its own line (a layout rule measures it).
 
-Not yet shared (the owner decides the order): the name cell (`NameCell`), tooltips, the card head (`CardHead`), cards and tiles as one component each, the one-line text box, the raw `<select>`s.
+Not yet shared (the owner decides the order): tooltips, the other heads, cards and tiles as one component each, the one-line text box, the raw `<select>`s.
 
 ## State on 2026-10-17 (the survey)
 
