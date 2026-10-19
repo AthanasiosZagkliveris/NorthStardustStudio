@@ -562,6 +562,10 @@ The stylesheets use 13 window boundaries (one is a height) and 20 container boun
 
 The decided set (768, 1200, heights 900 and 1250) is not yet used by any query; moving the queries to it changes the layout between the old and new widths, so it is a separate decision.
 
+## Left after 2026-10-20 (the unifications)
+
+The counted list is in `docs/design/23-shared-components.md`, section "What is left on 2026-10-20": the raw selects (11), the date and month popups, the lists, the one-line text box (about 40 in the components), the two remaining tile grids, the three tile drawings, the Legal Entity card bodies. Done in the same session: BackButton, RemoveButton, FunnelButton, AddButton, NumberCell, FieldLabel, TickBox, LabelArrow, TextField, NameCell, CardHead, StrategyHead, Tooltip, CardShell, TileGrid, and the split of `SectionTiles.tsx` (see the log).
+
 ## Left after 2026-10-18
 
 - The catalogue records (`docs/design/06-catalogue-record.md` and the crawl behind it) still show Quillfield as an LLC (its "Form the LLC and get an EIN" activity and the publication requirement); the next full crawl rewrites them. `npm run tables` was run, so the structure tables and the library tables follow the example.

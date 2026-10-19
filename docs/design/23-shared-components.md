@@ -2,6 +2,23 @@
 
 This document describes the current situation, one dated section per state, the newest on top. What changed, and when, is written in the log (`04-log.md`), not here.
 
+## What is left on 2026-10-20
+
+The survey below was re-counted in the code on this date; two of its figures were out of date (no raw date inputs are left; the plain text boxes are about 40 in the components, not 106).
+
+| # | Family | Counted in the code on 2026-10-20 | One component | Risk |
+|---|---|---|---|---|
+| 1 | Raw `<select>` | 11 in 4 files (`ProcessLibraryEditor` 6, `OperationalLogEditor` 3, `CalendarFunnel` 1, `DynamicTable` 1), plus the select mode of `InterviewInput` (2 places in `FieldRenderer`); `OptionPicker` has 50 uses | `OptionPicker` | Low: the dropdown's look changes slightly |
+| 2 | Date and month popups | `DateCellInput` (407 lines, 14 uses) and `MonthYearPicker` (225 lines, 8 uses) share the floating-panel hook but each draws its own calendar; no raw date inputs are left | One `DateCell`, a month setting | Medium: both popups are owner-approved looks |
+| 3 | Lists | `NumberedListInput` (708 lines, 10 uses), `NumberedListStatic` (4), `BulletListStatic` (1); `SuggestedInput` (3 uses) and `CardNameInput` (14 uses) are text areas of their own | `ListField` (edit and read), the two text areas as presets of `TextField` | Medium |
+| 4 | One-line text box | 46 `type="text"` and 74 text-like `<input>`s in all, of which 22 are on the pages (`Conversation` 14, `GlobalSettings` 8, `Landing` 3) and 7 in the library's own demo parts; about 40 are in the components | `TextBox` | Low, a big sweep with little visible change |
+| 5 | Grids | `CardBoxes` (three across, its own measuring) and `CapabilityOverview` (the Inventory's own scroll and filters) still draw their own; `TileGrid` has the other 4 | `TileGrid` with those two options | Low to medium |
+| 6 | Tiles | 6 uses of the three drawings: `TileSlot` (page tile, with its hover origin and incomplete-lines-first order), the `SubTiles` tile and `CategoryTile` (simpler copies), `CardTile` | One `Tile` | High: hover origin and ordering must not change |
+| 7 | Card bodies | The Legal Entity page keeps its `legal-entity-*` CSS and its number markup (`legal`); the Strategy boxes have no fold arrow and their own CSS | `BusinessCard` for the Legal Entity cards | Medium to high: many `>` child selectors |
+| 8 | Not joined, by decision | The fold arrow (36px) and the label arrow; the image-holder label; the sub-channel head; the Brand column headings | none | none |
+
+Not checked in a browser (tests and the layout check only): the add buttons, tick boxes, number cells, field labels, tooltips, Strategy heads, tile grids and the Segment card.
+
 ## State on 2026-10-20
 
 As 2026-10-19, and the free text cells, the names, the card heads, the tooltips, the cards' outer boxes and the tile grids are components:
@@ -46,7 +63,7 @@ Every place that needs one of these uses the component, never its own markup (ru
 
 Left as they are, on purpose: the image-holder label keeps its own line (a layout rule measures it).
 
-Not yet shared (the owner decides the order): the tile grids of `CardBoxes` (three across, its own measuring) and `CapabilityOverview` (the Inventory's own scroll and filters), the tiles themselves (`SectionTiles` page tile and `TileSlot`, `CardTile`, the category tile of `SectionView`: three drawings of one tile, to be joined now that the file is split), the cards' bodies and CSS (the Legal Entity page's own `legal-entity-*` rules), cards and tiles as one component each, the one-line text box, the raw `<select>`s.
+What is left is listed, counted, in "What is left on 2026-10-20" below.
 
 ## State on 2026-10-17 (the survey)
 
