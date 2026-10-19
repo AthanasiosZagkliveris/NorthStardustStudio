@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import OptionPicker from "./interview/OptionPicker.tsx";
 import TickBox from "./TickBox.tsx";
 import DateCellInput from "./interview/DateCellInput";
 
@@ -138,21 +139,18 @@ export default function CalendarFunnel({
             <div className="org-calendar-funnel-row">
                 <label className="org-calendar-funnel-field">
                     <span className="org-calendar-funnel-label">Show</span>
-                    <select
-                        className="interview-input org-calendar-dropdown"
-                        aria-label="Period"
+                    <OptionPicker
+                        label="Period"
+                        options={labels}
                         value={current}
-                        onChange={(event) => {
-                            const next = event.target.value;
+                        onChange={(next) => {
                             if (next === NEW) {
                                 setAdding(true);
                                 return;
                             }
                             onPeriod(next === MONTH ? null : periods.find(period => period.label === next)?.id ?? null);
                         }}
-                    >
-                        {labels.map(label => <option key={label} value={label}>{label}</option>)}
-                    </select>
+                    />
                 </label>
                 {chosen?.custom && (
                     <button

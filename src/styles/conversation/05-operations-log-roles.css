@@ -302,13 +302,6 @@
 
 }
 
-.operational-log-table select.interview-input,
-.operational-log-filters select.interview-input{
-
-    cursor:pointer;
-
-}
-
 .operational-log-autogrow-field{
 
     resize:none;

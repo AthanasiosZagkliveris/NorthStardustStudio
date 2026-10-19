@@ -55,61 +55,6 @@
    selects of a list stand apart. As wide as its longest option, which is how a
    native select sizes itself -- so every line's select in a list is
    the same width and they stand in a column. */
-.numbered-list-line-end select{
-
-    appearance:none;
-    -webkit-appearance:none;
-
-    box-sizing:border-box;
-
-    max-width:50vw;
-
-    margin:4px 0;
-
-    padding:3px var(--select-padding-right) 3px var(--select-padding-left);
-
-    font:inherit;
-    font-size:var(--font-body);
-    line-height:1.5;
-
-    color:var(--text-default);
-
-    border:1px solid var(--box-border);
-    border-radius:var(--box-radius);
-
-    background-color:var(--bg-surface);
-    background-image:var(--select-chevron);
-    background-repeat:no-repeat;
-    background-position:right var(--select-chevron-inset) center;
-    background-size:12px 8px;
-
-    cursor:pointer;
-
-}
-
-.numbered-list-line-end select:hover:not(:disabled){
-
-    border-color:var(--line-primary);
-
-}
-
-.numbered-list-line-end select:focus-visible{
-
-    outline:none;
-
-    border-color:var(--line-primary);
-
-    box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
-
-}
-
-.numbered-list-line-end select:disabled{
-
-    color:var(--text-faint);
-
-    cursor:not-allowed;
-
-}
 
 /* ==========================================================
    A numbered list that is SHOWN, not asked (NumberedListStatic):

@@ -1427,8 +1427,7 @@
 
 }
 
-.org-calendar-multi > .org-calendar-dropdown,
-select.org-calendar-dropdown{
+.org-calendar-multi > .org-calendar-dropdown{
 
     font-family:inherit;
     letter-spacing:normal;

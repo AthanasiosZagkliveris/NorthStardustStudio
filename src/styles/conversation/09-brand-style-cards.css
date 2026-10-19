@@ -443,24 +443,6 @@
    Drawn in #111827, the same ink as the value beside it, and at
    2px stroke on white it is far above the 3:1 a non-text
    indicator needs. */
-.strategy-metric-field select.interview-input,
-.brand-style select.interview-input{
-
-    appearance:none;
-    -webkit-appearance:none;
-
-    /* The app's one select (global.css): the option picker's
-       padding and chevron, so a native select and a picker side by
-       side are the same control. */
-    padding-left:var(--select-padding-left);
-    padding-right:var(--select-padding-right);
-
-    background-image:var(--select-chevron);
-    background-repeat:no-repeat;
-    background-position:right var(--select-chevron-inset) center;
-    background-size:12px 8px;
-
-}
 
 /* ==========================================================
    Roadmap -- a Theme's own colour, in three tones
@@ -602,7 +584,6 @@
     box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
 
 }
-
 
 /* The x that clears the colour stands in the card's x column: 12px after the hex field's right edge (the name box's), level with the head's x. */
 .brand-colour-row{

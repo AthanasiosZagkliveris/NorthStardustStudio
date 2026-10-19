@@ -1,3 +1,4 @@
+import OptionPicker from "./OptionPicker.tsx";
 import TextField from "../TextField.tsx";
 
 interface InterviewInputProps {
@@ -66,33 +67,8 @@ export default function InterviewInput({
     }
 
     if (mode === "select") {
-        return (
-            <select
-                className={className}
-                aria-label={ariaLabel}
-                value={value}
-                disabled={disabled}
-                onChange={(event) => onChange(event.target.value)}
-            >
-                {/* Every dropdown's own placeholder option reads the
-                    SAME single word, "Select" -- no "Select an
-                    option"/"Select frequency"/etc variants, even when
-                    a Framework-authored `placeholder` is supplied
-                    (see FieldRenderer.tsx's own `field.placeholder`
-                    passthrough) -- "The drop down options for all the
-                    fields, should have only a default single word
-                    Select". `placeholder` still applies normally to
-                    the "input"/"textarea" modes above, unaffected. */}
-                <option value="" disabled>
-                    Select
-                </option>
-                {options.map((option) => (
-                    <option key={option} value={option}>
-                        {option}
-                    </option>
-                ))}
-            </select>
-        );
+        // Every dropdown's own placeholder reads the SAME single word, "Select" -- no "Select an option" variants, even when a Framework-authored `placeholder` is supplied (see FieldRenderer.tsx's `field.placeholder` passthrough): "The drop down options for all the fields, should have only a default single word Select".
+        return <OptionPicker label={ariaLabel ?? ""} options={options} value={value} disabled={disabled} onChange={onChange} />;
     }
 
     return (

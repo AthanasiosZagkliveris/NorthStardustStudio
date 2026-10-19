@@ -2,6 +2,7 @@ import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from "rea
 
 import TextField from "../TextField.tsx";
 import FieldRenderer from "./FieldRenderer";
+import OptionPicker from "./OptionPicker.tsx";
 import DateCellInput from "./DateCellInput.tsx";
 import NotesField from "./NotesField.tsx";
 
@@ -1207,36 +1208,14 @@ function DynamicTable({
 
                 return (
 
-                    <select
-
-                        className="interview-input"
-                        aria-label={cellLabel}
-
+                    <OptionPicker
+                        label={cellLabel}
+                        placeholder={options.length > 0 ? "Select" : "No options entered yet"}
+                        options={options}
                         disabled={disabled}
-
                         value={String(cellValue ?? "")}
-
-                        onChange={(event) => onValueChange(event.target.value)}
-
-                    >
-
-                        <option value="">
-
-                            {options.length > 0 ? "Select" : "No options entered yet"}
-
-                        </option>
-
-                        {options.map(option => (
-
-                            <option key={option} value={option}>
-
-                                {option}
-
-                            </option>
-
-                        ))}
-
-                    </select>
+                        onChange={onValueChange}
+                    />
 
                 );
 

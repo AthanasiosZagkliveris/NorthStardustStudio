@@ -614,3 +614,22 @@ export default function OptionPicker({
     );
 
 }
+
+/**
+ * THE PICKER FOR CHOICES WHOSE VALUE IS NOT THEIR WORDS (a key, a number, a period's id): the same dropdown, shown by `label`, answering with the choice's `value`. `OptionPicker` is for choices that are just their words.
+ */
+export function ValuePicker({ choices, value, onChange, ...rest }: Omit<OptionPickerProps, "options" | "value" | "onChange"> & {
+    choices: readonly { value: string; label: string }[];
+    value: string;
+    onChange: (value: string) => void;
+}) {
+    const chosen = choices.find(choice => choice.value === value);
+    return (
+        <OptionPicker
+            {...rest}
+            options={choices.map(choice => choice.label)}
+            value={chosen ? chosen.label : ""}
+            onChange={(label) => onChange(choices.find(choice => choice.label === label)?.value ?? "")}
+        />
+    );
+}

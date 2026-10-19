@@ -48,12 +48,6 @@
 
 }
 
-.process-library select.interview-input{
-
-    cursor:pointer;
-
-}
-
 /* Process/SOP/Step name, purpose, "who", "how often", and Step
    action fields all auto-grow to fit their content (see
    AutoGrowField in ProcessLibraryEditor.tsx) instead of clipping

@@ -723,12 +723,6 @@
 
 }
 
-.dynamic-table-scroll select.interview-input{
-
-    cursor:pointer;
-
-}
-
 /* A `field.allowCustom` Field (currently just the Platform Field --
    see FieldRenderer.tsx's SelectFieldWithCustom) stacks its select
    and, once "Other" is picked, a free-text input directly beneath
@@ -1183,7 +1177,6 @@
     color:var(--plus-ground);
 }
 
-
 /* ==========================================================
    Table Row Actions -- Remove / Add
 ========================================================== */
@@ -1428,7 +1421,6 @@
     box-shadow:0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent);
 
 }
-
 
 /* A date field outside a coloured card (Global Settings, the Notes panel) has no hue to take: its calendar button is the colour every cell has. */
 :is(.settings-page, .notepad-panel) :is(.date-cell, .month-picker){

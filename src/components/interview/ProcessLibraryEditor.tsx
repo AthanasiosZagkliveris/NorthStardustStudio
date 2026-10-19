@@ -1,5 +1,6 @@
 import { Fragment, FocusEvent, MouseEvent, useCallback, useEffect, useMemo, useState } from "react";
 
+import OptionPicker, { ValuePicker } from "./OptionPicker.tsx";
 import TextField from "../TextField.tsx";
 import {
     ProcessLibraryAnswerValue,
@@ -400,42 +401,27 @@ function FrequencyCell({
 
         <td className="process-library-col-frequency">
 
-            <select
-                className="interview-input"
-                aria-label="How often"
+            <OptionPicker
+                label="How often"
+                options={FREQUENCY_PRESET_OPTIONS}
                 value={howOften}
                 disabled={disabled}
-                onChange={(event) => {
-
-                    const next = event.target.value;
-
+                onChange={(next) => {
                     const keepsSchedule = WEEKDAY_FREQUENCIES.includes(next) || DATE_PICKER_FREQUENCIES.includes(next);
-
                     onChange({ howOften: next, schedule: keepsSchedule ? schedule : undefined });
-
                 }}
-            >
-                <option value="" disabled>Select</option>
-                {FREQUENCY_PRESET_OPTIONS.map(option => (
-                    <option key={option} value={option}>{option}</option>
-                ))}
-            </select>
+            />
 
             {needsWeekdayPicker && (
-                <select
-                    className="interview-input process-library-frequency-schedule-field"
-                    aria-label="Day of week"
-                    value={schedule?.anchorDate ? String(isoWeekday(schedule.anchorDate) ?? "") : ""}
-                    disabled={disabled}
-                    onChange={(event) => {
-                        onChange({ howOften, schedule: { anchorDate: nextIsoForWeekday(Number(event.target.value)) } });
-                    }}
-                >
-                    <option value="" disabled>Select</option>
-                    {WEEKDAY_OPTIONS.map(option => (
-                        <option key={option.value} value={option.value}>{option.label}</option>
-                    ))}
-                </select>
+                <div className="process-library-frequency-schedule-field">
+                    <ValuePicker
+                        label="Day of week"
+                        choices={WEEKDAY_OPTIONS.map(option => ({ value: String(option.value), label: option.label }))}
+                        value={schedule?.anchorDate ? String(isoWeekday(schedule.anchorDate) ?? "") : ""}
+                        disabled={disabled}
+                        onChange={(next) => onChange({ howOften, schedule: { anchorDate: nextIsoForWeekday(Number(next)) } })}
+                    />
+                </div>
             )}
 
             {needsDatePicker && (
@@ -1879,18 +1865,13 @@ export default function ProcessLibraryEditor({
                                         onChange={(patch) => updateProcess(index, patch)}
                                     />
                                     <td className="process-library-col-status">
-                                        <select
-                                            className="interview-input"
-                                            aria-label="Status"
+                                        <OptionPicker
+                                            label="Status"
+                                            options={PROCESS_STATUS_OPTIONS}
                                             value={process.status}
                                             disabled={disabled}
-                                            onChange={(event) => updateProcess(index, { status: event.target.value })}
-                                        >
-                                            <option value="" disabled>Select</option>
-                                            {PROCESS_STATUS_OPTIONS.map(option => (
-                                                <option key={option} value={option}>{option}</option>
-                                            ))}
-                                        </select>
+                                            onChange={(next) => updateProcess(index, { status: next })}
+                                        />
                                     </td>
                                     <td className="process-library-col-actions">
                                         <RowActions

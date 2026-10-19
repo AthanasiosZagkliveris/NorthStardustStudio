@@ -129,7 +129,6 @@
 
 }
 
-.capability-overview-menu select,
 .capability-overview-menu input[type="text"] {
 
     font: inherit;
@@ -187,7 +186,6 @@
     text-align: left;
 
 }
-
 
 /* Step 2 of Belongs to (the groups of the chosen place) is indented under step 1. */
 .capability-overview-menu-sub {
@@ -296,8 +294,6 @@
     cursor: pointer;
 
 }
-
-
 
 /* The scrolling area's bar: thin, no arrows (overriding the app-wide *::-webkit-scrollbar { display: none }). */
 .capability-overview-scroll::-webkit-scrollbar {

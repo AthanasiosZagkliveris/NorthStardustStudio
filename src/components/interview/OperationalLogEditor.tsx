@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import { ValuePicker } from "./OptionPicker.tsx";
 import TickBox from "../TickBox.tsx";
 import {
     OperationalLogAnswerValue,
@@ -319,24 +320,15 @@ export default function OperationalLogEditor({
 
                     <span className="operational-log-filter-label">Filter by Process</span>
 
-                    <select
-                        className="interview-input"
+                    <ValuePicker
+                        label="Filter by Process"
+                        choices={[
+                            { value: NO_FILTER, label: "All Processes" },
+                            ...filterableProcesses.map(process => ({ value: process.key, label: resolveProcessLogLabel(process.key, processes) || processDisplayId(processes, processes.indexOf(process)) }))
+                        ]}
                         value={filterProcessKey}
-                        onChange={(event) => setFilterProcessKey(event.target.value)}
-                    >
-                        <option value={NO_FILTER}>All Processes</option>
-                        {filterableProcesses.map(process => {
-
-                            const processIndex = processes.indexOf(process);
-
-                            return (
-                                <option key={process.key} value={process.key}>
-                                    {resolveProcessLogLabel(process.key, processes) || processDisplayId(processes, processIndex)}
-                                </option>
-                            );
-
-                        })}
-                    </select>
+                        onChange={setFilterProcessKey}
+                    />
 
                 </label>
 
@@ -344,16 +336,12 @@ export default function OperationalLogEditor({
 
                     <span className="operational-log-filter-label">Filter by Owner</span>
 
-                    <select
-                        className="interview-input"
+                    <ValuePicker
+                        label="Filter by Owner"
+                        choices={[{ value: NO_FILTER, label: "All Owners" }, ...filterableOwners.map(owner => ({ value: owner, label: owner }))]}
                         value={filterOwner}
-                        onChange={(event) => setFilterOwner(event.target.value)}
-                    >
-                        <option value={NO_FILTER}>All Owners</option>
-                        {filterableOwners.map(owner => (
-                            <option key={owner} value={owner}>{owner}</option>
-                        ))}
-                    </select>
+                        onChange={setFilterOwner}
+                    />
 
                 </label>
 
@@ -406,15 +394,12 @@ export default function OperationalLogEditor({
 
                         <span className="operational-log-filter-label">Delete old entries</span>
 
-                        <select
-                            className="interview-input"
+                        <ValuePicker
+                            label="Delete old entries"
+                            choices={RETENTION_OPTIONS}
                             value={retentionChoice}
-                            onChange={(event) => handleRetentionChoiceChange(event.target.value)}
-                        >
-                            {RETENTION_OPTIONS.map(option => (
-                                <option key={option.value} value={option.value}>{option.label}</option>
-                            ))}
-                        </select>
+                            onChange={handleRetentionChoiceChange}
+                        />
 
                     </label>
 
