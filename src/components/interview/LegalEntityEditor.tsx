@@ -2038,7 +2038,7 @@ export default function LegalEntityEditor({
 
                 return (
 
-                <div className="legal-entity-card" key={requirement.id} data-anchor={"legal-requirement-" + requirement.id}>
+                <CardShell legal key={requirement.id} data-anchor={"legal-requirement-" + requirement.id}>
 
                     <CardHead
                         className="legal-entity-card-head fold-card-head fold-card-fixed"
@@ -2182,7 +2182,7 @@ export default function LegalEntityEditor({
                     </div>
                     )}
 
-                </div>
+                </CardShell>
 
                 );
 
@@ -2200,7 +2200,7 @@ export default function LegalEntityEditor({
 
                 return (
 
-                <div className="legal-entity-card" key={expense.id} data-anchor={"legal-expense-" + expense.id}>
+                <CardShell legal key={expense.id} data-anchor={"legal-expense-" + expense.id}>
 
                     <CardHead
                         className="legal-entity-card-head fold-card-head fold-card-fixed"
@@ -2411,7 +2411,7 @@ export default function LegalEntityEditor({
                     </div>
                     )}
 
-                </div>
+                </CardShell>
 
                 );
 

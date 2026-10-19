@@ -333,8 +333,8 @@ export default function FoundersProfileEditor({
 
         return (
 
-            <div
-                className="legal-entity-card"
+            <CardShell
+                legal
                 key={founder.id}
                 data-anchor={"founder-profile-" + founder.id}
             >
@@ -424,7 +424,7 @@ export default function FoundersProfileEditor({
                     </div>
                 )}
 
-            </div>
+            </CardShell>
 
         );
 
