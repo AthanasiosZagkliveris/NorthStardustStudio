@@ -30,7 +30,7 @@ Everything in the app that appears over the page when something is pressed, poin
 | Reorder menu, sort menu, add Theme menu | P2 | `ReorderControls`, `AddThemeMenu` |
 | The "i" of a label, a title, a figure | P3 | `InfoNote` |
 | A card's guidance (the arrow that drops it down) | P3 | `CardTitleHelp` |
-| A long name's full text, a bullet's name in a rail | P4 | `AboveTip`, the rail's bullet tip |
+| A long name's full text, a bullet's name in a rail | P4 | `useAboveTip` (`Tooltip.tsx`), the rail's bullet tip |
 | A roadmap bar's dates, an action marker's tie, a noted field's note | P4 | `StrategicRoadmapEditor`, `ActionMarkers`, `NotedHover` |
 | A tile's dialog (its cards as tiles or a table) | P5 | `SectionTiles` (`SectionTileDialog`) |
 | A floating card, or a pair, with its rail and arrows | P5 | `SectionTiles` (`FloatingCards`) |

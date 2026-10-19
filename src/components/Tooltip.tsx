@@ -10,7 +10,12 @@ import { createPortal } from "react-dom";
  *
  * Used as a hook: spread props on the icon and draw node anywhere next to it (it is drawn on the page body).
  */
-export function useAboveTip<T extends HTMLElement>(text: string): {
+export function useAboveTip<T extends HTMLElement>(text: string, options: {
+    /** The box the tip stands above (default: the icon itself). */
+    box?: (icon: T) => HTMLElement;
+    /** The tip's right edge on the box's right edge, instead of its middle under the pointer. */
+    alignRight?: boolean;
+} = {}): {
     props: {
         ref: RefObject<T | null>;
         "aria-describedby": string | undefined;
@@ -40,14 +45,14 @@ export function useAboveTip<T extends HTMLElement>(text: string): {
             return;
         }
         const place = () => {
-            const at = icon.getBoundingClientRect();
+            const at = (options.box ? options.box(icon) : icon).getBoundingClientRect();
             const size = panel.getBoundingClientRect();
             const gap = 6;
             const point = pointer.current;
             // ABOVE THE TEXT IT IS ABOUT, never over it: the tip's bottom is 6px over the hovered element's top (a line above), its middle under the cursor; where there is no room above, 6px under the element.
             const above = at.top - gap - size.height;
             setPosition({
-                left: Math.max(8, Math.min((point ? point.x : at.left + at.width / 2) - size.width / 2, window.innerWidth - 8 - size.width)),
+                left: Math.max(8, Math.min(options.alignRight ? at.right - size.width : (point ? point.x : at.left + at.width / 2) - size.width / 2, window.innerWidth - 8 - size.width)),
                 top: above >= 8 ? above : at.bottom + gap
             });
         };
@@ -84,19 +89,32 @@ export function useAboveTip<T extends HTMLElement>(text: string): {
             }
         },
         node: open
-            ? createPortal(
-                <div
-                    className="app-tooltip action-tip"
-                    id={id}
-                    role="tooltip"
-                    ref={tip}
-                    style={position ? { left: position.left, top: position.top } : { left: 0, top: 0, visibility: "hidden" }}
-                >
-                    {text}
-                </div>,
-                document.body
-            )
+            ? <TooltipBox id={id} boxRef={tip} position={position} className="action-tip">{text}</TooltipBox>
             : null
     };
 
+}
+
+/**
+ * THE TOOLTIP'S BOX, drawn by every tooltip of the app (the icons', the action symbols', the Roadmap's bars', the noted fields'): the dark label on the page body, hidden until it is placed so it never shows for a frame in the wrong spot. Each place chooses where it stands (`position`) and what it says (`children`); `className` adds only that place's own inside look.
+ */
+export function TooltipBox({ id, boxRef, position, className, children }: {
+    id: string;
+    boxRef: RefObject<HTMLDivElement | null>;
+    position: { left: number; top: number } | null;
+    className?: string;
+    children: ReactNode;
+}) {
+    return createPortal(
+        <div
+            className={"app-tooltip" + (className ? " " + className : "")}
+            id={id}
+            role="tooltip"
+            ref={boxRef}
+            style={position ? { left: position.left, top: position.top } : { left: 0, top: 0, visibility: "hidden" }}
+        >
+            {children}
+        </div>,
+        document.body
+    );
 }

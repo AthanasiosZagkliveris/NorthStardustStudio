@@ -259,7 +259,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 | Element | File | Notes |
 |---|---|---|
 | Info note ("i"): up to 3 points (text, title and text, or a cited source); `fullList` lifts the cap. It stands 6px (`--info-gap`) after its label's last word, on that line's centre; a wired button (no fill at rest) | `I/InfoNote.tsx`, `InfoText`; contract `src/library/assets/infoNote.ts` | About 100 uses |
-| Above-tip tooltip | `I/AboveTip.tsx` | Also native `title` tooltips and the rail labels |
+| Tooltip | `C/Tooltip.tsx` (`useAboveTip`, `TooltipBox`; since 2026-10-20 every tooltip box is `TooltipBox`: the icons, the action symbols, the Roadmap bars, the noted fields) | Also native `title` tooltips and the rail labels |
 | Floating panel hook | `hooks/useFloatingPanel.ts` | Used by funnel menus |
 | Option picker list | `OptionPicker.tsx` (`hug`, `tight`, `sizeFor`) | |
 | Funnel menu | `CapabilityOverview`, `CalendarFunnel` | Two separate funnels |

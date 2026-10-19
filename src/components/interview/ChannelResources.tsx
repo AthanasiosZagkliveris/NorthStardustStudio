@@ -2,7 +2,7 @@ import FieldLabel from "../FieldLabel.tsx";
 import AddButton from "../AddButton.tsx";
 import { KeyboardEvent, ReactNode, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import RemoveButton from "../RemoveButton.tsx";
-import { useAboveTip } from "./AboveTip.tsx";
+import { useAboveTip } from "../Tooltip.tsx";
 
 import {
     type CostCard,

@@ -1,7 +1,7 @@
 import { CSSProperties, DragEvent, RefObject, useLayoutEffect, useRef, useState } from "react";
 import { stableCardHue } from "../../framework/engine/AnswerUtils.ts";
 import { CHANNEL_TILE_HUE, TileFace, TileList, incompleteTitle, type ItemMark } from "./SectionTiles.tsx";
-import { useAboveTip } from "./AboveTip.tsx";
+import { useAboveTip } from "../Tooltip.tsx";
 import type { FloorLink, FloorTone } from "./capabilityFloor.ts";
 import { rememberCardName } from "./cardNames.ts";
 import "../../styles/card-tile.css";

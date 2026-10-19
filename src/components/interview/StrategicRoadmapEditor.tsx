@@ -8,7 +8,7 @@ import {
     useRef,
     useState
 } from "react";
-import { createPortal } from "react-dom";
+import { TooltipBox } from "../Tooltip.tsx";
 
 import { consumeKey } from "./consumeKey.ts";
 
@@ -888,21 +888,10 @@ export default function StrategicRoadmapEditor({
 
             )}
 
-            {tip && createPortal(
-                <div
-                    className="app-tooltip"
-                    id={tipId}
-                    role="tooltip"
-                    ref={tipRef}
-                    // Hidden until measured and placed, so it never
-                    // shows for a frame in the wrong spot.
-                    style={tipPosition
-                        ? { left: tipPosition.left, top: tipPosition.top }
-                        : { visibility: "hidden" }}
-                >
+            {tip && (
+                <TooltipBox id={tipId} boxRef={tipRef} position={tipPosition}>
                     {tip.text}
-                </div>,
-                document.body
+                </TooltipBox>
             )}
 
         </div>

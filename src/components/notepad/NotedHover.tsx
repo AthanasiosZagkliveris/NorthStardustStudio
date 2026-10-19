@@ -1,5 +1,5 @@
 import { RefObject, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { TooltipBox } from "../Tooltip.tsx";
 
 import { NotepadService, type Note } from "../../services/NotepadService";
 import { consumeKey } from "../interview/consumeKey";
@@ -249,20 +249,13 @@ export function NotedHover({ root, organizationId }: { root: RefObject<HTMLEleme
 
     const more = shown.notes.length - TOOLTIP_NOTES;
 
-    return createPortal(
-        <div
-            className="app-tooltip noted-tooltip"
-            id={tipId}
-            role="tooltip"
-            ref={tip}
-            style={position ? { left: position.left, top: position.top } : { visibility: "hidden" }}
-        >
+    return (
+        <TooltipBox id={tipId} boxRef={tip} position={position} className="noted-tooltip">
             {shown.notes.slice(0, TOOLTIP_NOTES).map(note => (
                 <p key={note.id} className="noted-tooltip-note">{note.text.trim() || "A note with no text yet."}</p>
             ))}
             {more > 0 && <p className="noted-tooltip-more">+{more} more</p>}
-        </div>,
-        document.body
+        </TooltipBox>
     );
 
 }

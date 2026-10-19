@@ -1,5 +1,4 @@
-import { useId, useLayoutEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { useAboveTip } from "../Tooltip.tsx";
 
 import { markTint } from "../../framework/engine/ActionOrder.ts";
 import { consumeKey } from "./consumeKey.ts";
@@ -100,81 +99,32 @@ function ActionSymbol({
     onHover?: (on: boolean) => void;
 }) {
 
-    const [open, setOpen] = useState(false);
-    const anchor = useRef<HTMLButtonElement | null>(null);
-    const tip = useRef<HTMLDivElement | null>(null);
-    const [position, setPosition] = useState<{ left: number; top: number } | null>(null);
-    const tipId = useId();
-
-    /* ABOVE the symbol's action cell (its line's box), the tooltip's right
-       edge on the cell's right edge, kept inside the window; below the
-       cell only where there is no room above. The tooltip hugs its text. */
-    useLayoutEffect(() => {
-        const symbol = anchor.current;
-        const panel = tip.current;
-        if (!open || !symbol || !panel) {
-            setPosition(null);
-            return;
-        }
-        const place = () => {
-            const at = (symbol.closest<HTMLElement>(".numbered-list-row") ?? symbol).getBoundingClientRect();
-            const size = panel.getBoundingClientRect();
-            const gap = 6;
-            const above = at.top - gap - size.height;
-            setPosition({
-                left: Math.max(8, Math.min(at.right - size.width, window.innerWidth - 8 - size.width)),
-                top: above >= 8 ? above : at.bottom + gap
-            });
-        };
-        place();
-        window.addEventListener("scroll", place, true);
-        window.addEventListener("resize", place);
-        return () => {
-            window.removeEventListener("scroll", place, true);
-            window.removeEventListener("resize", place);
-        };
-    }, [open]);
-
-    const show = (on: boolean) => {
-        setOpen(on);
-        onHover?.(on);
-    };
+    /* ABOVE the symbol's action cell (its line's box), the tooltip's right edge on the cell's right edge, kept inside the window; below the cell only where there is no room above. */
+    const tip = useAboveTip<HTMLButtonElement>(text, { box: (symbol) => symbol.closest<HTMLElement>(".numbered-list-row") ?? symbol, alignRight: true });
 
     return (
         <>
             <button
                 type="button"
-                ref={anchor}
+                {...tip.props}
                 className={"action-symbol action-symbol-" + kind + " " + markTint(kind, colour)}
                 aria-label={label}
                 aria-pressed={pressed}
-                aria-describedby={open ? tipId : undefined}
-                onMouseEnter={() => show(true)}
-                onMouseLeave={() => show(false)}
-                onFocus={() => show(true)}
-                onBlur={() => show(false)}
+                onMouseEnter={(event) => { tip.props.onMouseEnter(event); onHover?.(true); }}
+                onMouseLeave={() => { tip.props.onMouseLeave(); onHover?.(false); }}
+                onFocus={() => { tip.props.onFocus(); onHover?.(true); }}
+                onBlur={() => { tip.props.onBlur(); onHover?.(false); }}
                 onClick={(event) => onToggle(event.currentTarget)}
                 onKeyDown={(event) => {
-                    if (event.key === "Escape" && open) {
+                    if (event.key === "Escape" && tip.props["aria-describedby"]) {
                         consumeKey(event);
-                        setOpen(false);
                     }
+                    tip.props.onKeyDown(event);
                 }}
             >
                 <MarkIcon kind={kind === "shared" ? "link" : "tag"} />
             </button>
-            {open && createPortal(
-                <div
-                    className="app-tooltip action-tip"
-                    id={tipId}
-                    role="tooltip"
-                    ref={tip}
-                    style={position ? { left: position.left, top: position.top } : { left: 0, top: 0, visibility: "hidden" }}
-                >
-                    {text}
-                </div>,
-                document.body
-            )}
+            {tip.node}
         </>
     );
 
