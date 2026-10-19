@@ -1,5 +1,7 @@
 import { createContext, CSSProperties, ReactNode, useContext, useEffect, useRef, useState } from "react";
 
+import CardHead from "./CardHead.tsx";
+import NameCell from "./NameCell.tsx";
 import AddButton from "../AddButton.tsx";
 import TickBox from "../TickBox.tsx";
 import FieldLabel from "../FieldLabel.tsx";
@@ -10,12 +12,9 @@ import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import FoldArrow from "./FoldArrow.tsx";
 import { drawnTitle } from "./SectionTiles.tsx";
-import CardNumber from "./CardNumber.tsx";
-import CardNameInput from "./CardNameInput.tsx";
 import { UndoService } from "../../services/UndoService";
 
 import "../../styles/card-folding.css";
-import TextLink from "./TextLink.tsx";
 
 /**
  * The pieces every Business System page is built out of.
@@ -1023,54 +1022,32 @@ export function BusinessCard({
                 shares (.fold-card-head): arrow, number, name, remove,
                 and the folded summary on a row of its own under the
                 name. */}
-            <div className={"strategy-box-head" + (onToggle || headRow ? " fold-card-head fold-card-fixed" : "") + (fixedFolded && !open ? " fold-card-head-fixed" : "")}>
-
-                {onToggle && (
-                    <FoldArrow open={open} label={who} onToggle={onToggle} />
+            <CardHead
+                className={"strategy-box-head" + (onToggle || headRow ? " fold-card-head fold-card-fixed" : "") + (fixedFolded && !open ? " fold-card-head-fixed" : "")}
+                onToggle={onToggle}
+                open={open}
+                foldLabel={who}
+                number={number}
+                mark={anchor && <FieldMark label={kind + " " + number + (name.trim() ? ": " + name.trim() : "")} card />}
+                name={(
+                    <NameCell
+                        editing={editable}
+                        ariaLabel={who + " name"}
+                        placeholder={kind + " name"}
+                        disabled={disabled}
+                        value={name}
+                        onChange={onName}
+                        link={nameLink && {
+                            className: "business-capability-child-name",
+                            title: nameLink.title,
+                            ariaLabel: "Open " + nameLink.title,
+                            onClick: nameLink.onClick
+                        }}
+                        empty={"Unnamed " + kind.toLocaleLowerCase()}
+                    />
                 )}
-
-                <CardNumber number={number} />
-
-                {/* The card as a whole has a key, so a note can link it. */}
-                {anchor && <FieldMark label={kind + " " + number + (name.trim() ? ": " + name.trim() : "")} card />}
-
-                {editable
-                    ? (
-                        <CardNameInput
-                            ariaLabel={who + " name"}
-                            placeholder={kind + " name"}
-                            disabled={disabled}
-                            value={name}
-                            onChange={(name) => onName(name)}
-                        />
-                    )
-                    : nameLink && name.trim().length > 0
-                    ? (
-                        <TextLink
-                            type="button"
-                            className="business-capability-child-name"
-                            title={nameLink.title}
-                            aria-label={"Open " + nameLink.title}
-                            onClick={nameLink.onClick}
-                        >
-                            {name}
-                        </TextLink>
-                    )
-                    : (
-                        /* Shown, not asked. It fills the same slot
-                           the input would, so a referring card and
-                           an answering one have the same head. */
-                        <span
-                            className="strategy-name-static"
-                            title={name.trim().length > 0 ? name : undefined}
-                        >
-                            {name.trim().length > 0
-                                ? name
-                                : "Unnamed " + kind.toLocaleLowerCase()}
-                        </span>
-                    )}
-
-                {actions}
+                actions={actions}
+            >
 
                 {!open && (summary || fixedFolded) && (
                     <div
@@ -1085,7 +1062,7 @@ export function BusinessCard({
                     <div className="fold-card-head-row">{headRow}</div>
                 )}
 
-            </div>
+            </CardHead>
 
             {open && children}
 

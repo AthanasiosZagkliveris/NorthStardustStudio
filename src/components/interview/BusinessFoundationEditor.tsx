@@ -1,5 +1,7 @@
 import { CSSProperties, ReactNode, useRef, useState } from "react";
 
+import CardHead from "./CardHead.tsx";
+import NameCell from "./NameCell.tsx";
 import TickBox from "../TickBox.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import { cardNameMissing } from "../../framework/engine/SystemCardCompleteness.ts";
@@ -46,9 +48,6 @@ import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
 import { toggledIn } from "./toggledIn.ts";
-import FoldArrow from "./FoldArrow.tsx";
-import CardNumber from "./CardNumber.tsx";
-import CardNameInput from "./CardNameInput.tsx";
 import NumberedListStatic from "./NumberedListStatic.tsx";
 
 /**
@@ -1785,37 +1784,35 @@ export default function BusinessFoundationEditor({
                         } as CSSProperties}
                     >
 
-                        <div className="strategy-box-head business-foundation-input-head fold-card-head">
-
-                            <FoldArrow
-                                open={open}
-                                label={"Segment " + (segmentIndex + 1)}
-                                onToggle={() => setCollapsed(current => toggledIn(current, segment.id))}
-                            />
-
-                            {/* A Segment holds cards of other kinds, so it
-                                says what it is (see CardNumber). */}
-                            <CardNumber number={segmentIndex + 1} kind="Segment" />
-
-                            <FieldMark
-                                label={"Segment " + (segmentIndex + 1) + (segment.name.trim() ? ": " + segment.name.trim() : "")}
-                                card
-                                rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[0])}
-                            />
-
-                            {/* The Segment's name, asked in its own
-                                head like every other card's. */}
-                            <CardNameInput
-                                ariaLabel={"Segment " + (segmentIndex + 1) + " name"}
-                                placeholder="Segment name"
-                                disabled={disabled}
-                                value={segment.name}
-                                onChange={(name) => updateSegment(segmentIndex, { name })}
-                            />
-
-                            {/* One Segment card must always
-                                exist. */}
-                            {foundation.segments.length > 1 && remove(
+                        <CardHead
+                            className="strategy-box-head business-foundation-input-head fold-card-head"
+                            onToggle={() => setCollapsed(current => toggledIn(current, segment.id))}
+                            open={open}
+                            foldLabel={"Segment " + (segmentIndex + 1)}
+                            number={segmentIndex + 1}
+                            /* A Segment holds cards of other kinds, so it says what it is (see CardNumber). */
+                            kind="Segment"
+                            mark={(
+                                <FieldMark
+                                    label={"Segment " + (segmentIndex + 1) + (segment.name.trim() ? ": " + segment.name.trim() : "")}
+                                    card
+                                    rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[0])}
+                                />
+                            )}
+                            /* The Segment's name, asked in its own head like every other card's. */
+                            name={(
+                                <NameCell
+                                    editing
+                                    ariaLabel={"Segment " + (segmentIndex + 1) + " name"}
+                                    placeholder="Segment name"
+                                    disabled={disabled}
+                                    value={segment.name}
+                                    onChange={(name) => updateSegment(segmentIndex, { name })}
+                                    empty="Unnamed segment"
+                                />
+                            )}
+                            /* One Segment card must always exist. */
+                            actions={foundation.segments.length > 1 && remove(
                                 "Segment " + (segmentIndex + 1),
                                 () => update({
                                     segments: foundation.segments.filter(
@@ -1824,8 +1821,7 @@ export default function BusinessFoundationEditor({
                                     )
                                 })
                             )}
-
-                        </div>
+                        />
 
                         {open && (() => {
 

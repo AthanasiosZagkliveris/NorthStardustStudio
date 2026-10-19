@@ -1,5 +1,7 @@
 import { CSSProperties, ReactNode, useEffect } from "react";
 
+import CardHead from "./CardHead.tsx";
+import NameCell from "./NameCell.tsx";
 import FieldLabel from "../FieldLabel.tsx";
 import {
     FOUNDER_CREDENTIAL_TYPES,
@@ -18,7 +20,6 @@ import SectionTiles, { DialogHeading, TILE_DIVIDER, type SectionTile } from "./S
 import { workHue } from "../../framework/engine/WorkColours.ts";
 import { summaryText } from "./cardSummary.ts";
 import FoldAllToggle from "./FoldAllToggle.tsx";
-import FoldArrow from "./FoldArrow.tsx";
 import OptionPicker from "./OptionPicker.tsx";
 
 import InfoNote, { InfoText } from "./InfoNote.tsx";
@@ -339,28 +340,19 @@ export default function FoundersProfileEditor({
 
                 {/* Named on the Legal Entity page, so the name is
                     shown rather than asked, and there is no ×. */}
-                <div className="legal-entity-card-head fold-card-head fold-card-fixed">
-
-                    {!always && (
-                        <FoldArrow
-                            open={open}
-                            label={who}
-                            onToggle={() => folds.toggle(founder.id)}
-                        />
-                    )}
-
-                    <span className="legal-entity-card-number">
-                        {(index + 1) + "."}
-                    </span>
-
-                    <span className="strategy-name-static" title={founder.name.trim() || undefined}>
-                        {founder.name}
-                    </span>
-
+                <CardHead
+                    className="legal-entity-card-head fold-card-head fold-card-fixed"
+                    legal
+                    onToggle={always ? undefined : () => folds.toggle(founder.id)}
+                    open={open}
+                    foldLabel={who}
+                    number={index + 1}
+                    name={<NameCell editing={false} ariaLabel={who + " name"} placeholder="" value={founder.name} empty="" />}
+                >
                     {!open && summary && (
                         <span className="business-card-summary" title={typeof summary === "string" ? summary : undefined}>{summary}</span>
                     )}
-                </div>
+                </CardHead>
 
                 {open && (
                     <div className="legal-entity-grid">

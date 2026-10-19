@@ -16,15 +16,23 @@ export default function CardNumber({
 
     number,
 
-    kind
+    kind,
+
+    legal = false
 
 }: {
 
     number: number;
     /** The card's kind, for a card in a list that nests kinds. */
     kind?: string;
+    /** The Legal Entity cards' own number markup (its own CSS), until the two are one. */
+    legal?: boolean;
 
 }) {
+
+    if (legal) {
+        return <span className="legal-entity-card-number">{number + "."}</span>;
+    }
 
     return (
         <span className="strategy-box-number">

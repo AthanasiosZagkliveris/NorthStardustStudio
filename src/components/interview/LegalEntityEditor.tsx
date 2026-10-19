@@ -1,4 +1,6 @@
 import { CSSProperties, ReactNode, useEffect, useRef } from "react";
+import CardHead from "./CardHead.tsx";
+import NameCell from "./NameCell.tsx";
 import AddButton from "../AddButton.tsx";
 import TickBox from "../TickBox.tsx";
 import FieldLabel from "../FieldLabel.tsx";
@@ -66,9 +68,7 @@ import { UndoService } from "../../services/UndoService";
 import StrategyTextArea from "./StrategyTextArea.tsx";
 import { OptionalField, OptionalNote } from "./BusinessCardFields.tsx";
 import { useItemFolds } from "./useItemFolds.ts";
-import FoldArrow from "./FoldArrow.tsx";
 import { labelWithCurrency, nameWithCurrency } from "../../framework/engine/Currencies.ts";
-import TextLink from "./TextLink.tsx";
 
 /**
  * The last entry in every Legal Form list. The brief forbids
@@ -2039,63 +2039,50 @@ export default function LegalEntityEditor({
 
                 <div className="legal-entity-card" key={requirement.id} data-anchor={"legal-requirement-" + requirement.id}>
 
-                    <div className="legal-entity-card-head fold-card-head fold-card-fixed">
-
-                        {!always && (
-<FoldArrow
-                                open={open}
-                                label={"Requirement " + (index + 1)}
-                                onToggle={() => folds.toggle(requirement.id)}
+                    <CardHead
+                        className="legal-entity-card-head fold-card-head fold-card-fixed"
+                        legal
+                        onToggle={always ? undefined : () => folds.toggle(requirement.id)}
+                        open={open}
+                        foldLabel={"Requirement " + (index + 1)}
+                        number={index + 1}
+                        name={(
+                            <NameCell
+                                editing={open}
+                                ariaLabel={"Legal requirement " + (index + 1) + " name"}
+                                placeholder="What the requirement is"
+                                disabled={disabled}
+                                value={requirement.name}
+                                onChange={(next) => update({
+                                    requirements: entity.requirements.map(
+                                        (candidate, position) => position === index
+                                            ? { ...candidate, name: next }
+                                            : candidate
+                                    )
+                                })}
+                                empty="Unnamed requirement"
                             />
-)}
+                        )}
+                        actions={(
+                            <RemoveButton className="card-remove"
+                                aria-label={"Remove legal requirement " + (index + 1)}
+                                title={"Remove legal requirement " + (index + 1)}
+                                disabled={disabled}
+                                onClick={() => update({
+                                    requirements: entity.requirements.filter(
+                                        (_candidate, position) => position !== index
+                                    )
+                                })}
+                            />
+                        )}
+                    >
 
-                        <span className="legal-entity-card-number">
-                            {(index + 1) + "."}
-                        </span>
-
-                        {/* The name in the head, as on every
-                            folding card: edited here while open
-                            (it wraps and grows), read here folded. */}
-                        {open
-                            ? (
-                                <CardNameInput
-                                    ariaLabel={"Legal requirement " + (index + 1) + " name"}
-                                    placeholder="What the requirement is"
-                                    disabled={disabled}
-                                    value={requirement.name}
-                                    onChange={(next) => update({
-                                        requirements: entity.requirements.map(
-                                            (candidate, position) => position === index
-                                                ? { ...candidate, name: next }
-                                                : candidate
-                                        )
-                                    })}
-                                />
-                            )
-                            : (
-                                <span className="strategy-name-static" title={requirement.name.trim() || undefined}>
-                                    {requirement.name.trim() || "Unnamed requirement"}
-                                </span>
-                            )}
-
-                        <RemoveButton className="card-remove"
-                            aria-label={"Remove legal requirement " + (index + 1)}
-                            title={"Remove legal requirement " + (index + 1)}
-                            disabled={disabled}
-                            onClick={() => update({
-                                requirements: entity.requirements.filter(
-                                    (_candidate, position) => position !== index
-                                )
-                            })}
-                />
-
-                        {/* The rest, on a row of its own under
-                            the name (see .fold-card-head). */}
+                        {/* The rest, on a row of its own under the name (see .fold-card-head). */}
                         {!open && summary && (
                             <span className="business-card-summary" title={summary}>{summary}</span>
                         )}
 
-                    </div>
+                    </CardHead>
 
                     {open && (
                     <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-card legal-entity-grid-requirement">
@@ -2214,75 +2201,56 @@ export default function LegalEntityEditor({
 
                 <div className="legal-entity-card" key={expense.id} data-anchor={"legal-expense-" + expense.id}>
 
-                    <div className="legal-entity-card-head fold-card-head fold-card-fixed">
-
-                        {!always && (
-<FoldArrow
-                                open={open}
-                                label={"Expense " + (index + 1)}
-                                onToggle={() => folds.toggle(expense.id)}
-                            />
-)}
-
-                        <span className="legal-entity-card-number">
-                            {(index + 1) + "."}
-                        </span>
-
-                        {/* The name in the head, as on every
-                            folding card: edited here while open
-                            (it wraps and grows), read here folded. */}
-                        {expense.fromRequirement !== ""
-                            ? (
+                    <CardHead
+                        className="legal-entity-card-head fold-card-head fold-card-fixed"
+                        legal
+                        onToggle={always ? undefined : () => folds.toggle(expense.id)}
+                        open={open}
+                        foldLabel={"Expense " + (index + 1)}
+                        number={index + 1}
+                        name={(
+                            <NameCell
+                                editing={open && expense.fromRequirement === ""}
+                                ariaLabel={"Expense " + (index + 1) + " name"}
+                                placeholder="What the expense is"
+                                disabled={disabled}
+                                value={expense.name}
+                                onChange={(next) => update({
+                                    expenses: entity.expenses.map(
+                                        (candidate, position) => position === index
+                                            ? { ...candidate, name: next }
+                                            : candidate
+                                    )
+                                })}
                                 /* Made by a requirement: named as it is, said as text and a link to it. */
-                                <TextLink
-                                    type="button"
-                                    className="strategy-name-static legal-entity-name-link"
-                                    title={"Open the requirement " + expense.name.trim()}
-                                    onClick={() => openOnPage({ tile: "legal-entity-registrations", card: expense.fromRequirement })}
-                                >
-                                    {expense.name.trim() || "Unnamed requirement"}
-                                </TextLink>
-                            )
-                            : open
-                            ? (
-                                <CardNameInput
-                                    ariaLabel={"Expense " + (index + 1) + " name"}
-                                    placeholder="What the expense is"
-                                    disabled={disabled}
-                                    value={expense.name}
-                                    onChange={(next) => update({
-                                        expenses: entity.expenses.map(
-                                            (candidate, position) => position === index
-                                                ? { ...candidate, name: next }
-                                                : candidate
-                                        )
-                                    })}
-                                />
-                            )
-                            : (
-                                <span className="strategy-name-static" title={expense.name.trim() || undefined}>
-                                    {expense.name.trim() || "Unnamed expense"}
-                                </span>
-                            )}
+                                link={expense.fromRequirement !== "" ? {
+                                    className: "strategy-name-static legal-entity-name-link",
+                                    title: "Open the requirement " + expense.name.trim(),
+                                    onClick: () => openOnPage({ tile: "legal-entity-registrations", card: expense.fromRequirement })
+                                } : undefined}
+                                empty={expense.fromRequirement !== "" ? "Unnamed requirement" : "Unnamed expense"}
+                            />
+                        )}
+                        actions={expense.fromRequirement === "" && (
+                            <RemoveButton className="card-remove"
+                                aria-label={"Remove expense " + (index + 1)}
+                                title={"Remove expense " + (index + 1)}
+                                disabled={disabled}
+                                onClick={() => update({
+                                    expenses: entity.expenses.filter(
+                                        (_candidate, position) => position !== index
+                                    )
+                                })}
+                            />
+                        )}
+                    >
 
-                        {expense.fromRequirement === "" && <RemoveButton className="card-remove"
-                            aria-label={"Remove expense " + (index + 1)}
-                            title={"Remove expense " + (index + 1)}
-                            disabled={disabled}
-                            onClick={() => update({
-                                expenses: entity.expenses.filter(
-                                    (_candidate, position) => position !== index
-                                )
-                            })}
-                />}
-
-                        {/* The rest, on a row of its own under
-                            the name (see .fold-card-head). */}
+                        {/* The rest, on a row of its own under the name (see .fold-card-head). */}
                         {!open && summary && (
                             <span className="business-card-summary" title={summary}>{summary}</span>
                         )}
 
-                    </div>
+                    </CardHead>
 
                     {open && (
                     <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-expense legal-entity-grid-card legal-entity-grid-expense-card">

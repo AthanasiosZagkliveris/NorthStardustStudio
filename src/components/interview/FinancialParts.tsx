@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useLayoutEffect, useRef, useState } from "react";
 
+import CardHead from "./CardHead.tsx";
 import type { StrategyMonthValue } from "../../framework/engine/AnswerUtils.ts";
 import {
     type CashMonth,
@@ -12,8 +13,6 @@ import { BusinessField } from "./BusinessCardFields.tsx";
 import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 import MonthYearPicker from "./MonthYearPicker.tsx";
-import FoldArrow from "./FoldArrow.tsx";
-import CardNumber from "./CardNumber.tsx";
 import TextLink from "./TextLink.tsx";
 
 /*
@@ -648,22 +647,26 @@ export function FinancialSectionCard({
             style={{ "--strategy-theme-hue": hue } as CSSProperties}
         >
 
-            <div
+            <CardHead
                 className={
                     "strategy-box-head business-foundation-input-head business-capability-card-head fold-card-head" +
                     (headClass ? " " + headClass : "")
                 }
+                onToggle={onToggle}
+                open={open}
+                foldLabel={section.title}
+                number={number}
+                name={(
+                    <span className="strategy-name-static">
+                        <InfoText text={section.title}>
+                            <InfoNote label={section.title} points={section.info} fullList />
+                        </InfoText>
+                        {rail && <FieldMark label={section.title} section={rail} />}
+                    </span>
+                )}
             >
-                <FoldArrow open={open} label={section.title} onToggle={onToggle} />
-                <CardNumber number={number} />
-                <span className="strategy-name-static">
-                    <InfoText text={section.title}>
-                        <InfoNote label={section.title} points={section.info} fullList />
-                    </InfoText>
-                    {rail && <FieldMark label={section.title} section={rail} />}
-                </span>
                 {titleExtra}
-            </div>
+            </CardHead>
 
             {rail && <FieldStatus label={section.title} section={rail} />}
 
