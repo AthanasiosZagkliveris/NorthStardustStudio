@@ -5,6 +5,47 @@ import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 
 /**
+ * THE HEAD OF A FIELD: its label (the field label) with its "i" 6px after the last word (`info`), its mark and its status line (inside the label, or after it inside the "i"'s holder: `statusAfter`), and what a place adds after its words (`extra`, a link symbol). The Business fields and the Legal Entity page's fields draw their label here; each passes its own classes.
+ */
+export function FieldHead({ label, info, fullList = false, keyLabel, labelClass, infoClass, statusAfter = false, extra }: {
+    label: string;
+    info?: readonly InfoPoint[];
+    fullList?: boolean;
+    keyLabel?: string;
+    /** The label's class beside `field-label`. */
+    labelClass: string;
+    /** The class of the holder the label stands in where it has an "i". */
+    infoClass: string;
+    statusAfter?: boolean;
+    extra?: ReactNode;
+}) {
+    const status = <FieldStatus label={label} keyLabel={keyLabel} />;
+    if (info) {
+        return (
+            <span className={infoClass}>
+                <FieldLabel className={labelClass}>
+                    <InfoText text={label}>
+                        <InfoNote label={label} points={[...info]} fullList={fullList} />
+                    </InfoText>
+                    <FieldMark label={label} keyLabel={keyLabel} />
+                    {!statusAfter && status}
+                    {extra}
+                </FieldLabel>
+                {statusAfter && status}
+            </span>
+        );
+    }
+    return (
+        <FieldLabel className={labelClass}>
+            {label}
+            <FieldMark label={label} keyLabel={keyLabel} />
+            {status}
+            {extra}
+        </FieldLabel>
+    );
+}
+
+/**
  * THE FIELD ROW OF THE LEGAL ENTITY PAGE: a label and its control as one cell of the page's grid. The label is the field label, with its "i" 6px after its last word (`info`), the field's mark and status line, a link symbol after its words (`labelExtra`) and a × at its line's end for an optional field the user opened (`remove`). `side` puts the label beside its control, `wide` makes the cell as wide as the grid. `pair` is a field of several stacked in one column (its own holder; `nested` adds the space that tells one pair from the next). Written once here: the page's two row helpers were two copies of it.
  */
 export default function FieldRow({ label, info, fullList = false, keyLabel, labelExtra, wide = false, side = false, pair = false, nested = false, remove, children }: {
@@ -52,14 +93,9 @@ export default function FieldRow({ label, info, fullList = false, keyLabel, labe
                 {remove}
             </span>
         );
-    } else if (info) {
-        head = (
-            <span className={"legal-entity-label-info" + nest}>
-                <FieldLabel className="legal-entity-label">{noted(fullList)}{marks}</FieldLabel>
-            </span>
-        );
     } else {
-        head = <FieldLabel className={"legal-entity-label" + nest}>{label}{marks}</FieldLabel>;
+        // (A pair names its mark and status by the label, the others by the field's key where it was renamed.)
+        head = <FieldHead label={label} info={info} fullList={fullList} keyLabel={pair ? undefined : keyLabel} labelClass={"legal-entity-label" + (info ? "" : nest)} infoClass={"legal-entity-label-info" + nest} extra={labelExtra} />;
     }
     return (
         <div className={pair ? "legal-entity-pair" : "legal-entity-field" + (wide ? " legal-entity-field-wide" : "") + (side ? " legal-entity-field-side" : "")}>

@@ -1,4 +1,5 @@
 import { freshCards } from "./freshCards.ts";
+import { FieldHead } from "./FieldRow.tsx";
 import TickField from "../TickField.tsx";
 import { createContext, CSSProperties, ReactNode, useContext, useEffect, useRef, useState, useSyncExternalStore } from "react";
 
@@ -188,25 +189,7 @@ export function BusinessField({
                         <FieldStatus label={label} keyLabel={fieldId} />
                     </>
                 )
-                : info
-                ? (
-                    <span className="business-foundation-label-info">
-                        <FieldLabel className="business-foundation-label">
-                            <InfoText text={label}>
-                                <InfoNote label={label} points={info} fullList />
-                            </InfoText>
-                            <FieldMark label={label} keyLabel={fieldId} />
-                        </FieldLabel>
-                        <FieldStatus label={label} keyLabel={fieldId} />
-                    </span>
-                )
-                : (
-                    <FieldLabel className="business-foundation-label">
-                        {label}
-                        <FieldMark label={label} keyLabel={fieldId} />
-                        <FieldStatus label={label} keyLabel={fieldId} />
-                    </FieldLabel>
-                )}
+                : <FieldHead label={label} info={info} fullList keyLabel={fieldId} labelClass="business-foundation-label" infoClass="business-foundation-label-info" statusAfter />}
 
             {children}
 

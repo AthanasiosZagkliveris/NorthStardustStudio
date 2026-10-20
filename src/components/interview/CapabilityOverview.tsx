@@ -1,8 +1,9 @@
-import { CSSProperties, useContext, useMemo, useRef, useState } from "react";
+import { CSSProperties, useContext, useMemo, useState } from "react";
+import TileGrid from "./TileGrid.tsx";
 import LabelArrow from "./LabelArrow.tsx";
 import { BUSINESS_COST_FREQUENCIES, BUSINESS_RESOURCE_STATUSES } from "../../framework/engine/AnswerUtils.ts";
 import { OpenCardContext, plainTitle, tileName } from "./SectionTiles.tsx";
-import CardTile, { Dots, SYMBOLS, inwardOrigin, pageTileSide, useTilesAcross } from "./CardTile.tsx";
+import CardTile, { Dots, SYMBOLS, inwardOrigin } from "./CardTile.tsx";
 import "../../styles/title-arrow.css";
 import BoxActions from "./ReorderControls.tsx";
 import { BusinessTicks } from "./BusinessCardFields.tsx";
@@ -156,11 +157,6 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     // The legend's circle pressed: only the tiles with that connection. A tile's circle pressed: only that tile and what it is connected to.
     const [connection, setConnection] = useState<"" | FloorLink["type"]>("");
     const [focus, setFocus] = useState<{ id: string; name: string } | null>(null);
-    const side = useMemo(pageTileSide, []);
-
-    // How many tiles stand across: a tile grows INWARDS, from the edge of the grid it stands on.
-    const grid = useRef<HTMLDivElement | null>(null);
-    const across = useTilesAcross(grid, side);
 
     const placeKinds = useMemo(() => floorPlaceKinds(rows, filter.place), [rows, filter.place]);
     const groups = useMemo(() => floorGroups(rows, filter.place), [rows, filter.place]);
@@ -444,14 +440,8 @@ export default function CapabilityOverview({ rows, format = String, currency = "
             {shown.length === 0 && <p className="capability-overview-empty">Nothing matches.</p>}
 
             {view === "tiles" && shown.length > 0 && (
-                <div
-                    ref={grid}
-                    className="section-tiles card-tile-grid"
-                    role="group"
-                    aria-label="Inventory"
-                    style={{ "--section-tile-size": side + "px" } as CSSProperties}
-                >
-                    {shown.map((row, index) => {
+                <TileGrid label="Inventory" bare>
+                    {({ across }) => shown.map((row, index) => {
                         // (A tile's circle isolates that tile and what it is connected to; any isolation by the legend's circles goes, so the two never add up.)
                         const onFocus = () => {
                             setConnection("");
@@ -477,7 +467,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                             />
                         );
                     })}
-                </div>
+                </TileGrid>
             )}
 
             {view === "table" && shown.length > 0 && (
