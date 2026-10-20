@@ -1564,13 +1564,13 @@ The way back out of a dialog or card: a left-pointing triangle and the word Back
 
 ### Fold arrow
 
-The standard 36px fold arrow: a solid triangle, right while folded and down while open. A ground and a card-line stroke under the pointer; a primary stroke under the keyboard focus.
+The standard 36px fold arrow: an outlined triangle, right while folded and down while open, filled under the pointer and the keyboard focus (no ground, no ring under the pointer); a primary stroke on the button under the keyboard focus.
 
 - **Kind:** fold arrow. **Code:** `src/components/interview/fields/FoldArrow.tsx`. **Stylesheet:** `src/styles/fold-arrow.css` (also `src/styles/card-folding.css`).
-- **Parts:** button (36px square, 1px stroke, transparent at rest); triangle (::before, drawn with borders from the button's middle).
+- **Parts:** button (36px square, 1px stroke, transparent at rest); triangle (::before, an outlined mask from the button's middle, filled under the pointer).
 - **States:** rest, hover, focus, open, closed.
 - **Used in:** every folding card, group and section head; the Segment card's arrow column, the Relationship Type rows, the Customer Engagement reference rows.
-- **Custom properties it reads:** `--text-default`, `--line-card`, `--bg-surface`, `--line-primary`, `--glow-color`, `--radius-md`.
+- **Custom properties it reads:** `--text-default`, `--line-primary`, `--glow-color`, `--radius-md`.
 
 | Variant | Where | Note |
 |---|---|---|
@@ -1724,7 +1724,7 @@ The owner's rules of one round, each global: made in a shared component, token o
 2. **A card opens on the half of the page its tile is not in** (`otherColumn`, `acrossFrom`): over the frame on the other half; a card opened from a tile inside a dialog (a category's, the Inventory's, the Completed's) goes by that tile's place.
 3. **The background of a floating card is shaded once, and only where nothing shades it already** (`.floating-chapter-shade`, see rule 22.16): a press on it closes the card.
 4. **A legal card floats on 3. Infrastructure & Capability** (a founder's "L." link, an Inventory tile): the Legal Entity editor is mounted with its tiles not drawn (`cardsOnly`), and what is typed is saved to the Identity System's answer (`changeLegalEntity`).
-5. **Every floating card shows its record time under it** ("Recorded 17/10/2026 14:13", `CardRecordService`): set the first time the card is made or opened, kept in the organization's document (`cardTimes`).
+5. **Every floating card shows its record time under it** ("Recorded 17/10/2026 14:13", `CardRecordService`): set the first time the card is made or opened, kept in the organization's document (`cardTimes`). The record tag stands 12px under the card, as the title tag stands 12px over it; both tags are drawn as the card is (its ground, ink, corners, raised edge and shadow) with 6px between their words and their edges.
 6. **A founder's floating card keeps its pairs side by side** (Salary | Frequency, Working Hours | Delivery Hours): where the card is too narrow for each label beside its cell, the label stands over its cell. The funnel ends where the Start date's calendar box ends.
 7. **A legal requirement's Type cell** takes all the room after its label.
 

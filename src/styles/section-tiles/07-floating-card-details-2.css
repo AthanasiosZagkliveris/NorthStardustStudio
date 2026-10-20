@@ -1283,10 +1283,9 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 
     width: fit-content;
 
-    margin: var(--gap-8) auto 0;
+    /* 12px under the card, as the title stands 12px over it (the stack's own gap): no margin of its own. */
+    margin: 0 auto;
 
     font-size: var(--font-small);
-
-    color: var(--floating-caption-ink);
 
 }

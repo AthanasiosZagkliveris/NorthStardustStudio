@@ -119,9 +119,9 @@ describe("the asset contracts", () => {
         expect(css).toContain(".strategy-box-toggle{ position:relative; width:var(--fold-arrow-size); height:var(--fold-arrow-size);");
         expect(stylesheet("components.generated.css")).toContain("--fold-arrow-size: " + g.size + "px;");
         expect(css).toContain("border:" + g.strokeWidth + "px solid transparent; border-radius:var(--radius-md);");
-        expect(css).toContain("border-width:" + g.triangleLong / 2 + "px 0 " + g.triangleLong / 2 + "px " + g.triangleShort + "px;");
-        expect(css).toContain("border-width:" + g.triangleShort + "px " + g.triangleLong / 2 + "px 0 " + g.triangleLong / 2 + "px;");
-        expect(css).toContain(".strategy-box-toggle:hover{ border-color:var(--line-card); background:var(--bg-surface); }");
+        expect(css).toContain("width: " + g.triangleShort + "px; height: " + g.triangleLong + "px;");
+        expect(css).toContain("width: " + g.triangleLong + "px; height: " + g.triangleShort + "px;");
+        expect(css).toContain(".strategy-box-toggle.strategy-box-toggle.strategy-box-toggle:hover { border-color: transparent; background: transparent;");
         expect(css).toContain(".strategy-box-toggle:focus-visible{ outline:none; border-color:var(--line-primary);");
     });
 

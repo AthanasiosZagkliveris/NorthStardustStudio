@@ -33,6 +33,8 @@ function openOfferingResource(name: string) {
 const css = stylesheet("section-tiles.css");
 const global = stylesheet("global.css");
 const edges = stylesheet("page-3-edges.css");
+const foldArrowCss = stylesheet("fold-arrow.css");
+const titleArrowCss = stylesheet("title-arrow.css");
 
 describe("the boxes have no stroke: an inset light and an inset shade", () => {
 
@@ -332,7 +334,7 @@ describe("the fold arrows of a founder's card do not move when toggled, and neit
     });
 
     it("has no ground, ring or bolder glyph under the pointer on a founder's arrows, and none on the title arrows", () => {
-        expect(edges).toMatch(/\.business-capability :is\(\.business-founder-open, \.business-capability-links\) \.strategy-box-toggle:hover \{[^}]*border-color: transparent;[^}]*background: transparent;[^}]*box-shadow: none;[^}]*text-shadow: none;/);
+        expect(foldArrowCss).toMatch(/\.strategy-box-toggle\.strategy-box-toggle\.strategy-box-toggle:hover \{[^}]*border-color: transparent;[^}]*background: transparent;[^}]*box-shadow: none;[^}]*text-shadow: none;/);
         expect(stylesheet("title-arrow.css")).not.toMatch(/\.title-arrow:hover/);
         // The ring of the keyboard focus is kept.
         expect(stylesheet("title-arrow.css")).toMatch(/\.title-arrow:focus-visible \{/);
@@ -368,7 +370,7 @@ describe("the 'i' of a coloured card", () => {
         // The tint is the card's hue's; the ground is the surface's own.
         expect(edges).toMatch(/--info-ink: hsl\(var\(--strategy-theme-hue, 0\) var\(--theme-text-ink\)\);/);
         expect(edges).toMatch(/--info-fill: color-mix\(in srgb, hsl\(var\(--strategy-theme-hue, 0\) var\(--theme-bg-ground\)\)/);
-        expect(edges).toMatch(/\.floating-card-caption \{[^}]*--info-ink: var\(--floating-caption-ink\);/);
+        expect(edges).toMatch(/\.floating-card-caption \{[^}]*--info-ink: var\(--text-default\);/);
     });
 
 });
@@ -577,11 +579,11 @@ describe("the page-3 edges reach only the cards, their cells and the Back button
 describe("the fold arrows and the title arrows are wired, and filled under the pointer", () => {
 
     it("draws the triangle as a mask: an outline at rest (stroke 1.5), filled on hover and keyboard focus, at the same size", () => {
-        expect(edges).toMatch(/\.strategy-box-toggle\[aria-expanded="false"\]::before \{[^}]*width: 11px;[^}]*height: 18px;[^}]*mask-image: url\("data:image\/svg\+xml,[^"]*fill='none'[^"]*stroke-width='1\.5'/);
-        expect(edges).toMatch(/\.strategy-box-toggle\[aria-expanded="false"\]:is\(:hover, :focus-visible\)::before \{[^}]*mask-image: url\("data:image\/svg\+xml,[^"]*fill='black'/);
-        expect(edges).toMatch(/\.title-arrow\[aria-expanded="true"\]:is\(:hover, :focus-visible\)::before \{[^}]*mask-image: url\("data:image\/svg\+xml,[^"]*fill='black'/);
+        expect(foldArrowCss).toMatch(/.strategy-box-toggle\[aria-expanded="false"\]::before \{[^}]*width: 11px;[^}]*height: 18px;[^}]*mask-image: url\("data:image\/svg\+xml,[^"]*fill='none'[^"]*stroke-width='1\.5'/);
+        expect(foldArrowCss).toMatch(/.strategy-box-toggle\[aria-expanded="false"\]:is\(:hover, :focus-visible\)::before \{[^}]*mask-image: url\("data:image\/svg\+xml,[^"]*fill='black'/);
+        expect(titleArrowCss).toMatch(/.title-arrow\[aria-expanded="true"\]:is\(:hover, :focus-visible\)::before \{[^}]*mask-image: url\("data:image\/svg\+xml,[^"]*fill='black'/);
         // (The hover state sets no size or margin: nothing moves.)
-        const hover = edges.match(/\.title-arrow\[aria-expanded="false"\]:is\(:hover, :focus-visible\)::before \{([^}]*)\}/)![1];
+        const hover = titleArrowCss.match(/\.title-arrow\[aria-expanded="false"\]:is\(:hover, :focus-visible\)::before \{([^}]*)\}/)![1];
         expect(hover).not.toMatch(/^\s*(width|height|margin)/m);
     });
 

@@ -14,8 +14,8 @@
 
     display:flex;
 
-    border:1px solid var(--line-primary);
-    border-radius:var(--radius-lg);
+    border:1px solid var(--accent-line);
+    border-radius:var(--radius-md);
 
     overflow:hidden;
 
@@ -29,16 +29,17 @@
 
     border:none;
 
-    background:var(--bg-surface);
+    background:var(--accent-ground);
 
-    color:var(--text-primary);
+    color:var(--accent-ink);
 
     font:inherit;
     /* The app's button tier (Headings 36 / Subheadings 24 / Text
        18 / Buttons 16). */
     font-size:var(--font-body);
-    font-weight:700;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+    font-weight:500;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
 
     cursor:pointer;
 
@@ -48,13 +49,13 @@
 
 .date-format-toggle-option + .date-format-toggle-option{
 
-    border-left:1px solid var(--line-primary);
+    border-left:1px solid var(--accent-line);
 
 }
 
 .date-format-toggle-option:hover{
 
-    background:var(--bg-primary-tint);
+    background:var(--accent-ground-hover);
 
 }
 

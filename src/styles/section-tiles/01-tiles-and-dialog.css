@@ -531,3 +531,10 @@
 
 }
 
+
+/* A DIAGRAM TILE (the Roadmap, whose tile has no list) is its name alone: no rule under it. The rule still takes its 1px, so the name stands where every title does. */
+.section-tile-diagram .section-tile-title {
+
+    border-bottom-color: transparent;
+
+}

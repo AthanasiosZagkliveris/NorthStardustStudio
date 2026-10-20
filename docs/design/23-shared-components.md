@@ -2,6 +2,14 @@
 
 This document describes the current situation, one dated section per state, the newest on top. What changed, and when, is written in the log (`04-log.md`), not here.
 
+## State on 2026-10-20, the last of the day
+
+- **The fold arrow is one**: the outlined triangle (an outline in the ink colour, filled under the pointer and the keyboard focus, 11 x 18 pointing right, 18 x 11 pointing down, no ground, no ring under the pointer). `FoldArrow` draws it everywhere (`fold-arrow.css`), `FoldHead` and the Notes' close arrow too; the title arrow (`title-arrow.css`) draws the same triangle at the title's size. The label arrow (`LabelArrow`, an SVG of the same shape) is the arrow that stands inside a label.
+- **The native `title` tooltip is replaced**: `TitleTooltips` (`src/components/controls/TitleTooltips.tsx`, mounted once in `App`) shows an element's `title` in the app's tooltip (`TooltipBox`, placed by `aboveTipPosition`: above the element, 6px over it, its middle under the pointer, under it where there is no room above) and removes the attribute, so the browser's own tip (white, black frame and letters, whatever the reading mode) is never drawn. The element keeps its name: `aria-label` where it has no text, `aria-description` where it has. Escape closes it. The tests that render a component alone still see the `title`.
+- **The header's tools and Refresh are the add button's look** (`.header-tool`: the accent ink, line and ground, the body size at weight 500, capitals, the add button's hover and focus).
+- **The tags above and below a floating card** (its title and its record time) are the card's own look (ground of the card's hue, ink, corners, raised edge and shadow), 6px from the words to the edges, 12px from the card.
+- **The calendar's controls** are the add button's look (the month's arrows, All and None, the periods, the date presentation) and the option picker's (the drop-down cells' chevron; the list they open).
+
 ## State on 2026-10-20, at the end
 
 `FoldHead` (`src/components/controls/FoldHead.tsx`) is the head of a folding group outside the cards: the card's fold arrow (`FoldArrow`), the name in the card head's type (body size, bold, tracked), the count and a rule under them. The Review's Organizations and the Notes panel's groups (the Organizations' and the card notes) are drawn with it; the Review keeps its Organization name at the section's size and its groups as subheads. `FoldArrow` loads its own stylesheet (`fold-arrow.css`), so a page that does not load the interview sheets draws it as every card does.
@@ -81,7 +89,7 @@ As 2026-10-19, and the free text cells, the names, the card heads, the tooltips,
 
 Not joined to `CardHead`, on purpose: the Strategy boxes' heads (they have no fold arrow and carry a kind label, in their own CSS), the sub-channel's head (no number; its name is a drop-down or a text box), and the Brand page's column headings (`brand-style-head`: a title with bullets, not a card's head). Forcing them into the folding card's head would change their markup and CSS for no shared behaviour.
 
-Still their own: the rail labels (a CSS label beside a bullet), the native `title` tooltips; the Legal Entity heads keep their own number markup (`legal`: `legal-entity-card-number`, its own CSS, until the two numbers are one); the heads that are not folding cards (the brand style head, the Strategic Period's boxes, the sub-channel head); the suggestions box (`SuggestedInput`) and the numbered list (`NumberedListInput`), which join with `ListField`.
+Still their own: the rail labels (a CSS label beside a bullet), the Legal Entity heads keep their own number markup (`legal`: `legal-entity-card-number`, its own CSS, until the two numbers are one); the heads that are not folding cards (the brand style head, the Strategic Period's boxes, the sub-channel head); the suggestions box (`SuggestedInput`) and the numbered list (`NumberedListInput`), which join with `ListField`.
 
 ## State on 2026-10-19
 

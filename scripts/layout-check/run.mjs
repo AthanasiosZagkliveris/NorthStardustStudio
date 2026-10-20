@@ -132,8 +132,6 @@ export const REACTIONS = [
     { kind: "add button", selector: ".strategy-add-button:not(:disabled)", property: "backgroundColor", on: "self" },
     // A card's ×: its ground.
     { kind: "remove", selector: ".strategy-box-remove:not(:disabled)", property: "backgroundColor", on: "self", same: true },
-    // A fold arrow: its ground.
-    { kind: "fold arrow", selector: ".strategy-box-toggle", property: "backgroundColor", on: "self" }
 ];
 
 export async function checkReactions(page, where, sample = 3) {

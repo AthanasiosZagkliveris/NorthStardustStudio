@@ -139,107 +139,7 @@
 
 }
 
-/* ==========================================================
-   THE FOLD ARROWS (a founder's Responsibilities and Completed) AND THE TITLE ARROWS (1. Infrastructure, 2. Offering's Capability) ARE WIRED, AND
-   FILLED UNDER THE POINTER: at rest an outlined triangle (no fill, a 1.5px stroke in the ink colour), under the pointer and the keyboard focus the
-   same triangle filled. It is a mask over the ink colour, in the size and at the place the filled one had: nothing moves.
-========================================================== */
-:is(.answer-columns, .section-tile-overlay).business-capability :is(.business-founder-open, .business-capability-links) .strategy-box-toggle::before,
-:is(.answer-columns, .section-tile-overlay).business-capability .title-arrow::before {
-
-    border-width: 0;
-    background: currentColor;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-size: 100% 100%;
-    mask-size: 100% 100%;
-
-}
-
-:is(.answer-columns, .section-tile-overlay).business-capability :is(.business-founder-open, .business-capability-links) .strategy-box-toggle[aria-expanded="false"]::before {
-
-    width: 11px;
-    height: 18px;
-    margin: -9px 0 0 -5.5px;
-
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 18'%3E%3Cpath d='M.75.75 10.25 9 .75 17.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 18'%3E%3Cpath d='M.75.75 10.25 9 .75 17.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
-
-}
-
-:is(.answer-columns, .section-tile-overlay).business-capability :is(.business-founder-open, .business-capability-links) .strategy-box-toggle[aria-expanded="true"]::before {
-
-    width: 18px;
-    height: 11px;
-    margin: -5.5px 0 0 -9px;
-
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'%3E%3Cpath d='M.75.75 17.25.75 9 10.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'%3E%3Cpath d='M.75.75 17.25.75 9 10.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
-
-}
-
-:is(.answer-columns, .section-tile-overlay).business-capability :is(.business-founder-open, .business-capability-links) .strategy-box-toggle[aria-expanded="false"]:is(:hover, :focus-visible)::before {
-
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 18'%3E%3Cpath d='M.75.75 10.25 9 .75 17.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 18'%3E%3Cpath d='M.75.75 10.25 9 .75 17.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
-
-}
-
-:is(.answer-columns, .section-tile-overlay).business-capability :is(.business-founder-open, .business-capability-links) .strategy-box-toggle[aria-expanded="true"]:is(:hover, :focus-visible)::before {
-
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'%3E%3Cpath d='M.75.75 17.25.75 9 10.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'%3E%3Cpath d='M.75.75 17.25.75 9 10.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
-
-}
-
-:is(.answer-columns, .section-tile-overlay).business-capability .title-arrow[aria-expanded="false"]::before {
-
-    width: calc(var(--title-arrow-size) * 0.61);
-    height: var(--title-arrow-size);
-    margin: calc(var(--title-arrow-size) / -2) 0 0 calc(var(--title-arrow-size) * -0.305);
-
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 21'%3E%3Cpath d='M.75.75 12.25 10.5 .75 20.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 21'%3E%3Cpath d='M.75.75 12.25 10.5 .75 20.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
-
-}
-
-:is(.answer-columns, .section-tile-overlay).business-capability .title-arrow[aria-expanded="true"]::before {
-
-    width: var(--title-arrow-size);
-    height: calc(var(--title-arrow-size) * 0.61);
-    margin: calc(var(--title-arrow-size) * -0.305) 0 0 calc(var(--title-arrow-size) / -2);
-
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 21 13'%3E%3Cpath d='M.75.75 20.25.75 10.5 12.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 21 13'%3E%3Cpath d='M.75.75 20.25.75 10.5 12.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
-
-}
-
-:is(.answer-columns, .section-tile-overlay).business-capability .title-arrow[aria-expanded="false"]:is(:hover, :focus-visible)::before {
-
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 21'%3E%3Cpath d='M.75.75 12.25 10.5 .75 20.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 21'%3E%3Cpath d='M.75.75 12.25 10.5 .75 20.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
-
-}
-
-:is(.answer-columns, .section-tile-overlay).business-capability .title-arrow[aria-expanded="true"]:is(:hover, :focus-visible)::before {
-
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 21 13'%3E%3Cpath d='M.75.75 20.25.75 10.5 12.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 21 13'%3E%3Cpath d='M.75.75 20.25.75 10.5 12.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
-
-}
-
-/* No ground and no ring under the pointer: the filled triangle is the whole reaction. */
-:is(.answer-columns, .section-tile-overlay).business-capability :is(.business-founder-open, .business-capability-links) .strategy-box-toggle:hover {
-
-    border-color: transparent;
-
-    background: transparent;
-
-    box-shadow: none;
-
-    text-shadow: none;
-
-}
+/* THE FOLD ARROWS AND THE TITLE ARROWS: their outlined triangle, filled under the pointer, is drawn for every page (fold-arrow.css, title-arrow.css). */
 
 /* ==========================================================
    THE "i" OF A COLOURED CARD (InfoNote): at rest it is the GROUND colour of the surface it stands on (the page's card, the dialog, an opened
@@ -263,9 +163,9 @@
 
 .floating-card-caption {
 
-    --info-ink: var(--floating-caption-ink);
+    --info-ink: var(--text-default);
 
-    --info-fill: #2b2b2b;
+    --info-fill: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -348,9 +248,9 @@
 
 .floating-overlay .floating-card-caption .info-note > .info-note-button.info-note-button {
 
-    --info-ink: var(--floating-caption-ink);
+    --info-ink: var(--text-default);
 
-    --info-fill: #2b2b2b;
+    --info-fill: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 

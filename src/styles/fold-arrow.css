@@ -73,37 +73,66 @@
 
 }
 
-/* Closed: pointing right, an 11x18 triangle. */
-.strategy-box-toggle[aria-expanded="false"]::before{
+/* THE OUTLINED TRIANGLE (the one fold arrow of every page): at rest a 1.5px outline in the ink colour, under the pointer and the keyboard focus the same triangle filled. A mask over the ink colour, 11 x 18 pointing right while folded, 18 x 11 pointing down while open, from the button's middle: nothing moves. No ground and no ring under the pointer: the filled triangle is the whole reaction. */
 
-    border-width:9px 0 9px 11px;
-    border-color:transparent transparent transparent currentColor;
+.strategy-box-toggle::before {
 
-    margin:-9px 0 0 -5.5px;
-
-}
-
-/* Open: pointing down, the same triangle turned, 18x11. */
-.strategy-box-toggle[aria-expanded="true"]::before{
-
-    border-width:11px 9px 0 9px;
-    border-color:currentColor transparent transparent transparent;
-
-    margin:-5.5px 0 0 -9px;
+    border-width: 0;
+    background: currentColor;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
 
 }
 
-/* ONE FOLD ARROW: under the pointer every one takes a white ground
-   and a stroke in the line of the card it sits in -- its Segment's or
-   Theme's hue where the card has one (.business-foundation-input,
-   .strategy-theme-panel, below), the plain card line where it has
-   none (the Identity System's Legal Entity and Founders Profile
-   cards, which used to show no stroke at all). */
-.strategy-box-toggle:hover{
+.strategy-box-toggle[aria-expanded="false"]::before {
 
-    border-color:var(--line-card);
+    width: 11px;
+    height: 18px;
+    margin: -9px 0 0 -5.5px;
 
-    background:var(--bg-surface);
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 18'%3E%3Cpath d='M.75.75 10.25 9 .75 17.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 18'%3E%3Cpath d='M.75.75 10.25 9 .75 17.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
 
 }
+
+.strategy-box-toggle[aria-expanded="true"]::before {
+
+    width: 18px;
+    height: 11px;
+    margin: -5.5px 0 0 -9px;
+
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'%3E%3Cpath d='M.75.75 17.25.75 9 10.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'%3E%3Cpath d='M.75.75 17.25.75 9 10.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+}
+
+.strategy-box-toggle[aria-expanded="false"]:is(:hover, :focus-visible)::before {
+
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 18'%3E%3Cpath d='M.75.75 10.25 9 .75 17.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 18'%3E%3Cpath d='M.75.75 10.25 9 .75 17.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+}
+
+.strategy-box-toggle[aria-expanded="true"]:is(:hover, :focus-visible)::before {
+
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'%3E%3Cpath d='M.75.75 17.25.75 9 10.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'%3E%3Cpath d='M.75.75 17.25.75 9 10.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+}
+
+/* No ground and no ring under the pointer: the filled triangle is the whole reaction. */
+.strategy-box-toggle.strategy-box-toggle.strategy-box-toggle:hover {
+
+    border-color: transparent;
+
+    background: transparent;
+
+    box-shadow: none;
+
+    text-shadow: none;
+
+}
+
 

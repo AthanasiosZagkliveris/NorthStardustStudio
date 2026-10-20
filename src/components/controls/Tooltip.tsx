@@ -2,6 +2,19 @@ import { KeyboardEvent, MouseEvent, ReactNode, RefObject, useId, useLayoutEffect
 import { createPortal } from "react-dom";
 
 /**
+ * WHERE A TOOLTIP STANDS: ABOVE THE TEXT IT IS ABOUT, never over it: its bottom is 6px over the element's top (a line above), its middle under the cursor
+ * (or on the element's middle from the keyboard, or its right edge on the element's right edge); where there is no room above, 6px under the element. Kept inside the window.
+ */
+export function aboveTipPosition(at: DOMRect, size: DOMRect, point: { x: number } | null, alignRight = false): { left: number; top: number } {
+    const gap = 6;
+    const above = at.top - gap - size.height;
+    return {
+        left: Math.max(8, Math.min(alignRight ? at.right - size.width : (point ? point.x : at.left + at.width / 2) - size.width / 2, window.innerWidth - 8 - size.width)),
+        top: above >= 8 ? above : at.bottom + gap
+    };
+}
+
+/**
  * THE APP'S TOOLTIP ABOVE ITS ICON, by default (the card structure's display rules): pointing at an icon or focusing it shows the dark label above it,
  * centred on it and kept inside the window; below it only where there is no room above. Escape closes it. Nothing but the label's text is the icon's
  * tooltip: the icon keeps its own accessible name.
@@ -45,16 +58,7 @@ export function useAboveTip<T extends HTMLElement>(text: string, options: {
             return;
         }
         const place = () => {
-            const at = (options.box ? options.box(icon) : icon).getBoundingClientRect();
-            const size = panel.getBoundingClientRect();
-            const gap = 6;
-            const point = pointer.current;
-            // ABOVE THE TEXT IT IS ABOUT, never over it: the tip's bottom is 6px over the hovered element's top (a line above), its middle under the cursor; where there is no room above, 6px under the element.
-            const above = at.top - gap - size.height;
-            setPosition({
-                left: Math.max(8, Math.min(options.alignRight ? at.right - size.width : (point ? point.x : at.left + at.width / 2) - size.width / 2, window.innerWidth - 8 - size.width)),
-                top: above >= 8 ? above : at.bottom + gap
-            });
+            setPosition(aboveTipPosition((options.box ? options.box(icon) : icon).getBoundingClientRect(), panel.getBoundingClientRect(), pointer.current, options.alignRight));
         };
         place();
         window.addEventListener("scroll", place, true);

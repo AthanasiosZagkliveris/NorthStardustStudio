@@ -1180,9 +1180,6 @@
 
     border-color:var(--line-primary);
 
-    background:var(--bg-primary);
-    color:var(--text-on-primary, #fff);
-
 }
 
 .org-calendar-chip-add{
@@ -1343,14 +1340,6 @@
     gap:var(--gap-6);
 
     min-width:100%;
-    padding:10px;
-
-    border:1px solid var(--box-border);
-    border-radius:var(--radius-lg);
-
-    background:var(--bg-surface);
-
-    box-shadow:0 8px 24px var(--shadow-18);
 
 }
 
@@ -1433,5 +1422,88 @@
     letter-spacing:normal;
 
     background:var(--bg-surface);
+
+}
+
+/* ==========================================================
+   THE CALENDAR'S CONTROLS ARE THE APP'S: its small buttons (the
+   month's arrows, All and None, the periods) are the add button's
+   look (the accent ink, line and ground, capitals, the same
+   reactions); its drop-down cells are the option picker's (the
+   chevron, the field's box), and what they open is the option
+   picker's list (no stroke, the raised edge and the drop shadow,
+   the rows' padding).
+========================================================== */
+.org-calendar-month-nav-button,
+.org-calendar-chip{
+
+    border:1px solid var(--accent-line);
+    border-radius:var(--radius-md);
+
+    background:var(--accent-ground);
+    color:var(--accent-ink);
+
+    font-size:var(--font-body);
+    font-weight:500;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+
+}
+
+.org-calendar-month-nav-button:hover:not(:disabled),
+.org-calendar-chip:hover:not(:disabled){
+
+    border-color:var(--accent-line);
+
+    background:var(--accent-ground-hover);
+
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
+
+}
+
+.org-calendar-chip[aria-pressed="true"]{
+
+    background:var(--bg-primary);
+    color:var(--text-on-fill);
+
+}
+
+.org-calendar-multi > .org-calendar-dropdown{
+
+    padding:7.5px var(--select-padding-right) 7.5px var(--select-padding-left);
+
+    background-image:var(--select-chevron);
+    background-repeat:no-repeat;
+    background-position:right var(--select-chevron-inset) center;
+    background-size:12px 8px;
+
+}
+
+.org-calendar-multi-list{
+
+    padding:4px;
+
+    border:0;
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-surface);
+    box-shadow:var(--box-inset), 0 12px 28px var(--shadow-ink-18);
+
+}
+
+.org-calendar-multi-list > .tick-field{
+
+    padding:8px 10px;
+
+    border-radius:var(--radius-md);
+
+    font-size:var(--font-body);
+    line-height:1.5;
+
+}
+
+.org-calendar-multi-actions{
+
+    padding:4px 10px 6px;
 
 }

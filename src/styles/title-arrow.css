@@ -106,27 +106,6 @@
 
 }
 
-/* Closed: pointing right. The long side is --title-arrow-size, the depth
-   0.61 of it (the fold arrow's 11 x 18). */
-.title-arrow[aria-expanded="false"]::before {
-
-    border-width: calc(var(--title-arrow-size) / 2) 0 calc(var(--title-arrow-size) / 2) calc(var(--title-arrow-size) * 0.61);
-    border-color: transparent transparent transparent currentColor;
-
-    margin: calc(var(--title-arrow-size) / -2) 0 0 calc(var(--title-arrow-size) * -0.305);
-
-}
-
-/* Open: pointing down, the same triangle turned. */
-.title-arrow[aria-expanded="true"]::before {
-
-    border-width: calc(var(--title-arrow-size) * 0.61) calc(var(--title-arrow-size) / 2) 0 calc(var(--title-arrow-size) / 2);
-    border-color: currentColor transparent transparent transparent;
-
-    margin: calc(var(--title-arrow-size) * -0.305) 0 0 calc(var(--title-arrow-size) / -2);
-
-}
-
 /* No reaction under the pointer (no ground, no ring): the arrow is a glyph; the keyboard focus below is its ring. */
 
 .title-arrow:focus-visible {
@@ -136,5 +115,54 @@
     border-color: var(--line-primary);
 
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color, var(--line-primary)) 28%, transparent);
+
+}
+
+/* THE TITLE ARROW'S OUTLINED TRIANGLE: at rest an outline in the ink colour, filled under the pointer and the keyboard focus, in the title's own size. */
+
+.title-arrow::before {
+
+    border-width: 0;
+    background: currentColor;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+
+}
+
+.title-arrow[aria-expanded="false"]::before {
+
+    width: calc(var(--title-arrow-size) * 0.61);
+    height: var(--title-arrow-size);
+    margin: calc(var(--title-arrow-size) / -2) 0 0 calc(var(--title-arrow-size) * -0.305);
+
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 21'%3E%3Cpath d='M.75.75 12.25 10.5 .75 20.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 21'%3E%3Cpath d='M.75.75 12.25 10.5 .75 20.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+}
+
+.title-arrow[aria-expanded="true"]::before {
+
+    width: var(--title-arrow-size);
+    height: calc(var(--title-arrow-size) * 0.61);
+    margin: calc(var(--title-arrow-size) * -0.305) 0 0 calc(var(--title-arrow-size) / -2);
+
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 21 13'%3E%3Cpath d='M.75.75 20.25.75 10.5 12.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 21 13'%3E%3Cpath d='M.75.75 20.25.75 10.5 12.25Z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+}
+
+.title-arrow[aria-expanded="false"]:is(:hover, :focus-visible)::before {
+
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 21'%3E%3Cpath d='M.75.75 12.25 10.5 .75 20.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 21'%3E%3Cpath d='M.75.75 12.25 10.5 .75 20.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+}
+
+.title-arrow[aria-expanded="true"]:is(:hover, :focus-visible)::before {
+
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 21 13'%3E%3Cpath d='M.75.75 20.25.75 10.5 12.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 21 13'%3E%3Cpath d='M.75.75 20.25.75 10.5 12.25Z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E");
 
 }
