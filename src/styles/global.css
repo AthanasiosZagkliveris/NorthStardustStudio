@@ -1028,7 +1028,7 @@ h6 {
   box-shadow: var(--tooltip-shadow);
   color: var(--tooltip-text);
 
-  font-size: var(--font-body);
+  font-size: var(--font-small);
   font-weight: 500;
   overflow-wrap: anywhere;
 

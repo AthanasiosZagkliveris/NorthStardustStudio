@@ -2,14 +2,14 @@ import { CSSProperties, KeyboardEvent, ReactNode, RefObject, useId, useLayoutEff
 import { createPortal } from "react-dom";
 
 /**
- * WHERE A TOOLTIP STANDS, ONE PLACE FOR EVERY ONE: ABOVE THE CONTROL IT IS ABOUT, never over it: its bottom is 6px over the control's top, its middle on the control's middle
- * (or its right edge on the control's right edge); where there is no room above, 6px under the control. Kept inside the window. It never follows the pointer.
+ * WHERE A TOOLTIP STANDS, ONE PLACE FOR EVERY ONE: ABOVE THE CONTROL IT IS ABOUT, never over it: its bottom is 6px over the control's top, its left edge on the control's left edge
+ * (where every pop-up cell starts; or its right edge on the control's right edge); where there is no room above, 6px under the control. Kept inside the window. It never follows the pointer.
  */
 export function aboveTipPosition(at: DOMRect, size: DOMRect, alignRight = false): { left: number; top: number } {
     const gap = 6;
     const above = at.top - gap - size.height;
     return {
-        left: Math.max(8, Math.min(alignRight ? at.right - size.width : at.left + at.width / 2 - size.width / 2, window.innerWidth - 8 - size.width)),
+        left: Math.max(8, Math.min(alignRight ? at.right - size.width : at.left, window.innerWidth - 8 - size.width)),
         top: above >= 8 ? above : at.bottom + gap
     };
 }

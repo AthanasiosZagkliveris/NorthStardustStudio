@@ -505,16 +505,27 @@
 
 }
 
-/* Short columns never break a word (Type, Section, Cost, Frequency, Cost Nature, Behaviour, Status, Linked); Name, Category, Group and Channel take the rest and wrap between words. */
+/* Short columns never break a word (Type, Section, Cost, Frequency, Cost Nature, Behaviour, Status, Linked); Name, Category and Group take the rest and wrap between words. */
 .capability-overview-table :is(th, td) {
 
     overflow-wrap: normal;
 
 }
 
-.capability-overview-table :is(th, td)[data-col]:not([data-col="category"], [data-col="group"], [data-col="channel"]) {
+.capability-overview-table :is(th, td)[data-col]:not([data-col="category"], [data-col="group"]) {
 
     white-space: nowrap;
+
+}
+
+/* The Channel is one row ("Website › Online Store"), cut by an ellipsis past 20rem. */
+.capability-overview-table :is(th, td)[data-col="channel"] {
+
+    max-width: 20rem;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
 
 }
 
@@ -666,12 +677,7 @@
 
 }
 
-/* The text sizes beside Tiles / Table: "Aa" in the size each chooses (14, 18, 24px), a gap after the views. */
-.capability-overview-sizes {
-
-    margin-left: var(--gap-16);
-
-}
+/* The text sizes beside Tiles / Table: "Aa" in the size each chooses (14, 18, 24px); the five options stand one gap (16px) apart, the same between all of them. */
 
 .capability-overview-size-aa[data-size="small"] {
 

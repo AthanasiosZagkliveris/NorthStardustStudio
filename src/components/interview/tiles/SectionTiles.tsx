@@ -7,7 +7,6 @@ import { type SectionTile, type TileLink, type TileAdd, type OpenRequest, type F
 import { cardsFloatOnly, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
 import { restoreFocus, trackPointer, OpenCardContext, InitialBoxContext, StackUnderContext } from "./DialogLevels.tsx";
 import { TileFace, TileLinks, TilePlus, useTileAim } from "./TileParts.tsx";
-import { SQUEEZED_ROW_MIN } from "./CarouselArrows.tsx";
 import { OPEN_EVENT, FloatingCards, TileDialog } from "./FloatingCards.tsx";
 
 export * from "./SectionTileTypes.ts";
@@ -113,8 +112,8 @@ export default function SectionTiles({
             const top = box.getBoundingClientRect().top + window.scrollY;
             const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
             // (the footer and its 12px, the card's 12px padding, the gap between the two rows)
-            // (EVERY page keeps the room of the Inventory and Completed row under its cards, whether it has one or not: the chapters and their tiles are the same size on every page of a window, the row squeezed where there is one.)
-            const reserved = SQUEEZED_ROW_MIN + 12;
+            // (The Inventory and Completed row stands in the footer's band and takes no room above it, so the chapters and their tiles are the same size on every page of a window.)
+            const reserved = 0;
             const side = Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - reserved) / bigRows);
             box.style.setProperty("--quad-max-side", Math.max(side, 150) + "px");
             // The type of the four tiles from the type scale by their size: 24px titles and 18px lists from 250px a side, else 18px and 14px.

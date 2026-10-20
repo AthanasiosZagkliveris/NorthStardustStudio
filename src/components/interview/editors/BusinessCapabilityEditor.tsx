@@ -419,17 +419,41 @@ export default function BusinessCapabilityEditor({
     /** The cards whose Links section is open (it starts folded). */
     const [linksOpen, setLinksOpen] = useState<ReadonlySet<string>>(new Set());
 
-    // THE INVENTORY AND COMPLETED ROW under the two cards is squeezed into the room the window leaves (never under SQUEEZED_ROW_MIN, never over the page's own 215px).
+    // THE INVENTORY AND COMPLETED ROW stands IN THE FOOTER'S BAND (level with the Back link), centred under the two cards, so the cards keep all the room above it; the row takes no room
+    // of its own in the page. Where the cards are stacked (a narrow window) it follows them and is squeezed into the room the window leaves (never under SQUEEZED_ROW_MIN, never over 215px).
     useLayoutEffect(() => {
         const squeeze = () => {
             const row = document.querySelector<HTMLElement>(".section-tiles-completed");
             if (!row) {
                 return;
             }
-            const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
-            const room = window.innerHeight - row.getBoundingClientRect().top - footer - 12;
-            // (Square, 215px, while the window has the room; the height alone gives way when it has not, so the tiles become rectangles.)
-            const side = Math.round(Math.max(SQUEEZED_ROW_MIN, Math.min(215, room)));
+            const tiles = row.querySelector<HTMLElement>(":scope > .section-tiles");
+            const footerBox = document.querySelector<HTMLElement>(".workspace-footer")?.getBoundingClientRect();
+            const footer = footerBox?.height ?? 64;
+            const cards = [...document.querySelectorAll<HTMLElement>(".answer-columns.business-capability > .business-foundation-card")];
+            const stacked = cards.length > 1 && Math.abs(cards[0].getBoundingClientRect().left - cards[1].getBoundingClientRect().left) < 4;
+            let side: number;
+            if (!stacked && footerBox && tiles) {
+                side = Math.min(SQUEEZED_ROW_MIN, Math.round(footer - 8));
+                row.style.height = "0";
+                row.style.overflow = "visible";
+                tiles.style.transform = "";
+                const top = row.getBoundingClientRect().top;
+                tiles.style.position = "relative";
+                tiles.style.zIndex = "40";
+                tiles.style.transform = "translateY(" + Math.round(footerBox.top + (footer - side) / 2 - top) + "px)";
+            } else {
+                row.style.height = "";
+                row.style.overflow = "";
+                if (tiles) {
+                    tiles.style.transform = "";
+                    tiles.style.position = "";
+                    tiles.style.zIndex = "";
+                }
+                const room = window.innerHeight - row.getBoundingClientRect().top - footer - 12;
+                // (Square, 215px, while the window has the room; the height alone gives way when it has not, so the tiles become rectangles.)
+                side = Math.round(Math.max(SQUEEZED_ROW_MIN, Math.min(215, room)));
+            }
             row.style.setProperty("--section-tile-size", side + "px");
             // (Squeezed under what a list needs, the tiles keep their titles.)
             if (side < 150) {

@@ -1092,3 +1092,16 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
 }
 
 
+
+/* THE TAGS OF A COMPLETED CARD are grey, as the card is: its ground, its line and its ink are the Completed line's, whatever hue the page gives its neighbours. */
+.floating-overlay .floating-card-item:has(.business-capability-activity-completed) :is(.floating-card-caption, .floating-card-recorded) {
+
+    --info-ink: var(--text-completed-ink);
+    --info-fill: var(--bg-completed-card);
+
+    background: var(--bg-completed-card);
+    border-color: var(--line-completed);
+
+    color: var(--text-completed-ink);
+
+}

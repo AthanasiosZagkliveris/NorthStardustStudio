@@ -12,7 +12,7 @@ A tooltip is a small dark label above a control, in the app's own style (`Toolti
 4. **A control says what its words do not**: the key it answers to ("Previous card (←)"), where it goes, what it changes ("Reset Computers to 3 years"); three words or more that it does not already show.
 5. **Never what the control already shows**: its text, its name or its value. A `title` that only repeats the name is not written.
 
-A tooltip is one line, at most 360px wide, **in one place for every control**: its bottom 6px over the control's top and its middle on the control's middle (its right edge on the control's right edge where the control says so), under the control (6px) only where there is no room above, kept inside the window. It **never follows the pointer**. It opens under the pointer and on the keyboard focus, closes on Escape, on a press and when the pointer leaves. (This is the same place for the keyboard and the pointer: `aboveTipPosition`, `Tooltip.tsx`.)
+A tooltip is one line, at most 360px wide, **in one place for every control**: its bottom 6px over the control's top and its left edge on the control's left edge (where every pop-up cell starts) (its right edge on the control's right edge where the control says so), under the control (6px) only where there is no room above, kept inside the window. It **never follows the pointer**. It opens under the pointer and on the keyboard focus, closes on Escape, on a press and when the pointer leaves. (This is the same place for the keyboard and the pointer: `aboveTipPosition`, `Tooltip.tsx`.)
 
 ### How its words are written (2026-10-21)
 
@@ -75,4 +75,4 @@ The icons' tooltips (the "i", the ×, the +, the arrows, the funnel, the fold ar
 
 ### Look of a tooltip
 
-One pop-up cell of the 32px pitch (the words centred, 12px at each side), the body size at weight 500, the tooltip's own ground; over a card its ground and line are mixed with the card's hue (the pop-ups' rule, `review-criteria.md` section 6).
+One pop-up cell of the 32px pitch (the words centred, 12px at each side), the small size (14px) at weight 500, the tooltip's own ground; over a card its ground and line are mixed with the card's hue (the pop-ups' rule, `review-criteria.md` section 6).

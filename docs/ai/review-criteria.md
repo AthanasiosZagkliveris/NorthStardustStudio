@@ -37,7 +37,7 @@ The scale is closed: `--font-small` 14px, `--font-body` 18px, `--font-h3` 24px, 
 | A text link | `--font-body` | regular; bold under the pointer | as written | the bold's tracking at rest, so nothing moves | the link blue |
 | A tile title | `--font-body` | 600 | as written | 0.15em | the tile's ink |
 | A tile's list, a count, a note, a table body in the small size | `--font-small` | regular | as written | none | the muted text colour |
-| A tooltip | `--font-body` | 500 | as written | none | the tooltip text colour |
+| A tooltip | `--font-small` | 500 | as written | none | the tooltip text colour |
 
 Measure: `fontSize`, `fontWeight`, `letterSpacing`, `textTransform`, `color` of the element. Findings: a label in capitals that is not a caps title or a button; a tick's words in capitals or in the small size; text smaller than `--font-body` on a button; two headings of one kind in two sizes; a colour that is not a token; contrast below 4.5:1 (3:1 for large text and for a non-text sign) in any mode (`npm run tokens:check`).
 

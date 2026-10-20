@@ -55,7 +55,12 @@ export function tipWords(text: string): string {
         [/^search$/i, () => "Click to search"],
         [/^back$/i, () => "Click to go back"],
         [/^(low to high|high to low)$/i, m => "Click to order the costs from " + m[1].toLowerCase()],
-        [/^(remove|delete|add|open|close|move|show|hide|exit|reset|take|choose|clear|select|expand|collapse|edit|search) (.+)$/i, m => "Click to " + m[1].toLowerCase() + " " + m[2]]
+        // An add says what is added, not where (the + is on the list it adds to): "Add Competitor to Competitors" is "Click to add a Competitor".
+        [/^add (.+)$/i, m => {
+            const what = m[1].replace(/\s+to\s+.*$/i, "").trim();
+            return "Click to add " + (/^(another|an?|new|the)\b/i.test(what) ? (/^new\b/i.test(what) ? (/^[aeiou]/i.test(what.slice(4)) ? "an " : "a ") : "") : (/^[aeiou]/i.test(what) ? "an " : "a ")) + what;
+        }],
+        [/^(remove|delete|open|close|move|show|hide|exit|reset|take|choose|clear|select|expand|collapse|edit|search) (.+)$/i, m => "Click to " + m[1].toLowerCase() + " " + m[2]]
     ];
     for (const [pattern, say] of rules) {
         const match = pattern.exec(clean);
